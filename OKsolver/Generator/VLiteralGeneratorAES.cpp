@@ -1,0 +1,119 @@
+// Oliver Kullmann, 25.1.2002 (Swansea)
+
+// Name: VLiteralGeneratorAES.cpp
+
+// Copyright Oliver Kullmann, 25.1.2002
+// O.Kullmann@Swansea.ac.uk
+
+/*
+   -------------------------------------------------------------------------
+   Copyright (c) 2002, Dr Oliver Kullmann <O.Kullmann@Swansea.ac.uk>, Swansea, UK.
+   All rights reserved.
+   
+   TERMS
+
+   Redistribution and use in source and binary forms, with or without 
+   modification, are permitted subject to the following conditions:
+
+   1. Redistributions of source code must retain the above copyright 
+      notice, this list of conditions and the following disclaimer. 
+
+   2. Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the 
+      documentation and/or other materials provided with the distribution. 
+
+   3. The copyright holder's name must not be used to endorse or promote 
+      any products derived from this software without his specific prior 
+      written permission. 
+
+   This software is provided 'as is' with no express or implied warranties 
+   of correctness or fitness for purpose.
+   -------------------------------------------------------------------------
+*/
+
+
+#include "flint.h"
+
+#include "BlockChiffAES.hpp"
+#include "VLiteralGeneratorAES.hpp"
+
+#ifdef TESTENLITERALGEN
+#  include <cstdio>
+#  include <iostream>
+#  include <cstdlib>
+using namespace std;
+#endif
+
+namespace {
+
+  using namespace VLGAES;
+
+  inline void UWortzuBytes(UWort32 W, BCAES::Byte * const Z) {
+// Es sei b_{31}, ..., b_{0} die Binaerdarstellung von W (mit b_{31} als
+// dem hoechstwertigen Bit). Es werden dann die vier Binaerzaehlen 
+// b_{31}, ..., b_{24}
+// b_{23}, ..., b_{16}
+// b_{15}, ..., b_{8}
+// b_{7}, ..., b_{0}
+// in *Z, ..., *(Z+3) abgespeichert.
+    BCAES::Byte *H = Z+4; // eine Position nach der letzten ist erlaubt
+    do {
+      H--;
+      *H = W;
+      W >>= 8;
+    } while (H > Z);
+  }
+
+  inline UWort32 CLintzuUWort32(const CLINT x) {
+    if (x[0] == 0)
+      return 0;
+    else if (x[0] == 1)
+      return x[1];
+    else
+      return x[1] + BASE * x[2]; // BASE = 2^16;
+  }
+}
+
+ 
+namespace VLGAES {
+
+  VLiterale VLiteral(const Wort64 Schluessel, const UWort32 FormelNummer, const UWort32 Variablenzahl, const UWort32 Klausellaenge, const UWort32 Domaingroesse, const Wort64 Literalzaehler) {
+
+// Voraussetzung: Variablenzahl >= 1, 0 <= Klausellaenge <= Variablenzahl, Domaingroesse >= 1;
+
+    BCAES::Wort_128 AESEingabe, AESSchluessel, AESAusgabe;
+
+    UWortzuBytes(Schluessel[0], AESSchluessel);
+    UWortzuBytes(Schluessel[1], AESSchluessel+4);
+    UWortzuBytes(Domaingroesse-2, AESSchluessel+8);
+    UWortzuBytes(FormelNummer, AESSchluessel+12);
+
+    UWortzuBytes(Variablenzahl, AESEingabe);
+    UWortzuBytes(Klausellaenge, AESEingabe+4);
+    UWortzuBytes(Literalzaehler[0], AESEingabe+8);
+    UWortzuBytes(Literalzaehler[1], AESEingabe+12);
+
+    BCAES::BlockChiffreAES(AESEingabe, AESSchluessel, AESAusgabe);
+
+#ifdef TESTENLITERALGEN
+    {
+      for (int i = 0; i < 16; i++)
+	printf("%x", AESAusgabe[i]);
+      printf("\n");
+    }
+#endif
+
+    VLiterale l; CLINT P;
+    CLINT A; byte2clint_l(A, AESAusgabe, 16);
+    CLINT B; ul2clint_l(B, Variablenzahl);
+    CLINT C; ul2clint_l(C, Domaingroesse);
+    mul_l(B, C, C);
+    mod_l(A, C, A);
+    div_l(A, B, B, C);
+    l.W = CLintzuUWort32(B);
+    l.V = CLintzuUWort32(C) + 1;
+    return l;
+  }
+
+}
+

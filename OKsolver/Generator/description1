@@ -1,0 +1,11 @@
+# Oliver Kullmann, 13.3.2002 (Swansea)
+# test example 1
+
+N = 5; # number of formulas
+n = 200 to 300 step 20; # number of variables
+l = 3; # clause length
+dp = 1, 2 to 3 step 0.2, 3.1 to 4 step 0.1, 4.05 to 4.4 step 0.05,
+  4.5 to 5 step 0.1, 5.2 to 6 step .2, 8, 12, 20;
+# densities belonging to clause-length 3
+l = 2;
+dp = 0 to 1.2 step 0.2;

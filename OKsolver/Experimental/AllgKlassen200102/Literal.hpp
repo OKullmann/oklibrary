@@ -1,0 +1,65 @@
+// Oliver Kullmann, 26.2.2002 (Swansea)
+
+// Literal.hpp
+
+#ifndef WAECHTERLITERAL
+
+
+#include "VarSet.hpp"
+
+
+namespace Literals {
+
+  using namespace Variables;
+
+  class Lit {
+
+  public :
+
+    Lit() {};
+    Lit(Var, bool);
+
+    bool val() const;
+    Var var() const;
+
+    bool operator == (Lit) const;
+    bool operator < (Lit) const;
+
+    Lit comp() const;
+
+  private :
+
+    Var v;
+    bool va;
+    
+  };
+
+  inline Lit::Lit(Var a, bool b) {
+    v = a; va = b;
+  }
+
+  inline bool Lit::val() const {
+    return va;
+  }
+
+  inline Var Lit::var() const {
+    return v;
+  }
+
+  inline bool Lit::operator == (Lit x) const {
+    return v == x.v && va == x.va;
+  }
+
+  inline bool Lit::operator < (Lit x) const {
+    return (v < x.v) || (v == x.v && va < x.va);
+  }
+
+  inline Lit Lit::comp() const {
+    return Lit(v, ! va);
+  }
+
+}
+
+#endif
+
+#define WAECHTERLITERAL

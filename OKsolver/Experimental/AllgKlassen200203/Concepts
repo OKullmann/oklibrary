@@ -1,0 +1,37 @@
+// Oliver Kullmann, 22.7.2003 (Triest)
+
+Concept Constraint_Collection:
+
+
+
+-----------------------------------
+
+Concept Formula-Constructor:
+
+Formula-Constructor::size_type;
+// for number of clauses and variables
+
+Formula-Constructor::Lit;
+
+void Formula-Constructor::set_number_variables(Formula-Constructor::size_type);
+void Formula-Constructor::set_number_clauses(Formula-Constructor::size_type);
+void Formula-Constructor::set_number_literal_occurrences(Formula-Constructor::size_type);
+void Formula-Constructor::set_max_clause_length(Formula-Constructor::size_type);
+// it depends on the construction whether these are necessary or not
+
+void Formula-Constructor::begin_construction();
+// construction dependent
+
+void Formula-Constructor::comment_line(std::string);
+
+void Formula-Constructor::new_clause();
+
+Formula-Constructor& Formula-Constructor::add(Formula-Constructor::Lit);
+
+Formula-Constructor::finish();
+// after finish() the clause-set can be reopened with new_clause();
+// general assumption: after the first new_clause never comment_line(string)
+// again.
+
+bool Formula-Constructor::is_finished();
+

@@ -1,0 +1,490 @@
+Oliver Kullmann, 15.3.2002
+
+Package OKRandGen
+
+Some examples for OKgenerator
+
+----------
+
+A) Ordinary conjunctive normal forms with fixed clause-length
+
+> OKgenerator n=20 l=3 cp=5 -o
+% Standardised density: 3 -> 0.25,
+(-14,-9,-7)
+(13,-16,-3)
+(-17,10,11)
+(-9,3,15)
+(6,-16,4)
+
+In DIMACS format:
+
+> OKgenerator n=20 l=3 cp=5 -D -o
+c OKgenerator( (0, 0), (0, 0), 20; 3, 5; )
+c Standardised density: 3 -> 0.25,
+p cnf 20 5
+-14 -9 -7 0
+13 -16 -3 0
+-17 10 11 0
+-9 3 15 0
+6 -16 4 0
+
+Remark: key = formula_number = 0 in these examples.
+
+> OKgenerator nr1=1 n=20 l=3 cp=5 -o
+% OKgenerator( (0, 0), (0, 1), 20; 3, 5; )
+% Standardised density: 3 -> 0.25,
+(-12,6,1)
+(7,-3,8)
+(9,13,-3)
+(-12,14,2)
+(18,-12,20)
+
+Remark: Here the formula_number = 1 (key = 0).
+
+> OKgenerator nr0=1 n=20 l=3 cp=5 -o
+% OKgenerator( (0, 0), (1, 0), 20; 3, 5; )
+% Standardised density: 3 -> 0.25,
+(-11,-16,-3)
+(-20,-11,-16)
+(20,-17,8)
+(-19,-7,2)
+(9,1,-3)
+
+Remark: Here formula_number = 1 * 2^32 (key = 0).
+
+> OKgenerator s1=0xe8 nr0=1 n=20 l=3 cp=5 -o
+% OKgenerator( (0, 232), (1, 0), 20; 3, 5; )
+% Standardised density: 3 -> 0.25,
+(-13,-16,19)
+(9,-1,20)
+(9,19,10)
+(19,13,-5)
+(-4,-2,13)
+
+Remark: key = 0xe8 = 14*16 + 8 = 232, formula_number = 2^32
+(hexadecimal input)
+
+If you want to separate literals with other symbols than a comma:
+
+> OKgenerator s1=0xe8 nr0=1 n=0xe8 l=3 cp=5 sep=" " -o
+% OKgenerator( (0, 232), (1, 0), 232; 3, 5; )
+% Standardised density: 3 -> 0.02,
+(-103 129 -122)
+(-97 178 14)
+(138 -173 84)
+(196 -220 -116)
+(-211 -93 68)
+
+Remark: As you see, also for other numbers than the key numbers one
+can use hexadecimal notation.
+
+The standardised densities for each clause length p are computed from
+c_p / n, where c_p is the number of clauses of length p and n is the 
+number of variables, by considering the decimal expansion (possibly
+infinite, but finite, if possible) and taking only as much decimal
+places after the decimal points, so that multiplying that number with
+n and rounding to the nearest integer yields c_p.
+
+> OKgenerator s1=0xe8 nr0=1 n=0xe8 l=3 cp=7 sep=" " -o
+% OKgenerator( (0, 232), (1, 0), 232; 3, 7; )
+% Standardised density: 3 -> 0.03,
+(-103 129 -122)
+(-97 178 14)
+(138 -173 84)
+(196 -220 -116)
+(-211 -93 68)
+(-48 65 -120)
+(-35 -77 30)
+
+Remark: If the parameters seed, formula_number, n, and l are being fixed, 
+then we have the "prefix property" (you can see this at the previous two 
+examples).
+
+Now altering also the clause-begin and the clause-end symbol:
+
+> OKgenerator s1=0xe8 nr0=1 n=0xe8 l=3 cp=7 sep="\t" cb="" ce="\n" -o
+% OKgenerator( (0, 232), (1, 0), 232; 3, 7; )
+% Standardised density: 3 -> 0.03,
+-103    129     -122
+-97     178     14
+138     -173    84
+196     -220    -116
+-211    -93     68
+-48     65      -120
+-35     -77     30
+
+If you just want to see the comment but not the clauses, use -nf
+("no_formula"):
+
+> OKgenerator n=1000 l=3 dp=13/2 l=12 dp=178/23 -nf -D -o
+c OKgenerator( (0, 0), (0, 0), 1000; 3, 6500; 12, 7739; )
+c Standardised density: 3 -> 6.5, 12 -> 7.739,
+p cnf 1000 14239
+
+
+---------------------------------------------
+
+
+B) Ordinary conjunctive normal forms with mixed clause-length
+
+> OKgenerator n=1000 l=3 cp=5 l=4 cp=6 sep="\t" -o
+% OKgenerator( (0, 0), (0, 0), 1000; 3, 5; 4, 6; )
+% Standardised density: 3 -> 0.005, 4 -> 0.006,
+(768    -467    935)
+(489    -264    30)
+(879    321     676)
+(780    -962    602)
+(-318   68      21)
+(443    -77     -492    777)
+(407    -285    656     482)
+(-215   -336    -757    -123)
+(-914   -547    90      833)
+(-267   747     507     -957)
+(-196   -707    -699    170)
+
+> OKgenerator n=1000 l=3 cp=7 l=4 cp=8 sep="\t" -o
+% OKgenerator( (0, 0), (0, 0), 1000; 3, 7; 4, 8; )
+% Standardised density: 3 -> 0.007, 4 -> 0.008,
+(768    -467    935)
+(489    -264    30)
+(879    321     676)
+(780    -962    602)
+(-318   68      21)
+(-537   -779    238)
+(-489   896     -173)
+(443    -77     -492    777)
+(407    -285    656     482)
+(-215   -336    -757    -123)
+(-914   -547    90      833)
+(-267   747     507     -957)
+(-196   -707    -699    170)
+(-676   632     47      -703)
+(85     -229    -718    -497)
+
+Remark: Again we see the prefix property (per block of clauses of the same size --- but different clause-sizes are unrelated).
+
+Some examples for different output formats:
+
+> OKgenerator n=1000 l=3 cp=7 l=4 cp=8 -D sep="\t" -o
+c OKgenerator( (0, 0), (0, 0), 1000; 3, 7; 4, 8; )
+c Standardised density: 3 -> 0.007, 4 -> 0.008,
+p cnf 1000 15
+768     -467    935 0
+489     -264    30 0
+879     321     676 0
+780     -962    602 0
+-318    68      21 0
+-537    -779    238 0
+-489    896     -173 0
+443     -77     -492    777 0
+407     -285    656     482 0
+-215    -336    -757    -123 0
+-914    -547    90      833 0
+-267    747     507     -957 0
+-196    -707    -699    170 0
+-676    632     47      -703 0
+85      -229    -718    -497 0
+
+> OKgenerator n=1000 l=3 cp=7 l=4 cp=8 -D sep="\t" ce="\t0\n" -o
+c OKgenerator( (0, 0), (0, 0), 1000; 3, 7; 4, 8; )
+c Standardised density: 3 -> 0.007, 4 -> 0.008,
+p cnf 1000 15
+768     -467    935     0
+489     -264    30      0
+879     321     676     0
+780     -962    602     0
+-318    68      21      0
+-537    -779    238     0
+-489    896     -173    0
+443     -77     -492    777     0
+407     -285    656     482     0
+-215    -336    -757    -123    0
+-914    -547    90      833     0
+-267    747     507     -957    0
+-196    -707    -699    170     0
+-676    632     47      -703    0
+85      -229    -718    -497    0
+
+> OKgenerator n=1000 l=3 cp=7 l=4 cp=8 -D sep="\t" ce="\t0\n" -nc -o
+p cnf 1000 15
+768     -467    935     0
+489     -264    30      0
+879     321     676     0
+780     -962    602     0
+-318    68      21      0
+-537    -779    238     0
+-489    896     -173    0
+443     -77     -492    777     0
+407     -285    656     482     0
+-215    -336    -757    -123    0
+-914    -547    90      833     0
+-267    747     507     -957    0
+-196    -707    -699    170     0
+-676    632     47      -703    0
+85      -229    -718    -497    0
+
+> OKgenerator n=1000 l=3 cp=7 l=4 cp=8 -D sep="\t" ce="\t0\n" -D -o
+c OKgenerator( (0, 0), (0, 0), 1000; 3, 7; 4, 8; )
+c Standardised density: 3 -> 0.007, 4 -> 0.008,
+768     -467    935     0
+489     -264    30      0
+879     321     676     0
+780     -962    602     0
+-318    68      21      0
+-537    -779    238     0
+-489    896     -173    0
+443     -77     -492    777     0
+407     -285    656     482     0
+-215    -336    -757    -123    0
+-914    -547    90      833     0
+-267    747     507     -957    0
+-196    -707    -699    170     0
+-676    632     47      -703    0
+85      -229    -718    -497    0
+
+Remark: You see, that using the -D-action a second time just switches of
+the output of the special parameter line. Compare with
+
+> OKgenerator n=1000 l=3 cp=7 l=4 cp=8 -D -D -o
+
+c OKgenerator( (0, 0), (0, 0), 1000; 3, 7; 4, 8; )
+c Standardised density: 3 -> 0.007, 4 -> 0.008,
+768 -467 935 0
+489 -264 30 0
+879 321 676 0
+780 -962 602 0
+-318 68 21 0
+-537 -779 238 0
+-489 896 -173 0
+443 -77 -492 777 0
+407 -285 656 482 0
+-215 -336 -757 -123 0
+-914 -547 90 833 0
+-267 747 507 -957 0
+-196 -707 -699 170 0
+-676 632 47 -703 0
+85 -229 -718 -497 0
+
+
+---------------------------------------------
+
+
+C) Generalised conjunctive normal forms
+
+> OKgenerator n=20 l=3 cp=5 ds=2 -g -o
+% OKGRandGen( (0, 0), 0, 20, 2; 3, 5; )
+% Standardised density: 3 -> 0.25,
+((14,1),(9,1),(7,1))
+((13,0),(16,1),(3,1))
+((17,1),(10,0),(11,0))
+((9,1),(3,0),(15,0))
+((6,0),(16,1),(4,0))
+
+Remark: This corresponds to
+
+> OKgenerator n=20 l=3 cp=5 -o
+% OKgenerator( (0, 0), (0, 0), 20; 3, 5; )
+% Standardised density: 3 -> 0.25,
+(-14,-9,-7)
+(13,-16,-3)
+(-17,10,11)
+(-9,3,15)
+(6,-16,4)
+
+when identifying value 0 with "+", and value 1 with "-".
+
+> OKgenerator n=20 l=3 cp=5 ds=2 -g -D -o
+c OKGRandGen( (0, 0), 0, 20, 2; 3, 5; )
+c Standardised density: 3 -> 0.25,
+p gcnf 20 5 2
+(14,1) (9,1) (7,1) 0
+(13,0) (16,1) (3,1) 0
+(17,1) (10,0) (11,0) 0
+(9,1) (3,0) (15,0) 0
+(6,0) (16,1) (4,0) 0
+
+> OKgenerator n=20 l=3 cp=5 ds=3 -g -D -o
+c OKGRandGen( (0, 0), 0, 20, 3; 3, 5; )
+c Standardised density: 3 -> 0.25,
+p gcnf 20 5 3
+(11,0) (16,2) (3,2) 0
+(20,1) (11,1) (16,1) 0
+(20,2) (17,1) (8,0) 0
+(19,1) (7,0) (2,2) 0
+(9,0) (1,2) (3,0) 0
+
+Remark: Also changing the domain generates a (completely) different formula.
+
+Further examples for formatting (and mixed clause-length):
+
+> OKgenerator n=20 l=3 cp=5 ds=3 -g -D sep="\t" ce="\t0\n" -o
+c OKGRandGen( (0, 0), 0, 20, 3; 3, 5; )
+c Standardised density: 3 -> 0.25,
+p gcnf 20 5 3
+(11,0)  (16,2)  (3,2)   0
+(20,1)  (11,1)  (16,1)  0
+(20,2)  (17,1)  (8,0)   0
+(19,1)  (7,0)   (2,2)   0
+(9,0)   (1,2)   (3,0)   0
+
+> OKgenerator n=20 l=3 cp=5 ds=3 -g -D sep="\t" ce="\t0\n" l=6 cp=3 -o
+c OKGRandGen( (0, 0), 0, 20, 3; 3, 5; 6, 3; )
+c Standardised density: 3 -> 0.25, 6 -> 0.15,
+p gcnf 20 8 3
+(11,0)  (16,2)  (3,2)   0
+(20,1)  (11,1)  (16,1)  0
+(20,2)  (17,1)  (8,0)   0
+(19,1)  (7,0)   (2,2)   0
+(9,0)   (1,2)   (3,0)   0
+(20,0)  (2,2)   (16,1)  (4,1)   (12,0)  (9,2)   0
+(18,0)  (15,1)  (19,2)  (16,0)  (5,0)   (9,2)   0
+(16,2)  (9,1)   (7,2)   (19,2)  (6,1)   (3,1)   0
+
+> OKgenerator n=20 l=3 cp=5 ds=3 -g -D sep="\t" ce="\t0\n" l=6 cp=3 lb="[" le="]" vs=" " -o
+c OKGRandGen( (0, 0), 0, 20, 3; 3, 5; 6, 3; )
+c Standardised density: 3 -> 0.25, 6 -> 0.15,
+p gcnf 20 8 3
+[11 0]  [16 2]  [3 2]   0
+[20 1]  [11 1]  [16 1]  0
+[20 2]  [17 1]  [8 0]   0
+[19 1]  [7 0]   [2 2]   0
+[9 0]   [1 2]   [3 0]   0
+[20 0]  [2 2]   [16 1]  [4 1]   [12 0]  [9 2]   0
+[18 0]  [15 1]  [19 2]  [16 0]  [5 0]   [9 2]   0
+[16 2]  [9 1]   [7 2]   [19 2]  [6 1]   [3 1]   0
+
+> OKgenerator n=20 l=3 cp=5 ds=3 -g -D sep="\t" ce="\t0\n" l=6 cp=3 lb="[" le="]" vs=" " nr1=1 -o
+c OKGRandGen( (0, 0), 1, 20, 3; 3, 5; 6, 3; )
+c Standardised density: 3 -> 0.25, 6 -> 0.15,
+p gcnf 20 8 3
+[6 1]   [9 2]   [12 2]  0
+[12 0]  [11 0]  [4 2]   0
+[18 1]  [11 0]  [10 0]  0
+[14 0]  [1 1]   [10 2]  0
+[9 2]   [4 0]   [10 1]  0
+[18 0]  [11 0]  [4 2]   [14 1]  [17 1]  [19 0]  0
+[1 2]   [2 0]   [15 2]  [17 1]  [6 2]   [3 1]   0
+[6 2]   [5 1]   [4 0]   [11 0]  [14 2]  [19 1]  0
+
+> OKgenerator n=20 l=3 cp=5 ds=3 -g -D sep="\t" ce="\t0\n" l=6 cp=3 lb="[" le="]" vs=" " nr1=2 -o
+c OKGRandGen( (0, 0), 2, 20, 3; 3, 5; 6, 3; )
+c Standardised density: 3 -> 0.25, 6 -> 0.15,
+p gcnf 20 8 3
+[7 0]   [20 2]  [8 0]   0
+[2 2]   [13 1]  [5 1]   0
+[2 2]   [6 1]   [1 0]   0
+[2 1]   [10 2]  [18 2]  0
+[4 0]   [16 0]  [9 1]   0
+[10 1]  [3 1]   [9 1]   [5 1]   [16 0]  [18 0]  0
+[11 0]  [12 1]  [17 0]  [20 0]  [2 2]   [13 0]  0
+[19 0]  [4 1]   [18 0]  [11 1]  [8 2]   [13 0]  0
+
+Remark: For creating a sequence of random formulas (with the same dimensions),
+you should use nr1=0 (default), nr1=1, ... 
+If you need a lot of formulas:  ..., nr1 = 4294967294, nr1=4294967295,
+(nr0=1, nr1=0), (nr0=1, nr1=1), (nr0=1, nr1=2), ... ...
+
+(Recall: If nr0 is not specified, then by default nr0 = 0.)
+
+
+---------------------------------------------
+
+
+D) Other usages
+
+1) Stream of 100 random bits:
+
+> OKgenerator n=1 l=1 cp=100 cb="" ce=" " sep=" " -o -nl
+% OKgenerator( (0, 0), (0, 0), 1; 1, 100; )
+% Standardised density: 1 -> 100.,
+-1 -1 -1 -1 -1 1 1 -1 1 -1 1 1 -1 1 -1 1 1 -1 -1 -1 -1 -1 1 -1 1 1 -1 1 -1 1 1 1 -1 -1 -1 1 -1 1 -1 -1 -1 -1 -1 1 1 1 -1 -1 1 1 1 1 -1 -1 -1 1 1 -1 1 1 -1 1 1 -1 -1 1 -1 -1 -1 1 -1 1 1 -1 1 1 -1 1 1 -1 -1 1 1 1 -1 -1 -1 1 -1 1 1 -1 1 -1 -1 1 -1 -1 1 -1
+
+Remark: With -nl we create an additional end-of-line symbol at the end.
+
+Without the comment line:
+
+>  OKgenerator n=1 l=1 cp=100 cb="" ce=" " sep=" " -nc -o -nl
+-1 -1 -1 -1 -1 1 1 -1 1 -1 1 1 -1 1 -1 1 1 -1 -1 -1 -1 -1 1 -1 1 1 -1 1 -1 1 1 1 -1 -1 -1 1 -1 1 -1 -1 -1 -1 -1 1 1 1 -1 -1 1 1 1 1 -1 -1 -1 1 1 -1 1 1 -1 1 1 -1 -1 1 -1 -1 -1 1 -1 1 1 -1 1 1 -1 1 1 -1 -1 1 1 1 -1 -1 -1 1 -1 1 1 -1 1 -1 -1 1 -1 -1 1 -1
+
+
+2) A sequence of 7 random elements of S_5 x {-1,1}^5 (where S_5 is the group
+of permutations of length 5, and "x" is the cross product interpreted in
+the obvious way):
+
+> OKgenerator n=5 l=5 cp=7 sep="\t" -nc -o
+(-3     -4      1       -5      2)
+(-2     4       1       -3      5)
+(2      4       5       3       -1)
+(4      3       -5      -1      2)
+(2      1       3       4       5)
+(5      -3      -2      4       1)
+(-3     -4      -1      -5      2)
+
+
+3) A sequence of 53 random numbers from {-17, .., +17} - {0}:
+
+> OKgenerator n=17 l=1 cp=53 cb="" ce=" " sep=" " -nc -o -nl
+-16 -10 3 -5 3 4 -13 4 -3 6 2 -1 -13 1 5 8 8 -5 -5 14 -13 -7 1 4 7 3 -6 9 -17 -17 -6 13 8 -13 5 -9 -8 16 17 10 -4 1 9 4 11 -10 -8 -7 9 2 -11 -16 -2
+
+> OKgenerator n=17 l=1 cp=53 cb="" ce=" " sep=" " nr1=1 -nc -o -nl
+-15 -3 -11 -15 -2 4 1 1 -17 -4 -8 -16 -8 8 -9 -10 4 -10 -14 -14 16 -3 2 5 4 8 -10 6 -1 10 -8 -6 11 5 1 2 -2 4 -2 -15 16 5 -4 4 -8 -10 -8 2 5 5 3 14 7
+
+> OKgenerator n=17 l=1 cp=67 cb="" ce=" " sep=" " nr1=1 -nc -o -nl
+-15 -3 -11 -15 -2 4 1 1 -17 -4 -8 -16 -8 8 -9 -10 4 -10 -14 -14 16 -3 2 5 4 8 -10 6 -1 10 -8 -6 11 5 1 2 -2 4 -2 -15 16 5 -4 4 -8 -10 -8 2 5 5 3 14 7 -16 -1 6 -11 17 -9 15 -5 6 -7 -11 -16 -6 8
+
+Remark: Note the prefix-property.
+
+
+4) A sequence of 22 random pairs from {1, ..., 1000} x {0, ..., 78}:
+
+> OKgenerator n=1000 -g ds=79 l=1 cp=22 -nc cb="" ce=" " -o -nl
+(203,73) (138,42) (764,40) (87,8) (947,68) (591,47) (763,55) (948,34) (591,0) (213,34) (924,65) (978,26) (220,33) (259,3) (844,62) (152,6) (599,61) (570,62) (729,31) (423,7) (567,40) (760,5)
+
+>  OKgenerator n=1000 -g ds=79 l=1 cp=44 -nc cb="" ce=" " -o -nl
+(203,73) (138,42) (764,40) (87,8) (947,68) (591,47) (763,55) (948,34) (591,0) (213,34) (924,65) (978,26) (220,33) (259,3) (844,62) (152,6) (599,61) (570,62) (729,31) (423,7) (567,40) (760,5) (851,23) (958,65) (243,43) (988,7) (46,66) (324,4) (649,20) (193,2) (760,12) (407,47) (715,18) (297,37) (691,59) (541,51) (180,59) (567,73) (543,63) (27,69) (482,47) (797,68) (906,2) (660,19)
+
+Remark: Again the prefix-property.
+
+But
+
+>  OKgenerator n=1000 -g ds=80 l=1 cp=44 -nc cb="" ce=" " -o -nl
+(874,13) (694,34) (943,32) (221,20) (215,60) (942,19) (338,73) (64,73) (67,6) (717,51) (219,55) (822,21) (475,34) (255,6) (797,55) (590,40) (376,45) (215,7) (171,59) (458,48) (639,24) (870,17) (993,15) (881,39) (924,73) (62,27) (286,56) (631,29) (35,12) (543,2) (299,9) (588,72) (748,75) (49,78) (258,27) (281,21) (112,46) (420,38) (728,21) (975,2) (446,38) (661,56) (798,19) (637,47)
+
+is (completely) different, as well as
+
+> OKgenerator n=1001 -g ds=79 l=1 cp=44 -nc cb="" ce=" " -o -nl
+(871,75) (182,23) (53,56) (924,67) (706,18) (163,11) (569,32) (987,56) (307,8) (135,57) (55,64) (634,45) (768,51) (417,12) (522,1) (103,4) (961,32) (847,33) (260,69) (558,68) (715,13) (44,27) (257,69) (491,73) (317,39) (348,58) (84,39) (769,33) (968,74) (479,74) (403,2) (10,76) (848,14) (547,13) (67,58) (618,65) (594,27) (905,55) (117,47) (392,73) (305,12) (332,33) (304,64) (920,1)
+
+and
+
+OKgenerator n=1001 -g ds=79 l=2 cp=44 -nc cb="" ce=" " sep=" " -o -nl
+(839,17) (998,32) (814,59) (195,61) (630,21) (911,78) (172,26) (939,26) (826,70) (80,75) (803,51) (793,40) (522,16) (612,32) (885,33) (959,1) (76,74) (910,29) (47,54) (778,59) (550,73) (200,19) (334,76) (120,51) (165,67) (629,73) (864,43) (907,50) (107,78) (162,46) (233,75) (838,13) (590,59) (167,7) (421,26) (984,28) (691,9) (643,20) (554,14) (796,1) (242,70) (713,25) (317,12) (637,13) (191,77) (411,8) (474,64) (708,38) (512,15) (73,28) (811,73) (559,67) (290,16) (918,53) (133,77) (205,75) (598,67) (845,45) (67,61) (440,58) (811,27) (281,74) (220,41) (539,75) (466,67) (892,55) (192,25) (332,48) (722,39) (382,61) (275,15) (296,33) (464,30) (675,18) (60,40) (948,7) (352,7) (341,77) (634,8) (326,51) (653,51) (709,2) (274,15) (472,57) (552,49) (978,19) (361,75) (763,22)
+
+Remark: Note that for the last sequence we have a grouping of the first together with the second pair, the third pair together with the fourth pair, and so on, and within each group the first components of the two pairs are different.
+
+
+We can also generate sequence of random permutations this way, for examples 11 random permutations from S_7:
+
+> OKgenerator n=7 -g ds=1 l=7 cp=11 -nc sep="\t" lb="" le="" vs=" |" -o -nl
+(5 |0   6 |0    7 |0    3 |0    2 |0    1 |0    4 |0)
+(3 |0   4 |0    6 |0    5 |0    1 |0    2 |0    7 |0)
+(7 |0   2 |0    3 |0    4 |0    6 |0    5 |0    1 |0)
+(2 |0   4 |0    5 |0    3 |0    1 |0    7 |0    6 |0)
+(5 |0   4 |0    3 |0    7 |0    2 |0    6 |0    1 |0)
+(6 |0   7 |0    5 |0    1 |0    3 |0    4 |0    2 |0)
+(6 |0   4 |0    7 |0    1 |0    3 |0    5 |0    2 |0)
+(1 |0   3 |0    2 |0    6 |0    7 |0    5 |0    4 |0)
+(1 |0   4 |0    5 |0    2 |0    6 |0    7 |0    3 |0)
+(3 |0   6 |0    1 |0    2 |0    7 |0    4 |0    5 |0)
+(3 |0   6 |0    4 |0    5 |0    1 |0    7 |0    2 |0)
+
+where we have to eliminate the strings " |0", but this method needs more
+time than the method described above (since computation of generalised literals is slower than computation of ordinary literals).
+
+Remark: To make the definition easier, in the specification of the generation
+of generalised random clause-sets in the accompanying paper (see the .pdf-file
+in the directory "Documentation") the case of a domain size of 1 (as in the
+last example) has been forbidden, but in fact also in this case we get well-
+defined behaviour (using that for an unsigned 32-bit integer "-1" is
+interpreted as 2^32 - 1).
+

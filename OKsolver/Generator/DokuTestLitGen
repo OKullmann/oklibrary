@@ -1,0 +1,35 @@
+Oliver Kullmann, 17.1.2002
+
+kullmann@csoklt:~/csoliver/SAT-Algorithmen/FormelGen/GeneratorAES> TestLitGenUmw 0 0 0 1 2 0 0 23
+f127e7ca61a7b44b179e4f30b7b31d68
+Literal = 1
+
+>> Literal("f127e7ca61a7b44b179e4f30b7b31d68",2)
+
+                                    1
+
+kullmann@csoklt:~/csoliver/SAT-Algorithmen/FormelGen/GeneratorAES> TestLitGenUmw 0 0 0 1 10 0 0 23
+2c3153d2d688aeaadbca7e6ac3ff5e9e
+Literal = -10
+
+>>  Literal("2c3153d2d688aeaadbca7e6ac3ff5e9e", 10)
+
+                                    -10
+
+
+kullmann@csoklt:~/csoliver/SAT-Algorithmen/FormelGen/GeneratorAES> TestLitGenUmw 123 0 1 1 12345 0 0 23
+a8d4cbc767d05de98e3aefb3543762d6
+Literal = 9239
+
+>> Literal("a8d4cbc767d05de98e3aefb3543762d6", 12345)
+
+                                   9239
+
+kullmann@csoklt:~/csoliver/SAT-Algorithmen/FormelGen/GeneratorAES> TestLitGenUmw 1000000000 123 222 333 123456789 12 12 9999
+cae63e32dc38d8efb0c22d4481c6c324
+Literal = -15778572
+
+>> Literal("cae63e32dc38d8efb0c22d4481c6c324", 123456789)
+
+                                 -15778572
+

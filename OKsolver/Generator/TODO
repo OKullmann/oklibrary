@@ -1,0 +1,50 @@
+Oliver Kullmann, 1.3.2002
+
+Basically the package seems alright to me, only the following three
+measures should be taken in the future to further polish the "product":
+
+1) Really ensuring the correctness of the implementation for all possible
+   sizes of "bytes" and integer types
+
+The implementation should already now be correct, when compiled with
+any ISO 14882 compliant compiler on any hardware (in fact, there should be 
+no "exotic" requirements).
+
+However, I didn't check this in each case, so at present
+when a byte contains more than 8 bits, or a 32 bit integer type is not
+found, then a compiler error is produced.
+
+For the next version of OKgenerator, this security measure shall be
+no longer necessary.
+
+2) Improving running times
+
+The implementation of aes seems to be fairly efficient, but the use
+of the library "flint" in the literal generator (for calculations with
+large integer numbers) seems to be the bottleneck, where something could
+be done.
+
+3) Admitting arbitrarily large numbers within the handling of densities
+
+At present the underlying (unsigned integer) numbers for representing
+decimal fractions and rational numbers are restricted to 16 * 2 = 32
+byte numbers. This should be enough for all practical purposes, but
+nevertheless the possibility of an overflow creates a somehow bad
+feeling (at least for me), and thus in the future arbitrary precision
+is sought.
+
+-------------
+
+Finally also further tools for convenient use of OKgenerator will be provided
+(preparing an experiment, processing an experiment, transferring the results
+from an experiment to the database, communication with the database).
+
+
+4.4.2002
+
+consistent use of C++;
+
+interprete_descriptor:
+
+- choice of languages
+

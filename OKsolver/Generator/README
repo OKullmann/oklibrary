@@ -1,0 +1,42 @@
+Oliver Kullmann, 21.11.2003
+
+Package OKRandGen
+
+Program "OKgenerator", version 1.4
+
+------------------
+
+INSTALLATION
+
+Unpack the archive with
+
+> tar -xzf OKRandGen1_42.tar.gz
+
+and in the directory "OKRandGen1_4" perform 
+
+> make Prefix="./" Bibliothek="./C++Bibliothek/" CPPFLAGS="-DNODATABASE" Generator
+
+The executables
+
+OKgenerator, interprete_descriptor
+
+are generated.
+
+To remove the object files:
+
+> make clean
+
+-----------------
+
+USE
+
+See the files "Usage" and "Examples" as well as the pdf-file "OKRandGen.pdf"
+in the directory "Documentation".
+
+
+----------------
+
+BACKGROUND
+
+See the pdf-file "OKRandGen.pdf".
+

@@ -1,0 +1,475 @@
+<!-- Oliver Kullmann, created 17.3.2002 (Swansea) -->
+<!-- e-mail: O.Kullmann@Swansea.ac.uk -->
+<!-- XML-Standard for communication of SAT related data -->
+<!-- Version 1.0 -->
+
+<!-- some auxiliary elements ============================ -->
+
+<!ELEMENT comment (#PCDATA)>
+
+<!ELEMENT further_specification ANY>
+
+
+<!ENTITY % second_list "(0| 1| 2| 3| 4| 5| 6| 7| 8| 9| 10| 11| 12| 13| 14| 15| 16| 17| 18| 19| 20| 21| 22| 23| 24| 25| 26| 27| 28| 29| 30| 31| 32| 33| 34| 35| 36| 37| 38| 39| 40| 41| 42| 43| 44| 45| 46| 47| 48| 49| 50| 51| 52| 53| 54| 55| 56| 57| 58| 59)" >
+
+<!ENTITY % minute_list "(0| 1| 2| 3| 4| 5| 6| 7| 8| 9| 10| 11| 12| 13| 14| 15| 16| 17| 18| 19| 20| 21| 22| 23| 24| 25| 26| 27| 28| 29| 30| 31| 32| 33| 34| 35| 36| 37| 38| 39| 40| 41| 42| 43| 44| 45| 46| 47| 48| 49| 50| 51| 52| 53| 54| 55| 56| 57| 58| 59)" >
+
+<!ENTITY % hour_list "(0 | 1| 2| 3| 4| 5| 6| 7| 8| 9| 10| 11| 12| 13| 14| 15| 16| 17| 18| 19| 20| 21| 22| 23)" >
+
+<!ENTITY % day_list "(1| 2| 3| 4| 5| 6| 7| 8| 9| 10| 11| 12| 13| 14| 15| 16| 17| 18| 19| 20| 21| 22| 23| 24| 25| 26| 27| 28| 29| 30| 31)" >
+
+<!ENTITY % month_list "(1| 2| 3| 4| 5| 6| 7| 8| 9| 10| 11| 12)" >
+
+<!ENTITY % year_list "(1990 | 1991 | 1992 | 1993 | 1994 | 1995 | 1996 | 1997 | 1998 | 1999 | 2000 | 2001 | 2002 | 2003 | 2004 | 2005 | 2006 | 2007 | 2008 | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 | 2027 | 2028 | 2029 | 2030)">
+
+
+<!-- specifying instances ========================== -->
+
+<!ELEMENT SAT-instance (instance_info?, instance_specs?, instance_cls?, comment?)>
+
+<!ELEMENT instance_info (generic-name?, instance-type?, instance-author?, instance-date?, instance-description?, instance-id?)>
+
+<!ELEMENT instance_specs (measures*)>
+<!ATTLIST instance_specs
+   system-name CDATA #IMPLIED
+>
+
+<!ELEMENT instance_cls (clause-set | g_clause-set)>
+
+
+<!ELEMENT generic-name EMPTY>
+<!ATTLIST generic-name
+   name CDATA #REQUIRED
+   version NMTOKEN #IMPLIED
+   url CDATA #IMPLIED
+>
+
+<!ELEMENT instance-type ((created | generated | transformed), further_specification?)>
+<!-- the instance-type in fact not only contains the "type", but also more precise information, for example, the parameters needed for some generator to create the instance -->
+
+<!ELEMENT created (further_specification?)>
+
+<!ELEMENT generated (random | combinatorial)>
+<!ELEMENT random ((OKgenerator | other_random)?)>
+<!ELEMENT OKgenerator (g_numbers_of_clauses)>
+<!ATTLIST OKgenerator
+   seed_0 NMTOKEN "0"
+   seed_1 NMTOKEN "0"
+   number_0 NMTOKEN "0"
+   number_1 NMTOKEN "0"
+   variables NMTOKEN #REQUIRED
+   domain_size NMTOKEN #IMPLIED
+>
+<!-- variables = number of variables -->
+<!-- domain_size : if used, then it's a generalised clause-set, otherwise it's a boolean clause-set -->
+
+<!ELEMENT g_numbers_of_clauses (g_number+)>
+<!ELEMENT g_number EMPTY>
+<!ATTLIST g_number
+   length NMTOKEN #REQUIRED
+   count NMTOKEN #REQUIRED
+   st-density NMTOKEN #IMPLIED
+>
+<!-- if length is used several times, then the last count-value is valid -->
+<!-- st-density may be ignored -->
+
+
+<!ELEMENT other_random (further_specification?)>
+<!ELEMENT combinatorial (further_specification?)>
+
+<!ELEMENT transformed (transformation, instance-type)>
+<!ELEMENT transformation (further_specification?)>
+
+
+<!ELEMENT instance-author (comment?)>
+<!ATTLIST instance-author
+   first_name CDATA #IMPLIED
+   last_name CDATA #REQUIRED
+   country CDATA #IMPLIED
+   e-mail CDATA #IMPLIED
+   www CDATA #IMPLIED
+>
+
+<!ELEMENT instance-date EMPTY>
+<!ATTLIST instance-date
+   day %day_list; #IMPLIED
+   month %month_list; #IMPLIED
+   year %year_list; #REQUIRED
+>
+   
+<!ELEMENT instance-description (#PCDATA)>
+
+<!ELEMENT instance-id EMPTY>
+<!ATTLIST instance-id
+   value NMTOKEN #REQUIRED
+>
+
+<!ELEMENT measures (reduction, number_of_variables?, clause-length*, total_number_of_clauses?, numbers_of_clauses?, number_of_literal_occurrences?, further_specification?)>
+
+<!ELEMENT reduction (none | (tautological_clauses?, multiple_literal_occurences_in_clauses?, multiple_clause_occurrences?, unit_clause_elimination?))>
+<!-- the reduction applied to the original clause-set before measures have been taken -->
+<!ELEMENT none EMPTY>
+<!ELEMENT tautological_clauses EMPTY>
+<!ELEMENT multiple_literal_occurences_in_clauses EMPTY>
+<!ELEMENT multiple_clause_occurrences EMPTY>
+<!ELEMENT unit_clause_elimination EMPTY>
+
+<!ELEMENT number_of_variables EMPTY>
+<!ATTLIST number_of_variables
+   count NMTOKEN #REQUIRED
+   specifier (lower_bound | upper_bound | exact) "exact"
+>
+<!ELEMENT clause-length EMPTY>
+<!ATTLIST clause-length
+   value NMTOKEN #REQUIRED
+   type (minimal | maximal) #REQUIRED
+   specifier (lower_bound | upper_bound | exact) "exact"
+>
+<!ELEMENT total_number_of_clauses EMPTY>
+<!ATTLIST total_number_of_clauses
+   count NMTOKEN #REQUIRED
+   specifier (lower_bound | upper_bound | exact) "exact"
+>
+
+<!ELEMENT numbers_of_clauses (number+)>
+<!ATTLIST numbers_of_clauses
+   list_of_clause-lengths (complete | incomplete) #REQUIRED
+>
+<!-- in case of "complete", for all clause-lengths not occurring the number of clauses is zero -->
+<!ELEMENT number EMPTY>
+<!ATTLIST number
+   specifier (lower_bound | upper_bound | exact) "exact"
+   length NMTOKEN #REQUIRED
+   count NMTOKEN #REQUIRED
+   st-density_model NMTOKEN #IMPLIED
+   st-density_actual NMTOKEN #IMPLIED
+>
+
+<!ELEMENT number_of_literal_occurrences EMPTY>
+<!ATTLIST number_of_literal_occurrences
+   count NMTOKEN #REQUIRED
+   specifier (lower_bound | upper_bound | exact) "exact"
+>
+
+<!ELEMENT clause-set (variables_as_numbers?, clause*)>
+
+<!ELEMENT variables_as_numbers EMPTY>
+<!ATTLIST variables_as_numbers
+   maximal_index NMTOKEN #REQUIRED
+>
+<!-- in general, variables are non-empty strings -->
+<!-- if the element variables_as_numbers is present, then variables may contain
+only digits, without leading zeros (that excludes also v = "0") -->
+
+<!ELEMENT clause (literal*)>
+<!ELEMENT literal EMPTY>
+<!ATTLIST literal
+   v NMTOKEN #REQUIRED
+   s (p | n) #REQUIRED
+>
+<!-- v = variable -->
+<!-- s = sign (positive or negative -->
+
+<!ELEMENT g_clause-set (g_variables_as_numbers?, g_clause*)>
+<!ELEMENT g_variables_as_numbers EMPTY>
+<!ATTLIST g_variables_as_numbers
+   maximal_index NMTOKEN #REQUIRED
+>
+<!ELEMENT g_clause (g_literal*)>
+<!ELEMENT g_literal EMPTY>
+<!ATTLIST literal
+   var NMTOKEN #REQUIRED
+   val NMTOKEN #REQUIRED
+>
+<!-- var = variable -->
+<!-- val = value -->
+
+
+
+
+<!-- solver output  ========================== -->
+
+<!ELEMENT SAT-solver.output (output-date?, result, processing-description?, instance_specs?, comment?, solution?)>
+<!ATTLIST SAT-solver.output
+   timestamp NMTOKEN #IMPLIED
+>
+<!-- the potentially long element is the last element -->
+
+<!ELEMENT output-date EMPTY>
+<!ATTLIST output-date
+   second %second_list; #IMPLIED
+   minute %minute_list; #IMPLIED
+   hour %hour_list; #IMPLIED
+   day %day_list; #IMPLIED
+   month %month_list; #IMPLIED
+   year %year_list; #REQUIRED
+   time_zone NMTOKEN #IMPLIED
+>
+
+<!ELEMENT result EMPTY>
+<!ATTLIST  result
+   value (unsatisfiable | satisfiable | unknown | guess_unsatisfiable | guess_satisfiable) #REQUIRED
+>
+<!-- if the result is "unsatisfiable" or "satisfiable" then it must be correct -->
+
+<!ELEMENT solution (value*)>
+<!ELEMENT value (#PCDATA)>
+<!ATTLIST value
+   var NMTOKEN #REQUIRED
+>
+
+<!ELEMENT processing-description (basic, extended?, further_specification?)>
+
+<!ELEMENT basic (running-time*, tree-depth*, autarky-reductions*, number_of_table_enlargements?, nodes*)>
+<!ELEMENT extended (generalised_unit_reductions*, generalised_autarky-reductions*, numbers_of_new_clauses*)>
+
+<!ELEMENT running-time EMPTY>
+<!ATTLIST running-time
+   type (wall | core) #REQUIRED
+   sec NMTOKEN #REQUIRED
+>
+<!ELEMENT tree-depth EMPTY>
+<!ATTLIST tree-depth
+   count NMTOKEN #REQUIRED
+   type (maximal | average) #REQUIRED
+>
+<!ELEMENT autarky-reductions EMPTY>
+<!ATTLIST autarky-reductions
+   count NMTOKEN #REQUIRED
+   where (initial | search-tree) #REQUIRED
+   level (pure | non-pure) #REQUIRED
+>
+<!ELEMENT number_of_table_enlargements EMPTY>
+<!ATTLIST number_of_table_enlargements
+   count NMTOKEN #REQUIRED
+>
+
+<!ELEMENT nodes EMPTY>
+<!ATTLIST nodes
+   count NMTOKEN #REQUIRED
+   type (node | single | quasi-single | missed_single) #REQUIRED
+>
+<!-- if the same type is used more than once, then the last occurrence is valid -->
+
+<!ELEMENT generalised_unit_reductions EMPTY>
+<!ATTLIST generalised_unit_reductions
+   count NMTOKEN #REQUIRED
+   where (initial | search-tree) #REQUIRED
+   level NMTOKEN #REQUIRED
+>
+<!-- level = 1, 2, ... -->
+
+<!ELEMENT generalised_autarky-reductions EMPTY>
+<!ATTLIST generalised_autarky-reductions
+   count NMTOKEN #REQUIRED
+   where (initial | search-tree) #REQUIRED
+   level NMTOKEN #REQUIRED
+   specifier (maximum | total) #REQUIRED
+>
+<!-- level = 1, 2, ... -->
+
+<!ELEMENT numbers_of_new_clauses (nc_number+)>
+<!ATTLIST numbers_of_new_clauses
+   list_of_clause-lengths (complete | incomplete) #REQUIRED
+   type (local | global) #REQUIRED
+   specifier (maximum | total) #REQUIRED
+>
+<!ELEMENT nc_number EMPTY>
+<!ATTLIST nc_number
+   specifier (lower_bound | upper_bound | exact) "exact"
+   length NMTOKEN #REQUIRED
+   count NMTOKEN #REQUIRED
+>
+
+
+<!-- solver specification  ========================== -->
+
+<!ELEMENT SAT-solver.specification (solver-type, solver-name, solver-author, solver-id?, programming_language?, compilation_time?, url*, solver-date?, options?, internal?, further_specification?)>
+
+<!ELEMENT solver-type (complete | incomplete)>
+<!ATTLIST solver-type
+   mode (randomized | deterministic) "deterministic"
+>
+<!ELEMENT complete EMPTY>
+<!-- possible result-values are "unsatisfiable", "satisfiable", "unknown" (the latter for example in case of abortion -->
+
+<!ELEMENT incomplete EMPTY>
+<!-- all result-values are possible -->
+<!ATTLIST incomplete
+   kind (sat | unsat) "sat"
+>
+<!-- if kind = "sat" then the only possible result-values are "satisfiable", "unknown" and "guess_unsatisfiable" -->
+<!-- if kind = "unsat" then the only possible result-values are "unsatisfiable", "unknown" and "guess_satisfiable" -->
+
+<!ELEMENT solver-name EMPTY>
+<!ATTLIST solver-name
+   base-name NMTOKEN #REQUIRED
+   extended_name CDATA #IMPLIED
+   version NMTOKEN #IMPLIED
+   url CDATA #IMPLIED
+>
+
+<!ELEMENT solver-author (comment?)>
+<!ATTLIST solver-author
+   first_name CDATA #IMPLIED
+   last_name CDATA #REQUIRED
+   country CDATA #IMPLIED
+   e-mail CDATA #IMPLIED
+   www CDATA #IMPLIED
+>
+
+<!ELEMENT solver-id EMPTY>
+<!ATTLIST solver-id
+   value NMTOKEN #REQUIRED
+>
+
+<!ELEMENT programming_language EMPTY>
+<!ATTLIST programming_language
+   name CDATA #REQUIRED
+>
+
+<!ELEMENT compilation_time EMPTY>
+<!ATTLIST compilation_time
+   timestamp CDATA #REQUIRED
+>
+
+<!ELEMENT url EMPTY>
+<!ATTLIST url
+   for (executable | source-code | home_page) #REQUIRED
+   value CDATA #REQUIRED
+>
+
+<!ELEMENT solver-date EMPTY>
+<!ATTLIST solver-date
+   day %day_list; #IMPLIED
+   month %month_list; #IMPLIED
+   year %year_list; #REQUIRED
+>
+
+<!ELEMENT options EMPTY>
+<!ATTLIST options
+   string CDATA #REQUIRED
+>
+
+<!ELEMENT internal EMPTY>
+
+
+<!-- computer specification  ========================== -->
+
+<!ELEMENT computer (year_of_purchase*, computer-name, computer-id?, model?, cpu?, memory?, further_specification?)>
+
+<!ELEMENT year_of_purchase EMPTY>
+<!ATTLIST year_of_purchase
+   year %year_list; #REQUIRED
+   specifier (lower_bound | upper_bound | exact) "upper_bound"
+>
+
+<!ELEMENT computer-name EMPTY>
+<!ATTLIST computer-name
+   name NMTOKEN #REQUIRED
+   domain CDATA #IMPLIED
+>
+
+<!ELEMENT computer-id EMPTY>
+<!ATTLIST computer-id
+   value NMTOKEN #REQUIRED
+>
+
+<!ELEMENT model EMPTY>
+<!ATTLIST model
+   name CDATA #REQUIRED
+   manufacturer CDATA #REQUIRED
+   address CDATA #IMPLIED
+>
+
+<!ELEMENT cpu (cache*, further_specification?)>
+<!ATTLIST cpu
+   name CDATA #IMPLIED
+   mhz NMTOKEN #IMPLIED
+>
+<!ELEMENT cache EMPTY>
+<!ATTLIST cache
+   type (L1 | L2) "L2"
+   size_kb NMTOKEN #REQUIRED
+>
+
+<!ELEMENT memory (main_memory?, secondary_memory*)>
+<!ELEMENT main_memory EMPTY>
+<!ATTLIST main_memory
+   size_mb NMTOKEN #IMPLIED
+   type CDATA #IMPLIED
+>
+<!ELEMENT secondary_memory EMPTY>
+<!ATTLIST secondary_memory
+   size_gb NMTOKEN #IMPLIED
+   type CDATA #IMPLIED
+>
+
+
+<!-- complete results  ========================== -->
+
+<!ELEMENT complete_result (result-date?, instance_info?, instance_cls?, SAT-solver.output?, comment?)>
+
+<!ELEMENT result-date EMPTY>
+<!ATTLIST result-date
+   minute %minute_list; #IMPLIED
+   hour %hour_list; #IMPLIED
+   day %day_list; #IMPLIED
+   month %month_list; #IMPLIED
+   year %year_list; #REQUIRED
+   time_zone NMTOKEN #IMPLIED
+>
+
+<!ELEMENT list_complete_results (complete_result*) >
+
+
+<!-- experiments  ========================== -->
+
+<!ELEMENT experiment (experiment-begin?, experiment-type, computer, SAT-solver.specification, experiment-id?, comment?, complete_result*, unlisted_results?, experiment-end?)>
+
+<!ELEMENT experiment-begin EMPTY>
+<!ATTLIST experiment-begin
+   second %second_list; #IMPLIED
+   minute %minute_list; #IMPLIED
+   hour %hour_list; #IMPLIED
+   day %day_list; #IMPLIED
+   month %month_list; #IMPLIED
+   year %year_list; #REQUIRED
+   time_zone NMTOKEN #IMPLIED
+>
+<!ELEMENT experiment-type (random_experiment | special_instances_experiment)>
+<!ELEMENT random_experiment (OKgenerator_experiment | other_random_experiment)>
+<!ELEMENT OKgenerator_experiment (descriptor?)>
+<!ELEMENT descriptor (#PCDATA)>
+<!ELEMENT other_random_experiment (further_specification?)>
+<!ELEMENT special_instances_experiment (further_specification?)>
+
+<!ELEMENT experiment-id EMPTY>
+<!ATTLIST experiment-id
+   value NMTOKEN #REQUIRED
+>
+
+<!ELEMENT unlisted_results EMPTY>
+<!ATTLIST unlisted_results
+   number_unknown_results NMTOKEN #IMPLIED
+   number_sat_results NMTOKEN #IMPLIED
+   number_unsat_results NMTOKEN #IMPLIED
+>
+
+<!ELEMENT experiment-end EMPTY>
+<!ATTLIST experiment-end
+   second %second_list; #IMPLIED
+   minute %minute_list; #IMPLIED
+   hour %hour_list; #IMPLIED
+   day %day_list; #IMPLIED
+   month %month_list; #IMPLIED
+   year %year_list; #REQUIRED
+   time_zone NMTOKEN #IMPLIED
+>
+
+
+
+<!-- for monitoring SAT solvers  ========================== -->
+
+<!ELEMENT message (processing-description?, further_specification?)>
+

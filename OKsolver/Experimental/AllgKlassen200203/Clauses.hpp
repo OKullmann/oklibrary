@@ -1,0 +1,93 @@
+// Oliver Kullmann, 27.7.2003 (Swansea)
+
+#ifndef CLAUSESWAECHTER
+#define CLAUSESWAECHTER
+
+#include <set>
+
+#include "ConceptDefinitions.hpp"
+
+namespace Clauses {
+
+  struct Error_Clauses : ErrorHandling::Error {
+    Error_Clauses(const std::string& what) : ErrorHandling::Error(what) {}
+  };
+  
+  template <class Literal, class Comp = std::less<Literal> >
+  class ClAsSets {
+
+    // BOOST_CLASS_REQUIRE(Literal, ConceptDefinitions, GeneralLiteral_concept);
+    BOOST_CLASS_REQUIRE3(Comp, Literal, Literal, boost, BinaryPredicateConcept);
+  
+    typedef std::set<Literal, Comp> set_of_literals;
+    set_of_literals sl;
+
+  public :
+    
+    typedef Literal Lit;
+    typedef typename set_of_literals::size_type size_type;
+    typedef typename set_of_literals::const_iterator const_iterator;
+    typedef Comp literal_compare;
+    typedef typename Lit::Var Var;
+
+    struct Tautological_clause : Error_Clauses {
+      Tautological_clause(const std::string& what) : Error_Clauses(what) {}
+    };
+
+    ClAsSets() {}
+    ClAsSets(const ClAsSets& C) : sl(C.sl) {}
+    ClAsSets& operator =(const ClAsSets& C) { sl = C.sl; }
+
+    size_type size() const { return sl.size(); }
+    bool empty() const { return sl.empty(); }
+    void clear() { sl.clear(); }
+
+    const_iterator find(Lit x) const { return sl.find(x); }
+
+    enum Options {checked_ignore, checked_throw, unchecked};
+    ClAsSets& insert(const Lit x, const Options o = checked_throw) {
+      if (o != unchecked) {
+	if (sl.count(x + Values::neg) == 1)
+	  switch (o) {
+	    checked_ignore : return *this;
+	    checked_throw : {
+	      std::ostringstream message("ClAsSets::insert : Complement of literal ");
+	      message << x << " already present.";
+	      throw Tautological_clause(message.str());
+	    }
+	  }
+      }
+      sl.insert(x);
+      return *this;
+    }
+
+    ClAsSets& erase(Lit x) {
+      sl.erase(x);
+      return *this;
+    }
+    ClAsSets& erase(const_iterator i) {
+      sl.erase(i);
+      return *this;
+    }
+
+    const_iterator begin() const { return sl.begin(); }
+    const_iterator end() const { return sl.end(); }
+
+    bool operator == (const ClAsSets& C) const { return sl == C.sl ;}
+    bool operator < (const ClAsSets& C) const {
+      return sl.size() < C.sl.size() or (sl.size() == C.sl.size() and sl < C.sl); }
+
+  };
+    
+}
+
+#include "Literals.hpp"
+
+namespace Clauses {
+
+  typedef ClAsSets<Literals::LitIntOccString> ClAsSets_LitIntOccString;
+}
+#endif
+
+
+

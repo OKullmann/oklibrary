@@ -1,0 +1,198 @@
+// Oliver Kullmann, 19.6.2002 (Swansea)
+
+// 27.11.2004: Likely everything in here should be replaced by components from Boost
+
+#ifndef TIMEHANDLINGWAECHTER
+
+#define TIMEHANDLINGWAECHTER
+
+#include <ctime>
+#include <ostream>
+#include <sstream>
+#include <locale>
+
+#include "StringHandling.hpp"
+
+namespace TimeHandling {
+
+  class SystemTime {
+    // for elapsed system time in seconds since initialisation
+    // ATTENTION: only for ca. 30 minutes, but with high precision
+
+  public :
+
+    SystemTime();
+    SystemTime(bool set);
+    operator double() const;
+    void reset();
+
+  private :
+
+    std::clock_t time_point;
+  };
+
+  class WallTime {
+    // for elapsed wall time in (full) seconds since initialisation
+
+  public :
+
+    WallTime();
+    WallTime(bool set);
+    operator double() const;
+    void reset();
+
+  private :
+
+    std::time_t time_point;
+  };
+
+}
+
+namespace TimeHandling {
+
+  const std::string currentDateTime();
+  // returns a string with the current date and time
+
+  const std::string output_seconds(double s);
+  // returns the number s of seconds represented as seconds (s), minutes (m), hours (h), days (d) or years (y)
+
+  const std::string currentDateTime(const std::string& format);
+  // as currentDateTime(), but using the format string as for the
+  // std::strftime function from <ctime>
+}
+
+namespace TimeHandling {
+
+  class Progress {
+
+  public :
+
+    Progress(std::ostream& output_stream, unsigned int total_number, unsigned int skip, const std::string& item_text, const std::string& remaining_time_text);
+
+    void operator() ();
+
+  private :
+
+    std::ostream& output_stream;
+    const unsigned int total_number, skip;
+    const std::string item_text, remaining_time_text;
+    
+    unsigned int counter, new_goal;
+    const WallTime time_used;
+    std::string::size_type char_printed;
+  };
+
+}
+
+
+namespace TimeHandling { // Implementations ------------------------------
+
+  // System time
+
+  inline SystemTime::SystemTime()
+    : time_point(std::clock()) {}
+  inline SystemTime::SystemTime(const bool set) {
+    if (set)
+      time_point = std::clock();
+  }
+
+  inline SystemTime::operator double() const {
+    return double(std::clock() - time_point) / double(CLOCKS_PER_SEC);
+  }
+
+  inline void SystemTime::reset() {
+    time_point = std::clock();
+  }
+
+  // Wall time
+
+  inline WallTime::WallTime()
+    : time_point(std::time(0)) {}
+  inline WallTime::WallTime(const bool set) {
+    if (set)
+      time_point = std::time(0);
+  }
+
+  inline WallTime::operator double() const {
+    return std::difftime(std::time(0), time_point);
+  }
+
+  inline void WallTime::reset() {
+    time_point = std::time(0);
+  }
+
+  // Current date and time
+
+  inline const std::string currentDateTime() {
+    const std::time_t t0 = std::time(0);
+    return std::asctime(std::localtime(&t0));
+  }
+
+  const std::string currentDateTime(const std::string& format) {
+    const std::time_t t0 = std::time(0);
+    const std::tm* const tmp = std::localtime(&t0);
+    // The following does not work with g++, Version 3.0.4:
+    /*
+    std::ostringstream oss;
+    std::locale loc;
+    oss.imbue(loc);
+    const std::time_put<char>& tfac = std::use_facet<std::time_put<char> >(loc);
+    std::time_put<char>::iter_type ret = tfac.put(oss, oss, ' ', tmp, format.c_str(), format.c_str() + format.length());
+    return oss.str();
+    */
+    const std::size_t max_length = format.size() + 1000;
+    char* cp = new char[max_length];
+    if (not std::strftime(cp, max_length, format.c_str(), tmp))
+      return "";
+    std::string result(cp);
+    delete [] cp;
+    return result;
+  }
+
+  // Readable output of seconds
+
+  inline const std::string output_seconds(double s) {
+    // assuming s >= 0
+    if (s <= 2 * 60)
+      return StringHandling::toString(s) + " s";
+    else
+      s /= 60;
+    if (s <= 2 * 60)
+       return StringHandling::toString(s) + " m";
+    else
+      s /= 60;
+    if (s <= 2 * 24)
+      return StringHandling::toString(s) + " h";
+    else
+      s /= 24;
+    if (s <= 2 * 365)
+      return StringHandling::toString(s) + " d";
+    else
+      s /= 365;
+    return StringHandling::toString(s) + " y";
+  }
+
+  // Progress
+
+  inline Progress::Progress(std::ostream& os, const unsigned int tn, const unsigned int s, const std::string& it, const std::string& rtt)
+    : output_stream(os), total_number(tn), skip(s), item_text(it), remaining_time_text(rtt), counter(0), new_goal(skip), time_used(), char_printed(0) {}
+
+  inline void Progress::operator() () {
+    if (++counter < new_goal)
+      return;
+    std::string output(char_printed, '\b');
+    const double quotient = double(counter) / total_number;
+    output += item_text + StringHandling::toString(counter) + " (" + StringHandling::toString(quotient * 100) + "%); " + remaining_time_text + output_seconds(time_used / quotient - time_used);
+    const std::string::size_type size = output.size() - char_printed;
+    if (size < char_printed)
+      output += std::string(char_printed - size, ' ');
+    else
+      char_printed = size;
+    new_goal += skip;
+    output_stream << output << std::flush;
+  }
+  
+}
+
+#endif
+

@@ -1,0 +1,116 @@
+Oliver Kullmann, 15.3.2002
+
+Package OKRandGen
+Program OKgenerator
+
+1) Examples for usage of OKgenerator
+
+---------
+
+The general format is
+
+> OKgenerator [Argument1] [Argument2] ... [ArgumentM]
+
+where you a get a list of possible arguments by
+
+> OKgenerator -h
+
+while with
+
+> OKgenerator --info Argument1 ... ArgumentM
+
+you get explanations about these possibilities.
+
+The arguments are processed one after another (so that for example with
+> OKgenerator -h -h
+you get the help text twice) and include options (like changing the 
+message language) and commands (like printing out the clause-set 
+determined so far).
+
+The most basic application is of the form
+
+OKgenerator n=100 l=4 cp=600 -o
+
+which prints out a random formula (using seed = 0 and formula_number = 0)
+with 100 variables and 600 clauses of length 4. The "p" in "cp" stands
+for "push", namely the pair (l,c) is pushed onto the stack, and thus with
+
+OKgenerator n=100 l=4 cp=600 l=5 cp=200 -o
+
+you get a random formula (again using seed = 0 and formula_number = 0)
+with 100 variables and 600 clauses of length 4 as well as 200 clauses
+of length 5.
+
+You can also use densities, for examples with
+
+OKgenerator n=100 l=3 dp=4.1 l=2 dp=0.1 -o
+
+you get a random formula with 4.1 * 100 = 410 clauses of length 3 and
+0.1 * 100 = 10 clauses of length 2.
+
+Output is printed out to standard output. If you need it into a file,
+using redirection. For example, if the previous formula shall be stored
+in "formula4_600_5_200" use
+
+OKgenerator n=100 l=4 cp=600 l=5 cp=200 -o > formula4_600_5_200
+
+For further examples see the file "Examples".
+
+
+2) Usage of interprete_descriptor
+
+See the pdf-file "OKRandGen.pdf", Appendix E for more information
+
+With
+
+> interprete_descriptor -h
+
+you get some information on the (few) available command-line options.
+If you call interprete_descriptor without any input or options
+
+> interprete_descriptor
+
+then the programs waits for you to enter a descriptor (a sequence of
+assignments) via the console. After finishing the last line (with "enter")
+typically you can type "Ctrl D" to finish.
+
+Most of the time you will want to use a descriptor stored in a file, say
+"description1" as provided with the distribution, and then you use
+
+> cat description1 | interprete_descriptor
+
+in case you want to get the output on standard output. Most of the time you
+also want to store the output in a file, say "translation1", and you can
+do this with
+
+> cat description1 | interprete_descriptor > translation1.
+
+If you wish to substitute the default format instruction "-D" (the
+DIMACS format) for OKgenerator with your own string s, you can use
+
+> cat description1 | interprete_descriptor f=s > translation1,
+
+but notice that meta-characters must be entered ("escaped") as in the following
+example
+
+> cat description1 | interprete_descriptor f="sep=\"\\\\t\"" > translation2,
+
+which creates in file translation2 lines of the form
+
+OKgenerator s0=0 s1=0 n=200 l=3 cp=200 sep="\t" nr0=0 nr1=0 -o
+OKgenerator s0=0 s1=0 n=200 l=3 cp=200 sep="\t" nr0=0 nr1=1 -o
+OKgenerator s0=0 s1=0 n=200 l=3 cp=200 sep="\t" nr0=0 nr1=2 -o
+OKgenerator s0=0 s1=0 n=200 l=3 cp=200 sep="\t" nr0=0 nr1=3 -o
+OKgenerator s0=0 s1=0 n=200 l=3 cp=200 sep="\t" nr0=0 nr1=4 -o
+OKgenerator s0=0 s1=0 n=200 l=2 cp=40 l=3 cp=200 sep="\t" nr0=0 nr1=0 -o
+
+with the meaning, that OKgenerator is not called with the DIMACS format,
+but with the default format, where the default separator (a comma) is
+replaced by a tabulator character.
+
+Finally, with
+
+> interprete_descriptor -v
+
+you get the version information.
+
