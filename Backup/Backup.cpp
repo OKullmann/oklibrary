@@ -55,7 +55,7 @@ int main(const int argc, const char* const argv[]) {
     std::cout << "Successfully Copied Backup Archive " << backup_dir.archive() << " To " << backup_dir.destination() << '\n';
     
     std::cout << CommandCaller::remove(backup_dir);
-    // ToDo: make "store" and "remove" follow the same principle
+    std::cout << "Successfully Removed Backup Archive " << backup_dir.archive() << '\n';
     
   }
   catch(const Backup::Error::Directory_Error& e){

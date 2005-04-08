@@ -94,7 +94,7 @@ namespace CommandCaller {
 
   std::string remove(const InfoHolder::DirectoryContainer<std::string>& backup_dir) {
 
-    const std::string rm_options = "-f -v ";
+    const std::string rm_options = "-f ";
 
     const std::string command = "rm " + rm_options + backup_dir.archive();
  
