@@ -18,19 +18,17 @@
 int main(const int argc, const char* const argv[]) {
 
   // ToDo: Using Messages
-  
-  const std::string banner = "OKSystem Backup: Compiled on " + std::string(__DATE__) + " at " + std::string(__TIME__);
-  // ToDo: Output identifier
-  std::cout << banner << '\n';
-     
-  // ToDo: string variable "program identification"
-  // Every output prefixed by it.
 
+  using Backup::pfx;
+  const std::string banner = "OKSystem Backup: Compiled on " + std::string(__DATE__) + " at " + std::string(__TIME__);
+  std::cout << pfx(banner) << '\n';
+     
   if (argc != 3) {
-    const std::string error_no_input = "Please specify source and destination directories!";
-    // ToDo: Output the parameters
-    const std::string info_usage = "Backup [source] [destination]";
-    std::cerr << error_no_input << '\n' << info_usage << '\n';
+    int i = 0; std::string call = "";
+    while (i < argc) {call = call + std::string(argv[i]) + " "; ++i; }
+    const std::string error_no_input = "Usage Error : " + call;
+    const std::string info_usage = "Usage : Backup [source] [destination]";
+    std::cerr << pfx(error_no_input) << '\n' << pfx(info_usage) << '\n';
     return EXIT_FAILURE;
   }
 
