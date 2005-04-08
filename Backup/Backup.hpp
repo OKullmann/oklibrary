@@ -9,6 +9,10 @@
 
 namespace Backup {
   
+  std::string pfx(const std::string& s) {
+    return "[Backup] " + s;
+  }
+  
   namespace DateTime {
     
     std::string current_date() {
