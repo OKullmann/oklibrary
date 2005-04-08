@@ -7,6 +7,8 @@
 #include <string>
 #include <cstdlib>
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 #include "Path_Loader.hpp"
 #include "Backup.hpp"
 #include "Info_Holder.hpp"
@@ -17,7 +19,7 @@ int main(const int argc, const char* const argv[]) {
 
   // ToDo: Using Messages
   
-  const std::string banner = "OKSystem Backup";
+  const std::string banner = "OKSystem Backup ";
   // ToDo: compilation time and date
   // ToDo: current date and time
   // ToDo: Output identifier
@@ -40,6 +42,9 @@ int main(const int argc, const char* const argv[]) {
   const std::string dest = argv[2];
 
   try {
+    const std::string startup = "Backup started on " + Backup::DateTime::current_datetime();
+    std::cout << startup << '\n';
+
     PathLoader::verify_source(source, backup_dir);
     PathLoader::verify_dest(dest, backup_dir);
 
@@ -68,8 +73,6 @@ int main(const int argc, const char* const argv[]) {
     return EXIT_FAILURE;
   }
   
-  const std::string acknowledge = "Backup Done!";
+  const std::string acknowledge = "Backup finished on " + Backup::DateTime::current_datetime();
   std::cout << acknowledge << "\n\n";
-  // ToDo: time and date
-  
 }
