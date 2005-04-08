@@ -19,9 +19,7 @@ int main(const int argc, const char* const argv[]) {
 
   // ToDo: Using Messages
   
-  const std::string banner = "OKSystem Backup ";
-  // ToDo: compilation time and date
-  // ToDo: current date and time
+  const std::string banner = "OKSystem Backup: Compiled on " + std::string(__DATE__) + " at " + std::string(__TIME__);
   // ToDo: Output identifier
   std::cout << banner << '\n';
      
