@@ -15,7 +15,7 @@ namespace PathLoader {
 
   typedef InfoHolder::DirectoryContainer<std::string> container;
 
-  void varify_source(const std::string& cmd_source, container& backup_dir) {
+  void verify_source(const std::string& cmd_source, container& backup_dir) {
     fs::path source_dir(fs::initial_path());
     source_dir = fs::system_complete(fs::path(cmd_source, fs::native));
     backup_dir.source(source_dir.native_file_string());
@@ -51,7 +51,7 @@ namespace PathLoader {
       if (path[path.length() - 1] != '/') path = path + '/';
   }
 
-  void varify_dest(const std::string& cmd_dest, container& backup_dir) {
+  void verify_dest(const std::string& cmd_dest, container& backup_dir) {
     
     if (not is_remote(cmd_dest)) {
       fs::path dest_dir(fs::initial_path());

@@ -40,9 +40,8 @@ int main(const int argc, const char* const argv[]) {
   const std::string dest = argv[2];
 
   try {
-    // ToDO: "verify"
-    PathLoader::varify_source(source, backup_dir);
-    PathLoader::varify_dest(dest, backup_dir);
+    PathLoader::verify_source(source, backup_dir);
+    PathLoader::verify_dest(dest, backup_dir);
 
     std::cout << CommandCaller::pack(backup_dir);
     std::cout << "Successfully Created Backup Archive " << backup_dir.archive() << '\n';
@@ -70,7 +69,7 @@ int main(const int argc, const char* const argv[]) {
   }
   
   const std::string acknowledge = "Backup Done!";
-  std::cout << acknowledge << '\n\n';
+  std::cout << acknowledge << "\n\n";
   // ToDo: time and date
   
 }
