@@ -6,10 +6,12 @@
 
 #include <boost/filesystem/operations.hpp>
 
-#include "Backup/Info_Holder.hpp"
-#include "Backup/Backup.hpp"
+#include "Info_Holder.hpp"
+#include "Backup.hpp"
 
 namespace PathLoader {
+
+  // ToDO: Making a LIBRARY out of it.
   
   namespace fs = boost::filesystem;
 
@@ -34,7 +36,9 @@ namespace PathLoader {
     if (remote and valid) return true;
     return false;
   }
-  
+
+  // ToDo: Either it comes from another library, or it is a general facility
+  // ToDo: Better name "split"
   void strip(const std::string& fulldir, std::string& host, std::string& path) {
      char c = fulldir[0]; int i = 0; 
       while (c != ':') {
