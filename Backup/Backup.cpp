@@ -1,7 +1,6 @@
 // Project: OKSystem Backup
 // Author: Tony H. Bao
 // Date: 06.04.2005
-// Version: 0.2
 
 #include <iostream>
 #include <string>
@@ -9,10 +8,12 @@
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 
-#include "Path_Loader.hpp"
-#include "Backup.hpp"
-#include "Info_Holder.hpp"
-#include "Command_Caller.hpp"
+#include "Backup/Path_Loader.hpp"
+#include "Backup/Backup.hpp"
+#include "Backup/Info_Holder.hpp"
+#include "Backup/Command_Caller.hpp"
+
+#include "General/ErrorHandling.hpp"
  
 
 int main(const int argc, const char* const argv[]) {

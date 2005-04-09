@@ -6,8 +6,8 @@
 
 #include <boost/filesystem/operations.hpp>
 
-#include "Info_Holder.hpp"
-#include "Backup.hpp"
+#include "Backup/Info_Holder.hpp"
+#include "Backup/Backup.hpp"
 
 namespace PathLoader {
   
