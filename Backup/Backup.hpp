@@ -8,12 +8,15 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 
 namespace Backup {
+
+  // ToDo: Make a LIBRARY out of it!
   
   std::string pfx(const std::string& s) {
     return "[Backup] " + s;
   }
   
   namespace DateTime {
+    // ToDo: Template parameters?!?!
     
     std::string current_date() {
       boost::gregorian::date d(boost::gregorian::day_clock::universal_day());
@@ -34,13 +37,17 @@ namespace Backup {
   }
   
   namespace Error {
+
+    // ToDo: Derive it from the standard exception classes
+    // ToDo: Only one local root (using multiple inheritance)
+
     struct Directory_Error {
       Directory_Error(const std::string& message) : message(message) {} 
       std::string what() const {
 	return "Directory Error: " + message;
       }
     private :
-      std::string message;
+      const std::string message;
     };
     
     struct Command_Error {
@@ -49,7 +56,7 @@ namespace Backup {
 	return "Command Error: " + message;
       }
     private :
-      std::string message;
+      const std::string message;
     };
   }
 }
