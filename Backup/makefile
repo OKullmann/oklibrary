@@ -27,12 +27,15 @@ SHELL = /bin/sh
 #else
 #  Bibliothek :=
 #endif
+# ToDo: needed
 
 ifdef OKLIB_ROOT
   OKlib_root := -I$(OKLIB_ROOT)
 else
   OKlib_root :=
 endif
+# ToDo: not yet
+
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -63,8 +66,9 @@ source_libraries := -I$(srcdir) $(OKlib_root) $(Bibliothek) $(Xerces_h) $(Loki) 
 link_libraries := $(boost_date_time) $(boost_filesystem)
 
 # We should not fix root in this way. 
-Root := $(wildcard ../..)
+Root := $(wildcard ../../..)
 prefix := $(Root)
+# ToDo: we seem to need it
 
 exec_prefix := $(prefix)
 bindir := $(exec_prefix)/bin
@@ -82,6 +86,7 @@ programs := $(addprefix $(bindir)/, $(programs))
 
 #test_program := TestBibliothek
 #test_program := $(addprefix $(bindir)/, $(test_program))
+# ToDo: test needed
 
 # ---------------------------------------------------
 
@@ -127,30 +132,17 @@ $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
 	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
 	rm -f $@.$$$$ $@.$$$$$$
-#%.d : %.cpp
-#	g++ -MM $(source_libraries) $< > $@.$$$$; \
-#	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
-#	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
-#	rm -f $@.$$$$ $@.$$$$$$
 
 $(object_files_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
-#%$(name_addition).o : %.cpp
-#	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
 $(object_files) : $(libdir)/%.o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(General_options) $(source_libraries) $<
-#%.o : %.cpp
-#	$(CXX) -c -o $@ $(General_options) $(source_libraries) $<
 
 $(programs) : $(bindir)/% : $(libdir)/%.o
 	$(CXX) -o $@ $(General_options) $< $(link_libraries)
 $(programs_optimised) : $(bindir)/% : $(libdir)/%.o
 	$(CXX) -o $@ $(Optimisation_options) $< $(link_libraries)
 
-#%$(name_addition) : %$(name_addition).o
-#	$(CXX) -o $@ $(Optimisation_options) $< $(link_libraries)
-#% : %.o
-#	$(CXX) -o $@ $(General_options) $< $(link_libraries)
 
 
 # --------------------------------
