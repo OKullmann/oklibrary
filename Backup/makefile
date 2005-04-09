@@ -22,12 +22,12 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-#ifdef BIBLIOTHEK
-#  Bibliothek := -I$(BIBLIOTHEK)
-#else
-#  Bibliothek :=
-#endif
-# ToDo: needed
+ifdef BIBLIOTHEK
+  Bibliothek := -I$(BIBLIOTHEK)
+else
+  Bibliothek :=
+endif
+
 
 ifdef OKLIB_ROOT
   OKlib_root := -I$(OKLIB_ROOT)
