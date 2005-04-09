@@ -53,7 +53,7 @@ srcdir := $(wildcard .)
 source_libraries := -I$(srcdir) $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
 link_libraries := -lboost_date_time-gcc $(Xerces_so)
 
-Root := $(wildcard ../..)
+Root := $(wildcard ../../..)
 prefix := $(Root)
 
 exec_prefix := $(prefix)
