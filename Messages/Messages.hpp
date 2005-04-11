@@ -6,6 +6,8 @@
 
 #include "Messages_Concept_Syntax_Definitions.hpp"
 
+#include "Messages_UserInterface.hpp"
+
 // TO DO: Complete
 
 #endif
