@@ -25,8 +25,7 @@
 
 # ---------------------------------------------------
 
-SHELL = /bin/sh
-.SUFFIXES :
+# Special settings for this environment
 
 ifdef BIBLIOTHEK
   Bibliothek := -I$(BIBLIOTHEK)
@@ -54,10 +53,27 @@ else
   Xerces_so :=
 endif
 
+General_options :=
+Optimisation_options := -O3
+
+test_program := TestBibliothek
+
+programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList
+
+source_libraries := $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
+
+link_libraries := -lboost_date_time-gcc $(Xerces_so)
+
+# ------------------------------------------------------------------
+
+# From now on generic
+
+SHELL = /bin/sh
+.SUFFIXES :
+
 srcdir := $(wildcard .)
 
-source_libraries := -I$(srcdir) $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
-link_libraries := -lboost_date_time-gcc $(Xerces_so)
+source_libraries += -I$(srcdir)
 
 Root := $(wildcard ../../..)
 prefix := $(Root)
@@ -74,14 +90,10 @@ Directories := $(bindir) $(libdir) $(includedir) $(aux_dir)
 
 # -----------------------------------------------------------------------------------
 
-General_options :=
-Optimisation_options := -O3
-
-programs := TestBibliothek NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList
-programs := $(addprefix $(bindir)/, $(programs))
-
-test_program := TestBibliothek
 test_program := $(addprefix $(bindir)/, $(test_program))
+
+programs := $(addprefix $(bindir)/, $(programs))
+programs += $(test_program)
 
 # ---------------------------------------------------
 
@@ -141,29 +153,16 @@ $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
 	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
 	rm -f $@.$$$$ $@.$$$$$$
-#%.d : %.cpp
-#	g++ -MM $(source_libraries) $< > $@.$$$$; \
-#	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
-#	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
-#	rm -f $@.$$$$ $@.$$$$$$
 
 $(object_files_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
-#%$(name_addition).o : %.cpp
-#	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
 $(object_files) : $(libdir)/%.o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(General_options) $(source_libraries) $<
-#%.o : %.cpp
-#	$(CXX) -c -o $@ $(General_options) $(source_libraries) $<
 
 $(programs) : $(bindir)/% : $(libdir)/%.o
 	$(CXX) -o $@ $(General_options) $< $(link_libraries)
 $(programs_optimised) : $(bindir)/% : $(libdir)/%.o
 	$(CXX) -o $@ $(Optimisation_options) $< $(link_libraries)
-#%$(name_addition) : %$(name_addition).o
-#	$(CXX) -o $@ $(Optimisation_options) $< $(link_libraries)
-#% : %.o
-#	$(CXX) -o $@ $(General_options) $< $(link_libraries)
 
 
 # --------------------------------
