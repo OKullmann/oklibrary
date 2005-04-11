@@ -2,14 +2,20 @@
 
 # Usage:
 
-# make
-# creates all definition files, object files and program files;
+# make all
+# = make unoptimsed + make optimised
+
+# make unoptimised
+# creates all dependencies files, object files, header files and program files;
 
 # make optimised
 # creates the same (names of object and program files modified), but using optimisation options;
 
-# make file.d, file.o, program 
+# make file.d, file.o, file.hpp, program 
 # creates the respective file;
+
+# make check
+# = make test + make testop
 
 # make test
 # recompiles the test program if necessary, and runs the test if necessary.
@@ -60,9 +66,13 @@ exec_prefix := $(prefix)
 bindir := $(exec_prefix)/bin
 libdir := $(exec_prefix)/lib
 
+includedir := $(prefix)/include
+
 aux_dir := $(prefix)/aux
 
-Directories := $(bindir) $(libdir) $(aux_dir)
+Directories := $(bindir) $(libdir) $(includedir) $(aux_dir)
+
+# -----------------------------------------------------------------------------------
 
 General_options :=
 Optimisation_options := -O3
@@ -76,9 +86,13 @@ test_program := $(addprefix $(bindir)/, $(test_program))
 # ---------------------------------------------------
 
 name_addition := $(strip $(Optimisation_options))
-All_options = $(General_options) $(Optimisation_options)
+All_options := $(General_options) $(Optimisation_options)
 
 programs_optimised := $(programs:=$(name_addition))
+
+header_files := $(wildcard $(srcdir)/*.hpp)
+header_files := $(notdir $(header_files))
+header_files :=  $(addprefix $(includedir)/, $(header_files))
 
 compilation_units := $(wildcard $(srcdir)/*.cpp)
 compilation_units := $(notdir $(compilation_units))
@@ -91,11 +105,19 @@ object_files := $(addprefix $(libdir)/, $(object_files))
 object_files_optimised := $(compilation_units:.cpp=$(name_addition).o)
 object_files_optimised := $(addprefix $(libdir)/, $(object_files_optimised))
 
-.PHONY : unoptimised optimised
+# ----------------------------------------------------------------
 
-unoptimised : $(Directories) $(object_files) $(programs)
+.PHONY : all unoptimised optimised check allandcheck
 
-optimised : $(Directories) $(object_files_optimised) $(programs_optimised)
+all : unoptimised optimised
+
+allandcheck : all check
+
+unoptimised : $(Directories) $(header_files) $(object_files) $(programs)
+
+optimised : $(Directories) $(header_files) $(object_files_optimised) $(programs_optimised)
+
+check : test testop
 
 test : $(Directories) $(test_program)
 	./$(test_program)
@@ -110,6 +132,9 @@ include $(dependency_files)
 
 $(Directories) : % :
 	mkdir $@
+
+$(header_files) : $(includedir)/%.hpp : $(srcdir)/%.hpp
+	cp $< $@
 
 $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
 	g++ -MM $(source_libraries) $< > $@.$$$$; \
@@ -143,15 +168,18 @@ $(programs_optimised) : $(bindir)/% : $(libdir)/%.o
 
 # --------------------------------
 
-.PHONY : clean cleanobj cleandef cleanall
+.PHONY : clean cleanobj cleandep cleanhead cleanall
 
 cleanobj :
 	rm -f $(object_files) $(object_files_optimised)
 
-cleandef :
+cleandep :
 	rm -f $(dependency_files)
 
-clean : cleanobj cleandef
+cleanhead :
+	rm -f $(header_files)
+
+clean : cleanobj cleandep cleanhead
 	rm -f test testop
 
 cleanall : clean
