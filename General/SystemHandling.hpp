@@ -232,6 +232,7 @@ namespace SystemHandling {
       O.c = StringHandling::fromString<int>(StreamHandling::file2string(name_return_status));
       return O;
     }
+    // ToDo: what about end-of-line symbols in the output?
 
     void set_core(unsigned int c) {
       use_core = true; core = c;
