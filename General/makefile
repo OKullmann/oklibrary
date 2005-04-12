@@ -64,6 +64,8 @@ source_libraries := $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
 
 link_libraries := -lboost_date_time-gcc $(Xerces_so)
 
+Root := $(wildcard ../../..)
+
 # ------------------------------------------------------------------
 
 # From now on generic
@@ -75,7 +77,6 @@ srcdir := $(wildcard .)
 
 source_libraries += -I$(srcdir)
 
-Root := $(wildcard ../../..)
 prefix := $(Root)
 
 exec_prefix := $(prefix)
