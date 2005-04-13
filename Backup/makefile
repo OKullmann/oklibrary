@@ -23,51 +23,15 @@
 # make testop
 # recompiles the test program with optimisation if necessary, and runs the test if necessary.
 
-# ---------------------------------------------------
-
-# Special settings for this environment
-
-ifdef BIBLIOTHEK
-  Bibliothek := -I$(BIBLIOTHEK)
-else
-  Bibliothek :=
-endif
-ifdef LOKI
-  Loki := -I$(LOKI)
-else
-  Loki :=
-endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
-
-General_options := -g
-Optimisation_options := -O3
-
-test_program := TestBackup
-
-programs := Backup
-
-source_libraries := $(Bibliothek) $(Loki) $(Boost)
-
-boost_filesystem := -lboost_filesystem-gcc
-boost_date_time := -lboost_date_time-gcc
-link_libraries := $(boost_date_time) $(boost_filesystem)
-
-# ------------------------------------------------------------------
-
-# From now on generic
-
 SHELL = /bin/sh
 .SUFFIXES :
+
+include makefile.definitions
 
 srcdir := $(wildcard .)
 
 source_libraries += -I$(srcdir)
 
-Root := $(wildcard ../../..)
 prefix := $(Root)
 
 exec_prefix := $(prefix)
@@ -141,10 +105,10 @@ $(header_files) : $(includedir)/%.hpp : $(srcdir)/%.hpp
 	cp $< $@
 
 $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
-	g++ -MM $(source_libraries) $< > $@.$$$$; \
+	$(CXX) -MM $(source_libraries) $< > $@.$$$$; \
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
 	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
-	rm -f $@.$$$$ $@.$$$$$$
+	$(RM) $@.$$$$ $@.$$$$$$
 
 $(object_files_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
@@ -162,16 +126,16 @@ $(programs_optimised) : $(bindir)/% : $(libdir)/%.o
 .PHONY : clean cleanobj cleandep cleanhead cleanall
 
 cleanobj :
-	rm -f $(object_files) $(object_files_optimised)
+	$(RM) $(object_files) $(object_files_optimised)
 
 cleandep :
-	rm -f $(dependency_files)
+	$(RM) $(dependency_files)
 
 cleanhead :
-	rm -f $(header_files)
+	$(RM) $(header_files)
 
 clean : cleanobj cleandep cleanhead
-	rm -f test testop
+	$(RM) test testop
 
 cleanall : clean
-	rm -f $(programs) $(programs_optimised)
+	$(RM) $(programs) $(programs_optimised)
