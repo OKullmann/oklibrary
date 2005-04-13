@@ -1,12 +1,17 @@
 // LICENCE
 
-#ifndef MESSAGESCONCEPTSYNTAX_64ggb298
+#ifndef MESSAGESCONCEPTSYNTAXDECLARATIONS_64ggb298
 
-#define MESSAGESCONCEPTSYNTAX_64ggb298
+#define MESSAGESCONCEPTSYNTAXDECLARATIONS_64ggb298
 
-namespace Messages_Concept_Syntax {
-
+namespace OKlib {
   
-
+  namespace Messages {
+    
+    namespace Concept_Syntax {
+      
+    }
+  }
 }
+
 #endif
