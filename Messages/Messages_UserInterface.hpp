@@ -8,23 +8,30 @@
 
 #include <boost/mpl/vector.hpp>
 
+namespace OKlib {
+  
+  namespace Messages {
 
-namespace Messages_UserInterface {
+    namespace UserInterface {
 
-  extern const char deutsch[] = "Deutsch";
-  extern const char english[] = "English";
-  extern const char chinese[] = "Chinese";
-  extern const char french[] = "French";
-  extern const char dutch[] = "Dutch";
-  extern const char portuguese[] = "Portuguese";
-  extern const char japanese[] = "Japanese";
-  extern const char italian[] = "Italian";
-  extern const char hungarian[] = "Hungarian";
+      extern const char deutsch[] = "Deutsch";
+      extern const char english[] = "English";
+      extern const char chinese[] = "Chinese";
+      extern const char french[] = "French";
+      extern const char dutch[] = "Dutch";
+      extern const char portuguese[] = "Portuguese";
+      extern const char japanese[] = "Japanese";
+      extern const char italian[] = "Italian";
+      extern const char hungarian[] = "Hungarian";
+      
+      typedef boost::mpl::vector<Messages::W<deutsch> > min_languages;
+      
+      typedef Messages::MessageService<english, min_languages> MessageService;
 
-  typedef boost::mpl::vector<Messages::W<deutsch> > min_languages;
+      typedef Messages::MessageService<english, min_languages, char, std::char_traits<char>, std::string> MsgService;
 
-  typedef Messages::MessageService<english, min_languages> MessageService;
-
+    }
+  }
 }
 
 #endif
