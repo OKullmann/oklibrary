@@ -23,55 +23,11 @@
 # make testop
 # recompiles the test program with optimisation if necessary, and runs the test if necessary.
 
-# ---------------------------------------------------
-
-# Special settings for this environment
-
-ifdef BIBLIOTHEK
-  Bibliothek := -I$(BIBLIOTHEK)
-else
-  Bibliothek :=
-endif
-ifdef LOKI
-  Loki := -I$(LOKI)
-else
-  Loki :=
-endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
-ifdef XERCES_H
-  Xerces_h := -I$(XERCES_H)
-else
-  Xerces_h :=
-endif
-ifdef XERCES_SO
-  Xerces_so := -I$(XERCES_SO)
-else
-  Xerces_so :=
-endif
-
-General_options :=
-Optimisation_options := -O3
-
-test_program := TestBibliothek
-
-programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList
-
-source_libraries := $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
-
-link_libraries := -lboost_date_time-gcc $(Xerces_so)
-
-Root := $(wildcard ../../..)
-
-# ------------------------------------------------------------------
-
-# From now on generic
 
 SHELL = /bin/sh
 .SUFFIXES :
+
+include makefile.definitions
 
 srcdir := $(wildcard .)
 
