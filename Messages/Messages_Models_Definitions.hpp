@@ -16,14 +16,16 @@
 #include <boost/mpl/inherit_linearly.hpp>
 #include <boost/mpl/placeholders.hpp>
 
-#include "IOTools_Models_Definitions.hpp"
+#include "IOTools.hpp"
 
-namespace Messages {
+namespace OKlib {
+  
+  namespace Messages {
+  
+    template <const char* Name>
+    struct W {};
 
-  template <const char* Name>
-  struct W {};
-
-  // --------------------------------------------------------------
+    // --------------------------------------------------------------
 
   class Language_base {
   public :
@@ -226,6 +228,7 @@ namespace Messages {
     return os;
   }
 
+  }
 }
 
 #endif
