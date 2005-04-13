@@ -18,6 +18,12 @@ else
   OKMessages :=
 endif
 
+ifdef OKIOTOOLS
+  OKIOtools := -I$(OKIOTOOLS)
+else
+  OKIOtools :=
+endif
+
 General_options := -g
 Optimisation_options := -O3
 
@@ -25,7 +31,7 @@ test_program := TestBackup
 
 programs := Backup
 
-source_libraries := $(Bibliothek) $(Loki) $(Boost) $(OKMessages)
+source_libraries := $(Bibliothek) $(Loki) $(Boost) $(OKMessages) $(OKIOtools)
 
 boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc

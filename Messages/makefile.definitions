@@ -6,6 +6,12 @@ else
   Bibliothek :=
 endif
 
+ifdef OKIOTOOLS
+  OKIOtools := -I$(OKIOTOOLS)
+else
+  OKIOtools :=
+endif
+
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -25,7 +31,7 @@ test_program := TestMessages
 
 programs := 
 
-source_libraries := $(Bibliothek) $(Loki) $(Boost)
+source_libraries := $(Bibliothek) $(OKIOtools) $(Loki) $(Boost) 
 
 link_libraries := 
 
