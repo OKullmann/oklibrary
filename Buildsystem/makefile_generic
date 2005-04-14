@@ -40,11 +40,11 @@ include makefile.definitions
 # link_libraries
 # Root
 
-srcdir := $(wildcard .)
+srcdir := $(shell pwd)
 
 source_libraries += -I$(srcdir)
 
-prefix := $(Root)
+prefix := $(shell cd $(Root); pwd)
 
 exec_prefix := $(prefix)
 bindir := $(exec_prefix)/bin
@@ -87,11 +87,9 @@ object_files_optimised := $(addprefix $(libdir)/, $(object_files_optimised))
 
 # ----------------------------------------------------------------
 
-.PHONY : all unoptimised optimised check allandcheck
+.PHONY : all unoptimised optimised check clean cleanall
 
 all : unoptimised optimised
-
-allandcheck : all check
 
 unoptimised : $(Directories) $(header_files) $(object_files) $(programs)
 
@@ -100,10 +98,10 @@ optimised : $(Directories) $(header_files) $(object_files_optimised) $(programs_
 check : test testop
 
 test : $(Directories) $(test_program)
-	./$(test_program)
+	$(test_program)
 	touch test
 testop : $(Directories) $(test_program)$(name_addition)
-	./$(test_program)$(name_addition)
+	$(test_program)$(name_addition)
 	touch testop
 
 # ---------------------------------------------------------------
@@ -117,10 +115,10 @@ $(header_files) : $(includedir)/%.hpp : $(srcdir)/%.hpp
 	cp $< $@
 
 $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
-	g++ -MM $(source_libraries) $< > $@.$$$$; \
+	$(CXX) -MM $(source_libraries) $< > $@.$$$$; \
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
 	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
-	rm -f $@.$$$$ $@.$$$$$$
+	rm $@.$$$$ $@.$$$$$$
 
 $(object_files_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
@@ -135,19 +133,22 @@ $(programs_optimised) : $(bindir)/% : $(libdir)/%.o
 
 # --------------------------------
 
-.PHONY : clean cleanobj cleandep cleanhead cleanall
+.PHONY : clean cleanobj cleandep cleanhead cleanprograms cleanall
 
 cleanobj :
-	rm -f $(object_files) $(object_files_optimised)
+	- rm $(object_files) $(object_files_optimised)
 
 cleandep :
-	rm -f $(dependency_files)
+	- rm $(dependency_files)
+
+clean : cleanobj cleandep
+	- rm test testop
 
 cleanhead :
-	rm -f $(header_files)
+	- rm $(header_files)
 
-clean : cleanobj cleandep cleanhead
-	rm -f test testop
+cleanprograms :
+	- rm $(programs) $(programs_optimised)
 
-cleanall : clean
-	rm -f $(programs) $(programs_optimised)
+cleanall : clean cleanhead cleanprograms
+
