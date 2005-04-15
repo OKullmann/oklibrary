@@ -1,4 +1,4 @@
-.PHONY : all unoptimised optimised check clean cleanall
+.PHONY : prebuild all unoptimised optimised check clean cleanall force maintainer-clean
 
 include makefile.definitions
 
@@ -12,12 +12,18 @@ includedir := $(prefix)/include
 
 Directories := $(includedir)
 
-all : $(Directories) makefile_generic
+makefiles := $(addprefix $(includedir)/, makefile_generic makefile_recursive)
 
-makefile_generic : $(includedir)/makefile_generic
+prebuild : $(Directories) $(makefiles)
 
-$(includedir)/makefile_generic : $(srcdir)/makefile_generic
-		cp $< $@
+$(Directories) : % :
+	mkdir $@
 
-unoptimised optimised check clean cleanall : 
+$(makefiles) : $(includedir)/% : %
+	cp $< $@
 
+
+all unoptimised optimised check clean cleanall force : 
+
+maintainer-clean :
+	rm $(makefiles)
