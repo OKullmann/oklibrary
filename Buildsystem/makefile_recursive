@@ -3,7 +3,7 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-goals := all unoptimised optimised check test testop clean cleanall
+goals := prebuild all unoptimised optimised check test testop clean cleanall force
 sub_makes := $(dir $(shell find * -mindepth 1 -maxdepth 1 -name "makefile"))
 
 .PHONY : $(goals) $(sub_makes)

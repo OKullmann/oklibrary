@@ -87,13 +87,15 @@ object_files_optimised := $(addprefix $(libdir)/, $(object_files_optimised))
 
 # ----------------------------------------------------------------
 
-.PHONY : all unoptimised optimised check clean cleanall
+.PHONY : prebuild all unoptimised optimised check clean cleanall force
 
 all : unoptimised optimised
 
-unoptimised : $(Directories) $(header_files) $(object_files) $(programs)
+prebuild : $(Directories) $(header_files) 
 
-optimised : $(Directories) $(header_files) $(object_files_optimised) $(programs_optimised)
+unoptimised : $(object_files) $(programs)
+
+optimised : $(object_files_optimised) $(programs_optimised)
 
 check : test testop
 
@@ -103,6 +105,8 @@ test : $(Directories) $(test_program)
 testop : $(Directories) $(test_program)$(name_addition)
 	$(test_program)$(name_addition)
 	touch testop
+
+force :
 
 # ---------------------------------------------------------------
 
