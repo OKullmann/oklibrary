@@ -3,14 +3,29 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-goals := prebuild all unoptimised optimised check test testop clean cleanall force
+default_goal := all
+special_goals := prebuild
+goals := unoptimised optimised check test testop clean cleanall force
+
 sub_makes := $(dir $(shell find * -mindepth 1 -maxdepth 1 -name "makefile"))
 
-.PHONY : $(goals) $(sub_makes)
+.PHONY : $(default_goal) $(special_goals) $(goals) $(sub_makes)
 
-all : $(sub_makes)
-$(goals) : $(sub_makes)
+$(default_goal) $(goals) : $(sub_makes)
 
 $(sub_makes) :
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
+define run_all_makes
+for sm in $(sub_makes); do $(MAKE) -C $${sm} $(MAKECMDGOALS); done
+endef
+define run_all_makes_ignorant
+for sm in $(sub_makes); do $(MAKE) -C $${sm} $(MAKECMDGOALS) --ignore-errors; done
+endef
+
+
+$(special_goals) :
+ifeq ($(MAKELEVEL), 0)
+	$(run_all_makes_ignorant)
+endif
+	$(run_all_makes)
