@@ -1,4 +1,4 @@
-.PHONY : prebuild all unoptimised optimised check clean cleanall force maintainer-clean
+.PHONY : prebuild all unoptimised optimised check test testop clean cleanall force maintainer-clean
 
 include makefile.definitions
 
@@ -23,7 +23,7 @@ $(makefiles) : $(includedir)/% : %
 	cp $< $@
 
 
-all unoptimised optimised check clean cleanall force : 
+all unoptimised optimised check test testop clean cleanall force : 
 
 maintainer-clean :
 	rm $(makefiles)
