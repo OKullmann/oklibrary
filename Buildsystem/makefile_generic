@@ -99,10 +99,10 @@ optimised : $(object_files_optimised) $(programs_optimised)
 
 check : test testop
 
-test : $(Directories) $(test_program)
+test : $(test_program)
 	$(test_program)
 	touch test
-testop : $(Directories) $(test_program)$(name_addition)
+testop : $(test_program)$(name_addition)
 	$(test_program)$(name_addition)
 	touch testop
 
@@ -110,7 +110,9 @@ force :
 
 # ---------------------------------------------------------------
 
+ifeq ($(firstword $(filter prebuild clean cleanall force, $(MAKECMDGOALS))),)
 include $(dependency_files)
+endif
 
 $(Directories) : % :
 	mkdir $@
