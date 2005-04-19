@@ -1,5 +1,6 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
+
 SHELL = /bin/sh
 .SUFFIXES :
 
@@ -9,20 +10,19 @@ goals := unoptimised optimised check test testop clean cleanall force
 
 sub_makes := $(dir $(shell find * -mindepth 1 -maxdepth 1 -name "makefile"))
 
-.PHONY : $(default_goal) $(special_goals) $(goals) $(sub_makes)
+.PHONY : $(default_goal) $(special_goals) $(goals)
 
-$(default_goal) $(goals) : $(sub_makes)
-
-$(sub_makes) :
-	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 define run_all_makes
-for sm in $(sub_makes); do $(MAKE) -C $${sm} $(MAKECMDGOALS); done
-endef
-define run_all_makes_ignorant
-for sm in $(sub_makes); do $(MAKE) -C $${sm} $(MAKECMDGOALS) --ignore-errors; done
+for sm in $(sub_makes); do $(MAKE) -C $${sm} $@; done
 endef
 
+define run_all_makes_ignorant
+for sm in $(sub_makes); do $(MAKE) -C $${sm} $@ --ignore-errors; done
+endef
+
+$(default_goal) $(goals) :
+	$(run_all_makes)
 
 $(special_goals) :
 ifeq ($(MAKELEVEL), 0)
