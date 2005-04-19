@@ -12,7 +12,9 @@ includedir := $(prefix)/include
 
 Directories := $(includedir)
 
-makefiles := $(addprefix $(includedir)/, makefile_generic makefile_recursive)
+makefiles := $(addprefix $(includedir)/, $(shell ls makefile_*[!~]))
+
+all unoptimised optimised check test testop clean cleanall force : 
 
 prebuild : $(Directories) $(makefiles)
 
@@ -22,8 +24,6 @@ $(Directories) : % :
 $(makefiles) : $(includedir)/% : %
 	cp $< $@
 
-
-all unoptimised optimised check test testop clean cleanall force : 
 
 maintainer-clean :
 	rm $(makefiles)
