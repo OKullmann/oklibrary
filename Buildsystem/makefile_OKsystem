@@ -1,4 +1,4 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
 include Transitional/Buildsystem/makefile_standardgoals
-include Transitional/Buildsystem/makefile_recursive_nonincluded
+include Transitional/Buildsystem/makefile_recursive_noneincluded
