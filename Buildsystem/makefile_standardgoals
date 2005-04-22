@@ -1,0 +1,9 @@
+# Oliver Kullmann, 10.4.2005 (Swansea)
+
+special_goals := prebuild
+test_goals := test testop
+normal_goals := unoptimised optimised check
+cleaning_goals := clean cleanobj cleandep cleanhead cleanprograms cleanall maintainer_clean
+forced_goals := force
+
+.PHONY : $(special_goals) $(normal_goals) $(cleaning_goals) $(forced_goals)
