@@ -30,6 +30,16 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
+ifndef OKBuildsystem
+  ifdef OKBUILDSYSTEM
+    OKBuildsystem := $(OKBUILDSYSTEM)
+  else
+    $(error Either OKBuildsystem or OKBUILDSYSTEM must be defined!)
+  endif
+endif
+
+include $(OKBuildsystem)/makefile_standardgoals
+
 include makefile.definitions
 
 # Definitions required from makefile.definitions:
@@ -87,15 +97,13 @@ object_files_optimised := $(addprefix $(libdir)/, $(object_files_optimised))
 
 # ----------------------------------------------------------------
 
-.PHONY : prebuild all unoptimised optimised check clean cleanall force
-
 all : unoptimised optimised
 
 prebuild : $(Directories) $(header_files) 
 
-unoptimised : $(object_files) $(programs)
+unoptimised :$(programs)
 
-optimised : $(object_files_optimised) $(programs_optimised)
+optimised : $(programs_optimised)
 
 check : test testop
 
@@ -110,7 +118,7 @@ force :
 
 # ---------------------------------------------------------------
 
-ifeq ($(firstword $(filter prebuild clean cleanall force, $(MAKECMDGOALS))),)
+ifeq ($(firstword $(filter $(special_goals) $(cleaning_goals) $(forced_goals), $(MAKECMDGOALS))),)
 include $(dependency_files)
 endif
 
@@ -139,8 +147,6 @@ $(programs_optimised) : $(bindir)/% : $(libdir)/%.o
 
 # --------------------------------
 
-.PHONY : clean cleanobj cleandep cleanhead cleanprograms cleanall
-
 cleanobj :
 	- rm $(object_files) $(object_files_optimised)
 
@@ -156,5 +162,5 @@ cleanhead :
 cleanprograms :
 	- rm $(programs) $(programs_optimised)
 
-cleanall : clean cleanhead cleanprograms
+cleanall maintainer_clean : clean cleanhead cleanprograms
 
