@@ -1,11 +1,15 @@
-.PHONY : prebuild all unoptimised optimised check test testop clean cleanall force maintainer-clean
+srcdir := $(CURDIR)
+# PROBLEM: This should be the directory, where this makefile is located!
+# But it is the directory, where this makefile has been called.
 
-include makefile.definitions
+include $(srcdir)/makefile_standardgoals
+# PROBLEM: Does not work with remote calls ("i.e., make -f xxx").
+
+include $(srcdir)/makefile.definitions
+# SAME PROBLEM.
 
 # Definitions required from makefile.definitions:
 # Root
-
-srcdir := $(shell pwd)
 
 prefix := $(shell cd $(Root); pwd)
 includedir := $(prefix)/include
@@ -13,10 +17,11 @@ includedir := $(prefix)/include
 Directories := $(includedir)
 
 makefiles := $(addprefix $(includedir)/, $(shell ls makefile_*[!~]))
+makefile_oksystem := $(prefix)/OKsystem/makefile
 
-all unoptimised optimised check test testop clean cleanall force : 
+all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 
 
-prebuild : $(Directories) $(makefiles)
+prebuild : $(Directories) $(makefiles) $(makefile_oksystem)
 
 $(Directories) : % :
 	mkdir $@
@@ -24,6 +29,8 @@ $(Directories) : % :
 $(makefiles) : $(includedir)/% : %
 	cp $< $@
 
+$(makefile_oksystem) : makefile_OKsystem
+	cp $< $@
 
-maintainer-clean :
+maintainer_clean :
 	rm $(makefiles)
