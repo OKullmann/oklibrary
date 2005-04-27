@@ -1,25 +1,24 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-srcdir := $(CURDIR)
-# PROBLEM: This should be the directory, where this makefile is located!
-# But it is the directory, where this makefile has been called.
+define last-element
+$(word $(words $1),$1)
+endef
+srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
 include $(srcdir)/makefile_standardgoals
-# PROBLEM: Does not work with remote calls ("i.e., make -f xxx").
 
 include $(srcdir)/makefile.definitions
-# SAME PROBLEM.
 
 # Definitions required from makefile.definitions:
 # Root
 
-prefix := $(shell cd $(Root); pwd)
+prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 includedir := $(prefix)/include
 
 Directories := $(includedir)
 
-makefiles := $(addprefix $(includedir)/, $(shell ls makefile_*[!~]))
+makefiles := $(addprefix $(includedir)/, $(notdir $(shell ls $(srcdir)/makefile_*[!~])))
 makefile_oksystem := $(prefix)/OKsystem/makefile
 
 all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 
@@ -29,10 +28,10 @@ prebuild : $(Directories) $(makefiles) $(makefile_oksystem)
 $(Directories) : % :
 	mkdir $@
 
-$(makefiles) : $(includedir)/% : %
+$(makefiles) : $(includedir)/% : $(srcdir)/%
 	cp $< $@
 
-$(makefile_oksystem) : makefile_OKsystem
+$(makefile_oksystem) : $(srcdir)/makefile_OKsystem
 	cp $< $@
 
 maintainer_clean :
