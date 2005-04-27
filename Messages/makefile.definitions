@@ -29,7 +29,7 @@ Optimisation_options := -O3
 
 test_program := TestMessages
 
-programs := 
+programs := Messages_Testapplication
 
 source_libraries := $(Bibliothek) $(OKIOtools) $(Loki) $(Boost) 
 
