@@ -30,6 +30,15 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
+define last-element
+$(word $(words $1),$1)
+endef
+
+this-makefile := $(call last-element,$(MAKEFILE_LIST))
+other-makefiles := $(filter-out $(this-makefile),$(MAKEFILE_LIST))
+parent-makefile := $(call last-element,$(other-makefiles))
+srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
+
 ifndef OKBuildsystem
   ifdef OKBUILDSYSTEM
     OKBuildsystem := $(OKBUILDSYSTEM)
@@ -40,7 +49,7 @@ endif
 
 include $(OKBuildsystem)/makefile_standardgoals
 
-include makefile.definitions
+include $(srcdir)/makefile.definitions
 
 # Definitions required from makefile.definitions:
 # General_options
@@ -50,11 +59,9 @@ include makefile.definitions
 # link_libraries
 # Root
 
-srcdir := $(shell pwd)
-
 source_libraries += -I$(srcdir)
 
-prefix := $(shell cd $(Root); pwd)
+prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 
 exec_prefix := $(prefix)
 bindir := $(exec_prefix)/bin
