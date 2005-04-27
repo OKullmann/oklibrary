@@ -80,6 +80,8 @@ namespace ErrorHandling {
   }
 
   inline std::string Error2string(const std::exception& e, MessageHandling::Sprachen L = MessageHandling::English) {
+    // ToDo: Using message objects in new module "Messages"
+    // ToDo: Writing a concept and tests
     MessageHandling::Messages<AnzahlSprachen> M(Meldungen_Error, L);
     using namespace std;
     ostringstream o;
