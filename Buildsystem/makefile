@@ -1,3 +1,6 @@
+SHELL = /bin/sh
+.SUFFIXES :
+
 srcdir := $(CURDIR)
 # PROBLEM: This should be the directory, where this makefile is located!
 # But it is the directory, where this makefile has been called.
