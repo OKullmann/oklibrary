@@ -129,7 +129,11 @@ $(header_files) : $(includedir)/%.hpp : $(srcdir)/%.hpp
 	cp $< $@
 
 $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
-	$(CXX) -MM -MF $@ -MT $(bindir)/$* -MT $(bindir)/$*$(name_addition) -MT $(libdir)/$*.o -MT $@ $(source_libraries) $<
+	$(CXX) -MM $(source_libraries) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@.$$$$$$; \
+	sed 's,\($*\)\.o \(.*\)\.d [ :]*,\1.o \1$(name_addition).o \2.d : ,g' < $@.$$$$$$ > $@; \
+	rm $@.$$$$ $@.$$$$$$
+#	$(CXX) -MM -MF $@ -MT $(bindir)/$* -MT $(bindir)/$*$(name_addition) -MT $(libdir)/$*.o -MT $@ $(source_libraries) $<
 
 $(object_files_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
 	$(CXX) -c -o $@ $(Optimisation_options) $(source_libraries) $<
