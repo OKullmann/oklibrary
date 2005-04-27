@@ -1,4 +1,9 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
+define last-element
+$(word $(words $1),$1)
+endef
+srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
+
 include Transitional/Buildsystem/makefile_standardgoals
 include Transitional/Buildsystem/makefile_recursive_noneincluded
