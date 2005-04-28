@@ -1,5 +1,7 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
 
+#ToDo: Updating the following comments
+
 # Generic makefile, to be used in a general environment for C++
 # compilation
 
@@ -34,10 +36,14 @@ define last-element
 $(word $(words $1),$1)
 endef
 
+ifndef srcdir
+
 this-makefile := $(call last-element,$(MAKEFILE_LIST))
 other-makefiles := $(filter-out $(this-makefile),$(MAKEFILE_LIST))
 parent-makefile := $(call last-element,$(other-makefiles))
 srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
+
+endif
 
 ifndef OKBuildsystem
   ifdef OKBUILDSYSTEM
