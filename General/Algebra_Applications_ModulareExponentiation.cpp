@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
     return 1;
   }
 
-  const Int n_fixed = 3953; // TO IMPROVE: runtime determination of modulus!
+  const Int n_fixed = 91; // TO IMPROVE: runtime determination of modulus!
 
   std::cout << "modulus n = " << n_fixed << "\nbasis b = " << b << "\nexponent e = " << e << "\nResult = " << Algorithms::power_natural(Algebra::Z_mod_n<n_fixed, Int>(b), e) << "\n";
 }
