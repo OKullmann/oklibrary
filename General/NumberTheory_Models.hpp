@@ -14,6 +14,7 @@ namespace NumberTheory {
   // Euclidian algorithm
 
   // OK, 6.11.2004
+  // ToDO: Optional output of the euclidian sequence to a stream
   template <typename Int>
   struct Gcd : std::binary_function<Int, Int, Int> {
     Int operator() (Int a, Int b) const {
@@ -34,6 +35,7 @@ namespace NumberTheory {
   // Extended Euclidian algorithm
 
   // OK, 6.11.2004
+// ToDO: Optional output of the euclidian extension sequence to a stream
   template <typename Int>
   struct Gcd_extended :
     std::binary_function<Int, Int,
