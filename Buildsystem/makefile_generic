@@ -11,13 +11,13 @@
 # = make unoptimsed + make optimised
 
 # make unoptimised
-# creates all dependencies files, object files, header files and program files;
+# creates all dependencies files, object files, and program files;
 
 # make optimised
 # creates the same (names of object and program files modified), but using optimisation options;
 
-# make file.d, file.o, file.hpp, program 
-# creates the respective file;
+# make prebuild
+# creates all directories and header files
 
 # make check
 # = make test + make testop
@@ -28,6 +28,10 @@
 # make testop
 # recompiles the test program with optimisation if necessary, and runs the test if necessary.
 
+# make clean
+# = make cleanobj cleandep
+# make cleanall
+# = make clean cleanhead cleanprograms
 
 SHELL = /bin/sh
 .SUFFIXES :
@@ -55,15 +59,21 @@ endif
 
 include $(OKBuildsystem)/makefile_standardgoals
 
-include $(srcdir)/makefile.definitions
+include $(srcdir)/makefile.definitions.mak
 
 # Definitions required from makefile.definitions:
 # General_options
 # Optimisation_options
 # test_program
+# programs
 # source_libraries
 # link_libraries
 # Root
+
+# ToDo: Only Root should stay, while the rest is handled by
+# THIS makefile, inspecting its directory and all subdirectories,
+# and collecting the required information individually from
+# all .hpp and .cpp files by means of annotating files.
 
 source_libraries += -I$(srcdir)
 
@@ -172,5 +182,5 @@ cleanhead :
 cleanprograms :
 	- rm $(programs) $(programs_optimised)
 
-cleanall maintainer_clean : clean cleanhead cleanprograms
+cleanall : clean cleanhead cleanprograms
 

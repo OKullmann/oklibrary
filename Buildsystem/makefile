@@ -1,6 +1,8 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
+# Special makefile for the buildsystem
+
 define last-element
 $(word $(words $1),$1)
 endef
@@ -8,7 +10,7 @@ srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
 include $(srcdir)/makefile_standardgoals
 
-include $(srcdir)/makefile.definitions
+include $(srcdir)/makefile.definitions.mak
 
 # Definitions required from makefile.definitions:
 # Root
