@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+
+# Oliver Kullmann, 26.11.2001 (Swansea)
+
+# Verwendung:
+# newHash Zeichenkette Datei
+#
+# Haengt Zeichenkette an das Ende von Datei und verwendet dies als
+# Eingabe fuer MD5. Der Hashwert wird ausgegeben.
+
+use strict;
+
+if ($#ARGV != 1) {
+  die "FEHLER \"newHash\": Genau zwei Argument werden benoetigt, der Schluessel und die Datei!\n";
+}
+
+my $S = $ARGV[0];
+my $D = $ARGV[1];
+
+my $Hashprogramm = "HashMD5";
+# Voraussetzung: Im gleichen Verzeichnis wie newHash.plx
+
+! system("echo \'$S\' | cat $D - | $Hashprogramm") or die "FEHLER \"newHash\": Das Hashprogramm konnte nicht durchgefuehrt werden!\n";
+
+exit 0;
