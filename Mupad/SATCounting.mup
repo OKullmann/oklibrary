@@ -1,0 +1,50 @@
+/*
+
+Oliver Kullmann, 1.3.2005 (Swansea)
+
+*/
+
+lesenSATCounting := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/Mupad/SATCounting.mup")):
+
+
+/* -------------------------------- */
+
+minusatclauses := proc(k)
+  option remember;
+begin
+  return(2^k)
+end_proc:
+
+nclauses := proc(k,n) 
+  option remember;
+begin
+  return(binomial(n,k) * 2^k)
+end_proc:
+
+nusatstd := proc(c,k,n)
+  option remember;
+begin
+  return(_plus(nusat(i,k,n) * combinat::stirling2(c,i) * i! $ i=1..c))
+end_proc:
+
+probusatstd := proc(c,k,n)
+  option remember;
+begin
+  return(nusatstd(c,k,n) / nclauses(k,n)^c)
+end_proc:
+probsatstd := (c,k,n) -> 1 - probusatstd(c,k,n):
+
+percusatstd := (c,k,n) -> probusatstd(c,k,n) * 100.0:
+
+nusat := proc(c,k,n) 
+  option remember;
+begin
+  if c < minusatclauses(k) then return(0) end_if;
+  if c > nclauses(k,n) then return(0) end_if;
+  if n < k then return(0) end_if;
+  if n = k then return(1) end_if;
+  if c = minusatclauses(k) then return(binomial(n,k)) end_if; /* PROOF */
+  if c = nclauses(k,n) then return(1) end_if;
+  hold(nusat)(c,k,n)
+end_proc:
+

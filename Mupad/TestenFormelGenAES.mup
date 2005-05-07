@@ -1,0 +1,148 @@
+/* 
+
+Oliver Kullmann, 18.1.2002 (Swansea)
+
+Hilfsfunktionen zum Testen des Generators fuer AES-zufaellige Klauselmengen
+ACHTUNG: Muessen von mupad aufgerufen werden, NICHT von xmupad !!
+
+*/
+
+lesenTestFormelGenAES := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/Mupad/TestenFormelGenAES.mup")):
+
+
+/* -------------------------------- */
+
+/* benoetigt  Hilfsfunktionen.mup */
+
+
+/* AES als Block-Chiffre; Eingabe Schluessel und Block (als Nummer), Ausgabe verschluesselter Block (als Nummer) */
+
+AESBC := proc(S : Type::NonNegInt, Ein : Type::NonNegInt) local Max, SB, EB, Aufruf, i, ErgB, Erg; begin
+
+   Max := 340282366920938463463374607431768211455; /* = 2^128 - 1 */
+
+   if (S >= Max) or (Ein >= Max) then
+      error("Der maximale Eingabewert ist 2^128 - 1!")
+   end_if;
+
+   SB := revert(numlib::g_adic(S, 256));
+   SB := [ 0 $ 16 - nops(SB) ] . SB;
+   EB := revert(numlib::g_adic(Ein, 256));
+   EB := [ 0 $ 16 - nops(EB) ] . EB;
+
+   Aufruf := "/h/21/GemeinsameBasis/bin/Kryptologie/BlockChiffAES";
+   for i from 1 to 16 do
+      Aufruf := Aufruf . " " . int2text(SB[i])
+   end_for;
+   for i from 1 to 16 do
+      Aufruf := Aufruf . " " . int2text(EB[i])
+   end_for;
+   ErgB := SYSTEM(Aufruf);
+   Erg := [ text2int(ErgB[i], 16) $ i=1..16 ];
+   return(Zahl(revert(Erg), 256))
+end_proc:
+
+
+LiteralAES := proc(s : Type::NonNegInt, k : Type::NonNegInt, n : Type::PosInt, p : Type::PosInt, i : Type::NonNegInt) local A; begin
+
+   Max64 := 18446744073709551615; /* = 2^64 -1 */
+   Max31 := 2147483647;
+
+   if (s >= Max64) or (k >= Max64) or (i >= Max64) then
+      error("Der maximale Eingabewert fuer Schluessel, Formelnummer und Literalnummer ist 2^64 - 1!")
+   end_if;
+   if (n >= Max31) or (p >= Max31) then
+      error("Der maximale Eingabewert fuer Variablenzahl und Klausellaenge ist 2^31 - 1!")
+   end_if;
+
+   A := AESBC(s * 2^64 + k, n * 2^96 + p * 2^64 + i) mod (2 * n);
+   return(if A <= n - 1 then A+1 else -(A - (n-1)) end_if)
+end_proc:
+
+
+VLiteralAES := proc(s : Type::NonNegInt, k : Type::NonNegInt, n : Type::PosInt, d : Type::PosInt, p : Type::PosInt, i : Type::NonNegInt) local A; begin
+
+   Max64 := 18446744073709551615; /* = 2^64 -1 */
+   Max32 := 4294967295;
+
+   if (s >= Max64) or (i >= Max64) then
+      error("Der maximale Eingabewert fuer Schluessel und Literalnummer ist 2^64 - 1!")
+   end_if;
+   if (k >= Max32) or (n >= Max32) or (p >= Max32) or (d >= Max32) then
+      error("Der maximale Eingabewert fuer Formelnummer, Variablenzahl, Klausellaenge und Domaingroesse ist 2^32 - 1!")
+   end_if;
+   if (d <= 1) then
+      error("Die Domaingroesse muss mindestens 2 sein!")
+   end_if;
+
+   A := AESBC(s * 2^64 + (d-2) * 2^32 + k, n * 2^96 + p * 2^64 + i) mod (d * n);
+   return([(A mod n) + 1, (A div n) + 1])
+end_proc:
+
+
+KlauselmengeAES := proc(s : Type::NonNegInt, k : Type::NonNegInt, n : Type::PosInt, p : Type::PosInt, c : Type::NonNegInt) local F, C, i, j, l, v; begin
+
+   Max64 := 18446744073709551615; /* = 2^64 -1 */
+   Max32 := 4294967295;
+   Max31 := 2147483647;
+
+   if (s >= Max64) or (k >= Max64) then
+      error("Der maximale Eingabewert fuer Schluessel und Formelnummer ist 2^64 - 1!")
+   end_if;
+   if (n >= Max31) or (p >= Max31) then
+      error("Der maximale Eingabewert fuer Variablenzahl und Klausellaenge ist 2^31 - 1!")
+   end_if;
+   if (c >= Max32) then
+      error("Der maximale Eingabewert fuer die Klauselnanzahl ist 2^32 - 1!")
+   end_if;
+   if (p > n) then
+      error("Die Klausellaenge darf die Variablenzahl nicht ueberschreiten1!")
+   end_if;
+
+
+   F := [];
+   for i from 1 to c do
+      Var := [ $ 1..n ]; C := [];
+      for j from 1 to p do
+         l := LiteralAES(s, k, n - j + 1, p, (i-1) * p + j - 1);
+         v := Var[abs(l)]; delete(Var[abs(l)]);
+         C := C . [sign(l) * v]
+      end_for;
+      F := F . [C]
+   end_for;
+   return(F)
+end_proc:
+
+
+VKlauselmengeAES := proc(s : Type::NonNegInt, k : Type::NonNegInt, n : Type::PosInt, d : Type::PosInt, p : Type::PosInt, c : Type::NonNegInt) local F, C, i, j, l, v; begin
+
+   Max64 := 18446744073709551615; /* = 2^64 -1 */
+   Max32 := 4294967295;
+
+   if (s >= Max64) then
+      error("Der maximale Eingabewert fuer den Schluessel ist 2^64 - 1!")
+   end_if;
+   if (k >= Max32) or (n >= Max32) (d >= Max32) or (p >= Max32) or (c >= Max32) then
+      error("Der maximale Eingabewert fuer Formelnummer, Variablenzahl, Domaingroesse, Klausellaenge und Klauselnanzahl ist 2^32 - 1!")
+   end_if;
+   if (p > n) then
+      error("Die Klausellaenge darf die Variablenzahl nicht ueberschreiten1!")
+   end_if;
+  if (d <= 1) then
+      error("Die Domaingroesse muss mindestens 2 sein!")
+   end_if;
+
+   F := [];
+   for i from 1 to c do
+      Var := [ $ 1..n ]; C := [];
+      for j from 1 to p do
+         l := VLiteralAES(s, k, n - j + 1, d, p, (i-1) * p + j - 1);
+         v := Var[l[1]]; delete(Var[l[1]]);
+         C := C . [[v, l[2]]]
+      end_for;
+      F := F . [C]
+   end_for;
+   return(F)
+end_proc:
+
+

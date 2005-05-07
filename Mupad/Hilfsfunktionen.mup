@@ -1,0 +1,161 @@
+/* 
+
+Oliver Kullmann, 27.1.2002 (Swansea)
+
+Allgemeine Hilfsfunktionen
+
+*/
+
+lesenHilfsfunktionen := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/Mupad/Hilfsfunktionen.mup")):
+
+
+/* -------------------------------- */
+
+/* Normierter Modulus */
+
+NormMod := proc(x, m) begin
+   if not testtype(x, Type::Integer) or not testtype(m, Type::Integer) then 
+      error("Alle beiden Eingabe muessen ganze Zahlen sein!")
+   end_if;
+   if m <= 0 then
+      error("Der Modulus muss positiv sein!")
+   end_if;
+   x := x mod m;
+   if x > floor(m / 2) - 1 then
+      x := -(x - (floor(m / 2) - 1))
+   end_if;
+   return(x)
+end_proc:
+
+/* Sei r das Resultat: x kongruent r modulo m, floor(m/2) <= x <= ceil(m/2)-1 */
+
+/* Aufrufen eines System-Kommandos, und Rueckgabe der Ausgabe als Liste von Zeichenketten, wobei als Trenner beliebige Folgen von Leerzeichen fungieren */
+/* ACHTUNG: Funktioniert nur richtig von mupad aus, nicht aber von xmupad!!! */
+
+SYSTEM := proc(T) local A; begin
+   if not testtype(T, DOM_STRING) then
+      error("Das Argument muss eine Zeichenkette sein!")
+   end_if;
+   if (system(T . " | /h/21/GemeinsameBasis/bin/Werkzeuge/Anfuehrungszeichen.plx > ~/.mupad/Zwischenspeicher") <> 0) then
+      error("Fehler bei System-Kommando-Ausfuehrung!")
+   end_if;
+   A := import::readdata(".mupad/Zwischenspeicher", NonNested);
+/* Annahme: Das Basisverzeichnis von Mupad ist das Heimatverzeichnis. */
+   system("rm ~/.mupad/Zwischenspeicher");
+   return(A);
+end_proc:
+
+
+/* Berechnung der Zahl aus der Zahldarstellung L (Liste von Zahlen) zur Basis B,
+  wobei L[1] die niedrigwertigste Stelle ist */
+/* Falls 0 <= L[i] < B fuer alle i gilt, so ist Zahl(-, B) die Umkehrung von
+  numlib::g_adic(-, B). */
+
+Zahl := proc(L, B) local S, i, W; begin
+   if not testtype(L, DOM_LIST) then
+      error("Das erste Argument muss eine Liste sein!")
+   end_if;
+   if not testtype(B, Type::Integer) then
+      error("Das zweite Argument muss eine ganze Zahl sein!")
+   end_if;
+   S := 0;
+   W := 1;
+   for i from 1 to nops(L) do
+      S := S + L[i] * W;
+      W := W * B;
+   end_for;
+   return(S)
+end_proc:
+
+
+/* Untere und obere Fakultaeten */
+
+untfak := proc(x, k) begin
+  if not testtype(k, Type::Integer) then
+    error("Das zweite Argument muss eine ganze Zahl sein!")
+  end_if;
+  if k < 0 then
+    error("Das zweite Argument darf nicht negativ sein!")
+  end_if;
+  if k = 0 then
+    return(1)
+  end_if;
+  return(product(x - i, i = 0..k-1))
+end_proc:
+
+obfak := proc(x, k) begin
+  if not testtype(k, Type::Integer) then
+    error("Das zweite Argument muss eine ganze Zahl sein!")
+  end_if;
+  if k < 0 then
+    error("Das zweite Argument darf nicht negativ sein!")
+  end_if;
+  if k = 0 then
+    return(1)
+  end_if;
+  return(product(x + i, i = 0..k-1))
+end_proc:
+
+fac := x -> gamma(x+1):
+
+vuntfak := (z, k) -> limit(fac(z+x) / fac(z-k+x), x = 0):
+vbinom := proc(z, k) local res; begin
+ res := limit(limit(vuntfak(zs,ks) / fac(ks), ks = k), zs = z);
+ if res = undefined then
+  return(complexInfinity)
+ else
+  return(res)
+ end_if
+end_proc:
+
+/* Hadamard-Produkt mit 1-Erweiterung */
+
+ExtHad := proc(A,B) local T,ma,na,mb,nb,mmax,nmax; begin
+  T := domtype(A);
+  if domtype(B) <> domtype(A) then
+    error("Both inputs must be of the same type!")
+  end_if;
+
+  [ma,na] := linalg::matdim(A);
+  [mb,nb] := linalg::matdim(B);
+  mmax := max(ma,mb); nmax := max(na,nb);
+
+  if (ma < mmax) then
+    A := linalg::stackMatrix(A, T(mmax - ma, na, 1));
+    ma := mmax;
+  end_if;
+  if (na < nmax) then
+    A := A . T(ma, nmax - na, 1);
+  end_if;
+  if (mb < mmax) then
+    B := linalg::stackMatrix(B, T(mmax - mb, nb, 1));
+    mb := mmax;
+  end_if;
+  if (nb < nmax) then
+    B := B . T(mb, nmax - nb, 1);
+  end_if;
+
+  return(zip(A,B,_mult))
+end_proc:
+
+/* Matrix als Liste der Zeilenmatrizen */
+MatrixRowList := proc(M) local m,n; begin
+  [m,n] := linalg::matdim(M);
+  return([[M[i,j]$j=1..n]$i=1..m])
+end_proc:
+/* VERBESSERN */
+
+/* Zufallspermutation der Zeilen einer Matrix */
+RowPermutation := proc(M) local T; begin
+  T := domtype(M);
+  return(T(combinat::permutations::random(MatrixRowList(M))))
+end_proc:
+
+/* Anzahl der Nullen einer Matrix */
+ZeroesMatrix := proc(M) local m,n; begin
+  [m,n] := linalg::matdim(M);
+  return(m * n - linalg::nonZeros(M))
+end_proc:
+
+transpose := (M) -> ((domtype(M))::transpose(M)):
+

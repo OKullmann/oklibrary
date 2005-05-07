@@ -1,0 +1,1790 @@
+/*
+
+Oliver Kullmann, 30.12.2001 (Swansea)
+Funktionen fuer metrische Vektorraeume und
+Klauseln-Variablen-Matrizen 
+
+*/
+
+lesenOrthogonal := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/Mupad/Orthogonal.mup")):
+
+
+/* -------------------------------- */
+
+ErzQR := n -> (Dom::SquareMatrix(n, Dom::Rational)):
+
+
+/* erzeugen einer quadratischen Matrix ueber den rationalen Zahlen */
+
+/* Beispiele fuer die Anwendung:
+
+(ErzQR(5))() = 5x5-Nullmatrix
+
+(ErzQR(2))([[1,2],[3,4]]) = (1 2 \\ 3 4)
+laut Spezifikation waeren unvollstaendige Angaben moeglich, scheint aber
+nicht so zu sein
+
+(ErzQR(5))::one = 5x5-Einheitsmatrix
+
+(ErzQR(5))((i,j) -> 2) = (2)_{i,j}
+
+(ErzQR(5))([1,2,3], Diagonal) = Diagonalmatrix mit Eintraegen 1,2,3
+
+(ErzQR(7))(i -> i^2, Diagonal) = Diagonalmatrix mit 1^2, 2^2, ..., 7^2
+
+Ist A eine quadratische Matrix der Dimension n, so kann A in die Klasse
+"(Dom::SquareMatrix(n, Dom:Rational))" mittels
+
+A := coerce(A, ErzQR(n))
+
+eingetragen werden.
+
+Allgemeines zu Matrizen:
+
+Ist A eine Matrix, so kann die Spur mit
+
+A::dom::tr(A)
+
+berechnet werden (mit "A::dom" werden die zu A gehoerigen Methoden angesprochen,
+"tr(A)" ist dann ein Aufruf einer solchen Funktion)
+
+Mit
+
+linalg::isHermitean(A)
+
+kann eine Matrix auf die Eigenschaft, Hermite'sch zu sein, getestet
+werden (fuer rationale Matrizen ist dies die Eigenschaft Symmetrie),
+wobei jedoch A eine quadratische Matrix sein muss.
+
+Die Dimension einer Matrix A kann mit
+
+linalg::matdim(A)
+
+herausfinden (eine Liste mit zwei Eintraegen, Zeilen- und Spaltenzahl).
+Es sind leider keine leeren Matrizen moeglich.
+
+Moechte man zu einer Matrix A alle Elemente absolutieren, so erreicht man dies
+mit
+
+map(A, abs)
+
+*/
+
+/* ----------------------------------------------------------- */
+
+/* Tests fuer Matrizen */
+
+NullMatrix := proc(A) begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then return(FALSE) end_if;
+   return(_and(map(op(A), x -> bool(x=0))))
+end_proc:
+/* Boolesche Funktion: Wahr, wenn das Argument eine Null-Matrix ist. */
+
+ist_quadratisch := proc(A) begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then error("Eingabe muss eine Matrix sein!") end_if;
+   [Z, S] := linalg::matdim(A);
+   return(bool(Z=S))
+end_proc:
+
+
+NichtNullElement := proc(A) local i, j, Z, S; begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then return(NIL) end_if;
+   [Z, S] := linalg::matdim(A);
+   for i from 1 to Z do
+      for j from 1 to S do
+         if A[i,j] <> 0 then return([i, j]) end_if
+      end_for
+   end_for;
+   return(NIL)
+end_proc:
+/* falls die Eingabe eine Matrix ist, die ein Nicht-Null-Element hat, dann
+wird fuer das erste solche (von links nach rechts, von oben nach unten)
+die Position ausgegeben; andernfalls ist die Ausgabe NIL */
+
+
+hatNullSpalte := proc(A) begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then return(FALSE) end_if;
+   return(_or(op(map(linalg::col(A, 1..linalg::ncols(A)), x -> NullMatrix(x)))))
+end_proc:
+/* Boolesche Funktion: Wahr, wenn das Argument eine Matrix ist, die 
+   eine Null-Spalte hat. */
+
+
+hatidentZeilen := proc(A) local Z, i, j, S; begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then return(FALSE) end_if;
+   Z := linalg::nrows(A);
+   for i from 1 to Z-1 do
+      S := linalg::row(A, i);
+      for j from i+1 to Z do
+	 if S = linalg::row(A, j) then
+	    return(TRUE)
+	 end_if
+      end_for
+   end_for;
+   return(FALSE)
+end_proc:
+/* Boolesche Funktion: Wahr, wenn das Argument eine Matrix ist, die 
+   zwei identische Zeilen hat. */
+
+hatNullDiagonale := proc(A) local i; begin
+   if not ist_quadratisch(A) then
+     error("Eingabe muss eine quadratische Matrix sein!")
+   end_if;
+   A := coerce(A, Dom::Matrix());
+   Z := linalg::nrows(A);
+   for i from 1 to Z do
+     if A[i,i] <> 0 then
+       return(FALSE)
+     end_if
+   end_for;
+   return(TRUE)
+end_proc;
+
+   
+/* ----------------------------------------------------------- */
+
+/* Verknuepfungen fuer Matrizen */
+
+VBlockDiagMatrix := proc() local m, a, i, Z, S, A, SR, SL, Erg;  begin
+   m := args(0);
+   if m = 0 then return(NIL) end_if;
+   if testtype(args(m), Type::Rational) then
+      if m = 1 then return(NIL) end_if;
+      a := coerce(args(m), Dom::Rational);
+      m := m - 1;
+   else
+      a := 0
+   end_if;
+   if m = 1 then return(args(1)) end_if;
+   Z := array(1..m); S := array(1..m); A := array(1..m);
+   for i from 1 to m do
+      A[i] := coerce(args(i), Dom::Matrix());
+      if A[i] = FAIL then
+         error("Eingabe muss eine Folge von Matrizen sein!")
+      end_if;
+      [Z[i], S[i]] := linalg::matdim(A[i]);
+   end_for;
+   SR := _plus(op(S)) - S[1];
+   Erg := A[1] . (a * EinsMatrix(Z[1], SR));
+   SL := S[1];
+   for i from 2 to m-1 do
+      SR := SR - S[i];
+      Erg := linalg::stackMatrix(Erg, (a * EinsMatrix(Z[i], SL)) . A[i] . (a * EinsMatrix(Z[i], SR)));
+      SL := SL + S[i]
+   end_for;
+   linalg::stackMatrix(Erg, (a * EinsMatrix(Z[m], SL)) . A[m])
+end_proc:
+
+/* Verallgemeinerte Block-Diagonalmatrix:
+   Zu einer Eingabe A_1, ..., A_m, alpha,
+   wobei die A_i Matrizen sein muessen, und alpha eine rationale Zahl,
+   wird die Block-Diagonalmatrix mit A_1, ..., A_m in der Diagonalen
+   erstellt, und dann werden die "Fuell-Nullen" mit alpha ersetzt.
+   Falls alpha fehlt, wird alpha als Null angesetzt.
+   Falls m = 0, so wird NIL ausgegeben, und falls m = 1, so wird
+   A_1 ausgegeben (ohne Veraenderung, ohne Test).
+   Das Ergebnis ist vom Typ Dom::Matrix() (sonst koennte man nicht beliebige
+   Matrizen einsetzen --- da der Ergebnistyp von "stackMatrix" vom Typ
+   des ersten Argumentes ist, werden (anscheinend) die Typ-Schwierigkeiten
+   mit dem Konkatenationsoperator "." ignoriert).
+*/  
+
+
+wedge := proc(A, B, c, L, checked) local ma,na,mb,nb,T,domn,cod,v,w,type_a,C,m_new,n_new,i,j,js,R,diff; begin
+/* A, B : matrices
+   c : row index of A
+   L : list of pair [v,w], v column index of A, w column index of B,
+       with the meaning, that columns v and w shall be identified;
+       the list must yield a partial bijektion, and for the column
+       indices v of A the entry in row c of A must be zero.
+*/
+  [ma,na] := linalg::matdim(A);
+  [mb,nb] := linalg::matdim(B);
+  if not (1 <= c and c <= ma) then
+    error("The third argument must be a row index of the first argument!")
+  end_if;
+  T := table(); domn := {}; cod := {};
+  for p in L do
+    v := p[1]; w := p[2];
+    if checked then
+      if contains(cod, v) or contains(domn, w) then
+        error("The fourth argument must yield a partial bijection between column indices of the first two arguments!")
+      end_if
+    end_if;
+    cod := cod union {v}; domn := domn union {w};
+    T[w] := v;
+  end_for;
+  if checked then
+    for v in cod do
+      if A[c,v] <> 0 then
+        error("The row c must not contain any entry where an identification happens!")
+      end_if
+    end_for
+  end_if;
+  type_a := domtype(A);
+  C := linalg::submatrix(A,[c],[$1..na]);
+  m_new := ma + mb - 1;
+  for i from 1 to mb do
+    A := linalg::stackMatrix(A, C);
+  end_for;
+  A := linalg::delRow(A, c);
+  diff := nb - nops(domn);
+  if diff <> 0 then
+    n_new := na + diff;
+    A := A . type_a(m_new, diff);
+  end_if;
+  js := na + 1;
+  for j from 1 to nb do
+    R := linalg::submatrix(B,[$1..mb],[j]);
+    if contains(domn, j) then
+      A := linalg::substitute(A, R, ma, T[j])
+    else
+      A := linalg::substitute(A, R, ma, js);
+      js := js + 1
+    end_if
+  end_for;
+  return(A)
+end_proc:
+
+
+rand_wedge := proc(A, B, k, checked) local R,allowed_nonzeros,i,j,nonzeros,good,c,Z,VA,VB,L; begin
+/* randomised wedge; k is the number of variables to be identified between
+   A and B.
+*/
+  [ma,na] := linalg::matdim(A);
+  [mb,nb] := linalg::matdim(B);
+  if not k >= 0 then
+    error("The number of variables to be identified (the third parameter) must be nonnegative!")
+  end_if;
+  if not (k <= na) then
+    error("The number of variables to be identified is not compatible with the first argument!")
+  end_if;
+  if not (k <= nb) then
+    error("The number of variables to be identified is not compatible with the second argument!")
+  end_if;
+
+  if k = 0 then R := [$1..ma]
+  else
+    R := []; /* rows of A eligible for the wedge */
+    allowed_nonzeros := na - k;
+    for i from 1 to ma do
+      nonzeros := 0;
+      good := TRUE;
+      for j from 1 to na do
+        if A[i,j] <> 0 then
+          nonzeros := nonzeros + 1;
+          if nonzeros > allowed_nonzeros then
+            good := FALSE; break
+          end_if
+        end_if
+      end_for;
+      if good then R := append(R, i) end_if
+    end_for;
+    if nops(R) = 0 then return(FAIL) end_if
+  end_if;
+  c := R[random(1..nops(R))()];
+  
+  Z := []; /* zero columns in row c */
+  for j from 1 to na do
+    if A[c,j] = 0 then Z := append(Z,j) end_if
+  end_for;
+  VA := ZufallsTeilmenge(nops(Z),k);
+  VB := combinat::permutations::random(ZufallsTeilmenge(nb,k));
+  L := [];
+  for i from 1 to k do
+    L := append(L, [Z[VA[i]], VB[i]])
+  end_for;
+  return(wedge(A,B,c,L,checked))
+end_proc:
+
+/* ------------------------------------------------------- */
+
+/* Hilfsmittel fuer pm- und Klausel-Variablen-Matrizen */
+
+pmMatrix := proc(A) begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then return(FALSE) end_if;
+   return(_and(map(op(coerce(A, Dom::Matrix())), x -> contains({-1,0,1},x))))
+end_proc:
+/* Boolesche Funktion: Wahr, wenn das Argument eine pm-Matrix ist (d.h.,
+   nur Eintraege in {-1, 0, +1} hat). */
+/* Es ist dann auch [1,2,3] eine pm-Matrix, da dies als Spaltenvektor
+   interpretiert wird (deshalb muss A erstmal mittels der Funktion
+   "coerce" in eine "konkrete" Matrix umgewandelt werden). */
+
+KVMatrix := A -> if pmMatrix(A) then not (hatNullSpalte(A) or hatidentZeilen(A)) else FALSE end_if:
+/* Boolesche Funktion: Wahr, wenn das Argument eine Klauseln-Variablen-Matrix
+   ist. */
+
+
+VollVerklebung := proc(A, B) begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then error("Eingabe 1 muss eine Matrix sein!") end_if;
+   B := coerce(B, Dom::Matrix());
+   if B = FAIL then error("Eingabe 2 muss eine Matrix sein!") end_if;
+   VBlockDiagMatrix(A, B) . coerce([[-1] $ linalg::nrows(A), [+1] $ linalg::nrows(B)], Dom::Matrix())
+end_proc:
+
+
+Konfliktmatrix := proc(A) local AA, Ab; begin
+   A := coerce(A, Dom::Matrix());
+   if A = FAIL then error("Eingabe muss eine Matrix sein!") end_if;
+   AA := map(A, abs);
+   Ab := 1/2 * (AA * AA::dom::transpose(AA) - A * A::dom::transpose(A));
+   coerce(Ab, ErzQR(linalg::ncols(Ab)))
+end_proc:
+/* Eingabe ist eine Klauseln-Variablen-Matrix, Ausgabe ist die
+   zugehoerige Konfliktmatrix */
+
+Positivteil := proc(A) local Z, S, i, j; begin
+  [Z, S] := linalg::matdim(A);
+  for i from 1 to Z do
+    for j from 1 to S do
+      if A[i,j] < 0 then A[i,j] := 0
+      end_if
+    end_for
+  end_for;
+  return(A)
+end_proc:
+Negativteil := proc(A) local Z, S, i, j; begin
+  [Z, S] := linalg::matdim(A);
+  for i from 1 to Z do
+    for j from 1 to S do
+      if A[i,j] > 0 then A[i,j] := 0
+      end_if
+    end_for
+  end_for;
+  return(A)
+end_proc:
+
+gerichteteKonfliktmatrix := A -> - Positivteil(A) * linalg::transpose(Negativteil(A)):
+
+/* ----------------------------------------------------------- */
+
+Einsetzung := proc(phi, M) local c, n, i, j; begin
+   M := coerce(M, Dom::Matrix());
+   if M = FAIL then error("Eingabe 2 muss eine Matrix sein!") end_if;
+   [c, n] := linalg::matdim(M);
+   M := map(M, sign);
+   phi := coerce(phi, Dom::Matrix());
+   if linalg::matdim(phi) <> [n,1] then ("Eingabe 1 muss ein Vektor sein, der zur Matrix passt!") end_if;
+   phi := map(phi, sign);
+   i := 1;
+   while i <= c do /* Entfernung erfuellter Klauseln */
+     for j from 1 to n do
+       if M[i,j] * phi[j] = 1 then
+         M := linalg::delRow(M, i);
+         c := c - 1; i := i - 1;
+         break
+       end_if
+     end_for;
+     i := i + 1
+   end_while;
+   if c = 0 then return(TRUE) end_if;
+   j := 1;
+   while j <= n do /* Entfernung der gesetzten Variablen */
+     if phi[j] <> 0 then
+       M := linalg::delCol(M, j);
+       phi := linalg::delRow(phi, j);
+       n := n - 1
+     else
+       j := j + 1
+     end_if
+   end_while;
+   if n = 0 then return(FALSE)
+   else return(M) end_if
+end_proc:
+
+/* ----------------------------------------------------------- */
+
+
+/* Eingabe ist eine symmetrische Matrix mit rationalen Eintraegen, Ausgabe
+   ist der Positivitaets-, Negativitaets- und Null-Index der Matrix. */
+
+PNNIndices := proc(A) local Z, S, Z1, dummy, i, a, pos, neg, null; begin
+   A := coerce(A, Dom::Matrix(Dom::Rational));
+   if A = FAIL then
+      error("Eingabe muss eine rationale Matrix sein!")
+   end_if;
+   [Z, S] := linalg::matdim(A);
+   if Z <> S then
+      error("Eingabe muss eine quadratische Matrix sein!")
+   end_if;
+   [pos, neg, null] := [0, 0, 0];
+   while Z > 1 do
+      Z1 := A::dom::row(A, 1);
+      if Z1 <> linalg::transpose(A::dom::col(A,1)) then
+         error("Eingabe muss eine symmetrische Matrix sein!")
+      end_if;
+      dummy := NichtNullElement(Z1);
+      if dummy <> NIL then
+         i := dummy[2];
+         if i >= 2 then
+            A := linalg::addCol(A, i, 1, 1);
+	    A := linalg::addRow(A, i, 1, 1)
+         end_if;
+	 if A[1,1] = 0 then
+            /* Alternative: in diesem Fall von Anfang an nicht obige
+               Operation durchfuehren, sondern Zeile/Spalte 1 mit 
+               Zeile/Spalte i austauschen --- auf diese Weise gelangt
+               A[i,i] nach A[1,1], wobei in diesem Fall A[1,1] garantiert ist.
+            */
+            A := linalg::addCol(A, i, 1, 1);
+	    A := linalg::addRow(A, i, 1, 1)
+         end_if;
+         for i from 2 to Z do
+            a := - A[1, i] / A[1, 1];
+            A := linalg::addCol(A, 1, i, a);
+	    A := linalg::addRow(A, 1, i, a)
+         end_for
+      end_if;
+      case sign(A[1,1])
+         of -1 do neg := neg + 1; break
+         of  0 do null := null + 1; break
+         of +1 do pos := pos + 1; break
+      end_case;
+      A := linalg::delCol(A, 1);
+      A := linalg::delRow(A, 1);
+      Z := Z - 1
+   end_while;
+   case sign(A[1,1])
+      of -1 do return([pos, neg+1, null])
+      of  0 do return([pos, neg, null+1])
+      of +1 do return([pos+1, neg, null])
+   end_case
+end_proc:
+
+herm := proc(A) local pnn; begin
+  pnn := PNNIndices(A);
+  return(max(pnn[1], pnn[2]))
+end_proc:
+
+hermKV := proc(F) begin
+  if (F = FALSE) or (F = TRUE) then
+    return(0)
+  else
+    return(herm(Konfliktmatrix(F)))
+  end_if
+end_proc:
+
+
+/* ----------------------------------------------------------- */
+
+/* Spezielle Matrizen */
+
+EinsMatrix := (n, m) -> Dom::Matrix(Dom::Rational)(n, m, (i,j) -> 1):
+
+QEinsMatrix := n -> ErzQR(n)((i,j) -> 1):
+
+EMEMatrix := n -> QEinsMatrix(n) - (ErzQR(n))::one:
+/* Eins-Matrix minus Einheits-Matrix */
+
+GEMEMatrix := proc(n, l, m) local A; begin
+   A := l * EMEMatrix(n);
+   A[1,n] := m;
+   A[n,1] := m;
+   return(A)
+end_proc:
+/* Gestoerte l * EME-Matrix mit m rechts oben  */
+
+Winkler := r -> (Dom::SquareMatrix(r+2))((i,j) -> if i = j then 0 elif (i <= r) and (j <= r) then 2 else 1 end_if);
+
+ZufallsMatrix := proc(n, u, o) local A, i, j, r, s; begin
+   A := (ErzQR(n))();
+   r := random(u..o);
+   for i from 1 to n-1 do
+     for j from i + 1 to n do
+       s := r();
+       A[i,j] := s;
+       A[j,i] := s
+     end_for
+   end_for;
+   return(A)
+end_proc:
+/* Symmetrische Zufallsmatrix: Diagonale 0, sonst von u bis o. */
+
+ZufallsKVMatrix := proc(c, n) local A, i, j, r; begin
+   A := Dom::Matrix(Dom::Rational)(c,n);
+   r := random(-1..+1);
+   for i from 1 to c do
+     for j from 1 to n do
+       A[i,j] := r()
+     end_for
+   end_for;
+   return(A)
+end_proc:
+
+ZufallsTeilmenge := proc(n, k) local L1, L2, i, j, r; begin
+  L1 := [$1..n];
+  L2 := [];
+  for i from n downto n-k+1 do
+    r := random(1..i);
+    j := r();
+    L2 := append(L2, L1[j]);
+    delete L1[j]
+   end_for;
+  return(L2)
+end_proc:
+
+StdZufallsKVMatrix := proc(c, n, p) local A, i, j, rVorz, v; begin
+  A := Dom::Matrix(Dom::Rational)(c,n);
+  rVorz := random(0..1);
+  for i from 1 to c do
+    v := ZufallsTeilmenge(n,p);
+    for j from 1 to p do
+      A[i,v[j]] := rVorz()*2-1
+    end_for
+  end_for;
+  return(A)
+end_proc:
+     
+
+RotationR := proc(L) local A, letztes; begin
+   if not testtype(L, DOM_LIST) then
+      error("Eingabe muss eine Liste sein!")
+   end_if;
+   if L =  [] then return([]) else
+      A := nops(L);
+      letztes := L[A]; delete L[A];
+      return([letztes] . L)
+   end_if
+end_proc:
+
+/* rotiert eine Liste um eine Position nach rechts */
+
+
+StdZyk := proc(n) local Z, A, i; begin
+   if not testtype(n, Type::Integer) then
+      error("Eingabe muss eine ganze Zahl sein!")
+   end_if;
+   if n <= 1 then
+      error("Eingabe muss mindestens 2 sein!")
+   end_if;
+   Z := [-1, 1] . [0 $ n-2];
+   A := [];
+   for i from 1 to n do
+      A := append(A, Z);
+      Z := RotationR(Z)
+   end_for;
+   (ErzQR(n))(A)
+end_proc:
+
+/* Standard-Zyklen-Matrix */
+
+
+ZeroDefektNotMSAT := (c, cred, p) -> linalg::stackMatrix(StdZufallsKVMatrix(cred, cred - 1, p) . Dom::Matrix(Dom::Rational)(cred, c - cred + 1), StdZufallsKVMatrix(c - cred, c, p)):
+
+/* ----------------------------------------------------------- */
+
+/* Spezielle Klauseln-Variablen-Matrizen */
+
+CVmatrix := proc(X) begin
+  return(Dom::Matrix(Dom::Rational)(X))
+end_proc:
+
+
+MUSAT1 := proc(n) local i; begin
+/* randomly generates all clause-variables matrices up to isomorphism */
+/* (What does "all" mean here?!) */
+  if not n >=1 then
+    error("The number of variables must be >= 1.")
+  end_if;
+  F := CVmatrix([[-1],[1]]);
+  return(ISingExt(F,1,0.5,0.5,n-1,FALSE,FALSE))
+end_proc:
+
+SMUSAT1 := proc(n) local i; begin
+/* randomly generates all clause-variables matrices up to isomorphism */
+/* (What does "all" mean here?!) */
+  if not n >=1 then
+    error("The number of variables must be >= 1.")
+  end_if;
+  F := CVmatrix([[-1],[1]]);
+  return(ISingExt(F,1,1,1,n-1,FALSE,FALSE))
+end_proc:
+
+MMUSAT1 := proc(n) local i; begin
+/* randomly generates all clause-variables matrices up to isomorphism */
+/* (What does "all" mean here?!) */
+  if not n >=1 then
+    error("The number of variables must be >= 1.")
+  end_if;
+  F := CVmatrix([[-1],[1]]);
+  return(ISingExt(F,1,0.5,0,n-1,FALSE,FALSE))
+end_proc:
+
+UHITS := proc(a,b,k) begin
+/* creates randomly an unsatisfiable hitting clause-set (of a special form)
+   with a + b - k variables and a + b + 1 clauses (and thus a deficiency of
+   k + 1).
+*/
+  if not a >= 1 then
+    error("The first argument must be >= 1.")
+  end_if;
+  if not b >= 1 then
+    error("The second argument must be >= 1.")
+  end_if;
+  return(rand_wedge(SMUSAT1(a), SMUSAT1(b), k, FALSE))
+end_proc:
+
+UHIT2S := proc(a,b) begin
+  return(UHITS(a,b,1))
+end_proc:
+
+MUSAT2 := proc(n) local A; begin
+/* generates the non-singular ones */
+   A := StdZyk(n);
+   B := Dom::Matrix(Dom::Rational)(2, n, [[-1 $ n],[1 $ n]]);
+   linalg::stackMatrix(A, B)
+end_proc:
+
+
+AKNF := proc(n) begin
+   if not testtype(n, Type::Integer) then
+      error("Eingabe muss eine ganze Zahl sein!")
+   end_if;
+   if n <= 0 then
+      error("Eingabe muss mindestens 1 sein!")
+   end_if;
+   Dom::Matrix(Dom::Rational)(2^n, n, [op(combinat::cartesian({-1,1} $ n))])
+end_proc:
+
+
+SatuHorn := proc(n) local A, i; begin
+   if not testtype(n, Type::Integer) then
+      error("Eingabe muss eine ganze Zahl sein!")
+   end_if;
+   if n <= 0 then
+      error("Eingabe muss mindestens 1 sein!")
+   end_if;
+   A := [];
+   for i from 1 to n do
+      A := append(A, [-1 $ i-1, 1])
+   end_for;
+   Dom::Matrix(Dom::Rational)(n+1, n, append(A, [-1 $ n]))
+end_proc:
+
+PHP := proc(m, n) local A, i, j, k, l; begin
+  if not (testtype(m, Type::Integer) and testtype(n, Type::Integer)) then
+    error("Eingaben muessen ganze Zahlen sein!")
+  end_if;
+  if m <= 0 then
+    error("Die Anzahl der Kugeln muss positiv sein.")
+  end_if;
+  if n <= 0 then
+    error("Die Anzahl der Faecher muss positiv sein.")
+  end_if;
+  A := Dom::Matrix(Dom::Rational)(m + n * binomial(m, 2), m * n);
+  k := 1;
+  for i from 1 to m do
+    for j from 1 to n do
+      A[i, k] := 1; k := k + 1;
+    end_for
+  end_for;
+  l := m + 1;
+  for i from 1 to n do
+    for j1 from 1 to m - 1 do
+      for j2 from j1+1 to m do
+        A[l, i + (j1 - 1) * n] := -1;
+        A[l, i + (j2 - 1) * n] := -1;
+        l := l + 1
+      end_for
+    end_for
+  end_for;
+  return(A)
+end_proc:
+
+Full := proc(F) local m,n; begin
+  [m,n] := linalg::matdim(F);
+  return(bool(linalg::nonZeros(F) = m * n))
+end_proc:
+
+
+/* ----------------------------------------------------------- */
+
+/* Resolution */
+
+/* Resolvent */
+Resolvent := proc(C,D) local m,n,i,R,clashes; begin
+  [m,n] := linalg::matdim(C);
+  if m <> 1 then
+    error("The first argument must be a matrix with exactly one row.")
+  end_if;
+  if [m,n] <> linalg::matdim(D) then
+    error("The second argument must be a matrix with the same dimension as the first argument.")
+  end_if;
+  R := matrix(1,n,0);
+  clashes := 0;
+  for i from 1 to n do
+    if C[1,i] = 0 or C[1,i] = D[1,i] then
+      R[1,i] := D[1,i]
+    elif D[1,i] = 0 then
+      R[1,i] := C[1,i]
+    else
+      clashes := clashes + 1
+    end_if
+  end_for;
+  if clashes <> 1 then return(FAIL)
+  else return(R)
+  end_if
+end_proc:
+
+/* DP-Resolution */
+DPuncontracted := proc(F,v) local m,n,P,N,i,j,R,elimR; begin
+/* F : clause-set
+   v : variable
+Result: DP_v(F) (no checks for contractions)
+*/
+  /* if not KVMatrix(F) then
+    error("The first argument must be a clause-variable matrix (all entries in -1,0,+1, no zero columns, no identical rows)!");
+  end_if;
+  */
+  [m,n] := linalg::matdim(F);
+  if not (v >= 1 and v <= n) then
+    error("The second variable must be the index of a variable occurring in the clause-set!");
+  end_if;
+  P := []; /* list of positive occurrences of v */
+  N := []; /* list of negative occurrences of v */
+  for i from 1 to m do
+    if F[i,v] = 1 then P := append(P,i)
+    elif F[i,v] = -1 then N := append(N,i)
+    end_if
+  end_for;
+  for i in P do
+    for j in N do
+      R := Resolvent(linalg::submatrix(F, [i], [$1..n]), linalg::submatrix(F, [j], [$1..n]));
+      if R <> FAIL then
+        F := linalg::stackMatrix(F,R)
+      end_if
+    end_for
+  end_for;
+  elim_R := P . N;
+  if nops(elim_R) = linalg::nrows(F) then
+    return(SATISFIABLE) /* the empty clause-set */
+  else
+    F := linalg::delRow(F, P . N);
+  end_if;
+  if n = 1 then
+    return(UNSATISFIABLE) /* the clause-set containing just the empty clause */
+  else
+    return(linalg::delCol(F, v))
+  end_if
+end_proc:
+
+/* Singular DP-Resolution (randomised) */
+SingDPuncontracted := proc(F) local m,n,S,i,j,singular,pos,neg,l; begin
+  [m,n] := linalg::matdim(F);
+  S := []; /* list of singular variables */
+  for j from 1 to n do
+    pos := 0; neg := 0;
+    singular := TRUE;
+    for i from 1 to m do
+      if F[i,j] > 0 then 
+        pos := pos + 1
+      elif F[i,j] < 0 then 
+        neg := neg + 1
+      end_if;
+      if pos >= 2 and neg >= 2 then singular := FALSE; break end_if
+    end_for;
+    if singular then S := append(S,j) end_if
+  end_for;
+  l := nops(S);
+  if l = 0 then return(FAIL)
+  else
+    return(DPuncontracted(F,S[random(1..l)()]))
+  end_if
+end_proc:
+
+/* Iterated singular DP-Resolution (randomised) */
+ISingDPuncontracted := proc(F) local Fnew; begin
+  repeat
+    if F = SATISFIABLE or F = UNSATISFIABLE then return(F) end_if;
+    Fnew := SingDPuncontracted(F);
+    if Fnew = FAIL then return(F) end_if;
+    F := Fnew
+  until 0=1 end_repeat;
+  return(F)
+end_proc:
+
+
+/* Non-degenerated singular extension (randomised) */
+SingExt := proc(M, k, p, q, nonempty) local m,n,C,A,i,j,pos,neg,Pos,Neg,success,constant,element,d,la; begin
+/* M : clause-variable matrix
+   k : number of negative occurrences of new variable
+   p : probability of inclusion of a literal in the clause containing the new variable positively
+   q : probability of inclusion for the choice literals in the clauses containing the new variable negatively
+   p = 1 and q = 1 : saturated extension
+   p arbitrary and q = 0: marginal extension
+*/
+  if not KVMatrix(M) then
+    error("The first argument must be a clause-variable matrix (all entries in -1,0,+1, no zero columns, no identical rows)!");
+  end_if;
+  if not (k >= 1) then
+    error("The second argument (the number of negative occurrences of the new variables) must be at least 1.");
+  end_if;
+
+  [m,n] := linalg::matdim(M);
+  if not (k <= m) then
+    error("The second argument (the number of negative occurrences of the new variables) must not be greater than the number of rows!");
+  end_if;
+  if not (p >= 0 and p <= 1) then
+    error ("The third argument (the probability of inclusion for a literal from the intersection into the new clause containing the positive occurrence of the new variable) must be a probability (a real number between 0 and 1)!");
+  end_if;
+  if not (q >= 0 and q <= 1) then
+    error ("The fourth argument (the probability of inclusion for a choice literal into the clauses containing the negative occurrences of the new variable) must be a probability (a real number between 0 and 1)!");
+  end_if;
+
+  A := []; /* list of variables in the intersection */
+  if not nonempty then
+    C := ZufallsTeilmenge(m, k); /* clause-indices */
+  else
+    /* M := RowPermutation(M); */
+    V := combinat::permutations::random([$1..n]);
+    for v in V do
+      pos := 0; neg := 0;
+      Pos := []; Neg := [];
+      success := FALSE;
+      for i from 1 to m do
+        if M[i,v] = +1 then
+          pos := pos + 1; Pos := append(Pos,i);
+          if pos = k then 
+            C := Pos; success := TRUE; break
+          end_if;
+        elif M[i,v] = -1 then
+          neg := neg + 1; Neg := append(Neg,i);
+          if neg = k then 
+            C := Neg; success := TRUE; break
+          end_if;
+        end_if
+      end_for;
+      if success then break end_if
+    end_for;
+    if not success then return(FAIL) end_if
+  end_if;
+  for j from 1 to n do
+    element := M[C[1],j]; if element = 0 then next end_if;
+    constant := TRUE;
+    for i from 2 to k do
+      if M[C[i],j] <> element then 
+        constant := FALSE;
+        break
+      end_if
+    end_for;
+    if constant then A := append(A, j) end_if
+  end_for;
+
+  la := nops(A);
+  X := []; /* list of variables to be included */
+  if la = 1 then
+    X := A
+  else
+    for i in A do
+      if frandom() <= p then X := append(X,i) end_if
+    end_for;
+    if nops(X) = 0 and nonempty then
+      X := A[random(1..la)()]
+    end_if
+  end_if;
+
+  AltM := Dom::Matrix(Dom::Rational)(m,n,1); /* alteration-matrix */
+  AltM := AltM . Dom::Matrix(Dom::Rational)(m,1,0);
+  AltM := linalg::stackMatrix(AltM, Dom::Matrix(Dom::Rational)(1,n+1,0));
+  AltM[m+1,n+1] := +1;
+  for i from 1 to k do
+    AltM[C[i], n+1] := -1;
+  end_for;
+  for i in X do
+    AltM[m+1, i] := M[C[1],i]
+  end_for;
+  for i in C do
+    for j in X do
+      if frandom() > q then
+        AltM[i, j] := 0;
+      end_if
+    end_for
+  end_for;
+
+  return(ExtHad(M, AltM));
+  end_proc:
+
+
+/* Iterated non-degenerated singular extensions (randomised) */
+ISingExt := proc(M, k, p, q, N, nonempty, monitor) local i; begin
+  for i from 1 to N do
+    M := SingExt(M,k,p,q,nonempty);
+    if M = FAIL then
+      return(i)
+    end_if;
+    if monitor then
+      print(NoNL,i, "")
+    end_if
+  end_for;
+  if monitor then
+    print()
+  end_if;
+  return(M)
+end_proc:
+
+/* ----------------------------------------------------------- */
+
+
+eigensharp := proc(A) begin
+/* for clause-variable matrices */
+   A := coerce(A, Dom::Matrix());
+   if not pmMatrix(A) then
+      error("Eingabe muss eine Matrix mit Eintraegen aus -1,0,+1 sein!")
+   end_if;
+   return(bool(linalg::ncols(A) = herm(Konfliktmatrix(A))))
+end_proc:
+
+blinearlean := proc(A) begin
+   A := coerce(A, Dom::Matrix());
+   if not pmMatrix(A) then
+      error("Eingabe muss eine Matrix mit Eintraegen aus -1,0,+1 sein!")
+   end_if;
+   return(bool(linalg::ncols(A) = linalg::rank(A)))
+end_proc:
+/* is balanced linearly lean */
+
+hitting_matrix := (M) -> bool(linalg::nrows(M) = ZeroesMatrix(M)):
+/* for conflict matrices */
+
+hitting := proc(M) local m,n; begin
+/* input a clause-variable matrix */
+  M := coerce(M, Dom::Matrix());
+  return(hitting_matrix(Konfliktmatrix(M)))
+end_proc:
+
+/* ------------------------------------------------------------ */
+
+/* Abstandsmatrizen */
+
+istAbstandsmatrix := proc(A) local Z, i,j,k; begin
+   A := coerce(A, Dom::Matrix());
+   if not hatNullDiagonale(A) then
+      return(FALSE)
+   end_if;
+   if not linalg::isHermitean(A) then
+     error("Eingabematrix muss symmetrisch sein!")
+   end_if;
+   Z := linalg::nrows(A);
+   for i from 1 to Z-1 do
+     for j from i+1 to Z do
+       if A[i,j] <= 0 then
+         return(FALSE)
+       end_if;
+       for k from 1 to Z do
+         if A[i,j] > A[i,k] + A[k,j] then
+           return(FALSE)
+         end_if
+       end_for
+     end_for
+   end_for;
+   return(TRUE)
+end_proc:
+      
+UeberschussMatrix := proc(A, k) begin
+   A := coerce(A, Dom::Matrix());
+   if not ist_quadratisch(A) then
+     error("Eingabe muss eine quadratische Matrix sein!")
+   end_if;
+   A := (Dom::SquareMatrix(linalg::nrows(A)))((i,j) -> A[i,k] + A[k,j] - A[i,j]);
+   A := linalg::delCol(A, k);
+   A := linalg::delRow(A, k);
+   return(A)
+end_proc:
+
+VergleichIndices := proc(A) begin
+   return (PNNIndices(A), PNNIndices(UeberschussMatrix(A,1)))
+end_proc:
+
+/* ---------------------------------------------------------------------- */
+
+/* Vorzeichen-Funktionen */
+
+dsign := proc(x, y) begin
+  if sign(x) * sign(y) = -1 then 
+    return(1)
+  else
+    return(0)
+  end_if
+end_proc:
+
+VorzAlt := proc(P) local d, i, alt, calt, cneu; begin
+  P := poly(P);
+  if P = FAIL then
+    error("Eingabe muss in ein Polynom konvertierbar sein!")
+  end_if;
+  if nops(op(P,2)) <> 1 then
+    error("Eingabe muss ein Polynom in einer Unbestimmten sein!")
+  end_if;
+  d := nterms(P);
+  if d <= 1 then return(0) end_if;
+  alt := 0;
+  calt := nthcoeff(P,1);
+  for i from 1 to d-1 do
+    cneu := nthcoeff(P,i+1);
+    alt := alt + dsign(calt, cneu);
+    calt := cneu
+  end_for;
+  return(alt)
+end_proc:
+
+VorzAltNeg := proc(P) local d, i, alt, calt, cneu; begin
+  P := poly(P);
+  if P = FAIL then
+    error("Eingabe muss in ein Polynom konvertierbar sein!")
+  end_if;
+  if nops(op(P,2)) <> 1 then
+    error("Eingabe muss ein Polynom in einer Unbestimmten sein!")
+  end_if;
+  d := nterms(P);
+  if d <= 1 then return(0) end_if;
+  alt := 0;
+  calt := nthmonomial(P,1)(-1);
+  for i from 1 to d-1 do
+    vorz := vorz * (-1);
+    cneu := nthmonomial(P,i+1)(-1);
+    alt := alt + dsign(calt, cneu);
+    calt := cneu
+  end_for;
+  return(alt)
+end_proc:
+
+/* ---------------------------------------------------------------------- */
+
+/* Zu Hypergraphen (speziell exakter Transversal-Hypergraphen) */
+
+Teilmenge := (A, B) -> bool(nops(_intersect(A, B)) = nops(A)):
+/* TRUE gdw A Teilmenge von B */
+
+Symm_Teilmenge := proc(A, B) local a, b, d; begin
+  a := nops(A); b := nops(B); d := nops(A intersect B);
+  if a <= b then
+    if d = a then return(1) end_if
+  else
+    if d = b then return(2) end_if
+  end_if;
+  return(0)
+end_proc:
+/* 1 falls A Teilmenge B
+   2 falls B Teilmenge A (sonst)
+   0 sonst
+*/
+
+sub_min_l := proc(A) local m, i, j; begin
+  A := coerce(A, DOM_LIST);
+  A := sort(A, (x, y) -> bool(nops(x) < nops(y)));
+  m := nops(A);
+  i := 1;
+  while (i < m) do
+    j := i + 1;
+    repeat
+      if Teilmenge(A[i], A[j]) then
+        delete A[j]; m := m - 1
+      else
+        j := j + 1
+      end_if
+    until j > m end_repeat;
+    i := i + 1
+  end_while;
+  return(A)
+end_proc:
+/* Eingabe Mengensystem A
+   Ausgabe Liste der minimalen Elemente von A (bzgl. Subsumption)
+*/
+
+sub_min := (A) -> coerce(sub_min_l(A), DOM_SET);
+/* Eingabe Mengensystem A
+   Ausgabe Menge der minimalen Elemente von A (bzgl. Subsumption)
+*/
+
+ist_sub_min := proc(A) local m, i, j; begin
+  A := coerce(A, DOM_LIST);
+  A := sort(A, (x, y) -> bool(nops(x) < nops(y)));
+  m := nops(A);
+  for i from 1 to m do
+    for j from i + 1 to m do
+      if Teilmenge(A[i], A[j]) then
+        return(FALSE)
+      end_if
+    end_for
+  end_for;
+  return(TRUE)
+end_proc:
+/* ist_sub_min = bool(sub_min(A) = A) */
+
+streichen := proc(V, M) local i; begin
+  M := coerce(M, DOM_LIST);
+  for i from 1 to nops(M) do
+    M := subsop(M, i = M[i] minus V)
+  end_for;
+  return(coerce(M, DOM_SET))
+end_proc:
+/* Eingabe Menge V, Mengensystem M
+   Ausgabe {X - V : X in M}
+*/
+
+hinzufuegen := proc(V, M) local i; begin
+  M := coerce(M, DOM_LIST);
+  for i from 1 to nops(M) do
+    M := subsop(M, i = M[i] union V)
+  end_for;
+  return(coerce(M, DOM_SET))
+end_proc:
+/* Eingabe Menge V, Mengensystem M
+   Ausgabe {X + V : X in M}
+*/
+
+streichen_bedingt := proc(H, M, v) local m, i; begin
+  M := coerce(M, DOM_LIST);
+  m := nops(M);
+  i := 1;
+  while (i <= m) do
+    if contains(M[i], v) then
+      delete M[i]; m := m - 1
+    else
+      M := subsop(M, i = M[i] minus H);
+      i := i + 1
+    end_if
+  end_while;
+  return (coerce(M, DOM_SET))
+end_proc:
+/* Eingabe Mengensystem M, Element v, Menge H
+   Ausgabe {X - H : X in M und v not in X}
+*/
+
+union_S := M -> _union(op(M)):
+
+star := (M, x) -> select(M, (A) -> contains(A, x)):
+
+ist_exakt_transversal := proc(M) local H, v; begin
+  for H in M do
+    for v in H do
+      if union_S(star(M, v)) intersect union_S(sub_min(streichen_bedingt(H, M, v))) <> {} then
+        return(FALSE)
+      end_if
+    end_for
+  end_for;
+  return(TRUE)
+end_proc:
+
+Transversals_exakt := proc(M) local v; begin
+  if M = {} then return({{}})
+  elif contains(M, {}) then return({})
+  else 
+    v := M[1][1];
+    return(Transversals_exakt(streichen({v}, M)) union hinzufuegen({v}, Transversals_exakt(streichen_bedingt(M[1], M, v))))
+  end_if
+end_proc:
+
+enthaelt_disjunkt := proc(M) local m, i, j; begin
+  m := nops(M);
+  ausgeschieden := [FALSE$m];
+  for i from 1 to m do
+    if ausgeschieden[i] then next end_if;
+    for j from i+1 to m do
+      if j = i then next end_if;
+      if (M[i] intersect M[j]) <> {} then
+        ausgeschieden[j] := TRUE;
+        break
+       end_if
+    end_for;
+    if j = m+1 then return(TRUE) end_if
+  end_for;
+  return(FALSE)
+end_proc:
+
+ist_speziell_exakt_transversal := proc(M) begin
+  if not ist_sub_min(M) then return(1)
+  elif not ist_exakt_transversal(M) then return(2)
+  elif not (enthaelt_disjunkt(M) or enthaelt_disjunkt(Transversals_exakt(M))) then return(3)
+  else return(0)
+  end_if
+end_proc:
+
+Transversals := proc(M) local l, H, TR, T, x; begin
+  if (nops(M) = 0) then return({{}}) end_if;
+  M := coerce(M, DOM_LIST);
+  l := nops(M);
+  H := M[l]; delete M[l];
+  TR := Transversals(M);
+  return(sub_min([(T union {x} $ x in H) $ T in TR]))
+end_proc:
+
+ist_schneidend := proc(M) local i, j, H1; begin
+  l := nops(M);
+  for i from 1 to l do
+    H1 := M[i];
+    if nops(H1) = 0 then return(FALSE) end_if;
+    for j from i+1 to l do
+      if nops(H1 intersect M[j]) = 0 then return(FALSE) end_if
+    end_for
+  end_for;
+  return(TRUE)
+end_proc:
+
+Durchschnittsmatrix := proc(H) local l, D, i, j, d; begin
+  l := nops(H);
+  D := (ErzQR(l))();
+  for i from 1 to l do
+    D[i,i] := nops(H[i]);
+    for j from i+1 to l do
+      d := nops(H[i] intersect H[j]);
+      D[i,j] := d; D[j,i] := d
+    end_for
+  end_for;
+  return(D)
+end_proc:
+
+ZweiFaerbbarkeit := proc(HG) local m, n, M, i, i2, H, j; begin
+  m := nops(HG);
+  n := max(op(union_S(HG)));
+  M := Dom::Matrix(Dom::Rational)(2 * m,n);
+  i2 := 1;
+  for i from 1 to m do
+    H := HG[i];
+    for j in H do
+      M[i2,j] := 1; M[i2+1,j] := -1
+    end_for;
+  i2 := i2 + 2
+  end_for;
+  return(M)
+end_proc:
+
+arith_prog := proc(m, n) local i; begin
+  if (n < m) then return({}) 
+  else
+    return(arith_prog(m, n-1) union { { n - d * i $ i = 0..m-1 } $ d = 1..floor((n-1)/(m-1)) })
+  end_if
+end_proc:
+/* Ausgabe ist das Mengensystem aller arithmetischen Progressionen der Laenge m der Menge {1, ..., n}. */
+
+ramsey_symmetrisch := proc(q,r,n) begin
+  return([coerce(combinat::subsets(T,r), DOM_SET) $ T in combinat::subsets(n,q)])
+end_proc:
+/* Ausgabe ist der Hypergraph H_R(q,r,n) gemaess "BuchKombinatorik" */
+
+TRAP := (m,n) -> Transversals(arith_prog(m,n)):
+TRAPD := proc(m,n) local T; begin
+  T := TRAP(m,n);
+  return([nops(T), ist_schneidend(T)])
+end_proc:
+
+TRAR := (q,r,n) -> Transversals(ramsey_symmetrisch(q,r,n)):
+TRARD := proc(q,r,n) local T; begin
+  T := TRAR(q,r,n);
+  return([nops(T), ist_schneidend(T)])
+end_proc:
+
+KTRAP := proc(m) local n, TR, s, nap; begin
+  if m <= 2 then return("Trivial.") end_if;
+  n := m;
+  TR := [ {x} $ x = 1..n ];
+  s := false;
+  print(n, n, s);
+  repeat
+    n := n+1;
+    nap := [ { n - i * d $ i = 0..m-1 } $ d = 1..floor((n-1) / (m-1)) ];
+    for H in nap do
+      TR := sub_min_l([(T union {x} $ x in H) $ T in TR])
+    end_for;
+    s := ist_schneidend(TR);
+    print(n, nops(TR), s)
+  until s end_repeat
+end_proc:
+/* Ausgabe von n, Anzahl der Kanten in Tr(arith_prog(m,n)) und ob dieser
+   Hypergraph schneident ist oder nicht; Abbruch, wenn schneidend (dann
+   ist n die van-der-Waerden-Zahl W(2,m)).
+*/
+
+DMAP := (m,n) -> Durchschnittsmatrix(arith_prog(m,n)):
+CPAP := (m,n) -> linalg::charpoly(DMAP(m,n), x):
+
+TEGPAAP := proc(m, n, N) local F, i, phi, F2; begin
+  F := ZweiFaerbbarkeit(arith_prog(m,n));
+  for i from 1 to N do
+    phi := ZufallsKVMatrix(n, 1);
+    F2 := Einsetzung(phi, F);
+    if not eigensharp(F2) then
+      print("GEGENBEISPIEL"); print(F, phi); return(F2)
+    end_if
+  end_for;
+  return(N)
+end_proc:
+
+/* ---------------------------------------------------------------------- */
+
+/* Graphen */
+
+Adjazenzmatrix := proc(G) local n, A, L, i, e; begin
+  n := nops(Network::vertex(G));
+  A := (ErzQR(n))();
+  L := op(Network::eWeight(G));
+  for i from 1 to nops(L) do
+    e := L[i];
+    [x,y] := lhs(e);
+    A[x,y] := rhs(e)
+  end_for;
+  return(A)
+end_proc:
+
+VollMultipartit := proc(L) local s,EL,ps,i,p,q; begin
+  s := _plus(L[i] $ i=1..nops(L));
+  EL := [];
+  ps := 1;
+  for i from 1 to nops(L) do
+    for p from ps to ps + L[i] - 1 do
+      for q from 1 to s do
+        if q < ps or q >= ps + L[i] then
+          EL := append(EL, [p,q])
+        end_if
+      end_for
+    end_for;
+    ps := ps + L[i];
+  end_for;
+  return(Network::new([i$i=1..s], EL))
+end_proc:
+
+NetworkFromAdj := proc(A) local m,n,V,E,Ew,i,j; begin
+/* Interpretes A as the adjacency matrix of a weighted directed graph */
+  [m,n] := linalg::matdim(A);
+  if m <> n then
+    error("The matrix must be square!")
+  end_if;
+  V := [$1..n];
+  E := []; Ew := [];
+  for i from 1 to n do
+    for j from 1 to n do
+      if A[i,j] <> 0 then
+        E := append(E, [i,j]);
+        Ew := append(Ew, A[i,j])
+      end_if
+    end_for
+  end_for;
+  return(Network::new(V, E, Eweight = Ew))
+end_proc:
+
+/* ---------------------------------------------------------------------- */
+
+
+
+Experiment1 := proc(n,u,o,N) local dpos, dneg, dnull, v, i, A; begin
+   for i from 1 to N do
+     A := ZufallsMatrix(n,u,o);
+     v := VergleichIndices(A);
+     [dpos,dneg,dnull] := [v[1][1]-v[2][2], v[1][2]-v[2][1], v[1][3]-v[2][3]];
+     if (dpos < 0) or (dpos > 1) then
+       print(v); print(A); return("AUSNAHME POS");
+     elif (dneg < 0) or (dneg > 1) then
+       print(v); print(A); return("AUSNAHME NEG");
+     elif (dnull < -1) or (dnull > 1) then
+       print(v); print(A); return("AUSNAHME NULL");
+     end_if;
+   end_for;
+   return("Bestaetigt.")
+end_proc:
+
+Experiment2 := proc(n,u,o,N) local pos, neg, null, i, A; begin
+   for i from 1 to N do
+     A := ZufallsMatrix(n,u,o);
+     [pos,neg,null] := PNNIndices(A);
+     if (pos > neg) then
+       print(A); print(pos); print(neg); print(null);
+       return("Beispiel gefunden!")
+     end_if;
+   end_for;
+   return("Bestaetigt.")
+end_proc:
+
+Experiment3 := proc(c,n,N) local F, eigen, i; begin
+   eigen := 0; bll:= 0;
+   for i from 1 to N do
+      F := ZufallsKVMatrix(c,n);
+      if eigensharp(F) then 
+         eigen := eigen + 1;
+         if not blinearlean(F) then print(F); return("Gebenbeispiel gefunden!") end_if
+      end_if
+   end_for;
+   print("Eigensharp: ", eigen);
+   return("Bestaetigt.")
+end_proc:
+
+/* Es gibt fuer h(F) >= 2 immer eine Variable v, so dass in beiden
+   Zweigen h abnimmt. */
+/* Falsch */
+Experiment4 := proc(c,n,N) local F, halt, hneu, i, j, phi; begin
+  for i from 1 to N do
+    F := ZufallsKVMatrix(c,n);
+    halt := hermKV(F);
+    if halt <= 1 then next end_if;
+    gefunden := FALSE;
+    for j from 1 to n do
+      phi := Dom::Matrix(Dom::Rational)(n,1);
+      for eps in [-1,1] do
+        phi[j] := eps;
+        hneu := hermKV(Einsetzung(phi, F));
+        if hneu > halt then
+          print(F, j, eps); return("THEORIE FALSCH!")
+        else if hneu = halt then break end_if end_if;
+      end_for;
+      if (eps = 1) and (hneu < halt) then
+        gefunden := TRUE
+      end_if
+    end_for;
+    if not gefunden then
+      print("Gebenbeispiel gefunden!"); return(F)
+    end_if
+  end_for;
+  print("Kein Gebenbeispiel gefunden."); return(TRUE)
+end_proc:
+
+/* Es gibt fuer h(F) >= 2 immer eine Variable v, fuer die h in mindestens
+   einem Zweig abnimmt. */
+/* Vielleicht wahr. */
+Experiment5 := proc(c,n,N) local F, halt, hneu, i, j; begin
+  for i from 1 to N do
+    F := ZufallsKVMatrix(c,n);
+    halt := hermKV(F);
+    if halt <= 1 then next end_if;
+    gefunden := FALSE;
+    for j from 1 to n do
+      phi := Dom::Matrix(Dom::Rational)(n,1);
+      for eps in [-1,1] do
+        phi[j] := eps;
+        hneu := hermKV(Einsetzung(phi, F));
+        if hneu > halt then
+          print(F, j, eps); return("THEORIE FALSCH!")
+        else if hneu < halt then 
+          gefunden := TRUE; break end_if
+        end_if
+      end_for;
+      if gefunden then break end_if
+    end_for;
+    if not gefunden then
+      print("Gegenbeispiel gefunden!"); return(F)
+    end_if
+  end_for;
+  print("Kein Gegenbeispiel gefunden."); return(TRUE)
+end_proc:
+
+/* Fuer h(F) >= 2 und jede Variable nimmt h in einem Zweig ab. */
+/* Falsch */
+Experiment6 := proc(c,n,N) local F, halt, hneu, i, j, gefunden, nimmt_ab; begin
+  for i from 1 to N do
+    F := ZufallsKVMatrix(c,n);
+    halt := hermKV(F);
+    if halt <= 1 then next end_if;
+    nimmt_ab := TRUE;
+    for j from 1 to n do
+      phi := Dom::Matrix(Dom::Rational)(n,1);
+      gefunden := FALSE;
+      for eps in [-1,1] do
+        phi[j] := eps;
+        hneu := hermKV(Einsetzung(phi, F));
+        if hneu > halt then
+          print(F, j, eps); return("THEORIE FALSCH!")
+        else if hneu < halt then 
+          gefunden := TRUE; break end_if
+        end_if
+      end_for;
+      if not gefunden then nimmt_ab := FALSE; break end_if
+    end_for;
+    if not nimmt_ab then
+      print("Gegenbeispiel gefunden!"); return([F, j])
+    end_if
+  end_for;
+  print("Kein Gegenbeispiel gefunden."); return(TRUE)
+end_proc:
+
+/* Suche nach einem einfachen exakten Transversal-Mengenhypergraphen M,
+   so dass sowohl der Kantengraph von M als auch der von Tr(M) keinen
+   isolierten Knoten enthaelt.
+*/
+Experiment7 := proc(n) local g, M, Z; begin
+  Z := 0;
+  g := combinat::subsets::generator(coerce(combinat::subsets::list(n), DOM_SET));
+  M := g();
+  while (M <> FAIL) do
+    if ist_sub_min(M) and ist_exakt_transversal(M) then 
+      Z := Z + 1;
+      if not enthaelt_disjunkt(M) then
+        if not enthaelt_disjunkt(Transversals_exakt(M)) then
+          print("Gegenbeispiel gefunden!"); return(M)
+        end_if
+      end_if
+    end_if;
+    M := g()
+  end_while;
+  print("Kein Gegenbeispiel gefunden."); return(Z)
+end_proc:
+
+/* Bestaetige Berechnung der drei Indices mittels Vorzeichenwechsel
+   des charakteristischen Polynoms.
+*/
+Experiment8 := proc(n,u,o,N) local pos, neg, null, i, A; begin
+   for i from 1 to N do
+     A := ZufallsMatrix(n,u,o);
+     [pos,neg,null] := PNNIndices(A);
+     P := linalg::charpoly(A,x);
+     if VorzAlt(P) <> pos then
+       print("Gegenbeispiel fuer Positivitaetsindex gefunden!");
+       return(A);
+     elif VorzAltNeg(P) <> neg then
+       print("Gegenbeispiel fuer Negativitaetsindex gefunden!");
+       return(A);
+     elif ldegree(P) <> null then
+       print("Gegenbeispiel fuer Nullindex gefunden!");
+       return(A);
+     end_if
+   end_for;
+   print("Kein Gegenbeispiel gefunden.");
+   return(N)
+end_proc:
+
+/* Suche nach einer (Multi-)Klauselmenge F mit Defekt 0, die rangscharf
+   ist, aber nicht Zuordnungs-erfuellbar.
+*/
+
+Experiment9 := proc(c, cred, p, N) local i, A, S, r; begin
+  S := 0;
+  for i from 1 to N do
+    A := gerichteteKonfliktmatrix(ZeroDefektNotMSAT(c, cred, p));
+    r := linalg::rank(A); S := S + r;
+    if linalg::rank(A) = c then
+      print("Beispiel gefunden fuer (Multi-)Klauselmenge F mit Defekt 0, die rangscharf ist, aber nicht Zuordnungs-erfuellbar!");
+      return(A);
+    end_if
+  end_for;
+   print("Kein Beispiel gefunden.");
+   return(S / N + 0.0)
+end_proc:
+
+/* Suche nach einer MUSAT_{delta=2}-Klauselmenge, deren Ausreduzierung
+   bzgl. singulaerer DP-Resolution verschiedene H_n's liefert.
+   19.2.2005
+*/
+
+Experiment10 := proc(n, k, p, q, e, N) local F,i,E,R,z,s; begin
+  F := MUSAT2(n);
+  for i from 1 to N do
+    print(NoNL,i, " ");
+    E := ISingExt(F, k, p, q, e,TRUE,TRUE);
+    if testtype(E, DOM_INT) then
+      print("Extension stopped at level", E);
+      return(E)
+    end_if;
+    R := ISingDPuncontracted(E);
+    [z,s] := linalg::matdim(R);
+    if z - s <> 2 then
+      print("Fehler irgendwo!");
+      return([E,R])
+    elif s <> n then
+      print("Gegenbeispiel gefunden!");
+      return([E,R])
+    end_if;
+  end_for;
+  print("Kein Gegenbeispiel gefunden.");
+end_proc:
+
+/* Wie Experiment 10, diesmal aber mit minimal unerfuellbaren PHP
+   beginnend.
+   19.2.2005
+*/
+
+Experiment11 := proc(n, k, p, q, e, N) local F,i,E,R,z,s; begin
+  F := ISingDPuncontracted(PHP(n+1,n));
+  [m0,n0] := linalg::matdim(F);
+  d0 := m0 - n0;
+  print(m0,n0,d0);
+  for i from 1 to N do
+    print(NoNL, i, ": ");
+    E := ISingExt(F, k, p, q, e,TRUE,TRUE);
+    if testtype(E, DOM_INT) then
+      print("Extension stopped at level", E);
+      return(E)
+    end_if;
+    R := ISingDPuncontracted(E);
+    [z,s] := linalg::matdim(R);
+    if z - s <> d0 then
+      print("Fehler irgendwo!");
+      return([E,R])
+    elif s <> n0 then
+      print("Unterschiedliche Variablenzahl!");
+      return([E,R])
+    end_if;
+  end_for;
+  print("Kein Gegenbeispiel gefunden.");
+end_proc:
+
+/* Wie Experiment 10, diesmal aber mit AKNF beginnend.
+   19.2.2005
+*/
+
+Experiment12 := proc(n, k, p, q, e, N) local F,i,E,R,z,s; begin
+  F := ISingDPuncontracted(AKNF(n));
+  [m0,n0] := linalg::matdim(F);
+  d0 := m0 - n0;
+  print(m0,n0,d0);
+  for i from 1 to N do
+    print(NoNL, i, ": ");
+    E := ISingExt(F, k, p, q, e,TRUE,TRUE);
+    if testtype(E, DOM_INT) then
+      print("Extension stopped at level", E);
+      return(E)
+    end_if;
+    R := ISingDPuncontracted(E);
+    [z,s] := linalg::matdim(R);
+    if z - s <> d0 then
+      print("Fehler irgendwo!");
+      return([E,R])
+    elif s <> n0 then
+      print("Unterschiedliche Variablenzahl!");
+      return([E,R])
+    elif not Full(R) then
+      print("Ergebniss nicht voll!");
+      return([E,R])
+    end_if;
+  end_for;
+  print("Kein Gegenbeispiel gefunden.");
+end_proc:
+
+/* Von H_2 oder H_3 aus begonnene saturierte Erweiterungen sind alle Treff?
+   19.2.2005 (nein)
+*/
+
+Experiment13 := proc(k, e, N) local F,i,E; begin
+  F := MUSAT2(2);
+  print("n = 2");
+  for i from 1 to N do
+    print(NoNL,i, ": ");
+    E := ISingExt(F, k, 1, 1, e,TRUE,TRUE);
+    if testtype(E, DOM_INT) then
+      print("Extension stopped at level", E);
+      return(E)
+    end_if;
+    if not hitting(E) then
+      print("Gegenbeispiel gefunden zu n = 2");
+      return(E)
+    end_if;
+  end_for;
+/*
+  F := MUSAT2(3);
+  print("n = 3");
+  for i from 1 to N do
+    print(NoNL,i, " ");
+    E := ISingExt(F, k, 1, 1, e,TRUE,TRUE);
+    if testtype(E, DOM_INT) then
+      print("Extension stopped at level", E);
+      return(E)
+    end_if;
+    if not hitting(E) then
+      print("Gegenbeispiel gefunden zu n = 3");
+      return(E)
+    end_if;
+  end_for;
+*/
+  print("Kein Gegenbeispiel gefunden.");
+end_proc:
+
+PNNIndicesMusat2 := proc(n,k,p,q,e) local E,mn,nn; begin
+  E := ISingExt(MUSAT2(n),k,p,q,e,TRUE,TRUE);
+  [mn,nn] := linalg::matdim(E);
+  return([mn,nn,PNNIndices(Konfliktmatrix(E))])
+end_proc:
+
+/* Gibt es eigenscharfe saturierte MUSAT_{delta=2}, die nicht Treff sind?!
+   19.2.2005
+*/
+
+Experiment14 := proc(n, k, e, N) local F,i,E,eigen; begin
+  F := MUSAT2(n);
+  eigen := 0;
+  for i from 1 to N do
+    print(NoNL,i, ": ");
+    E := ISingExt(F, k, 1, 1, e, TRUE,TRUE);
+    if testtype(E, DOM_INT) then
+      print("Extension stopped at level", E);
+      return(E)
+    end_if;
+    if eigensharp(E) then 
+      eigen := eigen + 1;
+      if not hitting(E) then
+        print("Gegenbeispiel gefunden (eigenscharf aber nicht treff)!");
+        return(E)
+      end_if
+    elif hitting(E) then
+      print("Gegenbeispiel gefunden (nicht eigenscharf aber treff)!");
+      return(E)
+    end_if
+  end_for;
+  print("Kein Gegenbeispiel gefunden.");
+  print(eigen, "eigenscharfe (und Treff) Klauselmengen gefunden von", N);
+end_proc:
+
+eigensharp_test := proc(a,b) local F; begin
+  F := UHIT2S(a,b);
+  if F = FAIL then return(NIL) end_if;
+  if not(eigensharp(F) and hitting(F)) then
+    return(F)
+  else return(TRUE)
+  end_if
+end_proc:
+  
+/* Find a non-eigensharp hitting clause-set
+   20.2.2005
+*/
+Experiment15 := proc(a, b, k, N) local i,F; begin
+  for i from 1 to N do
+    print(NoNL, i, "");
+    F := UHITS(a,b,k);
+    if F = FAIL then next end_if;
+    if not eigensharp(F) then
+      print("Gegenbeispiel gefunden!");
+      return(F)
+    end_if
+  end_for;
+  print("Kein Gegenbeispiel gefunden.");
+  return(N)
+end_proc:
+
+/* Von den nicht-eigenscharfen unerfuellbaren Treffklauselmengen
+   vom Defekt zwei bestimme den Index.
+   20.2.2005
+*/
+Experiment16 := proc(a, b, N) local i,F,eigen,neigen,e_index2,e_index3,ne_index2,ne_index3,Fr,n,Nw; begin
+  eigen := 0; neigen := 0; e_index2 := 0; e_index3 := 0; ne_index2 := 0; ne_index3 := 0; Nw := 0;
+  for i from 1 to N do
+    print(NoNL, i, "");
+    F := UHITS(a,b,1);
+    if F = FAIL then next end_if;
+    Nw := Nw + 1;
+    Fr := ISingDPuncontracted(F);
+    n := linalg::ncols(Fr);
+    if eigensharp(F) then 
+      eigen := eigen+1;
+      if n = 2 then e_index2 := e_index2 + 1
+      elif n = 3 then e_index3 := e_index3 + 1
+      else
+        print("Irgendwo ein Fehler (eigenscharf):", n);
+        return([F,Fr])
+      end_if
+    else
+      neigen := neigen+1;
+      if n = 2 then ne_index2 := ne_index2 + 1
+      elif n = 3 then ne_index3 := ne_index3 + 1
+      else
+        print("Irgendwo ein Fehler (nicht eigenscharf):", n);
+        return([F,Fr])
+      end_if
+    end_if
+  end_for;
+  return([N,Nw,eigen,e_index2,e_index3,neigen,ne_index2,ne_index3])
+end_proc:
+
+

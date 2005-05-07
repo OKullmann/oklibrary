@@ -1,0 +1,17 @@
+/* 
+
+Oliver Kullmann, 5.8.2002 (Swansea)
+
+Tau-Funktion und Verwandtes.
+
+*/
+
+/* lesen := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/MupadBibliothek/tau.mup")) */
+
+
+/* -------------------------------- */
+
+tau := l -> numeric::realroot(_plus(x^(-l[i]) $ i = 1..nops(l)) - 1, x = nops(l)^(1/stats::mean(l)) .. nops(l)^(1/min(l[i] $ i = 1..nops(l)))):
+
+/* tau([1,2]) = 1.618... */
+
