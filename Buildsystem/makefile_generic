@@ -124,9 +124,12 @@ all : unoptimised optimised
 
 prebuild : $(Directories) $(header_files) 
 
-unoptimised :$(programs)
+unoptimised : $(programs) $(object_files)
+# ToDo: not all object files should be listed in the prerequisites, but
+# only those that are that just the .o-forms of programs
 
-optimised : $(programs_optimised)
+optimised : $(programs_optimised) $(object_files_optimised)
+# ToDo: Same as for "unoptimised"
 
 check : test testop
 
