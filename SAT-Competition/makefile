@@ -1,2 +1,9 @@
-Analyse : Analyse.cpp
-	g++ -O3 -I${BOOST} -o Analyse Analyse.cpp
+ifndef OKBuildsystem
+  ifdef OKBUILDSYSTEM
+    OKBuildsystem := $(OKBUILDSYSTEM)
+  else
+    $(error Either OKBuildsystem or OKBUILDSYSTEM must be defined!)
+  endif
+endif
+
+include $(OKBuildsystem)/makefile_generic
