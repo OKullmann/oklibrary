@@ -31,7 +31,7 @@ Optimisation_options := -O3
 
 test_program := TestSAT-Competition
 
-programs := Analyse
+programs := Analyse FullAnalysis
 
 source_libraries :=  $(Boost)
 
