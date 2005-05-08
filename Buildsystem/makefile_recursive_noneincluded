@@ -11,6 +11,8 @@ endef
 all $(normal_goals) $(cleaning_goals) $(test_goals) $(forced_goals) :
 	$(run_all_makes)
 
+unexport srcdir
+
 $(special_goals) :
 ifeq ($(MAKELEVEL), 0)
 	$(run_all_makes_ignorant)
