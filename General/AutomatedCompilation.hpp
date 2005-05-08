@@ -295,8 +295,8 @@ namespace AutomatedCompilation {
       Compiler(), Compiler_Output(), Source(source_data), Executable(executable_data) {
       Parameter_list Par;
       set_parameter(Par, static_cast<Executable>(*this));
-      Par.push_back(get_source_file_name());
-      Pid = SystemHandling::System()(path_compiler_executable(), Par.begin(), Par.end(), "/dev/null", std_output_file(), err_output_file(), Env, new_working_dir);
+      Par.push_back(Source::get_source_file_name());
+      Pid = SystemHandling::System()(Executable::path_compiler_executable(), Par.begin(), Par.end(), "/dev/null", Compiler_Output::std_output_file(), Compiler_Output::err_output_file(), Environment::Env, new_working_dir);
     }
 
     operator SystemHandling::PidType() const { return Pid; }
