@@ -1,8 +1,8 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
 special_goals := prebuild
-test_goals := test testop
-normal_goals := unoptimised optimised check
+test_goals := check test testop
+normal_goals := unoptimised optimised
 cleaning_goals := clean cleanobj cleandep cleanhead cleanprograms cleanall
 forced_goals := force
 
