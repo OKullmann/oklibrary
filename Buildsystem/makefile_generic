@@ -57,7 +57,11 @@ ifndef OKBuildsystem
   endif
 endif
 
+export
+
 include $(OKBuildsystem)/makefile_standardgoals
+
+export
 
 include $(srcdir)/makefile.definitions.mak
 
@@ -154,6 +158,13 @@ $(Directories) : % :
 $(header_files) : $(includedir)/%.hpp : $(srcdir)/%.hpp
 	cp $< $@
 
+# ToDo (PROBLEM):
+# If one is using different paths due to symbolic links, then the
+# dependency files contain unusable information (and must be
+# deleted with "make cleandep").
+# This problem seems hard to solve (one had to find out that
+# different paths lead to the same file).
+# So it must be documented well.
 $(dependency_files) : $(aux_dir)/%.d : $(srcdir)/%.cpp
 	$(CXX) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
