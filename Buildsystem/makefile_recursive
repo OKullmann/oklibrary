@@ -24,6 +24,10 @@ ifndef OKBuildsystem
   endif
 endif
 
+export
+
 include $(OKBuildsystem)/makefile_standardgoals
+
+export
 
 include $(OKBuildsystem)/makefile_recursive_noneincluded

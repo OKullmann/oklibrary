@@ -5,5 +5,10 @@ $(word $(words $1),$1)
 endef
 srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
+export
+
 include Transitional/Buildsystem/makefile_standardgoals
+
+export
+
 include Transitional/Buildsystem/makefile_recursive_noneincluded
