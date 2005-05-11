@@ -7,6 +7,8 @@
 #include <vector>
 #include <exception>
 #include <string>
+#include <list>
+#include <ostream>
 
 #include "TestExceptions.hpp"
 
@@ -16,7 +18,31 @@ namespace TestBaseClass {
   typedef std::vector<TestSingleParameter> TestParameter;
 
   class TestBase {
+    typedef std::list<TestBase*> List;
+    // List does not take ownership of the elements pointed to by its members.
+    static List test_list;
+    mutable List::iterator it;
+    mutable bool inserted;
+    TestBase (const TestBase&); // not available
+    TestBase& operator =(const TestBase&); // not available
+  protected :
+    void insert(TestBase* const p) const {
+      test_list.push_back(p);
+      it = --test_list.end();
+      inserted = true;
+    }
   public :
+    static void run_tests_default(std::ostream& out) {
+      out << "\nrun_tests_default:\n\n";
+      for (List::iterator i = test_list.begin(); i != test_list.end(); ++i) {
+        try {
+          (*i) -> perform_test();
+        }
+        catch (const TestExceptions::TestException& e) {
+          out << e;
+        }
+      }
+    }
     typedef TestBase test_type;
     void perform_test(const TestParameter& P = TestParameter()) {
       // throws only TestExceptions::TestException
@@ -40,12 +66,18 @@ namespace TestBaseClass {
         throw e;
       }
     }
-      virtual ~TestBase() {}
+    TestBase() : inserted(false) {}
+    virtual ~TestBase() {
+      if (inserted)
+        test_list.erase(it);
+    }
     // does not throw
-  protected :
+  private :
     virtual void perform_test_trivial() = 0;
     virtual void perform_test_nontrivial(const TestParameter&) = 0;
   };
+  TestBase::List TestBase::test_list;
+  
 }
 
 #endif
