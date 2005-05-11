@@ -5,10 +5,14 @@
 #include "TestExceptions.hpp"
 #include "TestBaseClass.hpp"
 
-struct Test1 : public TestBaseClass::TestBase {
+class Test1 : public TestBaseClass::TestBase {
   typedef Test1 test_type;
+public :
   TestExceptions::ErrorDescription d;
-
+  Test1() {
+    insert(this);
+  }
+private :
   void perform_test_trivial() {
     TestExceptions::TestException e("test_trivial");
     d = OKLIB_TESTDESCRIPTION;
@@ -64,15 +68,48 @@ int main() {
     assert(s.str() == out);
   }
 
+  TestExceptions::ErrorDescription d;
   {
     Test1 test1;
+    TestBaseClass::TestBase& test = test1;
     try {
-      test1.perform_test();
+      test.perform_test();
     }
     catch(const TestExceptions::TestException& e) {
-      std::cerr << e;
+      std::stringstream s;
+      s << e;
       assert(std::string(e.what()) == std::string("test_trivial"));
+      std::stringstream s2;
+      s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
+      d = test1.d;
+      s2 << test1.d << "\n";
+      assert(s.str() == s2.str());
     }
+    try {
+      test.perform_test(TestBaseClass::TestParameter(1));
+    }
+    catch(const TestExceptions::TestException& e) {
+      std::stringstream s;
+      s << e;
+      assert(std::string(e.what()) == std::string("test_nontrivial"));
+      std::stringstream s2;
+      s2 << __DATE__  ", " __TIME__ "\n" "test_nontrivial" "\n";
+      s2 << test1.d << "\n";
+      assert(s.str() == s2.str());
+    }
+  }
+
+  {
+    Test1 test1; Test1 test2;
+    std::stringstream s;
+    TestBaseClass::TestBase::run_tests_default(s);
+    std::stringstream s2;
+    s2 << "\nrun_tests_default:\n\n";
+    s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
+    s2 << d << "\n";
+    s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
+    s2 << d << "\n";
+    assert(s.str() == s2.str());
   }
 }
 
