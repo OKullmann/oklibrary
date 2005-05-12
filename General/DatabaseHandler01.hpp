@@ -14,7 +14,7 @@
 #include <utility>
 #include <ostream>
 
-#include <libpq-fe.h>
+#include <pgsql/libpq-fe.h>
 /*
 // including the following causes throw-errors with gcc version 3.0.4
 #include <postgres.h> // necessary for <catalog/pg_type.h>
