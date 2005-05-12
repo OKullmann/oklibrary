@@ -5,22 +5,22 @@
 #include "TestExceptions.hpp"
 #include "TestBaseClass.hpp"
 
-class Test1 : public TestBaseClass::TestBase {
+class Test1 : public OKlib::TestSystem::TestBase {
   typedef Test1 test_type;
 public :
-  TestExceptions::ErrorDescription d;
+  OKlib::TestSystem::ErrorDescription d;
   Test1() {
     insert(this);
   }
 private :
   void perform_test_trivial() {
-    TestExceptions::TestException e("test_trivial");
+    OKlib::TestSystem::TestException e("test_trivial");
     d = OKLIB_TESTDESCRIPTION;
     e.add(d);
     throw e;
   }
-  void perform_test_nontrivial(const TestBaseClass::TestParameter& P) {
-    TestExceptions::TestException e("test_nontrivial");
+  void perform_test_nontrivial(const OKlib::TestSystem::TestParameter& P) {
+    OKlib::TestSystem::TestException e("test_nontrivial");
     d = OKLIB_TESTDESCRIPTION;
     e.add(d);
     throw e;
@@ -40,7 +40,7 @@ int main() {
 
   const char* const message = "mmm";
 
-  TestExceptions::TestException e(message);
+  OKlib::TestSystem::TestException e(message);
   assert(e.what() == std::string(message));
   std::string out(__DATE__ ", "__TIME__ "\n");
   out += std::string(message) + "\n";
@@ -49,8 +49,8 @@ int main() {
     s << e;
     assert(s.str() == out);
   }
-  TestExceptions::ErrorDescription d1(f1, l1, type1);
-  TestExceptions::ErrorDescription d2(f2, l2, type2);
+  OKlib::TestSystem::ErrorDescription d1(f1, l1, type1);
+  OKlib::TestSystem::ErrorDescription d2(f2, l2, type2);
   e.add(d1);
   assert(e.what() == std::string(message));
   out += std::string(f1) + ": " + l1 + "\n" + type1 + "\n\n";
@@ -68,14 +68,14 @@ int main() {
     assert(s.str() == out);
   }
 
-  TestExceptions::ErrorDescription d;
+  OKlib::TestSystem::ErrorDescription d;
   {
     Test1 test1;
-    TestBaseClass::TestBase& test = test1;
+    OKlib::TestSystem::TestBase& test = test1;
     try {
       test.perform_test();
     }
-    catch(const TestExceptions::TestException& e) {
+    catch(const OKlib::TestSystem::TestException& e) {
       std::stringstream s;
       s << e;
       assert(std::string(e.what()) == std::string("test_trivial"));
@@ -86,9 +86,9 @@ int main() {
       assert(s.str() == s2.str());
     }
     try {
-      test.perform_test(TestBaseClass::TestParameter(1));
+      test.perform_test(OKlib::TestSystem::TestParameter(1));
     }
-    catch(const TestExceptions::TestException& e) {
+    catch(const OKlib::TestSystem::TestException& e) {
       std::stringstream s;
       s << e;
       assert(std::string(e.what()) == std::string("test_nontrivial"));
@@ -102,7 +102,7 @@ int main() {
   {
     Test1 test1; Test1 test2;
     std::stringstream s;
-    TestBaseClass::TestBase::run_tests_default(s);
+    OKlib::TestSystem::TestBase::run_tests_default(s);
     std::stringstream s2;
     s2 << "\nrun_tests_default:\n\n";
     s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
