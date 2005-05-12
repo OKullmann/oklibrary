@@ -11,50 +11,54 @@
 #include <algorithm>
 #include <iterator>
 
-namespace TestExceptions {
+namespace OKlib {
 
-  typedef unsigned int LineNumber;
+  namespace TestSystem {
 
-  class ErrorDescription {
-    const char* file;
-    const char* line;
-    const char* type_test_class;
-  public :
-    ErrorDescription() : file(0), line(0), type_test_class(0) {}
-    ErrorDescription(const char* const file, const char* const line, const char* const type_test_class) : file(file), line(line), type_test_class(type_test_class) {}
-    friend std::ostream& operator <<(std::ostream& out, const ErrorDescription& D) {
-      return out << D.file << ": " << D.line << "\n" << D.type_test_class << "\n";
-      // ToDo: Adding messages (using module Messages)
-    }
-  };
+    typedef unsigned int LineNumber;
 
-  typedef std::vector<ErrorDescription> ErrorContainer;
-  // Assumes, that the destructor of std::vector does not throw exceptions.
+    class ErrorDescription {
+      const char* file;
+      const char* line;
+      const char* type_test_class;
+    public :
+      ErrorDescription() : file(0), line(0), type_test_class(0) {}
+      ErrorDescription(const char* const file, const char* const line, const char* const type_test_class) : file(file), line(line), type_test_class(type_test_class) {}
+      friend std::ostream& operator <<(std::ostream& out, const ErrorDescription& D) {
+        return out << D.file << ": " << D.line << "\n" << D.type_test_class << "\n";
+        // ToDo: Adding messages (using module Messages)
+      }
+    };
 
-  class TestException : public std::runtime_error {
+    typedef std::vector<ErrorDescription> ErrorContainer;
+    // Assumes, that the destructor of std::vector does not throw exceptions.
 
-    ErrorContainer errors;
+    class TestException : public std::runtime_error {
+      
+      ErrorContainer errors;
 
-  public :
+    public :
 
-    explicit TestException(const std::string& special_circumstances) :  std::runtime_error(special_circumstances) {}
-    ~TestException() throw() {}
+      explicit TestException(const std::string& special_circumstances) :  std::runtime_error(special_circumstances) {}
+      ~TestException() throw() {}
 
-    void add(const ErrorDescription e) {
-      errors.push_back(e);
-    }
+      void add(const ErrorDescription e) {
+        errors.push_back(e);
+      }
 
-    friend std::ostream& operator <<(std::ostream& out, const TestException& E) {
-      out << __DATE__ ", " __TIME__ "\n";
-      out << E.what() << "\n";
-      std::copy(E.errors.begin(), E.errors.end(), std::ostream_iterator<ErrorDescription>(out, "\n"));
-      return out;
-    }
-  };
+      friend std::ostream& operator <<(std::ostream& out, const TestException& E) {
+        out << __DATE__ ", " __TIME__ "\n";
+        out << E.what() << "\n";
+        std::copy(E.errors.begin(), E.errors.end(), std::ostream_iterator<ErrorDescription>(out, "\n"));
+        return out;
+      }
+    };
 
 # define OKLIB_LINENUMBER(L) # L
 # define OKLIB_INTERMEDIATE(X) OKLIB_LINENUMBER(X)
-#define OKLIB_TESTDESCRIPTION (TestExceptions::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE(__LINE__), typeid(test_type).name()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE(__LINE__), typeid(test_type).name()))
+
+  }
 
 }
 
