@@ -5,23 +5,23 @@
 
 /* Copy this into mupad (with the past replaced accordingly). */
 
-contains_arith_prog := proc(list, length_arith_prog) local length, set, g, subset, sublist, diff, found_unequal; begin
+contains_arith_prog := proc(list, length_arith_prog) local length, set, g, sub_set, sub_list, diff, found_unequal; begin
   length := nops(list);
   if length_arith_prog > length then return(FALSE) end_if;
   if length = 0 then return(FALSE) end_if;
   if length_arith_prog <= 2 then return(TRUE) end_if;
   set := {op(list)};
   g := combinat::subsets::generator(set, length_arith_prog);
-  subset := g();
-  while (subset <> FAIL) do
-    sublist := sort([op(subset)]);
-    diff := sublist[2] - sublist[1];
+  sub_set := g();
+  while (sub_set <> FAIL) do
+    sub_list := sort([op(sub_set)]);
+    diff := sub_list[2] - sub_list[1];
     found_unequal := FALSE;
     for i from 2 to length_arith_prog - 1 do
-      if sublist[i+1] - sublist[i] <> diff then found_unequal := TRUE; break end_if
+      if sub_list[i+1] - sub_list[i] <> diff then found_unequal := TRUE; break end_if
     end_for;
     if not found_unequal then return(TRUE) end_if;
-    subset := g();
+    sub_set := g();
   end_while;
   return(FALSE)
 end_proc:
