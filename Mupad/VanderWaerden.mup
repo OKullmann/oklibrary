@@ -1,0 +1,141 @@
+/* Oliver Kullmann, 12.5.2005 (Swansea) */
+
+/* read_vdw :=hold(read("/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/OKsystem/Transitional/Mupad/VanderWaerden.mup")):
+*/
+
+/* Copy this into mupad (with the past replaced accordingly). */
+
+contains_arith_prog := proc(list, length_arith_prog) local length, set, g, subset, sublist, diff, found_unequal; begin
+  length := nops(list);
+  if length_arith_prog > length then return(FALSE) end_if;
+  if length = 0 then return(FALSE) end_if;
+  if length_arith_prog <= 2 then return(TRUE) end_if;
+  set := {op(list)};
+  g := combinat::subsets::generator(set, length_arith_prog);
+  subset := g();
+  while (subset <> FAIL) do
+    sublist := sort([op(subset)]);
+    diff := sublist[2] - sublist[1];
+    found_unequal := FALSE;
+    for i from 2 to length_arith_prog - 1 do
+      if sublist[i+1] - sublist[i] <> diff then found_unequal := TRUE; break end_if
+    end_for;
+    if not found_unequal then return(TRUE) end_if;
+    subset := g();
+  end_while;
+  return(FALSE)
+end_proc:
+
+
+tree_size_trivial_DPL := proc(ordered_nodes, length_arith_prog) begin
+  return(tree_size_trivial_DPL_(ordered_nodes, [], [], length_arith_prog))
+end_proc:
+
+tree_size_trivial_DPL_ := proc(ordered_nodes, left_part, right_part, length_arith_prog) local length, v, result_1, result_2, new_left_part, new_right_part, number_nodes, result; begin
+/* Assumption:
+  ordered_nodes, left_part, right_part are disjoint;
+  left_part, right_part do not contain an arithmetic progression of size length_arith_prog.
+
+   Return: [number nodes, status]
+   Status:
+     TRUE if orderered_nodes can be distributed on
+   the left_part and right_part so that none of the parts
+   contains an arithmetic progression of size lengt_arith_prog;
+     FALSE otherwise, that is, every distribution of the 
+     nodes in ordered_nodes leads to a situation, where left_part or right part contains an arithmetic progression of size lengt_arith_prog.
+   Number4 nodes:
+     Number of nodes in the backtracking tree.
+*/
+  number_nodes := 1;
+  length := nops(ordered_nodes);
+  if length = 0 then return([number_nodes, TRUE]) end_if;
+  v := ordered_nodes[1];
+  delete ordered_nodes[1];
+  new_left_part := append(left_part, v);
+  if contains_arith_prog(new_left_part, length_arith_prog) then 
+    number_nodes := number_nodes + 1;
+    result := FALSE;
+  else
+    result_1 := tree_size_trivial_DPL_(ordered_nodes, new_left_part, right_part, length_arith_prog);
+    number_nodes := number_nodes + result_1[1];
+    result := result_1[2];
+  end_if;
+  if result then return([number_nodes, TRUE]) end_if;
+  new_right_part := append(right_part, v);
+  if contains_arith_prog(new_right_part, length_arith_prog) then return([number_nodes + 1, FALSE]) end_if;
+  result_2 := tree_size_trivial_DPL_(ordered_nodes, left_part, new_right_part, length_arith_prog);
+  number_nodes := number_nodes + result_2[1];
+  result := result_2[2];
+  return([number_nodes, result])
+end_proc:
+
+output_best_information := proc(count, order, number_permutation) begin
+  print("Node count ", count, " achieved with order ", order, " for permutation number ", number_permutation)
+end_proc:
+
+output_progress_information := proc(count, count_total, threshold) begin
+  print(threshold * 100, "% of the search space completed, that is, ", count, " permutations of ", count_total)
+end_proc:
+
+Optimum_trivial_DPL := proc(size, length_arith_prog, information) local total_count, count, g, progress, minimum, best_order, new_count, maximum, worst_order; begin
+ g := combinat::permutations::generator(size);
+  node_order := g();
+  minimum := tree_size_trivial_DPL(node_order, length_arith_prog)[1];
+  best_order := node_order;
+  if information then
+    total_count := combinat::permutations::count(size);
+    count := 1;
+    progress := 0.1;
+    output_best_information(minimum, best_order, count)
+  end_if;
+  maximum := minimum;
+  worst_order := best_order;
+  repeat
+    node_order := g();
+    if information then
+      count := count + 1;
+      if (count / total_count) >= progress then
+        output_progress_information(count, total_count, progress);
+        progress := progress + 0.1
+      end_if
+    end_if;
+    if node_order = FAIL then break end_if;
+    new_count := tree_size_trivial_DPL(node_order, length_arith_prog)[1];
+    if new_count < minimum then
+      minimum := new_count;
+      best_order := node_order;
+      if information then 
+        output_best_information(minimum, best_order, count)
+      end_if;
+    else
+      if new_count > maximum then
+        maximum := new_count;
+        worst_order := node_order;
+      end_if
+    end_if
+  until FALSE end_repeat;
+  return([minimum, best_order, maximum, worst_order])
+end_proc:
+
+unit_clause_prop := proc(remaining_nodes, left_partition, right_partition) begin
+/* Returns new remaining_nodes, left_partition, right_partition together with the number of unit clauses eliminated and a number from 0,1,2, indicating whether finally a situation where reached where for some variable both choices yield an arithmetic progression (we found the problem "unsatisfiable), or all variables have been (succesfully) distributed (the problem was found "satisfiable"), or else.
+*/
+end_proc:
+
+/* TO DO */
+
+tree_size_DPL_1 := proc(ordered_nodes, length_arith_prog) begin
+/* Similar to tree_size_trivial_DPL, however using unit_clause_prop. */
+end_proc:
+
+Optimum_DPL_1 := proc(size, length_arith_prog, information) begin
+/* As Optimum_trivial_DPL. but using tree_size_DPL_1 instead of tree_size_trivial_DPL. Should yield the same result (!) as Optimum_trivial_DPL. */
+end_proc:
+
+optimal_tree_size_DLL_1 := proc(size, length_arith_prog, information) begin
+/* Similar to tree_size_DPL_1, but instead of using the first variable
+to branch, it tests all variables.
+*/
+end_proc:
+
+
