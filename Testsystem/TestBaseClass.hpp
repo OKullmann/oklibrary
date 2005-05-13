@@ -76,7 +76,9 @@ namespace OKlib {
       // does not throw
     private :
       virtual void perform_test_trivial() = 0;
-      virtual void perform_test_nontrivial(const TestParameter&) = 0;
+      virtual void perform_test_nontrivial(const TestParameter&) {
+        perform_test_trivial();
+      }
     };
     TestBase::List TestBase::test_list;
   
