@@ -5,7 +5,7 @@ define run_all_makes
 endef
 
 define run_all_makes_ignorant
-  for sm in $(sub_makes); do $(MAKE) -C $${sm} $@ --ignore-errors; done
+  for sm in $(sub_makes); do cd $(srcdir); $(MAKE) -C $${sm} $@ --ignore-errors; done
 endef
 
 all $(normal_goals) $(cleaning_goals) $(test_goals) $(forced_goals) :
