@@ -42,8 +42,9 @@ namespace OKlib {
       explicit TestException(const std::string& special_circumstances) :  std::runtime_error(special_circumstances) {}
       ~TestException() throw() {}
 
-      void add(const ErrorDescription e) {
+      TestException& add(const ErrorDescription e) {
         errors.push_back(e);
+	return *this;
       }
 
       friend std::ostream& operator <<(std::ostream& out, const TestException& E) {
