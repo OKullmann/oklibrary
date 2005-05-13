@@ -5,6 +5,11 @@ ifdef BIBLIOTHEK
 else
   Bibliothek :=
 endif
+ifdef OKTESTSYSTEM
+  OKTestsystem := -I$(OKTESTSYSTEM)
+else
+  OKTestsystem :=
+endif
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -33,7 +38,7 @@ test_program := TestSAT-Competition
 
 programs := Analyse FullAnalysis
 
-source_libraries :=  $(Boost)
+source_libraries :=  $(Boost) $(OKTestsystem)
 
 link_libraries := 
 
