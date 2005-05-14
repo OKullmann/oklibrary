@@ -4,6 +4,8 @@
 
 #define PARSINGSINGLERESULT_jzRtL77Yq1
 
+#include <string>
+
 #include <boost/spirit/core.hpp>
 
 #include "SingleResult.hpp"
@@ -41,32 +43,32 @@ namespace OKlib {
         parser_ = (+boost::spirit::alnum_p)[action(s)];
       }
     };
+   template <>
+    class ParserResultElement<RandomKSat> : public ParserBase {
+      RandomKSat& s;
+      NaturalNumber k;
+      struct action1 {
+        NaturalNumber& k;
+        action1(NaturalNumber& k) : k(k) {}
+        void operator() (NaturalNumber k_) const {
+          k = k_;
+        }
+      };
+      struct action2 {
+        NaturalNumber& k;
+        RandomKSat& s;
+        action2(NaturalNumber& k, RandomKSat& s) : k(k), s(s) {}
+        void operator() (const ParseIterator begin, const ParseIterator end) const {
+          s = RandomKSat(std::string(begin, end), k);
+        }
+      };
+    public :
+      ParserResultElement(RandomKSat& s) : s(s) {
+        parser_ = boost::spirit::uint_parser<NaturalNumber, 10, 1, 2>()[action1(k)] >> boost::spirit::str_p("SAT")[action2(k,s)];
+      }
+    };
 
- //    struct GrammarBase : boost::spirit::grammar<GrammarBase> {};
 
-//     template <class ResultElement>
-//     class GrammarResultElement;
-
-//     template <>
-//     class GrammarResultElement<SuperSeries> : public GrammarBase {
-//       SuperSeries& s;
-      
-//     public :
-//       GrammarResultElement(SuperSeries& s) : s(s) {}
-//       template <typename ScannerT>
-//       class definition {
-//       public :
-//         typedef boost::spirit::rule<ScannerT> rule_type;
-//       private :
-//         rule_type rule;
-//       public :
-//         definition(const GrammarResultElement&) {
-
-//         }
-//         const rule_type& start() const { return rule; }
-//       };
-
-//     };
 
   }
 
