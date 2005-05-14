@@ -117,12 +117,49 @@ Optimum_trivial_DPL := proc(size, length_arith_prog, information) local total_co
   return([minimum, best_order, maximum, worst_order])
 end_proc:
 
+
+optimal_tree_size_trivial_DLL := proc(size, length_arith_prog) begin
+  return(optimal_tree_size_trivial_DLL_([i$i=1..size], [], [], length_arith_prog))
+end_proc:
+
+optimal_tree_size_trivial_DLL_ := proc(remaining_nodes, left_part, right_part, length_arith_prog) local number_nodes, result, length, sum_sizes,  i, v, new_remaining_nodes, result_i_left, result_i_right, new_sum, best_v; begin
+  if contains_arith_prog(left_part, length_arith_prog) then
+    return([1, FALSE])
+  end_if;
+  if contains_arith_prog(right_part, length_arith_prog) then
+    return([1, FALSE])
+  end_if;
+  length := nops(remaining_nodes);
+  if length = 0 then
+    return([1, TRUE])
+  end_if;
+  sum_sizes := +infinity;
+  for i from 1 to length do
+    v := remaining_nodes[i];
+    new_remaining_nodes := remaining_nodes;
+    delete new_remaining_nodes[i];
+    result_i_left := optimal_tree_size_trivial_DLL_(new_remaining_nodes, append(left_part, v), right_part, length_arith_prog);
+    result_i_right := optimal_tree_size_trivial_DLL_(new_remaining_nodes, left_part, append(right_part, v), length_arith_prog);
+    if i = 1 then
+      result := result_i_left[2] or result_i_right[2];
+    end_if;
+    new_sum := result_i_left[1] + result_i_right[1];
+    if new_sum < sum_sizes then
+      sum_sizes := new_sum;
+      best_v := v
+    end_if
+  end_for;
+  return([sum_sizes + 1, result, best_v])
+end_proc:
+
+
+/* TO DO */
+
 unit_clause_prop := proc(remaining_nodes, left_partition, right_partition) begin
 /* Returns new remaining_nodes, left_partition, right_partition together with the number of unit clauses eliminated and a number from 0,1,2, indicating whether finally a situation where reached where for some variable both choices yield an arithmetic progression (we found the problem "unsatisfiable), or all variables have been (succesfully) distributed (the problem was found "satisfiable"), or else.
 */
 end_proc:
 
-/* TO DO */
 
 tree_size_DPL_1 := proc(ordered_nodes, length_arith_prog) begin
 /* Similar to tree_size_trivial_DPL, however using unit_clause_prop. */
