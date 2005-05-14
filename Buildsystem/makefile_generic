@@ -105,7 +105,7 @@ programs += $(test_program)
 
 # ---------------------------------------------------
 
-name_addition := $(strip $(Optimisation_options))
+name_addition := $(shell echo $(Optimisation_options) | tr --delete " ")
 All_options := $(General_options) $(Optimisation_options)
 
 programs_optimised := $(programs:=$(name_addition))
