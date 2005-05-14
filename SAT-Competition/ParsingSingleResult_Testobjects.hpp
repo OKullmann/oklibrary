@@ -12,7 +12,9 @@ namespace OKlib {
 
     namespace Testobjects {
 
-      Test_ParserResultElement_SuperSeries test1;
+      Test_ParserResultElement_SuperSeries<SuperSeries> test_SuperSeries;
+
+      Test_ParserResultElement_RandomKSat<RandomKSat> test_RandomKSat;
 
     }
 
