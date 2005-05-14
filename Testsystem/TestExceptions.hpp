@@ -59,6 +59,8 @@ namespace OKlib {
 # define OKLIB_INTERMEDIATE(X) OKLIB_LINENUMBER(X)
 #define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE(__LINE__), typeid(test_type).name()))
 
+#define OKLIB_TESTTRIVIAL_RETHROW(Testobject) try { (Testobject).perform_test(); } catch(::OKlib::TestSystem::TestException& e) { e.add(OKLIB_TESTDESCRIPTION); throw e; }
+
   }
 
 }
