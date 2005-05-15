@@ -5,5 +5,5 @@
 #include "ParsingSingleResult_Testobjects.hpp"
 
 int main() {
-  OKlib::TestSystem::TestBase::run_tests_default(std::cout);
+  return OKlib::TestSystem::TestBase::run_tests_default(std::cout);
 } 
