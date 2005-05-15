@@ -19,12 +19,13 @@ namespace VanderWaerden {
 
   template <typename Int>
   class Arithmetical_progressions {
+    // ToDo: Integration with classes in HypergraphColouring/Van_der_Waerden_hypergraph.hpp and General/IteratorHandling.hpp
   public :
     typedef Int Index;
     const Index n;
     const Index m; // size of arithmetical progression in {1, ..., n}
     const Index max_element;
-    const Index count;
+    const Index count; // total number of arithmetical progressions
 
   private :
     Index current_element;
@@ -47,7 +48,7 @@ namespace VanderWaerden {
 	++current_element; current_distance = 1;
       }
       return ap;
-    } // shall be called only number_arithmetical_progressions() many times
+    } // shall be called only count many times
 
   private :
 
