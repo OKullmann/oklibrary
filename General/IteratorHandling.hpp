@@ -76,6 +76,8 @@ namespace IteratorHandling {
   // Collection a, a + d, a + 2d, ..., a + m * d
   // a, d numerical, m integral
 
+  // ToDo: Integration with class in HypergraphColouring/Van_der_Waerden_hypergraph.hpp
+
   template <typename Num, typename Int>
   class Arithmetical_progression {
     const Num a, d;
