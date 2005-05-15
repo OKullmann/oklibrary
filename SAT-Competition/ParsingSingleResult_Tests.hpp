@@ -92,7 +92,7 @@ namespace OKlib {
     public :
       typedef Test_ParserResultElement_SuperSeries test_type;
       Test_ParserResultElement_SuperSeries() {
-	insert(this);
+        insert(this);
       }
     private :
       void perform_test_trivial() {
