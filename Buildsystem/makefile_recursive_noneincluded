@@ -1,17 +1,17 @@
-sub_makes := $(dir $(shell cd $(srcdir); find * -mindepth 1 -maxdepth 1 -name "makefile"))
+sub_make_directories := $(dir $(shell cd $(srcdir); find * -mindepth 1 -maxdepth 1 -name "makefile"))
 
 define run_all_makes
-  for sm in $(sub_makes); do cd $(srcdir); $(MAKE) -C $${sm} $@; if [ $$? != 0 ]; then exit 1; fi; done
+  for sm in $(sub_make_directories); do cd $(srcdir)/$${sm}; $(MAKE) $@; if [ $$? != 0 ]; then exit 1; fi; done
 endef
 
 define run_all_makes_ignorant
-  for sm in $(sub_makes); do cd $(srcdir); $(MAKE) -C $${sm} $@ --ignore-errors; done
+  for sm in $(sub_make_directories); do cd $(srcdir)/$(sm); $(MAKE) $@ --ignore-errors; done
 endef
+
+unexport srcdir
 
 all $(normal_goals) $(cleaning_goals) $(test_goals) $(forced_goals) :
 	$(run_all_makes)
-
-unexport srcdir
 
 $(special_goals) :
 ifeq ($(MAKELEVEL), 0)
