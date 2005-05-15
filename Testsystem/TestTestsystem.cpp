@@ -1,6 +1,6 @@
 #include <cassert>
 #include <sstream>
-#include <iostream> // #######################
+#include <cstdlib>
 
 #include "TestExceptions.hpp"
 #include "TestBaseClass.hpp"
@@ -102,7 +102,7 @@ int main() {
   {
     Test1 test1; Test1 test2;
     std::stringstream s;
-    OKlib::TestSystem::TestBase::run_tests_default(s);
+    assert(OKlib::TestSystem::TestBase::run_tests_default(s) == EXIT_FAILURE);
     std::stringstream s2;
     s2 << "\nrun_tests_default:\n\n";
     s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
