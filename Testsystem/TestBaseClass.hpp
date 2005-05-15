@@ -9,6 +9,7 @@
 #include <string>
 #include <list>
 #include <ostream>
+#include <cstdlib>
 
 #include "TestExceptions.hpp"
 
@@ -34,16 +35,19 @@ namespace OKlib {
         inserted = true;
       }
     public :
-      static void run_tests_default(std::ostream& out) {
+      static int run_tests_default(std::ostream& out) {
         out << "\nrun_tests_default:\n\n";
+        int return_value = 0;
         for (List::iterator i = test_list.begin(); i != test_list.end(); ++i) {
           try {
             (*i) -> perform_test();
           }
           catch (const TestException& e) {
             out << e;
+            return_value = EXIT_FAILURE;
           }
         }
+        return return_value;
       }
       typedef TestBase test_type;
       void perform_test(const TestParameter& P = TestParameter()) {
