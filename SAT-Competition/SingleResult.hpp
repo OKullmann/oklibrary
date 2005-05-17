@@ -5,6 +5,7 @@
 #define SINGLERESULT_jdj277yYt
 
 #include <string>
+#include <ostream>
 
 namespace OKlib {
 
@@ -26,6 +27,10 @@ namespace OKlib {
       ResultElement_with_name(const String& name) : name_(name) {}
       const String& name() const { return name_; }
     };
+
+    std::ostream& operator <<(std::ostream& out, const ResultElement_with_name& e) {
+      return out << e.name();
+    }
 
     // ---------------------------------------------------------------------------------------------------------------
     
@@ -91,6 +96,14 @@ namespace OKlib {
       SolverResult result() const { return result_; }
     };
 
+    std::ostream& operator <<(std::ostream& out, const SATStatus& e) {
+      switch (e.result()) {
+      case unknown : return out << 0;
+      case sat : return out << 10;
+      case unsat : return out << 20;
+      }
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
 
     class AverageTime : public ResultElement {
@@ -101,6 +114,10 @@ namespace OKlib {
       FloatingPoint average() const { return average_; }
     };
 
+    std::ostream& operator <<(std::ostream& out, const AverageTime& e) {
+      return out << e.average();
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
 
     class TimeOut : public ResultElement {
@@ -110,6 +127,10 @@ namespace OKlib {
       TimeOut(const NaturalNumber time_out) : time_out_(time_out) {}
       NaturalNumber time_out() const { return time_out_; }
     };
+
+    std::ostream& operator <<(std::ostream& out, const TimeOut& e) {
+      return out << e.time_out();
+    }
  
     // ---------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------------
@@ -123,6 +144,7 @@ namespace OKlib {
       const SATStatus& sat_status() const { return sat_status_(); }
       const AverageTime& average() const { return average_(); }
       const TimeOut& time_out() const { return time_out_(); }
+      void renew() { renew_(); }
       ~ResultBasis() {}
     private :
       virtual const SuperSeries& super_series_() const = 0;
@@ -132,8 +154,11 @@ namespace OKlib {
       virtual const SATStatus& sat_status_() const = 0;
       virtual const AverageTime& average_() const = 0;
       virtual const TimeOut& time_out_() const = 0;
+      virtual void renew_() = 0;
     };
+
     template <class> class ParserResult;
+
     class Result : public ResultBasis {
       friend class ParserResult<Result>;
       SuperSeries* sup_ser;
@@ -147,21 +172,60 @@ namespace OKlib {
       const Series& series_() const { return *ser; }
       const Benchmark& benchmark_() const { return *bench; }
       const Solver& solver_() const { return *solv; }
-      const SATStatus& stat_status_() const { return *sat_stat; }
+      const SATStatus& sat_status_() const { return *sat_stat; }
       const AverageTime& average_() const { return *avg; }
       const TimeOut& time_out_() const { return *tmo; }
+      void renew_() {
+	sup_ser = new SuperSeries; ser = new Series; bench = new Benchmark; solv = new Solver; sat_stat = new SATStatus; avg = new AverageTime; tmo = new TimeOut;
+      }
     public :
-      Result() : sup_ser(0), ser(0), bench(0), solv(0), sat_stat(0), avg(0), tmo(0) {}
+      Result() : sup_ser(new SuperSeries), ser(new Series), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+      ~Result() {
+	delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
+      }
     };
 
-    class ResultRandomSatBasis : ResultBasis {
+    class ResultRandomSatBasis : public ResultBasis {
     public :
+      const RandomKSat& super_series_random() const { return super_series_random_(); }
+      const RandomKSat_n& series_random() const { return series_random_(); }
     private :
       virtual const RandomKSat& super_series_random_() const = 0;
       const SuperSeries& super_series_() const { return super_series_random_(); }
       virtual const RandomKSat_n& series_random_() const = 0;
       virtual const Series& series_() const { return series_random_(); }
     };
+
+    class ResultRandomSat : public ResultRandomSatBasis {
+      friend class ParserResult<ResultRandomSat>;
+      RandomKSat* sup_ser;
+      RandomKSat_n* ser;
+      Benchmark* bench;
+      Solver* solv;
+      SATStatus* sat_stat;
+      AverageTime* avg;
+      TimeOut* tmo;
+      const RandomKSat& super_series_random_() const { return *sup_ser; };
+      const RandomKSat_n& series_random_() const { return *ser; }
+      const Benchmark& benchmark_() const { return *bench; }
+      const Solver& solver_() const { return *solv; }
+      const SATStatus& sat_status_() const { return *sat_stat; }
+      const AverageTime& average_() const { return *avg; }
+      const TimeOut& time_out_() const { return *tmo; }
+      void renew_() {
+	sup_ser = new RandomKSat; ser = new RandomKSat_n; bench = new Benchmark; solv = new Solver; sat_stat = new SATStatus; avg = new AverageTime; tmo = new TimeOut;
+      }
+    public :
+      ResultRandomSat() : sup_ser(new RandomKSat), ser(new RandomKSat_n), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+      ~ResultRandomSat() {
+	delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
+      }
+    };
+    
+    // ---------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------------
+
+
   }
 
 }
