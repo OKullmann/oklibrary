@@ -16,6 +16,19 @@ namespace OKlib {
 
       Test_ParserResultElement_RandomKSat<RandomKSat> test_RandomKSat;
 
+      Test_ParserResultElement_Series<Series> test_Series;
+
+      Test_ParserResultElement_RandomKSat_n<RandomKSat_n> test_RandomKSat_n;
+
+      Test_ParserResultElement_Benchmark<Benchmark> test_Benchmark;
+
+      Test_ParserResultElement_Solver<Solver> test_Solver;
+
+      Test_ParserResultElement_SATStatus<SATStatus> test_SATStatus;
+
+      Test_ParserResultElement_AverageTime<AverageTime> test_AverageTime;
+
+      Test_ParserResultElement_TimeOut<TimeOut> test_TimeOut;
     }
 
   }
