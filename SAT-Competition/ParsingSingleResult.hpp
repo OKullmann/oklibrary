@@ -14,6 +14,10 @@ namespace OKlib {
 
   namespace SATCompetition {
 
+    // ToDo:
+    // Error messages with error locations (needs then a generic ParseIterator in order to use spirit FileIterator as MultiPassIterator)
+    // Generic components
+
     typedef const char* ParseIterator;
     typedef boost::spirit::rule<> Rule;
 
@@ -243,6 +247,7 @@ namespace OKlib {
       ParserResultElement<AverageTime> p_avg;
       ParserResultElement<TimeOut> p_tmo;
     public :
+      typedef Result result_type;
       ParserResult(Result& r) : r(r), p_sup_ser(*r.sup_ser), p_ser(*r.ser), p_bench(*r.bench), p_solv(*r.solv), p_sat_stat(*r.sat_stat), p_avg(*r.avg), p_tmo(*r.tmo) {
         parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
       }
@@ -259,6 +264,7 @@ namespace OKlib {
       ParserResultElement<AverageTime> p_avg;
       ParserResultElement<TimeOut> p_tmo;
     public :
+      typedef ResultRandomSat result_type;
       ParserResult(ResultRandomSat& r) : r(r), p_sup_ser(*r.sup_ser), p_ser(*r.ser), p_bench(*r.bench), p_solv(*r.solv), p_sat_stat(*r.sat_stat), p_avg(*r.avg), p_tmo(*r.tmo) {
         parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
       }
@@ -270,35 +276,44 @@ namespace OKlib {
     template <class ParserResult, class OutputIterator>
     class ParserResultSequence : public ParserBase {
       OutputIterator& begin;
-      typedef typename OutputIterator::value_type Result;
+      typedef typename ParserResult::result_type Result;
       Result r;
       ParserResult p;
       struct action {
-	OutputIterator& begin;
-	Result& r;
-	action(OutputIterator& begin, Result& r) : begin(begin), r(r) {}
-	void operator() (ParseIterator, ParseIterator) const {
-	  *begin = r;
-	  ++begin;
-	  r.renew();
-	}
+        OutputIterator& begin;
+        Result& r;
+        action(OutputIterator& begin, Result& r) : begin(begin), r(r) {}
+        void operator() (ParseIterator, ParseIterator) const {
+          *begin++ = r;
+        }
       };
+    public :
       ParserResultSequence(OutputIterator& begin) : begin(begin), p(r) {
-	parser_ = +((p >> boost::spirit::eol_p)[action(begin, r)]);
+        parser_ = +((p.parser() >> boost::spirit::eol_p)[action(begin, r)]);
       }
     };
 
     template <class ParserResult, class OutputIterator>
     struct Copy_results {
-      boost::spirit::parse_info<> operator() (const ParseIterator begin_in, const ParseIterator end_in, const OutputIterator begin_out) {
-	ParserResultSequence<ParserResult, OutputIterator> p(begin_out);
-	return boost::spirit::parse(begin_in, end_in, p.parser());
+      boost::spirit::parse_info<> operator() (const ParseIterator begin_in, const ParseIterator end_in, OutputIterator begin_out) {
+        ParserResultSequence<ParserResult, OutputIterator> p(begin_out);
+        return boost::spirit::parse(begin_in, end_in, p.parser());
+      }
+      template <typename PIterator>
+      boost::spirit::parse_info<> operator() (const PIterator begin_in, OutputIterator begin_out) {
+        ParserResultSequence<ParserResult, OutputIterator> p(begin_out);
+        return boost::spirit::parse(begin_in, p.parser());
       }
     };
     template <class ParserResult, class OutputIterator>
     boost::spirit::parse_info<> copy_results(const ParseIterator begin_in, const ParseIterator end_in, const OutputIterator begin_out) {
       return Copy_results<ParserResult, OutputIterator>()(begin_in, end_in, begin_out);
     }
+    template <class ParserResult, typename PIterator, class OutputIterator>
+    boost::spirit::parse_info<> copy_results(const PIterator begin_in, const OutputIterator begin_out) {
+      return Copy_results<ParserResult, OutputIterator>()(begin_in, begin_out);
+    }
+
 
   }
 
