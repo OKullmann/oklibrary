@@ -31,7 +31,12 @@ namespace OKlib {
       Test_ParserResultElement_TimeOut<TimeOut> test_TimeOut;
 
       Test_ParserResult_Result<Result> test_Result;
+
       Test_ParserResult_ResultRandomSat<ResultRandomSat> test_ResultRandomSat;
+
+      Test_Copy_results_ParserResult_Result test_CopyResults;
+
+      Test_Copy_results_ParserResultRandomSat_ResultRandomSat test_CopyResultsRandomSat;
     }
 
   }
