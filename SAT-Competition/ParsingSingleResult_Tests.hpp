@@ -8,12 +8,13 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include <sstream>
+#include <algorithm>
+#include <iterator>
+#include <list>
 
 #include <boost/spirit/core.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tuple/tuple.hpp>
-#include <boost/tuple/tuple_io.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -584,54 +585,57 @@ namespace OKlib {
         typedef ParserResult<Result> Parser;
         Parser p(s);
         {
-	  typedef boost::tuple<SuperSeries, Series, Benchmark, Solver, SATStatus, AverageTime, TimeOut> Tuple;
-	  const int length_tuple = 7;
-	  typedef std::vector<Tuple> Vector;
-	  Vector test_vector;
-	  test_vector.push_back(Tuple(std::string("SAT04"), std::string("crafted/sat04/gomes03"), std::string("bench432"), std::string("solver1"), unknown, FloatingPoint(1200), NaturalNumber(1200)));
-	  test_vector.push_back(Tuple(std::string("zarpas-s"), std::string("industrial/zarpas05/01"), std::string("bench1353"), std::string("solver34"), sat, FloatingPoint(409.69), NaturalNumber(1200)));
-	  test_vector.push_back(Tuple(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
-	  for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
-	    std::stringstream test_stream;
-	    test_stream << i -> get<0>() << " " << i -> get<1>() << " " << i -> get<2>() << " " << i -> get<3>() << " " << i -> get<4>() << " " << i -> get<5>() << " " << i -> get<6>();
-	    const std::string test(test_stream.str());
-	    OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
-	    if (s.super_series().name() != i -> get<0>().name()) {
-	      std::stringstream out;
-	      out << "Super Series is " << s.super_series() << ", and not " << i -> get<0>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	    if (s.series().name() != i -> get<1>().name()) {
-	      std::stringstream out;
-	      out << "Series is " << s.series() << ", and not " << i -> get<1>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	    if (s.benchmark().name() != i -> get<2>().name()) {
-	      std::stringstream out;
-	      out << "Benchmark is " << s.benchmark() << ", and not " << i -> get<2>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	    if (s.solver().name() != i -> get<3>().name()) {
-	      std::stringstream out;
-	      out << "Solver is " << s.solver() << ", and not " << i -> get<3>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	    if (s.sat_status().result() != i -> get<4>().result()) {
-	      std::stringstream out;
-	      out << "Sat_Status is " << s.sat_status() << ", and not " << i -> get<4>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	    if (s.average().average() != i -> get<5>().average()) {
-	      std::stringstream out;
-	      out << "Average is " << s.average() << ", and not " << i -> get<5>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	    if (s.time_out().time_out() != i -> get<6>().time_out()) {
-	      std::stringstream out;
-	      out << "Time_Out is " << s.time_out() << ", and not " << i -> get<6>();
-	      throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
-	    }
-	  }
+          typedef std::vector<TupleResult> Vector;
+          Vector test_vector;
+          test_vector.push_back(TupleResult(std::string("SAT04"), std::string("crafted/sat04/gomes03"), std::string("bench432"), std::string("solver1"), unknown, FloatingPoint(1200), NaturalNumber(1200)));
+          test_vector.push_back(TupleResult(std::string("zarpas-s"), std::string("industrial/zarpas05/01"), std::string("bench1353"), std::string("solver34"), sat, FloatingPoint(409.69), NaturalNumber(1200)));
+          test_vector.push_back(TupleResult(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
+          for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
+            std::stringstream test_stream;
+            test_stream << *i;
+            const std::string test(test_stream.str());
+            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            if (s.super_series().name() != i -> get<0>().name()) {
+              std::stringstream out;
+              out << "Super Series is " << s.super_series() << ", and not " << i -> get<0>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s.series().name() != i -> get<1>().name()) {
+              std::stringstream out;
+              out << "Series is " << s.series() << ", and not " << i -> get<1>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s.benchmark().name() != i -> get<2>().name()) {
+              std::stringstream out;
+              out << "Benchmark is " << s.benchmark() << ", and not " << i -> get<2>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s.solver().name() != i -> get<3>().name()) {
+              std::stringstream out;
+              out << "Solver is " << s.solver() << ", and not " << i -> get<3>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s.sat_status().result() != i -> get<4>().result()) {
+              std::stringstream out;
+              out << "Sat_Status is " << s.sat_status() << ", and not " << i -> get<4>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s.average().average() != i -> get<5>().average()) {
+              std::stringstream out;
+              out << "Average is " << s.average() << ", and not " << i -> get<5>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s.time_out().time_out() != i -> get<6>().time_out()) {
+              std::stringstream out;
+              out << "Time_Out is " << s.time_out() << ", and not " << i -> get<6>();
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+            if (s != *i) {
+              std::stringstream out;
+              out << "Result is \"" << s <<"\", and not \"" << *i << "\"";
+              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+            }
+          }
         }
       }
     };
@@ -758,6 +762,115 @@ namespace OKlib {
     // -----------------------------------------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------------------
 
+    class Test_Copy_results_ParserResult_Result_positive_cases : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Copy_results_ParserResult_Result_positive_cases test_type;
+    private :
+      void perform_test_trivial() {
+        typedef ParserResult<Result> Parser;
+        typedef std::list<Result> List_output;
+        List_output output;
+        typedef std::vector<TupleResult> Vector;
+        Vector test_vector;
+        test_vector.push_back(TupleResult(std::string("SAT04"), std::string("crafted/sat04/gomes03"), std::string("bench432"), std::string("solver1"), unknown, FloatingPoint(1200), NaturalNumber(1200)));
+        test_vector.push_back(TupleResult(std::string("zarpas-s"), std::string("industrial/zarpas05/01"), std::string("bench1353"), std::string("solver34"), sat, FloatingPoint(409.69), NaturalNumber(1200)));
+        test_vector.push_back(TupleResult(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
+        std::stringstream input;
+        std::copy(test_vector.begin(), test_vector.end(), std::ostream_iterator<TupleResult>(input, "\n"));
+        if (not copy_results<Parser>(input.str().c_str(), std::back_inserter(output)).full)
+          throw ::OKlib::TestSystem::TestException("Sequence\n" + input.str() + "was not accepted.").add(OKLIB_TESTDESCRIPTION);
+        if (output.size() != test_vector.size())
+          throw ::OKlib::TestSystem::TestException("Sequence size is " + boost::lexical_cast<std::string>(output.size()) + ", and not " + boost::lexical_cast<std::string>(test_vector.size())).add(OKLIB_TESTDESCRIPTION);
+        Vector::size_type index = 0;
+        for (List_output::const_iterator i = output.begin(); i != output.end(); ++i, ++index) {
+          if (*i != test_vector[index]) {
+            std::stringstream message;
+            message << "Result \"" << *i << "\" different from input \"" << test_vector[index] << "\"";
+            throw ::OKlib::TestSystem::TestException(message.str()).add(OKLIB_TESTDESCRIPTION);
+          }
+        }
+      }
+    };
+
+    class Test_Copy_results_ParserResult_Result_negative_cases : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Copy_results_ParserResult_Result_negative_cases test_type;
+    private :
+      void perform_test_trivial() {
+        typedef ParserResult<Result> Parser;
+        typedef std::list<Result> List_output;
+        List_output output;
+        {
+          typedef std::vector<std::string> Vector;
+          Vector test_vector;
+          test_vector.push_back("3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1902 solver1 20 7.09 1319");
+           test_vector.push_back("3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1902 solver1 20 7.09 1319\n3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1902 solver1 20 7.09 1319");
+          for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i)
+            if (copy_results<Parser>(i -> c_str(), std::back_inserter(output)).full)
+              throw ::OKlib::TestSystem::TestException("Sequence\n" + *i + "was accepted.").add(OKLIB_TESTDESCRIPTION);
+        }
+      }
+    };
+
+    class Test_Copy_results_ParserResult_Result : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Copy_results_ParserResult_Result test_type;
+      Test_Copy_results_ParserResult_Result() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_positive_cases());
+        OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_negative_cases());
+       }
+    };
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+    class Test_Copy_results_ParserResultRandomSat_ResultRandomSat_positive_cases : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Copy_results_ParserResultRandomSat_ResultRandomSat_positive_cases test_type;
+    private :
+      void perform_test_trivial() {
+        typedef ParserResult<ResultRandomSat> Parser;
+        typedef std::list<ResultRandomSat> List_output;
+        List_output output;
+        typedef std::vector<TupleResultRandomSat> Vector;
+        Vector test_vector;
+        test_vector.push_back(TupleResultRandomSat(RandomKSat("99SAT", 4), RandomKSat_n("crafted/sat04/gomes03/x-v11", 11), std::string("bench432"), std::string("solver1"), unknown, FloatingPoint(1200), NaturalNumber(1200)));
+        test_vector.push_back(TupleResultRandomSat(RandomKSat("3SAT", 3), RandomKSat_n("random/MediumSizeBenches/k3-r4.263-v300", 300), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
+        std::stringstream input;
+        std::copy(test_vector.begin(), test_vector.end(), std::ostream_iterator<TupleResultRandomSat>(input, "\n"));
+        if (not copy_results<Parser>(input.str().c_str(), std::back_inserter(output)).full)
+          throw ::OKlib::TestSystem::TestException("Sequence\n" + input.str() + "was not accepted.").add(OKLIB_TESTDESCRIPTION);
+        if (output.size() != test_vector.size())
+          throw ::OKlib::TestSystem::TestException("Sequence size is " + boost::lexical_cast<std::string>(output.size()) + ", and not " + boost::lexical_cast<std::string>(test_vector.size())).add(OKLIB_TESTDESCRIPTION);
+        Vector::size_type index = 0;
+        for (List_output::const_iterator i = output.begin(); i != output.end(); ++i, ++index) {
+          if (*i != test_vector[index]) {
+            std::stringstream message;
+            message << "ResultRandomSat \"" << *i << "\" different from input \"" << test_vector[index] << "\"";
+            throw ::OKlib::TestSystem::TestException(message.str()).add(OKLIB_TESTDESCRIPTION);
+          }
+        }
+      }
+    };
+
+    class Test_Copy_results_ParserResultRandomSat_ResultRandomSat : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Copy_results_ParserResultRandomSat_ResultRandomSat test_type;
+      Test_Copy_results_ParserResultRandomSat_ResultRandomSat() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResultRandomSat_ResultRandomSat_positive_cases());
+        OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_negative_cases());
+       }
+    };
+
+    // ToDo: All generic and based on concepts!!
 
   }
 
