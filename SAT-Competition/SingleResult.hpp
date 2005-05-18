@@ -7,6 +7,8 @@
 #include <string>
 #include <ostream>
 
+#include <boost/tuple/tuple.hpp>
+
 namespace OKlib {
 
   namespace SATCompetition {
@@ -30,6 +32,13 @@ namespace OKlib {
 
     std::ostream& operator <<(std::ostream& out, const ResultElement_with_name& e) {
       return out << e.name();
+    }
+
+    bool operator ==(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
+      return lhs.name() == rhs.name();
+    }
+    bool operator !=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
+      return not (lhs == rhs);
     }
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -104,6 +113,13 @@ namespace OKlib {
       }
     }
 
+    bool operator ==(const SATStatus& lhs, const SATStatus& rhs) {
+      return lhs.result() == rhs.result();
+    }
+    bool operator !=(const SATStatus& lhs, const SATStatus& rhs) {
+      return not (lhs == rhs);
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
 
     class AverageTime : public ResultElement {
@@ -118,6 +134,12 @@ namespace OKlib {
       return out << e.average();
     }
 
+    bool operator ==(const AverageTime& lhs, const AverageTime& rhs) {
+      return lhs.average() == rhs.average();
+    }
+    bool operator !=(const AverageTime& lhs, const AverageTime& rhs) {
+      return not (lhs == rhs);
+    }
     // ---------------------------------------------------------------------------------------------------------------
 
     class TimeOut : public ResultElement {
@@ -132,7 +154,28 @@ namespace OKlib {
       return out << e.time_out();
     }
  
+    bool operator ==(const TimeOut& lhs, const TimeOut& rhs) {
+      return lhs.time_out() == rhs.time_out();
+    }
+    bool operator !=(const TimeOut& lhs, const TimeOut& rhs) {
+      return not (lhs == rhs);
+    }
+    
     // ---------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------------
+    
+    typedef boost::tuple<SuperSeries, Series, Benchmark, Solver, SATStatus, AverageTime, TimeOut> TupleResult;
+
+    std::ostream& operator <<(std::ostream& out, const TupleResult& t) {
+      return out << t.get<0>() << " " << t.get<1>() << " " << t.get<2>() << " " << t.get<3>() << " " << t.get<4>() << " " << t.get<5>() << " " << t.get<6>();
+    }
+
+    typedef boost::tuple<RandomKSat, RandomKSat_n, Benchmark, Solver, SATStatus, AverageTime, TimeOut> TupleResultRandomSat;
+
+    std::ostream& operator <<(std::ostream& out, const TupleResultRandomSat& t) {
+      return out << t.get<0>() << " " << t.get<1>() << " " << t.get<2>() << " " << t.get<3>() << " " << t.get<4>() << " " << t.get<5>() << " " << t.get<6>();
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
 
     class ResultBasis {
@@ -144,7 +187,6 @@ namespace OKlib {
       const SATStatus& sat_status() const { return sat_status_(); }
       const AverageTime& average() const { return average_(); }
       const TimeOut& time_out() const { return time_out_(); }
-      void renew() { renew_(); }
       ~ResultBasis() {}
     private :
       virtual const SuperSeries& super_series_() const = 0;
@@ -154,8 +196,9 @@ namespace OKlib {
       virtual const SATStatus& sat_status_() const = 0;
       virtual const AverageTime& average_() const = 0;
       virtual const TimeOut& time_out_() const = 0;
-      virtual void renew_() = 0;
     };
+
+    // ---------------------------------------------------------------------------------------------------------------
 
     template <class> class ParserResult;
 
@@ -175,15 +218,33 @@ namespace OKlib {
       const SATStatus& sat_status_() const { return *sat_stat; }
       const AverageTime& average_() const { return *avg; }
       const TimeOut& time_out_() const { return *tmo; }
-      void renew_() {
-	sup_ser = new SuperSeries; ser = new Series; bench = new Benchmark; solv = new Solver; sat_stat = new SATStatus; avg = new AverageTime; tmo = new TimeOut;
-      }
     public :
       Result() : sup_ser(new SuperSeries), ser(new Series), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+      Result(const Result& r) : sup_ser(new SuperSeries(*r.sup_ser)), ser(new Series(*r.ser)), bench(new Benchmark(*r.bench)), solv(new Solver(*r.solv)), sat_stat(new SATStatus(*r.sat_stat)), avg(new AverageTime(*r.avg)), tmo(new TimeOut(*r.tmo)) {}
+      // ToDo: Also copy assignment with deep copying!!
       ~Result() {
-	delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
+        delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
       }
     };
+
+    std::ostream& operator <<(std::ostream& out, const Result& r) {
+      return out << r.super_series() << " " <<r.series() << " " <<r.benchmark() << " " << r.solver() << " " << r.sat_status() << " " << r.average() << " " <<r.time_out();
+    }
+
+    bool operator ==(const TupleResult& lhs, const Result& rhs) {
+      return lhs.get<0>() == rhs.super_series() and lhs.get<1>() == rhs.series() and lhs.get<2>() == rhs.benchmark() and lhs.get<3>() == rhs.solver() and lhs.get<4>() == rhs.sat_status() and lhs.get<5>() == rhs.average() and lhs.get<6>() == rhs.time_out();
+    }
+    bool operator ==(const Result& lhs, const TupleResult& rhs) {
+      return rhs == lhs;
+    }
+    bool operator !=(const TupleResult& lhs, const Result& rhs) {
+      return not (lhs == rhs);
+    }
+    bool operator !=(const Result& lhs, const TupleResult& rhs) {
+      return not (lhs == rhs);
+    }
+    
+    // ---------------------------------------------------------------------------------------------------------------
 
     class ResultRandomSatBasis : public ResultBasis {
     public :
@@ -212,19 +273,31 @@ namespace OKlib {
       const SATStatus& sat_status_() const { return *sat_stat; }
       const AverageTime& average_() const { return *avg; }
       const TimeOut& time_out_() const { return *tmo; }
-      void renew_() {
-	sup_ser = new RandomKSat; ser = new RandomKSat_n; bench = new Benchmark; solv = new Solver; sat_stat = new SATStatus; avg = new AverageTime; tmo = new TimeOut;
-      }
     public :
       ResultRandomSat() : sup_ser(new RandomKSat), ser(new RandomKSat_n), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+      ResultRandomSat(const ResultRandomSat& r) : sup_ser(new RandomKSat(*r.sup_ser)), ser(new RandomKSat_n(*r.ser)), bench(new Benchmark(*r.bench)), solv(new Solver(*r.solv)), sat_stat(new SATStatus(*r.sat_stat)), avg(new AverageTime(*r.avg)), tmo(new TimeOut(*r.tmo)) {}
       ~ResultRandomSat() {
 	delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
       }
+      // ToDo: Also copy assignment with deep copying!!
     };
-    
-    // ---------------------------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------------------------
 
+    std::ostream& operator <<(std::ostream& out, const ResultRandomSat& r) {
+      return out << r.super_series() << " " <<r.series() << " " <<r.benchmark() << " " << r.solver() << " " << r.sat_status() << " " << r.average() << " " <<r.time_out();
+    }
+
+    bool operator ==(const TupleResultRandomSat& lhs, const ResultRandomSat& rhs) {
+      return lhs.get<0>() == rhs.super_series() and lhs.get<1>() == rhs.series() and lhs.get<2>() == rhs.benchmark() and lhs.get<3>() == rhs.solver() and lhs.get<4>() == rhs.sat_status() and lhs.get<5>() == rhs.average() and lhs.get<6>() == rhs.time_out();
+    }
+    bool operator ==(const ResultRandomSat& lhs, const TupleResultRandomSat& rhs) {
+      return rhs == lhs;
+    }
+    bool operator !=(const TupleResultRandomSat& lhs, const ResultRandomSat& rhs) {
+      return not (lhs == rhs);
+    }
+    bool operator !=(const ResultRandomSat& lhs, const TupleResultRandomSat& rhs) {
+      return not (lhs == rhs);
+    }
 
   }
 
