@@ -22,6 +22,8 @@ namespace OKlib {
     typedef double FloatingPoint;
     typedef unsigned int NaturalNumber;
 
+    // ---------------------------------------------------------------------------------------------------------------
+    
     class ResultElement_with_name : public ResultElement {
       String name_;
     public :
@@ -39,6 +41,19 @@ namespace OKlib {
     }
     bool operator !=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
       return not (lhs == rhs);
+    }
+
+    bool operator <(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
+      return lhs.name() < rhs.name();
+    }
+    bool operator >(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
+      return rhs < lhs;
+    }
+    bool operator <=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
+      return not(lhs > rhs);
+    }
+    bool operator >=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
+      return not(lhs < rhs);
     }
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -220,6 +235,7 @@ namespace OKlib {
       const TimeOut& time_out_() const { return *tmo; }
     public :
       Result() : sup_ser(new SuperSeries), ser(new Series), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+      Result(const TupleResult& r) : sup_ser(new SuperSeries(r.get<0>())), ser(new Series(r.get<1>())), bench(new Benchmark(r.get<2>())), solv(new Solver(r.get<3>())), sat_stat(new SATStatus(r.get<4>())), avg(new AverageTime(r.get<5>())), tmo(new TimeOut(r.get<6>())) {}
       Result(const Result& r) : sup_ser(new SuperSeries(*r.sup_ser)), ser(new Series(*r.ser)), bench(new Benchmark(*r.bench)), solv(new Solver(*r.solv)), sat_stat(new SATStatus(*r.sat_stat)), avg(new AverageTime(*r.avg)), tmo(new TimeOut(*r.tmo)) {}
       // ToDo: Also copy assignment with deep copying!!
       ~Result() {
