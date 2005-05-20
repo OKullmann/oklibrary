@@ -45,13 +45,14 @@ namespace OKlib {
             VectorSets& sets;
             VectorValues& output;
             Set& reference;
-            check_union(VectorSets& sets, VectorValues& output, Set& reference) : sets(sets), output(output), reference(reference) {}
+            union_type union_f;
+            check_union(VectorSets& sets, VectorValues& output, Set& reference, union_type union_f) : sets(sets), output(output), reference(reference), union_f(union_f) {}
             void perform_test_trivial() {
               if (sets.size() > output.size()) output.resize(sets.size());
-//               const value_iterator end = union_f(sets.begin(), sets.end(), output.begin());
-//               const VectorValues::size_type size = end - output.begin();
-//               if (size != reference.size())
-//                 throw ::OKlib::TestSystem::TestException("Size is " + boost::lexical_cast<std::string>(size) + ", and not " + boost::lexical_cast<std::string>(reference.size())).add(OKLIB_TESTDESCRIPTION);
+              const value_iterator end = union_f(sets.begin(), sets.end(), output.begin());
+              const VectorValues::size_type size = end - output.begin();
+              if (size != reference.size())
+                throw ::OKlib::TestSystem::TestException("Size is " + boost::lexical_cast<std::string>(size) + ", and not " + boost::lexical_cast<std::string>(reference.size())).add(OKLIB_TESTDESCRIPTION);
             }
           };
 
@@ -59,7 +60,7 @@ namespace OKlib {
           VectorValues output;
           Set reference;
 
-          check_union check(sets, output, reference);            
+          check_union check(sets, output, reference, union_f);            
 
           OKLIB_TESTTRIVIAL_RETHROW(check);
 
