@@ -13,7 +13,7 @@ namespace OKlib {
 
     namespace Testobjects {
 
-      Test_Intersection<Intersection> test_intersection;
+      Test_Union<Union> test_union;
 
     }
 
