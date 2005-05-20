@@ -6,21 +6,21 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <istream>
 #include <iostream>
 #include <cassert>
+
+#include "DPv.hpp"
 
 namespace OKlib {
   
   namespace DPv {
     
     namespace Input {
-      
-      struct Dimacs {
-	Dimacs(const std::string& fname) : fname(fname) {
-	  fopen();
-	}
+
+      struct FStream {
       private :
-	std::ifstream input;
+	std::fstream input;
 	std::string fname;
 	void fopen() {
 	  if (not input.is_open()) input.open(fname.c_str(), std::ios_base::in);
@@ -31,12 +31,17 @@ namespace OKlib {
 	  if (input.is_open()) input.close();
 	  assert(input.is_open() == false);
 	}
-	
       };
+	
+      struct Dimacs {
+	//Dimacs(const std::istream& input) : input(input) {
+	//Clause_set cs;
+	//}
 
-    };
-    
+	//std::istream input;
+      };
+      
     }
-}
+  }
 }
 #endif
