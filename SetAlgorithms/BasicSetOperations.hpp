@@ -15,7 +15,7 @@ namespace OKlib {
   namespace SetAlgorithms {
 
     template <typename InputIterator_sets, typename InputIterator_elements, typename OutputIterator>
-    struct Intersection {
+    struct Union {
       // ToDo: Adding concept etc.
       // InputIterator::value_type is std::pair<InputIterator_elements, InputIterator_elements>.
     private :
@@ -59,6 +59,7 @@ namespace OKlib {
           }
           to_be_updated.clear();
         }
+        return out;
       }
     };
     
