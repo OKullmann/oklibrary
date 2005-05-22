@@ -3,74 +3,96 @@
 #define DPV_Hg8o7tq89
 
 #include <utility>
+#include <algorithm>
 #include <set>
+
+#include "BasicDataStructure.hpp"
 
 namespace OKlib {
   
   namespace DPv {
     
-    struct Variable {
-      
-      typedef unsigned int value_type;
-
-      Variable(const value_type& v) : v(v) {};      
-      Variable():v(0){};
-
-    private:
-      value_type v;
-      
-    public:
-      friend inline bool operator ==(const Variable lhs, const Variable rhs) {
-	return lhs.v == rhs.v;
-      }
-      friend inline bool operator <(const Variable lhs, const Variable rhs) {
-	return lhs.v < rhs.v;
-      }
-    };
-
-    struct Literal {
-      enum Sign {P = 0, N = 1};
-      typedef Variable base_type;
-      typedef std::pair<Variable,Sign> value_type;
-
-      Literal(const value_type& l) : l(l) {};
-      Literal(const base_type& v) : l(std::make_pair(v,P)) {};
-      Literal(const base_type& v, const Sign S) : l(std::make_pair(v,S)) {};
-      Literal() : l(std::make_pair<base_type,Sign>(base_type(),P)) {};
-
-    private:
-      value_type l;
- 
-    public:
-      friend inline bool operator ==(const Literal lhs, const Literal rhs) {
-	return lhs.l.first == rhs.l.first;
-      }
-      friend inline bool operator <(const Literal lhs, const Literal rhs) {
-	return lhs.l.first < rhs.l.first;
-      }
-    };
+    Literal literal_compliment(const Literal& l){
+      Literal tmp(l);
+      tmp.l = -1 * l.l;
+      return tmp;
+    }
     
+    Clause clause_compliment(const Clause& cl) {
+      Clause tmp;
+      for (Clause::const_iterator i = cl.c.begin();i!=cl.c.end();++i){
+	cl_insert(literal_compliment((*i)), tmp);
+      }
+      return tmp;
+    }
     
-    struct Clause {
-      typedef std::set<Literal> value_type;
-      typedef Literal base_type;
+    bool resolvable(const Clause& lhs, const Clause& rhs){
+      Clause tmp, result;
+      tmp.c = clause_compliment(rhs).c;
+      std::set_intersection(lhs.c.begin(), lhs.c.end(),tmp.c.begin(),tmp.c.end(),std::inserter(result.c, result.c.begin()));
+      if (result.c.size() == 1) 
+	return true; 
+      else 
+	return false;
+      return false;
+    }
+    bool resolvable(const Variable& v, const Clause& lhs, const Clause& rhs){
+      Clause tmp, result;
+      tmp.c = clause_compliment(rhs).c;
+      std::set_intersection(lhs.c.begin(), lhs.c.end(),tmp.c.begin(),tmp.c.end(),std::inserter(result.c, result.c.begin()));
+      //std::cout << Variable(*(result.c.begin())).v;
+      if (result.c.size() == 1 and Variable(*(result.c.begin())) == v) 
+	return true; 
+      else 
+	return false;
+      return false;
+    }
+
+    Clause resolvent(const Clause& lhs, const Clause& rhs){
+      Clause result;
+      if (resolvable(lhs,rhs)){
+	Clause tl,tr,ctr, rv;
+	tl.c = lhs.c;
+	tr.c = rhs.c;
+	ctr.c = clause_compliment(tr).c;
+	std::set_intersection(tl.c.begin(), tl.c.end(),ctr.c.begin(),ctr.c.end(),std::inserter(rv.c, rv.c.begin()));
+	Literal l(*(rv.c.begin()));
+	if (tl.c.count(l) > 0)
+	  tl.c.erase(tl.c.find(l));
+	else
+	  tl.c.erase(tl.c.find(literal_compliment(l)));
+	if (tr.c.count(l) > 0)
+	  tr.c.erase(tr.c.find(l));
+	else
+	  tr.c.erase(tr.c.find(literal_compliment(l)));
+	std::set_union(tl.c.begin(), tl.c.end(),tr.c.begin(),tr.c.end(),std::inserter(result.c, result.c.begin()));
+      }
+      return result;
+    }
+
+    Clause_set DP_reduction(const Variable& v, const Clause_set& cls){
+      Clause_set tmp, resolvents, to_remove;
+      tmp.cs = cls.cs;
+      for (Clause_set::const_iterator i = cls.cs.begin(); i != cls.cs.end(); ++i){
+	for (Clause_set::const_iterator j = cls.cs.begin(); j != cls.cs.end(); ++j) {
+	  if (resolvable(v,*i,*j)) {
+	    cls_insert(resolvent(*i,*j),resolvents);
+	    cls_insert(*i,to_remove);
+	    cls_insert(*j,to_remove);
+	  }
+	}
+      }
+      for (Clause_set::const_iterator i = to_remove.cs.begin(); i != to_remove.cs.end(); ++i)
+	tmp.cs.erase(tmp.cs.find(*i));
+      for (Clause_set::const_iterator i = tmp.cs.begin(); i != tmp.cs.end(); ++i) {
+	if ((*i).c.count(Literal(v.v)) > 0 or (*i).c.count(literal_compliment(Literal(v.v))) > 0) 
+	  tmp.cs.erase(i);
+      }
       
-      Clause(const value_type& c) : c(c) {};
-      Clause() : c(value_type()) {};
+      std::set_union(tmp.cs.begin(), tmp.cs.end(),resolvents.cs.begin(),resolvents.cs.end(),std::inserter(tmp.cs, tmp.cs.begin()));
+      return tmp;
+    }
 
-    private:
-      value_type c;
-    };
-
-    struct Clause_set {
-      typedef std::set<Clause> value_type;
-      typedef Clause base_type;
-
-      Clause_set(const value_type& cs) : cs(cs) {};
-      Clause_set() : cs(value_type()) {};
-    private:
-      value_type cs;
-    };
   }
 }
 #endif 
