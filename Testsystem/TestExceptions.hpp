@@ -32,6 +32,7 @@ namespace OKlib {
 
     typedef std::vector<ErrorDescription> ErrorContainer;
     // Assumes, that the destructor of std::vector does not throw exceptions.
+    // ----------------------------------------------------------------------------------------------
 
     class TestException : public std::runtime_error {
       
@@ -44,7 +45,7 @@ namespace OKlib {
 
       TestException& add(const ErrorDescription e) {
         errors.push_back(e);
-	return *this;
+        return *this;
       }
 
       friend std::ostream& operator <<(std::ostream& out, const TestException& E) {
