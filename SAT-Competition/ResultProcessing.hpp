@@ -9,6 +9,9 @@
 #include <map>
 #include <utility>
 #include <algorithm>
+#include <iterator>
+
+#include "FunctionHandling.hpp"
 
 #include "BasicSetOperations.hpp"
 
@@ -22,69 +25,123 @@ namespace OKlib {
 
     typedef std::set<const ResultNode*> SetResultNodesP;
 
-    typedef std::map<SuperSeries, const SetResultNodesP*> MapSuperSeries;
+    typedef std::map<SuperSeries, SetResultNodesP*> MapSuperSeries;
+    typedef std::map<Series, SetResultNodesP*> MapSeries;
+    typedef std::map<Benchmark, SetResultNodesP*> MapBenchmark;
 
-    class ResultNode {
-      ResultBasis* rb;
+    struct ResultNode {
+      const ResultBasis* rb;
+
       MapSuperSeries::const_iterator m_sup_ser_it;
+      MapSeries::const_iterator m_ser_it;
+      MapBenchmark::const_iterator m_bench_it;
+
+      explicit ResultNode(const ResultBasis* rb) : rb(rb) {}
     };
 
+    // ---------------------------------------------------------------------------------------------------------------------
+
     template <typename ResultIterator>
+    // ToDo: Conceptualisation
+    // ResultIterator::value_type is Result
+    // It is assumed that the lifetime of these results is as long as the lifetime of the ResultDatabase object.
     class ResultDatabase {
       MapSuperSeries map_sup_ser;
+      MapSeries map_ser;
+      MapBenchmark map_bench;
 
       typedef std::vector<ResultNode> VectorResultNodes;
       VectorResultNodes result_collection;
       typedef VectorResultNodes::size_type number_results_type;
       number_results_type number_results_;
-
-      typedef std::vector<const ResultNode*> VectorResultNodesP;
-      VectorResultNodesP workbench1, workbench2;
-      typedef VectorResultNodesP::const_iterator workbench_iterator;
+      typedef VectorResultNodes::iterator result_collection_iterator;
 
     public :
 
       ResultDatabase(ResultIterator begin, const ResultIterator end) {
-        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        for (; begin != end; ++begin)
+          result_collection.push_back(ResultNode(&*begin));
         number_results_ = result_collection.size();
-        workbench1.resize(number_results_); workbench2.resize(number_results_);
+        query_result.resize(number_results_);
+
+        const MapSuperSeries::iterator end_map_sup_ser(map_sup_ser.end());
+        const MapSeries::iterator end_map_ser(map_ser.end());
+        const MapBenchmark::iterator end_map_bench(map_bench.end());
+
+        for (result_collection_iterator i = result_collection.begin(); i != result_collection.end(); ++i) {
+          ResultNode& rn(*i);
+          const ResultBasis* r(rn.rb);
+
+          update_map<SuperSeries>(rn, r -> super_series(), map_sup_ser, rn.m_sup_ser_it, end_map_sup_ser);
+          update_map<Series>(rn, r -> series(), map_ser, rn.m_ser_it, end_map_ser);
+          update_map<Benchmark>(rn, r -> benchmark(), map_bench, rn.m_bench_it, end_map_bench);
+        }
       }
+
+      ~ResultDatabase() {
+        delete_values(map_sup_ser);
+        delete_values(map_ser);
+        delete_values(map_bench);
+      }
+
       number_results_type number_results() const { return number_results_; }
+
+      const MapSuperSeries& super_series() const { return map_sup_ser; }
+      const MapSeries& series() const { return map_ser; }
+      const MapBenchmark& benchmark() const { return map_bench; }
 
       typedef std::vector<const SetResultNodesP*> VectorOfSetsP;
       VectorOfSetsP vector_of_sets;
-      typedef std::pair<workbench_iterator, workbench_iterator> Range;
 
-      Range intersection() {
-        // ToDo: Using ::OKlib::Set::Algorithms::Intersection
-//         const VectorOfSetsP::size_type size = vector_of_sets.size();
-//         const workbench_iterator begin1 = workbench1.begin();
-//         if (size == 0) {
-//           workbench_iterator i1 = workbench1.begin();
-//           for (VectorResultNodes::const_iterator j = result_collection.begin(); j != result_collection.end(); ++j) // ToDo: Using std::transform
-//             *i1 = &*j;
-//           return Range(begin1, workbench1.end());
-//         }
-//         VectorOfSetsP::const_iterator i = vector_of_sets.begin();
-//         if (size == 1)
-//           return Range(begin1, std::copy((*i) -> begin(), (*i) -> end(), begin1));
-//         workbench_iterator end1 = std::set_intersection((*i) -> begin(), (*i) -> end(), (*(i+1)) -> begin(), (*(i+1)) -> end(), begin1);
-//         if (size == 2) return Range(begin1, end1);
-//         i += 2;
-//         const VectorOfSetsP::const_iterator end = vector_of_sets.end();
-//         const workbench_iterator begin2 = workbench2.begin();
-//         workbench_iterator end2 = workbench2.end();
-//         for (; i+1 < end; ++i) {
-//           end2 = std::set_intersection((*i) -> begin(), (*i) -> end(), begin1, end1);
-//           ++i;
-//           end1 = std::set_intersection((*i) -> begin(), (*i) -> end(), begin2, end2);
-//         }
-//         if (i != end)
-//           return Range(begin2, std::set_intersection((*i) -> begin(), (*i) -> end(), begin1, end1));
-//         else
-//           return Range(begin1, end1);
+      typedef std::vector<const ResultNode*> VectorResultNodesP;
+    private :
+      VectorResultNodesP query_result;
+    public :
+
+      const VectorResultNodesP& intersection() {
+        query_result.clear();
+        const VectorOfSetsP::size_type size_vector_of_sets = vector_of_sets.size();
+        if (size_vector_of_sets == 0) {
+          return result_collection;
+        }
+        typedef SetResultNodesP::iterator set_iterator;
+        typedef std::pair<set_iterator, set_iterator> Range;
+        typedef std::vector<Range> VectorRanges;
+        VectorRanges vr;
+        vr.resize(size_vector_of_sets);
+        typedef VectorOfSetsP::const_iterator vector_sets_iterator;
+        const vector_sets_iterator end = vector_of_sets.end();
+        for (VectorOfSetsP::const_iterator i = vector_of_sets.begin(); i != end; ++i) {
+          const SetResultNodesP* set_pointer = *i;
+          vr.push_back(Range(set_pointer -> begin(), set_pointer -> end()));
+        }
+        ::OKlib::SetAlgorithms::intersection_sets(vr.begin(), vr.end(), std::back_inserter(query_result));
+        return query_result;
       }
-      
+
+    private :
+
+      template <class Map>
+      void delete_values(Map& m) {
+        typedef typename Map::iterator iterator;
+        std::for_each(m.begin(), m.end(), FunctionHandling::DeleteObjectSecond());
+      }
+
+      template <class ResultElement, class Map>
+      void update_map(ResultNode& rn, const ResultElement e, Map& m, typename Map::const_iterator& m_it, const typename Map::iterator& end) {
+        const ResultBasis* r(rn.rb);
+        typedef typename Map::iterator iterator;
+        const iterator it(m.find(e));
+            if (it != end) {
+              m_it = it;
+              it -> second -> insert(&rn);
+            }
+            else {
+              SetResultNodesP* set = new SetResultNodesP;
+              set -> insert(&rn);
+              m.insert(std::make_pair(e, set));
+            }
+      }
     };
 
   }
