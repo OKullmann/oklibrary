@@ -294,6 +294,9 @@ namespace OKlib {
     };
 
     template <class ParserResult, class OutputIterator>
+    // ToDo: Conceptualisation
+    // ParserResult is a parser for results
+    // OutputIterator::value_type is Result
     struct Copy_results {
       boost::spirit::parse_info<> operator() (const ParseIterator begin_in, const ParseIterator end_in, OutputIterator begin_out) {
         ParserResultSequence<ParserResult, OutputIterator> p(begin_out);

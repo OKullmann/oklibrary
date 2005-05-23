@@ -194,6 +194,10 @@ namespace OKlib {
     // ---------------------------------------------------------------------------------------------------------------
 
     class ResultBasis {
+      // ToDo: This should be an instance of a general pattern.
+      // Instead of all the name duplications, the elements should be
+      // accessible via the type name, e.g., element<SuperSeries>().
+      // Template metaprogramming should yield a generic result container, for a given typelist.
     public :
       const SuperSeries& super_series() const { return super_series_(); };
       const Series& series() const { return series_(); }
