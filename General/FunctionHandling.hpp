@@ -5,8 +5,29 @@
 #define FUNCTIONHANDLINGWAECHTER
 
 #include <functional>
+#include <utility>
 
 namespace FunctionHandling {
+
+  // -------------------------------------------------
+  // Access
+  // -------------------------------------------------
+
+  template <typename>
+  struct First;
+
+  template <typename T1, typename T2>
+  struct First<std::pair<T1, T2> > : std::unary_function<std::pair<T1, T2>, T1> {
+    T1 operator() (const std::pair<T1, T2>& p) const { return p.first; }
+  };
+
+  template <typename>
+  struct Second;
+
+  template <typename T1, typename T2>
+  struct Second<std::pair<T1, T2> > : std::unary_function<std::pair<T1, T2>, T1> {
+    T1 operator() (const std::pair<T1, T2>& p) const { return p.second; }
+  };
 
   // -------------------------------------------------
   // Deletion
