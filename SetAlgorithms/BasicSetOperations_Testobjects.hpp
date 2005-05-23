@@ -15,6 +15,8 @@ namespace OKlib {
 
       Test_Union<Union> test_union;
 
+      Test_Intersection<Intersection> test_intersection;
+
     }
 
   }
