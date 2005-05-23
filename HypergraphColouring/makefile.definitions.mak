@@ -10,6 +10,11 @@ ifdef OKTESTSYSTEM
 else
   OKTestsystem :=
 endif
+ifdef OKCONCEPTS
+  OKConcepts := -I$(OKCONCEPTS)
+else
+  OKConcepts :=
+endif
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -38,7 +43,7 @@ test_program := TestHypergraphColouring
 
 programs :=
 
-source_libraries :=  $(Boost) $(OKTestsystem)
+source_libraries :=  $(Boost) $(OKTestsystem) $(OKConcepts)
 
 link_libraries := 
 
