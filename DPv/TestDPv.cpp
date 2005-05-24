@@ -1,10 +1,9 @@
 #include <iostream>
 
-#include "Input_output.hpp"
-#include "BasicDataStructure.hpp"
-#include "Statistics.hpp"
-#include "DPv.hpp"
+#include "TestBaseClass.hpp"
+
+#include "Input_output_Testobjects.hpp"
 
 int main(const int argc, const char* const argv[]) {
-
+  return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
 }
