@@ -3,6 +3,7 @@
 // Concepts according to
 // ISO/IEC 14882: 2003
 // Section 24.1 and Section 24.3.1
+// PLUS const-correctness.
 
 #ifndef STDITERATORS_pOpt5185
 
@@ -13,6 +14,8 @@
 #include <boost/concept_check.hpp>
 
 #include "ConceptsBase.hpp"
+#include "std_Basics.hpp"
+#include "Basics.hpp"
 
 namespace OKlib {
 
@@ -28,16 +31,15 @@ namespace OKlib {
       typedef typename std::iterator_traits<Iterator>::pointer pointer;
       // ToDo: "reference" and "pointer" is never explained in the standard, and the requirements on iterator concepts don't mention them, but they suddenly show up in the iterator traits (24.3.1) ?
       void constraints() {
-        Iterator u(a);
-        u = a;
-        static_cast<bool>(a == b); // ToDo: is this exactly "is convertible" ?
-        static_cast<bool>(a != b);
+        boost::function_requires<FullyEqualityComparable<Iterator> >();
+        boost::function_requires<Assignable<Iterator> >();
+        boost::function_requires<CopyConstructible<Iterator> >();
         static_cast<value_type>(*a);
         static_cast<Iterator&>(++r);
         (void) r++;
         static_cast<value_type>(*r++);
       }
-      const Iterator a, b; // ToDo: It seems the standard forgot to add constness ?
+      const Iterator a, b;
       Iterator& r;
     };
     // ToDO: Can expressions "a -> m" be expressed ?
@@ -45,10 +47,14 @@ namespace OKlib {
 
     template <typename T>
     class InputIterator_Archetype {
-    private:
+      InputIterator_Archetype();
       typedef InputIterator_Archetype self;
       struct internal {
         T operator* () {}
+      };
+    protected :
+      struct convertible_to_bool {
+        operator bool() {}
       };
     public:
       typedef std::input_iterator_tag iterator_category;
@@ -57,9 +63,6 @@ namespace OKlib {
       typedef void pointer; // ToDo: left unspecified in the standard ?
       struct reference {
         operator T() {}
-      };
-      struct convertible_to_bool {
-        operator bool() {}
       };
       self& operator=(const self&) {}
       convertible_to_bool operator==(const self&) const {}
