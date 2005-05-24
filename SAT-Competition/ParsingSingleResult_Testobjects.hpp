@@ -4,6 +4,7 @@
 
 #define PARSINGSINGLERESULTTESTOBJECTSS_992ttgBa
 
+#include "ParsingSingleResult.hpp"
 #include "ParsingSingleResult_Tests.hpp"
 
 namespace OKlib {
