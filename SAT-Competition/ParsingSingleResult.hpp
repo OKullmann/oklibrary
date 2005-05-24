@@ -8,30 +8,21 @@
 
 #include <boost/spirit/core.hpp>
 
+#include "ParserBase.hpp"
+
 #include "SingleResult.hpp"
 
 namespace OKlib {
 
   namespace SATCompetition {
 
-    // ToDo:
-    // Error messages with error locations (needs then a generic ParseIterator in order to use spirit FileIterator as MultiPassIterator)
-    // Generic components
-
-    typedef const char* ParseIterator;
-    typedef boost::spirit::rule<> Rule;
-
-    class ParserBase {
-    public :
-      const Rule& parser() const { return parser_; }
-      virtual ~ParserBase() {}
-    protected :
-      Rule parser_;
-    };
-
-     // ---------------------------------------------------------------------------------------------------------
-
-   template <class ResultElement>
+    using ::OKlib::Parser::ParseIterator;
+    
+    using ::OKlib::Parser::Rule;
+    
+    using ::OKlib::Parser::ParserBase;
+    
+    template <class ResultElement>
     class ParserResultElement;
 
     // ---------------------------------------------------------------------------------------------------------
