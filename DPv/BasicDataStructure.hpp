@@ -6,6 +6,7 @@
 #include <set>
 
 namespace OKlib {
+
   namespace DPv {
         
     typedef int int_type;
@@ -13,7 +14,6 @@ namespace OKlib {
     struct Literal {
  
       Literal(const int_type l) : l(l) {};
-      Literal(const Literal& l) : l(l.l) {};
       Literal() : l(0) {};
       int_type l;
         
@@ -22,10 +22,6 @@ namespace OKlib {
       }
       friend inline bool operator <(const Literal& lhs, const Literal& rhs) {
 	return lhs.l < rhs.l;
-      }
-      Literal& operator =(const Literal& rhs) {
-	l = rhs.l;
-	return *this;
       }
     };
 
