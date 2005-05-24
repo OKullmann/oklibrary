@@ -18,6 +18,7 @@
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
+#include "ParserBase_Tests.hpp"
 
 #include "SingleResult.hpp"
 #include "ParsingSingleResult.hpp"
@@ -25,36 +26,6 @@
 namespace OKlib {
 
   namespace SATCompetition {
-
-    enum Matching_possibilities { match_full, match_not_full, };
-
-    template <class Parser>
-    class Test_ParsingString : public ::OKlib::TestSystem::TestBase {
-      Parser& parser;
-      const std::string test_string;
-      const Matching_possibilities match;
-    public :
-      typedef Test_ParsingString test_type;
-      Test_ParsingString(Parser& parser, const std::string& test_string, const Matching_possibilities match) : parser(parser), test_string(test_string), match(match) {}
-    private :
-      void perform_test_trivial() {
-        switch (match) {
-        case match_full:
-          if (not boost::spirit::parse(test_string.c_str(), parser.parser()).full)
-            throw ::OKlib::TestSystem::TestException("String " + test_string + " was not accepted.").add(OKLIB_TESTDESCRIPTION);
-            // ToDo: Using Messages
-          break;
-        case (match_not_full) :
-          if (boost::spirit::parse(test_string.c_str(), parser.parser()).full) {
-            throw ::OKlib::TestSystem::TestException("String " + test_string + " was accepted.").add(OKLIB_TESTDESCRIPTION);
-            // ToDo: Using Messages
-            break;
-          }
-        }
-      }
-    };
-
-    // -----------------------------------------------------------------------------------------------------------------------------
 
     template <class SuperSeries>
     class Test_ParserResultElement_SuperSeries_positive_cases : public ::OKlib::TestSystem::TestBase {
@@ -67,7 +38,7 @@ namespace OKlib {
         Parser p(s);
         {
           const std::string test = "abc123ABC";
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
             throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
         }
@@ -83,10 +54,10 @@ namespace OKlib {
         typedef ParserResultElement<SuperSeries> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   123ABC456", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "468xyz1i   ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "a%b", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   123ABC456", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "468xyz1i   ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "a%b", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -124,7 +95,7 @@ namespace OKlib {
             const NaturalNumber k = *i;
             const std::string k_string(boost::lexical_cast<std::string>(k));
             const std::string test = k_string + "SAT";
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.name() != test)
             throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
             if (s.clause_length() != k)
@@ -143,9 +114,9 @@ namespace OKlib {
         typedef ParserResultElement<RandomKSat> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "SAT", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "123SAT", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "12SA", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "SAT", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "123SAT", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "12SA", ::OKlib::Parser::match_not_full));
         }
       }
     };
@@ -178,7 +149,7 @@ namespace OKlib {
         Parser p(s);
         {
           const std::string test = "09/y-i/A/xXyY1";
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
             throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
         }
@@ -194,12 +165,12 @@ namespace OKlib {
         typedef ParserResultElement<Series> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   A/B", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "x", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "x/", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "a%/b", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "a/b ", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   A/B", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "x", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "x/", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "a%/b", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "a/b ", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -240,7 +211,7 @@ namespace OKlib {
             const NaturalNumber n = i -> second;
             const std::string test_n =  boost::lexical_cast<std::string>(n);
             const std::string test = i -> first + test_n;
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.name() != test)
               throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
             if (s.count_variables() != n)
@@ -259,14 +230,14 @@ namespace OKlib {
         typedef ParserResultElement<RandomKSat_n> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "A/B", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "A/Bv", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "X/-7", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "hh0/-v", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "a/b-vy", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "a/b-v100 ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "random/MediumSizeBenches/k3-v7-r4.263--v300", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "random/MediumSizeBenches/-v100-v300", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "A/B", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "A/Bv", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "X/-7", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "hh0/-v", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "a/b-vy", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "a/b-v100 ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "random/MediumSizeBenches/k3-v7-r4.263--v300", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "random/MediumSizeBenches/-v100-v300", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -299,7 +270,7 @@ namespace OKlib {
         Parser p(s);
         {
           const std::string test = "bench123";
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
             throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
         }
@@ -315,10 +286,10 @@ namespace OKlib {
         typedef ParserResultElement<Benchmark> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   bench123", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "bench123   ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "bench123l", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   bench123", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "bench123   ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "bench123l", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -350,7 +321,7 @@ namespace OKlib {
         Parser p(s);
         {
           const std::string test = "solver123";
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
             throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
         }
@@ -366,10 +337,10 @@ namespace OKlib {
         typedef ParserResultElement<Solver> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   solver123", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "solver123   ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "solver123l", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   solver123", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "solver123   ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "solver123l", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -410,7 +381,7 @@ namespace OKlib {
             
             const std::string test = i -> first;
             const SolverResult result = i -> second;
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.result() != result)
               throw ::OKlib::TestSystem::TestException("Result is " + boost::lexical_cast<std::string>(s.result()) + ", and not " + boost::lexical_cast<std::string>(result)).add(OKLIB_TESTDESCRIPTION);
           }
@@ -427,10 +398,10 @@ namespace OKlib {
         typedef ParserResultElement<SATStatus> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   0", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "10   ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "1", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   0", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "10   ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "1", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -471,7 +442,7 @@ namespace OKlib {
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
             const std::string test = *i;
             const FloatingPoint average = boost::lexical_cast<FloatingPoint>(test);
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.average() != average)
               throw ::OKlib::TestSystem::TestException("Average is " + boost::lexical_cast<std::string>(s.average()) + ", and not " + boost::lexical_cast<std::string>(average)).add(OKLIB_TESTDESCRIPTION);
           }
@@ -488,11 +459,11 @@ namespace OKlib {
         typedef ParserResultElement<AverageTime> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   0.1", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "10.0   ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "x", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "+11.1", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   0.1", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "10.0   ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "x", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "+11.1", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -531,7 +502,7 @@ namespace OKlib {
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
             const std::string test = *i;
             const NaturalNumber time_out = boost::lexical_cast<NaturalNumber>(test);
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.time_out() != time_out)
               throw ::OKlib::TestSystem::TestException("Time_Out is " + boost::lexical_cast<std::string>(s.time_out()) + ", and not " + boost::lexical_cast<std::string>(time_out)).add(OKLIB_TESTDESCRIPTION);
           }
@@ -548,12 +519,12 @@ namespace OKlib {
         typedef ParserResultElement<TimeOut> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "   0", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "10   ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "x", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "+11", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "100.0", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   0", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "10   ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "x", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "+11", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "100.0", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -600,7 +571,7 @@ namespace OKlib {
             std::stringstream test_stream;
             test_stream << *i;
             const std::string test(test_stream.str());
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if (s.super_series().name() != i -> get<0>().name()) {
               std::stringstream out;
               out << "Super Series is " << s.super_series() << ", and not " << i -> get<0>();
@@ -655,11 +626,11 @@ namespace OKlib {
         typedef ParserResult<Result> Parser;
         Parser p(s);
         {
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, " 3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200 1200", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200 1200 ", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200 1200", match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, "3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 0 1200 1200+11", match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, " 3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200 1200", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200 1200 ", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "random/MediumSizeBenches/k3-r4.263-v300 bench1903 solver5 0 1200 1200", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1903 0 1200 1200+11", ::OKlib::Parser::match_not_full));
         }
        }
     };
@@ -705,7 +676,7 @@ namespace OKlib {
             std::stringstream test_stream;
             test_stream << *i;
             const std::string test(test_stream.str());
-            OKLIB_TESTTRIVIAL_RETHROW(Test_ParsingString<Parser>(p, test, match_full));
+            OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if (s.super_series().name() != i -> get<0>().name()) {
               std::stringstream out;
               out << "Super Series is " << s.super_series() << ", and not " << i -> get<0>();
