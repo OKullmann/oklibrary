@@ -31,7 +31,7 @@ test_program := TestDPv
 
 programs := DPv
 
-source_libraries := $(Bibliothek) $(Loki) $(Boost) $(OKMessages) $(OKIOtools)
+source_libraries := $(Bibliothek) $(Boost) $(OKMessages) $(OKIOtools)
 
 boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc
