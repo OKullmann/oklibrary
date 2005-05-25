@@ -11,6 +11,7 @@ namespace OKlib {
   namespace Concepts {
 
     namespace Archetype_tests {
+      //ToDo: Move to Testobjects
 
       template class FullyEqualityComparable<FullyEqualityComparable_Archetype>;
 
