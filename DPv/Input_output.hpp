@@ -51,8 +51,6 @@ namespace OKlib {
 	  if (filestream.is_open()) filestream.close();
 	  assert(filestream.is_open() == false);
 	}
-	
-
       }; 
     }
 
@@ -144,7 +142,6 @@ namespace OKlib {
     // ToDo: Check for overflow
 
     // --------------------------------------------------------------------
-
     template <class ClauseSet>
     class DimacsParser : public ::OKlib::Parser::ParserBase {
       ClauseSet& F;
@@ -195,6 +192,39 @@ namespace OKlib {
       }
     };
 
+    template <typename T>
+    T& operator <<(T& os, Dimacs& obj) {
+      os << obj.formula;
+      return os;
+    };
+
+    namespace Output {
+      struct FStream {
+
+	FStream(const std::string& fname) : fname(fname) {
+	  fopen();
+	}  
+	~FStream() {
+	  fclose();
+	}
+	
+	std::fstream filestream;
+	
+      private :
+	
+	std::string fname;
+	void fopen() {
+	  if (not filestream.is_open()) filestream.open(fname.c_str(), std::ios_base::app);
+	  assert(filestream.is_open() == true);
+	}
+
+	void fclose() {
+	  if (filestream.is_open()) filestream.close();
+	  assert(filestream.is_open() == false);
+	}
+      }; 
+
+    }
   }
 }
 #endif
