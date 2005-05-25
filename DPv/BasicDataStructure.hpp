@@ -49,6 +49,14 @@ namespace OKlib {
 
       base_type c;
 
+      template <typename T>
+      void show(T& os) const {
+	os << "{ ";
+	for(const_iterator i = c.begin(); i != c.end(); ++i) 
+	  os << (*i).l << ' ';
+	os << "} ";
+      }
+
       friend inline bool operator ==(const Clause lhs, const Clause rhs) {
 	return lhs.c == rhs.c;
       }
@@ -68,13 +76,20 @@ namespace OKlib {
   
       base_type cs;
       
-      //template <class charT, class traits> friend
-      //std::basic_ostream<charT,traits>& operator << (std::basic_ostream<charT,traits>& os, const Clause_set& obj);
-
-      };
+      template <typename T> friend
+      T& operator <<(T& os, const Clause_set& cls);
+      
+      template <typename T>
+      void show(T& os) const {
+	os << "{ ";
+	for(const_iterator i = cs.begin(); i != cs.end(); ++i){ 
+	  (*i).show(os);
+      }
+	os << " }";
+      }
+    };
     
     
-
     void cls_insert(const Clause& cl, Clause_set& cls){
       cls.cs.insert(cl); 
     }
@@ -90,9 +105,14 @@ namespace OKlib {
 	  for (Clause::const_iterator j = (*i).c.begin(); j != (*i).c.end(); ++j) 
 	    lits.insert(*j);
       }
-      void show() {
-	for(const_iterator i = lits.begin(); i!=lits.end();++i) std::cout<< (*i).l << ' ';
+      
+      template <typename T>
+      void show(T& os) {
+	for(const_iterator i = lits.begin(); i != lits.end(); ++i) 
+	  os << (*i).l << ' ';
+	os << '\n';
       }
+      
       LitSet lits;
     };
     
@@ -104,29 +124,16 @@ namespace OKlib {
 	  vars.insert(std::abs((*i).l));
       }
       
-      void show() {
-	for(const_iterator i = vars.begin(); i!=vars.end();++i) std::cout<< (*i).v << ' ';
+      template <typename T>
+      void show(T& os) {
+	for(const_iterator i = vars.begin(); i != vars.end(); ++i) 
+	  os << (*i).v << ' ';
+	os << '\n';
       }
       
       VarSet vars;
     };
 
-    void show(const Clause& cl) {
-      std::cout << "{ ";
-      for(Clause::const_iterator i = cl.c.begin(); i!=cl.c.end();++i) 
-	std::cout << (*i).l << ' ';
-    
-      std::cout << "} ";
-    }
-
-    void show(const Clause_set& cls) {
-      std::cout << "{ ";
-      for(Clause_set::const_iterator i = cls.cs.begin(); i!=cls.cs.end();++i){ 
-	show(*i);
-      }
-      std::cout << " }";
-    }
-    
   }
 }
 #endif
