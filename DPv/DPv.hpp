@@ -5,12 +5,31 @@
 #include <utility>
 #include <algorithm>
 #include <set>
+#include <string>
 
 #include "BasicDataStructure.hpp"
 
 namespace OKlib {
   
   namespace DPv {
+    
+    namespace Error{
+      
+      struct Unknown_result {
+	std::string what() const {
+	  return "Reduction is in final form but can not determine SAT status";
+	}
+      };
+      
+      struct Illogical {
+	Illogical(const std::string& msg) : msg(msg) {}
+	std::string what() const {
+	  return msg;
+	}
+	const std::string msg;
+      };
+
+    }
     
     Literal literal_compliment(const Literal& l){
       Literal tmp(l);
@@ -91,6 +110,26 @@ namespace OKlib {
       
       std::set_union(tmp.cs.begin(), tmp.cs.end(),resolvents.cs.begin(),resolvents.cs.end(),std::inserter(tmp.cs, tmp.cs.begin()));
       return tmp;
+    }
+    
+    bool final_form (const Clause_set& cls) {
+      if (VariableSet(cls).vars.size() == 0) return true;
+      return false;
+    }
+    
+    bool is_sat(const Clause_set& cls) {
+      
+      if (final_form(cls)) {
+	if (cls.cs.size() == 0) 
+	  return true;
+	else 
+	  if (cls.cs.size() == 1) 
+	    return false;
+	  else
+	    throw Error::Unknown_result();
+      }
+      else
+	throw Error::Illogical("Reduction not yet finished!");
     }
 
   }
