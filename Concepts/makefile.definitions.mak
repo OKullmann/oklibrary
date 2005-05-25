@@ -38,7 +38,7 @@ test_program := TestConcepts
 
 programs :=
 
-source_libraries :=  $(Boost)
+source_libraries :=  $(Boost) $(OKTestsystem)
 
 link_libraries := 
 
