@@ -7,12 +7,12 @@
 #include <iterator>
 #include <string>
 
-#include <boost/concept_check.hpp>
 #include <boost/lexical_cast.hpp>
  
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 #include "Iterators.hpp"
+#include "LibraryBasics.hpp"
 
 #include "Van_der_Waerden_hypergraph.hpp"
 
@@ -26,9 +26,10 @@ namespace OKlib {
       typedef Test_Iterator_arithmetic_progression test_type;
     private :
       void perform_test_trivial() {
-        boost::function_requires< ::OKlib::Concepts::MultiPassInputIterator<Iterator_arithmetic_progression> >();
         // ToDo: Define (general) tests for InputIterator and MultiPass_InputIterator, and apply it here.
         // ToDo: Define concept "IteratorArithmeticProgression" and check it here.
+        OKLIB_MODELS_CONCEPT_REQUIRES(Iterator_arithmetic_progression, ::OKlib::Concepts::MultiPassInputIterator);
+        OKLIB_MODELS_CONCEPT_TAG(Iterator_arithmetic_progression, ::OKlib::Concepts::MultiPassInputIterator);
         typedef typename std::iterator_traits<Iterator_arithmetic_progression>::value_type value_type;
         {
           Iterator_arithmetic_progression end(11,0);
@@ -36,7 +37,7 @@ namespace OKlib {
           for (Iterator_arithmetic_progression begin(2,3); begin != end; ++begin, ++count) ;
           const value_type steps =  (11 - 2) / 3;
           if (count != steps)
-            throw ::OKlib::TestSystem::TestException("Count is " + boost::lexical_cast<std::string>(count) + ", and not " + boost::lexical_cast<std::string>(steps)).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW("Count is " + boost::lexical_cast<std::string>(count) + ", and not " + boost::lexical_cast<std::string>(steps));
         }
         {
           // ToDo: to be completed.
