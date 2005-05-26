@@ -91,6 +91,21 @@ namespace OKlib {
     // ----------------------------------------------------------------------------------------------------------------------
 
     template <typename T>
+    struct FullyConstructible {
+      void constraints() {
+        boost::function_requires<Destructible<T> >();
+        boost::function_requires<CopyConstructible<T> >();
+        boost::function_requires<DefaultConstructible<T> >();
+        boost::function_requires<Assignable<T> >();
+      }
+    };
+    struct FullyConstructible_tag : virtual Destructible_tag, virtual CopyConstructible_tag, virtual DefaultConstructible_tag, virtual Assignable_tag {};
+
+    class FullyConstructible_Archetype {};
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
+    template <typename T>
     struct EqualitySubstitutable {
       void constraints() {
         boost::function_requires<EqualityComparable<T> >();
@@ -105,6 +120,21 @@ namespace OKlib {
       EqualitySubstitutable_Archetype(const EqualitySubstitutable_Archetype&);
       EqualitySubstitutable_Archetype& operator=(const EqualitySubstitutable_Archetype&);
       ~EqualitySubstitutable_Archetype();
+    };
+
+    template <typename T>
+    struct ConstCorrect {
+      void constraints() {}
+    };
+    struct ConstCorrect_tag : virtual ConceptsBase_tag {};
+    // Semantics:
+    // Operations allowed for const T objects applied to const T objects maintain substitutability.
+
+    class ConstCorrect_Archetype {
+      ConstCorrect_Archetype();
+      ConstCorrect_Archetype(const ConstCorrect_Archetype&);
+      ConstCorrect_Archetype& operator=(const ConstCorrect_Archetype&);
+      ~ConstCorrect_Archetype();
     };
 
   }
