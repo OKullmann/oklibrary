@@ -386,31 +386,35 @@ namespace Tools {
   // System calls ------------------------------------------------------
 
   class System {
+    // ToDo: Combine with the system call in library General.
 
   public :
 
     System() // using a temporary file named by the system
-      : tempName(std::tmpnam(0)) {
+      : tempName_(std::tmpnam(0)) {
+      if (not tempName_)
+        throw Error::create("");
+      tempName.assign(tempName_);
       std::ofstream file(tempName.c_str());
       if (! file)
-	throw Error::create(tempName);
+        throw Error::create(tempName);
     }
 
     System(const string& name) // using a temporary file named name
       : tempName(name) {
       std::ofstream file(tempName.c_str());
       if (! file)
-	throw Error::create(tempName);
+        throw Error::create(tempName);
     }
 
     string operator () (const string& command) {
       // returns the whole output
       const string& full_command = command + " > " + tempName;
       if (std::system(full_command.c_str()) != 0)
-	throw Error::execute(full_command);
+        throw Error::execute(full_command);
       std::ifstream file(tempName.c_str());
       if (! file)
-	throw Error::open(tempName);
+        throw Error::open(tempName);
       std::ostringstream s;
       s << file.rdbuf();
       return s.str();
@@ -422,6 +426,7 @@ namespace Tools {
 
   private :
 
+    const char* const tempName_;
     string tempName;
 
     System(System&) {} // not allowed
