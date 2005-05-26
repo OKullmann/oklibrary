@@ -28,7 +28,7 @@ namespace OKlib {
       T x, y;
       const T a, b;
     };
-    struct EqualityComparable_tag : virtual ConceptsBase {};
+    struct EqualityComparable_tag : virtual ConceptsBase_tag {};
     //Semantics:
     // a == a
     // if a == b then b == a
@@ -61,7 +61,7 @@ namespace OKlib {
       T x, y;
       const T a, b;
     };
-    struct LessThanComparable_tag : virtual ConceptsBase {};
+    struct LessThanComparable_tag : virtual ConceptsBase_tag {};
     // Semantics:
     // not a < a
     // if a < b and b < c then a < c
@@ -93,7 +93,7 @@ namespace OKlib {
       }
       T t;
     };
-    struct Destructible_tag : virtual ConceptsBase {};
+    struct Destructible_tag : virtual ConceptsBase_tag {};
 
     class Destructible_Archetype {
       Destructible_Archetype();
@@ -129,6 +129,24 @@ namespace OKlib {
 
     // --------------------------------------------------------------------------------------------------------------------------------
 
+    template <typename T>
+    struct DefaultConstructible {
+      void constraints() {
+        new T;
+      }
+    };
+    struct DefaultConstructible_tag : virtual ConceptsBase_tag {};
+
+    class DefaultConstructible_Archetype {
+      DefaultConstructible_Archetype(const DefaultConstructible_Archetype&);
+      DefaultConstructible_Archetype& operator=(const DefaultConstructible_Archetype&);
+      ~DefaultConstructible_Archetype();
+    public :
+      DefaultConstructible_Archetype() {}
+    };
+    
+    // --------------------------------------------------------------------------------------------------------------------------------
+
     // According to Table 64 in the standard
     template <typename T>
     struct Assignable {
@@ -139,7 +157,7 @@ namespace OKlib {
       T a;
       const T b; 
     };
-    struct Assignable_tag : virtual ConceptsBase {};
+    struct Assignable_tag : virtual ConceptsBase_tag {};
     // Semantics:
     // After a = b the object a is "equivalent" to b (i.e., substitutable).
 
