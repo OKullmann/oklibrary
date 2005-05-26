@@ -8,7 +8,7 @@ namespace OKlib {
 
   namespace Concepts {
 
-    struct ConceptsBase {};
+    struct ConceptsBase_tag {};
 
   }
 
