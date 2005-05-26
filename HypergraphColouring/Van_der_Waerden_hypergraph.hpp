@@ -7,17 +7,19 @@
 #include <iterator>
 #include <cassert>
 
+#include "Iterators.hpp"
+
 namespace OKlib {
 
   namespace Van_der_Waerden_hypergraph {
 
     template <typename Integer>
     class Iterator_arithmetic_progression : public std::iterator<std::input_iterator_tag, Integer> {
-      // ToDo: Add the concept tag (an "IteratorArithmeticProgression").
       // ToDo: Make a const random iterator out of it.
       Integer current_value;
       Integer slope;
     public :
+      typedef ::OKlib::Concepts::MultiPassInputIterator_tag concept_tag;
       Iterator_arithmetic_progression(const Integer start_value, const Integer slope) : current_value(start_value), slope(slope) {}
       Integer operator* () const { return current_value; }
       Iterator_arithmetic_progression& operator ++() {
