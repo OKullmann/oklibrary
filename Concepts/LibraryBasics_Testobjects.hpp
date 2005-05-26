@@ -11,10 +11,26 @@ namespace OKlib {
 
   namespace Concepts {
 
-    namespace Archetype_tests {
+      OKLIB_BASIC_CONCEPT_TEST_TAG(WithConceptTag);
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(WithConceptTag);
 
-      template class WithConcept<WithConcept_Archetype>;
+      OKLIB_BASIC_CONCEPT_TEST_TAG(BasicRequirements);
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(BasicRequirements);      
 
+    namespace Macro_tests {
+
+      template <typename>
+      struct Test_OKLIB_MODELS_CONCEPT {
+        struct c : virtual ConceptsBase_tag {};
+        struct test {
+          typedef c concept_tag;
+        };
+        void f() {
+          OKLIB_MODELS_CONCEPT_REQUIRES(test, WithConceptTag);
+          OKLIB_MODELS_CONCEPT_TAG(test, WithConceptTag);
+        }
+      };
+      
     }
 
   }
