@@ -43,7 +43,7 @@ namespace OKlib {
       Iterator& r;
     };
     // ToDO: Can expressions "a -> m" be expressed ?
-    struct InputIterator_tag : virtual ConceptsBase {};
+    struct InputIterator_tag : virtual ConceptsBase_tag {};
 
     template <typename T>
     class InputIterator_Archetype {
