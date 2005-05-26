@@ -10,6 +10,11 @@ ifdef OKTESTSYSTEM
 else
   OKTestsystem :=
 endif
+ifdef OKMETAPROGRAMMING
+  OKMetaProgramming := -I$(OKMETAPROGRAMMING)
+else
+  OKMetaProgramming :=
+endif
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -38,7 +43,7 @@ test_program := TestConcepts
 
 programs :=
 
-source_libraries :=  $(Boost) $(OKTestsystem)
+source_libraries :=  $(Boost) $(OKTestsystem) $(OKMetaProgramming)
 
 link_libraries := 
 
