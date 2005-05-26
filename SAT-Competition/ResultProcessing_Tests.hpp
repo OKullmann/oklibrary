@@ -41,7 +41,7 @@ namespace OKlib {
         for (typename Map::const_iterator i = m.begin(); i != m.end(); ++i)
           total += i -> second -> size();
         if (total != s)
-          throw ::OKlib::TestSystem::TestException("Total count is " + boost::lexical_cast<std::string>(total) + ", and not " + boost::lexical_cast<std::string>(s)).add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Total count is " + boost::lexical_cast<std::string>(total) + ", and not " + boost::lexical_cast<std::string>(s));
       }
     };
 
@@ -71,14 +71,14 @@ namespace OKlib {
         typedef typename Set::value_type value_type_set;
         
         if (m.size() != s.size())
-          throw ::OKlib::TestSystem::TestException("Size is " + boost::lexical_cast<std::string>(m.size()) + ", and not " + boost::lexical_cast<std::string>(s.size())).add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Size is " + boost::lexical_cast<std::string>(m.size()) + ", and not " + boost::lexical_cast<std::string>(s.size()));
         if (not std::equal(s.begin(), s.end(), iterator(m.begin(), First()))) {
           std::stringstream message;
           message << "Domain of map is ";
           std::copy(iterator(m.begin(), First()), iterator(m.end(), First()), std::ostream_iterator<value_type_map>(message, ","));
           message << ", and not ";
           std::copy(s.begin(), s.end(), std::ostream_iterator<value_type_set>(message, ","));
-          throw ::OKlib::TestSystem::TestException(message.str()).add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW(message.str());
         }
       }
     };
@@ -130,7 +130,7 @@ namespace OKlib {
         ResultDatabase_vector db(test_vector.begin(), test_vector.end());
 
         if (not db.number_results() == test_vector_size)
-          throw ::OKlib::TestSystem::TestException("Element count is " + boost::lexical_cast<std::string>(db.number_results()) + ", and not " + boost::lexical_cast<std::string>(test_vector_size)).add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Element count is " + boost::lexical_cast<std::string>(db.number_results()) + ", and not " + boost::lexical_cast<std::string>(test_vector_size));
 
         const MapSuperSeries& super_series(db.super_series());
         const MapSeries& series(db.series());

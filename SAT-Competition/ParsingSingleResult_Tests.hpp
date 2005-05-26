@@ -40,7 +40,7 @@ namespace OKlib {
           const std::string test = "abc123ABC";
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
-            throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW("Resulting name is " + s.name() + ", and not " + test);
         }
       }
     };
@@ -97,9 +97,9 @@ namespace OKlib {
             const std::string test = k_string + "SAT";
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.name() != test)
-            throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Resulting name is " + s.name() + ", and not " + test);
             if (s.clause_length() != k)
-              throw ::OKlib::TestSystem::TestException("Clause length is " + boost::lexical_cast<std::string>(s.clause_length()) + ", and not " + k_string).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Clause length is " + boost::lexical_cast<std::string>(s.clause_length()) + ", and not " + k_string);
           }
         }
       }
@@ -151,7 +151,7 @@ namespace OKlib {
           const std::string test = "09/y-i/A/xXyY1";
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
-            throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW("Resulting name is " + s.name() + ", and not " + test);
         }
       }
     };
@@ -213,9 +213,9 @@ namespace OKlib {
             const std::string test = i -> first + test_n;
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.name() != test)
-              throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Resulting name is " + s.name() + ", and not " + test);
             if (s.count_variables() != n)
-              throw ::OKlib::TestSystem::TestException("Variables count is " + boost::lexical_cast<std::string>(s.count_variables()) + ", and not " + test_n).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Variables count is " + boost::lexical_cast<std::string>(s.count_variables()) + ", and not " + test_n);
           }
         }
       }
@@ -272,7 +272,7 @@ namespace OKlib {
           const std::string test = "bench123";
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
-            throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW("Resulting name is " + s.name() + ", and not " + test);
         }
       }
     };
@@ -323,7 +323,7 @@ namespace OKlib {
           const std::string test = "solver123";
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
           if(s.name() != test)
-            throw ::OKlib::TestSystem::TestException("Resulting name is " + s.name() + ", and not " + test).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW("Resulting name is " + s.name() + ", and not " + test);
         }
       }
     };
@@ -383,7 +383,7 @@ namespace OKlib {
             const SolverResult result = i -> second;
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.result() != result)
-              throw ::OKlib::TestSystem::TestException("Result is " + boost::lexical_cast<std::string>(s.result()) + ", and not " + boost::lexical_cast<std::string>(result)).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Result is " + boost::lexical_cast<std::string>(s.result()) + ", and not " + boost::lexical_cast<std::string>(result));
           }
         }
       }
@@ -444,7 +444,7 @@ namespace OKlib {
             const FloatingPoint average = boost::lexical_cast<FloatingPoint>(test);
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.average() != average)
-              throw ::OKlib::TestSystem::TestException("Average is " + boost::lexical_cast<std::string>(s.average()) + ", and not " + boost::lexical_cast<std::string>(average)).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Average is " + boost::lexical_cast<std::string>(s.average()) + ", and not " + boost::lexical_cast<std::string>(average));
           }
         }
       }
@@ -504,7 +504,7 @@ namespace OKlib {
             const NaturalNumber time_out = boost::lexical_cast<NaturalNumber>(test);
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.time_out() != time_out)
-              throw ::OKlib::TestSystem::TestException("Time_Out is " + boost::lexical_cast<std::string>(s.time_out()) + ", and not " + boost::lexical_cast<std::string>(time_out)).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Time_Out is " + boost::lexical_cast<std::string>(s.time_out()) + ", and not " + boost::lexical_cast<std::string>(time_out));
           }
         }
       }
@@ -575,42 +575,42 @@ namespace OKlib {
             if (s.super_series().name() != i -> get<0>().name()) {
               std::stringstream out;
               out << "Super Series is " << s.super_series() << ", and not " << i -> get<0>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.series().name() != i -> get<1>().name()) {
               std::stringstream out;
               out << "Series is " << s.series() << ", and not " << i -> get<1>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.benchmark().name() != i -> get<2>().name()) {
               std::stringstream out;
               out << "Benchmark is " << s.benchmark() << ", and not " << i -> get<2>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.solver().name() != i -> get<3>().name()) {
               std::stringstream out;
               out << "Solver is " << s.solver() << ", and not " << i -> get<3>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.sat_status().result() != i -> get<4>().result()) {
               std::stringstream out;
               out << "Sat_Status is " << s.sat_status() << ", and not " << i -> get<4>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.average().average() != i -> get<5>().average()) {
               std::stringstream out;
               out << "Average is " << s.average() << ", and not " << i -> get<5>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.time_out().time_out() != i -> get<6>().time_out()) {
               std::stringstream out;
               out << "Time_Out is " << s.time_out() << ", and not " << i -> get<6>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s != *i) {
               std::stringstream out;
               out << "Result is \"" << s <<"\", and not \"" << *i << "\"";
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
           }
         }
@@ -680,47 +680,47 @@ namespace OKlib {
             if (s.super_series().name() != i -> get<0>().name()) {
               std::stringstream out;
               out << "Super Series is " << s.super_series() << ", and not " << i -> get<0>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.super_series_random().clause_length() != i -> get<0>().clause_length()) {
               std::stringstream out;
               out << "Super Series Random is " << s.super_series_random() << " with clause-length " << s.super_series_random().clause_length() << ", and not " << i -> get<0>() << " with clause-length " << i -> get<0>().clause_length();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.series().name() != i -> get<1>().name()) {
               std::stringstream out;
               out << "Series is " << s.series() << ", and not " << i -> get<1>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.series_random().count_variables() != i -> get<1>().count_variables()) {
               std::stringstream out;
               out << "Series Random is " << s.series_random() << " with variables count " << s.series_random().count_variables() << ", and not " << i -> get<1>() << " with variables count " << i -> get<1>().count_variables();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.benchmark().name() != i -> get<2>().name()) {
               std::stringstream out;
               out << "Benchmark is " << s.benchmark() << ", and not " << i -> get<2>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.solver().name() != i -> get<3>().name()) {
               std::stringstream out;
               out << "Solver is " << s.solver() << ", and not " << i -> get<3>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.sat_status().result() != i -> get<4>().result()) {
               std::stringstream out;
               out << "Sat_Status is " << s.sat_status() << ", and not " << i -> get<4>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.average().average() != i -> get<5>().average()) {
               std::stringstream out;
               out << "Average is " << s.average() << ", and not " << i -> get<5>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
             if (s.time_out().time_out() != i -> get<6>().time_out()) {
               std::stringstream out;
               out << "Time_Out is " << s.time_out() << ", and not " << i -> get<6>();
-              throw ::OKlib::TestSystem::TestException(out.str()).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW(out.str());
             }
           }
         }
@@ -758,15 +758,15 @@ namespace OKlib {
         std::stringstream input;
         std::copy(test_vector.begin(), test_vector.end(), std::ostream_iterator<TupleResult>(input, "\n"));
         if (not copy_results<Parser>(input.str().c_str(), std::back_inserter(output)).full)
-          throw ::OKlib::TestSystem::TestException("Sequence\n" + input.str() + "was not accepted.").add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Sequence\n" + input.str() + "was not accepted.");
         if (output.size() != test_vector.size())
-          throw ::OKlib::TestSystem::TestException("Sequence size is " + boost::lexical_cast<std::string>(output.size()) + ", and not " + boost::lexical_cast<std::string>(test_vector.size())).add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Sequence size is " + boost::lexical_cast<std::string>(output.size()) + ", and not " + boost::lexical_cast<std::string>(test_vector.size()));
         Vector::size_type index = 0;
         for (List_output::const_iterator i = output.begin(); i != output.end(); ++i, ++index) {
           if (*i != test_vector[index]) {
             std::stringstream message;
             message << "Result \"" << *i << "\" different from input \"" << test_vector[index] << "\"";
-            throw ::OKlib::TestSystem::TestException(message.str()).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW(message.str());
           }
         }
       }
@@ -788,7 +788,7 @@ namespace OKlib {
            test_vector.push_back("3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1902 solver1 20 7.09 1319\n3SAT random/MediumSizeBenches/k3-r4.263-v300 bench1902 solver1 20 7.09 1319");
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i)
             if (copy_results<Parser>(i -> c_str(), std::back_inserter(output)).full)
-              throw ::OKlib::TestSystem::TestException("Sequence\n" + *i + "was accepted.").add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Sequence\n" + *i + "was accepted.");
         }
       }
     };
@@ -823,15 +823,15 @@ namespace OKlib {
         std::stringstream input;
         std::copy(test_vector.begin(), test_vector.end(), std::ostream_iterator<TupleResultRandomSat>(input, "\n"));
         if (not copy_results<Parser>(input.str().c_str(), std::back_inserter(output)).full)
-          throw ::OKlib::TestSystem::TestException("Sequence\n" + input.str() + "was not accepted.").add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Sequence\n" + input.str() + "was not accepted.");
         if (output.size() != test_vector.size())
-          throw ::OKlib::TestSystem::TestException("Sequence size is " + boost::lexical_cast<std::string>(output.size()) + ", and not " + boost::lexical_cast<std::string>(test_vector.size())).add(OKLIB_TESTDESCRIPTION);
+          OKLIB_THROW("Sequence size is " + boost::lexical_cast<std::string>(output.size()) + ", and not " + boost::lexical_cast<std::string>(test_vector.size()));
         Vector::size_type index = 0;
         for (List_output::const_iterator i = output.begin(); i != output.end(); ++i, ++index) {
           if (*i != test_vector[index]) {
             std::stringstream message;
             message << "ResultRandomSat \"" << *i << "\" different from input \"" << test_vector[index] << "\"";
-            throw ::OKlib::TestSystem::TestException(message.str()).add(OKLIB_TESTDESCRIPTION);
+            OKLIB_THROW(message.str());
           }
         }
       }
