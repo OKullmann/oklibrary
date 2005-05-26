@@ -10,22 +10,6 @@ namespace OKlib {
 
   namespace Concepts {
 
-    namespace Archetype_tests {
-
-      template class EqualityComparable<EqualityComparable_Archetype>;
-
-      template class LessThanComparable<LessThanComparable_Archetype>;
-
-      template class Destructible<Destructible_Archetype>;
-
-      template class CopyConstructible<CopyConstructible_Archetype>;
-
-      template class Assignable<Assignable_Archetype>;
-
-      
-
-    }
-
   }
 
 }

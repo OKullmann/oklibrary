@@ -10,12 +10,6 @@ namespace OKlib {
 
   namespace Concepts {
 
-    namespace Archetype_tests {
-
-      template class InputIterator<InputIterator_Archetype<int> >;
-
-    }
-
   }
 
 }
