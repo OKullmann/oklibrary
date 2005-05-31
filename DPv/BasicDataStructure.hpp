@@ -16,15 +16,32 @@ namespace OKlib {
       Literal(const int_type l) : l(l) {};
       Literal() : l(0) {};
       int_type l;
-        
-      friend inline bool operator ==(const Literal& lhs, const Literal& rhs) {
+      
+      friend inline bool operator ==(const Literal lhs, const Literal rhs) {
 	return lhs.l == rhs.l;
       }
-      friend inline bool operator <(const Literal& lhs, const Literal& rhs) {
+      friend inline bool operator <(const Literal lhs, const Literal rhs) {
 	return lhs.l < rhs.l;
       }
     };
+    
+    inline bool operator !=(const Literal lhs, const Literal rhs) {
+      return not (lhs.l == rhs.l);
+    }
+    
+    inline bool operator >(const Literal lhs, const Literal rhs) {
+      return rhs.l < lhs.l;
+    }
+       
+    inline bool operator <=(const Literal lhs, const Literal rhs) {
+      return lhs.l < rhs.l or lhs.l == rhs.l;
+    }
+    
+    inline bool operator >=(const Literal lhs, const Literal rhs) {
+      return lhs.l > rhs.l or lhs.l == rhs.l;
+    }
 
+    
     struct Variable {
       
       Variable(const int_type v) : v(std::abs(v)) {};
@@ -41,7 +58,22 @@ namespace OKlib {
       }
     };
     
-       
+    inline bool operator !=(const Variable lhs, const Variable rhs) {
+      return not (lhs.v == rhs.v);
+    }
+    
+    inline bool operator >(const Variable lhs, const Variable rhs) {
+      return rhs.v < lhs.v;
+    }
+    
+    inline bool operator <=(const Variable lhs, const Variable rhs) {
+      return lhs.v < rhs.v or lhs.v == rhs.v;
+    }
+    
+    inline bool operator >=(const Variable lhs, const Variable rhs) {
+      return lhs.v > rhs.v or lhs.v == rhs.v;
+    }
+    
     struct Clause {
       typedef std::set<Literal> base_type;
       typedef base_type::value_type value_type;
@@ -51,10 +83,12 @@ namespace OKlib {
 
       template <typename T>
       void show(T& os) const {
-	os << "{ ";
-	for(const_iterator i = c.begin(); i != c.end(); ++i) 
-	  os << (*i).l << ' ';
-	os << "} ";
+	os << "\\{ ";
+	for(const_iterator i = c.begin(); i != c.end(); ++i) {
+	  os << (*i).l;
+	  if (i != --c.end()) os << ", ";
+	}
+	os << "\\} ";
       }
 
       friend inline bool operator ==(const Clause lhs, const Clause rhs) {
@@ -65,15 +99,31 @@ namespace OKlib {
       }
     };
     
+    inline bool operator !=(const Clause lhs, const Clause rhs) {
+      return not (lhs.c == rhs.c);
+    }
+    
+    inline bool operator >(const Clause lhs, const Clause rhs) {
+      return rhs.c < lhs.c;
+    }
+    
+    inline bool operator <=(const Clause lhs, const Clause rhs) {
+      return lhs.c < rhs.c or lhs.c == rhs.c;
+    }
+    
+    inline bool operator >=(const Clause lhs, const Clause rhs) {
+      return lhs.c > rhs.c or lhs.c == rhs.c;
+    }
+    
     void cl_insert(const Literal& l, Clause& cl){
       cl.c.insert(l); 
     }
-
+    
     struct Clause_set {
       typedef std::set<Clause> base_type;
       typedef base_type::value_type value_type;
       typedef base_type::const_iterator const_iterator;
-  
+      
       base_type cs;
       
       template <typename T> friend
@@ -83,8 +133,8 @@ namespace OKlib {
       void show(T& os) const {
 	os << "{ ";
 	for(const_iterator i = cs.begin(); i != cs.end(); ++i){ 
-	  (*i).show(os);
-      }
+	  (*i).show(os); if (i != --cs.end()) os << ", ";
+	}
 	os << " }";
       }
     };
@@ -93,7 +143,7 @@ namespace OKlib {
     void cls_insert(const Clause& cl, Clause_set& cls){
       cls.cs.insert(cl); 
     }
-
+    
     typedef std::set<Variable> VarSet;
     typedef std::set<Literal> LitSet;
     
@@ -110,7 +160,6 @@ namespace OKlib {
       void show(T& os) {
 	for(const_iterator i = lits.begin(); i != lits.end(); ++i) 
 	  os << (*i).l << ' ';
-	os << '\n';
       }
       
       LitSet lits;
@@ -118,6 +167,8 @@ namespace OKlib {
     
     struct VariableSet {
       typedef VarSet::const_iterator const_iterator;
+      typedef VarSet::iterator iterator;
+      typedef Variable base_type;
       VariableSet(const Clause_set& cls) {
 	LiteralSet set_of_literals(cls);
 	for (LiteralSet::const_iterator i = set_of_literals.lits.begin(); i != set_of_literals.lits.end(); ++i)
@@ -128,12 +179,11 @@ namespace OKlib {
       void show(T& os) {
 	for(const_iterator i = vars.begin(); i != vars.end(); ++i) 
 	  os << (*i).v << ' ';
-	os << '\n';
       }
       
       VarSet vars;
     };
-
+    
   }
 }
 #endif
