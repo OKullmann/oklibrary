@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "BasicDataStructure.hpp"
 
@@ -112,26 +113,88 @@ namespace OKlib {
       return tmp;
     }
     
+    Clause_set& DP_reduction_inplace(const Variable& v, Clause_set& cls) {
+      cls.cs = DP_reduction(v,cls).cs;
+      return cls;
+    }
+
     bool final_form (const Clause_set& cls) {
       if (VariableSet(cls).vars.size() == 0) return true;
       return false;
     }
-    
-    bool is_sat(const Clause_set& cls) {
+
+    enum Return_Value {SAT, USAT, Unknown};
+
+    Return_Value is_sat(const Clause_set& cls) {
       
       if (final_form(cls)) {
 	if (cls.cs.size() == 0) 
-	  return true;
+	  return SAT;
 	else 
 	  if (cls.cs.size() == 1) 
-	    return false;
+	    return USAT;
 	  else
 	    throw Error::Unknown_result();
       }
       else
-	throw Error::Illogical("Reduction not yet finished!");
+	return Unknown;
     }
+    
+    typedef std::vector<std::pair<unsigned int, std::vector<Variable> > > stat_type;
+    
 
+    template <typename VariableSet, typename ClauseSet, typename Stats> 
+    Stats& DPv_opt_stats(VariableSet& vs, ClauseSet& cls, Stats& values) {
+      ClauseSet tmp;
+      tmp.cs = cls.cs;
+      unsigned int stat = 0;
+      std::vector<typename VariableSet::base_type> list;
+      for (typename VariableSet::const_iterator i = vs.vars.begin(); i != vs.vars.end(); ++i) {
+	list.push_back(*i);
+      }
+      bool more_permutation = true;
+      while (more_permutation){
+	std::vector<typename VariableSet::base_type> order;
+	for (typename std::vector<typename VariableSet::base_type>::iterator i = list.begin(); i != list.end(); ++i) {
+	  order.push_back(*i); 
+	  if (list.size() < 8) std::cout << (*i).v << ' ';
+	  stat = stat + clause_count(DP_reduction_inplace(*i,tmp));
+	}
+	if (list.size() < 8) std::cout << "Total: " << stat << '\n';
+	values.push_back(std::make_pair(stat, order));
+	tmp.cs = cls.cs; stat = 0;
+	more_permutation = std::next_permutation(list.begin(), list.end());
+      }
+      return values;
+    }
+    
+    template <typename T>
+    struct Stat_comp {
+      bool operator() (const T& x, const T& y) const {
+	return x.first < y.first; 
+      }
+    };
+
+    
+    template <typename T>
+    void Best_order(const T& stat) {
+      
+      typename T::const_iterator max_i;
+      typename T::const_iterator min_i;
+      
+      max_i = std::max_element(stat.begin(), stat.end(), Stat_comp<std::pair<unsigned int, std::vector<Variable> > >());
+      min_i = std::min_element(stat.begin(), stat.end(), Stat_comp<std::pair<unsigned int, std::vector<Variable> > >());
+   
+      std::cout << "Largest total clause numbers is " << (*max_i).first << " with variable order ";
+      for (std::vector<Variable>::const_iterator i = (*max_i).second.begin(); i!=(*max_i).second.end();++i) 
+	std::cout << (*i).v << ' ';
+      std::cout << '\n';
+      
+      std::cout << "Smallest total clause numbers is " << (*min_i).first << " with variable order ";
+       for (std::vector<Variable>::const_iterator i = (*min_i).second.begin(); i!=(*min_i).second.end();++i) 
+	std::cout << (*i).v << ' ';
+      std::cout << '\n';
+    }
   }
 }
 #endif 
