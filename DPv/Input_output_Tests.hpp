@@ -36,7 +36,7 @@ namespace OKlib {
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<ParserLiteral>(p, *i, ::OKlib::Parser::match_full));
             if (l.l != boost::lexical_cast<int_type>(*i))
-              throw ::OKlib::TestSystem::TestException("Index is " + boost::lexical_cast<std::string>(l.l) + ", and not " + *i).add(OKLIB_TESTDESCRIPTION);
+              OKLIB_THROW("Index is " + boost::lexical_cast<std::string>(l.l) + ", and not " + *i);
           }
         }
         {
