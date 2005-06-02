@@ -113,7 +113,7 @@ namespace OKlib {
     typedef const CharT* ParseIterator;
     typedef boost::spirit::rule<> Rule;
 
-    class ParserLiteral : public ::OKlib::Parser::ParserBase {
+    class ParserLiteral : public ::OKlib::Parser::ParserBase<> {
       Literal& l;
       bool negative;
       struct action1 {
@@ -143,7 +143,7 @@ namespace OKlib {
 
     // --------------------------------------------------------------------
     template <class ClauseSet>
-    class DimacsParser : public ::OKlib::Parser::ParserBase {
+    class DimacsParser : public ::OKlib::Parser::ParserBase<> {
       ClauseSet& F;
       Literal& l;
       struct action1 {
