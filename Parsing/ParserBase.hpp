@@ -10,12 +10,14 @@ namespace OKlib {
 
   namespace Parser {
 
-    typedef char CharT;
-    typedef const CharT* ParseIterator;
-    typedef boost::spirit::rule<> Rule;
-    
+    template <typename CharT = char, typename ParseIterator_ = const CharT*>
     class ParserBase {
     public :
+      typedef CharT char_type;
+      typedef ParseIterator_ ParseIterator; // ToDo: ParseIterator -> parse_iterator;
+      typedef boost::spirit::scanner<ParseIterator> scanner_type;
+      typedef boost::spirit::rule<scanner_type> Rule; // ToDo: ->  rule_type;
+
       const Rule& parser() const { return parser_; }
       virtual ~ParserBase() {}
     protected :
