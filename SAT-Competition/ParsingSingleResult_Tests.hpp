@@ -29,6 +29,7 @@ namespace OKlib {
 
     template <class SuperSeries>
     class Test_ParserResultElement_SuperSeries_positive_cases : public ::OKlib::TestSystem::TestBase {
+      // ToDo: Also the parser should be a template (template) parameter
     public :
       typedef Test_ParserResultElement_SuperSeries_positive_cases test_type;
     private :
