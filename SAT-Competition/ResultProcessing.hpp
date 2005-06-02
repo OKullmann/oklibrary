@@ -28,6 +28,9 @@ namespace OKlib {
     typedef std::map<SuperSeries, SetResultNodesP*> MapSuperSeries;
     typedef std::map<Series, SetResultNodesP*> MapSeries;
     typedef std::map<Benchmark, SetResultNodesP*> MapBenchmark;
+    typedef std::map<Solver, SetResultNodesP*> MapSolver;
+    typedef std::map<SATStatus, SetResultNodesP*> MapSATStatus;
+    typedef std::map<TimeOut, SetResultNodesP*> MapTimeOut;
 
     struct ResultNode {
       const ResultBasis* rb;
@@ -35,6 +38,9 @@ namespace OKlib {
       MapSuperSeries::const_iterator m_sup_ser_it;
       MapSeries::const_iterator m_ser_it;
       MapBenchmark::const_iterator m_bench_it;
+      MapSolver::const_iterator m_solv_it;
+      MapSATStatus::const_iterator m_sat_stat_it;
+      MapTimeOut::const_iterator m_tmo_it;
 
       explicit ResultNode(const ResultBasis* rb) : rb(rb) {}
     };
@@ -49,6 +55,9 @@ namespace OKlib {
       MapSuperSeries map_sup_ser;
       MapSeries map_ser;
       MapBenchmark map_bench;
+      MapSolver map_solv;
+      MapSATStatus map_sat_stat;
+      MapTimeOut map_tmo;
 
       typedef std::vector<ResultNode> VectorResultNodes;
       VectorResultNodes result_collection;
@@ -67,6 +76,9 @@ namespace OKlib {
         const MapSuperSeries::iterator end_map_sup_ser(map_sup_ser.end());
         const MapSeries::iterator end_map_ser(map_ser.end());
         const MapBenchmark::iterator end_map_bench(map_bench.end());
+        const MapSolver::iterator end_map_solv(map_solv.end());
+        const MapSATStatus::iterator end_map_sat_stat(map_sat_stat.end());
+        const MapTimeOut::iterator end_map_tmo(map_tmo.end());
 
         for (result_collection_iterator i = result_collection.begin(); i != result_collection.end(); ++i) {
           ResultNode& rn(*i);
@@ -75,6 +87,9 @@ namespace OKlib {
           update_map<SuperSeries>(rn, r -> super_series(), map_sup_ser, rn.m_sup_ser_it, end_map_sup_ser);
           update_map<Series>(rn, r -> series(), map_ser, rn.m_ser_it, end_map_ser);
           update_map<Benchmark>(rn, r -> benchmark(), map_bench, rn.m_bench_it, end_map_bench);
+          update_map<Solver>(rn, r -> solver(), map_solv, rn.m_solv_it, end_map_solv);
+          update_map<SATStatus>(rn, r -> sat_status(), map_sat_stat, rn.m_sat_stat_it, end_map_sat_stat);
+           update_map<TimeOut>(rn, r -> time_out(), map_tmo, rn.m_tmo_it, end_map_tmo);
         }
       }
 
@@ -82,6 +97,9 @@ namespace OKlib {
         delete_values(map_sup_ser);
         delete_values(map_ser);
         delete_values(map_bench);
+        delete_values(map_solv);
+        delete_values(map_sat_stat);
+        delete_values(map_tmo);
       }
 
       number_results_type number_results() const { return number_results_; }
@@ -89,6 +107,9 @@ namespace OKlib {
       const MapSuperSeries& super_series() const { return map_sup_ser; }
       const MapSeries& series() const { return map_ser; }
       const MapBenchmark& benchmark() const { return map_bench; }
+      const MapSolver& solver() const { return map_solv; }
+      const MapSATStatus& sat_status() const { return map_sat_stat; }
+      const MapTimeOut& time_out() const { return map_tmo; }
 
       typedef std::vector<const SetResultNodesP*> VectorOfSetsP;
       VectorOfSetsP vector_of_sets;
