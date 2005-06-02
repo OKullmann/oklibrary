@@ -16,19 +16,13 @@ namespace OKlib {
 
   namespace SATCompetition {
 
-    using ::OKlib::Parser::ParseIterator;
-    
-    using ::OKlib::Parser::Rule;
-    
-    using ::OKlib::Parser::ParserBase;
-    
-    template <class ResultElement>
+    template <class ResultElement, typename CharT = char, typename ParseIterator = const CharT*>
     class ParserResultElement;
 
     // ---------------------------------------------------------------------------------------------------------
 
-    template <>
-    class ParserResultElement<SuperSeries> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<SuperSeries, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       SuperSeries& s;
       struct action {
         SuperSeries& s;
@@ -39,11 +33,12 @@ namespace OKlib {
       };
     public :
       ParserResultElement(SuperSeries& s) : s(s) {
-        parser_ = (+(boost::spirit::alnum_p | boost::spirit::ch_p('-')))[action(s)];
+        this -> parser_ = (+(boost::spirit::alnum_p | boost::spirit::ch_p('-')))[action(s)];
       }
     };
-   template <>
-    class ParserResultElement<RandomKSat> : public ParserBase {
+
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<RandomKSat, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       RandomKSat& s;
       NaturalNumber k;
       struct action1 {
@@ -63,14 +58,14 @@ namespace OKlib {
       };
     public :
       ParserResultElement(RandomKSat& s) : s(s) {
-        parser_ = ((boost::spirit::uint_parser<NaturalNumber, 10, 1, 2>())[action1(k)] >> boost::spirit::str_p("SAT"))[action2(k,s)];
+        this -> parser_ = ((boost::spirit::uint_parser<NaturalNumber, 10, 1, 2>())[action1(k)] >> boost::spirit::str_p("SAT"))[action2(k,s)];
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
 
-    template <>
-    class ParserResultElement<Series> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<Series, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       Series& s;
       struct action {
         Series& s;
@@ -79,16 +74,17 @@ namespace OKlib {
           s = Series(std::string(begin, end));
         }
       };
+      typedef typename ::OKlib::Parser::ParserBase<CharT, ParseIterator>::Rule Rule;
       Rule filename;
     public :
       ParserResultElement(Series& s) : s(s) {
         filename = +(boost::spirit::alnum_p | boost::spirit::ch_p('-') | boost::spirit::ch_p('.'));
-        parser_ = (+(filename >> boost::spirit::ch_p('/')) >> filename)[action(s)];
+        this -> parser_ = (+(filename >> boost::spirit::ch_p('/')) >> filename)[action(s)];
       }
     };
 
-    template <>
-    class ParserResultElement<RandomKSat_n> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<RandomKSat_n, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       RandomKSat_n& s;
       NaturalNumber n;
       struct action1 {
@@ -106,6 +102,7 @@ namespace OKlib {
           s = RandomKSat_n(std::string(begin, end), n);
         }
       };
+      typedef typename ::OKlib::Parser::ParserBase<CharT, ParseIterator>::Rule Rule;
       Rule filename;
       Rule basename;
     public :
@@ -120,15 +117,16 @@ namespace OKlib {
                       (boost::spirit::alpha_p | boost::spirit::ch_p('.') | boost::spirit::ch_p('-'))))
                      )
           >> boost::spirit::str_p("-v") >> boost::spirit::uint_p[action1(n)];
-        parser_ = (+(filename >> boost::spirit::ch_p('/')) >> basename)[action2(n,s)];
-        //parser_ = *boost::spirit::ch_p('a') >> boost::spirit::str_p("ab"); //CAUTION: does not accept "ab"
+        this -> parser_ = (+(filename >> boost::spirit::ch_p('/')) >> basename)[action2(n,s)];
+        //ToDo: The following comment into the parsing documentation:
+        // parser_ = *boost::spirit::ch_p('a') >> boost::spirit::str_p("ab"); //CAUTION: does not accept "ab"
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
 
-    template <>
-    class ParserResultElement<Benchmark> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<Benchmark, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       Benchmark& s;
       struct action {
         Benchmark& s;
@@ -139,14 +137,14 @@ namespace OKlib {
       };
     public :
       ParserResultElement(Benchmark& s) : s(s) {
-        parser_ = (boost::spirit::str_p("bench") >> boost::spirit::uint_p)[action(s)];
+        this -> parser_ = (boost::spirit::str_p("bench") >> boost::spirit::uint_p)[action(s)];
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
 
-    template <>
-    class ParserResultElement<Solver> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<Solver, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       Solver& s;
       struct action {
         Solver& s;
@@ -157,14 +155,14 @@ namespace OKlib {
       };
     public :
       ParserResultElement(Solver& s) : s(s) {
-        parser_ = (boost::spirit::str_p("solver") >> boost::spirit::uint_p)[action(s)];
+        this -> parser_ = (boost::spirit::str_p("solver") >> boost::spirit::uint_p)[action(s)];
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
 
-    template <>
-    class ParserResultElement<SATStatus> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<SATStatus, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       SATStatus& s;
       struct action {
         SATStatus& s;
@@ -181,14 +179,14 @@ namespace OKlib {
       };
     public :
       ParserResultElement(SATStatus& s) : s(s) {
-        parser_ = (boost::spirit::str_p("0") | boost::spirit::str_p("10") | boost::spirit::str_p("20"))[action(s)];
+        this -> parser_ = (boost::spirit::str_p("0") | boost::spirit::str_p("10") | boost::spirit::str_p("20"))[action(s)];
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
 
-    template <>
-    class ParserResultElement<AverageTime> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<AverageTime, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       AverageTime& s;
       struct action {
         AverageTime& s;
@@ -199,14 +197,14 @@ namespace OKlib {
       };
     public :
       ParserResultElement(AverageTime& s) : s(s) {
-        parser_ = boost::spirit::real_parser<FloatingPoint, boost::spirit::ureal_parser_policies<FloatingPoint> >()[action(s)];
+        this -> parser_ = boost::spirit::real_parser<FloatingPoint, boost::spirit::ureal_parser_policies<FloatingPoint> >()[action(s)];
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
     
-    template <>
-    class ParserResultElement<TimeOut> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResultElement<TimeOut, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       TimeOut& s;
       struct action {
         TimeOut& s;
@@ -217,47 +215,47 @@ namespace OKlib {
       };
     public :
       ParserResultElement(TimeOut& s) : s(s) {
-        parser_ = boost::spirit::uint_p[action(s)];
+        this -> parser_ = boost::spirit::uint_p[action(s)];
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------
 
-    template <class Result>
+    template <class Result, typename CharT, typename ParseIterator>
     class ParserResult;
 
-    template <>
-    class ParserResult<Result> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResult<Result, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       Result& r;
-      ParserResultElement<SuperSeries> p_sup_ser;
-      ParserResultElement<Series> p_ser;
-      ParserResultElement<Benchmark> p_bench;
-      ParserResultElement<Solver> p_solv;
-      ParserResultElement<SATStatus> p_sat_stat;
-      ParserResultElement<AverageTime> p_avg;
-      ParserResultElement<TimeOut> p_tmo;
+      ParserResultElement<SuperSeries, CharT, ParseIterator> p_sup_ser;
+      ParserResultElement<Series, CharT, ParseIterator> p_ser;
+      ParserResultElement<Benchmark, CharT, ParseIterator> p_bench;
+      ParserResultElement<Solver, CharT, ParseIterator> p_solv;
+      ParserResultElement<SATStatus, CharT, ParseIterator> p_sat_stat;
+      ParserResultElement<AverageTime, CharT, ParseIterator> p_avg;
+      ParserResultElement<TimeOut, CharT, ParseIterator> p_tmo;
     public :
       typedef Result result_type;
       ParserResult(Result& r) : r(r), p_sup_ser(*r.sup_ser), p_ser(*r.ser), p_bench(*r.bench), p_solv(*r.solv), p_sat_stat(*r.sat_stat), p_avg(*r.avg), p_tmo(*r.tmo) {
-        parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
+        this -> parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
       }
     };
 
-    template <>
-    class ParserResult<ResultRandomSat> : public ParserBase {
+    template <typename CharT, typename ParseIterator>
+    class ParserResult<ResultRandomSat, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       ResultRandomSat& r;
-      ParserResultElement<RandomKSat> p_sup_ser;
-      ParserResultElement<RandomKSat_n> p_ser;
-      ParserResultElement<Benchmark> p_bench;
-      ParserResultElement<Solver> p_solv;
-      ParserResultElement<SATStatus> p_sat_stat;
-      ParserResultElement<AverageTime> p_avg;
-      ParserResultElement<TimeOut> p_tmo;
+      ParserResultElement<RandomKSat, CharT, ParseIterator> p_sup_ser;
+      ParserResultElement<RandomKSat_n, CharT, ParseIterator> p_ser;
+      ParserResultElement<Benchmark, CharT, ParseIterator> p_bench;
+      ParserResultElement<Solver, CharT, ParseIterator> p_solv;
+      ParserResultElement<SATStatus, CharT, ParseIterator> p_sat_stat;
+      ParserResultElement<AverageTime, CharT, ParseIterator> p_avg;
+      ParserResultElement<TimeOut, CharT, ParseIterator> p_tmo;
     public :
       typedef ResultRandomSat result_type;
       ParserResult(ResultRandomSat& r) : r(r), p_sup_ser(*r.sup_ser), p_ser(*r.ser), p_bench(*r.bench), p_solv(*r.solv), p_sat_stat(*r.sat_stat), p_avg(*r.avg), p_tmo(*r.tmo) {
-        parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
+        this -> parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
       }
     };
 
@@ -265,7 +263,8 @@ namespace OKlib {
     // ---------------------------------------------------------------------------------------------------------
 
     template <class ParserResult, class OutputIterator>
-    class ParserResultSequence : public ParserBase {
+    class ParserResultSequence : public ::OKlib::Parser::ParserBase<typename ParserResult::char_type, typename ParserResult::ParseIterator> {
+      typedef typename ParserResult::ParseIterator ParseIterator;
       OutputIterator& begin;
       typedef typename ParserResult::result_type Result;
       Result r;
@@ -280,7 +279,7 @@ namespace OKlib {
       };
     public :
       ParserResultSequence(OutputIterator& begin) : begin(begin), p(r) {
-        parser_ = +((p.parser() >> boost::spirit::eol_p)[action(begin, r)]);
+        this -> parser_ = +((p.parser() >> boost::spirit::eol_p)[action(begin, r)]);
       }
     };
 
@@ -289,22 +288,28 @@ namespace OKlib {
     // ParserResult is a parser for results
     // OutputIterator::value_type is Result
     struct Copy_results {
-      boost::spirit::parse_info<> operator() (const ParseIterator begin_in, const ParseIterator end_in, OutputIterator begin_out) {
+      typedef typename ParserResult::ParseIterator ParseIterator;
+      typedef typename ParserResult::char_type char_type;
+      typedef boost::spirit::parse_info<ParseIterator> parse_info_it;
+      typedef boost::spirit::parse_info<const char_type*> parse_info_c;
+
+      parse_info_it operator() (const ParseIterator begin_in, const ParseIterator end_in, OutputIterator begin_out) {
         ParserResultSequence<ParserResult, OutputIterator> p(begin_out);
         return boost::spirit::parse(begin_in, end_in, p.parser());
       }
       template <typename PIterator>
-      boost::spirit::parse_info<> operator() (const PIterator begin_in, OutputIterator begin_out) {
+      parse_info_c operator() (const PIterator begin_in, OutputIterator begin_out) {
         ParserResultSequence<ParserResult, OutputIterator> p(begin_out);
         return boost::spirit::parse(begin_in, p.parser());
       }
     };
+
     template <class ParserResult, class OutputIterator>
-    boost::spirit::parse_info<> copy_results(const ParseIterator begin_in, const ParseIterator end_in, const OutputIterator begin_out) {
+    typename Copy_results<ParserResult, OutputIterator>::parse_info_it copy_results(const typename ParserResult::ParseIterator begin_in, const typename ParserResult::ParseIterator end_in, const OutputIterator begin_out) {
       return Copy_results<ParserResult, OutputIterator>()(begin_in, end_in, begin_out);
     }
     template <class ParserResult, typename PIterator, class OutputIterator>
-    boost::spirit::parse_info<> copy_results(const PIterator begin_in, const OutputIterator begin_out) {
+    typename Copy_results<ParserResult, OutputIterator>::parse_info_c copy_results(const PIterator begin_in, const OutputIterator begin_out) {
       return Copy_results<ParserResult, OutputIterator>()(begin_in, begin_out);
     }
 
