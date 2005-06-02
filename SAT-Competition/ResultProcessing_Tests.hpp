@@ -21,7 +21,7 @@
 #include "TestExceptions.hpp"
 
 #include "SingleResult.hpp"
-#include "ParsingSingleResult.hpp"
+#include "ParsingSingleResult_Tests.hpp"
 
 namespace OKlib {
 
@@ -119,11 +119,17 @@ namespace OKlib {
         std::set<SuperSeries> ref_set_super_series;
         std::set<Series> ref_set_series;
         std::set<Benchmark> ref_set_benchmark;
+        std::set<Solver> ref_set_solver;
+        std::set<SATStatus> ref_set_sat_status;
+        std::set<TimeOut> ref_set_time_out;
 
         for (VectorResult::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
           ref_set_super_series.insert(i -> super_series());
           ref_set_series.insert(i -> series());
           ref_set_benchmark.insert(i -> benchmark());
+          ref_set_solver.insert(i -> solver());
+          ref_set_sat_status.insert(i -> sat_status());
+          ref_set_time_out.insert(i -> time_out());
         }
 
         typedef ResultDatabase<VectorResult::const_iterator> ResultDatabase_vector;
@@ -135,14 +141,23 @@ namespace OKlib {
         const MapSuperSeries& super_series(db.super_series());
         const MapSeries& series(db.series());
         const MapBenchmark& benchmark(db.benchmark());
+        const MapSolver& solver(db.solver());
+        const MapSATStatus& sat_status(db.sat_status());
+        const MapTimeOut& time_out(db.time_out());
 
         OKLIB_TESTTRIVIAL_RETHROW((check_set(super_series, ref_set_super_series)));
         OKLIB_TESTTRIVIAL_RETHROW((check_set(series, ref_set_series)));
         OKLIB_TESTTRIVIAL_RETHROW((check_set(benchmark, ref_set_benchmark)));
+        OKLIB_TESTTRIVIAL_RETHROW((check_set(solver, ref_set_solver)));
+        OKLIB_TESTTRIVIAL_RETHROW((check_set(sat_status, ref_set_sat_status)));
+        OKLIB_TESTTRIVIAL_RETHROW((check_set(time_out, ref_set_time_out)));
 
         OKLIB_TESTTRIVIAL_RETHROW((check_sizes(super_series, test_vector_size)));
         OKLIB_TESTTRIVIAL_RETHROW((check_sizes(series, test_vector_size)));
         OKLIB_TESTTRIVIAL_RETHROW((check_sizes(benchmark, test_vector_size)));
+        OKLIB_TESTTRIVIAL_RETHROW((check_sizes(solver, test_vector_size)));
+        OKLIB_TESTTRIVIAL_RETHROW((check_sizes(sat_status, test_vector_size)));
+        OKLIB_TESTTRIVIAL_RETHROW((check_sizes(time_out, test_vector_size)));
       }
 
     };
