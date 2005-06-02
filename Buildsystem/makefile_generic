@@ -140,8 +140,8 @@ object_files_c_optimised := $(compilation_units_c:.c=$(name_addition).o)
 object_files_c_optimised := $(addprefix $(libdir)/, $(object_files_c_optimised))
 object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimised)
 
-test := $(srcdir)/test
-testop := $(srcdir)/testop
+test_file := $(srcdir)/test
+testop_file := $(srcdir)/testop
 
 # ----------------------------------------------------------------
 
@@ -156,14 +156,17 @@ unoptimised : $(programs) $(object_files)
 optimised : $(programs_optimised) $(object_files_optimised)
 # ToDo: Same as for "unoptimised"
 
-check : $(test) $(testop)
+check : test testop
 
-$(test) : $(test_program)
+test : $(test_file)
+testop : $(testop_file)
+
+$(test_file) : $(test_program)
 	$(test_program)
-	touch $(test)
-$(testop) : $(test_program)$(name_addition)
+	touch $(test_file)
+$(testop_file) : $(test_program)$(name_addition)
 	$(test_program)$(name_addition)
-	touch $(testop)
+	touch $(testop_file)
 
 force :
 
@@ -226,7 +229,7 @@ cleandep :
 	- rm $(dependency_files)
 
 clean : cleanobj cleandep
-	- rm $(test) $(testop)
+	- rm $(test_file) $(testop_file)
 
 cleanhead :
 	- rm $(header_files)
