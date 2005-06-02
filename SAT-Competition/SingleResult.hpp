@@ -135,6 +135,20 @@ namespace OKlib {
       return not (lhs == rhs);
     }
 
+    bool operator <(const SATStatus& lhs, const SATStatus& rhs) {
+      return lhs.result() < rhs.result();
+    }
+    bool operator >(const SATStatus& lhs, const SATStatus& rhs) {
+      return rhs < lhs;
+    }
+    bool operator <=(const SATStatus& lhs, const SATStatus& rhs) {
+      return not(lhs > rhs);
+    }
+    bool operator >=(const SATStatus& lhs, const SATStatus& rhs) {
+      return not(lhs < rhs);
+    }
+
+
     // ---------------------------------------------------------------------------------------------------------------
 
     class AverageTime : public ResultElement {
@@ -176,6 +190,19 @@ namespace OKlib {
       return not (lhs == rhs);
     }
     
+    bool operator <(const TimeOut& lhs, const TimeOut& rhs) {
+      return lhs.time_out() < rhs.time_out();
+    }
+    bool operator >(const TimeOut& lhs, const TimeOut& rhs) {
+      return rhs < lhs;
+    }
+    bool operator <=(const TimeOut& lhs, const TimeOut& rhs) {
+      return not(lhs > rhs);
+    }
+    bool operator >=(const TimeOut& lhs, const TimeOut& rhs) {
+      return not(lhs < rhs);
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------------
     
@@ -219,7 +246,7 @@ namespace OKlib {
 
     // ---------------------------------------------------------------------------------------------------------------
 
-    template <class> class ParserResult;
+    template <class Result, typename CharT = char, typename ParseIterator = const CharT*> class ParserResult;
 
     class Result : public ResultBasis {
       friend class ParserResult<Result>;
