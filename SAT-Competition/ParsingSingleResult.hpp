@@ -5,8 +5,12 @@
 #define PARSINGSINGLERESULT_jzRtL77Yq1
 
 #include <string>
+#include <stdexcept>
 
 #include <boost/spirit/core.hpp>
+#include <boost/spirit/iterator/file_iterator.hpp>
+#include <boost/spirit/iterator/position_iterator.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include "ParserBase.hpp"
 
@@ -15,6 +19,12 @@
 namespace OKlib {
 
   namespace SATCompetition {
+
+    struct ParserError : std::runtime_error {
+      ParserError(const std::string& message) : std::runtime_error(message) {}
+    };
+
+    // ---------------------------------------------------------------------------------------------------------
 
     template <class ResultElement, typename CharT = char, typename ParseIterator = const CharT*>
     class ParserResultElement;
@@ -78,7 +88,7 @@ namespace OKlib {
       Rule filename;
     public :
       ParserResultElement(Series& s) : s(s) {
-        filename = +(boost::spirit::alnum_p | boost::spirit::ch_p('-') | boost::spirit::ch_p('.'));
+        filename = +(boost::spirit::alnum_p | boost::spirit::ch_p('-') | boost::spirit::ch_p('.') | boost::spirit::ch_p('_'));
         this -> parser_ = (+(filename >> boost::spirit::ch_p('/')) >> filename)[action(s)];
       }
     };
@@ -287,10 +297,13 @@ namespace OKlib {
     // ToDo: Conceptualisation
     // ParserResult is a parser for results
     // OutputIterator::value_type is Result
+    // ToDo: It seems better to have the two operators in different specialisations.
+    // ToDo: Making functor classes (with corresponding type traits) out of it.
     struct Copy_results {
+
       typedef typename ParserResult::ParseIterator ParseIterator;
-      typedef typename ParserResult::char_type char_type;
       typedef boost::spirit::parse_info<ParseIterator> parse_info_it;
+      typedef typename ParserResult::char_type char_type;
       typedef boost::spirit::parse_info<const char_type*> parse_info_c;
 
       parse_info_it operator() (const ParseIterator begin_in, const ParseIterator end_in, OutputIterator begin_out) {
@@ -302,17 +315,46 @@ namespace OKlib {
         ParserResultSequence<ParserResult, OutputIterator> p(begin_out);
         return boost::spirit::parse(begin_in, p.parser());
       }
+      
     };
 
     template <class ParserResult, class OutputIterator>
-    typename Copy_results<ParserResult, OutputIterator>::parse_info_it copy_results(const typename ParserResult::ParseIterator begin_in, const typename ParserResult::ParseIterator end_in, const OutputIterator begin_out) {
+    inline typename Copy_results<ParserResult, OutputIterator>::parse_info_it copy_results(const typename ParserResult::ParseIterator begin_in, const typename ParserResult::ParseIterator end_in, const OutputIterator begin_out) {
       return Copy_results<ParserResult, OutputIterator>()(begin_in, end_in, begin_out);
     }
     template <class ParserResult, typename PIterator, class OutputIterator>
-    typename Copy_results<ParserResult, OutputIterator>::parse_info_c copy_results(const PIterator begin_in, const OutputIterator begin_out) {
+    inline typename Copy_results<ParserResult, OutputIterator>::parse_info_c copy_results(const PIterator begin_in, const OutputIterator begin_out) {
       return Copy_results<ParserResult, OutputIterator>()(begin_in, begin_out);
     }
 
+    // ----------------------------------------------
+
+    template <template <typename Result, typename CharT, typename ParseIterator> class ParserResult, class OutputIterator>
+    struct Copy_results_from_file {
+
+      typedef char char_type; // ToDo: to generalise
+      typedef boost::spirit::file_iterator<char_type> file_iterator;
+      typedef boost::spirit::position_iterator<file_iterator> ParseIterator;
+      typedef boost::spirit::parse_info<ParseIterator> parse_info_f;
+      typedef ParserResult<Result, char_type, ParseIterator> Parser;
+
+      parse_info_f operator() (const boost::filesystem::path& filename, OutputIterator begin_out) {
+        const std::string native_filename(filename.native_file_string());
+        file_iterator file_begin(native_filename.c_str());
+        if (not file_begin)
+          throw ParserError("Error when opening " + native_filename);
+        const file_iterator file_end(file_begin.make_end());
+        const ParseIterator parse_begin(file_begin, file_end, native_filename);
+        const ParseIterator parse_end;
+        return copy_results<Parser>(parse_begin, parse_end, begin_out);
+      }
+
+    };
+
+    template <template <typename Result, typename CharT, typename ParseIterator> class ParserResult, class OutputIterator>
+    inline typename Copy_results_from_file<ParserResult, OutputIterator>::parse_info_f copy_results_from_file(const boost::filesystem::path& filename, OutputIterator begin_out) {
+      return Copy_results_from_file<ParserResult, OutputIterator>()(filename, begin_out);
+    }
 
   }
 
