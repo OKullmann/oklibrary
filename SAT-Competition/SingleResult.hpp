@@ -249,7 +249,8 @@ namespace OKlib {
     template <class Result, typename CharT = char, typename ParseIterator = const CharT*> class ParserResult;
 
     class Result : public ResultBasis {
-      friend class ParserResult<Result>;
+      template <class, typename, typename>
+      friend class ParserResult; // ToDo: Only when the first template parameter is this class Result, we should have a friend --- but this seems not to be possible?
       SuperSeries* sup_ser;
       Series* ser;
       Benchmark* bench;
