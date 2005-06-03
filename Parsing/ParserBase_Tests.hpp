@@ -4,6 +4,10 @@
 
 #define PARSERBASETESTS_jfbNb5y
 
+#include <boost/spirit/core.hpp>
+#include <boost/spirit/iterator/position_iterator.hpp>
+#include <boost/lexical_cast.hpp>
+
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
@@ -12,6 +16,8 @@ namespace OKlib {
   namespace Parser {
 
     enum Matching_possibilities { match_full, match_not_full, };
+
+    // -----------------------------------------------------------------------------------------------------------------------------------
 
     template <class Parser>
     class Test_ParsingString : public ::OKlib::TestSystem::TestBase {
@@ -39,6 +45,26 @@ namespace OKlib {
       }
     };
 
+    // -----------------------------------------------------------------------------------------------------------------------------------
+
+    template <typename ParseIterator>
+    class Test_ParsingResult_Positional : public ::OKlib::TestSystem::TestBase {
+      // ToDo: ParseIterator must be a PositionIterator (in the boost::spirit sense).
+      typedef boost::spirit::parse_info<ParseIterator> info_type;
+      const info_type& info;
+    public :
+      typedef Test_ParsingResult_Positional test_type;
+      Test_ParsingResult_Positional(const info_type& info) : info(info) {}
+    private :
+      void perform_test_trivial() {
+        if (not info.full) {
+          typedef boost::spirit::file_position position_type;
+          const ParseIterator it(info.stop);
+          position_type pos(it.get_position());
+          OKLIB_THROW("Parse error in file " + pos.file + " at line " + boost::lexical_cast<std::string>(pos.line) + " and column " +  boost::lexical_cast<std::string>(pos.column));
+        }
+      }
+    };
 
   }
 
