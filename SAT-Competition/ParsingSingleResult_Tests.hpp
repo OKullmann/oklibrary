@@ -11,10 +11,14 @@
 #include <algorithm>
 #include <iterator>
 #include <list>
+#include <fstream>
 
 #include <boost/spirit/core.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tuple/tuple.hpp>
+#include <boost/spirit/iterator/file_iterator.hpp>
+#include <boost/spirit/iterator/position_iterator.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -802,8 +806,24 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_positive_cases());
-        OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_negative_cases());
+        {
+          OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_positive_cases());
+          OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_negative_cases());
+        }
+        {
+          // ToDo: This should belong to the more time-consuming testing.
+          const boost::filesystem::path filename = "Data/export-industrial_2005_Round1_corrected.txt";
+          const int line_count = 17168;
+          typedef std::list<Result> List_output;
+          List_output output;
+          typedef std::back_insert_iterator<List_output> OutputIterator;
+          typedef Copy_results_from_file<ParserResult, OutputIterator> Copy;
+          typedef Copy::ParseIterator ParseIterator;
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingResult_Positional<ParseIterator>(Copy()(filename, std::back_inserter(output))));
+          const List_output::size_type output_size = output.size();
+          if (output_size != line_count)
+            OKLIB_THROW("Line count is " + boost::lexical_cast<std::string>(output_size) + ", and not " + boost::lexical_cast<std::string>(line_count));
+        }
        }
     };
 
