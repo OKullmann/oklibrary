@@ -20,7 +20,41 @@ namespace OKlib {
     typedef double TestSingleParameter;
     typedef std::vector<TestSingleParameter> TestParameter;
 
-    class TestBase {
+    class Test {
+    public :
+      virtual ~Test() {}
+      typedef Test test_type;
+      void perform_test(const TestParameter& P = TestParameter()) {
+        // throws only TestException
+        try {
+          if (P.empty())
+            perform_test_trivial();
+          else
+            perform_test_nontrivial(P);
+        }
+        catch(const TestException&) {
+          throw;
+        }
+        catch(const std::exception& e) {
+          TestException e_new(std::string("std::exception: what = ") + e.what() + "\ntype = " + typeid(e).name());
+          e_new.add(OKLIB_TESTDESCRIPTION);
+          throw e_new;
+        }
+        catch(...) {
+          TestException e("exception ...\n ");
+          e.add(OKLIB_TESTDESCRIPTION);
+          throw e;
+        }
+      }
+    private :
+      virtual void perform_test_trivial() = 0;
+      virtual void perform_test_nontrivial(const TestParameter&) {
+        perform_test_trivial();
+      }
+    };
+
+
+    class TestBase : public Test {
       typedef std::list<TestBase*> List;
       // List does not take ownership of the elements pointed to by its members.
       static List test_list;
@@ -48,29 +82,6 @@ namespace OKlib {
           }
         }
         return return_value;
-      }
-      typedef TestBase test_type;
-      void perform_test(const TestParameter& P = TestParameter()) {
-        // throws only TestException
-        try {
-          if (P.empty())
-            perform_test_trivial();
-          else
-            perform_test_nontrivial(P);
-        }
-        catch(const TestException&) {
-          throw;
-        }
-        catch(const std::exception& e) {
-          TestException e_new(std::string("std::exception: what = ") + e.what() + "\ntype = " + typeid(e).name());
-          e_new.add(OKLIB_TESTDESCRIPTION);
-          throw e_new;
-        }
-        catch(...) {
-          TestException e("exception ...\n ");
-          e.add(OKLIB_TESTDESCRIPTION);
-          throw e;
-        }
       }
       TestBase() : inserted(false) {}
       virtual ~TestBase() {
