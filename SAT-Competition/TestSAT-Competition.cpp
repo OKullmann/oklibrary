@@ -3,6 +3,7 @@
 #include "TestBaseClass.hpp"
 
 #include "ParsingSingleResult_Testobjects.hpp"
+#include "ParsingResultSequences_Testobjects.hpp"
 #include "ResultProcessing_Testobjects.hpp"
 
 int main() {
