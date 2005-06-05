@@ -10,18 +10,26 @@ namespace OKlib {
 
   namespace MetaProgramming {
 
+    namespace MacrosForMetaValues {
+
+#define OKLIB_META_VALUE typedef type::value_type value_type; static const value_type value = type::value;
+#define OKLIB_META_VALUE_T typedef typename type::value_type value_type; static const value_type value = type::value;
+
+#define OKLIB_META_TRUE typedef ::boost::mpl::bool_<true> type; OKLIB_META_VALUE
+#define OKLIB_META_FALSE typedef ::boost::mpl::bool_<false> type; OKLIB_META_VALUE
+#define OKLIB_META_TRUE_T typedef ::boost::mpl::bool_<true> type; OKLIB_META_VALUE_T
+#define OKLIB_META_FALSE_T typedef ::boost::mpl::bool_<false> type; OKLIB_META_VALUE_T
+
+    }
+
     template <class T>
     struct True {
-      typedef ::boost::mpl::bool_<true> type;
-      typedef typename type::value_type value_type;
-      static const value_type value = type::value;
+      OKLIB_META_TRUE;
     };
 
     template <class T>
     struct False {
-      typedef ::boost::mpl::bool_<false> type;
-      typedef typename type::value_type value_type;
-      static const value_type value = type::value;
+      OKLIB_META_FALSE;
     };
 
   }
