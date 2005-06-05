@@ -10,6 +10,8 @@
 #include <utility>
 #include <algorithm>
 #include <iterator>
+#include <ostream>
+#include <cassert>
 
 #include "FunctionHandling.hpp"
 
@@ -45,6 +47,22 @@ namespace OKlib {
       explicit ResultNode(const ResultBasis* rb) : rb(rb) {}
     };
 
+    inline std::ostream& operator <<(std::ostream& out, const ResultNode& r) {
+      return out << *(r.rb);
+    }
+
+    typedef std::vector<const ResultNode*> VectorResultNodesP;
+    
+    inline std::ostream& operator <<(std::ostream& out, const VectorResultNodesP& vec) {
+      typedef VectorResultNodesP::const_iterator const_iterator;
+      const const_iterator end(vec.end());
+      for (const_iterator i = vec.begin(); i != end; ++i)
+        out << **i << "\n";
+      return out;
+    }
+
+
+
     // ---------------------------------------------------------------------------------------------------------------------
 
     template <typename ResultIterator>
@@ -64,6 +82,7 @@ namespace OKlib {
       typedef VectorResultNodes::size_type number_results_type;
       number_results_type number_results_;
       typedef VectorResultNodes::iterator result_collection_iterator;
+      typedef VectorResultNodes::const_iterator result_collection_const_iterator;
 
     public :
 
@@ -114,7 +133,6 @@ namespace OKlib {
       typedef std::vector<const SetResultNodesP*> VectorOfSetsP;
       VectorOfSetsP vector_of_sets;
 
-      typedef std::vector<const ResultNode*> VectorResultNodesP;
     private :
       VectorResultNodesP query_result;
     public :
@@ -123,20 +141,25 @@ namespace OKlib {
         query_result.clear();
         const VectorOfSetsP::size_type size_vector_of_sets = vector_of_sets.size();
         if (size_vector_of_sets == 0) {
-          return result_collection;
+          const result_collection_const_iterator end = result_collection.end();
+          for (result_collection_const_iterator i = result_collection.begin(); i != end; ++i)
+            query_result.push_back(&*i);
         }
-        typedef SetResultNodesP::iterator set_iterator;
-        typedef std::pair<set_iterator, set_iterator> Range;
-        typedef std::vector<Range> VectorRanges;
-        VectorRanges vr;
-        vr.resize(size_vector_of_sets);
-        typedef VectorOfSetsP::const_iterator vector_sets_iterator;
-        const vector_sets_iterator end = vector_of_sets.end();
-        for (VectorOfSetsP::const_iterator i = vector_of_sets.begin(); i != end; ++i) {
-          const SetResultNodesP* set_pointer = *i;
-          vr.push_back(Range(set_pointer -> begin(), set_pointer -> end()));
+        else {
+          typedef SetResultNodesP::iterator set_iterator;
+          typedef std::pair<set_iterator, set_iterator> Range;
+          typedef std::vector<Range> VectorRanges;
+          VectorRanges vr;
+          vr.reserve(size_vector_of_sets);
+          typedef VectorOfSetsP::const_iterator vector_sets_iterator;
+          const vector_sets_iterator end = vector_of_sets.end();
+          for (vector_sets_iterator i = vector_of_sets.begin(); i != end; ++i) {
+            const SetResultNodesP* const set_pointer = *i;
+            vr.push_back(Range(set_pointer -> begin(), set_pointer -> end()));
+          }
+          assert(vr.size() == size_vector_of_sets);
+          ::OKlib::SetAlgorithms::intersection_sets(vr.begin(), vr.end(), std::back_inserter(query_result));
         }
-        ::OKlib::SetAlgorithms::intersection_sets(vr.begin(), vr.end(), std::back_inserter(query_result));
         return query_result;
       }
 
@@ -160,7 +183,7 @@ namespace OKlib {
             else {
               SetResultNodesP* set = new SetResultNodesP;
               set -> insert(&rn);
-              m.insert(std::make_pair(e, set));
+              m_it = m.insert(std::make_pair(e, set)).first;
             }
       }
     };
