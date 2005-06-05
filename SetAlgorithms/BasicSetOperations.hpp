@@ -80,7 +80,7 @@ namespace OKlib {
       typedef std::pair<InputIterator_elements, InputIterator_elements> Range;
       struct comparison : std::unary_function<Range, bool> {
         bool operator() (const Range& r1, const Range& r2) const {
-          return *r1.first < *r2.first;
+          return *(r1.first) < *(r2.first);
         }
       };
       typedef std::multiset<Range, comparison> Multiset;
@@ -108,16 +108,14 @@ namespace OKlib {
         for (;;) {
           const multiset_iterator begin_new_elements(first_elements.begin());
           const Range r(*begin_new_elements);
-          const multi_set_size_type number_equal_elements = first_elements.count(r);
-          const value_type e(*(r.first));
-          if (number_equal_elements == number_sets) {
-            const multiset_iterator end_new_elements = first_elements.end();
+          const multiset_iterator end_new_elements = first_elements.upper_bound(r);
+          if (end_new_elements == first_elements.end()) {
+            const value_type e(*(r.first));
             *(out++) = e;
             std::copy(begin_new_elements, end_new_elements, std::back_inserter(to_be_updated));
             first_elements.clear();
           }
           else {
-            const multiset_iterator end_new_elements = first_elements.upper_bound(r);
             std::copy(begin_new_elements, end_new_elements, std::back_inserter(to_be_updated));
             first_elements.erase(begin_new_elements, end_new_elements);
           }
