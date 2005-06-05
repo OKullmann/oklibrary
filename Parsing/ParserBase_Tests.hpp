@@ -20,7 +20,7 @@ namespace OKlib {
     // -----------------------------------------------------------------------------------------------------------------------------------
 
     template <class Parser>
-    class Test_ParsingString : public ::OKlib::TestSystem::TestBase {
+    class Test_ParsingString : public ::OKlib::TestSystem::Test {
       Parser& parser;
       const std::string test_string;
       const Matching_possibilities match;
@@ -48,7 +48,7 @@ namespace OKlib {
     // -----------------------------------------------------------------------------------------------------------------------------------
 
     template <typename ParseIterator>
-    class Test_ParsingResult_Positional : public ::OKlib::TestSystem::TestBase {
+    class Test_ParsingResult_Positional : public ::OKlib::TestSystem::Test {
       // ToDo: ParseIterator must be a PositionIterator (in the boost::spirit sense).
       typedef boost::spirit::parse_info<ParseIterator> info_type;
       const info_type& info;
