@@ -13,7 +13,7 @@ namespace OKlib {
 
     namespace Metafunction_tests {
 
-      template class Test_ConceptTag_T<ConceptTag>;
+      template class Test_ConceptTag_T<concept_tag>;
 
       template class Test_IsTagModel_T_concept_tag<IsTagModel>;
 

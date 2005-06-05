@@ -14,9 +14,13 @@ namespace OKlib {
 
   namespace Concepts {
 
+    namespace ConceptTests {
+
 #define OKLIB_BASIC_CONCEPT_TEST_TAG(concept) BOOST_STATIC_ASSERT(IsConceptTag< concept ## _tag >::value);
 
 #define OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(concept) template class concept< concept ## _Archetype >;
+
+    }
 
   }
 
