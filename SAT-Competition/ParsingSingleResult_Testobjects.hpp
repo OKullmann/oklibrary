@@ -35,9 +35,6 @@ namespace OKlib {
 
       Test_ParserResult_ResultRandomSat<ResultRandomSat> test_ResultRandomSat;
 
-      Test_Copy_results_ParserResult_Result test_CopyResults;
-
-      Test_Copy_results_ParserResultRandomSat_ResultRandomSat test_CopyResultsRandomSat;
     }
 
   }
