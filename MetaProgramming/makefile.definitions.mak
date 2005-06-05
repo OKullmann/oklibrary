@@ -31,8 +31,8 @@ else
   Xerces_so :=
 endif
 
-General_options := -ansi -g
-Optimisation_options := -ansi -O3 -DNDEBUG
+General_options := -g
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestMetaProgramming
 
