@@ -21,7 +21,7 @@ namespace OKlib {
   namespace Van_der_Waerden_hypergraph {
 
     template <class Iterator_arithmetic_progression>
-    class Test_Iterator_arithmetic_progression : public ::OKlib::TestSystem::TestBase {
+    class Test_Iterator_arithmetic_progression : public ::OKlib::TestSystem::Test {
     public :
       typedef Test_Iterator_arithmetic_progression test_type;
     private :
@@ -64,7 +64,7 @@ namespace OKlib {
     // ------------------------------------------------------------------------------------------------------------------------
 
     template <class Arithmetic_progression>
-    class Test_Arithmetic_progression : public ::OKlib::TestSystem::TestBase {
+    class Test_Arithmetic_progression : public ::OKlib::TestSystem::Test {
     public :
       typedef Test_Arithmetic_progression test_type;
     private :
