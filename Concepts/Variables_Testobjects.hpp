@@ -16,6 +16,11 @@ namespace OKlib {
     OKLIB_BASIC_CONCEPT_TEST_TAG(Variables);
     OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(Variables);
 
+    OKLIB_BASIC_CONCEPT_TEST_TAG(VariablesWithIndex);
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(VariablesWithIndex);
+
+    OKLIB_BASIC_CONCEPT_TEST_TAG(VariablesAsIndex);
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(VariablesAsIndex);
 
   }
 
