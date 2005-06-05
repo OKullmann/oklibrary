@@ -55,7 +55,7 @@ namespace OKlib {
     // Semantics: 
     // a > b iff b < a
     // a <= b iff not (a > b)
-    // a >= b iff not (a < b).
+    // a >= b iff b <= a.
 
     class FullyLessThanComparable_Archetype : public LessThanComparable_Archetype {
       FullyLessThanComparable_Archetype();
