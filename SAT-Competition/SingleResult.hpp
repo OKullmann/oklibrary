@@ -208,15 +208,18 @@ namespace OKlib {
     
     typedef boost::tuple<SuperSeries, Series, Benchmark, Solver, SATStatus, AverageTime, TimeOut> TupleResult;
 
-    std::ostream& operator <<(std::ostream& out, const TupleResult& t) {
+    inline std::ostream& operator <<(std::ostream& out, const TupleResult& t) {
       return out << t.get<0>() << " " << t.get<1>() << " " << t.get<2>() << " " << t.get<3>() << " " << t.get<4>() << " " << t.get<5>() << " " << t.get<6>();
     }
 
     typedef boost::tuple<RandomKSat, RandomKSat_n, Benchmark, Solver, SATStatus, AverageTime, TimeOut> TupleResultRandomSat;
 
-    std::ostream& operator <<(std::ostream& out, const TupleResultRandomSat& t) {
+    inline std::ostream& operator <<(std::ostream& out, const TupleResultRandomSat& t) {
       return out << t.get<0>() << " " << t.get<1>() << " " << t.get<2>() << " " << t.get<3>() << " " << t.get<4>() << " " << t.get<5>() << " " << t.get<6>();
     }
+
+    template <class result_type>
+    struct tuple_type;
 
     // ---------------------------------------------------------------------------------------------------------------
 
@@ -243,6 +246,10 @@ namespace OKlib {
       virtual const AverageTime& average_() const = 0;
       virtual const TimeOut& time_out_() const = 0;
     };
+
+    std::ostream& operator <<(std::ostream& out, const ResultBasis& r) {
+      return out << r.super_series() << " " <<r.series() << " " <<r.benchmark() << " " << r.solver() << " " << r.sat_status() << " " << r.average() << " " <<r.time_out();
+    }
 
     // ---------------------------------------------------------------------------------------------------------------
 
@@ -275,10 +282,6 @@ namespace OKlib {
       }
     };
 
-    std::ostream& operator <<(std::ostream& out, const Result& r) {
-      return out << r.super_series() << " " <<r.series() << " " <<r.benchmark() << " " << r.solver() << " " << r.sat_status() << " " << r.average() << " " <<r.time_out();
-    }
-
     bool operator ==(const TupleResult& lhs, const Result& rhs) {
       return lhs.get<0>() == rhs.super_series() and lhs.get<1>() == rhs.series() and lhs.get<2>() == rhs.benchmark() and lhs.get<3>() == rhs.solver() and lhs.get<4>() == rhs.sat_status() and lhs.get<5>() == rhs.average() and lhs.get<6>() == rhs.time_out();
     }
@@ -291,7 +294,12 @@ namespace OKlib {
     bool operator !=(const Result& lhs, const TupleResult& rhs) {
       return not (lhs == rhs);
     }
-    
+
+    template <>
+    struct tuple_type<Result> {
+      typedef TupleResult type;
+    };
+
     // ---------------------------------------------------------------------------------------------------------------
 
     class ResultRandomSatBasis : public ResultBasis {
@@ -306,7 +314,8 @@ namespace OKlib {
     };
 
     class ResultRandomSat : public ResultRandomSatBasis {
-      friend class ParserResult<ResultRandomSat>;
+      template <class, typename, typename>
+      friend class ParserResult; // ToDo: Only when the first template parameter is this class Result, we should have a friend --- but this seems not to be possible?
       RandomKSat* sup_ser;
       RandomKSat_n* ser;
       Benchmark* bench;
@@ -330,10 +339,6 @@ namespace OKlib {
       // ToDo: Also copy assignment with deep copying!!
     };
 
-    std::ostream& operator <<(std::ostream& out, const ResultRandomSat& r) {
-      return out << r.super_series() << " " <<r.series() << " " <<r.benchmark() << " " << r.solver() << " " << r.sat_status() << " " << r.average() << " " <<r.time_out();
-    }
-
     bool operator ==(const TupleResultRandomSat& lhs, const ResultRandomSat& rhs) {
       return lhs.get<0>() == rhs.super_series() and lhs.get<1>() == rhs.series() and lhs.get<2>() == rhs.benchmark() and lhs.get<3>() == rhs.solver() and lhs.get<4>() == rhs.sat_status() and lhs.get<5>() == rhs.average() and lhs.get<6>() == rhs.time_out();
     }
@@ -346,6 +351,11 @@ namespace OKlib {
     bool operator !=(const ResultRandomSat& lhs, const TupleResultRandomSat& rhs) {
       return not (lhs == rhs);
     }
+
+    template <>
+    struct tuple_type<ResultRandomSat> {
+      typedef TupleResultRandomSat type;
+    };
 
   }
 
