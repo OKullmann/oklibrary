@@ -382,13 +382,13 @@ namespace OKlib {
           test_vector.push_back(Pair("0", unknown));
           test_vector.push_back(Pair("10", sat));
           test_vector.push_back(Pair("20", unsat));
+           test_vector.push_back(Pair("1", error));
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
             
             const std::string test = i -> first;
             const SolverResult result = i -> second;
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
-            if(s.result() != result)
-              OKLIB_THROW("Result is " + boost::lexical_cast<std::string>(s.result()) + ", and not " + boost::lexical_cast<std::string>(result));
+            OKLIB_TEST_EQUAL(s.result(), result);
           }
         }
       }
@@ -406,7 +406,7 @@ namespace OKlib {
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   0", ::OKlib::Parser::match_not_full));
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "10   ", ::OKlib::Parser::match_not_full));
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "1", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "2", ::OKlib::Parser::match_not_full));
         }
        }
     };
