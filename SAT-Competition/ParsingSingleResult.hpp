@@ -11,6 +11,7 @@
 #include <boost/spirit/iterator/file_iterator.hpp>
 #include <boost/spirit/iterator/position_iterator.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "ParserBase.hpp"
 
@@ -175,15 +176,18 @@ namespace OKlib {
     class ParserResultElement<SATStatus, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       SATStatus& s;
       struct action {
+        static const std::string string_unknown;
+        static const std::string string_sat;
+        static const std::string string_unsat;
         SATStatus& s;
         action(SATStatus& s) : s(s) {}
         void operator() (const ParseIterator begin, const ParseIterator end) const {
           const std::string status(begin, end);
-          if (status == "0")
+          if (status == string_unknown)
             s = SATStatus(unknown);
-          else if (status == "10")
+          else if (status == string_sat)
             s = SATStatus(sat);
-          else if (status == "20")
+          else if (status == string_unsat)
             s = SATStatus(unsat);
           else
             s = SATStatus(error);
@@ -194,6 +198,14 @@ namespace OKlib {
         this -> parser_ = (boost::spirit::str_p("0") | boost::spirit::str_p("10") | boost::spirit::str_p("20") | boost::spirit::str_p("1"))[action(s)];
       }
     };
+
+    template <typename CharT, typename ParseIterator>
+    const std::string ParserResultElement<SATStatus, CharT, ParseIterator>::action::string_unknown(boost::lexical_cast<std::string>(unknown));
+    template <typename CharT, typename ParseIterator>
+    const std::string ParserResultElement<SATStatus, CharT, ParseIterator>::action::string_sat(boost::lexical_cast<std::string>(sat));
+    template <typename CharT, typename ParseIterator>
+    const std::string ParserResultElement<SATStatus, CharT, ParseIterator>::action::string_unsat(boost::lexical_cast<std::string>(unsat));
+
 
     // ---------------------------------------------------------------------------------------------------------
 
