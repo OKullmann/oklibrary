@@ -86,6 +86,9 @@ namespace OKlib {
       }
     };
 
+    const std::string filename_large_industrial = "Data/export-industrial_2005_Round1.txt";
+    const int line_count_large_industrial = 17168;
+
     class Test_Copy_results_ParserResult_Result : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_Copy_results_ParserResult_Result test_type;
@@ -100,14 +103,11 @@ namespace OKlib {
         }
         {
           // ToDo: This should belong to the more time-consuming testing.
-          const boost::filesystem::path filename = "Data/export-industrial_2005_Round1_corrected.txt";
-          const int line_count = 17168;
           typedef std::list<Result> List_output;
           List_output output;
-          OKLIB_TESTTRIVIAL_RETHROW(test_Copy_results_fill_from_file(filename, output));
+          OKLIB_TESTTRIVIAL_RETHROW(test_Copy_results_fill_from_file(filename_large_industrial, output));
           const List_output::size_type output_size = output.size();
-          if (output_size != line_count)
-            OKLIB_THROW("Line count is " + boost::lexical_cast<std::string>(output_size) + ", and not " + boost::lexical_cast<std::string>(line_count));
+          OKLIB_TEST_EQUAL(output_size, line_count_large_industrial);
         }
        }
     };
@@ -143,6 +143,9 @@ namespace OKlib {
       }
     };
 
+    const std::string filename_large_random = "Data/export-random_2005_Round1_corrected.txt";
+    const int line_count_large_random = 11700;
+
     class Test_Copy_results_ParserResultRandomSat_ResultRandomSat : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_Copy_results_ParserResultRandomSat_ResultRandomSat test_type;
@@ -154,15 +157,11 @@ namespace OKlib {
         OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResultRandomSat_ResultRandomSat_positive_cases());
         OKLIB_TESTTRIVIAL_RETHROW(Test_Copy_results_ParserResult_Result_negative_cases());
         {
-          // ToDo: This should belong to the more time-consuming testing.
-          const boost::filesystem::path filename = "Data/export-random_2005_Round1_corrected.txt";
-          const int line_count = 11700; // ToDo: making this information globally accessible
           typedef std::list<ResultRandomSat> List_output;
           List_output output;
-          OKLIB_TESTTRIVIAL_RETHROW(test_Copy_results_fill_from_file(filename, output));
+          OKLIB_TESTTRIVIAL_RETHROW(test_Copy_results_fill_from_file(filename_large_random, output));
           const List_output::size_type output_size = output.size();
-          if (output_size != line_count)
-            OKLIB_THROW("Line count is " + boost::lexical_cast<std::string>(output_size) + ", and not " + boost::lexical_cast<std::string>(line_count));
+          OKLIB_TEST_EQUAL(output_size, line_count_large_random);
         }
       }
     };
