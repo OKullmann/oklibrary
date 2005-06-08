@@ -183,13 +183,15 @@ namespace OKlib {
             s = SATStatus(unknown);
           else if (status == "10")
             s = SATStatus(sat);
-          else
+          else if (status == "20")
             s = SATStatus(unsat);
+          else
+            s = SATStatus(error);
         }
       };
     public :
       ParserResultElement(SATStatus& s) : s(s) {
-        this -> parser_ = (boost::spirit::str_p("0") | boost::spirit::str_p("10") | boost::spirit::str_p("20"))[action(s)];
+        this -> parser_ = (boost::spirit::str_p("0") | boost::spirit::str_p("10") | boost::spirit::str_p("20") | boost::spirit::str_p("1"))[action(s)];
       }
     };
 
