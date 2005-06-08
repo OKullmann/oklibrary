@@ -25,6 +25,7 @@
 #include "SingleResult.hpp"
 #include "ParsingSingleResult_Tests.hpp"
 #include "ParsingResultSequences.hpp"
+#include "ParsingResultSequences_Tests.hpp"
 
 namespace OKlib {
 
@@ -258,8 +259,8 @@ namespace OKlib {
       
       void perform_test_trivial() {
 
-        test_result<Result>("Data/export-industrial_2005_Round1_corrected.txt", 17168);
-        test_result<ResultRandomSat>("Data/export-random_2005_Round1_corrected.txt", 11700);
+        test_result<Result>(filename_large_industrial, line_count_large_industrial);
+        test_result<ResultRandomSat>(filename_large_random, line_count_large_random);
 
       }
 
