@@ -109,8 +109,8 @@ namespace OKlib {
 
     // ---------------------------------------------------------------------------------------------------------------
 
-    enum SolverResult { unknown, sat, unsat };
-    // ToDo: This should come from the general library
+    enum SolverResult { unknown = 0, sat = 10, unsat = 20, error = 1 };
+    // ToDo: This should come from the general library ?!
 
     class SATStatus : public ResultElement {
       SolverResult result_;
@@ -121,11 +121,7 @@ namespace OKlib {
     };
 
     std::ostream& operator <<(std::ostream& out, const SATStatus& e) {
-      switch (e.result()) {
-      case unknown : return out << 0;
-      case sat : return out << 10;
-      case unsat : return out << 20;
-      }
+      return out << e.result();
     }
 
     bool operator ==(const SATStatus& lhs, const SATStatus& rhs) {
