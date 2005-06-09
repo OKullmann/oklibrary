@@ -22,15 +22,16 @@ Directories := $(includedir)
 
 makefiles := $(addprefix $(includedir)/, $(notdir $(shell ls $(srcdir)/makefile_*[!~])))
 makefile_oksystem := $(prefix)/OKsystem/makefile
+doxy_file := $(includedir)/Doxyfile
 
 all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 
 
-prebuild : $(Directories) $(makefiles) $(makefile_oksystem)
+prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(doxy_file)
 
 $(Directories) : % :
 	mkdir $@
 
-$(makefiles) : $(includedir)/% : $(srcdir)/%
+$(makefiles) $(doxy_file) : $(includedir)/% : $(srcdir)/%
 	cp $< $@
 
 $(makefile_oksystem) : $(srcdir)/makefile_OKsystem
