@@ -72,12 +72,11 @@ namespace OKlib {
         const other_iterator end_other(db.super_series().end());
         for (other_iterator i(db.super_series().begin()); i != end_other; ++i) {
           const SuperSeries super_series = i -> first;
-          const SetResultNodesP& result_nodes_p = i -> second;
-          typedef std::set<Series> set;
-          set set_series;
+          const SetResultNodesP& result_nodes_p = *(i -> second);
+          std::set<Series> set_series;
           const set_iterator end_set(result_nodes_p.end());
           for (set_iterator j(result_nodes_p.begin()); j != end_set; ++j)
-            set_series.insert(*((*j) -> rb)); // ToDO: Using STL
+            set_series.insert((*j) -> rb -> series()); // ToDO: Using STL
           current = series_in_superseries_.insert(current, std::make_pair(super_series, seq_series()));
           std::copy(set_series.begin(), set_series.end(), std::back_inserter(current -> second));
         }
