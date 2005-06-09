@@ -18,6 +18,8 @@
 #include "BasicSetOperations.hpp"
 
 #include "SingleResult.hpp"
+#include "ParsingSingleResult.hpp"
+#include "ParsingResultSequences.hpp"
 
 namespace OKlib {
 
@@ -188,6 +190,24 @@ namespace OKlib {
       }
     };
 
+    // ------------------------------------------------------------------------------------------------------------------------------
+
+    template <template <typename Result, typename CharT, typename ParseIterator> class ParserResult, class Result_ = Result, template <typename Value> class Container = std::vector>
+    struct Result_database_from_file {
+
+      typedef Result_ result_type;
+      typedef Copy_results_from_file_to_container<ParserResult, Container, result_type> copy_type;
+      typedef typename copy_type::container_type container_type;
+      typedef typename container_type::const_iterator result_iterator_type;
+      typedef ResultDatabase<result_iterator_type> database_type;
+
+      container_type result_sequence;
+      copy_type copy;
+      database_type db;
+
+      Result_database_from_file(const boost::filesystem::path& filename) : copy(filename, result_sequence), db(result_sequence.begin(), result_sequence.end()) {}
+    };
+    
   }
 
 }
