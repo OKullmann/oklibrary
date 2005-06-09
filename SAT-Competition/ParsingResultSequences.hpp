@@ -4,6 +4,16 @@
 
 #define PARSINGRESULTSEQUENCES_uJnBv45
 
+#include <iterator>
+#include <string>
+
+#include <boost/spirit/core.hpp>
+#include <boost/spirit/iterator/file_iterator.hpp>
+#include <boost/spirit/iterator/position_iterator.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/lexical_cast.hpp>
+
+
 namespace OKlib {
 
   namespace SATCompetition {
@@ -74,7 +84,7 @@ namespace OKlib {
       typedef boost::spirit::parse_info<ParseIterator> parse_info_f;
       typedef ParserResult<Result_, char_type, ParseIterator> Parser;
 
-      parse_info_f operator() (const boost::filesystem::path& filename, OutputIterator begin_out) {
+      parse_info_f operator() (const boost::filesystem::path& filename, OutputIterator begin_out) const {
         const std::string native_filename(filename.native_file_string());
         file_iterator file_begin(native_filename.c_str());
         if (not file_begin)
@@ -85,6 +95,30 @@ namespace OKlib {
         return copy_results<Parser>(parse_begin, parse_end, begin_out);
       }
 
+    };
+
+    // ----------------------------------------------
+
+    template <template <typename Result, typename CharT, typename ParseIterator> class ParserResult, template <typename Value> class Container, class Result_ = Result>
+    struct Copy_results_from_file_to_container {
+
+      typedef Result_ result_type;
+      typedef Container<result_type> container_type;
+      typedef std::back_insert_iterator<container_type> output_iterator_type;
+      typedef Copy_results_from_file<ParserResult, output_iterator_type, result_type> copy_type;
+      typedef typename copy_type::ParseIterator parse_iterator_type;
+      typedef typename copy_type::parse_info_f info_type;
+
+      Copy_results_from_file_to_container (const boost::filesystem::path& filename, container_type& C) {
+        const info_type info(copy_type()(filename, output_iterator_type(C)));
+        if (not info.full) {
+          const parse_iterator_type it(info.stop);
+          typedef boost::spirit::file_position position_type;
+          const position_type pos(it.get_position());
+          throw ParserError("Parse error in file " + pos.file + " at line " + boost::lexical_cast<std::string>(pos.line) + " and column " +  boost::lexical_cast<std::string>(pos.column));
+        }
+      }
+      
     };
 
   }
