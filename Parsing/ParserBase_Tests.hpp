@@ -58,9 +58,9 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         if (not info.full) {
-          typedef boost::spirit::file_position position_type;
           const ParseIterator it(info.stop);
-          position_type pos(it.get_position());
+          typedef boost::spirit::file_position position_type;
+          const position_type pos(it.get_position());
           OKLIB_THROW("Parse error in file " + pos.file + " at line " + boost::lexical_cast<std::string>(pos.line) + " and column " +  boost::lexical_cast<std::string>(pos.column));
         }
       }
