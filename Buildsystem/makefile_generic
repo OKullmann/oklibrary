@@ -96,7 +96,10 @@ includedir := $(prefix)/include
 
 aux_dir := $(prefix)/aux
 
-Directories := $(bindir) $(libdir) $(includedir) $(aux_dir)
+doc_dir := $(prefix)/doc
+html_dir := $(doc_dir)/html
+
+Directories := $(bindir) $(libdir) $(includedir) $(aux_dir) $(doc_dir) $(html_dir)
 
 # -----------------------------------------------------------------------------------
 
@@ -145,11 +148,20 @@ object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimis
 test_file := $(srcdir)/test
 testop_file := $(srcdir)/testop
 
+doxy_file := $(includedir)/Doxyfile
+
 # ----------------------------------------------------------------
 
 all : unoptimised optimised
 
-prebuild : $(Directories) $(header_files) 
+prebuild : createdirs update
+
+createdirs : $(Directories)
+
+update : $(header_files)
+
+html :
+	cd $(srcdir); cd $(Root); doxygen $(doxy_file)
 
 unoptimised : $(programs) $(object_files)
 # ToDo: not all object files should be listed in the prerequisites, but
@@ -194,6 +206,7 @@ $(header_files_c) : $(includedir)/%.h : $(srcdir)/%.h
 # This problem seems hard to solve (one had to find out that
 # different paths lead to the same file).
 # So it must be documented well.
+
 $(dependency_files_cpp) : $(aux_dir)/%.d : $(srcdir)/%.cpp
 	$(CXX) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 $(dependency_files_c) : $(aux_dir)/%.d : $(srcdir)/%.c
