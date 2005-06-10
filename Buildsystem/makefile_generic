@@ -161,7 +161,7 @@ createdirs : $(Directories)
 update : $(header_files)
 
 html :
-	cd $(srcdir); cd $(Root); doxygen $(doxy_file)
+	rm $(html_dir)/*; cd $(srcdir); cd $(Root); doxygen $(doxy_file)
 
 unoptimised : $(programs) $(object_files)
 # ToDo: not all object files should be listed in the prerequisites, but
