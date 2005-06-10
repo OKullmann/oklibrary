@@ -5,7 +5,7 @@ define run_all_makes
 endef
 
 define run_all_makes_ignorant
-  for sm in $(sub_make_directories); do cd $(srcdir)/$(sm); $(MAKE) $@ --ignore-errors; done
+  for sm in $(sub_make_directories); do cd $(srcdir)/$${sm}; $(MAKE) $@ --ignore-errors; done
 endef
 
 unexport srcdir
