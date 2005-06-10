@@ -1,3 +1,6 @@
+SHELL = /bin/sh
+.SUFFIXES :
+
 define last-element
 $(word $(words $1),$1)
 endef
