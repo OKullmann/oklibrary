@@ -91,24 +91,87 @@ namespace OKlib {
           Set reference;
           TestOperation<VectorSets, Set, union_type> check(sets, reference);
 
-          OKLIB_TESTTRIVIAL_RETHROW(check);
-          Set s1; s1.insert(2); s1.insert(4); s1.insert(6); s1.insert(10);
-          sets.push_back(Range(s1.begin(), s1.end()));
-          reference = s1;
-          OKLIB_TESTTRIVIAL_RETHROW(check);
-          Set s2; s2.insert(2); s2.insert(-4); s2.insert(6); s2.insert(10);
-          sets.push_back(Range(s2.begin(), s2.end()));
-          reference.clear();
-          std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(reference, reference.begin()));
-          OKLIB_TESTTRIVIAL_RETHROW(check);
-          sets.push_back(Range(s2.begin(), s2.begin()));
-          OKLIB_TESTTRIVIAL_RETHROW(check);
-          Set s3; s3.insert(3); s3.insert(-4); s3.insert(5);
-          sets.push_back(Range(s3.begin(), s3.end()));
-          Set temp;
-          std::set_union(reference.begin(), reference.end(), s3.begin(), s3.end(), std::inserter(temp, temp.begin()));
-          temp.swap(reference);
-          OKLIB_TESTTRIVIAL_RETHROW(check);
+          typedef boost::tuple<Set, Set, Set> SetTriple;
+          typedef std::vector<SetTriple> VectorTestCases;
+          VectorTestCases test_cases;
+          const size_t size = sizeof(value_type);
+          {
+            const value_type array1[] = {1};
+            const value_type array2[] = {2};
+            const value_type array3[] = {3};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {1};
+            const value_type array2[] = {1};
+            const value_type array3[] = {1};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {1,2};
+            const value_type array2[] = {1,2};
+            const value_type array3[] = {1,2};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {1,2};
+            const value_type array2[] = {1,3};
+            const value_type array3[] = {2,3};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {2,4,6,10};
+            const value_type array2[] = {2,-4,6,10};
+            const value_type array3[] = {2,3,-4,5};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array2[] = {2,-4,6,10};
+            const value_type array3[] = {2,3,-4,5};
+            test_cases.push_back(SetTriple(Set(), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {1,2,3,4,5};
+            const value_type array2[] = {-1,0,1,2};
+            const value_type array3[] = {0,1,2,3,4,5,6};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {1,2,3,4,5};
+            const value_type array2[] = {1};
+            const value_type array3[] = {2};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+          {
+            const value_type array1[] = {1,2,3,4,5};
+            const value_type array2[] = {1};
+            const value_type array3[] = {2,6};
+            test_cases.push_back(SetTriple(Set(array1, array1 + (sizeof(array1) / size)), Set(array2, array2 + (sizeof(array2) / size)),  Set(array3, array3 + (sizeof(array3) / size))));
+          }
+
+          for (VectorTestCases::iterator i = test_cases.begin(); i != test_cases.end(); ++i, sets.clear()) {
+            const Set s1(i -> get<0>());
+            sets.push_back(Range(s1.begin(), s1.end()));
+            assert(sets.size() == 1);
+            reference = s1;
+            OKLIB_TESTTRIVIAL_RETHROW(check);
+            const Set s2(i -> get<1>());
+            sets.push_back(Range(s2.begin(), s2.end()));
+            assert(sets.size() == 2);
+            reference.clear();
+            std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), std::inserter(reference, reference.begin()));
+            OKLIB_TESTTRIVIAL_RETHROW(check);
+            sets.push_back(Range(s2.begin(), s2.end()));
+            assert(sets.size() == 3);
+            OKLIB_TESTTRIVIAL_RETHROW(check);
+            const Set s3(i -> get<2>());
+            sets.push_back(Range(s3.begin(), s3.end()));
+            assert(sets.size() == 4);
+            Set temp;
+            std::set_union(reference.begin(), reference.end(), s3.begin(), s3.end(), std::inserter(temp, temp.begin()));
+            temp.swap(reference);
+            OKLIB_TESTTRIVIAL_RETHROW(check);
+          }
         }
       }
     };
@@ -139,6 +202,7 @@ namespace OKlib {
           VectorSets sets;
           Set reference;
           TestOperation<VectorSets, Set, intersection_type> check(sets, reference);
+
           typedef boost::tuple<Set, Set, Set> SetTriple;
           typedef std::vector<SetTriple> VectorTestCases;
           VectorTestCases test_cases;
