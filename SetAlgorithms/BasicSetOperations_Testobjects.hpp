@@ -17,6 +17,8 @@ namespace OKlib {
 
       Test_Intersection<Intersection> test_intersection;
 
+      // ToDo: Testing instantiation of Union and Intersection with archetypes.
+
     }
 
   }
