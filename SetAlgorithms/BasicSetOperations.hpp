@@ -11,6 +11,9 @@
 #include <iterator>
 #include <cassert>
 
+#include <boost/range/functions.hpp>
+#include <boost/range/metafunctions.hpp>
+
 namespace OKlib {
 
   namespace SetAlgorithms {
@@ -19,11 +22,13 @@ namespace OKlib {
     struct Union {
       // ToDo: Adding specification of Union as functor class
       // ToDo: Adding concept etc.
-      // InputIterator_sets::value_type::first_type = InputIterator_sets::value_type::second_type
+      // InputIterator_sets must be an input iterator
+      // InputIterator_sets::value_type must be a model of the boost::range concept
+      // OutputIterator must be an output iterator.
       // Comment: When OutputIterator is std::back_insert_iterator etc., then return value is useless (except for further insertions).
-      // ToDo: Concept of ranges.
     private :
-      typedef typename InputIterator_sets::value_type::first_type InputIterator_elements;
+      typedef typename InputIterator_sets::value_type range_type;
+      typedef typename boost::range_const_iterator<range_type>::type InputIterator_elements;
       typedef std::pair<InputIterator_elements, InputIterator_elements> Range;
       struct comparison : std::unary_function<Range, bool> {
         bool operator() (const Range& r1, const Range& r2) const {
@@ -40,9 +45,12 @@ namespace OKlib {
       OutputIterator operator() (const InputIterator_sets begin_sets, const InputIterator_sets end_sets, OutputIterator out) const {
         Multiset first_elements;
         for (InputIterator_sets i = begin_sets; i != end_sets; ++i) {
-          const Range r(*i);
-          if (r.first != r.second)
-            first_elements.insert(r);
+          using boost::begin;
+          using boost::end;
+          using boost::empty;
+          const range_type r(*i);
+          if (not empty(r))
+            first_elements.insert(Range(begin(r), end(r)));
         }
         Vector  to_be_updated;
         to_be_updated.reserve(first_elements.size());
@@ -76,7 +84,8 @@ namespace OKlib {
     struct Intersection {
       // ToDo: see Union
     private :
-      typedef typename InputIterator_sets::value_type::first_type InputIterator_elements;
+      typedef typename InputIterator_sets::value_type range_type;
+      typedef typename boost::range_const_iterator<range_type>::type InputIterator_elements;
       typedef std::pair<InputIterator_elements, InputIterator_elements> Range;
       struct comparison : std::unary_function<Range, bool> {
         bool operator() (const Range& r1, const Range& r2) const {
@@ -95,12 +104,14 @@ namespace OKlib {
         assert(begin != end);
         Multiset first_elements;
         for (InputIterator_sets i = begin; i != end; ++i) {
-          const Range r(*i);
-          if (r.first != r.second)
-            first_elements.insert(r);
+          using boost::begin;
+          using boost::end;
+          using boost::empty;
+          const range_type r(*i);
+          if (not empty(r))
+            first_elements.insert(Range(begin(r), end(r)));
           else
             return out;
-          // ToDo: Using STL
         }
         const multi_set_size_type number_sets = first_elements.size();
         Vector to_be_updated;
