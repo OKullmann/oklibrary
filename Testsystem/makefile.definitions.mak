@@ -33,7 +33,7 @@ test_program := TestTestsystem
 
 programs :=
 
-source_libraries :=
+source_libraries := $(Boost)
 
 link_libraries := 
 
