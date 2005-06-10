@@ -1,10 +1,14 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
-special_goals := prebuild createdirs update
+special_goals := prebuild
+preparation_goals := createdirs update 
 html_goals := html
-test_goals := check test testop
-normal_goals := unoptimised optimised
+test_files := test testop
+test_targets := check
+test_goals :=$(test_files) $(test_targets)
+normal_goals := all $(preparation_goals) unoptimised optimised
 cleaning_goals := clean cleanobj cleandep cleanhead cleanprograms cleanall
 forced_goals := force
+all_goals := $(special_goals) $(html_goals) $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals)
 
-.PHONY : $(special_goals) $(html_goals) $(normal_goals) $(cleaning_goals) $(forced_goals)
+.PHONY : $(special_goals) $(html_goals) $(test_targets) $(normal_goals) $(cleaning_goals) $(forced_goals)
