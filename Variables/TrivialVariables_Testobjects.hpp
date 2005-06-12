@@ -18,6 +18,11 @@ namespace OKlib {
     ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_int> test_Variables_int;
     ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_long_int> test_Variables_long_int;
 
+    ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_unsigned_char> test_Variables_unsigned_char;
+    ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_unsigned_short_int> test_Variables_unsigned_short_int;
+    ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_unsigned_int> test_Variables_unsigned_int;
+    ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_unsigned_long_int> test_Variables_unsigned_long_int;
+
   }
 
 }
