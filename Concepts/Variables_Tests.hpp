@@ -115,6 +115,7 @@ namespace OKlib {
           OKLIB_THROW("v != w");
       }
     };
+    // ToDo: This axiom should go into a refinement (variables with equal indices can be different, for example when used in different contexts).
 
     template <typename Var>
     struct VariablesWithIndex_basic_test : OKlib::TestSystem::TestBase {
