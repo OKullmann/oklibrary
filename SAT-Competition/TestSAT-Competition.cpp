@@ -2,6 +2,7 @@
 
 #include "TestBaseClass.hpp"
 
+#include "SingleResult_Testobjects.hpp"
 #include "ParsingSingleResult_Testobjects.hpp"
 #include "ParsingResultSequences_Testobjects.hpp"
 #include "ResultProcessing_Testobjects.hpp"
