@@ -11,6 +11,7 @@
 #include "ConceptsMetafunctions_Testobjects.hpp"
 #include "LibraryBasics_Testobjects.hpp"
 #include "Variables_Testobjects.hpp"
+#include "ResultElements_Testobjects.hpp"
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
