@@ -11,9 +11,12 @@
 #include <sstream>
 #include <iterator>
 #include <cstddef>
+#include <string>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/tuple/tuple.hpp>
+#include <boost/iterator/counting_iterator.hpp>
+#include <boost/range/iterator_range.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -173,6 +176,44 @@ namespace OKlib {
             OKLIB_TESTTRIVIAL_RETHROW(check);
           }
         }
+        {
+          typedef int integer_type;
+          typedef boost::counting_iterator<integer_type> counting_iterator;
+          typedef boost::iterator_range<counting_iterator> iterator_range;
+          typedef std::vector<iterator_range> vector_type;
+          vector_type test_vector;
+          const integer_type step = 10;
+          const integer_type count = 100;
+          const integer_type max_add = 5;
+          for (integer_type a = 0; a != max_add; ++a) {
+            for (integer_type i = 0, left = 0, right = step; i < count; ++i, left = right, right += step)
+              test_vector.push_back(iterator_range(left, right+a));
+            test_vector.push_back(iterator_range(0,0));
+            typedef std::vector<integer_type> result_vector_type;
+            result_vector_type result;
+            union_sets(test_vector.begin(), test_vector.end(), std::back_inserter(result));
+            OKLIB_TEST_EQUAL_RANGES(result, iterator_range(0, step * count + a));
+          }
+        }
+        {
+          typedef std::string value_type;
+          typedef std::set<value_type> set_type;
+          typedef std::vector<set_type> vector_type;
+          typedef vector_type::const_iterator vector_iterator;
+          typedef std::vector<value_type> result_type;
+          set_type s1; s1.insert("abc"); s1.insert("xy"); s1.insert("uv");
+          set_type s2; s2.insert("ab"); s2.insert("abc"); s2.insert("xy"); s2.insert("klm");
+          set_type s3; s3.insert("abc"); s3.insert("xy"); s3.insert("h");
+          vector_type v; v.reserve(3);
+          v.push_back(s1); v.push_back(s2); v.push_back(s3);
+          result_type ref;
+          ref.push_back("ab"); ref.push_back("abc"); ref.push_back("h"); ref.push_back("klm"); ref.push_back("uv"); ref.push_back("xy");
+          result_type res;
+          Union<vector_iterator, std::back_insert_iterator<result_type> > U;
+          U(v.begin(), v.end(), std::back_inserter(res));
+          using OKlib::TestSystem::operator <<;
+          OKLIB_TEST_EQUAL(ref, res);
+        }
       }
     };
 
@@ -267,8 +308,43 @@ namespace OKlib {
             OKLIB_TESTTRIVIAL_RETHROW(check);
           }
         }
+        {
+          typedef int integer_type;
+          typedef boost::counting_iterator<integer_type> counting_iterator;
+          typedef boost::iterator_range<counting_iterator> iterator_range;
+          typedef std::vector<iterator_range> vector_type;
+          vector_type test_vector;
+          const integer_type count = 100;
+          const integer_type first_left = 0;
+          const integer_type first_right = 20;
+          for (integer_type i = 0, left = first_left, right = first_right; i < count; ++i, ++right, --left)
+              test_vector.push_back(iterator_range(left, right));
+          test_vector.push_back(iterator_range(first_left-10, first_right+10));
+          typedef std::vector<integer_type> result_vector_type;
+          result_vector_type result;
+          intersection_sets(test_vector.begin(), test_vector.end(), std::back_inserter(result));
+          OKLIB_TEST_EQUAL_RANGES(result, iterator_range(first_left, first_right));
+        }
+        {
+          typedef std::string value_type;
+          typedef std::set<value_type> set_type;
+          typedef std::vector<set_type> vector_type;
+          typedef vector_type::const_iterator vector_iterator;
+          typedef std::vector<value_type> result_type;
+          set_type s1; s1.insert("abc"); s1.insert("xy"); s1.insert("uv");
+          set_type s2; s2.insert("ab"); s2.insert("abc"); s2.insert("xy"); s2.insert("klm");
+          set_type s3; s3.insert("abc"); s3.insert("xy"); s3.insert("h");
+          vector_type v; v.reserve(3);
+          v.push_back(s1); v.push_back(s2); v.push_back(s3);
+          result_type ref;
+          ref.push_back("abc"); ref.push_back("xy");
+          result_type res;
+          Intersection<vector_iterator, std::back_insert_iterator<result_type> > I;
+          I(v.begin(), v.end(), std::back_inserter(res));
+          using OKlib::TestSystem::operator <<;
+          OKLIB_TEST_EQUAL(ref, res);
+        }
       }
-
     };
 
   }
