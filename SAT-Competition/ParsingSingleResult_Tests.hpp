@@ -93,11 +93,12 @@ namespace OKlib {
         typedef ParserResultElement<RandomKSat> Parser;
         Parser p(s);
         {
-          typedef std::vector<NaturalNumber> Test_vector;
+          typedef typename RandomKSat::natural_number_type natural_number_type;
+          typedef std::vector<natural_number_type> Test_vector;
           Test_vector tv;
           tv.push_back(3); tv.push_back(10);
-          for (Test_vector::const_iterator i = tv.begin(); i != tv.end(); ++i) {
-            const NaturalNumber k = *i;
+          for (typename Test_vector::const_iterator i = tv.begin(); i != tv.end(); ++i) {
+            const natural_number_type k = *i;
             const std::string k_string(boost::lexical_cast<std::string>(k));
             const std::string test = k_string + "SAT";
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
@@ -206,14 +207,15 @@ namespace OKlib {
         typedef ParserResultElement<RandomKSat_n> Parser;
         Parser p(s);
         {
-          typedef std::pair<std::string, NaturalNumber> Pair;
+          typedef typename RandomKSat_n::natural_number_type natural_number_type;
+          typedef std::pair<std::string, natural_number_type> Pair;
           typedef std::vector<Pair> Vector;
           Vector test_vector;
           test_vector.push_back(Pair("random/MediumSizeBenches/k3-r4.263-v", 300));
           test_vector.push_back(Pair("random/MediumSizeBenches/k3-v7-r4.263-v", 20));
           test_vector.push_back(Pair("random/MediumSizeBenches/k3-v7-r4.263---v", 20));
-          for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
-            const NaturalNumber n = i -> second;
+          for (typename Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
+            const natural_number_type n = i -> second;
             const std::string test_n =  boost::lexical_cast<std::string>(n);
             const std::string test = i -> first + test_n;
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
@@ -446,7 +448,8 @@ namespace OKlib {
           test_vector.push_back("100");
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
             const std::string test = *i;
-            const FloatingPoint average = boost::lexical_cast<FloatingPoint>(test);
+            typedef typename AverageTime::floating_point_type floating_point_type;
+            const floating_point_type average = boost::lexical_cast<floating_point_type>(test);
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.average() != average)
               OKLIB_THROW("Average is " + boost::lexical_cast<std::string>(s.average()) + ", and not " + boost::lexical_cast<std::string>(average));
@@ -506,7 +509,8 @@ namespace OKlib {
           test_vector.push_back("1200");
           for (Vector::const_iterator i = test_vector.begin(); i != test_vector.end(); ++i) {
             const std::string test = *i;
-            const NaturalNumber time_out = boost::lexical_cast<NaturalNumber>(test);
+            typedef typename TimeOut::natural_number_type natural_number_type;
+            const natural_number_type time_out = boost::lexical_cast<natural_number_type>(test);
             OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, test, ::OKlib::Parser::match_full));
             if(s.time_out() != time_out)
               OKLIB_THROW("Time_Out is " + boost::lexical_cast<std::string>(s.time_out()) + ", and not " + boost::lexical_cast<std::string>(time_out));
@@ -557,20 +561,24 @@ namespace OKlib {
     template <class Container>
     struct Add_positive_result_tuples<Container, TupleResult> {
       void operator() (Container& C) {
-        C.push_back(TupleResult(std::string("SAT04"), std::string("crafted/sat04/gomes03"), std::string("bench432"), std::string("solver1"), unknown, FloatingPoint(1200), NaturalNumber(1200)));
-        C.push_back(TupleResult(std::string("zarpas-s"), std::string("industrial/zarpas05/01"), std::string("bench1353"), std::string("solver34"), sat, FloatingPoint(409.69), NaturalNumber(1200)));
-        C.push_back(TupleResult(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
-        C.push_back(TupleResult(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1903"), std::string("solver5"), unsat, FloatingPoint(7), NaturalNumber(1300)));
+        typedef ResultElement::floating_point_type floating_point_type;
+        typedef ResultElement::natural_number_type natural_number_type;
+        C.push_back(TupleResult(std::string("SAT04"), std::string("crafted/sat04/gomes03"), std::string("bench432"), std::string("solver1"), unknown, floating_point_type(1200), natural_number_type(1200)));
+        C.push_back(TupleResult(std::string("zarpas-s"), std::string("industrial/zarpas05/01"), std::string("bench1353"), std::string("solver34"), sat, floating_point_type(409.69), natural_number_type(1200)));
+        C.push_back(TupleResult(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1902"), std::string("solver1"), unsat, floating_point_type(6.65), natural_number_type(1200)));
+        C.push_back(TupleResult(std::string("3SAT"), std::string("random/MediumSizeBenches/k3-r4.263-v300"), std::string("bench1903"), std::string("solver5"), unsat, floating_point_type(7), natural_number_type(1300)));
       }
     };
 
     template <class Container>
     struct Add_positive_result_tuples<Container, TupleResultRandomSat> {
       void operator() (Container& C) {
-        C.push_back(TupleResultRandomSat(RandomKSat("3SAT", 3), RandomKSat_n("random/MediumSizeBenches/k3-r4.263-v300", 300), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
-      C.push_back(TupleResultRandomSat(RandomKSat("7SAT", 7), RandomKSat_n("random/LargeSizeBenches/k7-r85-v160", 160), std::string("bench1603"), std::string("solver16"), unknown, FloatingPoint(1196.88), NaturalNumber(1200)));
-      C.push_back(TupleResultRandomSat(RandomKSat("99SAT", 99), RandomKSat_n("crafted/sat04/gomes03/x-v11", 11), std::string("bench432"), std::string("solver1"), unknown, FloatingPoint(1200), NaturalNumber(1200)));
-      C.push_back(TupleResultRandomSat(RandomKSat("3SAT", 3), RandomKSat_n("random/MediumSizeBenches/k3-r4.263-v300", 300), std::string("bench1902"), std::string("solver1"), unsat, FloatingPoint(6.65), NaturalNumber(1200)));
+        typedef ResultElement::floating_point_type floating_point_type;
+        typedef ResultElement::natural_number_type natural_number_type;
+        C.push_back(TupleResultRandomSat(RandomKSat("3SAT", 3), RandomKSat_n("random/MediumSizeBenches/k3-r4.263-v300", 300), std::string("bench1902"), std::string("solver1"), unsat, floating_point_type(6.65), natural_number_type(1200)));
+      C.push_back(TupleResultRandomSat(RandomKSat("7SAT", 7), RandomKSat_n("random/LargeSizeBenches/k7-r85-v160", 160), std::string("bench1603"), std::string("solver16"), unknown, floating_point_type(1196.88), natural_number_type(1200)));
+      C.push_back(TupleResultRandomSat(RandomKSat("99SAT", 99), RandomKSat_n("crafted/sat04/gomes03/x-v11", 11), std::string("bench432"), std::string("solver1"), unknown, floating_point_type(1200), natural_number_type(1200)));
+      C.push_back(TupleResultRandomSat(RandomKSat("3SAT", 3), RandomKSat_n("random/MediumSizeBenches/k3-r4.263-v300", 300), std::string("bench1902"), std::string("solver1"), unsat, floating_point_type(6.65), natural_number_type(1200)));
       }
     };
 

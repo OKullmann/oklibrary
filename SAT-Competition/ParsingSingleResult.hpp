@@ -51,25 +51,26 @@ namespace OKlib {
     template <typename CharT, typename ParseIterator>
     class ParserResultElement<RandomKSat, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       RandomKSat& s;
-      NaturalNumber k;
+      typedef RandomKSat::natural_number_type natural_number_type;
+      natural_number_type k;
       struct action1 {
-        NaturalNumber& k;
-        action1(NaturalNumber& k) : k(k) {}
-        void operator() (NaturalNumber k_) const {
+        natural_number_type& k;
+        action1(natural_number_type& k) : k(k) {}
+        void operator() (natural_number_type k_) const {
           k = k_;
         }
       };
       struct action2 {
-        NaturalNumber& k;
+        natural_number_type& k;
         RandomKSat& s;
-        action2(NaturalNumber& k, RandomKSat& s) : k(k), s(s) {}
+        action2(natural_number_type& k, RandomKSat& s) : k(k), s(s) {}
         void operator() (const ParseIterator begin, const ParseIterator end) const {
           s = RandomKSat(std::string(begin, end), k);
         }
       };
     public :
       ParserResultElement(RandomKSat& s) : s(s) {
-        this -> parser_ = ((boost::spirit::uint_parser<NaturalNumber, 10, 1, 2>())[action1(k)] >> boost::spirit::str_p("SAT"))[action2(k,s)];
+        this -> parser_ = ((boost::spirit::uint_parser<natural_number_type, 10, 1, 2>())[action1(k)] >> boost::spirit::str_p("SAT"))[action2(k,s)];
       }
     };
 
@@ -97,18 +98,19 @@ namespace OKlib {
     template <typename CharT, typename ParseIterator>
     class ParserResultElement<RandomKSat_n, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       RandomKSat_n& s;
-      NaturalNumber n;
+      typedef RandomKSat::natural_number_type natural_number_type;
+      natural_number_type n;
       struct action1 {
-        NaturalNumber& n;
-        action1(NaturalNumber& n) : n(n) {}
-        void operator() (const NaturalNumber n_) const {
+        natural_number_type& n;
+        action1(natural_number_type& n) : n(n) {}
+        void operator() (const natural_number_type n_) const {
           n = n_;
         }
       };
       struct action2 {
-        NaturalNumber& n;
+        natural_number_type& n;
         RandomKSat_n& s;
-        action2(NaturalNumber& n, RandomKSat_n& s) : n(n), s(s) {}
+        action2(natural_number_type& n, RandomKSat_n& s) : n(n), s(s) {}
         void operator() (const ParseIterator begin, const ParseIterator end) const {
           s = RandomKSat_n(std::string(begin, end), n);
         }
@@ -212,16 +214,17 @@ namespace OKlib {
     template <typename CharT, typename ParseIterator>
     class ParserResultElement<AverageTime, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       AverageTime& s;
+      typedef AverageTime::floating_point_type floating_point_type;
       struct action {
         AverageTime& s;
         action(AverageTime& s) : s(s) {}
-        void operator() (const FloatingPoint x) const {
+        void operator() (const floating_point_type x) const {
           s = AverageTime(x);
         }
       };
     public :
       ParserResultElement(AverageTime& s) : s(s) {
-        this -> parser_ = boost::spirit::real_parser<FloatingPoint, boost::spirit::ureal_parser_policies<FloatingPoint> >()[action(s)];
+        this -> parser_ = boost::spirit::real_parser<floating_point_type, boost::spirit::ureal_parser_policies<floating_point_type> >()[action(s)];
       }
     };
 
@@ -233,7 +236,8 @@ namespace OKlib {
       struct action {
         TimeOut& s;
         action(TimeOut& s) : s(s) {}
-        void operator() (const NaturalNumber x) const {
+        typedef TimeOut::natural_number_type natural_number_type;
+        void operator() (const natural_number_type x) const {
           s = TimeOut(x);
         }
       };
