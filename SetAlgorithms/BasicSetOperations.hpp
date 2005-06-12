@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <iterator>
 #include <cassert>
+#include <functional>
 
 #include <boost/range/functions.hpp>
 #include <boost/range/metafunctions.hpp>
@@ -30,8 +31,10 @@ namespace OKlib {
       typedef typename InputIterator_sets::value_type range_type;
       typedef typename boost::range_const_iterator<range_type>::type InputIterator_elements;
       typedef std::pair<InputIterator_elements, InputIterator_elements> Range;
-      struct comparison : std::unary_function<Range, bool> {
+      struct comparison : std::binary_function<Range, Range, bool> {
         bool operator() (const Range& r1, const Range& r2) const {
+          assert(r1.first != r1.second);
+          assert(r2.first != r2.second);
           return *r1.first < *r2.first;
         }
       };
@@ -39,7 +42,7 @@ namespace OKlib {
       typedef typename Multiset::iterator multiset_iterator;
       typedef typename InputIterator_elements::value_type value_type;
       typedef std::vector<Range> Vector;
-      typedef typename Vector::const_iterator vector_iterator;
+      typedef typename Vector::iterator vector_iterator;
     public :
       Union() {} // to enable constant objects
       OutputIterator operator() (const InputIterator_sets begin_sets, const InputIterator_sets end_sets, OutputIterator out) const {
@@ -48,23 +51,25 @@ namespace OKlib {
           using boost::begin;
           using boost::end;
           using boost::empty;
-          const range_type r(*i);
+          const range_type& r(*i);
           if (not empty(r))
             first_elements.insert(Range(begin(r), end(r)));
         }
         Vector  to_be_updated;
         to_be_updated.reserve(first_elements.size());
         for (; not first_elements.empty(); to_be_updated.clear()) {
-          const multiset_iterator begin_new_elements(first_elements.begin());
-          const Range r(*begin_new_elements);
-          const multiset_iterator end_new_elements(first_elements.upper_bound(r));
-          const value_type e(*(r.first));
-          *(out++) = e;
+          const multiset_iterator& begin_new_elements(first_elements.begin());
+          const Range& r(*begin_new_elements);
+          assert(r.first != r.second);
+          *(out++) = *(r.first);
+          const multiset_iterator& end_new_elements(first_elements.upper_bound(r));
+          assert(first_elements.lower_bound(r) == begin_new_elements);
+          assert(begin_new_elements != end_new_elements);
           std::copy(begin_new_elements, end_new_elements, std::back_inserter(to_be_updated));
           first_elements.erase(begin_new_elements, end_new_elements);
-          const vector_iterator update_end(to_be_updated.end());
+          const vector_iterator& update_end(to_be_updated.end());
           for (vector_iterator i(to_be_updated.begin()); i != update_end; ++i) {
-            Range r(*i);
+            Range& r(*i);
             if (++r.first != r.second)
               first_elements.insert(r);
           }
@@ -83,6 +88,7 @@ namespace OKlib {
     template <typename InputIterator_sets, typename OutputIterator>
     struct Intersection {
       // ToDo: see Union
+      // ToDo: factor out common definitions
     private :
       typedef typename InputIterator_sets::value_type range_type;
       typedef typename boost::range_const_iterator<range_type>::type InputIterator_elements;
@@ -97,7 +103,7 @@ namespace OKlib {
       typedef typename Multiset::size_type multi_set_size_type;
       typedef typename InputIterator_elements::value_type value_type;
       typedef std::vector<Range> Vector;
-      typedef typename Vector::const_iterator vector_iterator;
+      typedef typename Vector::iterator vector_iterator;
     public :
       Intersection() {} // to enable constant objects
       OutputIterator operator() (const InputIterator_sets begin, const InputIterator_sets end, OutputIterator out) const {
@@ -107,22 +113,21 @@ namespace OKlib {
           using boost::begin;
           using boost::end;
           using boost::empty;
-          const range_type r(*i);
+          const range_type& r(*i);
           if (not empty(r))
             first_elements.insert(Range(begin(r), end(r)));
           else
             return out;
         }
-        const multi_set_size_type number_sets = first_elements.size();
         Vector to_be_updated;
-        to_be_updated.reserve(number_sets);
-        for (;;) {
-          const multiset_iterator begin_new_elements(first_elements.begin());
-          const Range r(*begin_new_elements);
-          const multiset_iterator end_new_elements = first_elements.upper_bound(r);
+        to_be_updated.reserve(first_elements.size());
+        for (;; to_be_updated.clear()) {
+          const multiset_iterator& begin_new_elements(first_elements.begin());
+          const Range& r(*begin_new_elements);
+          assert(r.first != r.second);
+          const multiset_iterator& end_new_elements = first_elements.upper_bound(r);
           if (end_new_elements == first_elements.end()) {
-            const value_type e(*(r.first));
-            *(out++) = e;
+            *(out++) = *(r.first);
             std::copy(begin_new_elements, end_new_elements, std::back_inserter(to_be_updated));
             first_elements.clear();
           }
@@ -130,17 +135,15 @@ namespace OKlib {
             std::copy(begin_new_elements, end_new_elements, std::back_inserter(to_be_updated));
             first_elements.erase(begin_new_elements, end_new_elements);
           }
-          const vector_iterator update_end(to_be_updated.end());
+          const vector_iterator& update_end(to_be_updated.end());
           for (vector_iterator begin(to_be_updated.begin()); begin != update_end; ++begin) {
-            Range r(*begin);
-            ++r.first;
-            if (r.first != r.second)
+            Range& r(*begin);
+            if (++r.first != r.second)
               first_elements.insert(r);
             else
               return out;
             // ToDo: Using STL
           }
-          to_be_updated.clear();
         }
         return out;
       }
