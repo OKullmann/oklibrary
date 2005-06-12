@@ -6,8 +6,11 @@
 
 #include <string>
 
+#include "ParserBase_Tests.hpp"
+
 #include "SingleResult.hpp"
 #include "ParsingSingleResult.hpp"
+#include "ParsingSingleResult_Tests.hpp"
 
 namespace OKlib {
 
@@ -87,7 +90,7 @@ namespace OKlib {
     };
 
     const std::string filename_large_industrial = "Data/export-industrial_2005_Round1.txt";
-    const int line_count_large_industrial = 17168;
+    const unsigned int line_count_large_industrial = 17168;
 
     class Test_Copy_results_ParserResult_Result : public ::OKlib::TestSystem::TestBase {
     public :
@@ -144,7 +147,7 @@ namespace OKlib {
     };
 
     const std::string filename_large_random = "Data/export-random_2005_Round1_corrected.txt";
-    const int line_count_large_random = 11700;
+    const unsigned int line_count_large_random = 11700;
 
     class Test_Copy_results_ParserResultRandomSat_ResultRandomSat : public ::OKlib::TestSystem::TestBase {
     public :

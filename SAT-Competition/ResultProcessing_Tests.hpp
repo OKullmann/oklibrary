@@ -265,7 +265,7 @@ namespace OKlib {
       }
 
       template <class result_type>
-      void test_result(const std::string& filename, const int line_count) {
+      void test_result(const std::string& filename, const unsigned int line_count) {
 
         typedef typename tuple_type<result_type>::type TupleResult;
         typedef std::vector<result_type> VectorResult;
