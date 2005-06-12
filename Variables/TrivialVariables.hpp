@@ -16,7 +16,10 @@ namespace OKlib {
     typedef int Variables_int;
     typedef long int Variables_long_int;
 
-    // ToDo: Also the four signed types.
+    typedef unsigned char Variables_unsigned_char;
+    typedef unsigned short int Variables_unsigned_short_int;
+    typedef unsigned int Variables_unsigned_int;
+    typedef unsigned long int Variables_unsigned_long_int;
     
   }
 
@@ -48,6 +51,34 @@ namespace OKlib {
     };
     template <> struct index_type< ::OKlib::Variables::Variables_long_int> {
       typedef long int type;
+    };
+
+    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_char> {
+      typedef VariablesAsIndex_tag type;
+    };
+    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_char> {
+      typedef unsigned char type;
+    };
+
+    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_short_int> {
+      typedef VariablesAsIndex_tag type;
+    };
+    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_short_int> {
+      typedef unsigned short int type;
+    };
+
+    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_int> {
+      typedef VariablesAsIndex_tag type;
+    };
+    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_int> {
+      typedef unsigned int type;
+    };
+
+    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_long_int> {
+      typedef VariablesAsIndex_tag type;
+    };
+    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_long_int> {
+      typedef unsigned long int type;
     };
 
   }
