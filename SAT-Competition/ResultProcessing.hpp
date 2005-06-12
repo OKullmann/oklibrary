@@ -72,6 +72,10 @@ namespace OKlib {
     // ResultIterator::value_type is Result
     // It is assumed that the lifetime of these results is as long as the lifetime of the ResultDatabase object.
     class ResultDatabase {
+
+      ResultDatabase(const ResultDatabase&);
+      ResultDatabase& operator =(const ResultDatabase&);
+
       MapSuperSeries map_sup_ser;
       MapSeries map_ser;
       MapBenchmark map_bench;
@@ -169,13 +173,11 @@ namespace OKlib {
 
       template <class Map>
       void delete_values(Map& m) {
-        typedef typename Map::iterator iterator;
         std::for_each(m.begin(), m.end(), FunctionHandling::DeleteObjectSecond());
       }
 
       template <class ResultElement, class Map>
       void update_map(ResultNode& rn, const ResultElement e, Map& m, typename Map::const_iterator& m_it, const typename Map::iterator& end) {
-        const ResultBasis* r(rn.rb);
         typedef typename Map::iterator iterator;
         const iterator it(m.find(e));
             if (it != end) {
