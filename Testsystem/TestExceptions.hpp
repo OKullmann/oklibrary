@@ -11,6 +11,11 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <set>
+#include <ostream>
+#include <list>
+#include <deque>
+#include <map>
 
 #include <boost/range/functions.hpp>
 
@@ -70,6 +75,35 @@ namespace OKlib {
 #define OKLIB_TEST_EQUAL_RANGES(c1, c2) { using boost::begin; using boost::end; using boost::size; if (size(c1) != size(c2)) { std::stringstream out; out << "Size is " << size(c1) << ", and not " << size(c2); OKLIB_THROW(out.str()); } else if (not std::equal(begin(c1), end(c1), begin(c2))) OKLIB_THROW("Containers have different content"); }
 
 #define OKLIB_TESTTRIVIAL_RETHROW(Testobject) try { (Testobject).perform_test(); } catch(::OKlib::TestSystem::TestException& e) { e.add(OKLIB_TESTDESCRIPTION); throw e; }
+
+    template <typename T, class A>
+    std::ostream& operator <<(std::ostream& out, const std::vector<T, A>& v) {
+      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+      return out << "\n";
+    }
+    template <typename T, class A>
+    std::ostream& operator <<(std::ostream& out, const std::list<T, A>& v) {
+      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+      return out << "\n";
+    }
+    template <typename T, class A>
+    std::ostream& operator <<(std::ostream& out, const std::deque<T, A>& v) {
+      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+      return out << "\n";
+    }
+    template <typename T, class C, class A>
+    std::ostream& operator <<(std::ostream& out, const std::set<T, C, A>& v) {
+      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+      return out << "\n";
+    }
+    template <typename T, class C, class A>
+    std::ostream& operator <<(std::ostream& out, const std::multiset<T, C, A>& v) {
+      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+      return out << "\n";
+    }
+
+    // ToDo: further completing;
+    // ToDo: Should this go to a general output facilities module?
 
   }
 
