@@ -6,8 +6,14 @@
 
 #include <string>
 #include <ostream>
+#include <cassert>
+#include <algorithm>
 
 #include <boost/tuple/tuple.hpp>
+
+#include "ResultElements.hpp"
+
+#include "DerivedRelations.hpp"
 
 namespace OKlib {
 
@@ -15,21 +21,22 @@ namespace OKlib {
 
     class ResultElement {
     public :
+      typedef OKlib::Concepts::ResultElement_tag concept_tag;
+      typedef std::string string_type;
+      typedef double floating_point_type;
+      typedef unsigned int natural_number_type;
       virtual ~ResultElement() {}
     };
-
-    typedef std::string String;
-    typedef double FloatingPoint;
-    typedef unsigned int NaturalNumber;
 
     // ---------------------------------------------------------------------------------------------------------------
     
     class ResultElement_with_name : public ResultElement {
-      String name_;
+      string_type name_;
     public :
+      typedef OKlib::Concepts::ResultElementWithName_tag concept_tag;
       ResultElement_with_name() {}
-      ResultElement_with_name(const String& name) : name_(name) {}
-      const String& name() const { return name_; }
+      ResultElement_with_name(const string_type& name) : name_(name) {}
+      string_type name() const { return name_; }
     };
 
     std::ostream& operator <<(std::ostream& out, const ResultElement_with_name& e) {
@@ -39,36 +46,26 @@ namespace OKlib {
     bool operator ==(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
       return lhs.name() == rhs.name();
     }
-    bool operator !=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
-      return not (lhs == rhs);
-    }
+    OKLIB_DERIVED_UNEQUAL(ResultElement_with_name);
 
     bool operator <(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
       return lhs.name() < rhs.name();
     }
-    bool operator >(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
-      return rhs < lhs;
-    }
-    bool operator <=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
-      return not(lhs > rhs);
-    }
-    bool operator >=(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
-      return not(lhs < rhs);
-    }
+    OKLIB_DERIVED_ORDERRELATIONS(ResultElement_with_name);
 
     // ---------------------------------------------------------------------------------------------------------------
     
     class SuperSeries : public ResultElement_with_name {
     public :
       SuperSeries() {}
-      SuperSeries(const String& name) : ResultElement_with_name(name) {}
+      SuperSeries(const string_type& name) : ResultElement_with_name(name) {}
     };
     class RandomKSat : public SuperSeries {
-      NaturalNumber k;
+      natural_number_type k;
     public :
       RandomKSat() {}
-      RandomKSat(const String& name, const NaturalNumber k) : SuperSeries(name), k(k) {}
-      NaturalNumber clause_length() const { return k; }
+      RandomKSat(const string_type& name, const natural_number_type k) : SuperSeries(name), k(k) {}
+      natural_number_type clause_length() const { return k; }
     };
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -76,19 +73,19 @@ namespace OKlib {
     class Series  : public ResultElement_with_name {
     public :
       Series() {}
-      Series(const String& name) : ResultElement_with_name(name) {}
+      Series(const string_type& name) : ResultElement_with_name(name) {}
     };
     class Series_with_n : public Series {
-      NaturalNumber n;
+      natural_number_type n;
     public :
       Series_with_n() {}
-      Series_with_n(const String& name, const NaturalNumber n) : Series(name), n(n) {}
-      NaturalNumber count_variables() const { return n; }
+      Series_with_n(const string_type& name, const natural_number_type n) : Series(name), n(n) {}
+      natural_number_type count_variables() const { return n; }
     };
     class RandomKSat_n : public Series_with_n {
     public :
       RandomKSat_n() {}
-      RandomKSat_n(const String& name, const NaturalNumber n) : Series_with_n(name, n) {}
+      RandomKSat_n(const string_type& name, const natural_number_type n) : Series_with_n(name, n) {}
     };
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -96,7 +93,7 @@ namespace OKlib {
     class Benchmark  : public ResultElement_with_name {
     public :
       Benchmark() {}
-      Benchmark(const String& name) : ResultElement_with_name(name) {}
+      Benchmark(const string_type& name) : ResultElement_with_name(name) {}
     };
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -104,7 +101,7 @@ namespace OKlib {
     class Solver  : public ResultElement_with_name {
     public :
       Solver() {}
-      Solver(const String& name) : ResultElement_with_name(name) {}
+      Solver(const string_type& name) : ResultElement_with_name(name) {}
     };
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -127,32 +124,21 @@ namespace OKlib {
     bool operator ==(const SATStatus& lhs, const SATStatus& rhs) {
       return lhs.result() == rhs.result();
     }
-    bool operator !=(const SATStatus& lhs, const SATStatus& rhs) {
-      return not (lhs == rhs);
-    }
+    OKLIB_DERIVED_UNEQUAL(SATStatus);
 
     bool operator <(const SATStatus& lhs, const SATStatus& rhs) {
       return lhs.result() < rhs.result();
     }
-    bool operator >(const SATStatus& lhs, const SATStatus& rhs) {
-      return rhs < lhs;
-    }
-    bool operator <=(const SATStatus& lhs, const SATStatus& rhs) {
-      return not(lhs > rhs);
-    }
-    bool operator >=(const SATStatus& lhs, const SATStatus& rhs) {
-      return not(lhs < rhs);
-    }
-
+    OKLIB_DERIVED_ORDERRELATIONS(SATStatus);
 
     // ---------------------------------------------------------------------------------------------------------------
 
     class AverageTime : public ResultElement {
-      FloatingPoint average_;
+      floating_point_type average_;
     public :
       AverageTime() {}
-      AverageTime(const FloatingPoint average) : average_(average) {}
-      FloatingPoint average() const { return average_; }
+      AverageTime(const floating_point_type average) : average_(average) {}
+      floating_point_type average() const { return average_; }
     };
 
     std::ostream& operator <<(std::ostream& out, const AverageTime& e) {
@@ -168,11 +154,11 @@ namespace OKlib {
     // ---------------------------------------------------------------------------------------------------------------
 
     class TimeOut : public ResultElement {
-      NaturalNumber time_out_;
+      natural_number_type time_out_;
     public :
       TimeOut() {}
-      TimeOut(const NaturalNumber time_out) : time_out_(time_out) {}
-      NaturalNumber time_out() const { return time_out_; }
+      TimeOut(const natural_number_type time_out) : time_out_(time_out) {}
+      natural_number_type time_out() const { return time_out_; }
     };
 
     std::ostream& operator <<(std::ostream& out, const TimeOut& e) {
@@ -182,25 +168,17 @@ namespace OKlib {
     bool operator ==(const TimeOut& lhs, const TimeOut& rhs) {
       return lhs.time_out() == rhs.time_out();
     }
-    bool operator !=(const TimeOut& lhs, const TimeOut& rhs) {
-      return not (lhs == rhs);
-    }
-    
+    OKLIB_DERIVED_UNEQUAL(TimeOut);
+
     bool operator <(const TimeOut& lhs, const TimeOut& rhs) {
       return lhs.time_out() < rhs.time_out();
     }
-    bool operator >(const TimeOut& lhs, const TimeOut& rhs) {
-      return rhs < lhs;
-    }
-    bool operator <=(const TimeOut& lhs, const TimeOut& rhs) {
-      return not(lhs > rhs);
-    }
-    bool operator >=(const TimeOut& lhs, const TimeOut& rhs) {
-      return not(lhs < rhs);
-    }
+    OKLIB_DERIVED_ORDERRELATIONS(TimeOut);
 
     // ---------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------------
+
+    // ToDo: This should go into a separate file
     
     typedef boost::tuple<SuperSeries, Series, Benchmark, Solver, SATStatus, AverageTime, TimeOut> TupleResult;
 
@@ -232,7 +210,7 @@ namespace OKlib {
       const SATStatus& sat_status() const { return sat_status_(); }
       const AverageTime& average() const { return average_(); }
       const TimeOut& time_out() const { return time_out_(); }
-      ~ResultBasis() {}
+      virtual ~ResultBasis() {}
     private :
       virtual const SuperSeries& super_series_() const = 0;
       virtual const Series& series_() const = 0;
@@ -254,6 +232,7 @@ namespace OKlib {
     class Result : public ResultBasis {
       template <class, typename, typename>
       friend class ParserResult; // ToDo: Only when the first template parameter is this class Result, we should have a friend --- but this seems not to be possible?
+
       SuperSeries* sup_ser;
       Series* ser;
       Benchmark* bench;
@@ -261,20 +240,63 @@ namespace OKlib {
       SATStatus* sat_stat;
       AverageTime* avg;
       TimeOut* tmo;
-      const SuperSeries& super_series_() const { return *sup_ser; };
-      const Series& series_() const { return *ser; }
-      const Benchmark& benchmark_() const { return *bench; }
-      const Solver& solver_() const { return *solv; }
-      const SATStatus& sat_status_() const { return *sat_stat; }
-      const AverageTime& average_() const { return *avg; }
-      const TimeOut& time_out_() const { return *tmo; }
+
+      const SuperSeries& super_series_() const {
+        assert(sup_ser);
+        return *sup_ser;
+      };
+      const Series& series_() const {
+        assert(ser);
+        return *ser;
+      }
+      const Benchmark& benchmark_() const {
+        assert(bench);
+        return *bench;
+      }
+      const Solver& solver_() const {
+        assert(solv);
+        return *solv;
+      }
+      const SATStatus& sat_status_() const {
+        assert(sat_stat);
+        return *sat_stat;
+      }
+      const AverageTime& average_() const {
+        assert(avg);
+        return *avg;
+      }
+      const TimeOut& time_out_() const {
+        assert(tmo);
+        return *tmo;
+      }
     public :
+
       Result() : sup_ser(new SuperSeries), ser(new Series), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+
       Result(const TupleResult& r) : sup_ser(new SuperSeries(r.get<0>())), ser(new Series(r.get<1>())), bench(new Benchmark(r.get<2>())), solv(new Solver(r.get<3>())), sat_stat(new SATStatus(r.get<4>())), avg(new AverageTime(r.get<5>())), tmo(new TimeOut(r.get<6>())) {}
+
       Result(const Result& r) : sup_ser(new SuperSeries(*r.sup_ser)), ser(new Series(*r.ser)), bench(new Benchmark(*r.bench)), solv(new Solver(*r.solv)), sat_stat(new SATStatus(*r.sat_stat)), avg(new AverageTime(*r.avg)), tmo(new TimeOut(*r.tmo)) {}
-      // ToDo: Also copy assignment with deep copying!!
+
+      Result& operator =(const Result& rhs) {
+        Result new_r(rhs);
+        std::swap(new_r.sup_ser, sup_ser);
+        std::swap(new_r.ser, ser);
+        std::swap(new_r.bench, bench);
+        std::swap(new_r.solv, solv);
+        std::swap(new_r.sat_stat, sat_stat);
+        std::swap(new_r.avg, avg);
+        std::swap(new_r.tmo, tmo);
+        return *this;
+      }
+
       ~Result() {
-        delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
+        assert(sup_ser); delete sup_ser; 
+        assert(ser); delete ser;
+        assert(bench); delete bench;
+        assert(solv); delete solv;
+        assert(sat_stat); delete sat_stat;
+        assert(avg); delete avg;
+        assert(tmo); delete tmo;
       }
     };
 
@@ -312,6 +334,7 @@ namespace OKlib {
     class ResultRandomSat : public ResultRandomSatBasis {
       template <class, typename, typename>
       friend class ParserResult; // ToDo: Only when the first template parameter is this class Result, we should have a friend --- but this seems not to be possible?
+
       RandomKSat* sup_ser;
       RandomKSat_n* ser;
       Benchmark* bench;
@@ -319,20 +342,62 @@ namespace OKlib {
       SATStatus* sat_stat;
       AverageTime* avg;
       TimeOut* tmo;
-      const RandomKSat& super_series_random_() const { return *sup_ser; };
-      const RandomKSat_n& series_random_() const { return *ser; }
-      const Benchmark& benchmark_() const { return *bench; }
-      const Solver& solver_() const { return *solv; }
-      const SATStatus& sat_status_() const { return *sat_stat; }
-      const AverageTime& average_() const { return *avg; }
-      const TimeOut& time_out_() const { return *tmo; }
-    public :
-      ResultRandomSat() : sup_ser(new RandomKSat), ser(new RandomKSat_n), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
-      ResultRandomSat(const ResultRandomSat& r) : sup_ser(new RandomKSat(*r.sup_ser)), ser(new RandomKSat_n(*r.ser)), bench(new Benchmark(*r.bench)), solv(new Solver(*r.solv)), sat_stat(new SATStatus(*r.sat_stat)), avg(new AverageTime(*r.avg)), tmo(new TimeOut(*r.tmo)) {}
-      ~ResultRandomSat() {
-	delete sup_ser; delete ser; delete bench; delete solv; delete sat_stat; delete avg; delete tmo;
+
+      const RandomKSat& super_series_random_() const {
+        assert(sup_ser);
+        return *sup_ser;
+      };
+      const RandomKSat_n& series_random_() const {
+        assert(ser);
+        return *ser;
       }
-      // ToDo: Also copy assignment with deep copying!!
+      const Benchmark& benchmark_() const {
+        assert(bench);
+        return *bench;
+      }
+      const Solver& solver_() const {
+        assert(solv);
+        return *solv;
+      }
+      const SATStatus& sat_status_() const { assert(sat_stat);
+        return *sat_stat;
+      }
+      const AverageTime& average_() const {
+        assert(avg);
+        return *avg;
+      }
+      const TimeOut& time_out_() const {
+        assert(tmo);
+        return *tmo;
+      }
+    public :
+
+      ResultRandomSat() : sup_ser(new RandomKSat), ser(new RandomKSat_n), bench(new Benchmark), solv(new Solver), sat_stat(new SATStatus), avg(new AverageTime), tmo(new TimeOut) {}
+
+      ResultRandomSat(const ResultRandomSat& r) : sup_ser(new RandomKSat(*r.sup_ser)), ser(new RandomKSat_n(*r.ser)), bench(new Benchmark(*r.bench)), solv(new Solver(*r.solv)), sat_stat(new SATStatus(*r.sat_stat)), avg(new AverageTime(*r.avg)), tmo(new TimeOut(*r.tmo)) {}
+
+      ResultRandomSat& operator =(const ResultRandomSat& rhs) {
+        ResultRandomSat new_r(rhs);
+        std::swap(new_r.sup_ser, sup_ser);
+        std::swap(new_r.ser, ser);
+        std::swap(new_r.bench, bench);
+        std::swap(new_r.solv, solv);
+        std::swap(new_r.sat_stat, sat_stat);
+        std::swap(new_r.avg, avg);
+        std::swap(new_r.tmo, tmo);
+        return *this;
+      }
+
+      ~ResultRandomSat() {
+        assert(sup_ser); delete sup_ser; 
+        assert(ser); delete ser;
+        assert(bench); delete bench;
+        assert(solv); delete solv;
+        assert(sat_stat); delete sat_stat;
+        assert(avg); delete avg;
+        assert(tmo); delete tmo;
+      }
+      
     };
 
     bool operator ==(const TupleResultRandomSat& lhs, const ResultRandomSat& rhs) {
