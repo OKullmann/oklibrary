@@ -25,6 +25,7 @@ namespace OKlib {
       // ToDo: Adding concept etc.
       // InputIterator_sets must be an input iterator
       // InputIterator_sets::value_type must be a model of the boost::range concept
+      // The range iterators are input iterators.
       // OutputIterator must be an output iterator.
       // Comment: When OutputIterator is std::back_insert_iterator etc., then return value is useless (except for further insertions).
     private :
@@ -89,6 +90,7 @@ namespace OKlib {
     struct Intersection {
       // ToDo: see Union
       // ToDo: factor out common definitions
+      // ToDo: If the range iterators are random access iterators, then we have a better algorithm.
     private :
       typedef typename InputIterator_sets::value_type range_type;
       typedef typename boost::range_const_iterator<range_type>::type InputIterator_elements;
