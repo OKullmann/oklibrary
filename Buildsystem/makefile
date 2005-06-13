@@ -17,16 +17,20 @@ include $(srcdir)/makefile.definitions.mak
 
 prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 includedir := $(prefix)/include
+externalsourcesdir := $(prefix)/ExternalSources
 
-Directories := $(includedir)
+Directories := $(includedir) $(externalsourcesdir)
 
 makefiles := $(addprefix $(includedir)/, $(notdir $(shell ls $(srcdir)/makefile_*[!~])))
 makefile_oksystem := $(prefix)/OKsystem/makefile
+makefile_externalsources := $(externalsourcesdir)/makefile
+
 doxy_file := $(includedir)/Doxyfile
 
 all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 
 
-prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(doxy_file)
+
+prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file)
 
 $(Directories) : % :
 	mkdir $@
@@ -36,6 +40,10 @@ $(makefiles) $(doxy_file) : $(includedir)/% : $(srcdir)/%
 
 $(makefile_oksystem) : $(srcdir)/makefile_OKsystem
 	cp $< $@
+
+$(makefile_externalsources) : $(srcdir)/makefile_ExternalSources
+	cp $< $@
+
 
 maintainer_clean :
 	rm $(makefiles)
