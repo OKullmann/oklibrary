@@ -71,6 +71,7 @@ namespace OKlib {
 #define OKLIB_THROW(string) throw ::OKlib::TestSystem::TestException(string).add(OKLIB_TESTDESCRIPTION);
 
 #define OKLIB_TEST_EQUAL(v1, v2) if ( not(v1 == v2)) { std::stringstream out; out << "Value is " << v1 << ", and not " << v2; OKLIB_THROW(out.str()); }
+#define OKLIB_TEST_NOTEQUAL(v1, v2) if ( v1 == v2) { OKLIB_THROW("Equal values"); }
 
 #define OKLIB_TEST_EQUAL_RANGES(c1, c2) { using boost::begin; using boost::end; using boost::size; if (size(c1) != size(c2)) { std::stringstream out; out << "Size is " << size(c1) << ", and not " << size(c2); OKLIB_THROW(out.str()); } else if (not std::equal(begin(c1), end(c1), begin(c2))) OKLIB_THROW("Containers have different content"); }
 
