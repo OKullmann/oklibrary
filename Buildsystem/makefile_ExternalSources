@@ -1,0 +1,13 @@
+SHELL = /bin/sh
+.SUFFIXES :
+
+.PHONY : all doxygen-1.4.3
+
+doxygen-directory := Doxygen
+
+all :
+
+
+doxygen-1.4.3 :
+	tar --extract --directory=$(doxygen-directory) --file=$@.src.tar.gz --ungzip
+	cd $(doxygen-directory)/$@; if [ $$? != 0 ]; then exit 1; fi; sh ./configure; if [ $$? != 0 ]; then exit 1; fi; make; if [ $$? != 0 ]; then exit 1; fi; make docs; if [ $$? != 0 ]; then exit 1; fi; make pdf; if [ $$? != 0 ]; then exit 1; fi; sudo make install; if [ $$? != 0 ]; then exit 1; fi; sudo make install_docs;
