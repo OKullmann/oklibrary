@@ -27,7 +27,7 @@ else
 endif
 
 General_options :=
-Optimisation_options := -O3
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestBibliothek
 
