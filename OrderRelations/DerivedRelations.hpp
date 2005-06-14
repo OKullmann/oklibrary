@@ -56,7 +56,26 @@ namespace OKlib {
   
 #define OKLIB_DERIVED_UNEQUAL(type) inline bool operator !=(const type& lhs, const type& rhs) { return not(lhs == rhs); }
 
-#define OKLIB_DERIVED_ORDERRELATIONS(type) inline bool operator >(const type& lhs, const type& rhs) { return rhs < lhs; }  inline bool operator <=(const type& lhs, const type& rhs) { return not (rhs < lhs); }  inline bool operator >=(const type& lhs, const type& rhs) { return not (lhs < rhs); }
+#define OKLIB_DERIVED_GREATER(type) inline bool operator >(const type& lhs, const type& rhs) { return rhs < lhs; }
+#define OKLIB_DERIVED_LESSEQUAL(type) inline bool operator <=(const type& lhs, const type& rhs) { return not (rhs < lhs); }
+#define OKLIB_DERIVED_GREATEREQUAL(type) inline bool operator >=(const type& lhs, const type& rhs) { return not (lhs < rhs); }
+
+#define OKLIB_DERIVED_ORDERRELATIONS(type) \
+    OKLIB_DERIVED_GREATER(type); \
+        OKLIB_DERIVED_LESSEQUAL(type); \
+        OKLIB_DERIVED_GREATEREQUAL(type);
+
+#define OKLIB_DERIVED_UNEQUAL_TEMPLATE1(type) \
+    template <typename T> OKLIB_DERIVED_UNEQUAL(type<T>);
+#define OKLIB_DERIVED_UNEQUAL_TEMPLATE2(type) \
+    template <typename T1, typename T2> OKLIB_DERIVED_UNEQUAL((type<T1, T2>));
+
+
+#define OKLIB_DERIVED_ORDERRELATIONS_TEMPLATE1(type) \
+    template <typename T> OKLIB_DERIVED_GREATER(type<T>); \
+        template <typename T> OKLIB_DERIVED_LESSEQUAL(type<T>); \
+        template <typename T> OKLIB_DERIVED_GREATEREQUAL(type<T>);
+
 
   }
 
