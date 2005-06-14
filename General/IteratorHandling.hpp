@@ -8,6 +8,15 @@
 #include <iterator>
 #include <cstddef>
 
+#include <boost/iterator/transform_iterator.hpp>
+#include <boost/range/functions.hpp>
+#include <boost/range/metafunctions.hpp>
+#include <boost/range/iterator_range.hpp>
+
+#include "DerivedRelations.hpp"
+
+#include "FunctionHandling.hpp"
+
 namespace IteratorHandling {
 
   // ----------------------------------------
@@ -58,19 +67,16 @@ namespace IteratorHandling {
     friend inline Count_iterator operator + (Count_iterator ci, Int n) { ci += n; return ci; }
     friend inline Int operator - (Count_iterator lhs, Count_iterator rhs) { return lhs.c - rhs.c; }
   };
-  template <typename Int>
-  inline bool operator !=(const Count_iterator<Int> lhs, const Count_iterator<Int> rhs) { return not(lhs == rhs); }
-  template <typename Int>
-  inline bool operator <=(const Count_iterator<Int> lhs, const Count_iterator<Int> rhs) { return (lhs < rhs) or (lhs == rhs); }
-  template <typename Int>
-  inline bool operator >(const Count_iterator<Int> lhs, const Count_iterator<Int> rhs) { return rhs < lhs; }
-  template <typename Int>
-  inline bool operator >=(const Count_iterator<Int> lhs, const Count_iterator<Int> rhs) { return (lhs > rhs) or (lhs == rhs); }
-
+  
+  OKLIB_DERIVED_UNEQUAL_TEMPLATE1(Count_iterator);
+  OKLIB_DERIVED_ORDERRELATIONS_TEMPLATE1(Count_iterator);
+  
   template <typename Int>
   Count_iterator<Int> count_iterator(Int x) { return Count_iterator<Int>(x); }
 
-
+  // ----------------------------------------
+  // Arithmetical progressions
+  // ----------------------------------------
 
   // Arithmetical progressions (as a collection)
   // Collection a, a + d, a + 2d, ..., a + m * d
@@ -110,9 +116,7 @@ namespace IteratorHandling {
       friend inline bool operator ==(const iterator lhs, const iterator rhs) {
 	return static_cast<Count_iterator<Int> >(lhs) == static_cast<Count_iterator<Int> >(rhs) and lhs.ap == rhs.ap;
       }
-      friend inline bool operator !=(const iterator lhs, const iterator rhs) {
-	return not(lhs == rhs);
-      }
+      friend OKLIB_DERIVED_UNEQUAL(iterator); // needed inside this class for type deduction
 
       iterator& operator ++() {
 	Count_iterator<Int>::operator ++();
@@ -157,10 +161,72 @@ namespace IteratorHandling {
     Num eval(Int i) const { return a + i * d; }
   };
 
-  template <typename Num, typename Int>
-  inline bool operator !=(const typename Arithmetical_progression<Num, Int>::iterator lhs, const typename Arithmetical_progression<Num, Int>::iterator rhs) {
-    return not(lhs == rhs);
+
+  // ----------------------------------------
+  // Iterator adaptors for sequences
+  // ----------------------------------------
+
+  template <class Iterator>
+  struct IteratorFirst {
+    typedef typename Iterator::value_type value_type;
+    typedef FunctionHandling::First<value_type> first;
+    typedef boost::transform_iterator<first, Iterator> type;
+  };
+
+  template <class Iterator>
+  typename IteratorFirst<Iterator>::type iterator_first(const Iterator& it) {
+    typedef typename IteratorFirst<Iterator>::type iterator;
+    return iterator(it);
   }
+
+  template <class Iterator>
+  struct IteratorSecond {
+    typedef typename Iterator::value_type value_type;
+    typedef FunctionHandling::Second<value_type> second;
+    typedef boost::transform_iterator<second, Iterator> type;
+  };
+
+  template <class Iterator>
+  typename IteratorSecond<Iterator>::type iterator_second(const Iterator& it) {
+    typedef typename IteratorSecond<Iterator>::type iterator;
+    return iterator(it);
+  }
+
+  template <class Range>
+  struct RangeFirstConst {
+    typedef typename boost::range_const_iterator<Range>::type iterator;
+    typedef typename IteratorFirst<iterator>::type iterator_first;
+    typedef boost::iterator_range<iterator_first> type;
+  };
+
+  template <class Range>
+  typename RangeFirstConst<Range>::type range_first(const Range& r) {
+    typedef RangeFirstConst<Range> range_first_const;
+    typedef typename range_first_const::type range;
+    typedef typename range_first_const::iterator_first iterator;
+    using boost::begin;
+    using boost::end;
+    return range(iterator(begin(r)), iterator(end(r)));
+  }
+  // ToDo: Improving handling of constness (and non-constness).
+
+  template <class Range>
+  struct RangeSecondConst {
+    typedef typename boost::range_const_iterator<Range>::type iterator;
+    typedef typename IteratorSecond<iterator>::type iterator_second;
+    typedef boost::iterator_range<iterator_second> type;
+  };
+
+  template <class Range>
+  typename RangeSecondConst<Range>::type range_second(const Range& r) {
+    typedef RangeSecondConst<Range> range_second_const;
+    typedef typename range_second_const::type range;
+    typedef typename range_second_const::iterator_second iterator;
+    using boost::begin;
+    using boost::end;
+    return range(iterator(begin(r)), iterator(end(r)));
+  }
+  // ToDo: Improving handling of constness (and non-constness).
 
 
 }
