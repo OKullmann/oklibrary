@@ -45,6 +45,7 @@ namespace OKlib {
       friend std::ostream& operator <<(std::ostream& out, const SpecSeries& series) {
         return out << series.first << "::" << series.second;
       }
+      // Comment: Though << does not need access to private data, it needs to be defined inside Elementary Analysis so that type deduction can work.
 
       typedef std::vector<Series> seq_series;
       typedef std::vector<SpecSeries> seq_spec_series;
