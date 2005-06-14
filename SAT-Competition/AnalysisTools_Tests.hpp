@@ -7,12 +7,10 @@
 #include <cassert>
 #include <iterator>
 #include <algorithm>
-#include <iostream> // ####################
 
-#include <boost/iterator/transform_iterator.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include "FunctionHandling.hpp"
+#include "IteratorHandling.hpp"
 #include "BasicSetOperations.hpp"
 #include "SequenceOperations.hpp"
 
@@ -55,50 +53,49 @@ namespace OKlib {
         typedef typename elementary_analysis::map_superseries_series map_superseries_series;
         typedef typename elementary_analysis::map_series_benchmarks map_series_benchmarks;
         typedef typename elementary_analysis::map_benchmark_series map_benchmark_series;
+        typedef typename elementary_analysis::map_solver_benchmarks map_solver_benchmarks;
+        typedef typename elementary_analysis::map_solver_series map_solver_series;
+
         typedef typename elementary_analysis::seq_series seq_series;
+        typedef typename elementary_analysis::seq_spec_series seq_spec_series;
         typedef typename elementary_analysis::seq_benchmarks seq_benchmarks;
 
         { // testing ea.series_in_superseries()
+          OKLIB_TEST_EQUAL_RANGES(
+                                  IteratorHandling::range_first(ea.series_in_superseries()),
+                                  IteratorHandling::range_first(rdb.db.super_series()));
           {
-            typedef FunctionHandling::First<typename map_superseries_series::value_type> first1;
-            typedef FunctionHandling::First<MapSuperSeries::value_type> first2;
-            OKLIB_TEST_EQUAL_RANGES(
-                                    boost::make_iterator_range(boost::make_transform_iterator<first1>(ea.series_in_superseries().begin()), (boost::make_transform_iterator<first1>(ea.series_in_superseries().end()))),
-                                    boost::make_iterator_range(boost::make_transform_iterator<first2>(rdb.db.super_series().begin()), boost::make_transform_iterator<first2>(rdb.db.super_series().end())));
-          }
-          {
-            typedef FunctionHandling::Second<typename map_superseries_series::value_type> second;
             seq_series s;
-            OKlib::SetAlgorithms::union_sets(boost::make_transform_iterator<second>(ea.series_in_superseries().begin()), boost::make_transform_iterator<second>(ea.series_in_superseries().end()), std::back_inserter(s));
-            typedef FunctionHandling::First<MapSeries::value_type> first;
-            OKLIB_TEST_EQUAL_RANGES(s, boost::make_iterator_range(boost::make_transform_iterator<first>(rdb.db.series().begin()), boost::make_transform_iterator<first>(rdb.db.series().end())));
+            OKlib::SetAlgorithms::union_sets(
+                                             IteratorHandling::iterator_second(ea.series_in_superseries().begin()),
+                                             IteratorHandling::iterator_second(ea.series_in_superseries().end()),
+                                             std::back_inserter(s));
+            OKLIB_TEST_EQUAL_RANGES(
+                                    s,
+                                    IteratorHandling::range_first(rdb.db.series()));
           }
         }
 
        { // testing ea.benchmarks_in_series()
-         typedef FunctionHandling::Second<typename map_series_benchmarks::value_type> second;
-         typedef boost::transform_iterator<second, typename map_series_benchmarks::const_iterator> transform_iterator;
+         typedef typename IteratorHandling::IteratorSecond<typename map_series_benchmarks::const_iterator>::type transform_iterator;
          const map_series_benchmarks& map(ea.benchmarks_in_series());
          const transform_iterator& begin(transform_iterator(map.begin()));
          const transform_iterator& end(transform_iterator(map.end()));
          OKLIB_TEST_EQUAL(OKlib::SetAlgorithms::sum_sizes(begin, end), rdb.db.benchmark().size());
          seq_benchmarks seq;
          OKlib::SetAlgorithms::union_sets(begin, end, std::back_inserter(seq));
-         typedef FunctionHandling::First<MapBenchmark::value_type> first;
-         OKLIB_TEST_EQUAL_RANGES(seq, boost::make_iterator_range(boost::make_transform_iterator<first>(rdb.db.benchmark().begin()), boost::make_transform_iterator<first>(rdb.db.benchmark().end())));
+         OKLIB_TEST_EQUAL_RANGES(
+                                 seq,
+                                 IteratorHandling::range_first(rdb.db.benchmark()));
        }
 
        { // testing ea.series_of_benchmark()
          const map_benchmark_series& map1(ea.series_of_benchmark());
          {
-           typedef FunctionHandling::First<typename map_benchmark_series::value_type> first1;
-           typedef FunctionHandling::First<MapBenchmark::value_type> first2;
-           typedef boost::transform_iterator<first1, typename map_benchmark_series::const_iterator> transform_iterator1;
-           typedef boost::transform_iterator<first2, MapBenchmark::const_iterator> transform_iterator2;
            const MapBenchmark& map2(rdb.db.benchmark());
            OKLIB_TEST_EQUAL_RANGES(
-                                   boost::make_iterator_range(transform_iterator1(map1.begin()), transform_iterator1(map1.end())),
-                                   boost::make_iterator_range(transform_iterator2(map2.begin()), transform_iterator2(map2.end())));
+                                   IteratorHandling::range_first(map1),
+                                   IteratorHandling::range_first(map2));
          }
          {
            typedef typename map_series_benchmarks::const_iterator iterator_series;
@@ -138,12 +135,60 @@ namespace OKlib {
            const VectorResultNodesP& unsat_result_nodes(rdb.db.intersection());
            VectorResultNodesP sat_and_unsat; sat_and_unsat.reserve(sat_result_nodes.size() + unsat_result_nodes.size());
            std::set_union(sat_result_nodes.begin(), sat_result_nodes.end(), unsat_result_nodes.begin(), unsat_result_nodes.end(), std::back_inserter(sat_and_unsat));
-           OKLIB_TEST_EQUAL(sat_and_unsat.size(), OKlib::SetAlgorithms::map_value(ea.solved_benchmarks(), solver).size()); 
+           OKLIB_TEST_EQUAL(sat_and_unsat.size(), OKlib::SetAlgorithms::map_value(ea.solved_benchmarks(), solver).size());
+           // ToDo: Testing the sequences for equality (after appropriately sorting the second sequence).
          }
        }
 
        { // testing ea.solved_series()
-         
+         typedef typename map_solver_series::const_iterator iterator_solver_series;
+         const map_solver_series& map(ea.solved_series());
+         const iterator_solver_series& end_map(map.end());
+         {
+           const map_solver_benchmarks& map2(ea.solved_benchmarks());
+           OKLIB_TEST_EQUAL_RANGES(
+                                   boost::make_iterator_range(IteratorHandling::iterator_first(map.begin()), IteratorHandling::iterator_first(end_map)),
+                                   IteratorHandling::range_first(map2));
+         }
+         {
+           for (iterator_solver_series i = map.begin(); i != end_map; ++i) {
+             const Solver& solver(i -> first);
+             const seq_spec_series& series_seq(i -> second);
+             typedef typename seq_spec_series::const_iterator iterator;
+             const iterator& end_series_seq(series_seq.end());
+             for (iterator j = series_seq.begin(); j != end_series_seq; ++j) {
+               const SpecSeries series(*j);
+               rdb.db.vector_of_sets.clear();
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.solver(), solver));
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.super_series(), series.first));
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.series(), series.second));
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), SATStatus(sat)));
+               if (rdb.db.intersection().empty()) {
+                 rdb.db.vector_of_sets.pop_back();
+                 rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), SATStatus(unsat)));
+                 if (rdb.db.intersection().empty())
+                   OKLIB_THROW("Solver " + boost::lexical_cast<std::string>(solver) + " has not solved series " +  boost::lexical_cast<std::string>(series.second) + " in super-series " + boost::lexical_cast<std::string>(series.first));
+               }
+             }
+             seq_spec_series unsolved_series;
+             std::set_difference(IteratorHandling::iterator_first(ea.benchmarks_in_series().begin()), IteratorHandling::iterator_first(ea.benchmarks_in_series().end()), series_seq.begin(), series_seq.end(), std::back_inserter(unsolved_series));
+             const iterator& end_unsolved_series(unsolved_series.end());
+             for (iterator j = unsolved_series.begin(); j != end_unsolved_series; ++j) {
+               const SpecSeries series(*j);
+               rdb.db.vector_of_sets.clear();
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.solver(), solver));
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.super_series(), series.first));
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.series(), series.second));
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), SATStatus(sat)));
+               if (not rdb.db.intersection().empty())
+                 OKLIB_THROW("Solver " + boost::lexical_cast<std::string>(solver) + " has solved series " +  boost::lexical_cast<std::string>(series.second) + " in super-series " + boost::lexical_cast<std::string>(series.first) + "as satisfiable");
+               rdb.db.vector_of_sets.pop_back();
+               rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), SATStatus(unsat)));
+               if (not rdb.db.intersection().empty())
+                 OKLIB_THROW("Solver " + boost::lexical_cast<std::string>(solver) + " has solved series " +  boost::lexical_cast<std::string>(series.second) + " in super-series " + boost::lexical_cast<std::string>(series.first) + "as unsatisfiable");
+             }
+           }
+         }
        }
 
        // ToDo: to be completed
