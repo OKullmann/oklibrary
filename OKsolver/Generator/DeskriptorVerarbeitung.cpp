@@ -1195,7 +1195,7 @@ namespace Deskriptorverarbeitung {
       std::cerr << Meldungen[41][Sprache] << "\n";
     }
 
-    void internerFehler::Ausgabe() const {
+    void ::internerFehler::Ausgabe() const {
       DeskriptorVerarbeitung::Ausgabe();
       std::cerr << B << "\n";
     }
