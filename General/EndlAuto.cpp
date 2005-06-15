@@ -31,7 +31,7 @@ namespace {
 
 namespace EndlicherAutomat {
 
-  Automat::Automat (const Transition Tabelle[], unsigned int AnzTrans, const Zustaende * const SonstUebergaenge, const unsigned int AnzZustaende) {
+  Automat::Automat (const Transition Tabelle[], unsigned int AnzTrans, const Zustaende SonstUebergaenge[], const unsigned int AnzZustaende) {
     AnzahlZustaende = AnzZustaende;
     AnzahlTransitionen = AnzTrans;
     SonstigeUebergaenge = SonstUebergaenge;
