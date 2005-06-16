@@ -137,13 +137,13 @@ namespace OKlib {
       const MapTimeOut& time_out() const { return map_tmo; }
 
       typedef std::vector<const SetResultNodesP*> VectorOfSetsP;
-      VectorOfSetsP vector_of_sets;
+      mutable VectorOfSetsP vector_of_sets;
 
     private :
-      VectorResultNodesP query_result;
+      mutable VectorResultNodesP query_result;
     public :
 
-      const VectorResultNodesP& intersection() {
+      const VectorResultNodesP& intersection() const {
         query_result.clear();
         const VectorOfSetsP::size_type size_vector_of_sets = vector_of_sets.size();
         if (size_vector_of_sets == 0) {
