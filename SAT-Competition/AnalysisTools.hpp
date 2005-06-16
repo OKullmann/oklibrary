@@ -14,6 +14,8 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include "IteratorHandling.hpp"
+
 #include "BasicMapOperations.hpp"
 
 #include "SingleResult.hpp"
@@ -69,7 +71,7 @@ namespace OKlib {
       const map_benchmark_solvers& succesful_solvers() const { return succesful_solvers_; }
       const map_benchmark_satstatus& sat_status() const { return sat_status_; }
 
-      const seq_benchmarks& inconsistent_results() const { return inconsistent_results; }
+      const seq_benchmarks& inconsistent_results() const { return inconsistent_results_; }
 
       struct ErrorElementaryAnalysis : std::runtime_error {
         ErrorElementaryAnalysis(const std::string& message) : std::runtime_error(message) {}
@@ -206,13 +208,77 @@ namespace OKlib {
         }
       }
       void fill_succesful_solvers() {
-         // ToDo: to be completed
+        typedef typename map_solver_benchmarks::const_iterator iterator_solvers;
+        typedef typename seq_benchmarks::const_iterator iterator_benchmarks;
+        const iterator_solvers& end_solvers(solved_benchmarks().end());
+        for (iterator_solvers i = solved_benchmarks().begin(); i != end_solvers; ++i) {
+          const Solver& solver(i -> first);
+          const seq_benchmarks& benchs(i -> second);
+          const iterator_benchmarks& end_benchmarks(benchs.end());
+          for (iterator_benchmarks j = benchs.begin(); j != end_benchmarks; ++j) {
+            const Benchmark& bench(*j);
+            succesful_solvers_[bench].push_back(solver);
+          }
+        }
+        seq_benchmarks unsolved;
+        std::set_difference(
+                            IteratorHandling::iterator_first(series_of_benchmark().begin()), IteratorHandling::iterator_first(series_of_benchmark().end()),
+                            IteratorHandling::iterator_first(succesful_solvers_.begin()), IteratorHandling::iterator_first(succesful_solvers_.end()),
+                            std::back_inserter(unsolved));
+        typedef map_benchmark_solvers::iterator iterator;
+        iterator current(succesful_solvers_.begin());
+        const iterator_benchmarks& end_benchmarks(unsolved.end());
+        for (iterator_benchmarks i = unsolved.begin(); i != end_benchmarks; ++i) {
+          const Benchmark& bench(*i);
+          current = succesful_solvers_.insert(current, std::make_pair(bench, seq_solvers()));
+          // ToDo: Ideally, the temporary store unsolved would not be needed.
+        }
       }
+      
       void fill_sat_status() {
-
+        typedef map_benchmark_solvers::const_iterator iterator_benchmarks;
+        const iterator_benchmarks end_benchmarks(succesful_solvers().end());
+        for (iterator_benchmarks i = succesful_solvers().begin(); i != end_benchmarks; ++i) {
+          const Benchmark& bench(i -> first);
+          {
+            const seq_solvers& solvers(i -> second);
+            if (solvers.empty()) {
+              sat_status_.insert(std::make_pair(bench, SATStatus(unknown))); 
+              continue;
+            }
+          }
+          typedef std::set<SATStatus> set_result_type;
+          set_result_type set_results;
+          const MapBenchmark& map(db.benchmark());
+          const SetResultNodesP& set(*OKlib::SetAlgorithms::map_value(map, bench));
+          typedef SetResultNodesP::iterator iterator;
+          const iterator& end_set(set.end());
+          for (iterator j = set.begin(); j != end_set; ++j) {
+            const ResultNode& result_node(**j);
+            const ResultBasis& result(*result_node.rb);
+            const SATStatus& sat_status(result.sat_status());
+            switch (sat_status.result()) {
+            case sat :
+              set_results.insert(SATStatus(sat)); break;
+            case unsat :
+              set_results.insert(SATStatus(unsat)); break;
+            case error : break;
+            case unknown : break;
+            default :
+              assert(false);
+            }
+          }
+          assert(not set_results.empty());
+          assert(set_results.size() <= 2);
+          if (set_results.size() == 1)
+            sat_status_.insert(std::make_pair(bench, *set_results.begin()));
+          else
+            inconsistent_results_.push_back(bench);
+        }
       }
-    };
 
+    };
+    
   }
 
 }
