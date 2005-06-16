@@ -41,13 +41,12 @@ namespace OKlib {
 
       void perform_test_trivial() {
 
-        test_result<Result>(filename_large_industrial, line_count_large_industrial);
-        //test_result<ResultRandomSat>(filename_large_random + "_inconsistency", line_count_large_random + 2);
-        // ToDo: to be completed
+        test_result<Result>(filename_large_industrial, line_count_large_industrial, true);
+        test_result<ResultRandomSat>(filename_large_random + "_inconsistency", line_count_large_random + 2, false);
       }
 
       template <class result_type>
-      void test_result(const std::string& filename, const unsigned int line_count) {
+      void test_result(const std::string& filename, const unsigned int line_count, const bool consistent) {
 
         typedef  Result_database_from_file<ParserResult, result_type> result_database;
         result_database rdb(filename);
@@ -182,7 +181,10 @@ namespace OKlib {
                }
              }
              seq_spec_series unsolved_series;
-             std::set_difference(IteratorHandling::iterator_first(ea.benchmarks_in_series().begin()), IteratorHandling::iterator_first(ea.benchmarks_in_series().end()), series_seq.begin(), series_seq.end(), std::back_inserter(unsolved_series));
+             std::set_difference(
+                                 IteratorHandling::iterator_first(ea.benchmarks_in_series().begin()), IteratorHandling::iterator_first(ea.benchmarks_in_series().end()),
+                                 series_seq.begin(), series_seq.end(),
+                                 std::back_inserter(unsolved_series));
              const iterator& end_unsolved_series(unsolved_series.end());
              for (iterator j = unsolved_series.begin(); j != end_unsolved_series; ++j) {
                const SpecSeries series(*j);
@@ -244,12 +246,27 @@ namespace OKlib {
          const map_benchmark_satstatus& map(ea.sat_status());
          {
            const map_benchmark_solvers& map2(ea.succesful_solvers());
-           OKLIB_TEST_EQUAL_RANGES(
-                                   IteratorHandling::range_first(map),
-                                   IteratorHandling::range_first(map2));
+           const seq_benchmarks& inconsistent_results(ea.inconsistent_results());
+           if (consistent) {
+             if (not inconsistent_results.empty())
+               OKLIB_THROW("Test case should not contain inconsistent results");
+             OKLIB_TEST_EQUAL_RANGES(
+                                     IteratorHandling::range_first(map),
+                                     IteratorHandling::range_first(map2));
+           }
+           else {
+             if (inconsistent_results.empty())
+               OKLIB_THROW("Test case should contain inconsistent results");
+             seq_benchmarks all_benchs;
+             std::set_union(
+                            IteratorHandling::iterator_first(map.begin()), IteratorHandling::iterator_first(map.end()),
+                            inconsistent_results.begin(), inconsistent_results.end(),
+                            std::back_inserter(all_benchs));
+             OKLIB_TEST_EQUAL_RANGES(
+                                     all_benchs,
+                                     IteratorHandling::range_first(map2));
+               }
          }
-         if (not ea.inconsistent_results().empty())
-           OKLIB_THROW("Test case should not contain inconsistent results");
          typedef typename map_benchmark_satstatus::const_iterator iterator;
          const iterator& end_map(map.end());
          for (iterator i = map.begin(); i != end_map; ++i) {
