@@ -1,5 +1,7 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
 
+-------------------------------------------
+
 Necessary installations:
 
 g++, version 3.4.3 or higher
@@ -12,6 +14,12 @@ BOOST = path to the source library
 GNU make, version 3.80 or higher
 (check: run "make -v")
 
-Doxygen, version 1.3.6 or higher
+Doxygen, version 1.4.3 or higher
 (check: run doxygen --version)
+
+----------------------------------------------
+
+System requirements:
+
+>= 512 MB main memory
 
