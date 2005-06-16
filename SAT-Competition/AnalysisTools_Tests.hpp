@@ -7,10 +7,17 @@
 #include <cassert>
 #include <iterator>
 #include <algorithm>
+#include <functional>
+#include <string>
 
 #include <boost/range/iterator_range.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "IteratorHandling.hpp"
+
+#include "TestBaseClass.hpp"
+#include "TestExceptions.hpp"
+
 #include "BasicSetOperations.hpp"
 #include "SequenceOperations.hpp"
 
@@ -35,7 +42,8 @@ namespace OKlib {
       void perform_test_trivial() {
 
         test_result<Result>(filename_large_industrial, line_count_large_industrial);
-
+        //test_result<ResultRandomSat>(filename_large_random + "_inconsistency", line_count_large_random + 2);
+        // ToDo: to be completed
       }
 
       template <class result_type>
@@ -55,10 +63,13 @@ namespace OKlib {
         typedef typename elementary_analysis::map_benchmark_series map_benchmark_series;
         typedef typename elementary_analysis::map_solver_benchmarks map_solver_benchmarks;
         typedef typename elementary_analysis::map_solver_series map_solver_series;
+        typedef typename elementary_analysis::map_benchmark_solvers map_benchmark_solvers;
+        typedef typename elementary_analysis::map_benchmark_satstatus map_benchmark_satstatus;
 
         typedef typename elementary_analysis::seq_series seq_series;
         typedef typename elementary_analysis::seq_spec_series seq_spec_series;
         typedef typename elementary_analysis::seq_benchmarks seq_benchmarks;
+        typedef typename elementary_analysis::seq_solvers seq_solvers;
 
         { // testing ea.series_in_superseries()
           OKLIB_TEST_EQUAL_RANGES(
@@ -191,7 +202,90 @@ namespace OKlib {
          }
        }
 
-       // ToDo: to be completed
+       { // testing ea.succesful_solvers()
+         const map_benchmark_solvers& map(ea.succesful_solvers());
+         OKLIB_TEST_EQUAL_RANGES(
+                                 IteratorHandling::range_first(map),
+                                 IteratorHandling::range_first(ea.series_of_benchmark()));
+         typedef typename map_benchmark_solvers::const_iterator iterator;
+         const iterator& end_map(map.end());
+         for (iterator i = map.begin(); i != end_map; ++i) {
+           const Benchmark& bench(i -> first);
+           const seq_solvers& solvers(i -> second);
+           typedef typename seq_solvers::const_iterator iterator_solvers;
+           const iterator_solvers& end_solvers(solvers.end());
+           if (std::adjacent_find(solvers.begin(), end_solvers, std::greater_equal<Solver>()) != end_solvers)
+             OKLIB_THROW("Vector of solvers not sorted");
+           for (iterator_solvers j = solvers.begin(); j != end_solvers; ++j) {
+             const Solver& solver(*j);
+             const seq_benchmarks& benchs(OKlib::SetAlgorithms::map_value(ea.solved_benchmarks(), solver));
+             if (not std::binary_search(benchs.begin(), benchs.end(), bench))
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " not solved by solver " + boost::lexical_cast<std::string>(solver));
+           }
+         }
+         typedef typename map_solver_benchmarks::const_iterator iterator_solvers;
+         const map_solver_benchmarks& map2(ea.solved_benchmarks());
+         const iterator_solvers& end_solvers(map2.end());
+         for (iterator_solvers i = map2.begin(); i != end_solvers; ++i) {
+           const Solver& solver(i -> first);
+           const seq_benchmarks& benchs(i -> second);
+           typedef typename seq_benchmarks::const_iterator iterator_benchmarks;
+           const iterator_benchmarks end_benchs(benchs.end());
+           for (iterator_benchmarks j = benchs.begin(); j != end_benchs; ++j) {
+             const Benchmark& bench(*j);
+             const seq_solvers& succesful(OKlib::SetAlgorithms::map_value(map, bench));
+             if (not std::binary_search(succesful.begin(), succesful.end(), solver))
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " solved by solver " + boost::lexical_cast<std::string>(solver));
+           }
+         }
+       }
+
+       { // testing ea.sat_status()
+         const map_benchmark_satstatus& map(ea.sat_status());
+         {
+           const map_benchmark_solvers& map2(ea.succesful_solvers());
+           OKLIB_TEST_EQUAL_RANGES(
+                                   IteratorHandling::range_first(map),
+                                   IteratorHandling::range_first(map2));
+         }
+         if (not ea.inconsistent_results().empty())
+           OKLIB_THROW("Test case should not contain inconsistent results");
+         typedef typename map_benchmark_satstatus::const_iterator iterator;
+         const iterator& end_map(map.end());
+         for (iterator i = map.begin(); i != end_map; ++i) {
+           const Benchmark& bench(i -> first);
+           const SATStatus& sat_status(i -> second);
+           switch (sat_status.result()) {
+           case unknown :
+             if (not OKlib::SetAlgorithms::map_value(ea.succesful_solvers(), bench).empty())
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " was solved");
+             break;
+           case sat :
+             rdb.db.vector_of_sets.clear();
+             rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.benchmark(), bench));
+             rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), sat_status));
+             if (rdb.db.intersection().empty())
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " was not found satisfiable");
+             rdb.db.vector_of_sets.pop_back();
+             rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), SATStatus(unsat)));
+             if (not rdb.db.intersection().empty())
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " was found unsatisfiable");
+             break;
+           case unsat :
+             rdb.db.vector_of_sets.clear();
+             rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.benchmark(), bench));
+             rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), sat_status));
+             if (rdb.db.intersection().empty())
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " was not found unsatisfiable");
+             rdb.db.vector_of_sets.pop_back();
+             rdb.db.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb.db.sat_status(), SATStatus(sat)));
+             if (not rdb.db.intersection().empty())
+               OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " was found satisfiable");
+             break;
+           }
+         }
+       }
+
       }
 
     };
