@@ -22,6 +22,7 @@
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
+
 #include "ParserBase_Tests.hpp"
 
 #include "SingleResult.hpp"
