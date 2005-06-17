@@ -13,6 +13,7 @@
 
 #include "SingleResult.hpp"
 #include "ParsingSingleResult.hpp"
+#include "ParsingResultSequences.hpp"
 #include "ParsingSingleResult_Tests.hpp"
 
 namespace OKlib {
