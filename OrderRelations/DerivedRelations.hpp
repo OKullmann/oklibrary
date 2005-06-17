@@ -65,6 +65,20 @@ namespace OKlib {
         OKLIB_DERIVED_LESSEQUAL(type); \
         OKLIB_DERIVED_GREATEREQUAL(type);
 
+#define OKLIB_DERIVED_ORDERRELATIONS_FRIENDS(type) \
+    friend OKLIB_DERIVED_GREATER(type);                   \
+        friend OKLIB_DERIVED_LESSEQUAL(type);             \
+        friend OKLIB_DERIVED_GREATEREQUAL(type);
+
+#define OKLIB_DERIVED_RELATIONS(type) \
+    OKLIB_DERIVED_UNEQUAL(type); \
+        OKLIB_DERIVED_ORDERRELATIONS(type);
+
+#define OKLIB_DERIVED_RELATIONS_FRIENDS(type) \
+    friend OKLIB_DERIVED_UNEQUAL(type); \
+        OKLIB_DERIVED_ORDERRELATIONS_FRIENDS(type);
+
+
 #define OKLIB_DERIVED_UNEQUAL_TEMPLATE1(type) \
     template <typename T> OKLIB_DERIVED_UNEQUAL(type<T>);
 #define OKLIB_DERIVED_UNEQUAL_TEMPLATE2(type) \
