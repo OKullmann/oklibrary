@@ -178,35 +178,26 @@ namespace OKlib {
     class ParserResultElement<SATStatus, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       SATStatus& s;
       struct action {
-        static const std::string string_unknown;
-        static const std::string string_sat;
-        static const std::string string_unsat;
         SATStatus& s;
         action(SATStatus& s) : s(s) {}
-        void operator() (const ParseIterator begin, const ParseIterator end) const {
-          const std::string status(begin, end);
-          if (status == string_unknown)
-            s = SATStatus(unknown);
-          else if (status == string_sat)
-            s = SATStatus(sat);
-          else if (status == string_unsat)
-            s = SATStatus(unsat);
-          else
+        void operator() (const unsigned int& code) const {
+          switch (code) {
+          case unknown :
+            s = SATStatus(unknown); break;
+          case sat :
+            s = SATStatus(sat); break;
+          case unsat :
+            s = SATStatus(unsat); break;
+          default :
             s = SATStatus(error);
+          }
         }
       };
     public :
       ParserResultElement(SATStatus& s) : s(s) {
-        this -> parser_ = (boost::spirit::str_p("0") | boost::spirit::str_p("10") | boost::spirit::str_p("20") | boost::spirit::str_p("1"))[action(s)];
+        this -> parser_ = boost::spirit::uint_p[action(s)];
       }
     };
-
-    template <typename CharT, typename ParseIterator>
-    const std::string ParserResultElement<SATStatus, CharT, ParseIterator>::action::string_unknown(boost::lexical_cast<std::string>(unknown));
-    template <typename CharT, typename ParseIterator>
-    const std::string ParserResultElement<SATStatus, CharT, ParseIterator>::action::string_sat(boost::lexical_cast<std::string>(sat));
-    template <typename CharT, typename ParseIterator>
-    const std::string ParserResultElement<SATStatus, CharT, ParseIterator>::action::string_unsat(boost::lexical_cast<std::string>(unsat));
 
 
     // ---------------------------------------------------------------------------------------------------------
