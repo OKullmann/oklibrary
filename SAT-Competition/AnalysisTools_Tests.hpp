@@ -48,14 +48,13 @@ namespace OKlib {
       template <class result_type>
       void test_result(const std::string& filename, const unsigned int line_count, const bool consistent) {
 
-        typedef  Result_database_from_file<ParserResult, result_type> result_database;
+        typedef Result_database_from_file<ParserResult, result_type> result_database;
         result_database rdb(filename);
         assert(rdb.result_sequence.size() == line_count);
         typedef typename result_database::database_type database;
         typedef ElementaryAnalysis<database> elementary_analysis;
         elementary_analysis ea(rdb.db);
 
-        typedef typename elementary_analysis::SpecSeries SpecSeries;
         typedef typename elementary_analysis::SolvedBenchmark SolvedBenchmark;
 
         typedef typename elementary_analysis::map_superseries_series map_superseries_series;
