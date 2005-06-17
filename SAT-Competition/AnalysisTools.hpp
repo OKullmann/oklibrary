@@ -49,16 +49,37 @@ namespace OKlib {
       }
       // Comment: Though << does not need access to private data, it needs to be defined inside Elementary Analysis so that type deduction can work.
 
+      struct SolvedBenchmark {
+        const Benchmark bench;
+        const ResultNode* const node;
+        SolvedBenchmark(const Benchmark& bench) : bench(bench), node(0) {}
+        SolvedBenchmark(const Benchmark& bench, const ResultNode* node) : bench(bench), node(node) {}
+        operator Benchmark() const { return bench; }
+        operator ResultNode*() const { return node; }
+      };
+      friend std::ostream& operator <<(std::ostream& out, const SolvedBenchmark sb) {
+        return out << sb.bench;
+      }
+      friend inline bool operator ==(const SolvedBenchmark& b1, const SolvedBenchmark& b2) {
+        return b1.bench == b2.bench;
+      }
+      friend inline bool operator <(const SolvedBenchmark& b1, const SolvedBenchmark& b2) {
+        return b1.bench < b2.bench;
+      }
+      OKLIB_DERIVED_RELATIONS_FRIENDS(SolvedBenchmark);
+
       typedef std::vector<Series> seq_series;
-      typedef std::vector<SpecSeries> seq_spec_series;
       typedef std::vector<Benchmark> seq_benchmarks;
       typedef std::vector<Solver> seq_solvers;
       // such vectors are always sorted
 
+      typedef std::vector<SpecSeries> seq_spec_series;
+      typedef std::vector<SolvedBenchmark> seq_solved_benchmarks;
+
       typedef std::map<SuperSeries, seq_series> map_superseries_series;
       typedef std::map<SpecSeries, seq_benchmarks> map_series_benchmarks;
       typedef std::map<Benchmark, SpecSeries> map_benchmark_series;
-      typedef std::map<Solver, seq_benchmarks> map_solver_benchmarks;
+      typedef std::map<Solver, seq_solved_benchmarks> map_solver_benchmarks;
       typedef std::map<Solver, seq_spec_series> map_solver_series;
       typedef std::map<Benchmark, seq_solvers> map_benchmark_solvers;
       typedef std::map<Benchmark, SATStatus> map_benchmark_satstatus;
@@ -79,6 +100,9 @@ namespace OKlib {
       // ToDo: Should there be an exception base class for OKlib ?
       struct AmbigueBenchmark : ErrorElementaryAnalysis {
         AmbigueBenchmark(const Benchmark& benchmark, const SpecSeries& series1, const SpecSeries& series2) : ErrorElementaryAnalysis(boost::lexical_cast<std::string>(benchmark) + " in " + boost::lexical_cast<std::string>(series1) + " and " + boost::lexical_cast<std::string>(series2)) {}
+      };
+      struct AmbigueSolution : ErrorElementaryAnalysis {
+        AmbigueSolution(const ResultNode* const solution1, const ResultNode* const solution2) : ErrorElementaryAnalysis("Ambigue solutions:\n" + boost::lexical_cast<std::string>(solution1 -> rb) + "\n" + boost::lexical_cast<std::string>(solution2 -> rb)) {}
       };
 
     private :
@@ -167,7 +191,7 @@ namespace OKlib {
         }
       }
       void fill_solved_benchmarks() {
-        typedef map_solver_benchmarks::iterator iterator;
+        typedef typename map_solver_benchmarks::iterator iterator;
         iterator current = solved_benchmarks_.begin();
         std::set<Solver> set_solvers;
         const MapSolver& map(db.solver());
@@ -176,28 +200,38 @@ namespace OKlib {
         for (other_iterator i = map.begin(); i != end; ++i) {
           const Solver& solver(i -> first);
           const SetResultNodesP& result_nodes_p = *(i -> second);
-          std::set<Benchmark> set_benchmarks;
+          typedef std::set<SolvedBenchmark> set_benchmarks_type;
+          set_benchmarks_type set_benchmarks;
           const set_iterator& end_results(result_nodes_p.end());
           for (set_iterator j = result_nodes_p.begin(); j != end_results; ++j) {
-            const ResultNode& node(**j);
+            const ResultNode* node_p(*j);
+            const ResultNode& node(*node_p);
             const ResultBasis& result(*node.rb);
             const SolverResult& solv_res(result.sat_status().result());
-            if (solv_res == sat or solv_res == unsat)
-              set_benchmarks.insert(result.benchmark());
+            if (solv_res == sat or solv_res == unsat) {
+              typedef typename set_benchmarks_type::iterator set_benchmarks_iterator;
+              typedef std::pair<set_benchmarks_iterator, bool> insert_return_type;
+              const Benchmark& bench(result.benchmark());
+              const SolvedBenchmark new_solved_benchmark(bench, node_p);
+              const insert_return_type& insert_result(set_benchmarks.insert(new_solved_benchmark));
+              if (not insert_result.second) {
+                throw AmbigueSolution(node_p, insert_result.first -> node);
+              }
+            }
           }
-          current = solved_benchmarks_.insert(current, std::make_pair(solver, seq_benchmarks(set_benchmarks.begin(), set_benchmarks.end())));
+          current = solved_benchmarks_.insert(current, std::make_pair(solver, seq_solved_benchmarks(set_benchmarks.begin(), set_benchmarks.end())));
         }
       }
       void fill_solved_series() {
         typedef map_solver_series::iterator iterator;
         iterator current = solved_series_.begin();
-        typedef map_solver_benchmarks::const_iterator iterator_solvers;
+        typedef typename map_solver_benchmarks::const_iterator iterator_solvers;
         const iterator_solvers& end_solvers(solved_benchmarks().end());
         for (iterator_solvers i = solved_benchmarks().begin(); i != end_solvers; ++i) {
           std::set<SpecSeries> set_series;
           const Solver& solver(i -> first);
-          const seq_benchmarks& benchs(i -> second);
-          typedef seq_benchmarks::const_iterator iterator_benchmarks;
+          const seq_solved_benchmarks& benchs(i -> second);
+          typedef typename seq_solved_benchmarks::const_iterator iterator_benchmarks;
           const iterator_benchmarks end_benchs(benchs.end());
           for (iterator_benchmarks j = benchs.begin(); j != end_benchs; ++j) {
             const Benchmark& bench(*j);
@@ -209,13 +243,13 @@ namespace OKlib {
       }
       void fill_succesful_solvers() {
         typedef typename map_solver_benchmarks::const_iterator iterator_solvers;
-        typedef typename seq_benchmarks::const_iterator iterator_benchmarks;
+        typedef typename seq_solved_benchmarks::const_iterator iterator_solved_benchmarks;
         const iterator_solvers& end_solvers(solved_benchmarks().end());
         for (iterator_solvers i = solved_benchmarks().begin(); i != end_solvers; ++i) {
           const Solver& solver(i -> first);
-          const seq_benchmarks& benchs(i -> second);
-          const iterator_benchmarks& end_benchmarks(benchs.end());
-          for (iterator_benchmarks j = benchs.begin(); j != end_benchmarks; ++j) {
+          const seq_solved_benchmarks& benchs(i -> second);
+          const iterator_solved_benchmarks& end_benchmarks(benchs.end());
+          for (iterator_solved_benchmarks j = benchs.begin(); j != end_benchmarks; ++j) {
             const Benchmark& bench(*j);
             succesful_solvers_[bench].push_back(solver);
           }
@@ -227,6 +261,7 @@ namespace OKlib {
                             std::back_inserter(unsolved));
         typedef map_benchmark_solvers::iterator iterator;
         iterator current(succesful_solvers_.begin());
+        typedef typename seq_benchmarks::const_iterator iterator_benchmarks;
         const iterator_benchmarks& end_benchmarks(unsolved.end());
         for (iterator_benchmarks i = unsolved.begin(); i != end_benchmarks; ++i) {
           const Benchmark& bench(*i);
