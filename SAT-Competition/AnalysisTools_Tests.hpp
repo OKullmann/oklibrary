@@ -56,6 +56,7 @@ namespace OKlib {
         elementary_analysis ea(rdb.db);
 
         typedef typename elementary_analysis::SpecSeries SpecSeries;
+        typedef typename elementary_analysis::SolvedBenchmark SolvedBenchmark;
 
         typedef typename elementary_analysis::map_superseries_series map_superseries_series;
         typedef typename elementary_analysis::map_series_benchmarks map_series_benchmarks;
@@ -68,27 +69,32 @@ namespace OKlib {
         typedef typename elementary_analysis::seq_series seq_series;
         typedef typename elementary_analysis::seq_spec_series seq_spec_series;
         typedef typename elementary_analysis::seq_benchmarks seq_benchmarks;
+        typedef typename elementary_analysis::seq_solved_benchmarks seq_solved_benchmarks;
         typedef typename elementary_analysis::seq_solvers seq_solvers;
 
         { // testing ea.series_in_superseries()
+          const map_superseries_series& map(ea.series_in_superseries());
+          test_order(map);
           OKLIB_TEST_EQUAL_RANGES(
-                                  IteratorHandling::range_first(ea.series_in_superseries()),
+                                  IteratorHandling::range_first(map),
                                   IteratorHandling::range_first(rdb.db.super_series()));
           {
             seq_series s;
             OKlib::SetAlgorithms::union_sets(
-                                             IteratorHandling::iterator_second(ea.series_in_superseries().begin()),
-                                             IteratorHandling::iterator_second(ea.series_in_superseries().end()),
+                                             IteratorHandling::iterator_second(map.begin()),
+                                             IteratorHandling::iterator_second(map.end()),
                                              std::back_inserter(s));
             OKLIB_TEST_EQUAL_RANGES(
                                     s,
                                     IteratorHandling::range_first(rdb.db.series()));
           }
+          // ToDo: stronger testing
         }
 
        { // testing ea.benchmarks_in_series()
-         typedef typename IteratorHandling::IteratorSecond<typename map_series_benchmarks::const_iterator>::type transform_iterator;
          const map_series_benchmarks& map(ea.benchmarks_in_series());
+         test_order(map);
+         typedef typename IteratorHandling::IteratorSecond<typename map_series_benchmarks::const_iterator>::type transform_iterator;
          const transform_iterator& begin(transform_iterator(map.begin()));
          const transform_iterator& end(transform_iterator(map.end()));
          OKLIB_TEST_EQUAL(OKlib::SetAlgorithms::sum_sizes(begin, end), rdb.db.benchmark().size());
@@ -130,6 +136,8 @@ namespace OKlib {
        }
 
        {// testing ea.solved_benchmarks()
+         const map_solver_benchmarks& map(ea.solved_benchmarks());;
+         test_order(map);
          typedef MapSolver::const_iterator iterator;
          const MapSolver& map_solver(rdb.db.solver());
          const iterator end_map(map_solver.end());
@@ -145,14 +153,16 @@ namespace OKlib {
            const VectorResultNodesP& unsat_result_nodes(rdb.db.intersection());
            VectorResultNodesP sat_and_unsat; sat_and_unsat.reserve(sat_result_nodes.size() + unsat_result_nodes.size());
            std::set_union(sat_result_nodes.begin(), sat_result_nodes.end(), unsat_result_nodes.begin(), unsat_result_nodes.end(), std::back_inserter(sat_and_unsat));
-           OKLIB_TEST_EQUAL(sat_and_unsat.size(), OKlib::SetAlgorithms::map_value(ea.solved_benchmarks(), solver).size());
+           OKLIB_TEST_EQUAL(sat_and_unsat.size(), OKlib::SetAlgorithms::map_value(map, solver).size());
            // ToDo: Testing the sequences for equality (after appropriately sorting the second sequence).
          }
+         // ToDo: testing for exception AmbigueSolution
        }
 
        { // testing ea.solved_series()
-         typedef typename map_solver_series::const_iterator iterator_solver_series;
          const map_solver_series& map(ea.solved_series());
+         test_order(map);
+         typedef typename map_solver_series::const_iterator iterator_solver_series;
          const iterator_solver_series& end_map(map.end());
          {
            const map_solver_benchmarks& map2(ea.solved_benchmarks());
@@ -206,21 +216,20 @@ namespace OKlib {
 
        { // testing ea.succesful_solvers()
          const map_benchmark_solvers& map(ea.succesful_solvers());
+         test_order(map);
          OKLIB_TEST_EQUAL_RANGES(
                                  IteratorHandling::range_first(map),
                                  IteratorHandling::range_first(ea.series_of_benchmark()));
          typedef typename map_benchmark_solvers::const_iterator iterator;
          const iterator& end_map(map.end());
          for (iterator i = map.begin(); i != end_map; ++i) {
-           const Benchmark& bench(i -> first);
+           const SolvedBenchmark& bench(i -> first);
            const seq_solvers& solvers(i -> second);
            typedef typename seq_solvers::const_iterator iterator_solvers;
            const iterator_solvers& end_solvers(solvers.end());
-           if (std::adjacent_find(solvers.begin(), end_solvers, std::greater_equal<Solver>()) != end_solvers)
-             OKLIB_THROW("Vector of solvers not sorted");
            for (iterator_solvers j = solvers.begin(); j != end_solvers; ++j) {
              const Solver& solver(*j);
-             const seq_benchmarks& benchs(OKlib::SetAlgorithms::map_value(ea.solved_benchmarks(), solver));
+             const seq_solved_benchmarks& benchs(OKlib::SetAlgorithms::map_value(ea.solved_benchmarks(), solver));
              if (not std::binary_search(benchs.begin(), benchs.end(), bench))
                OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " not solved by solver " + boost::lexical_cast<std::string>(solver));
            }
@@ -230,11 +239,11 @@ namespace OKlib {
          const iterator_solvers& end_solvers(map2.end());
          for (iterator_solvers i = map2.begin(); i != end_solvers; ++i) {
            const Solver& solver(i -> first);
-           const seq_benchmarks& benchs(i -> second);
-           typedef typename seq_benchmarks::const_iterator iterator_benchmarks;
+           const seq_solved_benchmarks& benchs(i -> second);
+           typedef typename seq_solved_benchmarks::const_iterator iterator_benchmarks;
            const iterator_benchmarks end_benchs(benchs.end());
            for (iterator_benchmarks j = benchs.begin(); j != end_benchs; ++j) {
-             const Benchmark& bench(*j);
+             const SolvedBenchmark& bench(*j);
              const seq_solvers& succesful(OKlib::SetAlgorithms::map_value(map, bench));
              if (not std::binary_search(succesful.begin(), succesful.end(), solver))
                OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " solved by solver " + boost::lexical_cast<std::string>(solver));
@@ -303,6 +312,22 @@ namespace OKlib {
          }
        }
 
+      }
+
+      template <class Map>
+      void test_order(const Map& map) {
+        typedef typename Map::const_iterator iterator_map;
+        const iterator_map& end_map(map.end());
+        for (iterator_map i = map.begin(); i != end_map; ++i) {
+          typedef typename Map::value_type value_type_pairs;
+          typedef typename value_type_pairs::second_type seq_type;
+          const seq_type& seq(i -> second);
+          typedef typename seq_type::const_iterator iterator_seq;
+          const iterator_seq& end_seq(seq.end());
+          typedef typename seq_type::value_type value_type;
+          if (std::adjacent_find(seq.begin(), end_seq, std::greater_equal<value_type>()) != end_seq)
+            OKLIB_THROW(std::string("Vector with elements of type ") + typeid(value_type).name() + " not sorted");
+        }
       }
 
     };
