@@ -409,7 +409,7 @@ namespace OKlib {
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "   0", ::OKlib::Parser::match_not_full));
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "10   ", ::OKlib::Parser::match_not_full));
           OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "", ::OKlib::Parser::match_not_full));
-          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "2", ::OKlib::Parser::match_not_full));
+          OKLIB_TESTTRIVIAL_RETHROW(::OKlib::Parser::Test_ParsingString<Parser>(p, "x", ::OKlib::Parser::match_not_full));
         }
        }
     };
