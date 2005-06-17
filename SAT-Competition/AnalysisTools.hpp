@@ -43,12 +43,6 @@ namespace OKlib {
         fill_sat_status();
       }
 
-      typedef std::pair<SuperSeries, Series> SpecSeries;
-      friend std::ostream& operator <<(std::ostream& out, const SpecSeries& series) {
-        return out << series.first << "::" << series.second;
-      }
-      // Comment: Though << does not need access to private data, it needs to be defined inside Elementary Analysis so that type deduction can work.
-
       struct SolvedBenchmark {
         const Benchmark bench;
         const ResultNode* const node;
