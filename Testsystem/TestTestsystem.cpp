@@ -109,6 +109,7 @@ int main() {
     s2 << d << "\n";
     s2 << __DATE__  ", " __TIME__ "\n" "test_trivial" "\n";
     s2 << d << "\n";
+    s2 << "\nElapsed: 0s\n";
     assert(s.str() == s2.str());
   }
 }
