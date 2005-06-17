@@ -11,6 +11,8 @@
 #include <ostream>
 #include <cstdlib>
 
+#include <boost/timer.hpp>
+
 #include "TestExceptions.hpp"
 
 namespace OKlib {
@@ -72,6 +74,7 @@ namespace OKlib {
       static int run_tests_default(std::ostream& out) {
         out << "\nrun_tests_default:\n\n";
         int return_value = 0;
+        boost::timer timer;
         for (List::iterator i = test_list.begin(); i != test_list.end(); ++i) {
           try {
             (*i) -> perform_test();
@@ -81,6 +84,8 @@ namespace OKlib {
             return_value = EXIT_FAILURE;
           }
         }
+        const double elapsed(timer.elapsed());
+        out << "\nElapsed: " << elapsed << "s\n";
         return return_value;
       }
       TestBase() : inserted(false) {}
