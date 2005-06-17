@@ -90,6 +90,13 @@ namespace OKlib {
 
     // ---------------------------------------------------------------------------------------------------------------
 
+    typedef std::pair<SuperSeries, Series> SpecSeries;
+    std::ostream& operator <<(std::ostream& out, const SpecSeries& series) {
+      return out << series.first << "::" << series.second;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+
     class Benchmark  : public ResultElement_with_name {
     public :
       Benchmark() {}
@@ -223,6 +230,9 @@ namespace OKlib {
 
     std::ostream& operator <<(std::ostream& out, const ResultBasis& r) {
       return out << r.super_series() << " " <<r.series() << " " <<r.benchmark() << " " << r.solver() << " " << r.sat_status() << " " << r.average() << " " <<r.time_out();
+    }
+    std::ostream& operator <<(std::ostream& out, const ResultBasis* const r) {
+      return out << r -> super_series() << " " <<r -> series() << " " <<r -> benchmark() << " " << r -> solver() << " " << r -> sat_status() << " " << r -> average() << " " <<r -> time_out();
     }
 
     // ---------------------------------------------------------------------------------------------------------------
