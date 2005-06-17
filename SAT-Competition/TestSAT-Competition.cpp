@@ -7,6 +7,7 @@
 #include "ParsingResultSequences_Testobjects.hpp"
 #include "ResultProcessing_Testobjects.hpp"
 #include "AnalysisTools_Testobjects.hpp"
+#include "Scoring_Testobjects.hpp"
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
