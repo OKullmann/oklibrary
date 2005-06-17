@@ -26,8 +26,8 @@ else
   Xerces_so :=
 endif
 
-General_options :=
-Optimisation_options := -O3
+General_options := -g
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestTestsystem
 
