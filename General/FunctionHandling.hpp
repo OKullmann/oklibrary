@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <utility>
+#include <iterator>
 
 namespace FunctionHandling {
 
@@ -27,6 +28,11 @@ namespace FunctionHandling {
   template <typename T1, typename T2>
   struct Second<std::pair<T1, T2> > : std::unary_function<std::pair<T1, T2>, const T2&> {
     const T2& operator() (const std::pair<T1, T2>& p) const { return p.second; }
+  };
+
+  template <typename Value, typename Pointer = const Value*>
+  struct Dereferenciation : std::unary_function<const Pointer&, const Value&> {
+    const Value& operator()(const Pointer& p) { return *p; }
   };
 
   // -------------------------------------------------
