@@ -1,6 +1,7 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
 
-#ToDo: Updating the following comments
+# ToDo: all should not compile the test programs
+# ToDo: Updating the following comments
 
 # Generic makefile, to be used in a general environment for C++
 # compilation

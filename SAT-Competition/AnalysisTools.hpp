@@ -27,6 +27,7 @@ namespace OKlib {
 
     template <class Database>
     class ElementaryAnalysis {
+      // ToDo: Sets of solvers, etc; solver categorisation: solved_sat, solved_unsat.
       ElementaryAnalysis(const ElementaryAnalysis&);
       ElementaryAnalysis& operator =(const ElementaryAnalysis&);
       const Database& db;
