@@ -6,13 +6,22 @@
 
 #include <algorithm>
 #include <cassert>
+#include <vector>
+#include <string>
+#include <ostream>
+
+#include <boost/format.hpp>
 
 #include "IteratorHandling.hpp"
 
-#include "BasicSetOperations.hpp"
+#include "BasicMapOperations.hpp"
+#include "DerivedRelations.hpp"
 
 #include "SingleResult.hpp"
+#include "ParsingSingleResult.hpp"
+#include "ParsingResultSequences.hpp"
 #include "ResultProcessing.hpp"
+#include "AnalysisTools.hpp"
 
 namespace OKlib {
 
@@ -20,8 +29,9 @@ namespace OKlib {
 
     template <class IndexedDatabase, typename NumberType = double>
     class PurseScoring {
-      const IndexedDatabase& idb;
     public :
+
+      const IndexedDatabase& idb;
 
       typedef NumberType number_type;
       typedef IndexedDatabase database_type;
@@ -215,6 +225,137 @@ namespace OKlib {
 
       virtual number_type score_(const Solver& solver) const {
         return problem_purse(solver) + speed_award(solver) + series_purse(solver);
+      }
+
+    };
+
+    // -----------------------------------------------------------------------------------------------------------------------
+
+    template <template <typename CharT, typename Parseiterator> class ParserExtension = ParserEmpty>
+    struct Scoring_from_file {
+      // ToDo: The "all" category should have a variant, where "incomplete solvers" have been eliminated.
+      typedef Result_database_from_file<ParserResult, Result, ParserExtension> result_database_from_file;
+      typedef typename result_database_from_file::database_type database;
+      typedef ElementaryAnalysis<database> indexed_database;
+      typedef PurseScoring<indexed_database> purse_scoring_type;
+
+      result_database_from_file rdb;
+      indexed_database idb;
+
+      typedef typename purse_scoring_type::number_type number_type;
+
+      struct series_info {
+        SpecSeries series;
+        number_type total_series_purse;
+        number_type solver_series_purse;
+        series_info (const SpecSeries& series, const number_type total_series_purse, const number_type solver_series_purse) : series(series), total_series_purse(total_series_purse), solver_series_purse(solver_series_purse) {}
+        friend bool operator <(const series_info& lhs, const series_info& rhs) {
+          return lhs.solver_series_purse < rhs.solver_series_purse;
+        }
+        friend bool operator ==(const series_info& lhs, const series_info& rhs) {
+          return lhs.solver_series_purse == rhs.solver_series_purse;
+        }
+        OKLIB_DERIVED_RELATIONS_FRIENDS(series_info);
+        friend std::ostream& operator <<(std::ostream& out, const series_info& s) {
+          if (s.solver_series_purse == 0)
+            return out;
+          else {
+            out << boost::format("  %-60s : %10.1f %10.1f") % s.series % s.solver_series_purse % s.total_series_purse;
+            return out << "\n";
+          }
+        }
+      };
+
+      struct scoring {
+        Solver solver;
+        number_type score;
+        number_type problem_purse;
+        number_type speed_award;
+        number_type series_purse;
+
+        typedef std::vector<series_info> vector_type;
+        vector_type series_info_vector;
+
+        typedef unsigned int natural_number_type;
+        natural_number_type instances_solved;
+        //ToDo: Finer: number sat/unsat solved.
+
+        scoring(const Solver& solver, const number_type score, const number_type problem_purse, const number_type speed_award, const number_type series_purse, const natural_number_type instances_solved) : solver(solver), score(score), problem_purse(problem_purse), speed_award(speed_award), series_purse(series_purse), instances_solved(instances_solved) {}
+        friend bool operator <(const scoring& lhs, const scoring& rhs) {
+          return lhs.score < rhs.score;
+        }
+        friend bool operator ==(const scoring& lhs, const scoring& rhs) {
+          return lhs.score == rhs.score;
+        }
+        OKLIB_DERIVED_RELATIONS_FRIENDS(scoring);
+        friend std::ostream& operator <<(std::ostream& out, const scoring& s) {
+          out << boost::format("%-8s : %10.1f %10.1f %10.1f %10.1f\n") % s.solver % s.score % s.problem_purse % s.speed_award % s.series_purse;
+          out << boost::format("Instances solved: %5u\n") % s.instances_solved;
+          out << "Composition of series purse:\n";
+          std::copy(s.series_info_vector.begin(), s.series_info_vector.end(), std::ostream_iterator<series_info>(std::cout, ""));
+          return out;
+        }
+      };
+
+      typedef std::vector<scoring> scoring_vector;
+      scoring_vector scores_all;
+      scoring_vector scores_sat;
+      scoring_vector scores_unsat;
+
+      const number_type standard_problem_purse;
+      const number_type standard_speed_factor;
+      const number_type standard_series_factor;
+
+      Scoring_from_file(const std::string file_name, const number_type standard_problem_purse = 1000, const number_type standard_speed_factor = 1, const number_type standard_series_factor = 3) : rdb(file_name), idb(rdb.db), standard_problem_purse(standard_problem_purse), standard_speed_factor(standard_speed_factor), standard_series_factor(standard_series_factor) {
+
+        {
+          purse_scoring_type purse_scoring_all(idb, standard_problem_purse, standard_speed_factor, standard_series_factor);
+          fill_scoring_vectors(scores_all, purse_scoring_all);
+        }
+        {
+          database rdb_sat = rdb.db;
+          rdb_sat.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb_sat.sat_status(), SATStatus(sat)));
+          rdb_sat.intersection();
+          rdb_sat.restrict();
+          indexed_database idb_sat(rdb_sat);
+          purse_scoring_type purse_scoring_sat(idb_sat, standard_problem_purse, standard_speed_factor, standard_series_factor);
+          fill_scoring_vectors(scores_sat, purse_scoring_sat);
+        }
+        {
+          database rdb_unsat = rdb.db;
+          rdb_unsat.vector_of_sets.push_back(OKlib::SetAlgorithms::map_value(rdb_unsat.sat_status(), SATStatus(unsat)));
+          rdb_unsat.intersection();
+          rdb_unsat.restrict();
+          indexed_database idb_unsat(rdb_unsat);
+          purse_scoring_type purse_scoring_unsat(idb_unsat, standard_problem_purse, standard_speed_factor, standard_series_factor);
+          fill_scoring_vectors(scores_unsat, purse_scoring_unsat);
+        }
+      }
+
+    private :
+
+      void fill_scoring_vectors(scoring_vector& vector, purse_scoring_type& purse_scoring) {
+        typedef typename indexed_database::map_solver_benchmarks map_solver;
+        const map_solver& solvers(purse_scoring.idb.solved_benchmarks());
+        vector.reserve(solvers.size());
+        typedef typename map_solver::const_iterator iterator_solver;
+        const iterator_solver& end_solvers(solvers.end());
+        for (iterator_solver i = solvers.begin(); i != end_solvers; ++i) {
+          const Solver& solver(i -> first);
+          vector.push_back(scoring(solver, purse_scoring.score(solver), purse_scoring.problem_purse(solver), purse_scoring.speed_award(solver), purse_scoring.series_purse(solver), i -> second.size()));
+          scoring& current(vector.back());
+          typedef typename indexed_database::map_series_benchmarks map_series;
+          const map_series& all_series(purse_scoring.idb.benchmarks_in_series());
+          current.series_info_vector.reserve(all_series.size());
+          typedef typename map_series::const_iterator iterator_series;
+          const iterator_series& end_series(all_series.end());
+          for (iterator_series j = all_series.begin(); j != end_series; ++j) {
+            const SpecSeries& series(j -> first);
+            current.series_info_vector.push_back(series_info(series,  purse_scoring.series_purse(series), purse_scoring.series_purse(solver, series)));
+          }
+          std::sort(current.series_info_vector.begin(), current.series_info_vector.end());
+        }
+        std::sort(vector.begin(), vector.end());
       }
 
     };
