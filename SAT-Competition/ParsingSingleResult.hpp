@@ -241,11 +241,29 @@ namespace OKlib {
     // ---------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------
 
-    template <class Result, typename CharT, typename ParseIterator>
+    template <typename CharT, typename ParseIterator>
+    struct ParserEmpty : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
+      ParserEmpty() {
+        this -> parser_ = ! boost::spirit::nothing_p;
+        // ToDo: Is this the best implementation of the "neutral parser" ?
+      }
+    };
+
+     template <typename CharT, typename ParseIterator>
+    struct ParserThreeElements : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
+      ParserThreeElements() {
+        this -> parser_ = boost::spirit::ch_p(' ') >> (+boost::spirit::alpha_p) >> boost::spirit::uint_p >> boost::spirit::ch_p(' ') >> boost::spirit::uint_p >> boost::spirit::ch_p(' ') >> boost::spirit::uint_p;
+      }
+    };
+   
+    // ---------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------
+
+    template <class Result, typename CharT, typename ParseIterator, class ParserExtension>
     class ParserResult;
 
-    template <typename CharT, typename ParseIterator>
-    class ParserResult<Result, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
+    template <typename CharT, typename ParseIterator, class ParserExtension>
+    class ParserResult<Result, CharT, ParseIterator, ParserExtension> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       Result& r;
       ParserResultElement<SuperSeries, CharT, ParseIterator> p_sup_ser;
       ParserResultElement<Series, CharT, ParseIterator> p_ser;
@@ -254,15 +272,16 @@ namespace OKlib {
       ParserResultElement<SATStatus, CharT, ParseIterator> p_sat_stat;
       ParserResultElement<AverageTime, CharT, ParseIterator> p_avg;
       ParserResultElement<TimeOut, CharT, ParseIterator> p_tmo;
+      ParserExtension p_ext;
     public :
       typedef Result result_type;
       ParserResult(Result& r) : r(r), p_sup_ser(*r.sup_ser), p_ser(*r.ser), p_bench(*r.bench), p_solv(*r.solv), p_sat_stat(*r.sat_stat), p_avg(*r.avg), p_tmo(*r.tmo) {
-        this -> parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
+        this -> parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser() >> p_ext.parser();
       }
     };
 
-    template <typename CharT, typename ParseIterator>
-    class ParserResult<ResultRandomSat, CharT, ParseIterator> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
+    template <typename CharT, typename ParseIterator, class ParserExtension>
+    class ParserResult<ResultRandomSat, CharT, ParseIterator, ParserExtension> : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
       ResultRandomSat& r;
       ParserResultElement<RandomKSat, CharT, ParseIterator> p_sup_ser;
       ParserResultElement<RandomKSat_n, CharT, ParseIterator> p_ser;
@@ -271,10 +290,11 @@ namespace OKlib {
       ParserResultElement<SATStatus, CharT, ParseIterator> p_sat_stat;
       ParserResultElement<AverageTime, CharT, ParseIterator> p_avg;
       ParserResultElement<TimeOut, CharT, ParseIterator> p_tmo;
+      ParserExtension p_ext;
     public :
       typedef ResultRandomSat result_type;
       ParserResult(ResultRandomSat& r) : r(r), p_sup_ser(*r.sup_ser), p_ser(*r.ser), p_bench(*r.bench), p_solv(*r.solv), p_sat_stat(*r.sat_stat), p_avg(*r.avg), p_tmo(*r.tmo) {
-        this -> parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser();
+        this -> parser_ = p_sup_ser.parser() >> boost::spirit::ch_p(' ') >> p_ser.parser() >> boost::spirit::ch_p(' ') >> p_bench.parser() >> boost::spirit::ch_p(' ') >> p_solv.parser() >> boost::spirit::ch_p(' ') >> p_sat_stat.parser() >> boost::spirit::ch_p(' ') >> p_avg.parser() >> boost::spirit::ch_p(' ') >> p_tmo.parser() >> p_ext.parser();
       }
     };
 
