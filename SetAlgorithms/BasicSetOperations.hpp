@@ -28,6 +28,7 @@ namespace OKlib {
       // The range iterators are input iterators.
       // OutputIterator must be an output iterator.
       // Comment: When OutputIterator is std::back_insert_iterator etc., then return value is useless (except for further insertions).
+      // ToDo: When OutputIterator is an *InputIterator*, then we can realise laziness (same for intersection)!
     private :
       typedef typename InputIterator_sets::value_type range_type;
       typedef typename boost::range_const_iterator<range_type>::type InputIterator_elements;
