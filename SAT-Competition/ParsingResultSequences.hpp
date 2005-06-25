@@ -13,6 +13,10 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/lexical_cast.hpp>
 
+#include "ParserBase.hpp"
+
+#include "SingleResult.hpp"
+#include "ParsingSingleResult.hpp"
 
 namespace OKlib {
 
@@ -75,14 +79,14 @@ namespace OKlib {
 
     // ----------------------------------------------
 
-    template <template <typename Result, typename CharT, typename ParseIterator> class ParserResult, class OutputIterator, class Result_ = Result>
+    template <template <typename Result, typename CharT, typename ParseIterator, class ParserExtension> class ParserResult, class OutputIterator, class Result_ = Result, template <typename CharT, typename ParseIterator> class ParserExtension = ParserEmpty>
     struct Copy_results_from_file {
 
       typedef char char_type; // ToDo: to generalise
       typedef boost::spirit::file_iterator<char_type> file_iterator;
       typedef boost::spirit::position_iterator<file_iterator> ParseIterator;
       typedef boost::spirit::parse_info<ParseIterator> parse_info_f;
-      typedef ParserResult<Result_, char_type, ParseIterator> Parser;
+      typedef ParserResult<Result_, char_type, ParseIterator, ParserExtension<char_type, ParseIterator> > Parser;
 
       parse_info_f operator() (const boost::filesystem::path& filename, OutputIterator begin_out) const {
         const std::string native_filename(filename.native_file_string());
@@ -99,13 +103,13 @@ namespace OKlib {
 
     // ----------------------------------------------
 
-    template <template <typename Result, typename CharT, typename ParseIterator> class ParserResult, template <typename Value> class Container, class Result_ = Result>
+    template <template <typename Result, typename CharT, typename ParseIterator, class ParserExtension = ParserEmpty<CharT, ParseIterator> > class ParserResult, template <typename Value> class Container, class Result_ = Result, template <typename CharT, typename ParseIterator> class ParserExtension = ParserEmpty>
     struct Copy_results_from_file_to_container {
 
       typedef Result_ result_type;
       typedef Container<result_type> container_type;
       typedef std::back_insert_iterator<container_type> output_iterator_type;
-      typedef Copy_results_from_file<ParserResult, output_iterator_type, result_type> copy_type;
+      typedef Copy_results_from_file<ParserResult, output_iterator_type, result_type, ParserExtension> copy_type;
       typedef typename copy_type::ParseIterator parse_iterator_type;
       typedef typename copy_type::parse_info_f info_type;
 
