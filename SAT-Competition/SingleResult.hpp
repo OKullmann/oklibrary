@@ -237,7 +237,9 @@ namespace OKlib {
 
     // ---------------------------------------------------------------------------------------------------------------
 
-    template <class Result, typename CharT = char, typename ParseIterator = const CharT*> class ParserResult;
+    template <typename CharT, typename ParseIterator>
+    struct ParserEmpty;
+    template <class Result, typename CharT = char, typename ParseIterator = const CharT*, class ParserExtension = ParserEmpty<CharT, ParseIterator> > class ParserResult;
 
     class Result : public ResultBasis {
       template <class, typename, typename>
