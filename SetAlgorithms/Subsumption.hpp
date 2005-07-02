@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iterator>
 #include <cassert>
+#include <set>
 
 #include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
@@ -17,12 +18,14 @@ namespace OKlib {
 
     template <typename Iterator>
     struct Get_underlying_iterator {
+      typedef Iterator iterator;
       const Iterator& operator() (const Iterator& i) {
-      return i;
+        return i;
       }
     };
     template <typename Iterator>
     struct Get_underlying_iterator<boost::reverse_iterator<Iterator> > {
+      typedef Iterator iterator;
       typedef boost::reverse_iterator<Iterator> reverse_iterator;
       Iterator operator() (const reverse_iterator& i) const {
         return boost::prior(i.base());
@@ -30,14 +33,48 @@ namespace OKlib {
     };
     template <typename Iterator>
     struct Get_underlying_iterator<std::reverse_iterator<Iterator> > {
+      typedef Iterator iterator;
       typedef std::reverse_iterator<Iterator> reverse_iterator;
       Iterator operator() (const reverse_iterator& i) const {
         return boost::prior(i.base());
       }
     };
 
+    // ---------------------------
+
+
+    template <class Container>
+    struct Erase {
+      typedef typename Container::iterator iterator;
+      iterator operator() (Container& C, const iterator& i) const {
+        return C.erase(i);
+      }
+    };
+    template <typename T>
+    struct Erase<std::set<T> > {
+      typedef std::set<T> Container;
+      typedef typename Container::iterator iterator;
+      iterator operator() (Container& C, const iterator& i) const {
+        iterator j(i); ++j;
+        C.erase(i);
+        return j;
+      }
+    };
+    template <typename T>
+    struct Erase<std::multiset<T> > {
+      typedef std::multiset<T> Container;
+      typedef typename Container::iterator iterator;
+      iterator operator() (Container& C, const iterator& i) const {
+        iterator j(i); ++j;
+        C.erase(i);
+        return j;
+      }
+    };
+
+
     // ToDo: These functors should move to the iterator tools ?! (On the other hand they
-    // should be adaptable to the special situation at hand.)
+    // should be adaptable to the *special* situation at hand.)
+
 
     // -------------------------------------------------------------------------------------------------------------------
       
@@ -54,22 +91,18 @@ namespace OKlib {
       template <typename Iterator>
       void upward(ContainerSets& C, Iterator begin, const Iterator end) const {
         for (; begin != end; ++begin)
-          for (Iterator j(boost::next(begin)); j != end;) {
-            if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end())) {
-              Iterator t(j); ++t;
-              C.erase(Get_underlying_iterator<Iterator>()(j));
-              j = t;
-            }
+          for (Iterator j(boost::next(begin)); j != end;)
+            if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
+              j = Iterator(Erase<ContainerSets>()(C, Get_underlying_iterator<Iterator>()(j)));
             else
               ++j;
-          }
       }
 
       void operator() (ContainerSets& C) const {
         typedef typename ContainerSets::iterator iterator;
-        const iterator& begin(C.begin()), end(C.end());
-        upward(C, begin, end);
-        upward(C, boost::make_reverse_iterator(end),  boost::make_reverse_iterator(begin));
+        const iterator& end(C.end());
+        upward(C, C.begin(), end);
+        upward(C, boost::make_reverse_iterator(end), boost::make_reverse_iterator(C.begin()));
       }
 
       void if_sorted(ContainerSets& C) const {
@@ -85,7 +118,7 @@ namespace OKlib {
             if (j -> size() == size)
               ++j;
             else if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
-              j = C.erase(j);
+              j = Erase<ContainerSets>()(C, j);
             else
               ++j;
           }
