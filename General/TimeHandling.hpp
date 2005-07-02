@@ -18,6 +18,7 @@ namespace TimeHandling {
   class SystemTime {
     // for elapsed system time in seconds since initialisation
     // ATTENTION: only for ca. 30 minutes, but with high precision
+    // This class is DEPRECATED (replaced by boost::timer).
 
   public :
 
