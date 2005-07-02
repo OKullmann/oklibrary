@@ -211,8 +211,7 @@ namespace OKlib {
           result_type res;
           Union<vector_iterator, std::back_insert_iterator<result_type> > U;
           U(v.begin(), v.end(), std::back_inserter(res));
-          using OKlib::TestSystem::operator <<;
-          OKLIB_TEST_EQUAL(ref, res);
+          OKLIB_TEST_EQUAL_W(ref, res);
         }
       }
     };
@@ -341,8 +340,7 @@ namespace OKlib {
           result_type res;
           Intersection<vector_iterator, std::back_insert_iterator<result_type> > I;
           I(v.begin(), v.end(), std::back_inserter(res));
-          using OKlib::TestSystem::operator <<;
-          OKLIB_TEST_EQUAL(ref, res);
+          OKLIB_TEST_EQUAL_W(ref, res);
         }
       }
     };
