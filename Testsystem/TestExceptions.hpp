@@ -104,34 +104,51 @@ namespace OKlib {
       throw e; \
     }
 
-    template <typename T, class A>
-    std::ostream& operator <<(std::ostream& out, const std::vector<T, A>& v) {
-      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-      return out << "\n";
+    template <typename T>
+    struct OutputWrapper {
+      const T& t;
+      OutputWrapper(const T& t) : t(t) {}
+    };
+    template <typename T>
+    inline OutputWrapper<T> output_wrapper(const T& t) {
+      return OutputWrapper<T>(t);
     }
-    template <typename T, class A>
-    std::ostream& operator <<(std::ostream& out, const std::list<T, A>& v) {
-      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-      return out << "\n";
+    template <typename T>
+    std::ostream& operator <<(std::ostream& out, const OutputWrapper<T>& w) {
+      std::copy(w.t.begin(), w.t.end(), std::ostream_iterator<typename T::value_type>(out, ","));
+      return out;
     }
-    template <typename T, class A>
-    std::ostream& operator <<(std::ostream& out, const std::deque<T, A>& v) {
-      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-      return out << "\n";
+    template <typename T>
+    struct OutputWrapper2 {
+      const T& t;
+      OutputWrapper2(const T& t) : t(t) {}
+    };
+    template <typename T>
+    inline OutputWrapper2<T> output_wrapper2(const T& t) {
+      return OutputWrapper2<T>(t);
     }
-    template <typename T, class C, class A>
-    std::ostream& operator <<(std::ostream& out, const std::set<T, C, A>& v) {
-      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-      return out << "\n";
-    }
-    template <typename T, class C, class A>
-    std::ostream& operator <<(std::ostream& out, const std::multiset<T, C, A>& v) {
-      std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-      return out << "\n";
+    template <typename T>
+    std::ostream& operator <<(std::ostream& out, const OutputWrapper2<T>& w) {
+      std::copy(w.t.begin(), w.t.end(), std::ostream_iterator<OutputWrapper<typename T::value_type> >(out, "\n"));
+      return out;
     }
 
-    // ToDo: further completing;
     // ToDo: Should this go to a general output facilities module?
+
+#define OKLIB_TEST_EQUAL_W(v1, v2) \
+    if ( not(v1 == v2)) { \
+      std::stringstream out; \
+      out << "Value is " << ::OKlib::TestSystem::output_wrapper(v1); \
+      out << ", and not " << ::OKlib::TestSystem::output_wrapper(v2); \
+      OKLIB_THROW(out.str()); \
+    }
+#define OKLIB_TEST_EQUAL_W2(v1, v2) \
+    if ( not(v1 == v2)) { \
+      std::stringstream out; \
+      out << "Value is " << ::OKlib::TestSystem::output_wrapper2(v1); \
+      out << ", and not " << ::OKlib::TestSystem::output_wrapper2(v2); \
+      OKLIB_THROW(out.str()); \
+    }
 
   }
 
