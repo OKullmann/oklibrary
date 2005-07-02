@@ -19,6 +19,11 @@ namespace OKlib {
 
   namespace SetAlgorithms {
 
+    /*!
+      \class Union<InputIterator_sets, OutputIterator>
+      \brief Functor: Given a range (input iterators) of ordered sequences, which are given as input-iterator-ranges, and an output iterator, compute the union.
+    */
+
     template <typename InputIterator_sets, typename OutputIterator>
     struct Union {
       // ToDo: Adding specification of Union as functor class
@@ -87,6 +92,11 @@ namespace OKlib {
 
     // --------------------------------------------------------------------------------------------------------------------------
 
+        /*!
+      \class Intersection<InputIterator_sets, OutputIterator>
+      \brief Functor: Given a range (input iterators) of ordered sequences, which are given as input-iterator-ranges, and an output iterator, compute the intersection.
+    */
+    
     template <typename InputIterator_sets, typename OutputIterator>
     struct Intersection {
       // ToDo: see Union

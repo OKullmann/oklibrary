@@ -1,5 +1,10 @@
 // Oliver Kullmann, 11.6.2005 (Swansea)
 
+/*!
+  \file DerivedRelations.hpp
+  \brief Functors and macros for order and comparison relations derived from < and == in the standard way.
+*/
+
 #ifndef DERIVEDRELATIONS_oPlK510v
 
 #define DERIVEDRELATIONS_oPlK510v
