@@ -1,15 +1,147 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-.PHONY : all doxygen-1.4.3
+doxygen_targets := doxygen-1.4.3 
+gcc_targets := gcc-3.4.4 gcc-4.0.0
+boost_targets := boost_1_32_0
+postgresql_targets := postgresql-8.0.3
 
-doxygen-directory := Doxygen
+# Usage
 
-doxygen_targets := doxygen-1.4.3
+# Install Doxygen (? is the version number)
+# make doxygen-?
+
+# Install all versions of gcc
+# make gcc
+
+# Install a version of gcc (? is the version number)
+# make gcc-? 
+
+# Install Boost (? is version number) with system gcc
+# make boost_?
+
+# Install Boost (? is version number) with a version of gcc (% is the version number) 
+# make gcc-version=% boost_?
+
+# Install PostgreSQL (? is version number)
+# make postgresql-?
+
+# Initialise a database (? is version number)
+# command initdb is located in postgresql-base-directory/?/bin/, 
+# call it with -D option to specify a database location or use the PGDATA environment variable 
+
+prefix := $(shell pwd)
+gcc-version := system
+# languages to build compiler for. Defaults to c, c++. Other languages are f77,objc,java,ada
+enable-languages := c,c++
+
+doxygen-base-directory := $(addprefix $(prefix)/,Doxygen)
+gcc-base-directory := $(addprefix $(prefix)/,Gcc)
+boost-base-directory := $(addprefix $(prefix)/,Boost)
+postgresql-base-directory := $(addprefix $(prefix)/,Postgresql)
+
+gcc_build_directory_name := $(addsuffix _Build, $(gcc_targets))
+
+gcc_build_directory_path := $(addprefix $(gcc-base-directory)/, $(gcc_build_directory_name))
+
+gcc_installation_directory_name := $(patsubst gcc-%, %, $(gcc_targets))
+
+gcc_installation_directory_path := $(addprefix $(gcc-base-directory)/, $(gcc_installation_directory_name))
+
+boost_build_directory_name := $(foreach gccversion, $(gcc_installation_directory_name), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
+
+boost_build_directory_name += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
+
+boost_build_directory_path := $(addprefix $(boost-base-directory)/, $(boost_build_directory_name))
+
+boost_installation_directory_name := $(foreach gccversion, $(gcc_installation_directory_name), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
+
+boost_installation_directory_name += $(patsubst boost_%, %, $(boost_targets))
+
+boost_installation_directory_path := $(addprefix $(boost-base-directory)/, $(boost_installation_directory_name))
+
+doxygen-directories := $(doxygen-base-directory)
+gcc-directories := $(gcc-base-directory) $(gcc_build_directory_path) $(gcc_installation_directory_path)
+boost-directories := $(boost-base-directory) $(boost_build_directory_path) $(boost_installation_directory_path)
+postgresql-directories := $(postgresql-base-directory)
+
+define postcondition 
+if [ $$? != 0 ]; then exit 1; fi;
+endef
+
+.PHONY : all gcc clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initdb
 
 all :
 
+$(doxygen-directories) : % : 
+	mkdir $@
 
-$(doxygen_targets) :
-	tar --extract --directory=$(doxygen-directory) --file=$@.src.tar.gz --ungzip
-	cd $(doxygen-directory)/$@; if [ $$? != 0 ]; then exit 1; fi; sh ./configure; if [ $$? != 0 ]; then exit 1; fi; make; if [ $$? != 0 ]; then exit 1; fi; make docs; if [ $$? != 0 ]; then exit 1; fi; make pdf; if [ $$? != 0 ]; then exit 1; fi; sudo make install; if [ $$? != 0 ]; then exit 1; fi; sudo make install_docs;
+create_doxygen_dirs : $(doxygen-directories)
+
+$(doxygen_targets) : create_doxygen_dirs
+	tar --extract --directory=$(doxygen-base-directory) --file=$@.src.tar.gz --ungzip
+	cd $(doxygen-base-directory)/$@; $(postcondition) \
+	sh ./configure; $(postcondition) \
+	make; $(postcondition) \
+	make docs; $(postcondition) \
+	make pdf; $(postcondition) \
+	sudo make install; $(postcondition) \
+	sudo make install_docs
+
+$(gcc-directories) : % : 
+	mkdir $@
+
+create_gcc_dirs : $(gcc-directories)
+
+$(gcc_targets) : create_gcc_dirs
+	tar --extract --directory=$(gcc-base-directory) --file=$@.tar.gz --ungzip
+	cd $(gcc-base-directory)/$@_Build; $(postcondition) \
+	../$@/configure --prefix=$(addprefix $(gcc-base-directory)/, $(patsubst gcc-%, %, $@)) --with-gxx-include-dir=$(addprefix $(gcc-base-directory)/, $(patsubst gcc-%, %, $@))/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
+	make bootstrap; $(postcondition) \
+	make install; 
+
+gcc : $(gcc_targets)
+
+$(boost-directories) : % : 
+	mkdir $@
+
+create_boost_dirs : $(boost-directories)
+
+ifeq ($(gcc-version),system)
+define install-boost 
+	bjam "-sTOOLS=gcc" --prefix=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)) --builddir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)_Build) install 
+endef
+else 
+define install-boost
+	bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(addprefix $(gcc-base-directory)/,$(gcc-version))" --prefix=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version)) --builddir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version)_Build) install 
+endef
+endif
+
+# Other configure options are GCC_BIN_DIRECTORY, GCC_INCLUDE_DIRECTORY, GCC_STDLIB_DIRECTORY, GXX (g++ command plus any options), GCC. 
+$(boost_targets) : create_boost_dirs
+	tar --extract --directory=$(boost-base-directory) --file=$@.tar.gz --ungzip
+	cd $(boost-base-directory)/$@; $(postcondition) \
+	$(install-boost)
+
+$(postgresql-directories) : % : 
+	mkdir $@
+
+create_postgresql_dirs : $(postgresql-directories)
+
+$(postgresql_targets) : create_postgresql_dirs
+	tar --extract --directory=$(postgresql-base-directory) --file=$@.tar.gz --ungzip
+	cd $(postgresql-base-directory)/$@; $(postcondition) \
+	./configure --prefix=$(addprefix $(postgresql-base-directory)/, $(patsubst postgresql-%, %, $@)) --disable-rpath; $(postcondition) \
+	make; $(postcondition) \
+	make check; $(postcondition) \
+	make install
+
+clean :
+	-rm -rf $(gcc_build_directory_path)
+	-rm -rf $(boost_build_directory_path)
+
+cleanall :
+	-rm -rf $(doxygen-directories)
+	-rm -rf $(gcc-directories)
+	-rm -rf $(boost-directories)
+	-rm -rf $(postgresql-directories)
