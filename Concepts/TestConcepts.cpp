@@ -12,6 +12,7 @@
 #include "LibraryBasics_Testobjects.hpp"
 #include "Variables_Testobjects.hpp"
 #include "ResultElements_Testobjects.hpp"
+#include "std_Container_Testobjects.hpp"
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
