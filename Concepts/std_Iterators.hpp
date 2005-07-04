@@ -5,6 +5,11 @@
 // Section 24.1 and Section 24.3.1
 // PLUS const-correctness.
 
+/*!
+  \file std_Iterators.hpp
+  \brief Iterator concepts from ISO/IEC 14882: 2003 (plus const-correctness).
+*/
+
 #ifndef STDITERATORS_pOpt5185
 
 #define STDITERATORS_pOpt5185
@@ -20,6 +25,11 @@
 namespace OKlib {
 
   namespace Concepts {
+
+    /*!
+      \class InputIterator<Iterator>
+      \brief Concept InputIterator according to the standard.
+    */
 
     template <typename Iterator>
     struct InputIterator {
@@ -45,30 +55,29 @@ namespace OKlib {
     // ToDO: Can expressions "a -> m" be expressed ?
     struct InputIterator_tag : virtual ConceptsBase_tag {};
 
-    template <typename T>
     class InputIterator_Archetype {
       InputIterator_Archetype();
       typedef InputIterator_Archetype self;
-      struct internal {
-        T operator* () {}
-      };
     protected :
       struct convertible_to_bool {
         operator bool() {}
       };
     public:
       typedef std::input_iterator_tag iterator_category;
-      typedef T value_type;
+      struct value_type {};
       typedef std::ptrdiff_t difference_type;
       typedef void pointer; // ToDo: left unspecified in the standard ?
       struct reference {
-        operator T() {}
+        operator value_type() {}
       };
       self& operator=(const self&) {}
       convertible_to_bool operator==(const self&) const {}
       convertible_to_bool operator!=(const self&) const {}
       reference operator*() const {}
       self& operator++() {}
+      struct internal {
+        value_type operator* () {}
+      };
       internal operator++(int) {}
     };
 
