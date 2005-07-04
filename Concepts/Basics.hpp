@@ -1,5 +1,10 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
+/*!
+  \file Basics.hpp
+  \brief Basic concepts, extending the basic concepts from the standard.
+*/
+
 #ifndef BASICS_haharw786
 
 #define BASICS_haharw786
@@ -12,6 +17,11 @@
 namespace OKlib {
 
   namespace Concepts {
+
+    /*!
+      \class FullyEqualityComparable<T>
+      \brief Concept FullyEqualityComparable: == and !=.
+    */
 
     template <typename T>
     struct FullyEqualityComparable {
@@ -40,13 +50,28 @@ namespace OKlib {
 
     // ----------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class FullyLessThanComparable<T>
+      \brief Concept FullyLessThanComparable: <, >, <=, >=.
+    */
+
     template <typename T>
     struct FullyLessThanComparable {
       void constraints() {
         boost::function_requires<LessThanComparable<T> >();
-        static_cast<bool>(x > y); static_cast<bool>(a > b); static_cast<bool>(a > y); static_cast<bool>(x > b);
-        static_cast<bool>(x <= y); static_cast<bool>(a <= b); static_cast<bool>(a <= y); static_cast<bool>(x <= b);
-        static_cast<bool>(x >= y); static_cast<bool>(a >= b); static_cast<bool>(a >= y); static_cast<bool>(x >= b);
+
+        static_cast<bool>(x > y);
+        static_cast<bool>(a > b);
+        static_cast<bool>(a > y);
+        static_cast<bool>(x > b);
+        static_cast<bool>(x <= y);
+        static_cast<bool>(a <= b);
+        static_cast<bool>(a <= y);
+        static_cast<bool>(x <= b);
+        static_cast<bool>(x >= y);
+        static_cast<bool>(a >= b);
+        static_cast<bool>(a >= y);
+        static_cast<bool>(x >= b);
       }
       T x, y;
       const T a, b;
@@ -70,6 +95,11 @@ namespace OKlib {
 
     // ----------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class LinearOrder<T>
+      \brief Concept LinearOrder: <, >, <=, >= and ==, !=.
+    */
+
     template <typename T>
     struct LinearOrder {
       void constraints() {
@@ -90,6 +120,11 @@ namespace OKlib {
 
     // ----------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class FullyConstructible<T>
+      \brief Concept FullyConstructible: All four special member functions are available.
+    */
+
     template <typename T>
     struct FullyConstructible {
       void constraints() {
@@ -104,6 +139,12 @@ namespace OKlib {
     class FullyConstructible_Archetype {};
 
     // ----------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class EqualitySubstitutable<T>
+      \brief Concept EqualitySubstitutable: Refines EqualityComparable with the requirement,
+      that equal entities are substitution-equivalent.
+    */
 
     template <typename T>
     struct EqualitySubstitutable {
@@ -121,6 +162,12 @@ namespace OKlib {
       EqualitySubstitutable_Archetype& operator=(const EqualitySubstitutable_Archetype&);
       ~EqualitySubstitutable_Archetype();
     };
+
+    /*!
+      \class ConstCorrect<T>
+      \brief Concept ConstCorrect: Semantical requirement, that operations allowed for const
+      objects maintain substitution-equivalence.
+    */
 
     template <typename T>
     struct ConstCorrect {
