@@ -16,6 +16,7 @@ namespace OKlib {
       template class Test_True_T<True>;
 
       template class Test_False_T<False>;
+
     }
   }
 

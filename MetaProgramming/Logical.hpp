@@ -12,8 +12,10 @@ namespace OKlib {
 
     namespace MacrosForMetaValues {
 
-#define OKLIB_META_VALUE typedef type::value_type value_type; static const value_type value = type::value;
-#define OKLIB_META_VALUE_T typedef typename type::value_type value_type; static const value_type value = type::value;
+#define OKLIB_META_VALUE typedef type::value_type value_type; \
+            static const value_type value = type::value;
+#define OKLIB_META_VALUE_T typedef typename type::value_type value_type; \
+            static const value_type value = type::value;
 
 #define OKLIB_META_TRUE typedef ::boost::mpl::bool_<true> type; OKLIB_META_VALUE
 #define OKLIB_META_FALSE typedef ::boost::mpl::bool_<false> type; OKLIB_META_VALUE
@@ -26,11 +28,15 @@ namespace OKlib {
     struct True {
       OKLIB_META_TRUE;
     };
+    // Alternative equivalent definition:
+    // template <class T> struct True : ::boost::mpl::bool_<true> {}
 
     template <class T>
     struct False {
       OKLIB_META_FALSE;
     };
+    // Alternative equivalent definition:
+    // template <class T> struct False : ::boost::mpl::bool_<false> {}
 
   }
 
