@@ -1,5 +1,10 @@
 // Oliver Kullmann, 15.5.2005
 
+/*!
+  \file Iterators.hpp
+  \brief Concepts for iterators extending the concepts from the standard.
+*/
+
 #ifndef ITERATORS_jnNzWz31
 
 #define ITERATORS_jnNzWz31
@@ -14,6 +19,11 @@ namespace OKlib {
 
   namespace Concepts {
 
+    /*!
+      \class MultiPassInputIterator<Iterator>
+      \brief Concept MultiPassInputIterator according to Boost.
+    */
+
     template <typename Iterator>
     struct MultiPassInputIterator {
       // According to [The Boost Graph Library, ISBN 0-201-72914-8], Section 16.3 (page 291).
@@ -24,8 +34,7 @@ namespace OKlib {
     };
     struct MultiPassInputIterator_tag : virtual InputIterator_tag {};
 
-    template <typename T>
-    struct MultiPassInputIterator_Archetype : InputIterator_Archetype<T> {};
+    struct MultiPassInputIterator_Archetype : InputIterator_Archetype {};
 
   }
 
