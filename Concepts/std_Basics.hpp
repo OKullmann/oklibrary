@@ -4,6 +4,11 @@
 // ISO/IEC 14882: 2003 (referred to as the "Standard")
 // PLUS const-correctness.
 
+/*!
+  \file std_Basics.hpp
+  \brief Basic concepts from ISO/IEC 14882: 2003 (plus const-correctness).
+*/
+
 #ifndef STDBASICS_pokcc34Ty
 
 #define STDBASICS_pokcc34Ty
