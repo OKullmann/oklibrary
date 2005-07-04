@@ -4,6 +4,8 @@
 
 #define STDITERATORSTESTOBECTS_638usuDq
 
+#include "LibraryBasics_Tests.hpp"
+
 #include "std_Iterators.hpp"
 #include "std_Iterators_Tests.hpp"
 
@@ -13,7 +15,8 @@ namespace OKlib {
 
     namespace Archetype_tests {
 
-      template class InputIterator<InputIterator_Archetype<int> >;
+      OKLIB_BASIC_CONCEPT_TEST_TAG(InputIterator);
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(InputIterator);
 
     }
 
