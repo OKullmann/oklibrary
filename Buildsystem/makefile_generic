@@ -177,10 +177,10 @@ test : $(test_file)
 testop : $(testop_file)
 
 $(test_file) : $(test_program)
-	$(test_program)
+	time -p $(test_program)
 	touch $(test_file)
 $(testop_file) : $(test_program)$(name_addition)
-	$(test_program)$(name_addition)
+	time -p $(test_program)$(name_addition)
 	touch $(testop_file)
 
 force :
@@ -214,14 +214,14 @@ $(dependency_files_c) : $(aux_dir)/%.d : $(srcdir)/%.c
 	$(CC) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
 $(object_files_cpp_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
+	time -p $(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 $(object_files_cpp) : $(libdir)/%.o : $(srcdir)/%.cpp
-	$(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+	time -p $(CXX) -c -o $@ $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
 $(object_files_c_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
+	time -p $(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
 $(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
+	time -p $(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
 
 
 define get-link_libraries
@@ -231,9 +231,9 @@ endef
 export
 
 $(programs) : $(bindir)/% : $(libdir)/%.o
-	$(CXX) -o $@ $(General_options) $< $(get-link_libraries)
+	time -p $(CXX) -o $@ $(General_options) $< $(get-link_libraries)
 $(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o
-	$(CXX) -o $@ $(Optimisation_options) $< $(get-link_libraries)
+	time -p $(CXX) -o $@ $(Optimisation_options) $< $(get-link_libraries)
 
 
 # --------------------------------
