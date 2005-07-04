@@ -12,9 +12,29 @@
 #include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
 
+#include "TaggingPolymorphism.hpp"
+
 namespace OKlib {
 
   namespace SetAlgorithms {
+
+    struct size_tag : OKlib::MetaProgramming::property_tag {};
+    struct use_size : size_tag {};
+    struct do_not_use_size : size_tag {};
+
+    struct uniqueness_tag : OKlib::MetaProgramming::property_tag {};
+    struct hyperedges_are_unique : uniqueness_tag {};
+    struct hyperedges_may_not_be_unique : uniqueness_tag {};
+
+    struct order_tag : OKlib::MetaProgramming::property_tag {};
+    struct process_only_forward_ : order_tag {};
+    struct process_only_backward : order_tag {};
+    struct process_both_directions : order_tag {};
+
+    struct sorting_tag : OKlib::MetaProgramming::property_tag {};
+    struct do_sorting : sorting_tag {};
+
+    // Helper constructions
 
     template <typename Iterator>
     struct Get_underlying_iterator {
@@ -83,7 +103,11 @@ namespace OKlib {
       \brief Functor: Eliminates all inclusions from a container.
     */
 
-    template <class ContainerSets>
+    template <class ContainerSets,
+              class SizeTag = size_tag,
+              class UniquenessTag = hyperedges_may_not_be_unique,
+              class OrderTag = process_both_directions,
+              class SortingTag = sorting_tag>
     // ToDo: Concepts etc.
     // ContainerSets supports erase without invalidating iterators.
     struct Subsumption_elimination {
