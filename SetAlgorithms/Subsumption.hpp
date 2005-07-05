@@ -11,7 +11,9 @@
 
 #include <boost/utility.hpp>
 #include <boost/iterator/reverse_iterator.hpp>
+#include <boost/mpl/if.hpp>
 
+#include "TypeTraitsContainer.hpp"
 #include "TaggingPolymorphism.hpp"
 
 namespace OKlib {
@@ -104,7 +106,7 @@ namespace OKlib {
     */
 
     template <class ContainerSets,
-              class SizeTag = size_tag,
+              class SizeTag = boost::mpl::if_<typename OKlib::MetaProgramming::has_size_function<ContainerSets>::type, use_size, do_not_use_size>,
               class UniquenessTag = hyperedges_may_not_be_unique,
               class OrderTag = process_both_directions,
               class SortingTag = sorting_tag>
