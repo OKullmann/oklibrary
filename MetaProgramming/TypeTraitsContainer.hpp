@@ -1,8 +1,9 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 /*!
-  \file TypeTraits.hpp
-  \brief Extending the (general) type traits from Boost.
+  \file TypeTraitsContainer.hpp
+  \brief Extending the (general) type traits from Boost by container-specific
+  traits.
 */
 
 #ifndef TYPETRAITSCONTAINER_0099io

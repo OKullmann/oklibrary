@@ -11,7 +11,7 @@ namespace OKlib {
 
     /*!
       \file TypeTraits_Tests.hpp
-      \todo Tests for metafunction is_std_container
+      \todo Tests for metafunction is_std_container and has_size_function.
     */
 
   }
