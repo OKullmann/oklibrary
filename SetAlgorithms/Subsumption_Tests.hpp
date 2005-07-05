@@ -20,7 +20,12 @@ namespace OKlib {
 
   namespace SetAlgorithms {
 
-    template <template <class ContainerSets> class Subsumption_elimination>
+    template
+    <template <class ContainerSets,
+               class UniquenessTag = SubsumptionsTags::hyperedges_may_not_be_unique,
+               class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
+               class SizeTag = typename boost::mpl::if_<typename OKlib::MetaProgramming::has_size_function<ContainerSets>::type, SubsumptionsTags::use_size_of_hyperedges, SubsumptionsTags::do_not_use_size_of_hyperedges>::type>
+    class Subsumption_elimination>
     class Test_Subsumption_elimination : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_Subsumption_elimination test_type;
@@ -81,9 +86,9 @@ namespace OKlib {
               seq2.insert(seq2.end(), orig.begin(), orig.end());
               seq2.sort(OKlib::OrderRelations::SizeLessThan<std::less<set_type> >());
               seq2.erase(std::unique(seq2.begin(), seq2.end()), seq2.end());
-              typedef Subsumption_elimination<container_type> elimination_type;
+              typedef Subsumption_elimination<container_type, SubsumptionsTags::hyperedges_are_unique, SubsumptionsTags::hyperedges_sorted_by_size> elimination_type;
               elimination_type sub_elim;
-              sub_elim.if_sorted(seq2);
+              sub_elim(seq2);
               OKLIB_TEST_EQUAL_RANGES(seq2, seq);
             }
           }
@@ -92,6 +97,11 @@ namespace OKlib {
       }
 
     };
+
+    /*!
+      \class Test_Subsumption_elimination<Subsumption_elimination>
+      \todo Systematic tests of all 8 combinations for the tags.
+    */
 
   }
 
