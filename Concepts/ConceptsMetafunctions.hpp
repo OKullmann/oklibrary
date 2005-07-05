@@ -11,7 +11,9 @@
 
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/or.hpp>
+#include <boost/mpl/and.hpp>
 #include <boost/type_traits.hpp>
+#include <boost/mpl/has_xxx.hpp>
 
 #include "Logical.hpp"
 
@@ -48,20 +50,21 @@ namespace OKlib {
 
     /*!
       \class HasConceptTag<T>
-      \brief Boolean metafunction: true iff T has a nested typ concept_tag which is a concept tag.
+      \brief Boolean metafunction: true iff T has a nested type concept_tag which is a concept tag.
     */
 
+    namespace implementation_has_concept_tag {
+      BOOST_MPL_HAS_XXX_TRAIT_DEF(type);
+      template <bool has_concept_tag, typename T>
+      struct is_concept_tag : ::boost::mpl::bool_<false> {};
+      template <typename T>
+      struct is_concept_tag<true, T> : IsConceptTag<typename concept_tag<T>::type> {};
+    }
     template <class T>
-    class HasConceptTag {
-      typedef typename concept_tag<T>::type t_concept_tag;
-    public :
-      typedef typename
-      IsConceptTag<t_concept_tag>::type type;
-      OKLIB_META_VALUE_T;
-    };
+    struct HasConceptTag : implementation_has_concept_tag::is_concept_tag<implementation_has_concept_tag::has_type<concept_tag<T> >::value, T> {};
 
   }
 
-};
+}
 
 #endif
