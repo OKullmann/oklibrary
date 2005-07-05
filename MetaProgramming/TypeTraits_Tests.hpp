@@ -48,8 +48,6 @@ namespace OKlib {
       BOOST_STATIC_ASSERT(not is_unqualified_signedunsigned_integral<X>::value);
     };
 
-
-    
   }
 
 }
