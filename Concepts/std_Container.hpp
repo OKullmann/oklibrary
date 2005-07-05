@@ -101,6 +101,12 @@ namespace OKlib {
 
     struct Container_tag : virtual FullyConstructible_tag, virtual LinearOrder_tag, virtual Assignable_tag {};
 
+    /*!
+      \class Container<C>
+      \todo Write a weakening of concept Container which does not require the value type
+      to be assignable (so that std::map and std::multimap are models of this concept).
+    */
+
     class Container_Archetype {
     public :
 
