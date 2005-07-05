@@ -67,6 +67,8 @@ namespace OKlib {
       struct test3 {
         typedef ::OKlib::Concepts::ConceptsBase_tag concept_tag;
       };
+      BOOST_STATIC_ASSERT(not HasConceptTag<c1>::value);
+      BOOST_STATIC_ASSERT(not HasConceptTag<c2>::value);
       BOOST_STATIC_ASSERT(HasConceptTag<test2>::value);
       BOOST_STATIC_ASSERT(not HasConceptTag<test1>::value);
       BOOST_STATIC_ASSERT(not HasConceptTag<test3>::value);
