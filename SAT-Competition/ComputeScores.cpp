@@ -2,7 +2,7 @@
 
 /*!
   \file ComputeScores.cpp
-  \brief Outputs the sorted scores for all solvers from competition data given as a file
+  \brief Outputs the sorted scores for all solvers from competition data given as a file.
 */
 #include <string>
 #include <iterator>
