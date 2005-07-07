@@ -1,5 +1,10 @@
 // Oliver Kullmann, 7.6.2005 (Swansea)
 
+/*!
+  \file AnalysisTools.hpp
+  \brief Class ElementaryAnalysis<Database> (supplying Database with some "indices") and related constructs.
+*/
+
 #ifndef ANALYSISTOOLS_946TglQ
 
 #define ANALYSISTOOLS_946TglQ
@@ -25,9 +30,18 @@ namespace OKlib {
 
   namespace SATCompetition {
 
+    /*!
+      \class ElementaryAnalysis<Database>
+      \brief Elementary maps, for example assiging to a solver the set of solved benchmarks, and elementary sets, for example the set of "complete" solvers.
+    */
+
+    /*!
+      \class ElementaryAnalysis<Database>
+      \todo Access to the sets of SuperSeries, SpecSeries, Benchmark, Solver (via iterators to corresponding maps), and computation of the set of "complete" solves (having solved at least one sat and one unsat instance).
+    */
+
     template <class Database>
     class ElementaryAnalysis {
-      // ToDo: Sets of solvers, etc; solver categorisation: solved_sat, solved_unsat.
       ElementaryAnalysis(const ElementaryAnalysis&);
       ElementaryAnalysis& operator =(const ElementaryAnalysis&);
       const Database& db;

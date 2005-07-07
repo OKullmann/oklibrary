@@ -1,5 +1,10 @@
 // Oliver Kullmann, 17.6.2005 (Swansea)
 
+/*!
+  \file Scoring.hpp
+  \brief Given an "indexed database", computing the solver scores.
+*/
+
 #ifndef SCORING_567UyTr
 
 #define SCORING_567UyTr
@@ -26,6 +31,11 @@
 namespace OKlib {
 
   namespace SATCompetition {
+
+    /*!
+      \class PurseScoring<IndexedDatabase, NumberType>
+      \brief Computing score(solver) = problem_purse(solver) + speed_award(solver) + series_purse(solver).
+    */
 
     template <class IndexedDatabase, typename NumberType = double>
     class PurseScoring {
@@ -231,9 +241,17 @@ namespace OKlib {
 
     // -----------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class Scoring_from_file<ParserExtension>
+      \brief Given a file with competition results, computes sorted lists of scores for the SAT, UNSAT and SAT+UNSAT categories.
+    */
+    /*!
+      \class Scoring_from_file<ParserExtension>
+      \todo Additional to the current computation for the SAT+UNSAT category, compute the scores when considering only "complete" solvers.
+    */
+
     template <template <typename CharT, typename Parseiterator> class ParserExtension = ParserEmpty>
     struct Scoring_from_file {
-      // ToDo: The "all" category should have a variant, where "incomplete solvers" have been eliminated.
       typedef Result_database_from_file<ParserResult, Result, ParserExtension> result_database_from_file;
       typedef typename result_database_from_file::database_type database;
       typedef ElementaryAnalysis<database> indexed_database;
@@ -266,6 +284,15 @@ namespace OKlib {
         }
       };
 
+      /*!
+        \class OKlib::SATCompetition::Scoring_from_file<ParserExtension>::scoring
+        \brief Contains scoring related data for one solver.
+      */
+      /*!
+        \class OKlib::SATCompetition::Scoring_from_file<ParserExtension>::scoring
+        \todo Not only the number of instances solved, but also the number of sat and unsat instances solved.
+      */
+      
       struct scoring {
         Solver solver;
         number_type score;
