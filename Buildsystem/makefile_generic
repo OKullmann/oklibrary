@@ -37,6 +37,11 @@
 # Programs are compiled with $(CXX), while objectsfiles are compiled with $(CXX) resp. $(CC)
 # in case the suffix is .cpp resp. .c .
 
+# make alternative_gcc=? alternative_boost=% 
+# where ? is the locally installed GCC version number and % is the locally installed boost version number.
+# If one doesn't specify alternative_boost=, then the system boost will be used. 
+
+
 SHELL = /bin/sh
 .SUFFIXES :
 
@@ -151,6 +156,19 @@ testop_file := $(srcdir)/testop
 
 doxy_file := $(includedir)/Doxyfile
 
+alternative_gcc:=
+alternative_boost:=
+alternative_library_path:=
+
+ifneq ($(alternative_gcc), )
+CXX := $(addprefix $(prefix)/ExternalSources/Gcc/, $(alternative_gcc)/bin/g++)
+CC := $(addprefix $(prefix)/ExternalSources/Gcc/, $(alternative_gcc)/bin/gcc)
+alternative_library_path:= -L$(addprefix $(prefix)/ExternalSources/Gcc/, $(alternative_gcc)/lib) -Wl,-rpath,$(addprefix $(prefix)/ExternalSources/Gcc/, $(alternative_gcc)/lib)
+  ifneq ($(alternative_boost), )
+  alternative_library_path += -L$(addprefix $(prefix)/ExternalSources/Gcc/, $(alternative_gcc)/lib/boost_$(alternative_boost)) -Wl,-rpath,$(addprefix $(prefix)/ExternalSources/Gcc/, $(alternative_gcc)/lib/boost_$(alternative_boost))
+  endif
+endif
+
 # ----------------------------------------------------------------
 
 all : unoptimised optimised
@@ -231,9 +249,9 @@ endef
 export
 
 $(programs) : $(bindir)/% : $(libdir)/%.o
-	time -p $(CXX) -o $@ $(General_options) $< $(get-link_libraries)
+	time -p $(CXX) -o $@ $(General_options) $< $(get-link_libraries) $(alternative_library_path)
 $(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o
-	time -p $(CXX) -o $@ $(Optimisation_options) $< $(get-link_libraries)
+	time -p $(CXX) -o $@ $(Optimisation_options) $< $(get-link_libraries) $(alternative_library_path)
 
 
 # --------------------------------
