@@ -76,7 +76,6 @@ endef
 .PHONY : all gcc clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initialise-database
 
 all :
-	if [ -d ass ]; then echo; else mkdir ass; fi;
 
 $(doxygen-directories) : % : 
 	mkdir $@
@@ -128,7 +127,7 @@ endif
 
 # Other configure options are GCC_BIN_DIRECTORY, GCC_INCLUDE_DIRECTORY, GCC_STDLIB_DIRECTORY, GXX (g++ command plus any options), GCC. 
 $(boost_targets) : create_boost_dirs
-	#tar --extract --directory=$(boost-base-directory) --file=$@.tar.gz --ungzip
+	tar --extract --directory=$(boost-base-directory) --file=$@.tar.gz --ungzip
 	cd $(boost-base-directory)/$@; $(postcondition) \
 	$(install-boost)
 
