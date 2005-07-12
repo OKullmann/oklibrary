@@ -101,8 +101,17 @@ namespace OKlib {
     // -------------------------------------------------------------------------------------------------------------------
       
     /*!
-      \class Subsumption_elimination<ContainerSets>
+      \class Subsumption_elimination
       \brief Functor: Eliminates all inclusions from a container.
+    */
+
+    /*!
+      \class Subsumption_elimination
+      \todo ContainerSets is conceptually a hypergraph; if ContainerSets actually is equipped
+      with a (the) vertex-hyperedge graph, then for every hyperedge H we can run (efficiently) through
+      all hyperedges H' with non-empty intersection with H and compute the size of H - H': if the size
+      is 0, then H' <= H, if the size is |H'| - |H|, then H <= H'.
+      \todo Create the concept; the requirement must include that ContainerSets supports erase without invalidating iterators.
     */
 
     template <class ContainerSets,
@@ -110,8 +119,6 @@ namespace OKlib {
               class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
               class SizeTag = typename boost::mpl::if_<typename OKlib::MetaProgramming::has_size_function<ContainerSets>::type, SubsumptionsTags::use_size_of_hyperedges, SubsumptionsTags::do_not_use_size_of_hyperedges>::type
     >
-    // ToDo: Concepts etc.
-    // ContainerSets supports erase without invalidating iterators.
     struct Subsumption_elimination {
 
       typedef SizeTag size_tag;
