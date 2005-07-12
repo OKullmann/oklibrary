@@ -1,8 +1,8 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
-#ifndef INPUTOUTPUTTESTOBJECTS7ytaBb4
+#ifndef INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
 
-#define INPUTOUTPUTTESTOBJECTS7ytaBb4
+#define INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
 
 #include "Input_output.hpp"
 #include "Input_output_Tests.hpp"
