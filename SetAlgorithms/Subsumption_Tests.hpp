@@ -99,7 +99,7 @@ namespace OKlib {
     };
 
     /*!
-      \class Test_Subsumption_elimination<Subsumption_elimination>
+      \class Test_Subsumption_elimination
       \todo Systematic tests of all 8 combinations for the tags.
     */
 
