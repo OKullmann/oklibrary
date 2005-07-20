@@ -127,41 +127,50 @@ namespace OKlib {
 
       template <typename Iterator>
       void upward(ContainerSets& C, Iterator begin, const Iterator end) const {
+        upward(C, begin, end, size_tag());
+      }
+
+      template <typename Iterator>
+      void upward(ContainerSets& C, Iterator begin, const Iterator end, SubsumptionsTags::do_not_use_size_of_hyperedges) const {
         for (; begin != end; ++begin)
           for (Iterator j(boost::next(begin)); j != end;)
-            if (cheque_unnecessary(begin, j, size_tag()))
+            if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
+              j = Iterator(Erase<ContainerSets>()(C, Get_underlying_iterator<Iterator>()(j)));
+            else
+              ++j;
+      }
+      template <typename Iterator>
+      void upward(ContainerSets& C, Iterator begin, const Iterator end, SubsumptionsTags::use_size_of_hyperedges) const {
+        for (; begin != end; ++begin) {
+          typedef typename std::iterator_traits<Iterator>::value_type::size_type size_type;
+          const size_type& size(begin -> size());
+          for (Iterator j(boost::next(begin)); j != end;)
+            if (cheque_unnecessary(j, size, order_tag(), uniqueness_tag()))
               ++j;
             else if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
               j = Iterator(Erase<ContainerSets>()(C, Get_underlying_iterator<Iterator>()(j)));
             else
               ++j;
+        }
       }
 
-      template <typename Iterator>
-      bool cheque_unnecessary(const Iterator i, const Iterator j, SubsumptionsTags::do_not_use_size_of_hyperedges) const {
+      template <typename Iterator, typename Size>
+      bool cheque_unnecessary(const Iterator j, const Size size, SubsumptionsTags::hyperedges_sorted_by_size, SubsumptionsTags::hyperedges_are_unique) const {
+        assert(size <= j -> size());
+        return size == j -> size();
+      }
+      template <typename Iterator, typename Size>
+      bool cheque_unnecessary(const Iterator j, const Size size, SubsumptionsTags::hyperedges_sorted_by_size, SubsumptionsTags::hyperedges_may_not_be_unique) const {
+        assert(size <= j -> size());
         return false;
       }
-      template <typename Iterator>
-      bool cheque_unnecessary(const Iterator i, const Iterator j, SubsumptionsTags::use_size_of_hyperedges) const {
-        return cheque_unnecessary(i, j, order_tag(), uniqueness_tag());
+      template <typename Iterator, typename Size>
+      bool cheque_unnecessary(const Iterator j, const Size size, SubsumptionsTags::hyperedges_may_not_be_sorted_by_size, SubsumptionsTags::hyperedges_are_unique) const {
+        return size >= j -> size();
       }
-      template <typename Iterator>
-      bool cheque_unnecessary(const Iterator i, const Iterator j, SubsumptionsTags::hyperedges_sorted_by_size, SubsumptionsTags::hyperedges_are_unique) const {
-        assert(i -> size() <= j -> size());
-        return i -> size() == j -> size();
-      }
-      template <typename Iterator>
-      bool cheque_unnecessary(const Iterator i, const Iterator j, SubsumptionsTags::hyperedges_sorted_by_size, SubsumptionsTags::hyperedges_may_not_be_unique) const {
-        assert(i -> size() <= j -> size());
-        return false;
-      }
-      template <typename Iterator>
-      bool cheque_unnecessary(const Iterator i, const Iterator j, SubsumptionsTags::hyperedges_may_not_be_sorted_by_size, SubsumptionsTags::hyperedges_are_unique) const {
-        return i -> size() >= j -> size();
-      }
-      template <typename Iterator>
-      bool cheque_unnecessary(const Iterator i, const Iterator j, SubsumptionsTags::hyperedges_may_not_be_sorted_by_size, SubsumptionsTags::hyperedges_may_not_be_unique) const {
-        return i -> size() > j -> size();
+      template <typename Iterator, typename Size>
+      bool cheque_unnecessary(const Iterator j, const Size size, SubsumptionsTags::hyperedges_may_not_be_sorted_by_size, SubsumptionsTags::hyperedges_may_not_be_unique) const {
+        return size > j -> size();
       }
 
       void operator() (ContainerSets& C) const {
@@ -178,27 +187,6 @@ namespace OKlib {
         upward(C, boost::make_reverse_iterator(end), boost::make_reverse_iterator(C.begin()));
       }
 
-
-//       void if_sorted(ContainerSets& C) const {
-//         // Precondition:
-//         // The elements of the container are sorted by increasing size, and there are no duplicates.
-//         typedef typename ContainerSets::iterator iterator;
-//         const iterator& end(C.end());
-//         for (iterator begin(C.begin()); begin != end; ++begin) {
-//           typedef typename ContainerSets::size_type size_type;
-//           const size_type& size(begin -> size());
-//           for (iterator j(boost::next(begin)); j != end;) {
-//             assert(j -> size() >= size);
-//             if (j -> size() == size)
-//               ++j;
-//             else if (std::includes(j -> begin(), j -> end(), begin -> begin(), begin -> end()))
-//               j = Erase<ContainerSets>()(C, j);
-//             else
-//               ++j;
-//           }
-//         }
-//       }
-
     };
     
     template <class ContainerSets>
@@ -209,11 +197,6 @@ namespace OKlib {
     template <class ContainerSets>
     inline void subsumption_elimination(ContainerSets& C) {
       Subsumption_elimination<ContainerSets>()(C);
-    }
-
-    template <class ContainerSets>
-    inline void subsumption_elimination_if_sorted(ContainerSets& C) {
-      Subsumption_elimination<ContainerSets>().if_sorted(C);
     }
 
   }
