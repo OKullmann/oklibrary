@@ -27,7 +27,7 @@ namespace OKlib {
   namespace Concepts {
 
     /*!
-      \class InputIterator<Iterator>
+      \class InputIterator
       \brief Concept InputIterator according to the standard.
     */
 

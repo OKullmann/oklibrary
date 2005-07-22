@@ -31,7 +31,7 @@ namespace OKlib {
   namespace Concepts {
 
     /*!
-      \class Container<C>
+      \class Container
       \brief Concept Container according to the standard.
     */
 
@@ -102,7 +102,7 @@ namespace OKlib {
     struct Container_tag : virtual FullyConstructible_tag, virtual LinearOrder_tag, virtual Assignable_tag {};
 
     /*!
-      \class Container<C>
+      \class Container
       \todo Write a weakening of concept Container which does not require the value type
       to be assignable (so that std::map and std::multimap are models of this concept).
     */

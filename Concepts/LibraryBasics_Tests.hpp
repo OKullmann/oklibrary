@@ -27,14 +27,14 @@ namespace OKlib {
     namespace ConceptTests {
 
       /*!
-        \define OKLIB_BASIC_CONCEPT_TEST_TAG(concept)
+        \def OKLIB_BASIC_CONCEPT_TEST_TAG(concept)
         \brief Tests, whether with concept a concept tag is associated.
       */
 
 #define OKLIB_BASIC_CONCEPT_TEST_TAG(concept) BOOST_STATIC_ASSERT(IsConceptTag< concept ## _tag >::value);
 
       /*!
-        \define OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(concept)
+        \def OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(concept)
         \brief Tests, whether with concept an archetype is associated which fulfills the concept.
       */
 

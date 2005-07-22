@@ -19,7 +19,7 @@ namespace OKlib {
   namespace Concepts {
 
     /*!
-      \class FullyEqualityComparable<T>
+      \class FullyEqualityComparable
       \brief Concept FullyEqualityComparable: == and !=.
     */
 
@@ -51,7 +51,7 @@ namespace OKlib {
     // ----------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class FullyLessThanComparable<T>
+      \class FullyLessThanComparable
       \brief Concept FullyLessThanComparable: <, >, <=, >=.
     */
 
@@ -96,7 +96,7 @@ namespace OKlib {
     // ----------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class LinearOrder<T>
+      \class LinearOrder
       \brief Concept LinearOrder: <, >, <=, >= and ==, !=.
     */
 
@@ -121,7 +121,7 @@ namespace OKlib {
     // ----------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class FullyConstructible<T>
+      \class FullyConstructible
       \brief Concept FullyConstructible: All four special member functions are available.
     */
 
@@ -141,7 +141,7 @@ namespace OKlib {
     // ----------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class EqualitySubstitutable<T>
+      \class EqualitySubstitutable
       \brief Concept EqualitySubstitutable: Refines EqualityComparable with the requirement,
       that equal entities are substitution-equivalent.
     */
@@ -164,7 +164,7 @@ namespace OKlib {
     };
 
     /*!
-      \class ConstCorrect<T>
+      \class ConstCorrect
       \brief Concept ConstCorrect: Semantical requirement, that operations allowed for const
       objects maintain substitution-equivalence.
     */

@@ -11,7 +11,7 @@ namespace OKlib {
   namespace Concepts {
 
     /*!
-      \class concept_tag<T>
+      \class concept_tag
       \brief Traits metafunction, which returns no type in case concept_tag of T is not defined.
     */
 

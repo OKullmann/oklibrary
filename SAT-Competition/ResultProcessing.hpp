@@ -68,7 +68,7 @@ namespace OKlib {
     // ---------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class ResultDatabase<ResultIterator>
+      \class ResultDatabase
       \brief Creates the undirected ("bi-directed") bipartite attribute-result graphs
        from a sequence of results, and enables computation of the set of common
        results for a set of attribute-values (for different attributes).

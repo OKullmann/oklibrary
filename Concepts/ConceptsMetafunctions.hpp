@@ -25,7 +25,7 @@ namespace OKlib {
   namespace Concepts {
 
     /*!
-      \class IsTagModel<T, concept_tag>
+      \class IsTagModel
       \brief Boolean metafunction: true iff concept tag of T is derived from concept_tag.
     */
 
@@ -41,7 +41,7 @@ namespace OKlib {
      // -------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class IsConceptTag<Tag>
+      \class IsConceptTag
       \brief Boolean metafunction: true iff Tag is strictly derived from ::OKlib::Concepts::ConceptsBase_tag.
     */
 
@@ -49,7 +49,7 @@ namespace OKlib {
     struct IsConceptTag : ::boost::is_base_and_derived< ::OKlib::Concepts::ConceptsBase_tag, Tag> {};
 
     /*!
-      \class HasConceptTag<T>
+      \class HasConceptTag
       \brief Boolean metafunction: true iff T has a nested type concept_tag which is a concept tag.
     */
 

@@ -20,7 +20,7 @@ namespace OKlib {
   namespace Concepts {
 
     /*!
-      \class MultiPassInputIterator<Iterator>
+      \class MultiPassInputIterator
       \brief Concept MultiPassInputIterator according to Boost.
     */
 

@@ -20,7 +20,7 @@ namespace OKlib {
   namespace SetAlgorithms {
 
     /*!
-      \class Union<InputIterator_sets, OutputIterator>
+      \class Union
       \brief Functor: Given a range (input iterators) of ordered sequences, which are given as input-iterator-ranges, and an output iterator, compute the union.
     */
 
@@ -93,7 +93,7 @@ namespace OKlib {
     // --------------------------------------------------------------------------------------------------------------------------
 
         /*!
-      \class Intersection<InputIterator_sets, OutputIterator>
+      \class Intersection
       \brief Functor: Given a range (input iterators) of ordered sequences, which are given as input-iterator-ranges, and an output iterator, compute the intersection.
     */
     
