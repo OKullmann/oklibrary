@@ -5,7 +5,6 @@ doxygen_targets := doxygen-1.4.3
 gcc_targets := gcc-3.4.4 gcc-4.0.0
 boost_targets := boost_1_32_0
 postgresql_targets := postgresql-8.0.3
-bjam_targets := boost-jam-3.1.10
 
 # Usage
 
@@ -17,11 +16,6 @@ bjam_targets := boost-jam-3.1.10
 
 # Install a version of gcc (? is the version number)
 # make gcc-? 
-
-# Build bjam locally (? is the version number)
-# make boost-jam-?
-
-# One can skip building bjam since it will be build before boost is installed.
 
 # Install Boost locally (? is version number) with system gcc
 # make boost_?
@@ -81,7 +75,7 @@ define postcondition
 if [ $$? != 0 ]; then exit 1; fi;
 endef
 
-.PHONY : all gcc clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) $(bjam_targets) initialise-database
+.PHONY : all gcc clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initialise-database
 
 all :
 
@@ -119,12 +113,6 @@ $(boost-directories) : % :
 
 create_boost_dirs : $(boost-directories)
 
-$(bjam_targets) : create_boost_dirs
-	tar --extract --directory=$(bjam_directory_path) --file=$@.tgz --ungzip
-	cd $(bjam_directory_path)/$@; $(postcondition) \
-	./build.sh; $(postcondition) \
-	cp bin.*/bjam $(bjam_directory_path)
-
 ifeq ($(gcc-version),system)
 define install-boost 
 	$(addprefix $(bjam_directory_path)/, bjam) "-sTOOLS=gcc" --prefix=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)) --builddir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)_Build) install
@@ -140,8 +128,12 @@ endef
 endif
 
 # Other configure options are GCC_BIN_DIRECTORY, GCC_INCLUDE_DIRECTORY, GCC_STDLIB_DIRECTORY, GXX (g++ command plus any options), GCC. 
-$(boost_targets) : create_boost_dirs $(bjam_targets)
+$(boost_targets) : create_boost_dirs
 	tar --extract --directory=$(boost-base-directory) --file=$@.tar.gz --ungzip
+	cd $(boost-base-directory)/$@; $(postcondition) \
+	cd tools/build/jam_src/; $(postcondition) \
+	./build.sh; $(postcondition) \
+	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/$@; $(postcondition) \
 	$(install-boost)
 
