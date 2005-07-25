@@ -7,7 +7,7 @@ SHELL = /bin/sh
 .SUFFIXES :
 
 doxygen_targets := doxygen-1.4.3 
-gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-4.0.0
+gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-4.0.0 gcc-4.0.1
 boost_targets := boost_1_32_0
 postgresql_targets := postgresql-8.0.3
 
