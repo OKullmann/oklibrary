@@ -1,7 +1,35 @@
 # ToDo
-# 0. Adding explanations about the directory structure.
 # 1. make boost (generates all versions of boost)
 # 2. make boost_gcc
+
+#Directory Structure used for ExternalSources
+
+#Root directory . where this makefile is resided contains also all software source archives and sub-directoies.
+
+#In the following text, ? denotes the GCC version number.
+#./Gcc : Contain locally installed various versions of GCC.
+#./Gcc/gcc-? : This is the original unarchived source directory for gcc version ?.
+#./GCC/gcc-?_Build : This is the staging directory where configuration and temporary files are stored.
+#./Gcc/? : This is the local installation of gcc version ?. 
+
+#In the following text, ? denotes the GCC version number and % denotes the Boost version number.
+#./Boost : Contain locally stage built, various versions of Boost C++ Libraries.
+#./Boost/boost_% : This is the original unarchived source directory for boost version %.
+#./Boost/bjam : Contain the bjam tool. This binary is re-generated each time when boost is to be installed.
+#./Boost/% : Locally installed boost using system-wide version of GCC.
+#./Boost/%+?_Build : This is the staging directory where configuration and temporary files are stored. This Boost version % is build using GCC version ?. 
+#./Boost/%+? : The built Boost Libraries using GCC version ?. Libraries in this directory are then copied to the GCC ? lib directory.
+
+#In the following text, ? denotes the PostgreSql version number.
+#./Postgresql : Contain locally installed various versions of PostgreSQL Database System.
+#./Postgresql/postgresql-? : This is the original unarchived source directory for postgresql version ?.
+#./Postgresql/? : This is the local installation of Postgresql version ?.
+
+#In the following text, ? denotes the Doxygen version number.
+#./Doxygen : Contain unarchived various versions of Doxygen.
+#./Doxygen/doxygen-? : This is the original unarchived source directory which is also used for configuration and building. Doxygen is only installed system-wide.
+
+#-------------
 
 SHELL = /bin/sh
 .SUFFIXES :
@@ -80,6 +108,19 @@ define postcondition
 if [ $$? != 0 ]; then exit 1; fi;
 endef
 
+define unarchive
+if [ -f $1.tar.gz ]; then \
+	tar --extract --directory=$2 --file=$1.tar.gz --ungzip;\
+else \
+	if [ -f $1.tar.bz2 ]; then \
+		tar --extract --directory=$2 --file=$1.tar.bz2 --bunzip2;\
+	else \
+		exit 1; \
+	fi; \
+fi;
+endef
+
+
 .PHONY : all gcc clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initialise-database
 
 all :
@@ -90,7 +131,7 @@ $(doxygen-directories) : % :
 create_doxygen_dirs : $(doxygen-directories)
 
 $(doxygen_targets) : create_doxygen_dirs
-	tar --extract --directory=$(doxygen-base-directory) --file=$@.src.tar.gz --ungzip
+	$(call unarchive,$@.src,$(doxygen-base-directory))
 	cd $(doxygen-base-directory)/$@; $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \
@@ -105,7 +146,7 @@ $(gcc-directories) : % :
 create_gcc_dirs : $(gcc-directories)
 
 $(gcc_targets) : create_gcc_dirs
-	tar --extract --directory=$(gcc-base-directory) --file=$@.tar.gz --ungzip
+	$(call unarchive,$@,$(gcc-base-directory))
 	cd $(gcc-base-directory)/$@_Build; $(postcondition) \
 	../$@/configure --prefix=$(addprefix $(gcc-base-directory)/, $(patsubst gcc-%, %, $@)) --with-gxx-include-dir=$(addprefix $(gcc-base-directory)/, $(patsubst gcc-%, %, $@))/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
 	make bootstrap; $(postcondition) \
@@ -134,7 +175,7 @@ endif
 
 # Other configure options are GCC_BIN_DIRECTORY, GCC_INCLUDE_DIRECTORY, GCC_STDLIB_DIRECTORY, GXX (g++ command plus any options), GCC. 
 $(boost_targets) : create_boost_dirs
-	tar --extract --directory=$(boost-base-directory) --file=$@.tar.gz --ungzip
+	$(call unarchive,$@,$(boost-base-directory))
 	cd $(boost-base-directory)/$@; $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
 	./build.sh; $(postcondition) \
@@ -152,7 +193,7 @@ pgdata := $(addprefix $(postgresql-base-directory)/, $(pgsql-version))/data
 endif
 
 $(postgresql_targets) : create_postgresql_dirs
-	tar --extract --directory=$(postgresql-base-directory) --file=$@.tar.gz --ungzip
+	$(call unarchive,$@,$(postgresql-base-directory))
 	cd $(postgresql-base-directory)/$@; $(postcondition) \
 	./configure CFLAGS='-Wl,-rpath,$(addprefix $(postgresql-base-directory)/, $(patsubst postgresql-%, %, $@))/lib' --prefix=$(addprefix $(postgresql-base-directory)/, $(patsubst postgresql-%, %, $@)); $(postcondition) \
 	make; $(postcondition) \
