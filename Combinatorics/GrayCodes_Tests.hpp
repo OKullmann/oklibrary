@@ -1,0 +1,23 @@
+// Oliver Kullmann, 25.7.2005 (Swansea)
+
+/*!
+  \file GrayCodes.hpp
+  \brief Tests for Gray code tools.
+*/
+
+#ifndef GRAYCODESTESTS_kKKmh
+
+#define GRAYCODESTESTS_kKKmh
+
+#include "TestBaseClass.hpp"
+#include "TestExceptions.hpp"
+
+namespace OKlib {
+
+  namespace Combinatorics {
+
+  }
+
+}
+
+#endif
