@@ -1,5 +1,11 @@
 // Oliver Kullmann, 4.6.2005 (Swansea)
 
+/*!
+  \file BasicMapOperations.hpp
+  \brief Basic tools for handling maps (in the std-sense as well as in
+  the general sense).
+*/
+
 #ifndef BASICMAPOPERATIONS_098Uik
 
 #define BASICMAPOPERATIONS_098Uik

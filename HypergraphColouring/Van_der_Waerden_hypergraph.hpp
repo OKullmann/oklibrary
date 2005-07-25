@@ -1,5 +1,12 @@
 // Oliver Kullmann, 15.5.2005 (Swansea)
 
+/*!
+  \file Van_der_Waerden_hypergraph.hpp
+  \brief Tools for generating van der Waerden-hypergraphs.
+  \todo Write the class template for generating van der Waerden-hypergraphs
+  (as models of a general hypergraph concept).
+*/
+
 #ifndef VANDERWAERDENHYPERGRAPH_77bQMQM
 
 #define VANDERWAERDENHYPERGRAPH_77bQMQM
@@ -13,9 +20,14 @@ namespace OKlib {
 
   namespace Van_der_Waerden_hypergraph {
 
+    /*!
+      \class Iterator_arithmetic_progression
+      \brief Iterator to iterate through the elements of an arithmetical progression.
+      \todo Make a const random iterator out of it.
+    */
+
     template <typename Integer>
     class Iterator_arithmetic_progression : public std::iterator<std::input_iterator_tag, Integer> {
-      // ToDo: Make a const random iterator out of it.
       Integer current_value;
       Integer slope;
     public :
@@ -44,10 +56,14 @@ namespace OKlib {
 
     // -----------------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class Arithmetic_progression
+      \brief An arithmetic progressions as a container.
+      \todo Add the concept tag (a special case of a "const collection with begin, end and size; not default-constructible, but copyable, assignable, equality comparable").
+    */
 
     template <typename Integer>
     class Arithmetic_progression {
-      // ToDo: Add the concept tag (a special case of a "const collection with begin, end and size; not default-constructible, but copyable, assignable, equality comparable").
       Integer start_, length, slope_;
       Integer finish;
     public :

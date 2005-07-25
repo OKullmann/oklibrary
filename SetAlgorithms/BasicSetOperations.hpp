@@ -1,5 +1,12 @@
 // Oliver Kullmann, 19.5.2005 (Swansea)
 
+/*!
+  \file BasicSetOperations.hpp
+  \brief Classes Union<InputIterator_sets, OutputIterator> and
+  Intersection<InputIterator_sets, OutputIterator> for the computation
+  of unions and intersections of sequences of sets.
+*/
+
 #ifndef BASICSETOPERATIONS_lJnB45
 
 #define BASICSETOPERATIONS_lJnB45

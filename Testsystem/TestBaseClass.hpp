@@ -1,5 +1,11 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
+/*!
+  \file TestBaseClass.hpp
+  \brief Base classes Test and TestBase, from which all test classes
+  are to be derived (Test without auto-insertion, TestBase with).
+*/
+
 #ifndef TESTBASECLASS_kkLLkbV5I
 
 #define TESTBASECLASS_kkLLkbV5I
@@ -55,6 +61,16 @@ namespace OKlib {
       }
     };
 
+    /*!
+      \class TestBase
+      \brief Base class for tests with auto-insertion. Derived from Test; adds protected member
+      function insert and static member function run_tests_default.
+    */
+
+     /*!
+      \class TestBase
+      \todo Possibility to direct normal output to std::cout and error messages to std::cerr (thus 2 streams as parameters to run_tests_default, as in Aeryn).
+     */
 
     class TestBase : public Test {
       typedef std::list<TestBase*> List;
