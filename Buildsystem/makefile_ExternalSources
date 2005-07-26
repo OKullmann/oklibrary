@@ -85,31 +85,31 @@ gcc-base-directory := $(prefix)/Gcc
 boost-base-directory := $(prefix)/Boost
 postgresql-base-directory := $(prefix)/Postgresql
 
-gcc_build_directory_name := $(addsuffix _Build, $(gcc_targets))
+gcc_build_directory_names := $(addsuffix _Build, $(gcc_targets))
 
-gcc_build_directory_path := $(gcc-base-directory)/$(gcc_build_directory_name)
+gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/, $(gcc_build_directory_names))
 
-gcc_installation_directory_name := $(patsubst gcc-%, %, $(gcc_targets))
+gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
 
-gcc_installation_directory_path := $(gcc-base-directory)/$(gcc_installation_directory_name)
+gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/, $(gcc_installation_directory_names))
 
-boost_build_directory_name := $(foreach gccversion, $(gcc_installation_directory_name), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
+boost_build_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
 
-boost_build_directory_name += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
+boost_build_directory_names += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
 
-boost_build_directory_path := $(boost-base-directory)/$(boost_build_directory_name)
+boost_build_directory_paths := $(addprefix $(boost-base-directory)/, $(boost_build_directory_names))
 
-boost_installation_directory_name := $(foreach gccversion, $(gcc_installation_directory_name), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
+boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
 
-boost_installation_directory_name += $(patsubst boost_%, %, $(boost_targets))
+boost_installation_directory_names += $(patsubst boost_%, %, $(boost_targets))
 
-boost_installation_directory_path := $(boost-base-directory)/$(boost_installation_directory_name)
+boost_installation_directory_paths := $(addprefix $(boost-base-directory)/, $(boost_installation_directory_names))
 
 bjam_directory_path := $(boost-base-directory)/bjam
 
 doxygen-directories := $(doxygen-base-directory)
-gcc-directories := $(gcc-base-directory) $(gcc_build_directory_path) $(gcc_installation_directory_path)
-boost-directories := $(boost-base-directory) $(boost_build_directory_path) $(boost_installation_directory_path) $(bjam_directory_path)
+gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_installation_directory_paths)
+boost-directories := $(boost-base-directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path)
 postgresql-directories := $(postgresql-base-directory)
 
 define postcondition 
@@ -215,8 +215,8 @@ initialise-database :
 	$(postgresql-base-directory)/$(pgsql-version)/bin/pg_ctl -D $(pgdata) -l logfile start
 
 clean :
-	-rm -rf $(gcc_build_directory_path)
-	-rm -rf $(boost_build_directory_path)
+	-rm -rf $(gcc_build_directory_paths)
+	-rm -rf $(boost_build_directory_paths)
 
 cleanall :
 	-rm -rf $(doxygen-directories)
