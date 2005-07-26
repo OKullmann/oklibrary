@@ -1,7 +1,7 @@
 // Oliver Kullmann, 25.7.2005 (Swansea)
 
 /*!
-  \file GrayCodes.hpp
+  \file GrayCodes_Tests.hpp
   \brief Tests for Gray code tools.
 */
 
