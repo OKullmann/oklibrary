@@ -80,32 +80,32 @@ pgdata :=
 # languages to build compiler for. Defaults to c, c++. Other languages are f77,objc,java,ada
 enable-languages := c,c++
 
-doxygen-base-directory := $(addprefix $(prefix)/,Doxygen)
-gcc-base-directory := $(addprefix $(prefix)/,Gcc)
-boost-base-directory := $(addprefix $(prefix)/,Boost)
-postgresql-base-directory := $(addprefix $(prefix)/,Postgresql)
+doxygen-base-directory := $(prefix)/Doxygen
+gcc-base-directory := $(prefix)/Gcc
+boost-base-directory := $(prefix)/Boost
+postgresql-base-directory := $(prefix)/Postgresql
 
 gcc_build_directory_name := $(addsuffix _Build, $(gcc_targets))
 
-gcc_build_directory_path := $(addprefix $(gcc-base-directory)/, $(gcc_build_directory_name))
+gcc_build_directory_path := $(gcc-base-directory)/$(gcc_build_directory_name)
 
 gcc_installation_directory_name := $(patsubst gcc-%, %, $(gcc_targets))
 
-gcc_installation_directory_path := $(addprefix $(gcc-base-directory)/, $(gcc_installation_directory_name))
+gcc_installation_directory_path := $(gcc-base-directory)/$(gcc_installation_directory_name)
 
 boost_build_directory_name := $(foreach gccversion, $(gcc_installation_directory_name), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
 
 boost_build_directory_name += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
 
-boost_build_directory_path := $(addprefix $(boost-base-directory)/, $(boost_build_directory_name))
+boost_build_directory_path := $(boost-base-directory)/$(boost_build_directory_name)
 
 boost_installation_directory_name := $(foreach gccversion, $(gcc_installation_directory_name), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
 
 boost_installation_directory_name += $(patsubst boost_%, %, $(boost_targets))
 
-boost_installation_directory_path := $(addprefix $(boost-base-directory)/, $(boost_installation_directory_name))
+boost_installation_directory_path := $(boost-base-directory)/$(boost_installation_directory_name)
 
-bjam_directory_path := $(addprefix $(boost-base-directory)/, bjam)
+bjam_directory_path := $(boost-base-directory)/bjam
 
 doxygen-directories := $(doxygen-base-directory)
 gcc-directories := $(gcc-base-directory) $(gcc_build_directory_path) $(gcc_installation_directory_path)
@@ -156,7 +156,7 @@ create_gcc_dirs : $(gcc-directories)
 $(gcc_targets) : create_gcc_dirs
 	$(call unarchive,$@,$(gcc-base-directory))
 	cd $(gcc-base-directory)/$@_Build; $(postcondition) \
-	../$@/configure --prefix=$(addprefix $(gcc-base-directory)/, $(patsubst gcc-%, %, $@)) --with-gxx-include-dir=$(addprefix $(gcc-base-directory)/, $(patsubst gcc-%, %, $@))/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
+	../$@/configure --prefix=$(gcc-base-directory)/$(patsubst gcc-%, %, $@) --with-gxx-include-dir=$(gcc-base-directory)/$(patsubst gcc-%, %, $@)/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
 	make bootstrap; $(postcondition) \
 	make install; 
 
@@ -169,15 +169,15 @@ create_boost_dirs : $(boost-directories)
 
 ifeq ($(gcc-version),system)
 define install-boost 
-	$(addprefix $(bjam_directory_path)/, bjam) "-sTOOLS=gcc" --prefix=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)) --builddir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)_Build) install
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$(patsubst boost_%, %, $@) --builddir=$(boost-base-directory)/$(patsubst boost_%, %, $@)_Build install
 endef
 else 
 define install-boost
-	$(addprefix $(bjam_directory_path)/, bjam) "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(addprefix $(gcc-base-directory)/,$(gcc-version))" --stagedir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version)) --builddir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version)_Build) stage
-	if [ -d $(addprefix $(gcc-base-directory)/,$(gcc-version))/$@ ]; then echo; else mkdir $(addprefix $(gcc-base-directory)/,$(gcc-version))/$@; fi;
-	cp $(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version))/lib/* $(addprefix $(gcc-base-directory)/,$(gcc-version))/$@
-	if [ -d $(addprefix $(gcc-base-directory)/,$(gcc-version))/include/$@ ]; then echo; else mkdir $(addprefix $(gcc-base-directory)/,$(gcc-version))/include/$@; fi;
-	cp -r $(boost-base-directory)/$@/boost/ $(addprefix $(gcc-base-directory)/,$(gcc-version))/include/$@
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --stagedir=$(boost-base-directory)/$(patsubst boost_%, %, $@)+$(gcc-version) --builddir=$(boost-base-directory)/$(patsubst boost_%, %, $@)+$(gcc-version)_Build stage
+	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
+	cp $(boost-base-directory)/$(patsubst boost_%, %, $@)+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
+	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
+	cp -r $(boost-base-directory)/$@/boost/ $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
 endif
 
@@ -199,20 +199,20 @@ $(postgresql-directories) : % :
 create_postgresql_dirs : $(postgresql-directories)
 
 ifeq ($(pgdata), )
-pgdata := $(addprefix $(postgresql-base-directory)/, $(pgsql-version))/data
+pgdata := $(postgresql-base-directory)/$(pgsql-version)/data
 endif
 
 $(postgresql_targets) : create_postgresql_dirs
 	$(call unarchive,$@,$(postgresql-base-directory))
 	cd $(postgresql-base-directory)/$@; $(postcondition) \
-	./configure CFLAGS='-Wl,-rpath,$(addprefix $(postgresql-base-directory)/, $(patsubst postgresql-%, %, $@))/lib' --prefix=$(addprefix $(postgresql-base-directory)/, $(patsubst postgresql-%, %, $@)); $(postcondition) \
+	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$(patsubst postgresql-%, %, $@)/lib' --prefix=$(postgresql-base-directory)/$(patsubst postgresql-%, %, $@); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition) \
 
 initialise-database :
-	$(addprefix $(postgresql-base-directory)/, $(pgsql-version))/bin/initdb -D $(pgdata)
+	$(postgresql-base-directory)/$(pgsql-version)/bin/initdb -D $(pgdata)
 	$(postcondition)
-	$(addprefix $(postgresql-base-directory)/, $(pgsql-version))/bin/pg_ctl -D $(pgdata) -l logfile start
+	$(postgresql-base-directory)/$(pgsql-version)/bin/pg_ctl -D $(pgdata) -l logfile start
 
 clean :
 	-rm -rf $(gcc_build_directory_path)
