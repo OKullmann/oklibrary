@@ -166,8 +166,13 @@ CC := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/gcc
 alternative_library_path:= -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib
   ifneq ($(alternative_boost), )
   alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/boost_$(alternative_boost) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/boost_$(alternative_boost)
+  Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/boost_$(alternative_boost)
+  else
+  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(notdir $(Boost)) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(notdir $(Boost))
+  Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(notdir $(Boost))
   endif
 endif
+
 # Explanation: With "-Wl,-rpath,Path" we tell the compiler to pass the option "-rpath Path" to the linker, which will add Path to the places searched for this program for run-time-libraries.
 # ToDo
 # 1. The variable "Boost" (which stands for the source library) has to be set appropriately, if alternative_boost is set.
