@@ -156,7 +156,7 @@ create_gcc_dirs : $(gcc-directories)
 $(gcc_targets) : create_gcc_dirs
 	$(call unarchive,$@,$(gcc-base-directory))
 	cd $(gcc-base-directory)/$@_Build; $(postcondition) \
-	../$@/configure --prefix=$(gcc-base-directory)/$(strip($(patsubst gcc-%, %, $@)) --with-gxx-include-dir=$(gcc-base-directory)/$(strip($(patsubst gcc-%, %, $@))/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
+	../$@/configure --prefix=$(gcc-base-directory)/gcc-$@ --with-gxx-include-dir=$(gcc-base-directory)/gcc-$@/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make bootstrap; $(postcondition) \
 	make install; 
 
@@ -169,13 +169,13 @@ create_boost_dirs : $(boost-directories)
 
 ifeq ($(gcc-version),system)
 define install-boost 
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$strip($(patsubst boost_%, %, $@)) --builddir=$(boost-base-directory)/$(strip(patsubst boost_%, %, $@))_Build install
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/boost_$@ --builddir=$(boost-base-directory)/boost_$@_Build install
 endef
 else 
 define install-boost
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --stagedir=$(boost-base-directory)/$strip($(patsubst boost_%, %, $@))+$(gcc-version) --builddir=$(boost-base-directory)/$(strip($(patsubst boost_%, %, $@))+$(gcc-version)_Build stage
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --stagedir=$(boost-base-directory)/boost_$@+$(gcc-version) --builddir=$(boost-base-directory)/boost_$@+$(gcc-version)_Build stage
 	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
-	cp $(boost-base-directory)/$strip($(patsubst boost_%, %, $@))+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
+	cp $(boost-base-directory)/boost_$@+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
 	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
 	cp -r $(boost-base-directory)/$@/boost/ $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
@@ -205,7 +205,7 @@ endif
 $(postgresql_targets) : create_postgresql_dirs
 	$(call unarchive,$@,$(postgresql-base-directory))
 	cd $(postgresql-base-directory)/$@; $(postcondition) \
-	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$(patsubst postgresql-%, %, $@)/lib' --prefix=$(postgresql-base-directory)/$(patsubst postgresql-%, %, $@); $(postcondition) \
+	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/postgresql-$@/lib' --prefix=$(postgresql-base-directory)/postgresql-$@; $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition) \
 
