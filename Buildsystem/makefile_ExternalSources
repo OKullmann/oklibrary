@@ -87,23 +87,23 @@ postgresql-base-directory := $(prefix)/Postgresql
 
 gcc_build_directory_names := $(addsuffix _Build, $(gcc_targets))
 
-gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/, $(gcc_build_directory_names))
+gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_build_directory_names))
 
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
 
-gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/, $(gcc_installation_directory_names))
+gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_installation_directory_names))
 
 boost_build_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
 
 boost_build_directory_names += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
 
-boost_build_directory_paths := $(addprefix $(boost-base-directory)/, $(boost_build_directory_names))
+boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
 
 boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
 
 boost_installation_directory_names += $(patsubst boost_%, %, $(boost_targets))
 
-boost_installation_directory_paths := $(addprefix $(boost-base-directory)/, $(boost_installation_directory_names))
+boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
 
 bjam_directory_path := $(boost-base-directory)/bjam
 
@@ -156,7 +156,7 @@ create_gcc_dirs : $(gcc-directories)
 $(gcc_targets) : create_gcc_dirs
 	$(call unarchive,$@,$(gcc-base-directory))
 	cd $(gcc-base-directory)/$@_Build; $(postcondition) \
-	../$@/configure --prefix=$(gcc-base-directory)/$(patsubst gcc-%, %, $@) --with-gxx-include-dir=$(gcc-base-directory)/$(patsubst gcc-%, %, $@)/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
+	../$@/configure --prefix=$(gcc-base-directory)/$(strip($(patsubst gcc-%, %, $@)) --with-gxx-include-dir=$(gcc-base-directory)/$(strip($(patsubst gcc-%, %, $@))/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix  --enable-shared; $(postcondition) \
 	make bootstrap; $(postcondition) \
 	make install; 
 
@@ -169,13 +169,13 @@ create_boost_dirs : $(boost-directories)
 
 ifeq ($(gcc-version),system)
 define install-boost 
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$(patsubst boost_%, %, $@) --builddir=$(boost-base-directory)/$(patsubst boost_%, %, $@)_Build install
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$strip($(patsubst boost_%, %, $@)) --builddir=$(boost-base-directory)/$(strip(patsubst boost_%, %, $@))_Build install
 endef
 else 
 define install-boost
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --stagedir=$(boost-base-directory)/$(patsubst boost_%, %, $@)+$(gcc-version) --builddir=$(boost-base-directory)/$(patsubst boost_%, %, $@)+$(gcc-version)_Build stage
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --stagedir=$(boost-base-directory)/$strip($(patsubst boost_%, %, $@))+$(gcc-version) --builddir=$(boost-base-directory)/$(strip($(patsubst boost_%, %, $@))+$(gcc-version)_Build stage
 	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
-	cp $(boost-base-directory)/$(patsubst boost_%, %, $@)+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
+	cp $(boost-base-directory)/$strip($(patsubst boost_%, %, $@))+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
 	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
 	cp -r $(boost-base-directory)/$@/boost/ $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
