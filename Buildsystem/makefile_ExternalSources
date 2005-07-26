@@ -174,8 +174,8 @@ endef
 else 
 define install-boost
 	$(addprefix $(bjam_directory_path)/, bjam) "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(addprefix $(gcc-base-directory)/,$(gcc-version))" --stagedir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version)) --builddir=$(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version)_Build) stage
-	if [ -d $(addprefix $(gcc-base-directory)/,$(gcc-version))/lib/$@ ]; then echo; else mkdir $(addprefix $(gcc-base-directory)/,$(gcc-version))/lib/$@; fi;
-	cp $(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version))/lib/* $(addprefix $(gcc-base-directory)/,$(gcc-version))/lib/$@
+	if [ -d $(addprefix $(gcc-base-directory)/,$(gcc-version))/$@ ]; then echo; else mkdir $(addprefix $(gcc-base-directory)/,$(gcc-version))/$@; fi;
+	cp $(addprefix $(boost-base-directory)/,$(patsubst boost_%, %, $@)+$(gcc-version))/lib/* $(addprefix $(gcc-base-directory)/,$(gcc-version))/$@
 	if [ -d $(addprefix $(gcc-base-directory)/,$(gcc-version))/include/$@ ]; then echo; else mkdir $(addprefix $(gcc-base-directory)/,$(gcc-version))/include/$@; fi;
 	cp -r $(boost-base-directory)/$@/boost/ $(addprefix $(gcc-base-directory)/,$(gcc-version))/include/$@
 endef
