@@ -29,6 +29,12 @@ postgresql_targets := postgresql-8.0.3
 # Install Boost locally (? is version number) with a version of gcc (% is the version number) 
 # make gcc-version=% boost_?
 
+# Install all versions of boost with aspecified version of gcc.
+# Use system gcc
+# 	make boost
+# Use a local gcc with version number ?
+# 	make gcc-version=? boost
+
 # Install PostgreSQL (? is version number)
 # make postgresql-?
 
@@ -123,7 +129,7 @@ fi;
 endef
 
 
-.PHONY : all gcc clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initialise-database
+.PHONY : all gcc boost clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initialise-database
 
 all :
 
@@ -184,6 +190,8 @@ $(boost_targets) : create_boost_dirs
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/$@; $(postcondition) \
 	$(install-boost)
+
+boost : $(boost_targets)
 
 $(postgresql-directories) : % : 
 	mkdir $@
