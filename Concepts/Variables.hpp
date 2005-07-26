@@ -1,7 +1,7 @@
 // Oliver Kullmann, 26.5.2005
 
 /*!
-  \file Variables.hpp
+  \file Concepts/Variables.hpp
   \brief Concepts for Variables.
   \todo Is a generalisation of the Variables-concept useful, where there is no default constructor, and one handling of singular values? (Perhaps with the name "GeneralIndex" ?)
 */
