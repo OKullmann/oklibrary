@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \file Clauses.hpp
+  \file Concepts/Clauses.hpp
   \brief Concepts for clauses.
   \todo Concepts for and-clauses, or-clauses, etc.
 */
