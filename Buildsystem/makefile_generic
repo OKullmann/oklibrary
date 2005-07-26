@@ -165,13 +165,13 @@ alternative_library_path:=
 ifneq ($(alternative_gcc), )
 CXX := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/g++
 CC := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/gcc
-alternative_library_path:= -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib
+alternative_library_path:= -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib64 -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib64 -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib
   ifneq ($(alternative_boost), )
-  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/boost_$(alternative_boost) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/boost_$(alternative_boost)
+  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/boost_$(alternative_boost) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/boost_$(alternative_boost)
   Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/boost_$(alternative_boost)
   else
   alternative_boost_name := $(call last-element,$(notdir $(wildcard $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(subst -,_,$(notdir $(Boost)))*)))
-  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(alternative_boost_name) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(alternative_boost_name)
+  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/$(alternative_boost_name) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/$(alternative_boost_name)
   Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(alternative_boost_name)
   endif
 endif
