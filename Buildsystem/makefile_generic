@@ -88,8 +88,6 @@ include $(srcdir)/makefile.definitions.mak
 # and collecting the required information individually from
 # all .hpp and .cpp files by means of annotating files.
 
-CPPFLAGS := -ansi
-
 source_libraries += -I$(srcdir)
 
 prefix := $(shell cd $(srcdir); cd $(Root); pwd)
@@ -155,6 +153,10 @@ test_file := $(srcdir)/test
 testop_file := $(srcdir)/testop
 
 doxy_file := $(includedir)/Doxyfile
+
+CXX := g++
+CC := gcc
+CPPFLAGS := -ansi
 
 alternative_gcc:=
 alternative_boost:=
