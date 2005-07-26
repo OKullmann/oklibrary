@@ -170,8 +170,9 @@ alternative_library_path:= -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/li
   alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/boost_$(alternative_boost) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/boost_$(alternative_boost)
   Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/boost_$(alternative_boost)
   else
-  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(notdir $(Boost)) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(notdir $(Boost))
-  Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(notdir $(Boost))
+  alternative_boost_name := $(call last-element,$(notdir $(wildcard $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(subst -,_,$(notdir $(Boost)))*)))
+  alternative_library_path += -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(alternative_boost_name) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib/$(alternative_boost_name)
+  Boost := -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(alternative_boost_name)
   endif
 endif
 
