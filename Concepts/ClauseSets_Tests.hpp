@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \file ClauseSets.hpp
+  \file ClauseSets_Tests.hpp
   \brief Tests for clause-sets.
 */
 
