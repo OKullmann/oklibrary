@@ -2,33 +2,6 @@
 # 1. make boost (generates all versions of boost)
 # 2. make boost_gcc
 
-#Directory Structure used for ExternalSources
-
-#Root directory . where this makefile is resided contains also all software source archives and sub-directoies.
-
-#In the following text, ? denotes the GCC version number.
-#./Gcc : Contain locally installed various versions of GCC.
-#./Gcc/gcc-? : This is the original unarchived source directory for gcc version ?.
-#./GCC/gcc-?_Build : This is the staging directory where configuration and temporary files are stored.
-#./Gcc/? : This is the local installation of gcc version ?. 
-
-#In the following text, ? denotes the GCC version number and % denotes the Boost version number.
-#./Boost : Contain locally stage built, various versions of Boost C++ Libraries.
-#./Boost/boost_% : This is the original unarchived source directory for boost version %.
-#./Boost/bjam : Contain the bjam tool. This binary is re-generated each time when boost is to be installed.
-#./Boost/% : Locally installed boost using system-wide version of GCC.
-#./Boost/%+?_Build : This is the staging directory where configuration and temporary files are stored. This Boost version % is build using GCC version ?. 
-#./Boost/%+? : The built Boost Libraries using GCC version ?. Libraries in this directory are then copied to the GCC ? lib directory.
-
-#In the following text, ? denotes the PostgreSql version number.
-#./Postgresql : Contain locally installed various versions of PostgreSQL Database System.
-#./Postgresql/postgresql-? : This is the original unarchived source directory for postgresql version ?.
-#./Postgresql/? : This is the local installation of Postgresql version ?.
-
-#In the following text, ? denotes the Doxygen version number.
-#./Doxygen : Contain unarchived various versions of Doxygen.
-#./Doxygen/doxygen-? : This is the original unarchived source directory which is also used for configuration and building. Doxygen is only installed system-wide.
-
 #-------------
 
 SHELL = /bin/sh
@@ -64,6 +37,35 @@ postgresql_targets := postgresql-8.0.3
 # 	make pgsql-version=? initialise-database
 # Use a different location (% is the absolute path of the location to place the database)
 # 	make pgsql-version=? pgdata=% initialise-database
+
+#Directory Structure used for ExternalSources
+
+#Root directory ".", where this makefile is located, contains also all software source archives and sub-directories.
+
+#In the following text, ? denotes the GCC version number.
+#./Gcc : Contain locally installed various versions of GCC.
+#./Gcc/gcc-? : This is the original unarchived source directory for gcc version ?.
+#./GCC/gcc-?_Build : This is the staging directory where configuration and temporary files are stored.
+#./Gcc/? : This is the local installation of gcc version ?. 
+
+#In the following text, ? denotes the GCC version number and % denotes the Boost version number.
+#./Boost : Contain locally stage built, various versions of Boost C++ Libraries.
+#./Boost/boost_% : This is the original unarchived source directory for boost version %.
+#./Boost/bjam : Contain the bjam tool. This binary is re-generated each time when boost is to be installed.
+#./Boost/% : Locally installed boost using system-wide version of GCC.
+#./Boost/%+?_Build : This is the staging directory where configuration and temporary files are stored. This Boost version % is build using GCC version ?. 
+#./Boost/%+? : The built Boost Libraries using GCC version ?. Libraries in this directory are then copied to the GCC ? lib directory.
+
+#In the following text, ? denotes the PostgreSql version number.
+#./Postgresql : Contain locally installed various versions of PostgreSQL Database System.
+#./Postgresql/postgresql-? : This is the original unarchived source directory for postgresql version ?.
+#./Postgresql/? : This is the local installation of Postgresql version ?.
+
+#In the following text, ? denotes the Doxygen version number.
+#./Doxygen : Contain unarchived various versions of Doxygen.
+#./Doxygen/doxygen-? : This is the original unarchived source directory which is also used for configuration and building. Doxygen is only installed system-wide.
+
+# ------------------------------------------------------
 
 prefix := $(shell pwd)
 gcc-version := system
