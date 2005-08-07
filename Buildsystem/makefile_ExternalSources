@@ -1,6 +1,5 @@
 # ToDo
-# 1. make boost (generates all versions of boost)
-# 2. make boost_gcc
+# 1. make boost_gcc
 
 #-------------
 
@@ -9,7 +8,7 @@ SHELL = /bin/sh
 
 doxygen_targets := doxygen-1.4.3 
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-4.0.0 gcc-4.0.1
-boost_targets := boost_1_32_0
+boost_targets := boost-1_32
 postgresql_targets := postgresql-8.0.3
 
 # Usage
@@ -86,23 +85,15 @@ boost-base-directory := $(prefix)/Boost
 postgresql-base-directory := $(prefix)/Postgresql
 
 gcc_build_directory_names := $(addsuffix _Build, $(gcc_targets))
-
 gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_build_directory_names))
-
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
-
 gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_installation_directory_names))
 
 boost_build_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
-
 boost_build_directory_names += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
-
 boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
-
 boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
-
 boost_installation_directory_names += $(patsubst boost_%, %, $(boost_targets))
-
 boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
 
 bjam_directory_path := $(boost-base-directory)/bjam
@@ -153,10 +144,10 @@ $(gcc-directories) : % :
 
 create_gcc_dirs : $(gcc-directories)
 
-$(gcc_targets) : create_gcc_dirs
+$(gcc_targets) : gcc-% : create_gcc_dirs
 	$(call unarchive,$@,$(gcc-base-directory))
 	cd $(gcc-base-directory)/$@_Build; $(postcondition) \
-	../$@/configure --prefix=$(gcc-base-directory)/gcc-$@ --with-gxx-include-dir=$(gcc-base-directory)/gcc-$@/include/g++ --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
+	../$@/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make bootstrap; $(postcondition) \
 	make install; 
 
@@ -169,27 +160,29 @@ create_boost_dirs : $(boost-directories)
 
 ifeq ($(gcc-version),system)
 define install-boost 
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/boost_$@ --builddir=$(boost-base-directory)/boost_$@_Build install
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$@ --builddir=$(boost-base-directory)/$@_Build install
 endef
 else 
 define install-boost
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --stagedir=$(boost-base-directory)/boost_$@+$(gcc-version) --builddir=$(boost-base-directory)/boost_$@+$(gcc-version)_Build stage
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --prefix=$(boost-base-directory)/$*+$(gcc-version) --builddir=$(boost-base-directory)/$*+$(gcc-version)_Build install
 	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
-	cp $(boost-base-directory)/boost_$@+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
+	cp $(boost-base-directory)/$*+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
 	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
-	cp -r $(boost-base-directory)/$@/boost/ $(gcc-base-directory)/$(gcc-version)/include/$@
+	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/boost-$*/boost $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
 endif
+# ToDo: Using links instead of copying
 
 # Other configure options are GCC_BIN_DIRECTORY, GCC_INCLUDE_DIRECTORY, GCC_STDLIB_DIRECTORY, GXX (g++ command plus any options), GCC. 
-$(boost_targets) : create_boost_dirs
-	$(call unarchive,$@,$(boost-base-directory))
-	cd $(boost-base-directory)/$@; $(postcondition) \
+$(boost_targets) : boost-% : create_boost_dirs
+	$(call unarchive,boost_$*_0,$(boost-base-directory))
+	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
-	cd $(boost-base-directory)/$@; $(postcondition) \
+	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
 	$(install-boost)
+# ToDo: Creating not all directories at once, but only the necessary onces
 
 boost : $(boost_targets)
 
@@ -205,7 +198,7 @@ endif
 $(postgresql_targets) : create_postgresql_dirs
 	$(call unarchive,$@,$(postgresql-base-directory))
 	cd $(postgresql-base-directory)/$@; $(postcondition) \
-	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/postgresql-$@/lib' --prefix=$(postgresql-base-directory)/postgresql-$@; $(postcondition) \
+	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$*/lib' --prefix=$(postgresql-base-directory)/$*; $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition) \
 
@@ -218,7 +211,7 @@ clean :
 	-rm -rf $(gcc_build_directory_paths)
 	-rm -rf $(boost_build_directory_paths)
 
-cleanall :
+cleanall : clean
 	-rm -rf $(doxygen-directories)
 	-rm -rf $(gcc-directories)
 	-rm -rf $(boost-directories)
