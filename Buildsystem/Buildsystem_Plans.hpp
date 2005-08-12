@@ -3,8 +3,13 @@
 /*!
   \file Buildsystem_Plans.hpp
 
+  \todo makefiles in general should always have the suffix .mak,
+  so that for examples xemacs regocnises the format.
+
   \todo Doxygen: Can makefiles be incorporated?!
   \todo ToDo: How to integrate a general todo list into Doxygen?!
+
+  \todo MHash: Build a local version of mhash.
 
   \todo ExternalSources: all ToDo's
   \todo "Full test": makefile at the OKplatform level --- there the
