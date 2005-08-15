@@ -1,5 +1,10 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
 
+/*!
+  \file Subsumption_Tests.hpp
+  \brief Testing the concept underlying the class template Subsumption_elimination.
+*/
+
 #ifndef SUBSUMPTIONTESTS_119jBd
 
 #define SUBSUMPTIONTESTS_119jBd
@@ -19,6 +24,14 @@
 namespace OKlib {
 
   namespace SetAlgorithms {
+
+    /*!
+      \class Test_Subsumption_elimination
+      \todo Systematic tests of all 8 combinations for the tags.
+      \todo Tests for all standard containers (vectors, lists, deques, sets, multisets) usable for sets.
+      \todo Tests, where objects are dynamic, for example strings.
+      \todo Tests using random sequences; so in Subsumption_Tests.hpp also some simple reference implementation should be provided.
+    */
 
     template
     <template <class ContainerSets,
@@ -97,11 +110,6 @@ namespace OKlib {
       }
 
     };
-
-    /*!
-      \class Test_Subsumption_elimination
-      \todo Systematic tests of all 8 combinations for the tags.
-    */
 
   }
 

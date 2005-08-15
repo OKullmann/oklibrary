@@ -1,5 +1,10 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
 
+/*!
+  \file Subsumption.hpp
+  \brief Module, which mainly provides the class template Subsumption_elimination.
+*/
+
 #ifndef SUBSUMPTION_yhgBBv567
 
 #define SUBSUMPTION_yhgBBv567
@@ -93,9 +98,11 @@ namespace OKlib {
       }
     };
 
-
-    // ToDo: These functors should move to the iterator tools ?! (On the other hand they
-    // should be adaptable to the *special* situation at hand.)
+    /*!
+      \class Erase
+      \todo These functors should move to the iterator tools ?! (On the other hand they
+      should be adaptable to the *special* situation at hand.)
+    */
 
 
     // -------------------------------------------------------------------------------------------------------------------
