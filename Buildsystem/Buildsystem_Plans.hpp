@@ -11,11 +11,14 @@
 
   \todo MHash: Build a local version of mhash.
 
-  \todo Build a local version of Valgrind.Create a new ("check_valgrind")
+  \todo Optionally there should be also local versions of valgrind and doxygen.
+
+  \todo Create a new target ("check_valgrind")
   which runs the test with "valgrind --leak-check=yes" (possibly with
   other options as well; perhaps as a default the option "--quit").
 
   \todo ExternalSources: all ToDo's
+
   \todo "Full test": makefile at the OKplatform level --- there the
   different versions of gcc and boost are visible. "make check" at
   this level should run through all appropriate combinations of gcc
