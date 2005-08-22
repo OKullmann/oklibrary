@@ -11,6 +11,10 @@
 
   \todo MHash: Build a local version of mhash.
 
+  \todo Build a local version of Valgrind.Create a new ("check_valgrind")
+  which runs the test with "valgrind --leak-check=yes" (possibly with
+  other options as well; perhaps as a default the option "--quit").
+
   \todo ExternalSources: all ToDo's
   \todo "Full test": makefile at the OKplatform level --- there the
   different versions of gcc and boost are visible. "make check" at
