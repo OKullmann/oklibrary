@@ -44,7 +44,7 @@ $(makefiles) $(doxy_file) : $(includedir)/% : $(srcdir)/%
 $(makefile_oksystem) : $(srcdir)/makefile_OKsystem
 	cp $< $@
 
-$(makefile_externalsources) : $(srcdir)/makefile_ExternalSources
+$(makefile_externalsources) : $(srcdir)/makefile_ExternalSources.mak
 	cp $< $@
 
 
