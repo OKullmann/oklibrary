@@ -28,6 +28,7 @@ namespace OKlib {
       \brief Representation of one include directive.
       \todo Enable element access.
       \todo Enable output streaming.
+      \todo Can number_spaces_after_include be zero ?
     */
     
     template <class String = std::string>
