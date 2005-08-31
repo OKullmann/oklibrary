@@ -1,3 +1,10 @@
+/*!
+  \file DPv.hpp
+  \brief Deprecated. Contains functions DP-reductions.
+  \todo Improved implementations (as models of general concepts) in a new modul
+  DavisPutnamReduction.
+*/
+
 #ifndef DPV_Hg8o7tq89
 
 #define DPV_Hg8o7tq89

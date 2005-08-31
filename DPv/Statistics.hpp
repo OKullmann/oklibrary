@@ -1,3 +1,10 @@
+/*!
+  \file Statistics.hpp
+  \brief Deprecated. Some functions for basic statistics about clause-sets.
+  \todo These things (and more) should be part of the general hypergraph
+  library (which must be directly applicable to clause-sets).
+*/
+
 #ifndef STATISTICS_Jhh9YT324J
 
 #define STATISTICS_Jhh9YT324J

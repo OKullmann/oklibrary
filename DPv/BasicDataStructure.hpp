@@ -1,3 +1,9 @@
+/*!
+  \file BasicDataStructure.hpp
+  \brief Deprecated. Contains simple classes for variables, literals, clauses, clause-sets and literal- and variables-sets.
+  \todo Classes like this should be simple models of the general concepts.
+*/
+
 #ifndef BASICDATASTRUCTURE_HJG9PTG9G275hg2
 
 #define BASICDATASTRUCTURE_HJG9PTG9G275hg2

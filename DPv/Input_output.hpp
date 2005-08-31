@@ -1,3 +1,10 @@
+/*!
+  \file Input_output.hpp
+  \brief Deprecated. Input and output of cnf formulas in DIMACS format.
+  \todo The new implementations (see below) could be the starting point
+  for a generic Dimacs input library (belongs to the module InputOutput)
+*/
+
 #ifndef INPUTOUTPUT_ah9s8ty332
 
 #define INPUTOUTPUT_ah9s8ty332
@@ -24,7 +31,7 @@ namespace OKlib {
   
   namespace DPv {
 
-    // Deprecated 
+    // Deprecated ****************************************************************************************
     
     namespace Input {
 

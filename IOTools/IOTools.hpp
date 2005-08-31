@@ -1,6 +1,8 @@
 /*!
-* \file IOTools.hpp
-* \todo License Issues
+  \file IOTools.hpp
+  \brief Deprecated.
+  \todo The motivations we had for the creation of the separate "IOTools.hpp"
+  has to be reflected.
 */
 
 #ifndef IOTOOLS_HKJ8h78tqw
