@@ -29,10 +29,16 @@ namespace OKlib {
       SetRanges prefix_set;
     public:
       typedef typename SetRanges::const_iterator iterator;
-      iterator begin() const; // ###########
-      iterator end() const; // #############
-      AssociativePrefixContainer() {}
-      // insert ###############
+      iterator begin() const {
+	return prefix_set.begin();
+      };
+      iterator end() const {
+	return prefix_set.end();
+      };
+      AssociativePrefixContainer() {};
+      std::pair<iterator,bool> insert(const Range& x) {
+	return prefix_set.insert(x);
+      };
       iterator first_extension(const Range& r) const; // ####################
     };
 
