@@ -17,6 +17,8 @@
 #include <string>
 #include <cassert>
 
+#include "boost/filesystem/path.hpp"
+
 namespace OKlib {
 
   namespace Refactoring {
@@ -36,13 +38,22 @@ namespace OKlib {
     public :
       typedef typename String::size_type size_type;
     private :
-      String header_file;
-      size_type number_spaces_after_hash, number_spaces_after_include;
-      Include_forms include_form;
+      String header_file_;
+      size_type number_spaces_after_hash_, number_spaces_after_include_;
+      Include_forms include_form_;
     public :
-      IncludeDirective(const String& header_file, const size_type number_spaces_after_hash,  const size_type number_spaces_2, const Include_forms include_form) : header_file(header_file), number_spaces_after_hash(number_spaces_after_hash), number_spaces_after_include(number_spaces_after_include), include_form(include_form) {
+      IncludeDirective(const String& header_file, const size_type number_spaces_after_hash,  const size_type number_spaces_after_include, const Include_forms include_form) : header_file_(header_file), number_spaces_after_hash_(number_spaces_after_hash), number_spaces_after_include_(number_spaces_after_include), include_form_(include_form) {
         assert(not header_file.empty());
       }
+      String header_file() const {
+        return header_file_;
+      }
+      String& header_file() {
+        return header_file_;
+      }
+      size_type get_number_spaces_after_hash() const; // ##################
+      size_type get_number_spaces_after_include() const;
+      Include_forms get_include_form() const;
     };
 
     /*!
