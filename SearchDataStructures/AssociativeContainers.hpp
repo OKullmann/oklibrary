@@ -14,6 +14,8 @@
 #include <functional>
 #include <algorithm>
 
+#include <boost/range/functions.hpp>
+
 namespace OKlib {
 
   namespace SearchDataStructures {
@@ -23,7 +25,7 @@ namespace OKlib {
     private:
       struct SortLexicographical : std::binary_function<const Range&, const Range&, bool> {
 	bool operator()(const Range& arg1, const Range& arg2) const {
-	  std::lexicographical_compare(arg1.begin(),arg1.end(),arg2.begin(),arg2.end());
+	  return std::lexicographical_compare(boost::begin(arg1),boost::end(arg1),boost::begin(arg2),boost::end(arg2));
 }
       };
 
@@ -42,7 +44,14 @@ namespace OKlib {
 	return prefix_set.insert(x);
       };
       iterator first_extension(const Range& r) const {
-	return prefix_set.lower_bound(r);
+	const iterator& lower_bound(prefix_set.lower_bound(r));
+        const iterator& end(prefix_set.end());
+        if (lower_bound == end)
+          return end;
+        if (std::equal(boost::begin(r), boost::end(r), boost::begin(*lower_bound)))
+          return lower_bound;
+        else
+          return end;
       };
     };
 
