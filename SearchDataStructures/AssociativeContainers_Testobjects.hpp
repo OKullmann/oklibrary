@@ -2,8 +2,6 @@
 
 #define ASSOCIATIVECONTAINERSTESTOBJECTS_klju76
 
-#include <string>
-
 #include "AssociativeContainers.hpp"
 #include "AssociativeContainers_Tests.hpp"
 
@@ -11,7 +9,7 @@ namespace OKlib {
 
   namespace SearchDataStructures {
 
-    Test_AssociativePrefixContainer test_prefixcontainer();
+    Test_AssociativePrefixContainer<AssociativePrefixContainer> test_prefixcontainer;
 
   }
 
