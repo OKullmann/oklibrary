@@ -11,7 +11,7 @@ namespace OKlib {
 
   namespace SearchDataStructures {
 
-    Test_AssociativePrefixContainer<std::string> test_prefixcontainer();
+    Test_AssociativePrefixContainer test_prefixcontainer();
 
   }
 
