@@ -51,9 +51,24 @@ namespace OKlib {
       String& header_file() {
         return header_file_;
       }
-      size_type get_number_spaces_after_hash() const; // ##################
-      size_type get_number_spaces_after_include() const;
-      Include_forms get_include_form() const;
+      size_type number_spaces_after_hash() const { 
+        return number_spaces_after_hash_; 
+      }
+      size_type& number_spaces_after_hash() { 
+        return number_spaces_after_hash_; 
+      }
+      size_type number_spaces_after_include() const { 
+        return number_spaces_after_include_; 
+      }
+      size_type& number_spaces_after_include() { 
+        return number_spaces_after_include_; 
+      }
+      Include_forms include_form() const { 
+        return include_form; 
+      }
+      Include_forms& include_form() { 
+        return include_form; 
+      }
     };
 
     /*!
