@@ -28,6 +28,16 @@ namespace OKlib {
     typedef double TestSingleParameter;
     typedef std::vector<TestSingleParameter> TestParameter;
 
+    /*!
+      \class Test
+      \brief Root of the test class hierarchy. From this class test classes are to be
+      derived, which are used by other test classes.
+
+      One public member function perform_test(P), where P is of type
+      TestParameter; delegates to virtual member functions perform_test_trivial(P),
+      if P is empty, and otherwise to perform_test_nontrivial(P).
+    */
+
     class Test {
     public :
       virtual ~Test() {}
@@ -63,8 +73,11 @@ namespace OKlib {
 
     /*!
       \class TestBase
-      \brief Base class for tests with auto-insertion. Derived from Test; adds protected member
-      function insert and static member function run_tests_default.
+      \brief Base class for tests with auto-insertion. Derived from Test; from this class test
+      classes are to be derived, which shall be executed on their own.
+
+      adds protected member unction insert (for the self-insertion of the test object)
+      and static member function run_tests_default.
     */
 
      /*!
