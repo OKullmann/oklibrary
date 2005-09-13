@@ -2,7 +2,7 @@
 
 /*!
   \file AssociativeContainers.hpp
-  \brief Various associative containers.
+  \brief Associative containers.
 */
 
 #ifndef ASSOCIATIVECONTAINERS_09646l
@@ -19,17 +19,25 @@
 namespace OKlib {
 
   namespace SearchDataStructures {
+    /*!
+      \class AssociativePrefixContainer
+      \brief Class for associative container of ranges with lexicographic ordering.
+    */
 
     template <class Range>
     class AssociativePrefixContainer {
     private:
+      /*!
+        \brief Functor for lexicographic ordering of two range arguments.
+      */
       struct SortLexicographical : std::binary_function<const Range&, const Range&, bool> {
 	bool operator()(const Range& arg1, const Range& arg2) const {
 	  return std::lexicographical_compare(boost::begin(arg1),boost::end(arg1),boost::begin(arg2),boost::end(arg2));
 }
       };
-
+      
       typedef typename std::set<Range, SortLexicographical> SetRanges;
+    
       SetRanges prefix_set;
     public:
       typedef typename SetRanges::const_iterator iterator;
