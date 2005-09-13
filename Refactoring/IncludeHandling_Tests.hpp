@@ -9,12 +9,38 @@
 
 #define INCLUDEHANDLINGTESTS_77665r
 
+#include <string>
+#include <boost/filesystem/fstream.hpp>
+
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
 namespace OKlib {
 
   namespace Refactoring {
+
+    template <template <class String> class Include_Directive>
+    class Test_IncludeHandling : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_IncludeHandling test_type;
+      Test_IncludeHandling() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        {
+          typedef Include_Directive<std::string> ID;
+	  int a = 3;
+	  int b = 4;
+	  std::string c = "iostream";
+	  Include_forms d = system_header;
+          ID include_directive(c,a,b,d);
+  	  boost::filesystem::ofstream file( "/home/csmatthew/test.hpp" );
+          file << include_directive;
+          file.close();
+        }
+      }
+    };
 
   }
 
