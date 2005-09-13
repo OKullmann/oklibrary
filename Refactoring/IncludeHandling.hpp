@@ -20,6 +20,7 @@
 #include <ostream>
 #include <sstream>
 #include <boost/filesystem/path.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 #include "FilesystemTools.hpp"
 #include "AssociativeContainers.hpp"
@@ -70,10 +71,10 @@ namespace OKlib {
         return number_spaces_after_include_; 
       }
       Include_forms include_form() const { 
-        return include_form; 
+        return include_form_; 
       }
       Include_forms& include_form() { 
-        return include_form; 
+        return include_form_; 
       }
     };
 
@@ -86,7 +87,13 @@ operator<<(std::basic_ostream<charT, traits>& out, const IncludeDirective<T>& in
   o_string_stream.flags(out.flags());
   o_string_stream.imbue(out.getloc());
   o_string_stream.precision(out.precision());
-  o_string_stream << include_directive.number_spaces_after_hash();
+  char enclosing_mark;
+  Include_forms include_form = include_directive.include_form();
+  if (include_form==system_header)
+    enclosing_mark = '<';
+  else
+    enclosing_mark = '"';
+  o_string_stream << '#' << "include" << enclosing_mark << include_directive.header_file << enclosing_mark;
   out << o_string_stream.str();
   return out;
 }
