@@ -16,8 +16,11 @@
 
 #include <string>
 #include <cassert>
+#include <boost/filesystem/path.hpp>
 
-#include "boost/filesystem/path.hpp"
+#include "FilesystemTools.hpp"
+#include "AssociativeContainers.hpp"
+
 
 namespace OKlib {
 
@@ -71,6 +74,23 @@ namespace OKlib {
       }
     };
 
+template<typename T, typename charT, typename traits>
+std::basic_ostream<charT, traits>&
+operator<<(std::basic_ostream<charT, traits>& out, const IncludeDirective<T>& r)
+{
+  // Use the same flags, locale, etc. to write the
+  // numerator and denominator to the string stream
+  std::basic_ostringstream<charT, traits> s;
+  s.flags(out.flags());
+  s.imbue(out.getloc());
+  s.precision(out.precision());
+  s << r.number_spaces_after_hash();
+  // Write the string to out. The field width, padding, and alignment are
+  // already set in out, so they apply to the entire rational number.
+  out << s.str();
+  return out;
+}
+
     /*!
       \class Extract_include_directives
       \brief Enables read/write iterator access to the include directives from an istream.
@@ -123,7 +143,11 @@ namespace OKlib {
       the working directory are handled by Extend_include_directives.
     */
 
-    class Extend_include_directives_Two_directories {};
+    class Extend_include_directives_Two_directories {
+
+    
+
+    };
 
   }
 
