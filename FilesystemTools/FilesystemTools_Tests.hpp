@@ -8,9 +8,9 @@
 #define FILESYSTEMTOOLSTESTS_oui453
 
 #include <boost/filesystem/path.hpp> 
+#include <boost/filesystem/fstream.hpp>
 #include <iostream>
-
-#include "boost/filesystem/fstream.hpp" 
+ 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
@@ -28,9 +28,12 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-//           typedef DirectoryIterator DirIterator;
-//  	  boost::filesystem::path path("/home/csmatthew/test.hpp");
-//  	  boost::filesystem::ofstream file( path );
+          typedef DirectoryIterator DirIterator;
+          typedef boost::filesystem::path path;
+  	  path test_path("/home/csmatthew/test.hpp");
+	  if (!boost::filesystem::exists(test_path))
+            OKLIB_THROW("!exists(test_path)");
+//  	  boost::filesystem::ofstream file( test_path );
 //           file << "Test\n";
 //           file.close();	
 	  
