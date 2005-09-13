@@ -11,6 +11,8 @@ namespace OKlib {
 
   namespace Refactoring {
    
+   Test_IncludeHandling<IncludeDirective> test_IncludeDirective;
+
   }
 
 }
