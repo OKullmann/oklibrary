@@ -9,6 +9,8 @@ namespace OKlib {
 
   namespace FilesystemTools {
 
+   Test_DirectoryIterator<DirectoryIterator> test_DirectoryIterator;
+
   }
 
 }
