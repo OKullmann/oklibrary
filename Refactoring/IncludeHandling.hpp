@@ -16,9 +16,9 @@
 
 #include <string>
 #include <cassert>
-//include <iostream>
 #include <ostream>
 #include <sstream>
+
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/fstream.hpp>
 
@@ -79,21 +79,17 @@ namespace OKlib {
     };
 
 
-template<class T, class charT, class traits>
-std::basic_ostream<charT, traits>&
-operator<<(std::basic_ostream<charT, traits>& out, const IncludeDirective<T>& include_directive)
+template<class T>
+std::ostream& operator<<(std::ostream& out, const IncludeDirective<T>& include_directive)
 {
-  std::basic_ostringstream<charT, traits> o_string_stream;
-  o_string_stream.flags(out.flags());
-  o_string_stream.imbue(out.getloc());
-  o_string_stream.precision(out.precision());
-  char enclosing_mark;
-  Include_forms include_form = include_directive.include_form();
+  std::stringstream o_string_stream;
+  std::string enclosing_mark;
+  const Include_forms& include_form = include_directive.include_form();
   if (include_form==system_header)
-    enclosing_mark = '<';
+    enclosing_mark = "<";
   else
-    enclosing_mark = '"';
-  o_string_stream << '#' << "include" << enclosing_mark << include_directive.header_file << enclosing_mark;
+    enclosing_mark = "\"";
+  o_string_stream << "#" << "include" << enclosing_mark << include_directive.header_file() << enclosing_mark;
   out << o_string_stream.str();
   return out;
 }
