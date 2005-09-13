@@ -10,6 +10,7 @@
 #define INCLUDEHANDLINGTESTS_77665r
 
 #include <string>
+
 #include <boost/filesystem/fstream.hpp>
 
 #include "TestBaseClass.hpp"
@@ -18,6 +19,11 @@
 namespace OKlib {
 
   namespace Refactoring {
+
+    /*!
+      \class Test_IncludeHandling
+      \todo Replacing files by stringstreams.
+    */
 
     template <template <class String> class Include_Directive>
     class Test_IncludeHandling : public ::OKlib::TestSystem::TestBase {
@@ -37,7 +43,6 @@ namespace OKlib {
           ID include_directive(c,a,b,d);
   	  boost::filesystem::ofstream file( "/home/csmatthew/test.hpp" );
           file << include_directive;
-          file.close();
         }
       }
     };
