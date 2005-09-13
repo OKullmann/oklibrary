@@ -16,6 +16,9 @@
 
 #include <string>
 #include <cassert>
+//include <iostream>
+#include <ostream>
+#include <sstream>
 #include <boost/filesystem/path.hpp>
 
 #include "FilesystemTools.hpp"
@@ -74,20 +77,17 @@ namespace OKlib {
       }
     };
 
-template<typename T, typename charT, typename traits>
+
+template<class T, class charT, class traits>
 std::basic_ostream<charT, traits>&
-operator<<(std::basic_ostream<charT, traits>& out, const IncludeDirective<T>& r)
+operator<<(std::basic_ostream<charT, traits>& out, const IncludeDirective<T>& include_directive)
 {
-  // Use the same flags, locale, etc. to write the
-  // numerator and denominator to the string stream
-  std::basic_ostringstream<charT, traits> s;
-  s.flags(out.flags());
-  s.imbue(out.getloc());
-  s.precision(out.precision());
-  s << r.number_spaces_after_hash();
-  // Write the string to out. The field width, padding, and alignment are
-  // already set in out, so they apply to the entire rational number.
-  out << s.str();
+  std::basic_ostringstream<charT, traits> o_string_stream;
+  o_string_stream.flags(out.flags());
+  o_string_stream.imbue(out.getloc());
+  o_string_stream.precision(out.precision());
+  o_string_stream << include_directive.number_spaces_after_hash();
+  out << o_string_stream.str();
   return out;
 }
 
@@ -143,11 +143,7 @@ operator<<(std::basic_ostream<charT, traits>& out, const IncludeDirective<T>& r)
       the working directory are handled by Extend_include_directives.
     */
 
-    class Extend_include_directives_Two_directories {
-
-    
-
-    };
+    class Extend_include_directives_Two_directories {};
 
   }
 
