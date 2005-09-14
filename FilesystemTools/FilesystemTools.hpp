@@ -1,7 +1,7 @@
 // Matthew Henderson, 4.9.2005 (Swansea)
 
 /*!
-  \file Filesystemtools.hpp
+  \file FilesystemTools.hpp
   \brief Tools related to the filesystem.
 */
 

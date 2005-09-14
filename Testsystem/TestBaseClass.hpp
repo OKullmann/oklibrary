@@ -76,12 +76,8 @@ namespace OKlib {
       \brief Base class for tests with auto-insertion. Derived from Test; from this class test
       classes are to be derived, which shall be executed on their own.
 
-      adds protected member unction insert (for the self-insertion of the test object)
+      Adds protected member unction insert (for the self-insertion of the test object)
       and static member function run_tests_default.
-    */
-
-     /*!
-      \class TestBase
       \todo Possibility to direct normal output to std::cout and error messages to std::cerr (thus 2 streams as parameters to run_tests_default, as in Aeryn).
      */
 

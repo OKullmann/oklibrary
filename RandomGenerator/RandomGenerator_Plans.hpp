@@ -1,7 +1,7 @@
 // Oliver Kullmann, 13.9.2005 (Swansea)
 
 /*!
-  \file RandomGenerator_Plans
+  \file RandomGenerator_Plans.hpp
   \brief Plans for the module RandomGenerator.
   \todo The first thing is to transfer (and upgrade) the
   implementation of OKgenerator. This should proceed in the
