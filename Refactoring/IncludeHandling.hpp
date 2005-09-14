@@ -98,7 +98,7 @@ std::ostream& operator<<(std::ostream& out, const IncludeDirective<T>& include_d
       \class Extract_include_directives
       \brief Enables read/write iterator access to the include directives from an istream.
 
-      Extracting all include directives from an istream via a single pass forward iterator over IncludeDirective elements
+      Extracting all include directives from an istream via a single pass "input-output" iterator over IncludeDirective elements
       --- writing to these elements changes the underlying include directives. An ostream object contains the output. 
       Include directives resulting from macro replacement are not handled (since this depends on the context of the
       translation).
@@ -111,6 +111,7 @@ std::ostream& operator<<(std::ostream& out, const IncludeDirective<T>& include_d
       If found then the text is scanned for the closing token, and then as well as when the opening token is not found,
       that line is read until the end-of-line (and copied). Using ++ on the iterator writes the
       IncludeDirective to the ostream object.
+      "Input-output iterators" means just the combination of input iterator and output iteratir; it is allowed that two iterators are equal iff either both are dereferencable or both are past-the-end iterators --- this is what we do here (using perhaps a boolean data member for past-the-end indication).
     */
 
     class Extract_include_directives {};
