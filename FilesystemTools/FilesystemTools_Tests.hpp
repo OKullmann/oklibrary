@@ -16,6 +16,8 @@
  
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
+#include "LibraryBasics.hpp"
+#include "std_Iterators.hpp"
 
 namespace OKlib {
 
@@ -30,6 +32,7 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
+        OKLIB_MODELS_CONCEPT_REQUIRES(DirectoryIterator, OKlib::Concepts::InputIterator);
         {
           typedef DirectoryIterator DirIterator;
           typedef boost::filesystem::path path;
