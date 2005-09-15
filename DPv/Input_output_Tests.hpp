@@ -13,6 +13,8 @@
 #include "TestExceptions.hpp"
 #include "ParserBase_Tests.hpp"
 
+#include "BasicDataStructure.hpp"
+
 namespace OKlib {
 
   namespace DPv {
