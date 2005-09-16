@@ -1,5 +1,12 @@
 // Oliver Kullmann, 11.6.2005 (Swansea)
 
+/*!
+  \file ResultElements.hpp
+  \brief Concepts for result elements, representing results of SAT solvers (especially
+  for competitions).
+  \todo To be completed (see module SAT-Competition).
+*/
+
 #ifndef RESULTELEMENT_6Tg5Yh
 
 #define RESULTELEMENT_6Tg5Yh
@@ -10,6 +17,13 @@
 namespace OKlib {
 
   namespace Concepts {
+
+    /*!
+      \class ResultElement
+      \brief Root class for the concept hierarchy about result elements (requiring only types).
+
+      Requires string_type, floating_point_type, natural_number_type.
+    */
 
     struct ResultElement_tag : virtual BasicRequirements_tag, virtual FullyConstructible_tag {};
 
@@ -40,6 +54,11 @@ namespace OKlib {
     };
     
     // --------------------------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class ResultElementWithOrder
+      \brief Refines concept ResultElement by requiring a linear order on result elements.
+    */
 
     struct ResultElementWithOrder_tag : virtual ResultElement_tag, virtual EqualitySubstitutable_tag, virtual LinearOrder_tag {};
 
@@ -73,6 +92,12 @@ namespace OKlib {
     };
     
     // --------------------------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class ResultElementWithName
+      \brief Refines concept ResultElementWithOrder by adding the possibility to
+      construct result elements with a given name, and to query this name.
+    */
 
     struct ResultElementWithName_tag : virtual ResultElementWithOrder_tag {};
 
@@ -122,7 +147,6 @@ namespace OKlib {
     
     // --------------------------------------------------------------------------------------------------------------------------------------
 
-    // ToDo: to be completed.
     
   }
 

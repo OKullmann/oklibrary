@@ -3,6 +3,9 @@
 /*!
   \file Basics.hpp
   \brief Basic concepts, extending the basic concepts from the standard.
+
+  Extends equality concepts, order concepts and constructibility concepts;
+  adding new concepts for substitutability and const correctness.
 */
 
 #ifndef BASICS_haharw786

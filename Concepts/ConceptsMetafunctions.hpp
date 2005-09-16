@@ -6,7 +6,7 @@
 
 /*!
   \file ConceptsMetafunctions.hpp
-  \brief Metafunctions concerning the relations between concepts and models
+  \brief Metafunctions concerning the relations between concepts, concept tags and models; used mainly internally.
 */
 
 #include <boost/mpl/if.hpp>
