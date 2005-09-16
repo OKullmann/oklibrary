@@ -6,11 +6,11 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-doxygen_targets := doxygen-1.4.3 
+doxygen_targets := doxygen-1.4.4
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-4.0.0 gcc-4.0.1
 boost_targets := boost-1_32 boost-1_33
 postgresql_targets := postgresql-8.0.3
-valgrind_targets := valgrind-3.0.0
+valgrind_targets := valgrind-3.0.1
 
 # Usage
 
