@@ -1,8 +1,3 @@
-# ToDo
-# 1. make boost_gcc
-
-#-------------
-
 SHELL = /bin/sh
 .SUFFIXES :
 
@@ -184,9 +179,7 @@ define install-boost
 	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/boost-$*/boost $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
 endif
-# ToDo: Using links instead of copying
 
-# Other configure options are GCC_BIN_DIRECTORY, GCC_INCLUDE_DIRECTORY, GCC_STDLIB_DIRECTORY, GXX (g++ command plus any options), GCC. 
 $(boost_targets) : boost-% : create_boost_dirs
 	$(call unarchive,boost_$*_0,$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
@@ -195,7 +188,6 @@ $(boost_targets) : boost-% : create_boost_dirs
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
 	$(install-boost)
-# ToDo: Creating not all directories at once, but only the necessary onces
 
 boost : $(boost_targets)
 
