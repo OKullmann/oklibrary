@@ -44,16 +44,26 @@ namespace OKlib {
 
       DirectoryIterator() {}
 
-      value_type operator* () const {
-        // #####################
+      DirectoryIterator( const directory_iterator& dir_it ) : current_dir_it(dir_it) {}
+
+      DirectoryIterator( const boost::filesystem::path& directory_ph ) {
+        directory_iterator dir_it(directory_ph);
+	//DirectoryIterator(dir_it);
       }
+
+      value_type operator* () const {
+        return *current_dir_it;
+      }
+
       DirectoryIterator& operator ++() {
         // ########################
         return *this;
       }
+
       DirectoryIterator operator ++(int) {
-        // ###########################
-        
+        DirectoryIterator tmp = *this;
+	operator++();
+	return tmp;
       }
 
       friend bool operator ==(const DirectoryIterator& lhs, const DirectoryIterator& rhs) {
