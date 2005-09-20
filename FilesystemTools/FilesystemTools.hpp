@@ -44,11 +44,11 @@ namespace OKlib {
 
       DirectoryIterator() {}
 
-      DirectoryIterator( const directory_iterator& dir_it ) : current_dir_it(dir_it) {}
-
-      DirectoryIterator( const boost::filesystem::path& directory_ph ) {
-        directory_iterator dir_it(directory_ph);
-	//DirectoryIterator(dir_it);
+      DirectoryIterator(const boost::filesystem::path& directory_ph) : current_dir_it(directory_ph) {
+        while (current_dir_it != directory_iterator() and boost::filesystem::is_directory(*current_dir_it)) {
+          dir_it_history.push(current_dir_it);
+          current_dir_it = directory_iterator(*current_dir_it);
+        } 
       }
 
       value_type operator* () const {
@@ -56,14 +56,34 @@ namespace OKlib {
       }
 
       DirectoryIterator& operator ++() {
-        // ########################
+        while (++current_dir_it == directory_iterator() and not dir_it_history.empty()) {
+          current_dir_it = dir_it_history.top();
+          dir_it_history.pop();
+        }
+        while (current_dir_it != directory_iterator() and boost::filesystem::is_directory(*current_dir_it)) {
+          dir_it_history.push(current_dir_it);
+          current_dir_it = directory_iterator(*current_dir_it);
+        }
         return *this;
       }
 
-      DirectoryIterator operator ++(int) {
-        DirectoryIterator tmp = *this;
+    private :
+
+      class post_increment_proxy {
+        value_type x;
+      public :
+        post_increment_proxy(const value_type& x) :x(x) {}
+        value_type operator*() const {
+          return x;
+        }
+      };
+
+    public :
+
+      post_increment_proxy operator ++(int) {
+        post_increment_proxy p(*current_dir_it);
 	operator++();
-	return tmp;
+        return p;
       }
 
       friend bool operator ==(const DirectoryIterator& lhs, const DirectoryIterator& rhs) {
