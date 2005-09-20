@@ -2,45 +2,62 @@ SHELL = /bin/sh
 .SUFFIXES :
 
 doxygen_targets := doxygen-1.4.4
+doxygen_recommended := doxygen-1.4.4
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-4.0.0 gcc-4.0.1
+gcc_recommended := gcc-4.0.1
 boost_targets := boost-1_32 boost-1_33
+boost_recommended := boost-1_33
 postgresql_targets := postgresql-8.0.3
+postgresql_recommended := postgresql-8.0.3
 valgrind_targets := valgrind-3.0.1
+valgrind_recommended := valgrind-3.0.1
 
+# ####################################################
 # Usage
+# ####################################################
 
-# Install Doxygen (? is the version number)
-# make doxygen-?
+# Gcc
 
-# Install all versions of gcc
+# Install all versions of gcc:
+# make gcc_all
+# Install recommended version of gcc:
 # make gcc
-
-# Install a version of gcc (? is the version number)
+# Install a version of gcc (? is the version number):
 # make gcc-? 
 
-# Install Boost locally (? is version number) with system gcc
-# make boost_?
+# Boost
 
-# Install Boost locally (? is version number) with a version of gcc (% is the version number) 
+# Install Boost locally with system gcc:
+# make boost_all (all supported versions of boost)
+# make boost (recommended version)
+# make boost_? (? is version number)
+
+# Install Boost locally with a version of gcc (% is the version number):
+# make gcc-version=% boost_all
+# make gcc-version=% boost
 # make gcc-version=% boost_?
 
-# Install all versions of boost with aspecified version of gcc.
-# Use system gcc
-# 	make boost
-# Use a local gcc with version number ?
-# 	make gcc-version=? boost
+# PostgreSQL
 
-# Install PostgreSQL (? is version number)
+# make postgresql (recommended version)
 # make postgresql-?
 
-# Initialise a database and start the server (? is version number of postgresql)
-# Use the default location (postgresql-base-directory/?/data)
+# Initialise a database and start the server (? is version number of postgresql):
+# Use the default location (postgresql-base-directory/?/data):
 # 	make pgsql-version=? initialise-database
-# Use a different location (% is the absolute path of the location to place the database)
+# Use a different location (% is the absolute path of the location to place the database):
 # 	make pgsql-version=? pgdata=% initialise-database
 
-# Install Doxygen (? is the version number)
+# Doxygen
+
+# make doxygen (recommended version)
 # make doxygen-?
+
+# Valgrind
+
+# make valgrind (recommended version)
+# make valgrind-?
+
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -76,7 +93,8 @@ valgrind_targets := valgrind-3.0.1
 #./Valgrind/voxygen-? : This is the original unarchived source directory which is also used for configuration and building. Valgrind is only installed system-wide.
 
 
-# ------------------------------------------------------
+# ####################################################
+
 
 prefix := $(shell pwd)
 gcc-version := system
@@ -116,26 +134,28 @@ if [ $$? != 0 ]; then exit 1; fi;
 endef
 
 define unarchive
-if [ -f $1.tar.gz ]; then \
-	tar --extract --directory=$2 --file=$1.tar.gz --ungzip;\
-else \
-	if [ -f $1.tar.bz2 ]; then \
-		tar --extract --directory=$2 --file=$1.tar.bz2 --bzip2;\
-	else \
-		exit 1; \
-	fi; \
-fi;
+if [ -f $1.tar.gz ]; then tar --extract --directory=$2 --file=$1.tar.gz --ungzip; elif [ -f $1.tar.bz2 ]; then tar --extract --directory=$2 --file=$1.tar.bz2 --bzip2; else exit 1; fi;
 endef
 
+.PHONY : boost boost_all $(boost_targets) create_boost_dirs
+.PHONY : gcc gcc_all $(gcc_targets) create_gcc_dirs
+.PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
+.PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
+.PHONY : valgrind $(valgrind_targets) create_valgrind_dirs
+.PHONY : all clean cleanall
 
-.PHONY : all gcc boost clean cleanall create_doxygen_dirs create_gcc_dirs create_boost_dirs create_postgresql_dirs valgrind_dirs $(doxygen_targets) $(gcc_targets) $(boost_targets) $(postgresql_targets) initialise-database $(valgrind_targets)
+all : gcc boost postgresql valgrind doxygen
 
-all :
+# ###############################
+# Doxygen
+# ###############################
 
 $(doxygen-directories) : % : 
 	mkdir $@
 
 create_doxygen_dirs : $(doxygen-directories)
+
+doxygen : $(doxygen_recommended)
 
 $(doxygen_targets) : create_doxygen_dirs
 	$(call unarchive,$@.src,$(doxygen-base-directory))
@@ -146,6 +166,14 @@ $(doxygen_targets) : create_doxygen_dirs
 	make pdf; $(postcondition) \
 	sudo make install; $(postcondition) \
 	sudo make install_docs
+
+# ###############################
+# Gcc
+# ###############################
+
+gcc_all : $(gcc_targets)
+
+gcc : $(gcc_recommended)
 
 $(gcc-directories) : % : 
 	mkdir $@
@@ -159,7 +187,9 @@ $(gcc_targets) : gcc-% : create_gcc_dirs
 	make bootstrap; $(postcondition) \
 	make install; 
 
-gcc : $(gcc_targets)
+# ###############################
+# Boost
+# ###############################
 
 $(boost-directories) : % : 
 	mkdir $@
@@ -189,12 +219,19 @@ $(boost_targets) : boost-% : create_boost_dirs
 	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
 	$(install-boost)
 
-boost : $(boost_targets)
+boost_all : $(boost_targets)
+boost : $(boost_recommended)
+
+# ###############################
+# PostgreSQL
+# ###############################
 
 $(postgresql-directories) : % : 
 	mkdir $@
 
 create_postgresql_dirs : $(postgresql-directories)
+
+postgresql : $(postgresql_recommended)
 
 ifeq ($(pgdata), )
 pgdata := $(postgresql-base-directory)/$(pgsql-version)/data
@@ -212,10 +249,16 @@ initialise-database :
 	$(postcondition)
 	$(postgresql-base-directory)/$(pgsql-version)/bin/pg_ctl -D $(pgdata) -l logfile start
 
+# ###############################
+# Valgrind
+# ###############################
+
 $(valgrind-directories) : % : 
 	mkdir $@
 
 create_valgrind_dirs : $(valgrind-directories)
+
+valgrind : $(valgrind_recommended)
 
 $(valgrind_targets) : create_valgrind_dirs
 	$(call unarchive,$@,$(valgrind-base-directory))
@@ -224,7 +267,7 @@ $(valgrind_targets) : create_valgrind_dirs
 	make; $(postcondition) \
 	sudo make install; $(postcondition)
 
-# --------------------------------------------------------------------------------------------------
+# ####################################################
 
 clean :
 	-rm -rf $(gcc_build_directory_paths)
