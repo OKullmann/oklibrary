@@ -23,19 +23,14 @@
      created).
    - Any build will be considered as already completed, if the "finally created directory"
      is already there.
-   - "make gcc_all" will create all gcc-version, while "make gcc" will create
-     the recommended version.
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
      we have the build of the gcc-version (so that, if necessary, gcc is build).
-   - "make boost_all" respectively "make gcc-version=... boost_all" will create
-     all boost versions, while just using "boost" will only create the recommended version.
    - "make gcc_boost_all" will create all boost versions for all compiler versions (including
      the global one).
    - When making the (final) installations, links should be used instead of copies (making
      copies as an option; default is links).
    - Optionally there should be also local versions of valgrind and doxygen.
-   - "make doxygen", "make valgrind", "make postgresql" will create the recommended
-     version.
+   - "make initialise-database" should work with the recommended version.
    - Build a local version of mhash.
    
 
