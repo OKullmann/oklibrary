@@ -10,8 +10,10 @@
 #include <iostream>
 #include <cassert>
 #include <string>
+#include <set>
 
-#include <boost/filesystem/path.hpp> 
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp> 
 #include <boost/filesystem/fstream.hpp>
  
 #include "TestBaseClass.hpp"
@@ -36,16 +38,33 @@ namespace OKlib {
         {
           typedef DirectoryIterator DirIt;
           typedef boost::filesystem::path path;
-          typedef boost::filesystem::directory_iterator DirIt_Boost;
+                    
           const std::string TestDirectory("TestDirectory");
-          path test_path(TestDirectory);
+          const path test_path(TestDirectory);
           assert(boost::filesystem::exists(test_path));
-          const std::string TestFile("TestDirectory/Test_001.hpp");
-          path test_path_2(TestFile);
+	  assert(boost::filesystem::is_directory(test_path));
+	  
+          const:: std::string TestFile("TestDirectory/Test_001.hpp");
+          const path test_path_2(TestFile);
           assert(boost::filesystem::exists(test_path_2));
-          DirIt dir_it(test_path);
-          DirIt_Boost boost_dir_it(test_path);
-	  DirIt dir_it_2(boost_dir_it);
+          assert(not boost::filesystem::is_directory(test_path_2));
+
+          // ToDO: adding asserts for the cvs-files
+          
+	  DirIt dir_it(test_path);
+          if (not (dir_it == dir_it))
+            OKLIB_THROW("not dir_it == dir_it");
+          if (dir_it != dir_it)
+            OKLIB_THROW("dir_it != dir_it");
+          if (boost::filesystem::equivalent(test_path,*dir_it))
+            OKLIB_THROW("boost::filesystem::equivalent(test_path,*dir_it)");
+          typedef std::set<std::string> set_of_names;
+          set_of_names cvs_file_names_ref;
+          cvs_file_names_ref.insert("Entries"); cvs_file_names_ref.insert("Repository"); cvs_file_names_ref.insert("Root");
+          set_of_names file_names_found;
+          for (int i = 0; i != 3; ++i)
+            file_names_found.insert((*(dir_it++)).leaf());
+          OKLIB_TEST_EQUAL_W(cvs_file_names_ref, file_names_found);
         }
       }
     };
