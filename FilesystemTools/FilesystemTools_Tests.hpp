@@ -39,25 +39,43 @@ namespace OKlib {
           typedef DirectoryIterator DirIt;
           typedef boost::filesystem::path path;
                     
-          const std::string TestDirectory("TestDirectory");
-          const path test_path(TestDirectory);
-          assert(boost::filesystem::exists(test_path));
-	  assert(boost::filesystem::is_directory(test_path));
+          const std::string str_test_1("TestDirectory");
+          const path path_test_1(str_test_1);
+          assert(boost::filesystem::exists(path_test_1));
+	  assert(boost::filesystem::is_directory(path_test_1));
 	  
-          const:: std::string TestFile("TestDirectory/Test_001.hpp");
-          const path test_path_2(TestFile);
-          assert(boost::filesystem::exists(test_path_2));
-          assert(not boost::filesystem::is_directory(test_path_2));
+          const:: std::string str_test_2("TestDirectory/Test_001.hpp");
+          const path path_test_2(str_test_2);
+          assert(boost::filesystem::exists(path_test_2));
+          assert(not boost::filesystem::is_directory(path_test_2));
 
-          // ToDO: adding asserts for the cvs-files
-          
-	  DirIt dir_it(test_path);
+          const:: std::string str_test_3("CVS");
+          const path path_test_3(str_test_3);
+          assert(boost::filesystem::exists(path_test_3));
+          assert(boost::filesystem::is_directory(path_test_3));
+
+          const:: std::string str_test_4("CVS/Entries");
+          const path path_test_4(str_test_4);
+          assert(boost::filesystem::exists(path_test_4));
+          assert(not boost::filesystem::is_directory(path_test_4));
+
+          const:: std::string str_test_5("CVS/Repository");
+          const path path_test_5(str_test_5);
+          assert(boost::filesystem::exists(path_test_5));
+          assert(not boost::filesystem::is_directory(path_test_5));
+
+          const:: std::string str_test_6("CVS/Root");
+          const path path_test_6(str_test_6);
+          assert(boost::filesystem::exists(path_test_6));
+          assert(not boost::filesystem::is_directory(path_test_6));
+
+	  DirIt dir_it(path_test_1);
           if (not (dir_it == dir_it))
             OKLIB_THROW("not dir_it == dir_it");
           if (dir_it != dir_it)
             OKLIB_THROW("dir_it != dir_it");
-          if (boost::filesystem::equivalent(test_path,*dir_it))
-            OKLIB_THROW("boost::filesystem::equivalent(test_path,*dir_it)");
+          if (boost::filesystem::equivalent(path_test_1,*dir_it))
+            OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
           typedef std::set<std::string> set_of_names;
           set_of_names cvs_file_names_ref;
           cvs_file_names_ref.insert("Entries"); cvs_file_names_ref.insert("Repository"); cvs_file_names_ref.insert("Root");
