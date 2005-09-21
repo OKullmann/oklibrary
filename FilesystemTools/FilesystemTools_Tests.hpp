@@ -36,9 +36,10 @@ namespace OKlib {
       void perform_test_trivial() {
         OKLIB_MODELS_CONCEPT_REQUIRES(DirectoryIterator, OKlib::Concepts::InputIterator);
         {
+
           typedef DirectoryIterator DirIt;
           typedef boost::filesystem::path path;
-                    
+                   
           const std::string str_test_1("TestDirectory");
           const path path_test_1(str_test_1);
           assert(boost::filesystem::exists(path_test_1));
@@ -76,6 +77,37 @@ namespace OKlib {
             OKLIB_THROW("dir_it != dir_it");
           if (boost::filesystem::equivalent(path_test_1,*dir_it))
             OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
+
+	  DirIt dir_it_0;
+	  DirIt dir_it_1;
+          if (not (dir_it == dir_it))
+            OKLIB_THROW("not dir_it_0 == dir_it_1 (Default constructor)");
+
+          DirIt dir_it_2(dir_it);
+          if (not (dir_it == dir_it_2))
+            OKLIB_THROW("dir_it == dir_it_2 (Copy constructor)");
+
+	  DirIt dir_it_3;
+	  dir_it_3 = dir_it_2;
+          if (not (dir_it_2 == dir_it_3))
+            OKLIB_THROW("dir_it_2 == dir_it_3 (Assignment)");
+
+	  DirIt dir_it_4;
+	  DirIt dir_it_5;
+	  assert(dir_it_4 == dir_it_5);
+          if (not (dir_it_5 == dir_it_4))
+            OKLIB_THROW("dir_it_5 == dir_it_4 (Symmetry of equality)");
+
+	  DirIt dir_it_6;
+	  assert(dir_it_5 == dir_it_6);
+          if (not (dir_it_4 == dir_it_6))
+            OKLIB_THROW("dir_it_4 == dir_it_6 (Transitivity of equality)");
+
+	  DirIt dir_it_7;
+	  DirIt dir_it_8;
+	  if (not (dir_it_7==dir_it_8)!=(dir_it_7!=dir_it_8))
+	     OKLIB_THROW("(dir_it_7==dir_it_8)!=(dir_it_7!=dir_it_8)");   
+
           typedef std::set<std::string> set_of_names;
           set_of_names cvs_file_names_ref;
           cvs_file_names_ref.insert("Entries"); cvs_file_names_ref.insert("Repository"); cvs_file_names_ref.insert("Root");
