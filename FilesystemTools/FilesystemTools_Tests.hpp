@@ -24,6 +24,12 @@
 namespace OKlib {
 
   namespace FilesystemTools {
+
+    /*!
+      \class Test_DirectoryIterator
+      \brief Testing the concept of a directory iterator.
+      \todo Using path-equality or path-equivalence ?
+    */
     
     template <class DirectoryIterator>
     class Test_DirectoryIterator : public ::OKlib::TestSystem::TestBase {
@@ -75,6 +81,8 @@ namespace OKlib {
             OKLIB_THROW("not dir_it == dir_it");
           if (dir_it != dir_it)
             OKLIB_THROW("dir_it != dir_it");
+//           if (not (path_test_1 == *dir_it))
+//             OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
           if (boost::filesystem::equivalent(path_test_1,*dir_it))
             OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
 
