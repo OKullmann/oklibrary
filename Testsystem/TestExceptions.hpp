@@ -3,7 +3,7 @@
 /*!
   \file TestExceptions.hpp
   \brief Contains the exception classes to be used in test classes to indicate failure,
-  and macros for easy throwing these exception in standard test situation.
+  and macros for throwing these exception in standard test situation.
 */
 
 #ifndef TESTEXCEPTIONS_QwAq190
@@ -146,12 +146,12 @@ namespace OKlib {
 
     /*!
       \def OKLIB_TESTTRIVIAL_RETHROW
-      \brief Macro for internal use (calling sub-tests and rethrowing their exceptions).
+      \brief Macro for calling sub-tests (rethrowing their exceptions).
 
       OKLIB_TESTTRIVIAL_RETHROW(testobject) invokes the default test of testobject
       and rethrows exceptions derived from OKlib::TestSystem::TestException, adding
       the description of the circumstances under which the test of testobject has been
-      involved
+      involved.
     */
 
 #define OKLIB_TESTTRIVIAL_RETHROW(Testobject) \
@@ -166,7 +166,7 @@ namespace OKlib {
     /*!
       \class OutputWrapper
       \brief Class template used in conjunction with OKLIB_TEST_EQUAL_W
-      when testing ranges for equality, and a list of the elements shall be output
+      when testing ranges for equality, where a list of the elements shall be output
       in case of test failure.
       \todo Should this class go to a general output facilities module?
     */
@@ -203,11 +203,13 @@ namespace OKlib {
     /*!
       \def OKLIB_TEST_EQUAL_W
       \brief Test macro to be used for asserting equality in case the objects compared
-      are not output-streamable (but output in case of test failure is needed).
+      are not output-streamable, but output in case of test failure is needed. Default
+      usage for containers with output-streamable elements; adaption is possible
+      for the general case by defining an output wrapper.
 
       Without user-defined definitions, OKLIB_TEST_EQUAL_W(a, b) can be used
       for container-types (having member functions begin and end).
-      For other classes X before the use of the macro the std::ostream inserter
+      For other classes X, before the use of the macro the std::ostream inserter
       must be overloaded for inserting objects of type OKlib::Testsystem::OutputWrapper<X>.
     */
 
