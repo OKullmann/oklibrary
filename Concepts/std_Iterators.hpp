@@ -17,6 +17,8 @@
 #include <iterator>
 
 #include <boost/concept_check.hpp>
+#include <boost/mpl/or.hpp>
+#include <boost/type_traits.hpp>
 
 #include "ConceptsBase.hpp"
 #include "std_Basics.hpp"
@@ -33,12 +35,14 @@ namespace OKlib {
       Refines concepts FullyEqualityComparable, Assignable, CopyConstructible.
       \todo "reference" and "pointer" are never explained in the standard, and the requirements on iterator concepts don't mention them, but they suddenly show up in the iterator traits (24.3.1) ?
       \todo Can expressions "a -> m" be expressed ?
+      \todo Create in TypeTraits.hpp a metafunction "is_derived_or_same", and use it for the definition of InputIterator and elsewhere.
     */
 
     template <typename Iterator>
     struct InputIterator {
       typedef typename std::iterator_traits<Iterator>::value_type value_type;
       typedef typename std::iterator_traits<Iterator>::iterator_category iterator_category;
+      BOOST_STATIC_ASSERT((::boost::mpl::or_< ::boost::is_same<std::input_iterator_tag, iterator_category>, ::boost::is_base_and_derived<std::input_iterator_tag, iterator_category> >::value));
       typedef typename std::iterator_traits<Iterator>::difference_type difference_type;
 
       typedef typename std::iterator_traits<Iterator>::reference reference;
