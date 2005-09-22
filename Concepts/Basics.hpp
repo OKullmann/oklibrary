@@ -24,6 +24,9 @@ namespace OKlib {
     /*!
       \class FullyEqualityComparable
       \brief Concept FullyEqualityComparable: == and !=.
+
+      Refines concept EqualityComparable by demanding that a != b is defined
+      (holding true iff not (a == b) is the case).
     */
 
     template <typename T>
@@ -140,6 +143,32 @@ namespace OKlib {
     struct FullyConstructible_tag : virtual Destructible_tag, virtual CopyConstructible_tag, virtual DefaultConstructible_tag, virtual Assignable_tag {};
 
     class FullyConstructible_Archetype {};
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class FullyConstructibleEq
+      \brief Concept FullyConstructibleEq combines concepts FullyEqualityComparable and FullyConstructible (plus natural semantical requirements enabled by equality).
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq {
+      void constraints() {
+        boost::function_requires<FullyEqualityComparable<T> >();
+        boost::function_requires<FullyConstructible<T> >();
+      }
+    };
+    struct FullyConstructibleEq_tag : virtual FullyEqualityComparable_tag, virtual FullyConstructible_tag {};
+
+    class FullyConstructibleEq_Archetype {
+    protected :
+      struct convertible_to_bool {
+        operator bool() {}
+      };
+    public :
+      convertible_to_bool operator ==(const FullyConstructibleEq_Archetype&) const {}
+      convertible_to_bool operator !=(const FullyConstructibleEq_Archetype&) const {}
+    };
 
     // ----------------------------------------------------------------------------------------------------------------------
 
