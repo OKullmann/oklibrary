@@ -6,6 +6,10 @@
   \todo makefiles in general should always have the suffix .mak,
   so that for examples xemacs regocnises the format.
 
+  \todo Overhaul of the general targets:
+   - "all" should not compile the test-programs
+   - what is the role of prebuild?
+
   \todo Doxygen:
    - Can makefiles be incorporated?!
    - How to integrate a general todo list into Doxygen?!
