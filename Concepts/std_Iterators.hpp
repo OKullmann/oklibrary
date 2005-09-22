@@ -29,6 +29,10 @@ namespace OKlib {
     /*!
       \class InputIterator
       \brief Concept InputIterator according to the standard.
+
+      Refines concepts FullyEqualityComparable, Assignable, CopyConstructible.
+      \todo "reference" and "pointer" are never explained in the standard, and the requirements on iterator concepts don't mention them, but they suddenly show up in the iterator traits (24.3.1) ?
+      \todo Can expressions "a -> m" be expressed ?
     */
 
     template <typename Iterator>
@@ -39,7 +43,6 @@ namespace OKlib {
 
       typedef typename std::iterator_traits<Iterator>::reference reference;
       typedef typename std::iterator_traits<Iterator>::pointer pointer;
-      // ToDo: "reference" and "pointer" is never explained in the standard, and the requirements on iterator concepts don't mention them, but they suddenly show up in the iterator traits (24.3.1) ?
       void constraints() {
         boost::function_requires<FullyEqualityComparable<Iterator> >();
         boost::function_requires<Assignable<Iterator> >();
@@ -52,7 +55,6 @@ namespace OKlib {
       const Iterator a, b;
       Iterator& r;
     };
-    // ToDO: Can expressions "a -> m" be expressed ?
     struct InputIterator_tag : virtual ConceptsBase_tag {};
 
     class InputIterator_Archetype {
