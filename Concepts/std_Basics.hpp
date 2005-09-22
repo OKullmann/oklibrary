@@ -21,7 +21,13 @@ namespace OKlib {
 
   namespace Concepts {
 
-    // According to Table 28 in the standard
+    /*!
+      \class EqualityComparable
+      \brief Concept EqualityComparable according to Table 28 in the standard (plus const-correctness).
+
+      Semantical requirements are that of an equivalence relation.
+    */
+      
     template <typename T>
     struct EqualityComparable {
       void constraints() {
@@ -54,7 +60,11 @@ namespace OKlib {
 
     // --------------------------------------------------------------------------------------------------------------------------------
 
-    // According to Table 29 in the standard
+    /*!
+      \class LessThanComparable
+      \brief LessThanComparable according to Table 29 in the standard (plus const-correctness)
+    */
+
     template <typename T>
     struct LessThanComparable {
       void constraints() {
@@ -89,7 +99,10 @@ namespace OKlib {
 
     // --------------------------------------------------------------------------------------------------------------------------------
 
-    // ADDITION
+    /*!
+      \class Destructible
+      \brief Concept Destructible (an obvious addition to the standard).
+    */
 
     template <class T>
     struct Destructible {
@@ -109,6 +122,13 @@ namespace OKlib {
     };
     
     // --------------------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class CopyConstructible
+      \brief Concept CopyConstructible.
+
+      Refines concept Destructible.
+    */
 
     template <class T>
     struct CopyConstructible {
@@ -134,6 +154,11 @@ namespace OKlib {
 
     // --------------------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class DefaultConstructible
+      \brief Concept DefaultConstructible.
+    */
+
     template <typename T>
     struct DefaultConstructible {
       void constraints() {
@@ -152,7 +177,11 @@ namespace OKlib {
     
     // --------------------------------------------------------------------------------------------------------------------------------
 
-    // According to Table 64 in the standard
+    /*!
+      \class Assignable
+      \brief Concept Assignable according to Table 64 in the standard.
+    */
+
     template <typename T>
     struct Assignable {
       void constraints() {
