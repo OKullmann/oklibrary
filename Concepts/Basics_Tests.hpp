@@ -1,5 +1,14 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
+/*!
+  \file Basics_Tests.hpp
+  \brief Test classes to help with determining, whether a class models the basic concepts.
+  \todo
+   - There must be (at least basic) tests for the tests itself.
+   - Updating tests for FullyLessThanComparable (similar to tests for EqualityComparable).
+   - Updating tests for LinearOrder (similar to tests for EqualityComparable).
+*/
+
 #ifndef BASICSTESTS_oLzW151
 
 #define BASICSTESTS_oLzW151
@@ -9,37 +18,43 @@
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
+#include "std_Basics_Tests.hpp"
+
 namespace OKlib {
 
   namespace Concepts {
 
+    /*!
+      \class FullyEqualityComparable_Axiom_equal_vs_unequal
+      \brief Checks for objects a, b whether either (a == b and not (a != b)) or (not (a == b) and a != b) holds.
+    */
+
     template <typename T>
-    struct FullyEqualityComparable_Axiom_positive : OKlib::TestSystem::Test {
-      typedef FullyEqualityComparable_Axiom_positive test_type;
-      FullyEqualityComparable_Axiom_positive(const T& a, const T& b) : a(a), b(b) {
-        assert(a == b);
-      }
+    struct FullyEqualityComparable_Axiom_equal_vs_unequal : OKlib::TestSystem::Test {
+      typedef FullyEqualityComparable_Axiom_equal_vs_unequal test_type;
+      FullyEqualityComparable_Axiom_equal_vs_unequal(const T& a, const T& b) : a(a), b(b) {}
     private :
       const T& a, b;
       void perform_test_trivial() {
-        if (a != b)
-          OKLIB_THROW("a != b");
+        const bool a_eq_b = (a == b);
+        const bool a_neq_b = (a != b);
+        switch (a_eq_b) {
+        case true :
+          if (a_neq_b)
+            OKLIB_THROW("a == b and a != b");
+          break;
+        case false :
+          if (not a_neq_b)
+            OKLIB_THROW("not a == b and not a != b");
+          break;
+        }
       }
     };
     
-    template <typename T>
-    struct FullyEqualityComparable_Axiom_negative : OKlib::TestSystem::Test {
-      typedef FullyEqualityComparable_Axiom_negative test_type;
-      FullyEqualityComparable_Axiom_negative(const T& a, const T& b) : a(a), b(b) {
-        assert(a != b);
-      }
-    private :
-      const T& a, b;
-      void perform_test_trivial() {
-        if (not (a == b))
-          OKLIB_THROW("a == b");
-      }
-    };
+    /*!
+      \class FullyEqualityComparable_basic_test_one_object
+      \brief Basic test for FullyEqualityComparable, given one object.
+    */
 
     template <typename T>
     struct FullyEqualityComparable_basic_test_one_object : OKlib::TestSystem::Test {
@@ -48,11 +63,146 @@ namespace OKlib {
     private :
       const T& x;
       void perform_test_trivial() {
-        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_Axiom_positive<T>(x, x));
+        OKLIB_TESTTRIVIAL_RETHROW(EqualityComparable_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_Axiom_equal_vs_unequal<T>(x, x));
+      }
+    };
+
+    /*!
+      \class FullyEqualityComparable_basic_test_two_objects
+      \brief Basic test for FullyEqualityComparable, given two objects.
+    */
+
+    template <typename T>
+    struct FullyEqualityComparable_basic_test_two_objects : OKlib::TestSystem::Test {
+      typedef FullyEqualityComparable_basic_test_two_objects test_type;
+      FullyEqualityComparable_basic_test_two_objects(const T& x, const T& y) : x(x), y(y) {}
+    private :
+      const T& x, y;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(EqualityComparable_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_one_object<T>(y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_Axiom_equal_vs_unequal<T>(x, y));
+      }
+    };
+
+    /*!
+      \class FullyEqualityComparable_basic_test_three_objects
+      \brief Basic test for FullyEqualityComparable, given three objects.
+    */
+
+    template <typename T>
+    struct FullyEqualityComparable_basic_test_three_objects : OKlib::TestSystem::Test {
+      typedef FullyEqualityComparable_basic_test_three_objects test_type;
+      FullyEqualityComparable_basic_test_three_objects(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+    private :
+      const T& x, y, z;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(EqualityComparable_basic_test_three_objects<T>(x, y, z));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(x, z));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(y, z));
       }
     };
 
     // ----------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class FullyConstructibleEq_Axiom_copy_eq
+      \brief Checks for object a whether for x(a) holds x == a.
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq_Axiom_copy_eq : OKlib::TestSystem::Test {
+      typedef FullyConstructibleEq_Axiom_copy_eq test_type;
+      FullyConstructibleEq_Axiom_copy_eq(const T& a) : a(a), x(a) {}
+    private :
+      const T& a;
+      const T x;
+      void perform_test_trivial() {
+        if (not (a == x))
+          OKLIB_THROW("not (a == x) after copy construction");
+      }
+    };
+
+    /*!
+      \class FullyConstructibleEq_Axiom_assign_eq
+      \brief Checks whether after assignment x = b holds x == b.
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq_Axiom_assign_eq : OKlib::TestSystem::Test {
+      typedef FullyConstructibleEq_Axiom_assign_eq test_type;
+      FullyConstructibleEq_Axiom_assign_eq(const T& a, const T& b) : a(a), b(b), x(a) {}
+    private :
+      const T& a, b;
+      const T x;
+      void perform_test_trivial() {
+        x = b;
+        if (not (x == b))
+          OKLIB_THROW("not (x == b) after assignment x = b");
+      }
+    };
+
+    /*!
+      \class FullyConstructibleEq_basic_test_one_object
+      \brief Basic test for FullyEqualityComparable, given one object.
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq_basic_test_one_object : OKlib::TestSystem::Test {
+      typedef FullyConstructibleEq_basic_test_one_object test_type;
+      FullyConstructibleEq_basic_test_one_object(const T& x) : x(x) {}
+    private :
+      const T& x;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_Axiom_copy_eq<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_Axiom_assign_eq<T>(x,x));
+      }
+    };
+
+    /*!
+      \class FullyConstructibleEq_basic_test_two_objects
+      \brief Basic test for FullyEqualityComparable, given two objects.
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq_basic_test_two_objects : OKlib::TestSystem::Test {
+      typedef FullyConstructibleEq_basic_test_two_objects test_type;
+      FullyConstructibleEq_basic_test_two_objects(const T& x, const T& y) : x(x), y(y) {}
+    private :
+      const T& x, y;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_one_object<T>(y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_Axiom_assign_eq<T>(x, y));
+      }
+    };
+
+    /*!
+      \class FullyConstructibleEq_basic_test_three_objects
+      \brief Basic test for FullyEqualityComparable, given three objects.
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq_basic_test_three_objects : OKlib::TestSystem::Test {
+      typedef FullyConstructibleEq_basic_test_three_objects test_type;
+      FullyConstructibleEq_basic_test_three_objects(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+    private :
+      const T& x, y, z;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_two_objects<T>(x, z));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_two_objects<T>(y, z));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_three_objects<T>(x, y, z));
+      }
+    };
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
 
     template <typename T>
     struct FullyLessThanComparable_Axiom_greater_positive : OKlib::TestSystem::Test {
