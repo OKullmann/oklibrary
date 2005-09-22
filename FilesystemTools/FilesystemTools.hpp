@@ -27,6 +27,8 @@ namespace OKlib {
     /*!
       \class DirectoryIterator
       \brief Class which provides recursive input iterators over the non-directory files within a directory.
+      \todo A more complete explanation is needed.
+      \todo Handling of links needs to be customised (and documented).
     */
 
     class DirectoryIterator {
