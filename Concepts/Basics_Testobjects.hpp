@@ -25,6 +25,15 @@ namespace OKlib {
     OKLIB_BASIC_CONCEPT_TEST_TAG(FullyConstructible);
     OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(FullyConstructible);
 
+    OKLIB_BASIC_CONCEPT_TEST_TAG(ConstructibleCEq);
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ConstructibleCEq);
+
+    OKLIB_BASIC_CONCEPT_TEST_TAG(ConstructibleCAEq);
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ConstructibleCAEq);
+
+    OKLIB_BASIC_CONCEPT_TEST_TAG(ConstructibleDEq);
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ConstructibleDEq);
+
     OKLIB_BASIC_CONCEPT_TEST_TAG(FullyConstructibleEq);
     OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(FullyConstructibleEq);
     
