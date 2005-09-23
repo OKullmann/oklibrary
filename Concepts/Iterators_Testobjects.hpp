@@ -13,9 +13,6 @@ namespace OKlib {
 
   namespace Concepts {
 
-      OKLIB_BASIC_CONCEPT_TEST_TAG(MultiPassInputIterator);
-      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(MultiPassInputIterator);
-
   }
 
 }
