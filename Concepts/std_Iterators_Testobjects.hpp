@@ -18,6 +18,12 @@ namespace OKlib {
       OKLIB_BASIC_CONCEPT_TEST_TAG(InputIterator);
       OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(InputIterator);
 
+      OKLIB_BASIC_CONCEPT_TEST_TAG(MultiPassInputIterator);
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(MultiPassInputIterator);
+
+      OKLIB_BASIC_CONCEPT_TEST_TAG(ForwardIterator);
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ForwardIterator);
+
     }
 
   }
