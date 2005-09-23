@@ -146,6 +146,71 @@ namespace OKlib {
 
     // ----------------------------------------------------------------------------------------------------------------------
 
+    template <typename T>
+    struct ConstructibleCEq {
+      void constraints() {
+        boost::function_requires<FullyEqualityComparable<T> >();
+        boost::function_requires<Destructible<T> >();
+        boost::function_requires<CopyConstructible<T> >();
+      }
+    };
+    struct ConstructibleCEq_tag : virtual FullyEqualityComparable_tag, virtual Destructible_tag, virtual CopyConstructible_tag {};
+
+    class ConstructibleCEq_Archetype {
+      ConstructibleCEq_Archetype();
+      ConstructibleCEq_Archetype& operator =(const ConstructibleCEq_Archetype&);
+    protected :
+      struct convertible_to_bool {
+        operator bool() {}
+      };
+    public :
+      convertible_to_bool operator ==(const ConstructibleCEq_Archetype&) const {}
+      convertible_to_bool operator !=(const ConstructibleCEq_Archetype&) const {}
+    };
+
+    template <typename T>
+    struct ConstructibleCAEq {
+      void constraints() {
+        boost::function_requires<ConstructibleCEq<T> >();
+        boost::function_requires<Assignable<T> >();
+      }
+    };
+    struct ConstructibleCAEq_tag : virtual ConstructibleCEq_tag, virtual Assignable_tag {};
+
+    class ConstructibleCAEq_Archetype {
+      ConstructibleCAEq_Archetype();
+    protected :
+      struct convertible_to_bool {
+        operator bool() {}
+      };
+    public :
+      convertible_to_bool operator ==(const ConstructibleCAEq_Archetype&) const {}
+      convertible_to_bool operator !=(const ConstructibleCAEq_Archetype&) const {}
+    };
+
+    template <typename T>
+    struct ConstructibleDEq {
+      void constraints() {
+        boost::function_requires<FullyEqualityComparable<T> >();
+        boost::function_requires<DefaultConstructible<T> >();
+      }
+    };
+    struct ConstructibleDEq_tag : virtual FullyEqualityComparable_tag, virtual DefaultConstructible_tag {};
+
+    class ConstructibleDEq_Archetype {
+      ConstructibleDEq_Archetype(const ConstructibleDEq_Archetype&);
+      ConstructibleDEq_Archetype& operator =(const ConstructibleDEq_Archetype&);
+    protected :
+      struct convertible_to_bool {
+        operator bool() {}
+      };
+    public :
+      ConstructibleDEq_Archetype() {}
+      convertible_to_bool operator ==(const ConstructibleDEq_Archetype&) const {}
+      convertible_to_bool operator !=(const ConstructibleDEq_Archetype&) const {}
+    };
+
+
     /*!
       \class FullyConstructibleEq
       \brief Concept FullyConstructibleEq combines concepts FullyEqualityComparable and FullyConstructible (plus natural semantical requirements enabled by equality).
@@ -154,11 +219,12 @@ namespace OKlib {
     template <typename T>
     struct FullyConstructibleEq {
       void constraints() {
-        boost::function_requires<FullyEqualityComparable<T> >();
         boost::function_requires<FullyConstructible<T> >();
+        boost::function_requires<ConstructibleCAEq<T> >();
+        boost::function_requires<ConstructibleDEq<T> >();
       }
     };
-    struct FullyConstructibleEq_tag : virtual FullyEqualityComparable_tag, virtual FullyConstructible_tag {};
+    struct FullyConstructibleEq_tag : virtual FullyConstructible_tag, virtual ConstructibleCAEq_tag, virtual ConstructibleDEq_tag {};
 
     class FullyConstructibleEq_Archetype {
     protected :
@@ -186,7 +252,7 @@ namespace OKlib {
     };
     struct EqualitySubstitutable_tag : virtual EqualityComparable_tag {};
     // Semantics:
-    // if a == b, then b can be substituted for a everywhere.
+    // if a == b, then b can be substituted for a everywhere (it might be, that the domain of == is restricted).
 
     class EqualitySubstitutable_Archetype : public EqualityComparable_Archetype {
       EqualitySubstitutable_Archetype();
