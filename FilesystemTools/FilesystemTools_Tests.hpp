@@ -29,6 +29,7 @@ namespace OKlib {
       \class Test_DirectoryIterator
       \brief Testing the concept of a directory iterator.
       \todo Using path-equality or path-equivalence ?
+      \todo Instead of OKlib::Concepts::InputIterator we should require OKlib::Concepts::InputIteratorDefault and MultiPassInputIterator (???).
     */
     
     template <class DirectoryIterator>

@@ -29,6 +29,7 @@ namespace OKlib {
       \brief Class which provides recursive input iterators over the non-directory files within a directory.
       \todo A more complete explanation is needed.
       \todo Handling of links needs to be customised (and documented).
+      \todo Designing a concept; the domain of == allows comparison with the unique past-the-end iterator. The concept InputIterator should be refined InputIteratorDefault and MultiPassInputIterator (???).
     */
 
     class DirectoryIterator {
