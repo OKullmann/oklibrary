@@ -5,7 +5,8 @@
   \brief The very basic concepts for the library. Every unit where concepts are defined
   and/or checked should include this file. Provides macros OKLIB_MODELS_CONCEPT_REQUIRES
   and OKLIB_MODELS_CONCEPT_TAG for checking whether a class models a concept and
-  has the required concept tag.
+  has the required concept tag. Every "own concept" of the library must be a refinement of
+  BasicRequirements.
 
   Includes boost/concept_check, boost/static_assert, boost/type_traits, and
   ConceptsBase, ConceptsMetafunctions, Basics.
