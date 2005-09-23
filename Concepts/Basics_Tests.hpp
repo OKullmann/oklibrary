@@ -109,14 +109,14 @@ namespace OKlib {
     // ----------------------------------------------------------------------------------------------------------------------
 
     /*!
-      \class FullyConstructibleEq_Axiom_copy_eq
-      \brief Checks for object a whether for x(a) holds x == a.
+      \class ConstructibleCEq_Axiom_copy_eq
+      \brief Checks for object a whether for x copy-constructed from a from a we have x == a.
     */
 
     template <typename T>
-    struct FullyConstructibleEq_Axiom_copy_eq : OKlib::TestSystem::Test {
-      typedef FullyConstructibleEq_Axiom_copy_eq test_type;
-      FullyConstructibleEq_Axiom_copy_eq(const T& a) : a(a), x(a) {}
+    struct ConstructibleCEq_Axiom_copy_eq : OKlib::TestSystem::Test {
+      typedef ConstructibleCEq_Axiom_copy_eq test_type;
+      ConstructibleCEq_Axiom_copy_eq(const T& a) : a(a), x(a) {}
     private :
       const T& a;
       const T x;
@@ -127,14 +127,70 @@ namespace OKlib {
     };
 
     /*!
-      \class FullyConstructibleEq_Axiom_assign_eq
-      \brief Checks whether after assignment x = b holds x == b.
+      \class ConstructibleCEq_basic_test_one_object
+      \brief Basic test for ConstructibleCEq, given one object.
     */
 
     template <typename T>
-    struct FullyConstructibleEq_Axiom_assign_eq : OKlib::TestSystem::Test {
-      typedef FullyConstructibleEq_Axiom_assign_eq test_type;
-      FullyConstructibleEq_Axiom_assign_eq(const T& a, const T& b) : a(a), b(b), x(a) {}
+    struct ConstructibleCEq_basic_test_one_object : OKlib::TestSystem::Test {
+      typedef ConstructibleCEq_basic_test_one_object test_type;
+      ConstructibleCEq_basic_test_one_object(const T& x) : x(x) {}
+    private :
+      const T& x;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_Axiom_copy_eq<T>(x));
+      }
+    };
+
+    /*!
+      \class ConstructibleCEq_basic_test_two_objects
+      \brief Basic test for ConstructibleCEq, given two objects.
+    */
+
+    template <typename T>
+    struct ConstructibleCEq_basic_test_two_objects : OKlib::TestSystem::Test {
+      typedef ConstructibleCEq_basic_test_two_objects test_type;
+      ConstructibleCEq_basic_test_two_objects(const T& x, const T& y) : x(x), y(y) {}
+    private :
+      const T& x, y;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_one_object<T>(y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(x, y));
+      }
+    };
+
+    /*!
+      \class ConstructibleCEq_basic_test_three_objects
+      \brief Basic test for ConstructibleCEq, given three objects.
+    */
+
+    template <typename T>
+    struct ConstructibleCEq_basic_test_three_objects : OKlib::TestSystem::Test {
+      typedef ConstructibleCEq_basic_test_three_objects test_type;
+      ConstructibleCEq_basic_test_three_objects(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+    private :
+      const T& x, y, z;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_two_objects<T>(x, z));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_two_objects<T>(y, z));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_three_objects<T>(x, y, z));
+      }
+    };
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class ConstructibleCAEq_Axiom_assign_eq
+      \brief Checks whether after assignment x = b we have x == b.
+    */
+
+    template <typename T>
+    struct ConstructibleCAEq_Axiom_assign_eq : OKlib::TestSystem::Test {
+      typedef ConstructibleCAEq_Axiom_assign_eq test_type;
+      ConstructibleCAEq_Axiom_assign_eq(const T& a, const T& b) : a(a), b(b), x(a) {}
     private :
       const T& a, b;
       const T x;
@@ -146,8 +202,167 @@ namespace OKlib {
     };
 
     /*!
+      \class ConstructibleCAEq_basic_test_one_object
+      \brief Basic test for ConstructibleCAEq, given one object.
+    */
+
+    template <typename T>
+    struct ConstructibleCAEq_basic_test_one_object : OKlib::TestSystem::Test {
+      typedef ConstructibleCAEq_basic_test_one_object test_type;
+      ConstructibleCAEq_basic_test_one_object(const T& x) : x(x) {}
+    private :
+      const T& x;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_Axiom_assign_eq<T>(x, x));
+      }
+    };
+
+    /*!
+      \class ConstructibleCAEq_basic_test_two_objects
+      \brief Basic test for ConstructibleCAEq, given two objects.
+    */
+
+    template <typename T>
+    struct ConstructibleCAEq_basic_test_two_objects : OKlib::TestSystem::Test {
+      typedef ConstructibleCAEq_basic_test_two_objects test_type;
+      ConstructibleCAEq_basic_test_two_objects(const T& x, const T& y) : x(x), y(y) {}
+    private :
+      const T& x, y;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_one_object<T>(y));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_Axiom_assign_eq<T>(x, y));
+      }
+    };
+
+    /*!
+      \class ConstructibleCAEq_basic_test_three_objects
+      \brief Basic test for ConstructibleCAEq, given three objects.
+    */
+
+    template <typename T>
+    struct ConstructibleCAEq_basic_test_three_objects : OKlib::TestSystem::Test {
+      typedef ConstructibleCAEq_basic_test_three_objects test_type;
+      ConstructibleCAEq_basic_test_three_objects(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+    private :
+      const T& x, y, z;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCEq_basic_test_three_objects<T>(x, y, z));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_two_objects<T>(x, z));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_two_objects<T>(y, z));
+      }
+    };
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class ConstructibleDEq_Axiom_default_eq
+      \brief Checks whether two default constructed objects are equal.
+    */
+
+    template <typename T>
+    struct ConstructibleDEq_Axiom_default_eq : OKlib::TestSystem::Test {
+      typedef ConstructibleDEq_Axiom_default_eq test_type;
+      ConstructibleDEq_Axiom_default_eq() {}
+    private :
+      void perform_test_trivial() {
+        if (not (T() == T()))
+          OKLIB_THROW("not (T() == T())");
+      }
+    };
+
+    /*!
+      \class ConstructibleDEq_basic_test_no_object
+      \brief Basic test for ConstructibleDEq (not requiring any object).
+    */
+
+    template <typename T>
+    struct ConstructibleDEq_basic_test_no_object : OKlib::TestSystem::Test {
+      typedef ConstructibleDEq_basic_test_no_object test_type;
+      ConstructibleDEq_basic_test_no_object() {}
+    private :
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_Axiom_default_eq<T>());
+      }
+    };
+
+    /*!
+      \class ConstructibleDEq_basic_test_one_object
+      \brief Basic test for ConstructibleDEq, given one object.
+    */
+
+    template <typename T>
+    struct ConstructibleDEq_basic_test_one_object : OKlib::TestSystem::Test {
+      typedef ConstructibleDEq_basic_test_one_object test_type;
+      ConstructibleDEq_basic_test_one_object(const T& x) : x(x) {}
+    private :
+      const T& x;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_no_object<T>());
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_one_object<T>(x));
+      }
+    };
+
+    /*!
+      \class ConstructibleDEq_basic_test_two_objects
+      \brief Basic test for ConstructibleDEq, given two objects.
+    */
+
+    template <typename T>
+    struct ConstructibleDEq_basic_test_two_objects : OKlib::TestSystem::Test {
+      typedef ConstructibleDEq_basic_test_two_objects test_type;
+      ConstructibleDEq_basic_test_two_objects(const T& x, const T& y) : x(x), y(y) {}
+    private :
+      const T& x, y;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_one_object<T>(x));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_one_object<T>(y));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(x, y));
+      }
+    };
+
+    /*!
+      \class ConstructibleDEq_basic_test_three_objects
+      \brief Basic test for ConstructibleDEq, given three objects.
+    */
+
+    template <typename T>
+    struct ConstructibleDEq_basic_test_three_objects : OKlib::TestSystem::Test {
+      typedef ConstructibleDEq_basic_test_three_objects test_type;
+      ConstructibleDEq_basic_test_three_objects(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
+    private :
+      const T& x, y, z;
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_two_objects<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_two_objects<T>(x, z));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_two_objects<T>(y, z));
+        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_three_objects<T>(x, y, z));
+      }
+    };
+
+    // ----------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class FullyConstructibleEq_basic_test_no_object
+      \brief Basic test for FullyConstructibleEq (not requiring any object).
+    */
+
+    template <typename T>
+    struct FullyConstructibleEq_basic_test_no_object : OKlib::TestSystem::Test {
+      typedef FullyConstructibleEq_basic_test_no_object test_type;
+      FullyConstructibleEq_basic_test_no_object() {}
+    private :
+      void perform_test_trivial() {
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_no_object<T>());
+      }
+    };
+
+    /*!
       \class FullyConstructibleEq_basic_test_one_object
-      \brief Basic test for FullyEqualityComparable, given one object.
+      \brief Basic test for FullyConstructibleEq, given one object.
     */
 
     template <typename T>
@@ -157,9 +372,8 @@ namespace OKlib {
     private :
       const T& x;
       void perform_test_trivial() {
-        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_one_object<T>(x));
-        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_Axiom_copy_eq<T>(x));
-        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_Axiom_assign_eq<T>(x,x));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleDEq_basic_test_no_object<T>());
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_one_object<T>(x));
       }
     };
 
@@ -177,8 +391,7 @@ namespace OKlib {
       void perform_test_trivial() {
         OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_one_object<T>(x));
         OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_one_object<T>(y));
-        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_two_objects<T>(x, y));
-        OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_Axiom_assign_eq<T>(x, y));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_two_objects<T>(x, y));
       }
     };
 
@@ -197,12 +410,11 @@ namespace OKlib {
         OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_two_objects<T>(x, y));
         OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_two_objects<T>(x, z));
         OKLIB_TESTTRIVIAL_RETHROW(FullyConstructibleEq_basic_test_two_objects<T>(y, z));
-        OKLIB_TESTTRIVIAL_RETHROW(FullyEqualityComparable_basic_test_three_objects<T>(x, y, z));
+        OKLIB_TESTTRIVIAL_RETHROW(ConstructibleCAEq_basic_test_three_objects<T>(x, y, z));
       }
     };
 
     // ----------------------------------------------------------------------------------------------------------------------
-
 
     template <typename T>
     struct FullyLessThanComparable_Axiom_greater_positive : OKlib::TestSystem::Test {
