@@ -30,6 +30,7 @@ namespace OKlib {
       \brief Testing the concept of a directory iterator.
       \todo Using path-equality or path-equivalence ?
       \todo Instead of OKlib::Concepts::InputIterator we should require OKlib::Concepts::InputIteratorDefault and MultiPassInputIterator (???).
+      \todo Testing should also cover the case of symbolic links.
     */
     
     template <class DirectoryIterator>
@@ -76,16 +77,6 @@ namespace OKlib {
           const path path_test_6(str_test_6);
           assert(boost::filesystem::exists(path_test_6));
           assert(not boost::filesystem::is_directory(path_test_6));
-
-          const:: std::string str_test_link_001("TestDirectory/Test_link_001.hpp");
-          const path path_test_link_001(str_test_link_001);
-          assert(boost::filesystem::exists(path_test_link_001));
-          assert(not boost::filesystem::is_directory(path_test_link_001));
-
-          const:: std::string str_test_link_002("TestDirectory/TestSubDirectory/CVS_link");
-          const path path_test_link_002(str_test_link_002);
-          assert(boost::filesystem::exists(path_test_link_002));
-          assert(boost::filesystem::is_directory(path_test_link_002));
 
           DirIt dir_it(path_test_1);
           if (not (dir_it == dir_it))
