@@ -77,45 +77,24 @@ namespace OKlib {
           assert(boost::filesystem::exists(path_test_6));
           assert(not boost::filesystem::is_directory(path_test_6));
 
-	  DirIt dir_it(path_test_1);
+          const:: std::string str_test_link_001("TestDirectory/Test_link_001.hpp");
+          const path path_test_link_001(str_test_link_001);
+          assert(boost::filesystem::exists(path_test_link_001));
+          assert(not boost::filesystem::is_directory(path_test_link_001));
+
+          const:: std::string str_test_link_002("TestDirectory/TestSubDirectory/CVS_link");
+          const path path_test_link_002(str_test_link_002);
+          assert(boost::filesystem::exists(path_test_link_002));
+          assert(boost::filesystem::is_directory(path_test_link_002));
+
+          DirIt dir_it(path_test_1);
           if (not (dir_it == dir_it))
             OKLIB_THROW("not dir_it == dir_it");
           if (dir_it != dir_it)
             OKLIB_THROW("dir_it != dir_it");
-//           if (not (path_test_1 == *dir_it))
-//             OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
+
           if (boost::filesystem::equivalent(path_test_1,*dir_it))
             OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
-
-	  DirIt dir_it_0;
-	  DirIt dir_it_1;
-          if (not (dir_it == dir_it))
-            OKLIB_THROW("not dir_it_0 == dir_it_1 (Default constructor)");
-
-          DirIt dir_it_2(dir_it);
-          if (not (dir_it == dir_it_2))
-            OKLIB_THROW("dir_it == dir_it_2 (Copy constructor)");
-
-	  DirIt dir_it_3;
-	  dir_it_3 = dir_it_2;
-          if (not (dir_it_2 == dir_it_3))
-            OKLIB_THROW("dir_it_2 == dir_it_3 (Assignment)");
-
-	  DirIt dir_it_4;
-	  DirIt dir_it_5;
-	  assert(dir_it_4 == dir_it_5);
-          if (not (dir_it_5 == dir_it_4))
-            OKLIB_THROW("dir_it_5 == dir_it_4 (Symmetry of equality)");
-
-	  DirIt dir_it_6;
-	  assert(dir_it_5 == dir_it_6);
-          if (not (dir_it_4 == dir_it_6))
-            OKLIB_THROW("dir_it_4 == dir_it_6 (Transitivity of equality)");
-
-	  DirIt dir_it_7;
-	  DirIt dir_it_8;
-	  if (not (dir_it_7==dir_it_8)!=(dir_it_7!=dir_it_8))
-	     OKLIB_THROW("(dir_it_7==dir_it_8)!=(dir_it_7!=dir_it_8)");   
 
           typedef std::set<std::string> set_of_names;
           set_of_names cvs_file_names_ref;
@@ -124,6 +103,39 @@ namespace OKlib {
           for (int i = 0; i != 3; ++i)
             file_names_found.insert((*(dir_it++)).leaf());
           OKLIB_TEST_EQUAL_W(cvs_file_names_ref, file_names_found);
+
+          // \todo Replace tests below with concept tests.
+
+          DirIt dir_it_0;
+          DirIt dir_it_1;
+          if (not (dir_it == dir_it))
+            OKLIB_THROW("not dir_it_0 == dir_it_1 (Default constructor)");
+
+          DirIt dir_it_2(dir_it);
+          if (not (dir_it == dir_it_2))
+            OKLIB_THROW("dir_it == dir_it_2 (Copy constructor)");
+
+          DirIt dir_it_3;
+          dir_it_3 = dir_it_2;
+          if (not (dir_it_2 == dir_it_3))
+            OKLIB_THROW("dir_it_2 == dir_it_3 (Assignment)");
+
+          DirIt dir_it_4;
+          DirIt dir_it_5;
+          assert(dir_it_4 == dir_it_5);
+          if (not (dir_it_5 == dir_it_4))
+            OKLIB_THROW("dir_it_5 == dir_it_4 (Symmetry of equality)");
+
+          DirIt dir_it_6;
+          assert(dir_it_5 == dir_it_6);
+          if (not (dir_it_4 == dir_it_6))
+            OKLIB_THROW("dir_it_4 == dir_it_6 (Transitivity of equality)");
+
+          DirIt dir_it_7;
+          DirIt dir_it_8;
+          if (not (dir_it_7==dir_it_8)!=(dir_it_7!=dir_it_8))
+            OKLIB_THROW("(dir_it_7==dir_it_8)!=(dir_it_7!=dir_it_8)");   
+          
         }
       }
     };
