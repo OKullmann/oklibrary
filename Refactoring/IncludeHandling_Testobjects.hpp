@@ -4,6 +4,9 @@
 
 #define INCLUDEHANDLINGTESTOBJECTS_plmJJk
 
+#include <string>
+#include <istream>
+
 #include "IncludeHandling.hpp"
 #include "IncludeHandling_Tests.hpp"
 
@@ -11,7 +14,8 @@ namespace OKlib {
 
   namespace Refactoring {
    
-   Test_IncludeHandling<IncludeDirective> test_IncludeDirective;
+    Test_IncludeDirective<IncludeDirective> test_include_directive;
+    Test_Extract_include_directives<Extract_include_directives> test_extract_include_directives;
 
   }
 
