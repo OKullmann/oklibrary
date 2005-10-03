@@ -17,10 +17,9 @@
 #include <string>
 #include <cassert>
 #include <ostream>
-#include <sstream>
-
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include <vector>
+#include <utility>
+#include <boost/spirit.hpp>
 
 #include "FilesystemTools.hpp"
 #include "AssociativeContainers.hpp"
@@ -35,15 +34,30 @@ namespace OKlib {
     /*!
       \class IncludeDirective
       \brief Representation of one include directive.
-      \todo Enable element access.
-      \todo Enable output streaming.
-      \todo Can number_spaces_after_include be zero ?
     */
     
     template <class String = std::string>
     class IncludeDirective {
     public :
+      typedef String string_type;
       typedef typename String::size_type size_type;
+      std::string opening() const {
+        switch (include_form_) {
+        case system_header :
+          return "<";
+        case source_code_header :
+          return "\"";
+        }
+      }
+      std::string closing() const {
+        switch (include_form_) {
+        case system_header :
+          return ">";
+        case source_code_header :
+          return "\"";
+        }
+
+      }
     private :
       String header_file_;
       size_type number_spaces_after_hash_, number_spaces_after_include_;
@@ -80,19 +94,11 @@ namespace OKlib {
 
 
 template<class T>
-std::ostream& operator<<(std::ostream& out, const IncludeDirective<T>& include_directive)
-{
-  std::stringstream o_string_stream;
-  std::string enclosing_mark;
-  const Include_forms& include_form = include_directive.include_form();
-  if (include_form==system_header)
-    enclosing_mark = "<";
-  else
-    enclosing_mark = "\"";
-  o_string_stream << "#" << "include" << enclosing_mark << include_directive.header_file() << enclosing_mark;
-  out << o_string_stream.str();
-  return out;
-}
+    std::ostream& operator <<(std::ostream& out, const IncludeDirective<T>& include_directive)
+    {
+      return out << "#" << std::string(include_directive.number_spaces_after_hash(), ' ') << "include" << std::string(include_directive.number_spaces_after_include(), ' ') << include_directive.opening() << include_directive.header_file() << include_directive.closing();
+    }
+
 
     /*!
       \class Extract_include_directives
@@ -111,10 +117,71 @@ std::ostream& operator<<(std::ostream& out, const IncludeDirective<T>& include_d
       If found then the text is scanned for the closing token, and then as well as when the opening token is not found,
       that line is read until the end-of-line (and copied). Using ++ on the iterator writes the
       IncludeDirective to the ostream object.
-      "Input-output iterators" means just the combination of input iterator and output iteratir; it is allowed that two iterators are equal iff either both are dereferencable or both are past-the-end iterators --- this is what we do here (using perhaps a boolean data member for past-the-end indication).
+      "Input-output iterators" means just the combination of input iterator and output iterator; it is allowed that two iterators are equal iff either both are dereferencable or both are past-the-end iterators --- this is what we do here (using perhaps a boolean data member for past-the-end indication).
     */
+    template <class String>
+    class Extract_include_directives {
+    private:
+      typedef IncludeDirective<String> IncludeDirective;
+      typedef std::pair<IncludeDirective,String> Pair;
+      typedef std::vector<Pair> Vector;
+      String preface_;
+      Vector vec_incl_text_pairs;
 
-    class Extract_include_directives {};
+    // \todo Enable read/write element access.
+    public:
+      Extract_include_directives() {};
+      String preface() const {
+        return preface_;
+      }
+      String& preface() {
+        return preface_;
+      }
+      IncludeDirective incl(int i) const {
+        return vec_incl_text_pairs[i].first;
+      }
+      String following_text(int i) const {
+        return vec_incl_text_pairs[i].second;
+      }
+      void push_back(Pair pair){
+        vec_incl_text_pairs.push_back(pair);
+      }
+
+    };
+
+    template<class String>
+    std::ostream& operator <<(std::ostream& out, const Extract_include_directives<String>& extract_incldir)
+    {
+      // \todo Implementation.
+    }
+
+    template<class String>
+    std::istream& operator >>(std::istream& in, const Extract_include_directives<String>& extract_incldir)
+    {
+      bool inside_multiline_comment=false;
+      bool past_preface=false;
+      String str_input_line;
+      String current_following_text;
+      while (getline(in,str_input_line)) {
+	if (inside_multiline_comment) {
+          String end_of_multiline_comment;
+          String rest_of_line;
+          boost::spirit::parse_info<> comment_result;
+          // \todo Implement matching of end of multiline comment. This will involve a boost::spirit rule Comment which matches the end of a multiline comment and, as a semantic action, assigns this to end_of_multiline_comment and the rest of the line to rest_of_line. 
+          // \todo Then, if matching successful, depending on whether past_preface is true or false the line is copied to either past_preface or current_following_text and the value of inside_multiline_comment is changed depending upon the status of comments in rest_of_line. (rest_of_line doesn't need to be parsed for include directive)
+          // \todo Otherwise, it matching fails, current_following_text+=str_input_line (i.e.comment not closed on this line)
+        }
+	else {
+          String result_whitespace;
+          // IncludeDirective<String> result_include;
+          String result_following_text;
+	  // \todo Implement matching of include directive. This involves a boost::spirit rule Include which matches (whitespace)(#include<*>)(following_text) and has a semantic action which assigns whitespace to result_whitespace, the include directive to result_include and following_text to result_following_text.
+          // \todo Then, if matching successful, append result_following_text to current_following_text, do extract_incldir.push_back(<result_include,current_following_text>) and reset current_following_text to the empty string.
+          // \todo Update inside_multiline_comment.
+	}
+      }
+    }
+  
 
     /*!
       \class Extend_include_directives
