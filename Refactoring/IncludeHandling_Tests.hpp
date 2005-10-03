@@ -59,22 +59,22 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-          std::ifstream input("IncludeHandling.hpp");
-          Extract_include_directives<std::string> extract;
-          std::ofstream output("output.txt");
-          extract.preface() = "The preface...";
-          input >> extract;
-          output << extract;
+//           std::ifstream input("IncludeHandling.hpp");
+//           Extract_include_directives<std::string> extract;
+//           std::ofstream output("output.txt");
+//           extract.preface() = "The preface...";
+//           input >> extract;
+//           output << extract;
 
-          typedef IncludeDirective<std::string> IncludeDirective;
-          int spaces_after_hash = 0;
-          int spaces_after_include = 1;
-          std::string header = "iostream";
-          Include_forms include_form = system_header;
-          IncludeDirective include_directive(header,spaces_after_hash,spaces_after_include,include_form);
-          std::string test_string("Some following text..");
-          std::pair<IncludeDirective,std::string> test_pair(include_directive,test_string);
-          extract.push_back(test_pair);
+//           typedef IncludeDirective<std::string> IncludeDirective;
+//           int spaces_after_hash = 0;
+//           int spaces_after_include = 1;
+//           std::string header = "iostream";
+//           Include_forms include_form = system_header;
+//           IncludeDirective include_directive(header,spaces_after_hash,spaces_after_include,include_form);
+//           std::string test_string("Some following text..");
+//           std::pair<IncludeDirective,std::string> test_pair(include_directive,test_string);
+//           extract.push_back(test_pair);
           
                 
         }
