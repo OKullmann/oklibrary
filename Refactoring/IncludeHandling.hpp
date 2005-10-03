@@ -17,8 +17,10 @@
 #include <string>
 #include <cassert>
 #include <ostream>
+#include <istream>
 #include <vector>
 #include <utility>
+
 #include <boost/spirit.hpp>
 
 #include "FilesystemTools.hpp"
@@ -121,32 +123,18 @@ template<class T>
     */
     template <class String>
     class Extract_include_directives {
-    private:
-      typedef IncludeDirective<String> IncludeDirective;
-      typedef std::pair<IncludeDirective,String> Pair;
-      typedef std::vector<Pair> Vector;
-      String preface_;
-      Vector vec_incl_text_pairs;
-
-    // \todo Enable read/write element access.
     public:
-      Extract_include_directives() {};
-      String preface() const {
-        return preface_;
-      }
-      String& preface() {
-        return preface_;
-      }
-      IncludeDirective incl(int i) const {
-        return vec_incl_text_pairs[i].first;
-      }
-      String following_text(int i) const {
-        return vec_incl_text_pairs[i].second;
-      }
-      void push_back(Pair pair){
-        vec_incl_text_pairs.push_back(pair);
-      }
+      typedef String string_type;
+      typedef IncludeDirective<string_type> include_directive_type;
+      typedef std::pair<include_directive_type, string_type> include_directive_with_context_type;
+      typedef std::vector<include_directive_with_context_type> vector_type;
 
+      string_type preface;
+      vector_type include_directives_with_context;
+
+      Extract_include_directives(std::istream& in) {
+        
+      }
     };
 
     template<class String>
@@ -155,32 +143,32 @@ template<class T>
       // \todo Implementation.
     }
 
-    template<class String>
-    std::istream& operator >>(std::istream& in, const Extract_include_directives<String>& extract_incldir)
-    {
-      bool inside_multiline_comment=false;
-      bool past_preface=false;
-      String str_input_line;
-      String current_following_text;
-      while (getline(in,str_input_line)) {
-	if (inside_multiline_comment) {
-          String end_of_multiline_comment;
-          String rest_of_line;
-          boost::spirit::parse_info<> comment_result;
-          // \todo Implement matching of end of multiline comment. This will involve a boost::spirit rule Comment which matches the end of a multiline comment and, as a semantic action, assigns this to end_of_multiline_comment and the rest of the line to rest_of_line. 
-          // \todo Then, if matching successful, depending on whether past_preface is true or false the line is copied to either past_preface or current_following_text and the value of inside_multiline_comment is changed depending upon the status of comments in rest_of_line. (rest_of_line doesn't need to be parsed for include directive)
-          // \todo Otherwise, it matching fails, current_following_text+=str_input_line (i.e.comment not closed on this line)
-        }
-	else {
-          String result_whitespace;
-          // IncludeDirective<String> result_include;
-          String result_following_text;
-	  // \todo Implement matching of include directive. This involves a boost::spirit rule Include which matches (whitespace)(#include<*>)(following_text) and has a semantic action which assigns whitespace to result_whitespace, the include directive to result_include and following_text to result_following_text.
-          // \todo Then, if matching successful, append result_following_text to current_following_text, do extract_incldir.push_back(<result_include,current_following_text>) and reset current_following_text to the empty string.
-          // \todo Update inside_multiline_comment.
-	}
-      }
-    }
+//     template<class String>
+//     std::istream& operator >>(std::istream& in, const Extract_include_directives<String>& extract_incldir)
+//     {
+//       bool inside_multiline_comment=false;
+//       bool past_preface=false;
+//       String str_input_line;
+//       String current_following_text;
+//       while (getline(in,str_input_line)) {
+// 	if (inside_multiline_comment) {
+//           String end_of_multiline_comment;
+//           String rest_of_line;
+//           boost::spirit::parse_info<> comment_result;
+//           // \todo Implement matching of end of multiline comment. This will involve a boost::spirit rule Comment which matches the end of a multiline comment and, as a semantic action, assigns this to end_of_multiline_comment and the rest of the line to rest_of_line. 
+//           // \todo Then, if matching successful, depending on whether past_preface is true or false the line is copied to either past_preface or current_following_text and the value of inside_multiline_comment is changed depending upon the status of comments in rest_of_line. (rest_of_line doesn't need to be parsed for include directive)
+//           // \todo Otherwise, it matching fails, current_following_text+=str_input_line (i.e.comment not closed on this line)
+//         }
+// 	else {
+//           String result_whitespace;
+//           // IncludeDirective<String> result_include;
+//           String result_following_text;
+// 	  // \todo Implement matching of include directive. This involves a boost::spirit rule Include which matches (whitespace)(#include<*>)(following_text) and has a semantic action which assigns whitespace to result_whitespace, the include directive to result_include and following_text to result_following_text.
+//           // \todo Then, if matching successful, append result_following_text to current_following_text, do extract_incldir.push_back(<result_include,current_following_text>) and reset current_following_text to the empty string.
+//           // \todo Update inside_multiline_comment.
+// 	}
+//       }
+//     }
   
 
     /*!
