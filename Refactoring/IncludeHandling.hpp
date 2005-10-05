@@ -24,6 +24,8 @@
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
 #include <boost/spirit/utility/chset.hpp>
+#include <boost/spirit/utility/regex.hpp>
+#include <boost/spirit/utility/escape_char.hpp>
 
 #include "FilesystemTools.hpp"
 #include "AssociativeContainers.hpp"
@@ -104,9 +106,12 @@ template<class T>
       return out << "#" << std::string(include_directive.number_spaces_after_hash(), ' ') << "include" << std::string(include_directive.number_spaces_after_include(), ' ') << include_directive.opening() << include_directive.header_file() << include_directive.closing();
     }
 
+    // ####################################################################################
+
   /*!
       \class Program_grammar
       \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.
+      \todo Using a more specialised name for Program_grammar (which should be be "ProgramGrammar").
   */
   struct Program_grammar : public boost::spirit::grammar<Program_grammar> {
   template <typename ScannerT>
@@ -114,41 +119,24 @@ template<class T>
   {
     typedef typename boost::spirit::rule<ScannerT> rule;
     rule program;
-    definition(Program_grammar const& self)  { 
-      typedef boost::spirit::rule<> rule;
+    rule include_directive_begin, include_directive_system, include_directive_source, include_directive, comment, string, other_statements;
+    definition(Program_grammar const&) {
 
-      rule opening,closing,header,include,comments,identifier,include_preprocessor,non_include_preprocessor;
-   
-      opening = boost::spirit::ch_p('<') | boost::spirit::ch_p('"');
-   
-      closing = boost::spirit::ch_p('>') | boost::spirit::ch_p('"');
+      include_directive_begin = boost::spirit::regex_p("^#[[:blank:]]*include[[:blank:]]*");
+      include_directive_system = include_directive_begin >> boost::spirit::comment_p("<", ">");
+      include_directive_source = include_directive_begin >> boost::spirit::comment_p("\"", "\"");
+      include_directive = include_directive_system | include_directive_source;
 
-      //      header = *(boost::spirit::anychar_p-(closing | boost::spirit::eol_p));
-  
-      identifier = (((boost::spirit::alpha_p | '_') >> *(boost::spirit::alnum_p | '_')) >> *boost::spirit::space_p) | include;
-
-      non_include_preprocessor  =  '#' >> *boost::spirit::space_p >> (identifier - include);
-
-      include_preprocessor =  '#' >> *boost::spirit::space_p >> include;
-
-      include = 
-         boost::spirit::str_p("include")
-      >> *boost::spirit::blank_p
-      >> opening
-      >> header
-      >> closing
-      ;   
-
-      comments =
+      comment =
          boost::spirit::comment_p("/*", "*/")
       |  boost::spirit::comment_p("//")      
       ;
 
-      program = 
-         comments 
-      |  include_preprocessor
-      |  non_include_preprocessor
-      ;
+      string = boost::spirit::confix_p('"', *boost::spirit::c_escape_ch_p, '"');
+
+      other_statements = *(comment | string | (boost::spirit::anychar_p - include_directive));
+
+      program = other_statements >> *(include_directive >> other_statements);
     }
     boost::spirit::rule<ScannerT> const& start() const { return program; }
   };
