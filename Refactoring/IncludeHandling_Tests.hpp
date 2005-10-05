@@ -13,19 +13,21 @@
 #include <iostream>
 #include <fstream>
 #include <utility>
+#include <vector>
 
 #include <boost/filesystem/fstream.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
+#include "ParserBase_Tests.hpp"
 
 namespace OKlib {
 
   namespace Refactoring {
 
     /*!
-      \class Test_IncludeHandling
-      \todo Replacing files by stringstreams.
+      \class Test_IncludeDirective
+      \brief Testing classes representing one include directive.
     */
 
     template <template <class String> class Include_Directive>
@@ -48,6 +50,54 @@ namespace OKlib {
         }
       }
     };
+
+    // ------------------------------------------------------------------
+    
+    /*!
+      \class Test_Program_grammar
+      \brief Testing grammars for parsing source code units in order to extract include directives.
+      \todo Updating naming conventions.
+    */
+
+    template < class Program_grammar>
+    class Test_Program_grammar : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Program_grammar test_type;
+      Test_Program_grammar() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        Program_grammar g;
+        typedef std::pair<std::string, OKlib::Parser::Matching_possibilities> test_element_type;
+        typedef std::vector<test_element_type> test_vector_type;
+        test_vector_type test_vector;
+        using OKlib::Parser::match_full;
+        using OKlib::Parser::match_not_full;
+
+        test_vector.push_back(test_element_type("", match_full));
+        test_vector.push_back(test_element_type("\"", match_full));
+        test_vector.push_back(test_element_type("\\*", match_full));
+        test_vector.push_back(test_element_type("#include \"abc\"", match_full));
+
+        typedef test_vector_type::const_iterator iterator;
+        const iterator& end(test_vector.end());
+        for (test_vector_type::const_iterator i = test_vector.begin(); i != end; ++i)
+          switch (i -> second) {
+          case match_full :
+            if (not parse(i -> first.c_str(), g).full)
+              OKLIB_THROW("String \"" + i -> first + "\" was not accepted");
+            break;
+          case match_not_full :
+            if (parse(i -> first.c_str(), g).full)
+              OKLIB_THROW("String \"" + i -> first + "\" was accepted");
+            break;
+          }
+      }
+    };    
+
+    
+    // ------------------------------------------------------------------
 
     template <template <class String> class Extract_include_directives>
     class Test_Extract_include_directives : public ::OKlib::TestSystem::TestBase {
