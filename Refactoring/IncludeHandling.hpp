@@ -21,7 +21,9 @@
 #include <vector>
 #include <utility>
 
-#include <boost/spirit.hpp>
+#include <boost/spirit/core.hpp>
+#include <boost/spirit/utility/confix.hpp>
+#include <boost/spirit/utility/chset.hpp>
 
 #include "FilesystemTools.hpp"
 #include "AssociativeContainers.hpp"
@@ -95,12 +97,62 @@ namespace OKlib {
     };
 
 
+
 template<class T>
     std::ostream& operator <<(std::ostream& out, const IncludeDirective<T>& include_directive)
     {
       return out << "#" << std::string(include_directive.number_spaces_after_hash(), ' ') << "include" << std::string(include_directive.number_spaces_after_include(), ' ') << include_directive.opening() << include_directive.header_file() << include_directive.closing();
     }
 
+  /*!
+      \class Program_grammar
+      \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.
+  */
+  struct Program_grammar : public boost::spirit::grammar<Program_grammar> {
+  template <typename ScannerT>
+  struct definition
+  {
+    typedef typename boost::spirit::rule<ScannerT> rule;
+    rule program;
+    definition(Program_grammar const& self)  { 
+      typedef boost::spirit::rule<> rule;
+
+      rule opening,closing,header,include,comments,identifier,include_preprocessor,non_include_preprocessor;
+   
+      opening = boost::spirit::ch_p('<') | boost::spirit::ch_p('"');
+   
+      closing = boost::spirit::ch_p('>') | boost::spirit::ch_p('"');
+
+      //      header = *(boost::spirit::anychar_p-(closing | boost::spirit::eol_p));
+  
+      identifier = (((boost::spirit::alpha_p | '_') >> *(boost::spirit::alnum_p | '_')) >> *boost::spirit::space_p) | include;
+
+      non_include_preprocessor  =  '#' >> *boost::spirit::space_p >> (identifier - include);
+
+      include_preprocessor =  '#' >> *boost::spirit::space_p >> include;
+
+      include = 
+         boost::spirit::str_p("include")
+      >> *boost::spirit::blank_p
+      >> opening
+      >> header
+      >> closing
+      ;   
+
+      comments =
+         boost::spirit::comment_p("/*", "*/")
+      |  boost::spirit::comment_p("//")      
+      ;
+
+      program = 
+         comments 
+      |  include_preprocessor
+      |  non_include_preprocessor
+      ;
+    }
+    boost::spirit::rule<ScannerT> const& start() const { return program; }
+  };
+};
 
     /*!
       \class Extract_include_directives
@@ -133,7 +185,7 @@ template<class T>
       vector_type include_directives_with_context;
 
       Extract_include_directives(std::istream& in) {
-        
+
       }
     };
 
