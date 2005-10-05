@@ -1,5 +1,10 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
+/*!
+  \file ParserBase_Tests.hpp
+  \brief Tools for testing parsers
+*/
+
 #ifndef PARSERBASETESTS_jfbNb5y
 
 #define PARSERBASETESTS_jfbNb5y
@@ -18,6 +23,12 @@ namespace OKlib {
     enum Matching_possibilities { match_full, match_not_full, };
 
     // -----------------------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      class Test_ParsingString
+      \brief Subtest for testing whether a parser derived from OKlib::Parser::ParserBase parses successfully a string or not.
+      \todo What is the future of this class?!
+    */
 
     template <class Parser>
     class Test_ParsingString : public ::OKlib::TestSystem::Test {
