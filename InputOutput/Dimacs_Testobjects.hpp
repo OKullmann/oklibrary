@@ -11,6 +11,8 @@ namespace OKlib {
   
   namespace InputOutput {
 
+    Test_StandardDIMACSInput<StandardDIMACSInput> test_standard_dimacs_input;
+
   }
 
 }
