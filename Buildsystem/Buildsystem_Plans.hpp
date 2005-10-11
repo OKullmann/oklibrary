@@ -10,6 +10,12 @@
    - "all" should not compile the test-programs
    - what is the role of prebuild?
 
+   \todo Improved handling of flags:
+    - CXXFLAGS and CPPFLAGS likely should be completely free for the user to use
+      (yet the build system partially uses them).
+    - CXXFLAGS is not used when linking the compilation units together --- is this
+      how it should be, and how to set options for the linking stage?!
+
   \todo Doxygen:
    - Can makefiles be incorporated?!
    - How to integrate a general todo list into Doxygen?!
@@ -21,7 +27,7 @@
   other options as well; perhaps as default the option "--quit").
 
   \todo ExternalSources:
-   - When buildinng some gcc- or some boost-version, only the necessary directories
+   - When building some gcc- or some boost-version, only the necessary directories
      should be created (so that looking at the list of directories one sees what is
      installed; at present always all directories for all gcc- and boost-version are
      created).
@@ -29,11 +35,15 @@
      is already there.
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
      we have the build of the gcc-version (so that, if necessary, gcc is build).
-   - "make gcc_boost_all" will create all boost versions for all compiler versions (including
-     the global one).
+   - Using "gcc-version=all" means creating the required Boost version for all available gcc-versions
+     (inclusing the global one).
+   - "make boost_all" will create all boost versions (when combined with
+     "gcc-version=all" we then get all combination of all boost libraries with gcc-versions).
+   - If variable gcc-version is set, then it should have one of the allowed values.
    - When making the (final) installations, links should be used instead of copies (making
      copies as an option; default is links).
    - Optionally there should be also local versions of valgrind and doxygen.
+   - Optionally we can make a global version of Boost.
    - "make initialise-database" should work with the recommended version.
    - Build a local version of mhash.
    
