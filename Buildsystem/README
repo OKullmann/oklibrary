@@ -7,15 +7,17 @@ Necessary installations:
 g++, version 3.4.3 or higher
 (check: run "g++ -v")
 
-Boost, version 1.32 or higher
+Boost, version 1.33 or higher
 BOOST = path to the source library
-(for example BOOST = /usr/local/include/boost-1_32/)
+(for example BOOST = /usr/local/include/boost-1_33/)
 
 GNU make, version 3.80 or higher
 (check: run "make -v")
 
-Doxygen, version 1.4.3 or higher
+Doxygen, version 1.4.4 or higher
 (check: run doxygen --version)
+
+Valgrind, version 3.0.1 or higher
 
 ----------------------------------------------
 
