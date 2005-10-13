@@ -38,7 +38,12 @@ namespace OKlib {
     /*!
       \class StandardDIMACSInput
       \brief Parsing an input stream containing a cnf formula in DIMACS format and transferring it to a CLS-adaptor.
-      \todo To be completed.
+      \todo To be completed:
+       - Create exception class hierarchy.
+       - Create helper function for writing error messages (with stream positions).
+       - Replace the #-parts below.
+      \todo Write concept for CLSAdaptor.
+      \todo Write simple CLSAdaptor, which creates only statistics (but does not store the formula).
     */
 
     template <class CLSAdaptor, typename Int = int>
@@ -59,7 +64,7 @@ namespace OKlib {
         // if (not in_stream) throw "can't open" ################
         in.push(boost::ref(counter));
         in.push(in_stream);
-        // if (not in) thro "can't create" ######################
+        // if (not in) throw "can't create" ######################
         parse();
       }
     private :
@@ -72,7 +77,7 @@ namespace OKlib {
         assert(in);
         for (;;) {
           peek = in.get();
-          // if (not in) throw "end of input before parameter section"
+          // if (not in) throw "end of input before parameter section" ########################
           if (peek != 'c') return;
           std::string comment_line;
           std::getline(in, comment_line);
@@ -81,47 +86,62 @@ namespace OKlib {
       }
       void read_parameter_line() {
         assert(in);
-        // if (peek != 'p') throw "no parameter section";
+        // if (peek != 'p') throw "no parameter section"; ########################
         peek = in.get();
-        // if (not in) throw "read error"
-        // if (not peek == ' ') throw "no space as second character in parameter line"
+        // if (not in) throw "read error" ###########################
+        // if (not peek == ' ') throw "no space as second character in parameter line" ###################
         std::string label;
         in >> label;
-        // if (not in) throw "read error"
-        // if (label != "cnf") throw "syntax error"
+        // if (not in) throw "read error" #######################
+        // if (label != "cnf") throw "syntax error parameter line" ########################
         int_type n;
         in >> n;
-        // if (not in) throw "syntax error"
+        // if (not in) throw "syntax error parameter line" #########################
         out.n(n);
         int_type c;
         in >> c;
-        // if (not in) throw "syntax error"
+        // if (not in) throw "syntax error parameter line" #########################
         out.c(c);
         std::string rest_of_line;
         std::getline(in, rest_of_line);
-        // if (not in) throw "no clauses; unexpected end of file"
-        // if (not rest_of_line only space symbols) throw "other content on parameter line
+        // if (not in) throw "no clauses; unexpected end of file" #####################
+        // if (not rest_of_line only space symbols) throw "other content at end of parameter line #################
       }
         
       void read_clauses() {
         assert(in);
         typedef std::set<int_type> clause_type;
+        typedef typename clause_type::size_type size_type;
+        typedef typename clause_type::iterator iterator;
+
         clause_type clause;
-        int_type literal;
-        bool clause_started = false;
-        for (;;) {
+        bool tautological = false;
+        size_type total_clause_size;
+        
+        for (int_type literal;;) {
           in >> literal;
           // if (not in)
-          //   if (not clause_started) { out.finish(); return; }
-          //   else throw "unexpected end of file before clause finished"
+          //   if (total_clause_size == 0) { out.finish(); return; }
+          //   else throw "unexpected end of file before clause finished (or perhaps syntax error)" #######################
+          ++total_clause_size;
           if (literal == 0) {
-            out.clause(clause.begin(), clause.end(), clause.size());
+            if (tautological) {
+              out.tautological_clause(total_clause_size);
+              tautological = false;
+            }
+            else
+              out.clause(clause.begin(), clause.end(), clause.size(), total_clause_size); // perhaps better as range?
             clause.clear();
-            clause_started = false;
+            total_clause_size = 0;
           }
           else {
-            clause.insert(literal);
-            clause_started = true;
+            if (not tautological) {
+              const iterator& find_neg = clause.find(-literal);
+              if (find_neg == clause.end())
+                clause.insert(literal);
+              else
+                tautological = true;
+            }
           }
         }
       }
