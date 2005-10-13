@@ -5,7 +5,7 @@ doxygen_targets := doxygen-1.4.4
 doxygen_recommended := doxygen-1.4.4
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2
 gcc_recommended := gcc-4.0.1
-boost_targets := boost-1_32 boost-1_33
+boost_targets := boost-1_33
 boost_recommended := boost-1_33
 postgresql_targets := postgresql-8.0.3
 postgresql_recommended := postgresql-8.0.3
@@ -95,39 +95,48 @@ valgrind_recommended := valgrind-3.0.1
 
 # ####################################################
 
-
 prefix := $(shell pwd)
-gcc-version := system
-pgsql-version :=
-pgdata :=
-# languages to build compiler for. Defaults to c, c++. Other languages are f77,objc,java,ada
-enable-languages := c,c++
 
+# ###################
 doxygen-base-directory := $(prefix)/Doxygen
-gcc-base-directory := $(prefix)/Gcc
-boost-base-directory := $(prefix)/Boost
-postgresql-base-directory := $(prefix)/Postgresql
-valgrind-base-directory := $(prefix)/Valgrind
+doxygen-directories := $(doxygen-base-directory)
 
+# ###################
+enable-languages := c,c++ # languages to build compiler for. Defaults to c, c++. Other languages are f77,objc,java,ada
+gcc-version := system
+gcc-base-directory := $(prefix)/Gcc
 gcc_build_directory_names := $(addsuffix _Build, $(gcc_targets))
 gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_build_directory_names))
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
 gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_installation_directory_names))
-
-boost_build_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion)_Build, $(patsubst boost_%, %, $(boost_targets))))
-boost_build_directory_names += $(addsuffix _Build, $(patsubst boost_%, %, $(boost_targets)))
-boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
-boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(patsubst boost_%, %, $(boost_targets))))
-boost_installation_directory_names += $(patsubst boost_%, %, $(boost_targets))
-boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
-
-bjam_directory_path := $(boost-base-directory)/bjam
-
-doxygen-directories := $(doxygen-base-directory)
 gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_installation_directory_paths)
+
+# ###################
+boost-base-directory := $(prefix)/Boost
+abbr_boost_targets := $(patsubst boost-%, %, $(boost_targets))
+# creates e.g. 1_32 1_33
+boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_boost_targets)))
+# creates e.g. 1_32+3.4.3 1_32+3.4.4 1_33+3.4.3 1_33+3.4.4
+boost_installation_directory_names += $(abbr_boost_targets)
+boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
+boost_build_directory_names := $(addsuffix _Build, $(boost_installation_directory_names))
+boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
+bjam_directory_path := $(boost-base-directory)/bjam
 boost-directories := $(boost-base-directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path)
+
+
+# ###################
+pgsql-version :=
+pgdata :=
+postgresql-base-directory := $(prefix)/Postgresql
 postgresql-directories := $(postgresql-base-directory)
+
+# ###################
+valgrind-base-directory := $(prefix)/Valgrind
 valgrind-directories := $(valgrind-base-directory)
+
+
+# ###############################################
 
 define postcondition 
 if [ $$? != 0 ]; then exit 1; fi;
@@ -198,7 +207,7 @@ create_boost_dirs : $(boost-directories)
 
 ifeq ($(gcc-version),system)
 define install-boost 
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$@ --builddir=$(boost-base-directory)/$@_Build install
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$* --builddir=$(boost-base-directory)/$*_Build install
 endef
 else 
 define install-boost
