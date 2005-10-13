@@ -10,6 +10,11 @@
    - "all" should not compile the test-programs
    - what is the role of prebuild?
 
+   \todo Error in the build system: If when creating the .d-files an error occurs (for example
+   due to an inaccessible header file), then for some reason subsequent "make checks"
+   erroneously succeeds.
+   
+
    \todo Improved handling of flags:
     - CXXFLAGS and CPPFLAGS likely should be completely free for the user to use
       (yet the build system partially uses them).
@@ -35,13 +40,18 @@
      is already there.
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
      we have the build of the gcc-version (so that, if necessary, gcc is build).
+   - For building boost, sub-directories of ExternalSources/Boost like 1_33 and 1_33+3.4.3 should
+     be the "finally created directories", while all other directories should get removed with
+     "make clean".
    - Using "gcc-version=all" means creating the required Boost version for all available gcc-versions
      (inclusing the global one).
    - "make boost_all" will create all boost versions (when combined with
      "gcc-version=all" we then get all combination of all boost libraries with gcc-versions).
    - If variable gcc-version is set, then it should have one of the allowed values.
-   - When making the (final) installations, links should be used instead of copies (making
-     copies as an option; default is links).
+   - "make clean" should remove for example all Gcc/gcc-* directories, leaving only the files which are really used.
+     Thus for the final local installations, links cannot be used instead of copies; the exception are the boost
+     header files and the boost libraries within the gcc-versions: Here we should use links instead of copies
+     (perhaps making copies as an option).
    - Optionally there should be also local versions of valgrind and doxygen.
    - Optionally we can make a global version of Boost.
    - "make initialise-database" should work with the recommended version.
