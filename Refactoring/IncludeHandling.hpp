@@ -110,17 +110,16 @@ template<class T>
 
   /*!
       \class Program_grammar
-      \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.
-      \todo Using a more specialised name for Program_grammar (which should be be "ProgramGrammar").
+      \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.     
   */
-  struct Program_grammar : public boost::spirit::grammar<Program_grammar> {
+  struct IncludeParsingGrammar : public boost::spirit::grammar<IncludeParsingGrammar> {
   template <typename ScannerT>
   struct definition
   {
     typedef typename boost::spirit::rule<ScannerT> rule;
     rule program;
     rule include_directive_begin, include_directive_system, include_directive_source, include_directive, comment, string, other_statements;
-    definition(Program_grammar const&) {
+    definition(IncludeParsingGrammar const&) {
 
       include_directive_begin = boost::spirit::regex_p("^#[[:blank:]]*include[[:blank:]]*");
       include_directive_system = include_directive_begin >> boost::spirit::comment_p("<", ">");

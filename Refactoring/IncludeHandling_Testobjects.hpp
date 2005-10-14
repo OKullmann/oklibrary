@@ -15,7 +15,7 @@ namespace OKlib {
   namespace Refactoring {
    
     Test_IncludeDirective<IncludeDirective> test_include_directive;
-    Test_Program_grammar<Program_grammar> test_programm_grammar;
+    Test_IncludeParsingGrammar<IncludeParsingGrammar> test_include_parsing_grammar;
     Test_Extract_include_directives<Extract_include_directives> test_extract_include_directives;
 
   }

@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include <boost/spirit.hpp>
 #include <boost/filesystem/fstream.hpp>
 
 #include "TestBaseClass.hpp"
@@ -54,21 +55,20 @@ namespace OKlib {
     // ------------------------------------------------------------------
     
     /*!
-      \class Test_Program_grammar
+      \class Test_IncludeParsingGrammar
       \brief Testing grammars for parsing source code units in order to extract include directives.
-      \todo Updating naming conventions.
     */
 
-    template < class Program_grammar>
-    class Test_Program_grammar : public ::OKlib::TestSystem::TestBase {
+    template <class IncludeParsingGrammar>
+    class Test_IncludeParsingGrammar : public ::OKlib::TestSystem::TestBase {
     public :
-      typedef Test_Program_grammar test_type;
-      Test_Program_grammar() {
+      typedef Test_IncludeParsingGrammar test_type;
+      Test_IncludeParsingGrammar() {
         insert(this);
       }
     private :
       void perform_test_trivial() {
-        Program_grammar g;
+        IncludeParsingGrammar g;
         typedef std::pair<std::string, OKlib::Parser::Matching_possibilities> test_element_type;
         typedef std::vector<test_element_type> test_vector_type;
         test_vector_type test_vector;
@@ -107,27 +107,9 @@ namespace OKlib {
         insert(this);
       }
     private :
-      void perform_test_trivial() {
-        {
-//           std::ifstream input("IncludeHandling.hpp");
-//           Extract_include_directives<std::string> extract;
-//           std::ofstream output("output.txt");
-//           extract.preface() = "The preface...";
-//           input >> extract;
-//           output << extract;
 
-//           typedef IncludeDirective<std::string> IncludeDirective;
-//           int spaces_after_hash = 0;
-//           int spaces_after_include = 1;
-//           std::string header = "iostream";
-//           Include_forms include_form = system_header;
-//           IncludeDirective include_directive(header,spaces_after_hash,spaces_after_include,include_form);
-//           std::string test_string("Some following text..");
-//           std::pair<IncludeDirective,std::string> test_pair(include_directive,test_string);
-//           extract.push_back(test_pair);
-          
-                
-        }
+      void perform_test_trivial() {
+       
       }
     };
 
