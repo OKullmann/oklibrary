@@ -19,6 +19,7 @@ namespace OKlib {
     /*!
       \class Test_StandardDIMACSInput
       \brief Test the standard DIMACS cnf reader.
+      \todo Write basic tests (which execute all exception classes).
     */
 
     template <template <class CLSAdaptor> class StandardDIMACSInput>
