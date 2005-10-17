@@ -34,9 +34,32 @@ namespace OKlib {
     struct IStreamError : InputError {
       IStreamError(const std::string& m) : InputError(m) {}
     };
+    struct OStreamError : OutputError {
+      OStreamError(const std::string& m) : OutputError(m) {}
+    };
 
-    struct DimacsError : InputError {
-      DimacsError(const std::string& m) : InputError(m) {}
+    struct DimacsInputError : InputError {
+      DimacsInputError(const std::string& m) : InputError(m) {}
+    };
+    struct DimacsOutputError : OutputError {
+      DimacsOutputError(const std::string& m) : OutputError(m) {}
+    };
+
+    struct CommentInputError : DimacsInputError {
+      CommentInputError(const std::string& m) : DimacsInputError(m) {}
+    };
+    struct ParameterInputError : DimacsInputError {
+      ParameterInputError(const std::string& m) : DimacsInputError(m) {}
+    };
+    struct ClauseInputError : DimacsInputError {
+      ClauseInputError(const std::string& m) : DimacsInputError(m) {}
+    };
+
+    struct ParameterOutputError : DimacsOutputError {
+      ParameterOutputError(const std::string& m) : DimacsOutputError(m) {}
+    };
+    struct ClauseOutputError : DimacsOutputError {
+      ClauseOutputError(const std::string& m) : DimacsOutputError(m) {}
     };
 
   }
