@@ -6,37 +6,59 @@ Oliver Kullmann, 1.3.2005 (Swansea)
 
 lesenSATCounting := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/Mupad/SATCounting.mup")):
 
-
 /* -------------------------------- */
 
 minusatclauses := proc(k)
+/*
+   Minimal number of clauses for (constant) length k so that 
+   unsatisfiable clause-sets exist.
+*/
   option remember;
 begin
   return(2^k)
 end_proc:
 
-nclauses := proc(k,n) 
+nclauses := proc(k,n)
+/*
+  Number of different clauses of length k with n variables.
+*/
   option remember;
 begin
   return(binomial(n,k) * 2^k)
 end_proc:
 
 nusatstd := proc(c,k,n)
+/*
+  Number of unsatisfiable clause-sequences with c clauses, n variables
+  and clause-length k.
+*/
   option remember;
 begin
   return(_plus(nusat(i,k,n) * combinat::stirling2(c,i) * i! $ i=1..c))
 end_proc:
 
 probusatstd := proc(c,k,n)
+/*
+  Probability that in the standard model a clause-sequences with 
+  c clauses, n variables and clause-length k is unsatisfiable.
+*/
   option remember;
 begin
   return(nusatstd(c,k,n) / nclauses(k,n)^c)
 end_proc:
+
 probsatstd := (c,k,n) -> 1 - probusatstd(c,k,n):
+/* Corresponding probability of satisfiability */
 
 percusatstd := (c,k,n) -> probusatstd(c,k,n) * 100.0:
+/* Display of probsatstd as percentages (and in numerical format) */
 
-nusat := proc(c,k,n) 
+nusat := proc(c,k,n)
+/*
+  Number of unsatisfiable clause-sets (!) with c (different) clauses,
+  n variables and clause-length k.
+  This function is central here, and defined only partially.
+*/
   option remember;
 begin
   if c < minusatclauses(k) then return(0) end_if;
