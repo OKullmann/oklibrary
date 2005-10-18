@@ -53,7 +53,7 @@
      header files and the boost libraries within the gcc-versions: Here we should use links instead of copies
      (perhaps making copies as an option).
    - Optionally there should be also local versions of valgrind and doxygen.
-   - Optionally we can make a global version of Boost.
+   - Optionally we can make a global version of Boost or gcc.
    - "make initialise-database" should work with the recommended version.
    - Build a local version of mhash.
    
