@@ -4,6 +4,7 @@
 
 #include "GrayCodes_Testobjects.hpp"
 #include "Permutations_Testobjects.hpp"
+#include "Subsets_Testobjects.hpp"
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
