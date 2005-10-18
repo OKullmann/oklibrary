@@ -109,7 +109,7 @@ template<class T>
     // ####################################################################################
 
   /*!
-      \class Program_grammar
+      \class IncludeParsingGrammar
       \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.     
   */
   struct IncludeParsingGrammar : public boost::spirit::grammar<IncludeParsingGrammar> {
