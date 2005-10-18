@@ -16,6 +16,13 @@ namespace OKlib {
 
   namespace SearchDataStructures {
 
+    /*!
+      \class Test_AssociativePrefixContainer
+      \brief Test for associative prefix container
+      \todo More systematic testing (using vectors of test data).
+      \todo Once a concept has been created, test the syntax
+    */
+
     template <template <class Range> class PrefixContainer>
     class Test_AssociativePrefixContainer : public ::OKlib::TestSystem::TestBase {
     public :

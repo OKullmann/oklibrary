@@ -19,15 +19,18 @@
 namespace OKlib {
 
   namespace SearchDataStructures {
+
     /*!
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
+      \todo Create a concept.
     */
 
     template <class Range>
     class AssociativePrefixContainer {
     private:
       /*!
+        \class SortLexicographical
         \brief Functor for lexicographic ordering of two range arguments.
       */
       struct SortLexicographical : std::binary_function<const Range&, const Range&, bool> {
