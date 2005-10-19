@@ -20,6 +20,8 @@
 #include <istream>
 #include <vector>
 #include <utility>
+#include <memory>
+#include <iterator>
 
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -35,19 +37,23 @@ namespace OKlib {
 
   namespace Refactoring {
 
-    enum Include_forms { system_header, source_code_header };
+    enum Include_forms { system_header, source_code_header, undefined_include_form };
 
     /*!
       \class IncludeDirective
       \brief Representation of one include directive.
+      \todo Test it.
     */
     
     template <class String = std::string>
     class IncludeDirective {
     public :
+
       typedef String string_type;
-      typedef typename String::size_type size_type;
-      std::string opening() const {
+      typedef typename string_type::size_type size_type;
+
+      string_type opening() const {
+        assert(include_form_ != undefined_include_form);
         switch (include_form_) {
         case system_header :
           return "<";
@@ -55,7 +61,8 @@ namespace OKlib {
           return "\"";
         }
       }
-      std::string closing() const {
+      string_type closing() const {
+        assert(include_form_ != undefined_include_form);
         switch (include_form_) {
         case system_header :
           return ">";
@@ -65,17 +72,20 @@ namespace OKlib {
 
       }
     private :
-      String header_file_;
+      string_type header_file_;
       size_type number_spaces_after_hash_, number_spaces_after_include_;
       Include_forms include_form_;
+
     public :
-      IncludeDirective(const String& header_file, const size_type number_spaces_after_hash,  const size_type number_spaces_after_include, const Include_forms include_form) : header_file_(header_file), number_spaces_after_hash_(number_spaces_after_hash), number_spaces_after_include_(number_spaces_after_include), include_form_(include_form) {
-        assert(not header_file.empty());
+      IncludeDirective() : header_file_(""), number_spaces_after_hash_(0), number_spaces_after_include_(0), include_form_(undefined_include_form) {}
+      IncludeDirective(const string_type& header_file, const size_type number_spaces_after_hash,  const size_type number_spaces_after_include, const Include_forms include_form) : header_file_(header_file), number_spaces_after_hash_(number_spaces_after_hash), number_spaces_after_include_(number_spaces_after_include), include_form_(include_form) {
+        assert(not header_file_.empty());
       }
-      String header_file() const {
+
+      const string_type header_file() const {
         return header_file_;
       }
-      String& header_file() {
+      string_type& header_file() {
         return header_file_;
       }
       size_type number_spaces_after_hash() const { 
@@ -90,125 +100,202 @@ namespace OKlib {
       size_type& number_spaces_after_include() { 
         return number_spaces_after_include_; 
       }
-      Include_forms include_form() const { 
+      const Include_forms include_form() const { 
         return include_form_; 
       }
       Include_forms& include_form() { 
         return include_form_; 
       }
     };
-
-
-
-template<class T>
-    std::ostream& operator <<(std::ostream& out, const IncludeDirective<T>& include_directive)
+    
+    template<class T>
+    inline std::ostream& operator <<(std::ostream& out, const IncludeDirective<T>& include_directive)
     {
       return out << "#" << std::string(include_directive.number_spaces_after_hash(), ' ') << "include" << std::string(include_directive.number_spaces_after_include(), ' ') << include_directive.opening() << include_directive.header_file() << include_directive.closing();
     }
 
+    template<class T>
+    inline bool operator ==(const IncludeDirective<T>& lhs, const IncludeDirective<T>& rhs) {
+      return lhs.header_file() == rhs.header_file() and lhs.number_spaces_after_hash() == rhs.number_spaces_after_hash() and lhs.number_spaces_after_include() == rhs.number_spaces_after_include() and lhs.include_form() == rhs.include_form();
+    }
+
+    
     // ####################################################################################
 
-  /*!
-      \class IncludeParsingGrammar
-      \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.     
-  */
-  struct IncludeParsingGrammar : public boost::spirit::grammar<IncludeParsingGrammar> {
-  template <typename ScannerT>
-  struct definition
-  {
-    typedef typename boost::spirit::rule<ScannerT> rule;
-    rule program;
-    rule include_directive_begin, include_directive_system, include_directive_source, include_directive, comment, string, other_statements;
-    definition(IncludeParsingGrammar const&) {
-
-      include_directive_begin = boost::spirit::regex_p("^#[[:blank:]]*include[[:blank:]]*");
-      include_directive_system = include_directive_begin >> boost::spirit::comment_p("<", ">");
-      include_directive_source = include_directive_begin >> boost::spirit::comment_p("\"", "\"");
-      include_directive = include_directive_system | include_directive_source;
-
-      comment =
-         boost::spirit::comment_p("/*", "*/")
-      |  boost::spirit::comment_p("//")      
-      ;
-
-      string = boost::spirit::confix_p('"', *boost::spirit::c_escape_ch_p, '"');
-
-      other_statements = *(comment | string | (boost::spirit::anychar_p - include_directive));
-
-      program = other_statements >> *(include_directive >> other_statements);
-    }
-    boost::spirit::rule<ScannerT> const& start() const { return program; }
-  };
-};
-
     /*!
-      \class Extract_include_directives
-      \brief Enables read/write iterator access to the include directives from an istream.
-
-      Extracting all include directives from an istream via a single pass "input-output" iterator over IncludeDirective elements
-      --- writing to these elements changes the underlying include directives. An ostream object contains the output. 
-      Include directives resulting from macro replacement are not handled (since this depends on the context of the
-      translation).
-
-      \todo Design and implement. The algorithmic idea is to first check for lines of the form
-      #include "*" or
-      #include <*>
-      (with spaces allowed according to  IncludeDirective); if found, then this is the value of the current 
-      iterator, and the rest of the line is copied. Otherwise the line is scanned for an opening C-comment token:
-      If found then the text is scanned for the closing token, and then as well as when the opening token is not found,
-      that line is read until the end-of-line (and copied). Using ++ on the iterator writes the
-      IncludeDirective to the ostream object.
-      "Input-output iterators" means just the combination of input iterator and output iterator; it is allowed that two iterators are equal iff either both are dereferencable or both are past-the-end iterators --- this is what we do here (using perhaps a boolean data member for past-the-end indication).
+      \class ProgramRepresentationIncludes
+      \brief Class for representing the include-directives within a program
+      \todo Write a concept.
+      \todo Make a class out of it.
+      \todo Test it.
     */
-    template <class String>
-    class Extract_include_directives {
-    public:
-      typedef String string_type;
-      typedef IncludeDirective<string_type> include_directive_type;
-      typedef std::pair<include_directive_type, string_type> include_directive_with_context_type;
-      typedef std::vector<include_directive_with_context_type> vector_type;
 
-      string_type preface;
-      vector_type include_directives_with_context;
+    template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> >
+    class ProgramRepresentationIncludes {
+    public :
+      typedef std::basic_string<charT, traits, Allocator> string_type;
+      typedef std::vector<std::pair<IncludeDirective<string_type>, string_type> > container_type;
+      typedef typename container_type::value_type value_type;
+      typedef typename container_type::iterator iterator;
+      typedef typename container_type::const_iterator const_iterator;
 
-      Extract_include_directives(std::istream& in) {
+      string_type prefix;
+      container_type include_directives_with_context;
 
+      ProgramRepresentationIncludes& operator() (const string_type& s) {
+        prefix = s;
+        return *this;
       }
+      ProgramRepresentationIncludes& operator() (const value_type& v) {
+        include_directives_with_context.push_back(v);
+        return *this;
+      }
+
+      void clear() {
+        prefix.clear(); include_directives_with_context.clear();
+      }
+
+      friend std::ostream& operator <<(std::ostream& out, const ProgramRepresentationIncludes& pr) {
+        out << pr.prefix;
+        const const_iterator& end(pr.include_directives_with_context.end());
+        for (const_iterator i = pr.include_directives_with_context.begin(); i != end; ++i)
+          out << i -> first << i -> second;
+        return out;
+      }
+
+      friend bool operator ==(const ProgramRepresentationIncludes& lhs, const ProgramRepresentationIncludes& rhs) {
+        return lhs.prefix == rhs.prefix and lhs.include_directives_with_context == rhs.include_directives_with_context;
+      }
+
     };
 
-    template<class String>
-    std::ostream& operator <<(std::ostream& out, const Extract_include_directives<String>& extract_incldir)
-    {
-      // \todo Implementation.
-    }
 
-//     template<class String>
-//     std::istream& operator >>(std::istream& in, const Extract_include_directives<String>& extract_incldir)
-//     {
-//       bool inside_multiline_comment=false;
-//       bool past_preface=false;
-//       String str_input_line;
-//       String current_following_text;
-//       while (getline(in,str_input_line)) {
-// 	if (inside_multiline_comment) {
-//           String end_of_multiline_comment;
-//           String rest_of_line;
-//           boost::spirit::parse_info<> comment_result;
-//           // \todo Implement matching of end of multiline comment. This will involve a boost::spirit rule Comment which matches the end of a multiline comment and, as a semantic action, assigns this to end_of_multiline_comment and the rest of the line to rest_of_line. 
-//           // \todo Then, if matching successful, depending on whether past_preface is true or false the line is copied to either past_preface or current_following_text and the value of inside_multiline_comment is changed depending upon the status of comments in rest_of_line. (rest_of_line doesn't need to be parsed for include directive)
-//           // \todo Otherwise, it matching fails, current_following_text+=str_input_line (i.e.comment not closed on this line)
-//         }
-// 	else {
-//           String result_whitespace;
-//           // IncludeDirective<String> result_include;
-//           String result_following_text;
-// 	  // \todo Implement matching of include directive. This involves a boost::spirit rule Include which matches (whitespace)(#include<*>)(following_text) and has a semantic action which assigns whitespace to result_whitespace, the include directive to result_include and following_text to result_following_text.
-//           // \todo Then, if matching successful, append result_following_text to current_following_text, do extract_incldir.push_back(<result_include,current_following_text>) and reset current_following_text to the empty string.
-//           // \todo Update inside_multiline_comment.
-// 	}
-//       }
-//     }
-  
+    // ####################################################################################
+    
+    /*!
+      \class IncludeParsingGrammar
+      \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.
+      \todo Write istream >> ProgramRepresentationIncludes.
+      \todo Yet we use a fixed ProgramRepresentationIncludes form (with fixed character type), ignoring the scanner type (the template parameter of the nested class definition). A more perfect solution would create a new parse-function which then instantiates the IncludeParsingGrammar and ProgramRepresentationIncludes accordingly to the character type actually used.
+    */
+
+    struct IncludeParsingGrammar : public boost::spirit::grammar<IncludeParsingGrammar> {
+      typedef ProgramRepresentationIncludes<> program_representation_type;
+
+      program_representation_type& pr;
+      
+      typedef program_representation_type::string_type string_type;
+      typedef IncludeDirective<string_type> include_directive_type;
+      mutable include_directive_type id;
+      mutable string_type s;
+
+      IncludeParsingGrammar(program_representation_type& pr) : pr(pr), blanks_hash(id), blanks_include(id), header_file(id), include_form_system(id, system_header), include_form_source(id, source_code_header), other(pr), context(s), push_back(pr, id, s) {}
+
+      struct action_blanks_hash {
+        include_directive_type& id;
+        action_blanks_hash(include_directive_type& id) : id(id) {}
+        template <typename Iterator>
+        void operator() (const Iterator& begin, const Iterator& end) const {
+          id.number_spaces_after_hash() = std::distance(begin, end);
+        }
+      };
+      action_blanks_hash blanks_hash;
+      
+
+      struct action_blanks_include {
+        include_directive_type& id;
+        action_blanks_include(include_directive_type& id) : id(id) {}
+        template <typename Iterator>
+        void operator() (const Iterator& begin, const Iterator& end) const {
+          id.number_spaces_after_include() = std::distance(begin, end);
+        }
+      };
+      action_blanks_include blanks_include;
+
+      struct action_header_file {
+        include_directive_type& id;
+        action_header_file(include_directive_type& id) : id(id) {}
+        template <typename Iterator>
+        void operator() (const Iterator& begin, const Iterator& end) const {
+          id.header_file().assign(begin, end);
+        }
+      };
+      action_header_file header_file;
+
+      struct action_include_form {
+        include_directive_type& id;
+        Include_forms inc_f;
+        action_include_form(include_directive_type& id, Include_forms inc_f) : id(id), inc_f(inc_f) {}
+        template <typename Iterator>
+        void operator() (const Iterator&, const Iterator&) const {
+          id.include_form() = inc_f;
+         }
+      };
+      action_include_form include_form_system, include_form_source;
+
+      struct action_other {
+        program_representation_type& pr;
+        action_other(program_representation_type& pr) : pr(pr) {}
+        template <typename Iterator>
+        void operator() (const Iterator& begin, const Iterator& end) const {
+          pr.prefix.assign(begin, end);
+        }
+      };
+      action_other other;
+      
+      struct action_context {
+        string_type& s;
+        action_context(string_type& s) : s(s) {}
+        template <typename Iterator>
+        void operator() (const Iterator& begin, const Iterator& end) const {
+          s.assign(begin, end);
+        }
+      };
+      action_context context;
+
+      struct action_push_back {
+        program_representation_type& pr;
+        include_directive_type& id;
+        string_type& s;
+        action_push_back(program_representation_type& pr, include_directive_type& id, string_type& s) : pr(pr), id(id), s(s) {}
+        template <typename Iterator>
+        void operator() (const Iterator&, const Iterator&) const {
+          pr.include_directives_with_context.push_back(std::make_pair(id, s));
+        }
+      };
+      action_push_back push_back;
+
+      template <typename ScannerT>
+      struct definition {
+
+        typedef typename boost::spirit::rule<ScannerT> rule;
+        rule program;
+        rule include_directive_begin, include_directive_system, include_directive_source, include_directive, comment, string, other_statements;
+
+        definition(const IncludeParsingGrammar& self) {
+
+          include_directive_begin = boost::spirit::regex_p("^#") >> (*boost::spirit::blank_p)[self.blanks_hash] >> boost::spirit::str_p("include") >> (*boost::spirit::blank_p)[self.blanks_include];
+
+          include_directive_system = include_directive_begin >> boost::spirit::confix_p("<", (*boost::spirit::anychar_p)[self.header_file], ">");
+          include_directive_source = include_directive_begin >> boost::spirit::confix_p("\"",(*boost::spirit::anychar_p)[self.header_file], "\"");
+
+          include_directive = include_directive_system[self.include_form_system] | include_directive_source[self.include_form_source];
+          
+          comment = boost::spirit::comment_p("/*", "*/") | boost::spirit::comment_p("//");
+
+          string = boost::spirit::confix_p("\"", *boost::spirit::c_escape_ch_p, "\"");
+          
+          other_statements = *(comment | string | (boost::spirit::anychar_p - include_directive));
+          
+          program = other_statements[self.other] >> *(include_directive >> other_statements[self.context])[self.push_back];
+        }
+
+        const rule& start() const { return program; }
+      };
+    };
+    
+    // ####################################################################################
+    
 
     /*!
       \class Extend_include_directives
