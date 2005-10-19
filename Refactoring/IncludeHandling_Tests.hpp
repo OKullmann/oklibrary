@@ -17,6 +17,8 @@
 
 #include <boost/spirit.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/assign/std/vector.hpp>
+#include <boost/tuple/tuple.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -29,6 +31,7 @@ namespace OKlib {
     /*!
       \class Test_IncludeDirective
       \brief Testing classes representing one include directive.
+      \todo Test all functionality.
     */
 
     template <template <class String> class Include_Directive>
@@ -57,6 +60,8 @@ namespace OKlib {
     /*!
       \class Test_IncludeParsingGrammar
       \brief Testing grammars for parsing source code units in order to extract include directives.
+      \todo Using Boost.assignment library.
+      \todo More systematic testing.
     */
 
     template <class IncludeParsingGrammar>
@@ -68,50 +73,52 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        IncludeParsingGrammar g;
-        typedef std::pair<std::string, OKlib::Parser::Matching_possibilities> test_element_type;
-        typedef std::vector<test_element_type> test_vector_type;
+        typedef typename IncludeParsingGrammar::program_representation_type pr_t;
+        typedef typename pr_t::string_type string_type;
+        typedef typename pr_t::value_type v_t;
+        typedef IncludeDirective<string_type> d_t;
+        typedef boost::tuple<string_type, OKlib::Parser::Matching_possibilities, pr_t> el_t;
+        typedef std::vector<el_t> test_vector_type;
         test_vector_type test_vector;
         using OKlib::Parser::match_full;
         using OKlib::Parser::match_not_full;
 
-        test_vector.push_back(test_element_type("", match_full));
-        test_vector.push_back(test_element_type("\"", match_full));
-        test_vector.push_back(test_element_type("\\*", match_full));
-        test_vector.push_back(test_element_type("#include \"abc\"", match_full));
+        using namespace boost::assign;
+        test_vector +=
+          el_t("", match_full, pr_t()),
+          el_t("\"", match_full, pr_t()("\"")),
+          el_t("\\*", match_full, pr_t()("\\*")),
+          el_t("#include <abc>", match_full, pr_t()(v_t(d_t("abc", 0, 1, system_header), ""))),
+          el_t("zzz\n#include <abc>xxx", match_full, pr_t()("zzz\n")(v_t(d_t("abc", 0, 1, system_header), "xxx"))),
+          el_t("#include \"abc\"", match_full, pr_t()(v_t(d_t("abc", 0, 1, source_code_header), "")));
 
-        typedef test_vector_type::const_iterator iterator;
+        typedef typename test_vector_type::const_iterator iterator;
         const iterator& end(test_vector.end());
-        for (test_vector_type::const_iterator i = test_vector.begin(); i != end; ++i)
-          switch (i -> second) {
+        for (iterator i = test_vector.begin(); i != end; ++i) {
+
+          pr_t pr;
+          IncludeParsingGrammar g(pr);
+
+          const el_t& el(*i);
+          const std::string& el_s(el.template get<0>());
+          const OKlib::Parser::Matching_possibilities& el_m(el.template get<1>());
+          const pr_t& el_p(el.template get<2>());
+
+          switch (el_m) {
           case match_full :
-            if (not parse(i -> first.c_str(), g).full)
-              OKLIB_THROW("String \"" + i -> first + "\" was not accepted");
+            if (not parse(el_s.c_str(), g).full)
+              OKLIB_THROW("String \"" + el_s + "\" was not accepted");
             break;
           case match_not_full :
-            if (parse(i -> first.c_str(), g).full)
-              OKLIB_THROW("String \"" + i -> first + "\" was accepted");
+            if (parse(el_s.c_str(), g).full)
+              OKLIB_THROW("String \"" + el_s + "\" was accepted");
             break;
           }
+
+          OKLIB_TEST_EQUAL(pr, el_p);
+        }
       }
     };    
-
-    
-    // ------------------------------------------------------------------
-
-    template <template <class String> class Extract_include_directives>
-    class Test_Extract_include_directives : public ::OKlib::TestSystem::TestBase {
-    public :
-      typedef Test_Extract_include_directives test_type;
-      Test_Extract_include_directives() {
-        insert(this);
-      }
-    private :
-
-      void perform_test_trivial() {
-       
-      }
-    };
 
   }
 
