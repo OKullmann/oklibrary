@@ -46,7 +46,8 @@ namespace OKlib {
       \brief Parsing an input stream containing a cnf formula in DIMACS format and transferring it to a CLS-adaptor.
       \todo What happens if the integers from the file are too big? We cannot use the stream
       extractors, since they yield undefined behaviour, so it seems necessary to write special
-      tools to read and check integers from streams. (See my e-mail to Boost from 15/10/2005.) Perhaps the best solution here is to wrap int_type into a type with safe reading from istreams (setting the stream state accordingly).
+      tools to read and check integers from streams. (See my e-mail to Boost from 15/10/2005.) Perhaps the best solution here is to wrap int_type into a type with safe reading from istreams (setting the stream state accordingly). Or, perhaps better from a general design point of view, we should use a BigInteger class here for reading.
+      \todo It must also be tested, whether the integers can be safely negated.
       \todo The exception safety level must be specified.
       \todo Use Message for messages.
       \todo For throwing the exceptions below a more structured approach should be used (so that the exceptions thrown become better testable).

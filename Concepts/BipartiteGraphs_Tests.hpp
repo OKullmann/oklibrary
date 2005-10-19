@@ -2,7 +2,7 @@
 
 /*!
   \file BipartiteGraphs_Tests.hpp
-  \brief Tests for bipartite graphs.
+  \brief Conceptual tests for bipartite graphs.
 */
 
 #ifndef BIPARTITEGRAPHSTESTS_0y4b6

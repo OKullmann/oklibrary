@@ -1,8 +1,13 @@
 // Matthew Henderson, 4.9.2005 (Swansea)
 
 /*!
+  \namespace FilesystemTools
+  \brief Deprecated. Should be called GeneralInputOutput (as the whole module).
+*/
+
+/*!
   \file FilesystemTools.hpp
-  \brief Tools related to the filesystem.
+  \brief Deprecated. Should be called RecursiveDirectoryIteration.hpp.
 */
 
 #ifndef FILESYSTEMTOOLS_98gsyf
