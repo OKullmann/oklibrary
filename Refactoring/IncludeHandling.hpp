@@ -42,6 +42,7 @@ namespace OKlib {
     /*!
       \class IncludeDirective
       \brief Representation of one include directive.
+      \todo A concept is needed.
       \todo Test it.
     */
     
@@ -125,8 +126,7 @@ namespace OKlib {
     /*!
       \class ProgramRepresentationIncludes
       \brief Class for representing the include-directives within a program
-      \todo Write a concept.
-      \todo Make a class out of it.
+      \todo A concept is needed
       \todo Test it.
     */
 
@@ -177,6 +177,7 @@ namespace OKlib {
       \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.
       \todo Write istream >> ProgramRepresentationIncludes.
       \todo Yet we use a fixed ProgramRepresentationIncludes form (with fixed character type), ignoring the scanner type (the template parameter of the nested class definition). A more perfect solution would create a new parse-function which then instantiates the IncludeParsingGrammar and ProgramRepresentationIncludes accordingly to the character type actually used.
+      \todo A concept is needed.
     */
 
     struct IncludeParsingGrammar : public boost::spirit::grammar<IncludeParsingGrammar> {
