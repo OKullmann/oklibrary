@@ -19,6 +19,7 @@
 #include "Assignments_Testobjects.hpp"
 #include "BipartiteGraphs_Testobjects.hpp"
 #include "Hypergraphs_Testobjects.hpp"
+#include "BigIntegers_Testobjects.hpp"
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
