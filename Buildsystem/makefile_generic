@@ -156,7 +156,7 @@ doxy_file := $(includedir)/Doxyfile
 
 CXX := g++
 CC := gcc
-CPPFLAGS := -ansi
+CPPFLAGS := -ansi -pedantic
 
 alternative_gcc:=
 alternative_boost:=
