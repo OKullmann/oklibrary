@@ -11,11 +11,11 @@ namespace OKlib {
 
   namespace Concepts {
 
-      OKLIB_BASIC_CONCEPT_TEST_TAG(WithConceptTag);
-      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(WithConceptTag);
+      OKLIB_BASIC_CONCEPT_TEST_TAG(WithConceptTag)
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(WithConceptTag)
 
-      OKLIB_BASIC_CONCEPT_TEST_TAG(BasicRequirements);
-      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(BasicRequirements);      
+      OKLIB_BASIC_CONCEPT_TEST_TAG(BasicRequirements)
+      OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(BasicRequirements)    
 
     namespace Macro_tests {
 

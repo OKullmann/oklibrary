@@ -586,7 +586,7 @@ namespace OKlib {
     template <class Container>
     inline void add_positive_result_tuples(Container& C) {
       Add_positive_result_tuples<Container, typename Container::value_type>()(C);
-    };
+    }
 
     // -----------------------------------------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------------------

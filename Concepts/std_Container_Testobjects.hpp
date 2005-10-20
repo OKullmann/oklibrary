@@ -13,8 +13,8 @@ namespace OKlib {
 
   namespace Concepts {
 
-    OKLIB_BASIC_CONCEPT_TEST_TAG(Container);
-    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(Container);
+    OKLIB_BASIC_CONCEPT_TEST_TAG(Container)
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(Container)
 
     template class Test_ContainerConcept<Container>;
 

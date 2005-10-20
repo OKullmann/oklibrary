@@ -99,7 +99,7 @@ namespace OKlib {
       }
     };
 
-    OKLIB_DERIVED_UNEQUAL(DirectoryIterator);
+    OKLIB_DERIVED_UNEQUAL(DirectoryIterator)
 
   }
 

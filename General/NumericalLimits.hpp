@@ -14,7 +14,7 @@ namespace NumericalLimits {
     const Int max = std::numeric_limits<Int>::max();
     const Int min = std::numeric_limits<Int>::min();
     return (min + max <= 0) ? max : - min;
-  }; 
+  }
  
 }
 

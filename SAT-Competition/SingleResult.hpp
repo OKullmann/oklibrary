@@ -46,12 +46,12 @@ namespace OKlib {
     bool operator ==(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
       return lhs.name() == rhs.name();
     }
-    OKLIB_DERIVED_UNEQUAL(ResultElement_with_name);
+    OKLIB_DERIVED_UNEQUAL(ResultElement_with_name)
 
     bool operator <(const ResultElement_with_name& lhs, const ResultElement_with_name& rhs) {
       return lhs.name() < rhs.name();
     }
-    OKLIB_DERIVED_ORDERRELATIONS(ResultElement_with_name);
+    OKLIB_DERIVED_ORDERRELATIONS(ResultElement_with_name)
 
     // ---------------------------------------------------------------------------------------------------------------
     
@@ -131,12 +131,12 @@ namespace OKlib {
     bool operator ==(const SATStatus& lhs, const SATStatus& rhs) {
       return lhs.result() == rhs.result();
     }
-    OKLIB_DERIVED_UNEQUAL(SATStatus);
+    OKLIB_DERIVED_UNEQUAL(SATStatus)
 
     bool operator <(const SATStatus& lhs, const SATStatus& rhs) {
       return lhs.result() < rhs.result();
     }
-    OKLIB_DERIVED_ORDERRELATIONS(SATStatus);
+    OKLIB_DERIVED_ORDERRELATIONS(SATStatus)
 
     // ---------------------------------------------------------------------------------------------------------------
 
@@ -175,12 +175,12 @@ namespace OKlib {
     bool operator ==(const TimeOut& lhs, const TimeOut& rhs) {
       return lhs.time_out() == rhs.time_out();
     }
-    OKLIB_DERIVED_UNEQUAL(TimeOut);
+    OKLIB_DERIVED_UNEQUAL(TimeOut)
 
     bool operator <(const TimeOut& lhs, const TimeOut& rhs) {
       return lhs.time_out() < rhs.time_out();
     }
-    OKLIB_DERIVED_ORDERRELATIONS(TimeOut);
+    OKLIB_DERIVED_ORDERRELATIONS(TimeOut)
 
     // ---------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------------

@@ -76,6 +76,6 @@ namespace OKlib {
 
   }
 
-};
+}
 
 #endif

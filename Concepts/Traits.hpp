@@ -16,7 +16,7 @@ namespace OKlib {
     */
 
     namespace implementation_concept_tag {
-      BOOST_MPL_HAS_XXX_TRAIT_DEF(concept_tag);
+      BOOST_MPL_HAS_XXX_TRAIT_DEF(concept_tag)
       template <bool has_concept_tag, typename T>
       struct get_concept_tag {};
       template <typename T>

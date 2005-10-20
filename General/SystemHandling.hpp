@@ -594,7 +594,7 @@ namespace SystemHandling {
 
   private :
 
-    enum error_codes { no_error = 0, no_execvp = 200, open_in_file_error = 201, dup_in_file_error = 202, open_out_file_error = 203, dup_out_file_error = 204, open_err_file_error = 205, dup_err_file_error = 206, chdir_new_directory_error = 207, };
+    enum error_codes { no_error = 0, no_execvp = 200, open_in_file_error = 201, dup_in_file_error = 202, open_out_file_error = 203, dup_out_file_error = 204, open_err_file_error = 205, dup_err_file_error = 206, chdir_new_directory_error = 207 };
 
     unsigned int core; bool use_core; // in bytes
     unsigned int file; bool use_file; // in bytes

@@ -20,7 +20,7 @@ namespace OKlib {
 
   namespace Parser {
 
-    enum Matching_possibilities { match_full, match_not_full, };
+    enum Matching_possibilities { match_full, match_not_full };
 
     // -----------------------------------------------------------------------------------------------------------------------------------
 

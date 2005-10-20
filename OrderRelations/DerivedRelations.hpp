@@ -66,34 +66,34 @@ namespace OKlib {
 #define OKLIB_DERIVED_GREATEREQUAL(type) inline bool operator >=(const type& lhs, const type& rhs) { return not (lhs < rhs); }
 
 #define OKLIB_DERIVED_ORDERRELATIONS(type) \
-    OKLIB_DERIVED_GREATER(type); \
-        OKLIB_DERIVED_LESSEQUAL(type); \
-        OKLIB_DERIVED_GREATEREQUAL(type);
+    OKLIB_DERIVED_GREATER(type)            \
+    OKLIB_DERIVED_LESSEQUAL(type)          \
+    OKLIB_DERIVED_GREATEREQUAL(type)
 
 #define OKLIB_DERIVED_ORDERRELATIONS_FRIENDS(type) \
-    friend OKLIB_DERIVED_GREATER(type);                   \
-        friend OKLIB_DERIVED_LESSEQUAL(type);             \
-        friend OKLIB_DERIVED_GREATEREQUAL(type);
+    friend OKLIB_DERIVED_GREATER(type)             \
+    friend OKLIB_DERIVED_LESSEQUAL(type)           \
+    friend OKLIB_DERIVED_GREATEREQUAL(type)
 
 #define OKLIB_DERIVED_RELATIONS(type) \
-    OKLIB_DERIVED_UNEQUAL(type); \
-        OKLIB_DERIVED_ORDERRELATIONS(type);
+    OKLIB_DERIVED_UNEQUAL(type)       \
+    OKLIB_DERIVED_ORDERRELATIONS(type)
 
 #define OKLIB_DERIVED_RELATIONS_FRIENDS(type) \
-    friend OKLIB_DERIVED_UNEQUAL(type); \
-        OKLIB_DERIVED_ORDERRELATIONS_FRIENDS(type);
+    friend OKLIB_DERIVED_UNEQUAL(type)        \
+    OKLIB_DERIVED_ORDERRELATIONS_FRIENDS(type)
 
 
 #define OKLIB_DERIVED_UNEQUAL_TEMPLATE1(type) \
-    template <typename T> OKLIB_DERIVED_UNEQUAL(type<T>);
+    template <typename T> OKLIB_DERIVED_UNEQUAL(type<T>)
 #define OKLIB_DERIVED_UNEQUAL_TEMPLATE2(type) \
-    template <typename T1, typename T2> OKLIB_DERIVED_UNEQUAL((type<T1, T2>));
+    template <typename T1, typename T2> OKLIB_DERIVED_UNEQUAL((type<T1, T2>))
 
 
-#define OKLIB_DERIVED_ORDERRELATIONS_TEMPLATE1(type) \
-    template <typename T> OKLIB_DERIVED_GREATER(type<T>); \
-        template <typename T> OKLIB_DERIVED_LESSEQUAL(type<T>); \
-        template <typename T> OKLIB_DERIVED_GREATEREQUAL(type<T>);
+#define OKLIB_DERIVED_ORDERRELATIONS_TEMPLATE1(type)       \
+    template <typename T> OKLIB_DERIVED_GREATER(type<T>)   \
+    template <typename T> OKLIB_DERIVED_LESSEQUAL(type<T>) \
+    template <typename T> OKLIB_DERIVED_GREATEREQUAL(type<T>)
 
 
   }

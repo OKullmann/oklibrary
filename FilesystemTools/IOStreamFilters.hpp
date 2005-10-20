@@ -80,7 +80,7 @@ namespace OKlib {
       int chars_;
       int current_chars_;
     };
-    BOOST_IOSTREAMS_PIPABLE(BasicCounter, 1);
+    BOOST_IOSTREAMS_PIPABLE(BasicCounter, 1)
 
     typedef BasicCounter<char> Counter;
     typedef BasicCounter<wchar_t> WCounter;

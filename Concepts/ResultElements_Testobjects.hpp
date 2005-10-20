@@ -13,14 +13,14 @@ namespace OKlib {
 
   namespace Concepts {
 
-    OKLIB_BASIC_CONCEPT_TEST_TAG(ResultElement);
-    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ResultElement);
+    OKLIB_BASIC_CONCEPT_TEST_TAG(ResultElement)
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ResultElement)
 
-    OKLIB_BASIC_CONCEPT_TEST_TAG(ResultElementWithOrder);
-    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ResultElementWithOrder);
+    OKLIB_BASIC_CONCEPT_TEST_TAG(ResultElementWithOrder)
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ResultElementWithOrder)
 
-    OKLIB_BASIC_CONCEPT_TEST_TAG(ResultElementWithName);
-    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ResultElementWithName);
+    OKLIB_BASIC_CONCEPT_TEST_TAG(ResultElementWithName)
+    OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ResultElementWithName)
 
   }
 

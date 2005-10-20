@@ -35,7 +35,7 @@ namespace OKlib {
     public :
       typedef typename 
       ::boost::mpl::or_< ::boost::is_same<t_concept_tag, concept_tag>, ::boost::is_base_and_derived<concept_tag, t_concept_tag> >::type type;
-      OKLIB_META_VALUE_T;
+      OKLIB_META_VALUE_T
     };
 
      // -------------------------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace OKlib {
     */
 
     namespace implementation_has_concept_tag {
-      BOOST_MPL_HAS_XXX_TRAIT_DEF(type);
+      BOOST_MPL_HAS_XXX_TRAIT_DEF(type)
       template <bool has_concept_tag, typename T>
       struct is_concept_tag : ::boost::mpl::bool_<false> {};
       template <typename T>

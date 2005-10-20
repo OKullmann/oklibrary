@@ -203,7 +203,7 @@ namespace OKlib {
     T& operator <<(T& os, Dimacs& obj) {
       os << obj.formula;
       return os;
-    };
+    }
 
     namespace Output {
       struct FStream {

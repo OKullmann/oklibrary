@@ -68,8 +68,8 @@ namespace IteratorHandling {
     friend inline Int operator - (Count_iterator lhs, Count_iterator rhs) { return lhs.c - rhs.c; }
   };
   
-  OKLIB_DERIVED_UNEQUAL_TEMPLATE1(Count_iterator);
-  OKLIB_DERIVED_ORDERRELATIONS_TEMPLATE1(Count_iterator);
+  OKLIB_DERIVED_UNEQUAL_TEMPLATE1(Count_iterator)
+  OKLIB_DERIVED_ORDERRELATIONS_TEMPLATE1(Count_iterator)
   
   template <typename Int>
   Count_iterator<Int> count_iterator(Int x) { return Count_iterator<Int>(x); }

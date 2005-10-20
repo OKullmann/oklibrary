@@ -26,14 +26,14 @@ namespace OKlib {
 
     template <class T>
     struct True {
-      OKLIB_META_TRUE;
+      OKLIB_META_TRUE
     };
     // Alternative equivalent definition:
     // template <class T> struct True : ::boost::mpl::bool_<true> {}
 
     template <class T>
     struct False {
-      OKLIB_META_FALSE;
+      OKLIB_META_FALSE
     };
     // Alternative equivalent definition:
     // template <class T> struct False : ::boost::mpl::bool_<false> {}
