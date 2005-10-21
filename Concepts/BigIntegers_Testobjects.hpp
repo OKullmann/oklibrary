@@ -4,6 +4,9 @@
 
 #define BIGINTEGERSTESTOBJECTS_uJJNvf4
 
+#include "BigIntegers.hpp"
+#include "BigIntegers_Tests.hpp"
+
 namespace OKlib {
 
   namespace Concepts {
