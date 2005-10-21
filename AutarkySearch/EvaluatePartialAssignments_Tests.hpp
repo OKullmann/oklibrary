@@ -1,5 +1,5 @@
 /*!
-  \file EvaluatePartialAssignment_Tests.hpp
+  \file EvaluatePartialAssignments_Tests.hpp
   \brief Tests for the analysis partial assignments regarding their closeness to autarkies.
 */
 

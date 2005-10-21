@@ -1,7 +1,7 @@
 // Oliver Kullmann, 25.9.2005 (Swansea)
 
 /*!
-  \file EvaluatePartialAssignment.hpp
+  \file EvaluatePartialAssignments.hpp
   \brief Evaluation of partial assignments, computing a heuristical
   value of how close the assignment is to an autarky for a given
   clause-set.
