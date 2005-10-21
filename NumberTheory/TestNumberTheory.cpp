@@ -2,7 +2,6 @@
 
 #include "TestBaseClass.hpp"
 
-#include "BigIntegers_Testobjects.hpp"
 #include "ArithmeticalFunctions_Testobjects.hpp"
 
 int main() {
