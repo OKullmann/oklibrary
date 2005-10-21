@@ -1,7 +1,7 @@
 // Oliver Kullmann, 19.10.2005 (Swansea)
 
 /*!
-  \file BigIntegers.hpp
+  \file BigIntegers_Tests.hpp
   \brief Conceptual tests for big integer classes
 */
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \file ClauseSets.hpp
+  \file Concepts/ClauseSets.hpp
   \brief Concepts for clause-sets.
   \todo Concepts for clause-sets, as clauses where the literals are (again) clauses.
   "Clause-sets as special hypergraphs." --- see below.
