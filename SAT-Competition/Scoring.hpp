@@ -35,6 +35,7 @@ namespace OKlib {
     /*!
       \class PurseScoring
       \brief Computing score(solver) = problem_purse(solver) + speed_award(solver) + series_purse(solver).
+      \todo Make the implementation more efficient by storing intermediate results.
     */
 
     template <class IndexedDatabase, typename NumberType = double>
@@ -118,11 +119,15 @@ namespace OKlib {
         return std::binary_search(seq.begin(), seq.end(), series);
       }
 
+      virtual size_type_solvers solved(const Benchmark& bench) const {
+        const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
+        const size_type_solvers& count(seq.size());
+        return count;
+      }
 
       virtual number_type problem_purse_(const Solver& solver, const Benchmark& bench) const {
         if (solved(solver, bench)) {
-          const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
-          const size_type_solvers& count(seq.size());
+          const size_type_solvers& count(solved(bench));
           assert(count > 0);
           return standard_problem_purse / count;
         }
