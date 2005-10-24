@@ -8,16 +8,6 @@ lesenSATCounting := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogra
 
 /* -------------------------------- */
 
-minusatclauses := proc(k)
-/*
-   Minimal number of clauses for (constant) length k so that 
-   unsatisfiable clause-sets exist.
-*/
-  option remember;
-begin
-  return(2^k)
-end_proc:
-
 nclauses := proc(k,n)
 /*
   Number of different clauses of length k with n variables.
@@ -26,6 +16,36 @@ nclauses := proc(k,n)
 begin
   return(binomial(n,k) * 2^k)
 end_proc:
+
+nclausesets := proc(c,k,n)
+/*
+  Number of clause-sets with c clauses, clause-length k and n variabels.
+*/
+  option remember;
+begin
+  return(binomial(nclauses(k,n), c))
+end_proc:
+
+minusatclauses := proc(k)
+/*
+   Minimal number of clauses of (constant) length k so that 
+   unsatisfiable clause-sets exist.
+*/
+  option remember;
+begin
+  return(2^k)
+end_proc:
+
+maxsatclauses := proc(k,n)
+/*
+  Maximal number of clauses length k with n variables so that
+  satisfiable clause-sets exist.
+*/
+  option remember;
+begin
+  return(nclauses(k,n) - binomial(n,k))
+end_proc:
+
 
 nusatstd := proc(c,k,n)
 /*
@@ -39,7 +59,7 @@ end_proc:
 
 probusatstd := proc(c,k,n)
 /*
-  Probability that in the standard model a clause-sequences with 
+  Probability that in the standard model a clause-sequence with 
   c clauses, n variables and clause-length k is unsatisfiable.
 */
   option remember;
@@ -50,8 +70,68 @@ end_proc:
 probsatstd := (c,k,n) -> 1 - probusatstd(c,k,n):
 /* Corresponding probability of satisfiability */
 
+
+linapprox_probsatstd := (k,n,p) -> linapprox_probsatstd_e(k,n,p,0):
+/*
+  See linapprox_probsatstd_e, but guaranteeing a correct result.
+*/
+
+linapprox_probsatstd_e := proc(k,n,p,clmin) local cl, cr, a, probl, probr, slope, abciss, x0; begin
+/*
+  Outputs (c_l, c_r, prob_l, prob_r, slope, abciss, x_0, rho_0) where 
+    c_r = c_l + 1
+    prob_l = probsatstd(c_l, k, n)
+    prob_r = probsatstd(c_r, k, n)
+    prob_l > p
+    prob_r <= p
+    the linear function f(x) = slope * x + abciss fulfills
+      f(c_l) = prob_l
+      f(c_r) = prob_r
+      f(x_0) = p
+    rho_0 = x_0 / n
+   Search starts with clmin; search is complete for clmin = 0.
+*/
+  if p < 0 then error("probility p negative") end_if;
+  if p > 1 then error("probability p > 1") end_if;
+  if p = 1 then error("probability must fulfil p < 1, since a left-open interval of clause-counts is computed") end_if;
+  if n < 0 then error("negative number of variables") end_if;
+  if n = 0 then error("the number of variables must be positive (so that densities can be computed)") end_if;
+  if k > n then error("clause-length is larger than the number of variables") end_if;
+  if p = 0 then
+      if k > 0 then error("p = 0 only possible for k = 0") end_if;
+      cl := 0; cr := 1;
+      probl := 1; probr := 0;
+  else
+    cr := clmin;
+    repeat
+      cr := cr + 1;
+      probr := probsatstd(cr, k, n)
+    until probr <= p end_repeat;
+    cl := cr - 1; probl := probsatstd(cl, k, n)
+  end_if;
+  slope := probr - probl;
+  abciss := probl - cl * slope;
+  x0 := (p - abciss) / slope;
+  return([cl, cr, probl, probr, slope, abciss, x0, x0 / n])
+end_proc:
+
+linapprox_probsatstd_n := (k,n,p) -> zip(linapprox_probsatstd(k,n,p), [], _plus, 0.0):
+/*
+  Same as linapprox_probsatstd, but with output in numerical format.
+*/
+
+linapprox_probsatstd_e_n := (k,n,p,clmin) -> zip(linapprox_probsatstd_e(k,n,p,clmin), [], _plus, 0.0):
+/*
+  Same as linapprox_probsatstd_e, but with output in numerical format.
+*/
+
 percusatstd := (c,k,n) -> probusatstd(c,k,n) * 100.0:
+/* Display of probusatstd as percentages (and in numerical format) */
+
+percsatstd := (c,k,n) -> probsatstd(c,k,n) * 100.0:
 /* Display of probsatstd as percentages (and in numerical format) */
+
+
 
 nusat := proc(c,k,n)
 /*
@@ -66,7 +146,7 @@ begin
   if n < k then return(0) end_if;
   if n = k then return(1) end_if;
   if c = minusatclauses(k) then return(binomial(n,k)) end_if; /* PROOF */
-  if c = nclauses(k,n) then return(1) end_if;
+  if c > maxsatclauses(k,n) then return(nclausesets(c,k,n)) end_if;
+  if k = 1 then return(nclausesets(c,k,n) - 2^c * binomial(n,c)) end_if;
   hold(nusat)(c,k,n)
 end_proc:
-
