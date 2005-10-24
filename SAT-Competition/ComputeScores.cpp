@@ -2,7 +2,9 @@
 
 /*!
   \file ComputeScores.cpp
-  \brief Outputs the sorted scores for all solvers from competition data given as a file.
+  \brief Outputs the sorted scores for all solvers from competition data (given as a file).
+  \todo The output should also contain data and time of the computation.
+  \todo The output should contain a legend.
 */
 #include <string>
 #include <iterator>
