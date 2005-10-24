@@ -85,5 +85,20 @@
   \todo Complexity system: "make measurements" will create an xml-file
   (via the boost serialisation library) with information about all
   operations which have been registered. A little viewing-program
-  allows to monitor these measurements (as the evolve over time).
+  allows to monitor these measurements (as they evolve over time).
+
+  \todo New targets "create_new_module" and "create_new_submodule",
+  which create a new subdirectory with test-program respectively new
+  .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
+  in the testprogram).
+
+  \todo Distributing the library:
+   - We must study how to distribute a copy of the whole CVS-system (so that later a remerge is
+   possible; also updates must be studied).
+   - Two download possibilities: Either the whole library (with all included libraries like
+   Boost, doxygen, PostgreSQL etc.), or only the minimum.
+   This gives two user types: "full user" and "minimal user".
+   We must make sure, that also the minimal user can use the test and the complexity system
+   (compiling it himself, or using the build system). And we must study, how a full user can keep his
+   file structure separate from the library by using links.
 */
