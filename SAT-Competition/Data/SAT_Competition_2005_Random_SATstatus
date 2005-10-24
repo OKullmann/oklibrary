@@ -39,7 +39,6 @@ OKgenerator_s0=1s1=21n=300l=3cp=1279-Dnr0=0nr1=9-o.cnf  SAT
 ./k3-r4.26-v360:
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=0-o.cnf  SAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=1-o.cnf  SAT
-OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=10-o.cnf UNSAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=2-o.cnf  SAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=3-o.cnf  UNSAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=4-o.cnf  UNSAT
@@ -47,30 +46,31 @@ OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=5-o.cnf  SAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=6-o.cnf  SAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=7-o.cnf  UNSAT
 OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=8-o.cnf  UNSAT
+OKgenerator_s0=14s1=1n=360l=3cp=1534-Dnr0=0nr1=10-o.cnf UNSAT
 
 ./k3-r4.26-v400:
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=0-o.cnf  UNSAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=1-o.cnf  UNSAT
-OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=11-o.cnf SAT
-OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=12-o.cnf SAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=2-o.cnf  UNSAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=3-o.cnf  UNSAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=4-o.cnf  SAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=5-o.cnf  UNSAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=8-o.cnf  SAT
 OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=9-o.cnf  SAT
+OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=11-o.cnf SAT
+OKgenerator_s0=1s1=55n=400l=3cp=1704-Dnr0=0nr1=12-o.cnf SAT
 
 ./k3-r4.25-v450:
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=0-o.cnf SAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=1-o.cnf SAT
-OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=10-o.cnf  UNSAT
-OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=12-o.cnf  UNSAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=2-o.cnf UNSAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=3-o.cnf UNSAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=4-o.cnf UNSAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=5-o.cnf SAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=6-o.cnf SAT
 OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=7-o.cnf SAT
+OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=10-o.cnf  UNSAT
+OKgenerator_s0=0s1=0n=450l=3cp=1913-Dnr0=0nr1=12-o.cnf  UNSAT
 
 ./k3-r4.26-v500:
 OKgenerator_s0=5s1=4n=500l=3cp=2130-Dnr0=0nr1=0-o.cnf UNSAT
@@ -112,19 +112,18 @@ OKgenerator_s0=23s1=2n=600l=3cp=2557-Dnr0=0nr1=7-o.cnf  UNSAT
 ./k5-r21.3-v70:
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=0-o.cnf  SAT
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=1-o.cnf  SAT
-OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=11-o.cnf UNSAT  
-OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=12-o.cnf UNSAT
-OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=13-o.cnf UNSAT
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=2-o.cnf  SAT
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=3-o.cnf  SAT
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=4-o.cnf  UNSAT
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=5-o.cnf  SAT
 OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=8-o.cnf  UNSAT
+OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=11-o.cnf UNSAT  
+OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=12-o.cnf UNSAT
+OKgenerator_s0=9s1=5n=70l=5cp=1491-Dnr0=0nr1=13-o.cnf UNSAT
 
 ./k5-r21.3-v80:
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=0-o.cnf   SAT    
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=1-o.cnf   UNSAT
-OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=12-o.cnf  UNSAT 
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=2-o.cnf   SAT
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=3-o.cnf   SAT
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=4-o.cnf   UNSAT
@@ -132,23 +131,23 @@ OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=5-o.cnf   SAT
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=6-o.cnf   SAT
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=7-o.cnf   UNSAT
 OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=9-o.cnf   UNSAT
+OKgenerator_s0=23s1=3n=80l=5cp=1704-Dnr0=0nr1=12-o.cnf  UNSAT 
 
 ./k5-r21.3-v90:
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=0-o.cnf   UNSAT
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=1-o.cnf   UNSAT
-OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=11-o.cnf  SAT
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=2-o.cnf   SAT
-OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=20-o.cnf  SAT
-OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=23-o.cnf  SAT
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=3-o.cnf   SAT
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=4-o.cnf   UNSAT
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=5-o.cnf   UNSAT
 OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=6-o.cnf   UNSAT
+OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=11-o.cnf  SAT
+OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=20-o.cnf  SAT
+OKgenerator_s0=29s1=1n=90l=5cp=1917-Dnr0=0nr1=23-o.cnf  SAT
 
 ./k5-r21.3-v100:
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=0-o.cnf  SAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=1-o.cnf  UNSAT
-OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=10-o.cnf SAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=2-o.cnf  UNSAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=3-o.cnf  SAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=4-o.cnf  UNSAT
@@ -156,18 +155,19 @@ OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=5-o.cnf  SAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=6-o.cnf  UNSAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=7-o.cnf  SAT
 OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=8-o.cnf  UNSAT
+OKgenerator_s0=28s1=3n=100l=5cp=2130-Dnr0=0nr1=10-o.cnf SAT
 
 ./k5-r21.3-v110:
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=0-o.cnf  UNSAT
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=1-o.cnf  UNSAT
-OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=10-o.cnf SAT
-OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=11-o.cnf SAT
-OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=12-o.cnf SAT
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=2-o.cnf  UNSAT
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=3-o.cnf  UNSAT
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=4-o.cnf  UNSAT
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=5-o.cnf  SAT
 OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=7-o.cnf  SAT
+OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=10-o.cnf SAT
+OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=11-o.cnf SAT
+OKgenerator_s0=14s1=6n=110l=5cp=2343-Dnr0=0nr1=12-o.cnf SAT
 
 ./k5-r21.3-v120:
 OKgenerator_s0=14s1=7n=120l=5cp=2556-Dnr0=0nr1=0-o.cnf  SAT
@@ -197,7 +197,6 @@ OKgenerator_s0=6s1=6n=130l=5cp=2769-Dnr0=0nr1=2-o.cnf   SAT
 ./k7-r89-v45:
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=0-o.cnf   UNSAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=1-o.cnf   UNSAT
-OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=10-o.cnf  SAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=2-o.cnf   SAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=3-o.cnf   UNSAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=4-o.cnf   SAT
@@ -205,23 +204,23 @@ OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=5-o.cnf   UNSAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=6-o.cnf   UNSAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=7-o.cnf   SAT
 OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=8-o.cnf   SAT
+OKgenerator_s0=22s1=3n=45l=7cp=4005-Dnr0=0nr1=10-o.cnf  SAT
 
 ./k7-r89-v50:
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=0-o.cnf   UNSAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=1-o.cnf   SAT
-OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=10-o.cnf  UNSAT  
-OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=11-o.cnf  UNSAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=2-o.cnf   SAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=3-o.cnf   SAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=4-o.cnf   UNSAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=5-o.cnf   SAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=6-o.cnf   SAT
 OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=7-o.cnf   UNSAT
+OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=10-o.cnf  UNSAT  
+OKgenerator_s0=16s1=4n=50l=7cp=4450-Dnr0=0nr1=11-o.cnf  UNSAT
 
 ./k7-r89-v55:
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=0-o.cnf   SAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=1-o.cnf   SAT
-OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=10-o.cnf  SAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=2-o.cnf   UNSAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=3-o.cnf   UNSAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=4-o.cnf   UNSAT
@@ -229,6 +228,7 @@ OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=5-o.cnf   SAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=6-o.cnf   UNSAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=7-o.cnf   UNSAT
 OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=9-o.cnf   SAT
+OKgenerator_s0=15s1=3n=55l=7cp=4895-Dnr0=0nr1=10-o.cnf  SAT
 
 ./k7-r89-v60:
 OKgenerator_s0=11s1=9n=60l=7cp=5340-Dnr0=0nr1=0-o.cnf SAT
@@ -245,19 +245,18 @@ OKgenerator_s0=11s1=9n=60l=7cp=5340-Dnr0=0nr1=9-o.cnf SAT
 ./k7-r89-v65:
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=0-o.cnf   SAT
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=1-o.cnf   UNSAT
-OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=11-o.cnf  SAT
-OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=12-o.cnf  SAT  
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=2-o.cnf   UNSAT
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=3-o.cnf   UNSAT
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=4-o.cnf   UNSAT
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=5-o.cnf   SAT
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=6-o.cnf   SAT
 OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=7-o.cnf   UNSAT
+OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=11-o.cnf  SAT
+OKgenerator_s0=13s1=7n=65l=7cp=5785-Dnr0=0nr1=12-o.cnf  SAT  
 
 ./k7-r89-v70:
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=0-o.cnf   SAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=1-o.cnf   UNSAT
-OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=12-o.cnf  SAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=2-o.cnf   UNSAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=3-o.cnf   SAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=4-o.cnf   UNSAT
@@ -265,6 +264,7 @@ OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=5-o.cnf   UNSAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=6-o.cnf   SAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=7-o.cnf   UNSAT
 OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=9-o.cnf   SAT
+OKgenerator_s0=21s1=6n=70l=7cp=6230-Dnr0=0nr1=12-o.cnf  SAT
 
 ./k7-r89-v75:
 OKgenerator_s0=23s1=4n=75l=7cp=6675-Dnr0=0nr1=3-o.cnf   SAT
