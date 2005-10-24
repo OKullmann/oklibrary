@@ -35,8 +35,6 @@ namespace OKlib {
     /*!
       \class PurseScoring
       \brief Computing score(solver) = problem_purse(solver) + speed_award(solver) + series_purse(solver).
-      \todo ERROR: The object seq in series_purse_(const SpecSeries&) seems to contain only the benchmarks
-      solved at least by one solver --- it should however contain all benchmarks in the series!
       \todo Make the implementation more efficient by storing intermediate results.
     */
 
@@ -251,6 +249,11 @@ namespace OKlib {
     /*!
       \class Scoring_from_file
       \brief Given a file with competition results, computes sorted lists of scores for the SAT, UNSAT and SAT+UNSAT categories.
+      \todo PROBLEM: When restricting to the SAT or to the UNSAT case, then
+      it might happen that in case less then 5 but at least one of the
+      benchmarks in the series has been solved, that we apply the rule for
+      diminishing the series purse by the factor of three to the series,
+      while actually the series had enough SAT resp. UNSAT instances in them.
       \todo Additional to the current computation for the SAT+UNSAT category, compute the scores when considering only "complete" solvers.
     */
 
