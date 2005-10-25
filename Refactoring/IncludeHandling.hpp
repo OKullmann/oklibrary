@@ -29,7 +29,7 @@
 #include <boost/spirit/utility/regex.hpp>
 #include <boost/spirit/utility/escape_char.hpp>
 
-#include "FilesystemTools.hpp"
+#include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
 
 
