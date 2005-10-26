@@ -33,12 +33,43 @@ namespace OKlib {
   namespace SATCompetition {
 
     /*!
+      \class ConstantSeriesPurse
+      \brief Policy for PurseScoring, which does not change the series purse.
+    */
+    struct ConstantSeriesPurse {
+      template <typename Number, typename Int>
+      static Number purse(const Number initial_purse, const Int count) {
+        return initial_purse;
+      }
+    };
+    /*!
+      \class SAT2005SeriesPurse
+      \brief Policy for PurseScoring, which does divides the series purse by 3, if only 4 or less
+      benchmarks are in the series.
+    */
+    struct SAT2005SeriesPurse {
+      template <typename Number, typename Int>
+      static Number purse(const Number initial_purse, const Int count) {
+        const Int count_threshold = 5;
+        if (count >= count_threshold)
+          return initial_purse;
+        else {
+          const Number weight = Number(1) / Number(3);
+          return weight * initial_purse;
+        }
+      }
+    };
+
+    // ###############
+
+    /*!
       \class PurseScoring
       \brief Computing score(solver) = problem_purse(solver) + speed_award(solver) + series_purse(solver).
+      \todo Concepts for IndexedDatabase and SeriesPursePolicy are needed.
       \todo Make the implementation more efficient by storing intermediate results.
     */
 
-    template <class IndexedDatabase, typename NumberType = double>
+    template <class IndexedDatabase, class SeriesPursePolicy = SAT2005SeriesPurse, typename NumberType = double>
     class PurseScoring {
     public :
 
@@ -46,6 +77,7 @@ namespace OKlib {
 
       typedef NumberType number_type;
       typedef IndexedDatabase database_type;
+      typedef SeriesPursePolicy series_policy_type;
 
       const number_type standard_problem_purse;
       const number_type standard_speed_factor;
@@ -108,6 +140,7 @@ namespace OKlib {
 
       typedef typename database_type::SolvedBenchmark SolvedBenchmark;
 
+      // --------------------------------------------------------------
 
       bool solved(const Solver& solver, const Benchmark& bench) const {
         const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
@@ -125,6 +158,8 @@ namespace OKlib {
         return count;
       }
 
+      // --------------------------------------------------------------
+
       virtual number_type problem_purse_(const Solver& solver, const Benchmark& bench) const {
         if (solved(solver, bench)) {
           const size_type_solvers& count(solved(bench));
@@ -140,12 +175,14 @@ namespace OKlib {
         number_type sum = 0;
         typedef typename seq_solved_benchmarks::const_iterator iterator;
         const iterator end(seq.end());
-        for (iterator i = seq.begin(); i != end; ++i) {
+        for (iterator i = seq.begin(); i != end; ++i) { // loop over all benchmarks the solver solved
           const Benchmark& bench(*i);
           sum += problem_purse(solver, bench);
         }
         return sum;
       }
+
+      // --------------------------------------------------------------
 
       virtual number_type speed_factor_(const Solver& solver, const Benchmark& bench) const {
         if (solved(solver, bench)) {
@@ -196,16 +233,12 @@ namespace OKlib {
         return sum;
       }
      
+      // --------------------------------------------------------------
+
       virtual number_type series_purse_(const SpecSeries& series) const {
         const seq_benchmarks& seq(OKlib::SetAlgorithms::map_value(idb.benchmarks_in_series(), series));
         const size_type_benchmarks& size(seq.size());
-        const size_type_benchmarks size_threshold = 5;
-        if (size >= size_threshold)
-          return standard_series_purse;
-        else {
-          const number_type weight = number_type(1) / number_type(3);
-          return standard_series_purse * weight;
-        }
+        return series_policy_type::purse(standard_series_purse, size);
       }
 
       virtual number_type series_purse_(const Solver& solver, const SpecSeries& series) const {
@@ -215,7 +248,7 @@ namespace OKlib {
           typedef typename IteratorHandling::IteratorFirst<typename map_solver_benchmarks::const_iterator>::type iterator;
           const map_solver_benchmarks& map(idb.solved_benchmarks());
           const iterator end(map.end());
-          for (iterator i(map.begin()); i != end; ++i) {
+          for (iterator i(map.begin()); i != end; ++i) { // loop over all solvers
             const Solver& running_solver(*i);
             count += solved(running_solver, series);
           }
@@ -231,12 +264,14 @@ namespace OKlib {
         number_type sum = 0;
         typedef typename seq_spec_series::const_iterator iterator;
         const iterator end(seq.end());
-        for (iterator i = seq.begin(); i != end; ++i) {
+        for (iterator i = seq.begin(); i != end; ++i) { // loop over all series' the solver solved
           const SpecSeries& series(*i);
           sum += series_purse(solver, series);
         }
         return sum;
       }
+
+      // --------------------------------------------------------------
 
       virtual number_type score_(const Solver& solver) const {
         return problem_purse(solver) + speed_award(solver) + series_purse(solver);
@@ -244,7 +279,7 @@ namespace OKlib {
 
     };
 
-    // -----------------------------------------------------------------------------------------------------------------------
+    // #######################################################
 
     /*!
       \class Scoring_from_file
@@ -257,9 +292,9 @@ namespace OKlib {
       \todo Additional to the current computation for the SAT+UNSAT category, compute the scores when considering only "complete" solvers.
     */
 
-    template <template <typename CharT, typename Parseiterator> class ParserExtension = ParserEmpty>
+    template <template <typename CharT, typename ParseIterator> class ParserExtension = ParserEmpty, class ResultClass = Result>
     struct Scoring_from_file {
-      typedef Result_database_from_file<ParserResult, Result, ParserExtension> result_database_from_file;
+      typedef Result_database_from_file<ParserResult, ResultClass, ParserExtension> result_database_from_file;
       typedef typename result_database_from_file::database_type database;
       typedef ElementaryAnalysis<database> indexed_database;
       typedef PurseScoring<indexed_database> purse_scoring_type;
