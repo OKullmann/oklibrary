@@ -1,5 +1,16 @@
 // Oliver Kullmann, 18.5.2005 (Swansea)
 
+/*!
+  \file ResultProcessing.hpp
+  \brief Classes for building from a raw sequence of results the bipartite attribute-result
+  graph and accessing the set of common results for a set of attribute values.
+
+  Defines class ResultNode, containing a pointer to a ResultBasis object
+  and iterators to maps, which map result subelements (like Series or Solver)
+  to the set of pointers to ResultNode's, and defines the class ResultDatabase,
+  which from an iteration over Result's creates a "web" of ResultNodes.
+*/
+  
 #ifndef RESULTPROCESSING_ppOgB535
 
 #define RESULTPROCESSING_ppOgB535
@@ -64,19 +75,19 @@ namespace OKlib {
     }
 
 
-
-    // ---------------------------------------------------------------------------------------------------------------------
+    // #####################################################
 
     /*!
       \class ResultDatabase
       \brief Creates the undirected ("bi-directed") bipartite attribute-result graphs
        from a sequence of results, and enables computation of the set of common
        results for a set of attribute-values (for different attributes).
+       \todo Create a concept for ResultDatabase.
     */
 
     template <typename ResultIterator>
     // ToDo: Conceptualisation
-    // ResultIterator::value_type is Result
+    // ResultIterator::value_type is Result or ResultRandomSat
     // It is assumed that the lifetime of these results is as long as the lifetime of the ResultDatabase object.
     class ResultDatabase {
 
@@ -232,7 +243,7 @@ namespace OKlib {
 
     };
 
-    // ------------------------------------------------------------------------------------------------------------------------------
+    // ####################################################
 
     template <template <typename Result, typename CharT, typename ParseIterator, class ParserExtension> class ParserResult, class Result_ = Result, template <typename CharT, typename Parseiterator> class ParserExtension = ParserEmpty, template <typename Value> class Container = std::vector>
     struct Result_database_from_file {

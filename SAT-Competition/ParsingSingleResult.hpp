@@ -1,5 +1,11 @@
 // Oliver Kullmann, 13.5.2005 (Swansea)
 
+/*!
+  \file ParsingSingleResult.hpp
+  \brief Parser classes for parsing parts of some result ("result elements"), and the parser
+  classe template ParserResult for parsing complete results (respectively "random-results").
+*/
+
 #ifndef PARSINGSINGLERESULT_jzRtL77Yq1
 
 #define PARSINGSINGLERESULT_jzRtL77Yq1
@@ -25,7 +31,7 @@ namespace OKlib {
       ParserError(const std::string& message) : std::runtime_error(message) {}
     };
 
-    // ---------------------------------------------------------------------------------------------------------
+    // #######################################################
 
     template <class ResultElement, typename CharT = char, typename ParseIterator = const CharT*>
     class ParserResultElement;
@@ -238,8 +244,7 @@ namespace OKlib {
       }
     };
 
-    // ---------------------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------------------
+    // #######################################################
 
     template <typename CharT, typename ParseIterator>
     struct ParserEmpty : public ::OKlib::Parser::ParserBase<CharT, ParseIterator> {
@@ -256,8 +261,8 @@ namespace OKlib {
       }
     };
    
-    // ---------------------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------------------
+    // #######################################################
+    // #######################################################
 
     template <class Result, typename CharT, typename ParseIterator, class ParserExtension>
     class ParserResult;

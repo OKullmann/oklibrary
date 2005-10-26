@@ -32,12 +32,20 @@ namespace OKlib {
 
     /*!
       \class ElementaryAnalysis
-      \brief Elementary maps, for example assiging to a solver the set of solved benchmarks, and elementary sets, for example the set of "complete" solvers.
-    */
+      \brief Given a "database" of results, computes an "indexed database", providing elementary maps, for example assiging to a solver the set of solved benchmarks, and elementary sets, for example the set of "complete" solvers.
 
-    /*!
-      \class ElementaryAnalysis
-      \todo Access to the sets of SuperSeries, SpecSeries, Benchmark, Solver (via iterators to corresponding maps), and computation of the set of "complete" solves (having solved at least one sat and one unsat instance).
+      ElementaryAnalysis provides direct access to
+       - the sequence of series in a superseries
+       - the sequence of benchmarks in a pair of (superseries, series)
+       - the pair (superseries, series) associated with a benchmark
+       - the sequence of "solved benchmarks" (which are structures containing a benchmark and a pointer to a result node)
+       - the sequence of (superseries, series) solved by a solver
+       - the sequence of solvers which solved a benchmark
+       - the satisfiability status of a benchmark
+       - the set of benchmarks where inconsistent results exist.
+
+      \todo Enable access to the sets of SuperSeries, SpecSeries, Benchmark, Solver (via iterators to corresponding maps), and provide computation of the set of "complete" solvers (having solved at least one sat and one unsat instance).
+      \todo A concept is needed.
     */
 
     template <class Database>
