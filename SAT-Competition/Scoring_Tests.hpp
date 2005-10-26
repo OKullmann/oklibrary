@@ -1,12 +1,23 @@
 // Oliver Kullmann, 17.6.2005 (Swansea)
 
+/*!
+  \file Scoring_Tests.hpp
+  \brief Tests for scoring tools
+  \todo Write basic tests.
+*/
+
 #ifndef SCORINGTESTS_kdkdnvc1
 
 #define SCORINGTESTS_kdkdnvc1
 
+#include <string>
+#include <cassert>
+
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
+#include "ResultProcessing.hpp"
+#include "ParsingSingleResult.hpp"
 #include "AnalysisTools.hpp"
 #include "ParsingResultSequences_Tests.hpp"
 
@@ -14,7 +25,7 @@ namespace OKlib {
 
   namespace SATCompetition {
 
-    template <template <class IndexedDatabase, typename NumberType = double> class  PurseScoring>
+    template <template <class IndexedDatabase, class SeriesPursePolicy = SAT2005SeriesPurse, typename NumberType = double> class  PurseScoring>
     class Test_PurseScoring : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_PurseScoring test_type;
