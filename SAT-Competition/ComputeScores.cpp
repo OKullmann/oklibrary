@@ -3,8 +3,14 @@
 /*!
   \file ComputeScores.cpp
   \brief Outputs the sorted scores for all solvers from competition data (given as a file).
+  If an additional second input is given (currently it doesn't matter what), then the
+  extended syntax of round 2 is assumed (otherwise the syntax of round 1).
+  \todo It must be possible to specify on the command line which policy for the
+  computation of the series purse is to be used (see class template PurseScoring), and how
+  to apply this to the SAT/UNSAT sub-competitions.
   \todo The output should also contain data and time of the computation.
   \todo The output should contain a legend.
+  \todo Using the new module ProgramOptions (together with Messages).
 */
 #include <string>
 #include <iterator>
@@ -58,7 +64,7 @@ struct Evaluation {
 int main(const int argc, char* const argv[]) {
 
   if (argc <= 1 or argc >= 4) {
-    std::cerr << "One or two arguments required (the name of the file, and optionally a specifier).\n";
+    std::cerr << "One or two arguments required (the name of the file, and optionally a syntax specifier).\n";
     return EXIT_FAILURE;
   }
   const std::string& file_name(argv[1]);
