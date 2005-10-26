@@ -1,5 +1,22 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
+/*!
+  \file SingleResult.hpp
+  \brief Classes for representing results of one solver on one problem instance
+
+  A polymorphic class hierarchy with ResultElement at the base, with derived class
+  ResultElement_with_name, from which SuperSeries, Series, Benchmark and
+  Solver are derived, while SATStatus, AverageTime and TimeOut are directly
+  derived from ResultElement.
+
+  Combining all these classes we have a polymorphic hierarchy with ResultBasis
+  as the abstract base class, and derived from it Result and ResultRandomSatBasis,
+  where the latter is again an abstract base class, from which ResultRandomSat is
+  derived.
+
+  \todo Writing doxygen comments for all classes in here.
+*/
+
 #ifndef SINGLERESULT_jdj277yYt
 
 #define SINGLERESULT_jdj277yYt
@@ -182,8 +199,8 @@ namespace OKlib {
     }
     OKLIB_DERIVED_ORDERRELATIONS(TimeOut)
 
-    // ---------------------------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------------------------
+    // ######################################################
+    // ######################################################
 
     // ToDo: This should go into a separate file
     
