@@ -112,7 +112,7 @@ namespace OKlib {
 #define OKLIB_TEST_EQUAL(v1, v2) \
     if ( not(v1 == v2)) { \
       std::stringstream out; \
-      out << "Value is " << v1 << ", and not " << v2; \
+      out << "Value is\n" << v1 << ",\n and not\n" << v2 << ".";    \
       OKLIB_THROW(out.str()); \
     }
 
