@@ -1,5 +1,13 @@
 // Oliver Kullmann, 12.6.2005 (Swansea)
 
+/*!
+  \file SequenceOperations_Tests.hpp
+  \brief Tests for sequence operations.
+  \todo Completing Test_Sum_sizes:
+   - using boost::assign (and a general loop)
+   - more test cases.
+*/
+
 #ifndef SEQUENCEOPERATIONSTESTS_kavBv4
 
 #define SEQUENCEOPERATIONSTESTS_kavBv4
@@ -34,7 +42,6 @@ namespace OKlib {
           sum_sizes sz;
           OKLIB_TEST_EQUAL(sz(seq.begin(), seq.end()), 2 + 1 + 3);
         }
-        // ToDo: to be completed.
       }
     };
 
