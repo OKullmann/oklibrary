@@ -22,17 +22,22 @@
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
+#include "SequenceOperations.hpp"
+#include "IteratorHandling.hpp"
+
 #include "SingleResult.hpp"
 #include "ResultProcessing.hpp"
 #include "ParsingSingleResult.hpp"
 #include "AnalysisTools.hpp"
 #include "ParsingResultSequences_Tests.hpp"
 
+#include "LexicographicalEvaluationPolicies.hpp"
+
 namespace OKlib {
 
   namespace SATCompetition {
 
-    template < template <class IndexedDatabase, typename NumberType = double> class LexicographicalEvaluation >
+    template < template <class IndexedDatabase, class SeriesPolicy = LexicographicalSeriesPolicy<Result>, typename NumberType = double> class LexicographicalEvaluation >
     class Test_LexicographicalEvaluation : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_LexicographicalEvaluation test_type;
@@ -54,10 +59,10 @@ namespace OKlib {
         typedef Result_database_from_file<ParserResult, result_type> result_database;
         typedef typename result_database::database_type database;
         typedef ElementaryAnalysis<database> indexed_database;
-        typedef LexicographicalEvaluation<indexed_database> lexicographical_evaluation_type;
+        typedef LexicographicalEvaluation<indexed_database, LexicographicalSeriesPolicy<result_type> > lexicographical_evaluation_type;
         typedef typename lexicographical_evaluation_type::size_type size_type;
         typedef typename lexicographical_evaluation_type::number_type number_type;
-        typedef typename lexicographical_evaluation_type::map_solver_evaluation_for_series_type map_solver_evaluation_for_series_type;
+        typedef typename lexicographical_evaluation_type::map_solver_evaluation_type map_solver_evaluation_type;
         typedef typename lexicographical_evaluation_type::numerics_solver_on_series_type numerics_solver_on_series_type;
 
         result_database rdb(filename);
@@ -67,27 +72,35 @@ namespace OKlib {
 
         typedef typename indexed_database::map_solver_benchmarks map_solver_benchmarks;
         typedef typename IteratorHandling::IteratorFirst<typename map_solver_benchmarks::const_iterator>::type iterator;
-        const map_solver_benchmarks& map(idb.solved_benchmarks());
-        const iterator end(map.end());
-        for (iterator i(map.begin()); i != end; ++i) { // loop over all solvers
+        const map_solver_benchmarks& map_benchmarks(idb.solved_benchmarks());
+        const iterator end(map_benchmarks.end());
+        for (iterator i(map_benchmarks.begin()); i != end; ++i) { // loop over all solvers
           const Solver& solver(*i);
           
-          const map_solver_evaluation_for_series_type& map2(lexicographical_evaluation.evaluation(solver));
-          OKLIB_TEST_EQUAL(map2.size(), OKlib::SetAlgorithms::map_value(idb.solved_series(), solver).size());
+          const map_solver_evaluation_type& map(lexicographical_evaluation.evaluation(solver));
+          typedef typename map_solver_evaluation_type::const_iterator iterator;
+          typedef typename IteratorHandling::IteratorSecond<iterator>::type iterator_second;
+          OKLIB_TEST_EQUAL(OKlib::SetAlgorithms::sum_sizes(iterator_second(map.begin()), iterator_second(map.end())), OKlib::SetAlgorithms::map_value(idb.solved_series(), solver).size());
           size_type sum = 0;
-          typedef typename map_solver_evaluation_for_series_type::const_iterator iterator;
-          const iterator& end(map2.end());
-          for (iterator j(map2.begin()); j != end; ++j) {
-            const numerics_solver_on_series_type& n(j -> second);
-            if (n.first <= 0)
-              OKLIB_THROW("n.first <= 0, namely n.first = " + boost::lexical_cast<std::string>(n.first));
-            sum += n.first;
-            if (n.second < 0)
-              OKLIB_THROW("n.second < 0, namely n.second = " + boost::lexical_cast<std::string>(n.second));
+          const iterator& end(map.end());
+          for (iterator j(map.begin()); j != end; ++j) {
+            typedef typename lexicographical_evaluation_type::map_series_numerics_type map_series_numerics_type;
+            const map_series_numerics_type& map(j -> second);
+
+            typedef typename map_series_numerics_type::const_iterator iterator;
+            const iterator& end(map.end());
+            for (iterator k(map.begin()); k != end; ++k) {
+              const numerics_solver_on_series_type& n(k -> second);
+
+              if (n.first <= 0)
+                OKLIB_THROW("n.first <= 0, namely n.first = " + boost::lexical_cast<std::string>(n.first));
+              sum += n.first;
+              if (n.second < 0)
+                OKLIB_THROW("n.second < 0, namely n.second = " + boost::lexical_cast<std::string>(n.second));
+            }
           }
-          if (sum != OKlib::SetAlgorithms::map_value(map, solver).size())
-            OKLIB_THROW("sum != OKlib::SetAlgorithms::map_value(map, solver).size(), namely sum = " +  boost::lexical_cast<std::string>(sum) + ", while map_value(map, solver).size() = " + boost::lexical_cast<std::string>(OKlib::SetAlgorithms::map_value(map, solver).size()) + "\nContext: solver = " + boost::lexical_cast<std::string>(solver));
-          OKLIB_TEST_EQUAL(sum, OKlib::SetAlgorithms::map_value(map, solver).size());
+          if (sum != OKlib::SetAlgorithms::map_value(map_benchmarks, solver).size())
+            OKLIB_THROW("sum != OKlib::SetAlgorithms::map_value(map_benchmarks, solver).size(), namely sum = " +  boost::lexical_cast<std::string>(sum) + ", while map_value(map_benchmarks, solver).size() = " + boost::lexical_cast<std::string>(OKlib::SetAlgorithms::map_value(map_benchmarks, solver).size()) + "\nContext: solver = " + boost::lexical_cast<std::string>(solver));
         }
                 
       }
