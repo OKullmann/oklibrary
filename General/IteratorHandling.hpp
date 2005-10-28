@@ -1,5 +1,10 @@
 // Oliver Kullmann, 10.11.2002 (Swansea)
 
+/*!
+  \file IteratorHandling.hpp
+  \brief Deprecated (shall be moved to Transitional). Tools for handling of iterators
+*/
+
 #ifndef ITERATORHANDLINGWAECHTER
 
 #define ITERATORHANDLINGWAECHTER
@@ -166,6 +171,11 @@ namespace IteratorHandling {
   // Iterator adaptors for sequences
   // ----------------------------------------
 
+  /*!
+    \class IteratorFirst
+    \brief Metafunction for converting iterators over pairs into iterators over the first component.
+  */
+
   template <class Iterator>
   struct IteratorFirst {
     typedef typename Iterator::value_type value_type;
@@ -178,6 +188,11 @@ namespace IteratorHandling {
     typedef typename IteratorFirst<Iterator>::type iterator;
     return iterator(it);
   }
+
+  /*!
+    \class IteratorSecond
+    \brief Metafunction for converting iterators over pairs into iterators over the second component.
+  */
 
   template <class Iterator>
   struct IteratorSecond {
