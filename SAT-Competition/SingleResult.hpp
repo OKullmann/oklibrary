@@ -42,10 +42,11 @@ namespace OKlib {
       typedef std::string string_type;
       typedef double floating_point_type;
       typedef unsigned int natural_number_type;
+      virtual const ResultElement* self() const { return this; }
       virtual ~ResultElement() {}
     };
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
     
     class ResultElement_with_name : public ResultElement {
       string_type name_;
@@ -54,6 +55,7 @@ namespace OKlib {
       ResultElement_with_name() {}
       ResultElement_with_name(const string_type& name) : name_(name) {}
       string_type name() const { return name_; }
+      const ResultElement_with_name* self() const { return this; }
     };
 
     std::ostream& operator <<(std::ostream& out, const ResultElement_with_name& e) {
@@ -70,12 +72,13 @@ namespace OKlib {
     }
     OKLIB_DERIVED_ORDERRELATIONS(ResultElement_with_name)
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
     
     class SuperSeries : public ResultElement_with_name {
     public :
       SuperSeries() {}
       SuperSeries(const string_type& name) : ResultElement_with_name(name) {}
+      const SuperSeries* self() const { return this; }
     };
     class RandomKSat : public SuperSeries {
       natural_number_type k;
@@ -83,14 +86,16 @@ namespace OKlib {
       RandomKSat() {}
       RandomKSat(const string_type& name, const natural_number_type k) : SuperSeries(name), k(k) {}
       natural_number_type clause_length() const { return k; }
+      const RandomKSat* self() const { return this; }
     };
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     class Series  : public ResultElement_with_name {
     public :
       Series() {}
       Series(const string_type& name) : ResultElement_with_name(name) {}
+      const Series* self() const { return this; }
     };
     class Series_with_n : public Series {
       natural_number_type n;
@@ -98,37 +103,44 @@ namespace OKlib {
       Series_with_n() {}
       Series_with_n(const string_type& name, const natural_number_type n) : Series(name), n(n) {}
       natural_number_type count_variables() const { return n; }
+      const Series_with_n* self() const { return this; }
     };
     class RandomKSat_n : public Series_with_n {
     public :
       RandomKSat_n() {}
       RandomKSat_n(const string_type& name, const natural_number_type n) : Series_with_n(name, n) {}
+      const RandomKSat_n* self() const { return this; }
     };
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     typedef std::pair<SuperSeries, Series> SpecSeries;
+
     std::ostream& operator <<(std::ostream& out, const SpecSeries& series) {
       return out << series.first << "::" << series.second;
     }
 
-    // ---------------------------------------------------------------------------------------------------------------
+    typedef std::pair<RandomKSat, RandomKSat_n> SpecRandomKSat;
+
+    // #################
 
     class Benchmark  : public ResultElement_with_name {
     public :
       Benchmark() {}
       Benchmark(const string_type& name) : ResultElement_with_name(name) {}
+      const Benchmark* self() const { return this; }
     };
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     class Solver  : public ResultElement_with_name {
     public :
       Solver() {}
       Solver(const string_type& name) : ResultElement_with_name(name) {}
+      const Solver* self() const { return this; }
     };
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     enum SolverResult { unknown = 0, sat = 10, unsat = 20, error = 1 };
     // ToDo: This should come from the general library ?!
@@ -139,6 +151,7 @@ namespace OKlib {
       SATStatus() {}
       SATStatus(const SolverResult result) : result_(result) {}
       SolverResult result() const { return result_; }
+      const SATStatus* self() const { return this; }
     };
 
     std::ostream& operator <<(std::ostream& out, const SATStatus& e) {
@@ -155,7 +168,7 @@ namespace OKlib {
     }
     OKLIB_DERIVED_ORDERRELATIONS(SATStatus)
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     class AverageTime : public ResultElement {
       floating_point_type average_;
@@ -163,6 +176,7 @@ namespace OKlib {
       AverageTime() {}
       AverageTime(const floating_point_type average) : average_(average) {}
       floating_point_type average() const { return average_; }
+      const AverageTime* self() const { return this; }
     };
 
     std::ostream& operator <<(std::ostream& out, const AverageTime& e) {
@@ -172,10 +186,9 @@ namespace OKlib {
     bool operator ==(const AverageTime& lhs, const AverageTime& rhs) {
       return lhs.average() == rhs.average();
     }
-    bool operator !=(const AverageTime& lhs, const AverageTime& rhs) {
-      return not (lhs == rhs);
-    }
-    // ---------------------------------------------------------------------------------------------------------------
+    OKLIB_DERIVED_UNEQUAL(AverageTime)
+
+    // #################
 
     class TimeOut : public ResultElement {
       natural_number_type time_out_;
@@ -183,6 +196,7 @@ namespace OKlib {
       TimeOut() {}
       TimeOut(const natural_number_type time_out) : time_out_(time_out) {}
       natural_number_type time_out() const { return time_out_; }
+      const TimeOut* self() const { return this; }
     };
 
     std::ostream& operator <<(std::ostream& out, const TimeOut& e) {
@@ -219,7 +233,7 @@ namespace OKlib {
     template <class result_type>
     struct tuple_type;
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     class ResultBasis {
       // ToDo: This should be an instance of a general pattern.
@@ -252,7 +266,7 @@ namespace OKlib {
       return out << r -> super_series() << " " <<r -> series() << " " <<r -> benchmark() << " " << r -> solver() << " " << r -> sat_status() << " " << r -> average() << " " <<r -> time_out();
     }
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     template <typename CharT, typename ParseIterator>
     struct ParserEmpty;
@@ -347,7 +361,7 @@ namespace OKlib {
       typedef TupleResult type;
     };
 
-    // ---------------------------------------------------------------------------------------------------------------
+    // #################
 
     class ResultRandomSatBasis : public ResultBasis {
     public :
