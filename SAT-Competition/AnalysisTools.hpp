@@ -46,13 +46,13 @@ namespace OKlib {
 
       \todo Enable access to the sets of SuperSeries, SpecSeries, Benchmark, Solver (via iterators to corresponding maps), and provide computation of the set of "complete" solvers (having solved at least one sat and one unsat instance).
       \todo A concept is needed.
+      \todo Should there be an exception base class for OKlib ?
     */
 
     template <class Database>
     class ElementaryAnalysis {
       ElementaryAnalysis(const ElementaryAnalysis&);
       ElementaryAnalysis& operator =(const ElementaryAnalysis&);
-      const Database& db;
 
     public :
 
@@ -65,6 +65,9 @@ namespace OKlib {
         fill_succesful_solvers();
         fill_sat_status();
       }
+
+      typedef Database database_type;
+      const Database& db;
 
       struct SolvedBenchmark {
         const Benchmark bench;
@@ -114,7 +117,6 @@ namespace OKlib {
       struct ErrorElementaryAnalysis : std::runtime_error {
         ErrorElementaryAnalysis(const std::string& message) : std::runtime_error(message) {}
       };
-      // ToDo: Should there be an exception base class for OKlib ?
       struct AmbigueBenchmark : ErrorElementaryAnalysis {
         AmbigueBenchmark(const Benchmark& benchmark, const SpecSeries& series1, const SpecSeries& series2) : ErrorElementaryAnalysis(boost::lexical_cast<std::string>(benchmark) + " in " + boost::lexical_cast<std::string>(series1) + " and " + boost::lexical_cast<std::string>(series2)) {}
       };
