@@ -24,7 +24,7 @@
 
 namespace OKlib {
 
-  namespace FilesystemTools {
+  namespace GeneralInputOutput {
 
     /*!
       \class Test_BasicCounter

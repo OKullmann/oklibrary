@@ -9,7 +9,7 @@
 
 namespace OKlib {
 
-  namespace FilesystemTools {
+  namespace GeneralInputOutput {
 
     Test_BasicCounter<BasicCounter> test_basic_counter;
     

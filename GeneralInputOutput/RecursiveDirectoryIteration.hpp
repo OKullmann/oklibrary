@@ -27,7 +27,7 @@
                    
 namespace OKlib {
 
-  namespace RecursiveDirectoryIteration {
+  namespace GeneralInputOutput {
 
     /*!
       \class DirectoryIterator
