@@ -14,20 +14,14 @@ namespace FunctionHandling {
   // Access
   // -------------------------------------------------
 
-  template <typename>
-  struct First;
-
-  template <typename T1, typename T2>
-  struct First<std::pair<T1, T2> > : std::unary_function<std::pair<T1, T2>, const T1&> {
-    const T1& operator() (const std::pair<T1, T2>& p) const { return p.first; }
+  template <class C>
+  struct First : std::unary_function<C, const typename C::first_type&> {
+    const typename C::first_type& operator() (const C& c) const { return c.first; }
   };
 
-  template <typename>
-  struct Second;
-
-  template <typename T1, typename T2>
-  struct Second<std::pair<T1, T2> > : std::unary_function<std::pair<T1, T2>, const T2&> {
-    const T2& operator() (const std::pair<T1, T2>& p) const { return p.second; }
+  template <class C>
+  struct Second : std::unary_function<C, const typename C::second_type&> {
+    const typename C::second_type& operator() (const C& c) const { return c.second; }
   };
 
   template <typename Value, typename Pointer = const Value*>
