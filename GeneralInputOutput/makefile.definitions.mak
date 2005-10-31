@@ -34,7 +34,7 @@ endif
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-test_program := TestRecursiveDirectoryIteration
+test_program := TestGeneralInputOutput
 
 programs :=
 
