@@ -2,7 +2,7 @@
 
 #include "TestBaseClass.hpp"
 
-#include "FilesystemTools_Testobjects.hpp"
+#include "RecursiveDirectoryIteration_Testobjects.hpp"
 #include "IOStreamFilters_Testobjects.hpp"
 
 int main() {
