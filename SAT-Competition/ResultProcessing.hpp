@@ -9,6 +9,7 @@
   and iterators to maps, which map result subelements (like Series or Solver)
   to the set of pointers to ResultNode's, and defines the class ResultDatabase,
   which from an iteration over Result's creates a "web" of ResultNodes.
+  \todo Yet the types ResultNode etc. are hard-coded --- they should become parameters.
 */
   
 #ifndef RESULTPROCESSING_ppOgB535
@@ -82,13 +83,13 @@ namespace OKlib {
       \brief Creates the undirected ("bi-directed") bipartite attribute-result graphs
        from a sequence of results, and enables computation of the set of common
        results for a set of attribute-values (for different attributes).
-       \todo Create a concept for ResultDatabase.
+       \todo Create a concept for ResultDatabase:
+        -  ResultIterator is an input iterator, ResultIterator::value_type is
+           Result or ResultRandomSat (yet). It is assumed that the lifetime of these results
+           is as long as the lifetime of the ResultDatabase object.
     */
 
     template <typename ResultIterator>
-    // ToDo: Conceptualisation
-    // ResultIterator::value_type is Result or ResultRandomSat
-    // It is assumed that the lifetime of these results is as long as the lifetime of the ResultDatabase object.
     class ResultDatabase {
 
       ResultDatabase& operator =(const ResultDatabase&);
