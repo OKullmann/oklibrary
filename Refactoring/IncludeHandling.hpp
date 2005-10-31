@@ -28,6 +28,8 @@
 #include <boost/spirit/utility/chset.hpp>
 #include <boost/spirit/utility/regex.hpp>
 #include <boost/spirit/utility/escape_char.hpp>
+#include <boost/spirit/iterator/multi_pass.hpp>
+
 
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
@@ -243,7 +245,7 @@ namespace OKlib {
         }
       };
       action_other other;
-      
+
       struct action_context {
         string_type& s;
         action_context(string_type& s) : s(s) {}
@@ -275,7 +277,7 @@ namespace OKlib {
 
         definition(const IncludeParsingGrammar& self) {
 
-          include_directive_begin = boost::spirit::regex_p("^#") >> (*boost::spirit::blank_p)[self.blanks_hash] >> boost::spirit::str_p("include") >> (*boost::spirit::blank_p)[self.blanks_include];
+          include_directive_begin = boost::spirit::ch_p("#") >> (*boost::spirit::blank_p)[self.blanks_hash] >> boost::spirit::str_p("include") >> (*boost::spirit::blank_p)[self.blanks_include];
 
           include_directive_system = include_directive_begin >> boost::spirit::confix_p("<", (*boost::spirit::anychar_p)[self.header_file], ">");
           include_directive_source = include_directive_begin >> boost::spirit::confix_p("\"",(*boost::spirit::anychar_p)[self.header_file], "\"");
@@ -286,15 +288,27 @@ namespace OKlib {
 
           string = boost::spirit::confix_p("\"", *boost::spirit::c_escape_ch_p, "\"");
           
-          other_statements = *(comment | string | (boost::spirit::anychar_p - include_directive));
+          other_statements = *(comment | string | (boost::spirit::anychar_p - (boost::spirit::eol_p >> boost::spirit::ch_p("#")))) >> !boost::spirit::eol_p;
           
-          program = other_statements[self.other] >> *(include_directive >> other_statements[self.context])[self.push_back];
+          program = ((include_directive >> other_statements[self.context])[self.push_back] | other_statements[self.other]) >> *(include_directive >> other_statements[self.context])[self.push_back];
         }
 
         const rule& start() const { return program; }
       };
     };
     
+    // ####################################################################################
+
+    template <class charT, class traits, class Allocator>
+    std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
+      typedef boost::spirit::multi_pass<std::istream_iterator<charT> > iterator_t;
+      const iterator_t& begin(boost::spirit::make_multi_pass(std::istream_iterator<charT>(in)));
+      const iterator_t& end(boost::spirit::make_multi_pass(std::istream_iterator<charT>()));
+      IncludeParsingGrammar g(pr);
+      boost::spirit::parse(begin, end, g);
+      return in;
+    }
+
     // ####################################################################################
     
 
