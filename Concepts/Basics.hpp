@@ -6,6 +6,9 @@
 
   Extends equality concepts, order concepts and constructibility concepts;
   adding new concepts for substitutability and const correctness.
+  \todo Write Doxygen-comments for concepts not yet documented.
+  \todo Like FullyConstructibleEq we should have FullyConstructibleLessThan and
+  FullyConstructibleLinearOrder etc.
 */
 
 #ifndef BASICS_haharw786

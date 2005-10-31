@@ -7,6 +7,24 @@
    - There must be (at least basic) tests for the tests itself.
    - Updating tests for FullyLessThanComparable (similar to tests for EqualityComparable).
    - Updating tests for LinearOrder (similar to tests for EqualityComparable).
+   - A test facility is needed, which takes as input a range of m objects, and then
+     all (m over 3) 3-subsets are fed into the tests for 3 objects. The idea for its
+     usage is, that these m objects cover in a certain sense "all cases" (are "representative").
+     This assumes full constructibility of the objects. The iterator type is a forward
+     iterator, and only the iterators are moved (so that no construction or destruction
+     of the objects itself is required).
+   - Besides these "axiomatix tests" we need "sporadic tests" (with given outcome).
+     A range of (non-empy) range is the input here, where in case of ==-testing the elements in
+     the single ranges are ==, and elements from different ranges are (not ==), while
+     in case of < elements of the single ranges are equivalent (i.e., incomparable),
+     and we have < for immediately succeeding ranges. The idea here is, that
+     the minimal checks for these assertions are done here, and then a sequence
+     of all the objects is fed into the systematic test from the previous points
+     (altogether this must then guarantee that all asserted relations hold; for a LinearOrder
+     for example we only need to compare within a single range neighbouring elements for
+     ==, and the first elements of immediately successive ranges for <).
+     Thus, for example for testing of a model of FullyConstructibleLinearOrder, the user only
+     needs to provide such a set of sporadic test cases, and all possible checks are carried out.
 */
 
 #ifndef BASICSTESTS_oLzW151
