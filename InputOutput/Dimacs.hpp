@@ -70,7 +70,7 @@ namespace OKlib {
     class StandardDIMACSInput {
       boost::iostreams::filtering_istream in;
       CLSAdaptor& out;
-      OKlib::FilesystemTools::Counter counter;
+      OKlib::GeneralInputOutput::Counter counter;
       char peek;
       Int n, c;
 
