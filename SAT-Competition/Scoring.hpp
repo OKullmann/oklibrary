@@ -284,8 +284,8 @@ namespace OKlib {
     /*!
       \class Scoring_from_file
       \brief Given a file with competition results, computes sorted lists of scores for the SAT, UNSAT and SAT+UNSAT categories.
-      \todo PROBLEM: When restricting to the SAT or to the UNSAT case, then
-      it might happen that in case less then 5 but at least one of the
+      \todo PROBLEM: When restricting to the SAT or to the UNSAT case (see objects rdb_sat
+      and rdb_unsat), then it might happen that in case less then 5 but at least one of the
       benchmarks in the series has been solved, that we apply the rule for
       diminishing the series purse by the factor of three to the series,
       while actually the series had enough SAT resp. UNSAT instances in them.
