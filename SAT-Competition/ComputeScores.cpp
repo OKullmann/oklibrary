@@ -10,6 +10,7 @@
   to apply this to the SAT/UNSAT sub-competitions.
   \todo The output should also contain data and time of the computation.
   \todo The output should contain a legend.
+  \todo The number of series solved should be shown (besides the number of instances solved).
   \todo Using the new module ProgramOptions (together with Messages).
 */
 #include <string>
