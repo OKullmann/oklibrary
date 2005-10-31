@@ -4,6 +4,11 @@
   \file TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
+  \todo Yet we do only basic testing; now we need new goals for the build-system,
+  distinguishing between "basic testing" and "enhanced testing", and in case of
+  enhanced testing TestBase::run_tests_default calls the test function with
+  the parameter vector containing just one zero.
+  \todo Perhaps instead of "trivial testing" we should speak about "basic testing".
 */
 
 #ifndef TESTBASECLASS_kkLLkbV5I
@@ -45,9 +50,8 @@ namespace OKlib {
       void perform_test(const TestParameter& P = TestParameter()) {
         // throws only TestException
         try {
-          if (P.empty())
-            perform_test_trivial();
-          else
+          perform_test_trivial();
+          if (not P.empty())
             perform_test_nontrivial(P);
         }
         catch(const TestException&) {
@@ -66,9 +70,7 @@ namespace OKlib {
       }
     private :
       virtual void perform_test_trivial() = 0;
-      virtual void perform_test_nontrivial(const TestParameter&) {
-        perform_test_trivial();
-      }
+      virtual void perform_test_nontrivial(const TestParameter&) {};
     };
 
     /*!
@@ -82,6 +84,7 @@ namespace OKlib {
      */
 
     class TestBase : public Test {
+
       typedef std::list<TestBase*> List;
       // List does not take ownership of the elements pointed to by its members.
       static List test_list;
@@ -95,7 +98,9 @@ namespace OKlib {
         it = --test_list.end();
         inserted = true;
       }
+
     public :
+
       static int run_tests_default(std::ostream& out) {
         out << "\nrun_tests_default:\n\n";
         int return_value = 0;
@@ -113,20 +118,18 @@ namespace OKlib {
         out << "\nElapsed: " << elapsed << "s\n";
         return return_value;
       }
+
       TestBase() : inserted(false) {}
+
       virtual ~TestBase() {
         if (inserted)
           test_list.erase(it);
+        // does not throw
       }
-      // does not throw
-    private :
-      virtual void perform_test_trivial() = 0;
-      virtual void perform_test_nontrivial(const TestParameter&) {
-        perform_test_trivial();
-      }
+
     };
     TestBase::List TestBase::test_list;
-  
+ 
   }
 
 }
