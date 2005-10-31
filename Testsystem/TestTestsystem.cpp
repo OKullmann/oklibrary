@@ -8,16 +8,19 @@
 class Test1 : public OKlib::TestSystem::TestBase {
   typedef Test1 test_type;
 public :
+  bool test_trivial_throws;
   OKlib::TestSystem::ErrorDescription d;
-  Test1() {
+  Test1() : test_trivial_throws(true) {
     insert(this);
   }
 private :
   void perform_test_trivial() {
-    OKlib::TestSystem::TestException e("test_trivial");
-    d = OKLIB_TESTDESCRIPTION;
-    e.add(d);
-    throw e;
+    if (test_trivial_throws) {
+      OKlib::TestSystem::TestException e("test_trivial");
+      d = OKLIB_TESTDESCRIPTION;
+      e.add(d);
+      throw e;
+    }
   }
   void perform_test_nontrivial(const OKlib::TestSystem::TestParameter& P) {
     OKlib::TestSystem::TestException e("test_nontrivial");
@@ -86,7 +89,8 @@ int main() {
       assert(s.str() == s2.str());
     }
     try {
-      test.perform_test(OKlib::TestSystem::TestParameter(1));
+      test1.test_trivial_throws = false;
+      test1.perform_test(OKlib::TestSystem::TestParameter(1));
     }
     catch(const OKlib::TestSystem::TestException& e) {
       std::stringstream s;
