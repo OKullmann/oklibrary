@@ -17,6 +17,7 @@ namespace OKlib {
     Test_IncludeDirective<IncludeDirective> test_include_directive;
     Test_IncludeParsingGrammar<IncludeParsingGrammar> test_include_parsing_grammar;
     Test_ProgramRepresentationIncludes<ProgramRepresentationIncludes> test_program_representation_includes;
+    Test_Parsing<ProgramRepresentationIncludes> test_parsing;
   }
 
 }

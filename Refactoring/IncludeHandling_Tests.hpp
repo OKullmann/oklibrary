@@ -266,7 +266,84 @@ namespace OKlib {
       }
     };
 
+    // ##############################################################
 
+    /*!
+      \class Test_Parsing
+      \brief Testing parsing of include directives from an istream.
+      \todo Have a vector of inputs (strings?, files?) which should be proper C++ programs. Stream each input into a ProgramRepresentationIncludes object and test that the correct include directives are parsed (i.e. compare to a vector of the expected include directives).
+    */
+
+    template <template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> > class Program_Representation_Includes>
+    class Test_Parsing : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Parsing test_type;
+      Test_Parsing() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        {
+          typedef Program_Representation_Includes<> pr_type;
+
+          typedef std::string string_type;
+          typedef IncludeDirective<string_type> id_type;
+          typedef std::pair<id_type, string_type> pair_type;
+          typedef std::vector<pair_type> container_type;
+          //typedef typename container_type::value_type value_type;
+          //typedef typename container_type::iterator container_iterator;
+          //typedef typename container_type::const_iterator container_const_iterator;
+
+          using namespace boost::assign;
+
+          typedef std::string prefix_type;
+          typedef std::string program_type;
+
+          program_type program_0("This is prefix 0\n#include<iostream>context\n# include <string> more context");
+          program_type program_1("This is prefix 1\n#include<boost/filesystem>context\n# include \"Refactoring.hpp\" more context");
+          
+          prefix_type prefix_0("This is prefix 0");
+          prefix_type prefix_1("This is prefix 1");
+
+          container_type id_w_context_0;
+
+          id_w_context_0 += 
+            std::make_pair(id_type("iostream",0,0,system_header),string_type("context")),
+            std::make_pair(id_type("string",1,1,system_header),string_type(" more context"));
+
+          container_type id_w_context_1;
+
+          id_w_context_1 += 
+            std::make_pair(id_type("boost/filesystem",0,0,system_header),string_type("context")),
+            std::make_pair(id_type("Refactoring.hpp",1,1,source_code_header),string_type(" more context"));
+
+          typedef boost::tuple<program_type, prefix_type, container_type> el_t;
+          typedef std::vector<el_t> test_vector_type;
+          test_vector_type test_vector;
+
+          test_vector += 
+            el_t(program_0,prefix_0,id_w_context_0),
+            el_t(program_1,prefix_1,id_w_context_1);
+
+          typedef typename test_vector_type::const_iterator iterator;
+          const iterator& end(test_vector.end());
+          for (iterator i = test_vector.begin(); i != end; ++i) {
+             const el_t& el(*i);
+             const std::string& program_string(el.template get<0>());
+             const prefix_type& prefix_string(el.template get<1>());
+             const container_type& id_w_context(el.template get<2>());
+             std::istringstream program_stream(program_string);
+             pr_type program_rep;
+             program_stream >> program_rep;
+             //\todo test equality of program_rep.prefix with prefix_string and program_rep.include_directives_with_context with id_w_context.
+             //OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
+             //OKLIB_TEST_EQUAL(program_rep.include_directives_with_context,id_w_context);
+          }
+
+
+        }
+      }
+    };
 
   }
 
