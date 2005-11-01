@@ -176,8 +176,7 @@ namespace OKlib {
     
     /*!
       \class IncludeParsingGrammar
-      \brief Defines grammar of a C++ program as far as is needed for parsing of include directives in a file.
-      \todo Write istream >> ProgramRepresentationIncludes.
+      \brief Defines grammar of a C++ program as far as necessary for parsing include directives in a file.
       \todo Yet we use a fixed ProgramRepresentationIncludes form (with fixed character type), ignoring the scanner type (the template parameter of the nested class definition). A more perfect solution would create a new parse-function which then instantiates the IncludeParsingGrammar and ProgramRepresentationIncludes accordingly to the character type actually used.
       \todo A concept is needed.
     */
