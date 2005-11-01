@@ -1,7 +1,14 @@
 // Oliver Kullmann, 6.11.2004 (Swansea)
 
+/*!
+  \file NumberTheory_Application_gcd.cpp
+  \brief Used for CS-232.
+*/
+
 #include <iostream>
 #include <exception>
+#include <cstdlib>
+#include <sstream>
 
 #include <boost/lexical_cast.hpp>
 
@@ -14,7 +21,7 @@ int main(const int argc, const char* const argv[]) {
   if (argc != 3) {
     std::cerr << "Exactly two integer arguments are needed.\n";
     // TO IMPROVE: return value
-    return 1;
+    return EXIT_FAILURE;
   }
 
   typedef int Int;
@@ -25,13 +32,20 @@ int main(const int argc, const char* const argv[]) {
   }
   catch (const std::exception& e) {
     std::cerr << ErrorHandling::Error2string(e);
-    return 1;
+    return EXIT_FAILURE;
   }
 
-  typedef NumberTheory::Gcd_extended<Int> Gcd;
-  typedef Gcd::result_type result_type;
-  Gcd gcd;
+  typedef NumberTheory::GcdExtVisitor_output<Int> visitor_type;
+  typedef NumberTheory::Gcd_extended<Int, visitor_type> Gcd_ext;
+  typedef Gcd_ext::result_type result_type;
+
+  std::ostringstream euc_seq;
+  std::ostringstream euc_ext_seq;
+  visitor_type visitor(euc_seq, euc_ext_seq);
+  Gcd_ext gcd_ext(visitor);
   
-  const result_type r = gcd(a,b);
+  const result_type r = gcd_ext(a,b);
   std::cout << "a = " << a << ", b = " << b << "\ngcd = " << r.c << "\nx = " << r.x << ", y = " << r.y << "\n";
+  std::cout << "Euclidian sequence:\n" << euc_seq.str() << "\n";
+  std::cout << "Euclidian extension sequence:\n" << euc_ext_seq.str() << "\n";
 }
