@@ -26,12 +26,12 @@ else
   Xerces_so :=
 endif
 
-General_options :=
+General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestBibliothek
 
-programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList
+programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList Algebra_Applications_RSA
 
 source_libraries := $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
 
