@@ -271,7 +271,10 @@ namespace OKlib {
     /*!
       \class Test_Parsing
       \brief Testing parsing of include directives from an istream.
-      \todo Have a vector of inputs (strings?, files?) which should be proper C++ programs. Stream each input into a ProgramRepresentationIncludes object and test that the correct include directives are parsed (i.e. compare to a vector of the expected include directives).
+      \todo Have a vector of inputs (strings?, files?) which should be proper C++ programs.
+      Stream each input into a ProgramRepresentationIncludes object and test that the correct
+      include directives are parsed (i.e. compare to a vector of the expected include
+      directives).
     */
 
     template <template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> > class Program_Representation_Includes>
