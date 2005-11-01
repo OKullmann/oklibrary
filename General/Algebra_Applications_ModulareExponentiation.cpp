@@ -1,7 +1,13 @@
 // Oliver Kullmann, 6.11.2004 (Swansea)
 
+/*!
+  \file Algebra_Applications_ModulareExponentiation.cpp
+  \brief Used for CS-232.
+*/
+
 #include <iostream>
 #include <exception>
+#include <cstdlib>
 
 #include <boost/lexical_cast.hpp>
 
@@ -14,11 +20,10 @@ int main(const int argc, const char* const argv[]) {
 
   if (argc != 4) {
     std::cerr << "Exactly three integer arguments are needed (modulus, basis, exponent).\n";
-    // TO IMPROVE: return value
-    return 1;
+    return EXIT_FAILURE;
   }
 
-  typedef int Int;
+  typedef long int Int;
   Int n, b, e;
   try {
     n = boost::lexical_cast<Int>(argv[1]);
@@ -27,19 +32,19 @@ int main(const int argc, const char* const argv[]) {
   }
   catch (const std::exception& e) {
     std::cerr << ErrorHandling::Error2string(e);
-    return 1;
+    return EXIT_FAILURE;
   }
 
   if (n <= 0) {
     std::cerr << "The modulus must be a positive number, while n = " << n << " is non-positive.\n";
-    return 1;
+    return EXIT_FAILURE;
   }
   if (e < 0) {
-    std::cerr << "The exponent must be a non-negative number, while e = " << n << " is negative.\n";
-    return 1;
+    std::cerr << "The exponent must be a non-negative number, while e = " << e << " is negative.\n";
+    return EXIT_FAILURE;
   }
 
-  const Int n_fixed = 91; // TO IMPROVE: runtime determination of modulus!
-
-  std::cout << "modulus n = " << n_fixed << "\nbasis b = " << b << "\nexponent e = " << e << "\nResult = " << Algorithms::power_natural(Algebra::Z_mod_n<n_fixed, Int>(b), e) << "\n";
+  typedef Algebra::Zmodn<Int> mod_type;
+  mod_type::modulus = n;
+  std::cout << "modulus n = " << n << "\nbasis b = " << b << "\nexponent e = " << e << "\nResult = " << Algorithms::power_natural(mod_type(b), e) << "\n";
 }
