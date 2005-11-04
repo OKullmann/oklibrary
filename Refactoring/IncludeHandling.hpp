@@ -22,6 +22,7 @@
 #include <utility>
 #include <memory>
 #include <iterator>
+#include <iomanip>
 
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -30,6 +31,7 @@
 #include <boost/spirit/utility/escape_char.hpp>
 #include <boost/spirit/iterator/multi_pass.hpp>
 
+#include <boost/filesystem/path.hpp>
 
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
@@ -295,18 +297,69 @@ namespace OKlib {
         const rule& start() const { return program; }
       };
     };
+
+    // ####################################################################################
+
+    /*!
+      \class StreamExtractor
+      \brief Functor class for extracting include directives from input streams.
+      \todo Make two funtor classes out of it.
+      \todo The constructor of the class using boost::multipass stores the state
+      of the skipws-flag at construction, and resets it at destruction.
+    */
+
+    class StreamExtractor {
+
+      std::istream& in;
+
+    public :
+
+      StreamExtractor(std::istream& in) : in(in) {
+        in >> std::noskipws;
+      }
+        
+      template <typename charT, class traits, class Allocator>
+      std::istream& extract(ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
+        typedef boost::spirit::multi_pass<std::istream_iterator<charT> > iterator_t;
+        const iterator_t& begin(boost::spirit::make_multi_pass(std::istream_iterator<charT>(in)));
+        const iterator_t& end(boost::spirit::make_multi_pass(std::istream_iterator<charT>()));
+        IncludeParsingGrammar g(pr);
+        boost::spirit::parse(begin, end, g);
+        return in;
+      }
+
+      template <class charT, class traits, class Allocator>
+      std::istream& extract_alt_0(ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
+        std::ostringstream input;
+        input << in.rdbuf();
+        std::string input_string(input.str());
+        std::string::iterator begin(input_string.begin());
+        std::string::iterator end(input_string.end());
+        IncludeParsingGrammar g(pr);
+        boost::spirit::parse(begin, end, g);
+        return in;
+      }
+
+    };
     
     // ####################################################################################
 
     template <class charT, class traits, class Allocator>
     std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
-      typedef boost::spirit::multi_pass<std::istream_iterator<charT> > iterator_t;
-      const iterator_t& begin(boost::spirit::make_multi_pass(std::istream_iterator<charT>(in)));
-      const iterator_t& end(boost::spirit::make_multi_pass(std::istream_iterator<charT>()));
-      IncludeParsingGrammar g(pr);
-      boost::spirit::parse(begin, end, g);
-      return in;
+      StreamExtractor().extract(in,pr);
     }
+
+// ####################################################################################
+
+//     template <class charT, class traits, class Allocator>
+//     std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
+//       typedef boost::spirit::multi_pass<std::istream_iterator<charT> > iterator_t;
+//       const iterator_t& begin(boost::spirit::make_multi_pass(std::istream_iterator<charT>(in)));
+//       const iterator_t& end(boost::spirit::make_multi_pass(std::istream_iterator<charT>()));
+//       IncludeParsingGrammar g(pr);
+//       boost::spirit::parse(begin, end, g);
+//       return in;
+//     }
 
     // ####################################################################################
     
@@ -322,7 +375,18 @@ namespace OKlib {
       \todo Design and implement.
     */
 
-    class Extend_include_directives {};
+//     template <template <class Range> class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path>, class Istream = std::istream>
+//     class Extend_include_directives {
+
+//       Extend_include_directives(Istream input, APC prefix_container) : input(input), prefix_container(prefix_container) {}
+
+//       Istream input;
+//       APC prefix_container;
+
+//       //\todo Implement operator()
+//       void operator() () {}
+
+//     };
 
     /*!
       \class Extend_include_directives_Two_directories
@@ -342,7 +406,26 @@ namespace OKlib {
       the working directory are handled by Extend_include_directives.
     */
 
-    class Extend_include_directives_Two_directories {};
+    template <class Path = boost::filesystem::path>
+    class Extend_include_directives_Two_directories {
+
+      Extend_include_directives_Two_directories(const Path& ref_dir_, const Path& work_dir_) : ref_dir(ref_dir_),work_dir(work_dir_) {}
+
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<Path> prefix_container_type;
+      typedef OKlib::GeneralInputOutput::DirectoryIterator dir_it_type;
+
+      const Path& ref_dir;
+      const Path& work_dir;
+      
+      prefix_container_type prefix_container;
+      dir_it_type ref_dir_it();
+      dir_it_type work_dir_it();
+
+      //\todo Iterate over ref_dir_it, putting each path into prefix_container
+
+      //\todo Iterate over work_dir_it, applying Extend_include_directives
+ 
+    };
 
   }
 
