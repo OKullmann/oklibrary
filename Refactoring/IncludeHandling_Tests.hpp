@@ -250,7 +250,7 @@ namespace OKlib {
       directives).
     */
 
-    template <template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> > class Program_Representation_Includes>
+    template <template <class charT, class traits, class Allocator> class Program_Representation_Includes, class StreamExtractor>
     class Test_Parsing : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_Parsing test_type;
@@ -260,9 +260,14 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-          typedef Program_Representation_Includes<> pr_type;
+          typedef char char_type;
+          typedef std::char_traits<char_type> traits_type;
+          typedef std::allocator<char_type> allocator_type;
 
-          typedef std::string string_type;
+          typedef Program_Representation_Includes<char_type, traits_type, allocator_type> pr_type;
+          typedef StreamExtractor stream_extractor_type;
+
+          typedef typename pr_type::string_type string_type;
           typedef IncludeDirective<string_type> id_type;
           typedef std::pair<id_type, string_type> pair_type;
           typedef std::vector<pair_type> container_type;
@@ -284,13 +289,13 @@ namespace OKlib {
           container_type id_w_context_0;
 
           id_w_context_0 += 
-            std::make_pair(id_type("iostream",0,0,system_header),string_type("context")),
+            std::make_pair(id_type("iostream",0,0,system_header),string_type("context\n")),
             std::make_pair(id_type("string",1,1,system_header),string_type(" more context"));
 
           container_type id_w_context_1;
 
           id_w_context_1 += 
-            std::make_pair(id_type("boost/filesystem",0,0,system_header),string_type("context")),
+            std::make_pair(id_type("boost/filesystem",0,0,system_header),string_type("context\n")),
             std::make_pair(id_type("Refactoring.hpp",1,1,source_code_header),string_type(" more context"));
 
           typedef boost::tuple<program_type, prefix_type, container_type> el_t;
@@ -310,11 +315,10 @@ namespace OKlib {
              const container_type& id_w_context(el.template get<2>());
              std::istringstream program_stream(program_string);
              pr_type program_rep;
-             //program_stream >> program_rep;
-             StreamExtractor(program_stream).extract(program_rep);
+             (stream_extractor_type(program_stream))(program_rep);
              //\todo test equality of program_rep.prefix with prefix_string and program_rep.include_directives_with_context with id_w_context.
              OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
-             //OKLIB_TEST_EQUAL(program_rep.include_directives_with_context,id_w_context);
+             OKLIB_TEST_EQUAL_RANGES(program_rep.include_directives_with_context,id_w_context);
           }
 
 
