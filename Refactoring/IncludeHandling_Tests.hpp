@@ -165,38 +165,9 @@ namespace OKlib {
             OKLIB_TEST_EQUAL(output_string,expected_output);
           }
 
-          { //\todo Make seperate test class Test_Parsing.
-            // parsing and representation tests
-            typedef Program_Representation_Includes<> pr_type;
-            typedef std::string string_type;
-            typedef IncludeDirective<string_type> id_type;
-            typedef id_type::size_type size_type;
-            typedef std::vector<std::pair<id_type, string_type> > container_type;
-            typedef typename container_type::value_type value_type;
-            
-            typedef boost::tuple<string_type,pr_type> el_t;
-            
-            typedef std::vector<el_t> test_vector_type;
-            
-            test_vector_type test_vector;
-
-            test_vector+=
-              el_t("#include <abc>",pr_type()),
-              el_t("zzz\n#include <abc>xxx",pr_type()),
-              el_t("#include \"abc\"",pr_type());
-
-            typedef typename test_vector_type::const_iterator iterator;
-            const iterator& end(test_vector.end());
-            for (iterator i = test_vector.begin(); i != end; ++i) {
-              const el_t& el(*i);
-              const string_type& el_s(el.template get<0>());
-              pr_type el_p(el.template get<1>());
-              std::istringstream input(el_s);
-              input >> el_p;
-            }
-          }
 
         }
+
       }
     };
 
@@ -271,6 +242,8 @@ namespace OKlib {
     /*!
       \class Test_Parsing
       \brief Testing parsing of include directives from an istream.
+      \todo Make StreamExtractor a template template parameter, and have two
+      test objects for the tow steam extractor models.
       \todo Have a vector of inputs (strings?, files?) which should be proper C++ programs.
       Stream each input into a ProgramRepresentationIncludes object and test that the correct
       include directives are parsed (i.e. compare to a vector of the expected include
@@ -305,8 +278,8 @@ namespace OKlib {
           program_type program_0("This is prefix 0\n#include<iostream>context\n# include <string> more context");
           program_type program_1("This is prefix 1\n#include<boost/filesystem>context\n# include \"Refactoring.hpp\" more context");
           
-          prefix_type prefix_0("This is prefix 0");
-          prefix_type prefix_1("This is prefix 1");
+          prefix_type prefix_0("This is prefix 0\n");
+          prefix_type prefix_1("This is prefix 1\n");
 
           container_type id_w_context_0;
 
@@ -337,9 +310,10 @@ namespace OKlib {
              const container_type& id_w_context(el.template get<2>());
              std::istringstream program_stream(program_string);
              pr_type program_rep;
-             program_stream >> program_rep;
+             //program_stream >> program_rep;
+             StreamExtractor(program_stream).extract(program_rep);
              //\todo test equality of program_rep.prefix with prefix_string and program_rep.include_directives_with_context with id_w_context.
-             //OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
+             OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
              //OKLIB_TEST_EQUAL(program_rep.include_directives_with_context,id_w_context);
           }
 
