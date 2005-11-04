@@ -301,25 +301,23 @@ namespace OKlib {
     // ####################################################################################
 
     /*!
-      \class StreamExtractor
-      \brief Functor class for extracting include directives from input streams.
-      \todo Make two funtor classes out of it.
-      \todo The constructor of the class using boost::multipass stores the state
+      \class StreamExtractor_by_istream_iterator
+      \brief Functor class for extracting include directives from input streams, using
+      multipass-iterator-wrappers around istream-iterators.
+      \todo The constructor of the class stores the state
       of the skipws-flag at construction, and resets it at destruction.
     */
 
-    class StreamExtractor {
+    struct StreamExtractor_by_istream_iterator {
 
       std::istream& in;
 
-    public :
-
-      StreamExtractor(std::istream& in) : in(in) {
+      explicit StreamExtractor_by_istream_iterator(std::istream& in) : in(in) {
         in >> std::noskipws;
       }
         
       template <typename charT, class traits, class Allocator>
-      std::istream& extract(ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
+      std::istream& operator() (ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
         typedef boost::spirit::multi_pass<std::istream_iterator<charT> > iterator_t;
         const iterator_t& begin(boost::spirit::make_multi_pass(std::istream_iterator<charT>(in)));
         const iterator_t& end(boost::spirit::make_multi_pass(std::istream_iterator<charT>()));
@@ -328,8 +326,22 @@ namespace OKlib {
         return in;
       }
 
+    };
+    
+    /*!
+      \class StreamExtractor_by_copy
+      \brief Functor class for extracting include directives from input streams,
+      copying the stream content.
+    */
+
+    struct StreamExtractor_by_copy {
+
+      std::istream& in;
+
+      explicit StreamExtractor_by_copy(std::istream& in) : in(in) {}
+        
       template <class charT, class traits, class Allocator>
-      std::istream& extract_alt_0(ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
+      std::istream& operator() (ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
         std::ostringstream input;
         input << in.rdbuf();
         std::string input_string(input.str());
@@ -344,9 +356,12 @@ namespace OKlib {
     
     // ####################################################################################
 
+    // ToDo: Write Doxygen comment here
+    // ToDo: Explore which implementation is more efficient (once the complexity system is there),
+
     template <class charT, class traits, class Allocator>
     std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
-      StreamExtractor().extract(in,pr);
+      (StreamExtractor_by_istream_iterator(in))(pr);
     }
 
 // ####################################################################################
