@@ -14,6 +14,7 @@
 #include <vector>
 #include <string>
 #include <ostream>
+#include <functional>
 
 #include <boost/format.hpp>
 
@@ -71,6 +72,7 @@ namespace OKlib {
 
     template <class IndexedDatabase, class SeriesPursePolicy = SAT2005SeriesPurse, typename NumberType = double>
     class PurseScoring {
+
     public :
 
       const IndexedDatabase& idb;
@@ -90,6 +92,30 @@ namespace OKlib {
         idb(idb), standard_problem_purse(standard_problem_purse), standard_speed_factor(standard_speed_factor), standard_series_factor(standard_series_factor), standard_speed_purse(standard_speed_factor * standard_problem_purse), standard_series_purse(standard_series_factor * standard_problem_purse) {}
 
       virtual ~PurseScoring() {}
+      
+      bool solved(const Solver& solver, const Benchmark& bench) const {
+        return solved_(solver, bench);
+      }
+
+      bool solved(const Solver& solver, const SpecSeries& series) const {
+        return solved_(solver, series);
+      }
+
+    private :
+
+      typedef typename database_type::seq_solvers seq_solvers;
+
+    public :
+
+      typedef typename seq_solvers::size_type size_type_solvers;
+
+      size_type_solvers solved(const Benchmark& bench) const {
+        return solved_(bench);
+      }
+
+      size_type_solvers solved(const SpecSeries& series) const {
+        return solved_(series);
+      }
 
       number_type problem_purse(const Solver& solver, const Benchmark& bench) const {
         return problem_purse_(solver, bench);
@@ -103,6 +129,10 @@ namespace OKlib {
       }
       number_type speed_factor(const Benchmark& bench) const {
         return speed_factor_(bench);
+      }
+
+      number_type total_time(const Benchmark& bench) const {
+        return total_time_(bench);
       }
       
       number_type speed_award(const Solver& solver, const Benchmark& bench) const {
@@ -130,8 +160,6 @@ namespace OKlib {
 
       typedef typename database_type::seq_solved_benchmarks seq_solved_benchmarks;
       typedef typename seq_solved_benchmarks::size_type size_type_solved_benchmarks;
-      typedef typename database_type::seq_solvers seq_solvers;
-      typedef typename seq_solvers::size_type size_type_solvers;
       typedef typename database_type::seq_benchmarks seq_benchmarks;
       typedef typename seq_benchmarks::size_type size_type_benchmarks;
 
@@ -142,19 +170,32 @@ namespace OKlib {
 
       // --------------------------------------------------------------
 
-      bool solved(const Solver& solver, const Benchmark& bench) const {
+      virtual bool solved_(const Solver& solver, const Benchmark& bench) const {
         const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
         return std::binary_search(seq.begin(), seq.end(), solver);
       }
 
-      bool solved(const Solver& solver, const SpecSeries& series) const {
+      virtual bool solved_(const Solver& solver, const SpecSeries& series) const {
         const seq_spec_series& seq(OKlib::SetAlgorithms::map_value(idb.solved_series(), solver));
         return std::binary_search(seq.begin(), seq.end(), series);
       }
 
-      virtual size_type_solvers solved(const Benchmark& bench) const {
+      virtual size_type_solvers solved_(const Benchmark& bench) const {
         const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
         const size_type_solvers& count(seq.size());
+        return count;
+      }
+
+      virtual size_type_solvers solved_(const SpecSeries& series) const {
+        size_type_solvers count = 0;
+        typedef typename database_type::map_solver_benchmarks map_solver_benchmarks;
+        typedef typename IteratorHandling::IteratorFirst<typename map_solver_benchmarks::const_iterator>::type iterator;
+        const map_solver_benchmarks& map(idb.solved_benchmarks());
+        const iterator end(map.end());
+        for (iterator i(map.begin()); i != end; ++i) { // loop over all solvers
+          const Solver& solver(*i);
+            count += solved(solver, series);
+          }
         return count;
       }
 
@@ -205,11 +246,31 @@ namespace OKlib {
       virtual number_type speed_factor_(const Benchmark& bench) const {
         const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
         typedef typename seq_solvers::const_iterator iterator;
-        const iterator end(seq.end());
+        const iterator& end(seq.end());
         number_type sum = 0;
         for (iterator i = seq.begin(); i != end; ++i) {
           const Solver& solver(*i);
-          sum += speed_factor(solver, bench);
+          sum += speed_factor(solver, bench); // ToDo: Here the first test in speed_factor(solver, bench) is not necessary
+        }
+        return sum;
+      }
+
+      virtual number_type total_time_(const Benchmark& bench) const {
+        const seq_solvers& seq(OKlib::SetAlgorithms::map_value(idb.succesful_solvers(), bench));
+        typedef typename seq_solvers::const_iterator iterator;
+        const iterator& end(seq.end());
+        number_type sum = 0;
+        for (iterator i = seq.begin(); i != end; ++i) {
+          const Solver& solver(*i);
+          const seq_solved_benchmarks& seq(OKlib::SetAlgorithms::map_value(idb.solved_benchmarks(), solver));
+          typedef typename seq_solved_benchmarks::const_iterator iterator;
+          const iterator& solution_it(std::lower_bound(seq.begin(), seq.end(), SolvedBenchmark(bench)));
+          assert(solution_it != seq.end());
+          const SolvedBenchmark& solution(*solution_it);
+          assert(solution.bench == bench);
+          typedef ResultElement::floating_point_type floating_point_type;
+          const floating_point_type& time_needed(solution.node -> rb -> average().average());
+          sum += time_needed;
         }
         return sum;
       }
@@ -243,15 +304,7 @@ namespace OKlib {
 
       virtual number_type series_purse_(const Solver& solver, const SpecSeries& series) const {
         if (solved(solver, series)) {
-          number_type count = 0;
-          typedef typename database_type::map_solver_benchmarks map_solver_benchmarks;
-          typedef typename IteratorHandling::IteratorFirst<typename map_solver_benchmarks::const_iterator>::type iterator;
-          const map_solver_benchmarks& map(idb.solved_benchmarks());
-          const iterator end(map.end());
-          for (iterator i(map.begin()); i != end; ++i) { // loop over all solvers
-            const Solver& running_solver(*i);
-            count += solved(running_solver, series);
-          }
+          const number_type count = solved(series);
           assert(count >= 1);
           return series_purse(series) / count;
         }
@@ -290,14 +343,15 @@ namespace OKlib {
       diminishing the series purse by the factor of three to the series,
       while actually the series had enough SAT resp. UNSAT instances in them.
       \todo Additional to the current computation for the SAT+UNSAT category, compute the scores when considering only "complete" solvers.
+      \todo This class is a "blob" --- many things are done here, which should be split over several classes.
     */
 
-    template <template <typename CharT, typename ParseIterator> class ParserExtension = ParserEmpty, class ResultClass = Result>
+    template <template <typename CharT, typename ParseIterator> class ParserExtension = ParserEmpty, class ResultClass = Result, class SeriesPursePolicy = SAT2005SeriesPurse>
     struct Scoring_from_file {
       typedef Result_database_from_file<ParserResult, ResultClass, ParserExtension> result_database_from_file;
       typedef typename result_database_from_file::database_type database;
       typedef ElementaryAnalysis<database> indexed_database;
-      typedef PurseScoring<indexed_database> purse_scoring_type;
+      typedef PurseScoring<indexed_database, SeriesPursePolicy> purse_scoring_type;
 
       result_database_from_file rdb;
       indexed_database idb;
@@ -309,6 +363,7 @@ namespace OKlib {
         number_type total_series_purse;
         number_type solver_series_purse;
         series_info (const SpecSeries& series, const number_type total_series_purse, const number_type solver_series_purse) : series(series), total_series_purse(total_series_purse), solver_series_purse(solver_series_purse) {}
+        bool solved() const { return solver_series_purse != 0; }
         friend bool operator <(const series_info& lhs, const series_info& rhs) {
           return lhs.solver_series_purse < rhs.solver_series_purse;
         }
@@ -317,12 +372,18 @@ namespace OKlib {
         }
         OKLIB_DERIVED_RELATIONS_FRIENDS(series_info);
         friend std::ostream& operator <<(std::ostream& out, const series_info& s) {
-          if (s.solver_series_purse == 0)
-            return out;
-          else {
+          if (s.solved()) {
             out << boost::format("  %-60s : %10.1f %10.1f") % s.series % s.solver_series_purse % s.total_series_purse;
             return out << "\n";
           }
+          else
+            return out;
+        }
+      };
+
+      struct solved_series : std::unary_function<const series_info&, bool> {
+        bool operator() (const series_info& si) const {
+          return si.solved();
         }
       };
 
@@ -356,9 +417,10 @@ namespace OKlib {
         OKLIB_DERIVED_RELATIONS_FRIENDS(scoring);
         friend std::ostream& operator <<(std::ostream& out, const scoring& s) {
           out << boost::format("%-8s : %10.1f %10.1f %10.1f %10.1f\n") % s.solver % s.score % s.problem_purse % s.speed_award % s.series_purse;
-          out << boost::format("Instances solved: %5u\n") % s.instances_solved;
+          out << boost::format("Number of instances solved: %5u\n") % s.instances_solved;
+          out << boost::format("Number of series solved: %4u\n") % std::count_if(s.series_info_vector.begin(), s.series_info_vector.end(), solved_series());
           out << "Composition of series purse:\n";
-          std::copy(s.series_info_vector.begin(), s.series_info_vector.end(), std::ostream_iterator<series_info>(std::cout, ""));
+          std::copy(s.series_info_vector.begin(), s.series_info_vector.end(), std::ostream_iterator<series_info>(out, ""));
           return out;
         }
       };
