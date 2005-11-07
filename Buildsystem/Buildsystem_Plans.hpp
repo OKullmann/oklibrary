@@ -9,17 +9,20 @@
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs
    - what is the role of prebuild?
+   - it should be possible to build just one application
+   - there should be special versions of "clean" which delete only applications
+     or only the test programs.
 
    \todo Error in the build system: If when creating the .d-files an error occurs (for example
    due to an inaccessible header file), then for some reason subsequent "make checks"
    erroneously succeeds.
    
-
    \todo Improved handling of flags:
     - CXXFLAGS and CPPFLAGS likely should be completely free for the user to use
       (yet the build system partially uses them).
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
+    - The names of the created applications should reflect all compiler options.
 
   \todo Doxygen:
    - Can makefiles be incorporated?!
@@ -27,9 +30,19 @@
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command?
 
-  \todo Create a new target ("check_valgrind")
-  which runs the test with "valgrind --leak-check=yes" (possibly with
-  other options as well; perhaps as default the option "--quit").
+  \todo We need a standardised way of how to make information about the compilation
+  process available to a program (and also the name of the program, etc.), so that
+  for example via --version we get as much information as possible.
+
+  \todo Special runs
+   - Create a new target ("check_valgrind")
+     which runs the test with "valgrind --leak-check=yes" (possibly with
+     other options as well; perhaps as default the option "--quit").
+   - Perhaps we create also a special target to compile with "-Wall" (possibly
+     also other warnings enabled); from time to time checking the warnings
+     is useful (though we DO NOT aim at eliminating the warnings; the
+     only thing what we possibly do about spurious warnings is that we tell
+     the user about them, so that they can ignore them).
 
   \todo ExternalSources:
    - When building some gcc- or some boost-version, only the necessary directories
