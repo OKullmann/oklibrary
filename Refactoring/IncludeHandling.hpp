@@ -22,7 +22,7 @@
 #include <utility>
 #include <memory>
 #include <iterator>
-#include <iomanip>
+#include <ios>
 
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -304,16 +304,20 @@ namespace OKlib {
       \class StreamExtractor_by_istream_iterator
       \brief Functor class for extracting include directives from input streams, using
       multipass-iterator-wrappers around istream-iterators.
-      \todo The constructor of the class stores the state
-      of the skipws-flag at construction, and resets it at destruction.
     */
 
     struct StreamExtractor_by_istream_iterator {
 
       std::istream& in;
+      const bool skipws;
 
-      explicit StreamExtractor_by_istream_iterator(std::istream& in) : in(in) {
-        in >> std::noskipws;
+      explicit StreamExtractor_by_istream_iterator(std::istream& in) : in(in), skipws(in.flags() & std::ios_base::skipws) {
+        if (skipws)
+          in.unsetf(std::ios_base::skipws);
+      }
+      ~StreamExtractor_by_istream_iterator() {
+        if (skipws)
+          in.setf(std::ios_base::skipws);
       }
         
       template <typename charT, class traits, class Allocator>
@@ -357,11 +361,11 @@ namespace OKlib {
     // ####################################################################################
 
     // ToDo: Write Doxygen comment here
-    // ToDo: Explore which implementation is more efficient (once the complexity system is there),
+    // ToDo: Explore which implementation is more efficient (once the complexity system is there).
 
     template <class charT, class traits, class Allocator>
     std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
-      (StreamExtractor_by_istream_iterator(in))(pr);
+      return (StreamExtractor_by_istream_iterator(in))(pr);
     }
 
 // ####################################################################################
