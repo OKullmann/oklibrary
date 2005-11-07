@@ -2,7 +2,7 @@
 
 /*!
   \file ComputeLexicographicalEvaluation.cpp
-  \brief Outputs the XXX
+  \brief Outputs the lexicographically sorted evaluation of a random-competition.
   \todo The output should contain a legend.
   \todo Using the new module ProgramOptions (together with Messages).
 */
