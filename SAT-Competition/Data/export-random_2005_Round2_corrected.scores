@@ -1,0 +1,1222 @@
+
+File name = /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/SAT-Competition/Data/export-random_2005_Round2_corrected.txt
+syntax specifier = extended
+series policy = no_special_cases
+
+Standard problem purse = 1000
+Standard speed factor = 1
+Standard series factor = 3
+
+ALL results: ---------------------------------------------------------------------------------------------------------------------
+
+solver36 :        0.0        0.0        0.0        0.0
+Number of instances solved:     0
+Number of series solved:    0
+Composition of series purse:
+
+solver5  :      349.6      112.9       22.1      214.6
+Number of instances solved:     3
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+
+solver16 :      357.3      116.1       17.7      223.4
+Number of instances solved:     3
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+
+solver24 :      432.1      137.1       71.5      223.4
+Number of instances solved:     3
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+
+solver17 :      547.4      194.6       18.2      334.6
+Number of instances solved:     5
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+
+solver21 :      673.8      276.4       57.8      339.6
+Number of instances solved:     7
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+
+solver20 :      881.7      196.4      340.3      345.0
+Number of instances solved:     5
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+
+solver22 :     1245.0      527.6      247.4      470.0
+Number of instances solved:    11
+Number of series solved:    4
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+
+solver40 :     1307.9      533.5       17.8      756.7
+Number of instances solved:    12
+Number of series solved:    6
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+
+solver37 :     1454.3      786.1       58.7      609.6
+Number of instances solved:    17
+Number of series solved:    5
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+
+solver18 :     1888.8      783.1      365.7      740.0
+Number of instances solved:    17
+Number of series solved:    6
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+
+solver39 :     2063.8      738.4      585.4      740.0
+Number of instances solved:    16
+Number of series solved:    6
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+
+solver19 :     2162.2      891.9      363.6      906.7
+Number of instances solved:    19
+Number of series solved:    7
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+
+solver6  :     2325.6     1633.6      102.1      590.0
+Number of instances solved:    27
+Number of series solved:    5
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+
+solver33 :     5289.4     3442.2      522.2     1324.9
+Number of instances solved:    50
+Number of series solved:    9
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+
+solver26 :    10058.2     6714.4     1123.8     2220.0
+Number of instances solved:    78
+Number of series solved:   13
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+
+solver34 :    10074.1     6806.8     1083.0     2184.3
+Number of instances solved:    79
+Number of series solved:   13
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+
+solver8  :    13281.2     7276.6     3505.7     2499.0
+Number of instances solved:    84
+Number of series solved:   14
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+
+solver9  :    13914.0     7419.4     3995.6     2499.0
+Number of instances solved:    85
+Number of series solved:   14
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+
+solver32 :    15603.9     9238.7     1738.1     4627.2
+Number of instances solved:   104
+Number of series solved:   21
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+
+solver38 :    16145.0    11128.6     2018.0     2998.4
+Number of instances solved:   104
+Number of series solved:   16
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+
+solver1  :    21748.0    12388.7     1932.2     7427.2
+Number of instances solved:   119
+Number of series solved:   26
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+
+solver7  :    22940.3    14448.2     5281.6     3210.5
+Number of instances solved:   118
+Number of series solved:   17
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+
+solver41 :    27141.6    13120.2    11468.0     2553.3
+Number of instances solved:    99
+Number of series solved:   14
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+
+solver31 :    40228.4    12872.0    20379.2     6977.2
+Number of instances solved:   116
+Number of series solved:   25
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+
+solver28 :    69619.0    20905.4    38186.5    10527.2
+Number of instances solved:   151
+Number of series solved:   30
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v12000                 :     1000.0     3000.0
+
+solver42 :    76002.5    33788.7    26936.6    15277.2
+Number of instances solved:   170
+Number of series solved:   33
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v12000                 :     1000.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v10000                 :     1000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v800                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v700                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v600                    :     1500.0     3000.0
+
+solver43 :    95075.4    37211.4    53236.9     4627.2
+Number of instances solved:   167
+Number of series solved:   21
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+
+solver15 :   103286.1    35488.7    53270.2    14527.2
+Number of instances solved:   178
+Number of series solved:   32
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v12000                 :     1000.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v10000                 :     1000.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v180                    :     3000.0     3000.0
+
+solver27 :   169903.3    66822.0    79054.1    24027.2
+Number of instances solved:   209
+Number of series solved:   36
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v10000                 :     1000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v600                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v700                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v800                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v1000                   :     3000.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v200                    :     3000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v900                    :     3000.0     3000.0
+
+
+SAT results: ---------------------------------------------------------------------------------------------------------------------
+
+solver5  :      349.6      112.9       22.1      214.6
+Number of instances solved:     3
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+
+solver16 :      357.3      116.1       17.7      223.4
+Number of instances solved:     3
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+
+solver24 :      432.1      137.1       71.5      223.4
+Number of instances solved:     3
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+
+solver17 :      547.4      194.6       18.2      334.6
+Number of instances solved:     5
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+
+solver21 :      673.8      276.4       57.8      339.6
+Number of instances solved:     7
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+
+solver20 :      881.7      196.4      340.3      345.0
+Number of instances solved:     5
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+
+solver22 :     1152.8      436.7      246.1      470.0
+Number of instances solved:    10
+Number of series solved:    4
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+
+solver40 :     1307.9      533.5       17.8      756.7
+Number of instances solved:    12
+Number of series solved:    6
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+
+solver37 :     1454.3      786.1       58.7      609.6
+Number of instances solved:    17
+Number of series solved:    5
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+
+solver6  :     1617.3      942.7       84.7      590.0
+Number of instances solved:    20
+Number of series solved:    5
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+
+solver18 :     1888.8      783.1      365.7      740.0
+Number of instances solved:    17
+Number of series solved:    6
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+
+solver39 :     2063.8      738.4      585.4      740.0
+Number of instances solved:    16
+Number of series solved:    6
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+
+solver19 :     2162.2      891.9      363.6      906.7
+Number of instances solved:    19
+Number of series solved:    7
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+
+solver33 :     3400.7     1862.4      213.4     1324.9
+Number of instances solved:    35
+Number of series solved:    9
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+
+solver26 :     5147.9     2606.1      321.8     2220.0
+Number of instances solved:    45
+Number of series solved:   13
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+
+solver34 :     5198.0     2698.5      315.3     2184.3
+Number of instances solved:    46
+Number of series solved:   13
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+
+solver8  :     6187.3     3011.1      677.3     2499.0
+Number of instances solved:    50
+Number of series solved:   14
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+
+solver9  :     6590.6     3011.1     1080.5     2499.0
+Number of instances solved:    50
+Number of series solved:   14
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+
+solver38 :     7202.6     3953.6      250.6     2998.4
+Number of instances solved:    59
+Number of series solved:   16
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+
+solver41 :     7444.6     3897.6      993.7     2553.3
+Number of instances solved:    56
+Number of series solved:   14
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+
+solver7  :     8943.1     4773.2      959.4     3210.5
+Number of instances solved:    68
+Number of series solved:   17
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+
+solver43 :    14604.9     7536.3     2441.4     4627.2
+Number of instances solved:    92
+Number of series solved:   21
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+
+solver32 :    15603.9     9238.7     1738.1     4627.2
+Number of instances solved:   104
+Number of series solved:   21
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+
+solver1  :    21748.0    12388.7     1932.2     7427.2
+Number of instances solved:   119
+Number of series solved:   26
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+
+solver31 :    40228.4    12872.0    20379.2     6977.2
+Number of instances solved:   116
+Number of series solved:   25
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+
+solver28 :    69619.0    20905.4    38186.5    10527.2
+Number of instances solved:   151
+Number of series solved:   30
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v12000                 :     1000.0     3000.0
+
+solver42 :    76002.5    33788.7    26936.6    15277.2
+Number of instances solved:   170
+Number of series solved:   33
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v12000                 :     1000.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v10000                 :     1000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v800                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v700                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v600                    :     1500.0     3000.0
+
+solver15 :   103286.1    35488.7    53270.2    14527.2
+Number of instances solved:   178
+Number of series solved:   32
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v12000                 :     1000.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v10000                 :     1000.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v180                    :     3000.0     3000.0
+
+solver27 :   169903.3    66822.0    79054.1    24027.2
+Number of instances solved:   209
+Number of series solved:   36
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      103.4     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      111.1     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      120.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      125.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      130.4     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      150.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      166.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      187.5     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :      200.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :      214.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :      214.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :      230.8     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :      230.8     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.261-v600                :      250.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v130                 :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :      272.7     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v75                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v550                 :      333.3     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v120                 :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v70                    :      375.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v120                    :      500.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v2000                  :      500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v500                    :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v140                    :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v6000                  :      600.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v4000                  :      600.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v160                    :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v8000                  :      750.0     3000.0
+  3SAT::random/LargeSizeBenches/k3-r4.2-v10000                 :     1000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v800                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v700                    :     1500.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v600                    :     1500.0     3000.0
+  7SAT::random/LargeSizeBenches/k7-r85-v200                    :     3000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v1000                   :     3000.0     3000.0
+  5SAT::random/LargeSizeBenches/k5-r20-v900                    :     3000.0     3000.0
+
+
+UNSAT results: ---------------------------------------------------------------------------------------------------------------------
+
+solver22 :      364.9       90.9        1.3      272.7
+Number of instances solved:     1
+Number of series solved:    1
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+
+solver6  :     1281.0      690.9       17.4      572.7
+Number of instances solved:     7
+Number of series solved:    2
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+
+solver33 :     2794.7     1579.8      308.8      906.1
+Number of instances solved:    15
+Number of series solved:    3
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+
+solver34 :     7335.7     4108.4      767.7     2459.6
+Number of instances solved:    33
+Number of series solved:    7
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+
+solver26 :     7370.0     4108.4      802.0     2459.6
+Number of instances solved:    33
+Number of series solved:    7
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+
+solver8  :    10053.5     4265.5     2828.4     2959.6
+Number of instances solved:    34
+Number of series solved:    8
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      500.0     3000.0
+
+solver9  :    10283.0     4408.4     2915.0     2959.6
+Number of instances solved:    35
+Number of series solved:    8
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      500.0     3000.0
+
+solver38 :    12902.0     7175.0     1767.4     3959.6
+Number of instances solved:    45
+Number of series solved:    9
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      500.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :     1000.0     3000.0
+
+solver7  :    19456.8     9675.0     4322.2     5459.6
+Number of instances solved:    50
+Number of series solved:   10
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      500.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :     1000.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :     1500.0     3000.0
+
+solver41 :    25228.1     9222.7    10474.4     5531.1
+Number of instances solved:    43
+Number of series solved:    9
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      500.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :     1500.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :     1500.0     3000.0
+
+solver43 :    97930.2    29675.0    50795.5    17459.6
+Number of instances solved:    75
+Number of series solved:   15
+Composition of series purse:
+  3SAT::random/MediumSizeBenches/k3-r4.263-v300                :      272.7     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v70                  :      300.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v45                    :      333.3     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v360                 :      375.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v400                 :      375.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v80                  :      375.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v50                    :      428.6     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v90                  :      500.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v55                    :     1000.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.25-v450                 :     1500.0     3000.0
+  3SAT::random/MediumSizeBenches/k3-r4.26-v500                 :     1500.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v100                 :     1500.0     3000.0
+  5SAT::random/MediumSizeBenches/k5-r21.3-v110                 :     3000.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v60                    :     3000.0     3000.0
+  7SAT::random/MediumSizeBenches/k7-r89-v65                    :     3000.0     3000.0
+
