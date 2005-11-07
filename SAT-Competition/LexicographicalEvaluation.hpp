@@ -277,8 +277,12 @@ namespace OKlib {
 
       typedef typename map_super_series_to_evaluations_type::value_type value_type;
       friend std::ostream& operator <<(std::ostream& out, const map_super_series_to_evaluations_type& map) {
-        out <<std::fixed;
+        const bool fixed = out.flags() & std::ios_base::fixed; // ToDo: RAII
+        if (not fixed)
+          out.setf(std::ios_base::fixed);
         std::copy(map.begin(), map.end(), std::ostream_iterator<value_type>(out, "\n"));
+        if (not fixed)
+          out.unsetf(std::ios_base::fixed);
         return out;
       }
       friend std::ostream& operator <<(std::ostream& out, const value_type& pair) {
