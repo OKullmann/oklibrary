@@ -3,32 +3,46 @@
 /*!
   \file ComputeScores.cpp
   \brief Outputs the sorted scores for all solvers from competition data (given as a file).
-  If an additional second input is given (currently it doesn't matter what), then the
-  extended syntax of round 2 is assumed (otherwise the syntax of round 1).
-  \todo It must be possible to specify on the command line which policy for the
-  computation of the series purse is to be used (see class template PurseScoring), and how
-  to apply this to the SAT/UNSAT sub-competitions.
-  \todo The output should also contain data and time of the computation.
+  With the optional parameter syntax=... (currently it doesn't matter, but it must be
+  non-empty) the extended syntax is used, and with the optional parameter
+  series=... (currently it doesn't matter, but it must be non-empty) the series purse
+  is computed without performing case distinctions.
+  \todo The output should also contain date and time of the computation; and
+  information about the program which produced the output (we need a general
+  convention of how to make information about the compilation available to
+  the program, so that via "--version" we obtain as much information as possible).
   \todo The output should contain a legend.
-  \todo The number of series solved should be shown (besides the number of instances solved).
   \todo Using the new module ProgramOptions (together with Messages).
+  \todo Perhaps the structure Scoring_from_file (in this file) should be generalised (it can be shared
+  at least with ComputeAnalysis.cpp); and also the option handling could be shared.
 */
 #include <string>
 #include <iterator>
 #include <algorithm>
 #include <iostream>
+#include <cstring>
+#include <cassert>
 
 #include "ParsingSingleResult.hpp"
 #include "Scoring.hpp"
 
-template <bool with_extension>
+template <bool with_extension, bool without_exception>
 struct Scoring_from_file {
+  typedef OKlib::SATCompetition::Scoring_from_file<OKlib::SATCompetition::ParserThreeElements, OKlib::SATCompetition::Result, OKlib::SATCompetition::ConstantSeriesPurse> type;
+};
+template <>
+struct Scoring_from_file<false, false> {
+  typedef OKlib::SATCompetition::Scoring_from_file<> type;
+};
+template <>
+struct Scoring_from_file<true, false> {
   typedef OKlib::SATCompetition::Scoring_from_file<OKlib::SATCompetition::ParserThreeElements> type;
 };
 template <>
-struct Scoring_from_file<false> {
-  typedef OKlib::SATCompetition::Scoring_from_file<> type;
+struct Scoring_from_file<false, true> {
+  typedef OKlib::SATCompetition::Scoring_from_file<OKlib::SATCompetition::ParserEmpty, OKlib::SATCompetition::Result, OKlib::SATCompetition::ConstantSeriesPurse> type;
 };
+
 
 template <typename InputIterator>
 void output_sequence(const InputIterator& begin, const InputIterator& end) {
@@ -36,20 +50,28 @@ void output_sequence(const InputIterator& begin, const InputIterator& end) {
   std::copy(begin, end, std::ostream_iterator<value_type>(std::cout, "\n"));
 }
 
-template <bool with_extension>
+template <bool with_extension, bool without_exception>
 struct Evaluation {
   const std::string& filename;
   const char* const specifier;
-  typedef typename Scoring_from_file<with_extension>::type scoring_from_file;
+  const char* const policy;
+  typedef typename Scoring_from_file<with_extension, without_exception>::type scoring_from_file;
   typedef typename scoring_from_file::number_type number_type;
-  Evaluation(const std::string& filename, const char* const specifier) : filename(filename), specifier(specifier) {}
-  void operator() (const number_type standard_problem_purse = 1000, const number_type standard_speed_factor = 1, const number_type standard_series_factor = 3) {
+  Evaluation(const std::string& filename, const char* const specifier, const char* const policy) : filename(filename), specifier(specifier), policy(policy) {
+    if (with_extension)
+      assert(specifier);
+    if (without_exception)
+      assert(policy);
+  }
+  void operator() (const number_type standard_problem_purse = 1000, const number_type standard_speed_factor = 1, const number_type standard_series_factor = 3) const {
     
     const scoring_from_file scores(filename, standard_problem_purse, standard_speed_factor, standard_series_factor);
     std::cout << "\nFile name = " << filename;
     if (specifier)
-      std::cout << "\nspecifier = " << specifier;
-    std::cout << "\n\n";
+      std::cout << "\nsyntax specifier = " << specifier << "\n";
+    if (policy)
+      std::cout << "series policy = " << policy << "\n";
+    std::cout << "\n";
     std::cout << "Standard problem purse = " << standard_problem_purse << "\n";
     std::cout << "Standard speed factor = " << standard_speed_factor << "\n";
     std::cout << "Standard series factor = " << standard_series_factor << "\n";
@@ -64,18 +86,45 @@ struct Evaluation {
 
 int main(const int argc, char* const argv[]) {
 
-  if (argc <= 1 or argc >= 4) {
-    std::cerr << "One or two arguments required (the name of the file, and optionally a syntax specifier).\n";
+  if (argc <= 1 or argc >= 5) {
+    std::cerr << "One, two or three arguments required (the name of the file, optionally a syntax specifier \"syntax=...\", optionally a series policy specifier \"series=...\").\n";
     return EXIT_FAILURE;
   }
+  bool specifier = false;
+  const char* specifier_text = (const char*)(0);
+  bool policy = false;
+  const char* policy_text = (const char*)(0);
   const std::string& file_name(argv[1]);
-  const bool specifier = (argc == 3);
-  const char* const specifier_text = (specifier) ? argv[2] : (const char*)(0);
+  for (int i = 2; i < argc; ++i) {
+    const int prefix_length = 6 + 1;
+    if (std::strlen(argv[i]) <= prefix_length) {
+      std::cerr << "Parameter \"" << argv[i] << "\" is not \"syntax=+\" or \"series=+\".\n";
+      return EXIT_FAILURE;
+    }
+    if (std::strncmp(argv[i], "syntax=", prefix_length) == 0) {
+      specifier = true;
+      specifier_text = argv[i] + prefix_length;
+    }
+    else if (std::strncmp(argv[i], "series=", prefix_length) == 0) {
+      policy = true;
+      policy_text = argv[i] + prefix_length;
+    }
+    else {
+      std::cerr << "Parameter \"" << argv[i] << "\" does not start with \"syntax=\" or \"series=\".\n";
+      return EXIT_FAILURE;
+    }
+  }
 
   if (specifier) {
-    Evaluation<true>(file_name, specifier_text)();
+    if (policy)
+      Evaluation<true, true>(file_name, specifier_text, policy_text)();
+    else
+      Evaluation<true, false>(file_name, specifier_text, policy_text)();
   }
   else {
-    Evaluation<false>(file_name, specifier_text)();
+    if (policy)
+      Evaluation<false, true>(file_name, specifier_text, policy_text)();
+    else
+      Evaluation<false, false>(file_name, specifier_text, policy_text)();
   }
 }
