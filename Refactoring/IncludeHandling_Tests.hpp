@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 #include <sstream>
+#include <cassert>
 
 #include <boost/spirit.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -74,6 +75,7 @@ namespace OKlib {
             size_type spaces_after_hash(el.template get<1>());
             size_type spaces_after_include(el.template get<2>());
             Include_forms include_form (el.template get<3>());
+            assert(include_form != undefined_include_form);
             std::string expected_output(el.template get<4>());
             id_type id(header,spaces_after_hash,spaces_after_include,include_form);	  
             std::ostringstream output;
@@ -86,16 +88,16 @@ namespace OKlib {
             OKLIB_TEST_EQUAL(include_form,id.include_form());
             OKLIB_TEST_EQUAL(expected_output,output_string);
 
-	    switch(include_form) {
-	    case system_header :
-	      OKLIB_TEST_EQUAL(id.opening(),"<");
-	      OKLIB_TEST_EQUAL(id.closing(),">");
-	      break;
-	    case source_code_header :
-	      OKLIB_TEST_EQUAL(id.opening(),"\"");
-	      OKLIB_TEST_EQUAL(id.closing(),"\"");
-	      break;
-	    }
+            switch(include_form) {
+            case system_header :
+              OKLIB_TEST_EQUAL(id.opening(),"<");
+              OKLIB_TEST_EQUAL(id.closing(),">");
+              break;
+            case source_code_header :
+              OKLIB_TEST_EQUAL(id.opening(),"\"");
+              OKLIB_TEST_EQUAL(id.closing(),"\"");
+              break;
+            }
 
           }
         }
