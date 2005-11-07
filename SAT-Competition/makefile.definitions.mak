@@ -36,7 +36,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestSAT-Competition
 
-programs := Analyse FullAnalysis ComputeScores ComputeLexicographicalEvaluation ComputeAnalysis
+programs := Analyse ComputeScores ComputeLexicographicalEvaluation ComputeAnalysis
 
 source_libraries :=  $(Boost) $(OKTestsystem)
 
