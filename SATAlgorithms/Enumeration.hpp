@@ -13,7 +13,7 @@
   \todo Another variation is the search for autarkies.
   \todo The trivial algorithm should at least compute the number of satisfying assignments
   (if not stopped after finding the first one) and the maximal number of simultaneously
-  satisfiable clauses. Optionally he can also decided minimal unsatisfiability of F by the following
+  satisfiable clauses. Optionally he can also decide minimal unsatisfiability of F by the following
   process: Each time an assignment satisfying c(F)-1 clauses is found, the falsified clause
   is marked. F is minimally unsatisfiable iff F is unsatisfiable and at the end all clauses have
   been marked.
