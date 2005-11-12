@@ -19,12 +19,22 @@ end_proc:
 
 nclausesets := proc(c,k,n)
 /*
-  Number of clause-sets with c clauses, clause-length k and n variabels.
+  Number of clause-sets with c clauses, clause-length k and variables from {1, ..., n}.
 */
   option remember;
 begin
   return(binomial(nclauses(k,n), c))
 end_proc:
+
+nclausesetsex := proc(c,k,n)
+/*
+  Number of clause-sets with c clauses, clause-length k and variable set = {1, ..., n}.
+*/
+  option remember;
+begin
+    return(nclausesets(c,k,n) - _plus(nclausesetsex(c,k,i) * binomial(n,i) $ i=0..n-1))
+end_proc:
+
 
 minusatclauses := proc(k)
 /*
@@ -145,7 +155,6 @@ begin
   if c > nclauses(k,n) then return(0) end_if;
   if n < k then return(0) end_if;
   if n = k then return(1) end_if;
-  if c = minusatclauses(k) then return(binomial(n,k)) end_if; /* PROOF */
   if c > maxsatclauses(k,n) then return(nclausesets(c,k,n)) end_if;
   if k = 1 then return(nclausesets(c,k,n) - 2^c * binomial(n,c)) end_if;
   hold(nusat)(c,k,n)
