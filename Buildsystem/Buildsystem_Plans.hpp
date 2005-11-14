@@ -11,10 +11,11 @@
    - what is the role of prebuild?
    - it should be possible to build just one application
    - there should be special versions of "clean" which delete only applications
-     or only the test programs.
+     or only the test programs
+   - "html" should be possible from any level (creating always the complete documentation)
 
    \todo Error in the build system: If when creating the .d-files an error occurs (for example
-   due to an inaccessible header file), then for some reason subsequent "make checks"
+   due to an inaccessible header file), then for some reason subsequent "make check"
    erroneously succeeds.
    
    \todo Improved handling of flags:
