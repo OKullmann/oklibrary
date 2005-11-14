@@ -4,11 +4,14 @@
   \file TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
+  \todo Normal output to std::cout, error messages to std::cerr (thus 2 streams,
+  as in Aeryn); perhaps optionally also log messages, to a third stream (copying
+  also the normal output).
   \todo Yet we do only basic testing; now we need new goals for the build-system,
   distinguishing between "basic testing" and "enhanced testing", and in case of
   enhanced testing TestBase::run_tests_default calls the test function with
   the parameter vector containing just one zero.
-  \todo Perhaps instead of "trivial testing" we should speak about "basic testing".
+  \todo Perhaps instead of "trivial testing" we should speak of "basic testing".
 */
 
 #ifndef TESTBASECLASS_kkLLkbV5I
