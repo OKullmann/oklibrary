@@ -21,6 +21,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/assign/std/vector.hpp>
 #include <boost/tuple/tuple.hpp>
+#include <boost/assign/list_of.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -31,6 +32,116 @@
 namespace OKlib {
 
   namespace Refactoring {
+
+    // ##############################################################
+
+
+    /*!
+      \class TestData
+      \brief To provide data used by the testing of include handling.
+     
+      This class has a data member test_vector which is a vector of
+      tuples. Each tuple represents a different program.  The first 
+      element of each tuple is a string representation of the prefix
+      of the program, the second element is a vector of pairs (the 
+      first element of each pair is a tuple representing an include 
+      directive, the second element is the string representation of 
+      the same include directive) and the third element is the string
+      representation of the whole program.
+    */
+
+    class TestData {
+
+    public:
+
+      typedef boost::tuple<int,std::string,int,Include_forms,std::string> id_type;
+      typedef std::pair<id_type,std::string> id_w_context_type;
+      typedef std::vector<id_w_context_type> id_w_context_vec_type;
+      typedef boost::tuple<std::string,id_w_context_vec_type,std::string> pr_type;
+      typedef std::vector<pr_type> test_vector_type;    
+
+      typedef id_w_context_vec_type::const_iterator id_w_c_vec_const_iterator_type;
+
+      test_vector_type test_vector;
+      typedef test_vector_type::const_iterator const_iterator;
+
+      TestData() {
+
+        using namespace boost::assign;
+
+        test_vector +=
+
+          pr_type("",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), ""),
+                  "#include<iostream>"
+                  ),
+          pr_type("",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(1,"iostream",0,system_header,"# include<iostream>"), ""),
+                  "# include<iostream>"
+                  ),
+          pr_type("",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(1,"iostream",1,system_header,"# include <iostream>"), ""),
+                  "# include <iostream>"
+                  ),
+          pr_type("",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"header.hpp",0,source_code_header,"#include\"header.hpp\""), ""),
+                  "#include\"header.hpp\""
+                  ),
+          pr_type("",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(1,"header.hpp",0,source_code_header,"# include\"header.hpp\""), ""),
+                  "# include\"header.hpp\""
+                  ),
+          pr_type("",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(1,"header.hpp",1,source_code_header,"# include \"header.hpp\""), ""),
+                  "# include \"header.hpp\""
+                  ),
+          pr_type("\n",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), ""),
+                  "\n#include<iostream>"
+                  ),
+          pr_type("\n",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), "\n"),
+                  "\n#include<iostream>\n"
+                  ),
+          pr_type("\n",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",1,system_header,"#include <iostream>"), "\n")
+                  (id_type(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
+                  "\n#include <iostream>\n#include \"header.hpp\"\n"
+                  ),
+          pr_type("prefix\n",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",1,system_header,"#include <iostream>"), "\n")
+                  (id_type(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
+                  "prefix\n#include <iostream>\n#include \"header.hpp\"\n"
+                  ),
+          pr_type("prefix\n",
+                  list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",1,system_header,"#include <iostream>"), "\n")
+                  (id_type(0,"string",1,system_header,"#include <string>"), "\n")
+                  (id_type(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
+                  "prefix\n#include <iostream>\n#include <string>\n#include \"header.hpp\"\n"
+                   ),
+          pr_type("prefix\n",
+                   list_of<std::pair<id_type,std::string> > 
+                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), "context0\n")
+                  (id_type(1,"string",0,system_header,"# include<string>"), "context1\n")
+                  (id_type(1,"header.hpp",1,source_code_header,"# include \"header.hpp\""), "context2"),
+                  "prefix\n#include<iostream>context0\n# include<string>context1\n# include \"header.hpp\"context2"
+                  )
+          ;
+      }
+    };
+
+    // ##############################################################
 
     /*!
       \class Test_IncludeDirective
@@ -48,58 +159,55 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-          typedef Include_Directive<std::string> id_type;
-          typedef typename id_type::size_type size_type;
-          typedef typename id_type::string_type string_type;
-          typedef boost::tuple<string_type,size_type, size_type, Include_forms, string_type> el_t;
-          typedef std::vector<el_t> test_vector_type;
+           typedef Include_Directive<std::string> id_type;
 
-          test_vector_type test_vector;
+           typedef TestData::id_type el_t;
+           typedef TestData::pr_type pr_t;
+           typedef TestData::id_w_context_vec_type id_w_c_vec_type;
+           typedef TestData::const_iterator iterator_t;
 
-          using namespace boost::assign;
+           TestData test_data;
+           id_w_c_vec_type test_vector;
 
-          test_vector +=
-            el_t("iostream",0,0,system_header,"#include<iostream>"),
-            el_t("iostream",0,1,system_header,"#include <iostream>"),
-            el_t("iostream",1,1,system_header,"# include <iostream>"),
-            el_t("iostream",0,0,source_code_header,"#include\"iostream\""),
-            el_t("iostream",0,1,source_code_header,"#include \"iostream\""),
-            el_t("iostream",1,1,source_code_header,"# include \"iostream\"");
-
-          typedef typename test_vector_type::const_iterator iterator;
-          const iterator& end(test_vector.end());
-
-          for (iterator i = test_vector.begin(); i != end; ++i) {
-            const el_t& el(*i);
-            string_type header(el.template get<0>());
-            size_type spaces_after_hash(el.template get<1>());
-            size_type spaces_after_include(el.template get<2>());
-            Include_forms include_form (el.template get<3>());
-            assert(include_form != undefined_include_form);
-            std::string expected_output(el.template get<4>());
-            id_type id(header,spaces_after_hash,spaces_after_include,include_form);	  
-            std::ostringstream output;
-            output << id;
-            std::string output_string = output.str();
+           iterator_t end(test_data.test_vector.end());
+           for (iterator_t i=test_data.test_vector.begin();i!=end;++i) {
+             const pr_t& pr(*i);
+             id_w_c_vec_type test_vector(pr.get<1>());
             
-            OKLIB_TEST_EQUAL(header,id.header_file());
-            OKLIB_TEST_EQUAL(spaces_after_hash,id.number_spaces_after_hash());
-            OKLIB_TEST_EQUAL(spaces_after_include,id.number_spaces_after_include());
-            OKLIB_TEST_EQUAL(include_form,id.include_form());
-            OKLIB_TEST_EQUAL(expected_output,output_string);
-
-            switch(include_form) {
-            case system_header :
-              OKLIB_TEST_EQUAL(id.opening(),"<");
-              OKLIB_TEST_EQUAL(id.closing(),">");
-              break;
-            case source_code_header :
-              OKLIB_TEST_EQUAL(id.opening(),"\"");
-              OKLIB_TEST_EQUAL(id.closing(),"\"");
-              break;
-            }
-
-          }
+             typedef typename id_w_c_vec_type::const_iterator iterator;
+             const iterator& end(test_vector.end());
+             
+             for (iterator j = test_vector.begin(); j != end; ++j) {
+               const el_t& el((*j).first);
+               int spaces_after_hash(el.get<0>());
+               std::string header(el.get<1>());              
+               int spaces_after_include(el.get<2>());
+               Include_forms include_form (el.get<3>());
+               assert(include_form != undefined_include_form);
+               std::string expected_output(el.get<4>());
+               id_type id(header,spaces_after_hash,spaces_after_include,include_form);	  
+               std::ostringstream output;
+               output << id;
+               std::string output_string = output.str();
+            
+               OKLIB_TEST_EQUAL(header,id.header_file());
+               OKLIB_TEST_EQUAL(spaces_after_hash,id.number_spaces_after_hash());
+               OKLIB_TEST_EQUAL(spaces_after_include,id.number_spaces_after_include());
+               OKLIB_TEST_EQUAL(include_form,id.include_form());
+               OKLIB_TEST_EQUAL(expected_output,output_string);
+               
+               switch(include_form) {
+               case system_header :
+                 OKLIB_TEST_EQUAL(id.opening(),"<");
+                 OKLIB_TEST_EQUAL(id.closing(),">");
+                 break;
+               case source_code_header :
+                 OKLIB_TEST_EQUAL(id.opening(),"\"");
+                 OKLIB_TEST_EQUAL(id.closing(),"\"");
+                 break;
+               }
+             }
+           }
         }
       }
     };
@@ -121,55 +229,50 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        { // ostream tests
-          typedef Program_Representation_Includes<> pr_type;
-          typedef std::string string_type;
-          typedef IncludeDirective<string_type> id_type;
-          typedef id_type::size_type size_type;
-          typedef std::vector<std::pair<id_type, string_type> > container_type;
-          typedef typename container_type::value_type value_type;
+ 
+        {
+           typedef IncludeDirective<std::string> id_type;
 
-          typedef boost::tuple<string_type, string_type, size_type, size_type, Include_forms,string_type,string_type> el_t;
+           typedef TestData::id_type el_t;
+           typedef TestData::pr_type pr_t;
+           typedef TestData::id_w_context_vec_type id_w_c_vec_type;
+           typedef TestData::const_iterator iterator_t;
 
-          typedef std::vector<el_t> test_vector_type;
-          test_vector_type test_vector;
+           TestData test_data;
+           id_w_c_vec_type test_vector;
 
-          using namespace boost::assign;
+           iterator_t end(test_data.test_vector.end());
+           for (iterator_t i=test_data.test_vector.begin();i!=end;++i) {
+             const pr_t& pr(*i);
+             std::string prefix(pr.get<0>());
+             id_w_c_vec_type test_vector(pr.get<1>());
+             std::string program_string(pr.get<2>());
+            
+             typedef typename id_w_c_vec_type::const_iterator iterator;
+             const iterator& end(test_vector.end());
 
-          test_vector +=
-            el_t("","iostream",0,1,system_header,"","#include <iostream>"),
-            el_t("","header.hpp",0,1,source_code_header,"","#include \"header.hpp\""),
-            el_t("This is the preface\n","iostream",0,1,system_header,"This is some code after the include directive","This is the preface\n#include <iostream>This is some code after the include directive");
-
-          typedef typename test_vector_type::const_iterator iterator;
-          const iterator& end(test_vector.end());
-
-          for (iterator i = test_vector.begin(); i != end; ++i) {
-            pr_type program;
-            const el_t& el(*i);
-            string_type preface(el.template get<0>());
-            string_type header(el.template get<1>());
-            size_type spaces_after_hash(el.template get<2>());
-            size_type spaces_after_include(el.template get<3>());
-            Include_forms include_form(el.template get<4>());
-            string_type following_text(el.template get<5>());
-            id_type include(header,spaces_after_hash,spaces_after_include,include_form);
-            value_type include_with_context(std::make_pair(include,following_text));
-
-            program(preface); program(include_with_context);
-
-            std::ostringstream output;
-            output << program;
-            std::string output_string = output.str();
-
-            std::string expected_output(el.template get<6>());
-
-            OKLIB_TEST_EQUAL(output_string,expected_output);
-          }
-
-
-        }
-
+             Program_Representation_Includes<> pri;
+             pri(prefix);
+             
+             for (iterator j = test_vector.begin(); j != end; ++j) {
+               const el_t& el((*j).first);
+               const std::string& context((*j).second);
+               int spaces_after_hash(el.get<0>());
+               std::string header(el.get<1>());              
+               int spaces_after_include(el.get<2>());
+               Include_forms include_form (el.get<3>());
+               assert(include_form != undefined_include_form);
+               std::string expected_output(el.get<4>());
+               id_type id(header,spaces_after_hash,spaces_after_include,include_form);	  
+               std::pair<id_type,std::string> id_w_context(std::make_pair(id,context));
+               pri(id_w_context);
+             }
+             std::ostringstream output;
+             output << pri;
+             std::string output_string = output.str();
+             OKLIB_TEST_EQUAL(output_string,program_string);
+           }
+        }    
       }
     };
 
@@ -273,9 +376,6 @@ namespace OKlib {
           typedef IncludeDirective<string_type> id_type;
           typedef std::pair<id_type, string_type> pair_type;
           typedef std::vector<pair_type> container_type;
-          //typedef typename container_type::value_type value_type;
-          //typedef typename container_type::iterator container_iterator;
-          //typedef typename container_type::const_iterator container_const_iterator;
 
           using namespace boost::assign;
 
@@ -318,7 +418,6 @@ namespace OKlib {
              std::istringstream program_stream(program_string);
              pr_type program_rep;
              (stream_extractor_type(program_stream))(program_rep);
-             //\todo test equality of program_rep.prefix with prefix_string and program_rep.include_directives_with_context with id_w_context.
              OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
              OKLIB_TEST_EQUAL_RANGES(program_rep.include_directives_with_context,id_w_context);
           }
