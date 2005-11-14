@@ -26,6 +26,8 @@
   algorithm, gathering as much information as possible (at least for each clause-count c
   we need the number of satisfiable clause-sets --- with this we can compute the probability
   that a random clause-sequence is satisfiable).
+  See SATAlgorithms/EnumerationSubclausesets.hpp for a generic algorithm for
+  clause-sets. Perhaps later this framework might be generalised.
 */
 
 #ifndef SUBSETS_hb5tg45
