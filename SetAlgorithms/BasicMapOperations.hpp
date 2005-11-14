@@ -25,6 +25,8 @@ namespace OKlib {
       a function object which maps objects from the Map-key-type to the Map-value-type.
       The associated helper-function is map_value. Everything is handled by (const) reference.
       \todo There should also exist another version which returns the function value as a copy.
+      \todo Via an error-policy there should be the possibility to throw an exception in
+      case of an argument not in the domain.
     */
 
     template <class Map>
