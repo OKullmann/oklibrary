@@ -14,6 +14,14 @@
      or only the test programs
    - "html" should be possible from any level (creating always the complete documentation)
 
+   \todo Similar to the complexity measurements, for every task performed by the build
+   system it should be possible to save the running time, so that the develepment over
+   time for example of compile times, link times, test times can be followed, and also
+   the influence of compilers can be considered. By default, when running make only
+   the total times are output, but in a protocol mode everything is written to a file
+   (as for the complexity system; it should be possible for example to use the visualisation
+   tools there to look at the developments here).
+
    \todo Error in the build system: If when creating the .d-files an error occurs (for example
    due to an inaccessible header file), then for some reason subsequent "make check"
    erroneously succeeds.
