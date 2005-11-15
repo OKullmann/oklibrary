@@ -67,7 +67,7 @@ namespace OKlib {
       }
     };
 
-    // ---------------------------
+    // ###############
 
 
     template <class Container>
@@ -105,8 +105,8 @@ namespace OKlib {
     */
 
 
-    // -------------------------------------------------------------------------------------------------------------------
-      
+    // ############################################
+
     /*!
       \class Subsumption_elimination
       \brief Functor: Eliminates all inclusions from a container.
