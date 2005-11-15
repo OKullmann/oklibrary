@@ -16,6 +16,24 @@
   hypergraph transversal can be obtained as special case ?!
   For a clause-set F, let's call the set of minimal satisfying
   partial assignment also "Tr(F)".
+  Computation of Tr(F) for clause-sets F should go into
+  SATAlgorithms. The fundamental formula is
+    Tr(F_1 union F_2) = min(Tr(F_1) * Tr(F_2))
+  where for sets P_1, P_2 of partial assignments we define
+    P_1 * P_2 = { phi_1 composition phi_2 : phi_i in P_i and
+      phi_1, phi_2 compatible }
+  (interpreting P_1, P_2 as clause-sets this corresponds to the
+  computation of all possible unions, while suppressing tautological
+  clauses).
+  The simplest way to apply this formula is to enumerate all
+  clauses, and then adding clauses one by one. Even here the
+  order of clauses might be important, and perhaps using more
+  general splitting strategies might be worth considering.
+  It might be also interesting to investigate storing Tr(F)
+  via (variations on) OBDD's (see Laurent Simon's work).
+  For computing min efficiently, subsumption elimination
+  is crucial (see SetAlgorithms/Subsumption.hpp), especially
+  using the literal-clause graph.
 */
 
 #ifndef DIRECTRANSVERSALENUMERATION_ujJJ54
