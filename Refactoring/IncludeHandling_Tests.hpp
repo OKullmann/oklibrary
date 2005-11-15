@@ -28,7 +28,6 @@
 #include "ParserBase_Tests.hpp"
 
 
-
 namespace OKlib {
 
   namespace Refactoring {
@@ -146,7 +145,6 @@ namespace OKlib {
     /*!
       \class Test_IncludeDirective
       \brief Testing classes representing one include directive.
-      \todo Test equality
     */
 
     template <template <class String> class Include_Directive>
@@ -216,8 +214,7 @@ namespace OKlib {
 
     /*!
       \class Test_ProgramRepresentationIncludes
-      \brief Testing classes for representing the include-directives within a program..
-      \todo Test all functionality.
+      \brief Testing classes for representing the include-directives within a program.
     */
 
     template <template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> > class Program_Representation_Includes>
@@ -281,11 +278,10 @@ namespace OKlib {
     /*!
       \class Test_IncludeParsingGrammar
       \brief Testing grammars for parsing source code units in order to extract include directives.
-      \todo Using Boost.assignment library.
-      \todo More systematic testing.
+      \todo Reinstate testing of program strings which are not matched by the grammar.
     */
-
-    template <class IncludeParsingGrammar>
+    
+    template <class Include_Parsing_Grammar>
     class Test_IncludeParsingGrammar : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_IncludeParsingGrammar test_type;
@@ -294,50 +290,52 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        typedef typename IncludeParsingGrammar::program_representation_type pr_t;
-        typedef typename pr_t::string_type string_type;
-        typedef typename pr_t::value_type v_t;
-        typedef IncludeDirective<string_type> d_t;
-        typedef boost::tuple<string_type, OKlib::Parser::Matching_possibilities, pr_t> el_t;
-        typedef std::vector<el_t> test_vector_type;
-        test_vector_type test_vector;
-        using OKlib::Parser::match_full;
-        using OKlib::Parser::match_not_full;
+        {
+          typedef IncludeDirective<std::string> id_type;
+          
+          typedef TestData::id_type el_t;
+          typedef TestData::pr_type pr_t;
+          typedef TestData::id_w_context_vec_type id_w_c_vec_type;
+          typedef TestData::const_iterator iterator_t;
+          typedef typename Include_Parsing_Grammar::program_representation_type pr_type;
+          
+          TestData test_data;
+          id_w_c_vec_type test_vector;
+          iterator_t end(test_data.test_vector.end());
+          for (iterator_t i=test_data.test_vector.begin();i!=end;++i) {
+            const pr_t& pr(*i);
+            std::string prefix(pr.get<0>());
+            id_w_c_vec_type test_vector(pr.get<1>());
+            std::string program_string(pr.get<2>());
+            
+            typedef typename id_w_c_vec_type::const_iterator iterator;
+            const iterator& end(test_vector.end());
+            
+            pr_type pr_expected;
+            pr_expected(prefix);
+            
+            for (iterator j = test_vector.begin(); j != end; ++j) {
+              const el_t& el((*j).first);
+              const std::string& context((*j).second);
+              int spaces_after_hash(el.get<0>());
+              std::string header(el.get<1>());              
+              int spaces_after_include(el.get<2>());
+              Include_forms include_form (el.get<3>());
+              assert(include_form != undefined_include_form);
+              std::string expected_output(el.get<4>());
+              id_type id(header,spaces_after_hash,spaces_after_include,include_form);	  
+              std::pair<id_type,std::string> id_w_context(std::make_pair(id,context));
+              pr_expected(id_w_context);
+            }
+            pr_type pr_result;
+            Include_Parsing_Grammar g(pr_result);
+            
+            if (not parse(program_string.c_str(), g).full)
+              OKLIB_THROW("String \"" + program_string + "\" was not accepted");
+            
+            OKLIB_TEST_EQUAL(pr_result, pr_expected);
 
-        using namespace boost::assign;
-        test_vector +=
-          el_t("", match_full, pr_t()),
-          el_t("\"", match_full, pr_t()("\"")),
-          el_t("\\*", match_full, pr_t()("\\*")),
-          el_t("#include <abcd>", match_full, pr_t()(v_t(d_t("abcd", 0, 1, system_header), ""))),
-          el_t("\n#include <abc>", match_full, pr_t()("\n")(v_t(d_t("abc", 0, 1, system_header), ""))),
-          el_t("zzz\n#include <abc>xxx", match_full, pr_t()("zzz\n")(v_t(d_t("abc", 0, 1, system_header), "xxx"))),
-          el_t("#include \"abce\"", match_full, pr_t()(v_t(d_t("abce", 0, 1, source_code_header), "")));
-
-        typedef typename test_vector_type::const_iterator iterator;
-        const iterator& end(test_vector.end());
-        for (iterator i = test_vector.begin(); i != end; ++i) {
-
-          pr_t pr;
-          IncludeParsingGrammar g(pr);
-
-          const el_t& el(*i);
-          const std::string& el_s(el.template get<0>());
-          const OKlib::Parser::Matching_possibilities& el_m(el.template get<1>());
-          const pr_t& el_p(el.template get<2>());
-
-          switch (el_m) {
-          case match_full :
-            if (not parse(el_s.c_str(), g).full)
-              OKLIB_THROW("String \"" + el_s + "\" was not accepted");
-            break;
-          case match_not_full :
-            if (parse(el_s.c_str(), g).full)
-              OKLIB_THROW("String \"" + el_s + "\" was accepted");
-            break;
           }
-
-          OKLIB_TEST_EQUAL(pr, el_p);
         }
       }
     };
