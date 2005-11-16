@@ -345,12 +345,11 @@ namespace OKlib {
     /*!
       \class Test_Parsing
       \brief Testing parsing of include directives from an istream.
-      \todo Make StreamExtractor a template template parameter, and have two
-      test objects for the tow steam extractor models.
-      \todo Have a vector of inputs (strings?, files?) which should be proper C++ programs.
-      Stream each input into a ProgramRepresentationIncludes object and test that the correct
-      include directives are parsed (i.e. compare to a vector of the expected include
-      directives).
+      \todo Remove obsolete second test.
+      \todo Here, as in Test_IncludeParsingGrammar, part of the test involves
+      filling a ProgramRepresentationIncludes object with the include directive
+      /context data from the TestData vector. Could this be extracted to a 
+      further test and the result made available to both tests?
     */
 
     template <template <class charT, class traits, class Allocator> class Program_Representation_Includes, class StreamExtractor>
@@ -362,6 +361,60 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
+        
+        {
+          typedef IncludeDirective<std::string> id_type;
+          
+          typedef TestData::id_type el_t;
+          typedef TestData::pr_type pr_t;
+          typedef TestData::id_w_context_vec_type id_w_c_vec_type;
+          typedef TestData::const_iterator iterator_t;
+
+          typedef char char_type;
+          typedef std::char_traits<char_type> traits_type;
+          typedef std::allocator<char_type> allocator_type;
+          typedef Program_Representation_Includes<char_type, traits_type, allocator_type> pr_type;
+          typedef StreamExtractor stream_extractor_type;
+          
+          TestData test_data;
+          id_w_c_vec_type test_vector;
+          iterator_t end(test_data.test_vector.end());
+          for (iterator_t i=test_data.test_vector.begin();i!=end;++i) {
+            const pr_t& pr(*i);
+            std::string prefix_string(pr.get<0>());
+            id_w_c_vec_type test_vector(pr.get<1>());
+            std::string program_string(pr.get<2>());
+            
+            typedef typename id_w_c_vec_type::const_iterator iterator;
+            const iterator& end(test_vector.end());
+            
+            pr_type pr_expected;
+            pr_expected(prefix_string);
+            
+            for (iterator j = test_vector.begin(); j != end; ++j) {
+              const el_t& el((*j).first);
+              const std::string& context((*j).second);
+              int spaces_after_hash(el.get<0>());
+              std::string header(el.get<1>());              
+              int spaces_after_include(el.get<2>());
+              Include_forms include_form (el.get<3>());
+              assert(include_form != undefined_include_form);
+              std::string expected_output(el.get<4>());
+              id_type id(header,spaces_after_hash,spaces_after_include,include_form);	  
+              std::pair<id_type,std::string> id_w_context(std::make_pair(id,context));
+              pr_expected(id_w_context);
+
+            }
+
+            std::istringstream program_stream(program_string);
+            pr_type program_rep;
+            (stream_extractor_type(program_stream))(program_rep);
+            OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
+            OKLIB_TEST_EQUAL_RANGES(program_rep.include_directives_with_context,pr_expected.include_directives_with_context);
+
+          }
+        }
+
         {
           typedef char char_type;
           typedef std::char_traits<char_type> traits_type;
@@ -419,8 +472,6 @@ namespace OKlib {
              OKLIB_TEST_EQUAL(program_rep.prefix,prefix_string);
              OKLIB_TEST_EQUAL_RANGES(program_rep.include_directives_with_context,id_w_context);
           }
-
-
         }
       }
     };
