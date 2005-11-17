@@ -11,6 +11,8 @@ postgresql_targets := postgresql-8.0.3
 postgresql_recommended := postgresql-8.0.3
 valgrind_targets := valgrind-3.0.1
 valgrind_recommended := valgrind-3.0.1
+mhash_targets := mhash-0.9.2
+mhash_recommended := mhash-0.9.2
 
 # ####################################################
 # Usage
@@ -135,6 +137,16 @@ postgresql-directories := $(postgresql-base-directory)
 valgrind-base-directory := $(prefix)/Valgrind
 valgrind-directories := $(valgrind-base-directory)
 
+# ###################
+mhash-base-directory := $(prefix)/Mhash
+mhash_build_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion)_Build, $(patsubst mhash_%, %, $(mhash_targets))))
+mhash_build_directory_names += $(addsuffix _Build, $(patsubst mhash_%, %, $(mhash_targets)))
+mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
+mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(patsubst mhash_%, %, $(mhash_targets))))
+mhash_installation_directory_names += $(patsubst mhash_%, %, $(mhash_targets))
+mhash_installation_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_installation_directory_names))
+mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths)
+
 
 # ###############################################
 
@@ -151,9 +163,10 @@ endef
 .PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
 .PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
 .PHONY : valgrind $(valgrind_targets) create_valgrind_dirs
+.PHONY : mhash $(mhash_targets) create_mhash_dirs
 .PHONY : all clean cleanall
 
-all : gcc boost postgresql valgrind doxygen
+all : gcc boost postgresql valgrind mhash doxygen
 
 # ###############################
 # Doxygen
@@ -276,11 +289,30 @@ $(valgrind_targets) : create_valgrind_dirs
 	make; $(postcondition) \
 	sudo make install; $(postcondition)
 
+# ###############################
+# Mhash
+# ###############################
+
+$(mhash-directories) : % : 
+	mkdir $@
+
+create_mhash_dirs : $(mhash-directories)
+
+$(mhash_targets) :  mhash-% : create_mhash_dirs
+	$(call unarchive,$@,$(mhash-base-directory))
+	cd $(mhash-base-directory)/$@+$(gcc-version)_Build; $(postcondition) \
+	sh ../mhash-$*/configure CC=$(gcc-base-directory)/$(gcc-version)/bin/gcc --prefix=$(mhash-base-directory)/mhash-$*+$(gcc-version); $(postcondition) \
+	make; $(postcondition) \
+	make install; $(postcondition)
+
+mhash : $(mhash_recommended)
+
 # ####################################################
 
 clean :
 	-rm -rf $(gcc_build_directory_paths)
 	-rm -rf $(boost_build_directory_paths)
+	-rm -rf $(mhash_build_directory_paths)
 
 cleanall : clean
 	-rm -rf $(doxygen-directories)
@@ -288,3 +320,4 @@ cleanall : clean
 	-rm -rf $(boost-directories)
 	-rm -rf $(postgresql-directories)
 	-rm -rf $(valgrind-directories)
+	-rm -rf $(mhash-directories)
