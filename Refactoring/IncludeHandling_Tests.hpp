@@ -476,6 +476,26 @@ namespace OKlib {
       }
     };
 
+    // ##############################################################
+
+    /*!
+      \class Test_Extend_include_directives_Two_directories
+      \brief Test class for extending all include directives in files below some working directories with paths relative to a working directory.
+    */
+
+    template <class Extend_include_directives_Two_directories_>
+    class Test_Extend_include_directives_Two_directories : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Extend_include_directives_Two_directories test_type;
+      Test_Extend_include_directives_Two_directories() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        
+      }
+    };
+
   }
 
 }
