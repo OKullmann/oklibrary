@@ -2,12 +2,13 @@
 
 /*!
   \namespace GeneralInputOutput
-  \brief 
+  \brief Tools for handling input and output.
 */
 
 /*!
   \file RecursiveDirectoryIteration.hpp
-  \brief Deprecated. Should be called RecursiveDirectoryIteration.hpp.
+  \brief Recursive iteration over the files and subdirectories 
+  contained within a filesystem directory.
 */
 
 #ifndef RECURSIVEDIRECTORYITERATION_938ypbn3
