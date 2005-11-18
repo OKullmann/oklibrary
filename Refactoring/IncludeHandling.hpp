@@ -394,18 +394,12 @@ namespace OKlib {
       \todo Design and implement.
     */
 
-//     template <template <class Range> class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path>, class Istream = std::istream>
-//     class Extend_include_directives {
+    template <class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> >
+    class Extend_include_directives {     
 
-//       Extend_include_directives(Istream input, APC prefix_container) : input(input), prefix_container(prefix_container) {}
+      void operator() (std::istream input, APC prefix_container) {}
 
-//       Istream input;
-//       APC prefix_container;
-
-//       //\todo Implement operator()
-//       void operator() () {}
-
-//     };
+    };
 
     /*!
       \class Extend_include_directives_Two_directories
@@ -425,24 +419,24 @@ namespace OKlib {
       the working directory are handled by Extend_include_directives.
     */
 
-    template <class Path = boost::filesystem::path>
     class Extend_include_directives_Two_directories {
 
-      Extend_include_directives_Two_directories(const Path& ref_dir_, const Path& work_dir_) : ref_dir(ref_dir_),work_dir(work_dir_) {}
+      boost::filesystem::path ref_dir;
+      boost::filesystem::path work_dir;
 
-      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<Path> prefix_container_type;
+      Extend_include_directives_Two_directories(boost::filesystem::path ref_dir, boost::filesystem::path work_dir) : ref_dir(ref_dir),work_dir(work_dir) {}
+
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> prefix_container_type;
       typedef OKlib::GeneralInputOutput::DirectoryIterator dir_it_type;
-
-      const Path& ref_dir;
-      const Path& work_dir;
       
       prefix_container_type prefix_container;
       dir_it_type ref_dir_it();
       dir_it_type work_dir_it();
 
-      //\todo Iterate over ref_dir_it, putting each path into prefix_container
+      //Iterate over ref_dir_it, putting each path into prefix_container
 
-      //\todo Iterate over work_dir_it, applying Extend_include_directives
+
+      //Iterate over work_dir_it, applying Extend_include_directives
  
     };
 
