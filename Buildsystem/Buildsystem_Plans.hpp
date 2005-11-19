@@ -78,7 +78,7 @@
    - Optionally we can make a global version of Boost or gcc.
    - "make initialise-database" should work with the recommended version.
    - Build a local version of mhash.
-   
+   - Update PostgreSQL to version 8.1 (and test it).
 
   \todo "Full test": makefile at the OKplatform level --- there the
   different versions of gcc and boost are visible. "make check" at
