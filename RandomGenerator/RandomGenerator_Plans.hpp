@@ -12,7 +12,6 @@
    3. Creating the concept for AES in the (new) module Cryptology.
    4. Writing a wrapper for some existing implementations for AES.
    5. Replacing the current AES implementation in OKgenerator.
-   6. Then one needs to decide what about the input parameter handling
-      (writing our own module, or using Boost).
+   6. Replacing Kommandozeile by ProgramOptions.
 */
 
