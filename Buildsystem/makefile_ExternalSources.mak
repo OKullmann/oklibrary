@@ -298,12 +298,25 @@ $(mhash-directories) : % :
 
 create_mhash_dirs : $(mhash-directories)
 
+ifeq ($(gcc-version),system)
+
+$(mhash_targets) :  mhash-% : create_mhash_dirs
+	$(call unarchive,$@,$(mhash-base-directory))
+	cd $(mhash-base-directory)/$@_Build; $(postcondition) \
+	sh ../mhash-$*/configure --prefix=$(mhash-base-directory)/mhash-$*; $(postcondition) \
+	make; $(postcondition) \
+	make install; $(postcondition)
+
+else 
+
 $(mhash_targets) :  mhash-% : create_mhash_dirs
 	$(call unarchive,$@,$(mhash-base-directory))
 	cd $(mhash-base-directory)/$@+$(gcc-version)_Build; $(postcondition) \
 	sh ../mhash-$*/configure CC=$(gcc-base-directory)/$(gcc-version)/bin/gcc --prefix=$(mhash-base-directory)/mhash-$*+$(gcc-version); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition)
+
+endif
 
 mhash : $(mhash_recommended)
 
