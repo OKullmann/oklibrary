@@ -394,11 +394,35 @@ namespace OKlib {
       \todo Design and implement.
     */
 
-    template <class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> >
-    class Extend_include_directives {     
+    class Extend_include_directives { 
 
-      void operator() (std::istream input, APC prefix_container) {}
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> APC;
+      typedef ProgramRepresentationIncludes<>::container_type container_type;
+      typedef ProgramRepresentationIncludes<>::iterator iterator;
+      typedef ProgramRepresentationIncludes<>::value_type value_type;
+      typedef ProgramRepresentationIncludes<>::string_type string_type;
+      typedef IncludeDirective<string_type> id_type;
 
+      ProgramRepresentationIncludes<> pr;
+      APC prefix_container;
+
+      Extend_include_directives (APC prefix_container) : prefix_container(prefix_container) {}
+
+      void operator() (std::istream input) {
+        
+        // extract include directives
+        input >> pr;
+        // iterate over pr.include_directives_with_context
+        container_type& id_w_c_container(pr.include_directives_with_context);
+        iterator end(id_w_c_container.end());
+        for (iterator i=id_w_c_container.begin();i!=end;++i) {
+          value_type id_w_c(*i);
+          id_type id(id_w_c.first);
+          string_type context(id_w_c.second);
+          // check for unique extension
+          // policy controlled action
+        }
+      }
     };
 
     /*!
@@ -419,25 +443,23 @@ namespace OKlib {
       the working directory are handled by Extend_include_directives.
     */
 
+    template <class Path = boost::filesystem::path, class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<Path>, class DirIt = OKlib::GeneralInputOutput::DirectoryIterator>
     class Extend_include_directives_Two_directories {
 
-      boost::filesystem::path ref_dir;
-      boost::filesystem::path work_dir;
+      const Path& ref_dir;
+      const Path& work_dir;
 
-      Extend_include_directives_Two_directories(boost::filesystem::path ref_dir, boost::filesystem::path work_dir) : ref_dir(ref_dir),work_dir(work_dir) {}
+      Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {}
 
-      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> prefix_container_type;
-      typedef OKlib::GeneralInputOutput::DirectoryIterator dir_it_type;
+      APC prefix_container;
+      // Initialise ref_dir_it with ref_dir.
+      DirIt ref_dir_it;
+      // Initialise work_dir_it with work_dir.
+      DirIt work_dir_it;
       
-      prefix_container_type prefix_container;
-      dir_it_type ref_dir_it();
-      dir_it_type work_dir_it();
+      //Iterate over ref_dir_it, putting each path into prefix_container.
 
-      //Iterate over ref_dir_it, putting each path into prefix_container
-
-
-      //Iterate over work_dir_it, applying Extend_include_directives
- 
+      //Iterate over work_dir_it, applying Extend_include_directives.
     };
 
   }
