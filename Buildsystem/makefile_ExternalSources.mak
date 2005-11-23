@@ -139,14 +139,15 @@ valgrind-directories := $(valgrind-base-directory)
 
 # ###################
 mhash-base-directory := $(prefix)/Mhash
-mhash_build_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion)_Build, $(patsubst mhash_%, %, $(mhash_targets))))
-mhash_build_directory_names += $(addsuffix _Build, $(patsubst mhash_%, %, $(mhash_targets)))
-mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
-mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(patsubst mhash_%, %, $(mhash_targets))))
-mhash_installation_directory_names += $(patsubst mhash_%, %, $(mhash_targets))
-mhash_installation_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_installation_directory_names))
-mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths)
 
+abbr_mhash_targets := $(patsubst mhash-%, %, $(mhash_targets))
+mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_mhash_targets)))
+mhash_installation_directory_names += $(abbr_mhash_targets)
+
+mhash_installation_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_installation_directory_names))
+mhash_build_directory_names := $(addsuffix _Build, $(mhash_installation_directory_names))
+mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
+mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths)
 
 # ###############################################
 
@@ -302,8 +303,8 @@ ifeq ($(gcc-version),system)
 
 $(mhash_targets) :  mhash-% : create_mhash_dirs
 	$(call unarchive,$@,$(mhash-base-directory))
-	cd $(mhash-base-directory)/$@_Build; $(postcondition) \
-	sh ../mhash-$*/configure --prefix=$(mhash-base-directory)/mhash-$*; $(postcondition) \
+	cd $(mhash-base-directory)/$*_Build; $(postcondition) \
+	sh ../mhash-$*/configure --prefix=$(mhash-base-directory)/$*; $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition)
 
@@ -311,8 +312,8 @@ else
 
 $(mhash_targets) :  mhash-% : create_mhash_dirs
 	$(call unarchive,$@,$(mhash-base-directory))
-	cd $(mhash-base-directory)/$@+$(gcc-version)_Build; $(postcondition) \
-	sh ../mhash-$*/configure CC=$(gcc-base-directory)/$(gcc-version)/bin/gcc --prefix=$(mhash-base-directory)/mhash-$*+$(gcc-version); $(postcondition) \
+	cd $(mhash-base-directory)/$*+$(gcc-version)_Build; $(postcondition) \
+	sh ../mhash-$*/configure CC=$(gcc-base-directory)/$(gcc-version)/bin/gcc --prefix=$(mhash-base-directory)/$*+$(gcc-version); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition)
 
