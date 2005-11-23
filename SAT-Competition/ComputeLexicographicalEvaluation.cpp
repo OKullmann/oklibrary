@@ -3,7 +3,10 @@
 /*!
   \file ComputeLexicographicalEvaluation.cpp
   \brief Outputs the lexicographically sorted evaluation of a random-competition.
-  \todo The output should contain a legend.
+  \todo The output should contain a legend, and the date and time of the evaluation
+  (and also the version-information of this program).
+  \todo The common output facilities for ComputeScores and ComputeLexicographicalEvaluation
+  should go into a separate sub-module (and then used in these two programs).
   \todo Using the new module ProgramOptions (together with Messages).
 */
 #include <string>
@@ -38,7 +41,7 @@ struct Evaluation {
     
     std::cout << "\nFile name = " << filename;
     if (specifier)
-      std::cout << "\nspecifier = " << specifier;
+      std::cout << "\nsyntax specifier = " << specifier;
     std::cout << "\n\n";
 
     std::cout << "\nALL results: ---------------------------------------------------------------------------------------------------------------------\n\n";

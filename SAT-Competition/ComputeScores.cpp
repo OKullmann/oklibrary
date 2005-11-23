@@ -12,6 +12,7 @@
   convention of how to make information about the compilation available to
   the program, so that via "--version" we obtain as much information as possible).
   \todo The output should contain a legend.
+  \todo See ComputeLexicographicalEvaluation.cpp for common functionality.
   \todo Using the new module ProgramOptions (together with Messages).
   \todo Perhaps the structure Scoring_from_file (in this file) should be generalised (it can be shared
   at least with ComputeAnalysis.cpp); and also the option handling could be shared.
