@@ -449,17 +449,17 @@ namespace OKlib {
       const Path& ref_dir;
       const Path& work_dir;
 
-      Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {}
+      Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
 
       APC prefix_container;
-      // Initialise ref_dir_it with ref_dir.
-      DirIt ref_dir_it;
-      // Initialise work_dir_it with work_dir.
-      DirIt work_dir_it;
+      DirIt ref_dir_it(ref_dir);
+      DirIt work_dir_it(work_dir);
       
       //Iterate over ref_dir_it, putting each path into prefix_container.
 
       //Iterate over work_dir_it, applying Extend_include_directives.
+      }
+
     };
 
   }
