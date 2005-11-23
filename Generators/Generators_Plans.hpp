@@ -19,7 +19,13 @@
   different variables get different values, and BIJ(V, D, Val),
   refining INJ(V, D) by also requiring that every value in Val
   must be used. Virtual clause-sets can offer different levels
-  of inference powers.
+  of inference powers. For "full inference power" essentially INJ
+  and BIJ are the same (in case D(v) <= Val and |V| = |Val|),
+  but for weaker systems there might be a difference.
+  The direct clause-representation of INJ(V,D) uses the clauses
+  {(v != eps) or (v' != eps)} for v != v' and eligible values eps,
+  while BIJ adds the surjectivity P-clauses {(v = eps)}_{v in V} for
+  every eps in Val.
   \todo Transformers from non-boolean clause-sets to boolean
   clause-sets are needed (the standard translation, with or without
   the at-most-one-clauses, and also the other translations known from
