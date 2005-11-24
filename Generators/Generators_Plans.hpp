@@ -38,5 +38,11 @@
    1b) For all j in I_2: INJ({v_{i,j} : i in I_2})
    2) For all i, j in I_1: INJ( { v_{(i,k), (k',j)} : k, k' in I_1 } ).
   Additionally a list of domain-restrictions can be specified.
+  \todo We should also have generators for factoring a number into
+  two factors (at least using the standard multiplication method).
+  Challenging (but potentially very interesting) are virtual clause-sets
+  for this purpose.
+  \todo Challenging (but potentially very interesting) is also the decryption
+  of DES (a clause-set translation is in the literature).
 */
 
