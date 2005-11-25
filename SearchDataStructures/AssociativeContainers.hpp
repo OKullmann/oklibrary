@@ -28,21 +28,23 @@ namespace OKlib {
 
     template <class Range>
     class AssociativePrefixContainer {
-    private:
       /*!
         \class SortLexicographical
         \brief Functor for lexicographic ordering of two range arguments.
       */
       struct SortLexicographical : std::binary_function<const Range&, const Range&, bool> {
 	bool operator()(const Range& arg1, const Range& arg2) const {
-	  return std::lexicographical_compare(boost::begin(arg1),boost::end(arg1),boost::begin(arg2),boost::end(arg2));
+	  return std::lexicographical_compare(boost::begin(arg1), boost::end(arg1), boost::begin(arg2), boost::end(arg2));
 }
       };
       
       typedef typename std::set<Range, SortLexicographical> SetRanges;
     
       SetRanges prefix_set;
+
     public:
+      AssociativePrefixContainer() {};
+
       typedef typename SetRanges::const_iterator iterator;
       iterator begin() const {
 	return prefix_set.begin();
@@ -50,10 +52,11 @@ namespace OKlib {
       iterator end() const {
 	return prefix_set.end();
       };
-      AssociativePrefixContainer() {};
+
       std::pair<iterator,bool> insert(const Range& x) {
 	return prefix_set.insert(x);
       };
+
       iterator first_extension(const Range& r) const {
 	const iterator& lower_bound(prefix_set.lower_bound(r));
         const iterator& end(prefix_set.end());
