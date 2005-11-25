@@ -10,8 +10,7 @@
 #define INCLUDEHANDLINGTESTS_77665r
 
 #include <string>
-#include <iostream>
-#include <fstream>
+#include <ostream>
 #include <utility>
 #include <vector>
 #include <sstream>
@@ -61,7 +60,7 @@ namespace OKlib {
 
       typedef id_w_context_vec_type::const_iterator id_w_c_vec_const_iterator_type;
 
-      test_vector_type test_vector;
+      static test_vector_type test_vector;
       typedef test_vector_type::const_iterator const_iterator;
 
       TestData() {
@@ -139,12 +138,14 @@ namespace OKlib {
           ;
       }
     };
+    TestData::test_vector_type TestData::test_vector;
 
     // ##############################################################
 
     /*!
       \class Test_IncludeDirective
       \brief Testing classes representing one include directive.
+      \todo Add an extended description.
     */
 
     template <template <class String> class Include_Directive>
@@ -168,7 +169,7 @@ namespace OKlib {
            id_w_c_vec_type test_vector;
 
            iterator_t end(test_data.test_vector.end());
-           for (iterator_t i=test_data.test_vector.begin();i!=end;++i) {
+           for (iterator_t i=test_data.test_vector.begin(); i!=end; ++i) {
              const pr_t& pr(*i);
              id_w_c_vec_type test_vector(pr.get<1>());
             
@@ -177,7 +178,7 @@ namespace OKlib {
              
              for (iterator j = test_vector.begin(); j != end; ++j) {
                const el_t& el((*j).first);
-               int spaces_after_hash(el.get<0>());
+               const int spaces_after_hash(el.get<0>());
                std::string header(el.get<1>());              
                int spaces_after_include(el.get<2>());
                Include_forms include_form (el.get<3>());

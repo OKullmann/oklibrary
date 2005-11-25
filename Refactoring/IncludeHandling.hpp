@@ -34,8 +34,22 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 
+#include <boost/range/const_iterator.hpp> // Fix for errenous Boost library filesystem ##################################################################
+
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
+
+// Fix for errenous Boost library filesystem ##########################################################################
+
+namespace boost {
+
+  template <>
+  struct range_const_iterator<boost::filesystem::path> {
+    typedef boost::filesystem::path::iterator type;
+  };
+}
+
+// ##########################################################################
 
 
 namespace OKlib {
@@ -48,7 +62,6 @@ namespace OKlib {
       \class IncludeDirective
       \brief Representation of one include directive.
       \todo A concept is needed.
-      \todo Test it.
     */
     
     template <class String = std::string>
@@ -58,32 +71,15 @@ namespace OKlib {
       typedef String string_type;
       typedef typename string_type::size_type size_type;
 
-      string_type opening() const {
-        assert(include_form_ != undefined_include_form);
-        switch (include_form_) {
-        case system_header :
-          return "<";
-        case source_code_header :
-          return "\"";
-        }
-      }
-      string_type closing() const {
-        assert(include_form_ != undefined_include_form);
-        switch (include_form_) {
-        case system_header :
-          return ">";
-        case source_code_header :
-          return "\"";
-        }
-
-      }
     private :
       string_type header_file_;
       size_type number_spaces_after_hash_, number_spaces_after_include_;
       Include_forms include_form_;
 
     public :
+
       IncludeDirective() : header_file_(""), number_spaces_after_hash_(0), number_spaces_after_include_(0), include_form_(undefined_include_form) {}
+
       IncludeDirective(const string_type& header_file, const size_type number_spaces_after_hash,  const size_type number_spaces_after_include, const Include_forms include_form) : header_file_(header_file), number_spaces_after_hash_(number_spaces_after_hash), number_spaces_after_include_(number_spaces_after_include), include_form_(include_form) {
         assert(not header_file_.empty());
       }
@@ -112,6 +108,25 @@ namespace OKlib {
       Include_forms& include_form() { 
         return include_form_; 
       }
+
+      string_type opening() const {
+        assert(include_form_ != undefined_include_form);
+        switch (include_form_) {
+        case system_header :
+          return "<";
+        case source_code_header :
+          return "\"";
+        }
+      }
+      string_type closing() const {
+        assert(include_form_ != undefined_include_form);
+        switch (include_form_) {
+        case system_header :
+          return ">";
+        case source_code_header :
+          return "\"";
+        }
+      }
     };
     
     template<class T>
@@ -131,8 +146,8 @@ namespace OKlib {
     /*!
       \class ProgramRepresentationIncludes
       \brief Class for representing the include-directives within a program
-      \todo A concept is needed
-      \todo Test it.
+      \todo An extended explanation is needed.
+      \todo A concept is needed.
     */
 
     template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> >
@@ -180,6 +195,7 @@ namespace OKlib {
     /*!
       \class IncludeParsingGrammar
       \brief Defines grammar of a C++ program as far as necessary for parsing include directives in a file.
+      \todo Extended explanation.
       \todo Yet we use a fixed ProgramRepresentationIncludes form (with fixed character type), ignoring the scanner type (the template parameter of the nested class definition). A more perfect solution would create a new parse-function which then instantiates the IncludeParsingGrammar and ProgramRepresentationIncludes accordingly to the character type actually used.
       \todo A concept is needed.
     */
@@ -305,6 +321,10 @@ namespace OKlib {
       \class StreamExtractor_by_istream_iterator
       \brief Functor class for extracting include directives from input streams, using
       multipass-iterator-wrappers around istream-iterators.
+      \todo Extended explanation should mention the other implementation.
+      \todo Management of stream-formatflags-resources should be handled by (RAII) object.
+      \todo Write a test for it.
+      \todo Create a concept.
     */
 
     struct StreamExtractor_by_istream_iterator {
@@ -337,6 +357,7 @@ namespace OKlib {
       \class StreamExtractor_by_copy
       \brief Functor class for extracting include directives from input streams,
       copying the stream content.
+      \todo Extended explanation as above.
     */
 
     struct StreamExtractor_by_copy {
@@ -359,7 +380,7 @@ namespace OKlib {
 
     };
     
-    // ####################################################################################
+    // ######################
 
     // ToDo: Write Doxygen comment here
     // ToDo: Explore which implementation is more efficient (once the complexity system is there).
@@ -369,20 +390,7 @@ namespace OKlib {
       return (StreamExtractor_by_istream_iterator(in))(pr);
     }
 
-// ####################################################################################
-
-//     template <class charT, class traits, class Allocator>
-//     std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
-//       typedef boost::spirit::multi_pass<std::istream_iterator<charT> > iterator_t;
-//       const iterator_t& begin(boost::spirit::make_multi_pass(std::istream_iterator<charT>(in)));
-//       const iterator_t& end(boost::spirit::make_multi_pass(std::istream_iterator<charT>()));
-//       IncludeParsingGrammar g(pr);
-//       boost::spirit::parse(begin, end, g);
-//       return in;
-//     }
-
     // ####################################################################################
-    
 
     /*!
       \class Extend_include_directives
@@ -393,6 +401,7 @@ namespace OKlib {
       a policy-controlled alternative action takes place.
 
       \todo Design and implement.
+      \todo Update the above explanation.
     */
 
     class Extend_include_directives { 
@@ -409,20 +418,18 @@ namespace OKlib {
 
       Extend_include_directives (APC prefix_container) : prefix_container(prefix_container) {}
 
-      void operator() (std::istream input) {
+      void operator() (std::istream& input) {
         
-//         // extract include directives
-//         input >> pr;
-//         // iterate over pr.include_directives_with_context
-//         container_type& id_w_c_container(pr.include_directives_with_context);
-//         iterator end(id_w_c_container.end());
-//         for (iterator i=id_w_c_container.begin();i!=end;++i) {
-//           value_type id_w_c(*i);
-//           id_type id(id_w_c.first);
-//           string_type context(id_w_c.second);
-//           // check for unique extension
-//           // policy controlled action
-//      }
+        input >> pr;
+        container_type& id_w_c_container(pr.include_directives_with_context);
+        const iterator& end(id_w_c_container.end());
+        for (iterator i=id_w_c_container.begin(); i!=end; ++i) {
+          const value_type& id_w_c(*i);
+          const id_type& id(id_w_c.first);
+          const string_type& context(id_w_c.second);
+          // check for unique extension
+          // policy controlled action
+        }
       }
     };
 
@@ -434,14 +441,7 @@ namespace OKlib {
       directory suitable include directives including a file given via PATH are replaced by the similar
       include directive now including PREFIX/PATH, if, using the reference directory as base, this new
       path uniquely determines an existing file.
-
-      \todo Design and implement. First the reference directory is recursively iterated (using a suitable
-      iterator to be written an a new module "FileSystemTools") and the boost::path's obtained are
-      put into an associative prefix container (regarding a path as a sequence, but in reverse
-      order(!); the associative prefix container can be implemented in a new module "SearchDataStructures"
-      as a simple wrapper around std::set, using lexicographical order and searching for an extension via
-      std::set::lower_bound). Once that associative prefix container is filled, all suitable files under
-      the working directory are handled by Extend_include_directives.
+      \todo Update the explanation.
     */
 
     template <class Path = boost::filesystem::path, class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<Path>, class DirIt = OKlib::GeneralInputOutput::DirectoryIterator>
@@ -452,25 +452,20 @@ namespace OKlib {
 
       Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
 
-      APC prefix_container;
-      DirIt ref_dir_it(ref_dir);
-      DirIt work_dir_it(work_dir);
-
-      while(ref_dir_it!=DirIt()) {
-        //        prefix_container.insert(*ref_dir_it);
-        ++ref_dir_it;
-      }
-          
-      Extend_include_directives eid(prefix_container);
-
-      //Iterate over work_dir_it, applying Extend_include_directives.
-      while(work_dir_it!=DirIt()) {
-        if (not boost::filesystem::is_directory(*work_dir_it)) {
-          // Extract file contents as istream
-          // Apply Extend_include_directives
+        APC prefix_container;
+        
+        for(DirIt ref_dir_it(ref_dir); ref_dir_it!=DirIt(); ++ref_dir_it)
+          prefix_container.insert(*ref_dir_it);
+        
+        Extend_include_directives eid(prefix_container);
+        
+        //Iterate over work_dir_it, applying Extend_include_directives.
+        for(DirIt work_dir_it(work_dir); work_dir_it!=DirIt(); ++work_dir_it) {
+          if (not boost::filesystem::is_directory(*work_dir_it)) {
+            // Extract file contents as istream
+            // Apply Extend_include_directives
+          }
         }
-        ++work_dir_it;
-      }
       }
 
     };
