@@ -6,6 +6,8 @@
   clause-sets.
   \todo Concepts for clause-sets as collections of clauses, which are collections of
   literals, holding a reference to a domain-assignment for the variables.
+  \todo For an earlier attempt see
+  OKsolver/Experimental/AllgKlassen200203/ClauseSets.hpp.
   \todo An important refinement is the concept of a "clause-set with history",
   which holds a reference to a structure consisting of a domain-assignment
   together with a partial assignment refining it, and the state of the update

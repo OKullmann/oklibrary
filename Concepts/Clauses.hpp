@@ -4,6 +4,8 @@
   \file Concepts/Clauses.hpp
   \brief Concepts for clauses.
   \todo Concepts for and-clauses, or-clauses, etc.
+  \todo For an earlier attempt see
+  OKsolver/Experimental/AllgKlassen200203/Clauses.hpp.
   \todo A fundamental issue here is the relation to the concept of
   partial assignments. It should be possible to easily switch between
   the concepts of partial assignments and clauses; perhaps the only
