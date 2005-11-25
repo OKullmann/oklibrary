@@ -32,6 +32,7 @@
 #include <boost/spirit/iterator/multi_pass.hpp>
 
 #include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
@@ -395,7 +396,7 @@ namespace OKlib {
     */
 
     class Extend_include_directives { 
-
+    public:
       typedef OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> APC;
       typedef ProgramRepresentationIncludes<>::container_type container_type;
       typedef ProgramRepresentationIncludes<>::iterator iterator;
@@ -410,18 +411,18 @@ namespace OKlib {
 
       void operator() (std::istream input) {
         
-        // extract include directives
-        input >> pr;
-        // iterate over pr.include_directives_with_context
-        container_type& id_w_c_container(pr.include_directives_with_context);
-        iterator end(id_w_c_container.end());
-        for (iterator i=id_w_c_container.begin();i!=end;++i) {
-          value_type id_w_c(*i);
-          id_type id(id_w_c.first);
-          string_type context(id_w_c.second);
-          // check for unique extension
-          // policy controlled action
-        }
+//         // extract include directives
+//         input >> pr;
+//         // iterate over pr.include_directives_with_context
+//         container_type& id_w_c_container(pr.include_directives_with_context);
+//         iterator end(id_w_c_container.end());
+//         for (iterator i=id_w_c_container.begin();i!=end;++i) {
+//           value_type id_w_c(*i);
+//           id_type id(id_w_c.first);
+//           string_type context(id_w_c.second);
+//           // check for unique extension
+//           // policy controlled action
+//      }
       }
     };
 
@@ -445,7 +446,7 @@ namespace OKlib {
 
     template <class Path = boost::filesystem::path, class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<Path>, class DirIt = OKlib::GeneralInputOutput::DirectoryIterator>
     class Extend_include_directives_Two_directories {
-
+    public:
       const Path& ref_dir;
       const Path& work_dir;
 
@@ -454,10 +455,22 @@ namespace OKlib {
       APC prefix_container;
       DirIt ref_dir_it(ref_dir);
       DirIt work_dir_it(work_dir);
-      
-      //Iterate over ref_dir_it, putting each path into prefix_container.
+
+      while(ref_dir_it!=DirIt()) {
+        //        prefix_container.insert(*ref_dir_it);
+        ++ref_dir_it;
+      }
+          
+      Extend_include_directives eid(prefix_container);
 
       //Iterate over work_dir_it, applying Extend_include_directives.
+      while(work_dir_it!=DirIt()) {
+        if (not boost::filesystem::is_directory(*work_dir_it)) {
+          // Extract file contents as istream
+          // Apply Extend_include_directives
+        }
+        ++work_dir_it;
+      }
       }
 
     };

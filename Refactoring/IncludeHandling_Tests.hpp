@@ -493,7 +493,11 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        
+        typedef Extend_include_directives::APC APC;
+        APC apc;
+        Extend_include_directives_ eid(apc);
+        std::istringstream in("Hello");
+        //        eid(in);
       }
     };
 
@@ -513,7 +517,12 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        
+        typedef boost::filesystem::path path_type;
+        std::string string_work_dir("TestDirectory/TestWorkDir");
+        std::string string_ref_dir("TestDirectory/TestRefDir");
+        path_type path_work_dir(string_work_dir);
+        path_type path_ref_dir(string_ref_dir);
+        Extend_include_directives_Two_directories_ eidTd(path_ref_dir,path_work_dir);
       }
     };
 
