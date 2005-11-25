@@ -4,21 +4,22 @@
   \file Generators_Plans.hpp
   \brief Plans for the module Generators.
   \todo Transferring (and updating):
-   - OKsolver/Experimental/Transformationen/Ramsey
-   - OKsolver/Experimental/Transformationen/VanderWaerden
    - OKsolver/Experimental/Transformationen/LinInequal
    - OKsolver/Experimental/Transformationen/FaronsPuzzle
+   - OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique
   The main generators should produce generalised clause-sets.
   If output and/or boolean formulas is needed, then further
   transformers are to be used.
   The variables are tuples of values.
   \todo Especially for Ramsey- and Van der Waerden- formulas
-  the generators should be virtual clause-sets usable by some SAT solver.
-  \todo Important virtual clause-sets are given by INJ(V, D) for
+  the generators should be active clause-sets usable by some SAT solver.
+  And also we need active clause-sets for biclique-transformations for
+  interesting classes of graphs (including complete graphs).
+  \todo Important active clause-sets are given by INJ(V, D) for
   some set V of variables with domains D(v), expressing that
   different variables get different values, and BIJ(V, D, Val),
   refining INJ(V, D) by also requiring that every value in Val
-  must be used. Virtual clause-sets can offer different levels
+  must be used. Active clause-sets can offer different levels
   of inference powers. For "full inference power" essentially INJ
   and BIJ are the same (in case D(v) <= Val and |V| = |Val|),
   but for weaker systems there might be a difference.
