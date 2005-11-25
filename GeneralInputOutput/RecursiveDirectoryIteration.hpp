@@ -51,7 +51,7 @@ namespace OKlib {
       typedef directory_iterator::pointer pointer;
       typedef directory_iterator::reference reference;
 
-      DirectoryIterator() {}
+      DirectoryIterator() : current_dir_it(directory_iterator()) {}
 
       DirectoryIterator(const boost::filesystem::path& directory_ph) : current_dir_it(directory_ph) {
         while (current_dir_it != directory_iterator() and boost::filesystem::is_directory(*current_dir_it)) {
