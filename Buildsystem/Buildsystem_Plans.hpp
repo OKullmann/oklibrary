@@ -26,12 +26,26 @@
    due to an inaccessible header file), then for some reason subsequent "make check"
    erroneously succeeds.
    
-   \todo Improved handling of flags:
-    - CXXFLAGS and CPPFLAGS likely should be completely free for the user to use
-      (yet the build system partially uses them).
+   \todo makefile_generic
+    - Updating the comments.
+    - From makefile.definitions.mak only "Root" is to be extracted, while the rest is handled by
+      this makefile, inspecting its directory and all subdirectories,
+      and collecting the required information individually from
+      all .hpp and .cpp files by means of annotating files (we have it already for link libraries,
+      now we need it also for source libraries and for the compiler options; the test program
+      always is called "TestModule" (with "Module" to be replaced by the corresponding module
+      name), and the remaining .cpp-files are the applications).
+    - "General_options" should become "Debug_options" (if used at all).
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
     - The names of the created applications should reflect all compiler options.
+    - We have the following problem:
+      If one is using different paths due to symbolic links, then the
+      dependency files contain unusable information (and must be
+      deleted with "make cleandep").
+      This problem seems hard to solve (one had to find out that
+      different paths lead to the same file).
+      So it must be documented well.
 
   \todo Doxygen:
    - Can makefiles be incorporated?!
@@ -99,10 +113,6 @@
   eliminating the include-directory at OKplatform-level (and all associated
   environment- and make-variables), and including then from level
   OKsystem (which thus needs the subdirectory "OKlib" with its own recursive makefile).
-
-  \todo As the link-libraries are handled now we also want to handle inclusion
-  of the source-libraries and handling of the options. (Options should go
-  into the name!)
 
   \todo Complexity system: "make measurements" will create an xml-file
   (via the boost serialisation library) with information about all
