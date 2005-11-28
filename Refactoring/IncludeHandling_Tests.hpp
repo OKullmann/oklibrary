@@ -52,13 +52,19 @@ namespace OKlib {
 
     public:
 
-      typedef boost::tuple<int,std::string,int,Include_forms,std::string> id_type;
-      typedef std::pair<id_type,std::string> id_w_context_type;
+      typedef std::string string_type;
+      typedef int size_type;
+
+      typedef boost::tuple<size_type,string_type,size_type,Include_forms,string_type> include_directive_data_type;
+      typedef std::pair<include_directive_data_type,string_type> id_w_context_type;
       typedef std::vector<id_w_context_type> id_w_context_vec_type;
-      typedef boost::tuple<std::string,id_w_context_vec_type,std::string> pr_type;
+      typedef boost::tuple<string_type,id_w_context_vec_type,string_type> pr_type;
       typedef std::vector<pr_type> test_vector_type;    
 
       typedef id_w_context_vec_type::const_iterator id_w_c_vec_const_iterator_type;
+
+      typedef pr_type el_t;
+      typedef include_directive_data_type id_t;
 
       static test_vector_type test_vector;
       typedef test_vector_type::const_iterator const_iterator;
@@ -69,80 +75,82 @@ namespace OKlib {
 
         test_vector +=
 
-          pr_type("",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), ""),
+          el_t("",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",0,system_header,"#include<iostream>"), ""),
                   "#include<iostream>"
                   ),
-          pr_type("",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(1,"iostream",0,system_header,"# include<iostream>"), ""),
+          el_t("",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(1,"iostream",0,system_header,"# include<iostream>"), ""),
                   "# include<iostream>"
                   ),
-          pr_type("",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(1,"iostream",1,system_header,"# include <iostream>"), ""),
+          el_t("",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(1,"iostream",1,system_header,"# include <iostream>"), ""),
                   "# include <iostream>"
                   ),
-          pr_type("",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"header.hpp",0,source_code_header,"#include\"header.hpp\""), ""),
+          el_t("",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"header.hpp",0,source_code_header,"#include\"header.hpp\""), ""),
                   "#include\"header.hpp\""
                   ),
-          pr_type("",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(1,"header.hpp",0,source_code_header,"# include\"header.hpp\""), ""),
+          el_t("",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(1,"header.hpp",0,source_code_header,"# include\"header.hpp\""), ""),
                   "# include\"header.hpp\""
                   ),
-          pr_type("",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(1,"header.hpp",1,source_code_header,"# include \"header.hpp\""), ""),
+          el_t("",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(1,"header.hpp",1,source_code_header,"# include \"header.hpp\""), ""),
                   "# include \"header.hpp\""
                   ),
-          pr_type("\n",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), ""),
+          el_t("\n",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",0,system_header,"#include<iostream>"), ""),
                   "\n#include<iostream>"
                   ),
-          pr_type("\n",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), "\n"),
+          el_t("\n",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",0,system_header,"#include<iostream>"), "\n"),
                   "\n#include<iostream>\n"
                   ),
-          pr_type("\n",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",1,system_header,"#include <iostream>"), "\n")
-                  (id_type(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
+          el_t("\n",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",1,system_header,"#include <iostream>"), "\n")
+                  (id_t(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
                   "\n#include <iostream>\n#include \"header.hpp\"\n"
                   ),
-          pr_type("prefix\n",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",1,system_header,"#include <iostream>"), "\n")
-                  (id_type(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
+          el_t("prefix\n",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",1,system_header,"#include <iostream>"), "\n")
+                  (id_t(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
                   "prefix\n#include <iostream>\n#include \"header.hpp\"\n"
                   ),
-          pr_type("prefix\n",
-                  list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",1,system_header,"#include <iostream>"), "\n")
-                  (id_type(0,"string",1,system_header,"#include <string>"), "\n")
-                  (id_type(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
+          el_t("prefix\n",
+                  list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",1,system_header,"#include <iostream>"), "\n")
+                  (id_t(0,"string",1,system_header,"#include <string>"), "\n")
+                  (id_t(0,"header.hpp",1,source_code_header,"#include \"header.hpp\""), "\n"),
                   "prefix\n#include <iostream>\n#include <string>\n#include \"header.hpp\"\n"
                    ),
-          pr_type("prefix\n",
-                   list_of<std::pair<id_type,std::string> > 
-                  (id_type(0,"iostream",0,system_header,"#include<iostream>"), "context0\n")
-                  (id_type(1,"string",0,system_header,"# include<string>"), "context1\n")
-                  (id_type(1,"header.hpp",1,source_code_header,"# include \"header.hpp\""), "context2"),
+          el_t("prefix\n",
+                   list_of<std::pair<id_t,string_type> > 
+                  (id_t(0,"iostream",0,system_header,"#include<iostream>"), "context0\n")
+                  (id_t(1,"string",0,system_header,"# include<string>"), "context1\n")
+                  (id_t(1,"header.hpp",1,source_code_header,"# include \"header.hpp\""), "context2"),
                   "prefix\n#include<iostream>context0\n# include<string>context1\n# include \"header.hpp\"context2"
                   )
           ;
       }
     };
+ 
     TestData::test_vector_type TestData::test_vector;
 
     // ##############################################################
 
     /*!
+
       \class Test_IncludeDirective
       \brief Testing classes representing one include directive.
       \todo Add an extended description.
@@ -158,12 +166,14 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-           typedef Include_Directive<std::string> id_type;
-
-           typedef TestData::id_type el_t;
-           typedef TestData::pr_type pr_t;
-           typedef TestData::id_w_context_vec_type id_w_c_vec_type;
-           typedef TestData::const_iterator iterator_t;
+          typedef std::string string_type;
+          typedef Include_Directive<string_type> id_type;
+          typedef TestData TestData;
+          
+          typedef TestData::id_t el_t;
+          typedef TestData::el_t pr_t;
+          typedef TestData::id_w_context_vec_type id_w_c_vec_type;
+          typedef TestData::const_iterator iterator_t;
 
            TestData test_data;
            id_w_c_vec_type test_vector;
@@ -231,8 +241,8 @@ namespace OKlib {
         {
            typedef IncludeDirective<std::string> id_type;
 
-           typedef TestData::id_type el_t;
-           typedef TestData::pr_type pr_t;
+           typedef TestData::id_t el_t;
+           typedef TestData::el_t pr_t;
            typedef TestData::id_w_context_vec_type id_w_c_vec_type;
            typedef TestData::const_iterator iterator_t;
 
@@ -294,8 +304,8 @@ namespace OKlib {
         {
           typedef IncludeDirective<std::string> id_type;
           
-          typedef TestData::id_type el_t;
-          typedef TestData::pr_type pr_t;
+          typedef TestData::id_t el_t;
+          typedef TestData::el_t pr_t;
           typedef TestData::id_w_context_vec_type id_w_c_vec_type;
           typedef TestData::const_iterator iterator_t;
           typedef typename Include_Parsing_Grammar::program_representation_type pr_type;
@@ -366,8 +376,8 @@ namespace OKlib {
         {
           typedef IncludeDirective<std::string> id_type;
           
-          typedef TestData::id_type el_t;
-          typedef TestData::pr_type pr_t;
+          typedef TestData::id_t el_t;
+          typedef TestData::el_t pr_t;
           typedef TestData::id_w_context_vec_type id_w_c_vec_type;
           typedef TestData::const_iterator iterator_t;
 
@@ -523,6 +533,10 @@ namespace OKlib {
         std::string string_ref_dir("TestDirectory/TestRefDir");
         path_type path_work_dir(string_work_dir);
         path_type path_ref_dir(string_ref_dir);
+        assert(boost::filesystem::exists(path_work_dir));
+        assert(boost::filesystem::exists(path_ref_dir));
+        assert(boost::filesystem::is_directory(path_work_dir));
+        assert(boost::filesystem::is_directory(path_ref_dir));
         Extend_include_directives_Two_directories_ eidTd(path_ref_dir,path_work_dir);
       }
     };
