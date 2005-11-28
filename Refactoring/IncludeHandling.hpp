@@ -38,6 +38,8 @@
 
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
+#include "DerivedRelations.hpp"
+
 
 // Fix for errenous Boost library filesystem ##########################################################################
 
@@ -129,17 +131,19 @@ namespace OKlib {
       }
     };
     
-    template<class T>
-    inline std::ostream& operator <<(std::ostream& out, const IncludeDirective<T>& include_directive)
+    template<class String>
+    inline std::ostream& operator <<(std::ostream& out, const IncludeDirective<String>& include_directive)
     {
       return out << "#" << std::string(include_directive.number_spaces_after_hash(), ' ') << "include" << std::string(include_directive.number_spaces_after_include(), ' ') << include_directive.opening() << include_directive.header_file() << include_directive.closing();
     }
 
-    template<class T>
-    inline bool operator ==(const IncludeDirective<T>& lhs, const IncludeDirective<T>& rhs) {
+    template<class String>
+    inline bool operator ==(const IncludeDirective<String>& lhs, const IncludeDirective<String>& rhs) {
       return lhs.header_file() == rhs.header_file() and lhs.number_spaces_after_hash() == rhs.number_spaces_after_hash() and lhs.number_spaces_after_include() == rhs.number_spaces_after_include() and lhs.include_form() == rhs.include_form();
     }
 
+    template<class String>
+    OKLIB_DERIVED_UNEQUAL(IncludeDirective<String>)
     
     // ####################################################################################
 
