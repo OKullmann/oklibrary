@@ -582,7 +582,7 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        typedef Extend_include_directives::APC APC;
+        typedef Extend_include_directives<>::APC APC;
         APC apc;
         Extend_include_directives_ eid(apc);
         std::istringstream in("Hello");
