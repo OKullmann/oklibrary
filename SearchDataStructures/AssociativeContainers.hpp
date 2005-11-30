@@ -1,6 +1,11 @@
 // Matthew Henderson, 4.9.2005 (Swansea)
 
 /*!
+  \namespace OKlib::SearchDataStructures
+  \brief Data structures with additional search functionality.
+*/
+
+/*!
   \file AssociativeContainers.hpp
   \brief Associative containers.
 */
