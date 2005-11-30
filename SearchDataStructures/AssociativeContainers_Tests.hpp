@@ -35,6 +35,7 @@ namespace OKlib {
         {
           typedef PrefixContainer<std::string> APC;
           typedef typename APC::iterator iterator;
+          typedef typename APC::checked_iterator_type checked_iterator_type;
 
           APC prefix_container;
 
@@ -61,6 +62,13 @@ namespace OKlib {
             OKLIB_TEST_NOTEQUAL(found, end);
             OKLIB_TEST_EQUAL(*found, word1);
           }
+          {
+            const checked_iterator_type& found(prefix_container.first_extension_uniqueness_checked(test_string));
+            OKLIB_TEST_EQUAL(found.second, true);
+            const iterator& end(prefix_container.end());
+            OKLIB_TEST_NOTEQUAL(found.first, end);
+            OKLIB_TEST_EQUAL(*found.first, word1);
+          }
 
           const std::string word2("test.hpp/dir1");
           prefix_container.insert(word2);
@@ -71,6 +79,15 @@ namespace OKlib {
             OKLIB_TEST_NOTEQUAL(found, end);
             OKLIB_TEST_EQUAL(*found, word2);
           }
+          {
+            const checked_iterator_type& found(prefix_container.first_extension_uniqueness_checked(test_string));
+            OKLIB_TEST_EQUAL(found.second, false);
+            const iterator& end(prefix_container.end());
+            OKLIB_TEST_NOTEQUAL(found.first, end);
+            OKLIB_TEST_EQUAL(*found.first, word2);
+          }
+
+          
         }
       }
     };
