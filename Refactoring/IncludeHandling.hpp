@@ -23,6 +23,7 @@
 #include <memory>
 #include <iterator>
 #include <ios>
+#include <stdexcept>
 
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -35,6 +36,7 @@
 #include <boost/filesystem/operations.hpp>
 
 #include <boost/range/const_iterator.hpp> // Fix for errenous Boost library filesystem ##################################################################
+#include <boost/range/size_type.hpp> // Fix for errenous Boost library filesystem ##################################################################
 
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
@@ -49,6 +51,19 @@ namespace boost {
   struct range_const_iterator<boost::filesystem::path> {
     typedef boost::filesystem::path::iterator type;
   };
+  template <>
+  struct range_size<boost::filesystem::path> {
+    typedef boost::filesystem::path::iterator::difference_type type;
+  };
+
+  namespace filesystem {
+
+    inline boost::range_size<boost::filesystem::path>::type boost_range_size(const boost::filesystem::path& p) {
+
+    }
+
+  }
+
 }
 
 // ##########################################################################
@@ -396,6 +411,20 @@ namespace OKlib {
 
     // ####################################################################################
 
+    struct NonUniqueExtension: std::runtime_error {
+      NonUniqueExtension(const std::string& m) : runtime_error(m) {}
+    };
+    struct NoExtension: std::runtime_error {
+      NoExtension(const std::string& m) : runtime_error(m) {}
+    };
+
+    struct ThrowIfNonUnique {
+      template <class AssociativePrefixContainer, typename Iterator, class String>
+      static String new_header_file(const AssociativePrefixContainer&, Iterator, const String& header_file) {
+        throw NonUniqueExtension("OKlib::Refactoring::new_header_file(const AssociativePrefixContainer&, Iterator, const String&):\n header file " + header_file + " has an ambiguous extension");
+      } 
+    };
+
     /*!
       \class Extend_include_directives
       \brief Functor for adding suitable prefixes to the include directives of an istream.
@@ -403,12 +432,11 @@ namespace OKlib {
       The input is an istream and a form of an "associative prefix container". All include directives are extracted,
       checked whether they have a unique extension via the prefix container, if yes, they are extended, if not,
       a policy-controlled alternative action takes place.
-
-      \todo Design and implement.
       \todo Update the above explanation.
     */
 
-    class Extend_include_directives { 
+    template <class UniquenessPolicy = ThrowIfNonUnique>
+    class Extend_include_directives {
     public:
       typedef OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> APC;
       typedef ProgramRepresentationIncludes<>::container_type container_type;
@@ -418,9 +446,10 @@ namespace OKlib {
       typedef IncludeDirective<string_type> id_type;
 
       ProgramRepresentationIncludes<> pr;
-      APC prefix_container;
+      const APC& prefix_container;
+      const typename APC::const_iterator& end_prefix_container;
 
-      Extend_include_directives (APC prefix_container) : prefix_container(prefix_container) {}
+      Extend_include_directives (const APC& prefix_container) : prefix_container(prefix_container), end_prefix_container(prefix_container.end()) {}
 
       void operator() (std::istream& input) {
         
@@ -428,14 +457,19 @@ namespace OKlib {
         container_type& id_w_c_container(pr.include_directives_with_context);
         const iterator& end(id_w_c_container.end());
         for (iterator i=id_w_c_container.begin(); i!=end; ++i) {
-          const value_type& id_w_c(*i);
-          const id_type& id(id_w_c.first);
-          const string_type& context(id_w_c.second);
-          // check for unique extension
-          // policy controlled action
+          id_type& id(i -> first);
+          const string_type& header_file(id.header_file());
+          typedef APC::checked_iterator_type checked_iterator_type;
+          const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header_file));
+          if (extension.first == end_prefix_container)
+            throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::operator ()(std::istream& input):\n header file " + header_file + " has no extension");
+          const string_type new_header_file((extension.second) ? *extension.first : UniquenessPolicy::non_unique_extension(id_w_c_container, extension.first, header_file));
+          id.header_file() = new_header_file;
         }
       }
     };
+
+    // ####################################################################################
 
     /*!
       \class Extend_include_directives_Two_directories
@@ -448,11 +482,13 @@ namespace OKlib {
       \todo Update the explanation.
     */
 
-    template <class Path = boost::filesystem::path, class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<Path>, class DirIt = OKlib::GeneralInputOutput::DirectoryIterator>
+    template <class Path = boost::filesystem::path, class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<Path>, class DirIt = OKlib::GeneralInputOutput::DirectoryIterator, class UniquenessPolicy = ThrowIfNonUnique>
     class Extend_include_directives_Two_directories {
     public:
       const Path& ref_dir;
       const Path& work_dir;
+
+      typedef Extend_include_directives<UniquenessPolicy> extend_include_directive_type;
 
       Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
 
@@ -461,7 +497,7 @@ namespace OKlib {
         for(DirIt ref_dir_it(ref_dir); ref_dir_it!=DirIt(); ++ref_dir_it)
           prefix_container.insert(*ref_dir_it);
         
-        Extend_include_directives eid(prefix_container);
+        extend_include_directive_type eid(prefix_container);
         
         //Iterate over work_dir_it, applying Extend_include_directives.
         for(DirIt work_dir_it(work_dir); work_dir_it!=DirIt(); ++work_dir_it) {
