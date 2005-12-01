@@ -79,6 +79,7 @@ namespace OKlib {
       \class IncludeDirective
       \brief Representation of one include directive.
       \todo A concept is needed.
+      \todo Test inequality operator.
     */
     
     template <class String = std::string>
@@ -167,6 +168,7 @@ namespace OKlib {
       \brief Class for representing the include-directives within a program
       \todo An extended explanation is needed.
       \todo A concept is needed.
+      \todo Test inequality operator.
     */
 
     template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> >
@@ -206,7 +208,10 @@ namespace OKlib {
         return lhs.prefix == rhs.prefix and lhs.include_directives_with_context == rhs.include_directives_with_context;
       }
 
+      friend OKLIB_DERIVED_UNEQUAL(ProgramRepresentationIncludes)
+
     };
+
 
 
     // ####################################################################################
