@@ -34,6 +34,7 @@
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 #include <boost/range/const_iterator.hpp> // Fix for errenous Boost library filesystem ##################################################################
 #include <boost/range/size_type.hpp> // Fix for errenous Boost library filesystem ##################################################################
@@ -437,6 +438,11 @@ namespace OKlib {
       The input is an istream and a form of an "associative prefix container". All include directives are extracted,
       checked whether they have a unique extension via the prefix container, if yes, they are extended, if not,
       a policy-controlled alternative action takes place.
+      \todo Write a second operator(), taking a sequence as input, which
+      is converted by a StreamHandlingPolicy to an interal stream object, which
+      is used by the current operator(), and then we pass the pr-object
+      to the policy.
+      \todo Update the design, create a concept.
       \todo Update the above explanation.
     */
 
@@ -468,7 +474,7 @@ namespace OKlib {
           const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header_file));
           if (extension.first == end_prefix_container)
             throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::operator ()(std::istream& input):\n header file " + header_file + " has no extension");
-          const string_type new_header_file((extension.second) ? *extension.first : UniquenessPolicy::non_unique_extension(id_w_c_container, extension.first, header_file));
+          const string_type new_header_file((extension.second) ? extension.first -> string() : UniquenessPolicy::new_header_file(id_w_c_container, extension.first, header_file));
           id.header_file() = new_header_file;
         }
       }
@@ -484,6 +490,7 @@ namespace OKlib {
       directory suitable include directives including a file given via PATH are replaced by the similar
       include directive now including PREFIX/PATH, if, using the reference directory as base, this new
       path uniquely determines an existing file.
+      \todo Make prefix_container a data-member (initialisation should happen via appropriate constructors!).
       \todo Update the explanation.
     */
 
@@ -504,12 +511,10 @@ namespace OKlib {
         
         extend_include_directive_type eid(prefix_container);
         
-        //Iterate over work_dir_it, applying Extend_include_directives.
         for(DirIt work_dir_it(work_dir); work_dir_it!=DirIt(); ++work_dir_it) {
-          if (not boost::filesystem::is_directory(*work_dir_it)) {
-            // Extract file contents as istream
-            // Apply Extend_include_directives
-          }
+          boost::filesystem::fstream working_file(*work_dir_it);
+          eid(working_file);
+          working_file << eid.pr;
         }
       }
 
