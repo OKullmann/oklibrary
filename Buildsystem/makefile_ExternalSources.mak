@@ -9,8 +9,8 @@ boost_targets := boost-1_33
 boost_recommended := boost-1_33
 postgresql_targets := postgresql-8.0.3
 postgresql_recommended := postgresql-8.0.3
-valgrind_targets := valgrind-3.0.1
-valgrind_recommended := valgrind-3.0.1
+valgrind_targets := valgrind-3.1.0
+valgrind_recommended := valgrind-3.1.0
 mhash_targets := mhash-0.9.2
 mhash_recommended := mhash-0.9.2
 
