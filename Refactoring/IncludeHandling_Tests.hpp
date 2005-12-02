@@ -3,6 +3,8 @@
 /*!
   \file IncludeHandling_Tests.hpp
   \brief Tests regarding include statement handling.
+  \todo Each loop in each test should have an inline comment.
+  \todo Every time a data member is initialised we should test it.
 */
 
 #ifndef INCLUDEHANDLINGTESTS_77665r
@@ -37,6 +39,7 @@ namespace OKlib {
     /*!
       \class TestData
       \brief To provide data used by the testing of include handling.
+      \todo New vector for negative tests.
      
       This class has a data member test_vector which is a vector of
       tuples. Each tuple represents a different program.  The first 
@@ -226,6 +229,7 @@ namespace OKlib {
       \class Test_IncludeDirective
       \brief Testing classes representing one include directive.
       \todo Add an extended description.
+      \todo Testing of equality and inequality operators.
     */
 
     template <template <class String> class Include_Directive>
@@ -291,6 +295,8 @@ namespace OKlib {
     /*!
       \class Test_ProgramRepresentationIncludes
       \brief Testing classes for representing the include-directives within a program.
+      \todo Add an extended description.
+      \todo Testing of equality and inequality operators.
     */
 
     template <template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> > class Program_Representation_Includes>
@@ -312,7 +318,6 @@ namespace OKlib {
 
           TestData test_data;
 
-          //<<<<<<< IncludeHandling_Tests.hpp
           iterator_t end(test_data.test_vector.end());
           
           for (iterator_t i=test_data.test_vector.begin(); i!=end; ++i) {
@@ -357,6 +362,7 @@ namespace OKlib {
       \class Test_IncludeParsingGrammar
       \brief Testing grammars for parsing source code units in order to extract include directives.
       \todo Reinstate testing of program strings which are not matched by the grammar.
+      \todo Add an extended description.
     */
     
     template <class Include_Parsing_Grammar>
