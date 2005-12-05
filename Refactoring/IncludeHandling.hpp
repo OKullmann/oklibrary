@@ -3,11 +3,16 @@
 /*!
   \namespace OKlib::Refactoring
   \brief Tools for refactoring C++ code.
+  \todo Investigating existing tools for parsing and refactoring C++ code.
+  Asking on the boost e-mail list.
 */
 
 /*!
   \file IncludeHandling.hpp
   \brief Refactoring of include directives.
+  \todo Notifying the boost e-mail list about the problem with the
+  filesystem library (see below).
+
 */
 
 #ifndef INCLUDEHANDLING_9yhNbv
@@ -167,9 +172,11 @@ namespace OKlib {
     /*!
       \class ProgramRepresentationIncludes
       \brief Class for representing the include-directives within a program
+      \todo std::pair<IncludeDirective<string_type>, string_type> should be a typedef.
       \todo An extended explanation is needed.
       \todo A concept is needed.
-      \todo Test inequality operator.
+      \todo Test inequality operator. (OK: ?? Always test equality and inequality together, applying
+      the appropriate generic test facilities from the concept definitions.)
     */
 
     template <class charT = char, class traits = std::char_traits<charT>, class Allocator = std::allocator<charT> >
@@ -436,10 +443,11 @@ namespace OKlib {
       \brief Functor for adding suitable prefixes to the include directives of an istream.
 
       The input is an istream and a form of an "associative prefix container". All include directives are extracted,
-      checked whether they have a unique extension via the prefix container, if yes, they are extended, if not,
-      a policy-controlled alternative action takes place.
-      \todo Write a second operator(), taking a sequence as input, which
-      is converted by a StreamHandlingPolicy to an interal stream object, which
+      checked whether they have a unique extension via the prefix container, if yes, they are extended (in
+      the representation of the input, not in the input itself), if not, a policy-controlled alternative action
+      takes place.
+      \todo Write a second operator(), taking a sequence (range) as input, which
+      is converted by a StreamHandlingPolicy to an internal stream object, which
       is used by the current operator(), and then we pass the pr-object
       to the policy.
       \todo Update the design, create a concept.
@@ -491,6 +499,10 @@ namespace OKlib {
       include directive now including PREFIX/PATH, if, using the reference directory as base, this new
       path uniquely determines an existing file.
       \todo Make prefix_container a data-member (initialisation should happen via appropriate constructors!).
+      \todo Likely it is better to have the constructor taking two *iterator ranges* instead of taking the paths
+      to the reference and the working directory (this design is more general). The "Two directories" in the
+      name should then also be replaced by something suitable (and the two-directories construction
+      should go to a helper-class/function).
       \todo Update the explanation.
     */
 
