@@ -58,9 +58,6 @@
   for example via --version we get as much information as possible.
 
   \todo Special runs
-   - Create a new target ("check_valgrind")
-     which runs the test with "valgrind --leak-check=yes" (possibly with
-     other options as well; perhaps as default the option "--quit").
    - Perhaps we create also a special target to compile with "-Wall" (possibly
      also other warnings enabled); from time to time checking the warnings
      is useful (though we DO NOT aim at eliminating the warnings; the
@@ -104,6 +101,7 @@
    - "Nightly build": Full check-out of the library (yet Transitional and 
   OKlibrary) and full compilation and testing (i.e., create the package,
   un-archive it, build it with "make" and then run "make check" in it).
+  Testing should invoke valgrind (with Test_tool="valgrind --quit").
 
   \todo Improving the directory structure (which yet is "flat"): Inclusion
   from for example Transitional should happen as, e.g.,
