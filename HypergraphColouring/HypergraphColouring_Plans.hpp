@@ -7,12 +7,16 @@
    - OKsolver/Experimental/Transformationen/Ramsey
    - OKsolver/Experimental/Transformationen/VanderWaerden
    (also providing active clause-sets).
-  \todo Given a graph as input, translate the k-colouring problem.
-  \todo Given a graph as input, translate the colouring problem.
+  \todo Given a graph as input, translate the k-colouring problem into
+  generalised or P-clause-sets.
+  \todo Given a graph as input, translate the colouring problem into
+  generalised or P-clause-sets.
   \todo For interesting systematically generated classes of graphs,
   create active clause-sets translating k-colouring problems.
-  \todo Given a hypergraph as input, translate the k-colouring problem.
-  \todo Given a hypergraph as input, translate the colouring problem.
+  \todo Given a hypergraph as input, translate the k-colouring problem into
+  generalised or P-clause-sets.
+  \todo Given a hypergraph as input, translate the colouring problem into
+  generalised or P-clause-sets.
   \todo For interesting systematically generated classes of hypergraphs,
   create active clause-sets translating k-colouring problems.
 */
