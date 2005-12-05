@@ -4,14 +4,47 @@
   \file TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
+  \todo The TestParameter shall vanish; instead we have a tag hierarchy
+  Basic -> Full -> Extensiv, and Test has public member functions
+  void test(Basic) {test_basic();}
+  void test(Full) {test_full();}
+  void test(Extensive) {test_extensive();}
+  and private member functions
+  virtual void test_basic() = 0;
+  virtual void test_full() = {test_basic();}
+  virtual void test_extensive() = {test_full();}
+  Meaning:
+   - Basic : "permanent building"
+   - Full : "nightly build"
+   - Extensive : "weekly build".
+  The static member function run_tests then exists also in 3 overloaded versions.
+  Then there is
+  void perform_tests(const Basic& l) {
+    l(*this);
+  }
+  where
+  struct Basic {
+    virtual ~Basic() {}
+    virtual void operator()(const TestBase& t) {
+      t.run_tests(Basic);
+    }
+  };
+  struct Full {
+    virtual void operator()(const TestBase& t) {
+      t.run_tests(Full);
+    }
+  };
+  struct Extensive {
+    virtual void operator()(const TestBase& t) {
+      t.run_tests(Extensive);
+    }
+  };
   \todo Normal output to std::cout, error messages to std::cerr (thus 2 streams,
   as in Aeryn); perhaps optionally also log messages, to a third stream (copying
   also the normal output).
-  \todo Yet we do only basic testing; now we need new goals for the build-system,
-  distinguishing between "basic testing" and "enhanced testing", and in case of
-  enhanced testing TestBase::run_tests_default calls the test function with
-  the parameter vector containing just one zero.
-  \todo Perhaps instead of "trivial testing" we should speak of "basic testing".
+  Definitely for levels full and extensive we need logging facilities.
+  \todo With the three levels then also the timestamps test and testop each
+  exists in three versions.
 */
 
 #ifndef TESTBASECLASS_kkLLkbV5I
@@ -42,8 +75,8 @@ namespace OKlib {
       derived, which are used by other test classes.
 
       One public member function perform_test(P), where P is of type
-      TestParameter; delegates to virtual member functions perform_test_trivial(P),
-      if P is empty, and otherwise to perform_test_nontrivial(P).
+      TestParameter; delegates to private virtual member function perform_test_trivial(P),
+      and then, if P is non-empty, to perform_test_nontrivial(P).
     */
 
     class Test {
@@ -81,10 +114,9 @@ namespace OKlib {
       \brief Base class for tests with auto-insertion. Derived from Test; from this class test
       classes are to be derived, which shall be executed on their own.
 
-      Adds protected member unction insert (for the self-insertion of the test object)
+      Adds protected member function insert (for the self-insertion of the test object)
       and static member function run_tests_default.
-      \todo Possibility to direct normal output to std::cout and error messages to std::cerr (thus 2 streams as parameters to run_tests_default, as in Aeryn).
-     */
+    */
 
     class TestBase : public Test {
 
