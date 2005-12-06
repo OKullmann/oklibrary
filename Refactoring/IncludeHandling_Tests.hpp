@@ -626,6 +626,25 @@ namespace OKlib {
       }
     };
 
+    // ##############################################################
+
+    /*!
+      \class Test_Extend_include_directives_Two_ranges
+    */
+
+    template <class Extend_include_directives_Two_ranges>
+    class Test_Extend_include_directives_Two_ranges : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_Extend_include_directives_Two_ranges test_type;
+      Test_Extend_include_directives_Two_ranges() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+
+      }
+    };
+
   }
 
 }

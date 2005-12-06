@@ -491,6 +491,41 @@ namespace OKlib {
     // ####################################################################################
 
     /*!
+      \class Extend_include_directives_Two_ranges
+    */
+
+    template <class Range, class Istream, class UniquenessPolicy = ThrowIfNonUnique>
+    class Extend_include_directives_Two_ranges {
+    public:
+
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<Range> APC;
+      typedef typename boost::range_const_iterator<Range>::type iterator;
+ 
+      const Range& ref_range;
+      const Range& work_range;
+     
+      typedef Extend_include_directives<UniquenessPolicy> extend_include_directive_type;
+
+      Extend_include_directives_Two_ranges(const Range& ref_range, const Range& work_range) : ref_range(ref_range), work_range(work_range) {
+
+        APC prefix_container(ref_range);
+        
+        extend_include_directive_type eid(prefix_container);
+        
+        for(iterator begin(boost::begin(work_range)); begin!=boost::end(work_range); ++begin) {
+          Istream working_stream(*begin);
+          eid(working_stream);
+          working_stream << eid.pr;
+
+        }
+      }
+
+    };
+
+
+    // ####################################################################################
+
+    /*!
       \class Extend_include_directives_Two_directories
       \brief Extend all include directives in files below some working directories with pathes relative to a working directory.
 
@@ -506,31 +541,21 @@ namespace OKlib {
       \todo Update the explanation.
     */
 
-    template <class Path = boost::filesystem::path, class APC = OKlib::SearchDataStructures::AssociativePrefixContainer<Path>, class DirIt = OKlib::GeneralInputOutput::DirectoryIterator, class UniquenessPolicy = ThrowIfNonUnique>
+    template <class Path = boost::filesystem::path, class UniquenessPolicy = ThrowIfNonUnique>
     class Extend_include_directives_Two_directories {
     public:
-      const Path& ref_dir;
-      const Path& work_dir;
+       const Path& ref_dir;
+       const Path& work_dir;
 
-      typedef Extend_include_directives<UniquenessPolicy> extend_include_directive_type;
+       Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
 
-      Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
+         Extend_include_directives_Two_ranges<Path,boost::filesystem::fstream,UniquenessPolicy>(ref_dir,work_dir);
 
-        APC prefix_container;
-        
-        for(DirIt ref_dir_it(ref_dir); ref_dir_it!=DirIt(); ++ref_dir_it)
-          prefix_container.insert(*ref_dir_it);
-        
-        extend_include_directive_type eid(prefix_container);
-        
-        for(DirIt work_dir_it(work_dir); work_dir_it!=DirIt(); ++work_dir_it) {
-          boost::filesystem::fstream working_file(*work_dir_it);
-          eid(working_file);
-          working_file << eid.pr;
-        }
-      }
+       }
 
     };
+
+
 
   }
 
