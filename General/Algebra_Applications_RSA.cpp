@@ -1,7 +1,7 @@
 // Oliver Kullmann, 1.11.2005 (Swansea)
 
 /*!
-  \file Algebra_Applications_ModulareExponentiation.cpp
+  \file Algebra_Applications_RSA.cpp
   \brief Used for CS-232.
 */
 

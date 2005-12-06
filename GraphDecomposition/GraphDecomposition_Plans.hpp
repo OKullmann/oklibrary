@@ -1,7 +1,7 @@
 // Oliver Kullmann, 21.11.2005 (Swansea)
 
 /*!
-  \file GraphDecompositions_Plans.hpp
+  \file GraphDecomposition_Plans.hpp
   \brief Plans for the module regarding SAT decision by means of
   graph decomposition.
   \todo Literature review: SAT decision in SAT and CSP by means of

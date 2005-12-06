@@ -1,7 +1,7 @@
 // Oliver Kullmann, 30.10.2005 (Swansea)
 
 /*!
-  \file OptionsBase_Tests.hpp
+  \file OptionBase_Tests.hpp
   \brief Tests for the options-object-hierarchy.
 */
 
