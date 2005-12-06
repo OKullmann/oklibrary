@@ -33,9 +33,19 @@
   the hypergraph-interface. The two refinements "clause-sets with history"
   and "clause-sets with bipartite structure" should be independent of each other, and
   there should be a common refinement.
+  \todo Clause-literal graphs for clause-sets should contain all possible literals; however
+  for P-clause-sets this is not sensible anymore, and so only occurring literals are mentioned,
+  and they are connected to a new type of node, the value nodes (connected also with
+  the variables).
+  \todo An autarky for a P-clause-set is a partial assignment, such that for P-clauses which
+  are not satisfied by the assignment no literal exists with a restricted set of satisfying
+  values.
   \todo A virtual clause-set is like a dynamic constraint with the additional possibility of
   handling partial assignments; the sat_status must be 0 or 1 in case all variables have
-  been fixed.
+  been fixed. But they have an underlying P-clause-set model, so that they can tell, whether
+  the current partial assignment is an autarky or not, and so that they can perform
+  statistical evaluations (the deduction mechanism must at least deliver what the
+  underlying P-clause-set can (immediately) deliver, but might be (much) stronger).
   \todo A "Verbund" of active clause-sets owns the structure consisting of the domain
   assignment and the partial assignment (but this is controlled by external
   algorithms); by some strategy it processes (and potentially enhances) a given
