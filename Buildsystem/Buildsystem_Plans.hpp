@@ -12,7 +12,7 @@
    - it should be possible to build just one application
    - there should be special versions of "clean" which delete only applications
      or only the test programs
-   - "html" should be possible from any level (creating always the complete documentation)
+   - "html" should be possible from any level (creating always the complete documentation).
 
    \todo Similar to the complexity measurements, for every task performed by the build
    system it should be possible to save the running time, so that the develepment over
