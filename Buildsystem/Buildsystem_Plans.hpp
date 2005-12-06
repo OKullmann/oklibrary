@@ -52,6 +52,7 @@
    - How to integrate a general todo list into Doxygen?!
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command?
+   - How to obtain general statistics?
 
   \todo We need a standardised way of how to make information about the compilation
   process available to a program (and also the name of the program, etc.), so that
