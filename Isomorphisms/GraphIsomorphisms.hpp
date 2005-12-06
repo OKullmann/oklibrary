@@ -2,7 +2,7 @@
 
 /*!
   \file GraphIsomorphisms.hpp
-  \file Algorithms to determine graph isomorphisms (directly or by reducing
+  \brief Algorithms to determine graph isomorphisms (directly or by reducing
   it to (generalised) SAT problems)
 
   Given two graphs G_1, G_2 together with maps v in V(G_1) -> D(v) <= V(G_2)

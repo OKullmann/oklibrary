@@ -2,7 +2,7 @@
 
 /*!
   \file GraphIsomorphisms_Tests.hpp
-  \file Tests for algorithms to determine graph isomorphisms (directly or by reducing
+  \brief Tests for algorithms to determine graph isomorphisms (directly or by reducing
   it to (generalised) SAT problems)
 */
 
