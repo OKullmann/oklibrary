@@ -5,40 +5,10 @@
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
   \todo The TestParameter shall vanish; instead we have a tag hierarchy
-  Basic -> Full -> Extensiv, and Test has public member functions
-  void test(Basic) {test_basic();}
-  void test(Full) {test_full();}
-  void test(Extensive) {test_extensive();}
-  and private member functions
-  virtual void test_basic() = 0;
-  virtual void test_full() = {test_basic();}
-  virtual void test_extensive() = {test_full();}
-  Meaning:
+  Basic -> Full -> Extensiv, with the meaning:
    - Basic : "permanent building"
    - Full : "nightly build"
    - Extensive : "weekly build".
-  The static member function run_tests then exists also in 3 overloaded versions.
-  Then there is
-  void perform_tests(const Basic& l) {
-    l(*this);
-  }
-  where
-  struct Basic {
-    virtual ~Basic() {}
-    virtual void operator()(const TestBase& t) {
-      t.run_tests(Basic);
-    }
-  };
-  struct Full {
-    virtual void operator()(const TestBase& t) {
-      t.run_tests(Full);
-    }
-  };
-  struct Extensive {
-    virtual void operator()(const TestBase& t) {
-      t.run_tests(Extensive);
-    }
-  };
   \todo Normal output to std::cout, error messages to std::cerr (thus 2 streams,
   as in Aeryn); perhaps optionally also log messages, to a third stream (copying
   also the normal output).
@@ -116,6 +86,7 @@ namespace OKlib {
 
       Adds protected member function insert (for the self-insertion of the test object)
       and static member function run_tests_default.
+      \todo Use Messages.
     */
 
     class TestBase : public Test {
@@ -125,8 +96,10 @@ namespace OKlib {
       static List test_list;
       mutable List::iterator it;
       mutable bool inserted;
+
       TestBase (const TestBase&); // not available
       TestBase& operator =(const TestBase&); // not available
+
     protected :
       void insert(TestBase* const p) const {
         test_list.push_back(p);
@@ -151,6 +124,10 @@ namespace OKlib {
         }
         const double elapsed(timer.elapsed());
         out << "\nElapsed: " << elapsed << "s\n";
+        const List::size_type& size(test_list.size());
+        out << size << " testobject";
+        if (size != 1) out << "s";
+        out << ".\n";
         return return_value;
       }
 
