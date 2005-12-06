@@ -50,7 +50,14 @@ namespace OKlib {
       SetRanges prefix_set;
 
     public:
+
       AssociativePrefixContainer() {};
+
+      AssociativePrefixContainer(const Range& range) {
+         typedef typename boost::range_iterator<Range>::type iterator_t;
+         for(iterator_t begin(boost::begin(range)); begin!=boost::end(range); ++begin)
+           prefix_set.insert(*begin);
+       };
 
       typedef typename SetRanges::const_iterator iterator;
       typedef iterator const_iterator;
