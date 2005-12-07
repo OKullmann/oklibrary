@@ -53,12 +53,15 @@ namespace OKlib {
 
       AssociativePrefixContainer() {};
 
-      AssociativePrefixContainer(const Range& range) {
-         typedef typename boost::range_iterator<Range>::type iterator_t;
-         for(iterator_t begin(boost::begin(range)); begin!=boost::end(range); ++begin)
-           prefix_set.insert(*begin);
-       };
-
+      template <class Range2>
+      void operator()(Range2 range) {
+        typedef typename boost::range_iterator<Range2>::type iterator_t;
+        const iterator_t& end(boost::end(range));
+        for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
+          prefix_set.insert(*begin);
+        }
+      }
+      
       typedef typename SetRanges::const_iterator iterator;
       typedef iterator const_iterator;
       typedef std::pair<iterator,bool> checked_iterator_type;
