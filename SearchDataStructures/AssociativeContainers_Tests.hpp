@@ -8,6 +8,9 @@
 #define ASSOCIATIVECONTAINERSTESTS_okMMnh
 
 #include <string>
+#include <set>
+
+#include <boost/assign/std/set.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -32,6 +35,40 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
+        {
+          // Testing of APC assignment operator.
+
+          typedef std::string string_t;
+          typedef PrefixContainer<string_t> APC;
+          typedef typename APC::iterator iterator;
+          typedef typename APC::checked_iterator_type checked_iterator_type;
+          typedef std::set<string_t> set_t;
+
+          APC prefix_container;
+          set_t expected_result_set;
+          set_t result_set;
+
+          using namespace boost::assign;
+
+          expected_result_set += // Fill a set with prefix strings.
+            string_t("/"),
+            string_t("/dir001/"),
+            string_t("/dir001/dir002/"),
+            string_t("/dir001/dir002/dir003/");
+
+          prefix_container(expected_result_set); // Fill prefix_container with set contents using assignment operator.
+
+          typedef typename APC::const_iterator iterator_t;
+          const iterator_t& end(prefix_container.end());
+          for(iterator_t begin(prefix_container.begin()); begin!=end; ++begin) // Fill another set with contents of prefix_container.
+            {
+              result_set.insert(*begin);
+            }
+
+          if (expected_result_set != result_set)
+            OKLIB_THROW("expected_result_set!=result_set");
+        }
+
         {
           typedef PrefixContainer<std::string> APC;
           typedef typename APC::iterator iterator;
