@@ -56,7 +56,7 @@ namespace OKlib {
             string_t("/dir001/dir002/"),
             string_t("/dir001/dir002/dir003/");
 
-          prefix_container(expected_result_set); // Fill prefix_container with set contents using assignment operator.
+          prefix_container.assign(expected_result_set); // Fill prefix_container with set contents using assignment operator.
 
           typedef typename APC::const_iterator iterator_t;
           const iterator_t& end(prefix_container.end());

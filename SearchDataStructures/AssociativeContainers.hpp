@@ -31,6 +31,7 @@ namespace OKlib {
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
       \todo Create a concept (including providing appropriate container functionality).
+      \todo Outsourcing of common functionality of range constructor and assign function to private member function.
     */
 
     template <class Range>
@@ -54,7 +55,16 @@ namespace OKlib {
       AssociativePrefixContainer() {};
 
       template <class Range2>
-      void operator()(const Range2& range) {
+      AssociativePrefixContainer(const Range2& range) {
+        typedef typename boost::range_iterator<Range2>::type iterator_t;
+        const iterator_t& end(boost::end(range));
+        for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
+          prefix_set.insert(*begin);
+        }
+      }
+
+      template <class Range2>
+      void assign(const Range2& range) {
         typedef typename boost::range_iterator<Range2>::type iterator_t;
         const iterator_t& end(boost::end(range));
         for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {

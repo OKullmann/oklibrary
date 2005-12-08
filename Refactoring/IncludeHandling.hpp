@@ -509,7 +509,7 @@ namespace OKlib {
 
       Extend_include_directives_Two_ranges(const Range& ref_range, const Range& work_range) : ref_range(ref_range), work_range(work_range) {
 
-        prefix_container(ref_range);
+        prefix_container.assign(ref_range);
         
         extend_include_directive_type eid(prefix_container);
         
