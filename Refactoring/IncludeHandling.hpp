@@ -503,12 +503,13 @@ namespace OKlib {
  
       const Range& ref_range;
       const Range& work_range;
+      APC prefix_container;
      
       typedef Extend_include_directives<UniquenessPolicy> extend_include_directive_type;
 
       Extend_include_directives_Two_ranges(const Range& ref_range, const Range& work_range) : ref_range(ref_range), work_range(work_range) {
 
-        APC prefix_container(ref_range);
+        prefix_container(ref_range);
         
         extend_include_directive_type eid(prefix_container);
         

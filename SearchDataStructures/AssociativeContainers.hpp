@@ -54,7 +54,7 @@ namespace OKlib {
       AssociativePrefixContainer() {};
 
       template <class Range2>
-      void operator()(Range2 range) {
+      void operator()(const Range2& range) {
         typedef typename boost::range_iterator<Range2>::type iterator_t;
         const iterator_t& end(boost::end(range));
         for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
