@@ -113,7 +113,7 @@ namespace OKlib {
         if (std::equal(boost::begin(r), boost::end(r), boost::begin(*next)))
           return checked_iterator_type(first, false);
         else
-          checked_iterator_type(first, true);
+          return checked_iterator_type(first, true);
       }
     };
 
