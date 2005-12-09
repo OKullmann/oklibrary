@@ -106,7 +106,7 @@ namespace OKlib {
     /*!
       \def OKLIB_TEST_EQUAL
       \brief Use OKLIB_TEST_EQUAL(a,b) for asserting a == b in case a and b are
-      output-streamable (in case of a failure a, b are output).
+      output-streamable (in case of a failure a, b are output); a here is the value found, while b is the expected value.
     */
 
 #define OKLIB_TEST_EQUAL(v1, v2) \
