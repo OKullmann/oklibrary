@@ -41,7 +41,7 @@ mhash_recommended := mhash-0.9.2
 
 # The default minor version number of the Boost release is "_0"; if necessary,
 # this can by changed by calling make with for example
-# Boost_minor_version="1"
+# boost_minor_version="1"
 
 # PostgreSQL
 
@@ -233,17 +233,17 @@ define install-boost
 	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
 	cp $(boost-base-directory)/$*+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
 	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
-	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/$@/boost $(gcc-base-directory)/$(gcc-version)/include/$@
+	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/$@_$(boost_minor_version)/boost $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
 endif
 
 $(boost_targets) : boost-% : create_boost_dirs
-	$(call unarchive,boost_$*_$(Boost_minor_version),$(boost-base-directory))
-	cd $(boost-base-directory)/boost_$*_$(Boost_minor_version); $(postcondition) \
+	$(call unarchive,boost_$*_$(boost_minor_version),$(boost-base-directory))
+	cd $(boost-base-directory)/boost_$*_$(boost_minor_version); $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
-	cd $(boost-base-directory)/boost_$*_$(Boost_minor_version); $(postcondition) \
+	cd $(boost-base-directory)/boost_$*_$(boost_minor_version); $(postcondition) \
 	$(install-boost)
 
 boost_all : $(boost_targets)
