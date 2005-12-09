@@ -24,8 +24,11 @@ namespace OKlib {
     /*!
       \class Test_AssociativePrefixContainer
       \brief Test for associative prefix container
+      \todo expected_result_set should be a vector, and then
+      also the expected boolean output should be compared.
+      \todo Test for extensions, where no extension is possible.
       \todo More test cases.
-      \todo Remove old tests.
+      \todo Replace old tests.
       \todo Finish testing of first_extension_uniqueness_checked function.
       \todo Test extension functionality for assign filled prefix container.
       \todo Once a concept has been created, test the syntax
@@ -166,8 +169,8 @@ namespace OKlib {
                 const bool& found_unique(found_checked.second);
                 OKLIB_TEST_NOTEQUAL(found_iter, end);
                 const string_t& extension(*found_iter);
-                //OKLIB_TEST_EQUAL(found_unique,expected_uniqueness);
-                //OKLIB_TEST_EQUAL(extension,expected_extension);
+                OKLIB_TEST_EQUAL(found_unique,expected_uniqueness);
+                OKLIB_TEST_EQUAL(extension,expected_extension);
               }
             }
           }
