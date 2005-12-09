@@ -79,6 +79,8 @@
      "make clean".
    - Using "gcc-version=all" means creating the required Boost version for all available gcc-versions
      (inclusing the global one).
+     The technical problem here is to set the variable gcc-version differently
+     for apppropriate sub-goals.
    - "make boost_all" will create all boost versions (when combined with
      "gcc-version=all" we then get all combination of all boost libraries with gcc-versions).
    - If variable gcc-version is set, then it should have one of the allowed values.
