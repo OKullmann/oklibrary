@@ -7,6 +7,7 @@ gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2
 gcc_recommended := gcc-4.0.1
 boost_targets := boost-1_33
 boost_recommended := boost-1_33
+boost_minor_version := 0
 postgresql_targets := postgresql-8.0.3
 postgresql_recommended := postgresql-8.0.3
 valgrind_targets := valgrind-3.1.0
@@ -33,11 +34,14 @@ mhash_recommended := mhash-0.9.2
 # make boost_all (all supported versions of boost)
 # make boost (recommended version)
 # make boost_? (? is version number)
-
 # Install Boost locally with a version of gcc (% is the version number):
 # make gcc-version=% boost_all
 # make gcc-version=% boost
 # make gcc-version=% boost_?
+
+# The default minor version number of the Boost release is "_0"; if necessary,
+# this can by changed by calling make with for example
+# Boost_minor_version="1"
 
 # PostgreSQL
 
@@ -73,9 +77,9 @@ mhash_recommended := mhash-0.9.2
 #./GCC/gcc-?_Build : This is the staging directory where configuration and temporary files are stored.
 #./Gcc/? : This is the local installation of gcc version ?. 
 
-#In the following text, ? denotes the GCC version number and % denotes the Boost version number.
+#In the following text, ? denotes the GCC version number and % denotes the Boost version number, while & denotes the minor version number.
 #./Boost : Contain locally stage built, various versions of Boost C++ Libraries.
-#./Boost/boost_% : This is the original unarchived source directory for boost version %.
+#./Boost/boost_%_& : This is the original unarchived source directory for boost version %.
 #./Boost/bjam : Contain the bjam tool. This binary is re-generated each time when boost is to be installed.
 #./Boost/% : Locally installed boost using system-wide version of GCC.
 #./Boost/%+?_Build : This is the staging directory where configuration and temporary files are stored. This Boost version % is build using GCC version ?. 
@@ -229,17 +233,17 @@ define install-boost
 	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
 	cp $(boost-base-directory)/$*+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
 	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
-	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/boost-$*/boost $(gcc-base-directory)/$(gcc-version)/include/$@
+	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/$@/boost $(gcc-base-directory)/$(gcc-version)/include/$@
 endef
 endif
 
 $(boost_targets) : boost-% : create_boost_dirs
-	$(call unarchive,boost_$*_0,$(boost-base-directory))
-	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
+	$(call unarchive,boost_$*_$(Boost_minor_version),$(boost-base-directory))
+	cd $(boost-base-directory)/boost_$*_$(Boost_minor_version); $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
-	cd $(boost-base-directory)/boost_$*_0; $(postcondition) \
+	cd $(boost-base-directory)/boost_$*_$(Boost_minor_version); $(postcondition) \
 	$(install-boost)
 
 boost_all : $(boost_targets)
