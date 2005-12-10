@@ -33,11 +33,13 @@ mhash_recommended := mhash-0.9.2
 # Install Boost locally with system gcc:
 # make boost_all (all supported versions of boost)
 # make boost (recommended version)
-# make boost_? (? is version number)
-# Install Boost locally with a version of gcc (% is the version number):
-# make gcc-version=% boost_all
-# make gcc-version=% boost
-# make gcc-version=% boost_?
+# make boost boost_recommended=? (? is a version number like "1_33",
+# overriding the default)
+# For installing Boost locally with a version of gcc (% is the version number),
+# define
+# gcc-version=%
+# with % either the version-number (like "4.0.1") or "all" (for all supported
+# gcc-versions; this includes the system-gcc).
 
 # The default minor version number of the Boost release is "_0"; if necessary,
 # this can by changed by calling make with for example
@@ -109,7 +111,7 @@ doxygen-directories := $(doxygen-base-directory)
 
 # ###################
 enable-languages := c,c++ # languages to build compiler for. Defaults to c, c++. Other languages are f77,objc,java,ada
-gcc-version := system
+gcc-version =
 gcc-base-directory := $(prefix)/Gcc
 gcc_build_directory_names := $(addsuffix _Build, $(gcc_targets))
 gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_build_directory_names))
@@ -218,26 +220,27 @@ $(gcc_targets) : gcc-% : create_gcc_dirs
 # Boost
 # ###############################
 
+$(boost_installation_directory_names) : % : $(boost-base-directory)/% $(boost-base-directory)/%_Build
+
 $(boost-directories) : % : 
 	mkdir $@
 
-create_boost_dirs : $(boost-directories)
+create_boost_dirs : $(boost-base-directory) $(bjam_directory_path)
 
-ifeq ($(gcc-version),system)
-define install-boost 
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$* --builddir=$(boost-base-directory)/$*_Build install
-endef
-else 
 define install-boost
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --prefix=$(boost-base-directory)/$*+$(gcc-version) --builddir=$(boost-base-directory)/$*+$(gcc-version)_Build install
+	$(if $(gcc-version), \
+              $(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --prefix=$(boost-base-directory)/$*+$(gcc-version) --builddir=$(boost-base-directory)/$*+$(gcc-version)_Build install
 	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
 	cp $(boost-base-directory)/$*+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
 	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
-	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/$@_$(boost_minor_version)/boost $(gcc-base-directory)/$(gcc-version)/include/$@
+	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/$@_$(boost_minor_version)/boost $(gcc-base-directory)/$(gcc-version)/include/$@,\
+              $(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$* --builddir=$(boost-base-directory)/$*_Build install)
 endef
-endif
 
-$(boost_targets) : boost-% : create_boost_dirs
+
+boost-gcc-composition = $(if $(gcc-version), $(1)+$(gcc-version), $(1))
+
+$(boost_targets) : boost-% : create_boost_dirs $(call boost-gcc-composition, %)
 	$(call unarchive,boost_$*_$(boost_minor_version),$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$*_$(boost_minor_version); $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
@@ -246,8 +249,21 @@ $(boost_targets) : boost-% : create_boost_dirs
 	cd $(boost-base-directory)/boost_$*_$(boost_minor_version); $(postcondition) \
 	$(install-boost)
 
+ifeq ($(gcc-version),all)
+# boost_all : $(boost_targets)
+aux_targets := $(addprefix $(boost_recommended)+,  $(gcc_installation_directory_names))
+.PHONY : $(aux_targets)
+aux_targets += $(boost_recommended)
+boost : $(aux_targets)
+define boost_aux_rule
+$(boost_recommended)+$(1) : gcc-version = $(1)
+$(boost_recommended)+$(1) : $(boost_recommended)
+endef
+$(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_aux_rule,$(gccversion))))
+else
 boost_all : $(boost_targets)
 boost : $(boost_recommended)
+endif
 
 # ###############################
 # PostgreSQL
@@ -303,7 +319,7 @@ $(mhash-directories) : % :
 
 create_mhash_dirs : $(mhash-directories)
 
-ifeq ($(gcc-version),system)
+ifeq ($(gcc-version),)
 
 $(mhash_targets) :  mhash-% : create_mhash_dirs
 	$(call unarchive,$@,$(mhash-base-directory))
