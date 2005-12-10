@@ -20,11 +20,6 @@ ifdef LOKI
 else
   Loki :=
 endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
 ifdef XERCES_H
   Xerces_h := -I$(XERCES_H)
 else
@@ -43,7 +38,7 @@ test_program := TestConcepts
 
 programs :=
 
-source_libraries :=  $(Boost) $(OKTestsystem) $(OKMetaProgramming)
+source_libraries =  $(Boost) $(OKTestsystem) $(OKMetaProgramming)
 
 link_libraries := 
 

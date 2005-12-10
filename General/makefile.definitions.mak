@@ -10,11 +10,6 @@ ifdef LOKI
 else
   Loki :=
 endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
 ifdef XERCES_H
   Xerces_h := -I$(XERCES_H)
 else
@@ -33,7 +28,7 @@ test_program := TestBibliothek
 
 programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList Algebra_Applications_RSA
 
-source_libraries := $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
+source_libraries = $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
 
 link_libraries := -lboost_date_time-gcc $(Xerces_so)
 

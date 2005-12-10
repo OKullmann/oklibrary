@@ -10,11 +10,6 @@ ifdef LOKI
 else
   Loki :=
 endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
 ifdef XERCES_H
   Xerces_h := -I$(XERCES_H)
 else
@@ -33,7 +28,7 @@ test_program := TestTestsystem
 
 programs :=
 
-source_libraries := $(Boost)
+source_libraries = $(Boost)
 
 link_libraries := 
 

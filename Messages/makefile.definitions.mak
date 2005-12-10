@@ -18,20 +18,14 @@ else
   Loki :=
 endif
 
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
-
 General_options := -g
-Optimisation_options := -O3
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestMessages
 
 programs := Messages_Testapplication
 
-source_libraries := $(Bibliothek) $(OKIOtools) $(Loki) $(Boost) 
+source_libraries = $(Bibliothek) $(OKIOtools) $(Loki) $(Boost) 
 
 link_libraries := 
 

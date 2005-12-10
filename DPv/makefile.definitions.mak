@@ -6,12 +6,6 @@ else
   Bibliothek :=
 endif
 
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
-
 ifdef OKMESSAGES
   OKMessages := -I$(OKMESSAGES)
 else
@@ -25,13 +19,13 @@ else
 endif
 
 General_options := -g
-Optimisation_options := -O3
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestDPv
 
 programs := DPv
 
-source_libraries := $(Bibliothek) $(Boost) $(OKMessages) $(OKIOtools)
+source_libraries = $(Bibliothek) $(Boost) $(OKMessages) $(OKIOtools)
 
 boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc

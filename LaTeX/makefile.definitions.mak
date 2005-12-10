@@ -6,12 +6,6 @@ else
   Bibliothek :=
 endif
 
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
-
 ifdef OKTESTSYSTEM
   OKTestsystem := -I$(OKTESTSYSTEM)
 else
@@ -31,13 +25,13 @@ else
 endif
 
 General_options := -g
-Optimisation_options := -O3
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestLaTeX
 
 programs := 
 
-source_libraries := $(Boost) $(OKTestsystem)
+source_libraries = $(Boost) $(OKTestsystem)
 
 link_libraries := 
 

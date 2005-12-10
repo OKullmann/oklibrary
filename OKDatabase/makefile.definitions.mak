@@ -15,11 +15,6 @@ ifdef LOKI
 else
   Loki :=
 endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
 ifdef XERCES_H
   Xerces_h := -I$(XERCES_H)
 else
@@ -38,7 +33,7 @@ test_program := TestOKDatabase
 
 programs := Special_update Delete_rows CreateStatistic
 
-source_libraries :=  $(Boost) $(OKTestsystem) -I/usr/include/pgsql
+source_libraries =  $(Boost) $(OKTestsystem) -I/usr/include/pgsql
 
 link_libraries := -lpq
 

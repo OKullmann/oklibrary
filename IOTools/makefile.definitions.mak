@@ -10,11 +10,6 @@ ifdef LOKI
 else
   Loki :=
 endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
 
 General_options := -g
 Optimisation_options := -O3
@@ -23,7 +18,7 @@ test_program := TestIOTools
 
 programs :=
 
-source_libraries := $(Bibliothek) $(Loki) $(Boost)
+source_libraries = $(Bibliothek) $(Loki) $(Boost)
 
 link_libraries :=
 

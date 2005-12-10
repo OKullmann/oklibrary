@@ -6,12 +6,6 @@ else
   Bibliothek :=
 endif
 
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
-
 ifdef OKMESSAGES
   OKMessages := -I$(OKMESSAGES)
 else
@@ -31,7 +25,7 @@ test_program := TestBackup
 
 programs := Backup
 
-source_libraries := $(Bibliothek) $(Loki) $(Boost) $(OKMessages) $(OKIOtools)
+source_libraries = $(Bibliothek) $(Loki) $(Boost) $(OKMessages) $(OKIOtools)
 
 boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc
