@@ -79,17 +79,17 @@
      "make clean".
    - Using "gcc-version=all" means creating the required Boost version for all available gcc-versions
      (inclusing the global one).
-     The technical problem here is to set the variable gcc-version differently
-     for apppropriate sub-goals.
    - "make boost_all" will create all boost versions (when combined with
      "gcc-version=all" we then get all combination of all boost libraries with gcc-versions).
+   - Why do we copy the boost-source and -link-libraries to the gcc-directories?
+   - It would ge good, if after doing a local installation, easily also the installation could be
+     make global.
    - If variable gcc-version is set, then it should have one of the allowed values.
    - "make clean" should remove for example all Gcc/gcc-* directories, leaving only the files which are really used.
      Thus for the final local installations, links cannot be used instead of copies; the exception are the boost
      header files and the boost libraries within the gcc-versions: Here we should use links instead of copies
      (perhaps making copies as an option).
    - Optionally there should be also local versions of valgrind and doxygen.
-   - Optionally we can make a global version of Boost or gcc.
    - "make initialise-database" should work with the recommended version.
    - Build a local version of gmp.
    - Update PostgreSQL to version 8.1 (and test it).
