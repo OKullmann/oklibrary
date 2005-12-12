@@ -56,7 +56,7 @@ namespace OKlib {
 
       template <class Range2>
       AssociativePrefixContainer(const Range2& range) {
-        typedef typename boost::range_iterator<Range2>::type iterator_t;
+        typedef typename boost::range_const_iterator<Range2>::type iterator_t;
         const iterator_t& end(boost::end(range));
         for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
           prefix_set.insert(*begin);
@@ -65,7 +65,7 @@ namespace OKlib {
 
       template <class Range2>
       void assign(const Range2& range) {
-        typedef typename boost::range_iterator<Range2>::type iterator_t;
+        typedef typename boost::range_const_iterator<Range2>::type iterator_t;
         const iterator_t& end(boost::end(range));
         for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
           prefix_set.insert(*begin);
