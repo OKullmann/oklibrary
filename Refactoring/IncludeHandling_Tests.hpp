@@ -39,8 +39,7 @@ namespace OKlib {
 
     /*!
       \class TestData
-      \brief To provide data used by the testing of include handling.
-      \todo New vector for negative tests.
+      \brief To provide data used by the testing of include handling.      
      
       This class has a data member test_vector which is a vector of
       tuples. Each tuple represents a different program.  The first 
@@ -50,6 +49,12 @@ namespace OKlib {
       directive, the second element is the string representation of 
       the same include directive) and the third element is the string
       representation of the whole program.
+
+      \todo New vector for negative tests.
+      \todo Improve design so that only the necessary typedefs are 
+      public and the data is made available through public member 
+      functions.
+      \todo Improve naming.
     */
 
     class TestData {
@@ -67,16 +72,36 @@ namespace OKlib {
 
       typedef id_w_context_vec_type::const_iterator id_w_c_vec_const_iterator_type;
 
-      typedef pr_type el_t;
+      
       typedef include_directive_data_type id_t;
+      typedef pr_type el_t;
 
       static test_vector_type test_vector;
       typedef test_vector_type::const_iterator const_iterator;
+
+      typedef std::string prefix_t;
+      typedef std::vector<prefix_t> vec_prefix_t;
+      static vec_prefix_t ref_prefix_vector;
+
+      typedef std::pair<std::string,std::string> program_pair_type;
+      typedef std::vector<program_pair_type> vec_program_t;
+      static vec_program_t working_vector;
+
+      typedef vec_program_t::const_iterator const_program_iterator;
+
+      typedef prefix_t p_t;
+      typedef program_pair_type pp_t;
 
       TestData() {
 
         using namespace boost::assign;
 
+        ref_prefix_vector += 
+          p_t("OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+
+        working_vector +=
+          pp_t("AnalyseTotalAssignment.hpp","OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+                         
         test_vector +=
 
           el_t("",
@@ -222,6 +247,8 @@ namespace OKlib {
     };
  
     TestData::test_vector_type TestData::test_vector;
+    TestData::vec_prefix_t TestData::ref_prefix_vector;
+    TestData::vec_program_t TestData::working_vector;
 
     // ##############################################################
 
@@ -575,72 +602,86 @@ namespace OKlib {
     // ##############################################################
 
     /*!
-      \class Test_Extend_include_directives
+      \class Test_ExtendIncludeDirectives
       \brief Test class for functor which handles the extending of include
       directives in a single file.
     */
 
-    template <class Extend_include_directives_>
-    class Test_Extend_include_directives : public ::OKlib::TestSystem::TestBase {
+    template <template <class UniquenessPolicy> class ExtendIncludeDirectives>
+    class Test_ExtendIncludeDirectives : public ::OKlib::TestSystem::TestBase {
     public :
-      typedef Test_Extend_include_directives test_type;
-      Test_Extend_include_directives() {
+      typedef Test_ExtendIncludeDirectives test_type;
+      Test_ExtendIncludeDirectives() {
         insert(this);
       }
     private :
       void perform_test_trivial() {
-        typedef Extend_include_directives<>::APC APC;
-        APC apc;
-        Extend_include_directives_ eid(apc);
-        std::istringstream in("Hello");
-        //        eid(in);
+        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<std::string> APC_type;
+        APC_type prefix_container(TestData::ref_prefix_vector);
+        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container); 
+        typedef TestData::vec_program_t::const_iterator const_program_iterator;
+        const const_program_iterator& end(TestData::working_vector.end());
+        for (const_program_iterator begin(TestData::working_vector.begin()); begin!= end; ++begin) {
+          std::istringstream program(begin -> first);
+          std::string expected_extended_program(begin -> second);
+          extend_include_directives(program);          
+        }
       }
     };
 
     // ##############################################################
 
     /*!
-      \class Test_Extend_include_directives_Two_directories
+      \class Test_ExtendIncludeDirectivesTwoDirectories
       \brief Test class for extending all include directives in files below some working directories with paths relative to a working directory.
     */
 
-    template <class Extend_include_directives_Two_directories_>
-    class Test_Extend_include_directives_Two_directories : public ::OKlib::TestSystem::TestBase {
+    template <template <class Path, class UniquenessPolicy> class ExtendIncludeDirectivesTwoDirectories>
+    class Test_ExtendIncludeDirectivesTwoDirectories : public ::OKlib::TestSystem::TestBase {
     public :
-      typedef Test_Extend_include_directives_Two_directories test_type;
-      Test_Extend_include_directives_Two_directories() {
+      typedef Test_ExtendIncludeDirectivesTwoDirectories test_type;
+      Test_ExtendIncludeDirectivesTwoDirectories() {
         insert(this);
       }
     private :
       void perform_test_trivial() {
-        typedef boost::filesystem::path path_type;
-        std::string string_work_dir("TestDirectory/TestWorkDir");
-        std::string string_ref_dir("TestDirectory/TestRefDir");
-        path_type path_work_dir(string_work_dir);
-        path_type path_ref_dir(string_ref_dir);
-        assert(boost::filesystem::exists(path_work_dir));
-        assert(boost::filesystem::exists(path_ref_dir));
-        assert(boost::filesystem::is_directory(path_work_dir));
-        assert(boost::filesystem::is_directory(path_ref_dir));
-        Extend_include_directives_Two_directories_ eidTd(path_ref_dir,path_work_dir);
+
       }
     };
 
     // ##############################################################
 
     /*!
-      \class Test_Extend_include_directives_Two_ranges
+      \class Test_ExtendIncludeDirectivesTwoRanges
     */
 
-    template <class Extend_include_directives_Two_ranges>
-    class Test_Extend_include_directives_Two_ranges : public ::OKlib::TestSystem::TestBase {
+    template <template <class Range1, class Range2, class UniquenessPolicy> class ExtendIncludeDirectivesTwoRanges>
+    class Test_ExtendIncludeDirectivesTwoRanges : public ::OKlib::TestSystem::TestBase {
     public :
-      typedef Test_Extend_include_directives_Two_ranges test_type;
-      Test_Extend_include_directives_Two_ranges() {
+      typedef Test_ExtendIncludeDirectivesTwoRanges test_type;
+      Test_ExtendIncludeDirectivesTwoRanges() {
         insert(this);
       }
     private :
       void perform_test_trivial() {
+
+        typedef std::vector<std::string> range_t;
+        range_t work_range;
+        range_t ref_range;
+
+        using namespace boost::assign;
+        typedef std::string s_t;
+
+        ref_range +=
+          s_t("header001.hpp/dir001/"),
+          s_t("header002.hpp/dir001/dir002/"),
+          s_t("header003.hpp/dir001/dir002/dir003/");
+
+        work_range +=
+          s_t("#include \"header001.hpp\""),
+          s_t("#include \"header001.hpp\"\n\"header002.hpp\"");
+
+        ExtendIncludeDirectivesTwoRanges<range_t,range_t,ThrowIfNonUnique>(ref_range,work_range);
 
       }
     };
