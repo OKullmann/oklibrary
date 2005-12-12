@@ -14,6 +14,12 @@
      or only the test programs
    - "html" should be possible from any level (creating always the complete documentation).
 
+   \todo Each "make test" etc. should gather summary statistics of the tests performed,
+   like the total number of testobjects, the total time spend and so on.
+   In order to do so, a test program can be asked to serialise the statistics
+   to a file or to standard output, and a simple evaluation program gathers
+   these statistics.
+
    \todo Similar to the complexity measurements, for every task performed by the build
    system it should be possible to save the running time, so that the develepment over
    time for example of compile times, link times, test times can be followed, and also
@@ -70,26 +76,23 @@
      should be created (so that looking at the list of directories one sees what is
      installed; at present always all directories for all gcc- and boost-version are
      created).
-   - Any build will be considered as already completed, if the "finally created directory"
-     is already there.
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
      we have the build of the gcc-version (so that, if necessary, gcc is build).
    - For building boost, sub-directories of ExternalSources/Boost like 1_33 and 1_33+3.4.3 should
-     be the "finally created directories", while all other directories should get removed with
-     "make clean".
-   - Using "gcc-version=all" means creating the required Boost version for all available gcc-versions
-     (inclusing the global one).
-   - "make boost_all" will create all boost versions (when combined with
-     "gcc-version=all" we then get all combination of all boost libraries with gcc-versions).
-   - Why do we copy the boost-source and -link-libraries to the gcc-directories?
-   - It would ge good, if after doing a local installation, easily also the installation could be
+     stay, while all other directories should get removed with "make clean" (leaving only the files which are really used).
+   - Handling of the boost-minor-version number needs to be improved, so that we could handle
+     for example 1_33_1 together with 1_34_0.
+   - Why do we copy the boost-source and -link-libraries to the gcc-directories? Perhaps the problem
+     is just, that in the include-directoy in the installation the boost-subdirectory-name has also
+     the minor-version-number in it. So by solving the minor-version-problem we should also be able
+     to get rid off the copies of the link- and source libraries in the gcc-installations.
+   - Installation of bjam should be improved: Having exactly one bjam-installation for each boost-version,
+     and no need to recreate it if it's already there.
+   - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
-   - If variable gcc-version is set, then it should have one of the allowed values.
-   - "make clean" should remove for example all Gcc/gcc-* directories, leaving only the files which are really used.
-     Thus for the final local installations, links cannot be used instead of copies; the exception are the boost
-     header files and the boost libraries within the gcc-versions: Here we should use links instead of copies
-     (perhaps making copies as an option).
-   - Optionally there should be also local versions of valgrind and doxygen.
+   - If variable "gcc-version" is set, then it should have one of the allowed values (while otherwise we get
+     an error).
+    - Optionally there should be also local versions of valgrind and doxygen.
    - "make initialise-database" should work with the recommended version.
    - Build a local version of gmp.
    - Update PostgreSQL to version 8.1 (and test it).
