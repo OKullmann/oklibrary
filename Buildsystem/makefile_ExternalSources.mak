@@ -4,10 +4,9 @@ SHELL = /bin/sh
 doxygen_targets := doxygen-1.4.5
 doxygen_recommended := doxygen-1.4.5
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2
-gcc_recommended := gcc-4.0.1
-boost_targets := boost-1_33
-boost_recommended := boost-1_33
-boost_minor_version := 0
+gcc_recommended := gcc-4.0.2
+boost_targets := boost-1_33_1
+boost_recommended := boost-1_33_1
 postgresql_targets := postgresql-8.0.3
 postgresql_recommended := postgresql-8.0.3
 valgrind_targets := valgrind-3.1.0
@@ -39,7 +38,11 @@ mhash_recommended := mhash-0.9.2
 # define
 # gcc-version=%
 # with % either the version-number (like "4.0.1") or "all" (for all supported
-# gcc-versions; this includes the system-gcc).
+# gcc-versions).
+# Finally with
+# make boost_gcc_all
+# all combinations of supported versions of boost with supported version of gcc
+# plus the system gcc are installed.
 
 # The default minor version number of the Boost release is "_0"; if necessary,
 # this can by changed by calling make with for example
@@ -122,9 +125,9 @@ gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_inst
 # ###################
 boost-base-directory := $(prefix)/Boost
 abbr_boost_targets := $(patsubst boost-%, %, $(boost_targets))
-# creates e.g. 1_32 1_33
+# creates e.g. 1_32_0 1_33_1
 boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_boost_targets)))
-# creates e.g. 1_32+3.4.3 1_32+3.4.4 1_33+3.4.3 1_33+3.4.4
+# creates e.g. 1_32_0+3.4.3 1_32_0+3.4.4 1_33_1+3.4.3 1_33_1+3.4.4
 boost_installation_directory_names += $(abbr_boost_targets)
 boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
 boost_build_directory_names := $(addsuffix _Build, $(boost_installation_directory_names))
@@ -162,10 +165,10 @@ if [ $$? != 0 ]; then exit 1; fi;
 endef
 
 define unarchive
-if [ -f $1.tar.gz ]; then tar --extract --directory=$2 --file=$1.tar.gz --ungzip; elif [ -f $1.tar.bz2 ]; then tar --extract --directory=$2 --file=$1.tar.bz2 --bzip2; else exit 1; fi;
+if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip; elif [ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2; else exit 1; fi;
 endef
 
-.PHONY : boost boost_all $(boost_targets) create_boost_dirs
+.PHONY : boost boost_all boost_gcc_all create_boost_dirs
 .PHONY : gcc gcc_all $(gcc_targets) create_gcc_dirs
 .PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
 .PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
@@ -227,42 +230,62 @@ $(boost-directories) : % :
 
 create_boost_dirs : $(boost-base-directory) $(bjam_directory_path)
 
+# Making boost with the system gcc:
+
 define install-boost
-	$(if $(gcc-version), \
-              $(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(gcc-version)" --prefix=$(boost-base-directory)/$*+$(gcc-version) --builddir=$(boost-base-directory)/$*+$(gcc-version)_Build install
-	if [ -d $(gcc-base-directory)/$(gcc-version)/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/$@; fi;
-	cp $(boost-base-directory)/$*+$(gcc-version)/lib/* $(gcc-base-directory)/$(gcc-version)/$@
-	if [ -d $(gcc-base-directory)/$(gcc-version)/include/$@ ]; then echo; else mkdir $(gcc-base-directory)/$(gcc-version)/include/$@; fi;
-	cp -r $(boost-base-directory)/$*+$(gcc-version)/include/$@_$(boost_minor_version)/boost $(gcc-base-directory)/$(gcc-version)/include/$@,\
-              $(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$* --builddir=$(boost-base-directory)/$*_Build install)
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$(1) --builddir=$(boost-base-directory)/$(1)_Build install
 endef
 
-
-boost-gcc-composition = $(if $(gcc-version), $(1)+$(gcc-version), $(1))
-
-$(boost_targets) : boost-% : create_boost_dirs $(call boost-gcc-composition, %)
-	$(call unarchive,boost_$*_$(boost_minor_version),$(boost-base-directory))
-	cd $(boost-base-directory)/boost_$*_$(boost_minor_version); $(postcondition) \
+$(boost_targets) : boost-% : create_boost_dirs %
+	$(call unarchive,boost_$*,$(boost-base-directory))
+	cd $(boost-base-directory)/boost_$*; $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
-	cd $(boost-base-directory)/boost_$*_$(boost_minor_version); $(postcondition) \
-	$(install-boost)
+	cd $(boost-base-directory)/boost_$*; $(postcondition) \
+	$(call install-boost,$*)
+	touch $(boost-base-directory)/$@
+
+# Making boost with a local gcc:
+
+define install-boost_gcc
+              $(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" --prefix=$(boost-base-directory)/$(1)+$(2) --builddir=$(boost-base-directory)/$(1)+$(2)_Build install
+#	if [ -d $(gcc-base-directory)/$(2)/boost-$(1) ]; then echo; else mkdir $(gcc-base-directory)/$(2)/boost-$(1); fi;
+#	cp $(boost-base-directory)/$(1)+$(2)/lib/* $(gcc-base-directory)/$(2)/boost-$(1)
+#	if [ -d $(gcc-base-directory)/$(2)/include/boost-$(1) ]; then echo; else mkdir $(gcc-base-directory)/$(2)/include/boost-$(1); fi;
+#	cp -r $(boost-base-directory)/$(1)+$(2)/include/boost-$(1)/boost $(gcc-base-directory)/$(2)/include/boost-$(1)
+endef
+
+define boost_gcc_rule
+boost-$(1)+$(2) : create_boost_dirs $(1)+$(2)
+	$(call unarchive,boost_$(1),$(boost-base-directory))
+	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd tools/build/jam_src/;  if [ $$$$? != 0 ]; then exit 1; fi; \
+	./build.sh;  if [ $$$$? != 0 ]; then exit 1; fi; \
+	cp bin.*/bjam $(bjam_directory_path);  if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd $(boost-base-directory)/boost_$(1);  if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(call install-boost_gcc,$(1),$(2))
+	touch $(boost-base-directory)/boost-$(1)+$(2)
+endef
+
+boost_gcc_targets := $(foreach boostversion, $(boost_targets), $(addprefix $(boostversion)+, $(gcc_installation_directory_names)))
+$(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_gcc_rule,$(boostversion),$(gccversion)))))
+
+# The main targets for making boost
+
+boost_gcc_all : $(boost_gcc_targets) $(boost_targets)
 
 ifeq ($(gcc-version),all)
-# boost_all : $(boost_targets)
-aux_targets := $(addprefix $(boost_recommended)+,  $(gcc_installation_directory_names))
-.PHONY : $(aux_targets)
-aux_targets += $(boost_recommended)
-boost : $(aux_targets)
-define boost_aux_rule
-$(boost_recommended)+$(1) : gcc-version = $(1)
-$(boost_recommended)+$(1) : $(boost_recommended)
-endef
-$(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_aux_rule,$(gccversion))))
+ boost_all : $(boost_gcc_targets)
+ boost : $(addprefix $(boost_recommended)+,$(gcc_installation_directory_names))
 else
-boost_all : $(boost_targets)
-boost : $(boost_recommended)
+ ifeq ($(gcc-version),)
+  boost_all : $(boost_targets)
+  boost : $(boost_recommended)
+ else
+  boost_all : $(addsuffix $(gcc-version),$(boost_targets))
+  boost : $(boost_recommended)+$(gcc-version)
+ endif
 endif
 
 # ###############################

@@ -36,7 +36,7 @@
 
 # make alternative_gcc=? alternative_boost=% 
 # where ? is the locally installed GCC version number (for example 3.4.3) and % is the locally installed boost version number (for example 1_33).
-# If one doesn't specify alternative_boost=, then the system boost will be used, while setting alternative_gcc will override $(CXX) and $(CC) respectively, and a locally installed boost will be used.
+# If one doesn't specify alternative_boost=, then the system boost will be used, while setting alternative_gcc will override $(CXX) and $(CC) respectively, and a locally installed boost will be used (either given by alternative_boost, or, if not defined, then the tail of $(Boost) is used as the generic name for the current boost version).
 
 # The compile-command is prefix with $(Compile_tool), the link-command with $(Link_tool),
 #  and the test execution with $(Test_tool); the default in all 3 cases is "time -p" (measuring
@@ -72,8 +72,6 @@ endif
 ifndef Boost
   ifdef BOOST
     Boost = -I$(BOOST)
-  else
-    $(error Either Boost or OKBUILDSYSTEM must be defined!)
   endif
 endif
 
@@ -174,26 +172,23 @@ alternative_gcc:=
 alternative_boost:=
 alternative_library_path:=
 
-ifneq ($(alternative_gcc), ) # alternative gcc specified
+ifneq ($(alternative_gcc),) # alternative gcc specified
   CXX := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/g++
   CC := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/gcc
   alternative_library_path:= -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib64 -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib64 -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib
-  ifneq ($(alternative_boost), ) # also alternative boost specified
-    alternative_library_path := $(alternative_library_path) -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/boost-$(alternative_boost) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/boost-$(alternative_boost)
-    Boost = -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/boost-$(alternative_boost)
-  else # no alternative boost specified
+  ifeq ($(alternative_boost),)
     ifndef Boost
       $(error Variable Boost must be defined!)
     endif
-    Boost_version := $(patsubst -I%,%,$(Boost))
-    Boost_version := $(patsubst %/,%,$(Boost_version))
-    Boost_version := $(notdir $(Boost_version))
-    # now Boost = boost-1_32 for example
-    alternative_library_path := $(alternative_library_path) -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/$(Boost_version) -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/$(Boost_version)
-    Boost = -I$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/include/$(Boost_version)
+    alternative_boost := $(patsubst -I%,%,$(Boost))
+    alternative_boost := $(patsubst %/,%,$(alternative_boost))
+    alternative_boost := $(notdir $(alternative_boost))
+    alternative_boost := $(patsubst boost-%,%,$(alternative_boost))
   endif
+  alternative_library_path := $(alternative_library_path) -L$(prefix)/ExternalSources/Boost/$(alternative_boost)+$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Boost/$(alternative_boost)+$(alternative_gcc)/lib
+  Boost = -I$(prefix)/ExternalSources/Boost/$(alternative_boost)+$(alternative_gcc)/include/boost-$(alternative_boost)
 else # no alternative gcc specified
-  ifneq ($(alternative_boost), ) # alternative boost specified
+  ifneq ($(alternative_boost),) # alternative boost specified
   alternative_library_path := $(alternative_library_path) -L$(prefix)/ExternalSources/Boost/$(alternative_boost)/lib -Wl,-rpath,$(prefix)/ExternalSources/Boost/$(alternative_boost)/lib
   Boost = -I$(prefix)/ExternalSources/Boost/$(alternative_boost)/include/boost-$(alternative_boost)
   endif
