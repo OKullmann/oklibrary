@@ -41,6 +41,8 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+#include <boost/range/value_type.hpp>
+
 #include <boost/range/const_iterator.hpp> // Fix for errenous Boost library filesystem ##################################################################
 #include <boost/range/size_type.hpp> // Fix for errenous Boost library filesystem ##################################################################
 
@@ -172,7 +174,6 @@ namespace OKlib {
     /*!
       \class ProgramRepresentationIncludes
       \brief Class for representing the include-directives within a program
-      \todo std::pair<IncludeDirective<string_type>, string_type> should be a typedef.
       \todo An extended explanation is needed.
       \todo A concept is needed.
       \todo Test inequality operator. (OK: ?? Always test equality and inequality together, applying
@@ -183,7 +184,8 @@ namespace OKlib {
     class ProgramRepresentationIncludes {
     public :
       typedef std::basic_string<charT, traits, Allocator> string_type;
-      typedef std::vector<std::pair<IncludeDirective<string_type>, string_type> > container_type;
+      typedef std::pair<IncludeDirective<string_type>, string_type> pair_type;
+      typedef std::vector<pair_type> container_type;
       typedef typename container_type::value_type value_type;
       typedef typename container_type::iterator iterator;
       typedef typename container_type::const_iterator const_iterator;
@@ -439,8 +441,16 @@ namespace OKlib {
     };
 
     /*!
-      \class Extend_include_directives
+      \class ExtendIncludeDirectives
       \brief Functor for adding suitable prefixes to the include directives of an istream.
+
+      The constructor takes an AssociativePrefixContainer argument. This
+      container is held as a public data member. There are two bracket
+      operators. The first operator takes an input stream and replaces
+      it's include directives according to the UniquenessPolicy template
+      parameter and the extended include directives of the APC. The second
+      operator takes a range and iterates over it, extending the include 
+      directives of each element.
 
       The input is an istream and a form of an "associative prefix container". All include directives are extracted,
       checked whether they have a unique extension via the prefix container, if yes, they are extended (in
@@ -454,10 +464,10 @@ namespace OKlib {
       \todo Update the above explanation.
     */
 
-    template <class UniquenessPolicy = ThrowIfNonUnique>
-    class Extend_include_directives {
+    template <class APC, class UniquenessPolicy = ThrowIfNonUnique>
+    class ExtendIncludeDirectives {
     public:
-      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<boost::filesystem::path> APC;
+
       typedef ProgramRepresentationIncludes<>::container_type container_type;
       typedef ProgramRepresentationIncludes<>::iterator iterator;
       typedef ProgramRepresentationIncludes<>::value_type value_type;
@@ -468,59 +478,65 @@ namespace OKlib {
       const APC& prefix_container;
       const typename APC::const_iterator& end_prefix_container;
 
-      Extend_include_directives (const APC& prefix_container) : prefix_container(prefix_container), end_prefix_container(prefix_container.end()) {}
+      ExtendIncludeDirectives (const APC& prefix_container) : prefix_container(prefix_container), end_prefix_container(prefix_container.end()) {}
 
-      void operator() (std::istream& input) {
-        
+      template <class Istream>
+      void operator() (Istream& input) {
         input >> pr;
         container_type& id_w_c_container(pr.include_directives_with_context);
         const iterator& end(id_w_c_container.end());
         for (iterator i=id_w_c_container.begin(); i!=end; ++i) {
           id_type& id(i -> first);
           const string_type& header_file(id.header_file());
-          typedef APC::checked_iterator_type checked_iterator_type;
+          typedef typename APC::checked_iterator_type checked_iterator_type;
           const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header_file));
           if (extension.first == end_prefix_container)
             throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::operator ()(std::istream& input):\n header file " + header_file + " has no extension");
-          const string_type new_header_file((extension.second) ? extension.first -> string() : UniquenessPolicy::new_header_file(id_w_c_container, extension.first, header_file));
+          const string_type new_header_file((extension.second) ? *extension.first : UniquenessPolicy::new_header_file(id_w_c_container, extension.first, header_file));
           id.header_file() = new_header_file;
         }
       }
+
+//       template <class Range>
+//       void operator() (Range range_input) {
+//         typedef typename boost::range_value<Range>::type range_value_type;
+//         typedef typename boost::range_const_iterator<Range>::type iterator_type;
+//         // implementation
+//       }
+
+      ProgramRepresentationIncludes<> program_rep() {
+        return pr;
+      }
+
     };
 
     // ####################################################################################
 
     /*!
-      \class Extend_include_directives_Two_ranges
+      \class ExtendIncludeDirectivesTwoRanges
     */
 
-    template <class Range, class Istream, class UniquenessPolicy = ThrowIfNonUnique>
-    class Extend_include_directives_Two_ranges {
+    template <class Range1, class Range2, class UniquenessPolicy = ThrowIfNonUnique>
+    class ExtendIncludeDirectivesTwoRanges {
     public:
 
-      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<Range> APC;
-      typedef typename boost::range_const_iterator<Range>::type iterator;
- 
-      const Range& ref_range;
-      const Range& work_range;
+      typedef typename boost::range_value<Range1>::type range1_value_type;
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<range1_value_type> APC;
+      const Range1& ref_range;
+      const Range2& work_range;
       APC prefix_container;
      
-      typedef Extend_include_directives<UniquenessPolicy> extend_include_directive_type;
+      typedef ExtendIncludeDirectives<APC,UniquenessPolicy> extend_include_directive_type;
 
-      Extend_include_directives_Two_ranges(const Range& ref_range, const Range& work_range) : ref_range(ref_range), work_range(work_range) {
+      ExtendIncludeDirectivesTwoRanges(const Range1& ref_range, const Range2& work_range) : ref_range(ref_range), work_range(work_range) {
 
         prefix_container.assign(ref_range);
         
-        extend_include_directive_type eid(prefix_container);
-        
-        for(iterator begin(boost::begin(work_range)); begin!=boost::end(work_range); ++begin) {
-          Istream working_stream(*begin);
-          eid(working_stream);
-          working_stream << eid.pr;
+        extend_include_directive_type extend_include_directives(prefix_container);
 
-        }
+        //        extend_include_directives(work_range);
+
       }
-
     };
 
 
@@ -543,14 +559,14 @@ namespace OKlib {
     */
 
     template <class Path = boost::filesystem::path, class UniquenessPolicy = ThrowIfNonUnique>
-    class Extend_include_directives_Two_directories {
+    class ExtendIncludeDirectivesTwoDirectories {
     public:
        const Path& ref_dir;
        const Path& work_dir;
 
-       Extend_include_directives_Two_directories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
+       ExtendIncludeDirectivesTwoDirectories(const Path& ref_dir,const Path& work_dir) : ref_dir(ref_dir), work_dir(work_dir) {
 
-         Extend_include_directives_Two_ranges<Path,boost::filesystem::fstream,UniquenessPolicy>(ref_dir,work_dir);
+         ExtendIncludeDirectivesTwoRanges<Path,boost::filesystem::fstream,UniquenessPolicy>(ref_dir,work_dir);
 
        }
 
