@@ -123,18 +123,27 @@ gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_ins
 gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_installation_directory_paths)
 
 # ###################
+
 boost-base-directory := $(prefix)/Boost
 abbr_boost_targets := $(patsubst boost-%, %, $(boost_targets))
 # creates e.g. 1_32_0 1_33_1
+
 boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_boost_targets)))
 # creates e.g. 1_32_0+3.4.3 1_32_0+3.4.4 1_33_1+3.4.3 1_33_1+3.4.4
 boost_installation_directory_names += $(abbr_boost_targets)
 boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
+
 boost_build_directory_names := $(addsuffix _Build, $(boost_installation_directory_names))
 boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
+
 bjam_directory_path := $(boost-base-directory)/bjam
+
 boost-directories := $(boost-base-directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path)
 
+boost_distribution_directories := $(addprefix $(boost-base-directory)/boost_, $(abbr_boost_targets))
+
+boost_gcc_targets := $(foreach boostversion, $(boost_targets), $(addprefix $(boostversion)+, $(gcc_installation_directory_names)))
+all_boost_targets := $(boost_targets) $(boost_gcc_targets)
 
 # ###################
 pgsql-version :=
@@ -168,7 +177,7 @@ define unarchive
 if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip; elif [ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2; else exit 1; fi;
 endef
 
-.PHONY : boost boost_all boost_gcc_all create_boost_dirs
+.PHONY : boost boost_all boost_gcc_all $(all_boost_targets)
 .PHONY : gcc gcc_all $(gcc_targets) create_gcc_dirs
 .PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
 .PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
@@ -223,12 +232,10 @@ $(gcc_targets) : gcc-% : create_gcc_dirs
 # Boost
 # ###############################
 
-$(boost_installation_directory_names) : % : $(boost-base-directory)/% $(boost-base-directory)/%_Build
+$(boost_installation_directory_paths) : % : | $(boost-base-directory) %_Build $(bjam_directory_path)
 
 $(boost-directories) : % : 
 	mkdir $@
-
-create_boost_dirs : $(boost-base-directory) $(bjam_directory_path)
 
 # Making boost with the system gcc:
 
@@ -236,7 +243,7 @@ define install-boost
 	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$(1) --builddir=$(boost-base-directory)/$(1)_Build install
 endef
 
-$(boost_targets) : boost-% : create_boost_dirs %
+$(boost-base-directory)/$(boost_targets) : $(boost-base-directory)/boost-% : $(boost-base-directory)/%
 	$(call unarchive,boost_$*,$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
 	cd tools/build/jam_src/; $(postcondition) \
@@ -244,7 +251,7 @@ $(boost_targets) : boost-% : create_boost_dirs %
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*)
-	touch $(boost-base-directory)/$@
+	touch $@
 
 # Making boost with a local gcc:
 
@@ -257,7 +264,7 @@ define install-boost_gcc
 endef
 
 define boost_gcc_rule
-boost-$(1)+$(2) : create_boost_dirs $(1)+$(2)
+$(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2)
 	$(call unarchive,boost_$(1),$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd tools/build/jam_src/;  if [ $$$$? != 0 ]; then exit 1; fi; \
@@ -265,15 +272,16 @@ boost-$(1)+$(2) : create_boost_dirs $(1)+$(2)
 	cp bin.*/bjam $(bjam_directory_path);  if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost-base-directory)/boost_$(1);  if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2))
-	touch $(boost-base-directory)/boost-$(1)+$(2)
+	touch $@
 endef
 
-boost_gcc_targets := $(foreach boostversion, $(boost_targets), $(addprefix $(boostversion)+, $(gcc_installation_directory_names)))
 $(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_gcc_rule,$(boostversion),$(gccversion)))))
 
 # The main targets for making boost
 
-boost_gcc_all : $(boost_gcc_targets) $(boost_targets)
+boost_gcc_all : $(all_boost_targets)
+
+$(all_boost_targets) : % : $(boost-base-directory)/%
 
 ifeq ($(gcc-version),all)
  boost_all : $(boost_gcc_targets)
@@ -368,7 +376,7 @@ mhash : $(mhash_recommended)
 
 clean :
 	-rm -rf $(gcc_build_directory_paths)
-	-rm -rf $(boost_build_directory_paths)
+	-rm -rf $(boost_build_directory_paths) $(boost_distribution_directories) $(bjam_directory_path)
 	-rm -rf $(mhash_build_directory_paths)
 
 cleanall : clean
