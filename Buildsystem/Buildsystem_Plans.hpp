@@ -72,22 +72,14 @@
      the user about them, so that they can ignore them).
 
   \todo ExternalSources:
-   - When building some gcc- or some boost-version, only the necessary directories
-     should be created (so that looking at the list of directories one sees what is
-     installed; at present always all directories for all gcc- and boost-version are
-     created).
+   - When building some gcc-version, only the necessary directories
+     should be created. This should be handled as we have it now with boost (using
+     timestamp-files).
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
      we have the build of the gcc-version (so that, if necessary, gcc is build).
-   - For building boost, sub-directories of ExternalSources/Boost like 1_33 and 1_33+3.4.3 should
-     stay, while all other directories should get removed with "make clean" (leaving only the files which are really used).
-   - Handling of the boost-minor-version number needs to be improved, so that we could handle
-     for example 1_33_1 together with 1_34_0.
-   - Why do we copy the boost-source and -link-libraries to the gcc-directories? Perhaps the problem
-     is just, that in the include-directoy in the installation the boost-subdirectory-name has also
-     the minor-version-number in it. So by solving the minor-version-problem we should also be able
-     to get rid off the copies of the link- and source libraries in the gcc-installations.
    - Installation of bjam should be improved: Having exactly one bjam-installation for each boost-version,
-     and no need to recreate it if it's already there.
+     and no need to recreate it if it's already there. Or, perhaps better: We just leave it in
+     the distribution directory?
    - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
    - If variable "gcc-version" is set, then it should have one of the allowed values (while otherwise we get
