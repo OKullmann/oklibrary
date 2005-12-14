@@ -15,6 +15,8 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp> 
 #include <boost/filesystem/fstream.hpp>
+#include <boost/assign/std/vector.hpp>
+#include <boost/tuple/tuple.hpp>
  
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -26,12 +28,59 @@ namespace OKlib {
 
   namespace GeneralInputOutput {
 
+   /*!
+      \class TestData
+      \brief Provides the names of directories and files within the 
+      TestDirectory and their status as directory (1) or file (0).
+    */
+
+    class TestData {
+     
+      typedef std::string value_type;
+      typedef boost::tuple<value_type,bool> tuple_type;
+      
+    public:
+
+      typedef std::vector<tuple_type> checked_pathname_vector_type;
+      typedef checked_pathname_vector_type::const_iterator const_iterator;
+      static checked_pathname_vector_type checked_pathname_vector;
+
+      TestData() {
+
+        using namespace boost::assign;
+        typedef tuple_type el_t;
+        checked_pathname_vector +=
+          el_t("TestDirectory",1),
+          el_t("TestDirectory/Test_001.hpp",0),
+          el_t("TestDirectory/TestSubDirectory",1),
+          el_t("TestDirectory/TestSubDirectory/Test_002.hpp",0),
+          el_t("CVS",1),
+          el_t("CVS/Entries",0),
+          el_t("CVS/Repository",0),
+          el_t("CVS/Root",0);
+      }
+
+      value_type checked_pathname(const_iterator i) {
+        return i -> get<0>();
+      }
+
+      bool is_directory(const_iterator i) {
+        return i -> get<1>();
+      }
+
+    };
+
+    TestData::checked_pathname_vector_type TestData::checked_pathname_vector;
+
     /*!
       \class Test_DirectoryIterator
       \brief Testing the concept of a directory iterator.
       \todo Using path-equality or path-equivalence ?
       \todo Instead of OKlib::Concepts::InputIterator we should require OKlib::Concepts::InputIteratorDefault and MultiPassInputIterator (???).
       \todo Testing should also cover the case of symbolic links.
+      \todo Provide testing of star operator in private member function test_star_operator.
+      \todo Provide testing of increment operator in private member function test_increment_operator.
+      \todo Extend testing of equality and inequality operators to non-trivial cases.
     */
     
     template <class DirectoryIterator>
@@ -42,8 +91,29 @@ namespace OKlib {
         insert(this);
       }
     private :
-      void perform_test_trivial() {
+
+      TestData test_data;
+
+      void test_concepts() {
         OKLIB_MODELS_CONCEPT_REQUIRES(DirectoryIterator, OKlib::Concepts::InputIterator);
+      }
+
+      void test_equality_inequality() {
+          DirectoryIterator dir_it;
+          if (not (dir_it == dir_it))
+            OKLIB_THROW("not dir_it == dir_it");
+          if (dir_it != dir_it)
+            OKLIB_THROW("dir_it != dir_it");
+      }
+
+      void perform_test_trivial() {
+        
+        test_concepts();
+        test_equality_inequality();
+
+
+        // ##################################################################################
+
         {
 
           typedef DirectoryIterator DirIt;
