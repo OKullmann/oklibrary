@@ -12,7 +12,7 @@
 
 #include <boost/assign/std/set.hpp>
 #include <boost/assign/std/vector.hpp>
-
+#include <boost/tuple/tuple.hpp>
 
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
@@ -22,27 +22,160 @@ namespace OKlib {
   namespace SearchDataStructures {
 
     /*!
+      \class BaseTestData
+      \brief Base class for testing data.
+    */
+
+    class BaseTestData {
+    public:
+      typedef std::string value_type;
+    };
+
+    /*!
+      \class PrefixTestData
+      \brief A vector of strings, each of which is a string representation
+      of the full path of some header.
+    */
+
+    class PrefixTestData : BaseTestData {
+      
+      typedef std::vector<value_type> prefix_vector_type;
+      
+    public:
+
+      typedef prefix_vector_type::const_iterator const_iterator;
+      static prefix_vector_type prefix_vector;
+
+      PrefixTestData() {
+        using namespace boost::assign;
+        typedef value_type el_t;
+        prefix_vector +=
+          el_t("test001.hpp/dir001/"),
+          el_t("test002.hpp/dir001/dir002/"), 
+          el_t("test002.hpp/dir001/dir002/dir003/");
+      }
+      
+    };
+
+    PrefixTestData::prefix_vector_type PrefixTestData::prefix_vector;
+
+    /*!
+      \class ExtensionTestData
+      \brief A vector of tuples. The first element of each tuple is a 
+      header, the second is the first extension (according to the data
+      in PrefixTestData) and the final is a boolean which is true if
+      and only if the extension is unique.
+    */
+
+    class ExtensionTestData : BaseTestData {
+     
+      typedef boost::tuple<value_type, value_type, bool> tuple_type;
+      typedef std::vector<tuple_type> extension_vector_type;
+
+    public:
+
+      typedef extension_vector_type::const_iterator const_iterator;
+      static extension_vector_type extension_vector;
+
+      ExtensionTestData() {
+        using namespace boost::assign;
+        typedef tuple_type el_t;
+        extension_vector +=
+          el_t("test001.hpp","test001.hpp/dir001/",true),
+          el_t("test002.hpp","test002.hpp/dir001/dir002/",false);
+      }
+
+      value_type header(const_iterator i) {
+        return i -> get<0>();
+      }
+
+      value_type extension_value(const_iterator i) {
+        return i -> get<1>();
+      }
+
+      bool uniqueness(const_iterator i) {
+        return i -> get<2>();
+      }
+
+    };
+
+    ExtensionTestData::extension_vector_type ExtensionTestData::extension_vector;
+
+    /*!
       \class Test_AssociativePrefixContainer
       \brief Test for associative prefix container
-      \todo expected_result_set should be a vector, and then
-      also the expected boolean output should be compared.
       \todo Test for extensions, where no extension is possible.
       \todo More test cases.
       \todo Replace old tests.
-      \todo Finish testing of first_extension_uniqueness_checked function.
-      \todo Test extension functionality for assign filled prefix container.
       \todo Once a concept has been created, test the syntax
+      \todo Provide testing of assign member function in test_assign private member function.
+      \todo Provide testing of begin member function in test_begin private member function.
+      \todo Provide testing of end member function in test_end private member function.
+      \todo Provide testing of insert member function in test_insert private member function.
     */
 
     template <template <class Range> class PrefixContainer>
     class Test_AssociativePrefixContainer : public ::OKlib::TestSystem::TestBase {
     public :
+
       typedef Test_AssociativePrefixContainer test_type;
       Test_AssociativePrefixContainer() {
         insert(this);
       }
+
     private :
+
+      PrefixTestData prefix_test_data;
+      ExtensionTestData extension_test_data;
+
+      void test_first_extension() {
+
+        typedef typename BaseTestData::value_type value_type;
+        typedef AssociativePrefixContainer<value_type> APC_t;
+        typedef ExtensionTestData::const_iterator iterator;
+        APC_t prefix_container(prefix_test_data.prefix_vector);
+        const iterator& end(extension_test_data.extension_vector.end());
+        for (iterator begin(extension_test_data.extension_vector.begin()); begin != end; ++begin) {
+          value_type header(extension_test_data.header(begin));
+          value_type expected_extension(extension_test_data.extension_value(begin));
+          typedef APC_t::const_iterator iterator;
+          iterator first_extension(prefix_container.first_extension(header));
+          iterator end(prefix_container.end());
+          if (first_extension != end)
+            OKLIB_TEST_EQUAL(*first_extension,expected_extension);
+        }
+
+      }
+
+      void test_first_extension_uniqueness_checked() {
+        
+        typedef typename BaseTestData::value_type value_type;
+        typedef AssociativePrefixContainer<value_type> APC_t;
+        typedef ExtensionTestData::const_iterator iterator;
+        APC_t prefix_container(prefix_test_data.prefix_vector);
+        const iterator& end(extension_test_data.extension_vector.end());
+        for (iterator begin(extension_test_data.extension_vector.begin()); begin != end; ++begin) {
+          value_type header(extension_test_data.header(begin));
+          value_type expected_extension(extension_test_data.extension_value(begin));
+          typedef APC_t::const_iterator iterator;
+          typedef APC_t::checked_iterator_type checked_iterator_type;
+          checked_iterator_type first_extension(prefix_container.first_extension_uniqueness_checked(header));
+          iterator end(prefix_container.end());
+          if (first_extension.first != end)
+            OKLIB_TEST_EQUAL(*(first_extension.first),expected_extension);
+            
+        }
+        
+      }
+
       void perform_test_trivial() {
+
+        { 
+          test_first_extension();
+          test_first_extension_uniqueness_checked();
+        }
+
+        // ########################################################################################
 
         { // Testing of empty APC.
 
