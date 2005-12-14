@@ -31,7 +31,6 @@ namespace OKlib {
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
       \todo Create a concept (including providing appropriate container functionality).
-      \todo Outsourcing of common functionality of range constructor and assign function to private member function.
     */
 
     template <class Range>
@@ -50,32 +49,33 @@ namespace OKlib {
     
       SetRanges prefix_set;
 
+      template <class Range2>
+      void prefix_set_fill(const Range2& range) {
+        typedef typename boost::range_const_iterator<Range2>::type iterator_t;
+        const iterator_t& end(boost::end(range));
+        for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
+          prefix_set.insert(*begin);
+        }
+      }
+
     public:
+
+      typedef typename SetRanges::const_iterator iterator;
+      typedef iterator const_iterator;
+      typedef std::pair<iterator,bool> checked_iterator_type;
 
       AssociativePrefixContainer() {};
 
       template <class Range2>
       AssociativePrefixContainer(const Range2& range) {
-        typedef typename boost::range_const_iterator<Range2>::type iterator_t;
-        const iterator_t& end(boost::end(range));
-        for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
-          prefix_set.insert(*begin);
-        }
+        prefix_set_fill(range);
       }
 
       template <class Range2>
       void assign(const Range2& range) {
-        typedef typename boost::range_const_iterator<Range2>::type iterator_t;
-        const iterator_t& end(boost::end(range));
-        for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
-          prefix_set.insert(*begin);
-        }
+        prefix_set_fill(range);
       }
       
-      typedef typename SetRanges::const_iterator iterator;
-      typedef iterator const_iterator;
-      typedef std::pair<iterator,bool> checked_iterator_type;
-
       iterator begin() const {
 	return prefix_set.begin();
       }
