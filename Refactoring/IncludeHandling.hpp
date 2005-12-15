@@ -550,17 +550,13 @@ namespace OKlib {
       directory suitable include directives including a file given via PATH are replaced by the similar
       include directive now including PREFIX/PATH, if, using the reference directory as base, this new
       path uniquely determines an existing file.
-      \todo Make prefix_container a data-member (initialisation should happen via appropriate constructors!).
-      \todo Likely it is better to have the constructor taking two *iterator ranges* instead of taking the paths
-      to the reference and the working directory (this design is more general). The "Two directories" in the
-      name should then also be replaced by something suitable (and the two-directories construction
-      should go to a helper-class/function).
       \todo Update the explanation.
     */
 
     template <class Path = boost::filesystem::path, class UniquenessPolicy = ThrowIfNonUnique>
     class ExtendIncludeDirectivesTwoDirectories {
     public:
+
        const Path& ref_dir;
        const Path& work_dir;
 
