@@ -516,6 +516,7 @@ namespace OKlib {
 
     /*!
       \class ExtendIncludeDirectivesTwoRanges
+      \todo A brief explanation is missing.
     */
 
     template <class Range1, class Range2, class UniquenessPolicy = ThrowIfNonUnique>
