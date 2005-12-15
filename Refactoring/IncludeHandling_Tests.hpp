@@ -34,6 +34,71 @@ namespace OKlib {
 
   namespace Refactoring {
 
+    /*!
+      \class BaseTestData
+      \brief Provides typedefs common to both PrefixTestData and
+      ProgramTestData.
+    */
+
+    class BaseTestData {
+    public:
+      typedef std::string string_type;
+      typedef int size_type;
+    };
+
+    // ##############################################################
+
+    /*!
+      \class PrefixTestData
+      \brief Provides string representation of full paths in a
+      reference directory structure.
+    */
+    
+    class PrefixTestData : BaseTestData {
+      
+    public:
+
+      typedef std::vector<string_type> vec_prefix_t;
+      static vec_prefix_t ref_prefix_vector;
+
+      PrefixTestData() {
+        using namespace boost::assign;
+        typedef string_type s_t;
+        ref_prefix_vector += 
+          s_t("OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+      }      
+    };
+    
+    PrefixTestData::vec_prefix_t PrefixTestData::ref_prefix_vector;
+    
+    // ##############################################################
+
+    /*!
+      \class ProgramTestData
+      \brief Provides string representation of C++ programs before
+      and after transition.
+    */
+
+    class ProgramTestData : BaseTestData {
+
+      typedef std::pair<string_type,string_type> program_pair_type;
+      typedef std::vector<program_pair_type> vec_program_t;
+      
+    public:
+
+      static vec_program_t working_vector;
+
+      ProgramTestData() {
+        using namespace boost::assign;
+        typedef program_pair_type pp_t;
+        working_vector +=
+          pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp\"");
+      }
+
+    };
+    
+    ProgramTestData::vec_program_t ProgramTestData::working_vector;
+
     // ##############################################################
 
 
@@ -71,7 +136,6 @@ namespace OKlib {
       typedef std::vector<pr_type> test_vector_type;    
 
       typedef id_w_context_vec_type::const_iterator id_w_c_vec_const_iterator_type;
-
       
       typedef include_directive_data_type id_t;
       typedef pr_type el_t;
@@ -79,28 +143,11 @@ namespace OKlib {
       static test_vector_type test_vector;
       typedef test_vector_type::const_iterator const_iterator;
 
-      typedef std::string prefix_t;
-      typedef std::vector<prefix_t> vec_prefix_t;
-      static vec_prefix_t ref_prefix_vector;
 
-      typedef std::pair<std::string,std::string> program_pair_type;
-      typedef std::vector<program_pair_type> vec_program_t;
-      static vec_program_t working_vector;
-
-      typedef vec_program_t::const_iterator const_program_iterator;
-
-      typedef prefix_t p_t;
-      typedef program_pair_type pp_t;
 
       TestData() {
 
         using namespace boost::assign;
-
-        ref_prefix_vector += 
-          p_t("OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
-
-        working_vector +=
-          pp_t("AnalyseTotalAssignment.hpp","OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
                          
         test_vector +=
 
@@ -247,8 +294,7 @@ namespace OKlib {
     };
  
     TestData::test_vector_type TestData::test_vector;
-    TestData::vec_prefix_t TestData::ref_prefix_vector;
-    TestData::vec_program_t TestData::working_vector;
+
 
     // ##############################################################
 
@@ -617,11 +663,11 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         typedef OKlib::SearchDataStructures::AssociativePrefixContainer<std::string> APC_type;
-        APC_type prefix_container(TestData::ref_prefix_vector);
+        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container); 
-        typedef TestData::vec_program_t::const_iterator const_program_iterator;
-        const const_program_iterator& end(TestData::working_vector.end());
-        for (const_program_iterator begin(TestData::working_vector.begin()); begin!= end; ++begin) {
+        typedef ProgramTestData::vec_program_t::const_iterator const_program_iterator;
+        const const_program_iterator& end(ProgramTestData::working_vector.end());
+        for (const_program_iterator begin(ProgramTestData::working_vector.begin()); begin!= end; ++begin) {
           std::istringstream program(begin -> first);
           std::string expected_extended_program(begin -> second);
           extend_include_directives(program);          
@@ -665,23 +711,7 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
 
-        typedef std::vector<std::string> range_t;
-        range_t work_range;
-        range_t ref_range;
-
-        using namespace boost::assign;
-        typedef std::string s_t;
-
-        ref_range +=
-          s_t("header001.hpp/dir001/"),
-          s_t("header002.hpp/dir001/dir002/"),
-          s_t("header003.hpp/dir001/dir002/dir003/");
-
-        work_range +=
-          s_t("#include \"header001.hpp\""),
-          s_t("#include \"header001.hpp\"\n\"header002.hpp\"");
-
-        ExtendIncludeDirectivesTwoRanges<range_t,range_t,ThrowIfNonUnique>(ref_range,work_range);
+        ExtendIncludeDirectivesTwoRanges<PrefixTestData::vec_prefix_t,ProgramTestData::vec_program_t,ThrowIfNonUnique>(PrefixTestData::ref_prefix_vector,ProgramTestData::working_vector);
 
       }
     };
