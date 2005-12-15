@@ -104,14 +104,14 @@ namespace OKlib {
     /*!
       \class Test_AssociativePrefixContainer
       \brief Test for associative prefix container
+      \todo Replace old tests.
       \todo Test for extensions, where no extension is possible.
       \todo More test cases.
-      \todo Replace old tests.
-      \todo Once a concept has been created, test the syntax
-      \todo Provide testing of assign member function in test_assign private member function.
-      \todo Provide testing of begin member function in test_begin private member function.
-      \todo Provide testing of end member function in test_end private member function.
+      \todo Provide testing of assign member function in test_assign private member function (this test should catch the current malfunction!)
+      \todo Provide testing of begin and end member function in test_begin private member function.
       \todo Provide testing of insert member function in test_insert private member function.
+      \todo Design an informal concept.
+      \todo Once a concept has been created, test the syntax.
     */
 
     template <template <class Range> class PrefixContainer>

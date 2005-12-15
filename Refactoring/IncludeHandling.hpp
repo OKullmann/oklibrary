@@ -12,7 +12,8 @@
   \brief Refactoring of include directives.
   \todo Notifying the boost e-mail list about the problem with the
   filesystem library (see below).
-
+  \todo Write tests so that the currently incorrect boost_range_size
+  implementation is detected. Then provide a correct implementation.
 */
 
 #ifndef INCLUDEHANDLING_9yhNbv
@@ -67,7 +68,7 @@ namespace boost {
   namespace filesystem {
 
     inline boost::range_size<boost::filesystem::path>::type boost_range_size(const boost::filesystem::path& p) {
-
+      // ######################################################
     }
 
   }
@@ -456,12 +457,13 @@ namespace OKlib {
       checked whether they have a unique extension via the prefix container, if yes, they are extended (in
       the representation of the input, not in the input itself), if not, a policy-controlled alternative action
       takes place.
-      \todo Write a second operator(), taking a sequence (range) as input, which
+      \todo Write a second operator(), taking a sequence (range) of include directives as input, which
       is converted by a StreamHandlingPolicy to an internal stream object, which
       is used by the current operator(), and then we pass the pr-object
-      to the policy.
-      \todo Update the design, create a concept.
+      to the policy. ??? Shouldn't this operator be more fundamental?
+      \todo Update the design, create an informal concept.
       \todo Update the above explanation.
+      \todo Create a formal concept.
     */
 
     template <class APC, class UniquenessPolicy = ThrowIfNonUnique>
