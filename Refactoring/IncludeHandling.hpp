@@ -474,7 +474,8 @@ namespace OKlib {
       typedef ProgramRepresentationIncludes<>::iterator iterator;
       typedef ProgramRepresentationIncludes<>::value_type value_type;
       typedef ProgramRepresentationIncludes<>::string_type string_type;
-      typedef IncludeDirective<string_type> id_type;
+      typedef IncludeDirective<string_type> include_directive_type;
+      typedef typename APC::checked_iterator_type checked_iterator_type;
 
       ProgramRepresentationIncludes<> pr;
       const APC& prefix_container;
@@ -482,29 +483,50 @@ namespace OKlib {
 
       ExtendIncludeDirectives (const APC& prefix_container) : prefix_container(prefix_container), end_prefix_container(prefix_container.end()) {}
 
-      template <class Istream>
-      void operator() (Istream& input) {
-        input >> pr;
-        container_type& id_w_c_container(pr.include_directives_with_context);
-        const iterator& end(id_w_c_container.end());
-        for (iterator i=id_w_c_container.begin(); i!=end; ++i) {
-          id_type& id(i -> first);
-          const string_type& header_file(id.header_file());
-          typedef typename APC::checked_iterator_type checked_iterator_type;
-          const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header_file));
-          if (extension.first == end_prefix_container)
-            throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::operator ()(std::istream& input):\n header file " + header_file + " has no extension");
-          const string_type new_header_file((extension.second) ? *extension.first : UniquenessPolicy::new_header_file(id_w_c_container, extension.first, header_file));
-          id.header_file() = new_header_file;
+      // #############################
+
+      // This operator has an include_directive argument and extends
+      // the include_directive according to the first_extension
+      // function of prefix_container.
+
+      void operator() (include_directive_type include_directive) {
+        std::string header(include_directive.header_file());
+        const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header));
+        if (extension.first == end_prefix_container)
+          throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::operator ()(std::istream& input):\n header file " + header + " has no extension");
+        const string_type new_header_file((extension.second) ? *extension.first : UniquenessPolicy::new_header_file(prefix_container, extension.first, header));
+        include_directive.header_file() = new_header_file;
+      }
+
+      // #############################
+
+      // This operator has a Range argument range, which is intended to be a
+      // range of include directives. The operator should replace each include
+      // directive in the range by the first extension (if it exists) 
+      // according to prefix_container. If the 
+      // first extension == prefix_container.end() then the operator
+      // throws an exception. The uniqueness is handled by the Uniqueness
+      // Policy.
+
+      template <class Range>
+      void operator() (const Range& range_input) {
+        
+        typedef typename boost::range_const_iterator<Range>::type iterator_type;
+        const iterator_type& end(boost::end(range_input));
+        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin) {
+          IncludeDirective<std::string> include_directive(*begin);
+          operator()(include_directive);
         }
       }
 
-//       template <class Range>
-//       void operator() (Range range_input) {
-//         typedef typename boost::range_value<Range>::type range_value_type;
-//         typedef typename boost::range_const_iterator<Range>::type iterator_type;
-//         // implementation
-//       }
+      // ############################# 
+
+      void operator() (std::istream& input) {
+        input >> pr;
+        container_type& id_w_c_container(pr.include_directives_with_context);
+        operator()(id_w_c_container);
+      }
+
 
       ProgramRepresentationIncludes<> program_rep() {
         return pr;
