@@ -36,8 +36,8 @@ namespace OKlib {
 
     /*!
       \class BaseTestData
-      \brief Provides typedefs common to both PrefixTestData and
-      ProgramTestData.
+      \brief Provides typedefs common to both IncludeDirectiveTestData,
+      PrefixTestData and ProgramTestData.
     */
 
     class BaseTestData {
@@ -45,6 +45,64 @@ namespace OKlib {
       typedef std::string string_type;
       typedef int size_type;
     };
+
+    // ##############################################################
+
+    /*!
+      \class IncludeDirectiveTestData
+      \brief Provides data for include directives in flat directory
+      directory structure and deep directory structure.
+    */
+    
+    class IncludeDirectiveTestData : BaseTestData {
+      
+    public:
+
+      typedef boost::tuple<size_type,size_type,string_type,Include_forms,string_type> value_type;
+      typedef std::vector<value_type> vec_pair_include_directive_type;
+      static vec_pair_include_directive_type vec_pair_include_directive;
+
+      typedef vec_pair_include_directive_type::const_iterator const_iterator;
+
+      IncludeDirectiveTestData() {
+        using namespace boost::assign;
+        typedef value_type v_t;
+        vec_pair_include_directive += 
+          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+      }      
+
+      const_iterator begin() {
+        return vec_pair_include_directive.begin();
+      }
+
+      const_iterator end() {
+        return vec_pair_include_directive.end();
+      }
+
+      size_type spaces_after_hash(const const_iterator& i) {
+        return i->get<0>();
+      }
+
+      size_type spaces_after_include(const const_iterator& i) {
+        return i->get<1>();
+      }
+
+      string_type header(const const_iterator& i) {
+        return i->get<2>();
+      }
+
+      Include_forms include_form(const const_iterator& i) {
+        return i->get<3>();
+      }
+
+      string_type extended_header(const const_iterator& i) {
+        return i->get<4>();
+      }
+
+    };
+    
+    IncludeDirectiveTestData::vec_pair_include_directive_type IncludeDirectiveTestData::vec_pair_include_directive;
+
 
     // ##############################################################
 
@@ -87,12 +145,21 @@ namespace OKlib {
     public:
 
       static vec_program_t working_vector;
+      typedef vec_program_t::const_iterator const_iterator;
 
       ProgramTestData() {
         using namespace boost::assign;
         typedef program_pair_type pp_t;
         working_vector +=
           pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp\"");
+      }
+
+      string_type program(const_iterator iter) {
+        return iter -> first;
+      }
+
+      string_type expected_extended_program(const_iterator iter) {
+        return iter -> second;
       }
 
     };
@@ -661,18 +728,78 @@ namespace OKlib {
         insert(this);
       }
     private :
-      void perform_test_trivial() {
-        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<std::string> APC_type;
+
+      ProgramTestData program_test_data;
+
+      // #############################
+
+      void test_include_directive_bracket_operator() {
+
+        typedef BaseTestData::string_type string_type;
+        IncludeDirectiveTestData include_directive_test_data;
+        typedef IncludeDirective<string_type> include_directive_type;
+        typedef IncludeDirectiveTestData::const_iterator iterator;
+        const iterator& end(include_directive_test_data.end());
+        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
+        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
+          include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          //          extend_include_directives(include_directive);
+        }
+      }
+
+      // #############################
+
+      void test_range_template_bracket_operator() {
+
+        typedef BaseTestData::string_type string_type;
+        IncludeDirectiveTestData include_directive_test_data;
+        typedef IncludeDirective<string_type> include_directive_type;
+        typedef IncludeDirectiveTestData::const_iterator iterator;
+
+        std::vector<include_directive_type> vec_include_directives;
+        std::vector<include_directive_type> vec_extended_include_directives;
+
+        const iterator& end(include_directive_test_data.end());
+        for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
+          include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          vec_include_directives.push_back(include_directive);
+          vec_extended_include_directives.push_back(extended_include_directive);
+        }
+        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
+        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        //        extend_include_directives(vec_include_directives);
+      }
+
+      // #############################
+
+      void test_bracket_operator() {
+        typedef typename BaseTestData::string_type string_type;
+        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
         APC_type prefix_container(PrefixTestData::ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container); 
         typedef ProgramTestData::vec_program_t::const_iterator const_program_iterator;
         const const_program_iterator& end(ProgramTestData::working_vector.end());
-        for (const_program_iterator begin(ProgramTestData::working_vector.begin()); begin!= end; ++begin) {
-          std::istringstream program(begin -> first);
-          std::string expected_extended_program(begin -> second);
-          extend_include_directives(program);          
+        for (const_program_iterator begin(ProgramTestData::working_vector.begin()); begin != end; ++begin) {
+          std::istringstream program(program_test_data.program(begin));
+          std::istream& program_istream(program);
+          string_type expected_extended_program(program_test_data.expected_extended_program(begin));
+          //          extend_include_directives(program_istream);
         }
       }
+
+      // #############################
+
+      void perform_test_trivial() {
+        test_include_directive_bracket_operator();
+        test_range_template_bracket_operator();
+        test_bracket_operator();        
+      }
+
     };
 
     // ##############################################################
