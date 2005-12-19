@@ -27,6 +27,8 @@ namespace OKlib {
 
   namespace SearchDataStructures {
 
+    // ##############################################################
+
     /*!
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
@@ -50,16 +52,13 @@ namespace OKlib {
       SetRanges prefix_set;
 
       template <class Range2>
-      void prefix_set_fill(const Range2& range) {
-        typedef typename boost::range_const_iterator<Range2>::type iterator_t;
-        const iterator_t& end(boost::end(range));
-        for(iterator_t begin(boost::begin(range)); begin!=end; ++begin) {
-          prefix_set.insert(*begin);
-        }
+      void prefix_set_assign(const Range2& range) {
+        prefix_set = SetRanges(boost::begin(range),boost::end(range));
       }
 
     public:
 
+      typedef Range prefix_type;
       typedef typename SetRanges::const_iterator iterator;
       typedef iterator const_iterator;
       typedef std::pair<iterator,bool> checked_iterator_type;
@@ -68,12 +67,12 @@ namespace OKlib {
 
       template <class Range2>
       AssociativePrefixContainer(const Range2& range) {
-        prefix_set_fill(range);
+        prefix_set_assign(range);
       }
 
       template <class Range2>
       void assign(const Range2& range) {
-        prefix_set_fill(range);
+        prefix_set_assign(range);
       }
       
       iterator begin() const {
@@ -116,6 +115,8 @@ namespace OKlib {
           return checked_iterator_type(first, true);
       }
     };
+
+    // ##############################################################
 
   }
 
