@@ -21,6 +21,8 @@ namespace OKlib {
 
   namespace SearchDataStructures {
 
+    // ##############################################################
+
     /*!
       \class BaseTestData
       \brief Base class for testing data.
@@ -28,28 +30,36 @@ namespace OKlib {
 
     class BaseTestData {
     public:
-      typedef std::string value_type;
+      typedef std::string string_type;
     };
 
     /*!
       \class PrefixTestData
-      \brief A vector of strings, each of which is a string representation
-      of the full path of some header.
+      \brief Provides a vector of strings, each of which is a string 
+      representation of the full path of some header.
     */
 
     class PrefixTestData : BaseTestData {
       
-      typedef std::vector<value_type> prefix_vector_type;
+      typedef std::vector<string_type> prefix_vector_type;
       
     public:
 
       typedef prefix_vector_type::const_iterator const_iterator;
       static prefix_vector_type prefix_vector;
+      static prefix_vector_type prefix_vector_2;
+
 
       PrefixTestData() {
+
         using namespace boost::assign;
-        typedef value_type el_t;
+        typedef string_type el_t;
+
+        prefix_vector_2 +=
+          el_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
+
         prefix_vector +=
+          el_t("test001.hpp/dir001/"),
           el_t("test001.hpp/dir001/"),
           el_t("test002.hpp/dir001/dir002/"), 
           el_t("test002.hpp/dir001/dir002/dir003/");
@@ -58,48 +68,67 @@ namespace OKlib {
     };
 
     PrefixTestData::prefix_vector_type PrefixTestData::prefix_vector;
+    PrefixTestData::prefix_vector_type PrefixTestData::prefix_vector_2;
+
+    // ##############################################################
 
     /*!
       \class ExtensionTestData
-      \brief A vector of tuples. The first element of each tuple is a 
-      header, the second is the first extension (according to the data
-      in PrefixTestData) and the final is a boolean which is true if
-      and only if the extension is unique.
+      \brief Provides a vector of tuples. The first element of each 
+      tuple is a header, the second is the first extension (according
+      to the data in PrefixTestData) and the final is a boolean which 
+      is true if and only if the extension is unique, and false 
+      otherwise.
     */
 
     class ExtensionTestData : BaseTestData {
      
-      typedef boost::tuple<value_type, value_type, bool> tuple_type;
+      typedef boost::tuple<string_type, bool, string_type, bool> tuple_type;
       typedef std::vector<tuple_type> extension_vector_type;
 
     public:
 
       typedef extension_vector_type::const_iterator const_iterator;
       static extension_vector_type extension_vector;
+      static extension_vector_type extension_vector_2;
 
       ExtensionTestData() {
+
         using namespace boost::assign;
         typedef tuple_type el_t;
+
+        extension_vector_2 +=
+          el_t("AnalyseTotalAssignment.hpp",true,"AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem",true);
+
         extension_vector +=
-          el_t("test001.hpp","test001.hpp/dir001/",true),
-          el_t("test002.hpp","test002.hpp/dir001/dir002/",false);
+          el_t("test001.hpp",true,"test001.hpp/dir001/",true),
+          el_t("test002.hpp",true,"test002.hpp/dir001/dir002/",false),
+          el_t("test003.hpp",false,"",true);
+
       }
 
-      value_type header(const_iterator i) {
+      string_type header(const_iterator i) {
         return i -> get<0>();
       }
 
-      value_type extension_value(const_iterator i) {
+      bool has_extension(const_iterator i) {
         return i -> get<1>();
       }
 
-      bool uniqueness(const_iterator i) {
+      string_type extension_value(const_iterator i) {
         return i -> get<2>();
+      }
+
+      bool uniqueness(const_iterator i) {
+        return i -> get<3>();
       }
 
     };
 
     ExtensionTestData::extension_vector_type ExtensionTestData::extension_vector;
+    ExtensionTestData::extension_vector_type ExtensionTestData::extension_vector_2;
+
+    // ##############################################################
 
     /*!
       \class Test_AssociativePrefixContainer
@@ -107,9 +136,6 @@ namespace OKlib {
       \todo Replace old tests.
       \todo Test for extensions, where no extension is possible.
       \todo More test cases.
-      \todo Provide testing of assign member function in test_assign private member function (this test should catch the current malfunction!)
-      \todo Provide testing of begin and end member function in test_begin private member function.
-      \todo Provide testing of insert member function in test_insert private member function.
       \todo Design an informal concept.
       \todo Once a concept has been created, test the syntax.
     */
@@ -128,289 +154,203 @@ namespace OKlib {
       PrefixTestData prefix_test_data;
       ExtensionTestData extension_test_data;
 
-      void test_first_extension() {
+      typedef typename BaseTestData::string_type string_type;
 
-        typedef typename BaseTestData::value_type value_type;
-        typedef AssociativePrefixContainer<value_type> APC_t;
-        typedef ExtensionTestData::const_iterator iterator;
-        APC_t prefix_container(prefix_test_data.prefix_vector);
-        const iterator& end(extension_test_data.extension_vector.end());
-        for (iterator begin(extension_test_data.extension_vector.begin()); begin != end; ++begin) {
-          value_type header(extension_test_data.header(begin));
-          value_type expected_extension(extension_test_data.extension_value(begin));
-          typedef APC_t::const_iterator iterator;
-          iterator first_extension(prefix_container.first_extension(header));
-          iterator end(prefix_container.end());
-          if (first_extension != end)
-            OKLIB_TEST_EQUAL(*first_extension,expected_extension);
-        }
+      /*!
+        \fn test_assign_function() 
+        \brief Tests for AssociativePrefixContainer assign member function.
+
+        An AssociativePrefixContainer is initialized with the a vector of
+        prefixes. Then one set is initialized with the same vector of 
+        prefixes and another set is intialized from the prefix container.
+        The equality of both sets is then tested.
+      */
+
+      void test_assign_function() {
+        typedef PrefixTestData::prefix_vector_type vector_type;
+        typedef AssociativePrefixContainer<string_type> prefix_container_type;
+
+        const vector_type& prefix_vector(prefix_test_data.prefix_vector);      
+        prefix_container_type prefix_container;
+        prefix_container.assign(prefix_vector);
+
+        std::set<string_type> expected_prefix_set(prefix_vector.begin(),prefix_vector.end());
+        std::set<string_type> actual_prefix_set(prefix_container.begin(),prefix_container.end());
+
+        if (not (expected_prefix_set == actual_prefix_set))
+          OKLIB_THROW("not (expected_prefix_set == actual_prefix_set)");
+      }
+
+      // #############################
+
+      /*!
+        \fn test_begin_end() 
+        \brief Tests for AssociativePrefixContainer begin and end member 
+        functions.
+
+        First the equality of begin and end of an empty prefix container 
+        is tested. Then a prefix container is initalized from a vector 
+        of prefixes and the inequality of begin and end is tested.
+      */
+
+      void test_begin_end() {
+        typedef AssociativePrefixContainer<string_type> prefix_container_type;
+        typedef PrefixTestData::prefix_vector_type vector_type;
+        prefix_container_type prefix_container;
+        const vector_type& prefix_vector(prefix_test_data.prefix_vector);
+
+        if (not (prefix_container.begin() == prefix_container.end()))
+          OKLIB_THROW("not (prefix_container.begin() == prefix_container.end())");
+        prefix_container.assign(prefix_vector);
+        if (prefix_container.begin() == prefix_container.end())
+          OKLIB_THROW("(prefix_container.begin() == prefix_container.end())");
 
       }
+
+      // #############################
+
+      /*!
+        \fn test_insert() 
+        \brief Tests for AssociativePrefixContainer insert member
+        function.
+
+        One prefix container is initialized with a vector of prefixes,
+        and another prefix container is intialized by iterating over
+        the same vector of prefixes and calling the insert member on
+        each element. Then two sets are initialized with the contents
+        of the two prefix containers and the equality of both sets is
+        checked.
+      */
+
+      void test_insert() {
+        typedef AssociativePrefixContainer<string_type> container_type;
+        typedef PrefixTestData::prefix_vector_type vector_type;
+        typedef vector_type::const_iterator const_iterator;
+
+        const vector_type& prefix_vector(prefix_test_data.prefix_vector);
+        container_type prefix_container_1;
+        container_type prefix_container_2;
+
+        prefix_container_1.assign(prefix_vector);
+        const const_iterator& end(prefix_vector.end());
+
+        for(const_iterator begin(prefix_vector.begin()); begin != end; ++begin) {
+          prefix_container_2.insert(*begin);
+        }
+        std::set<string_type> prefix_set_1(prefix_container_1.begin(),prefix_container_1.end());
+        std::set<string_type> prefix_set_2(prefix_container_2.begin(),prefix_container_2.end());
+        if (not (prefix_set_1 == prefix_set_2))
+          OKLIB_THROW("not (prefix_set_1 == prefix_set_2)");
+
+      }
+
+      // #############################
+
+      /*!
+        \fn test_first_extension() 
+        \brief Tests for AssociativePrefixContainer first_extension 
+        member function.
+
+        A vector of extension test data is iterated over. Each element
+        consists of a header and an expected extended header. For each
+        header the first_extension member function is called and the
+        obtained extension is checked against the expected extended
+        header.
+
+        \todo Test iterators, not just values.
+        \todo Test for extensions, where no extension is possible.
+      */
+
+      void test_first_extension() {
+        typedef AssociativePrefixContainer<string_type> prefix_container_type;
+        typedef ExtensionTestData::const_iterator iterator;
+        typedef prefix_container_type::const_iterator prefix_iterator_type;
+
+        prefix_container_type prefix_container(prefix_test_data.prefix_vector);
+        const iterator& end(extension_test_data.extension_vector.end());
+
+        for (iterator begin(extension_test_data.extension_vector.begin()); begin != end; ++begin) {
+          string_type header(extension_test_data.header(begin));
+          if (extension_test_data.has_extension(begin)) {
+            string_type expected_extension(extension_test_data.extension_value(begin));
+            prefix_iterator_type first_extension(prefix_container.first_extension(header));
+            prefix_iterator_type end(prefix_container.end());
+            if (first_extension == end) 
+              OKLIB_THROW("first_extension == end"); 
+            OKLIB_TEST_EQUAL(*first_extension,expected_extension);
+          }
+          else {
+            if (not (prefix_container.first_extension(header) == prefix_container.end()))
+              OKLIB_THROW("not (prefix_container.first_extension(header) == prefix_container.end())");
+          }
+        }
+      }
+
+      // #############################
+
+      /*!
+        \fn test_first_extension_uniqueness_checked() 
+        \brief Tests for AssociativePrefixContainer first_extension_
+        uniqueness_checked member function.
+
+        A vector of extension test data is iterated over. Each element
+        of the vector is a tuple <string_type,bool,string_type,bool>
+        where the first string_type element is a header, the second is 
+        true iff the header has an extension, the third element is
+        an expected extended header and the fourth element is a bool
+        which is true if and only if the expected extension is unique.
+        For each header, if it has an extension, then the first_extension
+        member function is called and the obtained extension is checked 
+        against the expected extended header and the uniqueness is checked 
+        against the expected uniqueness. Otherwise the first_extension
+        function is called and the result is checked to see if the first
+        element is a past_the_end iterator, and the second is true.
+
+        \todo Test iterators, not just values.
+        \todo Test for extensions, where no extension is possible.
+        \todo Test for ambiguous extensions.
+      */
 
       void test_first_extension_uniqueness_checked() {
-        
-        typedef typename BaseTestData::value_type value_type;
-        typedef AssociativePrefixContainer<value_type> APC_t;
+        typedef AssociativePrefixContainer<string_type> prefix_container_type;
         typedef ExtensionTestData::const_iterator iterator;
-        APC_t prefix_container(prefix_test_data.prefix_vector);
+        typedef prefix_container_type::const_iterator prefix_iterator_type;
+        typedef prefix_container_type::checked_iterator_type checked_iterator_type;
+        prefix_container_type prefix_container(prefix_test_data.prefix_vector);
         const iterator& end(extension_test_data.extension_vector.end());
         for (iterator begin(extension_test_data.extension_vector.begin()); begin != end; ++begin) {
-          value_type header(extension_test_data.header(begin));
-          value_type expected_extension(extension_test_data.extension_value(begin));
-          typedef APC_t::const_iterator iterator;
-          typedef APC_t::checked_iterator_type checked_iterator_type;
-          checked_iterator_type first_extension(prefix_container.first_extension_uniqueness_checked(header));
-          iterator end(prefix_container.end());
-          if (first_extension.first != end)
+          string_type header(extension_test_data.header(begin));
+          if (extension_test_data.has_extension(begin)) {
+            string_type expected_extension(extension_test_data.extension_value(begin));
+            checked_iterator_type first_extension(prefix_container.first_extension_uniqueness_checked(header));
+            prefix_iterator_type end(prefix_container.end());
+            if (first_extension.first == end)
+              OKLIB_THROW("first_extension.first == end");
             OKLIB_TEST_EQUAL(*(first_extension.first),expected_extension);
-            
+            OKLIB_TEST_EQUAL(first_extension.second,extension_test_data.uniqueness(begin));
+          }
+          else {
+            checked_iterator_type first_extension(prefix_container.first_extension_uniqueness_checked(header));
+            if (not (first_extension.first == prefix_container.end()))
+              OKLIB_THROW("not (first_extension == prefix_container.end())");
+            OKLIB_TEST_EQUAL(first_extension.second,extension_test_data.uniqueness(begin));
+          }
         }
         
       }
 
+      // ##############################################################
+
       void perform_test_trivial() {
-
-        { 
-          test_first_extension();
-          test_first_extension_uniqueness_checked();
-        }
-
-        // ########################################################################################
-
-        { // Testing of empty APC.
-
-          typedef PrefixContainer<std::string> APC;
-          typedef typename APC::iterator iterator;
-          typedef typename APC::checked_iterator_type checked_iterator_type;
-
-          APC prefix_container;
-
-          if (prefix_container.begin() != prefix_container.end())
-            OKLIB_THROW("prefix_container.begin() != prefix_container.end()");
-          
-          const std::string test_string("test.hpp");
-          
-          { // Test first_extension function.
-            const iterator& found(prefix_container.first_extension(test_string));
-            const iterator& end(prefix_container.end());
-            if (found != end)
-              OKLIB_THROW("found != end");
-          }
-
-          { // Test first_extension_uniqueness_checked function.
-            const checked_iterator_type& found(prefix_container.first_extension_uniqueness_checked(test_string));
-            OKLIB_TEST_EQUAL(found.second, true);
-            if (found.second != true)
-              OKLIB_THROW("found.second != true");
-            const iterator& end(prefix_container.end());
-            if (found.first != end)
-              OKLIB_THROW("found.first != end");
-          }
-        }
-
-        // #############################################################
-
-        { // Testing of filled prefix container.
-
-          typedef std::string string_t;
-          typedef PrefixContainer<string_t> APC;
-          typedef typename APC::iterator iterator;
-          typedef typename APC::checked_iterator_type checked_iterator_type;
-          typedef std::set<string_t> set_t;
-          typedef set_t::const_iterator const_iterator_t;
-
-          APC prefix_container;
-          set_t expected_result_set;
-          set_t result_set;
-
-          using namespace boost::assign;   
-          typedef string_t s_t;       
-
-          { // Fill a set with prefix strings.
-            expected_result_set += 
-              s_t("/"), 
-              s_t("test001.hpp/dir001/"), 
-              s_t("test001.hpp/dir001/"), 
-              s_t("test002.hpp/dir001/dir002/"), 
-              s_t("test002.hpp/dir001/dir002/dir003/")
-              ;
-          }
-
-          { // Fill prefix_container with same prefix_strings.
-            const const_iterator_t& end(expected_result_set.end());
-            for(const_iterator_t begin(expected_result_set.begin()); begin!=end; ++begin)
-              {
-                string_t prefix(*begin);
-                checked_iterator_type result(prefix_container.insert(prefix));
-                if (*(result.first) != prefix)
-                  OKLIB_THROW("result.first != prefix");
-                OKLIB_TEST_EQUAL(result.second,true);
-              }
-          }
-
-          { // Fill result_set with contents of prefix_container.
-            typedef typename APC::const_iterator iterator_t;
-            const iterator_t& end(prefix_container.end());
-            for(iterator_t begin(prefix_container.begin()); begin!=end; ++begin) 
-              {
-                result_set.insert(*begin);
-              }
-          }
-
-          {
-            if (expected_result_set != result_set)
-              OKLIB_THROW("expected_result_set!=result_set");
-          }
-
-          // ####################################################
-
-
-          typedef std::pair<string_t,bool> checked_string_t;
-          typedef std::pair<string_t,checked_string_t> path_checked_string_t;
-          typedef std::vector<path_checked_string_t> vector_t;
-          vector_t test_vector;
-
-          typedef path_checked_string_t el_t;
-          typedef checked_string_t cs_t;
-
-          using namespace boost::assign;
-
-          test_vector +=
-            el_t("test001.hpp",cs_t("test001.hpp/dir001/",true)),
-            el_t("test002.hpp",cs_t("test002.hpp/dir001/dir002/",false));
-
-          { // Testing of extension functionality.
-            typedef vector_t::const_iterator iterator_t;
-            const iterator_t& end(test_vector.end());
-            for (iterator_t begin(test_vector.begin()); begin!=end; ++begin) {
-
-              string_t test_string((*begin).first);
-              checked_string_t((*begin).second);
-              const iterator& end(prefix_container.end());
-              const string_t& expected_extension(((*begin).second).first);              
-              const bool& expected_uniqueness(((*begin).second).second);
-
-              { // Testing of first_extension.
-                const iterator& found(prefix_container.first_extension(test_string));
-                OKLIB_TEST_NOTEQUAL(found, end);
-                OKLIB_TEST_EQUAL(*found, expected_extension);
-              }
-
-              { // Testing of first_extension_uniqueness_checked.
-                const checked_iterator_type& found_checked(prefix_container.first_extension_uniqueness_checked(test_string));
-                const iterator& found_iter(found_checked.first);
-                const bool& found_unique(found_checked.second);
-                OKLIB_TEST_NOTEQUAL(found_iter, end);
-                const string_t& extension(*found_iter);
-                OKLIB_TEST_EQUAL(found_unique,expected_uniqueness);
-                OKLIB_TEST_EQUAL(extension,expected_extension);
-              }
-            }
-          }
-          
-        }
-
-        // ######################################################
-
-        {
-          // Testing of APC assign function..
-
-          typedef std::string string_t;
-          typedef PrefixContainer<string_t> APC;
-          typedef typename APC::iterator iterator;
-          typedef typename APC::checked_iterator_type checked_iterator_type;
-          typedef std::set<string_t> set_t;
-
-          APC prefix_container;
-          set_t expected_result_set;
-          set_t result_set;
-
-          using namespace boost::assign;
-          typedef string_t s_t;
-
-          expected_result_set += // Fill a set with prefix strings.
-            s_t("/"),
-            s_t("/dir001/"),
-            s_t("/dir001/dir002/"),
-            s_t("/dir001/dir002/dir003/");
-
-          prefix_container.assign(expected_result_set); // Fill prefix_container with set contents using assign function
-
-          typedef typename APC::const_iterator iterator_t;
-          const iterator_t& end(prefix_container.end());
-          for(iterator_t begin(prefix_container.begin()); begin!=end; ++begin) // Fill another set with contents of prefix_container.
-            {
-              result_set.insert(*begin);
-            }
-
-          if (expected_result_set != result_set)
-            OKLIB_THROW("expected_result_set!=result_set");
-        }
-
-        // ###############################################################################################
-
-        { // Older tests.
-          typedef PrefixContainer<std::string> APC;
-          typedef typename APC::iterator iterator;
-          typedef typename APC::checked_iterator_type checked_iterator_type;
-
-          APC prefix_container;
-
-          if (prefix_container.begin() != prefix_container.end())
-            OKLIB_THROW("prefix_container.begin() != prefix_container.end()");
-          
-          const std::string test_string("test.hpp");
-          
-          {
-            const iterator& found(prefix_container.first_extension(test_string));
-            const iterator& end(prefix_container.end());
-            if (found != end)
-              OKLIB_THROW("found != end");
-          }
-
-          const std::string word1("test.hpp/dir1/dir0/");
-          prefix_container.insert(word1);
-          if (prefix_container.begin() == prefix_container.end())
-            OKLIB_THROW("prefix_container.begin() == prefix_container.end()");
-
-          {
-            const iterator& found(prefix_container.first_extension(test_string));
-            const iterator& end(prefix_container.end());
-            OKLIB_TEST_NOTEQUAL(found, end);
-            OKLIB_TEST_EQUAL(*found, word1);
-          }
-          {
-            const checked_iterator_type& found(prefix_container.first_extension_uniqueness_checked(test_string));
-            OKLIB_TEST_EQUAL(found.second, true);
-            const iterator& end(prefix_container.end());
-            OKLIB_TEST_NOTEQUAL(found.first, end);
-            OKLIB_TEST_EQUAL(*found.first, word1);
-          }
-
-          const std::string word2("test.hpp/dir1");
-          prefix_container.insert(word2);
-
-          {
-            const iterator& found(prefix_container.first_extension(test_string));
-            const iterator& end(prefix_container.end());
-            OKLIB_TEST_NOTEQUAL(found, end);
-            OKLIB_TEST_EQUAL(*found, word2);
-          }
-          {
-            const checked_iterator_type& found(prefix_container.first_extension_uniqueness_checked(test_string));
-            OKLIB_TEST_EQUAL(found.second, false);
-            const iterator& end(prefix_container.end());
-            OKLIB_TEST_NOTEQUAL(found.first, end);
-            OKLIB_TEST_EQUAL(*found.first, word2);
-          }
-
-          
-        }
+        test_assign_function();
+        test_begin_end();
+        test_insert();
+        test_first_extension();
+        test_first_extension_uniqueness_checked();
       }
-    };
-
-  }
-
+     
+    };   
+  }  
 }
 
 #endif
