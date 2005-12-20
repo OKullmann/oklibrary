@@ -88,6 +88,7 @@
    - "make initialise-database" should work with the recommended version.
    - Build a local version of gmp.
    - Update PostgreSQL to version 8.1 (and test it).
+   - Build the R system (locally and globally).
 
   \todo "Full test": makefile at the OKplatform level --- there the
   different versions of gcc and boost are visible. "make check" at
