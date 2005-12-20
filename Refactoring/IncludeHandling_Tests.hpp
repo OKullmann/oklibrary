@@ -56,13 +56,12 @@ namespace OKlib {
     
     class IncludeDirectiveTestData : BaseTestData {
       
-    public:
-
       typedef boost::tuple<size_type,size_type,string_type,Include_forms,string_type> value_type;
       typedef std::vector<value_type> vec_pair_include_directive_type;
-      typedef vec_pair_include_directive_type::const_iterator const_iterator;
+      
+      vec_pair_include_directive_type vec_pair_include_directive;
 
-      static vec_pair_include_directive_type vec_pair_include_directive;
+    public:
 
       IncludeDirectiveTestData() {
         using namespace boost::assign;
@@ -71,37 +70,38 @@ namespace OKlib {
           v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
       }      
 
-      const_iterator begin() {
+      typedef vec_pair_include_directive_type::const_iterator const_iterator;
+
+      const_iterator begin() const {
         return vec_pair_include_directive.begin();
       }
 
-      const_iterator end() {
+      const_iterator end() const {
         return vec_pair_include_directive.end();
       }
 
-      size_type spaces_after_hash(const const_iterator& i) {
+      size_type spaces_after_hash(const const_iterator& i) const {
         return i->get<0>();
       }
 
-      size_type spaces_after_include(const const_iterator& i) {
+      size_type spaces_after_include(const const_iterator& i) const {
         return i->get<1>();
       }
 
-      string_type header(const const_iterator& i) {
+      string_type header(const const_iterator& i) const {
         return i->get<2>();
       }
 
-      Include_forms include_form(const const_iterator& i) {
+      Include_forms include_form(const const_iterator& i) const {
         return i->get<3>();
       }
 
-      string_type extended_header(const const_iterator& i) {
+      string_type extended_header(const const_iterator& i) const {
         return i->get<4>();
       }
 
     };
     
-    IncludeDirectiveTestData::vec_pair_include_directive_type IncludeDirectiveTestData::vec_pair_include_directive;
 
 
     // ##############################################################
@@ -117,7 +117,7 @@ namespace OKlib {
     public:
 
       typedef std::vector<string_type> vec_prefix_t;
-      static vec_prefix_t ref_prefix_vector;
+      vec_prefix_t ref_prefix_vector;
 
       PrefixTestData() {
         using namespace boost::assign;
@@ -126,9 +126,7 @@ namespace OKlib {
           s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
       }      
     };
-    
-    PrefixTestData::vec_prefix_t PrefixTestData::ref_prefix_vector;
-    
+        
     // ##############################################################
 
     /*!
@@ -144,7 +142,8 @@ namespace OKlib {
       
     public:
 
-      static vec_program_t working_vector;
+      vec_program_t working_vector;
+
       typedef vec_program_t::const_iterator const_iterator;
 
       ProgramTestData() {
@@ -164,7 +163,6 @@ namespace OKlib {
 
     };
     
-    ProgramTestData::vec_program_t ProgramTestData::working_vector;
 
     // ##############################################################
 
@@ -207,9 +205,9 @@ namespace OKlib {
       typedef include_directive_data_type id_t;
       typedef pr_type el_t;
 
-      static test_vector_type test_vector;
       typedef test_vector_type::const_iterator const_iterator;
 
+      test_vector_type test_vector;
 
 
       TestData() {
@@ -293,53 +291,41 @@ namespace OKlib {
         return id_w_c_vec;
       }
 
-      const size_type& number_spaces_after_hash(const_iterator iterator, id_w_c_vec_const_iterator_type iterator2) {
-        const el_t& el(*iterator);
-        const id_w_context_vec_type& id_w_c_vec(el.get<1>());
+      const size_type& number_spaces_after_hash(const_iterator, id_w_c_vec_const_iterator_type iterator2) {
         const std::pair<id_t,string_type>& pair(*iterator2);
         const id_t& id(pair.first);
         const size_type& number_spaces(id.get<0>());
         return number_spaces;
       }
 
-      const string_type& header(const_iterator iterator, id_w_c_vec_const_iterator_type iterator2) {
-        const el_t& el(*iterator);
-        const id_w_context_vec_type& id_w_c_vec(el.get<1>());
+      const string_type& header(const_iterator, id_w_c_vec_const_iterator_type iterator2) {
         const std::pair<id_t,string_type>& pair(*iterator2);
         const id_t& id(pair.first);
         const string_type& header_(id.get<1>());
         return header_;
       }
 
-      const size_type& number_spaces_after_include(const_iterator iterator, id_w_c_vec_const_iterator_type iterator2) {
-        const el_t& el(*iterator);
-        const id_w_context_vec_type& id_w_c_vec(el.get<1>());
+      const size_type& number_spaces_after_include(const_iterator, id_w_c_vec_const_iterator_type iterator2) {
         const std::pair<id_t,string_type>& pair(*iterator2);
         const id_t& id(pair.first);
         const size_type& number_spaces(id.get<2>());
         return number_spaces;
       }
 
-      Include_forms include_form(const_iterator iterator, id_w_c_vec_const_iterator_type iterator2) {
-        const el_t& el(*iterator);
-        const id_w_context_vec_type& id_w_c_vec(el.get<1>());
+      Include_forms include_form(const_iterator, id_w_c_vec_const_iterator_type iterator2) {
         const std::pair<id_t,string_type>& pair(*iterator2);
         const id_t& id(pair.first);
         Include_forms include_form_(id.get<3>());
         return include_form_;
       }
       
-      const string_type& context_string(const_iterator iterator, id_w_c_vec_const_iterator_type iterator2) {
-        const el_t& el(*iterator);
-        const id_w_context_vec_type& id_w_c_vec(el.get<1>());
+      const string_type& context_string(const_iterator, id_w_c_vec_const_iterator_type iterator2) {
         const std::pair<id_t,string_type>& pair(*iterator2);
         const string_type& context_string_(pair.second);
         return context_string_;
       }
       
-      const string_type& include_directive_string(const_iterator iterator, id_w_c_vec_const_iterator_type iterator2) {
-        const el_t& el(*iterator);
-        const id_w_context_vec_type& id_w_c_vec(el.get<1>());
+      const string_type& include_directive_string(const_iterator, id_w_c_vec_const_iterator_type iterator2) {
         const std::pair<id_t,string_type>& pair(*iterator2);
         const id_t& id(pair.first);
         const string_type& id_string(id.get<4>());
@@ -360,7 +346,6 @@ namespace OKlib {
 
     };
  
-    TestData::test_vector_type TestData::test_vector;
 
 
     // Fix for erroneous Boost library filesystem ############################################################################################
@@ -752,6 +737,7 @@ namespace OKlib {
       }
     private :
 
+      PrefixTestData prefix_test_data;
       ProgramTestData program_test_data;
       IncludeDirectiveTestData include_directive_test_data;
 
@@ -774,13 +760,17 @@ namespace OKlib {
         typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
         
         const iterator& end(include_directive_test_data.end());
-        const APC_type& prefix_container(PrefixTestData::ref_prefix_vector);
+        const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        extend_include_directives.test(); // ##############
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
+          std::cerr << "\nLoop\n\n"; // #######################
+          extend_include_directives.test(); // ##############
           string_type header(include_directive_test_data.header(begin));
           string_type expected_extended_header(include_directive_test_data.extended_header(begin));
-          //          string_type extended_header(extend_include_directives.extend_header(header));
-          //          OKLIB_TEST_EQUAL(extended_header,expected_extended_header);
+          extend_include_directives.test(); // ##############
+          string_type extended_header(extend_include_directives.extend_header(header));
+          OKLIB_TEST_EQUAL(extended_header,expected_extended_header);
         }
       }
 
@@ -804,14 +794,14 @@ namespace OKlib {
         typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
 
         const iterator& end(include_directive_test_data.end());
-        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        APC_type prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
 
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
           include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
           include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
-          //          extend_include_directives.extend_include_directive(include_directive);
-          //          OKLIB_TEST_EQUAL(include_directive,extended_include_directive);
+          extend_include_directives.extend_include_directive(include_directive);
+          OKLIB_TEST_EQUAL(include_directive,extended_include_directive);
         }
       }
 
@@ -837,7 +827,7 @@ namespace OKlib {
 
         std::vector<include_directive_type> vec_include_directives;
         std::vector<include_directive_type> vec_extended_include_directives;
-        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        APC_type prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
         const iterator& end(include_directive_test_data.end());
 
@@ -848,9 +838,9 @@ namespace OKlib {
           include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
           vec_extended_include_directives.push_back(extended_include_directive);
         }
-        //        extend_include_directives(vec_include_directives);
-        //        if (not (vec_include_directives == vec_extended_include_directives))
-        //          OKLIB_THROW("not (vec_include_directives == vec_extended_include_directives)");
+        extend_include_directives.transform_include_directives(vec_include_directives);
+        if (not (vec_include_directives == vec_extended_include_directives))
+          OKLIB_THROW("not (vec_include_directives == vec_extended_include_directives)");
       }
 
       // #############################
@@ -870,15 +860,15 @@ namespace OKlib {
       void test_bracket_operator() {
         typedef typename BaseTestData::string_type string_type;
         typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
-        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        APC_type prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container); 
         typedef ProgramTestData::vec_program_t::const_iterator const_program_iterator;
-        const const_program_iterator& end(ProgramTestData::working_vector.end());
-        for (const_program_iterator begin(ProgramTestData::working_vector.begin()); begin != end; ++begin) {
+        const const_program_iterator& end(program_test_data.working_vector.end());
+        for (const_program_iterator begin(program_test_data.working_vector.begin()); begin != end; ++begin) {
           std::istringstream program(program_test_data.program(begin));
-          std::istream& program_istream(program);
           string_type expected_extended_program(program_test_data.expected_extended_program(begin));
-          //          extend_include_directives(program_istream);
+          //extend_include_directives(program);
+          // ????????????????????????????????????
         }
       }
 

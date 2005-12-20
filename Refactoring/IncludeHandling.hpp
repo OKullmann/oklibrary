@@ -31,12 +31,15 @@
 #include <ios>
 #include <stdexcept>
 
+#include <iostream> // ##################################
+
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
 #include <boost/spirit/utility/chset.hpp>
 #include <boost/spirit/utility/regex.hpp>
 #include <boost/spirit/utility/escape_char.hpp>
 #include <boost/spirit/iterator/multi_pass.hpp>
+#include <boost/range/iterator_range.hpp>
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -46,6 +49,8 @@
 
 #include <boost/range/const_iterator.hpp> // Fix for erroneous Boost library filesystem ##################################################################
 #include <boost/range/size_type.hpp> // Fix for erroneous Boost library filesystem ##################################################################
+
+#include "IteratorHandling.hpp"
 
 #include "RecursiveDirectoryIteration.hpp"
 #include "AssociativeContainers.hpp"
@@ -471,16 +476,22 @@ namespace OKlib {
     class ExtendIncludeDirectives {
     public:
       
+      const APC& prefix_container;
+      const typename APC::const_iterator& end_prefix_container;
+
+      typedef ProgramRepresentationIncludes<> program_representation_includes_type;
+      program_representation_includes_type pr;
+
       typedef typename APC::prefix_type prefix_type;
       typedef typename APC::checked_iterator_type checked_iterator_type;
-      const typename APC::const_iterator& end_prefix_container;
       typedef prefix_type string_type;
       typedef IncludeDirective<string_type> include_directive_type;
     
-      const APC& prefix_container;
-      ProgramRepresentationIncludes<> pr;
 
-      ExtendIncludeDirectives (const APC& prefix_container) : prefix_container(prefix_container), end_prefix_container(prefix_container.end()) {}
+      ExtendIncludeDirectives (const APC& prefix_container_) : prefix_container(prefix_container_), end_prefix_container(prefix_container.end()) {
+        if (end_prefix_container == end_prefix_container)
+          std::cerr << "\nend_prefix_container 0\n\n"; // #######
+      }
 
 
       // #############################
@@ -494,11 +505,22 @@ namespace OKlib {
         prefix_container.
       */
 
-      const string_type& extend_header(string_type& header) {
+      const void test() const { // ##############
+        if (end_prefix_container == end_prefix_container)
+          std::cerr << "\nend_prefix_container in test\n\n"; 
+      }
+
+      string_type extend_header(const string_type& header) const {
+        if (end_prefix_container == end_prefix_container)
+          std::cerr << "\nend_prefix_container 1\n\n"; 
         const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header));
+        if (extension.first == extension.first)// ###################
+          std::cerr << "\nextension.first\n\n"; 
+        if (end_prefix_container == end_prefix_container)
+          std::cerr << "\nend_prefix_container 2\n\n"; 
         if (extension.first == end_prefix_container)
           throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::extend_include_directive(include_directive_type& include_directive):\n header file " + header + " has no extension");
-        const string_type& new_header_file((extension.second) ? *(extension.first) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header));
+        return (extension.second) ? *(extension.first) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header);
       }
 
 
@@ -513,9 +535,8 @@ namespace OKlib {
         function of prefix_container.
       */
 
-      void extend_include_directive(include_directive_type& include_directive) {
-        string_type& header(include_directive.header_file());
-        include_directive.header_file() = extend_header(header);
+      void extend_include_directive(include_directive_type& include_directive) const {
+        include_directive.header_file() = extend_header(include_directive.header_file());
       }
 
       // #############################
@@ -534,14 +555,11 @@ namespace OKlib {
       */
 
       template <class Range>
-      void operator() (Range& range_input) {
-        
-        typedef typename boost::range_const_iterator<Range>::type iterator_type;
+      void transform_include_directives(Range& range_input) {
+        typedef typename boost::range_iterator<Range>::type iterator_type;
         const iterator_type& end(boost::end(range_input));
-        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin) {
-          IncludeDirective<std::string> include_directive(*begin);
-          extend_include_directive(include_directive);
-        }
+        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin)
+          extend_include_directive(*begin);
       }
 
       // ############################# 
@@ -552,12 +570,14 @@ namespace OKlib {
         in a std::istream.
       */
 
-      void operator() (std::istream& input) {
-        typedef ProgramRepresentationIncludes<>::container_type container_type;
+      void operator() (std::istream& input) { // ????????????
         input >> pr;
-        container_type& include_directive_with_context_container(pr.include_directives_with_context);
-        operator()(include_directive_with_context_container);
-        // Now we need to assign the ostream from pr to the input.
+        typedef program_representation_includes_type::container_type container_type;
+        typedef container_type::iterator iterator;
+        //operator()(IteratorHandling::range_first(pr.include_directives_with_context)); // ????????????????????????????
+        typedef typename IteratorHandling::IteratorFirst<iterator>::type iterator_first;
+        boost::iterator_range<iterator_first> r(pr.include_directives_with_context.begin(), pr.include_directives_with_context.end());
+        transform_include_directives(r);
       }
 
     };
@@ -611,7 +631,7 @@ namespace OKlib {
     class ExtendIncludeDirectivesTwoDirectories {
     public:
 
-      typedef typename OKlib::GeneralInputOutput::DirectoryIterator DirectoryIterator;
+      typedef OKlib::GeneralInputOutput::DirectoryIterator DirectoryIterator;
 
       const Path& ref_dir;
       const Path& work_dir;
