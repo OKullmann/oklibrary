@@ -182,12 +182,25 @@ namespace IteratorHandling {
     typedef FunctionHandling::First<value_type> first;
     typedef boost::transform_iterator<first, Iterator> type;
   };
+  template <class Iterator>
+  struct IteratorFirstMutable {
+    typedef typename Iterator::value_type value_type;
+    typedef FunctionHandling::FirstMutable<value_type> first;
+    typedef boost::transform_iterator<first, Iterator> type;
+  };
+
 
   template <class Iterator>
   typename IteratorFirst<Iterator>::type iterator_first(const Iterator& it) {
     typedef typename IteratorFirst<Iterator>::type iterator;
     return iterator(it);
   }
+  template <class Iterator>
+  typename IteratorFirstMutable<Iterator>::type iterator_first(Iterator& it) {
+    typedef typename IteratorFirst<Iterator>::type iterator;
+    return iterator(it);
+  }
+
 
   /*!
     \class IteratorSecond
@@ -200,12 +213,25 @@ namespace IteratorHandling {
     typedef FunctionHandling::Second<value_type> second;
     typedef boost::transform_iterator<second, Iterator> type;
   };
+  template <class Iterator>
+  struct IteratorSecondMutable {
+    typedef typename Iterator::value_type value_type;
+    typedef FunctionHandling::SecondMutable<value_type> second;
+    typedef boost::transform_iterator<second, Iterator> type;
+  };
+
 
   template <class Iterator>
   typename IteratorSecond<Iterator>::type iterator_second(const Iterator& it) {
     typedef typename IteratorSecond<Iterator>::type iterator;
     return iterator(it);
   }
+  template <class Iterator>
+  typename IteratorSecondMutable<Iterator>::type iterator_second(Iterator& it) {
+    typedef typename IteratorSecond<Iterator>::type iterator;
+    return iterator(it);
+  }
+
 
   template <class Range>
   struct RangeFirstConst {
@@ -213,6 +239,13 @@ namespace IteratorHandling {
     typedef typename IteratorFirst<iterator>::type iterator_first;
     typedef boost::iterator_range<iterator_first> type;
   };
+  template <class Range>
+  struct RangeFirstMutable {
+    typedef typename boost::range_iterator<Range>::type iterator;
+    typedef typename IteratorFirstMutable<iterator>::type iterator_first;
+    typedef boost::iterator_range<iterator_first> type;
+  };
+
 
   template <class Range>
   typename RangeFirstConst<Range>::type range_first(const Range& r) {
@@ -223,7 +256,16 @@ namespace IteratorHandling {
     using boost::end;
     return range(iterator(begin(r)), iterator(end(r)));
   }
-  // ToDo: Improving handling of constness (and non-constness).
+  template <class Range>
+  typename RangeFirstMutable<Range>::type range_first(Range& r) {
+    typedef RangeFirstMutable<Range> range_first_mutable;
+    typedef typename range_first_mutable::type range;
+    typedef typename range_first_mutable::iterator_first iterator;
+    using boost::begin;
+    using boost::end;
+    return range(iterator(begin(r)), iterator(end(r)));
+  }
+
 
   template <class Range>
   struct RangeSecondConst {
@@ -231,6 +273,13 @@ namespace IteratorHandling {
     typedef typename IteratorSecond<iterator>::type iterator_second;
     typedef boost::iterator_range<iterator_second> type;
   };
+  template <class Range>
+  struct RangeSecondMutable {
+    typedef typename boost::range_iterator<Range>::type iterator;
+    typedef typename IteratorSecondMutable<iterator>::type iterator_second;
+    typedef boost::iterator_range<iterator_second> type;
+  };
+
 
   template <class Range>
   typename RangeSecondConst<Range>::type range_second(const Range& r) {
@@ -241,7 +290,15 @@ namespace IteratorHandling {
     using boost::end;
     return range(iterator(begin(r)), iterator(end(r)));
   }
-  // ToDo: Improving handling of constness (and non-constness).
+  template <class Range>
+  typename RangeSecondConst<Range>::type range_second(Range& r) {
+    typedef RangeSecondMutable<Range> range_second_mutable;
+    typedef typename range_second_mutable::type range;
+    typedef typename range_second_mutable::iterator_second iterator;
+    using boost::begin;
+    using boost::end;
+    return range(iterator(begin(r)), iterator(end(r)));
+  }
 
 
 }
