@@ -570,13 +570,11 @@ namespace OKlib {
         in a std::istream.
       */
 
-      void operator() (std::istream& input) { // ????????????
+      void operator() (std::istream& input) {
         input >> pr;
         typedef program_representation_includes_type::container_type container_type;
-        typedef container_type::iterator iterator;
-        //operator()(IteratorHandling::range_first(pr.include_directives_with_context)); // ????????????????????????????
-        typedef typename IteratorHandling::IteratorFirst<iterator>::type iterator_first;
-        boost::iterator_range<iterator_first> r(pr.include_directives_with_context.begin(), pr.include_directives_with_context.end());
+        typedef IteratorHandling::RangeFirstMutable<container_type>::type range_type;
+        range_type r(pr.include_directives_with_context);
         transform_include_directives(r);
       }
 
