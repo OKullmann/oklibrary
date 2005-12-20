@@ -839,9 +839,8 @@ namespace OKlib {
           vec_extended_include_directives.push_back(extended_include_directive);
         }
         extend_include_directives.transform_include_directives(vec_include_directives);
-        if (not (vec_include_directives == vec_extended_include_directives))
-          OKLIB_THROW("not (vec_include_directives == vec_extended_include_directives)");
-      }
+        OKLIB_TEST_EQUAL_W(vec_include_directives, vec_extended_include_directives);
+       }
 
       // #############################
 
@@ -867,8 +866,10 @@ namespace OKlib {
         for (const_program_iterator begin(program_test_data.working_vector.begin()); begin != end; ++begin) {
           std::istringstream program(program_test_data.program(begin));
           string_type expected_extended_program(program_test_data.expected_extended_program(begin));
-          //extend_include_directives(program);
-          // ????????????????????????????????????
+          extend_include_directives(program);
+          std::ostringstream extended_program;
+          extended_program << extend_include_directives.pr;
+          //OKLIB_TEST_EQUAL(extended_program.str(),expected_extended_program); 
         }
       }
 
