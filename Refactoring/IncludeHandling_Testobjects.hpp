@@ -14,6 +14,7 @@ namespace OKlib {
 
   namespace Refactoring {
    
+    Test_BoostFilesystemFix test_boost_filesystem_fix;
     Test_IncludeDirective<IncludeDirective> test_include_directive;
     Test_IncludeParsingGrammar<IncludeParsingGrammar> test_include_parsing_grammar;
     Test_ProgramRepresentationIncludes<ProgramRepresentationIncludes> test_program_representation_includes;
