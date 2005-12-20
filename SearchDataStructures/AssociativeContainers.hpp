@@ -49,7 +49,7 @@ namespace OKlib {
       
       typedef typename std::set<Range, SortLexicographical> SetRanges;
     
-      SetRanges prefix_set;
+      SetRanges prefix_set; // range_type ???????????????????
 
       template <class Range2>
       void prefix_set_assign(const Range2& range) {
