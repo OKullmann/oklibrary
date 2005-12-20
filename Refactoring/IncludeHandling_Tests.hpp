@@ -60,15 +60,15 @@ namespace OKlib {
 
       typedef boost::tuple<size_type,size_type,string_type,Include_forms,string_type> value_type;
       typedef std::vector<value_type> vec_pair_include_directive_type;
-      static vec_pair_include_directive_type vec_pair_include_directive;
-
       typedef vec_pair_include_directive_type::const_iterator const_iterator;
+
+      static vec_pair_include_directive_type vec_pair_include_directive;
 
       IncludeDirectiveTestData() {
         using namespace boost::assign;
         typedef value_type v_t;
         vec_pair_include_directive += 
-          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
       }      
 
       const_iterator begin() {
@@ -123,7 +123,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef string_type s_t;
         ref_prefix_vector += 
-          s_t("OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+          s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
       }      
     };
     
@@ -363,7 +363,30 @@ namespace OKlib {
     TestData::test_vector_type TestData::test_vector;
 
 
-    // ##############################################################
+    // Fix for erroneous Boost library filesystem ############################################################################################
+
+    /*!
+
+      \class Test_BoostFilesystemFix
+      \brief Testing of fix for erroneous boost::filesystem.
+    */
+
+    class Test_BoostFilesystemFix : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_BoostFilesystemFix test_type;
+      Test_BoostFilesystemFix() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        const boost::filesystem::path& test_path_001("/");
+        const boost::filesystem::path& test_path_002("/dir0/dir1/file.hpp");
+        OKLIB_TEST_EQUAL(boost::size(test_path_001),1);
+        OKLIB_TEST_EQUAL(boost::size(test_path_002),4);
+      }
+    };
+
+    // ###########################################################################################
 
     /*!
 
@@ -730,52 +753,119 @@ namespace OKlib {
     private :
 
       ProgramTestData program_test_data;
+      IncludeDirectiveTestData include_directive_test_data;
 
       // #############################
 
-      void test_include_directive_bracket_operator() {
+      /*!
+        \fn test_extend_header
+        \brief Test function for extend_header function.
+
+        In this test the idea is to iterate over the include directive
+        test data, each time calling the extend_header function 
+        and comparing the result against the expected extended header.
+      */
+
+      void test_extend_header() {
 
         typedef BaseTestData::string_type string_type;
-        IncludeDirectiveTestData include_directive_test_data;
         typedef IncludeDirective<string_type> include_directive_type;
         typedef IncludeDirectiveTestData::const_iterator iterator;
-        const iterator& end(include_directive_test_data.end());
         typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
-        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        
+        const iterator& end(include_directive_test_data.end());
+        const APC_type& prefix_container(PrefixTestData::ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
-          include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
-          include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
-          //          extend_include_directives(include_directive);
+          string_type header(include_directive_test_data.header(begin));
+          string_type expected_extended_header(include_directive_test_data.extended_header(begin));
+          //          string_type extended_header(extend_include_directives.extend_header(header));
+          //          OKLIB_TEST_EQUAL(extended_header,expected_extended_header);
         }
       }
 
       // #############################
 
-      void test_range_template_bracket_operator() {
+      /*!
+        \fn test_extend_include_directive
+        \brief Test function for extend_include_directive function.
+
+        In this test the idea is to iterate over the include directive
+        test data, each time calling the extend_include_directive function
+        and comparing the result against the expected extended include 
+        directive.
+      */
+
+      void test_extend_include_directive() {
 
         typedef BaseTestData::string_type string_type;
-        IncludeDirectiveTestData include_directive_test_data;
         typedef IncludeDirective<string_type> include_directive_type;
         typedef IncludeDirectiveTestData::const_iterator iterator;
+        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
+
+        const iterator& end(include_directive_test_data.end());
+        APC_type prefix_container(PrefixTestData::ref_prefix_vector);
+        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+
+        for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
+          include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          //          extend_include_directives.extend_include_directive(include_directive);
+          //          OKLIB_TEST_EQUAL(include_directive,extended_include_directive);
+        }
+      }
+
+      // #############################
+
+      /*!
+        \fn test_range_bracket_operator
+        \brief Test function for bracket operator with Range
+        parameter.
+
+        In this test we construct vectors of include directives and
+        extended include directives from the test data. Then we
+        call the bracket operator with the first vector as argument
+        and compare it for equality with the second vector.
+      */
+
+      void test_range_bracket_operator() {
+
+        typedef BaseTestData::string_type string_type;
+        typedef IncludeDirective<string_type> include_directive_type;
+        typedef IncludeDirectiveTestData::const_iterator iterator;
+        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
 
         std::vector<include_directive_type> vec_include_directives;
         std::vector<include_directive_type> vec_extended_include_directives;
-
-        const iterator& end(include_directive_test_data.end());
-        for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
-          include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
-          include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
-          vec_include_directives.push_back(include_directive);
-          vec_extended_include_directives.push_back(extended_include_directive);
-        }
-        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
         APC_type prefix_container(PrefixTestData::ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        const iterator& end(include_directive_test_data.end());
+
+        for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
+          include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          vec_include_directives.push_back(include_directive);
+
+          include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
+          vec_extended_include_directives.push_back(extended_include_directive);
+        }
         //        extend_include_directives(vec_include_directives);
+        //        if (not (vec_include_directives == vec_extended_include_directives))
+        //          OKLIB_THROW("not (vec_include_directives == vec_extended_include_directives)");
       }
 
       // #############################
+
+      /*!
+        \fn test_bracket_operator
+        \brief Test function for bracket operator with std::istream
+        parameter.
+
+        In this test we iterate over the working vector from the
+        program test data class. For each program we call the 
+        bracket operator and compare the output against the expected
+        program with extended include directives (provided by the
+        program test data class).
+      */
 
       void test_bracket_operator() {
         typedef typename BaseTestData::string_type string_type;
@@ -795,11 +885,37 @@ namespace OKlib {
       // #############################
 
       void perform_test_trivial() {
-        test_include_directive_bracket_operator();
-        test_range_template_bracket_operator();
+        test_extend_header();
+        test_extend_include_directive();
+        test_range_bracket_operator();
         test_bracket_operator();        
       }
 
+    };
+
+    // ##############################################################
+
+    /*!
+      \class Test_ExtendIncludeDirectivesTwoRanges
+    */
+
+    template <template <class Range1, class Range2, class UniquenessPolicy> class ExtendIncludeDirectivesTwoRanges>
+    class Test_ExtendIncludeDirectivesTwoRanges : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_ExtendIncludeDirectivesTwoRanges test_type;
+      Test_ExtendIncludeDirectivesTwoRanges() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        // In this test we construct an ExtendIncludeDirectivesTwoRanges
+        // object with the prefix_vector from the PrefixTestData as one
+        // parameter and the program_test_data from the ProgramTestData
+        // class as the other. We test for equality of the first and second
+        // elements of each pair of the program_test_data.
+        // ExtendIncludeDirectivesTwoRanges<PrefixTestData::vec_prefix_t,ProgramTestData::vec_program_t,ThrowIfNonUnique>(PrefixTestData::ref_prefix_vector,ProgramTestData::working_vector);
+
+      }
     };
 
     // ##############################################################
@@ -821,30 +937,7 @@ namespace OKlib {
 
       }
     };
-
-    // ##############################################################
-
-    /*!
-      \class Test_ExtendIncludeDirectivesTwoRanges
-    */
-
-    template <template <class Range1, class Range2, class UniquenessPolicy> class ExtendIncludeDirectivesTwoRanges>
-    class Test_ExtendIncludeDirectivesTwoRanges : public ::OKlib::TestSystem::TestBase {
-    public :
-      typedef Test_ExtendIncludeDirectivesTwoRanges test_type;
-      Test_ExtendIncludeDirectivesTwoRanges() {
-        insert(this);
-      }
-    private :
-      void perform_test_trivial() {
-
-        ExtendIncludeDirectivesTwoRanges<PrefixTestData::vec_prefix_t,ProgramTestData::vec_program_t,ThrowIfNonUnique>(PrefixTestData::ref_prefix_vector,ProgramTestData::working_vector);
-
-      }
-    };
-
   }
-
 }
 
 #endif
