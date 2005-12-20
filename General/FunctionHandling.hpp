@@ -18,11 +18,21 @@ namespace FunctionHandling {
   struct First : std::unary_function<C, const typename C::first_type&> {
     const typename C::first_type& operator() (const C& c) const { return c.first; }
   };
+  template <class C>
+  struct FirstMutable : std::unary_function<C, typename C::first_type&> {
+    typename C::first_type& operator() (C& c) const { return c.first; }
+  };
+
 
   template <class C>
   struct Second : std::unary_function<C, const typename C::second_type&> {
     const typename C::second_type& operator() (const C& c) const { return c.second; }
   };
+  template <class C>
+  struct SecondMutable : std::unary_function<C, typename C::second_type&> {
+    typename C::second_type& operator() (C& c) const { return c.second; }
+  };
+
 
   template <typename Value, typename Pointer = const Value*>
   struct Dereferenciation : std::unary_function<const Pointer&, const Value&> {
