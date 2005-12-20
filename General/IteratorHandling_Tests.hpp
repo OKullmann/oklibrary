@@ -1,5 +1,11 @@
 // Oliver Kullmann, 11.9.2004
 
+/*!
+  \file IteratorHandling_Tests.hpp
+  \brief Tests for the tools for handling iterators.
+  \todo Testing of the iterator adaptors for sequences.
+*/
+
 #ifndef ITERATORHANDLING_TESTS_kkakxQWop83R
 
 #define ITERATORHANDLING_TESTS_kkakxQWop83R
