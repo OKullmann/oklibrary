@@ -31,8 +31,6 @@
 #include <ios>
 #include <stdexcept>
 
-#include <iostream> // ##################################
-
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
 #include <boost/spirit/utility/chset.hpp>
@@ -489,8 +487,7 @@ namespace OKlib {
     
 
       ExtendIncludeDirectives (const APC& prefix_container_) : prefix_container(prefix_container_), end_prefix_container(prefix_container.end()) {
-        if (end_prefix_container == end_prefix_container)
-          std::cerr << "\nend_prefix_container 0\n\n"; // #######
+        test();
       }
 
 
@@ -506,18 +503,13 @@ namespace OKlib {
       */
 
       const void test() const { // ##############
-        if (end_prefix_container == end_prefix_container)
-          std::cerr << "\nend_prefix_container in test\n\n"; 
+        // assert(end_prefix_container == prefix_container.end()); // ASSERT ERROR! OK 21.12.2005 ??????????????????????????????????????????????????????
       }
 
       string_type extend_header(const string_type& header) const {
-        if (end_prefix_container == end_prefix_container)
-          std::cerr << "\nend_prefix_container 1\n\n"; 
+        test(); // ################
         const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header));
-        if (extension.first == extension.first)// ###################
-          std::cerr << "\nextension.first\n\n"; 
-        if (end_prefix_container == end_prefix_container)
-          std::cerr << "\nend_prefix_container 2\n\n"; 
+        test();
         if (extension.first == end_prefix_container)
           throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::extend_include_directive(include_directive_type& include_directive):\n header file " + header + " has no extension");
         return (extension.second) ? *(extension.first) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header);
@@ -536,6 +528,7 @@ namespace OKlib {
       */
 
       void extend_include_directive(include_directive_type& include_directive) const {
+        test();
         include_directive.header_file() = extend_header(include_directive.header_file());
       }
 
@@ -556,10 +549,14 @@ namespace OKlib {
 
       template <class Range>
       void transform_include_directives(Range& range_input) {
+        test();
         typedef typename boost::range_iterator<Range>::type iterator_type;
         const iterator_type& end(boost::end(range_input));
-        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin)
+        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin) {
+          test();
           extend_include_directive(*begin);
+          test();
+        }
       }
 
       // ############################# 
@@ -571,11 +568,14 @@ namespace OKlib {
       */
 
       void operator() (std::istream& input) {
+        test();
         input >> pr;
         typedef program_representation_includes_type::container_type container_type;
         typedef IteratorHandling::RangeFirstMutable<container_type>::type range_type;
         range_type r(pr.include_directives_with_context);
+        test();
         transform_include_directives(r);
+        test();
       }
 
     };
