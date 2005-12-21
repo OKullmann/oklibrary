@@ -67,7 +67,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef value_type v_t;
         vec_pair_include_directive += 
-          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
+          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
         assert(vec_pair_include_directive.size() == 1);
       }      
 
@@ -727,13 +727,10 @@ namespace OKlib {
       \class Test_ExtendIncludeDirectives
       \brief Test class for functor which handles the extending of include
       directives in a single file.
-      \todo The template parameter ExtendIncludeDirectives has the wrong
-      (higher-order) type!!!
       \todo Definition of APC_type is wrong!!
-      \todo Types like ExtendIncludeDirectives<APC_type> always need a typedef!!
     */
 
-    template <template <class UniquenessPolicy> class ExtendIncludeDirectives>
+    template <template <class APC, class UniquenessPolicy = OKlib::Refactoring::ThrowIfNonUnique> class ExtendIncludeDirectives>
     class Test_ExtendIncludeDirectives : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_ExtendIncludeDirectives test_type;
@@ -741,6 +738,13 @@ namespace OKlib {
         insert(this);
       }
     private :
+
+      typedef BaseTestData::string_type string_type;
+      typedef IncludeDirective<string_type> include_directive_type;
+      typedef IncludeDirectiveTestData::const_iterator iterator;
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
+      typedef ExtendIncludeDirectives<APC_type> extend_include_directives_type;
+      typedef ProgramTestData::vec_program_t::const_iterator const_program_iterator;
 
       const PrefixTestData prefix_test_data;
       const ProgramTestData program_test_data;
@@ -758,15 +762,9 @@ namespace OKlib {
       */
 
       void test_extend_header() const {
-
-        typedef BaseTestData::string_type string_type;
-        typedef IncludeDirective<string_type> include_directive_type;
-        typedef IncludeDirectiveTestData::const_iterator iterator;
-        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
-        
         const iterator& end(include_directive_test_data.end());
         const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
-        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        extend_include_directives_type extend_include_directives(prefix_container);
         OKLIB_TEST_EQUAL(extend_include_directives.prefix_container.size(), prefix_container.size());
         extend_include_directives.test(); // ##############
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
@@ -793,15 +791,9 @@ namespace OKlib {
       */
 
       void test_extend_include_directive() const {
-
-        typedef BaseTestData::string_type string_type;
-        typedef IncludeDirective<string_type> include_directive_type;
-        typedef IncludeDirectiveTestData::const_iterator iterator;
-        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
-
         const iterator& end(include_directive_test_data.end());
         APC_type prefix_container(prefix_test_data.ref_prefix_vector);
-        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        extend_include_directives_type extend_include_directives(prefix_container);
 
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
           include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
@@ -825,19 +817,12 @@ namespace OKlib {
       */
 
       void test_range_bracket_operator() const {
-
-        typedef BaseTestData::string_type string_type;
-        typedef IncludeDirective<string_type> include_directive_type;
-        typedef IncludeDirectiveTestData::const_iterator iterator;
-        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
-
         std::vector<include_directive_type> vec_include_directives;
         std::vector<include_directive_type> vec_extended_include_directives;
         const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
-        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        extend_include_directives_type extend_include_directives(prefix_container);
         extend_include_directives.test(); // ###################
         const iterator& end(include_directive_test_data.end());
-
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
           include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
           vec_include_directives.push_back(include_directive);
@@ -866,11 +851,8 @@ namespace OKlib {
       */
 
       void test_bracket_operator() const {
-        typedef typename BaseTestData::string_type string_type;
-        typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
         const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
-        ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container); 
-        typedef ProgramTestData::vec_program_t::const_iterator const_program_iterator;
+        extend_include_directives_type extend_include_directives(prefix_container); 
         const const_program_iterator& end(program_test_data.working_vector.end());
         for (const_program_iterator begin(program_test_data.working_vector.begin()); begin != end; ++begin) {
           std::istringstream program(program_test_data.program(begin));
@@ -878,7 +860,7 @@ namespace OKlib {
           extend_include_directives(program);
           std::ostringstream extended_program;
           extended_program << extend_include_directives.pr;
-          //OKLIB_TEST_EQUAL(extended_program.str(),expected_extended_program);  // THROW ERROR OK 21.12.2005 ??????????????????????????????????????????
+          OKLIB_TEST_EQUAL(extended_program.str(),expected_extended_program);
         }
       }
 
