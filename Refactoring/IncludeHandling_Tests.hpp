@@ -68,6 +68,7 @@ namespace OKlib {
         typedef value_type v_t;
         vec_pair_include_directive += 
           v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
+        assert(vec_pair_include_directive.size() == 1);
       }      
 
       typedef vec_pair_include_directive_type::const_iterator const_iterator;
@@ -153,11 +154,11 @@ namespace OKlib {
           pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp\"");
       }
 
-      string_type program(const_iterator iter) {
+      string_type program(const_iterator iter) const {
         return iter -> first;
       }
 
-      string_type expected_extended_program(const_iterator iter) {
+      string_type expected_extended_program(const_iterator iter) const {
         return iter -> second;
       }
 
@@ -726,6 +727,10 @@ namespace OKlib {
       \class Test_ExtendIncludeDirectives
       \brief Test class for functor which handles the extending of include
       directives in a single file.
+      \todo The template parameter ExtendIncludeDirectives has the wrong
+      (higher-order) type!!!
+      \todo Definition of APC_type is wrong!!
+      \todo Types like ExtendIncludeDirectives<APC_type> always need a typedef!!
     */
 
     template <template <class UniquenessPolicy> class ExtendIncludeDirectives>
@@ -737,9 +742,9 @@ namespace OKlib {
       }
     private :
 
-      PrefixTestData prefix_test_data;
-      ProgramTestData program_test_data;
-      IncludeDirectiveTestData include_directive_test_data;
+      const PrefixTestData prefix_test_data;
+      const ProgramTestData program_test_data;
+      const IncludeDirectiveTestData include_directive_test_data;
 
       // #############################
 
@@ -752,7 +757,7 @@ namespace OKlib {
         and comparing the result against the expected extended header.
       */
 
-      void test_extend_header() {
+      void test_extend_header() const {
 
         typedef BaseTestData::string_type string_type;
         typedef IncludeDirective<string_type> include_directive_type;
@@ -762,6 +767,7 @@ namespace OKlib {
         const iterator& end(include_directive_test_data.end());
         const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        OKLIB_TEST_EQUAL(extend_include_directives.prefix_container.size(), prefix_container.size());
         extend_include_directives.test(); // ##############
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
           std::cerr << "\nLoop\n\n"; // #######################
@@ -786,7 +792,7 @@ namespace OKlib {
         directive.
       */
 
-      void test_extend_include_directive() {
+      void test_extend_include_directive() const {
 
         typedef BaseTestData::string_type string_type;
         typedef IncludeDirective<string_type> include_directive_type;
@@ -818,7 +824,7 @@ namespace OKlib {
         and compare it for equality with the second vector.
       */
 
-      void test_range_bracket_operator() {
+      void test_range_bracket_operator() const {
 
         typedef BaseTestData::string_type string_type;
         typedef IncludeDirective<string_type> include_directive_type;
@@ -827,8 +833,9 @@ namespace OKlib {
 
         std::vector<include_directive_type> vec_include_directives;
         std::vector<include_directive_type> vec_extended_include_directives;
-        APC_type prefix_container(prefix_test_data.ref_prefix_vector);
+        const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container);
+        extend_include_directives.test(); // ###################
         const iterator& end(include_directive_test_data.end());
 
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
@@ -838,7 +845,9 @@ namespace OKlib {
           include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
           vec_extended_include_directives.push_back(extended_include_directive);
         }
+        extend_include_directives.test(); // ###################
         extend_include_directives.transform_include_directives(vec_include_directives);
+        extend_include_directives.test(); // ###################
         OKLIB_TEST_EQUAL_W(vec_include_directives, vec_extended_include_directives);
        }
 
@@ -856,10 +865,10 @@ namespace OKlib {
         program test data class).
       */
 
-      void test_bracket_operator() {
+      void test_bracket_operator() const {
         typedef typename BaseTestData::string_type string_type;
         typedef OKlib::SearchDataStructures::AssociativePrefixContainer<string_type> APC_type;
-        APC_type prefix_container(prefix_test_data.ref_prefix_vector);
+        const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
         ExtendIncludeDirectives<APC_type> extend_include_directives(prefix_container); 
         typedef ProgramTestData::vec_program_t::const_iterator const_program_iterator;
         const const_program_iterator& end(program_test_data.working_vector.end());
@@ -869,7 +878,7 @@ namespace OKlib {
           extend_include_directives(program);
           std::ostringstream extended_program;
           extended_program << extend_include_directives.pr;
-          //OKLIB_TEST_EQUAL(extended_program.str(),expected_extended_program); 
+          //OKLIB_TEST_EQUAL(extended_program.str(),expected_extended_program);  // THROW ERROR OK 21.12.2005 ??????????????????????????????????????????
         }
       }
 
