@@ -32,6 +32,7 @@ namespace OKlib {
     /*!
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
+      \todo Add more natural functionality (for example ==, !=).
       \todo Create a concept (including providing appropriate container functionality).
     */
 
@@ -62,6 +63,7 @@ namespace OKlib {
       typedef typename SetRanges::const_iterator iterator;
       typedef iterator const_iterator;
       typedef std::pair<iterator,bool> checked_iterator_type;
+      typedef typename SetRanges::size_type size_type;
 
       AssociativePrefixContainer() {};
 
@@ -80,6 +82,10 @@ namespace OKlib {
       }
       iterator end() const {
 	return prefix_set.end();
+      }
+
+      size_type size() const {
+        return prefix_set.size();
       }
 
       std::pair<iterator,bool> insert(const Range& x) {
