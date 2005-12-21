@@ -60,6 +60,11 @@
      a doxygen-command?
    - How to obtain general statistics?
 
+   \todo Documentation in general
+    - There should be an easy access to all parts of the documentation (including the doxygen documentation,
+      and the documentation for Boost, gcc, mhash ...).
+    - One must start thinking about the tex-Documentation.
+
   \todo We need a standardised way of how to make information about the compilation
   process available to a program (and also the name of the program, etc.), so that
   for example via --version we get as much information as possible.
