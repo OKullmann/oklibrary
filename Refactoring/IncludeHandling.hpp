@@ -12,8 +12,6 @@
   \brief Refactoring of include directives.
   \todo Notifying the boost e-mail list about the problem with the
   filesystem library (see below).
-  \todo Write tests so that the currently incorrect boost_range_size
-  implementation is detected. Then provide a correct implementation.
 */
 
 #ifndef INCLUDEHANDLING_9yhNbv
@@ -37,12 +35,14 @@
 #include <boost/spirit/utility/regex.hpp>
 #include <boost/spirit/utility/escape_char.hpp>
 #include <boost/spirit/iterator/multi_pass.hpp>
-#include <boost/range/iterator_range.hpp>
+
+#include <boost/algorithm/string.hpp>
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+#include <boost/range/iterator_range.hpp>
 #include <boost/range/value_type.hpp>
 
 #include <boost/range/const_iterator.hpp> // Fix for erroneous Boost library filesystem ##################################################################
@@ -474,6 +474,7 @@ namespace OKlib {
     class ExtendIncludeDirectives {
     public:
       
+      typedef APC APC_type;
       const APC& prefix_container;
       const typename APC::const_iterator& end_prefix_container;
 
@@ -490,6 +491,28 @@ namespace OKlib {
         test();
       }
 
+      // #############################
+
+      /*!
+        \fn reverse_header
+        \brief Function for reversing header
+      */
+
+      string_type reverse_header(const string_type& extended_header, const string_type& header) const {
+        typedef typename std::vector<string_type> split_vector_type;
+        split_vector_type split_vector;
+        typedef typename split_vector_type::iterator iterator;
+        string_type result;
+        boost::split(split_vector,extended_header,boost::is_any_of("/"));
+        std::reverse(split_vector.begin(),split_vector.end());        
+        const iterator& end(split_vector.end());
+        for (iterator begin(split_vector.begin()); begin != end; ++begin) {
+          if (*begin != header)
+            result += (*begin + "/");
+        }
+        result += header;
+        return result;
+      }
 
       // #############################
 
@@ -512,7 +535,7 @@ namespace OKlib {
         test();
         if (extension.first == end_prefix_container)
           throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::extend_include_directive(include_directive_type& include_directive):\n header file " + header + " has no extension");
-        return (extension.second) ? *(extension.first) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header);
+        return (extension.second) ? reverse_header(*(extension.first),header) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header);
       }
 
 
@@ -529,7 +552,9 @@ namespace OKlib {
 
       void extend_include_directive(include_directive_type& include_directive) const {
         test();
-        include_directive.header_file() = extend_header(include_directive.header_file());
+        typedef typename include_directive_type::string_type string_type;
+        string_type header(include_directive.header_file());
+        include_directive.header_file() = extend_header(header);
       }
 
       // #############################
