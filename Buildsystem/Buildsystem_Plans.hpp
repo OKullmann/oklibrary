@@ -75,6 +75,9 @@
      is useful (though we DO NOT aim at eliminating the warnings; the
      only thing what we possibly do about spurious warnings is that we tell
      the user about them, so that they can ignore them).
+   - It seems we should create a special target "valgrind-check" where the files are
+     especially compiled for Valgrind --- this seems to be needed to do automatic
+     checks. So then the build system and the test system would be affected.
 
   \todo ExternalSources:
    - When building some gcc-version, only the necessary directories
