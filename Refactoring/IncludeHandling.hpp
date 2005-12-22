@@ -28,6 +28,7 @@
 #include <iterator>
 #include <ios>
 #include <stdexcept>
+#include <sstream>
 
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -617,21 +618,29 @@ namespace OKlib {
     class ExtendIncludeDirectivesTwoRanges {
     public:
 
+      typedef Range2 work_range_type;
       typedef typename boost::range_value<Range1>::type range1_value_type;
       typedef OKlib::SearchDataStructures::AssociativePrefixContainer<range1_value_type> APC;
       const Range1& ref_range;
-      const Range2& work_range;
+      Range2 work_range;
       APC prefix_container;
      
       typedef ExtendIncludeDirectives<APC,UniquenessPolicy> extend_include_directive_type;
 
-      ExtendIncludeDirectivesTwoRanges(const Range1& ref_range, const Range2& work_range) : ref_range(ref_range), work_range(work_range) {
+      ExtendIncludeDirectivesTwoRanges(const Range1& ref_range, Range2 work_range) : ref_range(ref_range), work_range(work_range) {
 
         prefix_container.assign(ref_range);
         
         extend_include_directive_type extend_include_directives(prefix_container);
 
-        //        extend_include_directives(work_range);
+       typedef typename boost::range_iterator<Range2>::type work_range_iterator_type;
+       const work_range_iterator_type& end(boost::end(work_range));
+       for(work_range_iterator_type begin(boost::begin(work_range)); begin != end; ++begin) {
+         std::stringstream program(*begin);
+         extend_include_directives(program);
+         program << extend_include_directives.pr;
+         // Now we need to replace *begin with program.
+       }
 
       }
     };
