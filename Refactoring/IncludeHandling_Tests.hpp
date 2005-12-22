@@ -24,6 +24,8 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/assign/list_of.hpp>
 
+#include "IteratorHandling.hpp"
+
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
@@ -67,7 +69,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef value_type v_t;
         vec_pair_include_directive += 
-          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp");
+          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKlibrary/AutarkySearch/AnalyseTotalAssignment.hpp");
         assert(vec_pair_include_directive.size() == 1);
       }      
 
@@ -124,7 +126,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef string_type s_t;
         ref_prefix_vector += 
-          s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
+          s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKlibrary");
       }      
     };
         
@@ -151,7 +153,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef program_pair_type pp_t;
         working_vector +=
-          pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKsystem/AutarkySearch/AnalyseTotalAssignment.hpp\"");
+          pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKlibrary/AutarkySearch/AnalyseTotalAssignment.hpp\"");
       }
 
       string_type program(const_iterator iter) const {
@@ -879,6 +881,14 @@ namespace OKlib {
 
     /*!
       \class Test_ExtendIncludeDirectivesTwoRanges
+
+      \brief Testing of ExtendIncludeDirectivesTwoRanges.
+
+      In this test we construct an ExtendIncludeDirectivesTwoRanges
+      object with the prefix_vector from the PrefixTestData as one
+      parameter and the program_test_data from the ProgramTestData
+      class as the other. We test for equality of the first and second
+      elements of each pair of the program_test_data.
     */
 
     template <template <class Range1, class Range2, class UniquenessPolicy> class ExtendIncludeDirectivesTwoRanges>
@@ -889,14 +899,21 @@ namespace OKlib {
         insert(this);
       }
     private :
-      void perform_test_trivial() {
-        // In this test we construct an ExtendIncludeDirectivesTwoRanges
-        // object with the prefix_vector from the PrefixTestData as one
-        // parameter and the program_test_data from the ProgramTestData
-        // class as the other. We test for equality of the first and second
-        // elements of each pair of the program_test_data.
-        // ExtendIncludeDirectivesTwoRanges<PrefixTestData::vec_prefix_t,ProgramTestData::vec_program_t,ThrowIfNonUnique>(PrefixTestData::ref_prefix_vector,ProgramTestData::working_vector);
 
+      PrefixTestData prefix_test_data;
+      ProgramTestData program_test_data;
+
+      typedef ProgramTestData::vec_program_t vec_program_t;
+      typedef typename IteratorHandling::RangeFirstMutable<vec_program_t>::type range_first_type;
+      typedef typename IteratorHandling::RangeSecondConst<vec_program_t>::type range_second_type;
+      typedef ExtendIncludeDirectivesTwoRanges<PrefixTestData::vec_prefix_t,range_first_type,ThrowIfNonUnique> extend_include_directives_two_ranges_type;
+      typedef typename extend_include_directives_two_ranges_type::work_range_type work_range_type;   
+      
+      void perform_test_trivial() {
+        range_first_type programs(program_test_data.working_vector);
+        range_second_type extended_programs(program_test_data.working_vector);
+        extend_include_directives_two_ranges_type extend_include_directives_two_ranges(prefix_test_data.ref_prefix_vector,programs);
+        //        OKLIB_TEST_EQUAL_W(programs, extended_programs);
       }
     };
 
