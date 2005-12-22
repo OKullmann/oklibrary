@@ -33,7 +33,8 @@
   the literature; see [Prestwich; Local Search on SAT-encoded Colouring
   Problems; SAT 2003] for an overview, and also [Frisch,Peugniez;
   Solving Non-Boolean Satisfiability Problems with Stochastic Local
-  Search; 2001]).
+  Search; 2001]), and [Ansotegui,Manya; Mapping Problems with
+  Finite-Domain Variables to Problems with Boolean Variables].
   \todo Sudoku:
   Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2, I_2' := {1,...,n^2}.
   Variables are v_{i,j} for i, j in I_2 with domains D(v) = I_2'.
@@ -45,7 +46,7 @@
   \todo The CSP formats
    - http://cpai.ucc.ie/05/xml.html
    - http://cpai.ucc.ie/05/table.html
-  are to be transformed into Verbunde of P-clause-sets (or specialised
+  are to be transformed into aliances of P-clause-sets (or specialised
   versions; perhaps just one P-clause-set is also alright; "mono-signed"
   full clauses per constraint are exactly enough).
   The benchmarks from http://cpai.ucc.ie/05/CallForSolvers.html should

@@ -46,7 +46,7 @@
   the current partial assignment is an autarky or not, and so that they can perform
   statistical evaluations (the deduction mechanism must at least deliver what the
   underlying P-clause-set can (immediately) deliver, but might be (much) stronger).
-  \todo A "Verbund" of active clause-sets owns the structure consisting of the domain
+  \todo An aliance of active clause-sets owns the structure consisting of the domain
   assignment and the partial assignment (but this is controlled by external
   algorithms); by some strategy it processes (and potentially enhances) a given
   partial assignment (only when the partial assignment is completely processed by
