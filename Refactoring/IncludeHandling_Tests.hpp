@@ -23,6 +23,8 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/assign/list_of.hpp>
 
+#include "BoostPathCorrected.hpp"
+
 #include "IteratorHandling.hpp"
 
 #include "TestBaseClass.hpp"
@@ -45,6 +47,7 @@ namespace OKlib {
 
     class BaseTestData {
     public:
+      typedef boost::filesystem::path path_type;
       typedef std::string string_type;
       typedef int size_type;
     };
@@ -59,7 +62,7 @@ namespace OKlib {
     
     class IncludeDirectiveTestData : BaseTestData {
       
-      typedef boost::tuple<size_type,size_type,string_type,Include_forms,string_type> value_type;
+      typedef boost::tuple<size_type,size_type,path_type,Include_forms,path_type> value_type;
       typedef std::vector<value_type> vec_pair_include_directive_type;
       
       vec_pair_include_directive_type vec_pair_include_directive;
@@ -92,7 +95,7 @@ namespace OKlib {
         return i->get<1>();
       }
 
-      string_type header(const const_iterator& i) const {
+      path_type header(const const_iterator& i) const {
         return i->get<2>();
       }
 
@@ -100,7 +103,7 @@ namespace OKlib {
         return i->get<3>();
       }
 
-      string_type extended_header(const const_iterator& i) const {
+      path_type extended_header(const const_iterator& i) const {
         return i->get<4>();
       }
 
@@ -121,12 +124,12 @@ namespace OKlib {
       
     public:
 
-      typedef std::vector<string_type> vec_prefix_t;
+      typedef std::vector<path_type> vec_prefix_t;
       vec_prefix_t ref_prefix_vector;
 
       PrefixTestData() {
         using namespace boost::assign;
-        typedef string_type s_t;
+        typedef path_type s_t;
         ref_prefix_vector += 
           s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKlibrary");
       }      
@@ -746,7 +749,6 @@ namespace OKlib {
     private :
 
       void perform_test_trivial() {
-        test_extend_header();
         test_extend_include_directive();
         test_range_bracket_operator();
         test_bracket_operator();        
@@ -766,30 +768,6 @@ namespace OKlib {
       // #############################
 
       /*!
-        \fn test_extend_header
-        \brief Test function for extend_header function. DEPRECATED.
-
-        In this test the idea is to iterate over the include directive
-        test data, each time calling the extend_header function 
-        and comparing the result against the expected extended header.
-      */
-
-      void test_extend_header() const {
-        const iterator& end(include_directive_test_data.end());
-        const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
-        extend_include_directives_type extend_include_directives(prefix_container);
-        for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
-          string_type header(include_directive_test_data.header(begin));
-          string_type expected_extended_header(include_directive_test_data.extended_header(begin));
-          string_type extended_header(extend_include_directives.extend_header(header));
-          OKLIB_TEST_EQUAL(extended_header,expected_extended_header);
-        }
-      }
-
-      // #############################
-
-      /*!
-        \fn test_extend_include_directive
         \brief Test function for extend_include_directive function.
 
         In this test the idea is to iterate over the include directive
@@ -814,7 +792,6 @@ namespace OKlib {
       // #############################
 
       /*!
-        \fn test_range_bracket_operator
         \brief Test function for bracket operator with Range
         parameter.
 
@@ -844,7 +821,6 @@ namespace OKlib {
       // #############################
 
       /*!
-        \fn test_bracket_operator
         \brief Test function for bracket operator with std::istream
         parameter.
 
@@ -885,7 +861,7 @@ namespace OKlib {
       elements of each pair of the program_test_data.
     */
 
-    template <template <class Range1, class Range2, class UniquenessPolicy> class ExtendIncludeDirectivesTwoRanges>
+    template <template <class ReferenceRange, class WorkingRange, class UniquenessPolicy = ThrowIfNonUnique, class HandleProgramRepresentation = OverwriteFiles> class ExtendIncludeDirectivesTwoRanges>
     class Test_ExtendIncludeDirectivesTwoRanges : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_ExtendIncludeDirectivesTwoRanges test_type;
@@ -897,6 +873,7 @@ namespace OKlib {
       PrefixTestData prefix_test_data;
       ProgramTestData program_test_data;
 
+      
       typedef ProgramTestData::vec_program_t vec_program_t;
       typedef typename IteratorHandling::RangeFirstMutable<vec_program_t>::type range_first_type;
       typedef typename IteratorHandling::RangeSecondConst<vec_program_t>::type range_second_type;
