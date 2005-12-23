@@ -37,17 +37,16 @@
 #include <boost/spirit/utility/escape_char.hpp>
 #include <boost/spirit/iterator/multi_pass.hpp>
 
-#include <boost/algorithm/string.hpp>
+#include <boost/iterator/reverse_iterator.hpp>
+#include <boost/algorithm/string.hpp> // ###########################
 
-#include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
 
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/value_type.hpp>
 
-#include <boost/range/const_iterator.hpp> // Fix for erroneous Boost library filesystem ##################################################################
-#include <boost/range/size_type.hpp> // Fix for erroneous Boost library filesystem ##################################################################
+#include "BoostPathCorrected.hpp"
 
 #include "IteratorHandling.hpp"
 
@@ -55,29 +54,6 @@
 #include "AssociativeContainers.hpp"
 #include "DerivedRelations.hpp"
 
-
-// Fix for erroneous Boost library filesystem ##########################################################################
-
-namespace boost {
-
-  template <>
-  struct range_const_iterator<boost::filesystem::path> {
-    typedef boost::filesystem::path::iterator type;
-  };
-  template <>
-  struct range_size<boost::filesystem::path> {
-    typedef boost::filesystem::path::iterator::difference_type type;
-  };
-
-  namespace filesystem {
-
-    inline boost::range_size<boost::filesystem::path>::type boost_range_size(const boost::filesystem::path& p) {
-      return std::distance(p.begin(),p.end());
-    }
-
-  }
-
-}
 
 // ##########################################################################
 
@@ -462,22 +438,16 @@ namespace OKlib {
       checked whether they have a unique extension via the prefix container, if yes, they are extended (in
       the representation of the input, not in the input itself), if not, a policy-controlled alternative action
       takes place.
-      \todo Correct the template parameter APC.
-      \todo Eliminate reverse_header by using the right range type
-      for APC.
-      \todo Update the design, create an informal concept.
+      \todo Create an informal concept.
       \todo Update the above explanation.
       \todo Create a formal concept.
+      \todo Ask the boost mailing list to correct the wrong "add ..." in the documentation of boost::split. !!
     */
 
     template <class APC, class UniquenessPolicy = ThrowIfNonUnique>
     class ExtendIncludeDirectives {
       ExtendIncludeDirectives(const ExtendIncludeDirectives&);
       ExtendIncludeDirectives& operator =(const ExtendIncludeDirectives&);
-
-      typedef APC APC_type;
-      const APC& prefix_container;
-      const typename APC::const_iterator end_prefix_container;
 
     public:
       
@@ -486,8 +456,6 @@ namespace OKlib {
 
       typedef typename APC::prefix_type prefix_type;
       typedef typename APC::checked_iterator_type checked_iterator_type;
-      typedef prefix_type string_type;
-      typedef IncludeDirective<string_type> include_directive_type;
     
 
       ExtendIncludeDirectives (const APC& prefix_container_) : prefix_container(prefix_container_), end_prefix_container(prefix_container.end()) {}
@@ -495,57 +463,14 @@ namespace OKlib {
         assert(end_prefix_container == prefix_container.end());
       }
 
-      // #############################
-
     private :
 
-      /*!
-        \fn reverse_header
-        \brief Function for reversing header. DEPRECATED (no strings).
-        \todo Ask the boost mailing list to correct the wrong "add ..." in the documentation. !!
-      */
-
-      string_type reverse_header(const string_type& extended_header, const string_type& header) const {
-        typedef typename std::vector<string_type> split_vector_type;
-        split_vector_type split_vector;
-        typedef typename split_vector_type::const_iterator iterator;
-        boost::split(split_vector,extended_header,boost::is_any_of("/"));
-        std::reverse(split_vector.begin(),split_vector.end());        
-        const iterator& end(split_vector.end());
-        string_type result;
-        for (iterator begin(split_vector.begin()); begin != end; ++begin) {
-          if (*begin != header)
-            result += (*begin + "/");
-        }
-        result += header;
-        return result;
-      }
+      const APC& prefix_container;
+      const typename APC::const_iterator end_prefix_container;
 
     public :
 
-      // #############################
-
       /*!
-        \fn extend_header(string_type& header)
-        \brief Function for extending a header. DEPRECATED.
-
-        This function has a string_type argument header and extends
-        header according to the first_extension function of
-        prefix_container.
-      */
-
-      string_type extend_header(const string_type& header) const {
-        const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header));
-        if (extension.first == end_prefix_container)
-          throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::extend_include_directive(include_directive_type& include_directive):\n header file " + header + " has no extension");
-        return (extension.second) ? reverse_header(*(extension.first),header) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header);
-      }
-
-
-      // #############################
-
-      /*!
-        \fn extend_include_directive(include_directive_type& include_directive)
         \brief Function for extending a single include directive.
 
         This function has an include_directive argument and extends
@@ -553,16 +478,22 @@ namespace OKlib {
         function of prefix_container.
       */
 
-      void extend_include_directive(include_directive_type& include_directive) const {
-        typedef typename include_directive_type::string_type string_type;
-        string_type header(include_directive.header_file());
-        include_directive.header_file() = extend_header(header);
+      template <class IncludeDirective>
+      void extend_include_directive(IncludeDirective& include_directive) const {
+        typedef typename IncludeDirective::string_type string_type;
+        const string_type& header(include_directive.header_file());
+        const boost::filesystem::path path(header);
+        const prefix_type& prefix(path);
+        const checked_iterator_type& extension_it(prefix_container.first_extension_uniqueness_checked(prefix));
+        if (extension_it.first == end_prefix_container)
+          throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::extend_include_directive(include_directive_type& include_directive):\n header file " + header + " has no extension");
+        const prefix_type& extension((extension.second) ? *(extension.first) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header));
+        include_directive.header_file() = extension.string();
       }
 
       // #############################
 
       /*!
-        \fn template<class Range> operator() (Range& range_input)
         \brief Functor for extending a range of include directives.
 
         This operator has a Range argument range, which is intended to be a
@@ -585,7 +516,6 @@ namespace OKlib {
       // ############################# 
 
       /*!
-        \fn operator() (std::istream& input)
         \brief Functor for extending the include directives contained
         in a std::istream.
       */
@@ -602,46 +532,62 @@ namespace OKlib {
 
     // ####################################################################################
 
+    struct OverwriteFiles {
+      template <class Path, class ExtendIncludeDirectives>
+      void operator ()(const Path& path, ExtendIncludeDirectives& extend_include_directives) {
+        
+      }
+    };
+
+    struct CheckTranslation {
+      CheckTranslation() {
+
+      }
+      template <class String, class ExtendIncludeDirectives>
+      void operator ()(const String& path, ExtendIncludeDirectives& extend_include_directives) {
+        
+      }
+    };
+
     /*!
       \class ExtendIncludeDirectivesTwoRanges
       \brief Extends the include directives from a range of program
       representations according to a range of prefixes.
-      \todo Use a strategy HandelProgramRepresentation.
       \todo Write two models for the strategy.
       \todo Write a convenience function for the type deduction.
-      \todo Better names than Range1/2.
     */
 
-    template <class Range1, class Range2, class UniquenessPolicy = ThrowIfNonUnique>
+    template <class ReferenceRange, class WorkingRange, class UniquenessPolicy = ThrowIfNonUnique, class HandleProgramRepresentation = OverwriteFiles>
     class ExtendIncludeDirectivesTwoRanges {
     public :
-      typedef Range2 work_range_type;
-      typedef typename boost::range_value<Range1>::type range1_value_type;
-      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<range1_value_type> APC;
-    private :
-      const Range1& ref_range;
-      Range2 work_range;
-      APC prefix_container;
-     
-      typedef ExtendIncludeDirectives<APC,UniquenessPolicy> extend_include_directive_type;
+
+//       typedef boost::reverse_iterator<boost::filesystem::path::iterator> reverse_iterator;
+//       typedef boost::iterator_range<reverse_iterator> reverse_range;
+//       typedef APC<reverse_range> APC_type;
+//       const APC& prefix_container;
+//       const typename APC::const_iterator end_prefix_container;
+
+      typedef ReferenceRange reference_range_type;
+      typedef WorkingRange work_range_type;
+      typedef UniquenessPolicy uniqueness_policy_type;
+      typedef HandleProgramRepresentation program_representation_strategy_type;
+
+      typedef typename boost::range_value<reference_range_type>::type reference_value_type;
+      typedef OKlib::SearchDataStructures::AssociativePrefixContainer<reference_value_type> prefix_container_type;
 
     public:
 
-      ExtendIncludeDirectivesTwoRanges(const Range1& ref_range, Range2 work_range) : ref_range(ref_range), work_range(work_range) {
+      void operator() (const reference_range_type& ref_range, const work_range_type& work_range, program_representation_strategy_type& prog_strategy) const {
 
-        prefix_container.assign(ref_range);
+        const prefix_container_type prefix_container(ref_range);
         
+        typedef ExtendIncludeDirectives<prefix_container_type, uniqueness_policy_type> extend_include_directive_type;
         extend_include_directive_type extend_include_directives(prefix_container);
 
-       typedef typename boost::range_iterator<Range2>::type work_range_iterator_type;
+       typedef typename boost::range_const_iterator<work_range_type>::type work_range_iterator_type;
        const work_range_iterator_type& end(boost::end(work_range));
-       for(work_range_iterator_type begin(boost::begin(work_range)); begin != end; ++begin) {
-         std::stringstream program(*begin);
-         extend_include_directives(program);
-         program << extend_include_directives.pr;
-         // Now we need to replace *begin with program.
-       }
-
+       for(work_range_iterator_type begin(boost::begin(work_range)); begin != end; ++begin)
+         prog_strategy(*begin, extend_include_directives);
       }
     };
 
