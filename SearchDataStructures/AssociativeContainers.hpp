@@ -38,6 +38,7 @@ namespace OKlib {
 
     template <class Range>
     class AssociativePrefixContainer {
+
       /*!
         \class SortLexicographical
         \brief Functor for lexicographic ordering of two range arguments.
@@ -54,7 +55,8 @@ namespace OKlib {
 
       template <class Range2>
       void prefix_set_assign(const Range2& range) {
-        prefix_set = SetRanges(boost::begin(range),boost::end(range));
+        prefix_set.clear();
+        prefix_set.insert(boost::begin(range), boost::end(range));
       }
 
     public:
@@ -93,7 +95,7 @@ namespace OKlib {
       }
 
       iterator first_extension(const Range& r) const {
-	const iterator& lower_bound(prefix_set.lower_bound(r));
+        const iterator& lower_bound(prefix_set.lower_bound(r));
         const iterator& end(prefix_set.end());
         if (lower_bound == end)
           return end;
