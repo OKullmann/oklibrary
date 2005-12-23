@@ -26,6 +26,11 @@ namespace OKlib {
     /*!
       \class BaseTestData
       \brief Base class for testing data.
+      \todo More test data!
+      \todo Test cases are needed where the elements of the associate prefix containers are more
+      complex: Not just sequences of characters, but sequences of containers.
+      \todo The test data is quite obscure; the reversal of order is very unnatural. The test cases here have nothing to do with the module Refactoring !!
+      \todo No hierarchy; template parameter instead.
     */
 
     class BaseTestData {
@@ -37,6 +42,8 @@ namespace OKlib {
       \class PrefixTestData
       \brief Provides a vector of strings, each of which is a string 
       representation of the full path of some header.
+      \todo What is the meaning of the *two* vectors?
+      \todo Static data member should need no constructor!!
     */
 
     class PrefixTestData : BaseTestData {
@@ -77,8 +84,9 @@ namespace OKlib {
       \brief Provides a vector of tuples. The first element of each 
       tuple is a header, the second is the first extension (according
       to the data in PrefixTestData) and the final is a boolean which 
-      is true if and only if the extension is unique, and false 
+      is true if and only if the extension is unique, and false
       otherwise.
+      \todo Again the problem with the static data members!
     */
 
     class ExtensionTestData : BaseTestData {
