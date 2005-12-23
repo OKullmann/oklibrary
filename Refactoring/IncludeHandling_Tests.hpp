@@ -2,7 +2,7 @@
 
 /*!
   \file IncludeHandling_Tests.hpp
-  \brief Tests regarding include statement handling. Contains ERRORS.
+  \brief Tests regarding include statement handling.
   \todo More thorough testing: For example if we want to test container class X, and we initialise a data member, then we should check that member.
 */
 
@@ -16,8 +16,6 @@
 #include <vector>
 #include <sstream>
 #include <cassert>
-
-#include <iostream> // ################################################
 
 #include <boost/spirit.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -398,7 +396,6 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-          std::cerr << "Test_IncludeDirective\n"; // #################
           typedef Include_Directive<TestData::string_type> id_type;         
           typedef TestData::id_w_context_vec_type id_w_c_vec_type;
           typedef TestData::const_iterator iterator_t;
@@ -440,6 +437,8 @@ namespace OKlib {
                 OKLIB_TEST_EQUAL(id.opening(),"\"");
                 OKLIB_TEST_EQUAL(id.closing(),"\"");
                 break;
+              default :
+                OKLIB_THROW("Other value");
               }
             }
           }
@@ -532,7 +531,6 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         {
-          std::cerr << "Test_IncludeParsingGrammar\n";
           typedef TestData::string_type string_type;
           typedef TestData::size_type size_type;
 
@@ -610,7 +608,6 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        std::cerr << "Test_Parsing\n";
         {
           typedef TestData::string_type string_type;
           typedef TestData::size_type size_type;
@@ -735,7 +732,8 @@ namespace OKlib {
       \class Test_ExtendIncludeDirectives
       \brief Test class for functor which handles the extending of include
       directives in a single file.
-      \todo Definition of APC_type is wrong!!
+      \todo Wrong template arguments.
+      \todo Testing of all functionality (including exceptions thrown).
     */
 
     template <template <class APC, class UniquenessPolicy = OKlib::Refactoring::ThrowIfNonUnique> class ExtendIncludeDirectives>
@@ -748,7 +746,6 @@ namespace OKlib {
     private :
 
       void perform_test_trivial() {
-        std::cerr << "Test_ExtendIncludeDirectives\n";
         test_extend_header();
         test_extend_include_directive();
         test_range_bracket_operator();
@@ -770,7 +767,7 @@ namespace OKlib {
 
       /*!
         \fn test_extend_header
-        \brief Test function for extend_header function.
+        \brief Test function for extend_header function. DEPRECATED.
 
         In this test the idea is to iterate over the include directive
         test data, each time calling the extend_header function 
@@ -781,15 +778,9 @@ namespace OKlib {
         const iterator& end(include_directive_test_data.end());
         const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
         extend_include_directives_type extend_include_directives(prefix_container);
-        extend_include_directives.test0();
-        OKLIB_TEST_EQUAL(extend_include_directives.prefix_container.size(), prefix_container.size());
-        extend_include_directives.test1(); // ##############
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
-          std::cerr << "\nLoop\n\n"; // #######################
-          extend_include_directives.test2(); // ##############
           string_type header(include_directive_test_data.header(begin));
           string_type expected_extended_header(include_directive_test_data.extended_header(begin));
-          extend_include_directives.test3(); // ##############
           string_type extended_header(extend_include_directives.extend_header(header));
           OKLIB_TEST_EQUAL(extended_header,expected_extended_header);
         }
@@ -838,7 +829,6 @@ namespace OKlib {
         std::vector<include_directive_type> vec_extended_include_directives;
         const APC_type& prefix_container(prefix_test_data.ref_prefix_vector);
         extend_include_directives_type extend_include_directives(prefix_container);
-        extend_include_directives.test4(); // ###################
         const iterator& end(include_directive_test_data.end());
         for (iterator begin(include_directive_test_data.begin()); begin!=end; ++begin) {
           include_directive_type include_directive(include_directive_test_data.header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
@@ -847,9 +837,7 @@ namespace OKlib {
           include_directive_type extended_include_directive(include_directive_test_data.extended_header(begin),include_directive_test_data.spaces_after_hash(begin),include_directive_test_data.spaces_after_include(begin),include_directive_test_data.include_form(begin));
           vec_extended_include_directives.push_back(extended_include_directive);
         }
-        extend_include_directives.test5(); // ###################
         extend_include_directives.transform_include_directives(vec_include_directives);
-        extend_include_directives.test6(); // ###################
         OKLIB_TEST_EQUAL_W(vec_include_directives, vec_extended_include_directives);
        }
 
