@@ -9,7 +9,7 @@
 
 /*!
   \file IncludeHandling.hpp
-  \brief Refactoring of include directives. Contains ERRORS.
+  \brief Refactoring of include directives.
   \todo Notifying the boost e-mail list about the problem with the
   filesystem library (see below).
 */
@@ -145,7 +145,7 @@ namespace OKlib {
         switch (include_form_) {
         case system_header :
           return "<";
-        case source_code_header :
+        default :
           return "\"";
         }
       }
@@ -154,7 +154,7 @@ namespace OKlib {
         switch (include_form_) {
         case system_header :
           return ">";
-        case source_code_header :
+        default :
           return "\"";
         }
       }
@@ -360,7 +360,6 @@ namespace OKlib {
       \class StreamExtractor_by_istream_iterator
       \brief Functor class for extracting include directives from input streams, using
       multipass-iterator-wrappers around istream-iterators.
-      \todo ERROR
       \todo Extended explanation should mention the other implementation.
       \todo Management of stream-formatflags-resources should be handled by (RAII) object.
       \todo Write a test for it.
@@ -428,7 +427,7 @@ namespace OKlib {
 
     template <class charT, class traits, class Allocator>
     std::istream& operator >>(std::istream& in, ProgramRepresentationIncludes<charT, traits, Allocator>& pr) {
-      return (StreamExtractor_by_copy(in))(pr);
+      return (StreamExtractor_by_istream_iterator(in))(pr);
     }
 
     // ####################################################################################
@@ -471,16 +470,17 @@ namespace OKlib {
       \todo Create a formal concept.
     */
 
-#define TESTCONTAINER assert(end_prefix_container == prefix_container.end());// ASSERT ERROR! OK 21.12.2005 ??????????????????????????????????????????????????????
-
     template <class APC, class UniquenessPolicy = ThrowIfNonUnique>
     class ExtendIncludeDirectives {
+      ExtendIncludeDirectives(const ExtendIncludeDirectives&);
+      ExtendIncludeDirectives& operator =(const ExtendIncludeDirectives&);
+
+      typedef APC APC_type;
+      const APC& prefix_container;
+      const typename APC::const_iterator end_prefix_container;
+
     public:
       
-      typedef APC APC_type;
-      const APC prefix_container; // XXXXXXXXXXXXXXX should be a referernce ?! ERROR
-      const typename APC::const_iterator end_prefix_container; // XXXXXXXXXXXXXXX should be a reference ?! ERROR
-
       typedef ProgramRepresentationIncludes<> program_representation_includes_type;
       program_representation_includes_type pr;
 
@@ -490,20 +490,22 @@ namespace OKlib {
       typedef IncludeDirective<string_type> include_directive_type;
     
 
-      ExtendIncludeDirectives (const APC& prefix_container_) : prefix_container(prefix_container_), end_prefix_container(prefix_container.end()) {
-        TESTCONTAINER;
+      ExtendIncludeDirectives (const APC& prefix_container_) : prefix_container(prefix_container_), end_prefix_container(prefix_container.end()) {}
+      ~ExtendIncludeDirectives() {
+        assert(end_prefix_container == prefix_container.end());
       }
 
       // #############################
 
+    private :
+
       /*!
         \fn reverse_header
-        \brief Function for reversing header
-        \todo Ask the boost mailing list to correct the wrong "add ...". !!
+        \brief Function for reversing header. DEPRECATED (no strings).
+        \todo Ask the boost mailing list to correct the wrong "add ..." in the documentation. !!
       */
 
       string_type reverse_header(const string_type& extended_header, const string_type& header) const {
-        TESTCONTAINER;
         typedef typename std::vector<string_type> split_vector_type;
         split_vector_type split_vector;
         typedef typename split_vector_type::iterator iterator;
@@ -516,50 +518,24 @@ namespace OKlib {
             result += (*begin + "/");
         }
         result += header;
-        TESTCONTAINER;
         return result;
       }
+
+    public :
 
       // #############################
 
       /*!
         \fn extend_header(string_type& header)
-        \brief Function for extending a header.
+        \brief Function for extending a header. DEPRECATED.
 
         This function has a string_type argument header and extends
         header according to the first_extension function of
         prefix_container.
       */
 
-      const void test0() const { // ##############
-        TESTCONTAINER;
-      }
-      const void test1() const { // ##############
-        TESTCONTAINER;
-      }
-      const void test2() const { // ##############
-        TESTCONTAINER;
-      }
-      const void test3() const { // ##############
-        TESTCONTAINER;
-      }
-      const void test4() const { // ##############
-        TESTCONTAINER;
-      }
-      const void test5() const { // ##############
-        TESTCONTAINER;
-      }
-      const void test6() const { // ##############
-        TESTCONTAINER;
-      }
-
-
-
-
       string_type extend_header(const string_type& header) const {
-        TESTCONTAINER; // ################
         const checked_iterator_type& extension(prefix_container.first_extension_uniqueness_checked(header));
-        TESTCONTAINER;
         if (extension.first == end_prefix_container)
           throw NoExtension("OKlib::Refactoring::Extend_include_directives<UniquenessPolicy>::extend_include_directive(include_directive_type& include_directive):\n header file " + header + " has no extension");
         return (extension.second) ? reverse_header(*(extension.first),header) : UniquenessPolicy::new_header_file(prefix_container, extension.first, header);
@@ -578,7 +554,6 @@ namespace OKlib {
       */
 
       void extend_include_directive(include_directive_type& include_directive) const {
-        TESTCONTAINER;
         typedef typename include_directive_type::string_type string_type;
         string_type header(include_directive.header_file());
         include_directive.header_file() = extend_header(header);
@@ -601,14 +576,10 @@ namespace OKlib {
 
       template <class Range>
       void transform_include_directives(Range& range_input) {
-        TESTCONTAINER;
         typedef typename boost::range_iterator<Range>::type iterator_type;
         const iterator_type& end(boost::end(range_input));
-        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin) {
-          TESTCONTAINER;
+        for (iterator_type begin(boost::begin(range_input)); begin != end; ++begin)
           extend_include_directive(*begin);
-          TESTCONTAINER;
-        }
       }
 
       // ############################# 
@@ -620,14 +591,11 @@ namespace OKlib {
       */
 
       void operator() (std::istream& input) {
-        TESTCONTAINER;
         input >> pr;
         typedef program_representation_includes_type::container_type container_type;
         typedef IteratorHandling::RangeFirstMutable<container_type>::type range_type;
         range_type r(pr.include_directives_with_context);
-        TESTCONTAINER;
         transform_include_directives(r);
-        TESTCONTAINER;
       }
 
     };
