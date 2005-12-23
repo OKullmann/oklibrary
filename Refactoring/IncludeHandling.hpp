@@ -508,11 +508,11 @@ namespace OKlib {
       string_type reverse_header(const string_type& extended_header, const string_type& header) const {
         typedef typename std::vector<string_type> split_vector_type;
         split_vector_type split_vector;
-        typedef typename split_vector_type::iterator iterator;
-        string_type result;
+        typedef typename split_vector_type::const_iterator iterator;
         boost::split(split_vector,extended_header,boost::is_any_of("/"));
         std::reverse(split_vector.begin(),split_vector.end());        
         const iterator& end(split_vector.end());
+        string_type result;
         for (iterator begin(split_vector.begin()); begin != end; ++begin) {
           if (*begin != header)
             result += (*begin + "/");
