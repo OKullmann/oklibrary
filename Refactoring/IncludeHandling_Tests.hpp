@@ -47,7 +47,6 @@ namespace OKlib {
 
     class BaseTestData {
     public:
-      typedef boost::filesystem::path path_type;
       typedef std::string string_type;
       typedef int size_type;
     };
@@ -62,7 +61,7 @@ namespace OKlib {
     
     class IncludeDirectiveTestData : BaseTestData {
       
-      typedef boost::tuple<size_type,size_type,path_type,Include_forms,path_type> value_type;
+      typedef boost::tuple<size_type,size_type,string_type,Include_forms,string_type> value_type;
       typedef std::vector<value_type> vec_pair_include_directive_type;
       
       vec_pair_include_directive_type vec_pair_include_directive;
@@ -95,7 +94,7 @@ namespace OKlib {
         return i->get<1>();
       }
 
-      path_type header(const const_iterator& i) const {
+      string_type header(const const_iterator& i) const {
         return i->get<2>();
       }
 
@@ -103,7 +102,7 @@ namespace OKlib {
         return i->get<3>();
       }
 
-      path_type extended_header(const const_iterator& i) const {
+      string_type extended_header(const const_iterator& i) const {
         return i->get<4>();
       }
 
@@ -124,12 +123,12 @@ namespace OKlib {
       
     public:
 
-      typedef std::vector<path_type> vec_prefix_t;
+      typedef std::vector<string_type> vec_prefix_t;
       vec_prefix_t ref_prefix_vector;
 
       PrefixTestData() {
         using namespace boost::assign;
-        typedef path_type s_t;
+        typedef string_type s_t;
         ref_prefix_vector += 
           s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKlibrary");
       }      
@@ -765,8 +764,7 @@ namespace OKlib {
       const ProgramTestData program_test_data;
       const IncludeDirectiveTestData include_directive_test_data;
 
-      // #############################
-
+ 
       /*!
         \brief Test function for extend_include_directive function.
 
@@ -873,7 +871,6 @@ namespace OKlib {
       PrefixTestData prefix_test_data;
       ProgramTestData program_test_data;
 
-      
       typedef ProgramTestData::vec_program_t vec_program_t;
       typedef typename IteratorHandling::RangeFirstMutable<vec_program_t>::type range_first_type;
       typedef typename IteratorHandling::RangeSecondConst<vec_program_t>::type range_second_type;
