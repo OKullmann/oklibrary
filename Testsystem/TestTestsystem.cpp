@@ -1,3 +1,12 @@
+// Oliver Kullmann, 2005 (Swansea)
+
+/*!
+  \file TestTestsystem.cpp
+  \brief Test of the test system itself (cannot use the testsystem).
+  \todo Once we can have several testsystems running, this should become
+  an ordinary test (using a "local" instantiation of the test system).
+*/
+
 #include <cassert>
 #include <sstream>
 #include <cstdlib>
@@ -117,4 +126,3 @@ int main() {
     assert(s.str() == s2.str());
   }
 }
-
