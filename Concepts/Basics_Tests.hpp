@@ -12,9 +12,9 @@
      usage is, that these m objects cover in a certain sense "all cases" (are "representative").
      This assumes full constructibility of the objects. The iterator type is a forward
      iterator, and only the iterators are moved (so that no construction or destruction
-     of the objects itself is required).
+     of the objects itself is required). -> TestAlgorithms in new module TestExecutionTools.
    - Besides these "axiomatix tests" we need "sporadic tests" (with given outcome).
-     A range of (non-empy) range is the input here, where in case of ==-testing the elements in
+     A range of (non-empy) ranges is the input here, where in case of ==-testing the elements in
      the single ranges are ==, and elements from different ranges are (not ==), while
      in case of < elements of the single ranges are equivalent (i.e., incomparable),
      and we have < for immediately succeeding ranges. The idea here is, that
@@ -128,7 +128,7 @@ namespace OKlib {
 
     /*!
       \class ConstructibleCEq_Axiom_copy_eq
-      \brief Checks for object a whether for x copy-constructed from a from a we have x == a.
+      \brief Checks for object a whether for x copy-constructed from a we have x == a.
     */
 
     template <typename T>
