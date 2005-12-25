@@ -32,6 +32,10 @@ namespace OKlib {
     /*!
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
+      \todo In einem neuen Modul Iterators sollte eine Metafunktion InverseRange<Range>
+      implementiert werden (im Untermodul RangeAdaptors).
+      \todo Die lexikographische Ordnung auf Bereichen sollte
+      verselbststaendigt werden im Modul OrderRelations.
       \todo Add more natural functionality (for example ==, !=).
       \todo Create a concept (including providing appropriate container functionality).
     */
