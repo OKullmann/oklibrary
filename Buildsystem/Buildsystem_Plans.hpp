@@ -21,7 +21,7 @@
    these statistics.
 
    \todo Similar to the complexity measurements, for every task performed by the build
-   system it should be possible to save the running time, so that the develepment over
+   system it should be possible to save the measured run time, so that the develepment over
    time for example of compile times, link times, test times can be followed, and also
    the influence of compilers can be considered. By default, when running make only
    the total times are output, but in a protocol mode everything is written to a file
@@ -59,6 +59,7 @@
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command?
    - How to obtain general statistics?
+   - It appears that all .cpp-files are considered as linked together?
 
    \todo Documentation in general
     - There should be an easy access to all parts of the documentation (including the doxygen documentation,
@@ -88,6 +89,8 @@
    - Installation of bjam should be improved: Having exactly one bjam-installation for each boost-version,
      and no need to recreate it if it's already there. Or, perhaps better: We just leave it in
      the distribution directory?
+   - Building boost should include copying the documentation to doc (in the subdirectory
+   boost-1_33_1 for example).
    - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
    - If variable "gcc-version" is set, then it should have one of the allowed values (while otherwise we get
@@ -110,14 +113,20 @@
   un-archive it, build it with "make" and then run "make check" in it).
   Testing should invoke valgrind (with Test_tool="valgrind --quit").
 
-  \todo Improving the directory structure (which yet is "flat"): Inclusion
-  from for example Transitional should happen as, e.g.,
-  #include "OKlib/Transitional/SumProduct/Marginalisation.hpp".
+  \todo Improving the directory structure (which yet is "flat"):
+  - Inclusion from for example Transitional should happen as, e.g.,
+  #include "Transitional/SumProduct/Marginalisation.hpp"
+  or
+  #include "OKlib/Algorithms/Sat.hpp"
   (Thus compilation of local copies of the library then only work with
   the *standard place* (i.e., OKplatform/include).) This is achieved by
   eliminating the include-directory at OKplatform-level (and all associated
   environment- and make-variables), and including then from level
-  OKsystem (which thus needs the subdirectory "OKlib" with its own recursive makefile).
+  OKsystem.
+  - We need a rational system for the naming of header files. We should study the
+    Boost library here.
+  - The namespace should be the directory part of the name (in the above examples
+    Transitional::SumProduct and OKlib::Algorithms).
 
   \todo Complexity system: "make measurements" will create an xml-file
   (via the boost serialisation library) with information about all
