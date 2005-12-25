@@ -5,13 +5,18 @@
   \brief Tools for refactoring C++ code.
   \todo Investigating existing tools for parsing and refactoring C++ code.
   Asking on the boost e-mail list.
+  \todo More flexible tools are needed for
+   - renaming header files
+   - adding new directory levels
+   - removing directory levels
+   - moving some directory to another place.
+   The aim is that we are free to further differentiate (or change)
+   the directory structure in our library as needed.
 */
 
 /*!
   \file IncludeHandling.hpp
-  \brief Refactoring of include directives.
-  \todo Notifying the boost e-mail list about the problem with the
-  filesystem library (see below).
+  \brief Refactoring of include directives in C and C++ programs.
 */
 
 #ifndef INCLUDEHANDLING_9yhNbv
@@ -38,7 +43,6 @@
 #include <boost/spirit/iterator/multi_pass.hpp>
 
 #include <boost/iterator/reverse_iterator.hpp>
-#include <boost/algorithm/string.hpp> // ###########################
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -67,6 +71,7 @@ namespace OKlib {
     /*!
       \class IncludeDirective
       \brief Representation of one include directive.
+
       \todo A concept is needed.
       \todo Test inequality operator.
     */
@@ -89,6 +94,10 @@ namespace OKlib {
 
       IncludeDirective(const string_type& header_file, const size_type number_spaces_after_hash,  const size_type number_spaces_after_include, const Include_forms include_form) : header_file_(header_file), number_spaces_after_hash_(number_spaces_after_hash), number_spaces_after_include_(number_spaces_after_include), include_form_(include_form) {
         assert(not header_file_.empty());
+      }
+
+      operator boost::filesystem::path() const {
+        return boost::filesystem::path(header_file_);
       }
 
       const string_type header_file() const {
