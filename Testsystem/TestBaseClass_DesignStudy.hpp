@@ -3,6 +3,32 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
+  \todo Perhaps we should use Test<n> and TestBase<n> ?
+  Then the test system could test itself (using Test<0> and Test<1>).
+  Perhaps one should use Test<T> for a typename T --- then the name
+  of T could provide the meaning. But likely we should be able to
+  register the instances of Test, and then numbers are easier? Perhaps
+  this registration needs to happen at run time? Too complicated.
+  We need a type which can be defined only once. Better a value ---
+  a function pointer, exploiting the ODR?! Perhaps this "registration function"
+  yields the name of the testsystem instance, and there is a default
+  registration function. The default registration function is defined
+  in a .cpp file in module Testsystem (declared in TestBaseClass.hpp).
+  Every module then contains a TestIncludes_Module.cpp file, which
+  gathers all the the testobject files. By linking them together and providing
+  one main-function (which calls the run_tests_default or what else is needed)
+  we can run all tests together from a variety of modules. If Test is a template,
+  then using it in different translation units does not violate the ODR.
+  \todo Three streams: error, messages, log.
+  error and messages as now (exceptions thrown, module names and basic
+  statistics). For the log messages there is a member function in Test;
+  using appropriate macro support automatically the file name, line number
+  etc. are included in the log message (perhaps just like OKLIB_TESTDESCRIPTION).
+  There is a RAII class, by which the output of log messages can be turned off
+  (if for example we call a test function very often). For all these messages we
+  should use the Messages module, and then there are different levels of
+  verbosity. By default error ist std::cerr, while messages and log are std::cout;
+  furthermore by default log messages are turned off.
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
