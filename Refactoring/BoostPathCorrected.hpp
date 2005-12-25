@@ -1,5 +1,14 @@
 // Oliver Kullmann, 23.12.2005 (Swansea)
 
+/*!
+  \file BoostPathCorrected.hpp
+  \brief Adding missing functionality to Boost::filesystem::path.
+  
+  Making Boost::filesystem::path a model of a range.
+  \todo What kind of range exactly?
+  \todo Notifying the boost e-mail list about the missing functionality.
+*/
+
 #ifndef BOOSTPATHCORRECTED_004ttGB
 
 #define BOOSTPATHCORRECTED_004ttGB
