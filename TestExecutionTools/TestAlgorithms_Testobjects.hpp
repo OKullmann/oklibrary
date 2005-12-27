@@ -11,6 +11,9 @@ namespace OKlib {
 
   namespace TestExecutionTools {
 
+    Test_AllCombinations<AllCombinations> test_allcombinations;
+    Test_AllVariations<AllVariations> test_allvariations;
+
   }
 
 }
