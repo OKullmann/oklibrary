@@ -7,6 +7,7 @@
   Making Boost::filesystem::path a model of a range.
   \todo What kind of range exactly?
   \todo Notifying the boost e-mail list about the missing functionality.
+  \todo Should go to module GeneralInputOutput (?).
 */
 
 #ifndef BOOSTPATHCORRECTED_004ttGB
