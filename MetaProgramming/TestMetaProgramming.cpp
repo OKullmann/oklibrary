@@ -8,6 +8,7 @@
 #include "TypeTraits_Testobjects.hpp"
 #include "TaggingPolymorphism_Testobjects.hpp"
 #include "TypeTraitsContainer_Testobjects.hpp"
+#include "Numerical_Testobjects.hpp"
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
