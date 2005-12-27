@@ -5,15 +5,10 @@
   \brief Test classes to help with determining, whether a class models the basic concepts.
   \todo
    - There must be (at least basic) tests for the tests itself.
+   - Complete update!
    - Updating tests for FullyLessThanComparable (similar to tests for EqualityComparable).
    - Updating tests for LinearOrder (similar to tests for EqualityComparable).
-   - A test facility is needed, which takes as input a range of m objects, and then
-     all (m over 3) 3-subsets are fed into the tests for 3 objects. The idea for its
-     usage is, that these m objects cover in a certain sense "all cases" (are "representative").
-     This assumes full constructibility of the objects. The iterator type is a forward
-     iterator, and only the iterators are moved (so that no construction or destruction
-     of the objects itself is required). -> TestAlgorithms in new module TestExecutionTools.
-   - Besides these "axiomatix tests" we need "sporadic tests" (with given outcome).
+   - Besides "axiomatix tests" we need "sporadic tests" (with given outcome).
      A range of (non-empy) ranges is the input here, where in case of ==-testing the elements in
      the single ranges are ==, and elements from different ranges are (not ==), while
      in case of < elements of the single ranges are equivalent (i.e., incomparable),
@@ -124,7 +119,7 @@ namespace OKlib {
       }
     };
 
-    // ----------------------------------------------------------------------------------------------------------------------
+    // ############################################################
 
     /*!
       \class ConstructibleCEq_Axiom_copy_eq
@@ -432,7 +427,7 @@ namespace OKlib {
       }
     };
 
-    // ----------------------------------------------------------------------------------------------------------------------
+    // ############################################################
 
     template <typename T>
     struct FullyLessThanComparable_Axiom_greater_positive : OKlib::TestSystem::Test {
@@ -532,7 +527,7 @@ namespace OKlib {
       }
     };
 
-    // ----------------------------------------------------------------------------------------------------------------------
+    // ############################################################
 
     template <typename T>
     struct LinearOrder_Axiom_positive : OKlib::TestSystem::Test {
