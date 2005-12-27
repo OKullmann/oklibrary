@@ -18,6 +18,11 @@ namespace OKlib {
 
   namespace OrderRelations {
 
+    /*!
+      \class GreaterThan
+      \brief Defines a > b as b < a.
+    */
+
     template <class LessThanRelation>
     struct GreaterThan : std::binary_function<
       typename boost::binary_traits<LessThanRelation>::second_argument_type,
@@ -27,6 +32,11 @@ namespace OKlib {
         return LessThanRelation()(arg2, arg1);
       }
     };
+
+    /*!
+      \class GreaterEqualThan
+      \brief Defines a >= b as not (a < b).
+    */
 
     template <class LessThanRelation>
     struct GreaterEqualThan : std::binary_function<
@@ -38,6 +48,11 @@ namespace OKlib {
       }
     };
 
+    /*!
+      \class LessEqualThan
+      \brief Defines a <= b as not (b < a).
+    */
+
     template <class LessThanRelation>
     struct LessEqualThan : std::binary_function<
       typename boost::binary_traits<LessThanRelation>::second_argument_type,
@@ -47,6 +62,11 @@ namespace OKlib {
         return not LessThanRelation()(arg2, arg1);
       }
     };
+
+    /*!
+      \class Equivalence
+      \brief Defines a ~ b as not (a < b) and not (b < a).
+    */
 
     template <class LessThanRelation>
     struct Equivalence : std::binary_function<
