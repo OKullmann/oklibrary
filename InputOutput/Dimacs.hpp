@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \namespace InputOutput
+  \namespace OKlib::InputOutput
   \brief Input and output of clause-sets and related things (but not
   general input/output facilities).
 */
