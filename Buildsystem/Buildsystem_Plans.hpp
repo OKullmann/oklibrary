@@ -52,6 +52,7 @@
       This problem seems hard to solve (one had to find out that
       different paths lead to the same file).
       So it must be documented well.
+    - We should support using a tool like TextFilt or STLFilt.
 
   \todo Doxygen:
    - Can makefiles be incorporated?!
