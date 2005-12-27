@@ -1,5 +1,11 @@
 // Oliver Kullmann, 26.5.2005 (Swansea)
 
+/*!
+  \file Logical.hpp
+  \brief Logical metafunctions, and some macros for defining metafunctions.
+  \todo Likely the macros are superfluous, and should be removed.
+*/
+
 #ifndef LOGICAL_84846ty
 
 #define LOGICAL_84846ty
@@ -25,18 +31,10 @@ namespace OKlib {
     }
 
     template <class T>
-    struct True {
-      OKLIB_META_TRUE
-    };
-    // Alternative equivalent definition:
-    // template <class T> struct True : ::boost::mpl::bool_<true> {}
+    struct True : ::boost::mpl::bool_<true> {};
 
     template <class T>
-    struct False {
-      OKLIB_META_FALSE
-    };
-    // Alternative equivalent definition:
-    // template <class T> struct False : ::boost::mpl::bool_<false> {}
+    struct False  : ::boost::mpl::bool_<false> {};
 
   }
 
