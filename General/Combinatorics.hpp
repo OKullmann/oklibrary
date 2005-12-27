@@ -1,5 +1,11 @@
 // Oliver Kullmann, 21.4.2003 (Swansea)
 
+/*!
+  \file General/Combinatorics.hpp
+  \brief Tools for elementary counting and enumeration
+  \todo Should be overhauled and transferred to Transitional/Combinatorics.
+*/
+
 #ifndef COMBINATORICSWAECHTER
 
 #define COMBINATORICSWAECHTER
@@ -29,6 +35,11 @@ namespace Combinatorics {
   // Elementary counting
   // -------------------------------------------------------------
 
+  /*!
+    \class Factorial
+    \brief Functor for computation of the factorial function; with helper function factorial.
+  */
+
   template <typename Int>
   struct Factorial {
     Int operator() (const Int n) const {
@@ -36,14 +47,19 @@ namespace Combinatorics {
       assert(n >= zero);
       Int f(1);
       for (int i = Int(2); i <= n; ++i)
-	f *= i;
+        f *= i;
       return f;
     }
   };
   template <typename Int>
-  inline Int factorial(const Int n) {
+  inline Int factorial(const Int& n) {
     return Factorial<Int>()(n);
   }
+
+  /*!
+    \class Descending_power
+    \brief Functor for computation of descending powers; with helper function descending_power.
+  */
 
   template <typename Num, typename Int>
   struct Descending_power {
@@ -61,6 +77,14 @@ namespace Combinatorics {
     return Descending_power<Num, Int>()(b, k);
   }
 
+  /*!
+    \class Binom_integer_over_integer
+    \brief Functor for computing integral binomial coefficients; with helper function binom_integer_over_integer.
+
+    Uses the dynamic programming method; not very efficient, but does not unnecessary overflow.
+    \todo It seems that in the implementation some further special cases could be treated?!
+  */
+
   template <typename Int>
   struct Binom_integer_over_integer {
     Int operator() (Int n, Int k) const {
@@ -74,13 +98,13 @@ namespace Combinatorics {
       if (n == k) return Int(1);
       if (n == Int(-1)) return Int(1);
       if (n < 0)
-	n = k - n - Int(1);
+        n = k - n - Int(1);
       else
-	if (n < k) return Int(0);
+        if (n < k) return Int(0);
       assert(n > Int(0));
       assert(k < n);
       if (n < Int(2) * k)
-	k = n - k;
+        k = n - k;
       assert(Int(2) * k <= n);
       assert(k > Int(0));
       if (k == Int(1)) return n;
@@ -95,9 +119,9 @@ namespace Combinatorics {
       iterator first = v.begin();
       const Int diff = n - k;
       for (Int i = Int(2); i <= n; ++i) {
-	std::adjacent_difference(first, v.end(), first, std::plus<Int>());
-	if (i <= k) v.push_back(1);
-	if (i > diff) ++first;
+        std::adjacent_difference(first, v.end(), first, std::plus<Int>());
+        if (i <= k) v.push_back(1);
+        if (i > diff) ++first;
       }
       return *first;
     }
@@ -111,9 +135,13 @@ namespace Combinatorics {
     return Binom_integer_over_integer<Int>()(a, b);
   }
 
+  /*!
+    \brief Function for running through all k-subsets of an n-set in lexicographical order
+    \todo The implementation is not very efficient; improve it.
+    \todo The design should be iterator-based.
+  */
+
   enum choose_possibilities {no_subsets = -1, no_further_subsets = 0, further_subsets = 1};
-  // NOT VERY EFFICIENT
-  // SHOULD BE ITERATOR-BASED
   template <typename Int, class ForwardIterator>
   choose_possibilities choose_next(const Int n, const Int k, const ForwardIterator begin, const ForwardIterator end) {
     // Assigns to the range [begin, end) the next k-subset of {0,1, ..., n-1}
@@ -141,4 +169,3 @@ namespace Combinatorics {
 }
 
 #endif
-
