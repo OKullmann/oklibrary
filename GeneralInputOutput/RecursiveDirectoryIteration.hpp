@@ -1,11 +1,6 @@
 // Matthew Henderson, 4.9.2005 (Swansea)
 
 /*!
-  \namespace GeneralInputOutput
-  \brief Tools for handling input and output.
-*/
-
-/*!
   \file RecursiveDirectoryIteration.hpp
   \brief Recursive iteration over the files and subdirectories 
   contained within a filesystem directory.
