@@ -31,9 +31,25 @@
    \todo Error in the build system: If when creating the .d-files an error occurs (for example
    due to an inaccessible header file), then for some reason subsequent "make check"
    erroneously succeeds.
+
+   \todo makefile_recursive
+    - This should go, and makefile_generic should be able to do all jobs,
+      gathering all relevant files from all underlying subdirectories (but as soon
+      as one subdirectory doesn't contain makefile_generic, then it and its
+      decendants are ignored). In this way it is then also possible that a directory
+      contains a test program, and has also sub-directories with test programs.
+    - We should likely call these (links to) makefile_generic in this way, and
+      not just "makefile" (even if it's a bit inconvenient).
    
    \todo makefile_generic
-    - Updating the comments.
+    - Except of in Buildsystem, all other makefile_generic-versions should be links.
+      See makefile_recursive above.
+      A problem here is, that it seems that links are not handled by CVS ?
+    - Currently makefile_generic takes special actions to ensure that it works the same
+      from wherever we call it. This seems to create some trouble, and doesn't seem
+      to be compatible with using links? So it should be abandoned? But then effectively
+      it doesn't make sense to call makefile_generic from another place, and one always
+      has to use cd first.
     - From makefile.definitions.mak only "Root" is to be extracted, while the rest is handled by
       this makefile, inspecting its directory and all subdirectories,
       and collecting the required information individually from
@@ -55,12 +71,13 @@
     - We should support using a tool like TextFilt or STLFilt.
 
   \todo Doxygen:
-   - Can makefiles be incorporated?!
-   - How to integrate a general todo list into Doxygen?!
+   - Can doxygen show which other files include a file?
+   - How to integrate a *general* todo list into Doxygen?
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command?
    - How to obtain general statistics?
    - It appears that all .cpp-files are considered as linked together?
+   - Can makefiles be incorporated?!
 
    \todo Documentation in general
     - There should be an easy access to all parts of the documentation (including the doxygen documentation,
@@ -72,11 +89,6 @@
   for example via --version we get as much information as possible.
 
   \todo Special runs
-   - Perhaps we create also a special target to compile with "-Wall" (possibly
-     also other warnings enabled); from time to time checking the warnings
-     is useful (though we DO NOT aim at eliminating the warnings; the
-     only thing what we possibly do about spurious warnings is that we tell
-     the user about them, so that they can ignore them).
    - It seems we should create a special target "valgrind-check" where the files are
      especially compiled for Valgrind --- this seems to be needed to do automatic
      checks. So then the build system and the test system would be affected.
