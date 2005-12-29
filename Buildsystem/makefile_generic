@@ -38,10 +38,11 @@
 # where ? is the locally installed GCC version number (for example 3.4.3) and % is the locally installed boost version number (for example 1_33).
 # If one doesn't specify alternative_boost=, then the system boost will be used, while setting alternative_gcc will override $(CXX) and $(CC) respectively, and a locally installed boost will be used (either given by alternative_boost, or, if not defined, then the tail of $(Boost) is used as the generic name for the current boost version).
 
-# The compile-command is prefix with $(Compile_tool), the link-command with $(Link_tool),
+# The compile-command is prefixed with $(Compile_tool), the link-command with $(Link_tool),
 #  and the test execution with $(Test_tool); the default in all 3 cases is "time -p" (measuring
 # the wall clock time, the process time and the system time used in total for the execution).
 # Setting Test_tool="valgrind --quiet" runs all tests with memory check.
+# The default of Warning_options is "-Wall".
 
 # #############################################################
 
@@ -109,10 +110,6 @@ html_dir := $(doc_dir)/html
 
 Directories := $(bindir) $(libdir) $(includedir) $(aux_dir) $(doc_dir) $(html_dir)
 
-Compile_tool := time -p
-Link_tool := time -p
-Test_tool := time -p
-
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
 # -----------------------------------------------------------------------------------
@@ -167,6 +164,11 @@ doxy_file := $(includedir)/Doxyfile
 CXX := g++
 CC := gcc
 Standard_options := -ansi -pedantic
+Warning_options := -Wall
+Compile_tool := time -p
+Link_tool := time -p
+Test_tool := time -p
+
 
 alternative_gcc:=
 alternative_boost:=
@@ -251,14 +253,14 @@ $(dependency_files_c) : $(aux_dir)/%.d : $(srcdir)/%.c
 	$(CC) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
 $(object_files_cpp_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 $(object_files_cpp) : $(libdir)/%.o : $(srcdir)/%.cpp
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
 $(object_files_c_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.c
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
 $(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
 
 
 define get-link_libraries
@@ -268,9 +270,9 @@ endef
 export
 
 $(programs) : $(bindir)/% : $(libdir)/%.o
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(General_options) $< $(alternative_library_path) $(get-link_libraries)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-link_libraries)
 $(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries)
 
 
 # --------------------------------
