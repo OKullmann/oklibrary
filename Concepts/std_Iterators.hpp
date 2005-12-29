@@ -71,7 +71,7 @@ namespace OKlib {
       typedef InputIterator_Archetype self;
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public:
       typedef std::input_iterator_tag iterator_category;
@@ -79,17 +79,17 @@ namespace OKlib {
       typedef std::ptrdiff_t difference_type;
       typedef void pointer; // ToDo: left unspecified in the standard ?
       struct reference {
-        operator value_type() {}
+        operator value_type() { return value_type(); }
       };
-      self& operator=(const self&) {}
-      convertible_to_bool operator==(const self&) const {}
-      convertible_to_bool operator!=(const self&) const {}
-      reference operator*() const {}
-      self& operator++() {}
+      self& operator=(const self&) { return *this; }
+      convertible_to_bool operator==(const self&) const { return convertible_to_bool(); }
+      convertible_to_bool operator!=(const self&) const { return convertible_to_bool(); }
+      reference operator*() const { return reference(); }
+      self& operator++() { return *this; }
       struct internal {
-        value_type operator* () {}
+        value_type operator* () { return value_type(); }
       };
-      internal operator++(int) {}
+      internal operator++(int) { return internal(); }
     };
 
     // --------------------------------------------------------------------------------------------------------------------
@@ -141,26 +141,31 @@ namespace OKlib {
       typedef ForwardIterator_Archetype self;
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public:
       typedef std::input_iterator_tag iterator_category;
       struct value_type {};
       typedef std::ptrdiff_t difference_type;
       typedef value_type* pointer;
+    public :
       struct reference {
-        operator value_type&() {}
+        operator value_type&() { return v; }
+      private :
+        value_type v;
       };
-      self& operator=(const self&) {}
-      convertible_to_bool operator==(const self&) const {}
-      convertible_to_bool operator!=(const self&) const {}
-      reference operator*() const {}
-      self& operator++() {}
+      self& operator=(const self&) { return *this; }
+      convertible_to_bool operator==(const self&) const { return convertible_to_bool(); }
+      convertible_to_bool operator!=(const self&) const { return convertible_to_bool(); }
+      reference operator*() const { return reference(); }
+      self& operator++() { return *this; }
       struct internal {
-        value_type& operator*() {}
-        operator const self&() {}
+        value_type& operator*() { return v; }
+        operator const self&() { return *this; }
+      private :
+        value_type v;
       };
-      internal operator++(int) {}
+      internal operator++(int) { return internal(); }
     };
 
 

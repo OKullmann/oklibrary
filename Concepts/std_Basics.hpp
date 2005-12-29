@@ -1,12 +1,9 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
-// Basic concepts according to
-// ISO/IEC 14882: 2003 (referred to as the "Standard")
-// PLUS const-correctness.
-
 /*!
   \file std_Basics.hpp
-  \brief Basic concepts from ISO/IEC 14882: 2003 (plus const-correctness).
+  \brief Basic concepts from ISO/IEC 14882: 2003 (the "Standard")
+  plus const-correctness.
 */
 
 #ifndef STDBASICS_pokcc34Ty
@@ -52,10 +49,10 @@ namespace OKlib {
       ~EqualityComparable_Archetype();
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public :
-      convertible_to_bool operator ==(const EqualityComparable_Archetype&) const {}
+      convertible_to_bool operator ==(const EqualityComparable_Archetype&) const { return convertible_to_bool(); }
     };
 
     // --------------------------------------------------------------------------------------------------------------------------------
@@ -91,10 +88,10 @@ namespace OKlib {
       ~LessThanComparable_Archetype();
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public :
-      convertible_to_bool operator <(const LessThanComparable_Archetype&) const {}
+      convertible_to_bool operator <(const LessThanComparable_Archetype&) const { return convertible_to_bool(); }
     };
 
     // --------------------------------------------------------------------------------------------------------------------------------
@@ -136,8 +133,11 @@ namespace OKlib {
         boost::function_requires<Destructible<T> >();
         T x(t);
         T y(a);
-        static_cast<T*>(&t);
-        static_cast<const T*>(&a);
+        T* tp;
+        tp = static_cast<T*>(&t);
+        tp = &x; tp = &y;
+        const T* ctp;
+        ctp = static_cast<const T*>(&a);
       } 
       T t;
       const T a;

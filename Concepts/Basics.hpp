@@ -54,7 +54,7 @@ namespace OKlib {
       FullyEqualityComparable_Archetype& operator=(const FullyEqualityComparable_Archetype&);
       ~FullyEqualityComparable_Archetype();
     public :
-      convertible_to_bool operator !=(const FullyEqualityComparable_Archetype&) const {}
+      convertible_to_bool operator !=(const FullyEqualityComparable_Archetype&) const { return convertible_to_bool(); }
     };
 
     // ----------------------------------------------------------------------------------------------------------------------
@@ -97,9 +97,9 @@ namespace OKlib {
       FullyLessThanComparable_Archetype& operator=(const FullyLessThanComparable_Archetype&);
       ~FullyLessThanComparable_Archetype();
     public :
-      convertible_to_bool operator >(const FullyLessThanComparable_Archetype&) const {}
-      convertible_to_bool operator <=(const FullyLessThanComparable_Archetype&) const {}
-      convertible_to_bool operator >=(const FullyLessThanComparable_Archetype&) const {}
+      convertible_to_bool operator >(const FullyLessThanComparable_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <=(const FullyLessThanComparable_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >=(const FullyLessThanComparable_Archetype&) const { return convertible_to_bool(); }
     }; 
 
     // ----------------------------------------------------------------------------------------------------------------------
@@ -164,11 +164,11 @@ namespace OKlib {
       ConstructibleCEq_Archetype& operator =(const ConstructibleCEq_Archetype&);
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public :
-      convertible_to_bool operator ==(const ConstructibleCEq_Archetype&) const {}
-      convertible_to_bool operator !=(const ConstructibleCEq_Archetype&) const {}
+      convertible_to_bool operator ==(const ConstructibleCEq_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const ConstructibleCEq_Archetype&) const { return convertible_to_bool(); }
     };
 
     template <typename T>
@@ -184,11 +184,11 @@ namespace OKlib {
       ConstructibleCAEq_Archetype();
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public :
-      convertible_to_bool operator ==(const ConstructibleCAEq_Archetype&) const {}
-      convertible_to_bool operator !=(const ConstructibleCAEq_Archetype&) const {}
+      convertible_to_bool operator ==(const ConstructibleCAEq_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const ConstructibleCAEq_Archetype&) const { return convertible_to_bool(); }
     };
 
     template <typename T>
@@ -205,12 +205,12 @@ namespace OKlib {
       ConstructibleDEq_Archetype& operator =(const ConstructibleDEq_Archetype&);
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public :
       ConstructibleDEq_Archetype() {}
-      convertible_to_bool operator ==(const ConstructibleDEq_Archetype&) const {}
-      convertible_to_bool operator !=(const ConstructibleDEq_Archetype&) const {}
+      convertible_to_bool operator ==(const ConstructibleDEq_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const ConstructibleDEq_Archetype&) const { return convertible_to_bool(); }
     };
 
 
@@ -232,11 +232,11 @@ namespace OKlib {
     class FullyConstructibleEq_Archetype {
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return false; }
       };
     public :
-      convertible_to_bool operator ==(const FullyConstructibleEq_Archetype&) const {}
-      convertible_to_bool operator !=(const FullyConstructibleEq_Archetype&) const {}
+      convertible_to_bool operator ==(const FullyConstructibleEq_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const FullyConstructibleEq_Archetype&) const { return convertible_to_bool(); }
     };
 
     // ----------------------------------------------------------------------------------------------------------------------
