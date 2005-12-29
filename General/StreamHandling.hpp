@@ -92,6 +92,7 @@ namespace StreamHandling {
 
     for (unsigned long int i = 0; i < a and s; i++)
       s.ignore(std::numeric_limits<int>::max(), '\n');
+    return s;
   }
 
 }
@@ -635,6 +636,7 @@ namespace StreamHandling {
 
   inline FileLines& FileLines::operator = (const FileLines& f) throw() {
     filename = f.filename;
+    return *this;
   }
 
   inline bool FileLines::operator == (const FileLines& f) const throw() {
@@ -703,6 +705,7 @@ namespace StreamHandling {
 
   inline FileLinesInputIterator& FileLinesInputIterator::operator = (FileLinesInputIterator& it) throw() {
       p = it.p;
+      return *this;
   }
 
   // comparisons
