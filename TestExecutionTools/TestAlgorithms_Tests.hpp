@@ -38,7 +38,7 @@ namespace OKlib {
       }
     private :
 
-      typedef TestCounter<Test_AllCombinations> test_counter_type;
+      typedef TestCounter<Test_AllCombinations, long> test_counter_type;
       typedef typename test_counter_type::int_type int_type;
       typedef boost::counting_iterator<int_type> counting_iterator_type;
       typedef boost::iterator_range<counting_iterator_type> range_type;
