@@ -110,9 +110,9 @@ namespace OKlib {
     */
 
 #define OKLIB_TEST_EQUAL(v1, v2) \
-    if ( not(v1 == v2)) { \
+    if ( not((v1) == (v2))) {    \
       std::stringstream out; \
-      out << "Value is\n" << v1 << ",\n and not\n" << v2 << ".";    \
+      out << "Value is\n" << (v1) << ",\n and not\n" << (v2) << ".";    \
       OKLIB_THROW(out.str()); \
     }
 
@@ -123,7 +123,7 @@ namespace OKlib {
     */
 
 #define OKLIB_TEST_NOTEQUAL(v1, v2) \
-    if ( v1 == v2) { \
+    if ( (v1) == (v2)) {            \
       OKLIB_THROW("Equal values"); \
     }
 
@@ -216,7 +216,7 @@ namespace OKlib {
     */
 
 #define OKLIB_TEST_EQUAL_W(v1, v2) \
-    if ( not(v1 == v2)) { \
+    if ( not((v1) == (v2))) {      \
       std::stringstream out; \
       out << "Value is " << ::OKlib::TestSystem::output_wrapper(v1); \
       out << ", and not " << ::OKlib::TestSystem::output_wrapper(v2); \
@@ -229,7 +229,7 @@ namespace OKlib {
    */
 
 #define OKLIB_TEST_EQUAL_W2(v1, v2) \
-    if ( not(v1 == v2)) { \
+    if ( not((v1) == (v2))) {       \
       std::stringstream out; \
       out << "Value is " << ::OKlib::TestSystem::output_wrapper2(v1); \
       out << ", and not " << ::OKlib::TestSystem::output_wrapper2(v2); \
