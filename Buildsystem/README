@@ -7,6 +7,7 @@ Necessary installations:
 g++, version 3.4.3 or higher
 (tested: 3.4.3, 3.4.4, 3.4.5, 4.0.0, 4.0.1, 4.0.2)
 (check: run "g++ -v")
+Recommended: 4.0.2
 
 Boost, version 1_33_1 or higher
 (tested: 1_33_1)
