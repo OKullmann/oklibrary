@@ -14,6 +14,9 @@
 #include <boost/range/const_iterator.hpp>
 #include <boost/utility.hpp>
 
+#include "TestBaseClass.hpp"
+#include "TestExceptions.hpp"
+
 namespace OKlib {
 
   namespace TestExecutionTools {
