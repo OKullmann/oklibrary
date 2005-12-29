@@ -3,6 +3,8 @@
 /*!
   \file Numerical.hpp
   \brief Numerical metafunctions
+  \todo Write Factorial.
+  \todo What about the generalisations discussed for Power?
 */
 
 #ifndef NUMERICAL_iiJJhy6T
@@ -18,6 +20,22 @@ namespace OKlib {
     /*!
       \class Power
       \brief Numerical template metafunction: Power<b,e>::value = b^e.
+      \todo How to generalise Power (and other similar functions), so that
+      boost::mpl::long_ is no longer hardcoded? One problem is, that a corresponding
+      template template parameter X should be defaultet to boost::mpl::long_, and so
+      must come first, but the types of b and e need to be X::value_type ?
+      Perhaps a helper construction is needed.
+      Another problem is, whether we can introduce X as a template template parameter,
+      and write nevertheless X::value_type ? This likely is not possible.
+      Like the concept of a metafunction class, perhaps we should have X as a *class*,
+      with a nested template "apply", which yields the "concrete value" ?!
+      So X is a class with type member X::value_type, and X::template apply<n> yields
+      the concrete value (type) ?! X would be a model of the concept IntegralConstantMetafunction.
+      Power then would be
+      template <class ICM, typename ICM::value_type b, unsigned e>
+      struct Power : ICM::template apply<b * Power<ICM, b, e-1>::value> {};
+      template <class ICM, typename ICM::value_type b>
+      struct Power<ICM, b, (unsigned 0)> : ICM::template apply<1> {};
     */
 
     template <long b, unsigned e>
