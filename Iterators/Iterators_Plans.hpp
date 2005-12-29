@@ -6,8 +6,8 @@
 */
 
 /*!
-  \file Iterator_Plans.hpp
-  \brief Plans for the Iterators module
+  \file Iterators_Plans.hpp
+  \brief Plans for the iterators module
 */
 
 namespace OKlib {
