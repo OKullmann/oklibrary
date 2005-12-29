@@ -196,8 +196,8 @@ namespace SystemHandling {
 	throw create_file(name_err);
     }
 
-    System_sh(const System_sh&) {} // not allowed
-    System_sh& operator = (const System_sh&) {} // not allowed
+    System_sh(const System_sh&); // not allowed
+    System_sh& operator = (const System_sh&); // not allowed
 
   };
 
