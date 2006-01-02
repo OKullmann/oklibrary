@@ -5,9 +5,7 @@
 #include "TestBaseClass.hpp"
 
 #include "Logical_Testobjects.hpp"
-#include "TypeTraits_Testobjects.hpp"
 #include "TaggingPolymorphism_Testobjects.hpp"
-#include "TypeTraitsContainer_Testobjects.hpp"
 #include "Numerical_Testobjects.hpp"
 
 int main() {
