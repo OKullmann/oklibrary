@@ -24,7 +24,9 @@ namespace Combinatorics_Tests {
   template <template <typename Int> class Factorial>
   struct test_factorial {
     test_factorial() {
+#ifndef NDEBUG
       Factorial<int> f;
+#endif
       for (int i = 0; i <= 12; ++i) {
         int prod = 1;
         for (int j = 2; j <= i; ++j)
@@ -46,7 +48,9 @@ namespace Combinatorics_Tests {
     test_binom_integer_over_integer() {
       {
         typedef int int_type;
+#ifndef NDEBUG
         Binom_integer_over_integer<int_type> b;
+#endif
         for (int_type i = -10; i <= 10; ++i) {
           for (int_type j = -10; j <= -1; ++j)
             assert(b(i, j) == 0);
@@ -64,13 +68,17 @@ namespace Combinatorics_Tests {
       }
       {
         typedef uint_fast64_t int_type;
+#ifndef NDEBUG
         Binom_integer_over_integer<int_type> b;
         const int_type r(b(80,20));
+#endif
         // b(80,20) = 3535316142212174320 =  2^4  5 7 11 13 23 31 37 61 67 71 73 79
         // In C++98 this number cannot be represented as a literal.
+#ifndef NDEBUG
         unsigned int prime_factors[] = {16, 5, 7, 11, 13, 23, 31, 37, 61, 67, 71, 73, 79};
         const int number_factors = sizeof(prime_factors) / sizeof(unsigned int);
         const int_type ref(std::accumulate(prime_factors, prime_factors + number_factors, int_type(1), std::multiplies<int_type>()));
+#endif
         assert(r == ref);
       }
     }
