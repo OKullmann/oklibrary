@@ -28,10 +28,11 @@ namespace OKlib {
     template <typename T>
     struct EqualityComparable {
       void constraints() {
-        static_cast<bool>(x == y);
-        static_cast<bool>(a == b);
-        static_cast<bool>(a == y);
-        static_cast<bool>(x == b);
+        bool bo;
+        bo = static_cast<bool>(x == y);
+        bo = static_cast<bool>(a == b);
+        bo = static_cast<bool>(a == y);
+        bo = static_cast<bool>(x == b);
       }
       T x, y;
       const T a, b;
@@ -65,10 +66,11 @@ namespace OKlib {
     template <typename T>
     struct LessThanComparable {
       void constraints() {
-        static_cast<bool>(x < y);
-        static_cast<bool>(a < b);
-        static_cast<bool>(a < y);
-        static_cast<bool>(x < b);
+        bool bo;
+        bo = static_cast<bool>(x < y);
+        bo = static_cast<bool>(a < b);
+        bo = static_cast<bool>(a < y);
+        bo = static_cast<bool>(x < b);
       }
       T x, y;
       const T a, b;
