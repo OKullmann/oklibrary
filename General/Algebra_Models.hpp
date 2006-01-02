@@ -227,8 +227,7 @@ namespace Algebra {
     Zmodn& operator /=(Zmodn y) {
       assert(x >= 0);
       assert(x < Int(modulus));
-      const bool invertible = y.invert();
-      assert(invertible);
+      assert(y.invert());
       x *= y.x;
       x %= Int(modulus);
       return *this;
