@@ -1,7 +1,7 @@
 // Oliver Kullmann, 29.12.2005 (Swansea)
 
 /*!
-  \namespace OKlib/Concepts
+  \namespace OKlib::Concepts
   \brief Concept definitions and accompanying generic tests
 */
 
@@ -16,3 +16,7 @@
   ?! I would assume that here there is none. And in general?
 */
 
+namespace OKlib {
+  namespace Concepts {
+  }
+}
