@@ -33,6 +33,8 @@ namespace OKlib {
     /*!
       \class Container
       \brief Concept Container according to the standard.
+      \todo Write a weakening of concept Container which does not require the value type
+      to be assignable (so that std::map and std::multimap are models of this concept).
     */
 
     // According to Table 65 in the standard
@@ -80,20 +82,22 @@ namespace OKlib {
 
         BOOST_STATIC_ASSERT(OKlib::MetaProgramming::is_unsigned_integral<size_type>::value);
 
-        static_cast<iterator>(x.begin());
-        static_cast<iterator>(x.end());
-        static_cast<const_iterator>(a.begin()); // not a real test because of convertibility
-        static_cast<const_iterator>(a.end());
+        iterator i(static_cast<iterator>(x.begin()));
+        i = static_cast<iterator>(x.end());
+        const_iterator ic(static_cast<const_iterator>(a.begin()));
+        ic = static_cast<const_iterator>(a.end());
 
         static_cast<void>(x.swap(y));
 
-        static_cast<size_type>(x.size());
-        static_cast<size_type>(a.size());
-        static_cast<size_type>(x.max_size());
-        static_cast<size_type>(a.max_size());
+        size_type s;
+        s = static_cast<size_type>(x.size());
+        s = static_cast<size_type>(a.size());
+        s = static_cast<size_type>(x.max_size());
+        s = static_cast<size_type>(a.max_size());
 
-        static_cast<bool>(x.empty());
-        static_cast<bool>(a.empty());
+        bool b;
+        b = static_cast<bool>(x.empty());
+        b = static_cast<bool>(a.empty());
       }
       C x, y;
       const C a;
@@ -101,120 +105,137 @@ namespace OKlib {
 
     struct Container_tag : virtual FullyConstructible_tag, virtual LinearOrder_tag, virtual Assignable_tag {};
 
-    /*!
-      \class Container
-      \todo Write a weakening of concept Container which does not require the value type
-      to be assignable (so that std::map and std::multimap are models of this concept).
-    */
-
     class Container_Archetype {
     public :
 
       class value_type {
         value_type();
       };
+    private :
+      static value_type v;
+
+    public :
+
+      // ---------------------------------
 
       class reference {
         reference();
         reference& operator=(const reference&);
       public :
         reference(value_type&) {}
-        operator value_type&() {}
+        operator value_type&() { return v; }
       };
+
+      // ---------------------------------
 
       class const_reference {
         const_reference();
         const_reference& operator=(const const_reference&);
       public :
         const_reference(const value_type&) {}
-        operator const value_type&() {}
+        operator const value_type&() { return v; }
       };
+
+      // ---------------------------------
 
       class iterator {
         iterator();
         typedef iterator self;
-      protected :
         struct convertible_to_bool {
-          operator bool() {}
+          operator bool() { return bool(); }
         };
       public:
         typedef std::input_iterator_tag iterator_category;
         struct value_type {
           value_type(const Container_Archetype::value_type&) {}
-          operator Container_Archetype::value_type() {}
+          operator Container_Archetype::value_type() { return v; }
         };
+      private :
+        static value_type vi;
+      public :
         typedef std::ptrdiff_t difference_type;
         typedef void pointer; // ToDo: left unspecified in the standard ?
         struct reference {
-          operator value_type() {}
+          operator value_type() { return vi; }
         };
-        self& operator=(const self&) {}
-        convertible_to_bool operator==(const self&) const {}
-        convertible_to_bool operator!=(const self&) const {}
-        reference operator*() const {}
-        self& operator++() {}
+        self& operator=(const self&) { return *this; }
+        convertible_to_bool operator==(const self&) const { return convertible_to_bool(); }
+        convertible_to_bool operator!=(const self&) const { return convertible_to_bool(); }
+        reference operator*() const { return reference(); }
+        self& operator++() { return *this; }
         struct internal {
-          value_type operator* () {}
+          value_type operator* () { return vi; }
         };
-        internal operator++(int) {}
+        internal operator++(int) { return internal(); }
       };
+
+      // ---------------------------------
 
       class const_iterator {
         const_iterator();
         typedef const_iterator self;
-      protected :
         struct convertible_to_bool {
-          operator bool() {}
+          operator bool() { return bool(); }
         };
       public:
         const_iterator(const iterator&) {}
         typedef std::input_iterator_tag iterator_category;
         struct value_type {
           value_type(const Container_Archetype::value_type&) {}
-          operator const Container_Archetype::value_type() {}
+          operator const Container_Archetype::value_type() { return v; }
         };
+      private :
+        static value_type vi;
+      public :
         typedef std::ptrdiff_t difference_type;
         typedef void pointer; // ToDo: left unspecified in the standard ?
         struct reference {
-          operator value_type() {}
+          operator value_type() { return vi; }
         };
-        self& operator=(const self&) {}
-        convertible_to_bool operator==(const self&) const {}
-        convertible_to_bool operator!=(const self&) const {}
-        reference operator*() const {}
-        self& operator++() {}
+
+        self& operator=(const self&) { return *this; }
+        convertible_to_bool operator==(const self&) const { return convertible_to_bool(); }
+        convertible_to_bool operator!=(const self&) const { return convertible_to_bool(); }
+        reference operator*() const { return reference(); }
+        self& operator++() { return *this; }
         struct internal {
-          value_type operator* () {}
+          value_type operator* () { return vi; }
         };
-        internal operator++(int) {}
+        internal operator++(int) { return internal(); }
       };
+
+      // ---------------------------------
 
       typedef std::ptrdiff_t difference_type;
       typedef unsigned int size_type;
 
-      iterator begin() {}
-      iterator end() {}
-      const_iterator begin() const {}
-      const_iterator end() const {}
+    private :
+      static iterator i;
+      static const_iterator ci;
+    public :
+      iterator begin() { return i; }
+      iterator end() { return i; }
+      const_iterator begin() const { return ci; }
+      const_iterator end() const { return ci; }
       void swap(Container_Archetype&) {}
-      size_type size() const {}
-      size_type max_size() const {}
+      size_type size() const { return size_type(); }
+      size_type max_size() const { return size_type(); }
 
-    protected :
+    private :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return bool(); }
       };
 
     public :
 
-      convertible_to_bool empty() const {}
+      convertible_to_bool empty() const { return convertible_to_bool(); }
 
-      convertible_to_bool operator ==(const Container_Archetype&) const {}
-      convertible_to_bool operator !=(const Container_Archetype&) const {}
-      convertible_to_bool operator <(const Container_Archetype&) const {}
-      convertible_to_bool operator >(const Container_Archetype&) const {}
-      convertible_to_bool operator <=(const Container_Archetype&) const {}
-      convertible_to_bool operator >=(const Container_Archetype&) const {}
+      convertible_to_bool operator ==(const Container_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const Container_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <(const Container_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >(const Container_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <=(const Container_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >=(const Container_Archetype&) const { return convertible_to_bool(); }
 
     };
 

@@ -52,7 +52,7 @@
 #include "TypeTraits.hpp"
 
 #include "LibraryBasics.hpp"
-#include "Traits.hpp"
+#include "index_type.hpp"
 
 namespace OKlib {
 
@@ -74,7 +74,9 @@ namespace OKlib {
         OKLIB_MODELS_CONCEPT_REQUIRES(Var, LinearOrder);
         OKLIB_MODELS_CONCEPT_TAG(Var, LinearOrder);
 
-        static_cast<bool>(v); static_cast<bool>(vc);
+        bool b;
+        b = static_cast<bool>(v);
+        b = static_cast<bool>(vc);
       }
 
       Var v;
@@ -104,7 +106,7 @@ namespace OKlib {
     template <typename Var>
     struct VariablesWithIndex {
 
-      typedef typename index_type<Var>::type index_type;
+      typedef typename OKlib::Concepts::index_type<Var>::type index_type;
       BOOST_STATIC_ASSERT(::OKlib::MetaProgramming::is_unqualified_signedunsigned_integral<index_type>::value);
 
       void constraints() {
@@ -113,8 +115,9 @@ namespace OKlib {
         OKLIB_MODELS_CONCEPT_REQUIRES(Var, Variables);
         OKLIB_MODELS_CONCEPT_TAG(Var, Variables);
 
-        static_cast<index_type>(v);
-        static_cast<index_type>(vc);
+        index_type ind;
+        ind = static_cast<index_type>(v);
+        ind = static_cast<index_type>(vc);
       }
 
       Var v;
@@ -124,7 +127,7 @@ namespace OKlib {
     struct VariablesWithIndex_Archetype : Variables_Archetype {
       typedef VariablesWithIndex_tag concept_tag;
       typedef int index_type; // ToDo: Can this be made more generic?
-      operator index_type() const {}
+      operator index_type() const { return index_type(); }
     };
 
     // --------------------------------------------------------------------------------------------------------------------------------------
@@ -134,7 +137,7 @@ namespace OKlib {
     template <typename Var>
     struct VariablesAsIndex {
 
-      typedef typename index_type<Var>::type index_type;
+      typedef typename OKlib::Concepts::index_type<Var>::type index_type;
 
       void constraints() {
         OKLIB_MODELS_CONCEPT_TAG(Var, VariablesAsIndex);
@@ -142,11 +145,12 @@ namespace OKlib {
         OKLIB_MODELS_CONCEPT_REQUIRES(Var, VariablesWithIndex);
         OKLIB_MODELS_CONCEPT_TAG(Var, VariablesWithIndex);
 
-        Var(i);
-        Var(ic);
+        dummy_use_v(Var(i));
+        dummy_use_v(Var(ic));
       }
 
       index_type i; const index_type ic;
+      void dummy_use_v(const Var& v) {}
     };
 
     struct VariablesAsIndex_Archetype : VariablesWithIndex_Archetype {
