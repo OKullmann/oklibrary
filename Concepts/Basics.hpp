@@ -36,10 +36,11 @@ namespace OKlib {
     struct FullyEqualityComparable {
       void constraints() {
         boost::function_requires<EqualityComparable<T> >();
-        static_cast<bool>(x != y);
-        static_cast<bool>(a != b);
-        static_cast<bool>(a != y);
-        static_cast<bool>(x != b);
+        bool bo;
+        bo = static_cast<bool>(x != y);
+        bo = static_cast<bool>(a != b);
+        bo = static_cast<bool>(a != y);
+        bo = static_cast<bool>(x != b);
       }
       T x, y;
       const T a, b;
@@ -69,18 +70,19 @@ namespace OKlib {
       void constraints() {
         boost::function_requires<LessThanComparable<T> >();
 
-        static_cast<bool>(x > y);
-        static_cast<bool>(a > b);
-        static_cast<bool>(a > y);
-        static_cast<bool>(x > b);
-        static_cast<bool>(x <= y);
-        static_cast<bool>(a <= b);
-        static_cast<bool>(a <= y);
-        static_cast<bool>(x <= b);
-        static_cast<bool>(x >= y);
-        static_cast<bool>(a >= b);
-        static_cast<bool>(a >= y);
-        static_cast<bool>(x >= b);
+        bool bo;
+        bo = static_cast<bool>(x > y);
+        bo = static_cast<bool>(a > b);
+        bo = static_cast<bool>(a > y);
+        bo = static_cast<bool>(x > b);
+        bo = static_cast<bool>(x <= y);
+        bo = static_cast<bool>(a <= b);
+        bo = static_cast<bool>(a <= y);
+        bo = static_cast<bool>(x <= b);
+        bo = static_cast<bool>(x >= y);
+        bo = static_cast<bool>(a >= b);
+        bo = static_cast<bool>(a >= y);
+        bo = static_cast<bool>(x >= b);
       }
       T x, y;
       const T a, b;
