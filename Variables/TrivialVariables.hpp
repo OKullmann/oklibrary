@@ -4,7 +4,9 @@
 
 #define TRIVIALVARIABLES_916TyVbx
 
-#include "Traits.hpp"
+#include "concept_tag.hpp"
+#include "index_type.hpp"
+
 #include "Variables.hpp"
 
 namespace OKlib {
