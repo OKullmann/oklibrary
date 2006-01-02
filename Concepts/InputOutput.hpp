@@ -3,7 +3,6 @@
 /*!
   \file InputOutput.hpp
   \brief Concepts concerning general input and output.
-  \todo Add Tests and Testobjects file!
 */
 
 #ifndef INPUTOUTPUT_88uUHhbg
@@ -14,14 +13,12 @@
 #include <istream>
 
 #include "LibraryBasics.hpp"
-#include "Traits.hpp"
-
 
 namespace OKlib {
 
   namespace Concepts {
 
-    struct OutputStreamable_tag {};
+    struct OutputStreamable_tag : ConceptsBase_tag {};
 
     template <class X>
     struct OutputStreamable {
@@ -38,7 +35,7 @@ namespace OKlib {
       ~OutputStreamable_Archetype();
       OutputStreamable_Archetype(const OutputStreamable_Archetype&);
       OutputStreamable_Archetype& operator =(const OutputStreamable_Archetype&);
-      friend std::ostream& operator <<(std::ostream&, const OutputStreamable_Archetype&) {}
+      friend std::ostream& operator <<(std::ostream& out, const OutputStreamable_Archetype&) { return out; }
     };
 
   }
