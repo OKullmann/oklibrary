@@ -1,4 +1,9 @@
-//Program: Class for Generating documnets using Doc_Objects and different handlers;
+/*!
+  \file Doc_Gen.hpp
+  \brief Created by TB for the purpose of writing the latex-files for the departmental timetable.
+*/
+
+//Program: Class for Generating documents using Doc_Objects and different handlers;
 //Author: Tony H. Bao
 //Location: Swansea
 //Date: 2004.10.7
@@ -271,44 +276,44 @@ namespace Doc_Gen {
       
       std::string v_dates[] = {"Mon", "Tue", "Wed", "Thu", "Fri"};      
       Table_Object::Table<std::string>::Table_Vector tr;
-      for (int x = 0; x <= v_times.size()-1; x++){
-	c = v_times[x];      
-	if (is_odd(x)) user_cmd(content_row_color) >> out;
-	user_cmd(c) >> out;
-	user_cmd(deli) >> out;
-	for (int y = 0; y <= 4;y++){
-	  tr = in.search(t_time, t_date, v_times[x], v_dates[y]);
+      for (unsigned int x = 0; x < v_times.size(); ++x){
+        c = v_times[x];      
+        if (is_odd(x)) user_cmd(content_row_color) >> out;
+        user_cmd(c) >> out;
+        user_cmd(deli) >> out;
+        for (int y = 0; y <= 4; ++y){
+          tr = in.search(t_time, t_date, v_times[x], v_dates[y]);
 	  
-	  //Sorting and filter out repeated modules
-	  std::sort(tr.begin(),tr.end(),Sort_Module<Table_Object::Table<std::string>::Entry_Type>());
-	  tr.erase(std::unique(tr.begin(),tr.end(),Unique_Module<Table_Object::Table<std::string>::Entry_Type>()),tr.end());
+          //Sorting and filter out repeated modules
+          std::sort(tr.begin(),tr.end(),Sort_Module<Table_Object::Table<std::string>::Entry_Type>());
+          tr.erase(std::unique(tr.begin(),tr.end(),Unique_Module<Table_Object::Table<std::string>::Entry_Type>()),tr.end());
 	  
-	  //Generating cells for the output
-	  std::string ent;
-	  const std::string c_level[] = {"","\\CLone ", "\\CLtwo ", "\\CLthree "};
-	  for (Table_Object::Table<std::string>::Entry_Iterator i = tr.begin(); i != tr.end();i++){
-	    Table_Object::Table<std::string>::Entry_Type e=*i;
-	    int cl = 0;
-	    if (v_level.size() != 1) {
-	      if ( (*(e.find(t_level))).second != "MSc" and (*(e.find(t_level))).second != "MEng") 
-		cl = boost::lexical_cast<int>((*(e.find(t_level))).second);	      
-	      ent = ent + c_level[cl] + (*(e.find(t_module))).second + deli + 
-		c_level[cl] + (*(e.find(t_building))).second + "-" + (*(e.find(t_room))).second + deli + 
-		c_level[cl] + (*(e.find(t_lecturer))).second + termi;
-	    }
-	    else 
-	      ent = ent + (*(e.find(t_module))).second + deli + 
-		(*(e.find(t_building))).second + "-" +
-		(*(e.find(t_room))).second + deli +
-		(*(e.find(t_lecturer))).second + termi; 
-	  }
-	  c = env_tabular_begin<std::string>("l","*{3}{l@{\\hspace{2mm}}}") + '\n' 
-	    + ent + '\n' + env_tabular_end<std::string>() ; 
-	  user_cmd(c) >> out;
-	  if (y != 4 ) user_cmd(deli) >> out;
-	}
-	user_cmd(termi) >> out;
-	s_cmd(format1) >> out;  
+          //Generating cells for the output
+          std::string ent;
+          const std::string c_level[] = {"","\\CLone ", "\\CLtwo ", "\\CLthree "};
+          for (Table_Object::Table<std::string>::Entry_Iterator i = tr.begin(); i != tr.end();i++){
+            Table_Object::Table<std::string>::Entry_Type e=*i;
+            int cl = 0;
+            if (v_level.size() != 1) {
+              if ( (*(e.find(t_level))).second != "MSc" and (*(e.find(t_level))).second != "MEng") 
+                cl = boost::lexical_cast<int>((*(e.find(t_level))).second);	      
+              ent = ent + c_level[cl] + (*(e.find(t_module))).second + deli + 
+                c_level[cl] + (*(e.find(t_building))).second + "-" + (*(e.find(t_room))).second + deli + 
+                c_level[cl] + (*(e.find(t_lecturer))).second + termi;
+            }
+            else 
+              ent = ent + (*(e.find(t_module))).second + deli + 
+                (*(e.find(t_building))).second + "-" +
+                (*(e.find(t_room))).second + deli +
+                (*(e.find(t_lecturer))).second + termi; 
+          }
+          c = env_tabular_begin<std::string>("l","*{3}{l@{\\hspace{2mm}}}") + '\n' 
+            + ent + '\n' + env_tabular_end<std::string>() ; 
+          user_cmd(c) >> out;
+          if (y != 4 ) user_cmd(deli) >> out;
+        }
+        user_cmd(termi) >> out;
+        s_cmd(format1) >> out;  
       }
       
       env_tabular_end<std::string>() >> out;
