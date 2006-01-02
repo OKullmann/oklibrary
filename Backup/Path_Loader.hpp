@@ -1,8 +1,15 @@
+/*!
+  \file Path_Loader.hpp
+  \brief Needs a complete overhaul.
+  \todo Written by TB; untested (and likely with errors).
+*/
+
 #ifndef PATH_LOADER_BACKUP_tjyahsaggi876qw93
 
 #define PATH_LOADER_BACKUP_tjyahsaggi876qw93
 
 #include <string>
+#include <cassert>
 
 #include <boost/filesystem/operations.hpp>
 
@@ -29,9 +36,11 @@ namespace PathLoader {
   const bool is_remote(const std::string& dest) {
     bool remote = false;
     bool valid = false;
-    for (int i = 0; i <= dest.length(); ++i) {
-      if (dest[i] == '@') remote = true;
-      if (dest[i] == ':') valid = true;
+    typedef std::string::const_iterator iterator;
+    const iterator& end(dest.end());
+    for ( iterator i(dest.begin()); i != end; ++i) {
+      if (*i == '@') remote = true;
+      if (*i == ':') valid = true;
     }
     if (remote and valid) return true;
     return false;
@@ -39,20 +48,25 @@ namespace PathLoader {
 
   // ToDo: Either it comes from another library, or it is a general facility
   // ToDo: Better name "split"
+  // ToDo: Bad programming style.
   void strip(const std::string& fulldir, std::string& host, std::string& path) {
-     char c = fulldir[0]; int i = 0; 
-      while (c != ':') {
-	host = host + c;
-	++i;
-	c = fulldir[i];
-      }
+    assert(not fulldir.empty());
+    char c = fulldir[0];
+    unsigned int i = 0; 
+    while (c != ':') {
+      host += c;
       ++i;
-      while (i < fulldir.length()) {
-	c = fulldir[i];
-	path = path + c;
-	++i;
-      }
-      if (path[path.length() - 1] != '/') path = path + '/';
+      assert(i < fulldir.size());
+      c = fulldir[i];
+    }
+    ++i;
+    while (i < fulldir.size()) {
+      c = fulldir[i];
+      path += c;
+      ++i;
+    }
+    assert(not path.empty());
+    if (path[path.size() - 1] != '/') path += '/';
   }
 
   void verify_dest(const std::string& cmd_dest, container& backup_dir) {
