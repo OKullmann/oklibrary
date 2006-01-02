@@ -142,8 +142,18 @@ namespace OKlib {
 
     // #################
 
+    /*!
+      \enum SolverResult
+      \brief Codes for return values of SAT solvers
+      \todo This should come from the general library ?!
+    */
+
     enum SolverResult { unknown = 0, sat = 10, unsat = 20, error = 1 };
-    // ToDo: This should come from the general library ?!
+
+    /*!
+      \class SATStatus
+      \brief Special result element representing the return value of the solver
+    */
 
     class SATStatus : public ResultElement {
       SolverResult result_;
