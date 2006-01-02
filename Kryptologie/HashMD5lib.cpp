@@ -16,7 +16,6 @@
 
 std::string hashMD5 (const char* in) {
 
-  int i;
   MHASH td;
   unsigned char* p;
   unsigned char *hash;
@@ -33,7 +32,7 @@ std::string hashMD5 (const char* in) {
   std::ostringstream sout;
   sout.unsetf(std::ios::dec); sout.setf(std::ios::hex);
   sout.fill('0');
-  for (i = 0; i < mhash_get_block_size(MHASH_MD5); i++) {
+  for (unsigned int i = 0; i < mhash_get_block_size(MHASH_MD5); i++) {
     sout.width(2); sout << (unsigned int) hash[i];
   }
   

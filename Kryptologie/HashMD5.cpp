@@ -14,7 +14,6 @@
 #include <stdlib.h>  
 
 int main(void)         {
-  int i;
   MHASH td;
   unsigned char buffer;
   unsigned char *hash;  
@@ -29,7 +28,7 @@ int main(void)         {
   hash = (unsigned char *) mhash_end(td);
  
   printf("Hash:");
-  for (i = 0; i < mhash_get_block_size(MHASH_MD5); i++) {
+  for (unsigned int i = 0; i < mhash_get_block_size(MHASH_MD5); ++i) {
     printf("%.2x", hash[i]);
   }
   printf("\n");

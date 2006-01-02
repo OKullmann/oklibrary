@@ -75,7 +75,8 @@ namespace OKlib {
           else
             ++current_characters;
         }
-        assert(total_characters == s.size());
+        assert(total_characters >= 0);
+        assert((unsigned int)total_characters == s.size());
       }
     };
 
