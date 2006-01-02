@@ -10,7 +10,9 @@
 #define REFACTORINGINCLUDEHANDLING_jjHHbgt6
 
 #include "LibraryBasics.hpp"
-#include "Traits.hpp"
+
+#include "string_type.hpp"
+#include "size_type.hpp"
 
 #include "InputOutput.hpp"
 
@@ -26,8 +28,8 @@ namespace OKlib {
 
     template <class IncDir>
     struct IncludeDirective {
-      typedef typename string_type<IncDir>::type string_type;
-      typedef typename size_type<IncDir>::type size_type;
+      typedef typename OKlib::Concepts::string_type<IncDir>::type string_type;
+      typedef typename OKlib::Concepts::size_type<IncDir>::type size_type;
       typedef OKlib::Refactoring::Include_forms Include_forms;
       BOOST_STATIC_ASSERT(::OKlib::MetaProgramming::is_unqualified_unsigned_integral<size_type>::value);
       void constraints() {
@@ -47,18 +49,19 @@ namespace OKlib {
         IncDir(str_c, s_c, s_c, if_c);
         static_cast<boost::filesystem::path>(dir_c);
 
-        static_cast<string_type>(dir_c.header_file());
-        static_cast<string_type&>(dir.header_file());
-        static_cast<size_type>(dir_c.number_spaces_after_hash());
-        static_cast<size_type&>(dir.number_spaces_after_hash());
-        static_cast<size_type>(dir_c.number_spaces_after_include());
-        static_cast<size_type&>(dir.number_spaces_after_include());
-        static_cast<Include_forms>(dir_c.include_form());
-        static_cast<Include_forms&>(dir.include_form());
-        static_cast<string_type>(dir_c.opening());
-        static_cast<string_type>(dir.opening());
-        static_cast<string_type>(dir_c.closing());
-        static_cast<string_type>(dir.closing());
+        size_type siz; string_type str; Include_forms inc;
+        str = static_cast<string_type>(dir_c.header_file());
+        static_cast<string_type&>(dir.header_file()) = str;
+        siz = static_cast<size_type>(dir_c.number_spaces_after_hash());
+        static_cast<size_type&>(dir.number_spaces_after_hash()) = siz;
+        siz = static_cast<size_type>(dir_c.number_spaces_after_include());
+        static_cast<size_type&>(dir.number_spaces_after_include()) = siz;
+        inc = static_cast<Include_forms>(dir_c.include_form());
+        static_cast<Include_forms&>(dir.include_form()) = inc;
+        str = static_cast<string_type>(dir_c.opening());
+        str = static_cast<string_type>(dir.opening());
+        str = static_cast<string_type>(dir_c.closing());
+        str = static_cast<string_type>(dir.closing());
       }
       IncDir dir;
       const IncDir dir_c;
@@ -69,30 +72,33 @@ namespace OKlib {
 
     class IncludeDirective_Archetype {
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return bool(); }
       };
     public :
       typedef IncludeDirective_tag concept_tag;
       struct string_type {};
       typedef unsigned int size_type; // ToDo: Can this be made more generic?
-      convertible_to_bool operator ==(const IncludeDirective_Archetype&) const {}
-      convertible_to_bool operator !=(const IncludeDirective_Archetype&) const {}
-      friend std::ostream& operator <<(std::ostream&, const IncludeDirective_Archetype&) {}
+      convertible_to_bool operator ==(const IncludeDirective_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const IncludeDirective_Archetype&) const { return convertible_to_bool(); }
+      friend std::ostream& operator <<(std::ostream& out, const IncludeDirective_Archetype&) { return out; }
       IncludeDirective_Archetype() {}
       IncludeDirective_Archetype(string_type,size_type,size_type,OKlib::Refactoring::Include_forms) {}
-      operator boost::filesystem::path() const {}
-      string_type header_file() const {}
-      string_type& header_file() {}
-      size_type number_spaces_after_hash() const {}
-      size_type& number_spaces_after_hash() {}
-      size_type number_spaces_after_include() const {}
-      size_type& number_spaces_after_include() {}
-      OKlib::Refactoring::Include_forms include_form() const {}
-      OKlib::Refactoring::Include_forms& include_form() {}
-      string_type opening() const {}
-      string_type& opening() {}
-      string_type closing() const {}
-      string_type& closing() {}
+      operator boost::filesystem::path() const { return boost::filesystem::path(); }
+    private :
+      string_type str;
+      size_type siz;
+      OKlib::Refactoring::Include_forms inc;
+    public :
+      string_type header_file() const { return string_type(); }
+      string_type& header_file() { return str; }
+      size_type number_spaces_after_hash() const { return size_type(); }
+      size_type& number_spaces_after_hash() { return siz; }
+      size_type number_spaces_after_include() const { return size_type(); }
+      size_type& number_spaces_after_include() { return siz; }
+      OKlib::Refactoring::Include_forms include_form() const { return OKlib::Refactoring::Include_forms(); }
+      OKlib::Refactoring::Include_forms& include_form() { return inc; }
+      string_type opening() const { return string_type(); }
+      string_type closing() const { return string_type(); }
     };
 
   }

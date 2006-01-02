@@ -4,6 +4,8 @@
   \file ResultElements.hpp
   \brief Concepts for result elements, representing results of SAT solvers (especially
   for competitions).
+  \todo floating_point_type.hpp and natural_number_type.hpp should go to
+  SATCompetition/Traits.
   \todo To be completed (see module SAT-Competition).
 */
 
@@ -12,7 +14,10 @@
 #define RESULTELEMENT_6Tg5Yh
 
 #include "LibraryBasics.hpp"
-#include "Traits.hpp"
+
+#include "string_type.hpp"
+#include "floating_point_type.hpp"
+#include "natural_number_type.hpp"
 
 namespace OKlib {
 
@@ -29,9 +34,9 @@ namespace OKlib {
 
     template <typename Res>
     struct ResultElement {
-      typedef typename string_type<Res>::type string_type;
-      typedef typename floating_point_type<Res>::type floating_point_type;
-      typedef typename natural_number_type<Res>::type natural_number_type;
+      typedef typename OKlib::Concepts::string_type<Res>::type string_type;
+      typedef typename OKlib::Concepts::floating_point_type<Res>::type floating_point_type;
+      typedef typename OKlib::Concepts::natural_number_type<Res>::type natural_number_type;
       void constraints() {
         OKLIB_MODELS_CONCEPT_TAG(Res, ResultElement);
 
@@ -79,16 +84,16 @@ namespace OKlib {
     class ResultElementWithOrder_Archetype : public ResultElement_Archetype {
     protected :
       struct convertible_to_bool {
-        operator bool() {}
+        operator bool() { return bool(); }
       };
     public :
       typedef ResultElementWithOrder_tag concept_tag;
-      convertible_to_bool operator ==(const ResultElementWithOrder_Archetype&) const {}
-      convertible_to_bool operator !=(const ResultElementWithOrder_Archetype&) const {}
-      convertible_to_bool operator <(const ResultElementWithOrder_Archetype&) const {}
-      convertible_to_bool operator >(const ResultElementWithOrder_Archetype&) const {}
-      convertible_to_bool operator <=(const ResultElementWithOrder_Archetype&) const {}
-      convertible_to_bool operator >=(const ResultElementWithOrder_Archetype&) const {}
+      convertible_to_bool operator ==(const ResultElementWithOrder_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const ResultElementWithOrder_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <(const ResultElementWithOrder_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >(const ResultElementWithOrder_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <=(const ResultElementWithOrder_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >=(const ResultElementWithOrder_Archetype&) const { return convertible_to_bool(); }
     };
     
     // --------------------------------------------------------------------------------------------------------------------------------------
@@ -129,20 +134,20 @@ namespace OKlib {
       struct string_type {
     protected :
         struct convertible_to_bool {
-          operator bool() {}
+          operator bool() { return bool(); }
         };
       public :
-        convertible_to_bool operator ==(const string_type&) const {}
-        convertible_to_bool operator !=(const string_type&) const {}
-        convertible_to_bool operator <(const string_type&) const {}
-        convertible_to_bool operator >(const string_type&) const {}
-        convertible_to_bool operator <=(const string_type&) const {}
-        convertible_to_bool operator >=(const string_type&) const {}
+        convertible_to_bool operator ==(const string_type&) const { return convertible_to_bool(); }
+        convertible_to_bool operator !=(const string_type&) const { return convertible_to_bool(); }
+        convertible_to_bool operator <(const string_type&) const { return convertible_to_bool(); }
+        convertible_to_bool operator >(const string_type&) const { return convertible_to_bool(); }
+        convertible_to_bool operator <=(const string_type&) const { return convertible_to_bool(); }
+        convertible_to_bool operator >=(const string_type&) const { return convertible_to_bool(); }
       };
       typedef ResultElementWithName_tag concept_tag;
       ResultElementWithName_Archetype() {}
       ResultElementWithName_Archetype(const string_type&) {}
-      string_type name() const {}
+      string_type name() const { return string_type(); }
     };
     
     // --------------------------------------------------------------------------------------------------------------------------------------
