@@ -93,36 +93,46 @@ namespace {
       return 0;
   }
 
-  const char * Ersatzdarstellung(const char *a) {
-    char *b = new char[strlen(a)+1];
-    char *p2 = b; bool GSS = false;
-    for (const char *p = a; *p != '\0'; p++) {
+  /*!
+    \brief Interpretes an escaped sequence, so that for example the string
+    'a\n' (taken literally!) becomes interpreted (changing its length
+    accordingly from 3 to 2).
+    \todo Should be moved to a string module.
+    \todo Needs testing!
+  */
+
+  const char* Ersatzdarstellung(const char* const a) {
+    // 
+    char* const b = new char[strlen(a)+1];
+    char* p2 = b;
+    bool GSS = false; // true iff we have to interprete the next character
+    for (const char* p = a; *p != '\0'; ++p) {
+      char c(*p);
       if (GSS) {
-	GSS = false;
-	char c;
-	switch (*p) {
-	case '\\' : c = '\\'; break;
-	case 'a' : c = '\a'; break;
-	case 'b' : c = '\b'; break;
-	case 'f' : c = '\f'; break;
-	case 'n' : c = '\n'; break;
-	case 'r' : c = '\r'; break;
-	case 't' : c = '\t'; break;
-	case 'v' : c = '\v'; break;
-	default : *(p2++) = '\\'; break;
-	}
-	*(p2++) = c;
+        GSS = false;
+        switch (c) {
+        case '\\' : c = '\\'; break;
+        case 'a' : c = '\a'; break;
+        case 'b' : c = '\b'; break;
+        case 'f' : c = '\f'; break;
+        case 'n' : c = '\n'; break;
+        case 'r' : c = '\r'; break;
+        case 't' : c = '\t'; break;
+        case 'v' : c = '\v'; break;
+        default : *p2++ = '\\'; break; // case of uninterpretable '\c'
+        }
+        *p2++ = c;
       }
       else
-	if (*p == '\\')
-	  GSS = true;
-	else
-	  *(p2++) = *p;
+        if (c == '\\')
+          GSS = true;
+        else
+          *p2++ = c;
     }
     if (GSS)
-      *p2 = '\\';
-    *(p2++) = '\0';
-    return const_cast<char *>(b);
+      *p2++ = '\\';
+    *p2 = '\0';
+    return const_cast<char*>(b);
   }
 
 }
@@ -132,132 +142,129 @@ namespace KMZ {
   bool ArgumentBearbeitung(const char * const Name, const Argumentstruktur ST[], const int AnzAlternativen, const char * const A[], const int AnzahlArgumente, const Sprachen& S) {
 
     bool Infomodus = false;
-
+    
     for (int i = 0; i < AnzahlArgumente; i++) {
 
       if ((strcmp(A[i], "--help") == 0) || (strcmp(A[i], "-h") == 0)) {
-	if (Infomodus)
-	  printf("\n%s (%s): %s\n", "--help", "-h", Meldungen[13][S]);
-	else {
-	  printf(Meldungen[10][S]);
-	  for (int j = 0; j < AnzAlternativen; j++) {
-	    const char *Zusatz;
-	    if (ST[j].typ != KEin)
-	      Zusatz = "=";
-	    else
-	      Zusatz = "";
-	    printf("%s%s\t\t%s%s\n", ST[j].kurz, Zusatz, ST[j].lang, Zusatz);
-	  }
-	  printf(Meldungen[11][S]);
-	}
-	continue;
+        if (Infomodus)
+          printf("\n%s (%s): %s\n", "--help", "-h", Meldungen[13][S]);
+        else {
+          printf(Meldungen[10][S]);
+          for (int j = 0; j < AnzAlternativen; j++) {
+            const char *Zusatz;
+            if (ST[j].typ != KEin)
+              Zusatz = "=";
+            else
+              Zusatz = "";
+            printf("%s%s\t\t%s%s\n", ST[j].kurz, Zusatz, ST[j].lang, Zusatz);
+          }
+          printf(Meldungen[11][S]);
+        }
+        continue;
       }
       else if (strcmp(A[i], "--info") == 0) {
-	Infomodus = ! Infomodus;
-	continue;
+        Infomodus = ! Infomodus;
+        continue;
       }
 
       // Bestimmung der Option
       int j = 0;
-      const char *Pos; // erste Position nach der Options-Zeichenkette
-      for (; j < AnzAlternativen; j++)
-	if ((Pos = Praefix((char *) ST[j].kurz, (char *) A[i])) || (Pos = Praefix((char *)ST[j].lang, (char *) A[i])))
-	  break;
+      const char* Pos = 0; // erste Position nach der Options-Zeichenkette
+      for (; j < AnzAlternativen; ++j)
+        if ((Pos = Praefix((char *) ST[j].kurz, (char *) A[i])) || (Pos = Praefix((char *)ST[j].lang, (char *) A[i])))
+          break;
       if (j == AnzAlternativen) { // Argument nicht erkannt
-	fprintf(stderr, Meldungen[7][S], Name, A[i]);
-	return false;
+        fprintf(stderr, Meldungen[7][S], Name, A[i]);
+        return false;
       }
 
       if (Infomodus) {
-	const char *Zusatz;
-	if (ST[j].typ != KEin)
-	  Zusatz = "=";
-	else
-	  Zusatz = "";
-	printf("\n%s%s (%s%s): ", ST[j].lang, Zusatz, ST[j].kurz, Zusatz);
-	ST[j].e();
-	printf("\n");
-	continue;
+        const char *Zusatz;
+        if (ST[j].typ != KEin)
+          Zusatz = "=";
+        else
+          Zusatz = "";
+        printf("\n%s%s (%s%s): ", ST[j].lang, Zusatz, ST[j].kurz, Zusatz);
+        ST[j].e();
+        printf("\n");
+        continue;
       }
 
       GenArg Arg; GenArg *Z; // Einlesen der Zusatz-Argumente
 	
       if (ST[j].typ == KEin) {
-	if (*Pos != 0) {
-	  fprintf(stderr, Meldungen[3][S], Name, A[i], ST[j].lang);
-	  return false;
-	}
-	else
-	  Z = 0;
+        if (*Pos != 0) {
+          fprintf(stderr, Meldungen[3][S], Name, A[i], ST[j].lang);
+          return false;
+        }
+        else
+          Z = 0;
       }
       else {
-	if (*(Pos++) != '=') {
-	  fprintf(stderr, Meldungen[4][S], Name, A[i], ST[j].lang);
-	  return false;
-	}
-	Z = &Arg;
-	const char * Restzeiger;
-	switch (ST[j].typ) {
+        if (*(Pos++) != '=') {
+          fprintf(stderr, Meldungen[4][S], Name, A[i], ST[j].lang);
+          return false;
+        }
+        Z = &Arg;
+        const char * Restzeiger;
+        switch (ST[j].typ) {
 	  
-	case ZEin : Arg.s = Ersatzdarstellung(Pos); break;
+        case ZEin : Arg.s = Ersatzdarstellung(Pos); break;
 	  
-	case LIEin : Arg.li = strtol(Pos, (char **) &Restzeiger, 0);
-	  if (errno == ERANGE) {
-	    if (Arg.li > 0)
-	      fprintf(stderr, Meldungen[5][S], Name, A[i]);
-	    else
-	      fprintf(stderr, Meldungen[9][S], Name, A[i]);
-	    return false;
-	  }
-	  if (*Restzeiger != 0) {
-	    fprintf(stderr, Meldungen[8][S], Name, A[i]);
-	    return false;
-	  }
-	  break;
+        case LIEin : Arg.li = strtol(Pos, (char **) &Restzeiger, 0);
+          if (errno == ERANGE) {
+            if (Arg.li > 0)
+              fprintf(stderr, Meldungen[5][S], Name, A[i]);
+            else
+              fprintf(stderr, Meldungen[9][S], Name, A[i]);
+            return false;
+          }
+          if (*Restzeiger != 0) {
+            fprintf(stderr, Meldungen[8][S], Name, A[i]);
+            return false;
+          }
+          break;
 	  
-	case ULIEin : if (*Pos == '-') {
-	  fprintf(stderr, Meldungen[12][S], Name, A[i]);
-	  return false;
-	  }
-	  Arg.uli = strtoul(Pos, (char **) &Restzeiger, 0);
-	  if (errno == ERANGE) {
-	    fprintf(stderr, Meldungen[5][S], Name, A[i]);
-	    return false;
-	  }
-	  if (*Restzeiger != 0) {
-	    fprintf(stderr, Meldungen[8][S], Name, A[i]);
-	    return false;
-	  }
-	  break;
+        case ULIEin : if (*Pos == '-') {
+            fprintf(stderr, Meldungen[12][S], Name, A[i]);
+            return false;
+          }
+          Arg.uli = strtoul(Pos, (char **) &Restzeiger, 0);
+          if (errno == ERANGE) {
+            fprintf(stderr, Meldungen[5][S], Name, A[i]);
+            return false;
+          }
+          if (*Restzeiger != 0) {
+            fprintf(stderr, Meldungen[8][S], Name, A[i]);
+            return false;
+          }
+          break;
 	  
-	case DEin : Arg.d = strtod(Pos, 0);
-	  if (errno == ERANGE) {
-	    if (Arg.li != 0)
-	      fprintf(stderr, Meldungen[5][S], Name, A[i]);
-	    else
-	      fprintf(stderr, Meldungen[6][S], Name, A[i]);
-	    return false;
-	  }
-	  break;
+        default : Arg.d = strtod(Pos, 0); // case DEin
+          if (errno == ERANGE) {
+            if (Arg.li != 0)
+              fprintf(stderr, Meldungen[5][S], Name, A[i]);
+            else
+              fprintf(stderr, Meldungen[6][S], Name, A[i]);
+            return false;
+          }
+          break;
 	  
-	} // switch
-      } // der Fall, dass ein Argument zu bearbeiten war
+        } // switch
+      }// der Fall, dass ein Argument zu bearbeiten war
 
       const char *Ausgabe ;
       if (ST[j].f != 0 && ! ((ST[j].f)(Z, &Ausgabe))) {
-	fprintf(stderr, Meldungen[0][S], Name, ST[j].lang, A[i]);
-	fprintf(stderr, Meldungen[1][S], Name, Ausgabe);
-	return false;
+        fprintf(stderr, Meldungen[0][S], Name, ST[j].lang, A[i]);
+        fprintf(stderr, Meldungen[1][S], Name, Ausgabe);
+        return false;
       }
       if (ST[j].a != 0 && ! ((ST[j].a)(Z))) {
-	fprintf(stderr, Meldungen[2][S], Name, ST[j].lang, A[i]);
-	return false;
-	
+        fprintf(stderr, Meldungen[2][S], Name, ST[j].lang, A[i]);
+        return false;
       }
     }
     return true;
   }
   
 }
- 
-
