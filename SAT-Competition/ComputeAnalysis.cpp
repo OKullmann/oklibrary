@@ -2,7 +2,7 @@
 
 /*!
   \file ComputeAnalysis.cpp
-  \brief Analyses a file with competition data by printing out for all benchmarks
+  \brief Analyse a file with competition data by printing out for all benchmarks
   the number of succesful solvers, the result problem purse, the speed factor and the
   SAT status (as determined by the solver results).
   \todo Usage of ProgramOptions.
@@ -72,7 +72,7 @@ struct PrintStandard {
       switch (sat_status) {
       case OKlib::SATCompetition::sat :
         out << "SAT"; break;
-      case OKlib::SATCompetition::unsat :
+      default :
         out << "UNSAT"; break;
       }
       out << "\n";
@@ -201,7 +201,8 @@ int main(const int argc, char* const argv[]) {
   const std::string& file_name(argv[1]);
   for (int i = 2; i < argc; ++i) {
     const int prefix_length = 6 + 1;
-    if (std::strlen(argv[i]) <= prefix_length) {
+    assert(prefix_length >= 0);
+    if (std::strlen(argv[i]) <= (unsigned int)prefix_length) {
       std::cerr << "Parameter \"" << argv[i] << "\" is not \"syntax=+\".\n";
       return EXIT_FAILURE;
     }

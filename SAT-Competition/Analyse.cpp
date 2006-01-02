@@ -107,19 +107,19 @@ namespace Analyse {
   std::istream& operator >> (std::istream& in, SolverResults& R) {
     if (not in)
       throw FormatError("operator >>(std::istream& in, SolverResults& R): stream unreadable from the beginning");
-    int number_results;
-    int number_columns;
+    unsigned int number_results;
+    unsigned int number_columns;
     in >> number_results >> number_columns;
     if  (not in)
       throw FormatError("operator >>(std::istream& in, SolverResults& R): can't read number_results, number_columns");
 
-    for (int i = 0; i < number_results; ++i) {
+    for (unsigned int i = 0; i < number_results; ++i) {
       SolverResult r;
       in >> r.num_solver;
       if  (not in)
           throw FormatError(std::string("operator >>(std::istream& in, SolverResults& R): can't read solver number for result number ") + boost::lexical_cast<std::string>(i + 1));
       r.solved.reserve(number_columns);
-      for (int j = 0; j < number_columns; ++j) {
+      for (unsigned int j = 0; j < number_columns; ++j) {
         CountSolved c;
         in >> c;
         if  (not in)
@@ -127,7 +127,7 @@ namespace Analyse {
         r.solved.push_back(c);
       }
       r.times.reserve(number_columns);
-      for (int j = 0; j < number_columns; ++j) {
+      for (unsigned int j = 0; j < number_columns; ++j) {
         mean_time t;
         in >> t;
         if  (not in)

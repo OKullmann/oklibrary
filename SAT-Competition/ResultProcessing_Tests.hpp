@@ -280,15 +280,13 @@ namespace OKlib {
           typedef typename VectorTupleResult::size_type size_type_tuple;
           VectorTupleResult pre_test_vector;
           add_positive_result_tuples(pre_test_vector);
-          const size_type_tuple pre_test_vector_size = pre_test_vector.size();
 
           std::stringstream input;
           std::copy(pre_test_vector.begin(), pre_test_vector.end(), std::ostream_iterator<TupleResult>(input, "\n"));
 
           VectorResult test_vector;
           assert(copy_results<Parser>(input.str().c_str(), std::back_inserter(test_vector)).full);
-          const size_type test_vector_size = test_vector.size();
-          assert(test_vector_size == pre_test_vector_size);
+          assert(test_vector.size() == pre_test_vector.size());
 
           result_database db(test_vector.begin(), test_vector.end());
 
@@ -299,8 +297,7 @@ namespace OKlib {
           typedef std::back_insert_iterator<VectorResult> OutputIterator;
           typedef Copy_results_from_file<ParserResult, OutputIterator, result_type> Copy;
           assert(Copy()(filename, std::back_inserter(test_vector)).full);
-          const size_type test_vector_size = test_vector.size();
-          assert(test_vector_size == line_count);
+          assert(test_vector.size() == line_count);
           result_database db(test_vector.begin(), test_vector.end());
           OKLIB_TESTTRIVIAL_RETHROW(test_Database_vs_Container(db, test_vector));
         }

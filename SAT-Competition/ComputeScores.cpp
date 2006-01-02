@@ -98,7 +98,8 @@ int main(const int argc, char* const argv[]) {
   const std::string& file_name(argv[1]);
   for (int i = 2; i < argc; ++i) {
     const int prefix_length = 6 + 1;
-    if (std::strlen(argv[i]) <= prefix_length) {
+    assert(prefix_length >= 0);
+    if (std::strlen(argv[i]) <= (unsigned int)prefix_length) {
       std::cerr << "Parameter \"" << argv[i] << "\" is not \"syntax=+\" or \"series=+\".\n";
       return EXIT_FAILURE;
     }

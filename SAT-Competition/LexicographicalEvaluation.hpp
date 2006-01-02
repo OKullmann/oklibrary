@@ -254,7 +254,7 @@ namespace OKlib {
                   assert(found != hash_map.end());
                   const typename hash_map_type::iterator::difference_type& index(found - hash_map.begin());
                   assert(index >= 0);
-                  assert(index < hash_map.size());
+                  assert((typename hash_map_type::size_type)index < hash_map.size());
                   evaluation_vector[index] = k -> second;
                   assert(*found == random_k_sat_n);
                 }

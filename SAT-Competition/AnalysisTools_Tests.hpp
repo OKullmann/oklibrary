@@ -307,6 +307,8 @@ namespace OKlib {
              if (not rdb.db.intersection().empty())
                OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " was found satisfiable");
              break;
+           case error :
+             OKLIB_THROW("Benchmark " + boost::lexical_cast<std::string>(bench) + " sat status was \"error\"");
            }
          }
        }
