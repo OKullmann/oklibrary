@@ -56,13 +56,14 @@ namespace OKlib {
       typedef typename std::iterator_traits<Iterator>::pointer pointer;
       void constraints() {
         boost::function_requires<ConstructibleCAEq<Iterator> >();
-        static_cast<value_type>(*a); // pre-condition: a is dereferencable
-        static_cast<Iterator&>(++r); // pre-condition: a is dereferencable
-        (void) r++; // pre-condition: a is dereferencable
-        static_cast<value_type>(*r++); // pre-condition: a is dereferencable
+        dummy_use_v(static_cast<value_type>(*a)); // pre-condition: a is dereferencable
+        static_cast<Iterator&>(++r); // pre-condition: r is dereferencable
+        (void) r++; // pre-condition: r is dereferencable
+        dummy_use_v(static_cast<value_type>(*r++)); // pre-condition: r is dereferencable
       }
       const Iterator a;
       Iterator& r;
+      void dummy_use_v(const value_type& v) const {}
     };
     struct InputIterator_tag : virtual ConstructibleCAEq_tag {};
 
@@ -71,7 +72,7 @@ namespace OKlib {
       typedef InputIterator_Archetype self;
     protected :
       struct convertible_to_bool {
-        operator bool() { return false; }
+        operator bool() { return bool(); }
       };
     public:
       typedef std::input_iterator_tag iterator_category;
@@ -127,13 +128,15 @@ namespace OKlib {
       void constraints() {
         boost::function_requires<MultiPassInputIterator<Iterator> >();
         boost::function_requires<DefaultConstructible<Iterator> >();
-        static_cast<value_type&>(*a);
+        dummy_use_v(static_cast<value_type&>(*a));
         static_cast<Iterator&>(++r);
-        static_cast<const Iterator&>(r++);
+        Iterator i(static_cast<const Iterator&>(r++)); dummy_use_i(i);
         static_cast<value_type&>(*r++);
       }
       const Iterator a;
       Iterator& r;
+      void dummy_use_v(const value_type& v) const {}
+      void dummy_use_i(const Iterator& i) const {}
     };
   struct ForwardIterator_tag : virtual MultiPassInputIterator_tag, virtual DefaultConstructible_tag {};
 
