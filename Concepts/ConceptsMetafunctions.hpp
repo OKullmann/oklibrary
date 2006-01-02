@@ -18,7 +18,7 @@
 #include "Logical.hpp"
 
 #include "ConceptsBase.hpp"
-#include "Traits.hpp"
+#include "concept_tag.hpp"
 
 namespace OKlib {
 
