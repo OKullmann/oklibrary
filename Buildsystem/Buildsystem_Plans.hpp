@@ -14,6 +14,15 @@
      or only the test programs
    - "html" should be possible from any level (creating always the complete documentation).
 
+   \todo Two modes of usage of the build system:
+    - As we have it now, everything in one directory (and also with the possibility of
+      having different versions of the OKplatform). ("One world", extending directly
+      the library.)
+    - Having one global OKplatform, and then a local directory with also aux, bin, doc
+      include and lib, but only regarding the local directory. So that for example students
+      in the Linux lab can use a central installation of OKplatform, and in the local
+      directory only the files related to their production is stored.
+
    \todo Each "make test" etc. should gather summary statistics of the tests performed,
    like the total number of testobjects, the total time spend and so on.
    In order to do so, a test program can be asked to serialise the statistics
