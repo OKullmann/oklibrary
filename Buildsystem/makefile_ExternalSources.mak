@@ -3,6 +3,7 @@ SHELL = /bin/sh
 
 doxygen_targets := doxygen-1.4.5
 doxygen_recommended := doxygen-1.4.5
+# remark: doxygen-1.4.6 broken
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2
 gcc_recommended := gcc-4.0.2
 boost_targets := boost-1_33_1
