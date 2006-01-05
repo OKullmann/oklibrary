@@ -1,5 +1,11 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
+ifdef OKTESTSYSTEM
+  OKTestsystem := -I$(OKTESTSYSTEM)
+else
+  OKTestsystem :=
+endif
+
 ifdef BIBLIOTHEK
   Bibliothek := -I$(BIBLIOTHEK)
 else
@@ -18,7 +24,7 @@ test_program := TestIOTools
 
 programs :=
 
-source_libraries = $(Bibliothek) $(Loki) $(Boost)
+source_libraries = $(OKTestsystem) $(Bibliothek) $(Loki) $(Boost)
 
 link_libraries :=
 
