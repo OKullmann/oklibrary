@@ -3,32 +3,47 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
-  \todo Perhaps we should use Test<n> and TestBase<n> ?
-  Then the test system could test itself (using Test<0> and Test<1>).
-  Perhaps one should use Test<T> for a typename T --- then the name
+  \todo All tests should derive from Test (so that they can be reused)!
+  An independent (parameterised, see next todo) class RunTest is then responsible
+  for the insertion of test objects into a global container via the
+  constructor RunTest(Test*). Thus Testobjects contains instead of
+  TestingClassTemplate<TestedClassTemplate> test;
+  now
+  RunTest(new TestingClassTemplate<TestedClassTemplate>) test;
+  where RunTest is a typedef for RunTests<typename T> as discussed
+  in the next item.
+  \todo Perhaps we should use RunTest<n> ?
+  Then the test system could test itself (using RunTest<0> and RunTest<1>).
+  Perhaps one should use RunTest<T> for a typename T --- then the name
   of T could provide the meaning. But likely we should be able to
-  register the instances of Test, and then numbers are easier? Perhaps
+  register the instances of RunTest, and then numbers are easier? Perhaps
   this registration needs to happen at run time? Too complicated.
   We need a type which can be defined only once. Better a value ---
   a function pointer, exploiting the ODR?! Perhaps this "registration function"
   yields the name of the testsystem instance, and there is a default
   registration function. The default registration function is defined
   in a .cpp file in module Testsystem (declared in TestBaseClass.hpp).
-  Every module then contains a TestIncludes_Module.cpp file, which
-  gathers all the the testobject files. By linking them together and providing
-  one main-function (which calls the run_tests_default or what else is needed)
-  we can run all tests together from a variety of modules. If Test is a template,
-  then using it in different translation units does not violate the ODR.
   \todo Three streams: error, messages, log.
-  error and messages as now (exceptions thrown, module names and basic
-  statistics). For the log messages there is a member function in Test;
-  using appropriate macro support automatically the file name, line number
-  etc. are included in the log message (perhaps just like OKLIB_TESTDESCRIPTION).
-  There is a RAII class, by which the output of log messages can be turned off
+  Every output is assigned to exactly one of these three streams. It's the users responsibility
+  to provide appropriate synchronisation between these three streams.
+  For the log messages and the normal messages there are member functions in Test,
+  using appropriate macro support adding automatically file name, line number
+  etc. (perhaps just like OKLIB_TESTDESCRIPTION).
+  There is a RAII class, by which the output of log or normal messages can be turned off
   (if for example we call a test function very often). For all these messages we
   should use the Messages module, and then there are different levels of
-  verbosity. By default error ist std::cerr, while messages and log are std::cout;
-  furthermore by default log messages are turned off.
+  verbosity.
+  \todo For convenience three standard instantiations of the three streams are provided:
+   - normal run:
+     error = std::cerr, messages = log = std::cout, normal messages on, log messages off
+   - nightly run:
+     error = error-file, messages = log = log-file, normal messages on, log messages on,
+     error is copied to log-file
+   - normal run with file storage:
+     error = error-file, messages = std::cout, log = log-file, normal messages on, log messages on,
+     error is copied to std::cerr and log_file, messages is copied to log_file.
+   To implement these, we must investigate the standard iostream and buffer classes, and the
+   boost iostreams library.
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
@@ -163,12 +178,9 @@ namespace OKlib {
 
     };
     TestBase::List TestBase::test_list;
- 
-  }
-
 
   }
-
+  
 }
 
 #endif
