@@ -14,6 +14,17 @@ namespace OKlib {
     Test_TestReflexivity<TestReflexivity> test_testreflexivity;
     Test_TestIrreflexivity<TestIrreflexivity> test_testirreflexivity;
 
+    Test_TestSymmetry<TestSymmetry> test_testsymmetry;
+    Test_TestAsymmetry<TestAsymmetry> test_testasymmetry;
+    Test_TestAntisymmetry<TestAntisymmetry> test_testantisymmetry;
+
+    Test_TestTotality<TestTotality> test_testtotality;
+    Test_TestTrichotomy<TestTrichotomy> test_testtrichotomy;
+
+    Test_TestTransitivity<TestTransitivity> test_testtransitivity;
+
+    Test_TestQuasiorder<TestQuasiorder> test_testquasiorder;
+    Test_TestEquivalence<TestEquivalence> test_testequivalence;
   }
 
 }
