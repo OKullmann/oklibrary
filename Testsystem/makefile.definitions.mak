@@ -1,24 +1,9 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-ifdef BIBLIOTHEK
-  Bibliothek := -I$(BIBLIOTHEK)
+ifdef OKTESTSYSTEM
+  OKTestsystem := -I$(OKTESTSYSTEM)
 else
-  Bibliothek :=
-endif
-ifdef LOKI
-  Loki := -I$(LOKI)
-else
-  Loki :=
-endif
-ifdef XERCES_H
-  Xerces_h := -I$(XERCES_H)
-else
-  Xerces_h :=
-endif
-ifdef XERCES_SO
-  Xerces_so := -I$(XERCES_SO)
-else
-  Xerces_so :=
+  OKTestsystem :=
 endif
 
 General_options := -g
@@ -26,9 +11,9 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestTestsystem
 
-programs :=
+programs := TestProgram_DesignStudy
 
-source_libraries = $(Boost)
+source_libraries = $(Boost) $(OKTestsystem)
 
 link_libraries := 
 
