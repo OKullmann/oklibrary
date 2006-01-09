@@ -1,6 +1,10 @@
 // Oliver Kullmann, 19.6.2002 (Swansea)
 
-// 27.11.2004: Likely everything in here should be replaced by components from Boost
+/*!
+  \file TimeHandling.hpp
+  \brief Tools for handling times and dates
+  \todo How muh where should be replaced by components from Boost ?!
+*/
 
 #ifndef TIMEHANDLINGWAECHTER
 
@@ -15,11 +19,17 @@
 
 namespace TimeHandling {
 
-  class SystemTime {
-    // for elapsed system time in seconds since initialisation
-    // ATTENTION: only for ca. 30 minutes, but with high precision
-    // This class is DEPRECATED (replaced by boost::timer).
+  /*!
+    \class SystemTime
+    \brief DEPRECATED (replaced by boost::timer): For elapsed system
+    time in seconds since initialisation.
 
+    Only for ca. 30 minutes, but with high precision.
+    \todo It is actually not clear whether boost::timer is specified to be
+    the *system* time?! Send an e-mail to the Boost mailing list.
+  */
+
+  class SystemTime {
   public :
 
     SystemTime();
@@ -32,9 +42,12 @@ namespace TimeHandling {
     std::clock_t time_point;
   };
 
-  class WallTime {
-    // for elapsed wall time in (full) seconds since initialisation
+  /*!
+    \class WallTime
+    \brief For elapsed wall time in (full) seconds since initialisation.
+  */
 
+  class WallTime {
   public :
 
     WallTime();
@@ -51,15 +64,22 @@ namespace TimeHandling {
 
 namespace TimeHandling {
 
-  const std::string currentDateTime();
-  // returns a string with the current date and time
+  /*!
+    \brief Returns a string with the current date and time (in the format given by the std::asctime
+    from <ctime> (see C Standard 7.23.3.1)).
+  */
+  std::string currentDateTime();
 
-  const std::string output_seconds(double s);
+  /*!
+    \brief As currentDateTime(), but using the format string as for the std::strftime
+    function from <ctime> (see C Standard 7.23.3.5).
+  */
+  std::string currentDateTime(const std::string& format);
+
+  std::string output_seconds(double s);
   // returns the number s of seconds represented as seconds (s), minutes (m), hours (h), days (d) or years (y)
 
-  const std::string currentDateTime(const std::string& format);
-  // as currentDateTime(), but using the format string as for the
-  // std::strftime function from <ctime>
+ 
 }
 
 namespace TimeHandling {
@@ -124,35 +144,25 @@ namespace TimeHandling { // Implementations ------------------------------
 
   // Current date and time
 
-  inline const std::string currentDateTime() {
+  inline std::string currentDateTime() {
     const std::time_t t0 = std::time(0);
     return std::asctime(std::localtime(&t0));
   }
 
-  const std::string currentDateTime(const std::string& format) {
+  inline std::string currentDateTime(const std::string& format) {
     const std::time_t t0 = std::time(0);
     const std::tm* const tmp = std::localtime(&t0);
-    // The following does not work with g++, Version 3.0.4:
-    /*
     std::ostringstream oss;
     std::locale loc;
     oss.imbue(loc);
     const std::time_put<char>& tfac = std::use_facet<std::time_put<char> >(loc);
     std::time_put<char>::iter_type ret = tfac.put(oss, oss, ' ', tmp, format.c_str(), format.c_str() + format.length());
     return oss.str();
-    */
-    const std::size_t max_length = format.size() + 1000;
-    char* cp = new char[max_length];
-    if (not std::strftime(cp, max_length, format.c_str(), tmp))
-      return "";
-    std::string result(cp);
-    delete [] cp;
-    return result;
   }
 
   // Readable output of seconds
 
-  inline const std::string output_seconds(double s) {
+  inline std::string output_seconds(double s) {
     // assuming s >= 0
     if (s <= 2 * 60)
       return StringHandling::toString(s) + " s";
