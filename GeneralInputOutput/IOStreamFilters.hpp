@@ -2,7 +2,7 @@
 
 /*!
   \file IOStreamFilters.hpp
-  \brief Filters for the Boost Iostream library.
+  \brief Filters according to the Boost Iostream library.
 */
 
 #ifndef IOSTREAMFILTERS_99ooKL
@@ -25,7 +25,8 @@ namespace OKlib {
       \brief Extension of the filter boost::iostreams::basic_counter with a member function
       for the number of characters read of the current line.
 
-      Filter for iostreams counting the number of lines read, the total number of characters read and the number of characters read of the current line.
+      Filter for iostreams counting the number of lines read, the total number of characters read and the
+      number of characters read of the current line.
     */
 
     template<typename Ch>

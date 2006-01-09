@@ -4,8 +4,9 @@
   \file TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
+  \todo Rename module to "TestSystem".
   \todo Two main weaknesses currently:
-   - Even is just one submodule changed, the whole testprogram
+   - Even if just one submodule changed, the whole testprogram
      has to be recompiled.
    - Test functions (derived from TestBase) cannot be reused.
    First problem: "Module_Testobjects.hpp" shall become "Module_Testobjects.cpp",
