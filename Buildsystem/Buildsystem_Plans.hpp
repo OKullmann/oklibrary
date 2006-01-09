@@ -8,11 +8,15 @@
 
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs
+   - we must look at the support for linking with .o files from
+     the library itself (including linking with different versions)
    - what is the role of prebuild?
    - it should be possible to build just one application
    - there should be special versions of "clean" which delete only applications
      or only the test programs
-   - "html" should be possible from any level (creating always the complete documentation).
+   - "html" should be possible from any level (creating always the
+   complete documentation) (this should be automatically achieved
+   once makefile_recursive is eliminated).
 
    \todo Two modes of usage of the build system:
     - As we have it now, everything in one directory (and also with the possibility of
@@ -28,6 +32,10 @@
    In order to do so, a test program can be asked to serialise the statistics
    to a file or to standard output, and a simple evaluation program gathers
    these statistics.
+
+   \todo Error messages of gcc should be processed.
+   \todo Type names output by gcc (in test-system messages) should be readable
+   (decoded, and possibly using abbreviations).
 
    \todo Similar to the complexity measurements, for every task performed by the build
    system it should be possible to save the measured run time, so that the develepment over
