@@ -50,134 +50,183 @@
 
 #define TESTBASECLASSTEMPORARY_8uXXzs
 
+#include <cstdlib>
+#include <exception>
+#include <cassert>
+
+#include <boost/ptr_container/ptr_list.hpp>
+#include <boost/timer.hpp>
+
+#include "TimeHandling.hpp"
+
+#include "TestExceptions_DesignStudy.hpp"
+
 namespace OKlib {
 
-  namespace Testsystem {
+  namespace TestSystem {
 
-    class Test;
+    class Basic;
 
-    struct Basic {
-      virtual ~Basic() {}
-      static void test(Test* const t) {
-        t.test_basic();
+    struct Test {
+      virtual ~Test() {}
+      template <class TestLevel>
+      void perform(TestLevel, std::ostream& log) {
+        perform_(TestLevel(), log);
       }
-      virtual void test_dynamic(Test* const t) const {
-        t.test(Basic);
+      
+    private :
+      virtual void perform_(Basic, std::ostream& log) = 0;
+    };
+
+    // ###################################################
+
+    struct TestLevel {
+      virtual void perform(Test& test, std::ostream& log) const = 0;
+      virtual const char* description() const = 0;
+      virtual ~TestLevel() {}
+    };
+
+    struct Basic : TestLevel {
+      void perform(Test& test, std::ostream& log) const {
+        test.perform(Basic(), log);
       }
+      const char* description() const { return "Basic test level"; }
     };
     struct Full : Basic {
-      static void test(Test* const t) {
-        t.test_full();
+      void perform(Test& test, std::ostream& log) const {
+        test.perform(Full(), log);
       }
-      void test_dynamic(Test* const t) const {
-        t.test(Full);
-      }
+      const char* description() const { return "Full test level"; }
     };
     struct Extensive : Full {
-      static void test(Test* const t) {
-        t.test_extensive();
+      void perform(Test& test, std::ostream& log) const {
+        test.perform(Extensive(), log);
       }
-      void test_dynamic(Test* const t) const {
-        t.test(Extensive);
-      }
+      const char* description() const { return "Extensive test level"; }
     };
 
-    class Test {
-    public :
-      virtual ~Test() {}
+    inline const TestLevel* test_level(const char* const level_description) {
+      switch (level_description[0]) {
+      case 'f' : return new Full;
+      case 'e' : return new Extensive;
+      default : return new Basic;
+      }
+    }
 
-      typedef Test test_type;
+    // ###################################################
 
-      template <class Level>
-      void test(Level) {
+    template <class TestFunction>
+    class TestBase : public Test {
+    protected :
+      typedef TestFunction test_type;
+    private :
+      void perform_(Basic, std::ostream& log) {
+        perform_and_catch(Basic(), log);
+      }
+      template <class TestLevel>
+      void perform_and_catch(TestLevel, std::ostream& log) {
+        typedef TestLevel level_type;
         try {
-          Level::test(this);
+          test(TestLevel(), log);
         }
         catch(const TestException&) {
           throw;
         }
         catch(const std::exception& e) {
-          TestException e_new(std::string("std::exception: what = ") + e.what() + "\ntype = " + typeid(e).name());
+          TestException e_new(std::string("std::exception\n   what = \"") + e.what() + "\"\n   type = " + typeid(e).name());
           e_new.add(OKLIB_TESTDESCRIPTION);
           throw e_new;
         }
         catch(...) {
-          TestException e("exception ...\n ");
+          TestException e("unknown exception");
           e.add(OKLIB_TESTDESCRIPTION);
           throw e;
         }
       }
-
-      void test_dynamic(const Basic& b) {
-        b.test_dynamic(this);
-      }
-
-    private :
-
-      virtual void test_basic() = 0;
-      virtual void test_full() { test_basic(); }
-      virtual void test_extensive() { test_full(); }
-
+      virtual void test(Basic, std::ostream& log) = 0;
     };
+
 
     // ###################################################
 
-    class TestBase : public Test {
 
-      typedef std::list<TestBase*> List;
-      // List does not take ownership of the elements pointed to by its members.
-      static List test_list;
-      mutable List::iterator it;
-      mutable bool inserted;
+    
+    class RunTest {
+      RunTest(const RunTest&); // not available
+      RunTest& operator =(const RunTest&); // not available
 
-      TestBase (const TestBase&); // not available
-      TestBase& operator =(const TestBase&); // not available
+    public :
+      typedef Test test_type;
+      typedef Test* test_pointer_type;
 
-    protected :
+      typedef boost::ptr_list<test_type> container_type;
 
-      void insert(TestBase* const p) const {
-        test_list.push_back(p);
-        it = --test_list.end();
-        inserted = true;
+    private :
+      static container_type test_objects_default;
+
+      enum Modes { insert, extract };
+      static void handle_test_objects(const Modes mode, const test_pointer_type p = 0) {
+        static container_type test_objects;
+        switch (mode) {
+        case insert :
+          test_objects.push_back(p);
+          return;
+        case extract :
+          test_objects.swap(test_objects_default);
+        }
       }
 
     public :
 
-      template <class Level>
-      static int run_tests(std::ostream& out, std::ostream& err, Level l) {
-        out << "\nrun_tests_default:\n\n";
+      RunTest(Test* const test) {
+        // takes over ownership of test object
+        handle_test_objects(insert, test);
+      }
+
+      static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, const TestLevel* const level) {
+        handle_test_objects(extract);
+        return run_tests(err, messages, log, level, test_objects_default);
+      }
+        
+      static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, const TestLevel* const level, container_type& test_objects) {
+        // does not take ownership of level object
+        assert(level);
+
+        messages << "OKlib::TestSystem::RunTest " << "\n";
+        messages << TimeHandling::currentDateTime("%A, %B %e, %Y; %H:%M:%S%n");
+        messages << level -> description() << "\n";
+        typedef container_type::size_type size_type;
+        {
+          const size_type& size(test_objects.size());
+          messages << size << " testobject";
+          if (size != 1) messages << "s";
+          messages << ".\n";
+        }
+        messages << std::endl;
+
         int return_value = 0;
         boost::timer timer;
-        for (List::iterator i = test_list.begin(); i != test_list.end(); ++i) {
+        TimeHandling::WallTime total_time;
+
+        typedef container_type::iterator iterator;
+        const iterator& end(test_objects.end());
+        size_type counter = 1;
+        for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
+          log << "No. " << counter << std::endl;
           try {
-            (*i) -> test(l);
+            level -> perform(*i, log);
           }
-          catch (const TestException& e) {
-            err << e;
+          catch(const OKlib::TestSystem::TestException& e) {
+            err << e << std::endl;
             return_value = EXIT_FAILURE;
           }
         }
-        const double elapsed(timer.elapsed());
-        out << "\nElapsed: " << elapsed << "s\n";
-        const List::size_type& size(test_list.size());
-        out << size << " testobject";
-        if (size != 1) out << "s";
-        out << ".\n";
+
+        messages << "\nElapsed system time: " << timer.elapsed() << "s\n";
+        messages << "Elapsed total time: " << double(total_time) << "s\n";
         return return_value;
       }
-
-      TestBase() : inserted(false) {}
-
-      virtual ~TestBase() {
-        if (inserted)
-          test_list.erase(it);
-        // does not throw
-      }
-
-      
-
     };
-    TestBase::List TestBase::test_list;
 
   }
   
