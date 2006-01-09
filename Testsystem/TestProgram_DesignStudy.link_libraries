@@ -1,0 +1,2 @@
+echo ${libdir}/TestBaseClass_DesignStudy.o ${libdir}/Testfunctions_DesignStudy.o ${libdir}/Testfunctions2_DesignStudy.o
+# ToDo: for the optimised version we should link with the optimised version
