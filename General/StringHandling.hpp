@@ -1,5 +1,11 @@
 // Oliver Kullmann, 29.5.2002 (Swansea)
 
+/*!
+  \file StringHandling.hpp
+  \brief Various tools for handling strings.
+  \todo How much should be replaced by Boost components?!
+*/
+
 #ifndef STRINGHANDLINGWAECHTER
 
 #define STRINGHANDLINGWAECHTER
@@ -28,7 +34,7 @@ namespace StringHandling {
 
 namespace StringHandling {
 
-  char *copy_new(const std::string s) {
+  inline char *copy_new(const std::string s) {
     // returned string must be deleted with "delete []"
     const std::string::size_type l = s.size();
     char* p = new char[l+1];
