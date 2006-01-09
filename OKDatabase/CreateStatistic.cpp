@@ -233,6 +233,7 @@ public :
 
   stat_values()
     : nds(0), count(1), depth(0), pl(0), aut(0), sn(0), qsn(0), l2r(0), an(0),  countwa(0), ndswa(0), countws(0), ndsws(0), countwq(0), ndswq(0), maxnds(0), minnds(numeric_limits<double>::max()), stdnds(0), sum_sq_nds(0), vecndsp(0) {}
+  virtual ~stat_values() {}
 
   virtual void enter_bcls_data(const Select& S) { ++count; }
 
