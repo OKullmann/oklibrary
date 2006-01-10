@@ -79,14 +79,15 @@ namespace OKlib {
         for (container_iterator_t v_it(elim.begin()); v_it != end_elim; ++v_it) {
           const vertex_descriptor_type& v(*v_it);
           const std::pair<adjacency_iterator_type, adjacency_iterator_type>& neighbours(adjacent_vertices(v, g));
-          degree_size_type degree = 0;          
-          for (adjacency_iterator_type i(neighbours.first); i != neighbours.second; ++i, ++degree) {
+          degree_size_type deg = 0;
+          for (adjacency_iterator_type i(neighbours.first); i != neighbours.second; ++i, ++deg) {
             assert(*i != v);
             for (adjacency_iterator_type j(boost::next(i)); j != neighbours.second; ++j)
               add_edge(*i, *j, g);
           }
-          if (degree > width)
-            width = degree;
+          assert(deg == degree(v, g));
+          if (deg > width)
+            width = deg;
           clear_vertex(v, g);
           remove_vertex(v, g);
         }
