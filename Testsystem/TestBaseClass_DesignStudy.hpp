@@ -3,36 +3,6 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
-  \todo All tests should derive from Test (so that they can be reused)!
-  An independent (parameterised, see next todo) class RunTest is then responsible
-  for the insertion of test objects into a global container via the
-  constructor RunTest(Test*). Thus Testobjects contains instead of
-  TestingClassTemplate<TestedClassTemplate> test;
-  now
-  RunTest(new TestingClassTemplate<TestedClassTemplate>) test;
-  where RunTest is a typedef for RunTests<typename T> as discussed
-  in the next item.
-  \todo Perhaps we should use RunTest<n> ?
-  Then the test system could test itself (using RunTest<0> and RunTest<1>).
-  Perhaps one should use RunTest<T> for a typename T --- then the name
-  of T could provide the meaning. But likely we should be able to
-  register the instances of RunTest, and then numbers are easier? Perhaps
-  this registration needs to happen at run time? Too complicated.
-  We need a type which can be defined only once. Better a value ---
-  a function pointer, exploiting the ODR?! Perhaps this "registration function"
-  yields the name of the testsystem instance, and there is a default
-  registration function. The default registration function is defined
-  in a .cpp file in module Testsystem (declared in TestBaseClass.hpp).
-  \todo Three streams: error, messages, log.
-  Every output is assigned to exactly one of these three streams. It's the users responsibility
-  to provide appropriate synchronisation between these three streams.
-  For the log messages and the normal messages there are member functions in Test,
-  using appropriate macro support adding automatically file name, line number
-  etc. (perhaps just like OKLIB_TESTDESCRIPTION).
-  There is a RAII class, by which the output of log or normal messages can be turned off
-  (if for example we call a test function very often). For all these messages we
-  should use the Messages module, and then there are different levels of
-  verbosity.
   \todo For convenience three standard instantiations of the three streams are provided:
    - normal run:
      error = std::cerr, messages = log = std::cout, normal messages on, log messages off
@@ -220,6 +190,7 @@ namespace OKlib {
             err << e << std::endl;
             return_value = EXIT_FAILURE;
           }
+          log << "\n";
         }
 
         messages << "\nElapsed system time: " << timer.elapsed() << "s\n";
