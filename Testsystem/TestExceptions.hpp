@@ -103,17 +103,30 @@ namespace OKlib {
 
 #define OKLIB_THROW(string) throw ::OKlib::TestSystem::TestException(string).add(OKLIB_TESTDESCRIPTION);
 
+    namespace Implementation {
+      template <typename T1, typename T2>
+      std::string test_equality(const T1& t1, const T2& t2) {
+        if ( not(t1 == t2)) {
+          std::stringstream out;
+          out << "Value is\n" << t1 << ",\n and not\n" << t2 << ".";
+          return out.str();
+        }
+        else
+          return "";
+      }
+    }
+
     /*!
       \def OKLIB_TEST_EQUAL
       \brief Use OKLIB_TEST_EQUAL(a,b) for asserting a == b in case a and b are
       output-streamable (in case of a failure a, b are output); a here is the value found, while b is the expected value.
     */
 
-#define OKLIB_TEST_EQUAL(v1, v2) \
-    if ( not((v1) == (v2))) {    \
-      std::stringstream out; \
-      out << "Value is\n" << (v1) << ",\n and not\n" << (v2) << ".";    \
-      OKLIB_THROW(out.str()); \
+#define OKLIB_TEST_EQUAL(v1, v2)                                        \
+    {                                                                   \
+      const std::string& out(::OKlib::TestSystem::Implementation::test_equality((v1),(v2))); \
+      if (not out.empty())                                              \
+        OKLIB_THROW(out);                                               \
     }
 
     /*!
