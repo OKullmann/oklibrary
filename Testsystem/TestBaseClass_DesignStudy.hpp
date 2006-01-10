@@ -14,6 +14,7 @@
      error is copied to std::cerr and log_file, messages is copied to log_file.
    To implement these, we must investigate the standard iostream and buffer classes, and the
    boost iostreams library.
+   \todo Try to extend the level hierarchy.
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
@@ -40,7 +41,7 @@ namespace OKlib {
     struct Test {
       virtual ~Test() {}
       template <class TestLevel>
-      void perform(TestLevel, std::ostream& log) {
+      void perform(TestLevel, std::ostream& log) { // & ??? ###############
         perform_(TestLevel(), log);
       }
       
@@ -111,6 +112,7 @@ namespace OKlib {
           TestException e("unknown exception");
           e.add(OKLIB_TESTDESCRIPTION);
           throw e;
+          // optional??? ################
         }
       }
       virtual void test(Basic, std::ostream& log) = 0;
@@ -135,7 +137,7 @@ namespace OKlib {
       static container_type test_objects_default;
 
       enum Modes { insert, extract };
-      static void handle_test_objects(const Modes mode, const test_pointer_type p = 0) {
+      static void handle_test_objects(const Modes mode, const test_pointer_type p = 0) { // returning a reference ?! ######################################
         static container_type test_objects;
         switch (mode) {
         case insert :
