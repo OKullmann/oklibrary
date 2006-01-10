@@ -35,3 +35,7 @@
     as complexity measure).
 */
 
+namespace OKlib {
+  namespace GraphDecomposition {
+  }
+}
