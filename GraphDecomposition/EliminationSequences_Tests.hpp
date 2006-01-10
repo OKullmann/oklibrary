@@ -52,14 +52,37 @@ namespace OKlib {
             width_elimination_sequence_type width;
             const vertex_descriptor_type v1 = add_vertex(g);
             const vertex_descriptor_type v2 = add_vertex(g);
-            assert(add_edge(v1, v2, g).second);
-            assert(num_vertices(g) == 2);
-            assert(*vertices(g).first == v1);
-            assert(num_edges(g) == 1);
+            add_edge(v1, v2, g);
             vec.push_back(v1); vec.push_back(v2);
             OKLIB_TEST_EQUAL(width(vec, g), 1U);
           }
-
+          {
+            graph_type g;
+            vector_type vec;
+            width_elimination_sequence_type width;
+            const unsigned int path_length = 20;
+            vec.reserve(path_length);
+            assert(path_length >= 1);
+            for (unsigned int i = 0; i < path_length; ++i)
+              vec.push_back(add_vertex(g));
+            for (unsigned int i = 0; i < path_length-1; ++i)
+              add_edge(vec[i], vec[i+1], g);
+            OKLIB_TEST_EQUAL(width(vec, g), 1U);
+          }
+          {
+            graph_type g;
+            vector_type vec;
+            width_elimination_sequence_type width;
+            const unsigned int clique_size = 20;
+            vec.reserve(clique_size);
+            assert(clique_size >= 1);
+            for (unsigned int i = 0; i < clique_size; ++i)
+              vec.push_back(add_vertex(g));
+            for (unsigned int i = 0; i < clique_size; ++i)
+              for (unsigned int j = i+1; j < clique_size; ++j)
+                add_edge(vec[i], vec[j], g);
+            OKLIB_TEST_EQUAL(width(vec, g), clique_size - 1);
+          }
         }
       }
 
