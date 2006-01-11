@@ -10,3 +10,8 @@
   generic implementations.
 */
 
+namespace OKlib {
+  namespace TreeDecompositions {
+  }
+}
+
