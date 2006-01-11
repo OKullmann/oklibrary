@@ -4,6 +4,7 @@
   \file EliminationSequences_Tests.hpp
   \brief Tests for the methods for handling elimination sequences for graphs (related to the
   notion of treewidth)
+  \todo Write tests for computations of treewidth.
 */
 
 #ifndef ELIMINATIONSEQUENCESTESTS_8uyTre
@@ -13,8 +14,6 @@
 #include <vector>
 #include <cassert>
 
-#include <boost/graph/adjacency_list.hpp>
-
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
@@ -22,7 +21,7 @@ namespace OKlib {
 
   namespace GraphDecomposition {
 
-    template <template <class EliminationSequence, class Graph> class Width_elimination_sequence>
+    template <template <class EliminationSequence, class Graph> class Width_elimination_sequence, class Graph>
     class Test_Width_elimination_sequence : public ::OKlib::TestSystem::TestBase {
     public :
       typedef Test_Width_elimination_sequence test_type;
@@ -30,9 +29,9 @@ namespace OKlib {
         insert(this);
       }
     private :
+      typedef Graph graph_type;
       void perform_test_trivial() {
         {
-          typedef boost::adjacency_list<boost::setS, boost::listS, boost::undirectedS> graph_type;
           typedef boost::graph_traits<graph_type> graph_traits_type;
           typedef typename graph_traits_type::vertex_descriptor vertex_descriptor_type;
           typedef std::vector<vertex_descriptor_type> vector_type;
@@ -60,14 +59,28 @@ namespace OKlib {
             graph_type g;
             vector_type vec;
             width_elimination_sequence_type width;
-            const unsigned int path_length = 20;
-            vec.reserve(path_length);
-            assert(path_length >= 1);
-            for (unsigned int i = 0; i < path_length; ++i)
+            const unsigned int path_size = 20;
+            vec.reserve(path_size);
+            assert(path_size >= 1);
+            for (unsigned int i = 0; i < path_size; ++i)
               vec.push_back(add_vertex(g));
-            for (unsigned int i = 0; i < path_length-1; ++i)
+            for (unsigned int i = 0; i < path_size-1; ++i)
               add_edge(vec[i], vec[i+1], g);
             OKLIB_TEST_EQUAL(width(vec, g), 1U);
+          }
+          {
+            graph_type g;
+            vector_type vec;
+            width_elimination_sequence_type width;
+            const unsigned int cycle_length = 20;
+            vec.reserve(cycle_length);
+            assert(cycle_length >= 1);
+            for (unsigned int i = 0; i < cycle_length; ++i)
+              vec.push_back(add_vertex(g));
+            for (unsigned int i = 0; i < cycle_length-1; ++i)
+              add_edge(vec[i], vec[i+1], g);
+            add_edge(vec[cycle_length-1], vec[0], g);
+            OKLIB_TEST_EQUAL(width(vec, g), 2U);
           }
           {
             graph_type g;
