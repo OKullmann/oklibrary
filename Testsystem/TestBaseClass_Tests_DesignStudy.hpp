@@ -11,6 +11,12 @@ namespace OKlib {
 
   namespace TestSystem {
 
+    /*!
+      \class  Test_TestSystem
+      \brief Testing the test system
+      \todo Complete.
+    */
+
     class Test_TestSystem :  public OKlib::TestSystem::TestBase<Test_TestSystem> {
       typedef Test_TestSystem test_type;
       void test(OKlib::TestSystem::Basic, std::ostream& log) {
