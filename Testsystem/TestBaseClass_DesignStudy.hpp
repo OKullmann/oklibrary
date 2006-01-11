@@ -15,6 +15,8 @@
    To implement these, we must investigate the standard iostream and buffer classes, and the
    boost iostreams library.
    \todo Try to extend the level hierarchy.
+   \todo In case an unknown exception is thrown, there should be a global option to
+   let this exception through.
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
@@ -38,10 +40,19 @@ namespace OKlib {
 
     class Basic;
 
+    /*!
+      \class Test
+      \brief The root of the (polymorphic) test hierarchy; containers of testobjects are
+      containers of Test pointers.
+
+      The member function template perform is to be called by a "visitor" from the level
+      hierarchy.
+    */
+
     struct Test {
       virtual ~Test() {}
       template <class TestLevel>
-      void perform(TestLevel, std::ostream& log) { // & ??? ###############
+      void perform(TestLevel, std::ostream& log) {
         perform_(TestLevel(), log);
       }
       
@@ -50,6 +61,11 @@ namespace OKlib {
     };
 
     // ###################################################
+
+    /*!
+      \class TestLevel
+      \brief The root of the (polymorphic) test-level hierarchy.
+    */
 
     struct TestLevel {
       virtual void perform(Test& test, std::ostream& log) const = 0;
@@ -86,6 +102,11 @@ namespace OKlib {
 
     // ###################################################
 
+    /*!
+      \class TestBase
+      \brief Derived from the test, to be used as immediate base class for test-meta-functions.
+    */
+
     template <class TestFunction>
     class TestBase : public Test {
     protected :
@@ -112,7 +133,6 @@ namespace OKlib {
           TestException e("unknown exception");
           e.add(OKLIB_TESTDESCRIPTION);
           throw e;
-          // optional??? ################
         }
       }
       virtual void test(Basic, std::ostream& log) = 0;
@@ -134,30 +154,23 @@ namespace OKlib {
       typedef boost::ptr_list<test_type> container_type;
 
     private :
-      static container_type test_objects_default;
 
-      enum Modes { insert, extract };
-      static void handle_test_objects(const Modes mode, const test_pointer_type p = 0) { // returning a reference ?! ######################################
+      static container_type& handle_test_objects(const test_pointer_type p = 0) {
         static container_type test_objects;
-        switch (mode) {
-        case insert :
+        if (p)
           test_objects.push_back(p);
-          return;
-        case extract :
-          test_objects.swap(test_objects_default);
-        }
+        return test_objects;
       }
 
     public :
 
       RunTest(Test* const test) {
         // takes over ownership of test object
-        handle_test_objects(insert, test);
+        handle_test_objects(test);
       }
 
       static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, const TestLevel* const level) {
-        handle_test_objects(extract);
-        return run_tests(err, messages, log, level, test_objects_default);
+        return run_tests(err, messages, log, level, handle_test_objects());
       }
         
       static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, const TestLevel* const level, container_type& test_objects) {
