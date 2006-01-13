@@ -4,6 +4,10 @@
   \file EliminationSequences.hpp
   \brief Methods for handling elimination sequences for graphs (related to the
   notion of treewidth)
+  \todo Test Treewidth_by_enumerating_elimination_sequences; and generalise it
+  by using strategy objects.
+  \tod Extend Width_elimination_sequence by computing also the tree decompositon.
+  \todo Implement the greedy strategy for computing an elimination sequence.
 */
 
 #ifndef ELIMINATIONSEQUENCES_hhgrrEw34
