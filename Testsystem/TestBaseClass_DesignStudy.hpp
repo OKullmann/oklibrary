@@ -3,6 +3,7 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
+  \todo Log messages must contain automatic information, and must be easily recognisable.
   \todo For convenience three standard instantiations of the three streams are provided:
    - normal run:
      error = std::cerr, messages = log = std::cout, normal messages on, log messages off
@@ -196,18 +197,25 @@ namespace OKlib {
         typedef container_type::iterator iterator;
         const iterator& end(test_objects.end());
         size_type counter = 1;
+        size_type err_counter = 0;
         for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
           log << "No. " << counter << std::endl;
           try {
             level -> perform(*i, log);
           }
           catch(const OKlib::TestSystem::TestException& e) {
+            ++err_counter;
             err << e << std::endl;
             return_value = EXIT_FAILURE;
           }
           log << "\n";
         }
 
+        {
+          messages << err_counter << " error";
+          if (err_counter != 1) messages << "s";
+          messages << ".\n";
+        }
         messages << "\nElapsed system time: " << timer.elapsed() << "s\n";
         messages << "Elapsed total time: " << double(total_time) << "s\n";
         return return_value;
