@@ -33,7 +33,7 @@ int main(const int argc, const char* const argv[]) {
     return EXIT_FAILURE;
   }
 
-  std::auto_ptr<const OKlib::TestSystem::TestLevel> level(OKlib::TestSystem::test_level(argv[1]));
+  std::auto_ptr<const ::OKlib::TestSystem::TestLevel> level(::OKlib::TestSystem::test_level(argv[1]));
   const std::string error_s(argv[2]);
   const std::string messages_s(argv[3]);
   const std::string log_s(argv[4]);
