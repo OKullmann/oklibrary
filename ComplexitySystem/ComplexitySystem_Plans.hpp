@@ -27,5 +27,52 @@
   the test system.
   \todo There is a timestamp-file "measurement" for each
   of the three levels.
+ 
+  \todo To test a function f in SubmoduleClass of Submodule
+  create a class, derived from ComplexityBaseClass, with a private
+  member function take_measurements. (Also with public measure_type
+  and constructor providing self insertion.)
+
+  \todo Measurements are instances of a wrapper class
+  around boost::timer objects but with extra data members for
+    - compiler version, 
+    - boost version, 
+    - time and date.
+
+  \todo Measurement classes have a template parameter for a 
+  measurement handling policy.
+
+  \todo Measurement classes have an end() public member function
+  which gets the elapsed time from the boost::timer and passes
+  this to the measurement handling policy.
+
+  \todo Create several policies for handling measurement
+  objects. For instance, SaveToFile, OutputAsError, ...
+
+  \todo For example, to test f in SubmoduleClass of Submodule
+  do something like the following:
+  
+  class Measure_SubmoduleClass : public ::OKlib::ComplexitySystem
+    ::ComplexityBase {
+  public :
+    typedef Measure_SubmoduleClass measure_type;
+    Measure_SubmoduleClass() {
+      insert(this);
+    }
+  private :
+    void take_measurements() {
+      measurement<SaveToFile> timer;
+      for (int i=0; i<100; ++i) {
+        f();  // Function to be measured
+      }
+      measurement.end(); // Measurement finished. Handling of
+                         // measurement by policy begun.
+    }
+   };
+
+  \todo How do we specify a filename for the measurements to be saved
+  to?
+
 */
+
 
