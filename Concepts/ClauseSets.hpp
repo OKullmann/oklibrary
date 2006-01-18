@@ -53,6 +53,15 @@
   all active clause-sets and no decision was reached, then the domain assignment finally
   gets updated). Learning (local or global) is controlled from the outside;
   in case of a "conflict" a resolvent may be computed (potentially compressed).
+  \todo See modules UnitClausePropagation and Learning for further thoughts on
+  the concept of "active clause-sets".
+  \todo For an active clause-set F, F.sat_status() perhaps should return an object
+  from a hierarchy with root Unknown, derived clauses Satisfiable, Unsatisfiable,
+  and furthermore Satisfied derived from Satisfiable.
+  \todo And there should be F.assignment_status(), returning an object of
+  type Unknown, or, derived from it, Conservative (every satisfying assignment
+  for F is also satisfying for phi * F), or Autarky (derived from Conservative).
+  Satisfied implies Autarky.
 */
 
 #ifndef CLAUSESETS_0YHB5
