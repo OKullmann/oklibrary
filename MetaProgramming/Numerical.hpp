@@ -36,6 +36,45 @@ namespace OKlib {
       struct Power : ICM::template apply<b * Power<ICM, b, e-1>::value> {};
       template <class ICM, typename ICM::value_type b>
       struct Power<ICM, b, (unsigned 0)> : ICM::template apply<1> {};
+
+      \todo Code for the factorial function:
+
+  typedef unsigned int factorial_input_type;
+
+  template <typename Integral, factorial_input_type n>
+  struct factorial : boost::mpl::integral_c<Integral, Integral(n) * factorial<Integral, n - 1>::value> {};
+  
+  template <typename Integral>
+  struct factorial<Integral, 0> : boost::mpl::integral_c<Integral, 1> {};
+
+  template <class Numeric>
+  struct Factorial : factorial<typename Numeric::type::value_type, Numeric::type::value> {};
+
+      tested with
+      
+  {
+    typedef unsigned long int out_type;
+  
+    const Numerical::factorial_input_type n = 12;
+
+    assert((Numerical::factorial<out_type, 0>::type::value == out_type(1)));
+    assert((Numerical::factorial<out_type, n>::type::value == out_type(479001600)));
+    
+    assert((Numerical::factorial<out_type, 0>::value == out_type(1)));
+    assert((Numerical::factorial<out_type, n>::value == out_type(479001600)));
+
+    assert((Numerical::Factorial<boost::mpl::integral_c<out_type, 0> >::value == out_type(1)));
+    assert((Numerical::Factorial<boost::mpl::integral_c<out_type, n> >::value == out_type(479001600)));
+  }
+  {
+    typedef unsigned char out_type;
+
+    const Numerical::factorial_input_type n = 6;
+
+    assert((Numerical::factorial<out_type, n>::value == out_type(208)));
+    assert((Numerical::factorial<unsigned int, n>::value == 720));
+  }
+
     */
 
     template <long b, unsigned e>
