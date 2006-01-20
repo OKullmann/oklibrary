@@ -3,7 +3,6 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
-  \todo Log messages must contain automatic information, and must be easily recognisable.
   \todo For convenience three standard instantiations of the three streams are provided:
    - normal run:
      error = std::cerr, messages = log = std::cout, normal messages on, log messages off
@@ -27,12 +26,16 @@
 #include <cstdlib>
 #include <exception>
 #include <cassert>
+#include <string>
 
 #include <boost/ptr_container/ptr_list.hpp>
 #include <boost/timer.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
 
 #include "TimeHandling.hpp"
+#include "IOStreamFilters.hpp"
 
+#include "BasicDeclarations.hpp"
 #include "TestExceptions_DesignStudy.hpp"
 
 namespace OKlib {
@@ -110,17 +113,45 @@ namespace OKlib {
 
     template <class TestFunction>
     class TestBase : public Test {
-    protected :
+      const char* const file_name;
+      typedef unsigned long int line_number_type;
+      const line_number_type line_number;
+      ::OKlib::TestSystem::depth_number_type depth_;
+      typedef ::OKlib::GeneralInputOutput::IndentLines indent_lines_type;
+      indent_lines_type::size_type indentation;
+
+     protected :
+
       typedef TestFunction test_type;
+
+      TestBase(const char* const file_name, const line_number_type line_number) : file_name(file_name), line_number(line_number), depth_(0), indentation(1) {}
+      ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
+
+    public :
+
+      TestBase& set_depth(const ::OKlib::TestSystem::depth_number_type d) { depth_ = d; return *this; }
+
     private :
+
       void perform_(Basic, std::ostream& log) {
         perform_and_catch(Basic(), log);
       }
+
       template <class TestLevel>
       void perform_and_catch(TestLevel, std::ostream& log) {
         typedef TestLevel level_type;
+        ::OKlib::GeneralInputOutput::IndentLines indent_lines;
+        indent_lines.indentation() = indentation;
+        boost::iostreams::filtering_ostream log_indent;
+        log_indent.push(indent_lines);
+        log_indent.push(log);
+        log_indent << "Test function = " << typeid(TestFunction).name() << "\n";
+        log_indent << "File name = " << file_name << "\n";
+        log_indent << "Line number = " << line_number << "\n";
+        log_indent << "Test level = " << TestLevel().description() << "\n";
+        log_indent << "Test depth = " << depth_ << std::endl;
         try {
-          test(TestLevel(), log);
+          test(TestLevel(), log_indent);
         }
         catch(const TestException&) {
           throw;
@@ -137,6 +168,10 @@ namespace OKlib {
         }
       }
       virtual void test(Basic, std::ostream& log) = 0;
+    protected :
+      std::ostream& log_message(std::ostream& log, ::OKlib::TestSystem::line_number_type line) {
+        return log << "log at line " << line << ": ";
+      }
     };
 
 
@@ -186,7 +221,7 @@ namespace OKlib {
           const size_type& size(test_objects.size());
           messages << size << " testobject";
           if (size != 1) messages << "s";
-          messages << ".\n";
+          messages << ". \n";
         }
         messages << std::endl;
 
@@ -199,16 +234,23 @@ namespace OKlib {
         size_type counter = 1;
         size_type err_counter = 0;
         for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
-          log << "No. " << counter << std::endl;
+          bool failed = false;
+          log << banner() << "\n" << "Test No. " << counter << std::endl;
           try {
             level -> perform(*i, log);
           }
           catch(const OKlib::TestSystem::TestException& e) {
             ++err_counter;
+            failed = true;
             err << e << std::endl;
             return_value = EXIT_FAILURE;
           }
-          log << "\n";
+          log << "Test No. " << counter << " ";
+          if (failed)
+            log << "FAILED";
+          else
+            log << "SUCCEEDED";
+          log <<"\n" << banner() << "\n\n";
         }
 
         {
@@ -220,6 +262,12 @@ namespace OKlib {
         messages << "Elapsed total time: " << double(total_time) << "s\n";
         return return_value;
       }
+
+    private :
+
+      static std::string banner() {
+        return "#####################################";
+      }  
     };
 
   }

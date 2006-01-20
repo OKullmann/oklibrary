@@ -12,14 +12,15 @@
 #include <sstream>
 #include <vector>
 #include <ostream>
+#include <cassert>
 
 #include <boost/range/functions.hpp>
+
+#include "BasicDeclarations.hpp"
 
 namespace OKlib {
 
   namespace TestSystem {
-
-    typedef unsigned int LineNumber;
 
     /*!
       \class ErrorDescription
@@ -34,11 +35,16 @@ namespace OKlib {
       const char* line;
       const char* type_test_class;
       const char* level_description;
+      ::OKlib::TestSystem::depth_number_type depth;
     public :
-      ErrorDescription() : file(0), line(0), type_test_class(0), level_description(0) {}
-      ErrorDescription(const char* const file, const char* const line, const char* const type_test_class, const char* const level_description) : file(file), line(line), type_test_class(type_test_class), level_description(level_description) {}
+      ErrorDescription() : file(0), line(0), type_test_class(0), level_description(0), depth(0) {}
+      ErrorDescription(const char* const file, const char* const line, const char* const type_test_class, const char* const level_description, ::OKlib::TestSystem::depth_number_type depth) : file(file), line(line), type_test_class(type_test_class), level_description(level_description), depth(depth) {}
       friend std::ostream& operator <<(std::ostream& out, const ErrorDescription& D) {
-        return out << "Error context:\n" << " file = " << D.file << "\n line number = " << D.line << "\n test type = " << D.type_test_class << "\n test level = " << D.level_description << "\n";
+        assert(D.file);
+        assert(D.line);
+        assert(D.type_test_class);
+        assert(D.level_description);
+        return out << " file = " << D.file << "\n line number = " << D.line << "\n test type = " << D.type_test_class << "\n test level = " << D.level_description << "\n test depth = " << D.depth << "\n";
         // ToDo: Adding messages (using module Messages)
       }
     };
@@ -71,8 +77,20 @@ namespace OKlib {
       }
 
       friend std::ostream& operator <<(std::ostream& out, const TestException& E) {
-        out << "Exception thrown:\n Compile time = " << __DATE__ ", " __TIME__ "\n message = " << E.what() << "\n stack trace:\n";
-        std::copy(E.errors.begin(), E.errors.end(), std::ostream_iterator<ErrorDescription>(out, ""));
+        typedef ::OKlib::TestSystem::ErrorContainer::const_iterator iterator;
+        typedef ::OKlib::TestSystem::ErrorContainer::size_type size_type;
+
+        out << "\nEXCEPTION THROWN:\n Compile time = " << __DATE__ ", " __TIME__ "\n message = " << E.what() << "\n stack trace (";
+        {
+          const size_type size(E.errors.size());
+          out << size << " element";
+          if (size != 1) out << "s";
+        }
+        out << "):\n";
+        const iterator& end(E.errors.end());
+        size_type counter = 0;
+        for (iterator i(E.errors.begin()); i != end; ++i, ++counter)
+          out << "Error description " << counter << ":\n" << *i;
         return out;
       }
     };
@@ -84,9 +102,9 @@ namespace OKlib {
       \brief Basic internal macro to create a description of the circumstances of test failures.
     */
 
-# define OKLIB_LINENUMBER(L) # L
-# define OKLIB_INTERMEDIATE_TEST(X) OKLIB_LINENUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), typeid(test_type).name(), level_type().description()))
+# define OKLIB_NUMBER(N) # N
+# define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), typeid(test_type).name(), level_type().description(), this -> depth()))
 
     /*!
       \def OKLIB_THROW
@@ -224,7 +242,7 @@ namespace OKlib {
 
 #define OKLIB_TEST_RETHROW(Testobject) \
     try { \
-      ((Testobject).perform(level_type(), log));        \
+      ((Testobject).set_depth(this -> depth() + 1).perform(level_type(), log)); \
     } \
     catch(::OKlib::TestSystem::TestException& e) { \
       e.add(OKLIB_TESTDESCRIPTION); \
