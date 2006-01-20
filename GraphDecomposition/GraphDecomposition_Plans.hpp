@@ -17,9 +17,9 @@
    - there is C in F with v, w in var(C).
  \todo Given a clause-set with bipartite structure, "construct" the above graphs as "virtual graphs"
  in the Boost-sense. Algorithms needed for graphs:
-  - Determination of the connected components
-  - Computation of all articulation vertices
-  - Computation and Approximations of the treewidth.
+  - Determination of the connected components (available with Boost::graph)
+  - Computation of all articulation vertices (available with Boost::graph (see biconnected components))
+  - Computation and Approximations of the treewidth (see module TreeDecomposition).
  \todo Statistics for benchmark formulas :
   - for each connected component :
    + n, c, for each clause-length k the number c_k
