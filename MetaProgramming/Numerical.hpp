@@ -75,6 +75,23 @@ namespace OKlib {
     assert((Numerical::factorial<unsigned int, n>::value == 720));
   }
 
+  \todo An alternative:
+
+#include <boost/mpl/int.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/multiplies.hpp>
+#include <boost/mpl/if.hpp>
+#include <boost/mpl/prior.hpp>
+
+template <class N>
+struct factorial
+  : boost::mpl::if_<
+  boost::mpl::bool_<N::value == 0>,
+  boost::mpl::int_<1>,
+  boost::mpl::multiplies<N, factorial<typename boost::mpl::prior<N>::type> >
+  >::type 
+  {};
+
     */
 
     template <long b, unsigned e>
