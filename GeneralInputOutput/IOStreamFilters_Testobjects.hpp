@@ -11,7 +11,9 @@ namespace OKlib {
 
   namespace GeneralInputOutput {
 
-    Test_BasicCounter<BasicCounter> test_basic_counter;
+    ::OKlib::GeneralInputOutput::Test_BasicCounter< ::OKlib::GeneralInputOutput::BasicCounter> test_basic_counter;
+
+    ::OKlib::GeneralInputOutput::Test_BasicIndentLines< ::OKlib::GeneralInputOutput::BasicIndentLines> test_basic_indentlines;
     
   }
 

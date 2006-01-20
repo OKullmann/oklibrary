@@ -10,11 +10,14 @@
 #define IOSTREAMFILTERS_99ooKL
 
 #include <algorithm>
+#include <memory>
+#include <string>
 
 #include <boost/iostreams/categories.hpp>
 #include <boost/iostreams/char_traits.hpp>
 #include <boost/iostreams/operations.hpp>
 #include <boost/iostreams/pipeline.hpp>
+#include <boost/iostreams/filter/line.hpp>
 
 namespace OKlib {
 
@@ -23,10 +26,10 @@ namespace OKlib {
     /*!
       \class BasicCounter
       \brief Extension of the filter boost::iostreams::basic_counter with a member function
-      for the number of characters read of the current line.
+      for the number of characters read from the current line.
 
       Filter for iostreams counting the number of lines read, the total number of characters read and the
-      number of characters read of the current line.
+      number of characters read from the current line.
     */
 
     template<typename Ch>
@@ -85,6 +88,41 @@ namespace OKlib {
 
     typedef BasicCounter<char> Counter;
     typedef BasicCounter<wchar_t> WCounter;
+
+    // ########################################################
+
+    /*!
+      \class BasicIndentLines
+      \brief Filter for iostreams indenting each line
+
+      Remark: In order to make sure that the full output reached the underlying sink,
+      flushing of the filter(-stream) is necessary.
+    */
+
+    template<typename Ch, typename Alloc = std::allocator<Ch> >
+    class BasicIndentLines : public ::boost::iostreams::basic_line_filter<Ch, Alloc> {
+      typedef ::boost::iostreams::basic_line_filter<Ch, Alloc> base_type;
+    public :
+      typedef Ch char_type;
+      typedef typename base_type::string_type string_type;
+      typedef unsigned long int size_type;
+    private :
+      size_type indent;
+      char_type ch;
+    public :
+      explicit BasicIndentLines(const unsigned long int indentation = 0, const char_type ch = ' ') : indent(indentation), ch(ch) {}
+      size_type indentation() const { return indent; }
+      size_type& indentation() { return indent; }
+      char_type character() const { return ch; }
+      char_type& character() { return ch; }
+    private :
+      string_type do_filter(const string_type& line) {
+        return string_type(indent, ch) + line;
+      }
+    };
+
+    typedef BasicIndentLines<char> IndentLines;
+    typedef BasicIndentLines<wchar_t> WIndentLines;
     
   }
 
