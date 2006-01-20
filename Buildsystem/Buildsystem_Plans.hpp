@@ -89,6 +89,13 @@
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
     - The names of the created applications should reflect all compiler options.
+    - With the new system with its nested directory structure, names need to be unique
+      only relativ to the whole library-path; however for linking it is common to have all
+      files just in one directory, and so here should be no name clashes: For the rare cases
+      where one has to link against the OKlibrary we must ensure this by hand, while
+      for the cases of test-object-files, which are under the control of the build system,
+      perhaps the best is that the build system mimics the source directory structure in
+      lib/Tests.
     - We have the following problem:
       If one is using different paths due to symbolic links, then the
       dependency files contain unusable information (and must be
