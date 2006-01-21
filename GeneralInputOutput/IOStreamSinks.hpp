@@ -35,8 +35,6 @@ namespace OKlib {
     typedef BasicNullStream<char> NullStream;
     typedef BasicNullStream<wchar_t> WNullStream;
 
-    const NullStream null_stream;
-
   }
 
 }
