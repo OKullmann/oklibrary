@@ -1,5 +1,11 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
+/*!
+  \file TestExceptions_DesignStudy.hpp
+  \brief New version of TestExceptions.hpp
+  \todo Update OKLIB_TEST_EQUAL.
+*/
+
 #ifndef TESTEXCEPTIONS_kjhytRe4
 
 #define TESTEXCEPTIONS_kjhytRe4
