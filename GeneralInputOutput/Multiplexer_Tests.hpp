@@ -9,6 +9,12 @@
 
 #define MULTIPLEXERTESTS_oKnCd2
 
+#include <set>
+#include <vector>
+
+#include <boost/assign/std/vector.hpp>
+#include <boost/assign/list_of.hpp>
+
 #include "TestBaseClass.hpp"
 #include "TestExceptions.hpp"
 
@@ -75,6 +81,47 @@ namespace OKlib {
 
     // ##################################################
 
+    template <class OStreamMultiplexer>
+    class Test_OStreamMultiplexer : public ::OKlib::TestSystem::TestBase {
+    public :
+      typedef Test_OStreamMultiplexer test_type;
+      Test_OStreamMultiplexer() {
+        insert(this);
+      }
+    private :
+      void perform_test_trivial() {
+        typedef typename OStreamMultiplexer::ostream_descriptor_type ostream_descriptor_type;
+        typedef typename OStreamMultiplexer::label_type label_type;
+        typedef typename OStreamMultiplexer::string_type string_type;
+        typedef typename OStreamMultiplexer::stringstream_map_type stringstream_map_type;
+        typedef typename OStreamMultiplexer::ofstream_map_type ofstream_map_type;
+        typedef typename OStreamMultiplexer::fostream_vector_type fostream_vector_type;
+
+        typedef std::set<ostream_descriptor_type> descriptor_set_type;
+        typedef std::vector<descriptor_set_type> test_vector_type;
+
+        typedef ostream_descriptor_type odt;
+        typedef descriptor_set_type dst;
+
+        {
+          test_vector_type test_vector;
+          OStreamMultiplexer multiplexer(test_vector);
+          OKLIB_TEST_EQUAL(multiplexer.stringstream_map.empty(), true);
+          OKLIB_TEST_EQUAL(multiplexer.ofstream_map.empty(), true);
+          OKLIB_TEST_EQUAL(multiplexer.fostream_vector.empty(), true);
+        }
+        {
+          test_vector_type test_vector;
+          using namespace boost::assign;
+          test_vector +=
+            list_of(odt(odt::nullstream, ""));
+          OStreamMultiplexer multiplexer(test_vector);
+          OKLIB_TEST_EQUAL(multiplexer.stringstream_map.empty(), true);
+          OKLIB_TEST_EQUAL(multiplexer.ofstream_map.empty(), true);
+          OKLIB_TEST_EQUAL(multiplexer.fostream_vector.size(), 1U);
+        }
+      }
+    };
 
 
   }

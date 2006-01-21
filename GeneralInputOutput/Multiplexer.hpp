@@ -81,6 +81,10 @@ namespace OKlib {
       }
     };
 
+    bool operator <(const OStreamDescriptor& lhs, const OStreamDescriptor& rhs) {
+      return lhs. label < rhs.label or (lhs.label == rhs.label and lhs.name < rhs.name);
+    }
+
     // ############################################
 
     /*!
@@ -116,6 +120,10 @@ namespace OKlib {
       typedef boost::ptr_vector<boost::iostreams::filtering_ostream> fostream_vector_type;
       fostream_vector_type fostream_vector;
 
+    private :
+      ::OKlib::GeneralInputOutput::NullStream null_stream;
+
+    public :
       template <class MultiPassInputRange>
       OStreamMultiplexer(const MultiPassInputRange& range) {
         typedef MultiPassInputRange range1_type;
@@ -129,23 +137,23 @@ namespace OKlib {
           const range2_iterator& end(boost::end(*i));
           for (range2_iterator j(boost::begin(*i)); j != end; ++j) {
             const label_type& label(j -> label);
-            const string_type& name(j -> name);
+            string_type name(j -> name);
             switch (label) {
             case ostream_descriptor_type::stdofstreamappend : {
               const ofstream_map_iterator& element(ofstream_map.find(name));
-              if (element != ofstream_map.end())
-                ofstream_map.insert(name, new std::ofstream(name, std::ios::out | std::ios::app));
+              if (element == ofstream_map.end())
+                ofstream_map.insert(name, new std::ofstream(name.c_str(), std::ios::out | std::ios::app));
               break;
             }
             case ostream_descriptor_type::stdofstreamoverwrite : {
               const ofstream_map_iterator& element(ofstream_map.find(name));
-              if (element != ofstream_map.end())
-                ofstream_map.insert(name, new std::ofstream(name));
+              if (element == ofstream_map.end())
+                ofstream_map.insert(name, new std::ofstream(name.c_str()));
               break;
             }
             case ostream_descriptor_type::stdostringstream : {
               const stringstream_map_iterator& element(stringstream_map.find(name));
-              if (element != stringstream_map.end())
+              if (element == stringstream_map.end())
                 stringstream_map.insert(name, new std::stringstream);
               break;
             }
@@ -156,11 +164,11 @@ namespace OKlib {
         }
 
         for (range1_iterator i(boost::begin(range)); i != end; ++i) {
+          fostream_vector.push_back(new boost::iostreams::filtering_ostream);
           if (boost::empty(*i)) {
-            fostream_vector.push_back(new ::OKlib::GeneralInputOutput::NullStream);
+            fostream_vector.back().push(null_stream);
             continue;
           }
-          fostream_vector.push_back(new boost::iostreams::filtering_ostream);
           const range2_iterator& end(boost::end(*i));
           for (range2_iterator j(boost::begin(*i)); j != end; ++j) {
             const label_type& label(j -> label);
@@ -168,7 +176,7 @@ namespace OKlib {
             if (boost::next(j) == end) {
               switch (label) {
               case ostream_descriptor_type::nullstream :
-                fostream_vector.back().push(::OKlib::GeneralInputOutput::null_stream); break;
+                fostream_vector.back().push(null_stream); break;
               case ostream_descriptor_type::stdcerr :
                 fostream_vector.back().push(std::cerr); break;
               case ostream_descriptor_type::stdcout :
