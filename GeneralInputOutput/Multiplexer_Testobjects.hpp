@@ -13,6 +13,7 @@ namespace OKlib {
 
     ::OKlib::GeneralInputOutput::Test_OStreamDescriptor< ::OKlib::GeneralInputOutput::OStreamDescriptor> test_ostream_descriptor;
 
+    ::OKlib::GeneralInputOutput::Test_OStreamMultiplexer< ::OKlib::GeneralInputOutput::OStreamMultiplexer> test_ostream_multiplexer;
   }
 
 }
