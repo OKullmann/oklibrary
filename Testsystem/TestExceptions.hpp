@@ -107,7 +107,7 @@ namespace OKlib {
       template <typename T1, typename T2>
       std::string test_equality(const T1& t1, const T2& t2) {
         if ( not(t1 == t2)) {
-          std::stringstream out;
+          std::ostringstream out;
           out << "Value is\n" << t1 << ",\n and not\n" << t2 << ".";
           return out.str();
         }
@@ -124,9 +124,9 @@ namespace OKlib {
 
 #define OKLIB_TEST_EQUAL(v1, v2)                                        \
     {                                                                   \
-      const std::string& out(::OKlib::TestSystem::Implementation::test_equality((v1),(v2))); \
-      if (not out.empty())                                              \
-        OKLIB_THROW(out);                                               \
+      const std::string& out_uYtXzwE453W(::OKlib::TestSystem::Implementation::test_equality((v1),(v2))); \
+      if (not out_uYtXzwE453W.empty())                                              \
+        OKLIB_THROW(out_uYtXzwE453W);                                               \
     }
 
     /*!
