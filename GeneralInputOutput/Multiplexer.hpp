@@ -3,7 +3,6 @@
 /*!
   \file Multiplexer.hpp
   \brief Components for gathering and distributing input and output from and to different streams
-  \todo Test all components.
   \todo Complete the documentation.
 */
 
@@ -17,6 +16,7 @@
 #include <sstream>
 #include <fstream>
 #include <ostream>
+#include <stdexcept>
 
 #include <boost/ptr_container/ptr_map.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
@@ -29,6 +29,7 @@
 #include <boost/range/value_type.hpp>
 #include <boost/range/const_iterator.hpp>
 #include <boost/utility.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "IOStreamSinks.hpp"
 
@@ -39,7 +40,9 @@ namespace OKlib {
     /*!
       \class OStreamDescriptor
       \brief Concrete type for a pair consisting of a label and a string, which describe some output-stream.
-      \todo Throw exceptions instead of asserting.
+
+      Construction from string: Recognised "NULL", "cerr", "cout", "ofstream-app=name",
+      "ofstream-w=name", "ostringstream=name".
     */
     
     struct OStreamDescriptor {
@@ -51,9 +54,33 @@ namespace OKlib {
       label_type label;
       string_type name;
 
+      struct OStreamDescriptorError : std::runtime_error {
+        OStreamDescriptorError(const std::string& what) : std::runtime_error(what) {}
+      };
+      struct EmptyName : OStreamDescriptorError {
+        EmptyName(const std::string& what) : OStreamDescriptorError(what) {}
+      };
+      struct NonEmptyName : OStreamDescriptorError {
+        NonEmptyName(const std::string& what) : OStreamDescriptorError(what) {}
+      };
+      struct EmptyDescription : OStreamDescriptorError {
+        EmptyDescription(const std::string& what) : OStreamDescriptorError(what) {}
+      };
+      struct NoEqInDescription : OStreamDescriptorError {
+        NoEqInDescription(const std::string& what) : OStreamDescriptorError(what) {}
+      };
+      struct EmptyAfterEqDescription : OStreamDescriptorError {
+        EmptyAfterEqDescription(const std::string& what) : OStreamDescriptorError(what) {}
+      };
+      struct UnknownDescription : OStreamDescriptorError {
+        UnknownDescription(const std::string& what) : OStreamDescriptorError(what) {}
+      };
+
       OStreamDescriptor(const label_type label, const string_type& name) : label(label), name(name) {
-        assert(not name.empty() or label <= stdcout);
-        assert(name.empty() or label > stdcout);
+        if (name.empty() and label > stdcout)
+          throw EmptyName("label = " + boost::lexical_cast<std::string>(label));
+        if (not name.empty() and label <= stdcout)
+          throw NonEmptyName("label = " + boost::lexical_cast<std::string>(label) + ", name = " + name);
       }
       OStreamDescriptor(const string_type& description) {
         if (description == "NULL")
@@ -65,17 +92,23 @@ namespace OKlib {
         else {
           typedef string_type::size_type size_type;
           const size_type& size(description.size());
-          assert(size > 0);
+          if (size == 0)
+            throw EmptyDescription("");
           const size_type& eq_sign(description.find('='));
-          assert(eq_sign != string_type::npos);
-          assert(eq_sign < size - 1);
+          if (eq_sign == string_type::npos)
+            throw NoEqInDescription(description);
+          assert(eq_sign <= size-1);
+          if (eq_sign == size - 1)
+            throw EmptyAfterEqDescription(description);
           const string_type& lhs(description.substr(0, eq_sign));
-          if (lhs == "ofstreamappend")
+          if (lhs == "ofstream-app")
             label = stdofstreamappend;
-          else if (lhs == "ofstreamoverwrite")
+          else if (lhs == "ofstream-w")
             label = stdofstreamoverwrite;
-          else
+          else if (lhs == "ostringstream")
             label = stdostringstream;
+          else
+            throw UnknownDescription(description);
           name = string_type(description.substr(eq_sign+1, size));
         }
       }
@@ -124,8 +157,16 @@ namespace OKlib {
       ::OKlib::GeneralInputOutput::NullStream null_stream;
 
     public :
+
+      OStreamMultiplexer() {}
+
       template <class MultiPassInputRange>
       OStreamMultiplexer(const MultiPassInputRange& range) {
+        assign(range);
+      }
+      
+      template <class MultiPassInputRange>
+      void assign(const MultiPassInputRange& range) {
         typedef MultiPassInputRange range1_type;
         typedef typename boost::range_const_iterator<range1_type>::type range1_iterator;
         typedef typename boost::range_value<range1_type>::type range2_type;
