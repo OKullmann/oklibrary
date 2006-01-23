@@ -3,20 +3,9 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
-  \todo For convenience three standard instantiations of the three streams are provided:
-   - normal run:
-     error = std::cerr, messages = log = std::cout, normal messages on, log messages off
-   - nightly run:
-     error = error-file, messages = log = log-file, normal messages on, log messages on,
-     error is copied to log-file
-   - normal run with file storage:
-     error = error-file, messages = std::cout, log = log-file, normal messages on, log messages on,
-     error is copied to std::cerr and log_file, messages is copied to log_file.
-   To implement these, we must investigate the standard iostream and buffer classes, and the
-   boost iostreams library.
-   \todo Try to extend the level hierarchy.
-   \todo In case an unknown exception is thrown, there should be a global option to
-   let this exception through.
+  \todo Try to extend the level hierarchy.
+  \todo In case an unknown exception is thrown, there should be a global option to
+  let this exception through.
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
@@ -27,6 +16,7 @@
 #include <exception>
 #include <cassert>
 #include <string>
+#include <iomanip>
 
 #include <boost/ptr_container/ptr_list.hpp>
 #include <boost/timer.hpp>
@@ -213,7 +203,7 @@ namespace OKlib {
         // does not take ownership of level object
         assert(level);
 
-        messages << "OKlib::TestSystem::RunTest " << "\n";
+        messages << "\n" << banner_messages() << "\nOKlib::TestSystem::RunTest\n\n";
         messages << TimeHandling::currentDateTime("%A, %B %e, %Y; %H:%M:%S%n");
         messages << level -> description() << "\n";
         typedef container_type::size_type size_type;
@@ -235,13 +225,14 @@ namespace OKlib {
         size_type err_counter = 0;
         for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
           bool failed = false;
-          log << banner() << "\n" << "Test No. " << counter << std::endl;
+          log << banner_log() << "\n" << "Test No. " << counter << std::endl;
           try {
             level -> perform(*i, log);
           }
           catch(const OKlib::TestSystem::TestException& e) {
             ++err_counter;
             failed = true;
+            log.flush();
             err << e << std::endl;
             return_value = EXIT_FAILURE;
           }
@@ -250,24 +241,37 @@ namespace OKlib {
             log << "FAILED";
           else
             log << "SUCCEEDED";
-          log <<"\n" << banner() << "\n\n";
+          log <<"\n" << banner_log() << "\n\n";
         }
+        log.flush();
 
         {
           messages << err_counter << " error";
           if (err_counter != 1) messages << "s";
           messages << ".\n";
         }
+        {
+          const size_type& size(test_objects.size());
+          messages << size << " testobject";
+          if (size != 1) messages << "s";
+          messages << ". \n";
+        }
+        messages << level -> description() << "\n";
         messages << "\nElapsed system time: " << timer.elapsed() << "s\n";
         messages << "Elapsed total time: " << double(total_time) << "s\n";
+        messages << TimeHandling::currentDateTime("%A, %B %e, %Y; %H:%M:%S%n");
+        messages << "\nOKlib::TestSystem::RunTest " << "\n" << banner_messages() << std::endl;
         return return_value;
       }
 
     private :
 
-      static std::string banner() {
-        return "#####################################";
-      }  
+      static std::string banner_log() {
+        return std::string(40, '#');
+      }
+      static std::string banner_messages() {
+        return std::string(40, '+');
+      }
     };
 
   }
