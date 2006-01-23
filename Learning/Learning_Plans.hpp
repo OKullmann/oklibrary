@@ -28,6 +28,21 @@
   the backtracking; so this component should be responsible for *global learning* (while
   the active clause-sets migh perform "local learning" themselves. It seems attractive to
   consider these algorithms themselves as constituting an active clause-set.
+  \todo The learned clauses should be managed by a special active clause-sets L.
+  It seems natural that L performs full subsumption elimination, but only for the
+  full clauses (not considering the effect of the partial assignment). This should keep
+  L relatively small, so that we can simply keep all learned clauses.
+  One should look out for a special data structure for L: Since the clauses of L
+  form a resolution forest (in general the leaves do not come from the original clause-set, for example
+  due to subsumption or due to a conflict arising from a learned clause; backtracking adds a new resolvent,
+  that is, an inner node, while with a new conflict we get a new leaf), it should make sense to use this
+  tree structure for a more efficient representation of L.
+  \todo In general we do not care about the "source" of the learned clause: If a partial assignment phi
+  yields *somehow* a conflict, then we learn the compressed phi (only taking the decision variables
+  into account which were involved in the conflict). Thus we do not get a (compressed) resolution
+  refutation for the input clause-set, but this should be regarded as a "feature". If we really
+  want a (compressed) resolution refutation, then we run the learning component in a special
+  mode.
 */
 
 /*!

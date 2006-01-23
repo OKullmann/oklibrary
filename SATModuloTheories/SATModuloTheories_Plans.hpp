@@ -11,3 +11,14 @@
   For the active clause-sets the Bellman-Ford algorithm is applied.
 */
 
+/*!
+  \namespace OKlib::SATModuloTheories
+  \brief Components for active clause-sets with an underlying
+  logical theory
+*/
+
+namespace OKlib {
+  namespace SATModuloTheories {
+  }
+}
+

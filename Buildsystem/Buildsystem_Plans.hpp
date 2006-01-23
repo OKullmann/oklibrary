@@ -36,16 +36,15 @@
     So when we know all compilation units, we can preprocess them all and putting them
     into the package; the package just compiles the units separately, and then links them together.
 
+   \todo Error messages of gcc should be processed.
+   \todo Type names output by gcc (in test-system messages) should be readable
+   (decoded, and possibly using abbreviations).
+
    \todo Each "make test" etc. should gather summary statistics of the tests performed,
    like the total number of testobjects, the total time spend and so on.
    In order to do so, a test program can be asked to serialise the statistics
    to a file or to standard output, and a simple evaluation program gathers
    these statistics.
-
-   \todo Error messages of gcc should be processed.
-   \todo Type names output by gcc (in test-system messages) should be readable
-   (decoded, and possibly using abbreviations).
-
    \todo Similar to the complexity measurements, for every task performed by the build
    system it should be possible to save the measured run time, so that the develepment over
    time for example of compile times, link times, test times can be followed, and also
@@ -53,6 +52,16 @@
    the total times are output, but in a protocol mode everything is written to a file
    (as for the complexity system; it should be possible for example to use the visualisation
    tools there to look at the developments here).
+
+   \todo The test system in the context of the build system knows the following modes (with
+   the following associated 3 streams):
+    - konsole-output : cerr cout NULL (the default)
+    - extend-konsole-output : cerr cout cout
+    - file-output : "ofstream-w=error-file|ofstream-w=log-file" "ofstream-w=log-file" "ofstream-w=log-file"
+    - mixed-output : "ofstream-w=error-file|ofstream-w=log-file|cerr" "ofstream-w=log-file|cout" "ofstream-w=log-file"
+    - extended-mixed-output : "ofstream-w=error-file|ofstream-w=log-file|cerr" "ofstream-w=log-file|cout" "ofstream-w=log-file|cout"
+  Here error-file and log-file are placed in aux; actually, we should have another directory
+  called "log", where these files go, and also the doxygen-error messages.
 
    \todo Errors in the build system:
     - If when creating the .d-files an error occurs (for example
@@ -77,7 +86,9 @@
       from wherever we call it. This seems to create some trouble, and doesn't seem
       to be compatible with using links? So it should be abandoned? But then effectively
       it doesn't make sense to call makefile_generic from another place, and one always
-      has to use cd first.
+      has to use cd first. One issue here is that the testsystem cannot any longer use
+      any local directories (since it won't find them); perhaps the solution is to provide
+      some central place for testdata.
     - From makefile.definitions.mak only "Root" is to be extracted, while the rest is handled by
       this makefile, inspecting its directory and all subdirectories,
       and collecting the required information individually from

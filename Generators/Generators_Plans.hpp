@@ -11,10 +11,10 @@
   If output and/or boolean formulas is needed, then further
   transformers are to be used.
   The variables are tuples of values.
-  \todo Especially for Ramsey- and Van der Waerden- formulas
-  the generators should be active clause-sets usable by some SAT solver.
-  And also we need active clause-sets for biclique-transformations for
+  \todo And also we need active clause-sets for biclique-transformations for
   interesting classes of graphs (including complete graphs).
+  \todo Perhaps transformers for linear inequalities (including active
+  clause-sets) belong to the module SATModuloTheory?!
   \todo Transformers from non-boolean clause-sets to boolean
   clause-sets are needed (the standard translation, with or without
   the at-most-one-clauses, and also the other translations known from
@@ -38,4 +38,14 @@
   \todo Challenging (but potentially very interesting) is also the decryption
   of DES (a clause-set translation is in the literature).
 */
+
+/*!
+  \namespace OKlib::Generators
+  \brief Generators for (active) clause-sets (which are not yet in their own module).
+*/
+
+namespace OKlib {
+  namespace Generators {
+  }
+}
 
