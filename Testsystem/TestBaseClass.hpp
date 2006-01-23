@@ -23,10 +23,6 @@
    - Basic : "permanent building"
    - Full : "nightly build"
    - Extensive : "weekly build".
-  \todo Normal output to std::cout, error messages to std::cerr (thus 2 streams,
-  as in Aeryn); optionally also log messages, to a third stream (copying
-  also the normal output).
-  Definitely for levels full and extensive we need logging facilities.
   \todo We need the possibility to obtain as much information about the runs of the tests as possible if we wish so.
   \todo With the three levels then also the timestamps test and testop each
   exists in three versions.
