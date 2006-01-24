@@ -1,3 +1,11 @@
+// Oliver Kullmann, 2005 (Swansea)
+
+/*!
+  \file Messages_Testapplication.cpp
+  \brief Temporary application; to be transferred to the test system.
+  \todo The switch to the german language is not honoured?! (Did TB change something?)
+*/
+
 #include <iostream>
 #include <string>
 #include <cassert>
@@ -48,31 +56,29 @@ struct Test_messageS : message_typeS {
     return "English messageS!";
   }
   string_typeS translate(const Chinese_typeS*) const {
-    return "Chinese message!";
+    return "Chinese messageS!";
   }  
 };
 
-extern const char new_language[] = "See!";
-
 int main() {
-  std::cout << Deutsch_type::ptr() -> name() << std::endl;
+  std::cout << "NAME OF LANGUAGE \"Deutsch\": " << Deutsch_type::ptr() -> name() << std::endl;
   const Test_message tm;
-  std::cout << tm << "\n";
-  std::cout << Deutsch_type::ptr();
+  std::cout << "TEST MESSAGE IN DEFAULT LANGUAGE: " << tm << "\n";
+  std::cout << "NOW SWITCHING TO DEUTSCH: " << Deutsch_type::ptr() << "\n";
   std::cout << tm << "\n";
   std::cout << tm << "\n";
   // std::cout << Chinese_type::ptr() << tm << "\n";
-  std::cout << "End const char*." << std::endl;
+  std::cout << "END TESTS FOR STRING TYPE const char*.\n" << std::endl;
 
-  std::cout << Deutsch_typeS::ptr() -> name() << std::endl;
+  std::cout << "NAME OF LANGUAGE \"DeutschS\": " << Deutsch_typeS::ptr() -> name() << std::endl;
   const Test_messageS tmS;
+  std::cout << "TEST MESSAGE IN DEFAULT LANGUAGE: " << tmS << "\n";
+  std::cout << "NOW SWITCHING TO DEUTSCHS: " << Deutsch_typeS::ptr() << "\n";
   std::cout << tmS << "\n";
-  std::cout << Deutsch_typeS::ptr();
   std::cout << tmS << "\n";
-  std::cout << tmS << "\n";
-  std::cout << English_type::ptr() << tmS << tm << "\n";
-  std::cout << ServiceS::Languages::language(Deutsch_typeS::ptr() -> name()) << tmS << "\n";
-  std::cout << "End string." << std::endl;
+  std::cout << "SWITCHING TO DEUTSCHS: " << English_type::ptr() << tmS << tm << "\n";
+  std::cout << "OUTPUT OF ALL LANGUAGES IN ServiceS:\n" << ServiceS::Languages::language(Deutsch_typeS::ptr() -> name()) << tmS << "\n";
+  std::cout << "END TESTS FOR STRING TYPE string.\n" << std::endl;
 
   typedef ServiceS::Languages::iterator iteratorS;
   ServiceS::Languages::iterator po = ServiceS::Languages::begin();

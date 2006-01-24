@@ -1,4 +1,11 @@
-//TO DO:  LICENCE
+// Oliver Kullmann, 2005 (Swansea)
+
+/*!
+  \file Messages_Models_Definitions.hpp
+  \brief Messages base class and related constructions
+  \todo The systems seems not to work! I suspect TB did some (wrong) changes.
+  \todo Add documentation
+*/
 
 #ifndef MESSAGESMODELSDEFINITIONS_j6gg9bbff3
 
@@ -22,16 +29,31 @@ namespace OKlib {
   
   namespace Messages {
 
-    // Class wrapper for a c-string :
+    /*!
+      \class W
+      \brief W<Name> is a class just holding Name (accessible via partial
+      specialisation), where Name is a C string.
+    */
     template <const char* Name>
     struct W {};
 
-    // ------------------------------------------------------------------------------------------------------
-    // Class Language_base
-    // polymorphic class; with (empty) default constructor
-    // contains the map "catalogue" of languages
-    // ------------------------------------------------------------------------------------------------------
-    
+    // ###########################################################
+
+    /*!
+      \class Language_base
+      \brief Polymorphic base class for language objects. A language_base pointer inserted into
+      a std::ostream sets the language of that stream.
+
+      Contains the (private) static map "catalogue", mapping language-names to language_base pointers.
+      A language-name is a C string. Main operations are
+       - static language(language_names) yields access to the (private) map
+       - static begin(), static end() enable iteration over the map of language objects
+       - index_language() yields the index of the language-subsystem which identifies it with std::ostreams;
+         transfers the call to the pure virtual function index_language_().
+       - name() returns the language-name of the language object; transfers the call to the pure virtual
+         function name_()
+    */
+      
     class Language_base {
     public :
       typedef const char* language_names;
@@ -43,9 +65,9 @@ namespace OKlib {
       class iterator;
       static const Language_base* language(language_names const name) {
         const Map::const_iterator i = catalogue.find(name);
-        if (i == catalogue.end()) return 0;
-        else return i -> second;
+        return (i == catalogue.end()) ? (Language_base*)0 : i -> second;
       }
+
       language_names name() const { return name_(); }
 
       static iterator begin() { return iterator(catalogue.begin()); }
@@ -65,11 +87,13 @@ namespace OKlib {
       
     public:
 
-      // ---------------------------------------------------
-      // public nested class iterator (in Language_base)
-      // ---------------------------------------------------
+      /*!
+        \class iterator
+        \brief Iterator facade to enable iterations through all available Language_base pointers
+        \todo Likely this should be implemented using the boost transform-iterator adaptor.
+      */
 
-      class iterator : std::iterator<std::bidirectional_iterator_tag,const Language_base*, Map::difference_type> {
+      class iterator : std::iterator<std::bidirectional_iterator_tag, const Language_base*, Map::difference_type> {
         typedef Language_base::Map::const_iterator internal_iterator;
 	
         internal_iterator it;
@@ -97,14 +121,32 @@ namespace OKlib {
         }
       };
     };
+
+    // #########################
+    // Static data members
     
     Language_base::Map Language_base::catalogue;
 
+    // #########################
+    // Associated global functions
     
-    // ------------------------------------------------------------------------------------------------------
-    // Class MessageService
-    // ------------------------------------------------------------------------------------------------------
-  
+    template <typename charT, class Traits>
+    inline std::basic_ostream<charT, Traits>& operator <<(std::basic_ostream<charT, Traits>& os, const Language_base* p) {
+      os.pword(p -> index_language()) = const_cast<void*>(static_cast<const void*>(p));
+      // TO DO: Document!
+      return os;
+    }
+    
+    // ###########################################################
+
+    /*!
+      \class MessageService
+      \brief MessageService<default_language, SequenceLanguages, charT, Traits, String>
+
+      Besides access to the default language, the character type, the character type and the string type, defines
+      the nested class Languages, the derived nested class template Language,  and the nested class Messages_base.
+    */
+
     template <const char* default_language, class SequenceLanguages = boost::mpl::vector0<>, typename charT = char, class Traits = std::char_traits<charT>, typename String = const charT*>
     class MessageService {
       MessageService(); // not to be implemented
@@ -114,13 +156,12 @@ namespace OKlib {
       typedef Traits traits_type;
       typedef String string_type;
 
-      // ---------------------------------------------------
-      // public nested class Languages (in MessageService)
-      // derived from Language_base
-      // contains private pure virtual function
-      // string_type translated_() const
-      // and its NVI-counterpart translated.
-      // ---------------------------------------------------
+      /*!
+        \class Languages
+        \brief Derived from Language_base. Adds public member function
+        string_type translated() const, which calls the pure virtual function
+        translated_(). Implements index_language_().
+      */
 
       class Languages : public Language_base {
         virtual string_type translated_() const = 0;
@@ -151,7 +192,7 @@ namespace OKlib {
       };
       
       // ---------------------------------------------------
-      // private nested class P (in MessageService): Metafunction
+      // private nested class P (in MessageService): Metafunction class
       // P::apply<W<Name> >::type has virtual member function
       // string_type translate(const Language<Name>*) const.
       // ---------------------------------------------------
@@ -258,6 +299,9 @@ namespace OKlib {
       static const int index_language;
     };
 
+     // #########################
+    // Static data members
+
     template <const char* default_language, class SequenceLanguages, typename charT, class Traits, typename String>
     const int MessageService<default_language, SequenceLanguages, charT, Traits, String>::index_language(std::ios_base::xalloc());
     
@@ -267,14 +311,6 @@ namespace OKlib {
     template <const char* default_language, class SequenceLanguages, typename charT, class Traits, typename String>
     template <const char* Name>
     const typename MessageService<default_language, SequenceLanguages, charT, Traits, String>::template Language<Name>* MessageService<default_language, SequenceLanguages, charT, Traits, String>::Language<Name>::p = new typename MessageService<default_language, SequenceLanguages, charT, Traits, String>::template Language<Name>;
-    
-  
-    template <typename charT, class Traits>
-    inline std::basic_ostream<charT, Traits>& operator <<(std::basic_ostream<charT, Traits>& os, const Language_base* p) {
-      os.pword(p -> index_language()) = const_cast<void*>(static_cast<const void*>(p));
-      // TO DO: Document!
-      return os;
-    }
     
   }
 }
