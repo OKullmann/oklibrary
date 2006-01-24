@@ -75,13 +75,13 @@
       as one subdirectory doesn't contain makefile_generic, then it and its
       decendants are ignored). In this way it is then also possible that a directory
       contains a test program, and has also sub-directories with test programs.
-    - We should likely call these (links to) makefile_generic in this way, and
-      not just "makefile" (even if it's a bit inconvenient).
    
    \todo makefile_generic
     - Except of in Buildsystem, all other makefile_generic-versions should be links.
       See makefile_recursive above.
       A problem here is, that it seems that links are not handled by CVS ?
+    - We should likely call ("execute") these (links to) makefile_generic in this way, and
+      not just "makefile" (even if it's a bit inconvenient).
     - Currently makefile_generic takes special actions to ensure that it works the same
       from wherever we call it. This seems to create some trouble, and doesn't seem
       to be compatible with using links? So it should be abandoned? But then effectively
@@ -186,6 +186,9 @@
     Boost library here.
   - The namespace should be the directory part of the name (in the above examples
     Transitional::SumProduct and OKlib::Algorithms).
+  - Directory OKsystem/OKlibrary should then be called OKsystem/OKlib
+  - Directory OKsystem/Transitional should be renamed OKsystem/TOKlib, and thus the namespace
+    "Transitional" is renamed to "TOKlib".
 
   \todo Complexity system: "make measurements" will create an xml-file
   (via the boost serialisation library) with information about all
