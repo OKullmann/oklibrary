@@ -190,6 +190,11 @@
   - Directory OKsystem/Transitional should be renamed OKsystem/TOKlib, and thus the namespace
     "Transitional" is renamed to "TOKlib".
 
+  \todo Perhaps we should have a sub-directory "SystemDirectories" of OKplatform,
+  where then aux, bin, doc, include, lib, and log, ... is located.
+  \todo Once we get the library directly from "the sources", what is then the
+  role of OKplatform/include ? Seems we can abandon it.
+
   \todo Complexity system: "make measurements" will create an xml-file
   (via the boost serialisation library) with information about all
   operations which have been registered. A little viewing-program
