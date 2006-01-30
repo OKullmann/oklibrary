@@ -44,11 +44,14 @@
    - "--usage" ("-usg") for some text explaining the general usage pattern.
    - "--overview" ("-ovw") as a shorthand for
      "--purpose --usage --help --version -- licence".
-  And there are two general assignments:
+  And there are three general assignments:
    - "--language=..." ("-lng=... ")
+   - "--detailedness-level=..." ("-dtl=...")
    - "--verbosity-level=..." ("-vbl=...").
-  These two assignments effect the message system (and thus also the above six general
-  options).
+  The first two assignments effect the message system (and thus also the above six general
+  options), while with verbosity-level we can ask for explanations. Perhaps verbosity-level
+  is just a natural number (with 0 for no explanations), while detailedness-level is (as
+  outlined in Messages/Messages_Plans.hpp) one of basic, full or extensive.
   Program parameters different from these standard options and assignments are called
   "special program parameters" (while the above standard options and assignments
   are "standard program parameters").
