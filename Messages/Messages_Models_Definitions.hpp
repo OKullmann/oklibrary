@@ -45,13 +45,17 @@ namespace OKlib {
       a std::ostream sets the language of that stream.
 
       Contains the (private) static map "catalogue", mapping language-names to language_base pointers.
-      A language-name is a C string. Main operations are
-       - static language(language_names) yields access to the (private) map
-       - static begin(), static end() enable iteration over the map of language objects
-       - index_language() yields the index of the language-subsystem which identifies it with std::ostreams;
+      A language-name is a C string. Public static operations are
+       - static const Language_base* language(language_names) yields access to the (private) map
+       - static iterator begin(), static end() enable iteration over the map of language objects.
+      Public non-static operations are
+       - int index_language() const yields the index of the language-subsystem which identifies it with std::ostreams
+         (the index for the pword in ostreams using for an object p of type Language_base* the assignment
+         os.pword(p -> index_language()) = const_cast<void*>(static_cast<const void*>(p)););
          transfers the call to the pure virtual function index_language_().
-       - name() returns the language-name of the language object; transfers the call to the pure virtual
-         function name_()
+       - language_names name() const returns the language-name of the language object; transfers the call to the pure virtual
+         function name_().
+      \todo Why does index_language() depend on the language *object*?
     */
       
     class Language_base {
@@ -133,7 +137,6 @@ namespace OKlib {
     template <typename charT, class Traits>
     inline std::basic_ostream<charT, Traits>& operator <<(std::basic_ostream<charT, Traits>& os, const Language_base* p) {
       os.pword(p -> index_language()) = const_cast<void*>(static_cast<const void*>(p));
-      // TO DO: Document!
       return os;
     }
     
@@ -141,15 +144,22 @@ namespace OKlib {
 
     /*!
       \class MessageService
-      \brief MessageService<default_language, SequenceLanguages, charT, Traits, String>
+      \brief A class templete hosting basic types for message services, and providing the nested classes
+      Messages_base (from which all message classes are to be derived) and Languages<Name> (representing
+      the available languages).
 
-      Besides access to the default language, the character type, the character type and the string type, defines
+      MessageService manages the (private) static data members int index_language and const Messages_base* transfer.
+      MessageService<default_language, SequenceLanguages, charT, Traits, String> offers access to the
+      default language, the character type, the character type and the string type, and defines
       the nested class Languages, the derived nested class template Language,  and the nested class Messages_base.
+      Languages is derived from Language_base, and provides the language index (referring to the static
+      data member). Language<Name> then completes the definition.
+      \todo What is the purpose of transfer?
     */
 
     template <const char* default_language, class SequenceLanguages = boost::mpl::vector0<>, typename charT = char, class Traits = std::char_traits<charT>, typename String = const charT*>
     class MessageService {
-      MessageService(); // not to be implemented
+      MessageService(); // not to be implemented (no constructor defined)
     public :
 
       typedef charT char_type;
@@ -158,9 +168,10 @@ namespace OKlib {
 
       /*!
         \class Languages
-        \brief Derived from Language_base. Adds public member function
-        string_type translated() const, which calls the pure virtual function
-        translated_(). Implements index_language_().
+        \brief Derived from Language_base. Implements index_language_() (using the static data member
+        of MessageService). Adds public member function string_type translated() const, which calls
+        the pure virtual function translated_().
+        \todo What is the purpose of translated() ?
       */
 
       class Languages : public Language_base {
@@ -170,12 +181,17 @@ namespace OKlib {
         string_type translated() const { return translated_(); }
       };
 
-      // ---------------------------------------------------
-      // public nested class template Language (in MessageService)
-      // ---------------------------------------------------
+      /*!
+        \class Language
+        \brief Language<const char* Name> is derived from Languages, and provides objects who upon creation (by the default
+        constructor) insert Name into the basic language container (only once). Contain the static (private) member
+        const Language* p, representing the language instance.
+
+        Implements name_() (returning Name) and translated_().
+      */
       
       template <const char* Name>
-      class Language;
+      class Language; // defined below
 
       typedef Language<default_language> Default;
 
@@ -266,12 +282,6 @@ namespace OKlib {
 
     public :
 
-      // ---------------------------------------------------
-      // public partial specialisation of class template Language (in MessageService)
-      // derived from Languages
-      // the default constructor performs self-insertion into the catalogue
-      // ---------------------------------------------------
-      
       template <const char* Name>
       class Language : public Languages {
         const char* name_() const { return Name; }
