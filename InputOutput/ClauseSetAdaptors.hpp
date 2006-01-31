@@ -10,9 +10,10 @@
    - adaptor.n(int_type)
    - adaptor.c(int_type)
    - adaptor.finish()
-   - adaptor.tautological_clause(int_type)
-   - template <class ForwardRange> CLSAdaptor::clause(const Range&, int_type).
+   - adaptor.tautological_clause(int_type number_literal_occurrences)
+   - template <class ForwardRange> CLSAdaptor::clause(const Range& clause, int_type total_original_number_literal_occurrences).
   \todo Write concepts for Statistics class.
+  \todo Write RawDimacsCLSAdaptor.
 */
 
 #ifndef CLAUSESETADAPTORS_UjXSW3
