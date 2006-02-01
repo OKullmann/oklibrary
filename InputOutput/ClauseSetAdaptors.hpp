@@ -24,6 +24,7 @@
 #include <ostream>
 #include <cstdlib>
 #include <cassert>
+#include <vector>
 
 #include <boost/range/size.hpp>
 #include <boost/range/value_type.hpp>
@@ -169,6 +170,41 @@ namespace OKlib {
 
     };
 
+
+    // #####################################################
+
+    /*!
+      \class RawDimacsCLSAdaptor
+      \brief Adaptor which turns Dimacs input into a vector<vector<int>>
+    */
+
+    template <typename Int = int, class String = std::string >
+    class RawDimacsCLSAdaptor {
+
+    public :
+
+      typedef Int int_type;
+      typedef String string_type;
+
+      typedef std::vector<int_type> clause_type;
+      typedef std::vector<clause_type> clause_set_type;
+
+      clause_set_type clause_set;
+
+      RawDimacsCLSAdaptor() {}
+
+      void comment(const string_type& s) {}
+      void n(const int_type pn) {} 
+      void c(const int_type pc) {}
+      void finish() {}
+      void tautological_clause(const int_type t) {}
+
+      template <class ForwardRange>
+      void clause(const ForwardRange& r, const int_type t) {
+        // Add a clause based on r to the clause_set
+      }
+
+    };
       
   }
 
