@@ -7,60 +7,55 @@
 
   Syntax: 
 
-      assert( apply_total_assignment(formula, assignment) == 1 )
+      assert( phi(X) )
 
   Semantics:
 
-      This assert is to be interpreted that the result of plugging 
-      the assignment into the formula is true.
+      Application of partial assignment phi to cnf clause set X.
 
-      apply_total_assignment is a freestanding template function with 
-      parameters for the formula type and the assignment type. The 
-      function goes through each clause and checks the assignment for
-      a satisfying literal.
-
-      template <class Formula, class Assignment>
-      bool apply_total_assignment( Formula formula, Assignment assignment ) {
-        typedef formula::const_iterator iterator;
-        const iterator& end(formula.end());
-        for (iterator clause(formula.begin()); clause!=end; ++clause) {
-          typedef typename FormulaTraits<Formula>::clause_type::const_iterator cl_iterator;
-          const iterator cl_end(clause.end());
-            for ( iterator literal(clause.begin()); literal!=cl_end; ++literal ) {
-              if ( !  satisfied_by( literal, assignment )  ):
-                return false; 
-            }
-            
-        } 
-        return true; // made it through, all clauses satisfied.
-
-      Now we have to implement satisfied_by(literal,assignment).
-      
-      Here the implementation depends very much on the assignment type, in
-      our case we simply compare the signs of literal and assignment[literal]
-      for equality.
-
-      satisfied_by(int literal, vector<int> assignment) {
-        return (literal > 0 && assignment[literal] > 0) | (literal < 0 && assignment[literal] < 0);
+  template <class Range>
+  tribool all_elements_true( Range range ) {
+    typedef range_const_iterator<Range>::type const_iterator;
+    const const_iterator& end(boost::end(range));
+    tribool result(indeterminate);
+    for (const_iterator element(boost::begin(range)); element!=end; ++element) {
+      if ( not some_element_true(*element) ) {
+        result = false;
+        continue;
       }
+    } 
+    result = true;
+    return result;
+  }
 
-
-   Remarks:
-
-      We need to get the clause_type from the formula if the formula
-      is something like vector<set<int>>? For this we need a traits
-      class.
-
-      template<typename T> class FormulaTraits;
-
-      template<> class FormulaTraits< vector<set<int> > > {
-        public:
-          typedef set<int> clause_type;
+  template <class Range>
+  tribool some_element_true( Range range ) {
+    typedef range_const_iterator<Range>::type const_iterator;
+    const const_iterator& end(boost::end(range));
+    tribool result(indeterminate);
+    for (const_iterator element(boost::begin(range)); element!=end; ++element) {
+      if ( element_true(*element)  ) {
+        result = true;
+        continue;
       }
+    } 
+    result = false;
+    return result;
+  }
 
-      Eventually there has to be a way of getting the formula
-      and assignment from files (more generally from streams).
-      Here there is already the submodule Dimacs.
+  bool element_true( literal_type literal ) {
+     // ??????????????  
+  }
+
+  // Operator for application of partial assignment to cnf formula.
+
+  template <class Range>
+  tribool operator()( Range range ) {
+    return all_elements_true(range);
+  } 
+
+
+
 */
 
 namespace OKlib {
