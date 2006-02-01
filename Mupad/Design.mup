@@ -1,0 +1,7 @@
+/* Oliver Kullmann, 24.1.2006, Swansea */
+
+/*
+ The incidence matrix (point-block or block-point doesn't matter, since the matrix is symmetric)
+ of the Fano plane (the projective geometry of order 2).
+*/
+ Fano_Inz := (ErzQR(7))([[ 0 , 1 , 1 , 0 , 0 , 1 , 0], [ 1 , 0 , 1 , 0 , 1 , 0 , 0], [ 1 , 1 , 0 , 1 , 0 , 0 , 0], [ 0 , 0 , 1 , 1 , 0 , 0 , 1], [ 0 , 1 , 0 , 0 , 1 , 0 , 1], [ 1 , 0 , 0 , 0 , 0 , 1 , 1], [ 0 , 0 , 0 , 1 , 1 , 1 , 0]]):
