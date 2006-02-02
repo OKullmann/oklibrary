@@ -25,42 +25,31 @@
   is different for different active clause-sets connected to the partial assignment.
   If in the alliance of active clause-set actually each active clause-set is just a single
   clause, then it would be good if the communication scheme could ensure that
-  the whole process is linear time; to do so the partial assignment must now for
+  the whole process is linear time; to do so the partial assignment must know for
   each literal which (subset of) clause-sets to notify.
-  \todo Partial assignments phi have a public member function
-  phi.add_literals(range),
-  returning a boolean, which can also be obtained by
-  phi.inconsistent()
-  (telling whether the associated set of total assignments contains elements or not).
-  After returning, the internal sequence of literals has been updated (including standardisation).
-  This sequence is available via phi as a container. If partial assignments are variable-based,
-  then phi(v) for a variable v will return the current literal (in constant time).
-  Additionally phi makes also the sequence of all update-literals available (changed only
-  by adding to the end); in case of variable-based literals additionally the changes might be
-  made available (perhaps the list of eliminated values).
   \todo A clause-set F can be constructed with a binding to a partial assignment F.phi(). With
   F.sat_status()
   we get whether F with the current value of F.phi() is unsatisfiable, satisfied or unknown (we need
   also the autarky-information somehow). With
   F.implied_literals()
   a sequence of implied literals is returned.
-  \todo With
-  phi.update_iterator()
-  an active clause-set F can obtain an input iterator i_F from phi (specifically to be used by F).
-  With
-  phi.new_end(i_F)
-  one gets the current past-the-end iterator (of the same type as i_F), so that from i_F to this iterator
-  the update-literals can be found; two models:
-   - i_F is independent of F, and is just the end-iterator of the list of all update-literals (for boolean clause-sets
-     this is fully enough, since here this sequence is just a standardised partial assignment);
-   - phi processes all the update-literals from i_F to the current end, and maintains a compressed form of the
-     corresponding partial assignment (which should be just the standardisation).
-   We see that effectively phi maintains *views* for every clause-set F, providing partial assignments
-   which show F the "difference" between the last state of phi and the new state.
-   \todo Regarding unit-clause-propagation for an alliance of active clause-sets:
+  \todo Regarding unit-clause-propagation for an alliance of active clause-sets:
    There is a "variable-constraint graph" (or "factor-graph"; possibly trivial) which enables access
    for every variable to the set of relevant active clause-sets (of course, assuming here variable-based
    literals). When active clause-sets apply partial assignments, they can update this graph.
+  \todo UCP for clause-sets has the following interesting property: When applying an assignment
+  v -> eps, running through all relevant clauses, then when evaluating the clauses the current
+  partial assignment is used, which involves all assignments from the buffer, not just the
+  assignments already performed. This can be exploited by using a timestamp for the buffer
+  (see Utilities/Timestamp.hpp), incremented each time a new assignment is added; and when
+  processing a clause the current timestamp is stored with this clause, so that we can always
+  check whether the last evaluation of this clause already included the currently processed
+  literal (in which case we don't have to go through this clause again).
+  \todo A variation point is whether we want to go also through the satisfied clauses or not
+  (marking them as satisfied); this makes a difference for example for associated statistics
+  gathering. In the (old) OKsolver there was a clear separation: UCP didn't look at satisfied
+  clauses and didn't gather statistics; this was the responsibility of the branching heuristics
+  look-ahead (together with autarky reduction).
 */
 
 /*!
