@@ -22,6 +22,10 @@
   original clause, then var(x) points back to var(y_1), ..., var(y_k). Given a conflict clause
   C, we determine all sinks v_1, ..., v_m reachable from var(x) for x in C, and learn the
   clause C' := { x in C : var(x) in {v_1, ..., v_m} }.
+  This form of learning uses the generalised resolution system introduced in my article
+  in Annals of Artificial Intelligence and Mathematics on Lower bounds:
+  Standard partial assignments and clause-sets, oracle U = {F : r_k(F) = {bot}}.
+  Instead of r_k it could also be r_k^* (with local learning).
   \todo What kind of component is performing the learning? "Who" is "responsible" ?
   It is the backtracking algorithm which is choosing the decisions, managing the communication
   between the partial assignments and the active clause-sets and the alliance, and performing
