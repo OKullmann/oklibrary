@@ -57,15 +57,37 @@
    use the plain form of random assignments.
   \todo The final algorithmic aspect is the restart policy: Somehow a "hopeless" situation
   has to be figured out, gathering then everything worthwhile learning and building
-  a new initial problem (an alliance of active clause-sets) with which we start again.
-  This is intertwined with the problem of how much resources should be allocated to
-  the autarky search. Progress measurements are important: Every search component
+  a new initial problem (an alliance of active clause-sets) with which we start again:
+  We should only restart if at least one clause has been learnt; then the partial assignment
+  is emptied (backtracking to level zero), initial reductions are applied if possible,and we
+  start again --- some members of the alliance will have been strengthened.
+  Progress measurements are important: Every search component
   must somehow estimates its progress, so that a global statistic is possible. Also from
   restart to restart a memory must be kept, so that one can see whether there is overall
   progress (or not). The most fundamental statistics here seems to be the proportion
   of the search space already covered; see Statistics/TimeSeriesAnalysis.hpp. With this
   measure we should be able to get some evaluation of the overall progress and restart
-  if progress is too meager.
+  if progress is too meager (compared to some envisaged running time).
+  \todo Likely for OKsolver_2_0 the simplest prediction strategy should be used (as
+  outlined in Statistics/TimeSeriesAnalysis.hpp), which just takes progress as constant
+  over time. This leaves open the question about the restart policy. Most basic seems
+  the following possibility: Given the total available time T, the number k of restart
+  decisions, and the threshold alpha, for i = 1, ..., k at time T * i/(k+1) the prediction
+  is computed, and if this is more than alpha * T (for some alpha >= 1), and something
+  has been learned, then we restart. One could make alpha varying over time, starting with
+  alpha = 3 for example, and then letting it go to 1, reflecting that over time the precision
+  of the measurements increase, while the matter becomes more urgent. There must also
+  be a threshold for what constitutes a substantial enough amount of learning so that
+  a restart seems reasonable (to avoid stammering). Of course, one could use randomisation,
+  but yet I don't see a sensible way to do so, and so perhaps we leave it out (or leave it for
+  OKsolver_3_0).
+  \todo If restarts don't yield clear benefits, then they are not incorporated into
+  OKsolver_2_0, but the whole issue is thoroughly treated with OKsolver_3_0.
+  \todo All the parameter settings depend on the input distribution, and so we should
+  learn good parameter values by evaluating the SAT 2005 competition. The conceptually
+  simplest way to achieve this is to optimise the score the solver would have achieved
+  in the SAT 2005 competition. Since this needs running the solver on the whole
+  competition many times, we need decent computational resources.
 */
 
 /*!
