@@ -157,16 +157,24 @@ valgrind-base-directory := $(prefix)/Valgrind
 valgrind-directories := $(valgrind-base-directory)
 
 # ###################
+
 mhash-base-directory := $(prefix)/Mhash
-
 abbr_mhash_targets := $(patsubst mhash-%, %, $(mhash_targets))
-mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_mhash_targets)))
-mhash_installation_directory_names += $(abbr_mhash_targets)
 
+mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_mhash_targets)))
+
+mhash_installation_directory_names += $(abbr_mhash_targets)
 mhash_installation_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_installation_directory_names))
+
 mhash_build_directory_names := $(addsuffix _Build, $(mhash_installation_directory_names))
 mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
+
 mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths)
+
+mhash_distribution_directories := $(addprefix $(mhash-base-directory)/mhash-, $(abbr_mhash_targets))
+
+mhash_gcc_targets := $(foreach mhashversion, $(mhash_targets), $(addprefix $(mhashversion)+, $(gcc_installation_directory_names)))
+all_mhash_targets := $(mhash_targets) $(mhash_gcc_targets)
 
 # ###############################################
 
@@ -183,7 +191,7 @@ endef
 .PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
 .PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
 .PHONY : valgrind $(valgrind_targets) create_valgrind_dirs
-.PHONY : mhash $(mhash_targets) create_mhash_dirs
+.PHONY : mhash mhash_all mhash_gcc_all $(all_mhash_targets)
 .PHONY : all clean cleanall
 
 all : gcc boost postgresql valgrind mhash doxygen
@@ -193,7 +201,7 @@ all : gcc boost postgresql valgrind mhash doxygen
 # ###############################
 
 $(doxygen-directories) : % : 
-	mkdir $@
+	mkdir $@1%b_m005
 
 create_doxygen_dirs : $(doxygen-directories)
 
@@ -257,7 +265,7 @@ $(boost-base-directory)/$(boost_targets) : $(boost-base-directory)/boost-% : $(b
 # Making boost with a local gcc:
 
 define install-boost_gcc
-              $(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" --prefix=$(boost-base-directory)/$(1)+$(2) --builddir=$(boost-base-directory)/$(1)+$(2)_Build install
+	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" --prefix=$(boost-base-directory)/$(1)+$(2) --builddir=$(boost-base-directory)/$(1)+$(2)_Build install
 #	if [ -d $(gcc-base-directory)/$(2)/boost-$(1) ]; then echo; else mkdir $(gcc-base-directory)/$(2)/boost-$(1); fi;
 #	cp $(boost-base-directory)/$(1)+$(2)/lib/* $(gcc-base-directory)/$(2)/boost-$(1)
 #	if [ -d $(gcc-base-directory)/$(2)/include/boost-$(1) ]; then echo; else mkdir $(gcc-base-directory)/$(2)/include/boost-$(1); fi;
@@ -346,32 +354,60 @@ $(valgrind_targets) : create_valgrind_dirs
 # Mhash
 # ###############################
 
+$(mhash_installation_directory_paths) : % : | $(mhash-base-directory) %_Build 
+
 $(mhash-directories) : % : 
 	mkdir $@
 
-create_mhash_dirs : $(mhash-directories)
+# Making mhash with the system gcc:
 
-ifeq ($(gcc-version),)
+define install-mhash
+	cd $(mhash-base-directory)/$(1)_Build; $(postcondition) \
+	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1); $(postcondition) \
+	make;	$(postcondition) \
+	make install;
+endef
 
-$(mhash_targets) :  mhash-% : create_mhash_dirs
-	$(call unarchive,$@,$(mhash-base-directory))
-	cd $(mhash-base-directory)/$*_Build; $(postcondition) \
-	sh ../mhash-$*/configure --prefix=$(mhash-base-directory)/$*; $(postcondition) \
-	make; $(postcondition) \
-	make install; $(postcondition)
+$(mhash-base-directory)/$(mhash_targets) : $(mhash-base-directory)/mhash-% : $(mhash-base-directory)/%
+	$(call unarchive,mhash-$*,$(mhash-base-directory))
+	$(call install-mhash,$*)
+	touch $@
 
-else 
+# Making mhash with a local gcc:
 
-$(mhash_targets) :  mhash-% : create_mhash_dirs
-	$(call unarchive,$@,$(mhash-base-directory))
-	cd $(mhash-base-directory)/$*+$(gcc-version)_Build; $(postcondition) \
-	sh ../mhash-$*/configure CC=$(gcc-base-directory)/$(gcc-version)/bin/gcc --prefix=$(mhash-base-directory)/$*+$(gcc-version); $(postcondition) \
-	make; $(postcondition) \
-	make install; $(postcondition)
+define install-mhash_gcc
+	cd $(mhash-base-directory)/$(1)+$(2)_Build;  if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi; \
+	make; if [ $$$$? != 0 ]; then exit 1; fi; \
+	make install;
+endef
 
+define mhash_gcc_rule
+$(mhash-base-directory)/mhash-$(1)+$(2) : $(mhash-base-directory)/$(1)+$(2)
+	$(call unarchive,mhash-$(1),$(mhash-base-directory))
+	$(call install-mhash_gcc,$(1),$(2))
+endef
+
+$(foreach mhashversion, $(abbr_mhash_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call mhash_gcc_rule,$(mhashversion),$(gccversion)))))
+
+# The main targets for making mhash
+
+mhash_gcc_all : $(all_mhash_targets)
+
+$(all_mhash_targets) : % : $(mhash-base-directory)/%
+
+ifeq ($(gcc-version),all)
+ mhash_all : $(mhash_gcc_targets)
+ mhash : $(addprefix $(mhash_recommended)+,$(gcc_installation_directory_names))
+else
+ ifeq ($(gcc-version),)
+  mhash_all : $(mhash_targets)
+  mhash : $(mhash_recommended)
+ else
+  mhash_all : $(addsuffix $(gcc-version),$(mhash_targets))
+  mhash : $(mhash_recommended)+$(gcc-version)
+ endif
 endif
-
-mhash : $(mhash_recommended)
 
 # ####################################################
 
