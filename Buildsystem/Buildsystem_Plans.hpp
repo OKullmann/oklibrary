@@ -159,6 +159,8 @@
    - Build a local version of gmp.
    - Update PostgreSQL to version 8.1 (and test it).
    - Build the R system (locally and globally).
+   - SOCI (soci.sourceforge.net)
+   - gcc-xml (www.gccxml.org)
 
   \todo "Full test": makefile at the OKplatform level --- there the
   different versions of gcc and boost are visible. "make check" at
@@ -214,4 +216,5 @@
    We must make sure, that also the minimal user can use the test and the complexity system
    (compiling it himself, or using the build system). And we must study, how a full user can keep his
    file structure separate from the library by using links.
+
 */
