@@ -29,7 +29,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestMessages
 
-programs := Messages_Testapplication
+programs := Messages_Testapplication Messages_Testapplication_DesignStudy
 
 source_libraries = $(OKTestsystem) $(Bibliothek) $(OKIOtools) $(Loki) $(Boost) 
 
