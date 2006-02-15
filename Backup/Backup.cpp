@@ -15,50 +15,48 @@
 
 #include "ErrorHandling.hpp"
 
-#include "Messages.hpp" 
-
-namespace Msg {
+// namespace Msg {
   
-  typedef OKlib::Messages::UserInterface::MsgService Service;
-  typedef Service::Messages_base message_type;
-  typedef Service::string_type string_type;
-  typedef Service::Language<OKlib::Messages::UserInterface::deutsch> Deutsch_type;
-  typedef Service::Language<OKlib::Messages::UserInterface::english> English_type;
-  typedef Service::Language<OKlib::Messages::UserInterface::chinese> Chinese_type;
+//   typedef OKlib::Messages::UserInterface::MsgService Service;
+//   typedef Service::Messages_base message_type;
+//   typedef Service::string_type string_type;
+//   typedef Service::Language<OKlib::Messages::UserInterface::deutsch> Deutsch_type;
+//   typedef Service::Language<OKlib::Messages::UserInterface::english> English_type;
+//   typedef Service::Language<OKlib::Messages::UserInterface::chinese> Chinese_type;
   
-  struct Banner : message_type {
-    const Banner* identity() const {
-      return this;
-    }
+//   struct Banner : message_type {
+//     const Banner* identity() const {
+//       return this;
+//     }
 
-    string_type translate(const Deutsch_type*) const {
-      return "Deutsche Meldung!";
-    }
+//     string_type translate(const Deutsch_type*) const {
+//       return "Deutsche Meldung!";
+//     }
 
-    string_type translate(const English_type*) const {
-      return "OKSystem Backup: Compiled on " + std::string(__DATE__) + " at " + std::string(__TIME__);
-    }
+//     string_type translate(const English_type*) const {
+//       return "OKSystem Backup: Compiled on " + std::string(__DATE__) + " at " + std::string(__TIME__);
+//     }
     
-    string_type translate(const Chinese_type*) const {
-      return "Chinese message!";
-    }
-  };
+//     string_type translate(const Chinese_type*) const {
+//       return "Chinese message!";
+//     }
+//   };
 
-}
+// }
 
 
 int main(const int argc, const char* const argv[]) {
 
   // ToDo: Using Messages
   
-  const Msg::Banner banner;
+  //const Msg::Banner banner;
     
   using Backup::pfx;
   // ToDo: "pfx" -> expressive
   //const std::string banner = "OKSystem Backup: Compiled on " + std::string(__DATE__) + " at " + std::string(__TIME__);
-  std::cout << Msg::Deutsch_type::ptr() -> name() << '\n';
-  std::cout << Msg::Deutsch_type::ptr() << banner << '\n';
-  std::cout << Msg::Deutsch_type::ptr() << "[Backup 3] " << banner << '\n';
+//   std::cout << Msg::Deutsch_type::ptr() -> name() << '\n';
+//   std::cout << Msg::Deutsch_type::ptr() << banner << '\n';
+//   std::cout << Msg::Deutsch_type::ptr() << "[Backup 3] " << banner << '\n';
      
   if (argc != 3) {
     int i = 0; std::string call = "";
