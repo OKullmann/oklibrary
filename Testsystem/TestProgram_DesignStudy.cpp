@@ -5,11 +5,11 @@
   \brief Study for the one test program, which is linked appropriately with
   the .o-files for the testobjects.
   \todo Using module Messages.
+  \todo Using module ProgramOptions.
 */
 
 #include <iostream>
 #include <cstdlib>
-#include <memory>
 #include <string>
 #include <set>
 #include <vector>
@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
     return EXIT_FAILURE;
   }
 
-  std::auto_ptr<const ::OKlib::TestSystem::TestLevel> level(::OKlib::TestSystem::test_level(argv[1]));
+  ::OKlib::TestSystem::TestLevel& level(::OKlib::TestSystem::test_level(argv[1]));
 
   ::OKlib::GeneralInputOutput::OStreamMultiplexer multiplexer;
   {
@@ -57,5 +57,5 @@ int main(const int argc, const char* const argv[]) {
   }
 
   assert(multiplexer.fostream_vector.size() == number_streams);
-  OKlib::TestSystem::RunTest::run_tests(multiplexer.fostream_vector[0], multiplexer.fostream_vector[1], multiplexer.fostream_vector[2], level.get());
+  OKlib::TestSystem::RunTest::run_tests(multiplexer.fostream_vector[0], multiplexer.fostream_vector[1], multiplexer.fostream_vector[2], level);
 }
