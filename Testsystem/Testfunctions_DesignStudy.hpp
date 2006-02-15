@@ -22,9 +22,10 @@ namespace OKlib {
       void test(::OKlib::TestSystem::Basic, std::ostream& log) {
         typedef ::OKlib::TestSystem::Basic level_type;
         //throw std::runtime_error("In OKlib::TestSystem::Test1::test");
-        //OKLIB_THROW("IN TEST1");
-        throw 5;
+        OKLIB_THROW("IN TEST1");
+        //throw 5;
       }
+
     };
 
     
