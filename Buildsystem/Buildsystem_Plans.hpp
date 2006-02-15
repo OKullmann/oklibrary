@@ -126,9 +126,15 @@
    - Can makefiles be incorporated?!
 
    \todo Documentation in general
-    - There should be an easy access to all parts of the documentation (including the doxygen documentation,
-      and the documentation for Boost, gcc, mhash ...).
-    - One must start thinking about the tex-Documentation.
+    - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
+     1. Examples : contains a mirror of the OKlibrary with (many) example applications (build by the
+     build system, so that it's always up-to-date).
+     2. Concepts : contains for each module a latex-file discussing the concepts for this module.
+    - Documentation contains also the following (symbolic file) links:
+     1. to the doxygen-main-site;
+     2. to the Boost main site
+     3. to all other documentations relevant here.
+    - There needs to be a main page for the OKplatform.
 
   \todo We need a standardised way of how to make information about the compilation
   process available to a program (and also the name of the program, etc.), so that
@@ -191,6 +197,10 @@
   - Directory OKsystem/OKlibrary should then be called OKsystem/OKlib
   - Directory OKsystem/Transitional should be renamed OKsystem/TOKlib, and thus the namespace
     "Transitional" is renamed to "TOKlib".
+  - As proposed in [C++ Templates], we should also provide files per module
+  only containing declarations (perhaps parallel to each .hpp file). Ending "_decl" ?
+  - Perhaps special naming conventions for files with messages or exceptions ?!
+  - Module.hpp provides all includes, Module_decl.hpp all declarational includes
 
   \todo Perhaps we should have a sub-directory "SystemDirectories" of OKplatform,
   where then aux, bin, doc, include, lib, and log, ... is located.
