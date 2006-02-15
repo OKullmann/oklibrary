@@ -34,7 +34,7 @@ namespace OKlib {
       void perform_test_trivial() {
         typedef TestCounter<Test_TestCounter> testcounter_type;
         typedef typename testcounter_type::int_type int_type;
-        OKLIB_TEST_EQUAL(testcounter_type::counter, 0);
+        OKLIB_TEST_EQUAL(testcounter_type::counter, 0U);
         OKLIB_TEST_EQUAL(testcounter_type::throw_value, 0);
         const int_type number_iterations(1000);
         for (int_type i = 0; i < number_iterations; ++i)
