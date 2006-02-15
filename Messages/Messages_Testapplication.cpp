@@ -1,105 +1,99 @@
-// Oliver Kullmann, 2005 (Swansea)
+// Oliver Kullmann, 11.2.2006 (Swansea)
 
 /*!
   \file Messages_Testapplication.cpp
-  \brief Temporary application; to be transferred to the test system.
-  \todo The switch to the german language is not honoured?! (Did TB change something?)
+  \brief Temporary test application
 */
 
 #include <iostream>
-#include <string>
-#include <cassert>
+#include <memory>
 
-#include "Messages_Models_Definitions.hpp"
-#include "Messages_UserInterface.hpp"
+#include "MessagesMain.hpp"
 
-namespace Messages_UserInterface = ::OKlib::Messages::UserInterface;
-namespace Messages = ::OKlib::Messages;
+#include "Languages_Explanations.hpp"
+#include "Levels_Explanations.hpp"
 
-typedef Messages_UserInterface::MessageService Service;
-typedef Service::Messages_base message_type;
-typedef Service::string_type string_type;
-typedef Service::Language<Messages_UserInterface::deutsch> Deutsch_type;
-typedef Service::Language<Messages_UserInterface::english> English_type;
-typedef Service::Language<Messages_UserInterface::chinese> Chinese_type;
+namespace Implementation {
 
-struct Test_message : message_type {
-  const Test_message* identity() const {
-    return this;
-  }
-  string_type translate(const Deutsch_type*) const {
-    return "Deutsche Meldung!";
-  }
-  string_type translate(const English_type*) const {
-    return "English message!";
-  }
-//   string_type translate(const Service::Chinese_type*) const {
-//     return "Chinese message!";
-//   }  
-};
+  OKLIB_USING_MESSAGES
 
-typedef Messages::MessageService<Messages_UserInterface::english, Messages_UserInterface::min_languages, char, std::char_traits<char>, std::string> ServiceS;
-typedef ServiceS::Messages_base message_typeS;
-typedef ServiceS::string_type string_typeS;
-typedef ServiceS::Language<Messages_UserInterface::deutsch> Deutsch_typeS;
-typedef ServiceS::Language<Messages_UserInterface::english> English_typeS;
-typedef ServiceS::Language<Messages_UserInterface::chinese> Chinese_typeS;
+  OKLIB_MESSAGES(M1) {
+    OKLIB_MESSAGES_PRINT
 
-struct Test_messageS : message_typeS {
-  const Test_messageS* identity() const {
-    return this;
-  }
-  string_typeS translate(const Deutsch_typeS*) const {
-    return "Deutsche MeldungS!";
-  }
-  string_typeS translate(const English_typeS*) const {
-    return "English messageS!";
-  }
-  string_typeS translate(const Chinese_typeS*) const {
-    return "Chinese messageS!";
-  }  
-};
+    template <class Stream>
+      void print(Stream& out, L<en_GB>, S<Basic>) const {
+      out << "M1: en_GB, Basic; pi = " << 3.14 << "\n";
+    }
+    template <class Stream>
+      void print(Stream& out, L<en_GB>, S<Full>) const {
+      out << "M1: en_GB, Full; pi = " << 3.14 << "\n";
+    }
+
+    template <class Stream>
+      void print(Stream& out, L<de_DE>, S<Basic>) const {
+      out << "M1: de_DE, Basic; pi = " << 3.14 << "\n";
+    }
+    template <class Stream>
+      void print(Stream& out, L<de_DE>, S<Full>) const {
+      out << "M1: de_DE, Full; pi = " << 3.14 << "\n";
+    }
+    
+    template <class Stream>
+      void print(Stream& out, L<fr_FR>, S<Basic>) const {
+      out << "M1: fr_FR, Basic; pi = " << 3.14 << "\n";
+    }
+    template <class Stream>
+      void print(Stream& out, L<fr_FR>, S<Full>) const {
+      out << "M1: fr_FR, Full; pi = " << 3.14 << "\n";
+    }
+  
+  };
+
+}
 
 int main() {
-  std::cout << "NAME OF LANGUAGE \"Deutsch\": " << Deutsch_type::ptr() -> name() << std::endl;
-  const Test_message tm;
-  std::cout << "TEST MESSAGE IN DEFAULT LANGUAGE: " << tm << "\n";
-  std::cout << "NOW SWITCHING TO DEUTSCH: " << Deutsch_type::ptr() << "\n";
-  std::cout << tm << "\n";
-  std::cout << tm << "\n";
-  // std::cout << Chinese_type::ptr() << tm << "\n";
-  std::cout << "END TESTS FOR STRING TYPE const char*.\n" << std::endl;
+  OKLIB_USING_MESSAGES;
+  using Implementation::M1;
 
-  std::cout << "NAME OF LANGUAGE \"DeutschS\": " << Deutsch_typeS::ptr() -> name() << std::endl;
-  const Test_messageS tmS;
-  std::cout << "TEST MESSAGE IN DEFAULT LANGUAGE: " << tmS << "\n";
-  std::cout << "NOW SWITCHING TO DEUTSCHS: " << Deutsch_typeS::ptr() << "\n";
-  std::cout << tmS << "\n";
-  std::cout << tmS << "\n";
-  std::cout << "SWITCHING TO DEUTSCHS: " << English_type::ptr() << tmS << tm << "\n";
-  std::cout << "OUTPUT OF ALL LANGUAGES IN ServiceS:\n" << ServiceS::Languages::language(Deutsch_typeS::ptr() -> name()) << tmS << "\n";
-  std::cout << "END TESTS FOR STRING TYPE string.\n" << std::endl;
+  {
+    ::OKlib::Messages::Documentation::LanguageNames names;
+    ::OKlib::Messages::Documentation::LevelNames l_names;
+    for (unsigned int i = 0; i != OKlib::Messages::number_of_languages; ++i) {
+      std::cout << "i = " << i << "\n";
+      M1::set(std::cout, ::OKlib::Messages::Languages(i));
+      for (unsigned int i2 = 0; i2 != OKlib::Messages::number_of_levels; ++i2) {
+        std::cout << "i2 = " << i2 << "\n";
+        M1::set(std::cout, ::OKlib::Messages::Strata(i2));
+        for (unsigned int j = 0; j != OKlib::Messages::number_of_languages; ++j) {
+          names.foreign_language() = ::OKlib::Messages::Languages(j);
+          std::cout << names << "; ";
+        }
+        std::cout << "\n";
+        for (unsigned int j = 0; j != OKlib::Messages::number_of_levels; ++j) {
+          l_names.other_level() = ::OKlib::Messages::Strata(j);
+          std::cout << l_names << "; ";
+        }
+        std::cout << "\n";
+      }
+    }
+  }
 
-  typedef ServiceS::Languages::iterator iteratorS;
-  ServiceS::Languages::iterator po = ServiceS::Languages::begin();
-  assert(po == ServiceS::Languages::begin());
-  std::cout << (*po) -> name() << " " << *po << tmS << "\n"; //Deutsch
-  std::cout << (*(po++)) -> name() << "\n"; //Deutsch
-  std::cout << (*po) -> name() << "\n"; //English
-  po = ServiceS::Languages::begin(); //Deutsch
-  std::cout << (*(++po)) -> name() << "\n"; //English
-  std::cout << "_--------------------------_\n";
-  std::cout << (*(--po)) -> name() << "\n"; //Deutsch
-  std::cout << (*(++po)) -> name() << "\n"; //English
-  std::cout << (*(po--)) -> name() << "\n"; //English
-  std::cout << (*po) -> name() << "\n"; //Deutsch
-  
-  assert(po != ServiceS::Languages::end());
-  ServiceS::Languages::iterator po2(po);
-  assert(po == po2);
-  for (iteratorS i = ServiceS::Languages::begin(); i != ServiceS::Languages::end(); ++i)
-    std::cout << (*i) -> name() << ", ";
   std::cout << "\n";
+  std::cout << M1();
+  M1::set(std::cout, de_DE);
+  M1::set(std::cout, Full);
+  std::cout << M1();
+  M1::set(std::cout, en_GB);
+  M1::set(std::cout, Extensive);
+  std::cout << M1();
+  M1::set(std::cout, Basic);
+  std::cout << M1();
+  M1::set(std::cout, fr_FR);
+  std::cout << M1();
 
-  
+  std::auto_ptr<OKlib::Messages::MessagesBase> mp(new M1);
+  std::cout << *mp;
+  mp -> set(std::cout, de_AT);
+  mp -> set(std::cout, Extensive);
+  std::cout << *mp;
 }
