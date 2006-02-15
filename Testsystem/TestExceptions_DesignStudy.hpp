@@ -3,7 +3,10 @@
 /*!
   \file TestExceptions_DesignStudy.hpp
   \brief New version of TestExceptions.hpp
+  \todo Remove leak from ErrorDescription
   \todo Update OKLIB_TEST_EQUAL.
+  \todo Using message objects in the descriptions (in this way strings and boost::lexical_cast
+  are avoided).
 */
 
 #ifndef TESTEXCEPTIONS_kjhytRe4
@@ -19,10 +22,12 @@
 #include <vector>
 #include <ostream>
 #include <cassert>
+#include <memory>
 
 #include <boost/range/functions.hpp>
 
 #include "BasicDeclarations.hpp"
+#include "TestLevel_Explanations.hpp"
 
 namespace OKlib {
 
@@ -30,27 +35,44 @@ namespace OKlib {
 
     /*!
       \class ErrorDescription
-      \brief The unit to describe one point in call history leading to a test failure.
+      \brief The unit to describe the point in call history leading to a test failure.
 
       A concrete class containing C strings for the file name, the line number and the
       name of the type of the test class.
+      \todo Ownership of level_description needs to be managed!
+      \todo Is the explicit definition of the copy constructor needed? Why does assignment work?
     */
 
     class ErrorDescription {
+    public :
+      typedef std::auto_ptr<const ::OKlib::Messages::MessagesBase> MessagePointer;
+    private :
       const char* file;
       const char* line;
       const char* type_test_class;
-      const char* level_description;
+      mutable MessagePointer level_description;
       ::OKlib::TestSystem::depth_number_type depth;
     public :
-      ErrorDescription() : file(0), line(0), type_test_class(0), level_description(0), depth(0) {}
-      ErrorDescription(const char* const file, const char* const line, const char* const type_test_class, const char* const level_description, ::OKlib::TestSystem::depth_number_type depth) : file(file), line(line), type_test_class(type_test_class), level_description(level_description), depth(depth) {}
+
+      ErrorDescription(const char* const file_, const char* const line_, const char* const type_test_class_, MessagePointer level_description_, ::OKlib::TestSystem::depth_number_type depth_) : file(file_), line(line_), type_test_class(type_test_class_), level_description(level_description_), depth(depth_) {
+        assert(file);
+        assert(line);
+        assert(type_test_class);
+        assert(level_description.get());
+      }
+      ErrorDescription(const ErrorDescription& e) : file(e.file), line(e.line), type_test_class(e.type_test_class), level_description(e.level_description), depth(e.depth) {
+        assert(file);
+        assert(line);
+        assert(type_test_class);
+        assert(level_description.get());
+      }
+
       friend std::ostream& operator <<(std::ostream& out, const ErrorDescription& D) {
         assert(D.file);
         assert(D.line);
         assert(D.type_test_class);
-        assert(D.level_description);
-        return out << " file = " << D.file << "\n line number = " << D.line << "\n test type = " << D.type_test_class << "\n test level = " << D.level_description << "\n test depth = " << D.depth << "\n";
+        assert(D.level_description.get());
+        return out << " file = " << D.file << "\n line number = " << D.line << "\n test type = " << D.type_test_class << "\n test level = " << *D.level_description << "\n test depth = " << D.depth << "\n";
         // ToDo: Adding messages (using module Messages)
       }
     };
@@ -110,7 +132,7 @@ namespace OKlib {
 
 # define OKLIB_NUMBER(N) # N
 # define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), typeid(test_type).name(), level_type().description(), this -> depth()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), typeid(test_type).name(), ::OKlib::TestSystem::ErrorDescription::MessagePointer(new ::OKlib::TestSystem::Documentation::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type()))), this -> depth()))
 
     /*!
       \def OKLIB_THROW
