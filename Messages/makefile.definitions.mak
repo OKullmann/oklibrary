@@ -12,26 +12,15 @@ else
   Bibliothek :=
 endif
 
-ifdef OKIOTOOLS
-  OKIOtools := -I$(OKIOTOOLS)
-else
-  OKIOtools :=
-endif
-
-ifdef LOKI
-  Loki := -I$(LOKI)
-else
-  Loki :=
-endif
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestMessages
 
-programs := Messages_Testapplication Messages_Testapplication_DesignStudy
+programs := Messages_Testapplication
 
-source_libraries = $(OKTestsystem) $(Bibliothek) $(OKIOtools) $(Loki) $(Boost) 
+source_libraries = $(OKTestsystem) $(Bibliothek) $(Boost) 
 
 link_libraries := 
 
