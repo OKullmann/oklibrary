@@ -3,6 +3,7 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
+  \todo RunTest should go to its own file.
   \todo Try to extend the level hierarchy.
   \todo In case an unknown exception is thrown, there should be a global option to
   let this exception through.
@@ -26,79 +27,17 @@
 #include "IOStreamFilters.hpp"
 
 #include "BasicDeclarations.hpp"
+#include "TestFondement.hpp"
 #include "TestExceptions_DesignStudy.hpp"
+#include "TestLevel_Explanations.hpp"
 
 namespace OKlib {
 
   namespace TestSystem {
 
-    class Basic;
-
-    /*!
-      \class Test
-      \brief The root of the (polymorphic) test hierarchy; containers of testobjects are
-      containers of Test pointers.
-
-      The member function template perform is to be called by a "visitor" from the level
-      hierarchy.
-    */
-
-    struct Test {
-      virtual ~Test() {}
-      template <class TestLevel>
-      void perform(TestLevel, std::ostream& log) {
-        perform_(TestLevel(), log);
-      }
-      
-    private :
-      virtual void perform_(Basic, std::ostream& log) = 0;
-    };
-
-    // ###################################################
-
-    /*!
-      \class TestLevel
-      \brief The root of the (polymorphic) test-level hierarchy.
-    */
-
-    struct TestLevel {
-      virtual void perform(Test& test, std::ostream& log) const = 0;
-      virtual const char* description() const = 0;
-      virtual ~TestLevel() {}
-    };
-
-    struct Basic : TestLevel {
-      void perform(Test& test, std::ostream& log) const {
-        test.perform(Basic(), log);
-      }
-      const char* description() const { return "Basic test level"; }
-    };
-    struct Full : Basic {
-      void perform(Test& test, std::ostream& log) const {
-        test.perform(Full(), log);
-      }
-      const char* description() const { return "Full test level"; }
-    };
-    struct Extensive : Full {
-      void perform(Test& test, std::ostream& log) const {
-        test.perform(Extensive(), log);
-      }
-      const char* description() const { return "Extensive test level"; }
-    };
-
-    inline const TestLevel* test_level(const char* const level_description) {
-      switch (level_description[0]) {
-      case 'f' : return new Full;
-      case 'e' : return new Extensive;
-      default : return new Basic;
-      }
-    }
-
-    // ###################################################
-
     /*!
       \class TestBase
-      \brief Derived from the test, to be used as immediate base class for test-meta-functions.
+      \brief Derived from clas Test, to be used as immediate base class for test-meta-functions.
     */
 
     template <class TestFunction>
@@ -126,6 +65,13 @@ namespace OKlib {
       void perform_(Basic, std::ostream& log) {
         perform_and_catch(Basic(), log);
       }
+      void perform_(Full, std::ostream& log) {
+        perform_and_catch(Full(), log);
+      }
+      void perform_(Extensive, std::ostream& log) {
+        perform_and_catch(Extensive(), log);
+      }
+
 
       template <class TestLevel>
       void perform_and_catch(TestLevel, std::ostream& log) {
@@ -138,7 +84,7 @@ namespace OKlib {
         log_indent << "Test function = " << typeid(TestFunction).name() << "\n";
         log_indent << "File name = " << file_name << "\n";
         log_indent << "Line number = " << line_number << "\n";
-        log_indent << "Test level = " << TestLevel().description() << "\n";
+        log_indent << "Test level = " << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(TestLevel()) << "\n";
         log_indent << "Test depth = " << depth_ << std::endl;
         try {
           test(TestLevel(), log_indent);
@@ -158,6 +104,15 @@ namespace OKlib {
         }
       }
       virtual void test(Basic, std::ostream& log) = 0;
+      virtual void test(Full, std::ostream& log) {
+        log << "Warning: test level \"Full\" not available, retrograding to test level \"Basic\"" << std::endl;
+        test(Basic(), log);
+      }
+      virtual void test(Extensive, std::ostream& log) {
+        log << "Warning: test level \"Extensive\" not available, retrograding to test level \"Full\"" << std::endl;
+        test(Full(), log);
+      }
+
     protected :
       std::ostream& log_message(std::ostream& log, ::OKlib::TestSystem::line_number_type line) {
         return log << "log at line " << line << ": ";
@@ -195,17 +150,15 @@ namespace OKlib {
         handle_test_objects(test);
       }
 
-      static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, const TestLevel* const level) {
+      static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, TestLevel& level) {
         return run_tests(err, messages, log, level, handle_test_objects());
       }
         
-      static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, const TestLevel* const level, container_type& test_objects) {
-        // does not take ownership of level object
-        assert(level);
+      static int run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, TestLevel& level, container_type& test_objects) {
 
         messages << "\n" << banner_messages() << "\nOKlib::TestSystem::RunTest\n\n";
         messages << TimeHandling::currentDateTime("%A, %B %e, %Y; %H:%M:%S%n");
-        messages << level -> description() << "\n";
+        messages << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(level) << "\n";
         typedef container_type::size_type size_type;
         {
           const size_type& size(test_objects.size());
@@ -227,7 +180,7 @@ namespace OKlib {
           bool failed = false;
           log << banner_log() << "\n" << "Test No. " << counter << std::endl;
           try {
-            level -> perform(*i, log);
+            level.perform(*i, log);
           }
           catch(const OKlib::TestSystem::TestException& e) {
             ++err_counter;
@@ -256,7 +209,7 @@ namespace OKlib {
           if (size != 1) messages << "s";
           messages << ". \n";
         }
-        messages << level -> description() << "\n";
+        messages << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(level) << "\n";
         messages << "\nElapsed system time: " << timer.elapsed() << "s\n";
         messages << "Elapsed total time: " << double(total_time) << "s\n";
         messages << TimeHandling::currentDateTime("%A, %B %e, %Y; %H:%M:%S%n");
