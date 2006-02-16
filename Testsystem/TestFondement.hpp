@@ -90,24 +90,14 @@ namespace OKlib {
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
 
+    /*!
+      \brief Factory for static test level objects
+    */
+
     template <class TestLevelDerived>
     inline TestLevel& test_level(TestLevelDerived) {
       static TestLevelDerived d;
       return d;
-    }
-
-    /*!
-      \brief Factory for creating test level objects
-
-      Descriptions starting with "f" yield level Full, descriptions starting with "e" yield
-      Extensive, and all others yield Basic.
-    */
-    inline TestLevel& test_level(const char* const level_description) {
-      switch (level_description[0]) {
-      case 'f' : return test_level(Full());
-      case 'e' : return test_level(Extensive());
-      default : return test_level(Basic());
-      }
     }
 
   }
