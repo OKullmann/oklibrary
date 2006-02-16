@@ -24,7 +24,7 @@ namespace OKlib {
       OKLIB_MESSAGES(TestLevelDescriptions) {
         OKLIB_MESSAGES_PRINT
 
-        TestLevelDescriptions(const ::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
+        TestLevelDescriptions(::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
 
         template <class Stream>
         struct dispatch : ::OKlib::TestSystem::VisitorTestLevel {
@@ -42,7 +42,7 @@ namespace OKlib {
         }
         template <class Stream>
           void print(Stream& out, L<en_GB>, S<Full>) const {
-          lev(dispatch<Stream>(out, "Basic test level (used in permanent testing)", "Full test level (for the daily test)", "Extensive test level (for the weekly test)"));
+          lev(dispatch<Stream>(out, "Basic test level (used for permanent testing)", "Full test level (for the daily test)", "Extensive test level (for the weekly test)"));
         }
         template <class Stream>
           void print(Stream& out, L<de_DE>, S<Basic>) const {
@@ -50,12 +50,12 @@ namespace OKlib {
         }
         template <class Stream>
           void print(Stream& out, L<de_DE>, S<Full>) const {
-          lev(dispatch<Stream>(out, "Basis-Testniveau (f\xDC" "r das permanente Testen)", "Volles Testniveau (f\xDC" "r den t\xC4" "glichen Test)", "Umfangreiches Testniveau (f\xDC" "r w\xD^" "chentliches Testen)"));
+          lev(dispatch<Stream>(out, "Basis-Testniveau (f\xFC" "r das permanente Testen)", "Volles Testniveau (f\xFC" "r den t\xC4" "glichen Test)", "Umfangreiches Testniveau (f\xFC" "r w\xF6" "chentliches Testen)"));
         }
 
       private :
 
-        const ::OKlib::TestSystem::TestLevel& lev; // as a reference to avoid binding to temporaries!
+        ::OKlib::TestSystem::TestLevel& lev; // as a non-const reference to avoid binding to temporaries!
       };
     }
 
