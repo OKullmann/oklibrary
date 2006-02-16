@@ -25,6 +25,7 @@
 
 #include "TimeHandling.hpp"
 #include "IOStreamFilters.hpp"
+#include "MessagesBase.hpp"
 
 #include "BasicDeclarations.hpp"
 #include "TestFondement.hpp"
@@ -81,10 +82,12 @@ namespace OKlib {
         boost::iostreams::filtering_ostream log_indent;
         log_indent.push(indent_lines);
         log_indent.push(log);
+        ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::language(log));
+        ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::level(log));
         log_indent << "Test function = " << typeid(TestFunction).name() << "\n";
         log_indent << "File name = " << file_name << "\n";
         log_indent << "Line number = " << line_number << "\n";
-        log_indent << "Test level = " << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(TestLevel()) << "\n";
+        log_indent << "Test level = " << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(::OKlib::TestSystem::test_level(TestLevel())) << "\n";
         log_indent << "Test depth = " << depth_ << std::endl;
         try {
           test(TestLevel(), log_indent);
