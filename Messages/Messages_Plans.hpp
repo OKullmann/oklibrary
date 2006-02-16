@@ -3,9 +3,7 @@
 /*!
   \file Messages_Plans.hpp
   \brief Plans for the messages module
-  \todo Write the message objects to explain languages and levels.
-  \todo Then use messages for the new test system (perhaps instead of strings
-  the test-exceptions should store message pointers).
+  \todo Write tests.
 */
 
 /*!
