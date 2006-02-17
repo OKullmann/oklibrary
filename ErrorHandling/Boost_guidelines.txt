@@ -1,0 +1,108 @@
+
+                Operating System API Error Reporting Guidelines
+
+Introduction
+
+   Operating system application program interface (API) functions may encounter
+   errors. How should these errors be reported by Boost Library functions that
+   use the operating system API?
+
+Guidelines
+
+   Unless  otherwise specified, the default versions of all Boost library
+   functions, except destructors, that call operating system API functions
+   should check for API errors and report the occurrence of such errors by
+   throwing an exception of type boost::system_error.
+
+   Such  functions  should also have an overload that takes an additional
+   argument of type boost::system_error_code& ec. The behavior of this overload
+   is the same as the non-overloaded version, except that it does not throw an
+   exception on an API error, and it sets ec to the error code reported by the
+   operating system, or to 0 if no error is reported.
+
+   For functions where the non-overloaded version returns void, the overloaded
+   version returns an object of type boost::system_error_code with the same
+   value that ec was set to.
+
+The problem
+
+   The traditional C approach to error reporting followed by many operating
+   systems  is  for  the API function to indicate failure by returning an
+   out-of-range  value,  and  to set a global variable with an error code
+   indicating the particular error condition. API functions that do no return
+   an  out-of-range  value  just set the error code global. These C error
+   reporting idioms are viewed with distaste by C++ programmers:
+     * It is far too easy and common for programmers to ignore error returns.
+     * Global variables are dangerous.
+     * It is difficult in reading code that ignores errors to know if lack of
+       checking was done for a well-founded reason or simply by mistake.
+     * Checking for errors obscures otherwise clean code.
+     * Requires error checking be done immediately even though the most logical
+       place to deal with errors may be higher up in the call chain.
+     * Because the mechanism for reporting errors isn't uniform, coding errors
+       are a concern as is the need to refer excessively to documentation.
+
+   One possible C++ approach is to throw an exception whenever an operating
+   system API error occurs. The exception can capture the particular error code
+   from the operating system, or a fine-grained exception hierarchy can provide
+   a  type  for each possible error code. This approach solves all of the
+   problems of the tradition C approach, but suffers from the usual problems
+   associated with exceptions:
+     * Very time inefficient (factor of 1000 not uncommon) compared to error
+       returning codes via return statement.
+     * Clutters code with try/catch blocks when errors must be dealt with
+       immediately.
+     * May  be  totally  inappropriate  in  some  contexts  (particularly
+       destructors).
+     * Is the wrong idiom when errors are commonplace and unexceptional.
+
+   Traditionally, when C++ developers don't feel exceptions are appropriate for
+   API error reporting, they take several approaches:
+     * Unconditionally ignore the error.
+     * Provided a nothrow overload that ignores the error.
+     * Fallback to the errno approach.
+
+   None of these is entirely satisfactory, and the lack of uniformity between
+   libraries is a user irritation.
+
+Rationale
+
+   The default version of library functions, without the additional argument,
+   throws  on  errors, ensuring that error checking cannot be ignored and
+   covering the important use case where error reporting via exception is the
+   preferred mechanism.
+
+   The  overloaded  version  of  library  functions,  with the additional
+   boost::system_error_code& argument, covers both the use case where errors
+   are best ignored, and the use case where errors are best reported directly
+   rather than by exception.
+
+   Making error-reporting-by-exception uniformly the default, without any
+   attempt to prejudge the most commonly usage case, aids learning and avoids
+   endless  arguments  over  which  approach  is  "best".  Providing both
+   error-reporting-by-exception and error-reporting-by-error-code ensures
+   common use cases are accommodated, and moves the decision as to which to use
+   from the library designer to the library user.
+
+   Returning a copy of the error code, in the case of functions that otherwise
+   would otherwise return void, results in cleaner user code. No doing so in
+   the case of functions already returning a value keeps the interface simple.
+
+History
+
+   Experience with the Boost.Filesystem library led to the conclusion that both
+   error-reporting-by-exception   and  error-reporting-by-error-code  are
+   important, and which is best is highly context dependent.
+     _________________________________________________________________
+
+   Revised 17 Feb 2006
+
+   © Copyright Beman Dawes 2006
+
+   Distributed under the Boost Software License, Version 1.0. (See accompanying
+   file [1]LICENSE_1_0.txt or copy at [2]www.boost.org/LICENSE_1_0.txt)
+
+References
+
+   1. file://localhost/C|/boost/site/LICENSE_1_0.txt
+   2. http://www.boost.org/LICENSE_1_0.txt
