@@ -34,6 +34,18 @@
   For computing min efficiently, subsumption elimination
   is crucial (see SetAlgorithms/Subsumption.hpp), especially
   using the literal-clause graph.
+  \todo Computing Tr(F) can be achieved by somehow computing the
+  set of all satisfying assignment (see Module AllSolutions),
+  and then extracting the set of minimal assignments from it;
+  for example computing a DNF G equivalent to F, and then computing
+  all prime implicates.
+  \todo Another possibility is to use a "ternary DPLL", where for
+  branching variable v the three branches
+  {v} * F, <v -> 0> * F, <v -> 1> * F
+  are explored (the first branch must be explored first if global learning
+  is enabled in order to make sure that all minimal satisfying assignments
+  are found; without global learning one could investigate the other branches
+  first when performing subsumption elimination for the result).
 */
 
 #ifndef DIRECTRANSVERSALENUMERATION_ujJJ54
