@@ -23,7 +23,7 @@
 #include "Multiplexer.hpp"
 #include "MessagesMain.hpp"
 
-#include "TestBaseClass_DesignStudy.hpp"
+#include "RunTest_DesignStudy.hpp"
 
 struct is_separator : std::unary_function<char, bool> {
   const char sep;

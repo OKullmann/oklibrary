@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "TestBaseClass_DesignStudy.hpp"
+#include "RunTest_DesignStudy.hpp"
 #include "TestExceptions_DesignStudy.hpp"
 
 namespace OKlib {

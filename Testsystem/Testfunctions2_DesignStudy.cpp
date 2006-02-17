@@ -1,6 +1,6 @@
 // Oliver Kullmann, 8.1.2006 (Swansea)
 
-#include "TestBaseClass_DesignStudy.hpp"
+#include "RunTest_DesignStudy.hpp"
 
 #include "Testfunctions2_DesignStudy.hpp"
 
