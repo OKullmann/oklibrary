@@ -3,7 +3,6 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
-  \todo Testlevel objects passed to the test hierarchy should be dynamically typed.
   \todo Try to extend the level hierarchy.
   \todo In case an unknown exception is thrown, there should be a global option to
   let this exception through.
@@ -33,11 +32,12 @@ namespace OKlib {
 
     /*!
       \class TestBase
-      \brief Derived from clas Test, to be used as immediate base class for test-meta-functions.
+      \brief Derived from class Test, to be used as immediate base class for test-meta-functions.
     */
 
     template <class TestFunction>
     class TestBase : public ::OKlib::TestSystem::Test {
+
       const char* const file_name;
       typedef unsigned long int line_number_type;
       const line_number_type line_number;
@@ -47,9 +47,14 @@ namespace OKlib {
 
      protected :
 
+      const ::OKlib::TestSystem::TestLevel* level_p;
+
       typedef TestFunction test_type;
 
-      TestBase(const char* const file_name, const line_number_type line_number) : file_name(file_name), line_number(line_number), depth_(0), indentation(1) {}
+      TestBase(const char* const file_name, const line_number_type line_number) : file_name(file_name), line_number(line_number), depth_(0), indentation(1), level_p(0) {
+        assert(level_p == 0);
+      }
+
       ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
 
     public :
@@ -58,13 +63,19 @@ namespace OKlib {
 
     private :
 
-      void perform_(Basic, std::ostream& log) {
+      void perform_(Basic, std::ostream& log, const ::OKlib::TestSystem::TestLevel& level) {
+        level_p = &level;
+        assert(level_p);
         perform_and_catch(Basic(), log);
       }
-      void perform_(Full, std::ostream& log) {
+      void perform_(Full, std::ostream& log, const ::OKlib::TestSystem::TestLevel& level) {
+        level_p = &level;
+        assert(level_p);
         perform_and_catch(Full(), log);
       }
-      void perform_(Extensive, std::ostream& log) {
+      void perform_(Extensive, std::ostream& log, const ::OKlib::TestSystem::TestLevel& level) {
+        level_p = &level;
+        assert(level_p);
         perform_and_catch(Extensive(), log);
       }
 

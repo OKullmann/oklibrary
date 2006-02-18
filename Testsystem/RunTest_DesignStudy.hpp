@@ -81,7 +81,7 @@ namespace OKlib {
           bool failed = false;
           log << banner_log() << "\n" << "Test No. " << counter << std::endl;
           try {
-            level.perform(*i, log);
+            i -> perform(level, log);
           }
           catch(const OKlib::TestSystem::TestException& e) {
             ++err_counter;

@@ -9,34 +9,45 @@
 
 #define TESTFONDEMENT_bbrq28
 
+#include <cassert>
+
 namespace OKlib {
 
   namespace TestSystem {
 
-    class Basic; class Full; class Extensive;
+    class TestLevel; class Basic; class Full; class Extensive;
 
     /*!
       \class Test
       \brief The root of the (polymorphic) test hierarchy; containers of testobjects are
       containers of Test pointers.
 
-      The member function template "perform" is to be called by a "visitor" from the level
+      The private member function template "perform" is to be called by a "visitor" from the level
       hierarchy. For every test-level type which shall be passed to derived classes an overload
       of "perform_" needs to be available (otherwise the closest match with existing versions of
       perform_ is used).
     */
 
     struct Test {
+
       virtual ~Test() {}
-      template <class TestLevel>
-      void perform(TestLevel, std::ostream& log) {
-        perform_(TestLevel(), log);
-      }
-      
+      void perform(const TestLevel& level, std::ostream& log);
+      // implemented below as { level.perform(*this, log); }
+
     private :
-      virtual void perform_(Basic, std::ostream& log) = 0;
-      virtual void perform_(Full, std::ostream& log) = 0;
-      virtual void perform_(Extensive, std::ostream& log) = 0;
+
+      template <class Level>
+      void perform(Level, std::ostream& log, const TestLevel& level) {
+        assert(&level);
+        perform_(Level(), log, level);
+      }
+
+      friend class Basic;
+      virtual void perform_(Basic, std::ostream&, const TestLevel&) = 0;
+      friend class Full;
+      virtual void perform_(Full, std::ostream&, const TestLevel&) = 0;
+      friend class Extensive;
+      virtual void perform_(Extensive, std::ostream&, const TestLevel&) = 0;
     };
 
     // ###################################################
@@ -71,21 +82,26 @@ namespace OKlib {
       virtual void operator()(const VisitorTestLevel&) const = 0;
     };
 
+    inline void Test::perform(const TestLevel& level, std::ostream& log) {
+      assert(&level);
+      level.perform(*this, log);
+    }
+
     struct Basic : TestLevel {
-      void perform(Test& test, std::ostream& log) const {
-        test.perform(Basic(), log);
+      void perform(Test& test, std::ostream& log) const  {
+        test.perform(Basic(), log, *this);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
     struct Full : Basic {
       void perform(Test& test, std::ostream& log) const {
-        test.perform(Full(), log);
+        test.perform(Full(), log, *this);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
     struct Extensive : Full {
       void perform(Test& test, std::ostream& log) const {
-        test.perform(Extensive(), log);
+        test.perform(Extensive(), log, *this);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
