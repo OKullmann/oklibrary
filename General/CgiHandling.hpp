@@ -32,7 +32,7 @@
 #include "AutomatedCompilation.hpp"
 #include "ErrorHandling.hpp"
 
-#include "/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/KryptWerk/HashMD5lib.hpp"
+#include "HashMD5lib.hpp"
 
 namespace CgiHandling {
 
