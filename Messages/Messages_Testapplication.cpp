@@ -20,30 +20,24 @@ namespace Implementation {
   OKLIB_MESSAGES(M1) {
     OKLIB_MESSAGES_PRINT
 
-    template <class Stream>
-      void print(Stream& out, L<en_GB>, S<Basic>) const {
+      void print(std::ostream& out, L<en_GB>, S<Basic>) const {
       out << "M1: en_GB, Basic; pi = " << 3.14 << "\n";
     }
-    template <class Stream>
-      void print(Stream& out, L<en_GB>, S<Full>) const {
+      void print(std::ostream& out, L<en_GB>, S<Full>) const {
       out << "M1: en_GB, Full; pi = " << 3.14 << "\n";
     }
 
-    template <class Stream>
-      void print(Stream& out, L<de_DE>, S<Basic>) const {
+      void print(std::ostream& out, L<de_DE>, S<Basic>) const {
       out << "M1: de_DE, Basic; pi = " << 3.14 << "\n";
     }
-    template <class Stream>
-      void print(Stream& out, L<de_DE>, S<Full>) const {
+      void print(std::ostream& out, L<de_DE>, S<Full>) const {
       out << "M1: de_DE, Full; pi = " << 3.14 << "\n";
     }
     
-    template <class Stream>
-      void print(Stream& out, L<fr_FR>, S<Basic>) const {
+      void print(std::ostream& out, L<fr_FR>, S<Basic>) const {
       out << "M1: fr_FR, Basic; pi = " << 3.14 << "\n";
     }
-    template <class Stream>
-      void print(Stream& out, L<fr_FR>, S<Full>) const {
+      void print(std::ostream& out, L<fr_FR>, S<Full>) const {
       out << "M1: fr_FR, Full; pi = " << 3.14 << "\n";
     }
   
