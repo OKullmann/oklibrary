@@ -19,7 +19,7 @@
 #include "NumericalLimits.hpp"
 #include "StreamHandling.hpp"
 #include "TimeHandling.hpp"
-#include "XercesTools.hpp" // needs library xercesc
+// #include "XercesTools.hpp" // needs library xercesc
 #include "XMLHandling.hpp"
 
 int main() {}
