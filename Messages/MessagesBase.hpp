@@ -51,35 +51,27 @@ namespace OKlib {
     public :
 
       virtual std::ostream& print(std::ostream&) const = 0;
-      virtual std::wostream& print(std::wostream&) const = 0;
       virtual ~MessagesBase() {}
       
-      template <class Stream>
-      static ::OKlib::Messages::Languages language(Stream& out) {
+      static ::OKlib::Messages::Languages language(std::ostream& out) {
         return static_cast< ::OKlib::Messages::Languages>(out.iword(language_index()));
       }
-      template <class Stream>
-      static ::OKlib::Messages::Strata level(Stream& out) {
+      static ::OKlib::Messages::Strata level(std::ostream& out) {
         return static_cast< ::OKlib::Messages::Strata>(out.iword(level_index()));
       }
 
-      template <class Stream>
-      static Stream& set(Stream& out, const ::OKlib::Messages::Languages lang) {
+      static std::ostream& set(std::ostream& out, const ::OKlib::Messages::Languages lang) {
         out.iword(language_index()) = lang;
         out.imbue(std::locale(::OKlib::Messages::Locales[lang]));
         return out;
       }
-      template <class Stream>
-      static Stream& set(Stream& out, const ::OKlib::Messages::Strata level) {
+      static std::ostream& set(std::ostream& out, const ::OKlib::Messages::Strata level) {
         out.iword(level_index()) = level;
         return out;
       }
     };
     
     inline std::ostream& operator <<(std::ostream& out, const MessagesBase& m) {
-      return m.print(out);
-    }
-    inline std::wostream& operator <<(std::wostream& out, const MessagesBase& m) {
       return m.print(out);
     }
 
