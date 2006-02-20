@@ -30,8 +30,7 @@ namespace OKlib {
         ::OKlib::Messages::Languages foreign_language() const { return lang; }
         ::OKlib::Messages::Languages& foreign_language() { return lang; }
         
-        template <class Stream>
-          void print(Stream& out, L<en_GB>, S<Basic>) const {
+          void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           switch (lang) {
           case en_GB :
             out << "English"; break;
@@ -56,8 +55,7 @@ namespace OKlib {
           }
         }
 
-        template <class Stream>
-          void print(Stream& out, L<fr_FR>, S<Basic>) const {
+          void print(std::ostream& out, L<fr_FR>, S<Basic>) const {
           switch (lang) {
           case en_GB :
             out << "Anglais"; break;
@@ -82,8 +80,7 @@ namespace OKlib {
           }
         }
 
-        template <class Stream>
-          void print(Stream& out, L<de_DE>, S<Basic>) const {
+          void print(std::ostream& out, L<de_DE>, S<Basic>) const {
           switch (lang) {
           case en_GB :
             out << "Englisch"; break;
@@ -94,17 +91,17 @@ namespace OKlib {
           case en_AU :
             out << "Englisch (Australien)"; break;
           case fr_FR :
-            out << "Franz\xF6" "sisch"; break;
+            out << "Französisch"; break;
           case fr_CH :
-            out << "Franz\xF6" "sisch (Schweiz)"; break;
+            out << "Französisch (Schweiz)"; break;
           case de_DE :
             out << "Deutsch"; break;
           case de_AT :
-            out << "Deutsch (\xD6" "sterreich)"; break;
+            out << "Deutsch (Österreich)"; break;
           case de_CH :
             out << "Deutsch (Schweiz)"; break;
           default :
-            out << "Ohne \xDC" "bersetzung"; break;
+            out << "Ohne Übersetzung"; break;
           }
         }
 

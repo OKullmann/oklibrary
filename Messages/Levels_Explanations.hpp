@@ -28,8 +28,7 @@ namespace OKlib {
         ::OKlib::Messages::Strata other_level() const { return lev; }
         ::OKlib::Messages::Strata& other_level() { return lev; }
         
-        template <class Stream>
-          void print(Stream& out, L<en_GB>, S<Basic>) const {
+          void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           switch (lev) {
           case Basic :
             out << "basic level"; break;
@@ -41,8 +40,7 @@ namespace OKlib {
             out << "unexplained level"; break;
           }
         }
-        template <class Stream>
-          void print(Stream& out, L<en_GB>, S<Full>) const {
+          void print(std::ostream& out, L<en_GB>, S<Full>) const {
           switch (lev) {
           case Basic :
             out << "basic level (short, but still complete)"; break;
@@ -55,28 +53,26 @@ namespace OKlib {
           }
         }
 
-        template <class Stream>
-          void print(Stream& out, L<de_DE>, S<Basic>) const {
+          void print(std::ostream& out, L<de_DE>, S<Basic>) const {
           switch (lev) {
           case Basic :
             out << "Basisniveau"; break;
           case Full :
             out << "Normalniveau"; break;
           case Extensive :
-            out << "Ausf\xFC" "hrliches Niveau"; break;
+            out << "Ausführliches Niveau"; break;
           default :
             out << "Undokumentiertes Niveau"; break;
           }
         }
-        template <class Stream>
-          void print(Stream& out, L<de_DE>, S<Full>) const {
+          void print(std::ostream& out, L<de_DE>, S<Full>) const {
           switch (lev) {
           case Basic :
-            out << "Basisniveau (kurz und b\xFC" "ndig)"; break;
+            out << "Basisniveau (kurz und bündig)"; break;
           case Full :
-            out << "Normalniveau (Vollst\xE4" "ndigkeit angestrebt)"; break;
+            out << "Normalniveau (Vollständigkeit angestrebt)"; break;
           case Extensive :
-            out << "Ausf\xFC" "hrliches Niveau (auch mit Beispielen und weiteren Erkl\xE4" "rungen)"; break;
+            out << "Ausführliches Niveau (auch mit Beispielen und weiteren Erklärungen)"; break;
           default :
             out << "Undokumentiertes Niveau (Konstante mit Wert " << lev << " wird noch nicht in der entsprechenden Auswahlanweisung behandelt)"; break;
 
