@@ -37,17 +37,16 @@ namespace OKlib {
     private :
 
       template <class Level>
-      void perform(Level, std::ostream& log, const TestLevel& level) {
-        assert(&level);
-        perform_(Level(), log, level);
+      void perform(Level, std::ostream& log) {
+        perform_(Level(), log);
       }
 
       friend class Basic;
-      virtual void perform_(Basic, std::ostream&, const TestLevel&) = 0;
+      virtual void perform_(Basic, std::ostream&) = 0;
       friend class Full;
-      virtual void perform_(Full, std::ostream&, const TestLevel&) = 0;
+      virtual void perform_(Full, std::ostream&) = 0;
       friend class Extensive;
-      virtual void perform_(Extensive, std::ostream&, const TestLevel&) = 0;
+      virtual void perform_(Extensive, std::ostream&) = 0;
     };
 
     // ###################################################
@@ -89,19 +88,19 @@ namespace OKlib {
 
     struct Basic : TestLevel {
       void perform(Test& test, std::ostream& log) const  {
-        test.perform(Basic(), log, *this);
+        test.perform(Basic(), log);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
     struct Full : Basic {
       void perform(Test& test, std::ostream& log) const {
-        test.perform(Full(), log, *this);
+        test.perform(Full(), log);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
     struct Extensive : Full {
       void perform(Test& test, std::ostream& log) const {
-        test.perform(Extensive(), log, *this);
+        test.perform(Extensive(), log);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
