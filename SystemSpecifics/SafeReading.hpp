@@ -1,12 +1,6 @@
 // Oliver Kullmann, 24.10.2005 (Swansea)
 
 /*!
-  \namespace OKlib::SystemSpecifics
-  \brief Tools for handling and testing tools which are depending
-  on the operating system or the compiler.
-*/
-
-/*!
   \file SafeReading.hpp
   \brief Testing of reading fundamental types from istreams (for example, whether input representing nonrepresentable numbers are regocnised).
   \todo Write test cases according to my postings to the Boost
