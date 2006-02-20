@@ -3,6 +3,9 @@
 /*!
   \file TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
+  \todo The log-file is not passed to TestBase::print, but testobjects
+  pass message objects to the base class if they want to print a message.
+  \todo Use Messages for all output.
   \todo Try to extend the level hierarchy.
   \todo In case an unknown exception is thrown, there should be a global option to
   let this exception through.
@@ -15,7 +18,6 @@
 #include <ostream>
 #include <exception>
 
-
 #include <boost/iostreams/filtering_stream.hpp>
 
 #include "IOStreamFilters.hpp"
@@ -23,8 +25,8 @@
 
 #include "BasicDeclarations.hpp"
 #include "TestFondement.hpp"
-#include "TestLevel_Explanations.hpp"
 #include "TestExceptions_DesignStudy.hpp"
+#include "TestBaseClass_Messages.hpp"
 
 namespace OKlib {
 
@@ -39,11 +41,13 @@ namespace OKlib {
     class TestBase : public ::OKlib::TestSystem::Test {
 
       const char* const file_name;
-      typedef unsigned long int line_number_type;
-      const line_number_type line_number;
+      const ::OKlib::TestSystem::line_number_type line_number;
       ::OKlib::TestSystem::depth_number_type depth_;
+
       typedef ::OKlib::GeneralInputOutput::IndentLines indent_lines_type;
       indent_lines_type::size_type indentation;
+
+      std::ostream* log_p;
 
      protected :
 
@@ -51,9 +55,7 @@ namespace OKlib {
 
       typedef TestFunction test_type;
 
-      TestBase(const char* const file_name, const line_number_type line_number) : file_name(file_name), line_number(line_number), depth_(0), indentation(1), level_p(0) {
-        assert(level_p == 0);
-      }
+      TestBase(const char* const file_name, const ::OKlib::TestSystem::line_number_type line_number) : file_name(file_name), line_number(line_number), depth_(0), indentation(1), log_p(0), level_p(0) {}
 
       ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
 
@@ -63,38 +65,32 @@ namespace OKlib {
 
     private :
 
-      void perform_(Basic, std::ostream& log, const ::OKlib::TestSystem::TestLevel& level) {
-        level_p = &level;
-        assert(level_p);
+      void perform_(Basic, std::ostream& log) {
         perform_and_catch(Basic(), log);
       }
-      void perform_(Full, std::ostream& log, const ::OKlib::TestSystem::TestLevel& level) {
-        level_p = &level;
-        assert(level_p);
+      void perform_(Full, std::ostream& log) {
         perform_and_catch(Full(), log);
       }
-      void perform_(Extensive, std::ostream& log, const ::OKlib::TestSystem::TestLevel& level) {
-        level_p = &level;
-        assert(level_p);
+      void perform_(Extensive, std::ostream& log) {
         perform_and_catch(Extensive(), log);
       }
-
 
       template <class TestLevel>
       void perform_and_catch(TestLevel, std::ostream& log) {
         typedef TestLevel level_type;
+        level_p = &::OKlib::TestSystem::test_level(TestLevel());
+        assert(level_p);
         ::OKlib::GeneralInputOutput::IndentLines indent_lines;
         indent_lines.indentation() = indentation;
         boost::iostreams::filtering_ostream log_indent;
+        log_p = &log_indent;
+        assert(log_p);
         log_indent.push(indent_lines);
         log_indent.push(log);
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::language(log));
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::level(log));
-        log_indent << "Test function = " << typeid(TestFunction).name() << "\n";
-        log_indent << "File name = " << file_name << "\n";
-        log_indent << "Line number = " << line_number << "\n";
-        log_indent << "Test level = " << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(::OKlib::TestSystem::test_level(TestLevel())) << "\n";
-        log_indent << "Test depth = " << depth_ << std::endl;
+
+        log_indent << ::OKlib::TestSystem::Documentation::BasicTestDescription(typeid(TestFunction).name(), file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
         try {
           test(TestLevel(), log_indent);
         }
@@ -123,6 +119,11 @@ namespace OKlib {
       }
 
     protected :
+
+      void log(const ::OKlib::Messages::MessagesBase* const m, ::OKlib::TestSystem::line_number_type const line, const char* const file) {
+        assert(log_p);
+        *log_p << *m;
+      }
       std::ostream& log_message(std::ostream& log, ::OKlib::TestSystem::line_number_type line) {
         return log << "log at line " << line << ": ";
       }
