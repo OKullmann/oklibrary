@@ -155,18 +155,19 @@
      and no need to recreate it if it's already there. Or, perhaps better: We just leave it in
      the distribution directory?
    - Building boost should include copying the documentation to doc (in the subdirectory
-   boost-1_33_1 for example).
+     boost-1_33_1 for example).
    - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
    - If variable "gcc-version" is set, then it should have one of the allowed values (while otherwise we get
      an error).
-    - Optionally there should be also local versions of valgrind and doxygen.
+   - Optionally there should be also local versions of valgrind and doxygen.
+   - Build a local version of Xerces.
    - "make initialise-database" should work with the recommended version.
    - Build a local version of gmp.
    - Update PostgreSQL to version 8.1 (and test it).
    - Build the R system (locally and globally).
-   - SOCI (soci.sourceforge.net)
-   - gcc-xml (www.gccxml.org)
+   - SOCI (soci.sourceforge.net) ?
+   - gcc-xml (www.gccxml.org) ?
 
   \todo "Full test": makefile at the OKplatform level --- there the
   different versions of gcc and boost are visible. "make check" at
