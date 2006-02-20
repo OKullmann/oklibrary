@@ -3,12 +3,10 @@
 /*!
   \file Languages.hpp
   \brief Design study for the language system
-  \todo How to get Umlaute ?! It seems:
-   - ae = 228 (xE4), Ae = 196 (xC4)
-   - oe = 246 (xF6), Oe = 214 (xD6)
-   - ue = 252 (xFC), Ue = 220 (xDC)
-   - ss = 223 (xDF)
-   \todo fr_CA disabled due to an error in g++ (3.4.3 - 4.0.2). Fixed in 4.0.3.
+
+  The message system is based on "raw" character sequences, assuming the UTF-8
+  interpretation of the output. Easiest input by assuming UTF-8 encoding of the source code file.
+  \todo fr_CA disabled due to an error in g++ (3.4.3 - 4.0.2). Fixed in 4.0.3.
 */
 
 #ifndef LANGUAGES_8UyTre
