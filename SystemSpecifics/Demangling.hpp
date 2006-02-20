@@ -1,0 +1,52 @@
+// Oliver Kullmann, 18.2.2006 (Swansea)
+
+/*!
+  \file Demangling.hpp
+  \brief Translating type names in a readable form
+
+  Users need to link with -liberty.
+  \todo Write a testfunction (which first defines an MPL-vector of pairs of
+  types and expected descriptions, and then just runs through it).
+  \todo Is "cplus_demangle" the right function to call?
+  \todo Is DMGL_TYPES the right option? Are there other useful options?
+*/
+
+#ifndef DEMANGLING_uHHalal0
+
+#define DEMANGLING_uHHalal0
+
+#include <functional>
+#include <string>
+#include <cassert>
+#include <cstdlib>
+
+#include "demangle.h"
+// this is /usr/include/demangle.h
+
+namespace OKlib {
+
+  namespace SystemSpecifics {
+
+    /*!
+      \class Demangle
+      \brief Functor, translating mangled type names into plain type names (both as C-strings).
+    */
+
+    struct Demangle : std::unary_function<const char*, const char*> {
+      std::string operator ()(const char* const name) const {
+        struct C_str {
+          char* const s;
+          C_str(char* const s) : s(s) { assert(s); }
+          ~C_str() { std::free(s); }
+        };
+        const C_str c_str(cplus_demangle(name, DMGL_TYPES));
+        std::string result(c_str.s);
+        return result;
+      }
+    };
+    
+  }
+
+}
+
+#endif
