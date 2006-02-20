@@ -26,31 +26,26 @@ namespace OKlib {
 
         TestLevelDescriptions(::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
 
-        template <class Stream>
         struct dispatch : ::OKlib::TestSystem::VisitorTestLevel {
-          Stream& out;
+          std::ostream& out;
           const char* const b; const char* const f; const char* const e;
-          dispatch(Stream& out, const char* const b, const char* const f, const char* const e) : out(out), b(b), f(f), e(e) {}
+          dispatch(std::ostream& out, const char* const b, const char* const f, const char* const e) : out(out), b(b), f(f), e(e) {}
           void operator()(::OKlib::TestSystem::Basic) const { out << b; }
           void operator()(::OKlib::TestSystem::Full) const { out << f; }
           void operator()(::OKlib::TestSystem::Extensive) const { out << e; }
         };
 
-        template <class Stream>
-          void print(Stream& out, L<en_GB>, S<Basic>) const {
-          lev(dispatch<Stream>(out, "Basic test level", "Full test level", "Extensive test level"));
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+          lev(dispatch(out, "Basic test level", "Full test level", "Extensive test level"));
         }
-        template <class Stream>
-          void print(Stream& out, L<en_GB>, S<Full>) const {
-          lev(dispatch<Stream>(out, "Basic test level (used for permanent testing)", "Full test level (for the daily test)", "Extensive test level (for the weekly test)"));
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          lev(dispatch(out, "Basic test level (used for permanent testing)", "Full test level (for the daily test)", "Extensive test level (for the weekly test)"));
         }
-        template <class Stream>
-          void print(Stream& out, L<de_DE>, S<Basic>) const {
-          lev(dispatch<Stream>(out, "Basis-Testniveau", "Volles Testniveau", "Umfangreiches Testniveau"));
+        void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+          lev(dispatch(out, "Basis-Testniveau (\"basic\")", "Volles Testniveau (\"full\")", "Umfangreiches Testniveau (\"extensive\")"));
         }
-        template <class Stream>
-          void print(Stream& out, L<de_DE>, S<Full>) const {
-          lev(dispatch<Stream>(out, "Basis-Testniveau (f\xFC" "r das permanente Testen)", "Volles Testniveau (f\xFC" "r den t\xC4" "glichen Test)", "Umfangreiches Testniveau (f\xFC" "r w\xF6" "chentliches Testen)"));
+        void print(std::ostream& out, L<de_DE>, S<Full>) const {
+          lev(dispatch(out, "Basis-Testniveau (\"basic\"; für das laufende Testen)", "Volles Testniveau (\"full\"; z.B. für den täglichen Test)", "Umfangreiches Testniveau (\"extensive\"; z.B. für den wöchentlichen Test)"));
         }
 
       private :
