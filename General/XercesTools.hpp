@@ -69,16 +69,16 @@ namespace XercesTools {
   // Tools for xml-string handling
 
   inline const std::string x2s (const XMLCh* const X) {
-    const char * const Z = XMLString::transcode(X);
+    const char * const Z = xercesc::XMLString::transcode(X);
     std::string E(Z);
     delete [] Z;
     return E;
   }
 
   inline void write_xml(std::ostream& target, const XMLCh* const s) {
-     struct transformation {
+    struct transformation {
       const char * const p;
-      transformation(const XMLCh* const s) : p(XMLString::transcode(s)) {}
+      transformation(const XMLCh* const s) : p(xercesc::XMLString::transcode(s)) {}
       ~transformation() { delete [] p; }
     };
     transformation transformation(s);
@@ -161,7 +161,8 @@ namespace  XercesTools {
     checked() {}
     checked(const T& t) : t(t) {}
     operator const T() const { return t; }
-    friend std::istream& operator >> <> (std::istream&, checked&);
+    template <typename>
+    friend std::istream& operator >> (std::istream&, checked<T>&);
   };
   template <typename T>
   std::istream& operator >> (std::istream& i, checked<T>& t) {
@@ -267,7 +268,7 @@ namespace  XercesTools {
     SimpleElementAttributeHandling() : text_activated(false) {}
     ~SimpleElementAttributeHandling() {}
 
-    void startElement_(const XMLCh* const name_, AttributeList& atts) {
+    void startElement_(const XMLCh* const name_, xercesc::AttributeList& atts) {
       const std::string& name = x2s(name_);
       if (not text_activated) {
 	if (element_map.find(name) != element_map.end())
@@ -339,18 +340,18 @@ namespace  XercesTools {
   // The handler class for extraction of xml-elements and attributes --------
 
   template <class ElementAttributeHandler>
-  class Unique_content_extraction_handler : public HandlerBase, public ElementAttributeHandler {
+  class Unique_content_extraction_handler : public xercesc::HandlerBase, public ElementAttributeHandler {
   public :
     Unique_content_extraction_handler() {}
 
-    void startElement(const XMLCh* const name, AttributeList& atts) {
-      startElement_(name, atts);
+    void startElement(const XMLCh* const name, xercesc::AttributeList& atts) {
+      ElementAttributeHandler::startElement_(name, atts);
      }
     void endElement(const XMLCh* const name) {
-      endElement_(name);
+      ElementAttributeHandler::endElement_(name);
     }
     void characters(const XMLCh* const text, const unsigned int length) {
-      characters_(text, length);
+      ElementAttributeHandler::characters_(text, length);
     }
   };
 
@@ -444,11 +445,11 @@ namespace  XercesTools {
 
   // Simple error handler
 
-  class SimpleErrorHandler : public HandlerBase {
-    void error(const SAXParseException& f) { throw f; }
+  class SimpleErrorHandler : public xercesc::HandlerBase {
+    void error(const xercesc::SAXParseException& f) { throw f; }
     // for non-fatal errors; in case of fatal errors a SAXException
     // is thrown
-    void warning(const SAXParseException& f) { throw f; }
+    void warning(const xercesc::SAXParseException& f) { throw f; }
   };
 
 }
@@ -483,19 +484,19 @@ namespace  XercesTools {
 
   }
 
-  inline const std::string XMLError2string(const XMLException& e, MessageHandling::Sprachen L = MessageHandling::English) {
+  inline const std::string XMLError2string(const xercesc::XMLException& e, MessageHandling::Sprachen L = MessageHandling::English) {
     MessageHandling::Messages<ErrorMessages::AnzahlSprachen> M(ErrorMessages::Messages, L);
     std::ostringstream s;
     s << M(0) << " " << M(1) << e.getType() << "; " << M(2) << e.getMessage() << "; " << M(3) << e.getSrcFile() << "; " << M(4) << e.getSrcLine();
     return s.str();
   }
 
-  inline const std::string SAXError2string(const SAXException& e, MessageHandling::Sprachen L = MessageHandling::English) {
+  inline const std::string SAXError2string(const xercesc::SAXException& e, MessageHandling::Sprachen L = MessageHandling::English) {
     MessageHandling::Messages<ErrorMessages::AnzahlSprachen> M(ErrorMessages::Messages, L);
     std::ostringstream s;
     try {
       
-      const SAXParseException& e2 = dynamic_cast<const SAXParseException&>(e);
+      const xercesc::SAXParseException& e2 = dynamic_cast<const xercesc::SAXParseException&>(e);
       s << M(6) << " " << M(2) << e2.getMessage() << "; " << M(3) << e2.getSystemId() << "; " << M(4) << e2.getLineNumber() << "; " << M(7) << e2.getColumnNumber();
     return s.str();
     }
@@ -533,13 +534,13 @@ namespace  XercesTools {
     bool active() const { return active_; }
     void initialise() {
       if (not active_) {
-	XMLPlatformUtils::Initialize();
+        xercesc::XMLPlatformUtils::Initialize();
 	active_ = true;
       }
     }
     void terminate() {
       if (active_) {
-	XMLPlatformUtils::Terminate();
+        xercesc::XMLPlatformUtils::Terminate();
 	active_ = false;
       }
     }
@@ -563,8 +564,8 @@ namespace  XercesTools {
 
   class SimpleParserWrapper : private InitBasis {
   public :
-    SimpleParserWrapper(DocumentHandler * const DH) {
-      parser.setValidationScheme(SAXParser::Val_Auto);
+    SimpleParserWrapper(xercesc::DocumentHandler * const DH) {
+      parser.setValidationScheme(xercesc::SAXParser::Val_Auto);
       parser.setErrorHandler(&errhandler);
       parser.setDocumentHandler(DH);
     }
@@ -577,7 +578,7 @@ namespace  XercesTools {
 
   private :
     SimpleErrorHandler errhandler;
-    SAXParser parser;
+    xercesc::SAXParser parser;
   };
 
 }
