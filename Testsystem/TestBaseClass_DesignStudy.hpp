@@ -37,7 +37,6 @@ namespace OKlib {
       \brief Derived from class Test, to be used as immediate base class for test-meta-functions.
     */
 
-    template <class TestFunction>
     class TestBase : public ::OKlib::TestSystem::Test {
 
       const char* const file_name;
@@ -53,9 +52,9 @@ namespace OKlib {
 
       const ::OKlib::TestSystem::TestLevel* level_p;
 
-      typedef TestFunction test_type;
+      const char* const test_function_type_name;
 
-      TestBase(const char* const file_name, const ::OKlib::TestSystem::line_number_type line_number) : file_name(file_name), line_number(line_number), depth_(0), indentation(1), log_p(0), level_p(0) {}
+      TestBase(const char* const file_name, const ::OKlib::TestSystem::line_number_type line_number, const char* const test_function) : file_name(file_name), line_number(line_number), depth_(0), indentation(1), log_p(0), level_p(0), test_function_type_name(test_function) {}
 
       ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
 
@@ -90,7 +89,7 @@ namespace OKlib {
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::language(log));
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::level(log));
 
-        log_indent << ::OKlib::TestSystem::Documentation::BasicTestDescription(typeid(TestFunction).name(), file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
+        log_indent << ::OKlib::TestSystem::Documentation::BasicTestDescription(test_function_type_name, file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
         try {
           test(TestLevel(), log_indent);
         }
