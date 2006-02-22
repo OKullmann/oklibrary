@@ -83,6 +83,7 @@
     - Which compiler options are effective when linking?
     - The build system should find out whether the platform is 32- or 64-bit, and select then only
       the needed links.
+    - What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
     - Except of in Buildsystem, all other makefile_generic-versions should be links.
       See makefile_recursive above.
       A problem here is, that it seems that links are not handled by CVS ?
