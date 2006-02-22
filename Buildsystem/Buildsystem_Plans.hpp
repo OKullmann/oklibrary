@@ -3,8 +3,11 @@
 /*!
   \file Buildsystem_Plans.hpp
 
-  \todo makefiles in general should always have the suffix .mak,
-  so that for examples xemacs regocnises the format.
+  \todo Makefiles in general:
+   - Makefiles should always have the suffix .mak,
+     so that for examples xemacs recognises the format.
+   - Larger makefiles should be composed (via inclusion) out of small makefiles.
+   - We should use make-functions.
 
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs
@@ -77,6 +80,9 @@
       contains a test program, and has also sub-directories with test programs.
    
    \todo makefile_generic
+    - Which compiler options are effective when linking?
+    - The build system should find out whether the platform is 32- or 64-bit, and select then only
+      the needed links.
     - Except of in Buildsystem, all other makefile_generic-versions should be links.
       See makefile_recursive above.
       A problem here is, that it seems that links are not handled by CVS ?
@@ -108,11 +114,9 @@
       perhaps the best is that the build system mimics the source directory structure in
       lib/Tests.
     - We have the following problem:
-      If one is using different paths due to symbolic links, then the
-      dependency files contain unusable information (and must be
-      deleted with "make cleandep").
-      This problem seems hard to solve (one had to find out that
-      different paths lead to the same file).
+      If one is using different paths due to symbolic links, then the dependency files contain
+      unusable information (and must be deleted with "make cleandep").
+      This problem seems hard to solve (one had to find out that different paths lead to the same file).
       So it must be documented well.
     - We should support using a tool like TextFilt or STLFilt.
 
