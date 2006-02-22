@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "ArithmeticalFunctions_Testobjects.hpp"
+#include <Transitional/NumberTheory/ArithmeticalFunctions_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

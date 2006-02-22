@@ -14,7 +14,7 @@
 #include <boost/preprocessor/seq/to_tuple.hpp>
 #include <boost/preprocessor/tuple/to_list.hpp>
 
-#include "MessagesBase.hpp"
+#include <Transitional/Messages/MessagesBase.hpp>
 
 namespace OKlib {
 

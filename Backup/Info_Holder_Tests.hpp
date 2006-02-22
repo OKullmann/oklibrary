@@ -4,8 +4,8 @@
 
 #define INFOHOLDERTESTS_hg87t92gvvbahdii
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
   

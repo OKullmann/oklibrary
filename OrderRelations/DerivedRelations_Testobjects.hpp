@@ -4,8 +4,8 @@
 
 #define DERIVEDRELATIONSTESTOBJECTS_1016YhB
 
-#include "DerivedRelations.hpp"
-#include "DerivedRelations_Tests.hpp"
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
+#include <Transitional/OrderRelations/DerivedRelations_Tests.hpp>
 
 namespace OKlib {
 

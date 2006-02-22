@@ -9,16 +9,16 @@
 
 #define VARIABLESTESTS_kkgFre3
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "LibraryBasics.hpp"
-#include "Basics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <Transitional/Concepts/Basics_Tests.hpp>
 
-#include "TypeTraits.hpp"
-#include "index_type.hpp"
+#include <Transitional/Traits/TypeTraits.hpp>
+#include <Transitional/Traits/index_type.hpp>
 
-#include "Variables.hpp"
+#include <Transitional/Concepts/Variables.hpp>
 
 namespace OKlib {
 

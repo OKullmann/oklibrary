@@ -4,8 +4,8 @@
 
 #define BASICMAPOPERATIONSTESTOBJECTS_alakah66
 
-#include "BasicMapOperations.hpp"
-#include "BasicMapOperations_Tests.hpp"
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/SetAlgorithms/BasicMapOperations_Tests.hpp>
 
 namespace OKlib {
 

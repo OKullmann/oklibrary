@@ -1,15 +1,5 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-ifdef BIBLIOTHEK
-  Bibliothek := -I$(BIBLIOTHEK)
-else
-  Bibliothek :=
-endif
-ifdef OKTESTSYSTEM
-  OKTestsystem := -I$(OKTESTSYSTEM)
-else
-  OKTestsystem :=
-endif
 ifdef OKMETAPROGRAMMING
   OKMetaProgramming := -I$(OKMETAPROGRAMMING)
 else
@@ -30,6 +20,13 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
+ifdef OKSYSTEM
+  OKSystem := -I$(OKSYSTEM)
+else
+  OKSystem := 
+endif
+
+OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -38,7 +35,7 @@ test_program := TestConcepts
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKMetaProgramming)
+source_libraries =  $(Boost) $(OKTestsystem) $(OKMetaProgramming) $(OKSystem)
 
 link_libraries := 
 

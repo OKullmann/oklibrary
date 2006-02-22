@@ -18,8 +18,8 @@
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/mpl/if.hpp>
 
-#include "TypeTraitsContainer.hpp"
-#include "TaggingPolymorphism.hpp"
+#include <Transitional/Traits/TypeTraitsContainer.hpp>
+#include <Transitional/MetaProgramming/TaggingPolymorphism.hpp>
 
 namespace OKlib {
 

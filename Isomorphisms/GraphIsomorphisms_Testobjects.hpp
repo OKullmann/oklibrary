@@ -4,8 +4,8 @@
 
 #define GRAPHISOMORPHISMSTESTOBJECTS_ttGvfr4
 
-#include "GraphIsomorphisms.hpp"
-#include "GraphIsomorphisms_Tests.hpp"
+#include <Transitional/Isomorphisms/GraphIsomorphisms.hpp>
+#include <Transitional/Isomorphisms/GraphIsomorphisms_Tests.hpp>
 
 namespace OKlib {
 

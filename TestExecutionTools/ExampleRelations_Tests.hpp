@@ -13,8 +13,8 @@
 
 #include <boost/iterator/counting_iterator.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
 

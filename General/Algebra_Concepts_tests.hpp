@@ -6,7 +6,7 @@
 
 #include <cassert>
 
-#include "NumberTheory_Models.hpp"
+#include <Transitional/General/NumberTheory_Models.hpp>
 
 namespace Algebra_Concepts_tests {
 

@@ -4,10 +4,10 @@
 
 #define SINGLERESULTTESTOBJECTS_BVcr678
 
-#include "ResultElements_Tests.hpp"
+#include <Transitional/Concepts/ResultElements_Tests.hpp>
 
-#include "SingleResult.hpp"
-#include "SingleResult_Tests.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/SingleResult_Tests.hpp>
 
 namespace OKlib {
 

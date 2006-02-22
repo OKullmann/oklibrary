@@ -4,7 +4,7 @@
 
 #define CONCEPTSMETAFUNCTIONSTESTS_719GbWq
 
-#include "ConceptsBase.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
 
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>

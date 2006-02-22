@@ -15,12 +15,12 @@
 #include <ios>
 #include <ostream>
 
-#include "BasicMapOperations.hpp"
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include "SingleResult.hpp"
-#include "ParsingSingleResult.hpp"
-#include "Scoring.hpp"
-#include "AnalysisTools.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/Scoring.hpp>
+#include <Transitional/SAT-Competition/AnalysisTools.hpp>
 
 template <bool with_extension>
 struct result_database {

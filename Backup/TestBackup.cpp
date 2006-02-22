@@ -4,12 +4,12 @@
 
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "Backup_Testobjects.hpp"
-#include "Command_Caller_Testobjects.hpp"
-#include "Info_Holder_Testobjects.hpp"
-#include "Path_Loader_Testobjects.hpp"
+#include <Transitional/Backup/Backup_Testobjects.hpp>
+#include <Transitional/Backup/Command_Caller_Testobjects.hpp>
+#include <Transitional/Backup/Info_Holder_Testobjects.hpp>
+#include <Transitional/Backup/Path_Loader_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

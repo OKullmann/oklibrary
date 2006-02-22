@@ -21,9 +21,9 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "Latex_Handler_Implementation.hpp"
-#include "Doc_Object_Implementation.hpp"
-#include "Table_Object_Implementation.hpp"
+#include <Transitional/LaTeX/Latex_Handler_Implementation.hpp>
+#include <Transitional/LaTeX/Doc_Object_Implementation.hpp>
+#include <Transitional/LaTeX/Table_Object_Implementation.hpp>
 
 namespace Doc_Gen {
   

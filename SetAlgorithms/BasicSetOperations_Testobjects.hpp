@@ -4,8 +4,8 @@
 
 #define BASICSETOPERATIONSTESTOBJECTS_llLn4rT
 
-#include "BasicSetOperations.hpp"
-#include "BasicSetOperations_Tests.hpp"
+#include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
+#include <Transitional/SetAlgorithms/BasicSetOperations_Tests.hpp>
 
 namespace OKlib {
 

@@ -4,8 +4,8 @@
 
 #define TYPETRAITSTESTOBJECTS_78UiJh0
 
-#include "TypeTraits.hpp"
-#include "TypeTraits_Tests.hpp"
+#include <Transitional/Traits/TypeTraits.hpp>
+#include <Transitional/Traits/TypeTraits_Tests.hpp>
 
 namespace OKlib {
 

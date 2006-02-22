@@ -62,13 +62,15 @@ srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
 
 endif
 
-ifndef OKBuildsystem
-  ifdef OKBUILDSYSTEM
-    OKBuildsystem := $(OKBUILDSYSTEM)
+ifndef OKSystem
+  ifdef OKSYSTEM
+    OKSystem := $(OKSYSTEM)
   else
-    $(error Either OKBuildsystem or OKBUILDSYSTEM must be defined!)
+    $(error Either OKSystem or OKSYSTEM must be defined!)
   endif
 endif
+
+OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
 
 ifndef Boost
   ifdef BOOST
@@ -93,7 +95,7 @@ include $(srcdir)/makefile.definitions.mak
 # link_libraries
 # Root
 
-source_libraries += -I$(srcdir)
+
 
 prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 
@@ -101,14 +103,14 @@ exec_prefix := $(prefix)
 bindir := $(exec_prefix)/bin
 libdir := $(exec_prefix)/lib
 
-includedir := $(prefix)/include
+#includedir := $(prefix)/include
 
 aux_dir := $(prefix)/aux
 
 doc_dir := $(prefix)/doc
 html_dir := $(doc_dir)/html
 
-Directories := $(bindir) $(libdir) $(includedir) $(aux_dir) $(doc_dir) $(html_dir)
+Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir)
 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
@@ -128,10 +130,10 @@ programs_optimised := $(programs:=$(name_addition))
 
 header_files_cpp := $(wildcard $(srcdir)/*.hpp)
 header_files_cpp := $(notdir $(header_files_cpp))
-header_files_cpp :=  $(addprefix $(includedir)/, $(header_files_cpp))
+#header_files_cpp :=  $(addprefix $(includedir)/, $(header_files_cpp))
 header_files_c := $(wildcard $(srcdir)/*.h)
 header_files_c := $(notdir $(header_files_c))
-header_files_c :=  $(addprefix $(includedir)/, $(header_files_c))
+#header_files_c :=  $(addprefix $(includedir)/, $(header_files_c))
 header_files := $(header_files_cpp) $(header_files_c)
 
 compilation_units_cpp := $(wildcard $(srcdir)/*.cpp)
@@ -159,7 +161,7 @@ object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimis
 test_file := $(srcdir)/test
 testop_file := $(srcdir)/testop
 
-doxy_file := $(includedir)/Doxyfile
+#doxy_file := $(includedir)/Doxyfile
 
 CXX := g++
 CC := gcc
@@ -238,10 +240,10 @@ endif
 $(Directories) : % :
 	mkdir $@
 
-$(header_files_cpp) : $(includedir)/%.hpp : $(srcdir)/%.hpp
-	cp $< $@
-$(header_files_c) : $(includedir)/%.h : $(srcdir)/%.h
-	cp $< $@
+#$(header_files_cpp) : $(includedir)/%.hpp : $(srcdir)/%.hpp
+#	cp $< $@
+#$(header_files_c) : $(includedir)/%.h : $(srcdir)/%.h
+#	cp $< $@
 
 
 $(dependency_files_cpp) : $(aux_dir)/%.d : $(srcdir)/%.cpp
@@ -263,16 +265,13 @@ $(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c
 define get-link_libraries
 $$(if [[ -e $(srcdir)/$*.link_libraries ]]; then $(srcdir)/$*.link_libraries; else echo $(link_libraries); fi)
 endef
-define get-link_libraries_optimised
-$$(if [[ -e $(srcdir)/$*.link_libraries_optimised ]]; then $(srcdir)/$*.link_libraries_optimised; else if [[ -e $(srcdir)/$*.link_libraries ]]; then $(srcdir)/$*.link_libraries; else echo $(link_libraries); fi; fi)
-endef
 
 export
 
 $(programs) : $(bindir)/% : $(libdir)/%.o
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-link_libraries)
 $(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries_optimised)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries)
 
 
 # --------------------------------

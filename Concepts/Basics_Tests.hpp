@@ -28,10 +28,10 @@
 
 #include <cassert>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "std_Basics_Tests.hpp"
+#include <Transitional/Concepts/std_Basics_Tests.hpp>
 
 namespace OKlib {
 

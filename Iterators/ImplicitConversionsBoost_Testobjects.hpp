@@ -4,8 +4,8 @@
 
 #define IMPLICITCONVERSIONSBOOSTTESTOBJECTS_99855rT
 
-#include "ImplicitConversionsBoost.hpp"
-#include "ImplicitConversionsBoost_Tests.hpp"
+#include <Transitional/Iterators/ImplicitConversionsBoost.hpp>
+#include <Transitional/Iterators/ImplicitConversionsBoost_Tests.hpp>
 
 namespace OKlib {
 

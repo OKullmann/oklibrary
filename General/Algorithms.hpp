@@ -18,8 +18,8 @@
 #include <boost/random/variate_generator.hpp>
 #include <boost/random/linear_congruential.hpp>
 
-#include "IteratorHandling.hpp"
-#include "Algebra_Traits.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
+#include <Transitional/General/Algebra_Traits.hpp>
 
 
 namespace Algorithms {

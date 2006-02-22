@@ -1,8 +1,8 @@
 // Oliver Kullmann, 8.1.2006 (Swansea)
 
-#include "RunTest_DesignStudy.hpp"
+#include <Transitional/Testsystem/RunTest_DesignStudy.hpp>
 
-#include "Testfunctions2_DesignStudy.hpp"
+#include <Transitional/Testsystem/Testfunctions2_DesignStudy.hpp>
 
 namespace {
 

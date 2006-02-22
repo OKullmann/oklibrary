@@ -4,8 +4,8 @@
 
 #define IOSTREAMFILTERSTESTOBJECTS_gGVVc5
 
-#include "IOStreamFilters.hpp"
-#include "IOStreamFilters_Tests.hpp"
+#include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
+#include <Transitional/GeneralInputOutput/IOStreamFilters_Tests.hpp>
 
 namespace OKlib {
 

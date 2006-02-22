@@ -26,8 +26,8 @@
 
 #include <boost/range/functions.hpp>
 
-#include "BasicDeclarations.hpp"
-#include "TestLevel_Explanations.hpp"
+#include <Transitional/Testsystem/BasicDeclarations.hpp>
+#include <Transitional/Testsystem/TestLevel_Explanations.hpp>
 
 namespace OKlib {
 

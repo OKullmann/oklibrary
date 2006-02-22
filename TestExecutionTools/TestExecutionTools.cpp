@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "TestAlgorithms_Testobjects.hpp"
-#include "SecondOrderTestTools_Testobjects.hpp"
-#include "RelationTests_Testobjects.hpp"
-#include "ExampleRelations_Testobjects.hpp"
+#include <Transitional/TestExecutionTools/TestAlgorithms_Testobjects.hpp>
+#include <Transitional/TestExecutionTools/SecondOrderTestTools_Testobjects.hpp>
+#include <Transitional/TestExecutionTools/RelationTests_Testobjects.hpp>
+#include <Transitional/TestExecutionTools/ExampleRelations_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

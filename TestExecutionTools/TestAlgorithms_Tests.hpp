@@ -12,12 +12,12 @@
 #include <boost/iterator/counting_iterator.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include "Numerical.hpp"
+#include <Transitional/MetaProgramming/Numerical.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "SecondOrderTestTools.hpp"
+#include <Transitional/TestExecutionTools/SecondOrderTestTools.hpp>
 
 namespace OKlib {
 

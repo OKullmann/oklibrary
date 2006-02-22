@@ -16,10 +16,10 @@
 #include <boost/iterator/counting_iterator.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "ExampleRelations.hpp"
+#include <Transitional/TestExecutionTools/ExampleRelations.hpp>
 
 namespace OKlib {
 

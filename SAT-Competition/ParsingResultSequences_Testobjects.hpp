@@ -4,8 +4,8 @@
 
 #define PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
 
-#include "ParsingResultSequences.hpp"
-#include "ParsingResultSequences_Tests.hpp"
+#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

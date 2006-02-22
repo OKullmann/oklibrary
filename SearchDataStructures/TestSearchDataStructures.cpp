@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "AssociativeContainers_Testobjects.hpp"
+#include <Transitional/SearchDataStructures/AssociativeContainers_Testobjects.hpp>
 
 int main() {
 

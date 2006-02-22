@@ -4,8 +4,8 @@
 
 #define LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
 
-#include "LexicographicalEvaluation.hpp"
-#include "LexicographicalEvaluation_Tests.hpp"
+#include <Transitional/SAT-Competition/LexicographicalEvaluation.hpp>
+#include <Transitional/SAT-Competition/LexicographicalEvaluation_Tests.hpp>
 
 namespace OKlib {
 

@@ -4,8 +4,8 @@
 
 #define CONCEPTSMETAFUNCTIONSTESTOBJECTS_hnBBx36
 
-#include "ConceptsMetafunctions.hpp"
-#include "ConceptsMetafunctions_Tests.hpp"
+#include <Transitional/Concepts/ConceptsMetafunctions.hpp>
+#include <Transitional/Concepts/ConceptsMetafunctions_Tests.hpp>
 
 namespace OKlib {
 

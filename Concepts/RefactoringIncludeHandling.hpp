@@ -9,16 +9,16 @@
 
 #define REFACTORINGINCLUDEHANDLING_jjHHbgt6
 
-#include "LibraryBasics.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include "string_type.hpp"
-#include "size_type.hpp"
+#include <Transitional/Traits/string_type.hpp>
+#include <Transitional/Traits/size_type.hpp>
 
-#include "InputOutput.hpp"
+#include <Transitional/Concepts/InputOutput.hpp>
 
-#include "BoostPathCorrected.hpp"
+#include <Transitional/Refactoring/BoostPathCorrected.hpp>
 
-#include "IncludeHandling.hpp"
+#include <Transitional/Refactoring/IncludeHandling.hpp>
 
 namespace OKlib {
 

@@ -15,7 +15,7 @@
 #include <sstream>
 #include <locale>
 
-#include "StringHandling.hpp"
+#include <Transitional/General/StringHandling.hpp>
 
 namespace TimeHandling {
 

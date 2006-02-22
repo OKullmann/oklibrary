@@ -27,13 +27,13 @@
 
 #include <boost/functional.hpp>
 
-#include "BasicMapOperations.hpp"
-#include "DerivedRelations.hpp"
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
 
-#include "SingleResult.hpp"
-#include "AnalysisTools.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/AnalysisTools.hpp>
 
-#include "LexicographicalEvaluationPolicies.hpp"
+#include <Transitional/SAT-Competition/LexicographicalEvaluationPolicies.hpp>
 
 namespace OKlib {
 

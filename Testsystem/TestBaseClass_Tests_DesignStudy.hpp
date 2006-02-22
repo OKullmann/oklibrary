@@ -6,9 +6,9 @@
 
 #include <sstream>
 
-#include "TestBaseClass_DesignStudy.hpp"
-#include "RunTest_DesignStudy.hpp"
-#include "TestExceptions_DesignStudy.hpp"
+#include <Transitional/Testsystem/TestBaseClass_DesignStudy.hpp>
+#include <Transitional/Testsystem/RunTest_DesignStudy.hpp>
+#include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
 
 namespace OKlib {
 

@@ -11,8 +11,8 @@
 #include <sstream>
 #include <cstdlib>
 
-#include "TestExceptions.hpp"
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
 class Test1 : public OKlib::TestSystem::TestBase {
   typedef Test1 test_type;

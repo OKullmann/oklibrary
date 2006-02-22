@@ -4,8 +4,8 @@
 
 #define PARSERBASETESTOBJECTS_74719nHap
 
-#include "ParserBase.hpp"
-#include "ParserBase_Tests.hpp"
+#include <Transitional/Parsing/ParserBase.hpp>
+#include <Transitional/Parsing/ParserBase_Tests.hpp>
 
 namespace OKlib {
 

@@ -4,10 +4,10 @@
 
 #define RESULTELEMENTTESTOBJECTS_957yBhF
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "ResultElements.hpp"
-#include "ResultElements_Tests.hpp"
+#include <Transitional/Concepts/ResultElements.hpp>
+#include <Transitional/Concepts/ResultElements_Tests.hpp>
 
 namespace OKlib {
 

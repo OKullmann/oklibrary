@@ -4,8 +4,8 @@
 
 #define SUBSUMPTIONTESTOBJECTS_8887yh
 
-#include "Subsumption.hpp"
-#include "Subsumption_Tests.hpp"
+#include <Transitional/SetAlgorithms/Subsumption.hpp>
+#include <Transitional/SetAlgorithms/Subsumption_Tests.hpp>
 
 namespace OKlib {
 

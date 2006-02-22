@@ -4,8 +4,8 @@
 
 #define SUBSETSTESTOBJECTS_hHhBv
 
-#include "Subsets.hpp"
-#include "Subsets_Tests.hpp"
+#include <Transitional/Combinatorics/Subsets.hpp>
+#include <Transitional/Combinatorics/Subsets_Tests.hpp>
 
 namespace OKlib {
 

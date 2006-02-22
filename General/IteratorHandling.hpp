@@ -18,9 +18,9 @@
 #include <boost/range/metafunctions.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include "DerivedRelations.hpp"
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
 
-#include "FunctionHandling.hpp"
+#include <Transitional/General/FunctionHandling.hpp>
 
 namespace IteratorHandling {
 

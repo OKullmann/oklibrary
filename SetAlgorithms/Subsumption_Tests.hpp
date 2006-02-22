@@ -16,10 +16,10 @@
 
 #include <boost/assign/list_of.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "OrderConstructions.hpp"
+#include <Transitional/OrderRelations/OrderConstructions.hpp>
     
 namespace OKlib {
 

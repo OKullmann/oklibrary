@@ -8,10 +8,10 @@
 #include <iostream>
 #include <memory>
 
-#include "MessagesMain.hpp"
+#include <Transitional/Messages/MessagesMain.hpp>
 
-#include "Languages_Explanations.hpp"
-#include "Levels_Explanations.hpp"
+#include <Transitional/Messages/Languages_Explanations.hpp>
+#include <Transitional/Messages/Levels_Explanations.hpp>
 
 namespace Implementation {
 

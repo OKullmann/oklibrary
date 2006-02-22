@@ -11,10 +11,10 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "ErrorHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
-#include "Algebra_Models.hpp"
-#include "Algorithms.hpp"
+#include <Transitional/General/Algebra_Models.hpp>
+#include <Transitional/General/Algorithms.hpp>
 
 int main(const int argc, const char* const argv[]) {
 

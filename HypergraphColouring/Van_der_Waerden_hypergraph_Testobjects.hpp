@@ -4,8 +4,8 @@
 
 #define VANDERWAERDENHYPERGRAPHTESTOBJECTSS_1U8VvT56
 
-#include "Van_der_Waerden_hypergraph.hpp"
-#include "Van_der_Waerden_hypergraph_Tests.hpp"
+#include <Transitional/HypergraphColouring/Van_der_Waerden_hypergraph.hpp>
+#include <Transitional/HypergraphColouring/Van_der_Waerden_hypergraph_Tests.hpp>
 
 namespace OKlib {
 

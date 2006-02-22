@@ -4,8 +4,8 @@
 
 #define ENUMERATIONASSIGNMENTSTESTOBJECTS_9ikjH
 
-#include "EnumerationAssignments.hpp"
-#include "EnumerationAssignments_Tests.hpp"
+#include <Transitional/SATAlgorithms/EnumerationAssignments.hpp>
+#include <Transitional/SATAlgorithms/EnumerationAssignments_Tests.hpp>
 
 namespace OKlib {
 

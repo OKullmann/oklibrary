@@ -17,11 +17,11 @@
 
 #include <boost/test/floating_point_comparison.hpp>
 
-#include "DatabaseHandler01.hpp"
-#include "TimeHandling.hpp"
-#include "Kommandozeile.hpp"
-#include "Algorithms.hpp"
-#include "ErrorHandling.hpp"
+#include <Transitional/General/DatabaseHandler01.hpp>
+#include <Transitional/General/TimeHandling.hpp>
+#include <Transitional/General/Kommandozeile.hpp>
+#include <Transitional/General/Algorithms.hpp>
+#include <Transitional/General/ErrorHandling.hpp>
 
 using namespace std;
 

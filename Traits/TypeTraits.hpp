@@ -14,7 +14,7 @@
 #include <boost/mpl/or.hpp>
 #include <boost/type_traits.hpp>
 
-#include "Logical.hpp"
+#include <Transitional/MetaProgramming/Logical.hpp>
 
 namespace OKlib {
 

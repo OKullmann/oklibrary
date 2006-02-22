@@ -49,10 +49,10 @@
 
 #define VARIABLES_095tYb
 
-#include "TypeTraits.hpp"
+#include <Transitional/Traits/TypeTraits.hpp>
 
-#include "LibraryBasics.hpp"
-#include "index_type.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <Transitional/Traits/index_type.hpp>
 
 namespace OKlib {
 

@@ -20,11 +20,11 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "Multiplexer.hpp"
-#include "MessagesMain.hpp"
-#include "LanguageNames.hpp"
+#include <Transitional/GeneralInputOutput/Multiplexer.hpp>
+#include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Messages/LanguageNames.hpp>
 
-#include "RunTest_DesignStudy.hpp"
+#include <Transitional/Testsystem/RunTest_DesignStudy.hpp>
 
 struct is_separator : std::unary_function<char, bool> {
   const char sep;

@@ -4,8 +4,8 @@
 
 #define BIGINTEGERSTESTOBJECTS_uJJNvf4
 
-#include "BigIntegers.hpp"
-#include "BigIntegers_Tests.hpp"
+#include <Transitional/Concepts/BigIntegers.hpp>
+#include <Transitional/Concepts/BigIntegers_Tests.hpp>
 
 namespace OKlib {
 

@@ -4,8 +4,8 @@
 
 #define COMMANDCALLERTESTS_DAH8heb9hllann
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
   

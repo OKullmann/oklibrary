@@ -2,8 +2,8 @@
 
 #define ANALYSETOTALASSIGNMENTTESTOBJECTS_mnhfc6
 
-#include "AnalyseTotalAssignment.hpp"
-#include "AnalyseTotalAssignment_Tests.hpp"
+#include <Transitional/AutarkySearch/AnalyseTotalAssignment.hpp>
+#include <Transitional/AutarkySearch/AnalyseTotalAssignment_Tests.hpp>
 
 namespace OKlib {
 

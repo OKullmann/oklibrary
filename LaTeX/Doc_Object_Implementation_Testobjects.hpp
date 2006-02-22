@@ -4,8 +4,8 @@
 
 #define DOCOBJECTIMPLEMENTATIONTESTOBJECTS_AH8tgkitwkakdshi
 
-#include "Doc_Object_Implementation.hpp"
-#include "Doc_Object_Implementation_Tests.hpp"
+#include <Transitional/LaTeX/Doc_Object_Implementation.hpp>
+#include <Transitional/LaTeX/Doc_Object_Implementation_Tests.hpp>
 
 namespace OKlib {
 

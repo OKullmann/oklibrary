@@ -13,10 +13,10 @@
 
 #include <functional>
 
-#include "IteratorHandling.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "SingleResult.hpp"
-#include "ResultProcessing.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ResultProcessing.hpp>
 
 namespace OKlib {
 

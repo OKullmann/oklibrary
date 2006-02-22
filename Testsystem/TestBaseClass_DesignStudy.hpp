@@ -20,13 +20,13 @@
 
 #include <boost/iostreams/filtering_stream.hpp>
 
-#include "IOStreamFilters.hpp"
-#include "MessagesBase.hpp"
+#include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
+#include <Transitional/Messages/MessagesBase.hpp>
 
-#include "BasicDeclarations.hpp"
-#include "TestFondement.hpp"
-#include "TestExceptions_DesignStudy.hpp"
-#include "TestBaseClass_Messages.hpp"
+#include <Transitional/Testsystem/BasicDeclarations.hpp>
+#include <Transitional/Testsystem/TestFondement.hpp>
+#include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
+#include <Transitional/Testsystem/TestBaseClass_Messages.hpp>
 
 namespace OKlib {
 

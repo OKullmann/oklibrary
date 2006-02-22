@@ -4,8 +4,8 @@
 
 #define NUMERICS_TESTOBJECTS_bbzqQal9461
 
-#include "Numerics.hpp"
-#include "Numerics_Tests.hpp"
+#include <Transitional/General/Numerics.hpp>
+#include <Transitional/General/Numerics_Tests.hpp>
 
 namespace Numerics_Testobjects {
 

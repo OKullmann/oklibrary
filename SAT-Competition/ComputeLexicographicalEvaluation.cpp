@@ -14,8 +14,8 @@
 #include <algorithm>
 #include <iostream>
 
-#include "ParsingSingleResult.hpp"
-#include "LexicographicalEvaluation.hpp"
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/LexicographicalEvaluation.hpp>
 
 template <bool with_extension>
 struct LexicographicalEvaluationRandom_from_file {

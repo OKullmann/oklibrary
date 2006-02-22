@@ -9,13 +9,13 @@
 
 #include <boost/lexical_cast.hpp>
  
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "Iterators.hpp"
-#include "LibraryBasics.hpp"
+#include <Transitional/Concepts/Iterators.hpp>
+#include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include "Van_der_Waerden_hypergraph.hpp"
+#include <Transitional/HypergraphColouring/Van_der_Waerden_hypergraph.hpp>
 
 namespace OKlib {
 

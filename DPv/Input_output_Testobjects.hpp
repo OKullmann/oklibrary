@@ -4,8 +4,8 @@
 
 #define INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
 
-#include "Input_output.hpp"
-#include "Input_output_Tests.hpp"
+#include <Transitional/DPv/Input_output.hpp>
+#include <Transitional/DPv/Input_output_Tests.hpp>
 
 namespace OKlib {
 

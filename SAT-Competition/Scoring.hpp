@@ -18,16 +18,16 @@
 
 #include <boost/format.hpp>
 
-#include "IteratorHandling.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "BasicMapOperations.hpp"
-#include "DerivedRelations.hpp"
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
 
-#include "SingleResult.hpp"
-#include "ParsingSingleResult.hpp"
-#include "ParsingResultSequences.hpp"
-#include "ResultProcessing.hpp"
-#include "AnalysisTools.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
+#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SAT-Competition/AnalysisTools.hpp>
 
 namespace OKlib {
 

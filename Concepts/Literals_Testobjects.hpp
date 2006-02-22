@@ -4,8 +4,8 @@
 
 #define LITERALSTESTOBJECTS_6yTrf
 
-#include "Literals.hpp"
-#include "Literals_Tests.hpp"
+#include <Transitional/Concepts/Literals.hpp>
+#include <Transitional/Concepts/Literals_Tests.hpp>
 
 namespace OKlib {
 

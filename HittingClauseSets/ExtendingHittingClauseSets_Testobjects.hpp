@@ -4,8 +4,8 @@
 
 #define EXTENDINGHITTINGCLAUSESETSTESTOBJECTS_03424rfv
 
-#include "ExtendingHittingClauseSets.hpp"
-#include "ExtendingHittingClauseSets_Tests.hpp"
+#include <Transitional/HittingClauseSets/ExtendingHittingClauseSets.hpp>
+#include <Transitional/HittingClauseSets/ExtendingHittingClauseSets_Tests.hpp>
 
 namespace OKlib {
 

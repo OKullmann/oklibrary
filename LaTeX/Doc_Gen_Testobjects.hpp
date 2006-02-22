@@ -4,8 +4,8 @@
 
 #define DOCGENTESTOBJECTS_mm0hgg09ghqqw
 
-#include "Doc_Gen.hpp"
-#include "Doc_Gen_Tests.hpp"
+#include <Transitional/LaTeX/Doc_Gen.hpp>
+#include <Transitional/LaTeX/Doc_Gen_Tests.hpp>
 
 namespace OKlib {
 

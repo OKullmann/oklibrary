@@ -9,8 +9,8 @@
 
 #define LOGICALTESTOBJECTS_847ncVb
 
-#include "Logical.hpp"
-#include "Logical_Tests.hpp"
+#include <Transitional/MetaProgramming/Logical.hpp>
+#include <Transitional/MetaProgramming/Logical_Tests.hpp>
 
 namespace OKlib {
 

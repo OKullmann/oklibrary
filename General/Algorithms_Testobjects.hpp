@@ -4,8 +4,8 @@
 
 #define ALGORITHMS_TESTOBJECTS_agBBv310Olk
 
-#include "Algorithms.hpp"
-#include "Algorithms_Tests.hpp"
+#include <Transitional/General/Algorithms.hpp>
+#include <Transitional/General/Algorithms_Tests.hpp>
 
 namespace Algorithms_Testobjects {
 

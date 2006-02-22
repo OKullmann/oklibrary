@@ -1,14 +1,14 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "SingleResult_Testobjects.hpp"
-#include "ParsingSingleResult_Testobjects.hpp"
-#include "ParsingResultSequences_Testobjects.hpp"
-#include "ResultProcessing_Testobjects.hpp"
-#include "AnalysisTools_Testobjects.hpp"
-#include "Scoring_Testobjects.hpp"
-#include "LexicographicalEvaluation_Testobjects.hpp"
+#include <Transitional/SAT-Competition/SingleResult_Testobjects.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult_Testobjects.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences_Testobjects.hpp>
+#include <Transitional/SAT-Competition/ResultProcessing_Testobjects.hpp>
+#include <Transitional/SAT-Competition/AnalysisTools_Testobjects.hpp>
+#include <Transitional/SAT-Competition/Scoring_Testobjects.hpp>
+#include <Transitional/SAT-Competition/LexicographicalEvaluation_Testobjects.hpp>
 
 /*!
   \file TestSAT-Competition.cpp

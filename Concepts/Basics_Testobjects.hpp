@@ -4,10 +4,10 @@
 
 #define BASICSTESTOBJECTS_pFgR554e
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "Basics.hpp"
-#include "Basics_Tests.hpp"
+#include <Transitional/Concepts/Basics.hpp>
+#include <Transitional/Concepts/Basics_Tests.hpp>
 
 namespace OKlib {
 

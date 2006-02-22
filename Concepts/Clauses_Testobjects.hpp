@@ -4,8 +4,8 @@
 
 #define CLAUSESTESTOBJECTS_plXXc
 
-#include "Clauses.hpp"
-#include "Clauses_Tests.hpp"
+#include <Transitional/Concepts/Clauses.hpp>
+#include <Transitional/Concepts/Clauses_Tests.hpp>
 
 namespace OKlib {
 

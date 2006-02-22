@@ -2,8 +2,8 @@
 
 #define ASSOCIATIVECONTAINERSTESTOBJECTS_klju76
 
-#include "AssociativeContainers.hpp"
-#include "AssociativeContainers_Tests.hpp"
+#include <Transitional/SearchDataStructures/AssociativeContainers.hpp>
+#include <Transitional/SearchDataStructures/AssociativeContainers_Tests.hpp>
 
 namespace OKlib {
 

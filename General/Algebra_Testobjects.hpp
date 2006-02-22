@@ -4,8 +4,8 @@
 
 #define ALGEBRAESTOBJECTSWAECHTER_77ggdgs3
 
-#include "Algebra_Concepts_tests.hpp"
-#include "Algebra_Models.hpp"
+#include <Transitional/General/Algebra_Concepts_tests.hpp>
+#include <Transitional/General/Algebra_Models.hpp>
 
 namespace Algebra_Concepts_tests {
 

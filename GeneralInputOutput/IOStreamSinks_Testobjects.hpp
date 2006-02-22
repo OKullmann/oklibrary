@@ -4,8 +4,8 @@
 
 #define IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
 
-#include "IOStreamSinks.hpp"
-#include "IOStreamSinks_Tests.hpp"
+#include <Transitional/GeneralInputOutput/IOStreamSinks.hpp>
+#include <Transitional/GeneralInputOutput/IOStreamSinks_Tests.hpp>
 
 
 namespace OKlib {

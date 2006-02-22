@@ -4,10 +4,10 @@
 
 #define TRIVIALVARIABLES_916TyVbx
 
-#include "concept_tag.hpp"
-#include "index_type.hpp"
+#include <Transitional/Traits/concept_tag.hpp>
+#include <Transitional/Traits/index_type.hpp>
 
-#include "Variables.hpp"
+#include <Transitional/Concepts/Variables.hpp>
 
 namespace OKlib {
 

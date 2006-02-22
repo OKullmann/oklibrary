@@ -11,7 +11,7 @@
 
 #define LANGUAGESEXPLANATIONS_8Uh26266
 
-#include "MessagesMain.hpp"
+#include <Transitional/Messages/MessagesMain.hpp>
 
 namespace OKlib {
 

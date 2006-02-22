@@ -1,10 +1,12 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-ifdef OKTESTSYSTEM
-  OKTestsystem := -I$(OKTESTSYSTEM)
+ifdef OKSYSTEM
+  OKSystem := -I$(OKSYSTEM)
 else
-  OKTestsystem :=
+  OKSystem := 
 endif
+
+OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -13,7 +15,7 @@ test_program := TestTestsystem
 
 programs := TestProgram_DesignStudy
 
-source_libraries = $(Boost) $(OKTestsystem)
+source_libraries = $(Boost) $(OKTestsystem) $(OKSystem)
 
 link_libraries := 
 

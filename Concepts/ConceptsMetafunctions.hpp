@@ -15,10 +15,10 @@
 #include <boost/type_traits.hpp>
 #include <boost/mpl/has_xxx.hpp>
 
-#include "Logical.hpp"
+#include <Transitional/MetaProgramming/Logical.hpp>
 
-#include "ConceptsBase.hpp"
-#include "concept_tag.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <Transitional/Traits/concept_tag.hpp>
 
 namespace OKlib {
 

@@ -4,10 +4,10 @@
 
 #define INPUTOUTPUTTESTOBJECTS_9Y6Tr4
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "InputOutput.hpp"
-#include "InputOutput_Tests.hpp"
+#include <Transitional/Concepts/InputOutput.hpp>
+#include <Transitional/Concepts/InputOutput_Tests.hpp>
 
 namespace OKlib {
 

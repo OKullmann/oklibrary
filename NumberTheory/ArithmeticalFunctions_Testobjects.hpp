@@ -4,8 +4,8 @@
 
 #define ARITHMETICALFUNCTIONSTESTOBJECTS_jjnb5
 
-#include "ArithmeticalFunctions.hpp"
-#include "ArithmeticalFunctions_Tests.hpp"
+#include <Transitional/NumberTheory/ArithmeticalFunctions.hpp>
+#include <Transitional/NumberTheory/ArithmeticalFunctions_Tests.hpp>
 
 namespace OKlib {
 

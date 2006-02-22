@@ -4,8 +4,8 @@
 
 #define EXCEPTIONSTESTOBJECTS_88uujN
 
-#include "Exceptions.hpp"
-#include "Exceptions_Tests.hpp"
+#include <Transitional/InputOutput/Exceptions.hpp>
+#include <Transitional/InputOutput/Exceptions_Tests.hpp>
 
 namespace OKlib {
 

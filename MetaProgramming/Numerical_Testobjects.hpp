@@ -4,8 +4,8 @@
 
 #define NUMERICALTESTOBJECTS_uHnBfqpq
 
-#include "Numerical.hpp"
-#include "Numerical_Tests.hpp"
+#include <Transitional/MetaProgramming/Numerical.hpp>
+#include <Transitional/MetaProgramming/Numerical_Tests.hpp>
 
 namespace OKlib {
 

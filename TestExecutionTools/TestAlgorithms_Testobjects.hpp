@@ -4,8 +4,8 @@
 
 #define TESTALGORITHMSTESTOBJECTS_jbbCCx4
 
-#include "TestAlgorithms.hpp"
-#include "TestAlgorithms_Tests.hpp"
+#include <Transitional/TestExecutionTools/TestAlgorithms.hpp>
+#include <Transitional/TestExecutionTools/TestAlgorithms_Tests.hpp>
 
 namespace OKlib {
 

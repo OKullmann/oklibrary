@@ -1,15 +1,6 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-ifdef BIBLIOTHEK
-  Bibliothek := -I$(BIBLIOTHEK)
-else
-  Bibliothek :=
-endif
-ifdef OKTESTSYSTEM
-  OKTestsystem := -I$(OKTESTSYSTEM)
-else
-  OKTestsystem :=
-endif
+
 ifdef OKCONCEPTS
   OKConcepts := -I$(OKCONCEPTS)
 else
@@ -30,6 +21,13 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
+ifdef OKSYSTEM
+  OKSystem := -I$(OKSYSTEM)
+else
+  OKSystem := 
+endif
+
+OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -38,8 +36,7 @@ test_program := TestOrderRelations
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKConcepts)
-
+source_libraries =  $(Boost) $(OKTestsystem) $(OKConcepts) $(OKSystem)
 link_libraries := 
 
 Root := $(wildcard ../../..)

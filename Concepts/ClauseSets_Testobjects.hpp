@@ -4,8 +4,8 @@
 
 #define CLAUSESETSTESTSOBJECTS_0556
 
-#include "ClauseSets.hpp"
-#include "ClauseSets_Tests.hpp"
+#include <Transitional/Concepts/ClauseSets.hpp>
+#include <Transitional/Concepts/ClauseSets_Tests.hpp>
 
 namespace OKlib {
 

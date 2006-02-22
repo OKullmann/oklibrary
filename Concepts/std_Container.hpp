@@ -20,11 +20,11 @@
 #include <boost/type_traits.hpp>
 #include <boost/static_assert.hpp>
 
-#include "ConceptsBase.hpp"
-#include "std_Basics.hpp"
-#include "std_Iterators.hpp"
-#include "Basics.hpp"
-#include "TypeTraits.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <Transitional/Concepts/std_Basics.hpp>
+#include <Transitional/Concepts/std_Iterators.hpp>
+#include <Transitional/Concepts/Basics.hpp>
+#include <Transitional/Traits/TypeTraits.hpp>
 
 namespace OKlib {
 

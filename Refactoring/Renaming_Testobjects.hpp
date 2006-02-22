@@ -4,8 +4,8 @@
 
 #define RENAMINGTESTOBJECTS_6y443Ed
 
-#include "Renaming.hpp"
-#include "Renaming_Tests.hpp"
+#include <Transitional/Refactoring/Renaming.hpp>
+#include <Transitional/Refactoring/Renaming_Tests.hpp>
 
 namespace OKlib {
 

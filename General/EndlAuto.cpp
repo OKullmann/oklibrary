@@ -4,7 +4,7 @@
 #include <list>
 #include <string>
 
-#include "EndlAuto.hpp"
+#include <Transitional/General/EndlAuto.hpp>
 
 namespace {
 

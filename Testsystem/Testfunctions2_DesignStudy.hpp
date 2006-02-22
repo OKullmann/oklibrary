@@ -4,10 +4,10 @@
 
 #define TESTFUNCTIONS2_kHFcD3
 
-#include "TestBaseClass_DesignStudy.hpp"
-#include "TestExceptions_DesignStudy.hpp"
+#include <Transitional/Testsystem/TestBaseClass_DesignStudy.hpp>
+#include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
 
-#include "Testfunctions_DesignStudy.hpp"
+#include <Transitional/Testsystem/Testfunctions_DesignStudy.hpp>
 
 namespace OKlib {
 

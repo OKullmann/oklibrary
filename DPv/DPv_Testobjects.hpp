@@ -4,8 +4,8 @@
 
 #define DPVTESTOBJECTS_DFSSAU8777ggt3tr9
 
-#include "DPv.hpp"
-#include "DPv_Tests.hpp"
+#include <Transitional/DPv/DPv.hpp>
+#include <Transitional/DPv/DPv_Tests.hpp>
 
 namespace OKlib {
 

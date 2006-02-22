@@ -9,9 +9,9 @@
 
 // #include <iostream> // DEBUG
 
-#include "ErrorHandling.hpp"
-#include "StreamHandling.hpp"
-#include "SystemHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/StreamHandling.hpp>
+#include <Transitional/General/SystemHandling.hpp>
 
 
 namespace AutomatedCompilation {

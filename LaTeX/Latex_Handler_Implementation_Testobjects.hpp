@@ -4,8 +4,8 @@
 
 #define LATEXHANDLERIMPLEMENTATIONTESTOBJECTS_ADHqobgq7egrbahfrG
 
-#include "Latex_Handler_Implementation.hpp"
-#include "Latex_Handler_Implementation_Tests.hpp"
+#include <Transitional/LaTeX/Latex_Handler_Implementation.hpp>
+#include <Transitional/LaTeX/Latex_Handler_Implementation_Tests.hpp>
 
 namespace OKlib {
 

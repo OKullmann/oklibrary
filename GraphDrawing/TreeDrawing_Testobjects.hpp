@@ -4,8 +4,8 @@
 
 #define TREEDRAWINGTESTOBJECTS_19191jH
 
-#include "TreeDrawing.hpp"
-#include "TreeDrawing_Tests.hpp"
+#include <Transitional/GraphDrawing/TreeDrawing.hpp>
+#include <Transitional/GraphDrawing/TreeDrawing_Tests.hpp>
 
 namespace OKlib {
 

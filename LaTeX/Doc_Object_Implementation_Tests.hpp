@@ -4,8 +4,8 @@
 
 #define DOCOBJECTIMPLEMENTATIONTESTS_H90Y0qw8qhlddaan
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
   

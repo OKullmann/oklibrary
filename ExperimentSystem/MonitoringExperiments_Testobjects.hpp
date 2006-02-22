@@ -4,8 +4,8 @@
 
 #define MONITORINGEXPERIMENTSTESTOBJECTS_9663Tr
 
-#include "MonitoringExperiments.hpp"
-#include "MonitoringExperiments_Tests.hpp"
+#include <Transitional/ExperimentSystem/MonitoringExperiments.hpp>
+#include <Transitional/ExperimentSystem/MonitoringExperiments_Tests.hpp>
 
 namespace OKlib {
 

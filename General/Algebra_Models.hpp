@@ -18,8 +18,8 @@
 #include <cassert>
 #include <ostream>
 
-#include "NumberTheory_Models.hpp"
-#include "Algorithms.hpp"
+#include <Transitional/General/NumberTheory_Models.hpp>
+#include <Transitional/General/Algorithms.hpp>
 
 namespace Algebra {
 

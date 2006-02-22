@@ -19,12 +19,12 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "IteratorHandling.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "BasicMapOperations.hpp"
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include "SingleResult.hpp"
-#include "ResultProcessing.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ResultProcessing.hpp>
 
 namespace OKlib {
 

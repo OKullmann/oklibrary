@@ -2,9 +2,9 @@
 
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "IOTools_Models_Definitions_Testobjects.hpp"
+#include <Transitional/IOTools/IOTools_Models_Definitions_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

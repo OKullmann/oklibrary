@@ -37,8 +37,8 @@
 #include <boost/range/const_iterator.hpp>
 #include <boost/utility.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
 

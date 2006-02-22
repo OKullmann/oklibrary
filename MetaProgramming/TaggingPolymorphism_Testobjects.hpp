@@ -4,8 +4,8 @@
 
 #define TAGGINGPOLYMORPHISMTESTOBJECTS_66TRT
 
-#include "TaggingPolymorphism.hpp"
-#include "TaggingPolymorphism_Tests.hpp"
+#include <Transitional/MetaProgramming/TaggingPolymorphism.hpp>
+#include <Transitional/MetaProgramming/TaggingPolymorphism_Tests.hpp>
 
 namespace OKlib {
 

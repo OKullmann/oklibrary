@@ -12,9 +12,9 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "ErrorHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
-#include "NumberTheory_Models.hpp"
+#include <Transitional/General/NumberTheory_Models.hpp>
 
 int main(const int argc, const char* const argv[]) {
 

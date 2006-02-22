@@ -16,23 +16,23 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "IteratorHandling.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "BasicMapOperations.hpp"
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "SequenceOperations.hpp"
-#include "IteratorHandling.hpp"
+#include <Transitional/SetAlgorithms/SequenceOperations.hpp>
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "SingleResult.hpp"
-#include "ResultProcessing.hpp"
-#include "ParsingSingleResult.hpp"
-#include "AnalysisTools.hpp"
-#include "ParsingResultSequences_Tests.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/AnalysisTools.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
 
-#include "LexicographicalEvaluationPolicies.hpp"
+#include <Transitional/SAT-Competition/LexicographicalEvaluationPolicies.hpp>
 
 namespace OKlib {
 

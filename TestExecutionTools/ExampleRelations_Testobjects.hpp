@@ -4,8 +4,8 @@
 
 #define EXAMPLERELATIONSTESTSOBJECTS_7735010
 
-#include "ExampleRelations.hpp"
-#include "ExampleRelations_Tests.hpp"
+#include <Transitional/TestExecutionTools/ExampleRelations.hpp>
+#include <Transitional/TestExecutionTools/ExampleRelations_Tests.hpp>
 
 namespace OKlib {
 

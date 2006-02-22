@@ -4,10 +4,10 @@
 
 #define REFACTORINGINCLUDEHANDLINGTESTOBJECTS_jjccXxs0377
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "RefactoringIncludeHandling.hpp"
-#include "RefactoringIncludeHandling_Tests.hpp"
+#include <Transitional/Concepts/RefactoringIncludeHandling.hpp>
+#include <Transitional/Concepts/RefactoringIncludeHandling_Tests.hpp>
 
 namespace OKlib {
 

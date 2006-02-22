@@ -4,10 +4,10 @@
 
 #define STDCONTAINERTESTOBJECTS_6654ama
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "std_Container.hpp"
-#include "std_Container_Tests.hpp"
+#include <Transitional/Concepts/std_Container.hpp>
+#include <Transitional/Concepts/std_Container_Tests.hpp>
 
 namespace OKlib {
 

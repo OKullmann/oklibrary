@@ -18,11 +18,11 @@
 #include <boost/assign/std/vector.hpp>
 #include <boost/tuple/tuple.hpp>
  
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "LibraryBasics.hpp"
-#include "std_Iterators.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <Transitional/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
 

@@ -4,8 +4,8 @@
 
 #define CLSISOMORPHISMSBACKTRACKINGTESTS_8uujjNN
 
-#include "CLSIsomorphisms.hpp"
-#include "CLSIsomorphisms_Tests.hpp"
+#include <Transitional/Isomorphisms/CLSIsomorphisms.hpp>
+#include <Transitional/Isomorphisms/CLSIsomorphisms_Tests.hpp>
 
 namespace OKlib {
 

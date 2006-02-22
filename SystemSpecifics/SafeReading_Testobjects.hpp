@@ -4,8 +4,8 @@
 
 #define SAFEREADINGTESTOBJECTS_valghft
 
-#include "SafeReading.hpp"
-#include "SafeReading_Tests.hpp"
+#include <Transitional/SystemSpecifics/SafeReading.hpp>
+#include <Transitional/SystemSpecifics/SafeReading_Tests.hpp>
 
 namespace OKlib {
 

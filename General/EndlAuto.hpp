@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-#include "Kommandozeile.hpp"
+#include <Transitional/General/Kommandozeile.hpp>
 
 namespace EndlicherAutomat {
 

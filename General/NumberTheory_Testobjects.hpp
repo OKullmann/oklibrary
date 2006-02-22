@@ -4,8 +4,8 @@
 
 #define NUMBERTHEORYTESTOBJECTS_dkknNnR43
 
-#include "NumberTheory_Concept_test.hpp"
-#include "NumberTheory_Models.hpp"
+#include <Transitional/General/NumberTheory_Concept_test.hpp>
+#include <Transitional/General/NumberTheory_Models.hpp>
 
 namespace NumberTheory_Testobjects {
 

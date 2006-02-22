@@ -4,8 +4,8 @@
 
 #define RELATIONTESTSTESTOBJECTS_99iu5
 
-#include "RelationTests.hpp"
-#include "RelationTests_Tests.hpp"
+#include <Transitional/TestExecutionTools/RelationTests.hpp>
+#include <Transitional/TestExecutionTools/RelationTests_Tests.hpp>
 
 namespace OKlib {
 

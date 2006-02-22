@@ -19,9 +19,9 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "ParserBase.hpp"
+#include <Transitional/Parsing/ParserBase.hpp>
 
-#include "SingleResult.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
 
 namespace OKlib {
 

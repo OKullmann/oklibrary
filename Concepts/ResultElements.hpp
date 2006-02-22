@@ -13,11 +13,11 @@
 
 #define RESULTELEMENT_6Tg5Yh
 
-#include "LibraryBasics.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include "string_type.hpp"
-#include "floating_point_type.hpp"
-#include "natural_number_type.hpp"
+#include <Transitional/Traits/string_type.hpp>
+#include <Transitional/Traits/floating_point_type.hpp>
+#include <Transitional/Traits/natural_number_type.hpp>
 
 namespace OKlib {
 

@@ -4,8 +4,8 @@
 
 #define SECONDORDERTESTTOOLSTESTOBJECTS_ooPLl9
 
-#include "SecondOrderTestTools.hpp"
-#include "SecondOrderTestTools_Tests.hpp"
+#include <Transitional/TestExecutionTools/SecondOrderTestTools.hpp>
+#include <Transitional/TestExecutionTools/SecondOrderTestTools_Tests.hpp>
 
 namespace OKlib {
 

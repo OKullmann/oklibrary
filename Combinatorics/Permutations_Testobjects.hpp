@@ -4,8 +4,8 @@
 
 #define PERMUTATIONSTESTOBJECTS_hhggf56
 
-#include "Permutations.hpp"
-#include "Permutations_Tests.hpp"
+#include <Transitional/Combinatorics/Permutations.hpp>
+#include <Transitional/Combinatorics/Permutations_Tests.hpp>
 
 namespace OKlib {
 

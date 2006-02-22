@@ -22,9 +22,9 @@
 // in this order!
 */
 
-#include "StringHandling.hpp"
-#include "FunctionHandling.hpp"
-#include "ErrorHandling.hpp"
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/FunctionHandling.hpp>
+#include <Transitional/General/ErrorHandling.hpp>
 
 #ifndef DATABASEHANDLER01WAECHTER
 

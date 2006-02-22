@@ -13,7 +13,7 @@
 #include <boost/type_traits.hpp>
 // This file is guaranteed to include the last two files, so that OKLIB_BASIC_CONCEPT_TEST always works.
 
-#include "ConceptsMetafunctions.hpp"
+#include <Transitional/Concepts/ConceptsMetafunctions.hpp>
 
 namespace OKlib {
 

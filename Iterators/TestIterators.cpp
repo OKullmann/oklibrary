@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "ImplicitConversionsBoost_Testobjects.hpp"
+#include <Transitional/Iterators/ImplicitConversionsBoost_Testobjects.hpp>
 
 int main() {
 

@@ -4,8 +4,8 @@
 
 #define RESULTPROCESSINGTESTOBJECTS_knNNw213
 
-#include "ResultProcessing.hpp"
-#include "ResultProcessing_Tests.hpp"
+#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SAT-Competition/ResultProcessing_Tests.hpp>
 
 namespace OKlib {
 

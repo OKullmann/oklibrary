@@ -4,8 +4,8 @@
 
 #define ITERATORHANDLING_TESTOBJECTS_Lgabz319K
 
-#include "IteratorHandling.hpp"
-#include "IteratorHandling_Tests.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
+#include <Transitional/General/IteratorHandling_Tests.hpp>
 
 namespace IteratorHandling_Tests {
 

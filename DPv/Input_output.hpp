@@ -22,10 +22,10 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/spirit/core.hpp>
 
-#include "ParserBase.hpp"
+#include <Transitional/Parsing/ParserBase.hpp>
 
-#include "DPv.hpp"
-#include "BasicDataStructure.hpp"
+#include <Transitional/DPv/DPv.hpp>
+#include <Transitional/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
   

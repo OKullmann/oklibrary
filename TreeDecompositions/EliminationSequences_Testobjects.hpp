@@ -6,8 +6,8 @@
 
 #include <boost/graph/adjacency_list.hpp>
 
-#include "EliminationSequences.hpp"
-#include "EliminationSequences_Tests.hpp"
+#include <Transitional/TreeDecompositions/EliminationSequences.hpp>
+#include <Transitional/TreeDecompositions/EliminationSequences_Tests.hpp>
 
 namespace OKlib {
 

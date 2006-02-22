@@ -4,8 +4,8 @@
 
 #define COMBINATORICS_TESTOBJECTS_1883GvZqLL
 
-#include "Combinatorics.hpp"
-#include "Combinatorics_Tests.hpp"
+#include <Transitional/General/Combinatorics.hpp>
+#include <Transitional/General/Combinatorics_Tests.hpp>
 
 namespace Combinatorics_Testobjects {
 

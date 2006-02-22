@@ -16,8 +16,8 @@
 #include <iosfwd>
 #include <locale>
 
-#include "Languages.hpp"
-#include "Levels.hpp"
+#include <Transitional/Messages/Languages.hpp>
+#include <Transitional/Messages/Levels.hpp>
 
 namespace OKlib {
 

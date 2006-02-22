@@ -11,14 +11,14 @@
 
 #define TRAITS_99466TTrfKl
 
-#include "concept_tag.hpp"
-#include "floating_point_type.hpp"
-#include "index_type.hpp"
-#include "natural_number_type.hpp"
-#include "size_type.hpp"
-#include "string_type.hpp"
+#include <Transitional/Traits/concept_tag.hpp>
+#include <Transitional/Traits/floating_point_type.hpp>
+#include <Transitional/Traits/index_type.hpp>
+#include <Transitional/Traits/natural_number_type.hpp>
+#include <Transitional/Traits/size_type.hpp>
+#include <Transitional/Traits/string_type.hpp>
 
-#include "TypeTraits.hpp"
-#include "TypeTraitsContainer.hpp"
+#include <Transitional/Traits/TypeTraits.hpp>
+#include <Transitional/Traits/TypeTraitsContainer.hpp>
 
 #endif

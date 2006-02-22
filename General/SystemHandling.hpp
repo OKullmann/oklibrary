@@ -28,10 +28,10 @@
 #include <signal.h> // for signal macros
 #include <sys/stat.h> // for file mode bits
 
-#include "StringHandling.hpp"
-#include "StreamHandling.hpp"
-#include "ErrorHandling.hpp"
-#include "MessageHandling.hpp"
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/StreamHandling.hpp>
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/MessageHandling.hpp>
 
 
 namespace SystemHandling {
@@ -132,7 +132,7 @@ namespace SystemHandling {
 
 // Use as follows:
 
-// #include "SystemHandling.hpp"
+#include <Transitional/General/SystemHandling.hpp>
 // SystemHandling::System_sh S;
 // SystemHandling::SystemOutput out = S("the command");
 

@@ -4,8 +4,8 @@
 
 #define SEQUENCEOPERATIONSTESTOBJECTS_1029563
 
-#include "SequenceOperations.hpp"
-#include "SequenceOperations_Tests.hpp"
+#include <Transitional/SetAlgorithms/SequenceOperations.hpp>
+#include <Transitional/SetAlgorithms/SequenceOperations_Tests.hpp>
 
 namespace OKlib {
 

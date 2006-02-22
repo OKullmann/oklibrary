@@ -4,8 +4,8 @@
 
 #define OPTIONSBASETESTOBJECTS_ooPPlk
 
-#include "OptionBase.hpp"
-#include "OptionBase_Tests.hpp"
+#include <Transitional/ProgramOptions/OptionBase.hpp>
+#include <Transitional/ProgramOptions/OptionBase_Tests.hpp>
 
 namespace OKlib {
 

@@ -18,7 +18,7 @@
 #include <cstdlib>
 #include <vector>
 
-#include "ErrorHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
 namespace StringHandling {
 

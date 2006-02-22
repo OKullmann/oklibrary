@@ -37,7 +37,7 @@
 #include <cstdlib>
 #include <cerrno>
 
-#include "Kommandozeile.hpp"
+#include <Transitional/General/Kommandozeile.hpp>
 
 using namespace std;
 

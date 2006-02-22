@@ -4,8 +4,8 @@
 
 #define MULTIPLEXERTESTOBJECTS_5RReeW
 
-#include "Multiplexer.hpp"
-#include "Multiplexer_Tests.hpp"
+#include <Transitional/GeneralInputOutput/Multiplexer.hpp>
+#include <Transitional/GeneralInputOutput/Multiplexer_Tests.hpp>
 
 namespace OKlib {
 

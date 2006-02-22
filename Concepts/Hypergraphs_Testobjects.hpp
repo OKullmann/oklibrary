@@ -4,8 +4,8 @@
 
 #define HYPERGRAPHSTESTOBJECTS_0976tyu
 
-#include "Hypergraphs.hpp"
-#include "Hypergraphs_Tests.hpp"
+#include <Transitional/Concepts/Hypergraphs.hpp>
+#include <Transitional/Concepts/Hypergraphs_Tests.hpp>
 
 namespace OKlib {
 

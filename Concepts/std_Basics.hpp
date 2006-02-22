@@ -12,7 +12,7 @@
 
 #include <boost/concept_check.hpp>
 
-#include "ConceptsBase.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
 
 namespace OKlib {
 

@@ -15,8 +15,8 @@
 #include <deque>
 #include <set>
 
-#include "std_Container.hpp"
-#include "ConceptsMetafunctions.hpp"
+#include <Transitional/Concepts/std_Container.hpp>
+#include <Transitional/Concepts/ConceptsMetafunctions.hpp>
 
 namespace OKlib {
 

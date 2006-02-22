@@ -17,10 +17,10 @@
 #include <cassert>
 #include <functional>
 
-#include "DerivedRelations.hpp"
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
 

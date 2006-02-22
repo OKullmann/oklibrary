@@ -4,8 +4,8 @@
 
 #define PARSINGSINGLERESULTTESTOBJECTSS_992ttgBa
 
-#include "ParsingSingleResult.hpp"
-#include "ParsingSingleResult_Tests.hpp"
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult_Tests.hpp>
 
 namespace OKlib {
 

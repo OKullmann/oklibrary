@@ -20,13 +20,13 @@
 #include <boost/spirit/iterator/position_iterator.hpp>
 #include <boost/filesystem/path.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "ParserBase_Tests.hpp"
+#include <Transitional/Parsing/ParserBase_Tests.hpp>
 
-#include "SingleResult.hpp"
-#include "ParsingSingleResult.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
 
 namespace OKlib {
 

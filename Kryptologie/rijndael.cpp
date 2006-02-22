@@ -44,7 +44,7 @@
 
 #define _RIJNDAEL_CPP_
 
-#include "rijndael.hpp"
+#include <Transitional/Kryptologie/rijndael.hpp>
 
 #include <cstring>
 

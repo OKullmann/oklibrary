@@ -1,10 +1,6 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-ifdef BIBLIOTHEK
-  Bibliothek := -I$(BIBLIOTHEK)
-else
-  Bibliothek :=
-endif
+
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -20,6 +16,13 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
+ifdef OKSYSTEM
+  OKSystem := -I$(OKSYSTEM)
+else
+  OKSystem := 
+endif
+
+OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
 
 General_options :=
 Optimisation_options := -O3
@@ -28,7 +31,7 @@ test_program := TestKryptologie
 
 programs := HashMD5
 
-source_libraries =
+source_libraries = $(OKSystem)
 
 link_libraries := -lmhash
 

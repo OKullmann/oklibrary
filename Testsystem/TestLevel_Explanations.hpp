@@ -9,9 +9,9 @@
 
 #define TESTLEVELEXPLANATIONS_uYYtr5
 
-#include "MessagesMain.hpp"
+#include <Transitional/Messages/MessagesMain.hpp>
 
-#include "TestFondement.hpp"
+#include <Transitional/Testsystem/TestFondement.hpp>
 
 namespace OKlib {
 

@@ -27,9 +27,9 @@
 #include <boost/mpl/or.hpp>
 #include <boost/type_traits.hpp>
 
-#include "ConceptsBase.hpp"
-#include "std_Basics.hpp"
-#include "Basics.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <Transitional/Concepts/std_Basics.hpp>
+#include <Transitional/Concepts/Basics.hpp>
 
 namespace OKlib {
 

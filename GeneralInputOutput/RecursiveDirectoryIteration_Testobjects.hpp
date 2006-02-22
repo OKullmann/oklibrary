@@ -2,8 +2,8 @@
 
 #define RECURSIVEDIRECTORYITERATIONTESTOBJECTS_w34iwa
 
-#include "RecursiveDirectoryIteration.hpp"
-#include "RecursiveDirectoryIteration_Tests.hpp"
+#include <Transitional/GeneralInputOutput/RecursiveDirectoryIteration.hpp>
+#include <Transitional/GeneralInputOutput/RecursiveDirectoryIteration_Tests.hpp>
 
 namespace OKlib {
 

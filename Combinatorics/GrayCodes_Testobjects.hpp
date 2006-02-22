@@ -4,8 +4,8 @@
 
 #define GRAYCODESTESTOBJECTS_pLLk45
 
-#include "GrayCodes.hpp"
-#include "GrayCodes_Tests.hpp"
+#include <Transitional/Combinatorics/GrayCodes.hpp>
+#include <Transitional/Combinatorics/GrayCodes_Tests.hpp>
 
 namespace OKlib {
 

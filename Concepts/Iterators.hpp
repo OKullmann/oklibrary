@@ -17,8 +17,8 @@
 #include <boost/concept_check.hpp>
 #include <boost/concept_archetype.hpp>
 
-#include "ConceptsBase.hpp"
-#include "std_Iterators.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <Transitional/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
 

@@ -6,7 +6,7 @@
 //Version: 0.2.006
 
 
-#include "Doc_Gen.hpp"
+#include <Transitional/LaTeX/Doc_Gen.hpp>
 
 
 int main() {

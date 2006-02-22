@@ -4,8 +4,8 @@
 
 #define DIMACSTESTOBJECTS_lkjh45tr
 
-#include "Dimacs.hpp"
-#include "Dimacs_Tests.hpp"
+#include <Transitional/InputOutput/Dimacs.hpp>
+#include <Transitional/InputOutput/Dimacs_Tests.hpp>
 
 namespace OKlib {
   

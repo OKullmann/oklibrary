@@ -2,8 +2,8 @@
 
 #define EVALUATEPARTIALASSIGNMENTTESTOBJECTS_5tgvb
 
-#include "EvaluatePartialAssignments.hpp"
-#include "EvaluatePartialAssignments_Tests.hpp"
+#include <Transitional/AutarkySearch/EvaluatePartialAssignments.hpp>
+#include <Transitional/AutarkySearch/EvaluatePartialAssignments_Tests.hpp>
 
 namespace OKlib {
 

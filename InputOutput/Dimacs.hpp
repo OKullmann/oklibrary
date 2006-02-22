@@ -42,9 +42,9 @@
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "IOStreamFilters.hpp"
+#include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
 
-#include "Exceptions.hpp"
+#include <Transitional/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
   

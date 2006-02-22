@@ -26,7 +26,7 @@
 #include <sys/stat.h> // for mode macros
 #include <sys/types.h>
 
-#include "ErrorHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
 namespace StreamHandling {
 

@@ -12,7 +12,7 @@
 #include <typeinfo> // for bad_cast and bad_typeid
 #include <ios> // for ios_base::failure
 
-#include "MessageHandling.hpp"
+#include <Transitional/General/MessageHandling.hpp>
 
 namespace ErrorHandling {
 

@@ -4,10 +4,10 @@
 
 #define STDBASICSTESTOBJECTS_kcXzw235
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "std_Basics.hpp"
-#include "std_Basics_Tests.hpp"
+#include <Transitional/Concepts/std_Basics.hpp>
+#include <Transitional/Concepts/std_Basics_Tests.hpp>
 
 namespace OKlib {
 

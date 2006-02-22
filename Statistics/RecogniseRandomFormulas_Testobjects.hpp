@@ -4,8 +4,8 @@
 
 #define REGOCNISERANDOMFORMULASTESTOBJECTS_5664788k
 
-#include "RecogniseRandomFormulas.hpp"
-#include "RecogniseRandomFormulas_Tests.hpp"
+#include <Transitional/Statistics/RecogniseRandomFormulas.hpp>
+#include <Transitional/Statistics/RecogniseRandomFormulas_Tests.hpp>
 
 namespace OKlib {
 

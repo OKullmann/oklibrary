@@ -9,11 +9,11 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
-#include "ParserBase_Tests.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/Parsing/ParserBase_Tests.hpp>
 
-#include "BasicDataStructure.hpp"
+#include <Transitional/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
 

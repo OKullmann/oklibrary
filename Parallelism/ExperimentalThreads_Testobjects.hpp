@@ -4,8 +4,8 @@
 
 #define EXPERIMENTALTHREADSTESTOBJECTS_045rtf
 
-#include "ExperimentalThreads.hpp"
-#include "ExperimentalThreads_Tests.hpp"
+#include <Transitional/Parallelism/ExperimentalThreads.hpp>
+#include <Transitional/Parallelism/ExperimentalThreads_Tests.hpp>
 
 namespace OKlib {
 

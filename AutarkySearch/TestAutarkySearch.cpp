@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "AnalyseTotalAssignment_Testobjects.hpp"
-#include "EvaluatePartialAssignments_Testobjects.hpp"
+#include <Transitional/AutarkySearch/AnalyseTotalAssignment_Testobjects.hpp>
+#include <Transitional/AutarkySearch/EvaluatePartialAssignments_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

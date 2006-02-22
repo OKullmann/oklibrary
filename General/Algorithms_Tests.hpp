@@ -7,8 +7,8 @@
 #include <cassert>
 #include <vector>
 
-#include "IteratorHandling.hpp"
-#include "Algebra_Models.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
+#include <Transitional/General/Algebra_Models.hpp>
 
 namespace Algorithms_Tests {
 
@@ -67,7 +67,7 @@ namespace Algorithms_Tests {
 
 }
 
-#include "Numerics.hpp"
+#include <Transitional/General/Numerics.hpp>
 
 namespace Algorithms_Tests {
 

@@ -4,13 +4,13 @@
 
 #define RESULTELEMENTTESTS_40098Ujk
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "LibraryBasics.hpp"
-#include "Basics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <Transitional/Concepts/Basics_Tests.hpp>
 
-#include "ResultElements.hpp"
+#include <Transitional/Concepts/ResultElements.hpp>
 
 namespace OKlib {
 

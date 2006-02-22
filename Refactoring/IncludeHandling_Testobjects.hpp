@@ -4,8 +4,8 @@
 
 #define INCLUDEHANDLINGTESTOBJECTS_plmJJk
 
-#include "IncludeHandling.hpp"
-#include "IncludeHandling_Tests.hpp"
+#include <Transitional/Refactoring/IncludeHandling.hpp>
+#include <Transitional/Refactoring/IncludeHandling_Tests.hpp>
 
 namespace OKlib {
 

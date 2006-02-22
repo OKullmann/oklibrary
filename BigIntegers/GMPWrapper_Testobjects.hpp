@@ -4,8 +4,8 @@
 
 #define MPLWRAPPERTESTS_ujNll
 
-#include "GMPWrapper.hpp"
-#include "GMPWrapper_Tests.hpp"
+#include <Transitional/BigIntegers/GMPWrapper.hpp>
+#include <Transitional/BigIntegers/GMPWrapper_Tests.hpp>
 
 namespace OKlib {
 

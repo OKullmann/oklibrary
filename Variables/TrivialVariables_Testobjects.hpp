@@ -4,10 +4,10 @@
 
 #define TRIVIALVARIABLESTESTOBJECTS_90845TgH
 
-#include "Variables_Tests.hpp"
+#include <Transitional/Concepts/Variables_Tests.hpp>
 
-#include "TrivialVariables.hpp"
-#include "TrivialVariables_Tests.hpp"
+#include <Transitional/Variables/TrivialVariables.hpp>
+#include <Transitional/Variables/TrivialVariables_Tests.hpp>
 
 namespace OKlib {
 

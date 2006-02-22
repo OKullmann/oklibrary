@@ -4,8 +4,8 @@
 
 #define MARGINALISATIONTESTOBJECTS_9ycxz
 
-#include "Marginalisation.hpp"
-#include "Marginalisation_Tests.hpp"
+#include <Transitional/SumProduct/Marginalisation.hpp>
+#include <Transitional/SumProduct/Marginalisation_Tests.hpp>
 
 namespace OKlib {
 

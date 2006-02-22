@@ -16,16 +16,16 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 
-#include "FunctionHandling.hpp"
-#include "BasicMapOperations.hpp"
+#include <Transitional/General/FunctionHandling.hpp>
+#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "SingleResult.hpp"
-#include "ParsingSingleResult_Tests.hpp"
-#include "ParsingResultSequences.hpp"
-#include "ParsingResultSequences_Tests.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult_Tests.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

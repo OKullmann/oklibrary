@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "DatabaseHandler01.hpp"
-#include "StringHandling.hpp"
+#include <Transitional/General/DatabaseHandler01.hpp>
+#include <Transitional/General/StringHandling.hpp>
 
 using namespace std;
 

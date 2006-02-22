@@ -16,7 +16,7 @@
 #include <string>
 #include <cassert>
 
-#include "Algebra_Traits.hpp"
+#include <Transitional/General/Algebra_Traits.hpp>
 
 namespace NumberTheory {
 

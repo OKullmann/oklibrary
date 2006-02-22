@@ -4,8 +4,8 @@
 
 #define TIMESERIESANALYSISTESTOBJECTS_ikmcde45
 
-#include "TimeSeriesAnalysis.hpp"
-#include "TimeSeriesAnalysis_Tests.hpp"
+#include <Transitional/Statistics/TimeSeriesAnalysis.hpp>
+#include <Transitional/Statistics/TimeSeriesAnalysis_Tests.hpp>
 
 namespace OKlib {
 

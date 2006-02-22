@@ -23,14 +23,14 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/assign/list_of.hpp>
 
-#include "BoostPathCorrected.hpp"
+#include <Transitional/Refactoring/BoostPathCorrected.hpp>
 
-#include "IteratorHandling.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "ParserBase_Tests.hpp"
+#include <Transitional/Parsing/ParserBase_Tests.hpp>
 
 
 namespace OKlib {

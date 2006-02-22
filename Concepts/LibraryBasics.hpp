@@ -22,9 +22,9 @@
 #include <boost/type_traits.hpp>
 // This file is guaranteed to include the last three files, so that OKLIB_HAS_CONCEPT_TAG and OKLIB_MODELS_CONCEPT always works.
 
-#include "ConceptsBase.hpp"
-#include "ConceptsMetafunctions.hpp"
-#include "Basics.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <Transitional/Concepts/ConceptsMetafunctions.hpp>
+#include <Transitional/Concepts/Basics.hpp>
 // This file is guaranteed to include the last three files.
 
 namespace OKlib {

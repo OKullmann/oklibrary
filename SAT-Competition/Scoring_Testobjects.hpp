@@ -4,8 +4,8 @@
 
 #define SCORINGTESTOBJECTS_poIU71k
 
-#include "Scoring.hpp"
-#include "Scoring_Tests.hpp"
+#include <Transitional/SAT-Competition/Scoring.hpp>
+#include <Transitional/SAT-Competition/Scoring_Tests.hpp>
 
 namespace OKlib {
 

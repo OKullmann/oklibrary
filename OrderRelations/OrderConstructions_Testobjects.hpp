@@ -4,8 +4,8 @@
 
 #define ORDERCONSTRUCTIONSTESTOBJECTS_66TTgV
 
-#include "OrderConstructions.hpp"
-#include "OrderConstructions_Tests.hpp"
+#include <Transitional/OrderRelations/OrderConstructions.hpp>
+#include <Transitional/OrderRelations/OrderConstructions_Tests.hpp>
 
 namespace OKlib {
 

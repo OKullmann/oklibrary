@@ -17,8 +17,8 @@
 
 #include <boost/concept_check.hpp>
 
-#include "ConceptsBase.hpp"
-#include "std_Basics.hpp"
+#include <Transitional/Concepts/ConceptsBase.hpp>
+#include <Transitional/Concepts/std_Basics.hpp>
 
 namespace OKlib {
 

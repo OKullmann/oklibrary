@@ -12,11 +12,11 @@
 #include <cassert>
 #include <string>
 
-#include "Demangling.hpp"
-#include "MessagesMain.hpp"
+#include <Transitional/SystemSpecifics/Demangling.hpp>
+#include <Transitional/Messages/MessagesMain.hpp>
 
-#include "BasicDeclarations.hpp"
-#include "TestLevel_Explanations.hpp"
+#include <Transitional/Testsystem/BasicDeclarations.hpp>
+#include <Transitional/Testsystem/TestLevel_Explanations.hpp>
 
 namespace OKlib {
 

@@ -4,10 +4,10 @@
 
 #define VARIABLESTESTOBJECTS_olKmNb56
 
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
-#include "Variables.hpp"
-#include "Variables_Tests.hpp"
+#include <Transitional/Concepts/Variables.hpp>
+#include <Transitional/Concepts/Variables_Tests.hpp>
 
 namespace OKlib {
 

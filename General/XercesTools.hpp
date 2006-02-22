@@ -44,8 +44,8 @@
 
 #include "Singleton.h"
 
-#include "FunctionHandling.hpp"
-#include "ErrorHandling.hpp"
+#include <Transitional/General/FunctionHandling.hpp>
+#include <Transitional/General/ErrorHandling.hpp>
 
 namespace XercesTools {
 

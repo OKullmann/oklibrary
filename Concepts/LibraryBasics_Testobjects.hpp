@@ -4,8 +4,8 @@
 
 #define LIBRARYBASICSTESTOBJECTS_nnttrqr367
 
-#include "LibraryBasics.hpp"
-#include "LibraryBasics_Tests.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
+#include <Transitional/Concepts/LibraryBasics_Tests.hpp>
 
 namespace OKlib {
 

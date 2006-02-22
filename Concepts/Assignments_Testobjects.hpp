@@ -4,8 +4,8 @@
 
 #define ASSIGNMENTSTESTOBJECTS_kkhgd8
 
-#include "Assignments.hpp"
-#include "Assignments_Tests.hpp"
+#include <Transitional/Concepts/Assignments.hpp>
+#include <Transitional/Concepts/Assignments_Tests.hpp>
 
 namespace OKlib {
 

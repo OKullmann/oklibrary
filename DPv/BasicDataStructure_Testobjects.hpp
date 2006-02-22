@@ -4,8 +4,8 @@
 
 #define BASICDATASTRUCTURETESTOBJECTS_GHF7h2j8153da
 
-#include "BasicDataStructure.hpp"
-#include "BasicDataStructure_Tests.hpp"
+#include <Transitional/DPv/BasicDataStructure.hpp>
+#include <Transitional/DPv/BasicDataStructure_Tests.hpp>
 
 namespace OKlib {
 

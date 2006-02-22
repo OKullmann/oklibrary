@@ -4,8 +4,8 @@
 
 #define STATISTICSTESTOBJECTS_HKA97g1hal032fs
 
-#include "Statistics.hpp"
-#include "Statistics_Tests.hpp"
+#include <Transitional/DPv/Statistics.hpp>
+#include <Transitional/DPv/Statistics_Tests.hpp>
 
 namespace OKlib {
 

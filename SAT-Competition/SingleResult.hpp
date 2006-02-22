@@ -28,9 +28,9 @@
 
 #include <boost/tuple/tuple.hpp>
 
-#include "ResultElements.hpp"
+#include <Transitional/Concepts/ResultElements.hpp>
 
-#include "DerivedRelations.hpp"
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
 
 namespace OKlib {
 

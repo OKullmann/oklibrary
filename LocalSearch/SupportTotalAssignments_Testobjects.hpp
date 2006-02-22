@@ -2,8 +2,8 @@
 
 #define SUPPORTTOTALASSIGNMENTSTESTOBJECTS_klju76
 
-#include "SupportTotalAssignments.hpp"
-#include "SupportTotalAssignments_Tests.hpp"
+#include <Transitional/LocalSearch/SupportTotalAssignments.hpp>
+#include <Transitional/LocalSearch/SupportTotalAssignments_Tests.hpp>
 
 namespace OKlib {
 

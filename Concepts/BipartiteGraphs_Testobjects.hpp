@@ -4,8 +4,8 @@
 
 #define BIPARTITEGRAPHSTESTOBJECTS_9inv5t
 
-#include "BipartiteGraphs.hpp"
-#include "BipartiteGraphs_Tests.hpp"
+#include <Transitional/Concepts/BipartiteGraphs.hpp>
+#include <Transitional/Concepts/BipartiteGraphs_Tests.hpp>
 
 namespace OKlib {
 

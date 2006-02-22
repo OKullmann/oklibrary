@@ -25,14 +25,14 @@
 #include "cgicc/CgiDefs.h"
 #include "cgicc/FormFile.h"
 
-#include "emailHandling.hpp"
-#include "TimeHandling.hpp"
-#include "StringHandling.hpp"
-#include "StreamHandling.hpp"
-#include "AutomatedCompilation.hpp"
-#include "ErrorHandling.hpp"
+#include <Transitional/General/emailHandling.hpp>
+#include <Transitional/General/TimeHandling.hpp>
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/StreamHandling.hpp>
+#include <Transitional/General/AutomatedCompilation.hpp>
+#include <Transitional/General/ErrorHandling.hpp>
 
-#include "HashMD5lib.hpp"
+#include <Transitional/Kryptologie/HashMD5lib.hpp>
 
 namespace CgiHandling {
 

@@ -12,7 +12,7 @@
 #include <ostream>
 #include <istream>
 
-#include "LibraryBasics.hpp"
+#include <Transitional/Concepts/LibraryBasics.hpp>
 
 namespace OKlib {
 

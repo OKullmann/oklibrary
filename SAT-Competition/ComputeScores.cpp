@@ -24,8 +24,8 @@
 #include <cstring>
 #include <cassert>
 
-#include "ParsingSingleResult.hpp"
-#include "Scoring.hpp"
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/Scoring.hpp>
 
 template <bool with_extension, bool without_exception>
 struct Scoring_from_file {

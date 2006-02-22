@@ -4,8 +4,8 @@
 
 #define CLAUSESETADAPTORSTESTOBJECTS_g5cmk
 
-#include "ClauseSetAdaptors.hpp"
-#include "ClauseSetAdaptors_Tests.hpp"
+#include <Transitional/InputOutput/ClauseSetAdaptors.hpp>
+#include <Transitional/InputOutput/ClauseSetAdaptors_Tests.hpp>
 
 namespace OKlib {
 

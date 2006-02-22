@@ -13,13 +13,13 @@
 #include <string>
 #include <cassert>
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include "ResultProcessing.hpp"
-#include "ParsingSingleResult.hpp"
-#include "AnalysisTools.hpp"
-#include "ParsingResultSequences_Tests.hpp"
+#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/AnalysisTools.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

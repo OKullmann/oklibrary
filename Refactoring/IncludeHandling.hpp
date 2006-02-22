@@ -50,13 +50,13 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/value_type.hpp>
 
-#include "BoostPathCorrected.hpp"
+#include <Transitional/Refactoring/BoostPathCorrected.hpp>
 
-#include "IteratorHandling.hpp"
+#include <Transitional/General/IteratorHandling.hpp>
 
-#include "RecursiveDirectoryIteration.hpp"
-#include "AssociativeContainers.hpp"
-#include "DerivedRelations.hpp"
+#include <Transitional/GeneralInputOutput/RecursiveDirectoryIteration.hpp>
+#include <Transitional/SearchDataStructures/AssociativeContainers.hpp>
+#include <Transitional/OrderRelations/DerivedRelations.hpp>
 
 
 // ##########################################################################

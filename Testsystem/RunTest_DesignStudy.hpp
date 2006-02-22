@@ -15,11 +15,11 @@
 #include <boost/ptr_container/ptr_list.hpp>
 #include <boost/timer.hpp>
 
-#include "TimeHandling.hpp"
+#include <Transitional/General/TimeHandling.hpp>
 
-#include "TestFondement.hpp"
-#include "TestExceptions_DesignStudy.hpp"
-#include "TestLevel_Explanations.hpp"
+#include <Transitional/Testsystem/TestFondement.hpp>
+#include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
+#include <Transitional/Testsystem/TestLevel_Explanations.hpp>
 
 namespace OKlib {
 

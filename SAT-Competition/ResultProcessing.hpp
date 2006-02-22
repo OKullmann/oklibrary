@@ -25,13 +25,13 @@
 #include <ostream>
 #include <cassert>
 
-#include "FunctionHandling.hpp"
+#include <Transitional/General/FunctionHandling.hpp>
 
-#include "BasicSetOperations.hpp"
+#include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
 
-#include "SingleResult.hpp"
-#include "ParsingSingleResult.hpp"
-#include "ParsingResultSequences.hpp"
+#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
 
 namespace OKlib {
 

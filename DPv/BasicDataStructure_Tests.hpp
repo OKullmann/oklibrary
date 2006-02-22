@@ -4,8 +4,8 @@
 
 #define BASICDATASTRUCTURETESTS_g73n8rfajdo
 
-#include "TestBaseClass.hpp"
-#include "TestExceptions.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/Testsystem/TestExceptions.hpp>
 
 namespace OKlib {
   

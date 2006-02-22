@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "GrayCodes_Testobjects.hpp"
-#include "Permutations_Testobjects.hpp"
-#include "Subsets_Testobjects.hpp"
+#include <Transitional/Combinatorics/GrayCodes_Testobjects.hpp>
+#include <Transitional/Combinatorics/Permutations_Testobjects.hpp>
+#include <Transitional/Combinatorics/Subsets_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

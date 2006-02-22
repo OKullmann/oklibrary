@@ -2,26 +2,26 @@
 
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "std_Iterators_Testobjects.hpp"
-#include "Iterators_Testobjects.hpp"
-#include "std_Basics_Testobjects.hpp"
-#include "Basics_Testobjects.hpp"
-#include "ConceptsMetafunctions_Testobjects.hpp"
-#include "LibraryBasics_Testobjects.hpp"
-#include "Variables_Testobjects.hpp"
-#include "ResultElements_Testobjects.hpp"
-#include "std_Container_Testobjects.hpp"
-#include "Literals_Testobjects.hpp"
-#include "Clauses_Testobjects.hpp"
-#include "ClauseSets_Testobjects.hpp"
-#include "Assignments_Testobjects.hpp"
-#include "BipartiteGraphs_Testobjects.hpp"
-#include "Hypergraphs_Testobjects.hpp"
-#include "BigIntegers_Testobjects.hpp"
-#include "RefactoringIncludeHandling_Testobjects.hpp"
-#include "InputOutput_Testobjects.hpp"
+#include <Transitional/Concepts/std_Iterators_Testobjects.hpp>
+#include <Transitional/Concepts/Iterators_Testobjects.hpp>
+#include <Transitional/Concepts/std_Basics_Testobjects.hpp>
+#include <Transitional/Concepts/Basics_Testobjects.hpp>
+#include <Transitional/Concepts/ConceptsMetafunctions_Testobjects.hpp>
+#include <Transitional/Concepts/LibraryBasics_Testobjects.hpp>
+#include <Transitional/Concepts/Variables_Testobjects.hpp>
+#include <Transitional/Concepts/ResultElements_Testobjects.hpp>
+#include <Transitional/Concepts/std_Container_Testobjects.hpp>
+#include <Transitional/Concepts/Literals_Testobjects.hpp>
+#include <Transitional/Concepts/Clauses_Testobjects.hpp>
+#include <Transitional/Concepts/ClauseSets_Testobjects.hpp>
+#include <Transitional/Concepts/Assignments_Testobjects.hpp>
+#include <Transitional/Concepts/BipartiteGraphs_Testobjects.hpp>
+#include <Transitional/Concepts/Hypergraphs_Testobjects.hpp>
+#include <Transitional/Concepts/BigIntegers_Testobjects.hpp>
+#include <Transitional/Concepts/RefactoringIncludeHandling_Testobjects.hpp>
+#include <Transitional/Concepts/InputOutput_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

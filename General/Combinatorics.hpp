@@ -18,8 +18,8 @@
 #include <iostream>
 #include <iterator>
 
-#include "ErrorHandling.hpp"
-#include "FunctionHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/FunctionHandling.hpp>
 
 namespace Combinatorics {
 

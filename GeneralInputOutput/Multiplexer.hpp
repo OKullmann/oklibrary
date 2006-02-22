@@ -31,7 +31,7 @@
 #include <boost/utility.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "IOStreamSinks.hpp"
+#include <Transitional/GeneralInputOutput/IOStreamSinks.hpp>
 
 namespace OKlib {
 

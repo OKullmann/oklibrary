@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "TestBaseClass.hpp"
+#include <Transitional/Testsystem/TestBaseClass.hpp>
 
-#include "SafeReading_Testobjects.hpp"
+#include <Transitional/SystemSpecifics/SafeReading_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

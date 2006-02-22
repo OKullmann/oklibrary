@@ -16,8 +16,8 @@
 #include <iterator>
 #include <algorithm>
 
-#include "TimeHandling.hpp"
-#include "StreamHandling.hpp"
+#include <Transitional/General/TimeHandling.hpp>
+#include <Transitional/General/StreamHandling.hpp>
 
 
 namespace emailHandling {
