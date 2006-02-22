@@ -20,18 +20,16 @@ namespace OKlib {
       \todo Complete.
     */
 
-    class Test_TestSystem :  public ::OKlib::TestSystem::TestBase<Test_TestSystem> {
-      typedef ::OKlib::TestSystem::TestBase<Test_TestSystem> base_type;
+    class Test_TestSystem :  public ::OKlib::TestSystem::TestBase {
+      typedef ::OKlib::TestSystem::TestBase base_type;
     public :
-      Test_TestSystem() : base_type(__FILE__, __LINE__) {}
+      Test_TestSystem() : base_type(__FILE__, __LINE__, typeid(Test_TestSystem).name()) {}
     private :
-      typedef Test_TestSystem test_type;
 
-      struct LocalTest1 : public ::OKlib::TestSystem::TestBase<Test_TestSystem> {
-        typedef ::OKlib::TestSystem::TestBase<Test_TestSystem> base_type;
-        typedef LocalTest1 test_type;
+      struct LocalTest1 : public ::OKlib::TestSystem::TestBase {
+        typedef ::OKlib::TestSystem::TestBase base_type;
         const int n;
-        LocalTest1(const int n) : base_type(__FILE__, __LINE__), n(n) {}
+        LocalTest1(const int n) : base_type(__FILE__, __LINE__, typeid(LocalTest1).name()), n(n) {}
         void test(::OKlib::TestSystem::Basic, std::ostream& log) {
           typedef OKlib::TestSystem::Basic level_type;
           OKLIB_TEST_EQUAL(n, 0);

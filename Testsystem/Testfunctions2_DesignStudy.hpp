@@ -13,24 +13,22 @@ namespace OKlib {
 
   namespace TestSystem {
 
-    class Test2 : public ::OKlib::TestSystem::TestBase<Test2> {
-      typedef ::OKlib::TestSystem::TestBase<Test2> base_type;
+    class Test2 : public ::OKlib::TestSystem::TestBase {
+      typedef ::OKlib::TestSystem::TestBase base_type;
     public :
-      Test2() : base_type(__FILE__, __LINE__) {}
+      Test2() : base_type(__FILE__, __LINE__, typeid(Test2).name()) {}
     private :
-      typedef Test2 test_type;
       void test(::OKlib::TestSystem::Basic, std::ostream& log) {
         typedef ::OKlib::TestSystem::Basic level_type;
         OKLIB_TEST_RETHROW(::OKlib::TestSystem::Test1());
       }
     };
 
-    class Test3 : public OKlib::TestSystem::TestBase<Test3> {
-      typedef ::OKlib::TestSystem::TestBase<Test3> base_type;
+    class Test3 : public OKlib::TestSystem::TestBase {
+      typedef ::OKlib::TestSystem::TestBase base_type;
     public :
-      Test3() : base_type(__FILE__, __LINE__) {}
+      Test3() : base_type(__FILE__, __LINE__, typeid(Test2).name()) {}
     private :
-      typedef Test3 test_type;
       void test(OKlib::TestSystem::Basic, std::ostream& log) {
         typedef OKlib::TestSystem::Basic level_type;
         OKLIB_TEST_RETHROW(OKlib::TestSystem::Test2());

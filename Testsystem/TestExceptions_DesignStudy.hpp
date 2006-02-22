@@ -39,6 +39,7 @@ namespace OKlib {
 
       A concrete class containing C strings for the file name, the line number and the
       name of the type of the test class.
+      \todo Use messages.
       \todo Ownership of level_description needs to be managed!
       \todo Is the explicit definition of the copy constructor needed? Why does assignment work?
     */
@@ -73,7 +74,6 @@ namespace OKlib {
         assert(D.type_test_class);
         assert(D.level_description.get());
         return out << " file = " << D.file << "\n line number = " << D.line << "\n test type = " << D.type_test_class << "\n test level = " << *D.level_description << "\n test depth = " << D.depth << "\n";
-        // ToDo: Adding messages (using module Messages)
       }
     };
 
@@ -132,7 +132,7 @@ namespace OKlib {
 
 # define OKLIB_NUMBER(N) # N
 # define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), typeid(test_type).name(), ::OKlib::TestSystem::ErrorDescription::MessagePointer(new ::OKlib::TestSystem::Documentation::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type()))), this -> depth()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), test_function_type_name, ::OKlib::TestSystem::ErrorDescription::MessagePointer(new ::OKlib::TestSystem::Documentation::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type()))), depth()))
 
     /*!
       \def OKLIB_THROW
