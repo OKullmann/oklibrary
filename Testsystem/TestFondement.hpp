@@ -36,11 +36,6 @@ namespace OKlib {
 
     private :
 
-      template <class Level>
-      void perform(Level, std::ostream& log) {
-        perform_(Level(), log);
-      }
-
       friend class Basic;
       virtual void perform_(Basic, std::ostream&) = 0;
       friend class Full;
@@ -88,19 +83,19 @@ namespace OKlib {
 
     struct Basic : TestLevel {
       void perform(Test& test, std::ostream& log) const  {
-        test.perform(Basic(), log);
+        test.perform_(Basic(), log);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
     struct Full : Basic {
       void perform(Test& test, std::ostream& log) const {
-        test.perform(Full(), log);
+        test.perform_(Full(), log);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
     struct Extensive : Full {
       void perform(Test& test, std::ostream& log) const {
-        test.perform(Extensive(), log);
+        test.perform_(Extensive(), log);
       }
       void operator()(const VisitorTestLevel& vis) const { vis(*this); }
     };
