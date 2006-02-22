@@ -185,23 +185,13 @@
   un-archive it, build it with "make" and then run "make check" in it).
   Testing should invoke valgrind (with Test_tool="valgrind --quit").
 
-  \todo Improving the directory structure (which yet is "flat"):
-  - Inclusion from for example Transitional should happen as, e.g.,
-  #include "Transitional/SumProduct/Marginalisation.hpp"
-  or
-  #include "OKlib/Algorithms/Sat.hpp"
-  (Thus compilation of local copies of the library then only work with
-  the *standard place* (i.e., OKplatform/include).) This is achieved by
-  eliminating the include-directory at OKplatform-level (and all associated
-  environment- and make-variables), and including then from level
-  OKsystem.
+  \todo Directory structure:
   - We need a rational system for the naming of header files. We should study the
     Boost library here.
-  - The namespace should be the directory part of the name (in the above examples
-    Transitional::SumProduct and OKlib::Algorithms).
+  - The namespace should be the directory part of the name for the OKlib (for example OKlib::Algorithms
+    is the file OKlib/Algorithms).
   - Directory OKsystem/OKlibrary should then be called OKsystem/OKlib
-  - Directory OKsystem/Transitional should be renamed OKsystem/TOKlib, and thus the namespace
-    "Transitional" is renamed to "TOKlib".
+  - Should we use <> or "" for includes from our library?
   - As proposed in [C++ Templates], we should also provide files per module
   only containing declarations (perhaps parallel to each .hpp file). Ending "_decl" ?
   - Perhaps special naming conventions for files with messages or exceptions ?!
