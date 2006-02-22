@@ -1,0 +1,1 @@
+echo ${libdir}/Testfunctions_DesignStudy${name_addition}.o ${libdir}/Testfunctions2_DesignStudy${name_addition}.o ${libdir}/TestBaseClass_Testobjects_DesignStudy${name_addition}.o -liberty
