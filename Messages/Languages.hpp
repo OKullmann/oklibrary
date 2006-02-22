@@ -24,7 +24,7 @@ namespace OKlib {
 
     /*!
       \def OKLIB_LANGUAGES
-      \brief The list of constants naming the available languages; the names are also used to name
+      \brief The list of constants naming the available languages; the constant-names are also used to name
       the corresponding locale.
 
       OKLIB_LANGUAGES is a sequence in the sense of the Boost Preprocessor library. If a new element
