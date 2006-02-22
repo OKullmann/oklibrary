@@ -161,7 +161,7 @@ object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimis
 test_file := $(srcdir)/test
 testop_file := $(srcdir)/testop
 
-#doxy_file := $(includedir)/Doxyfile
+doxy_file := $(OKBuildsystem)/Doxyfile
 
 CXX := g++
 CC := gcc
