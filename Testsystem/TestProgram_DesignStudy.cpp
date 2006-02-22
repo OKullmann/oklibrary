@@ -22,6 +22,7 @@
 
 #include "Multiplexer.hpp"
 #include "MessagesMain.hpp"
+#include "LanguageNames.hpp"
 
 #include "RunTest_DesignStudy.hpp"
 
@@ -69,7 +70,7 @@ int main(const int argc, const char* const argv[]) {
   }
   
   for (unsigned int i = 0; i < number_streams; ++i, ++current_parameter) {
-    ::OKlib::Messages::MessagesBase::set(multiplexer.fostream_vector[i], ::OKlib::Messages::Languages(boost::lexical_cast<unsigned int>(argv[current_parameter])));
+    ::OKlib::Messages::MessagesBase::set(multiplexer.fostream_vector[i], ::OKlib::Messages::LanguageName()(argv[current_parameter]));
   }
 
   assert(current_parameter == number_parameters); 
