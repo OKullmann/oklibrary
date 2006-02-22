@@ -128,13 +128,14 @@ All_options := $(General_options) $(Optimisation_options)
 
 programs_optimised := $(programs:=$(name_addition))
 
-header_files_cpp := $(wildcard $(srcdir)/*.hpp)
-header_files_cpp := $(notdir $(header_files_cpp))
+# OK 22/2/2006 To be removed completely soon
+#header_files_cpp := $(wildcard $(srcdir)/*.hpp)
+#header_files_cpp := $(notdir $(header_files_cpp))
 #header_files_cpp :=  $(addprefix $(includedir)/, $(header_files_cpp))
-header_files_c := $(wildcard $(srcdir)/*.h)
-header_files_c := $(notdir $(header_files_c))
+#header_files_c := $(wildcard $(srcdir)/*.h)
+#header_files_c := $(notdir $(header_files_c))
 #header_files_c :=  $(addprefix $(includedir)/, $(header_files_c))
-header_files := $(header_files_cpp) $(header_files_c)
+#header_files := $(header_files_cpp) $(header_files_c)
 
 compilation_units_cpp := $(wildcard $(srcdir)/*.cpp)
 compilation_units_cpp := $(notdir $(compilation_units_cpp))
@@ -207,8 +208,6 @@ all : unoptimised optimised
 prebuild : createdirs update
 
 createdirs : $(Directories)
-
-update : $(header_files)
 
 html :
 	rm -r $(html_dir)/*; cd $(srcdir); cd $(Root); doxygen $(doxy_file) $(Doxygen_modifier)
@@ -288,11 +287,8 @@ cleandep :
 clean : cleanobj cleandep
 	- rm $(test_file) $(testop_file)
 
-cleanhead :
-	- rm $(header_files)
-
 cleanprograms :
 	- rm $(programs) $(programs_optimised)
 
-cleanall : clean cleanhead cleanprograms
+cleanall : clean cleanprograms
 
