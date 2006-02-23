@@ -13,6 +13,19 @@
   The variables are tuples of values.
   \todo And also we need active clause-sets for biclique-transformations for
   interesting classes of graphs (including complete graphs).
+  \todo Given a rooted tree, a corresponding SMUSAT_{delta=1} neds to
+  to constructed. Special cases for the full tree and the input tree.
+  \todo More generally, for an arbitrary rooted tree and a labelling of inner
+  nodes with variables, such that no variable occurs twice on any path from
+  the root to some leaf, construct the corresponding (tree-)hitting clause-set.
+  \todo The HKB-formulas (MUSAT_{delta=2}, where every literal occurs
+  at least once) have to be constructed.
+  \todo Generator for PHP, and more generally for matching formulas,
+  given an arbitrary graph and a set of vertices to be matched.
+  \todo Very interesting are also the Extended Resolution extensions of PHP
+  (and potentially other classes): Seeing the performance of SAT solvers
+  on them would be interesting (or perhaps one can tune the SAT solvers
+  to make good use of the extension clauses?!).
   \todo Perhaps transformers for linear inequalities (including active
   clause-sets) belong to the module SATModuloTheory?!
   \todo Transformers from non-boolean clause-sets to boolean
@@ -23,15 +36,7 @@
   Solving Non-Boolean Satisfiability Problems with Stochastic Local
   Search; 2001]), and [Ansotegui,Manya; Mapping Problems with
   Finite-Domain Variables to Problems with Boolean Variables].
-  \todo The CSP formats
-   - http://cpai.ucc.ie/05/xml.html
-   - http://cpai.ucc.ie/05/table.html
-  are to be transformed into aliances of P-clause-sets (or specialised
-  versions; perhaps just one P-clause-set is also alright; "mono-signed"
-  full clauses per constraint are exactly enough).
-  The benchmarks from http://cpai.ucc.ie/05/CallForSolvers.html should
-  all be tried!
-  \todo We should also have generators for factoring a number into
+   \todo We should also have generators for factoring a number into
   two factors (at least using the standard multiplication method).
   Challenging (but potentially very interesting) are virtual clause-sets
   for this purpose.
