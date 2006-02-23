@@ -1,0 +1,1 @@
+echo ${libdir}/Kommandozeile.o ${libdir}/aescrypt.o ${libdir}/aeskey.o ${libdir}/aestab2.o ${libdir}/flint.o ${libdir}/flintpp.o
