@@ -27,7 +27,7 @@
      domain D(v), and the constraint INJ({v_1, ..., v_{c(v)}}) (see module
      InjectivityConstraints);
    - for all variables together (gathered in set VA) we have the upper bound constraint
-     UPPER(VA, K) (see module LinearInequalities);
+     UPPER_V(VA, K) (see module LinearInequalities);
    - for every edge {u,v} in E(G) we have an active constraint forbidding the differences
      in T({u,v}) (it seems questionable to me whether the compression enabled
      by T is worth to pursue, or whether we better consider the more general constraint,
