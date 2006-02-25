@@ -4,7 +4,6 @@
   \file Generators_Plans.hpp
   \brief Plans for the module Generators.
   \todo Transferring (and updating):
-   - OKsolver/Experimental/Transformationen/LinInequal
    - OKsolver/Experimental/Transformationen/FaronsPuzzle
    - OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique
   The main generators should produce generalised clause-sets.
@@ -13,11 +12,6 @@
   The variables are tuples of values.
   \todo And also we need active clause-sets for biclique-transformations for
   interesting classes of graphs (including complete graphs).
-  \todo Given a rooted tree, a corresponding SMUSAT_{delta=1} neds to
-  to constructed. Special cases for the full tree and the input tree.
-  \todo More generally, for an arbitrary rooted tree and a labelling of inner
-  nodes with variables, such that no variable occurs twice on any path from
-  the root to some leaf, construct the corresponding (tree-)hitting clause-set.
   \todo The HKB-formulas (MUSAT_{delta=2}, where every literal occurs
   at least once) have to be constructed.
   \todo Generator for PHP, and more generally for matching formulas,
@@ -26,8 +20,6 @@
   (and potentially other classes): Seeing the performance of SAT solvers
   on them would be interesting (or perhaps one can tune the SAT solvers
   to make good use of the extension clauses?!).
-  \todo Perhaps transformers for linear inequalities (including active
-  clause-sets) belong to the module SATModuloTheory?!
   \todo Transformers from non-boolean clause-sets to boolean
   clause-sets are needed (the standard translation, with or without
   the at-most-one-clauses, and also the other translations known from
