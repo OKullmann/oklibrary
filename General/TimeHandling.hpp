@@ -3,7 +3,8 @@
 /*!
   \file TimeHandling.hpp
   \brief Tools for handling times and dates
-  \todo How muh where should be replaced by components from Boost ?!
+  \todo Functions currentDateTime should go to module Messages.
+  \todo Which components should be replaced by components from Boost ?!
 */
 
 #ifndef TIMEHANDLINGWAECHTER
@@ -72,13 +73,17 @@ namespace TimeHandling {
 
   /*!
     \brief As currentDateTime(), but using the format string as for the std::strftime
-    function from <ctime> (see C Standard 7.23.3.5).
+    function from <ctime> (see C Standard 7.23.3.5), and either admitting a std::ostream
+    as argument, or returning a string and admitting a locale object as optional argument
+    (with the system-default locale as default).
   */
-  std::string currentDateTime(const std::string& format);
+  std::ostream& currentDateTime(const std::string& format, std::ostream& out);
+  std::string currentDateTime(const std::string& format, const std::locale& loc = std::locale(""));
 
+  /*!
+    \brief Returns the number s of seconds represented as seconds (s), minutes (m), hours (h), days (d) or years (y)
+  */
   std::string output_seconds(double s);
-  // returns the number s of seconds represented as seconds (s), minutes (m), hours (h), days (d) or years (y)
-
  
 }
 
@@ -149,14 +154,18 @@ namespace TimeHandling { // Implementations ------------------------------
     return std::asctime(std::localtime(&t0));
   }
 
-  inline std::string currentDateTime(const std::string& format) {
+  inline std::ostream& currentDateTime(const std::string& format, std::ostream& out) {
     const std::time_t t0 = std::time(0);
     const std::tm* const tmp = std::localtime(&t0);
+    const std::time_put<char>& tfac = std::use_facet<std::time_put<char> >(out.getloc());
+    std::time_put<char>::iter_type ret = tfac.put(out, out, ' ', tmp, format.c_str(), format.c_str() + format.length());
+    return out;
+  }
+
+  inline std::string currentDateTime(const std::string& format, const std::locale& loc) {
     std::ostringstream oss;
-    std::locale loc;
     oss.imbue(loc);
-    const std::time_put<char>& tfac = std::use_facet<std::time_put<char> >(loc);
-    std::time_put<char>::iter_type ret = tfac.put(oss, oss, ' ', tmp, format.c_str(), format.c_str() + format.length());
+    currentDateTime(format, oss);
     return oss.str();
   }
 
