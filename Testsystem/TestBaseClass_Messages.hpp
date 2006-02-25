@@ -16,6 +16,7 @@
 #include <Transitional/Messages/MessagesMain.hpp>
 
 #include <Transitional/Testsystem/BasicDeclarations.hpp>
+#include <Transitional/Testsystem/TestFondement.hpp>
 #include <Transitional/Testsystem/TestLevel_Explanations.hpp>
 
 namespace OKlib {
@@ -37,14 +38,30 @@ namespace OKlib {
 
         BasicTestDescription(const char* const type_name_mangled, const char* const file_name, const ::OKlib::TestSystem::line_number_type line_number, const ::OKlib::TestSystem::depth_number_type depth, ::OKlib::TestSystem::TestLevel& test_level) : type_name(::OKlib::SystemSpecifics::Demangle()(type_name_mangled)), file_name(file_name), line_number(line_number), depth(depth), test_level(test_level) {}
 
-        template <class Stream>
-          void print(Stream& out, L<en_GB>, S<Basic>) const {
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           out << "Test function = " << type_name.c_str() << "\n";
+          out << "Test depth = " << depth << std::endl;
+        }
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          out << "Test function = " << type_name.c_str() << "\n";
+          out << "Test depth = " << depth << std::endl;
           out << "File name = " << file_name << "\n";
           out << "Line number = " << line_number << "\n";
           out << "Test level = " << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(test_level) << "\n";
-          out << "Test depth = " << depth << std::endl;
         }
+
+        void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+          out << "Testfunktion = " << type_name.c_str() << "\n";
+          out << "Testtiefe = " << depth << std::endl;
+        }
+        void print(std::ostream& out, L<de_DE>, S<Full>) const {
+          out << "Testfunktion = " << type_name.c_str() << "\n";
+          out << "Testtiefe = " << depth << std::endl;
+          out << "Dateiname = " << file_name << "\n";
+          out << "Zeilennummer = " << line_number << "\n";
+          out << "Testniveau = " << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(test_level) << "\n";
+        }
+
       };
 
     }
