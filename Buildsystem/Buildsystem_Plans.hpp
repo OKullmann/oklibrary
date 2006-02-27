@@ -4,6 +4,9 @@
   \file Buildsystem_Plans.hpp
 
   \todo Makefiles in general:
+   - OKSystem is defined at one place, and imported at all other places. Additionally
+     OKSystem_include is defined (with "-I").
+     In the local definition-makefiles then we only use (not define) OKSystem_include.
    - Makefiles should always have the suffix .mak,
      so that for examples xemacs recognises the format.
    - Larger makefiles should be composed (via inclusion) out of small makefiles.
@@ -80,6 +83,8 @@
       as one subdirectory doesn't contain makefile_generic, then it and its
       decendants are ignored). In this way it is then also possible that a directory
       contains a test program, and has also sub-directories with test programs.
+      However, best we postphone this, and first make experiences with a more extensive
+      directoy structure.
    
    \todo makefile_generic
     - Which compiler options are effective when linking?
@@ -112,10 +117,7 @@
     - With the new system with its nested directory structure, names need to be unique
       only relativ to the whole library-path; however for linking it is common to have all
       files just in one directory, and so here should be no name clashes: For the rare cases
-      where one has to link against the OKlibrary we must ensure this by hand, while
-      for the cases of test-object-files, which are under the control of the build system,
-      perhaps the best is that the build system mimics the source directory structure in
-      lib/Tests.
+      where one has to link against the OKlibrary we must ensure this by hand.
     - We have the following problem:
       If one is using different paths due to symbolic links, then the dependency files contain
       unusable information (and must be deleted with "make cleandep").
