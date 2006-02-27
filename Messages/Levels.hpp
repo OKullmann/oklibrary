@@ -1,8 +1,8 @@
 // Oliver Kullmann, 11.2.2006 (Swansea)
 
 /*!
-  \file Levels.hpp
-  \brief Design study for the level system
+  \file Messages/Levels.hpp
+  \brief Definition of the level system (as used by messages)
 */
 
 #ifndef LEVELS_kxbxbxvr4
