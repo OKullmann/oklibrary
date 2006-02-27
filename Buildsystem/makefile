@@ -11,7 +11,7 @@ $(word $(words $1),$1)
 endef
 srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
-include $(srcdir)/makefile_standardgoals
+include $(srcdir)/makefile_standardgoals.mak
 
 include $(srcdir)/makefile.definitions.mak
 
