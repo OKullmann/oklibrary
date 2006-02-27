@@ -1,35 +1,19 @@
 # Tony H. Bao, 13.04.2005
 
-
-ifdef OKMESSAGES
-  OKMessages := -I$(OKMESSAGES)
-else
-  OKMessages :=
-endif
-
-ifdef OKIOTOOLS
-  OKIOtools := -I$(OKIOTOOLS)
-else
-  OKIOtools :=
-endif
-
 ifdef OKSYSTEM
   OKSystem := -I$(OKSYSTEM)
 else
   OKSystem := 
 endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
-
-
 General_options := -g
-Optimisation_options := -O3
+Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestBackup
 
 programs := Backup
 
-source_libraries = $(OKTestsystem) $(Bibliothek) $(Loki) $(Boost) $(OKMessages) $(OKIOtools) $(OKSystem)
+source_libraries = $(Boost) $(OKSystem)
 
 boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc
