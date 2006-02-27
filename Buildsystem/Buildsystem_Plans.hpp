@@ -65,6 +65,8 @@
     - extended-mixed-output : "ofstream-w=error-file|ofstream-w=log-file|cerr" "ofstream-w=log-file|cout" "ofstream-w=log-file|cout"
   Here error-file and log-file are placed in aux; actually, we should have another directory
   called "log", where these files go, and also the doxygen-error messages.
+  \todo We should use gcov from time to time (supported by the build system) to check
+  whether at least all lines of code are covered by the tests.
 
    \todo Errors in the build system:
     - If when creating the .d-files an error occurs (for example
@@ -171,6 +173,7 @@
    - Build a local version of gmp.
    - Update PostgreSQL to version 8.1 (and test it).
    - Build the R system (locally and globally).
+   - Investigate the NiX system (a system for managing libraries).
    - SOCI (soci.sourceforge.net) ?
    - gcc-xml (www.gccxml.org) ?
 
