@@ -10,8 +10,8 @@
 
 #include <Transitional/Messages/MessagesMain.hpp>
 
-#include <Transitional/Messages/Languages_Explanations.hpp>
-#include <Transitional/Messages/Levels_Explanations.hpp>
+#include <Transitional/Messages/messages/Languages.hpp>
+#include <Transitional/Messages/messages/Levels.hpp>
 
 namespace Implementation {
 
@@ -50,8 +50,8 @@ int main() {
   using Implementation::M1;
 
   {
-    ::OKlib::Messages::Documentation::LanguageNames names;
-    ::OKlib::Messages::Documentation::LevelNames l_names;
+    ::OKlib::Messages::messages::LanguageNames names;
+    ::OKlib::Messages::messages::LevelNames l_names;
     for (unsigned int i = 0; i != OKlib::Messages::number_of_languages; ++i) {
       std::cout << "i = " << i << "\n";
       M1::set(std::cout, ::OKlib::Messages::Languages(i));
