@@ -17,7 +17,7 @@ BOOST = path to the source library
 GNU make, version 3.80 or higher
 (check: run "make -v")
 
-Doxygen, version 1.4.5 or higher
+Doxygen, version 1.4.5 or higher (but not 1.4.6)
 (tested: 1.4.5)
 (check: run doxygen --version)
 
