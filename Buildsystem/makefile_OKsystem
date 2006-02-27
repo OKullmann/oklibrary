@@ -8,9 +8,19 @@ $(word $(words $1),$1)
 endef
 srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
+ifndef OKSystem
+  ifdef OKSYSTEM
+    OKSystem := $(OKSYSTEM)
+  else
+    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined!)
+  endif
+endif
+
+OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+
 export
 
-include $(srcdir)/Transitional/Buildsystem/makefile_standardgoals
+include $(srcdir)/Transitional/Buildsystem/makefile_standardgoals.mak
 
 export
 
