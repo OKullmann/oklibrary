@@ -6,7 +6,7 @@
 # Usage:
 
 # make all
-# = make unoptimsed + make optimised
+# = make unoptimised optimised
 
 # make unoptimised
 # creates all dependencies files, object files, and program files;
@@ -15,10 +15,10 @@
 # creates the same (names of object and program files modified), but using optimisation options;
 
 # make prebuild
-# creates all directories and header files
+# creates all directories, and copies makefiles if necessary
 
 # make check
-# = make test + make testop
+# = make test testop
 
 # make test
 # recompiles the test program if necessary, and runs the test if necessary.
@@ -29,10 +29,10 @@
 # make clean
 # = make cleanobj cleandep
 # make cleanall
-# = make clean cleanhead cleanprograms
+# = make clean cleanprograms
 
 # Programs are compiled with $(CXX), while objectfiles are compiled with $(CXX) resp. $(CC)
-# in case the suffix is .cpp resp. .c .
+# depending on the suffix (.cpp resp. .c).
 
 # make alternative_gcc=? alternative_boost=% 
 # where ? is the locally installed GCC version number (for example 3.4.3) and % is the locally installed boost version number (for example 1_33).
@@ -59,6 +59,7 @@ this-makefile := $(call last-element,$(MAKEFILE_LIST))
 other-makefiles := $(filter-out $(this-makefile),$(MAKEFILE_LIST))
 parent-makefile := $(call last-element,$(other-makefiles))
 srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
+module-name := $(notdir $(srcdir))
 
 endif
 
@@ -66,11 +67,11 @@ ifndef OKSystem
   ifdef OKSYSTEM
     OKSystem := $(OKSYSTEM)
   else
-    $(error Either OKSystem or OKSYSTEM must be defined!)
+    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined!)
   endif
 endif
 
-OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
+OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
 
 ifndef Boost
   ifdef BOOST
@@ -80,7 +81,7 @@ endif
 
 export
 
-include $(OKBuildsystem)/makefile_standardgoals
+include $(OKBuildsystem)/makefile_standardgoals.mak
 
 export
 
@@ -99,27 +100,32 @@ include $(srcdir)/makefile.definitions.mak
 
 prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 
-exec_prefix := $(prefix)
-bindir := $(exec_prefix)/bin
-libdir := $(exec_prefix)/lib
-
-#includedir := $(prefix)/include
+bindir := $(prefix)/bin
+libdir := $(prefix)/lib
 
 aux_dir := $(prefix)/aux
 
 doc_dir := $(prefix)/doc
 html_dir := $(doc_dir)/html
 
-Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir)
+test-bindir := $(bindir)/tests
+test-libdir := $(libdir)/tests/$(module-name)
+test-auxdir := $(aux_dir)/tests/$(module-name)
+
+Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir)
 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
 # -----------------------------------------------------------------------------------
 
 test_program := $(addprefix $(bindir)/, $(test_program))
+new_test_program := $(test-bindir)/$(module-name)
+standard_test_program_object_file := $(libdir)/TestProgram_DesignStudy.o
 
 programs := $(addprefix $(bindir)/, $(programs))
 programs := $(programs) $(test_program)
+
+testobjects-dir := $(srcdir)/testobjects
 
 # ---------------------------------------------------
 
@@ -128,25 +134,26 @@ All_options := $(General_options) $(Optimisation_options)
 
 programs_optimised := $(programs:=$(name_addition))
 
-# OK 22/2/2006 To be removed completely soon
-#header_files_cpp := $(wildcard $(srcdir)/*.hpp)
-#header_files_cpp := $(notdir $(header_files_cpp))
-#header_files_cpp :=  $(addprefix $(includedir)/, $(header_files_cpp))
-#header_files_c := $(wildcard $(srcdir)/*.h)
-#header_files_c := $(notdir $(header_files_c))
-#header_files_c :=  $(addprefix $(includedir)/, $(header_files_c))
-#header_files := $(header_files_cpp) $(header_files_c)
+new_test_program_optimised := $(new_test_program)$(name_addition)
+standard_test_program_object_file_optimised := $(libdir)/TestProgram_DesignStudy$(name_addition).o
 
 compilation_units_cpp := $(wildcard $(srcdir)/*.cpp)
 compilation_units_cpp := $(notdir $(compilation_units_cpp))
 compilation_units_c := $(wildcard $(srcdir)/*.c)
 compilation_units_c := $(notdir $(compilation_units_c))
 
+test_compilation_units := $(wildcard $(testobjects-dir)/*.cpp)
+
 dependency_files_cpp := $(compilation_units_cpp:.cpp=.d)
 dependency_files_cpp := $(addprefix $(aux_dir)/, $(dependency_files_cpp))
 dependency_files_c := $(compilation_units_c:.c=.d) 
 dependency_files_c := $(addprefix $(aux_dir)/, $(dependency_files_c))
 dependency_files := $(dependency_files_cpp) $(dependency_files_c)
+
+test_dependency_files := $(notdir $(test_compilation_units))
+test_dependency_files := $(test_dependency_files:.cpp=.d)
+test_dependency_files := $(addprefix $(test-auxdir)/, $(test_dependency_files))
+dependency_files := $(dependency_files) $(test_dependency_files)
 
 object_files_cpp := $(compilation_units_cpp:.cpp=.o) 
 object_files_cpp := $(addprefix $(libdir)/, $(object_files_cpp))
@@ -159,10 +166,26 @@ object_files_c_optimised := $(compilation_units_c:.c=$(name_addition).o)
 object_files_c_optimised := $(addprefix $(libdir)/, $(object_files_c_optimised))
 object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimised)
 
+test_object_files := $(notdir $(test_compilation_units))
+test_object_files := $(test_object_files:.cpp=.o)
+test_object_files := $(addprefix $(test-libdir)/, $(test_object_files))
+
+test_object_files_optimised := $(notdir $(test_compilation_units))
+test_object_files_optimised := $(test_object_files_optimised:.cpp=$(name_addition).o)
+test_object_files_optimised := $(addprefix $(test-libdir)/, $(test_object_files_optimised))
+
+
 test_file := $(srcdir)/test
 testop_file := $(srcdir)/testop
 
+new_test_file := $(srcdir)/new_test
+new_testop_file := $(srcdir)/new_testop
+
+# -----------------------------------------------------------------------------------
+
 doxy_file := $(OKBuildsystem)/Doxyfile
+
+# -----------------------------------------------------------------------------------
 
 CXX := g++
 CC := gcc
@@ -172,6 +195,29 @@ Compile_tool := time -p
 Link_tool := time -p
 Test_tool := time -p
 
+# -----------------------------------------------------------------------------------
+
+test_level := b
+
+error_file := $(test-auxdir)/Error
+message_file := $(test-auxdir)/Message
+log_file := $(test-auxdir)/Log
+
+error_stream := "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
+message_stream := "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
+log_stream := "ofstream-w=$(log_file)"
+
+error_level := 0
+message_level := 0
+log_level := 0
+
+error_lang := en_GB
+message_lang := en_GB
+log_lang := en_GB
+
+test_parameter := $(test_level) $(error_stream) $(message_stream) $(log_stream) $(error_level) $(message_level) $(log_level) $(error_lang) $(message_lang) $(log_lang)
+
+# -----------------------------------------------------------------------------------
 
 alternative_gcc:=
 alternative_boost:=
@@ -205,12 +251,12 @@ endif
 
 all : unoptimised optimised
 
-prebuild : createdirs update
+prebuild : createdirs
 
 createdirs : $(Directories)
 
 html :
-	rm -r $(html_dir)/*; cd $(srcdir); cd $(Root); doxygen $(doxy_file) $(Doxygen_modifier)
+	doxygen --version; rm -r $(html_dir)/*; cd $(srcdir); cd $(Root); doxygen $(doxy_file) $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 
@@ -218,8 +264,12 @@ optimised : $(object_files_optimised) $(programs_optimised)
 
 check : test testop
 
+new_check : new_test new_testop
+
 test : $(test_file)
 testop : $(testop_file)
+new_test : $(new_test_file)
+new_testop : $(new_testop_file)
 
 $(test_file) : $(test_program)
 	$(Test_tool) $(test_program)
@@ -227,6 +277,13 @@ $(test_file) : $(test_program)
 $(testop_file) : $(test_program)$(name_addition)
 	$(Test_tool) $(test_program)$(name_addition)
 	touch $(testop_file)
+
+$(new_test_file) : $(new_test_program)
+	$(Test_tool) $(new_test_program) $(test_parameter)
+	touch $(new_test_file)
+$(new_testop_file) : $(new_test_program_optimised)
+	$(Test_tool) $(new_test_program_optimised) $(test_parameter)
+	touch $(new_testop_file)
 
 force :
 
@@ -237,18 +294,15 @@ include $(dependency_files)
 endif
 
 $(Directories) : % :
-	mkdir $@
-
-#$(header_files_cpp) : $(includedir)/%.hpp : $(srcdir)/%.hpp
-#	cp $< $@
-#$(header_files_c) : $(includedir)/%.h : $(srcdir)/%.h
-#	cp $< $@
-
+	mkdir --parents --verbose $@
 
 $(dependency_files_cpp) : $(aux_dir)/%.d : $(srcdir)/%.cpp
 	$(CXX) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 $(dependency_files_c) : $(aux_dir)/%.d : $(srcdir)/%.c
 	$(CC) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+
+$(test_dependency_files) : $(test-auxdir)/%.d : $(testobjects-dir)/%.cpp
+	$(CXX) -MM -MF $@ -MT $(test-libdir)/$*.o -MT $(test-libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
 $(object_files_cpp_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
@@ -259,6 +313,11 @@ $(object_files_c_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.c
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
 $(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
+
+$(test_object_files) : $(test-libdir)/%.o : $(testobjects-dir)/%.cpp
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+$(test_object_files_optimised) : $(test-libdir)/%$(name_addition).o : $(testobjects-dir)/%.cpp
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
 
 define get-link_libraries
@@ -275,20 +334,27 @@ $(programs) : $(bindir)/% : $(libdir)/%.o
 $(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries_optimised)
 
+$(new_test_program) : $(test-bindir)/% : $(test_object_files) $(standard_test_program_object_file)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(alternative_library_path) $(get-link_libraries)
+$(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised)
 
 # --------------------------------
 
 cleanobj :
 	- rm $(object_files) $(object_files_optimised)
 
+cleantestobj :
+	- rm $(test_object_files) $(test_object_files_optimised)
+
 cleandep :
 	- rm $(dependency_files)
 
-clean : cleanobj cleandep
-	- rm $(test_file) $(testop_file)
+clean : cleanobj cleantestobj cleandep
+	- rm $(test_file) $(testop_file) $(new_test_file) $(new_testop_file) 
 
 cleanprograms :
-	- rm $(programs) $(programs_optimised)
+	- rm $(programs) $(programs_optimised) $(new_test_program) $(new_test_program_optimised) 
 
 cleanall : clean cleanprograms
-
+	- rm $(error_file) $(message_file) $(log_file)
