@@ -24,7 +24,7 @@ ifndef OKSystem
   endif
 endif
 
-OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
+OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
 
 export
 
