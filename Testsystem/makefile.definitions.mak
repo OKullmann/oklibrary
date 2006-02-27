@@ -6,16 +6,14 @@ else
   OKSystem := 
 endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
-
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestTestsystem
 
-programs := TestProgram_DesignStudy
+programs :=
 
-source_libraries = $(Boost) $(OKTestsystem) $(OKSystem)
+source_libraries = $(Boost) $(OKSystem)
 
 link_libraries := 
 
