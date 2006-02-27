@@ -39,7 +39,7 @@ int main(const int argc, const char* const argv[]) {
   const unsigned int number_parameters =  1 + additional_leading_parameters + 3 * number_streams;
 
   if ((unsigned int)argc != number_parameters) {
-    std::cerr << "Exactly ten parameter expected (the test level (\'e\', \'f\' or anything else), the error stream, the message stream, the log stream, for every stream the expliciteness level code, for every stream the language code).\nStream descriptors: cerr, cout, NULL, ofstream-app=, ofstream-w=, ostringstream=; joining streams with \'|\'.";
+    std::cerr << "Exactly ten parameter expected (the test level (\'e\', \'f\' or anything else), the error stream, the message stream, the log stream, for every stream the expliciteness level code, for every stream the language code).\nStream descriptors: cerr, cout, NULL, ofstream-app=, ofstream-w=, ostringstream=; joining streams with \'|\'.\n";
     return EXIT_FAILURE;
   }
 
@@ -75,5 +75,5 @@ int main(const int argc, const char* const argv[]) {
 
   assert(current_parameter == number_parameters); 
 
-  OKlib::TestSystem::RunTest::run_tests(multiplexer.fostream_vector[0], multiplexer.fostream_vector[1], multiplexer.fostream_vector[2], level);
+  return OKlib::TestSystem::RunTest::run_tests(multiplexer.fostream_vector[0], multiplexer.fostream_vector[1], multiplexer.fostream_vector[2], level);
 }
