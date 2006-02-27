@@ -20,15 +20,15 @@ ifndef OKSystem
   ifdef OKSYSTEM
     OKSystem := $(OKSYSTEM)
   else
-    $(error Either OKSystem or OKSYSTEM must be defined!)
+    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined!)
   endif
 endif
 
-OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
+OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
 
 export
 
-include $(OKBuildsystem)/makefile_standardgoals
+include $(OKBuildsystem)/makefile_standardgoals.mak
 
 export
 
