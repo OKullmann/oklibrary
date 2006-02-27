@@ -10,7 +10,7 @@ endef
 
 unexport srcdir
 
-$(normal_goals) $(cleaning_goals) $(test_goals) $(forced_goals) :
+$(normal_goals) $(cleaning_goals) $(test_goals) $(new_test_goals) $(forced_goals) :
 	$(run_all_makes)
 
 $(special_goals) :
