@@ -60,9 +60,11 @@ namespace OKlib {
         return static_cast< ::OKlib::Messages::Strata>(out.iword(level_index()));
       }
 
-      static std::ostream& set(std::ostream& out, const ::OKlib::Messages::Languages lang) {
+      static std::ostream& set(std::ostream& out, const ::OKlib::Messages::Languages lang, const char* const coding = ".utf-8") {
         out.iword(language_index()) = lang;
-        out.imbue(std::locale(::OKlib::Messages::Locales[lang]));
+        std::string locale_name(::OKlib::Messages::Locales[lang]);
+        locale_name += coding;
+        out.imbue(std::locale(locale_name.c_str()));
         return out;
       }
       static std::ostream& set(std::ostream& out, const ::OKlib::Messages::Strata level) {
