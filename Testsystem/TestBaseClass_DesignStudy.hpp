@@ -1,7 +1,7 @@
 // Oliver Kullmann, 5.12.2005
 
 /*!
-  \file TestBaseClass_DesignStudy.hpp
+  \file Messages/TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
   \todo The log-file is not passed to TestBase::print, but testobjects
   pass message objects to the base class if they want to print a message.
@@ -26,7 +26,7 @@
 #include <Transitional/Testsystem/BasicDeclarations.hpp>
 #include <Transitional/Testsystem/TestFondement.hpp>
 #include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
-#include <Transitional/Testsystem/TestBaseClass_Messages.hpp>
+#include <Transitional/Testsystem/messages/TestBaseClass.hpp>
 
 namespace OKlib {
 
@@ -89,7 +89,7 @@ namespace OKlib {
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::language(log));
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::level(log));
 
-        log_indent << ::OKlib::TestSystem::Documentation::BasicTestDescription(test_function_type_name, file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
+        log_indent << ::OKlib::TestSystem::messages::BasicTestDescription(test_function_type_name, file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
         try {
           test(TestLevel(), log_indent);
         }

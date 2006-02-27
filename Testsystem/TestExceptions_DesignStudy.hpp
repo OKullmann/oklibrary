@@ -1,7 +1,7 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
 /*!
-  \file TestExceptions_DesignStudy.hpp
+  \file Testsystem/TestExceptions_DesignStudy.hpp
   \brief New version of TestExceptions.hpp
   \todo Remove leak from ErrorDescription
   \todo Update OKLIB_TEST_EQUAL.
@@ -27,7 +27,7 @@
 #include <boost/range/functions.hpp>
 
 #include <Transitional/Testsystem/BasicDeclarations.hpp>
-#include <Transitional/Testsystem/TestLevel_Explanations.hpp>
+#include <Transitional/Testsystem/messages/TestLevel.hpp>
 
 namespace OKlib {
 
@@ -132,7 +132,7 @@ namespace OKlib {
 
 # define OKLIB_NUMBER(N) # N
 # define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), test_function_type_name, ::OKlib::TestSystem::ErrorDescription::MessagePointer(new ::OKlib::TestSystem::Documentation::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type()))), depth()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), test_function_type_name, ::OKlib::TestSystem::ErrorDescription::MessagePointer(new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type()))), depth()))
 
     /*!
       \def OKLIB_THROW
