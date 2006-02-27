@@ -1,8 +1,8 @@
 // Oliver Kullmann, 10.2.2006 (Swansea)
 
 /*!
-  \file Languages.hpp
-  \brief Design study for the language system
+  \file Messages/Languages.hpp
+  \brief Definitions for identification and handling of (natural) languages
 
   The message system is based on "raw" character sequences, assuming the UTF-8
   interpretation of the output. Easiest input by assuming UTF-8 encoding of the source code file.
