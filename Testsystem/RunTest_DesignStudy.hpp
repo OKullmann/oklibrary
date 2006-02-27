@@ -1,7 +1,7 @@
 // Oliver Kullmann, 16.2.2006 (Swansea)
 
 /*!
-  \file RunTest_DesignStudy.hpp
+  \file Messages/RunTest_DesignStudy.hpp
   \brief Components for running tests
   \todo Use messages throughout.
 */
@@ -17,7 +17,7 @@
 #include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
 
 #include <Transitional/Testsystem/RunTest_Declarations.hpp>
-#include <Transitional/Testsystem/RunTest_Messages.hpp>
+#include <Transitional/Testsystem/messages/RunTest.hpp>
 
 namespace OKlib {
 
@@ -41,7 +41,7 @@ namespace OKlib {
         
     inline int ::OKlib::TestSystem::RunTest::run_tests(std::ostream& err, std::ostream& messages, std::ostream& log, ::OKlib::TestSystem::TestLevel& level, container_type& test_objects) {
 
-      messages << ::OKlib::TestSystem::Documentation::RunTestOpening(level, test_objects.size());
+      messages << ::OKlib::TestSystem::messages::RunTestOpening(level, test_objects.size());
 
       int return_value = 0;
       boost::timer timer;
@@ -74,30 +74,12 @@ namespace OKlib {
       }
       log.flush();
       
-      {
-        messages << err_counter << " error";
-        if (err_counter != 1) messages << "s";
-        messages << ".\n";
-      }
-      {
-        const size_type& size(test_objects.size());
-        messages << size << " testobject";
-        if (size != 1) messages << "s";
-        messages << ". \n";
-      }
-      messages << ::OKlib::TestSystem::Documentation::TestLevelDescriptions(level) << "\n";
-      messages << "\nElapsed system time: " << timer.elapsed() << "s\n";
-      messages << "Elapsed total time: " << double(total_time) << "s\n";
-      messages << TimeHandling::currentDateTime("%A, %B %e, %Y; %H:%M:%S%n");
-      messages << "\nOKlib::TestSystem::RunTest " << "\n" << banner_messages() << std::endl;
+      messages << ::OKlib::TestSystem::messages::RunTestClosing(level, err_counter, test_objects.size(), timer.elapsed(), double(total_time));
       return return_value;
     }
 
     inline std::string OKlib::TestSystem::RunTest::banner_log() {
       return std::string(40, '#');
-    }
-    inline std::string OKlib::TestSystem::RunTest::banner_messages() {
-      return std::string(40, '+');
     }
 
   }
