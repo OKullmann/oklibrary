@@ -16,14 +16,17 @@ srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
 
 endif
 
+# the main definition of OKSystem is given in makefile_generic, and should (somehow) be imported from there (the problem however is, that OKBuildsystem is not known without OKSystem);
+# at the moment we use cut and paste.
 ifndef OKSystem
   ifdef OKSYSTEM
     OKSystem := $(OKSYSTEM)
   else
-    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined!)
+    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
 
+# main definition in makefile_generic cut and paste
 OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
 
 export
