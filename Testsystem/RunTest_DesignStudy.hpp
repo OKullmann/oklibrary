@@ -1,9 +1,8 @@
 // Oliver Kullmann, 16.2.2006 (Swansea)
 
 /*!
-  \file Messages/RunTest_DesignStudy.hpp
+  \file Testsystem/RunTest_DesignStudy.hpp
   \brief Components for running tests
-  \todo Use messages throughout.
 */
 
 #ifndef RUNTESTDESIGNSTUDY_kkJJ6t
@@ -54,7 +53,7 @@ namespace OKlib {
       size_type err_counter = 0;
       for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
         bool failed = false;
-        log << banner_log() << "\n" << "Test No. " << counter << std::endl; // MESSAGES
+        messages << ::OKlib::TestSystem::messages::SingleTestOpening(counter);
         try {
           i -> perform(level, log);
         }
@@ -65,21 +64,12 @@ namespace OKlib {
           err << e << std::endl;
           return_value = EXIT_FAILURE;
         }
-        log << "Test No. " << counter << " "; // MESSAGES
-        if (failed)
-          log << "FAILED";
-        else
-          log << "SUCCEEDED";
-        log <<"\n" << banner_log() << "\n\n";
+        messages << ::OKlib::TestSystem::messages::SingleTestClosing(counter, failed);
       }
       log.flush();
       
       messages << ::OKlib::TestSystem::messages::RunTestClosing(level, err_counter, test_objects.size(), timer.elapsed(), double(total_time));
       return return_value;
-    }
-
-    inline std::string OKlib::TestSystem::RunTest::banner_log() {
-      return std::string(40, '#');
     }
 
   }
