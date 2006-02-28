@@ -1,31 +1,10 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
 /*!
-  \file TestBaseClass.hpp
+  \file Testsystem/TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
-  \todo Rename module to "TestSystem".
-  \todo Two main weaknesses currently:
-   - Even if just one submodule changed, the whole testprogram
-     has to be recompiled.
-   - Test functions (derived from TestBase) cannot be reused.
-   First problem: "Module_Testobjects.hpp" shall become "Module_Testobjects.cpp",
-   compiled independently. There is only one TestProgram.cpp in OKlib/TestSystem,
-   which for building a test program is linked with all the *new* object-files in some
-   appropriate module (and below; executable is called "TestProgram_Module").
-   We must also investigate the possibilities for dynamic link libraries, so that
-   we can avoid (if necessary) gigantic test program files at higher levels (copying
-   again and again the same object files).
-   Second problem: All test functions just derive from Test, and creating a static test
-   object happens via a class RunTest (having a constructor RunTest(Test*)).
-  \todo The TestParameter shall vanish; instead we have a tag hierarchy
-  Basic -> Full -> Extensiv, with the meaning:
-   - Basic : "permanent building"
-   - Full : "nightly build"
-   - Extensive : "weekly build".
-  \todo We need the possibility to obtain as much information about the runs of the tests as possible if we wish so.
-  \todo With the three levels then also the timestamps test and testop each
-  exists in three versions.
+  DEPRECATED.
 */
 
 #ifndef TESTBASECLASS_kkLLkbV5I
