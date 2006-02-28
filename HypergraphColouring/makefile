@@ -8,4 +8,4 @@ endif
 
 OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
 
-include $(OKBuildsystem)/makefile_generic
+include $(OKBuildsystem)/makefile_generic.mak 

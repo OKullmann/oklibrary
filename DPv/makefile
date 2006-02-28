@@ -6,4 +6,4 @@ ifndef OKBuildsystem
   endif
 endif
 
-include $(OKBuildsystem)/makefile_generic
+include $(OKBuildsystem)/makefile_generic.mak 
