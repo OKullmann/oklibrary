@@ -1,13 +1,13 @@
 // Oliver Kullmann, 11.2.2006 (Swansea)
 
 /*!
-  \file Messages.hpp
+  \file Messages/MessagesMain.hpp
   \brief The complete messages framework (including the macro support).
 */
 
-#ifndef MESSAGESDESIGNSTUDY_8876yHbg
+#ifndef MESSAGESMAINDESIGNSTUDY_8876yHbg
 
-#define MESSAGESDESIGNSTUDY_8876yHbg
+#define MESSAGESMAINDESIGNSTUDY_8876yHbg
 
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/list/for_each.hpp>
