@@ -19,6 +19,8 @@
 
 # make check
 # = make test testop
+# The test program is called with the parameters given by $(test_parameters) (see below);
+# the main variable is test_level, which has one of the values "basic", "full", "extensive".
 
 # make test
 # recompiles the test program if necessary, and runs the test if necessary.
@@ -44,6 +46,13 @@
 # Setting Test_tool="valgrind --quiet" runs all tests with memory check.
 # The default of Warning_options is "-Wall".
 
+# make html
+# creates the doxygen-documentation
+# make doxygen-parameters="..." html
+# will pass these parameter-settings to doxygen; for example by
+# make doxygen-parameters="HAVE_DOT=YES" html
+# creates all sorts of graphs (dependencies and derivations; takes much longer than without).
+
 # #############################################################
 
 SHELL = /bin/sh
@@ -67,9 +76,11 @@ ifndef OKSystem
   ifdef OKSYSTEM
     OKSystem := $(OKSYSTEM)
   else
-    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined!)
+    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
+
+OKSystem_include := -I$(OKSystem)
 
 OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
 
@@ -114,6 +125,7 @@ test-auxdir := $(aux_dir)/tests/$(module-name)
 
 Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir)
 
+doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
 # -----------------------------------------------------------------------------------
@@ -178,9 +190,6 @@ test_object_files_optimised := $(addprefix $(test-libdir)/, $(test_object_files_
 test_file := $(srcdir)/test
 testop_file := $(srcdir)/testop
 
-new_test_file := $(srcdir)/new_test
-new_testop_file := $(srcdir)/new_testop
-
 # -----------------------------------------------------------------------------------
 
 doxy_file := $(OKBuildsystem)/Doxyfile
@@ -197,7 +206,7 @@ Test_tool := time -p
 
 # -----------------------------------------------------------------------------------
 
-test_level := b
+test_level := basic
 
 error_file := $(test-auxdir)/Error
 message_file := $(test-auxdir)/Message
@@ -215,7 +224,12 @@ error_lang := en_GB
 message_lang := en_GB
 log_lang := en_GB
 
-test_parameter := $(test_level) $(error_stream) $(message_stream) $(log_stream) $(error_level) $(message_level) $(log_level) $(error_lang) $(message_lang) $(log_lang)
+test_parameters := $(test_level) $(error_stream) $(message_stream) $(log_stream) $(error_level) $(message_level) $(log_level) $(error_lang) $(message_lang) $(log_lang)
+
+# -----------------------------------------------------------------------------------
+
+test_timestamp := $(test-auxdir)/new_test_$(test_level)
+testop_timestamp := $(test-auxdir)/new_testop_$(test_level)
 
 # -----------------------------------------------------------------------------------
 
@@ -256,7 +270,7 @@ prebuild : createdirs
 createdirs : $(Directories)
 
 html :
-	doxygen --version; rm -r $(html_dir)/*; cd $(srcdir); cd $(Root); doxygen $(doxy_file) $(Doxygen_modifier)
+	doxygen --version; rm -r $(html_dir)/*; cd $(srcdir); cd $(Root); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 
@@ -268,8 +282,8 @@ new_check : new_test new_testop
 
 test : $(test_file)
 testop : $(testop_file)
-new_test : $(new_test_file)
-new_testop : $(new_testop_file)
+new_test : $(test_timestamp)
+new_testop : $(testop_timestamp)
 
 $(test_file) : $(test_program)
 	$(Test_tool) $(test_program)
@@ -278,12 +292,12 @@ $(testop_file) : $(test_program)$(name_addition)
 	$(Test_tool) $(test_program)$(name_addition)
 	touch $(testop_file)
 
-$(new_test_file) : $(new_test_program)
-	$(Test_tool) $(new_test_program) $(test_parameter)
-	touch $(new_test_file)
-$(new_testop_file) : $(new_test_program_optimised)
-	$(Test_tool) $(new_test_program_optimised) $(test_parameter)
-	touch $(new_testop_file)
+$(test_timestamp) : $(new_test_program)
+	$(Test_tool) $(new_test_program) $(test_parameters)
+	touch $(test_timestamp)
+$(testop_timestamp) : $(new_test_program_optimised)
+	$(Test_tool) $(new_test_program_optimised) $(test_parameters)
+	touch $(testop_timestamp)
 
 force :
 
@@ -341,6 +355,11 @@ $(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object
 
 # --------------------------------
 
+# needed:
+# cleaning of special or all versions of the test-timestamps
+# cleaning of test-objectfiles and test-programs
+# cleaning of test-depencies
+
 cleanobj :
 	- rm $(object_files) $(object_files_optimised)
 
@@ -351,7 +370,7 @@ cleandep :
 	- rm $(dependency_files)
 
 clean : cleanobj cleantestobj cleandep
-	- rm $(test_file) $(testop_file) $(new_test_file) $(new_testop_file) 
+	- rm $(test_file) $(testop_file) $(test_timestamp) $(testop_timestamp) 
 
 cleanprograms :
 	- rm $(programs) $(programs_optimised) $(new_test_program) $(new_test_program_optimised) 
