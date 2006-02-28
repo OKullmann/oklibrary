@@ -1,7 +1,7 @@
 // Oliver Kullmann, 5.12.2005
 
 /*!
-  \file Messages/TestBaseClass_DesignStudy.hpp
+  \file Testsystem/TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
   \todo The log-file is not passed to TestBase::print, but testobjects
   pass message objects to the base class if they want to print a message.

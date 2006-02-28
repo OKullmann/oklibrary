@@ -1,7 +1,7 @@
 // Oliver Kullmann, 25.2.2006 (Swansea)
 
 /*!
-  \file RunTestDeclarations.hpp
+  \file Testsystem/RunTest_Declarations.hpp
   \brief Declarations for ::OKlib::TestSystem::RunTest
 */
 

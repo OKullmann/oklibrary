@@ -4,8 +4,8 @@
   \file Testsystem/TestExceptions_DesignStudy.hpp
   \brief New version of TestExceptions.hpp
   \todo Remove leak from ErrorDescription
-  \todo Update OKLIB_TEST_EQUAL.
   \todo Using message objects in the descriptions (in this way strings and boost::lexical_cast
+  \todo Update OKLIB_TEST_EQUAL.
   are avoided).
 */
 
