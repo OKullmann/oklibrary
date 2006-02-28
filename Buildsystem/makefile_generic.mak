@@ -33,6 +33,24 @@
 # make cleanall
 # = make clean cleanprograms
 
+# make cleantest 
+# removes test timestamp files from every module.
+
+# make cleantestop 
+# removes testop timestamp files from every module.
+
+# make cleanalltest 
+# = make cleantest cleantestop
+
+# make new_cleantest 
+# removes all new_test_basic timestamp files from aux subdirectories.
+
+# make new_cleantestop 
+# removes all new_testop_basic timestamp files from aux subdirectories.
+
+# make new_cleanalltests
+# = make new_cleantest new_cleantestop
+
 # Programs are compiled with $(CXX), while objectfiles are compiled with $(CXX) resp. $(CC)
 # depending on the suffix (.cpp resp. .c).
 
@@ -359,6 +377,22 @@ $(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object
 # cleaning of special or all versions of the test-timestamps
 # cleaning of test-objectfiles and test-programs
 # cleaning of test-depencies
+
+cleantest :
+	- rm $(test_file)
+
+cleantestop :
+	- rm $(testop_file)
+
+cleanalltest : cleantest cleantestop
+
+new_cleantest :
+	- rm $(test_timestamp)
+
+new_cleantestop :
+	- rm $(testop_timestamp)
+
+new_cleanalltests : new_cleantest new_cleantestop
 
 cleanobj :
 	- rm $(object_files) $(object_files_optimised)

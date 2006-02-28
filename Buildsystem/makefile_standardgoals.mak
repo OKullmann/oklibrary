@@ -14,7 +14,7 @@ new_test_goals := $(new_test_phonies) $(new_test_targets)
 
 normal_goals := all $(preparation_goals) unoptimised optimised
 
-cleaning_goals := clean cleanobj cleantestobj cleandep cleanprograms cleanall
+cleaning_goals := clean cleanobj cleantestobj cleandep cleanprograms cleanall cleantest cleantestop cleanalltests new_cleantest new_cleantestop new_cleanalltests
 
 forced_goals := force
 
