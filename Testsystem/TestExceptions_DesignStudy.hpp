@@ -5,8 +5,8 @@
   \brief New version of TestExceptions.hpp
   \todo Remove leak from ErrorDescription
   \todo Using message objects in the descriptions (in this way strings and boost::lexical_cast
-  \todo Update OKLIB_TEST_EQUAL.
   are avoided).
+  \todo Update OKLIB_TEST_EQUAL.
 */
 
 #ifndef TESTEXCEPTIONS_kjhytRe4
@@ -39,7 +39,8 @@ namespace OKlib {
 
       A concrete class containing C strings for the file name, the line number and the
       name of the type of the test class.
-      \todo Use messages.
+      \todo Use messages. ErrorDescription (or better parts of it) should be part of a
+      sub-module of Messages/Utilities, providing components for identification of files etc.
       \todo Ownership of level_description needs to be managed!
       \todo Is the explicit definition of the copy constructor needed? Why does assignment work?
     */
