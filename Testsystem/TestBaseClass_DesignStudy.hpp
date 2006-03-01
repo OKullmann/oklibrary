@@ -3,12 +3,13 @@
 /*!
   \file Testsystem/TestBaseClass_DesignStudy.hpp
   \brief Design studies for the new test hierarchy.
-  \todo The log-file is not passed to TestBase::print, but testobjects
+  \todo The log-file should not passed to TestBase::print, but testobjects
   pass message objects to the base class if they want to print a message.
+  Thus log_messages should go.
   \todo Use Messages for all output.
-  \todo Try to extend the level hierarchy.
+  \todo Try to extend the level hierarchy (whether it "works").
   \todo In case an unknown exception is thrown, there should be a global option to
-  let this exception through.
+  let this exception through (perhaps kind of a "handler").
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
@@ -109,11 +110,11 @@ namespace OKlib {
       }
       virtual void test(Basic, std::ostream& log) = 0;
       virtual void test(Full, std::ostream& log) {
-        log << "Warning: test level \"Full\" not available, retrograding to test level \"Basic\"" << std::endl;
+        log << "Warning: test level \"Full\" not available, retrograding to test level \"Basic\"" << std::endl; // Messages
         test(Basic(), log);
       }
       virtual void test(Extensive, std::ostream& log) {
-        log << "Warning: test level \"Extensive\" not available, retrograding to test level \"Full\"" << std::endl;
+        log << "Warning: test level \"Extensive\" not available, retrograding to test level \"Full\"" << std::endl; // Messages
         test(Full(), log);
       }
 
