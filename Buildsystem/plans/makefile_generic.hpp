@@ -33,9 +33,9 @@
   \todo Test system:
     - We need special test-modes for more extensive messages.
     - Perhaps there should be a global directory "log", where the output of testprograms go (and also e.g. the
-      doxygen-error messages).
+      doxygen-error messages, and perhaps the time-stamps).
 
-  \todo Customisation: From makefile.definitions.mak only "Root" is to be extracted, while the rest is handled by
+  \todo Customisation: From makefile.definitions.mak only "Root" is to be extracted (but see below), while the rest is handled by
       makefile_generic, which collects the required compilation and linking information individually from all .hpp and
       .cpp files by means of annotating files.
     - We keep our two-stages process: Every .cpp-files yields a .o-file, and finally exactly those .cpp-files with main()
@@ -44,6 +44,10 @@
       and a .compile_options and a .compile_options_optimised file (if needed).
     - The link-libraries for a .cpp-file with main() are collected from the link-libraries of the .cpp-files linked to it,
       and from the link-library-file for this .cpp-file itself.
+    - Finally, also "Root" needs to be replaced; perhaps best with a make-variable System_directories (which will get
+      its default value derived from OKPLATFORM (like OKSystem)).
+    - The (recursive) make-variable source_libraries is kept, predefined as "$(OKSystem_include) $(Boost_include)" (potentially
+      changed in the locale makefile): If .source_libraries exists, then it overrides $(source_libraries).
 
   \todo Placement of makefile_generic:
     - Except of in Buildsystem, all other makefile_generic-versions should be links. See makefile_recursive.
