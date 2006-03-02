@@ -965,6 +965,8 @@ namespace {
       0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4,
       0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91
     };
+
+}
   
 
 
@@ -972,6 +974,10 @@ namespace {
   // API
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
+namespace OKlib {
+
+  namespace Rijndael {
+
   Rijndael::Rijndael()
   {
     m_state = Invalid;
@@ -1630,4 +1636,6 @@ namespace {
     *((UInt32*)(b+12)) ^= *((UInt32*)m_expandedKey[0][3]);
   }
   
+  }
+
 }
