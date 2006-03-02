@@ -34,30 +34,43 @@ struct Evaluation {
   const std::string& filename;
   const char* const specifier;
 
-  typedef typename LexicographicalEvaluationRandom_from_file<with_extension>::type evaluation_from_file_type;
+  typedef typename ::LexicographicalEvaluationRandom_from_file<with_extension>::type evaluation_from_file_type;
   evaluation_from_file_type eval;
 
   Evaluation(const std::string& filename, const char* const specifier) : filename(filename), specifier(specifier), eval(filename) {
-    
+
     std::cout << "\nFile name = " << filename;
     if (specifier)
       std::cout << "\nsyntax specifier = " << specifier;
     std::cout << "\n\n";
 
     std::cout << "\nALL results: ---------------------------------------------------------------------------------------------------------------------\n\n";
-    std::cout << "Unfolded lexicographical order:\n\n" << eval.evaluation_unfolded_all.map << "\n";
-    std::cout << "Induced lexicographical order:\n\n" << eval.evaluation_induced_all.map << "\n";
+    std::cout << "Unfolded lexicographical order:\n\n";
+    eval.evaluation_unfolded_all.print(std::cout);
+    std::cout << "\n";
+    std::cout << "Induced lexicographical order:\n\n";
+    eval.evaluation_induced_all.print(std::cout);
+    std::cout << "\n";
 
     std::cout << "\nSAT results: ---------------------------------------------------------------------------------------------------------------------\n\n";
-    std::cout << "Unfolded lexicographical order:\n\n" << eval.evaluation_unfolded_sat.map << "\n";
-    std::cout << "Induced lexicographical order:\n\n" << eval.evaluation_induced_sat.map << "\n";
+    std::cout << "Unfolded lexicographical order:\n\n";
+    eval.evaluation_unfolded_sat.print(std::cout);
+    std::cout << "\n";
+    std::cout << "Induced lexicographical order:\n\n";
+    eval.evaluation_induced_sat.print(std::cout);
+    std::cout << "\n";
     
     std::cout << "\nUNSAT results: ---------------------------------------------------------------------------------------------------------------------\n\n";
-    std::cout << "Unfolded lexicographical order:\n\n" << eval.evaluation_unfolded_unsat.map << "\n";
-    std::cout << "Induced lexicographical order:\n\n" << eval.evaluation_induced_unsat.map << "\n";
+    std::cout << "Unfolded lexicographical order:\n\n";
+    eval.evaluation_unfolded_unsat.print(std::cout);
+    std::cout << "\n";
+    std::cout << "Induced lexicographical order:\n\n";
+    eval.evaluation_induced_unsat.print(std::cout);
+    std::cout << "\n";
 
   }
 };
+
 
 // #############################
 
