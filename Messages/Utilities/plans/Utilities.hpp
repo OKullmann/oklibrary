@@ -8,10 +8,13 @@
   classes (and macros) for file-identification purposes:
    - Per file we have __DATE__ (compilation date), __FILE__ (file name),
      __TIME__ (C) (compilation time), and
-     $Date: 2006/03/01 15:04:38 $ (last change date), $Name:  $ (current tag), $Revision: 1.1 $ (current
+     $Date: 2006/03/02 18:25:54 $ (last change date), $Name:  $ (current tag), $Revision: 1.2 $ (current
      revision number) (CVS).
    - For programs we also have the version, the author, name of program etc.
  \todo Perhaps we can offer also some help regarding __LINE__.
+ \todo We need components (message classes and handlers) for creating warning and error
+ messages (using the abve facilities)
+ \todo Module ErrorHandling should offer a base class using message objects.
 */
 
 

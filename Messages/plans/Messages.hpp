@@ -3,6 +3,8 @@
 /*!
   \file Messages/plans/Messages.hpp
   \brief Plans for the messages module
+  \todo We need some help for memory management of message objects (components,
+  or at least some guidelines).
   \todo Write tests.
 */
 
