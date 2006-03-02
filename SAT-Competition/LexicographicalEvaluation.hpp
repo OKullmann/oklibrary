@@ -276,33 +276,72 @@ namespace OKlib {
       map_super_series_to_evaluations_type map;
 
       typedef typename map_super_series_to_evaluations_type::value_type value_type;
-      friend std::ostream& operator <<(std::ostream& out, const map_super_series_to_evaluations_type& map) {
+
+//       friend std::ostream& operator <<(std::ostream& out, const map_super_series_to_evaluations_type& map) {
+//         const bool fixed = out.flags() & std::ios_base::fixed; // ToDo: RAII
+//         if (not fixed)
+//           out.setf(std::ios_base::fixed);
+//         std::copy(map.begin(), map.end(), std::ostream_iterator<value_type>(out, "\n"));
+//         if (not fixed)
+//           out.unsetf(std::ios_base::fixed);
+//         return out;
+//       }
+//       friend std::ostream& operator <<(std::ostream& out, const value_type& pair) {
+//         return out << pair.first << "\t:\n\n" << pair.second << "\n";
+//       }
+//       friend std::ostream& operator <<(std::ostream& out, const set_of_evaluations_type& set) {
+//         std::copy(set.begin(), set.end(), std::ostream_iterator<solver_evaluation_pair_type>(out, "\n"));
+//         return out;
+//       }
+//       friend std::ostream& operator <<(std::ostream& out, const solver_evaluation_pair_type& pair) {
+//         const std::streamsize field_width_solvers(6 + 3);
+//         out.width(field_width_solvers);
+//         return out << std::left << pair.first <<std::right << "\t:\t" << pair.second << "\n";
+//       }
+//       friend std::ostream& operator <<(std::ostream& out, const evaluation_vector_type& vec) {
+//         std::copy(vec.begin(), vec.end(), std::ostream_iterator<numerics_solver_on_series_type>(out, " | "));
+//         return out;
+//       }
+
+      void print(std::ostream& out) const {
         const bool fixed = out.flags() & std::ios_base::fixed; // ToDo: RAII
         if (not fixed)
           out.setf(std::ios_base::fixed);
-        std::copy(map.begin(), map.end(), std::ostream_iterator<value_type>(out, "\n"));
+        typedef typename map_super_series_to_evaluations_type::const_iterator iterator;
+        const iterator& end(map.end());
+        for (iterator i = map.begin(); i != end; ++i) {
+          print(out, *i);
+          out << "\n";
+        }
         if (not fixed)
           out.unsetf(std::ios_base::fixed);
-        return out;
       }
-      friend std::ostream& operator <<(std::ostream& out, const value_type& pair) {
-        return out << pair.first << "\t:\n\n" << pair.second << "\n";
+    private :
+
+      static void print(std::ostream& out, const value_type& pair) {
+        out << pair.first << "\t:\n\n";
+        print(out, pair.second);
+        out << "\n";
       }
-      friend std::ostream& operator <<(std::ostream& out, const set_of_evaluations_type& set) {
-        std::copy(set.begin(), set.end(), std::ostream_iterator<solver_evaluation_pair_type>(out, "\n"));
-        return out;
+      static void print(std::ostream& out, const set_of_evaluations_type& set) {
+        typedef typename set_of_evaluations_type::const_iterator iterator;
+        const iterator& end(set.end());
+        for (iterator i = set.begin(); i != end; ++i) {
+          print(out, *i);
+          out << "\n";
+        }
       }
-      friend std::ostream& operator <<(std::ostream& out, const solver_evaluation_pair_type& pair) {
+      static void print(std::ostream& out, const solver_evaluation_pair_type& pair) {
         const std::streamsize field_width_solvers(6 + 3);
         out.width(field_width_solvers);
-        return out << std::left << pair.first <<std::right << "\t:\t" << pair.second << "\n";
+        out << std::left << pair.first <<std::right << "\t:\t";
+        print(out, pair.second);
+        out << "\n";
       }
-      friend std::ostream& operator <<(std::ostream& out, const evaluation_vector_type& vec) {
+      static void print(std::ostream& out, const evaluation_vector_type& vec) {
         std::copy(vec.begin(), vec.end(), std::ostream_iterator<numerics_solver_on_series_type>(out, " | "));
-        return out;
       }
 
-    private :
 
       RandomKSat get_derived_super_series(const SuperSeries& s) {
         return (static_cast<const ResultRandomSat*>((*OKlib::SetAlgorithms::map_value(idb.db.super_series(), s) -> begin()) -> rb)) -> super_series_random();
