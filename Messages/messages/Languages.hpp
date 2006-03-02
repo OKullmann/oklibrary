@@ -44,6 +44,8 @@ namespace OKlib {
             out << "French"; break;
           case fr_CH :
             out << "French (Swiss)"; break;
+//           case fr_CA :
+//             out << "French (Canada)"; break;
           case de_DE :
             out << "German"; break;
           case de_AT :
@@ -69,6 +71,8 @@ namespace OKlib {
             out << "Francais"; break;
           case fr_CH :
             out << "Francais (Suisse)"; break;
+//           case fr_CA :
+//             out << "Francais (Canada)"; break;
           case de_DE :
             out << "Allemand"; break;
           case de_AT :
@@ -94,6 +98,8 @@ namespace OKlib {
             out << "Französisch"; break;
           case fr_CH :
             out << "Französisch (Schweiz)"; break;
+//           case fr_CA :
+//             out << "Französisch (Kanada)"; break;
           case de_DE :
             out << "Deutsch"; break;
           case de_AT :

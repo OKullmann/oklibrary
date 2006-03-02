@@ -31,11 +31,11 @@ namespace OKlib {
       is added (for a new (localised) language; at the end or in the middle -- but not at the start, since
       otherwise it would replace the default language), then in order to make it usable, a new partial
       specialisation of ::OKlib::Messages::L needs to be created (see below), and in
-      ::OKlib::Messages::Documentation::LanguagesNames a new print-overload for this class
+      ::OKlib::Messages::messages::Languages a new print-overload for this class
       has to be created as well as extending the switch-statements of the other print-overloads.
     */
 
-#define OKLIB_LANGUAGES (en_GB) (en_US) (en_CA) (en_AU) (fr_FR) (fr_CH) (de_DE) (de_AT) (de_CH)
+#define OKLIB_LANGUAGES (en_GB) (en_US) (en_CA) (en_AU) (fr_FR) (fr_CH) /* (fr_CA) */ (de_DE) (de_AT) (de_CH)
 
     /*!
       \brief Number of available languages
