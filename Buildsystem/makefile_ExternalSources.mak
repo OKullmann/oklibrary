@@ -4,8 +4,8 @@ SHELL = /bin/sh
 doxygen_targets := doxygen-1.4.5
 doxygen_recommended := doxygen-1.4.5
 # remark: doxygen-1.4.6 broken
-gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2
-gcc_recommended := gcc-4.0.2
+gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2 gcc-4.1.0
+gcc_recommended := gcc-4.1.0
 boost_targets := boost-1_33_1
 boost_recommended := boost-1_33_1
 postgresql_targets := postgresql-8.0.3
@@ -44,10 +44,6 @@ mhash_recommended := mhash-0.9.2
 # make boost_gcc_all
 # all combinations of supported versions of boost with supported version of gcc
 # plus the system gcc are installed.
-
-# The default minor version number of the Boost release is "_0"; if necessary,
-# this can by changed by calling make with for example
-# boost_minor_version="1"
 
 # PostgreSQL
 
