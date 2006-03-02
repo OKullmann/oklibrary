@@ -13,8 +13,6 @@ namespace OKlib {
 
   namespace Concepts {
 
-    namespace Archetype_tests {
-
       OKLIB_BASIC_CONCEPT_TEST_TAG(InputIterator)
       OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(InputIterator)
 
@@ -23,8 +21,6 @@ namespace OKlib {
 
       OKLIB_BASIC_CONCEPT_TEST_TAG(ForwardIterator)
       OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(ForwardIterator)
-
-    }
 
   }
 

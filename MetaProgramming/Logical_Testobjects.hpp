@@ -16,13 +16,10 @@ namespace OKlib {
 
   namespace MetaProgramming {
 
-    namespace Metafunction_tests {
-
       template class Test_True_T<True>;
 
       template class Test_False_T<False>;
 
-    }
   }
 
 }
