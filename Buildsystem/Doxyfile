@@ -33,7 +33,7 @@ PROJECT_NUMBER         = 0.0.1
 # where doxygen was started. If left blank the current directory will be used.
 
 # Tony H. Bao, 14.06.2005, Swansea
-OUTPUT_DIRECTORY       = doc/
+OUTPUT_DIRECTORY       = SystemDirectories/doc/
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format

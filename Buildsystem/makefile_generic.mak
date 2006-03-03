@@ -137,12 +137,15 @@ source_libraries += $(OKSystem_include)
 
 prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 
-bindir := $(prefix)/bin
-libdir := $(prefix)/lib
+system_directories_name := SystemDirectories
+system_directories := $(prefix)/SystemDirectories
 
-aux_dir := $(prefix)/aux
+bindir := $(system_directories)/bin
+libdir := $(system_directories)/lib
 
-doc_dir := $(prefix)/doc
+aux_dir := $(system_directories)/aux
+
+doc_dir := $(system_directories)/doc
 html_dir := $(doc_dir)/html
 
 test-bindir := $(bindir)/tests
