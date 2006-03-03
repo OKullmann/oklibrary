@@ -32,7 +32,7 @@
       in the Linux lab can use a central installation of OKplatform, and in the local
       directory only the files related to their production is stored.
 
-    \todo We need some "competition extraction tools", which for a given program
+   \todo We need some "competition extraction tools", which for a given program
     build a package, which contains all necessary source code and can be build
     using make (producing then the executable). A problem here are the link-libraries.
     Without them, one could use the ability of g++ to produce compilation units (using
@@ -41,18 +41,19 @@
     So when we know all compilation units, we can preprocess them all and putting them
     into the package; the package just compiles the units separately, and then links them together.
 
-   \todo Each "make test" etc. should gather summary statistics of the tests performed,
-   like the total number of testobjects, the total time spend and so on.
-   In order to do so, a test program can be asked to serialise the statistics
-   to a file or to standard output, and a simple evaluation program gathers
-   these statistics.
-   \todo Similar to the complexity measurements, for every task performed by the build
-   system it should be possible to save the measured run time, so that the develepment over
-   time for example of compile times, link times, test times can be followed, and also
-   the influence of compilers can be considered. By default, when running make only
-   the total times are output, but in a protocol mode everything is written to a file
-   (as for the complexity system; it should be possible for example to use the visualisation
-   tools there to look at the developments here).
+   \todo Measurements:
+    - Each "make test" etc. should gather summary statistics of the tests performed,
+    like the total number of testobjects, the total time spend and so on.
+    In order to do so, a test program can be asked to serialise the statistics
+    to a file or to standard output, and a simple evaluation program gathers
+    these statistics.
+    -Similar to the complexity measurements, for every task performed by the build
+    system it should be possible to save the measured run time, so that the develepment over
+    time for example of compile times, link times, test times can be followed, and also
+    the influence of compilers can be considered. By default, when running make only
+    the total times are output, but in a protocol mode everything is written to a file
+    (as for the complexity system; it should be possible for example to use the visualisation
+    tools there to look at the developments here).
 
    \todo makefile_recursive
     - This should go, and makefile_generic should be able to do all jobs,
