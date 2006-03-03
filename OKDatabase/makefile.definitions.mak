@@ -16,13 +16,9 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
-ifdef OKSYSTEM
-  OKSystem := -I$(OKSYSTEM)
-else
-  OKSystem := 
-endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
+
+OKTestsystem := -I$(OKSystem)/Transitional/Testsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -31,7 +27,7 @@ test_program := TestOKDatabase
 
 programs := Special_update Delete_rows CreateStatistic
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKSystem) -I/usr/include/pgsql
+source_libraries =  $(Boost) $(OKTestsystem) -I/usr/include/pgsql
 
 link_libraries := -lpq
 

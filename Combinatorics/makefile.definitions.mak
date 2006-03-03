@@ -15,13 +15,8 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
-ifdef OKSYSTEM
-  OKSystem := -I$(OKSYSTEM)
-else
-  OKSystem := 
-endif
 
-OKTESTSYSTEM := -I$(OKSYSTEM)/Transitional/OKTestsystem
+OKTESTSYSTEM := -I$(OKSystem)/Transitional/OKTestsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -30,7 +25,7 @@ test_program := TestCombinatorics
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKSystem)
+source_libraries =  $(Boost) $(OKTestsystem)
 
 link_libraries := 
 

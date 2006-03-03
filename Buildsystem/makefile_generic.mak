@@ -90,11 +90,19 @@ module-name := $(notdir $(srcdir))
 
 endif
 
+ifndef OKPlatform
+  ifdef OKPLATFORM
+    OKPlatform := $(OKPLATFORM)
+  else
+    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+  endif
+endif
+
 ifndef OKSystem
   ifdef OKSYSTEM
     OKSystem := $(OKSYSTEM)
   else
-    $(error Either OKSystem (a make-variable) or OKSYSTEM (an environment-variable) must be defined when calling this makefile!)
+    OKSystem := $(OKPlatform)/OKsystem
   endif
 endif
 
@@ -125,7 +133,7 @@ include $(srcdir)/makefile.definitions.mak
 # link_libraries
 # Root
 
-
+source_libraries += $(OKSystem_include)
 
 prefix := $(shell cd $(srcdir); cd $(Root); pwd)
 

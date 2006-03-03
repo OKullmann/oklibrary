@@ -1,13 +1,6 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-
-ifdef OKSYSTEM
-  OKSystem := -I$(OKSYSTEM)
-else
-  OKSystem := 
-endif
-
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
+OKTestsystem := -I$(OKSystem)/Transitional/Testsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -16,7 +9,7 @@ test_program := TestFailedLiteralReduction
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKSystem)
+source_libraries =  $(Boost) $(OKTestsystem)
 
 link_libraries := 
 

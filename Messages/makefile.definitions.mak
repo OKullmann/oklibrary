@@ -7,7 +7,7 @@ test_program := TestMessages
 
 programs := Messages_Testapplication
 
-source_libraries = $(Boost) $(OKSystem_include)
+source_libraries = $(Boost)
 
 link_libraries := 
 

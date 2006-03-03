@@ -1,7 +1,5 @@
 # Oliver Kullmann, 13.4.2005 (Swansea)
 
-
-
 ifdef LOKI
   Loki := -I$(LOKI)
 else
@@ -17,13 +15,8 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
-ifdef OKSYSTEM
-  OKSystem := -I$(OKSYSTEM)
-else
-  OKSystem := 
-endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
+OKTestsystem := -I$(OKSystem)/Transitional/Testsystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -32,7 +25,7 @@ test_program := TestBibliothek
 
 programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList Algebra_Applications_RSA
 
-source_libraries = $(OKSystem) $(OKTestsystem) $(Xerces_h) $(Loki) $(Boost) 
+source_libraries = $(OKTestsystem) $(Xerces_h) $(Loki) $(Boost) 
 
 link_libraries := -lboost_date_time-gcc $(Xerces_so)
 

@@ -7,7 +7,7 @@ test_program := TestTestsystem
 
 programs :=
 
-source_libraries = $(Boost) $(OKSystem_include)
+source_libraries = $(Boost)
 
 link_libraries := 
 

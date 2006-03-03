@@ -16,11 +16,6 @@ ifdef XERCES_SO
 else
   Xerces_so :=
 endif
-ifdef OKSYSTEM
-  OKSystem := -I$(OKSYSTEM)
-else
-  OKSystem := 
-endif
 
 OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
 
@@ -31,7 +26,7 @@ test_program := TestIterators
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKSystem)
+source_libraries =  $(Boost) $(OKTestsystem)
 
 link_libraries := 
 
