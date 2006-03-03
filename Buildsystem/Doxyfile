@@ -18,14 +18,14 @@
 # by quotes) that should identify the project.
 
 # Tony H. Bao, 14.06.2005, Swansea 
-PROJECT_NAME           = OKSystem
+PROJECT_NAME           = Transitional + OKlibrary
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. 
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
 # Tony H. Bao, 14.06.2005, Swansea
-PROJECT_NUMBER         = 0.1.0
+PROJECT_NUMBER         = Transitional: 0.1.0; OKlibrary: 0.0.1
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
