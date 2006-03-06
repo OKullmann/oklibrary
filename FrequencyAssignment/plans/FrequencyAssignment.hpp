@@ -1,7 +1,7 @@
 // Oliver Kullmann, 14.2.2006 (Swansea)
 
 /*!
-  \file FrequencyAssignment/FrequencyAssignment.hpp
+  \file FrequencyAssignment/plans/FrequencyAssignment.hpp
   \brief Plans for the module on frequency assignment
   \todo First the most important notions of frequency assignments
   have to be captured and formulated as generalised satisfiability
