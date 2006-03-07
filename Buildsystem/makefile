@@ -37,7 +37,7 @@ $(makefile_oksystem) : $(srcdir)/makefile_OKsystem
 	cp $< $@
 
 $(makefile_externalsources) : $(srcdir)/makefile_ExternalSources.mak
-	cp $< $@
+	ln -s $< $@
 
 
 maintainer_clean :
