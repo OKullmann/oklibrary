@@ -12,8 +12,32 @@ postgresql_targets := postgresql-8.0.3
 postgresql_recommended := postgresql-8.0.3
 valgrind_targets := valgrind-3.1.0
 valgrind_recommended := valgrind-3.1.0
-mhash_targets := mhash-0.9.2
-mhash_recommended := mhash-0.9.2
+
+####################################################
+
+ifndef OKPlatform
+  ifdef OKPLATFORM
+    OKPlatform := $(OKPLATFORM)
+  else
+    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+  endif
+endif
+
+ifndef OKSystem
+  ifdef OKSYSTEM
+    OKSystem := $(OKSYSTEM)
+  else
+    OKSystem := $(OKPlatform)/OKsystem
+  endif
+endif
+
+ifndef OKBuildsystem
+  ifdef OKBUILDSYSTEM
+    OKBuildsystem := $(OKBUILDSYSTEM)
+  else
+    OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+  endif
+endif
 
 # ####################################################
 # Usage
@@ -66,14 +90,7 @@ mhash_recommended := mhash-0.9.2
 # make valgrind (recommended version)
 # make valgrind-?
 
-# MHash
-# make mhash (recommended version)
-# make mhash-? for building version number ?
-# make gcc-version=% mhash
-# with % either the version-number (like "4.0.1") or "all" (for all supported
-# gcc-versions).
-# make mhash_gcc_all
-# for building all versions of mhash with all versions of gcc.
+
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -160,25 +177,7 @@ postgresql-directories := $(postgresql-base-directory)
 valgrind-base-directory := $(prefix)/Valgrind
 valgrind-directories := $(valgrind-base-directory)
 
-# ###################
 
-mhash-base-directory := $(prefix)/Mhash
-abbr_mhash_targets := $(patsubst mhash-%, %, $(mhash_targets))
-
-mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_mhash_targets)))
-
-mhash_installation_directory_names += $(abbr_mhash_targets)
-mhash_installation_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_installation_directory_names))
-
-mhash_build_directory_names := $(addsuffix _Build, $(mhash_installation_directory_names))
-mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
-
-mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths)
-
-mhash_distribution_directories := $(addprefix $(mhash-base-directory)/mhash-, $(abbr_mhash_targets))
-
-mhash_gcc_targets := $(foreach mhashversion, $(mhash_targets), $(addprefix $(mhashversion)+, $(gcc_installation_directory_names)))
-all_mhash_targets := $(mhash_targets) $(mhash_gcc_targets)
 
 # ###############################################
 
@@ -195,7 +194,6 @@ endef
 .PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
 .PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
 .PHONY : valgrind $(valgrind_targets) create_valgrind_dirs
-.PHONY : mhash mhash_all mhash_gcc_all $(all_mhash_targets)
 .PHONY : all clean cleanall
 
 all : gcc boost postgresql valgrind mhash doxygen
@@ -354,76 +352,20 @@ $(valgrind_targets) : create_valgrind_dirs
 	make; $(postcondition) \
 	sudo make install; $(postcondition)
 
-# ###############################
-# Mhash
-# ###############################
-
-$(mhash_installation_directory_paths) : % : | $(mhash-base-directory) %_Build 
-
-$(mhash-directories) : % : 
-	mkdir $@
-
-# Making mhash with the system gcc:
-
-define install-mhash
-	cd $(mhash-base-directory)/$(1)_Build; $(postcondition) \
-	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1); $(postcondition) \
-	make;	$(postcondition) \
-	make install;
-endef
-
-$(mhash-base-directory)/$(mhash_targets) : $(mhash-base-directory)/mhash-% : $(mhash-base-directory)/%
-	$(call unarchive,mhash-$*,$(mhash-base-directory))
-	$(call install-mhash,$*)
-	touch $@
-
-# Making mhash with a local gcc:
-
-define install-mhash_gcc
-	cd $(mhash-base-directory)/$(1)+$(2)_Build;  if [ $$$$? != 0 ]; then exit 1; fi; \
-	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi; \
-	make; if [ $$$$? != 0 ]; then exit 1; fi; \
-	make install;
-endef
-
-define mhash_gcc_rule
-$(mhash-base-directory)/mhash-$(1)+$(2) : $(mhash-base-directory)/$(1)+$(2)
-	$(call unarchive,mhash-$(1),$(mhash-base-directory))
-	$(call install-mhash_gcc,$(1),$(2))
-endef
-
-$(foreach mhashversion, $(abbr_mhash_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call mhash_gcc_rule,$(mhashversion),$(gccversion)))))
-
-# The main targets for making mhash
-
-mhash_gcc_all : $(all_mhash_targets)
-
-$(all_mhash_targets) : % : $(mhash-base-directory)/%
-
-ifeq ($(gcc-version),all)
- mhash_all : $(mhash_gcc_targets)
- mhash : $(addprefix $(mhash_recommended)+,$(gcc_installation_directory_names))
-else
- ifeq ($(gcc-version),)
-  mhash_all : $(mhash_targets)
-  mhash : $(mhash_recommended)
- else
-  mhash_all : $(addsuffix $(gcc-version),$(mhash_targets))
-  mhash : $(mhash_recommended)+$(gcc-version)
- endif
-endif
 
 # ####################################################
 
-clean :
+include $(OKBuildsystem)/ExternalSources/makefile_mhash.mak
+
+clean : cleanmhash
 	-rm -rf $(gcc_build_directory_paths)
 	-rm -rf $(boost_build_directory_paths) $(boost_distribution_directories) $(bjam_directory_path)
-	-rm -rf $(mhash_build_directory_paths)
 
-cleanall : clean
+
+cleanall : clean cleanallmhash
 	-rm -rf $(doxygen-directories)
 	-rm -rf $(gcc-directories)
 	-rm -rf $(boost-directories)
 	-rm -rf $(postgresql-directories)
 	-rm -rf $(valgrind-directories)
-	-rm -rf $(mhash-directories)
+	
