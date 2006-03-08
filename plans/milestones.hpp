@@ -2,6 +2,7 @@
 
 /*!
   \file Transitional/plans/milestones.hpp
+  \brief Milestones for Transitional
 */
 
 /*!

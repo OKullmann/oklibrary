@@ -1,11 +1,6 @@
 // Oliver Kullmann, 3.3.2006 (Swansea)
 
 /*!
-  \namespace OKlib::Messages
-  \brief Module for objects representing units of meaning
-*/
-
-/*!
   \file Messages/plans/milestones.hpp
 
   \par Current version 0.7 (3.3.2006)
@@ -21,6 +16,12 @@
   Tests for all components available and applied.
 
 */
+
+/*!
+  \namespace OKlib::Messages
+  \brief Module for objects representing units of meaning
+*/
+
 
 namespace OKlib {
   namespace Messages {
