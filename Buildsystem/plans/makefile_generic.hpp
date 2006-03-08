@@ -4,17 +4,31 @@
   \file Buildsystem/plans/makefile_generic.hpp
   \brief Plans for the generic makefile
 
-  \todo Compilation:
-    - "General_options" should become "Debug_options" (if used at all).
-    - The names of the created applications should reflect all compiler options.
-
-  \todo Linking:
+  \todo Make-variables for compilation and linking:
+    - general clean-up
+    - the current function of "General_options" is taken over by the new variable "Debug_options"
     - Which compiler options are effective when linking?
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
+
+  \todo Compilation:
+    - The names of the created .o-files and executables should reflect "all" compiler options.
+    - There are generic links to the unoptimised and the optimised version (the latest).
+      The test system uses theses.
+    - For every created file.o and file we have file.compilation_log (in the same directory
+      where these files go). Optionally we can switch it off.
+    - There is a make-variable for optional name extensions.
+
+  \todo Cleaning:
+    - We need specialised cleaning regarding the test system.
+    - We need also cleaning tools which clean up directories (not single files).
+    - We need specialised cleaning for applications and link-libraries.
+
+  \todo Linking:
     - The build system should find out whether the platform is 32- or 64-bit, and select then only
-      the needed links.
+      the needed links (environment variables HOSTTYPE and CPU).
     - What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
+      At least we should have the option.
 
   \todo Directory structure:
     - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each with its own
@@ -24,11 +38,6 @@
       compiled implementations go to lib, compiled test-programs go to bin/tests, compiled applications go to bin.
       Thus names for implementation files and application files need to be unique for the whole library, while
       names for testobject-files need to be unique within a module
-
-  \todo Cleaning:
-    - We need specialised cleaning regarding the test system.
-    - We need also cleaning tools which clean up directories (not single files).
-    - We need specialised cleaning for applications and implementations.
 
   \todo Test system:
     - We need special test-modes for more extensive messages.

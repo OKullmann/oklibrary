@@ -8,9 +8,10 @@
   \par Version 0.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
+  - Make-variables for compilation and linking
   - Compilation
-  - Linking
   - Cleaning
+  - Linking
 
   \par Version 0.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
