@@ -3,6 +3,7 @@
 /*!
   \file ErrorHandling/plans/ErrorHandling.hpp
   \brief Plans for error handling
+  \todo Create milestones.
   \todo The Boost method seems reasonable, so we should transfer it.
   But better using own types (a base class for all exceptions thrown
   by the library).
