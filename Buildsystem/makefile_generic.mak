@@ -135,7 +135,7 @@ include $(srcdir)/makefile.definitions.mak
 
 source_libraries += $(OKSystem_include)
 
-prefix := $(shell cd $(srcdir); cd $(Root); pwd)
+prefix := $(OKPlatform)
 
 system_directories_name := SystemDirectories
 system_directories := $(prefix)/SystemDirectories
