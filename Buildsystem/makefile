@@ -6,10 +6,23 @@ SHELL = /bin/sh
 
 # Special makefile for the buildsystem
 
-define last-element
-$(word $(words $1),$1)
-endef
-srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
+ifndef OKPlatform
+  ifdef OKPLATFORM
+    OKPlatform := $(OKPLATFORM)
+  else
+    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+  endif
+endif
+
+ifndef OKSystem
+  ifdef OKSYSTEM
+    OKSystem := $(OKSYSTEM)
+  else
+    OKSystem := $(OKPlatform)/OKsystem
+  endif
+endif
+
+srcdir := $(OKSystem)/Transitional/Buildsystem
 
 include $(srcdir)/makefile_standardgoals.mak
 
@@ -18,12 +31,11 @@ include $(srcdir)/makefile.definitions.mak
 # Definitions required from makefile.definitions:
 # Root
 
-prefix := $(shell cd $(srcdir); cd $(Root); pwd)
-externalsourcesdir := $(prefix)/ExternalSources
+externalsourcesdir := $(OKPlatform)/ExternalSources
 
 Directories :=  $(externalsourcesdir)
 
-makefile_oksystem := $(prefix)/OKsystem/makefile
+makefile_oksystem := $(OKSystem)/makefile
 makefile_externalsources := $(externalsourcesdir)/makefile
 
 all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 
