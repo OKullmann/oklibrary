@@ -17,6 +17,8 @@
 #include <algorithm>
 #include <cstdlib>
 #include <vector>
+#include <limits>
+#include <cassert>
 
 #include <Transitional/General/ErrorHandling.hpp>
 
@@ -194,9 +196,10 @@ namespace StringHandling {
 
   inline std::string deleteHead(const std::string& s, const int n) {
     // throw()
+    assert(n != std::numeric_limits<int>::min()); // TODO Write a better abs-function, which for input int returns unsigned int, so that this asserts becomes superfluous.
     if (n == 0)
       return s;
-    else if (std::abs(n) >= s.size())
+    else if ((unsigned int) std::abs(n) >= s.size())
       return "";
     else if (n > 0)
       return s.substr(n);
@@ -206,7 +209,8 @@ namespace StringHandling {
 
   inline void deleteHead_var(std::string& s, const int n) {
     // throw()
-    if (std::abs(n) >= s.size()) {
+    assert(n != std::numeric_limits<int>::min()); // TODO see above for abs-function
+    if ((unsigned int) std::abs(n) >= s.size()) {
       s.clear();
     }
     else if (n > 0)
