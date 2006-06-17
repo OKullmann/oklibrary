@@ -10,6 +10,14 @@
     - Which compiler options are effective when linking?
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
+    - In SystemDirectories/aux we should have three sub-directories:
+      a) dependencies (for the .d-files)
+      b) latex (for all files related to the latex-documentation)
+      d) tests (as existing).
+    - SystemDirectories gets a new sub-directory log, where the current
+      aux/DoxygenErrorMessages is placed. Every run of make copies it
+      output by default (can be switched off) into a file
+      log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
 
   \todo Compilation:
     - The names of the created .o-files and executables should reflect "all" compiler options.
@@ -41,8 +49,8 @@
 
   \todo Test system:
     - We need special test-modes for more extensive messages.
-    - Perhaps there should be a global directory "log", where the output of testprograms go (and also e.g. the
-      doxygen-error messages, and perhaps the time-stamps).
+    - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
+      Perhaps alsothe test time-stamps should go here?
 
   \todo Customisation: From makefile.definitions.mak only "Root" is to be extracted (but see below), while the rest is handled by
       makefile_generic, which collects the required compilation and linking information individually from all .hpp and
