@@ -48,9 +48,13 @@
       names for testobject-files need to be unique within a module
 
   \todo Test system:
+    - The most immediate thing is to make the test system work correctly, which (at least?)
+      means that the make-system gets to know the relevant dependencies, so that recompilation
+      of tests happens whenever necessary (at this time (18.6.2006) the test object files need
+      to be manually deleted (via "make cleantestobj") to enforce recompilation).
     - We need special test-modes for more extensive messages.
     - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
-      Perhaps alsothe test time-stamps should go here?
+      Perhaps also the test time-stamps should go here?
 
   \todo Customisation: From makefile.definitions.mak only "Root" is to be extracted (but see below), while the rest is handled by
       makefile_generic, which collects the required compilation and linking information individually from all .hpp and
