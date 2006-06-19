@@ -1,7 +1,7 @@
 // Oliver Kullmann, 17.6.2005 (Swansea)
 
 /*!
-  \file ComputeScores.cpp
+  \file SATCompetition/ComputeScores.cpp
   \brief Outputs the sorted scores for all solvers from competition data (given as a file).
   With the optional parameter syntax=... (currently it doesn't matter, but it must be
   non-empty) the extended syntax is used, and with the optional parameter
@@ -24,8 +24,8 @@
 #include <cstring>
 #include <cassert>
 
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/Scoring.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/Scoring.hpp>
 
 template <bool with_extension, bool without_exception>
 struct Scoring_from_file {

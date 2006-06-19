@@ -1,7 +1,7 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
 /*!
-  \file SingleResult.hpp
+  \file SATCompetition/SingleResult.hpp
   \brief Classes for representing results of one solver on one problem instance
 
   A polymorphic class hierarchy with ResultElement at the base, with derived class
@@ -18,7 +18,6 @@
 */
 
 #ifndef SINGLERESULT_jdj277yYt
-
 #define SINGLERESULT_jdj277yYt
 
 #include <string>

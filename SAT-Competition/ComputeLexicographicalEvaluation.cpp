@@ -1,7 +1,7 @@
 // Oliver Kullmann, 30.10.2005 (Swansea)
 
 /*!
-  \file ComputeLexicographicalEvaluation.cpp
+  \file SATCompetition/ComputeLexicographicalEvaluation.cpp
   \brief Outputs the lexicographically sorted evaluation of a random-competition.
   \todo The output should contain a legend, and the date and time of the evaluation
   (and also the version-information of this program).
@@ -14,8 +14,8 @@
 #include <algorithm>
 #include <iostream>
 
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/LexicographicalEvaluation.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/LexicographicalEvaluation.hpp>
 
 template <bool with_extension>
 struct LexicographicalEvaluationRandom_from_file {

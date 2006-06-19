@@ -1,7 +1,6 @@
 // Oliver Kullmann, 18.5.2005 (Swansea)
 
 #ifndef RESULTPROCESSINGTESTS_905Tgb
-
 #define RESULTPROCESSINGTESTS_905Tgb
 
 #include <vector>
@@ -22,10 +21,10 @@
 #include <Transitional/Testsystem/TestBaseClass.hpp>
 #include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult_Tests.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult_Tests.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

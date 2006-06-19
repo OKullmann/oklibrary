@@ -1,7 +1,7 @@
 // Oliver Kullmann, 18.5.2005 (Swansea)
 
 /*!
-  \file ResultProcessing.hpp
+  \file SATCompetition/ResultProcessing.hpp
   \brief Classes for building from a raw sequence of results the bipartite attribute-result
   graph and accessing the set of common results for a set of attribute values.
 
@@ -13,7 +13,6 @@
 */
   
 #ifndef RESULTPROCESSING_ppOgB535
-
 #define RESULTPROCESSING_ppOgB535
 
 #include <vector>
@@ -29,9 +28,9 @@
 
 #include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
 
 namespace OKlib {
 

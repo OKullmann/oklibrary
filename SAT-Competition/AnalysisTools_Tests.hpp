@@ -1,7 +1,6 @@
 // Oliver Kullmann, 7.6.2005 (Swansea)
 
 #ifndef ANALYSISTOOLSTESTS_37yh6fR4
-
 #define ANALYSISTOOLSTESTS_37yh6fR4
 
 #include <cassert>
@@ -21,10 +20,10 @@
 #include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
 #include <Transitional/SetAlgorithms/SequenceOperations.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
-#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/SATCompetition/ResultProcessing.hpp>
 
 namespace OKlib {
 

@@ -1,11 +1,10 @@
 // Oliver Kullmann, 25.10.2005 (Swansea)
 
 #ifndef LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
-
 #define LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
 
-#include <Transitional/SAT-Competition/LexicographicalEvaluation.hpp>
-#include <Transitional/SAT-Competition/LexicographicalEvaluation_Tests.hpp>
+#include <Transitional/SATCompetition/LexicographicalEvaluation.hpp>
+#include <Transitional/SATCompetition/LexicographicalEvaluation_Tests.hpp>
 
 namespace OKlib {
 

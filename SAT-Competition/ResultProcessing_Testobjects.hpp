@@ -1,11 +1,10 @@
 // Oliver Kullmann, 18.5.2005 (Swansea)
 
 #ifndef RESULTPROCESSINGTESTOBJECTS_knNNw213
-
 #define RESULTPROCESSINGTESTOBJECTS_knNNw213
 
-#include <Transitional/SAT-Competition/ResultProcessing.hpp>
-#include <Transitional/SAT-Competition/ResultProcessing_Tests.hpp>
+#include <Transitional/SATCompetition/ResultProcessing.hpp>
+#include <Transitional/SATCompetition/ResultProcessing_Tests.hpp>
 
 namespace OKlib {
 

@@ -1,13 +1,12 @@
 // Oliver Kullmann, 17.6.2005 (Swansea)
 
 /*!
-  \file Scoring_Tests.hpp
+  \file SATCompetition/Scoring_Tests.hpp
   \brief Tests for scoring tools
   \todo Write basic tests.
 */
 
 #ifndef SCORINGTESTS_kdkdnvc1
-
 #define SCORINGTESTS_kdkdnvc1
 
 #include <string>
@@ -16,10 +15,10 @@
 #include <Transitional/Testsystem/TestBaseClass.hpp>
 #include <Transitional/Testsystem/TestExceptions.hpp>
 
-#include <Transitional/SAT-Competition/ResultProcessing.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/AnalysisTools.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/SATCompetition/ResultProcessing.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/AnalysisTools.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

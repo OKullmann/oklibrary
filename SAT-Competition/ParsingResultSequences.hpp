@@ -1,7 +1,6 @@
 // Oliver Kullmann, 3.6.2005 (Swansea)
 
 #ifndef PARSINGRESULTSEQUENCES_uJnBv45
-
 #define PARSINGRESULTSEQUENCES_uJnBv45
 
 #include <iterator>
@@ -15,8 +14,8 @@
 
 #include <Transitional/Parsing/ParserBase.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
 
 namespace OKlib {
 

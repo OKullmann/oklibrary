@@ -1,7 +1,6 @@
 // Oliver Kullmann, 3.6.2005 (Swansea)
 
 #ifndef PARSINGRESULTSEQUENCESTESTS_k324RtG
-
 #define PARSINGRESULTSEQUENCESTESTS_k324RtG
 
 #include <string>
@@ -11,10 +10,10 @@
 
 #include <Transitional/Parsing/ParserBase_Tests.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult_Tests.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult_Tests.hpp>
 
 namespace OKlib {
 

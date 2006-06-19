@@ -1,13 +1,12 @@
 // Oliver Kullmann, 13.5.2005 (Swansea)
 
 /*!
-  \file ParsingSingleResult.hpp
+  \file SATCompetition/ParsingSingleResult.hpp
   \brief Parser classes for parsing parts of some result ("result elements"), and the parser
   classe template ParserResult for parsing complete results (respectively "random-results").
 */
 
 #ifndef PARSINGSINGLERESULT_jzRtL77Yq1
-
 #define PARSINGSINGLERESULT_jzRtL77Yq1
 
 #include <string>
@@ -21,7 +20,7 @@
 
 #include <Transitional/Parsing/ParserBase.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
 
 namespace OKlib {
 

@@ -1,7 +1,6 @@
 // Oliver Kullmann, 13.5.2005 (Swansea)
 
 #ifndef PARSINGSINGLERESULTTESTS_k33wQQl
-
 #define PARSINGSINGLERESULTTESTS_k33wQQl
 
 #include <sstream>
@@ -25,8 +24,8 @@
 
 #include <Transitional/Parsing/ParserBase_Tests.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
 
 namespace OKlib {
 

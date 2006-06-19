@@ -1,11 +1,10 @@
 // Oliver Kullmann, 3.6.2005 (Swansea)
 
 #ifndef PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
-
 #define PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
 
-#include <Transitional/SAT-Competition/ParsingResultSequences.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

@@ -1,22 +1,21 @@
 // Oliver Kullmann, 28.10.2005 (Swansea)
 
 /*!
-  \file LexicographicalEvaluationPolicies.hpp
+  \file SATCompetition/LexicographicalEvaluationPolicies.hpp
   \brief Policies used by LexicographicalEvaluation.hpp
   \todo Write a concept.
   \todo Write accompanying Test and Testobjects files.
 */
 
 #ifndef LEXICOGRAPHICALEVALUATIONPOLICIES_j57llkkK
-
 #define LEXICOGRAPHICALEVALUATIONPOLICIES_j57llkkK
 
 #include <functional>
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ResultProcessing.hpp>
 
 namespace OKlib {
 

@@ -1,12 +1,11 @@
 // Oliver Kullmann, 7.6.2005 (Swansea)
 
 /*!
-  \file AnalysisTools.hpp
+  \file SATCompetition/AnalysisTools.hpp
   \brief Class ElementaryAnalysis<Database> (supplying Database with some "indices") and related constructs.
 */
 
 #ifndef ANALYSISTOOLS_946TglQ
-
 #define ANALYSISTOOLS_946TglQ
 
 #include <vector>
@@ -23,8 +22,8 @@
 
 #include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ResultProcessing.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ResultProcessing.hpp>
 
 namespace OKlib {
 

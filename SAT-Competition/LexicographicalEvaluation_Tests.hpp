@@ -1,14 +1,13 @@
 // Oliver Kullmann, 25.10.2005 (Swansea)
 
 /*!
-  \file LexicographicalEvaluation_Tests.hpp
+  \file SATCompetition/LexicographicalEvaluation_Tests.hpp
   \brief Tests for tools evaluating an "indexed database" by providing comparison tools.
   \todo Distinguishinging between basic and enhanced tests is needed;
   running through these big files is "enhanced testing".
 */
 
 #ifndef LEXICOGRAPHICALEVALUATIONTESTS_bzklapao0
-
 #define LEXICOGRAPHICALEVALUATIONTESTS_bzklapao0
 
 #include <string>
@@ -26,13 +25,13 @@
 #include <Transitional/SetAlgorithms/SequenceOperations.hpp>
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/ResultProcessing.hpp>
-#include <Transitional/SAT-Competition/ParsingSingleResult.hpp>
-#include <Transitional/SAT-Competition/AnalysisTools.hpp>
-#include <Transitional/SAT-Competition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/ResultProcessing.hpp>
+#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/SATCompetition/AnalysisTools.hpp>
+#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
 
-#include <Transitional/SAT-Competition/LexicographicalEvaluationPolicies.hpp>
+#include <Transitional/SATCompetition/LexicographicalEvaluationPolicies.hpp>
 
 namespace OKlib {
 

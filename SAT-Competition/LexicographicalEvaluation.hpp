@@ -1,7 +1,7 @@
 // Oliver Kullmann, 25.10.2005 (Swansea)
 
 /*!
-  \file LexicographicalEvaluation.hpp
+  \file SATCompetition/LexicographicalEvaluation.hpp
   \brief Evaluation of an "indexed database" by providing comparison tools based on aggregated
   series evaluations.
 
@@ -11,7 +11,6 @@
 */
 
 #ifndef LEXICOGRAPHICALEVALUATION_9fsfs41917
-
 #define LEXICOGRAPHICALEVALUATION_9fsfs41917
 
 #include <map>
@@ -30,10 +29,10 @@
 #include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 #include <Transitional/OrderRelations/DerivedRelations.hpp>
 
-#include <Transitional/SAT-Competition/SingleResult.hpp>
-#include <Transitional/SAT-Competition/AnalysisTools.hpp>
+#include <Transitional/SATCompetition/SingleResult.hpp>
+#include <Transitional/SATCompetition/AnalysisTools.hpp>
 
-#include <Transitional/SAT-Competition/LexicographicalEvaluationPolicies.hpp>
+#include <Transitional/SATCompetition/LexicographicalEvaluationPolicies.hpp>
 
 namespace OKlib {
 
