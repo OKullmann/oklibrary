@@ -241,6 +241,13 @@ namespace OKlib {
       convertible_to_bool operator !=(const FullyConstructibleEq_Archetype&) const { return convertible_to_bool(); }
     };
 
+    /*!
+      \class FullyConstructibleLo
+      \brief Concept FullyConstructibleLo combines concepts FullyConstructibleEq and LinearOrder
+      \todo Write it.
+    */
+
+
     // ----------------------------------------------------------------------------------------------------------------------
 
     /*!
