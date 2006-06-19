@@ -40,6 +40,13 @@ namespace Implementation {
       void print(std::ostream& out, L<fr_FR>, S<Full>) const {
       out << "M1: fr_FR, Full; pi = " << 3.14 << "\n";
     }
+
+      void print(std::ostream& out, L<fr_CA>, S<Basic>) const {
+      out << "M1: fr_CA, Basic; pi = " << 3.14 << "\n";
+    }
+      void print(std::ostream& out, L<fr_CA>, S<Full>) const {
+      out << "M1: fr_CA, Full; pi = " << 3.14 << "\n";
+    }
   
   };
 
@@ -72,7 +79,7 @@ int main() {
     }
   }
 
-  std::cout << "\n";
+  std::cout << "\nStart special output\n";
   std::cout << M1();
   M1::set(std::cout, de_DE);
   M1::set(std::cout, Full);
@@ -83,6 +90,8 @@ int main() {
   M1::set(std::cout, Basic);
   std::cout << M1();
   M1::set(std::cout, fr_FR);
+  std::cout << M1();
+  M1::set(std::cout, fr_CA);
   std::cout << M1();
 
   std::auto_ptr<OKlib::Messages::MessagesBase> mp(new M1);

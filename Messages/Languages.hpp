@@ -35,7 +35,7 @@ namespace OKlib {
       has to be created as well as extending the switch-statements of the other print-overloads.
     */
 
-#define OKLIB_LANGUAGES (en_GB) (en_US) (en_CA) (en_AU) (fr_FR) (fr_CH) /* (fr_CA) */ (de_DE) (de_AT) (de_CH)
+#define OKLIB_LANGUAGES (en_GB) (en_US) (en_CA) (en_AU) (fr_FR) (fr_CH) (fr_CA) (de_DE) (de_AT) (de_CH)
 
     /*!
       \brief Number of available languages
@@ -98,10 +98,10 @@ namespace OKlib {
     struct L<fr_CH> : L<fr_FR> {
       static const Languages value = fr_CH;
     };
-//     template <>
-//     struct L<fr_CA> : L<fr_FR> {
-//       static const Languages value = fr_CA;
-//     };
+    template <>
+    struct L<fr_CA> : L<fr_FR> {
+      static const Languages value = fr_CA;
+    };
 
     template <>
     struct L<de_DE> : L<en_GB> {
