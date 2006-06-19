@@ -13,5 +13,3 @@ boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc
 
 link_libraries := $(boost_date_time) $(boost_filesystem)
-
-Root := $(wildcard ../../..)
