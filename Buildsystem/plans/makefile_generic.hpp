@@ -90,6 +90,8 @@
     - We should support using a tool like TextFilt or STLFilt.
 
   \todo Tools for testing:
+    - valgrind has a (new) flag "--error-exitcode=", by which we should be able to get an error
+      making the build-process stop in case valgrind finds an error.
     - We should use gcov from time to time (supported by the build system) to check
       whether at least all lines of code are covered by the tests.
 
