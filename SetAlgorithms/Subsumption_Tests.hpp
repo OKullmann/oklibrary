@@ -1,12 +1,11 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
 
 /*!
-  \file Subsumption_Tests.hpp
+  \file SetAlgorithms/Subsumption_Tests.hpp
   \brief Testing the concept underlying the class template Subsumption_elimination.
 */
 
 #ifndef SUBSUMPTIONTESTS_119jBd
-
 #define SUBSUMPTIONTESTS_119jBd
 
 #include <set>
@@ -37,7 +36,7 @@ namespace OKlib {
     <template <class ContainerSets,
                class UniquenessTag = SubsumptionsTags::hyperedges_may_not_be_unique,
                class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
-               class SizeTag = typename boost::mpl::if_<typename OKlib::MetaProgramming::has_size_function<ContainerSets>::type, SubsumptionsTags::use_size_of_hyperedges, SubsumptionsTags::do_not_use_size_of_hyperedges>::type>
+               class SizeTag = typename boost::mpl::if_<typename OKlib::traits::has_size_function<ContainerSets>::type, SubsumptionsTags::use_size_of_hyperedges, SubsumptionsTags::do_not_use_size_of_hyperedges>::type>
     class Subsumption_elimination>
     class Test_Subsumption_elimination : public ::OKlib::TestSystem::TestBase {
     public :

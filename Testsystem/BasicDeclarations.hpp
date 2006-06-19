@@ -1,12 +1,11 @@
 // Oliver Kullmann, 19.1.2006 (Swansea)
 
 /*!
-  \file BasicDeclarations.hpp
+  \file Testsystem/BasicDeclarations.hpp
   \brief Basic declarations for the test system
 */
 
 #ifndef BASICDECLARATIONS_kJhYt65
-
 #define BASICDECLARATIONS_kJhYt65
 
 namespace OKlib {

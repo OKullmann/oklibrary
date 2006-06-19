@@ -7,7 +7,6 @@
 */
 
 #ifndef BASICMAPOPERATIONS_098Uik
-
 #define BASICMAPOPERATIONS_098Uik
 
 #include <functional>

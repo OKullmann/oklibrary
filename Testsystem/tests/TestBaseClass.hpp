@@ -6,7 +6,6 @@
 */
 
 #ifndef TESTBASECLASSTESTSDESIGNSTUDY_iiUUyyTr5
-
 #define TESTBASECLASSTESTSDESIGNSTUDY_iiUUyyTr5
 
 #include <sstream>

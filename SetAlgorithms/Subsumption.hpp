@@ -1,12 +1,11 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
 
 /*!
-  \file Subsumption.hpp
+  \file SetAlgorithms/Subsumption.hpp
   \brief Module, which mainly provides the class template Subsumption_elimination.
 */
 
 #ifndef SUBSUMPTION_yhgBBv567
-
 #define SUBSUMPTION_yhgBBv567
 
 #include <algorithm>
@@ -18,7 +17,7 @@
 #include <boost/iterator/reverse_iterator.hpp>
 #include <boost/mpl/if.hpp>
 
-#include <Transitional/Traits/TypeTraitsContainer.hpp>
+#include <Transitional/traits/TypeTraitsContainer.hpp>
 #include <Transitional/MetaProgramming/TaggingPolymorphism.hpp>
 
 namespace OKlib {
@@ -124,7 +123,7 @@ namespace OKlib {
     template <class ContainerSets,
               class UniquenessTag = SubsumptionsTags::hyperedges_may_not_be_unique,
               class OrderTag = SubsumptionsTags::hyperedges_may_not_be_sorted_by_size,
-              class SizeTag = typename boost::mpl::if_<typename OKlib::MetaProgramming::has_size_function<ContainerSets>::type, SubsumptionsTags::use_size_of_hyperedges, SubsumptionsTags::do_not_use_size_of_hyperedges>::type
+              class SizeTag = typename boost::mpl::if_<typename OKlib::traits::has_size_function<ContainerSets>::type, SubsumptionsTags::use_size_of_hyperedges, SubsumptionsTags::do_not_use_size_of_hyperedges>::type
     >
     struct Subsumption_elimination {
 
