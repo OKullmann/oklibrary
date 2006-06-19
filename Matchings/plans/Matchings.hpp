@@ -27,3 +27,13 @@
   adding some edges then would correspond to backtracking steps.
 */
 
+/*!
+  \namespace OKlib::Matchings
+  \brief Matching algorithms for graphs (in the Boost sense)
+*/
+
+namespace OKlib {
+  namespace Matchings {
+  }
+}
+

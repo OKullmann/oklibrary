@@ -45,3 +45,14 @@
   " f(v) <> f(v') " for some function f.
 */
 
+/*!
+  \namespace OKlib::InjectivityConstraints
+  \brief Active clause-sets expressing that variables must get different
+  values, and generalisations and refinements.
+*/
+
+namespace OKlib {
+  namespace InjectivityConstraints {
+  }
+}
+

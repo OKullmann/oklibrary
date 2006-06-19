@@ -5,3 +5,13 @@
   \brief Plans for the messages module
 */
 
+/*!
+  \namespace OKlib::Messages
+  \brief Module for objects representing units of meaning
+*/
+
+namespace OKlib {
+  namespace Messages {
+  }
+}
+

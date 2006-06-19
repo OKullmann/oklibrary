@@ -21,13 +21,3 @@
   A nice toolset of computing matching autarkies is available, which
   enables also interesting integration into an active clause-set.
 
-/*!
-  \namespace OKlib::MatchingAutarkies
-  \brief Components related to finding matching autarkies
-*/
-
-namespace OKlib {
-  namespace MatchingAutarkies {
-  }
-}
-

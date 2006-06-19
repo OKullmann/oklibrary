@@ -29,13 +29,3 @@
 
 */
 
-/*!
-  \namespace OKlib::Matchings
-  \brief Matching algorithms for graphs (in the Boost sense)
-*/
-
-namespace OKlib {
-  namespace Matchings {
-  }
-}
-

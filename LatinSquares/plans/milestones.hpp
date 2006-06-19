@@ -33,13 +33,3 @@
   Interesting implementations and algorithms exist for LS, MOS and MOLS.
 */
 
-/*!
-  \namespace OKlib::LatinSquares
-  \brief Tools for latin squares and generalisations and refinements.
-*/
-
-namespace OKlib {
-  namespace LatinSquares {
-  }
-}
-

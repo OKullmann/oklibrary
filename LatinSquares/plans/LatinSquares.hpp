@@ -109,3 +109,13 @@
    1) LS((v_ij)_ij).
 */
 
+/*!
+  \namespace OKlib::LatinSquares
+  \brief Tools for latin squares and generalisations and refinements.
+*/
+
+namespace OKlib {
+  namespace LatinSquares {
+  }
+}
+

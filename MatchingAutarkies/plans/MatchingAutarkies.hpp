@@ -18,3 +18,13 @@
   \todo Online: Then one has to think about integration into a SAT solver.
 */
 
+/*!
+  \namespace OKlib::MatchingAutarkies
+  \brief Components related to finding matching autarkies
+*/
+
+namespace OKlib {
+  namespace MatchingAutarkies {
+  }
+}
+
