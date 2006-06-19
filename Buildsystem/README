@@ -5,17 +5,18 @@
 Necessary installations:
 
 g++, version 3.4.3 or higher
-(tested: 3.4.3, 3.4.4, 3.4.5, 4.0.0, 4.0.1, 4.0.2, 4.1.0)
+(tested: 3.4.3, 3.4.4, 3.4.5, 4.0.0, 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
 (check: run "g++ -v")
-Recommended: 4.1.0
+Recommended: 4.1.1
 Versions lower than 3.4.3 cannot compile the library
 Problems:
- - 3.4.3 - 4.1.0 fail for some foreign locales.
+ - 3.4.3 - 4.0.2, 4.1.0 fail for some foreign locales.
  - 3.4.3 - 4.0.2 do not detect all syntax errors (wrong handling
   of namespaces).
 
 Boost, version 1_33_1 or higher
 (tested: 1_33_1)
+Recommended: 1_33_1
 BOOST = path to the source library
 (for example BOOST = /usr/local/include/boost-1_33/)
 
@@ -23,10 +24,12 @@ GNU make, version 3.80 or higher
 (check: run "make -v")
 
 Doxygen, version 1.4.5 or higher (but not 1.4.6)
-(tested: 1.4.5)
+(tested: 1.4.5, 1.4.7)
 (check: run doxygen --version)
+Recommended: 1.4.7
 
 Valgrind, version 3.1.0 or higher
+Recommended: 3.2.0
 
 ----------------------------------------------
 
