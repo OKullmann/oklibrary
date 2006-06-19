@@ -90,7 +90,7 @@ module-name := $(notdir $(srcdir))
 
 endif
 
-ifndef OKPlatform
+ifndef OKPlatform # TODO Change to "OKplatform" (and so on ...)
   ifdef OKPLATFORM
     OKPlatform := $(OKPLATFORM)
   else
@@ -127,11 +127,10 @@ include $(srcdir)/makefile.definitions.mak
 # Definitions required from makefile.definitions:
 # General_options
 # Optimisation_options
-# test_program
+# test_program (for the old test-system)
 # programs
 # source_libraries
 # link_libraries
-# Root
 
 source_libraries += $(OKSystem_include)
 
@@ -159,12 +158,18 @@ Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
 # -----------------------------------------------------------------------------------
 
-test_program := $(addprefix $(bindir)/, $(test_program))
+
+ifneq ($(programs),)
+  programs := $(addprefix $(bindir)/, $(programs))
+endif
+
+ifneq ($(test_program),) # old test-system needed
+  test_program := $(addprefix $(bindir)/, $(test_program))
+  programs += $(test_program)
+endif
+
 new_test_program := $(test-bindir)/$(module-name)
 standard_test_program_object_file := $(libdir)/TestProgram_DesignStudy.o
-
-programs := $(addprefix $(bindir)/, $(programs))
-programs := $(programs) $(test_program)
 
 testobjects-dir := $(srcdir)/testobjects
 
@@ -299,7 +304,7 @@ prebuild : createdirs
 createdirs : $(Directories)
 
 html :
-	doxygen --version; rm -r $(html_dir)/*; cd $(srcdir); cd $(Root); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
+	doxygen --version; rm -r $(html_dir)/*; cd $(OKPlatform); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 
@@ -309,8 +314,14 @@ check : test testop
 
 new_check : new_test new_testop
 
+ifneq ($(test_program),) # old test-system needed
 test : $(test_file)
 testop : $(testop_file)
+else
+test :
+testop :
+endif
+
 new_test : $(test_timestamp)
 new_testop : $(testop_timestamp)
 
