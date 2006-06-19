@@ -1,18 +1,19 @@
 // Oliver Kullmann, 23.12.2005 (Swansea)
 
 /*!
-  \file RefactoringIncludeHandling.hpp
+  \file Concepts/RefactoringIncludeHandling.hpp
   \brief Concepts for refactoring tools regarding replacement of include directives.
 */
 
 #ifndef REFACTORINGINCLUDEHANDLING_jjHHbgt6
-
 #define REFACTORINGINCLUDEHANDLING_jjHHbgt6
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Traits/string_type.hpp>
-#include <Transitional/Traits/size_type.hpp>
+#include <Transitional/traits/TypeTraits.hpp>
+
+#include <Transitional/Refactoring/traits/string_type.hpp>
+#include <Transitional/Refactoring/traits/size_type.hpp>
 
 #include <Transitional/Concepts/InputOutput.hpp>
 
@@ -28,10 +29,10 @@ namespace OKlib {
 
     template <class IncDir>
     struct IncludeDirective {
-      typedef typename OKlib::Concepts::string_type<IncDir>::type string_type;
-      typedef typename OKlib::Concepts::size_type<IncDir>::type size_type;
-      typedef OKlib::Refactoring::Include_forms Include_forms;
-      BOOST_STATIC_ASSERT(::OKlib::MetaProgramming::is_unqualified_unsigned_integral<size_type>::value);
+      typedef typename ::OKlib::Refactoring::traits::string_type<IncDir>::type string_type;
+      typedef typename ::OKlib::Refactoring::traits::size_type<IncDir>::type size_type;
+      typedef ::OKlib::Refactoring::Include_forms Include_forms;
+      BOOST_STATIC_ASSERT(::OKlib::traits::is_unqualified_unsigned_integral<size_type>::value);
       void constraints() {
         OKLIB_MODELS_CONCEPT_TAG(IncDir, IncludeDirective);
 

@@ -1,11 +1,10 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 #ifndef CONCEPTSMETAFUNCTIONS_olNb4T
-
 #define CONCEPTSMETAFUNCTIONS_olNb4T
 
 /*!
-  \file ConceptsMetafunctions.hpp
+  \file Concepts/ConceptsMetafunctions.hpp
   \brief Metafunctions concerning the relations between concepts, concept tags and models; used mainly internally.
 */
 
@@ -18,7 +17,7 @@
 #include <Transitional/MetaProgramming/Logical.hpp>
 
 #include <Transitional/Concepts/ConceptsBase.hpp>
-#include <Transitional/Traits/concept_tag.hpp>
+#include <Transitional/Concepts/traits/concept_tag.hpp>
 
 namespace OKlib {
 
@@ -31,7 +30,7 @@ namespace OKlib {
 
     template <class T, class concept_tag>
     class IsTagModel {
-      typedef typename ::OKlib::Concepts::concept_tag<T>::type t_concept_tag;
+      typedef typename ::OKlib::Concepts::traits::concept_tag<T>::type t_concept_tag;
     public :
       typedef typename 
       ::boost::mpl::or_< ::boost::is_same<t_concept_tag, concept_tag>, ::boost::is_base_and_derived<concept_tag, t_concept_tag> >::type type;
@@ -58,10 +57,10 @@ namespace OKlib {
       template <bool has_concept_tag, typename T>
       struct is_concept_tag : ::boost::mpl::bool_<false> {};
       template <typename T>
-      struct is_concept_tag<true, T> : IsConceptTag<typename concept_tag<T>::type> {};
+      struct is_concept_tag<true, T> : IsConceptTag<typename ::OKlib::Concepts::traits::concept_tag<T>::type> {};
     }
     template <class T>
-    struct HasConceptTag : implementation_has_concept_tag::is_concept_tag<implementation_has_concept_tag::has_type<concept_tag<T> >::value, T> {};
+    struct HasConceptTag : implementation_has_concept_tag::is_concept_tag<implementation_has_concept_tag::has_type< ::OKlib::Concepts::traits::concept_tag<T> >::value, T> {};
 
   }
 

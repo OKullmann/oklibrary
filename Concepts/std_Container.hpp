@@ -6,12 +6,11 @@
 // PLUS const-correctness.
 
 /*!
-  \file std_Container.hpp
+  \file Concepts/std_Container.hpp
   \brief Container concepts from ISO/IEC 14882: 2003 (plus const-correctness).
 */
 
 #ifndef STDCONTAINER_776YhBq
-
 #define STDCONTAINER_776YhBq
 
 #include <iterator>
@@ -24,7 +23,7 @@
 #include <Transitional/Concepts/std_Basics.hpp>
 #include <Transitional/Concepts/std_Iterators.hpp>
 #include <Transitional/Concepts/Basics.hpp>
-#include <Transitional/Traits/TypeTraits.hpp>
+#include <Transitional/traits/TypeTraits.hpp>
 
 namespace OKlib {
 
@@ -78,9 +77,9 @@ namespace OKlib {
 
         BOOST_STATIC_ASSERT((boost::is_same<difference_type, iterator_difference_type>::value));
         BOOST_STATIC_ASSERT((boost::is_same<difference_type, const_iterator_difference_type>::value));
-        BOOST_STATIC_ASSERT(OKlib::MetaProgramming::is_signed_integral<difference_type>::value);
+        BOOST_STATIC_ASSERT(OKlib::traits::is_signed_integral<difference_type>::value);
 
-        BOOST_STATIC_ASSERT(OKlib::MetaProgramming::is_unsigned_integral<size_type>::value);
+        BOOST_STATIC_ASSERT(OKlib::traits::is_unsigned_integral<size_type>::value);
 
         iterator i(static_cast<iterator>(x.begin()));
         i = static_cast<iterator>(x.end());

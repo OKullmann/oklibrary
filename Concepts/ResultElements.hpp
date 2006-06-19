@@ -1,7 +1,7 @@
 // Oliver Kullmann, 11.6.2005 (Swansea)
 
 /*!
-  \file ResultElements.hpp
+  \file Concepts/ResultElements.hpp
   \brief Concepts for result elements, representing results of SAT solvers (especially
   for competitions).
   \todo floating_point_type.hpp and natural_number_type.hpp should go to
@@ -10,14 +10,13 @@
 */
 
 #ifndef RESULTELEMENT_6Tg5Yh
-
 #define RESULTELEMENT_6Tg5Yh
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/Traits/string_type.hpp>
-#include <Transitional/Traits/floating_point_type.hpp>
-#include <Transitional/Traits/natural_number_type.hpp>
+#include <Transitional/SATCompetition/traits/string_type.hpp>
+#include <Transitional/SATCompetition/traits/floating_point_type.hpp>
+#include <Transitional/SATCompetition/traits/natural_number_type.hpp>
 
 namespace OKlib {
 
@@ -34,9 +33,9 @@ namespace OKlib {
 
     template <typename Res>
     struct ResultElement {
-      typedef typename OKlib::Concepts::string_type<Res>::type string_type;
-      typedef typename OKlib::Concepts::floating_point_type<Res>::type floating_point_type;
-      typedef typename OKlib::Concepts::natural_number_type<Res>::type natural_number_type;
+      typedef typename OKlib::SATCompetition::traits::string_type<Res>::type string_type;
+      typedef typename OKlib::SATCompetition::traits::floating_point_type<Res>::type floating_point_type;
+      typedef typename OKlib::SATCompetition::traits::natural_number_type<Res>::type natural_number_type;
       void constraints() {
         OKLIB_MODELS_CONCEPT_TAG(Res, ResultElement);
 
@@ -108,7 +107,7 @@ namespace OKlib {
 
     template <typename Res>
     struct ResultElementWithName {
-      typedef typename string_type<Res>::type string_type;
+      typedef typename ::OKlib::SATCompetition::traits::string_type<Res>::type string_type;
       void constraints() {
         OKLIB_MODELS_CONCEPT_TAG(Res, ResultElementWithName);
 

@@ -1,12 +1,11 @@
 // Oliver Kullmann, 26.5.2005
 
 /*!
-  \file Variables_Tests.hpp
+  \file Concepts/Variables_Tests.hpp
   \brief Generic tests for models of variable concepts
 */
 
 #ifndef VARIABLESTESTS_kkgFre3
-
 #define VARIABLESTESTS_kkgFre3
 
 #include <Transitional/Testsystem/TestBaseClass.hpp>
@@ -15,10 +14,10 @@
 #include <Transitional/Concepts/LibraryBasics.hpp>
 #include <Transitional/Concepts/Basics_Tests.hpp>
 
-#include <Transitional/Traits/TypeTraits.hpp>
-#include <Transitional/Traits/index_type.hpp>
+#include <Transitional/traits/TypeTraits.hpp>
 
 #include <Transitional/Concepts/Variables.hpp>
+#include <Transitional/Variables/traits/index_type.hpp>
 
 namespace OKlib {
 
@@ -71,7 +70,7 @@ namespace OKlib {
       VariablesWithIndex_Axiom_index_nonnegative(const Var& v) : v(v) {}
     private :
       const Var& v;
-      typedef typename OKlib::Concepts::index_type<Var>::type index_type;
+      typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
       void perform_test_trivial() {
         if (index_type(v) < 0)
           OKLIB_THROW("index(v) < 0");
@@ -86,7 +85,7 @@ namespace OKlib {
       }
     private :
       const Var& v;
-      typedef typename OKlib::Concepts::index_type<Var>::type index_type;
+      typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
       void perform_test_trivial() {
         if (index_type(v) != 0)
           OKLIB_THROW("index(v) != 0");
@@ -97,7 +96,7 @@ namespace OKlib {
     struct VariablesWithIndex_Axiom_index_zero_negative : OKlib::TestSystem::Test {
       typedef VariablesWithIndex_Axiom_index_zero_negative test_type;
       VariablesWithIndex_Axiom_index_zero_negative(const Var& v) : v(v) {
-        typedef typename OKlib::Concepts::index_type<Var>::type index_type;
+        typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
         assert(index_type(v) == 0);
       }
     private :
@@ -112,7 +111,7 @@ namespace OKlib {
     struct VariablesWithIndex_Axiom_index_identity : OKlib::TestSystem::Test {
       typedef VariablesWithIndex_Axiom_index_identity test_type;
       VariablesWithIndex_Axiom_index_identity(const Var& v, const Var& w) : v(v), w(w) {
-        typedef typename OKlib::Concepts::index_type<Var>::type index_type;
+        typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
         assert(index_type(v) == index_type(w));
       }
     private :
@@ -158,14 +157,14 @@ namespace OKlib {
       };
       template <typename index_type>
       void assert_ge0(const index_type& i) {
-        (assert_index<index_type, OKlib::MetaProgramming::is_signed_integral<index_type>::value>(i));
+        (assert_index<index_type, OKlib::traits::is_signed_integral<index_type>::value>(i));
       }
     }
     
     template <typename Var>
     struct VariablesAsIndex_Axiom : OKlib::TestSystem::Test {
       typedef VariablesAsIndex_Axiom test_type;
-      typedef typename OKlib::Concepts::index_type<Var>::type index_type;
+      typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
       VariablesAsIndex_Axiom(const index_type& i) : i(i) {
         TestIndex::assert_ge0(i);
       }
@@ -184,7 +183,7 @@ namespace OKlib {
         insert(this);
       }
     private :
-      typedef typename OKlib::Concepts::index_type<Var>::type index_type;
+      typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
       void perform_test_trivial() {
         OKLIB_MODELS_CONCEPT_REQUIRES(Var, VariablesAsIndex);
         OKLIB_TESTTRIVIAL_RETHROW(VariablesWithIndex_basic_test<Var>());

@@ -1,7 +1,6 @@
 // Oliver Kullmann, 26.5.2005
 
 #ifndef VARIABLESTESTOBJECTS_olKmNb56
-
 #define VARIABLESTESTOBJECTS_olKmNb56
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

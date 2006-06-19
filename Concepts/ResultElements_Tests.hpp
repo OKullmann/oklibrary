@@ -1,7 +1,6 @@
 // Oliver Kullmann, 11.6.2005 (Swansea)
 
 #ifndef RESULTELEMENTTESTS_40098Ujk
-
 #define RESULTELEMENTTESTS_40098Ujk
 
 #include <Transitional/Testsystem/TestBaseClass.hpp>
