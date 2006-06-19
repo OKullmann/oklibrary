@@ -1,14 +1,12 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 /*!
-  \file TypeTraits.hpp
+  \file traits/TypeTraits.hpp
   \brief Extending the (general) type traits from Boost.
-  \todo Namespace should be changed to OKlib::Traits.
   \todo It seems we should guarantee that this file includes <boost/type_traits.hpp> ?!
 */
 
 #ifndef TYPETRAITS_123RfVcX
-
 #define TYPETRAITS_123RfVcX
 
 #include <boost/mpl/or.hpp>
@@ -18,7 +16,7 @@
 
 namespace OKlib {
 
-  namespace MetaProgramming {
+  namespace traits {
 
     template <typename T>
     struct is_unqualified_signed_integral : ::boost::mpl::bool_<false> {};

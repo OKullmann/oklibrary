@@ -1,15 +1,14 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 #ifndef TYPETRAITSTESTOBJECTS_78UiJh0
-
 #define TYPETRAITSTESTOBJECTS_78UiJh0
 
-#include <Transitional/Traits/TypeTraits.hpp>
-#include <Transitional/Traits/TypeTraits_Tests.hpp>
+#include <Transitional/traits/TypeTraits.hpp>
+#include <Transitional/traits/TypeTraits_Tests.hpp>
 
 namespace OKlib {
 
-  namespace MetaProgramming {
+  namespace traits {
 
     template class Test_is_unqualified_signed_integral_T<is_unqualified_signed_integral>;
 

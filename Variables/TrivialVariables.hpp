@@ -1,11 +1,10 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 #ifndef TRIVIALVARIABLES_916TyVbx
-
 #define TRIVIALVARIABLES_916TyVbx
 
-#include <Transitional/Traits/concept_tag.hpp>
-#include <Transitional/Traits/index_type.hpp>
+#include <Transitional/Concepts/traits/concept_tag.hpp>
+#include <Transitional/Variables/traits/index_type.hpp>
 
 #include <Transitional/Concepts/Variables.hpp>
 
@@ -22,67 +21,67 @@ namespace OKlib {
     typedef unsigned short int Variables_unsigned_short_int;
     typedef unsigned int Variables_unsigned_int;
     typedef unsigned long int Variables_unsigned_long_int;
+
+    namespace traits {
     
+      template <> struct index_type< ::OKlib::Variables::Variables_signed_char> {
+        typedef signed char type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_short_int> {
+        typedef short int type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_int> {
+        typedef int type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_long_int> {
+        typedef long int type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_unsigned_char> {
+        typedef unsigned char type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_unsigned_short_int> {
+        typedef unsigned short int type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_unsigned_int> {
+        typedef unsigned int type;
+      };
+      template <> struct index_type< ::OKlib::Variables::Variables_unsigned_long_int> {
+        typedef unsigned long int type;
+      };
+      
+    }
+
   }
 
   namespace Concepts {
+    namespace traits {
 
-    template <> struct concept_tag< ::OKlib::Variables::Variables_signed_char> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_signed_char> {
-      typedef signed char type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_short_int> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_short_int> {
-      typedef short int type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_int> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_int> {
-      typedef int type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_long_int> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_long_int> {
-      typedef long int type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_char> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_char> {
-      typedef unsigned char type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_short_int> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_short_int> {
-      typedef unsigned short int type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_int> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_int> {
-      typedef unsigned int type;
-    };
-
-    template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_long_int> {
-      typedef VariablesAsIndex_tag type;
-    };
-    template <> struct index_type< ::OKlib::Variables::Variables_unsigned_long_int> {
-      typedef unsigned long int type;
-    };
-
+      template <> struct concept_tag< ::OKlib::Variables::Variables_signed_char> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_short_int> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_int> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_long_int> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_char> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_short_int> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_int> {
+        typedef VariablesAsIndex_tag type;
+      };
+      template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_long_int> {
+        typedef VariablesAsIndex_tag type;
+      };
+      
+    }
   }
 
 }

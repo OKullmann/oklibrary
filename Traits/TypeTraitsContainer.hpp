@@ -1,13 +1,12 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 /*!
-  \file TypeTraitsContainer.hpp
+  \file traits/TypeTraitsContainer.hpp
   \brief Extending the (general) type traits from Boost by container-specific
   traits.
 */
 
 #ifndef TYPETRAITSCONTAINER_0099io
-
 #define TYPETRAITSCONTAINER_0099io
 
 #include <vector>
@@ -20,7 +19,7 @@
 
 namespace OKlib {
 
-  namespace MetaProgramming {
+  namespace traits {
 
     template <typename T>
     struct is_std_container :  ::boost::mpl::and_<typename OKlib::Concepts::HasConceptTag<T>::type, typename OKlib::Concepts::IsTagModel<T, OKlib::Concepts::Container_tag>::type> {};

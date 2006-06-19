@@ -1,14 +1,13 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 #ifndef TYPETRAITSTESTS_5767uvL
-
 #define TYPETRAITSTESTS_5767uvL
 
 #include <boost/static_assert.hpp>
 
 namespace OKlib {
 
-  namespace MetaProgramming {
+  namespace traits {
 
     template <template <typename T> class is_unqualified_signed_integral>
     class Test_is_unqualified_signed_integral_T {
