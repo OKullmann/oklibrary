@@ -13,13 +13,6 @@
 #include <Transitional/Concepts/Variables_Testobjects.hpp>
 #include <Transitional/Concepts/ResultElements_Testobjects.hpp>
 #include <Transitional/Concepts/std_Container_Testobjects.hpp>
-#include <Transitional/Concepts/Literals_Testobjects.hpp>
-#include <Transitional/Concepts/Clauses_Testobjects.hpp>
-#include <Transitional/Concepts/ClauseSets_Testobjects.hpp>
-#include <Transitional/Concepts/Assignments_Testobjects.hpp>
-#include <Transitional/Concepts/BipartiteGraphs_Testobjects.hpp>
-#include <Transitional/Concepts/Hypergraphs_Testobjects.hpp>
-#include <Transitional/Concepts/BigIntegers_Testobjects.hpp>
 #include <Transitional/Concepts/RefactoringIncludeHandling_Testobjects.hpp>
 #include <Transitional/Concepts/InputOutput_Testobjects.hpp>
 
