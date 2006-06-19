@@ -66,10 +66,14 @@
    
   \todo Doxygen:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
+   - For functions there is a \callergraph --- shall we use it?
    - How to integrate a *general* todo list into Doxygen?
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
-     a doxygen-command?
+     a doxygen-command? And how to avoid that apparently certain "keywords" are captured by
+     doxygen?
    - How to obtain general statistics?
+   - We should get the newest configuration file, and transfer our information from the old
+     configuration file.
    - It appears that all .cpp-files are considered as linked together?
    - Can makefiles be incorporated?!
 
