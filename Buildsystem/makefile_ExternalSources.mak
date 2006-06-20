@@ -1,7 +1,7 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-doxygen_targets := doxygen-1.4.7
+doxygen_targets := doxygen-1.4.5 doxygen-1.4.7
 doxygen_recommended := doxygen-1.4.7
 # remark: doxygen-1.4.6 broken
 gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2 gcc-4.0.3 gcc-4.1.0 gcc-4.1.1
@@ -283,7 +283,7 @@ $(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2)
 	cp bin.*/bjam $(bjam_directory_path);  if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost-base-directory)/boost_$(1);  if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2))
-	touch $@
+	touch $(boost-base-directory)/boost-$(1)+$(2)
 endef
 
 $(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_gcc_rule,$(boostversion),$(gccversion)))))
