@@ -13,7 +13,7 @@
   Documentation completed.
 
   \par Version 1.0
-  Tests for all components available and applied.
+  Tests for all components available and applied (see "Testing" in Messages/plans/Messages.hpp)
 
 */
 
