@@ -4,16 +4,6 @@
   \file Buildsystem/plans/makefile_ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \todo ERROR When running
-  make boost gcc-version=4.1.0
-  then the final touch-command fails:
-...updated 5094 targets...
-touch
-touch: missing file operand
-Try `touch --help' for more information.
-
-  ??
-  
   \todo General
    - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
