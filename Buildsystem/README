@@ -5,7 +5,7 @@
 Necessary installations:
 
 g++, version 3.4.3 or higher
-(tested: 3.4.3, 3.4.4, 3.4.5, 4.0.0, 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
+(tested: 3.4.3, 3.4.4, 3.4.5, 3.4.6, 4.0.0, 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
 (check: run "g++ -v")
 Recommended: 4.1.1
 Versions lower than 3.4.3 cannot compile the library
