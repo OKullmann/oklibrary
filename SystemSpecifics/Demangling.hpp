@@ -5,10 +5,6 @@
   \brief Translating type names in a readable form
 
   Users need to link with -liberty.
-  \todo Write a testfunction (which first defines an MPL-vector of pairs of
-  types and expected descriptions, and then just runs through it).
-  \todo Is "cplus_demangle" the right function to call?
-  \todo Is DMGL_TYPES the right option? Are there other useful options?
 */
 
 #ifndef DEMANGLING_uHHalal0
