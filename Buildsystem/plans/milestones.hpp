@@ -45,6 +45,9 @@
   - Tools
   - PostgreSQL
   - Other sources
+  In Buildsystem/plans/README.hpp the following
+  topics are handled:
+  - Supported versions of gcc
 
   \par Version 0.8 :
   In Buildsystem/plans/Buildsystem.hpp the following
