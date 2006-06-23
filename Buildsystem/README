@@ -5,14 +5,16 @@
 Necessary installations:
 
 g++, version 3.4.3 or higher
-(tested: 3.4.3, 3.4.4, 3.4.5, 3.4.6, 4.0.0, 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
+(tested: 3.4.3, 3.4.4, 3.4.5, 4.0.0, 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
 (check: run "g++ -v")
 Recommended: 4.1.1
 Versions lower than 3.4.3 cannot compile the library
 Problems:
  - 3.4.3 - 4.0.2, 4.1.0 fail for some foreign locales.
  - 3.4.3 - 4.0.2 do not detect all syntax errors (wrong handling
-  of namespaces).
+  of namespaces)
+ - 3.4.6 cannot link the new test system, when optimisation is turned on
+   (seems to be okay with 4.0.3 and later; unclear for the other versions).
 
 Boost, version 1_33_1 or higher
 (tested: 1_33_1)
