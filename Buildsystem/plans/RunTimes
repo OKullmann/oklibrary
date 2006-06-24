@@ -10,52 +10,54 @@ where "3.4.3" is to be replaced accordingly.
 
 24.6.2006
 
-csltok, ~50%:
+csltok
 
 3.4.3
-
 real 2497.24
 user 1089.33
 sys 68.49
 
 3.4.4
-
 real 2587.72
 user 1164.42
 sys 77.15
 
 3.4.5
-
 real 2890.81
 user 1213.03
 sys 79.71
 
 4.0.0
-
 real 2882.14
 user 1323.43
 sys 69.12
 
 4.0.1
-
 real 3026.70
 user 1350.24
 sys 72.44
 
 4.0.2
-
 real 3142.74
 user 1389.40
 sys 72.40
 
 4.1.0
-
 real 3147.05
 user 1331.57
 sys 74.73
 
 4.1.1
-
 real 2478.83
 user 1127.80
 sys 71.62
+
+
+24.6.2006
+
+cs-wsok:
+
+4.1.1
+real 1356.24
+user 612.21
+sys 43.12
