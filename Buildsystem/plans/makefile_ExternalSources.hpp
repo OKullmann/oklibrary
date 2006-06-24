@@ -4,6 +4,20 @@
   \file Buildsystem/plans/makefile_ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \todo ERROR
+
+  Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
+  3.4.6 for example) doesn't work anymore, but there are linking errors.
+  It seems that on csltok everything works, so that it could be a
+  64bit thing.
+
+  What did change?? And it seems that gcc versions for example 4.1.1
+  do work??
+  What is the role ofLD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
+
+  We should check in general whether building boost links to the 32bit
+  or to the 64bit version.
+
   \todo General
    - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
