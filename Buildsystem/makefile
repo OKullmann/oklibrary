@@ -26,11 +26,6 @@ srcdir := $(OKSystem)/Transitional/Buildsystem
 
 include $(srcdir)/makefile_standardgoals.mak
 
-include $(srcdir)/makefile.definitions.mak
-
-# Definitions required from makefile.definitions:
-# Root
-
 externalsourcesdir := $(OKPlatform)/ExternalSources
 
 Directories :=  $(externalsourcesdir)
