@@ -12,8 +12,12 @@
   64bit thing.
 
   What did change?? And it seems that gcc versions for example 4.1.1
-  do work??
-  What is the role ofLD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
+  do work?? Since versions below 4.0.0 don't work, while above work,
+  it seems that the system-gcc (4.0.2) interferes; perhaps it tries to
+  link with the 32bit-version, can't do that, and then falls back to the
+  system version?
+
+  What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
 
   We should check in general whether building boost links to the 32bit
   or to the 64bit version.
@@ -29,6 +33,11 @@
      timestamp-files).
    - If variable "gcc-version" is set, then it should have one of the allowed values (while otherwise we get
      an error).
+   - We must understand, how gcc interacts with 32- and 64-bit environments, and how to
+     take control of this.
+   - Building gcc should be outsourced to ExternalSources/makefile_gcc.mak.
+   - There should be make-variables, which allow control over some settings for the
+     compilation of gcc.
 
   \todo Boost
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
@@ -38,10 +47,12 @@
      the distribution directory?
    - Building boost should include copying the documentation to doc (in the subdirectory
      boost-1_33_1 for example).
+   - Building Boost should be outsourced to ExternalSources/makefile_Boost.mak.
 
   \todo PostgreSQL
    - Update PostgreSQL to version 8.1 (and test it).
    - "make initialise-database" should work with the recommended version.
+   - Building PostgreSQL should be outsourced to ExternalSources/makefile_PostgreSQL.mak.
 
   \todo Tools
    - Investigate the NiX system (a system for managing libraries).
