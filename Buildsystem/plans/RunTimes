@@ -17,6 +17,15 @@ real 2497.24
 user 1089.33
 sys 68.49
 
+real 3217.60
+user 1305.19
+sys 90.47
+
+Big difference --- are there frequency-fluctuations on the laptop???
+Suddenly, it often shows a frequency of 1600Hz or even 1400Hz instead
+of 1700Hz ???
+
+
 3.4.4
 real 2587.72
 user 1164.42
@@ -26,6 +35,11 @@ sys 77.15
 real 2890.81
 user 1213.03
 sys 79.71
+
+3.5.6
+real 3029.11
+user 1223.82
+sys 82.09
 
 4.0.0
 real 2882.14
@@ -41,6 +55,11 @@ sys 72.44
 real 3142.74
 user 1389.40
 sys 72.40
+
+4.0.3
+real 3088.29
+user 1427.82
+sys 69.84
 
 4.1.0
 real 3147.05
