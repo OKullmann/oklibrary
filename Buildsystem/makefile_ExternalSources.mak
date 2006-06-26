@@ -4,9 +4,9 @@ SHELL = /bin/sh
 doxygen_targets := doxygen-1.4.5 doxygen-1.4.7
 doxygen_recommended := doxygen-1.4.7
 # remark: doxygen-1.4.6 broken
-gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2 gcc-4.0.3 gcc-4.1.0 gcc-4.1.1
-# remark: gcc-3.4.6 creates linking errors when compiling optimised
-# new test programs (it seems that code for message objects has
+gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-3.4.6 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2 gcc-4.0.3 gcc-4.1.0 gcc-4.1.1
+# remark: gcc-3.4.6 creates linking errors on cs-wsok when compiling
+# optimised new test programs (it seems that code for message objects has
 # been optimised away); one needs to find out for which other gcc-versions
 # we also have this problem (at least with gcc-4.0.3 the problem seems
 # to be solved).
@@ -147,7 +147,8 @@ gcc_build_directory_names := $(addsuffix _Build, $(gcc_targets))
 gcc_build_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_build_directory_names))
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
 gcc_installation_directory_paths := $(addprefix $(gcc-base-directory)/,$(gcc_installation_directory_names))
-gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_installation_directory_paths)
+gcc_distribution_directories := $(addprefix $(gcc-base-directory)/,$(gcc_targets))
+gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_installation_directory_paths) $(gcc_distribution_directories)
 
 # ###################
 
@@ -363,13 +364,13 @@ $(valgrind_targets) : create_valgrind_dirs
 include $(OKBuildsystem)/ExternalSources/makefile_mhash.mak
 
 clean : cleanmhash
-	-rm -rf $(gcc_build_directory_paths)
+	-rm -rf $(gcc_build_directory_paths) $(gcc_distribution_directories)
 	-rm -rf $(boost_build_directory_paths) $(boost_distribution_directories) $(bjam_directory_path)
 
 
 cleanall : clean cleanallmhash
-	-rm -rf $(doxygen-directories)
-	-rm -rf $(gcc-directories)
-	-rm -rf $(boost-directories)
-	-rm -rf $(postgresql-directories)
-	-rm -rf $(valgrind-directories)
+	-rm -rf $(doxygen-base-directory)
+	-rm -rf $(gcc-base-directory)
+	-rm -rf $(boost-base-directory)
+	-rm -rf $(postgresql-base-directory)
+	-rm -rf $(valgrind-base-directory)
