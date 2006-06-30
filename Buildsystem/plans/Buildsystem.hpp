@@ -145,4 +145,8 @@
    (compiling it himself, or using the build system). And we must study, how a full user can keep his
    file structure separate from the library by using links.
 
+  \todo Higher-order build tools
+   - We should investigate CMake (http://www.cmake.org/HTML/Index.html), whether it would be
+     useful for us. (autoconf and the like seems outdated)
+
 */
