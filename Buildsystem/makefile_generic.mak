@@ -136,8 +136,15 @@ source_libraries += $(OKSystem_include)
 
 prefix := $(OKPlatform)
 
-system_directories_name := SystemDirectories
-system_directories := $(prefix)/SystemDirectories
+ifndef SystemDirectories
+  ifdef SYSTEMDIRECTORIES
+    SystemDirectories := $(SYSTEMDIRECTORIES)
+  else
+    SystemDirectories := $(prefix)/SystemDirectories
+  endif
+endif
+
+system_directories := $(SystemDirectories)
 
 bindir := $(system_directories)/bin
 libdir := $(system_directories)/lib
