@@ -17,8 +17,8 @@
 # Targets
 # ##################################
 
-mhash_targets := mhash-0.9.2
-mhash_recommended := mhash-0.9.2
+mhash_targets := mhash-0.9.7.1
+mhash_recommended := mhash-0.9.7.1
 
 # ##################################
 # Directory Structure
@@ -26,6 +26,9 @@ mhash_recommended := mhash-0.9.2
 
 mhash-base-directory := $(prefix)/Mhash
 abbr_mhash_targets := $(patsubst mhash-%, %, $(mhash_targets))
+
+# This line is necessary - but also belongs to makefile_gcc.mak
+gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
 
 mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_mhash_targets)))
 
@@ -56,6 +59,7 @@ $(mhash-directories) : % :
 define install-mhash
 	cd $(mhash-base-directory)/$(1)_Build; $(postcondition) \
 	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1); $(postcondition) \
+	cp $(mhash-base-directory)/mhash-$(1)/include/mutils/*.h $(mhash-base-directory)/$(1)_Build/include/mutils; $(postcondition) \
 	make;	$(postcondition) \
 	make install;
 endef
@@ -69,9 +73,12 @@ $(mhash-base-directory)/$(mhash_targets) : $(mhash-base-directory)/mhash-% : $(m
 # Making mhash with a local gcc
 # ##################################
 
+gcc-base-directory := $(prefix)/Gcc
+
 define install-mhash_gcc
 	cd $(mhash-base-directory)/$(1)+$(2)_Build;  if [ $$$$? != 0 ]; then exit 1; fi; \
-	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(mhash-base-directory)/mhash-$(1)/configure --prefix=$(mhash-base-directory)/$(1)+$(2) --with-CC=$(gcc-base-directory)/$(gcc-version)/bin/gcc; if [ $$$$? != 0 ]; then exit 1; fi; \
+	cp $(mhash-base-directory)/mhash-$(1)/include/mutils/*.h $(mhash-base-directory)/$(1)+$(2)_Build/include/mutils; if [ $$$$? != 0 ]; then exit 1; fi; \
 	make; if [ $$$$? != 0 ]; then exit 1; fi; \
 	make install;
 endef
