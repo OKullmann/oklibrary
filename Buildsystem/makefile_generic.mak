@@ -150,6 +150,7 @@ bindir := $(system_directories)/bin
 libdir := $(system_directories)/lib
 
 aux_dir := $(system_directories)/aux
+latex_dir := $(aux_dir)/latex
 
 doc_dir := $(system_directories)/doc
 html_dir := $(doc_dir)/html
@@ -158,7 +159,7 @@ test-bindir := $(bindir)/tests
 test-libdir := $(libdir)/tests/$(module-name)
 test-auxdir := $(aux_dir)/tests/$(module-name)
 
-Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir)
+Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir) $(latex_dir)
 
 doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
