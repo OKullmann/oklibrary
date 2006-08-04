@@ -16,26 +16,26 @@ srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
 
 endif
 
-# the main definition of OKSystem is given in makefile_generic, and should (somehow) be imported from there (the problem however is, that OKBuildsystem is not known without OKSystem);
+# the main definition of OKsystem is given in makefile_generic, and should (somehow) be imported from there (the problem however is, that OKBuildsystem is not known without OKsystem);
 # at the moment we use cut and paste.
-ifndef OKPlatform
+ifndef OKplatform
   ifdef OKPLATFORM
-    OKPlatform := $(OKPLATFORM)
+    OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
 
-ifndef OKSystem
+ifndef OKsystem
   ifdef OKSYSTEM
-    OKSystem := $(OKSYSTEM)
+    OKsystem := $(OKSYSTEM)
   else
-    OKSystem := $(OKPlatform)/OKsystem
+    OKsystem := $(OKplatform)/OKsystem
   endif
 endif
 
 # main definition in makefile_generic cut and paste
-OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
 
 export
 

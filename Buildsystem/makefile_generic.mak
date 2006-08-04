@@ -90,25 +90,25 @@ module-name := $(notdir $(srcdir))
 
 endif
 
-ifndef OKPlatform # TODO Change to "OKplatform" (and so on ...)
+ifndef OKplatform
   ifdef OKPLATFORM
-    OKPlatform := $(OKPLATFORM)
+    OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
 
-ifndef OKSystem
+ifndef OKsystem
   ifdef OKSYSTEM
-    OKSystem := $(OKSYSTEM)
+    OKsystem := $(OKSYSTEM)
   else
-    OKSystem := $(OKPlatform)/OKsystem
+    OKsystem := $(OKplatform)/OKsystem
   endif
 endif
 
-OKSystem_include := -I$(OKSystem)
+OKsystem_include := -I$(OKsystem)
 
-OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
 
 ifndef Boost
   ifdef BOOST
@@ -132,9 +132,9 @@ include $(srcdir)/makefile.definitions.mak
 # source_libraries
 # link_libraries
 
-source_libraries += $(OKSystem_include)
+source_libraries += $(OKsystem_include)
 
-prefix := $(OKPlatform)
+prefix := $(OKplatform)
 
 ifndef SystemDirectories
   ifdef SYSTEMDIRECTORIES
@@ -311,7 +311,7 @@ prebuild : createdirs
 createdirs : $(Directories)
 
 html :
-	doxygen --version; rm -r $(html_dir)/*; cd $(OKPlatform); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
+	doxygen --version; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 

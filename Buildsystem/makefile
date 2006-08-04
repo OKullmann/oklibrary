@@ -6,31 +6,31 @@ SHELL = /bin/sh
 
 # Special makefile for the buildsystem
 
-ifndef OKPlatform
+ifndef OKplatform
   ifdef OKPLATFORM
-    OKPlatform := $(OKPLATFORM)
+    OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
 
-ifndef OKSystem
+ifndef OKsystem
   ifdef OKSYSTEM
-    OKSystem := $(OKSYSTEM)
+    OKsystem := $(OKSYSTEM)
   else
-    OKSystem := $(OKPlatform)/OKsystem
+    OKsystem := $(OKplatform)/OKsystem
   endif
 endif
 
-srcdir := $(OKSystem)/Transitional/Buildsystem
+srcdir := $(OKsystem)/Transitional/Buildsystem
 
 include $(srcdir)/makefile_standardgoals.mak
 
-externalsourcesdir := $(OKPlatform)/ExternalSources
+externalsourcesdir := $(OKplatform)/ExternalSources
 
 Directories :=  $(externalsourcesdir)
 
-makefile_oksystem := $(OKSystem)/makefile
+makefile_oksystem := $(OKsystem)/makefile
 makefile_externalsources := $(externalsourcesdir)/makefile
 
 all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 

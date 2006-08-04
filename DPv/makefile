@@ -1,19 +1,19 @@
-ifndef OKPlatform
+ifndef OKplatform
   ifdef OKPLATFORM
-    OKPlatform := $(OKPLATFORM)
+    OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
 
-ifndef OKSystem
+ifndef OKsystem
   ifdef OKSYSTEM
-    OKSystem := $(OKSYSTEM)
+    OKsystem := $(OKSYSTEM)
   else
-    OKSystem := $(OKPlatform)/OKsystem
+    OKsystem := $(OKplatform)/OKsystem
   endif
 endif
 
-OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
 
 include $(OKBuildsystem)/makefile_generic.mak 
