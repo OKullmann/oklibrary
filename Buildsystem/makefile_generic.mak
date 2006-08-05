@@ -151,6 +151,7 @@ libdir := $(system_directories)/lib
 
 aux_dir := $(system_directories)/aux
 latex_dir := $(aux_dir)/latex
+dependencies_dir := $(aux_dir)/dependencies
 
 doc_dir := $(system_directories)/doc
 html_dir := $(doc_dir)/html
@@ -159,7 +160,7 @@ test-bindir := $(bindir)/tests
 test-libdir := $(libdir)/tests/$(module-name)
 test-auxdir := $(aux_dir)/tests/$(module-name)
 
-Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir) $(latex_dir)
+Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir) $(latex_dir) $(dependencies_dir)
 
 doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
@@ -199,9 +200,9 @@ compilation_units_c := $(notdir $(compilation_units_c))
 test_compilation_units := $(wildcard $(testobjects-dir)/*.cpp)
 
 dependency_files_cpp := $(compilation_units_cpp:.cpp=.d)
-dependency_files_cpp := $(addprefix $(aux_dir)/, $(dependency_files_cpp))
+dependency_files_cpp := $(addprefix $(dependencies_dir)/, $(dependency_files_cpp))
 dependency_files_c := $(compilation_units_c:.c=.d) 
-dependency_files_c := $(addprefix $(aux_dir)/, $(dependency_files_c))
+dependency_files_c := $(addprefix $(dependencies_dir)/, $(dependency_files_c))
 dependency_files := $(dependency_files_cpp) $(dependency_files_c)
 
 test_dependency_files := $(notdir $(test_compilation_units))
@@ -358,9 +359,9 @@ endif
 $(Directories) : % :
 	mkdir --parents --verbose $@
 
-$(dependency_files_cpp) : $(aux_dir)/%.d : $(srcdir)/%.cpp
+$(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp
 	$(CXX) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
-$(dependency_files_c) : $(aux_dir)/%.d : $(srcdir)/%.c
+$(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c
 	$(CC) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
 $(test_dependency_files) : $(test-auxdir)/%.d : $(testobjects-dir)/%.cpp
