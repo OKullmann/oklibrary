@@ -162,7 +162,7 @@ test-auxdir := $(aux_dir)/tests/$(module-name)
 
 Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir) $(latex_dir) $(dependencies_dir)
 
-doxygen-parameters := 
+doxygen-parameters := OUTPUT_DIRECTORY=$(doc_dir)
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
 # -----------------------------------------------------------------------------------
