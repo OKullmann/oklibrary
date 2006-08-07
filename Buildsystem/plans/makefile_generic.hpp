@@ -10,10 +10,10 @@
     - Which compiler options are effective when linking?
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
-    - In SystemDirectories/aux we should have three sub-directories:
+    - COMPLETED : In SystemDirectories/aux we should have three sub-directories:
       a) dependencies (for the .d-files)
       b) latex (for all files related to the latex-documentation)
-      d) tests (as existing).
+      c) tests (as existing). 
     - SystemDirectories gets a new sub-directory log, where the current
       aux/DoxygenErrorMessages is placed. Every run of make copies it
       output by default (can be switched off) into a file
