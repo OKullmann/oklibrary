@@ -4,16 +4,22 @@
   \file Buildsystem/plans/makefile_generic.hpp
   \brief Plans for the generic makefile
 
+  \todo CORRECTION
+
+      - COMPLETED : In SystemDirectories/aux we should have three sub-directories:
+      a) dependencies (for the .d-files)
+      b) latex (for all files related to the latex-documentation) PROBLEM: seems not to work
+      c) tests (as existing). 
+
+
   \todo Make-variables for compilation and linking:
+    - instead of specifying a specific alternative gcc or boost version, it
+      should be possible to use the recommended version
     - general clean-up
     - the current function of "General_options" is taken over by the new variable "Debug_options"
     - Which compiler options are effective when linking?
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
-    - COMPLETED : In SystemDirectories/aux we should have three sub-directories:
-      a) dependencies (for the .d-files)
-      b) latex (for all files related to the latex-documentation)
-      c) tests (as existing). 
     - SystemDirectories gets a new sub-directory log, where the current
       aux/DoxygenErrorMessages is placed. Every run of make copies it
       output by default (can be switched off) into a file
