@@ -11,6 +11,13 @@
       b) latex (for all files related to the latex-documentation) PROBLEM: seems not to work
       c) tests (as existing). 
 
+      - Why the addition of
+         "doxygen-parameters := OUTPUT_DIRECTORY=$(doc_dir)"
+        to the html-rule? I don't see the use of it (OK).
+        If it is useful, then it should be documented (in the "user guilde").
+        And what is with the intended use, as the example shows:
+         "make doxygen-parameters="HAVE_DOT=YES" html"
+        ??
 
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
