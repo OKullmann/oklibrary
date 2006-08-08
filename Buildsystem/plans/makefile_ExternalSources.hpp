@@ -4,6 +4,11 @@
   \file Buildsystem/plans/makefile_ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \todo CORRECTIONS
+
+   - We need some user-information for mhash (how to use the installed files).
+   - It seems that cleanmhash should also remove the installation directory.
+
   \todo ERROR
 
   Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
