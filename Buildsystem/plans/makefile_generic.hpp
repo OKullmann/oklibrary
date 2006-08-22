@@ -6,11 +6,6 @@
 
   \todo CORRECTION
 
-      - COMPLETED : In SystemDirectories/aux we should have three sub-directories:
-      a) dependencies (for the .d-files)
-      b) latex (for all files related to the latex-documentation) PROBLEM: seems not to work
-      c) tests (as existing). 
-
       - Why the addition of
          "doxygen-parameters := OUTPUT_DIRECTORY=$(doc_dir)"
         to the html-rule? I don't see the use of it (OK).
