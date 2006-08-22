@@ -18,7 +18,10 @@
    - "all" should not compile the test-programs
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
-   - what is the role of prebuild?
+   - what is the role of prebuild? (Yet it builds the directory
+     structure --- perhaps this should be performed by each target if
+     needed (so that prebuild wouldn't be needed anymore here)?
+     What else is done by prebuild?)
    - "html" should be possible from any level (creating always the
    complete documentation) (this should be automatically achieved
    once makefile_recursive is eliminated).
