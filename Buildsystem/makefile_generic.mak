@@ -313,7 +313,7 @@ prebuild : createdirs
 createdirs : $(Directories)
 
 html :
-	doxygen --version; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
+	echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 
