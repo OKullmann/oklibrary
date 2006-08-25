@@ -95,6 +95,10 @@
      3. to all other documentations relevant here.
     - There needs to be a main page for the OKplatform.
 
+  \todo System documentation:
+   - Document the basic version control settings (location of server, configuration, how to use it).
+   - Document the byild system (general ideas, functionality).
+
   \todo We need a standardised way of how to make information about the compilation
   process available to a program (and also the name of the program, etc.), so that
   for example via --version we get as much information as possible.
