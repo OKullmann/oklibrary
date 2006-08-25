@@ -6,7 +6,6 @@
 */
 
 #ifndef TESTFUNCTIONS2_kHFcD3
-
 #define TESTFUNCTIONS2_kHFcD3
 
 #include <Transitional/Testsystem/TestBaseClass_DesignStudy.hpp>

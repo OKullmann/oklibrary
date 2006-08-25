@@ -6,7 +6,6 @@
 */
 
 #ifndef TESTFUNCTIONS_UJJhhgFR45
-
 #define TESTFUNCTIONS_UJJhhgFR45
 
 #include <exception>
