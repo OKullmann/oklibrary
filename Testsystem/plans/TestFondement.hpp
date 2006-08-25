@@ -4,7 +4,7 @@
   \file Testsystem/plans/TestFondement.hpp
   \brief Plans for the module with the root class of the test hierarchy.
 
-  \todo Editorial clean-up, and doxygen-documentation.
-  \todo Overhaul todos in TestFondement.hpp, and transfer them to this file.
+  \todo Once the old test system has been removed, check whether all links in the doxygen
+  documentation are correct.
 */
 
