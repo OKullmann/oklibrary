@@ -113,4 +113,7 @@
       This problem seems hard to solve (one had to find out that different paths lead to the same file).
       So it must be documented well.
 
+  \todo Verbosity:
+    - By default the make-process outputs it's basic assumptions (what compiler to be used, what
+      external libraries, etc.).
 */
