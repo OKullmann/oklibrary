@@ -31,6 +31,7 @@
   topics are handled:
   - Placement of makefile_generic
   - Dependency files
+  - Verbosity
 
   \par Version 0.6 :
   In Buildsystem/plans/makefile_ExternalSources.hpp the following
@@ -67,6 +68,6 @@
   - Special runs
   - "Full test"
   - Directory structure
-
+  - System documentation
 */
 
