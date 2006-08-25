@@ -3,10 +3,11 @@
 /*!
   \file InjectivityConstraints/tests/AllDifferent.hpp
   \brief Testing of algorithms for alldifferent constraint.
+
+  \todo Really use the new test system.
 */
 
 #ifndef ALLDIFFERENT_9fw8PFh89
-
 #define ALLDIFFERENT_9fw8PFh89
 
 #include <vector>
