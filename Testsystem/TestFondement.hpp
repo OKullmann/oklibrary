@@ -1,12 +1,21 @@
 // Oliver Kullmann, 15.2.2006 (Swansea)
 
 /*!
-  \file TestFondement.hpp
-  \brief The very base classes for the test system
+  \file Testsystem/TestFondement.hpp
+  \brief The abstract base classes for the test system (only for internal purposes)
+
+  Provides the abstract base classes TestSystem::Test and TestSystem::TestLevel:
+
+  Given a (test) object t of type TestSystem::Test and a (level) object l of type TestSystem::TestLevel,
+  via t.(l, log_stream) the test at level l is performed, with log-messages output to log_stream.
+
+  Technics:
+   - The polymorphic double-dispatch (on t and l) is realised via the visitor design pattern.
+   - The TestSystem::TestLevel hierarchy is equipped with a generic visitor facility itself.
+   - Singleton objects are provided for the classes derived from TestSystem::TestLevel.
 */
 
 #ifndef TESTFONDEMENT_bbrq28
-
 #define TESTFONDEMENT_bbrq28
 
 #include <cassert>
@@ -19,11 +28,14 @@ namespace OKlib {
 
     /*!
       \class Test
-      \brief The root of the (polymorphic) test hierarchy; containers of testobjects are
-      containers of Test pointers.
+      \brief The abstract base class of the (polymorphic) test hierarchy; containers of testobjects are
+      containers of pointers to objects of type Test.
 
-      The private member function template "perform" is to be called by a "visitor" from the level
-      hierarchy. For every test-level type which shall be passed to derived classes an overload
+      The (only public) member function Test::perform is to be called with a (polymorphic) test-level object
+      and a log-stream.
+
+      The private overloaded member functions "perform_" are to be called by a "visitor" from the 
+      TestLevel-hierarchy. For every test-level type which shall be passed to derived classes an overload
       of "perform_" needs to be available (otherwise the closest match with existing versions of
       perform_ is used).
     */
@@ -48,7 +60,8 @@ namespace OKlib {
 
     /*!
       \class VisitorTestLevel
-      \brief Generic visitor class for TestLevel
+      \brief Abstract base class for generic visitors (helper classes) for TestLevel (to enable
+      "polymorphic switches" on objects of type TestLevel).
 
       If some action is to be performed on polymorphic objects of type TestLevel,
       then derive from VisitorTestLevel a class performing the desired action in
@@ -64,10 +77,11 @@ namespace OKlib {
 
     /*!
       \class TestLevel
-      \brief The root of the (polymorphic) test-level hierarchy.
+      \brief Abstract base class of the (polymorphic) test-level hierarchy.
 
-      Test level objects are visitors for the Test hierarchy, calling the right
-      overload of the perform member function of Test.
+      - Objects of type TestLevel are visitors for the TestSystem::Test hierarchy; the TestLevel::perform
+        member function is used to call the right overload of TestSystem::Test::perform_.
+      - By the TestLevel::operator()(const VisitorTestLevel&) member function a visitor can be employed.
     */
 
     struct TestLevel {
@@ -101,7 +115,7 @@ namespace OKlib {
     };
 
     /*!
-      \brief Factory for static test level objects
+      \brief Factory for static test-level objects
     */
 
     template <class TestLevelDerived>

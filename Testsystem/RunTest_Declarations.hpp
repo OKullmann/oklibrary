@@ -3,10 +3,11 @@
 /*!
   \file Testsystem/RunTest_Declarations.hpp
   \brief Declarations for ::OKlib::TestSystem::RunTest
+
+  With this class tests are first inserted into a global container, and then executed.
 */
 
 #ifndef RUNTESTDECLARATIONS_jJJhhBc5
-
 #define RUNTESTDECLARATIONS_jJJhhBc5
 
 #include <ostream>
@@ -23,6 +24,10 @@ namespace OKlib {
     /*!
       \class RunTest
       \brief Responsible for running tests
+
+      Objects of type RunTest are initialised with a pointer to a TestSystem::Test object,
+      and the pointer is put into a global container.
+      Via the static member function RunTest::run_test all these tests are executed.
     */
 
     class RunTest {

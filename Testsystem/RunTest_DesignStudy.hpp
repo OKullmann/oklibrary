@@ -6,7 +6,6 @@
 */
 
 #ifndef RUNTESTDESIGNSTUDY_kkJJ6t
-
 #define RUNTESTDESIGNSTUDY_kkJJ6t
 
 #include <boost/timer.hpp>

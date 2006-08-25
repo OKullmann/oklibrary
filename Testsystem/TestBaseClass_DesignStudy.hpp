@@ -2,7 +2,11 @@
 
 /*!
   \file Testsystem/TestBaseClass_DesignStudy.hpp
-  \brief Design studies for the new test hierarchy.
+  \brief The (user) base class TestSystem::TestBase of the "test-function" hierarchy.
+
+  "Test-functions" test (higher) type parameters; they are used either by other test-functions,
+  or they are used to create test objects, to be executed by TestSystem::RunTest.
+
   \todo The log-file should not passed to TestBase::print, but testobjects
   pass message objects to the base class if they want to print a message.
   Thus log_messages should go.
@@ -13,7 +17,6 @@
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
-
 #define TESTBASECLASSTEMPORARY_8uXXzs
 
 #include <ostream>
@@ -35,7 +38,7 @@ namespace OKlib {
 
     /*!
       \class TestBase
-      \brief Derived from class Test, to be used as immediate base class for test-meta-functions.
+      \brief Derived from class Test, to be used as base class for test-meta-functions.
     */
 
     class TestBase : public ::OKlib::TestSystem::Test {
