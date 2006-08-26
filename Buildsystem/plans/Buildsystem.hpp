@@ -83,6 +83,7 @@
      configuration file.
    - It appears that all .cpp-files are considered as linked together?
    - Can makefiles be incorporated?!
+   - Can we have nested lists?
 
    \todo Documentation in general
     - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
