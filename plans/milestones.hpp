@@ -22,6 +22,8 @@
   \subsection VersionTransitional011 0.1.1
   \par Buildsystem version 0.2
   (see Buildsystem/plans/milestones.hpp)
+  \par Testsystem version 0.1.1
+  (see Testsystem/plans/milestones.hpp)
 
   \subsection VersionTransitional012 0.1.2
   \par Buildsystem version 0.3
@@ -64,7 +66,8 @@
   (see Messages/plans/milestones.hpp)
   \par ProgramOptions version ???
   \par ErrorHandling version ???
-  \par TestSystem version ???
+  \par TestSystem version 0.2
+  (see Testsystem/plans/milestones.hpp)
   \par General goals:
    - Transition to new test system complete (all old tests transferred to the new test system).
    - Except of warnings coming from Boost, no compiler warnings from our library.
