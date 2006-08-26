@@ -62,12 +62,20 @@
   - Doxygen
   - Documentation in general
 
-\par Version 1.0 :
+  \par Version 1.0 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - Special runs
   - "Full test"
   - Directory structure
   - System documentation
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.1 : 4.3.2006; initial version number (the build system is under work for around 2 years).
+
 */
 

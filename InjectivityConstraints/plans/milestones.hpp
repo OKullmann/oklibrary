@@ -3,7 +3,8 @@
 /*!
   \file InjectivityConstraints/plans/milestones.hpp
 
-  \par Current version 0.0.1
+  \par Current version 0.0.1 ???
+  \todo see log files for the date
 
   \par Version 0.1
   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
@@ -25,6 +26,13 @@
   A flexible and powerful toolset for constructing active clause-sets
   for injectivity, surjectivity and bijectivity constraints (see the
   applications in LatinSquares and MatchingAutarkies).
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   - 0.0.1 : ???; initial version number (only plans).
 
 */
 

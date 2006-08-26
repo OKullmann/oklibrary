@@ -13,4 +13,10 @@
   and yielding fixed and arbitrary permutations, with and without
   fast inversion.
 
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.0.2 : 17.6.2006; initial version number (only (several) plans).
+
 */

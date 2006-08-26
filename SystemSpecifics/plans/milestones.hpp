@@ -16,5 +16,13 @@
   
   \par Version 0.10. :
   Basic doxygen-documentation available (and completely overhauled).
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.0.1 : 23.6.2006; initial version number (only plans).
+
 */
 

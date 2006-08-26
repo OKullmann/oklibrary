@@ -31,5 +31,13 @@
 
   \par Version 1.0
   Interesting implementations and algorithms exist for LS, MOS and MOLS.
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.0.1 : 8.3.2006; initial version number (only plans).
+
 */
 

@@ -3,7 +3,7 @@
 /*!
   \file ComplexitySystem/plans/milestones.hpp
 
-  \par Current version 0.0.1 (25.6.2006; no code yet, but plans)
+  \par Current version 0.0.2 (25.6.2006; no code yet, but plans)
 
   \par Version 0.0.2 :
   ComplexitySystem/plans/ComplexitySystem.hpp: "Designing the file structure"
@@ -34,5 +34,12 @@
 
   \par Version 1.0.0 :
   All modules are fully measured.
-  
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.0.2 : 25.6.2006; initial version number (only (several) plans).
+
 */

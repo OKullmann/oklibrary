@@ -3,7 +3,8 @@
 /*!
   \file MatchingAutarkies/plans/milestones.hpp
 
-  \par Current version 0.0.1
+  \par Current version 0.0.1 (???)
+  \todo see log file for the date
 
   \par Version 0.1
   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
@@ -20,4 +21,13 @@
   \par Version 1.0
   A nice toolset of computing matching autarkies is available, which
   enables also interesting integration into an active clause-set.
+
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.0.1 : ???;  initial version number (only plans).
+
+*/
 

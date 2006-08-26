@@ -3,7 +3,9 @@
 /*!
   \file Matchings/plans/milestones.hpp
 
-  \par Current version 0.0.1
+  \par Current version 0.0.2 (???)
+  \todo find the date in the log-files (originally the first version was 0.0.1, but this was changed to
+  0.0.2, since there were already some more plans there).
 
   \par Version 0.1
   In Matchings/plans/Matchings.hpp the following topics are handled:
@@ -27,5 +29,11 @@
   A variety of efficient implementations are available, fulfilling the
   needs of the module InjectivityConstraints and MatchingAutarkies.
 
+
+  -------------------------------------------------------------------------------------------------------------------------------------
+
+  \par Version history
+
+   -  0.0.2 : ???; initial version number (only some plans).
 */
 
