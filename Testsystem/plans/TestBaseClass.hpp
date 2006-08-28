@@ -2,10 +2,18 @@
 
 /*!
   \file Testsystem/plans/TestBaseClass.hpp
-  \brief Plans for the module with the base of the test hierarchy
+  \brief Plans for the module with the (user) base of the test hierarchy
 
-  \todo Once the transition is done, rename "TestBaseClass_DesignStudy.hpp" to "TestBaseClass.hpp".
-  \todo Editorial clean-up, and doxygen-documentation.
-  \todo Overhaul todos in TestBaseClass_DesignStudy.hpp, and transfer them to this file.
+  \todo Use Messages for all output.
+  \todo Replace TestBase::log_message in all tests by TestBase::log (potentially
+  updating TestBase::log), and then remove TestBase::log_message.
+  \todo Try to extend the level hierarchy (whether it "works").
+  \todo In case an unknown exception is thrown, there should be a global option to
+  let this exception through (perhaps kind of a "handler").
+  \todo Once the transition is done, rename "TestBaseClass_DesignStudy.hpp" to
+  "TestBaseClass.hpp", and check the doxygen-documentation (which yet doesn't work due
+  to multiple definitions of the same entities).
+  
+
 */
 
