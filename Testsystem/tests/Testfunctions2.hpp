@@ -3,6 +3,7 @@
 /*!
   \file Testsystem/tests/Testfunctions2.hpp
   \brief Temporary file with testfunctions to try out the new testsystem
+  \todo A macro is needed for the fixed code in test-meta-functions.
 */
 
 #ifndef TESTFUNCTIONS2_kHFcD3
