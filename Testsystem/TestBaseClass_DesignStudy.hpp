@@ -98,6 +98,7 @@ namespace OKlib {
       */
       ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
 
+    public :
       //! Changing the test-function-nesting-level.
       /*!
         In principle the nesting level could be set (once and for all) during construction, however in this way
@@ -110,6 +111,10 @@ namespace OKlib {
           OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test);
           OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x);
           OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x, y);
+        set_depth is used by OKLIB_TEST_RETHROW to (re)set the new testobject, and thus must be public (although it does not really belong
+        to the interface of TestBase).
+        \todo Is it possible to hide set_depth better?
+        (Since it belongs to the test-system itself, and the user doesn't need to know about it.)
       */
       TestBase& set_depth(const ::OKlib::TestSystem::depth_number_type d) { depth_ = d; return *this; }
 
