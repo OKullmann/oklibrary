@@ -2,7 +2,7 @@
 
 /*!
   \file Testsystem/plans/Testsystem.hpp
-  \brief Plans for the test system
+  \brief Plans for the test system (as a whole)
 
   \todo Rename module to "TestSystem".
   \todo Create milestones.
