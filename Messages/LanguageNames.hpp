@@ -1,16 +1,16 @@
 // Oliver Kullmann, 21.2.2006 (Swansea)
 
-#ifndef LANGUAGENAMES_janVVcd4
-
-#define LANGUAGENAMES_janVVcd4
-
 /*!
   \file LanguageNames.hpp
   \brief Component for translating language names into language constants
+
   \todo Write tests!
   \todo Once available, the std::map in LanguageName should be replaced
   by a hash map; and finally a specialised string-algorithm shall be used.
 */
+
+#ifndef LANGUAGENAMES_janVVcd4
+#define LANGUAGENAMES_janVVcd4
 
 #include <functional>
 #include <map>

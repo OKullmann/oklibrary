@@ -13,7 +13,6 @@
 */
 
 #ifndef UMLAUTE_yryry55rer
-
 #define UMLAUTE_yryry55rer
 
 namespace OKlib {

@@ -9,7 +9,6 @@
 */
 
 #ifndef MESSAGESBASE_9iJJhnb
-
 #define MESSAGESBASE_9iJJhnb
 
 #include <ios>

@@ -6,7 +6,6 @@
 */
 
 #ifndef LEVELS_kxbxbxvr4
-
 #define LEVELS_kxbxbxvr4
 
 #include <Transitional/Messages/Languages.hpp>

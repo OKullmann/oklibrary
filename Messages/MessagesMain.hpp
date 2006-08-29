@@ -6,7 +6,6 @@
 */
 
 #ifndef MESSAGESMAINDESIGNSTUDY_8876yHbg
-
 #define MESSAGESMAINDESIGNSTUDY_8876yHbg
 
 #include <boost/preprocessor/seq/for_each.hpp>
