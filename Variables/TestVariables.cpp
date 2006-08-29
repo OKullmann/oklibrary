@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/Variables/TrivialVariables_Testobjects.hpp>
 

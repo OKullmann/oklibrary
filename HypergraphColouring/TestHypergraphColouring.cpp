@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/HypergraphColouring/Van_der_Waerden_hypergraph_Testobjects.hpp>
 

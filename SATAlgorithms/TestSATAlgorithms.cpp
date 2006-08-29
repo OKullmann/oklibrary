@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/SATAlgorithms/EnumerationAssignments_Testobjects.hpp>
 #include <Transitional/SATAlgorithms/EnumerationSubclausesets_Testobjects.hpp>

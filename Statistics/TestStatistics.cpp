@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/Statistics/RecogniseRandomFormulas_Testobjects.hpp>
 #include <Transitional/Statistics/TimeSeriesAnalysis_Testobjects.hpp>

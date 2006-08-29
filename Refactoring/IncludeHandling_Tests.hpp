@@ -27,8 +27,8 @@
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 #include <Transitional/Parsing/ParserBase_Tests.hpp>
 

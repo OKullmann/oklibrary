@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/TestExecutionTools/TestAlgorithms_Testobjects.hpp>
 #include <Transitional/TestExecutionTools/SecondOrderTestTools_Testobjects.hpp>

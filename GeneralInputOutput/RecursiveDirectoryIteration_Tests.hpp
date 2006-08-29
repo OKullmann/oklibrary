@@ -18,8 +18,8 @@
 #include <boost/assign/std/vector.hpp>
 #include <boost/tuple/tuple.hpp>
  
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 #include <Transitional/Concepts/std_Iterators.hpp>

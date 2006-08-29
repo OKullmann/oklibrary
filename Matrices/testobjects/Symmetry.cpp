@@ -5,7 +5,7 @@
   \brief Testobjects for Matrices/tests/Symmetry.hpp
 */
 
-#include <Transitional/Testsystem/TestBaseClass_DesignStudy.hpp>
+#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
 
 #include <Transitional/Matrices/tests/Symmetry.hpp>
 

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/Refactoring/IncludeHandling_Testobjects.hpp>
 #include <Transitional/Refactoring/Renaming_Testobjects.hpp>

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/MetaProgramming/Logical_Testobjects.hpp>
 #include <Transitional/MetaProgramming/TaggingPolymorphism_Testobjects.hpp>

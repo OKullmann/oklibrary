@@ -7,8 +7,8 @@
 
 #define SUPPORTTOTALASSIGNMENTSTESTS_okMMnh
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
 

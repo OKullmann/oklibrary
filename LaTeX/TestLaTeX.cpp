@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/LaTeX/Doc_Gen_Testobjects.hpp>
 #include <Transitional/LaTeX/Doc_Object_Implementation_Testobjects.hpp>

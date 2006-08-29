@@ -14,8 +14,8 @@
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 #include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
 #include <Transitional/SetAlgorithms/SequenceOperations.hpp>

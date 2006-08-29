@@ -16,8 +16,8 @@
 #include <exception>
 #include <list>
 
-#include <Transitional/Testsystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
+#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
 #include <Transitional/InjectivityConstraints/AllDifferent.hpp>
 
 #include <boost/assign/std/vector.hpp> 

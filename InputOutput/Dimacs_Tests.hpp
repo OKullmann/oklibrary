@@ -20,8 +20,8 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 #include <Transitional/InputOutput/Exceptions.hpp>
 #include <Transitional/InputOutput/ClauseSetAdaptors.hpp>

@@ -8,9 +8,9 @@
 #ifndef SYMMETRYTESTS_8UUhhBt5r
 #define SYMMETRYTESTS_8UUhhBt5r
 
-#include <Transitional/Testsystem/TestBaseClass_DesignStudy.hpp>
-#include <Transitional/Testsystem/RunTest_DesignStudy.hpp>
-#include <Transitional/Testsystem/TestExceptions_DesignStudy.hpp>
+#include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
+#include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
+#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
 
 namespace OKlib {
   namespace Matrices {

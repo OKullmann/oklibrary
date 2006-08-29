@@ -3,8 +3,8 @@
 #ifndef RESULTELEMENTTESTS_40098Ujk
 #define RESULTELEMENTTESTS_40098Ujk
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 #include <Transitional/Concepts/Basics_Tests.hpp>

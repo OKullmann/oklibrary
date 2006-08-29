@@ -14,8 +14,8 @@
 
 #include <Transitional/MetaProgramming/Numerical.hpp>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
-#include <Transitional/Testsystem/TestExceptions.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestExceptions.hpp>
 
 #include <Transitional/TestExecutionTools/SecondOrderTestTools.hpp>
 

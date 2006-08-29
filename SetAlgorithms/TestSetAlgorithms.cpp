@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <Transitional/Testsystem/TestBaseClass.hpp>
+#include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/SetAlgorithms/BasicSetOperations_Testobjects.hpp>
 #include <Transitional/SetAlgorithms/BasicMapOperations_Testobjects.hpp>
