@@ -3,10 +3,15 @@
 /*!
   \file Testsystem/RunTest_DesignStudy.hpp
   \brief Components for running tests
+
+  In fact this file contains only the implementation of the class TestSystem::RunTest, declared in
+  Testsystem/RunTest_Declarations.hpp.
 */
 
 #ifndef RUNTESTDESIGNSTUDY_kkJJ6t
 #define RUNTESTDESIGNSTUDY_kkJJ6t
+
+#include <cstdlib> // for EXIT_FAILURE
 
 #include <boost/timer.hpp>
 
@@ -23,13 +28,11 @@ namespace OKlib {
 
     inline ::OKlib::TestSystem::RunTest::container_type& ::OKlib::TestSystem::RunTest::handle_test_objects(const test_pointer_type p) {
       static container_type test_objects;
-      if (p)
-        test_objects.push_back(p);
+      if (p) test_objects.push_back(p);
       return test_objects;
     }
 
-    inline ::OKlib::TestSystem::RunTest::RunTest(::OKlib::TestSystem::Test* const test) {
-      // takes over ownership of test object
+    inline ::OKlib::TestSystem::RunTest::RunTest(test_pointer_type const test) {
       handle_test_objects(test);
     }
 
@@ -44,30 +47,34 @@ namespace OKlib {
       int return_value = 0;
       boost::timer timer;
       TimeHandling::WallTime total_time;
-      
-      typedef container_type::iterator iterator;
-      const iterator& end(test_objects.end());
+
+      // loop through all test objects:
       typedef container_type::size_type size_type;
-      size_type counter = 1;
       size_type err_counter = 0;
-      for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
-        bool failed = false;
-        messages << ::OKlib::TestSystem::messages::SingleTestOpening(counter);
-        try {
-          i -> perform(level, log);
+      {
+        typedef container_type::iterator iterator;
+        const iterator& end(test_objects.end());
+        size_type counter = 1;
+        for (iterator i(test_objects.begin()); i != end; ++i, ++counter) {
+          bool failed = false;
+          messages << ::OKlib::TestSystem::messages::SingleTestOpening(counter);
+          try {
+            i -> perform(level, log);
+          }
+          catch(const OKlib::TestSystem::TestException& e) {
+            ++err_counter;
+            failed = true;
+            log.flush();
+            err << e << std::endl;
+            return_value = EXIT_FAILURE;
+          }
+          messages << ::OKlib::TestSystem::messages::SingleTestClosing(counter, failed);
         }
-        catch(const OKlib::TestSystem::TestException& e) {
-          ++err_counter;
-          failed = true;
-          log.flush();
-          err << e << std::endl;
-          return_value = EXIT_FAILURE;
-        }
-        messages << ::OKlib::TestSystem::messages::SingleTestClosing(counter, failed);
       }
-      log.flush();
-      
+
+      log.flush();      
       messages << ::OKlib::TestSystem::messages::RunTestClosing(level, err_counter, test_objects.size(), timer.elapsed(), double(total_time));
+
       return return_value;
     }
 
