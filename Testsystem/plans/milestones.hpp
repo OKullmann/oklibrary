@@ -6,15 +6,17 @@
   \par Current version 0.1 (24.8.2006)
 
   \par Version 0.1.1 :
+
   The first todos in the other plans-files (which just ask to update
   the doxygen-documentation and the plans) are performed:
    - plans/TestFondement.hpp : DONE
    - plans/BasicDeclarations.hpp : DONE
    - plans/TestBaseClass.hpp : DONE
-   - plans/RunTest_Declarations.hpp
-   - plans/RunTest.hpp
-   - plans/TestExceptions.hpp
+   - plans/RunTest_Declarations.hpp : DONE
+   - plans/RunTest.hpp : DONE
+   - plans/TestExceptions.hpp : DONE
    - plans/TestProgram.hpp.
+
   And milestone 0.1.2 is created.
 
   \par Version 0.2 :
