@@ -2,15 +2,10 @@
 
 /*!
   \file Testsystem/TestExceptions_DesignStudy.hpp
-  \brief New version of TestExceptions.hpp
-  \todo Remove leak from ErrorDescription
-  \todo Using message objects in the descriptions (in this way strings and boost::lexical_cast
-  are avoided).
-  \todo Update OKLIB_TEST_EQUAL.
+  \brief Module providing test exceptions and test macros
 */
 
 #ifndef TESTEXCEPTIONS_kjhytRe4
-
 #define TESTEXCEPTIONS_kjhytRe4
 
 #include <stdexcept>
@@ -38,11 +33,8 @@ namespace OKlib {
       \brief The unit to describe the point in call history leading to a test failure.
 
       A concrete class containing C strings for the file name, the line number and the
-      name of the type of the test class.
-      \todo Use messages. ErrorDescription (or better parts of it) should be part of a
-      sub-module of Messages/Utilities, providing components for identification of files etc.
-      \todo Ownership of level_description needs to be managed!
-      \todo Is the explicit definition of the copy constructor needed? Why does assignment work?
+      name of the type of the test class, an integer for the nesting depth, plus an
+      auto-pointer to a message-object describing the test-level.
     */
 
     class ErrorDescription {
@@ -54,21 +46,42 @@ namespace OKlib {
       const char* type_test_class;
       mutable MessagePointer level_description;
       ::OKlib::TestSystem::depth_number_type depth;
+
     public :
 
-      ErrorDescription(const char* const file_, const char* const line_, const char* const type_test_class_, MessagePointer level_description_, ::OKlib::TestSystem::depth_number_type depth_) : file(file_), line(line_), type_test_class(type_test_class_), level_description(level_description_), depth(depth_) {
-        assert(file);
-        assert(line);
-        assert(type_test_class);
-        assert(level_description.get());
-      }
-      ErrorDescription(const ErrorDescription& e) : file(e.file), line(e.line), type_test_class(e.type_test_class), level_description(e.level_description), depth(e.depth) {
+      ErrorDescription(
+                       const char* const file_,
+                       const char* const line_,
+                       const char* const type_test_class_,
+                       MessagePointer level_description_,
+                       ::OKlib::TestSystem::depth_number_type depth_
+                       ) :
+        file(file_),
+        line(line_),
+        type_test_class(type_test_class_),
+        level_description(level_description_),
+        depth(depth_)
+      {
         assert(file);
         assert(line);
         assert(type_test_class);
         assert(level_description.get());
       }
 
+      ErrorDescription(const ErrorDescription& e) :
+        file(e.file),
+        line(e.line),
+        type_test_class(e.type_test_class),
+        level_description(e.level_description),
+        depth(e.depth)
+      {
+        assert(file);
+        assert(line);
+        assert(type_test_class);
+        assert(level_description.get());
+      }
+
+      //! Direct output for ErrorDescription
       friend std::ostream& operator <<(std::ostream& out, const ErrorDescription& D) {
         assert(D.file);
         assert(D.line);
@@ -78,17 +91,26 @@ namespace OKlib {
       }
     };
 
-    typedef std::vector<ErrorDescription> ErrorContainer;
-    // Assumes, that the destructor of std::vector does not throw exceptions.
+    /*!
+      \typedef ErrorContainer
+      \brief Container of error descriptions
+
+      Vector of error descriptions. Assumes, that the destructor of std::vector does not throw.
+    */
+
+    typedef std::vector<ErrorDescription> ErrorContainer; 
 
     // ######################################################
 
     /*!
       \class TestException
-      \brief The root of the exception class hierarchy to be thrown in case of test failure.
+      \brief The root of the exception class hierarchy, to be thrown in case of test failure.
 
+      Derived from std::runtime_error.
+      Contains a container of error descriptions, the first one being the actual error description,
+      followed by descriptions for unwinding the call-stack.
       Should normally not be used directly, but should be invoked by one of the macros
-      like OKLIB_TEST_EQUAL. Is derived from std::runtime_error.
+      like OKLIB_TEST_EQUAL.
     */
 
     class TestException : public std::runtime_error {
@@ -97,7 +119,11 @@ namespace OKlib {
 
     public :
 
-      explicit TestException(const std::string& special_circumstances) :  std::runtime_error(special_circumstances) {}
+      explicit TestException(
+                             const std::string& special_circumstances
+                             ) :
+        std::runtime_error(special_circumstances)
+      {}
       ~TestException() throw() {}
 
       TestException& add(const ErrorDescription e) {
@@ -129,6 +155,8 @@ namespace OKlib {
     /*!
       \def OKLIB_TESTDESCRIPTION
       \brief Basic internal macro to create a description of the circumstances of test failures.
+
+      \todo Explain its usage.
     */
 
 # define OKLIB_NUMBER(N) # N
@@ -138,15 +166,19 @@ namespace OKlib {
     /*!
       \def OKLIB_THROW
       \brief Basic macro for throwing an exception in case of test failure.
-      Usage OKLIB_THROW(test_description).
+
+      Usage:
+        OKLIB_THROW(test_description)
+      where test_description is a string.
     */
 
 #define OKLIB_THROW(message) throw ::OKlib::TestSystem::TestException(std::string("OKLIB TEST FAILURE: ") + message).add(OKLIB_TESTDESCRIPTION);
 
     /*!
       \def OKLIB_TEST_EQUAL
-      \brief Use OKLIB_TEST_EQUAL(a,b) for asserting a == b in case a and b are
-      output-streamable (in case of a failure a, b are output); a here is the value found, while b is the expected value.
+      \brief Use OKLIB_TEST_EQUAL(a,b) for asserting a == b in case a and b are output-streamable.
+
+      In case of a failure a, b are output. where a is the value found, while b is the expected value.
     */
 
 #define OKLIB_TEST_EQUAL(v1, v2) \
@@ -158,8 +190,7 @@ namespace OKlib {
 
     /*!
       \def OKLIB_TEST_NOTEQUAL
-      \brief Use OKLIB_TEST_EQUAL(a,b) for asserting not (a == b); no output
-     of a, b.
+      \brief Use OKLIB_TEST_EQUAL(a,b) for asserting not (a == b); no output of a, b.
     */
 
 #define OKLIB_TEST_NOTEQUAL(v1, v2) \
@@ -188,9 +219,11 @@ namespace OKlib {
 
     /*!
       \class OutputWrapper
-      \brief Class template used in conjunction with OKLIB_TEST_EQUAL_W
-      when testing ranges for equality, where a list of the elements shall be output
-      in case of test failure.
+      \brief Wrapper type to mark objects for list-output
+
+      Class template used in conjunction with OKLIB_TEST_EQUAL_W when testing ranges
+      for equality, where a list of the elements shall be output in case of test failure.
+
       \todo Should this class go to a general output facilities module?
     */
 
@@ -203,11 +236,23 @@ namespace OKlib {
     inline OutputWrapper<T> output_wrapper(const T& t) {
       return OutputWrapper<T>(t);
     }
+
     template <typename T>
     std::ostream& operator <<(std::ostream& out, const OutputWrapper<T>& w) {
       std::copy(w.t.begin(), w.t.end(), std::ostream_iterator<typename T::value_type>(out, ","));
       return out;
     }
+
+   /*!
+      \class OutputWrapper2
+      \brief Wrapper type to mark objects for nested list-output
+
+      Class template used in conjunction with OKLIB_TEST_EQUAL_W when testing ranges
+      for equality, where a list of the list-elements shall be output in case of test failure.
+
+      \todo Should this class go to a general output facilities module?
+    */
+
     template <typename T>
     struct OutputWrapper2 {
       const T& t;
@@ -217,6 +262,7 @@ namespace OKlib {
     inline OutputWrapper2<T> output_wrapper2(const T& t) {
       return OutputWrapper2<T>(t);
     }
+
     template <typename T>
     std::ostream& operator <<(std::ostream& out, const OutputWrapper2<T>& w) {
       std::copy(w.t.begin(), w.t.end(), std::ostream_iterator<OutputWrapper<typename T::value_type> >(out, "\n"));
@@ -225,14 +271,15 @@ namespace OKlib {
 
     /*!
       \def OKLIB_TEST_EQUAL_W
-      \brief Test macro to be used for asserting equality in case the objects compared
-      are not output-streamable, but output in case of test failure is needed. Default
-      usage for containers with output-streamable elements; adaption is possible
+      \brief Test macro for asserting equality in case the objects compared
+      are not output-streamable, but output in case of test failure is needed.
+
+      Is used by default for containers with output-streamable elements; adaption is possible
       for the general case by defining an output wrapper.
 
       Without user-defined definitions, OKLIB_TEST_EQUAL_W(a, b) can be used
       for container-types (having member functions begin and end).
-      For other classes X, before the use of the macro the std::ostream inserter
+      For other classes X, before using of the macro the std::ostream inserter
       must be overloaded for inserting objects of type OKlib::Testsystem::OutputWrapper<X>.
     */
 
@@ -278,17 +325,6 @@ namespace OKlib {
       e.add(OKLIB_TESTDESCRIPTION); \
       throw e; \
     }
-
-    // this needs a global null-stream object:
-// #define OKLIB_TEST_RETHROW_NO_LOG(Testobject) \
-//     try { \
-//       ((Testobject).perform(level_type(), OKlib::GeneralInputOutput::null_stream));        \
-//     } \
-//     catch(::OKlib::TestSystem::TestException& e) { \
-//       e.add(OKLIB_TESTDESCRIPTION); \
-//       throw e; \
-//     }
-
 
   }
 
