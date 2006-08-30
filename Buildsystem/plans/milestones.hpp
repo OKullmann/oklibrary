@@ -5,12 +5,27 @@
 
   \par Current version 0.1 (4.3.2006)
 
-  \par Version 0.2 :
+  \par Version 0.1.1 :
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - CORRECTION FOR DOXYGEN (for MH)
+  - UPDATE OF PLANNING-DOCUMENTATION (for MH)
+  - Documentation
+
+  \par Version 0.1.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Make-variables for compilation and linking
-  - Compilation
+
+  \par Version 0.1.3 :
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
   - Cleaning
+
+  \par Version 0.2 :
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - Compilation
   - Linking
 
   \par Version 0.3 :
