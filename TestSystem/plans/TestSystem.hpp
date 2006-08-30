@@ -4,9 +4,6 @@
   \file TestSystem/plans/TestSystem.hpp
   \brief Plans for the test system (as a whole)
 
-  \todo Renaming:
-    Rename module to "TestSystem".
-
   \todo Build system:
    - enable linking of only updated testobject-files
    - is it possible to make out of the testobject.o-files
