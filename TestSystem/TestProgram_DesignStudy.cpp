@@ -1,11 +1,11 @@
 // Oliver Kullmann, 8.1.2006
 
 /*!
-  \file TestProgram_DesignStudy.cpp
-  \brief Study for the one test program, which is linked appropriately with
-  the .o-files for the testobjects.
-  \todo Using module ProgramOptions.
-  \todo Using module Messages.
+  \file TestSystem/TestProgram_DesignStudy.cpp
+  \brief The one test program, which is linked appropriately with the .o-files for the testobjects.
+
+  Reads from the command line the test levels and the output streams, prepares the output streams,
+  and then runs the tests.
 */
 
 #include <iostream>
@@ -34,6 +34,8 @@ struct is_separator : std::unary_function<char, bool> {
 
 int main(const int argc, const char* const argv[]) {
 
+  // Checking the input:
+
   const unsigned int number_streams = 3;
   const unsigned int additional_leading_parameters = 1;
   const unsigned int number_parameters =  1 + additional_leading_parameters + 3 * number_streams;
@@ -43,10 +45,14 @@ int main(const int argc, const char* const argv[]) {
     return EXIT_FAILURE;
   }
 
+  // Reading the test level:
+
   unsigned int current_parameter = 1;
 
   ::OKlib::TestSystem::TestLevel& level((argv[current_parameter][0] == 'f') ? ::OKlib::TestSystem::test_level(::OKlib::TestSystem::Full()) : (argv[current_parameter][0] == 'e') ? ::OKlib::TestSystem::test_level(::OKlib::TestSystem::Extensive()) : ::OKlib::TestSystem::test_level(::OKlib::TestSystem::Basic()));
   ++current_parameter;
+
+  // Preparing the output streams:
 
   ::OKlib::GeneralInputOutput::OStreamMultiplexer multiplexer;
   {
@@ -73,7 +79,9 @@ int main(const int argc, const char* const argv[]) {
     ::OKlib::Messages::MessagesBase::set(multiplexer.fostream_vector[i], ::OKlib::Messages::LanguageName()(argv[current_parameter]));
   }
 
-  assert(current_parameter == number_parameters); 
+  assert(current_parameter == number_parameters);
+
+  // Running the tests:
 
   return OKlib::TestSystem::RunTest::run_tests(multiplexer.fostream_vector[0], multiplexer.fostream_vector[1], multiplexer.fostream_vector[2], level);
 }
