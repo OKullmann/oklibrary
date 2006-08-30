@@ -4,7 +4,7 @@
   \file Buildsystem/plans/makefile_generic.hpp
   \brief Plans for the generic makefile
 
-  \todo CORRECTION
+  \todo CORRECTION FOR DOXYGEN (for MH)
 
       - Why the addition of
          "doxygen-parameters := OUTPUT_DIRECTORY=$(doc_dir)"
@@ -14,10 +14,23 @@
          "make doxygen-parameters="HAVE_DOT=YES" html"
         ??
 
+  \todo UPDATE OF PLANNING-DOCUMENTATION (for MH)
+
+     - It seems that the the two points below unter "Customisation" regarding "Root"
+       have been handled meanwhile?
+
+  \todo Documentation (in makefile_generic.mak):
+    - Full overview on the parameters for makefile_generic (including the environment
+      variables).
+    - Checking on the existing documentation, and updating if necessary.
+    - What is required from those makefile.definitions.mak ? Update the list in
+      makefile_generic.mak, and reflect on it.
+    - Adding inline comments for an overview on functionality.
+ 
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
       should be possible to use the recommended version
-    - general clean-up
+    - general clean-up of make-variables
     - the current function of "General_options" is taken over by the new variable "Debug_options"
     - Which compiler options are effective when linking?
     - CXXFLAGS is not used when linking the compilation units together --- is this
@@ -27,6 +40,14 @@
       output by default (can be switched off) into a file
       log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
 
+  \todo Cleaning:
+    - We need cleaning tools which clean up directories (not single files).
+    - We need specialised cleaning for applications and link-libraries.
+    - We need specialised cleaning regarding the test system :
+    - Cleaning of special or all versions of the test-timestamps.
+    - Cleaning of test-objectfiles and test-programs.
+    - Cleaning of test-depencies.
+
   \todo Compilation:
     - The names of the created .o-files and executables should reflect "all" compiler options.
     - There are generic links to the unoptimised and the optimised version (the latest).
@@ -34,11 +55,6 @@
     - For every created file.o and file we have file.compilation_log (in the same directory
       where these files go). Optionally we can switch it off.
     - There is a make-variable for optional name extensions.
-
-  \todo Cleaning:
-    - We need specialised cleaning regarding the test system.
-    - We need also cleaning tools which clean up directories (not single files).
-    - We need specialised cleaning for applications and link-libraries.
 
   \todo Linking:
     - The build system should find out whether the platform is 32- or 64-bit, and select then only
