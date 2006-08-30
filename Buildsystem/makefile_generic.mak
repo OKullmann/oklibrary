@@ -404,11 +404,6 @@ $(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object
 
 # --------------------------------
 
-# needed:
-# cleaning of special or all versions of the test-timestamps
-# cleaning of test-objectfiles and test-programs
-# cleaning of test-depencies
-
 cleantest :
 	- rm $(test_file)
 
