@@ -8,7 +8,7 @@
   \par Version 0.1.2 :
 
   In TestSystem/plans/TestSystem.hpp the following topics are handled:
-  - Renaming (MH)
+  - Renaming (MH) : DONE
 
   In TestSystem/plans/BasicDeclarations.hpp the following topics are handled:
   - Motivation
