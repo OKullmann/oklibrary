@@ -13,7 +13,7 @@
    - Test it!
 
   \todo TestSystem::TestException :
-   Investigate, whether it should use Messages for internal purpuses, and (perhaps) also for the
+   Investigate, whether it should use Messages for internal purposes, and (perhaps) also for the
    input of error circumstances (yet the parameter special_circumstances is a plain string variable;
    in this way strings and boost::lexical_cast would be avoided).
 
