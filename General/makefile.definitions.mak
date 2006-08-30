@@ -16,7 +16,7 @@ else
   Xerces_so :=
 endif
 
-OKTestsystem := -I$(OKSystem)/Transitional/Testsystem
+OKTestSystem := -I$(OKSystem)/Transitional/TestSystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -25,7 +25,7 @@ test_program := TestBibliothek
 
 programs := NumberTheory_Application_gcd Algebra_Applications_ModulareExponentiation TimeHandling_Applications_DaysDifference TimeHandling_Applications_DifferenceList Algebra_Applications_RSA
 
-source_libraries = $(OKTestsystem) $(Xerces_h) $(Loki) $(Boost) 
+source_libraries = $(OKTestSystem) $(Xerces_h) $(Loki) $(Boost) 
 
 link_libraries := -lboost_date_time-gcc $(Xerces_so)
 

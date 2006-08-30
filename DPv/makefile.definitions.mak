@@ -20,7 +20,7 @@ else
   OKSystem := 
 endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
+OKTestSystem := -I$(OKSYSTEM)/Transitional/TestSystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -29,7 +29,7 @@ test_program := TestDPv
 
 programs := DPv
 
-source_libraries = $(OKTestsystem) $(Bibliothek) $(Boost) $(OKMessages) $(OKIOtools) $(OKSystem)
+source_libraries = $(OKTestSystem) $(Bibliothek) $(Boost) $(OKMessages) $(OKIOtools) $(OKSystem)
 
 boost_filesystem := -lboost_filesystem-gcc
 boost_date_time := -lboost_date_time-gcc

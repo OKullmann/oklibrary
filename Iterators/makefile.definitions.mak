@@ -17,7 +17,7 @@ else
   Xerces_so :=
 endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
+OKTestSystem := -I$(OKSYSTEM)/Transitional/TestSystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -26,7 +26,7 @@ test_program := TestIterators
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem)
+source_libraries =  $(Boost) $(OKTestSystem)
 
 link_libraries := 
 

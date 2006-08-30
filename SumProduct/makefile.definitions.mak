@@ -22,7 +22,7 @@ else
   OKSystem := 
 endif
 
-OKTestsystem := -I$(OKSYSTEM)/Transitional/Testsystem
+OKTestSystem := -I$(OKSYSTEM)/Transitional/TestSystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -31,7 +31,7 @@ test_program := TestSumProduct
 
 programs :=
 
-source_libraries =  $(Boost) $(OKTestsystem) $(OKSystem)
+source_libraries =  $(Boost) $(OKTestSystem) $(OKSystem)
 
 link_libraries := 
 

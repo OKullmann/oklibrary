@@ -12,7 +12,7 @@ else
   OKIOtools :=
 endif
 
-OKTestsystem := -I$(OKSystem)/Transitional/Testsystem
+OKTestSystem := -I$(OKSystem)/Transitional/TestSystem
 
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
@@ -21,7 +21,7 @@ test_program := TestLaTeX
 
 programs := 
 
-source_libraries = $(Boost) $(OKTestsystem)
+source_libraries = $(Boost) $(OKTestSystem)
 
 link_libraries := 
 
