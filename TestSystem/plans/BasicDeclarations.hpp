@@ -4,7 +4,8 @@
   \file TestSystem/plans/BasicDeclarations.hpp
   \brief Plans for the module with basic declarations for the test system
 
-  \todo Write a short motivation for the existence of TestSystem/BasicDeclarations.hpp.
+  \todo Motivation:
+  Write a short motivation for the existence of TestSystem/BasicDeclarations.hpp.
 
 */
 
