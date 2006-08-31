@@ -27,11 +27,6 @@
         and preferably automatically, without also having to specify the
         location again on the command line. 
 
-  \todo UPDATE OF PLANNING-DOCUMENTATION (for MH)
-
-     - It seems that the the two points below unter "Customisation" regarding "Root"
-       have been handled meanwhile?
-
   \todo Documentation (in makefile_generic.mak):
     - Full overview on the parameters for makefile_generic (including the environment
       variables).
@@ -93,17 +88,13 @@
     - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
       Perhaps also the test time-stamps should go here?
 
-  \todo Customisation: From makefile.definitions.mak only "Root" is to be extracted (but see below), while the rest is handled by
-      makefile_generic, which collects the required compilation and linking information individually from all .hpp and
-      .cpp files by means of annotating files.
+  \todo Customisation: 
     - We keep our two-stages process: Every .cpp-files yields a .o-file, and finally exactly those .cpp-files with main()
       yield executables (the same for .c).
     - Every .cpp-file has a .source_libraries file (if needed), a .link_libraries and .link_libraries_optimised file (if needed),
       and a .compile_options and a .compile_options_optimised file (if needed).
     - The link-libraries for a .cpp-file with main() are collected from the link-libraries of the .cpp-files linked to it,
       and from the link-library-file for this .cpp-file itself.
-    - Finally, also "Root" needs to be replaced; perhaps best with a make-variable System_directories (which will get
-      its default value derived from OKPLATFORM (like OKSystem)).
     - The (recursive) make-variable source_libraries is kept, predefined as "$(OKSystem_include) $(Boost_include)" (potentially
       changed in the locale makefile): If .source_libraries exists, then it overrides $(source_libraries).
 
