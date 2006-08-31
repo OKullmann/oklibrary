@@ -23,9 +23,16 @@
         and two corresponding build trees:
             ..OKplatform/SystemDirectories_1 
             ..OKplatform/SystemDirectories_2
-        then I want the documentation to be built in the right place, 
+        then I want the documentation to be built in the right place,
+
+        OK : "right place" ? as you said, the doxygen output depends on
+        SystemDirectories, and doesn't this then automatically do the job?
+
         and preferably automatically, without also having to specify the
-        location again on the command line. 
+        location again on the command line.
+
+        OK : Anyway, what about the problem that the original main use as cited
+        above seems to be incompatible with your usage?
 
   \todo Documentation (in makefile_generic.mak):
     - Full overview on the parameters for makefile_generic (including the environment
