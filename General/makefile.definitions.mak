@@ -29,4 +29,4 @@ source_libraries = $(OKTestSystem) $(Xerces_h) $(Loki) $(Boost)
 
 link_libraries := -lboost_date_time-gcc $(Xerces_so)
 
-Root := $(wildcard ../../..)
+

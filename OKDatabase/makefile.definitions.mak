@@ -31,4 +31,4 @@ source_libraries =  $(Boost) $(OKTestSystem) -I/usr/include/pgsql
 
 link_libraries := -lpq
 
-Root := $(wildcard ../../..)
+

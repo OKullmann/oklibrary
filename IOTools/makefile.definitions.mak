@@ -11,4 +11,4 @@ source_libraries = $(Boost)
 
 link_libraries :=
 
-Root := $(wildcard ../../..)
+

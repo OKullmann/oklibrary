@@ -21,4 +21,4 @@ source_libraries = $(Mhash_include)
 
 link_libraries := -L$(Mhash)/lib -lmhash
 
-Root := $(wildcard ../../..)
+

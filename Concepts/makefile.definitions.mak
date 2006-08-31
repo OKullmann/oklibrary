@@ -34,4 +34,4 @@ source_libraries =  $(Boost) $(OKTestSystem) $(OKMetaProgramming)
 
 link_libraries := 
 
-Root := $(wildcard ../../..)
+
