@@ -14,6 +14,19 @@
          "make doxygen-parameters="HAVE_DOT=YES" html"
         ??
 
+      - The reason is that the doxygen output directory depends
+        upon the value of the make variable SystemDirectories. So, for
+        example, if I, as I often do, have two different source code
+        trees:
+            ..OKplatform/OKsystem_1
+            ..OKplatform/OKsystem_2
+        and two corresponding build trees:
+            ..OKplatform/SystemDirectories_1 
+            ..OKplatform/SystemDirectories_2
+        then I want the documentation to be built in the right place, 
+        and preferably automatically, without also having to specify the
+        location again on the command line. 
+
   \todo UPDATE OF PLANNING-DOCUMENTATION (for MH)
 
      - It seems that the the two points below unter "Customisation" regarding "Root"
