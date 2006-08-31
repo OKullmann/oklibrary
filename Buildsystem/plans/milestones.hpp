@@ -8,8 +8,8 @@
   \par Version 0.1.1 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
-  - CORRECTION FOR DOXYGEN (for MH)
-  - UPDATE OF PLANNING-DOCUMENTATION (for MH)
+  - (DONE) CORRECTION FOR DOXYGEN (for MH)
+  - (DONE) UPDATE OF PLANNING-DOCUMENTATION (for MH)
   - Documentation
 
   \par Version 0.1.2 :
