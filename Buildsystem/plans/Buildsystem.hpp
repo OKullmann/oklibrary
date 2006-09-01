@@ -4,6 +4,21 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
+  \todo DISCUSSION
+
+  OK : It seems to me that we should rename "SystemDirectories" into "system_directories",
+  to emphasise (in analogy to directories like "plan", "messages") the "systematic" nature
+  of this directory, i.e., not "hand-made". Specifically it has to be deleted quite often,
+  and since it contains too much, it cannot be placed into the trash can, and thus here
+  we have a potentially dangerous operation --- in its present location it is too similar
+  to the other directories, and deleting ExternalSources or OKsystem can (at least for
+  me) destroy something valuable. With the new name it would stand out better.
+
+  So we should create a new todo "Rename SystemDirectories" for renaming this directory,
+  adding it to the targets for buildsystem version 0.1.2 (it should actually just need
+  a (trivial) change at a single place, and if this is not the case then something would
+  be wrong with the makefiles).
+
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
      OKSystem_include is defined (with "-I").
