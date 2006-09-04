@@ -28,10 +28,17 @@
         OK : "right place" ? as you said, the doxygen output depends on
         SystemDirectories, and doesn't this then automatically do the job?
 
-        MH : I didn't express myself properly. We want it to be that the
-        output directory depends upon the value of the Make variable
-        SystemDirectories, but it doesn't. In fact the output directory is
-        hardcoded into the Doxyfile on line 36 as "SystemDirectories/doc/".
+          MH : I didn't express myself properly. We want it to be that the
+          output directory depends upon the value of the Make variable
+          SystemDirectories, but it doesn't. In fact the output directory is
+          hardcoded into the Doxyfile on line 36 as "SystemDirectories/doc/".
+          OK : Ah, so here's the problem --- we should fix this!
+          So the proper solution should be just to use the rule body
+
+          echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform);
+          ( cat $(doxy_file); echo $(doxygen-parameters) "OUTPUT_DIRECTORY=$(doc_dir)") | doxygen - $(Doxygen_modifier)
+
+          In this way we have not misued doxygen-parameters.
 
         and preferably automatically, without also having to specify the
         location again on the command line.
@@ -43,6 +50,11 @@
         doxygen-parameters on the command line it seems to override the value
         specified in the makefile. So it's still possible to specify an
         alternative output directory on the command line.
+        OK : But then it interferes! That's the problem: doxygen-parameters is for the *user*,
+        not for the build system (the documentation in Buildsystem states the example
+        make doxygen-parameters="HAVE_DOT=YES" html) --- the user just wants not to worry
+        about the place for the html-documentation *and* wants to specify some *additional*
+        doxygen-specifications.
 
   \todo Documentation (in makefile_generic.mak):
     - Full overview on the parameters for makefile_generic (including the environment
