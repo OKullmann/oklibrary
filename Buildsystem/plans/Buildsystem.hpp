@@ -25,6 +25,14 @@
   the Doxyfile. Does it now make sense to change the names of the Make variable to
   system_directories?
 
+  OK : But the make-variable *is* already called "system_directories" ?
+  Perhaps I don't understand you properly; but anyway, the variable names
+  "SYSTEMDIRECTORIES", "SystemDirectories" and "system_directories" seem to follow
+  general rules, and the value of a variable and its name are different things,
+  so I think only the value of the default value of SystemDirectories in case SYSTEMDIRECTORIES
+  is not defined needs to be updated. And of course the doxyfile needs to be changed!
+  See plans/makefile_generic.hpp regarding CORRECTION FOR DOXYGEN.
+  
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
      OKSystem_include is defined (with "-I").
@@ -50,7 +58,9 @@
   There is, however, a small issue. Do we just rely on the behaviour
   of mkdir not to create an already existing directory or use a special
   command to check for the existence of a directory before trying to
-  create it. There seem to be merits in both approaches. 
+  create it. There seem to be merits in both approaches.
+  OK : The most natural thing seems to just use the directory name
+  as the target of a rule.
 
    - "html" should be possible from any level (creating always the
    complete documentation) (this should be automatically achieved
