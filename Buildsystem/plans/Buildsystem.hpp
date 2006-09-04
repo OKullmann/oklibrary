@@ -37,6 +37,15 @@
      structure --- perhaps this should be performed by each target if
      needed (so that prebuild wouldn't be needed anymore here)?
      What else is done by prebuild?)
+   
+     MH. I have done some experimentation with creating the directory
+         structure only when updating targets. This seems to work well and completely
+         eliminates the need for the prebuild target in makefile_generic.mak.
+         There is, however, a small issue. Do we just rely on the behaviour
+         of mkdir not to create an already existing directory or use a special
+         command to check for the existence of a directory before trying to
+         create it. There seem to be merits in both approaches. 
+
    - "html" should be possible from any level (creating always the
    complete documentation) (this should be automatically achieved
    once makefile_recursive is eliminated).
