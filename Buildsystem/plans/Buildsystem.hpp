@@ -19,6 +19,12 @@
   a (trivial) change at a single place, and if this is not the case then something would
   be wrong with the makefiles).
 
+  MH : In fact, it is now possible to specify the name of SystemDirectories through either
+  the environment variable SYSTEMDIRECTORIES or the Make variable SystemDirectories.
+  So all we have to do is change the default value. This also has to be changed in
+  the Doxyfile. Does it now make sense to change the names of the Make variable to
+  system_directories?
+
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
      OKSystem_include is defined (with "-I").
@@ -38,13 +44,13 @@
      needed (so that prebuild wouldn't be needed anymore here)?
      What else is done by prebuild?)
    
-     MH. I have done some experimentation with creating the directory
-         structure only when updating targets. This seems to work well and completely
-         eliminates the need for the prebuild target in makefile_generic.mak.
-         There is, however, a small issue. Do we just rely on the behaviour
-         of mkdir not to create an already existing directory or use a special
-         command to check for the existence of a directory before trying to
-         create it. There seem to be merits in both approaches. 
+  MH : I have done some experimentation with creating the directory
+  structure only when updating targets. This seems to work well and completely
+  eliminates the need for the prebuild target in makefile_generic.mak.
+  There is, however, a small issue. Do we just rely on the behaviour
+  of mkdir not to create an already existing directory or use a special
+  command to check for the existence of a directory before trying to
+  create it. There seem to be merits in both approaches. 
 
    - "html" should be possible from any level (creating always the
    complete documentation) (this should be automatically achieved
