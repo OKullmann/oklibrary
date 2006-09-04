@@ -28,11 +28,21 @@
         OK : "right place" ? as you said, the doxygen output depends on
         SystemDirectories, and doesn't this then automatically do the job?
 
+        MH : I didn't express myself properly. We want it to be that the
+        output directory depends upon the value of the Make variable
+        SystemDirectories, but it doesn't. In fact the output directory is
+        hardcoded into the Doxyfile on line 36 as "SystemDirectories/doc/".
+
         and preferably automatically, without also having to specify the
         location again on the command line.
 
         OK : Anyway, what about the problem that the original main use as cited
         above seems to be incompatible with your usage?
+
+        MH : It doesn't seem to cause any problems. If you specify the variable
+        doxygen-parameters on the command line it seems to override the value
+        specified in the makefile. So it's still possible to specify an
+        alternative output directory on the command line.
 
   \todo Documentation (in makefile_generic.mak):
     - Full overview on the parameters for makefile_generic (including the environment
