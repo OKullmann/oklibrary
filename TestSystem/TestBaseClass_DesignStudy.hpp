@@ -199,11 +199,11 @@ namespace OKlib {
     protected :
 
       //! Test-meta-functions create log-messages via this member function.
-      /*! \todo What is the role of the parameters line and file ??? Seems to be missing in the implementation? */
 
       void log(const ::OKlib::Messages::MessagesBase* const m, ::OKlib::TestSystem::line_number_type const line, const char* const file) {
         assert(log_p);
-        *log_p << *m;
+        assert(level_p);
+        *log_p << ::OKlib::TestSystem::messages::LogDescription(file, line, depth_, level_p) << *m;
       }
 
       //! DEPRECATED (this was the first approach for creating log-messages)
