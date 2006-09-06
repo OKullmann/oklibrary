@@ -3,12 +3,12 @@
 /*!
   \file Messages/messages/Languages.hpp
   \brief Translations of language names (provided by a message class).
+
   \todo "Austria" in French?
   \todo "Untranslated" in French?
 */
 
 #ifndef LANGUAGESEXPLANATIONS_8Uh26266
-
 #define LANGUAGESEXPLANATIONS_8Uh26266
 
 #include <Transitional/Messages/MessagesMain.hpp>
@@ -18,6 +18,11 @@ namespace OKlib {
   namespace Messages {
 
     namespace messages {
+
+      /*!
+        \class LanguageNames
+        \brief Outputs a description for all provided languages.
+      */
 
       OKLIB_USING_MESSAGES
 
