@@ -22,16 +22,25 @@
   \subsection VersionTransitional011 0.1.1
   \par Buildsystem version 0.2
   (see Buildsystem/plans/milestones.hpp)
-  \par Testsystem version 0.1.1
-  (see Testsystem/plans/milestones.hpp)
+  \par Messages version 0.7.3
+  (see Messages/plans/milestones.hpp)
+  \par TestSystem version 0.1.2
+  (see TestSystem/plans/milestones.hpp)
 
   \subsection VersionTransitional012 0.1.2
   \par Buildsystem version 0.3
   (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.8
+  (see Messages/plans/milestones.hpp)
+  \par TestSystem version 0.1.5
+  (see TestSystem/plans/milestones.hpp)
+
 
   \subsection VersionTransitional013 0.1.3
   \par Buildsystem version 0.4
   (see Buildsystem/plans/milestones.hpp)
+  \par TestSystem version 0.2
+  (see TestSystem/plans/milestones.hpp)
 
   \subsection VersionTransitional014 0.1.4
   \par Buildsystem version 0.5
@@ -61,13 +70,11 @@
   \par Buildsystem version 1.0
   (see Buildsystem/plans/milestones.hpp)
 
-  \section VersionTransitional020 0.2.0 Build and test system ready
+  \section VersionTransitional020 0.2.0 Build and test system basically finished
   \par Messages version 1.0
   (see Messages/plans/milestones.hpp)
   \par ProgramOptions version ???
   \par ErrorHandling version ???
-  \par TestSystem version 0.2
-  (see Testsystem/plans/milestones.hpp)
   \par General goals:
    - Transition to new test system complete (all old tests transferred to the new test system).
    - Except of warnings coming from Boost, no compiler warnings from our library.
