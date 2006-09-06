@@ -3,6 +3,9 @@
 /*!
   \file TestSystem/BasicDeclarations.hpp
   \brief Basic declarations for the test system
+
+  Both TestSystem/TestBaseClass.hpp and TestSystem/TestExceptions.hpp need these types, but
+  these two modules are independent of each other.
 */
 
 #ifndef BASICDECLARATIONS_kJhYt65

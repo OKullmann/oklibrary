@@ -116,6 +116,9 @@ namespace OKlib {
 
     /*!
       \brief Factory for static test-level objects
+
+      Providing global test-level-objects, exploiting the Singleton pattern. Needed to avoid
+      temporaries.
     */
 
     template <class TestLevelDerived>
