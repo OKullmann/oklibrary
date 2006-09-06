@@ -82,11 +82,27 @@ namespace OKlib {
 
 #define OKLIB_MESSAGES(M) struct M : ::OKlib::Messages::MessagesBase
 
+    /*!
+      \def OKLIB_USING_LANGUAGES
+      \brief Introduces using declarations for all enumerated constants denoting languages.
+    */
+
 #define OKLIB_USING_LANG_yHbv4(r, data, lang) using ::OKlib::Messages::lang;
 #define OKLIB_USING_LANGUAGES BOOST_PP_SEQ_FOR_EACH(OKLIB_USING_LANG_yHbv4, , OKLIB_LANGUAGES)
 
+    /*!
+      \def OKLIB_USING_LEVELS
+      \brief Introduces using declarations for all enumerated constants denoting message-levels.
+    */
+
 #define OKLIB_USING_LEVEL_yHbv4(r, data, level) using ::OKlib::Messages::level;
 #define OKLIB_USING_LEVELS BOOST_PP_SEQ_FOR_EACH(OKLIB_USING_LEVEL_yHbv4, , OKLIB_STRATA)
+
+    /*!
+      \def OKLIB_USING_MESSAGES
+      \brief Introduces using declarations for all enumerated constants denoting languages or message-levels, and for
+      the class templates L<lang> and S<strata>.
+    */
 
 #define OKLIB_USING_MESSAGES OKLIB_USING_LANGUAGES OKLIB_USING_LEVELS using ::OKlib::Messages::L; using ::OKlib::Messages::S;
   }
