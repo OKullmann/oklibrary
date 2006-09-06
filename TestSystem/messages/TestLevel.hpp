@@ -6,7 +6,6 @@
 */
 
 #ifndef TESTLEVELEXPLANATIONS_uYYtr5
-
 #define TESTLEVELEXPLANATIONS_uYYtr5
 
 #include <Transitional/Messages/MessagesMain.hpp>
@@ -21,10 +20,18 @@ namespace OKlib {
 
       OKLIB_USING_MESSAGES
 
+      /*!
+        \class TestLevelDescriptions
+        \brief Output of test-level descriptions
+
+         Attention: The const-reference to the level object must not be bound to a temporary!
+         (This leads to undefined behaviour, but compilers usually don't catch this.)
+      */
+
       OKLIB_MESSAGES(TestLevelDescriptions) {
         OKLIB_MESSAGES_PRINT
 
-        TestLevelDescriptions(::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
+        TestLevelDescriptions(const ::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
 
         struct dispatch : ::OKlib::TestSystem::VisitorTestLevel {
           std::ostream& out;
@@ -50,7 +57,7 @@ namespace OKlib {
 
       private :
 
-        ::OKlib::TestSystem::TestLevel& lev; // as a non-const reference to avoid binding to temporaries!
+        const ::OKlib::TestSystem::TestLevel& lev;
       };
     }
 
