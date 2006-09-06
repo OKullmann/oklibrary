@@ -2,7 +2,7 @@
 
 /*!
   \file Messages_Testapplication.cpp
-  \brief Temporary test application
+  \brief DEPRECATED. Temporary test application
 */
 
 #include <iostream>
