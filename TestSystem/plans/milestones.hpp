@@ -11,10 +11,9 @@
   - Renaming (MH) : DONE
 
   In TestSystem/plans/BasicDeclarations.hpp the following topics are handled:
-  - Motivation
+  - Motivation : DONE
     
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - Messages
   - Log-Messages
   - Testing
 
@@ -25,6 +24,9 @@
   - TestSystem::TestException
 
   \par Version 0.1.4 :
+
+  In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
+  - Messages
 
   In TestSystem/plans/TestProgram.hpp the following topics are handled:
   - Messages
