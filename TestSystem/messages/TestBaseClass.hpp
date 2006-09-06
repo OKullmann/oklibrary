@@ -2,11 +2,10 @@
 
 /*!
   \file TestSystem/messages/TestBaseClass.hpp
-  \brief Messages for OKlib::TestSystem::TestBase
+  \brief Messages for class OKlib::TestSystem::TestBase
 */
 
 #ifndef TESTBASECLASSMESSAGES_jjdh6648
-
 #define TESTBASECLASSMESSAGES_jjdh6648
 
 #include <cassert>
@@ -27,6 +26,12 @@ namespace OKlib {
 
       OKLIB_USING_MESSAGES
 
+      /*!
+        \class BasicTestDescription
+        \brief Outputs a description of the test (an identification of the
+        test function, and nesting depth and test level).
+      */
+
       OKLIB_MESSAGES(BasicTestDescription) {
         OKLIB_MESSAGES_PRINT
 
@@ -34,9 +39,20 @@ namespace OKlib {
         const char* const file_name;
         const ::OKlib::TestSystem::line_number_type line_number;
         const ::OKlib::TestSystem::depth_number_type depth;
-        ::OKlib::TestSystem::TestLevel& test_level;
+        const ::OKlib::TestSystem::TestLevel& test_level;
 
-        BasicTestDescription(const char* const type_name_mangled, const char* const file_name, const ::OKlib::TestSystem::line_number_type line_number, const ::OKlib::TestSystem::depth_number_type depth, ::OKlib::TestSystem::TestLevel& test_level) : type_name(::OKlib::SystemSpecifics::Demangle()(type_name_mangled)), file_name(file_name), line_number(line_number), depth(depth), test_level(test_level) {}
+        BasicTestDescription(
+                             const char* const type_name_mangled,
+                             const char* const file_name,
+                             const ::OKlib::TestSystem::line_number_type line_number,
+                             const ::OKlib::TestSystem::depth_number_type depth,
+                             const ::OKlib::TestSystem::TestLevel& test_level) :
+          type_name(::OKlib::SystemSpecifics::Demangle()(type_name_mangled)),
+          file_name(file_name),
+          line_number(line_number),
+          depth(depth),
+          test_level(test_level)
+        {}
 
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           out << "Test function = " << type_name.c_str() << "\n";
@@ -60,6 +76,50 @@ namespace OKlib {
           out << "Dateiname = " << file_name << "\n";
           out << "Zeilennummer = " << line_number << "\n";
           out << "Testniveau = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
+        }
+
+      };
+
+      /*!
+        \class LogDescription
+        \brief Outputs a description of the circumstances of a log-message
+      */
+
+      OKLIB_MESSAGES(LogDescription) {
+        OKLIB_MESSAGES_PRINT
+
+        const char* const file_name;
+        const ::OKlib::TestSystem::line_number_type line_number;
+        const ::OKlib::TestSystem::depth_number_type depth;
+        const ::OKlib::TestSystem::TestLevel* const test_level;
+
+        LogDescription(
+                             const char* const file_name,
+                             const ::OKlib::TestSystem::line_number_type line_number,
+                             const ::OKlib::TestSystem::depth_number_type depth,
+                             const ::OKlib::TestSystem::TestLevel* test_level) :
+          file_name(file_name),
+          line_number(line_number),
+          depth(depth),
+          test_level(test_level)
+        {}
+
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          out << "Log message at line " << line_number << " in file " << file_name << ":\n";
+        }
+        void print(std::ostream& out, L<en_GB>, S<Extensive>) const {
+          out << "Log message at line " << line_number << " in file " << file_name << ",\n";
+          out << "at test depth = " << depth << " and test level = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
+        }
+
+        void print(std::ostream& out, L<de_DE>, S<Basic>) const {}
+        void print(std::ostream& out, L<de_DE>, S<Full>) const {
+          out << "Log-Meldung in Zeile " << line_number << " und Datei " << file_name << ":\n";
+        }
+        void print(std::ostream& out, L<de_DE>, S<Extensive>) const {
+          out << "Log-Meldung in Zeile " << line_number << " und Datei " << file_name << ",\n";
+          out << "wobei Test-Schachtelungstiefe = " << depth << " und Test-Niveau = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
         }
 
       };
