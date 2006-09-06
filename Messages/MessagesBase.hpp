@@ -4,8 +4,8 @@
   \file MessagesBase.hpp
   \brief The base class of the messages framework
 
-  Including this file suffices to get the message service (without the
-  macro support).
+  Including this file suffices to get the message service without the
+  macro support.
 */
 
 #ifndef MESSAGESBASE_9iJJhnb

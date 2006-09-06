@@ -8,6 +8,7 @@
   Instead of using these macros, it's easier to rely on the UTF-8 encoding of the
   source code files, and use the special characters directly (copying them from
   below, if necessary).
+
   \todo Is it guaranteed that the UTF-8 encoding of the file will translate into
   the same encoding of the string literals?
 */
