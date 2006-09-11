@@ -4,12 +4,15 @@
   \file ComplexityTheory/plans/ComplexityTheory.hpp
   \brief Plans for the module on complexity theoretical constructions
 
-  \todo First we need formal grammars for the important types of
+  \todo Grammars:
+  First we need formal grammars for the important types of
   Turing machines (there should be out there some code).
 
-  \todo Then we should (directly) simulate Turing machines.
+  \todo Simulation:
+  Then we should (directly) simulate Turing machines.
 
-  \todo Implement the construction of SAT problems from
+  \todo NP-completeness:
+  Implement the construction of SAT problems from
   the NP-completeness proof of SAT (see for example
   [Complexity and Cryptography: An Introduction; John Talbot and
   Dominic Welsh; 2006], Theorem 3.10): Given a Turing machine M and
@@ -17,7 +20,8 @@
   there exists an input x of size n such that M accepts x, and this
   in at most t steps.
 
-  \todo Implement the construction of circuits from Turing machines
+  \todo NP-completeness 2:
+  Implement the construction of circuits from Turing machines
   as in [Complexity and Cryptography: An Introduction; John Talbot and
   Dominic Welsh; 2006], Theorem 4.20: Given an accepting TM M
   (with outputs 0,1) and n in NN, construct a circuit C_n which
