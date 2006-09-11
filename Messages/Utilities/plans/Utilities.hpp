@@ -4,8 +4,20 @@
   \file Messages/Utilities/plans/Utilities.hpp
   \brief General plans for the Messages/Utilities module.
 
-  \todo QuickMessage:
-  Create a QuickMessage class (for quick creation of message objects out of strings).
+  \todo SimpleMessage:
+  Create a SimpleMessage class (for quick creation of message objects out of strings):
+    - SimpleMessage(mstring) creates a message object with mstring the message in the default
+      language at basic level; there are two further parameters for full and extensive level,
+      with default values the empty string.
+      All three levels for the default language are implemented.
+    - The question is now how to specify further languages ?
+        With a type-list the languages are specified, and then at run-time
+        values are provided: SimpleMessageF<Language-list> (derived from SimpleMessage;
+        "F" like "foreign").
+      The class template SimpleMessageF provides for each language implementations
+      for all three levels (similar to SimpleMessage), where in case of the empty string the message
+      from the level below is chosen.
+    This all in a new file Utilities/SimpleMessages.
 
   \todo Service for test exceptions:
   As a service for Testsystem/TestException_DesignStudy.hpp
@@ -13,7 +25,7 @@
   classes (and macros) for file-identification purposes:
    - Per file we have __DATE__ (compilation date), __FILE__ (file name),
      __TIME__ (C) (compilation time), and
-     $Date: 2006/09/06 12:54:34 $ (last change date), $Revision: 1.4 $ (current
+     $Date: 2006/09/11 13:36:29 $ (last change date), $Revision: 1.5 $ (current
      revision number) (CVS).
    - For programs we also have the version, the author, name of program etc.
 
