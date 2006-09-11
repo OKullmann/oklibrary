@@ -4,7 +4,20 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo DISCUSSION
+  \todo DISCUSSION Update makefile_recursive
+
+  OK : What is the role of variable srcdir ? Isn't the definition in makefile_recursive
+  superfluous now?
+  It is used in makefile_generic (so that we can call makefiles from other places,
+  without a change in behaviour; we should also document this), but why the
+  definition in makefile_recursive ? Can't makefile_generic define it on its own
+  (respectively, shouldn't the definition in makefile_generic  suffice) ?
+  Those settings of srcdir which remain should receive some inline comments
+  (these settings are quite arcane).
+  And the occurrences of makefile_recursive should be replaced by links.
+  The new target "Update makefile_recursive" should go to milestone 0.1.3.
+
+  \todo DISCUSSION SystemDirectories (seems to be concluded now (OK))
 
   OK : It seems to me that we should rename "SystemDirectories" into "system_directories",
   to emphasise (in analogy to directories like "plan", "messages") the "systematic" nature
@@ -13,11 +26,6 @@
   we have a potentially dangerous operation --- in its present location it is too similar
   to the other directories, and deleting ExternalSources or OKsystem can (at least for
   me) destroy something valuable. With the new name it would stand out better.
-
-  So we should create a new todo "Rename SystemDirectories" for renaming this directory,
-  adding it to the targets for buildsystem version 0.1.2 (it should actually just need
-  a (trivial) change at a single place, and if this is not the case then something would
-  be wrong with the makefiles).
 
   MH : In fact, it is now possible to specify the name of SystemDirectories through either
   the environment variable SYSTEMDIRECTORIES or the Make variable SystemDirectories.
@@ -32,7 +40,13 @@
   so I think only the value of the default value of SystemDirectories in case SYSTEMDIRECTORIES
   is not defined needs to be updated. And of course the doxyfile needs to be changed!
   See plans/makefile_generic.hpp regarding CORRECTION FOR DOXYGEN.
+
+  ---------------------------------------------------------------------------------------------------------------
   
+  \todo Rename SystemDirectories:
+   Change the directory name "SystemDirectories" to "system_directories" (see discussion
+   above).
+
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
      OKSystem_include is defined (with "-I").
