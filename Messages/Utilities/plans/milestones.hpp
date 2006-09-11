@@ -8,7 +8,7 @@
   \par Version 0.0.6 :
 
   In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - QuickMessage
+  - SimpleMessage
 
   \par Version 0.0.7 :
 
