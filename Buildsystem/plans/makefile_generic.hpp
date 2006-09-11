@@ -4,7 +4,7 @@
   \file Buildsystem/plans/makefile_generic.hpp
   \brief Plans for the generic makefile
 
-  \todo CORRECTION FOR DOXYGEN (for MH)
+  \todo DISCUSSION Doxygen correction (for MH) (seems to be concluded now (OK))
 
       - Why the addition of
          "doxygen-parameters := OUTPUT_DIRECTORY=$(doc_dir)"
@@ -55,6 +55,11 @@
         make doxygen-parameters="HAVE_DOT=YES" html) --- the user just wants not to worry
         about the place for the html-documentation *and* wants to specify some *additional*
         doxygen-specifications.
+
+        ---------------------------------------------------------------------------------------------------------------
+
+  \todo Doxygen correction (for MH)
+    Perform the correction as discussed above.
 
   \todo Documentation (in makefile_generic.mak):
     - Full overview on the parameters for makefile_generic (including the environment
