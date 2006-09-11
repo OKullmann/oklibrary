@@ -1,4 +1,4 @@
- // Oliver Kullmann, 4.3.2006 (Swansea)
+// Oliver Kullmann, 4.3.2006 (Swansea)
 
 /*!
   \file Buildsystem/plans/milestones.hpp
@@ -8,11 +8,14 @@
   \par Version 0.1.1 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
-  - (DONE) CORRECTION FOR DOXYGEN (for MH)
-  - (DONE) UPDATE OF PLANNING-DOCUMENTATION (for MH)
+  - UPDATE OF PLANNING-DOCUMENTATION (for MH) : DONE
+  - Doxygen correction (for MH)
   - Documentation
 
   \par Version 0.1.2 :
+  In Buildsystem/plans/Buildsystem.hpp the following
+  topics are handled:
+  - SystemDirectories
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Make-variables for compilation and linking
