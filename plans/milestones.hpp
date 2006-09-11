@@ -30,15 +30,21 @@
   \subsection VersionTransitional012 0.1.2
   \par Buildsystem version 0.3
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8
+  \par Messages version 0.7.5
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5
   (see TestSystem/plans/milestones.hpp)
+  (see TestSystem/plans/milestones.hpp)
+  \par Concepts version 0.1.1
+  (see Concepts/plans/milestones.hpp)
+  \par All modules have plans-subdirectories with milestones (OK).
 
 
   \subsection VersionTransitional013 0.1.3
   \par Buildsystem version 0.4
   (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.8
+  (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.2
   (see TestSystem/plans/milestones.hpp)
 
