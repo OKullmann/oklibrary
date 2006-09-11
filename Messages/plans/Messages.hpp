@@ -2,10 +2,20 @@
 
 /*!
   \file Messages/plans/Messages.hpp
-  \brief Plans for the messages module
+  \brief Plans for the messages module (as a whole)
+
+  \todo Directory structure:
+   - To conform with the current recursive build system, we need a new sub-directory
+     Messages/Basics, which contains all the files currently directly under Messages.
+     This would bring another nested namespace, but since we have macro support
+     anyway for creating message classes, this should not bring much user-inconvenience
+     with it.
+   - Under Messages we need then an makefile_recursive instance.
 
   \todo Update:
-  Move all relevant todos to the plans-directory, and update the doxygen-documentation.
+   - Move all relevant todos to the plans-directory.
+   - Update the doxygen-documentation.
+   - Especially it must be precisely documented how to use and write message classes.
 
   \todo Testing:
    - We need here a preliminary compiler switch, which disables
