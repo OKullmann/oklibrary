@@ -58,7 +58,7 @@
 
         ---------------------------------------------------------------------------------------------------------------
 
-  \todo Doxygen correction (for MH)
+  \todo Doxygen correction (for MH) (DONE)
     Perform the correction as discussed above.
 
   \todo Documentation (in makefile_generic.mak):

@@ -162,7 +162,7 @@ test-auxdir := $(aux_dir)/tests/$(module-name)
 
 Directories := $(bindir) $(libdir) $(aux_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir) $(latex_dir) $(dependencies_dir)
 
-doxygen-parameters := OUTPUT_DIRECTORY=$(doc_dir)
+doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
 # -----------------------------------------------------------------------------------
@@ -313,7 +313,7 @@ prebuild : createdirs
 createdirs : $(Directories)
 
 html :
-	echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters)) | doxygen - $(Doxygen_modifier)
+	echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters) "OUTPUT_DIRECTORY=$(doc_dir)" ) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 

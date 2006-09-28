@@ -9,7 +9,7 @@
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - UPDATE OF PLANNING-DOCUMENTATION (for MH) : DONE
-  - Doxygen correction (for MH)
+  - Doxygen correction (for MH) : DONE
   - Documentation
 
   \par Version 0.1.2 :
