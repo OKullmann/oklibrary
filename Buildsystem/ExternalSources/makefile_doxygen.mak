@@ -36,7 +36,7 @@ doxygen-directories := $(doxygen-base-directory)
 .PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
 
 $(doxygen-directories) : % : 
-	mkdir $@1%b_m005
+	mkdir $@
 
 create_doxygen_dirs : $(doxygen-directories)
 
