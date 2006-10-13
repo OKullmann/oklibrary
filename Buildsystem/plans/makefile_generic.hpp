@@ -24,15 +24,17 @@
       aux/DoxygenErrorMessages is placed. Every run of make copies it
       output by default (can be switched off) into a file
       log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
-    - Rename SystemDirectories. The default value of the Make variable SystemDirectories 
-      is to be changed from $(prefix)/SystemDirectories to $(prefix)/system_directories.
-      (Also, there needs to be a corresponding change to the line in Buildsystem/Doxyfile
-      which defines the value of OUTPUT_DIRECTORY).
 
   \todo Cleaning:
     - We need cleaning tools which clean up directories (not single files).
     - We need specialised cleaning for applications and link-libraries.
     - We need specialised cleaning regarding the test system :
+    - Cleaning of special or all versions of the test-timestamps.
+    - Cleaning of test-objectfiles and test-programs.
+    - Cleaning of test-depencies.
+
+  \todo Test cleaning:
+    We need specialised cleaning regarding the test system :
     - Cleaning of special or all versions of the test-timestamps.
     - Cleaning of test-objectfiles and test-programs.
     - Cleaning of test-depencies.

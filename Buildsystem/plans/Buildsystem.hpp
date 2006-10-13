@@ -45,7 +45,10 @@
   
   \todo Rename SystemDirectories:
    Change the directory name "SystemDirectories" to "system_directories" (see discussion
-   above).
+   above). The default value of the Make variable SystemDirectories 
+   is to be changed from $(prefix)/SystemDirectories to $(prefix)/system_directories.
+   (Also, there needs to be a corresponding change to the line in Buildsystem/Doxyfile
+   which defines the value of OUTPUT_DIRECTORY --- which actually likely should be removed).
 
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally

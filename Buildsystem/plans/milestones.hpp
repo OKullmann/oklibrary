@@ -13,17 +13,24 @@
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
-  - SystemDirectories
-  In Buildsystem/plans/makefile_generic.hpp the following
-  topics are handled:
-  - Make-variables for compilation and linking
+  - Rename SystemDirectories
 
   \par Version 0.1.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
-  - Cleaning
+  - Make-variables for compilation and linking
 
   \par Version 0.2 :
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - Cleaning
+
+  \par Version 0.2.1 :
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - Test cleaning
+
+  \par Version 0.2.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Compilation
