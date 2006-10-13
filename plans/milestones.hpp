@@ -34,11 +34,11 @@
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5
   (see TestSystem/plans/milestones.hpp)
-  (see TestSystem/plans/milestones.hpp)
   \par Concepts version 0.1.1
   (see Concepts/plans/milestones.hpp)
-  \par All modules have plans-subdirectories with milestones (OK).
-
+  \par ComplexitySystem version 0.1
+  (see ComplexitySystem/plans/milestones.hpp)
+  \par All modules have plans-subdirectories with milestones (OK)
 
   \subsection VersionTransitional013 0.1.3
   \par Buildsystem version 0.4
@@ -47,6 +47,8 @@
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.2
   (see TestSystem/plans/milestones.hpp)
+  \par ComplexitySystem version 0.2
+  (see ComplexitySystem/plans/milestones.hpp)
 
   \subsection VersionTransitional014 0.1.4
   \par Buildsystem version 0.5
