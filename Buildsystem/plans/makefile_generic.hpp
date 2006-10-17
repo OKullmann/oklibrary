@@ -42,7 +42,7 @@
   \todo Compilation:
     - The names of the created .o-files and executables should reflect "all" compiler options.
     - There are generic links to the unoptimised and the optimised version (the latest).
-      The test system uses theses.
+      The test system uses these.
     - For every created file.o and file we have file.compilation_log (in the same directory
       where these files go). Optionally we can switch it off.
     - There is a make-variable for optional name extensions.
