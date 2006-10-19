@@ -12,8 +12,8 @@
 # Targets
 # ##################################
 
-doxygen_targets := doxygen-1.4.5 doxygen-1.4.7
-doxygen_recommended := doxygen-1.4.7
+doxygen_targets := doxygen-1.4.7 doxygen-1.5.0
+doxygen_recommended := doxygen-1.5.0
 # remark: doxygen-1.4.6 broken
 
 # ##################################
