@@ -140,7 +140,7 @@ ifndef SystemDirectories
   ifdef SYSTEMDIRECTORIES
     SystemDirectories := $(SYSTEMDIRECTORIES)
   else
-    SystemDirectories := $(prefix)/SystemDirectories
+    SystemDirectories := $(prefix)/system_directories
   endif
 endif
 
