@@ -43,7 +43,7 @@
 
   ---------------------------------------------------------------------------------------------------------------
   
-  \todo Rename SystemDirectories:
+  \todo Rename SystemDirectories: DONE
    Change the directory name "SystemDirectories" to "system_directories" (see discussion
    above). The default value of the Make variable SystemDirectories 
    is to be changed from $(prefix)/SystemDirectories to $(prefix)/system_directories.

@@ -15,7 +15,7 @@
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
-  - Rename SystemDirectories
+  - Rename SystemDirectories : DONE
 
   \par Version 0.1.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
