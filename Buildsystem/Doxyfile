@@ -32,8 +32,7 @@ PROJECT_NUMBER         = Transitional: 0.1.0
 # If a relative path is entered, it will be relative to the location 
 # where doxygen was started. If left blank the current directory will be used.
 
-# Tony H. Bao, 14.06.2005, Swansea
-OUTPUT_DIRECTORY       = SystemDirectories/doc/
+OUTPUT_DIRECTORY       = 
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format
