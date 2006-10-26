@@ -17,39 +17,9 @@
   And the occurrences of makefile_recursive should be replaced by links.
   The new target "Update makefile_recursive" should go to milestone 0.1.3.
 
-  \todo DISCUSSION SystemDirectories (seems to be concluded now (OK))
-
-  OK : It seems to me that we should rename "SystemDirectories" into "system_directories",
-  to emphasise (in analogy to directories like "plan", "messages") the "systematic" nature
-  of this directory, i.e., not "hand-made". Specifically it has to be deleted quite often,
-  and since it contains too much, it cannot be placed into the trash can, and thus here
-  we have a potentially dangerous operation --- in its present location it is too similar
-  to the other directories, and deleting ExternalSources or OKsystem can (at least for
-  me) destroy something valuable. With the new name it would stand out better.
-
-  MH : In fact, it is now possible to specify the name of SystemDirectories through either
-  the environment variable SYSTEMDIRECTORIES or the Make variable SystemDirectories.
-  So all we have to do is change the default value. This also has to be changed in
-  the Doxyfile. Does it now make sense to change the names of the Make variable to
-  system_directories?
-
-  OK : But the make-variable *is* already called "system_directories" ?
-  Perhaps I don't understand you properly; but anyway, the variable names
-  "SYSTEMDIRECTORIES", "SystemDirectories" and "system_directories" seem to follow
-  general rules, and the value of a variable and its name are different things,
-  so I think only the value of the default value of SystemDirectories in case SYSTEMDIRECTORIES
-  is not defined needs to be updated. And of course the doxyfile needs to be changed!
-  See plans/makefile_generic.hpp regarding CORRECTION FOR DOXYGEN.
 
   ---------------------------------------------------------------------------------------------------------------
   
-  \todo Rename SystemDirectories: DONE
-   Change the directory name "SystemDirectories" to "system_directories" (see discussion
-   above). The default value of the Make variable SystemDirectories 
-   is to be changed from $(prefix)/SystemDirectories to $(prefix)/system_directories.
-   (Also, there needs to be a corresponding change to the line in Buildsystem/Doxyfile
-   which defines the value of OUTPUT_DIRECTORY --- which actually likely should be removed).
-
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
      OKSystem_include is defined (with "-I").
