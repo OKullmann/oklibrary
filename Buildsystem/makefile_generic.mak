@@ -160,6 +160,8 @@ test-bindir := $(bindir)/tests
 test-libdir := $(libdir)/tests/$(module-name)
 test-auxdir := $(aux_dir)/tests/$(module-name)
 
+directories := $(bindir) $(libdir) $(aux_dir) $(latex_dir) $(dependencies_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir)
+
 doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 
@@ -304,15 +306,12 @@ endif
 
 # ----------------------------------------------------------------
 
-define conditional_mkdir
-if [ -d $(1) ]; then echo "$(1) exists"; else mkdir -pv $(1); fi
-endef
-
 all : unoptimised optimised
 
-prebuild : createdirs
+$(directories) :
+	@mkdir -p $@
 
-html :
+html : $(html_dir)
 	echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters) "OUTPUT_DIRECTORY=$(doc_dir)" ) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
@@ -357,40 +356,31 @@ ifeq ($(firstword $(filter $(special_goals) $(cleaning_goals) $(forced_goals), $
 include $(dependency_files)
 endif
 
-$(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp
-	$(call conditional_mkdir, $(dependencies_dir))
+$(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp | $(dependencies_dir)
 	$(CXX) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
-$(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c
-	$(call conditional_mkdir,  $(dependencies_dir))
+$(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c | $(dependencies_dir)
 	$(CC) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
-$(test_dependency_files) : $(test-auxdir)/%.d : $(testobjects-dir)/%.cpp
-	$(call conditional_mkdir,  $(test-auxdir))
+$(test_dependency_files) : $(test-auxdir)/%.d : $(testobjects-dir)/%.cpp | $(test-auxdir)
 	$(CXX) -MM -MF $@ -MT $(test-libdir)/$*.o -MT $(test-libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
-$(object_files_cpp_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp
-	$(call conditional_mkdir,  $(libdir))
+$(object_files_cpp_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp | $(libdir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
-$(object_files_cpp) : $(libdir)/%.o : $(srcdir)/%.cpp
-	$(call conditional_mkdir,  $(libdir))
+$(object_files_cpp) : $(libdir)/%.o : $(srcdir)/%.cpp | $(libdir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
-$(object_files_c_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.c
-	$(call conditional_mkdir,  $(libdir))
+$(object_files_c_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.c | $(libdir)
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
 
-$(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c
-	$(call conditional_mkdir,  $(libdir))
+$(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c | $(libdir)
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
 
-$(test_object_files) : $(test-libdir)/%.o : $(testobjects-dir)/%.cpp
-	$(call conditional_mkdir,  $(test-libdir))
+$(test_object_files) : $(test-libdir)/%.o : $(testobjects-dir)/%.cpp | $(test-libdir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
-$(test_object_files_optimised) : $(test-libdir)/%$(name_addition).o : $(testobjects-dir)/%.cpp
-	$(call conditional_mkdir,  $(test-libdir))
+$(test_object_files_optimised) : $(test-libdir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-libdir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
 
@@ -403,20 +393,16 @@ endef
 
 export
 
-$(programs) : $(bindir)/% : $(libdir)/%.o
-	$(call conditional_mkdir,  $(bindir))
+$(programs) : $(bindir)/% : $(libdir)/%.o | $(bindir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-link_libraries)
 
-$(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o
-	$(call conditional_mkdir,  $(bindir))
+$(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o | $(bindir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries_optimised)
 
-$(new_test_program) : $(test-bindir)/% : $(test_object_files) $(standard_test_program_object_file)
-	$(call conditional_mkdir,  $(test-bindir))
+$(new_test_program) : $(test-bindir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bindir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(alternative_library_path) $(get-link_libraries)
 
-$(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised)
-	$(call conditional_mkdir,  $(test-bindir))
+$(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bindir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised)
 
 # --------------------------------
