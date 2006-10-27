@@ -29,6 +29,34 @@
     - general clean-up of make-variables
     - the current function of "General_options" is taken over by the new variable "Debug_options"
     - Which compiler options are effective when linking?
+
+   DISCUSSION : (MH) 
+
+    Here is a list of compiler options which are effective when linking, taken from
+    "Using the Gnu Compiler Collection".
+
+    -nostartfiles
+      Do not use standard system startup files.      
+    -nodefaultlibs
+      Do not use standard system libraries.
+    -nostdlib
+      Do not use either standard system startup files or standard system libraries.
+    -pie
+      Produce a "position independent executable".
+    -s
+      Remove symbol table and relocation information from the executable.
+    -static
+      Prevent linking with dynamic libraries.
+    -shared-libgcc
+    -static-libgcc
+      On systems which provide libgcc as a shared library these options force either
+      the shared or static version to be used.    
+    -symbolic
+      Bind references to global symbols when building a shared object.
+    -u symbol
+      Pretend that symbol is undefined, to force linking of library modules to define
+      it.
+
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
     - SystemDirectories gets a new sub-directory log, where the current
