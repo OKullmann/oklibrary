@@ -6,10 +6,10 @@
 
   \todo Documentation (in makefile_generic.mak):
     - Full overview on the parameters for makefile_generic (including the environment
-      variables).
-    - Checking on the existing documentation, and updating if necessary.
+      variables). (DONE)
+    - Checking on the existing documentation, and updating if necessary. (DONE)
     - What is required from those makefile.definitions.mak ? Update the list in
-      makefile_generic.mak, and reflect on it.
+      makefile_generic.mak, and reflect on it. (DONE)
     - Adding inline comments for an overview on functionality.
  
   \todo Make-variables for compilation and linking:
