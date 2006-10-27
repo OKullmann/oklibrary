@@ -1,75 +1,306 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
 
-# Generic makefile, to be used in a general environment for C++
-# compilation
-
-# Usage:
-
-# make all
-# = make unoptimised optimised
-
-# make unoptimised
-# creates all dependencies files, object files, and program files;
-
-# make optimised
-# creates the same (names of object and program files modified), but using optimisation options;
-
-# make prebuild
-# creates all directories, and copies makefiles if necessary
-
-# make check
-# = make test testop
-# The test program is called with the parameters given by $(test_parameters) (see below);
-# the main variable is test_level, which has one of the values "basic", "full", "extensive".
-
-# make test
-# recompiles the test program if necessary, and runs the test if necessary.
-
-# make testop
-# recompiles the test program with optimisation if necessary, and runs the test if necessary.
-
-# make clean
-# = make cleanobj cleandep
-# make cleanall
-# = make clean cleanprograms
-
-# make cleantest 
-# removes test timestamp files from every module.
-
-# make cleantestop 
-# removes testop timestamp files from every module.
-
-# make cleanalltest 
-# = make cleantest cleantestop
-
-# make new_cleantest 
-# removes all new_test_basic timestamp files from aux subdirectories.
-
-# make new_cleantestop 
-# removes all new_testop_basic timestamp files from aux subdirectories.
-
-# make new_cleanalltests
-# = make new_cleantest new_cleantestop
-
-# Programs are compiled with $(CXX), while objectfiles are compiled with $(CXX) resp. $(CC)
-# depending on the suffix (.cpp resp. .c).
-
-# make alternative_gcc=? alternative_boost=% 
-# where ? is the locally installed GCC version number (for example 3.4.3) and % is the locally installed boost version number (for example 1_33).
-# If one doesn't specify alternative_boost=, then the system boost will be used, while setting alternative_gcc will override $(CXX) and $(CC) respectively, and a locally installed boost will be used (either given by alternative_boost, or, if not defined, then the tail of $(Boost) is used as the generic name for the current boost version).
-
-# The compile-command is prefixed with $(Compile_tool), the link-command with $(Link_tool),
-#  and the test execution with $(Test_tool); the default in all 3 cases is "time -p" (measuring
-# the wall clock time, the process time and the system time used in total for the execution).
-# Setting Test_tool="valgrind --quiet" runs all tests with memory check.
-# The default of Warning_options is "-Wall".
-
-# make html
-# creates the doxygen-documentation
-# make doxygen-parameters="..." html
-# will pass these parameter-settings to doxygen; for example by
-# make doxygen-parameters="HAVE_DOT=YES" html
-# creates all sorts of graphs (dependencies and derivations; takes much longer than without).
+# ------------------------------------------------------------------------------
+# Targets
+# ------------------------------------------------------------------------------
+#
+# Targets for programs
+# --------------------
+# all                           Update targets "unoptimised" and "optimised".
+# unoptimised                   Update object files and programs for the
+#                               current module.
+# optimised                     Update optimised object files and optimised
+#                               programs for the current module.
+#
+# Targets for documentation
+# -------------------------
+# html                          Create doxygen documentation.
+#
+# Targets for test system
+# -----------------------
+# check                         Update targets "test" and "testop"
+# new_check                     Update targets "new_test" and "new_testop".
+# test                          If a test program from the old test system exists
+#                               in the current module then update the timestamp 
+#                               file.
+# testop                        If a test program from the old test system exists
+#                               in the current module then update the timestamp 
+#                               file.
+# new_test                      Update timestamp file for test program for the
+#                               current module.
+# new_testop                    Update timestamp file for the optimised test
+#                               program for the current module.
+#
+# Targets for cleaning
+# --------------------
+# cleantest                     Remove timestamp file for test program from old 
+#                               test system.	
+# cleantestop                   Remove timestamp file for optimised test program 
+#                               from old test system.
+# cleanalltest                  Update both cleantest and cleantestop.
+# new_cleantest                 Remove timestamp file for test program from new 
+#                               test system.
+# new_cleantestop               Remove timestamp file for optimised test program 
+#                               from new test system.
+# new_cleanalltests             Update both new_cleantest and new_cleanalltests.
+# clean_obj                     Remove all non-test object files from current
+#                               module.
+# cleantestobj                  Remove all test object files from current module.
+# cleandep                      Remove all dependency files for current module.
+# clean                         Update cleanobj, cleantestobj, cleandep and remove
+#                               all test timestamp files.
+# cleanprograms                 Remove all applications and test programs.
+# cleanall                      Update clean and cleanprograms, and remove error
+#                               message and log files.
+#
+# -------------------------------------------------------------------------------
+# Enviroment variables
+# -------------------------------------------------------------------------------
+#
+# OKPLATFORM
+#
+# This environment variable specifies the top level directory of the OKlibrary 
+# platform. If this is the only environment variable specified then it is assumed
+# by the build system that this directory contains the subdirectory OKsystem. 
+# Otherwise the Make variable OKplatform specifies the top level directory of 
+# the OKlibrary platform. The subdirectories ExternalSources and 
+# SystemDirectories are created here by the build system.
+#
+# OKSYSTEM
+#
+# This environment variable specifies the top level directory of the OKlibrary 
+# source tree. If this environment variable is set then the build system assumes
+# that the directory specified by the value of this variable is the directory 
+# containing the subdiretories Annotations and Transitional. Otherwise the value 
+# of the Make variable OKsystem specifies the top level directory of the 
+# OKlibrary source tree.
+# 
+# SYSTEMDIRECTORIES
+#
+# This environment variable specifies the location of the top level directory of 
+# the OKlibrary build tree. If this variable is set then the build system creates 
+# the subdirectories aux, bin, doc and lib in the directory specified by the value 
+# of this variable. Otherwise the value of the Make variable SystemDirectories 
+# specifies the location of the top level directory of the OKlibrary build tree
+#
+# BOOST
+#
+# This environment variable specifies the location of the installation directory 
+# of the Boost distribution to be used by the build system for compiling the 
+# library. Otherwise the value of the Make variable Boost specifies the location
+# of the installation directory of the Boost distribution.
+#
+# -------------------------------------------------------------------------------
+# Main Make variables: 
+# -------------------------------------------------------------------------------
+# 
+# OKplatform
+#
+# This Make variable is used by the build system to locate the top level directory 
+# of the OKlibrary distribution, and also for the default definition of the Make 
+# variable OKsystem. By default this is equal to the value of the environment 
+# variable OKPLATFORM. If both the environment variable OKPLATFORM and the Make 
+# variable OKplatform are not specified then the build system gives an error 
+# message.
+#
+# OKsystem
+# 
+# This Make variable is used by the build system to locate the top level directory 
+# of the source tree of the OKlibrary, and also for the default definition of the 
+# Make variable SystemDirectories. 
+#
+# -------------------------------------------------------------------------------
+# Further Make variables
+# -------------------------------------------------------------------------------
+#
+# SystemDirectories     This Make variable is used by the build system to locate
+#                       the top level of the build tree for the OKlibrary.
+#
+# Variables for the directory structure of system directories.
+# -------------------------------------------------------------------------------
+# bindir                Directory for placement of non-test executables
+# libdir                Directory for placement of object files and link 
+#                       libraries
+# aux_dir               Directory for placement of doxygen error messages log. 
+#                       Contains subdirectories dependencies, latex and tests.
+# latex_dir             Directory for placement of latex aux files.
+# dependencies_dir      Directory for placement of dependency files.
+# doc_dir               Directory containing subdirectories dvi and html.
+# html_dir              Directory for placement of doxygen documentation.
+# test-bindir           Directory for placement of all test executables.
+# test-libdir           Directory for placement of module test object files.
+# test-auxdir           Directory for placement of module test Error, Log, 
+#                       Message and test timestamp files.
+# directories		All subdirectories of system directories.
+#
+# Variables for directory structure of srcdir
+# -------------------------------------------
+# srcdir                The source code directory of the "current" module.
+# testobjects-dir       The directory of test object files for the current 
+#                       module.
+#
+# Variables for doxygen
+# ---------------------
+# doxygen-parameters    Empty variable for user-defined doxygen parameters.
+# Doxygen_modifier      Modifier to doxygen command, for example to redirect 
+#                       output to a log file.
+# doxy_file             Location of Doxygen config file.
+#
+# Variables for programs
+# ----------------------
+# programs                              Defined in makefile_definitions.mak
+#                                       for each module. Specifies names of
+#                                       applications for current module.
+# test_program (deprecated)             The name of the current module test
+#                                       program  (old test system).
+# new_test_program                      The name of the current module test
+#                                       program.
+# standard_test_program_object_file     Specifies the location of the test
+#                                       program object file.
+#
+# Variables for compiler & compiler options
+# -----------------------------------------
+# CXX                   Name of the C++ compiler executable.
+# CC                    Name of the C compiler executable.
+# General_options       Defined in makefile_definitions.mak for each module.
+#                       Passed to the compiler for each module program.
+# Optimisation_options  Defined in makefile_definitions.mak for each module.
+#                       Passed to the compiler for each module program. Also
+#                       used as the addition to the name of executables.
+# source_libraries      Defined in makefile_definitions.mak for each module
+#                       and extended by makefile_generic.mak. Passed to the
+#                       compiler for each module program. Intended to contain
+#                       a list of directories (each preceeded with -I) for the
+#                       compiler to search for header files.
+# link_libraries        Defined in makefile_definitions.mak for each module.
+#                       Passed to the compiler for each module program.
+#                       Intended to contain a list, where each element of the
+#                       list has the form "-LX -lY", where X is a path to a
+#                       directory for the compiler to search for link libraries
+#                       and Y is the name of some link library.
+# name_addition         A string to be added to the name of each program.
+# All_options           The concatenation of General_options and 
+#                       Optimisation_options.
+# Standard_options      Definied in makefile_generic.mak. Passed to the 
+#                       compiler for every program.
+# Warning_options       Definied in makefile_generic.mak. Passed to the 
+#                       compiler for every program.
+# Compile_tool          A command to prefix each call of the compiler. So, for
+#                       example to use the time program to time the execution
+#                       of the compiler.
+# Link_tool             A command to prefix each call of the linker. So, for
+#                       example to use the time program to time the execution
+#                       of the linker.
+# Test_tool             A command to prefix each call of a test program. So, for
+#                       example to use the time program to time the execution
+#                       of the test program.
+#
+# Main compilation variables
+# --------------------------
+# Boost                         Either user-defined, or by default defined to
+#                               be equal to the environment variable BOOST.
+#                               Required to be defined as "-IX" where X is
+#                               the path to the top level Boost source code
+#                               directory.
+# compilation_units_cpp         The list of C++ source code files for the 
+#                               applications in the current module.
+# compilations_units_c          The list of C source code files for the
+#                               applications in the current module.
+# test_compilation_units        The list of C++ source code files for the
+#                               tests in the current module.
+# dependency_files_cpp          The list of dependency files for the C++
+#                               source code files in the current module.
+# dependency_files_c            The list of dependency files for the C
+#                               source code files in the current module.
+# dependency_files              The concatenation of the lists 
+#                               dependency_files_cpp and
+#                               dependency_files_c
+# test_dependency_files         The dependency files for the test in the
+#                               current module.
+# object_files_cpp              The list of C++ object files for the 
+#                               current module.
+# object_files_c                The list of C object files for the current
+#                               module.
+# object_files                  The concatenation of the two lists
+#                               object_files_cpp and object_files_c.
+# object_files_cpp_optimised    The list of optimised C++ object files for
+#                               the current module.
+# object_files_c_optimised      The list of optimised C object files for 
+#                               the current module.
+# object_files_optimised        The concatenation of the two lists 
+#                               object_files_cpp_optimised and
+#                               object_files_c_optimised.
+# test_object_files             The list of C++ object files for the tests
+#                               in the current module.
+# test_object_files_optimised   The list of C object files for the tests in
+#                               the current module.
+# test_file                     Timestamp to mark the creation of the test 
+#                               program for the current module.
+# testop_file                   Timestamp to mark the creation of the 
+#                               optimised test program for the current 
+#                               module.
+#
+# alternative_gcc               Can be defined to specify the version number
+#                               of a locally installed GCC to be used by the
+#                               build system instead of the system compiler.
+# alternative_boost             Can be defined to specify the version number
+#                               of a locally installed Boost to be used by the
+#                               build system instead of the system Boost.
+# alternative_library_path      If alternative_boost is defined then the value
+#                               of this variable specifies the location of the
+#                               Boost link libraries directory.
+#
+# Test system variables
+# ---------------------
+# test_level                    By default has the value "basic" but can be
+#                               redefined to either of the values "full" or
+#                               "extensive". Specifies the level of testing
+#                               carried out be (new) test system.
+# error_file                    Specifies the location of the error log file
+#                               for the test program of the current module.
+# message_file                  Specifies the location of the messages log file
+#                               for the test program of the current module.
+# log_file                      Specifies the location of the log file for the
+#                               test program of the current module.
+# error_stream                  Specifies a stream for the streaming of error
+#                               messages.
+# message_stream                Specifies a stream for the streaming of non-
+#                               error messages.
+# log_stream                    Specifies a stream for the streaming of log
+#                               messages.
+# error_level                   Specifies verbosity level for error messages,
+#                               by default 0 (lowest verbosity).
+# message_level                 Specifies verbosity level for non-error 
+#                               messages, default 0 (lowest verbosity).
+# log_level                     Specifies verbosity level for log 
+#                               messages, default 0 (lowest verbosity).
+# error_lang                    Specifies language for error messages, by
+#                               default equal to en_GB.
+# message_lang                  Specifies language for non-error messages, by
+#                               default equal to en_GB.
+# log_lang                      Specifies language for log messages, by
+#                               default equal to en_GB.
+# test_parameters               Parameters to be passed to the test program for
+#                               the current module.
+#
+# test_timestamp                Timestamp for the creation of test programs with
+#                               the new test system.
+# testop_timestamp              Timestamp for the creation of optimised test
+#                               programs with the new test system.
+#
+#
+# -------------------------------------------------------------------------------
+# Make functions
+# -------------------------------------------------------------------------------
+#
+# get-link-libraries            If the current module contains a file 
+#                               Module.link_libraries then echo the contents
+#                               of this file, otherwise echo the Make variable
+#                               $(link_libraries).
+# get-link-libraries_optimised  If the current module contains a file 
+#                               Module.link_libraries_optimised then echo the 
+#                               contents of this file, otherwise echo the Make 
+#                               variable $(link_libraries).	
 
 # #############################################################
 
@@ -399,10 +630,10 @@ $(programs) : $(bindir)/% : $(libdir)/%.o | $(bindir)
 $(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o | $(bindir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries_optimised)
 
-$(new_test_program) : $(test-bindir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bindir)
+$(new_test_program) : $(test-bindir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bindir) $(test-auxdir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(alternative_library_path) $(get-link_libraries)
 
-$(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bindir)
+$(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bindir) $(test-auxdir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised)
 
 # --------------------------------
