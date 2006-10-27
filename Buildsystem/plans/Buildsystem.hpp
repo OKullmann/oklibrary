@@ -32,9 +32,13 @@
 
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs
+
+  MH : Does this mean that we want it so that "make new_check" and "make check"
+  does the compilation of test programs?
+
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
-   - what is the role of prebuild? (Yet it builds the directory
+   - (DONE) what is the role of prebuild? (Yet it builds the directory
      structure --- perhaps this should be performed by each target if
      needed (so that prebuild wouldn't be needed anymore here)?
      What else is done by prebuild?)
