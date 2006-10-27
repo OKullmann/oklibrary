@@ -15,6 +15,17 @@
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
       should be possible to use the recommended version
+
+    DISCUSSION : (MH) Here there seem to be several possibilities. The recommended
+                 versions are defined in makefile_ExternalSources.mak (GCC) and
+		 makefile_boost.mak. So one possibility would be to get them from
+                 there by searching for the right version number string. Another
+		 possibility would be to define the different versions including
+		 recommended versions in seperate makefiles (e.g. gcc_versions.mak)
+		 and then this can be included by all the makefiles which need it.
+		 The other possibility would just be to copy and paste the recommended
+		 versions in makefile_generic.mak with a copy and paste comment.
+
     - general clean-up of make-variables
     - the current function of "General_options" is taken over by the new variable "Debug_options"
     - Which compiler options are effective when linking?
