@@ -507,8 +507,10 @@ testop_timestamp := $(test-auxdir)/new_testop_$(test_level)
 
 # -----------------------------------------------------------------------------------
 
-alternative_gcc:=
-alternative_boost:=
+include $(OKBuildsystem)/external_sources_versions.mak
+
+alternative_gcc:= $(gcc_recommended_version_number)
+alternative_boost:= $(boost_recommended_version_number)
 alternative_library_path:=
 
 ifneq ($(alternative_gcc),) # alternative gcc specified

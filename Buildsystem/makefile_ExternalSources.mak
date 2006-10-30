@@ -1,19 +1,6 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# At the moment the gcc_targets have to go here because they are
-# needed by both makefile_gcc.mak and makefile_boost.mak
-# Perhaps actually all such variables should go here. (Probably better
-# that the individual makefiles are standalone).
-
-gcc_targets := gcc-3.4.3 gcc-3.4.4 gcc-3.4.5 gcc-3.4.6 gcc-4.0.0 gcc-4.0.1 gcc-4.0.2 gcc-4.0.3 gcc-4.1.0 gcc-4.1.1
-# remark: gcc-3.4.6 creates linking errors on cs-wsok when compiling
-# optimised new test programs (it seems that code for message objects has
-# been optimised away); one needs to find out for which other gcc-versions
-# we also have this problem (at least with gcc-4.0.3 the problem seems
-# to be solved).
-gcc_recommended := gcc-4.1.1
-
 ####################################################
 
 ifndef OKPlatform
@@ -67,6 +54,7 @@ all : gcc boost postgresql valgrind mhash doxygen
 # Includes
 # #################################
 
+include $(OKBuildsystem)/external_sources_versions.mak
 include $(OKBuildsystem)/ExternalSources/makefile_mhash.mak
 include $(OKBuildsystem)/ExternalSources/makefile_gcc.mak
 include $(OKBuildsystem)/ExternalSources/makefile_doxygen.mak

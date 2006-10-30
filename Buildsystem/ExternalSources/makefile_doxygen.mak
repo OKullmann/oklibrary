@@ -9,12 +9,10 @@
 # make doxygen-?
 
 # ##################################
-# Targets
+# Versions
 # ##################################
 
-doxygen_targets := doxygen-1.4.7 doxygen-1.5.0
-doxygen_recommended := doxygen-1.5.0
-# remark: doxygen-1.4.6 broken
+include $(OKBuildsystem)/external_sources_versions.mak
 
 # ##################################
 # Directory Structure

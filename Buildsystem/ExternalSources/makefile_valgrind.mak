@@ -11,11 +11,10 @@
 # make valgrind-?
 
 # ##################################
-# Targets
+# Versions
 # ##################################
 
-valgrind_targets := valgrind-3.1.0 valgrind-3.2.0
-valgrind_recommended := valgrind-3.2.0
+include $(OKBuildsystem)/external_sources_versions.mak
 
 # ##################################
 # Directory Structure

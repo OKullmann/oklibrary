@@ -17,8 +17,7 @@
 # Targets
 # ##################################
 
-mhash_targets := mhash-0.9.7.1
-mhash_recommended := mhash-0.9.7.1
+include $(OKBuildsystem)/external_sources_versions.mak
 
 # ##################################
 # Directory Structure

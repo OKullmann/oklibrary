@@ -5,7 +5,6 @@
 # Usage
 # ##################################
 
-
 # Boost
 
 # Install Boost locally with system gcc:
@@ -24,11 +23,10 @@
 # plus the system gcc are installed.
 
 # ##################################
-# Targets
+# Versions
 # ##################################
 
-boost_targets := boost-1_33_1
-boost_recommended := boost-1_33_1
+include $(OKBuildsystem)/external_sources_versions.mak
 
 # ##################################
 # Directory Structure

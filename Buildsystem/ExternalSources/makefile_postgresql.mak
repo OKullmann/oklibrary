@@ -20,8 +20,7 @@
 # Targets
 # ####################################
 
-postgresql_targets := postgresql-8.0.3
-postgresql_recommended := postgresql-8.0.3
+include $(OKBuildsystem)/external_sources_versions.mak
 
 # ####################################
 # Directory Structure
