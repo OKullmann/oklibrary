@@ -16,6 +16,10 @@
 
 		 There should be some meta-documentation about the usage of this
 		 makefile.
+
+                 (OK) One needs to distinguish between targets and variables.
+                 The disctinction below about make-variables should be reflected
+                 (somehow) in their documentation.
                  
 
     - What is required from those makefile.definitions.mak ? Update the list in
@@ -57,7 +61,21 @@
 		2) variable (lowercase)
 		3) Variable (uppercase first character)
 
+                (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
+                is better.
+                The uppercase first variables have actually often default values (namely
+                the all-uppercase environment variables). So this explanation is not really valid.
+
+                Perhaps the distinction aimed at is, that some variables can be tinkered with, but
+                one somehow need to know about them, while other variables have no function than
+                enabling the user to insert some options (for example for compilation).
+
+                Perhaps first a complete list of make-variables and the status is needed here, to
+                see what we have.
+                
+
     - the current function of "General_options" is taken over by the new variable "Debug_options"
+
     - Which compiler options are effective when linking?
 
    DISCUSSION : (MH) 
@@ -87,8 +105,13 @@
       Pretend that symbol is undefined, to force linking of library modules to define
       it.
 
+      (OK) The point here is to know exactly what options should/must be used when compiling
+      respectively linking (and "options" refers first of all to *our* options).
+
+
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
+
     - SystemDirectories gets a new sub-directory log, where the current
       aux/DoxygenErrorMessages is placed. Every run of make copies it
       output by default (can be switched off) into a file
