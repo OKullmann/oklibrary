@@ -8,6 +8,16 @@
     - Full overview on the parameters for makefile_generic (including the environment
       variables). (DONE)
     - Checking on the existing documentation, and updating if necessary. (DONE)
+
+    DISCUSSION : (MH) The documentation needs to be rewritten to be aimed more at the user.
+                 The documentation of the main targets should remain in the makefile
+		 preamble, but the documentation of local variables should be moved
+		 to inline comments.
+
+		 There should be some meta-documentation about the usage of this
+		 makefile.
+                 
+
     - What is required from those makefile.definitions.mak ? Update the list in
       makefile_generic.mak, and reflect on it. (DONE)
     - Adding inline comments for an overview on functionality.
@@ -18,7 +28,7 @@
 
     DISCUSSION : (MH) Here there seem to be several possibilities. The recommended
                  versions are defined in makefile_ExternalSources.mak (GCC) and
-		 makefile_boost.mak. So one possibility would be to get them from
+                 makefile_boost.mak. So one possibility would be to get them from
                  there by searching for the right version number string. Another
 		 possibility would be to define the different versions including
 		 recommended versions in seperate makefiles (e.g. gcc_versions.mak)
@@ -26,7 +36,27 @@
 		 The other possibility would just be to copy and paste the recommended
 		 versions in makefile_generic.mak with a copy and paste comment.
 
+		 It seems like the right thing to do here is to create a make file
+		 external_sources_versions.mak which contains variable definitions
+		 for all the supported versions of Gcc, Boost, Mhash, Postgresql etc..
+		 This file is then included by those other makefiles which also need
+		 those version numbers.
+
     - general clean-up of make-variables
+
+   DISCUSSION : (MH) There should be a scheme for the naming of variables which
+                distinguishes those variables : 
+		1) which are internal (purely for the use of the buildsystem), 
+		2) which have default values but can be overridden by the user 
+		on the command-line
+		3) which have no default value and are purely for the use of the user 
+		to define on the command line.
+
+		One possible scheme is:
+		1) _variable (lowercase with preceeding underscore)
+		2) variable (lowercase)
+		3) Variable (uppercase first character)
+
     - the current function of "General_options" is taken over by the new variable "Debug_options"
     - Which compiler options are effective when linking?
 
