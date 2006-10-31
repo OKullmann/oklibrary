@@ -3,6 +3,10 @@
 # ===============================================================================
 # Enviroment/Make build system variables
 # ===============================================================================
+
+# TEMPORARY COMMENT OK: All the variables like CXX and CXXFLAGS are missing (but they
+# are important).
+
 #
 # The most important build system parameters come as environment/Make variable
 # pairs. 
@@ -18,25 +22,29 @@
 #
 # OKPLATFORM/OKplatform
 #
-# This variable pair specifies the top level directory of the OKlibrary platform.
-# The subdirectories ExternalSources and SystemDirectories are created here by 
+# This variable pair specifies the top level directory of the OKplatform.
+# The subdirectories "ExternalSources" and $(SystemDirectories) are created here by 
 # the build system.
+
+# TEMPORARY COMMENT OK: We should make a difference between a variable-name and
+# a value. Shouldn't we have also a variable for "ExternalSources" ?
+
 #
 # If both the environment variable OKPLATFORM and the Make variable OKplatform 
 # are undefined then the build system gives an error message.
 #
 # OKSYSTEM/OKsystem
 #
-# This variable pair specifies the top level directory of the OKlibrary 
+# This variable pair specifies the top level directory of the OKsystem
 # source tree. The build system assumes that the directory specified by the value
-# of this variable is the directory containing the subdiretories Annotations and 
-# Transitional.
+# of this variable is the directory containing the subdiretories "Annotations",
+# "Transitional" and "OKlibrary".
 #
 # SYSTEMDIRECTORIES/SystemDirectories
 #
 # This variable pair specifies the location of the top level directory of 
-# the OKlibrary build tree. The build system creates the subdirectories aux, bin, 
-# doc and lib in the directory specified by the value of this variable.
+# the OKlibrary build tree. The build system creates the subdirectories "aux", "bin", 
+# "doc" and "lib" in the directory specified by the value of this variable.
 #
 # BOOST/Boost
 #
@@ -475,10 +483,23 @@ cleanprograms :
 cleanall : clean cleanprograms
 	- rm $(error_file) $(message_file) $(log_file)
 
+# TEMPORARY COMMENT OK
+# It's quite unusual to put this at the end (most people will overlook that --- including me).
+# I propose to put the system variables also at the top (perhaps with a separation).
+# And the special variables CXX, ... belong to a place still further up.
+# You have CXX, but not CXXFLAGS ... ?
+# Regarding the placement, perhaps we should have sub-make-files for the different parts
+# (compilation, documentation, etc.) ?! Then the special documentation could go to these
+# sub-make-files.
+# Please check, whether it's still true that we can call a generic make-file from other places.
 
 # ===============================================================================
 # System variables (can be optionally redefined) : 
 # ===============================================================================
+
+# TEMPORARY COMMENT OK
+# One should say here, that any redefinition needs to be thoroughly thought through.
+
 #
 # bindir                Directory for placement of non-test executables
 # libdir                Directory for placement of object files and link 
@@ -526,6 +547,12 @@ cleanall : clean cleanprograms
 #                       compiler for every program.
 # Warning_options       Defined in makefile_generic.mak. Passed to the 
 #                       compiler for every program.
+
+# TEMPORARY COMMENT OK: The *meaning* of the variables like "Standard_options" and so
+# on is most important! You tell only some formalities. 
+# Also when reflecting about the meaning, the basic step for
+# a rational reorganisation is done!
+
 # Compile_tool          A command to prefix each call of the compiler. So, for
 #                       example to use the time program to time the execution
 #                       of the compiler.
