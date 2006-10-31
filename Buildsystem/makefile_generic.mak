@@ -78,7 +78,7 @@
 # clean                         Remove object files, test object files, 
 #                               dependency files and test timestamps.
 # cleanprograms                 Remove all applications and test programs.
-# cleanalltest                  Remove timestamp files for unoptimsed and 
+# cleanalltests                 Remove timestamp files for unoptimsed and 
 #                               optimised test program from old test systems.
 # new_cleanalltests             Remove timestamp file for unoptimised and 
 #                               optimised test program from new test system.
