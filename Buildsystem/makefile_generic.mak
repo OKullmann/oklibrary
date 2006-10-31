@@ -87,7 +87,7 @@
 # cleantestop                   Remove timestamp file for optimised test program 
 #                               from old test system.
 # new_cleantest                 Remove timestamp file for unoptimised test 
-				program from new test system.
+#				program from new test system.
 # new_cleantestop               Remove timestamp file for optimised test program 
 #                               from new test system.
 # clean_obj                     Remove all non-test object files.
@@ -345,7 +345,7 @@ all : unoptimised optimised
 $(directories) :
 	@mkdir -p $@
 
-html : $(html_dir)
+html : $(html_dir) 
 	echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters) "OUTPUT_DIRECTORY=$(doc_dir)" ) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
@@ -543,7 +543,7 @@ cleanall : clean cleanprograms
 # directories		All subdirectories of system directories.
 #
 # Variables for the directory structure of system directories.
-# -------------------------------------------------------------------------------
+# ------------------------------------------------------------
 #
 # Variables for directory structure of srcdir
 # -------------------------------------------
