@@ -126,11 +126,11 @@
 
    DISCUSSION : (MH) There should be a scheme for the naming of variables which
                 distinguishes those variables : 
-		1) which are internal (purely for the use of the buildsystem), 
-		2) which have default values but can be overridden by the user 
-		on the command-line
-		3) which have no default value and are purely for the use of the user 
-		to define on the command line.
+		1) which are internal (purely for the use of the build system), 
+		2) which are mostly for internal use of the build system, but
+                can be redefined by the user with suitable precaution. 
+		3) which are intended for use by the user, typically to specify
+                options.
 
 		One possible scheme is:
 		1) _variable (lowercase with preceeding underscore)
@@ -139,6 +139,12 @@
 
                 (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
                 is better.
+
+                (MH) An alternative scheme then:
+                1) variable_
+                2) variable
+                3) Variable
+
                 The uppercase first variables have actually often default values (namely
                 the all-uppercase environment variables). So this explanation is not really valid.
 
@@ -149,6 +155,9 @@
                 Perhaps first a complete list of make-variables and the status is needed here, to
                 see what we have.
                 
+                (MH) Perhaps this should be postponed for a little while,
+                because the changes I propose under documentation and cleaning
+                involved changing many variable names and definitions.
 
     - the current function of "General_options" is taken over by the new variable "Debug_options"
 
@@ -159,30 +168,50 @@
     Here is a list of compiler options which are effective when linking, taken from
     "Using the Gnu Compiler Collection".
 
-    -nostartfiles
-      Do not use standard system startup files.      
-    -nodefaultlibs
-      Do not use standard system libraries.
-    -nostdlib
-      Do not use either standard system startup files or standard system libraries.
-    -pie
-      Produce a "position independent executable".
-    -s
-      Remove symbol table and relocation information from the executable.
-    -static
-      Prevent linking with dynamic libraries.
-    -shared-libgcc
-    -static-libgcc
-      On systems which provide libgcc as a shared library these options force either
-      the shared or static version to be used.    
-    -symbolic
-      Bind references to global symbols when building a shared object.
-    -u symbol
-      Pretend that symbol is undefined, to force linking of library modules to define
-      it.
+    - nostartfiles
+       Do not use standard system startup files.      
+    - nodefaultlibs
+       Do not use standard system libraries.
+    - nostdlib
+       Do not use either standard system startup files or standard system libraries.
+    - pie
+       Produce a "position independent executable".
+    - s
+       Remove symbol table and relocation information from the executable.
+    - static
+       Prevent linking with dynamic libraries.
+    - shared-libgcc
+    - static-libgcc
+       On systems which provide libgcc as a shared library these options force either
+       the shared or static version to be used.    
+    - symbolic
+       Bind references to global symbols when building a shared object.
+    - u symbol
+       Pretend that symbol is undefined, to force linking of library modules to define
+       it.
 
       (OK) The point here is to know exactly what options should/must be used when compiling
       respectively linking (and "options" refers first of all to *our* options).
+
+      (MH) "Our" options are 
+      -  -ansi (cc1plus)
+      -  -pedantic (cc1plus)
+      -  -Wall (cc1plus)
+      -  -g (cc1plus) (mentioned as "ignored" is the ld man page)
+      -  -03 
+      -  -DNDEBUG 
+
+      Here, the names in brackets are those executables indicate that, in the
+      case of ld (linker) and cpp (preprocessor), the executables whose man 
+      page documents the option and, in the case of cc1plus whether the help
+      file documents the option.
+
+      It seems, at first glance, that -ansi, -pedantic, -Wall and -g are
+      effective only for the compiler while -O3 and -DNDEBUG are only
+      effective for the driver program gcc, not any of the compiler, linker
+      or preprocessor.
+
+      Question : Which program is the assembler, and is it relevant for us?
 
 
     - CXXFLAGS is not used when linking the compilation units together --- is this
