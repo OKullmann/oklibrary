@@ -25,10 +25,78 @@
     - What is required from those makefile.definitions.mak ? Update the list in
       makefile_generic.mak, and reflect on it. (DONE)
     - Adding inline comments for an overview on functionality.
+
+    DISCUSSION : (MH) It seems that a redesign of makefile_generic.mak to 
+                 outsource the different functions of makefile_generic.mak
+                 to seperate files may at least help to make the makefile 
+                 design and usage easier to document clearly.
+
+                 I propose the following redesign:
+
+                 $(OKBuildsystem)/generic_makefile.mak should only be directly
+                 responsible for defining the current source directory (srcdir), 
+                 getting the module-specific definitions from 
+                 makefile_definitions.mak, defining the make targets which are 
+                 directly aimed at the user : "all", "clean", "check" and so on 
+                 and providing documentation for those main targets. All the 
+                 other targets and variable definitions are then defined by 
+                 calling functions (with srcdir as the parameter) from makefiles
+                 in the directory OKBuildsystem/makefile_generic_functions. 
+                 Those makefiles contain the relevant documentation.
+
+                 The directory OKBuildsystem/makefile_generic_functions would 
+                 have a structure something like :
+
+                 - makefile_generic_functions
+                   - apps
+                     - cleaning
+                       - optimised.mak
+                       - unoptimised.mak
+                     - compilation
+                       - optimised.mak
+                       - unoptimised.mak
+                     - linking
+                       - optimised.mak
+                       - unoptimised.mak
+                   - options
+                     - compilation.mak
+                     - errors.mak 
+		     - language.mak
+		     - linking.mak
+		     - log.mak
+		     - messages.mak
+		     - preprocessor.mak
+                   - tests
+                     - cleaning
+                       - optimised.mak
+                       - unoptimised.mak
+                     - compilation
+                       - optimised.mak
+                       - unoptimised.mak
+                     - linking
+                       - optimised.mak
+                       - unoptimised.mak
+                   - tests_old
+                     - cleaning
+                       - optimised.mak
+                       - unoptimised.mak
+                     - compilation
+                       - optimised.mak
+                       - unoptimised.mak
+                     - linking
+                       - optimised.mak
+                       - unoptimised.mak
+
+                 In addition, makefile_generic_functions would contain some 
+                 further makefiles for definitions for the directory structure 
+                 of system_directories, internal make targets, running tests, 
+                 environment and system Make variables.
  
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
       should be possible to use the recommended version
+    - also it should be possible to use recommended versions of all external
+      resources, such as Mhash.
 
     DISCUSSION : (MH) Here there seem to be several possibilities. The recommended
                  versions are defined in makefile_ExternalSources.mak (GCC) and
@@ -45,6 +113,14 @@
 		 for all the supported versions of Gcc, Boost, Mhash, Postgresql etc..
 		 This file is then included by those other makefiles which also need
 		 those version numbers.
+
+                 (MH) This task is partially complete. The file 
+                 external_sources_versions.mak contains the recommended versions of
+                 all external resources. However, the recommended version
+                 numbers are got by the buildsystem through a little hack. Namely,
+		 there are seperate variables for both the version number and the
+                 version name. This should be changed so that the version number
+		 is only defined once.
 
     - general clean-up of make-variables
 
@@ -124,6 +200,74 @@
     - Cleaning of special or all versions of the test-timestamps.
     - Cleaning of test-objectfiles and test-programs.
     - Cleaning of test-depencies.
+
+    DISCUSSION : (MH) it seems that a minor redesign of the directory 
+    structure of system_directories is desirable. This is partly because there
+    is a little inconsistency in the current design (for example, some things 
+    are put in module dependent subdirectories, some are not) and partly 
+    because it would seem logical that cleaning tests for a module corresponds 
+    to removing a module-dependent subdirectory of tests from a bin directory, 
+    or cleaning dependencies for the tests in some module means to remove a 
+    directory of dependencies from a module-dependent subdirectory of a tests 
+    subdirectory of a bin directory.
+
+    The current design is:
+
+    - system_directories
+      - aux
+        - dependencies
+        - latex
+        - tests
+          - module_1
+          - module_2
+      - bin
+        - tests
+      - doc
+        - dvi
+        - html
+      - lib
+        - tests
+          - module_1
+          - module_2
+  
+    I propose the following redesign:
+
+    - system_directories
+      - aux
+        - apps
+          - module_1
+            - dependencies
+          - module_2
+            - dependencies
+        - latex
+          - tests
+            - module_1
+              - dependencies
+            - module_2
+              - dependencies
+        - bin
+          - apps
+            - module_1
+            - module_2
+          - tests
+            - module_1
+            - module_2
+        - doc
+          - dvi
+          - html
+        - lib
+          - apps
+            - module_1
+            - module_2
+          - tests
+            - module_1
+            - module_2
+
+    So now to clean the dependencies for the tests from module_1 means to remove
+    the directory system_directories/aux/tests/module_1/dependencies. In fact we
+    provide both targets clean_dependency_files (to remove just the files) and 
+    cleandep (to remove the directory). The naming chosen to encourage the user
+    to use the version which removes the whole directory.
 
   \todo Test cleaning:
     We need specialised cleaning regarding the test system :
