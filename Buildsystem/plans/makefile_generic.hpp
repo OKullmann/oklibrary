@@ -52,6 +52,8 @@
                      - cleaning
                        - optimised.mak
                        - unoptimised.mak
+                 OK: I would keep optimised and unoptimised together (then it's easier to compare);
+                     i.e., just using cleaning.mak etc.
                      - compilation
                        - optimised.mak
                        - unoptimised.mak
@@ -132,6 +134,8 @@
 		-# which are intended for use by the user, typically to specify
                 options.
 
+                (OK : why are you using "-#" ?)
+
 		One possible scheme is:
 		-# _variable (lowercase with preceeding underscore)
 		-# variable (lowercase)
@@ -211,7 +215,12 @@
       effective for the driver program gcc, not any of the compiler, linker
       or preprocessor.
 
+      OK: O3 and DNDEBUG are definitely important for the compiler.
+
       Question : Which program is the assembler, and is it relevant for us?
+
+      OK: Why this question? Why should we bother? (And what do you mean
+      with "Which program is the assembler" --- what does "program" refer to?)
 
 
     - CXXFLAGS is not used when linking the compilation units together --- is this
@@ -274,6 +283,11 @@
               - dependencies
             - module_2
               - dependencies
+
+        OK: do you really mean bin etc as subdirectories of aux?
+        I don't understand what you mean here.
+        Is your main point to always use module-directories?
+      
         - bin
           - apps
             - module_1
