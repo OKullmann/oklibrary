@@ -126,10 +126,10 @@
 
    DISCUSSION : (MH) There should be a scheme for the naming of variables which
                 distinguishes those variables : 
-		1) which are internal (purely for the use of the build system), 
-		2) which are mostly for internal use of the build system, but
+		-# which are internal (purely for the use of the build system), 
+		-# which are mostly for internal use of the build system, but
                 can be redefined by the user with suitable precaution. 
-		3) which are intended for use by the user, typically to specify
+		-# which are intended for use by the user, typically to specify
                 options.
 
 		One possible scheme is:
