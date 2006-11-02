@@ -60,12 +60,12 @@
                        - unoptimised.mak
                    - options
                      - compilation.mak
-                     - errors.mak 
-		     - language.mak
-		     - linking.mak
-		     - log.mak
-		     - messages.mak
-		     - preprocessor.mak
+                     - errors.mak
+                     - language.mak
+                     - linking.mak
+                     - log.mak
+                     - messages.mak
+                     - preprocessor.mak
                    - tests
                      - cleaning
                        - optimised.mak
@@ -133,17 +133,17 @@
                 options.
 
 		One possible scheme is:
-		1) _variable (lowercase with preceeding underscore)
-		2) variable (lowercase)
-		3) Variable (uppercase first character)
+		-# _variable (lowercase with preceeding underscore)
+		-# variable (lowercase)
+		-# Variable (uppercase first character)
 
                 (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
                 is better.
 
                 (MH) An alternative scheme then:
-                1) variable_
-                2) variable
-                3) Variable
+                -# variable_
+                -# variable
+                -# Variable
 
                 The uppercase first variables have actually often default values (namely
                 the all-uppercase environment variables). So this explanation is not really valid.
