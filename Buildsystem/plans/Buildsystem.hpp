@@ -105,6 +105,16 @@
      good to emphasise the directory structure; in the file list in the
      doxygen documentation this is kind of ugly. And can we have
      a general "directory list" ?!
+
+   DISCUSSION : (MH) This seems to be easy to solve using the doxygen commands defgroup,
+   and ingroup to add a new menu item "Modules" with sub-items for each of our modules.
+   The relevant groups could be defined in the doxygen documentation of Module/Module.hpp.
+   We can also easily create submodule sub-sub-items. For example for the plans. This solution 
+   is not so easy to document because it involves trying to put doxygen commands (as comments)
+   within a doxygen comment block and there seems to be no way to do this. Perhaps in this
+   case the solution is so straightforward - just a lot of work - that it is okay to go
+   ahead without further discussion in the documentation?
+
    - How to integrate a *general* todo list into Doxygen?
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command? And how to avoid that apparently certain "keywords" are captured by
