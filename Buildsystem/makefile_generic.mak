@@ -65,7 +65,7 @@
 #
 # Documentation
 # -------------
-# html                          Create doxygen documentation.
+# html                          Create doxygen documentation (should be used only at module-level).
 #
 # Test system
 # -----------
