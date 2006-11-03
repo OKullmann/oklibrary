@@ -10,12 +10,19 @@
   topics are handled:
   - UPDATE OF PLANNING-DOCUMENTATION (for MH) : DONE
   - Doxygen correction (for MH) : DONE
-  - Documentation
+  In Buildsystem/plans/Buildsystem.hpp the following
+  topics are handled:
+  - Rename SystemDirectories : DONE
+
 
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
-  - Rename SystemDirectories : DONE
+  - Overhaul of the general targets
+  - Doxygen
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - Documentation
 
   \par Version 0.1.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
