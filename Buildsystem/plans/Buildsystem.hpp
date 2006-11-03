@@ -136,12 +136,18 @@
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command? And how to avoid that apparently certain "keywords" are captured by
      doxygen?
-   - How to obtain general statistics?
+   - How to obtain general statistics: About the number of classes, lines of code, etc. (best
+     with some statistics on the change over time)
+     and then also on the version numbers of the modules (again with changes over time).
+     If doxygen does not support it yet, then we should submit some feature request, and postphone
+     this item.
    - We should get the newest configuration file, and transfer our information from the old
      configuration file.
    - It appears that all .cpp-files are considered as linked together?
    - Can makefiles be incorporated?!
-   - Can we have nested lists?
+   - Can we have nested lists? Numbered lists? This things perhaps should go into
+     our general documentation --- or we have some example files, which demonstrate
+     our use of doxygen.
 
    \todo Documentation in general
     - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
