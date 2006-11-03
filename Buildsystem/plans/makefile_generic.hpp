@@ -49,17 +49,9 @@
 
                  - makefile_generic_functions
                    - apps
-                     - cleaning
-                       - optimised.mak
-                       - unoptimised.mak
-                 OK: I would keep optimised and unoptimised together (then it's easier to compare);
-                     i.e., just using cleaning.mak etc.
-                     - compilation
-                       - optimised.mak
-                       - unoptimised.mak
-                     - linking
-                       - optimised.mak
-                       - unoptimised.mak
+                     - cleaning.mak
+                     - compilation.mak
+                     - linking.mak
                    - options
                      - compilation.mak
                      - errors.mak
@@ -69,25 +61,13 @@
                      - messages.mak
                      - preprocessor.mak
                    - tests
-                     - cleaning
-                       - optimised.mak
-                       - unoptimised.mak
-                     - compilation
-                       - optimised.mak
-                       - unoptimised.mak
-                     - linking
-                       - optimised.mak
-                       - unoptimised.mak
+                     - cleaning.mak
+                     - compilation.mak
+                     - linking.mak
                    - tests_old
-                     - cleaning
-                       - optimised.mak
-                       - unoptimised.mak
-                     - compilation
-                       - optimised.mak
-                       - unoptimised.mak
-                     - linking
-                       - optimised.mak
-                       - unoptimised.mak
+                     - cleaning.mak
+                     - compilation.mak
+                     - linking.mak
 
                  In addition, makefile_generic_functions would contain some 
                  further makefiles for definitions for the directory structure 
@@ -135,6 +115,8 @@
                 options.
 
                 (OK : why are you using "-#" ?)
+                (MH : This is how to create numbered lists in Doxygen. You prefer to
+                just write the numbers?)
 
 		One possible scheme is:
 		-# _variable (lowercase with preceeding underscore)
@@ -172,25 +154,25 @@
     Here is a list of compiler options which are effective when linking, taken from
     "Using the Gnu Compiler Collection".
 
-    - nostartfiles
+    - -nostartfiles
        Do not use standard system startup files.      
-    - nodefaultlibs
+    - -nodefaultlibs
        Do not use standard system libraries.
-    - nostdlib
+    - -nostdlib
        Do not use either standard system startup files or standard system libraries.
-    - pie
+    - -pie
        Produce a "position independent executable".
-    - s
+    - -s
        Remove symbol table and relocation information from the executable.
-    - static
+    - -static
        Prevent linking with dynamic libraries.
-    - shared-libgcc
-    - static-libgcc
+    - -shared-libgcc
+    - -static-libgcc
        On systems which provide libgcc as a shared library these options force either
        the shared or static version to be used.    
-    - symbolic
+    - -symbolic
        Bind references to global symbols when building a shared object.
-    - u symbol
+    - -u symbol
        Pretend that symbol is undefined, to force linking of library modules to define
        it.
 
@@ -202,26 +184,16 @@
       -  -pedantic (cc1plus)
       -  -Wall (cc1plus)
       -  -g (cc1plus) (mentioned as "ignored" is the ld man page)
-      -  -03 
-      -  -DNDEBUG 
+      -  -03 (cc1plus)
+      -  -DNDEBUG (cc1plus)
 
       Here, the names in brackets are those executables indicate that, in the
       case of ld (linker) and cpp (preprocessor), the executables whose man 
       page documents the option and, in the case of cc1plus whether the help
       file documents the option.
 
-      It seems, at first glance, that -ansi, -pedantic, -Wall and -g are
-      effective only for the compiler while -O3 and -DNDEBUG are only
-      effective for the driver program gcc, not any of the compiler, linker
-      or preprocessor.
-
-      OK: O3 and DNDEBUG are definitely important for the compiler.
-
-      Question : Which program is the assembler, and is it relevant for us?
-
-      OK: Why this question? Why should we bother? (And what do you mean
-      with "Which program is the assembler" --- what does "program" refer to?)
-
+      It seems, at first glance, that all of "our" options are only effective
+      for the compiler.
 
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
@@ -278,33 +250,35 @@
           - module_2
             - dependencies
         - latex
-          - tests
-            - module_1
-              - dependencies
-            - module_2
-              - dependencies
+        - tests
+          - module_1
+            - dependencies
+          - module_2
+            - dependencies      
+      - bin
+        - apps
+          - module_1
+          - module_2
+        - tests
+          - module_1
+          - module_2
+      - doc
+        - dvi
+        - html
+      - lib
+        - apps
+          - module_1
+          - module_2
+        - tests
+          - module_1
+          - module_2
 
         OK: do you really mean bin etc as subdirectories of aux?
         I don't understand what you mean here.
         Is your main point to always use module-directories?
-      
-        - bin
-          - apps
-            - module_1
-            - module_2
-          - tests
-            - module_1
-            - module_2
-        - doc
-          - dvi
-          - html
-        - lib
-          - apps
-            - module_1
-            - module_2
-          - tests
-            - module_1
-            - module_2
+
+        MH: No, this was a mistake with indentation. Yes, I think
+        it makes sense to have module-directories in every case.
 
     So now to clean the dependencies for the tests from module_1 means to remove
     the directory system_directories/aux/tests/module_1/dependencies. In fact we
