@@ -115,6 +115,10 @@
    case the solution is so straightforward - just a lot of work - that it is okay to go
    ahead without further discussion in the documentation?
 
+   DISCUSSION : (MH) Seems like the doxygen configuration tag SHOW_DIRECTORIES, if set to 
+   YES, acheives the same thing. Albeit, within a menu item "Directories" , rather than
+   "Modules".
+
    - How to integrate a *general* todo list into Doxygen?
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
      a doxygen-command? And how to avoid that apparently certain "keywords" are captured by
