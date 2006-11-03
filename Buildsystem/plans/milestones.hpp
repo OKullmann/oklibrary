@@ -10,6 +10,7 @@
   topics are handled:
   - Overhaul of the general targets
   - Doxygen
+
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Documentation
