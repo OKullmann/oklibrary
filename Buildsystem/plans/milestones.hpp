@@ -3,17 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
 
-  \par Current version 0.1 (4.3.2006)
-
-  \par Version 0.1.1 :
-  In Buildsystem/plans/makefile_generic.hpp the following
-  topics are handled:
-  - UPDATE OF PLANNING-DOCUMENTATION (for MH) : DONE
-  - Doxygen correction (for MH) : DONE
-  In Buildsystem/plans/Buildsystem.hpp the following
-  topics are handled:
-  - Rename SystemDirectories : DONE
-
+  \par Current version 0.1.1 (3.11.2006)
 
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
@@ -107,7 +97,8 @@
 
   \par Version history
 
-   -  0.1 : 4.3.2006; initial version number (the build system is under work for around 2 years).
+   - 0.1   : 4.3.2006; initial version number (the build system is under work for around 2 years).
+   - 0.1.1 : 3.11.2006 (some smaller corrections and modification regarding naming issues).
 
 */
 
