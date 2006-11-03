@@ -11,8 +11,10 @@
   and further milestones are created.
 
   \par Version 0.0.5 :
-  In AutarkySearch/plans/AutarkySearch.hpp the topic "Local installation
-  of UBCSAT" is handled.
+  In AutarkySearch/plans/AutarkySearch.hpp the topic
+  "Local installation of UBCSAT" is handled.
+  QUESTION (OK): Shouldn't "First implementation for AnalyseTotalAssignment"
+  come later than "Local installation of UBCSAT" ?
 
   \par Version 0.1 :
   We have a first implementation using the method of AnalyseTotalAssignment,
