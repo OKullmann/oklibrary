@@ -18,6 +18,8 @@
   not satisfying, one can still consider the largest autarky contained in
   it --- also this is an autarky for the clause-set under investigation).
 
+  \todo Local installation of UBCSAT.
+
   \todo First implementation for AnalyseTotalAssignment (for ML)
    - As a first step, analysing total assignments (and autarky reduction,
      if successful) is added to UBCSAT, without further changes.

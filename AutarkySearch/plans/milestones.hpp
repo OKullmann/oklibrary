@@ -10,6 +10,10 @@
   "First implementation for AnalyseTotalAssignment" is further expanded,
   and further milestones are created.
 
+  \par Version 0.0.5 :
+  In AutarkySearch/plans/AutarkySearch.hpp the topic "Local installation
+  of UBCSAT" is handled.
+
   \par Version 0.1 :
   We have a first implementation using the method of AnalyseTotalAssignment,
   and start experimentation.
