@@ -35,9 +35,12 @@
 
   MH : Does this mean that we want it so that "make new_check" and "make check"
   does the compilation of test programs?
+  OK : Yes, for performing the checks they need to be compiled; we also
+  need then special targets to just compile the test-programs.
 
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
+
    - (DONE) what is the role of prebuild? (Yet it builds the directory
      structure --- perhaps this should be performed by each target if
      needed (so that prebuild wouldn't be needed anymore here)?
@@ -101,6 +104,7 @@
   \todo Doxygen:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
    - For functions there is a \callergraph --- shall we use it?
+
    - Since sub-directories of Transitional are modules for us, it would be
      good to emphasise the directory structure; in the file list in the
      doxygen documentation this is kind of ugly. And can we have
@@ -114,10 +118,19 @@
    within a doxygen comment block and there seems to be no way to do this. Perhaps in this
    case the solution is so straightforward - just a lot of work - that it is okay to go
    ahead without further discussion in the documentation?
-
    DISCUSSION : (MH) Seems like the doxygen configuration tag SHOW_DIRECTORIES, if set to 
    YES, acheives the same thing. Albeit, within a menu item "Directories" , rather than
    "Modules".
+   OK: Okay, so we have a directory list now. I see two issues:
+     (1) Still the file list is ugly --- would be nice (likely) if doxygen would display
+     better the directory structure (but if we need the above "defgroup" etc., then it
+     seems not to be worth the effort). Perhaps we should drop the file-list altogether?
+     (This could make the system more user-friendly, by restricting the attention to
+     the most appropriate choice?) On the other hand, always having to click on the
+     directory items might not be always best, so perhaps we should keep the file-list.
+     (2) Sometimes it would be good to show also other files (especially for Buildsystem).
+     This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
+     just as plain text files, without any special formatting).
 
    - How to integrate a *general* todo list into Doxygen?
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
