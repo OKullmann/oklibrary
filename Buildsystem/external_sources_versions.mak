@@ -23,9 +23,11 @@ boost_recommended_version_number := 1_33_1
 # Doxygen Versions
 # #################################
 
-doxygen_targets := doxygen-1.4.7 doxygen-1.5.0
-doxygen_recommended := doxygen-1.5.0
-# remark: doxygen-1.4.6 broken
+doxygen_targets := doxygen-1.4.7 doxygen-1.5.1
+doxygen_recommended := doxygen-1.5.1
+# remarks: 
+#  doxygen-1.4.6 broken
+#  doxygen-1.5.1 correction of 1.5.0
 
 # #################################
 # Mhash Versions
