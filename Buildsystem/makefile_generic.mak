@@ -112,6 +112,9 @@
 # doxygen-parameters    For doxygen parameters.
 #
 
+# COMMENT OK: We also have a variable to use valgrind with the tests --- this belongs also to here, and furthermore
+# the respective documentation seems to have gone lost?
+
 # #############################################################
 
 SHELL = /bin/sh
@@ -525,6 +528,10 @@ cleanall : clean cleanprograms
 # -----------------------------------------
 # CXX                   Name of the C++ compiler executable.
 # CC                    Name of the C compiler executable.
+
+# COMMENT OK: CXX, CC, CXXFLAGS etc. are special, since they are independent of our build system,
+# but they are "defined" for every make-file (here and elsewhere).
+
 # General_options       Defined in makefile_definitions.mak for each module.
 #                       Passed to the compiler for each module program.
 # Optimisation_options  Defined in makefile_definitions.mak for each module.
@@ -548,9 +555,13 @@ cleanall : clean cleanprograms
 # Warning_options       Defined in makefile_generic.mak. Passed to the 
 #                       compiler for every program.
 
+# COMMENT OK: For Standard_options, Warning_options and the like we also need the
+# default values in the documentation. These two variables behave different than the other
+# variables above.
+
 # TEMPORARY COMMENT OK: The *meaning* of the variables like "Standard_options" and so
 # on is most important! You tell only some formalities. 
-# Also when reflecting about the meaning, the basic step for
+# Also, when reflecting about the meaning the basic step for
 # a rational reorganisation is done!
 
 # Compile_tool          A command to prefix each call of the compiler. So, for
@@ -562,6 +573,9 @@ cleanall : clean cleanprograms
 # Test_tool             A command to prefix each call of a test program. So, for
 #                       example to use the time program to time the execution
 #                       of the test program.
+
+# COMMENT OK: Wasn't there a comment on valgrind (important!) ???
+# (valgrind --quiet ...)
 
 # ===============================================================================
 # Internal variables: 
