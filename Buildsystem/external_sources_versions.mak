@@ -47,6 +47,6 @@ postgresql_recommended := postgresql-8.0.3
 # Valgrind Versions
 # #################################
 
-valgrind_targets := valgrind-3.1.0 valgrind-3.2.0
-valgrind_recommended := valgrind-3.2.0
+valgrind_targets := valgrind-3.2.0 valgrind-3.2.1
+valgrind_recommended := valgrind-3.2.1
 
