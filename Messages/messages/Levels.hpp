@@ -6,7 +6,6 @@
 */
 
 #ifndef LEVELSEXPLANATIONS_khgFFr4
-
 #define LEVELSEXPLANATIONS_khgFFr4
 
 #include <Transitional/Messages/MessagesMain.hpp>
