@@ -39,13 +39,17 @@
   An interesting problem here is the update of the current path (including the dependency
   graph), and making good use of the dependency graph to reduce the amount of work
   needed for r_3 (as usual, the more changes are done by r_3, the less we can save --- but
-  then the reduction is succesful).
+  then the reduction is successful).
+
+  \todo A question is whether in case of "intelligent backtracking" the clauses which where
+  found to be not needed for the resolution refutation, are kept or deleted: One could keep
+  them since they were "expensive".
 
   \todo What kind of component is performing the learning? "Who" is "responsible" ?
   It is the backtracking algorithm which is choosing the decisions, managing the communication
   between the partial assignments and the active clause-sets and the alliance, and performing
   the backtracking; so this component should be responsible for *global learning* (while
-  the active clause-sets migh perform "local learning" themselves. It seems attractive to
+  the active clause-sets might perform "local learning" themselves. It seems attractive to
   consider these algorithms themselves as constituting an active clause-set.
 
   \todo The learned clauses should be managed by a special active clause-sets L.
