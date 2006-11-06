@@ -3,9 +3,6 @@
 /*!
   \file Messages/messages/Languages.hpp
   \brief Translations of language names (provided by a message class).
-
-  \todo "Austria" in French?
-  \todo "Untranslated" in French?
 */
 
 #ifndef LANGUAGESEXPLANATIONS_8Uh26266
