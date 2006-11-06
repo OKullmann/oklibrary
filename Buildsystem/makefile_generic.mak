@@ -323,6 +323,15 @@ include $(OKBuildsystem)/external_sources_versions.mak
 
 alternative_gcc:= $(gcc_recommended_version_number)
 alternative_boost:= $(boost_recommended_version_number)
+# COMMENT OK: This is a kind of undocumented change: Before when not specifying
+# alternative_gcc or alternative_boost the system version was used, while now
+# the local version is used. This should be clearly documented.
+# Furthermore, since it's now default to use the local versions (which
+# is alright), there needs to be a possibility to use the system versions
+# (documented and without pain).
+# Finally the naming "alternative_" seems no longer appropriate, since these are now
+# just the gcc- and boost-versions (they are not alternatives anymore).
+
 alternative_library_path:=
 
 ifneq ($(alternative_gcc),) # alternative gcc specified
