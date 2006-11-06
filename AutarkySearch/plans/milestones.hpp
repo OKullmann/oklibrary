@@ -8,7 +8,7 @@
   \par Version 0.0.4 :
   In AutarkySearch/plans/AutarkySearch.hpp the topic
   "First implementation for AnalyseTotalAssignment" is further expanded,
-  and further milestones are created.
+  and (further) milestones are updated and created.
 
   \par Version 0.0.5 :
   In AutarkySearch/plans/AutarkySearch.hpp the topic
