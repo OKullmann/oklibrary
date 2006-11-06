@@ -2,12 +2,11 @@
 
 /*!
   \file Messages/Languages.hpp
-  \brief Definitions for identification and handling of (natural) languages
+  \brief Definitions for identification and handling of (natural) languages supported by the library
 
   The message system is based on "raw" character sequences, assuming the UTF-8
   interpretation of the output. Easiest input by assuming UTF-8 encoding of the source code file.
 
-  \todo fr_CA disabled due to an error in g++ (3.4.3 - 4.0.2, 4.1.0). Fixed in 4.0.3.
 */
 
 #ifndef LANGUAGES_8UyTre

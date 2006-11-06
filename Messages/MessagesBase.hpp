@@ -1,7 +1,7 @@
 // Oliver Kullmann, 11.2.2006 (Swansea)
 
 /*!
-  \file MessagesBase.hpp
+  \file Messages/MessagesBase.hpp
   \brief The base class of the messages framework
 
   Including this file suffices to get the message service without the

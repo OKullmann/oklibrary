@@ -1,7 +1,7 @@
 // Oliver Kullmann, 11.2.2006 (Swansea)
 
 /*!
-  \file Messages_Testapplication.cpp
+  \file Messages/Messages_Testapplication.cpp
   \brief DEPRECATED. Temporary test application
 */
 
