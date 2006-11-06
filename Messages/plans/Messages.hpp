@@ -4,18 +4,31 @@
   \file Messages/plans/Messages.hpp
   \brief Plans for the messages module (as a whole)
 
+  \todo Update:
+   - Move all relevant todos to the plans-directory : DONE.
+
+   - Update the doxygen-documentation.
+
+     Messages/LanguageNames.hpp :
+       Messages/messages/Languages.hpp : 
+     Messages/Languages.hpp : 
+     Messages/Levels.hpp :
+       Messages/messages/Levels.hpp : 
+     Messages/MessagesBase.hpp : 
+     Messages/MessagesMain.hpp : 
+     Messages/Messages_Testapplication.cpp :
+     Messages/Utilities/TimeAndDate.hpp :
+     Messages/Utilities/Umlaute.hpp : 
+     
+   - Especially it must be precisely documented how to use and write message classes.
+
   \todo Directory structure:
    - To conform with the current recursive build system, we need a new sub-directory
      Messages/Basics, which contains all the files currently directly under Messages.
      This would bring another nested namespace, but since we have macro support
      anyway for creating message classes, this should not bring much user-inconvenience
      with it.
-   - Under Messages we need then an makefile_recursive instance.
-
-  \todo Update:
-   - Move all relevant todos to the plans-directory.
-   - Update the doxygen-documentation.
-   - Especially it must be precisely documented how to use and write message classes.
+   - Under Messages we need then a makefile_recursive instance.
 
   \todo Testing:
    - We need here a preliminary compiler switch, which disables
@@ -23,6 +36,8 @@
      Later we will request compiler version 4.1.1 or higher,
      but first we have to see that there are no performance
      problems with these later gcc-versions (regarding compilation and execution).
+   - When removing Messages/Messages_Testapplication.cpp, we must make sure that all these tests are
+     incorporated.
 */
 
 /*!
