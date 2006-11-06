@@ -10,6 +10,8 @@
   In Messages/plans/Messages.hpp the following topics are handled:
   - Update
 
+  And then update the milestones.
+
   \par Version 0.7.2 :
 
   In Messages/plans/Messages.hpp the following topics are handled:
