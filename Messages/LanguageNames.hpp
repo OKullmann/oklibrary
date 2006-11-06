@@ -1,12 +1,8 @@
 // Oliver Kullmann, 21.2.2006 (Swansea)
 
 /*!
-  \file LanguageNames.hpp
+  \file Messages/LanguageNames.hpp
   \brief Component for translating language names into language constants
-
-  \todo Write tests!
-  \todo Once available, the std::map in LanguageName should be replaced
-  by a hash map; and finally a specialised string-algorithm shall be used.
 */
 
 #ifndef LANGUAGENAMES_janVVcd4
@@ -28,21 +24,22 @@ namespace OKlib {
       \class LanguageName
       \brief Functor to translate language names into language constants.
 
-      ::OKlib::Messages::LanguageName(name) yields a value of type
-      ::OKlib::Messages::Languages, throwing an exception
+      ::OKlib::Messages::LanguageName(name) yields a value of type ::OKlib::Messages::Languages
+      (an enumeration type), while throwing an exception of type
       LanguageName::UninterpretableLanguageName
       in case name doesn't refer to an existing language.
     */
 
-    class LanguageName : std::unary_function<const char*, Languages> {
+    class LanguageName : std::unary_function<const char*, ::OKlib::Messages::Languages> {
 
-      typedef std::map<std::string, Languages> map_type;
+      typedef ::OKlib::Messages::Languages language_type;
+      typedef std::map<std::string, language_type> map_type;
       static const map_type map;
 
-      typedef std::pair<std::string, Languages> pair_type;
+      typedef std::pair<std::string, language_type> pair_type;
       struct PairFunction : std::unary_function<const char* const&, pair_type> {
         pair_type operator()(const char* const& name) const {
-          return pair_type(std::string(name), static_cast<Languages>(&name - ::OKlib::Messages::Locales));
+          return pair_type(std::string(name), static_cast<language_type>(&name - ::OKlib::Messages::Locales));
         }
       };
       typedef boost::transform_iterator<PairFunction, const char* const *> pair_iterator_type;
@@ -53,7 +50,7 @@ namespace OKlib {
 
     public :
 
-      Languages operator()(const char* const name) const {
+      language_type operator()(const char* const name) const {
         typedef map_type::const_iterator iterator;
         static const iterator end(map.end());
         const iterator& found(map.find(std::string(name)));
