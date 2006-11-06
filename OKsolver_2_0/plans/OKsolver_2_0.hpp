@@ -22,6 +22,8 @@
   extraction; perhaps some forms of DP-reductions; and some
   forms of autarky reductions).
 
+  \todo For failed literal reductions and strengthenings see the module "FailedLiteralReduction".
+
   \todo It would be good if instead of just using r_2 we could plug in other (stronger) forms
   (like r_3 or r_2 with local learning).
 
@@ -42,6 +44,9 @@
   alliance are taken into account (this emphasis the requirement, that the members
   are active *clause-sets*, "faking" to be clause-sets via returning appropriate statistics).
 
+  \todo Likely, autarky search should ignore learned clauses (when applying the autarky,
+  learned clauses might get shortened).
+
   \todo So at each node a satisfiability problem is attacked by incomplete methods: Mainly
   local search, but one could also use additional measures (like reductions), which are
   especially appropriate once variables are being crossed out.
@@ -56,6 +61,15 @@
      solved the sub-problem, and it seems from finding an autarky we don't gain
      anything for the remaining problems).
 
+  \todo Autarkies can also be checked whether they extend further up the search tree (in the best
+  of all cases they yield, composed together with the corresponding partial assignments, global
+  autarkies). A classical situation, exploited in the Luckhardt
+  algorithm is when the autarky only leaves clauses of length equal to the maximal clause
+  length in the input. Marijn Heule had a trick here? Perhaps one marks the new clauses
+  with the creation levels --- then one can go up until before the first level where new clauses
+  are left. Marijn used these levels for his locality principle (the new branching variable must
+  shorten at least one clause from the previous level).
+
   \todo The heuristics for the branching variable is a  main open problem (while
   choosing the first branch is done like in the old OKsolver). Here likely a lot of
   experimentation is needed (starting with the heuristics from the old OKsolver).
@@ -63,6 +77,10 @@
   the best-looking future situation; likely this look-ahead should only involve unit-propagations
   --- it would be nice to do something stronger, but where to stop? The components should
   allow to do stronger things in the look-ahead, so that we can experiment.
+  The simplest (and quite good) criterion for the "best-looking future situation" is
+  the weighted number of new clauses (as in OKsolver); an interesting question here is
+  whether new (that is, shortened) clauses from learned clauses should have a higher weight
+  than new clauses from old clauses?!
 
   \todo Another main problem is the choice of the local search algorithm and the settings
   of its parameters:
@@ -75,7 +93,7 @@
      Makes sense to me: In this way we take from the local search only "the best part".
      Furthermore we only search for a local move until we find an improvement; in this way
      we need only to search through the whole space of local moves in the last step (where no
-     further improvement is possible). We also require a postive improvement, avoiding
+     further improvement is possible). We also require a positive improvement, avoiding
      in this way any kind of book keeping about repeated moves.
    So everything boils down here to the choice of possible moves, to the choice of the
    optimisation function, and to the choice of the data structures.
@@ -117,6 +135,26 @@
   \todo If restarts don't yield clear benefits, then they are not incorporated into
   OKsolver_2_0, but the whole issue is thoroughly treated with OKsolver_3_0.
 
+  \todo The above resource management strategies use prediction; another possibility
+  are the monitoring schemes similar to those investigated by Heule and van Maaren:
+  Considering some observation level d in the search tree and a given total time R,
+  the time per observation node is R / 2^d. If the time is out, then the search is
+  interrupted, and search jumps to next node on the observation level, mainly
+  in the hope to find a satisfying assignment there, but also good learned clauses
+  could be obtained there. Since mainly we hope for the satisfying assignment,
+  and we assume that the first branch in general is better than the second branch,
+  and furthermore we assume that deeper down the tree the prediction of the
+  first branch becomes better, the rules for determining the next search node
+  are just 1) left before right 2) assume the "error" as far up as possible.
+  The old search nodes can be stored via their partial assignments (possibly only
+  the decision variables). If we tried all nodes at the monitoring level, and time
+  remains, then for the remaining nodes we compute the time available, and
+  repeat the procedure.
+  An option here is of course to use parallelisation (could be wasteful, if for example
+  the first branch is really better than the second one).
+  One could also use processes/threads just to implement the jumping (in case of
+  learning all these processes/threads need to send the learned clauses to a central control.
+
   \todo All the parameter settings depend on the input distribution, and so we should
   learn good parameter values by evaluating the SAT 2005 competition. The conceptually
   simplest way to achieve this is to optimise the score the solver would have achieved
@@ -126,8 +164,7 @@
 
 /*!
   \namespace OKlib::OKsolver_2_0
-  \brief Applications implementing the new OKsolver (for
-  SAT 2007)
+  \brief Applications implementing the new OKsolver (for SAT 2007)
 */
 
 namespace OKlib {
