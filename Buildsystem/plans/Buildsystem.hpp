@@ -20,16 +20,6 @@
 
   ---------------------------------------------------------------------------------------------------------------
   
-  \todo Makefiles in general:
-   - OKSystem is defined at one place, and imported at all other places. Additionally
-     OKSystem_include is defined (with "-I").
-     In the local definition-makefiles then we only use (not define) OKSystem_include.
-   - Makefiles should always have the suffix .mak,
-     so that for examples xemacs recognises the format.
-   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
-     otherwise there must be a "copy-and-paste"-comment at each place.
-   - We should use (more) make-functions.
-
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs
 
@@ -60,47 +50,6 @@
    complete documentation) (this should be automatically achieved
    once makefile_recursive is eliminated).
 
-   \todo Two modes of usage of the build system:
-    - As we have it now, everything in one directory (and also with the possibility of
-      having different versions of the OKplatform). ("One world", extending directly
-      the library.)
-    - Having one global OKplatform, and then a local directory with also aux, bin, doc
-      include and lib, but only regarding the local directory. So that for example students
-      in the Linux lab can use a central installation of OKplatform, and in the local
-      directory only the files related to their production is stored.
-
-   \todo We need some "competition extraction tools", which for a given program
-    build a package, which contains all necessary source code and can be build
-    using make (producing then the executable). A problem here are the link-libraries.
-    Without them, one could use the ability of g++ to produce compilation units (using
-    the option "-E" like "g++ -E Program.cpp -o Program.ii"), putting everything into one big file.
-    Knowing the link-libraries, just compiling Program.ii with the right .o-files yields the program.
-    So when we know all compilation units, we can preprocess them all and putting them
-    into the package; the package just compiles the units separately, and then links them together.
-
-   \todo Measurements:
-    - Each "make test" etc. should gather summary statistics of the tests performed,
-    like the total number of testobjects, the total time spend and so on.
-    In order to do so, a test program can be asked to serialise the statistics
-    to a file or to standard output, and a simple evaluation program gathers
-    these statistics.
-    -Similar to the complexity measurements, for every task performed by the build
-    system it should be possible to save the measured run time, so that the develepment over
-    time for example of compile times, link times, test times can be followed, and also
-    the influence of compilers can be considered. By default, when running make only
-    the total times are output, but in a protocol mode everything is written to a file
-    (as for the complexity system; it should be possible for example to use the visualisation
-    tools there to look at the developments here).
-
-   \todo makefile_recursive
-    - This should go, and makefile_generic should be able to do all jobs,
-      gathering all relevant files from all underlying subdirectories (but as soon
-      as one subdirectory doesn't contain makefile_generic, then it and its
-      decendants are ignored). In this way it is then also possible that a directory
-      contains a test program, and has also sub-directories with test programs.
-      However, best we postphone this, and first make experiences with a more extensive
-      directoy structure.
-   
   \todo Doxygen:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
    - For functions there is a \callergraph --- shall we use it?
@@ -149,7 +98,58 @@
      our general documentation --- or we have some example files, which demonstrate
      our use of doxygen.
 
-   \todo Documentation in general
+  \todo Makefiles in general:
+   - OKSystem is defined at one place, and imported at all other places. Additionally
+     OKSystem_include is defined (with "-I").
+     In the local definition-makefiles then we only use (not define) OKSystem_include.
+   - Makefiles should always have the suffix .mak,
+     so that for examples xemacs recognises the format.
+   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
+     otherwise there must be a "copy-and-paste"-comment at each place.
+   - We should use (more) make-functions.
+
+  \todo Two modes of usage of the build system:
+    - As we have it now, everything in one directory (and also with the possibility of
+      having different versions of the OKplatform). ("One world", extending directly
+      the library.)
+    - Having one global OKplatform, and then a local directory with also aux, bin, doc
+      include and lib, but only regarding the local directory. So that for example students
+      in the Linux lab can use a central installation of OKplatform, and in the local
+      directory only the files related to their production is stored.
+
+  \todo We need some "competition extraction tools", which for a given program
+    build a package, which contains all necessary source code and can be build
+    using make (producing then the executable). A problem here are the link-libraries.
+    Without them, one could use the ability of g++ to produce compilation units (using
+    the option "-E" like "g++ -E Program.cpp -o Program.ii"), putting everything into one big file.
+    Knowing the link-libraries, just compiling Program.ii with the right .o-files yields the program.
+    So when we know all compilation units, we can preprocess them all and putting them
+    into the package; the package just compiles the units separately, and then links them together.
+
+  \todo Measurements:
+    - Each "make test" etc. should gather summary statistics of the tests performed,
+    like the total number of testobjects, the total time spend and so on.
+    In order to do so, a test program can be asked to serialise the statistics
+    to a file or to standard output, and a simple evaluation program gathers
+    these statistics.
+    -Similar to the complexity measurements, for every task performed by the build
+    system it should be possible to save the measured run time, so that the develepment over
+    time for example of compile times, link times, test times can be followed, and also
+    the influence of compilers can be considered. By default, when running make only
+    the total times are output, but in a protocol mode everything is written to a file
+    (as for the complexity system; it should be possible for example to use the visualisation
+    tools there to look at the developments here).
+
+  \todo makefile_recursive
+    - This should go, and makefile_generic should be able to do all jobs,
+      gathering all relevant files from all underlying subdirectories (but as soon
+      as one subdirectory doesn't contain makefile_generic, then it and its
+      decendants are ignored). In this way it is then also possible that a directory
+      contains a test program, and has also sub-directories with test programs.
+      However, best we postphone this, and first make experiences with a more extensive
+      directoy structure.
+   
+  \todo Documentation in general
     - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
      1. Examples : contains a mirror of the OKlibrary with (many) example applications (build by the
      build system, so that it's always up-to-date).
