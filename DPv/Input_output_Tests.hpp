@@ -1,7 +1,6 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 #ifndef INPUTOUTPUTTESTS_oPLmm8uuY
-
 #define INPUTOUTPUTTESTS_oPLmm8uuY
 
 #include <vector>

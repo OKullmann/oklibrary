@@ -1,7 +1,6 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 #ifndef INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
-
 #define INPUTOUTPUTTESTOBJECTS_7ytaBb4dsfuw
 
 #include <Transitional/DPv/Input_output.hpp>
