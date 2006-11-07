@@ -1,12 +1,11 @@
 // Oliver Kullmann, 10.10.2005 (Swansea)
 
 /*!
-  \file IOStreamFilters_Tests.hpp
+  \file GeneralInputOutput/IOStreamFilters_Tests.hpp
   \brief Tests for iostream-filters.
 */
 
 #ifndef IOSTREAMFILTERSTESTS_6tgBB
-
 #define IOSTREAMFILTERSTESTS_6tgBB
 
 #include <string>

@@ -1,12 +1,11 @@
 // Oliver Kullmann, 10.10.2005 (Swansea)
 
 /*!
-  \file IOStreamFilters.hpp
+  \file GeneralInputOutput/IOStreamFilters.hpp
   \brief Filters according to the Boost Iostream library.
 */
 
 #ifndef IOSTREAMFILTERS_99ooKL
-
 #define IOSTREAMFILTERS_99ooKL
 
 #include <algorithm>

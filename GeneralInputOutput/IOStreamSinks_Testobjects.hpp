@@ -1,7 +1,6 @@
 // Oliver Kullmann, 8.1.2006 (Swansea)
 
 #ifndef IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
-
 #define IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
 
 #include <Transitional/GeneralInputOutput/IOStreamSinks.hpp>

@@ -1,7 +1,6 @@
 // Oliver Kullmann, 19.1.2006 (Swansea)
 
 #ifndef MULTIPLEXERTESTOBJECTS_5RReeW
-
 #define MULTIPLEXERTESTOBJECTS_5RReeW
 
 #include <Transitional/GeneralInputOutput/Multiplexer.hpp>

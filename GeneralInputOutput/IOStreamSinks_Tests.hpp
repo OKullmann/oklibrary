@@ -1,12 +1,11 @@
 // Oliver Kullmann, 8.1.2006 (Swansea)
 
 /*!
-  \file IOStreamSinks_Tests.hpp
+  \file GeneralInputOutput/IOStreamSinks_Tests.hpp
   \brief Testing the output devices
 */
 
 #ifndef IOSTREAMSINKSTESTS_uuYT54
-
 #define IOSTREAMSINKSTESTS_uuYT54
 
 #include <limits>

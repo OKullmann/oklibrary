@@ -1,13 +1,12 @@
 // Matthew Henderson, 4.9.2005 (Swansea)
 
 /*!
-  \file RecursiveDirectoryIteration.hpp
+  \file GeneralInputOutput/RecursiveDirectoryIteration.hpp
   \brief Recursive iteration over the files and subdirectories 
   contained within a filesystem directory.
 */
 
 #ifndef RECURSIVEDIRECTORYITERATION_938ypbn3
-
 #define RECURSIVEDIRECTORYITERATION_938ypbn3
 
 #include <iostream>

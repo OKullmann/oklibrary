@@ -1,13 +1,12 @@
 // Oliver Kullmann, 19.1.2006 (Swansea)
 
 /*!
-  \file Multiplexer.hpp
+  \file GeneralInputOutput/Multiplexer.hpp
   \brief Components for gathering and distributing input and output from and to different streams
   \todo Complete the documentation.
 */
 
 #ifndef MULTIPLEXER_8UyT5R4
-
 #define MULTIPLEXER_8UyT5R4
 
 #include <string>

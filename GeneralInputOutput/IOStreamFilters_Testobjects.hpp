@@ -1,7 +1,6 @@
 // Oliver Kullmann, 10.10.2005 (Swansea)
 
 #ifndef IOSTREAMFILTERSTESTOBJECTS_gGVVc5
-
 #define IOSTREAMFILTERSTESTOBJECTS_gGVVc5
 
 #include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>

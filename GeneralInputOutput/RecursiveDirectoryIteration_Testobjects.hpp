@@ -1,5 +1,4 @@
 #ifndef RECURSIVEDIRECTORYITERATIONTESTOBJECTS_w34iwa
-
 #define RECURSIVEDIRECTORYITERATIONTESTOBJECTS_w34iwa
 
 #include <Transitional/GeneralInputOutput/RecursiveDirectoryIteration.hpp>

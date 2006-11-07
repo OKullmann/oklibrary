@@ -1,12 +1,11 @@
 // Oliver Kullmann, 8.1.2006 (Swansea)
 
 /*!
-  \file IOStreamSinks.hpp
+  \file GeneralInputOutput/IOStreamSinks.hpp
   \brief Output devices according to the Boost Iostream library
 */
 
 #ifndef IOSTREAMSINKS_iJZZw3
-
 #define IOSTREAMSINKS_iJZZw3
 
 #include <boost/iostreams/device/null.hpp>

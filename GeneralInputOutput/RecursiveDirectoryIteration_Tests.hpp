@@ -1,10 +1,9 @@
 /*!
-  \file RecursiveDirectoryIteration_Tests.hpp
+  \file GeneralInputOutput/RecursiveDirectoryIteration_Tests.hpp
   \brief Tests for recursive directory iteration.
 */
 
 #ifndef RECURSIVEDIRECTORYITERATIONTESTS_oui453
-
 #define RECURSIVEDIRECTORYITERATIONTESTS_oui453
 
 #include <iostream>

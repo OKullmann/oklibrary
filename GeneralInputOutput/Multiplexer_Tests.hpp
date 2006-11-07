@@ -1,12 +1,11 @@
 // Oliver Kullmann, 19.1.2006 (Swansea)
 
 /*!
-  \file Multiplexer_Tests.hpp
+  \file GeneralInputOutput/Multiplexer_Tests.hpp
   \brief Testing of components for gathering and distributing input and output from and to different streams
 */
 
 #ifndef MULTIPLEXERTESTS_oKnCd2
-
 #define MULTIPLEXERTESTS_oKnCd2
 
 #include <set>
