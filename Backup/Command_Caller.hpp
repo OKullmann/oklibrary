@@ -1,5 +1,4 @@
 #ifndef COMMAND_CALLER_BACKUP_JHnytfa82aslkj
-
 #define COMMAND_CALLER_BACKUP_JHnytfa82aslkj 
 
 #include <string>
