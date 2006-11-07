@@ -1,8 +1,11 @@
 // Oliver Kullmann, 1.11.2005 (Swansea)
 
 /*!
-  \file Algebra_Applications_RSA.cpp
+  \file General/Algebra_Applications_RSA.cpp
   \brief Used for CS-232.
+
+  \todo Use messages.
+  \todo Complete input checking.
 */
 
 #include <iostream>
@@ -20,7 +23,7 @@
 int main(const int argc, const char* const argv[]) {
 
   if (argc != 4) {
-    std::cerr << "Exactly three integer arguments are needed (p, q, e).\n";
+    std::cerr << "Exactly three integer arguments are needed (p, q, e).\nHere p, q are different prime numbers and e is invertible modulo phi(p * q).\nThen you can enter pairs like \"e 55\" (for encrypting the plain text 55),\n and \"d 87\" (for decrypting the cipher text 87).\n";
     return EXIT_FAILURE;
   }
 
