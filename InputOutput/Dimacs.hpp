@@ -1,14 +1,9 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \namespace OKlib::InputOutput
-  \brief Input and output of clause-sets and related things (but not
-  general input/output facilities).
-*/
-
-/*!
-  \file Dimacs.hpp
+  \file InputOutput/Dimacs.hpp
   \brief Tools for the input and output of cnf's in DIMACS format.
+
   \todo What about writing a generic DIMACS parser, starting with
   ::OKlib::DPv::ParserLiteral and ::OKlib::DPv::DimacsParser
   (located in Input_output.hpp in module DPv).
@@ -21,12 +16,13 @@
      where n as usual is the variable (number), while v in {0, ..., k-1}.
    - if k=2, then also "+n", "-n" and "n" are literals (so that ordinary Dimacs
      inputs are accepted).
+
   \todo Write higher level modules like ReadClauseCollection<DimacsParser, ClauseCollection> and WriteClauseCollection<ClauseCollection, DimacsWriter> (likely this should go into a separate file).
+
 */
 
 
 #ifndef DIMACS_jahsjdjd010
-
 #define DIMACS_jahsjdjd010
 
 #include <istream>

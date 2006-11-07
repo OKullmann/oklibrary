@@ -1,8 +1,9 @@
 // Oliver Kullmann, 14.10.2005 (Swansea)
 
 /*!
-  \file ClauseSetAdaptors.hpp
+  \file InputOutput/ClauseSetAdaptors.hpp
   \brief Adaptors to transfer clause-sets into some data structure.
+
   \todo Write concept for CLSAdaptor:
    - CLSAdaptor::int_type (default = int)
    - CLSAdaptor::string_type (default = std::string)
@@ -12,12 +13,14 @@
    - adaptor.finish()
    - adaptor.tautological_clause(int_type number_literal_occurrences)
    - template <class ForwardRange> CLSAdaptor::clause(const Range& clause, int_type total_original_number_literal_occurrences).
+
   \todo Write concepts for Statistics class.
+
   \todo Write RawDimacsCLSAdaptor.
+
 */
 
 #ifndef CLAUSESETADAPTORS_UjXSW3
-
 #define CLAUSESETADAPTORS_UjXSW3
 
 #include <string>

@@ -1,12 +1,11 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \file Dimacs_Tests.hpp
+  \file InputOutput/Dimacs_Tests.hpp
   \brief Tests for tools concerning DIMACS input and output
 */
 
 #ifndef DIMACSTESTS_0jbmnr
-
 #define DIMACSTESTS_0jbmnr
 
 #include <sstream>

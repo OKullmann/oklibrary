@@ -1,16 +1,18 @@
 // Oliver Kullmann, 14.10.2005 (Swansea)
 
 /*!
-  \file Exceptions.hpp
+  \file InputOutput/Exceptions.hpp
   \brief Exception classes (and related tools) for input and output of generalised satisfiability problems
+
   \todo Likely there should be an exception base class for the whole library.
+
   \todo A general standard for the messages of the exceptions is needed.
    - The Messages module should be used.
    - There should be a "full verbosity" level where amongst others the full description of the scope of the throwing location (like "OKlib::InputOutput::ClassX::functionf(int, Y&)") is given, while for "normal users" only the (simplified) text is shown.
+
 */
 
 #ifndef EXCEPTIONS_610mnX
-
 #define EXCEPTIONS_610mnX
 
 #include <stdexcept>
