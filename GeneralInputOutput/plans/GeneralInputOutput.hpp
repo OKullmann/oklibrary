@@ -12,6 +12,10 @@
   Multiplexer :
   RecursiveDirectoryIteration :
 
+  \todo Perhaps the module name "GeneralInputOutput" is not really
+  adequate ? At least doxygen has problem with it in connection with
+  "InputOutput" (same suffix).
+
   \todo New tests
   Transfer the tests to the new test system
 */
