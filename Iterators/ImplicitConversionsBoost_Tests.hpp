@@ -1,12 +1,11 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
 
 /*!
-  \file ImplicitConversionsBoost_Tests.hpp
+  \file Iterators/ImplicitConversionsBoost_Tests.hpp
   \brief Tests for the extensions of boost iterators by implicit conversions
 */
 
 #ifndef IMPLICITCONVERSIONSBOOSTTESTS_jnnznml5
-
 #define IMPLICITCONVERSIONSBOOSTTESTS_jnnznml5
 
 #include <vector>

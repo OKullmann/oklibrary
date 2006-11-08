@@ -1,13 +1,12 @@
 // Oliver Kullmann, 6.11.2004 (Swansea)
 
 /*!
-  \file NumberTheory_Models.hpp
+  \file General/NumberTheory_Models.hpp
   \brief Deprecated (to be replaced). Contains functors performing the Euclidian algorithm,
   and a brute-force computation of Euler's phi-function.
 */
 
 #ifndef NUMBERTHEORYMODELS_66hdhsb2
-
 #define NUMBERTHEORYMODELS_66hdhsb2
 
 #include <functional>

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 15.5.2005
 
 /*!
-  \file Iterators.hpp
+  \file Concepts/Iterators.hpp
   \brief Concepts for iterators extending the concepts from the standard.
 
   All concepts here are (as usual) derived from BasicRequirements.
@@ -11,7 +11,6 @@
 */
 
 #ifndef ITERATORS_jnNzWz31
-
 #define ITERATORS_jnNzWz31
 
 #include <boost/concept_check.hpp>

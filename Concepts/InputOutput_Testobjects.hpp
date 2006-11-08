@@ -1,7 +1,6 @@
 // Oliver Kullmann, 30.12.2005 (Swansea)
 
 #ifndef INPUTOUTPUTTESTOBJECTS_9Y6Tr4
-
 #define INPUTOUTPUTTESTOBJECTS_9Y6Tr4
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

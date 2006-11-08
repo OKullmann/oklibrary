@@ -1,7 +1,6 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
 
 #ifndef IMPLICITCONVERSIONSBOOSTTESTOBJECTS_99855rT
-
 #define IMPLICITCONVERSIONSBOOSTTESTOBJECTS_99855rT
 
 #include <Transitional/Iterators/ImplicitConversionsBoost.hpp>

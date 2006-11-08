@@ -1,12 +1,11 @@
 // Oliver Kullmann, 23.12.2005 (Swansea)
 
 /*!
-  \file InputOutput.hpp
+  \file Concepts/InputOutput.hpp
   \brief Concepts concerning general input and output.
 */
 
 #ifndef INPUTOUTPUT_88uUHhbg
-
 #define INPUTOUTPUT_88uUHhbg
 
 #include <ostream>
