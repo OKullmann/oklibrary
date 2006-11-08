@@ -1,12 +1,11 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 /*!
-  \file Numerical_Tests.hpp
+  \file MetaProgramming/Numerical_Tests.hpp
   \brief Tests for numerical metafunctions
 */
 
 #ifndef NUMERICALTESTS_98862819jjGf
-
 #define NUMERICALTESTS_98862819jjGf
 
 #include <boost/static_assert.hpp>

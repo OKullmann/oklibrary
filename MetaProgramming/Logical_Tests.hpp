@@ -1,7 +1,6 @@
 // Oliver Kullmann, 26.5.2005 (Swansea)
 
 #ifndef LOGICALTESTS_kJhBv5
-
 #define LOGICALTESTS_kJhBv5
 
 #include <boost/static_assert.hpp>

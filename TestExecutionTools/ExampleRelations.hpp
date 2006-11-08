@@ -1,12 +1,11 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 /*!
-  \file ExampleRelations.hpp
+  \file TestExecutionTools/ExampleRelations.hpp
   \brief Examples for binary predicates.
 */
 
 #ifndef EXAMPLERELATIONS_jjHg56
-
 #define EXAMPLERELATIONS_jjHg56
 
 #include <functional>

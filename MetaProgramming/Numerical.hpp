@@ -1,14 +1,14 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 /*!
-  \file Numerical.hpp
+  \file MetaProgramming/Numerical.hpp
   \brief Numerical metafunctions
+
   \todo Write Factorial.
   \todo What about the generalisations discussed for Power?
 */
 
 #ifndef NUMERICAL_iiJJhy6T
-
 #define NUMERICAL_iiJJhy6T
 
 #include <boost/mpl/long.hpp>

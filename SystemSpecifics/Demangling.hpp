@@ -1,14 +1,13 @@
 // Oliver Kullmann, 18.2.2006 (Swansea)
 
 /*!
-  \file Demangling.hpp
+  \file SystemSpecifics/Demangling.hpp
   \brief Translating type names in a readable form
 
   Users need to link with -liberty.
 */
 
 #ifndef DEMANGLING_uHHalal0
-
 #define DEMANGLING_uHHalal0
 
 #include <functional>

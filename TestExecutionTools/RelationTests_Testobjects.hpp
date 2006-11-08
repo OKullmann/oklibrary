@@ -1,7 +1,6 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 #ifndef RELATIONTESTSTESTOBJECTS_99iu5
-
 #define RELATIONTESTSTESTOBJECTS_99iu5
 
 #include <Transitional/TestExecutionTools/RelationTests.hpp>

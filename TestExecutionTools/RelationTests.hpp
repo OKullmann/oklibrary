@@ -1,8 +1,9 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 /*!
-  \file RelationTests.hpp
+  \file TestExecutionTools/RelationTests.hpp
   \brief Tests for relations, like symmetry and transitivity.
+
   \todo Implement (similar to TestReflexivity) tests for:
    - partial order (quasi-order, antisymmetric)
    - linear order (partial order, total)
@@ -29,7 +30,6 @@
 */
 
 #ifndef RELATIONTESTS_zmzmznVb6
-
 #define RELATIONTESTS_zmzmznVb6
 
 #include <boost/range/begin.hpp>

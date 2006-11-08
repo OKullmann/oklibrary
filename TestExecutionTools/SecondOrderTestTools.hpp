@@ -1,13 +1,13 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
 
 /*!
-  \file SecondOrderTestTools.hpp
+  \file TestExecutionTools/SecondOrderTestTools.hpp
   \brief Tools for testing the test system
+
   \todo With C++09 stdint.h likely is to be replaced by cstdint.
 */
 
 #ifndef SECONDORDERTESTTOOLS_7yyhHbg
-
 #define SECONDORDERTESTTOOLS_7yyhHbg
 
 #include <string>

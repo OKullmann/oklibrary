@@ -1,13 +1,13 @@
 // Oliver Kullmann, 26.5.2005 (Swansea)
 
 /*!
-  \file Logical.hpp
+  \file MetaProgramming/Logical.hpp
   \brief Logical metafunctions, and some macros for defining metafunctions.
+
   \todo Likely the macros are superfluous, and should be removed.
 */
 
 #ifndef LOGICAL_84846ty
-
 #define LOGICAL_84846ty
 
 #include <boost/mpl/bool.hpp>

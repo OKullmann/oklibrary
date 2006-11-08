@@ -1,12 +1,12 @@
 // Oliver Kullmann, 26.5.2005 (Swansea)
 
 /*!
-  \file Logical_Testobjects.hpp
+  \file MetaProgramming/Logical_Testobjects.hpp
+
   \todo Likely the special namespace Metafunction_tests should be eliminated.
 */
 
 #ifndef LOGICALTESTOBJECTS_847ncVb
-
 #define LOGICALTESTOBJECTS_847ncVb
 
 #include <Transitional/MetaProgramming/Logical.hpp>

@@ -1,12 +1,11 @@
 // Oliver Kullmann, 24.12.2005 (Swansea)
 
 /*!
-  \file TestAlgorithms.hpp
+  \file TestExecutionTools/TestAlgorithms.hpp
   \brief Algorithms for performing (systematic) tests.
 */
 
 #ifndef TESTALGORITHMS_uuTTr4
-
 #define TESTALGORITHMS_uuTTr4
 
 #include <boost/range/begin.hpp>

@@ -31,6 +31,7 @@ namespace OKlib {
         below is a reasonable compromise. (But the best thing would be if the format string
         could be determined, and then one would simply replace the abbreviated forms by
         their full forms, and potentially add something.)
+
       */
 
       OKLIB_MESSAGES(TimeDateStandardImplementation) {

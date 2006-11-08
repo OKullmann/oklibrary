@@ -1,14 +1,14 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 /*!
-  \file RelationTests_Tests.hpp
+  \file TestExecutionTools/RelationTests_Tests.hpp
   \brief Tests for  the tests on relations regarding properties like symmetry and transitivity.
+
   \todo TestQuasiorder should use Test_TestEquivalence which in turn uses
   Test_TestReflexivity !
 */
 
 #ifndef RELATIONTESTSTESTS_j5rfvp0
-
 #define RELATIONTESTSTESTS_j5rfvp0
 
 #include <functional>

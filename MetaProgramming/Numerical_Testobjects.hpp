@@ -1,7 +1,6 @@
 // Oliver Kullmann, 27.12.2005 (Swansea)
 
 #ifndef NUMERICALTESTOBJECTS_uHnBfqpq
-
 #define NUMERICALTESTOBJECTS_uHnBfqpq
 
 #include <Transitional/MetaProgramming/Numerical.hpp>

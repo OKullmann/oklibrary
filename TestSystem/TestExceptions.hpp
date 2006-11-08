@@ -1,16 +1,16 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
 /*!
-  \file TestExceptions.hpp
+  \file TestSystem/TestExceptions.hpp
   \brief Contains the exception classes to be used in test classes to indicate failure,
   and macros for throwing these exception in standard test situation.
   DEPRECATED.
+
   \todo Compare the macros with the macros in Aeryn (and perhaps other test
   libraries, for example Boost.test), and overhaul them.
 */
 
 #ifndef TESTEXCEPTIONS_QwAq190
-
 #define TESTEXCEPTIONS_QwAq190
 
 #include <stdexcept>

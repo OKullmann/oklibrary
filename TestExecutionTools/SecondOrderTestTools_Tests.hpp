@@ -1,12 +1,11 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
 
 /*!
-  \file SecondOrderTestTools_Tests.hpp
+  \file TestExecutionTools/SecondOrderTestTools_Tests.hpp
   \brief Tests for the tools for testing the test system
 */
 
 #ifndef SECONDORDERTESTTOOLSTESTS_vzvzlLKj8
-
 #define SECONDORDERTESTTOOLSTESTS_vzvzlLKj8
 
 #include <stdint.h>
