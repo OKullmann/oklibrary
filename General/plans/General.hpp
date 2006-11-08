@@ -13,5 +13,31 @@
   This might take a while (for the whole module),
   and an intermediate step is to update the tests to the new
   test system.
+
+  \todo Update
+  First we should create plans-files for all the existing submodules:
+
+   - Algebra :
+   - Algorithms :
+   - AutomatedCompilation :
+   - CgiHandling :
+   - Combinatoris :
+   - DatabaseHandler01 :
+   - EndlAuto :
+   - ErrorHandling :
+   - Function Handling :
+   - IteratorHandling :
+   - Kommandozeile :
+   - Matrices :
+   - MessageHandling :
+   - NumberTheory :
+   - NumericalLimits :
+   - Numerics :
+   - StreamHandling :
+   - StringHandling :
+   - SystemHandling :
+   - TimeHandling :
+   - XMLHandling :
+   - XercesTools : 
 */
 
