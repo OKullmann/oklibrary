@@ -10,15 +10,14 @@ endif
 
 Mhash_include := -I$(Mhash)/include
 
-General_options := 
+General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-test_program := TestKryptologie
+test_program :=
 
 programs := HashMD5
 
 source_libraries = $(Mhash_include)
 
 link_libraries := -L$(Mhash)/lib -lmhash
-
 
