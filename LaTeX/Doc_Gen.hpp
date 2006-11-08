@@ -1,5 +1,5 @@
 /*!
-  \file Doc_Gen.hpp
+  \file LaTeX/Doc_Gen.hpp
   \brief Created by TB for the purpose of writing the latex-files for the departmental timetable.
 */
 

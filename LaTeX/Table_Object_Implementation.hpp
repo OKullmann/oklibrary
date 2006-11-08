@@ -6,7 +6,6 @@
 //Version: 0.2.018
 
 #ifndef Table_Object_huuasd787y314j
-
 #define Table_Object_huuasd787y314j
 
 #include <fstream>
