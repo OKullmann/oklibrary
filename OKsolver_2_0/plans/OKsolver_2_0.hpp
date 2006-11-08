@@ -27,6 +27,15 @@
   \todo It would be good if instead of just using r_2 we could plug in other (stronger) forms
   (like r_3 or r_2 with local learning).
 
+  \todo Regarding equivalence reasoning, the minimum is the detection of (a or b) and (not a or not b),
+  with subsequent replacement of not a by b (or not b by a --- just go for the smaller substitution
+  effort). Since "equivalence reasoning" is "equality reasoning", in general we obtain equalities between
+  literals, which are "performed" by substitution. For (clause) learning purposes these substitution can 
+  be ignored, while for the reconstruction of satisfying assignments bookkeeping is necessary (as well as
+  for determining the set of variables used in the resolution refutation under construction). And also when trying
+  to push autarkies found to higher levels in the search tree, the substitutions applied have to be
+  considered (the autarkies have to be extended by the substituted variables).
+
   \todo For the right-most branch in the search tree we can apply partial assignment "destructively"
   (irreversible). Potentially the memory savings (if returned to the pool) are considerable.
   \todo This brings up the question of memory management: The Boost Pool library must be
