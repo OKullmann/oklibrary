@@ -4,6 +4,9 @@
   \file Messages/Utilities/plans/Utilities.hpp
   \brief General plans for the Messages/Utilities module.
 
+  \todo It seems that doxygen cannot handle class-documentation, when the class is defined
+  by a macro as for example with Messages::Utilities::TimeDateStandardImplementation??
+
   \todo SimpleMessage:
   Create a SimpleMessage class (for quick creation of message objects out of strings):
     - SimpleMessage(mstring) creates a message object with mstring the message in the default
@@ -25,7 +28,7 @@
   classes (and macros) for file-identification purposes:
    - Per file we have __DATE__ (compilation date), __FILE__ (file name),
      __TIME__ (C) (compilation time), and
-     $Date: 2006/09/11 13:36:29 $ (last change date), $Revision: 1.5 $ (current
+     $Date: 2006/11/08 13:41:38 $ (last change date), $Revision: 1.6 $ (current
      revision number) (CVS).
    - For programs we also have the version, the author, name of program etc.
 
