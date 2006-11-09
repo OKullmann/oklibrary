@@ -50,3 +50,10 @@ postgresql_recommended := postgresql-8.0.3
 valgrind_targets := valgrind-3.2.0 valgrind-3.2.1
 valgrind_recommended := valgrind-3.2.1
 
+# ################################
+# UBCSAT Versions
+# ###############################
+
+ubcsat_targets := ubcsat-1-0-0
+ubcsat_recommended := ubcsat-1-0-0
+

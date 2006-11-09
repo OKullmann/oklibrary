@@ -61,6 +61,7 @@ include $(OKBuildsystem)/ExternalSources/makefile_doxygen.mak
 include $(OKBuildsystem)/ExternalSources/makefile_boost.mak
 include $(OKBuildsystem)/ExternalSources/makefile_postgresql.mak
 include $(OKBuildsystem)/ExternalSources/makefile_valgrind.mak
+include $(OKBuildsystem)/ExternalSources/makefile_ubcsat.mak
 
 # #################################
 # Cleaning
