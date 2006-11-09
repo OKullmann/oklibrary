@@ -79,6 +79,10 @@
   are left. Marijn used these levels for his locality principle (the new branching variable must
   shorten at least one clause from the previous level).
 
+  \todo Even if the local search algorithm only searches for a satisfying assignment, perhaps it's
+  still worth trying in case no satisfying assignment was found if the assignment nevertheless
+  contained an autarky (see AutarkySearch/plans/AnalyseTotalAssignment.hpp).
+
   \todo The heuristics for the branching variable is a  main open problem (while
   choosing the first branch is done like in the old OKsolver). Here likely a lot of
   experimentation is needed (starting with the heuristics from the old OKsolver).
