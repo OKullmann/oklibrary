@@ -5,11 +5,6 @@
 
   \par Current version 0.0.3 (10.9.2006)
 
-  \par Version 0.0.4 :
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
-  "First implementation for AnalyseTotalAssignment" is further expanded,
-  and (further) milestones are updated and created: DONE.
-
   \par Version 0.0.5 :
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
   "Local installation of UBCSAT" is handled.
@@ -31,7 +26,8 @@
 
   \par Version history
 
-   -  0.0.3 : 10.9.2006; initial version number (several plans).
+   - 0.0.3 : 10.9.2006; initial version number (several plans).
+   - 0.0.4 : 9.11.2006; started integrating UBCSAT. 
 
 */
 
