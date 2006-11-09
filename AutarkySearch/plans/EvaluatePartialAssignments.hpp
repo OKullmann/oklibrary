@@ -6,6 +6,9 @@
   value of how close the assignment is to an autarky for a given
   clause-set.
 
+  The main use for such evaluation is in the direct search for
+  autarkies via local search.
+
   \todo The two most basic measures are the number of critical clauses
   and the number of variables of (assigned) variables involved in critical
   clauses. Since this gives preferences to small partial assignments, one
