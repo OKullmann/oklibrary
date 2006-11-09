@@ -19,7 +19,7 @@
   then 0.1 is the actual first implementation.
 
   \par version 0.0.9
-  We have successfully used all the UBCSAT triggers and their data structures 
+  We have successfully used all the UBCSAT triggers and their data structures .
 
   \par Version 0.1 :
   We have a first implementation using the method of AnalyseTotalAssignment,
