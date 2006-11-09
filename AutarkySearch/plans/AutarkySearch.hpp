@@ -20,6 +20,11 @@
 
   \todo Local installation of UBCSAT.
 
+  \todo Successfully include and use all triggers and their data structures
+     needed from UBCSAT library in AutarkySearch
+   - These include: 
+     ReadCNF, LitOccurence, CandidateList, DefaultProcedures and Flip+FalseClauseList
+
   \todo First implementation for AnalyseTotalAssignment (for ML)
    - As a first step, analysing total assignments (and autarky reduction,
      if successful) is added to UBCSAT, without further changes.
