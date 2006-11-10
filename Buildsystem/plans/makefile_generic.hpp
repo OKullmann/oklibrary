@@ -18,12 +18,6 @@ The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSou
 
      An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Postgresql/doc/postgresql/html/index.html:
 The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Postgresql/doc/postgresql/html/index.html does not exist.
-
-   - WWW:
-
-     The link for Postgresql is wrong (this looks like a very strange side!).
-     http://www.postgresql.org/
-     is right!
   
 
   \todo Documentation (in makefile_generic.mak):
@@ -125,6 +119,14 @@ The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSou
 		 there are seperate variables for both the version number and the
                  version name. This should be changed so that the version number
 		 is only defined once.
+
+    - also it should be possible to use the system-wide versions of all
+      external resources.
+
+    DISCUSSION : (MH) Here a possible solution is to have a make variable 
+                 system_versions, say, which, if defined to have any value, 
+                 prompts the build system to use the system-wide versions of
+                 all external resources. 
 
     - general clean-up of make-variables
 
