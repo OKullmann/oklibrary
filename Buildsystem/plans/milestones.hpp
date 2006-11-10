@@ -8,9 +8,11 @@
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
-  - Overhaul of the general targets
   - Doxygen general
   - Doxygen menu
+  - Makefiles in general
+  - Documentation in general
+  - System documentation
 
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
@@ -20,14 +22,17 @@
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Make-variables for compilation and linking
+
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
+  - Overhaul of the general targets
   - Update makefile_recursive
 
   \par Version 0.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Cleaning
+
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - Testing the build system
