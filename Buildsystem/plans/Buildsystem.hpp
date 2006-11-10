@@ -68,12 +68,6 @@
      just as plain text files, without any special formatting).
  
 
-  \todo Testing the build system
-  We need some test system for the build system. Optimally, it would run like our normal test
-  system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
-  which cover all functions of the build system, and which is performed from time to time (manually).
-  Then we can partially automate it.
-
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
      OKSystem_include is defined (with "-I").
@@ -83,6 +77,13 @@
    - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
      otherwise there must be a "copy-and-paste"-comment at each place.
    - We should use (more) make-functions.
+
+
+  \todo Testing the build system
+  We need some test system for the build system. Optimally, it would run like our normal test
+  system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
+  which cover all functions of the build system, and which is performed from time to time (manually).
+  Then we can partially automate it.
 
   \todo Two modes of usage of the build system:
     - As we have it now, everything in one directory (and also with the possibility of
