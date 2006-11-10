@@ -1,12 +1,22 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
 
+
+# ===============================================================================
+# Enviroment variables
+# ===============================================================================
+#
+# CXX                   Name of the C++ compiler executable.
+# CC                    Name of the C compiler executable.
+# CXXFLAGS		Environment variable for specifying options for the C++
+#                       compiler.
+# CPPFLAGS              Environment variable for specifying options for the 
+#                       preprocessor. 
+# CFLAGS                Environment variable for specifying options for the C
+#                       compiler.
+#
 # ===============================================================================
 # Enviroment/Make build system variables
 # ===============================================================================
-
-# TEMPORARY COMMENT OK: All the variables like CXX and CXXFLAGS are missing (but they
-# are important).
-
 #
 # The most important build system parameters come as environment/Make variable
 # pairs. 
@@ -15,6 +25,7 @@
 # (OKSYSTEM,OKsystem)
 # (SYSTEMDIRECTORIES,SystemDirectories)
 # (BOOST,Boost)
+# (EXTERNALSOURCES,ExternalSources)
 #
 # In each case the default behaviour is for the build system to use the 
 # environment variable unless the Make variable is defined, in which case
@@ -23,11 +34,11 @@
 # OKPLATFORM/OKplatform
 #
 # This variable pair specifies the top level directory of the OKplatform.
-# The subdirectories "ExternalSources" and $(SystemDirectories) are created here by 
-# the build system.
+# The subdirectories "ExternalSources" and $(SystemDirectories) are created by 
+# the build system in the directory specified by the value of this variable.
 
 # TEMPORARY COMMENT OK: We should make a difference between a variable-name and
-# a value. Shouldn't we have also a variable for "ExternalSources" ?
+# a value.
 
 #
 # If both the environment variable OKPLATFORM and the Make variable OKplatform 
@@ -51,6 +62,116 @@
 # This variable pair specifies the location of the installation directory 
 # of the Boost distribution to be used by the build system for compiling the 
 # library.
+#
+# EXTERNALSOURCES/ExternalSources
+#
+# This variable pair specifies the location of the directory used by the 
+# build system to build local versions of the main software required for
+# the OKlibrary.
+
+# ===============================================================================
+# User variables: 
+# ===============================================================================
+#
+# User variables are intended for use by the user, typically to specify options.
+# system_versions	If defined (with any non-empty value) then the build
+#			system will use the system versions of gcc and boost
+#			rather than the recommended local versions.
+# 
+#
+# Variables for doxygen
+# ---------------------
+# doxygen-parameters    For doxygen parameters.
+#
+
+# COMMENT OK: We also have a variable to use valgrind with the tests --- this belongs also to here, and furthermore
+# the respective documentation seems to have gone lost?
+
+# ===============================================================================
+# System variables (can be optionally redefined) : 
+# ===============================================================================
+# 
+# System variable are mostly for internal use of the build system, but can be 
+# redefined by the user with suitable precaution. It is expected in most
+# cases that there is no need to redefine any of the values of these variables
+# and any redefinition needs to be thoroughly thought through.
+#
+# gcc_version_number            Can be defined to specify the version number
+#                               of a locally installed GCC to be used by the
+#                               build system instead of the system compiler. By
+#                               default, has the value of the recommended version
+#                               of gcc.
+# boost_version_number          Can be defined to specify the version number
+#                               of a locally installed Boost to be used by the
+#                               build system instead of the system Boost. By
+#                               default, has the value of the recommended version
+#                               of boost.
+#
+# bin_dir               Directory for placement of non-test executables
+# lib_dir               Directory for placement of object files and link 
+#                       libraries
+# aux_dir               Directory for placement of doxygen error messages log. 
+#                       Contains subdirectories dependencies, latex and tests.
+# latex_dir             Directory for placement of latex aux files.
+# dependencies_dir      Directory for placement of dependency files.
+# doc_dir               Directory containing subdirectories dvi and html.
+# html_dir              Directory for placement of doxygen documentation.
+# test-bin_dir          Directory for placement of all test executables.
+# test-lib_dir          Directory for placement of module test object files.
+# test-aux_dir           Directory for placement of module test Error, Log, 
+#                       Message and test timestamp files.
+#
+# Variables for doxygen
+# ---------------------
+# Doxygen_modifier      Modifier to doxygen command, for example to redirect 
+#                       output to a log file.
+# doxy_file             Location of Doxygen config file.
+#
+#
+# General_options       Defined in makefile_definitions.mak for each module.
+#                       Passed to the compiler for each module program.
+# Optimisation_options  Defined in makefile_definitions.mak for each module.
+#                       Passed to the compiler for each module program. Also
+#                       used as the addition to the name of executables.
+# source_libraries      Defined in makefile_definitions.mak for each module
+#                       and extended by makefile_generic.mak. Passed to the
+#                       compiler for each module program. Intended to contain
+#                       a list of directories (each preceeded with -I) for the
+#                       compiler to search for header files.
+# link_libraries        Defined in makefile_definitions.mak for each module.
+#                       Passed to the compiler for each module program.
+#                       Intended to contain a list, where each element of the
+#                       list has the form "-LX -lY", where X is a path to a
+#                       directory for the compiler to search for link libraries
+#                       and Y is the name of some link library.
+# name_addition         A string to be added to the name of each program.
+#
+# Standard_options      Defined in makefile_generic.mak. Passed to the 
+#                       compiler for every program.
+# Warning_options       Defined in makefile_generic.mak. Passed to the 
+#                       compiler for every program.
+
+# COMMENT OK: For Standard_options, Warning_options and the like we also need the
+# default values in the documentation. These two variables behave different than the other
+# variables above.
+
+# TEMPORARY COMMENT OK: The *meaning* of the variables like "Standard_options" and so
+# on is most important! You tell only some formalities. 
+# Also, when reflecting about the meaning the basic step for
+# a rational reorganisation is done!
+
+# Compile_tool          A command to prefix each call of the compiler. So, for
+#                       example to use the time program to time the execution
+#                       of the compiler.
+# Link_tool             A command to prefix each call of the linker. So, for
+#                       example to use the time program to time the execution
+#                       of the linker.
+# Test_tool             A command to prefix each call of a test program. So, for
+#                       example to use the time program to time the execution
+#                       of the test program.
+#
+# COMMENT OK: Wasn't there a comment on valgrind (important!) ???
+# (valgrind --quiet ...)
 #
 # ===============================================================================
 # Targets
@@ -103,18 +224,6 @@
 # cleandep                      Remove all dependency files.
 # cleanprograms                 Remove all applications and test programs.
 #
-# ===============================================================================
-# User variables: 
-# ===============================================================================
-#
-# Variables for doxygen
-# ---------------------
-# doxygen-parameters    For doxygen parameters.
-#
-
-# COMMENT OK: We also have a variable to use valgrind with the tests --- this belongs also to here, and furthermore
-# the respective documentation seems to have gone lost?
-
 # #############################################################
 
 SHELL = /bin/sh
@@ -142,6 +251,14 @@ ifndef OKplatform
   endif
 endif
 
+ifndef ExternalSources
+  ifdef EXTERNALSOURCES
+    ExternalSources := $(EXTERNALSOURCES)
+  else
+    ExternalSources := $(OKplatform)/ExternalSources
+  endif
+endif
+
 ifndef OKsystem
   ifdef OKSYSTEM
     OKsystem := $(OKSYSTEM)
@@ -154,9 +271,13 @@ OKsystem_include := -I$(OKsystem)
 
 OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
 
+include $(OKBuildsystem)/external_sources_versions.mak
+
 ifndef Boost
   ifdef BOOST
     Boost = -I$(BOOST)
+  else
+    Boost = -I/usr/local/boost-1_33_1
   endif
 endif
 
@@ -178,33 +299,29 @@ include $(srcdir)/makefile.definitions.mak
 
 source_libraries += $(OKsystem_include)
 
-prefix := $(OKplatform)
-
 ifndef SystemDirectories
   ifdef SYSTEMDIRECTORIES
-    SystemDirectories := $(SYSTEMDIRECTORIES)
+    system_directories := $(SYSTEMDIRECTORIES)
   else
-    SystemDirectories := $(prefix)/system_directories
+    system_directories := $(OKplatform)/system_directories
   endif
 endif
 
-system_directories := $(SystemDirectories)
-
-bindir := $(system_directories)/bin
-libdir := $(system_directories)/lib
-
+bin_dir := $(system_directories)/bin
+lib_dir := $(system_directories)/lib
+doc_dir := $(system_directories)/doc
 aux_dir := $(system_directories)/aux
+
 latex_dir := $(aux_dir)/latex
 dependencies_dir := $(aux_dir)/dependencies
 
-doc_dir := $(system_directories)/doc
 html_dir := $(doc_dir)/html
 
-test-bindir := $(bindir)/tests
-test-libdir := $(libdir)/tests/$(module-name)
-test-auxdir := $(aux_dir)/tests/$(module-name)
+test-bin_dir := $(bin_dir)/tests
+test-lib_dir := $(lib_dir)/tests/$(module-name)
+test-aux_dir := $(aux_dir)/tests/$(module-name)
 
-directories := $(bindir) $(libdir) $(aux_dir) $(latex_dir) $(dependencies_dir) $(doc_dir) $(html_dir) $(test-bindir) $(test-libdir) $(test-auxdir)
+directories := $(bin_dir) $(lib_dir) $(aux_dir) $(latex_dir) $(dependencies_dir) $(doc_dir) $(html_dir) $(test-bin_dir) $(test-lib_dir) $(test-aux_dir)
 
 doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
@@ -212,16 +329,16 @@ Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
 # --------------------------------------------------
 
 ifneq ($(programs),)
-  programs := $(addprefix $(bindir)/, $(programs))
+  programs := $(addprefix $(bin_dir)/, $(programs))
 endif
 
 ifneq ($(test_program),) # old test-system needed
-  test_program := $(addprefix $(bindir)/, $(test_program))
+  test_program := $(addprefix $(bin_dir)/, $(test_program))
   programs += $(test_program)
 endif
 
-new_test_program := $(test-bindir)/$(module-name)
-standard_test_program_object_file := $(libdir)/TestProgram_DesignStudy.o
+new_test_program := $(test-bin_dir)/$(module-name)
+standard_test_program_object_file := $(lib_dir)/TestProgram_DesignStudy.o
 
 testobjects-dir := $(srcdir)/testobjects
 
@@ -233,7 +350,7 @@ All_options := $(General_options) $(Optimisation_options)
 programs_optimised := $(programs:=$(name_addition))
 
 new_test_program_optimised := $(new_test_program)$(name_addition)
-standard_test_program_object_file_optimised := $(libdir)/TestProgram_DesignStudy$(name_addition).o
+standard_test_program_object_file_optimised := $(lib_dir)/TestProgram_DesignStudy$(name_addition).o
 
 compilation_units_cpp := $(wildcard $(srcdir)/*.cpp)
 compilation_units_cpp := $(notdir $(compilation_units_cpp))
@@ -250,27 +367,27 @@ dependency_files := $(dependency_files_cpp) $(dependency_files_c)
 
 test_dependency_files := $(notdir $(test_compilation_units))
 test_dependency_files := $(test_dependency_files:.cpp=.d)
-test_dependency_files := $(addprefix $(test-auxdir)/, $(test_dependency_files))
+test_dependency_files := $(addprefix $(test-aux_dir)/, $(test_dependency_files))
 dependency_files := $(dependency_files) $(test_dependency_files)
 
 object_files_cpp := $(compilation_units_cpp:.cpp=.o) 
-object_files_cpp := $(addprefix $(libdir)/, $(object_files_cpp))
+object_files_cpp := $(addprefix $(lib_dir)/, $(object_files_cpp))
 object_files_c := $(compilation_units_c:.c=.o)
-object_files_c := $(addprefix $(libdir)/, $(object_files_c))
+object_files_c := $(addprefix $(lib_dir)/, $(object_files_c))
 object_files := $(object_files_cpp) $(object_files_c)
 object_files_cpp_optimised := $(compilation_units_cpp:.cpp=$(name_addition).o)
-object_files_cpp_optimised := $(addprefix $(libdir)/, $(object_files_cpp_optimised))
+object_files_cpp_optimised := $(addprefix $(lib_dir)/, $(object_files_cpp_optimised))
 object_files_c_optimised := $(compilation_units_c:.c=$(name_addition).o)
-object_files_c_optimised := $(addprefix $(libdir)/, $(object_files_c_optimised))
+object_files_c_optimised := $(addprefix $(lib_dir)/, $(object_files_c_optimised))
 object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimised)
 
 test_object_files := $(notdir $(test_compilation_units))
 test_object_files := $(test_object_files:.cpp=.o)
-test_object_files := $(addprefix $(test-libdir)/, $(test_object_files))
+test_object_files := $(addprefix $(test-lib_dir)/, $(test_object_files))
 
 test_object_files_optimised := $(notdir $(test_compilation_units))
 test_object_files_optimised := $(test_object_files_optimised:.cpp=$(name_addition).o)
-test_object_files_optimised := $(addprefix $(test-libdir)/, $(test_object_files_optimised))
+test_object_files_optimised := $(addprefix $(test-lib_dir)/, $(test_object_files_optimised))
 
 
 test_file := $(srcdir)/test
@@ -294,9 +411,9 @@ Test_tool := time -p
 
 test_level := basic
 
-error_file := $(test-auxdir)/Error
-message_file := $(test-auxdir)/Message
-log_file := $(test-auxdir)/Log
+error_file := $(test-aux_dir)/Error
+message_file := $(test-aux_dir)/Message
+log_file := $(test-aux_dir)/Log
 
 error_stream := "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
 message_stream := "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
@@ -314,45 +431,39 @@ test_parameters := $(test_level) $(error_stream) $(message_stream) $(log_stream)
 
 # -----------------------------------------------------------------------------------
 
-test_timestamp := $(test-auxdir)/new_test_$(test_level)
-testop_timestamp := $(test-auxdir)/new_testop_$(test_level)
+test_timestamp := $(test-aux_dir)/new_test_$(test_level)
+testop_timestamp := $(test-aux_dir)/new_testop_$(test_level)
 
 # -----------------------------------------------------------------------------------
 
-include $(OKBuildsystem)/external_sources_versions.mak
+system_versions :=
 
-alternative_gcc:= $(gcc_recommended_version_number)
-alternative_boost:= $(boost_recommended_version_number)
-# COMMENT OK: This is a kind of undocumented change: Before when not specifying
-# alternative_gcc or alternative_boost the system version was used, while now
-# the local version is used. This should be clearly documented.
-# Furthermore, since it's now default to use the local versions (which
-# is alright), there needs to be a possibility to use the system versions
-# (documented and without pain).
-# Finally the naming "alternative_" seems no longer appropriate, since these are now
-# just the gcc- and boost-versions (they are not alternatives anymore).
+ifeq ($(system_versions),)
+    gcc_version_number:= $(gcc_recommended_version_number)
+    boost_version_number:= $(boost_recommended_version_number)
+endif
 
 alternative_library_path:=
 
-ifneq ($(alternative_gcc),) # alternative gcc specified
-  CXX := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/g++
-  CC := $(prefix)/ExternalSources/Gcc/$(alternative_gcc)/bin/gcc
-  alternative_library_path:= -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib64 -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib64 -L$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Gcc/$(alternative_gcc)/lib
-  ifeq ($(alternative_boost),)
+ifneq ($(gcc_version_number),) # alternative gcc specified
+  CXX := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/g++
+  CC := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/gcc
+  alternative_library_path:= -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib
+  ifeq ($(boost_version_number),)
     ifndef Boost
       $(error Variable Boost must be defined!)
     endif
-    alternative_boost := $(patsubst -I%,%,$(Boost))
-    alternative_boost := $(patsubst %/,%,$(alternative_boost))
-    alternative_boost := $(notdir $(alternative_boost))
-    alternative_boost := $(patsubst boost-%,%,$(alternative_boost))
+    boost_version_number := $(patsubst -I%,%,$(Boost))
+    boost_version_number := $(patsubst %/,%,$(boost_version_number))
+    boost_version_number := $(notdir $(boost_version_number))
+    boost_version_number := $(patsubst boost-%,%,$(boost_version_number))
   endif
-  alternative_library_path := $(alternative_library_path) -L$(prefix)/ExternalSources/Boost/$(alternative_boost)+$(alternative_gcc)/lib -Wl,-rpath,$(prefix)/ExternalSources/Boost/$(alternative_boost)+$(alternative_gcc)/lib
-  Boost = -I$(prefix)/ExternalSources/Boost/$(alternative_boost)+$(alternative_gcc)/include/boost-$(alternative_boost)
+  alternative_library_path := $(alternative_library_path) -L$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib
+  Boost = -I$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/include/boost-$(boost_version_number)
 else # no alternative gcc specified
-  ifneq ($(alternative_boost),) # alternative boost specified
-  alternative_library_path := $(alternative_library_path) -L$(prefix)/ExternalSources/Boost/$(alternative_boost)/lib -Wl,-rpath,$(prefix)/ExternalSources/Boost/$(alternative_boost)/lib
-  Boost = -I$(prefix)/ExternalSources/Boost/$(alternative_boost)/include/boost-$(alternative_boost)
+  ifneq ($(boost_version_number),) # alternative boost specified
+  alternative_library_path := $(alternative_library_path) -L$(ExternalSources)/Boost/$(boost_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)/lib
+  Boost = -I$(ExternalSources)/Boost/$(boost_version_number)/include/boost-$(boost_version_number)
   endif
 endif
 
@@ -363,11 +474,11 @@ endif
 documentation_index_file := $(doc_dir)/index.html
 
 OKlibrary_html_documentation_index := $(doc_dir)/html/index.html
-doxygen_html_documentation_index_location := $(OKplatform)/ExternalSources/Doxygen/doxygen-$$(doxygen --version)/html/index.html
-boost_html_documentation_index_location := $(OKplatform)/ExternalSources/Boost/boost_$(alternative_boost)/index.htm
-pgsql_html_documentation_index_html := $(OKplatform)/ExternalSources/Postgresql/doc/postgresql/html/index.html
+doxygen_html_documentation_index_location := $(ExternalSources)/Doxygen/doxygen-$$(doxygen --version)/html/index.html
+boost_html_documentation_index_location := $(ExternalSources)/Boost/boost_$(boost_version_number)/index.htm
+pgsql_html_documentation_index_html := $(ExternalSources)/Postgresql/doc/postgresql/html/index.html
 
-gcc_man_page_location := $(OKplatform)/ExternalSources/Gcc/$(alternative_gcc)/man/man1/gcc.1
+gcc_man_page_location := $(ExternalSources)/Gcc/$(gcc_version_number)/man/man1/gcc.1
 
 boost_homepage_url := http://www.boost.org/
 doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
@@ -437,8 +548,7 @@ $(testop_file) : $(test_program)$(name_addition)
 	$(Test_tool) $(test_program)$(name_addition)
 	touch $(testop_file)
 
-$(test_timestamp) : $(new_test_program)
-	$(call conditional_mkdir, $(test-auxdir))
+$(test_timestamp) : $(new_test_program) | $(test-aux_dir)
 	$(Test_tool) $(new_test_program) $(test_parameters)
 	touch $(test_timestamp)
 $(testop_timestamp) : $(new_test_program_optimised)
@@ -454,30 +564,30 @@ include $(dependency_files)
 endif
 
 $(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp | $(dependencies_dir)
-	$(CXX) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+	$(CXX) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
 $(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c | $(dependencies_dir)
-	$(CC) -MM -MF $@ -MT $(libdir)/$*.o -MT $(libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+	$(CC) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
-$(test_dependency_files) : $(test-auxdir)/%.d : $(testobjects-dir)/%.cpp | $(test-auxdir)
-	$(CXX) -MM -MF $@ -MT $(test-libdir)/$*.o -MT $(test-libdir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+$(test_dependency_files) : $(test-aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(test-aux_dir)
+	$(CXX) -MM -MF $@ -MT $(test-lib_dir)/$*.o -MT $(test-lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
-$(object_files_cpp_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.cpp | $(libdir)
+$(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp | $(lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
-$(object_files_cpp) : $(libdir)/%.o : $(srcdir)/%.cpp | $(libdir)
+$(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
-$(object_files_c_optimised) : $(libdir)/%$(name_addition).o : $(srcdir)/%.c | $(libdir)
+$(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $(lib_dir)
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
 
-$(object_files_c) : $(libdir)/%.o : $(srcdir)/%.c | $(libdir)
+$(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
 
-$(test_object_files) : $(test-libdir)/%.o : $(testobjects-dir)/%.cpp | $(test-libdir)
+$(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
-$(test_object_files_optimised) : $(test-libdir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-libdir)
+$(test_object_files_optimised) : $(test-lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
 
@@ -490,16 +600,16 @@ endef
 
 export
 
-$(programs) : $(bindir)/% : $(libdir)/%.o | $(bindir)
+$(programs) : $(bin_dir)/% : $(lib_dir)/%.o | $(bin_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-link_libraries)
 
-$(programs_optimised) : $(bindir)/%$(name_addition) : $(libdir)/%$(name_addition).o | $(bindir)
+$(programs_optimised) : $(bin_dir)/%$(name_addition) : $(lib_dir)/%$(name_addition).o | $(bin_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries_optimised)
 
-$(new_test_program) : $(test-bindir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bindir) $(test-auxdir)
+$(new_test_program) : $(test-bin_dir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bin_dir) $(test-aux_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(alternative_library_path) $(get-link_libraries)
 
-$(new_test_program_optimised) : $(test-bindir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bindir) $(test-auxdir)
+$(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bin_dir) $(test-aux_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised)
 
 # --------------------------------
@@ -539,95 +649,10 @@ cleanall : clean cleanprograms
 	- rm $(error_file) $(message_file) $(log_file)
 
 # TEMPORARY COMMENT OK
-# It's quite unusual to put this at the end (most people will overlook that --- including me).
-# I propose to put the system variables also at the top (perhaps with a separation).
-# And the special variables CXX, ... belong to a place still further up.
-# You have CXX, but not CXXFLAGS ... ?
 # Regarding the placement, perhaps we should have sub-make-files for the different parts
 # (compilation, documentation, etc.) ?! Then the special documentation could go to these
 # sub-make-files.
 # Please check, whether it's still true that we can call a generic make-file from other places.
-
-# ===============================================================================
-# System variables (can be optionally redefined) : 
-# ===============================================================================
-
-# TEMPORARY COMMENT OK
-# One should say here, that any redefinition needs to be thoroughly thought through.
-
-#
-# bindir                Directory for placement of non-test executables
-# libdir                Directory for placement of object files and link 
-#                       libraries
-# aux_dir               Directory for placement of doxygen error messages log. 
-#                       Contains subdirectories dependencies, latex and tests.
-# latex_dir             Directory for placement of latex aux files.
-# dependencies_dir      Directory for placement of dependency files.
-# doc_dir               Directory containing subdirectories dvi and html.
-# html_dir              Directory for placement of doxygen documentation.
-# test-bindir           Directory for placement of all test executables.
-# test-libdir           Directory for placement of module test object files.
-# test-auxdir           Directory for placement of module test Error, Log, 
-#                       Message and test timestamp files.
-#
-# Variables for doxygen
-# ---------------------
-# Doxygen_modifier      Modifier to doxygen command, for example to redirect 
-#                       output to a log file.
-# doxy_file             Location of Doxygen config file.
-#
-# Variables for compiler & compiler options
-# -----------------------------------------
-# CXX                   Name of the C++ compiler executable.
-# CC                    Name of the C compiler executable.
-
-# COMMENT OK: CXX, CC, CXXFLAGS etc. are special, since they are independent of our build system,
-# but they are "defined" for every make-file (here and elsewhere).
-
-# General_options       Defined in makefile_definitions.mak for each module.
-#                       Passed to the compiler for each module program.
-# Optimisation_options  Defined in makefile_definitions.mak for each module.
-#                       Passed to the compiler for each module program. Also
-#                       used as the addition to the name of executables.
-# source_libraries      Defined in makefile_definitions.mak for each module
-#                       and extended by makefile_generic.mak. Passed to the
-#                       compiler for each module program. Intended to contain
-#                       a list of directories (each preceeded with -I) for the
-#                       compiler to search for header files.
-# link_libraries        Defined in makefile_definitions.mak for each module.
-#                       Passed to the compiler for each module program.
-#                       Intended to contain a list, where each element of the
-#                       list has the form "-LX -lY", where X is a path to a
-#                       directory for the compiler to search for link libraries
-#                       and Y is the name of some link library.
-# name_addition         A string to be added to the name of each program.
-#
-# Standard_options      Defined in makefile_generic.mak. Passed to the 
-#                       compiler for every program.
-# Warning_options       Defined in makefile_generic.mak. Passed to the 
-#                       compiler for every program.
-
-# COMMENT OK: For Standard_options, Warning_options and the like we also need the
-# default values in the documentation. These two variables behave different than the other
-# variables above.
-
-# TEMPORARY COMMENT OK: The *meaning* of the variables like "Standard_options" and so
-# on is most important! You tell only some formalities. 
-# Also, when reflecting about the meaning the basic step for
-# a rational reorganisation is done!
-
-# Compile_tool          A command to prefix each call of the compiler. So, for
-#                       example to use the time program to time the execution
-#                       of the compiler.
-# Link_tool             A command to prefix each call of the linker. So, for
-#                       example to use the time program to time the execution
-#                       of the linker.
-# Test_tool             A command to prefix each call of a test program. So, for
-#                       example to use the time program to time the execution
-#                       of the test program.
-
-# COMMENT OK: Wasn't there a comment on valgrind (important!) ???
-# (valgrind --quiet ...)
 
 # ===============================================================================
 # Internal variables: 
@@ -703,13 +728,8 @@ cleanall : clean cleanprograms
 #                               optimised test program for the current 
 #                               module.
 #
-# alternative_gcc               Can be defined to specify the version number
-#                               of a locally installed GCC to be used by the
-#                               build system instead of the system compiler.
-# alternative_boost             Can be defined to specify the version number
-#                               of a locally installed Boost to be used by the
-#                               build system instead of the system Boost.
-# alternative_library_path      If alternative_boost is defined then the value
+
+# alternative_library_path      If boost_version_number is defined then the value
 #                               of this variable specifies the location of the
 #                               Boost link libraries directory.
 #
