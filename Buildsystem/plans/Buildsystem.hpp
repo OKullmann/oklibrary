@@ -31,24 +31,12 @@
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
 
-   - (DONE) what is the role of prebuild? (Yet it builds the directory
-     structure --- perhaps this should be performed by each target if
-     needed (so that prebuild wouldn't be needed anymore here)?
-     What else is done by prebuild?)
-   
-  MH : I have done some experimentation with creating the directory
-  structure only when updating targets. This seems to work well and completely
-  eliminates the need for the prebuild target in makefile_generic.mak.
-  There is, however, a small issue. Do we just rely on the behaviour
-  of mkdir not to create an already existing directory or use a special
-  command to check for the existence of a directory before trying to
-  create it. There seem to be merits in both approaches.
-  OK : The most natural thing seems to just use the directory name
-  as the target of a rule.
+   - What is the role of prebuild? Still it is not eliminated --- do we need it?
 
    - "html" should be possible from any level (creating always the
    complete documentation) (this should be automatically achieved
    once makefile_recursive is eliminated).
+
 
   \todo Doxygen:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
@@ -94,9 +82,16 @@
      configuration file.
    - It appears that all .cpp-files are considered as linked together?
    - Can makefiles be incorporated?!
-   - Can we have nested lists? Numbered lists? This things perhaps should go into
+   - Can we have nested lists? Numbered lists? These things perhaps should go into
      our general documentation --- or we have some example files, which demonstrate
      our use of doxygen.
+
+
+  \todo Testing the build system
+  We need some test system for the build system. Optimally, it would run like our normal test
+  system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
+  which cover all functions of the build system, and which is performed from time to time (manually).
+  Then we can partially automate it.
 
   \todo Makefiles in general:
    - OKSystem is defined at one place, and imported at all other places. Additionally
