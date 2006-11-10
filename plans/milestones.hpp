@@ -8,10 +8,8 @@
 /*!
   \page CurrentVersions Current versions
 
-  3.3.2006
-
-  - Transitional 0.1.0 
-  - OKlibrary 0.0.1
+  - Transitional 0.1.0 (3.3.2006)
+  - OKlibrary 0.0.1 (3.3.2006)
 */
 
 /*!
@@ -22,10 +20,11 @@
   \subsection VersionTransitional011 0.1.1
   \par Buildsystem version 0.2
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.3
+  \par Messages version 0.7.2
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.2
   (see TestSystem/plans/milestones.hpp)
+  \par All modules have plans-subdirectories with milestones (OK)
 
   \subsection VersionTransitional012 0.1.2
   \par Buildsystem version 0.3
@@ -38,7 +37,6 @@
   (see Concepts/plans/milestones.hpp)
   \par ComplexitySystem version 0.1
   (see ComplexitySystem/plans/milestones.hpp)
-  \par All modules have plans-subdirectories with milestones (OK)
 
   \subsection VersionTransitional013 0.1.3
   \par Buildsystem version 0.4
