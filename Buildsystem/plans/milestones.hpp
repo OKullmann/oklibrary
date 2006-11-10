@@ -9,7 +9,8 @@
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - Overhaul of the general targets
-  - Doxygen
+  - Doxygen general
+  - Doxygen menu
 
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
