@@ -10,11 +10,6 @@ ifdef LOKI
 else
   Loki :=
 endif
-ifdef BOOST
-  Boost := -I$(BOOST)
-else
-  Boost :=
-endif
 ifdef XERCES_H
   Xerces_h := -I$(XERCES_H)
 else
@@ -29,7 +24,7 @@ endif
 General_options :=
 Optimisation_options := -O3
 
-test_program := TestGenerator
+test_program :=
 
 core_programs = OKgenerator interprete_descriptor
 
@@ -39,4 +34,3 @@ source_libraries := $(Bibliothek) $(Xerces_h) $(Loki) $(Boost)
 
 link_libraries := -lpq
 
-Root := $(wildcard ../../../../)

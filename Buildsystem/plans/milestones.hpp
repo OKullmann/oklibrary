@@ -19,11 +19,17 @@
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Make-variables for compilation and linking
+  In Buildsystem/plans/Buildsystem.hpp the following
+  topics are handled:
+  - Update makefile_recursive
 
   \par Version 0.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Cleaning
+  In Buildsystem/plans/Buildsystem.hpp the following
+  topics are handled:
+  - Testing the build system
 
   \par Version 0.2.1 :
   In Buildsystem/plans/makefile_generic.hpp the following
@@ -77,12 +83,10 @@
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - Makefiles in general
-  - Overhaul of the general targets
 
   \par Version 0.9 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
-  - Doxygen
   - Documentation in general
 
   \par Version 1.0 :
@@ -99,7 +103,7 @@
   \par Version history
 
    - 0.1   : 4.3.2006; initial version number (the build system is under work for around 2 years).
-   - 0.1.1 : 3.11.2006 (some smaller corrections and modification regarding naming issues).
+   - 0.1.1 : 3.11.2006 (some smaller corrections and modifications regarding naming issues).
 
 */
 
