@@ -1,7 +1,6 @@
 // Oliver Kullmann, 2.7.2005 (Swansea)
 
 #ifndef ORDERCONSTRUCTIONS_jdjJn6
-
 #define ORDERCONSTRUCTIONS_jdjJn6
 
 #include <functional>
