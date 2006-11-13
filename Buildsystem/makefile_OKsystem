@@ -3,6 +3,15 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
+# TEMPORARY COMMENT : The plans for the build system claim that
+# the definition of srcdir from this makefile has been eliminated.
+# Either the plans, or this makefile need to be updated.
+
+define last-element
+$(word $(words $1),$1)
+endef
+srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
+
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
@@ -27,4 +36,4 @@ include $(OKBuildsystem)/makefile_standardgoals.mak
 
 export
 
-include $(OKBuildsystem)$/makefile_recursive_noneincluded
+include $(OKBuildsystem)/makefile_recursive_noneincluded
