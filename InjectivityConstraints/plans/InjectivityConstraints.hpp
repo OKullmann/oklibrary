@@ -37,7 +37,7 @@
   additional an algorithm computing the set of all edges which are not element
   of some maximum matching.
   Given these algorithms from the module Matchings, a further question is
-  whether these algorithms can be made updatetable, so that we do not
+  whether these algorithms can be made up-datable, so that we do not
   need to recompute everything from scratch after application of some partial
   assignment (that is, after removal of some edges from the bipartite graph).
 
