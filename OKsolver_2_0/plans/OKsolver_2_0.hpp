@@ -14,6 +14,15 @@
    - the active clause-set for equivalence reasoning
      (see module Equivalences).
 
+  \todo Furthermore, the "original clause-set" is split into active clause-sets with
+   - the 2-clauses
+   - the 3-clauses
+   - the >=4-clauses.
+   The active clause-set for 2-clauses handles r_2 (and strengthening), and extracts equivalences
+   (passed to the active clause-set for equivalence reasoning).
+   The active clause-set for 3-clauses  combines all clauses with the same variable-set,
+   and extracts 2-clauses and equivalences.
+
   \todo An interesting option is to compress learned clauses further (using
   for example r_3); see module Learning : "After-burner".
 
