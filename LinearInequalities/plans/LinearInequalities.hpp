@@ -7,10 +7,14 @@
   \todo Transferring (and updating):
    OKsolver/Experimental/Transformationen/LinInequal.
 
+  \todo The relations to the module InjectivityConstraints have to
+  be investigated.
+
   \todo The relations to the module SATModuloTheory have to
   be investigated.
 
-  \todo A very basic (and important) is the constraint
+  \todo Cardinality constraints
+  A very basic (and important) form is the constraint
   "v_1 + ... + v_k <= K" (call it UPPER({v_1, ..., v_k}, K)
   for a set {v_1, ..., v_k} of boolean variables and a constant K (meaning that
   at most K of the variables v_i are true; one would assume that
