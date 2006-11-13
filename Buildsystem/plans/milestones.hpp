@@ -2,57 +2,65 @@
 
 /*!
   \file Buildsystem/plans/milestones.hpp
-
+  
   \par Current version 0.1.1 (3.11.2006)
-
+  
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
+  - (DONE) Documentation index page
+  - (DONE) Update makefile_recursive
+  - (DONE) html target
+  - Document srcdir
+  - Linking to makefile_recursive
   - Doxygen general
   - Doxygen menu
   - Makefiles in general
-  - Documentation in general
+  - Documentation (Examples and Concepts)
   - System documentation
-
+  
+  \par
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
+  - (DONE) Extracting documentation building to seperate makefile
   - Documentation
-
+  
   \par Version 0.1.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Make-variables for compilation and linking
-
+  
+  \par
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - Overhaul of the general targets
-  - Update makefile_recursive
-
+  
   \par Version 0.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Cleaning
-
+  
+  \par
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - Testing the build system
-
+  
   \par Version 0.2.1 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Test cleaning
-
+  
   \par Version 0.2.2 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Compilation
   - Linking
-
+  
   \par Version 0.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Customisation
-
+  
   \par Version 0.4 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
@@ -60,20 +68,20 @@
   - Targets
   - Tools for testing
   - Error messages of gcc should be processed
-
+  
   \par Version 0.5 :
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - Placement of makefile_generic
   - Dependency files
   - Verbosity
-
+  
   \par Version 0.6 :
   In Buildsystem/plans/makefile_ExternalSources.hpp the following
   topics are handled:
   - Gcc
   - Boost
-
+  
   \par Version 0.7 :
   In Buildsystem/plans/makefile_ExternalSources.hpp the following
   topics are handled:
