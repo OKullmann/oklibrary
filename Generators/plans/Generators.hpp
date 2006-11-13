@@ -23,7 +23,7 @@
   Directly, and as active clause-sets.
 
   \todo Generators for finding incidence structures and designs
-  Natually modelled by boolean variables I(p, b) ("I" like
+  Naturally modelled by boolean variables I(p, b) ("I" like
   "incident", "p" like "point", "b" like "block").
   Searching for example for balanced designs.
   Very simple the search for projective planes of order n:
@@ -32,8 +32,11 @@
    - for all b <> b' there is exactly one p with I(p, b) and I(p, b')
    - for all b there are two p, p' of p1,p2,p3,p4 (fixed variables!)
      with not I(p, b) and not I(p', b).
-  Modelled direct or via active clause-sets (especially that every two points
+  Modelled directly or via active clause-sets (especially that every two points
   are on one line, and every two lines intersect in one point!).
+  QUESTION OK: Where does this topic belong to? To module LatinSquares?
+  Or perhaps we should have a dedicated module on projective plans etc.?
+  Sounds reasonable, but only after we really have something to start.
 
   \todo Very interesting are also the Extended Resolution extensions of PHP
   (and potentially other classes): Seeing the performance of SAT solvers
@@ -57,8 +60,6 @@
   Challenging (but potentially very interesting) are virtual clause-sets
   for this purpose.
 
-  \todo Challenging (but potentially very interesting) is also the decryption
-  of DES (a clause-set translation is in the literature).
 */
 
 /*!
