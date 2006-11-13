@@ -97,6 +97,9 @@
   \todo MOLS(n,n) in UNSAT for all n yields unsatisfiable problems, which could also
    be interesting (at least for active clause-sets; real clause-sets get very soon very big).
 
+ \todo Compare topic "Generators for finding incidence structures and designs" in
+ Generators/plans/Generators.hpp.
+
   \todo Sudoku:
   Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2, I_2' := {1,...,n^2}.
   Variables are v_{i,j} for i, j in I_2 with domains D(v) = I_2'.
