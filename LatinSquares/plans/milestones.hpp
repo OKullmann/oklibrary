@@ -3,7 +3,10 @@
 /*!
   \file LatinSquares/plans/milestones.hpp
 
-  \par Current version 0.0.1 (8.3.2006)
+  \par Current version 0.0.2 (12.11.2006)
+
+  \par Version 0.0.3
+  Further milestones, leading to 0.1, have been created.
 
   \par Version 0.1
   In LatinSquares/plans/LatinSquares.hpp the following
@@ -37,7 +40,8 @@
 
   \par Version history
 
-   -  0.0.1 : 8.3.2006; initial version number (only plans).
+   - 0.0.1 : 8.3.2006; initial version number (only plans).
+   - 0.0.2 : 12.11.2006; plans extended.
 
 */
 
