@@ -18,3 +18,6 @@ ifeq ($(MAKELEVEL), 0)
 	$(run_all_makes_ignorant)
 endif
 	$(run_all_makes)
+
+html :
+	make -f$(OKsystem)/Transitional/Variables/makefile html
