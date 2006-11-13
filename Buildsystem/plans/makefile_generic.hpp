@@ -89,6 +89,13 @@ The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSou
                  further makefiles for definitions for the directory structure 
                  of system_directories, internal make targets, running tests, 
                  environment and system Make variables.
+
+  \todo (DONE) Extracting documentation building to seperate makefile:
+  Those parts of makefile_generic.mak which are responsible for building the
+  doxygen documentation and the main documentation index page are extracted
+  to seperate makefiles:
+    $(OKBuildsystem)/makefile_generic/makefile_documentation.mak
+    $(OKBuildsystem)/makefile_generic/makefile_documentation_index.mak
  
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
