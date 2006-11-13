@@ -9,17 +9,17 @@
 # Applications
 # ------------
 # all                           Compile unoptimised and optimised object files 
-#				and programs.
+#                               and programs.
 # unoptimised                   Compile unoptimised object files and programs.
 # optimised                     Compile optimised object files and programs.
 
 # COMMENT OK: Here we need to speak about compilation of *test*-programs!
 
-#
+#    
 # Documentation
 # -------------
 # html                          Create doxygen documentation (should be used only at module-level).
-#
+# 
 # Test system
 # -----------
 # check                         Perform unoptimised and optimised tests from old
@@ -494,9 +494,6 @@ test-aux_dir := $(aux_dir)/tests/$(module-name)
 
 directories := $(bin_dir) $(lib_dir) $(aux_dir) $(latex_dir) $(dependencies_dir) $(doc_dir) $(html_dir) $(test-bin_dir) $(test-lib_dir) $(test-aux_dir)
 
-doxygen-parameters := 
-Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
-
 # --------------------------------------------------
 
 ifneq ($(programs),)
@@ -566,7 +563,7 @@ testop_file := $(srcdir)/testop
 
 # -----------------------------------------------------------------------------------
 
-doxy_file := $(OKBuildsystem)/Doxyfile
+
 
 # -----------------------------------------------------------------------------------
 
@@ -642,46 +639,13 @@ endif
 
 # -----------------------------------------------------------------------------------
 
-documentation_index_file := $(doc_dir)/index.html
+# #######################################################
+# Documentation includes
+# #######################################################
 
-OKlibrary_html_documentation_index := $(doc_dir)/html/index.html
-doxygen_html_documentation_index_location := $(ExternalSources)/Doxygen/doxygen-$$(doxygen --version)/html/index.html
-boost_html_documentation_index_location := $(ExternalSources)/Boost/boost_$(boost_version_number)/index.htm
-pgsql_html_documentation_index_html := $(ExternalSources)/Postgresql/doc/postgresql/html/index.html
+include $(OKBuildsystem)/makefile_generic_include/documentation/makefile_documentation.mak
 
-gcc_man_page_location := $(ExternalSources)/Gcc/$(gcc_version_number)/man/man1/gcc.1
-
-boost_homepage_url := http://www.boost.org/
-doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
-gcc_homepage_url := http://gcc.gnu.org/
-pgsql_homepage_url := http://www.postgresql.org/
-mhash_homepage_url := http://mhash.sourceforge.net/
-
-boost_homepage_link := "<a href=\"$(boost_homepage_url)\">Boost</a>"
-doxygen_homepage_link := "<a href=\"$(doxygen_homepage_url)\">Doxygen</a>"
-gcc_homepage_link := "<a href=\"$(gcc_homepage_url)\">Gcc</a>"
-pgsql_homepage_link := "<a href=\"$(pgsql_homepage_url)\">Postgresql</a>"
-mhash_homepage_link := "<a href=\"$(mhash_homepage_url)\">Mhash</a>"
-
-OKlibrary_html_index_link:= "OKlibrary <a href=\"$(OKlibrary_html_documentation_index)\">(html)</a>"
-doxygen_html_index_link := "Doxygen <a href=\"$(doxygen_html_documentation_index_location)\">(html)</a>"
-boost_html_index_link := "Boost <a href=\"$(boost_html_documentation_index_location)\">(html)</a>"
-gcc_man_page_link := "Gcc <a href=\"$(gcc_man_page_location)\">(man)</a>"
-pgsql_html_index_link := "Postgresql <a href=\"$(pgsql_html_documentation_index_html)\">(html)</a>"
-
-documentation_index_head := "<title>OKlibrary Documentation</title>"
-
-local_index_list := "<h2>Local Documentation</h2> <ol> <li>"$(OKlibrary_html_index_link)" <li>"$(boost_html_index_link)" <li>"$(doxygen_html_index_link)" <li>"$(gcc_man_page_link)" <li>"$(pgsql_html_index_link)" </ol>"
-
-homepage_list := "<h2>WWW</h2><ol><li>"$(boost_homepage_link)"<li>"$(doxygen_homepage_link)"<li>"$(gcc_homepage_link)"<li>"$(pgsql_homepage_link)"<li>"$(mhash_homepage_link)"</ol>"
-
-documentation_index_body := $(local_index_list) $(homepage_list)
-
-documentation_index_html := "<html><head>"$(documentation_index_head)"</head><body>"$(documentation_index_body)"</body></html>"
-
-documentation_index : | $(doc_dir)
-	@touch $(documentation_index_file)
-	@echo $(documentation_index_html) > $(documentation_index_file)
+include $(OKBuildsystem)/makefile_generic_include/documentation/makefile_documentation_index.mak
 
 # -----------------------------------------------------------------------------------
 
@@ -689,9 +653,6 @@ all : unoptimised optimised
 
 $(directories) :
 	@mkdir -p $@
-
-html : $(html_dir) documentation_index
-	echo "Doxygen version: $$(doxygen --version)"; rm -r $(html_dir)/*; cd $(OKplatform); ( cat $(doxy_file); echo $(doxygen-parameters) "OUTPUT_DIRECTORY=$(doc_dir)" ) | doxygen - $(Doxygen_modifier)
 
 unoptimised : $(object_files) $(programs)
 

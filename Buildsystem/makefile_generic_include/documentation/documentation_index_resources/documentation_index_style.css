@@ -1,0 +1,14 @@
+BODY {color: #4A2885; background: #EBECF6;
+          font-family: SUSE Sans, sans-serif;
+          font-size: 14pt; margin: 8%; }
+H1       {color: #d0ffd0;}
+TABLE    {text-align: center; margin-left: auto; margin-right: auto;}
+TD       { color: #d0ffd0; padding: 1em}
+IMG      {  } 
+#logo { position:absolute; top:0px } 
+#local_index { position:absolute; top:175px ; }
+#local_index a{ display:list-item } 
+#homepages { position:absolute; top:175px ; left:400px }
+#homepages a{ display:list-item } 
+#vn { position:absolute; top:120px; left:500px }
+ 
