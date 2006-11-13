@@ -4,22 +4,31 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo DISCUSSION Update makefile_recursive
+  \todo (DONE) Documentation index page
+  In $(system_directories)/doc there is a index to all the OKplatform
+  documentation, including external resources. This index also contains
+  links to the web pages of Boost, Doxygen, Gcc etc
 
+  \todo (DONE) Update makefile_recursive
   OK : What is the role of variable srcdir ? Isn't the definition in makefile_recursive
   superfluous now?
   It is used in makefile_generic (so that we can call makefiles from other places,
   without a change in behaviour; we should also document this), but why the
   definition in makefile_recursive ? Can't makefile_generic define it on its own
   (respectively, shouldn't the definition in makefile_generic  suffice) ?
+
+  \todo (DONE) html target
+   - "html" should be possible from any level (creating always the
+   complete documentation) (this should be automatically achieved
+   once makefile_recursive is eliminated)
+  
+  \todo Document srcdir
   Those settings of srcdir which remain should receive some inline comments
   (these settings are quite arcane).
-  And the occurrences of makefile_recursive should be replaced by links.
-  The new target "Update makefile_recursive" should go to milestone 0.1.3.
 
+  \todo Linking to makefile_recursive
+  The occurrences of makefile_recursive should be replaced by links.
 
-  ---------------------------------------------------------------------------------------------------------------
-  
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs
 
@@ -31,12 +40,7 @@
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
 
-   - What is the role of prebuild? Still it is not eliminated --- do we need it?
-
-   - "html" should be possible from any level (creating always the
-   complete documentation) (this should be automatically achieved
-   once makefile_recursive is eliminated).
-
+   - What is the role of prebuild? Still it is not eliminated --- do we need it?.
 
   \todo Doxygen general:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
@@ -126,16 +130,11 @@
       However, best we postphone this, and first make experiences with a more extensive
       directoy structure.
    
-  \todo Documentation in general
+  \todo Documentation (Examples and Concepts)
     - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
      1. Examples : contains a mirror of the OKlibrary with (many) example applications (build by the
      build system, so that it's always up-to-date).
-     2. Concepts : contains for each module a latex-file discussing the concepts for this module.
-    - Documentation contains also the following (symbolic file) links:
-     1. to the doxygen-main-site;
-     2. to the Boost main site
-     3. to all other documentations relevant here.
-    - There needs to be a main page for the OKplatform.
+     2. Concepts : contains for each module a latex-file discussing the concepts for this module..
 
   \todo System documentation:
    - Document the basic version control settings (location of server, configuration, how to use it).
