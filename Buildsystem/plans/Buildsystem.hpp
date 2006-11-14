@@ -4,7 +4,7 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo (DONE) Documentation index page
+  \todo (DONE) Documentation index page creation
   In $(system_directories)/doc there is a index to all the OKplatform
   documentation, including external resources. This index also contains
   links to the web pages of Boost, Doxygen, Gcc etc
@@ -138,7 +138,12 @@
 
   \todo System documentation:
    - Document the basic version control settings (location of server, configuration, how to use it).
-   - Document the byild system (general ideas, functionality).
+   - Document the build system (general ideas, functionality).
+
+  \todo Documentation index:
+   - Perhaps the logo can be improved. Maybe just blue, without any gradient.
+   - The documentation for OKlibrary should stand out from the others.
+   - instead of "v0.0.1" we should have "Transitional Version 0.1.0"
 
   \todo We need a standardised way of how to make information about the compilation
   process available to a program (and also the name of the program, etc.), so that
