@@ -8,7 +8,7 @@
   \par Version 0.1.2 :
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
-  - (DONE) Documentation index page
+  - (DONE) Documentation index page creation
   - (DONE) Update makefile_recursive
   - (DONE) html target
   - Document srcdir
@@ -110,6 +110,7 @@
   - "Full test"
   - Directory structure
   - System documentation
+  - Documentation index
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
