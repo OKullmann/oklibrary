@@ -8,8 +8,8 @@
   Those parts of makefile_generic.mak which are responsible for building the
   doxygen documentation and the main documentation index page are extracted
   to seperate makefiles:
-    $(OKBuildsystem)/makefile_generic/makefile_documentation.mak
-    $(OKBuildsystem)/makefile_generic/makefile_documentation_index.mak
+    $(OKBuildsystem)/makefile_generic_include/makefile_documentation.mak
+    $(OKBuildsystem)/makefile_generic_include/makefile_documentation_index.mak
  
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
@@ -218,12 +218,9 @@
           - module_1
           - module_2
 
-        OK: do you really mean bin etc as subdirectories of aux?
-        I don't understand what you mean here.
-        Is your main point to always use module-directories?
+        OK: Is your main point to always use module-directories?
 
-        MH: No, this was a mistake with indentation. Yes, I think
-        it makes sense to have module-directories in every case.
+        MH: Yes, I think it makes sense to have module-directories in every case.
 
     So now to clean the dependencies for the tests from module_1 means to remove
     the directory system_directories/aux/tests/module_1/dependencies. In fact we
