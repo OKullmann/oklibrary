@@ -4,22 +4,13 @@
   \file Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp
   \brief Plans for the documentation index makefile
 
-  \todo CSS : Improving the cascading style sheet used by the documentation
-   index.
+  \todo Logo
+   - Perhaps the logo can be improved. Maybe just blue, without any gradient.
+  
+  \todo OKlibrary link
+   - The documentation for OKlibrary should stand out from the others.
 
-  \todo ERROR REPORTING : regarding system_directories/doc/index.html
+  \todo Version numbers
+   - instead of "v0.0.1" we should have "Transitional Version 0.1.0"
 
-   - Local documentation:
-
-     An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/boost_1_33_1/index.htm:
-The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/boost_1_33_1/index.htm does not exist.
-
-     Doxygen appears with the wrong version number
-
-     An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Mhash/0.9.7.1+4.1.1/man/man3/mhash.3:
-The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Mhash/0.9.7.1 4.1.1/man/man3/mhash.3 does not exist.
-
-     An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Postgresql/doc/postgresql/html/index.html:
-The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Postgresql/doc/postgresql/html/index.html does not exist.
- 
 */
