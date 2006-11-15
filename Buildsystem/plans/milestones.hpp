@@ -6,36 +6,41 @@
   \par Current version 0.1.1 (3.11.2006)
   
   \par Version 0.1.2 :
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-   - Update makefile_recursive
-   - Document srcdir
-   - Linking to makefile_recursive
-   - Doxygen general
-   - Makefiles in general
-   - Documentation (Examples and Concepts)
-   - System documentation
+  In Buildsystem/plans/Buildsystem.hpp the following
+  topics are handled:
+  - (DONE) Documentation index page creation
+  - (DONE) html target
+  - Makefiles in general
   
   \par
-   In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
-   the following topics are handled:
-   - (DONE) Documentation index page creation
-   - (DONE) html target
-   - Doxygen menu
-   - Doxyfile
-   - Parameters
-   - Updating
-   - Meta-documentation
-   - ERROR REPORTING
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - (DONE) Extracting documentation building to seperate makefile
 
   \par
-   In Buildsystem/plans/makefile_generic.hpp the following
-   topics are handled:
-   - (DONE) Extracting documentation building to seperate makefile
-  
+  In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation.hpp the following topics are handled:
+  - Update todos
+  - Documentation
+
+  \par
+  In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp the following topics are handled.
+  - ERROR REPORTING
+
   \par Version 0.1.3 :
-   In Buildsystem/plans/makefile_generic.hpp the following
-   topics are handled:
-   - Make-variables for compilation and linking
+  In Buildsystem/plans/Buildsystem.hpp the following
+  topics are handled:
+  - Update makefile_recursive
+  - Document srcdir
+  - Linking to makefile_recursive
+  - Doxygen general
+  - Doxygen menu
+  - Documentation (Examples and Concepts)
+  - System documentation
+  
+  \par Version 0.1.4 :
+  In Buildsystem/plans/makefile_generic.hpp the following
+  topics are handled:
+  - Make-variables for compilation and linking
   
   \par
    In Buildsystem/plans/Buildsystem.hpp the following
