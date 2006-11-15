@@ -9,8 +9,8 @@
   In Buildsystem/plans/Buildsystem.hpp the following
   topics are handled:
   - (DONE) Documentation index page creation
-  - (DONE) Update makefile_recursive
   - (DONE) html target
+  - Update makefile_recursive
   - Document srcdir
   - Linking to makefile_recursive
   - Doxygen general
@@ -23,7 +23,15 @@
   In Buildsystem/plans/makefile_generic.hpp the following
   topics are handled:
   - (DONE) Extracting documentation building to seperate makefile
+
+  \par
+  In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation.hpp the following topics are handled:
+  - Update todos
   - Documentation
+
+  \par
+  In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp the following topics are handled.
+  - ERROR REPORTING
   
   \par Version 0.1.3 :
   In Buildsystem/plans/makefile_generic.hpp the following
@@ -111,6 +119,11 @@
   - Directory structure
   - System documentation
   - Documentation index
+  - OKsystem/Buildsystem structure
+
+  \par
+  In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp the following topics are handled.
+  - CSS
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

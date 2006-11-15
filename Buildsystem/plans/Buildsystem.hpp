@@ -9,18 +9,18 @@
   documentation, including external resources. This index also contains
   links to the web pages of Boost, Doxygen, Gcc etc
 
-  \todo (DONE) Update makefile_recursive
+  \todo (DONE) html target
+   - "html" should be possible from any level (creating always the
+   complete documentation) (this should be automatically achieved
+   once makefile_recursive is eliminated)
+
+  \todo Update makefile_recursive
   OK : What is the role of variable srcdir ? Isn't the definition in makefile_recursive
   superfluous now?
   It is used in makefile_generic (so that we can call makefiles from other places,
   without a change in behaviour; we should also document this), but why the
   definition in makefile_recursive ? Can't makefile_generic define it on its own
   (respectively, shouldn't the definition in makefile_generic  suffice) ?
-
-  \todo (DONE) html target
-   - "html" should be possible from any level (creating always the
-   complete documentation) (this should be automatically achieved
-   once makefile_recursive is eliminated)
   
   \todo Document srcdir
   Those settings of srcdir which remain should receive some inline comments
@@ -187,6 +187,10 @@
   which create a new subdirectory with test-program respectively new
   .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
   in the testprogram).
+
+  \todo OKsystem/Buildsystem structure:
+   - Probably the directory makefile_generic_include should be elimated and
+   it's subdirectories lifted to OKsystem/Buildsystem.
 
   \todo Distributing the library:
    - We must study how to distribute a copy of the whole CVS-system (so that later a remerge is
