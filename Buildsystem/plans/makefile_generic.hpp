@@ -10,6 +10,11 @@
   to seperate makefiles:
     $(OKBuildsystem)/makefile_generic_include/makefile_documentation.mak
     $(OKBuildsystem)/makefile_generic_include/makefile_documentation_index.mak
+
+  \todo Valgrind documentation:
+   - Recover the missing documentation about the usage of Valgrind.
+   - Wasn't there a comment on valgrind (important!) ??? (valgrind --quiet ...)
+   - We also have a variable to use valgrind with the tests.
  
   \todo Make-variables for compilation and linking:
     - instead of specifying a specific alternative gcc or boost version, it
