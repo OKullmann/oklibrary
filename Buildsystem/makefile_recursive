@@ -3,8 +3,6 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-
-
 # the main definition of OKsystem is given in makefile_generic, and should (somehow) be imported from there (the problem however is, that OKBuildsystem is not known without OKsystem);
 # at the moment we use cut and paste.
 ifndef OKplatform
