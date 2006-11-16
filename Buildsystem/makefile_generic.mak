@@ -146,18 +146,11 @@
 #                       example to use the time program to time the execution
 #                       of the test program.
 #
-# COMMENT OK: Wasn't there a comment on valgrind (important!) ???
-# (valgrind --quiet ...)
-#
 #
 # Doxygen
 # ---------------------
 # doxygen-parameters    For doxygen parameters.
 #
-
-# COMMENT OK: We also have a variable to use valgrind with the tests --- this belongs also to here, and furthermore
-# the respective documentation seems to have gone lost?
-
 # ===============================================================================
 # System variables (can be optionally redefined) : 
 # ===============================================================================
