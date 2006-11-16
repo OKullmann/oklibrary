@@ -26,7 +26,7 @@ ifndef OKBuildsystem
   ifdef OKBUILDSYSTEM
     OKBuildsystem := $(OKBUILDSYSTEM)
   else
-    OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+    OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
   endif
 endif
 
