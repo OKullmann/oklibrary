@@ -32,6 +32,13 @@
   QUESTION (OK): Does this mean that we have already a first complete implementation?
   If yes, then the current milestone 0.0.6 should become 0.1.
 
+  ANSWER (ML): These triggers were originally used by calling the trigger functions of the
+  UBCSAT library. Therefore they rely on the UBCSAT main program running for it to work
+  To get the AnalyseTotalAssignment to work on its own without UBCSAT main, the code needs to be
+  modified slightly which I am currently doing. Therefore I will add more plans for this if you
+  feel this is a good idea.
+  
+
   \todo Changing UBCSAT
   Change the heuristics in UBCSAT, where now the goal is not to find a satisfying (total) assignment,
   but a total assignment containing a non-trivial autarky.
