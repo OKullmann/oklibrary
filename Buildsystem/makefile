@@ -22,9 +22,15 @@ ifndef OKsystem
   endif
 endif
 
-srcdir := $(OKsystem)/Transitional/Buildsystem
+ifndef OKBuildsystem
+  ifdef OKBUILDSYSTEM
+    OKBuildsystem := $(OKBUILDSYSTEM)
+  else
+    OKBuildsystem := $(OKSystem)/Transitional/Buildsystem
+  endif
+endif
 
-include $(srcdir)/makefile_standardgoals.mak
+include $(OKBuildsystem)/makefile_standardgoals.mak
 
 externalsourcesdir := $(OKplatform)/ExternalSources
 
@@ -40,10 +46,10 @@ prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externals
 $(Directories) : % :
 	mkdir $@
 
-$(makefile_oksystem) : $(srcdir)/makefile_OKsystem
+$(makefile_oksystem) : $(OKBuildsystem)/makefile_OKsystem
 	cp $< $@
 
-$(makefile_externalsources) : $(srcdir)/makefile_ExternalSources.mak
+$(makefile_externalsources) : $(OKBuildsystem)/makefile_ExternalSources.mak
 	ln -s $< $@
 
 
