@@ -4,6 +4,16 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
+  \todo Makefiles in general:
+   - OKSystem is defined at one place, and imported at all other places. Additionally
+     OKSystem_include is defined (with "-I").
+     In the local definition-makefiles then we only use (not define) OKSystem_include.
+   - Makefiles should always have the suffix .mak,
+     so that for examples xemacs recognises the format.
+   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
+     otherwise there must be a "copy-and-paste"-comment at each place.
+   - We should use (more) make-functions.
+
   \todo Update makefile_recursive:
    - OK : What is the role of variable srcdir ? Isn't the definition in makefile_recursive
      superfluous now?
@@ -92,16 +102,6 @@
    - Can we have nested lists? Numbered lists? These things perhaps should go into
      our general documentation --- or we have some example files, which demonstrate
      our use of doxygen.
-
-  \todo Makefiles in general:
-   - OKSystem is defined at one place, and imported at all other places. Additionally
-     OKSystem_include is defined (with "-I").
-     In the local definition-makefiles then we only use (not define) OKSystem_include.
-   - Makefiles should always have the suffix .mak,
-     so that for examples xemacs recognises the format.
-   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
-     otherwise there must be a "copy-and-paste"-comment at each place.
-   - We should use (more) make-functions.
 
   \todo Testing the build system
    - We need some test system for the build system. Optimally, it would run like our normal test
