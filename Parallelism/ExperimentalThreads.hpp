@@ -1,12 +1,11 @@
 // Oliver Kullmann, 15.6.2005 (Swansea)
 
 /*!
-  \file ExperimentalThreads.hpp
+  \file Parallelism/ExperimentalThreads.hpp
   \brief Experiments using the Boost::Threads library
 */
 
 #ifndef EXPERIMENTALTHREADS_8u76gBn
-
 #define EXPERIMENTALTHREADS_8u76gBn
 
 #include <cassert>

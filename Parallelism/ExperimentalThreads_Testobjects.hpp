@@ -1,7 +1,6 @@
 // Oliver Kullmann, 15.6.2005 (Swansea)
 
 #ifndef EXPERIMENTALTHREADSTESTOBJECTS_045rtf
-
 #define EXPERIMENTALTHREADSTESTOBJECTS_045rtf
 
 #include <Transitional/Parallelism/ExperimentalThreads.hpp>

@@ -1,7 +1,12 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
-#ifndef PARSERBASE_9Hhn67u
+/*!
+  \file Parsing/ParserBase.hpp
+  \brief Base class for parsers in the Boost::Spirit framework
+*/
 
+
+#ifndef PARSERBASE_9Hhn67u
 #define PARSERBASE_9Hhn67u
 
 #include <boost/spirit/core.hpp>
@@ -27,4 +32,5 @@ namespace OKlib {
   }
 
 }
+
 #endif

@@ -1,11 +1,10 @@
 // Oliver Kullmann, 15.6.2005 (Swansea)
 
-/*! \file ExperimentalThreads_Tests.hpp
+/*! \file Parallelism/ExperimentalThreads_Tests.hpp
   Test metafunctions
 */
 
 #ifndef EXPERIMENTALTHREADSTESTS_908NbCxz
-
 #define EXPERIMENTALTHREADSTESTS_908NbCxz
 
 #include <boost/thread.hpp>

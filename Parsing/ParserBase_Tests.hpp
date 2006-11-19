@@ -1,12 +1,11 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 /*!
-  \file ParserBase_Tests.hpp
+  \file Parsing/ParserBase_Tests.hpp
   \brief Tools for testing parsers
 */
 
 #ifndef PARSERBASETESTS_jfbNb5y
-
 #define PARSERBASETESTS_jfbNb5y
 
 #include <boost/spirit/core.hpp>
