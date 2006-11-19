@@ -24,7 +24,7 @@
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.2
   (see TestSystem/plans/milestones.hpp)
-  \par All modules have plans-subdirectories with milestones (OK)
+  \par All modules have plans-subdirectories, most with milestones (OK) : DONE
 
   \subsection VersionTransitional012 0.1.2
   \par Buildsystem version 0.3
