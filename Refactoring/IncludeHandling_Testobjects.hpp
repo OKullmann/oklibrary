@@ -1,7 +1,6 @@
 // Oliver Kullmann, 28.8.2005 (Swansea)
 
 #ifndef INCLUDEHANDLINGTESTOBJECTS_plmJJk
-
 #define INCLUDEHANDLINGTESTOBJECTS_plmJJk
 
 #include <Transitional/Refactoring/IncludeHandling.hpp>

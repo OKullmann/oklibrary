@@ -1,13 +1,13 @@
 // Oliver Kullmann, 28.8.2005 (Swansea)
 
 /*!
-  \file IncludeHandling_Tests.hpp
+  \file Refactoring/IncludeHandling_Tests.hpp
   \brief Tests regarding include statement handling.
+
   \todo More thorough testing: For example if we want to test container class X, and we initialise a data member, then we should check that member.
 */
 
 #ifndef INCLUDEHANDLINGTESTS_77665r
-
 #define INCLUDEHANDLINGTESTS_77665r
 
 #include <string>

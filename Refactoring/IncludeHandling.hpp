@@ -1,10 +1,9 @@
 // Oliver Kullmann, 28.8.2005 (Swansea)
 
 /*!
-  \namespace OKlib::Refactoring
-  \brief Tools for refactoring C++ code.
-  \todo Investigating existing tools for parsing and refactoring C++ code.
-  Asking on the boost e-mail list.
+  \file Refactoring/IncludeHandling.hpp
+  \brief Refactoring of include directives in C and C++ programs.
+
   \todo More flexible tools are needed for
    - renaming header files
    - adding new directory levels
@@ -12,15 +11,10 @@
    - moving some directory to another place.
    The aim is that we are free to further differentiate (or change)
    the directory structure in our library as needed.
-*/
 
-/*!
-  \file IncludeHandling.hpp
-  \brief Refactoring of include directives in C and C++ programs.
 */
 
 #ifndef INCLUDEHANDLING_9yhNbv
-
 #define INCLUDEHANDLING_9yhNbv
 
 #include <string>
