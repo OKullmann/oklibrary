@@ -1,7 +1,6 @@
 // Oliver Kullmann, 12.6.2005 (Swansea)
 
 #ifndef SEQUENCEOPERATIONSTESTOBJECTS_1029563
-
 #define SEQUENCEOPERATIONSTESTOBJECTS_1029563
 
 #include <Transitional/SetAlgorithms/SequenceOperations.hpp>

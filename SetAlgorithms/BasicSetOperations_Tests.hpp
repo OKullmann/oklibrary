@@ -1,7 +1,6 @@
 // Oliver Kullmann, 19.5.2005 (Swansea)
 
 #ifndef BASICSETOPERATIONSTESTS_78uBcz2
-
 #define BASICSETOPERATIONSTESTS_78uBcz2
 
 #include <set>

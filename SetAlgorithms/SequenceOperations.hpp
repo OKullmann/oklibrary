@@ -1,15 +1,15 @@
 // Oliver Kullmann, 12.6.2005 (Swansea)
 
 /*!
-  \file SequenceOperations.hpp
+  \file SetAlgorithms/SequenceOperations.hpp
   \brief Basic operations for sequences
 
   Contains: sum of ranges.
+
   \todo Moving Sum_sizes fully to the range concept (accepting only ranges as input)
 */
 
 #ifndef SEQUENCEOPERATIONS_iKnB547
-
 #define SEQUENCEOPERATIONS_iKnB547
 
 #include <functional>

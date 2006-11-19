@@ -1,10 +1,9 @@
 /*!
-  \file AssociativeContainers_Tests.hpp
+  \file SearchDataStructures/AssociativeContainers_Tests.hpp
   \brief Tests for search data structures.
 */
 
 #ifndef ASSOCIATIVECONTAINERSTESTS_okMMnh
-
 #define ASSOCIATIVECONTAINERSTESTS_okMMnh
 
 #include <string>

@@ -3,6 +3,7 @@
 /*!
   \file SATCompetition/ComputeLexicographicalEvaluation.cpp
   \brief Outputs the lexicographically sorted evaluation of a random-competition.
+
   \todo The output should contain a legend, and the date and time of the evaluation
   (and also the version-information of this program).
   \todo The common output facilities for ComputeScores and ComputeLexicographicalEvaluation

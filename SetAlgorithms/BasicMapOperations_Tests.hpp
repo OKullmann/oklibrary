@@ -1,7 +1,6 @@
 // Oliver Kullmann, 4.6.2005 (Swansea)
 
 #ifndef BASICMAPOPERATIONSTESTS_kJnNbv91
-
 #define BASICMAPOPERATIONSTESTS_kJnNbv91
 
 #include <map>

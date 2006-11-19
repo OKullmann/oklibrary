@@ -5,6 +5,7 @@
   \brief Analyse a file with competition data by printing out for all benchmarks
   the number of succesful solvers, the result problem purse, the speed factor and the
   SAT status (as determined by the solver results).
+
   \todo Usage of ProgramOptions.
   \todo Classes PrintStandard and PrintLatex should inherit from some common base class.
 */

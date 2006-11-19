@@ -1,17 +1,11 @@
 // Matthew Henderson, 4.9.2005 (Swansea)
 
 /*!
-  \namespace OKlib::SearchDataStructures
-  \brief Data structures with additional search functionality.
-*/
-
-/*!
-  \file AssociativeContainers.hpp
+  \file SearchDataStructures/AssociativeContainers.hpp
   \brief Associative containers.
 */
 
 #ifndef ASSOCIATIVECONTAINERS_09646l
-
 #define ASSOCIATIVECONTAINERS_09646l
 
 #include <string>
@@ -32,10 +26,11 @@ namespace OKlib {
     /*!
       \class AssociativePrefixContainer
       \brief Class for associative container of ranges with lexicographic ordering.
-      \todo In einem neuen Modul Iterators sollte eine Metafunktion InverseRange<Range>
-      implementiert werden (im Untermodul RangeAdaptors).
-      \todo Die lexikographische Ordnung auf Bereichen sollte
-      verselbststaendigt werden im Modul OrderRelations.
+
+      \todo In a new module Iterators a metafunktion InverseRange<Range>
+      should be implemented (in sub-module RangeAdaptors).
+      \todo The lexicographical order on ranges should become independent
+      (in module OrderRelations).
       \todo Add more natural functionality (for example ==, !=).
       \todo Create a concept (including providing appropriate container functionality).
     */

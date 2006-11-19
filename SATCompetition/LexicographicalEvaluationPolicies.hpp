@@ -3,6 +3,7 @@
 /*!
   \file SATCompetition/LexicographicalEvaluationPolicies.hpp
   \brief Policies used by LexicographicalEvaluation.hpp
+
   \todo Write a concept.
   \todo Write accompanying Test and Testobjects files.
 */

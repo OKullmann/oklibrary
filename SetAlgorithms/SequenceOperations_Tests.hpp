@@ -3,13 +3,13 @@
 /*!
   \file SequenceOperations_Tests.hpp
   \brief Tests for sequence operations.
+
   \todo Completing Test_Sum_sizes:
    - using boost::assign (and a general loop)
    - more test cases.
 */
 
 #ifndef SEQUENCEOPERATIONSTESTS_kavBv4
-
 #define SEQUENCEOPERATIONSTESTS_kavBv4
 
 #include <vector>

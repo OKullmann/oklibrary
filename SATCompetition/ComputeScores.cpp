@@ -7,6 +7,7 @@
   non-empty) the extended syntax is used, and with the optional parameter
   series=... (currently it doesn't matter, but it must be non-empty) the series purse
   is computed without performing case distinctions.
+
   \todo The output should also contain date and time of the computation; and
   information about the program which produced the output (we need a general
   convention of how to make information about the compilation available to

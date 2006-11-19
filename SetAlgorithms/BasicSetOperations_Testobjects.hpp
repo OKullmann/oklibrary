@@ -1,7 +1,6 @@
 // Oliver Kullmann, 19.5.2005 (Swansea)
 
 #ifndef BASICSETOPERATIONSTESTOBJECTS_llLn4rT
-
 #define BASICSETOPERATIONSTESTOBJECTS_llLn4rT
 
 #include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
