@@ -1,5 +1,10 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
+/*!
+  \file Variables/TrivialVariables.hpp
+  \brief Typedefs for trivial models of concept Variables
+*/
+
 #ifndef TRIVIALVARIABLES_916TyVbx
 #define TRIVIALVARIABLES_916TyVbx
 
