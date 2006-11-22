@@ -13,11 +13,11 @@
      literals (restricting the associated set of total assignments to those
      which satisfy all these literals).
    - boost::logic::tribool phi(const Literal&) determines whether the
-     literal is true resp. false for all partial assignments (if phi is
+     literal is true resp. false for all assignments extending phi (if phi is
      inconsistent, then the result is undefined).
    - literal_type<PartialAssignment>>::type
    - phi is a container of literals (the sequence of current standardised
-     literals in some implementation-defined order).
+     literals in some implementation-defined order), at most one literal per variable.
    - If literals are variable-based, then with phi.literal_status(var) we
      obtain a tribool telling whether the literal is always true,
      always false, or indeterminate, and with phi.literal(var) we obtain
