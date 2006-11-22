@@ -4,6 +4,8 @@
   \file LatinSquares/plans/LatinSquares.hpp
   \brief Plans for the module on latin squares and generalisations
 
+  \todo As a prototype, implement Sudoku-solvers.
+
   \todo Concepts: Create a (preliminary) concept, based on a matrix concept.
 
   \todo Review: Software and literature review.
