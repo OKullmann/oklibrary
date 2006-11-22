@@ -2,67 +2,71 @@
 
 /*!
   \file InjectivityConstraints/AllDifferent.hpp
-  \brief Algorithms for alldifferent constraint.
+  \brief Algorithms for all-different constraint.
 */
 
 #ifndef ALLDIFFERENT_08s7dg8O2
-
 #define ALLDIFFERENT_08s7dg8O2
 
+#include <vector>
 #include <set>
-#include <algorithm>
+#include <cassert>
 
-#include <boost/range/value_type.hpp>
-#include <boost/range/const_iterator.hpp>
-#include <boost/range/begin.hpp>
-#include <boost/range/end.hpp>
-#include <boost/range/size.hpp>
+#include <boost/logic/tribool.hpp>
 
 namespace OKlib {
   namespace InjectivityConstraints {
 
-    class AllDifferentBySetSizeComparison {
-    public:
-      template <typename Range>
-      bool operator() (Range R) {
-        typedef typename boost::range_value<Range>::type value_type;
-        typedef typename boost::range_const_iterator<Range>::type const_iterator;
-        std::set<value_type> set_of_unique_elements;
-        const const_iterator& end(boost::end(R));
-        for (const_iterator begin(boost::begin(R)); begin!=end; ++begin) {
-          set_of_unique_elements.insert(*begin);
-        };        
-        return (boost::size(R) == boost::size(set_of_unique_elements));
+    /*!
+      \class TrivialAllDifferent
+      \brief Very first prototype for an all-different constraint (just returning true or false).
+
+      \todo Test it.
+    */
+
+    template <class PASS>
+    struct TrivialAllDifferent {
+      typedef PASS partial_assignments_type;
+      typedef typename partial_assignments_type::variables_type variables_type;
+      typedef typename partial_assignments_type::value_type value_type;
+      typedef typename partial_assignments_type::domain_type domain_type;
+
+    private :
+      typedef std::vector<variables_type> vector_type;
+      vector_type variable_vector;
+
+    public :
+
+      template <typename InputIterator>
+      TrivialAllDifferent(const InputIterator begin, const InputIterator end) : variable_vector(begin,end) {}
+
+      boost::logic::tribool eval(const partial_assignments_type& phi) {
+
+        typedef std::set<value_type> set_type;
+        set_type collected_values;
+        typedef typename set_type::size_type size_type;
+        size_type set_size = 0;
+
+        typedef typename vector_type::const_iterator vector_iterator;
+        const vector_iterator& end(variable_vector.end());
+        for (vector_iterator i = variable_vector.begin(); i != end; ++i) {
+          const domain_type& D(phi(*i));
+          if (D.size() == 0) return false;
+          if (D.size() == 1) {
+            collected_values.insert(*(i -> second.begin()));
+            if (collected_values == set_size++)
+              return false;
+          }
+        }
+        assert(set_size == collected_values.size());
+        if (set_size == variable_vector.size())
+          return true;
+        else
+          return boost::logic::indeterminate;
       }
+      
     };
 
-    class AllDifferentBySeenBeforeVectorFind {
-    public:
-      template <typename Range>
-      bool operator() (Range R) {
-        typedef typename boost::range_value<Range>::type value_type;
-        typedef typename boost::range_const_iterator<Range>::type const_iterator;
-        typedef std::vector<value_type> vector_t;
-        vector_t seen_before_vector;
-        const const_iterator& end(boost::end(R));
-        for (const_iterator begin(boost::begin(R)); begin!=end; ++begin) {
-          typename vector_t::iterator seen_before = std::find(seen_before_vector.begin(),seen_before_vector.end(),*begin);
-          if ( seen_before == seen_before_vector.end() ) {
-            seen_before_vector.push_back(*begin);
-          }
-          else {
-            return false;
-          }
-        };  
-        return true;
-      }
-    };
-    
-    template <typename Range>
-    bool all_different(Range R) {
-      return ::OKlib::InjectivityConstraints::AllDifferentBySeenBeforeVectorFind()(R);
-    }
-    
   }
 }
 
