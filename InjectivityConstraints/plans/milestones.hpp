@@ -3,12 +3,22 @@
 /*!
   \file InjectivityConstraints/plans/milestones.hpp
 
-  \par Current version 0.0.1 ???
-  \todo see log files for the date
+  \par Current version 0.0.2 (23.11.2006)
+
+  \par Version 0.0.3
+  In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+  - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+
+  \par Version 0.0.4
+  In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+  - Test OKlib::InjectivityConstraints::TrivialAllDifferent
+
+  \par Version 0.0.5
+  In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+  - Old implementations
 
   \par Version 0.1
-  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
-  topics are handled:
+  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
   - Literature and software review
 
   \par Version 0.2
@@ -33,6 +43,7 @@
   \par Version history
 
    - 0.0.1 : ???; initial version number (only plans).
+   - 0.0.2 : 23.11.2006 (several plans, and first prototype).
 
 */
 
