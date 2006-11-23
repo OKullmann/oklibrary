@@ -20,10 +20,9 @@ namespace OKlib {
       Backtracking<ExtProblem, Red, Heur, Vis> has the following template parameters:
        - ExtProblem ist a class with the problem and the current partial assignment
        - Red is the reduction for every node
-       - Heur is the heuristics
-       - Vis is the visitor
+       - Heur is the heuristics (the branching literal)
+       - Vis is the (decision-)visitor
 
-      \todo Test it.
     */
 
     template <class ExtProblem, class Red, class Heur, class Vis>
@@ -40,8 +39,8 @@ namespace OKlib {
       visitor_type& vis;
       const bool all;
 
-      Backtracking(extended_problem_type& Problem, reduction_type reduction, heuristics_type heuristics, visitor_type& visitor, const bool all_solutions = false) :
-        P(Problem), r(reduction), h(heuristics), vis(visitor), all(all_solutions) {}
+      Backtracking(extended_problem_type& problem, reduction_type reduction, heuristics_type heuristics, visitor_type& visitor, const bool all_solutions = false) :
+        P(problem), r(reduction), h(heuristics), vis(visitor), all(all_solutions) {}
 
       boost::logic::tribool operator()() {
         {

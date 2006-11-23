@@ -20,12 +20,7 @@ namespace OKlib {
 
     /*!
       \class SudokuProblem
-      \brief First prototype for an active clause-set for Sudoku
-
-      \todo Complete implementation:
-       - Are all constraints stored together? Perhaps better we use the natural grouping
-         into 3 groups?
-      \todo Test it.
+      \brief First prototype for an alliance of active clause-set for Sudoku
     */
 
     template <int Box_size, class AllDifferentConstraint>
@@ -98,15 +93,14 @@ namespace OKlib {
     // #################################################
 
     /*!
-      \class Trivial_reduction
+      \class Trivial_reduction_Sudoko
       \brief Trivial reduction for a Sudoku problem
 
-      \todo Complete it.
-      \todo Test it.
+      Checks only whether the constraints either all are satisfied or one has been falsified.
     */
 
     template <class SudokoP>
-    class Trivial_reduction {
+    class Trivial_reduction_Sudoko {
 
     public :
 

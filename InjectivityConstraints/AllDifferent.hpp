@@ -20,8 +20,6 @@ namespace OKlib {
     /*!
       \class TrivialAllDifferent
       \brief Very first prototype for an all-different constraint (just returning true or false).
-
-      \todo Test it.
     */
 
     template <class PASS>
