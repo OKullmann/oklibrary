@@ -4,7 +4,8 @@
   \file SATAlgorithms/plans/SATAlgorithms.hpp
   \brief Plans for the module on generic SAT algorithms
 
-  \todo First we need an overview, what do to here. And then creating milestones.
+  \todo What is the scope of this module? Only algorithmic skeletons?
+
 */
 
 /*!
