@@ -5,6 +5,8 @@
   \brief Plans for the module on active clause-sets providing injectivity
   and bijectivity constraints.
 
+  \todo See log files for the date of version 0.0.1.
+
   \todo Literature and software review
 
   \todo Concepts for injectivity, surjectivity and bijectivity constraints
