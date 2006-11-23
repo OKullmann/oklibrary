@@ -4,7 +4,8 @@
   \file SATAlgorithms/plans/EnumerationAssignments.hpp
   \brief SAT algorithms using enumeration.
 
-  \todo Writing trivial SAT algorithm, using any enumeration; likely some kind
+  \todo Trivial SAT algorithm
+  Implementing the trivial SAT algorithm, using any enumeration; likely some kind
   of visitor concept is useful here.
 
   \todo Specialising the trivial algorithm by using Gray codes and a "flip operation"
