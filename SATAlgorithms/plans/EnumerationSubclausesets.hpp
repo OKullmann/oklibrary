@@ -5,14 +5,18 @@
   \brief Tools for running through sub-clause-sets of a clause-sets
   and evaluating them.
 
+  Useful for example for counting the number of satisfiable uniform 3-clause-sets
+  with 4 variables and 0 <= m <= 24 clauses; running through all these cases
+  should be done efficiently, updating the results from one sub-clause-set to the next.
+
   \todo A general algorithms works as follows. Three inputs:
    - the clause-set (perhaps actually supplied by the sub-clause-set-visitor)
-   - a sequence of assignments (perhaps more generally a suitable visitor)
+   - a sequence of assignments (perhaps more generally a suitable visitor) to be evaluated
    - a visitor responsible for running through the sub-clause-sets and
      receiving their evaluations.
   For the visitor the components from Combinatorics/Subsets.hpp should be
   usable. In the initialisation phase a matrix is computed, which for each clause
-  and each assignments yields whether the assignment satisfies or falsifies the
+  and each assignment yields whether the assignment satisfies or falsifies the
   clause (and in case of partial assignments we have the additional possibilities
   "critical" and "disjoint"), and also a vector, which for each assignments contains
   the number of satisfied or falsified clauses (and in case of partial assignments
