@@ -4,10 +4,24 @@
   \file InjectivityConstraints/plans/AllDifferent.hpp
   \brief Plans for all-different constraint.
 
+  \todo Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+
+  \todo What is the concept for TrivialAllDifferent<PASS> ?
+  An "active clause-set" ! Especially the eval-member-function needs
+  an overhaul (see Concepts/plans/ClauseSets.hpp; perhaps it makes
+  sense to always have a trivial evaluation?). The connection to the partial
+  assignment is critical; there are more return-possibilities (at least in
+  general; perhaps not for the trivial evaluation).
+  Perhas a reference to phi should be stored at construction.
+
+  \todo See also Concepts/plans/Variables.hpp and Concepts/plans/Literals.hpp.
+  (Perhaps the value_type should always be order-comparable?)
+
+  \todo Test OKlib::InjectivityConstraints::TrivialAllDifferent
+
   \todo Old implementations
   What to do with the following implementations?
-  They should be updated, so that they handle the
-  most general level, where only != is given between values.
+  Perhaps the tests can be reused.
 
 #include <set>
 #include <algorithm>
@@ -25,43 +39,9 @@ namespace OKlib {
     public:
       template <typename Range>
       bool operator() (Range R) {
-        typedef typename boost::range_value<Range>::type value_type;
-        typedef typename boost::range_const_iterator<Range>::type const_iterator;
-        std::set<value_type> set_of_unique_elements;
-        const const_iterator& end(boost::end(R));
-        for (const_iterator begin(boost::begin(R)); begin!=end; ++begin) {
-          set_of_unique_elements.insert(*begin);
-        };        
-        return (boost::size(R) == boost::size(set_of_unique_elements));
-      }
+     }
     };
 
-    class AllDifferentBySeenBeforeVectorFind {
-    public:
-      template <typename Range>
-      bool operator() (Range R) {
-        typedef typename boost::range_value<Range>::type value_type;
-        typedef typename boost::range_const_iterator<Range>::type const_iterator;
-        typedef std::vector<value_type> vector_t;
-        vector_t seen_before_vector;
-        const const_iterator& end(boost::end(R));
-        for (const_iterator begin(boost::begin(R)); begin!=end; ++begin) {
-          typename vector_t::iterator seen_before = std::find(seen_before_vector.begin(),seen_before_vector.end(),*begin);
-          if ( seen_before == seen_before_vector.end() ) {
-            seen_before_vector.push_back(*begin);
-          }
-          else {
-            return false;
-          }
-        };  
-        return true;
-      }
-    };
-    
-    template <typename Range>
-    bool all_different(Range R) {
-      return ::OKlib::InjectivityConstraints::AllDifferentBySeenBeforeVectorFind()(R);
-    }
 }
 
 #include <vector>
