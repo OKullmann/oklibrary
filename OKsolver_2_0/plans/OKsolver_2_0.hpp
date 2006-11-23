@@ -6,6 +6,11 @@
   the goal is that OKsolver_2 is among the best three solvers
   for all 3 * 3 subcompetitions of the SAT 2007 competition.
 
+  \todo How to refer to the different versions of OKsolver ?
+  Perhaps
+   - OKsolver_1.0, OKsolver_1.1
+   - OKsolver_2, OKsolver_2.0, OKsolver_2.1 ?
+
   \todo OKsolver_2 extends OKsolver_1 by using alliances of
   active clause-sets with (at least) three members :
    - the original clause-set
