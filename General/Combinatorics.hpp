@@ -46,7 +46,7 @@ namespace Combinatorics {
       const Int zero(0);
       assert(n >= zero);
       Int f(1);
-      for (int i = Int(2); i <= n; ++i)
+      for (unsigned int i = Int(2); i <= n; ++i)
         f *= i;
       return f;
     }
