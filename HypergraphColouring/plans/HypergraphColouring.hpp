@@ -13,6 +13,19 @@
 
   \todo Investigate the problem of determining the chromatic number.
 
+  \todo Implement the greedy colouring algorithm for graphs, and several strategies
+  for finding a good vertex ordering:
+   - use boost::sequential_vertex_coloring
+   - run through all vertex orderings and record for the range of colours occurring how
+     many orderings used that many colours
+   - write a small applications, which reads a graph from a file, and outputs the statistics
+     on vertex orderings and optionally all optimal orderings
+   - search for literature on heuristics for vertex orderings; from CS-232 we have the
+     traversing greedy colouring; it seems sensible to combine this with a largest degree first-
+     stratey.
+
+  How do these algorithms translate into SAT algorithms?
+
   \todo Erdoes and Hajnal introduced the function m(k) associated with property B:
   The minimal number of clauses of non-2-colourable k-uniform hypergraphs.
   Known are only m(0) = m(1) = 1, m(2) = 3, m(3) = 7 (see the latest OK-report (XXX)
