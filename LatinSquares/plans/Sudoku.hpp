@@ -15,11 +15,16 @@
 
   \todo Test OKlib::LatinSquares::SudokuProblem
 
-  \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoko
-  Perhaps this should be just a generic algorithm, applicable to any collection of
+  \todo Instead of just injectivity-constraints the stronger form of bijectivity-constraints
+  should be used.
+
+  \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoku
+  Likely this should be just a generic algorithm, applicable to any collection of
   constraints (active clause-sets)?!
 
-  \todo Test OKlib::LatinSquares::Trivial_reduction_Sudoko
+  \todo Test OKlib::LatinSquares::Trivial_reduction_Sudoku
+
+  \todo Another representation of Sudoku uses one Latin square plus N*N bijectivity constraints (for the boxes).
 
 */
 
