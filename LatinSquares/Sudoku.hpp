@@ -10,6 +10,7 @@
 
 #include <utility>
 #include <stack>
+#include <tr1/array>
 
 #include <boost/logic/tribool.hpp>
 
@@ -88,26 +89,47 @@ namespace OKlib {
       typedef std::stack<token_type> stack_type;
       stack_type stack;
 
+      std::tr1::array<constraint_type, 3 * N2> constraints;
+      typedef int constraint_index; // 0 .. 3*N2-1
+      enum constraint_types {row_constraint, column_constraint, box_constraint};
+
+      constraint_index index_any(const square_index i, const constraint_types t) {
+        assert(i >= 1);
+        assert(i <= N2);
+        switch (t) {
+        case row_constraint : return i - 1;
+        case column_constraint : return N2 - 1 + i;
+        case box_constraint : return 2 * N2 - 1 + i;
+        }
+      }
+      constraint_index index_box(const box_point_type& p) {
+        assert(p.first >= 1);
+        assert(p.first <= N2);
+        assert(p.second >= 1);
+        assert(p.second <= N2);
+        return 2 * N2 - 1 + N * (p.first - 1) + p.second;
+      }
+
     };
 
     // #################################################
 
     /*!
-      \class Trivial_reduction_Sudoko
+      \class Trivial_reduction_Sudoku
       \brief Trivial reduction for a Sudoku problem
 
       Checks only whether the constraints either all are satisfied or one has been falsified.
     */
 
-    template <class SudokoP>
-    class Trivial_reduction_Sudoko {
+    template <class SudokuP>
+    class Trivial_reduction_Sudoku {
 
     public :
 
-      typedef SudokoP sudoko_type;
-      typedef typename sudoko_type::literal_type literal_type;
+      typedef SudokuP sudoku_type;
+      typedef typename sudoku_type::literal_type literal_type;
 
-      boost::logic::tribool operator()(const sudoko_type& P) {
+      boost::logic::tribool operator()(const sudoku_type& P) {
         /// Check the constraints XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       }
 
