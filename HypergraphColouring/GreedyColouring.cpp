@@ -22,6 +22,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/sequential_vertex_coloring.hpp>
 #include <boost/iterator/counting_iterator.hpp>
+#include <boost/property_map.hpp>
 
 #include <Transitional/General/Combinatorics.hpp>
 
@@ -65,6 +66,7 @@ int main() {
   std::vector<unsigned int> hash_orders(n+1);
 
   std::vector<vertices_size_type> colour_vec(n);
+  assert(not colour_vec.empty());
   boost::iterator_property_map<vertices_size_type*, vertex_index_map> colour(&colour_vec.front(), get(boost::vertex_index, g));
 
   assert(not given_order.empty());
