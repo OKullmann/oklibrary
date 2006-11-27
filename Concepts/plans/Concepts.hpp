@@ -4,9 +4,19 @@
   \file Concepts/plans/Concepts.hpp
   \brief Plans for the concepts module
 
-  \todo Update:
-  The doxygen-documentation must be thorougly updated and expanded.
-  And likely also the plans need a thorough update.
+  \todo Update doxygen-documentation and plans
+   - Concepts/Basics.hpp :
+   - Concepts/ConceptsBase.hpp : 
+   - Concepts/ConceptsMetafunctions.hpp : 
+   - Concepts/InputOutput.hpp : 
+   - Concepts/Iterators.hpp : 
+   - Concepts/LibraryBasics.hpp
+   - Concepts/RefactoringIncludeHandling.hpp : 
+   - Concepts/ResultElements.hpp :
+   - Concepts/plans/Variables.hpp :
+   - Concepts/std_Basics.hpp :
+   - Concepts/std_Container.hpp :
+   - Concepts/std_Iterators.hpp : 
 
   \todo Warnings:
   Eliminate all warnings.

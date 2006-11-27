@@ -4,6 +4,10 @@
   \file Concepts/plans/Variables.hpp
   \brief Plans for concepts for Variables.
 
+  \todo Create doxygen-documentation.
+
+  \todo Transfer tests to the new test system.
+
   \todo Is a generalisation of the Variables-concept useful, where there is no default
   constructor, and no handling of singular values? (Perhaps with the name "GeneralIndex" ?)
 

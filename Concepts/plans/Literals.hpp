@@ -5,5 +5,7 @@
   \brief Plans for concepts for literals.
 
   \todo Concepts for general literals and variable-based literals.
+
+  \todo Perhaps first only the "signed literals" (power-literals).
 */
 

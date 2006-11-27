@@ -20,8 +20,7 @@
   \todo Test OKlib::InjectivityConstraints::TrivialAllDifferent
 
   \todo Old implementations
-  What to do with the following implementations?
-  Perhaps the tests can be reused.
+  Perhaps the following tests can be reused?
 
 #include <set>
 #include <algorithm>
@@ -225,7 +224,6 @@ namespace OKlib {
 
       ::OKlib::TestSystem::RunTest test_all_different_adhoc(new ::OKlib::InjectivityConstraints::tests::TestAllDifferentAdhoc);
       ::OKlib::TestSystem::RunTest test_all_different_by_set_size_comparison(new ::OKlib::InjectivityConstraints::tests::TestAllDifferent<AllDifferentBySetSizeComparison>);
-      ::OKlib::TestSystem::RunTest test_all_different_by_seen_before_vector_find(new ::OKlib::InjectivityConstraints::tests::TestAllDifferent<AllDifferentBySeenBeforeVectorFind>);
 
     }
   }

@@ -22,5 +22,7 @@
 
   \todo Clause-sets are refinements of hypergraphs, where also application of
   partial assignments may be supported (perhaps also resolution etc. ?).
+
+  \todo See QuantumPhysics/plans/OrthogonalTriples.hpp for some examples.
 */
 
