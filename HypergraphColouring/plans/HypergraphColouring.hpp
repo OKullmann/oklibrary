@@ -2,7 +2,7 @@
 
 /*!
   \file HypergraphColouring/plans/HypergraphColouring.hpp
-  \brief Plans for the module on hypergraph colouring
+  \brief Plans for the module on hypergraph (and graph) colouring
 
   \todo Translation :
   Given a (hyper)graph as input, translate the k-colouring problem into
