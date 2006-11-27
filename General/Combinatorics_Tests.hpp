@@ -1,16 +1,17 @@
 // Oliver Kullmann, 22.8.2004
 
 /*!
-  \file Combinatorics_Tests.hpp
+  \file General/Combinatorics_Tests.hpp
   \brief Tests for the elementary counting and enumeration tools.
+
   \todo When transferring to Transitional:
    - Use the new test system.
    - Complete the tests.
+
   \todo With C++09 stdint.h likely is to be replaced by cstdint.
 */
 
 #ifndef COMBINATORICS_TESTS_JSJD6gac2v
-
 #define COMBINATORICS_TESTS_JSJD6gac2v
 
 #include <cassert>
@@ -25,11 +26,11 @@ namespace Combinatorics_Tests {
   struct test_factorial {
     test_factorial() {
 #ifndef NDEBUG
-      Factorial<int> f;
+      Factorial<unsigned int> f;
 #endif
-      for (int i = 0; i <= 12; ++i) {
-        int prod = 1;
-        for (int j = 2; j <= i; ++j)
+      for (unsigned int i = 0; i <= 12; ++i) {
+        unsigned int prod = 1;
+        for (unsigned int j = 2; j <= i; ++j)
           prod *= j;
         assert(f(i) == prod);
       } 
