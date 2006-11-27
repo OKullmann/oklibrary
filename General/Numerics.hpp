@@ -1,7 +1,6 @@
 // Oliver Kullmann, 27.7.2004 (Turin)
 
 #ifndef NUMERICS_j134815cawq
-
 #define NUMERICS_j134815cawq
 
 #include <cmath>

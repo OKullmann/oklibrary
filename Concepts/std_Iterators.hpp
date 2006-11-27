@@ -1,16 +1,13 @@
 // Oliver Kullmann, 15.5.2005
 
-// Concepts according to
-// ISO/IEC 14882: 2003
-// Section 24.1 and Section 24.3.1
-// PLUS const-correctness.
-
 /*!
-  \file std_Iterators.hpp
+  \file Concepts/std_Iterators.hpp
   \brief Iterator concepts from ISO/IEC 14882: 2003 (plus const-correctness). As for all concepts 
   in "std_ ...", the concepts here are not refinements of OKlib::Concepts::BasicRequirements.
 
+  Concepts according to ISO/IEC 14882: 2003, Section 24.1 and Section 24.3.1 PLUS const-correctness.
   Definition of the concepts InputIterator, OutputIterator, ForwardIterator, BidirectionalIterator, RandomAccessIterator plus (additionally) MultiPassInputIterator.
+
   \todo Write concepts for
    - OutputIterator
    - BidirectionalIterator
@@ -18,7 +15,6 @@
 */
 
 #ifndef STDITERATORS_pOpt5185
-
 #define STDITERATORS_pOpt5185
 
 #include <iterator>

@@ -1,13 +1,12 @@
 // Oliver Kullmann, 3.7.2005 (Swansea)
 
-// Basic concepts according to
-// ISO/IEC 14882: 2003 (referred to as the "Standard")
-// Section 23.1
-// PLUS const-correctness.
-
 /*!
   \file Concepts/std_Container.hpp
   \brief Container concepts from ISO/IEC 14882: 2003 (plus const-correctness).
+
+  Basic concepts according to ISO/IEC 14882: 2003 (referred to as the "Standard"),
+  Section 23.1 PLUS const-correctness.
+
 */
 
 #ifndef STDCONTAINER_776YhBq

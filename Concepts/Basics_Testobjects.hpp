@@ -1,7 +1,6 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 #ifndef BASICSTESTOBJECTS_pFgR554e
-
 #define BASICSTESTOBJECTS_pFgR554e
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

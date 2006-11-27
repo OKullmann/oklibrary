@@ -1,7 +1,6 @@
 // Oliver Kullmann, 25.5.2005
 
 #ifndef STDITERATORSTESTOBECTS_638usuDq
-
 #define STDITERATORSTESTOBECTS_638usuDq
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

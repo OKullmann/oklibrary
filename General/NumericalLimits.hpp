@@ -1,7 +1,6 @@
 // Oliver Kullmann, 1.5.2004 (Swansea)
 
 #ifndef NUMERICALLIMITSWAECHTER_hdhdt535ae
-
 #define NUMERICALLIMITSWAECHTER_hdhdt535ae
 
 #include <limits>

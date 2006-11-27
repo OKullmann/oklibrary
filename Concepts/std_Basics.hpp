@@ -1,13 +1,12 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 /*!
-  \file std_Basics.hpp
+  \file Concepts/std_Basics.hpp
   \brief Basic concepts from ISO/IEC 14882: 2003 (the "Standard")
   plus const-correctness.
 */
 
 #ifndef STDBASICS_pokcc34Ty
-
 #define STDBASICS_pokcc34Ty
 
 #include <boost/concept_check.hpp>

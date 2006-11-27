@@ -1,10 +1,11 @@
 // Oliver Kullmann, 15.5.2005
 
 /*!
-  \file std_Iterators_Tests.hpp
+  \file Concepts/std_Iterators_Tests.hpp
   \brief Tests for validating whether a class models one of the five iterator concepts from the standard.
 
   No tests for output iterators.
+
   \todo
    - InputIterator has only one exploitable (additional) semantical property (besides the
      properties of ConstructibleCAEq), namely that if i == j for iterators i,j and (i,j) is in
@@ -29,7 +30,6 @@
 */
 
 #ifndef STDITERATORSTESTS_oopl5Bb
-
 #define STDITERATORSTESTS_oopl5Bb
 
 #include <Transitional/Concepts/std_Iterators.hpp>

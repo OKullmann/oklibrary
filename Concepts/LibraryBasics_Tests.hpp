@@ -1,12 +1,11 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 /*!
-  \file LibraryBasics_Tests.hpp
+  \file Concepts/LibraryBasics_Tests.hpp
   \brief Tools for testing concept definitions (and related constructions).
 */
 
 #ifndef LIBRARYBASICSTESTS_rttjkN00
-
 #define LIBRARYBASICSTESTS_rttjkN00
 
 #include <boost/static_assert.hpp>

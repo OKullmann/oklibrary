@@ -1,7 +1,6 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 #ifndef CONCEPTSMETAFUNCTIONSTESTOBJECTS_hnBBx36
-
 #define CONCEPTSMETAFUNCTIONSTESTOBJECTS_hnBBx36
 
 #include <Transitional/Concepts/traits/concept_tag.hpp>

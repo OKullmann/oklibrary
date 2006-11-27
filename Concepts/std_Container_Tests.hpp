@@ -1,7 +1,6 @@
 // Oliver Kullmann, 3.7.2005 (Swansea)
 
 #ifndef STDCONTAINERTESTS_bbvcC
-
 #define STDCONTAINERTESTS_bbvcC
 
 #include <string>

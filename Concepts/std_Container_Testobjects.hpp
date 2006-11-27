@@ -1,7 +1,6 @@
 // Oliver Kullmann, 3.7.2005 (Swansea)
 
 #ifndef STDCONTAINERTESTOBJECTS_6654ama
-
 #define STDCONTAINERTESTOBJECTS_6654ama
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

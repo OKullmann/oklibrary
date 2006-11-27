@@ -5,6 +5,7 @@
   \brief Concepts for iterators extending the concepts from the standard.
 
   All concepts here are (as usual) derived from BasicRequirements.
+
   \todo Write concepts for
    -  InputIteratorDefault (refines InputIterator and ConstructibleDEq; i == Iterator() is
    - in the domain of ==; Iterator() is past-the-end.

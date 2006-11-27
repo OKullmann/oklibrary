@@ -1,7 +1,6 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 #ifndef STDBASICSTESTOBJECTS_kcXzw235
-
 #define STDBASICSTESTOBJECTS_kcXzw235
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

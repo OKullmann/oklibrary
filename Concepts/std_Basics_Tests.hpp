@@ -1,17 +1,17 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 /*!
-  \file std_Basics_Tests.hpp
+  \file Concepts/std_Basics_Tests.hpp
   \brief Test classes for the basic concepts from the standard.
 
   Concepts EqualityComparable and LessThanComparable enable semantical tests,
   but concepts Destructible, CopyConstructible, DefaultConstructible, Assignable have no
   semantical properties.
+
   \todo Complete update!
 */
 
 #ifndef STDBASICSTESTS_8455tGb
-
 #define STDBASICSTESTS_8455tGb
 
 #include <cassert>

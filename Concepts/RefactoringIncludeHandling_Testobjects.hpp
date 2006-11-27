@@ -1,7 +1,6 @@
 // Oliver Kullmann, 23.12.2005 (Swansea)
 
 #ifndef REFACTORINGINCLUDEHANDLINGTESTOBJECTS_jjccXxs0377
-
 #define REFACTORINGINCLUDEHANDLINGTESTOBJECTS_jjccXxs0377
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

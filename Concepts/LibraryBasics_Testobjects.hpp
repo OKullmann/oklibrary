@@ -1,7 +1,6 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 #ifndef LIBRARYBASICSTESTOBJECTS_nnttrqr367
-
 #define LIBRARYBASICSTESTOBJECTS_nnttrqr367
 
 #include <Transitional/Concepts/LibraryBasics.hpp>

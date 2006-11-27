@@ -1,7 +1,6 @@
 // Oliver Kullmann, 11.6.2005 (Swansea)
 
 #ifndef RESULTELEMENTTESTOBJECTS_957yBhF
-
 #define RESULTELEMENTTESTOBJECTS_957yBhF
 
 #include <Transitional/Concepts/LibraryBasics_Tests.hpp>

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 /*!
-  \file Basics.hpp
+  \file Concepts/Basics.hpp
   \brief Basic concepts, extending the basic concepts from the standard.
 
   Extends equality concepts, order concepts and constructibility concepts;
@@ -12,7 +12,6 @@
 */
 
 #ifndef BASICS_haharw786
-
 #define BASICS_haharw786
 
 #include <boost/concept_check.hpp>

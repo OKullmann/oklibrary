@@ -1,8 +1,9 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
 /*!
-  \file Basics_Tests.hpp
+  \file Concepts/Basics_Tests.hpp
   \brief Test classes to help with determining, whether a class models the basic concepts.
+
   \todo
    - There must be (at least basic) tests for the tests itself.
    - Complete update!
@@ -23,7 +24,6 @@
 */
 
 #ifndef BASICSTESTS_oLzW151
-
 #define BASICSTESTS_oLzW151
 
 #include <cassert>

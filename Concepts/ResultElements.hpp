@@ -4,6 +4,7 @@
   \file Concepts/ResultElements.hpp
   \brief Concepts for result elements, representing results of SAT solvers (especially
   for competitions).
+
   \todo floating_point_type.hpp and natural_number_type.hpp should go to
   SATCompetition/Traits.
   \todo To be completed (see module SAT-Competition).

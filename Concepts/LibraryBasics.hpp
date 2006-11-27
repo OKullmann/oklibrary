@@ -1,7 +1,7 @@
 // Oliver Kullmann, 25.5.2005 (Swansea)
 
 /*!
-  \file LibraryBasics.hpp
+  \file Concepts/LibraryBasics.hpp
   \brief The very basic concepts for the library. Every unit where concepts are defined
   and/or checked should include this file. Provides macros OKLIB_MODELS_CONCEPT_REQUIRES
   and OKLIB_MODELS_CONCEPT_TAG for checking whether a class models a concept and
@@ -14,7 +14,6 @@
   
 
 #ifndef LIBRARYBASICS_oLkG5675
-
 #define LIBRARYBASICS_oLkG5675
 
 #include <boost/concept_check.hpp>
