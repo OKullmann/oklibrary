@@ -24,7 +24,7 @@ namespace OKlib {
       \brief First prototype for an alliance of active clause-set for Sudoku
     */
 
-    template <int Box_size, class AllDifferentConstraint>
+    template <int Box_size, class BijectivityConstraint>
     class SudokuProblem {
 
     public :
@@ -41,7 +41,7 @@ namespace OKlib {
       typedef std::pair<box_point_type, box_point_type> point2_type;
       typedef std::pair<square_index, square_index> point_type;
 
-      typedef AllDifferentConstraint constraint_type;
+      typedef BijectivityConstraint constraint_type;
 
       typedef OKlib::PartialAssignments::MultiPASS<entry_type, n> partial_assignment_type;
 
