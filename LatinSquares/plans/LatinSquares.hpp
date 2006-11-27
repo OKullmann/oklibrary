@@ -25,6 +25,16 @@
   uses INJ((v_1j, ..., v_nj) and INJ(v_i1, ..., v_in).
   How to find all unit clauses for LS((v_ij)) ?!
 
+  \todo Strong hypergraph colouring
+  A latin square of dimension n is nothing else than a
+  hypergraph G_n with 2n hyperedges of size n for the
+  rows and columns together with the strong n-colouring
+  problem for hypergraphs
+  (see HypergraphColouring/plans/StrongColouring.hpp).
+  What can be done specially for latin squares, which cannot
+  be done in general for the strong hypergraph colouring problem?
+  (For example regarding symmetries?)
+
   \todo MOLS((v_ijk)) can be expressed by
    - LS((v_ij1)), ..., LS((v_ijn))
    - for 1 <= k1 < k2 <= k introduce variables w_{ij(k1,k2)} with
