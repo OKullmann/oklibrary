@@ -2,7 +2,7 @@
 
 /*!
   \file Concepts/Variables.hpp
-  \brief Concepts for Variables
+  \brief Concepts for variables
 */
 
 #ifndef VARIABLES_095tYb
