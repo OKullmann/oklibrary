@@ -12,13 +12,16 @@
   \todo Concepts for injectivity, surjectivity and bijectivity constraints
 
   \todo Implementation: Important active clause-sets are given by INJ(V, D) for
-  some set V of variables with domains D(v), expressing that
+  some set V of variables with domains D(v) (so D is a map), expressing that
   different variables get different values, and BIJ(V, D, Val),
   refining INJ(V, D) by also requiring that every value in Val
-  must be used. Active clause-sets can offer different levels
+  must be used.
+
+  Active clause-sets can offer different levels
   of inference powers. For "full inference power" essentially INJ
-  and BIJ are the same (in case D(v) <= Val and |V| = |Val|),
-  but for weaker systems there might be a difference.
+  and BIJ are the same in case of D(v) <= Val for all v in V and |V| = |Val|,
+  but for weaker systems there might be a difference, and, of course,
+  for INJ(V, D) nothing in general is known about the domains.
   The direct clause-representation of INJ(V,D) uses the clauses
   {(v != eps) or (v' != eps)} for v != v' and eligible values eps,
   while BIJ adds the surjectivity P-clauses {(v = eps)}_{v in V} for
@@ -42,6 +45,19 @@
   whether these algorithms can be made up-datable, so that we do not
   need to recompute everything from scratch after application of some partial
   assignment (that is, after removal of some edges from the bipartite graph).
+
+  \todo For INJ(V,D) it might be worth not only to consider edges in the
+  bipartite variable-value graph which cannot be used, but also to consider
+  edges which must be used (of course, if one edge must be used, than the
+  others cannot, but it might be more efficient to realise in certain cases,
+  that an edge must be used.
+
+  \todo Satisfying partial assignments for INJ(V,D) are the matchings in
+  the bipartite variable-value graph which cover all variables, while
+  satisfying partial assignments for BIJ(V,D) are the perfect matchings in
+  the bipartite variable-value graph. For BIJ(V,D) besides the existence
+  of a perfect matching the edges which cannot be used (and those
+  which must be used) in a perfect matching are of primary interest.
 
   \todo For variables v, v' not  only " v <> v' " is needed, but more general
   " f(v) <> f(v') " for some function f.
