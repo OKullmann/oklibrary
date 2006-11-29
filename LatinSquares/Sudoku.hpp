@@ -15,6 +15,7 @@
 #include <boost/logic/tribool.hpp>
 
 #include <Transitional/PartialAssignments/MultivaluedPartialAssignments.hpp>
+#include <Transitional/Variables/TrivialVariables.hpp>
 
 namespace OKlib {
   namespace LatinSquares {
@@ -43,15 +44,16 @@ namespace OKlib {
 
       typedef BijectivityConstraint constraint_type;
 
-      typedef OKlib::PartialAssignments::MultiPASS<entry_type, n> partial_assignment_type;
-
-      SudokuProblem(partial_assignment_type& phi) : phi(phi) {
-        // set up constraints XXXXXXXXXXXXXX
-      }
-
-      typedef typename partial_assignment_type::variables_type variables_type;
+      typedef OKlib::Variables::Variables_unsigned_int variables_type;
+      typedef OKlib::PartialAssignments::MultiPASS<entry_type, n, variables_type> partial_assignment_type;
       typedef typename partial_assignment_type::domain_type domain_type;
       typedef typename partial_assignment_type::literal_type literal_type;
+
+
+      SudokuProblem(partial_assignment_type& phi) : phi(phi) {
+        
+        // set up constraints XXXXXXXXXXXXXX
+      }
 
       point_type point(const point2_type& p) const {
         assert(p.first.first >= 1);
