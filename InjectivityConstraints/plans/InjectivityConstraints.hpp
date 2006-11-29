@@ -5,11 +5,13 @@
   \brief Plans for the module on active clause-sets providing injectivity
   and bijectivity constraints.
 
-  \todo See log files for the date of version 0.0.1.
+  \todo Correct milestones-file
+  See log files for the date of version 0.0.1.
+
+  \todo First Concpets
+  Concepts prototypes for injectivity, surjectivity and bijectivity constraints
 
   \todo Literature and software review
-
-  \todo Concepts for injectivity, surjectivity and bijectivity constraints
 
   \todo Implementation: Important active clause-sets are given by INJ(V, D) for
   some set V of variables with domains D(v) (so D is a map), expressing that
@@ -58,6 +60,17 @@
   the bipartite variable-value graph. For BIJ(V,D) besides the existence
   of a perfect matching the edges which cannot be used (and those
   which must be used) in a perfect matching are of primary interest.
+
+  \todo Complexity measures
+  The natural complexity-measure for an injectivity constraint is the sum
+  of the logarithms of the domain sizes of the variables involved.
+  Also the measures for the simulating clause-sets (boolean or not) can
+  be easily computed. But in general these measures might not be very
+  useful.
+
+  \todo Autarkies
+  Autarkies for injectivity constraints (and the other types) are likely best
+  understood by using the boolean CNF-representation.
 
   \todo For variables v, v' not  only " v <> v' " is needed, but more general
   " f(v) <> f(v') " for some function f.
