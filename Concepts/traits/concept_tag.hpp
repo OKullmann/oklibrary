@@ -1,7 +1,7 @@
 // Oliver Kullmann, 30.12.2005 (Swansea)
 
 /*!
-  \file traits/concept_tag.hpp
+  \file Concepts/traits/concept_tag.hpp
   \brief Traits-metafunctions to extract the concept tag.
 */
 
