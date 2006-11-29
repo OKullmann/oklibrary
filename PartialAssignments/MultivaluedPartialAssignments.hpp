@@ -14,8 +14,11 @@
 #include <cassert>
 
 #include <tr1/array>
+#include <tr1/type_traits>
 
-#include <Transitional/Variables/TrivialVariables.hpp>
+#include <boost/static_assert.hpp>
+
+#include <Transitional/Concepts/Variables.hpp>
 
 namespace OKlib {
   namespace PartialAssignments {
@@ -24,44 +27,51 @@ namespace OKlib {
       \class MultiPASS
       \brief Very first prototype for a set-valued partial assignment
 
-      \todo Use literals from module Literals.
-
-      \todo Test it.
+      MultiPASS<Values, NumVar, Var> :
+       - Values is the value-type
+       - NumVar is the number of variables
+       - Var is a model of VariablesAsIndex.
     */
 
-    template <class Values, int NumVar>
+    template <class Values, unsigned int NumVar, class Var>
     struct MultiPASS {
+      BOOST_STATIC_ASSERT((std::tr1::is_base_of<OKlib::Concepts::VariablesAsIndex_tag, typename OKlib::Concepts::traits::concept_tag<Var>::type>::value));
 
       typedef Values value_type;
-      typedef std::set<value_type> domain_type;
-      static const int n = NumVar;
+      typedef std::set<value_type> domain_type; // this should come from module Literals; its an atomic condition as discussed in Concepts/plans/Literals.hpp
 
+      typedef Var variables_type;
+      typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
+      
+      static const unsigned int n = NumVar;
+
+    private :
       typedef std::tr1::array<domain_type, n+1> array_type;
       array_type phi;
 
-      typedef OKlib::Variables::Variables_int variables_type;
+    public :
       typedef std::pair<variables_type, domain_type> literal_type;
 
       const domain_type& operator[](const variables_type v) const {
-        assert(v > 0);
-        assert(v <= n);
-        return phi[n];
+        const index_type i(v);
+        assert(i > 0);
+        assert(i <= n);
+        return phi[i];
       }
 
-      void set(const variables_type v, domain_type& S) {
-        assert(v > 0);
-        assert(v <= n);
-        action_list.push_back(literal_type(v, phi[v]));
-        phi[v].swap(S);
+      void set(const variables_type v, domain_type& S) { // likely the input should be a literal
+        const index_type i(v);
+        assert(i > 0);
+        assert(i <= n);
+        action_list.push_back(literal_type(v, phi[i]));
+        phi[i].swap(S);
       }
       
     private :
-
       typedef std::vector<literal_type> stack_type;
       stack_type action_list;
 
     public :
-
       typedef typename stack_type::size_type token_type;
 
       token_type get_token() const { return action_list.size(); }
@@ -69,9 +79,10 @@ namespace OKlib {
       void undo(const token_type last_token) {
         while (action_list.size() > last_token) {
           const literal_type& old_value(action_list.back());
-          assert(old_value.first > 0);
-          assert(old_value.first <= n);
-          phi[old_value.first] = old_value.second;
+          const index_type i(old_value.first);
+          assert(i > 0);
+          assert(i <= n);
+          phi[i] = old_value.second;
           action_list.pop_back();
         }
       }
