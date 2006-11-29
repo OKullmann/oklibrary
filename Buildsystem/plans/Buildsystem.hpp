@@ -21,9 +21,14 @@
      without a change in behaviour; we should also document this), but why the
      definition in makefile_recursive ? Can't makefile_generic define it on its own
      (respectively, shouldn't the definition in makefile_generic  suffice) ?
+
+     Within recursive makefile-invocations we can use the option "--directory=DIR",
+     while from the command line, when calling a makefile from another directory,
+     the option "-C DIR" can be used. This seems to make srcdir superfluous?
+     If so, then is it worth to keep it for convenience?
   
   \todo Document srcdir:
-   - Those settings of srcdir which remain should receive some inline comments
+   - Those settings of srcdir which remain should (if at all) receive some inline comments
      (these settings are quite arcane).
 
   \todo Linking to makefile_recursive:
@@ -82,6 +87,11 @@
       further makefiles for definitions for the directory structure 
       of system_directories, internal make targets, running tests, 
       environment and system Make variables.
+
+  \todo Calling make with the option "-B" (or "--always-make") does not
+  work (it leads to an infinite loop) --- why is this so? What can be done
+  about it --- it would be nice to be able to force a rebuild, without having to delete
+  some directories (this might be dangerous).
 
   \todo Doxygen general:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
