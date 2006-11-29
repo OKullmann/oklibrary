@@ -8,6 +8,8 @@
   \par Version 0.0.3
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
   - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
+  - Correct milestones-file
 
   \par Version 0.0.4
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
@@ -16,6 +18,8 @@
   \par Version 0.0.5
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
   - Old implementations
+  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
+  - First Concpets
 
   \par Version 0.1
   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
