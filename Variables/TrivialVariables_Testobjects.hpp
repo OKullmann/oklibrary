@@ -1,7 +1,6 @@
 // Oliver Kullmann, 5.6.2005 (Swansea)
 
 #ifndef TRIVIALVARIABLESTESTOBJECTS_90845TgH
-
 #define TRIVIALVARIABLESTESTOBJECTS_90845TgH
 
 #include <Transitional/Concepts/Variables_Tests.hpp>
