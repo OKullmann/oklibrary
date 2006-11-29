@@ -11,6 +11,8 @@
    - Concepts/InputOutput.hpp : 
    - Concepts/Iterators.hpp : 
    - Concepts/LibraryBasics.hpp
+   - Concepts/Literals.hpp
+   - Concepts/PartialAssignments.hpp
    - Concepts/RefactoringIncludeHandling.hpp : 
    - Concepts/ResultElements.hpp :
    - Concepts/plans/Variables.hpp :
