@@ -7,9 +7,18 @@
   \todo Complete implementation of OKlib::LatinSquares::SudokuProblem
   - Are all constraints stored together? Perhaps better we use the natural grouping
   into 3 groups?
+  - Use the concepts of literals (what about entry_type?).
 
   Compare with SATAlgorithms/plans/GenericBacktracking.hpp and with
   Concepts/plans/ClauseSets.hpp for the concept discussion.
+
+  \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoku
+  Likely this should be just a generic algorithm, applicable to any collection of
+  constraints (active clause-sets)?!
+
+  \todo Test OKlib::LatinSquares::SudokuProblem
+
+  \todo Test OKlib::LatinSquares::Trivial_reduction_Sudoku
 
   \todo Strong hypergraph colouring
   It seems that everything we are doing can be done at the more general
@@ -18,14 +27,6 @@
   everything, and then to derive the Sudoku components by just instantiating
   the hypergraph colouring problem (using 3 N^2 hyperedges).
   Is there anything special for the Sudoku problem?
-
-  \todo Test OKlib::LatinSquares::SudokuProblem
-
-  \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoku
-  Likely this should be just a generic algorithm, applicable to any collection of
-  constraints (active clause-sets)?!
-
-  \todo Test OKlib::LatinSquares::Trivial_reduction_Sudoku
 
   \todo Another representation of Sudoku uses one Latin square plus N*N bijectivity constraints (for the boxes).
 
