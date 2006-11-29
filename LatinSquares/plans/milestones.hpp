@@ -7,13 +7,18 @@
 
   \par Version 0.0.4
   In LatinSquares/plans/Sudoku.hpp the following topics are handled:
-  - Complete implementation of OKlib::LatinSquares::SudokuProblem
-  - Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoko
+  - Complete implementation of OKlib::LatinSquares::SudokuProblem.
+
+  \par Version 0.0.5
+  In LatinSquares/plans/Sudoku.hpp the following topics are handled:
+  - Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoko.
+  Refine milestones.
 
   \par Version 0.1
   In LatinSquares/plans/Sudoku.hpp the following topics are handled:
   - Test OKlib::LatinSquares::SudokuProblem
   - Test OKlib::LatinSquares::Trivial_reduction_Sudoko
+  - Strong hypergraph colouring.
 
   \par Version 0.2
   In LatinSquares/plans/LatinSquares.hpp the following topics are handled:
