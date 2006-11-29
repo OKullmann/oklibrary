@@ -4,8 +4,14 @@
   \file Literals/plans/Literals.hpp
   \brief Plans for literals
 
-  \todo Very first prototype for "signed literals"
-  (set-valued literals).
+  \todo Implement trivial literals
+  (like trivial variables, but now only used signed integral types)
+
+  \todo First prototype
+  Very first prototype for "signed literals" (set-valued literals).
+  Based (of course) on Concepts/Literals.hpp. Perhaps first the
+  notion of the "atomic condition" (use of "sets") needs to be
+  clarified.
 
 */
 
