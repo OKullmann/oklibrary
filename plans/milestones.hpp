@@ -13,66 +13,95 @@
 */
 
 /*!
-  \page PageTargetsTransitional Targets for Transitional:
+  \page PageTargetsTransitional Targets for Transitional
 
   \section StartingVersion010 Starting with version 0.1.0
 
-  \subsection VersionTransitional011 0.1.1
-  \par Buildsystem version 0.2
+  \subsection VersionTransitional011 0.1.1 : TO BE REACHED 8.12.2006
+  \par Buildsystem version 0.1.2 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.2
+  \par Messages version 0.7.1 (OK)
   (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.2
+  \par TestSystem version 0.1.2 (OK)
   (see TestSystem/plans/milestones.hpp)
+  \par Literals version 0.0.3 (OK (MH, ML))
+  (see Literals/plans/milestones.hpp)
+  \par AutarkySearch version 0.0.5 (ML)
+  (see AutarkySearch/plans/milestones.hpp)
   \par All modules have plans-subdirectories, most with milestones (OK) : DONE
 
   \subsection VersionTransitional012 0.1.2
-  \par Buildsystem version 0.3
+  \par Buildsystem version 0.1.3 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.5
+  \par Messages version 0.7.2 (OK)
   (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.5
+  \par TestSystem version 0.1.3 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.1
+  \par Concepts version 0.1.1 (OK (MH, ML))
   (see Concepts/plans/milestones.hpp)
-  \par ComplexitySystem version 0.1
-  (see ComplexitySystem/plans/milestones.hpp)
+  \par PartialAssignments version 0.0.5 (OK (MH, ML))
+  (see PartialAssignments/plans/milestones.hpp)
+  \par LatinSquares version 0.0.4 (OK, MH)
+  (see LatinSquares/plans/milestones.hpp)
+  \par Expand the following milestones regarding SAT-algorithms
 
   \subsection VersionTransitional013 0.1.3
-  \par Buildsystem version 0.4
+  \par Buildsystem version 0.1.4 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8
+  \par Messages version 0.7.3 (OK)
   (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.2
+  \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par ComplexitySystem version 0.2
-  (see ComplexitySystem/plans/milestones.hpp)
+  \par Concepts version 0.1.2 (OK (MH, ML))
+  (see Concepts/plans/milestones.hpp)
 
   \subsection VersionTransitional014 0.1.4
+  \par Buildsystem version 0.3 (MH)
+  (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.7.5 (OK)
+  (see Messages/plans/milestones.hpp)
+  \par TestSystem version 0.1.5 (OK)
+  (see TestSystem/plans/milestones.hpp)
+  \par ComplexitySystem version 0.1 (MH (OK))
+  (see ComplexitySystem/plans/milestones.hpp)
+  \par Concepts version 0.2 (OK (MH, ML))
+  (see Concepts/plans/milestones.hpp)
+
+  \subsection VersionTransitional015 0.1.5
+  \par Buildsystem version 0.4 (MH)
+  (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.8 (OK)
+  (see Messages/plans/milestones.hpp)
+  \par TestSystem version 0.2 (OK)
+  (see TestSystem/plans/milestones.hpp)
+  \par ComplexitySystem version 0.2 (MH OK))
+  (see ComplexitySystem/plans/milestones.hpp)
+
+  \subsection VersionTransitional016 0.1.6
   \par Buildsystem version 0.5
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional015 0.1.5
+  \subsection VersionTransitional017 0.1.7
   \par Buildsystem version 0.6
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional016 0.1.6
+  \subsection VersionTransitional018 0.1.8
   \par Buildsystem version 0.7
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional017 0.1.7
+  \subsection VersionTransitional019 0.1.9
   \par Buildsystem version 0.8
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.8
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional018 0.1.8
+  \subsection VersionTransitional0110 0.1.10
   \par Buildsystem version 0.9
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.9
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional019 0.1.9
+  \subsection VersionTransitional0111 0.1.11
   \par Buildsystem version 1.0
   (see Buildsystem/plans/milestones.hpp)
 
