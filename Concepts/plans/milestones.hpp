@@ -8,6 +8,7 @@
   \par Version 0.1.1 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
   - Update
+
   And further milestones are created.
 
   \par Version 0.1.2 :
