@@ -9,11 +9,11 @@
 
    - Update the doxygen-documentation.
 
-     Messages/LanguageNames.hpp :
-       Messages/messages/Languages.hpp : 
-     Messages/Languages.hpp : 
+     Messages/LanguageNames.hpp : DONE
+     Messages/messages/Languages.hpp : DONE
+     Messages/Languages.hpp : DONE
      Messages/Levels.hpp :
-       Messages/messages/Levels.hpp : 
+     Messages/messages/Levels.hpp : 
      Messages/MessagesBase.hpp : 
      Messages/MessagesMain.hpp : 
      Messages/Messages_Testapplication.cpp :
