@@ -2,7 +2,7 @@
 
 /*!
   \file Messages/LanguageNames.hpp
-  \brief Component for translating language names into language constants
+  \brief Component for translating language names (as C-strings) into language constants (as C++ enumerated constants)
 */
 
 #ifndef LANGUAGENAMES_janVVcd4
@@ -24,10 +24,21 @@ namespace OKlib {
       \class LanguageName
       \brief Functor to translate language names into language constants.
 
-      ::OKlib::Messages::LanguageName(name) yields a value of type ::OKlib::Messages::Languages
+      ::OKlib::Messages::LanguageName(name), where name is a C-string,
+      yields a value of type ::OKlib::Messages::Languages
       (an enumeration type), while throwing an exception of type
       LanguageName::UninterpretableLanguageName
       in case name doesn't refer to an existing language.
+
+      The available names are exactly the names of the enumerated constants in the enumeration type
+      OKlib::Messages::Languages (so LanguageName(name) is just the value of name as C++ constant),
+      which in turn are exactly the strings given by the macro OKLIB_LANGUAGES
+      (in Transitional/Messages/Languages.hpp).
+      Since the language names are made available by the array ::OKlib::Messages::Locales,
+      class LanguageName is nothing than a find-wrapper for this array (enabling faster
+      access than by just linearly searching through this array).
+
+      For example LanguageName("en_GB") == ::OKlib::Messages::en_GB == ::OKlib::Messages::Languages(0).
     */
 
     class LanguageName : std::unary_function<const char*, ::OKlib::Messages::Languages> {
@@ -42,6 +53,7 @@ namespace OKlib {
           return pair_type(std::string(name), static_cast<language_type>(&name - ::OKlib::Messages::Locales));
         }
       };
+      //! The iterator used for the initialisation of object "map".
       typedef boost::transform_iterator<PairFunction, const char* const *> pair_iterator_type;
 
       struct UninterpretableLanguageName : std::runtime_error {

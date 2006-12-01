@@ -7,6 +7,9 @@
   The message system is based on "raw" character sequences, assuming the UTF-8
   interpretation of the output. Easiest input by assuming UTF-8 encoding of the source code file.
 
+  Defined are enumerated constants like en_GB == 0 of type Languages, an array Locales for
+  translation of name-constants into name-strings (Locales[en_GB] == "en_GB"), and tagging classes
+  like L<en_GB>, where derivation relations give the canonical fall-back languages (that is, locales).
 */
 
 #ifndef LANGUAGES_8UyTre
@@ -23,8 +26,9 @@ namespace OKlib {
 
     /*!
       \def OKLIB_LANGUAGES
-      \brief The list of constants naming the available languages; the constant-names are also used to name
-      the corresponding locale.
+      \brief The list of constants naming the available combinations of language and locale
+
+      These constants are identical to locale-names used by gcc.
 
       OKLIB_LANGUAGES is a sequence in the sense of the Boost Preprocessor library. If a new element
       is added (for a new (localised) language; at the end or in the middle -- but not at the start, since
@@ -32,6 +36,9 @@ namespace OKlib {
       specialisation of ::OKlib::Messages::L needs to be created (see below), and in
       ::OKlib::Messages::messages::Languages a new print-overload for this class
       has to be created as well as extending the switch-statements of the other print-overloads.
+
+      The message class OKlib::Messages::messages::LanguageNames outputs explanations for
+      all locale-names.
     */
 
 #define OKLIB_LANGUAGES (en_GB) (en_US) (en_CA) (en_AU) (fr_FR) (fr_CH) (fr_CA) (de_DE) (de_AT) (de_CH)
@@ -69,6 +76,10 @@ namespace OKlib {
       \class L
       \brief L<language>, where language is an element of Languages, is a tagging class
       representing this language.
+
+      Specialisations of L<language> stand in derivation relation to each other, where the immediate base class
+      is the fall-back language (more precisely, locale) used in case L<language> is not implemented (for
+      some message).
     */
 
     template <Languages language>
