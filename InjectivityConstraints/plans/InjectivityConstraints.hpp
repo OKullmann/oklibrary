@@ -48,6 +48,11 @@
   need to recompute everything from scratch after application of some partial
   assignment (that is, after removal of some edges from the bipartite graph).
 
+  For a 1-strong active clause-set INJ(V,D) a matching covering all variables
+  has to be maintained; given such a matching, in [Regin 1994] a linear-time
+  algorithm is given that finds out all edges not part of some matching matching
+  all variables.
+
   \todo For INJ(V,D) it might be worth not only to consider edges in the
   bipartite variable-value graph which cannot be used, but also to consider
   edges which must be used (of course, if one edge must be used, than the
