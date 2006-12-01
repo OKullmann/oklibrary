@@ -2,7 +2,7 @@
 
 /*!
   \file Messages/messages/Languages.hpp
-  \brief Translations of language names (provided by a message class).
+  \brief Explanations of language names
 */
 
 #ifndef LANGUAGESEXPLANATIONS_8Uh26266
@@ -18,7 +18,9 @@ namespace OKlib {
 
       /*!
         \class LanguageNames
-        \brief Outputs a description for all provided languages.
+        \brief Outputs a description for all provided languages (more precisely, locales)
+
+        Constructed with a language-constant.
       */
 
       OKLIB_USING_MESSAGES
@@ -26,7 +28,7 @@ namespace OKlib {
       OKLIB_MESSAGES(LanguageNames) {
         OKLIB_MESSAGES_PRINT
 
-        LanguageNames(const ::OKlib::Messages::Languages lang) : lang(lang) {}
+        explicit LanguageNames(const ::OKlib::Messages::Languages lang) : lang(lang) {}
         LanguageNames() : lang(::OKlib::Messages::Languages(0)) {}
 
         ::OKlib::Messages::Languages foreign_language() const { return lang; }
