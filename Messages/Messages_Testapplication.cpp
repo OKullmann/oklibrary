@@ -3,6 +3,8 @@
 /*!
   \file Messages/Messages_Testapplication.cpp
   \brief DEPRECATED. Temporary test application
+
+  \todo Transfer to the (new) test system.
 */
 
 #include <iostream>
@@ -17,7 +19,7 @@ namespace Implementation {
 
   OKLIB_USING_MESSAGES
 
-  OKLIB_MESSAGES(M1) {
+  struct M1 : ::OKlib::Messages::MessagesBase {
     OKLIB_MESSAGES_PRINT
 
       void print(std::ostream& out, L<en_GB>, S<Basic>) const {
