@@ -6,5 +6,8 @@
 
   \todo Write tests (in the new test system).
 
+  \todo Doxygen documentation
+  The explicit instantiation of Messages::S<Basic> is not listed --- how to correct this?
+
 */
 
