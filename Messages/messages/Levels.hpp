@@ -3,6 +3,8 @@
 /*!
   \file Messages/messages/Levels.hpp
   \brief Translations of level names (provided by a message class).
+
+  Defines class Messages::messages::LevelNames for output of level descriptions.
 */
 
 #ifndef LEVELSEXPLANATIONS_khgFFr4
@@ -16,13 +18,19 @@ namespace OKlib {
 
     namespace messages {
 
+      /*!
+        \class LevelNames
+        \brief Outputs a description for all provided levels
+
+        Constructed with a level-constant.
+      */
+
       OKLIB_USING_MESSAGES
 
-      OKLIB_MESSAGES(LevelNames) {
+      struct LevelNames : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
-        LevelNames(const ::OKlib::Messages::Strata lev) : lev(lev) {}
-        LevelNames() : lev(::OKlib::Messages::Strata(0)) {}
+        explicit LevelNames(const ::OKlib::Messages::Strata lev = ::OKlib::Messages::Strata(0)) : lev(lev) {}
 
         ::OKlib::Messages::Strata other_level() const { return lev; }
         ::OKlib::Messages::Strata& other_level() { return lev; }
