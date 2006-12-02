@@ -56,15 +56,15 @@ namespace OKlib {
       //! The iterator used for the initialisation of object "map".
       typedef boost::transform_iterator<PairFunction, const char* const *> pair_iterator_type;
 
+    public :
+
       struct UninterpretableLanguageName : std::runtime_error {
         UninterpretableLanguageName(const std::string message) : std::runtime_error(message) {}
       };
 
-    public :
-
       language_type operator()(const char* const name) const {
         typedef map_type::const_iterator iterator;
-        static const iterator end(map.end());
+        static const iterator& end(map.end());
         const iterator& found(map.find(std::string(name)));
         if (found == end)
           throw UninterpretableLanguageName(name);
