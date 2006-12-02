@@ -23,7 +23,7 @@
 
   \par Version 0.0.9 :
 
-  In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
+  In Messages/Utilities/plans/TimeAndDate.hpp the following topics are handled:
   - Time and Date
 
   \par Version 0.0.10 :
