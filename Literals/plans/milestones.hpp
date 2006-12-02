@@ -12,6 +12,7 @@
   \par Version 0.0.4 :
   In Literals/plans/Literals.hpp the following topics are handled:
   - First prototype
+
   And further milestones are created.
 
 
