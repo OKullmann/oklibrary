@@ -3,6 +3,8 @@
 /*!
   \file Messages/messages/Languages.hpp
   \brief Explanations of language names
+
+  Defines class Messages::messages::LanguageNames for output of descriptions of languages.
 */
 
 #ifndef LANGUAGESEXPLANATIONS_8Uh26266
@@ -25,11 +27,10 @@ namespace OKlib {
 
       OKLIB_USING_MESSAGES
 
-      OKLIB_MESSAGES(LanguageNames) {
+      struct LanguageNames : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
-        explicit LanguageNames(const ::OKlib::Messages::Languages lang) : lang(lang) {}
-        LanguageNames() : lang(::OKlib::Messages::Languages(0)) {}
+        explicit LanguageNames(const ::OKlib::Messages::Languages lang = ::OKlib::Messages::Languages(0)) : lang(lang) {}
 
         ::OKlib::Messages::Languages foreign_language() const { return lang; }
         ::OKlib::Messages::Languages& foreign_language() { return lang; }
