@@ -49,7 +49,7 @@ namespace OKlib {
 
       OKLIB_USING_MESSAGES
 
-      OKLIB_MESSAGES(RunTestOpening) {
+      struct RunTestOpening : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
         ::OKlib::TestSystem::TestLevel& test_level;
@@ -101,7 +101,7 @@ namespace OKlib {
 
       // ##################################################
 
-      OKLIB_MESSAGES(RunTestClosing) {
+      struct RunTestClosing : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
         ::OKlib::TestSystem::TestLevel& test_level;
@@ -192,7 +192,7 @@ namespace OKlib {
         }
       };
 
-      OKLIB_MESSAGES(SingleTestOpening) {
+      struct SingleTestOpening : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
         typedef ::OKlib::TestSystem::RunTest::container_type::size_type size_type;
@@ -224,7 +224,7 @@ namespace OKlib {
 
       // ##################################################
 
-      OKLIB_MESSAGES(SingleTestClosing) {
+      struct SingleTestClosing : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
         typedef ::OKlib::TestSystem::RunTest::container_type::size_type size_type;

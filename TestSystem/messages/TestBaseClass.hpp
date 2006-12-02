@@ -32,7 +32,7 @@ namespace OKlib {
         test function, and nesting depth and test level).
       */
 
-      OKLIB_MESSAGES(BasicTestDescription) {
+      struct BasicTestDescription : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
         const std::string type_name;
@@ -85,7 +85,7 @@ namespace OKlib {
         \brief Outputs a description of the circumstances of a log-message
       */
 
-      OKLIB_MESSAGES(LogDescription) {
+      struct LogDescription : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
         const char* const file_name;
