@@ -27,6 +27,10 @@ namespace OKlib {
       specialisation of ::OKlib::Messages::S needs to be created (see below), and in
       ::OKlib::Messages::Documentation::LevelNames a new print-overload for this class
       has to be created as well as extending the switch-statements of the other print-overloads.
+
+      The standard consists of the levels Basic, Full, and Extensive.
+
+      Associated message services one finds in Messages/messages/Levels.hpp.
     */
 
 #define OKLIB_STRATA (Basic) (Full) (Extensive)
@@ -37,15 +41,28 @@ namespace OKlib {
       \enum Strata
       \brief Constants of type int for the levels
 
+      Enumerated type, whose elements are named according to OKLIB_STRATA.
       The first member is the default level Basic with value 0.
     */
 
     enum Strata { BOOST_PP_SEQ_ENUM(OKLIB_STRATA) };
 
+    /*!
+      \class S
+      \brief S<level>, where level is an element of Strata, is a tagging class representing
+      this level.
+
+      Specialisations of S<level> stand in derivation relations to each other, where the
+      immediate base class is the fall-back level used in case S<level> is not implemented
+      (for some message).
+    */
+
     template <Strata level>
     struct S {
       static const Strata value = level;
     };
+
+    template struct S<Basic>;
 
     template <>
     struct S<Full> : S<Basic> {
