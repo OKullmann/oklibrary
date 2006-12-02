@@ -11,5 +11,10 @@
   \todo For Messages/messages/Languages.hpp:
    - "Austria" in French?
    - "Untranslated" in French?
+
+  \todo Doxygen documentation
+  Doxygen documents the macros OKLIB_QUOTE and OKLIB_QUOTED_SEQUENCE,
+  although they are undefined --- how to correct this?
+
 */
 
