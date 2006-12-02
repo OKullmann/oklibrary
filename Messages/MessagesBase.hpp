@@ -25,9 +25,39 @@ namespace OKlib {
     /*!
       \class MessagesBase
       \brief The polymorphic base class for message classes
+
+      Every message class is derived from MessagesBase.
+
+      In each std::ostream object the current language (of type
+      Messages::Languages) and the current level (of type Messages::Strata) are stored, with default values
+      Messages::en_GB and Messages::Basic; when setting the language of a stream, then also the locale
+      of this stream is set according to the the current language-value. Message objects (objects of some type
+      publically derived from MessagesBase) can be inserted into any ostream-object, and their messages
+      will be print according to the language (locale) and level of the stream.
+
+      Public member functions are:
+       - default constructor, default copy constructor, default copy assignment
+       - virtual destructor
+       - static Messages::Languages language(ostream& out) : current language of the stream
+         (default is Messages::en_GB)
+       - static Messages::Strata level(ostream& out) : current level of the stream
+         (default is Messages::Basic)
+       - static ostream& set(ostream& out, Messages::Languages lang, const char* coding = ".utf-8") :
+         set the current language (more precisely, locale) of out together with the prescribed encoding
+       - static ostream& set(ostream& out, Messages::Strata level) :
+         set the current level of out.
+
+       Pure virtual member functions:
+        - ostream& print(ostream& out) : to be implemented by each message class; prints the message
+          in the current language (more precisely, locale) and level.
+
+       Non-member functions:
+        - ostream& operator <<(ostream& out, const MessagesBase& m) :
+          prints the message by calling m.print(out).
     */
 
     class MessagesBase {
+      //! the language-index (for all ostreams)
       static int language_index() {
         static bool uninitialised = true;
         static int index;
@@ -37,6 +67,7 @@ namespace OKlib {
         }
         return index;
       }
+      //! the level-index (for all ostreams)
       static int level_index() {
         static bool uninitialised = true;
         static int index;

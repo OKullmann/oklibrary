@@ -10,6 +10,8 @@
   Defined are enumerated constants like en_GB == 0 of type Languages, an array Locales for
   translation of name-constants into name-strings (Locales[en_GB] == "en_GB"), and tagging classes
   like L<en_GB>, where derivation relations give the canonical fall-back languages (that is, locales).
+
+  Associated message services one finds in Messages/messages/Languages.hpp.
 */
 
 #ifndef LANGUAGES_8UyTre
@@ -60,7 +62,9 @@ namespace OKlib {
 
     enum Languages { BOOST_PP_SEQ_ENUM(OKLIB_LANGUAGES) };
 
+    //! Implementation detail (used only for OKLIB_QUOTED_SEQUENCE)
 #define OKLIB_QUOTE(r, data, elem) (BOOST_PP_STRINGIZE(elem))
+    //! Implementation detail (used only for the initialisation of Locales)
 #define OKLIB_QUOTED_SEQUENCE BOOST_PP_SEQ_FOR_EACH(OKLIB_QUOTE, , OKLIB_LANGUAGES)
 
     /*!
@@ -77,9 +81,9 @@ namespace OKlib {
       \brief L<language>, where language is an element of Languages, is a tagging class
       representing this language.
 
-      Specialisations of L<language> stand in derivation relation to each other, where the immediate base class
-      is the fall-back language (more precisely, locale) used in case L<language> is not implemented (for
-      some message).
+      Specialisations of L<language> stand in derivation relations to each other, where the immediate
+      base class is the fall-back language (more precisely, locale) used in case L<language> is not
+      implemented (for some message).
     */
 
     template <Languages language>
