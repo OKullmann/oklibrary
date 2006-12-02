@@ -28,10 +28,10 @@ namespace OKlib {
          (This leads to undefined behaviour, but compilers usually don't catch this.)
       */
 
-      OKLIB_MESSAGES(TestLevelDescriptions) {
+      struct TestLevelDescriptions : ::OKlib::Messages::MessagesBase {
         OKLIB_MESSAGES_PRINT
 
-        TestLevelDescriptions(const ::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
+        explicit TestLevelDescriptions(const ::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
 
         struct dispatch : ::OKlib::TestSystem::VisitorTestLevel {
           std::ostream& out;
