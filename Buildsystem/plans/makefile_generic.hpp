@@ -4,58 +4,29 @@
   \file Buildsystem/plans/makefile_generic.hpp
   \brief Plans for the generic makefile
 
-  \todo (DONE) Extracting documentation building to seperate makefile:
-  Those parts of makefile_generic.mak which are responsible for building the
-  doxygen documentation and the main documentation index page are extracted
-  to seperate makefiles:
-    $(OKBuildsystem)/makefile_generic_include/makefile_documentation.mak
-    $(OKBuildsystem)/makefile_generic_include/makefile_documentation_index.mak
+  \todo Complete documentation:
+  Extend and complete the inline documentation of makefile_generic.mak.
+   - Checking on the existing documentation, and updating if necessary.               
+   - What is required from those makefile.definitions.mak ? Update the list in
+     makefile_generic.mak, and reflect on it.
+   - Adding inline comments for an overview on functionality.
+   - It is dangerous to separate the the documentation of the make-variables
+     from their definition?!
 
-  \todo Valgrind documentation:
+   \todo Valgrind documentation:
    - Recover the missing documentation about the usage of Valgrind.
    - Wasn't there a comment on valgrind (important!) ??? (valgrind --quiet ...)
    - We also have a variable to use valgrind with the tests.
- 
-  \todo Make-variables for compilation and linking:
-    - instead of specifying a specific alternative gcc or boost version, it
-      should be possible to use the recommended version
-    - also it should be possible to use recommended versions of all external
-      resources, such as Mhash.
 
-    DISCUSSION : (MH) Here there seem to be several possibilities. The recommended
-                 versions are defined in makefile_ExternalSources.mak (GCC) and
-                 makefile_boost.mak. So one possibility would be to get them from
-                 there by searching for the right version number string. Another
-		 possibility would be to define the different versions including
-		 recommended versions in seperate makefiles (e.g. gcc_versions.mak)
-		 and then this can be included by all the makefiles which need it.
-		 The other possibility would just be to copy and paste the recommended
-		 versions in makefile_generic.mak with a copy and paste comment.
-
-		 It seems like the right thing to do here is to create a make file
-		 external_sources_versions.mak which contains variable definitions
-		 for all the supported versions of Gcc, Boost, Mhash, Postgresql etc..
-		 This file is then included by those other makefiles which also need
-		 those version numbers.
-
-                 (MH) This task is partially complete. The file 
-                 external_sources_versions.mak contains the recommended versions of
-                 all external resources. However, the recommended version
-                 numbers are got by the buildsystem through a little hack. Namely,
-		 there are seperate variables for both the version number and the
-                 version name. This should be changed so that the version number
-		 is only defined once.
-
-    - also it should be possible to use the system-wide versions of all
-      external resources.
-
-    DISCUSSION : (MH) Here a possible solution is to have a make variable 
-                 system_versions, say, which, if defined to have any value, 
-                 prompts the build system to use the system-wide versions of
-                 all external resources. 
-
-    - general clean-up of make-variables
-
+   \todo Recommended versions:
+   The file external_sources_versions.mak contains the recommended versions of
+   all external resources. However, the recommended version
+   numbers are got by the buildsystem through a little hack. Namely,
+   there are seperate variables for both the version number and the
+   version name. This should be changed so that the version number
+   is only defined once.
+   
+   \todo General clean-up of make-variables
    DISCUSSION : (MH) There should be a scheme for the naming of variables which
                 distinguishes those variables : 
 		-# which are internal (purely for the use of the build system), 
@@ -67,6 +38,9 @@
                 (OK : why are you using "-#" ?)
                 (MH : This is how to create numbered lists in Doxygen. You prefer to
                 just write the numbers?)
+
+################### PROBLEM: It seems MH is using tab-stops?
+################### Those must be disabled!
 
 		One possible scheme is:
 		-# _variable (lowercase with preceeding underscore)
@@ -95,49 +69,19 @@
                 because the changes I propose under documentation and cleaning
                 involved changing many variable names and definitions.
 
-    - the current function of "General_options" is taken over by the new variable "Debug_options"
+  \todo  General_options:
+  The current function of "General_options" is taken over by the new variable "Debug_options".
 
-    - Which compiler options are effective when linking?
+  \todo Linking and options:
+  Which compiler options are effective when linking? "Our" options are 
+   -  -ansi (cc1plus)
+   -  -pedantic (cc1plus)
+   -  -Wall (cc1plus)
+   -  -g (cc1plus) (mentioned as "ignored" in the ld man page)
+   -  -03 (cc1plus)
+   -  -DNDEBUG (cc1plus)
 
-   DISCUSSION : (MH) 
-
-    Here is a list of compiler options which are effective when linking, taken from
-    "Using the Gnu Compiler Collection".
-
-    - -nostartfiles
-       Do not use standard system startup files.      
-    - -nodefaultlibs
-       Do not use standard system libraries.
-    - -nostdlib
-       Do not use either standard system startup files or standard system libraries.
-    - -pie
-       Produce a "position independent executable".
-    - -s
-       Remove symbol table and relocation information from the executable.
-    - -static
-       Prevent linking with dynamic libraries.
-    - -shared-libgcc
-    - -static-libgcc
-       On systems which provide libgcc as a shared library these options force either
-       the shared or static version to be used.    
-    - -symbolic
-       Bind references to global symbols when building a shared object.
-    - -u symbol
-       Pretend that symbol is undefined, to force linking of library modules to define
-       it.
-
-      (OK) The point here is to know exactly what options should/must be used when compiling
-      respectively linking (and "options" refers first of all to *our* options).
-
-      (MH) "Our" options are 
-      -  -ansi (cc1plus)
-      -  -pedantic (cc1plus)
-      -  -Wall (cc1plus)
-      -  -g (cc1plus) (mentioned as "ignored" is the ld man page)
-      -  -03 (cc1plus)
-      -  -DNDEBUG (cc1plus)
-
-      Here, the names in brackets are those executables indicate that, in the
+      Here, the names in brackets indicate, in the
       case of ld (linker) and cpp (preprocessor), the executables whose man 
       page documents the option and, in the case of cc1plus whether the help
       file documents the option.
@@ -148,11 +92,12 @@
     - CXXFLAGS is not used when linking the compilation units together --- is this
       how it should be, and how to set options for the linking stage?!
 
-    - SystemDirectories gets a new sub-directory log, where the current
-      aux/DoxygenErrorMessages is placed. Every run of make copies it
-      output by default (can be switched off) into a file
-      log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
-
+  \todo Log directory:
+  SystemDirectories gets a new sub-directory log, where the current
+  aux/DoxygenErrorMessages is placed. Every run of make copies it
+  output by default (can be switched off) into a file
+  log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
+  
   \todo Cleaning:
     - We need cleaning tools which clean up directories (not single files).
     - We need specialised cleaning for applications and link-libraries.
@@ -281,6 +226,51 @@
     - The (recursive) make-variable source_libraries is kept, predefined as "$(OKSystem_include) $(Boost_include)" (potentially
       changed in the locale makefile): If .source_libraries exists, then it overrides $(source_libraries).
 
+  \todo Generic makefile redesign:
+   - $(OKBuildsystem)/generic_makefile.mak should only be directly
+     responsible for defining the current source directory (srcdir), 
+     getting the module-specific definitions from 
+     makefile_definitions.mak, defining the make targets which are 
+     directly aimed at the user : "all", "clean", "check" and so on 
+     and providing documentation for those main targets. All the 
+     other targets and variable definitions are then defined by 
+     calling functions (with srcdir as the parameter) from makefiles
+     in the directory OKBuildsystem/makefile_generic_functions. 
+     Those makefiles contain the relevant documentation.
+
+   - The directory OKBuildsystem/makefile_generic_functions would 
+     have a structure something like :
+
+                 - makefile_generic_include
+                   - apps
+                       - cleaning.mak
+                       - compilation.mak
+                       - linking.mak
+                   - documentation
+                       - makefile_documentation.mak
+                       - makefile_documentation_index.mak
+                   - options
+                       - compilation.mak
+                       - errors.mak
+                       - language.mak
+                       - linking.mak
+                       - log.mak
+                       - messages.mak
+                       - preprocessor.mak
+                   - tests
+                       - cleaning.mak
+                       - compilation.mak
+                       - linking.mak
+                   - tests_old
+                       - cleaning.mak
+                       - compilation.mak
+                       - linking.mak
+
+    - In addition, makefile_generic_functions would contain some 
+      further makefiles for definitions for the directory structure 
+      of system_directories, internal make targets, running tests, 
+      environment and system Make variables.
+
   \todo Placement of makefile_generic:
     - Except of in Buildsystem, all other makefile_generic-versions should be links. See makefile_recursive.
     - A problem here is, that it seems that links are not handled by CVS ?
@@ -293,6 +283,10 @@
       has to use cd first. One issue here is that the testsystem cannot any longer use
       any local directories (since it won't find them); perhaps the solution is to provide
       some central place for testdata.
+
+  \todo OKsystem/Buildsystem structure:
+   - Probably the directory makefile_generic_include should be elimated and
+     it's subdirectories lifted to OKsystem/Buildsystem?
 
   \todo Targets:
        - It should be possible to build just one application, or just one implementation.

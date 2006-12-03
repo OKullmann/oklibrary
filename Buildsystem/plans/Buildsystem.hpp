@@ -4,18 +4,25 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo Makefiles in general:
-   - OKSystem is defined at one place, and imported at all other places. Additionally
-     OKSystem_include is defined (with "-I").
-     In the local definition-makefiles then we only use (not define) OKSystem_include.
-   - Makefiles should always have the suffix .mak,
+  \todo Naming and placement of makefiles:
+   - For the module-makefiles OKsystem and OKplatform should be defined at only one place,
+     and imported at all other places. However the module-makefiles somehow must get
+     some information about the directory-structure?! In any way, there are too many
+     places where these variables are defined (and redefined).
+     With the module-makefiles we have that problem, that cvs does not handle
+     links (or?); but perhaps we ignore that, and those links are simply not
+     in the repository. Then in Buildsystem we had one special "makefile", to
+     which all module-makefiles link.Because this special makefile sits in
+     the buildsystem, it can include whatever it wants! Perhaps in every module
+     we just have a link to Buildsystem/makefile_generic.mak ?!?!
+     This seems reasonable to me (OK).
+   - Makefiles should either be called "makefile", or otherwise have the suffix .mak,
      so that for examples xemacs recognises the format.
-   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
-     otherwise there must be a "copy-and-paste"-comment at each place.
-   - We should use (more) make-functions.
+     Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
+     seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".
 
-  \todo Update makefile_recursive:
-   - OK : What is the role of variable srcdir ? Isn't the definition in makefile_recursive
+  \todo Role of srcdir
+   - What is the role of variable srcdir ? Isn't the definition in makefile_recursive
      superfluous now?
      It is used in makefile_generic (so that we can call makefiles from other places,
      without a change in behaviour; we should also document this), but why the
@@ -26,98 +33,49 @@
      while from the command line, when calling a makefile from another directory,
      the option "-C DIR" can be used. This seems to make srcdir superfluous?
      If so, then is it worth to keep it for convenience?
-  
-  \todo Document srcdir:
    - Those settings of srcdir which remain should (if at all) receive some inline comments
      (these settings are quite arcane).
 
   \todo Linking to makefile_recursive:
-   - The occurrences of makefile_recursive should be replaced by links.
+   The occurrences of makefile_recursive should be replaced by links.
+
+  \todo System documentation:
+   - Document the basic version-control settings (location of server, configuration, how to use it).
+   - Document the build-system (general ideas, functionality).
+
+  \todo Meta-documentation:
+   - Meta-documentation about usage of the buildsystem.
+
+  \todo Documentation (Examples and Concepts)
+   - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
+     1. Examples : contains a mirror of the OKlibrary with (many) example applications (build by the
+     build system, so that it's always up-to-date).
+     2. Concepts : contains for each module a latex-file discussing the concepts for this module..
 
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs. Rather we want to have it so 
-     that "make new_check" and "make check" does the compilation.For performing
+     that "make new_check" and "make check" does the compilation. For performing
      the checks they need to be compiled; we also need then special targets to 
      just compile the test-programs.
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
    - What is the role of prebuild? Still it is not eliminated --- do we need it?.
 
-  \todo Generic makefile redesign:
-   - $(OKBuildsystem)/generic_makefile.mak should only be directly
-     responsible for defining the current source directory (srcdir), 
-     getting the module-specific definitions from 
-     makefile_definitions.mak, defining the make targets which are 
-     directly aimed at the user : "all", "clean", "check" and so on 
-     and providing documentation for those main targets. All the 
-     other targets and variable definitions are then defined by 
-     calling functions (with srcdir as the parameter) from makefiles
-     in the directory OKBuildsystem/makefile_generic_functions. 
-     Those makefiles contain the relevant documentation.
-
-   - The directory OKBuildsystem/makefile_generic_functions would 
-     have a structure something like :
-
-                 - makefile_generic_include
-                   - apps
-                       - cleaning.mak
-                       - compilation.mak
-                       - linking.mak
-                   - documentation
-                       - makefile_documentation.mak
-                       - makefile_documentation_index.mak
-                   - options
-                       - compilation.mak
-                       - errors.mak
-                       - language.mak
-                       - linking.mak
-                       - log.mak
-                       - messages.mak
-                       - preprocessor.mak
-                   - tests
-                       - cleaning.mak
-                       - compilation.mak
-                       - linking.mak
-                   - tests_old
-                       - cleaning.mak
-                       - compilation.mak
-                       - linking.mak
-
-    - In addition, makefile_generic_functions would contain some 
-      further makefiles for definitions for the directory structure 
-      of system_directories, internal make targets, running tests, 
-      environment and system Make variables.
-
   \todo Calling make with the option "-B" (or "--always-make") does not
   work (it leads to an infinite loop) --- why is this so? What can be done
   about it --- it would be nice to be able to force a rebuild, without having to delete
   some directories (this might be dangerous).
-
-  \todo Doxygen general:
-   - Can doxygen tell which other files include a file (not in graph form, but in text form)?
-   - For functions there is a "callergraph" --- shall we use it?
-   - How to integrate a *general* todo list into Doxygen?
-   - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
-     a doxygen-command? And how to avoid that apparently certain "keywords" are captured by
-     doxygen?
-   - How to obtain general statistics: About the number of classes, lines of code, etc. (best
-     with some statistics on the change over time)
-     and then also on the version numbers of the modules (again with changes over time).
-     If doxygen does not support it yet, then we should submit some feature request, and postphone
-     this item.
-   - We should get the newest configuration file, and transfer our information from the old
-     configuration file.
-   - It appears that all .cpp-files are considered as linked together?
-   - Can makefiles be incorporated?!
-   - Can we have nested lists? Numbered lists? These things perhaps should go into
-     our general documentation --- or we have some example files, which demonstrate
-     our use of doxygen.
 
   \todo Testing the build system
    - We need some test system for the build system. Optimally, it would run like our normal test
      system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
      which cover all functions of the build system, and which is performed from time to time (manually).
      Then we can partially automate it.
+
+  \todo Design   
+   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
+     otherwise there must be a "copy-and-paste"-comment at each place.
+   - We should use (more) make-functions.
 
   \todo Modes of Usage 
    - Two modes of usage of the build system:
@@ -162,12 +120,6 @@
      However, best we postphone this, and first make experiences with a more extensive
      directoy structure.
    
-  \todo Documentation (Examples and Concepts)
-   - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
-     1. Examples : contains a mirror of the OKlibrary with (many) example applications (build by the
-     build system, so that it's always up-to-date).
-     2. Concepts : contains for each module a latex-file discussing the concepts for this module..
-
   \todo Compilation information: 
    - We need a standardised way of how to make information about the compilation
      process available to a program (and also the name of the program, etc.), so that
@@ -205,10 +157,6 @@
      only containing declarations (perhaps parallel to each .hpp file). Ending "_decl" ?
    - Perhaps special naming conventions for files with messages or exceptions ?!
    - Module.hpp provides all includes, Module_decl.hpp all declarational includes
-
-  \todo OKsystem/Buildsystem structure:
-   - Probably the directory makefile_generic_include should be elimated and
-     it's subdirectories lifted to OKsystem/Buildsystem.
 
   \todo Complexity system: 
    - "make measurements" will create an xml-file
