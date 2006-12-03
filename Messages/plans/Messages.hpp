@@ -20,15 +20,8 @@
      Messages/Utilities/TimeAndDate.hpp : DONE
      Messages/Utilities/Umlaute.hpp : DONE.
      
-   - It must be precisely documented how to use and write message classes.
-
-  \todo Directory structure:
-   - To conform with the current recursive build system, we need a new sub-directory
-     Messages/Basics, which contains all the files currently directly under Messages.
-     This would bring another nested namespace, but since we have macro support
-     anyway for creating message classes, this should not bring much user-inconvenience
-     with it.
-   - Under Messages we need then a makefile_recursive instance.
+   - It must be precisely documented how to use and write message classes:
+     The simplest way is to write a nice "Messages/demo_Messages_1.cpp" etc. : DONE.
 
   \todo Testing:
    - We need here a preliminary compiler switch, which disables
