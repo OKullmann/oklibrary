@@ -7,35 +7,40 @@
   
   \par Version 0.1.2 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Makefiles in general
+    - Naming and placement of makefiles
 
   \par
    In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
-    - (DONE) Extracting documentation building to seperate makefile
+    - Complete documentation
     - Valgrind documentation
-  
-  \par
-   In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation.hpp
-   the following topics are handled:
-    - Update todos
-    - Documentation
+    - (DONE) Extracting documentation building to separate makefile
 
   \par
-   In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp
+   In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
    the following topics are handled.
     - (DONE) Documentation index page creation
     - (DONE) html target
-    - ERROR REPORTING
+    - ERROR REPORT
 
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Update makefile_recursive
-    - Document srcdir
+    - Role of srcdir
     - Linking to makefile_recursive
+    - System documentation
+    - Meta-documentation
+    - Documentation (Examples and Concepts)
+
+  \par
+   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+    - Recommended versions
+
+  \par
+   In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
+   the following topics are handled:
     - Doxygen general
     - Doxygen menu
-    - Documentation (Examples and Concepts)
-    - System documentation
+
+    All the following milestones need to be updated.
   
   \par Version 0.1.4 :
    In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
@@ -124,7 +129,6 @@
 
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp the following topics are handled:
-    - System documentation
     - CSS
 
 
