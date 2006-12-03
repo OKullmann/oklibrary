@@ -3,9 +3,7 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-test_program :=
-
-programs := Messages_Testapplication
+programs := Messages_Testapplication demo_Messages_1 demo_Messages_2 demo_Messages_3
 
 source_libraries = $(Boost)
 
