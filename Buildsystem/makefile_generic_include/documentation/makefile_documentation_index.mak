@@ -1,3 +1,7 @@
+# Creating an index in $(system_directories)/doc to all the OKplatform
+#  documentation, including external resources. This index also contains
+#  links to the web pages of Boost, Doxygen, Gcc etc
+
 # ##################################################
 # Local Documentation Locations
 # ##################################################
