@@ -15,10 +15,6 @@
 
 # COMMENT OK: Here we need to speak about compilation of *test*-programs!
 
-#    
-# Documentation
-# -------------
-# html                          Create doxygen documentation (should be used only at module-level).
 # 
 # Test system
 # -----------
@@ -30,6 +26,10 @@
 # testop                        Perform optimised tests from old test system.
 # new_test                      Perform unoptimised tests from new test system.
 # new_testop                    Perform optimised tests from new test system.
+#
+# Documentation
+# -------------
+# html                          Create doxygen documentation (should be used only at module-level).
 #
 # Cleaning
 # --------
@@ -69,7 +69,7 @@
 # CXXFLAGS		For specifying options for the C++ compiler.
 # CPPFLAGS              For specifying options for the preprocessor. 
 # CFLAGS                For specifying options for the C compiler.
-# These three variables are not used by the build system, but are free to use.
+# These three variables are not used by the build system, but are free for the user.
 #
 # ===============================================================================
 # Enviroment/Make build system variables
@@ -183,20 +183,20 @@
 # default value         -Wall
 #
 # name_addition         A string to be added to the name of each program.
-# default value         
+# default value         ???
 #
 # System directories
 # -----------------
 #
 # bin_dir               Directory for placement of non-test executables
-# default value         
+# default value         ???
 #
 # lib_dir               Directory for placement of object files and link libraries
-# default value         
+# default value         ???
 #
 # aux_dir               Directory for placement of doxygen error messages log. 
 #                       Contains subdirectories dependencies, latex and tests.
-# default value         
+# default value         ???
 #
 # latex_dir             Directory for placement of latex aux files.
 # default value         
@@ -261,22 +261,13 @@
 # Internal variables: 
 # ===============================================================================
 #
-# directories		All subdirectories of system directories.
-#
-# Variables for the directory structure of system directories.
-# ------------------------------------------------------------
-#
-# Variables for directory structure of srcdir
-# -------------------------------------------
-# srcdir                The source code directory of the "current" module.
-# testobjects-dir       The directory of test object files for the current 
-#                       module.
-#
 # Variables for programs
 # ----------------------
 # programs                              Defined in makefile_definitions.mak
 #                                       for each module. Specifies names of
 #                                       applications for current module.
+# ------------------------------------------------------------
+#
 # test_program (deprecated)             The name of the current module test
 #                                       program  (old test system).
 # new_test_program                      The name of the current module test
@@ -284,19 +275,36 @@
 # standard_test_program_object_file     Specifies the location of the test
 #                                       program object file.
 #
+# Variables for the directory structure of system directories.
+# ------------------------------------------------------------
+#
+# directories		All subdirectories of system directories.
+#
+# Variables for directory structure of srcdir
+# -------------------------------------------
+# srcdir                The source code directory of the "current" module.
+# testobjects-dir       The directory of test object files for the current 
+#                       module.
+#
 # Variables for compiler & compiler options
 # -----------------------------------------
 #
 # All_options           The concatenation of General_options and 
 #                       Optimisation_options.
 #
+# ##################################################################################
+#
 # Main compilation variables
 # --------------------------
 #
-# compilation_units_cpp         The list of C++ source code files for the 
-#                               applications in the current module.
-# compilations_units_c          The list of C source code files for the
-#                               applications in the current module.
+# compilation_units_cpp         The list of C++ source code files with
+#                               extension .cpp in the current module.
+# compilations_units_c          The list of C source code files with
+#                               extensions .c in the current module.
+#
+# the above two variables contain just the filenames without any path-information
+# so compilation units must be located in srcdir
+#
 # test_compilation_units        The list of C++ source code files for the
 #                               tests in the current module.
 # dependency_files_cpp          The list of dependency files for the C++
@@ -325,6 +333,9 @@
 #                               in the current module.
 # test_object_files_optimised   The list of C object files for the tests in
 #                               the current module.
+
+# COMMENT OK: the above variables need more precise definition (do they contain the path? the extension?)
+
 # test_file                     Timestamp to mark the creation of the test 
 #                               program for the current module.
 # testop_file                   Timestamp to mark the creation of the 
@@ -379,14 +390,15 @@
 # Make functions
 # -------------------------------------------------------------------------------
 #
-# get-link-libraries            If the current module contains a file 
-#                               Module.link_libraries then echo the contents
-#                               of this file, otherwise echo the Make variable
-#                               $(link_libraries).
-# get-link-libraries_optimised  If the current module contains a file 
-#                               Module.link_libraries_optimised then echo the 
-#                               contents of this file, otherwise echo the Make 
-#                               variable $(link_libraries).
+# get-link-libraries      If the current module contains a file 
+#                         Module.link_libraries then echo the contents
+#                         of this file, otherwise echo the Make variable
+#                         $(link_libraries).
+# get-link-libraries_optimised
+#                         If the current module contains a file 
+#                         Module.link_libraries_optimised then echo the 
+#                         contents of this file, otherwise echo the Make 
+#                         variable $(link_libraries).
 
 ####################################################################################
 
