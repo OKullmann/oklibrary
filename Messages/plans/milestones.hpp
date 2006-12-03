@@ -3,14 +3,7 @@
 /*!
   \file Messages/plans/milestones.hpp
 
-  \par Current version 0.7 (3.3.2006)
-
-  \par Version 0.7.1 :
-
-  In Messages/plans/Messages.hpp the following topics are handled:
-  - Update
-
-  And then update the milestones.
+  \par Current version 0.7.1 (3.12.2006)
 
   \par Version 0.7.2 :
 
@@ -43,7 +36,8 @@
 
   \par Version history
 
-   - 0.7 : 3.3.2006; initial version number (module functional).
+   - 0.7   : 3.3.2006; initial version number (module functional).
+   - 0.7.1 : 3.12.2006; complete update of documentation.
 
 */
 
