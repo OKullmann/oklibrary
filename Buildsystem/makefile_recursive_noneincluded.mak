@@ -19,5 +19,7 @@ ifeq ($(MAKELEVEL), 0)
 endif
 	$(run_all_makes)
 
+selected_module := $(OKsystem)/Transitional/Variables
+# arbitrary choice
 html :
-	make -f$(OKsystem)/Transitional/Variables/makefile html
+	make -f$(selected_module)/makefile html
