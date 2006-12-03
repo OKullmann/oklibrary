@@ -81,7 +81,9 @@ namespace OKlib {
     /*!
       \def OKLIB_MESSAGES_PRINT
       \brief This macro is to be used inside the definition of a message class,
-      and defines the virtual function print(std::ostream&).
+      and defines the virtual function print(std::ostream&), which (via a nested switch-statement)
+      calls for each active value lang of language and lev of level the (undefined)
+      member function print(out, L<lang>, S<lev>).
 
       This macro should follow immediately the class definition.
     */
