@@ -14,19 +14,14 @@
 
   \par Version 0.7.2 :
 
-  In Messages/plans/Messages.hpp the following topics are handled:
-  - Directory structure
-
-  \par Version 0.7.3 :
-
    - In Messages/Utilities/plans/milestones.hpp version 0.0.6 is reached.
    - The milestones 0.8, 0.9, 1.0 below have been refined.
 
-  \par Version 0.7.4 :
+  \par Version 0.7.3 :
 
    - In Messages/Utilities/plans/milestones.hpp version 0.0.7 is reached.
 
-  \par Version 0.7.5 :
+  \par Version 0.7.4 :
 
    - In Messages/Utilities/plans/milestones.hpp version 0.0.8 is reached.
 
