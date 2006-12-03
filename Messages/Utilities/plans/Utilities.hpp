@@ -25,7 +25,7 @@
   classes (and macros) for file-identification purposes:
    - Per file we have __DATE__ (compilation date), __FILE__ (file name),
      __TIME__ (C) (compilation time), and
-     $Date: 2006/12/02 17:44:33 $ (last change date), $Revision: 1.7 $ (current
+     $Date: 2006/12/03 13:08:01 $ (last change date), $Revision: 1.8 $ (current
      revision number) (CVS).
    - For programs we also have the version, the author, name of program etc.
 
@@ -41,7 +41,12 @@
 
    \todo Testing:
    Where to put the tests for module Messages/Utilities ? We need tests for all the components
-   in this module.
+   in this module. With the current system we have to put them to Messages/tests and
+   Messages/testobjects. But this seems ugly --- we need a simple extension of the build system,
+   which allows also subdirectories "tests" and "testobjects" in sub-modules. Perhaps a simple
+   make-variable, which contains the list of sub-modules with own test-facilities. The question
+   then however is where to put the test-object-files and programs? We need then corresponding
+   sub-directories.
 
    \todo Umlaute
    Is it guaranteed that the UTF-8 encoding of a file will translate into the same encoding as given
