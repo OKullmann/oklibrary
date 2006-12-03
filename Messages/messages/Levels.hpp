@@ -35,7 +35,7 @@ namespace OKlib {
         ::OKlib::Messages::Strata other_level() const { return lev; }
         ::OKlib::Messages::Strata& other_level() { return lev; }
         
-          void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           switch (lev) {
           case Basic :
             out << "basic level"; break;
@@ -47,7 +47,7 @@ namespace OKlib {
             out << "unexplained level"; break;
           }
         }
-          void print(std::ostream& out, L<en_GB>, S<Full>) const {
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
           switch (lev) {
           case Basic :
             out << "basic level (short, but still complete)"; break;
@@ -60,7 +60,7 @@ namespace OKlib {
           }
         }
 
-          void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+        void print(std::ostream& out, L<de_DE>, S<Basic>) const {
           switch (lev) {
           case Basic :
             out << "Basisniveau"; break;
@@ -72,7 +72,7 @@ namespace OKlib {
             out << "Undokumentiertes Niveau"; break;
           }
         }
-          void print(std::ostream& out, L<de_DE>, S<Full>) const {
+        void print(std::ostream& out, L<de_DE>, S<Full>) const {
           switch (lev) {
           case Basic :
             out << "Basisniveau (kurz und bündig)"; break;
@@ -82,14 +82,14 @@ namespace OKlib {
             out << "Ausführliches Niveau (auch mit Beispielen und weiteren Erklärungen)"; break;
           default :
             out << "Undokumentiertes Niveau (Konstante mit Wert " << lev << " wird noch nicht in der entsprechenden Auswahlanweisung behandelt)"; break;
-
+            
           }
         }
-
+        
       private :
         
         ::OKlib::Messages::Strata lev;
-
+        
       };
 
     }

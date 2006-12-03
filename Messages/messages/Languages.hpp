@@ -35,7 +35,7 @@ namespace OKlib {
         ::OKlib::Messages::Languages foreign_language() const { return lang; }
         ::OKlib::Messages::Languages& foreign_language() { return lang; }
         
-          void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           switch (lang) {
           case en_GB :
             out << "English"; break;
@@ -62,7 +62,7 @@ namespace OKlib {
           }
         }
 
-          void print(std::ostream& out, L<fr_FR>, S<Basic>) const {
+        void print(std::ostream& out, L<fr_FR>, S<Basic>) const {
           switch (lang) {
           case en_GB :
             out << "Anglais"; break;
@@ -89,7 +89,7 @@ namespace OKlib {
           }
         }
 
-          void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+        void print(std::ostream& out, L<de_DE>, S<Basic>) const {
           switch (lang) {
           case en_GB :
             out << "Englisch"; break;
@@ -115,16 +115,16 @@ namespace OKlib {
             out << "Ohne Übersetzung"; break;
           }
         }
-
+        
       private :
-
+        
         ::OKlib::Messages::Languages lang;
-
+        
       };
     }
-
+    
   }
-
+  
 }
 
 #endif
