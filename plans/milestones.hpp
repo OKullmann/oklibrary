@@ -20,7 +20,7 @@
   \subsection VersionTransitional011 0.1.1 : TO BE REACHED 8.12.2006
   \par Buildsystem version 0.1.2 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.1 (OK)
+  \par Messages version 0.7.1 (OK) : DONE
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.2 (OK)
   (see TestSystem/plans/milestones.hpp)
