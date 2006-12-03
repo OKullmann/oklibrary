@@ -58,7 +58,7 @@
   \subsection VersionTransitional014 0.1.4
   \par Buildsystem version 0.3 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.5 (OK)
+  \par Messages version 0.7.4 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
   (see TestSystem/plans/milestones.hpp)
