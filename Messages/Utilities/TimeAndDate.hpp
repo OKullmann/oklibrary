@@ -10,6 +10,8 @@
 
 #include <Transitional/General/TimeHandling.hpp>
 
+#include <Transitional/Messages/MessagesBase.hpp>
+
 namespace OKlib {
 
   namespace Messages {
@@ -26,7 +28,6 @@ namespace OKlib {
       */
 
       struct TimeDateStandardImplementation : ::OKlib::Messages::MessagesBase {
-
         std::ostream& print(std::ostream& out) const {
           return ::TimeHandling::currentDateTime("%c", out);
         }
