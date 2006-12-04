@@ -6,7 +6,6 @@
 */
 
 #ifndef RUNTESTMESSAGES_jJHHg5tr
-
 #define RUNTESTMESSAGES_jJHHg5tr
 
 #include <string>

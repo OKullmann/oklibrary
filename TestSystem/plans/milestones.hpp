@@ -3,9 +3,13 @@
 /*!
   \file TestSystem/plans/milestones.hpp
 
-  \par Current version 0.1.1 (30.8.2006)
+  \module_version TestSystem 0.1.1 (30.8.2006)
 
   \par Version 0.1.2 :
+
+  In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
+  - Log-Messages
+  - Testing
 
   In TestSystem/plans/TestSystem.hpp the following topics are handled:
   - Renaming (MH) : DONE
@@ -13,10 +17,6 @@
   In TestSystem/plans/BasicDeclarations.hpp the following topics are handled:
   - Motivation : DONE
     
-  In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - Log-Messages
-  - Testing
-
   \par Version 0.1.3 :
 
   In TestSystem/plans/TestExceptions.hpp the following topics are handled:
