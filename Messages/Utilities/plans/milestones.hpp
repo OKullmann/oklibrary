@@ -3,12 +3,7 @@
 /*!
   \file Messages/Utilities/plans/milestones.hpp
 
-  \module_version Messages/Utilities 0.0.5 (5.9.2006)
-
-  \par Version 0.0.6 :
-
-  In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - SimpleMessage : DONE
+  \module_version Messages/Utilities 0.0.6 (4.12.2006)
 
   \par Version 0.0.7 :
 
@@ -43,6 +38,7 @@
   \par Version history
 
    - 0.0.5 : 5.9.2006, initial version number (some simple components for time, dates and umlaute).
+   - 0.0.6 : 4.12.2006; implemented a simple message-wrapper.
 
 */
 
