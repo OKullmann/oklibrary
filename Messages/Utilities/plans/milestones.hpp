@@ -3,12 +3,12 @@
 /*!
   \file Messages/Utilities/plans/milestones.hpp
 
-  \par Current version 0.0.5 (5.9.2006)
+  \module_version Messages/Utilities 0.0.5 (5.9.2006)
 
   \par Version 0.0.6 :
 
   In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - SimpleMessage
+  - SimpleMessage : DONE
 
   \par Version 0.0.7 :
 

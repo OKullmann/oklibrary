@@ -3,11 +3,11 @@
 /*!
   \file Messages/plans/milestones.hpp
 
-  \par Current version 0.7.1 (3.12.2006)
+  \module_version Messages version 0.7.1 (3.12.2006)
 
   \par Version 0.7.2 :
 
-   - In Messages/Utilities/plans/milestones.hpp version 0.0.6 is reached.
+   - In Messages/Utilities/plans/milestones.hpp version 0.0.6 is reached :REACHED
    - The milestones 0.8, 0.9, 1.0 below have been refined.
 
   \par Version 0.7.3 :

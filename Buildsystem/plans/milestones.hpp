@@ -20,7 +20,7 @@
    the following topics are handled.
     - (DONE) Documentation index page creation
     - (DONE) html target
-    - ERROR REPORT
+    - Local documentation : regarding system_directories/doc/index.html
 
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
