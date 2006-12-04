@@ -10,6 +10,14 @@
    - TestBase::log implementation finished, but not tested yet.
    - After having created Messages::QuickMessage, upgrade all uses of
      TestBase::log_message to TestBase::log.
+   - Why is the log-stream passed to the test-function? In this way it is always
+     possible to output directly to the stream; this argument should
+     be cancelled (after log_message has been eliminated).
+
+  Files to handle:
+   - TestSystem/tests/TestBaseClass.hpp
+   - TestSystem/tests/Testfunctions.hpp (only elimination of log-parameter)
+   - TestSystem/tests/Testfunctions2.hpp (only elimination of log-parameter).
 
   \todo Testing:
   Try to extend the level hierarchy (whether it "works").
