@@ -18,6 +18,7 @@
 
 #include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
 #include <Transitional/Messages/MessagesBase.hpp>
+#include <Transitional/Messages/Utilities/TrivialMessage.hpp>
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/TestFondement.hpp>
@@ -187,27 +188,28 @@ namespace OKlib {
       */
 
       virtual void test(Basic, std::ostream& log) = 0;
-      virtual void test(Full, std::ostream& log) {
-        log << "Warning: test level \"Full\" not available, retrograding to test level \"Basic\"" << std::endl; // Messages
-        test(Basic(), log);
+      virtual void test(Full, std::ostream& log_stream) {
+        using OKlib::Messages::Utilities::trivial_message;
+        log(trivial_message("Warning: test level \"Full\" not available, by default retrograding to test level \"Basic\""), __LINE__, __FILE__); // use Messages
+        test(Basic(), log_stream);
       }
-      virtual void test(Extensive, std::ostream& log) {
-        log << "Warning: test level \"Extensive\" not available, retrograding to test level \"Full\"" << std::endl; // Messages
-        test(Full(), log);
+      virtual void test(Extensive, std::ostream& log_stream) {
+        using OKlib::Messages::Utilities::trivial_message;
+        log(trivial_message("Warning: test level \"Extensive\" not available, by default retrograding to test level \"Basic\""), __LINE__, __FILE__); // use Messages
+        test(Full(), log_stream);
       }
 
     protected :
 
       //! Test-meta-functions create log-messages via this member function.
 
-      void log(const ::OKlib::Messages::MessagesBase* const m, ::OKlib::TestSystem::line_number_type const line, const char* const file) {
+      void log(const ::OKlib::Messages::MessagesBase& m, ::OKlib::TestSystem::line_number_type const line, const char* const file) {
         assert(log_p);
         assert(level_p);
-        *log_p << ::OKlib::TestSystem::messages::LogDescription(file, line, depth_, level_p) << *m;
+        *log_p << ::OKlib::TestSystem::messages::LogDescription(file, line, depth_, level_p) << m << std::endl;
       }
 
-      //! DEPRECATED (this was the first approach for creating log-messages)
-      /*! \todo All applications are to be replaced by TestBase::log, and then TestBase::log_message is to be eliminated. */
+      //! \deprecated (this was the first approach for creating log-messages)
       std::ostream& log_message(std::ostream& log, ::OKlib::TestSystem::line_number_type line) {
         return log << "log at line " << line << ": ";
       }
