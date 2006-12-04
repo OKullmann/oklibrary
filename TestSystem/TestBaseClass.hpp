@@ -4,11 +4,10 @@
   \file TestSystem/TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
-  DEPRECATED.
+  \deprecated TestSystem/TestBaseClass.hpp
 */
 
 #ifndef TESTBASECLASS_kkLLkbV5I
-
 #define TESTBASECLASS_kkLLkbV5I
 
 #include <vector>
