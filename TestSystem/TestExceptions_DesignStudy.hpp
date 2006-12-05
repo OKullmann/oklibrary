@@ -319,7 +319,7 @@ namespace OKlib {
 #define OKLIB_TEST_RETHROW(Testobject) \
     try { \
       assert(base_type::level_p); \
-      ((Testobject).set_depth(this -> depth() + 1).perform(*base_type::level_p, log)); \
+      ((Testobject).set_depth(this -> depth() + 1).perform(*base_type::level_p, log_stream())); \
     } \
     catch(::OKlib::TestSystem::TestException& e) { \
       e.add(OKLIB_TESTDESCRIPTION); \
