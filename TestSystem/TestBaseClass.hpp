@@ -4,7 +4,7 @@
   \file TestSystem/TestBaseClass.hpp
   \brief Base classes Test and TestBase, from which all test classes
   are to be derived (Test without auto-insertion, TestBase with).
-  \deprecated TestSystem/TestBaseClass.hpp
+  \deprecated
 */
 
 #ifndef TESTBASECLASS_kkLLkbV5I

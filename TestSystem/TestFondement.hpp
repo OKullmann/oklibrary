@@ -6,8 +6,10 @@
 
   Provides the abstract base classes TestSystem::Test and TestSystem::TestLevel:
 
-  Given a (test) object t of type TestSystem::Test and a (level) object l of type TestSystem::TestLevel,
-  via t.(l, log_stream) the test at level l is performed, with log-messages output to log_stream.
+  Given a (test) object t of type TestSystem::Test and a (level) object l of type
+  TestSystem::TestLevel, via
+    t.perform(l, log_stream)
+  the test at level l is performed, with log-messages output to log_stream.
 
   Technics:
    - The polymorphic double-dispatch (on t and l) is realised via the visitor design pattern.

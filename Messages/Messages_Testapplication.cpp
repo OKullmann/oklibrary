@@ -2,7 +2,8 @@
 
 /*!
   \file Messages/Messages_Testapplication.cpp
-  \deprecated Messages/Messages_Testapplication.cpp (temporary test application)
+  \brief Temporary test application
+  \deprecated
 
   \todo Transfer to the (new) test system.
 */
