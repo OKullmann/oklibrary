@@ -3,7 +3,7 @@
 /*!
   \file Concepts/plans/milestones.hpp
 
-  \par Current version 0.1 (10.9.2006)
+  \module_version Concepts 0.1 (10.9.2006)
 
   \par Version 0.1.1 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
@@ -12,7 +12,11 @@
   And further milestones are created.
 
   \par Version 0.1.2 :
-  We have prototypes of concepts for variables, literals and partial assignments.
+  We have prototypes of concepts for
+   - variables
+   - atomic conditions
+   - literals
+   - partial assignments.
 
   \par Version 0.2 :
   In Concepts/plans/Concepts.hpp the following topics are handled:

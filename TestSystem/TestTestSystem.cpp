@@ -1,11 +1,9 @@
 // Oliver Kullmann, 2005 (Swansea)
 
 /*!
-  \file TestTestSystem.cpp
-  \brief Test of the test system itself (cannot use the testsystem).
-  \todo Once we can have several testsystems running, this should become
-  an ordinary test (using a "local" instantiation of the test system).
-  DEPRECATED.
+  \file TestSystem/TestTestSystem.cpp
+  \brief Test of the (old) test system itself (cannot use the old test system).
+  \deprecated
 */
 
 #include <cassert>

@@ -3,11 +3,12 @@
 /*!
   \file Literals/plans/milestones.hpp
 
-  \par Current version 0.0.2 (28.11.2006)
+  \module_version Literals 0.0.2 (28.11.2006)
 
   \par Version 0.0.3 :
   In Literals/plans/Literals.hpp the following topics are handled:
-  - Implement trivial literals
+  - Traits-functions
+  - Implement trivial literals.
 
   \par Version 0.0.4 :
   In Literals/plans/Literals.hpp the following topics are handled:

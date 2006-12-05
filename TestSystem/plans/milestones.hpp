@@ -8,8 +8,7 @@
   \par Version 0.1.2 :
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - Log-Messages
-  - Testing
+  - Log-Messages : DONE
 
   In TestSystem/plans/TestSystem.hpp the following topics are handled:
   - Renaming (MH) : DONE
@@ -27,6 +26,7 @@
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
   - Messages
+  - Macros
 
   In TestSystem/plans/TestProgram.hpp the following topics are handled:
   - Messages
