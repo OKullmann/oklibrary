@@ -22,7 +22,7 @@
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.1 (OK) : DONE
   (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.2 (OK)
+  \par TestSystem version 0.1.2 (OK) : DONE
   (see TestSystem/plans/milestones.hpp)
   \par Literals version 0.0.3 (OK (MH, ML))
   (see Literals/plans/milestones.hpp)
