@@ -38,6 +38,24 @@ namespace OKlib {
       about the identity of F to the base class, and private member functions F::test, overloaded on
       the (static) test level, are responsible for performing the test (F::test receives the log-stream
       as second parameter, passed to the base class, which is responsible for managing the log-stream).
+
+      The public members are:
+       - the (virtual) destructor
+       - member function set_depth.
+
+       In principle the nesting level could be set (once and for all) during construction, however in our way
+       it is easier to have parameterised tests, where the parameters are passed to the constructor of the
+       test-object. So for example we can use
+       OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test(x));
+       where x is a parameter: OKLIB_TEST_RETHROW doesn't need to assume anything on the construction
+       of the test-object, but can assume it has been constructed, and then changes the nesting-level *afterwards*.
+       It would need more complex macro-programming to enable syntax like
+       OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test);
+       OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x);
+       OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x, y);
+       set_depth is used by OKLIB_TEST_RETHROW to (re)set the new testobject, and thus must be public
+       (although it does not really belong to the interface of TestBase).
+
     */
 
     class TestBase : public ::OKlib::TestSystem::Test {
@@ -99,42 +117,21 @@ namespace OKlib {
       */
       ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
 
-    public :
+      public :
       //! Changing the test-function-nesting-level.
-      /*!
-        In principle the nesting level could be set (once and for all) during construction, however in this way
-        it is easier to have parameterised tests, where the parameters are passed to the constructor of the
-        test-object. So for example we can use
-          OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test(x));
-        where x is a parameter: OKLIB_TEST_RETHROW doesn't need to assume anything on the construction
-        of the test-object, but can assume it has been constructed, and then changes the nesting-level *afterwards*.
-        It would need more complex macro-programming to enable syntax like
-          OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test);
-          OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x);
-          OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x, y);
-        set_depth is used by OKLIB_TEST_RETHROW to (re)set the new testobject, and thus must be public (although it does not really belong
-        to the interface of TestBase).
-        \todo Is it possible to hide set_depth better?
-        (Since it belongs to the test-system itself, and the user doesn't need to know about it.)
-      */
       TestBase& set_depth(const ::OKlib::TestSystem::depth_number_type d) { depth_ = d; return *this; }
 
     private :
 
       /*
-        The following block of overloaded functions implements the pure virtual member functions from the
-        base class Test, delegating the task in each case to the member function template perform_and_catch.
+        The following block of overloaded functions implements the pure virtual member functions
+        from the base class Test, delegating the task in each case to the member function
+        template perform_and_catch.
       */
 
-      void perform_(Basic, std::ostream& log) {
-        perform_and_catch(Basic(), log);
-      }
-      void perform_(Full, std::ostream& log) {
-        perform_and_catch(Full(), log);
-      }
-      void perform_(Extensive, std::ostream& log) {
-        perform_and_catch(Extensive(), log);
-      }
+      void perform_(Basic, std::ostream& log) { perform_and_catch(Basic(), log); }
+      void perform_(Full, std::ostream& log) { perform_and_catch(Full(), log); }
+      void perform_(Extensive, std::ostream& log) { perform_and_catch(Extensive(), log); }
 
       //! Auxiliary function for performing the test, managing the log-stream and exceptions.
       /*!
@@ -164,7 +161,7 @@ namespace OKlib {
 
         log_indent << ::OKlib::TestSystem::messages::BasicTestDescription(test_function_type_name, file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
         try {
-          test(TestLevel(), log_indent);
+          test(TestLevel());
         }
         catch(const TestException&) {
           throw;
@@ -187,16 +184,16 @@ namespace OKlib {
         implementations).
       */
 
-      virtual void test(Basic, std::ostream& log) = 0;
-      virtual void test(Full, std::ostream& log_stream) {
+      virtual void test(Basic) = 0;
+      virtual void test(Full) {
         using OKlib::Messages::Utilities::trivial_message;
         log(trivial_message("Warning: test level \"Full\" not available, by default retrograding to test level \"Basic\""), __LINE__, __FILE__); // use Messages
-        test(Basic(), log_stream);
+        test(Basic());
       }
-      virtual void test(Extensive, std::ostream& log_stream) {
+      virtual void test(Extensive) {
         using OKlib::Messages::Utilities::trivial_message;
         log(trivial_message("Warning: test level \"Extensive\" not available, by default retrograding to test level \"Basic\""), __LINE__, __FILE__); // use Messages
-        test(Full(), log_stream);
+        test(Full());
       }
 
     protected :
@@ -209,10 +206,9 @@ namespace OKlib {
         *log_p << ::OKlib::TestSystem::messages::LogDescription(file, line, depth_, level_p) << m << std::endl;
       }
 
-      //! \deprecated (this was the first approach for creating log-messages)
-      std::ostream& log_message(std::ostream& log, ::OKlib::TestSystem::line_number_type line) {
-        return log << "log at line " << line << ": ";
-      }
+      //! Access to the log-stream
+      std::ostream& log_stream() { return *log_p; }
+
     };
 
   }
