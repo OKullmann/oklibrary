@@ -10,6 +10,8 @@
 
 #include <sstream>
 
+#include <Transitional/Messages/Utilities/TrivialMessage.hpp>
+
 #include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
 #include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
 #include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
@@ -34,26 +36,27 @@ namespace OKlib {
           typedef ::OKlib::TestSystem::TestBase base_type;
           const int n;
           LocalTest1(const int n) : base_type(__FILE__, __LINE__, typeid(LocalTest1).name()), n(n) {}
-          void test(::OKlib::TestSystem::Basic, std::ostream& log) {
+          void test(::OKlib::TestSystem::Basic) {
             typedef OKlib::TestSystem::Basic level_type;
             OKLIB_TEST_EQUAL(n, 0);
           }
         };
       
-        void test(::OKlib::TestSystem::Basic, std::ostream& log) {
+        void test(::OKlib::TestSystem::Basic) {
           typedef ::OKlib::TestSystem::Basic level_type;
           typedef ::OKlib::TestSystem::RunTest::container_type container_type;
           ::OKlib::TestSystem::TestLevel& test_level(::OKlib::TestSystem::test_level(::OKlib::TestSystem::Basic()));
           container_type test_objects;
 
-          log << "\n"; log_message(log, __LINE__) << "FIRST TEST\n\n";
+          using OKlib::Messages::Utilities::trivial_message;
+          log(trivial_message("\nFIRST TEST\n"), __LINE__, __FILE__);
           {
             std::stringstream test_err, test_messages, test_log;
             test_objects.push_back(new LocalTest1(0));
             ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
-            log_message(log, __LINE__) << "content of test_err:\n" << test_err.str() << "\n";
-            log_message(log, __LINE__) << "content of test_messages:\n" << test_messages.str() << "\n";
-            log_message(log, __LINE__) << "content of test_log:\n" << test_log.str() << std::endl;
+            log(trivial_message("content of test_err:\n" + test_err.str()), __LINE__, __FILE__);
+            log(trivial_message("content of test_messages:\n" + test_messages.str()), __LINE__, __FILE__);
+            log(trivial_message("content of test_log:\n" + test_log.str()), __LINE__, __FILE__);
             if (not test_err.str().empty())
               OKLIB_THROW("Error thrown!");
             if (test_messages.str().empty())
@@ -61,14 +64,14 @@ namespace OKlib {
             if (test_log.str().empty())
               OKLIB_THROW("No log!");
           }
-          log << "SECOND TEST\n";
+          log(trivial_message("\nSECOND TEST\n"), __LINE__, __FILE__);
           {
             std::stringstream test_err, test_messages, test_log;
             test_objects.push_back(new LocalTest1(1));
             ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
-            log_message(log, __LINE__) << "content of test_err:\n" << test_err.str() << "\n";
-            log_message(log, __LINE__) << "content of test_messages:\n" << test_messages.str() << "\n";
-            log_message(log, __LINE__) << "content of test_log:\n" << test_log.str() << std::endl;
+            log(trivial_message("content of test_err:\n" + test_err.str()), __LINE__, __FILE__);
+            log(trivial_message("content of test_messages:\n" + test_messages.str()), __LINE__, __FILE__);
+            log(trivial_message("content of test_log:\n" + test_log.str()), __LINE__, __FILE__);
             if (test_err.str().empty())
               OKLIB_THROW("No error!");
             if (test_messages.str().empty())

@@ -22,7 +22,7 @@ namespace OKlib {
       public :
         Test1() : base_type(__FILE__, __LINE__, typeid(Test1).name()) {}
       private :
-        void test(::OKlib::TestSystem::Basic, std::ostream& log) {
+        void test(::OKlib::TestSystem::Basic) {
           typedef ::OKlib::TestSystem::Basic level_type;
           //throw std::runtime_error("In OKlib::TestSystem::Test1::test");
           //OKLIB_THROW("IN TEST1");

@@ -23,7 +23,7 @@ namespace OKlib {
       public :
         Test2() : base_type(__FILE__, __LINE__, typeid(Test2).name()) {}
       private :
-        void test(::OKlib::TestSystem::Basic, std::ostream& log) {
+        void test(::OKlib::TestSystem::Basic) {
           typedef ::OKlib::TestSystem::Basic level_type;
           OKLIB_TEST_RETHROW(::OKlib::TestSystem::tests::Test1());
         }
@@ -34,7 +34,7 @@ namespace OKlib {
       public :
         Test3() : base_type(__FILE__, __LINE__, typeid(Test2).name()) {}
       private :
-        void test(OKlib::TestSystem::Basic, std::ostream& log) {
+        void test(OKlib::TestSystem::Basic) {
           typedef OKlib::TestSystem::Basic level_type;
           OKLIB_TEST_RETHROW(OKlib::TestSystem::tests::Test2());
         }
