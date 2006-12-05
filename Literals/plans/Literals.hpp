@@ -4,6 +4,10 @@
   \file Literals/plans/Literals.hpp
   \brief Plans for literals
 
+  \todo Traits-functions:
+  - Literals/traits/var_type.hpp : Is this the right place for the var-implementation?
+  - Literals/traits/cond_type.hpp : Is this the right place for the cond-implementation?
+
   \todo Implement trivial literals
   (like trivial variables, but now only used signed integral types)
 
