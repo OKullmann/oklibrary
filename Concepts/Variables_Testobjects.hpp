@@ -1,5 +1,12 @@
 // Oliver Kullmann, 26.5.2005
 
+/*!
+  \file Concepts/Variables_Testobjects.hpp
+  \brief Checking whether concept and archetype definitions are consistent
+
+  \todo Move to the new test system.
+*/
+
 #ifndef VARIABLESTESTOBJECTS_olKmNb56
 #define VARIABLESTESTOBJECTS_olKmNb56
 

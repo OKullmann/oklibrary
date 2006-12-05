@@ -3,6 +3,8 @@
 /*!
   \file Concepts/Variables_Tests.hpp
   \brief Generic tests for models of variable concepts
+
+  \todo Move to the new test system.
 */
 
 #ifndef VARIABLESTESTS_kkgFre3
