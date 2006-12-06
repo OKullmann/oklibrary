@@ -19,6 +19,20 @@ namespace OKlib {
 
     struct Variables_tag : virtual BasicRequirements_tag, virtual FullyConstructible_tag,  virtual EqualitySubstitutable_tag, virtual LinearOrder_tag {};
 
+    /*!
+      \class Variables
+      \brief Basic variables concept
+
+      Variables play the role of "tokens", and they are assumed to be lightweight objects.
+      Variables are fully constructible and a(n) (implementation-defined) linear order < is
+      defined on them. Variables can be "singular" and "non-singular", which can be found
+      out by an implicit conversion into bool (true for non-singular). All singular variables
+      are equal.
+
+      Since built-in types can model variables, for variables in general the initialisation
+      behaviour of built-in types must be assumed.
+    */
+
     template <typename Var>
     struct Variables {
       void constraints() {

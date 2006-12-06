@@ -40,6 +40,16 @@ namespace OKlib {
       }
     };
 
+    /*!
+      \class Variables_Axiom_singular_variables_false
+      \brief Test that default-created variables are singular
+
+      Since in general the initialisation-behaviour of built-in types must be
+      assumed, a local variable created by
+      Var v;
+      in general has an undefined value, and needs further initialisation befor use.
+    */
+
     template <typename Var>
     struct Variables_Axiom_singular_variables_false : OKlib::TestSystem::Test {
       typedef Variables_Axiom_singular_variables_false test_type;
