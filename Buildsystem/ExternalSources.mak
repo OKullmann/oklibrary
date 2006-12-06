@@ -3,11 +3,11 @@ SHELL = /bin/sh
 
 ####################################################
 
-ifndef OKPlatform
+ifndef OKplatform
   ifdef OKPLATFORM
-    OKPlatform := $(OKPLATFORM)
+    OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKPlatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
   endif
 endif
 
@@ -15,7 +15,7 @@ ifndef OKSystem
   ifdef OKSYSTEM
     OKSystem := $(OKSYSTEM)
   else
-    OKSystem := $(OKPlatform)/OKsystem
+    OKSystem := $(OKplatform)/OKsystem
   endif
 endif
 
