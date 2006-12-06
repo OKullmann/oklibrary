@@ -25,6 +25,22 @@ namespace OKlib {
 
     struct Literals_tag : virtual BasicRequirements_tag, virtual FullyConstructible_tag,  virtual EqualitySubstitutable_tag, virtual LinearOrder_tag {};
 
+    /*!
+      \class Literals
+      \brief Basic literals concept
+
+      Literals are (conceptually) just pairs of variables and atomic conditions, where the atomic
+      condition is never always true and never always false.
+
+      So we have associated type traits traits::var_type and traits::cond_type, and via the
+      function Literals::var the variable is extracted, while by Literals::cond the (atomic)
+      condition is extracted; for the latter a reference is returned in case the literal
+      is not const. Given a variable and an atomic condition, a literal can be constructed.
+
+      Since built-in types can model literals, for literals in general the initialisation
+      behaviour of built-in types must be assumed.
+    */
+
     template <typename Lit>
     struct Literals {
 
