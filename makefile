@@ -8,5 +8,5 @@ srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
 export
 
-include $(srcdir)/Buildsystem/makefile_recursive.mak
+include $(srcdir)/Buildsystem/recursive.mak
 
