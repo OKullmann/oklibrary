@@ -55,13 +55,13 @@ all : gcc boost postgresql valgrind mhash doxygen
 # #################################
 
 include $(OKBuildsystem)/external_sources_versions.mak
-include $(OKBuildsystem)/ExternalSources/makefile_mhash.mak
-include $(OKBuildsystem)/ExternalSources/makefile_gcc.mak
-include $(OKBuildsystem)/ExternalSources/makefile_doxygen.mak
-include $(OKBuildsystem)/ExternalSources/makefile_boost.mak
-include $(OKBuildsystem)/ExternalSources/makefile_postgresql.mak
-include $(OKBuildsystem)/ExternalSources/makefile_valgrind.mak
-include $(OKBuildsystem)/ExternalSources/makefile_ubcsat.mak
+include $(OKBuildsystem)/ExternalSources/mhash.mak
+include $(OKBuildsystem)/ExternalSources/gcc.mak
+include $(OKBuildsystem)/ExternalSources/doxygen.mak
+include $(OKBuildsystem)/ExternalSources/boost.mak
+include $(OKBuildsystem)/ExternalSources/postgresql.mak
+include $(OKBuildsystem)/ExternalSources/valgrind.mak
+include $(OKBuildsystem)/ExternalSources/ubcsat.mak
 
 # #################################
 # Cleaning

@@ -412,9 +412,7 @@ endef
 ifndef srcdir
 
 this-makefile := $(call last-element,$(MAKEFILE_LIST))
-other-makefiles := $(filter-out $(this-makefile),$(MAKEFILE_LIST))
-parent-makefile := $(call last-element,$(other-makefiles))
-srcdir := $(shell cd $(dir $(parent-makefile)); pwd)
+srcdir := $(shell cd $(dir $(this-makefile)); pwd)
 module-name := $(notdir $(srcdir))
 
 endif
@@ -459,7 +457,7 @@ endif
 
 export
 
-include $(OKBuildsystem)/makefile_standardgoals.mak
+include $(OKBuildsystem)/standardgoals.mak
 
 export
 
@@ -648,9 +646,9 @@ endif
 # Documentation includes
 # #######################################################
 
-include $(OKBuildsystem)/makefile_generic_include/documentation/makefile_documentation.mak
+include $(OKBuildsystem)/makefile_generic_include/documentation/documentation.mak
 
-include $(OKBuildsystem)/makefile_generic_include/documentation/makefile_documentation_index.mak
+include $(OKBuildsystem)/makefile_generic_include/documentation/documentation_index.mak
 
 # -----------------------------------------------------------------------------------
 

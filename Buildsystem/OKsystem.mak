@@ -3,8 +3,6 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# the main definition of OKsystem is given in makefile_generic, and should (somehow) be imported from there (the problem however is, that OKBuildsystem is not known without OKsystem);
-# at the moment we use cut and paste.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
@@ -21,14 +19,14 @@ ifndef OKsystem
   endif
 endif
 
-# main definition in makefile_generic cut and paste
+srcdir := $(OKsystem)
+
 OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
 
 export
 
-include $(OKBuildsystem)/makefile_standardgoals.mak
+include $(OKBuildsystem)/standardgoals.mak
 
 export
 
-include $(OKBuildsystem)/makefile_recursive_noneincluded.mak
-
+include $(OKBuildsystem)/recursive_noneincluded.mak
