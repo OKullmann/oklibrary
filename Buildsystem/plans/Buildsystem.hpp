@@ -15,7 +15,19 @@
      which all module-makefiles link.Because this special makefile sits in
      the buildsystem, it can include whatever it wants! Perhaps in every module
      we just have a link to Buildsystem/makefile_generic.mak ?!?!
-     This seems reasonable to me (OK).
+     This seems reasonable to me (OK). (MH) But, it seems as though this is not so easy.
+     When the module makefiles are links to the generic makefile (generic.mak) in 
+     Transitional/Buildsystem then if we try to include, within generic.mak, another
+     makefile of definitions: for example, a file 
+     Transitional/Buildsystem/system_definitions.mak, by using the include statement 
+     "include system_definitions.mak" 
+     then we get an error from Make. Make looks for the file system_definitions.mak 
+     in the directory containing the the link and not in Transitional/Buildsystem as 
+     we intend. So it seems that we are still left with the problem generic.mak really 
+     needs to know the location of the Transitional/Buildsystem directory. This can be
+     done by following the link to makefile generic, rather than having to define the 
+     OKBuildsystem Make variable.
+
    - (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
      so that for examples xemacs recognises the format.
      Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
