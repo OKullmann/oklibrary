@@ -23,9 +23,15 @@
    values, but only to evaluate a condition on a value (returning bool).
    So perhaps operations:
    - OKlib::AtomicConditions::traits::value_type<C>::type
-   - is_always_true(x) : bool
-   - is_always_false(x) : bool
    - eval(x, value) : bool.
+
+   For construction perhaps
+   - C(value, bool=true)
+   where the boolean states whether the value represents a singleton or a co-singleton.
+
+   Additional operations could be:
+   - is_always_true(x) : bool
+   - is_always_false(x) : bool.
 
    Regarding evaluation of literals for two conditions x, y the evaluation of x relativ
    to y is interesting, regarding y as specifying the domain: If y <= x, then return
@@ -34,10 +40,6 @@
 
    Operations should (first) be in-place operations. We need complementation and
    addition/elimination of values.
-
-   For construction perhaps
-   - C(value, bool=true)
-   where the boolean states whether the value represents a singleton or a co-singleton.
 
    Active clause-set might offer for every possible value access to the literals containing it,
    and then it's up to the active clause-set to remove resp. re-add values,
