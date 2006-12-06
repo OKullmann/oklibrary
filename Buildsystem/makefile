@@ -48,17 +48,17 @@ all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file) $(generic_links)
 
 $(generic_links) : % :
-	ln -s $(OKBuildsystem)/generic.mak $@
+	- ln -s $(OKBuildsystem)/generic.mak $@
 
 $(Directories) : % :
-	mkdir $@
+	- mkdir $@
 
 $(makefile_oksystem) : $(OKBuildsystem)/OKsystem.mak
-	cp $< $@
+	- cp $< $@
 
 $(makefile_externalsources) : $(OKBuildsystem)/ExternalSources.mak
-	ln -s $< $@
+	- ln -s $< $@
 
 clean_links :
-	rm $(generic_links)
+	- rm $(generic_links)
 
