@@ -16,10 +16,11 @@
      the buildsystem, it can include whatever it wants! Perhaps in every module
      we just have a link to Buildsystem/makefile_generic.mak ?!?!
      This seems reasonable to me (OK).
-   - Makefiles should either be called "makefile", or otherwise have the suffix .mak,
+   - (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
      so that for examples xemacs recognises the format.
      Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
      seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".
+   - It seems to follow now that makefile.definitions.mak should just be definitions.mak?
 
   \todo Role of srcdir
    - What is the role of variable srcdir ? Isn't the definition in makefile_recursive
