@@ -4,6 +4,17 @@
   \file Buildsystem/plans/generic.hpp
   \brief Plans for the generic makefile
 
+  \bug Incorrect build of new tests I:
+  The buildsystem does not handle the dependencies for the
+  module-test-program.
+
+  \bug Incorrect build of new tests II:
+  While error I is as expected (at this time), the buildsystem behaves
+  differently when called within a module or from a higher level:
+   - Target new_check works from for example from level OKsystem w.r.t.
+     building test-object files if needed,
+   - but from within the module this doesn't work.
+
   \todo Complete documentation:
   Extend and complete the inline documentation of makefile_generic.mak.
    - Checking on the existing documentation, and updating if necessary.               
