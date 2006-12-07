@@ -209,4 +209,8 @@
    - We should investigate CMake (http://www.cmake.org/HTML/Index.html), whether it would be
      useful for us. (autoconf and the like seems outdated)
 
+  \todo Submissions as transactions:
+  We have a little problems with submissions to the repository, which often span many files, so the whole
+  submission process takes a while, and it's not clear from outside when it's finished (and the library
+  is again in a well-defined state).
 */
