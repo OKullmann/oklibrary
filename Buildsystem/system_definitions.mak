@@ -26,7 +26,7 @@ ifndef Boost
   endif
 endif
 
-ifndef SystemDirectories
+ifndef system_directories
   ifdef SYSTEMDIRECTORIES
     system_directories := $(SYSTEMDIRECTORIES)
   else
