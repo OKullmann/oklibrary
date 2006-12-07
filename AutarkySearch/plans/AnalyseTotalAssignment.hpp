@@ -38,6 +38,10 @@
   modified slightly which I am currently doing. More plans will be added (see also "Local installation
   of UBCSAT" above).
 
+
+  \todo Testing AnalyseTotalAssignment
+  Test last segment of code in AnalyseTotalAssignment.c.
+
   \todo Changing UBCSAT
   Change the heuristics in UBCSAT, where now the goal is not to find a satisfying (total) assignment,
   but a total assignment containing a non-trivial autarky.
