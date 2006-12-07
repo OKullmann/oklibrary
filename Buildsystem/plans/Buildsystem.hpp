@@ -43,7 +43,7 @@
      so that for examples xemacs recognises the format.
      Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
      seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".</li>
-   <li>It seems to follow now that makefile.definitions.mak should just be definitions.mak?</li>
+   <li>It seems to follow now that makefile.definitions.mak should just be definitions.mak? Yes, seems so (OK).</li>
    </ul>
 
   \todo Role of srcdir
