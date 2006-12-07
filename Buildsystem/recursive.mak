@@ -3,8 +3,18 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# the main definition of OKsystem is given in makefile_generic, and should (somehow) be imported from there (the problem however is, that OKBuildsystem is not known without OKsystem);
-# at the moment we use cut and paste.
+# ##########################################################
+# Original definitions of OKplatform and OKBuildsystem, are 
+# in Transtional/Buildsystem/generic.mak and cut-and-pasted
+# to :
+#  Transitional/Buildsystem/ExternalSources.mak
+#  Transitional/Buildsystem/makefile
+#  Transitional/Buildsystem/OKsystem.mak
+#  Transitional/Buildsystem/recursive.mak
+#  Transitional/makefile
+#  Annotations/makefile
+# ##########################################################
+
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
@@ -13,16 +23,23 @@ ifndef OKplatform
   endif
 endif
 
-ifndef OKsystem
-  ifdef OKSYSTEM
-    OKsystem := $(OKSYSTEM)
-  else
-    OKsystem := $(OKplatform)/OKsystem
-  endif
+ifndef OKBuildsystem
+ ifdef OKBUILDSYSTEM
+   OKBuildsystem := $(OKBUILDSYSTEM)
+ else
+   ifdef OKsystem
+     OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
+   else
+     ifdef OKSYSTEM
+       OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
+     else
+       OKBuildsystem := $(OKplatform)/OKsystem/Transitional/Buildsystem
+     endif
+   endif
+ endif
 endif
 
-# main definition in makefile_generic cut and paste
-OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
+# ##########################################################
 
 export
 

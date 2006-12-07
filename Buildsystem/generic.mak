@@ -417,6 +417,18 @@ module-name := $(notdir $(srcdir))
 
 endif
 
+# ##########################################################
+# Original definitions of OKplatform and OKBuildsystem, are 
+# in Transtional/Buildsystem/generic.mak and cut-and-pasted
+# to :
+#  Transitional/Buildsystem/ExternalSources.mak
+#  Transitional/Buildsystem/makefile
+#  Transitional/Buildsystem/OKsystem.mak
+#  Transitional/Buildsystem/recursive.mak
+#  Transitional/makefile
+#  Annotations/makefile
+# ##########################################################
+
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
@@ -425,35 +437,29 @@ ifndef OKplatform
   endif
 endif
 
-ifndef ExternalSources
-  ifdef EXTERNALSOURCES
-    ExternalSources := $(EXTERNALSOURCES)
-  else
-    ExternalSources := $(OKplatform)/ExternalSources
-  endif
+ifndef OKBuildsystem
+ ifdef OKBUILDSYSTEM
+   OKBuildsystem := $(OKBUILDSYSTEM)
+ else
+   ifdef OKsystem
+     OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
+   else
+     ifdef OKSYSTEM
+       OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
+     else
+       OKBuildsystem := $(OKplatform)/OKsystem/Transitional/Buildsystem
+     endif
+   endif
+ endif
 endif
 
-ifndef OKsystem
-  ifdef OKSYSTEM
-    OKsystem := $(OKSYSTEM)
-  else
-    OKsystem := $(OKplatform)/OKsystem
-  endif
-endif
+# ##########################################################
 
-OKsystem_include := -I$(OKsystem)
+include $(OKBuildsystem)/system_definitions.mak
 
-OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
+export
 
 include $(OKBuildsystem)/external_sources_versions.mak
-
-ifndef Boost
-  ifdef BOOST
-    Boost = -I$(BOOST)
-  else
-    Boost = -I/usr/local/boost-1_33_1
-  endif
-endif
 
 export
 
@@ -472,14 +478,6 @@ include $(srcdir)/makefile.definitions.mak
 # link_libraries
 
 source_libraries += $(OKsystem_include)
-
-ifndef SystemDirectories
-  ifdef SYSTEMDIRECTORIES
-    system_directories := $(SYSTEMDIRECTORIES)
-  else
-    system_directories := $(OKplatform)/system_directories
-  endif
-endif
 
 bin_dir := $(system_directories)/bin
 lib_dir := $(system_directories)/lib
