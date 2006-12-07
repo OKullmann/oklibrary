@@ -5,7 +5,10 @@
   \brief Plans for the buildsystem in general
 
   \todo Naming and placement of makefiles:
-   - For the module-makefiles OKsystem and OKplatform should be defined at only one place,
+  <ul>
+   <li> 
+     
+     <p>For the module-makefiles OKsystem and OKplatform should be defined at only one place,
      and imported at all other places. However the module-makefiles somehow must get
      some information about the directory-structure?! In any way, there are too many
      places where these variables are defined (and redefined).
@@ -15,7 +18,9 @@
      which all module-makefiles link.Because this special makefile sits in
      the buildsystem, it can include whatever it wants! Perhaps in every module
      we just have a link to Buildsystem/makefile_generic.mak ?!?!
-     This seems reasonable to me (OK). (MH) But, it seems as though this is not so easy.
+     This seems reasonable to me (OK).</p> 
+
+     <p>(MH) But, it seems as though this is not so easy.
      When the module makefiles are links to the generic makefile (generic.mak) in 
      Transitional/Buildsystem then if we try to include, within generic.mak, another
      makefile of definitions: for example, a file 
@@ -26,13 +31,20 @@
      we intend. So it seems that we are still left with the problem generic.mak really 
      needs to know the location of the Transitional/Buildsystem directory. This can be
      done by following the link to makefile generic, rather than having to define the 
-     OKBuildsystem Make variable.
+     OKBuildsystem Make variable.</p>
+     
+     <p>(MH) So the solution seems to be that we combine cut-and-paste of some code which
+     defines just OKplatform and OKBuildsystem (only the definition of OKplatform is
+     required by the build system) with a makefile system_definitions.mak which contains
+     all the other system-wide variable definitions. Then the makefiles which need those
+     other definitions can include OKBuildsystem/system_definitions.mak</p></li>
 
-   - (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
+   <li> (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
      so that for examples xemacs recognises the format.
      Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
-     seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".
-   - It seems to follow now that makefile.definitions.mak should just be definitions.mak?
+     seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".</li>
+   <li>It seems to follow now that makefile.definitions.mak should just be definitions.mak?</li>
+   </ul>
 
   \todo Role of srcdir
    - What is the role of variable srcdir ? Isn't the definition in makefile_recursive
