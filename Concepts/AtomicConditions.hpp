@@ -3,10 +3,6 @@
 /*!
   \file Concepts/AtomicConditions.hpp
   \brief Concepts for atomic conditions (predicates)
-
-  \todo To be completed:
-   - Create a prototype of the concept.
-   - Create (and test) archetype.
 */
 
 #ifndef ATOMICCONDITIONS_303045439jhg
@@ -15,6 +11,7 @@
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
 #include <Transitional/AtomicConditions/traits/value_type.hpp>
+#include <Transitional/AtomicConditions/eval.hpp>
 
 namespace OKlib {
 
@@ -34,7 +31,7 @@ namespace OKlib {
       Given a value, the atomic condition which is exactly true resp. false on this value
       can be constructed.
 
-      Since built-in types can model atomic conditions, for tehm in general the initialisation
+      Since built-in types can model atomic conditions, for them in general the initialisation
       behaviour of built-in types must be assumed.
     */
 
@@ -55,12 +52,14 @@ namespace OKlib {
         OKLIB_MODELS_CONCEPT_REQUIRES(AC, LinearOrder);
         OKLIB_MODELS_CONCEPT_TAG(AC, LinearOrder);
 
+        OKLIB_MODELS_CONCEPT_REQUIRES(value_type, FullyConstructible);
+        OKLIB_MODELS_CONCEPT_REQUIRES(value_type, EqualitySubstitutable);
+        OKLIB_MODELS_CONCEPT_REQUIRES(value_type, LinearOrder);
+
         static_cast<bool>(OKlib::AtomicConditions::eval(cc, v));
         static_cast<bool>(OKlib::AtomicConditions::eval(c, v));
 
         AC(v);
-        AC(v, true);
-        AC(v, false);
       }
 
       AC c;
@@ -68,6 +67,35 @@ namespace OKlib {
       const value_type v;
     };
 
+    class AtomicCondition_Archetype {
+      typedef OKlib::Concepts::convertible_to_bool convertible_to_bool;
+    public :
+      typedef AtomicCondition_tag concept_tag;
+      convertible_to_bool operator ==(const AtomicCondition_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator !=(const AtomicCondition_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <(const AtomicCondition_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >(const AtomicCondition_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator <=(const AtomicCondition_Archetype&) const { return convertible_to_bool(); }
+      convertible_to_bool operator >=(const AtomicCondition_Archetype&) const { return convertible_to_bool(); }
+
+      struct value_type {};
+      friend convertible_to_bool operator ==(const value_type&, const value_type&) { return convertible_to_bool(); }
+      friend convertible_to_bool operator !=(const value_type&, const value_type&) { return convertible_to_bool(); }
+      friend convertible_to_bool operator <(const value_type&, const value_type&) { return convertible_to_bool(); }
+      friend convertible_to_bool operator >(const value_type&, const value_type&) { return convertible_to_bool(); }
+      friend convertible_to_bool operator <=(const value_type&, const value_type&) { return convertible_to_bool(); }
+      friend convertible_to_bool operator >=(const value_type&, const value_type&) { return convertible_to_bool(); }
+
+      AtomicCondition_Archetype() {}
+      explicit AtomicCondition_Archetype(const value_type) {}
+    };
+  }
+  namespace AtomicConditions {
+    template <>
+    inline bool eval(const OKlib::Concepts::AtomicCondition_Archetype&, const OKlib::AtomicConditions::traits::value_type<OKlib::Concepts::AtomicCondition_Archetype>::type&) {
+      return ::OKlib::Concepts::convertible_to_bool();
+    }
+    
   }
 
 }
