@@ -20,14 +20,18 @@
   \subsection VersionTransitional011 0.1.1 : TO BE REACHED 8.12.2006
   \par Buildsystem version 0.1.2 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.1 (OK) : DONE
-  (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.2 (OK) : DONE
-  (see TestSystem/plans/milestones.hpp)
+  \par Concepts version 0.1.1 (OK (MH, ML))
+  (see Concepts/plans/milestones.hpp)
+  \par AtomicConditions version 0.0.2 (OK (MH, ML))
+  (see AtomicConditions/plans/milestones.hpp)
   \par Literals version 0.0.3 (OK (MH, ML))
   (see Literals/plans/milestones.hpp)
   \par AutarkySearch version 0.0.5 (ML)
   (see AutarkySearch/plans/milestones.hpp)
+  \par Messages version 0.7.1 (OK) : DONE
+  (see Messages/plans/milestones.hpp)
+  \par TestSystem version 0.1.2 (OK) : DONE
+  (see TestSystem/plans/milestones.hpp)
   \par All modules have plans-subdirectories, most with milestones (OK) : DONE
 
   \subsection VersionTransitional012 0.1.2
