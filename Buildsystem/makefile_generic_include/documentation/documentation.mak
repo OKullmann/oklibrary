@@ -1,4 +1,4 @@
-doxy_file := $(OKBuildsystem)/makefile_generic_include/documentation/documentation_resources/Doxyfile
+doxy_file := $(OKbuildsystem)/makefile_generic_include/documentation/documentation_resources/Doxyfile
 
 doxygen-parameters := 
 Doxygen_modifier := 2> $(aux_dir)/DoxygenErrorMessages
