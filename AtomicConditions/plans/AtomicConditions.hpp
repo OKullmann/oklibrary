@@ -5,10 +5,9 @@
   \brief Plans for atomic conditions
 
   \todo Traits-functions:
-  - Literals/traits/var_type.hpp : Is this the right place for the var-implementation?
-  - Literals/traits/cond_type.hpp : Is this the right place for the cond-implementation?
+  - AtomicConditions/traits/value_type.hpp : Is this the right place for the eval-implementation : Now in its own file. DONE
 
-  \todo Implement trivial atomic conditions literals
+  \todo Implement trivial atomic conditions
   - bool as atomic condition
   - perhaps also integers??
 
@@ -18,12 +17,12 @@
 */
 
 /*!
-  \namespace OKlib::Literals
-  \brief Components for literals
+  \namespace OKlib::AtomicConditions
+  \brief Components for atomic conditions
 */
 
 namespace OKlib {
-  namespace Literals {
+  namespace AtomicConditions {
   }
 }
 
