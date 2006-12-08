@@ -6,14 +6,6 @@ ifndef ExternalSources
   endif
 endif
 
-ifndef OKsystem
-  ifdef OKSYSTEM
-    OKsystem := $(OKSYSTEM)
-  else
-    OKsystem := $(OKplatform)/OKsystem
-  endif
-endif
-
 OKsystem_include := -I$(OKsystem)
 
 Annotations_dir := $(OKsystem)/Annotations
