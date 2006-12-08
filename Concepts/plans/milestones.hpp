@@ -6,16 +6,19 @@
   \module_version Concepts 0.1 (10.9.2006)
 
   \par Version 0.1.1 :
+  We have prototypes of concepts for
+  - variables : DONE
+  - atomic conditions : DONE
+  - literals
+
+  \par Version 0.1.2 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
   - Update
 
   And further milestones are created.
 
-  \par Version 0.1.2 :
+  \par Version 0.1.3 :
   We have prototypes of concepts for
-   - variables
-   - atomic conditions
-   - literals
    - partial assignments.
 
   \par Version 0.2 :

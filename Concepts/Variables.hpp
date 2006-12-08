@@ -31,6 +31,8 @@ namespace OKlib {
 
       Since built-in types can model variables, for variables in general the initialisation
       behaviour of built-in types must be assumed.
+
+      \todo Shouldn't the conversion operator of Variables_Archetype return convertible_to_bool ?
     */
 
     template <typename Var>
@@ -57,10 +59,7 @@ namespace OKlib {
     };
 
     class Variables_Archetype {
-    protected :
-      struct convertible_to_bool {
-        operator bool() { return bool(); }
-      };
+      typedef OKlib::Concepts::convertible_to_bool convertible_to_bool;
     public :
       typedef Variables_tag concept_tag;
       convertible_to_bool operator ==(const Variables_Archetype&) const { return convertible_to_bool(); }

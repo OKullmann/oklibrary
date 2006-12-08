@@ -7,8 +7,8 @@
 
   \par Version 0.0.2 :
   In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
-  - Traits-functions
-  - Implement trivial atomic conditions literals.
+  - Traits-functions : DONE
+  - Implement trivial atomic conditions.
 
   \par Version 0.0.3 :
   In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
