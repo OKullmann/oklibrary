@@ -44,7 +44,7 @@
      <li>OKPLATFORM/OKplatform</li>
      <li> OKSYSTEM/OKsystem</li>
      <li> OKBUILDSYSTEM/OKbuildsystem</li>
-     </ul>
+     </ul>. Yes, I think so (OK).
 
    <li> (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
      so that for examples xemacs recognises the format.
@@ -52,6 +52,13 @@
      seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".</li>
    <li>It seems to follow now that makefile.definitions.mak should just be definitions.mak? Yes, seems so (OK).</li>
    </ul>
+
+  \todo Make-variables for external libraries
+   - In system_definitions.mak we have a definition of Boost which seems wrong
+     to me (OK) (or at least misleading --- or we need special documentation at this point, namely
+     about the (precise) definition of Boost in the whole build-system).
+   - How to define such variables (like Boost and Ubcsat) in general? We need a nice little method
+     (plus documentation), so that we can add easily as many external libraries as we want.
 
   \todo Role of srcdir
    - What is the role of variable srcdir ? Isn't the definition in makefile_recursive
