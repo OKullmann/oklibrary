@@ -1,16 +1,16 @@
 # Creating an index in $(system_directories)/doc to all the OKplatform
-#  documentation, including external resources. This index also contains
-#  links to the web pages of Boost, Doxygen, Gcc etc
+# documentation, including external resources. This index also contains
+# links to the web pages of Boost, Doxygen, Gcc etc
 
 # ##################################################
 # Local Documentation Locations
 # ##################################################
 
 OKlibrary_html_documentation_index_location := $(doc_dir)/html/index.html
-doxygen_html_documentation_index_location := $(OKplatform)/ExternalSources/Doxygen/doxygen-$$(doxygen --version)/html/index.html
-boost_html_documentation_index_location := $(OKplatform)/ExternalSources/Boost/boost_$(alternative_boost)/index.htm
-pgsql_html_documentation_index_location := $(OKplatform)/ExternalSources/Postgresql/doc/postgresql/html/index.html
-gcc_man_page_location := $(OKplatform)/ExternalSources/Gcc/$(alternative_gcc)/man/man1/gcc.1
+doxygen_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Doxygen/$(doxygen_recommended)/html/index.html
+boost_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Boost/$(boost_recommended)/index.htm
+pgsql_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Postgresql/doc/postgresql/html/index.html
+gcc_man_page_location := $(OKplatform)/ExternalSources/doc/Gcc/$(gcc_recommended)/man/man1/gcc.1
 
 # ##################################################
 # Local Documentation Link Elements
@@ -51,7 +51,7 @@ list_of_homepage_link_elements := $(boost_homepage_link_element) $(doxygen_homep
 # ##################################################
 
 title_element := "<title>OKlibrary Documentation</title>"
-stylesheet_location := $(OKBuildsystem)/makefile_generic_include/documentation/documentation_index_resources/documentation_index_style.css
+stylesheet_location := $(OKbuildsystem)/makefile_generic_include/documentation/documentation_index_resources/documentation_index_style.css
 style_element := "<link rel=\"stylesheet\" type=\"text.css\" href=\"$(stylesheet_location)\""
 documentation_index_head := $(title_element) $(style_element)
 
@@ -71,7 +71,7 @@ homepage_division := "<div id=\"homepages\"><h2>WWW</h2> "$(list_of_homepage_lin
 # Logo Division
 # ##################################################
 
-logo_image_location := $(OKBuildsystem)/makefile_generic_include/documentation/documentation_index_resources/logo.png
+logo_image_location := $(OKbuildsystem)/makefile_generic_include/documentation/documentation_index_resources/logo.png
 logo_image := "<img src=\"$(logo_image_location)\"/>"
 logo_division := "<div id=\"logo\"> "$(logo_image)" </div>"
 
