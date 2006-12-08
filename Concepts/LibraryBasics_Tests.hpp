@@ -30,7 +30,7 @@ namespace OKlib {
         \brief Tests, whether with concept a concept tag is associated.
       */
 
-#define OKLIB_BASIC_CONCEPT_TEST_TAG(concept) BOOST_STATIC_ASSERT(IsConceptTag< concept ## _tag >::value);
+#define OKLIB_BASIC_CONCEPT_TEST_TAG(concept) BOOST_STATIC_ASSERT(OKlib::Concepts::IsConceptTag< concept ## _tag >::value);
 
       /*!
         \def OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(concept)
@@ -40,9 +40,7 @@ namespace OKlib {
 #define OKLIB_BASIC_CONCEPT_TEST_ARCHETYPE(concept) template class concept< concept ## _Archetype >;
 
     }
-
   }
-
 }
 
 #endif
