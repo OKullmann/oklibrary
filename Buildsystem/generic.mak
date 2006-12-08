@@ -1,6 +1,4 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
-
-
 #
 # ===============================================================================
 # Targets
@@ -60,15 +58,10 @@
 # General make variable for customisation of compilation
 # ===============================================================================
 #
-# CXX                   Name of the C++ compiler executable.
-# default value:        recommended library version of g++
-#
-# CC                    Name of the C compiler executable.
-# default value:        recommended library version of gcc
-#
 # CXXFLAGS		For specifying options for the C++ compiler.
 # CPPFLAGS              For specifying options for the preprocessor. 
 # CFLAGS                For specifying options for the C compiler.
+#
 # These three variables are not used by the build system, but are free for the user.
 #
 # ===============================================================================
@@ -122,37 +115,9 @@
 # This variable pair specifies the location of the directory used by the 
 # build system to build local versions of the main software required for
 # the OKlibrary.
-
-# ===============================================================================
-# User variables: 
-# ===============================================================================
-#
-# User variables are intended for use by the user, typically to specify options.
-#
-# system_versions	If defined (with any non-empty value) then the build
-#			system will use the system versions of gcc and boost
-#			rather than the recommended local versions.
-
-# COMMENT OK: as discussed, we need system versions separately for gcc and boost
-
-# 
-# Compile_tool          A command to prefix each call of the compiler. So, for
-#                       example to use the time program to time the execution
-#                       of the compiler.
-# Link_tool             A command to prefix each call of the linker. So, for
-#                       example to use the time program to time the execution
-#                       of the linker.
-# Test_tool             A command to prefix each call of a test program. So, for
-#                       example to use the time program to time the execution
-#                       of the test program.
-#
-#
-# Doxygen
-# ---------------------
-# doxygen-parameters    For doxygen parameters.
 #
 # ===============================================================================
-# System variables (can be optionally redefined) : 
+# (SV) System variables (can be optionally redefined) : 
 # ===============================================================================
 # 
 # System variable are for internal use of the build system, but can be 
@@ -160,264 +125,53 @@
 # cases that there is no need to redefine any of the values of these variables
 # and any redefinition needs to be thoroughly thought through.
 #
-# Compilation
-# -----------
-#
-# gcc_version_number            Can be defined to specify the version number
-#                               of a locally installed GCC to be used by the
-#                               build system instead of the system compiler. By
-#                               default, has the value of the recommended version
-#                               of gcc.
-# boost_version_number          Can be defined to specify the version number
-#                               of a locally installed Boost to be used by the
-#                               build system instead of the system Boost. By
-#                               default, has the value of the recommended version
-#                               of boost.
-#
-# Standard_options      Language-standard options. Defined in makefile_generic.mak.
-#                       Passed to the compiler for every program.
-# default value         -ansi -pedantic
-#
-# Warning_options       Compiler warnings. Defined in makefile_generic.mak. Passed to 
-#                       the compiler for every program.
-# default value         -Wall
-#
-# name_addition         A string to be added to the name of each program.
-# default value         ???
-#
-# System directories
-# -----------------
-#
-# bin_dir               Directory for placement of non-test executables
-# default value         ???
-#
-# lib_dir               Directory for placement of object files and link libraries
-# default value         ???
-#
-# aux_dir               Directory for placement of doxygen error messages log. 
-#                       Contains subdirectories dependencies, latex and tests.
-# default value         ???
-#
-# latex_dir             Directory for placement of latex aux files.
-# default value         
-#
-# dependencies_dir      Directory for placement of dependency files.
-# default value         
-#
-# doc_dir               Directory containing subdirectories dvi and html.
-# default value         
-#
-# html_dir              Directory for placement of doxygen documentation.
-# default value         
-#
-# test-bin_dir          Directory for placement of all test executables.
-# default value         
-#
-# test-lib_dir          Directory for placement of module test object files.
-# default value         
-#
-# test-aux_dir          Directory for placement of module test Error, Log, 
-#                       Message and test timestamp files.
-# default value         
-#
-# Doxygen
-# ---------------------
-# Doxygen_modifier      Modifier to doxygen command, for example to redirect 
-#                       output to a log file.
-# doxy_file             Location of Doxygen config file.
-#
-# Module-dependent variables
-# --------------------------
-#
-# General_options       Defined in makefile_definitions.mak for each module.
-#                       Passed to the compiler for each module program.
-# Optimisation_options  Defined in makefile_definitions.mak for each module.
-#                       Passed to the compiler for each module program. Also
-#                       used as the addition to the name of executables.
-# source_libraries      Defined in makefile_definitions.mak for each module
-#                       and extended by makefile_generic.mak. Passed to the
-#                       compiler for each module program. Intended to contain
-#                       a list of directories (each preceeded with -I) for the
-#                       compiler to search for header files.
-# link_libraries        Defined in makefile_definitions.mak for each module.
-#                       Passed to the compiler for each module program.
-#                       Intended to contain a list, where each element of the
-#                       list has the form "-LX -lY", where X is a path to a
-#                       directory for the compiler to search for link libraries
-#                       and Y is the name of some link library.
-#
-# #############################################################
-
-# COMMENT OK
-# Regarding the placement, perhaps we should have sub-make-files for the different parts
-# (compilation, documentation, etc.) ?! Then the special documentation could go to these
-# sub-make-files.
-# However, if the documentation is spread over several files, then easily it gets unreadable.
-# So we have to be careful
-#
-# Please check, whether it's still true that we can call a generic make-file from other places.
-
-# ===============================================================================
-# Internal variables: 
-# ===============================================================================
-#
-# Variables for programs
-# ----------------------
-# programs                              Defined in makefile_definitions.mak
-#                                       for each module. Specifies names of
-#                                       applications for current module.
-# ------------------------------------------------------------
-#
-# test_program (deprecated)             The name of the current module test
-#                                       program  (old test system).
-# new_test_program                      The name of the current module test
-#                                       program.
-# standard_test_program_object_file     Specifies the location of the test
-#                                       program object file.
-#
-# Variables for the directory structure of system directories.
-# ------------------------------------------------------------
-#
-# directories		All subdirectories of system directories.
-#
-# Variables for directory structure of srcdir
-# -------------------------------------------
-# srcdir                The source code directory of the "current" module.
-# testobjects-dir       The directory of test object files for the current 
-#                       module.
-#
-# Variables for compiler & compiler options
-# -----------------------------------------
-#
-# All_options           The concatenation of General_options and 
-#                       Optimisation_options.
-#
 # ##################################################################################
-#
-# Main compilation variables
-# --------------------------
-#
-# compilation_units_cpp         The list of C++ source code files with
-#                               extension .cpp in the current module.
-# compilations_units_c          The list of C source code files with
-#                               extensions .c in the current module.
-#
-# the above two variables contain just the filenames without any path-information
-# so compilation units must be located in srcdir
-#
-# test_compilation_units        The list of C++ source code files for the
-#                               tests in the current module.
-# dependency_files_cpp          The list of dependency files for the C++
-#                               source code files in the current module.
-# dependency_files_c            The list of dependency files for the C
-#                               source code files in the current module.
-# dependency_files              The concatenation of the lists 
-#                               dependency_files_cpp and
-#                               dependency_files_c
-# test_dependency_files         The dependency files for the test in the
-#                               current module.
-# object_files_cpp              The list of C++ object files for the 
-#                               current module.
-# object_files_c                The list of C object files for the current
-#                               module.
-# object_files                  The concatenation of the two lists
-#                               object_files_cpp and object_files_c.
-# object_files_cpp_optimised    The list of optimised C++ object files for
-#                               the current module.
-# object_files_c_optimised      The list of optimised C object files for 
-#                               the current module.
-# object_files_optimised        The concatenation of the two lists 
-#                               object_files_cpp_optimised and
-#                               object_files_c_optimised.
-# test_object_files             The list of C++ object files for the tests
-#                               in the current module.
-# test_object_files_optimised   The list of C object files for the tests in
-#                               the current module.
-
-# COMMENT OK: the above variables need more precise definition (do they contain the path? the extension?)
-
-# test_file                     Timestamp to mark the creation of the test 
-#                               program for the current module.
-# testop_file                   Timestamp to mark the creation of the 
-#                               optimised test program for the current 
-#                               module.
-#
-
-# alternative_library_path      If boost_version_number is defined then the value
-#                               of this variable specifies the location of the
-#                               Boost link libraries directory.
-#
-# Test system variables
-# ---------------------
-# test_level                    By default has the value "basic" but can be
-#                               redefined to either of the values "full" or
-#                               "extensive". Specifies the level of testing
-#                               carried out be (new) test system.
-# error_file                    Specifies the location of the error log file
-#                               for the test program of the current module.
-# message_file                  Specifies the location of the messages log file
-#                               for the test program of the current module.
-# log_file                      Specifies the location of the log file for the
-#                               test program of the current module.
-# error_stream                  Specifies a stream for the streaming of error
-#                               messages.
-# message_stream                Specifies a stream for the streaming of non-
-#                               error messages.
-# log_stream                    Specifies a stream for the streaming of log
-#                               messages.
-# error_level                   Specifies verbosity level for error messages,
-#                               by default 0 (lowest verbosity).
-# message_level                 Specifies verbosity level for non-error 
-#                               messages, default 0 (lowest verbosity).
-# log_level                     Specifies verbosity level for log 
-#                               messages, default 0 (lowest verbosity).
-# error_lang                    Specifies language for error messages, by
-#                               default equal to en_GB.
-# message_lang                  Specifies language for non-error messages, by
-#                               default equal to en_GB.
-# log_lang                      Specifies language for log messages, by
-#                               default equal to en_GB.
-# test_parameters               Parameters to be passed to the test program for
-#                               the current module.
-#
-# test_timestamp                Timestamp for the creation of test programs with
-#                               the new test system.
-# testop_timestamp              Timestamp for the creation of optimised test
-#                               programs with the new test system.
-#
-#
-# -------------------------------------------------------------------------------
-# Make functions
-# -------------------------------------------------------------------------------
-#
-# get-link-libraries      If the current module contains a file 
-#                         Module.link_libraries then echo the contents
-#                         of this file, otherwise echo the Make variable
-#                         $(link_libraries).
-# get-link-libraries_optimised
-#                         If the current module contains a file 
-#                         Module.link_libraries_optimised then echo the 
-#                         contents of this file, otherwise echo the Make 
-#                         variable $(link_libraries).
-
-####################################################################################
 
 SHELL = /bin/sh
 .SUFFIXES :
 
+# ################################################################
+# FUNCTIONS (F)
+# ################################################################
+
+# ----------------------------------------------------------
+# last-element (F)
+#
+# Returns last element of its argument.
+# ----------------------------------------------------------
 define last-element
 $(word $(words $1),$1)
 endef
+# ----------------------------------------------------------
 
+# ######################################################################
+
+# ################################################################
+# LOCAL MODULE DEFINITIONS
+# ################################################################
+
+# ----------------------------------------------------------
+# srcdir (LV)
+#
+# The full path of the current directory of source code to 
+# be compiled.
+# ----------------------------------------------------------
 ifndef srcdir
-
 this-makefile := $(call last-element,$(MAKEFILE_LIST))
 srcdir := $(shell cd $(dir $(this-makefile)); pwd)
-module-name := $(notdir $(srcdir))
-
 endif
+# ----------------------------------------------------------
 
-# ##########################################################
+# ----------------------------------------------------------
+# module-name (LV)
+# The name of the current module.
+# ----------------------------------------------------------
+ifdef srcdir
+module-name := $(notdir $(srcdir))
+endif
+# ----------------------------------------------------------
+
+# ################################################################
 # Original definitions of OKplatform and OKBuildsystem, are 
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
 # to :
@@ -427,7 +181,7 @@ endif
 #  Transitional/Buildsystem/recursive.mak
 #  Transitional/makefile
 #  Annotations/makefile
-# ##########################################################
+# ################################################################
 
 ifndef OKplatform
   ifdef OKPLATFORM
@@ -453,7 +207,7 @@ ifndef OKBuildsystem
  endif
 endif
 
-# ##########################################################
+# ######################################################################
 
 include $(OKBuildsystem)/system_definitions.mak
 
@@ -477,143 +231,711 @@ include $(srcdir)/makefile.definitions.mak
 # source_libraries
 # link_libraries
 
+# ----------------------------------------------------------
+# source_libraries (LV)
+#
+# This variable is defined in the local 
+# makefile.definitions.mak file. Here we are just appending
+# the OKsystem include option -I$(OKsystem)
+# ----------------------------------------------------------
 source_libraries += $(OKsystem_include)
+# ----------------------------------------------------------
 
+# ################################################################
+# BUILD DIRECTORY STRUCTURE
+# ################################################################
+
+# ----------------------------------------------------------
+# bin_dir (SV)
+#
+# Top-level directory for all executables.
+# ----------------------------------------------------------
 bin_dir := $(system_directories)/bin
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# lib_dir (SV)
+#
+# This is the top-level directory for all object-files.
+# ----------------------------------------------------------
 lib_dir := $(system_directories)/lib
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# doc_dir (SV)
+#
+# This is the top-level directory for all documentation. 
+# ----------------------------------------------------------
 doc_dir := $(system_directories)/doc
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# aux_dir (SV)
+# 
+# Top-level directory for all dependency files,
+# error, message and log files, and latex auxilliary files.
+# ----------------------------------------------------------
 aux_dir := $(system_directories)/aux
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# latex_dir (SV)
+#
+# Directory for all latex auxilliary files.
+# ----------------------------------------------------------
 latex_dir := $(aux_dir)/latex
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# dependencies_dir (SV)
+#
+# Directory for all dependency files.
+# ----------------------------------------------------------
 dependencies_dir := $(aux_dir)/dependencies
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# html_dir (SV)
+#
+# Top-level directory for doxygen documentation.
+# ----------------------------------------------------------
 html_dir := $(doc_dir)/html
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# test-bin_dir (SV)
+#
+# Directory for all test executables.
+# ----------------------------------------------------------
 test-bin_dir := $(bin_dir)/tests
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# test-lib_dir (SV)
+#
+# Directory for current module test object-files. 
+# ----------------------------------------------------------
 test-lib_dir := $(lib_dir)/tests/$(module-name)
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# test-aux_dir (SV)
+#
+# Directory for current module test dependency files.
+# ----------------------------------------------------------
 test-aux_dir := $(aux_dir)/tests/$(module-name)
+# ----------------------------------------------------------
 
-directories := $(bin_dir) $(lib_dir) $(aux_dir) $(latex_dir) $(dependencies_dir) $(doc_dir) $(html_dir) $(test-bin_dir) $(test-lib_dir) $(test-aux_dir)
+# ----------------------------------------------------------
+# directories (SV)
+#
+# All the build directories.
+# ----------------------------------------------------------
+directories := $(bin_dir) \
+               $(lib_dir) \
+               $(aux_dir) \
+               $(latex_dir) \
+               $(dependencies_dir) \
+               $(doc_dir) \
+               $(html_dir) \
+               $(test-bin_dir) \
+               $(test-lib_dir) \
+               $(test-aux_dir)
+# ----------------------------------------------------------
 
-# --------------------------------------------------
+# ######################################################################
 
+# ################################################################
+# COMPILATION
+# ################################################################
+
+# ----------------------------------------------------------
+# programs (LV)
+#
+# This variable is not defined here, but rather it's
+# definition is in the local makefile.definitions.mak.
+#
+# If there are program names specified in the local
+# makefile.definitions.mak then we prefix those program
+# names with the full path to the executable directory, so
+# that Make knows where to build those executables.
+# ----------------------------------------------------------
 ifneq ($(programs),)
   programs := $(addprefix $(bin_dir)/, $(programs))
 endif
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# test_program (LV)
+#
+# This variable is not defined here, but rather it's
+# definition is in the local makefile.definitions.mak.
+#
+# If test programs (from the old test system) are specified
+# in the local makefile.definitions.mak then we prefix
+# those program names are prefixed here by the full path
+# to the directory where test executables are built, so that
+# Make knows where to build those executables. Also, those
+# full program path names are appended to the variable
+# "programs".
+#
+# ----------------------------------------------------------
 ifneq ($(test_program),) # old test-system needed
   test_program := $(addprefix $(bin_dir)/, $(test_program))
   programs += $(test_program)
 endif
+# ----------------------------------------------------------
 
+
+# ----------------------------------------------------------
+# new_test_program (LV)
+#
+# The full path name for the test executable for the
+# current module.
+# ----------------------------------------------------------
 new_test_program := $(test-bin_dir)/$(module-name)
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# standard_test_program_object_file (SV)
+#
+# The full path name for the object file which is
+# linked to by every test program.
+# ----------------------------------------------------------
 standard_test_program_object_file := $(lib_dir)/TestProgram_DesignStudy.o
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# testobjects-dir (LV)
+# 
+# The subdirectory of the module source code
+# directory which contains the test object-files.
+# ----------------------------------------------------------
 testobjects-dir := $(srcdir)/testobjects
+# ----------------------------------------------------------
 
-# ---------------------------------------------------
-
+# ----------------------------------------------------------
+# name_addition (LV)
+#
+# A string which is appended to the name of every executable.
+# By default the value is just the optimisation options.
+# ----------------------------------------------------------
 name_addition := $(shell echo $(Optimisation_options) | tr --delete " ")
-All_options := $(General_options) $(Optimisation_options)
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# programs_optimised (LV)
+#
+# The names of the optimised executables.
+# ----------------------------------------------------------
 programs_optimised := $(programs:=$(name_addition))
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# new_test_program_optimised (LV)
+#
+# The names of the optimised test programs. (New test
+# system).
+# ----------------------------------------------------------
 new_test_program_optimised := $(new_test_program)$(name_addition)
-standard_test_program_object_file_optimised := $(lib_dir)/TestProgram_DesignStudy$(name_addition).o
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# standard_test_program_object_file_optimised (LV)
+#
+# The full path name of the optimised object-file to which
+# every test program is linked.
+# ----------------------------------------------------------
+standard_test_program_object_file_optimised := $(lib_dir)/TestProgram_DesignStudy$(name_addition).o
+# ----------------------------------------------------------
+
+# ######################################################################
+
+# ################################################################
+# COMPILATION UNITS
+# ################################################################
+
+# ----------------------------------------------------------
+# compilation_units_cpp (LV)
+#
+# The names of every C++ source code file in the current
+# module source code directory.
+# ----------------------------------------------------------
 compilation_units_cpp := $(wildcard $(srcdir)/*.cpp)
 compilation_units_cpp := $(notdir $(compilation_units_cpp))
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# compilation_units_c (LV)
+#
+# The names of every C source code file in the current
+# module source code directory.
+# ----------------------------------------------------------
 compilation_units_c := $(wildcard $(srcdir)/*.c)
 compilation_units_c := $(notdir $(compilation_units_c))
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# test_compilation_units (LV)
+#
+# The full path names of every C++ source code file in
+# the testobjects subdirectory of the current module
+# ----------------------------------------------------------
 test_compilation_units := $(wildcard $(testobjects-dir)/*.cpp)
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# dependency_files_cpp (LV)
+#
+# The full path name of the dependency files for every C++
+# source code file in the current module.
+# ----------------------------------------------------------
 dependency_files_cpp := $(compilation_units_cpp:.cpp=.d)
 dependency_files_cpp := $(addprefix $(dependencies_dir)/, $(dependency_files_cpp))
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# dependency_files_c (LV)
+#
+# The full path name of the dependency files for every C
+# source code file in the current module.
+# ----------------------------------------------------------
 dependency_files_c := $(compilation_units_c:.c=.d) 
 dependency_files_c := $(addprefix $(dependencies_dir)/, $(dependency_files_c))
-dependency_files := $(dependency_files_cpp) $(dependency_files_c)
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# test_dependency_files (LV)
+#
+# The full path name of the dependency files for every 
+# test source code file in the current module.
+# ----------------------------------------------------------
 test_dependency_files := $(notdir $(test_compilation_units))
 test_dependency_files := $(test_dependency_files:.cpp=.d)
 test_dependency_files := $(addprefix $(test-aux_dir)/, $(test_dependency_files))
-dependency_files := $(dependency_files) $(test_dependency_files)
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# dependency_files (LV)
+#
+# The full path name of the dependency files for every C
+# and C++ source code file in the current module.
+# ----------------------------------------------------------
+dependency_files := $(dependency_files_cpp) \
+                    $(dependency_files_c) \
+                    $(dependency_files) \
+                    $(test_dependency_files)
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# object_files_cpp (LV)
+#
+# The full path name of the object files for every C++
+# source code file in the current directory.
+# ----------------------------------------------------------
 object_files_cpp := $(compilation_units_cpp:.cpp=.o) 
 object_files_cpp := $(addprefix $(lib_dir)/, $(object_files_cpp))
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# object_files_c (LV)
+# 
+# The full path name of the object files for every C
+# source code file in the current directory.
+# ----------------------------------------------------------
 object_files_c := $(compilation_units_c:.c=.o)
 object_files_c := $(addprefix $(lib_dir)/, $(object_files_c))
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# object_files (LV)
+# 
+# The full path name of the object files for every C and C++
+# source code file in the current directory.
+# ----------------------------------------------------------
 object_files := $(object_files_cpp) $(object_files_c)
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# object_files_cpp_optimised (LV)
+# 
+# The full path name of the optimised object files for every
+# C++ source code file in the current directory.
+# ----------------------------------------------------------
 object_files_cpp_optimised := $(compilation_units_cpp:.cpp=$(name_addition).o)
 object_files_cpp_optimised := $(addprefix $(lib_dir)/, $(object_files_cpp_optimised))
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# object_files_c_optimised (LV)
+# 
+# The full path name of the optimised object files for every
+# C source code file in the current directory.
+# ----------------------------------------------------------
 object_files_c_optimised := $(compilation_units_c:.c=$(name_addition).o)
 object_files_c_optimised := $(addprefix $(lib_dir)/, $(object_files_c_optimised))
-object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimised)
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# object_files_optimised (LV)
+# 
+# The full path name of the optimised object files for every
+# C and C++ source code file in the current directory.
+# ----------------------------------------------------------
+object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimised)
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# test_object_files (LV)
+#
+# The full path names of the object files for the tests in the
+# current module.
+# ----------------------------------------------------------
 test_object_files := $(notdir $(test_compilation_units))
 test_object_files := $(test_object_files:.cpp=.o)
 test_object_files := $(addprefix $(test-lib_dir)/, $(test_object_files))
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# test_object_files (LV)
+#
+# The full path names of the object files for the tests in the
+# current module.
+# ----------------------------------------------------------
 test_object_files_optimised := $(notdir $(test_compilation_units))
 test_object_files_optimised := $(test_object_files_optimised:.cpp=$(name_addition).o)
 test_object_files_optimised := $(addprefix $(test-lib_dir)/, $(test_object_files_optimised))
+# ----------------------------------------------------------
 
-
+# ----------------------------------------------------------
+# test_file (SV)
+#
+# The old test system timestamp file for the current module
+# test program. 
+# ----------------------------------------------------------
 test_file := $(srcdir)/test
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# testop_file (SV)
+#
+# The old test system timestamp file for the current module
+# optimised test program. .
+# ----------------------------------------------------------
 testop_file := $(srcdir)/testop
+# ----------------------------------------------------------
 
-# -----------------------------------------------------------------------------------
+# ################################################################
+# GENERAL MAKE VARIABLES FOR CUSTOMISATION OF COMPILATION
+# ################################################################
 
-
-
-# -----------------------------------------------------------------------------------
-
+# ----------------------------------------------------------
+# CXX (SV)
+#
+# Name of the C++ compiler executable. 
+# default value: recommended library version of g++
+# ----------------------------------------------------------
 CXX := g++
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# CC (SV)
+#
+# Name of the C compiler executable.
+# default value: recommended library version of gcc
+# ----------------------------------------------------------
 CC := gcc
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# Standard_options (SV)
+#
+# Language-standard options. Defined in makefile_generic.mak.
+# Passed to the compiler for every program.
+# Default value : -ansi -pedantic
+# ----------------------------------------------------------
 Standard_options := -ansi -pedantic
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# Warning_options (SV)
+#
+# Compiler warnings. Defined in makefile_generic.mak. Passed to 
+# the compiler for every program.
+# Default value : -Wall
+# ----------------------------------------------------------
 Warning_options := -Wall
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# Compile_tool (SV)     
+#
+# A command to prefix each call of the compiler. So, for
+# example to use the time program to time the execution
+# of the compiler.
+# Default value : time -p (measuring the wall clock time, 
+# the process time and the system time used in total for 
+# the execution)
+# ----------------------------------------------------------
 Compile_tool := time -p
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# Link_tool (SV)
+#             
+# A command to prefix each call of the linker. So, for
+# example to use the time program to time the execution
+# of the linker.
+# Default value : time -p (measuring the wall clock time, 
+# the process time and the system time used in total for 
+# the execution)
+# ----------------------------------------------------------
 Link_tool := time -p
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# Test_tool (SV)
+#
+# A command to prefix each call of a test program. So, for
+# example to use the time program to time the execution
+# of the test program. 
+# Default value : time -p (measuring the wall clock time, 
+# the process time and the system time used in total for 
+# the execution)
+# Setting Test_tool="valgrind --quiet" runs all tests with 
+# memory check.
+# ----------------------------------------------------------
 Test_tool := time -p
+# ----------------------------------------------------------
 
-# -----------------------------------------------------------------------------------
+# ######################################################################
 
+# ################################################################
+# VARIABLES FOR CUSTOMISATION OF NEW TEST SYSTEM
+# ################################################################
+
+# ----------------------------------------------------------
+# test_level (SV)
+#
+# By default has the value "basic" but can be
+# redefined to either of the values "full" or
+# "extensive". Specifies the level of testing
+# carried out be (new) test system.
+# ----------------------------------------------------------
 test_level := basic
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# error_file (SV)
+#
+# Specifies the location of the error log file
+# for the test program of the current module.
+# ----------------------------------------------------------
 error_file := $(test-aux_dir)/Error
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# message_file (SV)
+# 
+# Specifies the location of the messages log file
+# for the test program of the current module.
+# ----------------------------------------------------------
 message_file := $(test-aux_dir)/Message
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# log_file (SV)
+#
+# Specifies the location of the log file for the
+# test program of the current module.
+# ----------------------------------------------------------
 log_file := $(test-aux_dir)/Log
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# error_stream (SV)   
+#
+# Specifies a stream for the streaming of error
+# messages.
+# ----------------------------------------------------------
 error_stream := "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# message_stream (SV)
+#
+# Specifies a stream for the streaming of non-
+# error messages.
+# ----------------------------------------------------------
 message_stream := "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# log_stream (SV)
+#
+# Specifies a stream for the streaming of log
+# messages.
+# ----------------------------------------------------------
 log_stream := "ofstream-w=$(log_file)"
+# ----------------------------------------------------------
 
+# ----------------------------------------------------------
+# error_level (SV)                 
+#
+# Specifies verbosity level for error messages,
+# by default 0 (lowest verbosity).
+# ----------------------------------------------------------
 error_level := 0
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# message_level (SV)               
+#
+# Specifies verbosity level for non-error 
+# messages, default 0 (lowest verbosity).
+# ----------------------------------------------------------
 message_level := 0
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# log_level (SV)                   
+#
+# Specifies verbosity level for log 
+# messages, default 0 (lowest verbosity).
+# ----------------------------------------------------------
 log_level := 0
+# ---------------------------------------------------------- 
 
+# ----------------------------------------------------------
+# error_lang (SV)                   
+#
+# Specifies language for error messages, by
+# default equal to en_GB.
+# ----------------------------------------------------------
 error_lang := en_GB
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# message_lang (SV)                
+#
+# Specifies language for non-error messages, by
+# default equal to en_GB.
+# ----------------------------------------------------------
 message_lang := en_GB
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# log_lang (SV)             
+#
+# Specifies language for log messages, by
+# default equal to en_GB.
+# ----------------------------------------------------------
 log_lang := en_GB
+# ----------------------------------------------------------
 
-test_parameters := $(test_level) $(error_stream) $(message_stream) $(log_stream) $(error_level) $(message_level) $(log_level) $(error_lang) $(message_lang) $(log_lang)
+# ----------------------------------------------------------
+# test_parameters (LV)              
+#
+# Parameters to be passed to the test program for
+# the current module.
+# ----------------------------------------------------------
+test_parameters := $(test_level) \
+                   $(error_stream) \
+                   $(message_stream) \
+                   $(log_stream) \
+                   $(error_level) \
+                   $(message_level) \
+                   $(log_level) \
+                   $(error_lang) \
+                   $(message_lang) \
+                   $(log_lang)
+# ----------------------------------------------------------
 
-# -----------------------------------------------------------------------------------
-
+# ----------------------------------------------------------
+# test_timestamp (LV)
+#
+# Timestamp for the creation of test programs with
+# the new test system.
+# ----------------------------------------------------------
 test_timestamp := $(test-aux_dir)/new_test_$(test_level)
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# testop_timestamp (LV)
+#
+# Timestamp for the creation of optimised test
+# programs with the new test system.
+# ----------------------------------------------------------
 testop_timestamp := $(test-aux_dir)/new_testop_$(test_level)
+# ----------------------------------------------------------
 
-# -----------------------------------------------------------------------------------
+# ######################################################################
 
+# ################################################################
+# VARIABLES FOR GCC AND BOOST VERSIONS, INCLUDES AND LINKING
+# ################################################################
+
+# ----------------------------------------------------------
+# system_version (LV)
+#
+# If defined (with any non-empty value) then the build
+# system will use the system versions of gcc and boost
+# rather than the recommended local versions.
+#
+# gcc_version_number (SV)           
+#
+# Can be defined to specify the version number
+# of a locally installed GCC to be used by the
+# build system instead of the system compiler. By
+# default, has the value of the recommended version
+# of gcc.
+# 
+# boost_version_number (SV)
+#
+# Can be defined to specify the version number
+# of a locally installed Boost to be used by the
+# build system instead of the system Boost. By
+# default, has the value of the recommended version
+# of boost.
+#
+# COMMENT OK: as discussed, we need system versions 
+# separately for gcc and boost
+#
+# ----------------------------------------------------------
 system_versions :=
 
 ifeq ($(system_versions),)
     gcc_version_number:= $(gcc_recommended_version_number)
     boost_version_number:= $(boost_recommended_version_number)
 endif
+# ----------------------------------------------------------
 
+
+# ----------------------------------------------------------
+#
+# alternative_library_path
+#
+#  Specifies the full options necessary to pass the full path
+#  of the Gcc and Boost link-libraries to the compiler and
+#  linker. With "-Wl,-rpath,Path" we tell the compiler to 
+#  pass the option "-rpath Path" to the linker, which will 
+#  add Path to the places searched for this program for 
+#  run-time-libraries.
+#
+# boost_version_number
+#
+#  The version number of the Boost library.
+#
+# Boost
+#
+#  Include option to be passed to the compiler, specifying
+#  the location of the Boost include directory. 
+#
+# COMMENT OK: this needs revision (for example "alternative"
+# isn't right anymore)
+# ----------------------------------------------------------
 alternative_library_path:=
-# COMMENT OK: this needs revision (for example "alternative" isn't right anymore)
+
 ifneq ($(gcc_version_number),) # alternative gcc specified
   CXX := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/g++
   CC := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/gcc
@@ -636,19 +958,22 @@ else # no alternative gcc specified
   endif
 endif
 
-# Explanation: With "-Wl,-rpath,Path" we tell the compiler to pass the option "-rpath Path" to the linker, which will add Path to the places searched for this program for run-time-libraries.
+# ######################################################################
 
-# -----------------------------------------------------------------------------------
 
-# #######################################################
-# Documentation includes
-# #######################################################
+# ################################################################
+# DOCUMENTATION MAKEFILE INCLUDE STATEMENTS
+# ################################################################
 
 include $(OKBuildsystem)/makefile_generic_include/documentation/documentation.mak
 
 include $(OKBuildsystem)/makefile_generic_include/documentation/documentation_index.mak
 
-# -----------------------------------------------------------------------------------
+# ######################################################################
+
+# ################################################################
+# MAIN TARGETS
+# ################################################################
 
 all : unoptimised optimised
 
@@ -690,8 +1015,6 @@ $(testop_timestamp) : $(new_test_program_optimised)
 
 force :
 
-# ---------------------------------------------------------------
-
 ifeq ($(firstword $(filter $(special_goals) $(cleaning_goals) $(forced_goals), $(MAKECMDGOALS))),)
 include $(dependency_files)
 endif
@@ -723,13 +1046,31 @@ $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-l
 $(test_object_files_optimised) : $(test-lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
-
+# ----------------------------------------------------------
+# get-link-libraries      
+#
+# If the current module contains a file 
+# Module.link_libraries then echo the contents
+# of this file, otherwise echo the Make variable
+# $(link_libraries).
+# ----------------------------------------------------------
 define get-link_libraries
 $$(if [[ -e $(srcdir)/$*.link_libraries ]]; then $(srcdir)/$*.link_libraries; else echo $(link_libraries); fi)
 endef
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# get-link-libraries_optimised
+#
+# If the current module contains a file 
+# Module.link_libraries_optimised then echo the 
+# contents of this file, otherwise echo the Make 
+# variable $(link_libraries).
+# ----------------------------------------------------------
 define get-link_libraries_optimised
 $$(if [[ -e $(srcdir)/$*.link_libraries_optimised ]]; then $(srcdir)/$*.link_libraries_optimised; else if [[ -e $(srcdir)/$*.link_libraries ]]; then $(srcdir)/$*.link_libraries; else echo $(link_libraries); fi; fi)
 endef
+# ----------------------------------------------------------
 
 export
 
@@ -745,7 +1086,11 @@ $(new_test_program) : $(test-bin_dir)/% : $(test_object_files) $(standard_test_p
 $(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bin_dir) $(test-aux_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised)
 
-# --------------------------------
+# ######################################################################
+
+# ################################################################
+# CLEANING TARGETS
+# ################################################################
 
 cleantest :
 	- rm $(test_file)
@@ -781,3 +1126,4 @@ cleanprograms :
 cleanall : clean cleanprograms
 	- rm $(error_file) $(message_file) $(log_file)
 
+# ######################################################################
