@@ -6,52 +6,36 @@
 
   \todo Naming and placement of makefiles:
   <ul>
-   <li> 
-     
-     <p>For the module-makefiles OKsystem and OKplatform should be defined at only one place,
-     and imported at all other places. However the module-makefiles somehow must get
-     some information about the directory-structure?! In any way, there are too many
-     places where these variables are defined (and redefined).
-     With the module-makefiles we have that problem, that cvs does not handle
-     links (or?); but perhaps we ignore that, and those links are simply not
-     in the repository. Then in Buildsystem we had one special "makefile", to
-     which all module-makefiles link.Because this special makefile sits in
-     the buildsystem, it can include whatever it wants! Perhaps in every module
-     we just have a link to Buildsystem/makefile_generic.mak ?!?!
-     This seems reasonable to me (OK).</p> 
+   <li>
+     <p>Now every module which needs to be built has a link, called "makefile"
+     to the generic makefile Transitional/Buildsystem/generic.mak.</p>
 
-     <p>(MH) But, it seems as though this is not so easy.
-     When the module makefiles are links to the generic makefile (generic.mak) in 
-     Transitional/Buildsystem then if we try to include, within generic.mak, another
-     makefile of definitions: for example, a file 
-     Transitional/Buildsystem/system_definitions.mak, by using the include statement 
-     "include system_definitions.mak" 
-     then we get an error from Make. Make looks for the file system_definitions.mak 
-     in the directory containing the the link and not in Transitional/Buildsystem as 
-     we intend. So it seems that we are still left with the problem generic.mak really 
-     needs to know the location of the Transitional/Buildsystem directory. This can be
-     done by following the link to makefile generic, rather than having to define the 
-     OKBuildsystem Make variable.</p>
-     
-     <p>(MH) So the solution seems to be that we combine cut-and-paste of some code which
-     defines just OKplatform and OKBuildsystem (only the definition of OKplatform is
-     required by the build system) with a makefile system_definitions.mak which contains
-     all the other system-wide variable definitions. Then the makefiles which need those
-     other definitions can include OKBuildsystem/system_definitions.mak</p></li>
+     <p>Most system-wide environment and Make variables are defined in the file
+     Transitional/Buildsystem/system_definitions.mak </p>
 
-     <p>(MH) Seems like the copy-and-paste part should define only the variables
+     <p>However, the build system, requires in 
      <ul>
-     <li>OKPLATFORM/OKplatform</li>
-     <li> OKSYSTEM/OKsystem</li>
-     <li> OKBUILDSYSTEM/OKbuildsystem</li>
-     </ul>. Yes, I think so (OK).
+     <li> Transitional/Buildsystem/ExternalSources.mak
+     <li> Transitional/Buildsystem/makefile
+     <li> Transitional/Buildsystem/OKsystem.mak
+     <li> Transitional/Buildsystem/recursive.mak
+     <li> Transitional/makefile
+     <li> Annotations/makefile 
+     </ul>
+     that the definition of OKbuildsystem is available, and in order to provide
+     maximum flexibility and convenience for the user we chose to define in each
+     of those places the environment variable OKPLATFORM, OKSYSTEM, OKBUILDSYSTEM
+     and the Make variables OKplatform, OKsystem and OKbuildsystem. This is done
+     by cut-and-paste from the original definition in 
+     Transitional/Buildsystem/generic.mak</p></li>
 
-   <li> (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
-     so that for examples xemacs recognises the format.
-     Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
-     seem then cumbersome?! So it seems either it's (exactly) "makefile" or "XXX.mak".</li>
-   <li>It seems to follow now that makefile.definitions.mak should just be definitions.mak? Yes, seems so (OK).</li>
+   <li> (DONE) Makefiles are either called "makefile", or otherwise have the suffix .mak,
+     so that for examples xemacs recognises the format. Makefiles which have the
+     suffix .mak are not prefixed with "makefile_"</li>
    </ul>
+
+  \todo Naming of local definition makefiles
+   - The makefiles.definitions.mak should should be renamed definitions.mak.
 
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong

@@ -4,24 +4,18 @@
   \file Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
   \brief Plans for documentation-creation
 
-  \bug Local documentation : regarding system_directories/doc/index.html
+  \todo Local documentation : regarding system_directories/doc/index.html
   <ul>
-  <li>
-  <ul>
-  <li> An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/boost_1_33_1/index.htm:
-  The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/boost_1_33_1/index.htm does not exist. </li>
-  <li> Doxygen appears with the wrong version number </li>
-  <li> An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Mhash/0.9.7.1+4.1.1/man/man3/mhash.3:
-  The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Mhash/0.9.7.1 4.1.1/man/man3/mhash.3 does not exist. </li>
-  <li> An error occurred while loading file:///h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Postgresql/doc/postgresql/html/index.html:
-  The file or folder /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Postgresql/doc/postgresql/html/index.html does not exist.</li>
-  </ul>
+  <li> A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
+       is responsible for extracting and building all the external sources
+       documentation OKplatform/ExternalSources/doc. Currently this makefile
+       handles Doxygen and Boost and needs to be extended to handle those
+       other external sources (Gcc, Mhash, Postgresql, UBCSAT)
   </li>
-  <li>An intermediate solution is to create a new makefile Buildsystem/ExternalSources/doc.mak which
-  handles the extraction of the documentation of external sources and the placement of this documentation
-  in a subdirectory OKplatform/ExternalSources/doc. Then the documentation index can link to this
-  documentation. </li>
   </ul>
+
+  \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
+   - Documentation for Gcc, Mhash, Postgresql
 
   \todo Doxygen general:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
