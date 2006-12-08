@@ -10,7 +10,7 @@
     - Naming and placement of makefiles
 
   \par
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Complete documentation
     - Valgrind documentation
     - (DONE) Extracting documentation building to separate makefile
@@ -31,7 +31,7 @@
     - Documentation (Examples and Concepts)
 
   \par
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Recommended versions
 
   \par
@@ -51,7 +51,7 @@
     - Overhaul of the general targets
   
   \par Version 0.2 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Cleaning
   
   \par
@@ -59,39 +59,39 @@
     - Testing the build system
   
   \par Version 0.2.1 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Test cleaning
   
   \par Version 0.2.2 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Compilation
     - Linking
   
   \par Version 0.3 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Customisation
   
   \par Version 0.4 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Test system
     - Targets
     - Tools for testing
     - Error messages of gcc should be processed
   
   \par Version 0.5 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Placement of makefile_generic
     - Dependency files
     - Verbosity
   
   \par Version 0.6 :
-   In Buildsystem/plans/makefile_ExternalSources.hpp the following topics are 
+   In Buildsystem/plans/ExternalSources.hpp the following topics are 
    handled:
     - Gcc
     - Boost
   
   \par Version 0.7 :
-   In Buildsystem/plans/makefile_ExternalSources.hpp the following topics are 
+   In Buildsystem/plans/ExternalSources.hpp the following topics are 
    handled:
     - General
     - Tools
