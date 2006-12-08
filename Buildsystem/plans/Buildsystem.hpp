@@ -39,6 +39,13 @@
      all the other system-wide variable definitions. Then the makefiles which need those
      other definitions can include OKBuildsystem/system_definitions.mak</p></li>
 
+     <p>(MH) Seems like the copy-and-paste part should define only the variables
+     <ul>
+     <li>OKPLATFORM/OKplatform</li>
+     <li> OKSYSTEM/OKsystem</li>
+     <li> OKBUILDSYSTEM/OKbuildsystem</li>
+     </ul>
+
    <li> (DONE) Makefiles should either be called "makefile", or otherwise have the suffix .mak,
      so that for examples xemacs recognises the format.
      Now having the suffix .mak should suffice, and names like "makefile_XXX.mak"
