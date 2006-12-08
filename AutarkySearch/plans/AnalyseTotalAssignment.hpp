@@ -20,7 +20,7 @@
      and compile it completely within the OKsystem (using our build system; likely
      some changes are needed).
 
-  \todo Using UBCSAT
+  \todo Using UBCSAT:
   Analysing total assignments (and autarky reduction,
   if successful) is added to UBCSAT, without further changes.
 
@@ -39,7 +39,7 @@
   of UBCSAT" above).
 
 
-  \todo Testing AnalyseTotalAssignment
+  \todo Testing AnalyseTotalAssignment.c:
   Test last segment of code in AnalyseTotalAssignment.c.
 
   \todo Changing UBCSAT
