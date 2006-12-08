@@ -6,8 +6,8 @@ SHELL = /bin/sh
 
 # Special makefile for the buildsystem
 
-# ##########################################################
-# Original definitions of OKplatform and OKBuildsystem, are 
+# ################################################################
+# Original definitions of OKplatform and OKbuildsystem, are 
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
 # to :
 #  Transitional/Buildsystem/ExternalSources.mak
@@ -16,7 +16,7 @@ SHELL = /bin/sh
 #  Transitional/Buildsystem/recursive.mak
 #  Transitional/makefile
 #  Annotations/makefile
-# ##########################################################
+# ################################################################
 
 ifndef OKplatform
   ifdef OKPLATFORM
@@ -26,27 +26,27 @@ ifndef OKplatform
   endif
 endif
 
-ifndef OKBuildsystem
- ifdef OKBUILDSYSTEM
-   OKBuildsystem := $(OKBUILDSYSTEM)
- else
-   ifdef OKsystem
-     OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
-   else
-     ifdef OKSYSTEM
-       OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
-     else
-       OKBuildsystem := $(OKplatform)/OKsystem/Transitional/Buildsystem
-     endif
-   endif
- endif
+ifndef OKsystem
+  ifdef OKSYSTEM
+    OKsystem := $(OKSYSTEM)
+  else
+    OKsystem := $(OKplatform)/OKsystem
+  endif
 endif
 
-# ##########################################################
+ifndef OKbuildsystem
+  ifdef OKBUILDSYSTEM
+    OKbuildsystem := $(OKBUILDSYSTEM)
+  else
+    OKbuildsystem := $(OKsystem)/Transitional/Buildsystem
+  endif
+endif
 
-include $(OKBuildsystem)/system_definitions.mak
+# ######################################################################
 
-include $(OKBuildsystem)/standardgoals.mak
+include $(OKbuildsystem)/system_definitions.mak
+
+include $(OKbuildsystem)/standardgoals.mak
 
 externalsourcesdir := $(OKplatform)/ExternalSources
 
@@ -64,15 +64,15 @@ all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file) $(generic_links)
 
 $(generic_links) : % :
-	- ln -s $(OKBuildsystem)/generic.mak $@
+	- ln -s $(OKbuildsystem)/generic.mak $@
 
 $(Directories) : % :
 	- mkdir $@
 
-$(makefile_oksystem) : $(OKBuildsystem)/OKsystem.mak
+$(makefile_oksystem) : $(OKbuildsystem)/OKsystem.mak
 	- cp $< $@
 
-$(makefile_externalsources) : $(OKBuildsystem)/ExternalSources.mak
+$(makefile_externalsources) : $(OKbuildsystem)/ExternalSources.mak
 	- ln -s $< $@
 
 clean_links :
