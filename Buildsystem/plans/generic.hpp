@@ -38,70 +38,92 @@
    is only defined once.
    
    \todo General clean-up of make-variables
-   DISCUSSION : (MH) There should be a scheme for the naming of variables which
-                distinguishes those variables : 
-		-# which are internal (purely for the use of the build system), 
-		-# which are mostly for internal use of the build system, but
-                can be redefined by the user with suitable precaution. 
-		-# which are intended for use by the user, typically to specify
-                options.
+   <ul>
+   <li> 
+   (MH) There should be a scheme for the naming of variables which
+   distinguishes those variables : 
+   <ol>
+   <li> which are internal (purely for the use of the build system), </li>
+   <li> which are mostly for internal use of the build system, but
+   can be redefined by the user with suitable precaution. </li>
+   <li> which are intended for use by the user, typically to specify
+   options.</li>
+   </ol>   
 
-                (OK : why are you using "-#" ?)
-                (MH : This is how to create numbered lists in Doxygen. You prefer to
-                just write the numbers?)
+   (OK : why are you using "-#" ?)
+   (MH : This is how to create numbered lists in Doxygen. You prefer to
+   just write the numbers?)
+   
+   ################### PROBLEM: It seems MH is using tab-stops?
+   ################### Those must be disabled!
+   
+   One possible scheme is:
+   <ol>
+   <li> _variable (lowercase with preceeding underscore)</li>
+   <li> variable (lowercase) </li>
+   <li> Variable (uppercase first character) </li>
+   </ol>   
 
-################### PROBLEM: It seems MH is using tab-stops?
-################### Those must be disabled!
+   (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
+   is better.
+   
+   (MH) An alternative scheme then:
+   <ol>
+   <li> variable_ </li>
+   <li> variable </li>
+   <li> Variable </li>
+   </ol>   
 
-		One possible scheme is:
-		-# _variable (lowercase with preceeding underscore)
-		-# variable (lowercase)
-		-# Variable (uppercase first character)
+   The uppercase first variables have actually often default values (namely
+   the all-uppercase environment variables). So this explanation is not really valid.
+   
+   Perhaps the distinction aimed at is, that some variables can be tinkered with, but
+   one somehow need to know about them, while other variables have no function than
+   enabling the user to insert some options (for example for compilation).
+   </li>
 
-                (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
-                is better.
+   <li>
+   Perhaps first a complete list of make-variables and the status is needed here, to
+   see what we have.
+   </li>
 
-                (MH) An alternative scheme then:
-                -# variable_
-                -# variable
-                -# Variable
+   <li>            
+   (MH) Perhaps this should be postponed for a little while,
+   because the changes I propose under documentation and cleaning
+   involved changing many variable names and definitions.
+   </li>
 
-                The uppercase first variables have actually often default values (namely
-                the all-uppercase environment variables). So this explanation is not really valid.
-
-                Perhaps the distinction aimed at is, that some variables can be tinkered with, but
-                one somehow need to know about them, while other variables have no function than
-                enabling the user to insert some options (for example for compilation).
-
-                Perhaps first a complete list of make-variables and the status is needed here, to
-                see what we have.
-                
-                (MH) Perhaps this should be postponed for a little while,
-                because the changes I propose under documentation and cleaning
-                involved changing many variable names and definitions.
+   </ul>
 
   \todo  General_options:
   The current function of "General_options" is taken over by the new variable "Debug_options".
 
   \todo Linking and options:
+  <ul>
+  <li>
   Which compiler options are effective when linking? "Our" options are 
-   -  -ansi (cc1plus)
-   -  -pedantic (cc1plus)
-   -  -Wall (cc1plus)
-   -  -g (cc1plus) (mentioned as "ignored" in the ld man page)
-   -  -03 (cc1plus)
-   -  -DNDEBUG (cc1plus)
-
-      Here, the names in brackets indicate, in the
-      case of ld (linker) and cpp (preprocessor), the executables whose man 
-      page documents the option and, in the case of cc1plus whether the help
-      file documents the option.
-
-      It seems, at first glance, that all of "our" options are only effective
-      for the compiler.
-
-    - CXXFLAGS is not used when linking the compilation units together --- is this
-      how it should be, and how to set options for the linking stage?!
+  <ul>
+  <li> -ansi (cc1plus) </li>
+  <li> -pedantic (cc1plus)</li>
+  <li> -Wall (cc1plus)</li>
+  <li> -g (cc1plus) (mentioned as "ignored" in the ld man page)</li>
+  <li> -03 (cc1plus)</li>
+  <li> -DNDEBUG (cc1plus)</li>
+  </ul>
+  
+  Here, the names in brackets indicate, in the
+  case of ld (linker) and cpp (preprocessor), the executables whose man 
+  page documents the option and, in the case of cc1plus whether the help
+  file documents the option.
+  
+  It seems, at first glance, that all of "our" options are only effective
+  for the compiler.</li>
+  
+  <li>
+  CXXFLAGS is not used when linking the compilation units together --- is this
+   how it should be, and how to set options for the linking stage?!
+   </li>
+   </ul>
 
   \todo Log directory:
   SystemDirectories gets a new sub-directory log, where the current
