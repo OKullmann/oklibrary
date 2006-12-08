@@ -8,10 +8,10 @@
   - Literals/traits/var_type.hpp : Is this the right place for the var-implementation?
   - Literals/traits/cond_type.hpp : Is this the right place for the cond-implementation?
 
-  \todo Implement trivial literals
-  (like trivial variables, but now only used signed integral types)
+  \todo Implement trivial literals:
+  Like trivial variables, but now only using signed integral types.
 
-  \todo First prototype
+  \todo First prototype:
   Very first prototype for "signed literals" (set-valued literals).
   Based (of course) on Concepts/Literals.hpp. Perhaps first the
   notion of the "atomic condition" (use of "sets") needs to be
