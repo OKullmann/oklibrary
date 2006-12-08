@@ -21,13 +21,8 @@ namespace OKlib {
       struct value_type {
         typedef typename T::value_type type;
       };
-      
     }
-
-    template <typename AC>
-    bool eval(const AC&, const typename traits::value_type<AC>::type&);
   }
-
 }
 
 #endif
