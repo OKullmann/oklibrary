@@ -10,8 +10,10 @@
 
   Includes boost/concept_check, boost/static_assert, boost/type_traits, and
   ConceptsBase, ConceptsMetafunctions, Basics.
+
+  \todo Should the helper-classes for archetype-definitions go into their own file?
+  \todo Should boost/type_traits.hpp be replaced by the tr1-components?
 */
-  
 
 #ifndef LIBRARYBASICS_oLkG5675
 #define LIBRARYBASICS_oLkG5675
@@ -27,7 +29,6 @@
 // This file is guaranteed to include the last three files.
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
@@ -89,6 +90,23 @@ namespace OKlib {
     */
 
 #define OKLIB_MODELS_CONCEPT_TAG(C, concept) BOOST_STATIC_ASSERT((::OKlib::Concepts::IsTagModel< C, concept ## _tag >::value));
+
+    // ----------------------------------------------------------------------------------------------------------------------------------
+    // Types for archetype definitions
+    // ----------------------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class convertible_to_bool
+      \brief Fully constructible class, implicitely convertible to bool
+      
+      Used in archetypes, where functions must return values convertible to bool.
+      A disadvantage or providing here this public definition is, that so "convertible_to_bool"
+      now in principle is a known type --- so this type must not be used outside of
+      archetype definitions.
+    */
+    struct convertible_to_bool {
+      operator bool() { return bool(); }
+    };
 
   }
 
