@@ -26,6 +26,14 @@ ifndef Boost
   endif
 endif
 
+ifndef Ubcsat
+  ifdef UBCSAT
+    Ubcsat := -I$(UBCSAT)
+  else
+    Ubcsat := -I$(ExternalSources)/Ubcsat/ubcsat-1-0-0/src
+  endif
+endif
+
 ifndef system_directories
   ifdef SYSTEMDIRECTORIES
     system_directories := $(SYSTEMDIRECTORIES)
