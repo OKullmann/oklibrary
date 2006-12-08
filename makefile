@@ -1,8 +1,8 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# ##########################################################
-# Original definitions of OKplatform and OKBuildsystem, are 
+# ################################################################
+# Original definitions of OKplatform and OKbuildsystem, are 
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
 # to :
 #  Transitional/Buildsystem/ExternalSources.mak
@@ -11,7 +11,7 @@ SHELL = /bin/sh
 #  Transitional/Buildsystem/recursive.mak
 #  Transitional/makefile
 #  Annotations/makefile
-# ##########################################################
+# ################################################################
 
 ifndef OKplatform
   ifdef OKPLATFORM
@@ -21,23 +21,23 @@ ifndef OKplatform
   endif
 endif
 
-ifndef OKBuildsystem
- ifdef OKBUILDSYSTEM
-   OKBuildsystem := $(OKBUILDSYSTEM)
- else
-   ifdef OKsystem
-     OKBuildsystem := $(OKsystem)/Transitional/Buildsystem
-   else
-     ifdef OKSYSTEM
-       OKBuildsystem := $(OKSYSTEM)/Transitional/Buildsystem
-     else
-       OKBuildsystem := $(OKplatform)/OKsystem/Transitional/Buildsystem
-     endif
-   endif
- endif
+ifndef OKsystem
+  ifdef OKSYSTEM
+    OKsystem := $(OKSYSTEM)
+  else
+    OKsystem := $(OKplatform)/OKsystem
+  endif
 endif
 
-# ##########################################################
+ifndef OKbuildsystem
+  ifdef OKBUILDSYSTEM
+    OKbuildsystem := $(OKBUILDSYSTEM)
+  else
+    OKbuildsystem := $(OKsystem)/Transitional/Buildsystem
+  endif
+endif
+
+# ######################################################################
 
 define last-element
 $(word $(words $1),$1)
@@ -46,5 +46,5 @@ srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
 export
 
-include $(OKBuildsystem)/recursive.mak
+include $(OKbuildsystem)/recursive.mak
 
