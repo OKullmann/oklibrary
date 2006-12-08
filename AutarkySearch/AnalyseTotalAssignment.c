@@ -1,5 +1,19 @@
-#include "ubcsat.h"
+// Who created this file, and when?
+
+/*!
+  \file AutarkySearch/AnalyseTotalAssignment.c
+  \brief Supplementing UBCSAT by analysing total assignments for
+  contained autarkies.
+
+  \todo Add file creation date (first file line).
+  \todo Create Doxygen documentation.
+  \todo Improve C usage (local declaration of variables, local
+  loop variables etc.).
+*/
+
 #include <stdio.h>
+
+#include <ubcsat.h>
  
 
 void Initialise();
@@ -7,22 +21,30 @@ void AnalyseTotalAssignment();
 
 void Initialise()
 {
-  //call the relevant UBCSAT library procedures to detach this function from being inside the UBCSAT system
+  // call the relevant UBCSAT library procedures to detach this function from being inside the UBCSAT system
   UINT32 i= 1;
+  void ReadCNF();
   ReadCNF();
-  CreateLitOccurence(); //allows useage of aNumLitOcc, pLitClause
-  CreateCandidateList(); //allows useage of aCandidateList
-  CreateDefaultStateInfo(); //allows the usage of aVarValue array once initialised
-  CreateFalseClauseList(); //allows useage of the new false clause list after variable flip
+  void CreateLitOccurence(); // allows useage of aNumLitOcc, pLitClause
+  CreateLitOccurence();
+  void CreateCandidateList(); // allows useage of aCandidateList
+  CreateCandidateList();
+  void CreateDefaultStateInfo(); // allows the usage of aVarValue array once initialised
+  CreateDefaultStateInfo();
+  void CreateFalseClauseList(); // allows useage of the new false clause list after variable flip
+  CreateFalseClauseList();
 
-  //UBCSAT uses aVarInit to determine how variable i is to be assigned (2 = random)
+  // UBCSAT uses aVarInit to determine how variable i is to be assigned (2 = random)
   while(i <= iNumVars) {
     aVarInit[i++] = 2;
   } 
 
-  DefaultInitVars(); //initially assigns ALL variables randomnly (randomnly due to above loop)
-  InitDefaultStateInfo(); //necessary to get aNumTrueLit working
-  InitFalseClauseList(); //necessary to get aFalseList working
+  void DefaultInitVars();
+  DefaultInitVars(); // initially assigns ALL variables randomnly (randomnly due to above loop)
+  void InitDefaultStateInfo();
+  InitDefaultStateInfo(); // necessary to get aNumTrueLit working
+  void InitFalseClauseList();
+  InitFalseClauseList(); // necessary to get aFalseList working
 }
 
 
@@ -72,7 +94,7 @@ void AnalyseTotalAssignment()
       }
       if(bRemoveVars) aCurrAutarky = aTmpCurrAutarky;
     }
-    //this loop needs to be tested, above it works 
+    // this loop needs to be tested, above it works
     for(j=1;j<=iNumVars;j++) {
       if(aCurrAutarky[j]) {
         if(j == iiVar) {
@@ -129,9 +151,12 @@ void AnalyseTotalAssignment()
   } else {
     iFlipCandidate = aCandidateList[0];
   }
+  void DefaultFlip();
   DefaultFlip();
+  void CheckTermination();
   CheckTermination();
-  //Output function needs to be added
+  // Output function needs to be added
+  void UpdateFalseClauseList();
   UpdateFalseClauseList();
 }
 
