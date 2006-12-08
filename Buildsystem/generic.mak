@@ -649,12 +649,15 @@ CC := gcc
 
 # ----------------------------------------------------------
 # Standard_options (SV)
+# Standard_options_c (SV)
 #
-# Language-standard options. Defined in makefile_generic.mak.
+# Language-standard options for C++ and C compilation.
+# Defined in makefile_generic.mak.
 # Passed to the compiler for every program.
-# Default value : -ansi -pedantic
+# Default values : -ansi -pedantic resp. -std=c99 -pedantic.
 # ----------------------------------------------------------
-Standard_options := -ansi -pedantic
+Standard_options   := -ansi -pedantic
+Standard_options_c := -std=c99 -pedantic 
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -1035,10 +1038,10 @@ $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
 $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
 
 $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
 
 $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
