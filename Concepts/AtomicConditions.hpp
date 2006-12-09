@@ -59,12 +59,13 @@ namespace OKlib {
         static_cast<bool>(OKlib::AtomicConditions::eval(cc, v));
         static_cast<bool>(OKlib::AtomicConditions::eval(c, v));
 
-        AC(v);
+        dummy_use(AC(v));
       }
 
       AC c;
       const AC cc;
       const value_type v;
+      void dummy_use(const AC& ac) {}
     };
 
     class AtomicCondition_Archetype {
