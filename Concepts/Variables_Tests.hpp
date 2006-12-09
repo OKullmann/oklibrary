@@ -69,6 +69,7 @@ namespace OKlib {
     private :
       void perform_test_trivial() {
         OKLIB_MODELS_CONCEPT_REQUIRES(Var, Variables);
+        OKLIB_MODELS_CONCEPT_TAG(Var, Variables);
         OKLIB_TESTTRIVIAL_RETHROW(LinearOrder_basic_test_one_object<Var>(Var()));
         OKLIB_TESTTRIVIAL_RETHROW(Variables_Axiom_singular_variables_false<Var>());
       }
