@@ -17,6 +17,11 @@
   Everything is delegated to the variables and atomic-condition concepts (where the
   variable of a literal is unchangeable, while the condition is changeable).
 
+  Actually, it seems best that only refined versions of Literals offer operation
+  static_cast<cond_type&>(OKlib::Literals::cond(l));
+  while for general literals we have only
+  set_cond(x, cond).
+
   A general question is whether literals are assumed to be easily copyable, or should we pass
   them by reference? For literals like integers, we should pass them by value, but for literals
   representing sets we should pass them by reference?! So do we need to employ a traits function,
