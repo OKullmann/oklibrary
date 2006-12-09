@@ -171,6 +171,20 @@ module-name := $(notdir $(srcdir))
 endif
 # ----------------------------------------------------------
 
+
+# Every module which needs to be built has a link, called "makefile"
+# to the generic makefile Transitional/Buildsystem/generic.mak.
+
+# Most system-wide environment and Make variables are defined in the file
+# Transitional/Buildsystem/system_definitions.mak.
+# However, the build system, requires in certain files (see next section)
+# that the definition of OKbuildsystem is available, and in order to provide
+# maximum flexibility and convenience for the user we chose to define in each
+# of those places the environment variable OKPLATFORM, OKSYSTEM, OKBUILDSYSTEM
+# and the Make variables OKplatform, OKsystem and OKbuildsystem. This is done
+# by cut-and-paste from the original definition in 
+# Transitional/Buildsystem/generic.mak.
+
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
