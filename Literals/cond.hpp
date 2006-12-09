@@ -18,9 +18,7 @@ namespace OKlib {
     */
 
     template <typename L>
-    typename OKlib::Literals::traits::cond_type<L>::type cond(const L& x);
-    template <typename L>
-    typename OKlib::Literals::traits::cond_type<L>::type& cond(L& x);
+    inline typename OKlib::Literals::traits::cond_type<L>::type cond(const L& x);
   }
 }
 
