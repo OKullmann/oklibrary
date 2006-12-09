@@ -6,7 +6,13 @@
 /*!
   \file Concepts/ConceptsMetafunctions.hpp
   \brief Metafunctions concerning the relations between concepts, concept tags and models; used mainly internally.
+
+  \todo Perhaps a metafunction computing the concept-tag-class from a concept class would
+  be useful?
+  \todo Should tr1/type_traits completely replace boost/type_traits.hpp?
 */
+
+#include <tr1/type_traits>
 
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/or.hpp>
@@ -20,20 +26,18 @@
 #include <Transitional/Concepts/traits/concept_tag.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
       \class IsTagModel
-      \brief Boolean metafunction: true iff concept tag of T is derived from concept_tag.
+      \brief Boolean metafunction: IsTagModel<T, tag> is true iff the concept tag of T is derived from (or equal to) tag.
     */
 
     template <class T, class concept_tag>
     class IsTagModel {
       typedef typename ::OKlib::Concepts::traits::concept_tag<T>::type t_concept_tag;
     public :
-      typedef typename 
-      ::boost::mpl::or_< ::boost::is_same<t_concept_tag, concept_tag>, ::boost::is_base_and_derived<concept_tag, t_concept_tag> >::type type;
+      typedef typename std::tr1::is_base_of<concept_tag, t_concept_tag>::type type;
       OKLIB_META_VALUE_T
     };
 
@@ -41,7 +45,7 @@ namespace OKlib {
 
     /*!
       \class IsConceptTag
-      \brief Boolean metafunction: true iff Tag is strictly derived from ::OKlib::Concepts::ConceptsBase_tag.
+      \brief Boolean metafunction: IsConceptTag<Tag> is true iff Tag is strictly derived from ::OKlib::Concepts::ConceptsBase_tag.
     */
 
     template <class Tag>
@@ -49,7 +53,7 @@ namespace OKlib {
 
     /*!
       \class HasConceptTag
-      \brief Boolean metafunction: true iff T has a nested type concept_tag which is a concept tag.
+      \brief Boolean metafunction: HasConceptTag<T> is true iff T has a nested type concept_tag which is a concept tag.
     */
 
     namespace implementation_has_concept_tag {
