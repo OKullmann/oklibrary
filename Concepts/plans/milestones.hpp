@@ -3,13 +3,7 @@
 /*!
   \file Concepts/plans/milestones.hpp
 
-  \module_version Concepts 0.1 (10.9.2006)
-
-  \par Version 0.1.1 :
-  We have prototypes of concepts for
-  - variables : DONE
-  - atomic conditions : DONE
-  - literals : DONE
+  \module_version Concepts 0.1.1 (9.12.2006)
 
   \par Version 0.1.2 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
@@ -31,7 +25,8 @@
 
   \par Version history
 
-   -  0.1 : 10.9.2006; initial version number (concepts are under work for around 2 years).
+   - 0.1   : 10.9.2006; initial version number (concepts are under work for around 2 years).
+   - 0.1.1 : 9.12.2006; prototypes of concepts for variables, atomic conditions and literals developed.
 
 */
 
