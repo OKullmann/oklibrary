@@ -8,7 +8,7 @@
   \par Version 0.0.3 :
   In Literals/plans/Literals.hpp the following topics are handled:
   - Traits-functions : DONE
-  - Implement trivial literals.
+  - Implement trivial literals : DONE.
 
   \par Version 0.0.4 :
   In Literals/plans/Literals.hpp the following topics are handled:

@@ -11,7 +11,7 @@
   DONE : Moved to dedicated files.
 
   \todo Implement trivial literals:
-  Like trivial variables, but now only using signed integral types.
+  Like trivial variables, but now only using signed integral types : DONE.
 
   \todo First prototype:
   Very first prototype for "signed literals" (set-valued literals).
