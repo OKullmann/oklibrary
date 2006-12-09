@@ -23,24 +23,7 @@ namespace OKlib {
       };
       
     }
-
-    /*!
-      \brief Simple catch-all function template to extract conditions from literals
-      \todo Where to put this?
-      \todo Is this default implementation sensible?
-    */
-
-    template <typename L>
-    typename traits::cond_type<L>::type cond(const L& x) {
-      return static_cast<typename traits::cond_type<L>::type>(x);
-    }
-    template <typename L>
-    typename traits::cond_type<L>::type& cond(L& x) {
-      return static_cast<typename traits::cond_type<L>::type&>(x);
-    }
-
   }
-
 }
 
 #endif

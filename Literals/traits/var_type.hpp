@@ -23,20 +23,7 @@ namespace OKlib {
       };
       
     }
-
-    /*!
-      \brief Simple catch-all function template to extract variables from literals
-      \todo Where to put this?
-      \todo Is this default implementation sensible?
-    */
-
-    template <typename L>
-    typename traits::var_type<L>::type var(const L& x) {
-      return static_cast<typename traits::var_type<L>::type>(x);
-    }
-
   }
-
 }
 
 #endif
