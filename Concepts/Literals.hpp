@@ -17,6 +17,7 @@
 #include <Transitional/Literals/traits/cond_type.hpp>
 #include <Transitional/Literals/var.hpp>
 #include <Transitional/Literals/cond.hpp>
+#include <Transitional/Literals/set_cond.hpp>
 
 namespace OKlib {
 
@@ -33,8 +34,8 @@ namespace OKlib {
 
       So we have associated type traits traits::var_type and traits::cond_type, and via the
       function Literals::var the variable is extracted, while by Literals::cond the (atomic)
-      condition is extracted; for the latter a reference is returned in case the literal
-      is not const. Given a variable and an atomic condition, a literal can be constructed.
+      condition is extracted. By Literals::set_cond(x, condition) we can set the condition
+      in literal x, while from a variable a literal can be constructed.
 
       Since built-in types can model literals, for literals in general the initialisation
       behaviour of built-in types must be assumed.
@@ -67,14 +68,17 @@ namespace OKlib {
         static_cast<var_type>(OKlib::Literals::var(l));
 
         static_cast<cond_type>(OKlib::Literals::cond(lc));
-        static_cast<cond_type&>(OKlib::Literals::cond(l));
 
-        Lit(v);
+        OKlib::Literals::set_cond(l, c);
+
+        dummy_use(Lit(v));
       }
 
       Lit l;
       const Lit lc;
       const var_type v;
+      const cond_type c;
+      void dummy_use(const Lit& l) {}
     };
 
     class Literals_Archetype {
@@ -84,7 +88,7 @@ namespace OKlib {
       typedef OKlib::Concepts::Variables_Archetype var_type;
       typedef OKlib::Concepts::AtomicCondition_Archetype cond_type;
       Literals_Archetype() {}
-      Literals_Archetype(var_type, const cond_type&) {}
+      Literals_Archetype(var_type) {}
       convertible_to_bool operator ==(const Literals_Archetype&) const { return convertible_to_bool(); }
       convertible_to_bool operator !=(const Literals_Archetype&) const { return convertible_to_bool(); }
       convertible_to_bool operator <(const Literals_Archetype&) const { return convertible_to_bool(); }
@@ -100,7 +104,7 @@ namespace OKlib {
     template <>
     inline OKlib::Concepts::Literals_Archetype::cond_type cond(const OKlib::Concepts::Literals_Archetype&) { return OKlib::Concepts::Literals_Archetype::cond_type(); }
     template <>
-    inline OKlib::Concepts::Literals_Archetype::cond_type& cond(OKlib::Concepts::Literals_Archetype&) { static OKlib::Concepts::Literals_Archetype::cond_type c; return c; }
+    inline void set_cond(OKlib::Concepts::Literals_Archetype&, const OKlib::Concepts::Literals_Archetype::cond_type&) {}
   }
   
 }
