@@ -3,7 +3,7 @@
 /*!
   \file Literals/plans/milestones.hpp
 
-  \module_version Literals 0.0.2 (28.11.2006)
+  \module_version Literals 0.0.3 (9.12.2006)
 
   \par Version 0.0.3 :
   In Literals/plans/Literals.hpp the following topics are handled:
@@ -21,6 +21,8 @@
 
   \par Version history
 
-   -  0.0.2 : 28.11.2006; initial version number (some concepts).
+   - 0.0.2 : 28.11.2006; initial version number (some concepts).
+   - 0.0.3 : 9.12.2006; trivial literals (using integral types) implemented
+             (based on a first literal-concept).
 
 */
