@@ -5,11 +5,6 @@
 
   \module_version Literals 0.0.3 (9.12.2006)
 
-  \par Version 0.0.3 :
-  In Literals/plans/Literals.hpp the following topics are handled:
-  - Traits-functions : DONE
-  - Implement trivial literals : DONE.
-
   \par Version 0.0.4 :
   In Literals/plans/Literals.hpp the following topics are handled:
   - First prototype
