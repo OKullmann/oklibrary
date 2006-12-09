@@ -15,26 +15,10 @@
      building test-object files if needed,
    - but from within the module this doesn't work.
 
-  \todo General documentation:
-   - Extend the inline documentation of generic.mak.
-   - Checking on the existing documentation, and updating if necessary.        
-   - Adding inline comments for an overview on functionality.
-   - It is dangerous to separate the the documentation of the make-variables
-     from their definition?!
-
-  \todo Complete documentation:  
-   - Complete the inline documentation of generic.mak.
-   - What is required from those makefile.definitions.mak ? Update the list in
-     makefile_generic.mak, and reflect on it.
-
-   \todo Valgrind documentation:
-   - Recover the missing documentation about the usage of Valgrind.
-   - Wasn't there a comment on valgrind (important!) ??? (valgrind --quiet ...)
-
-   \todo Valgrind test variable
-   - We also have a variable to use valgrind with the tests.
-
-   \todo Recommended versions:
+  \todo Check the inline documentation of generic.mak (there seem to be
+  some left-overs).
+ 
+  \todo Recommended versions:
    The file external_sources_versions.mak contains the recommended versions of
    all external resources. However, the recommended version
    numbers are got by the buildsystem through a little hack. Namely,
