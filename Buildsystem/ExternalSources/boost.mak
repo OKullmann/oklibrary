@@ -26,7 +26,7 @@
 # Versions
 # ##################################
 
-include $(OKBuildsystem)/external_sources_versions.mak
+include $(OKbuildsystem)/external_sources_versions.mak
 
 # ##################################
 # Directory Structure
