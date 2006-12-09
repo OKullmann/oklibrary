@@ -4,38 +4,8 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo Naming and placement of makefiles:
-  <ul>
-   <li>
-     <p>Now every module which needs to be built has a link, called "makefile"
-     to the generic makefile Transitional/Buildsystem/generic.mak.</p>
-
-     <p>Most system-wide environment and Make variables are defined in the file
-     Transitional/Buildsystem/system_definitions.mak </p>
-
-     <p>However, the build system, requires in 
-     <ul>
-     <li> Transitional/Buildsystem/ExternalSources.mak
-     <li> Transitional/Buildsystem/makefile
-     <li> Transitional/Buildsystem/OKsystem.mak
-     <li> Transitional/Buildsystem/recursive.mak
-     <li> Transitional/makefile
-     <li> Annotations/makefile 
-     </ul>
-     that the definition of OKbuildsystem is available, and in order to provide
-     maximum flexibility and convenience for the user we chose to define in each
-     of those places the environment variable OKPLATFORM, OKSYSTEM, OKBUILDSYSTEM
-     and the Make variables OKplatform, OKsystem and OKbuildsystem. This is done
-     by cut-and-paste from the original definition in 
-     Transitional/Buildsystem/generic.mak</p></li>
-
-   <li> (DONE) Makefiles are either called "makefile", or otherwise have the suffix .mak,
-     so that for examples xemacs recognises the format. Makefiles which have the
-     suffix .mak are not prefixed with "makefile_"</li>
-   </ul>
-
   \todo Naming of local definition makefiles
-   - The makefiles.definitions.mak should should be renamed definitions.mak.
+   - The makefiles.definitions.mak should be renamed definitions.mak.
 
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
