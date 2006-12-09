@@ -2,7 +2,7 @@
 
 /*!
   \file Variables/TrivialVariables.hpp
-  \brief Typedefs for trivial models of concept Variables
+  \brief Typedefs for models of concept Variables given by signed and unsigned integral types
 */
 
 #ifndef TRIVIALVARIABLES_916TyVbx
@@ -12,6 +12,7 @@
 #include <Transitional/Variables/traits/index_type.hpp>
 
 #include <Transitional/Concepts/Variables.hpp>
+#include <Transitional/Concepts/JoinedConceptTags.hpp>
 
 namespace OKlib {
   namespace Variables {
@@ -61,28 +62,28 @@ namespace OKlib {
     namespace traits {
 
       template <> struct concept_tag< ::OKlib::Variables::Variables_signed_char> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_short_int> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_int> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_long_int> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_char> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_short_int> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_int> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       template <> struct concept_tag< ::OKlib::Variables::Variables_unsigned_long_int> {
-        typedef OKlib::Concepts::VariablesAsIndex_tag type;
+        typedef OKlib::Concepts::VariablesLiterals_tag<OKlib::Concepts::VariablesAsIndex_tag,  OKlib::Concepts::Literals_tag> type;
       };
       
     }
