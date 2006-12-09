@@ -68,8 +68,8 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        OKLIB_MODELS_CONCEPT_REQUIRES(Var, Variables);
-        OKLIB_MODELS_CONCEPT_TAG(Var, Variables);
+        OKLIB_MODELS_CONCEPT_REQUIRES(Var, OKlib::Concepts::Variables);
+        OKLIB_MODELS_CONCEPT_TAG(Var, OKlib::Concepts::Variables);
         OKLIB_TESTTRIVIAL_RETHROW(LinearOrder_basic_test_one_object<Var>(Var()));
         OKLIB_TESTTRIVIAL_RETHROW(Variables_Axiom_singular_variables_false<Var>());
       }
@@ -198,7 +198,8 @@ namespace OKlib {
     private :
       typedef typename OKlib::Variables::traits::index_type<Var>::type index_type;
       void perform_test_trivial() {
-        OKLIB_MODELS_CONCEPT_REQUIRES(Var, VariablesAsIndex);
+        OKLIB_MODELS_CONCEPT_REQUIRES(Var, OKlib::Concepts::VariablesAsIndex);
+        OKLIB_MODELS_CONCEPT_TAG(Var, OKlib::Concepts::VariablesAsIndex);
         OKLIB_TESTTRIVIAL_RETHROW(VariablesWithIndex_basic_test<Var>());
         {
           const index_type max_index = 2;
