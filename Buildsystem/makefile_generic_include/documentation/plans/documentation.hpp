@@ -23,6 +23,9 @@
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
    - Documentation for Gcc, Mhash, Postgresql
 
+  \todo Building documentation:
+  We should extract only the documentation from the archives.
+
   \todo Doxygen general:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
    - For functions there is a "callergraph" --- shall we use it?
