@@ -3,12 +3,7 @@
 /*!
   \file AtomicConditions/plans/milestones.hpp
 
-  \module_version AtomicConditions 0.0.1 (6.12.2006)
-
-  \par Version 0.0.2 :
-  In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
-  - Traits-functions : DONE
-  - Implement trivial atomic conditions : DONE
+  \module_version AtomicConditions 0.0.2 (9.12.2006)
 
   \par Version 0.0.3 :
   In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
@@ -22,6 +17,8 @@
 
   \par Version history
 
-   -  0.0.1 : 6.12.2006; initial version number.
+   - 0.0.1 : 6.12.2006; initial version number.
+   - 0.0.2 : 9.12.2006; Completed the definition of traits-functions and bool
+             as atomic condition.
 
 */
