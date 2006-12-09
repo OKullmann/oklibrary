@@ -8,10 +8,11 @@
   \par Version 0.0.2 :
   In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
   - Traits-functions : DONE
-  - Implement trivial atomic conditions.
+  - Implement trivial atomic conditions : DONE
 
   \par Version 0.0.3 :
   In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
+  - Further trivial atomic conditions
   - First prototype of general atomic condition.
 
   And further milestones are created.

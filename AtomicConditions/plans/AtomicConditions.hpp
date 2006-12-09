@@ -8,8 +8,10 @@
   - AtomicConditions/traits/value_type.hpp : Is this the right place for the eval-implementation : Now in its own file. DONE
 
   \todo Implement trivial atomic conditions
-  - bool as atomic condition
-  - perhaps also integers??
+  - bool as atomic condition : DONE
+
+  \todo Further trivial atomic conditions
+  - perhaps integers as atomic conditions?
 
   \todo First prototype of general atomic condition
   Very first prototype using std::set.
