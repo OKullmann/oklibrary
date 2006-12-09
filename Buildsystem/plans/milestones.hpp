@@ -3,25 +3,8 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \par Current version 0.1.1 (3.11.2006)
+  \par Current version 0.1.2 (9.12.2006)
   
-  \par Version 0.1.2 :
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - (DONE) Naming and placement of makefiles
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - (DONE) General documentation
-    - (DONE) Valgrind documentation
-    - (DONE) Extracting documentation building to separate makefile
-
-  \par
-   In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
-   the following topics are handled.
-    - (DONE) Documentation index page creation
-    - (DONE) html target
-    - (DONE) Local documentation : regarding system_directories/doc/index.html
-
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Role of srcdir
@@ -39,6 +22,7 @@
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
    the following topics are handled:
+    - Extracting documentation building to separate makefile
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
@@ -141,7 +125,8 @@
   \par Version history
 
    - 0.1   : 4.3.2006; initial version number (the build system is under work for around 2 years).
-   - 0.1.1 : 3.11.2006 (some smaller corrections and modifications regarding naming issues).
+   - 0.1.1 : 3.11.2006; some smaller corrections and modifications regarding naming issues.
+   - 0.1.2 : 9.12.2006; systematic naming, placement and decomposition of makefiles; documentation of generic.mak; documentation-building improved.
 
 */
 
