@@ -14,7 +14,6 @@
 #include <Transitional/Concepts/Variables.hpp>
 
 namespace OKlib {
-
   namespace Variables {
 
     typedef signed char Variables_signed_char;
