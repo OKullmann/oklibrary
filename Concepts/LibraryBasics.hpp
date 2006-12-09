@@ -13,15 +13,18 @@
 
   \todo Should the helper-classes for archetype-definitions go into their own file?
   \todo Should boost/type_traits.hpp be replaced by the tr1-components?
+  \todo Perhaps the macros need some clean-up.
 */
 
 #ifndef LIBRARYBASICS_oLkG5675
 #define LIBRARYBASICS_oLkG5675
 
+#include <tr1/type_traits>
+
 #include <boost/concept_check.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
-// This file is guaranteed to include the last three files, so that OKLIB_HAS_CONCEPT_TAG and OKLIB_MODELS_CONCEPT always works.
+// This file is guaranteed to include the last four files, so that OKLIB_HAS_CONCEPT_TAG and OKLIB_MODELS_CONCEPT always works.
 
 #include <Transitional/Concepts/ConceptsBase.hpp>
 #include <Transitional/Concepts/ConceptsMetafunctions.hpp>
@@ -33,7 +36,7 @@ namespace OKlib {
 
     /*!
       \class WithConceptTag
-      \brief Basic internal concept, requiring the concept tag.
+      \brief Basic internal concept, statically asserting the concept tag.
     */
 
     template <typename T>
@@ -76,7 +79,7 @@ namespace OKlib {
       \brief Use OKLIB_MODELS_CONCEPT_REQUIRES(C, concept) in order to require that
       class C models "concept".
 
-      Used together with OKLIB_MODELS_CONCEPT_TAG.
+      Normally used together with OKLIB_MODELS_CONCEPT_TAG.
     */
     
 #define OKLIB_MODELS_CONCEPT_REQUIRES(C, concept) ::boost::function_requires<concept<C> >();
@@ -84,12 +87,22 @@ namespace OKlib {
     /*!
       \def OKLIB_MODELS_CONCEPT_TAG
       \brief Use OKLIB_MODELS_CONCEPT_TAG(C, concept) in order to require that
-      class C has concept tag "concept_tag".
+      class C has a concept tag derived from "concept_tag".
 
-      Used together with OKLIB_MODELS_CONCEPT_REQUIRES
+      Normally used together with OKLIB_MODELS_CONCEPT_REQUIRES.
     */
 
 #define OKLIB_MODELS_CONCEPT_TAG(C, concept) BOOST_STATIC_ASSERT((::OKlib::Concepts::IsTagModel< C, concept ## _tag >::value));
+
+    /*!
+      \def OKLIB_MODELS_CONCEPT_TAG_T
+      \brief Use OKLIB_MODELS_CONCEPT_TAG_T(tag, concept) in order to require that
+       tag is derived from "concept_tag".
+
+      Used in cases where just a concept-tag has to be checked against a concept.
+    */
+
+#define OKLIB_MODELS_CONCEPT_TAG_T(Tag, concept) BOOST_STATIC_ASSERT((std::tr1::is_base_of<concept ## _tag, Tag>::value));
 
     // ----------------------------------------------------------------------------------------------------------------------------------
     // Types for archetype definitions
