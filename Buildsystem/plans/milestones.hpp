@@ -3,7 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \par Current version 0.1.2 (9.12.2006)
+  \module_version Buildsystem 0.1.2 (9.12.2006)
   
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
