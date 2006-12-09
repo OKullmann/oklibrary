@@ -18,7 +18,7 @@
   \par Version history
 
    - 0.0.1 : 6.12.2006; initial version number.
-   - 0.0.2 : 9.12.2006; Completed the definition of traits-functions and bool
-             as atomic condition.
+   - 0.0.2 : 9.12.2006; Completed the definition of traits-functions, and
+             implementation of bool as atomic condition.
 
 */
