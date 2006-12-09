@@ -4,6 +4,11 @@
   \file Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
   \brief Plans for documentation-creation
 
+  \bug Building boost_doc does not work, since the archive uses "boost_",
+  while the boost-versions use "boost-".
+
+  \bug Building gcc_doc does not work, since apparently the man-pages need to be build.
+
   \todo Local documentation : regarding system_directories/doc/index.html
   <ul>
   <li> A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
@@ -12,6 +17,7 @@
        handles Doxygen and Boost and needs to be extended to handle those
        other external sources (Gcc, Mhash, Postgresql, UBCSAT)
   </li>
+  <li> See the above bugs. </li>
   </ul>
 
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
