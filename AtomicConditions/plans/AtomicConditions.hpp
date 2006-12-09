@@ -4,12 +4,6 @@
   \file AtomicConditions/plans/AtomicConditions.hpp
   \brief Plans for atomic conditions
 
-  \todo Traits-functions:
-  - AtomicConditions/traits/value_type.hpp : Is this the right place for the eval-implementation : Now in its own file. DONE
-
-  \todo Implement trivial atomic conditions
-  - bool as atomic condition : DONE
-
   \todo Further trivial atomic conditions
   - perhaps integers as atomic conditions?
 
