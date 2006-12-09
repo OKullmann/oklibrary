@@ -8,6 +8,8 @@
   - Literals/traits/var_type.hpp : Is this the right place for the var-implementation?
   - Literals/traits/cond_type.hpp : Is this the right place for the cond-implementation?
 
+  DONE : Moved to dedicated files.
+
   \todo Implement trivial literals:
   Like trivial variables, but now only using signed integral types.
 
