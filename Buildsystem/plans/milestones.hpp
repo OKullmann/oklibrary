@@ -7,6 +7,8 @@
   
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Naming of local definition makefiles
+    - Make-variables for external libraries
     - Role of srcdir
     - Linking to makefile_recursive
     - System documentation
@@ -15,8 +17,8 @@
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Valgrind test variable
-    - Complete documentation
+    - Valgrind test variable ??? (doesn't exist anymore)
+    - Documentation of generic.mak
     - Recommended versions
 
   \par
@@ -26,6 +28,14 @@
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
+
+    \par
+     In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+      - Corrections mhash
+      - Building Boost
+      - General
+      - Gcc
+      - Boost
 
     All the following milestones need to be updated.
   
