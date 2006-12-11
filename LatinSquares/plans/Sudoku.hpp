@@ -5,12 +5,20 @@
   \brief Plans for the Sudoku components
 
   \todo Complete implementation of OKlib::LatinSquares::SudokuProblem
+  - Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2, I_2' := {1,...,n^2}.
+  Variables are v_{i,j} for i, j in I_2 with domains D(v) = I_2'.
+  The active clause-sets are
+   1a) For all i in I_2: INJ({v_{i,j} : j in I_2})
+   1b) For all j in I_2: INJ({v_{i,j} : i in I_2})
+   2) For all i, j in I_1: INJ( { v_{(i,k), (k',j)} : k, k' in I_1 } ).
+  Additionally a list of domain-restrictions can be specified.
+  In terms of latin squares we can express 1a+1b as
+   1) LS((v_ij)_ij).
   - Are all constraints stored together? Perhaps better we use the natural grouping
   into 3 groups?
   - Use the concepts of literals (what about entry_type?).
-
-  Compare with SATAlgorithms/plans/GenericBacktracking.hpp and with
-  Concepts/plans/ClauseSets.hpp for the concept discussion.
+  - Compare with SATAlgorithms/plans/GenericBacktracking.hpp and with
+    Concepts/plans/ClauseSets.hpp for the concept discussion.
 
   \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoku
   Likely this should be just a generic algorithm, applicable to any collection of
