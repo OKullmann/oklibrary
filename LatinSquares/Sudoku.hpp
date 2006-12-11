@@ -22,7 +22,7 @@ namespace OKlib {
 
     /*!
       \class SudokuProblem
-      \brief First prototype for an alliance of active clause-set for Sudoku
+      \brief First prototype for an alliance of active clause-sets for Sudoku
     */
 
     template <int Box_size, class BijectivityConstraint>
