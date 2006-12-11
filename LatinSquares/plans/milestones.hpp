@@ -3,7 +3,7 @@
 /*!
   \file LatinSquares/plans/milestones.hpp
 
-  \par Current version 0.0.3 (23.11.2006)
+  \module_version LatinSquares 0.0.3 (23.11.2006)
 
   \par Version 0.0.4
   In LatinSquares/plans/Sudoku.hpp the following topics are handled:
@@ -12,6 +12,7 @@
   \par Version 0.0.5
   In LatinSquares/plans/Sudoku.hpp the following topics are handled:
   - Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoko.
+
   Refine milestones.
 
   \par Version 0.1
@@ -22,7 +23,6 @@
 
   \par Version 0.2
   In LatinSquares/plans/LatinSquares.hpp the following topics are handled:
-  - Concepts
   - Review
   - Basic direct algorithms
 
