@@ -4,20 +4,25 @@
   \file LatinSquares/plans/LatinSquares.hpp
   \brief Plans for the module on latin squares and generalisations
 
-  \todo Concepts: Create a (preliminary) concept for an active clause-set for
-  latin squares, based on a matrix concept.
-
   \todo Review: Software and literature review.
 
   \todo Basic direct algorithms:
   Write tests, whether one square is a latin square, and whether
-  a sequence of squares is mutually orthogonal.
+  a sequence of squares is mutually orthogonal (these tests are only for result-checking).
 
   \todo By combinining injectivity (bijectivity) constraints,
   the extension problem for latin squares and the problem of finding
   mutually orthogonal sets of latin squares (MOLS) shall be provided as
   an alliance of active clause-sets. Perhaps the matching techniques
   underlying the injectivity constraints can be generalised?!)
+
+  \todo Completing partial latin squares
+   - Every partial latin squares of order n with n-1 entries can be completed (and there
+     exists an efficient algorithm for it): How do the various (generalised) SAT
+     algorithms perform here?
+   - Consider a partial latin square of order n with n+k entries. One could conjecture that
+     it can be completed iff the alliance of active clause-sets given by the bijectivity-constraints
+     is not found inconsistent by r_k reduction? (The case k = 0 follows by [Andersen, Hilton, 1983].)
 
   \todo Perhaps is makes sense for an array v_ij of variables
   to have an active clause-set LS((v_ij)), expressing that the variables
@@ -75,23 +80,31 @@
      of domain size 10, which is pretty big. In principle one can
      run a SAT solver on it, but likely without active clause-sets we won't have
      a chance.
+
   \todo For n >= 1 let N(n) be the maximal number of MOLS. Thus
-   - N(1) = 1
-   - N(n) <= n - 1 for n >= 2
-   - N(n) = n - 1 if n = p^k for a prime number p and a natural number k >= 1
-   - N(6) = 1
+  <ul>
+    <li> N(1) = 1 </li>
+    <li>N(n) <= n - 1 for n >= 2 </li>
+    <li> N(n) = n - 1 if n = p^k for a prime number p and a natural number k >= 1 </li>
+    <li> N(6) = 1 </li>
+  </ul>  
    This determines N(n) for 1 <= n <= 9. The first open case is N(10).
    It is known
-    - n notin {1, 2, 6} -> N(n) >= 2
-    - n >= 2: either N(n) = n - 1 or N(n) <= n - 4
-    - N(10) <> 9 (computer experiments showed that there is no
-      projective plane of order 10).
-    Thus 2 <= N(10) <= 6 (more recent results?). Can we improve this?!
+  <ol> 
+    <li> n notin {1, 2, 6} -> N(n) >= 2 </li>
+    <li> n >= 2: either N(n) = n - 1 or N(n) <= n - 4 </li>
+    <li> N(10) <> 9 (computer experiments showed that there is no
+      projective plane of order 10). </li>
+  </ol> 
+    Thus 2 <= N(10) <= 6 (more recent results?). Can we improve this?! <p></p>
+
     The next case is N(12). It is known that 5 <= N(12) <= 11 (more
     recent results?); can we improve this?!
     (Two approaches possible: starting from above,
     showing that the problem is unsatisfiable, or starting from below,
-    showing that the problem is satisfiable.) In general we have:
+    showing that the problem is satisfiable.) <p></p>
+
+    In general we have:
      - N(n) = n - 1 iff an affine plane of order n exists iff a projective plane
        of order n exists.
      It is stated in [Beth, Jungnickel, Lenz] that the exact value of N(n) is only known
@@ -111,16 +124,6 @@
  \todo Compare topic "Generators for finding incidence structures and designs" in
  Generators/plans/Generators.hpp.
 
-  \todo Sudoku:
-  Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2, I_2' := {1,...,n^2}.
-  Variables are v_{i,j} for i, j in I_2 with domains D(v) = I_2'.
-  The clauses are
-   1a) For all i in I_2: INJ({v_{i,j} : j in I_2})
-   1b) For all j in I_2: INJ({v_{i,j} : i in I_2})
-   2) For all i, j in I_1: INJ( { v_{(i,k), (k',j)} : k, k' in I_1 } ).
-  Additionally a list of domain-restrictions can be specified.
-  In terms of latin squares we can express 1a+1b as
-   1) LS((v_ij)_ij).
 */
 
 /*!
