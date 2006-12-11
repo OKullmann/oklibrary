@@ -31,6 +31,7 @@
    - It would ge good, if after doing a local installation, easily the installation could also be
      make global.
    - Optionally there should be also local versions of valgrind and doxygen (and other tools).
+     This is necessary on systems where the user does not have root access.
 
   \todo Gcc
    - When building some gcc-version, only the necessary directories
