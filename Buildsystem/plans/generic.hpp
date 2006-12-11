@@ -15,7 +15,8 @@
      building test-object files if needed,
    - but from within the module this doesn't work.
 
-  \todo Check the inline documentation of generic.mak (there seem to be
+  \todo Documentation of generic.mak:
+  Check the inline documentation of generic.mak (there seem to be
   some left-overs).
  
   \todo Recommended versions:
