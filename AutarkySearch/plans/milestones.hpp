@@ -3,7 +3,7 @@
 /*!
   \file AutarkySearch/plans/milestones.hpp
 
-  \par Current version 0.0.4 (9.11.2006)
+  \module_version AutarkySearch 0.0.4 (9.11.2006)
 
   \par Version 0.0.5 :
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
