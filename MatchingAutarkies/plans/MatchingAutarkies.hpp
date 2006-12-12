@@ -6,16 +6,20 @@
 
   \todo Literature review
 
-  \todo Algorithms: How to efficiently find matching autarkies and computing
+  \todo Algorithms:
+  How to efficiently find matching autarkies and computing
   the lean kernel (pseudo-code)?
 
-  \todo Implementation: A direct implementation of the computation
+  \todo Implementation:
+  A direct implementation of the computation
   of the matching lean kernel  based on a matching algorithm.
 
-  \todo Application: Write an application for computing the lean kernel,
+  \todo Application:
+  Write an application for computing the lean kernel,
   the largest matching autarky etc.
 
-  \todo Online: Then one has to think about integration into a SAT solver.
+  \todo Incremental:
+  Then one has to think about integration into a SAT solver.
 */
 
 /*!
