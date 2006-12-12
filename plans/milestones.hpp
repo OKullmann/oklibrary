@@ -18,7 +18,7 @@
   \section StartingVersion010 Starting with version 0.1.0
 
   \subsection VersionTransitional011 0.1.1 : TO BE REACHED 11.12.2006
-  \par AutarkySearch version 0.0.5 (ML)
+  \par AutarkySearch version 0.0.5 (ML (OK))
   (see AutarkySearch/plans/milestones.hpp)
   \par Literals version 0.0.3 (OK (MH, ML)) : DONE
   (see Literals/plans/milestones.hpp)
@@ -28,25 +28,31 @@
   (see AtomicConditions/plans/milestones.hpp)
   \par Concepts version 0.1.1 (OK (MH, ML)) : DONE
   (see Concepts/plans/milestones.hpp)
-  \par Messages version 0.7.1 (OK) : DONE
+  \par Messages version 0.7.2 (OK) : DONE
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.2 (OK) : DONE
   (see TestSystem/plans/milestones.hpp)
   \par All modules have plans-subdirectories, most with milestones (OK) : DONE
 
-  \subsection VersionTransitional012 0.1.2
-  \par Buildsystem version 0.1.3 (MH)
+  \subsection VersionTransitional012 0.1.2 : TO BE REACHED 14.1.2007
+  \par Buildsystem version 0.1.3 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.2 (OK)
+  \par Messages version 0.7.3 (OK (MH, ML))
   (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.3 (OK)
+  \par TestSystem version 0.1.3 (OK (MH, ML))
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.1 (OK (MH, ML))
+  \par Concepts version 0.1.3 (OK (MH, ML))
   (see Concepts/plans/milestones.hpp)
+  \par AtomicConditions version 0.0.3 (OK (MH, ML))
+  (see AtomicConditions/plans/milestones.hpp)
+  \par Literals version 0.0.4 (OK (MH, ML))
+  (see Literals/plans/milestones.hpp)
   \par PartialAssignments version 0.0.5 (OK (MH, ML))
   (see PartialAssignments/plans/milestones.hpp)
-  \par LatinSquares version 0.0.4 (OK, MH)
+  \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
+  \par AutarkySearch version 0.0.6 (ML (OK))
+  (see AutarkySearch/plans/milestones.hpp)
   \par Expand the following milestones regarding SAT-algorithms
 
   \subsection VersionTransitional013 0.1.3
