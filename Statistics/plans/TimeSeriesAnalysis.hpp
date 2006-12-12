@@ -55,5 +55,8 @@
    - This form of optimisation should be possible also for a list of problems
      (to be "learned"), or for a class of problems given by some generator.
    - Deciding about a restart.
+
+  \todo The Boost.Time_series library seems to be a good tool.
+
 */
 
