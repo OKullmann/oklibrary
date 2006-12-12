@@ -3,16 +3,21 @@
 /*!
   \file MatchingAutarkies/plans/milestones.hpp
 
-  \par Current version 0.0.1 (???)
-  \todo see log file for the date
+  \module_version MatchingAutarkies 0.0.1 (8.3.2006)
 
-  \par Version 0.1
+  \par Version 0.0.2
   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
   topics are handled:
   - Literature review
+
+  \par Version 0.0.3
+  In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+  topics are handled:
   - Algorithms
 
-  \par Version 0.2
+  And further milestones are created.
+
+  \par Version 0.1
   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
   topics are handled:
   - Implementation
@@ -27,7 +32,7 @@
 
   \par Version history
 
-   -  0.0.1 : ???;  initial version number (only plans).
+   - 0.0.1 : 8.3.2006;  initial version number (only plans).
 
 */
 
