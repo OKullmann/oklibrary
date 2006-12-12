@@ -9,7 +9,7 @@
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
   "Local installation of UBCSAT" is handled.
 
-  \par version 0.0.6
+  \par Version 0.0.6
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
   "Using UBCSAT" is handled.
 
