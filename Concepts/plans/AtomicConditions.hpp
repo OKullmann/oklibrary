@@ -17,27 +17,6 @@
    It might be useful to have also lazy evaluation here.
    A boolean value is an atomic condition for the value_type bool.
 
-   An atomic condition type C is like a container, and should have at least
-   OKlib::AtomicConditions::traits::value_type<C>::type.
-   It seems that in general we do not need the ability to run through all possible
-   values, but only to evaluate a condition on a value (returning bool).
-   So perhaps operations:
-   - OKlib::AtomicConditions::traits::value_type<C>::type
-   - eval(x, value) : bool.
-
-   For construction perhaps
-   - C(value, bool=true)
-   where the boolean states whether the value represents a singleton or a co-singleton.
-
-   Additional operations could be:
-   - is_always_true(x) : bool
-   - is_always_false(x) : bool.
-
-   Regarding evaluation of literals for two conditions x, y the evaluation of x relativ
-   to y is interesting, regarding y as specifying the domain: If y <= x, then return
-   true, if y intersect x is empty, then return false, otherwise return indeterminate:
-   - eval(x, y) : boost::tribool.
-
    Operations should (first) be in-place operations. We need complementation and
    addition/elimination of values.
 
@@ -46,6 +25,48 @@
    but for larger value-domains also literals (i.e., their atomic conditions) offer to
    change and undo the condition themselves.
 
+   \todo Empty and full:
+   Do we need operations empty(ac) and full(ac) for atomic conditions ac? Can be expressed via ac.size(), as well
+   as singleton(ac) and co_singleton(ac). But perhaps it's more expressive using these functions, and so we might
+   use them already at the base level.
+   Question here: When using function call syntax f(x), then it seems the return value is never treated as a
+   (compile-time) constant. But for the boolean atomic condition, it would be good to have the four above
+   functions returning constants (false for empty and full, true for singleton and co_singleton)? Perhaps it suffices
+   that the compiler will do optimisation (when defining these functions as inline). (One could use macros, but
+   this seems ugly, and then one couldn't use namespaces.)
+
+   \todo Refinement for size:
+   A refined version of AtomicConditions has
+   - ac.size()
+   as well as
+   - value_type::size (see below --- perhaps this is not part of the concept AtomicConditions, but the concept
+   AtomicConditions requires the value type to be a model of ConstantSet).
+
+   \todo Refinement for iteration:
+   Furthermore the value type can be enumerated, which should be formulated in such a way that the compiler
+   might perform loop-unrolling. Natural would be:
+   - value_type::first
+   - value_type::last
+   - value_type::next(v)
+   - value_type::prior(v)
+   (Instead of "value_type::" we must use traits-classes here.) Then value_type should also be linearly ordered.
+   And it needs a past-the-end marker --- but this is not given for booleans ? With an additional iterator it would
+   be easier. But using iterators it seems unlikely that the compiler can unroll loops, or?
+
+   Perhaps this is not part of the concept of an atomic condition, but we have a concept "ConstantSet", with
+   value_type::size and the above functions. Conceptually easiest would be to model ConstantSet as a
+   constant range. The other possibility would be to use indices (or "positions").
+
+   \todo Changing atomic conditions:
+   Removal and addition of single values seems to be basic (but not for bool).
+
+   \todo Evaluation:
+   Regarding evaluation of literals, for two conditions x, y the evaluation of x relativ
+   to y is interesting, regarding y as specifying the domain: If y <= x, then return
+   true, if y intersect x is empty, then return false, otherwise return indeterminate:
+   - eval(x, y) : boost::tribool.
+
 */
+
 
 
