@@ -5,10 +5,14 @@
   \brief Plans for atomic conditions
 
   \todo Further trivial atomic conditions
-  - perhaps integers as atomic conditions?
+  - Perhaps Mono<int n>, where n >= 1. Contains an integer m,
+    which in case m >= 1 means the singleton {m}, while
+    in case m <= -1 the co-singleton {1,...,n} - {-m} is meant.
+    Invariant -n <= m <= n.
 
   \todo First prototype of general atomic condition
-  Very first prototype using std::set.
+  Very first prototype using std::set (for an arbitrary value-type)
+  or std::vector<bool> (for value-type {1,...,n}).
 
 */
 
