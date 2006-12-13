@@ -12,6 +12,7 @@
 
 #include <Transitional/AtomicConditions/traits/value_type.hpp>
 #include <Transitional/AtomicConditions/eval.hpp>
+#include <Transitional/AtomicConditions/complement.hpp>
 
 namespace OKlib {
 
@@ -28,8 +29,8 @@ namespace OKlib {
 
       So we have an associated type traits traits::value_type, and via the function
       AtomicConditions::eval the boolean value of the condition on a value is evaluated.
-      Given a value, the atomic condition which is exactly true resp. false on this value
-      can be constructed.
+      Given a value, the atomic condition which is exactly true on this value
+      can be constructed. An atomic condition can be complemented.
 
       Since built-in types can model atomic conditions, for them in general the initialisation
       behaviour of built-in types must be assumed.
@@ -58,6 +59,8 @@ namespace OKlib {
 
         static_cast<bool>(OKlib::AtomicConditions::eval(cc, v));
         static_cast<bool>(OKlib::AtomicConditions::eval(c, v));
+
+        OKlib::AtomicConditions::complement(c);
 
         dummy_use(AC(v));
       }
@@ -96,6 +99,8 @@ namespace OKlib {
     inline bool eval(const OKlib::Concepts::AtomicCondition_Archetype&, const OKlib::AtomicConditions::traits::value_type<OKlib::Concepts::AtomicCondition_Archetype>::type&) {
       return ::OKlib::Concepts::convertible_to_bool();
     }
+    template <>
+    inline void complement(OKlib::Concepts::AtomicCondition_Archetype&) {}
     
   }
 
