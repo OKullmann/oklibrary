@@ -12,6 +12,7 @@
 
 #include <Transitional/AtomicConditions/traits/value_type.hpp>
 #include <Transitional/AtomicConditions/eval.hpp>
+#include <Transitional/AtomicConditions/complement.hpp>
 
 namespace OKlib {
   namespace AtomicConditions {
@@ -35,6 +36,9 @@ namespace OKlib {
     inline bool eval(const AC_bool& ac, const bool& b) {
       return ac == b;
     }
+
+    template <>
+    inline void complement(AC_bool& ac) { ac = !ac; }
 
   }
 
