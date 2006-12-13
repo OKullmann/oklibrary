@@ -2,7 +2,7 @@
 
 /*!
   \file AtomicConditions/eval.hpp
-  \brief Base template for the evaluation function
+  \brief Primary template for the evaluation function
 */
 
 #ifndef EVAL_66ahahYt3e
@@ -13,6 +13,7 @@ namespace OKlib {
 
     template <typename AC>
     inline bool eval(const AC&, const typename traits::value_type<AC>::type&);
+
   }
 }
 
