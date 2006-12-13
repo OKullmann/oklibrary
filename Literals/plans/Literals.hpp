@@ -5,10 +5,9 @@
   \brief Plans for literals
 
   \todo First prototype:
-  Very first prototype for "signed literals" (set-valued literals).
-  Based (of course) on Concepts/Literals.hpp. Perhaps first the
-  notion of the "atomic condition" (use of "sets") needs to be
-  clarified.
+  Very first prototype for "signed literals" (set-valued literals), based on the basic
+  atomic condition for arbitrary value-types. What to do about the requirement that
+  the atomic condition of a literal is not constant? Just an invariant?
 
 */
 

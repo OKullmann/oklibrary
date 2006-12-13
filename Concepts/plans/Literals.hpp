@@ -4,20 +4,9 @@
   \file Concepts/plans/Literals.hpp
   \brief Plans for concepts for literals.
 
-  \todo Signed integers should model boolean literals.
-  Thus the concept of literals does not have member functions, but
-  free standing functions are used. And since ADL does not work with
-  build-in types, we must use qualified function-calls.
-
   \todo Requirements literals
 
-  Literals are just (intentionally) just pairs of variables and atomic conditions, where
-  we require that the atomic condition of a literal is never constant.
-
-  Everything is delegated to the variables and atomic-condition concepts (where the
-  variable of a literal is unchangeable, while the condition is changeable).
-
-  Actually, it seems best that only refined versions of Literals offer operation
+  It seems best that only refined versions of Literals offer operation
   static_cast<cond_type&>(OKlib::Literals::cond(l));
   while for general literals we have only
   set_cond(x, cond).
