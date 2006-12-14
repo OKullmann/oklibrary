@@ -7,12 +7,15 @@
   \todo OKlib::SATAlgorithms::Backtracking
   Design and implement this generic algorithm skeleton.
 
-  \todo Parameter ExtProblem of OKlib::SATAlgorithms::Backtracking
+  \todo Parameter ExtProblem of OKlib::SATAlgorithms::Backtracking:
   What is the concept of ExtProblem, and how does it compare to "active clause-sets" ?
   An example is OKlib::LatinSquares::SudokuProblem in LatinSquares/Sudoku.hpp.
   The point here seems to be that out of several "active clause-sets", as for example
-  OKlib::InjectivityConstraints::TrivialAllDifferent, one builds than "alliances of
-  active clause-sets", which integrate the different constraints, and kind of organise them.
+  OKlib::InjectivityConstraints::TrivialAllDifferent, one builds than
+
+     "alliances of active clause-sets",
+
+  which integrate the different constraints, and kind of organise them.
   It seems unlikely, that for example a Sudoku problem is used as an active clause-set
   for another problem.
 
@@ -26,7 +29,7 @@
    - P.add_assignment(l)
    - P.add_negated_assignment(l)
 
-  \todo Undo
+  \todo Undo:
   The semantics of the undo-operation of OKlib::SATAlgorithms::Backtracking needs to be
   clarified.
 
@@ -36,22 +39,32 @@
   On the other hand, the reduction for an alliance doesn't need to give these details?
   We just need to know whether it was already decided.
 
-  \todo Intelligent backtracking and learning
+  \todo Intelligent backtracking and learning:
   Yet OKlib::SATAlgorithms::Backtracking does not support intelligent backtracking
   or learning? Perhaps the visitor can do it?
   The role of the visitor yet is to do something when a falsifying or satisfying assignment
   is detected; perhaps one should speak of a "decision-visitor".
 
-  \todo Integration
+  \todo Integration:
   The integration of the reduction and the heuristics is problematic (they need to know
   about each other and the problem).
 
-  \todo Goal
+  \todo Goal:
   OKlib::SATAlgorithms::Backtracking should be usable to process
    - Sudoku and latin squares problem (see LatinSquares/plans/Sudoku.hpp)
    - the main part of OKsolver_2.0 (see OKsolver_2_0/plans/OKsolver_2_0.hpp)
 
   \todo Test OKlib::SATAlgorithms::Backtracking
+
+  \todo More flexible splitting:
+  Yet we only split by (v = e, v<> e). Now it seems that we could achieve an exponential speed-up
+  by using splittings (v in A, v in B) for partitions (A,B) of D_v; the problem is only how to find
+  good candidates?
+   - Perhaps first we perform some kind of exhaustive tests, to judge the potential.
+   - A reasonable heuristics good be obtained as follows: For performing r_2 we check all
+     partial assignments v = e; now we need to value each such branch, and then via some
+     balancing scheme we distribute the values of A and B such that the sums of values in A
+     and B are as close as possible.
 
 */
 
