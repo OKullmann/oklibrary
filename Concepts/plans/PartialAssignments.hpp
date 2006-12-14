@@ -5,24 +5,29 @@
   \brief Plans for concepts for partial assignments
 
   \todo Concept of a partial assignment phi:
-   - boost::logic::tribool(phi) returns false if phi is inconsistent,
-     true if phi doesn't exclude any assignment, and indeterminate
-     otherwise. (false corresponds to the tautological clause, true to the
-     empty clause.)
+   - phi is a container of literals (the sequence of current standardised
+     literals in some implementation-defined order), at most one literal per variable.
+   - All the following considerations generalise accordingly to partial multiassignments.
+   - Since literals are never constant, a partial assignment can  not be inconsistent,
+     while the empty partial assignment is the only partial assignment without
+     restrictions.
+   - literal_type<PartialAssignment>>::type
    - Template <typename Range> phi.insert(Range) inserts a range of
      literals (restricting the associated set of total assignments to those
      which satisfy all these literals).
+   - With phi.literal(var) we obtain an iterator to the literal, either in constant time
+     or in logarithmic time.
+   - We need also operations to eliminate values (adding values perhaps is only needed
+     when undoing deletions --- see next itme); perhaps we leave such operations
+     to the literals? (But then we have problems with undoing?)
    - boost::logic::tribool phi(const Literal&) determines whether the
      literal is true resp. false for all assignments extending phi (if phi is
      inconsistent, then the result is undefined).
-   - literal_type<PartialAssignment>>::type
-   - phi is a container of literals (the sequence of current standardised
-     literals in some implementation-defined order), at most one literal per variable.
-   - If literals are variable-based, then with phi.literal_status(var) we
-     obtain a tribool telling whether the literal is always true,
-     always false, or indeterminate, and with phi.literal(var) we obtain
-     an iterator to the literal; both operations either need constant time
-     or logarithmic time.
+
+     We could leave this algorithm for the attention of literals (or atomic conditions)?
+     There is also the incrementality problem (evaluation of partial assignments
+     must be possible in an incremental way) --- perhaps we leave this to the
+     active clause-sets?
 
   \todo A refined concepts gives also (somehow) access to the updates
      in an alliance of active clause-sets (perhaps each active clause-set
