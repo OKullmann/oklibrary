@@ -3,7 +3,7 @@
 /*!
   \file HypergraphColouring/plans/milestones.hpp
 
-  \par Current version 0.0.3 (24.11.2006)
+  \module_version HypergraphColouring 0.0.3 (24.11.2006)
 
   \par Version 0.0.4 :
   In HypergraphColouring/plans/GreedyColouring.hpp the topic

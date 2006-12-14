@@ -8,7 +8,7 @@
    - Reflect on the concept as discussed in Concepts/plans/PartialAssignments.hpp,
      and update accordingly.
    - Use literals from module Literals.
-   - Perhaps instead of the <Values, Var> the should be one template parameter Literal?
+   - Perhaps instead of the <Values, Var> there should be one template parameter Literal?
      Seems sensible.
    - The static assert should be easier to formulate (since such concept tests will be used
      at many places; is some macro already in OKlib?).
