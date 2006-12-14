@@ -23,6 +23,8 @@ namespace OKlib {
        - Heur is the heuristics (the branching literal)
        - Vis is the (decision-)visitor
 
+       \todo Update
+
     */
 
     template <class ExtProblem, class Red, class Heur, class Vis>
