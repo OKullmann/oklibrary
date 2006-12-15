@@ -15,11 +15,16 @@
   autarky search in time O(2^n).
 
   \todo Local installation of UBCSAT.
-   - Installing UBCSAT in ExternalSources : DONE
-   - Creating a simple application, which just consists of a standard UBCSAT solver,
-     and compile it completely within the OKsystem (using our build system; likely
-     some changes are needed).
-
+  <ul>
+   <li> Installing UBCSAT in ExternalSources:
+     <ol>
+       <li> Build Ubcsat/lib with all .o-files.</li>
+       <li> Build the standard program ubcsat in Ubcsat/bin.
+     </ol>
+   </li>
+   <li> Compile a preliminary version of AnalyseTotalAssignment.c (within OKlibrary). </li>
+  </ul>
+     
   \todo Using UBCSAT:
   Analysing total assignments (and autarky reduction,
   if successful) is added to UBCSAT, without further changes.
