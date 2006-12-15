@@ -235,7 +235,7 @@ include $(OKbuildsystem)/standardgoals.mak
 
 export
 
-include $(srcdir)/makefile.definitions.mak
+include $(srcdir)/definitions.mak
 
 # Definitions required from makefile.definitions:
 # General_options
@@ -249,7 +249,7 @@ include $(srcdir)/makefile.definitions.mak
 # source_libraries (LV)
 #
 # This variable is defined in the local 
-# makefile.definitions.mak file. Here we are just appending
+# definitions.mak file. Here we are just appending
 # the OKsystem include option -I$(OKsystem)
 # ----------------------------------------------------------
 source_libraries += $(OKsystem_include)
@@ -367,10 +367,10 @@ directories := $(bin_dir) \
 # programs (LV)
 #
 # This variable is not defined here, but rather it's
-# definition is in the local makefile.definitions.mak.
+# definition is in the local definitions.mak.
 #
 # If there are program names specified in the local
-# makefile.definitions.mak then we prefix those program
+# definitions.mak then we prefix those program
 # names with the full path to the executable directory, so
 # that Make knows where to build those executables.
 # ----------------------------------------------------------
@@ -383,10 +383,10 @@ endif
 # test_program (LV)
 #
 # This variable is not defined here, but rather it's
-# definition is in the local makefile.definitions.mak.
+# definition is in the local definitions.mak.
 #
 # If test programs (from the old test system) are specified
-# in the local makefile.definitions.mak then we prefix
+# in the local definitions.mak then we prefix
 # those program names are prefixed here by the full path
 # to the directory where test executables are built, so that
 # Make knows where to build those executables. Also, those
