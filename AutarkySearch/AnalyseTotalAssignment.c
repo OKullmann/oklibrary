@@ -161,4 +161,7 @@ void AnalyseTotalAssignment()
 }
 
 
-
+int main() {
+  Initialise();
+  AnalyseTotalAssignment();
+}
