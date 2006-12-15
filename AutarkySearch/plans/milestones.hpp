@@ -14,8 +14,8 @@
   "Using UBCSAT" is handled.
 
   \par Version 0.1 :
-  We have a first implementation using the method of AnalyseTotalAssignment,
-  and start experimentation.
+  We have a first fully tested implementation using the method of
+  AnalyseTotalAssignment, and start experimentation.
 
   \par Version 1.0 :
   Completely within the OKlibrary we can search for autarkies analysing total
