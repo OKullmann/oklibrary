@@ -20,11 +20,13 @@ endif
 
 ifndef Ubcsat
   ifdef UBCSAT
-    Ubcsat := -I$(UBCSAT)
+    Ubcsat_dir := $(UBCSAT)
   else
-    Ubcsat := -I$(ExternalSources)/Ubcsat/ubcsat-1-0-0/src
+    Ubcsat_dir := $(ExternalSources)/Ubcsat
   endif
+  Ubcsat := -I$(Ubcsat_dir)/ubcsat-1-0-0/src
 endif
+# TODO: We must update and systematise the use of such variables.
 
 ifndef system_directories
   ifdef SYSTEMDIRECTORIES
