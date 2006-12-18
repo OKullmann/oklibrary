@@ -21,7 +21,6 @@
 namespace OKlib {
 
   namespace TestSystem {
-
     namespace messages {
 
       OKLIB_USING_MESSAGES
@@ -30,6 +29,11 @@ namespace OKlib {
         \class BasicTestDescription
         \brief Outputs a description of the test (an identification of the
         test function, and nesting depth and test level).
+
+        \todo Use FileIdentification.
+        \todo Use message-class for type-names.
+        \todo While we use capitalise "Test function" etc., the test-level
+        comes out as "test level".
       */
 
       struct BasicTestDescription : ::OKlib::Messages::MessagesBase {
@@ -63,7 +67,7 @@ namespace OKlib {
           out << "Test depth = " << depth << std::endl;
           out << "File name = " << file_name << "\n";
           out << "Line number = " << line_number << "\n";
-          out << "Test level = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
+          out << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
         }
 
         void print(std::ostream& out, L<de_DE>, S<Basic>) const {
@@ -75,7 +79,7 @@ namespace OKlib {
           out << "Testtiefe = " << depth << std::endl;
           out << "Dateiname = " << file_name << "\n";
           out << "Zeilennummer = " << line_number << "\n";
-          out << "Testniveau = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
+          out << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
         }
 
       };
@@ -83,6 +87,9 @@ namespace OKlib {
       /*!
         \class LogDescription
         \brief Outputs a description of the circumstances of a log-message
+
+        \todo How is ownership of the test-level object handled here?
+        \todo Use FileIdentification, and also a messages-class for line-numbers etc.
       */
 
       struct LogDescription : ::OKlib::Messages::MessagesBase {
@@ -110,7 +117,7 @@ namespace OKlib {
         }
         void print(std::ostream& out, L<en_GB>, S<Extensive>) const {
           out << "Log message at line " << line_number << " in file " << file_name << ",\n";
-          out << "at test depth = " << depth << " and test level = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
+          out << "at test depth = " << depth << " and " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
         }
 
         void print(std::ostream& out, L<de_DE>, S<Basic>) const {}
@@ -119,7 +126,7 @@ namespace OKlib {
         }
         void print(std::ostream& out, L<de_DE>, S<Extensive>) const {
           out << "Log-Meldung in Zeile " << line_number << " und Datei " << file_name << ",\n";
-          out << "wobei Test-Schachtelungstiefe = " << depth << " und Test-Niveau = " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
+          out << "wobei Test-Schachtelungstiefe = " << depth << " und " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
         }
 
       };
