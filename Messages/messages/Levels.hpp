@@ -11,11 +11,10 @@
 #define LEVELSEXPLANATIONS_khgFFr4
 
 #include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Messages/LineHandling.hpp>
 
 namespace OKlib {
-
   namespace Messages {
-
     namespace messages {
 
       /*!
@@ -27,7 +26,7 @@ namespace OKlib {
 
       OKLIB_USING_MESSAGES
 
-      struct LevelNames : ::OKlib::Messages::MessagesBase {
+      struct LevelNames : ::OKlib::Messages::MessagesPrePost {
         OKLIB_MESSAGES_PRINT
 
         explicit LevelNames(const ::OKlib::Messages::Strata lev = ::OKlib::Messages::Strata(0)) : lev(lev) {}
@@ -36,6 +35,7 @@ namespace OKlib {
         ::OKlib::Messages::Strata& other_level() { return lev; }
         
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+          l_start(out);
           switch (lev) {
           case Basic :
             out << "basic level"; break;
@@ -48,6 +48,7 @@ namespace OKlib {
           }
         }
         void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          l_start(out);
           switch (lev) {
           case Basic :
             out << "basic level (short, but still complete)"; break;
@@ -61,6 +62,7 @@ namespace OKlib {
         }
 
         void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+          l_start(out);
           switch (lev) {
           case Basic :
             out << "Basisniveau"; break;
@@ -73,6 +75,7 @@ namespace OKlib {
           }
         }
         void print(std::ostream& out, L<de_DE>, S<Full>) const {
+          l_start(out);
           switch (lev) {
           case Basic :
             out << "Basisniveau (kurz und bündig)"; break;
