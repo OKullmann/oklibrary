@@ -19,6 +19,7 @@
 #include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
 #include <Transitional/Messages/MessagesBase.hpp>
 #include <Transitional/Messages/Utilities/TrivialMessage.hpp>
+#include <Transitional/Messages/Utilities/FileIdentification.hpp> // guaranteed to be included
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/TestFondement.hpp>
@@ -26,8 +27,10 @@
 #include <Transitional/TestSystem/messages/TestBaseClass.hpp>
 
 namespace OKlib {
-
   namespace TestSystem {
+
+# define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
+    (__FILE__, __DATE__, __TIME__, "$Date: 2006/12/18 14:39:43 $", "$Revision: 1.5 $")
 
     /*!
       \class TestBase
@@ -40,8 +43,10 @@ namespace OKlib {
       as second parameter, passed to the base class, which is responsible for managing the log-stream).
 
       The public members are:
-       - the (virtual) destructor
-       - member function set_depth.
+      <ul>
+       <li> the (virtual) destructor </li>
+       <li> member function set_depth. </li>
+      </ul>
 
        In principle the nesting level could be set (once and for all) during construction, however in our way
        it is easier to have parameterised tests, where the parameters are passed to the constructor of the
@@ -55,6 +60,11 @@ namespace OKlib {
        OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x, y);
        set_depth is used by OKLIB_TEST_RETHROW to (re)set the new testobject, and thus must be public
        (although it does not really belong to the interface of TestBase).
+
+       \todo Use Messages.
+       \todo The (full) log-function should use file and line identification messages.
+       \todo For the creation of full log-messages some macro is needed for handling the full
+       description (file-identification etc.).
 
     */
 
@@ -198,7 +208,14 @@ namespace OKlib {
 
     protected :
 
-      //! Test-meta-functions create log-messages via this member function.
+      //! Test-meta-functions create short log-messages via this member function.
+
+      void log(const ::OKlib::Messages::MessagesBase& m) {
+        assert(log_p);
+        *log_p << m;
+      }
+
+      //! Test-meta-functions create full log-messages via this member function.
 
       void log(const ::OKlib::Messages::MessagesBase& m, ::OKlib::TestSystem::line_number_type const line, const char* const file) {
         assert(log_p);
@@ -215,4 +232,5 @@ namespace OKlib {
   
 }
 
+# undef OKLIB_FILE_ID
 #endif
