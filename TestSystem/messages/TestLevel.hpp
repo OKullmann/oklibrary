@@ -9,6 +9,7 @@
 #define TESTLEVELEXPLANATIONS_uYYtr5
 
 #include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Messages/LineHandling.hpp>
 
 #include <Transitional/TestSystem/TestFondement.hpp>
 
@@ -26,9 +27,11 @@ namespace OKlib {
 
          Attention: The const-reference to the level object must not be bound to a temporary!
          (This leads to undefined behaviour, but compilers usually don't catch this.)
+
+         \todo How to handle that sometimes we may want to start with "Test level" instead of "test level" ?
       */
 
-      struct TestLevelDescriptions : ::OKlib::Messages::MessagesBase {
+      struct TestLevelDescriptions : ::OKlib::Messages::MessagesPrePost {
         OKLIB_MESSAGES_PRINT
 
         explicit TestLevelDescriptions(const ::OKlib::TestSystem::TestLevel& lev) : lev(lev) {}
@@ -43,15 +46,19 @@ namespace OKlib {
         };
 
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+          l_start(out) << "test level = ";
           lev(dispatch(out, "Basic test level", "Full test level", "Extensive test level"));
         }
         void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          l_start(out) << "test level = ";
           lev(dispatch(out, "Basic test level (used for permanent testing)", "Full test level (for the daily test)", "Extensive test level (for the weekly test)"));
         }
         void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+          l_start(out) << "Testniveau = ";
           lev(dispatch(out, "Basis-Testniveau (\"basic\")", "Volles Testniveau (\"full\")", "Umfangreiches Testniveau (\"extensive\")"));
         }
         void print(std::ostream& out, L<de_DE>, S<Full>) const {
+          l_start(out) << "Testniveau = ";
           lev(dispatch(out, "Basis-Testniveau (\"basic\"; für das laufende Testen)", "Volles Testniveau (\"full\"; z.B. für den täglichen Test)", "Umfangreiches Testniveau (\"extensive\"; z.B. für den wöchentlichen Test)"));
         }
 
