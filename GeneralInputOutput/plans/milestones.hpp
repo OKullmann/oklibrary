@@ -1,7 +1,7 @@
 // Oliver Kullmann, 6.11.2006 (Swansea)
 
 /*!
-  \file GeneralInputOutput/plans/milestones.hpp
+  \file Transitional/GeneralInputOutput/plans/milestones.hpp
 
   \par Current version 0.1 (6.11.2006)
 

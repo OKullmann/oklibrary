@@ -1,7 +1,7 @@
 // Matthew Henderson, 25.1.2006 (Swansea)
 
 /*!
-  \file InputOutput/plans/InputOutput.hpp
+  \file Transitional/InputOutput/plans/InputOutput.hpp
   \brief Plans for the module on SAT-related input/output.
 
   \todo Update
