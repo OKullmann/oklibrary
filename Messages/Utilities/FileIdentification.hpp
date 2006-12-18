@@ -77,12 +77,12 @@ namespace OKlib {
         }
         void print_version(std::ostream& out, L<en_GB>) const {
           if (not change.empty()) {
-            l_end(out); l_start(out) << "last change date = " << strip(change, "$Date: 2006/12/18 14:30:48 $");
+            l_end(out); l_start(out) << "last change date = " << strip(change, "$" "Date: ", " $");
             if (not version.empty())
-              out << ", version number = " << strip(version, "$Revision: 1.1 $");
+              out << ", version number = " << strip(version, "$Revision: 1.2 $");
           }
           else if (not version.empty()) {
-            l_end(out); l_start(out) << "version number = " << strip(version, "$Revision: 1.1 $");
+            l_end(out); l_start(out) << "version number = " << strip(version, "$Revision: 1.2 $");
           }
         }
        
