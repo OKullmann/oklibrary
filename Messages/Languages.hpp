@@ -23,7 +23,6 @@
 #include <boost/preprocessor/seq/size.hpp>
 
 namespace OKlib {
-
   namespace Messages {
 
     /*!

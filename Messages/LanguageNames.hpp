@@ -17,7 +17,6 @@
 #include <Transitional/Messages/Languages.hpp>
 
 namespace OKlib {
-
   namespace Messages {
 
     /*!

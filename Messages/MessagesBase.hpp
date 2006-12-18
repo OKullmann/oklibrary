@@ -19,7 +19,6 @@
 #include <Transitional/Messages/Levels.hpp>
 
 namespace OKlib {
-
   namespace Messages {
 
     /*!
@@ -36,24 +35,30 @@ namespace OKlib {
       will be print according to the language (locale) and level of the stream.
 
       Public member functions are:
-       - default constructor, default copy constructor, default copy assignment
-       - virtual destructor
-       - static Messages::Languages language(ostream& out) : current language of the stream
-         (default is Messages::en_GB)
-       - static Messages::Strata level(ostream& out) : current level of the stream
-         (default is Messages::Basic)
-       - static ostream& set(ostream& out, Messages::Languages lang, const char* coding = ".utf-8") :
-         set the current language (more precisely, locale) of out together with the prescribed encoding
-       - static ostream& set(ostream& out, Messages::Strata level) :
-         set the current level of out.
+      <ul>
+       <li> default constructor, default copy constructor, default copy assignment </li>
+       <li> virtual destructor </li>
+       <li> static Messages::Languages language(ostream& out) : current language of the stream
+         (default is Messages::en_GB) </li>
+       <li> static Messages::Strata level(ostream& out) : current level of the stream
+         (default is Messages::Basic) </li>
+       <li> static ostream& set(ostream& out, Messages::Languages lang, const char* coding = ".utf-8") :
+         set the current language (more precisely, locale) of out together with the prescribed encoding </li>
+       <li> static ostream& set(ostream& out, Messages::Strata level) :
+         set the current level of out. </li>
+      </ul>
 
        Pure virtual member functions:
-        - ostream& print(ostream& out) : to be implemented by each message class; prints the message
-          in the current language (more precisely, locale) and level.
+       <ul>
+        <li> ostream& print(ostream& out) : to be implemented by each message class;
+        prints the message in the current language (more precisely, locale) and level. </li>
+       </ul>
 
        Non-member functions:
-        - ostream& operator <<(ostream& out, const MessagesBase& m) :
-          prints the message by calling m.print(out).
+       <ul>
+        <li> ostream& operator <<(ostream& out, const MessagesBase& m) :
+          prints the message by calling m.print(out). </li>
+       </ul>
     */
 
     class MessagesBase {

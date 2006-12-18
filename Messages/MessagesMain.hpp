@@ -32,7 +32,6 @@
 // this is guaranteed to be included
 
 namespace OKlib {
-
   namespace Messages {
 
     /*!

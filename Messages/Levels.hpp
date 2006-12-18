@@ -11,7 +11,6 @@
 #include <Transitional/Messages/Languages.hpp>
 
 namespace OKlib {
-
   namespace Messages {
 
 #include <boost/preprocessor/seq/enum.hpp>
