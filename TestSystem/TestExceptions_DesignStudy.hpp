@@ -3,6 +3,8 @@
 /*!
   \file TestSystem/TestExceptions_DesignStudy.hpp
   \brief Module providing test exceptions and test macros
+
+  \todo An overhaul of the test-macros (like OKLIB_TEST_EQUAL) seems to be needed.
 */
 
 #ifndef TESTEXCEPTIONS_kjhytRe4
@@ -17,79 +19,16 @@
 #include <vector>
 #include <ostream>
 #include <cassert>
-#include <memory>
 
 #include <boost/range/functions.hpp>
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/messages/TestLevel.hpp>
 
+#include <Transitional/TestSystem/messages/TestExceptions.hpp>
+
 namespace OKlib {
-
   namespace TestSystem {
-
-    /*!
-      \class ErrorDescription
-      \brief The unit to describe the point in call history leading to a test failure.
-
-      A concrete class containing C strings for the file name, the line number and the
-      name of the type of the test class, an integer for the nesting depth, plus an
-      auto-pointer to a message-object describing the test-level.
-    */
-
-    class ErrorDescription {
-    public :
-      typedef std::auto_ptr<const ::OKlib::Messages::MessagesBase> MessagePointer;
-    private :
-      const char* file;
-      const char* line;
-      const char* type_test_class;
-      mutable MessagePointer level_description;
-      ::OKlib::TestSystem::depth_number_type depth;
-
-    public :
-
-      ErrorDescription(
-                       const char* const file_,
-                       const char* const line_,
-                       const char* const type_test_class_,
-                       MessagePointer level_description_,
-                       ::OKlib::TestSystem::depth_number_type depth_
-                       ) :
-        file(file_),
-        line(line_),
-        type_test_class(type_test_class_),
-        level_description(level_description_),
-        depth(depth_)
-      {
-        assert(file);
-        assert(line);
-        assert(type_test_class);
-        assert(level_description.get());
-      }
-
-      ErrorDescription(const ErrorDescription& e) :
-        file(e.file),
-        line(e.line),
-        type_test_class(e.type_test_class),
-        level_description(e.level_description),
-        depth(e.depth)
-      {
-        assert(file);
-        assert(line);
-        assert(type_test_class);
-        assert(level_description.get());
-      }
-
-      //! Direct output for ErrorDescription
-      friend std::ostream& operator <<(std::ostream& out, const ErrorDescription& D) {
-        assert(D.file);
-        assert(D.line);
-        assert(D.type_test_class);
-        assert(D.level_description.get());
-        return out << " file = " << D.file << "\n line number = " << D.line << "\n test type = " << D.type_test_class << "\n test level = " << *D.level_description << "\n test depth = " << D.depth << "\n";
-      }
-    };
 
     /*!
       \typedef ErrorContainer
@@ -98,7 +37,7 @@ namespace OKlib {
       Vector of error descriptions. Assumes, that the destructor of std::vector does not throw.
     */
 
-    typedef std::vector<ErrorDescription> ErrorContainer; 
+    typedef std::vector< ::OKlib::TestSystem::messages::ErrorDescription> ErrorContainer; 
 
     // ######################################################
 
@@ -111,6 +50,9 @@ namespace OKlib {
       followed by descriptions for unwinding the call-stack.
       Should normally not be used directly, but should be invoked by one of the macros
       like OKLIB_TEST_EQUAL.
+
+      \todo Use Messages.
+      \todo One could make class TestException also a message-class ?!
     */
 
     class TestException : public std::runtime_error {
@@ -126,7 +68,7 @@ namespace OKlib {
       {}
       ~TestException() throw() {}
 
-      TestException& add(const ErrorDescription e) {
+      TestException& add(const ::OKlib::TestSystem::messages::ErrorDescription e) {
         errors.push_back(e);
         return *this;
       }
@@ -161,7 +103,7 @@ namespace OKlib {
 
 # define OKLIB_NUMBER(N) # N
 # define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::ErrorDescription(__FILE__, OKLIB_INTERMEDIATE_TEST(__LINE__), test_function_type_name, ::OKlib::TestSystem::ErrorDescription::MessagePointer(new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type()))), depth()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(OKLIB_FILE_ID, OKLIB_INTERMEDIATE_TEST(__LINE__), test_function_type_name, new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type())), depth()))
 
     /*!
       \def OKLIB_THROW

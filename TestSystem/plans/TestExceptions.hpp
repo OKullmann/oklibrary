@@ -7,10 +7,12 @@
   \todo TestSystem::ErrorDescription :
    - Use messages. ErrorDescription (or better parts of it) should be part of a
       sub-module of Messages/Utilities, providing components for identification of files etc.
-   - Ownership of level_description needs to be managed!
-   - Is the explicit definition of the copy constructor needed? Why does assignment work?
-   - Remove leak.
    - Test it!
+   - Ownership of level_description needs to be managed : Now std::shared_ptr used. DONE
+   - Is the explicit definition of the copy constructor needed? We hade the assert-statement;
+     and because of the auto-pointer-element, which has only a X&-copy-constructor, the implicitely
+     declared copy-constructor has also type X& : Now not needed anymore, since std::auto-ptr
+     was replaced by std::shared_ptr. DONE
 
   \todo TestSystem::TestException :
    Investigate, whether it should use Messages for internal purposes, and (perhaps) also for the
