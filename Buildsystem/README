@@ -2,7 +2,9 @@
 
 -------------------------------------------
 
-Necessary installations:
+In case system versions of the following programs/libraries
+shall be used (instead of the local versions), the following
+versions are supported:
 
 g++, version 3.4.3 or higher
 (tested: 3.4.3, 3.4.4, 3.4.5, 4.0.0, 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
@@ -26,12 +28,12 @@ GNU make, version 3.80 or higher
 (check: run "make -v")
 
 Doxygen, version 1.4.5 or higher (but not 1.4.6)
-(tested: 1.4.5, 1.4.7)
+(tested: 1.4.5, 1.4.7, 1.5.0, 1.5.1)
 (check: run doxygen --version)
-Recommended: 1.4.7
+Recommended: 1.5.1
 
 Valgrind, version 3.1.0 or higher
-Recommended: 3.2.0
+Recommended: 3.2.1
 
 ----------------------------------------------
 
