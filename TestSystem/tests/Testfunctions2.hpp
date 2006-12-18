@@ -18,6 +18,9 @@ namespace OKlib {
   namespace TestSystem {
     namespace tests {
 
+# define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
+      (__FILE__, __DATE__, __TIME__, "$Date: 2006/12/18 14:38:35 $", "$Revision: 1.3 $")
+
       class Test2 : public ::OKlib::TestSystem::TestBase {
         typedef ::OKlib::TestSystem::TestBase base_type;
       public :
@@ -44,4 +47,5 @@ namespace OKlib {
   }
 }
 
+# undef OKLIB_FILE_ID
 #endif
