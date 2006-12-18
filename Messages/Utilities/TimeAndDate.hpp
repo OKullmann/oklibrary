@@ -13,17 +13,17 @@
 #include <Transitional/Messages/MessagesBase.hpp>
 
 namespace OKlib {
-
   namespace Messages {
-
     namespace Utilities {
 
       /*!
         \class Messages::Utilities::TimeDateStandardImplementation
-        \brief Message objects for the preferred date and time representations by the system
+        \brief Message objects for the preferred date and time representations
+        by the system
 
-        For these messages, level and language specifications are ignored: The level is always
-        that of the standard C-output, while the language is always given by the current locale.
+        For these messages, level and language specifications are ignored: The level
+        is always that of the standard C-output, while the language is always given
+        by the current locale.
 
       */
 

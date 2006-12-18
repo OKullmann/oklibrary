@@ -13,9 +13,7 @@
 #include <Transitional/Messages/MessagesMain.hpp>
 
 namespace OKlib {
-
   namespace Messages {
-
     namespace messages {
 
       /*!

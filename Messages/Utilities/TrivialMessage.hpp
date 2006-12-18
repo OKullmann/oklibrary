@@ -11,9 +11,7 @@
 #include <Transitional/Messages/MessagesBase.hpp>
 
 namespace OKlib {
-
   namespace Messages {
-
     namespace Utilities {
 
       /*!
