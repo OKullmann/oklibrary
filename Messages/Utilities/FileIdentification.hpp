@@ -1,0 +1,112 @@
+// Oliver Kullmann, 17.12.2006 (Swansea)
+
+/*!
+  \file Messages/Utilities/FileIdentification.hpp
+  \brief Message class to provide source-code-file information
+*/
+
+#ifndef FILEIDENTIFICATION_GvCdSw2929Uy6
+#define FILEIDENTIFICATION_GvCdSw2929Uy6
+
+#include <string>
+
+#include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Messages/LineHandling.hpp>
+
+namespace OKlib {
+  namespace Messages {
+    namespace Utilities {
+
+      /*!
+        \class FileIdentification
+        \brief Basic source-code-file information
+
+        Mainly to be used internally, as the underlying message-class for the macro
+        OKLIB_FILE_ID (see for example TestSystem/TestBaseClass_DesignStudy.hpp).
+
+        \todo Provide other languages.
+        \todo Test it.
+      */
+
+      OKLIB_USING_MESSAGES
+
+      struct FileIdentification : ::OKlib::Messages::MessagesPrePost {
+        OKLIB_MESSAGES_PRINT
+
+        FileIdentification(
+                           std::string const file,
+                           std::string const date = std::string(),
+                           std::string const time = std::string(),
+                           std::string const change = std::string(),
+                           std::string const version = std::string()) :
+          file(file),
+          date(date),
+          time(time),
+          change(change),
+          version(version)
+        {}
+
+        template <class L>
+        void print(std::ostream& out, L, S<Basic>) const {
+          print_file(out, L());
+        }
+        template <class L>
+        void print(std::ostream& out, L, S<Full>) const {
+          print_file(out, L());
+          print_compilation(out, L());
+        }
+        template <class L>
+        void print(std::ostream& out, L, S<Extensive>) const {
+          print_file(out, L());
+          print_compilation(out, L());
+          print_version(out, L());
+        }
+
+        void print_file(std::ostream& out, L<en_GB>) const {
+          l_start(out) << "file name = " << file;
+        }
+        void print_compilation(std::ostream& out, L<en_GB>) const {
+          if (not date.empty()) {
+            l_end(out); l_start(out) << "compilation date = " << date;
+            if (not time.empty())
+              out << ", compilation time = " << time;
+          }
+          else if (not time.empty()) {
+            l_end(out); l_start(out) << "compilation time = " << time;
+          }
+        }
+        void print_version(std::ostream& out, L<en_GB>) const {
+          if (not change.empty()) {
+            l_end(out); l_start(out) << "last change date = " << strip(change, "$Date: 2006/12/18 14:30:48 $");
+            if (not version.empty())
+              out << ", version number = " << strip(version, "$Revision: 1.1 $");
+          }
+          else if (not version.empty()) {
+            l_end(out); l_start(out) << "version number = " << strip(version, "$Revision: 1.1 $");
+          }
+        }
+       
+
+        static std::string strip(std::string s, const std::string begin, const std::string end) {
+          assert(s.size() > begin.size() + end.size());
+          assert(s.substr(0, begin.size()) == begin);
+          assert(s.substr(s.size() - end.size()) == end);
+          s.erase(0, begin.size());
+          s.erase(s.size() - end.size());
+          return s;
+        }
+
+      private :
+
+        std::string file;
+        std::string date;
+        std::string time;
+        std::string change;
+        std::string version;
+      };
+      
+    }
+  }
+}
+
+#endif
