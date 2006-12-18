@@ -1,7 +1,7 @@
 // Oliver Kullmann, 2.2.2006 (Swansea)
 
 /*!
-  \file Utilities/plans/Utilities.hpp
+  \file Transitional/Utilities/plans/Utilities.hpp
   \brief Plans for the utilities module
 
   \todo First submodule Timestamp.hpp:
