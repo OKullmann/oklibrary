@@ -181,4 +181,8 @@
   We have a little problems with submissions to the repository, which often span many files, so the whole
   submission process takes a while, and it's not clear from outside when it's finished (and the library
   is again in a well-defined state).
+
+  \todo Subversion:
+  We must investigate whether it's worth changing from CVS to Subversion.
+
 */
