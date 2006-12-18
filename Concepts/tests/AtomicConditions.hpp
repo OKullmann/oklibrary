@@ -1,7 +1,7 @@
 // Oliver Kullmann, 8.12.2006 (Swansea)
 
 /*!
-  \file Concepts/tests/AtomicCondition.hpp
+  \file Concepts/tests/AtomicConditions.hpp
   \brief Generic tests for models of concept AtomicCondition
 */
 
