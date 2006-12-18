@@ -4,22 +4,16 @@
   \file Messages/Utilities/plans/Utilities.hpp
   \brief General plans for the Messages/Utilities module.
 
-  \todo SimpleMessage:
-  Create a class TrivialMessage<X>, which takes a reference to a streamable
-  object of type X, and prints this to the stream (independent of language and level) : DONE
-
-  \todo Service for test exceptions:
-  As a service for Testsystem/TestException_DesignStudy.hpp
-  (and other parts of the test system) and for ProgramOptions we need
-  classes (and macros) for file-identification purposes:
-   - Per file we have __DATE__ (compilation date), __FILE__ (file name),
-     __TIME__ (C) (compilation time), and
-     $Date: 2006/12/04 10:45:15 $ (last change date), $Revision: 1.9 $ (current
-     revision number) (CVS).
-   - For programs we also have the version, the author, name of program etc.
-
-   \todo Line number identification:
-   Perhaps we can offer also some help regarding __LINE__.
+    \todo Service for test exceptions:
+    As a service for Testsystem/TestException_DesignStudy.hpp
+    (and other parts of the test system) and for ProgramOptions we need
+    classes (and macros) for identification purposes:
+    <ul>
+     <li> Handling of type names and line numbers (__LINE__) is needed.
+     </li>
+     <li> For programs we also have the version, the author, name of program etc.
+     </li>
+    </ul>
 
    \todo Warning and error messages:
    We need components (message classes and handlers) for creating warning and error
