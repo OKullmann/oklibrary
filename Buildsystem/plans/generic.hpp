@@ -18,15 +18,7 @@
   \todo Documentation of generic.mak:
   Check the inline documentation of generic.mak (there seem to be
   some left-overs).
- 
-  \todo Recommended versions:
-   The file external_sources_versions.mak contains the recommended versions of
-   all external resources. However, the recommended version
-   numbers are got by the buildsystem through a little hack. Namely,
-   there are seperate variables for both the version number and the
-   version name. This should be changed so that the version number
-   is only defined once.
-   
+    
    \todo General clean-up of make-variables
    <ul>
    <li> 
