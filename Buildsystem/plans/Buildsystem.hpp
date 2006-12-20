@@ -32,18 +32,44 @@
   \todo Linking to makefile_recursive:
    The occurrences of makefile_recursive should be replaced by links.
 
+  \todo Recommended versions:
+   - The file external_sources_versions.mak contains the recommended versions of
+   all external resources. However, the recommended version
+   numbers are got by the buildsystem through a little hack. Namely,
+   there are seperate variables for both the version number and the
+   version name. This should be changed so that the version number
+   is only defined once.
+   <ul>
+   <li>
+     For each external library ext_lib we define (by hand) the following variables
+     <ol>
+     <li>ext_lib_recommended_version_number</li>
+     <li>ext_lib_supported_not_recommended_version_numbers</li>
+    </ol>
+
+     Then all the variables we need for the naming of packages, targets, installation
+     directories are built from these variables.
+
+   </li>
+
+   <li>e.g. gcc_recommended_version_number := 4.1.1 and gcc_supported_not_recommended_version_numbers := 3.4.3 3.4.4 3.4.5 3.4.6 4.0.0 4.0.1 4.0.2 4.0.3 4.1.0</li>
+
+   </ul>
+
   \todo System documentation:
    - Document the basic version-control settings (location of server, configuration, how to use it).
    - Document the build-system (general ideas, functionality).
 
-  \todo Meta-documentation:
-   - Meta-documentation about usage of the buildsystem.
-
   \todo Documentation (Examples and Concepts)
-   - At OKplatform-level we have a new directory Documentation, with the following sub-directories:
-     1. Examples : contains a mirror of the OKlibrary with (many) example applications (build by the
-     build system, so that it's always up-to-date).
-     2. Concepts : contains for each module a latex-file discussing the concepts for this module..
+  <ul>
+    <li> At OKplatform-level we have a new directory Documentation, with the following sub-directories:
+      <ol>
+        <li> Examples : contains a mirror of the OKlibrary with (many) example applications (build by the build system, so that it's always up-to-date).</li>
+     
+        <li> Concepts : contains for each module a latex-file discussing the concepts for this module.</li>
+      </ol>
+    </li>
+  </ul>
 
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs. Rather we want to have it so 
