@@ -7,46 +7,50 @@
   
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Naming of local definition makefiles
+    - Naming of local definition makefiles (DONE)
+    - Recommended versions (DONE)
     - Make-variables for external libraries
     - Role of srcdir
     - Linking to makefile_recursive
     - System documentation
-    - Meta-documentation
     - Documentation (Examples and Concepts)
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Valgrind test variable ??? (doesn't exist anymore)
-    - Documentation of generic.mak
-    - Recommended versions
+    - Valgrind test variable (DONE)
+    - Documentation of generic.mak    
 
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
    the following topics are handled:
-    - Extracting documentation building to separate makefile
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
 
-    \par
-     In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-      - Corrections mhash
-      - Building Boost
-      - General
-      - Gcc
-      - Boost
+  \par
+   In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp
+   the following topics are handled
+    - Logo (DONE)
+    - OKlibrary link (DONE)
+    - Version numbers (DONE)
 
-    All the following milestones need to be updated.
+  \par
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Corrections mhash
+    - Building Boost
+    - General
+    - Gcc
+    - Boost
+
+  All the following milestones need to be updated.
   
   \par Version 0.1.4 :
-   In Buildsystem/plans/makefile_generic.hpp the following topics are handled:
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Make-variables for compilation and linking
   
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Overhaul of the general targets
-    - Naming of local definition makefiles
   
   \par Version 0.2 :
    In Buildsystem/plans/generic.hpp the following topics are handled:
@@ -117,13 +121,6 @@
     - Nightly build
     - Source code directory structure
     - OKsystem/Buildsystem structure
-
-  \par
-   In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp 
-   the following topics are handled:
-    - Logo
-    - OKlibrary link
-    - Version numbers
 
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp the following topics are handled:
