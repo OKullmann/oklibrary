@@ -1,8 +1,10 @@
 body {color:#4A2885; background:#E8ECDC;
   font-family:sans-serif;
-  font-size:14pt; margin-left:10%; margin-right:10%; }
+  font-size:11pt; 
+  margin-left:10%; 
+  margin-right:10%; }
 
-h1 {color: #d0ffd0;}
+h2 { font-size:12pt; }
 
 a:link { font-weight:normal; 
   color:#190438; 
@@ -18,7 +20,7 @@ a:hover { font-weight:normal;
 
 #logo { font-family:serif;
   font-style:italic;
-  font-size:90pt;  } 
+  font-size:70pt;  } 
 
 #subtitle { font-style:italic; }
 
