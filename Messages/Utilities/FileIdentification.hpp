@@ -21,11 +21,15 @@ namespace OKlib {
         \class FileIdentification
         \brief Basic source-code-file information
 
+        Contains
+         - file name
+         - compilation date
+         - compilation time
+         - last change date w.r.t. version control
+         - current version (in the version control system).
+
         Mainly to be used internally, as the underlying message-class for the macro
         OKLIB_FILE_ID (see for example TestSystem/TestBaseClass_DesignStudy.hpp).
-
-        \todo Provide other languages.
-        \todo Test it.
       */
 
       OKLIB_USING_MESSAGES
