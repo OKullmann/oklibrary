@@ -59,7 +59,7 @@ generic_links = $(addsuffix /makefile, $(generic_dirs))
 makefile_oksystem := $(OKsystem)/makefile
 makefile_externalsources := $(externalsourcesdir)/makefile
 
-all $(test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) : 
+$(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
 prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file) $(generic_links)
 
