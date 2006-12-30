@@ -6,9 +6,21 @@
 
   Extends equality concepts, order concepts and constructibility concepts;
   adding new concepts for substitutability and const correctness.
-  \todo Write Doxygen-comments for concepts not yet documented.
-  \todo Like FullyConstructibleEq we should have FullyConstructibleLessThan and
-  FullyConstructibleLinearOrder etc.
+
+  The main concepts are:
+
+   - Concepts::FullyEqualityComparable
+   - Concepts::FullyLessThanComparable
+   - Concepts::LinearOrder (combines the above two)
+
+   - Concepts::FullyConstructible
+
+   - Concepts::FullyConstructibleEq (adds FullyEqualityComparable)
+   - Concepts::FullyConstructibleLt (adds FullyLessThanComparable)
+   - Concepts::FullyConstructibleLo (adds LinearOrder)
+
+   - Concepts::EqualitySubstitutable (strengthens EqualityComparable).
+
 */
 
 #ifndef BASICS_haharw786
@@ -20,7 +32,6 @@
 #include <Transitional/Concepts/std_Basics.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
@@ -150,6 +161,11 @@ namespace OKlib {
 
     // ----------------------------------------------------------------------------------------------------------------------
 
+    /*!
+      \class ConstructibleCEq
+      \brief Concept ConstructibleCEq adds CopyConstructible to FullyEqualityComparable
+    */
+
     template <typename T>
     struct ConstructibleCEq {
       void constraints() {
@@ -172,6 +188,11 @@ namespace OKlib {
       convertible_to_bool operator !=(const ConstructibleCEq_Archetype&) const { return convertible_to_bool(); }
     };
 
+    /*!
+      \class ConstructibleCAEq
+      \brief Concept ConstructibleCAEq adds Assignable to ConstructibleCEq
+    */
+
     template <typename T>
     struct ConstructibleCAEq {
       void constraints() {
@@ -191,6 +212,11 @@ namespace OKlib {
       convertible_to_bool operator ==(const ConstructibleCAEq_Archetype&) const { return convertible_to_bool(); }
       convertible_to_bool operator !=(const ConstructibleCAEq_Archetype&) const { return convertible_to_bool(); }
     };
+
+    /*!
+      \class ConstructibleDEq
+      \brief Concept ConstructibleDEq adds DefaultConstructible to FullyEqualityComparable
+    */
 
     template <typename T>
     struct ConstructibleDEq {
@@ -240,10 +266,11 @@ namespace OKlib {
       convertible_to_bool operator !=(const FullyConstructibleEq_Archetype&) const { return convertible_to_bool(); }
     };
 
+    // ----------------------------------------------------------------------------------------------------------------------
+
     /*!
       \class FullyConstructibleLo
       \brief Concept FullyConstructibleLo combines concepts FullyConstructibleEq and LinearOrder
-      \todo Write it.
     */
 
 
@@ -276,6 +303,9 @@ namespace OKlib {
       \class ConstCorrect
       \brief Concept ConstCorrect: Semantical requirement, that operations allowed for const
       objects maintain substitution-equivalence.
+
+      This concept is included in the basic concept Concepts::BasicRequirements
+      for all library concepts (and thus is not used anymore on its own).
     */
 
     template <typename T>
