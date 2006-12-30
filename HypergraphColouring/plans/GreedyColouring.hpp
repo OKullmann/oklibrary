@@ -18,6 +18,8 @@
   
   \todo Full_greedy_colouring:
    - The design needs an overhaul.
+   - Use Boost::permutation_iterator (and it should be made possible to iterate through
+     the vertex-permutations in some user-defined order).
    - Test it.
 
   \todo GreedyColouring.cpp:
