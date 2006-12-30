@@ -1,13 +1,13 @@
-// Matthew Henderson, 15.11.2005 (Swansea)
+// Matthew Henderson, 15.11.2006 (Swansea)
 
 /*!
   \file Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
   \brief Plans for documentation-creation
 
-  \bug Building boost_doc does not work, since the archive uses "boost_",
-  while the boost-versions use "boost-".
-
-  \bug Building gcc_doc does not work, since apparently the man-pages need to be build.
+  \bug Building gcc_doc does not work (that is, the link at
+  system_directories/doc/index.html is not working),
+  since apparently the man-pages need to be build.
+  QUESTION (OK): Shouldn't this bug be in the plans for ExternalSources ??
 
   \todo Local documentation : regarding system_directories/doc/index.html
   <ul>
@@ -16,12 +16,14 @@
        documentation OKplatform/ExternalSources/doc. Currently this makefile
        handles Doxygen and Boost and needs to be extended to handle those
        other external sources (Gcc, Mhash, Postgresql, UBCSAT)
+       QUESTION (OK): Isn't this done ??
   </li>
   <li> See the above bugs. </li>
   </ul>
 
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
    - Documentation for Gcc, Mhash, Postgresql
+   QUESTION (OK): Isn't this done ??
 
   \todo Building documentation:
   We should extract only the documentation from the archives.
