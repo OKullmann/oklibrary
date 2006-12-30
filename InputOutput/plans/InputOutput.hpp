@@ -9,7 +9,7 @@
   plans-files for the sub-modules, move the todo's to there, update
   the doxygen-documentation.
 
-   -  InputOutput/ClauseSetAdaptors.hpp :
+   - InputOutput/ClauseSetAdaptors.hpp :
    - InputOutput/Dimacs.hpp :
    - InputOutput/Exceptions.hpp :
 

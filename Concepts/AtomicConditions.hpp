@@ -15,7 +15,6 @@
 #include <Transitional/AtomicConditions/complement.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
         struct AtomicCondition_tag : virtual BasicRequirements_tag, virtual FullyConstructible_tag,  virtual EqualitySubstitutable_tag, virtual LinearOrder_tag {};
