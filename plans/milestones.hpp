@@ -53,17 +53,25 @@
   (see LatinSquares/plans/milestones.hpp)
   \par AutarkySearch version 0.0.6 (ML (OK))
   (see AutarkySearch/plans/milestones.hpp)
+  \par InputOutput version 0.0.8 (OK (MH, ML))
+  (see Transitional/InputOutput/plans/milestones.hpp)
   \par Expand the following milestones regarding SAT-algorithms
 
   \subsection VersionTransitional013 0.1.3
   \par Buildsystem version 0.1.4 (MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.3 (OK)
+  \par Messages version 0.7.4 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.2 (OK (MH, ML))
+  \par Concepts version 0.1.4 (OK (MH, ML))
   (see Concepts/plans/milestones.hpp)
+  \par Graphs version  0.0.3 (OK (MH, ML))
+  (see Graphs/plans/milestones.hpp)
+  \par HypergraphColouring version 0.0.5 (OK (MH))
+  (see HypergraphColouring/plans/milestones.hpp)
+  \par QuantumPhysics versiion 0.0.8 (OK)
+  (see QuantumPhysics/plans/milestones.hpp)
 
   \subsection VersionTransitional014 0.1.4
   \par Buildsystem version 0.3 (MH)
