@@ -6,7 +6,7 @@ preparation_goals := createdirs
 html_goals := html
 
 test_files := test testop
-new_test_phonies := new_test new_testop
+new_test_phonies := new_test new_testop # the notion of "phony" seems inappropriate here (since these are files!) ?!
 test_targets := check
 new_test_targets := new_check
 test_goals :=$(test_files) $(test_targets)
