@@ -7,11 +7,11 @@
 
   \par Version 0.0.7 :
 
-  In Messages/Utilities/plans/FileIdentification.hpp the following topics are handled:
-  - File identification: DONE.
-
   In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
   - Service for test exceptions
+
+  In Messages/Utilities/plans/FileIdentification.hpp the following topics are handled:
+  - File identification: DONE (class Utilities::FileIdentification created).
 
   \par Version 0.0.8 :
 

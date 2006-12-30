@@ -3,7 +3,7 @@
 /*!
   \file Transitional/InputOutput/plans/milestones.hpp
 
-  \par Current version 0.0.7 (7.11.2006)
+  \module_version InputOutput 0.0.7 (7.11.2006)
 
   \par Version 0.0.8 :
   In InputOutput/plans/InputOutput.hpp the following topics are handled:

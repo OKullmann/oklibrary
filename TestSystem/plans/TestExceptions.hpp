@@ -4,9 +4,12 @@
   \file TestSystem/plans/TestExceptions.hpp
   \brief Plans for the module providing test macros
 
-  \todo TestSystem::ErrorDescription :
-   - Use messages. ErrorDescription (or better parts of it) should be part of a
-      sub-module of Messages/Utilities, providing components for identification of files etc.
+  \todo TestSystem::ErrorDescription (in TestSystem/messages/TestExceptions.hpp) :
+   - Use messages. ErrorDescription should use components from
+     Messages/Utilities for identification of files, lines etc.
+   - Likely ErrorDescription should be derived from MessagesPrePost.
+   - type_test_class is not output in the readable form --- likely we need a message-class for
+     printing types here.
    - Test it!
    - Ownership of level_description needs to be managed : Now std::shared_ptr used. DONE
    - Is the explicit definition of the copy constructor needed? We hade the assert-statement;
@@ -19,10 +22,12 @@
    input of error circumstances (yet the parameter special_circumstances is a plain string variable;
    in this way strings and boost::lexical_cast would be avoided).
 
-   \todo OKLIB_TEST_EQUAL :
+  \todo OKLIB_TEST_EQUAL :
     Update the implementation according to TestSystem/DesignStudy.hpp.
 
-   \todo OKLIB_TEST_RETHROW_NO_LOG :
+  \todo An overhaul of the test-macros (like OKLIB_TEST_EQUAL) seems to be needed.
+
+  \todo OKLIB_TEST_RETHROW_NO_LOG :
     Invoking a sub-test but discarding the output. (It seems we should have that, or?)
     Just changing the definition of OKLIB_TEST_RETHROW by replacing log
     by a null-stream needs a global null-stream object ?!

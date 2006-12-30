@@ -4,7 +4,6 @@
   \file TestSystem/TestExceptions_DesignStudy.hpp
   \brief Module providing test exceptions and test macros
 
-  \todo An overhaul of the test-macros (like OKLIB_TEST_EQUAL) seems to be needed.
 */
 
 #ifndef TESTEXCEPTIONS_kjhytRe4

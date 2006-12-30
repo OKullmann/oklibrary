@@ -9,7 +9,9 @@
     (and other parts of the test system) and for ProgramOptions we need
     classes (and macros) for identification purposes:
     <ul>
-     <li> Handling of type names and line numbers (__LINE__) is needed.
+     <li> Handling of line numbers (__LINE__) is needed.
+     </li>
+     <li> Handling of type names is needed.
      </li>
      <li> For programs we also have the version, the author, name of program etc.
      </li>

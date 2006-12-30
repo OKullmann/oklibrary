@@ -4,7 +4,10 @@
   \file Messages/Utilities/plans/FileIdentification.hpp
   \brief Plans for the file identification utilities
 
-  \todo File identification: See Messages/Utilities/FileIdentification.hpp. DONE
+  \todo Test class FileIdentification.
+
+  \todo Provide other languages with FileIdentification.
+
 
 */
 

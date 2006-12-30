@@ -1,10 +1,7 @@
 /*!
   \file IOTools/IOTools_Models_Definitions.hpp
   \brief Deprecated. File handling outsourced from Messages.
-
-  \todo The motivations we had for the name convention "_Models_Definitions"
-  has to be reflected.
-  \todo All of this should go somewhere else.
+  \deprecated
 */
 
 //TO DO:  LICENCE

@@ -5,14 +5,15 @@
   \brief Plans for the concepts module
 
   \todo Update doxygen-documentation and plans
-   - Concepts/Basics.hpp :
+   - Concepts/AtomicConditions.hpp : DONE
+   - Concepts/Basics.hpp : DONE
    - Concepts/ConceptsBase.hpp : 
    - Concepts/ConceptsMetafunctions.hpp : 
    - Concepts/InputOutput.hpp : 
    - Concepts/Iterators.hpp : 
-   - Concepts/LibraryBasics.hpp
-   - Concepts/Literals.hpp
-   - Concepts/PartialAssignments.hpp
+   - Concepts/LibraryBasics.hpp : DONE
+   - Concepts/Literals.hpp :
+   - Concepts/PartialAssignments.hpp :
    - Concepts/RefactoringIncludeHandling.hpp : 
    - Concepts/ResultElements.hpp :
    - Concepts/plans/Variables.hpp :

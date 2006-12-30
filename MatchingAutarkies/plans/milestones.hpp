@@ -8,12 +8,8 @@
   \par Version 0.0.2
   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
   topics are handled:
-  - Literature review
-
-  \par Version 0.0.3
-  In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
-  topics are handled:
-  - Algorithms
+  - Algorithms for the lean kernel
+  - Algorithms for matching autarkies
 
   And further milestones are created.
 
@@ -22,6 +18,11 @@
   topics are handled:
   - Implementation
   - Application
+
+  \par Version 0.2
+  In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+  topics are handled:
+  - Incremental
 
   \par Version 1.0
   A nice toolset of computing matching autarkies is available, which

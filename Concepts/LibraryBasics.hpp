@@ -10,10 +10,6 @@
 
   Includes boost/concept_check, boost/static_assert, boost/type_traits, and
   ConceptsBase, ConceptsMetafunctions, Basics.
-
-  \todo Should the helper-classes for archetype-definitions go into their own file?
-  \todo Should boost/type_traits.hpp be replaced by the tr1-components?
-  \todo Perhaps the macros need some clean-up.
 */
 
 #ifndef LIBRARYBASICS_oLkG5675
