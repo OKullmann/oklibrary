@@ -14,6 +14,7 @@
 #include <Transitional/Messages/MessagesMain.hpp>
 #include <Transitional/Messages/LineHandling.hpp>
 #include <Transitional/Messages/Utilities/FileIdentification.hpp>
+#include <Transitional/Messages/Utilities/LineIdentification.hpp>
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/messages/TestLevel.hpp>
@@ -31,8 +32,6 @@ namespace OKlib {
         shared-pointer to a message-object describing the test-level (class ErrorDescription
         takes over ownership of this message-object-pointer).
 
-        \todo Likely ErrorDescription should be derived from MessagesPrePost.
-        \todo type_test_class is not output in the readable form --- likely we need a message-class for printing types here.
         \todo Provide different output-levels.
         \todo Provide different output-languages.
       */
