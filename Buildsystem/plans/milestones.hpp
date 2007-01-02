@@ -7,18 +7,18 @@
   
   \par Version 0.1.3 :
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Naming of local definition makefiles (DONE)
-    - Recommended versions (DONE)
     - Make-variables for external libraries
     - Role of srcdir
     - Linking to makefile_recursive
     - System documentation
     - Documentation (Examples and Concepts)
+    - Naming of local definition makefiles (DONE)
+    - Recommended versions (DONE)
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Valgrind test variable (DONE)
     - Documentation of generic.mak    
+    - Valgrind test variable (DONE)
 
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
@@ -30,9 +30,10 @@
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp
    the following topics are handled
-    - Logo (DONE)
+    - Different organisation
+    - Logo
+    - Version numbers
     - OKlibrary link (DONE)
-    - Version numbers (DONE)
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:

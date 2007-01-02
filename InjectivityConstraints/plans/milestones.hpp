@@ -3,13 +3,17 @@
 /*!
   \file InjectivityConstraints/plans/milestones.hpp
 
-  \par Current version 0.0.2 (23.11.2006)
+  \module_version 0.0.2 (23.11.2006)
 
   \par Version 0.0.3
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
   - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+  - What is the concept for TrivialAllDifferent<PASS> ?
+
   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
   - Correct milestones-file
+
+  And the following milestones are updated.
 
   \par Version 0.0.4
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
@@ -18,8 +22,9 @@
   \par Version 0.0.5
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
   - Old implementations
+
   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-  - First Concpets
+  - First Concepts
 
   \par Version 0.1
   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
