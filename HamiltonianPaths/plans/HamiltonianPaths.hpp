@@ -12,10 +12,12 @@
      Hamiltonian cycles, then this wraps around); call this active
      clause-set the adjacency constraint.
 
+  This is a special case of graph-embedding (embedding a path resp. a cycle).
+   
   \todo One could add "opportunistically" some elements of the bijectivity
   constraint to the adjacency constraint; for example if there are v_i and v_j
-  such that the minimal distance between their possible values in G have a
-  larger distance than the distance between v_i and v_j, then the current
+  such that the minimal distance between their possible values in G is
+  larger than the distance between i and j, then the current
   partial assignment is unsatisfiable (an extreme case here is given by a
   disconnected G) --- this inconsistency cannot be anticipated by any of the
   two active clause-sets alone (but must be realised by the alliance).
@@ -24,7 +26,7 @@
   also be true in general) to create new active clause-sets capturing
   these constraints (for example a "distance constraint", maintaining
   that the minimal distance in G of the possible values of any two vertices
-  v_i and v_j is not larger than the distance of v_i and v_j).
+  v_i and v_j is not larger than the distance of i and j).
 
   \todo Creating a catalogue with Hamiltonian graphs and
   non-Hamiltonian graphs (for creating benchmarks).
@@ -38,7 +40,7 @@
   data structures for the adjacency constraint.
 
   \todo The graph isomorphism problem (see module Isomorphisms)
-  is a special case of the graph embedding problem: How to
+  is a special case of the graph embedding problem: How do
   graph embedding algorithms perform on graph isomorphism problems?
 */
 
