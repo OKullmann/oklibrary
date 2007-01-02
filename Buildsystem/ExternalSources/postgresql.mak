@@ -7,13 +7,14 @@
 
 # PostgreSQL
 
-# make postgresql (recommended version)
-# make postgresql-?
+# Building server and client:
+#   make postgresql (recommended version)
+#   make postgresql-?
 
 # Initialise a database and start the server (? is version number of postgresql):
-# Use the default location (postgresql-base-directory/?/data):
+#   a) Use the default location (postgresql-base-directory/?/data):
 # 	make pgsql-version=? initialise-database
-# Use a different location (% is the absolute path of the location to place the database):
+#   b) Use a different location (% is the absolute path of the location to place the database):
 # 	make pgsql-version=? pgdata=% initialise-database
 
 # ####################################
