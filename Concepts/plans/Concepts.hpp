@@ -5,6 +5,7 @@
   \brief Plans for the concepts module
 
   \todo Update doxygen-documentation and plans
+
    - Concepts/AtomicConditions.hpp : DONE
    - Concepts/Basics.hpp : DONE
    - Concepts/ConceptsBase.hpp : 
@@ -19,7 +20,14 @@
    - Concepts/plans/Variables.hpp :
    - Concepts/std_Basics.hpp :
    - Concepts/std_Container.hpp :
-   - Concepts/std_Iterators.hpp : 
+   - Concepts/std_Iterators.hpp :
+
+   - Concepts/plans/Assignments.hpp :
+   - Concepts/plans/BigIntegers.hpp :
+   - Concepts/plans/BipartiteGraphs.hpp :
+   - Concepts/plans/ClauseSets.hpp :
+   - Concepts/plans/Clauses.hpp :
+   - Concepts/plans/Hypergraphs.hpp :
 
   \todo Warnings:
   Eliminate all warnings.
