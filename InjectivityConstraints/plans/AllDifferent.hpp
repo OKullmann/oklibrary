@@ -12,14 +12,16 @@
   sense to always have a trivial evaluation?). The connection to the partial
   assignment is critical; there are more return-possibilities (at least in
   general; perhaps not for the trivial evaluation).
-  Perhas a reference to phi should be stored at construction.
+  Perhaps a reference to phi should be stored at construction.
 
   \todo See also Concepts/plans/Variables.hpp and Concepts/plans/Literals.hpp.
   (Perhaps the value_type should always be order-comparable?)
 
   \todo Test OKlib::InjectivityConstraints::TrivialAllDifferent
 
-  \todo Old implementations
+  \todo Move the relevant parts from InjectivityConstraints/plans/InjectivityConstraints.hpp to here.
+
+  \todo Old implementations:
   Perhaps the following tests can be reused?
 
 #include <set>
