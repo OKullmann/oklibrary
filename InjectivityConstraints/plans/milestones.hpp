@@ -11,7 +11,7 @@
   - What is the concept for TrivialAllDifferent<PASS> ?
 
   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-  - Correct milestones-file
+  - Correct milestones-file : DONE
 
   And the following milestones are updated.
 
@@ -51,8 +51,8 @@
 
   \par Version history
 
-   - 0.0.1 : ???; initial version number (only plans).
-   - 0.0.2 : 23.11.2006 (several plans, and first prototype).
+   - 0.0.1 : 8.3.2006; initial version number (only plans).
+   - 0.0.2 : 23.11.2006; several plans, and first prototype.
 
 */
 
