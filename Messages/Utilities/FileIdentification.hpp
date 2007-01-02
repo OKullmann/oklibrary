@@ -69,6 +69,10 @@ namespace OKlib {
         void print_file(std::ostream& out, L<en_GB>) const {
           l_start(out) << "file name = " << file;
         }
+        void print_file(std::ostream& out, L<de_DE>) const {
+          l_start(out) << "Dateiname = " << file;
+        }
+
         void print_compilation(std::ostream& out, L<en_GB>) const {
           if (not date.empty()) {
             l_end(out); l_start(out) << "compilation date = " << date;
@@ -79,6 +83,17 @@ namespace OKlib {
             l_end(out); l_start(out) << "compilation time = " << time;
           }
         }
+        void print_compilation(std::ostream& out, L<de_DE>) const {
+          if (not date.empty()) {
+            l_end(out); l_start(out) << "Datum der Programm-Übersetzung = " << date;
+            if (not time.empty())
+              out << ", während Übersetzungszeit = " << time;
+          }
+          else if (not time.empty()) {
+            l_end(out); l_start(out) << "Programm-Übersetzungszeit = " << time;
+          }
+        }
+
         void print_version(std::ostream& out, L<en_GB>) const {
           if (not change.empty()) {
             l_end(out); l_start(out) << "last change date = " << strip(change, "$" "Date: ", " $");
@@ -87,6 +102,16 @@ namespace OKlib {
           }
           else if (not version.empty()) {
             l_end(out); l_start(out) << "version number = " << strip(version, "$" "Revision: ", " $");
+          }
+        }
+        void print_version(std::ostream& out, L<de_DE>) const {
+          if (not change.empty()) {
+            l_end(out); l_start(out) << "Datum der letzten Änderung = " << strip(change, "$" "Date: ", " $");
+            if (not version.empty())
+              out << ", Versionsnummer = " << strip(version, "$" "Revision: ", " $");
+          }
+          else if (not version.empty()) {
+            l_end(out); l_start(out) << "Versionsnummer = " << strip(version, "$" "Revision: ", " $");
           }
         }
        

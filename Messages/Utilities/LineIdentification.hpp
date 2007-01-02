@@ -33,6 +33,9 @@ namespace OKlib {
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           l_start(out) << "line number = " << line;
         }
+        void print(std::ostream& out, L<de_DE>, S<Basic>) const {
+          l_start(out) << "Zeilennummer = " << line;
+        }
 
       private :
 
