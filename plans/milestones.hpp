@@ -49,6 +49,8 @@
   (see Literals/plans/milestones.hpp)
   \par PartialAssignments version 0.0.5 (OK (MH, ML))
   (see PartialAssignments/plans/milestones.hpp)
+  \par InjectivityConstraints version 0.0.3 (OK, MH)
+  (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
   \par AutarkySearch version 0.0.6 (ML (OK))
@@ -70,8 +72,13 @@
   (see Graphs/plans/milestones.hpp)
   \par HypergraphColouring version 0.0.5 (OK (MH))
   (see HypergraphColouring/plans/milestones.hpp)
-  \par QuantumPhysics versiion 0.0.8 (OK)
+  \par QuantumPhysics version 0.0.8 (OK)
   (see QuantumPhysics/plans/milestones.hpp)
+  \par Plans
+  All modules have a milestones-file, and the milestones
+  are integrated into the overall milestones (here).
+  \par Update
+  Update the subsequent milestones.
 
   \subsection VersionTransitional014 0.1.4
   \par Buildsystem version 0.3 (MH)
