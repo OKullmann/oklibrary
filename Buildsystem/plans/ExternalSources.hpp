@@ -56,9 +56,10 @@
    - Building Boost should be outsourced to ExternalSources/makefile_Boost.mak.
 
   \todo PostgreSQL
-   - Update PostgreSQL to version 8.1 (and test it).
-   - "make initialise-database" should work with the recommended version.
-   - Building PostgreSQL should be outsourced to ExternalSources/makefile_PostgreSQL.mak.
+   - Update PostgreSQL to version 8.1 (or later; and test it).
+   - "make initialise-database" should work with the recommended version (and no specification
+     of the pgsql-version should be needed).
+   - A detailed user-manual is needed (on how to use the installed database).
 
   \todo Tools
    - Investigate the NiX system (a system for managing libraries).
