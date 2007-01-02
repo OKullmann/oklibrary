@@ -5,17 +5,17 @@
   \brief Plans for the module providing test macros
 
   \todo TestSystem::ErrorDescription (in TestSystem/messages/TestExceptions.hpp) :
-   - Use messages. ErrorDescription should use components from
-     Messages/Utilities for identification of files, lines etc.
+   - type_test_class is not output in the readable form --- likely we need a
+     message-class for printing types here.
+   - Use messages.
    - Likely ErrorDescription should be derived from MessagesPrePost.
-   - type_test_class is not output in the readable form --- likely we need a message-class for
-     printing types here.
    - Test it!
+   - ErrorDescription should use components from
+     Messages/Utilities for identification of lines: DONE
    - Ownership of level_description needs to be managed : Now std::shared_ptr used. DONE
-   - Is the explicit definition of the copy constructor needed? We hade the assert-statement;
-     and because of the auto-pointer-element, which has only a X&-copy-constructor, the implicitely
-     declared copy-constructor has also type X& : Now not needed anymore, since std::auto-ptr
-     was replaced by std::shared_ptr. DONE
+   - Is the explicit definition of the copy constructor needed? Because of the auto-pointer-element,
+     which has only a X&-copy-constructor, the implicitely declared copy-constructor has also type
+     X& : Now not needed anymore, since std::auto-ptr was replaced by std::shared_ptr. DONE
 
   \todo TestSystem::TestException :
    Investigate, whether it should use Messages for internal purposes, and (perhaps) also for the

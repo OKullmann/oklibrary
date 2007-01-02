@@ -5,9 +5,6 @@
   \brief Plans for the module on active clause-sets providing injectivity
   and bijectivity constraints.
 
-  \todo Correct milestones-file:
-  See log files for the date of version 0.0.1.
-
   \todo First Concpets:
   Concepts prototypes for injectivity, surjectivity and bijectivity constraints
 
