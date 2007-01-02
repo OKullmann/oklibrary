@@ -101,8 +101,9 @@ namespace OKlib {
     */
 
 # define OKLIB_NUMBER(N) # N
+    //! putting quotes around the line number
 # define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(OKLIB_FILE_ID, OKLIB_INTERMEDIATE_TEST(__LINE__), test_function_type_name, new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type())), depth()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(OKLIB_FILE_ID, new ::OKlib::Messages::Utilities::LineIdentification(OKLIB_INTERMEDIATE_TEST(__LINE__)), test_function_type_name, new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type())), depth()))
 
     /*!
       \def OKLIB_THROW
