@@ -6,6 +6,8 @@
 
   \todo Review: Software and literature review.
 
+  \todo Determine the relations to AlgebraicStructures/Groupoids (quasigroups).
+
   \todo Basic direct algorithms:
   Write tests, whether one square is a latin square, and whether
   a sequence of squares is mutually orthogonal (these tests are only for result-checking).
@@ -28,7 +30,11 @@
   to have an active clause-set LS((v_ij)), expressing that the variables
   form a latin square. The direct implementation of LS((v_ij))
   uses INJ((v_1j, ..., v_nj) and INJ(v_i1, ..., v_in).
-  How to find all unit clauses for LS((v_ij)) ?!
+  Such active clause-sets do not offer poly-time performance for (e.g.)
+  satisfiability checking, but they might be useful if it has
+  nevertheless "special knowledge". LS(V) could offer
+  only incomplete services (then it should be poly-time), or it
+  might offer complete services (then it won't be poly-time).
 
   \todo Strong hypergraph colouring
   A latin square of dimension n is nothing else than a
