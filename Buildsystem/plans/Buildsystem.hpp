@@ -4,9 +4,6 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo Naming of local definition makefiles
-   - The makefiles.definitions.mak should be renamed definitions.mak.
-
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading --- or we need special documentation at this point, namely
@@ -15,7 +12,9 @@
      (plus documentation), so that we can add easily as many external libraries as we want.
 
   \todo Role of srcdir
-   - What is the role of variable srcdir ? Isn't the definition in makefile_recursive
+  <ul>
+   <li>
+     What is the role of variable srcdir ? Isn't the definition in makefile_recursive
      superfluous now?
      It is used in makefile_generic (so that we can call makefiles from other places,
      without a change in behaviour; we should also document this), but why the
@@ -26,35 +25,15 @@
      while from the command line, when calling a makefile from another directory,
      the option "-C DIR" can be used. This seems to make srcdir superfluous?
      If so, then is it worth to keep it for convenience?
-   - Those settings of srcdir which remain should (if at all) receive some inline comments
+   </li>
+   <li>
+     Those settings of srcdir which remain should (if at all) receive some inline comments
      (these settings are quite arcane).
+   </li>
+  </ul> 
 
   \todo Linking to makefile_recursive:
    The occurrences of makefile_recursive should be replaced by links.
-
-  \todo Recommended versions:
-   - The file external_sources_versions.mak contains the recommended versions of
-   all external resources. However, the recommended version
-   numbers are got by the buildsystem through a little hack. Namely,
-   there are seperate variables for both the version number and the
-   version name. This should be changed so that the version number
-   is only defined once.
-   <ul>
-   <li>
-     For each external library ext_lib we define (by hand) the following variables
-     <ol>
-     <li>ext_lib_recommended_version_number</li>
-     <li>ext_lib_supported_not_recommended_version_numbers</li>
-    </ol>
-
-     Then all the variables we need for the naming of packages, targets, installation
-     directories are built from these variables.
-
-   </li>
-
-   <li>e.g. gcc_recommended_version_number := 4.1.1 and gcc_supported_not_recommended_version_numbers := 3.4.3 3.4.4 3.4.5 3.4.6 4.0.0 4.0.1 4.0.2 4.0.3 4.1.0</li>
-
-   </ul>
 
   \todo System documentation:
    - Document the basic version-control settings (location of server, configuration, how to use it).
@@ -70,6 +49,13 @@
       </ol>
     </li>
   </ul>
+
+  \todo Naming of local definition makefiles:
+   The makefiles.definitions.mak should be renamed definitions.mak: DONE
+
+  \todo Recommended versions:
+   A system is needed for specifying version numbers of external libraries: Now in
+   external_sources_versions.mak. DONE
 
   \todo Overhaul of the general targets:
    - "all" should not compile the test-programs. Rather we want to have it so 
@@ -201,14 +187,65 @@
 
   \todo Higher-order build tools:
    - We should investigate CMake (http://www.cmake.org/HTML/Index.html), whether it would be
-     useful for us. (autoconf and the like seems outdated)
+     useful for us. (autoconf and the like seems outdated ?)
 
   \todo Submissions as transactions:
   We have a little problems with submissions to the repository, which often span many files, so the whole
   submission process takes a while, and it's not clear from outside when it's finished (and the library
   is again in a well-defined state).
 
+  Subversion has atomic commits, however it seems that for one commit one can only use one log-message,
+  and thus this feature is to weak here to be useful (one should check this at the subversion-e-mail
+  list).
+
   \todo Subversion:
-  We must investigate whether it's worth changing from CVS to Subversion.
+  <ul>
+   <li>
+    A disadvantage of Subversion compared to CVS is that individual
+    files do not have version numbers; this could easily be changed
+    - by a new subversion-version
+    - or by a graphical user interface which determines how often with
+      a new version also the considered file has changed.
+
+    One should ask at the subversion-e-mail list (referring to such "file
+    version numbers" perhaps as some form of basic statistics).
+   </li>
+   <li>
+    Version 1.0.8 of Subversion cannot handle links --- does this change with
+    newer Subversion versions?
+   </li>
+   <li>
+    How to tell the Subversion server to send out e-mails in case of commits?
+    "Hook scripts" seem the answer here, especially the commit-email.pl script
+    (however it seems that the whole process is not completely straight-forward?).
+   </li>
+   <li>
+    Ignoring files is handled by Subversion with the svn:ignore property of directories:
+    This property has to be set to (for example) the list of forbidden patterns in .cvsignore,
+    using
+      OKplatform/OKsystem/Transitional> svn propset svn:ignore -F ~/.cvsignore *
+    (better, instead of * use
+      $(find * -type d -and -not -path "* /.*")
+    (where the space in the shell pattern need to be removed --- we need to avoid ending the comment here!)
+    so that in all subdirectories these patterns are ignored).
+   </li>
+   <li>
+   The use of $Date and $Revision in macro OKLIB_FILE_ID is replaced by
+     $LastChangedDate$
+     $LastChangedRevision$
+   and for these files the property svn:keywords has to be set:
+     svn propset svn:keywords "LastChangedDate LastChangedRevision"
+   Should we configure subversions automatic property setting to set svn:keywords for these files?
+   </li>
+   <li>
+    The main conceptual disadvantages (shared with CVS) is that
+    no local repositories are possible:
+    - BitKeeper (www.bitkeeper.com) has this feature; one could check the licence.
+    - Or what about the version control system developed by Torvalds
+      as replacement of BitKeeper ?!
+    - And then there is svk (svk.elixus.org), apparently a further development
+      of Subversion.
+   </li>
+  <ul>
 
 */
