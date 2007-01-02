@@ -26,7 +26,8 @@
    QUESTION (OK): Isn't this done ??
 
   \todo Building documentation:
-  We should extract only the documentation from the archives.
+  We should extract only the documentation from the archives (and remove everything else
+  which is not needed; should be fairly easy).
 
   \todo Doxygen general:
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
