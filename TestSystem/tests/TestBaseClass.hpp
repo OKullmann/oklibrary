@@ -22,7 +22,7 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2006/12/18 14:38:16 $", "$Revision: 1.3 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/02 16:50:05 $", "$Revision: 1.4 $")
 
       /*!
         \class TestSystem
@@ -61,8 +61,11 @@ namespace OKlib {
           {
             std::stringstream test_err, test_messages, test_log;
             OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::level(log_stream()));
+            OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::language(log_stream()));
             OKlib::Messages::MessagesBase::set(test_err, OKlib::Messages::MessagesBase::level(log_stream()));
+            OKlib::Messages::MessagesBase::set(test_err, OKlib::Messages::MessagesBase::language(log_stream()));
             OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::level(log_stream()));
+            OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::language(log_stream()));
             test_objects.push_back(new LocalTest1(0));
             ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
             log(trivial_message("Output of the three streams after RunTest::run_tests:\n"), __LINE__, __FILE__);
@@ -82,8 +85,12 @@ namespace OKlib {
           {
             std::stringstream test_err, test_messages, test_log;
             OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::level(log_stream()));
+            OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::language(log_stream()));
             OKlib::Messages::MessagesBase::set(test_err, OKlib::Messages::MessagesBase::level(log_stream()));
-            OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::level(log_stream())); 
+            OKlib::Messages::MessagesBase::set(test_err, OKlib::Messages::MessagesBase::language(log_stream()));
+            OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::level(log_stream()));
+            OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::language(log_stream()));
+ 
             test_objects.push_back(new LocalTest1(1));
             ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
             log(trivial_message("Output of the three streams after RunTest::run_tests:\n"), __LINE__, __FILE__);
