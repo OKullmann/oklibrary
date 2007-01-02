@@ -5,6 +5,13 @@
   \brief Plans for concepts for clause-sets, clause-sets with history, virtual clause-sets and active
   clause-sets.
 
+  \todo Shouldn't we differentiate between
+   - "ClauseSets"
+   - "VirtualClauseSets"
+   - "ActiveClauseSets"
+
+  ?!
+
   \todo Concepts for clause-sets as collections of clauses, which are collections of
   literals, holding a reference to a domain-assignment for the variables.
 
