@@ -34,5 +34,8 @@
      and computing further refinements.
   This alliance then is passed to a SAT algorithm (or output, using the canonical
   clause-representation).
+
+  \todo What about the graph embedding problem ? Should also be part of this module.
+
 */
 
