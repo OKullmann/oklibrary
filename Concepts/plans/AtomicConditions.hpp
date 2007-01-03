@@ -4,6 +4,21 @@
   \file Concepts/plans/AtomicConditions.hpp
   \brief Plans for concepts for atomic conditions
 
+  \todo Arity:
+  It seems necessary that atomic conditions can have several arguments (where
+  the arity is a compile-time constant). Then an atomic conditions has an
+  associated std::tr1::tuple-type (which provides the value-types and the
+  arity). Perhaps arity 0 should be avoided? And for arity 1 we should
+  have specialisations, so that the current syntax works (if this is
+  possible?).
+
+  An example for a binary atomic condition is equality (and inequality).
+
+  By using tuples we prevent active clause-sets from becoming literals.
+  (But one can use a literal with one "super-variable", which stands for
+  the many variables?!) Perhaps this is necessary for "SAT", where literals
+  should be kind of "small units".
+
   \todo Refinement for iteration:
 
   A concept ConstantSequence is needed for the value-type, allowing to enumerate all values. The compiler
