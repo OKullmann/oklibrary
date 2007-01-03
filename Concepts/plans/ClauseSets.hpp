@@ -5,6 +5,9 @@
   \brief Plans for concepts for clause-sets, clause-sets with history, virtual clause-sets and active
   clause-sets.
 
+  \todo Update with Concepts/plans/ActiveClauseSets.hpp (the text below is no longer
+  up-to-date).
+
   \todo Shouldn't we differentiate between
    - "ClauseSets"
    - "VirtualClauseSets"
@@ -71,12 +74,12 @@
   gets updated). Learning (local or global) is controlled from the outside;
   in case of a "conflict" a resolvent may be computed (potentially compressed).
 
-  \todo Links
+  \todo Links:
   See modules UnitClausePropagation and Learning for further thoughts on
   the concept of "active clause-sets". And in SATAlgorithms/plans/GenericBacktracking.hpp
   the first prototype is being developed.
 
-  \todo Sat status
+  \todo Sat status:
   For an active clause-set F, F.sat_status() perhaps should return an object
   from a hierarchy with root Unknown, derived classes Satisfiable, Unsatisfiable,
   and furthermore Satisfied derived from Satisfiable.
