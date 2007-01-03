@@ -242,7 +242,7 @@
     no local repositories are possible:
     - BitKeeper (www.bitkeeper.com) has this feature; one could check the licence.
     - Or what about the version control system developed by Torvalds
-      as replacement of BitKeeper ?!
+      as replacement of BitKeeper ?! Git : http://git.or.cz/
     - And then there is svk (svk.elixus.org), apparently a further development
       of Subversion.
    </li>
