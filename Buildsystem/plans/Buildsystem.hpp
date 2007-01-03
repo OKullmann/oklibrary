@@ -240,11 +240,10 @@
    <li>
     The main conceptual disadvantages (shared with CVS) is that
     no local repositories are possible:
-    - BitKeeper (www.bitkeeper.com) has this feature; one could check the licence.
-    - Or what about the version control system developed by Torvalds
-      as replacement of BitKeeper ?! Git : http://git.or.cz/
+    - Git : http://git.or.cz/ looks rather good --- one should try it out!
     - And then there is svk (svk.elixus.org), apparently a further development
-      of Subversion.
+      of Subversion. Looks somewhat immature.
+    - BitKeeper (www.bitkeeper.com) seems to be only proprietary.
    </li>
   <ul>
 
