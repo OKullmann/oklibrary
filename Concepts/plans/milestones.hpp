@@ -12,8 +12,8 @@
   And further milestones are created.
 
   \par Version 0.1.3 :
-  We have prototypes of concepts for
-   - partial assignments.
+  In Concepts/plans/Concepts.hpp the following topics are handled:
+  - Develop concepts
 
   \par Version 0.2 :
   In Concepts/plans/Concepts.hpp the following topics are handled:

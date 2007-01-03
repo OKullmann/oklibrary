@@ -22,12 +22,20 @@
    - Concepts/std_Container.hpp :
    - Concepts/std_Iterators.hpp :
 
+   - Concepts/plans/ActiveClauseSets.hpp :
    - Concepts/plans/Assignments.hpp :
    - Concepts/plans/BigIntegers.hpp :
    - Concepts/plans/BipartiteGraphs.hpp :
    - Concepts/plans/ClauseSets.hpp :
    - Concepts/plans/Clauses.hpp :
    - Concepts/plans/Hypergraphs.hpp :
+
+  \todo Develop concepts:
+   - atomic conditions
+   - literals
+   - partial assignments
+   - active clause-sets
+   - clauses and clause-sets.
 
   \todo Warnings:
   Eliminate all warnings.
