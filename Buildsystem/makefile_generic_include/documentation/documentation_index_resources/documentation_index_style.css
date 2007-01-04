@@ -1,34 +1,63 @@
 body {color:#4A2885; background:#E8ECDC;
   font-family:sans-serif;
-  font-size:11pt; 
-  margin-left:10%; 
-  margin-right:10%; }
+  font-size:11pt;  }
 
 h2 { font-size:12pt; }
 
 a:link { font-weight:normal; 
   color:#190438; 
-  text-decoration:none }
+  text-decoration:underline }
 
 a:visited { font-weight:normal; 
   color:#190438; 
-  text-decoration:none }
+  text-decoration:underline }
 
 a:hover { font-weight:normal; 
   color:#dc9000; 
-  text-decoration:none }
+  text-decoration:underline }
 
-#logo { font-family:serif;
+#logo { 
+  width:100%;
+  min-width:500px;
+  height:150px; } 
+
+#vn { padding-left:10px;
+      min-width:500px; }
+
+#subtitle { 
+  padding-left:10px;
   font-style:italic;
-  font-size:70pt;  } 
+  min-width:500px; }
 
-#subtitle { font-style:italic; }
+#OKlibrary_doc {
+  width:10em;
+  float:left;
+  padding-left:10px;
+  padding-right:10px;
+  min-width:10em;}
 
-#OKlibrary_doc { }
+#OKlibrary_doc a { display:block; }
 
-#local_index {  }
+#external_documentation_division { 
+   float:right;}
 
-#homepages {  }
+#local_index { 
+  width:10em; 
+  float:left;
+  padding-right:10px;
+  min-width:10em;}
 
-#vn { }
+#local_index a { display:block; }
+
+#homepages {
+  width:10em;
+  float:left;
+  padding-right:10px;
+  min-width:10em;}
+
+#homepages a { display:block; }
+
+#footer { clear:both; }
+
+
  

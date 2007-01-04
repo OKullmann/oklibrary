@@ -97,11 +97,17 @@ local_index_division := "<div id=\"local_index\"> <h2>Local Documentation</h2> "
 homepage_division := "<div id=\"homepages\"><h2>WWW</h2> "$(list_of_homepage_link_elements)" </div>"
 
 # ##################################################
+# Wrapper division for local and WWW documentation
+# ##################################################
+
+external_documentation_division := "<div id=\"external_doc\">"$(local_index_division) $(homepage_division)"</div>"
+
+# ##################################################
 # Logo Division
 # ##################################################
 
-logo := OKlibrary
-logo_division := "<div id=\"logo\"> "$(logo)" </div>"
+logo_image_location := $(OKbuildsystem)/makefile_generic_include/documentation/documentation_index_resources/logo.png
+logo_division := "<div id=\"logo\"><img src=\" $(logo_image_location) \"/> </div>"
 
 # ##################################################
 # Version Number Division
@@ -118,6 +124,12 @@ subtitle := "An algorithmic platform for efficient satisfiability-based problem 
 subtitle_division := "<div id=\"subtitle\"> "$(subtitle)" </div>"
 
 # ##################################################
+# Footer division
+# ##################################################
+
+footer_division := "<div id=\"footer\"></div>"
+
+# ##################################################
 # Body
 # ##################################################
 
@@ -125,8 +137,8 @@ documentation_index_body := $(logo_division) \
                             $(version_number_division) \
                             $(subtitle_division) \
                             $(OKlibrary_documentation_division) \
-                            $(local_index_division) \
-                            $(homepage_division)
+                            $(external_documentation_division) \
+                            $(footer_division)
 
 # ##################################################
 # Main target for creating index
