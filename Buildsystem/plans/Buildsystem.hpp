@@ -189,61 +189,97 @@
    - We should investigate CMake (http://www.cmake.org/HTML/Index.html), whether it would be
      useful for us. (autoconf and the like seems outdated ?)
 
-  \todo Submissions as transactions:
-  We have a little problems with submissions to the repository, which often span many files, so the whole
-  submission process takes a while, and it's not clear from outside when it's finished (and the library
-  is again in a well-defined state).
-
-  Subversion has atomic commits, however it seems that for one commit one can only use one log-message,
-  and thus this feature is to weak here to be useful (one should check this at the subversion-e-mail
-  list).
-
-  \todo Subversion:
+  \todo Version control
   <ul>
-   <li>
-    A disadvantage of Subversion compared to CVS is that individual
-    files do not have version numbers; this could easily be changed
-    - by a new subversion-version
-    - or by a graphical user interface which determines how often with
-      a new version also the considered file has changed.
-
-    One should ask at the subversion-e-mail list (referring to such "file
-    version numbers" perhaps as some form of basic statistics).
+   <li> We have a little problems with submissions to the repository, which often span
+   many files, so the whole submission process takes a while, and it's not clear from
+   outside when it's finished (and the library is again in a well-defined state).
+    <ul>
+     <li> We need some (e-mail) protocoll to handle the situation with CVS. </li>
+     <li> Subversion has atomic commits, however it seems that for one commit one can
+     only use one log-message, and thus this feature is to weak here to be useful
+     (one should check this at the subversion-e-mail list). </li>
+     <li> With Git the problem should be easy to solve: All the submissions first
+     happen locally, and then, in one go, all changes are submitted to the central
+     repository! </li>
+    </ul>
    </li>
-   <li>
-    Version 1.0.8 of Subversion cannot handle links --- does this change with
-    newer Subversion versions?
+   <li> The main conceptual disadvantages (shared with CVS) of Subversion is that
+    no local repositories are possible; alternatives:
+    <ol>
+     <li> Git : http://git.or.cz/ looks rather good --- one should try it out! </li>
+     <li> svk (http://svk.elixus.org), apparently a further development of Subversion.
+     Looks somewhat immature. </li>
+     <li> What about Arch? </li>
+     <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. </li>
+    </ol>
+    We should try out Git, in two steps:
+     <ol>
+      <li> Playing around with it (creating little respositories). (MH, OK, ML) </li>
+      <li> Then, in a concentrated effort, the whole OKlibrary is copied to Git, and
+      submissions are done for both systems; after a few days we decide which of the
+      two systems will be used. </li>
+     </ol>
    </li>
-   <li>
-    How to tell the Subversion server to send out e-mails in case of commits?
-    "Hook scripts" seem the answer here, especially the commit-email.pl script
-    (however it seems that the whole process is not completely straight-forward?).
+   <li> A disadvantage of Subversion compared to CVS is that individual
+   files do not have version numbers (these "individual version numbers"
+   are better understood as a change-statistics, documenting activity).
+    <ul>
+     <li> This could easily be changed
+      <ul>
+       <li> by a new subversion-version </li>
+       <li> or by a graphical user interface which determines how often with
+       a new version also the considered file has changed. </li>
+      </ul>
+     One should ask at the subversion-e-mail list (referring to such "file
+     version numbers" perhaps as some form of basic statistics). </li>
+     <li> What about Git? What is the version-numbering-systems there, and what kind
+     of statistics are supported? </li>
+    </ul>
    </li>
-   <li>
-    Ignoring files is handled by Subversion with the svn:ignore property of directories:
-    This property has to be set to (for example) the list of forbidden patterns in .cvsignore,
-    using
-      OKplatform/OKsystem/Transitional> svn propset svn:ignore -F ~/.cvsignore *
-    (better, instead of * use
-      $(find * -type d -and -not -path "* /.*")
-    (where the space in the shell pattern need to be removed --- we need to avoid ending the comment here!)
-    so that in all subdirectories these patterns are ignored).
+   <li> CVS cannot handle links:
+    <ul>
+     <li> Version 1.0.8 of Subversion cannot handle links either --- does this change
+     with newer Subversion versions? </li>
+     <li> What about Git? </li>
+    </ul>
    </li>
-   <li>
-   The use of $Date and $Revision in macro OKLIB_FILE_ID is replaced by
-     $LastChangedDate$
-     $LastChangedRevision$
-   and for these files the property svn:keywords has to be set:
-     svn propset svn:keywords "LastChangedDate LastChangedRevision"
-   Should we configure subversions automatic property setting to set svn:keywords for these files?
+   <li> Sending notification-e-mails:
+    <ul>
+     <li> How to tell the Subversion server to send out e-mails in case of commits?
+     "Hook scripts" seem the answer here, especially the commit-email.pl script
+     (however it seems that the whole process is not completely straight-forward?). </li>
+     <li> How about Git? </li>
+    </ul>
    </li>
-   <li>
-    The main conceptual disadvantages (shared with CVS) is that
-    no local repositories are possible:
-    - Git : http://git.or.cz/ looks rather good --- one should try it out!
-    - And then there is svk (svk.elixus.org), apparently a further development
-      of Subversion. Looks somewhat immature.
-    - BitKeeper (www.bitkeeper.com) seems to be only proprietary.
+   <li> Ignoring files:
+    <ul>
+     <li> Ignoring files is handled by Subversion with the svn:ignore property of
+     directories: This property has to be set to (for example) the list of forbidden
+     patterns in .cvsignore,
+     using
+      <p> OKplatform/OKsystem/Transitional> svn propset svn:ignore -F ~/.cvsignore * </p>
+     (better, instead of * use
+      <p> $(find * -type d -and -not -path "* /.*") </p>
+     (where the space in the shell pattern needs to be removed --- we must avoid ending the comment here!)),
+     so that in all subdirectories these patterns are ignored). </li>
+     <li> What about Git? </li>
+    </ul>
+   </li>
+   <li> Change dates and revision numbers in files:
+    <ul>
+     <li> In Subversion, the use of $Date and $Revision in macro OKLIB_FILE_ID is
+     replaced by
+      <ul>
+       <li> $LastChangedDate$ </li>
+       <li> $LastChangedRevision$ </li>
+      </ul>
+     and for these files the property svn:keywords has to be set:
+      <p> svn propset svn:keywords "LastChangedDate LastChangedRevision" </p>
+     Should we configure subversions automatic property setting to set svn:keywords for
+     these files? </li>
+     <li> What about Git? </li>
+    </ul>
    </li>
   <ul>
 
