@@ -5,22 +5,11 @@
   \brief Plans for the documentation index makefile
 
   \todo Different organisation:
-   OK: I like lists, enumerations etc. So we could have 3 columns, the first with
-   a list for the OKlibrary docu, the second with a list for local docu, and
-   the third for the WWW docu.
+   - centering the document (OK: looks odd to me, squeezed to the left margin)
+   - organisation in columns: DONE
+   - emphasising the links: DONE
 
-   Perhaps "OKlibrary" and the rest of the heading centered, then some introductory
-   paragraph, and then the above three columns (using a larger font for the column
-   headings).
-
-   Another problem with the current links is, that it is not visible that we have
-   links (only when moving the mouse over them something can be seen).
-
-  \todo Logo
-   - Perhaps the logo can be improved. Maybe just blue, without any gradient.
-   - An possible alternative is not to use any logo, and only use the stylesheet
-     to specify a nice font.
-     OK: I liked the logo we had --- only the colours had to be improved.
+  \todo Logo : DONE
 
   \todo Version numbers
    - Instead of "v0.0.1" we should have "Transitional Version 0.1.0" : DONE
@@ -32,5 +21,9 @@
    - Perhaps we have a section just for the OKlibrary which has links to the
      documentation for the html documentation and also links to the 
      meta-documentation : DONE
+
+  \todo Improved logo:
+   - yet the colour is a bit too lavenderish
+   - perhaps a tiny bit of space between "OK" and "library" (looks squeezed)
 
 */

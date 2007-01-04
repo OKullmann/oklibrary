@@ -31,8 +31,8 @@
    In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp
    the following topics are handled
     - Different organisation
-    - Logo
     - Version numbers
+    - Logo : DONE
     - OKlibrary link (DONE)
 
   \par
