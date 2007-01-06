@@ -5,7 +5,7 @@
   
   \module_version Buildsystem 0.1.2 (9.12.2006)
   
-  \par Version 0.1.3 :
+  \par Version 0.1.3 : TO BE REACHED 14.1.2007
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Make-variables for external libraries
     - Role of srcdir
@@ -17,8 +17,15 @@
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Documentation of generic.mak    
+    - Documentation of generic.mak
     - Valgrind test variable (DONE)
+
+  \par
+   In Buildsystem/plans/generic.hpp the following topics have been updated:
+    - General clean-up of make-variables
+    - Cleaning
+    - Generic makefile redesign
+    - OKsystem/Buildsystem structure
 
   \par
    In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
@@ -42,90 +49,86 @@
     - General
     - Gcc
     - Boost
-
-  All the following milestones need to be updated.
   
-  \par Version 0.1.4 :
+  \par Version 0.1.4 : TO BE REACHED 14.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Make-variables for compilation and linking
+    - Incorrect build of new tests I
+    - Incorrect build of new tests II
+    - General clean-up of make-variables
+    - General_options
+    - Linking and options
+    - Log directory
+    - Cleaning
+    - Test cleaning
+    - Compilation
+    - Linking
+    - Directory structure
+    - Test system
+    - Customisation
+    - Generic makefile redesign
+    - OKsystem/Buildsystem structure
   
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Overhaul of the general targets
-  
-  \par Version 0.2 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Cleaning
-  
-  \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Testing the build system
-  
-  \par Version 0.2.1 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Test cleaning
-  
-  \par Version 0.2.2 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Compilation
-    - Linking
-  
-  \par Version 0.3 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Customisation
-  
-  \par Version 0.4 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Test system
-    - Targets
-    - Tools for testing
-    - Error messages of gcc should be processed
-  
-  \par Version 0.5 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Placement of makefile_generic
-    - Dependency files
-    - Verbosity
-  
-  \par Version 0.6 :
-   In Buildsystem/plans/ExternalSources.hpp the following topics are 
-   handled:
-    - Gcc
-    - Boost
-  
-  \par Version 0.7 :
-   In Buildsystem/plans/ExternalSources.hpp the following topics are 
-   handled:
-    - General
-    - Tools
-    - PostgreSQL
-    - Other sources
-
-  \par
-   In Buildsystem/plans/README.hpp the following topics are handled:
-    - Supported versions of gcc
-
-  \par Version 0.8 :
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Makefiles in general
-
-  \par Version 0.9 :
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Documentation in general
-
-  \par Version 1.0 :
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Force make
+    - Design
+    - Modes of Usage
+    - makefile_recursive
     - Compilation information
     - Special runs
-    - "Full test"
-    - Package construction script
-    - Nightly build
     - Source code directory structure
-    - OKsystem/Buildsystem structure
+    - Version control
+
+  \par Version 0.1.5 :
+   In Buildsystem/plans/generic.hpp the following topics are handled:
+    - Targets
+    - Error messages of gcc should be processed
+    - Tools for testing
+    - Dependency files
+    - Verbosity
 
   \par
-   In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp the following topics are handled:
-    - CSS
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - PostgreSQL
+
+  \par Version 0.1.6 :
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Other sources
+    - Tools
+
+  \par Version 0.1.7 :
+   In Buildsystem/plans/README.hpp the following topics are handled:
+    - Supported versions of gcc
+    - Update
+  \par Version 0.1.8 :
+   In Buildsystem/plans/makefile.hpp the following topics are handled:
+    - Directories with makefile-links
+
+  \par Version 0.2 : THEME is "Basic functionality"
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Testing the build system
+    - Full test
+    - Nightly build
+    
+  \par Version 0.3 : THEME is "Complexity measurements"
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Complexity system
+    - Measurements
+
+  \par Version 0.4 : THEME is "Packages and Distribution"
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Package construction script
+    - Competition extraction tools
+    - Distributing the library
+  
+  \par Version 0.5 : THEME is "Rounding up"
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - New targets
+    - Higher-order build tools
+  
+  \par Version 1.0 :
+   
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
