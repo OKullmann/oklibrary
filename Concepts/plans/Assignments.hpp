@@ -5,6 +5,8 @@
   \brief Plans for concepts for partial and total assignments.
   For an earlier attempt see
   OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp.
+  \deprecated Needs to be transferred to Concepts/plans/PartialAssignments.hpp (or should
+  this be the place for *total* assignments?).
 
   \todo Concepts for assignments as specialisations of concepts for maps (see my notes as
   discussed in the MSc thesis of B):
