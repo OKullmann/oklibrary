@@ -8,5 +8,8 @@
   We need to clean-up regarding the supported versions of gcc.
   Perhaps actually we should support only from 4.1.1 onwards.
 
+  \todo Update:
+  As much as possible the information in the README file must be kept
+  automatically synchronised with the real library.
 */
 
