@@ -22,7 +22,6 @@
 #include <Transitional/Refactoring/IncludeHandling.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     struct IncludeDirective_tag : virtual BasicRequirements_tag, virtual FullyConstructibleEq_tag,  virtual EqualitySubstitutable_tag, virtual OutputStreamable_tag {};

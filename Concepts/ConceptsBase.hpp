@@ -10,7 +10,6 @@
 #define CONCEPTSBASE_kkd45bBny6
 
 namespace OKlib {
-
   namespace Concepts {
 
     struct ConceptsBase_tag {};
