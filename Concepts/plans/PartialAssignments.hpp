@@ -48,4 +48,29 @@
 
   \todo Refinements of partial assignments offer access to a variable container.
 
+  \todo Generalisations:
+  With generalised literals we have more than one variable per literal.
+  <ul>
+   <li> Do we still speak of "partial assignments" ??? One could use:
+    <ol>
+     <li> "partial assignments" for partial maps v -> value </li>
+     <li> "partial multiassignments" for partial maps v -> set-of-values </li>
+     <li> "partial specifications" for arbitrary sets of literals </li>
+    </ol>
+   </li>
+   <li> "Partial assignments" are some form of normalised constraints. These normalisation
+   conditions need to be discussed (they are especially critical for non-unary literals). </li>
+   <li> Consider equality-literals: Here substitutions can be performed! And in general
+   we could have eliminated variables, which depend in arbitrary ways on other variables.
+   How to handle this? And what if some active clause-sets perform the substitutions, some
+   don't ?! </li>
+   <li> Partial assignments in general contain several types of literals. So a partial assignment
+   is a tuple or a sequence of mono-typed partial assignments ?! </li>
+  </ul>
+
+  \todo Relation to the notion of clauses:
+  Are partial assignments just "DNF-clauses" ("positive clauses")? Likely not --- there
+  are the special normalisation conditions, and then all the interaction with active
+  clause-sets.
+
 */
