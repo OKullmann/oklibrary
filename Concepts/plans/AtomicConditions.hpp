@@ -45,7 +45,8 @@
     Likely value_types are often integral, and then this is quite natural.
     </li>
    </ol>
-   The ConstantRange seems easiest (and most appropriate for C++).
+   The ConstantRange seems easiest (and most appropriate for C++). Then just the range concepts
+   can be used; on the negative side we do not have compile-time constants.
 
   \todo Precise formulation of ConstantSequence:
 
