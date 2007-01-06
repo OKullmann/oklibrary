@@ -6,10 +6,6 @@
 /*!
   \file Concepts/ConceptsMetafunctions.hpp
   \brief Metafunctions concerning the relations between concepts, concept tags and models; used mainly internally.
-
-  \todo Perhaps a metafunction computing the concept-tag-class from a concept class would
-  be useful?
-  \todo Should tr1/type_traits completely replace boost/type_traits.hpp?
 */
 
 #include <tr1/type_traits>

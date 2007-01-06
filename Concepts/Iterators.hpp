@@ -6,9 +6,6 @@
 
   All concepts here are (as usual) derived from BasicRequirements.
 
-  \todo Write concepts for
-   -  InputIteratorDefault (refines InputIterator and ConstructibleDEq; i == Iterator() is
-   - in the domain of ==; Iterator() is past-the-end.
 */
 
 #ifndef ITERATORS_jnNzWz31
@@ -21,10 +18,7 @@
 #include <Transitional/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
-
-   
 
   }
 
