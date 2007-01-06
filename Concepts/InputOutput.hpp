@@ -9,12 +9,11 @@
 #define INPUTOUTPUT_88uUHhbg
 
 #include <ostream>
-#include <istream>
+//#include <istream>
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     struct OutputStreamable_tag : ConceptsBase_tag {};
