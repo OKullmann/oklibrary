@@ -5,6 +5,6 @@
   \brief Plans for the buildsystem-makefile
 
   \todo Directories with makefile-links:
-  Improve generic_dirs
+  Improve generic_dirs (OK: what does this mean?)
 */
 
