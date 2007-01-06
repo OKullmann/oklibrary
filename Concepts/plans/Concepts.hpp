@@ -8,27 +8,28 @@
 
    - Concepts/AtomicConditions.hpp : DONE
    - Concepts/Basics.hpp : DONE
-   - Concepts/ConceptsBase.hpp : 
-   - Concepts/ConceptsMetafunctions.hpp : 
-   - Concepts/InputOutput.hpp : 
-   - Concepts/Iterators.hpp : 
+   - Concepts/ConceptsBase.hpp : DONE
+   - Concepts/ConceptsMetafunctions.hpp : DONE
+   - Concepts/InputOutput.hpp : DONE
+   - Concepts/Iterators.hpp : DONE
+   - Concepts/JoinedConceptTags : 
    - Concepts/LibraryBasics.hpp : DONE
-   - Concepts/Literals.hpp :
-   - Concepts/PartialAssignments.hpp :
-   - Concepts/RefactoringIncludeHandling.hpp : 
+   - Concepts/Literals.hpp : DONE
+   - Concepts/RefactoringIncludeHandling.hpp : DONE
    - Concepts/ResultElements.hpp :
    - Concepts/plans/Variables.hpp :
    - Concepts/std_Basics.hpp :
    - Concepts/std_Container.hpp :
    - Concepts/std_Iterators.hpp :
 
-   - Concepts/plans/ActiveClauseSets.hpp :
+   - Concepts/plans/ActiveClauseSets.hpp : DONE
    - Concepts/plans/Assignments.hpp :
    - Concepts/plans/BigIntegers.hpp :
    - Concepts/plans/BipartiteGraphs.hpp :
    - Concepts/plans/ClauseSets.hpp :
    - Concepts/plans/Clauses.hpp :
    - Concepts/plans/Hypergraphs.hpp :
+   - Concepts/plans/PartialAssignments.hpp : DONE
 
   \todo Develop concepts:
    - atomic conditions

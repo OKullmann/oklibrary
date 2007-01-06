@@ -5,7 +5,6 @@
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 
 #include <Transitional/Concepts/std_Iterators_Testobjects.hpp>
-#include <Transitional/Concepts/Iterators_Testobjects.hpp>
 #include <Transitional/Concepts/std_Basics_Testobjects.hpp>
 #include <Transitional/Concepts/Basics_Testobjects.hpp>
 #include <Transitional/Concepts/ConceptsMetafunctions_Testobjects.hpp>
