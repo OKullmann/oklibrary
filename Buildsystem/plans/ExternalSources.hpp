@@ -61,9 +61,6 @@
      of the pgsql-version should be needed).
    - A detailed user-manual is needed (on how to use the installed database).
 
-  \todo Tools
-   - Investigate the NiX system (a system for managing libraries).
-
   \todo Other sources:
    - Build a local version of Xerces.
    - Build a local version of gmp.
@@ -72,5 +69,9 @@
      and tulip.
    - SOCI (soci.sourceforge.net) ?
    - gcc-xml (www.gccxml.org) ?
+
+  \todo Tools
+   - Investigate the NiX system (a system for managing libraries).
+
 
 */
