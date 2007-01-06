@@ -59,8 +59,8 @@
   (see Transitional/InputOutput/plans/milestones.hpp)
   \par Expand the following milestones regarding SAT-algorithms
 
-  \subsection VersionTransitional013 0.1.3
-  \par Buildsystem version 0.1.4 (MH)
+  \subsection VersionTransitional013 0.1.3 : TO BE REACHED 14.2.2007
+  \par Buildsystem version 0.1.4 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.4 (OK)
   (see Messages/plans/milestones.hpp)
