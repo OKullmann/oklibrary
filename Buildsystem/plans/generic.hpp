@@ -19,99 +19,103 @@
   Check the inline documentation of generic.mak (there seem to be
   some left-overs).
     
-   \todo General clean-up of make-variables
+  \todo General clean-up of make-variables
    <ul>
-   <li> 
-   (MH) There should be a scheme for the naming of variables which
-   distinguishes those variables : 
-   <ol>
-   <li> which are internal (purely for the use of the build system), </li>
-   <li> which are mostly for internal use of the build system, but
-   can be redefined by the user with suitable precaution. </li>
-   <li> which are intended for use by the user, typically to specify
-   options.</li>
-   </ol>   
+    <li> 
+    (MH) There should be a scheme for the naming of variables which
+    distinguishes those variables : 
+     <ol>
+      <li> which are internal (purely for the use of the build system), </li>
+      <li> which are mostly for internal use of the build system, but
+      can be redefined by the user with suitable precaution. </li>
+      <li> which are intended for use by the user, typically to specify
+      options.</li>
+     </ol>   
 
-   (OK : why are you using "-#" ?)
-   (MH : This is how to create numbered lists in Doxygen. You prefer to
-   just write the numbers?)
+     (OK : why are you using "-#" ?)
+     (MH : This is how to create numbered lists in Doxygen. You prefer to
+     just write the numbers?)
    
-   ################### PROBLEM: It seems MH is using tab-stops?
-   ################### Those must be disabled!
+     ################### PROBLEM: It seems MH is using tab-stops?
+     ################### Those must be disabled!
    
-   One possible scheme is:
-   <ol>
-   <li> _variable (lowercase with preceeding underscore)</li>
-   <li> variable (lowercase) </li>
-   <li> Variable (uppercase first character) </li>
-   </ol>   
+     One possible scheme is:
+     <ol>
+      <li> _variable (lowercase with preceeding underscore)</li>
+      <li> variable (lowercase) </li>
+      <li> Variable (uppercase first character) </li>
+     </ol>   
 
-   (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
-   is better.
+     (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
+     is better.
    
-   (MH) An alternative scheme then:
-   <ol>
-   <li> variable_ </li>
-   <li> variable </li>
-   <li> Variable </li>
-   </ol>   
+     (MH) An alternative scheme then:
+     <ol>
+      <li> variable_ </li>
+      <li> variable </li>
+      <li> Variable </li>
+     </ol>   
 
-   The uppercase first variables have actually often default values (namely
-   the all-uppercase environment variables). So this explanation is not really valid.
+     The uppercase first variables have actually often default values (namely
+     the all-uppercase environment variables). So this explanation is not really valid.
    
-   Perhaps the distinction aimed at is, that some variables can be tinkered with, but
-   one somehow need to know about them, while other variables have no function than
-   enabling the user to insert some options (for example for compilation).
-   </li>
+     Perhaps the distinction aimed at is, that some variables can be tinkered with, but
+     one somehow need to know about them, while other variables have no function than
+     enabling the user to insert some options (for example for compilation).
+    </li>
 
-   <li>
-   Perhaps first a complete list of make-variables and the status is needed here, to
-   see what we have.
-   </li>
+    <li>
+    Perhaps first a complete list of make-variables and the status is needed here, to
+    see what we have.
+    </li>
 
-   <li>            
-   (MH) Perhaps this should be postponed for a little while,
-   because the changes I propose under documentation and cleaning
-   involved changing many variable names and definitions.
-   </li>
+    <li>            
+    (MH) Perhaps this should be postponed for a little while,
+    because the changes I propose under documentation and cleaning
+    involved changing many variable names and definitions.
+    </li>
 
    </ul>
 
-  \todo  General_options:
+  \todo General_options:
   The current function of "General_options" is taken over by the new variable "Debug_options".
 
   \todo Linking and options:
   <ul>
-  <li>
-  Which compiler options are effective when linking? "Our" options are 
-  <ul>
-  <li> -ansi (cc1plus) </li>
-  <li> -pedantic (cc1plus)</li>
-  <li> -Wall (cc1plus)</li>
-  <li> -g (cc1plus) (mentioned as "ignored" in the ld man page)</li>
-  <li> -03 (cc1plus)</li>
-  <li> -DNDEBUG (cc1plus)</li>
-  </ul>
+   <li>
+   Which compiler options are effective when linking? "Our" options are 
+   <ul>
+    <li> -ansi (cc1plus) </li>
+    <li> -pedantic (cc1plus)</li>
+    <li> -Wall (cc1plus)</li>
+    <li> -g (cc1plus) (mentioned as "ignored" in the ld man page)</li>
+    <li> -03 (cc1plus)</li>
+    <li> -DNDEBUG (cc1plus)</li>
+   </ul>
   
-  Here, the names in brackets indicate, in the
-  case of ld (linker) and cpp (preprocessor), the executables whose man 
-  page documents the option and, in the case of cc1plus whether the help
-  file documents the option.
+   Here, the names in brackets indicate, in the
+   case of ld (linker) and cpp (preprocessor), the executables whose man 
+   page documents the option and, in the case of cc1plus whether the help
+   file documents the option.
   
-  It seems, at first glance, that all of "our" options are only effective
-  for the compiler.</li>
+   It seems, at first glance, that all of "our" options are only effective
+   for the compiler.</li>
   
-  <li>
-  CXXFLAGS is not used when linking the compilation units together --- is this
+   <li>
+   CXXFLAGS is not used when linking the compilation units together --- is this
    how it should be, and how to set options for the linking stage?!
    </li>
-   </ul>
+  </ul>
 
   \todo Log directory:
   SystemDirectories gets a new sub-directory log, where the current
   aux/DoxygenErrorMessages is placed. Every run of make copies it
   output by default (can be switched off) into a file
   log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
+  <ul>
+   <li> One possibility to achieve this is by letting makefile_recursive calling makefile_generic
+   with appropriately redirected output. </li>
+  </ul>
   
   \todo Cleaning:
     - We need cleaning tools which clean up directories (not single files).
@@ -214,13 +218,14 @@
       At least we should have the option.
 
   \todo Directory structure:
-    - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each with its own
-      generic sub-directories "plans", "tests" and "messages". However only at the base level we have the
-      sub-directories "testobjects", "applications" and "implementations", which contain (only) .cpp (and .c) files.
-      Every file in applications implements main(), and no other files. Compiled testobject-files go to lib/tests/Module,
-      compiled implementations go to lib, compiled test-programs go to bin/tests, compiled applications go to bin.
-      Thus names for implementation files and application files need to be unique for the whole library, while
-      names for testobject-files need to be unique within a module
+    - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each
+      with its own generic sub-directories "plans", "tests" and "messages". However only at the base level
+      we have the sub-directories "testobjects", "applications" and "implementations", which contain (only)
+      .cpp (and .c) files. Every file in applications implements main(), and no other files. Compiled
+      testobject-files go to lib/tests/Module, compiled implementations go to lib, compiled test-programs go
+      to bin/tests, compiled applications go to bin. Thus names for implementation files and application files
+      need to be unique for the whole library, while names for testobject-files need to be unique within a module.
+    - Or we allow more freedom --- seems to be needed!
 
   \todo Test system:
     - The most immediate thing is to make the test system work correctly, which (at least?)
@@ -286,25 +291,12 @@
       of system_directories, internal make targets, running tests, 
       environment and system Make variables.
 
-  \todo Placement of makefile_generic:
-    - Except of in Buildsystem, all other makefile_generic-versions should be links. See makefile_recursive.
-    - A problem here is, that it seems that links are not handled by CVS ?
-    - We should perhaps call these (files resp. links to) makefile_generic "makefile_generic.mak", and
-      not just "makefile" (even if it's a bit inconvenient) ?!
-    - Currently makefile_generic takes special actions to ensure that it works the same
-      from wherever we call it. This seems to create some trouble, and doesn't seem
-      to be compatible with using links? So it should be abandoned? But then effectively
-      it doesn't make sense to call makefile_generic from another place, and one always
-      has to use cd first. One issue here is that the testsystem cannot any longer use
-      any local directories (since it won't find them); perhaps the solution is to provide
-      some central place for testdata.
-
   \todo OKsystem/Buildsystem structure:
    - Probably the directory makefile_generic_include should be elimated and
      it's subdirectories lifted to OKsystem/Buildsystem?
 
   \todo Targets:
-       - It should be possible to build just one application, or just one implementation.
+    - It should be possible to build just one application, or just one implementation.
 
   \todo Error messages of gcc should be processed:
     - We should support using a tool like TextFilt or STLFilt.
