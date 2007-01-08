@@ -72,6 +72,8 @@
   (see Graphs/plans/milestones.hpp)
   \par HypergraphColouring version 0.0.5 (OK (MH))
   (see HypergraphColouring/plans/milestones.hpp)
+  \par OKsolver_2_0 version 0.0.5 (OK (MH))
+  (see OKsolver_2_0/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK)
   (see QuantumPhysics/plans/milestones.hpp)
   \par Plans
