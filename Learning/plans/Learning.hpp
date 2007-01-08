@@ -41,7 +41,7 @@
   needed for r_3 (as usual, the more changes are done by r_3, the less we can save --- but
   then the reduction is successful).
 
-  \todo A question is whether in case of "intelligent backtracking" the clauses which where
+  \todo A question is whether in case of "intelligent backtracking" the learned clauses which where
   found to be not needed for the resolution refutation, are kept or deleted: One could keep
   them since they were "expensive".
 
@@ -49,7 +49,7 @@
   It is the backtracking algorithm which is choosing the decisions, managing the communication
   between the partial assignments and the active clause-sets and the alliance, and performing
   the backtracking; so this component should be responsible for *global learning* (while
-  the active clause-sets might perform "local learning" themselves. It seems attractive to
+  the active clause-sets might perform "local learning" themselves). It seems attractive to
   consider these algorithms themselves as constituting an active clause-set.
 
   \todo The learned clauses should be managed by a special active clause-sets L.
@@ -73,6 +73,11 @@
   resolution refutation; it seems sensible to use here the algorithm from the (old) OKsolver (see above):
   This algorithm yields for the current node in the search tree the set of variables involved
   in the current (first) part of the resolution tree.
+
+  So while the learned clauses C use only the decision variables, for the determination of the set of
+  variables used there is the full C' which contains also all derived variables, and we maintain
+  var(C') (modulo resolution) along the current path. This set var(C') of variables is crossed out
+  when searching for an autarky at first backtracking.
 */
 
 /*!
