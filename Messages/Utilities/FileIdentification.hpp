@@ -87,7 +87,7 @@ namespace OKlib {
           if (not date.empty()) {
             l_end(out); l_start(out) << "Datum der Programm-Übersetzung = " << date;
             if (not time.empty())
-              out << ", während Übersetzungszeit = " << time;
+              out << ", wobei Übersetzungszeit = " << time;
           }
           else if (not time.empty()) {
             l_end(out); l_start(out) << "Programm-Übersetzungszeit = " << time;
