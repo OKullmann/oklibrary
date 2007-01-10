@@ -2,7 +2,7 @@
 
 /*!
   \file Concepts/plans/InputOutput.hpp
-  \file Plans for concepts concerning general input/output.
+  \brief Plans for concepts concerning general input/output.
 
   \todo Transfer the tests to the new test system.
 

@@ -3,7 +3,7 @@
 /*!
   \file InjectivityConstraints/plans/milestones.hpp
 
-  \module_version 0.0.2 (23.11.2006)
+  \module_version InjectivityConstraints 0.0.2 (23.11.2006)
 
   \par Version 0.0.3
   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
