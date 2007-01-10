@@ -4,6 +4,12 @@
   \file TestSystem/TestExceptions_DesignStudy.hpp
   \brief Module providing test exceptions and test macros
 
+  Main components are:
+   - TestException
+   - OKLIB_LINE
+   - OKLIB_THROW
+   - OKLIB_TEST_EQUAL and similar tests
+   - OKLIB_TEST_RETHROW.
 */
 
 #ifndef TESTEXCEPTIONS_kjhytRe4
@@ -52,6 +58,9 @@ namespace OKlib {
 
       \todo Use Messages.
       \todo One could make class TestException also a message-class ?!
+      \todo Shouldn't we allow also at the other places in the call-stack to add a string
+      describing the special circumstances (not just at the place where the error occurred)?!
+      But this might be hard to achieve, and might be better realised by using the log-facilities?!
     */
 
     class TestException : public std::runtime_error {
@@ -94,16 +103,25 @@ namespace OKlib {
     // ######################################################
 
     /*!
-      \def OKLIB_TESTDESCRIPTION
-      \brief Basic internal macro to create a description of the circumstances of test failures.
+      \def OKLIB_LINE
+      \brief Macro to create a message object with the current line number
 
       \todo Explain its usage.
     */
 
 # define OKLIB_NUMBER(N) # N
     //! putting quotes around the line number
-# define OKLIB_INTERMEDIATE_TEST(X) OKLIB_NUMBER(X)
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(OKLIB_FILE_ID, new ::OKlib::Messages::Utilities::LineIdentification(OKLIB_INTERMEDIATE_TEST(__LINE__)), test_function_type_name, new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type())), depth()))
+# define OKLIB_INTERMEDIATE_LINE(X) OKLIB_NUMBER(X)
+# define OKLIB_LINE new ::OKlib::Messages::Utilities::LineIdentification(OKLIB_INTERMEDIATE_LINE(__LINE__))
+
+    /*!
+      \def OKLIB_TESTDESCRIPTION
+      \brief Basic internal macro to create a description of the circumstances of test failures.
+
+      \todo Explain its usage.
+    */
+
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(OKLIB_FILE_ID, OKLIB_LINE, test_function_type_name, new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type())), depth()))
 
     /*!
       \def OKLIB_THROW
