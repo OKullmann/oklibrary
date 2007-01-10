@@ -255,12 +255,21 @@
     </ul>
    <li> The different parts in OKplatform:
     <ul>
-     <li> As already mentioned in the point "External sources", optimally there is just one repository for the whole
-     library (containing the current three repositories Annotations, OKlibrary, Transitional, and the new
-     (sub-)repositories ExternalSources and Overview). Then we need the possibility to restrict access to parts of
-     the repository (so that annotations and Transitional are not public). </li>
+     <li> As already mentioned in the point "External sources", optimally there is just one repository
+     for the whole library (containing the current three repositories Annotations, OKlibrary, Transitional,
+     and the new (sub-)repositories ExternalSources and Overview). Then we need the possibility to restrict
+     access to parts of the repository (so that annotations and Transitional are not public). </li>
      <li> A problem is, that Annotations currently has public as well as non-public parts; likely this needs to be
      separated. </li>
+    </ul>
+   </li>
+   <li> A distributed version control system as integral part of the library:
+    <ul>
+     <li> The version control system is built by the library (ExternalSources). </li>
+     <li> One has to reflect on how an (external) user of the library might want to
+     extend the library (under the version control!). </li>
+     <li> Hopefully the distributed version control constitutes also the main part of the
+     update-solution for an external user (who extended the library)! </li>
     </ul>
    </li>
   </ul>
