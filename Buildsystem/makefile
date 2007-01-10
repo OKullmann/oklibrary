@@ -58,10 +58,12 @@ generic_links = $(addsuffix /makefile, $(generic_dirs))
 
 makefile_oksystem := $(OKsystem)/makefile
 makefile_externalsources := $(externalsourcesdir)/makefile
+makefile_annotations := $(Annotations_dir)/makefile
+makefile_transitional := $(OKsystem)/Transitional/makefile
 
 $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
-prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file) $(generic_links)
+prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file) $(generic_links) $(makefile_annotations) $(makefile_transitional)
 
 $(generic_links) : % :
 	- ln -s $(OKbuildsystem)/generic.mak $@
@@ -70,11 +72,16 @@ $(Directories) : % :
 	- mkdir $@
 
 $(makefile_oksystem) : $(OKbuildsystem)/OKsystem.mak
-	- cp $< $@
+	- ln -s $< $@
+
+$(makefile_annotations) : $(OKbuildsystem)/Annotations.mak
+	- ln -s $< $@
+
+$(makefile_transitional) : $(OKbuildsystem)/Transitional.mak
+	- ln -s $< $@
 
 $(makefile_externalsources) : $(OKbuildsystem)/ExternalSources.mak
 	- ln -s $< $@
 
 clean_links :
-	- rm $(generic_links)
-
+	- rm $(generic_links) $(makefile_oksystem) $(makefile_annotations) $(makefile_transitional) $(makefile_externalsources)
