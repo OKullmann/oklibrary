@@ -1,7 +1,7 @@
 // Oliver Kullmann, 17.12.2006 (Swansea)
 
 /*!
-  \file Message/LineHandling.hpp
+  \file Messages/LineHandling.hpp
   \brief General message-class for line-start and line-end handling
 */
 
@@ -18,12 +18,18 @@ namespace OKlib {
     /*!
       \class MessagesLines
       \brief Basic messages class, extending MessagesBase by additionally providing virtual functions for line-start and line-end
+
+      At the begin of a line use
+      "l_start(out);" or "l_start(out) << beginning_string;"
+      (for example to enable indentation), and for the end of a line use
+      "l_end(out);"
+      (for example to make it possible, that line-ends are replaced by spaces).
     */
 
     class MessagesLines : public MessagesBase {
     protected :
       virtual std::ostream& l_start(std::ostream& out) const {return out;}
-      virtual std::ostream& l_end(std::ostream& out) const {out << "\n"; return out;}
+      virtual void l_end(std::ostream& out) const {out << "\n";}
     };
 
     /*!
@@ -35,7 +41,7 @@ namespace OKlib {
       std::string prefix_, postfix_;
     protected :
       std::ostream& l_start(std::ostream& out) const {out << prefix_; return out;}
-      std::ostream& l_end(std::ostream& out) const {out << postfix_; return out;}
+      void l_end(std::ostream& out) const {out << postfix_;}
     public :
       MessagesPrePost() :
         prefix_(),
