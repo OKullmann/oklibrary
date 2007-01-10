@@ -4,6 +4,10 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
+  \todo Clean-up
+   - Old makefiles in Annotations and Transitional need to be removed.
+   - Old directory Buildsystem/makefile_generic_include needs removing.
+
   \todo makefile_generic_include
    - It seems to me that the subdirectory documentation should be renamed 
      documentation_building.
