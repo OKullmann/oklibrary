@@ -1,6 +1,71 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
+# ##################################
+# Usage
+# ##################################
+
+# Gcc
+
+# Install all versions of gcc:
+# make gcc_all
+# Install recommended version of gcc:
+# make gcc
+# Install a version of gcc (? is the version number):
+# make gcc-?
+
+# Boost
+
+# Install Boost locally with system gcc:
+# make boost_all (all supported versions of boost)
+# make boost (recommended version)
+# make boost boost_recommended=? (? is a version number like "1_33",
+# overriding the default)
+# For installing Boost locally with a version of gcc (% is the version number),
+# define
+# gcc-version=%
+# with % either the version-number (like "4.0.1") or "all" (for all supported
+# gcc-versions).
+# Finally with
+# make boost_gcc_all
+# all combinations of supported versions of boost with supported version of gcc
+# plus the system gcc are installed.
+
+# Mhash
+
+# make mhash (recommended version)
+# make mhash-? for building version number ?
+# make gcc-version=% mhash
+# with % either the version-number (like "4.0.1") or "all" (for all supported
+# gcc-versions).
+# make mhash_gcc_all
+# for building all versions of mhash with all versions of gcc.
+
+# PostgreSQL
+
+# make postgresql (recommended version)
+# make postgresql-?
+
+# Initialise a database and start the server (? is version number of postgresql):
+# Use the default location (postgresql-base-directory/?/data):
+# 	make pgsql-version=? initialise-database
+# Use a different location (% is the absolute path of the location to place the database):
+# 	make pgsql-version=? pgdata=% initialise-database
+
+# Doxygen
+
+# make doxygen (recommended version)
+# make doxygen-?
+
+# UBCSAT
+
+# make ubcsat
+
+# Valgrind
+
+# make valgrind (recommended version)
+# make valgrind-?
+
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
@@ -9,8 +74,8 @@ SHELL = /bin/sh
 #  Transitional/Buildsystem/makefile
 #  Transitional/Buildsystem/OKsystem.mak
 #  Transitional/Buildsystem/recursive.mak
-#  Transitional/makefile
-#  Annotations/makefile
+#  Transitional/Buildsystem/Transitional.mak
+#  Transitional/Buildsystem/Annotations.mak
 # ################################################################
 
 ifndef OKplatform
