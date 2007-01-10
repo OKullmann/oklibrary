@@ -17,6 +17,9 @@ namespace OKlib {
   namespace Concepts {
     namespace tests {
       
+# define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:14:00 $", "$Revision: 1.3 $")
+
       /*!
         \class AtomicCondition_basic
         \brief Basic tests for models of concept AtomicCondition
@@ -25,10 +28,8 @@ namespace OKlib {
       */
 
       template <class AC>
-      class AtomicCondition_basic : public ::OKlib::TestSystem::TestBase {
-        typedef ::OKlib::TestSystem::TestBase base_type;
-      public :
-        AtomicCondition_basic() : base_type(__FILE__, __LINE__, typeid(AtomicCondition_basic).name()) {}
+      OKLIB_TEST_CLASS(AtomicCondition_basic) {
+        OKLIB_TEST_CLASS_C(AtomicCondition_basic) {}
       private :
         void test(::OKlib::TestSystem::Basic) {
           OKLIB_MODELS_CONCEPT_REQUIRES(AC, AtomicCondition);
@@ -40,4 +41,5 @@ namespace OKlib {
   }
 }
 
+# undef OKLIB_FILE_ID
 #endif

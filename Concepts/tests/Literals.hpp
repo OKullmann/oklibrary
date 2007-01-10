@@ -17,6 +17,9 @@ namespace OKlib {
   namespace Concepts {
     namespace tests {
       
+# define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:14:00 $", "$Revision: 1.2 $")
+
       /*!
         \class Literals_basic
         \brief Basic tests for models of concept Literals
@@ -25,10 +28,8 @@ namespace OKlib {
       */
 
       template <class Lit>
-      class Literals_basic : public ::OKlib::TestSystem::TestBase {
-        typedef ::OKlib::TestSystem::TestBase base_type;
-      public :
-        Literals_basic() : base_type(__FILE__, __LINE__, typeid(Literals_basic).name()) {}
+      OKLIB_TEST_CLASS(Literals_basic) {
+        OKLIB_TEST_CLASS_C(Literals_basic) {}
       private :
         void test(::OKlib::TestSystem::Basic) {
           OKLIB_MODELS_CONCEPT_REQUIRES(Lit, Literals);
@@ -40,4 +41,5 @@ namespace OKlib {
   }
 }
 
+# undef OKLIB_FILE_ID
 #endif
