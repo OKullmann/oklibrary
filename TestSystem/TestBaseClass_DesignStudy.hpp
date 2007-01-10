@@ -6,6 +6,11 @@
 
   "Test-functions" test (higher) type parameters; they are used either by other test-functions,
   or they are used to create test objects, to be executed by TestSystem::RunTest.
+
+  Besides the base class TestBase of the test-class-hierarchy, macros
+   - OKLIB_TEST_CLASS
+   - OKLIB_TEST_CLASS_C
+  are defined to ease the definition of test classes.
 */
 
 #ifndef TESTBASECLASSTEMPORARY_8uXXzs
@@ -30,7 +35,7 @@ namespace OKlib {
   namespace TestSystem {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-    (__FILE__, __DATE__, __TIME__, "$Date: 2006/12/18 14:39:43 $", "$Revision: 1.5 $")
+    (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:25:49 $", "$Revision: 1.6 $")
 
     /*!
       \class TestBase
@@ -75,10 +80,12 @@ namespace OKlib {
       //! No assignment for objects of this class
       TestBase& operator=(const TestBase&);
 
-      //! Name of the source-code file containing the test-meta-function (fixed at construction time).
-      const char* const file_name;
+      typedef std::tr1::shared_ptr< ::OKlib::Messages::MessagesPrePost> MessagePointer;
+
+      //! Source-code file containing the test-meta-function (fixed at construction time).
+      const MessagePointer file;
       //! Line number where the test-meta-function declaration starts (w.r.t. file_name; fixed at construction time).
-      const ::OKlib::TestSystem::line_number_type line_number;
+      const MessagePointer line;
 
       //! Nesting depth for the test
       /*!  Initialised at construction to 0. Can be updated after construction via set_depth. */
@@ -95,7 +102,7 @@ namespace OKlib {
 
      protected :
 
-      //! Pointer to the test-level object
+      //! Pointer to the test-level object (a static constant, so no ownership issues)
       /*!
         Via this pointer we have access to the *original* test-level, so that nested test-meta-functions can perform
         tests at the original test-level (note that in the TestBase::test functions (see below) only the decayed
@@ -108,11 +115,11 @@ namespace OKlib {
 
       //! The only constructor
       TestBase(
-               const char* const file_name,
-               const ::OKlib::TestSystem::line_number_type line_number,
+               ::OKlib::Messages::Utilities::FileIdentification* const file_name,
+               ::OKlib::Messages::Utilities::LineIdentification* const line_number,
                const char* const test_function) :
-        file_name(file_name),
-        line_number(line_number),
+        file(file_name),
+        line(line_number),
         depth_(0),
         indentation(1),
         log_p(0),
@@ -169,7 +176,7 @@ namespace OKlib {
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::language(log));
         ::OKlib::Messages::MessagesBase::set(log_indent, ::OKlib::Messages::MessagesBase::level(log));
 
-        log_indent << ::OKlib::TestSystem::messages::BasicTestDescription(test_function_type_name, file_name, line_number, depth_, ::OKlib::TestSystem::test_level(TestLevel()));
+        log_indent << description();
         try {
           test(TestLevel());
         }
@@ -226,7 +233,43 @@ namespace OKlib {
       //! Access to the log-stream
       std::ostream& log_stream() { return *log_p; }
 
+      //! The basic description of the test class
+      ::OKlib::TestSystem::messages::BasicTestDescription description() const {
+        assert(level_p);
+        return ::OKlib::TestSystem::messages::BasicTestDescription(test_function_type_name, file, line, depth_, *level_p);
+      }
+
     };
+
+    /*!
+      \def OKLIB_TEST_CLASS
+      \brief Macro for the declaration of all test classes
+
+      Used together with OKLIB_TEST_CLASS_C.
+    */
+#define OKLIB_TEST_CLASS(X) class X : public ::OKlib::TestSystem::TestBase
+
+    /*!
+      \def OKLIB_TEST_CLASS_C
+      \brief Macro for the default constructor declaration of all test classes
+
+      Use as follows:
+
+      OKLIB_TEST_CLASS(TestClass) :
+        OKLIB_TEST_CLASS_C(TestClass) {}
+      private :
+
+        void test(::OKlib::TestSystem::Basic) { ... }
+      };
+
+      Remarks:
+       - There is still something to write, since only in this way the class
+         definition is "understandable" for XEmacs (regarding indentation and
+         bracketing).
+       - 
+    */
+#define OKLIB_TEST_CLASS_C(X) typedef ::OKlib::TestSystem::TestBase base_type; \
+  public : X() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(X).name())
 
   }
   
