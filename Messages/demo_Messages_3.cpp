@@ -2,7 +2,7 @@
 
 /*!
   \file Messages/demo_Messages_3.cpp
-  \brief Demonstration of usage of Messages-components with potential compilation error
+  \brief Demonstration of usage of Messages-components (with potential compilation error in case of missing implementations)
 */
 
 #include <sstream>
