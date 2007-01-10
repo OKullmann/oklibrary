@@ -9,9 +9,10 @@
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Make-variables for external libraries
     - Role of srcdir
-    - Linking to makefile_recursive
     - System documentation
     - Documentation (Examples and Concepts)
+    - makefile_generic_include (DONE)
+    - Linking to recursive.mak (DONE)
     - Naming of local definition makefiles (DONE)
     - Recommended versions (DONE)
 
@@ -28,18 +29,18 @@
     - OKsystem/Buildsystem structure
 
   \par
-   In Buildsystem/makefile_generic_include/documentation/plans/documentation.hpp
+   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
 
   \par
-   In Buildsystem/makefile_generic_include/documentation/plans/makefile_documentation_index.hpp
+   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
    the following topics are handled
-    - Different organisation
     - Version numbers
-    - Logo : DONE
+    - Different organisation (DONE)
+    - Logo (DONE)
     - OKlibrary link (DONE)
 
   \par
@@ -49,6 +50,7 @@
     - General
     - Gcc
     - Boost
+    - Usage documentation location (DONE)
   
   \par Version 0.1.4 : TO BE REACHED 14.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
