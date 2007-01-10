@@ -22,7 +22,7 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/02 16:50:05 $", "$Revision: 1.4 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:22:54 $", "$Revision: 1.5 $")
 
       /*!
         \class TestSystem
@@ -34,16 +34,22 @@ namespace OKlib {
         trivial messages).
       */
       
-      class TestSystem :  public ::OKlib::TestSystem::TestBase {
-        typedef ::OKlib::TestSystem::TestBase base_type;
-      public :
-        TestSystem() : base_type(__FILE__, __LINE__, typeid(TestSystem).name()) {}
+//       class TestSystem :  public ::OKlib::TestSystem::TestBase {
+//         typedef ::OKlib::TestSystem::TestBase base_type;
+//       public :
+//         TestSystem() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TestSystem).name()) {}
+//       private :
+
+      OKLIB_TEST_CLASS(TestSystem) {
+        OKLIB_TEST_CLASS_C(TestSystem) {}
       private :
 
-        struct LocalTest1 : public ::OKlib::TestSystem::TestBase {
+        OKLIB_TEST_CLASS(LocalTest1) {
           typedef ::OKlib::TestSystem::TestBase base_type;
           const int n;
-          LocalTest1(const int n) : base_type(__FILE__, __LINE__, typeid(LocalTest1).name()), n(n) {}
+        public :
+          LocalTest1(const int n) : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(LocalTest1).name()), n(n) {}
+        private :
           void test(::OKlib::TestSystem::Basic) {
             typedef OKlib::TestSystem::Basic level_type;
             OKLIB_TEST_EQUAL(n, 0);

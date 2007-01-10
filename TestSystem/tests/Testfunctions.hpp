@@ -18,12 +18,12 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2006/12/18 14:38:58 $", "$Revision: 1.3 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:22:54 $", "$Revision: 1.4 $")
     
       class Test1 : public ::OKlib::TestSystem::TestBase {
         typedef ::OKlib::TestSystem::TestBase base_type;
       public :
-        Test1() : base_type(__FILE__, __LINE__, typeid(Test1).name()) {}
+        Test1() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(Test1).name()) {}
       private :
         void test(::OKlib::TestSystem::Basic) {
           typedef ::OKlib::TestSystem::Basic level_type;
