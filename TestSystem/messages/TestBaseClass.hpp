@@ -10,9 +10,13 @@
 
 #include <cassert>
 #include <string>
+#include <tr1/memory>
 
 #include <Transitional/SystemSpecifics/Demangling.hpp>
 #include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Messages/LineHandling.hpp>
+#include <Transitional/Messages/Utilities/FileIdentification.hpp>
+#include <Transitional/Messages/Utilities/LineIdentification.hpp>
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/TestFondement.hpp>
@@ -30,56 +34,80 @@ namespace OKlib {
         \brief Outputs a description of the test (an identification of the
         test function, and nesting depth and test level).
 
-        \todo Use FileIdentification.
-        \todo Use message-class for type-names.
-        \todo While we use capitalise "Test function" etc., the test-level
-        comes out as "test level".
+        \todo While we use capitalised "Test function" etc., the test-level
+        comes out as "test level" etc..
       */
 
-      struct BasicTestDescription : ::OKlib::Messages::MessagesBase {
+      struct BasicTestDescription : ::OKlib::Messages::MessagesPrePost {
         OKLIB_MESSAGES_PRINT
 
-        const std::string type_name;
-        const char* const file_name;
-        const ::OKlib::TestSystem::line_number_type line_number;
-        const ::OKlib::TestSystem::depth_number_type depth;
-        const ::OKlib::TestSystem::TestLevel& test_level;
+      private :
+
+        typedef std::tr1::shared_ptr< ::OKlib::Messages::MessagesPrePost> MessagePointer;
+
+        std::string type_name;
+        MessagePointer file;
+        MessagePointer line;
+        ::OKlib::TestSystem::depth_number_type depth;
+        MessagePointer test_level_description;
+
+      public :
 
         BasicTestDescription(
                              const char* const type_name_mangled,
-                             const char* const file_name,
-                             const ::OKlib::TestSystem::line_number_type line_number,
-                             const ::OKlib::TestSystem::depth_number_type depth,
+                             ::OKlib::Messages::Utilities::FileIdentification* const file_name,
+                             ::OKlib::Messages::Utilities::LineIdentification* const line_number,
+                             const ::OKlib::TestSystem::depth_number_type test_depth,
                              const ::OKlib::TestSystem::TestLevel& test_level) :
           type_name(::OKlib::SystemSpecifics::Demangle()(type_name_mangled)),
-          file_name(file_name),
-          line_number(line_number),
-          depth(depth),
-          test_level(test_level)
+          file(file_name),
+          line(line_number),
+          depth(test_depth),
+          test_level_description(new ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level))
+        {}
+        BasicTestDescription(
+                             const char* const type_name_mangled,
+                             const MessagePointer file_name,
+                             const MessagePointer line_number,
+                             const ::OKlib::TestSystem::depth_number_type test_depth,
+                             const ::OKlib::TestSystem::TestLevel& test_level) :
+          type_name(::OKlib::SystemSpecifics::Demangle()(type_name_mangled)),
+          file(file_name),
+          line(line_number),
+          depth(test_depth),
+          test_level_description(new ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level))
         {}
 
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
-          out << "Test function = " << type_name.c_str() << "\n";
-          out << "Test depth = " << depth << std::endl;
+          l_start(out) << "Test class = " << type_name.c_str(); l_end(out);
+          l_start(out) << "Test depth = " << depth; l_end(out);
+          out.flush();
         }
         void print(std::ostream& out, L<en_GB>, S<Full>) const {
-          out << "Test function = " << type_name.c_str() << "\n";
-          out << "Test depth = " << depth << std::endl;
-          out << "File name = " << file_name << "\n";
-          out << "Line number = " << line_number << "\n";
-          out << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
+          assert(file.get());
+          assert(line.get());
+          assert(test_level_description.get());
+          print(out, L<en_GB>(), S<Basic>());
+          l_start(out) << *file; l_end(out);
+          l_start(out) << *line; l_end(out);
+          l_start(out) << *test_level_description; l_end(out);
+          out.flush();
         }
 
         void print(std::ostream& out, L<de_DE>, S<Basic>) const {
-          out << "Testfunktion = " << type_name.c_str() << "\n";
-          out << "Testtiefe = " << depth << std::endl;
+          l_start(out) << "Testklasse = " << type_name.c_str(); l_end(out);
+          l_start(out) << "Testtiefe = " << depth; l_end(out);
+          out.flush();
         }
         void print(std::ostream& out, L<de_DE>, S<Full>) const {
-          out << "Testfunktion = " << type_name.c_str() << "\n";
-          out << "Testtiefe = " << depth << std::endl;
-          out << "Dateiname = " << file_name << "\n";
-          out << "Zeilennummer = " << line_number << "\n";
-          out << ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level) << "\n";
+          assert(file.get());
+          assert(line.get());
+          assert(test_level_description.get());
+          print(out, L<de_DE>(), S<Basic>());
+          l_start(out) << *file; l_end(out);
+          l_start(out) << *line; l_end(out);
+          l_start(out) << *test_level_description; l_end(out);
+          out.flush();
         }
 
       };
@@ -88,7 +116,7 @@ namespace OKlib {
         \class LogDescription
         \brief Outputs a description of the circumstances of a log-message
 
-        \todo How is ownership of the test-level object handled here?
+        \todo How is ownership of the test-level object handled here? See BasicTestDescription.
         \todo Use FileIdentification, and also a messages-class for line-numbers etc.
       */
 
