@@ -11,11 +11,13 @@
 
   \bug Building Boost
 
+  <ul>
+  <li>
   Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
   3.4.6 for example) doesn't work anymore, but there are linking errors.
   It seems that on csltok everything works, so that it could be a
   64bit thing.
-
+  
   What did change?? And it seems that gcc versions for example 4.1.1
   do work?? Since versions below 4.0.0 don't work, while above work,
   it seems that the system-gcc (4.0.2) interferes; perhaps it tries to
@@ -26,6 +28,8 @@
 
   We should check in general whether building boost links to the 32bit
   or to the 64bit version.
+  </li>
+  </ul>
 
   \todo General
    - It would ge good, if after doing a local installation, easily the installation could also be
@@ -41,9 +45,9 @@
      an error).
    - We must understand, how gcc interacts with 32- and 64-bit environments, and how to
      take control of this.
-   - Building gcc should be outsourced to ExternalSources/makefile_gcc.mak.
    - There should be make-variables, which allow control over some settings for the
      compilation of gcc.
+     - Building gcc should be outsourced to ExternalSources/makefile_gcc.mak. (DONE)
 
   \todo Boost
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
@@ -53,7 +57,7 @@
      the distribution directory?
    - Building boost should include copying the documentation to doc (in the subdirectory
      boost-1_33_1 for example).
-   - Building Boost should be outsourced to ExternalSources/makefile_Boost.mak.
+   - Building Boost should be outsourced to ExternalSources/makefile_Boost.mak.(DONE)
 
   \todo PostgreSQL
    - Update PostgreSQL to version 8.1 (or later; and test it).
@@ -72,6 +76,12 @@
 
   \todo Tools
    - Investigate the NiX system (a system for managing libraries).
+
+  \todo Usage documentation location
+   - The appropriate location for the usage documentation should be
+     in the file Buildsystem/ExternalSources.hpp not distributed over
+     the makefiles in Buildsystem/ExternalSources. Because that is the
+     makefile which the user really uses.
 
 
 */

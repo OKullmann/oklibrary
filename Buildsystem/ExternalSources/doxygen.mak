@@ -2,13 +2,6 @@
 # filename : Buildsystem/ExternalSources/makefile_doxygen.mak 
 
 # ##################################
-# Usage
-# ##################################
-
-# make doxygen (recommended version)
-# make doxygen-?
-
-# ##################################
 # Versions
 # ##################################
 

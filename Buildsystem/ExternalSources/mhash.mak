@@ -2,18 +2,6 @@
 # filename : Buildsystem/ExternalSources/makefile_mhash.mak
 
 # ##################################
-# Usage
-# ##################################
-
-# make mhash (recommended version)
-# make mhash-? for building version number ?
-# make gcc-version=% mhash
-# with % either the version-number (like "4.0.1") or "all" (for all supported
-# gcc-versions).
-# make mhash_gcc_all
-# for building all versions of mhash with all versions of gcc.
-
-# ##################################
 # Targets
 # ##################################
 

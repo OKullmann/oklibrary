@@ -2,19 +2,6 @@
 # filename : Buildsystem/ExternalSources/makefile_gcc.mak
 
 # ##################################
-# Usage
-# ##################################
-
-# Gcc
-
-# Install all versions of gcc:
-# make gcc_all
-# Install recommended version of gcc:
-# make gcc
-# Install a version of gcc (? is the version number):
-# make gcc-? 
-
-# ##################################
 # Versions
 # ##################################
 

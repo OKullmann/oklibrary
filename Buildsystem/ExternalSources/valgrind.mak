@@ -2,15 +2,6 @@
 # filename : Buildsystem/ExternalSources/makefile_valgrind.mak
 
 # ##################################
-# Usage
-# ##################################
-
-# Valgrind
-
-# make valgrind (recommended version)
-# make valgrind-?
-
-# ##################################
 # Versions
 # ##################################
 

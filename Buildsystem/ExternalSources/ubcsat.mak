@@ -2,12 +2,6 @@
 # filename : BuildSystem/ExternalSources/makefile_ubcsat.mak
 
 # ##################################
-# Usage
-# ##################################
-
-# make ubcsat
-
-# ##################################
 # Targets
 # ##################################
 
