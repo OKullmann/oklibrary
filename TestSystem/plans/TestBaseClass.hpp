@@ -4,11 +4,9 @@
   \file TestSystem/plans/TestBaseClass.hpp
   \brief Plans for the module with the (user) base of the test hierarchy
 
-  \todo Log-Messages:
-  Replace TestBase::log_message in all tests by TestBase::log (potentially
-  updating TestBase::log), and then remove TestBase::log_message :
-   - Upgrade all uses of TestBase::log_message to TestBase::log : DONE
-   - Eliminate the log-argument from the test-function (after log_message has been eliminated) : DONE
+  \todo TestSystem::messages::LogDescription
+  (in TestSystem/messages/TestBaseClass.hpp):
+  Update the implementation.
 
   \todo Messages:
   - Write true message-classes, not just "trivial messages".
@@ -22,7 +20,7 @@
   In case an unknown exception is thrown, there should be a global option to
   let this exception through (perhaps kind of a "handler").
 
-  \todo Encapsulation
+  \todo Encapsulation:
   It would be desirable to have TestBase::set_depth and TestBase::log_stream private
   (both functions are only used by OKLIB_TEST_RETHROW), since they belong only to the
   test-system. Perhaps we have a protected member-function in TestBase, which is used
