@@ -17,6 +17,11 @@
   Using the macro OKLIB_MESSAGES_PRINT, doxygen misunderstands it as belonging to
   the following member --- how to correct this behaviour of doxygen?
 
+  \todo Demonstrations:
+  We need demonstrations for all components provided by this module (for example
+  LineHandling is not handled yet). Also an overview on the demonstrations is
+  needed.
+
 */
 
 /*!
