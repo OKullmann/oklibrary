@@ -19,5 +19,5 @@ programs := HashMD5
 
 source_libraries = $(Mhash_include)
 
-link_libraries := -L$(Mhash)/lib -lmhash
+link_libraries := -L$(Mhash)/lib -lmhash -Wl,-rpath,$(Mhash)/lib 
 
