@@ -4,18 +4,39 @@
   \file TestSystem/plans/TestExceptions.hpp
   \brief Plans for the module providing test macros
 
-  \todo TestSystem::ErrorDescription (in TestSystem/messages/TestExceptions.hpp) :
-   - type_test_class is not output in the readable form --- likely we need a
-     message-class for printing types here.
-   - Use messages.
-   - Likely ErrorDescription should be derived from MessagesPrePost.
-   - Test it!
-   - ErrorDescription should use components from
-     Messages/Utilities for identification of lines: DONE
-   - Ownership of level_description needs to be managed : Now std::shared_ptr used. DONE
-   - Is the explicit definition of the copy constructor needed? Because of the auto-pointer-element,
-     which has only a X&-copy-constructor, the implicitely declared copy-constructor has also type
-     X& : Now not needed anymore, since std::auto-ptr was replaced by std::shared_ptr. DONE
+  \todo TestSystem::messages::ErrorDescription
+  (in TestSystem/messages/TestExceptions.hpp) :
+  <ul>
+   <li> Shouldn't ErrorDescription refer to the BasicTestDescription of the
+   test class ?! So that it consists of the BasicTestDescription plus
+   identification of the place where the exception was thrown?!
+   More precisely, besides BasicTestDescription we have
+   <ul>
+    <li> file </li>
+    <li> line. </li>
+   </ul>
+   Output is then BasicTestDescription plus
+   <ul>
+    <li> line for basic </li>
+    <li> line, file for full. </li>
+   </ul>
+   </li>
+   <li> Shouldn't the indentation level be set from the outside (so you can
+   have indentation or not --- currently we are forced to have it) ?! </li>
+   <li> Use messages. </li>
+   <li> Test it! </li>
+   <li> type_test_class is not output in the readable form --- perhaps we
+   need a message-class for printing types here : Demangled (but (yet) no
+   specialised message class for it). DONE </li>
+   <li> Likely ErrorDescription should be derived from MessagesPrePost : DONE </li>
+   <li> ErrorDescription should use components from Messages/Utilities
+   for identification of lines: DONE </li>
+   <li> Ownership of level_description needs to be managed : Now std::shared_ptr used. DONE </li>
+   <li> Is the explicit definition of the copy constructor needed? Because of
+   the auto-pointer-element, which has only a X&-copy-constructor, the
+   implicitely declared copy-constructor has also type X& : Now not
+   needed anymore, since std::auto-ptr was replaced by std::shared_ptr. DONE </li>
+  </ul>
 
   \todo TestSystem::TestException :
    Investigate, whether it should use Messages for internal purposes, and (perhaps) also for the
