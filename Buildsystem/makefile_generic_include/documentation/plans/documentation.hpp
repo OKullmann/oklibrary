@@ -30,6 +30,9 @@
   which is not needed; should be fairly easy).
 
   \todo Doxygen general:
+   - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
+     the tag EXPAND_AS_DEFINED (since we do not alter the definitions), however this
+     does not work?
    - Can doxygen tell which other files include a file (not in graph form, but in text form)?
    - For functions there is a "callergraph" --- shall we use it?
    - How to avoid that a leading "include" in a Doxygen-comment is interpreted as
@@ -42,7 +45,8 @@
      this item.
    - It appears that all .cpp-files are considered as linked together?
    - Can makefiles be incorporated?!
-   - See the doxygen-related problems in Messages.
+   - See the doxygen-related problems in Messages (should be solvable by expanding those
+     macros).
    - What is the role of the doxygen configuration tag BUILTIN_STL_SUPPORT?
      Should we enable this? : Enabled; it should help --- check.
    - Can we have nested lists? Numbered lists? These things should go into
