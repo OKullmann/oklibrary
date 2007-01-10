@@ -11,8 +11,8 @@ SHELL = /bin/sh
 #  Transitional/Buildsystem/makefile
 #  Transitional/Buildsystem/OKsystem.mak
 #  Transitional/Buildsystem/recursive.mak
-#  Transitional/makefile
-#  Annotations/makefile
+#  Transitional/Buildsystem/Transitional.mak
+#  Transitional/Buildsystem/Annotations.mak
 # ################################################################
 
 ifndef OKplatform
