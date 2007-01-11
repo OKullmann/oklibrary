@@ -82,19 +82,19 @@ documentation_index_head := $(title_element) $(style_element)
 # OKlibrary Documentation Division
 # ##################################################
 
-OKlibrary_documentation_division := "<div id=\"OKlibrary_doc\"><h2>OKlibrary Documentation</h2>"$(list_of_OKlibrary_documentation_link_elements)"</div>"
+OKlibrary_documentation_division := "<div id=\"OKlibrary_doc\"><h4>OKlibrary Documentation</h4>"$(list_of_OKlibrary_documentation_link_elements)"</div>"
 
 # ##################################################
 # Local Documentation Index Division
 # ##################################################
 
-local_index_division := "<div id=\"local_index\"> <h2>Local Documentation</h2> "$(list_of_local_index_link_elements)"</div>"
+local_index_division := "<div id=\"local_index\"><h4>Local Documentation</h4> "$(list_of_local_index_link_elements)"</div>"
 
 # ##################################################
 # WWW Homepage Index Division
 # ##################################################
 
-homepage_division := "<div id=\"homepages\"><h2>WWW</h2> "$(list_of_homepage_link_elements)" </div>"
+homepage_division := "<div id=\"homepages\"><h4>WWW</h4> "$(list_of_homepage_link_elements)" </div>"
 
 # ##################################################
 # Wrapper division for local and WWW documentation
@@ -107,21 +107,19 @@ external_documentation_division := "<div id=\"external_doc\">"$(local_index_divi
 # ##################################################
 
 logo_image_location := $(OKbuildsystem)/Generic/documentation_building/documentation_index_resources/logo.png
-logo_division := "<div id=\"logo\"><img src=\" $(logo_image_location) \"/> </div>"
+logo_division := "<div id=\"logo\"><img src=\"$(logo_image_location)\"/> </div>"
 
 # ##################################################
 # Version Number Division
 # ##################################################
 
-version_number_element := "Transitional Version 0.1.0"
-version_number_division := "<div id=\"vn\"> "$(version_number_element)" </div> "
+version_number := "<h2>Transitional Version 0.1.0</h2>"
 
 # ##################################################
-# Subtitle Division
+# Subtitle
 # ##################################################
 
-subtitle := "An algorithmic platform for efficient satisfiability-based problem solving."
-subtitle_division := "<div id=\"subtitle\"> "$(subtitle)" </div>"
+subtitle := "<h3>An algorithmic platform for efficient satisfiability-based problem solving.</h3>"
 
 # ##################################################
 # Footer division
@@ -130,15 +128,21 @@ subtitle_division := "<div id=\"subtitle\"> "$(subtitle)" </div>"
 footer_division := "<div id=\"footer\"></div>"
 
 # ##################################################
+# Documentation Wrapper Division
+# ##################################################
+
+
+documentation_navigation := "<div id=\"doc_navigation\"> "$(OKlibrary_documentation_division)"  "$(external_documentation_division)"  </div>"
+
+# ##################################################
 # Body
 # ##################################################
 
-documentation_index_body := $(logo_division) \
-                            $(version_number_division) \
-                            $(subtitle_division) \
-                            $(OKlibrary_documentation_division) \
-                            $(external_documentation_division) \
-                            $(footer_division)
+documentation_index_body := "<div id=\"content\"> "$(logo_division)" \
+                            "$(version_number)" \
+                            "$(subtitle)" \
+                            "$(documentation_navigation)" \
+                            "$(footer_division)" </div>"
 
 # ##################################################
 # Main target for creating index

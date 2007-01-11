@@ -1,33 +1,47 @@
-body {color:#4A2885; background:#E8ECDC;
-  font-family:sans-serif;
-  font-size:11pt;  }
+body { 
+  color:#4A2885;
+  background:#E8ECDC;
+  font-family:sans-serif;  }
 
-h2 { font-size:12pt; }
-
-a:link { font-weight:normal; 
+a:link { 
+  font-weight:normal; 
   color:#190438; 
   text-decoration:underline }
 
-a:visited { font-weight:normal; 
+a:visited {
+  font-weight:normal; 
   color:#190438; 
   text-decoration:underline }
 
-a:hover { font-weight:normal; 
+a:hover { 
+  font-weight:normal; 
   color:#dc9000; 
   text-decoration:underline }
+
+#content { 
+  width:85%; 
+  min-width:720px;
+  margin: 0 auto;
+  text-align: center; }
 
 #logo { 
   width:100%;
   min-width:500px;
   height:150px; } 
 
-#vn { padding-left:10px;
-      min-width:500px; }
+#vn { 
+  padding-left:10px;
+  min-width:500px; }
 
 #subtitle { 
   padding-left:10px;
   font-style:italic;
   min-width:500px; }
+
+#doc_navigation {   
+  width : 500px; 
+  margin: 0 auto;
+  text-align: center;  }
 
 #OKlibrary_doc {
   width:10em;
@@ -36,10 +50,11 @@ a:hover { font-weight:normal;
   padding-right:10px;
   min-width:10em;}
 
-#OKlibrary_doc a { display:block; }
+#OKlibrary_doc a { 
+  display:block; }
 
 #external_documentation_division { 
-   float:right;}
+  float:right;}
 
 #local_index { 
   width:10em; 
@@ -47,7 +62,8 @@ a:hover { font-weight:normal;
   padding-right:10px;
   min-width:10em;}
 
-#local_index a { display:block; }
+#local_index a { 
+  display:block; }
 
 #homepages {
   width:10em;
@@ -55,9 +71,11 @@ a:hover { font-weight:normal;
   padding-right:10px;
   min-width:10em;}
 
-#homepages a { display:block; }
+#homepages a { 
+  display:block; }
 
-#footer { clear:both; }
+#footer { 
+  clear:both; }
 
 
  
