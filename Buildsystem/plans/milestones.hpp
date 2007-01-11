@@ -35,6 +35,7 @@
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
+    - Local documentation : regarding system_directories/doc/index.html (DONE)
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
@@ -46,6 +47,7 @@
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Building gcc_doc 
     - Corrections mhash
     - Building Boost
     - General
