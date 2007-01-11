@@ -4,30 +4,22 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
   \brief Plans for documentation-creation
 
-  \bug Building gcc_doc does not work (that is, the link at
-  system_directories/doc/index.html is not working),
-  since apparently the man-pages need to be build.
-  QUESTION (OK): Shouldn't this bug be in the plans for ExternalSources ??
-
   \todo Local documentation : regarding system_directories/doc/index.html
   <ul>
   <li> A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
        is responsible for extracting and building all the external sources
-       documentation OKplatform/ExternalSources/doc. Currently this makefile
-       handles Doxygen and Boost and needs to be extended to handle those
-       other external sources (Gcc, Mhash, Postgresql, UBCSAT)
-       QUESTION (OK): Isn't this done ??
+       documentation OKplatform/ExternalSources/doc. (DONE)
   </li>
   <li> See the above bugs. </li>
   </ul>
 
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
-   - Documentation for Gcc, Mhash, Postgresql
-   QUESTION (OK): Isn't this done ??
+   - Documentation for Mhash, Postgresql, UBCSAT
+   QUESTION (OK): Isn't this done ?? (MH) : Not yet.
 
   \todo Building documentation:
-  We should extract only the documentation from the archives (and remove everything else
-  which is not needed; should be fairly easy).
+   - We should extract only the documentation from the archives (and remove everything else
+     which is not needed; should be fairly easy).
 
   \todo Doxygen general:
    - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
