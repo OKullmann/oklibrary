@@ -4,10 +4,18 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \bug Building gcc_doc 
+   - does not work (that is, the link at
+     system_directories/doc/index.html is not working),
+     since apparently the man-pages need to be build.
+  
   \todo Corrections mhash
 
    - We need some user-information for mhash (how to use the installed files).
    - It seems that cleanmhash should also remove the installation directory.
+     (MH) Isn't it the case that we want cleanmhash only to remove the build
+     directory - so that the local installation can still be used after cleaning?
+     Then to clean everything there is already the target "cleanallmhash".
 
   \bug Building Boost
 
