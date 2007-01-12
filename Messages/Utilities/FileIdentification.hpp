@@ -66,6 +66,8 @@ namespace OKlib {
           print_version(out, L());
         }
 
+      private :
+
         void print_file(std::ostream& out, L<en_GB>) const {
           l_start(out) << "file name = " << file;
         }
@@ -124,8 +126,6 @@ namespace OKlib {
           s.erase(s.size() - end.size());
           return s;
         }
-
-      private :
 
         std::string file;
         std::string date;
