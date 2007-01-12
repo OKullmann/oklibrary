@@ -41,8 +41,15 @@
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.3 (OK (MH, ML))
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.3 (OK (MH, ML))
+  \par Concepts version 0.1.2 (OK (MH, ML))
   (see Concepts/plans/milestones.hpp)
+  \par AutarkySearch version 0.0.6 (ML (OK))
+  (see AutarkySearch/plans/milestones.hpp)
+  \par InputOutput version 0.0.8 (OK (MH, ML))
+  (see Transitional/InputOutput/plans/milestones.hpp)
+  \par Expand the following milestones regarding SAT-algorithms
+
+  \subsection VersionTransitional013 0.1.3 : TO BE REACHED 4.2.2007
   \par AtomicConditions version 0.0.3 (OK (MH, ML))
   (see AtomicConditions/plans/milestones.hpp)
   \par Literals version 0.0.4 (OK (MH, ML))
@@ -53,20 +60,15 @@
   (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
-  \par AutarkySearch version 0.0.6 (ML (OK))
-  (see AutarkySearch/plans/milestones.hpp)
-  \par InputOutput version 0.0.8 (OK (MH, ML))
-  (see Transitional/InputOutput/plans/milestones.hpp)
-  \par Expand the following milestones regarding SAT-algorithms
 
-  \subsection VersionTransitional013 0.1.3 : TO BE REACHED 14.2.2007
+  \subsection VersionTransitional014 0.1.4 : TO BE REACHED 14.2.2007
   \par Buildsystem version 0.1.4 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.4 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.4 (OK (MH, ML))
+  \par Concepts version 0.1.3 (OK (MH, ML))
   (see Concepts/plans/milestones.hpp)
   \par Graphs version  0.0.3 (OK (MH, ML))
   (see Graphs/plans/milestones.hpp)
@@ -82,57 +84,57 @@
   \par Update
   Update the subsequent milestones.
 
-  \subsection VersionTransitional014 0.1.4
-  \par Buildsystem version 0.3 (MH)
+  \subsection VersionTransitional015 0.1.5 : TO BE REACHED 31.3.2007
+  \par Buildsystem version 0.1.5 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.4 (OK)
+  \par Messages version 0.8 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par ComplexitySystem version 0.1 (MH (OK))
+  \par ComplexitySystem version 0.1 (MH, OK)
   (see ComplexitySystem/plans/milestones.hpp)
   \par Concepts version 0.2 (OK (MH, ML))
   (see Concepts/plans/milestones.hpp)
 
-  \subsection VersionTransitional015 0.1.5
-  \par Buildsystem version 0.4 (MH)
+  \subsection VersionTransitional016 0.1.6
+  \par Buildsystem version 0.4 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.8 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.2 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par ComplexitySystem version 0.2 (MH OK))
+  \par ComplexitySystem version 0.2 (MH, OK))
   (see ComplexitySystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional016 0.1.6
+  \subsection VersionTransitional017 0.1.7
   \par Buildsystem version 0.5
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional017 0.1.7
+  \subsection VersionTransitional018 0.1.8
   \par Buildsystem version 0.6
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional018 0.1.8
+  \subsection VersionTransitional019 0.1.9
   \par Buildsystem version 0.7
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional019 0.1.9
+  \subsection VersionTransitional0110 0.1.10
   \par Buildsystem version 0.8
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.8
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional0110 0.1.10
+  \subsection VersionTransitional0111 0.1.11
   \par Buildsystem version 0.9
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.9
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional0111 0.1.11
+  \subsection VersionTransitional0112 0.1.12
   \par Buildsystem version 1.0
   (see Buildsystem/plans/milestones.hpp)
 
-  \section VersionTransitional020 0.2.0 Build and test system basically finished
+  \section VersionTransitional020 0.2.0 Build and test system basically finished, and basic concepts for generalised SAT solving established
   \par Messages version 1.0
   (see Messages/plans/milestones.hpp)
   \par ProgramOptions version ???
