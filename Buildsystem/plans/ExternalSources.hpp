@@ -34,6 +34,13 @@
 
   What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
 
+  OK (12.1.2007): When building boost with gcc-version 3.4.3, we get
+
+  ...failed updating 10 targets...
+  ...skipped 14 targets...
+
+  Why this?
+
   We should check in general whether building boost links to the 32bit
   or to the 64bit version.
   </li>
