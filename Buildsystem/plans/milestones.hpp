@@ -32,6 +32,7 @@
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
+    - Suffix for plans-files
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
@@ -41,7 +42,7 @@
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
    the following topics are handled
     - Version numbers
-    - Different organisation (DONE)
+    - Different organisation
     - Logo (DONE)
     - OKlibrary link (DONE)
 

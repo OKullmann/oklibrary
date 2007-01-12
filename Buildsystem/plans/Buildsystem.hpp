@@ -10,12 +10,13 @@
 
   \todo makefile_generic_include
    - It seems to me that the subdirectory documentation should be renamed 
-     documentation_building.
+     documentation_building : DONE
    - Also, perhaps "Generic" is a better name for this directory than makefile_generic_include.
    - Except in the case of the central module plan file (in this case documentation_building.hpp)
      The plans files should have the same name as the file which the plans refer to. (So the plans
      for documentation_index.mak should be called documentation_index.mak). Therefore it is necessary
-     that doxygen is configured to recognise the .mak.
+     that doxygen is configured to recognise the .mak. OK : .mak is definitely wrong. See
+     documentation_building.hpp.
 
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong

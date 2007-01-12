@@ -55,7 +55,7 @@
      take control of this.
    - There should be make-variables, which allow control over some settings for the
      compilation of gcc.
-     - Building gcc should be outsourced to ExternalSources/makefile_gcc.mak. (DONE)
+     - Building gcc should be outsourced to ExternalSources/gcc.mak. DONE
 
   \todo Boost
    - When building boost (in some variation) using "gcc-version=...", then as a subtarget
@@ -65,7 +65,13 @@
      the distribution directory?
    - Building boost should include copying the documentation to doc (in the subdirectory
      boost-1_33_1 for example).
-   - Building Boost should be outsourced to ExternalSources/makefile_Boost.mak.(DONE)
+   - Building Boost should be outsourced to ExternalSources/boost.mak. DONE
+
+  \todo Usage documentation location
+   - The appropriate location for the usage documentation should be
+     in the file Buildsystem/ExternalSources.hpp not distributed over
+     the makefiles in Buildsystem/ExternalSources. Because that is the
+     makefile which the user really uses. DONE
 
   \todo PostgreSQL
    - Update PostgreSQL to version 8.1 (or later; and test it).
@@ -84,12 +90,5 @@
 
   \todo Tools
    - Investigate the NiX system (a system for managing libraries).
-
-  \todo Usage documentation location
-   - The appropriate location for the usage documentation should be
-     in the file Buildsystem/ExternalSources.hpp not distributed over
-     the makefiles in Buildsystem/ExternalSources. Because that is the
-     makefile which the user really uses.
-
 
 */
