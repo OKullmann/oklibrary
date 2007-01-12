@@ -5,7 +5,7 @@
   \brief Plans for the documentation index makefile
 
   \todo Different organisation:
-   - centering the document (OK: looks odd to me, squeezed to the left margin)
+   - centering the document (OK: looks odd to me, squeezed to the left margin) : DONE
    - organisation in columns: DONE
    - emphasising the links: DONE
 

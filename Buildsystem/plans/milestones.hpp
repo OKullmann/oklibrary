@@ -42,7 +42,7 @@
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
    the following topics are handled
     - Version numbers
-    - Different organisation
+    - Different organisation : DONE
     - Logo (DONE)
     - OKlibrary link (DONE)
 
