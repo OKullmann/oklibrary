@@ -4,6 +4,14 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
   \brief Plans for documentation-creation
 
+  \bug Suffix for plans-files:
+  Plans-files with a suffix different than .hpp are not recognised as
+  C++ files (which they are(!)) by xemacs, and so indentation does not work;
+  especially bad is an ending .mak, which tells xemacs that this a makefile,
+  which has completely different syntax for comments etc. (tab-stops!).
+  So all plans-files need the suffix .hpp (and the changes regarding suffix
+  .mak have to be undone).
+
   \todo Local documentation : regarding system_directories/doc/index.html
   <ul>
   <li> A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
