@@ -13,9 +13,9 @@
    - When removing Messages/Messages_Testapplication.cpp, we must make sure that all these tests are
      incorporated.
 
-  \todo Doxygen-documentation of message-classes
+  \todo Doxygen-documentation of message-classes:
   Using the macro OKLIB_MESSAGES_PRINT, doxygen misunderstands it as belonging to
-  the following member --- how to correct this behaviour of doxygen?
+  the following member --- how to correct this behaviour of doxygen? By telling doxygen to replace these macros with the empty string. DONE
 
   \todo Demonstrations:
   We need demonstrations for all components provided by this module (for example
