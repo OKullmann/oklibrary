@@ -4,20 +4,6 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo Clean-up
-   - Old makefiles in Annotations and Transitional need to be removed.
-   - Old directory Buildsystem/makefile_generic_include needs removing.
-
-  \todo makefile_generic_include
-   - It seems to me that the subdirectory documentation should be renamed 
-     documentation_building : DONE
-   - Also, perhaps "Generic" is a better name for this directory than makefile_generic_include.
-   - Except in the case of the central module plan file (in this case documentation_building.hpp)
-     The plans files should have the same name as the file which the plans refer to. (So the plans
-     for documentation_index.mak should be called documentation_index.mak). Therefore it is necessary
-     that doxygen is configured to recognise the .mak. OK : .mak is definitely wrong. See
-     documentation_building.hpp.
-
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading --- or we need special documentation at this point, namely
@@ -46,16 +32,11 @@
    </li>
   </ul> 
 
-  \todo Linking to makefile_recursive:
-   The occurrences of makefile_recursive should be replaced by links.(MH) recursive.mak and
-   recursive_noneincluded.mak are only included by the makefiles in Annotations, OKsystem and
-   Transitional. So it should be those makefiles which are replaced by links.
-
   \todo System documentation:
    - Document the basic version-control settings (location of server, configuration, how to use it).
    - Document the build-system (general ideas, functionality).
 
-  \todo Documentation (Examples and Concepts)
+  \todo Documentation (Examples and Concepts) OK : this needs to be discussed and updated
   <ul>
     <li> At OKplatform-level we have a new directory Documentation, with the following sub-directories:
       <ol>
@@ -65,6 +46,25 @@
       </ol>
     </li>
   </ul>
+
+  \todo Linking to makefile_recursive: DONE
+   The occurrences of makefile_recursive should be replaced by links.(MH) recursive.mak and
+   recursive_noneincluded.mak are only included by the makefiles in Annotations, OKsystem and
+   Transitional. So it should be those makefiles which are replaced by links.
+
+  \todo Clean-up
+   - Old makefiles in Annotations and Transitional need to be removed : DONE
+   - Old directory Buildsystem/makefile_generic_include needs removing : DONE
+
+  \todo makefile_generic_include : DONE
+   - It seems to me that the subdirectory documentation should be renamed 
+     documentation_building
+   - Also, perhaps "Generic" is a better name for this directory than makefile_generic_include.
+   - Except in the case of the central module plan file (in this case documentation_building.hpp)
+     The plans files should have the same name as the file which the plans refer to. (So the plans
+     for documentation_index.mak should be called documentation_index.mak). Therefore it is necessary
+     that doxygen is configured to recognise the .mak. OK : .mak is definitely wrong. See
+     documentation_building.hpp.
 
   \todo Naming of local definition makefiles:
    The makefiles.definitions.mak should be renamed definitions.mak: DONE

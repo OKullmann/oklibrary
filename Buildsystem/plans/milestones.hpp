@@ -11,7 +11,7 @@
     - Role of srcdir
     - System documentation
     - Documentation (Examples and Concepts)
-    - Clean-up
+    - Clean-up : DONE
     - makefile_generic_include (DONE)
     - Linking to recursive.mak (DONE)
     - Naming of local definition makefiles (DONE)

@@ -12,15 +12,6 @@
   So all plans-files need the suffix .hpp (and the changes regarding suffix
   .mak have to be undone).
 
-  \todo Local documentation : regarding system_directories/doc/index.html
-  <ul>
-  <li> A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
-       is responsible for extracting and building all the external sources
-       documentation OKplatform/ExternalSources/doc. (DONE)
-  </li>
-  <li> See the above bugs. </li>
-  </ul>
-
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
    - Documentation for Mhash, Postgresql, UBCSAT
    QUESTION (OK): Isn't this done ?? (MH) : Not yet.
@@ -45,10 +36,10 @@
      this item.
    - It appears that all .cpp-files are considered as linked together?
    - Can makefiles be incorporated?!
-   - See the doxygen-related problems in Messages. (should be solvable by expanding those
-     macros).
    - What is the role of the doxygen configuration tag BUILTIN_STL_SUPPORT?
      Should we enable this? : Enabled; it should help --- check.
+   - See the doxygen-related problems in Messages. (should be solvable by expanding those
+     macros) : DONE
    - Can we have nested lists? Numbered lists? These things should go into
      our general documentation --- or we have some example files, which demonstrate
      our use of doxygen :
@@ -65,6 +56,11 @@
    - Sometimes it would be good to show also other files (especially for Buildsystem).
      This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
      just as plain text files, without any special formatting).
+
+  \todo Local documentation : regarding system_directories/doc/index.html : DONE
+  A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
+       is responsible for extracting and building all the external sources
+       documentation OKplatform/ExternalSources/doc.
 
   \todo CSS : Improving the cascading style sheet used by the documentation
    index.
