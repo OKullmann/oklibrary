@@ -37,7 +37,7 @@
   \subsection VersionTransitional012 0.1.2 : TO BE REACHED 14.1.2007
   \par Buildsystem version 0.1.3 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.3 (OK (MH, ML))
+  \par Messages version 0.7.3 (OK (MH, ML)) : DONE
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.3 (OK (MH, ML))
   (see TestSystem/plans/milestones.hpp)
