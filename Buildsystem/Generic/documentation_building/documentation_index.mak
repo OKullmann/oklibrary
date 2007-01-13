@@ -24,7 +24,7 @@ gcc_man_page_location := $(OKplatform)/ExternalSources/doc/Gcc/$(gcc_recommended
 
 OKlibrary_html_index_link_element:= "<a href=\"$(OKlibrary_html_documentation_index_location)\" target=\"_blank\">Reference (html)</a>"
 
-OKlibrary_full_documentation_dvi_link_element:= "<a href=\"$(OKlibrary_full_documentation_dvi_location)\" target=\"_blank\">Manual (dvi)</a>"
+OKlibrary_full_documentation_dvi_link_element:= "<a href=\"$(OKlibrary_full_documentation_dvi_location)\">Manual (dvi)</a>"
 
 list_of_OKlibrary_documentation_link_elements:= $(OKlibrary_html_index_link_element) \
                                                 $(OKlibrary_full_documentation_dvi_link_element)
@@ -119,7 +119,7 @@ version_number := "<h2>Transitional Version 0.1.0</h2>"
 # Subtitle
 # ##################################################
 
-subtitle := "<h3>An algorithmic platform for efficient satisfiability-based problem solving.</h3>"
+subtitle := "<h3>An algorithmic platform for efficient satisfiability-based problem solving</h3>"
 
 # ##################################################
 # Footer division
@@ -145,11 +145,16 @@ documentation_index_body := "<div id=\"content\"> "$(logo_division)" \
                             "$(footer_division)" </div>"
 
 # ##################################################
+# Full document
+# ##################################################
+
+documentation_index_html := "<html><head>"$(documentation_index_head)"</head><body>"$(documentation_index_body)"</body></html>"
+
+# ##################################################
 # Main target for creating index
 # ##################################################
 
 documentation_index_file := $(doc_dir)/index.html
-documentation_index_html := "<html><head>"$(documentation_index_head)"</head><body>"$(documentation_index_body)"</body></html>"
 
 documentation_index : | $(doc_dir)
 	@touch $(documentation_index_file)
