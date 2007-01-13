@@ -18,15 +18,13 @@
   \section StartingVersion010 Starting with version 0.1.0
 
   \subsection VersionTransitional011 0.1.1 : TO BE REACHED 11.12.2006
-  \par AutarkySearch version 0.0.5 (ML (OK))
-  (see AutarkySearch/plans/milestones.hpp)
-  \par Literals version 0.0.3 (OK (MH, ML)) : DONE
+  \par Literals version 0.0.3 (OK (MH)) : DONE
   (see Literals/plans/milestones.hpp)
   \par Buildsystem version 0.1.2 (MH) : DONE
   (see Buildsystem/plans/milestones.hpp)
-  \par AtomicConditions version 0.0.2 (OK (MH, ML)) : DONE
+  \par AtomicConditions version 0.0.2 (OK (MH)) : DONE
   (see AtomicConditions/plans/milestones.hpp)
-  \par Concepts version 0.1.1 (OK (MH, ML)) : DONE
+  \par Concepts version 0.1.1 (OK (MH)) : DONE
   (see Concepts/plans/milestones.hpp)
   \par Messages version 0.7.2 (OK) : DONE
   (see Messages/plans/milestones.hpp)
@@ -37,23 +35,21 @@
   \subsection VersionTransitional012 0.1.2 : TO BE REACHED 14.1.2007
   \par Buildsystem version 0.1.3 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
-  \par AutarkySearch version 0.0.6 (ML (OK))
-  (see AutarkySearch/plans/milestones.hpp)
-  \par Messages version 0.7.3 (OK (MH, ML)) : DONE
+  \par Messages version 0.7.3 (OK (MH)) : DONE
   (see Messages/plans/milestones.hpp)
 
   \subsection VersionTransitional013 0.1.3 : TO BE REACHED 4.2.2007
-  \par TestSystem version 0.1.3 (OK (MH, ML))
+  \par TestSystem version 0.1.3 (OK (MH))
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.2 (OK (MH, ML))
+  \par Concepts version 0.1.2 (OK (MH))
   (see Concepts/plans/milestones.hpp)
-  \par InputOutput version 0.0.8 (OK (MH, ML))
+  \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
-  \par AtomicConditions version 0.0.3 (OK (MH, ML))
+  \par AtomicConditions version 0.0.3 (OK (MH))
   (see AtomicConditions/plans/milestones.hpp)
-  \par Literals version 0.0.4 (OK (MH, ML))
+  \par Literals version 0.0.4 (OK (MH))
   (see Literals/plans/milestones.hpp)
-  \par PartialAssignments version 0.0.5 (OK (MH, ML))
+  \par PartialAssignments version 0.0.5 (OK (MH))
   (see PartialAssignments/plans/milestones.hpp)
   \par InjectivityConstraints version 0.0.3 (OK, MH)
   (see InjectivityConstraints/plans/milestones.hpp)
@@ -68,9 +64,9 @@
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.3 (OK (MH, ML))
+  \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
-  \par Graphs version  0.0.3 (OK (MH, ML))
+  \par Graphs version  0.0.3 (OK (MH))
   (see Graphs/plans/milestones.hpp)
   \par HypergraphColouring version 0.0.5 (OK (MH))
   (see HypergraphColouring/plans/milestones.hpp)
@@ -93,7 +89,7 @@
   (see TestSystem/plans/milestones.hpp)
   \par ComplexitySystem version 0.1 (MH, OK)
   (see ComplexitySystem/plans/milestones.hpp)
-  \par Concepts version 0.2 (OK (MH, ML))
+  \par Concepts version 0.2 (OK (MH))
   (see Concepts/plans/milestones.hpp)
 
   \subsection VersionTransitional016 0.1.6
