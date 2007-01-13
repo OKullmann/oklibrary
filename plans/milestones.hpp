@@ -8,29 +8,14 @@
 /*!
   \page CurrentVersions Current versions
 
-  - Transitional 0.1.0 (3.3.2006)
+  - Transitional 0.1.1 (11.12.2006)
   - OKlibrary 0.0.1 (3.3.2006)
 */
 
 /*!
   \page PageTargetsTransitional Targets for Transitional
 
-  \section StartingVersion010 Starting with version 0.1.0
-
-  \subsection VersionTransitional011 0.1.1 : TO BE REACHED 11.12.2006
-  \par Literals version 0.0.3 (OK (MH)) : DONE
-  (see Literals/plans/milestones.hpp)
-  \par Buildsystem version 0.1.2 (MH) : DONE
-  (see Buildsystem/plans/milestones.hpp)
-  \par AtomicConditions version 0.0.2 (OK (MH)) : DONE
-  (see AtomicConditions/plans/milestones.hpp)
-  \par Concepts version 0.1.1 (OK (MH)) : DONE
-  (see Concepts/plans/milestones.hpp)
-  \par Messages version 0.7.2 (OK) : DONE
-  (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.2 (OK) : DONE
-  (see TestSystem/plans/milestones.hpp)
-  \par All modules have plans-subdirectories, most with milestones (OK) : DONE
+  \section StartingVersion Future milestones
 
   \subsection VersionTransitional012 0.1.2 : TO BE REACHED 14.1.2007
   \par Buildsystem version 0.1.3 (MH (OK))
@@ -165,6 +150,14 @@
 
    Initial version number (here we just started versioning, while there
    has been work on the library for around 2 years).
+
+   \par 0.1.1 11/12/2006
+
+   - the buildsystem-architecture cleaned-up, improved documentation-building
+   - new test-system further cleaned-up (especially regarding log-messages)
+   - module Messages further expanded and improved
+   - started with concepts and prototypes for literals and atomic conditions
+   - planning activities on many parts of the library.
 */
 
 /*!
