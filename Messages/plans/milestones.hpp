@@ -3,11 +3,7 @@
 /*!
   \file Messages/plans/milestones.hpp
 
-  \module_version Messages version 0.7.2 (4.12.2006)
-
-  \par Version 0.7.3 :
-
-   - In Messages/Utilities/plans/milestones.hpp version 0.0.7 is reached.
+  \module_version Messages version 0.7.3 (13.1.2007)
 
   \par Version 0.7.4 :
 
@@ -35,6 +31,7 @@
    - 0.7   : 3.3.2006; initial version number (module functional).
    - 0.7.1 : 3.12.2006; complete update of documentation.
    - 0.7.2 : 4.12.2006; next version of Utilities reached (and overall update).
-
+   - 0.7.3 : 13.1.2007; next version of Utilities reached, and refinements of the
+             message class hierarchy to enable line-begin and line-end handling.
 */
 
