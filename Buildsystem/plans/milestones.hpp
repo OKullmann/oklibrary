@@ -86,6 +86,14 @@
     - Source code directory structure
     - Version control
 
+  \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
+   the following topics are handled
+    - Page organisation
+    - Using css
+    - Meta tags
+    - Improved logo
+
   \par Version 0.1.5 :
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Targets
