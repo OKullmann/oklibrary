@@ -4,18 +4,6 @@
   \file Messages/Utilities/plans/Utilities.hpp
   \brief General plans for the Messages/Utilities module.
 
-    \todo Service for test exceptions:
-    As a service for Testsystem/TestException_DesignStudy.hpp
-    (and other parts of the test system) we need
-    classes (and macros) for identification purposes:
-    <ul>
-     <li> Handling of line numbers (__LINE__) is needed : Implemented
-      Utilities::LineIdentification and macro OKLIB_LINE. DONE
-     </li>
-     <li> Handling of type names is needed : Not needed (yet). DONE
-     </li>
-    </ul>
-
    \todo Identification services:
    We need further classes (and macros) for identification purposes:
     <ul>
