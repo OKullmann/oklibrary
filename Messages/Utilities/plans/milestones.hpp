@@ -8,7 +8,7 @@
   \par Version 0.0.7 :
 
   In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - Service for test exceptions
+  - Service for test exceptions : DONE
 
   In Messages/Utilities/plans/FileIdentification.hpp the following topics are handled:
   - File identification: DONE (class Utilities::FileIdentification created).
@@ -16,6 +16,7 @@
   \par Version 0.0.8 :
 
   In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
+  - Identification services
   - Warning and error messages:
 
   \par Version 0.0.9 :

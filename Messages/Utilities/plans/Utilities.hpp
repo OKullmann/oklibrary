@@ -6,16 +6,30 @@
 
     \todo Service for test exceptions:
     As a service for Testsystem/TestException_DesignStudy.hpp
-    (and other parts of the test system) and for ProgramOptions we need
+    (and other parts of the test system) we need
     classes (and macros) for identification purposes:
     <ul>
-     <li> Handling of line numbers (__LINE__) is needed.
+     <li> Handling of line numbers (__LINE__) is needed : Implemented
+      Utilities::LineIdentification and macro OKLIB_LINE. DONE
      </li>
-     <li> Handling of type names is needed.
-     </li>
-     <li> For programs we also have the version, the author, name of program etc.
+     <li> Handling of type names is needed : Not needed (yet). DONE
      </li>
     </ul>
+
+   \todo Identification services:
+   We need further classes (and macros) for identification purposes:
+    <ul>
+     <li> Document the handling of line numbers (including macro OKLIB_LINE).
+     </li>
+     <li> A versatile message classes for type-names is needed:
+      <ul>
+       <li> Study the existing solutions in TestSystem. </li>
+      </ul>
+     </li>
+     <li> For programs we need the version, the author, name of program etc.
+     </li>
+    </ul>
+
 
    \todo Warning and error messages:
    We need components (message classes and handlers) for creating warning and error
