@@ -11,7 +11,7 @@ include $(OKbuildsystem)/external_sources_versions.mak
 # Directory Structure
 # ##################################
 
-ubcsat-base-directory := $(prefix)/Ubcsat
+ubcsat-base-directory := $(ExternalSources)/Ubcsat
 
 ubcsat-directories := $(ubcsat-base-directory)
 
