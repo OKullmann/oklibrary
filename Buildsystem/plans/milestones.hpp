@@ -7,11 +7,7 @@
   
   \par Version 0.1.3 : TO BE REACHED 14.1.2007
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Make-variables for external libraries
-    - Role of srcdir
-    - System documentation
-    - Documentation (Examples and Concepts)
-    - Clean-up : DONE
+    - Clean-up : (DONE)
     - makefile_generic_include (DONE)
     - Linking to recursive.mak (DONE)
     - Naming of local definition makefiles (DONE)
@@ -19,45 +15,29 @@
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Documentation of generic.mak
     - Valgrind test variable (DONE)
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics have been updated:
-    - General clean-up of make-variables
-    - Cleaning
-    - Generic makefile redesign
-    - OKsystem/Buildsystem structure
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
-    - Suffix for plans-files
-    - Extending and completing OKBuildsystem/ExternalSources/doc.mak
-    - Doxygen general
-    - Doxygen menu
     - Local documentation : regarding system_directories/doc/index.html (DONE)
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
    the following topics are handled
-    - Version numbers
-    - Different organisation : DONE
+    - Different organisation : (DONE)
     - Logo (DONE)
     - OKlibrary link (DONE)
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - Building gcc_doc 
-    - Corrections mhash
-    - Building Boost
-    - General
-    - Gcc
-    - Boost
+    - Building Boost (DONE)
+    - Building Gcc (DONE)
     - Usage documentation location (DONE)
   
   \par Version 0.1.4 : TO BE REACHED 14.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
+    - Documentation of generic.mak
     - Incorrect build of new tests I
     - Incorrect build of new tests II
     - General clean-up of make-variables
@@ -73,9 +53,21 @@
     - Customisation
     - Generic makefile redesign
     - OKsystem/Buildsystem structure
+
+   \par
+    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Building gcc_doc 
+    - Corrections mhash
+    - Building Boost Errors
+    - General
+    - Gcc
   
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Make-variables for external libraries
+    - Role of srcdir
+    - System documentation
+    - Documentation (Examples and Concepts)
     - Overhaul of the general targets
     - Force make
     - Design
@@ -87,12 +79,28 @@
     - Version control
 
   \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
+   the following topics are handled:
+    - Suffix for plans-files
+    - Extending and completing OKBuildsystem/ExternalSources/doc.mak
+    - Doxygen general
+    - Doxygen menu
+
+  \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
    the following topics are handled
+    - Version numbers
     - Page organisation
     - Using css
     - Meta tags
     - Improved logo
+
+  \par
+   In Buildsystem/plans/generic.hpp the following topics have been updated:
+    - General clean-up of make-variables
+    - Cleaning
+    - Generic makefile redesign
+    - OKsystem/Buildsystem structure
 
   \par Version 0.1.5 :
    In Buildsystem/plans/generic.hpp the following topics are handled:
