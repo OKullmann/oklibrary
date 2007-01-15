@@ -190,11 +190,18 @@ endif
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
 # to :
 #  Transitional/Buildsystem/ExternalSources.mak
+#  Transitional/Buildsystem/ExternalSources/boost.mak
+#  Transitional/Buildsystem/ExternalSources/doxygen.mak
+#  Transitional/Buildsystem/ExternalSources/gcc.mak
+#  Transitional/Buildsystem/ExternalSources/mhash.mak
+#  Transitional/Buildsystem/ExternalSources/postgresql.mak
+#  Transitional/Buildsystem/ExternalSources/ubcsat.mak
+#  Transitional/Buildsystem/ExternalSources/valgrind.mak
 #  Transitional/Buildsystem/makefile
 #  Transitional/Buildsystem/OKsystem.mak
 #  Transitional/Buildsystem/recursive.mak
-#  Transitional/makefile
-#  Annotations/makefile
+#  Transitional/Buildsystem/Transitional.mak
+#  Transitional/Buildsystem/Annotations.mak
 # ################################################################
 
 ifndef OKplatform
