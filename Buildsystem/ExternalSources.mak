@@ -66,11 +66,30 @@ SHELL = /bin/sh
 # make valgrind (recommended version)
 # make valgrind-?
 
+# PostgreSQL
+
+# Building server and client:
+#   make postgresql (recommended version)
+#   make postgresql-?
+
+# Initialise a database and start the server (? is version number of postgresql):
+#   a) Use the default location (postgresql-base-directory/?/data):
+# 	make pgsql-version=? initialise-database
+#   b) Use a different location (% is the absolute path of the location to place the database):
+# 	make pgsql-version=? pgdata=% initialise-database
+
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
 # in Transtional/Buildsystem/generic.mak and cut-and-pasted
 # to :
 #  Transitional/Buildsystem/ExternalSources.mak
+#  Transitional/Buildsystem/ExternalSources/boost.mak
+#  Transitional/Buildsystem/ExternalSources/doxygen.mak
+#  Transitional/Buildsystem/ExternalSources/gcc.mak
+#  Transitional/Buildsystem/ExternalSources/mhash.mak
+#  Transitional/Buildsystem/ExternalSources/postgresql.mak
+#  Transitional/Buildsystem/ExternalSources/ubcsat.mak
+#  Transitional/Buildsystem/ExternalSources/valgrind.mak
 #  Transitional/Buildsystem/makefile
 #  Transitional/Buildsystem/OKsystem.mak
 #  Transitional/Buildsystem/recursive.mak
@@ -141,7 +160,6 @@ include $(OKbuildsystem)/ExternalSources/boost.mak
 include $(OKbuildsystem)/ExternalSources/postgresql.mak
 include $(OKbuildsystem)/ExternalSources/valgrind.mak
 include $(OKbuildsystem)/ExternalSources/ubcsat.mak
-include $(OKbuildsystem)/ExternalSources/doc.mak
 
 # #################################
 # Cleaning
