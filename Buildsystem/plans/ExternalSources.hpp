@@ -4,11 +4,43 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \todo Building Boost
+  - When building boost (in some variation) using "gcc-version=...", then as a subtarget
+  we have the build of the gcc-version (so that, if necessary, gcc is build). DONE
+  - Building Boost should be outsourced to ExternalSources/boost.mak. DONE
+     
+  \todo Building Gcc
+  - When building some gcc-version, only the necessary directories
+  should be created. This should be handled as we have it now with boost (using
+  timestamp-files). DONE
+  - Building gcc should be outsourced to ExternalSources/gcc.mak. DONE
+  
+  \todo Usage documentation location
+  - The appropriate location for the usage documentation should be
+  in the file Buildsystem/ExternalSources.hpp not distributed over
+  the makefiles in Buildsystem/ExternalSources. Because that is the
+  makefile which the user really uses. DONE
+
+  \todo Local documentation : regarding system_directories/doc/index.html : DONE
+  A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
+       is responsible for extracting and building all the external sources
+       documentation OKplatform/ExternalSources/doc.
+
+  \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
+   - Documentation for Mhash, Postgresql, UBCSAT
+   QUESTION (OK): Isn't this done ?? (MH) : Not yet.
+
+  \todo Building documentation:
+   - We should extract only the documentation from the archives (and remove everything else
+     which is not needed; should be fairly easy).
+     
   \bug Building gcc_doc 
   - does not work (that is, the link at
   system_directories/doc/index.html is not working),
-  since apparently the man-pages need to be build.
-  
+  since apparently the man-pages need to be build
+  - and *only* the documentation is to be extracted, not the whole
+    distribution.
+
   \todo Corrections mhash
   
   - We need some user-information for mhash (how to use the installed files).
@@ -60,12 +92,6 @@
   - There should be make-variables, which allow control over some settings for the
   compilation of gcc.
   
-  \todo Building Gcc
-  - When building some gcc-version, only the necessary directories
-  should be created. This should be handled as we have it now with boost (using
-  timestamp-files). DONE
-  - Building gcc should be outsourced to ExternalSources/gcc.mak. DONE
-  
   \todo Boost
   - Installation of bjam should be improved: Having exactly one bjam-installation for each boost-version,
   and no need to recreate it if it's already there. Or, perhaps better: We just leave it in
@@ -73,17 +99,6 @@
   - Building boost should include copying the documentation to doc (in the subdirectory
   boost-1_33_1 for example).
 
-  \todo Building Boost
-  - When building boost (in some variation) using "gcc-version=...", then as a subtarget
-  we have the build of the gcc-version (so that, if necessary, gcc is build). DONE
-  - Building Boost should be outsourced to ExternalSources/boost.mak. DONE
-     
-  \todo Usage documentation location
-  - The appropriate location for the usage documentation should be
-  in the file Buildsystem/ExternalSources.hpp not distributed over
-  the makefiles in Buildsystem/ExternalSources. Because that is the
-  makefile which the user really uses. DONE
-     
   \todo PostgreSQL
   - Update PostgreSQL to version 8.1 (or later; and test it).
   - "make initialise-database" should work with the recommended version (and no specification

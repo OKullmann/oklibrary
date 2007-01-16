@@ -18,11 +18,6 @@
     - Valgrind test variable (DONE)
 
   \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
-   the following topics are handled:
-    - Local documentation : regarding system_directories/doc/index.html (DONE)
-
-  \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
    the following topics are handled
     - Different organisation : (DONE)
@@ -34,10 +29,19 @@
     - Building Boost (DONE)
     - Building Gcc (DONE)
     - Usage documentation location (DONE)
-  
-  \par Version 0.1.4 : TO BE REACHED 14.2.2007
+    - Local documentation : regarding system_directories/doc/index.html (DONE)
+    
+  \par Version 0.1.4 : TO BE REACHED 4.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Documentation of generic.mak
+
+  \par  
+   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
+   the following topics are handled:
+    - Suffix for plans-files
+
+  \par Version 0.1.5 : TO BE REACHED 14.2.2007
+   In Buildsystem/plans/generic.hpp the following topics are handled:
     - Incorrect build of new tests I
     - Incorrect build of new tests II
     - General clean-up of make-variables
@@ -56,11 +60,14 @@
 
    \par
     In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Extending and completing OKBuildsystem/ExternalSources/doc.mak
+    - Building documentation
     - Building gcc_doc 
     - Corrections mhash
     - Building Boost Errors
     - General
     - Gcc
+    - Boost
   
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -81,8 +88,6 @@
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
-    - Suffix for plans-files
-    - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Doxygen general
     - Doxygen menu
 
@@ -102,7 +107,7 @@
     - Generic makefile redesign
     - OKsystem/Buildsystem structure
 
-  \par Version 0.1.5 :
+  \par Version 0.1.6 :
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Targets
     - Error messages of gcc should be processed
@@ -114,16 +119,17 @@
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - PostgreSQL
 
-  \par Version 0.1.6 :
+  \par Version 0.1.7 :
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - Other sources
     - Tools
 
-  \par Version 0.1.7 :
+  \par Version 0.1.8 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
-  \par Version 0.1.8 :
+
+  \par Version 0.1.9 :
    In Buildsystem/plans/makefile.hpp the following topics are handled:
     - Directories with makefile-links
 
