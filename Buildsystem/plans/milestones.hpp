@@ -3,34 +3,8 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.2 (9.12.2006)
+  \module_version Buildsystem 0.1.3 (14.1.2007)
   
-  \par Version 0.1.3 : TO BE REACHED 14.1.2007
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Clean-up : (DONE)
-    - makefile_generic_include (DONE)
-    - Linking to recursive.mak (DONE)
-    - Naming of local definition makefiles (DONE)
-    - Recommended versions (DONE)
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Valgrind test variable (DONE)
-
-  \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
-   the following topics are handled
-    - Different organisation : (DONE)
-    - Logo (DONE)
-    - OKlibrary link (DONE)
-
-  \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - Building Boost (DONE)
-    - Building Gcc (DONE)
-    - Usage documentation location (DONE)
-    - Local documentation : regarding system_directories/doc/index.html (DONE)
-    
   \par Version 0.1.4 : TO BE REACHED 4.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Documentation of generic.mak
@@ -166,6 +140,7 @@
    - 0.1   : 4.3.2006; initial version number (the build system is under work for around 2 years).
    - 0.1.1 : 3.11.2006; some smaller corrections and modifications regarding naming issues.
    - 0.1.2 : 9.12.2006; systematic naming, placement and decomposition of makefiles; documentation of generic.mak; documentation-building improved.
+   - 0.1.3 : 14.1.2007; further improvements on naming and placement of makefiles, improved building of external libraries, improved html-documentation.
 
 */
 
