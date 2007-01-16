@@ -8,7 +8,7 @@
 /*!
   \page CurrentVersions Current versions
 
-  - Transitional 0.1.1 (11.12.2006)
+  - Transitional 0.1.2 (14.1.2007)
   - OKlibrary 0.0.1 (3.3.2006)
 */
 
@@ -17,13 +17,9 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional012 0.1.2 : TO BE REACHED 14.1.2007
-  \par Buildsystem version 0.1.3 (MH (OK))
-  (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.3 (OK (MH)) : DONE
-  (see Messages/plans/milestones.hpp)
-
   \subsection VersionTransitional013 0.1.3 : TO BE REACHED 4.2.2007
+  \par Buildsystem version 0.1.4 (MH (OK))
+  (see Buildsystem/plans/milestones.hpp)
   \par TestSystem version 0.1.3 (OK (MH))
   (see TestSystem/plans/milestones.hpp)
   \par Concepts version 0.1.2 (OK (MH))
@@ -43,7 +39,7 @@
   \par Expand the following milestones regarding SAT-algorithms
 
   \subsection VersionTransitional014 0.1.4 : TO BE REACHED 14.2.2007
-  \par Buildsystem version 0.1.4 (MH (OK))
+  \par Buildsystem version 0.1.5 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.4 (OK)
   (see Messages/plans/milestones.hpp)
@@ -158,6 +154,14 @@
    - module Messages further expanded and improved
    - started with concepts and prototypes for literals and atomic conditions
    - planning activities on many parts of the library.
+
+   \par 0.1.2 14/1/2007
+
+   - the buildsystem-architecture further improved, improved building of external libraries
+     and documentation
+   - module Messages further expanded, new utilities
+   - further clean-up of the new test system
+   - concepts for literals and atomic conditions expanded.
 */
 
 /*!
