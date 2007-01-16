@@ -113,7 +113,7 @@ logo_division := "<div id=\"logo\"><img src=\"$(logo_image_location)\"/> </div>"
 # Version Number Division
 # ##################################################
 
-version_number := "<h2>Transitional Version 0.1.0</h2>"
+version_number := "<h2>Transitional Version 0.1.2</h2>"
 
 # ##################################################
 # Subtitle
