@@ -11,16 +11,16 @@
 
   \todo Logo : DONE
 
-  \todo Version numbers
-   - The version number of Transitional shouldn't be hard-coded --- we need some
-     central organisation.
-   - Instead of "v0.0.1" we should have "Transitional Version 0.1.0" : DONE
-
   \todo OKlibrary link
    - The documentation for OKlibrary should stand out from the others : DONE
    - Perhaps we have a section just for the OKlibrary which has links to the
      documentation for the html documentation and also links to the 
      meta-documentation : DONE
+
+  \todo Version numbers
+   - The version number of Transitional shouldn't be hard-coded --- we need some
+     central organisation.
+   - Instead of "v0.0.1" we should have "Transitional Version 0.1.0" : DONE
 
   \todo Page organisation
    - On my laptop the columns are arranged in two rows (independent of the horizontal space
