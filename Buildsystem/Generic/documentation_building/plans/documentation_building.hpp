@@ -12,14 +12,6 @@
   So all plans-files need the suffix .hpp (and the changes regarding suffix
   .mak have to be undone).
 
-  \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
-   - Documentation for Mhash, Postgresql, UBCSAT
-   QUESTION (OK): Isn't this done ?? (MH) : Not yet.
-
-  \todo Building documentation:
-   - We should extract only the documentation from the archives (and remove everything else
-     which is not needed; should be fairly easy).
-
   \todo Doxygen general:
    - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
      the tag EXPAND_AS_DEFINED (since we do not alter the definitions), however this
@@ -56,11 +48,6 @@
    - Sometimes it would be good to show also other files (especially for Buildsystem).
      This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
      just as plain text files, without any special formatting).
-
-  \todo Local documentation : regarding system_directories/doc/index.html : DONE
-  A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
-       is responsible for extracting and building all the external sources
-       documentation OKplatform/ExternalSources/doc.
 
   \todo CSS : Improving the cascading style sheet used by the documentation
    index.
