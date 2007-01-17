@@ -12,19 +12,42 @@ include $(OKbuildsystem)/external_sources_versions.mak
 # ##################################
 
 ubcsat-base-directory := $(ExternalSources)/Ubcsat
+ubcsat-extract-directory := $(ubcsat-base-directory)/ubcsat-1-0-0
+ubcsat-installation-directory := $(ubcsat-base-directory)/1-0-0
+ubcsat-lib-directory := $(ubcsat-base-directory)/1-0-0/lib
+ubcsat-bin-directory := $(ubcsat-base-directory)/1-0-0/bin
+ubcsat-src-directory := $(ubcsat-base-directory)/ubcsat-1-0-0/src
 
-ubcsat-directories := $(ubcsat-base-directory)
+ubcsat-directories := $(ubcsat-base-directory) $(ubcsat-lib-directory) $(ubcsat-bin-directory) $(ubcsat-extract-directory) $(ubcsat-installation-directory)
+
+ubcsat_names := adaptnovelty algorithms gsat gsat-tabu gwsat hsat hwsat irots mt19937ar mylocal novelty parameters reports rnovelty rots samd saps ubcsat ubcsat-help ubcsat-internal ubcsat-io ubcsat-mem ubcsat-reports ubcsat-time ubcsat-triggers walksat walksat-tabu 
+
+ubcsat_c_files := $(addsuffix .c, $(ubcsat_names))
+ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
 
 $(ubcsat-directories) : % : 
 	mkdir $@
 
 
+paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))
+
+
 # #################################
-# The Target
+# The Targets
 # ################################
 
-$(ubcsat-base-directory)/$(ubcsat_targets) : 
-	mkdir -p $(ubcsat-base-directory)/ubcsat-1-0-0
-	$(call unarchive,ubcsat-1-0-0,$(ubcsat-base-directory)/ubcsat-1-0-0)
+$(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-directory)
+	$(call unarchive,ubcsat-1-0-0,$(ubcsat-extract-directory))
+	touch $@
 
-ubcsat : $(ubcsat-base-directory)/ubcsat-1-0-0
+ubcsat : $(ubcsat-extract-directory)/tag $(paths) $(ubcsat-bin-directory)/ubcsat
+
+$(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory) 
+	gcc -c $< -o $@
+
+
+
+$(ubcsat-bin-directory)/ubcsat : $(paths) | $(ubcsat-bin-directory)
+	gcc -O3 -lm -o $(ubcsat-bin-directory)/ubcsat $(paths)
+
+
