@@ -10,6 +10,8 @@
   Besides the base class TestBase of the test-class-hierarchy, macros
    - OKLIB_TEST_CLASS
    - OKLIB_TEST_CLASS_C
+   - OKLIB_TEST_CLASS_C1
+
   are defined to ease the definition of test classes.
 */
 
@@ -35,7 +37,7 @@ namespace OKlib {
   namespace TestSystem {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-    (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:25:49 $", "$Revision: 1.6 $")
+    (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/20 17:17:38 $", "$Revision: 1.7 $")
 
     /*!
       \class TestBase
@@ -251,7 +253,7 @@ namespace OKlib {
 
     /*!
       \def OKLIB_TEST_CLASS_C
-      \brief Macro for the default constructor declaration of all test classes
+      \brief Macro for the default constructor declaration of test classes
 
       Use as follows:
 
@@ -263,13 +265,54 @@ namespace OKlib {
       };
 
       Remarks:
-       - There is still something to write, since only in this way the class
-         definition is "understandable" for XEmacs (regarding indentation and
-         bracketing).
-       - 
+      <ol>
+       <li> There is still something to write, since only in this way the class
+            definition is "understandable" for XEmacs (regarding indentation and
+            bracketing).
+       </li>
+       <li> If the test class has parameters, then
+        <ul>
+         <li> define a member function to set these (default constructed) parameters
+              after construction, or </li>
+         <li> use OKLIB_TEST_CLASS_C1, which allows for one parameter, or </li>
+         <li> just define the constructors without using the macros (copying
+              the typedef for base_type and the base-class construction). </li>
+        </ul>
+       </li>
+      </ol>
     */
-#define OKLIB_TEST_CLASS_C(X) typedef ::OKlib::TestSystem::TestBase base_type; \
-  public : X() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(X).name())
+#define OKLIB_TEST_CLASS_C(TC) typedef ::OKlib::TestSystem::TestBase base_type; \
+  public : TC() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TC).name())
+
+    /*!
+      \def OKLIB_TEST_CLASS_C1
+      \brief Macro for a constructor declaration of a test class with one parameter
+
+      Use as follows:
+
+      OKLIB_TEST_CLASS(TestClass) :
+         OKLIB_TEST_CLASS_C1(TestClass, ParameterType, parameter_name) {
+            // ...
+            // use parameter_name for the argument of the constructor, and
+            // this -> parameter_name for the (private) class member
+         }
+      private :
+        void test(::OKlib::TestSystem::Basic) { ... }
+      };
+
+      Remarks:
+      <ol>
+       <li> Defines the private data member parameter_name of TestClass with type ParameterType. </li>
+       <li> Defines exactly one constructor of TestClass; this constructor has one parameter called
+            parameter_name, which is of type ParameterType; construction of the data member parameter_name
+            is by copy-construction. </li>
+       <li> The constructor is declared as explicit. </li>
+      </ol>
+    */
+
+#define OKLIB_TEST_CLASS_C1(TC, PT, PN) typedef ::OKlib::TestSystem::TestBase base_type; \
+  private : PT PN; \
+  public : explicit TC(PT PN) : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TC).name()), PN(PN)
 
   }
   
