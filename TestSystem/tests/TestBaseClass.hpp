@@ -22,7 +22,7 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:22:54 $", "$Revision: 1.5 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/20 17:18:39 $", "$Revision: 1.6 $")
 
       /*!
         \class TestSystem
@@ -34,21 +34,12 @@ namespace OKlib {
         trivial messages).
       */
       
-//       class TestSystem :  public ::OKlib::TestSystem::TestBase {
-//         typedef ::OKlib::TestSystem::TestBase base_type;
-//       public :
-//         TestSystem() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TestSystem).name()) {}
-//       private :
-
       OKLIB_TEST_CLASS(TestSystem) {
         OKLIB_TEST_CLASS_C(TestSystem) {}
       private :
 
         OKLIB_TEST_CLASS(LocalTest1) {
-          typedef ::OKlib::TestSystem::TestBase base_type;
-          const int n;
-        public :
-          LocalTest1(const int n) : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(LocalTest1).name()), n(n) {}
+          OKLIB_TEST_CLASS_C1(LocalTest1, const int, n) {}
         private :
           void test(::OKlib::TestSystem::Basic) {
             typedef OKlib::TestSystem::Basic level_type;
