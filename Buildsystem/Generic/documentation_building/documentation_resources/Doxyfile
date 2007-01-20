@@ -23,7 +23,7 @@ PROJECT_NAME           = OKlibrary:Transitional
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = Transitional:0.1.0
+# PROJECT_NUMBER         = Transitional:0.1.0
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -1014,6 +1014,7 @@ INCLUDE_FILE_PATTERNS  =
 
 PREDEFINED             = "OKLIB_TEST_CLASS(X)=class X : public ::OKlib::TestSystem::TestBase" \
                          "OKLIB_TEST_CLASS_C(X)=typedef ::OKlib::TestSystem::TestBase base_type; public : X() : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(X).name())" \
+                         "OKLIB_TEST_CLASS_C1(TC, PT, PN)=typedef ::OKlib::TestSystem::TestBase base_type; private : PT PN; public : explicit TC(PT PN) : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TC).name()), PN(PN)" \
                          OKLIB_USING_MESSAGES= \
                          OKLIB_MESSAGES_PRINT=
 
@@ -1022,7 +1023,7 @@ PREDEFINED             = "OKLIB_TEST_CLASS(X)=class X : public ::OKlib::TestSyst
 # The macro definition that is found in the sources will be used. 
 # Use the PREDEFINED tag if you want to use a different macro definition.
 
-EXPAND_AS_DEFINED      = OKLIB_TEST_CLASS OKLIB_TEST_CLASS_C
+EXPAND_AS_DEFINED      = OKLIB_TEST_CLASS OKLIB_TEST_CLASS_C OKLIB_TEST_CLASS_C1
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then 
 # doxygen's preprocessor will remove all function-like macros that are alone 
