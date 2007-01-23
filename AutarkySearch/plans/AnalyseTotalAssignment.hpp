@@ -18,8 +18,8 @@
   <ul>
    <li> Installing UBCSAT in ExternalSources:
      <ol>
-       <li> Build Ubcsat/lib with all .o-files.</li>
-       <li> Build the standard program ubcsat in Ubcsat/bin.
+       <li> Build Ubcsat/lib with all .o-files. (DONE) </li>
+       <li> Build the standard program ubcsat in Ubcsat/bin. (DONE)
      </ol>
    </li>
    <li> Compile a preliminary version of AnalyseTotalAssignment.c (within OKlibrary). </li>
