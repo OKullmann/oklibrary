@@ -1,1 +1,1 @@
-echo ${Ubcsat_dir}/lib/ubcsat-triggers.o ${Ubcsat_dir}/lib/ubcsat-internal.o
+echo -L/home/csmatthewl/OKplatform/ExternalSources/Ubcsat/1-0-0/mod-lib -lubcsat
