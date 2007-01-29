@@ -6,28 +6,25 @@
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
 
-  \todo The basic algorithm is: Given a partial assignment phi, unassign all
-  variables in critical clauses, and repeat this process until no critical clauses
-  are left --- the maximal autarky contained in phi is obtained. Design and
-  implement, using the data structures from LocalSearch/plans/SupportTotalAssignments.hpp.
-
-  \todo Combination with enumeration of all total assignments yields
-  autarky search in time O(2^n).
-
   \todo Local installation of UBCSAT.
   <ul>
    <li> Installing UBCSAT in ExternalSources:
      <ol>
+       <li> Some documentation is needed, especially regarding the apparently modified UBCSAT-library. </li>
        <li> Build Ubcsat/lib with all .o-files. (DONE) </li>
-       <li> Build the standard program ubcsat in Ubcsat/bin. (DONE)
+       <li> Build the standard program ubcsat in Ubcsat/bin. (DONE) </li>
      </ol>
    </li>
-   <li> Compile a preliminary version of AnalyseTotalAssignment.c (within OKlibrary). </li>
+   <li> Compile a preliminary version of AnalyseTotalAssignment.c (within OKlibrary). OK: Has this been done? If so, then some documentation is needed about what AnalyseTotalAssignment is supposed to do.</li>
   </ul>
      
+  \todo Connect with LocalSearch/plans/SupportTotalAssignments.hpp.
+
   \todo Using UBCSAT:
   Analysing total assignments (and autarky reduction,
   if successful) is added to UBCSAT, without further changes.
+
+  OK : What is the state of the following discussion???
 
   For that, include and use all triggers and their data structures needed from UBCSAT
   library in AutarkySearch.
@@ -43,6 +40,8 @@
   modified slightly which I am currently doing. More plans will be added (see also "Local installation
   of UBCSAT" above).
 
+  \todo Combination with enumeration of all total assignments yields
+  autarky search in time O(2^n).
 
   \todo Testing AnalyseTotalAssignment.c:
   Test last segment of code in AnalyseTotalAssignment.c.
