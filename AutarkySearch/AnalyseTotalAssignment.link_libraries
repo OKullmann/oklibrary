@@ -1,1 +1,1 @@
-echo -L/home/csmatthewl/OKplatform/ExternalSources/Ubcsat/1-0-0/mod-lib -lubcsat
+echo -L${Ubcsat_dir}/1-0-0/mod-lib -lubcsat
