@@ -72,6 +72,8 @@
   (see ComplexitySystem/plans/milestones.hpp)
   \par Concepts version 0.2 (OK (MH))
   (see Concepts/plans/milestones.hpp)
+  \par Cryptanalysis version 0.0.3 (OK)
+  (see Cryptanalysis/plans/milestones.hpp)
 
   \subsection VersionTransitional016 0.1.6
   \par Buildsystem version 0.4 (MH, OK)
