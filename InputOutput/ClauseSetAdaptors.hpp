@@ -16,7 +16,7 @@
 
   \todo Write concepts for Statistics class.
 
-  \todo Write RawDimacsCLSAdaptor.
+  \todo Complete RawDimacsCLSAdaptor.
 
 */
 
@@ -179,6 +179,17 @@ namespace OKlib {
     /*!
       \class RawDimacsCLSAdaptor
       \brief Adaptor which turns Dimacs input into a vector<vector<int>>
+
+      \todo Variables and literals should be used. Perhaps as default
+      OKlib::Variables::Variables_int. Perhaps the variable type is
+      as template parameter. Actually, better we use as default
+      OKlib::Literals::Literals_int as default template parameter,
+      and the variable type is then given.
+
+      \todo Handling of the additional information: Perhaps we have
+      (optionally) an embedded object of type CLSAdaptorStatistics ?!
+
+      \todo There are policies for checking n and c. 
     */
 
     template <typename Int = int, class String = std::string >
@@ -205,6 +216,7 @@ namespace OKlib {
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
         // Add a clause based on r to the clause_set
+        // #######################
       }
 
     };
