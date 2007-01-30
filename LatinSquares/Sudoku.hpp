@@ -23,6 +23,10 @@ namespace OKlib {
     /*!
       \class SudokuProblem
       \brief First prototype for an alliance of active clause-sets for Sudoku
+
+      \todo Once we have fixed the concepts (a bit more), likely we should rename
+      the parameter BijectivityConstraint.
+      \todo More doxygen-documentation is needed.
     */
 
     template <int Box_size, class BijectivityConstraint>
