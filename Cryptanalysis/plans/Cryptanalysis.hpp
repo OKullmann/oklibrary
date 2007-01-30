@@ -11,7 +11,7 @@
 
 /*!
   \namespace OKlib::Cryptanalysis
-  \brief Components for cryptanalysis via SAT
+  \brief Components for cryptanalysis via (generalised) SAT
 */
 
 namespace OKlib {
