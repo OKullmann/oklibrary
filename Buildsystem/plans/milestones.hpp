@@ -66,7 +66,7 @@
     - Doxygen menu
 
   \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak
+   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
    the following topics are handled
     - Version numbers
     - Page organisation
