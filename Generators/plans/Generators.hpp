@@ -55,11 +55,6 @@
   \todo Implement the general construction of Soeren Riis (especially
   interesting when we know that the formulas have short refutations).
 
-  \todo We should also have generators for factoring a number into
-  two factors (at least using the standard multiplication method).
-  Challenging (but potentially very interesting) are virtual clause-sets
-  for this purpose.
-
 */
 
 /*!
