@@ -48,17 +48,17 @@
   \todo Testing AnalyseTotalAssignment.c:
   Test last segment of code in AnalyseTotalAssignment.c.
 
-  \todo Add Class ComputeLargestAutarky
+  \todo Design and implement class ComputeLargestAutarky
   Using UBCSAT library, computes largest autarky given a current total assignment and formula. </li>
   
-  \todo Add AnalyseTotalAssignment.cpp
+  \todo AnalyseTotalAssignment.cpp
   In AnalyseTotalAssignment.cpp:
   <ul>
     <li> Use the class ComputeLargestAutarky. </li>
     <li> Write to a file the reduced formula after largest non trivial autarky has been found. </li>
   </ul>
 
-  \todo Add AutarkyViaUbcsat.cpp
+  \todo AutarkyViaUbcsat.cpp
   In AutarkyViaUbcsat:
   <ul>
     <li> Use AnalyseTotalAssignment.cpp. </li>
