@@ -35,6 +35,16 @@ namespace OKlib {
     /*!
       \class MessagesPrePost
       \brief Extends MessagesLines by managing two strings for prefixing and postfixing lines
+
+      Via the various "prefix" and "postfix" member functions the line-start and line-end can
+      be set to some string; default is empty for line-start and "\n" for line-end. The prefix-
+      and postfix-behaviour should always be free to change (and thus care must be taken when
+      using it internally).
+
+      By the cp_pp ("copy pre-post") member function both the pre- and the postfix-string are
+      copied from some other message object this is used, when a MessagesPrePost-class
+      uses another MessagesPrePost-class object: before outputting this object, cp_pp should
+      be applied to set the pre-post-behavour of that other object accordingly.
     */
 
     class MessagesPrePost : public MessagesLines {
@@ -62,6 +72,12 @@ namespace OKlib {
       }
       MessagesPrePost& set_postfix(const std::string s) {
         postfix_ = s; return *this;
+      }
+
+      MessagesPrePost& cp_pp(const MessagesPrePost& m) {
+        prefix_ = m.prefix();
+        postfix_ = m.postfix();
+        return *this;
       }
     };
 
