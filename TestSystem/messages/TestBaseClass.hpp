@@ -64,7 +64,11 @@ namespace OKlib {
           line(line_number),
           depth(test_depth),
           test_level_description(new ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level))
-        {}
+        {
+          assert(file.get());
+          assert(line.get());
+          assert(test_level_description.get());
+        }
         BasicTestDescription(
                              const char* const type_name_mangled,
                              const MessagePointer file_name,
@@ -76,7 +80,11 @@ namespace OKlib {
           line(line_number),
           depth(test_depth),
           test_level_description(new ::OKlib::TestSystem::messages::TestLevelDescriptions(test_level))
-        {}
+        {
+          assert(file.get());
+          assert(line.get());
+          assert(test_level_description.get());
+}
 
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
           l_start(out) << "Test class = " << type_name.c_str(); l_end(out);
@@ -88,9 +96,9 @@ namespace OKlib {
           assert(line.get());
           assert(test_level_description.get());
           print(out, L<en_GB>(), S<Basic>());
-          l_start(out) << *file; l_end(out);
-          l_start(out) << *line; l_end(out);
-          l_start(out) << *test_level_description; l_end(out);
+          out << file -> cp_pp(*this); l_end(out);
+          out << line -> cp_pp(*this); l_end(out);
+          out << test_level_description -> cp_pp(*this); l_end(out);
           out.flush();
         }
 
@@ -104,9 +112,9 @@ namespace OKlib {
           assert(line.get());
           assert(test_level_description.get());
           print(out, L<de_DE>(), S<Basic>());
-          l_start(out) << *file; l_end(out);
-          l_start(out) << *line; l_end(out);
-          l_start(out) << *test_level_description; l_end(out);
+          out << *file;
+          out << *line;
+          out << *test_level_description;
           out.flush();
         }
 
