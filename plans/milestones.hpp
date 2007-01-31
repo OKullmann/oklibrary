@@ -64,7 +64,7 @@
   \subsection VersionTransitional015 0.1.5 : TO BE REACHED 31.3.2007
   \par Buildsystem version 0.1.5 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8 (OK)
+  \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
   (see TestSystem/plans/milestones.hpp)
@@ -78,7 +78,7 @@
   \subsection VersionTransitional016 0.1.6
   \par Buildsystem version 0.4 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8 (OK)
+  \par Messages version 0.7.6 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.2 (OK)
   (see TestSystem/plans/milestones.hpp)
@@ -88,6 +88,9 @@
   \subsection VersionTransitional017 0.1.7
   \par Buildsystem version 0.5
   (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.8 (OK)
+  (see Messages/plans/milestones.hpp)
+
 
   \subsection VersionTransitional018 0.1.8
   \par Buildsystem version 0.6
