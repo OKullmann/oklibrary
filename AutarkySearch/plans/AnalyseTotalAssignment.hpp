@@ -8,64 +8,69 @@
 
   \todo Local installation of UBCSAT.
   <ul>
-   <li> Installing UBCSAT in ExternalSources:
-     <ol>
-       <li> Some documentation is needed, especially regarding the apparently modified UBCSAT-library. </li>
-       <li> Build Ubcsat/lib with all .o-files. (DONE) </li>
-       <li> Build the standard program ubcsat in Ubcsat/bin. (DONE) </li>
-     </ol>
-   </li>
-   <li> Compile a preliminary version of AnalyseTotalAssignment.c (within OKlibrary). OK: Has this been done? If so, then some documentation is needed about what AnalyseTotalAssignment is supposed to do.</li>
+   <li> Build Ubcsat/lib with all .o-files. (DONE) </li>
+   <li> Build the standard program ubcsat in Ubcsat/bin. (DONE) </li>
   </ul>
+
+  \todo Improved installation of UBCSAT:
+  <ol>
+   <li> Improve the current build, so that there is exactly one directory containing
+   everything offered by Ubcsat, that is, the appropriate src-directory is moved to
+   Ubcsat/1-0-0, and possibly the make-variables are updated. </li>
+   <li> Some documentation is needed:
+    <ul>
+     <li> regarding the apparently modified UBCSAT-library </li>
+     <li> how to use the binary </li>
+     <li> how to use the library files. </li>
+    </ul>
+   </li>
+  </ol>
      
+  \todo No C code anymore:
+  Create AnalyseTotalAssignment.cpp as (initially) a copy of AnalyseTotalAssignment.c,
+  and then change the code to proper C++, introducing an additional header file for
+  declarations. Then remove AnalyseTotalAssignment.c from the repository.
+  (This should be done even if some parts of AnalyseTotalAssignment.c will be removed later
+  ---  we need the declarations anyway, and library development must happen in small
+  controlled steps.)
+
   \todo Connect with LocalSearch/plans/SupportTotalAssignments.hpp.
 
-  \todo Using UBCSAT:
-  Analysing total assignments (and autarky reduction,
-  if successful) is added to UBCSAT, without further changes.
+  \todo Design and implement class ComputeLargestAutarky (goes to
+  AutarkySearch/AnalyseTotalAssignment.hpp):
+  Connecting to UBCSAT, computes largest autarky given a current total assignment and clause-set.
+  <ol>
+   <li> First a concept is needed. </li>
+   <li> Then a prototype is created --- with tests! </li>
+  </ol>
 
-  OK : What is the state of the following discussion???
-
-  ML : The last portion of my code was tested and needs to be modified slightly as it is incorrect.
-
-  For that, include and use all triggers and their data structures needed from UBCSAT
-  library in AutarkySearch.
-   - These include: 
-     ReadCNF, LitOccurence, CandidateList, DefaultProcedures and Flip+FalseClauseList.
-
-  QUESTION (OK): Does this mean that we have already a first complete implementation?
-  If yes, then the current milestone 0.0.6 should become 0.1.
-
-  ANSWER (ML): These triggers were originally used by calling the trigger functions of the
-  UBCSAT library. Therefore they rely on the UBCSAT main program running for it to work
-  To get the AnalyseTotalAssignment to work on its own without UBCSAT main, the code needs to be
-  modified slightly which I am currently doing. More plans will be added (see also "Local installation
-  of UBCSAT" above).
-
-  \todo Combination with enumeration of all total assignments yields
-  autarky search in time O(2^n).
-
-  \todo Testing AnalyseTotalAssignment.c:
-  Test last segment of code in AnalyseTotalAssignment.c.
-
-  \todo Design and implement class ComputeLargestAutarky
-  Using UBCSAT library, computes largest autarky given a current total assignment and formula. </li>
-  
-  \todo AnalyseTotalAssignment.cpp
-  In AnalyseTotalAssignment.cpp:
+  \todo Design and implement class AutarkySearchUbcsat (goes to
+  AutarkySearch/AnalyseTotalAssignment.hpp):
   <ul>
-    <li> Use the class ComputeLargestAutarky. </li>
-    <li> Write to a file the reduced formula after largest non trivial autarky has been found. </li>
+    <li> Use the class ComputeLargestAutarky: Run any UBCSAT-algorithm for finding a satisfying
+    assignment, and check the total assignments considered for a non-trivial autarky. If none
+    is found until termination of UBCSAT-algorithm, then the result is the empty autarky,
+    while otherwise the result is that largest sub-autarky found. </li>
+    <li> Write to a file the reduced formula (after application of the (possibly empty)
+    autarky). </li>
   </ul>
+  This must working with *any* local-search-algorithm from Ubcsat (without alteration).
 
-  \todo AutarkyViaUbcsat.cpp
-  In AutarkyViaUbcsat:
-  <ul>
-    <li> Use AnalyseTotalAssignment.cpp. </li>
-    <li> After each call to AnalyseTotalAssignment.cpp call it again until we have an empty formula. </li>
-  </ul>
+  \todo AnalyseTotalAssignment.cpp:
+  This application program is just a thin wrapper around class AutarkySearchUbcsat,
+  handling how the process is to be iterated (of course, again the main thing is
+  a class which handles the iteration; the program AnalyseTotalAssignment.cpp just
+  manages input and output, and uses this class).
 
-  \todo Changing UBCSAT
+  \todo Complete autarky search:
+  Via the appropriate components from the combinatorics module for enumeration of total
+  assignments, we obtain complete algorithms for autarky search.
+
+  \todo New file structure:
+  Likely we need more files (for the analysis of total assignments in general, for the
+  methods exploiting Ubcsat, for the complete search).
+
+  \todo Changing UBCSAT:
   Change the heuristics in UBCSAT, where now the goal is not to find a satisfying (total) assignment,
   but a total assignment containing a non-trivial autarky.
 
@@ -86,7 +91,6 @@
   the min for obtaining an evaluation of phi (the smaller the better).
   So basically the problem of evaluating phi is delegated to the evaluation of
   partial assignments; see EvaluatePartialAssignments.
-
 
   \todo Integrating/assimilating UBCSAT
   After we got an autarky searcher running, and also played around with the heuristics (mainly based
