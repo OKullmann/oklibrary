@@ -28,7 +28,6 @@
 #include <boost/range/functions.hpp>
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
-#include <Transitional/TestSystem/messages/TestLevel.hpp>
 
 #include <Transitional/TestSystem/messages/TestExceptions.hpp>
 
@@ -121,7 +120,7 @@ namespace OKlib {
       \todo Explain its usage.
     */
 
-#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(OKLIB_FILE_ID, OKLIB_LINE, test_function_type_name, new ::OKlib::TestSystem::messages::TestLevelDescriptions(::OKlib::TestSystem::test_level(level_type())), depth()))
+#define OKLIB_TESTDESCRIPTION (::OKlib::TestSystem::messages::ErrorDescription(description(), OKLIB_FILE_ID, OKLIB_LINE))
 
     /*!
       \def OKLIB_THROW
