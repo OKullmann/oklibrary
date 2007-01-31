@@ -10,8 +10,11 @@
   "Local installation of UBCSAT" is handled.
 
   \par Version 0.0.6
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
-  "Using UBCSAT" is handled.
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - "Using UBCSAT".
+  - "Design and implement class ComputeLargestAutarky".
+  - "AnalyseTotalAssignment.cpp".
+  - "AutarkyViaUbcsat.cpp".
 
   \par Version 0.1 :
   We have a first fully tested implementation using the method of
