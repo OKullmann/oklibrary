@@ -12,7 +12,7 @@
   \par  
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
-    - Suffix for plans-files
+    - Suffix for plans-files (DONE)
 
   \par Version 0.1.5 : TO BE REACHED 14.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:

@@ -10,7 +10,7 @@
   especially bad is an ending .mak, which tells xemacs that this a makefile,
   which has completely different syntax for comments etc. (tab-stops!).
   So all plans-files need the suffix .hpp (and the changes regarding suffix
-  .mak have to be undone).
+  .mak have to be undone). (DONE)
 
   \todo Doxygen general:
    - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
