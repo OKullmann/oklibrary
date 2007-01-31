@@ -26,6 +26,8 @@
 
   OK : What is the state of the following discussion???
 
+  ML : The last portion of my code was tested and needs to be modified slightly as it is incorrect.
+
   For that, include and use all triggers and their data structures needed from UBCSAT
   library in AutarkySearch.
    - These include: 
@@ -45,6 +47,23 @@
 
   \todo Testing AnalyseTotalAssignment.c:
   Test last segment of code in AnalyseTotalAssignment.c.
+
+  \todo Add Class ComputeLargestAutarky
+  Using UBCSAT library, computes largest autarky given a current total assignment and formula. </li>
+  
+  \todo Add AnalyseTotalAssignment.cpp
+  In AnalyseTotalAssignment.cpp:
+  <ul>
+    <li> Use the class ComputeLargestAutarky. </li>
+    <li> Write to a file the reduced formula after largest non trivial autarky has been found. </li>
+  </ul>
+
+  \todo Add AutarkyViaUbcsat.cpp
+  In AutarkyViaUbcsat:
+  <ul>
+    <li> Use AnalyseTotalAssignment.cpp. </li>
+    <li> After each call to AnalyseTotalAssignment.cpp call it again until we have an empty formula. </li>
+  </ul>
 
   \todo Changing UBCSAT
   Change the heuristics in UBCSAT, where now the goal is not to find a satisfying (total) assignment,
