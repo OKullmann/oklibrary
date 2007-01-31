@@ -7,24 +7,13 @@
   \todo TestSystem::messages::ErrorDescription
   (in TestSystem/messages/TestExceptions.hpp) :
   <ul>
+   <li> Test it! </li>
+   <li> Shouldn't the indentation level be set from the outside (so you can
+   have indentation or not --- currently we are forced to have it) ?! DONE </li>
+   <li> Use messages. DONE </li>
    <li> Shouldn't ErrorDescription refer to the BasicTestDescription of the
    test class ?! So that it consists of the BasicTestDescription plus
-   identification of the place where the exception was thrown?!
-   More precisely, besides BasicTestDescription we have
-   <ul>
-    <li> file </li>
-    <li> line. </li>
-   </ul>
-   Output is then BasicTestDescription plus
-   <ul>
-    <li> line for basic </li>
-    <li> line, file for full. </li>
-   </ul>
-   </li>
-   <li> Shouldn't the indentation level be set from the outside (so you can
-   have indentation or not --- currently we are forced to have it) ?! </li>
-   <li> Use messages. </li>
-   <li> Test it! </li>
+   identification of the place where the exception was thrown?! DONE </li>
    <li> type_test_class is not output in the readable form --- perhaps we
    need a message-class for printing types here : Demangled (but (yet) no
    specialised message class for it). DONE </li>
