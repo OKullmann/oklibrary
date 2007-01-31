@@ -20,6 +20,7 @@
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/messages/TestLevel.hpp>
+#include <Transitional/TestSystem/messages/TestBaseClass.hpp>
 
 namespace OKlib {
   namespace TestSystem {
@@ -30,11 +31,10 @@ namespace OKlib {
         \brief The unit to describe the point in call history leading to a test failure.
 
         A message class; an object contains shared pointers to message objects for
-        the file name, the line number and the test-level (class ErrorDescription
-        takes over ownership of these message-object-pointers), a C string with
-        name of the type of the test class, and an integer for the nesting depth.
+        the test class identification and the file name and line number for
+        identifying the place where the exception was thrown (class ErrorDescription
+        takes over ownership of these message-object-pointers).
 
-        \todo Provide different output-levels.
         \todo Provide different output-languages.
       */
 
@@ -45,47 +45,67 @@ namespace OKlib {
         
         typedef std::tr1::shared_ptr< ::OKlib::Messages::MessagesPrePost> MessagePointer;
 
+        MessagePointer test_description;
         MessagePointer file;
         MessagePointer line;
-        std::string type_test_class;
-        MessagePointer level_description;
-        ::OKlib::TestSystem::depth_number_type depth;
+        size_type indent;
+
+        struct ClassIdentificationHeading : ::OKlib::Messages::MessagesPrePost {
+          OKLIB_MESSAGES_PRINT
+          void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
+          void print(std::ostream& out, L<en_GB>, S<Full>) const {
+            l_start(out) << "Test class identification:"; l_end(out);
+          }
+        };
+        struct ExceptionIdentificationHeading : ::OKlib::Messages::MessagesPrePost {
+          OKLIB_MESSAGES_PRINT
+          void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
+          void print(std::ostream& out, L<en_GB>, S<Full>) const {
+            l_start(out) << "Test exception identification:"; l_end(out);
+          }
+        };
 
       public :
 
         ErrorDescription(
+                         const ::OKlib::TestSystem::messages::BasicTestDescription& test,
                          ::OKlib::Messages::Utilities::FileIdentification* const file_,
                          ::OKlib::Messages::Utilities::LineIdentification* const line_,
-                         const char* const type_test_class_,
-                         ::OKlib::TestSystem::messages::TestLevelDescriptions* const level_description_,
-                         const ::OKlib::TestSystem::depth_number_type depth_
+                         const size_type indent_ = 1
                          ) :
+          test_description(new ::OKlib::TestSystem::messages::BasicTestDescription(test)),
           file(file_),
           line(line_),
-          type_test_class(::OKlib::SystemSpecifics::Demangle()(type_test_class_)),
-          level_description(level_description_),
-          depth(depth_)
+          indent(indent_)
         {
+          assert(test_description.get());
           assert(file.get());
           assert(line.get());
-          assert(level_description.get());
-
-          file -> set_prefix(1);
-          line -> set_prefix(1);
-          level_description -> set_prefix(1);
         }
 
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+          assert(test_description.get());
+          assert(line.get());
+          ErrorDescription temp(*this);
+          temp.prefix() += std::string(indent, ' ');
+          out << ClassIdentificationHeading().cp_pp(temp);
+          out << test_description -> cp_pp(temp);
+          out << ExceptionIdentificationHeading().cp_pp(temp);
+          out << line -> cp_pp(temp); l_end(out);
+        }
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          assert(test_description.get());
           assert(file.get());
           assert(line.get());
-          assert(level_description.get());
-          l_start(out) << *file; l_end(out);
-          l_start(out) << *line; l_end(out);
-          l_start(out) << " test class = " << type_test_class; l_end(out);
-          l_start(out) << *level_description; l_end(out);
-          l_start(out) << " test depth = " << depth; l_end(out);
+          ErrorDescription temp(*this);
+          temp.prefix() += std::string(indent, ' ');
+          out << ClassIdentificationHeading().cp_pp(temp);
+          out << test_description -> cp_pp(temp);
+          out << ExceptionIdentificationHeading().cp_pp(temp);
+          out << file -> cp_pp(temp); l_end(out);
+          out << line -> cp_pp(temp); l_end(out);
         }
-      
+
       };
       
       
