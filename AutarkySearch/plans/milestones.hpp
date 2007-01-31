@@ -6,19 +6,42 @@
   \module_version AutarkySearch 0.0.4 (9.11.2006)
 
   \par Version 0.0.5 :
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the topic
-  "Local installation of UBCSAT" is handled.
-
-  \par Version 0.0.6
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - "Using UBCSAT".
-  - "Design and implement class ComputeLargestAutarky".
-  - "AnalyseTotalAssignment.cpp".
-  - "AutarkyViaUbcsat.cpp".
+  - Local installation of UBCSAT
+
+  \par Version 0.0.6 :
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Improved installation of UBCSAT
+
+  \par Version 0.0.7
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - No C code anymore
+  - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
+
+  \par Version 0.0.8
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Design and implement class ComputeLargestAutarky
+
+  \par Version 0.0.9
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Design and implement class AutarkySearchUbcsat
+
+  \par Version 0.0.10
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - AnalyseTotalAssignment.cpp
 
   \par Version 0.1 :
   We have a first fully tested implementation using the method of
   AnalyseTotalAssignment, and start experimentation.
+
+  \par Version 0.2
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Complete autarky search
+  - New file structure
+
+  \par Version 0.3
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Changing UBCSAT
 
   \par Version 1.0 :
   Completely within the OKlibrary we can search for autarkies analysing total
