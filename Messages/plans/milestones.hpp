@@ -10,6 +10,17 @@
    - In Messages/Utilities/plans/milestones.hpp version 0.0.8 is reached.
 
   In Messages/plans/Messages.hpp the following topics are handled:
+   - Doxygen-documentation of message-classes : DONE
+
+  \par Version 0.7.5 :
+
+  In Messages/plans/Messages.hpp the following topics are handled:
+   - Empty output
+   - Demonstrations
+
+  \par Version 0.7.6 :
+
+  In Messages/plans/Messages.hpp the following topics are handled:
    -  Testing
 
   \par Version 0.8 :
