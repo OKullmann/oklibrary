@@ -4,10 +4,23 @@
   \file TestSystem/plans/TestExceptions.hpp
   \brief Plans for the module providing test macros
 
+  \todo TestSystem::messages::TestException :
+  <ol>
+   <li> additional_circumstances should only be output for level Full. </li>
+   <li> Extend the test macros, so that also an error-message-object is possible, and rewrite
+   the existing tests, so that the string is only a short message. </li>
+   <li> Shouldn't we allow also at the other places in the call-stack to add a string
+   describing the special circumstances (not just at the place where the error occurred)?!
+   But this might be hard to achieve, and might be better realised by using the log-facilities?! </li>
+   <li> The constructor takes as optional second argument (by default 0) a pointer to
+   a message object which provides the full story. DONE</li>
+   <li> Use Messages for internal purposes. DONE </li>
+   <li> One could make class TestException also a message-class ?! DONE </li>
+  </ol>
+
   \todo TestSystem::messages::ErrorDescription
-  (in TestSystem/messages/TestExceptions.hpp) :
+  (in TestSystem/messages/TestExceptions.hpp) : DONE
   <ul>
-   <li> Test it! </li>
    <li> Shouldn't the indentation level be set from the outside (so you can
    have indentation or not --- currently we are forced to have it) ?! DONE </li>
    <li> Use messages. DONE </li>
@@ -27,10 +40,10 @@
    needed anymore, since std::auto-ptr was replaced by std::shared_ptr. DONE </li>
   </ul>
 
-  \todo TestSystem::TestException :
-   Investigate, whether it should use Messages for internal purposes, and (perhaps) also for the
-   input of error circumstances (yet the parameter special_circumstances is a plain string variable;
-   in this way strings and boost::lexical_cast would be avoided).
+  \todo Test TestSystem::messages::ErrorDescription
+  <ul>
+   <li> Apply generic tests for MessagesPrePost. </li>
+  </ul>
 
   \todo OKLIB_TEST_EQUAL :
     Update the implementation according to TestSystem/DesignStudy.hpp.

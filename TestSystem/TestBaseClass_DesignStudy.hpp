@@ -37,7 +37,7 @@ namespace OKlib {
   namespace TestSystem {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-    (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/20 17:17:38 $", "$Revision: 1.7 $")
+    (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/02 16:41:30 $", "$Revision: 1.8 $")
 
     /*!
       \class TestBase
@@ -182,16 +182,16 @@ namespace OKlib {
         try {
           test(TestLevel());
         }
-        catch(const TestException&) {
+        catch(const OKlib::TestSystem::messages::TestException&) {
           throw;
         }
         catch(const std::exception& e) {
-          TestException e_new(std::string("std::exception\n   what = \"") + e.what() + "\"\n   type = " + typeid(e).name());
+          OKlib::TestSystem::messages::TestException e_new(std::string("std::exception\n   what = \"") + e.what() + "\"\n   type = " + typeid(e).name());
           e_new.add(OKLIB_TESTDESCRIPTION);
           throw e_new;
         }
         catch(...) {
-          TestException e("unknown exception");
+          OKlib::TestSystem::messages::TestException e("unknown exception");
           e.add(OKLIB_TESTDESCRIPTION);
           throw e;
         }

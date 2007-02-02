@@ -8,8 +8,8 @@
   \par Version 0.1.3 :
 
   In TestSystem/plans/TestExceptions.hpp the following topics are handled:
-  - TestSystem::messages::ErrorDescription
-  - TestSystem::TestException
+  - TestSystem::messages::TestException
+  - TestSystem::messages::ErrorDescription : DONE
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
   - TestSystem::messages::LogDescription

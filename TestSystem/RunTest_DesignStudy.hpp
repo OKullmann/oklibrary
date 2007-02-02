@@ -17,7 +17,7 @@
 
 #include <Transitional/General/TimeHandling.hpp>
 
-#include <Transitional/TestSystem/TestExceptions_DesignStudy.hpp>
+#include <Transitional/TestSystem/messages/TestExceptions.hpp>
 
 #include <Transitional/TestSystem/RunTest_Declarations.hpp>
 #include <Transitional/TestSystem/messages/RunTest.hpp>
@@ -61,7 +61,7 @@ namespace OKlib {
           try {
             i -> perform(level, log);
           }
-          catch(const OKlib::TestSystem::TestException& e) {
+          catch(const OKlib::TestSystem::messages::TestException& e) {
             ++err_counter;
             failed = true;
             log.flush();
