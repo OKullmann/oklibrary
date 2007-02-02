@@ -49,7 +49,7 @@
    For the first 3 forms of unary literals the positive and negative forms would be meaningful (while
    the fourth form is with_complement). So we would have a hierarchy with "no_complement" as the root,
    two derived forms "positive", "negative", and from both we derive "with_complement" (is this
-   meaningful? perhaps all three forms should be derived directly from the root). </li>
+   meaningful? perhaps all three forms should be derived directly from the root). For partial assignments we need a distinction between "(potential) decision literals" and "non-decision literals", where the decision literals need negation, but the others do not. </li>
   </ul>
 
   \todo Requirements literals
