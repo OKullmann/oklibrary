@@ -11,6 +11,8 @@
 #include <string>
 #include <cassert>
 #include <tr1/memory>
+#include <stdexcept>
+#include <vector>
 
 #include <Transitional/SystemSpecifics/Demangling.hpp>
 #include <Transitional/Messages/MessagesMain.hpp>
@@ -107,7 +109,68 @@ namespace OKlib {
         }
 
       };
-      
+
+      // ######################################################
+
+
+      /*!
+        \class TestException
+        \brief The root of the exception class hierarchy, to be thrown in case of test failure.
+        
+        A message class, derived from std::runtime_error.
+        Contains a container of error descriptions, the first one being the actual error description,
+        followed by descriptions for unwinding the call-stack.
+        Should normally not be used directly, but is invoked by OKLIB_THROW and derived macros
+        (like OKLIB_TEST_EQUAL).
+
+        \todo Provide different output-languages.
+      */
+
+      class TestException : public std::runtime_error, public ::OKlib::Messages::MessagesPrePost {
+        //! Vector of error descriptions. Assumes, that the destructor of std::vector does not throw.
+        typedef std::vector< ::OKlib::TestSystem::messages::ErrorDescription> ErrorContainer; 
+        ErrorContainer errors;
+        typedef std::tr1::shared_ptr< ::OKlib::Messages::MessagesPrePost> MessagePointer;
+        MessagePointer additional_circumstances;
+      public :
+        OKLIB_MESSAGES_PRINT
+        TestException(
+                      const std::string& circumstances,
+                      ::OKlib::Messages::MessagesPrePost* const additional_circumstances_ = 0
+                      ) :
+          std::runtime_error(circumstances),
+          additional_circumstances(additional_circumstances_)
+        {}
+        ~TestException() throw() {}
+        
+        TestException& add(const ::OKlib::TestSystem::messages::ErrorDescription e) {
+          errors.push_back(e);
+          return *this;
+        }
+        
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+          typedef ErrorContainer::size_type size_type;
+          l_start(out); l_end(out);
+          l_start(out) << "EXCEPTION THROWN:"; l_end(out);
+          l_start(out) << " error message = " << what(); l_end(out);
+          if (additional_circumstances.get())
+            out << additional_circumstances -> cp_pp(*this);
+          l_start(out) << " stack trace (";
+          {
+            const size_type size(errors.size());
+            out << size << " element";
+            if (size != 1) out << "s";
+          }
+          out << "):"; l_end(out);
+          typedef ErrorContainer::const_iterator iterator;
+          const iterator& end(errors.end());
+          size_type counter = 0;
+          for (iterator i(errors.begin()); i != end; ++i, ++counter) {
+            l_start(out) << "Error description " << counter << ":"; l_end(out);
+            out << ::OKlib::TestSystem::messages::ErrorDescription(*i).cp_pp(*this);
+          }
+        }
+      };
       
     }
   }
