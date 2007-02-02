@@ -17,13 +17,16 @@
      them colours), and possibly these elements can be moved.
      One should play around with Mesa to see what it can, and to estimate
      the quality of the library.
+
   \todo Second concepts for rooted oriented trees and for graphs are needed.
   For graphs the Boost graph library is not optimal, but not too bad.
+
   \todo For trees the Rheingold-Tilford algorithm is to be implemented (see the MSc
   thesis of Warren Bailey), adorning the tree with graphical elements, which
   then can be drawn. For graphs one or two standard graph drawing algorithm
   from the literature should be implemented, adorning in the same way the graph
   with graphical elements.
+
   \todo Applications:
    - SAT solvers output the search tree in xml format; the tree is drawn, and at least
    one selected value labeling the vertices is visualised using some colour scheme
@@ -40,6 +43,7 @@
    yellow to either green or blue.
    - For CS-342 a backtracking tree labeled with clause-sets would be useful
      (possible output in Latex-format).
+
   \todo It should be possible to create ps-, png- and Latex-files from the drawings.
 */
 
