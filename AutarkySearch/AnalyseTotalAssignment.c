@@ -16,6 +16,38 @@
 ==32686==    by 0x400FD9: Initialise (AnalyseTotalAssignment.c:33)
 ==32686==    by 0x4016D5: main (AnalyseTotalAssignment.c:147)
 
+  Further information:
+  <ol>
+   <li> Running
+
+cat example.cnf | valgrind ~/SAT-Algorithmen/OKplatform/ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
+
+  also yields a segmentation fault. If the usage of ubcsat is correct, then
+  either it is miscompiled or faulty (or both). The first
+  "Conditional jump or move" happens again in ReadCNF. </li>
+
+   <li> Perhaps the problems is with the wrong definitions in ubcsat-types.h:
+
+#ifndef UINT32
+#define UINT32 unsigned long
+#endif
+
+#ifndef SINT32
+#define SINT32 signed long
+#endif
+
+   since unsigned long is for example 64 bit on my platform. These definitions
+   have to be corrected using the appropriate fixed-size C99 types. (Also
+   BOOL there should be changed; the maximal exponent of double is
+   1E308, so the definition there for FLOAT should be alright. PROBABILITY
+   is doubtful.) </li>
+
+   <li> This will the the second file of ubcsat changed, and all these
+   changed files must become part of the OKlibrary, while by appropriately
+   placing the directory with these new files in front of the ubcsat directory
+   the compiler is forced to use the new files. </li>
+  </ol>
+
 
   \todo Add file creation date (first file line).
   \todo Create Doxygen documentation.
