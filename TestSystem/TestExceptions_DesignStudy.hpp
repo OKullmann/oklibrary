@@ -2,10 +2,9 @@
 
 /*!
   \file TestSystem/TestExceptions_DesignStudy.hpp
-  \brief Module providing test exceptions and test macros
+  \brief Module providing test macros
 
   Main components are:
-   - TestException
    - OKLIB_LINE
    - OKLIB_THROW
    - OKLIB_TEST_EQUAL and similar tests
@@ -15,14 +14,11 @@
 #ifndef TESTEXCEPTIONS_kjhytRe4
 #define TESTEXCEPTIONS_kjhytRe4
 
-#include <stdexcept>
 #include <string>
 #include <ostream>
 #include <algorithm>
 #include <iterator>
 #include <sstream>
-#include <vector>
-#include <ostream>
 #include <cassert>
 
 #include <boost/range/functions.hpp>
@@ -33,73 +29,6 @@
 
 namespace OKlib {
   namespace TestSystem {
-
-    /*!
-      \typedef ErrorContainer
-      \brief Container of error descriptions
-
-      Vector of error descriptions. Assumes, that the destructor of std::vector does not throw.
-    */
-
-    typedef std::vector< ::OKlib::TestSystem::messages::ErrorDescription> ErrorContainer; 
-
-    // ######################################################
-
-    /*!
-      \class TestException
-      \brief The root of the exception class hierarchy, to be thrown in case of test failure.
-
-      Derived from std::runtime_error.
-      Contains a container of error descriptions, the first one being the actual error description,
-      followed by descriptions for unwinding the call-stack.
-      Should normally not be used directly, but should be invoked by one of the macros
-      like OKLIB_TEST_EQUAL.
-
-      \todo Use Messages.
-      \todo One could make class TestException also a message-class ?!
-      \todo Shouldn't we allow also at the other places in the call-stack to add a string
-      describing the special circumstances (not just at the place where the error occurred)?!
-      But this might be hard to achieve, and might be better realised by using the log-facilities?!
-    */
-
-    class TestException : public std::runtime_error {
-      
-      ErrorContainer errors;
-
-    public :
-
-      explicit TestException(
-                             const std::string& special_circumstances
-                             ) :
-        std::runtime_error(special_circumstances)
-      {}
-      ~TestException() throw() {}
-
-      TestException& add(const ::OKlib::TestSystem::messages::ErrorDescription e) {
-        errors.push_back(e);
-        return *this;
-      }
-
-      friend std::ostream& operator <<(std::ostream& out, const TestException& E) {
-        typedef ::OKlib::TestSystem::ErrorContainer::const_iterator iterator;
-        typedef ::OKlib::TestSystem::ErrorContainer::size_type size_type;
-
-        out << "\nEXCEPTION THROWN:\n Compile time = " << __DATE__ ", " __TIME__ "\n message = " << E.what() << "\n stack trace (";
-        {
-          const size_type size(E.errors.size());
-          out << size << " element";
-          if (size != 1) out << "s";
-        }
-        out << "):\n";
-        const iterator& end(E.errors.end());
-        size_type counter = 0;
-        for (iterator i(E.errors.begin()); i != end; ++i, ++counter)
-          out << "Error description " << counter << ":\n" << *i;
-        return out;
-      }
-    };
-
-    // ######################################################
 
     /*!
       \def OKLIB_LINE
@@ -131,7 +60,7 @@ namespace OKlib {
       where test_description is a string.
     */
 
-#define OKLIB_THROW(message) throw ::OKlib::TestSystem::TestException(std::string("OKLIB TEST FAILURE: ") + message).add(OKLIB_TESTDESCRIPTION);
+#define OKLIB_THROW(message) throw ::OKlib::TestSystem::messages::TestException(std::string("OKLIB TEST FAILURE: ") + message).add(OKLIB_TESTDESCRIPTION);
 
     /*!
       \def OKLIB_TEST_EQUAL
@@ -280,7 +209,7 @@ namespace OKlib {
       assert(base_type::level_p); \
       ((Testobject).set_depth(this -> depth() + 1).perform(*base_type::level_p, log_stream())); \
     } \
-    catch(::OKlib::TestSystem::TestException& e) { \
+    catch(::OKlib::TestSystem::messages::TestException& e) {    \
       e.add(OKLIB_TESTDESCRIPTION); \
       throw e; \
     }
