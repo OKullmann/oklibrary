@@ -4,27 +4,6 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo Clean-up
-   - Old makefiles in Annotations and Transitional need to be removed : DONE
-   - Old directory Buildsystem/makefile_generic_include needs removing : DONE
-
-  \todo makefile_generic_include : DONE
-   - It seems to me that the subdirectory documentation should be renamed 
-     documentation_building
-   - Also, perhaps "Generic" is a better name for this directory than makefile_generic_include.
-
-  \todo Linking to makefile_recursive: DONE
-   The occurrences of makefile_recursive should be replaced by links.(MH) recursive.mak and
-   recursive_noneincluded.mak are only included by the makefiles in Annotations, OKsystem and
-   Transitional. So it should be those makefiles which are replaced by links.
-
-  \todo Naming of local definition makefiles:
-   The makefiles.definitions.mak should be renamed definitions.mak: DONE
-
-  \todo Recommended versions:
-   A system is needed for specifying version numbers of external libraries: Now in
-   external_sources_versions.mak. DONE
-
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading --- or we need special documentation at this point, namely
@@ -102,10 +81,9 @@
    - This should go, and makefile_generic should be able to do all jobs,
      gathering all relevant files from all underlying subdirectories (but as soon
      as one subdirectory doesn't contain makefile_generic, then it and its
-     descendants are ignored). In this way it is then also possible that a directory
-     contains a test program, and has also sub-directories with test programs.
-     However, best we postpone this, and first make experiences with a more extensive
-     directory structure.
+     descendants are ignored). It seems important that for example every subdirectory
+     of a module can itself contain tests- and testobjects-subdirectories. The
+     directory-tree in system_directories must mirror the primary directory-tree.
    
   \todo Compilation information: 
    - We need a standardised way of how to make information about the compilation
