@@ -42,7 +42,7 @@ namespace OKlib {
       using it internally).
 
       By the cp_pp ("copy pre-post") member function both the pre- and the postfix-string are
-      copied from some other message object this is used, when a MessagesPrePost-class
+      copied from some other message object; this is used, when a MessagesPrePost-class
       uses another MessagesPrePost-class object: before outputting this object, cp_pp should
       be applied to set the pre-post-behavour of that other object accordingly.
     */
