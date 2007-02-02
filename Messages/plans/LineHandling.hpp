@@ -8,5 +8,10 @@
 
   \todo Write demo-programs for Messages::MessagesLines and Messages::MessagesPrePost
 
+  \todo Generic testing of MessagePrePost-classes:
+  <ul>
+   <li> Testing whether prefix and postfix can be set arbitrarily. </li>
+  </ul>
+
 */
 
