@@ -4,10 +4,21 @@
   \file Concepts/plans/ActiveClauseSets.hpp
   \brief Plans for the concept of an active clause-set
 
+  \todo Dictionary:
+  <ol>
+   <li> "clause" generalised to "constraint" enhanced to "active clause-set" (semantically
+        like a constraint, but can be viewed as a clause-set) </li>
+   <li> "clause-set" generalised to "constraint satisfaction problem" enhanced to
+        "alliance of active clause-sets". </li>
+  </ol>
+   Ordinary clause-sets however should now be treated as active clause-sets, and not
+   as alliances of active clause-sets, since alliances of active clause-sets assume
+   that there constituents are intelligent but not numerous.
+
   \todo Update with Concepts/plans/ClauseSets.hpp (transferring ideas from
   there to here).
 
-  \todo Partial assignment:
+  \todo Partial assignment (see Concepts/plans/PartialAssignments.hpp):
   An active clause-set (ACLS F in the sequel) has a connection to the
   main partial assignment:
    - it can process the new assignments
