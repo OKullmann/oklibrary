@@ -6,15 +6,24 @@
 
   \todo TestSystem::messages::LogDescription
   (in TestSystem/messages/TestBaseClass.hpp):
-  Update the implementation.
-
-  \todo Messages:
-  - Write true message-classes, not just "trivial messages".
-  - Use messages also for throwing exceptions.
+  Update; perhaps like messages::ErrorDescription, only
+  <ol>
+   <li> no indentation </li>
+   <li> in basic-level no output </li>
+   <li> in full-level all three messages print, but in basic-level </li>
+   <li> in extensive-level finally everything also in extensive-level. </li>
+  </ol>
+  Then also a macro is needed, "like OKLIB_FULL_LOG(m);". (The log-function
+  needs only to take the line- and file-identication as parameters (similar
+  to what we have now), while the BasicTestDescription is already available.)
 
   \todo Macros:
    - write a macro to ease creating log-messages
    - write a macro to ease defining test-classes.
+
+  \todo Messages:
+  - Write true message-classes, not just "trivial messages".
+  - Use messages also for throwing exceptions.
 
   \todo Unknown exceptions:
   In case an unknown exception is thrown, there should be a global option to
