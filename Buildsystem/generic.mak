@@ -1,4 +1,7 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
+
+# VERSION 1.10 (rollback from version 1.11)
+
 #
 # ===============================================================================
 # Targets
@@ -86,6 +89,7 @@
 # This variable pair specifies the top level directory of the OKplatform.
 # The subdirectories $(ExternalSources) and $(SystemDirectories) are created by 
 # the build system in the directory specified by the value of this variable.
+
 #
 # If both the environment variable OKPLATFORM and the Make variable OKplatform 
 # are undefined then the build system gives an error message.
@@ -229,46 +233,27 @@ endif
 
 # ######################################################################
 
-# ----------------------------------------------------------
-#  Definitions required from system_definitions.mak:
-#    OKsystem_include
-#    Boost
-#    system_directories
-# ----------------------------------------------------------
 include $(OKbuildsystem)/system_definitions.mak
-export
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-#  Definitions required from external_sources_versions.mak:
-#    gcc_recommended_version_number
-#    boost_recommended_version_number
-# ----------------------------------------------------------
+export
+
 include $(OKbuildsystem)/external_sources_versions.mak
-export
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-#  Definitions required from standardgoals.mak
-#    special_goals
-#    cleaning_goals
-#    forced_goals
-# ----------------------------------------------------------
+export
+
 include $(OKbuildsystem)/standardgoals.mak
-export
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-#  Definitions required from makefile.definitions:
-#   General_options
-#   Optimisation_options
-#   test_program (for the old test-system)
-#   programs
-#   source_libraries
-#   link_libraries
-# ----------------------------------------------------------
+export
+
 include $(srcdir)/definitions.mak
-# ----------------------------------------------------------
+
+# Definitions required from makefile.definitions:
+# General_options
+# Optimisation_options
+# test_program (for the old test-system)
+# programs
+# source_libraries
+# link_libraries
 
 # ----------------------------------------------------------
 # source_libraries (LV)
@@ -411,7 +396,7 @@ endif
 # definition is in the local definitions.mak.
 #
 # If test programs (from the old test system) are specified
-# in the local definitions.mak then 
+# in the local definitions.mak then we prefix
 # those program names are prefixed here by the full path
 # to the directory where test executables are built, so that
 # Make knows where to build those executables. Also, those
@@ -424,6 +409,7 @@ ifneq ($(test_program),) # old test-system needed
   programs += $(test_program)
 endif
 # ----------------------------------------------------------
+
 
 # ----------------------------------------------------------
 # new_test_program (LV)
@@ -496,8 +482,8 @@ standard_test_program_object_file_optimised := $(lib_dir)/TestProgram_DesignStud
 # ----------------------------------------------------------
 # compilation_units_cpp (LV)
 #
-# A list of names containing every C++ source code file in the 
-# current module source code directory.
+# The names of every C++ source code file in the current
+# module source code directory.
 # ----------------------------------------------------------
 compilation_units_cpp := $(wildcard $(srcdir)/*.cpp)
 compilation_units_cpp := $(notdir $(compilation_units_cpp))
@@ -506,8 +492,8 @@ compilation_units_cpp := $(notdir $(compilation_units_cpp))
 # ----------------------------------------------------------
 # compilation_units_c (LV)
 #
-# A list of names of every C source code file in the 
-# current module source code directory.
+# The names of every C source code file in the current
+# module source code directory.
 # ----------------------------------------------------------
 compilation_units_c := $(wildcard $(srcdir)/*.c)
 compilation_units_c := $(notdir $(compilation_units_c))
@@ -516,8 +502,8 @@ compilation_units_c := $(notdir $(compilation_units_c))
 # ----------------------------------------------------------
 # test_compilation_units (LV)
 #
-# A list of full path names of every C++ source code 
-# file in the testobjects subdirectory of the current module
+# The full path names of every C++ source code file in
+# the testobjects subdirectory of the current module
 # ----------------------------------------------------------
 test_compilation_units := $(wildcard $(testobjects-dir)/*.cpp)
 # ----------------------------------------------------------
@@ -525,8 +511,8 @@ test_compilation_units := $(wildcard $(testobjects-dir)/*.cpp)
 # ----------------------------------------------------------
 # dependency_files_cpp (LV)
 #
-# A list of full path names of the dependency files 
-# for every C++ source code file in the current module.
+# The full path name of the dependency files for every C++
+# source code file in the current module.
 # ----------------------------------------------------------
 dependency_files_cpp := $(compilation_units_cpp:.cpp=.d)
 dependency_files_cpp := $(addprefix $(dependencies_dir)/, $(dependency_files_cpp))
@@ -535,8 +521,8 @@ dependency_files_cpp := $(addprefix $(dependencies_dir)/, $(dependency_files_cpp
 # ----------------------------------------------------------
 # dependency_files_c (LV)
 #
-# A list of full path names of the dependency files 
-# for every C source code file in the current module.
+# The full path name of the dependency files for every C
+# source code file in the current module.
 # ----------------------------------------------------------
 dependency_files_c := $(compilation_units_c:.c=.d) 
 dependency_files_c := $(addprefix $(dependencies_dir)/, $(dependency_files_c))
@@ -545,8 +531,8 @@ dependency_files_c := $(addprefix $(dependencies_dir)/, $(dependency_files_c))
 # ----------------------------------------------------------
 # test_dependency_files (LV)
 #
-# A list of full path names of the dependency files
-# for every test source code file in the current module.
+# The full path name of the dependency files for every 
+# test source code file in the current module.
 # ----------------------------------------------------------
 test_dependency_files := $(notdir $(test_compilation_units))
 test_dependency_files := $(test_dependency_files:.cpp=.d)
@@ -556,8 +542,8 @@ test_dependency_files := $(addprefix $(test-aux_dir)/, $(test_dependency_files))
 # ----------------------------------------------------------
 # dependency_files (LV)
 #
-# A list of full path names of the dependency files 
-# for every C and C++ source code file in the current module.
+# The full path name of the dependency files for every C
+# and C++ source code file in the current module.
 # ----------------------------------------------------------
 dependency_files := $(dependency_files_cpp) \
                     $(dependency_files_c) \
@@ -568,7 +554,7 @@ dependency_files := $(dependency_files_cpp) \
 # ----------------------------------------------------------
 # object_files_cpp (LV)
 #
-# A list of full path names of the object files for every C++
+# The full path name of the object files for every C++
 # source code file in the current directory.
 # ----------------------------------------------------------
 object_files_cpp := $(compilation_units_cpp:.cpp=.o) 
@@ -578,7 +564,7 @@ object_files_cpp := $(addprefix $(lib_dir)/, $(object_files_cpp))
 # ----------------------------------------------------------
 # object_files_c (LV)
 # 
-# A list of full path names of the object files for every C
+# The full path name of the object files for every C
 # source code file in the current directory.
 # ----------------------------------------------------------
 object_files_c := $(compilation_units_c:.c=.o)
@@ -588,8 +574,8 @@ object_files_c := $(addprefix $(lib_dir)/, $(object_files_c))
 # ----------------------------------------------------------
 # object_files (LV)
 # 
-# A list of full path names of the object files for every C 
-# and C++ source code file in the current directory.
+# The full path name of the object files for every C and C++
+# source code file in the current directory.
 # ----------------------------------------------------------
 object_files := $(object_files_cpp) $(object_files_c)
 # ----------------------------------------------------------
@@ -597,8 +583,8 @@ object_files := $(object_files_cpp) $(object_files_c)
 # ----------------------------------------------------------
 # object_files_cpp_optimised (LV)
 # 
-# A list of full path names of the optimised object files for 
-# every C++ source code file in the current directory.
+# The full path name of the optimised object files for every
+# C++ source code file in the current directory.
 # ----------------------------------------------------------
 object_files_cpp_optimised := $(compilation_units_cpp:.cpp=$(name_addition).o)
 object_files_cpp_optimised := $(addprefix $(lib_dir)/, $(object_files_cpp_optimised))
@@ -607,8 +593,8 @@ object_files_cpp_optimised := $(addprefix $(lib_dir)/, $(object_files_cpp_optimi
 # ----------------------------------------------------------
 # object_files_c_optimised (LV)
 # 
-# A list of full path names of the optimised object files for 
-# every C source code file in the current directory.
+# The full path name of the optimised object files for every
+# C source code file in the current directory.
 # ----------------------------------------------------------
 object_files_c_optimised := $(compilation_units_c:.c=$(name_addition).o)
 object_files_c_optimised := $(addprefix $(lib_dir)/, $(object_files_c_optimised))
@@ -617,8 +603,8 @@ object_files_c_optimised := $(addprefix $(lib_dir)/, $(object_files_c_optimised)
 # ----------------------------------------------------------
 # object_files_optimised (LV)
 # 
-# A list of full path names of the optimised object files for 
-# every C and C++ source code file in the current directory.
+# The full path name of the optimised object files for every
+# C and C++ source code file in the current directory.
 # ----------------------------------------------------------
 object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimised)
 # ----------------------------------------------------------
@@ -626,7 +612,7 @@ object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimis
 # ----------------------------------------------------------
 # test_object_files (LV)
 #
-# A list of full path names of the object files for the tests in the
+# The full path names of the object files for the tests in the
 # current module.
 # ----------------------------------------------------------
 test_object_files := $(notdir $(test_compilation_units))
@@ -637,7 +623,7 @@ test_object_files := $(addprefix $(test-lib_dir)/, $(test_object_files))
 # ----------------------------------------------------------
 # test_object_files (LV)
 #
-# A list of full path names of the object files for the tests in the
+# The full path names of the object files for the tests in the
 # current module.
 # ----------------------------------------------------------
 test_object_files_optimised := $(notdir $(test_compilation_units))
@@ -673,7 +659,7 @@ testop_file := $(srcdir)/testop
 # Name of the C++ compiler executable. 
 # default value: recommended library version of g++
 # ----------------------------------------------------------
-CXX := $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/g++
+CXX := g++
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -682,7 +668,7 @@ CXX := $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/g++
 # Name of the C compiler executable.
 # default value: recommended library version of gcc
 # ----------------------------------------------------------
-CC := $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/gcc
+CC := gcc
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -917,69 +903,11 @@ testop_timestamp := $(test-aux_dir)/new_testop_$(test_level)
 # ################################################################
 
 # ----------------------------------------------------------
-# gcc_system_version (LV)
-#
-# If defined (with any non-empty value) then the build
-# system will use the system versions of gcc 
-# rather than the recommended local versions.
-# ----------------------------------------------------------
-gcc_system_version :=
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# boost_system_version (LV)
-#
-# If defined (with any non-empty value) then the build
-# system will use the system versions of boost
-# rather than the recommended local versions.
-# ----------------------------------------------------------
-boost_system_version :=
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# system_versions (LV)
+# system_version (LV)
 #
 # If defined (with any non-empty value) then the build
 # system will use the system versions of gcc and boost
 # rather than the recommended local versions.
-# ----------------------------------------------------------
-system_versions :=
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# gcc_linker_options (LV)
-#
-# Used to specify options passed to the compiler and linker
-# about the location and names of GCC link libraries. By default
-# has no value.
-# ----------------------------------------------------------
-gcc_linker_options :=
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# boost_include (LV)
-#
-# Used to specify options passed to the compiler about the
-# location of Boost header files. The default value points
-# to the location of the boost-$(boost_recommended_version_number)
-# subdirectory of the include directory of the recommended 
-# Boost installation directory.
-# ----------------------------------------------------------
-boost_include := -I$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number)/include/boost-$(boost_recommended_version_number)
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# boost_linker_options (LV)
-#
-# Used to specify options passed to the compiler and linker
-# about the location and names of Boost link libraries. The
-# default value is -LX -Wl,-rpath,X where X is the lib
-# subdirectory of the recommended Boost installation directory.
-# ----------------------------------------------------------
-boost_linker_options :=  -L$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number)/lib
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
 #
 # gcc_version_number (SV)           
 #
@@ -997,77 +925,65 @@ boost_linker_options :=  -L$(ExternalSources)/Boost/$(boost_recommended_version_
 # default, has the value of the recommended version
 # of boost.
 #
+# COMMENT OK: as discussed, we need system versions 
+# separately for gcc and boost
+#
 # ----------------------------------------------------------
+system_versions :=
 
-ifneq ($(system_versions),)
-    gcc_system_version := 1
-    boost_system_version := 1
-endif
-
-ifneq ($(gcc_system_version),)
-    CXX := g++
-    CC := gcc
-    gcc_version_number := 
-    boost_include := -I/usr/include/boost
-    boost_linker_options :=
-endif
-
-ifneq ($(boost_system_version),)
-    boost_version_number := 
-    boost_include := -I/usr/include/boost
-    boost_linker_options := 
+ifeq ($(system_versions),)
+    gcc_version_number:= $(gcc_recommended_version_number)
+    boost_version_number:= $(boost_recommended_version_number)
 endif
 # ----------------------------------------------------------
 
-ifneq ($(gcc_version_number),)
 
+# ----------------------------------------------------------
+#
+# alternative_library_path
+#
+#  Specifies the full options necessary to pass the full path
+#  of the Gcc and Boost link-libraries to the compiler and
+#  linker. With "-Wl,-rpath,Path" we tell the compiler to 
+#  pass the option "-rpath Path" to the linker, which will 
+#  add Path to the places searched for this program for 
+#  run-time-libraries.
+#
+# boost_version_number
+#
+#  The version number of the Boost library.
+#
+# Boost
+#
+#  Include option to be passed to the compiler, specifying
+#  the location of the Boost include directory. 
+#
+# COMMENT OK: this needs revision (for example "alternative"
+# isn't right anymore)
+# ----------------------------------------------------------
+alternative_library_path:=
+
+ifneq ($(gcc_version_number),) # alternative gcc specified
   CXX := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/g++
   CC := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/gcc
-
-  gcc_linker_options := -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib
-
-  boost_include := -I$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_version_number)/include/boost-$(boost_recommended_version_number)
-
-  boost_linker_options :=  -L$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_version_number)/lib
-
+  alternative_library_path:= -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib
+  ifeq ($(boost_version_number),)
+    ifndef Boost
+      $(error Variable Boost must be defined!)
+    endif
+    boost_version_number := $(patsubst -I%,%,$(Boost))
+    boost_version_number := $(patsubst %/,%,$(boost_version_number))
+    boost_version_number := $(notdir $(boost_version_number))
+    boost_version_number := $(patsubst boost-%,%,$(boost_version_number))
+  endif
+  alternative_library_path := $(alternative_library_path) -L$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib
+  Boost = -I$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/include/boost-$(boost_version_number)
+else # no alternative gcc specified
+  ifneq ($(boost_version_number),) # alternative boost specified
+  alternative_library_path := $(alternative_library_path) -L$(ExternalSources)/Boost/$(boost_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)/lib
+  Boost = -I$(ExternalSources)/Boost/$(boost_version_number)/include/boost-$(boost_version_number)
+  endif
 endif
-
-ifneq ($(boost_version_number),)
-
-  boost_include := -I$(ExternalSources)/Boost/$(boost_version_number)/include/boost-$(boost_version_number)
-
-  boost_linker_options := -L$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib
-
-endif
-
-# ----------------------------------------------------------
-# compiler_linking_option (LV)
-#
-# Used to specify options passed to the compiler and linker
-# about the location and names of link libraries. By default
-# has a value equal to the concatentation of $(gcc_linker_options)
-# and $(boost_linker_options).
-# ----------------------------------------------------------
-compiler_linking_option := $(gcc_linker_options) $(boost_linker_options)
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# compiler_include_options (LV)
-#
-# Used to specify options passed to the compiler about the
-# location of header files. The default value is
-# $(boost_include)
-# ----------------------------------------------------------
-compiler_include_options := $(boost_include)
-# ----------------------------------------------------------
-
-# The next line always includes Boost - but we only want to do
-# that for those modules which specify Boost as a source 
-# library. For that reason it seems necessary for all possible
-# definitions of boost_include to be in system_definitions.mak ???????
-
-source_libraries += $(compiler_include_options)
-
 
 # ######################################################################
 
@@ -1086,69 +1002,19 @@ include $(OKbuildsystem)/Generic/documentation_building/documentation_index.mak
 # MAIN TARGETS
 # ################################################################
 
-# ----------------------------------------------------------
-# all 
-#
-# Build all optimised and unoptimised object files and
-# programs (including test programs)
-# ----------------------------------------------------------
 all : unoptimised optimised
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(directories)
-#
-# Make a directory with the target name, creating all
-# parent directories if necessary.
-# ----------------------------------------------------------
 $(directories) :
 	@mkdir -p $@
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# unoptimised
-#
-# Build all unoptimised object files and programs (including
-# test programs).
-# ----------------------------------------------------------
 unoptimised : $(object_files) $(programs)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# optimised
-#
-# Build optimised object files and programs (including test
-# programs from old test system).
-# ----------------------------------------------------------
 optimised : $(object_files_optimised) $(programs_optimised)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# check
-#
-# Perform all tests (unoptimised and optimised) from the old 
-# test system.
-# ----------------------------------------------------------
 check : test testop
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# new_check
-#
-# Perform all tests (unoptimised and optimised) from the new 
-# test system.
-# ----------------------------------------------------------
 new_check : new_test new_testop
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# test, testop
-#
-# If there are test programs from the old test system in the
-# current module then build those tests and perform them. 
-# Creating a timestamp file to prevent the next 'make check'
-# from running unmodified tests again.
-# ----------------------------------------------------------
 ifneq ($(test_program),) # old test-system needed
 test : $(test_file)
 testop : $(testop_file)
@@ -1156,156 +1022,56 @@ else
 test :
 testop :
 endif
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# new_test, new_testop
-#
-# If there are test programs from the new test system in the
-# current module then build those tests and perform them. 
-# Creating a timestamp file to prevent the next 'make check' 
-# from running unmodified tests again.
-# ----------------------------------------------------------
 new_test : $(test_timestamp)
 new_testop : $(testop_timestamp)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(test_file)
-# $(testop_file)
-#
-# Run the test program from the old test system, using the
-# $(Test_tool) and touch the corresponding timestamp file.
-# ----------------------------------------------------------
 $(test_file) : $(test_program)
 	$(Test_tool) $(test_program)
 	touch $(test_file)
 $(testop_file) : $(test_program)$(name_addition)
 	$(Test_tool) $(test_program)$(name_addition)
 	touch $(testop_file)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(test_timestamp)
-# $(testop_timestamp)
-#
-# Run the test program from the new test system, using the
-# $(Test_tool) and touch the corresponding timestamp file.
-# ----------------------------------------------------------
 $(test_timestamp) : $(new_test_program) | $(test-aux_dir)
 	$(Test_tool) $(new_test_program) $(test_parameters)
 	touch $(test_timestamp)
 $(testop_timestamp) : $(new_test_program_optimised)
 	$(Test_tool) $(new_test_program_optimised) $(test_parameters)
 	touch $(testop_timestamp)
-# ----------------------------------------------------------
 
-
-# ----------------------------------------------------------
-# force
-#
-# ????
-# ----------------------------------------------------------
 force :
-# ----------------------------------------------------------
 
-
-# ----------------------------------------------------------
-# Include the list of dependencies from the relevant 
-# dependency file.
-# ----------------------------------------------------------
 ifeq ($(firstword $(filter $(special_goals) $(cleaning_goals) $(forced_goals), $(MAKECMDGOALS))),)
-  include $(dependency_files)
+include $(dependency_files)
 endif
-# ----------------------------------------------------------
 
-
-# ----------------------------------------------------------
-# $(dependency_files_cpp)
-# 
-# Extract dependency information from the C++ object files
-# for the current module and write it to a dependency
-# file in $(dependencies_dir)
-# ----------------------------------------------------------
 $(dependency_files_cpp) : $(dependencies_dir)/%.d : $(srcdir)/%.cpp | $(dependencies_dir)
 	$(CXX) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(dependency_files_c)
-# 
-# Extract dependency information from the C object files
-# for the current module and write it to a dependency
-# file in $(dependencies_dir)
-# ----------------------------------------------------------
 $(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c | $(dependencies_dir)
-	$(CC) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries)  $<
-# ----------------------------------------------------------
+	$(CC) -MM -MF $@ -MT $(lib_dir)/$*.o -MT $(lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 
-# ----------------------------------------------------------
-# $(test_dependency_files)
-# 
-# Extract dependency information from the test object files
-# for the current module and write it to a dependency
-# file in $(dependencies_dir)
-# ----------------------------------------------------------
 $(test_dependency_files) : $(test-aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(test-aux_dir)
 	$(CXX) -MM -MF $@ -MT $(test-lib_dir)/$*.o -MT $(test-lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(object_files_cpp_optimised)
-#
-# Compile optimised C++ object files for the current module.
-# ----------------------------------------------------------
 $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp | $(lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(object_files_cpp)
-#
-# Compile unoptimised C++ object files for the current module.
-# ----------------------------------------------------------
 $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(object_files_c_optimised)
-#
-# Compile optimised C object files for the current module.
-# ----------------------------------------------------------
 $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $(lib_dir)
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(object_files_c)
-#
-# Compile unoptimised C object files for the current module.
-# ----------------------------------------------------------
 $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
 	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(test_object_files)
-#
-# Compile unoptimised test object files for the current module.
-# ----------------------------------------------------------
 $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries)  $<
-# ----------------------------------------------------------
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
 
-# ----------------------------------------------------------
-# $(test_object_files_optimised)
-#
-# Compile optimised test object files for the current module.
-# ----------------------------------------------------------
 $(test_object_files_optimised) : $(test-lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries)  $<
-# ----------------------------------------------------------
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
 
 # ----------------------------------------------------------
 # get-link-libraries      
@@ -1335,54 +1101,19 @@ endef
 
 export
 
-# ----------------------------------------------------------
-# $(programs)
-#
-# Link together relevant object files to build programs
-# for the current module. Including test programs from the
-# old test system.
-# ----------------------------------------------------------
 $(programs) : $(bin_dir)/% : $(lib_dir)/%.o | $(bin_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(compiler_linking_option) $(get-link_libraries)
-# ----------------------------------------------------------
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $< $(alternative_library_path) $(get-link_libraries)
 
-# ----------------------------------------------------------
-# $(programs_optimised)
-#
-# Link together relevant object files to build optimised programs
-# for the current module. Including test programs from the
-# old test system.
-# ----------------------------------------------------------
 $(programs_optimised) : $(bin_dir)/%$(name_addition) : $(lib_dir)/%$(name_addition).o | $(bin_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(compiler_linking_option) $(get-link_libraries_optimised)
-# ----------------------------------------------------------
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $< $(alternative_library_path) $(get-link_libraries_optimised)
 
-# ----------------------------------------------------------
-# test_link_libraries
-# ----------------------------------------------------------
 test_link_libraries := -liberty # because of demangling
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# $(new_test_program)
-#
-# Link together relevant object files to build the test program
-# for the current module.
-# ----------------------------------------------------------
 $(new_test_program) : $(test-bin_dir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bin_dir) $(test-aux_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(compiler_linking_option) $(get-link_libraries) $(test_link_libraries)
-# ----------------------------------------------------------
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(alternative_library_path) $(get-link_libraries) $(test_link_libraries)
 
-# ----------------------------------------------------------
-# $(new_test_program_optimised)
-#
-# Link together relevant object files to build the optimised 
-# test program for the current module.
-# ----------------------------------------------------------
 $(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bin_dir) $(test-aux_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(compiler_linking_option) $(get-link_libraries_optimised) $(test_link_libraries)
-# ----------------------------------------------------------
-
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised) $(test_link_libraries)
 
 # ######################################################################
 
@@ -1390,135 +1121,38 @@ $(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_objec
 # CLEANING TARGETS
 # ################################################################
 
-# ----------------------------------------------------------
-# cleantest (old test system)
-#
-# Removes the test timestamp file for the current module.
-# The next 'make check' will rebuild the tests from the old
-# test system for the current module.
-# ----------------------------------------------------------
 cleantest :
 	- rm $(test_file)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# cleantestop (old test system)
-#
-# Removes the optimised test timestamp file for
-# the current module. The next 'make check' will rebuild 
-# the optimised tests from the old test system for the current 
-# module.
-# ----------------------------------------------------------
 cleantestop :
 	- rm $(testop_file)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# cleanalltest (old test system)
-#
-# Removes both the test timestamp file and the optimised test
-# timestamp file for the current module.
-# The next 'make check' will rebuild the tests and the
-# optimised tests from the old test system for the
-# current module.
-# ----------------------------------------------------------
 cleanalltest : cleantest cleantestop
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# new_cleantest (new test system)
-#
-# Removes the test timestamp file for the current module.
-# The next 'make check' will rebuild the tests for the
-# current module.
-# ----------------------------------------------------------
 new_cleantest :
 	- rm $(test_timestamp)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# new_cleantestop (new test system)
-#
-# Removes the optimised test timestamp file for the current 
-# module. The next 'make check' will rebuild the optimised 
-# tests for the current module.
-# ----------------------------------------------------------
 new_cleantestop :
 	- rm $(testop_timestamp)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# new_cleanalltests (new test system)
-#
-# Removes both the test timestamp file and the optimised 
-# test timestamp file for the current module. 
-# The next 'make check' will rebuild both the tests and the 
-# optimised tests for the current module.
-# ----------------------------------------------------------
 new_cleanalltests : new_cleantest new_cleantestop
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# cleanobj
-#
-# Removes all non-test object files and optimised object
-# files for the current module.
-# ----------------------------------------------------------
 cleanobj :
 	- rm $(object_files) $(object_files_optimised)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# cleantestobj
-#
-# Removes all test object files and optimised test object
-# files for the current module.
-# ----------------------------------------------------------
 cleantestobj :
 	- rm $(test_object_files) $(test_object_files_optimised)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# cleandep
-#
-# Removes all dependency files for the current module.
-# ----------------------------------------------------------
 cleandep :
 	- rm $(dependency_files)
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# clean
-#
-# Removes all object files (unoptimised and optimised), along
-# with all tests (unoptimised and optimised) and dependencies
-# for the current module.
-# ----------------------------------------------------------
-clean : cleanobj cleantestobj cleandep cleanalltest new_cleanalltests
-# ----------------------------------------------------------
+clean : cleanobj cleantestobj cleandep
+	- rm $(test_file) $(testop_file) $(test_timestamp) $(testop_timestamp) 
 
-# ----------------------------------------------------------
-# cleanprograms
-#
-# Removes all (test and non-test) program executables 
-# (optimised and unoptimised) for the current module
-# ----------------------------------------------------------
 cleanprograms :
 	- rm $(programs) $(programs_optimised) $(new_test_program) $(new_test_program_optimised) 
-# ----------------------------------------------------------
 
-# ----------------------------------------------------------
-# cleanall
-#
-# Removes all object files (unoptimised and optimised), along
-# with all tests (unoptimised and optimised) and dependencies
-# for the current module.
-# Removes all (test and non-test) program executables 
-# (optimised and unoptimised) for the current module.
-# Removes error, log and message files for the current module.
-# ----------------------------------------------------------
 cleanall : clean cleanprograms
 	- rm $(error_file) $(message_file) $(log_file)
-# ----------------------------------------------------------
 
 # ######################################################################
