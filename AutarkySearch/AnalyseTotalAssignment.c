@@ -36,16 +36,76 @@ cat example.cnf | valgrind ~/SAT-Algorithmen/OKplatform/ExternalSources/Ubcsat/1
 #define SINT32 signed long
 #endif
 
-   since unsigned long is for example 64 bit on my platform. These definitions
+   since unsigned long is for example 64 bit on OK's workstation. These definitions
    have to be corrected using the appropriate fixed-size C99 types. (Also
    BOOL there should be changed; the maximal exponent of double is
    1E308, so the definition there for FLOAT should be alright. PROBABILITY
    is doubtful.) </li>
 
-   <li> This will the the second file of ubcsat changed, and all these
-   changed files must become part of the OKlibrary, while by appropriately
-   placing the directory with these new files in front of the ubcsat directory
-   the compiler is forced to use the new files. </li>
+   <li> Proposal to change ubcsat-types.h:
+    Replace <p>
+
+#define FLOAT double
+#define FLOATMAX (1E+300)
+
+#define PROBABILITY unsigned long
+
+#ifndef BOOL
+#define BOOL unsigned long
+#endif
+
+#ifndef UINT32
+#define UINT32 unsigned long
+#endif
+
+#ifndef SINT32
+#define SINT32 signed long
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+    </p> by <p>
+
+#ifdef BOOL
+# error "BOOL predefined, which might conflict with the C99 definition of bool"
+#endif
+#ifdef TRUE
+# error "TRUE predefined, which might conflict with the C99 definition of true"
+#endif
+#ifdef FALSE
+# error "FALSE predefined, which might conflict with the C99 definition of false"
+#endif
+#include <stdbool.h>
+#define BOOL bool
+#define TRUE true
+#define FALSE false
+
+#include <float.h>
+#if DBL_MAX_10_EXP < 308
+# error "Maximal decimal exponent for double is only " DBL_MAX_10_EXP ", but should be at least 308"
+#endif
+#define FLOAT double
+#define FLOATMAX (1E+300)
+
+#include <stdint.h>
+#ifdef UINT32
+# error "UINT32 predefined, which might conflict with the C99 definition of uint32_t"
+#endif
+#define UINT32 uint32_t
+#ifdef SINT32
+# error "SINT32 predefined, which might conflict with the C99 definition of int32_t"
+#endif
+#define SINT32 int32_t
+
+#define PROBABILITY UINT32
+
+    </p> </li>
   </ol>
 
 
