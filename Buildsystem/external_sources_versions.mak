@@ -3,7 +3,7 @@
 # #################################
 
 gcc_recommended_version_number := 4.1.1
-gcc_supported_not_recommended_version_numbers := 3.4.3 3.4.4 3.4.5 3.4.6 4.0.0 4.0.1 4.0.2 4.0.3 4.1.0
+gcc_supported_not_recommended_version_numbers := 4.0.1 4.0.2 4.0.3 4.1.0
 gcc_supported_version_numbers := $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
 
 # ########################################
