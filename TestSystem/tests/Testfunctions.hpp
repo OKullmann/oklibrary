@@ -3,6 +3,7 @@
 /*!
   \file TestSystem/tests/Testfunctions.hpp
   \brief Temporary file for trying out the new test system.
+  \deprecated
 */
 
 #ifndef TESTFUNCTIONS_UJJhhgFR45
@@ -18,13 +19,12 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/20 17:18:39 $", "$Revision: 1.5 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/04 19:10:08 $", "$Revision: 1.6 $")
 
       OKLIB_TEST_CLASS(Test1) {
         OKLIB_TEST_CLASS_C(Test1) {}
       private :
         void test(::OKlib::TestSystem::Basic) {
-          typedef ::OKlib::TestSystem::Basic level_type;
           //throw std::runtime_error("In OKlib::TestSystem::Test1::test");
           //OKLIB_THROW("IN TEST1");
           //throw 5;

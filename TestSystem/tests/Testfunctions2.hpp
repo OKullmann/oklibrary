@@ -3,7 +3,7 @@
 /*!
   \file TestSystem/tests/Testfunctions2.hpp
   \brief Temporary file with testfunctions to try out the new testsystem
-  \todo A macro is needed for the fixed code in test-meta-functions.
+  \deprecated
 */
 
 #ifndef TESTFUNCTIONS2_kHFcD3
@@ -19,13 +19,12 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/10 16:22:54 $", "$Revision: 1.4 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/04 19:10:08 $", "$Revision: 1.5 $")
 
       OKLIB_TEST_CLASS(Test2) {
         OKLIB_TEST_CLASS_C(Test2) {}
       private :
         void test(::OKlib::TestSystem::Basic) {
-          typedef ::OKlib::TestSystem::Basic level_type;
           OKLIB_TEST_RETHROW(::OKlib::TestSystem::tests::Test1());
         }
       };
@@ -34,7 +33,6 @@ namespace OKlib {
         OKLIB_TEST_CLASS_C(Test3) {}
       private :
         void test(OKlib::TestSystem::Basic) {
-          typedef OKlib::TestSystem::Basic level_type;
           OKLIB_TEST_RETHROW(OKlib::TestSystem::tests::Test2());
         }
       };

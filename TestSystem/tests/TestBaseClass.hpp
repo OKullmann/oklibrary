@@ -22,7 +22,7 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2007/01/20 17:18:39 $", "$Revision: 1.6 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/04 19:10:08 $", "$Revision: 1.7 $")
 
       /*!
         \class TestSystem
@@ -30,8 +30,8 @@ namespace OKlib {
         
         \todo Complete it.
         \todo Doxygen documentation.
-        \todo Improve the output (a more systematical approach for better structuring; and replacing the use of
-        trivial messages).
+        \todo Improve the output (a more systematical approach for better structuring; and
+        replacing the use of trivial messages).
       */
       
       OKLIB_TEST_CLASS(TestSystem) {
@@ -42,13 +42,11 @@ namespace OKlib {
           OKLIB_TEST_CLASS_C1(LocalTest1, const int, n) {}
         private :
           void test(::OKlib::TestSystem::Basic) {
-            typedef OKlib::TestSystem::Basic level_type;
             OKLIB_TEST_EQUAL(n, 0);
           }
         };
       
         void test(::OKlib::TestSystem::Basic) {
-          typedef ::OKlib::TestSystem::Basic level_type;
           typedef ::OKlib::TestSystem::RunTest::container_type container_type;
           ::OKlib::TestSystem::TestLevel& test_level(::OKlib::TestSystem::test_level(::OKlib::TestSystem::Basic()));
           container_type test_objects;
