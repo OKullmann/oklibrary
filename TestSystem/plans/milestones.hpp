@@ -7,12 +7,14 @@
 
   \par Version 0.1.3 :
 
-  In TestSystem/plans/TestExceptions.hpp the following topics are handled:
-  - TestSystem::messages::TestException
-  - TestSystem::messages::ErrorDescription : DONE
-
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
   - TestSystem::messages::LogDescription
+  - Macros
+
+  In TestSystem/plans/TestExceptions.hpp the following topics are handled:
+  - TestSystem::messages::TestException : DONE
+  - OKLIB_TEST_EQUAL : DONE
+  - TestSystem::messages::ErrorDescription : DONE
 
   \par Version 0.1.4 :
 
@@ -25,6 +27,13 @@
   - Infos
 
   \par Version 0.1.5 :
+
+  In TestSystem/plans/TestExceptions.hpp the following topics are handled:
+  - More error-information
+  - Test TestSystem::messages::ErrorDescription
+  - OKLIB_TEST_RETHROW_NO_LOG
+  - Transition
+  - An overhaul of the test-macros (like OKLIB_TEST_EQUAL) seems to be needed
 
   Expand and update the tests, so that the test system is thoroughly tested.
 
