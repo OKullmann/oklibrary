@@ -6,7 +6,7 @@
 
   Main components are:
    - OKLIB_LINE
-   - OKLIB_THROW
+   - OKLIB_THROW, OKLIB_THROW_M
    - OKLIB_TEST_EQUAL and similar tests
    - OKLIB_TEST_RETHROW.
 */
@@ -63,18 +63,26 @@ namespace OKlib {
 #define OKLIB_THROW(message) throw ::OKlib::TestSystem::messages::TestException(std::string("OKLIB TEST FAILURE: ") + message).add(OKLIB_TESTDESCRIPTION);
 
     /*!
+      \def OKLIB_THROW_M
+      \brief Basic macro for throwing an exception in case of test failure, with additional information
+
+      Usage:
+        OKLIB_THROW_M(short_test_description, message)
+      where short_test_description is a string and message a pointer to a message (if message is a null pointer, then nothing happens).
+    */
+
+#define OKLIB_THROW_M(short_test_description, message) { ::OKlib::Messages::MessagesPrePost* const m(message); if (m) throw ::OKlib::TestSystem::messages::TestException(std::string("OKLIB TEST FAILURE: ") + short_test_description, m).add(OKLIB_TESTDESCRIPTION); }
+
+    /*!
       \def OKLIB_TEST_EQUAL
       \brief Use OKLIB_TEST_EQUAL(a,b) for asserting a == b in case a and b are output-streamable.
 
-      In case of a failure a, b are output. where a is the value found, while b is the expected value.
+      In case of a failure a, b are output, where a is the value found, while b is the expected value. The expressions a, b are evaluated exactly once.
     */
 
 #define OKLIB_TEST_EQUAL(v1, v2) \
-    if ( not((v1) == (v2))) {    \
-      std::stringstream out; \
-      out << "Value is\n" << (v1) << ",\n and not\n" << (v2) << ".";    \
-      OKLIB_THROW(out.str()); \
-    }
+    OKLIB_THROW_M("OKLIB_TEST_EQUAL", OKlib::TestSystem::messages::test_not_equal((v1), (v2)));
+
 
     /*!
       \def OKLIB_TEST_NOTEQUAL
@@ -83,13 +91,15 @@ namespace OKlib {
 
 #define OKLIB_TEST_NOTEQUAL(v1, v2) \
     if ( (v1) == (v2)) {            \
-      OKLIB_THROW("Equal values"); \
+      OKLIB_THROW("OKLIB_TEST_NOTEQUAL"); \
     }
 
     /*!
       \def OKLIB_TEST_EQUAL_RANGES
       \brief Use OKLIB_TEST_EQUAL_RANGES(r1,r2) for asserting ranges (in the boost::range
       sense) are equal (no output of the elements of r1 or r2 in case of test failure).
+
+      \todo Upgrade to OKLIB_THROW_M.
     */
 
 #define OKLIB_TEST_EQUAL_RANGES(c1, c2) { \
@@ -169,6 +179,9 @@ namespace OKlib {
       for container-types (having member functions begin and end).
       For other classes X, before using of the macro the std::ostream inserter
       must be overloaded for inserting objects of type OKlib::TestSystem::OutputWrapper<X>.
+
+      \todo Likely the same treatment as for OKLIB_TEST_EQUAL is needed
+      (to avoid double evaluation).
     */
 
 #define OKLIB_TEST_EQUAL_W(v1, v2) \
