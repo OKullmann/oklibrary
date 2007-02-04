@@ -120,12 +120,11 @@ namespace OKlib {
 
       };
 
+      // #############################################
+
       /*!
         \class LogDescription
         \brief Outputs a description of the circumstances of a log-message
-
-        \todo How is ownership of the test-level object handled here? See BasicTestDescription.
-        \todo Use FileIdentification, and also a messages-class for line-numbers etc.
       */
 
       struct LogDescription : ::OKlib::Messages::MessagesBase {
@@ -137,16 +136,16 @@ namespace OKlib {
         const ::OKlib::TestSystem::TestLevel* const test_level;
 
         LogDescription(
-                             const char* const file_name,
-                             const ::OKlib::TestSystem::line_number_type line_number,
-                             const ::OKlib::TestSystem::depth_number_type depth,
-                             const ::OKlib::TestSystem::TestLevel* test_level) :
+                       const char* const file_name,
+                       const ::OKlib::TestSystem::line_number_type line_number,
+                       const ::OKlib::TestSystem::depth_number_type depth,
+                       const ::OKlib::TestSystem::TestLevel* test_level) :
           file_name(file_name),
           line_number(line_number),
           depth(depth),
           test_level(test_level)
         {}
-
+        
         void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
         void print(std::ostream& out, L<en_GB>, S<Full>) const {
           out << "Log message at line " << line_number << " in file " << file_name << ":\n";
@@ -155,7 +154,7 @@ namespace OKlib {
           out << "Log message at line " << line_number << " in file " << file_name << ",\n";
           out << "at test depth = " << depth << " and " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
         }
-
+        
         void print(std::ostream& out, L<de_DE>, S<Basic>) const {}
         void print(std::ostream& out, L<de_DE>, S<Full>) const {
           out << "Log-Meldung in Zeile " << line_number << " und Datei " << file_name << ":\n";
