@@ -25,6 +25,12 @@
    - When removing Messages/Messages_Testapplication.cpp, we must make sure that all these tests are
      incorporated.
 
+  \todo Internal use of messages:
+  If in for example "print(std::ostream& out, L<en_GB>, S<Basic>) const" a message
+  is output on stream out, then, despite the knowledge about the language and the
+  level, at runtime language and level must be extracted from out to output the
+  message: Can this runtime-overhead be avoided?
+
 */
 
 /*!
