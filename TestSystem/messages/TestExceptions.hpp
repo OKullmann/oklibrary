@@ -153,8 +153,6 @@ namespace OKlib {
           l_start(out); l_end(out);
           l_start(out) << "EXCEPTION THROWN:"; l_end(out);
           l_start(out) << " error message = " << what(); l_end(out);
-          if (additional_circumstances.get())
-            out << additional_circumstances -> cp_pp(*this);
           l_start(out) << " stack trace (";
           {
             const size_type size(errors.size());
@@ -170,8 +168,68 @@ namespace OKlib {
             out << ::OKlib::TestSystem::messages::ErrorDescription(*i).cp_pp(*this);
           }
         }
+
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          typedef ErrorContainer::size_type size_type;
+          l_start(out); l_end(out);
+          l_start(out) << "TEST EXCEPTION THROWN:"; l_end(out);
+          l_start(out) << " short error message = " << what(); l_end(out);
+          if (additional_circumstances.get()) {
+            l_start(out) << " additional error circumstances :"; l_end(out);
+            out << additional_circumstances -> cp_pp(*this);
+          }
+          l_start(out) << " stack trace call-history (with ";
+          {
+            const size_type size(errors.size());
+            out << size << " element";
+            if (size != 1) out << "s";
+          }
+          out << "):"; l_end(out);
+          typedef ErrorContainer::const_iterator iterator;
+          const iterator& end(errors.end());
+          size_type counter = 0;
+          for (iterator i(errors.begin()); i != end; ++i, ++counter) {
+            l_start(out) << "Error description " << counter << ":"; l_end(out);
+            out << ::OKlib::TestSystem::messages::ErrorDescription(*i).cp_pp(*this);
+          }
+          l_start(out) << "END TEST EXCEPTION THROWN."; l_end(out);
+        }
+
       };
-      
+
+      // ######################################################
+
+
+      /*!
+        \class NotEqual
+        \brief Output of streamable objects which are not equal (unexpectedly)
+
+        \todo Provide different output-languages.
+      */
+
+      template <typename T1, typename T2>
+      struct NotEqual : OKlib::Messages::MessagesPrePost {
+        OKLIB_MESSAGES_PRINT
+        const T1& a, b;
+        NotEqual(const T1& a, const T2& b) : a(a), b(b) {}
+        void print(std::ostream& out, L<en_GB>, S<Basic>) const {
+          l_start(out) << "a != b, where"; l_end(out);
+          l_start(out) << "a = " << a; l_end(out);
+          l_start(out) << "b = " << b; l_end(out);
+        }
+        void print(std::ostream& out, L<en_GB>, S<Full>) const {
+          l_start(out) << "Test \"a == b\" returned false, where a is the tested value, b the expected value, and where"; l_end(out);
+          l_start(out) << "a = " << a; l_end(out);
+          l_start(out) << "b = " << b; l_end(out);
+        }
+      };
+      //! Helper function template: guaranteeing that a,b are evaluated only once, returning a pointer which is null if the test succeeded
+      template <typename T1, typename T2>
+      inline NotEqual<T1, T2>* test_not_equal(const T1& a, const T2& b) {
+        if (not (a == b)) return new NotEqual<T1,T2>(a,b);
+        else return 0;
+      }
+
     }
   }
 }
