@@ -17,9 +17,14 @@
    <li> Improve the current build, so that there is exactly one directory containing
    everything offered by Ubcsat, that is, the appropriate src-directory is moved to
    Ubcsat/1-0-0, and possibly the make-variables are updated. </li>
+   <li> The source-files from ubcsat should be converted to unix-files (using
+   dos2unix). </li>
+   <li> No "modified files" anymore, but NEW FILES, with proper change
+   documentation, in the OKlibrary; by appropriate settings of variable
+   source-libraries the directory with the updated ubcsat-files is dominant
+   over the original ubcsat-source-directory. </li>
    <li> Some documentation is needed:
     <ul>
-     <li> regarding the apparently modified UBCSAT-library </li>
      <li> how to use the binary </li>
      <li> how to use the library files. </li>
     </ul>
