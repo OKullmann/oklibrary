@@ -13,13 +13,13 @@
    <li> in full-level all three messages print, but in basic-level </li>
    <li> in extensive-level finally everything also in extensive-level. </li>
   </ol>
-  Then also a macro is needed, "like OKLIB_FULL_LOG(m);". (The log-function
+  Then also a macro is needed, like "OKLIB_FULL_LOG(m);". (The log-function
   needs only to take the line- and file-identication as parameters (similar
   to what we have now), while the BasicTestDescription is already available.)
 
   \todo Macros:
    - write a macro to ease creating log-messages
-   - write a macro to ease defining test-classes.
+   - write a macro to ease defining test-classes. DONE
 
   \todo Messages:
   - Write true message-classes, not just "trivial messages".
