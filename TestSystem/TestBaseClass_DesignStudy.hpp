@@ -37,7 +37,7 @@ namespace OKlib {
   namespace TestSystem {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-    (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/02 16:41:30 $", "$Revision: 1.8 $")
+    (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/06 18:38:17 $", "$Revision: 1.9 $")
 
     /*!
       \class TestBase
@@ -67,12 +67,6 @@ namespace OKlib {
        OKLIB_TEST_RETHROW(::OKlib::Module::tests::Test, x, y);
        set_depth is used by OKLIB_TEST_RETHROW to (re)set the new testobject, and thus must be public
        (although it does not really belong to the interface of TestBase).
-
-       \todo Use Messages.
-       \todo The (full) log-function should use file and line identification messages.
-       \todo For the creation of full log-messages some macro is needed for handling the full
-       description (file-identification etc.).
-
     */
 
     class TestBase : public ::OKlib::TestSystem::Test {
@@ -137,7 +131,7 @@ namespace OKlib {
       ::OKlib::TestSystem::depth_number_type depth() const { return depth_; }
 
       public :
-      //! Changing the test-function-nesting-level.
+      //! Changing the (assumed) test-function-nesting-level.
       TestBase& set_depth(const ::OKlib::TestSystem::depth_number_type d) { depth_ = d; return *this; }
 
     private :
@@ -206,12 +200,12 @@ namespace OKlib {
       virtual void test(Basic) = 0;
       virtual void test(Full) {
         using OKlib::Messages::Utilities::trivial_message;
-        log(trivial_message("Warning: test level \"Full\" not available, by default retrograding to test level \"Basic\""), __LINE__, __FILE__); // use Messages
+        log(trivial_message("Warning: test level \"Full\" not available, by default retrograding to test level \"Basic\"")); // use Messages
         test(Basic());
       }
       virtual void test(Extensive) {
         using OKlib::Messages::Utilities::trivial_message;
-        log(trivial_message("Warning: test level \"Extensive\" not available, by default retrograding to test level \"Basic\""), __LINE__, __FILE__); // use Messages
+        log(trivial_message("Warning: test level \"Extensive\" not available, by default retrograding to test level \"Basic\"")); // use Messages
         test(Full());
       }
 
@@ -224,12 +218,11 @@ namespace OKlib {
         *log_p << m;
       }
 
-      //! Test-meta-functions create full log-messages via this member function.
-
-      void log(const ::OKlib::Messages::MessagesBase& m, ::OKlib::TestSystem::line_number_type const line, const char* const file) {
-        assert(log_p);
-        assert(level_p);
-        *log_p << ::OKlib::TestSystem::messages::LogDescription(file, line, depth_, level_p) << m << std::endl;
+      //! Test-meta-functions create full log-messages via this member function:
+      void log(const ::OKlib::Messages::MessagesBase& m, ::OKlib::Messages::Utilities::LineIdentification* const line, ::OKlib::Messages::Utilities::FileIdentification* const file) const {
+        assert(line);
+        assert(file);
+        *log_p << ::OKlib::TestSystem::messages::LogDescription(description(), file, line) << m << std::endl;
       }
 
       //! Access to the log-stream
@@ -313,6 +306,19 @@ namespace OKlib {
 #define OKLIB_TEST_CLASS_C1(TC, PT, PN) typedef ::OKlib::TestSystem::TestBase base_type; \
   private : PT PN; \
   public : explicit TC(PT PN) : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TC).name()), PN(PN)
+
+    /*!
+      \define OKLIB_FULL_LOG
+      \brief Macro for full log messages
+
+      Use as follows:
+
+      OKLIB_FULL_LOG(m);
+
+      where m is a message object.
+    */
+
+#define OKLIB_FULL_LOG(m) log(m, OKLIB_LINE, OKLIB_FILE_ID)
 
   }
   
