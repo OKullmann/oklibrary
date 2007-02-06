@@ -5,7 +5,7 @@
   
   \module_version Buildsystem 0.1.3 (14.1.2007)
   
-  \par Version 0.1.4 : TO BE REACHED 4.2.2007
+  \par Version 0.1.4 : TO BE REACHED 6.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Documentation of generic.mak
 
@@ -14,7 +14,11 @@
    the following topics are handled:
     - Suffix for plans-files (DONE)
 
-  \par Version 0.1.5 : TO BE REACHED 14.2.2007
+  \par
+   Overhaul milestone 0.1.5: Create a certain focus, and move the rest to
+   0.1.6.
+
+  \par Version 0.1.5 : TO BE REACHED 18.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Incorrect build of new tests I
     - Incorrect build of new tests II
@@ -57,7 +61,7 @@
     - Compilation information
     - Special runs
     - Source code directory structure
-    - Version control
+    - Version control (AS SOON AS POSSIBLE)
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
@@ -97,6 +101,10 @@
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - Other sources
     - Tools
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - License
 
   \par Version 0.1.8 :
    In Buildsystem/plans/README.hpp the following topics are handled:
