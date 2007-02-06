@@ -125,43 +125,103 @@ namespace OKlib {
       /*!
         \class LogDescription
         \brief Outputs a description of the circumstances of a log-message
+
+        \todo Once the message-construction is more powerful, generalised the handling
+        of the different levels and languages accordingly:
+        <ul>
+         <li> Heading not needed at level Basic. </li>
+         <li> Ending not needed at levels Basic and Full. </li>
+         <li> The template parameter for the main print-function should go. </li>
+        </ul>
       */
 
-      struct LogDescription : ::OKlib::Messages::MessagesBase {
+      struct LogDescription : ::OKlib::Messages::MessagesPrePost {
         OKLIB_MESSAGES_PRINT
 
-        const char* const file_name;
-        const ::OKlib::TestSystem::line_number_type line_number;
-        const ::OKlib::TestSystem::depth_number_type depth;
-        const ::OKlib::TestSystem::TestLevel* const test_level;
+      private :
+
+        typedef std::tr1::shared_ptr< ::OKlib::Messages::MessagesPrePost> MessagePointer;
+
+        MessagePointer test_description;
+        MessagePointer file;
+        MessagePointer line;
+
+        struct Heading : ::OKlib::Messages::MessagesPrePost {
+          OKLIB_MESSAGES_PRINT
+          void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
+          void print(std::ostream& out, L<en_GB>, S<Full>) const {
+            l_start(out) << "LOG MESSAGE; identification:"; l_end(out);
+          }
+          void print(std::ostream& out, L<en_GB>, S<Extensive>) const {
+            l_start(out) << "LOG MESSAGE"; l_end(out);
+            l_start(out) << "identification:"; l_end(out);
+          }
+          void print(std::ostream& out, L<de_DE>, S<Full>) const {
+            l_start(out) << "LOG-MELDUNG; Identifizierung:"; l_end(out);
+          }
+          void print(std::ostream& out, L<de_DE>, S<Extensive>) const {
+            l_start(out) << "LOG-MELDUNG"; l_end(out);
+            l_start(out) << "Identifizierung:"; l_end(out);
+          }
+        };
+        struct Ending : ::OKlib::Messages::MessagesPrePost {
+          OKLIB_MESSAGES_PRINT
+          void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
+          void print(std::ostream& out, L<en_GB>, S<Full>) const {}
+          void print(std::ostream& out, L<en_GB>, S<Extensive>) const {
+            l_start(out) << "message:"; l_end(out);
+          }
+        };
+
+      public :
 
         LogDescription(
-                       const char* const file_name,
-                       const ::OKlib::TestSystem::line_number_type line_number,
-                       const ::OKlib::TestSystem::depth_number_type depth,
-                       const ::OKlib::TestSystem::TestLevel* test_level) :
-          file_name(file_name),
-          line_number(line_number),
-          depth(depth),
-          test_level(test_level)
-        {}
-        
-        void print(std::ostream& out, L<en_GB>, S<Basic>) const {}
-        void print(std::ostream& out, L<en_GB>, S<Full>) const {
-          out << "Log message at line " << line_number << " in file " << file_name << ":\n";
-        }
-        void print(std::ostream& out, L<en_GB>, S<Extensive>) const {
-          out << "Log message at line " << line_number << " in file " << file_name << ",\n";
-          out << "at test depth = " << depth << " and " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
+                         const ::OKlib::TestSystem::messages::BasicTestDescription& test,
+                         ::OKlib::Messages::Utilities::FileIdentification* const file_,
+                         ::OKlib::Messages::Utilities::LineIdentification* const line_
+                         ) :
+          test_description(new ::OKlib::TestSystem::messages::BasicTestDescription(test)),
+          file(file_),
+          line(line_)
+        {
+          assert(test_description.get());
+          assert(file.get());
+          assert(line.get());
         }
         
-        void print(std::ostream& out, L<de_DE>, S<Basic>) const {}
-        void print(std::ostream& out, L<de_DE>, S<Full>) const {
-          out << "Log-Meldung in Zeile " << line_number << " und Datei " << file_name << ":\n";
+        template <class L>
+        void print(std::ostream& out, L, S<Basic>) const {}
+        template <class L>
+        void print(std::ostream& out, L, S<Full>) const {
+          assert(test_description.get());
+          assert(file.get());
+          assert(line.get());
+          out << Heading().cp_pp(*this);
+          assert(::OKlib::Messages::MessagesBase::level(out) == Full);
+          ::OKlib::Messages::MessagesBase::set(out, Basic);
+          LogDescription temp(*this);
+          const int indent = 1;
+          temp.prefix() += std::string(indent, ' ');
+          out << line -> cp_pp(temp); l_end(out);
+          out << file -> cp_pp(temp); l_end(out);
+          out << test_description -> cp_pp(temp);
+          ::OKlib::Messages::MessagesBase::set(out, Full);
         }
-        void print(std::ostream& out, L<de_DE>, S<Extensive>) const {
-          out << "Log-Meldung in Zeile " << line_number << " und Datei " << file_name << ",\n";
-          out << "wobei Test-Schachtelungstiefe = " << depth << " und " << ::OKlib::TestSystem::messages::TestLevelDescriptions(*test_level) << ":\n";
+        template <class L>
+        void print(std::ostream& out, L, S<Extensive>) const {
+          assert(test_description.get());
+          assert(file.get());
+          assert(line.get());
+          out << Heading().cp_pp(*this);
+          {
+            LogDescription temp(*this);
+            const int indent = 1;
+            temp.prefix() += std::string(indent, ' ');
+            out << line -> cp_pp(temp); l_end(out);
+            out << file -> cp_pp(temp); l_end(out);
+            out << test_description -> cp_pp(temp);
+          }
+          out << Ending().cp_pp(*this);
         }
 
       };
