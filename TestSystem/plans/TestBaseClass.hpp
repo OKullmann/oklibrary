@@ -4,7 +4,7 @@
   \file TestSystem/plans/TestBaseClass.hpp
   \brief Plans for the module with the (user) base of the test hierarchy
 
-  \todo TestSystem::messages::LogDescription
+  \todo TestSystem::messages::LogDescription DONE
   (in TestSystem/messages/TestBaseClass.hpp):
   Update; perhaps like messages::ErrorDescription, only
   <ol>
@@ -17,13 +17,17 @@
   needs only to take the line- and file-identication as parameters (similar
   to what we have now), while the BasicTestDescription is already available.)
 
-  \todo Macros:
-   - write a macro to ease creating log-messages
+  \todo Macros: DONE
+   - write a macro to ease creating log-messages DONE
    - write a macro to ease defining test-classes. DONE
 
-  \todo Messages:
-  - Write true message-classes, not just "trivial messages".
-  - Use messages also for throwing exceptions.
+  \todo TestSystem::TestBase:
+  - Use message-classes.
+  - For the full-log-function: Perhaps m should be indented? And in extensive-level perhaps
+    message-end should be indicated.
+  - When putting the description on the log-stream (in perform_and_catch), then there should
+    be a heading (at least for level full).
+  - For the typename-output in perform_and_catch use demangling.
 
   \todo Unknown exceptions:
   In case an unknown exception is thrown, there should be a global option to
