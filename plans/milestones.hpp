@@ -22,16 +22,18 @@
   (see Buildsystem/plans/milestones.hpp)
   \par TestSystem version 0.1.3 (OK (MH))
   (see TestSystem/plans/milestones.hpp)
+  \par Messages version 0.7.4 (OK)
+  (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional014 0.1.4 : TO BE REACHED 14.2.2007
+  \subsection VersionTransitional014 0.1.4 : TO BE REACHED 18.2.2007
   \par Buildsystem version 0.1.5 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.4 (OK)
+  \par Concepts version 0.1.2 (OK (MH))
+  (see Concepts/plans/milestones.hpp)
+  \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Concepts version 0.1.2 (OK (MH))
-  (see Concepts/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
   \par AtomicConditions version 0.0.3 (OK (MH))
@@ -57,6 +59,8 @@
   (see OKsolver_2_0/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK)
   (see QuantumPhysics/plans/milestones.hpp)
+  \par Messages version 0.7.6 (OK)
+  (see Messages/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
@@ -64,9 +68,9 @@
   Update the subsequent milestones.
 
   \subsection VersionTransitional016 0.1.6 : TO BE REACHED 31.3.2007
-  \par Buildsystem version 0.1.5 (MH, OK)
+  \par Buildsystem version 0.1.6 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.5 (OK)
+  \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
   (see TestSystem/plans/milestones.hpp)
@@ -78,9 +82,9 @@
   (see Cryptanalysis/plans/milestones.hpp)
 
   \subsection VersionTransitional017 0.1.7
-  \par Buildsystem version 0.4 (MH, OK)
+  \par Buildsystem version 0.2 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.6 (OK)
+  \par Messages version 0.7.8 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.2 (OK)
   (see TestSystem/plans/milestones.hpp)
@@ -88,29 +92,29 @@
   (see ComplexitySystem/plans/milestones.hpp)
 
   \subsection VersionTransitional018 0.1.8
-  \par Buildsystem version 0.5
+  \par Buildsystem version 0.3
   (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8 (OK)
+  \par Messages version 0.7.9 (OK)
   (see Messages/plans/milestones.hpp)
 
 
   \subsection VersionTransitional019 0.1.9
-  \par Buildsystem version 0.6
+  \par Buildsystem version 0.4
   (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.8 (OK)
+  (see Messages/plans/milestones.hpp)
 
   \subsection VersionTransitional0110 0.1.10
   \par Buildsystem version 0.7
   (see Buildsystem/plans/milestones.hpp)
 
   \subsection VersionTransitional0111 0.1.11
-  \par Buildsystem version 0.8
+  \par Buildsystem version 0.5
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.8
   (see Messages/plans/milestones.hpp)
 
   \subsection VersionTransitional0112 0.1.12
-  \par Buildsystem version 0.9
-  (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.9
   (see Messages/plans/milestones.hpp)
 
