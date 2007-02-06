@@ -125,6 +125,7 @@ namespace OKlib {
       \brief Trivial reduction for a Sudoku problem
 
       Checks only whether the constraints either all are satisfied or one has been falsified.
+      \todo This should be the responsibility of the alliance, or? (Like "generalised UCP" ?!)
     */
 
     template <class SudokuP>
