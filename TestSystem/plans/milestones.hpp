@@ -8,8 +8,8 @@
   \par Version 0.1.3 :
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - TestSystem::messages::LogDescription
-  - Macros
+  - TestSystem::messages::LogDescription : DONE
+  - Macros : DONE
 
   In TestSystem/plans/TestExceptions.hpp the following topics are handled:
   - TestSystem::messages::TestException : DONE
@@ -19,8 +19,7 @@
   \par Version 0.1.4 :
 
   In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - Messages
-  - Macros
+  - TestSystem::TestBase
 
   In TestSystem/plans/TestProgram.hpp the following topics are handled:
   - Messages
@@ -39,7 +38,14 @@
 
   \par Version 0.1.6 :
 
+  In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
+  - Unknown exceptions
+  - Encapsulation
+  - Testing
+  - Transition
+
   In TestSystem/plans/TestSystem.hpp the following topics are handled:
+  - Documentation
   - Build system
 
   \par Version 0.2 :
