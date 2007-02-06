@@ -4,6 +4,11 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
+  \todo License:
+  It seems LGPL is suitable; we have to check this (is it compabible with all
+  other licenses (for external sources) involved? I guess so). Once decided,
+  we have to add appropriate licence texts to every file.
+
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading --- or we need special documentation at this point, namely
