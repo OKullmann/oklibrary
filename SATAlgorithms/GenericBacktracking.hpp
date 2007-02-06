@@ -52,7 +52,7 @@ namespace OKlib {
         }
         typedef typename heuristics_type::literal_type literal_type;
         const literal_type& l(h(P));
-        P.add_assignment(l);
+        P.add_assignment(l); // do we have failed-literal reduction?
         {
           const boost::logic::tribool first_branch = Backtracking::operator()();
           P.undo(); if (first_branch and not all) return true;
