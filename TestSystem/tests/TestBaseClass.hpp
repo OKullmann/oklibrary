@@ -22,7 +22,7 @@ namespace OKlib {
     namespace tests {
 
 # define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/04 19:10:08 $", "$Revision: 1.7 $")
+      (__FILE__, __DATE__, __TIME__, "$Date: 2007/02/06 18:37:08 $", "$Revision: 1.8 $")
 
       /*!
         \class TestSystem
@@ -52,7 +52,7 @@ namespace OKlib {
           container_type test_objects;
 
           using OKlib::Messages::Utilities::trivial_message;
-          log(trivial_message("\nFIRST TEST\n"), __LINE__, __FILE__);
+          OKLIB_FULL_LOG(trivial_message("\nFIRST TEST\n"));
           {
             std::stringstream test_err, test_messages, test_log;
             OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::level(log_stream()));
@@ -63,7 +63,7 @@ namespace OKlib {
             OKlib::Messages::MessagesBase::set(test_messages, OKlib::Messages::MessagesBase::language(log_stream()));
             test_objects.push_back(new LocalTest1(0));
             ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
-            log(trivial_message("Output of the three streams after RunTest::run_tests:\n"), __LINE__, __FILE__);
+            OKLIB_FULL_LOG(trivial_message("Output of the three streams after RunTest::run_tests:\n"));
             log(trivial_message("content of test_err:\n" + test_err.str()));
             log(trivial_message("content of test_messages:\n" + test_messages.str()));
             log(trivial_message("test_log level = "));
@@ -76,7 +76,7 @@ namespace OKlib {
             if (test_log.str().empty())
               OKLIB_THROW("No log!");
           }
-          log(trivial_message("\nSECOND TEST\n"), __LINE__, __FILE__);
+          OKLIB_FULL_LOG(trivial_message("\nSECOND TEST\n"));
           {
             std::stringstream test_err, test_messages, test_log;
             OKlib::Messages::MessagesBase::set(test_log, OKlib::Messages::MessagesBase::level(log_stream()));
@@ -88,7 +88,7 @@ namespace OKlib {
  
             test_objects.push_back(new LocalTest1(1));
             ::OKlib::TestSystem::RunTest::run_tests(test_err, test_messages, test_log, test_level, test_objects);
-            log(trivial_message("Output of the three streams after RunTest::run_tests:\n"), __LINE__, __FILE__);
+            OKLIB_FULL_LOG(trivial_message("Output of the three streams after RunTest::run_tests:\n"));
             log(trivial_message("content of test_err:\n" + test_err.str()));
             log(trivial_message("content of test_messages:\n" + test_messages.str()));
             log(trivial_message("test_log level = "));
