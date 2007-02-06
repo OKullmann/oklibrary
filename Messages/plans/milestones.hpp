@@ -7,25 +7,47 @@
 
   \par Version 0.7.4 :
 
-   - In Messages/Utilities/plans/milestones.hpp version 0.0.8 is reached.
-
   In Messages/plans/Messages.hpp the following topics are handled:
    - Doxygen-documentation of message-classes : DONE
+
+  Planning of a general overhaul (regarding line-start and line-end
+  issues): DONE
 
   \par Version 0.7.5 :
 
   In Messages/plans/Messages.hpp the following topics are handled:
-   - Empty output
-   - Demonstrations
+   - The general concept of a "message"
 
   \par Version 0.7.6 :
+
+  In Messages/Utilities/plans/milestones.hpp version 0.0.8 is reached.
+
+  \par Version 0.7.7 :
+
+  In Messages/plans/Messages.hpp the following topics are handled:
+   - Empty output
+   - Internal use of messages
+
+  In Messages/Utilities/plans/milestones.hpp version 0.0.9 is reached.
+
+  \par Version 0.7.8 :
+
+  In Messages/plans/Messages.hpp the following topics are handled:
+   - Demonstrations
+
+  \par Version 0.7.9 :
 
   In Messages/plans/Messages.hpp the following topics are handled:
    -  Testing
 
+  In Messages/Utilities/plans/milestones.hpp version 0.0.10 is reached.
+
   \par Version 0.8 :
-  Help for memory management of message objects (components, or at least some guidelines)
-  available.
+
+  In Messages/plans/Messages.hpp the following topics are handled:
+   - Memory management
+
+  In Messages/Utilities/plans/milestones.hpp version 0.1 is reached.
 
   \par Version 0.9 :
   Documentation completed.
