@@ -8,8 +8,48 @@
   Using the macro OKLIB_MESSAGES_PRINT, doxygen misunderstands it as belonging to
   the following member --- how to correct this behaviour of doxygen? By telling doxygen to replace these macros with the empty string. DONE
 
+  \todo The general concept of a "message":
+  There need to be clear definition and examples for what a "message" is:
+  <ol>
+   <li> A basic message is like a sentence:
+   <ul>
+    <li> It starts with a capital letter. </li>
+    <li> It just continues on the given line, that is, it does not invoke anything at
+         the begin of the message or at the end (and it does not span multiple lines). </li>
+   </ul>
+   </li>
+   <li> For multi-line messages MessagePrePost is to be used (perhaps better "MessagesMultiLines" ?):
+   <ul>
+    <li> Still nothing at the begin or the end, but for line breaks l_end and l_start are to be used,
+         so that indentation of messages is possible. </li>
+    <li> For convenience, functions s(), e() se() switch on the l-start and l-end at the beginning
+         respectively at the end of the (whole) message (can this be automatically achieved?). </li>
+    <li> To facilitate indentation, an additional indent-member functions (2 overloads: string and int)
+         is made available, which appends to the prefix (and returns a reference; the point is
+         easier use for temporary message objects). </li>
+   </ul>
+   </li>
+   <li> These basic requirements shall go to the general documentation (and also to the doxygen
+        documentation). </li>
+   <li> All existed messages need to be overhauled. </li>
+  </ol>
+  
+
   \todo Empty output:
   How can one easily define that for example at basic-level for all languages the output is empty?
+  Easiest would be a function template, but then overload-ambiguities arise.
+  In the cases where it is applicable (see for example OKlib::TestSystem::messages::LogDescription),
+  one has to see whether code bloat arises.
+  A similar problem arises, when a nested message-class is only called for example for level
+  "extensive", but nevertheless all print-version need to be defined (!) (declared is not enough!).
+  The solution should be to have more macros like OKLIB_MESSAGES_PRINT, which allow to handle
+  these special cases. Perhaps OKLIB_LEVEL_yUhTr6 and OKLIB_LANG_77TgVf can be utilised.
+
+  \todo Internal use of messages:
+  If in for example "print(std::ostream& out, L<en_GB>, S<Basic>) const" a message
+  is output on stream out, then, despite the knowledge about the language and the
+  level, at runtime language and level must be extracted from out to output the
+  message: Can this runtime-overhead be avoided?
 
   \todo Demonstrations:
   We need demonstrations for all components provided by this module (for example
@@ -22,14 +62,13 @@
      Later we will request compiler version 4.1.1 or higher,
      but first we have to see that there are no performance
      problems with these later gcc-versions (regarding compilation and execution).
-   - When removing Messages/Messages_Testapplication.cpp, we must make sure that all these tests are
-     incorporated.
+   - When removing Messages/Messages_Testapplication.cpp, we must make sure that all the tests there
+     are incorporated.
 
-  \todo Internal use of messages:
-  If in for example "print(std::ostream& out, L<en_GB>, S<Basic>) const" a message
-  is output on stream out, then, despite the knowledge about the language and the
-  level, at runtime language and level must be extracted from out to output the
-  message: Can this runtime-overhead be avoided?
+  \todo Memory management:
+  Are intelligent pointer enough to handle messages? There should be a documentation about handling
+  messages (regarding their storage duration: automatic and dynamic are most important; and references
+  are also important).
 
 */
 
