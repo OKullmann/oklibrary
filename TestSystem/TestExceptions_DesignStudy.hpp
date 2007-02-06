@@ -5,7 +5,6 @@
   \brief Module providing test macros
 
   Main components are:
-   - OKLIB_LINE
    - OKLIB_THROW, OKLIB_THROW_M
    - OKLIB_TEST_EQUAL and similar tests
    - OKLIB_TEST_RETHROW.
@@ -29,18 +28,6 @@
 
 namespace OKlib {
   namespace TestSystem {
-
-    /*!
-      \def OKLIB_LINE
-      \brief Macro to create a message object with the current line number
-
-      \todo Explain its usage.
-    */
-
-# define OKLIB_NUMBER(N) # N
-    //! putting quotes around the line number
-# define OKLIB_INTERMEDIATE_LINE(X) OKLIB_NUMBER(X)
-# define OKLIB_LINE new ::OKlib::Messages::Utilities::LineIdentification(OKLIB_INTERMEDIATE_LINE(__LINE__))
 
     /*!
       \def OKLIB_TESTDESCRIPTION
