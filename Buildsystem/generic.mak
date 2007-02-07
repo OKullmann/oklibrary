@@ -188,7 +188,7 @@ endif
 
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
-# in Transtional/Buildsystem/generic.mak and cut-and-pasted
+# in Transitional/Buildsystem/generic.mak and cut-and-pasted
 # to :
 #  Transitional/Buildsystem/ExternalSources.mak
 #  Transitional/Buildsystem/ExternalSources/boost.mak
@@ -1136,7 +1136,7 @@ $(testop_timestamp) : $(new_test_program_optimised)
 # ----------------------------------------------------------
 # force
 #
-# ????
+# Target to force actions
 # ----------------------------------------------------------
 force :
 # ----------------------------------------------------------
