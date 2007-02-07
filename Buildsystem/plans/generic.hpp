@@ -37,10 +37,6 @@
       <li> which are intended for use by the user, typically to specify
       options.</li>
      </ol>   
-
-     (OK : why are you using "-#" ?)
-     (MH : This is how to create numbered lists in Doxygen. You prefer to
-     just write the numbers?)
    
      ################### PROBLEM: It seems MH is using tab-stops?
      ################### Those must be disabled!
