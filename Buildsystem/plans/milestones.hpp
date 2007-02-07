@@ -51,21 +51,6 @@
     - Version control (AS SOON AS POSSIBLE)
 
   \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
-   the following topics are handled:
-    - Doxygen general
-    - Doxygen menu
-
-  \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
-   the following topics are handled
-    - Version numbers
-    - Page organisation
-    - Using css
-    - Meta tags
-    - Improved logo
-
-  \par
    In Buildsystem/plans/generic.hpp the following topics have been updated:
     - General clean-up of make-variables
     - Cleaning
@@ -104,6 +89,21 @@
     - Documentation (Examples and Concepts)
     - Compilation information
     - Source code directory structure
+
+  \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
+   the following topics are handled:
+    - Doxygen general
+    - Doxygen menu
+
+  \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
+   the following topics are handled
+    - Version numbers
+    - Page organisation
+    - Using css
+    - Meta tags
+    - Improved logo
 
   \par Version 0.1.7 :
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
