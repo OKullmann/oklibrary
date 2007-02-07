@@ -5,7 +5,7 @@
   
   \module_version Buildsystem 0.1.3 (14.1.2007)
   
-  \par Version 0.1.4 : TO BE REACHED 6.2.2007
+  \par Version 0.1.4 : THEME is "Steps towards a specified and testable buildsystem" :  TO BE REACHED 6.2.2007
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
@@ -23,23 +23,16 @@
    Overhaul milestone 0.1.5: Create a certain focus, and move the rest to
    0.1.6.
 
-  \par Version 0.1.5 : TO BE REACHED 18.2.2007
+  \par Version 0.1.5 : THEME is "A specified and testable buildsystem" : TO BE REACHED 18.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Incorrect build of new tests I
     - Incorrect build of new tests II
     - General clean-up of make-variables
     - General_options
     - Linking and options
-    - Log directory
-    - Cleaning
-    - Test cleaning
     - Compilation
     - Linking
-    - Directory structure
-    - Test system
     - Customisation
-    - Generic makefile redesign
-    - OKsystem/Buildsystem structure
 
    \par
     In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
@@ -48,24 +41,13 @@
     - Building gcc_doc 
     - Corrections mhash
     - Building Boost Errors
-    - General
-    - Gcc
-    - Boost
   
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Make-variables for external libraries
     - Role of srcdir
     - System documentation
-    - Documentation (Examples and Concepts)
-    - Overhaul of the general targets
-    - Force make
-    - Design
-    - Modes of Usage
-    - makefile_recursive
-    - Compilation information
     - Special runs
-    - Source code directory structure
     - Version control (AS SOON AS POSSIBLE)
 
   \par
@@ -97,10 +79,31 @@
     - Tools for testing
     - Dependency files
     - Verbosity
+    - Log directory
+    - Cleaning
+    - Test cleaning
+    - Directory structure
+    - Test system
+    - Generic makefile redesign
+    - OKsystem/Buildsystem structure
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - PostgreSQL
+    - General
+    - Gcc
+    - Boost
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Overhaul of the general targets
+    - Force make
+    - Design
+    - Modes of Usage
+    - makefile_recursive
+    - Documentation (Examples and Concepts)
+    - Compilation information
+    - Source code directory structure
 
   \par Version 0.1.7 :
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
