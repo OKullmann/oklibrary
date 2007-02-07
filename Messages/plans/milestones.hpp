@@ -3,15 +3,7 @@
 /*!
   \file Messages/plans/milestones.hpp
 
-  \module_version Messages version 0.7.3 (13.1.2007)
-
-  \par Version 0.7.4 :
-
-  In Messages/plans/Messages.hpp the following topics are handled:
-   - Doxygen-documentation of message-classes : DONE
-
-  Planning of a general overhaul (regarding line-start and line-end
-  issues): DONE
+  \module_version Messages version 0.7.4 (6.2.2007)
 
   \par Version 0.7.5 :
 
@@ -64,7 +56,7 @@
    - 0.7   : 3.3.2006; initial version number (module functional).
    - 0.7.1 : 3.12.2006; complete update of documentation.
    - 0.7.2 : 4.12.2006; next version of Utilities reached (and overall update).
-   - 0.7.3 : 13.1.2007; next version of Utilities reached, and refinements of the
-             message class hierarchy to enable line-begin and line-end handling.
+   - 0.7.3 : 13.1.2007; next version of Utilities reached, and refinements of the message class hierarchy to enable line-begin and line-end handling.
+   - 0.7.4 : 6.2.2007; general (initial) clean-up regarding the documentation and the concept of messages (especially regarding formatting issues).
 */
 
