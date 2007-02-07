@@ -18,6 +18,12 @@
   \todo Documentation of generic.mak:
   Check the inline documentation of generic.mak (there seem to be
   some left-overs).
+
+  OK : What about the following comments:
+  <ol>
+   <li> COMMENT OK: as discussed, we need system versions separately for gcc and boost </li>
+   <li> COMMENT OK: this needs revision (for example "alternative" isn't right anymore) </li>
+  </ol>
     
   \todo General clean-up of make-variables
    <ul>
