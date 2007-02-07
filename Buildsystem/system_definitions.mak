@@ -10,11 +10,11 @@ OKsystem_include := -I$(OKsystem)
 
 Annotations_dir := $(OKsystem)/Annotations
 
-ifndef boost_include
-  ifdef BOOSTINCLUDE
-    boost_include = -I$(BOOSTINCLUDE)
+ifndef Boost
+  ifdef BOOST
+    Boost = -I$(BOOST)
   else
-    boost_include = -I/usr/local/boost-1_33_1
+    Boost = -I/usr/local/boost-1_33_1
   endif
 endif
 
