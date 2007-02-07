@@ -4,23 +4,6 @@
   \file TestSystem/plans/TestBaseClass.hpp
   \brief Plans for the module with the (user) base of the test hierarchy
 
-  \todo TestSystem::messages::LogDescription DONE
-  (in TestSystem/messages/TestBaseClass.hpp):
-  Update; perhaps like messages::ErrorDescription, only
-  <ol>
-   <li> no indentation </li>
-   <li> in basic-level no output </li>
-   <li> in full-level all three messages print, but in basic-level </li>
-   <li> in extensive-level finally everything also in extensive-level. </li>
-  </ol>
-  Then also a macro is needed, like "OKLIB_FULL_LOG(m);". (The log-function
-  needs only to take the line- and file-identication as parameters (similar
-  to what we have now), while the BasicTestDescription is already available.)
-
-  \todo Macros: DONE
-   - write a macro to ease creating log-messages DONE
-   - write a macro to ease defining test-classes. DONE
-
   \todo TestSystem::TestBase:
   - Use message-classes.
   - For the full-log-function: Perhaps m should be indented? And in extensive-level perhaps
