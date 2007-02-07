@@ -4,6 +4,11 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
+  \bug system_definitions.mak:
+  The boost-variable definitions are inconsistent with the
+  rest of the build-system, so they should be reverted (as
+  discussed).
+
   \todo License:
   It seems LGPL is suitable; we have to check this (is it compabible with all
   other licenses (for external sources) involved? I guess so). Once decided,
