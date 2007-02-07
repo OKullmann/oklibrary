@@ -6,6 +6,11 @@
   \module_version Buildsystem 0.1.3 (14.1.2007)
   
   \par Version 0.1.4 : TO BE REACHED 6.2.2007
+
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - system_definitions.mak
+
+  \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Documentation of generic.mak
 
