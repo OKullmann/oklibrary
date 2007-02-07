@@ -3,18 +3,7 @@
 /*!
   \file TestSystem/plans/milestones.hpp
 
-  \module_version TestSystem 0.1.2 (5.12.2006)
-
-  \par Version 0.1.3 :
-
-  In TestSystem/plans/TestBaseClass.hpp the following topics are handled:
-  - TestSystem::messages::LogDescription : DONE
-  - Macros : DONE
-
-  In TestSystem/plans/TestExceptions.hpp the following topics are handled:
-  - TestSystem::messages::TestException : DONE
-  - OKLIB_TEST_EQUAL : DONE
-  - TestSystem::messages::ErrorDescription : DONE
+  \module_version TestSystem 0.1.3 (6.2.2007)
 
   \par Version 0.1.4 :
 
@@ -60,6 +49,7 @@
      working, while the new test system is being established).
    - 0.1.1 : 30.8.2006, plans and todos have been updated, and initial doxygen documentation provided.
    - 0.1.2 : 5.12.2006, cleaned up creation of log-messages, and other editorial work.
+   - 0.1.3 : 6.2.2007, the various messages output by the test system are now realised via the Messages-framework, and various macros to ease creation of tests have been implemented.
 
 */
 
