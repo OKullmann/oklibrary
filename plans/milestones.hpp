@@ -20,9 +20,9 @@
   \subsection VersionTransitional013 0.1.3 : TO BE REACHED 6.2.2007
   \par Buildsystem version 0.1.4 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
-  \par TestSystem version 0.1.3 (OK (MH))
+  \par TestSystem version 0.1.3 (OK (MH)) : DONE
   (see TestSystem/plans/milestones.hpp)
-  \par Messages version 0.7.4 (OK)
+  \par Messages version 0.7.4 (OK) : DONE
   (see Messages/plans/milestones.hpp)
 
   \subsection VersionTransitional014 0.1.4 : TO BE REACHED 18.2.2007
