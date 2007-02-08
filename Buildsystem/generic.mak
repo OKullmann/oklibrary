@@ -12,8 +12,6 @@
 # unoptimised                   Compile unoptimised object files and programs.
 # optimised                     Compile optimised object files and programs.
 
-# COMMENT OK: Here we need to speak about compilation of *test*-programs!
-
 # 
 # Test system
 # -----------
@@ -942,9 +940,6 @@ testop_timestamp := $(test-aux_dir)/new_testop_$(test_level)
 # default, has the value of the recommended version
 # of boost.
 #
-# COMMENT OK: as discussed, we need system versions 
-# separately for gcc and boost
-#
 # ----------------------------------------------------------
 system_versions :=
 
@@ -975,8 +970,6 @@ endif
 #  Include option to be passed to the compiler, specifying
 #  the location of the Boost include directory. 
 #
-# COMMENT OK: this needs revision (for example "alternative"
-# isn't right anymore)
 # ----------------------------------------------------------
 alternative_library_path:=
 
