@@ -6,12 +6,6 @@
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
 
-  \todo Local installation of UBCSAT.
-  <ul>
-   <li> Build Ubcsat/lib with all .o-files. (DONE) </li>
-   <li> Build the standard program ubcsat in Ubcsat/bin. (DONE) </li>
-  </ul>
-
   \todo Improved installation of UBCSAT:
   <ol>
    <li> Improve the current build, so that there is exactly one directory containing
