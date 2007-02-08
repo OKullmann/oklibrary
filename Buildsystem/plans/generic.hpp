@@ -19,12 +19,22 @@
   Check the inline documentation of generic.mak (there seem to be
   some left-overs).
 
-  OK : What about the following comments:
-  <ol>
-   <li> COMMENT OK: as discussed, we need system versions separately for gcc and boost </li>
-   <li> COMMENT OK: this needs revision (for example "alternative" isn't right anymore) </li>
-  </ol>
-    
+  \todo Specification of buildsystem
+    - The targets should be more precisely specified. For example, in the 
+      documentation of the targets all, optimised and unoptimised we need 
+      to speak about compilation of *test*-programs!.
+
+  \todo Setting the paths to GCC and Boost link libraries
+    - The setting of the Make variable "alternative_library_path" needs to be reviewed.
+      For example, the name "alternative_library_path" is no longer appropriate.
+    - The build system should find out whether the platform is 32- or 64-bit, and select then
+      only the needed links (environment variables HOSTTYPE and CPU)
+  
+  \todo User control of system versions
+    - There should be a simple method for the user to specify that the buildsystem
+      uses the system-wide installations of GCC and Boost. It should be possible
+      to specify only the system-wide GCC or only the system-wide Boost, or both.
+  
   \todo General clean-up of make-variables
    <ul>
     <li> 
@@ -213,9 +223,7 @@
       where these files go). Optionally we can switch it off.
     - There is a make-variable for optional name extensions.
 
-  \todo Linking:
-    - The build system should find out whether the platform is 32- or 64-bit, and select then only
-      the needed links (environment variables HOSTTYPE and CPU).
+  \todo Linking:.
     - What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
       At least we should have the option.
 
