@@ -9,7 +9,7 @@
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Documentation of generic.mak
+    - Documentation of generic.mak : DONE
 
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - system_definitions.mak : DONE
@@ -19,14 +19,13 @@
    the following topics are handled:
     - Suffix for plans-files (DONE)
 
-  \par
-   Overhaul milestone 0.1.5: Create a certain focus, and move the rest to
-   0.1.6.
-
   \par Version 0.1.5 : THEME is "A specified and testable buildsystem" : TO BE REACHED 18.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Incorrect build of new tests I
     - Incorrect build of new tests II
+    - Specification of buildsystem
+    - Setting the paths to GCC and Boost link libraries
+    - User control of system versions
     - General clean-up of make-variables
     - General_options
     - Linking and options
