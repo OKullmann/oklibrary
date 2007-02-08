@@ -8,7 +8,7 @@
 /*!
   \page CurrentVersions Current versions
 
-  - Transitional 0.1.2 (14.1.2007)
+  - Transitional 0.1.3 (8.2.2007)
   - OKlibrary 0.0.1 (3.3.2006)
 */
 
@@ -16,14 +16,6 @@
   \page PageTargetsTransitional Targets for Transitional
 
   \section StartingVersion Future milestones
-
-  \subsection VersionTransitional013 0.1.3 : TO BE REACHED 6.2.2007
-  \par Buildsystem version 0.1.4 (MH (OK)) : DONE
-  (see Buildsystem/plans/milestones.hpp)
-  \par TestSystem version 0.1.3 (OK (MH)) : DONE
-  (see TestSystem/plans/milestones.hpp)
-  \par Messages version 0.7.4 (OK) : DONE
-  (see Messages/plans/milestones.hpp)
 
   \subsection VersionTransitional014 0.1.4 : TO BE REACHED 18.2.2007
   \par Buildsystem version 0.1.5 (MH (OK))
@@ -173,6 +165,13 @@
    - module Messages further expanded, new utilities
    - further clean-up of the new test system
    - concepts for literals and atomic conditions expanded.
+
+   \par 0.1.3 8/2/2007
+
+   - moving the buildsystem towards a specified and testable system
+   - initial clean-up of module Messages
+   - strengthened the new test system by systematically using message-classes.
+
 */
 
 /*!
