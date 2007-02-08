@@ -3,21 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.3 (14.1.2007)
-  
-  \par Version 0.1.4 : THEME is "Steps towards a specified and testable buildsystem" :  TO BE REACHED 6.2.2007
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Documentation of generic.mak : DONE
-
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - system_definitions.mak : DONE
-
-  \par  
-   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
-   the following topics are handled:
-    - Suffix for plans-files (DONE)
+  \module_version Buildsystem 0.1.4 (8.2.2007)
 
   \par Version 0.1.5 : THEME is "A specified and testable buildsystem" : TO BE REACHED 18.2.2007
    In Buildsystem/plans/generic.hpp the following topics are handled:
@@ -156,6 +142,7 @@
    - 0.1.1 : 3.11.2006; some smaller corrections and modifications regarding naming issues.
    - 0.1.2 : 9.12.2006; systematic naming, placement and decomposition of makefiles; documentation of generic.mak; documentation-building improved.
    - 0.1.3 : 14.1.2007; further improvements on naming and placement of makefiles, improved building of external libraries, improved html-documentation.
+   - 0.1.4 : 8.2.2007; Steps towards a specified and testable buildsystem. Further documentation of generic.mak; corrections to makefile plans files suffixes; corrections to system-wide variable definitions.
 
 */
 
