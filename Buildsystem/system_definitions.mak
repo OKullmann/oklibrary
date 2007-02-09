@@ -24,7 +24,7 @@ ifndef Ubcsat
   else
     Ubcsat_dir := $(ExternalSources)/Ubcsat
   endif
-  Ubcsat := -I$(Ubcsat_dir)/ubcsat-1-0-0/src
+  Ubcsat := -I$(Ubcsat_dir)/1-0-0/src
 endif
 # TODO: We must update and systematise the use of such variables.
 
