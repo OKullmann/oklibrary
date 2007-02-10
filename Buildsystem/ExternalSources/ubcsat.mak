@@ -53,9 +53,10 @@ $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-di
 $(ubcsat-mod-extract-directory)/tag_ : | $(ubcsat-base-directory) $(ubcsat-extract-directory)
 	$(call unarchivefolder,ubcsat-1-0-0,$(ubcsat-mod-extract-directory),src)
 	mv $(ubcsat-extract-directory)/src $(ubcsat-mod-src-directory)
+	dos2unix $(ubcsat-mod-src-directory)/*
 	touch $@
 
-ubcsat : $(ubcsat-mod-extract-directory)/tag_ $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat  alter dos2unix $(ubcsat-mod-lib-directory)/libubcsat.a
+ubcsat : $(ubcsat-mod-extract-directory)/tag_ $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat alter $(ubcsat-mod-lib-directory)/libubcsat.a
 
 $(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
 	gcc -c $< -o $@
@@ -71,13 +72,7 @@ $(ubcsat-mod-lib-directory)/libubcsat.a : $(mod-paths)
 
 .PHONY : alter
 
-alter : 
-	echo this alters mylocal.h
-	chmod 7 $(ubcsat-mod-src-directory)/mylocal.h
+alter :
 	rm $(ubcsat-mod-src-directory)/mylocal.h -f
 	echo '#define ALTERNATEMAIN' > $(ubcsat-mod-src-directory)/mylocal.h
 
-.PHONY : dos2unix
-
-dos2unix : 
-	echo will run dos2unix on src
