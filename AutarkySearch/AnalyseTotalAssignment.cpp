@@ -4,7 +4,7 @@
 #include <stdio.h>
  
 /*!
-  \file AutarkySearch/AnalyseTotalAssignment.c
+  \file AutarkySearch/AnalyseTotalAssignment.cpp
   \brief Supplementing UBCSAT by analysing total assignments for
   contained autarkies.
 
