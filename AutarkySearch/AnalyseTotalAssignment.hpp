@@ -1,3 +1,7 @@
-//Matthew Lewsey 9.2.2007
-//class definition of ComputerLargestAutarky
-//Computes largest autarky given a current total assignment and clause-set
+// Matthew Lewsey 9.2.2007
+
+/*!
+  \file AutarkySearch/AnalyseTotalAssignment.hpp
+  \brief Components regarding the determination of the largest autarky inside soma total (or partial) assignment
+*/
+
