@@ -8,15 +8,20 @@
 
   \todo Improved installation of UBCSAT:
   <ol>
-   <li> Improve the current build, so that there is exactly one directory containing
-   everything offered by Ubcsat, that is, the appropriate src-directory is moved to
-   Ubcsat/1-0-0, and possibly the make-variables are updated. </li>
-   <li> The source-files from ubcsat should be converted to unix-files (using
-   dos2unix). </li>
    <li> No "modified files" anymore, but NEW FILES, with proper change
    documentation, in the OKlibrary; by appropriate settings of variable
    source-libraries the directory with the updated ubcsat-files is dominant
-   over the original ubcsat-source-directory. </li>
+   over the original ubcsat-source-directory.
+   This is IMPORTANT --- the hack in ubcsat.mak must vanish, and everything
+   we do MUST be under in the source control for Transitional.
+   </li>
+   <li> Improve the current build, so that there is exactly one directory containing
+   everything offered by Ubcsat, that is, the appropriate src-directory is moved to
+   Ubcsat/1-0-0, and possibly the make-variables are updated.
+   OK : Has this been completed ??? </li>
+   <li> The source-files from ubcsat should be converted to unix-files (using
+   dos2unix).
+   OK : Has this been completed ??? </li>
    <li> Some documentation is needed:
     <ul>
      <li> how to use the binary </li>
