@@ -6,6 +6,8 @@
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
 
+  \bug Todos below are stale (needed update by ML).
+
   \todo Improved installation of UBCSAT:
   <ol>
    <li> No "modified files" anymore, but NEW FILES, with proper change
@@ -37,6 +39,8 @@
   (This should be done even if some parts of AnalyseTotalAssignment.c will be removed later
   ---  we need the declarations anyway, and library development must happen in small
   controlled steps.)
+
+  OK: What about this???
 
   \todo Connect with LocalSearch/plans/SupportTotalAssignments.hpp.
 
