@@ -108,11 +108,9 @@ cat example.cnf | valgrind ~/SAT-Algorithmen/OKplatform/ExternalSources/Ubcsat/1
     </p> </li>
   </ol>
 
+  \bug Code is not proper C++.
 
-  \todo Add file creation date (first file line).
   \todo Create Doxygen documentation.
-  \todo Improve C usage (local declaration of variables, local
-  loop variables etc.).
 */
 
 void Initialise();
