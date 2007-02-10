@@ -4,6 +4,10 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \todo Building Ubcsat (ML):
+  - What is the meaning of "tag" and "tag_" ??? The names should tell.
+  - No file modification in the external sources.
+
   \todo Building Boost
   - When building boost (in some variation) using "gcc-version=...", then as a subtarget
   we have the build of the gcc-version (so that, if necessary, gcc is build). DONE
