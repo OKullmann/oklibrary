@@ -8,6 +8,7 @@
   The boost-variable definitions are inconsistent with the
   rest of the build-system, so they should be reverted (as
   discussed).
+  OK: It seems this was done??
 
   \todo License:
   It seems LGPL is suitable; we have to check this (is it compabible with all
@@ -295,6 +296,10 @@
      the total times are output, but in a protocol mode everything is written to a file
      (as for the complexity system; it should be possible for example to use the visualisation
      tools there to look at the developments here).
+
+  \todo Compiler versions:
+  Do we get slower run-times with g++ 4.1.2 compared to 4.1.1, and thus we
+  need to write no-throw-declarations? (Perhaps this needs to be done anyway?)
 
   \todo Package construction script
    - Writing the package-construction script. (Internal versions should
