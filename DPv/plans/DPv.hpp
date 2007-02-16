@@ -3,14 +3,17 @@
 /*!
   \file DPv/plans/DPv.hpp
   \brief Old module for components around the DP-procedure
+  \deprecated
 
-  \todo The central question is how much of this module is still of use?
+  \todo Move to module Resolution:
+  The central question is how much of this module is still of use?
   Perhaps not very much; but at least it could serve to establish the first "clues".
 */
 
 /*!
   \namespace OKlib::DPv
   \brief Deprecated namespace containing components for Davis-Putnam resolution
+  \deprecated
 */
 
 namespace OKlib {
