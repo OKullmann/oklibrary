@@ -21,6 +21,8 @@
      about the (precise) definition of Boost in the whole build-system).
    - How to define such variables (like Boost and Ubcsat) in general? We need a nice little method
      (plus documentation), so that we can add easily as many external libraries as we want.
+   - And then we have make-variables "gcc_version_number" (for generic.mak) and "gcc-version"
+     (for boost.mak) which likely should have the same names.
 
   \todo Role of srcdir
   <ul>
