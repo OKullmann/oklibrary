@@ -20,9 +20,11 @@
    <li> Improve the current build, so that there is exactly one directory containing
    everything offered by Ubcsat, that is, the appropriate src-directory is moved to
    Ubcsat/1-0-0, and possibly the make-variables are updated.
+   OK : Has this been completed ??? 
    </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
    dos2unix).
+   OK : Has this been completed ??? 
    </li>
    <li> A modified ubcsat-types.h is added to Transitional/AutarkySearch/ which will contain
    definitions of fixed width types from stdint.h instead.
