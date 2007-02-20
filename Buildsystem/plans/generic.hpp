@@ -15,14 +15,26 @@
      building test-object files if needed,
    - but from within the module this doesn't work.
 
-  \todo Documentation of generic.mak:
-  Check the inline documentation of generic.mak (there seem to be
-  some left-overs).
+  \todo Specification of build system
+  <ul>
+    <li>Specification Documentation
+      The specification of the build system needs to be documented in the 
+      comments in generic.mak, and also externally in the meta-documentation.
+    </li>
+    <li>Targets
+      <ul>
+       <li>
+        The targets should be more precisely specified. For example, in the 
+        documentation of the targets all, optimised and unoptimised we need 
+        to speak about compilation of *test*-programs!.
+       </li>
+      </ul>
+    </li>
+  </ul>
 
-  \todo Specification of buildsystem
-    - The targets should be more precisely specified. For example, in the 
-      documentation of the targets all, optimised and unoptimised we need 
-      to speak about compilation of *test*-programs!.
+  \todo .source_libraries
+  - Like we have for link libraries the specification of source libraries should
+  be given in a .source_libraries file.
 
   \todo Setting the paths to GCC and Boost link libraries
     - The setting of the Make variable "alternative_library_path" needs to be reviewed.
@@ -35,65 +47,41 @@
       uses the system-wide installations of GCC and Boost. It should be possible
       to specify only the system-wide GCC or only the system-wide Boost, or both.
   
-  \todo General clean-up of make-variables
-   <ul>
-    <li> 
-    (MH) There should be a scheme for the naming of variables which
-    distinguishes those variables : 
-     <ol>
-      <li> which are internal (purely for the use of the build system), </li>
-      <li> which are mostly for internal use of the build system, but
-      can be redefined by the user with suitable precaution. </li>
-      <li> which are intended for use by the user, typically to specify
-      options.</li>
-     </ol>   
-   
-     ################### PROBLEM: It seems MH is using tab-stops?
-     ################### Those must be disabled!
-   
-     One possible scheme is:
-     <ol>
-      <li> _variable (lowercase with preceeding underscore)</li>
-      <li> variable (lowercase) </li>
-      <li> Variable (uppercase first character) </li>
-     </ol>   
+  \todo General clean-up of make-variables 
+  <ul>
 
-     (OK) One has to check whether leading underscore is allowed. Perhaps a trailing underscore
-     is better.
-   
-     (MH) An alternative scheme then:
-     <ol>
-      <li> variable_ </li>
-      <li> variable </li>
-      <li> Variable </li>
-     </ol>   
+  <li>
+  Currently we distinguish two types of variables in the comments by
+  calling them either system variables (SV) or local variables (LV). System variables
+  are those variables which can be tinkered with, but with caution, and the local
+  variables are those variables which are purely for the buildsystem and not intended
+  to be touched by the user.
+  <li>
 
-     The uppercase first variables have actually often default values (namely
-     the all-uppercase environment variables). So this explanation is not really valid.
-   
-     Perhaps the distinction aimed at is, that some variables can be tinkered with, but
-     one somehow need to know about them, while other variables have no function than
-     enabling the user to insert some options (for example for compilation).
-    </li>
+  <li>
+  We want to distinguish between those variables which can be tinkered with, but
+  one somehow need to know about them, and those variables which have no function 
+  other than enabling the user to insert some options (for example for compilation).
+  </li>
+  
+  <li>
+  First a complete list of make-variables and the status is needed here, to
+  see what we have.
+  </li>
 
-    <li>
-    Perhaps first a complete list of make-variables and the status is needed here, to
-    see what we have.
-    </li>
-
-    <li>            
-    (MH) Perhaps this should be postponed for a little while,
-    because the changes I propose under documentation and cleaning
-    involved changing many variable names and definitions.
-    </li>
-
-   </ul>
+  </ul>
 
   \todo General_options:
   The current function of "General_options" is taken over by the new variable "Debug_options".
 
   \todo Linking and options:
   <ul>
+
+  <li>We need global control over dynamic/static linking. Is it the case that dynamic
+  linking only happens with .so files? Can investigate with strace tool..  </li>
+
+  <li>Is it possible to specify the path exactly to a link-library at runtime?</li>
+
    <li>
    Which compiler options are effective when linking? "Our" options are 
    <ul>
@@ -117,6 +105,12 @@
    CXXFLAGS is not used when linking the compilation units together --- is this
    how it should be, and how to set options for the linking stage?!
    </li>
+
+   <li>
+   What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
+   At least we should have the option.
+   </li>
+
   </ul>
 
   \todo Log directory:
@@ -125,10 +119,13 @@
   output by default (can be switched off) into a file
   log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
   <ul>
-   <li> One possibility to achieve this is by letting makefile_recursive calling makefile_generic
+   <li> One possibility to achieve this is by letting makefile_recursive call makefile_generic
    with appropriately redirected output. </li>
   </ul>
   
+  \todo Targets:
+  - It should be possible to build just one application, or just one implementation.    
+
   \todo Cleaning:
     - We need cleaning tools which clean up directories (not single files).
     - We need specialised cleaning for applications and link-libraries.
@@ -136,78 +133,6 @@
     - Cleaning of special or all versions of the test-timestamps.
     - Cleaning of test-objectfiles and test-programs.
     - Cleaning of test-depencies.
-
-    DISCUSSION : (MH) it seems that a minor redesign of the directory 
-    structure of system_directories is desirable. This is partly because there
-    is a little inconsistency in the current design (for example, some things 
-    are put in module dependent subdirectories, some are not) and partly 
-    because it would seem logical that cleaning tests for a module corresponds 
-    to removing a module-dependent subdirectory of tests from a bin directory, 
-    or cleaning dependencies for the tests in some module means to remove a 
-    directory of dependencies from a module-dependent subdirectory of a tests 
-    subdirectory of a bin directory.
-
-    The current design is:
-
-    - system_directories
-      - aux
-        - dependencies
-        - latex
-        - tests
-          - module_1
-          - module_2
-      - bin
-        - tests
-      - doc
-        - dvi
-        - html
-      - lib
-        - tests
-          - module_1
-          - module_2
-  
-    I propose the following redesign:
-
-    - system_directories
-      - aux
-        - apps
-          - module_1
-            - dependencies
-          - module_2
-            - dependencies
-        - latex
-        - tests
-          - module_1
-            - dependencies
-          - module_2
-            - dependencies      
-      - bin
-        - apps
-          - module_1
-          - module_2
-        - tests
-          - module_1
-          - module_2
-      - doc
-        - dvi
-        - html
-      - lib
-        - apps
-          - module_1
-          - module_2
-        - tests
-          - module_1
-          - module_2
-
-        OK: Is your main point to always use module-directories?
-
-        MH: Yes, I think it makes sense to have module-directories in every case.
-
-    So now to clean the dependencies for the tests from module_1 means to remove
-    the directory system_directories/aux/tests/module_1/dependencies. In fact we
-    provide both targets clean_dependency_files (to remove just the files) and 
-    cleandep (to remove the directory). The naming chosen to encourage the user
-    to use the version which removes the whole directory.
 
   \todo Test cleaning:
     We need specialised cleaning regarding the test system :
@@ -222,10 +147,6 @@
     - For every created file.o and file we have file.compilation_log (in the same directory
       where these files go). Optionally we can switch it off.
     - There is a make-variable for optional name extensions.
-
-  \todo Linking:.
-    - What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
-      At least we should have the option.
 
   \todo Directory structure:
     - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each
@@ -256,57 +177,21 @@
     - The (recursive) make-variable source_libraries is kept, predefined as "$(OKSystem_include) $(Boost_include)" (potentially
       changed in the locale makefile): If .source_libraries exists, then it overrides $(source_libraries).
 
-  \todo Generic makefile redesign:
-   - $(OKBuildsystem)/generic_makefile.mak should only be directly
-     responsible for defining the current source directory (srcdir), 
-     getting the module-specific definitions from 
-     makefile_definitions.mak, defining the make targets which are 
-     directly aimed at the user : "all", "clean", "check" and so on 
-     and providing documentation for those main targets. All the 
-     other targets and variable definitions are then defined by 
-     calling functions (with srcdir as the parameter) from makefiles
-     in the directory OKBuildsystem/makefile_generic_functions. 
-     Those makefiles contain the relevant documentation.
-
-   - The directory OKBuildsystem/makefile_generic_functions would 
-     have a structure something like :
-
-                 - makefile_generic_include
-                   - apps
-                       - cleaning.mak
-                       - compilation.mak
-                       - linking.mak
-                   - documentation
-                       - makefile_documentation.mak
-                       - makefile_documentation_index.mak
-                   - options
-                       - compilation.mak
-                       - errors.mak
-                       - language.mak
-                       - linking.mak
-                       - log.mak
-                       - messages.mak
-                       - preprocessor.mak
-                   - tests
-                       - cleaning.mak
-                       - compilation.mak
-                       - linking.mak
-                   - tests_old
-                       - cleaning.mak
-                       - compilation.mak
-                       - linking.mak
-
-    - In addition, makefile_generic_functions would contain some 
-      further makefiles for definitions for the directory structure 
-      of system_directories, internal make targets, running tests, 
-      environment and system Make variables.
-
   \todo OKsystem/Buildsystem structure:
-   - Probably the directory makefile_generic_include should be elimated and
-     it's subdirectories lifted to OKsystem/Buildsystem?
-
-  \todo Targets:
-    - It should be possible to build just one application, or just one implementation.
+  <ul>
+  <li>Probably the directory Generic should be elimated and it's subdirectories lifted to OKsystem/Buildsystem?</li>
+   <li>In Transitional/Buildsystem the two makefiles 
+    <ul>
+       <li>OKsystem/Buildystem/Generic/documentation_index.mak</li>
+       <li>OKsystem/Buildystem/Generic/doxygen_documentation.mak</li>
+     </ul>
+     should be merged into a single file  Transitional/Buildsystem/documentation_building.mak 
+   </li>
+   <li>
+    All the plans files should be merged into a single documentation_building.hpp plans file
+    in Buildsystem/plans.
+   </li>
+  </ul> 
 
   \todo Error messages of gcc should be processed:
     - We should support using a tool like TextFilt or STLFilt.
