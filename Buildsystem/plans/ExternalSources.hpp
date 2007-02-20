@@ -8,28 +8,6 @@
   - What is the meaning of "tag" and "tag_" ??? The names should tell.
   - No file modification in the external sources.
 
-  \todo Building Boost
-  - When building boost (in some variation) using "gcc-version=...", then as a subtarget
-  we have the build of the gcc-version (so that, if necessary, gcc is build). DONE
-  - Building Boost should be outsourced to ExternalSources/boost.mak. DONE
-     
-  \todo Building Gcc
-  - When building some gcc-version, only the necessary directories
-  should be created. This should be handled as we have it now with boost (using
-  timestamp-files). DONE
-  - Building gcc should be outsourced to ExternalSources/gcc.mak. DONE
-  
-  \todo Usage documentation location
-  - The appropriate location for the usage documentation should be
-  in the file Buildsystem/ExternalSources.hpp not distributed over
-  the makefiles in Buildsystem/ExternalSources. Because that is the
-  makefile which the user really uses. DONE
-
-  \todo Local documentation : regarding system_directories/doc/index.html : DONE
-  A new makefile OKBuildsystem/ExternalSources/doc.mak is created which
-       is responsible for extracting and building all the external sources
-       documentation OKplatform/ExternalSources/doc.
-
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
    - Documentation for Mhash, Postgresql, UBCSAT
    QUESTION (OK): Isn't this done ?? (MH) : Not yet.
