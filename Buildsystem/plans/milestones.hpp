@@ -5,11 +5,34 @@
   
   \module_version Buildsystem 0.1.4 (8.2.2007)
 
-  \par Version 0.1.5 : THEME is "A specified and testable buildsystem" : TO BE REACHED 18.2.2007
+  \par Version 0.1.5 : THEME is "A specified and testable build system" : TO BE REACHED 25.2.2007
+   In Buildsystem/plans/generic.hpp the following topics are handled:
+    - Specification of buildsystem
+ 
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Version control (AS SOON AS POSSIBLE)
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topic is updated:
+    - Testing the build system
+
+  \par
+   In Buildsystem/plans/generic.hpp the following topics have been updated:
+    - General clean-up of make-variables (DONE)
+    - Cleaning (DONE)
+    - Generic makefile redesign (DONE)
+    - OKsystem/Buildsystem structure (DONE)
+
+  \par Version 0.1.6 : THEME is "Build system consolidation"
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Incorrect build of new tests I
     - Incorrect build of new tests II
-    - Specification of buildsystem
+    - Dependency files
+    - Verbosity
+    - Directory structure
+    - Test system
+    - OKsystem/Buildsystem structure
     - Setting the paths to GCC and Boost link libraries
     - User control of system versions
     - General clean-up of make-variables
@@ -18,51 +41,15 @@
     - Compilation
     - Linking
     - Customisation
+    - .source_libraries
 
-   \par
-    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+  \par
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Building documentation
     - Building gcc_doc 
     - Corrections mhash
     - Building Boost Errors
-  
-  \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Make-variables for external libraries
-    - Role of srcdir
-    - System documentation
-    - Special runs
-    - Version control (AS SOON AS POSSIBLE)
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics have been updated:
-    - General clean-up of make-variables
-    - Cleaning
-    - Generic makefile redesign
-    - OKsystem/Buildsystem structure
-
-  \par Version 0.1.6 :
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Targets
-    - Error messages of gcc should be processed
-    - Tools for testing
-    - Dependency files
-    - Verbosity
-    - Log directory
-    - Cleaning
-    - Test cleaning
-    - Directory structure
-    - Test system
-    - Generic makefile redesign
-    - OKsystem/Buildsystem structure
-
-  \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - PostgreSQL
-    - General
-    - Gcc
-    - Boost
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -74,6 +61,10 @@
     - Documentation (Examples and Concepts)
     - Compilation information
     - Source code directory structure
+    - Make-variables for external libraries
+    - Role of srcdir
+    - System documentation
+    - Special runs
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
@@ -90,10 +81,23 @@
     - Meta tags
     - Improved logo
 
-  \par Version 0.1.7 :
+  \par Version 0.1.7 : THEME is "Build system extensions"
+   In Buildsystem/plans/generic.hpp the following topics are handled:
+    - Targets
+    - Error messages of gcc should be processed
+    - Tools for testing
+    - Log directory
+    - Cleaning
+    - Test cleaning
+
+  \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - Other sources
     - Tools
+    - PostgreSQL
+    - General
+    - Gcc
+    - Boost
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -110,7 +114,6 @@
 
   \par Version 0.2 : THEME is "Basic functionality"
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Testing the build system
     - Full test
     - Nightly build
     
