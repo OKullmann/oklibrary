@@ -15,6 +15,16 @@
   other licenses (for external sources) involved? I guess so). Once decided,
   we have to add appropriate licence texts to every file.
 
+  \todo Notification list:
+  We had a list with names and addresses of people interested in the library,
+  which shall be informed personally about the release --- where is this
+  gone ??? There were also plans in it, which have been moved to the new
+  plans-file-system, but where is the other information???
+  Perhaps a good place for such system-wide plans is in Transitional/plans.
+  People to add to that list:
+   - Marina de Vos and Martin XXX (Bath)
+   - Sam Buss
+
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading --- or we need special documentation at this point, namely
