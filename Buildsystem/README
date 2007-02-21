@@ -7,9 +7,9 @@ shall be used (instead of the local versions), the following
 versions are supported:
 
 g++, version 4.0.1 or higher
-(tested: 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1)
+(tested: 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1, 4.1.2)
 (check: run "g++ -v")
-Recommended: 4.1.1
+Recommended: 4.1.2
 Versions lower than 4.0.1 cannot compile the library
 Problems:
  - 4.0.1 - 4.0.2, 4.1.0 fail for some foreign locales.
