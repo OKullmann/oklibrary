@@ -17,19 +17,26 @@ SHELL = /bin/sh
 # Boost
 
 # Install Boost locally with system gcc:
+#
 # make boost_all (all supported versions of boost)
 # make boost (recommended version)
 # make boost boost_recommended=? (? is a version number like "1_33",
 # overriding the default)
-# For installing Boost locally with a version of gcc (% is the version number),
+#
+# For installing Boost locally with a local version of gcc (% is the version number),
 # define
+#
 # gcc-version=%
+#
 # with % either the version-number (like "4.0.1") or "all" (for all supported
 # gcc-versions).
 # Finally with
+#
 # make boost_gcc_all
+#
 # all combinations of supported versions of boost with supported version of gcc
 # plus the system gcc are installed.
+# If some required local version is not available, then it will be built first.
 
 # Mhash
 
