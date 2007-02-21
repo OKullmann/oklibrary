@@ -73,6 +73,10 @@
   \todo There is the recurrent theme of "local vs. global": "Local" means relative to the
   current partial assignment, while "global" means relative to the initial (empty)
   partial assignment. There could be also forms in between, but they seem hard to handle.
+
+  \todo Double look-ahead:
+  What about the integration of partial double-look-ahead, as discussed for example
+  in the SAT2007-submission by Heule/vanMaaren ?
 */
 
 /*!
