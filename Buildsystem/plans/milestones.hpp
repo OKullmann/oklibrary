@@ -102,6 +102,7 @@
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - License
+    - Notification list
 
   \par Version 0.1.8 :
    In Buildsystem/plans/README.hpp the following topics are handled:
