@@ -5,7 +5,7 @@
   \brief Decision, whether a given partial assignment contains an autarky, and
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
-
+  
   \bug Todos below are stale (needed update by ML).
 
   \todo Improved installation of UBCSAT:
@@ -21,15 +21,17 @@
    everything offered by Ubcsat, that is, the appropriate src-directory is moved to
    Ubcsat/1-0-0, and possibly the make-variables are updated.
    OK : Has this been completed ??? 
+   ML : I propose that the Ubcsat/l-0-0/lib folder now contains the .o files
+   from the /src .c files that have used the changed .h files in AutarkySearch/.
+   One problem of doing this is getting gcc to use the .h files in AutarkySearch/ instead of the ones in /src. Is there a known way of doing this?
    </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
    dos2unix).
    OK : Has this been completed ??? 
+   ML : Yes.
    </li>
-   <li> A modified ubcsat-types.h is added to Transitional/AutarkySearch/ which will contain
+   <li> Modified .h  files are added to Transitional/AutarkySearch/ which will contain
    definitions of fixed width types from stdint.h instead.
-   </li>
-   <li> A modified mylocal.h is added to Transitional/AutarkySearch/ with appropriate changes documented.
    </li>
    <li> definitions.mak will now have another directory under source_libraries variable namely AutarkySearch/
    </li>
