@@ -24,6 +24,7 @@
   People to add to that list:
    - Marina de Vos and Martin XXX (Bath)
    - Sam Buss
+   - Tobias Nipkow (TU Muenchen)
 
   \todo Make-variables for external libraries
    - In system_definitions.mak we have a definition of Boost which seems wrong
