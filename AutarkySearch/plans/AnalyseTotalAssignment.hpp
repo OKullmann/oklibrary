@@ -7,6 +7,7 @@
   local search through total assignments).
   
   \bug Todos below are stale (needed update by ML).
+  OK: Is this done now ? (then it needs to be marked with "DONE")
 
   \todo Improved installation of UBCSAT:
   <ol>
@@ -20,15 +21,14 @@
    <li> Improve the current build, so that there is exactly one directory containing
    everything offered by Ubcsat, that is, the appropriate src-directory is moved to
    Ubcsat/1-0-0, and possibly the make-variables are updated.
-   OK : Has this been completed ??? 
    ML : I propose that the Ubcsat/l-0-0/lib folder now contains the .o files
    from the /src .c files that have used the changed .h files in AutarkySearch/.
    One problem of doing this is getting gcc to use the .h files in AutarkySearch/ instead of the ones in /src. Is there a known way of doing this?
+   OK: Either create a temporary directory, or use one of the gcc options -IDIR,-nostdinc,-isystem,-iquote
+   (as usual, one should use e-mail lists --- the gcc-help list for example (they react normally quite quickly)).
    </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
-   dos2unix).
-   OK : Has this been completed ??? 
-   ML : Yes.
+   dos2unix): DONE
    </li>
    <li> Modified .h  files are added to Transitional/AutarkySearch/ which will contain
    definitions of fixed width types from stdint.h instead.
