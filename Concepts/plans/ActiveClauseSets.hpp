@@ -16,7 +16,7 @@
    that there constituents are intelligent but not numerous.
 
   \todo Update with Concepts/plans/ClauseSets.hpp (transferring ideas from
-  there to here).
+  there to here or the other way around (?!)).
 
   \todo Partial assignment (see Concepts/plans/PartialAssignments.hpp):
   An active clause-set (ACLS F in the sequel) has a connection to the
@@ -77,5 +77,12 @@
   literals and equivalences, the changed total assignment is satisfying).
 
   \todo Should we have statistics for an underlying clause-model?
+
+  \todo CNF versus DNF:
+  Regarding QBF for example, we should allow to represent conditions as CNFs and as DNFs
+  (that is, as sets of (partial) falsifying assignments resp. (partial) satisfying assignments),
+  potentially also allowing mixed representations. One could also regard partial representations,
+  that is, the condition itself recognises the satisfying and the falsying total assignments, but
+  it might have only some partial CNF- or DNF-clauses "in it" (those found until now).
   
 */
