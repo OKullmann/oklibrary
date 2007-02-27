@@ -27,6 +27,12 @@
    OK: Either create a temporary directory, or use one of the gcc options -IDIR,-nostdinc,-isystem,-iquote
    (as usual, one should use e-mail lists --- the gcc-help list for example (they react normally quite quickly)).
    </li>
+   <li> Compilation in AutarkySearch is done correctly:   
+   ML: Currently, compilation in AutarkySearch during "make all" involves including AutarkySearch/ubcsat.h
+   which then includes Ubcsat/1-0-0/src/ubcsat-types.h instead of AutarkySearch/ubcsat-types.h
+   (due to definitions.mak). One idea I can think of to overcome this is to move all .h files in
+   src/ to AutarkySearch/. This yields correct compilation that works on cs-oksvr.
+   </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
    dos2unix): DONE
    </li>
