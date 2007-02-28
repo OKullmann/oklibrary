@@ -3,8 +3,8 @@
 General_options := -g
 Optimisation_options := -O3 -DNDEBUG
 
-programs := # AnalyseTotalAssignment
+programs := AnalyseTotalAssignment
 
-source_libraries =  $(Ubcsat)
+source_libraries = $(Ubcsat)
 
 link_libraries := 
