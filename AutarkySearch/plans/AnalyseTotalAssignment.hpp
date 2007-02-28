@@ -8,6 +8,7 @@
   
   \bug Todos below are stale (needed update by ML).
   OK: Is this done now ? (then it needs to be marked with "DONE")
+  OK: IT GETS MORE AND MORE STALE
 
   \todo Improved installation of UBCSAT:
   <ol>
@@ -34,6 +35,23 @@
    src/ to AutarkySearch/. This yields correct compilation that works on cs-oksvr.
    ML: Idea of having ubcsat.h in AutarkySearch/ as well as modified ubcsat-types.h allows correct compilation of
    ubcsat src/ files and AutarkySearch files.
+
+   OK: We should have only modified ubcsat-files in the OKlibrary, and also
+   this in a sub-directory (AutarkySearch/ubcsat). But before making any
+   changes, these should be announced in the plans. I don't understand your
+   above argumentation; please state precisely the requirements on the build
+   system, so that it can be seen either how to get it with the existing
+   system or how to extend it. Regarding the compiler-question: Did you
+   contact gcc-help (the question of how to force a source directory)?
+
+   It seems just putting AutarkySearch/ubcsat in front of the ubcsat-library
+   in definitions.mak (source_libraries-definition) should solve the problem?
+   And, actually, it seems that compilation works for the C-code, but
+   not for the C++-code ?! This needs to be analysed.
+
+   Final point: In code (re)written by us, we should incude the files we
+   really mean, that is, using for example #include AutarkySearch/ubcsat/ubcsat.h.
+
    </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
    dos2unix): DONE
