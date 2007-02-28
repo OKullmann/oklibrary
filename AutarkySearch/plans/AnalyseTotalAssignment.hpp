@@ -32,6 +32,8 @@
    which then includes Ubcsat/1-0-0/src/ubcsat-types.h instead of AutarkySearch/ubcsat-types.h
    (due to definitions.mak). One idea I can think of to overcome this is to move all .h files in
    src/ to AutarkySearch/. This yields correct compilation that works on cs-oksvr.
+   ML: Idea of having ubcsat.h in AutarkySearch/ as well as modified ubcsat-types.h allows correct compilation of
+   ubcsat src/ files and AutarkySearch files.
    </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
    dos2unix): DONE
