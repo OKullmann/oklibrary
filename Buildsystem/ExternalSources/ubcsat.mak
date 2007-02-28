@@ -24,55 +24,45 @@ ubcsat-extract-directory := $(ubcsat-base-directory)/1-0-0
 ubcsat-lib-directory := $(ubcsat-base-directory)/1-0-0/lib
 ubcsat-bin-directory := $(ubcsat-base-directory)/1-0-0/bin
 ubcsat-src-directory := $(ubcsat-base-directory)/1-0-0/src
-ubcsat-mod-extract-directory := $(ubcsat-base-directory)/1-0-0
-ubcsat-mod-src-directory := $(ubcsat-base-directory)/1-0-0/mod-src
-ubcsat-mod-lib-directory := $(ubcsat-base-directory)/1-0-0/mod-lib
+ubcsat-tmp-src-directory := $(ubcsat-base-directory)/1-0-0/tmp
 
-
-ubcsat-directories := $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-lib-directory) $(ubcsat-mod-src-directory) $(ubcsat-mod-lib-directory) $(ubcsat-bin-directory)
+ubcsat-directories := $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-lib-directory) $(ubcsat-bin-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory)
 
 ubcsat_names := adaptnovelty algorithms gsat gsat-tabu gwsat hsat hwsat irots mt19937ar mylocal novelty parameters reports rnovelty rots samd saps ubcsat ubcsat-help ubcsat-internal ubcsat-io ubcsat-mem ubcsat-reports ubcsat-time ubcsat-triggers walksat walksat-tabu
 
 ubcsat_c_files := $(addsuffix .c, $(ubcsat_names))
+ubcsat_c_files_paths := $(addprefix $(ubcsat-src-directory)/, $(ubcsat_c_files))
 ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
 
 $(ubcsat-directories) : % : 
 	mkdir $@
 
 paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))
-mod-paths := $(addprefix $(ubcsat-mod-lib-directory)/, $(ubcsat_o_files))
 
 # #################################
 # The Targets
 # ################################
 
-$(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-directory)
+$(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory)
 	$(call unarchivefolder,ubcsat-1-0-0,$(ubcsat-extract-directory),src)
+	dos2unix $(ubcsat-src-directory)/*.c
+	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
+	cp -f $(OKsystem)/Transitional/AutarkySearch/ubcsat-types.h $(ubcsat-tmp-src-directory)
 	touch $@
 
-$(ubcsat-mod-extract-directory)/tag_ : | $(ubcsat-base-directory) $(ubcsat-extract-directory)
-	$(call unarchivefolder,ubcsat-1-0-0,$(ubcsat-mod-extract-directory),src)
-	mv $(ubcsat-extract-directory)/src $(ubcsat-mod-src-directory)
-	dos2unix $(ubcsat-mod-src-directory)/*
-	touch $@
+ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a cleanup
 
-ubcsat : $(ubcsat-mod-extract-directory)/tag_ $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat alter $(ubcsat-mod-lib-directory)/libubcsat.a
-
-$(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
-	gcc -c $< -o $@
-
-$(mod-paths) : $(ubcsat-mod-lib-directory)/%.o : $(ubcsat-mod-src-directory)/%.c | $(ubcsat-mod-lib-directory) 
+$(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
 	gcc -c $< -o $@
 
 $(ubcsat-bin-directory)/ubcsat : $(paths) | $(ubcsat-bin-directory)
-	gcc -O3 -lm -o $(ubcsat-bin-directory)/ubcsat $(paths)
+	gcc -O3 -lm -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths)
 
-$(ubcsat-mod-lib-directory)/libubcsat.a : $(mod-paths)
+$(ubcsat-lib-directory)/libubcsat.a : $(paths)
 	$(AR) $(ARFLAGS) $@ $^
 
-.PHONY : alter
+.PHONY : cleanup
 
-alter :
-	rm $(ubcsat-mod-src-directory)/mylocal.h -f
-	echo '#define ALTERNATEMAIN' > $(ubcsat-mod-src-directory)/mylocal.h
+cleanup :
+	rm -rf $(ubcsat-tmp-src-directory)
 
