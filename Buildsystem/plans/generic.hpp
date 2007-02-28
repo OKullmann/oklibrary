@@ -4,6 +4,14 @@
   \file Buildsystem/plans/generic.hpp
   \brief Plans for the generic makefile
 
+  \bug Mixing C and C++:
+  If we have files XXX.c and XXX.cpp (with the same prefix) then
+  the build-system apparently does not work properly.
+  Either this gets corrected, or at least documented
+  (it appears we should forbid this).
+  The build-system should also warn about this (and perhaps
+  also about other assumptions not met).
+
   \bug Incorrect build of new tests I:
   The buildsystem does not handle the dependencies for the
   module-test-program.
