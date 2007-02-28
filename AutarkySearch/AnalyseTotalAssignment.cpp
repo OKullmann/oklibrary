@@ -2,11 +2,22 @@
 
 #include "ubcsat.h"
 #include <stdio.h>
+
+#include <cassert>
  
 /*!
   \file AutarkySearch/AnalyseTotalAssignment.cpp
   \brief Supplementing UBCSAT by analysing total assignments for
   contained autarkies.
+
+  \bug Shouldn't the above inclusion of "ubcsat.h" be replaced
+  by inclusion of the file in the OKlibrary ? We should never have
+  inclusions like that (with path-information).
+
+  \bug Since this is C++, instead of stdio.h cstdio should be used.
+
+  \bug What is the status of the following bug?? IF SOMETHING HAPPENED
+  TO A BUG (OR ANY OTHER TODO) THEN IT MUST BE CLEARLY FLAGGED.
 
   \bug Program is faulty, and produces a segmentation fault for simple
   3-CNF input. Valgrind-output:
@@ -131,7 +142,8 @@ void Initialise()
   CreateFalseClauseList(); // allows useage of the new false clause list after variable flip
 
   // UBCSAT uses aVarInit to determine how variable i is to be assigned (2 = random)
-  for(UINT32 i=1; i <= iNumVars; ++i)
+  assert(iNumVars >= 0);
+  for(UINT32 i=1; i <= UINT32(iNumVars); ++i)
     aVarInit[i] = 2;
 
   void DefaultInitVars();
@@ -219,7 +231,7 @@ void AnalyseTotalAssignment()
     for(UINT32 j = 1; j <= iNumVars; ++j) {
       if(aCurrAutarky[j]) ++iCurrAutarkySize;
     }
-    printf("iCurrAutarkySize=%lu\n",iCurrAutarkySize);
+    printf("iCurrAutarkySize=%u\n",iCurrAutarkySize);
  
   void DefaultFlip();
   DefaultFlip();
