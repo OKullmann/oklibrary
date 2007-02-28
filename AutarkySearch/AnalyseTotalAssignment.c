@@ -2,7 +2,7 @@
 
 #include "ubcsat.h"
 #include <stdio.h>
- 
+
 /*!
   \file AutarkySearch/AnalyseTotalAssignment.c
   \brief Supplementing UBCSAT by analysing total assignments for
@@ -165,7 +165,8 @@ void AnalyseTotalAssignment()
       iCurrClauseNum = aFalseList[j];
       iClauseLen = aClauseLen[iCurrClauseNum];
       for(UINT32 k=0; k < iClauseLen; ++k) {
-	iCurrVar = pClauseLits[iCurrClauseNum][k-aClauseLen[iCurrClauseNum]] / 2;
+	iCurrVar = pClauseLits[iCurrClauseNum][k];
+	iCurrVar = (iCurrVar % 2 ? (iCurrVar - 1) / 2  : iCurrVar / 2);
 	aCurrAutarky[iCurrVar] = FALSE;
       }
     }
