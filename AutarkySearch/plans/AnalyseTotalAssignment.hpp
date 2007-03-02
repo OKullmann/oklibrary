@@ -12,13 +12,21 @@
 
   \todo Improved installation of UBCSAT:
   <ol>
+   <li> Some documentation is needed:
+    <ul>
+     <li> how to use the binary </li>
+     <li> how to use the library files </li>
+     <li> what are those library files> </li>
+    </ul>
+   </li>
    <li> No "modified files" anymore, but NEW FILES, with proper change
    documentation, in the OKlibrary; by appropriate settings of variable
    source-libraries the directory with the updated ubcsat-files is dominant
    over the original ubcsat-source-directory.
    This is IMPORTANT --- the hack in ubcsat.mak must vanish, and everything
-   we do MUST be under in the source control for Transitional.
+   we do MUST be under in the source control for Transitional. DONE
    </li>
+
    <li> Improve the current build, so that there is exactly one directory containing
    everything offered by Ubcsat, that is, the appropriate src-directory is moved to
    Ubcsat/1-0-0, and possibly the make-variables are updated.
@@ -26,8 +34,22 @@
    from the /src .c files that have used the changed .h files in AutarkySearch/.
    One problem of doing this is getting gcc to use the .h files in AutarkySearch/ instead of the ones in /src. Is there a known way of doing this?
    OK: Either create a temporary directory, or use one of the gcc options -IDIR,-nostdinc,-isystem,-iquote
-   (as usual, one should use e-mail lists --- the gcc-help list for example (they react normally quite quickly)).
+   (as usual, one should use e-mail lists --- the gcc-help list for example (they react normally quite quickly)). DONE (the lib-files
+   are only relevant to us, thus use the modified source-files).
    </li>
+
+   <li> The source-files from ubcsat should be converted to unix-files (using
+   dos2unix): DONE
+   </li>
+   <li> Modified .h  files are added to Transitional/AutarkySearch/ which will contain
+   definitions of fixed width types from stdint.h instead. DONE
+   </li>
+   <li> 
+   </li>
+  </ol>
+
+  \todo Compilation in AutarkySearch:
+  <ul>
    <li> Compilation in AutarkySearch is done correctly:   
    ML: Currently, compilation in AutarkySearch during "make all" involves including AutarkySearch/ubcsat.h
    which then includes Ubcsat/1-0-0/src/ubcsat-types.h instead of AutarkySearch/ubcsat-types.h
@@ -44,30 +66,17 @@
    system or how to extend it. Regarding the compiler-question: Did you
    contact gcc-help (the question of how to force a source directory)?
 
-   It seems just putting AutarkySearch/ubcsat in front of the ubcsat-library
-   in definitions.mak (source_libraries-definition) should solve the problem?
-   And, actually, it seems that compilation works for the C-code, but
-   not for the C++-code ?! This needs to be analysed.
-
    Final point: In code (re)written by us, we should incude the files we
    really mean, that is, using for example #include AutarkySearch/ubcsat/ubcsat.h.
 
    </li>
-   <li> The source-files from ubcsat should be converted to unix-files (using
-   dos2unix): DONE
+   <li>
+   It seems just putting Transitional/AutarkySearch/ubcsat in front of the ubcsat-library
+   in definitions.mak (source_libraries-definition) should solve the problem?
+   So definitions.mak will now have another directory under source_libraries variable namely
+   Transitional/AutarkySearch/ubcsat.
    </li>
-   <li> Modified .h  files are added to Transitional/AutarkySearch/ which will contain
-   definitions of fixed width types from stdint.h instead.
-   </li>
-   <li> definitions.mak will now have another directory under source_libraries variable namely AutarkySearch/
-   </li>
-   <li> Some documentation is needed:
-    <ul>
-     <li> how to use the binary </li>
-     <li> how to use the library files. </li>
-    </ul>
-   </li>
-  </ol>
+  </ul>
      
   \todo No C code anymore:
   Create AnalyseTotalAssignment.cpp as (initially) a copy of AnalyseTotalAssignment.c,
@@ -106,6 +115,9 @@
   handling how the process is to be iterated (of course, again the main thing is
   a class which handles the iteration; the program AnalyseTotalAssignment.cpp just
   manages input and output, and uses this class).
+
+  \todo Including source-files from external libraries:
+  It seems reasonable to use e.g. include <ubcsat/reports.h>.
 
   \todo Complete autarky search:
   Via the appropriate components from the combinatorics module for enumeration of total
