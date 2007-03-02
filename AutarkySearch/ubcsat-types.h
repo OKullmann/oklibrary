@@ -1,4 +1,5 @@
 /*!
+  \file AutarkySearch/ubcsat-types.h
   \bug It appears we never had the original file in the OKlibrary(-repository)?
   This should be corrected once moving these files to a sub-directory.
 */
