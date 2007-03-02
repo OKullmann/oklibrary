@@ -9,20 +9,22 @@
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - Improved installation of UBCSAT
 
-  \par Version 0.0.7
+  \par Version 0.0.7 : BUG REMOVAL
+
+  \par Version 0.0.8
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - No C code anymore
   - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
 
-  \par Version 0.0.8
+  \par Version 0.0.9
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - Design and implement class ComputeLargestAutarky
 
-  \par Version 0.0.9
+  \par Version 0.0.10
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - Design and implement class AutarkySearchUbcsat
 
-  \par Version 0.0.10
+  \par Version 0.0.11
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - AnalyseTotalAssignment.cpp
 
