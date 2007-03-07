@@ -69,6 +69,13 @@
    Final point: In code (re)written by us, we should incude the files we
    really mean, that is, using for example #include AutarkySearch/ubcsat/ubcsat.h.
 
+   ML: when ubcsat-types.h is added to AutarkySearch/ubcsat (only modified file)
+   and definitions.mak includes this folder as source folder, we get errors in
+   Initialise function. Adding all ubcsat's .h files to AutarkySearch/ubcsat
+   however yields a different error later on, namely that of multi definition
+   of pActiveAlgorithm. I cannot work out a way around either errors in 
+   Initialise function or errors of multiple definitions.
+
    </li>
    <li>
    It seems just putting Transitional/AutarkySearch/ubcsat in front of the ubcsat-library
