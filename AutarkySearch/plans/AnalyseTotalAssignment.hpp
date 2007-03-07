@@ -76,6 +76,14 @@
    of pActiveAlgorithm. I cannot work out a way around either errors in 
    Initialise function or errors of multiple definitions.
 
+   OK: This all is irrelevant now, since the whole module is an in undefined
+   state --- this kind of guessing into the dark is a waste of time.
+   First we need to progress to the next milestone 0.0.6, which will mean that
+   we then know better about the current state. And then the plans
+   for the following milestone (BUG REMOVAL) have to be expanded, ordering
+   the bugs in a sensible order so that the easiest bugs come first.
+   And then one after the other (in that order) will be handled.
+
    </li>
    <li>
    It seems just putting Transitional/AutarkySearch/ubcsat in front of the ubcsat-library
