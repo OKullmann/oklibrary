@@ -3,6 +3,21 @@
 /*!
   \file Concepts/JoinedConceptTags.hpp
   \brief Concept tags for (fundamental) types in case the type models several concepts
+
+  The problem is, that in our library every model M of a concept C
+  needs a concept tag (accessed by
+  OKlib::Concepts::traits::concept_tag<M>::type
+  ) which is derived from OKlib::Concepts::C_tag. Now for example the model
+  M1 := OKlib::Variables::Variables_int of concept Concepts::Variables and
+  the model M2 := OKlib::Literals::Literals_int of concept Concepts::Literals
+  are both just typedefs for the fundamental type int (one of the central
+  design decisions is, for such fundamental models to support also built-in
+  types), and so OKlib::Concepts::traits::concept_tag<M> cannot distinguish
+  between the both. The solution is to provide a tag C1C2 with expresses
+  both concepts (is derived from both concept tags). In order to avoid
+  circular include-statements, the definition of C1C2 cannot be put
+  into the the concept definition files for C1 or C2 (where normally
+  the accompanying tags are found), but is to be defined in this file.
 */
 
 #ifndef JOINEDCONCEPTTAGS_74TTba14kfbr
@@ -18,7 +33,17 @@ namespace OKlib {
       \class VariablesLiterals_tag
       \brief Tags for types which are used as variables and as literals
 
-      For examples int models Variables as well as Literals.
+      For examples int models Concepts::Variables as well as
+      Concepts::Literals; more precisely, int models
+      Concepts::VariablesAsIndex. The tag expressing that the type
+      models both concepts now is
+      VariablesLiterals_tag<Concepts::VariablesAsIndex_tag, Concepts::Literals_tag>.
+
+      \todo It seems besides providing such a combined tag, we need also
+      to provide "projections", which enable us to extract from such a
+      combined tag the Var-tag and the Lit-tag? Or perhaps not, since
+      all what is needed from the combined tag are the base classes
+      (for tagging-polymorphism)?
     */
 
     template <class Var_tag, class Lit_tag>
