@@ -2,56 +2,48 @@
 
 /*!
   \file Resolution/plans/Resolution.hpp
-  \brief Plans for the modules providing components for resolution proof search
+  \brief Plans for the modules providing components for resolution handling
 
   \todo Whatever remains of module DPv shall move to here.
 
-  \todo Exact tree resolution complexity:
-  Implement the dynamic-programming algorithm for computing
-  the tree resolution complexity for all possible clauses
-  over var(F) for a given clause-set F:
-  - Let trc(C) be the tree-resolution complexity of C w.r.t. F,
-    that is, the minimal number of nodes in a tree resolution
-    derivation of (exactly) C from F. So trc(C) is an odd
-    natural number. At the beginning trc(C) is "open" for
-    all C over F. Then in round i = 1, 2, ... we determine
-    all clauses C with trc(C) = 2i-1 (by marking exactly those
-    clauses with 2i-1). In round 1 exactly the
-    clauses of F are marked with 1. In round i > 1 for a yet
-    unmarked clause C one checks whether it is the resolvent
-    of marked clauses C',C'' such that
-      trc(C') + trc(C'') + 1 = 2i-1
-    in which case clause C gets marked.
-  - For extracting an optimal tree resolution refutation for the
-    empty clause, when marking a clause one should also store
-    pointers to the parent clauses.
-  - Can further restrictions be handled for boolean resolution?
-  - For non-boolean clause-sets there is still only one form
-    of resolution, however if signed literals are allowed, then
-    more forms are possible.
-  - If only interested in the empty clause, then we can stop
-    as soon as we found it (and the reached level then is
-    exactly the tree-resolution complexity of F). Are there
-    other strategies to make the procedure a bit more efficient?
-  - One possibility is to restrict the maximal clause-size
-    considered (for 2-CNF it is actually sufficient to consider
-    only clauses of length at most 2).
+  \todo Verification of r-resolution refutations:
+  <ul>
+   <li> Given some r: CLS -> CLS such that for F' >= F and bot in r(F)
+        we also have bot in r(F'), the basic calculus for refuting
+        some F allows the following two steps, starting with empty F':
+        <ol>
+         <li> Add some C from F to F'. </li>
+         <li> Add some C_phi to F' if bot in r(phi * F') (where F'
+              is the old value). </li>
+         <li> Add a resolvent of two clauses from F' to F'. </li>
+        </ol>
+   </li>
+   <li> Especially for the r_k we need a file-format to store such refutations.
+        And of course we need experimentations, how good we can create such
+        refutations, and which size reductions can be achieved.
+   </li>
+   <li> A verifier is needed for such files. Here one should additionally
+        seek to provide verified verifiers (collaboration with Markus
+        Roggenbach and/or Ulrich Berger?) </li>
+  </ul>
 
-  \todo How to compute the minimal regular-resolution complexity?
-
-  \todo How to compute the minimal DP-resolution complexity?
-
-  \todo How to compute the minimal resolution complexity?
-
-  \todo Implement the Buresh-Oppenheim/Mitchell algorithm
-  for computing the minimal resolution complexity of F in
-  boolean 2-CNF in polynomial time.
-  
+  \todo Stronger proof systems:
+  <ul>
+   <li> At least a file format and a verifier for extended resolution,
+        and for the combination with the above r-resolution. </li>
+   <li> What about Frege-Systems, extended Frege-Systems? (They should go
+        to a different module.) </li>
+   <li> What about proof systems for parameterised UNSAT formulas
+        (or for tautologies), that is for UNSAT generators?
+        Of course, also SAT generators are relevant.
+        Here one could go up to ZFC. (Again, this should go to a different
+        module.) </li>
+  </ul>
 */
 
 /*!
   \namespace OKlib::Resolution
-  \brief Components for resolution proof search
+  \brief Components for resolution handling
 */
 
 namespace OKlib {
