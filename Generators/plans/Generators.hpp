@@ -12,6 +12,47 @@
   transformers are to be used.
   The variables are tuples of values.
 
+  \todo Implementing the Tseitin-transformation (with variations):
+  <ol>
+   <li>
+   Given a propositional formula F built from negation, conjunction
+   and disjunction (for simplicity we consider only binary operations
+   here), by the process specified below, a refinement
+   of the Tseitin-translation, we obtain a 3-CNF F' over the variables
+   from F plus new auxiliary variable such that
+
+   - every satisfying assignment for F can (easily) be extended
+     to a satisfying assignment for F';
+   - every satisfying assignment for F' is a satisfying assignment
+     for F (when restricted to the variables in F).
+
+   The process F -> F' works, using auxiliary variables v(G) for
+   subformulas G of F, by collecting clauses (to avoid renaming
+   of existing variables, let v(a) = a for variables a from F):
+
+   For a sub-formula G of F, where G is of the form
+     op G_1 ... G_n
+   (for us n <= 2), with op one of negation, conjunction or disjunction
+   (written for convenience in prefix form), add the clauses
+
+   i) (op v(G_1) ... v(G_n)) -> v(G)
+   ii) v(G) -> (op v(G_1) ... v(G_n))
+
+   where in case G occurs positively in F, i) can be dropped,
+   while if G occurs negatively in F, ii) can be dropped
+   (so the process might be non-deterministic).
+
+   F' is obtained by adding the unit clause {v(F)} to all these clauses.
+   </li>
+   <li> Is there a general input format for boolean formulas? </li>
+   <li> Some obvious variations on the transformation F -> F':
+    - handling of arbitrary and-or-arities
+    - performing simplifications on the clauses
+    - either using always (i)+(ii), or exactly one of them, or using some
+      heuristic.
+   </li>
+  </ol>
+
   \todo And also we need active clause-sets for biclique-transformations for
   interesting classes of graphs (including complete graphs).
 
