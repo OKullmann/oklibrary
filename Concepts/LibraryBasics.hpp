@@ -10,6 +10,8 @@
 
   Includes boost/concept_check, boost/static_assert, boost/type_traits, and
   ConceptsBase, ConceptsMetafunctions, Basics.
+
+  \todo Update the above description (several macros below are not captured yet).
 */
 
 #ifndef LIBRARYBASICS_oLkG5675
@@ -95,7 +97,8 @@ namespace OKlib {
       \brief Use OKLIB_MODELS_CONCEPT_TAG_T(tag, concept) in order to require that
        tag is derived from "concept_tag".
 
-      Used in cases where just a concept-tag has to be checked against a concept.
+      Used in cases where just a concept-tag has to be checked against a concept
+      (and no enclosing model-class is given).
     */
 
 #define OKLIB_MODELS_CONCEPT_TAG_T(Tag, concept) BOOST_STATIC_ASSERT((std::tr1::is_base_of<concept ## _tag, Tag>::value));
