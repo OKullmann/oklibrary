@@ -12,7 +12,7 @@
    - Concepts/ConceptsMetafunctions.hpp : DONE
    - Concepts/InputOutput.hpp : DONE
    - Concepts/Iterators.hpp : DONE
-   - Concepts/JoinedConceptTags : 
+   - Concepts/JoinedConceptTags.hpp : DONE
    - Concepts/LibraryBasics.hpp : DONE
    - Concepts/Literals.hpp : DONE
    - Concepts/RefactoringIncludeHandling.hpp : DONE
