@@ -16,7 +16,7 @@
     <ul>
      <li> how to use the binary </li>
      <li> how to use the library files </li>
-     <li> what are those library files> </li>
+     <li> what are those library files. </li>
     </ul>
    </li>
    <li> No "modified files" anymore, but NEW FILES, with proper change
