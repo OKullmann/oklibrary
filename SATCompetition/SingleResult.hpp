@@ -35,6 +35,15 @@ namespace OKlib {
 
   namespace SATCompetition {
 
+    /*!
+      \class ResultElement
+      \brief Polymorphic base class for the representation of various forms of "results".
+
+      A model of concept Concepts::ResultElement.
+      Contains only nested types for the representation of strings, floating point numbers
+      and natural numbers.
+    */
+
     class ResultElement {
     public :
       typedef OKlib::Concepts::ResultElement_tag concept_tag;
@@ -46,6 +55,15 @@ namespace OKlib {
     };
 
     // #################
+
+    /*!
+      \class ResultElement_with_name
+      \brief Addition of a name to SATCompetition::ResultElement, by which result elements
+      can be alphabetically sorted.
+
+      A model of concept Concepts::ResultElementWithName (thus the requirement of the
+      linear order is fulfilled by using the lexicographical order on the names).
+    */
     
     class ResultElement_with_name : public ResultElement {
       string_type name_;
