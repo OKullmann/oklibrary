@@ -12,8 +12,8 @@ namespace OKlib {
 
   namespace SATCompetition {
 
-    ::OKlib::Concepts::ResultElement_basic_test<ResultElement> test_ResultElement;
-    ::OKlib::Concepts::ResultElementWithName_basic_test<ResultElement_with_name> test_ResultElement_with_name;
+    ::OKlib::Concepts::ResultElement_basic_test<SATCompetition::ResultElement> test_ResultElement;
+    ::OKlib::Concepts::ResultElementWithName_basic_test<SATCompetition::ResultElement_with_name> test_ResultElement_with_name;
 
   }
 
