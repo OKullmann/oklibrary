@@ -5,9 +5,9 @@
   \brief Concepts for result elements, representing results of SAT solvers (especially
   for competitions).
 
-  \todo floating_point_type.hpp and natural_number_type.hpp should go to
-  SATCompetition/Traits.
-  \todo To be completed (see module SAT-Competition).
+  \todo To be completed (see module SATCompetition, and there mainly SATCompetition/SingleResult.hpp).
+  \todo Once sub-directories of modules are fully supported, these concepts should
+  go to Concepts/CompetitionEvaluation.
 */
 
 #ifndef RESULTELEMENT_6Tg5Yh
@@ -102,6 +102,7 @@ namespace OKlib {
       \class ResultElementWithName
       \brief Refines concept ResultElementWithOrder by adding the possibility to
       construct result elements with a given name, and to query this name.
+      The order on such result elements must be given by the natural order on the names.
     */
 
     struct ResultElementWithName_tag : virtual ResultElementWithOrder_tag {};
