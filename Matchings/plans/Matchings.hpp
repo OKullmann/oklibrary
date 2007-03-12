@@ -25,6 +25,15 @@
   the maximum matching respectively the set of unusable edges.
   Removing edges corresponds to applying some partial assignment;
   adding some edges then would correspond to backtracking steps.
+
+  \todo Counting:
+  We need (exact) algorithms for counting of perfect matchings
+   - in bipartite graphs
+   - in graphs
+   - in general graphs
+   - in hypergraphs
+   - in general hypergraphs.
+  Direct implementations as well as translations to #SAT problems.
 */
 
 /*!
