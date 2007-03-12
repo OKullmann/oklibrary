@@ -44,6 +44,35 @@
 
    F' is obtained by adding the unit clause {v(F)} to all these clauses.
    </li>
+   <li> Is the following useful?
+
+   Let us denote by t(F) the result where always
+   one of (i), (ii) is dropped (appropriately).
+   A class of horn-like formulas is the class of formulas
+
+     F = C_1 and ... and C_k
+
+   where each C_i is of the form
+
+     (P_1 and ... and P_m) -> Q
+
+   where the P_i are arbitrary positive and-or-formulas, while
+   Q is a positive and-formula. So the P_i and all their sub-occurrences
+   occur negatively, while Q occurs positively.
+   Thus t(F) is a 3-CNF with (essentially) clauses of the form
+
+   1) (a or b) -> c
+   2) (a and b) -> c
+   3) a -> (b and c)
+
+   where a, b, c are variables (atomic formulas).
+   Types 1 and 3 translate into 2 binary Horn-clauses each, while type 2 is
+   already a Horn clause.
+
+   Thus t(F) is a Horn formula. Since t(F) is computable in linear time,
+   and SAT decision for Horn formulas is achievable in linear time,
+   SAT decision for those generalised formulas F is achievable in linear time,
+   </li>
    <li> Is there a general input format for boolean formulas? </li>
    <li> Some obvious variations on the transformation F -> F':
     - handling of arbitrary and-or-arities
