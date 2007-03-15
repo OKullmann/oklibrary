@@ -68,6 +68,23 @@ SHELL = /bin/sh
 
 # make ubcsat
 
+# creates the directory ExternalSources/Ubcsat/1-0-0
+# with sub-directories bin, lib and src.
+
+# Under bin the SAT solver "ubcsat" is found.
+# Calling it by "ubcsat -h" will show the list of options.
+
+# Under lib the library files are found.
+# To use a function or variables from one of the .o files in Ubcsat/1-0-0/lib:
+#  ubcsat.h must be included
+#  all .o files in /Ubcsat/1-0-0/lib must be linked together
+
+# These library files are unchanged from ubcsat-1-0-0.tar.gz except for ubcsat.o;
+# ubcsat.o now does not have a main function and instead has the function ubcsatmain.
+# Many of the functions and variables are in ubcsat-internal.o and ubcsat-triggers.o.
+# These functions and variables are documented in ubcsat-globals.h, ubcsat-triggers.h 
+# and ubcsat-internal.h
+
 # Valgrind
 
 # make valgrind (recommended version)
