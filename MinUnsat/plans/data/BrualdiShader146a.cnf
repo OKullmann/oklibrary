@@ -1,0 +1,14 @@
+c Oliver Kullmann, 13.3.2007 (Swansea)
+c Example for fully indecomposable SNS matrix
+c [Brualdi,Shader], page 146
+p 5 10
+-1 2 -5 0
+-1 -2 3 0
+-2 -3 4 0
+-3 -4 -5 0
+1 -5 0
+1 -2 5 0
+1 2 -3 0
+2 3 -4 0
+3 4 5 0
+-1 5 0

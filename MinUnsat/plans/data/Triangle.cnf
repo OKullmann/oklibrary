@@ -1,0 +1,9 @@
+c Oliver Kullmann, 13.3.2007 (Swansea)
+c Boolean translation of the 2-colourability of the triangle
+p 3 6
+1 2 0
+2 3 0
+1 3 0
+-1 -2 0
+-2 -3 0
+-1 -3 0
