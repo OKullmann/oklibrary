@@ -5,7 +5,7 @@
   
   \module_version Buildsystem 0.1.4 (8.2.2007)
 
-  \par Version 0.1.5 : THEME is "A specified and testable build system" : TO BE REACHED 25.2.2007
+  \par Version 0.1.5 : THEME is "A specified and testable build system" : TO BE REACHED \deadline_014
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Specification of buildsystem
  
@@ -18,13 +18,26 @@
     - Testing the build system
 
   \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
+   the following topics are handled:
+    - Doxygen menu
+    - Doxygen variables : DONE
+
+  \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
+   the following topics are handled
+    - Page organisation
+    - Version numbers : DONE
+
+  \par
    In Buildsystem/plans/generic.hpp the following topics have been updated:
     - General clean-up of make-variables (DONE)
     - Cleaning (DONE)
     - Generic makefile redesign (DONE)
     - OKsystem/Buildsystem structure (DONE)
 
-  \par Version 0.1.6 : THEME is "Build system consolidation"
+
+  \par Version 0.1.6 : THEME is "Build system consolidation" : TO BE REACHED \deadline_015
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Incorrect build of new tests I
     - Incorrect build of new tests II
@@ -70,13 +83,10 @@
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
     - Doxygen general
-    - Doxygen menu
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
    the following topics are handled
-    - Version numbers
-    - Page organisation
     - Using css
     - Meta tags
     - Improved logo

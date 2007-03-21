@@ -4,13 +4,20 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
   \brief Plans for documentation-creation
 
-  \bug Suffix for plans-files:
-  Plans-files with a suffix different than .hpp are not recognised as
-  C++ files (which they are(!)) by xemacs, and so indentation does not work;
-  especially bad is an ending .mak, which tells xemacs that this a makefile,
-  which has completely different syntax for comments etc. (tab-stops!).
-  So all plans-files need the suffix .hpp (and the changes regarding suffix
-  .mak have to be undone). (DONE)
+  \todo Doxygen variables:
+  For the version number and the dates of deadlines we need some central
+  place, where corresponding variables (macros) are defined, so that
+  we can use these variables everywhere. DONE (definition of ALIASES
+  in Doxyfile).
+
+  \todo Doxygen menu
+   -  Perhaps we should drop the file-list altogether?
+     (This could make the system more user-friendly, by restricting the attention to
+     the most appropriate choice?) On the other hand, always having to click on the
+     directory items might not be always best, so perhaps we should keep the file-list.
+   - Sometimes it would be good to show also other files (especially for Buildsystem).
+     This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
+     just as plain text files, without any special formatting).
 
   \todo Doxygen general:
    - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
@@ -39,15 +46,6 @@
    - How to integrate a *general* todo list into Doxygen? With xrefitem. However it seems we no longer need it : DONE
    - Can doxygen extract a list with all modules and their current version numbers? Installed module_version : DONE
    - We should get the newest configuration file, and transfer our information from the old configuration file : DONE
-
-  \todo Doxygen menu
-   -  Perhaps we should drop the file-list altogether?
-     (This could make the system more user-friendly, by restricting the attention to
-     the most appropriate choice?) On the other hand, always having to click on the
-     directory items might not be always best, so perhaps we should keep the file-list.
-   - Sometimes it would be good to show also other files (especially for Buildsystem).
-     This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
-     just as plain text files, without any special formatting).
 
   \todo CSS : Improving the cascading style sheet used by the documentation
    index.
