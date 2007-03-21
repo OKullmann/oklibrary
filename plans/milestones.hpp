@@ -8,8 +8,8 @@
 /*!
   \page CurrentVersions Current versions
 
-  - Transitional 0.1.3 (8.2.2007)
-  - OKlibrary 0.0.1 (3.3.2006)
+  - Transitional \transitional_version_full
+  - OKlibrary \oklib_version_full
 */
 
 /*!
@@ -17,7 +17,7 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional014 0.1.4 : TO BE REACHED 31.3.2007
+  \subsection VersionTransitional014 0.1.4 : TO BE REACHED \deadline_014
   \par Buildsystem version 0.1.5 (MH (OK))
   (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.2 (OK (MH))
@@ -40,7 +40,9 @@
   (see LatinSquares/plans/milestones.hpp)
   \par Expand the following milestones regarding SAT-algorithms
 
-  \subsection VersionTransitional015 0.1.5 : TO BE REACHED 30.4.2007
+  \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
+  \par Buildsystem version 0.1.6 (MH, OK)
+  (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
   \par Graphs version  0.0.3 (OK (MH))
@@ -59,9 +61,7 @@
   \par Update
   Update the subsequent milestones.
 
-  \subsection VersionTransitional016 0.1.6 : TO BE REACHED 31.5.2007
-  \par Buildsystem version 0.1.6 (MH, OK)
-  (see Buildsystem/plans/milestones.hpp)
+  \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
