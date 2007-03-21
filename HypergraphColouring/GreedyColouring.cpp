@@ -9,6 +9,8 @@
   just separated by spaces), where vertices are numbers in {0, ..., n-1}.
   It prints out n and m and the vertex degrees, followed by an analysis of the generic
   colouring algorithm for the input graph.
+
+  \todo Use general components from module Graphs.
 */
 
 #include <iostream>
