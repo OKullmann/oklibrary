@@ -110,12 +110,6 @@ logo_image_location := $(OKbuildsystem)/Generic/documentation_building/documenta
 logo_division := "<div id=\"logo\"><img src=\"$(logo_image_location)\"/> </div>"
 
 # ##################################################
-# Version Number Division
-# ##################################################
-
-version_number := "<h2>Transitional Version 0.1.2</h2>"
-
-# ##################################################
 # Subtitle
 # ##################################################
 
@@ -139,7 +133,6 @@ documentation_navigation := "<div id=\"doc_navigation\"> "$(OKlibrary_documentat
 # ##################################################
 
 documentation_index_body := "<div id=\"content\"> "$(logo_division)" \
-                            "$(version_number)" \
                             "$(subtitle)" \
                             "$(documentation_navigation)" \
                             "$(footer_division)" </div>"
