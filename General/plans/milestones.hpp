@@ -3,7 +3,7 @@
 /*!
   \file General/plans/milestones.hpp
 
-  \par Current version 0.5 (6.11.2006; a stable (old-style) library)
+  \module_version General 0.5 (6.11.2006; a stable (old-style) library)
 
   \par Version 0.5.1 :
   The first task is to create a plan and milestones for the transition
