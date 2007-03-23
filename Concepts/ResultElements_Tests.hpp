@@ -21,7 +21,6 @@
 #include <Transitional/Concepts/ResultElements.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!

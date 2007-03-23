@@ -20,7 +20,6 @@
 #include <Transitional/Literals/set_cond.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     struct Literals_tag : virtual BasicRequirements_tag, virtual FullyConstructible_tag,  virtual EqualitySubstitutable_tag, virtual LinearOrder_tag {};
