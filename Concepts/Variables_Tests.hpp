@@ -4,7 +4,12 @@
   \file Concepts/Variables_Tests.hpp
   \brief Generic tests for models of variable concepts
 
-  \todo Move to the new test system.
+  \deprecated Move to the new test system (and then using better error messages).
+
+  \todo Perhaps within namespace Concepts::tests we have namespace Variables?
+  And further differentiations are conceivable, corresponding to the
+  refinements?
+
 */
 
 #ifndef VARIABLESTESTS_kkgFre3
@@ -22,8 +27,33 @@
 #include <Transitional/Variables/traits/index_type.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
+
+    /*!
+      \class Variables_Axiom_singular_variables_identity
+      \brief Test function for Concepts::Variables, checking that two
+      singular variables are identical.
+    */
+
+    /*!
+      \class Variables_Axiom_singular_variables_false
+      \brief Test function for Concepts::Variables, checking that default-created variables are singular.
+
+      Since in general the initialisation-behaviour of built-in types must be
+      assumed, a local variable created by
+      Var v;
+      in general has an undefined value, and needs further initialisation before use.
+    */
+
+    template <typename Var>
+    struct Variables_Axiom_singular_variables_false : OKlib::TestSystem::Test {
+      typedef Variables_Axiom_singular_variables_false test_type;
+    private :
+      void perform_test_trivial() {
+        if (Var())
+          OKLIB_THROW("not not bool(Var())");
+      }
+    };
 
     template <typename Var>
     struct Variables_Axiom_singular_variables_identity : OKlib::TestSystem::Test {
@@ -41,24 +71,11 @@ namespace OKlib {
     };
 
     /*!
-      \class Variables_Axiom_singular_variables_false
-      \brief Test that default-created variables are singular
-
-      Since in general the initialisation-behaviour of built-in types must be
-      assumed, a local variable created by
-      Var v;
-      in general has an undefined value, and needs further initialisation befor use.
+      \class Variables_basic_test
+      \brief Basic test function for Concepts::Variables, which checks syntax,
+      singularity of default-constructed variables, and applies the basic
+      test for the linear order.
     */
-
-    template <typename Var>
-    struct Variables_Axiom_singular_variables_false : OKlib::TestSystem::Test {
-      typedef Variables_Axiom_singular_variables_false test_type;
-    private :
-      void perform_test_trivial() {
-        if (Var())
-          OKLIB_THROW("not not bool(Var())");
-      }
-    };
 
     template <typename Var>
     struct Variables_basic_test : OKlib::TestSystem::TestBase {
@@ -72,10 +89,17 @@ namespace OKlib {
         OKLIB_MODELS_CONCEPT_TAG(Var, OKlib::Concepts::Variables);
         OKLIB_TESTTRIVIAL_RETHROW(LinearOrder_basic_test_one_object<Var>(Var()));
         OKLIB_TESTTRIVIAL_RETHROW(Variables_Axiom_singular_variables_false<Var>());
+        OKLIB_TESTTRIVIAL_RETHROW(Variables_Axiom_singular_variables_identity<Var>(Var(), Var()));
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class VariablesWithIndex_Axiom_index_nonnegative
+      \brief Test function for concept Concepts::VariablesWithIndex, checking that
+      indices of variables are not negative.
+    */
 
     template <typename Var>
     struct VariablesWithIndex_Axiom_index_nonnegative : OKlib::TestSystem::Test {
@@ -89,6 +113,12 @@ namespace OKlib {
           OKLIB_THROW("index(v) < 0");
       }
     };
+
+    /*!
+      \class VariablesWithIndex_Axiom_index_zero_positive
+      \brief Test function for concept Concepts::VariablesWithIndex, checking
+      that singular variables have index 0.
+    */
   
     template <typename Var>
     struct VariablesWithIndex_Axiom_index_zero_positive : OKlib::TestSystem::Test {
@@ -105,6 +135,12 @@ namespace OKlib {
       }
     };
 
+    /*!
+      \class VariablesWithIndex_Axiom_index_zero_negative
+      \brief Test function for concept Concepts::VariablesWithIndex, checking that
+      if the index is zero, then the variable is singular.
+    */
+
     template <typename Var>
     struct VariablesWithIndex_Axiom_index_zero_negative : OKlib::TestSystem::Test {
       typedef VariablesWithIndex_Axiom_index_zero_negative test_type;
@@ -120,6 +156,15 @@ namespace OKlib {
       }
     };
 
+    /*!
+      \class VariablesWithIndex_Axiom_index_identity
+      \brief Test function for concept Concepts::VariablesWithIndex, checking that
+      variables with identical indices are identical.
+
+      \todo This axiom actually should go into a refinement (variables with equal
+      indices could be different, for example when used in different contexts) ?!?
+    */
+
     template <typename Var>
     struct VariablesWithIndex_Axiom_index_identity : OKlib::TestSystem::Test {
       typedef VariablesWithIndex_Axiom_index_identity test_type;
@@ -134,7 +179,16 @@ namespace OKlib {
           OKLIB_THROW("v != w");
       }
     };
-    // ToDo: This axiom should go into a refinement (variables with equal indices can be different, for example when used in different contexts).
+
+    /*!
+      \class VariablesWithIndex_basic_test
+      \brief Basis text function for concept Concepts::VariablesWithIndex, checking
+      syntax and that singular variables have index 0, and applying the basic test
+      for concept Concept::Variables.
+
+      The other tests are not applicable here, since (still) non-singular variables
+      cannot be constructed.
+    */
 
     template <typename Var>
     struct VariablesWithIndex_basic_test : OKlib::TestSystem::TestBase {
@@ -144,18 +198,14 @@ namespace OKlib {
       }
     private :
       void perform_test_trivial() {
-        OKLIB_MODELS_CONCEPT_REQUIRES(Var, VariablesWithIndex);
+        OKLIB_MODELS_CONCEPT_REQUIRES(Var, OKlib::Concepts::VariablesWithIndex);
+        OKLIB_MODELS_CONCEPT_TAG(Var, OKlib::Concepts::VariablesWithIndex);
         OKLIB_TESTTRIVIAL_RETHROW(Variables_basic_test<Var>());
         OKLIB_TESTTRIVIAL_RETHROW(VariablesWithIndex_Axiom_index_zero_positive<Var>(Var()));
       }
     };
 
     // ---------------------------------------------------------------------------------------------------------------------
-
-    /*!
-      \class VariablesAsIndex_Axiom
-      \brief Checks construction of a variable from an index
-    */
 
     namespace TestIndex {
       template <typename index_type, bool is_signed>
@@ -174,6 +224,12 @@ namespace OKlib {
       }
     }
     
+    /*!
+      \class VariablesAsIndex_Axiom
+      \brief Test function for concept Concepts::VariablesAsIndex, checks that
+      variables constructed from an index return the same index.
+    */
+
     template <typename Var>
     struct VariablesAsIndex_Axiom : OKlib::TestSystem::Test {
       typedef VariablesAsIndex_Axiom test_type;
@@ -188,6 +244,13 @@ namespace OKlib {
           OKLIB_THROW("index(Var(i)) != i");
       }
     };
+
+    /*!
+      \class VariablesAsIndex_basic_test
+      \brief Basic test function for concept Concepts::VariablesAsIndex, checking
+      syntax, applying the basic test for Concepts::VariablesWithIndex, and
+      checking creation of variables from indices.
+    */
 
     template <typename Var>
     struct VariablesAsIndex_basic_test : OKlib::TestSystem::TestBase {
@@ -206,7 +269,7 @@ namespace OKlib {
           for (index_type i = 0; i <= max_index; ++i)
             OKLIB_TESTTRIVIAL_RETHROW(VariablesAsIndex_Axiom<Var>(i));
         }
-        // ToDo: With the creation power now also testing all other axioms.
+        // XXXXXXXXXXXXXXXXXXXXXXXXXX
       }
     };
 
