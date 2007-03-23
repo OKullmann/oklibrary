@@ -14,7 +14,6 @@
 #include <Transitional/Variables/traits/index_type.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     struct Variables_tag : virtual BasicRequirements_tag, virtual FullyConstructible_tag,  virtual EqualitySubstitutable_tag, virtual LinearOrder_tag {};
@@ -75,6 +74,12 @@ namespace OKlib {
 
     struct VariablesWithIndex_tag : virtual Variables_tag {};
     
+    /*!
+      \class VariablesWithIndex
+      \brief Refinement of concept Concepts::Variables, adding an index_type, and variables
+      can be implicitely converted to this index type
+    */
+
     template <typename Var>
     struct VariablesWithIndex {
 
@@ -106,6 +111,12 @@ namespace OKlib {
 
     struct VariablesAsIndex_tag : virtual VariablesWithIndex_tag {};
     
+    /*!
+      \class VariablesAsIndex
+      \brief Refinement of concept Concepts::VariablesWithIndex, requiring a constructor
+      of variables from index values.
+    */
+
     template <typename Var>
     struct VariablesAsIndex {
 
