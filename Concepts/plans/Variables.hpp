@@ -4,9 +4,14 @@
   \file Concepts/plans/Variables.hpp
   \brief Plans for concepts for Variables.
 
-  \todo Create doxygen-documentation.
+  \todo Complete doxygen-documentation.
 
   \todo Transfer tests to the new test system.
+
+  \todo Complete VariablesAsIndex_basic_test by applying tests:
+   - Concepts::VariablesWithIndex_Axiom_index_nonnegative
+   - Concepts::VariablesWithIndex_Axiom_index_zero_negative
+   - Concepts::VariablesWithIndex_Axiom_index_identity
 
   \todo Is a generalisation of the Variables-concept useful, where there is no default
   constructor, and no handling of singular values? (Perhaps with the name "GeneralIndex" ?)
@@ -50,7 +55,7 @@
 
   \todo Active clause-sets use "variable structures" to manage their variables, allowing
     for example to run through them, etc.
-    These variable structures should have a type member showing which combination
+    These variable structures should have a type member showing which combination (OK: of what?)
     is possible (in principle).
 */
 

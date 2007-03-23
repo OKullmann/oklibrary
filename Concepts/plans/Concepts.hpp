@@ -17,7 +17,7 @@
    - Concepts/Literals.hpp : DONE
    - Concepts/RefactoringIncludeHandling.hpp : DONE
    - Concepts/ResultElements.hpp : DONE
-   - Concepts/plans/Variables.hpp :
+   - Concepts/plans/Variables.hpp : DONE
    - Concepts/std_Basics.hpp :
    - Concepts/std_Container.hpp :
    - Concepts/std_Iterators.hpp :
