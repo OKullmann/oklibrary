@@ -4,7 +4,7 @@
   \file Concepts/Variables_Testobjects.hpp
   \brief Checking whether concept and archetype definitions are consistent
 
-  \todo Move to the new test system.
+  \deprecated Move to the new test system.
 */
 
 #ifndef VARIABLESTESTOBJECTS_olKmNb56
@@ -16,7 +16,6 @@
 #include <Transitional/Concepts/Variables_Tests.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     OKLIB_BASIC_CONCEPT_TEST_TAG(Variables)
