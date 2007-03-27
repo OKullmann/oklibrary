@@ -4,6 +4,16 @@
   \file Concepts/std_Basics.hpp
   \brief Basic concepts from ISO/IEC 14882: 2003 (the "Standard")
   plus const-correctness.
+
+  The following concepts are defined:
+  - Concepts::EqualityComparable
+  - Concepts::LessThanComparable
+  - Concepts::Destructible
+  - Concepts::CopyConstructible
+  - Concepts::DefaultConstructible
+  - Concepts::Assignable.
+
+  \todo Complete doxygen-documentation.
 */
 
 #ifndef STDBASICS_pokcc34Ty
@@ -14,14 +24,19 @@
 #include <Transitional/Concepts/ConceptsBase.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
       \class EqualityComparable
       \brief Concept EqualityComparable according to Table 28 in the standard (plus const-correctness).
 
-      Semantical requirements are that of an equivalence relation.
+      Semantical requirements are that of an equivalence relation, that is
+      - a == a
+      - if a == b then b == a
+      - if a == b and b == c then a == c.
+
+      \todo LessThanComparable_Archetype should use the provided
+      type convertible_to_bool.
     */
       
     template <typename T>
@@ -37,10 +52,6 @@ namespace OKlib {
       const T a, b;
     };
     struct EqualityComparable_tag : virtual ConceptsBase_tag {};
-    //Semantics:
-    // a == a
-    // if a == b then b == a
-    // if a == b and b == c then a == c.
 
     class EqualityComparable_Archetype {
       EqualityComparable_Archetype();
@@ -60,6 +71,15 @@ namespace OKlib {
     /*!
       \class LessThanComparable
       \brief LessThanComparable according to Table 29 in the standard (plus const-correctness)
+
+      Semantical requirements:
+      - not a < a
+      - if a < b and b < c then a < c
+      - define a ~ b as (not (a < b) and not (b < a)): ~ is an equivalence relation
+      Comment: This makes < "basically" a total order.
+
+      \todo LessThanComparable_Archetype should use the provided
+      type convertible_to_bool.
     */
 
     template <typename T>
@@ -75,12 +95,6 @@ namespace OKlib {
       const T a, b;
     };
     struct LessThanComparable_tag : virtual ConceptsBase_tag {};
-    // Semantics:
-    // not a < a
-    // if a < b and b < c then a < c
-    // define a ~ b as (not (a < b) and not (b < a)):
-    // ~ is equivalence relation
-    // Comment: This makes < basically a total order.
 
     class LessThanComparable_Archetype {
       LessThanComparable_Archetype();
@@ -125,7 +139,10 @@ namespace OKlib {
       \class CopyConstructible
       \brief Concept CopyConstructible.
 
-      Refines concept Destructible.
+      Refines concept Destructible. Semantics:
+      - T(a) is "equivalent" to a (i.e., substitutable).
+      - *&a is "identical" with a.
+
     */
 
     template <class T>
@@ -144,9 +161,6 @@ namespace OKlib {
       const T a;
     };
     struct CopyConstructible_tag : virtual Destructible_tag {};
-    // Semantics:
-    // T(a) is "equivalent" to a (i.e., substitutable).
-    // *&a is "identical" with a.
 
     class CopyConstructible_Archetype {
       CopyConstructible_Archetype();
@@ -181,6 +195,13 @@ namespace OKlib {
     /*!
       \class Assignable
       \brief Concept Assignable according to Table 64 in the standard.
+
+      Semantics:
+      - After a = b the object a is "equivalent" to b (i.e., substitutable).
+
+      \todo Shouldn't there be a concept "CopyAssignable", which also requires
+      that copying and assigning have the same effect?
+
     */
 
     template <typename T>
@@ -193,8 +214,6 @@ namespace OKlib {
       const T b; 
     };
     struct Assignable_tag : virtual ConceptsBase_tag {};
-    // Semantics:
-    // After a = b the object a is "equivalent" to b (i.e., substitutable).
 
     class Assignable_Archetype {
       Assignable_Archetype();
