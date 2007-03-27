@@ -14,11 +14,13 @@
   \par Version 0.1.3 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
   - Develop concepts
+  - Develop a general strategy for creating generic tests
 
   \par Version 0.2 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
   - Warnings
   - Tests
+  - Formulating concepts
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
