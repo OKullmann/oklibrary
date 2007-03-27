@@ -18,7 +18,7 @@
    - Concepts/RefactoringIncludeHandling.hpp : DONE
    - Concepts/ResultElements.hpp : DONE
    - Concepts/plans/Variables.hpp : DONE
-   - Concepts/std_Basics.hpp :
+   - Concepts/std_Basics.hpp : DONE
    - Concepts/std_Container.hpp :
    - Concepts/std_Iterators.hpp :
 
@@ -37,6 +37,26 @@
    - partial assignments
    - active clause-sets
    - clauses and clause-sets.
+
+  \todo Develop a general strategy for creating generic tests:
+  <ul>
+   <li> In the current scheme with basic tests for one, two, three objects:
+    <ul>
+     <li> Shouldn't there be a template parameter for the number of objects? </li>
+     <li> Where is the syntax check applied? </li>
+     <li> In general, how to avoid overlapping tests (or should this be
+          ignored in general, and handled only in special cases?!) ? </li>
+    </ul>
+   </li>
+   <li> As proposed somewhere in the specific concept (test) files, should the
+   specific parts of the test-names (for example, the concept to be tested)
+   become namespaces? Similar for the concept-tags and archetypes? Thus having
+   new sub-namespaces (e.g.)
+    - Concepts::tags
+    - Concepts::archetypes
+    - Concepts::tests::special_concept
+   </li>
+  </ul>
 
   \todo Warnings:
   Eliminate all warnings.
