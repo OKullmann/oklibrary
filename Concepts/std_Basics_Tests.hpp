@@ -8,7 +8,9 @@
   but concepts Destructible, CopyConstructible, DefaultConstructible, Assignable have no
   semantical properties.
 
-  \todo Complete update!
+  \deprecated Move to the new test system.
+
+  \todo Complete the implementations.
 */
 
 #ifndef STDBASICSTESTS_8455tGb
@@ -23,12 +25,13 @@
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
       \class EqualityComparable_Axiom_reflexivity
       \brief Checks for objects a whether a == a holds.
+
+      \todo Should be an instance of a general reflexivity-test.
     */
 
     template <typename T>
@@ -45,7 +48,10 @@ namespace OKlib {
 
     /*!
       \class EqualityComparable_Axiom_symmetry
-      \brief Checks for objects a, b whether either a == b and b == a holds or not (a == b) and not (b == a).
+      \brief Checks for objects a, b whether either (a == b and b == a) holds or
+      (not (a == b) and not (b == a)).
+
+      \todo Should be an instance of a general symmetry-test.
     */
 
     template <typename T>
@@ -73,6 +79,13 @@ namespace OKlib {
     /*!
       \class EqualityComparable_Axiom_transitivity
       \brief Checks for objects a, b, c with a == b and b == c, whether a == c holds.
+
+      \todo Actually, it tests something different: For arbitrary objects, a, b, c
+      it is checked that if among the 3 possible pairs two equalities hold, then
+      also the third equality must hold. Is this a good design? The motiviation is,
+      that this test is more general, and can be applied under all circumstances.
+
+      \todo Should be an instance of a general transitivity-test.
     */
 
     template <typename T>
@@ -94,6 +107,10 @@ namespace OKlib {
     /*!
       \class EqualityComparable_basic_test_one_object
       \brief Basic test for EqualityComparable, given one object.
+
+      Applies the reflexivity-test.
+
+      \todo Shouldn't be syntax-checking included here?!
     */
 
     template <typename T>
@@ -110,6 +127,8 @@ namespace OKlib {
     /*!
       \class EqualityComparable_basic_test_two_objects
       \brief Basic test for EqualityComparable, given two objects.
+
+      Applies the one-object-test on each object, plus the symmetry test.
     */
 
     template <typename T>
@@ -128,6 +147,8 @@ namespace OKlib {
     /*!
       \class EqualityComparable_basic_test_three_objects
       \brief Basic test for EqualityComparable, given two objects.
+
+      Applies the two-object test on all three pairs, plus the transitivity test.
     */
 
     template <typename T>
@@ -149,6 +170,8 @@ namespace OKlib {
     /*!
       \class LessThanComparable_Axiom_irreflexivity
       \brief Checks for objects a whether not (a < a) holds.
+
+      \todo Should be an instance of a general irreflexivity-test.
     */
     
     template <typename T>
@@ -165,7 +188,9 @@ namespace OKlib {
 
     /*!
       \class LessThanComparable_Axiom_asymmetry
-      \brief Checks that not a < b and b < a holds.
+      \brief Checks that not at the same time a < b and b < a holds.
+
+      \todo Should be an instance of a general asymmetry-test.
     */
 
     template <typename T>
@@ -183,25 +208,25 @@ namespace OKlib {
     /*!
       \class LessThanComparable_Axiom_transitivity
       \brief Checks for objects a, b, c with a < b and b < c, whether a < c holds.
+
+      \todo To conform with the other tests here, it should be applicable under all
+      circumstances?!?
+
+      \todo Should be an instance of a general transitivity-test (see already above).
     */
 
     template <typename T>
     struct LessThanComparable_Axiom_transitivity : OKlib::TestSystem::Test {
       typedef LessThanComparable_Axiom_transitivity test_type;
-      LessThanComparable_Axiom_transitivity(const T& a, const T& b, const T& c) : a(a), b(b), c(c) {}
+      LessThanComparable_Axiom_transitivity(const T& a, const T& b, const T& c) : a(a), b(b), c(c) {
+        assert(a < b);
+        assert(b < c);
+      }
     private :
       const T& a, b, c;
       void perform_test_trivial() {
-        const int ab = (a < b) + (b < a);
-        assert(ab < 2); // this and the following asserts must habe been checked before
-        const int ac = (a < c) + (c < a);
-        assert(ac < 2); 
-        const int bc = (b < c) + (c < b);
-        assert(bc < 2);
-        const int count_less = ab + ac + bc;
-        // ?????????????????????????????????????????????????????????
-          
-
+        if (not (a < c))
+          OKLIB_THROW("not a < c");
       }
     };
 
@@ -228,9 +253,10 @@ namespace OKlib {
 
     /*!
       \class LessThanComparable_Axiom_equivalence_symmetry
-      \brief Checks for objects a whether a ~  b => b ~ a holds.
+      \brief Checks for objects a whether a ~ b  =>  b ~ a holds.
 
-      Is fulfilled if const correctness can be assumed.
+      Actually, the test is applicable for all a, b (fully symmetrical).
+      The test is fulfilled if const correctness can be assumed.
     */
     
     template <typename T>
@@ -260,6 +286,10 @@ namespace OKlib {
     /*!
       \class LessThanComparable_Axiom_equivalence_transitivity
       \brief Checks for objects a, b, c with a ~ b and b ~ c, whether a ~ c holds.
+
+      \todo Either the assumptions a ~ b and b ~ c become assertions, or
+      the test should be applicable to all a, b, c (fully symmetrical).
+      \todo Should be an instance of a general transitivity test (see also above).
     */
 
     template <typename T>
@@ -279,6 +309,10 @@ namespace OKlib {
     /*!
       \class LessThanComparable_basic_test_one_object
       \brief Basic test for LessThanComparable, given one object.
+
+      Checks irreflexivity.
+
+      \todo Shouldn't here also syntax-checking be involved?
     */
 
     template <typename T>
@@ -295,6 +329,8 @@ namespace OKlib {
     /*!
       \class LessThanComparable_basic_test_two_objects
       \brief Basic test for LessThanComparable, given two objects.
+
+      Applies the basic tests for one object, and checks asymmetry.
     */
 
     template <typename T>
@@ -312,13 +348,18 @@ namespace OKlib {
 
     /*!
       \class LessThanComparable_basic_test_three_objects
-      \brief Basic test for LessThanComparable, given two objects.
+      \brief Basic test for LessThanComparable, given three objects.
+
+      Applies the basic tests for two objects, and checks transitivity.
+
+      \todo For the transitivity check, currently a < b and b < c is assumed.
+      Likely this should be generalised.
     */
 
     template <typename T>
     struct LessThanComparable_basic_test_three_objects : OKlib::TestSystem::Test {
       typedef LessThanComparable_basic_test_three_objects test_type;
-      LessThanComparable_basic_test_three_objects(const T& x, const T& y) : x(x), y(y), z(z) {}
+      LessThanComparable_basic_test_three_objects(const T& x, const T& y, const T& z) : x(x), y(y), z(z) {}
     private :
       const T& x, y, z;
       void perform_test_trivial() {
