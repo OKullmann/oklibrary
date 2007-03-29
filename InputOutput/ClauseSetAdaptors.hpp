@@ -5,18 +5,27 @@
   \brief Adaptors to transfer clause-sets into some data structure.
 
   \todo Write concept for CLSAdaptor:
-   - CLSAdaptor::int_type (default = int)
-   - CLSAdaptor::string_type (default = std::string)
-   - adaptor.comment(string_type)
-   - adaptor.n(int_type)
-   - adaptor.c(int_type)
-   - adaptor.finish()
-   - adaptor.tautological_clause(int_type number_literal_occurrences)
-   - template <class ForwardRange> CLSAdaptor::clause(const Range& clause, int_type total_original_number_literal_occurrences).
+   - <code> CLSAdaptor::int_type </code> (default = int)
+   - <code> CLSAdaptor::string_type </code> (default = std::string)
+   - <code> adaptor.comment(string_type) </code> (input of comment-lines)
+   - <code> adaptor.n(int_type) </code> (input of parameter n)
+   - <code> adaptor.c(int_type) </code> (input of parameter c)
+   - <code> adaptor.finish() </code> (signal that input of clause-set is finished)
+   - <code> adaptor.tautological_clause(int_type number_literal_occurrences) </code>
+     (state that a tautological clauses with that-many literal occurrences (without
+     contractions) has been found)
+   - \code template <class ForwardRange> CLSAdaptor::clause(const Range& clause, int_type total_original_number_literal_occurrences) \endcode (input a non-tautological
+     clause as a range over the literals, where multiple occurrences have been
+     removed already, together with the total number of original literal occurrences).
+
+  \todo Perhaps the adaptor should perform cleaning-up the input (regarding
+  tautological clauses and multiple literal occurrences) ? But perhaps this
+  is better done by some other component, while the adaptor is only responsible
+  for the data transfer.
 
   \todo Write concepts for Statistics class.
 
-  \todo Complete RawDimacsCLSAdaptor.
+  \todo Write tests!
 
 */
 
@@ -36,22 +45,46 @@
 #include <boost/range/end.hpp>
 #include <boost/algorithm/string.hpp>
 
+#include <Transitional/Literals/TrivialLiterals.hpp>
+
 #include <Transitional/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
-
   namespace InputOutput {
 
     /*!
       \class Statistics
       \brief Class for gathering statistics about input/output (especially in DIMCAS format).
+
+      Meaning of data members:
+      - comment_count : number of comment-lines
+      - parameter_n : value of the first parameter in the parameter line
+      - parameter_c : value of the second parameter in the parameter line
+      - tautological_clauses_count : number of tautological clauses
+      - non_tautological_clauses_count : number of non-tautological clauses
+      - total_number_literals : number of literal occurrences in tautological and
+        non-tautological clauses together
+      - reduced_number_literals : number of literal occurrences after removal
+        of tautological clauses and after contraction of multiple literal
+        occurrences
+      - finished : clause-set has been completely read.
+
+      \todo For the output better a message-class is provided.
+
+      \todo Create a concept:
+      - at least Concepts::FullyConstructibleEq and Concepts::EqualitySubstitutable
+      - default constructed: null-initialised
+      - equality holds iff all members are equal
+      - output-streamable (?)
     */
 
     template <typename Int = int>
     struct Statistics {
+
       typedef Int int_type;
       int_type comment_count, parameter_n, parameter_c, tautological_clauses_count, non_tautological_clauses_count, total_number_literals, reduced_number_literals;
       bool finished;
+
       Statistics() : comment_count(0), parameter_n(0), parameter_c(0), tautological_clauses_count(0), non_tautological_clauses_count(0), total_number_literals(0), reduced_number_literals(0), finished(false) {}
       Statistics(int_type cc, int_type pn, int_type pc, int_type tc, int_type ntc, int_type nl, int_type rnl) : comment_count(cc), parameter_n(pn), parameter_c(pc), tautological_clauses_count(tc), non_tautological_clauses_count(ntc), total_number_literals(nl), reduced_number_literals(rnl), finished(true) {}
 
@@ -86,11 +119,13 @@ namespace OKlib {
       void c(const int_type pc) { stat.parameter_c = pc; }
       void finish() { stat.finished = true; }
       void tautological_clause(const int_type t) {
-        ++stat.tautological_clauses_count; stat.total_number_literals += t;
+        ++stat.tautological_clauses_count;
+        stat.total_number_literals += t;
       }
       template <class ForwardRange>
       void clause(const ForwardRange& r, const int_type t) {
-        ++stat.non_tautological_clauses_count; stat.total_number_literals += t;
+        ++stat.non_tautological_clauses_count;
+        stat.total_number_literals += t;
         stat.reduced_number_literals += boost::size(r);
       }
       
@@ -101,6 +136,11 @@ namespace OKlib {
     /*!
       \class CLSAdaptorDIMACSOutput
       \brief Adaptor for clause-sets for output in DIMACS format
+
+      Parameter n is considered as maximal possible variable index,
+      while parameter c is considered as upper bound on the number of clauses.
+
+      \todo For the output-jobs message-classes should be employed.
     */
 
     template <typename Int = int, class String = std::string, class AdaptorStatistics = CLSAdaptorStatistics<Int, String> >
@@ -119,7 +159,7 @@ namespace OKlib {
 
       CLSAdaptorDIMACSOutput(std::ostream& out) : out(out) {
         if (not out)
-          throw OStreamError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::CLSAdaptorDIMACSOutput(std::ostream&):\n  cannot open the output stream");
+          throw OKlib::InputOutput::OStreamError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::CLSAdaptorDIMACSOutput(std::ostream&):\n  cannot open the output stream");
       }
 
       void comment(const string_type& s) {
@@ -136,12 +176,12 @@ namespace OKlib {
       void n(const int_type pn) {
         adaptor_statistics.n(pn);
         if (pn < 0)
-          throw ParameterOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::n:\n  maximal variable index is a negative quantity = " + boost::lexical_cast<std::string>(pn));
+          throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::n:\n  maximal variable index is a negative quantity = " + boost::lexical_cast<std::string>(pn));
       }
       void c(const int_type pc) {
         adaptor_statistics.c(pc);
         if (pc < 0)
-          throw ParameterOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
+          throw OKlib::InputOutput::ParameterOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::n:\n  number of clauses is a negative quantity = " + boost::lexical_cast<std::string>(pc));
         out << "p cnf " << adaptor_statistics.stat.parameter_n << " " << adaptor_statistics.stat.parameter_c << "\n";
       }
       void finish() {
@@ -154,14 +194,14 @@ namespace OKlib {
       void clause(const ForwardRange& r, const int_type t) {
         adaptor_statistics.clause(r, t);
         if (adaptor_statistics.stat.non_tautological_clauses_count > adaptor_statistics.stat.parameter_c)
-          throw ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  number of non-tautological clauses exceeds specified total number of clauses = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_c));
+          throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  number of non-tautological clauses exceeds specified total number of clauses = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_c));
         typedef typename boost::range_const_iterator<ForwardRange>::type const_iterator;
         const const_iterator& end(boost::end(r));
         for (const_iterator i = boost::begin(r); i != end; ++i) {
           typedef typename boost::range_value<ForwardRange>::type value_type;
           const value_type& literal = *i;
           if (std::abs(literal) > adaptor_statistics.stat.parameter_n)
-            throw ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_n));
+            throw OKlib::InputOutput::ClauseOutputError("OKlib::InputOutput::CLSAdaptorDIMACSOutput::clause:\n  variable index of literal = " + boost::lexical_cast<std::string>(literal) + " exceeds specified maximal index = " + boost::lexical_cast<std::string>(adaptor_statistics.stat.parameter_n));
           out << literal << " ";
         }
         out << 0 << "\n";
@@ -178,21 +218,27 @@ namespace OKlib {
 
     /*!
       \class RawDimacsCLSAdaptor
-      \brief Adaptor which turns Dimacs input into a vector<vector<int>>
+      \brief Adaptor which turns Dimacs input into a
+      <code> std::vector<std::vector<int> > </code>.
 
-      \todo Variables and literals should be used. Perhaps as default
-      OKlib::Variables::Variables_int. Perhaps the variable type is
-      as template parameter. Actually, better we use as default
-      OKlib::Literals::Literals_int as default template parameter,
-      and the variable type is then given.
+      Comments, the two parameters, tautological clauses and
+      multiple literal occurrences are just ignored.
+
+      \todo What are the precise assumptions on template parameter Lit?
 
       \todo Handling of the additional information: Perhaps we have
-      (optionally) an embedded object of type CLSAdaptorStatistics ?!
+      (optionally?) an embedded object of type CLSAdaptorStatistics ?!
 
-      \todo There are policies for checking n and c. 
+      \todo Should there be policies for checking n and c (or should this
+      go into a more complex adaptor?).
     */
 
-    template <typename Int = int, class String = std::string >
+    template <
+      typename Lit = OKlib::Literals::Literals_int,
+      typename Int = typename OKlib::Variables::traits::index_type<
+        typename OKlib::Literals::traits::var_type<Lit>::type>::type,
+      class String = std::string
+      >
     class RawDimacsCLSAdaptor {
 
     public :
@@ -200,23 +246,24 @@ namespace OKlib {
       typedef Int int_type;
       typedef String string_type;
 
-      typedef std::vector<int_type> clause_type;
+      typedef Lit literal_type;
+      typedef std::vector<literal_type> clause_type;
       typedef std::vector<clause_type> clause_set_type;
 
       clause_set_type clause_set;
 
       RawDimacsCLSAdaptor() {}
 
-      void comment(const string_type& s) {}
-      void n(const int_type pn) {} 
-      void c(const int_type pc) {}
+      void comment(const string_type&) {}
+      void n(const int_type) {} 
+      void c(const int_type) {}
       void finish() {}
-      void tautological_clause(const int_type t) {}
+      void tautological_clause(const int_type) {}
 
+      //! all literal occurrences are copied as is
       template <class ForwardRange>
-      void clause(const ForwardRange& r, const int_type t) {
-        // Add a clause based on r to the clause_set
-        // #######################
+      void clause(const ForwardRange& r, const int_type) {
+        clause_set.push_back(clause_type().assign(boost::begin(r), boost::end(r)));
       }
 
     };
