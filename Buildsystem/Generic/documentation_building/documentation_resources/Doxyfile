@@ -153,7 +153,7 @@ MULTILINE_CPP_IS_BRIEF = NO
 # If set to NO, the detailed description appears after the member 
 # documentation.
 
-DETAILS_AT_TOP         = NO
+DETAILS_AT_TOP         = YES
 
 # If the INHERIT_DOCS tag is set to YES (the default) then an undocumented 
 # member inherits the documentation from any documented member that it 
@@ -1031,13 +1031,15 @@ PREDEFINED             = "OKLIB_TEST_CLASS(X)=class X : public ::OKlib::TestSyst
 
 EXPAND_AS_DEFINED      = OKLIB_TEST_CLASS OKLIB_TEST_CLASS_C OKLIB_TEST_CLASS_C1
 
+# Remark OK (28.3.2007): EXPAND_AS_DEFINED seems not to work with doxygen version 1.5.1.
+
 # If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then 
 # doxygen's preprocessor will remove all function-like macros that are alone 
 # on a line, have an all uppercase name, and do not end with a semicolon. Such 
 # function macros are typically used for boiler-plate code, and will confuse 
 # the parser if not removed.
 
-SKIP_FUNCTION_MACROS   = YES
+SKIP_FUNCTION_MACROS   = NO
 
 #---------------------------------------------------------------------------
 # Configuration::additions related to external references   
