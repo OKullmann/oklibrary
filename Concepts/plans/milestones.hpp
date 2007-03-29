@@ -16,11 +16,17 @@
   - Develop concepts
   - Develop a general strategy for creating generic tests
 
-  \par Version 0.2 :
+  \par Version 0.1.4 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
   - Warnings
   - Tests
-  - Formulating concepts
+  - Technical problems when formulating concepts
+
+  Further milestones are created, approaching milestone 0.2.
+
+  \par Version 0.2 :
+  In Concepts/plans/Concepts.hpp the following topics are handled:
+  - Complete the concepts and tests belonging to the standard
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
