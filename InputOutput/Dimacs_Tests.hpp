@@ -3,6 +3,7 @@
 /*!
   \file InputOutput/Dimacs_Tests.hpp
   \brief Tests for tools concerning DIMACS input and output
+  \deprecated Move to the new test system.
 */
 
 #ifndef DIMACSTESTS_0jbmnr
@@ -26,19 +27,20 @@
 #include <Transitional/InputOutput/ClauseSetAdaptors.hpp>
 
 namespace OKlib {
-  
   namespace InputOutput {
 
     /*!
       \class Test_StandardDIMACSInput
       \brief Test the standard DIMACS cnf reader.
+
+      \todo Extending the tests (not just checking whether the statistics are right).
       \todo Test with the archetype of a CLSAdaptor.
       \todo For the negative tests:
        - catch all exceptions thrown
        - test the specific exceptions thrown.
       \todo For the positive tests:
         - catch all exceptions thrown.
-      \todo Test for errors where the number read-in are too large to be represented.
+      \todo Test for errors where the numbers read-in are too large to be represented.
     */
 
     template <template <class CLSAdaptor> class StandardDIMACSInput>
