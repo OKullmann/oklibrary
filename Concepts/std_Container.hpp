@@ -5,8 +5,10 @@
   \brief Container concepts from ISO/IEC 14882: 2003 (plus const-correctness).
 
   Basic concepts according to ISO/IEC 14882: 2003 (referred to as the "Standard"),
-  Section 23.1 PLUS const-correctness.
+  Section 23.1 PLUS const-correctness:
+   - Concepts::Container
 
+  \todo Write the other concepts from the standard.
 */
 
 #ifndef STDCONTAINER_776YhBq
@@ -25,17 +27,23 @@
 #include <Transitional/traits/TypeTraits.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
       \class Container
-      \brief Concept Container according to the standard.
+      \brief Concept Container according to Table 65 in the standard.
+
+      \todo What is the meaning of type-members "reference" and "const_reference" ?
+      \todo What is the problem questioned in the comment below on
+      "iterator type pointing to value_type" etc. (likely one must have a look into the standard).
+
       \todo Write a weakening of concept Container which does not require the value type
       to be assignable (so that std::map and std::multimap are models of this concept).
+      \todo Are there container-concepts proposed at Boost, or for the new standard?
+
+      \todo Likely, for the archetype we should use some predefined constructs (is_convertible etc.).
     */
 
-    // According to Table 65 in the standard
     template <typename C>
     struct Container {
       typedef typename C::value_type value_type;
@@ -52,13 +60,13 @@ namespace OKlib {
       typedef typename std::iterator_traits<const_iterator>::difference_type const_iterator_difference_type;
 
       void constraints() {
-        boost::function_requires<FullyConstructible<C> >();
-        boost::function_requires<LinearOrder<C> >();
-        boost::function_requires<Assignable<value_type> >();
-        boost::function_requires<CopyConstructible<value_type> >();
-        boost::function_requires<Destructible<value_type> >();
-        boost::function_requires<InputIterator<iterator> >();
-        boost::function_requires<InputIterator<const_iterator> >();
+        boost::function_requires<OKlib::Concepts::FullyConstructible<C> >();
+        boost::function_requires<OKlib::Concepts::LinearOrder<C> >();
+        boost::function_requires<OKlib::Concepts::Assignable<value_type> >();
+        boost::function_requires<OKlib::Concepts::CopyConstructible<value_type> >();
+        boost::function_requires<OKlib::Concepts::Destructible<value_type> >();
+        boost::function_requires<OKlib::Concepts::InputIterator<iterator> >();
+        boost::function_requires<OKlib::Concepts::InputIterator<const_iterator> >();
 
         // unclear the meaning of reference ("lvalue of value_type") and const_reference ("const lvalue of value_type")
         BOOST_STATIC_ASSERT((boost::is_convertible<reference, value_type&>::value));
