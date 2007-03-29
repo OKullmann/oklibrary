@@ -5,6 +5,8 @@
   \brief Exception classes (and related tools) for input and output of generalised satisfiability problems
 
   \todo Likely there should be an exception base class for the whole library.
+  \todo Perhaps like Module/messages there should be Module/exceptions ?
+   Or should every module just contain a file Exceptions.hpp ?
 
   \todo A general standard for the messages of the exceptions is needed.
    - The Messages module should be used.
@@ -19,7 +21,6 @@
 #include <string>
 
 namespace OKlib {
-
   namespace InputOutput {
 
     struct InputOutputError : std::runtime_error {
