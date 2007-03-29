@@ -16,9 +16,15 @@ namespace OKlib {
 
       /*!
         \class TrivialMessage
-        \brief TrivialMessage<X>(x) prints x
+        \brief Message object <code> TrivialMessage<X>(x) </code> prints x
 
-        Attention: Takes parameter x by (const) reference.
+        The template parameter <code> X </code> must be output-streamable.
+        The corresponding convenience function Utilities::trivial_message
+        enables type-deduction of <code> X </code>.
+
+        Attention: Takes parameter <code> x </code> by (const) reference.
+        The variation Utilities::TrivialMessageC takes <code> x </code>
+        by value.
       */
       template <typename X>
       struct TrivialMessage : ::OKlib::Messages::MessagesBase {
@@ -31,9 +37,10 @@ namespace OKlib {
       };
       /*!
         \class TrivialMessageC
-        \brief TrivialMessageC<X>(x) prints x
+        \brief Message object <code> TrivialMessageC<X>(x) </code> prints x
 
-        Different from TrivialMessage, here x is passed by value.
+        Different from Utilities::TrivialMessage, here x is passed by value
+        ("C" in the name is for "copy").
       */
       template <typename X>
       struct TrivialMessageC : ::OKlib::Messages::MessagesBase {
