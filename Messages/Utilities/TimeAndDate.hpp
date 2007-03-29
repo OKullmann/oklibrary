@@ -17,13 +17,15 @@ namespace OKlib {
     namespace Utilities {
 
       /*!
-        \class Messages::Utilities::TimeDateStandardImplementation
-        \brief Message objects for the preferred date and time representations
+        \class TimeDateStandardImplementation
+        \brief Message objects for the preferred date and time representation
         by the system
 
-        For these messages, level and language specifications are ignored: The level
-        is always that of the standard C-output, while the language is always given
-        by the current locale.
+        For these messages, level and language specifications are ignored:
+        <ol>
+         <li> The level is always that of the standard C-output, </li>
+         <li> while the language is always given by the current locale. </li>
+        </ol>
 
       */
 

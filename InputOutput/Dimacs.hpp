@@ -4,9 +4,11 @@
   \file InputOutput/Dimacs.hpp
   \brief Tools for the input and output of cnf's in DIMACS format.
 
+  \todo Consider the code-comments for checking.
+
   \todo What about writing a generic DIMACS parser, starting with
   ::OKlib::DPv::ParserLiteral and ::OKlib::DPv::DimacsParser
-  (located in Input_output.hpp in module DPv).
+  (located in Input_output.hpp in module DPv) ?
 
   \todo Write extended Dimacs-parser for clause-sets with non-boolean variables:
    - the parameter line now is of the form
@@ -44,7 +46,6 @@
 #include <Transitional/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
-  
   namespace InputOutput {
 
     /*!
@@ -64,7 +65,7 @@ namespace OKlib {
 
       \todo The exception safety level must be specified.
 
-      \todo Use Message for messages.
+      \todo Use Messages for messages.
 
       \todo For throwing the exceptions a more structured approach should be used (so that the exceptions thrown become better testable).
     */
