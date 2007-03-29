@@ -6,7 +6,10 @@
   in "std_ ...", the concepts here are not refinements of OKlib::Concepts::BasicRequirements.
 
   Concepts according to ISO/IEC 14882: 2003, Section 24.1 and Section 24.3.1 PLUS const-correctness.
-  Definition of the concepts InputIterator, OutputIterator, ForwardIterator, BidirectionalIterator, RandomAccessIterator plus (additionally) MultiPassInputIterator.
+  Definition of the concepts
+   - Concepts::InputIterator
+   - Concepts::MultiPassInputIterator
+   - Concepts::ForwardIterator.
 
   \todo Write concepts for
    - OutputIterator
@@ -28,17 +31,23 @@
 #include <Transitional/Concepts/Basics.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
     /*!
       \class InputIterator
       \brief Concept InputIterator according to the standard.
 
-      Refines concept ConstructibleCAEq.
-      \todo "reference" and "pointer" are never explained in the standard, and the requirements on iterator concepts don't mention them, but they suddenly show up in the iterator traits (24.3.1) ?
+      Refines concept Concepts::ConstructibleCAEq. Extensions can be found in
+      Concepts/Iterators.hpp (Concepts::InputIteratorDefault, making it possible
+      to use the past-the-end iterator).
+
+      \todo "reference" and "pointer" are never explained in the standard, and the
+      requirements on iterator concepts don't mention them, but they suddenly show
+      up in the iterator traits (24.3.1) ?
       \todo Can expressions "a -> m" be expressed ?
-      \todo Create in TypeTraits.hpp a metafunction "is_derived_or_same", and use it for the definition of InputIterator and elsewhere.
+      \todo Create in TypeTraits.hpp a metafunction "is_derived_or_same", and use it
+      for the definition of InputIterator and elsewhere. Stop --- this is now in the
+      new standard library.
     */
 
     template <typename Iterator>
@@ -111,6 +120,13 @@ namespace OKlib {
     struct MultiPassInputIterator_Archetype : InputIterator_Archetype {};
 
     // --------------------------------------------------------------------------------------------------------------------
+
+    /*!
+      \class ForwardIterator
+      \brief Concept ForwardIterator according to the standard.
+
+      Refines concept Concepts::MultiPassInputIterator.
+    */
 
     template <typename Iterator>
     struct ForwardIterator {
