@@ -4,12 +4,8 @@
   \file Messages/plans/Messages.hpp
   \brief Plans for the messages module (as a whole)
 
-  \todo Doxygen-documentation of message-classes:
-  Using the macro OKLIB_MESSAGES_PRINT, doxygen misunderstands it as belonging to
-  the following member --- how to correct this behaviour of doxygen? By telling doxygen to replace these macros with the empty string. DONE
-
   \todo The general concept of a "message":
-  There need to be clear definition and examples for what a "message" is:
+  There need to be clear definitions and examples for what a "message" is:
   <ol>
    <li> A basic message is like a sentence:
    <ul>
@@ -20,13 +16,16 @@
    </li>
    <li> For multi-line messages MessagePrePost is to be used (perhaps better "MessagesMultiLines" ?):
    <ul>
-    <li> Still nothing at the begin or the end, but for line breaks l_end and l_start are to be used,
-         so that indentation of messages is possible. </li>
-    <li> For convenience, functions s(), e() se() switch on the l-start and l-end at the beginning
-         respectively at the end of the (whole) message (can this be automatically achieved?). </li>
-    <li> To facilitate indentation, an additional indent-member functions (2 overloads: string and int)
-         is made available, which appends to the prefix (and returns a reference; the point is
-         easier use for temporary message objects). </li>
+    <li> Still nothing at the begin or the end, but for line breaks
+     <code> l_end, l_start </code>
+    are to be used, so that indentation of messages is possible. </li>
+    <li> For convenience, functions
+     <code> s(), e(), se() </code>
+     switch on the l-start and l-end at the beginning respectively at the end of the
+     (whole) message (can this be automatically achieved?). </li>
+    <li> To facilitate indentation, an additional indent-member functions
+    (2 overloads: string and int) is made available, which appends to the prefix
+    (and returns a reference; the point is easier use for temporary message objects). </li>
    </ul>
    </li>
    <li> These basic requirements shall go to the general documentation (and also to the doxygen
@@ -46,10 +45,11 @@
   these special cases. Perhaps OKLIB_LEVEL_yUhTr6 and OKLIB_LANG_77TgVf can be utilised.
 
   \todo Internal use of messages:
-  If in for example "print(std::ostream& out, L<en_GB>, S<Basic>) const" a message
-  is output on stream out, then, despite the knowledge about the language and the
-  level, at runtime language and level must be extracted from out to output the
-  message: Can this runtime-overhead be avoided?
+  If in for example
+  \code print(std::ostream& out, L<en_GB>, S<Basic>) const \endcode
+  a message is output on stream <code>out</code>, then, despite the knowledge about the
+  language and the level, at runtime language and level must be extracted from <code>out</code>
+  to output the message: Can this runtime-overhead be avoided?
 
   \todo Demonstrations:
   We need demonstrations for all components provided by this module (for example
