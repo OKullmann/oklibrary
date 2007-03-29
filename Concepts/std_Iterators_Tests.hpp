@@ -6,7 +6,7 @@
 
   No tests for output iterators.
 
-  \todo
+  \todo Write the test functions:
    - InputIterator has only one exploitable (additional) semantical property (besides the
      properties of ConstructibleCAEq), namely that if i == j for iterators i,j and (i,j) is in
      the domain of == (which can be empty), where i, j are dereferencable, that then
@@ -35,7 +35,6 @@
 #include <Transitional/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
-
   namespace Concepts {
 
   }
