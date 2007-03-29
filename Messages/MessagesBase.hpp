@@ -27,37 +27,42 @@ namespace OKlib {
 
       Every message class is derived from MessagesBase.
 
-      In each std::ostream object the current language (of type
-      Messages::Languages) and the current level (of type Messages::Strata) are stored, with default values
-      Messages::en_GB and Messages::Basic; when setting the language of a stream, then also the locale
-      of this stream is set according to the the current language-value. Message objects (objects of some type
-      publically derived from MessagesBase) can be inserted into any ostream-object, and their messages
+      In each <code> std::ostream </code> object the current language (of type
+      Messages::Languages) and the current level (of type Messages::Strata) are stored,
+      with default values
+      <code> Messages::en_GB </code> and <code> Messages::Basic </code>;
+      when setting the language of a stream, then also the locale
+      of this stream is set according to the the current language-value.
+
+      Message objects (objects of some type publically derived from Messages::MessagesBase)
+      can be inserted into any ostream-object, and their messages
       will be print according to the language (locale) and level of the stream.
 
       Public member functions are:
       <ul>
        <li> default constructor, default copy constructor, default copy assignment </li>
        <li> virtual destructor </li>
-       <li> static Messages::Languages language(ostream& out) : current language of the stream
-         (default is Messages::en_GB) </li>
-       <li> static Messages::Strata level(ostream& out) : current level of the stream
-         (default is Messages::Basic) </li>
-       <li> static ostream& set(ostream& out, Messages::Languages lang, const char* coding = ".utf-8") :
-         set the current language (more precisely, locale) of out together with the prescribed encoding </li>
-       <li> static ostream& set(ostream& out, Messages::Strata level) :
-         set the current level of out. </li>
+       <li> <code> static Messages::Languages language(ostream& out) </code> : current language
+       of the stream (default is <code> Messages::en_GB </code>) </li>
+       <li> >code> static Messages::Strata level(ostream& out) </code> : current level of the stream
+         (default is <code> Messages::Basic </code>) </li>
+       <li> <code> static ostream& set(ostream& out, Messages::Languages lang, const char* coding = ".utf-8") </code> :
+         set the current language (more precisely, locale) of <code>out</code> together
+         with the prescribed encoding </li>
+       <li> <code> static ostream& set(ostream& out, Messages::Strata level) </code> :
+         set the current level of >code>out</code>. </li>
       </ul>
 
        Pure virtual member functions:
        <ul>
-        <li> ostream& print(ostream& out) : to be implemented by each message class;
+        <li> <code> ostream& print(ostream& out) </code> : to be implemented by each message class;
         prints the message in the current language (more precisely, locale) and level. </li>
        </ul>
 
        Non-member functions:
        <ul>
-        <li> ostream& operator <<(ostream& out, const MessagesBase& m) :
-          prints the message by calling m.print(out). </li>
+        <li> <code> ostream& operator <<(ostream& out, const MessagesBase& m) </code> :
+          prints the message by calling <code> m.print(out) </code>. </li>
        </ul>
     */
 
