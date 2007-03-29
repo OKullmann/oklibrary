@@ -31,9 +31,17 @@ namespace OKlib {
       Literals are (conceptually) just pairs of variables and atomic conditions, where the atomic
       condition is never always true and never always false.
 
-      So we have associated type traits traits::var_type and traits::cond_type, and via the
-      function Literals::var the variable is extracted, while by Literals::cond the (atomic)
-      condition is extracted. By Literals::set_cond(x, condition) we can set the condition
+      So we have associated type traits
+      <ul>
+       <li> <code> OKlib::Literals::traits::var_type </code> </li>
+       <li> <code> OKlib::Literals::traits::cond_type </code> </li>
+      </ul>
+      and via
+     <ul>
+      <li> function <code> OKlib::Literals::var </code> the variable is extracted, </li>
+      <li> while by <code>OKlib::Literals::cond </code> the (atomic) condition is extracted. </li>
+     </ul>
+     By <code> Literals::set_cond(x, condition) </code> we can set the condition
       in literal x, while from a variable a literal can be constructed.
 
       Since built-in types can model literals, for literals in general the initialisation
