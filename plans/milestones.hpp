@@ -68,7 +68,7 @@
   (see TestSystem/plans/milestones.hpp)
   \par ComplexitySystem version 0.1 (MH, OK)
   (see ComplexitySystem/plans/milestones.hpp)
-  \par Concepts version 0.2 (OK (MH))
+  \par Concepts version 0.1.4 (OK (MH))
   (see Concepts/plans/milestones.hpp)
   \par Cryptanalysis version 0.0.3 (OK)
   (see Cryptanalysis/plans/milestones.hpp)
