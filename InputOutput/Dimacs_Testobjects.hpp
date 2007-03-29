@@ -7,10 +7,9 @@
 #include <Transitional/InputOutput/Dimacs_Tests.hpp>
 
 namespace OKlib {
-  
   namespace InputOutput {
 
-    Test_StandardDIMACSInput<StandardDIMACSInput> test_standard_dimacs_input;
+    OKlib::InputOutput::Test_StandardDIMACSInput<OKlib::InputOutput::StandardDIMACSInput> test_standard_dimacs_input;
 
   }
 
