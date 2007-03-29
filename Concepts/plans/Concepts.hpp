@@ -19,8 +19,8 @@
    - Concepts/ResultElements.hpp : DONE
    - Concepts/plans/Variables.hpp : DONE
    - Concepts/std_Basics.hpp : DONE
-   - Concepts/std_Container.hpp :
-   - Concepts/std_Iterators.hpp :
+   - Concepts/std_Container.hpp : DONE
+   - Concepts/std_Iterators.hpp : DONE
 
    - Concepts/plans/ActiveClauseSets.hpp : DONE
    - Concepts/plans/Assignments.hpp :
@@ -64,12 +64,23 @@
   \todo Tests:
   Move to the new test system.
 
-  \todo Formulating concepts:
-  What is the difference for example between
-  bool b = static_cast<bool>(e);
-  and
-  bool b = e;
-  ?! I would assume that here there is none. And in general?
+  \todo Technical problems when formulating concepts:
+  <ul>
+   <li> What is the difference for example between
+    \code bool b = static_cast<bool>(e); \endcode
+   and
+    \code bool b = e; \endcode ?!
+   I would assume that here there is none. And in general?
+   </li>
+  </ul>
+
+  \todo Complete the concepts and tests belonging to the standard:
+  <ul>
+   <li> Concepts/std_Basics.hpp and tests </li>
+   <li> Concepts/std_Container.hpp and tests </li>
+   <li> Concepts/std_Iterators.hpp and tests </li>
+  </ul>
+   
 */
 
 /*!
