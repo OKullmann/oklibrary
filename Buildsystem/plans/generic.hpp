@@ -23,11 +23,6 @@
      building test-object files if needed,
    - but from within the module this doesn't work.
 
-  \todo Specification of build system I:
-  Create a framework where the documentation of the build system can be put : DONE
-  (now modules can have sub-directories "docus"; Buildsystem/docus contains yet
-  the documentation of the targets of generic.mak)
-
   \todo Specification of build system II
   <ul>
     <li> Moving stable documentations to "docus":
@@ -50,8 +45,8 @@
   </ul>
 
   \todo .source_libraries
-  - Like we have for link libraries the specification of source libraries should
-  be given in a .source_libraries file.
+  - Like we have for link libraries, the specification of source libraries should
+  be (potentially) given in a .source_libraries file.
 
   \todo Setting the paths to GCC and Boost link libraries
     - The setting of the Make variable "alternative_library_path" needs to be reviewed.
@@ -64,32 +59,112 @@
       uses the system-wide installations of GCC and Boost. It should be possible
       to specify only the system-wide GCC or only the system-wide Boost, or both.
   
-  \todo General clean-up of make-variables 
-  <ul>
-
-  <li>
-  Currently we distinguish two types of variables in the comments by
-  calling them either system variables (SV) or local variables (LV). System variables
-  are those variables which can be tinkered with, but with caution, and the local
-  variables are those variables which are purely for the buildsystem and not intended
-  to be touched by the user.
-  <li>
-
-  <li>
-  We want to distinguish between those variables which can be tinkered with, but
-  one somehow need to know about them, and those variables which have no function 
-  other than enabling the user to insert some options (for example for compilation).
-  </li>
-  
-  <li>
-  First a complete list of make-variables and the status is needed here, to
-  see what we have.
-  </li>
-
-  </ul>
-
   \todo General_options:
   The current function of "General_options" is taken over by the new variable "Debug_options".
+
+  \todo Dependency files:
+    - If when creating the .d-files an error occurs (for example
+     due to an inaccessible header file), then for some reason subsequent "make check" erroneously succeeds.
+    - Using the gcc option "-MP" ?
+    - We have the following problem:
+      If one is using different paths due to symbolic links, then the dependency files contain
+      unusable information (and must be deleted with "make cleandep").
+      This problem seems hard to solve (one had to find out that different paths lead to the same file).
+      So it must be documented well.
+
+  \todo Verbosity:
+    - By default the make-process outputs it's basic assumptions (what compiler to be used, what
+      external libraries, etc.).
+
+  \todo Directory structure:
+    - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each
+      with its own generic sub-directories "plans", "tests" and "messages". However only at the base level
+      we have the sub-directories "testobjects", "applications" and "implementations", which contain (only)
+      .cpp (and .c) files. Every file in applications implements main(), and no other files. Compiled
+      testobject-files go to lib/tests/Module, compiled implementations go to lib, compiled test-programs go
+      to bin/tests, compiled applications go to bin. Thus names for implementation files and application files
+      need to be unique for the whole library, while names for testobject-files need to be unique within a module.
+    - Or we allow more freedom --- seems to be needed!
+
+  \todo Test system:
+    - The most immediate thing is to make the test system work correctly, which (at least?)
+      means that the make-system gets to know the relevant dependencies, so that recompilation
+      of tests happens whenever necessary (at this time (18.6.2006) the test object files need
+      to be manually deleted (via "make cleantestobj") to enforce recompilation).
+    - We need special test-modes for more extensive messages.
+    - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
+      Perhaps also the test time-stamps should go here?
+
+  \todo OKsystem/Buildsystem structure:
+  <ul>
+  <li>Probably the directory Generic should be elimated and it's subdirectories lifted to OKsystem/Buildsystem?</li>
+   <li>In Transitional/Buildsystem the two makefiles 
+    <ul>
+       <li>OKsystem/Buildystem/Generic/documentation_index.mak</li>
+       <li>OKsystem/Buildystem/Generic/doxygen_documentation.mak</li>
+     </ul>
+     should be merged into a single file  Transitional/Buildsystem/documentation_building.mak 
+   </li>
+   <li>
+    All the plans files should be merged into a single documentation_building.hpp plans file
+    in Buildsystem/plans.
+   </li>
+  </ul> 
+
+  \todo Compilation:
+    - The names of the created .o-files and executables should reflect "all" compiler options.
+    - There are generic links to the unoptimised and the optimised version (the latest).
+      The test system uses these.
+    - For every created file.o and file we have file.compilation_log (in the same directory
+      where these files go). Optionally we can switch it off.
+    - There is a make-variable for optional name extensions.
+
+  \todo Customisation: 
+    - We keep our two-stages process: Every .cpp-files yields a .o-file, and finally exactly those .cpp-files with main()
+      yield executables (the same for .c).
+    - Every .cpp-file has a .source_libraries file (if needed), a .link_libraries and .link_libraries_optimised file (if needed),
+      and a .compile_options and a .compile_options_optimised file (if needed).
+    - The link-libraries for a .cpp-file with main() are collected from the link-libraries of the .cpp-files linked to it,
+      and from the link-library-file for this .cpp-file itself.
+    - The (recursive) make-variable source_libraries is kept, predefined as "$(OKSystem_include) $(Boost_include)" (potentially
+      changed in the locale makefile): If .source_libraries exists, then it overrides $(source_libraries).
+
+
+  \todo Log directory:
+  SystemDirectories gets a new sub-directory log, where the current
+  aux/DoxygenErrorMessages is placed. Every run of make copies it
+  output by default (can be switched off) into a file
+  log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
+  <ul>
+   <li> One possibility to achieve this is by letting makefile_recursive call makefile_generic
+   with appropriately redirected output. </li>
+  </ul>
+  
+  \todo Targets:
+  - It should be possible to build just one application, or just one implementation.    
+
+  \todo Cleaning:
+    - We need cleaning tools which clean up directories (not single files).
+    - We need specialised cleaning for applications and link-libraries.
+    - We need specialised cleaning regarding the test system :
+    - Cleaning of special or all versions of the test-timestamps.
+    - Cleaning of test-objectfiles and test-programs.
+    - Cleaning of test-depencies.
+
+  \todo Test cleaning:
+    We need specialised cleaning regarding the test system :
+    - Cleaning of special or all versions of the test-timestamps.
+    - Cleaning of test-objectfiles and test-programs.
+    - Cleaning of test-depencies.
+
+  \todo Error messages of gcc should be processed:
+    - We should support using a tool like TextFilt or STLFilt.
+
+  \todo Tools for testing:
+    - valgrind has a (new) flag "--error-exitcode=", by which we should be able to get an error
+      making the build-process stop in case valgrind finds an error.
+    - We should use gcov from time to time (supported by the build system) to check
+      whether at least all lines of code are covered by the tests.
 
   \todo Linking and options:
   <ul>
@@ -130,106 +205,4 @@
 
   </ul>
 
-  \todo Log directory:
-  SystemDirectories gets a new sub-directory log, where the current
-  aux/DoxygenErrorMessages is placed. Every run of make copies it
-  output by default (can be switched off) into a file
-  log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
-  <ul>
-   <li> One possibility to achieve this is by letting makefile_recursive call makefile_generic
-   with appropriately redirected output. </li>
-  </ul>
-  
-  \todo Targets:
-  - It should be possible to build just one application, or just one implementation.    
-
-  \todo Cleaning:
-    - We need cleaning tools which clean up directories (not single files).
-    - We need specialised cleaning for applications and link-libraries.
-    - We need specialised cleaning regarding the test system :
-    - Cleaning of special or all versions of the test-timestamps.
-    - Cleaning of test-objectfiles and test-programs.
-    - Cleaning of test-depencies.
-
-  \todo Test cleaning:
-    We need specialised cleaning regarding the test system :
-    - Cleaning of special or all versions of the test-timestamps.
-    - Cleaning of test-objectfiles and test-programs.
-    - Cleaning of test-depencies.
-
-  \todo Compilation:
-    - The names of the created .o-files and executables should reflect "all" compiler options.
-    - There are generic links to the unoptimised and the optimised version (the latest).
-      The test system uses these.
-    - For every created file.o and file we have file.compilation_log (in the same directory
-      where these files go). Optionally we can switch it off.
-    - There is a make-variable for optional name extensions.
-
-  \todo Directory structure:
-    - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each
-      with its own generic sub-directories "plans", "tests" and "messages". However only at the base level
-      we have the sub-directories "testobjects", "applications" and "implementations", which contain (only)
-      .cpp (and .c) files. Every file in applications implements main(), and no other files. Compiled
-      testobject-files go to lib/tests/Module, compiled implementations go to lib, compiled test-programs go
-      to bin/tests, compiled applications go to bin. Thus names for implementation files and application files
-      need to be unique for the whole library, while names for testobject-files need to be unique within a module.
-    - Or we allow more freedom --- seems to be needed!
-
-  \todo Test system:
-    - The most immediate thing is to make the test system work correctly, which (at least?)
-      means that the make-system gets to know the relevant dependencies, so that recompilation
-      of tests happens whenever necessary (at this time (18.6.2006) the test object files need
-      to be manually deleted (via "make cleantestobj") to enforce recompilation).
-    - We need special test-modes for more extensive messages.
-    - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
-      Perhaps also the test time-stamps should go here?
-
-  \todo Customisation: 
-    - We keep our two-stages process: Every .cpp-files yields a .o-file, and finally exactly those .cpp-files with main()
-      yield executables (the same for .c).
-    - Every .cpp-file has a .source_libraries file (if needed), a .link_libraries and .link_libraries_optimised file (if needed),
-      and a .compile_options and a .compile_options_optimised file (if needed).
-    - The link-libraries for a .cpp-file with main() are collected from the link-libraries of the .cpp-files linked to it,
-      and from the link-library-file for this .cpp-file itself.
-    - The (recursive) make-variable source_libraries is kept, predefined as "$(OKSystem_include) $(Boost_include)" (potentially
-      changed in the locale makefile): If .source_libraries exists, then it overrides $(source_libraries).
-
-  \todo OKsystem/Buildsystem structure:
-  <ul>
-  <li>Probably the directory Generic should be elimated and it's subdirectories lifted to OKsystem/Buildsystem?</li>
-   <li>In Transitional/Buildsystem the two makefiles 
-    <ul>
-       <li>OKsystem/Buildystem/Generic/documentation_index.mak</li>
-       <li>OKsystem/Buildystem/Generic/doxygen_documentation.mak</li>
-     </ul>
-     should be merged into a single file  Transitional/Buildsystem/documentation_building.mak 
-   </li>
-   <li>
-    All the plans files should be merged into a single documentation_building.hpp plans file
-    in Buildsystem/plans.
-   </li>
-  </ul> 
-
-  \todo Error messages of gcc should be processed:
-    - We should support using a tool like TextFilt or STLFilt.
-
-  \todo Tools for testing:
-    - valgrind has a (new) flag "--error-exitcode=", by which we should be able to get an error
-      making the build-process stop in case valgrind finds an error.
-    - We should use gcov from time to time (supported by the build system) to check
-      whether at least all lines of code are covered by the tests.
-
-  \todo Dependency files:
-    - If when creating the .d-files an error occurs (for example
-     due to an inaccessible header file), then for some reason subsequent "make check" erroneously succeeds.
-    - Using the gcc option "-MP" ?
-    - We have the following problem:
-      If one is using different paths due to symbolic links, then the dependency files contain
-      unusable information (and must be deleted with "make cleandep").
-      This problem seems hard to solve (one had to find out that different paths lead to the same file).
-      So it must be documented well.
-
-  \todo Verbosity:
-    - By default the make-process outputs it's basic assumptions (what compiler to be used, what
-      external libraries, etc.).
 */
