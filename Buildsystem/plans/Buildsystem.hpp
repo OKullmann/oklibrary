@@ -10,6 +10,12 @@
   discussed).
   OK: It seems this was done??
 
+  \todo Testing the build system
+   - We need some test system for the build system. Optimally, it would run like our normal test
+     system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
+     which cover all functions of the build system, and which is performed from time to time (manually).
+     Then we can partially automate it.
+
   \todo License:
   It seems LGPL is suitable; we have to check this (is it compabible with all
   other licenses (for external sources) involved? I guess so). Once decided,
@@ -75,7 +81,7 @@
    - "all" should not compile the test-programs. Rather we want to have it so 
      that "make new_check" and "make check" does the compilation. For performing
      the checks they need to be compiled; we also need then special targets to 
-     just compile the test-programs.
+     just compile the test-programs. OK (31.3.2007): this seems to be achieved?
    - we must look at the support for linking with .o files from
      the library itself (including linking with different versions)
    - What is the role of prebuild? Still it is not eliminated --- do we need it?.
@@ -271,12 +277,6 @@
     </ul>
    </li>
   </ul>
-
-  \todo Testing the build system
-   - We need some test system for the build system. Optimally, it would run like our normal test
-     system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
-     which cover all functions of the build system, and which is performed from time to time (manually).
-     Then we can partially automate it.
 
   \todo Full test
    -  makefile at the OKplatform level --- there the
