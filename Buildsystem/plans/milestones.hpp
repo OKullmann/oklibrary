@@ -5,28 +5,22 @@
   
   \module_version Buildsystem 0.1.4 (8.2.2007)
 
-  \par Version 0.1.5 : THEME is "A specified and testable build system" : TO BE REACHED \deadline_014
+  \par Version 0.1.5 : THEME is "Towards a specified and testable build system" : TO BE REACHED \deadline_014
+
+  \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Specification of buildsystem
+    - Specification of buildsystem I : DONE
  
-  \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Version control (AS SOON AS POSSIBLE)
-
-  \par
-   In Buildsystem/plans/Buildsystem.hpp the following topic is updated:
-    - Testing the build system
-
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
    the following topics are handled:
-    - Doxygen menu
+    - Doxygen menu : DONE
     - Doxygen variables : DONE
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
    the following topics are handled
-    - Page organisation
+    - Dvi-link : DONE
     - Version numbers : DONE
 
   \par
@@ -36,9 +30,19 @@
     - Generic makefile redesign (DONE)
     - OKsystem/Buildsystem structure (DONE)
 
+   \par
+   Update milestone 0.1.6 by moving targets to later milestones.
 
-  \par Version 0.1.6 : THEME is "Build system consolidation" : TO BE REACHED \deadline_015
+
+  \par Version 0.1.6 : THEME is "A specified and testable build system" and "Build system consolidation" : TO BE REACHED \deadline_015
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Version control (AS SOON AS POSSIBLE)
+
+  \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
+    - Specification of buildsystem II
     - Incorrect build of new tests I
     - Incorrect build of new tests II
     - Dependency files
@@ -66,6 +70,7 @@
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - Testing the build system
     - Overhaul of the general targets
     - Force make
     - Design
@@ -87,6 +92,7 @@
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
    the following topics are handled
+    - Page organisation
     - Using css
     - Meta tags
     - Improved logo
