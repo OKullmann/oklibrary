@@ -6,16 +6,6 @@
 
   \bug This file should be renamed to documentation_index.hpp.
 
-  \todo Dvi-link:
-     The .dvi-link for the "Manual" works neither on my laptop nor on the workstation
-     (while normal .dvi-links in web pages work) : Removed the _blank-target (whatever
-     its meaning was). DONE
-
-  \todo Version numbers
-   - The version number of Transitional shouldn't be hard-coded --- we need some
-     central organisation. DONE (the version number just has been taken out)
-   - Instead of "v0.0.1" we should have "Transitional Version 0.1.0" : DONE
-
   \todo Page organisation
    - On my laptop the columns are arranged in two rows (independent of the horizontal space
      available (a lot)). So something with the dimensions seems to be wrong.

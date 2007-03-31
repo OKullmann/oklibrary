@@ -4,19 +4,6 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
   \brief Plans for documentation-creation
 
-  \todo Doxygen menu: Perhaps we should drop the file-list altogether?
-     (This could make the system more user-friendly, by restricting the attention to
-     the most appropriate choice?) On the other hand, always having to click on the
-     directory items might not be always best, so perhaps we should keep the
-     file-list. DONE (kept at this time; the file list shows some
-     "statistical" overview)
-
-  \todo Doxygen variables:
-  For the version number and the dates of deadlines we need some central
-  place, where corresponding variables (macros) are defined, so that
-  we can use these variables everywhere. DONE (definition of ALIASES
-  in Doxyfile).
-
   \todo Doxygen general:
    - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
      the tag EXPAND_AS_DEFINED (since we do not alter the definitions), however this
