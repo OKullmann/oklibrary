@@ -6,7 +6,7 @@
 
   \todo Building Ubcsat (ML):
   - What is the meaning of "tag" and "tag_" ??? The names should tell.
-  - No file modification in the external sources.
+  - No file modification in the external sources. (OK: 31.3.2007: DONE?)
 
   \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
    - Documentation for Mhash, Postgresql, UBCSAT
@@ -31,7 +31,7 @@
   directory - so that the local installation can still be used after cleaning?
   Then to clean everything there is already the target "cleanallmhash".
   
-  \bug Building Boost Errors
+  \bug Building-Boost Errors
   
   <ul>
   <li>
