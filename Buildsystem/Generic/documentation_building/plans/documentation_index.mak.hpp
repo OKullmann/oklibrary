@@ -4,11 +4,10 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
   \brief Plans for the documentation index makefile
 
-  \todo Page organisation
-   - On my laptop the columns are arranged in two rows (independent of the horizontal space
-     available (a lot)). So something with the dimensions seems to be wrong.
-   - In documentation_index_style.css one finds hard-coded dimensions --- this doesn't look right.
-   - The .dvi-link for the "Manual" works neither on my laptop nor on the workstation
+  \bug This file should be renamed to documentation_index.hpp.
+
+  \todo Dvi-link:
+     The .dvi-link for the "Manual" works neither on my laptop nor on the workstation
      (while normal .dvi-links in web pages work) : Removed the _blank-target (whatever
      its meaning was). DONE
 
@@ -16,6 +15,11 @@
    - The version number of Transitional shouldn't be hard-coded --- we need some
      central organisation. DONE (the version number just has been taken out)
    - Instead of "v0.0.1" we should have "Transitional Version 0.1.0" : DONE
+
+  \todo Page organisation
+   - On my laptop the columns are arranged in two rows (independent of the horizontal space
+     available (a lot)). So something with the dimensions seems to be wrong.
+   - In documentation_index_style.css one finds hard-coded dimensions --- this doesn't look right.
 
   \todo Using css:
   Is it really worth it? The main page of the OKlibrary documentation likely will forevery just
