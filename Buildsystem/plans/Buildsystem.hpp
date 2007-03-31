@@ -8,7 +8,7 @@
   The boost-variable definitions are inconsistent with the
   rest of the build-system, so they should be reverted (as
   discussed).
-  OK: It seems this was done??
+  OK: It seems this was done?? Needs to be checked.
 
   \todo Testing the build system
    - We need some test system for the build system. Optimally, it would run like our normal test
