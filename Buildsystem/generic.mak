@@ -1,57 +1,7 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
 
-#
-# ===============================================================================
-# Targets
-# ===============================================================================
-#
-# Applications
-# ------------
-# all                           Compile unoptimised and optimised object files 
-#                               and programs.
-# unoptimised                   Compile unoptimised object files and programs.
-# optimised                     Compile optimised object files and programs.
+# See Buildsystem/docus/generic.hpp for the general documentation.
 
-# 
-# Test system
-# -----------
-# check                         Perform unoptimised and optimised tests from old
-#                               test system.
-# new_check                     Perform unoptimised and optimised tests from new
-#                               test system.
-# test                          Perform unoptimised tests from old test system.
-# testop                        Perform optimised tests from old test system.
-# new_test                      Perform unoptimised tests from new test system.
-# new_testop                    Perform optimised tests from new test system.
-#
-# Documentation
-# -------------
-# html                          Create doxygen documentation (should be used only at module-level).
-#
-# Cleaning
-# --------
-# cleanall                      Remove object files, test object files, 
-#                               dependency files, test timestamps, applications 
-#                               and test programs
-# clean                         Remove object files, test object files, 
-#                               dependency files and test timestamps.
-# cleanprograms                 Remove all applications and test programs.
-# cleanalltests                 Remove timestamp files for unoptimsed and 
-#                               optimised test program from old test systems.
-# new_cleanalltests             Remove timestamp file for unoptimised and 
-#                               optimised test program from new test system.
-# cleantest                     Remove timestamp file for unoptimised test 
-#                               program from old test system.	
-# cleantestop                   Remove timestamp file for optimised test program 
-#                               from old test system.
-# new_cleantest                 Remove timestamp file for unoptimised test 
-#				program from new test system.
-# new_cleantestop               Remove timestamp file for optimised test program 
-#                               from new test system.
-# clean_obj                     Remove all non-test object files.
-# cleantestobj                  Remove all test object files.
-# cleandep                      Remove all dependency files.
-# cleanprograms                 Remove all applications and test programs.
 #
 # ===============================================================================
 # General make variable for customisation of compilation
@@ -398,6 +348,9 @@ directories := $(bin_dir) \
 # definitions.mak then we prefix those program
 # names with the full path to the executable directory, so
 # that Make knows where to build those executables.
+#
+# Contains also the test program for the old test-system (but not
+# for the new one).
 # ----------------------------------------------------------
 ifneq ($(programs),)
   programs := $(addprefix $(bin_dir)/, $(programs))
@@ -405,7 +358,7 @@ endif
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
-# test_program (LV)
+# test_program (LV) (old test system)
 #
 # This variable is not defined here, but rather it's
 # definition is in the local definitions.mak.
@@ -515,7 +468,7 @@ compilation_units_c := $(notdir $(compilation_units_c))
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
-# test_compilation_units (LV)
+# test_compilation_units (LV) (new test system)
 #
 # The full path names of every C++ source code file in
 # the testobjects subdirectory of the current module
@@ -628,7 +581,7 @@ object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimis
 # test_object_files (LV)
 #
 # The full path names of the object files for the tests in the
-# current module.
+# current module (new test system).
 # ----------------------------------------------------------
 test_object_files := $(notdir $(test_compilation_units))
 test_object_files := $(test_object_files:.cpp=.o)
@@ -1317,7 +1270,7 @@ $(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_objec
 # cleantest (old test system)
 #
 # Removes the test timestamp file for the current module.
-# The next 'make check' will rebuild the tests from the old
+# The next 'make check' will re-run the tests from the old
 # test system for the current module.
 # ----------------------------------------------------------
 cleantest :
@@ -1328,7 +1281,7 @@ cleantest :
 # cleantestop (old test system)
 #
 # Removes the optimised test timestamp file for
-# the current module. The next 'make check' will rebuild 
+# the current module. The next 'make check' will re-run
 # the optimised tests from the old test system for the current 
 # module.
 # ----------------------------------------------------------
@@ -1341,7 +1294,7 @@ cleantestop :
 #
 # Removes both the test timestamp file and the optimised test
 # timestamp file for the current module.
-# The next 'make check' will rebuild the tests and the
+# The next 'make check' will re-run the tests and the
 # optimised tests from the old test system for the
 # current module.
 # ----------------------------------------------------------
@@ -1352,7 +1305,7 @@ cleanalltest : cleantest cleantestop
 # new_cleantest (new test system)
 #
 # Removes the test timestamp file for the current module.
-# The next 'make check' will rebuild the tests for the
+# The next 'make new_check' will re-run the tests for the
 # current module.
 # ----------------------------------------------------------
 new_cleantest :
@@ -1363,7 +1316,7 @@ new_cleantest :
 # new_cleantestop (new test system)
 #
 # Removes the optimised test timestamp file for the current 
-# module. The next 'make check' will rebuild the optimised 
+# module. The next 'make new_check' will re-run the optimised 
 # tests for the current module.
 # ----------------------------------------------------------
 new_cleantestop :
@@ -1375,7 +1328,7 @@ new_cleantestop :
 #
 # Removes both the test timestamp file and the optimised 
 # test timestamp file for the current module. 
-# The next 'make check' will rebuild both the tests and the 
+# The next 'make new_check' will re-run both the tests and the 
 # optimised tests for the current module.
 # ----------------------------------------------------------
 new_cleanalltests : new_cleantest new_cleantestop
@@ -1384,15 +1337,17 @@ new_cleanalltests : new_cleantest new_cleantestop
 # ----------------------------------------------------------
 # cleanobj
 #
-# Removes all non-test object files and optimised object
+# Removes all object files and optimised object
 # files for the current module.
+# This includes the object-files from the old test-system
+# (but not for the new one).
 # ----------------------------------------------------------
 cleanobj :
 	- rm $(object_files) $(object_files_optimised)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
-# cleantestobj
+# cleantestobj (new test system)
 #
 # Removes all test object files and optimised test object
 # files for the current module.
@@ -1414,35 +1369,53 @@ cleandep :
 # clean
 #
 # Removes all object files (unoptimised and optimised), along
-# with all tests (unoptimised and optimised) and dependencies
-# for the current module.
+# with all test programs (unoptimised and optimised) and dependency
+# files for the current module (for the old and the new test system).
 # ----------------------------------------------------------
-clean : cleanobj cleantestobj cleandep
-	- rm $(test_file) $(testop_file) $(test_timestamp) $(testop_timestamp) 
+clean : cleanobj cleantestobj cleandep cleanalltest new_cleanalltests
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
 # cleanprograms
 #
-# Removes all (test and non-test) program executables 
-# (optimised and unoptimised) for the current module
+# Removes all program executables 
+# (optimised and unoptimised) for the current module.
+# For the old test system, this includes the test-programs, but
+# not for new test system.
 # ----------------------------------------------------------
 cleanprograms :
-	- rm $(programs) $(programs_optimised) $(new_test_program) $(new_test_program_optimised) 
+	- rm $(programs) $(programs_optimised)
 # ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# cleantestprograms (new test system)
+#
+# Removes all test program executables 
+# (optimised and unoptimised) for the current module.
+# ----------------------------------------------------------
+cleantestprograms :
+	- rm $(new_test_program) $(new_test_program_optimised) 
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# cleanmessages (new test system)
+#
+# Removes error, log and message files for the current module.
+
+cleanmessages :
+	- rm $(error_file) $(message_file) $(log_file)
 
 # ----------------------------------------------------------
 # cleanall
 #
 # Removes all object files (unoptimised and optimised), along
 # with all tests (unoptimised and optimised) and dependencies
+# for the current module, and removes all (test and non-test)
+# program executables (optimised and unoptimised) for the current module.
+# For the new test system, removes error, log and message files 
 # for the current module.
-# Removes all (test and non-test) program executables 
-# (optimised and unoptimised) for the current module.
-# Removes error, log and message files for the current module.
 # ----------------------------------------------------------
-cleanall : clean cleanprograms
-	- rm $(error_file) $(message_file) $(log_file)
+cleanall : clean cleanprograms cleantestprograms cleanmessages
 # ----------------------------------------------------------
 
 # ######################################################################
