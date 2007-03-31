@@ -23,11 +23,19 @@
      building test-object files if needed,
    - but from within the module this doesn't work.
 
-  \todo Specification of build system
+  \todo Specification of build system I:
+  Create a framework where the documentation of the build system can be put : DONE
+  (now modules can have sub-directories "docus"; Buildsystem/docus contains yet
+  the documentation of the targets of generic.mak)
+
+  \todo Specification of build system II
   <ul>
-    <li>Specification Documentation
-      The specification of the build system needs to be documented in the 
-      comments in generic.mak, and also externally in the meta-documentation.
+    <li> Moving stable documentations to "docus":
+      <ul>
+       <li> Buildsystem/generic.mak: </li>
+       <li> ExternalSources.mak: </li>
+      </ul>
+      And others.
     </li>
     <li>Targets
       <ul>
@@ -38,6 +46,7 @@
        </li>
       </ul>
     </li>
+    <li> Specify the functions of the build system as precise as possible. </li>
   </ul>
 
   \todo .source_libraries
