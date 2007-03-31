@@ -3,36 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.4 (8.2.2007)
-
-  \par Version 0.1.5 : THEME is "Towards a specified and testable build system" : TO BE REACHED \deadline_014
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Specification of buildsystem I : DONE
- 
-  \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
-   the following topics are handled:
-    - Doxygen menu : DONE
-    - Doxygen variables : DONE
-
-  \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
-   the following topics are handled
-    - Dvi-link : DONE
-    - Version numbers : DONE
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics have been updated:
-    - General clean-up of make-variables (DONE)
-    - Cleaning (DONE)
-    - Generic makefile redesign (DONE)
-    - OKsystem/Buildsystem structure (DONE)
-
-   \par
-   Update milestone 0.1.6 by moving targets to later milestones.
-
+  \module_version Buildsystem 0.1.5 (31.3.2007)
 
   \par Version 0.1.6 : THEME is "A specified and testable build system" and "Build system consolidation" : TO BE REACHED \deadline_015
 
@@ -42,26 +13,25 @@
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Specification of buildsystem II
+    - Mixing C and C++
     - Incorrect build of new tests I
     - Incorrect build of new tests II
+    - Specification of buildsystem II
+    - .source_libraries
+    - Setting the paths to GCC and Boost link libraries
+    - User control of system versions
+    - General_options
     - Dependency files
     - Verbosity
     - Directory structure
     - Test system
     - OKsystem/Buildsystem structure
-    - Setting the paths to GCC and Boost link libraries
-    - User control of system versions
-    - General clean-up of make-variables
-    - General_options
-    - Linking and options
     - Compilation
-    - Linking
     - Customisation
-    - .source_libraries
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Building Ubcsat
     - Extending and completing OKBuildsystem/ExternalSources/doc.mak
     - Building documentation
     - Building gcc_doc 
@@ -70,19 +40,22 @@
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - system_definitions.mak
     - Testing the build system
+    - Licence
+    - Notification list
+    - Make-variables for external libraries
+    - Role of srcdir
+    - System documentation
+    - Documentation (Examples and Concepts)
     - Overhaul of the general targets
     - Force make
     - Design
     - Modes of Usage
     - makefile_recursive
-    - Documentation (Examples and Concepts)
     - Compilation information
-    - Source code directory structure
-    - Make-variables for external libraries
-    - Role of srcdir
-    - System documentation
     - Special runs
+    - Source code directory structure
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
@@ -104,6 +77,7 @@
     - Tools for testing
     - Log directory
     - Cleaning
+    - Linking and options
     - Test cleaning
 
   \par
@@ -163,6 +137,7 @@
    - 0.1.2 : 9.12.2006; systematic naming, placement and decomposition of makefiles; documentation of generic.mak; documentation-building improved.
    - 0.1.3 : 14.1.2007; further improvements on naming and placement of makefiles, improved building of external libraries, improved html-documentation.
    - 0.1.4 : 8.2.2007; Steps towards a specified and testable buildsystem. Further documentation of generic.mak; corrections to makefile plans files suffixes; corrections to system-wide variable definitions.
+   - 0.1.5 : 31.3.2007; further steps towards a specified and testable buildsystem; started documenting generic.mak in the doxygen-system. Further improvements in the general structure of the documentation-pages.
 
 */
 
