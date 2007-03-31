@@ -4,20 +4,18 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
   \brief Plans for documentation-creation
 
+  \todo Doxygen menu: Perhaps we should drop the file-list altogether?
+     (This could make the system more user-friendly, by restricting the attention to
+     the most appropriate choice?) On the other hand, always having to click on the
+     directory items might not be always best, so perhaps we should keep the
+     file-list. DONE (kept at this time; the file list shows some
+     "statistical" overview)
+
   \todo Doxygen variables:
   For the version number and the dates of deadlines we need some central
   place, where corresponding variables (macros) are defined, so that
   we can use these variables everywhere. DONE (definition of ALIASES
   in Doxyfile).
-
-  \todo Doxygen menu
-   -  Perhaps we should drop the file-list altogether?
-     (This could make the system more user-friendly, by restricting the attention to
-     the most appropriate choice?) On the other hand, always having to click on the
-     directory items might not be always best, so perhaps we should keep the file-list.
-   - Sometimes it would be good to show also other files (especially for Buildsystem).
-     This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
-     just as plain text files, without any special formatting).
 
   \todo Doxygen general:
    - Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
@@ -49,5 +47,16 @@
 
   \todo CSS : Improving the cascading style sheet used by the documentation
    index.
+
+  \todo Doxygen menu review
+   -  Is the file list still needed (with version 0.1.4 of Transitional it
+      was kind of useful to see for example how many files are documented)?
+      Otherwise dropping it could make the system more user-friendly, by
+      restricting the attention to the most appropriate choice?
+   - Sometimes it would be good to show also other files (especially for Buildsystem).
+     This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
+     just as plain text files, without any special formatting).
+
+
 
 */
