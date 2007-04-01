@@ -3,7 +3,7 @@
 /*!
   \file ProgramOptions/plans/milestones.hpp
 
-  \par Current version 0.0.3 (30.8.2006)
+  \module_version ProgramOptions 0.0.3 (30.8.2006)
 
   \par Version 0.0.4 :
   The plans in ProgramOptions/plans/ProgramOptions.hpp are reconsidered, and made

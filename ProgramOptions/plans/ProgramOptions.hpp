@@ -6,6 +6,8 @@
 
   \todo The OLD point of view:
 
+  See General/Kommandozeile.hpp.
+
   Program options shall be handled as before
   "Kommandozeile" (that is, not "options", but commands, to be processed from left to right),
   but now object-oriented.
@@ -26,49 +28,63 @@
   for providing the program parameters and for processing the *general* options (regarding
   help and documentation), while the interpretation of the specific "options" (or "commands")
   is not covered at all.
+
   \todo Programs can have three different kind of parameters (as strings), called "program parameters"
   from now on:
-   - Options, which always exists in the long form "--option" and in the short form
-     "-opt".
-   - Assignments, which again always exist in the long form "variable=..." and
-     in the short form "var=...".
-   - Free options, which is everything else (possibly also of the form "--string" for example,
-     but not matching any of the given options or assignments).
+  <ul>
+   <li>Options, which always exists in the long form "--option" and in the short form "-opt". </li>
+   <li> Assignments, which again always exist in the long form "variable=..." and
+     in the short form "var=...". </li>
+   <li> Free options, which is everything else (possibly also of the form "--string" for example,
+     but not matching any of the given options or assignments). </li>
+  </ul>
   Perhaps as a general guideline the short forms of options and assignments should consist
   of 3 letters (using a single letter only in case of well-established quasi-standards).
+
   \todo The following standard options are enabled by the system:
-   - "--help" ("-h") for help, listing all options and assignments with explanations (starting
-     with the standard options and assignments).
-   - "--version" ("-v") showing version information.
-   - "--license" ("-lcs") showing licence information.
-   - "--purpose" ("-prp") for some text explaining the overall purpose of the program.
-   - "--usage" ("-usg") for some text explaining the general usage pattern.
-   - "--overview" ("-ovw") as a shorthand for
-     "--purpose --usage --help --version -- licence".
+  <ul>
+   <li> "--help" ("-h") for help, listing all options and assignments with explanations (starting
+     with the standard options and assignments). </li>
+   <li> "--version" ("-v") showing version information. </li>
+   <li> "--license" ("-lcs") showing licence information. </li>
+   <li> "--purpose" ("-prp") for some text explaining the overall purpose of the program. </li>
+   <li> "--usage" ("-usg") for some text explaining the general usage pattern. </li>
+   <li> "--overview" ("-ovw") as a shorthand for
+     "--purpose --usage --help --version -- licence". </li>
+  </ul>
   And there are three general assignments:
-   - "--language=..." ("-lng=... ")
-   - "--detailedness-level=..." ("-dtl=...")
-   - "--verbosity-level=..." ("-vbl=...").
+  <ul>
+   <li> "--language=..." ("-lng=... ") </li>
+   <li> "--detailedness-level=..." ("-dtl=...") </li>
+   <li> "--verbosity-level=..." ("-vbl=..."). </li>
+  </ul>
   The first two assignments effect the message system (and thus also the above six general
   options), while with verbosity-level we can ask for explanations. Perhaps verbosity-level
   is just a natural number (with 0 for no explanations), while detailedness-level is (as
   outlined in Messages/Messages_Plans.hpp) one of basic, full or extensive.
+
   Program parameters different from these standard options and assignments are called
   "special program parameters" (while the above standard options and assignments
   are "standard program parameters").
+
   \todo There is an enumeration StandardProgramParameters (typedef StdPP for short)
+  \code
   enum StandardProgramParameters { other_std = 0, help, version, license, purpose,
     usage, overview, language, verbosity_level };
+  \endcode
+
   \todo For a new "program option system" a class has to be defined; lets calls it POS here.
   POS contains an enumeration SpecialProgramParameters (typedef SpecPP for short) with
   value other_spec = 0, and for every other special program parameter exactly one value.
   Then there is the (nested) structure
+  \code
   struct ProgramParameter {
     // type member string_type
     StandardProgramParameters std_p;
     SpecialProgramParameters spec_p;
     string_type val;
   };
+  \endcode
   val shall contain the assignment value for assignments, and the whole parameter string
   for free options, while otherwise val shall be the empty string. At least one of std_p
   and spec_p shall be zero.
@@ -79,15 +95,20 @@
   language and verbosity-level).
   And the general system provides a default message object in case the program is called without
   parameters, but parameters are needed.
+
   \todo The short form of "--version" contains program name and version number,
   while the long form has additionally author names, compilation date, OKlib-version-number,
   filename, line number.
+
   \todo The general system provides a class
+  \code
   struct Specification {
     bool is_assignment;
     std::string short;
     std::string long;
   };
+  \endcode
+
   \todo An object P of class type AnalyseProgramOptions is constructed with two streams out and err
   (corresponding to cout and cerr), and gives access to the message system (so that the POS object can
   supply messages reacting appropriately to the existing languages and verbosity-levels).
@@ -106,6 +127,7 @@
   The program options are evaluated one by one (so that there
   is no overhead in case of a long list of program options); only when the iterator advances
   a new program option is considered.
+
   \todo Every program should just pass the three standard streams std::cout, std::cerr and
   std::cin and potentially count and argv to the constructor of some "program object",
   which runs then the actual actions. In this way we have a chance to test whole programs
@@ -113,14 +135,20 @@
   but likely no class hierarchy is useful here (one just has four forms of a constructor:
   without any parameters, with the three standard streams, with the program parameters,
   and with all five parameters).
-  \todo The boost program options library has the following weaknesses:
-   - no reusable components are delivered (but only a "blob");
-   - not generic;
-   - everything shall in principle be arranged by one function call, which then has to
-     care for (too) many things.
+
+  \todo The Boost program options library has the following weaknesses:
+  <ul>
+   <li> no reusable components are delivered (but only a "blob"); </li>
+   <li> not generic; </li>
+   <li> everything shall in principle be arranged by one function call, which then has to
+     care for (too) many things. </li>
+  </ul>
    This (failed) library teaches us, that "convenience" should only by a "facade", and
    should be based on a solid technical base made out of reusable components.
-   \todo The old system Kommandozeile needs to be inspected for some "goodies".
+
+   But perhaps we can use some components from the Boost program options library?
+
+   \todo The old system General/Kommandozeile needs to be inspected for some "goodies".
 */
 
 /*!

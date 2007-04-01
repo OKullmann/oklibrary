@@ -6,21 +6,29 @@
 
   \todo See Concepts/plans/PartialAssignments.hpp.
 
+  \todo Old implementations
+   - See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+
   \todo It seems sensible that evaluation of literals is the direct
   responsibility of the partial assignment class, while for the evaluation
   of active clause-sets we have an algorithm
 
+  \code
   template <class PASS, class CLS>
-  boost::logic::tribool evaluate(PASS phi, CLS F, OKlib::PartialAssignments::evaluation_tag<CLS>::type, const OKlib::RootEvaluationTag& tag)
+  boost::logic::tribool evaluate(PASS phi, CLS F, OKlib::PartialAssignments::evaluation_tag<CLS>::type, const OKlib::RootEvaluationTag& tag);
+  \endcode
 
   with
-  struct RootEvaluationTag {};
+  <code> struct RootEvaluationTag {}; </code>
   possibly to be replaced by a derived class (which might be polymorphic)
   to enable compile- and run-time dispatch of evaluation algorithms.
   According to our general strategy, we should primarily implement
   evaluate as a class template (in namespace OKlib::PartialAssignments).
 
   \todo Design study:
+
+  \code
+
   template <class PartialAssignment, class Formula>
   class Evaluate : std::binary_function<const PartialAssignment&, const Formula&, boost::tribool> {
     boost::tribool operator() (const PartialAssignment& phi, const Formula& F, const ::OKlib::RootEvaluationTag& tag = ::OKlib::RootEvaluationTag()) const {
@@ -56,6 +64,8 @@
   boost::tribool evaluate_dispatch()(const PartialAssignment& phi, const Formula& F, ::OKlib::PartialAssignments::evaluation_literal, const ::OKlib::RootEvaluationTag&) {
     return phi(F);
   }
+
+  \endcode
 
 */
 
