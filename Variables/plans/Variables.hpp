@@ -12,6 +12,9 @@
   We have to create plans (also gathering was has been done, in the concepts module
   and elsewhere).
 
+  \todo Old implementations
+   - See OKsolver/Experimental/AllgKlassen200203/Variables.hpp
+
   \todo New test system
 
 */
