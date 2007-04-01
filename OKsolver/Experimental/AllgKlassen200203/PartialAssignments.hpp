@@ -1,5 +1,11 @@
 // Oliver Kullmann, 27.7.2003 (Swansea)
 
+/*!
+  \file OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+  \brief Models of partial assignments
+  \deprecated To be moved (if appropriate) to Transitional.
+*/
+
 #ifndef PARTIALASSIGNMENTSWAECHTER
 #define PARTIALASSIGNMENTSWAECHTER
 
@@ -9,6 +15,11 @@
 #include "ConceptDefinitions.hpp"
 
 namespace PartialAssignments {
+
+  /*!
+    \class PassViaMap
+    \brief PassViaMap<Var, Dom> yields partial assignments, implemented via std::maps.
+  */
 
   template <class Variables, class Domain>
   class PassViaMap {
@@ -57,8 +68,11 @@ namespace PartialAssignments {
 
   };
 
-
-  // DEPRICATED (to be removed soon)
+  /*!
+    \class PassAsMaps
+    \brief PassAsMaps<Literals> yields partial assignments, implemented via std::maps.
+    This class template was deprecated, and replaced by PartialAssignments::PassViaMap.
+  */
 
   template <class Literals>
   class PassAsMaps {

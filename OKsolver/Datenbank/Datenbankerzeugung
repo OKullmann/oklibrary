@@ -1,5 +1,8 @@
 -- Oliver Kullmann, 1.2.2002
 
+-- Deprecated. Every development now takes place in 
+-- Transitional/OKDatabase/Database.sql.
+
 /*
 CREATE DATABASE OKRandGen
 ;

@@ -1,5 +1,11 @@
 // Oliver Kullmann, 28.6.2002 (Swansea)
 
+/*!
+  \file Transitional/OKsolver/Datenbank/Special_update.cpp
+  \brief Some ad-hoc repair
+  \deprecated Every development now takes place in Transitional/OKDatabase.
+*/
+
 #include <string>
 
 #include "DatabaseHandler01.hpp"

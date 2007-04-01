@@ -1,5 +1,11 @@
 // Oliver Kullmann, 3.7.2002 (Swansea)
 
+/*!
+  \file Transitional/OKsolver/Datenbank/CreateStatistic.cpp
+  \brief Evaluating the database with random-experiments, and creating statistic files
+  \deprecated Every development now takes place in Transitional/OKDatabase.
+*/
+
 #include <string>
 #include <algorithm>
 #include <memory>

@@ -1,5 +1,12 @@
 // Oliver Kullmann, 21.2.2003 (Swansea)
 
+/*!
+  \file OKsolver/Experimental/AllgKlassen200203/Variables.hpp
+  \brief First approaches for models of concept Variables in the framework of the library
+  \deprecated To be moved (if appropriate) to Transitional.
+*/
+
+
 #ifndef VARIABLESWAECHTER_ahsd3549FG
 
 #define VARIABLESWAECHTER_ahsd3549FG

@@ -1,5 +1,11 @@
 // Oliver Kullmann, 1.7.2002 (Swansea)
 
+/*!
+  \file Transitional/OKsolver/Datenbank/Delete_rows.cpp
+  \brief Auxiliary application to delete rows from a file
+  \deprecated Every development now takes place in Transitional/OKDatabase.
+*/
+
 // Call:
 
 // Delete_rows deletion_table subtraction_table test_field

@@ -3,6 +3,8 @@
 <!-- XML-Standard for communication of SAT related data -->
 <!-- Version 1.0 -->
 
+<!-- Deprecated. Every development now takes place in Transitional/OKDatabase. -->
+
 <!-- some auxiliary elements ============================ -->
 
 <!ELEMENT comment (#PCDATA)>

@@ -1,5 +1,12 @@
 // Oliver Kullmann, 27.7.2003 (Swansea)
 
+/*!
+  \file OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp
+  \brief First approaches for concepts in the framework of the library
+  \deprecated To be moved (if appropriate) to Transitional.
+*/
+
+
 #ifndef CONCEPTDEFINITIONSWAECHTER
 
 #define CONCEPTDEFINITIONSWAECHTER

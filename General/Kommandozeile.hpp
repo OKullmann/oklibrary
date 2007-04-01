@@ -1,5 +1,11 @@
 // Oliver Kullmann, 19.1.2002 (Swansea)
 
+/*!
+  \file General/Kommandozeile.hpp
+  \brief Header file for the old program-options-scaffolding.
+  \deprecated To be dissolved in module Transitional/ProgramOptions.
+*/
+
 // Name: Kommandozeile.hpp
 
 // Copyright Oliver Kullmann, 19.1.2002
