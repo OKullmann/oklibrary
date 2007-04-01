@@ -4,17 +4,22 @@
   \file RandomGenerator/plans/RandomGenerator.hpp
   \brief Plans for the module RandomGenerator.
 
-  \todo Schedule
+  \todo Schedule:
   The first thing is to transfer (and upgrade) the
-  implementation of OKgenerator. This should proceed in the
+  implementation of OKsolver/Generator. This should proceed in the
   following stages:
-   1. Creating the concept of BigIntegers in the module NumberTheory
-   together with the wrapper for GMP.
-   2. Replacing the current big-integer implementation in OKgenerator.
-   3. Creating the concept for AES in the (new) module Cryptology.
-   4. Writing a wrapper for some existing implementations for AES.
-   5. Replacing the current AES implementation in OKgenerator.
-   6. Replacing Kommandozeile by ProgramOptions.
+  <ol>
+   <li> Creating the concept of BigIntegers in Concepts/plans/BigIntegers.hpp,
+   together with the wrapper for GMP. </li>
+   <li> Replacing the current big-integer implementation in OKgenerator
+   (see Transitional/OKsolver/Generator). </li>
+   <li> Creating the concept for AES in the (new) module Cryptology (see
+   Kryptologie/plans/Kryptologie.hpp). </li>
+   <li> Replacing the current AES implementation by the one provided by
+   Cryptology (see Kryptologie/plans/Kryptologie.hpp). </li>
+   <li> Replacing General/Kommandozeile (see General/Kommandozeile.hpp)
+   by module Transitional/ProgramOptions. </li>
+  </ol>
 */
 
 /*!
