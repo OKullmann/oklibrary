@@ -13,6 +13,7 @@
 
   \par Version 0.1.3 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
+  - Split the module
   - Develop concepts
   - Develop a general strategy for creating generic tests
 
