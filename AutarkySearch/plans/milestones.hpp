@@ -5,7 +5,7 @@
 
   \module_version AutarkySearch 0.0.5 (31.1.2007)
 
-  \par Version 0.0.6 :
+  \par Version 0.0.6 : 
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - Improved installation of UBCSAT
 
