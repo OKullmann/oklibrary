@@ -3,19 +3,19 @@
 /*!
   \file BigIntegers/plans/milestones.hpp
 
-  \par Current version 0.0.1 (25.6.2006; empty yet)
+  \module_version BigIntegers 0.0.1 (25.6.2006; empty yet)
 
   \par Version 0.0.2 :
-  Designing the concept for a basic big integer wrapper for the GMP library
-  (see BigIntegers/plans/GMPWrapper.hpp "Design the concept").
+  In BigIntegers/plans/GMPWrapper.hpp the following topics are handled:
+  - Design the concept of a wrapper
 
   \par Version 0.0.3 :
-  Write tests for the basic concepts about the GMP-wrapper
-  (see BigIntegers/plans/GMPWrapper.hpp "Write tests for the concepts").
+  In BigIntegers/plans/GMPWrapper.hpp the following topics are handled:
+  - Write tests for the concepts
 
-  \par Version 0.0.1 :
-  Implement the GMP-wrapper
-  (see BigIntegers/plans/GMPWrapper.hpp "Implementation the basic wrappers").
+  \par Version 0.1 :
+  In BigIntegers/plans/GMPWrapper.hpp the following topics are handled:
+  - Implementation of the basic wrappers
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
