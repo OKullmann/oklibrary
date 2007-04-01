@@ -23,13 +23,78 @@
    - Concepts/std_Iterators.hpp : DONE
 
    - Concepts/plans/ActiveClauseSets.hpp : DONE
-   - Concepts/plans/Assignments.hpp :
-   - Concepts/plans/BigIntegers.hpp :
+   - Concepts/plans/Assignments.hpp : DONE
+   - Concepts/plans/BigIntegers.hpp : DONE
    - Concepts/plans/BipartiteGraphs.hpp :
    - Concepts/plans/ClauseSets.hpp :
    - Concepts/plans/Clauses.hpp :
    - Concepts/plans/Hypergraphs.hpp :
    - Concepts/plans/PartialAssignments.hpp : DONE
+
+  \todo Split the module:
+  The module Concepts is becoming too big and one is loosing overlook.
+  So it should split, with a recursive make under directory Concepts,
+  into sub-modules
+  <ul>
+   <li> SAT
+    <ul>
+     <li> Concepts/plans/ActiveClauseSets.hpp </li>
+     <li> Concepts/plans/AtomicConditions.hpp </li>
+     <li> Concepts/plans/ClauseSets.hpp </li>
+     <li> Concepts/plans/Clauses.hpp </li>
+     <li> Concepts/plans/Literals.hpp </li>
+     <li> Concepts/plans/PartialAssignments.hpp </li>
+     <li> Concepts/Variables.hpp </li>
+     <li> Concepts/JoinedConceptTags.hpp </li>
+     <li> Concepts/ResultElements.hpp </li>
+    </ul>
+   </li>
+   <li> Graphs (or "Combinatorics" ?)
+    <ul>
+     <li> Concepts/plans/BipartiteGraphs.hpp </li>
+     <li> Concepts/plans/Hypergraphs.hpp </li>
+    </ul>
+   </li>
+   <li> Numbers (or "Algebra" ?, "Mathematics" ?, "Math" ?)
+    <ul>
+     <li> Concepts/plans/BigIntegers.hpp </li>
+    </ul>
+   </li>
+   <li> Std
+    <ul>
+     <li> Concepts/std_Basics.hpp </li>
+     <li> Concepts/std_Container.hpp </li>
+     <li> Concepts/std_Iterators.hpp </li>
+    </ul>
+   </li>
+   <li> StdExt
+    <ul>
+     <li> Concepts/ConceptsBase.hpp </li>
+     <li> Concepts/plans/Basics.hpp </li>
+     <li> Concepts/plans/LibraryBasics.hpp </li>
+     <li> Concepts/plans/InputOutput.hpp </li>
+     <li> Concepts/plans/Iterators.hpp </li>
+    </ul>
+   </li>
+   <li> Refactoring (perhaps more generally "Languages" ? or "Lang" ??)
+    <ul>
+     <li> Concepts/plans/RefactoringIncludeHandling.hpp </li>
+    </ul>
+   </li>
+   <li> Meta
+    <ul>
+     <li> Concepts/plans/ConceptsMetafunctions.hpp </li>
+    </ul>
+   </li>
+  </ul>
+  with Concepts/plans containing general Concepts/plans/Concepts.hpp and
+  Concepts/plans/milestones.hpp.
+  Would be good to have refactoring-tools ready for the necessary renamings.
+
+  \todo Cannibalise the approach from 200203:
+  Transfer if appropriate concepts from
+  OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp,
+  and once finished, mark this file to be obsolete.
 
   \todo Develop concepts:
    - atomic conditions

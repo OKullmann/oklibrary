@@ -4,6 +4,11 @@
   \file Concepts/plans/PartialAssignments.hpp
   \brief Plans for concepts for partial assignments
 
+  \todo See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+  for older concepts of partial assignments.
+
+  \todo See PartialAssignments/plans/PartialAssignments.hpp for further design studies.
+
   \todo Generalisations:
   With generalised literals we have more than one variable per literal.
   <ul>
