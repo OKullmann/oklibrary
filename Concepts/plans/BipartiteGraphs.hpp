@@ -15,5 +15,9 @@
   \todo It seems, that the concept of bipartite graphs is (yet) most important as concept ("notion"),
   while models are provided only via hypergraphs and clause-sets, where the bipartite graphs
   are directly "embedded" into the data structure.
+
+  \todo Clarify the relations to module Graphs (see Graphs/plans/Graphs.hpp).
+
+  \todo Clarify the relation to Concepts/plans/Hypergraphs.hpp.
 */
 

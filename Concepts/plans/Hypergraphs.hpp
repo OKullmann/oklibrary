@@ -20,6 +20,10 @@
   that such "incidence hypergraphs" directly yield models of bipartite graphs via
   regarding either the vertices or the hyperedges as "left part".
 
+  \todo Clarify the relations to module Graphs (see Graphs/plans/Graphs.hpp).
+
+  \todo Clarify the relation to Concepts/plans/BipartiteGraphs.hpp.
+
   \todo Clause-sets are refinements of hypergraphs, where also application of
   partial assignments may be supported (perhaps also resolution etc. ?).
 

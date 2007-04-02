@@ -10,6 +10,10 @@
    - HypergraphColouring
    - QuantumPhysics
    - ???
+
+   \todo Clarify the relation to
+    - Concepts/plans/BipartiteGraphs.hpp
+    - Concepts/plans/Hypergraphs.hpp.
 */
 
 /*!
