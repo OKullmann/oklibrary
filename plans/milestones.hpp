@@ -17,10 +17,10 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional014 0.1.4 : TO BE REACHED \deadline_014
-  \par Concepts version 0.1.2 (OK (MH))
+  \subsection VersionTransitional014 0.1.4 : TO BE REACHED \deadline_014 REACHED
+  \par Concepts version 0.1.2 (OK (MH)) : DONE
   (see Concepts/plans/milestones.hpp)
-  \par Expand the following milestones regarding SAT-algorithms
+  \par Expand the following milestones regarding SAT-algorithms : DONE
   \par Buildsystem version 0.1.5 (MH (OK)) : DONE
   (see Buildsystem/plans/milestones.hpp)
 
@@ -177,6 +177,12 @@
    - moving the buildsystem towards a specified and testable system
    - initial clean-up of module Messages
    - strengthened the new test system by systematically using message-classes.
+
+   \par 0.1.4 2/4/2007
+
+   - concepts cleaned-up, preparing a concentrated effort
+   - buildsystem further moved towards a specified and testable system, and
+     various doxygen-related improvements.
 
 */
 
