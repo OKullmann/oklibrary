@@ -5,8 +5,11 @@
   \brief Plans for concepts for clause-sets, clause-sets with history, virtual clause-sets and active
   clause-sets.
 
-  \todo Update with Concepts/plans/ActiveClauseSets.hpp (the text below is no longer
-  up-to-date).
+  \todo Update with
+  <ul>
+   <li> Concepts/plans/ActiveClauseSets.hpp </li>
+   <li> Concepts/plans/Clauses.hpp </li>
+  </ul> (the text below is no longer up-to-date).
 
   \todo Shouldn't we differentiate between
    - "ClauseSets"
@@ -80,13 +83,19 @@
   the first prototype is being developed.
 
   \todo Sat status:
-  For an active clause-set F, F.sat_status() perhaps should return an object
-  from a hierarchy with root Unknown, derived classes Satisfiable, Unsatisfiable,
-  and furthermore Satisfied derived from Satisfiable.
+  For an active clause-set F,
+  \code F.sat_status() \endcode
+  perhaps should return an object
+  from a hierarchy with root <code>Unknown</code>, derived classes
+  <code>Satisfiable</code>, <code>Unsatisfiable</code>,
+  and furthermore <code>Satisfied</code> derived from <code>Satisfiable</code>.
 
-  And there should be F.assignment_status(), returning an object of
-  type Unknown, or, derived from it, Conservative (every satisfying assignment
-  for F is also satisfying for phi * F), or Autarky (derived from Conservative).
-  Satisfied implies Autarky.
+  And there should be
+  \code F.assignment_status(), \endcode
+  returning an object of type <code>Unknown</code>, or, derived from it,
+  <code> Conservative </code> (every satisfying assignment
+  for F is also satisfying for phi * F), or <code> Autarky </code>
+  (derived from <code>Conservative</code>).
+  <code>Satisfied</code> implies <code>Autarky</code>.
 */
 
