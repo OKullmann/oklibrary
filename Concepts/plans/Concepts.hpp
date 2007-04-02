@@ -4,7 +4,7 @@
   \file Concepts/plans/Concepts.hpp
   \brief Plans for the concepts module
 
-  \todo Update doxygen-documentation and plans
+  \todo Update doxygen-documentation and plans : DONE
 
    - Concepts/AtomicConditions.hpp : DONE
    - Concepts/Basics.hpp : DONE
@@ -25,10 +25,10 @@
    - Concepts/plans/ActiveClauseSets.hpp : DONE
    - Concepts/plans/Assignments.hpp : DONE
    - Concepts/plans/BigIntegers.hpp : DONE
-   - Concepts/plans/BipartiteGraphs.hpp :
-   - Concepts/plans/ClauseSets.hpp :
-   - Concepts/plans/Clauses.hpp :
-   - Concepts/plans/Hypergraphs.hpp :
+   - Concepts/plans/BipartiteGraphs.hpp : DONE
+   - Concepts/plans/ClauseSets.hpp : DONE
+   - Concepts/plans/Clauses.hpp : DONE
+   - Concepts/plans/Hypergraphs.hpp : DONE
    - Concepts/plans/PartialAssignments.hpp : DONE
 
   \todo Split the module:
