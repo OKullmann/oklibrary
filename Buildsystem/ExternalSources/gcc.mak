@@ -47,13 +47,6 @@ endif
 # ######################################################################
 
 # ##################################
-# Versions
-# ##################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-include $(OKbuildsystem)/ExternalSources/definitions_.mak
-
-# ##################################
 # Directory Structure
 # ##################################
 
