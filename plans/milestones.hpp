@@ -17,13 +17,6 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional014 0.1.4 : TO BE REACHED \deadline_014 REACHED
-  \par Concepts version 0.1.2 (OK (MH)) : DONE
-  (see Concepts/plans/milestones.hpp)
-  \par Expand the following milestones regarding SAT-algorithms : DONE
-  \par Buildsystem version 0.1.5 (MH (OK)) : DONE
-  (see Buildsystem/plans/milestones.hpp)
-
   \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
   \par AutarkySearch version 0.0.6 (OK, ML)
   (see AutarkySearch/plans/milestones.hpp)
