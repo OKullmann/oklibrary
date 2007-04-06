@@ -13,6 +13,7 @@
    QUESTION (OK): Isn't this done ?? (MH) : Not yet.
 
   \todo Building documentation:
+   - Documentation building should be done automatically when building.
    - We should extract only the documentation from the archives (and remove everything else
      which is not needed; should be fairly easy).
      
