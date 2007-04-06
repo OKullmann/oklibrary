@@ -39,8 +39,8 @@ boost_recommended_package_name := $(boost_prefix_underscore)$(boost_recommended_
 # Doxygen Versions
 # #################################
 
-doxygen_recommended_version_number := 1.5.1
-doxygen_supported_not_recommended_version_numbers := 1.4.7
+doxygen_recommended_version_number := 1.5.2
+doxygen_supported_not_recommended_version_numbers := 1.5.1
 doxygen_supported_version_numbers := $(doxygen_supported_not_recommended_version_numbers) $(doxygen_recommended_version_number)
 
 # ###########################################
