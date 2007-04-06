@@ -5,12 +5,6 @@
 
   \module_version Concepts 0.1.2 (2.4.2007)
 
-  \par Version 0.1.2 : REACHED.
-  In Concepts/plans/Concepts.hpp the following topics are handled:
-  - Update : DONE
-
-  And further milestones are created : DONE
-
   \par Version 0.1.3 :
   In Concepts/plans/Concepts.hpp the following topics are handled:
   - Split the module

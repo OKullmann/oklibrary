@@ -4,33 +4,6 @@
   \file Concepts/plans/Concepts.hpp
   \brief Plans for the concepts module
 
-  \todo Update doxygen-documentation and plans : DONE
-
-   - Concepts/AtomicConditions.hpp : DONE
-   - Concepts/Basics.hpp : DONE
-   - Concepts/ConceptsBase.hpp : DONE
-   - Concepts/ConceptsMetafunctions.hpp : DONE
-   - Concepts/InputOutput.hpp : DONE
-   - Concepts/Iterators.hpp : DONE
-   - Concepts/JoinedConceptTags.hpp : DONE
-   - Concepts/LibraryBasics.hpp : DONE
-   - Concepts/Literals.hpp : DONE
-   - Concepts/RefactoringIncludeHandling.hpp : DONE
-   - Concepts/ResultElements.hpp : DONE
-   - Concepts/plans/Variables.hpp : DONE
-   - Concepts/std_Basics.hpp : DONE
-   - Concepts/std_Container.hpp : DONE
-   - Concepts/std_Iterators.hpp : DONE
-
-   - Concepts/plans/ActiveClauseSets.hpp : DONE
-   - Concepts/plans/Assignments.hpp : DONE
-   - Concepts/plans/BigIntegers.hpp : DONE
-   - Concepts/plans/BipartiteGraphs.hpp : DONE
-   - Concepts/plans/ClauseSets.hpp : DONE
-   - Concepts/plans/Clauses.hpp : DONE
-   - Concepts/plans/Hypergraphs.hpp : DONE
-   - Concepts/plans/PartialAssignments.hpp : DONE
-
   \todo Split the module:
   The module Concepts is becoming too big and one is loosing overlook.
   So it should split, with a recursive make under directory Concepts,
