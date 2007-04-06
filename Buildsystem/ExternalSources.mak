@@ -152,18 +152,6 @@ include $(OKbuildsystem)/system_definitions.mak
 prefix := $(shell pwd)
 
 # #################################
-# Functions
-# #################################
-
-define postcondition 
-if [ $$? != 0 ]; then exit 1; fi;
-endef
-
-define unarchive
-if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip; elif [ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2; else exit 1; fi;
-endef
-
-# #################################
 # Main targets
 # #################################
 
@@ -176,7 +164,10 @@ all : gcc boost postgresql valgrind mhash doxygen
 # Includes
 # #################################
 
+# Versions, System-wide definitions and local definitions :
 include $(OKbuildsystem)/external_sources_versions.mak
+include $(OKbuildsystem)/ExternalSources/definitions_.mak
+# Special build targets:
 include $(OKbuildsystem)/ExternalSources/mhash.mak
 include $(OKbuildsystem)/ExternalSources/gcc.mak
 include $(OKbuildsystem)/ExternalSources/doxygen.mak
