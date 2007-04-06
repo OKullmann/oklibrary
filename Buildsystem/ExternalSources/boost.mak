@@ -46,18 +46,11 @@ endif
 
 # ######################################################################
 
-# #############################################################
-# Versions, System-wide definitions and local definitions
-# #############################################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-include $(OKbuildsystem)/ExternalSources/definitions_.mak
-
 # ##################################
 # Directory Structure
 # ##################################
 
-#In the following text, ? denotes the GCC version number and % denotes the Boost version number, while & denotes the minor version number.
+# In the following text, ? denotes the GCC version number and % denotes the Boost version number, while & denotes the minor version number.
 #./Boost : Contain locally stage built, various versions of Boost C++ Libraries.
 #./Boost/boost_%_& : This is the original unarchived source directory for boost version %.
 #./Boost/bjam : Contain the bjam tool. This binary is re-generated each time when boost is to be installed.
