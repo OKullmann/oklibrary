@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# filename : Buildsystem/ExternalSources/makefile_doxygen.mak 
+# filename : Buildsystem/ExternalSources/doxygen.mak 
 
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
@@ -47,12 +47,6 @@ endif
 # ######################################################################
 
 # ##################################
-# Versions
-# ##################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-
-# ##################################
 # Directory Structure
 # ##################################
 
@@ -66,17 +60,6 @@ doxygen-base-directory := $(prefix)/Doxygen
 doxygen_doc_dir := $(external_sources_doc_base_dir)/Doxygen
 doxygen-directories := $(doxygen-base-directory) $(doxygen_doc_dir)
 
-# ##################################
-# Documentation
-# ##################################
-
-doxygen_doc : | $(doxygen_doc_dir)
-	$(call unarchive,$(doxygen_recommended_package_name),$(doxygen_doc_dir))
-	cd $(doxygen_doc_dir)/$(doxygen_recommended); $(postcondition) \
-	sh ./configure; $(postcondition) \
-	make; $(postcondition)\
-	make docs; $(postcondition) \
-	make pdf; $(postcondition) \
 
 # ##################################
 # The main targets for doxygen
@@ -92,14 +75,16 @@ create_doxygen_dirs : $(doxygen-directories)
 doxygen : $(doxygen_recommended)
 
 $(doxygen_targets) : create_doxygen_dirs
-	$(call unarchive,$@.src,$(doxygen-base-directory))
+	$(call unarchive,$@.src,$(doxygen-base-directory)) \
 	cd $(doxygen-base-directory)/$@; $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \
 	make docs; $(postcondition) \
 	make pdf; $(postcondition) \
 	sudo make install; $(postcondition) \
-	sudo make install_docs
+	sudo make install_docs; $(postcondition) \
+	cp -r $(doxygen-base-directory)/$@ $(doxygen_doc_dir)/$@; $(postcondition)
+
 
 # ####################################
 # Cleaning
