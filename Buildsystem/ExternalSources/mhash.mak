@@ -1,5 +1,5 @@
 # Matthew Henderson, 6.3.2006 (Swansea)
-# filename : Buildsystem/ExternalSources/makefile_mhash.mak
+# filename : Buildsystem/ExternalSources/mhash.mak
 
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
@@ -47,13 +47,6 @@ endif
 # ######################################################################
 
 # ##################################
-# Targets
-# ##################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-include $(OKbuildsystem)/ExternalSources/definitions_.mak
-
-# ##################################
 # Directory Structure
 # ##################################
 
@@ -83,6 +76,7 @@ mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mh
 
 mhash_doc : | $(mhash_doc_dir)
 	- $(call unarchive,$(mhash_recommended),$(mhash_doc_dir))
+# OK : This should automatically be done when building.
 
 # ##################################
 # Making mhash with the system gcc:

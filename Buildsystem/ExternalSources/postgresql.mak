@@ -47,17 +47,10 @@ endif
 # ######################################################################
 
 # ####################################
-# Targets
-# ####################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-include $(OKbuildsystem)/ExternalSources/definitions_.mak
-
-# ####################################
 # Directory Structure
 # #################################### 
 
-#In the following text, ? denotes the PostgreSql version number.
+# In the following text, ? denotes the PostgreSql version number.
 #./Postgresql : Contain locally installed various versions of PostgreSQL Database System.
 #./Postgresql/postgresql-? : This is the original unarchived source directory for postgresql version ?.
 #./Postgresql/? : This is the local installation of Postgresql version ?.
