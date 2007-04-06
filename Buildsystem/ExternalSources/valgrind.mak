@@ -2,12 +2,6 @@
 # filename : Buildsystem/ExternalSources/makefile_valgrind.mak
 
 # ##################################
-# Versions
-# ##################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-
-# ##################################
 # Directory Structure
 # ################################## 
 

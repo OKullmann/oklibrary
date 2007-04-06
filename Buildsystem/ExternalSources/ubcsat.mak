@@ -10,12 +10,6 @@ if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --
 endef
 
 # ##################################
-# Targets
-# ##################################
-
-include $(OKbuildsystem)/external_sources_versions.mak
-
-# ##################################
 # Directory Structure
 # ##################################
 
