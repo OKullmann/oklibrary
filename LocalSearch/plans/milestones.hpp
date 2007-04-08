@@ -7,8 +7,9 @@
 
   \par
    In LocalSearch/plans/LocalSearch.hpp the following topics are handled:
-   - Create first milestones
-   - Move Ubcsat-components from module AutarkySearch to here
+   - Improved installation of UBCSAT
+   - Create further milestones
+   - Move Ubcsat-components from module AutarkySearch to here : DONE
 
 
 
