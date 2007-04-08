@@ -18,15 +18,15 @@ ubcsat-directories := $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubc
 ubcsat_names := adaptnovelty algorithms gsat gsat-tabu gwsat hsat hwsat irots mt19937ar mylocal novelty parameters reports rnovelty rots samd saps ubcsat ubcsat-help ubcsat-internal ubcsat-io ubcsat-mem ubcsat-reports ubcsat-time ubcsat-triggers walksat walksat-tabu
 
 ubcsat_c_files := $(addsuffix .c, $(ubcsat_names))
-ubcsat_c_files_paths := $(addprefix $(ubcsat-src-directory)/, $(ubcsat_c_files))
-ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
+ubcsat_c_files_paths := $(addprefix $(ubcsat-tmp-src-directory)/, $(ubcsat_c_files))
 
 ubcsat-changed_dir := $(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected
-ubcsat_changed_files := $(wildcard $(ubcsat-changed_dir)/*)
+ubcsat_changed_files := $(wildcard $(ubcsat-changed_dir)/*.h) $(wildcard $(ubcsat-changed_dir)/*.c)
 
 $(ubcsat-directories) : % : 
 	mkdir $@
 
+ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
 paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))
 
 # #################################
@@ -43,9 +43,9 @@ $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-di
 ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a cleanup
 
 $(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
-	gcc -c $< -o $@
+	gcc -O3 -c $< -o $@
 
-$(ubcsat-bin-directory)/ubcsat : $(paths) | $(ubcsat-bin-directory)
+$(ubcsat-bin-directory)/ubcsat : | $(ubcsat-bin-directory)
 	gcc -O3 -lm -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths)
 
 $(ubcsat-lib-directory)/libubcsat.a : $(paths)
