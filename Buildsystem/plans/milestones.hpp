@@ -5,11 +5,26 @@
   
   \module_version Buildsystem 0.1.5 (31.3.2007)
 
-  \par Version 0.1.6 : THEME is "A specified and testable build system" and "Build system consolidation" : TO BE REACHED \deadline_015
+  \par Version 0.1.6 : THEME is "External libraries"
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - system_definitions.mak
+    - external_sources_versions.mak
+    - Make-variables for external libraries
+
+  \par
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Building Ubcsat
+    - Documenting ExternalSources.mak
+    - Building documentation
+
+  \par Version 0.1.7 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - Version control (AS SOON AS POSSIBLE)
+    - Renaming module Buildsystem
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
@@ -31,9 +46,6 @@
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - Building Ubcsat
-    - Extending and completing OKBuildsystem/ExternalSources/doc.mak
-    - Building documentation
     - Building gcc_doc 
     - Corrections mhash
     - Building Boost Errors
@@ -44,7 +56,6 @@
     - Testing the build system
     - Licence
     - Notification list
-    - Make-variables for external libraries
     - Role of srcdir
     - System documentation
     - Documentation (Examples and Concepts)
@@ -70,7 +81,7 @@
     - Meta tags
     - Improved logo
 
-  \par Version 0.1.7 : THEME is "Build system extensions"
+  \par Version 0.1.8 : THEME is "Build system extensions"
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Targets
     - Error messages of gcc should be processed
@@ -94,12 +105,12 @@
     - License
     - Notification list
 
-  \par Version 0.1.8 :
+  \par Version 0.1.9 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
 
-  \par Version 0.1.9 :
+  \par Version 0.1.10 :
    In Buildsystem/plans/makefile.hpp the following topics are handled:
     - Directories with makefile-links
 

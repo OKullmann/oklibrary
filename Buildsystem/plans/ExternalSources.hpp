@@ -4,26 +4,70 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \todo Building Ubcsat (ML):
-  - What is the meaning of "tag" and "tag_" ??? The names should tell.
-  - No file modification in the external sources. (OK: 31.3.2007: DONE?)
+  \bug Building gcc_doc
 
-  \todo Extending and completing OKBuildsystem/ExternalSources/doc.mak
-   - Documentation for Mhash, Postgresql, UBCSAT
-   QUESTION (OK): Isn't this done ?? (MH) : Not yet.
+  <ul>
+   <li> Does not work (that is, the link at
+   system_directories/doc/index.html is not working),
+   since apparently the man-pages need to be build. </li>
+   <li> *Only* the documentation is to be extracted, not the whole
+   distribution. </li>
+  </ul>
+
+  \bug Building-Boost Errors
+  
+  <ul>
+   <li>
+   Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
+   3.4.6 for example) doesn't work anymore, but there are linking errors.
+   It seems that on csltok everything works, so that it could be a
+   64bit thing.
+  
+   What did change?? And it seems that gcc versions for example 4.1.1
+   do work?? Since versions below 4.0.0 don't work, while above work,
+   it seems that the system-gcc (4.0.2) interferes; perhaps it tries to
+   link with the 32bit-version, can't do that, and then falls back to the
+   system version?
+  
+   What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
+  
+   OK (12.1.2007): When building boost with gcc-version 3.4.3 or 3.4.6, we get
+  
+   ...failed updating 10 targets...
+   ...skipped 14 targets...
+  
+   Why this?
+  
+   We should check in general whether building boost links to the 32bit
+   or to the 64bit version.
+   </li>
+  </ul>
+  
+  \todo Building Ubcsat (OK, ML):
+  - What is the meaning of "tag" and "tag_" ??? The names should tell.
+  - No file modification in the external sources. DONE
+
+  \todo Documenting ExternalSources.mak
+  <ul>
+   <li> Move the documentation from ExternalSources.mak to
+   Buildsystem/docus/ExternalSources.hpp. </li>
+   <li> The old OKBuildsystem/ExternalSources/doc.mak is gone?
+   So documentation building should happen automatically (when building
+   the package). </li>
+   <li> Document packages:
+    <ul>
+     <li> UBCSAT </li>
+     <li> Mhash </li>
+     <li>Postgresql </li>
+    </ul>
+   </li>
+  </ul>
 
   \todo Building documentation:
    - Documentation building should be done automatically when building.
-   - We should extract only the documentation from the archives (and remove everything else
-     which is not needed; should be fairly easy).
-     
-  \bug Building gcc_doc 
-  - does not work (that is, the link at
-  system_directories/doc/index.html is not working),
-  since apparently the man-pages need to be build
-  - and *only* the documentation is to be extracted, not the whole
-    distribution.
-
+   - We should extract only the documentation from the archives (and
+   remove everything else which is not needed).
+   
   \todo Corrections mhash
   
   - We need some user-information for mhash (how to use the installed files).
@@ -31,35 +75,6 @@
   (MH) Isn't it the case that we want cleanmhash only to remove the build
   directory - so that the local installation can still be used after cleaning?
   Then to clean everything there is already the target "cleanallmhash".
-  
-  \bug Building-Boost Errors
-  
-  <ul>
-  <li>
-  Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
-  3.4.6 for example) doesn't work anymore, but there are linking errors.
-  It seems that on csltok everything works, so that it could be a
-  64bit thing.
-  
-  What did change?? And it seems that gcc versions for example 4.1.1
-  do work?? Since versions below 4.0.0 don't work, while above work,
-  it seems that the system-gcc (4.0.2) interferes; perhaps it tries to
-  link with the 32bit-version, can't do that, and then falls back to the
-  system version?
-  
-  What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
-  
-  OK (12.1.2007): When building boost with gcc-version 3.4.3 or 3.4.6, we get
-  
-  ...failed updating 10 targets...
-  ...skipped 14 targets...
-  
-  Why this?
-  
-  We should check in general whether building boost links to the 32bit
-  or to the 64bit version.
-  </li>
-  </ul>
   
   \todo General
   - It would ge good, if after doing a local installation, easily the installation could also be
