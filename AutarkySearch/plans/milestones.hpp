@@ -1,4 +1,4 @@
- // Oliver Kullmann, 10.9.2006 (Swansea)
+// Oliver Kullmann, 10.9.2006 (Swansea)
 
 /*!
   \file AutarkySearch/plans/milestones.hpp
@@ -8,23 +8,19 @@
   \par Version 0.0.6 : 
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - Improved installation of UBCSAT
+  - Compilation in AutarkySearch is done correctly
+  - No C code anymore : DONE
 
-  \par Version 0.0.7 : BUG REMOVAL
+  \par Version 0.0.7
+  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
+  - Design and implement class ComputeLargestAutarky
 
   \par Version 0.0.8
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - No C code anymore
-  - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
-
-  \par Version 0.0.9
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Design and implement class ComputeLargestAutarky
-
-  \par Version 0.0.10
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - Design and implement class AutarkySearchUbcsat
 
-  \par Version 0.0.11
+  \par Version 0.0.9
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
   - AnalyseTotalAssignment.cpp
 
