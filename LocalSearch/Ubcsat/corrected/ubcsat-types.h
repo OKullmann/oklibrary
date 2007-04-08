@@ -28,8 +28,6 @@
 #ifndef UBCSATTYPES_hGGtr4g
 #define UBCSATTYPES_hGGtr4g
 
-#define ALTERNATEMAIN
-
 #ifdef BOOL
 # error "BOOL predefined, which might conflict with the C99 definition of bool"
 #endif
