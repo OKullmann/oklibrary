@@ -1,3 +1,6 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-lit.h
+  \brief Include-guard added.
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -20,6 +23,9 @@
 
 */
 
+#ifndef UBCSATLIT_kBBvaf5rTg
+#define UBCSATLIT_kBBvaf5rTg
+
 #define LITTYPE unsigned long
 
 #define GetTrueLit(V) (((V) << 1) + 1 - aVarValue[V])
@@ -37,3 +43,4 @@
 
 #define SetLitFromFile(V) (((V) < 0) ? (((-(V)) << 1) + 1) : ((V) << 1))
 
+#endif
