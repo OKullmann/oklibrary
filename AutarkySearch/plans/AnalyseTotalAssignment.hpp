@@ -6,102 +6,62 @@
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
   
-  \bug Todos below are stale (needed update by ML).
-  OK: Is this done now ? (then it needs to be marked with "DONE")
-  OK: IT GETS MORE AND MORE STALE
-
   \todo Improved installation of UBCSAT:
   <ol>
-   <li> Some documentation is needed:
+   <li> Some documentation is needed (to Buildsystem/docus/ExternalSources.hpp):
     <ul>
      <li> how to use the binary </li>
      <li> how to use the library files </li>
-     <li> what are those library files. </li>
+     <li> what are those library files </li>
+     <li> how to use LocalSearch/Ubcsat. </li>
     </ul>
    </li>
+   <li> Correct the implementation of ExternalSources/Ubcsat/1-0-0/bin/ubcsat
+  for 64-bit platforms (faulty ubcsat-types.h), making some checks:
+   - ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
+     on csltok: DONE
+   - ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
+     on cs-wsok:
+   </li>
+   <li> Move Ubcsat-components to module LocalSearch. </li>
+   <li> Get rid off the temporary build-directory by adding
+    <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected </code>
+    to the build-compilation. </li>
    <li> No "modified files" anymore, but NEW FILES, with proper change
    documentation, in the OKlibrary; by appropriate settings of variable
    source-libraries the directory with the updated ubcsat-files is dominant
-   over the original ubcsat-source-directory.
-   This is IMPORTANT --- the hack in ubcsat.mak must vanish, and everything
-   we do MUST be under in the source control for Transitional. DONE
+   over the original ubcsat-source-directory. DONE
+   (by using LocalSearch/Ubcsat, and a temporary build-directory).
    </li>
-
    <li> Improve the current build, so that there is exactly one directory containing
    everything offered by Ubcsat, that is, the appropriate src-directory is moved to
-   Ubcsat/1-0-0, and possibly the make-variables are updated.
-   ML : I propose that the Ubcsat/l-0-0/lib folder now contains the .o files
-   from the /src .c files that have used the changed .h files in AutarkySearch/.
-   One problem of doing this is getting gcc to use the .h files in AutarkySearch/ instead of the ones in /src. Is there a known way of doing this?
-   OK: Either create a temporary directory, or use one of the gcc options -IDIR,-nostdinc,-isystem,-iquote
-   (as usual, one should use e-mail lists --- the gcc-help list for example (they react normally quite quickly)). DONE (the lib-files
-   are only relevant to us, thus use the modified source-files).
-   </li>
-
+   Ubcsat/1-0-0, and possibly the make-variables are updated. DONE </li>
    <li> The source-files from ubcsat should be converted to unix-files (using
-   dos2unix): DONE
-   </li>
+   dos2unix): DONE </li>
    <li> Modified .h  files are added to Transitional/AutarkySearch/ which will contain
-   definitions of fixed width types from stdint.h instead. DONE
-   </li>
-   <li> 
-   </li>
+   definitions of fixed width types from stdint.h instead. DONE </li>
   </ol>
 
-  \todo Compilation in AutarkySearch:
-  <ul>
-   <li> Compilation in AutarkySearch is done correctly:   
-   ML: Currently, compilation in AutarkySearch during "make all" involves including AutarkySearch/ubcsat.h
-   which then includes Ubcsat/1-0-0/src/ubcsat-types.h instead of AutarkySearch/ubcsat-types.h
-   (due to definitions.mak). One idea I can think of to overcome this is to move all .h files in
-   src/ to AutarkySearch/. This yields correct compilation that works on cs-oksvr.
-   ML: Idea of having ubcsat.h in AutarkySearch/ as well as modified ubcsat-types.h allows correct compilation of
-   ubcsat src/ files and AutarkySearch files.
-
-   OK: We should have only modified ubcsat-files in the OKlibrary, and also
-   this in a sub-directory (AutarkySearch/ubcsat). But before making any
-   changes, these should be announced in the plans. I don't understand your
-   above argumentation; please state precisely the requirements on the build
-   system, so that it can be seen either how to get it with the existing
-   system or how to extend it. Regarding the compiler-question: Did you
-   contact gcc-help (the question of how to force a source directory)?
-
-   Final point: In code (re)written by us, we should incude the files we
-   really mean, that is, using for example #include AutarkySearch/ubcsat/ubcsat.h.
-
-   ML: when ubcsat-types.h is added to AutarkySearch/ubcsat (only modified file)
-   and definitions.mak includes this folder as source folder, we get errors in
-   Initialise function. Adding all ubcsat's .h files to AutarkySearch/ubcsat
-   however yields a different error later on, namely that of multi definition
-   of pActiveAlgorithm. I cannot work out a way around either errors in 
-   Initialise function or errors of multiple definitions.
-
-   OK: This all is irrelevant now, since the whole module is an in undefined
-   state --- this kind of guessing into the dark is a waste of time.
-   First we need to progress to the next milestone 0.0.6, which will mean that
-   we then know better about the current state. And then the plans
-   for the following milestone (BUG REMOVAL) have to be expanded, ordering
-   the bugs in a sensible order so that the easiest bugs come first.
-   And then one after the other (in that order) will be handled.
-
-   </li>
-   <li>
-   It seems just putting Transitional/AutarkySearch/ubcsat in front of the ubcsat-library
-   in definitions.mak (source_libraries-definition) should solve the problem?
-   So definitions.mak will now have another directory under source_libraries variable namely
-   Transitional/AutarkySearch/ubcsat.
-   </li>
-  </ul>
+  \todo Compilation in AutarkySearch is done correctly:
+   <ul>
+    <li> Submit an error report to Gcc: "-I-" *cannot* be replaced by
+     "-iquote", and there is also no alternative! </li>
+    <li> Using the modified Ubcsat-files throughout: DONE (by adding
+     <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local </code>
+     to the source-libraries-list) </li>
+    <li> Multiple definition of variable pActiveAlgorithm: DONE (for the OKlibrary
+     this variable must be declared as external, while for compiling the Ubsat
+     library it is a definition). </li>
+   </ul>
      
   \todo No C code anymore:
-  Create AnalyseTotalAssignment.cpp as (initially) a copy of AnalyseTotalAssignment.c,
-  and then change the code to proper C++, introducing an additional header file for
-  declarations. Then remove AnalyseTotalAssignment.c from the repository.
-  (This should be done even if some parts of AnalyseTotalAssignment.c will be removed later
-  ---  we need the declarations anyway, and library development must happen in small
-  controlled steps.)
-
-  OK: What about this???
+  Create AnalyseTotalAssignment.cpp as (initially) a copy of
+  AnalyseTotalAssignment.c, and then change the code to proper C++,
+  introducing an additional header file for declarations.
+  Then remove AnalyseTotalAssignment.c from the repository.
+  (This should be done even if some parts of AnalyseTotalAssignment.c
+  will be removed later ---  we need the declarations anyway, and library
+  development must happen in small controlled steps.) DONE
 
   \todo Connect with LocalSearch/plans/SupportTotalAssignments.hpp.
 
