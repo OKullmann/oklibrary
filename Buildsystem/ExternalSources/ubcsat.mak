@@ -1,13 +1,6 @@
 # Matthew Lewsey, 9.11.2006 (Swansea)
-# filename : BuildSystem/ExternalSources/ubcsat.mak
+# filename : Buildsystem/ExternalSources/ubcsat.mak
 
-# ##################################
-# Functions
-# ##################################
-
-define unarchivefolder
-if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip $(3); elif [ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2 $(3); else exit 1; fi;
-endef
 
 # ##################################
 # Directory Structure
@@ -28,6 +21,9 @@ ubcsat_c_files := $(addsuffix .c, $(ubcsat_names))
 ubcsat_c_files_paths := $(addprefix $(ubcsat-src-directory)/, $(ubcsat_c_files))
 ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
 
+ubcsat-changed_dir := $(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected
+ubcsat_changed_files := $(wildcard $(ubcsat-changed_dir)/*)
+
 $(ubcsat-directories) : % : 
 	mkdir $@
 
@@ -38,10 +34,10 @@ paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))
 # #################################
 
 $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory)
-	$(call unarchivefolder,ubcsat-1-0-0,$(ubcsat-extract-directory),src)
-	dos2unix $(ubcsat-src-directory)/*.c
+	$(call unarchive,ubcsat-1-0-0,$(ubcsat-extract-directory),src)
+	dos2unix $(ubcsat-src-directory)/*.c $(ubcsat-src-directory)/*.h
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
-	cp -f $(OKsystem)/Transitional/AutarkySearch/ubcsat-types.h $(ubcsat-tmp-src-directory)
+	cp -f $(ubcsat_changed_files) $(ubcsat-tmp-src-directory)
 	touch $@
 
 ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a cleanup
