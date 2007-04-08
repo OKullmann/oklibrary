@@ -42,11 +42,11 @@ $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-di
 
 ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a cleanup
 
-$(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
-	gcc -O3 -c $< -o $@
-
 $(ubcsat-bin-directory)/ubcsat : | $(ubcsat-bin-directory)
 	gcc -O3 -lm -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths)
+
+$(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
+	gcc -O3 -c $< -o $@ -DALTERNATEMAIN
 
 $(ubcsat-lib-directory)/libubcsat.a : $(paths)
 	$(AR) $(ARFLAGS) $@ $^
