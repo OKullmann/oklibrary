@@ -6,45 +6,59 @@
   \module_version InjectivityConstraints 0.0.2 (23.11.2006)
 
   \par Version 0.0.3
-  In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
-  - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
-  - What is the concept for TrivialAllDifferent<PASS> ?
 
-  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-  - Correct milestones-file : DONE
+  \par
+   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+   - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+   - What is the concept for TrivialAllDifferent<PASS> ?
 
+  \par
+   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
+   - Correct milestones-file : DONE
+
+  \par
   And the following milestones are updated.
 
   \par Version 0.0.4
-  In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
-  - Test OKlib::InjectivityConstraints::TrivialAllDifferent
+
+  \par
+   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+   - Test OKlib::InjectivityConstraints::TrivialAllDifferent
 
   \par Version 0.0.5
-  In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
-  - Old implementations
 
-  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-  - First Concepts
+  \par
+   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+   - Old implementations
+
+  \par
+   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
+   - First Concepts
 
   \par Version 0.1
-  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-  - Literature and software review
+
+  \par
+   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
+   - Literature and software review
 
   \par Version 0.2
-  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
-  topics are handled:
-  - Concepts
+
+  \par
+   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
+   topics are handled:
+   - Basic implementations
 
   \par Version 0.3
-  In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
-  topics are handled:
-  - Implementation (direct encodings and active clause-set based on
-    matchings etc.) for INJ, SUR, BIJ
+
+  \par
+   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
+   topics are handled:
+   - Exploiting matching algorithms
 
   \par Version 1.0
   A flexible and powerful toolset for constructing active clause-sets
   for injectivity, surjectivity and bijectivity constraints (see the
-  applications in LatinSquares and MatchingAutarkies).
+  applications in LatinSquares/plans/LatinSquares.hpp).
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
