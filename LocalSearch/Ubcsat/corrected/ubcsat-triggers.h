@@ -1,3 +1,8 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-triggers.h
+  \brief Include-guard added.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -19,6 +24,9 @@
   ------------------------------------------------------
 
 */
+
+#ifndef UBCSATTRIGGERS_155Alqpqy5rt
+#define UBCSATTRIGGERS_155Alqpqy5rt
 
 void AddDataTriggers();
 
@@ -337,3 +345,4 @@ extern UINT32 *aClauseLast;
 extern FLOAT *aSQGridW;
 extern UINT32 *aSQGrid;
 
+#endif
