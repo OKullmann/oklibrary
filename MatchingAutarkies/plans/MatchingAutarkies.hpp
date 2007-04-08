@@ -16,6 +16,7 @@
         how the characterisation of "F matching lean <=> surp(F) >= 1" yields another
         algorithm for finding matching autarkies; this algorithm should be more efficient.
    </li>
+   <li> Compare with Matchings/plans/Matchings.hpp. </li>
    <li> Has Stefan Szeider a different algorithm? </li>
   </ol>
 
