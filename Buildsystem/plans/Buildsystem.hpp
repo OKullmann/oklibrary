@@ -4,11 +4,50 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \bug system_definitions.mak:
-  The boost-variable definitions are inconsistent with the
-  rest of the build-system, so they should be reverted (as
-  discussed).
-  OK: It seems this was done?? Needs to be checked.
+  \todo system_definitions.mak:
+  <ul>
+   <li> The role of system_definitions.mak must be clarified.
+   Do those library variables (Boost, Ubcsat) belong into it??
+   </li>
+   <li> What is the precise relation to
+   external_sources_versions.mak ? </li>
+   <li> Boost:
+    <ul>
+     <li> The default value of Boost
+     <code> -I/usr/local/boost-1_33_1 </code>
+     is stale; the recommended Boost version number is needed. </li>
+     <li> If the variable includes the "-I", then for other
+     variables we use a suffix "_include", which we should also
+     do for the boost-variables. </li>
+     <li> We need a precise and central definition of those
+     boost-variables. </li>
+     <li> The boost-variable definitions are inconsistent with
+     the rest of the build-system, so they should be reverted (as
+     discussed). DONE </li>
+    </ul>
+   </li>
+  </ul>
+
+  \todo external_sources_versions.mak:
+  <ul>
+   <li> The role of external_sources_versions.mak must
+   be clarified. </li>
+   <li> Names like
+   <code> doxygen_supported_not_recommended_version_numbers </code>
+   are misleading (these versions are not "not recommended"), and
+   they are too long. </li>
+  </ul>
+
+  \todo Make-variables for external libraries
+  <ul>
+   <li> How to define variables like Boost and Ubcsat in general?
+     We need a nice little method (plus documentation), so that we can add easily as
+     many external libraries as we want. </li>
+   <li> And then we have make-variables "gcc_version_number" (for generic.mak) and
+     "gcc-version" (for boost.mak) which likely should have the same names. </li>
+   <li> In system_definitions.mak we have a definition of Boost which seems wrong
+     to me (OK) (or at least misleading). DONE (resp. moved to other todos) </li>
+  </ul>
 
   \todo Testing the build system
    - We need some test system for the build system. Optimally, it would run like our normal test
@@ -31,15 +70,6 @@
    - Marina de Vos and Martin XXX (Bath)
    - Sam Buss
    - Tobias Nipkow (TU Muenchen)
-
-  \todo Make-variables for external libraries
-   - In system_definitions.mak we have a definition of Boost which seems wrong
-     to me (OK) (or at least misleading --- or we need special documentation at this point, namely
-     about the (precise) definition of Boost in the whole build-system).
-   - How to define such variables (like Boost and Ubcsat) in general? We need a nice little method
-     (plus documentation), so that we can add easily as many external libraries as we want.
-   - And then we have make-variables "gcc_version_number" (for generic.mak) and "gcc-version"
-     (for boost.mak) which likely should have the same names.
 
   \todo Role of srcdir
   <ul>
@@ -131,11 +161,11 @@
    - The namespace should be the directory part of the name for the OKlib (for example OKlib::Algorithms
      is the file OKlib/Algorithms).
    - Directory OKsystem/OKlibrary should then be called OKsystem/OKlib
-   - Should we use <> or "" for includes from our library?
    - As proposed in [C++ Templates], we should also provide files per module
      only containing declarations (perhaps parallel to each .hpp file). Ending "_decl" ?
-   - Perhaps special naming conventions for files with messages or exceptions ?!
    - Module.hpp provides all includes, Module_decl.hpp all declarational includes
+   - Perhaps special naming conventions for files with messages or exceptions ?! DONE --- we use sub-directories like "messages" instead of systematic name-extensions. Whether we also use sub-directories "exceptions" needs to be seen.
+   - Should we use <> or "" for includes from our library? DONE --- always use the "system header" form with angle brackets!
 
   \todo Version control
   <ul>
@@ -310,6 +340,19 @@
      (as for the complexity system; it should be possible for example to use the visualisation
      tools there to look at the developments here).
 
+  \todo Integration testing:
+  <ul>
+   <li> We need some file format (likely some xml) to specify one integration test:
+    <ol>
+     <li> Specify the input file. (Possibly more input files.) </li>
+     <li> Specify the program to be run with this file as input. </li>
+     <li> Specify the command-line options for running the program. </li>
+     <li> Specify the output-check (perhaps a regular expression?). </li>
+    </ol>
+   <li> Then we need a way to execute such integration tests and to report errors. </li>
+   <li> Could we use the unit-testing framework here? Likely not. </li>
+  </ul>
+
   \todo Compiler versions:
   Do we get slower run-times with g++ 4.1.2 compared to 4.1.1, and thus we
   need to write no-throw-declarations? (Perhaps this needs to be done anyway?)
@@ -347,5 +390,8 @@
   \todo Higher-order build tools:
    - We should investigate CMake (http://www.cmake.org/HTML/Index.html), whether it would be
      useful for us. (autoconf and the like seems outdated ?)
+
+  \todo Renaming module Buildsystem:
+  To be consistent with the other module names, it should be called "BuildSystem" ?
 
 */
