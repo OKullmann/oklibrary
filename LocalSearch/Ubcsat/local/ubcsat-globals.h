@@ -1,3 +1,10 @@
+/*!
+  \file LocalSearch/Ubcsat/ubcsat-globals.h
+  \brief Added include-guard, and global variable
+  pActiveAlgorithm declared as extern (while all
+  declaration are marked as "C"-linkage).
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -67,50 +74,53 @@
     fBestScore            value of best weighted score improvement this step
 */
 
-extern char sNull;
+#ifndef UBCSATGLOBALS_kbbcd45tr5
+#define UBCSATGLOBALS_kbbcd45tr5
 
-extern char *sAlgName;
-extern char *sVarName;
-extern BOOL bWeighted;
+extern "C" char sNull;
 
-ALGORITHM *pActiveAlgorithm;
+extern "C" char *sAlgName;
+extern "C" char *sVarName;
+extern "C" BOOL bWeighted;
 
-extern UINT32 iNumRuns;
-extern UINT32 iCutoff;
-extern UINT32 iTimeOut;
-extern UINT32 iSeed;
+extern "C" ALGORITHM *pActiveAlgorithm;
 
-extern UINT32 iTarget;
-extern FLOAT fTargetW;
+extern "C" UINT32 iNumRuns;
+extern "C" UINT32 iCutoff;
+extern "C" UINT32 iTimeOut;
+extern "C" UINT32 iSeed;
 
-extern UINT32 iFlipCandidate;
+extern "C" UINT32 iTarget;
+extern "C" FLOAT fTargetW;
 
-extern UINT32 iFind;
-extern UINT32 iNumSolutionsFound;
-extern UINT32 iPeriodicRestart;
-extern PROBABILITY iProbRestart;
-extern UINT32 iStagnateRestart;
+extern "C" UINT32 iFlipCandidate;
 
-extern BOOL bRestart;
+extern "C" UINT32 iFind;
+extern "C" UINT32 iNumSolutionsFound;
+extern "C" UINT32 iPeriodicRestart;
+extern "C" PROBABILITY iProbRestart;
+extern "C" UINT32 iStagnateRestart;
 
-extern UINT32 iRun;
-extern UINT32 iStep;
+extern "C" BOOL bRestart;
 
-extern BOOL bTerminateAllRuns;
-extern BOOL bSolutionFound;
-extern BOOL bTerminateRun;
+extern "C" UINT32 iRun;
+extern "C" UINT32 iStep;
 
-extern BOOL bSolveMode;
+extern "C" BOOL bTerminateAllRuns;
+extern "C" BOOL bSolutionFound;
+extern "C" BOOL bTerminateRun;
 
-extern char *sFilenameIn;
-extern char *sFilenameParms;
-extern char *sFilenameVarInit;
+extern "C" BOOL bSolveMode;
 
-extern BOOL bReportEcho;
-extern BOOL bReportClean;
+extern "C" char *sFilenameIn;
+extern "C" char *sFilenameParms;
+extern "C" char *sFilenameVarInit;
 
-extern SINT32 iBestScore;
-extern FLOAT fBestScore;
+extern "C" BOOL bReportEcho;
+extern "C" BOOL bReportClean;
+
+extern "C" SINT32 iBestScore;
+extern "C" FLOAT fBestScore;
 
 
 /***** UBCSAT GLOBAL ROUTINES *****/
@@ -119,7 +129,7 @@ extern FLOAT fBestScore;
     CreateAlgorithm()     add a new algorithm to the UBCSAT system
 */
 
-ALGORITHM *CreateAlgorithm (const char *sName, const char *sVariant, BOOL bWeighted, 
+extern "C" ALGORITHM *CreateAlgorithm (const char *sName, const char *sVariant, BOOL bWeighted, 
                             const char *sDescription, 
                             const char *sAuthors,
                             const char *sHeuristicTriggers,
@@ -132,19 +142,19 @@ ALGORITHM *CreateAlgorithm (const char *sName, const char *sVariant, BOOL bWeigh
     CopyParameters()      copy the parameters from one algorithm to another
 */
 
-void CopyParameters(ALGORITHM *pDest, const char *sName, const char *sVar, BOOL bWeighted);
+extern "C" void CopyParameters(ALGORITHM *pDest, const char *sName, const char *sVar, BOOL bWeighted);
 
 /*
     InheritDataTriggers()   copy the data triggers from one algorithm to another
 */
 
-void InheritDataTriggers(ALGORITHM *pDest, const char *sName, const char *sVar, BOOL bWeighted);
+extern "C" void InheritDataTriggers(ALGORITHM *pDest, const char *sName, const char *sVar, BOOL bWeighted);
 
 /*
     CreateTrigger()       add a new trigger to the UBCSAT system
 */
 
-void CreateTrigger(const char *sID,
+extern "C" void CreateTrigger(const char *sID,
                    enum EVENTPOINT eEventPoint,
                    FXNPTR pProcedure,
                    char *sDependencyList,
@@ -154,14 +164,14 @@ void CreateTrigger(const char *sID,
     CreateContainerTrigger()    add a new container trigger to the UBCSAT system
 */
 
-void CreateContainerTrigger(const char *sID, const char *sList);
+extern "C" void CreateContainerTrigger(const char *sID, const char *sList);
 
 /*
     AddParm????()         adds a parameter to an algorithm (many different types)
 */
 
 
-void AddParmProbability(ALGPARMLIST *pParmList,
+extern "C" void AddParmProbability(ALGPARMLIST *pParmList,
                   const char *sSwitch, 
                   const char *sName, 
                   const char *sDescription,
@@ -169,7 +179,7 @@ void AddParmProbability(ALGPARMLIST *pParmList,
                   PROBABILITY *pProb,
                   FLOAT fProb);
 
-void AddParmUInt(ALGPARMLIST *pParmList, 
+extern "C" void AddParmUInt(ALGPARMLIST *pParmList, 
                   const char *sSwitch, 
                   const char *sName, 
                   const char *sDescription,
@@ -177,7 +187,7 @@ void AddParmUInt(ALGPARMLIST *pParmList,
                   UINT32 *pInt,
                   UINT32 iDefInt);
 
-void AddParmSInt(ALGPARMLIST *pParmList, 
+extern "C" void AddParmSInt(ALGPARMLIST *pParmList, 
                   const char *sSwitch, 
                   const char *sName, 
                   const char *sDescription,
@@ -185,7 +195,7 @@ void AddParmSInt(ALGPARMLIST *pParmList,
                   SINT32 *pSInt,
                   SINT32 iDefSInt);
 
-void AddParmBool(ALGPARMLIST *pParmList, 
+extern "C" void AddParmBool(ALGPARMLIST *pParmList, 
                   const char *sSwitch, 
                   const char *sName, 
                   const char *sDescription,
@@ -193,7 +203,7 @@ void AddParmBool(ALGPARMLIST *pParmList,
                   UINT32 *pBool,
                   BOOL bDefBool);
 
-void AddParmFloat(ALGPARMLIST *pParmList, 
+extern "C" void AddParmFloat(ALGPARMLIST *pParmList, 
                   const char *sSwitch, 
                   const char *sName, 
                   const char *sDescription,
@@ -201,7 +211,7 @@ void AddParmFloat(ALGPARMLIST *pParmList,
                   FLOAT *pFloat,
                   FLOAT fDefFloat);
 
-void AddParmString(ALGPARMLIST *pParmList, 
+extern "C" void AddParmString(ALGPARMLIST *pParmList, 
                   const char *sSwitch, 
                   const char *sName, 
                   const char *sDescription,
@@ -214,7 +224,7 @@ void AddParmString(ALGPARMLIST *pParmList,
     CreateReport()        add a new report to the system
 */
 
-REPORT *CreateReport(const char *sID, 
+extern "C" REPORT *CreateReport(const char *sID, 
                      const char *sDescription, 
                      const char *sOutputFile, 
                      const char *sTriggers);
@@ -223,7 +233,7 @@ REPORT *CreateReport(const char *sID,
     AddReportParm???()    add a parameter to a report
 */
 
-void AddReportParmUInt(REPORT *pRep, const char *sParmName, UINT32 *pDefault);
+extern "C" void AddReportParmUInt(REPORT *pRep, const char *sParmName, UINT32 *pDefault);
 void AddReportParmFloat(REPORT *pRep, const char *sParmName, FLOAT *pDefault);
 void AddReportParmString(REPORT *pRep, const char *sParmName, const char *pDefault);
 
@@ -231,7 +241,7 @@ void AddReportParmString(REPORT *pRep, const char *sParmName, const char *pDefau
     AddColumn????()       add a column of data for output & rtd reports
 */
 
-void AddColumnUInt(const char *sID, 
+extern "C" void AddColumnUInt(const char *sID, 
                    const char *sDescription, 
                    char *sHeader1,  
                    char *sHeader2,  
@@ -241,7 +251,7 @@ void AddColumnUInt(const char *sID,
                    char *sTriggers,
                    enum COLTYPE eColType);
 
-void AddColumnFloat(const char *sID, 
+extern "C" void AddColumnFloat(const char *sID, 
                     const char *sDescription, 
                     char *sHeader1,  
                     char *sHeader2,  
@@ -251,14 +261,14 @@ void AddColumnFloat(const char *sID,
                     char *sTriggers,
                     enum COLTYPE eColType);
 
-void AddColumnComposite(const char *sID, 
+extern "C" void AddColumnComposite(const char *sID, 
                         const char *sList);
 
 /*
     AddStat()       add a statistic, calculated on a column of data
 */
 
-void AddStat(const char *sID, 
+extern "C" void AddStat(const char *sID, 
              const char *sDescription, 
              const char *sBaseDescription, 
              const char *sDefParm,
@@ -267,14 +277,14 @@ void AddStat(const char *sID,
              const char *sTriggers,
              BOOL bSortByStep);
 
-void AddContainerStat(const char *sID, 
+extern "C" void AddContainerStat(const char *sID, 
                       const char *sList);
 
 /*
     AddStatCustom()     add a custom statistic, which can be calculated via triggers
 */
 
-void AddStatCustom(const char *sID, 
+extern "C" void AddStatCustom(const char *sID, 
                    const char *sDescription, 
                    const char *sPrintCustomFormat,
                    void *pCurValue,
@@ -287,5 +297,6 @@ void AddStatCustom(const char *sID,
     IsLocalMinimum()      returns TRUE if currently in a local minimum
 */
 
-BOOL IsLocalMinimum();
+extern "C" BOOL IsLocalMinimum();
 
+#endif
