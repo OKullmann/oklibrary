@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <string>
 
-#include "boost/date_time/gregorian/gregorian.hpp"
+#include <boost/date_time/gregorian/gregorian.hpp>
 
 int main(const int argc, const char* const argv[]) {
   if (argc != 3) {

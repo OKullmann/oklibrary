@@ -19,11 +19,11 @@
 
 #include <sys/stat.h> // for chmod
 
-#include "cgicc/Cgicc.h"
-#include "cgicc/HTTPHTMLHeader.h"
-#include "cgicc/HTMLClasses.h"
-#include "cgicc/CgiDefs.h"
-#include "cgicc/FormFile.h"
+#include <cgicc/Cgicc.h>
+#include <cgicc/HTTPHTMLHeader.h>
+#include <cgicc/HTMLClasses.h>
+#include <cgicc/CgiDefs.h>
+#include <cgicc/FormFile.h>
 
 #include <Transitional/General/emailHandling.hpp>
 #include <Transitional/General/TimeHandling.hpp>

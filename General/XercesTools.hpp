@@ -42,7 +42,7 @@
 #include <xercesc/sax/SAXParseException.hpp>
 #include <xercesc/sax/SAXException.hpp>
 
-#include "Singleton.h"
+#include <Singleton.h>
 
 #include <Transitional/General/FunctionHandling.hpp>
 #include <Transitional/General/ErrorHandling.hpp>
