@@ -1,3 +1,11 @@
+/*!
+  \file LocalSearch/Ubcsat/ubcsat-types.h
+  \brief Corrected definition of fundamental types for UBCSAT.
+
+  \bug It appears we never had the original file in the OKlibrary(-repository)?
+  This must be corrected.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -20,30 +28,43 @@
 
 */
 
+#ifndef UBCSATTYPES_hGGtr4g
+#define UBCSATTYPES_hGGtr4g
+
+#define ALTERNATEMAIN
+
+#ifdef BOOL
+# error "BOOL predefined, which might conflict with the C99 definition of bool"
+#endif
+#ifdef TRUE
+# error "TRUE predefined, which might conflict with the C99 definition of true"
+#endif
+#ifdef FALSE
+# error "FALSE predefined, which might conflict with the C99 definition of false"
+#endif
+#include <stdbool.h>
+#define BOOL bool
+#define TRUE true
+#define FALSE false
+
+#include <float.h>
+#if DBL_MAX_10_EXP < 308
+# error "Maximal decimal exponent for double is only " DBL_MAX_10_EXP ", but should be at least 308"
+#endif
 #define FLOAT double
 #define FLOATMAX (1E+300)
 
-#define PROBABILITY unsigned long
-
-#ifndef BOOL
-#define BOOL unsigned long
+#include <stdint.h>
+#ifdef UINT32
+# error "UINT32 predefined, which might conflict with the C99 definition of uint32_t"
 #endif
-
-#ifndef UINT32
-#define UINT32 unsigned long
+#define UINT32 uint32_t
+#ifdef SINT32
+# error "SINT32 predefined, which might conflict with the C99 definition of int32_t"
 #endif
+#define SINT32 int32_t
 
-#ifndef SINT32
-#define SINT32 signed long
-#endif
-
-#ifndef FALSE
-#define FALSE 0
-#endif
-
-#ifndef TRUE
-#define TRUE 1
-#endif
+#define PROBABILITY UINT32
 
 #ifndef NULL
 #define NULL 0
@@ -248,4 +269,4 @@ typedef struct typeREPORTSTAT {
 
 } REPORTSTAT;
 
-
+#endif
