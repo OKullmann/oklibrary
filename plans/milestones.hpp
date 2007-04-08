@@ -20,10 +20,14 @@
   \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
   \par AutarkySearch version 0.0.6 (OK, ML)
   (see AutarkySearch/plans/milestones.hpp)
+  \par LocalSearch version 0.0.4 (OK, ML)
+  (see LocalSearch/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
+  \par Buildsystem version 0.1.6 (OK, MH)
+  (see Buildsystem/plans/milestones.hpp)
 
   \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
   \par InputOutput version 0.0.8 (OK (MH))
@@ -38,7 +42,7 @@
   (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
-  \par Buildsystem version 0.1.6 (MH, OK)
+  \par Buildsystem version 0.1.7 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
