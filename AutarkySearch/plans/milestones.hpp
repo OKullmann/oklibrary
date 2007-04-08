@@ -7,7 +7,6 @@
 
   \par Version 0.0.6 : 
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Improved installation of UBCSAT
   - Compilation in AutarkySearch is done correctly
   - No C code anymore : DONE
 
