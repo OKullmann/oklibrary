@@ -29,6 +29,8 @@
 #ifndef UBCSAT_jBBgfrt
 #define UBCSAT_jBBgfrt
 
+#define ALTERNATEMAIN
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
