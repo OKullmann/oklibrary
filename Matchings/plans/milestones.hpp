@@ -3,27 +3,45 @@
 /*!
   \file Matchings/plans/milestones.hpp
 
-  \par Current version 0.0.2 (???)
-  \todo find the date in the log-files (originally the first version was 0.0.1, but this was changed to
-  0.0.2, since there were already some more plans there).
+  \module_version Matchings 0.0.2 (???)
 
   \par Version 0.1
-  In Matchings/plans/Matchings.hpp the following topics are handled:
-  - Literature and software review
-  - Concepts
+
+  \par
+   In Matchings/plans/Matchings.hpp the following topics are handled:
+   - Correction
+   - Literature and software review
+   - Concepts for bipartite graphs
 
   \par Version 0.2
-  In Matchings/plans/Matchings.hpp the following topics are handled:
-  - First Implementation
-  - Hungarian method
+
+  \par
+   In Matchings/plans/Matchings.hpp the following topics are handled:
+   - First implementations
 
   \par Version 0.3
-  In Matchings/plans/Matchings.hpp the following topics are handled:
-  - Injectivity constraints
+
+  \par
+   In Matchings/plans/Matchings.hpp the following topics are handled:
+   - Injectivity constraints
 
   \par Version 0.4
-  In Matchings/plans/Matchings.hpp the following topics are handled:
-  - Online
+
+  \par
+   In Matchings/plans/Matchings.hpp the following topics are handled:
+   - Online
+
+  \par Version 0.5
+
+  \par
+   In Matchings/plans/Matchings.hpp the following topics are handled:
+   - Counting
+
+  \par Version 0.6
+
+  \par
+   In Matchings/plans/Matchings.hpp the following topics are handled:
+   - Surplus
 
   \par Version 1.0
   A variety of efficient implementations are available, fulfilling the
