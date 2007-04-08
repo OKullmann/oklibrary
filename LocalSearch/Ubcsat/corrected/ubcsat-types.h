@@ -1,5 +1,5 @@
 /*!
-  \file LocalSearch/Ubcsat/ubcsat-types.h
+  \file LocalSearch/Ubcsat/corrected/ubcsat-types.h
   \brief Corrected definition of fundamental types for UBCSAT.
 */
 
