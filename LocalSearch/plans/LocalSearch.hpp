@@ -5,11 +5,16 @@
   \brief Plans for the general module on local search
 
   \todo Create first milestones.
+
+  \todo Move Ubcsat-components from module AutarkySearch to here:
+   - commit to cvs
+   - move files : DONE.
+
 */
 
 /*!
   \namespace OKlib::LocalSearch
-  \Components for supporting local search
+  \brief Components for supporting local search
 */
 
 namespace OKlib {
