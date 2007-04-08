@@ -15,8 +15,8 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "demangle.h"
-// this is /usr/include/demangle.h
+#include <Transitional/SystemSpecifics/demangle.h>
+// this was /usr/include/demangle.h
 
 namespace OKlib {
 
