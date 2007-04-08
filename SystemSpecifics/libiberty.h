@@ -39,7 +39,7 @@
 extern "C" {
 #endif
 
-#include "ansidecl.h"
+#include <ansidecl.h>
 
 #ifdef ANSI_PROTOTYPES
 /* Get a definition for size_t.  */
