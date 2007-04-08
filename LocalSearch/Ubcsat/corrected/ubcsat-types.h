@@ -1,9 +1,6 @@
 /*!
   \file LocalSearch/Ubcsat/ubcsat-types.h
   \brief Corrected definition of fundamental types for UBCSAT.
-
-  \bug It appears we never had the original file in the OKlibrary(-repository)?
-  This must be corrected.
 */
 
 /*
