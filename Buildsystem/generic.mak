@@ -223,9 +223,15 @@ include $(srcdir)/definitions.mak
 # ----------------------------------------------------------
 # source_libraries (LV)
 #
-# This variable is defined in the local 
-# definitions.mak file. Here we are just appending
-# the OKsystem include option -I$(OKsystem)
+# The recursive variable source_libraries is defined in the local 
+# definitions.mak file. Here we add to the back
+# of the include list the OKsystem include option 
+# -I$(OKsystem).
+# (By adding to the back it it possible, by using compiler
+# option "-I-" at the beginning of the source-libraries list, 
+# to prevent the "current" directory to be
+# used (for all directories *before* "-I-" the system-header-files,
+# specified by "<>", are ignored!)).
 # ----------------------------------------------------------
 source_libraries += $(OKsystem_include)
 # ----------------------------------------------------------
