@@ -24,6 +24,7 @@
   \todo Old implementations:
   Perhaps the following tests can be reused?
 
+\code
 #include <set>
 #include <algorithm>
 
@@ -231,6 +232,7 @@ namespace OKlib {
   }
 } 
 
+\endcode
 
 
 */

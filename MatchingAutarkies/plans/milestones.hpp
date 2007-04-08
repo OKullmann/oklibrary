@@ -6,23 +6,30 @@
   \module_version MatchingAutarkies 0.0.1 (8.3.2006)
 
   \par Version 0.0.2
-  In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
-  topics are handled:
-  - Algorithms for the lean kernel
-  - Algorithms for matching autarkies
 
-  And further milestones are created.
+  \par
+   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+   topics are handled:
+   - Algorithms for the lean kernel
+   - Algorithms for matching autarkies
+
+   \par
+    Further milestones are created.
 
   \par Version 0.1
-  In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
-  topics are handled:
-  - Implementation
-  - Application
+
+  \par
+   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+   topics are handled:
+   - Implementation
+   - Application
 
   \par Version 0.2
-  In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
-  topics are handled:
-  - Incremental
+
+  \par
+   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+   topics are handled:
+   - Incremental
 
   \par Version 1.0
   A nice toolset of computing matching autarkies is available, which
