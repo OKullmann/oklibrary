@@ -95,8 +95,8 @@ postgresql_recommended := $(postgresql_targets_prefix)$(postgresql_recommended_v
 # Valgrind Versions
 # #################################
 
-valgrind_recommended_version_number := 3.2.1
-valgrind_supported_not_recommended_version_numbers := 3.2.0
+valgrind_recommended_version_number := 3.2.3
+valgrind_supported_not_recommended_version_numbers := 3.2.1
 valgrind_supported_version_numbers := $(valgrind_supported_not_recommended_version_numbers) $(valgrind_recommended_version_number)
 
 # ##############################################
