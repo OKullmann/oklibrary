@@ -1,6 +1,8 @@
 /*!
   \file LocalSearch/Ubcsat/corrected/ubcsat-lit.h
   \brief Include-guard added.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
