@@ -1,3 +1,23 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/novelty.c
+  \brief Problematic pointer handling, needs correction.
+
+  \bug Wrong pointer types
+
+  The assignment
+  \code pClause = pLitClause[*pLit]; \endcode
+  uses faulty types:
+  <ol>
+   <li> <code> UINT32 **pLitClause; </code> in
+     LocalSearch/Ubcsat/corrected/ubcsat-triggers.h. </li>
+   <li> <code> LITTYPE *pClause; </code> in this file. </li>
+   <li> <code> #define LITTYPE unsigned long </code> in
+     LocalSearch/Ubcsat/corrected/ubcsat-lit.h. </li>
+  </ol>
+   
+   
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
