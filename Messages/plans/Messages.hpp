@@ -30,7 +30,7 @@
    </li>
    <li> These basic requirements shall go to the general documentation (and also to the doxygen
         documentation). </li>
-   <li> All existed messages need to be overhauled. </li>
+   <li> All existing messages need to be overhauled. </li>
   </ol>
   
 
