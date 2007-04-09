@@ -1,3 +1,8 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-globals.h
+  \brief Added include-guard, and changed variable types of bSolutionFound and pBool.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -67,6 +72,9 @@
     fBestScore            value of best weighted score improvement this step
 */
 
+#ifndef UBCSATGLOBALS_kbbcd45tr5
+#define UBCSATGLOBALS_kbbcd45tr5
+
 extern char sNull;
 
 extern char *sAlgName;
@@ -97,7 +105,7 @@ extern UINT32 iRun;
 extern UINT32 iStep;
 
 extern BOOL bTerminateAllRuns;
-extern BOOL bSolutionFound;
+extern UINT32 bSolutionFound;
 extern BOOL bTerminateRun;
 
 extern BOOL bSolveMode;
@@ -190,7 +198,7 @@ void AddParmBool(ALGPARMLIST *pParmList,
                   const char *sName, 
                   const char *sDescription,
                   const char *sTriggers,
-                  UINT32 *pBool,
+                  BOOL *pBool,
                   BOOL bDefBool);
 
 void AddParmFloat(ALGPARMLIST *pParmList, 
@@ -289,3 +297,4 @@ void AddStatCustom(const char *sID,
 
 BOOL IsLocalMinimum();
 
+#endif
