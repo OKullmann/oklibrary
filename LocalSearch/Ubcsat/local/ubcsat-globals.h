@@ -1,5 +1,5 @@
 /*!
-  \file LocalSearch/Ubcsat/ubcsat-globals.h
+  \file LocalSearch/Ubcsat/local/ubcsat-globals.h
   \brief Added include-guard, and global variable
   pActiveAlgorithm declared as extern (while all
   declaration are marked as "C"-linkage).
@@ -107,7 +107,7 @@ extern "C" UINT32 iRun;
 extern "C" UINT32 iStep;
 
 extern "C" BOOL bTerminateAllRuns;
-extern "C" BOOL bSolutionFound;
+extern "C" UINT32 bSolutionFound;
 extern "C" BOOL bTerminateRun;
 
 extern "C" BOOL bSolveMode;
@@ -200,7 +200,7 @@ extern "C" void AddParmBool(ALGPARMLIST *pParmList,
                   const char *sName, 
                   const char *sDescription,
                   const char *sTriggers,
-                  UINT32 *pBool,
+                  BOOL *pBool,
                   BOOL bDefBool);
 
 extern "C" void AddParmFloat(ALGPARMLIST *pParmList, 
