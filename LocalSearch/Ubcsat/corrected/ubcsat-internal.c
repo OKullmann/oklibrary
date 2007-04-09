@@ -1,3 +1,9 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-internal.h
+  \brief Changed variable types of bSolutionFound, pBool and bReportStateMOnly,
+  added pointer-casts to sscanf-calls, and added default-case to switch-statement.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -44,7 +50,7 @@ TRIGGER aTriggers[MAXITEMLIST];
 BOOL bReportClean;
 BOOL bReportEcho;
 BOOL bRestart;
-BOOL bSolutionFound = FALSE;
+UINT32 bSolutionFound = FALSE;
 BOOL bSolveMode = FALSE;
 BOOL bTerminateAllRuns = FALSE;
 BOOL bTerminateRun = FALSE;
@@ -97,7 +103,7 @@ char sParmLine[MAXPARMLINELEN];
 char sStringParm[MAXPARMLINELEN];
 char *sVarName = &sNull;
 
-BOOL bReportStateLMOnly = 0;
+UINT32 bReportStateLMOnly = 0;
 FLOAT fReportStateQuality = -1.0f;
 BOOL bReportStateQuality;
 UINT32 iReportStateQuality;
@@ -368,7 +374,7 @@ void AddParmBool(ALGPARMLIST *pParmList,
                   const char *sName, 
                   const char *sDescription,
                   const char *sTriggers,
-                  UINT32 *pBool,
+                  BOOL *pBool,
                   BOOL bDefBool)
 {
   ALGPARM *p;
@@ -1054,7 +1060,7 @@ void ParseParameters(ALGPARMLIST *pParmList) {
           if (iCurParm == iNumTotalParms) {
             HelpBadParm(aTotalParms[iCurParm-1]);
           }
-          if (sscanf(aTotalParms[iCurParm],"%u",pParm->pParmValue)==0) {
+          if (sscanf(aTotalParms[iCurParm],"%u", (unsigned int*) pParm->pParmValue)==0) {
             HelpBadParm(aTotalParms[iCurParm-1]);
           }
           bValidArgument[iCurParm++] = 1;
@@ -1063,7 +1069,7 @@ void ParseParameters(ALGPARMLIST *pParmList) {
           if (iCurParm == iNumTotalParms) {
             HelpBadParm(aTotalParms[iCurParm-1]);
           }
-          if (sscanf(aTotalParms[iCurParm],"%d",pParm->pParmValue)==0) {
+          if (sscanf(aTotalParms[iCurParm],"%d", (int*) pParm->pParmValue)==0) {
             HelpBadParm(aTotalParms[iCurParm-1]);
           }
           bValidArgument[iCurParm++] = 1;
@@ -1071,7 +1077,7 @@ void ParseParameters(ALGPARMLIST *pParmList) {
         case PTypeBool:
           *((UINT32 *)pParm->pParmValue) = 1;
           if (iCurParm < iNumTotalParms) {
-            if (sscanf(aTotalParms[iCurParm],"%i",pParm->pParmValue)) {
+            if (sscanf(aTotalParms[iCurParm],"%i", (int*) pParm->pParmValue)) {
               bValidArgument[iCurParm++] = 1;
             }
           }
@@ -1175,9 +1181,9 @@ void ParseParameters(ALGPARMLIST *pParmList) {
               if (iCurParm < iNumTotalParms) {
                 if (*aTotalParms[iCurParm] != '-') {
                   switch (pRep->aParmTypes[iNumRepParms])
-                  {
+                    {
                     case PTypeUInt:
-                      if (sscanf(aTotalParms[iCurParm],"%i",pRep->aParameters[iNumRepParms])==0) {
+                      if (sscanf(aTotalParms[iCurParm],"%i", (int*) pRep->aParameters[iNumRepParms])==0) {
                         HelpBadParm(aTotalParms[iCurParm]);
                       }
                       bValidArgument[iCurParm++] = 1;
@@ -1193,7 +1199,9 @@ void ParseParameters(ALGPARMLIST *pParmList) {
                       SetString((char **) &pRep->aParameters[iNumRepParms],aTotalParms[iCurParm]);
                       bValidArgument[iCurParm++] = 1;
                       break;
-                  }
+                    default :
+                      break;
+                    }
                 }
               }
               iNumRepParms++;
