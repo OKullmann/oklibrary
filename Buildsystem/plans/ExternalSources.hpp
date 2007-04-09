@@ -49,18 +49,18 @@
 
   \todo Documenting ExternalSources.mak
   <ul>
-   <li> Move the documentation from ExternalSources.mak to
-   Buildsystem/docus/ExternalSources.hpp. </li>
    <li> The old OKBuildsystem/ExternalSources/doc.mak is gone?
    So documentation building should happen automatically (when building
    the package). </li>
    <li> Document packages:
     <ul>
-     <li> UBCSAT </li>
      <li> Mhash </li>
-     <li>Postgresql </li>
+     <li> Postgresql </li>
+     <li> UBCSAT : DONE </li>
     </ul>
    </li>
+   <li> Move the documentation from ExternalSources.mak to
+   Buildsystem/docus/ExternalSources.hpp. DONE </li>
   </ul>
 
   \todo Building documentation:
@@ -68,14 +68,22 @@
    - We should extract only the documentation from the archives (and
    remove everything else which is not needed).
    
-  \todo Corrections mhash
-  
-  - We need some user-information for mhash (how to use the installed files).
-  - It seems that cleanmhash should also remove the installation directory.
-  (MH) Isn't it the case that we want cleanmhash only to remove the build
-  directory - so that the local installation can still be used after cleaning?
-  Then to clean everything there is already the target "cleanallmhash".
-  
+  \todo Mhash
+  <ul>
+   <li> We need some user-information for mhash (how to use the installed
+   files). </li>
+   <li> It seems yet only a local build is available? As discussed above, then
+   also the option for a global installation should be available. </li>
+   <li> The build-instructions for mhash should be as similar as possible
+   to those for Boost. </li>
+   <li> Shouldn't the default for building mhash be using the recommended
+   local gcc-version? </li>
+   <li> It seems that cleanmhash should also remove the installation directory.
+   (MH) Isn't it the case that we want cleanmhash only to remove the build
+   directory - so that the local installation can still be used after cleaning?
+   Then to clean everything there is already the target "cleanallmhash". </li>
+  </ul>
+   
   \todo General
   - It would ge good, if after doing a local installation, easily the installation could also be
   make global.
@@ -83,19 +91,36 @@
   This is necessary on systems where the user does not have root access.
   
   \todo Gcc
-  - If variable "gcc-version" is set, then it should have one of the allowed values (while otherwise we get
-  an error).
-  - We must understand, how gcc interacts with 32- and 64-bit environments, and how to
-  take control of this.
-  - There should be make-variables, which allow control over some settings for the
-  compilation of gcc.
+  <ul>
+   <li> Instead of, e.g., "make gcc-4.1.2", wouldn't it be more consistent with
+   building Boost to use instead "make gcc gcc-version=4.1.2" ? </li>
+   <li> If variable "gcc-version" is set, then it should have one of the
+   allowed values (while otherwise we get an error). </li>
+   <li> We must understand, how gcc interacts with 32- and 64-bit
+   environments, and how to take control of this. </li>
+   <li> There should be make-variables, which allow control over
+   some settings for the build of gcc. </li>
+  </ul>
   
   \todo Boost
-  - Installation of bjam should be improved: Having exactly one bjam-installation for each boost-version,
-  and no need to recreate it if it's already there. Or, perhaps better: We just leave it in
-  the distribution directory?
-  - Building boost should include copying the documentation to doc (in the subdirectory
-  boost-1_33_1 for example).
+  <ul>
+   <li> It should be possible to say "gcc-version=recommended". </li>
+   <li> Instead of "boost boost_recommended=1_33" we should use
+   "boost boost-version=1_33". </li>
+   <li> The default for generic.mak is to use the recommended local
+   gcc-installation --- shouldn't this then be also for building boost
+   the default ? </li>
+   <li> Installation of bjam should be improved: Having exactly one
+   bjam-installation for each boost-version, and no need to recreate
+   it if it's already there. Or, perhaps better: We just leave it in
+   the distribution directory? </li>
+   <li> Building boost should include copying the documentation to doc
+   (in the subdirectory boost-1_33_1 for example). </li>
+   <li> In the long run, it seems that actually supporting different versions
+   of Boost is not feasible (the library will likely always use the newest
+   version), so finally supporting different Boost version should be dropped
+   (but the general machinery is worth keeping)?!? </li>
+  </ul>
 
   \todo PostgreSQL
   - Update PostgreSQL to version 8.1 (or later; and test it).
