@@ -126,6 +126,8 @@ void HelpPrintReports() {
           case PTypeString:
             ReportPrint1(pRepOut," [%s] \n",(char *)aReports[j].aParameters[k]);          
             break;
+          default :
+            break;
           }
         }
       }
@@ -261,28 +263,30 @@ void HelpPrintParameters(ALGPARMLIST *pParmList) {
       ReportPrint1(pRepOut,"    %s ",pCurParm->sSwitch);
       switch(pCurParm->eType)
       {
-        case PTypeUInt:
-          if (strcmp(pCurParm->sName,"seed")==0) {
-            ReportPrint1(pRepOut,"N (default based on system time) ",pCurParm->defDefault.iUInt);
-          } else {
-            ReportPrint1(pRepOut,"N (default %u) ",pCurParm->defDefault.iUInt);
-          }
-          break;
-        case PTypeSInt:
-          ReportPrint1(pRepOut,"N (default %d) ",pCurParm->defDefault.iSInt);
-          break;
-        case PTypeProbability:
-          ReportPrint1(pRepOut,"0.nn (default %3.2f)",ProbToFloat(pCurParm->defDefault.iProb));
-          break;
-        case PTypeString:
-          ReportPrint(pRepOut,"name ");
-          break;
-        case PTypeFloat:
-          ReportPrint1(pRepOut,"n.nn (default %f) ",pCurParm->defDefault.fFloat);
-          break;
-        case PTypeReport:
-          ReportPrint(pRepOut,"reportname [filename [parameters]]");
-          break;
+      case PTypeUInt:
+        if (strcmp(pCurParm->sName,"seed")==0) {
+          ReportPrint1(pRepOut,"N (default %u, based on system time) ",pCurParm->defDefault.iUInt);
+        } else {
+          ReportPrint1(pRepOut,"N (default %u) ",pCurParm->defDefault.iUInt);
+        }
+        break;
+      case PTypeSInt:
+        ReportPrint1(pRepOut,"N (default %d) ",pCurParm->defDefault.iSInt);
+        break;
+      case PTypeProbability:
+        ReportPrint1(pRepOut,"0.nn (default %3.2f)",ProbToFloat(pCurParm->defDefault.iProb));
+        break;
+      case PTypeString:
+        ReportPrint(pRepOut,"name ");
+        break;
+      case PTypeFloat:
+        ReportPrint1(pRepOut,"n.nn (default %f) ",pCurParm->defDefault.fFloat);
+        break;
+      case PTypeReport:
+        ReportPrint(pRepOut,"reportname [filename [parameters]]");
+        break;
+      default :
+        break;
       }  
       ReportPrint(pRepOut,"\n");
     }
