@@ -102,8 +102,8 @@ void AddReports() {
     "F",
     "N",
     "D",
-    "%1u"
-    ,&bSolutionFound,"",ColTypeFinal);
+    "%1u",
+    &bSolutionFound,"",ColTypeFinal);
 
   AddColumnUInt("steps","Total Number of Search Steps",
     "     Total",
