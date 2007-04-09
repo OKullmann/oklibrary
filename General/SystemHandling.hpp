@@ -1,7 +1,11 @@
 // Oliver Kullmann, 10.10.2002 (Swansea)
 
-#ifndef SYSTEMHANDLINGWAECHTER
+/*!
+  \file Transitional/General/SystemHandling.hpp
+  \brief System calls
+*/
 
+#ifndef SYSTEMHANDLINGWAECHTER
 #define SYSTEMHANDLINGWAECHTER
 
 #include <string>
@@ -132,7 +136,7 @@ namespace SystemHandling {
 
 // Use as follows:
 
-#include <Transitional/General/SystemHandling.hpp>
+// #include <Transitional/General/SystemHandling.hpp>
 // SystemHandling::System_sh S;
 // SystemHandling::SystemOutput out = S("the command");
 
