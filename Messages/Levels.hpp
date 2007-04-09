@@ -8,13 +8,13 @@
 #ifndef LEVELS_kxbxbxvr4
 #define LEVELS_kxbxbxvr4
 
+#include <boost/preprocessor/seq/enum.hpp>
+#include <boost/preprocessor/seq/size.hpp>
+
 #include <Transitional/Messages/Languages.hpp>
 
 namespace OKlib {
   namespace Messages {
-
-#include <boost/preprocessor/seq/enum.hpp>
-#include <boost/preprocessor/seq/size.hpp>
 
     /*!
       \def OKLIB_STRATA
