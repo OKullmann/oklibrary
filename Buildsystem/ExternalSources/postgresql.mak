@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# filename : Buildsystem/ExternalSources/makefile_postgresql.mak
+# filename : Buildsystem/ExternalSources/postgresql.mak
 
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
@@ -82,6 +82,9 @@ create_postgresql_dirs : $(postgresql-directories)
 
 postgresql : $(postgresql_recommended)
 
+ifeq ($(pgsql-version), )
+pgsql-version := $(postgresql_recommended_version_number)
+endif
 ifeq ($(pgdata), )
 pgdata := $(postgresql-base-directory)/$(pgsql-version)/data
 endif
