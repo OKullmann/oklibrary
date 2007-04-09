@@ -87,6 +87,7 @@ namespace {
       iCurrClauseNum = aFalseList[j];
       iClauseLen = aClauseLen[iCurrClauseNum];
       for(UINT32 k=0; k < iClauseLen; ++k) {
+        // ERROR XXX asserts needed for aClauseLen and pClauseLits
         iCurrVar = pClauseLits[iCurrClauseNum][k-aClauseLen[iCurrClauseNum]] / 2;
         assert(iCurrVar >= 0);
         assert(iCurrVar <= iNumVars);
