@@ -1,3 +1,9 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-reports.c
+  \brief Type of variable bReportOutputSupress changed, and
+  default-case added to switch-statement.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -28,7 +34,7 @@
 
 /***** Trigger ReportOut *****/
 
-BOOL bReportOutputSupress = FALSE;
+UINT32 bReportOutputSupress = FALSE;
 
 void ReportOutSetup();
 void ReportOutSplash();
@@ -977,39 +983,39 @@ void ColumnStepCalculation() {
   for (j=0;j<iNumActiveCalcColumns;j++) {
     pCol = &aColumns[aActiveCalcColumns[j]];
     switch(pCol->eColType)
-    {
+      {
       case ColTypeStddev:
       case ColTypeCV:
         switch(pCol->eDataType)
-        {
-        case DTypeUInt:
-          pCol->fSum2 += ((FLOAT) *pCol->puiCurValue) * ((FLOAT) *pCol->puiCurValue);
-          break;
-        case DTypeSInt:
-          pCol->fSum2 += ((FLOAT) *pCol->psiCurValue) * ((FLOAT) *pCol->psiCurValue);
-          break;
-        case DTypeFloat:
-          pCol->fSum2 += ((*pCol->pfCurValue) * (*pCol->pfCurValue));
-          break;
-        }
+          {
+          case DTypeUInt:
+            pCol->fSum2 += ((FLOAT) *pCol->puiCurValue) * ((FLOAT) *pCol->puiCurValue);
+            break;
+          case DTypeSInt:
+            pCol->fSum2 += ((FLOAT) *pCol->psiCurValue) * ((FLOAT) *pCol->psiCurValue);
+            break;
+          case DTypeFloat:
+            pCol->fSum2 += ((*pCol->pfCurValue) * (*pCol->pfCurValue));
+            break;
+          }
       case ColTypeMean:
         switch(pCol->eDataType)
-        {
-        case DTypeUInt:
-          pCol->fSum += (FLOAT) *pCol->puiCurValue;
-          break;
-        case DTypeSInt:
-          pCol->fSum += (FLOAT) *pCol->psiCurValue;
-          break;
-        case DTypeFloat:
-          pCol->fSum += *pCol->pfCurValue;
-          break;
-        }
+          {
+          case DTypeUInt:
+            pCol->fSum += (FLOAT) *pCol->puiCurValue;
+            break;
+          case DTypeSInt:
+            pCol->fSum += (FLOAT) *pCol->psiCurValue;
+            break;
+          case DTypeFloat:
+            pCol->fSum += *pCol->pfCurValue;
+            break;
+          }
         break;
-
+        
       case ColTypeMin:
         switch(pCol->eDataType)
-        {
+          {
           case DTypeUInt:
             if (*pCol->puiCurValue < pCol->uiMinMaxVal) pCol->uiMinMaxVal = *pCol->puiCurValue;
             break;
@@ -1019,12 +1025,12 @@ void ColumnStepCalculation() {
           case DTypeFloat:
             if (*pCol->pfCurValue < pCol->fMinMaxVal) pCol->fMinMaxVal = *pCol->pfCurValue;
             break;
-        }
+          }
         break;
-
+        
       case ColTypeMax:
         switch(pCol->eDataType)
-        {
+          {
           case DTypeUInt:
             if (*pCol->puiCurValue > pCol->uiMinMaxVal) pCol->uiMinMaxVal = *pCol->puiCurValue;
             break;
@@ -1034,9 +1040,11 @@ void ColumnStepCalculation() {
           case DTypeFloat:
             if (*pCol->pfCurValue > pCol->fMinMaxVal) pCol->fMinMaxVal = *pCol->pfCurValue;
             break;
-        }
+          }
         break;
-    }
+      default :
+        break;
+      }
   }
 }
 
