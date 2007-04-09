@@ -28,7 +28,9 @@
 #ifndef UBCSATLIT_kBBvaf5rTg
 #define UBCSATLIT_kBBvaf5rTg
 
-#define LITTYPE unsigned long
+#include "ubcsat-types.h"
+
+#define LITTYPE UINT32
 
 #define GetTrueLit(V) (((V) << 1) + 1 - aVarValue[V])
 #define GetFalseLit(V) (((V) << 1) + aVarValue[V])
