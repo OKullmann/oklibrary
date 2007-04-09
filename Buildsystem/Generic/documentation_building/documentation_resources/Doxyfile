@@ -1,4 +1,4 @@
-# Doxyfile 1.5.1
+# Doxyfile 1.5.2
 
 # This file describes the settings to be used by the documentation system
 # doxygen (www.doxygen.org) for a project
@@ -13,6 +13,14 @@
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
+
+# This tag specifies the encoding used for all characters in the config file that 
+# follow. The default is UTF-8 which is also the encoding used for all text before 
+# the first occurrence of this tag. Doxygen uses libiconv (or the iconv built into 
+# libc) for the transcoding. See http://www.gnu.org/software/libiconv for the list of 
+# possible encodings.
+
+DOXYFILE_ENCODING      = UTF-8
 
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded 
 # by quotes) that should identify the project.
@@ -52,16 +60,6 @@ CREATE_SUBDIRS         = YES
 # Serbian, Slovak, Slovene, Spanish, Swedish, and Ukrainian.
 
 OUTPUT_LANGUAGE        = English
-
-# This tag can be used to specify the encoding used in the generated output. 
-# The encoding is not always determined by the language that is chosen, 
-# but also whether or not the output is meant for Windows or non-Windows users. 
-# In case there is a difference, setting the USE_WINDOWS_ENCODING tag to YES 
-# forces the Windows encoding (this is the default for the Windows binary), 
-# whereas setting the tag to NO uses a Unix-style encoding (the default for 
-# all platforms other than Windows).
-
-USE_WINDOWS_ENCODING   = NO
 
 # If the BRIEF_MEMBER_DESC tag is set to YES (the default) Doxygen will 
 # include brief member descriptions after the members that are listed in 
@@ -179,14 +177,15 @@ TAB_SIZE               = 2
 # will result in a user-defined paragraph with heading "Side Effects:". 
 # You can put \n's in the value part of an alias to insert newlines.
 
-ALIASES                = "transitional_version=0.1.4" \
+ALIASES                = transitional_version=0.1.4 \
                          "transitional_version_full=0.1.4 (2.4.2007)" \
-                         "oklib_version=0.0.1" \
+                         oklib_version=0.0.1 \
                          "oklib_version_full=0.0.1 (3.3.2006)" \
-                         "deadline_014=1.4.2007" \
-                         "deadline_015=15.4.2007" \
-                         "deadline_016=30.4.2007" \
-                         "deadline_017=31.5.2007"
+                         deadline_014=1.4.2007 \
+                         deadline_015=15.4.2007 \
+                         deadline_016=30.4.2007 \
+                         deadline_017=31.5.2007 \
+                         "module_version=\xrefitem version \"Module Versions\" \"Module versions\""
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C 
 # sources only. Doxygen will then generate output that is more tailored for C. 
@@ -210,6 +209,11 @@ OPTIMIZE_OUTPUT_JAVA   = NO
 # diagrams that involve STL classes more complete and accurate.
 
 BUILTIN_STL_SUPPORT    = YES
+
+# If you use Microsoft's C++/CLI language, you should set this option to YES to
+# enable parsing support.
+
+CPP_CLI_SUPPORT        = NO
 
 # If member grouping is used in the documentation and the DISTRIBUTE_GROUP_DOC 
 # tag is set to YES, then doxygen will reuse the documentation of the first 
@@ -468,6 +472,13 @@ WARN_LOGFILE           =
 
 INPUT                  = OKsystem/Transitional
 
+# This tag can be used to specify the character encoding of the source files that 
+# doxygen parses. Internally doxygen uses the UTF-8 encoding, which is also the default 
+# input encoding. Doxygen uses libiconv (or the iconv built into libc) for the transcoding. 
+# See http://www.gnu.org/software/libiconv for the list of possible encodings.
+
+INPUT_ENCODING         = UTF-8
+
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
 # and *.h) to filter out the source-files in the directories. If left 
@@ -475,7 +486,10 @@ INPUT                  = OKsystem/Transitional
 # *.c *.cc *.cxx *.cpp *.c++ *.java *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx 
 # *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.py
 
-FILE_PATTERNS          = *.hpp *.cpp *.h *.c 
+FILE_PATTERNS          = *.hpp \
+                         *.cpp \
+                         *.h \
+                         *.c
 
 # The RECURSIVE tag can be used to turn specify whether or not subdirectories 
 # should be searched for input files as well. Possible values are YES and NO. 
@@ -502,6 +516,13 @@ EXCLUDE_SYMLINKS       = NO
 # for example use the pattern */test/*
 
 EXCLUDE_PATTERNS       = 
+
+# The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names 
+# (namespaces, classes, functions, etc.) that should be excluded from the output. 
+# The symbol name can be a fully qualified name, a word, or if the wildcard * is used, 
+# a substring. Examples: ANamespace, AClass, AClass::ANamespace, ANamespace::*Test
+
+EXCLUDE_SYMBOLS        = 
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or 
 # directories that contain example code fragments that are included (see 
@@ -1030,9 +1051,9 @@ PREDEFINED             = "OKLIB_TEST_CLASS(X)=class X : public ::OKlib::TestSyst
 # The macro definition that is found in the sources will be used. 
 # Use the PREDEFINED tag if you want to use a different macro definition.
 
-EXPAND_AS_DEFINED      = OKLIB_TEST_CLASS OKLIB_TEST_CLASS_C OKLIB_TEST_CLASS_C1
-
-# Remark OK (28.3.2007): EXPAND_AS_DEFINED seems not to work with doxygen version 1.5.1.
+EXPAND_AS_DEFINED      = OKLIB_TEST_CLASS \
+                         OKLIB_TEST_CLASS_C \
+                         OKLIB_TEST_CLASS_C1
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then 
 # doxygen's preprocessor will remove all function-like macros that are alone 
@@ -1097,6 +1118,14 @@ PERL_PATH              = /usr/bin/perl
 # powerful graphs.
 
 CLASS_DIAGRAMS         = YES
+
+# You can define message sequence charts within doxygen comments using the \msc 
+# command. Doxygen will then run the mscgen tool (see http://www.mcternan.me.uk/mscgen/) to 
+# produce the chart and insert it in the documentation. The MSCGEN_PATH tag allows you to 
+# specify the directory where the mscgen tool resides. If left empty the tool is assumed to 
+# be found in the default search path.
+
+MSCGEN_PATH            = 
 
 # If set to YES, the inheritance and collaboration graphs will hide 
 # inheritance and usage relations if the target is undocumented 
@@ -1200,33 +1229,13 @@ DOT_PATH               =
 
 DOTFILE_DIRS           = 
 
-# The MAX_DOT_GRAPH_WIDTH tag can be used to set the maximum allowed width 
-# (in pixels) of the graphs generated by dot. If a graph becomes larger than 
-# this value, doxygen will try to truncate the graph, so that it fits within 
-# the specified constraint. Beware that most browsers cannot cope with very 
-# large images.
+# The MAX_DOT_GRAPH_MAX_NODES tag can be used to set the maximum number of 
+# nodes that will be shown in the graph. If the number of nodes in a graph 
+# becomes larger than this value, doxygen will truncate the graph, which is 
+# visualized by representing a node as a red box. Note that doxygen will always 
+# show the root nodes and its direct children regardless of this setting.
 
-MAX_DOT_GRAPH_WIDTH    = 1024
-
-# The MAX_DOT_GRAPH_HEIGHT tag can be used to set the maximum allows height 
-# (in pixels) of the graphs generated by dot. If a graph becomes larger than 
-# this value, doxygen will try to truncate the graph, so that it fits within 
-# the specified constraint. Beware that most browsers cannot cope with very 
-# large images.
-
-MAX_DOT_GRAPH_HEIGHT   = 1024
-
-# The MAX_DOT_GRAPH_DEPTH tag can be used to set the maximum depth of the 
-# graphs generated by dot. A depth value of 3 means that only nodes reachable 
-# from the root by following a path via at most 3 edges will be shown. Nodes 
-# that lay further from the root node will be omitted. Note that setting this 
-# option to 1 or 2 may greatly reduce the computation time needed for large 
-# code bases. Also note that a graph may be further truncated if the graph's 
-# image dimensions are not sufficient to fit the graph (see MAX_DOT_GRAPH_WIDTH 
-# and MAX_DOT_GRAPH_HEIGHT). If 0 is used for the depth value (the default), 
-# the graph is not depth-constrained.
-
-MAX_DOT_GRAPH_DEPTH    = 0
+DOT_GRAPH_MAX_NODES    = 50
 
 # Set the DOT_TRANSPARENT tag to YES to generate images with a transparent 
 # background. This is disabled by default, which results in a white background. 
@@ -1263,7 +1272,3 @@ DOT_CLEANUP            = YES
 # used. If set to NO the values of all tags below this one will be ignored.
 
 SEARCHENGINE           = NO
-
-# OKlibrary aliases
-
-ALIASES += "module_version=\xrefitem version \"Module Versions\" \"Module versions\""
