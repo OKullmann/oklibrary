@@ -97,7 +97,7 @@ boost_documentation := boost_1_33_1/boost.png \
 
 # This is just a temporary hack - there should already be a central
 # organisation for the package names, or?
-# OK: Obviously, we must ose the definitions from external_sources_version.mak.
+# OK: Obviously, we must use the definitions from external_sources_version.mak.
 
 boost_package_name := boost_1_33_1.tar.bz2 
 
