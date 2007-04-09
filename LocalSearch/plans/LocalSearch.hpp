@@ -15,14 +15,19 @@
     </ul>
    </li>
    <li> Correct the implementation of ExternalSources/Ubcsat/1-0-0/bin/ubcsat
-   for 64-bit platforms (corrected ubcsat-types.h), making some checks:
+   for 64-bit platforms, making some checks:
     <ol>
      <li> ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
-      on csltok: </li>
-     <li> ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
       on cs-wsok: ERROR </li>
+     <li> ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
+      on csltok: Seems to be okay. DONE </li>
     </ol>
-    The problem appears to be the bug reported in LocalSearch/Ubcsat/corrected/novelty.c.
+    Correction steps:
+     <ol>
+      <li> The problem appears to be the bug reported in
+        LocalSearch/Ubcsat/corrected/novelty.c. </li>
+      <li> ubcsat-types.h : DONE </li>
+     </ol>
    </li>
    <li> Get rid off the temporary build-directory by adding
     <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected </code>
