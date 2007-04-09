@@ -1,7 +1,8 @@
 /*!
-  \file LocalSearch/Ubcsat/ubcsat.h
+  \file LocalSearch/Ubcsat/local/ubcsat.h
   \brief The fundamental header for of UBCSAT (now with
-  include-guard).
+  include-guard); for the local version defining
+  ALTERNATEMAIN.
 */
 
 /*
