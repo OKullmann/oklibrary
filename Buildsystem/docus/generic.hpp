@@ -4,7 +4,7 @@
   \file Buildsystem/docus/generic.hpp
   \brief General documentation for the central makefile Buildsystem/generic.mak
 
-  <H1> Targets </H1>
+  <H1> Make targets </H1>
 
   <H2> Applications </H2>
 
