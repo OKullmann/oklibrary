@@ -43,10 +43,10 @@ $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-di
 ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a cleanup
 
 $(ubcsat-bin-directory)/ubcsat : | $(ubcsat-bin-directory)
-	gcc -O3 -lm -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths)
+	gcc -Wall -O3 -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths) -lm
 
 $(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
-	gcc -O3 -c $< -o $@ -DALTERNATEMAIN
+	gcc -Wall -O3 -c $< -o $@ -DALTERNATEMAIN
 
 $(ubcsat-lib-directory)/libubcsat.a : $(paths)
 	$(AR) $(ARFLAGS) $@ $^
