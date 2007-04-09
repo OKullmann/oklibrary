@@ -14,8 +14,7 @@
    <li> <code> #define LITTYPE unsigned long </code> in
      LocalSearch/Ubcsat/corrected/ubcsat-lit.h. </li>
   </ol>
-   
-   
+
 */
 
 /*

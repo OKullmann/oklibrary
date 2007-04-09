@@ -158,6 +158,7 @@ namespace OKlib {
     /*!
       \class ProgramRepresentationIncludes
       \brief Class for representing the include-directives within a program
+
       \todo An extended explanation is needed.
       \todo A concept is needed.
       \todo Test inequality operator. (OK: ?? Always test equality and inequality together, applying
