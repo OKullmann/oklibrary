@@ -33,9 +33,9 @@
 
 #ifndef LITERALGENERATORAESWAECHTER
 
-namespace LGAES {
-
 #include <climits>
+
+namespace LGAES {
 
 #if UINT_MAX == 4294967295
 
