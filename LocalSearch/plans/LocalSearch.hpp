@@ -14,24 +14,24 @@
      <li> how to use LocalSearch/Ubcsat. </li>
     </ul>
    </li>
+   <li> Get rid off the temporary build-directory by adding
+    <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected </code>
+    to the build-compilation. (?) </li>
    <li> Correct the implementation of ExternalSources/Ubcsat/1-0-0/bin/ubcsat
-   for 64-bit platforms, making some checks:
+   for 64-bit platforms, making some checks: DONE
     <ol>
      <li> ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
-      on cs-wsok: ERROR </li>
+      on cs-wsok: Seems to be okay now. DONE </li>
      <li> ExternalSources/Ubcsat/1-0-0/bin/ubcsat -alg adaptnovelty+
       on csltok: Seems to be okay. DONE </li>
     </ol>
     Correction steps:
      <ol>
       <li> The problem appears to be the bug reported in
-        LocalSearch/Ubcsat/corrected/novelty.c. </li>
+        LocalSearch/Ubcsat/corrected/novelty.c. DONE </li>
       <li> ubcsat-types.h : DONE </li>
      </ol>
    </li>
-   <li> Get rid off the temporary build-directory by adding
-    <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected </code>
-    to the build-compilation. (?) </li>
    <li> No "modified files" anymore, but NEW FILES, with proper change
    documentation, in the OKlibrary; by appropriate settings of variable
    source-libraries the directory with the updated ubcsat-files is dominant
