@@ -1,3 +1,8 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-internal.h
+  \brief Added include-guard, and changed variable types of bReportOutputSupress and bReportStateLMOnly.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -20,6 +25,8 @@
 
 */
 
+#ifndef UBCSATINTERNAL_rwrwyHnb5g
+#define UBCSATINTERNAL_rwrwyHnb5g
 
 #define NOFXN 0
 #define NOREF(A) (A)=(A)
@@ -50,9 +57,9 @@ extern char sVersion[];
 extern char *sCommentString;
 extern FXNPTR aActiveProcedures[][MAXFXNLIST];
 
-extern BOOL bReportOutputSupress;
+extern UINT32 bReportOutputSupress;
 
-extern BOOL bReportStateLMOnly;
+extern UINT32 bReportStateLMOnly;
 extern FLOAT fReportStateQuality;
 extern BOOL bReportStateQuality;
 extern UINT32 iReportStateQuality;
@@ -106,3 +113,4 @@ void ParseItemList(ITEMLIST *pList, char *sItems, CALLBACKPTR ItemFunction);
 void PrintUBCSATHeader(REPORT *pRep);
 void SetupUBCSAT();
 
+#endif
