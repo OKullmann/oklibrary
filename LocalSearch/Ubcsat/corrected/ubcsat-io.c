@@ -1,3 +1,9 @@
+/*!
+  \file LocalSearch/Ubcsat/corrected/ubcsat-io.c
+  \brief Return type of function genrand_int32 changed from unsigned long
+  to UINT32.
+*/
+
 /*
 
       ##  ##  #####    #####   $$$$$   $$$$   $$$$$$    
@@ -31,7 +37,7 @@
 #define MERSENNE
 
 #ifdef MERSENNE
-  extern unsigned long genrand_int32();
+  extern UINT32 genrand_int32();
   extern void init_genrand(unsigned long s);
 
   FXNRAND32 fxnRandUInt32 = genrand_int32;
