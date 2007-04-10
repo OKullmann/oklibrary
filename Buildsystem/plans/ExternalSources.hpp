@@ -4,6 +4,16 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \bug Build mhash
+
+  "make mhash" or "make mhash-0.9.9" does not work (on cs-wsok), but
+  "make mhash-0.9.7.1" does work?? Output is
+  \code
+csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/ExternalSources> make mhash
+/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//OKsystem/Transitional/Buildsystem/ExternalSources/mhash.mak:102: target `mhash-0.9.9' doesn't match the target pattern
+make: *** No rule to make target `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash/mhash-0.9.9', needed by `mhash-0.9.9'.  Stop.
+  \endcode 
+
   \bug Building gcc_doc
 
   <ul>
