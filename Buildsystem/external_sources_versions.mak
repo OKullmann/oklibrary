@@ -61,8 +61,8 @@ doxygen_recommended_package_name := $(doxygen_targets_prefix)$(doxygen_recommend
 # Mhash Versions
 # #################################
 
-mhash_recommended_version_number := 0.9.7.1
-mhash_supported_not_recommended_version_numbers := 
+mhash_recommended_version_number := 0.9.9
+mhash_supported_not_recommended_version_numbers := 0.9.7.1
 mhash_supported_version_numbers := $(mhash_supported_not_recommended_version_numbers) $(mhash_recommended_version_number)
 
 # ###########################################
