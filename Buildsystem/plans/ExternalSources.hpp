@@ -54,7 +54,7 @@
    the package). </li>
    <li> Document packages:
     <ul>
-     <li> Mhash </li>
+     <li> Mhash (remark about corrected files; content of package) </li>
      <li> Postgresql </li>
      <li> UBCSAT : DONE </li>
     </ul>
@@ -70,6 +70,9 @@
    
   \todo Mhash
   <ul>
+   <li> Make a bug report about version 0.9.9 of Mhash (
+   see the two files in Kryptologie/Mhash/corrected/mutils --- two
+   commas too much). </li>
    <li> We need some user-information for mhash (how to use the installed
    files). </li>
    <li> It seems yet only a local build is available? As discussed above, then
@@ -139,5 +142,7 @@
   
   \todo Tools
   - Investigate the NiX system (a system for managing libraries).
+  - Investigate the Poco C++ library (http://www.pocoproject.org; see
+    also [C Vu, 19:2, pages 12-15]).
      
 */
