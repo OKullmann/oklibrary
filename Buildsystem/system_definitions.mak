@@ -28,6 +28,16 @@ ifndef Ubcsat
 endif
 # TODO: We must update and systematise the use of such variables.
 
+ifndef Mhash
+  ifdef MHASH
+    Mhash_dir := $(MHASH)
+  else
+    Mhash_dir := $(ExternalSources)/Mhash
+  endif
+  Mhash := $(Mhash_dir)/0.9.9
+endif
+# TODO: We must update and systematise the use of such variables!
+
 ifndef system_directories
   ifdef SYSTEMDIRECTORIES
     system_directories := $(SYSTEMDIRECTORIES)
