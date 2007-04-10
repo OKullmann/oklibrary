@@ -22,8 +22,11 @@
   \par Version 0.1.7 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par
+   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
+    - New version control system
+
+  \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Version control (AS SOON AS POSSIBLE)
     - Renaming module Buildsystem
 
   \par
