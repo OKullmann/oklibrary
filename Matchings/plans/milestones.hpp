@@ -3,15 +3,15 @@
 /*!
   \file Matchings/plans/milestones.hpp
 
-  \module_version Matchings 0.0.2 (???)
+  \module_version Matchings 0.0.2 (8.3.2006)
 
   \par Version 0.1
 
   \par
    In Matchings/plans/Matchings.hpp the following topics are handled:
-   - Correction
    - Literature and software review
    - Concepts for bipartite graphs
+   - Correction : DONE
 
   \par Version 0.2
 
@@ -52,6 +52,6 @@
 
   \par Version history
 
-   -  0.0.2 : ???; initial version number (only some plans).
+   -  0.0.2 : 8.3.2006; initial version number (only some plans).
 */
 

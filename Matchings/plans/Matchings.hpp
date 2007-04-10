@@ -3,7 +3,7 @@
 /*!
   \file Matchings/plans/Matchings.hpp
 
-  \todo Correction:
+  \todo Correction: DONE
   Find the date in the cvs-logs for Matchings/plans/milestones.hpp
   (originally the first version was 0.0.1, but this was changed to
   0.0.2, since there were already some more plans there).
