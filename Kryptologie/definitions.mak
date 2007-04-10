@@ -4,7 +4,7 @@ ifndef Mhash
   ifdef MHASH	
     Mhash := $(MHASH)
   else
-    Mhash :=
+    $(error Either Mhash or MHASH must be defined when calling this makefile!)
   endif
 endif
 
@@ -17,7 +17,7 @@ test_program :=
 
 programs := HashMD5
 
-source_libraries = $(Mhash_include)
+source_libraries = -I$(OKsystem)/Transitional/Kryptologie/Mhash/corrected $(Mhash_include)
 
 link_libraries := -L$(Mhash)/lib -lmhash -Wl,-rpath,$(Mhash)/lib 
 
