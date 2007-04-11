@@ -51,22 +51,27 @@ endif
 # ##################################
 
 mhash-base-directory := $(prefix)/Mhash
+# normally ExternalSources/Mhash
 abbr_mhash_targets := $(patsubst mhash-%, %, $(mhash_targets))
+# this should be just mhash_supported_version_numbers ?!
 
 mhash_extract_dirs := $(addprefix /,$(mhash_targets))
 mhash_extract_dirs_paths := $(addprefix $(mhash-base-directory),$(mhash_extract_dirs))
 
 # This line is necessary - but also belongs to makefile_gcc.mak
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
+# and this should be just the supported version numbers for gcc ?!
 
 mhash_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_mhash_targets)))
+# all combinations of supported mhash-versions with supported gcc-versions; this relates only to usage of local gcc's ?
 
 mhash_installation_directory_names += $(abbr_mhash_targets)
+# adding the "pure" mhash-versions to the combined mhash-gcc-versions
 mhash_installation_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_installation_directory_names))
+# adding the full path-names
 
 mhash_build_directory_names := $(addsuffix _Build, $(mhash_installation_directory_names))
 mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
-
 mhash_distribution_directories := $(addprefix $(mhash-base-directory)/mhash-, $(abbr_mhash_targets))
 
 mhash_doc_dir := $(external_sources_doc_base_dir)/Mhash
@@ -74,7 +79,7 @@ mhash_doc_dir := $(external_sources_doc_base_dir)/Mhash
 mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths) $(mhash_doc_dir)
 
 # ##################################
-# Documentation
+# Documentation building
 # ##################################
 
 mhash_doc : | $(mhash_doc_dir)
@@ -86,7 +91,9 @@ mhash_doc : | $(mhash_doc_dir)
 # ##################################
 
 mhash_gcc_targets := $(foreach mhashversion, $(mhash_targets), $(addprefix $(mhashversion)+, $(gcc_installation_directory_names)))
+# combined targets like mhash-0.9.7.1+4.0.1 --- this seems to be the wrong place here??
 all_mhash_targets := $(mhash_targets) $(mhash_gcc_targets)
+# adding the pure mhash-targets --- only they should be relevant here?!
 
 .PHONY : mhash mhash_all mhash_gcc_all $(all_mhash_targets) cleanmhash cleanallmhash
 
