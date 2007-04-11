@@ -13,6 +13,12 @@ csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/ExternalSources> make mhash
 /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//OKsystem/Transitional/Buildsystem/ExternalSources/mhash.mak:102: target `mhash-0.9.9' doesn't match the target pattern
 make: *** No rule to make target `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash/mhash-0.9.9', needed by `mhash-0.9.9'.  Stop.
   \endcode 
+  The problem seems to be a doubling of prefix "mhash-", seen for example in
+  \code
+if [ -f mhash-mhash-0.9.9.tar.gz ]; then tar --extract --directory=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash --file=mhash-mhash-0.9.9.tar.gz --ungzip; elif [ -f mhash-mhash-0.9.9.tar.bz2 ]; then tar --extract --directory=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash --file=mhash-mhash-0.9.9.tar.bz2 --bzip2; else exit 1; fi;
+  \endcode
+  One needs to clean-up mhash.mak, and specify all those variables; at present
+  the code is unreadable.
 
   \bug Building gcc_doc
 
@@ -80,6 +86,8 @@ make: *** No rule to make target `/home/csoliver/SAT-Algorithmen/OKplatform/Exte
    
   \todo Mhash
   <ul>
+   <li> mhash.mak needs a complete review; the usage of make-variables
+   seems pretty random. </li>
    <li> Make a bug report about version 0.9.9 of Mhash (
    see the two files in Kryptologie/Mhash/corrected/mutils --- two
    commas too much). </li>
@@ -113,6 +121,8 @@ make: *** No rule to make target `/home/csoliver/SAT-Algorithmen/OKplatform/Exte
    environments, and how to take control of this. </li>
    <li> There should be make-variables, which allow control over
    some settings for the build of gcc. </li>
+   <li> Shouldn't file external_sources_versions.mak be placed in
+   subdirectory Buildsystem/ExternalSources ? </li>
   </ul>
   
   \todo Boost
