@@ -72,7 +72,9 @@ mhash_supported_version_numbers := $(mhash_supported_not_recommended_version_num
 mhash_prefix := mhash
 mhash_targets_prefix := $(mhash_prefix)-
 mhash_targets := $(addprefix $(mhash_targets_prefix), $(mhash_supported_version_numbers))
+# for example "mhash-0.9.7.1 mhash-0.9.9"
 mhash_recommended := $(mhash_targets_prefix)$(mhash_recommended_version_number)
+# for example "mhash-0.9.9"
 
 # #################################
 # Postgresql Versions
