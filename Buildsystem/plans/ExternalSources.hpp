@@ -4,22 +4,6 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \bug Build mhash : FIXED??
-
-  "make mhash" or "make mhash-0.9.9" does not work (on cs-wsok), but
-  "make mhash-0.9.7.1" does work?? Output is
-  \code
-csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/ExternalSources> make mhash
-/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//OKsystem/Transitional/Buildsystem/ExternalSources/mhash.mak:102: target `mhash-0.9.9' doesn't match the target pattern
-make: *** No rule to make target `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash/mhash-0.9.9', needed by `mhash-0.9.9'.  Stop.
-  \endcode 
-  The problem seems to be a doubling of prefix "mhash-", seen for example in
-  \code
-if [ -f mhash-mhash-0.9.9.tar.gz ]; then tar --extract --directory=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash --file=mhash-mhash-0.9.9.tar.gz --ungzip; elif [ -f mhash-mhash-0.9.9.tar.bz2 ]; then tar --extract --directory=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Mhash --file=mhash-mhash-0.9.9.tar.bz2 --bzip2; else exit 1; fi;
-  \endcode
-  One needs to clean-up mhash.mak, and specify all those variables; at present
-  the code is unreadable.
-
   \bug Building gcc_doc
 
   <ul>
@@ -87,7 +71,9 @@ if [ -f mhash-mhash-0.9.9.tar.gz ]; then tar --extract --directory=/home/kullman
   \todo Mhash
   <ul>
    <li> mhash.mak needs a complete review; the usage of make-variables
-   seems pretty random. </li>
+   seems pretty random (we should synchronise it with external_sources_versions.mak
+   and with the other build-files; and we need specifications for the variables,
+   at least examples). </li>
    <li> Make a bug report about version 0.9.9 of Mhash (
    see the two files in Kryptologie/Mhash/corrected/mutils --- two
    commas too much). </li>
