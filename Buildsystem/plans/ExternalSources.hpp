@@ -4,7 +4,7 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \bug Build mhash
+  \bug Build mhash : FIXED??
 
   "make mhash" or "make mhash-0.9.9" does not work (on cs-wsok), but
   "make mhash-0.9.7.1" does work?? Output is
