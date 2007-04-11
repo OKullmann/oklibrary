@@ -53,6 +53,9 @@ endif
 mhash-base-directory := $(prefix)/Mhash
 abbr_mhash_targets := $(patsubst mhash-%, %, $(mhash_targets))
 
+mhash_extract_dirs := $(addprefix /,$(mhash_targets))
+mhash_extract_dirs_paths := $(addprefix $(mhash-base-directory),$(mhash_extract_dirs))
+
 # This line is necessary - but also belongs to makefile_gcc.mak
 gcc_installation_directory_names := $(patsubst gcc-%, %, $(gcc_targets))
 
@@ -100,7 +103,7 @@ define install-mhash
 	make install;
 endef
 
-$(mhash-base-directory)/$(mhash_targets) : $(mhash-base-directory)/mhash-% : $(mhash-base-directory)/%
+$(mhash_extract_dirs_paths) : $(mhash-base-directory)/mhash-% : $(mhash-base-directory)/%
 	$(call unarchive,mhash-$*,$(mhash-base-directory))
 	$(call install-mhash,$*)
 	touch $@
