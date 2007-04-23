@@ -9,7 +9,34 @@
   XXX base directory OKplatform/ExternalSources
   
   XXX version numbers in Buildsystem/external_sources_versions.mak
-  
+
+  Buildsystem/ExternalSources.mak is the central makefile
+  linked to by ExternalSources/makefile. Here are defined the main
+  targets for building and cleaning of external libraries.
+
+  Buildsystem/ExternalSources.mak includes 
+  Buildsystem/external_sources_versions.mak for variable definitions of
+  supported and recommended version numbers and for version
+  number dependendent variable definitions.
+
+  Buildsystem/ExternalSources.mak includes 
+  Buildsystem/ExternalSources/definitions_.mak for additional variable 
+  and function definitions.
+
+  Transitional/Buildsystem/ExternalSources.mak includes:
+  <ul>
+  <li>Buildsystem/ExternalSources/mhash.mak
+  <li>Buildsystem/ExternalSources/gcc.mak
+  <li>Buildsystem/ExternalSources/doxygen.mak
+  <li>Buildsystem/ExternalSources/boost.mak
+  <li>Buildsystem/ExternalSources/postgresql.mak
+  <li>Buildsystem/ExternalSources/valgrind.mak
+  <li>Buildsystem/ExternalSources/ubcsat.mak
+  </ul>
+  Each of these files contains the definitions required to build an
+  external library. 
+
+
   <H1> Installations </H1>
   
   
