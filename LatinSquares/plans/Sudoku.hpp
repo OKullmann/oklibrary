@@ -4,6 +4,23 @@
   \file LatinSquares/plans/Sudoku.hpp
   \brief Plans for the Sudoku components
 
+  \todo Input file format:
+   - One possible format is:
+   3
+   .94...13..............76..2.8..1.....32.........2...6.....5.4.......8..7..63.4..8
+   - Alternatively, a more human-readable format is:
+   3
+   .94...13.
+   .........
+   ....76..2
+   .8..1....
+   .32......
+   ...2...6.
+   ....5.4..
+   .....8..7
+   ..63.4..8
+   - In both cases the first line gives the box size.
+
   \todo Complete implementation of OKlib::LatinSquares::SudokuProblem
   - Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2, I_2' := {1,...,n^2}.
   Variables are v_{i,j} for i, j in I_2 with domains D(v) = I_2'.
