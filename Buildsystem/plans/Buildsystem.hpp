@@ -18,7 +18,15 @@
    for the external sources are moved elsewhere.</li>
    <li> Perhaps all variable definitions relevant for the 
    external sources (including version numbers) should go into
-   ExternalSources/definitions.mak?</li>
+   ExternalSources/definitions.mak? OK:
+    <ol>
+     <li> What about that "ExternalSources/definitions_.mak" ?
+     (This name seems strange to me anyway.) </li>
+     <li> The main question is about visibility. There needs to be fixed
+     the architecture of our makefiles (w.r.t. inclusion and variable
+     definitions). </li>
+    </ol>
+   </li>
    </ul>
    </li>
    <li> What is the precise relation to
