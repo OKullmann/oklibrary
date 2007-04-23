@@ -49,6 +49,11 @@
 
   \todo Documenting ExternalSources.mak
   <ul>
+   <li> docus/ExternalSources.hpp is for the *user* documentation. So the
+   internals of the buildsystem should only be discussed in there as far
+   as they are relevant for using (and extending) the buildsystem for
+   external sources, and this information is not part of the "General
+   overview", but of an appendix explaining the extension process. </li>
    <li> The old OKBuildsystem/ExternalSources/doc.mak is gone?
    So documentation building should happen automatically (when building
    the package). </li>
