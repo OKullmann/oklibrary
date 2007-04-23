@@ -5,21 +5,43 @@
   \brief Plans for the Sudoku components
 
   \todo Input file format:
-   - One possible format is:
-   3
-   .94...13..............76..2.8..1.....32.........2...6.....5.4.......8..7..63.4..8
-   - Alternatively, a more human-readable format is:
-   3
-   .94...13.
-   .........
-   ....76..2
-   .8..1....
-   .32......
-   ...2...6.
-   ....5.4..
-   .....8..7
-   ..63.4..8
-   - In both cases the first line gives the box size.
+  <ul>
+   <li>
+    <ol>
+    <li> One possible format is:
+    3
+    .94...13..............76..2.8..1.....32.........2...6.....5.4.......8..7..63.4..8
+    </li>
+    <li> Alternatively, a more human-readable format is:
+    3
+    .94...13.
+    .........
+    ....76..2
+    .8..1....
+    .32......
+    ...2...6.
+    ....5.4..
+    .....8..7
+    ..63.4..8
+    </li>
+    <li> In both cases the first line gives the box size. </li>
+    </ol>
+   </li>
+   <li> OK: I do not understand the meaning of the above. One also needs to
+   be more precise:
+   <ol>
+   <li> Obviously numbers are involved, so their syntax must be
+   specified. </li>
+   <li> Then the syntax of the separation must be specified (spaces, commas (dots??);
+   what about end-of-lines?). </li>
+   <li> Finally, for such simple file formats, the order and semantics of entries
+   is to be specified. </li>
+   </ol>
+   <li> Likely XML is more approriate; a DTD-specification should be fully sufficient here,
+   and tag-names can be (very) short. </li>
+   <li> Perhaps there are two formats: A "professional" XML format, and a "quick-and-dirty"
+   text format. </li>
+  </ul>
 
   \todo Complete implementation of OKlib::LatinSquares::SudokuProblem
   - Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2, I_2' := {1,...,n^2}.
