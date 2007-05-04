@@ -275,7 +275,9 @@
 
   \todo Higher-order build tools:
    - We should investigate CMake (http://www.cmake.org/HTML/Index.html), whether it would be
-     useful for us. (autoconf and the like seems outdated ?)
+     useful for us. (autoconf and the like seems outdated ?) It got good
+     references from KDE, but on the other hand, then we had two levels:
+     Building the makefiles via CMake, and using the makefiles??
 
   \todo Renaming module Buildsystem:
   To be consistent with the other module names, it should be called "BuildSystem" ?
