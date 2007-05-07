@@ -1,5 +1,5 @@
 # Matthew Henderson, 18.7.2006 (Paderborn)
-# filename : Buildsystem/ExternalSources/makefile_gcc.mak
+# filename : Buildsystem/ExternalSources/gcc.mak
 
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 

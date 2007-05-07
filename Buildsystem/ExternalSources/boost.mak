@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# filename : Buildsystem/ExternalSources/makefile_boost.mak 
+# filename : Buildsystem/ExternalSources/boost.mak 
 
 # ################################################################
 # Original definitions of OKplatform and OKbuildsystem, are 
