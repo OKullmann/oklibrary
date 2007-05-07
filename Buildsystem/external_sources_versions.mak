@@ -126,3 +126,19 @@ ubcsat_prefix := ubcsat
 ubcsat_targets_prefix := $(ubcsat_prefix)-
 ubcsat_targets := $(addprefix $(ubcsat_targets_prefix), $(ubcsat_supported_version_numbers))
 ubcsat_recommended := $(ubcsat_targets_prefix)$(ubcsat_recommended_version_number)
+
+# ################################
+# Git Versions
+# ###############################
+
+git_recommended_version_number := 1.5.1
+git_supported_version_numbers := $(git_recommended_version_number)
+
+# ###########################################
+# Git Version-dependent System Variables
+# ###########################################
+
+git_prefix := git
+git_targets_prefix := $(git_prefix)-
+git_targets := $(addprefix $(git_targets_prefix), $(git_supported_version_numbers))
+git_recommended := $(git_targets_prefix)$(git_recommended_version_number)
