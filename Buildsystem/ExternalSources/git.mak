@@ -24,8 +24,9 @@ $(git_targets) : create_git_dirs
 	$(call unarchive,$@,$(git-base-directory))
 	cd $(git-base-directory)/$@; $(postcondition) \
 	make configure; $(postcondition) \
-	sh ./configure --prefix=$(git-base-directory); $(postcondition) \
-	make all install; $(postcondition)
+	sh ./configure --prefix=/usr/local; $(postcondition) \
+	make all doc; $(postcondition) \
+	sudo make install install-doc
 
 # #################################
 # Cleaning
