@@ -59,7 +59,7 @@ prefix := $(shell pwd)
 
 .PHONY : all clean cleanall
 
-all : gcc boost postgresql valgrind mhash doxygen
+all : gcc boost postgresql valgrind mhash doxygen ubcsat
 
 
 # #################################
@@ -70,18 +70,20 @@ all : gcc boost postgresql valgrind mhash doxygen
 include $(OKbuildsystem)/external_sources_versions.mak
 include $(OKbuildsystem)/ExternalSources/definitions_.mak
 # Special build targets:
-include $(OKbuildsystem)/ExternalSources/mhash.mak
 include $(OKbuildsystem)/ExternalSources/gcc.mak
-include $(OKbuildsystem)/ExternalSources/doxygen.mak
 include $(OKbuildsystem)/ExternalSources/boost.mak
 include $(OKbuildsystem)/ExternalSources/postgresql.mak
 include $(OKbuildsystem)/ExternalSources/valgrind.mak
+include $(OKbuildsystem)/ExternalSources/mhash.mak
+include $(OKbuildsystem)/ExternalSources/doxygen.mak
 include $(OKbuildsystem)/ExternalSources/ubcsat.mak
+include $(OKbuildsystem)/ExternalSources/git.mak
+# Git is experimental
 
 # #################################
 # Cleaning
 # #################################
 
-clean : cleangcc cleanmhash cleanboost
+clean : cleangcc cleanboost cleanmhash
 
-cleanall : clean cleanallgcc cleanallmhash cleanallboost cleanalldoxygen cleanallpostgresql cleanallvalgrind
+cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen
