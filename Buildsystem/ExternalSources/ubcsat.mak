@@ -40,7 +40,7 @@ $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-di
 	cp -f $(ubcsat_changed_files) $(ubcsat-tmp-src-directory)
 	touch $@
 
-ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a cleanup
+ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a clean_tmp
 
 $(ubcsat-bin-directory)/ubcsat : | $(ubcsat-bin-directory)
 	gcc -Wall -O3 -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths) -lm
@@ -51,8 +51,10 @@ $(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubc
 $(ubcsat-lib-directory)/libubcsat.a : $(paths)
 	$(AR) $(ARFLAGS) $@ $^
 
-.PHONY : cleanup
+.PHONY : clean_tmp cleanallubcsat
 
-cleanup :
+clean_tmp :
 	rm -rf $(ubcsat-tmp-src-directory)
 
+cleanallubcsat :
+	-rm -rf $(ubcsat-base-directory)
