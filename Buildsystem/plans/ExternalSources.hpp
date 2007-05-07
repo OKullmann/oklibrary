@@ -44,8 +44,12 @@
   </ul>
   
   \todo Building Ubcsat (OK, ML):
-  - What is the meaning of "tag" and "tag_" ??? The names should tell.
-  - No file modification in the external sources. DONE
+  Review of Ubcsat.mak review
+  <ul>
+   <li> Remove the hardcoded version-numbers. </li>
+   <li> What is the meaning of "tag" and "tag_" ??? The names should tell. </li>
+   <li> No file modification in the external sources. DONE </li>
+  </ul>
 
   \todo Documenting ExternalSources.mak
   <ul>
