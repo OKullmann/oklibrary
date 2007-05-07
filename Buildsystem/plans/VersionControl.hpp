@@ -4,6 +4,16 @@
   \file Buildsystem/plans/VersionControl.hpp
   \brief Plans for the versioning control system
 
+  \todo Building Git
+  <ul>
+   <li> Perhaps we should just use the default Git-installation into
+   the users bin-directory (otherwise it seems hard to use because of
+   the many different commands). It should also be possible to do the
+   system-wide installion (in /usr/local). </li>
+   <li> On csltok asciidoc is not available --- what about cs-wsok? </li>
+   <li> Is there html-documentation? </li>
+  </ul>
+
   \todo New version control system
   <ul>
    <li> We have a little problems with submissions to the repository, which often span
