@@ -19,13 +19,10 @@ a:hover {
   text-decoration:underline }
 
 #content { 
-  width:85%; 
-  min-width:720px;
   margin: 0 auto;
   text-align: center; }
 
 #logo { 
-  width:100%;
   min-width:500px;
   height:150px; } 
 
@@ -34,14 +31,13 @@ a:hover {
   min-width:500px; }
 
 #subtitle { 
-  padding-left:10px;
   font-style:italic;
   min-width:500px; }
 
 #doc_navigation {   
-  width : 500px; 
+  width : 720px; 
   margin: 0 auto;
-  text-align: center;  }
+  text-align: center; }
 
 #OKlibrary_doc {
   width:10em;
@@ -54,7 +50,7 @@ a:hover {
   display:block; }
 
 #external_documentation_division { 
-  float:right;}
+  float:right; }
 
 #local_index { 
   width:10em; 
