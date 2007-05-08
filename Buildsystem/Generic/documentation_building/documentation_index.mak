@@ -16,6 +16,7 @@ OKlibrary_full_documentation_dvi_location := $(doc_dir)/dvi/FullDocumentation.dv
 doxygen_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Doxygen/$(doxygen_recommended)/html/index.html
 boost_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Boost/$(boost_recommended_package_name)/index.htm
 pgsql_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Postgresql/doc/postgresql/html/index.html
+git_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Git/Documentation/git.html
 gcc_man_page_location := $(OKplatform)/ExternalSources/doc/Gcc/$(gcc_recommended)/man/man1/gcc.1
 
 # ##################################################
@@ -33,15 +34,17 @@ list_of_OKlibrary_documentation_link_elements:= $(OKlibrary_html_index_link_elem
 # Local Documentation Link Elements
 # ##################################################
 
-doxygen_html_index_link_element := "<a href=\"$(doxygen_html_documentation_index_location)\" target=\"_blank\">Doxygen</a>"
 boost_html_index_link_element := "<a href=\"$(boost_html_documentation_index_location)\" target=\"_blank\">Boost</a>"
+doxygen_html_index_link_element := "<a href=\"$(doxygen_html_documentation_index_location)\" target=\"_blank\">Doxygen</a>"
 gcc_man_page_link_element := "<a href=\"$(gcc_man_page_location)\" target=\"_blank\">Gcc</a>"
+git_html_index_link_element := "<a href=\"$(git_html_documentation_index_location)\" target=\"_blank\">Git</a>"
 pgsql_html_index_link_element := "<a href=\"$(pgsql_html_documentation_index_location)\" target=\"_blank\">Postgresql</a>"
 
 list_of_local_index_link_elements :=  $(boost_html_index_link_element) \
                                       $(doxygen_html_index_link_element) \
                                       $(gcc_man_page_link_element) \
-                                      $(pgsql_html_index_link)
+                                      $(git_html_index_link_element) \
+                                      $(pgsql_html_index_link_element)
 
 # ##################################################
 # WWW Homepage URLs
@@ -50,6 +53,7 @@ list_of_local_index_link_elements :=  $(boost_html_index_link_element) \
 boost_homepage_url := http://www.boost.org/
 doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
 gcc_homepage_url := http://gcc.gnu.org/
+git_homepage_url := http://git.or.cz/
 pgsql_homepage_url := http://www.postgresql.org/
 mhash_homepage_url := http://mhash.sourceforge.net/
 
@@ -60,12 +64,14 @@ mhash_homepage_url := http://mhash.sourceforge.net/
 boost_homepage_link_element := "<a href=\"$(boost_homepage_url)\" target=\"_blank\">Boost</a>"
 doxygen_homepage_link_element := "<a href=\"$(doxygen_homepage_url)\" target=\"_blank\">Doxygen</a>"
 gcc_homepage_link_element := "<a href=\"$(gcc_homepage_url)\" target=\"_blank\">Gcc</a>"
+git_homepage_link_element := "<a href=\"$(git_homepage_url)\" target=\"_blank\">Git</a>"
 pgsql_homepage_link_element := "<a href=\"$(pgsql_homepage_url)\" target=\"_blank\">Postgresql</a>"
 mhash_homepage_link_element := "<a href=\"$(mhash_homepage_url)\" target=\"_blank\">Mhash</a>"
 
 list_of_homepage_link_elements := $(boost_homepage_link_element) \
                                   $(doxygen_homepage_link_element) \
                                   $(gcc_homepage_link_element) \
+                                  $(git_homepage_link_element) \
                                   $(pgsql_homepage_link_element) \
                                   $(mhash_homepage_link_element)
 
@@ -88,13 +94,13 @@ OKlibrary_documentation_division := "<div id=\"OKlibrary_doc\"><h4>OKlibrary Doc
 # Local Documentation Index Division
 # ##################################################
 
-local_index_division := "<div id=\"local_index\"><h4>Local Documentation</h4> "$(list_of_local_index_link_elements)"</div>"
+local_index_division := "<div id=\"local_index\"><h4>Local Packages Documentation</h4> "$(list_of_local_index_link_elements)"</div>"
 
 # ##################################################
 # WWW Homepage Index Division
 # ##################################################
 
-homepage_division := "<div id=\"homepages\"><h4>WWW</h4> "$(list_of_homepage_link_elements)" </div>"
+homepage_division := "<div id=\"homepages\"><h4>WWW Packages Homepages</h4> "$(list_of_homepage_link_elements)" </div>"
 
 # ##################################################
 # Wrapper division for local and WWW documentation
