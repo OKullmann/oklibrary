@@ -5,7 +5,8 @@
 # ################################## 
 
 git-base-directory := $(prefix)/Git
-git-directories := $(git-base-directory)
+git_doc_dir := $(external_sources_doc_base_dir)/Git
+git-directories := $(git-base-directory) $(git_doc_dir)
 
 .PHONY : git $(git_targets) create_git_dirs
 
@@ -26,7 +27,8 @@ $(git_targets) : create_git_dirs
 	make configure; $(postcondition) \
 	sh ./configure --prefix=/usr/local; $(postcondition) \
 	make all doc; $(postcondition) \
-	sudo make install install-doc
+	cp -r $(git-base-directory)/$@/Documentation $(git_doc_dir)/$@; $(postcondition) \
+	sudo make install install-doc; $(postcondition)
 
 # #################################
 # Cleaning
