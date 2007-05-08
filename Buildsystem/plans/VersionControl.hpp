@@ -7,6 +7,39 @@
   \todo Building Git
   <ul>
    <li> Is there html-documentation? </li>
+   <li> Problems with cvsimport:
+   \verbatim
+csoksc@cs-oksvr:/work/Repositories/Git/Annotations> git cvsimport -d /work/Repositories/OKdevelopment/ \
+-C /work/Repositories/Git/Annotations -a -v -A ../e-mail_addresses Annotations
+   \endverbatim
+   resulted in
+   \verbatim
+Done.
+DONE; creating master branch
+D       200511_UniformHittingClauseSets.tex
+D       200512_Alldifferent.tex
+D       200512_OKlibrary.tex
+D       200512_OKlibrary_Annotations
+D       BuchOKsystems.tex
+D       FullDocumentation.tex
+D       History_OKsystem
+D       Latex_bib/C++_Books.bib
+D       Latex_bib/Constraints.bib
+D       Latex_bib/EigArt.bib
+D       Latex_bib/MiscSAT.bib
+D       Latex_macros/Basis.tex
+D       Latex_macros/Definitionen.tex
+D       Latex_macros/FolienDefN.tex
+D       Latex_macros/OKplatform_Texpackages.tex
+D       Release-1_0
+D       definitions.mak
+   \endverbatim
+   What's the point in deleting all the files you just wanted to import?? Okau, it seems
+   \verbatim
+git checkout -f
+   \endverbatim
+   is needed after the import. DONE
+   </li>
    <li> On csltok asciidoc is not available --- what about cs-wsok? DONE (supplied a build-makefile) </li>
    <li> Perhaps we should just use the default Git-installation into
    the users bin-directory (otherwise it seems hard to use because of
