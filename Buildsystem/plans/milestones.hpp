@@ -5,7 +5,7 @@
   
   \module_version Buildsystem 0.1.5 (31.3.2007)
 
-  \par Version 0.1.6 : THEME is "External libraries"
+  \par Version 0.1.6 : THEME is "External libraries, and new version control"
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -19,11 +19,12 @@
     - Documenting ExternalSources.mak
     - Building documentation
 
-  \par Version 0.1.7 : THEME is "A specified and testable build system" and "Build system consolidation"
-
   \par
    In Buildsystem/plans/VersionControl.hpp the following topics are handled:
+    - Building Git
     - New version control system
+
+  \par Version 0.1.7 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
