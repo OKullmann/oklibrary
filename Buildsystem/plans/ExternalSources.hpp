@@ -101,10 +101,20 @@
   </ul>
    
   \todo General
-  - It would ge good, if after doing a local installation, easily the installation could also be
-  make global.
-  - Optionally there should be also local versions of valgrind and doxygen (and other tools).
-  This is necessary on systems where the user does not have root access.
+  <ul>
+   <li> It would ge good, if after doing a local installation, easily the
+   installation could also be make global. </li>
+   <li> Optionally there should be also local versions of valgrind and
+   doxygen (and other tools). This is necessary on systems where the user
+   does not have root access. </li>
+   <li> For "make all" we have the following problems:
+   <ul>
+    <li> The user cannot wait for "sudo". </li>
+    <li> Perhaps for example asciidoc is already installed, and this
+    suffices? </li>
+   </ul>
+   </li>
+  </ul>
   
   \todo Gcc
   <ul>
