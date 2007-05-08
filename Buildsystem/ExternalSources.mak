@@ -59,7 +59,7 @@ prefix := $(shell pwd)
 
 .PHONY : all clean cleanall
 
-all : gcc boost postgresql valgrind mhash doxygen ubcsat
+all : gcc boost postgresql valgrind mhash doxygen ubcsat asciidoc git
 
 
 # #################################
@@ -77,8 +77,8 @@ include $(OKbuildsystem)/ExternalSources/valgrind.mak
 include $(OKbuildsystem)/ExternalSources/mhash.mak
 include $(OKbuildsystem)/ExternalSources/doxygen.mak
 include $(OKbuildsystem)/ExternalSources/ubcsat.mak
+include $(OKbuildsystem)/ExternalSources/asciidoc.mak
 include $(OKbuildsystem)/ExternalSources/git.mak
-# Git is experimental
 
 # #################################
 # Cleaning
@@ -86,4 +86,4 @@ include $(OKbuildsystem)/ExternalSources/git.mak
 
 clean : cleangcc cleanboost cleanmhash
 
-cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen
+cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen cleanallubcsat cleanallasciidoc cleanallgit
