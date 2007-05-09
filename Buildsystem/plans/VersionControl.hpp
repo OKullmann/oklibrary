@@ -6,7 +6,40 @@
 
   \todo Building Git
   <ul>
-   <li> Is there html-documentation? </li>
+   <li> The creation of the initial Annotations-respository was done via
+   \verbatim
+su csoksc
+cd /work/Repositories/Git
+git cvsimport -d /work/Repositories/OKdevelopment/  -v -A /work/Repositories/Git/e-mail_addresses Annotations
+   \endverbatim
+   Then the shared repository has been set up via (as explained in "git for CVS users")
+   \verbatim
+su csoksc
+cd /work/Repositories/Git/bare
+mkdir Annotations
+git --bare init --shared
+bit --bare fetch /work/Repositories/Git/Annotations master:master
+   \endverbatim
+   Now every user has to create his master clone himself, via for example
+   \verbatim
+csoliver@cs-wsok:~/LaptopArchiv/OKsystem> git clone cs-oksvr:/work/Repositories/Git/bare/Annotations
+   \endverbatim
+   that is, go to the directory where you want to place the master-close, and issue the git-clone-command.
+   Updating the master-clone happens simply via "git pull", submitting changes via "git push".
+   However, <strong>before submission</strong> everything in the master-clone needs to be completely up-to-date and tested!!
+   </li>
+   <li> Creating a local copy of the master-clone simply via
+   \verbatim
+git clone PATH-TO-EXISTING-CLONE
+   \endverbatim
+   which will create the clone in the current directory. Then the following actions are possible:
+   <ol>
+    <li> Updating the subclone via "git pull" in the sub-clone. </li>
+    <li> Updating the masterclone either via "git pull PATH-TO-SUB-CLONE" in the masterclone,
+    or via "git push" in the sub-clone, followed by "git checkout -f" in the master-clone. </li>
+   </ol>
+   </li>
+   <li> Is there html-documentation? DONE (documentation-links seem to be fine (and all what is available)) </li>
    <li> Problems with cvsimport:
    \verbatim
 csoksc@cs-oksvr:/work/Repositories/Git/Annotations> git cvsimport -d /work/Repositories/OKdevelopment/ \
@@ -34,11 +67,12 @@ D       Latex_macros/OKplatform_Texpackages.tex
 D       Release-1_0
 D       definitions.mak
    \endverbatim
-   What's the point in deleting all the files you just wanted to import?? Okau, it seems
+   What's the point in deleting all the files you just wanted to import?? Okay,
    \verbatim
 git checkout -f
    \endverbatim
-   is needed after the import. DONE
+   is needed after the import. DONE (the "D" just means the files are not there, i.e.,
+   supposedly have been deleted)
    </li>
    <li> On csltok asciidoc is not available --- what about cs-wsok? DONE (supplied a build-makefile) </li>
    <li> Perhaps we should just use the default Git-installation into
@@ -49,17 +83,13 @@ git checkout -f
 
   \todo New version control system
   <ul>
+   <li> How to send notification-e-mails with Git?
+   </li>
    <li> What about version numbers in Git? What is the
    version-numbering-systems there, and what kind of statistics
    are supported? </li>
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository.
-   </li>
-   <li> How to send notification-e-mails with Git?
-   </li>
-   <li> What about ignoring files in Git? It seems that Git always ignores
-   all files not in the respository --- but then we could miss out
-   submitting new files?
    </li>
    <li> How to handle change dates and revision numbers in files with Git?
    </li>
@@ -122,6 +152,8 @@ git checkout -f
      <li> Hopefully the distributed version control constitutes also the main part of the
      update-solution for an external user (who extended the library)! </li>
     </ul>
+   </li>
+   <li> Files to ignore can be entered to .git/info/exclude. DONE </li>
    </li>
    <li> We have a little problems with submissions to the repository, which often span
    many files, so the whole submission process takes a while, and it's not clear from
