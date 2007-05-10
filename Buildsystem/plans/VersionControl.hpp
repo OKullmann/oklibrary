@@ -4,9 +4,17 @@
   \file Buildsystem/plans/VersionControl.hpp
   \brief Plans for the versioning control system
 
-  \todo Building Git
+  \todo Building and using Git
   <ul>
-   <li> The creation of the initial Annotations-respository was done via
+   <li> DONE In order that commits have the full name ("Oliver Kullmann" instead of "csoliver") and e-mail-address
+   ("O.Kullmann@Swansea.ac.uk" instead of "csoliver@cs-wsok.swan.ac.uk"), easiest is to tell Git for all
+   repositories of the user (that is, in  ~/.gitconfig instead of .git/config) about it via
+   \verbatim
+> git config --global user.name "Oliver Kullmann"
+> git config --global user.email O.Kullmann@Swansea.ac.uk
+   \endverbatim
+   </li>
+   <li> DONE The creation of the initial Annotations-respository was done via
    \verbatim
 su csoksc
 cd /work/Repositories/Git
@@ -28,7 +36,7 @@ csoliver@cs-wsok:~/LaptopArchiv/OKsystem> git clone cs-oksvr:/work/Repositories/
    Updating the master-clone happens simply via "git pull", submitting changes via "git push".
    However, <strong>before submission</strong> everything in the master-clone needs to be completely up-to-date and tested!!
    </li>
-   <li> Creating a local copy of the master-clone simply via
+   <li>  DONE Creating a local copy of the master-clone simply via
    \verbatim
 git clone PATH-TO-EXISTING-CLONE
    \endverbatim
@@ -40,7 +48,7 @@ git clone PATH-TO-EXISTING-CLONE
    </ol>
    </li>
    <li> Is there html-documentation? DONE (documentation-links seem to be fine (and all what is available)) </li>
-   <li> Problems with cvsimport:
+   <li> DONE Problems with cvsimport:
    \verbatim
 csoksc@cs-oksvr:/work/Repositories/Git/Annotations> git cvsimport -d /work/Repositories/OKdevelopment/ \
 -C /work/Repositories/Git/Annotations -a -v -A ../e-mail_addresses Annotations
@@ -71,8 +79,8 @@ D       definitions.mak
    \verbatim
 git checkout -f
    \endverbatim
-   is needed after the import. DONE (the "D" just means the files are not there, i.e.,
-   supposedly have been deleted)
+   is needed after the import (the "D" just means the files are not there, i.e.,
+   supposedly have been deleted).
    </li>
    <li> On csltok asciidoc is not available --- what about cs-wsok? DONE (supplied a build-makefile) </li>
    <li> Perhaps we should just use the default Git-installation into
@@ -85,12 +93,13 @@ git checkout -f
   <ul>
    <li> How to send notification-e-mails with Git?
    </li>
+   <li> Git can handle symbolic links, so all symbolic links should go
+   into the respository? On the other hand, this seems to imply one universal
+   convention like "/h/21/GemeinsameBasis", which perhaps one better should avoid?!?
+   </li>
    <li> What about version numbers in Git? What is the
    version-numbering-systems there, and what kind of statistics
    are supported? </li>
-   <li> Git can handle symbolic links, so all symbolic links should go
-   into the respository.
-   </li>
    <li> How to handle change dates and revision numbers in files with Git?
    </li>
    <li> The central repository:
@@ -106,7 +115,7 @@ git checkout -f
      L', yielding L'' (without changing R'), and then L'' is submitted to R', yielding R''. </li>
      <li> For the (off-line) laptop csltok: Can we just copy the local repository to disc, then copy this
      to cs-wsok, synchronise it with the local repository on cs-wsok, run the tests, and then submit the
-     local repository on cs-wsok to the central repository? Should be no problem. </li>
+     local repository on cs-wsok to the central repository? Should be no problem. DONE (yes, that's possible)</li>
     </ul>
    </li>
    <li> Branching:
