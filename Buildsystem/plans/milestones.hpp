@@ -5,7 +5,19 @@
   
   \module_version Buildsystem 0.1.5 (31.3.2007)
 
-  \par Version 0.1.6 : THEME is "External libraries, and new version control"
+  \par Version 0.1.6 : THEME is "New version control und build system"
+
+  \par
+   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
+    - Building and using Git
+    - New version control system
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - CMake
+
+
+  \par Version 0.1.7 : THEME is "External libraries"
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -19,12 +31,9 @@
     - Documenting ExternalSources.mak
     - Building documentation
 
-  \par
-   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
-    - Building Git
-    - New version control system
 
-  \par Version 0.1.7 : THEME is "A specified and testable build system" and "Build system consolidation"
+
+  \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -85,7 +94,7 @@
     - Meta tags
     - Improved logo
 
-  \par Version 0.1.8 : THEME is "Build system extensions"
+  \par Version 0.1.9 : THEME is "Build system extensions"
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - Targets
     - Error messages of gcc should be processed
@@ -109,12 +118,12 @@
     - License
     - Notification list
 
-  \par Version 0.1.9 :
+  \par Version 0.1.10 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
 
-  \par Version 0.1.10 :
+  \par Version 0.1.11 :
    In Buildsystem/plans/makefile.hpp the following topics are handled:
     - Directories with makefile-links
 
