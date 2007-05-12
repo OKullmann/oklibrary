@@ -91,7 +91,17 @@ git checkout -f
 
   \todo New version control system
   <ul>
-   <li> How to send notification-e-mails with Git?
+   <li> How to send notification-e-mails with Git: In the shared repository the file
+   "hooks/post-receive" has to be made executable, and then filled with action; temporary
+   solution (for Annotations):
+   \verbatim
+mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
+   \endverbatim
+   Apparently to the script "post-receive" per branch a line with reference-data is passed on stdin,
+   while stdin is passed onto mutt which then sends these lines in the body. A more sophisticated
+   solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
+   the text in "hooks/post-receive"), which we should examine (it seems we should also set up
+   an OKlibrary-e-mail-list ?!).
    </li>
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
