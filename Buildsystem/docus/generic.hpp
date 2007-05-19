@@ -152,6 +152,22 @@
   </table>
 
 
+  <H1> Customisation </H1>
+
+  The following make-variables can be used (on the command line):
+  <table>
+   <tr>
+    <td> <code> gcc_version_number=V </code> </td>
+    <td> Use the locally installed gcc with version V (for example <code>gcc_version_number=4.2.0</code>); default value is the recommended version. </td>
+   </tr>
+   <tr>
+    <td> <code> boost_version_number=V </code> </td>
+    <td> Use the locally installed %boost with version V (for example <code>boost_version_number=1_34_0</code>); default value is the recommended version. </td>
+   </tr>
+  </table>
+
+
+  \todo Complete the information on customisation.
   \todo Once the move to the new test system has been completed, references to the
   old test system need to be removed.
 */
