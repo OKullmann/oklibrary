@@ -1,6 +1,11 @@
 /*!
   \file GeneralInputOutput/RecursiveDirectoryIteration_Tests.hpp
   \brief Tests for recursive directory iteration.
+
+  \bug Checking for directories should not involve CVS-files!
+  So the code commented out below must be corrected.
+
+  \todo There is now a recursive directory-iterator in boost!
 */
 
 #ifndef RECURSIVEDIRECTORYITERATIONTESTS_oui453
@@ -24,7 +29,6 @@
 #include <Transitional/Concepts/std_Iterators.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
    /*!
@@ -128,25 +132,25 @@ namespace OKlib {
           assert(boost::filesystem::exists(path_test_2));
           assert(not boost::filesystem::is_directory(path_test_2));
 
-          const:: std::string str_test_3("CVS");
-          const path path_test_3(str_test_3);
-          assert(boost::filesystem::exists(path_test_3));
-          assert(boost::filesystem::is_directory(path_test_3));
+//           const:: std::string str_test_3("CVS");
+//           const path path_test_3(str_test_3);
+//           assert(boost::filesystem::exists(path_test_3));
+//           assert(boost::filesystem::is_directory(path_test_3));
 
-          const:: std::string str_test_4("CVS/Entries");
-          const path path_test_4(str_test_4);
-          assert(boost::filesystem::exists(path_test_4));
-          assert(not boost::filesystem::is_directory(path_test_4));
+//           const:: std::string str_test_4("CVS/Entries");
+//           const path path_test_4(str_test_4);
+//           assert(boost::filesystem::exists(path_test_4));
+//           assert(not boost::filesystem::is_directory(path_test_4));
 
-          const:: std::string str_test_5("CVS/Repository");
-          const path path_test_5(str_test_5);
-          assert(boost::filesystem::exists(path_test_5));
-          assert(not boost::filesystem::is_directory(path_test_5));
+//           const:: std::string str_test_5("CVS/Repository");
+//           const path path_test_5(str_test_5);
+//           assert(boost::filesystem::exists(path_test_5));
+//           assert(not boost::filesystem::is_directory(path_test_5));
 
-          const:: std::string str_test_6("CVS/Root");
-          const path path_test_6(str_test_6);
-          assert(boost::filesystem::exists(path_test_6));
-          assert(not boost::filesystem::is_directory(path_test_6));
+//           const:: std::string str_test_6("CVS/Root");
+//           const path path_test_6(str_test_6);
+//           assert(boost::filesystem::exists(path_test_6));
+//           assert(not boost::filesystem::is_directory(path_test_6));
 
           DirIt dir_it(path_test_1);
           if (not (dir_it == dir_it))
@@ -157,13 +161,13 @@ namespace OKlib {
           if (boost::filesystem::equivalent(path_test_1,*dir_it))
             OKLIB_THROW("boost::filesystem::equivalent(path_test_1,*dir_it)");
 
-          typedef std::set<std::string> set_of_names;
-          set_of_names cvs_file_names_ref;
-          cvs_file_names_ref.insert("Entries"); cvs_file_names_ref.insert("Repository"); cvs_file_names_ref.insert("Root");
-          set_of_names file_names_found;
-          for (int i = 0; i != 3; ++i)
-            file_names_found.insert((*(dir_it++)).leaf());
-          OKLIB_TEST_EQUAL_W(cvs_file_names_ref, file_names_found);
+//           typedef std::set<std::string> set_of_names;
+//           set_of_names cvs_file_names_ref;
+//           cvs_file_names_ref.insert("Entries"); cvs_file_names_ref.insert("Repository"); cvs_file_names_ref.insert("Root");
+//           set_of_names file_names_found;
+//           for (int i = 0; i != 3; ++i)
+//             file_names_found.insert((*(dir_it++)).leaf());
+//           OKLIB_TEST_EQUAL_W(cvs_file_names_ref, file_names_found);
 
           // \todo Replace tests below with concept tests.
 
