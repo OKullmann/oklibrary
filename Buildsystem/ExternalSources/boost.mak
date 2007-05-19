@@ -33,7 +33,7 @@ bjam_directory_path := $(boost-base-directory)/bjam
 
 boost_doc_dir := $(external_sources_doc_base_dir)/Boost
 
-boost-directories := $(boost-base-directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path) $(boost_doc_dir)
+boost-directories := $(boost-base-directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path) $(boost_doc_dir) $(addprefix $(boost_doc_dir)/, $(abbr_boost_targets))
 
 boost_distribution_directories := $(addprefix $(boost-base-directory)/boost_, $(abbr_boost_targets))
 
@@ -44,24 +44,28 @@ all_boost_targets := $(boost_targets) $(boost_gcc_targets)
 # Documentation
 # ####################################
 
-boost_documentation := boost_1_33_1/boost.png \
-                       boost_1_33_1/boost.css \
-                       boost_1_33_1/index.htm \
-                       boost_1_33_1/more/ \
-                       boost_1_33_1/libs
+boost_documentation := boost_1_34_0/boost.png \
+                       boost_1_34_0/boost.css \
+                       boost_1_34_0/index.htm \
+                       boost_1_34_0/more \
+                       boost_1_34_0/libs \
+                       boost_1_34_0/doc
 
 # This is just a temporary hack - there should already be a central
-# organisation for the package names, or?
-# OK: Obviously, we must use the definitions from external_sources_version.mak.
+# organisation for the package names, or ???
+# OK: Obviously, the library-version must not be hardcoded, but passed as parameter. ???
 
-boost_package_name := boost_1_33_1.tar.bz2 
+boost_package_name := boost_1_34_0.tar.bz2 
 
 boost_doc : | $(boost_doc_dir)
 	cd $(boost_doc_dir); $(postcondition) \
 	tar -xf $(ExternalSources)/$(boost_package_name) $(boost_documentation)
 
+# OK: This should not be a target on its own, but a command. ???
+
+
 # ###############################
-# Boost
+# General targets
 # ###############################
 
 .PHONY : boost boost_all boost_gcc_all $(all_boost_targets)
@@ -71,25 +75,34 @@ $(boost_installation_directory_paths) : % : | $(boost-base-directory) %_Build $(
 $(boost-directories) : % : 
 	mkdir $@
 
-# Making boost with the system gcc:
+# ###############################
+# Making boost with the system gcc
+# ###############################
 
 define install-boost
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" --prefix=$(boost-base-directory)/$(1) --builddir=$(boost-base-directory)/$(1)_Build install
+	$(bjam_directory_path)/bjam --toolset=gcc --prefix=$(boost-base-directory)/$(1) --build-dir=$(boost-base-directory)/$(1)_Build install --without-python
 endef
 
-# Does the target below really work with several versions of boost?
+# Does the target below really work with several versions of boost ???
+# Shouldn't the following be replaced by the simpler use of "configure" ???
 
-$(boost-base-directory)/$(boost_targets) : $(boost-base-directory)/boost-% : $(boost-base-directory)/%
+$(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory)/boost-% : $(boost-base-directory)/% $(boost_doc_dir)/%
 	$(call unarchive,boost_$*,$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
-	cd tools/build/jam_src/; $(postcondition) \
+	cd tools/jam/src; $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
-	$(call install-boost,$*)
+	$(call install-boost,$*); $(postcondition) \
+	cp -r boost $(boost-base-directory)/$*; $(postcondition) \
+	cp -r $(boost_documentation) $(boost_doc_dir)/$*; $(postcondition) \
 	touch $@
 
-# Making boost with a local gcc:
+# ###############################
+# Making boost with a local gcc
+# ###############################
+
+# NEEDS TO BE UPDATED ???
 
 define install-boost_gcc
 	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" --prefix=$(boost-base-directory)/$(1)+$(2) --builddir=$(boost-base-directory)/$(1)+$(2)_Build install
@@ -113,7 +126,9 @@ endef
 
 $(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_gcc_rule,$(boostversion),$(gccversion)))))
 
+# ###############################
 # The main targets for making boost
+# ###############################
 
 boost_gcc_all : $(all_boost_targets)
 
