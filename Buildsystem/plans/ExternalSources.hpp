@@ -4,6 +4,13 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \bug Building Boost 1_34_0
+  <ul>
+   <li> We should read the installation documentation. </li>
+   <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. </li>
+   <li> Correct documentation building. </li>
+  </ul>
+
   \bug Building gcc_doc
 
   <ul>
