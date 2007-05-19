@@ -41,6 +41,19 @@ make install
      \endverbatim
     </ol>
    </li>
+   <li> Report for cs-wsok:
+    <ol>
+     <li> Installation failed:
+     \verbatim
+ExternalSources> make boost-1_34_0
+
+...failed updating 8 targets...
+...skipped 24 targets...
+...updated 5517 targets...
+     \endverbatim
+     First check whether this also occurs with the manual installation , then find out
+     which libraries failed. </li>
+    </ol>
    <li> We should read the installation documentation. </li>
    <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. </li>
    <li> Correct documentation building. </li>
