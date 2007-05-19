@@ -6,9 +6,46 @@
 
   \bug Building Boost 1_34_0
   <ul>
+   <li> Report for csltok:
+    <ol>
+     <li> First try with manual build and simply
+     \verbatim
+boost_1_34_0> ./configure --prefix=${OKPLATFORM}/ExternalSources/Boost/1_34_0
+make install
+     \endverbatim
+     (system installation with gcc 3.4.3) yields
+     \verbatim
+...failed updating 216 targets...
+...skipped 32 targets...
+...updated 5567 targets...
+Not all Boost libraries built properly.
+     \endverbatim
+     First guess is, that these failures are phython-related, so we should
+     actively disable phython. Try:
+     \verbatim
+boost_1_34_0> ./configure --prefix=${OKPLATFORM}/ExternalSources/Boost/1_34_0 --without-libraries=python
+make install
+     \endverbatim
+     (Report to Boost: How to call the libraries is not documented (the only
+     library-name mentioned is "Boost.Python").)
+     </li>
+     <li> Not only python seems problematic:
+     \verbatim
+`.L1119' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o
+`.L573' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o
+     \endverbatim
+     ??? </li>
+     But it seemed to work:
+     \verbatim
+...updated 5548 targets...
+     \endverbatim
+    </ol>
+   </li>
    <li> We should read the installation documentation. </li>
    <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. </li>
    <li> Correct documentation building. </li>
+   <li> Additionally to the result of "make install" we need also to move
+   the src-directory to, e.g., Boost/1_34_0, and we need to move the doc. </li>
   </ul>
 
   \bug Building gcc_doc
