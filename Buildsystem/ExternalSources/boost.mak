@@ -30,6 +30,8 @@ boost_build_directory_names := $(addsuffix _Build, $(boost_installation_director
 boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
 
 bjam_directory_path := $(boost-base-directory)/bjam
+# The relative path to to bjam-source:
+bjam_source := tools/jam/src
 
 boost_doc_dir := $(external_sources_doc_base_dir)/Boost
 
@@ -44,25 +46,13 @@ all_boost_targets := $(boost_targets) $(boost_gcc_targets)
 # Documentation
 # ####################################
 
-boost_documentation := boost_1_34_0/boost.png \
-                       boost_1_34_0/boost.css \
-                       boost_1_34_0/index.htm \
-                       boost_1_34_0/more \
-                       boost_1_34_0/libs \
-                       boost_1_34_0/doc
-
-# This is just a temporary hack - there should already be a central
-# organisation for the package names, or ???
-# OK: Obviously, the library-version must not be hardcoded, but passed as parameter. ???
-
-boost_package_name := boost_1_34_0.tar.bz2 
-
-boost_doc : | $(boost_doc_dir)
-	cd $(boost_doc_dir); $(postcondition) \
-	tar -xf $(ExternalSources)/$(boost_package_name) $(boost_documentation)
-
-# OK: This should not be a target on its own, but a command. ???
-
+# files and directories containing the documentation:
+boost_documentation := boost.png \
+                       boost.css \
+                       index.htm \
+                       more \
+                       libs \
+                       doc
 
 # ###############################
 # General targets
@@ -83,13 +73,12 @@ define install-boost
 	$(bjam_directory_path)/bjam --toolset=gcc --prefix=$(boost-base-directory)/$(1) --build-dir=$(boost-base-directory)/$(1)_Build install --without-python
 endef
 
-# Does the target below really work with several versions of boost ???
 # Shouldn't the following be replaced by the simpler use of "configure" ???
 
 $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory)/boost-% : $(boost-base-directory)/% $(boost_doc_dir)/%
 	$(call unarchive,boost_$*,$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
-	cd tools/jam/src; $(postcondition) \
+	cd $(bjam_source); $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
