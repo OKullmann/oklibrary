@@ -6,6 +6,7 @@
 
   \todo Building and using Git
   <ul>
+   <li> Created now also for Transitional a shared Git-repository. </li>
    <li> DONE In order that commits have the full name ("Oliver Kullmann" instead of "csoliver") and e-mail-address
    ("O.Kullmann@Swansea.ac.uk" instead of "csoliver@cs-wsok.swan.ac.uk"), easiest is to tell Git for all
    repositories of the user (that is, in  ~/.gitconfig instead of .git/config) about it via
@@ -17,7 +18,7 @@
    <li> DONE The creation of the initial Annotations-respository was done via
    \verbatim
 su csoksc
-cd /work/Repositories/Git
+cd /work/Repositories/Git/Annotations
 git cvsimport -d /work/Repositories/OKdevelopment/  -v -A /work/Repositories/Git/e-mail_addresses Annotations
    \endverbatim
    Then the shared repository has been set up via (as explained in "git for CVS users")
@@ -25,6 +26,7 @@ git cvsimport -d /work/Repositories/OKdevelopment/  -v -A /work/Repositories/Git
 su csoksc
 cd /work/Repositories/Git/bare
 mkdir Annotations
+cd Annotations
 git --bare init --shared
 bit --bare fetch /work/Repositories/Git/Annotations master:master
    \endverbatim
