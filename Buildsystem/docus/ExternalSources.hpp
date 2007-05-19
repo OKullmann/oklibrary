@@ -80,8 +80,8 @@
     <td> Build the recommended Boost-version, using the system-gcc. </td>
    </tr>
    <tr>
-    <td> <code> %boost boost_recommended=V </code> </td>
-    <td> Build the Boost-version V, using the system-gcc (using for example <code>boost_recommended=1_33_1</code>). </td>
+    <td> <code> %boost-V </code> </td>
+    <td> Build the Boost-version V, using the system-gcc (using for example <code>boost-1_33_1</code>). </td>
    </tr>
    <tr>
     <td> <code> boost_all </code> </td>
@@ -96,11 +96,11 @@
     <td> Build the recommended Boost-version for all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
    <tr>
-    <td> <code> %boost boost_recommended=V gcc-version=x.y.z </code> </td>
+    <td> <code> %boost-V gcc-version=x.y.z </code> </td>
     <td> Build the Boost-version V, using the local gcc-version x.y.z. </td>
    </tr>
    <tr>
-    <td> <code> %boost boost_recommended=V gcc-version=all </code> </td>
+    <td> <code> %boost-V gcc-version=all </code> </td>
     <td> Build the Boost-version V, for all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
    <tr>
