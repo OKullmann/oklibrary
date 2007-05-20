@@ -34,11 +34,13 @@ make install
 `.L1119' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o
 `.L573' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o
      \endverbatim
-     ??? </li>
+     ???
      But it seemed to work:
      \verbatim
 ...updated 5548 targets...
      \endverbatim
+     </li>
+     <li> Next then is to build using gcc version 4.2.0. </li>
     </ol>
    </li>
    <li> Report for cs-wsok:
@@ -51,24 +53,17 @@ ExternalSources> make boost-1_34_0
 ...skipped 24 targets...
 ...updated 5517 targets...
      \endverbatim
-     First check whether this also occurs with the manual installation , then find out
-     which libraries failed. </li>
+     First check whether this also occurs with the manual installation, then find out
+     which libraries failed. Is the failure the same source as the bug about building boost below? </li>
     </ol>
-   <li> We should read the installation documentation. </li>
-   <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. </li>
+   </li>
+   <li> How to inform bjam about an alternative compiler? What about
+   <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ?? </li>
    <li> Correct documentation building. </li>
    <li> Additionally to the result of "make install" we need also to move
    the src-directory to, e.g., Boost/1_34_0, and we need to move the doc. </li>
-  </ul>
-
-  \bug Building gcc_doc
-
-  <ul>
-   <li> Does not work (that is, the link at
-   system_directories/doc/index.html is not working),
-   since apparently the man-pages need to be build. </li>
-   <li> *Only* the documentation is to be extracted, not the whole
-   distribution. </li>
+   <li> We should read the installation documentation. DONE (unfortunately, there is not much in it) </li>
+   <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. DONE </li>
   </ul>
 
   \bug Building-Boost Errors
@@ -89,10 +84,10 @@ ExternalSources> make boost-1_34_0
    What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
   
    OK (12.1.2007): When building boost with gcc-version 3.4.3 or 3.4.6, we get
-  
+   \verbatim
    ...failed updating 10 targets...
    ...skipped 14 targets...
-  
+   \endverbatim
    Why this?
   
    We should check in general whether building boost links to the 32bit
@@ -100,6 +95,36 @@ ExternalSources> make boost-1_34_0
    </li>
   </ul>
   
+  \bug Building gcc_doc
+
+  <ul>
+   <li> Does not work (that is, the link at
+   system_directories/doc/index.html is not working),
+   since apparently the man-pages need to be build. </li>
+   <li> *Only* the documentation is to be extracted, not the whole
+   distribution. </li>
+  </ul>
+
+  \todo Boost
+  <ul>
+   <li> It should be possible to say "gcc-version=recommended". </li>
+   <li> Instead of "boost boost_recommended=boost-1_33_1" we should use
+   "boost boost-version=1_33_1". </li>
+   <li> The default for generic.mak is to build the recommended <strong>local</strong>
+   gcc-installation --- shouldn't this then be also for building %boost
+   the default ? </li>
+   <li> Installation of bjam should be improved: Having exactly one
+   bjam-installation for each boost-version, and no need to recreate
+   it if it's already there. Or, perhaps better: We just leave it in
+   the distribution directory? </li>
+   <li> Building %boost should include copying the documentation to doc
+   (in the subdirectory boost-1_33_1 for example). </li>
+   <li> In the long run, it seems that actually supporting different versions
+   of Boost is not feasible (the library will likely always use the newest
+   version), so finally supporting different Boost version should be dropped
+   (but the general machinery is worth keeping)?!? </li>
+  </ul>
+
   \todo Building Ubcsat (OK, ML):
   Review of Ubcsat.mak review
   <ul>
@@ -187,26 +212,6 @@ ExternalSources> make boost-1_34_0
    subdirectory Buildsystem/ExternalSources ? </li>
   </ul>
   
-  \todo Boost
-  <ul>
-   <li> It should be possible to say "gcc-version=recommended". </li>
-   <li> Instead of "boost boost_recommended=1_33" we should use
-   "boost boost-version=1_33". </li>
-   <li> The default for generic.mak is to use the recommended local
-   gcc-installation --- shouldn't this then be also for building boost
-   the default ? </li>
-   <li> Installation of bjam should be improved: Having exactly one
-   bjam-installation for each boost-version, and no need to recreate
-   it if it's already there. Or, perhaps better: We just leave it in
-   the distribution directory? </li>
-   <li> Building boost should include copying the documentation to doc
-   (in the subdirectory boost-1_33_1 for example). </li>
-   <li> In the long run, it seems that actually supporting different versions
-   of Boost is not feasible (the library will likely always use the newest
-   version), so finally supporting different Boost version should be dropped
-   (but the general machinery is worth keeping)?!? </li>
-  </ul>
-
   \todo PostgreSQL
   - Update PostgreSQL to version 8.1 (or later; and test it).
   - "make initialise-database" should work with the recommended version (and no specification
