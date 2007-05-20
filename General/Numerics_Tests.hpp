@@ -1,7 +1,12 @@
 // Oliver Kullmann, 27.7.2004 (Turin)
 
-#ifndef NUMERICS_TESTS_jjvvZZaqw3377
+/*!
+  \file General/Numerics_Tests.hpp
+  \brief Old tests for numeric operations (still using asserts)
+  \deprecated Move to the new test system.
+*/
 
+#ifndef NUMERICS_TESTS_jjvvZZaqw3377
 #define NUMERICS_TESTS_jjvvZZaqw3377
 
 #include <cassert>
@@ -28,18 +33,25 @@ namespace Numerics_Tests {
     }
   };
 
+  /*!
+    \class test_round
+    \brief %Test function for rounding operation
+
+    \todo Check the usage of boost::test_tools::close_at_tolerance.
+    \todo %Test of different floating point types and test of different return types
+    \todo %Test of characteristic properties (x real, k integer):
+    <ol>
+     <li> r(x) is integral </li>
+     <li> |r(x) - x| <= 1/2 </li>
+     <li> r(-x) = - r(x) </li>
+     <li> r(x + k) = r(x) + k </li>
+     <li> r(1/2) = 1. </li>
+    </ol>
+  */
+
   template <template <typename Float, typename Return = Float, typename Int_basis = int, typename Int_position = int> class Round>
   struct test_round {
     test_round() {
-      // TO DO:
-      // 1. Test of different floating point types and test of different return types
-      // 2. Test of characteristic properties (x real, k integer):
-      //  (a) r(x) is integral
-      //  (b) |r(x) - x| <= 1/2
-      //  (c) r(-x) = - r(x)
-      //  (d) r(x + k) = r(x) + k
-      //  (e) r(1/2) = 1.
-
       Round<double> r;
       assert(r(1/2.0) == 1);
       assert(r(- 1/2.0) == -1);
@@ -62,7 +74,7 @@ namespace Numerics_Tests {
 	}
 	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       }
-      boost::test_tools::close_at_tolerance<double> cat(12 * std::numeric_limits<double>::epsilon());
+      boost::test_tools::close_at_tolerance<double> cat(boost::test_tools::fraction_tolerance(12 * std::numeric_limits<double>::epsilon()));
       assert(cat(r(1.750001, 1), 1.8));
       assert(cat(r(1.749999, 1), 1.7));
       assert(cat(r(-1.750001, 1), -1.8));
