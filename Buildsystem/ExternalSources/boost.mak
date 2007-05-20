@@ -52,7 +52,8 @@ boost_documentation := boost.png \
                        index.htm \
                        more \
                        libs \
-                       doc
+                       doc \
+                       tools
 
 # ###############################
 # General targets
@@ -94,22 +95,20 @@ $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory
 # NEEDS TO BE UPDATED ???
 
 define install-boost_gcc
-	$(bjam_directory_path)/bjam "-sTOOLS=gcc" "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" --prefix=$(boost-base-directory)/$(1)+$(2) --builddir=$(boost-base-directory)/$(1)+$(2)_Build install
-#	if [ -d $(gcc-base-directory)/$(2)/boost-$(1) ]; then echo; else mkdir $(gcc-base-directory)/$(2)/boost-$(1); fi;
-#	cp $(boost-base-directory)/$(1)+$(2)/lib/* $(gcc-base-directory)/$(2)/boost-$(1)
-#	if [ -d $(gcc-base-directory)/$(2)/include/boost-$(1) ]; then echo; else mkdir $(gcc-base-directory)/$(2)/include/boost-$(1); fi;
-#	cp -r $(boost-base-directory)/$(1)+$(2)/include/boost-$(1)/boost $(gcc-base-directory)/$(2)/include/boost-$(1)
+	$(bjam_directory_path)/bjam --toolset=gcc-$(2) --prefix=$(boost-base-directory)/$(1)+$(2) --build-dir=$(boost-base-directory)/$(1)+$(2)_Build "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" install --without-python
 endef
 
 define boost_gcc_rule
 $(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2) | gcc-$(2) 
 	$(call unarchive,boost_$(1),$(boost-base-directory))
 	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
-	cd tools/build/jam_src/;  if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
 	./build.sh;  if [ $$$$? != 0 ]; then exit 1; fi; \
-	cp bin.*/bjam $(bjam_directory_path);  if [ $$$$? != 0 ]; then exit 1; fi; \
-	cd $(boost-base-directory)/boost_$(1);  if [ $$$$? != 0 ]; then exit 1; fi; \
-	$(call install-boost_gcc,$(1),$(2))
+	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(call install-boost_gcc,$(1),$(2)); if [ $$$$? != 0 ]; then exit 1; fi; \
+	cp -r boost $(boost-base-directory)/$*; if [ $$$$? != 0 ]; then exit 1; fi; \
+	cp -r $(boost_documentation) $(boost_doc_dir)/$*; if [ $$$$? != 0 ]; then exit 1; fi; \
 	touch $(boost-base-directory)/boost-$(1)+$(2)
 endef
 
