@@ -4,11 +4,21 @@
   \file Parallelism/plans/Parallelism.hpp
   \brief Plans for the module on parallelism
 
-  \todo Investigate the possibilities provided by Boost-1.34.
+  \todo New test system
+  <ol>
+   <li> Transfer the tests. </li>
+   <li> Extend the test-functionality so that the point where the assert
+   happens (see bug-reports) can be pinpointed. </li>
+  </ol>
+
+  \todo Investigate libraries for processes and threads
+  <ul>
+   <li> Boost-1_34_0 (Threads and ???) </li>
+   <li> Poco </li>
+   <li> ACE </li>
+  </ul>
 
   \todo Decide, how to handle parallel computations for the OKlibrary.
-
-  \todo Transfer the tests to the new test system.
 
 */
 
