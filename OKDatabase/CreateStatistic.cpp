@@ -292,12 +292,12 @@ public :
     std::vector<double> medianassert2(*vecndsp);
     {
       assert(count == vecndsp -> size());
-      assert(boost::test_tools::close_at_tolerance<double>(10 * std::numeric_limits<double>::epsilon())(nds, std::accumulate(vecndsp -> begin(), vecndsp -> end(), double(0)) / count));
+      assert(boost::test_tools::close_at_tolerance<double>(boost::test_tools::fraction_tolerance(10 * std::numeric_limits<double>::epsilon()))(nds, std::accumulate(vecndsp -> begin(), vecndsp -> end(), double(0)) / count));
       std::sort(vecndsp -> begin(), vecndsp -> end());
       const vector<double>::size_type size = vecndsp -> size();
       const vector<double>::size_type middle = size / 2;
       const double median2 = (size % 2 == 0) ? ((*vecndsp)[middle-1] + (*vecndsp)[middle]) / 2.0 : (*vecndsp)[middle];
-      if (not boost::test_tools::close_at_tolerance<double>(5 * std::numeric_limits<double>::epsilon())(mednds, median2)) {
+      if (not boost::test_tools::close_at_tolerance<double>(boost::test_tools::fraction_tolerance(5 * std::numeric_limits<double>::epsilon()))(mednds, median2)) {
 	std::cerr << "FEHLER!\ncount = " << count << ", mednds = " << mednds << ", median2 = " << median2 << "\n sortierter Vektor =\n";
 	std::copy(vecndsp -> begin(), vecndsp -> end(), std::ostream_iterator<double>(std::cerr, " "));
 	std::cerr << "\noriginaler Vektor =\n";
@@ -305,7 +305,7 @@ public :
 	std::cerr << "\nund nach Median-Berechnung:\n";
 	std::copy(medianassert2.begin(), medianassert2.end(), std::ostream_iterator<double>(std::cerr, " "));
 	std::cerr << "\n";
-	assert(boost::test_tools::close_at_tolerance<double>(5 * std::numeric_limits<double>::epsilon())(mednds, median2));
+	assert(boost::test_tools::close_at_tolerance<double>(boost::test_tools::fraction_tolerance(5 * std::numeric_limits<double>::epsilon()))(mednds, median2));
       }
     }
     delete vecndsp;
