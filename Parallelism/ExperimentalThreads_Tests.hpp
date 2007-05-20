@@ -1,7 +1,13 @@
 // Oliver Kullmann, 15.6.2005 (Swansea)
 
-/*! \file Parallelism/ExperimentalThreads_Tests.hpp
-  Test metafunctions
+/*!
+  \file Parallelism/ExperimentalThreads_Tests.hpp
+  \brief Test metafunctions
+  \deprecated Move to new test system.
+
+  \todo By moving to the new test system it must become possible
+  to find out exactly when the assertion in the failing test happens.
+  \todo Describe what the tests test.
 */
 
 #ifndef EXPERIMENTALTHREADSTESTS_908NbCxz
@@ -13,7 +19,6 @@
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace Parallelism {
 
 #ifndef BOOST_HAS_THREADS
@@ -31,27 +36,29 @@ namespace OKlib {
       
       void perform_test_trivial() {
 
-        {
+        { // running independent counters sequentially (???)
           typedef Counter<0> counter0;
-          typedef typename counter0::integer_type integer_type_0;
-          const integer_type_0 count0 = 10000000U;
+          typedef typename counter0::uint_type uint_type_0;
+          const uint_type_0 count0 = 10000000U;
           {
             const counter0 c0(count0);
-            OKLIB_TEST_EQUAL(counter0::counter, count0);
+            OKLIB_TEST_EQUAL(counter0::counter(), count0);
             c0();
-            OKLIB_TEST_EQUAL(counter0::counter, 0);
+            OKLIB_TEST_EQUAL(counter0::counter(), 0);
           }
           const counter0 c0(count0);
-          OKLIB_TEST_EQUAL(counter0::counter, count0);
+          OKLIB_TEST_EQUAL(counter0::counter(), count0);
           
           typedef Counter<1> counter1;
-          typedef typename counter1::integer_type integer_type_1;
-          const integer_type_1 count1 = 10000001U;
+          typedef typename counter1::uint_type uint_type_1;
+          const uint_type_1 count1 = 10000001U;
           const counter1 c1(count1);
-          OKLIB_TEST_EQUAL(counter1::counter, count1);
-          
+          OKLIB_TEST_EQUAL(counter1::counter(), count1);
+
+          //independent counter c0, c1 initialised
           boost::thread thread0(c0);
           boost::thread thread1(c1);
+          // now both counters are counting down in parallel threads
           OKLIB_TEST_NOTEQUAL(thread0, thread1);
           {
             boost::thread thread;
@@ -62,8 +69,8 @@ namespace OKlib {
           thread0.join();
           thread1.join();
           
-          OKLIB_TEST_EQUAL(counter0::counter, 0);
-          OKLIB_TEST_EQUAL(counter1::counter, 0);
+          OKLIB_TEST_EQUAL(counter0::counter(), 0);
+          OKLIB_TEST_EQUAL(counter1::counter(), 0);
 
         }
 
@@ -71,16 +78,16 @@ namespace OKlib {
           boost::mutex mutex;
 
           typedef CounterWithMutex<0> counter0;
-          typedef typename counter0::integer_type integer_type_0;
-          const integer_type_0 count0 = 10000000U;
+          typedef typename counter0::uint_type uint_type_0;
+          const uint_type_0 count0 = 10000000U;
           const counter0 c0(count0, mutex);
-          OKLIB_TEST_EQUAL(counter0::counter, count0);
+          OKLIB_TEST_EQUAL(counter0::counter(), count0);
           
           typedef CounterWithMutex<1> counter1;
-          typedef typename counter1::integer_type integer_type_1;
-          const integer_type_1 count1 = 10000001U;
+          typedef typename counter1::uint_type uint_type_1;
+          const uint_type_1 count1 = 10000001U;
           const counter1 c1(count1, mutex);
-          OKLIB_TEST_EQUAL(counter1::counter, count1);
+          OKLIB_TEST_EQUAL(counter1::counter(), count1);
 
           boost::thread thread0(c0);
           boost::thread thread1(c1);
@@ -89,21 +96,21 @@ namespace OKlib {
           {
             boost::mutex::scoped_lock lock(mutex);
           }
-          OKLIB_TEST_EQUAL(counter0::counter, 0);
-          OKLIB_TEST_EQUAL(counter1::counter, 0);
+          OKLIB_TEST_EQUAL(counter0::counter(), 0);
+          OKLIB_TEST_EQUAL(counter1::counter(), 0);
         }
 
         { // NOW parallelism
           boost::mutex mutex0;
           typedef CounterWithMutex<0> counter0;
-          typedef typename counter0::integer_type integer_type_0;
-          const integer_type_0 count0 = 10000000U;
+          typedef typename counter0::uint_type uint_type_0;
+          const uint_type_0 count0 = 10000000U;
           const counter0 c0(count0, mutex0);
           
           boost::mutex mutex1;
           typedef CounterWithMutex<1> counter1;
-          typedef typename counter1::integer_type integer_type_1;
-          const integer_type_1 count1 = 10000001U;
+          typedef typename counter1::uint_type uint_type_1;
+          const uint_type_1 count1 = 10000001U;
           const counter1 c1(count1, mutex1);
           
           {
@@ -112,8 +119,8 @@ namespace OKlib {
             boost::mutex::scoped_lock lock0(mutex0);
             boost::mutex::scoped_lock lock1(mutex1);
           }
-          OKLIB_TEST_EQUAL(counter0::counter, 0);
-          OKLIB_TEST_EQUAL(counter1::counter, 0);
+          OKLIB_TEST_EQUAL(counter0::counter(), 0);
+          OKLIB_TEST_EQUAL(counter1::counter(), 0);
         }
       }
       
