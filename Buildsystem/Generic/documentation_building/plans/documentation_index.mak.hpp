@@ -6,6 +6,20 @@
 
   \bug This file should be renamed to documentation_index.hpp.
 
+  \todo Boost-documentation
+  <ul>
+   <li> Include documentation for version 1_34_0. </li>
+   <li> We should make available documentation for all supported versions.
+   (This is useful for transition periods.) </li>
+  </ul>
+
+  \todo GCC-documentation
+  <ul>
+   <li> Include documentation for version 4.2.0 (make sure that everything
+   is linked). </li>
+   <li> We should make available documentation for all supported versions. </li>
+  </ul>  
+
   \todo Page organisation
    - On my laptop the columns are arranged in two rows (independent of the horizontal space
      available (a lot)). So something with the dimensions seems to be wrong.
@@ -17,7 +31,7 @@
    - What kind of style-sheet is used?? Syntax like "#content" I (OK) cannot
      find in any documentation??
    - In documentation_index_style.css one finds hard-coded dimensions --- this doesn't look right.
-   - Documentation is needed (in the form of inline-comments for the css-file.
+   - Documentation is needed (in the form of inline-comments for the css-file).
 
   \todo Using css:
   <ul>
