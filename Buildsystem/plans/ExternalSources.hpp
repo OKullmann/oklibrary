@@ -59,9 +59,7 @@ ExternalSources> make boost-1_34_0
    </li>
    <li> How to inform bjam about an alternative compiler? What about
    <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ?? </li>
-   <li> Correct documentation building. </li>
-   <li> Additionally to the result of "make install" we need also to move
-   the src-directory to, e.g., Boost/1_34_0, and we need to move the doc. </li>
+   <li> Correct documentation building. DONE </li>
    <li> We should read the installation documentation. DONE (unfortunately, there is not much in it) </li>
    <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. DONE </li>
   </ul>
@@ -95,14 +93,25 @@ ExternalSources> make boost-1_34_0
    </li>
   </ul>
   
-  \bug Building gcc_doc
+  \bug Building gcc_doc : DONE
 
   <ul>
-   <li> Does not work (that is, the link at
-   system_directories/doc/index.html is not working),
-   since apparently the man-pages need to be build. </li>
+   <li> Apparently the build does ONLY create sub-directories
+    <ol>
+     <li> info with a few text-files </li>
+     <li> man with a few files not containing much </li>
+    </ol>
+    ??? So the current build is incomplete. But what is to be added
+    to the build??? The only installation information provided with
+    the gcc-distribution apparently is in gcc-4.2.0/gcc/doc/gccinstall.info,
+    and there is no information on building documentation???
+    How to read gcc-4.2.0/gcc/doc/gccinstall.info??? (It's just an ugly
+    text-file???) DONE (it seems that now all possible documentation is build) </li>
+   <li> Target gcc_doc does not work (the link at
+   system_directories/doc/index.html is not working). DONE (still the
+   linking on the index page is to be performed). </li>
    <li> *Only* the documentation is to be extracted, not the whole
-   distribution. </li>
+   distribution. DONE </li>
   </ul>
 
   \todo Boost
@@ -118,11 +127,11 @@ ExternalSources> make boost-1_34_0
    it if it's already there. Or, perhaps better: We just leave it in
    the distribution directory? </li>
    <li> Building %boost should include copying the documentation to doc
-   (in the subdirectory boost-1_33_1 for example). </li>
+   (in the subdirectory boost-1_33_1 for example). DONE </li>
    <li> In the long run, it seems that actually supporting different versions
    of Boost is not feasible (the library will likely always use the newest
    version), so finally supporting different Boost version should be dropped
-   (but the general machinery is worth keeping)?!? </li>
+   (but the general machinery is worth keeping)?!? DONE Very likely most of the times we will support only one boost-version --- but we need the machinery for the transition to newer version (then for some times 2 versions are around)! And we might try out beta-versions etc. So we need the boost-build-machinery. </li>
   </ul>
 
   \todo Building Ubcsat (OK, ML):
