@@ -22,6 +22,7 @@
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - CMake
+    - Mailing list
 
 
   \par Version 0.1.7 : THEME is "External libraries"
