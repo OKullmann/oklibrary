@@ -14,6 +14,15 @@
    - is it possible to make out of the testobject.o-files
      a *dynamic* link library (a static link library is possible
      via ar)?
+
+  \todo Compiler warnings
+  <ul>
+   <li> Somewhere else there should be something on the problem of how
+   to eliminate all compiler warnings? </li>
+   <li> The warning about comparison of signed and unsigned etc.
+   can be disabled with -Wno-type-limits. </li>
+  </ul>
+
 */
 
 /*!
