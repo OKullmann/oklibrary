@@ -45,7 +45,7 @@ make install
    </li>
    <li> Report for cs-wsok:
     <ol>
-     <li> Installation failed:
+     <li> Installation failed (using the system-gcc 4.0.2):
      \verbatim
 ExternalSources> make boost-1_34_0
 
@@ -54,7 +54,24 @@ ExternalSources> make boost-1_34_0
 ...updated 5517 targets...
      \endverbatim
      First check whether this also occurs with the manual installation, then find out
-     which libraries failed. Is the failure the same source as the bug about building boost below? </li>
+     which libraries failed. Is the failure the same source as the bug about building boost below?
+     </li>
+     <li> Manual installations seems to yield the same result. </li>
+     <li> Installation with local gcc "make boost gcc-version=4.1.2" also fails:
+     \verbatim
+...failed updating 8 targets...
+...skipped 24 targets...
+...updated 5517 targets...
+     \endverbatim
+     Rerunning reveals
+     \verbatim
+...failed gcc.link.dll /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/Boost/1_34_0+4.1.2_Build/boost/bin.v2/libs/wave/build/gcc-4.1.2/debug/threading-multi/libboost_wave-gcc41-mt-d-1_34.so.1.34.0...
+gcc.link.dll /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/Boost/1_34_0+4.1.2_Build/boost/bin.v2/libs/graph/build/gcc-4.1.2/debug/threading-multi/libboost_graph-gcc41-mt-d-1_34.so.1.34.0
+collect2: ld terminated with signal 11 [Segmentation fault]
+     \endverbatim
+     So there are linking problems regarding the wave- and the graph-library. This seems not to be
+     of urgent concern for now (but the problem must be fixed).
+     </li>
     </ol>
    </li>
    <li> How to inform bjam about an alternative compiler? What about
@@ -89,7 +106,8 @@ ExternalSources> make boost-1_34_0
    Why this?
   
    We should check in general whether building boost links to the 32bit
-   or to the 64bit version.
+   or to the 64bit version. See the build-problems on cs-wsok described in
+   the bug above.
    </li>
   </ul>
   
@@ -236,7 +254,7 @@ ExternalSources> make boost-1_34_0
   - SOCI (soci.sourceforge.net) ?
   - gcc-xml (www.gccxml.org) ?
   
-  \todo Tools
+  \todo %Tools
   - Investigate the NiX system (a system for managing libraries).
   - Investigate the Poco C++ library (http://www.pocoproject.org; see
     also [C Vu, 19:2, pages 12-15]).
