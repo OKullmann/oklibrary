@@ -10,9 +10,10 @@
   IOStreamFilters :
   IOStreamSinks :
   Multiplexer :
-  RecursiveDirectoryIteration :
+  RecursiveDirectoryIteration : (boost can now be used here,
+                                 and the bug should be handled)
 
-  \todo Perhaps the module name "GeneralInputOutput" is not really
+  \todo Perhaps the module-name "GeneralInputOutput" is not really
   adequate ? At least doxygen has problem with it in connection with
   "InputOutput" (same suffix).
 
