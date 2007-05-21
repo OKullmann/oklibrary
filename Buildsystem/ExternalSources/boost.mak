@@ -111,7 +111,7 @@ $(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2) $(bo
 	./build.sh; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
-	$(call install-boost_gcc,$(1),$(2)); if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(call install-boost_gcc,$(1),$(2)); \
 	mv $(boost-base-directory)/$(1)+$(2)/include/* $(boost-base-directory)/$(1)+$(2)/include/boost-$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	mln -s "$(boost-base-directory)/$(1)+$(2)/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$(1)+$(2)/lib/#1gcc#4"; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
