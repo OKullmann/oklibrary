@@ -5,12 +5,19 @@
   
   \module_version Buildsystem 0.1.5 (31.3.2007)
 
-  \par Version 0.1.6 : THEME is "New version control und build system"
+  \par Version 0.1.6 : THEME is "New version control, new boost, new gcc"
 
   \par
    In Buildsystem/plans/VersionControl.hpp the following topics are handled:
     - Building and using Git
     - New version control system
+
+  \par
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - bug "Building Boost 1_34_0"
+    - bug "Building-Boost Errors"
+    - Boost
+    - bug "Building gcc_doc" : DONE
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
