@@ -72,6 +72,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
      So there are linking problems regarding the wave- and the graph-library. This seems not to be
      of urgent concern for now (but the problem must be fixed).
      </li>
+     <li> Building %boost with "make boost gcc-version=4.2.0" yields the same result. </li>
     </ol>
    </li>
    <li> How to inform bjam about an alternative compiler? What about
