@@ -22,12 +22,12 @@ create_git_dirs : $(git-directories)
 git : $(git_recommended)
 
 $(git_targets) : create_git_dirs
-	$(call unarchive,$@,$(git-base-directory))
+	$(call unarchive,$@,$(git-base-directory)) $(postcondition) \
 	cd $(git-base-directory)/$@; $(postcondition) \
 	make configure; $(postcondition) \
 	sh ./configure --prefix=/usr/local; $(postcondition) \
 	make all doc; $(postcondition) \
-	cp -r $(git-base-directory)/$@/Documentation $(git_doc_dir)/$@; $(postcondition) \
+	cp -r $(git-base-directory)/$@/Documentation $(git_doc_dir); $(postcondition) \
 	sudo make install install-doc; $(postcondition)
 
 # #################################
