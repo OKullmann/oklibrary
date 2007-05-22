@@ -143,26 +143,26 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      work). </li>
     </ul>
    </li>
-   <li> External sources:
+   <li> Unified repositories ("holistic" or "active" libraries)
     <ul>
-     <li> Optimally, the OKlibrary-package is exactly a clone of the repository (and then one needs to
-     run "make" in the top-level directory).
-      <ul>
-       <li> For this also ExternalSources needs to be in the version control. </li>
-       <li> And there needs to be a way to specify "sub-repositories" to separate the public parts
-       of the library from the non-public parts. </li>
-      </ul>
-     </li>
-     <li> If we cannot do this, then at least ExternalSources needs to be under version control on its own. </li>
-    </ul>
-   <li> The different parts in OKplatform:
-    <ul>
-     <li> As already mentioned in the point "External sources", optimally there is just one repository
-     for the whole library (containing the current three repositories Annotations, OKlibrary, Transitional,
-     and the new (sub-)repositories ExternalSources and Overview). Then we need the possibility to restrict
-     access to parts of the repository (so that annotations and Transitional are not public). </li>
-     <li> A problem is, that Annotations currently has public as well as non-public parts; likely this needs to be
-     separated. </li>
+     <li> Optimally, the OKlibrary-package is exactly a clone of the
+     repository (and then one just needs to run "make" in the top-level
+     directory). </li>
+     <li> So "Release = clone", and the user has the same power as the
+     developer --- the idea of an active library (users extend the library)! </li>
+     <li> For this also ExternalSources needs to be in the version control. </li>
+     <li> Optimally there is just one repository
+     for the whole library (containing the current three repositories Annotations,
+     OKlibrary, Transitional, and the new (sub-)repositories ExternalSources and Overview).
+     Then we need the possibility to restrict access to parts of the repository (so
+     that annotations and Transitional are not public). </li>
+     <li> A problem is, that Annotations currently has public as well as
+     non-public parts; likely this needs to be separated. </li>
+     <li> A good solution would be, if "selective cloning" would be possible
+     (push and pull for such clones then only concern the embedded parts).
+     And "repository surgery" is needed (like merging of repositories). </li>
+     <li> It seems, that at least at a higher level Git currently does not
+     offer something in this direction. Send an e-mail to the Git-list! </li>
     </ul>
    </li>
    <li> A distributed version control system as integral part of the library:
