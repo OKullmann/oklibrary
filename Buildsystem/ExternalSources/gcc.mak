@@ -42,18 +42,19 @@ gcc_tag_names:= $(addprefix $(gcc_timestamp_prefix),$(gcc_targets))
 gcc_tag_paths := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names))
 
 $(gcc_tag_paths) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/gcc-%_Build $(gcc-base-directory)/% $(gcc_doc_dir)/%
-	$(call unarchive,gcc-$*,$(gcc-base-directory))
+	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
 	make html dvi pdf; $(postcondition) \
 	make install; $(postcondition) \
 	make install-html; $(postcondition) \
-	mv gcc/doc $(gcc_doc_dir)/$*; $(postcondition) \
-	mv $(gcc-base-directory)/$*/man $(gcc_doc_dir)/$*; $(postcondition) \
-	mv $(gcc-base-directory)/$*/share/doc $(gcc_doc_dir)/$*/html; $(postcondition) \
+	if [[ !(-d $(gcc_doc_dir)/$*/doc) ]]; then mv gcc/doc $(gcc_doc_dir)/$*; fi; $(postcondition) \
+	if [[ !(-d $(gcc_doc_dir)/$*/man) ]]; then mv $(gcc-base-directory)/$*/man $(gcc_doc_dir)/$*; fi; $(postcondition) \
+	mv $(gcc-base-directory)/$*/share/doc $(gcc-base-directory)/$*/share/html; $(postcondition) \
+	if [[ !(-d $(gcc_doc_dir)/$*/html) ]]; then mv $(gcc-base-directory)/$*/share/html $(gcc_doc_dir)/$*/html; fi; $(postcondition) \
 	cd $(gcc-base-directory); $(postcondition) \
-	touch $@ 
+	touch $@; $(postcondition)
 
 $(gcc_targets) : % : $(addprefix $(gcc-base-directory)/,_%)
 
