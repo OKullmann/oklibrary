@@ -4,10 +4,19 @@
   \file FailedLiteralReduction/plans/FailedLiteralReduction.hpp
   \brief Plans for the module FailedLiteralReduction
 
+  The general case is handled in module KLevelForcedAssignments (see
+  plans/KLevelForcedAssignments.hpp).
+
+  \todo Foundations
+  <ul>
+   <li> Clarify the relations to modules KLevelForcedAssignments and Resolution. </li>
+  </ul>
+
   \todo Transferring the implementation used in OKsolver.
 
-  \todo The (old) OKsolver used a timestamp (see Utilities/
-  Timestamp.hpp), incremented with each new literal processed
+  \todo The (old) OKsolver used a timestamp
+  (see Transitional/Utilities/plans/Utilities.hpp),
+  incremented with each new literal processed
   (attempting to find a failed literal), which was used in two ways:
    - assignments to variables used this timestamp, so that for a
      new round (with a new envisaged failed literal) assignments
