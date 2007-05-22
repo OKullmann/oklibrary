@@ -74,11 +74,8 @@ define install-boost
 	$(bjam_directory_path)/bjam --toolset=gcc --prefix=$(boost-base-directory)/$(1) --build-dir=$(boost-base-directory)/$(1)_Build install --without-python
 endef
 
-# Shouldn't the following be replaced by the simpler use of "configure" ??? Perhaps not (so that the
-# connection to the build with local gcc is not broken).
-
 $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory)/boost-% : $(boost-base-directory)/% $(boost_doc_dir)/%
-	$(call unarchive,boost_$*,$(boost-base-directory))
+	$(call unarchive,boost_$*,$(boost-base-directory)) $(postcondition) \
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
 	cd $(bjam_source); $(postcondition) \
 	./build.sh; $(postcondition) \
@@ -88,12 +85,13 @@ $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory
 	mv $(boost-base-directory)/$*/include/* $(boost-base-directory)/$*/include/boost-$*; $(postcondition) \
 	mln -s "$(boost-base-directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$*/lib/#1gcc#4"; $(postcondition) \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$*; $(postcondition) \
-	touch $@
+	touch $@; $(postcondition)
 
 # Comments:
 # 1) The mv-command repaires quirky inconsistent naming-schemes like "boost-1_34" (instead of 
 # "boost-1_34_0").
-# 2)The mln provides the usable links.
+# 2) The mln provides the usable links.
+# 3) The new documentation replaces old one (if existent).
 
 # ###############################
 # Making boost with a local gcc
@@ -105,18 +103,22 @@ endef
 
 define boost_gcc_rule
 $(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2) $(boost_doc_dir)/$(1) | gcc-$(2) 
-	$(call unarchive,boost_$(1),$(boost-base-directory))
+	$(call unarchive,boost_$(1),$(boost-base-directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
 	./build.sh; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
-	$(call install-boost_gcc,$(1),$(2)); \
+	$(call install-boost_gcc,$(1),$(2)); if [ $$$$? != 0 ]; then exit 1; fi; \
 	mv $(boost-base-directory)/$(1)+$(2)/include/* $(boost-base-directory)/$(1)+$(2)/include/boost-$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	mln -s "$(boost-base-directory)/$(1)+$(2)/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$(1)+$(2)/lib/#1gcc#4"; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
-	touch $(boost-base-directory)/boost-$(1)+$(2)
+	touch $(boost-base-directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
 endef
+
+# Comments:
+# Same as above (for system-gcc), but now using the local compiler (and thus also using different
+# naming conventions for the directories built).
 
 $(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_gcc_rule,$(boostversion),$(gccversion)))))
 
