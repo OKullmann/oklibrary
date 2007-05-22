@@ -4,7 +4,12 @@
   \file KLevelForcedAssignments/plans/KLevelForcedAssignments.hpp
   \brief Plans for the module KLevelForcedAssignments
 
-  \todo First the scope (the (informal) concept) has to be established.
+  The special case K=2 is handled in module FailedLiteralReduction
+  (see plans/FailedLiteralReduction.hpp),
+  while "real" resolution reductions are handled in module Resolution
+  (see Resolution/plans/Reductions.hpp).
+
+  \todo First the scope (the (informal) concepts) has to be established.
 */
 
 /*!
