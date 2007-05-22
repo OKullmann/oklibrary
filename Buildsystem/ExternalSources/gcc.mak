@@ -56,6 +56,10 @@ $(gcc_tag_paths) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc
 	cd $(gcc-base-directory); $(postcondition) \
 	touch $@; $(postcondition)
 
+# Comments:
+# If a documentation-directory already exists in doc/Gcc, then it is
+# not changed.
+
 $(gcc_targets) : % : $(addprefix $(gcc-base-directory)/,_%)
 
 
