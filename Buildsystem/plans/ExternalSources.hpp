@@ -115,6 +115,11 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   \bug Building gcc_doc : DONE
 
   <ul>
+   <li> What do do if the subdirectories of doc/Gcc already exist? DONE
+    (nothing done if the directories exist) </li>
+    <li> When it comes to renaming /share/doc to html, and the target
+    directory html already exists, then instead /share/doc is moved *into*
+    html --- how to avoid this?? DONE (first rename, then move) </li>
    <li> Apparently the build does ONLY create sub-directories
     <ol>
      <li> info with a few text-files </li>
@@ -145,6 +150,10 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    bjam-installation for each boost-version, and no need to recreate
    it if it's already there. Or, perhaps better: We just leave it in
    the distribution directory? </li>
+   <li> What happens with copying the documentation- files and directories
+   if the target- files and/or directories are already there? DONE ("cp -r"
+   copies directories/files which are not already present, and actually
+   replaces them if they are already there (in any case!)) </li>
    <li> Building %boost should include copying the documentation to doc
    (in the subdirectory boost-1_33_1 for example). DONE </li>
    <li> In the long run, it seems that actually supporting different versions
@@ -223,6 +232,20 @@ collect2: ld terminated with signal 11 [Segmentation fault]
     <li> Perhaps for example asciidoc is already installed, and this
     suffices? </li>
    </ul>
+   </li>
+   <li> Regarding documentation building: Currently boost.mak overrides old
+   (existing) documentation, while gcc.mak leaves it intact --- should we
+   have a general policy about it? Yet the plan is to make experiences and
+   see what is better.
+    <ul>
+     <li> It seems that "always replace", exploiting this behaviour of
+     the cp-command, seems more standard. </li>
+     <li> One point in favour for the different treatment in gcc.mak is,
+     that there  we want to eliminate the doc-subdirectory of the installation
+     directory, and then "mv" seems safer than the sequence "cp -r rm -r"
+     (what if some parameters are not set right, and rm goes wild?);
+     perhaps this is not very strong. </li>
+    </ul>
    </li>
   </ul>
   
