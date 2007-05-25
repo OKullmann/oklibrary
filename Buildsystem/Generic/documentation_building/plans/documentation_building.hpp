@@ -44,6 +44,13 @@
      This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
      just as plain text files, without any special formatting).
 
-
+  \todo Directory structure:
+  The directory structure under Buildsystem/Generic/documentation_building needs review:
+  <ul>
+   <li> Upper-case should be used (the names are not "systematic"). </li>
+   <li> One nesting-level likely should be eliminated. </li>
+  </ul>
+   
+     
 
 */
