@@ -22,6 +22,9 @@
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
     - CMake
+
+  \par
+   In Buildsystem/plans/MailingLists.hpp the following topics are handled:
     - Mailing list
 
 
