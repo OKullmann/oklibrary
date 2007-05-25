@@ -33,7 +33,7 @@ boost_targets_prefix := $(boost_prefix)-
 boost_prefix_underscore := $(boost_prefix)_
 boost_targets := $(addprefix $(boost_targets_prefix), $(boost_supported_version_numbers))
 boost_recommended := $(boost_targets_prefix)$(boost_recommended_version_number)
-boost_recommended_package_name := $(boost_prefix_underscore)$(boost_recommended_version_number)
+boost_recommended_package_name := $(boost_recommended_version_number)
 
 # #################################
 # Doxygen Versions
