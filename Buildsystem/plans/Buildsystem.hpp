@@ -12,12 +12,6 @@
    Building the makefiles via CMake, and using the makefiles?? </li>
   </ul>
 
-  \todo Mailing list
-  <ul>
-   <li> We need to set up an OKlibrary mailing list with web interface. </li>
-   <li> "Mailman" http://www.gnu.org/software/mailman/ seems to be a good choice ?! </li>
-  </ul>
-
   \todo system_definitions.mak:
   <ul>
    <li> The role of system_definitions.mak must be clarified.
