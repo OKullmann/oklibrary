@@ -17,7 +17,7 @@ doxygen_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/D
 boost_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Boost/$(boost_recommended_package_name)/index.htm
 pgsql_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Postgresql/doc/postgresql/html/index.html
 git_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Git/Documentation/git.html
-gcc_man_page_location := $(OKplatform)/ExternalSources/doc/Gcc/$(gcc_recommended)/man/man1/gcc.1
+gcc_page_location := $(OKplatform)/ExternalSources/doc/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
 
 # ##################################################
 # OKlibrary Documentation Link Elements
@@ -36,13 +36,13 @@ list_of_OKlibrary_documentation_link_elements:= $(OKlibrary_html_index_link_elem
 
 boost_html_index_link_element := "<a href=\"$(boost_html_documentation_index_location)\" target=\"_blank\">Boost</a>"
 doxygen_html_index_link_element := "<a href=\"$(doxygen_html_documentation_index_location)\" target=\"_blank\">Doxygen</a>"
-gcc_man_page_link_element := "<a href=\"$(gcc_man_page_location)\" target=\"_blank\">Gcc</a>"
+gcc_page_link_element := "<a href=\"$(gcc_page_location)\" target=\"_blank\">Gcc</a>"
 git_html_index_link_element := "<a href=\"$(git_html_documentation_index_location)\" target=\"_blank\">Git</a>"
 pgsql_html_index_link_element := "<a href=\"$(pgsql_html_documentation_index_location)\" target=\"_blank\">Postgresql</a>"
 
 list_of_local_index_link_elements :=  $(boost_html_index_link_element) \
                                       $(doxygen_html_index_link_element) \
-                                      $(gcc_man_page_link_element) \
+                                      $(gcc_page_link_element) \
                                       $(git_html_index_link_element) \
                                       $(pgsql_html_index_link_element)
 
