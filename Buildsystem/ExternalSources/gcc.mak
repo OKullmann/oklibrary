@@ -38,17 +38,36 @@ $(gcc-directories) : % :
 	mkdir $@
 
 gcc_timestamp_prefix := _
+# Auxiliary variables (local):
 gcc_tag_names:= $(addprefix $(gcc_timestamp_prefix),$(gcc_targets))
+gcc_tag_names_old:= $(addprefix $(gcc_timestamp_prefix),$(gcc_targets_old))
+gcc_tag_names_new:= $(addprefix $(gcc_timestamp_prefix),$(gcc_targets_new))
+#
 gcc_tag_paths := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names))
+gcc_tag_paths_old := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names_old))
+gcc_tag_paths_new := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names_new))
 
-$(gcc_tag_paths) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/gcc-%_Build $(gcc-base-directory)/% $(gcc_doc_dir)/%
+$(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/gcc-%_Build $(gcc-base-directory)/% $(gcc_doc_dir)/%
+	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
+	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
+	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
+	make; $(postcondition) \
+	make html dvi; $(postcondition) \
+	make install; $(postcondition) \
+	if [[ !(-d $(gcc_doc_dir)/$*/doc) ]]; then mv gcc/doc $(gcc_doc_dir)/$*; fi; $(postcondition) \
+	if [[ !(-d $(gcc_doc_dir)/$*/man) ]]; then mv $(gcc-base-directory)/$*/man $(gcc_doc_dir)/$*; fi; $(postcondition) \
+	mv $(gcc-base-directory)/gcc-$*_Build/gcc/HTML/gcc-$* $(gcc-base-directory)/gcc-$*_Build/gcc/html; $(postcondition) \
+	if [[ !(-d $(gcc_doc_dir)/$*/html) ]]; then mv $(gcc-base-directory)/gcc-$*_Build/gcc/html $(gcc_doc_dir)/$*/html; fi; $(postcondition) \
+	cd $(gcc-base-directory); $(postcondition) \
+	touch $@; $(postcondition)
+
+$(gcc_tag_paths_new) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/gcc-%_Build $(gcc-base-directory)/% $(gcc_doc_dir)/%
 	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
 	make html dvi pdf; $(postcondition) \
-	make install; $(postcondition) \
-	make install-html; $(postcondition) \
+	make install install-html; $(postcondition) \
 	if [[ !(-d $(gcc_doc_dir)/$*/doc) ]]; then mv gcc/doc $(gcc_doc_dir)/$*; fi; $(postcondition) \
 	if [[ !(-d $(gcc_doc_dir)/$*/man) ]]; then mv $(gcc-base-directory)/$*/man $(gcc_doc_dir)/$*; fi; $(postcondition) \
 	mv $(gcc-base-directory)/$*/share/doc $(gcc-base-directory)/$*/share/html; $(postcondition) \
@@ -57,8 +76,10 @@ $(gcc_tag_paths) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc
 	touch $@; $(postcondition)
 
 # Comments:
-# If a documentation-directory already exists in doc/Gcc, then it is
+# 1) If a documentation-directory already exists in doc/Gcc, then it is
 # not changed.
+# 2) Target pdf apparently only supported with version 4.2.0,
+#    and same with install-html.
 
 $(gcc_targets) : % : $(addprefix $(gcc-base-directory)/,_%)
 
