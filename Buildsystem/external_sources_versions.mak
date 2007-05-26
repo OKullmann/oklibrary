@@ -4,6 +4,8 @@
 
 gcc_recommended_version_number := 4.1.2
 gcc_supported_not_recommended_version_numbers := 4.0.1 4.0.2 4.0.3 4.1.0 4.1.1 4.2.0
+gcc_targets_old := 4.0.1 4.0.2 4.0.3 4.1.0 4.1.1 4.1.2
+gcc_targets_new := 4.2.0
 gcc_supported_version_numbers := $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
 
 # ########################################
@@ -14,6 +16,9 @@ gcc_prefix := gcc
 gcc_targets_prefix := $(gcc_prefix)-
 
 gcc_targets := $(addprefix $(gcc_targets_prefix), $(gcc_supported_version_numbers))
+gcc_targets_old := $(addprefix $(gcc_targets_prefix), $(gcc_targets_old))
+gcc_targets_new := $(addprefix $(gcc_targets_prefix), $(gcc_targets_new))
+# OK: temporary hack! The system must be rethought.
 gcc_recommended := $(gcc_targets_prefix)$(gcc_recommended_version_number)
 
 # #################################
