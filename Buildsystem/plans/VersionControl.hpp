@@ -6,7 +6,22 @@
 
   \todo Building and using Git
   <ul>
-   <li> Created now also for Transitional a shared Git-repository. </li>
+   <li> Why does the following not work: On csltok I have a clone of a repository on cs-wsok; now when trying
+   to push to it, the following happens:
+   \verbatim
+> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
+Password:
+bash: git-receive-pack: command not found
+fatal: The remote end hung up unexpectedly
+error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
+   \endverbatim
+   What's wrong here??
+   \verbatim
+> which git-receive-pack
+/usr/local/bin/git-receive-pack
+   \endverbatim
+ </li>
+   <li> Created now also for Transitional a shared Git-repository. DONE </li>
    <li> DONE In order that commits have the full name ("Oliver Kullmann" instead of "csoliver") and e-mail-address
    ("O.Kullmann@Swansea.ac.uk" instead of "csoliver@cs-wsok.swan.ac.uk"), easiest is to tell Git for all
    repositories of the user (that is, in  ~/.gitconfig instead of .git/config) about it via
