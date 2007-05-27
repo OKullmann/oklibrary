@@ -22,7 +22,7 @@ gcc_distribution_directories := $(addprefix $(gcc-base-directory)/,$(gcc_targets
 gcc_doc_dir := $(external_sources_doc_base_dir)/Gcc
 gcc_doc_dir_directories := $(patsubst gcc-%, %, $(gcc_targets))
 gcc_doc_dir_directories := $(addprefix $(gcc_doc_dir)/,$(gcc_doc_dir_directories))
-gcc-directories := $(gcc-base-directory) $(gcc_build_directory_paths) $(gcc_installation_directory_paths) $(gcc_distribution_directories) $(gcc_doc_dir) $(gcc_doc_dir_directories)
+gcc-directories := $(gcc-base-directory) $(gcc_installation_directory_paths) $(gcc_distribution_directories) $(gcc_doc_dir) $(gcc_doc_dir_directories)
 
 .PHONY : gcc gcc_all $(gcc_targets)
 
@@ -47,8 +47,9 @@ gcc_tag_paths := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names))
 gcc_tag_paths_old := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names_old))
 gcc_tag_paths_new := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names_new))
 
-$(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/gcc-%_Build $(gcc-base-directory)/% $(gcc_doc_dir)/%
+$(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/% $(gcc_doc_dir)/%
 	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
+	mkdir $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
@@ -61,8 +62,9 @@ $(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $
 	cd $(gcc-base-directory); $(postcondition) \
 	touch $@; $(postcondition)
 
-$(gcc_tag_paths_new) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/gcc-%_Build $(gcc-base-directory)/% $(gcc_doc_dir)/%
+$(gcc_tag_paths_new) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/% $(gcc_doc_dir)/%
 	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
+	mkdir $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
