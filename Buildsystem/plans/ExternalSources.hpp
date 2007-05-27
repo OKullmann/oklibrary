@@ -140,6 +140,8 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
   \todo Boost
   <ul>
+   <li> Like with gcc, the build-directory and the bjam-directory should not be a
+   prerequisite (so that an unnecessary "make boost" is a noop). </li>
    <li> It should be possible to say "gcc-version=recommended". </li>
    <li> Instead of "boost boost_recommended=boost-1_33_1" we should use
    "boost boost-version=1_33_1". </li>
@@ -261,6 +263,14 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    some settings for the build of gcc. </li>
    <li> Shouldn't file external_sources_versions.mak be placed in
    subdirectory Buildsystem/ExternalSources ? </li>
+   <li> If the filestamp does already exist, then we want nothing to happen ---
+   however yet the build-directory will be rebuilt if not existent, since
+   it is a prerequisite of the rule for the "tag-paths". So it seems
+   necessary to remove the build-directory from the prerequisite-list,
+   however then it seems impossible to create the build-directory, if actually
+   gcc *is* to be build, via the target-mechanism. DONE (it seems reasonable
+   to remove the build-directory from the prerequisite-list and to build it
+   "manually") </li>
   </ul>
   
   \todo PostgreSQL
