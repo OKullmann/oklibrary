@@ -88,7 +88,7 @@ $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory
 	touch $@; $(postcondition)
 
 # Comments:
-# 0) Failing boost-build does not stop the process (a partial build is still useful).
+# 0) Failing boost-build does not stop the process (since a partial build is still useful).
 # 1) The mv-command repaires quirky inconsistent naming-schemes like "boost-1_34" (instead of 
 # "boost-1_34_0").
 # 2) The mln provides the usable links.
