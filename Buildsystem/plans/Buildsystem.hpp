@@ -284,4 +284,11 @@
   \todo Renaming module Buildsystem:
   To be consistent with the other module names, it should be called "BuildSystem" ?
 
+  \todo Version numbers
+  <ul>
+   <li> It would be good to have not only version numbers for modules,
+   but also for single files (to indicate the state of
+   development) ?! </li>
+  </ul>
+
 */
