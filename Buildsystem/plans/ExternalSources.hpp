@@ -138,6 +138,20 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    distribution. DONE </li>
   </ul>
 
+  \todo CMake
+  <ul>
+   <li> System-wide installation
+   \verbatim
+CMake> tar -xzf ../cmake-2.4.6.tar.gz
+CMake> cd cmake-2.4.6
+CMake/cmake-2.4.6> ./bootstrap
+CMake/cmake-2.4.6> make
+# make install
+   \endverbatim
+   The relevant documentation-directories are "Docs" and "Example".
+   </li>
+  </ul>
+
   \todo Boost
   <ul>
    <li> Like with gcc, the build-directory and the bjam-directory should not be a
