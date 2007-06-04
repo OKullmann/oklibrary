@@ -4,10 +4,12 @@
   \file KLevelForcedAssignments/plans/KLevelForcedAssignments.hpp
   \brief Plans for the module KLevelForcedAssignments
 
-  The special case K=2 is handled in module FailedLiteralReduction
-  (see plans/FailedLiteralReduction.hpp),
+  The special case K=2 (and extensions) is handled in module
+  FailedLiteralReduction (see plans/FailedLiteralReduction.hpp),
   while "real" resolution reductions are handled in module Resolution
-  (see Resolution/plans/Reductions.hpp).
+  (see Resolution/plans/Reductions.hpp). This module considers
+  algorithms and data structures for the general case (arbitrary K)
+  of generalised unit-clause-propagation.
 
   \todo First the scope (the (informal) concepts) has to be established.
 */
