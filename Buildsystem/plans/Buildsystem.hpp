@@ -4,14 +4,6 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo CMake
-  <ul>
-   <li> Investigate CMake (http://www.cmake.org/HTML/Index.html), whether it
-   would be useful for us. (autoconf and the like seems outdated ?) It got
-   good references from KDE, but on the other hand, then we had two levels:
-   Building the makefiles via CMake, and using the makefiles?? </li>
-  </ul>
-
   \todo system_definitions.mak:
   <ul>
    <li> The role of system_definitions.mak must be clarified.
