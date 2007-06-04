@@ -5,7 +5,7 @@
   
   \module_version Buildsystem 0.1.5 (31.3.2007)
 
-  \par Version 0.1.6 : THEME is "New version control, new boost, new gcc"
+  \par Version 0.1.6 : THEME is "New infrastructure (version control, make, boost, gcc)"
 
   \par
    In Buildsystem/plans/VersionControl.hpp the following topics are handled:
@@ -16,16 +16,18 @@
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - bug "Building Boost 1_34_0"
     - bug "Building-Boost Errors"
+    - CMake
     - Boost
     - bug "Building gcc_doc" : DONE
 
   \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
     - CMake
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
-    - Mailing list
+    - Mailing list software
+    - User mailing list
 
 
   \par Version 0.1.7 : THEME is "External libraries"
