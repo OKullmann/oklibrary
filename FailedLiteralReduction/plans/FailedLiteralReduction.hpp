@@ -5,11 +5,19 @@
   \brief Plans for the module FailedLiteralReduction
 
   The general case is handled in module KLevelForcedAssignments (see
-  plans/KLevelForcedAssignments.hpp).
+  plans/KLevelForcedAssignments.hpp), while this module considers
+  the case K=2 and extensions (with special algorithms etc.), including
+  k=3.
 
   \todo Foundations
   <ul>
-   <li> Clarify the relations to modules KLevelForcedAssignments and Resolution. </li>
+   <li> Clarify the relations to modules
+    <ul>
+     <li> KLevelForcedAssignments: This module considers variations on K=2 and K=3,
+     while KLevelForcedAssignments considers arbitrary K. </li>
+     <li> Resolution </li>
+    </ul>
+   </li>
   </ul>
 
   \todo Transferring the implementation used in OKsolver.
@@ -84,8 +92,10 @@
   partial assignment. There could be also forms in between, but they seem hard to handle.
 
   \todo Double look-ahead:
-  What about the integration of partial double-look-ahead, as discussed for example
-  in the SAT2007-submission by Heule/vanMaaren ?
+  What about the integration of partial double-look-ahead (partial r_3), as discussed
+  for example in the SAT2007-paper by Heule/vanMaaren ? How much is missed with such a
+  partial scheme? And what could be reasonable heuristics for the selection??
+
 */
 
 /*!
