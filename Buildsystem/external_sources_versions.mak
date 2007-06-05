@@ -163,3 +163,20 @@ git_prefix := git
 git_targets_prefix := $(git_prefix)-
 git_targets := $(addprefix $(git_targets_prefix), $(git_supported_version_numbers))
 git_recommended := $(git_targets_prefix)$(git_recommended_version_number)
+
+# ################################
+# Cmake Versions
+# ###############################
+
+cmake_recommended_version_number := 2.4.6
+cmake_supported_version_numbers := $(cmake_recommended_version_number)
+
+# ###########################################
+# Cmake Version-dependent System Variables
+# ###########################################
+
+cmake_prefix := cmake
+cmake_targets_prefix := $(cmake_prefix)-
+cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
+cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
+
