@@ -37,7 +37,8 @@
   <ul>
    <li> Further links:
     <ol>
-     <li> Internet page </li>
+     <li> Internet page (which has links to the mailing lists) </li>
+     <li> CMake documentation (if we use it). </li>
     </ol>
    </li>
    <li>  On my laptop the columns are arranged in two rows (independent of
