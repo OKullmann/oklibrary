@@ -140,7 +140,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
   \todo CMake
   <ul>
-   <li> System-wide installation
+   <li> System-wide installation DONE
    \verbatim
 CMake> tar -xzf ../cmake-2.4.6.tar.gz
 CMake> cd cmake-2.4.6
