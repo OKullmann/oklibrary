@@ -35,7 +35,7 @@ gcc_all : $(gcc_targets)
 gcc : $(gcc_recommended)
 
 $(gcc-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 gcc_timestamp_prefix := _
 # Auxiliary variables (local):
