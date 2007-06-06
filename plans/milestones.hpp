@@ -191,13 +191,3 @@
   Initial version number (library basically empty).
 */
 
-
-
-/*!
-  \namespace OKlib
-  \brief All components of the OKlibrary
-*/
-
-namespace OKlib {
-}
-
