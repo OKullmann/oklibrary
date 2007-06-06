@@ -153,7 +153,7 @@ asciidoc_recommended := $(asciidoc_targets_prefix)$(asciidoc_recommended_version
 # ###############################
 
 git_recommended_version_number := 1.5.2
-git_supported_version_numbers := $(git_recommended_version_number) 1.5.1
+git_supported_version_numbers := $(git_recommended_version_number) 1.5.1 1.5.2.1
 
 # ###########################################
 # Git Version-dependent System Variables
