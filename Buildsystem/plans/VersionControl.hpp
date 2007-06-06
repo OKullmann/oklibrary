@@ -191,6 +191,8 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      And "repository surgery" is needed (like merging of repositories). </li>
      <li> It seems, that at least at a higher level Git currently does not
      offer something in this direction. Send an e-mail to the Git-list! </li>
+     <li> Is "git-submodule" a solution? Unclear what it does?? And not available with
+     1.5.2.1. </li>
     </ul>
    </li>
    <li> A distributed version control system as integral part of the library:
@@ -214,11 +216,15 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
     existing repositories will be copied over to Git).
     <ol>
      <li> Git (http://git.or.cz/) looks rather good --- one should try it out! </li>
-     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34]. See whether meanwhile the have a comparison with Git! </li>
+     <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. Can't find anything special
+     for it. DONE</li>
+     <li> What about Arch (http://www.gnuarch.org/gnuarchwiki/)? Doesn't seem to have the strong
+     development team as Git; and I can't see anything special about it. DONE</li>
+     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34]. See whether
+     meanwhile the have a comparison with Git! No, not yet --- my (OK) impression is that git is technically
+     much stronger (while Bazaar aims at being "nice"). DONE </li>
      <li> svk (http://svk.elixus.org), apparently a further development of Subversion.
-     Looks somewhat immature. </li>
-     <li> What about Arch? </li>
-     <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. </li>
+     Looks somewhat immature --- and aims at just improving svn in some parts. DONE </li>
     </ol>
    </li>
   </ul>
