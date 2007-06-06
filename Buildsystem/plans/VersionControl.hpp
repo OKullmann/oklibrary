@@ -20,7 +20,12 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
 > which git-receive-pack
 /usr/local/bin/git-receive-pack
    \endverbatim
- </li>
+   </li>
+   <li> It seems that the .git directories grow rather fast? For csltok:
+    <ol>
+     <li> 6.6.2007: 4.3 MB </li>
+    </ol>
+   </li>
    <li> Created now also for Transitional a shared Git-repository. DONE </li>
    <li> DONE In order that commits have the full name ("Oliver Kullmann" instead of "csoliver") and e-mail-address
    ("O.Kullmann@Swansea.ac.uk" instead of "csoliver@cs-wsok.swan.ac.uk"), easiest is to tell Git for all
