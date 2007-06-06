@@ -106,8 +106,16 @@ git checkout -f
    system-wide installion (in /usr/local). DONE (for now just the system-wide installation) </li>
   </ul>
 
+
   \todo New version control system
   <ul>
+   <li> Likely when advancing the version of Transitional, we should tag all
+   files:
+    <ol>
+     <li> How to do this? </li>
+     <li> Are there several possibilities? </li>
+    </ol>
+   </li>
    <li> How to send notification-e-mails with Git: In the shared repository the file
    "hooks/post-receive" has to be made executable, and then filled with action; temporary
    solution (for Annotations):
@@ -201,7 +209,7 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
     existing repositories will be copied over to Git).
     <ol>
      <li> Git (http://git.or.cz/) looks rather good --- one should try it out! </li>
-     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34].
+     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34]. See whether meanwhile the have a comparison with Git! </li>
      <li> svk (http://svk.elixus.org), apparently a further development of Subversion.
      Looks somewhat immature. </li>
      <li> What about Arch? </li>
