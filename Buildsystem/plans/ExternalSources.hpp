@@ -84,6 +84,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. DONE </li>
   </ul>
 
+
   \bug Building-Boost Errors
   
   <ul>
@@ -113,10 +114,30 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    the bug above.
    </li>
   </ul>
-  
+
+
   \bug Building gcc_doc : DONE
 
   <ul>
+   <li> On cs-wsok we get the following build-error:
+    \verbatim
+~/SAT-Algorithmen/OKplatform/ExternalSources> make gcc-4.2.0
+...
+make[2]: Entering directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build'
+Doing pdf in gcc
+make[3]: Entering directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc'
+texi2pdf -I . -I /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc/../../gcc-4.2.0/gcc/doc -I /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc/../../gcc-4.2.0/gcc/doc/include -o doc/gcc.pdf ../../gcc-4.2.0/gcc/doc/gcc.texi
+make[3]: texi2pdf: Command not found
+make[3]: *** [doc/gcc.pdf] Error 127
+make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc'
+make[2]: *** [pdf-gcc] Error 1
+make[2]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build'
+make[1]: *** [do-pdf] Error 2
+make[1]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build'
+make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc/_gcc-4.2.0] Error 1
+    \endverbatim
+    ??? Where to get texi2pdf ? DONE (now in ExternalSources --- just a script, which can be put into ~/bin for
+    example; should the installation do something about it???) </li>
    <li> What do do if the subdirectories of doc/Gcc already exist? DONE
     (nothing done if the directories exist) </li>
     <li> When it comes to renaming /share/doc to html, and the target
