@@ -14,6 +14,19 @@
    are updated by running some program (which has the list of current
    values). Then we can just write plain html-pages, and don't have
    to bother about constructing them with make-commands.
+   <ol>
+    <li> The solution is an html preprocessor (see http://htmlhelp.com/links/preprocessors.html). </li>
+    <li> The simplest case is just to use the C preprocessor (see
+    http://www.cs.tut.fi/~jkorpela/html/cpre.html)! This looks
+    rather attractive --- by using includes or by using macros we can
+    easily add some dynamic content. The main advantage is, that we
+    don't have to learn anything new --- so I (OK) am in favour of this
+    solution. </li>
+    <li> The next level of power would be m4 --- this is available on Linux
+    and Unix systems (current version is 1.4.9, but the installed versions
+    should be fine). </li>
+    <li> Still more powerfull is hsc (http://www.linguistik.uni-erlangen.de/~msbethke/software.html). </li>
+   </ol>
    </li>
    <li> Perhaps a new subdirectory Buildsystem/Configuration? </li>
    <li> Is CMake right for translating the configuration data into
