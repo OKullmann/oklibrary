@@ -4,7 +4,8 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
   \brief Plans for the documentation index makefile
 
-  \bug This file should be renamed to documentation_index.hpp.
+  \bug Naming:
+  This file should be renamed to documentation_index.hpp.
 
   \todo Boost-documentation
   <ul>
@@ -31,7 +32,12 @@
    <li> We should make available documentation for all supported versions.
    However the main documentations should be for the recommended version,
    while for the other pages we provide links. </li>
-  </ul>  
+  </ul>
+
+  \todo CMake documentation
+  <ul>
+   <li> Create links to the documentation-pages (in Docs). </li>
+  </ul>
 
   \todo Page organisation
   <ul>
