@@ -16,8 +16,9 @@
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - bug "Building Boost 1_34_0"
     - bug "Building-Boost Errors"
-    - CMake
     - Boost
+    - Mailman
+    - CMake : DONE
     - bug "Building gcc_doc" : DONE
 
   \par
@@ -26,11 +27,24 @@
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
-    - Mailing list software
     - User mailing list
+    - Mailing list software : DONE
 
 
   \par Version 0.1.7 : THEME is "External libraries"
+
+  \par
+   In Buildsystem/plans/MailingLists.hpp the following topics are handled:
+    - Mailing lists:
+    - User mailing list
+
+  \par
+   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
+   the following topics are handled
+    - bug "Naming"
+    - Boost-documentation
+    - GCC-documentation
+    - CMake documentation
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
