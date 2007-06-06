@@ -40,7 +40,9 @@ make install
 ...updated 5548 targets...
      \endverbatim
      </li>
-     <li> Next then is to build using gcc version 4.2.0. </li>
+     <li> Next then is to build using gcc version 4.2.0: Seems to work
+     (but not used yet, since first the template-related (new)
+     errors have to be repaired). </li>
     </ol>
    </li>
    <li> Report for cs-wsok:
@@ -138,6 +140,18 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    distribution. DONE </li>
   </ul>
 
+  \todo Mailman
+  <ul>
+   <li> Building mailman on cs-wsok (for testing):
+    <ol>
+     <li> Building the main program </li>
+     <li> What about the web server: Is Apache the best choice for us?
+     (Perhaps we need the web server anyway for the OKplatform-Internet
+     page?) </li>
+    </ol>
+   </li>
+  </ul>
+
   \todo CMake
   <ul>
    <li> System-wide installation DONE
@@ -165,7 +179,9 @@ CMake/cmake-2.4.6> make
    <li> Installation of bjam should be improved: Having exactly one
    bjam-installation for each boost-version, and no need to recreate
    it if it's already there. Or, perhaps better: We just leave it in
-   the distribution directory? </li>
+   the distribution directory --- this seems reasonable: We don't use
+   bjam ourselves, and thus by removing the additional steps
+   our systems becomes simpler! </li>
    <li> What happens with copying the documentation- files and directories
    if the target- files and/or directories are already there? DONE ("cp -r"
    copies directories/files which are not already present, and actually
