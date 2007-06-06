@@ -49,7 +49,7 @@ gcc_tag_paths_new := $(addprefix $(gcc-base-directory)/,$(gcc_tag_names_new))
 
 $(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/% $(gcc_doc_dir)/%
 	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
-	mkdir $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
+	if [[ !(-d $(gcc-base-directory)/gcc-$*_Build) ]]; then mkdir $(gcc-base-directory)/gcc-$*_Build; fi; $(postcondition) \
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
@@ -64,7 +64,7 @@ $(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $
 
 $(gcc_tag_paths_new) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $(gcc-base-directory)/% $(gcc_doc_dir)/%
 	$(call unarchive,gcc-$*,$(gcc-base-directory)) $(postcondition) \
-	mkdir $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
+	if [[ !(-d $(gcc-base-directory)/gcc-$*_Build) ]]; then mkdir $(gcc-base-directory)/gcc-$*_Build; fi; $(postcondition) \
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
