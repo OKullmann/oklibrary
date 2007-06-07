@@ -35,7 +35,6 @@
 # This variable pair specifies the top level directory of the OKplatform.
 # The subdirectories $(ExternalSources) and $(SystemDirectories) are created by 
 # the build system in the directory specified by the value of this variable.
-
 #
 # If both the environment variable OKPLATFORM and the Make variable OKplatform 
 # are undefined then the build system gives an error message.
@@ -121,12 +120,12 @@ endif
 # ----------------------------------------------------------
 
 
-# Every module which needs to be built has a link, called "makefile"
+# Every module which needs to be built contains a symbolic link, called "makefile"
 # to the generic makefile Transitional/Buildsystem/generic.mak.
 
 # Most system-wide environment and Make variables are defined in the file
 # Transitional/Buildsystem/system_definitions.mak.
-# However, the build system, requires in certain files (see next section)
+# However the build system requires in certain files (see next section)
 # that the definition of OKbuildsystem is available, and in order to provide
 # maximum flexibility and convenience for the user we chose to define in each
 # of those places the environment variable OKPLATFORM, OKSYSTEM, OKBUILDSYSTEM
@@ -152,6 +151,8 @@ endif
 #  Transitional/Buildsystem/Transitional.mak
 #  Transitional/Buildsystem/Annotations.mak
 # ################################################################
+
+# REMARK OK: The above list ist not maintainable --- something needs to happen! XXX
 
 ifndef OKplatform
   ifdef OKPLATFORM
@@ -241,83 +242,35 @@ source_libraries += $(OKsystem_include)
 # ################################################################
 
 # ----------------------------------------------------------
-# bin_dir (SV)
-#
-# Top-level directory for all executables.
-# ----------------------------------------------------------
+# bin_dir (SV): Top-level directory for all executables.
 bin_dir := $(system_directories)/bin
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# lib_dir (SV)
-#
-# This is the top-level directory for all object-files.
-# ----------------------------------------------------------
+# lib_dir (SV): Top-level directory for all object-files.
 lib_dir := $(system_directories)/lib
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# doc_dir (SV)
-#
-# This is the top-level directory for all documentation. 
-# ----------------------------------------------------------
+# doc_dir (SV): Top-level directory for all documentation. 
 doc_dir := $(system_directories)/doc
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# aux_dir (SV)
-# 
-# Top-level directory for all dependency files,
+# aux_dir (SV): Top-level directory for all dependency files,
 # error, message and log files, and latex auxilliary files.
-# ----------------------------------------------------------
 aux_dir := $(system_directories)/aux
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# latex_dir (SV)
-#
-# Directory for all latex auxilliary files.
-# ----------------------------------------------------------
+# latex_dir (SV): Directory for all latex auxilliary files.
 latex_dir := $(aux_dir)/latex
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# dependencies_dir (SV)
-#
-# Directory for all dependency files.
-# ----------------------------------------------------------
+# dependencies_dir (SV): Directory for all dependency files.
 dependencies_dir := $(aux_dir)/dependencies
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# html_dir (SV)
-#
-# Top-level directory for doxygen documentation.
-# ----------------------------------------------------------
+# html_dir (SV): Top-level directory for doxygen documentation.
 html_dir := $(doc_dir)/html
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# test-bin_dir (SV)
-#
-# Directory for all test executables.
-# ----------------------------------------------------------
+# test-bin_dir (SV): Directory for all test executables.
 test-bin_dir := $(bin_dir)/tests
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# test-lib_dir (SV)
-#
-# Directory for current module test object-files. 
-# ----------------------------------------------------------
+# test-lib_dir (SV): Directory for current module test object-files. 
 test-lib_dir := $(lib_dir)/tests/$(module-name)
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# test-aux_dir (SV)
-#
-# Directory for current module test dependency files.
-# ----------------------------------------------------------
+# test-aux_dir (SV): Directory for current module test dependency files.
 test-aux_dir := $(aux_dir)/tests/$(module-name)
 # ----------------------------------------------------------
 
@@ -717,129 +670,75 @@ Test_tool := time -p
 
 # ----------------------------------------------------------
 # test_level (SV)
-#
 # By default has the value "basic" but can be
 # redefined to either of the values "full" or
 # "extensive". Specifies the level of testing
 # carried out be (new) test system.
-# ----------------------------------------------------------
 test_level := basic
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # error_file (SV)
-#
 # Specifies the location of the error log file
 # for the test program of the current module.
-# ----------------------------------------------------------
 error_file := $(test-aux_dir)/Error
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # message_file (SV)
-# 
 # Specifies the location of the messages log file
 # for the test program of the current module.
-# ----------------------------------------------------------
 message_file := $(test-aux_dir)/Message
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # log_file (SV)
-#
 # Specifies the location of the log file for the
 # test program of the current module.
-# ----------------------------------------------------------
 log_file := $(test-aux_dir)/Log
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # error_stream (SV)   
-#
 # Specifies a stream for the streaming of error
 # messages.
-# ----------------------------------------------------------
 error_stream := "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # message_stream (SV)
-#
 # Specifies a stream for the streaming of non-
 # error messages.
-# ----------------------------------------------------------
 message_stream := "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # log_stream (SV)
-#
 # Specifies a stream for the streaming of log
 # messages.
-# ----------------------------------------------------------
 log_stream := "ofstream-w=$(log_file)"
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # error_level (SV)                 
-#
 # Specifies verbosity level for error messages,
 # by default 0 (lowest verbosity).
-# ----------------------------------------------------------
 error_level := 0
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # message_level (SV)               
-#
 # Specifies verbosity level for non-error 
 # messages, default 0 (lowest verbosity).
-# ----------------------------------------------------------
 message_level := 0
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # log_level (SV)                   
-#
 # Specifies verbosity level for log 
 # messages, default 0 (lowest verbosity).
-# ----------------------------------------------------------
 log_level := 0
-# ---------------------------------------------------------- 
-
 # ----------------------------------------------------------
 # error_lang (SV)                   
-#
 # Specifies language for error messages, by
 # default equal to en_GB.
-# ----------------------------------------------------------
 error_lang := en_GB
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # message_lang (SV)                
-#
 # Specifies language for non-error messages, by
 # default equal to en_GB.
-# ----------------------------------------------------------
 message_lang := en_GB
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # log_lang (SV)             
-#
 # Specifies language for log messages, by
 # default equal to en_GB.
-# ----------------------------------------------------------
 log_lang := en_GB
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # test_parameters (LV)              
-#
 # Parameters to be passed to the test program for
 # the current module.
-# ----------------------------------------------------------
 test_parameters := $(test_level) \
                    $(error_stream) \
                    $(message_stream) \
