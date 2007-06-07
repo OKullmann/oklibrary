@@ -93,5 +93,15 @@ SET(CONFIGVAR2 value2)
    see Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp). </li>
   </ul>
 
+  \todo Building the Internet-page:
+  <ul>
+   <li> A new target "Internet". </li>
+   <li> The build-process copies all relevant files to the
+   location where the web server accesses the pages. </li>
+   <li> The process should be fully automatic, including
+   updating the packages etc. --- no alterations by hand
+   should be necessary! </li>
+  </ul>
+
 */
 
