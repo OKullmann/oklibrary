@@ -23,7 +23,7 @@
    </tr>
   </table>
 
-  <H2> Test system </H2>
+  <H2> %Test system </H2>
 
   <H3> The old test system (deprecated) </H3>
 
