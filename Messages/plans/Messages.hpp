@@ -51,10 +51,13 @@
   language and the level, at runtime language and level must be extracted from <code>out</code>
   to output the message: Can this runtime-overhead be avoided?
 
-  \todo Demonstrations:
-  We need demonstrations for all components provided by this module (for example
-  LineHandling is not handled yet). Also an overview on the demonstrations is
-  needed.
+  \todo Demonstrations
+  <ul>
+   <li> We need demonstrations for all components provided by this module (for example
+   LineHandling is not handled yet). Also an overview on the demonstrations is
+   needed. </li>
+   <li> Once read, move demos to Messages/demos (and remove prefixes). </li>
+  </ul>
 
   \todo Testing:
    - We need here a preliminary compiler switch, which disables
@@ -69,6 +72,16 @@
   Are intelligent pointer enough to handle messages? There should be a documentation about handling
   messages (regarding their storage duration: automatic and dynamic are most important; and references
   are also important).
+
+  \todo Write documentation
+  <ul>
+   <li> In Messages/docus put documentation for all main components (once stabilised). </li>
+  </ul>
+
+  \todo Formalise concepts
+  <ul>
+   <li> Once stabilised, create formal concepts in Messages/concepts. </li>
+  </ul>
 
 */
 
