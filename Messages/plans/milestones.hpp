@@ -42,11 +42,18 @@
   In Messages/Utilities/plans/milestones.hpp version 0.1 is reached.
 
   \par Version 0.9 :
+
+  In Messages/plans/Messages.hpp the following topics are handled:
+   - Write documentation
+
   Documentation completed.
 
   \par Version 1.0 :
-   - In Messages/Utilities/plans/milestones.hpp version 0.1 is reached.
-   - Tests for all components available and applied.
+
+  In Messages/plans/Messages.hpp the following topics are handled:
+   - Formalise concepts
+  
+ Tests for all components available and applied.
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
