@@ -243,30 +243,6 @@
   Do we get slower run-times with g++ 4.1.2 compared to 4.1.1, and thus we
   need to write no-throw-declarations? (Perhaps this needs to be done anyway?)
 
-  \todo Package construction script
-   - Writing the package-construction script. (Internal versions should
-     have date and time in the name.)
-
-  \todo Competition extraction tools
-   - these tools, for a given program
-     build a package, which contains all necessary source code and can be build
-     using make (producing then the executable). A problem here are the link-libraries.
-     Without them, one could use the ability of g++ to produce compilation units (using
-     the option "-E" like "g++ -E Program.cpp -o Program.ii"), putting everything into one big file.
-     Knowing the link-libraries, just compiling Program.ii with the right .o-files yields the program.
-     So when we know all compilation units, we can preprocess them all and putting them
-     into the package; the package just compiles the units separately, and then links them together.
-
-  \todo Distributing the library (needs update):
-   - We must study how to distribute a copy of the whole CVS-system (so that later a re-merge is
-     possible; also updates must be studied).
-   - Two download possibilities: Either the whole library (with all included libraries like
-     Boost, doxygen, PostgreSQL etc.), or only the minimum.
-     This gives two user types: "full user" and "minimal user".
-     We must make sure, that also the minimal user can use the test and the complexity system
-     (compiling it himself, or using the build system). And we must study, how a full user can keep his
-     file structure separate from the library by using links.
-
   \todo New targets (needs update):
    - "create_new_module" and "create_new_submodule",
      which create a new subdirectory with test-program respectively new
