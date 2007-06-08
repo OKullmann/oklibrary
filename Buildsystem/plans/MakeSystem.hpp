@@ -24,6 +24,22 @@
      cmake-makefile in .build (to recreate the makefile in .build). </li>
      <li> For this to work we need the capability of cmake to place the cmake-makefile
      as well as the makefile somewhere else than in the source-directory. </li>
+     <li> Having the .build-directory in the source-tree creates considerable
+     space overhead (relevant when copying the source-tree, as it happens when
+     using it on the laptop), and likely it is not advisable to have
+     build-information in the source-tree: So, given that we are free where to place
+     the cmake-file, we should place the build-directory in system_directories/aux
+     (or system_directories/build?). </li>
+     <li> What is the cmake-file in .build? Three possibilities:
+      <ol>
+       <li> A copy of the generic cmake-file. </li>
+       <li> A symbolic link to the generic cmake-file. </li>
+       <li> A created cmake-file (created from a generic template and some
+       parameters). </li>
+      </ol>
+      Obviously, creating a customised cmake-file is most powerful, but one needs
+      could reasons for that --- and a good design, with a clear idea about
+      the different levels of indirection! </li>
      <li> The aim is to use in this way all the build-in facilities of cmake, while
      overcoming its restricted power. </li>
      <li> If cmake has not enough power for computing (and manipulating) file-lists, then
@@ -33,7 +49,18 @@
      <li> The additional level of indirection (given by the master makefile) seems necessary,
      since we want complete automisation, while cmake itself does nothing than creating
      makefile --- and the makefiles created are not "dynamic" but "static" (rather restricted
-     in power). </li>
+     in power). The abstract division of work between the three layers can be understood as
+     follows:
+      <ol>
+       <li> The master-makefile-level does not do real building, but only its fileprocessing
+       capabilities are needed (so actually a shell-script could be used?!). </li>
+       <li> The cmake-level has the knowledge of how to build things. </li>
+       <li> Finally, the created makefiles are purely static, and master dependencies (and,
+       or course, actually perform the build-actions). </li>
+      </ol>
+      One should think about using a shell-script instead of a master-makefile! The main disadvantage
+      seems to be that the syntax "make target" couldn't be used.
+     </li>
     </ul>
    <li> Can cmake handle our "fractal" or "recursive" directory structure, where we have
    arbitrary nested subdirectories, inside we find standard functional (sub-sub-)directories like
