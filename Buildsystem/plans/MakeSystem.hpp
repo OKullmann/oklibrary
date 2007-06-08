@@ -7,6 +7,34 @@
 
   \todo CMake
   <ul>
+   <li> The basic idea of using cmake despite of the problems described below (see also
+   the e-mail to the CMake-mailing list from 7.6.2007): Use make to run the cmake-process!
+   In Detail:
+    <ul>
+     <li> As now, every module where we wish to have build-functionality contains a symbolic
+     link to a generic makefile (a new one --- just a very simple one (hopefully)).
+     Perhaps we call this makefile the "master makefile". </li>
+     <li> Such a module contains a .build-subdirectory (seems better to hide it, since
+     normally one doesn't want to look into it). </li>
+     <li> Creating a new directory is now a target for the master makefile: It creates
+     the .build-directory, places inside it the cmake-file, and runs the cmake-process. </li>
+     <li> For the normal tasks like "all" or "check" the master makefile just calls
+     the (created) makefile in .build. </li>
+     <li> While adding a new file is now also a task of the master makefile, which calls the
+     cmake-makefile in .build (to recreate the makefile in .build). </li>
+     <li> For this to work we need the capability of cmake to place the cmake-makefile
+     as well as the makefile somewhere else than in the source-directory. </li>
+     <li> The aim is to use in this way all the build-in facilities of cmake, while
+     overcoming its restricted power. </li>
+     <li> If cmake has not enough power for computing (and manipulating) file-lists, then
+     the master makefile could compute them and pass them to cmake; a problem here could be
+     that this must happen via the command line (?), and then there is the restricted
+     command-line length?!? </li>
+     <li> The additional level of indirection (given by the master makefile) seems necessary,
+     since we want complete automisation, while cmake itself does nothing than creating
+     makefile --- and the makefiles created are not "dynamic" but "static" (rather restricted
+     in power). </li>
+    </ul>
    <li> Can cmake handle our "fractal" or "recursive" directory structure, where we have
    arbitrary nested subdirectories, inside we find standard functional (sub-sub-)directories like
    "tests", "testobjects", "demos", "apps", "messages", "plans", "docus", and from these
