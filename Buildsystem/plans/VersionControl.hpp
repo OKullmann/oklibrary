@@ -24,6 +24,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
    <li> It seems that the .git directories grow rather fast? For csltok:
     <ol>
      <li> 6.6.2007: 4.3 MB </li>
+     <li> 7.6.2007: 4.4 MB </li>
     </ol>
    </li>
    <li> Created now also for Transitional a shared Git-repository. DONE </li>
