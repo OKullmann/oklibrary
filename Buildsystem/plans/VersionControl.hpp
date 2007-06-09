@@ -6,6 +6,15 @@
 
   \todo Building and using Git
   <ul>
+   <li> Problems with the repository: On csltok I get
+   \verbatim
+kullmann@csltok:Transitional> git fsck --strict
+dangling blob c921acdcf384f7c8b942d863002dbbaad9f73c43
+dangling blob cfded5f225e72661cf535b3a5200f47fc1d1982b
+   \verbatim
+   What to do now? It seems that "git gc --prune" will clean up, and
+   that there is no problem here. With "git show BLOB-SHA" one can
+   see the contant of a dangling blob. </li>
    <li> Why does the following not work: On csltok I have a clone of a repository on cs-wsok; now when trying
    to push to it, the following happens:
    \verbatim
@@ -25,6 +34,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
     <ol>
      <li> 6.6.2007: 4.3 MB </li>
      <li> 7.6.2007: 4.4 MB </li>
+     <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
     </ol>
    </li>
    <li> Created now also for Transitional a shared Git-repository. DONE </li>
