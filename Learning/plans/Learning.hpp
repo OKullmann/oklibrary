@@ -52,7 +52,7 @@
   the active clause-sets might perform "local learning" themselves). It seems attractive to
   consider these algorithms themselves as constituting an active clause-set.
 
-  \todo The learned clauses should be managed by a special active clause-sets L.
+  \todo The learned clauses should be managed by a special active clause-set L.
   It seems natural that L performs full subsumption elimination, but only for the
   full clauses (not considering the effect of the partial assignment). This should keep
   L relatively small, so that we can simply keep all learned clauses.
