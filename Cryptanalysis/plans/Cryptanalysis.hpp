@@ -25,7 +25,8 @@
   one must break the computations of p*q and of d into smaller parts
   (so that strong active clause-sets are obtained).
 
-  \todo To SAT2007 there was a submission regarding MD4 and MD5.
+  \todo To SAT2007 there is a paper regarding MD4 and MD5 (De, Kumarasubramanian,
+  Venkatesan).
 
 */
 
