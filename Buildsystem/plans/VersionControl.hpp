@@ -135,6 +135,10 @@ git checkout -f
      <li> Are there several possibilities? </li>
     </ol>
    </li>
+   <li> The same when a sub-module progresses to a higher version number:
+   Tagging all files in the sub-module. How to do this? (Or? On the other
+   hand, when going to a new version, then we always should create
+   a log-message with the new version number?) </li>
    <li> How to send notification-e-mails with Git: In the shared repository the file
    "hooks/post-receive" has to be made executable, and then filled with action; temporary
    solution (for Annotations):
