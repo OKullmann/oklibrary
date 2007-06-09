@@ -6,15 +6,9 @@
 
   \todo Building and using Git
   <ul>
-   <li> Problems with the repository: On csltok I get
-   \verbatim
-kullmann@csltok:Transitional> git fsck --strict
-dangling blob c921acdcf384f7c8b942d863002dbbaad9f73c43
-dangling blob cfded5f225e72661cf535b3a5200f47fc1d1982b
-   \verbatim
-   What to do now? It seems that "git gc --prune" will clean up, and
-   that there is no problem here. With "git show BLOB-SHA" one can
-   see the contant of a dangling blob. </li>
+   <li> How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
+   also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
+   Usage of "git rm" and subsequent commits is completely unclear. </li>
    <li> Why does the following not work: On csltok I have a clone of a repository on cs-wsok; now when trying
    to push to it, the following happens:
    \verbatim
@@ -37,6 +31,15 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
     </ol>
    </li>
+   <li> DONE Problems with the repository: On csltok I get
+   \verbatim
+kullmann@csltok:Transitional> git fsck --strict
+dangling blob c921acdcf384f7c8b942d863002dbbaad9f73c43
+dangling blob cfded5f225e72661cf535b3a5200f47fc1d1982b
+   \verbatim
+   What to do now? It seems that "git gc --prune" will clean up, and
+   that there is no problem here. With "git show BLOB-SHA" one can
+   see the contant of a dangling blob. </li>
    <li> Created now also for Transitional a shared Git-repository. DONE </li>
    <li> DONE In order that commits have the full name ("Oliver Kullmann" instead of "csoliver") and e-mail-address
    ("O.Kullmann@Swansea.ac.uk" instead of "csoliver@cs-wsok.swan.ac.uk"), easiest is to tell Git for all
@@ -224,7 +227,7 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    </li>
    <li> The main conceptual disadvantage (shared with CVS) of Subversion is that
     no local repositories are possible; alternatives: DONE (the three
-    existing repositories will be copied over to Git).
+    existing repositories have been copied over to Git).
     <ol>
      <li> Git (http://git.or.cz/) looks rather good --- one should try it out! </li>
      <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. Can't find anything special
