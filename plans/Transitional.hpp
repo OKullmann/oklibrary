@@ -49,6 +49,13 @@
    <li> Are there refactoring tools? Or can we finally finish module Refactoring ?!? </li>
   </ul>
 
+  \todo Research sub-modules
+  <ul>
+   <li> To solve the privace-issues, it seems that (yet) only plans-directories
+   are an issue, and one could move sensitive files to sub-directories
+   "research" (moving also the whole history(!)). </li>
+  </ul>
+
   \todo Concepts
   <ul>
    <li> Currently all concepts are collected in module Concepts. Perhaps every module
