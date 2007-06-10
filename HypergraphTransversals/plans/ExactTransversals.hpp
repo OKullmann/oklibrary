@@ -7,7 +7,7 @@
   A transversal of a hypergraph is called <strong>exact</strong> if it
   intersects every hyperedge exactly once. Denote it by ETr(G).
 
-  \todo
+  \todo The basic algorithm
   <ul>
    <li> For every hypergraph G the set ETr(G) can be enumerated in the following obvious way:
    \code
@@ -16,7 +16,7 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
 // Assumption: V(G) intersect U is empty.
 // Returns the minimal exact transversals of G, with U added, on out (without repetition).
   if (G contains empty hyperedge) return;
-  if (G has no hyperede) {
+  if (G has no hyperedge) {
     out << U;
     return;
   }
@@ -40,7 +40,7 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
     V(G) is taken, then the transversals are output in lexicographical order. </li>
     <li> If the output would be given as a complete list, then parameter U
     wouldn't be needed, but it could be added to the outputs obtained from
-    recursive calls. However here we need U, since we output the transverals
+    recursive calls. However here we need U, since we output the transversals
     one at a time. </li>
    </ol>
    </li>
@@ -82,8 +82,33 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
    means to find a clause which clashes with every clause from F in exactly
    one literal (and so, if we can find exactly satisfying partial assignment
    for 1-regular hitting clause-sets efficiently, then we can "grow" 1-regular
-   hitting clause-sets; see HittingClauseSets/plans/ExtendingHittingClauseSets.hpp).
-   </li>
+   hitting clause-sets; see HittingClauseSets/plans/ExtendingHittingClauseSets.hpp). </li>
+   <li> It must be emphasised, that an "exactly satisfying assignment" is a partial assignment;
+   the corresponding satisfiability problem, finding an exactly satisfying (partial) assignment,
+   should be called PXSAT (where XSAT is the standard abbreviation for "exact SAT", which uses
+   total assignments). For example ((a or b) and (a or not b)) is PXSAT-satisfiable, but not
+   XSAT-satisfiable. Of course, from XSAT follows PXSAT, but the reverse direction does
+   not hold in general, as the example shows: It holds for positive clause-sets (here we
+   can extend a partial assignment to a total one by setting all other variables to 0).
+   PXSAT seems to be a harder than SAT (it is not a "SAT-problem" in the sense of "systems
+   with partial instantiation" (see [Kullmann, Annals of Mathematics and Artificial Intelligence 40:
+   303-352, 2004]), since an extension of an exactly satisfying assignment need not to be
+   exactly satisfying again). </li>
+   <li> Reduction to standard SAT:
+    <ol>
+     <li> For positive clause-sets we can just use the XSAT -> SAT translation, which adds all
+     binary clauses excluding the possibility of two satisfied literals in a clause. This, of course,
+     is the same as translating exact transversal for hypergraphs into SAT (the satisfying assignments
+     of the translation, after removal of variables set to 0, correspond 1-1 to the exact
+     transversals). </li>
+     <li> For general (boolean) CNF F a natural translation into a monosigned CNF SAT problem over
+     variables with domain {0,1,*}, where * means "unassigned", translates every clause C to the
+     corresponding clause C', where literal x becomes x' stating that the underlying variable v
+     must be equal to 0 (if x is negative) or 1 (if x is positive), and adds clauses
+     (v <> e1) of (w <> e2) for clauses C' (as just constructed) containing literals (x = e1) and
+     (w = e2) (for different variables v, w). The translated F' has only total satisfying assignments,
+     corresponding exactly to the exactly satisfying (partial) assignments of F. </li>
+    </ol>
   </ul>
 
 */
