@@ -131,14 +131,12 @@ git checkout -f
    <li> Likely when advancing the version of Transitional, we should tag all
    files:
     <ol>
-     <li> How to do this? </li>
-     <li> Are there several possibilities? </li>
+     <li> How to do this? "git tag": Apparently a tag is just a mark for a commit;
+     so when committing the central milestones-file with the new version number,
+     thereafter a tag "Transitional ?.?.?" should be created. </li>
+     <li> Are there several possibilities? Yes ... </li>
     </ol>
    </li>
-   <li> The same when a sub-module progresses to a higher version number:
-   Tagging all files in the sub-module. How to do this? (Or? On the other
-   hand, when going to a new version, then we always should create
-   a log-message with the new version number?) </li>
    <li> How to send notification-e-mails with Git: In the shared repository the file
    "hooks/post-receive" has to be made executable, and then filled with action; temporary
    solution (for Annotations):
@@ -221,6 +219,16 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      <li> Hopefully the distributed version control constitutes also the main part of the
      update-solution for an external user (who extended the library)! </li>
     </ul>
+   </li>
+   <li> When a sub-module progresses to a higher version number:
+   Tagging all files in the sub-module? DONE (Apparently
+   it is not possible to tag files, but only commits, and then tags seem to be
+   a global thing. So when advancing the version number of a module, we use the standardised
+   log-message
+   <center>
+    ### New version number ?.?.? (module XXX) ###
+   </center>
+   and this must suffice.)
    </li>
    <li> Files to ignore can be entered to .git/info/exclude. DONE </li>
    </li>
