@@ -25,5 +25,11 @@
   number of finally obtained clause-sets is of interest (without removing
   isomorphic ones) in the context of determining precise probabilities
   for satisfiability of random formulas.
+
+  \todo An interesting question is also how to extend 1-regular
+  hitting clause-sets --- here not just satisfying assignments
+  are sought, but "exactly satisfying assignments".
+  See HypergraphTransversals/plans/ExactTransversals.hpp.
+  
 */
 
