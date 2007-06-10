@@ -9,10 +9,16 @@
 
   \par
    In Parallelism/plans/Parallelism.hpp the following topics are handled:
+    - Run through examples from [C++ Cookbook 2006, Chapter 12]
+
+  \par Version 0.0.5
+
+  \par
+   In Parallelism/plans/Parallelism.hpp the following topics are handled:
     - New test system
 
 
-  \par Version 0.0.5
+  \par Version 0.0.6
 
   \par
    In Parallelism/plans/Parallelism.hpp the following topics are handled:
@@ -30,7 +36,7 @@
 
   \par Version history
 
-   - 0.0.3 : 20.5.2007; initial version number (the some experimental code).
+   - 0.0.3 : 20.5.2007; initial version number (some experimental code).
 
 */
 
