@@ -10,7 +10,7 @@
   \todo
   <ul>
    <li> For every hypergraph G the set ETr(G) can be enumerated in the following obvious way:
-  \code
+   \code
 template <class Hypergraph>
 void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const Hypergraph::vertex_set U) {
 // Assumption: V(G) intersect U is empty.
@@ -33,8 +33,8 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
   }
   return;
 }
-  \endcode
-  <li> Remarks:
+   \endcode
+   <li> Remarks:
    <ol>
     <li> If a linear order on V(G) is given and at (*) the smallest element of
     V(G) is taken, then the transversals are output in lexicographical order. </li>
@@ -43,14 +43,14 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
     recursive calls. However here we need U, since we output the transverals
     one at a time. </li>
    </ol>
-  </li>
-  <li> Has this algorithm only polynomial delay for inputs G which are exact transversal hypergraphs ? </li>
-  <li> Is deciding whether a hypergraph has an exact transversal NP-complete? By dualisation this decision
-  problem is equivalent to decide, whether a hypergraph has a matching (a set of disjoint hyperedges) which is
-  also an edge cover (a set of hyperedges covering all edges). By complementation it is equivalent to the
-  problem whether an independent set I in a hypergraph (a set of vertices not containing any hyperedge) exists,
-  such that for every hyperedge H all but one vertices of H are in I. Apparently the proof of NP-completeness
-  is in [Karp 1972]; one should investigate the proof (also implementing the reduction). </li>
+   </li>
+   <li> Has this algorithm only polynomial delay for inputs G which are exact transversal hypergraphs ? </li>
+   <li> Is deciding whether a hypergraph has an exact transversal NP-complete? By dualisation this decision
+   problem is equivalent to decide, whether a hypergraph has a matching (a set of disjoint hyperedges) which is
+   also an edge cover (a set of hyperedges covering all edges). By complementation it is equivalent to the
+   problem whether an independent set I in a hypergraph (a set of vertices not containing any hyperedge) exists,
+   such that for every hyperedge H all but one vertices of H are in I. Apparently the proof of NP-completeness
+   is in [Karp 1972]; one should investigate the proof (also implementing the reduction). </li>
   </ul>
 
   \todo Exact transversal hypergraphs (that is, Tr(G) = ETr(G))
@@ -75,6 +75,15 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
    <li> It seems the above algorithm for computing ETr(G) (for arbitrary G) cannot be (easily) generalised to
    (boolean) clause-sets F? (The problem is the minimality condition.) </li>
    <li> For F which are exact transversal, can we compute Tr(F) in polynomial time? </li>
+   <li> As remarked above, to decide whether for a positive clause-set an exactly
+   satisfying partial assignment exists is NP-complete; what about a 1-regular
+   hitting clause-set --- is it still NP-complete?!? The point here is, that
+   finding an exactly satisfying partial assignment for a clause-set F just
+   means to find a clause which clashes with every clause from F in exactly
+   one literal (and so, if we can find exactly satisfying partial assignment
+   for 1-regular hitting clause-sets efficiently, then we can "grow" 1-regular
+   hitting clause-sets; see HittingClauseSets/plans/ExtendingHittingClauseSets.hpp).
+   </li>
   </ul>
 
 */
