@@ -5,24 +5,24 @@
   \brief Implementations of enumerations of hypergraph
   transversals based on the direct method.
 
-  \todo Creating the concepts (the output, the transversal
-  hypergraph, as container; for incrementell methods the
-  iterator in it creates the next transversal "on the fly").
+  \todo Concepts
+  <ul>
+   <li> Creating the concepts (the output, the transversal
+   hypergraph, as container; for incrementell methods the
+   iterator in it creates the next transversal "on the fly"). </li>
+  </ul>
 
-  \todo Implementing the naive method.
-
-  \todo Apply it to compute all MUS's, given all MSS's.
-
-  \todo Hypergraph traversal is a special case of "clause-set
+  \todo The basic algorithm:
+  Hypergraph traversal is a special case of "clause-set
   traversal", where for a clause-set the set of minimal satisfying
   partial assignments has to be computed. Via the embedding
-  of hypergraphs into clause-sets as positive clause-sets, perhaps
-  hypergraph transversal can be obtained as special case ?!
+  of hypergraphs into clause-sets as positive clause-sets,
+  hypergraph transversal can be obtained as special case.
   For a clause-set F, let's call the set of minimal satisfying
   partial assignment also "Tr(F)".
   <ul>
-   <li> Computation of Tr(F) for clause-sets F should go into
-   SATAlgorithms. The fundamental formula is
+   <li> Computation of Tr(F) for clause-sets F (should perhaps go into
+   module SATAlgorithms?). The fundamental formula is
     <center>
     Tr(F_1 union F_2) = min(Tr(F_1) * Tr(F_2))
     </center>
@@ -46,7 +46,7 @@
    </li>
   </ul>
 
-  \todo Computing Tr(F) can be achieved by somehow computing the
+  \todo Computing Tr(F) can also be achieved by somehow computing the
   set of all satisfying assignment (see Module AllSolutions),
   and then extracting the set of minimal assignments from it;
   for example computing a DNF G equivalent to F, and then computing
@@ -59,5 +59,8 @@
   is enabled in order to make sure that all minimal satisfying assignments
   are found; without global learning one could investigate the other branches
   first when performing subsumption elimination for the result).
+
+  \todo Apply it to compute all MUS's, given all MSS's.
+
 */
 
