@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestParallelism
 
-programs :=
+programs := demo_Example_12_1
 
 source_libraries =  $(Boost)
 
