@@ -3,7 +3,7 @@
 /*!
   \file HypergraphTransversals/plans/milestones.hpp
 
-  \par Current version 0.0.3 (6.11.2006; several plans)
+  \module_version HypergraphTransversals 0.0.3 (6.11.2006)
 
   \par Version 0.0.4 :
   Create milestones.
