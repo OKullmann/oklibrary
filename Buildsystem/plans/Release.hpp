@@ -15,6 +15,31 @@
      appropriate plans-directories. </li>
     </ol>
    </li>
+   <li> Build stages:
+   <ol>
+    <li> The package is just a clone of the (complete) repository (containing the full
+    tree with root "OKplatform"); since we do not want to suppose non-standard
+    software to be installed, in directory OKplatform a simple makefile is to found,
+    which then can start the build process. Perhaps this makefile is one that is
+    created by CMake?! What is the functionality:
+    <ol>
+     <li> Building all necessary external software. </li>
+     <li> Running "prebuild" for the OKlibrary. </li>
+    </ol>
+    So perhaps there is a configuration step, asking for each external library, whether
+    <ol>
+     <li> a local build </li>
+     <li> a global build </li>
+     <li> no build (but using a preinstalled version) </li>
+     <li> "don't know" (the build system shall find out) </li>
+    </ol>
+    is wished, and then all is build. However, it seems, that the configuration step
+    is the responsibility of cmake, and not part of the created makefile-functionality?
+    </li>
+    <li> So perhaps the OKplatform-makefile just creates the cmake-executables, if wished,
+    and otherwise the user is to run the cmake-process? Then perhaps the cmake-building
+    makefile is to be found in a subdirectory, only invoked if needed. </li>
+   </ol>
    <li> Two download possibilities: Either the whole library (with all included libraries like
      Boost, doxygen, PostgreSQL etc.), or only the minimum.
      This gives two user types: "full user" and "minimal user".
