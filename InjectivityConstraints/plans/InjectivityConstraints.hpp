@@ -25,13 +25,18 @@
    for INJ(V, D) nothing in general is known about the domains.
    </li>
    <li> The direct clause-representation of INJ(V,D) uses the clauses
-   {(v != eps) or (v' != eps)} for v != v' and eligible values eps,
+   {(v != eps) or (v' != eps)} for v != v' and eligible values eps
+   (see UPPERO in LinearInequalities/plans/CardinalityConstraints.hpp)
    while BIJ adds the surjectivity P-clauses {(v = eps)}_{v in V} for
    every eps in Val.
    Thus INJ(V,D) uses (|V| over 2) * |D| 2-clauses, SUR(V,D)
    uses |D| |V|-clauses, while BIJ(V,D) is the conjunction of
    INJ(V,D) and SUR(V,D).
    </li>
+   <li> For the boolean translation, INJ(V,D) is easily representable
+   via AMO's (see Generators/plans/AMO.hpp), and SUR by ALO's (see
+   Generators/plans/AMO.hpp). </li>
+   <li> INJ(V, D) is equivalent to LOWERV(V, |V|) (see LinearInequalities/plans/CardinalityConstraints.hpp). </li>
   </ul>
 
   \todo Exploiting matching algorithms; see Matchings/plans/Matchings.hpp
