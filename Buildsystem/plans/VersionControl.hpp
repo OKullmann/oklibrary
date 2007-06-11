@@ -29,6 +29,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 6.6.2007: 4.3 MB </li>
      <li> 7.6.2007: 4.4 MB </li>
      <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
+     <li> 10.6.2007: 4.3 MB </li>
     </ol>
    </li>
    <li> DONE Problems with the repository: On csltok I get
