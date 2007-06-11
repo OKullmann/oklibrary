@@ -227,7 +227,11 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    a global thing. So when advancing the version number of a module, we use the standardised
    log-message
    <center>
-    ### New version number ?.?.? (module XXX) ###
+   *** New version number ?.?.? (module XXX) ***
+   </center>
+   or
+   <center>
+   *** Initial version number ?.?.? (module XXX) ***
    </center>
    and this must suffice.)
    </li>
