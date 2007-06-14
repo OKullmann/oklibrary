@@ -9,6 +9,20 @@
    <li> How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
    also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
    Usage of "git rm" and subsequent commits is completely unclear. </li>
+   <li> How do we search for files with a given content, like searching
+   for files in the history which contained "Sam Buss"?
+    <ol>
+     <li> The git manual says:
+     \verbatim
+Somebody hands you a copy of a file, and asks which commits modified a file such that it contained the given content either before or after the commit. 
+You can find out with this:
+$  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
+         grep -B 1 `git hash-object filename`
+     \endverbatim </li>
+     <li> However this doesn't allow specification of the *content* (??),
+     and what if we want to search in all files? </li>
+     <li> Ask the git mailing list. </li>
+    </ol>
    <li> Why does the following not work: On csltok I have a clone of a repository on cs-wsok; now when trying
    to push to it, the following happens:
    \verbatim
@@ -30,6 +44,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 7.6.2007: 4.4 MB </li>
      <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
      <li> 10.6.2007: 4.3 MB </li>
+     <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
     </ol>
    </li>
    <li> DONE Problems with the repository: On csltok I get
