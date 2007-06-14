@@ -98,9 +98,17 @@
    <li> Investigate how our main tasks can be handled by cmake. </li>
    <li> How would the work flow be with the new system (the 2 levels,
    the cmake- and the make-level)? </li>
+   <li> The cmake-files should use decomposition into smaller cmake-files
+   (this should now be easier), and we also need a library of cmake-macros. </li>
    <li> Is ccmake useful? DONE (just a program for setting configuration variables, so yes, it is
    useful for that purpose) </li>
   </ul>
+
+  \todo Design : DONE (required for the new cmake-system)
+   - Larger makefiles should be composed (via inclusion) out of smaller
+   makefiles (if possible; otherwise there must be a "copy-and-paste"-comment
+   at each place).
+   - We should use (more) make-functions.
 
 */
 
