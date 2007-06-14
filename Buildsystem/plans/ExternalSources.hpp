@@ -4,7 +4,8 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \bug Building Boost 1_34_0
+  \bug Building Boost 1_34_0 DONE (when removing this bug, then move the problematic aspects
+  to an appropriate todo --- however at the moment it seems we can ignore them).
   <ul>
    <li> Report for csltok:
     <ol>
@@ -85,8 +86,8 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   </ul>
 
 
-  \bug Building-Boost Errors
-  
+  \bug Building-Boost Errors DONE (when removing this bug, then add to the new todo related
+  to the above bug)
   <ul>
    <li>
    Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
@@ -175,7 +176,8 @@ make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc
 
   \todo CMake
   <ul>
-   <li> System-wide installation DONE
+   <li> Make also the documentation available. </li>
+   <li> System-wide installation : DONE
    \verbatim
 CMake> tar -xzf ../cmake-2.4.6.tar.gz
 CMake> cd cmake-2.4.6
@@ -194,7 +196,7 @@ CMake/cmake-2.4.6> make
    <li> It should be possible to say "gcc-version=recommended". </li>
    <li> Instead of "boost boost_recommended=boost-1_33_1" we should use
    "boost boost-version=1_33_1". </li>
-   <li> The default for generic.mak is to build the recommended <strong>local</strong>
+   <li> The default for generic.mak is to use the recommended <strong>local</strong>
    gcc-installation --- shouldn't this then be also for building %boost
    the default ? </li>
    <li> Installation of bjam should be improved: Having exactly one
