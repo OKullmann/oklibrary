@@ -4,7 +4,22 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo system_definitions.mak:
+  \todo Overhaul of the general targets : DONE
+   - "all" should not compile the test-programs. Rather we want to have it so 
+     that "make new_check" and "make check" does the compilation. For performing
+     the checks they need to be compiled; we also need then special targets to 
+     just compile the test-programs. DONE (With the current build system
+     (14.6.2007) this is achieved for the new tests, and for the new build
+     system it is specified in plans/TargetSpecidictions.hpp)
+   - we must look at the support for linking with .o files from
+     the library itself (including linking with different versions) DONE
+     (see the creation of link-libraries in plans/TargetSpecifications.hpp)
+   - What is the role of prebuild? Still it is not eliminated --- do we need
+   it?. DONE (needed for installation)
+
+
+  \todo system_definitions.mak: UPDATE --- some content goes to
+  plans/Configuration.hpp!
   <ul>
    <li> The role of system_definitions.mak must be clarified.
    Do those library variables (Boost, Ubcsat) belong to it??
@@ -12,8 +27,7 @@
    <li> system_definitions.mak should
    contain definitions of Make variables which are used by
    several makefiles. However, the prefix "system_" also implies that 
-   these
-   variables belong to the OKlibrary and not to the external
+   these variables belong to the OKlibrary and not to the external
    sources, so perhaps the definitions of variables relevant
    for the external sources are moved elsewhere.</li>
    <li> Perhaps all variable definitions relevant for the 
@@ -54,26 +68,6 @@
    </li>
   </ul>
 
-  \todo external_sources_versions.mak:
-  <ul>
-   <li> The role of external_sources_versions.mak must
-   be clarified. </li>
-   <li> Names like
-   <code> doxygen_supported_not_recommended_version_numbers </code>
-   are misleading (these versions are not "not recommended"), and
-   they are too long. </li>
-  </ul>
-
-  \todo Make-variables for external libraries
-  <ul>
-   <li> How to define variables like Boost and Ubcsat in general?
-     We need a nice little method (plus documentation), so that we can add easily as
-     many external libraries as we want. </li>
-   <li> And then we have make-variables "gcc_version_number" (for generic.mak) and
-     "gcc-version" (for boost.mak) which likely should have the same names. </li>
-   <li> In system_definitions.mak we have a definition of Boost which seems wrong
-     to me (OK) (or at least misleading). DONE (resp. moved to other todos) </li>
-  </ul>
 
   \todo Testing the build system
    - We need some test system for the build system. Optimally, it would run like our normal test
@@ -81,23 +75,14 @@
      which cover all functions of the build system, and which is performed from time to time (manually).
      Then we can partially automate it.
 
+
   \todo License:
   It seems LGPL is suitable; we have to check this (is it compabible with all
   other licenses (for external sources) involved? I guess so). Once decided,
   we have to add appropriate licence texts to every file.
 
-  \todo Notification list:
-  We had a list with names and addresses of people interested in the library,
-  which shall be informed personally about the release --- where is this
-  gone ??? There were also plans in it, which have been moved to the new
-  plans-file-system, but where is the other information???
-  Perhaps a good place for such system-wide plans is in Transitional/plans.
-  People to add to that list:
-   - Marina de Vos and Martin XXX (Bath)
-   - Sam Buss
-   - Tobias Nipkow (TU Muenchen)
 
-  \todo Role of srcdir
+  \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
   <ul>
    <li>
      What is the role of variable srcdir ? Isn't the definition in makefile_recursive
@@ -118,9 +103,11 @@
    </li>
   </ul> 
 
+
   \todo System documentation:
    - Document the basic version-control settings (location of server, configuration, how to use it).
    - Document the build-system (general ideas, functionality).
+
 
   \todo Documentation (Examples and Concepts) OK : this needs to be discussed and updated
   <ul>
@@ -133,14 +120,6 @@
     </li>
   </ul>
 
-  \todo Overhaul of the general targets:
-   - "all" should not compile the test-programs. Rather we want to have it so 
-     that "make new_check" and "make check" does the compilation. For performing
-     the checks they need to be compiled; we also need then special targets to 
-     just compile the test-programs. OK (31.3.2007): this seems to be achieved?
-   - we must look at the support for linking with .o files from
-     the library itself (including linking with different versions)
-   - What is the role of prebuild? Still it is not eliminated --- do we need it?.
 
   \todo Force make:
   Calling make with the option "-B" (or "--always-make") does not
@@ -148,10 +127,6 @@
   about it --- it would be nice to be able to force a rebuild, without having to delete
   some directories (this might be dangerous).
 
-  \todo Design   
-   - Larger makefiles should be composed (via inclusion) out of smaller makefiles (if possible;
-     otherwise there must be a "copy-and-paste"-comment at each place.
-   - We should use (more) make-functions.
 
   \todo Modes of Usage:
   Two modes of usage of the build system:
@@ -163,6 +138,7 @@
      in the Linux lab can use a central installation of OKplatform, and in the local
      directory only the files related to their production is stored.
 
+
   \todo makefile_recursive
    - This should go, and makefile_generic should be able to do all jobs,
      gathering all relevant files from all underlying subdirectories (but as soon
@@ -170,16 +146,19 @@
      descendants are ignored). It seems important that for example every subdirectory
      of a module can itself contain tests- and testobjects-subdirectories. The
      directory-tree in system_directories must mirror the primary directory-tree.
+
    
   \todo Compilation information: 
    - We need a standardised way of how to make information about the compilation
      process available to a program (and also the name of the program, etc.), so that
      for example via --version we get as much information as possible.
 
-  \todo Special runs
+
+  \todo Special runs : DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
    - It seems we should create a special target "valgrind-check" where the files are
      especially compiled for Valgrind --- this seems to be needed to do automatic
      checks. So then the build system and the test system would be affected.
+
 
   \todo Source code directory structure:
    - We need a rational system for the naming of header files. We should study the
@@ -200,17 +179,20 @@
      this level should run through all appropriate combinations of gcc
      and libraries and test them.
 
+
   \todo Nightly build
    - Full check-out of the library (yet Transitional and 
      OKlibrary) and full compilation and testing (i.e., create the package,
      un-archive it, build it with "make" and then run "make check" in it).
      Testing should invoke valgrind (with Test_tool="valgrind --quit").
 
+
   \todo Complexity system: 
    - "make measurements" will create an xml-file
      (via the boost serialisation library) with information about all
      operations which have been registered. A little viewing-program
      allows to monitor these measurements (as they evolve over time).
+
 
   \todo Measurements:
    - Each "make test" etc. should gather summary statistics of the tests performed,
@@ -226,6 +208,7 @@
      (as for the complexity system; it should be possible for example to use the visualisation
      tools there to look at the developments here).
 
+
   \todo Integration testing:
   <ul>
    <li> We need some file format (likely some xml) to specify one integration test:
@@ -239,9 +222,11 @@
    <li> Could we use the unit-testing framework here? Likely not. </li>
   </ul>
 
+
   \todo Compiler versions:
   Do we get slower run-times with g++ 4.1.2 compared to 4.1.1, and thus we
   need to write no-throw-declarations? (Perhaps this needs to be done anyway?)
+
 
   \todo New targets (needs update):
    - "create_new_module" and "create_new_submodule",
@@ -249,8 +234,13 @@
      .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
      in the testprogram).
 
+
   \todo Renaming module Buildsystem:
   To be consistent with the other module names, it should be called "BuildSystem" ?
+  But perhaps not --- it really is one "block", not composed of of two
+  somewhat indepedent parts?! We have "ComplexitySystem" and "TestSystem",
+  perhaps "Buildsystem" is different (somewhat more fundamental) ?!
+
 
   \todo Version numbers
   <ul>
