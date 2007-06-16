@@ -8,7 +8,7 @@
   <ul>
    <li> How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
    also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
-   Usage of "git rm" and subsequent commits is completely unclear. </li>
+   Usage of "git mv" and subsequent commits is completely unclear. </li>
    <li> How do we search for files with a given content, like searching
    for files in the history which contained "Sam Buss"?
     <ol>
