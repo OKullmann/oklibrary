@@ -4,7 +4,8 @@
   \file Statistics/plans/Statistics.hpp
   \brief Plans for the module with statistical tools
 
-  \todo Create milestones.
+  \deprecated This module will be dissolved into the new module
+  Heuristics (after the two plans-files have been moved).
 
 */
 
