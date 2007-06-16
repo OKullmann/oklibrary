@@ -42,14 +42,19 @@
   \todo CSS : Improving the cascading style sheet used by the documentation
    index.
 
-  \todo Doxygen menu review
-   -  Is the file list still needed (with version 0.1.4 of Transitional it
-      was kind of useful to see for example how many files are documented)?
-      Otherwise dropping it could make the system more user-friendly, by
-      restricting the attention to the most appropriate choice?
-   - Sometimes it would be good to show also other files (especially for Buildsystem).
+  \todo Doxygen menu and main page review
+  <ul>
+   <li> Sorting of file/directory lists should distinguish between capital and small
+   first letters (as it is possible with Unix/Linux), so that "plans" etc. comes at the end.
+   </li>
+   <li> Is the file list still needed (with version 0.1.4 of Transitional it
+     was kind of useful to see for example how many files are documented)?
+     Otherwise dropping it could make the system more user-friendly, by
+     restricting the attention to the most appropriate choice? </li>
+   <li> Sometimes it would be good to show also other files (especially for Buildsystem).
      This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
-     just as plain text files, without any special formatting).
+     just as plain text files, without any special formatting). </li>
+  </ul>
 
   \todo Directory structure:
   The directory structure under Buildsystem/Generic/documentation_building needs review:
