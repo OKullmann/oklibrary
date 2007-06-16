@@ -5,7 +5,7 @@
   \brief Tools for the analysis of the progress made by a SAT solver.
 
   \todo The following application should be handled: A complete SAT
-  solver can with every new node processed compute the number of total
+  solver can, with every new node processed, compute the number of total
   assignments realised to be unsatisfiable. So one can query, say, every second
   this total number (or the proportion of the whole search space covered)
   and, via a time series analysis, make a prediction how long it will take
