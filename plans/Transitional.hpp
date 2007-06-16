@@ -23,7 +23,27 @@
    <li> Problematic the correspondence between paths and namespaces:
     <ol>
      <li> We could be consistent, using full super-module names
-     and incorporating them into the namespaces. </li>
+     and incorporating them into the namespaces.
+      <ul>
+       <li> Perhaps a collection
+       of namespace-aliases could be provided ?! In this way we could use
+       abbreviations (if wished) without loosing expressivity ?! </li>
+       <li> Perhaps every namespace has a well-defined abbreviation, and there
+       are aliases for all full namespace-qualifications ?! </li>
+       <li> Better "OKlib" is not aliased, but only namespaces inside,
+       so for example (defined inside namespace ::OKlib):
+       \code
+namespace Sat = Satisfiability;
+namespace SatAlg = Satisfiability::Algorithms;
+       \endcode
+       </li>
+       <li> In every plans-file, besides the namespace-documentation, where also
+       the namespace is introduced (as C++ entity), we then have also the alias
+       definitions. </li>
+       <li> For the includes only the long forms can be used, but this seems to be
+       alright. </li>
+      </ul>
+     </li>
      <li> Or we could make an exception, not incorporating
      the super-modules into the namespace-hierarchy. Perhaps
      we start the super-module-names with "_", and introduce the
@@ -32,7 +52,7 @@
      <li> Or we could incorporate them, but using 3-letter abbreviations. </li>
      <li> Possible super-modules:
       <ol>
-       <li> SAT </li>
+       <li> SAL sat-algorithms </li>
        <li> ACS active clause-sets </li>
        <li> GEN general tools </li>
        <li> GRA graphs </li>
@@ -42,11 +62,29 @@
        <li> TES test system </li>
        <li> BUI build system </li>
        <li> COS complexity system </li>
+       <li> HEU heuristics </li>
+      </ol>
+      A (serious) problems with these abbreviations is, that all-capital-identifiers should
+      only be used for macros --- so better only the first letter capital.
+     </li>
+     <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules):
+      <ol>
+       <li> (Acs,Heu,Sal) under "Satisfiability" ("Sat") </li>
+       <li> (Gra,Hyp,Alg,The) under "Structures" ("Str") </li>
+       <li> (Gen) under "Programming" ("Pro") </li>
+       <li> (Tes,Bui,Cos) under "System" ("Sys") </li>
+       <li> "DataStructures" ("Das") </li>
+       <li> "Applications" ("App") </li>
       </ol>
      </li>
+     </li> 
     </ol>
    </li>
    <li> Are there refactoring tools? Or can we finally finish module Refactoring ?!? </li>
+   <li> A feasible way for migration seems that we just slowly add new modules (which will
+   be super-modules), and move modules into them (first only plans-only-modules, so that
+   we don't get build-problems). For that we have to find out how to use "git mv" (see
+   "Building and using Git" in Buildsystem/plans/VersionControl.hpp). </li>
   </ul>
 
   \todo Research sub-modules
@@ -54,6 +92,14 @@
    <li> To solve the privace-issues, it seems that (yet) only plans-directories
    are an issue, and one could move sensitive files to sub-directories
    "research" (moving also the whole history(!)). </li>
+  </ul>
+
+  \todo Organisation of plans-directories
+  <ul>
+   <li> Perhaps the module-plan-files is just called "central.hpp" ?! </li>
+   <li> Perhaps better "centre.hpp"; or still better "general.hpp". </li>
+   <li> A problem with that is, that under xemacs all such files look alike --- but perhaps
+   xemacs can be configured to show also the comprising directory? </li>
   </ul>
 
   \todo Concepts
