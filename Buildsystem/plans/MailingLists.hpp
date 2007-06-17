@@ -78,6 +78,18 @@
     <li> See Buildsystem/plans/VersionControl.hpp. </li>
     <li> See "Research sub-modules" in Transitional/plans/Transitional.hpp. </li>
    </ol>
+  </li>
+  <li> More generally the question is, what kind of distribution-package the user get?
+   <ol>
+    <li> They simply get a clone of the whole library (supposing that we have merged the different
+    repositories plus the new ExternalSources-repository into one repository), with doc-directory
+    preinstalled (so that they don't need to run anything --- just unpack and see).
+    See point "Download possibilities" in Buildsystem/plans/Release.hpp. </li>
+    <li> As discussed above, all research-subdirectories are filtered out. </li>
+    <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
+    described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
+   </ol>
+  </li>
   </ul>
 
   \todo Notification list:
