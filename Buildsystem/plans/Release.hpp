@@ -40,12 +40,21 @@
     and otherwise the user is to run the cmake-process? Then perhaps the cmake-building
     makefile is to be found in a subdirectory, only invoked if needed. </li>
    </ol>
-   <li> Two download possibilities: Either the whole library (with all included libraries like
-     Boost, doxygen, PostgreSQL etc.), or only the minimum.
-     This gives two user types: "full user" and "minimal user".
-     We must make sure, that also the minimal user can use the test and the complexity system
-     (compiling it himself, or using the build system). And we must study, how a full user can keep his
-     file structure separate from the library by using links.
+   </li>
+   <li> Download possibilities:
+   <ol>
+    <li> The whole library (with all included libraries like Boost, doxygen, PostgreSQL etc.). </li>
+    <li> Only the minimum. </li>
+    <li> In both cases with or without the documentation preinstalled. </li>
+    <li> Or perhaps, easier, always with the documentation installed? Currently (17.6.2007)
+    the doc-directory is 46 MB, and the .gz-archive is 6.9 MB. </li>
+   </ol>
+   This gives two user types: "full user" and "minimal user".
+   We must make sure, that also the minimal user can use the test and the complexity system
+   (compiling it himself, or using the build system). And we must study, how a full user can keep his
+   file structure separate from the library by using links. Of course, easier is not to make
+   the distinction, but always to supply the full clone (with additionally the documentation
+   preinstalled, so that nothing needs to be run or compiled) ?!
    </li>
   </ul>
 
