@@ -12,6 +12,7 @@
    a symbolic link to the primary configurations? </li>
   </ul>
 
+
   \todo Configuration data
   <ul>
    <li> A central problem is: How to create a central repository
@@ -54,6 +55,7 @@ SET(CONFIGVAR2 value2)
    </li>
   </ul>
 
+
   \todo Software management:
   All information about whether software (like doxygen, cmake, gcc etc.)
   needed is installed locally or system-wide, and where to find it,
@@ -61,6 +63,7 @@ SET(CONFIGVAR2 value2)
   way). It must be possible to update the system (installing a new
   cmake, for example, or a new gcc), perhaps by setting variables
   about supported and recommended versions.
+
 
   \todo external_sources_versions.mak: UPDATE needed (%w.r.t. the new view
   of the configuration center)
@@ -73,6 +76,7 @@ SET(CONFIGVAR2 value2)
    they are too long. </li>
   </ul>
 
+
   \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new view
   of the configuration center)
   <ul>
@@ -84,6 +88,7 @@ SET(CONFIGVAR2 value2)
    <li> In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading). DONE (resp. moved to other todos) </li>
   </ul>
+
 
   \todo Definitions for doxygen:
   <ul>
@@ -107,6 +112,27 @@ SET(CONFIGVAR2 value2)
    <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
    on the created doxyfile, one has to study the changes, and update the master-doxyfile
    accordingly. </li>
+  </ul>
+
+
+  \todo Developers information:
+  <ul>
+   <li> We should have a subdirectory Configuration/Developers, containing files
+    <ol>
+     <li> current_main </li>
+     <li> past_main </li>
+     <li> past_external </li>
+     <li> current_external </li>
+    </ol>
+    Each of those files contains lines like
+    <ol>
+     <li> OK "Oliver Kullmann" O.Kullmann@Swansea.ac.uk </li>
+     <li> MH "Matthew Henderson" XXX </li>
+     <li> ML "Matthew Lewsey" XXX </li>
+    </ol>
+    Or is there some "official" file format for such address-data?!
+   </li>
+   <li> Out of these files an html-file is produced. </li>
   </ul>
 
 
