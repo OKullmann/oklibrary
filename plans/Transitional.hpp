@@ -91,15 +91,20 @@ namespace SatAlg = Satisfiability::Algorithms;
   <ul>
    <li> To solve the privace-issues, it seems that (yet) only plans-directories
    are an issue, and one could move sensitive files to sub-directories
-   "research" (moving also the whole history(!)). </li>
+   "research" (moving also the whole history(!) --- see "Moving" in
+   Buildsystem/plans/VersionControl.hpp). </li>
   </ul>
 
   \todo Organisation of plans-directories
   <ul>
-   <li> Perhaps the module-plan-files is just called "central.hpp" ?! </li>
-   <li> Perhaps better "centre.hpp"; or still better "general.hpp". </li>
+   <li> The module-plan-files is just called "general.hpp". </li>
    <li> A problem with that is, that under xemacs all such files look alike --- but perhaps
    xemacs can be configured to show also the comprising directory? </li>
+   <li> Another "systematic" file in plans-directories is "wishlist.hpp",
+   which is especially for users the place where they can articulate
+   wishes. (Which might not be realised --- general.hpp contains all
+   wishes which are to be realised (first they unfold in general.hpp,
+   and finally they got moved to their own plans-file).) </li>
   </ul>
 
   \todo Concepts
