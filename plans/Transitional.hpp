@@ -15,6 +15,7 @@
    </li>
   </ul>
 
+
   \todo Super-modules:
   <ul>
    <li> Currently 82 modules --- that needs a superstructure.
@@ -87,6 +88,7 @@ namespace SatAlg = Satisfiability::Algorithms;
    "Building and using Git" in Buildsystem/plans/VersionControl.hpp). </li>
   </ul>
 
+
   \todo Research sub-modules
   <ul>
    <li> To solve the privace-issues, it seems that (yet) only plans-directories
@@ -94,6 +96,7 @@ namespace SatAlg = Satisfiability::Algorithms;
    "research" (moving also the whole history(!) --- see "Moving" in
    Buildsystem/plans/VersionControl.hpp). </li>
   </ul>
+
 
   \todo Organisation of plans-directories
   <ul>
@@ -107,11 +110,26 @@ namespace SatAlg = Satisfiability::Algorithms;
    and finally they got moved to their own plans-file).) </li>
   </ul>
 
+
+  \todo "OKlib" vs. "Transitional"
+  <ul>
+   <li> Perhaps we should give up the distinction between "Transitional" and
+   "OKlib", but rename "Transitional" to "OKlib", and remove the (empty)
+   repository "OKlibrary". </li>
+   <li> Likely it will be always like that, a lot of experimental stuff lying
+   around? But then we need clear indications what modules are usable already
+   --- this should be achieved by their version numbers.
+   See "Doxygen menu and main page review" in Buildsystem/Generic/documentation_building/plans/documentation_building.hpp.
+   </li>
+  </ul>
+
+
   \todo Concepts
   <ul>
    <li> Currently all concepts are collected in module Concepts. Perhaps every module
    better should get its own sub-module "Module/concepts" ?! </li>
   </ul>
+
 
   \todo Computer algebra system:
   Mupad used to be free, and thus we have the Mupad-module.
