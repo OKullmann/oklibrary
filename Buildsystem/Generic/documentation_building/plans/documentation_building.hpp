@@ -39,8 +39,6 @@
    <li> We should get the newest configuration file, and transfer our information from the old configuration file : DONE </li>
   </ul>
 
-  \todo CSS : Improving the cascading style sheet used by the documentation
-   index.
 
   \todo Doxygen menu and main page review
   <ul>
@@ -54,7 +52,10 @@
    <li> Sometimes it would be good to show also other files (especially for Buildsystem).
      This is mainly the issue of how to get doxygen showing makefiles etc. (perhaps
      just as plain text files, without any special formatting). </li>
+   <li> The page "Module versions" should be sortable by version numbers (to see the most
+   mature modules). Or how else can we (automatically) display the levels of development? </li>
   </ul>
+
 
   \todo Directory structure:
   The directory structure under Buildsystem/Generic/documentation_building needs review:
@@ -62,7 +63,5 @@
    <li> Upper-case should be used (the names are not "systematic"). </li>
    <li> One nesting-level likely should be eliminated. </li>
   </ul>
-   
-     
 
 */
