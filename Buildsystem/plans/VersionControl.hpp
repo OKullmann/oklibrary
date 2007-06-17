@@ -59,11 +59,18 @@ bash: git-receive-pack: command not found
 fatal: The remote end hung up unexpectedly
 error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
    \endverbatim
-   What's wrong here??
+   What's wrong here?? The command is there:
    \verbatim
 > which git-receive-pack
 /usr/local/bin/git-receive-pack
    \endverbatim
+   </li>
+   <li> Cloning:
+    <ol>
+     <li> How can we clone also the ignore-patterns? </li>
+     <li> What does actually belong to a repository? Is there a
+     "full cloning" ? </li>
+    </ol>
    </li>
    <li> It seems that the .git directories grow rather fast? For csltok:
     <ol>
