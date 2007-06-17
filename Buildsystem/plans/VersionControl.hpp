@@ -2,14 +2,16 @@
 
 /*!
   \file Buildsystem/plans/VersionControl.hpp
-  \brief Plans for the versioning control system
+  \brief Plans and todos for the versioning control system
 
   \todo Building and using Git
   <ul>
-   <li> How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
+   <li> Moving:
+   How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
    also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
    Usage of "git mv" and subsequent commits is completely unclear. </li>
-   <li> How do we search for files with a given content, like searching
+   <li> Searching:
+   How do we search for files with a given content, like searching
    for files in the history which contained "Sam Buss"?
     <ol>
      <li> The git manual says:
@@ -23,8 +25,33 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      and what if we want to search in all files? </li>
      <li> Ask the git mailing list. </li>
     </ol>
-   <li> Why does the following not work: On csltok I have a clone of a repository on cs-wsok; now when trying
-   to push to it, the following happens:
+   </li>
+   <li> How does remote access work:
+    <ol>
+     <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
+     <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
+     It seems there are three options:
+      <ul>
+       <li> ssh is used (either an automatic channel is set up, or the password is asked for; is
+       this always established by git-shell as in the next method?) </li>
+       <li> ssh is used and a special git-ssh-connection is established (git-shell); is a password
+       needed here? (or is this just the same as the "general ssh access"?!)  </li>
+       <li> no ssh is used, but on the remote repository git-daemon is running (this apparently does not
+       require anything on the pushing/pulling side?). </li>
+      </ul>
+      Does git automatically choose? Do we have a choice??
+     </li>
+     <li> Copied clones which know how to connect:
+     How to create a clone, which can be copied (as a directory),
+     and wherever this clone is used, by "git push" and "git pull" it connects by one of the three
+     above methods to the source, given that the service is activated? In this way we can make
+     the clone downloadable from the Internet, anybody can start developing locally, and they can
+     connect to the source-clone if they have the permissions. </li>
+     </li>
+    </ol>
+   </li>
+   <li> Why does the following not work: On csltok I have a copy of a clone of a repository on cs-wsok;
+   now when trying to push to it remotely, the following happens:
    \verbatim
 > git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
 Password:
@@ -45,6 +72,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
      <li> 10.6.2007: 4.3 MB </li>
      <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
     </ol>
    </li>
    <li> DONE Problems with the repository: On csltok I get
@@ -168,6 +196,15 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
    convention like "/h/21/GemeinsameBasis", which perhaps one better should avoid?!?
+   </li>
+   <li> Once we have ExternalSources under version control, we need the possibility to just have
+   those binaries (the archives) in it, without any history, changes whatsoever (otherwise space
+   would explode over time) --- how to achieve this?
+    <ol>
+     <li> Since every new version has a new name, it seems that we just need the possibility to remove
+     the history of an item? </li>
+     <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
+    </ol>
    </li>
    <li> What about version numbers in Git? What is the
    version-numbering-systems there, and what kind of statistics
