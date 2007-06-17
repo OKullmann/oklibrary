@@ -27,9 +27,9 @@ Problems:
  - 4.0.1 - 4.0.2 do not detect all syntax errors (wrong handling
   of namespaces)
 
-Boost, version 1_33_1 or higher
-(tested: 1_33_1)
-Recommended: 1_33_1
+Boost, version 1_34_0 or higher
+(tested: 1_34_0)
+Recommended: 1_34_0
 BOOST = path to the source library
 (for example BOOST = /usr/local/include/boost-1_33/)
 
@@ -39,11 +39,21 @@ Doxygen, version 1.5.1 or higher
 Recommended: 1.5.2
 
 Valgrind, version 3.1.0 or higher
-Recommended: 3.2.1
+(check: run valgrind --version)
+Recommended: 3.2.3
+
+Git, version 1.5.2 or higher
+(check: run git --version)
+Recommended: 1.5.2
 
 ----------------------------------------------
 
 System requirements:
 
 >= 512 MB main memory
+
+Disc space:
+
+For the full OKplatform, with some versions of gcc and Boost installed:
+10 GB should be fully sufficient.
 
