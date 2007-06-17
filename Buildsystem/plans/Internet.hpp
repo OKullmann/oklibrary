@@ -4,6 +4,26 @@
   \file Buildsystem/plans/Internet.hpp
   \brief Plans for the internet services (web page, etc.)
 
+  \todo External vs. internal html-pages:
+  We have the real Internet-pages, which will be accessible from the www,
+  and we have the internal html-pages, documenting the platform.
+  We need to clarify the relation to
+  <ol>
+   <li> Buildsystem/Generic/documentation_building/plans/documentation_building.hpp </li>
+   <li> Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp </li>
+  </ol>
+  Perhaps the name "Internet.hpp" is not fully approrpiate?
+
+
+  \todo Html-Directory:
+  <ul>
+   <li> We should have a new directory Buildsystem/html, where all
+   html-page-templates (to be processed by the preprocessor) go. </li>
+   <li> Or perhaps "Buildsystem/Html", since it is not a "systematic"
+   directory (found also at other places)? </li>
+   <li> And also all related material like pictures etc. </li>
+  </ul>
+
   \todo Configuration problem:
   <ul>
    <li> We need a simple system which allows
@@ -47,6 +67,7 @@
     </ol>
   </ul>
 
+
   \todo Content of the Internet-page:
   <ul>
    <li> Download of the software </li>
@@ -54,6 +75,7 @@
    <li> Online-documentation (just the documentation-index-page;
    see Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp). </li>
   </ul>
+
 
   \todo Building the Internet-page:
   <ul>
