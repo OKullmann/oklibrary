@@ -53,6 +53,8 @@
    <li> Steve Prestwich </li>
    <li> Nicola Galesi and group </li>
    <li> Maria-Luisa Bonet and group </li>
+   <li> Lars Schewe </li>
+   <li> Isabelle Oitavem and Reinhard Kahle (especially "theory") </li>
   </ul>
   </li>
   <li> Contact e-mail:
@@ -67,6 +69,8 @@
     <li> If you wish to submit, then you need to become member of the developpers
     list. </li>
    </ol>
+   We need an official text, and OK contacts each of the above personally,
+   adding this text.
   </li>
   <li> Only by invitation (yet). </li>
   <li> How can we create special "views" for the users? They should be able to register
