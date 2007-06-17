@@ -18,6 +18,17 @@
    it?. DONE (needed for installation)
 
 
+  \todo License:
+  <ul>
+   <li> It seems LGPL is suitable; we have to check this (is it compabible
+   with all other licenses (for external sources) involved? I guess so). </li>
+   <li> Perhaps for the very first (test) release we use the GPL ? </li>
+   <li> Once decided, we have to add appropriate licence texts to every file. </li>
+   <li> Does every file needs the license text ?? Or is a reference
+   sufficient? </li>
+  </ul>
+
+
   \todo system_definitions.mak: UPDATE --- some content goes to
   plans/Configuration.hpp!
   <ul>
@@ -74,12 +85,6 @@
      system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
      which cover all functions of the build system, and which is performed from time to time (manually).
      Then we can partially automate it.
-
-
-  \todo License:
-  It seems LGPL is suitable; we have to check this (is it compabible with all
-  other licenses (for external sources) involved? I guess so). Once decided,
-  we have to add appropriate licence texts to every file.
 
 
   \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
