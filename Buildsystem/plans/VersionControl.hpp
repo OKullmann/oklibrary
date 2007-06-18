@@ -9,14 +9,22 @@
    <li> Moving:
    How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
    also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
-   Usage of "git mv" and subsequent commits is completely unclear.
+   Usage of "git mv" and subsequent commits is not clear:
     <ol>
-     <li> A simple hack to perform the commit is to use "git commit -a" (then except of the move
-     nothing else should have been changed). </li>
+     <li> The commit is performed by "git commit" (so except of the move nothing else should be
+     staged (since the commit message concerns all what is staged)). </li>
      <li> Also with "git-gui" the commit will automatically work. </li>
      <li> However, all what is done is that the old file is no longer in the repository,
      while the new file is in the repository, with empty history except of the mv-information ---
      the old file is still in the history, while the new file has no history! </li>
+     <li> "git mv file new_file" is equivalent to
+     \verbatim
+mv file new_file
+git rm file
+git add new_file
+     \endverbatim
+     Now for the commit the removal and the addition are staged, which git automatically combines
+     into a renaming. </li>
      <li> The question seems now to be how to move also the history. </li>
     </ol>
    </li>
