@@ -9,7 +9,17 @@
    <li> Moving:
    How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
    also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
-   Usage of "git mv" and subsequent commits is completely unclear. </li>
+   Usage of "git mv" and subsequent commits is completely unclear.
+    <ol>
+     <li> A simple hack to perform the commit is to use "git commit -a" (then except of the move
+     nothing else should have been changed). </li>
+     <li> Also with "git-gui" the commit will automatically work. </li>
+     <li> However, all what is done is that the old file is no longer in the repository,
+     while the new file is in the repository, with empty history except of the mv-information ---
+     the old file is still in the history, while the new file has no history! </li>
+     <li> The question seems now to be how to move also the history. </li>
+    </ol>
+   </li>
    <li> Searching:
    How do we search for files with a given content, like searching
    for files in the history which contained "Sam Buss"?
