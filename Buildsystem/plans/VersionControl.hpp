@@ -105,7 +105,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
 kullmann@csltok:Transitional> git fsck --strict
 dangling blob c921acdcf384f7c8b942d863002dbbaad9f73c43
 dangling blob cfded5f225e72661cf535b3a5200f47fc1d1982b
-   \verbatim
+   \endverbatim
    What to do now? It seems that "git gc --prune" will clean up, and
    that there is no problem here. With "git show BLOB-SHA" one can
    see the contant of a dangling blob. </li>
