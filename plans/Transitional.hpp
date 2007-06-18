@@ -135,11 +135,23 @@ namespace SatAlg = Satisfiability::Algorithms;
   Mupad used to be free, and thus we have the Mupad-module.
   Now this is no longer the case (check again), and we need
   a replacement:
-  <ul>
-   <li> Check the licence for Mupad. </li>
-   <li> There is some Gnu-system ? </li>
+  <ol>
+   <li> Sage (http://modular.math.washington.edu/sage/): I (OK) don't like the
+   python-hype. Otherwise it looks interesting. The core seems to be written in C++.
+   It also includes some other systems. Seems reasonably documented.
+   For programming some language has to be learned anyway. So perhaps the first choice. </li>
+   <li> Axiom (http://wiki.axiom-developer.org/FrontPage): Not bad; there is a book
+   on it; but somewhat unclear what it can. </li>
+   <li> Yacas (http://yacas.sourceforge.net): Not bad; again not clear what it
+   can do. </li>
+   <li> Maxima (http://maxima.sourceforge.net/): looks reasonable, but perhaps too
+   lisp-ish. </li>
+   <li> Singular (http://www.singular.uni-kl.de/): Interesting, but more specialised.
+   Perhaps it can be used besides a general-purpose system? </li>
    <li> GiNaC is C++ (!) --- is it still under development? </li>
-  </ul>
+   <li> Check the licence for Mupad (http://www.mupad.de/): It seems a licence has to be
+   purchased (and from my last experience with Mupad it seems also the Linux support is weak). DONE </li>
+  </ol>
 
 */
 
