@@ -6,41 +6,6 @@
 
   \todo Building and using Git
   <ul>
-   <li> Moving:
-   How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
-   also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
-   Usage of "git mv" and subsequent commits is not clear:
-    <ol>
-     <li> The commit is performed by "git commit" (so except of the move nothing else should be
-     staged (since the commit message concerns all what is staged)). </li>
-     <li> Also with "git-gui" the commit will automatically work. </li>
-     <li> However, all what is done is that the old file is no longer in the repository,
-     while the new file is in the repository, with empty history except of the mv-information ---
-     the old file is still in the history, while the new file has no history! </li>
-     <li> "git mv file new_file" is equivalent to
-     \verbatim
-mv file new_file
-git rm file
-git add new_file
-     \endverbatim
-     Now for the commit the removal and the addition are staged, which git automatically combines
-     into a renaming. </li>
-     <li> The question seems now to be how to move also the history:
-      <ol>
-       <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
-       out certain files. Or one can build a completely new repository, with the appropriate
-       commits not (re-)done. </li>
-       <li> Still open the question of how to prepend the history of one file to the history
-       of another file? Seems not possible (without recreating the whole repository)? </li>
-       <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
-       (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
-       changed etc. The documentation of this command specifically contains an example of
-       how to remove a file from history. </li>
-       <li> So we should install the cogito-tool and experiment with it. </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
    <li> Searching:
    How do we search for files with a given content, like searching
    for files in the history which contained "Sam Buss"?
@@ -57,15 +22,6 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      <li> Ask the git mailing list. </li>
     </ol>
    </li>
-   <li> Combining different repositories:
-   <ul>
-    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
-    --- and it worked: It merged the complete history of the Annotations-files and -directories
-    into the Transitional-directory. </li>
-    <li> Problematic only that it moved everything to the top-level: How can we achieve that
-    they all are moved to some sub-directory? The git-pull documentation seems not to say something
-    here? </li>
-   </ul>
    <li> How does remote access work:
     <ol>
      <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
@@ -121,6 +77,58 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
      <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
     </ol>
+   </li>
+   <li> Moving:
+   How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
+   also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
+   Usage of "git mv" and subsequent commits is not clear:
+    <ol>
+     <li> The commit is performed by "git commit" (so except of the move nothing else should be
+     staged (since the commit message concerns all what is staged)). </li>
+     <li> Also with "git-gui" the commit will automatically work. </li>
+     <li> However, all what is done is that the old file is no longer in the repository,
+     while the new file is in the repository, with empty history except of the mv-information ---
+     the old file is still in the history, while the new file has no history! </li>
+     <li> "git mv file new_file" is equivalent to
+     \verbatim
+mv file new_file
+git rm file
+git add new_file
+     \endverbatim
+     Now for the commit the removal and the addition are staged, which git automatically combines
+     into a renaming. </li>
+     <li> The question seems now to be how to move also the history:
+      <ol>
+       <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
+       out certain files. Or one can build a completely new repository, with the appropriate
+       commits not (re-)done. </li>
+       <li> Still open the question of how to prepend the history of one file to the history
+       of another file? Seems not possible (without recreating the whole repository)? </li>
+       <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
+       (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
+       changed etc. The documentation of this command specifically contains an example of
+       how to remove a file from history. </li>
+       <li> So we should install the cogito-tool and experiment with it. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> Combining different repositories:
+   <ul>
+    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
+    --- and it worked: It merged the complete history of the Annotations-files and -directories
+    into the Transitional-directory. </li>
+    <li> Problematic only that it moved everything to the top-level: How can we achieve that
+    they all are moved to some sub-directory? The git-pull documentation seems not to say something
+    here? </li>
+    <li> The canonical thing to do seems to first create in the repository Annotations
+    a directory "Annotations", move all files with
+    \verbatim
+git mv file1 file2 dir1 dir2 Annotations
+    \endverbatim
+    to this subdirectory (with a subsequent "git commit"), and then with pulling
+    from this directory we get all files into Transitional (with new part "Annotations"). </li>
+   </ul>
    </li>
    <li> DONE Problems with the repository: On csltok I get
    \verbatim
@@ -243,6 +251,13 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
    convention like "/h/21/GemeinsameBasis", which perhaps one better should avoid?!?
+    <ol>
+     <li> Symbolic links are stored exactly as given (in absolute or relative form). </li>
+     <li> So by using relative links we could put the links into the repository. </li>
+     <li> So it seems we should do that (since some directories have such a link, some
+     not; and the relative position of the build directory is also known --- in case of
+     a move something has to be done anyway). </li>
+    </ol>
    </li>
    <li> Once we have ExternalSources under version control, we need the possibility to just have
    those binaries (the archives) in it, without any history, changes whatsoever (otherwise space
