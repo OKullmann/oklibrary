@@ -25,7 +25,20 @@ git add new_file
      \endverbatim
      Now for the commit the removal and the addition are staged, which git automatically combines
      into a renaming. </li>
-     <li> The question seems now to be how to move also the history. </li>
+     <li> The question seems now to be how to move also the history:
+      <ol>
+       <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
+       out certain files. Or one can build a completely new repository, with the appropriate
+       commits not (re-)done. </li>
+       <li> Still open the question of how to prepend the history of one file to the history
+       of another file? Seems not possible (without recreating the whole repository)? </li>
+       <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
+       (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
+       changed etc. The documentation of this command specifically contains an example of
+       how to remove a file from history. </li>
+       <li> So we should install the cogito-tool and experiment with it. </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> Searching:
@@ -44,6 +57,15 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      <li> Ask the git mailing list. </li>
     </ol>
    </li>
+   <li> Combining different repositories:
+   <ul>
+    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
+    --- and it worked: It merged the complete history of the Annotations-files and -directories
+    into the Transitional-directory. </li>
+    <li> Problematic only that it moved everything to the top-level: How can we achieve that
+    they all are moved to some sub-directory? The git-pull documentation seems not to say something
+    here? </li>
+   </ul>
    <li> How does remote access work:
     <ol>
      <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
@@ -281,12 +303,13 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      <li> A problem is, that Annotations currently has public as well as
      non-public parts; likely this needs to be separated. </li>
      <li> A good solution would be, if "selective cloning" would be possible
-     (push and pull for such clones then only concern the embedded parts).
-     And "repository surgery" is needed (like merging of repositories). </li>
+     (push and pull for such clones then only concern the embedded parts). </li>
      <li> It seems, that at least at a higher level Git currently does not
      offer something in this direction. Send an e-mail to the Git-list! </li>
      <li> Is "git-submodule" a solution? Unclear what it does?? And not available with
      1.5.2.1. </li>
+     <li> And "repository surgery" is needed (like merging of repositories). DONE (see
+     "Combining different repositories" in the above todo) </li>
     </ul>
    </li>
    <li> A distributed version control system as integral part of the library:
