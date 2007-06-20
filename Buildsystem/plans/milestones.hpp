@@ -29,7 +29,7 @@
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
     - Mailing lists
-    - Notification list
+    - Notification list : DONE
     - Mailing list software : DONE
 
   \par
