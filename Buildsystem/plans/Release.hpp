@@ -58,6 +58,7 @@
    </li>
   </ul>
 
+
   \todo Competition extraction tools
    - these tools, for a given program
      build a package, which contains all necessary source code and can be build
@@ -68,9 +69,18 @@
      So when we know all compilation units, we can preprocess them all and putting them
      into the package; the package just compiles the units separately, and then links them together.
 
+
   \todo Package construction script
    - Writing the package-construction script. (Internal versions should
      have date and time in the name.)
+
+
+  \todo Release plan
+  <ul>
+   <li> In Annotations/Release-1_0 we have a release plan for version 1.0
+   --- what to do with this plan? </li>
+   <li> Release plans perhaps should move to here --- or stay in Annotations? </li>
+  </ul>
 
 */
 
