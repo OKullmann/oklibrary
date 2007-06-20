@@ -76,6 +76,7 @@ namespace SatAlg = Satisfiability::Algorithms;
        <li> (Tes,Bui,Cos) under "System" ("Sys") </li>
        <li> "DataStructures" ("Das") </li>
        <li> "Applications" ("App") </li>
+       <li> "Deprecated" ("Dep") (obsolete parts) </li>
       </ol>
      </li>
      </li> 
@@ -128,6 +129,17 @@ namespace SatAlg = Satisfiability::Algorithms;
   <ul>
    <li> Currently all concepts are collected in module Concepts. Perhaps every module
    better should get its own sub-module "Module/concepts" ?! </li>
+  </ul>
+
+
+  \todo Demos:
+  <ul>
+   <li> In sub-directories "Module/demos" all demonstration programs will be put. </li>
+   <li> The files in Module/demos should have full doxygen-documentation. </li>
+   <li> Additionally the doxygen-command "\example" could be used for more fine-grained
+   linking? </li>
+   <li> Or is "\example" meant for mentioning .cpp-files without their own
+   doxygen-documentation?? </li>
   </ul>
 
 
