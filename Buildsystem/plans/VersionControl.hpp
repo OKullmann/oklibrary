@@ -109,6 +109,14 @@ git add new_file
        changed etc. The documentation of this command specifically contains an example of
        how to remove a file from history. </li>
        <li> So we should install the cogito-tool and experiment with it. </li>
+       <li> Actually, apparently "git-filter-branch" is supposed to replace "cg-admin-rewritehis",
+       so that we don't need cogito? </li>
+       <li> The problem with the broken-history-chain (when renaming) appparently
+       is solved with the new feature 
+       \verbatim
+git log -p --follow old_file
+       \endverbatim
+       which allows to show the whole history, following renamings. (What about gitk?) </li>
       </ol>
      </li>
     </ol>
