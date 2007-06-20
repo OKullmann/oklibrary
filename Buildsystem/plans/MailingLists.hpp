@@ -19,6 +19,7 @@
    <li> We have a web-page explaining the use of the mailing-lists. </li>
   </ul>
 
+
   \todo User mailing list
   <ul>
   <li> Invite the participants:
@@ -40,7 +41,7 @@
    <li> Tobias Nipkow </li>
    <li> Markus Roggenbach </li>
    <li> David Mitchell (observer) </li>
-   <li> Holger Hoos and David (observer) </li>
+   <li> Holger Hoos and David T (observer) </li>
    <li> Uwe Schoening </li>
    <li> Elitza Maneva </li>
    <li> Heribert Vollmer </li>
@@ -96,11 +97,13 @@
   </li>
   </ul>
 
-  \todo Notification list:
+
+  \todo Notification list: DONE (is in Annotations/Release-1_0)
   We had a list with names and addresses of people interested in the library,
   which shall be informed personally about the release --- where is this
   gone ??? Perhaps with Git we can search for "Sam Buss" ?!
   See "Building and using Git" in Buildsystem/plans/VersionControl.hpp.
+
 
   \todo Mailing list software : DONE (decided to use "Mailman")
   <ul>
