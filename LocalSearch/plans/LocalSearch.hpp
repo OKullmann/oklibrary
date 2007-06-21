@@ -4,19 +4,8 @@
   \file LocalSearch/plans/LocalSearch.hpp
   \brief Plans for the general module on local search
 
-  \todo Improved installation of UBCSAT:
+  \todo Improved installation of UBCSAT: DONE
   <ol>
-   <li> Some documentation is needed (to Buildsystem/docus/ExternalSources.hpp):
-    <ul>
-     <li> how to use the binary </li>
-     <li> how to use the library files </li>
-     <li> what are those library files </li>
-     <li> how to use LocalSearch/Ubcsat. </li>
-    </ul>
-   </li>
-   <li> Get rid off the temporary build-directory by adding
-    <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected </code>
-    to the build-compilation. (?) </li>
    <li> Correct the implementation of ExternalSources/Ubcsat/1-0-0/bin/ubcsat
    for 64-bit platforms, making some checks: DONE
     <ol>
@@ -47,11 +36,35 @@
    definitions of fixed width types from stdint.h instead. DONE </li>
   </ol>
 
-  \todo Create further milestones.
+
+  \todo Create further milestones (for 0.0.5) : DONE
+
 
   \todo Move Ubcsat-components from module AutarkySearch to here:
    - commit to cvs : DONE
    - move files : DONE.
+
+
+  \todo Installation of UBCSAT completed:
+  <ol>
+   <li> Some documentation is needed (goes to Buildsystem/docus/ExternalSources.hpp):
+    <ul>
+     <li> how to use the binary </li>
+     <li> how to use the library files </li>
+     <li> what are those library files </li>
+     <li> how to use LocalSearch/Ubcsat. </li>
+    </ul>
+   </li>
+   <li> Get rid off the temporary build-directory by adding
+   \code
+-I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected
+   \endcode
+   to the build-compilation. (?) </li>
+  </ol>
+
+
+  \todo Create further milestones (for 0.0.6)
+
 
 */
 

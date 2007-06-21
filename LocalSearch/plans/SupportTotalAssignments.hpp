@@ -6,7 +6,12 @@
   for efficient enumeration and local search (for satisfying assignments
   as well as autarkies). Operations to support variable flips.
 
-  \todo See Concepts/plans/Assignments.hpp.
+  \todo Concepts:
+  <ul>
+   <li> See Concepts/plans/Assignments.hpp. </li>
+   <li> The first "client" seems to be module AutarkySearch. </li>
+  </ul>
+
 
   \todo Design and implement. Should utilise the clause-literal graph.
   Default statistics: Number of falsified and satisfied literals per clause,
