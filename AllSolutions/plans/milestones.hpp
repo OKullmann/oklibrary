@@ -3,10 +3,7 @@
 /*!
   \file AllSolutions/plans/milestones.hpp
 
-  \module_version AllSolutions 0.0.2 (10.9.2006)
-
-  \par Version 0.0.3 :
-  Expand the planes, and create milestones : DONE
+  \module_version AllSolutions 0.0.3 (22.6.2007)
 
   \par Version 0.0.4 :
 
@@ -29,7 +26,8 @@
 
   \par Version history
 
-   -  0.0.2 : 10.9.2006; initial version number (a few plans).
+   - 0.0.2 : 10.9.2006; initial version number (a few plans).
+   - 0.0.3 : 22.6.2007; plans expanded (mostly transferred from module HypergraphTransversal to here).
 
 */
 
