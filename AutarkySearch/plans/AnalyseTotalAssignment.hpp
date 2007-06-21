@@ -9,7 +9,9 @@
   \todo Compilation in AutarkySearch is done correctly: DONE
    <ul>
     <li> Using the modified Ubcsat-files throughout: DONE (by adding
-     <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local </code>
+    \code
+-I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local
+    \endcode
      to the source-libraries-list) </li>
     <li> Multiple definition of variable pActiveAlgorithm: DONE (for the OKlibrary
      this variable must be declared as external, while for compiling the Ubsat
@@ -29,7 +31,7 @@
 
   \todo Complete correct compilation in AutarkySearch:
    <ul>
-    <li> Submit an error report to Gcc: "-I-" *cannot* be replaced by
+    <li> Submit an error report to Gcc: Option "-I-" *cannot* be replaced by
     "-iquote", and there is also no alternative! </li>
     <li> We need it because XXX </li>
     <li> I (OK) recall that there was somewhere else (likely in module Buildsystem)
