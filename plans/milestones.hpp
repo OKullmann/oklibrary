@@ -24,12 +24,16 @@
   (see LocalSearch/plans/milestones.hpp)
   \par AutarkySearch version 0.0.6 (OK, ML)
   (see AutarkySearch/plans/milestones.hpp)
+  \par AllSolutions version 0.0.3 (Ok, MH)
+  (see AllSolutions/plans/milestones.hpp)
 
   \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
+  \par Resolution version 0.0.4 (OK, MH)
+  (see Resolution/plans/milestones.hpp)
 
   \subsection VersionTransitional017 0.1.7 : TO BE REACHED \deadline_017
   \par InputOutput version 0.0.8 (OK (MH))
@@ -60,6 +64,8 @@
   (see Messages/plans/milestones.hpp)
   \par AutarkySearch version 0.0.7 (OK (ML))
   (see AutarkySearch/plans/milestones.hpp)
+  \par SumProduct version 0.0.4 (OK, MH)
+  (see SumProduct/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
