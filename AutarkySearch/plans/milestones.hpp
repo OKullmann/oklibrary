@@ -7,11 +7,12 @@
 
   \par Version 0.0.6 : 
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Compilation in AutarkySearch is done correctly
+  - Compilation in AutarkySearch is done correctly : DONE
   - No C code anymore : DONE
 
   \par Version 0.0.7
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+  - Complete correct compilation in AutarkySearch
   - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
   - Design and implement class ComputeLargestAutarky
 

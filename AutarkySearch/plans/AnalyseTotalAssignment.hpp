@@ -6,10 +6,8 @@
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
   
-  \todo Compilation in AutarkySearch is done correctly:
+  \todo Compilation in AutarkySearch is done correctly: DONE
    <ul>
-    <li> Submit an error report to Gcc: "-I-" *cannot* be replaced by
-     "-iquote", and there is also no alternative! </li>
     <li> Using the modified Ubcsat-files throughout: DONE (by adding
      <code> -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local </code>
      to the source-libraries-list) </li>
@@ -18,6 +16,7 @@
      library it is a definition). </li>
    </ul>
      
+
   \todo No C code anymore:
   Create AnalyseTotalAssignment.cpp as (initially) a copy of
   AnalyseTotalAssignment.c, and then change the code to proper C++,
@@ -27,7 +26,19 @@
   will be removed later ---  we need the declarations anyway, and library
   development must happen in small controlled steps.) DONE
 
+
+  \todo Complete correct compilation in AutarkySearch:
+   <ul>
+    <li> Submit an error report to Gcc: "-I-" *cannot* be replaced by
+    "-iquote", and there is also no alternative! </li>
+    <li> We need it because XXX </li>
+    <li> I (OK) recall that there was somewhere else (likely in module Buildsystem)
+    another todo on this? </li>
+   </ul>  
+
+
   \todo Connect with LocalSearch/plans/SupportTotalAssignments.hpp.
+
 
   \todo Design and implement class ComputeLargestAutarky (goes to
   AutarkySearch/AnalyseTotalAssignment.hpp):
@@ -36,6 +47,7 @@
    <li> First a concept is needed. </li>
    <li> Then a prototype is created --- with tests! </li>
   </ol>
+
 
   \todo Design and implement class AutarkySearchUbcsat (goes to
   AutarkySearch/AnalyseTotalAssignment.hpp):
@@ -49,22 +61,27 @@
   </ul>
   This must working with *any* local-search-algorithm from Ubcsat (without alteration).
 
+
   \todo AnalyseTotalAssignment.cpp:
   This application program is just a thin wrapper around class AutarkySearchUbcsat,
   handling how the process is to be iterated (of course, again the main thing is
   a class which handles the iteration; the program AnalyseTotalAssignment.cpp just
   manages input and output, and uses this class).
 
+
   \todo Including source-files from external libraries:
   It seems reasonable to use e.g. include <ubcsat/reports.h>.
+
 
   \todo Complete autarky search:
   Via the appropriate components from the combinatorics module for enumeration of total
   assignments, we obtain complete algorithms for autarky search.
 
+
   \todo New file structure:
   Likely we need more files (for the analysis of total assignments in general, for the
   methods exploiting Ubcsat, for the complete search).
+
 
   \todo Changing UBCSAT:
   Change the heuristics in UBCSAT, where now the goal is not to find a satisfying (total) assignment,
@@ -87,6 +104,7 @@
   the min for obtaining an evaluation of phi (the smaller the better).
   So basically the problem of evaluating phi is delegated to the evaluation of
   partial assignments; see EvaluatePartialAssignments.
+
 
   \todo Integrating/assimilating UBCSAT
   After we got an autarky searcher running, and also played around with the heuristics (mainly based
