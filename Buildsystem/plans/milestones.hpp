@@ -8,29 +8,25 @@
   \par Version 0.1.6 : THEME is "New infrastructure (version control, make, boost, gcc; planning for mailing lists)"
 
   \par
-   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
-    - Building and using Git
-    - New version control system
-
-  \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - Mailman
-    - CMake
-    - Boost
-    - Building Ubcsat
+    - CMake : DONE
     - bug "Building Boost 1_34_0" : DONE
     - bug "Building-Boost Errors" : DONE
     - bug "Building gcc_doc" : DONE
 
   \par
    In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
-    - CMake
+    - Design : DONE (moved to cmake-design)
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
-    - Mailing lists
     - Notification list : DONE
     - Mailing list software : DONE
+
+  \par
+   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
+    - Building Git, and basic usage : DONE
+    - New version control system : DONE
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -46,11 +42,23 @@
     - Customisation : DONE
 
 
-  \par Version 0.1.7 : THEME is "External libraries"
+  \par Version 0.1.7 : THEME is "PROTO-RELEASE"
+
+  \par
+   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+    - Mailman
+    - CMake-documentation building
+    - Boost
+    - Building Ubcsat
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
+    - Mailing lists
     - User mailing list
+
+  \par
+   In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
+    - CMake
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp

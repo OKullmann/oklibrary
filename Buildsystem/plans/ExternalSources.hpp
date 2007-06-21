@@ -162,6 +162,22 @@ make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc
    distribution. DONE </li>
   </ul>
 
+
+  \todo CMake : DONE
+  <ul>
+   <li> System-wide installation : DONE
+   \verbatim
+CMake> tar -xzf ../cmake-2.4.6.tar.gz
+CMake> cd cmake-2.4.6
+CMake/cmake-2.4.6> ./bootstrap
+CMake/cmake-2.4.6> make
+# make install
+   \endverbatim
+   The relevant documentation-directories are "Docs" and "Example".
+   </li>
+  </ul>
+
+
   \todo Mailman
   <ul>
    <li> Building mailman on cs-wsok (for testing):
@@ -174,20 +190,12 @@ make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc
    </li>
   </ul>
 
-  \todo CMake
+
+  \todo CMake-documentation building
   <ul>
    <li> Make also the documentation available. </li>
-   <li> System-wide installation : DONE
-   \verbatim
-CMake> tar -xzf ../cmake-2.4.6.tar.gz
-CMake> cd cmake-2.4.6
-CMake/cmake-2.4.6> ./bootstrap
-CMake/cmake-2.4.6> make
-# make install
-   \endverbatim
-   The relevant documentation-directories are "Docs" and "Example".
-   </li>
   </ul>
+
 
   \todo Boost
   <ul>

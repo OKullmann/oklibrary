@@ -4,141 +4,8 @@
   \file Buildsystem/plans/VersionControl.hpp
   \brief Plans and todos for the versioning control system
 
-  \todo Building and using Git
+  \todo Building Git, and basic usage : DONE
   <ul>
-   <li> Searching:
-   How do we search for files with a given content, like searching
-   for files in the history which contained "Sam Buss"?
-    <ol>
-     <li> The git manual says:
-     \verbatim
-Somebody hands you a copy of a file, and asks which commits modified a file such that it contained the given content either before or after the commit. 
-You can find out with this:
-$  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
-         grep -B 1 `git hash-object filename`
-     \endverbatim </li>
-     <li> However this doesn't allow specification of the *content* (??),
-     and what if we want to search in all files? </li>
-     <li> Ask the git mailing list. </li>
-    </ol>
-   </li>
-   <li> How does remote access work:
-    <ol>
-     <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
-     <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
-     It seems there are three options:
-      <ul>
-       <li> ssh is used (either an automatic channel is set up, or the password is asked for; is
-       this always established by git-shell as in the next method?) </li>
-       <li> ssh is used and a special git-ssh-connection is established (git-shell); is a password
-       needed here? (or is this just the same as the "general ssh access"?!)  </li>
-       <li> no ssh is used, but on the remote repository git-daemon is running (this apparently does not
-       require anything on the pushing/pulling side?). </li>
-      </ul>
-      Does git automatically choose? Do we have a choice??
-     </li>
-     <li> Copied clones which know how to connect:
-     How to create a clone, which can be copied (as a directory),
-     and wherever this clone is used, by "git push" and "git pull" it connects by one of the three
-     above methods to the source, given that the service is activated? In this way we can make
-     the clone downloadable from the Internet, anybody can start developing locally, and they can
-     connect to the source-clone if they have the permissions. </li>
-     </li>
-    </ol>
-   </li>
-   <li> Why does the following not work: On csltok I have a copy of a clone of a repository on cs-wsok;
-   now when trying to push to it remotely, the following happens:
-   \verbatim
-> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
-Password:
-bash: git-receive-pack: command not found
-fatal: The remote end hung up unexpectedly
-error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
-   \endverbatim
-   What's wrong here?? The command is there:
-   \verbatim
-> which git-receive-pack
-/usr/local/bin/git-receive-pack
-   \endverbatim
-   </li>
-   <li> Cloning:
-    <ol>
-     <li> How can we clone also the ignore-patterns? </li>
-     <li> What does actually belong to a repository? Is there a
-     "full cloning" ? </li>
-    </ol>
-   </li>
-   <li> It seems that the .git directories grow rather fast? For csltok:
-    <ol>
-     <li> 6.6.2007: 4.3 MB </li>
-     <li> 7.6.2007: 4.4 MB </li>
-     <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
-     <li> 10.6.2007: 4.3 MB </li>
-     <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 21.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-    </ol>
-   </li>
-   <li> Moving:
-   How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
-   also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
-   Usage of "git mv" and subsequent commits is not clear:
-    <ol>
-     <li> The commit is performed by "git commit" (so except of the move nothing else should be
-     staged (since the commit message concerns all what is staged)). </li>
-     <li> Also with "git-gui" the commit will automatically work. </li>
-     <li> However, all what is done is that the old file is no longer in the repository,
-     while the new file is in the repository, with empty history except of the mv-information ---
-     the old file is still in the history, while the new file has no history! </li>
-     <li> "git mv file new_file" is equivalent to
-     \verbatim
-mv file new_file
-git rm file
-git add new_file
-     \endverbatim
-     Now for the commit the removal and the addition are staged, which git automatically combines
-     into a renaming. </li>
-     <li> The question seems now to be how to move also the history:
-      <ol>
-       <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
-       out certain files. Or one can build a completely new repository, with the appropriate
-       commits not (re-)done. </li>
-       <li> Still open the question of how to prepend the history of one file to the history
-       of another file? Seems not possible (without recreating the whole repository)? </li>
-       <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
-       (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
-       changed etc. The documentation of this command specifically contains an example of
-       how to remove a file from history. </li>
-       <li> So we should install the cogito-tool and experiment with it. </li>
-       <li> Actually, apparently "git-filter-branch" is supposed to replace "cg-admin-rewritehis",
-       so that we don't need cogito? </li>
-       <li> The problem with the broken-history-chain (when renaming) appparently
-       is solved with the new feature 
-       \verbatim
-git log -p --follow old_file
-       \endverbatim
-       which allows to show the whole history, following renamings. (What about gitk?) </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
-   <li> Combining different repositories:
-   <ul>
-    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
-    --- and it worked: It merged the complete history of the Annotations-files and -directories
-    into the Transitional-directory. </li>
-    <li> Problematic only that it moved everything to the top-level: How can we achieve that
-    they all are moved to some sub-directory? The git-pull documentation seems not to say something
-    here? </li>
-    <li> The canonical thing to do seems to first create in the repository Annotations
-    a directory "Annotations", move all files with
-    \verbatim
-git mv file1 file2 dir1 dir2 Annotations
-    \endverbatim
-    to this subdirectory (with a subsequent "git commit"), and then with pulling
-    from this directory we get all files into Transitional (with new part "Annotations"). </li>
-   </ul>
-   </li>
    <li> DONE Problems with the repository: On csltok I get
    \verbatim
 kullmann@csltok:Transitional> git fsck --strict
@@ -147,7 +14,7 @@ dangling blob cfded5f225e72661cf535b3a5200f47fc1d1982b
    \endverbatim
    What to do now? It seems that "git gc --prune" will clean up, and
    that there is no problem here. With "git show BLOB-SHA" one can
-   see the contant of a dangling blob. </li>
+   see the content of a dangling blob. </li>
    <li> Created now also for Transitional a shared Git-repository. DONE </li>
    <li> DONE In order that commits have the full name ("Oliver Kullmann" instead of "csoliver") and e-mail-address
    ("O.Kullmann@Swansea.ac.uk" instead of "csoliver@cs-wsok.swan.ac.uk"), easiest is to tell Git for all
@@ -234,7 +101,213 @@ git checkout -f
   </ul>
 
 
-  \todo New version control system
+  \todo New version control system : DONE
+  <ul>
+   <li> Models of behaviour for distributed version control: DONE
+   Find out how to do the following:
+    <ul>
+     <li> We have the central repository R and a local repository L. L is changed (with commits, logs
+     and everything) to L', while meanwhile R has been changed to R'. Now it should not be possible to
+     submit L' to R', since L' is not up-to-date; so first all changes in R' have to be committed to
+     L', yielding L'' (without changing R'), and then L'' is submitted to R', yielding R'' :
+     DONE (We must follow the protocol: First perform pull in L', obtaining L''. Then L''
+     has to tested again, and only then push in L'' can be performed, yielding R''. But see
+     "Save pushs" above.) </li>
+     <li> For the (off-line) laptop csltok: Can we just copy the local repository to disc, then copy this
+     to cs-wsok, synchronise it with the local repository on cs-wsok, run the tests, and then submit the
+     local repository on cs-wsok to the central repository? Should be no problem. DONE (yes, that's possible)</li>
+    </ul>
+   </li>
+   <li> When a sub-module progresses to a higher version number:
+   Tagging all files in the sub-module? DONE (Apparently
+   it is not possible to tag files, but only commits, and then tags seem to be
+   a global thing. So when advancing the version number of a module, we use the standardised
+   log-message
+   <center>
+   *** New version number ?.?.? (module XXX) ***
+   </center>
+   or
+   <center>
+   *** Initial version number ?.?.? (module XXX) ***
+   </center>
+   and this must suffice.)
+   </li>
+   <li> Files to ignore can be entered to .git/info/exclude. DONE </li>
+   </li>
+   <li> We have a little problems with submissions to the repository, which often span
+   many files, so the whole submission process takes a while, and it's not clear from
+   outside when it's finished (and the library is again in a well-defined state). DONE (With Git first all submissions are done to a local clone, and only
+   once this is all settled, the final push to central respository happens.)
+   </li>
+   <li> The main conceptual disadvantage (shared with CVS) of Subversion is that
+    no local repositories are possible; alternatives: DONE (the three
+    existing repositories have been copied over to Git).
+    <ol>
+     <li> Git (http://git.or.cz/) looks rather good --- one should try it out! </li>
+     <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. Can't find anything special
+     for it. DONE</li>
+     <li> What about Arch (http://www.gnuarch.org/gnuarchwiki/)? Doesn't seem to have the strong
+     development team as Git; and I can't see anything special about it. DONE</li>
+     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34]. See whether
+     meanwhile the have a comparison with Git! No, not yet --- my (OK) impression is that git is technically
+     much stronger (while Bazaar aims at being "nice"). DONE </li>
+     <li> svk (http://svk.elixus.org), apparently a further development of Subversion.
+     Looks somewhat immature --- and aims at just improving svn in some parts. DONE </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo More advanced usage:
+  <ul>
+   <li> Install qgit:
+    <ol>
+     <li> Perhaps it allows to follow renaming (like --follows and --parents)? </li>
+    </ol>
+   </li>
+   <li> Searching:
+   How do we search for files with a given content, like searching
+   for files in the history which contained "Sam Buss"?
+    <ol>
+     <li> The git manual says:
+     \verbatim
+Somebody hands you a copy of a file, and asks which commits modified a file such that it contained the given content either before or after the commit. 
+You can find out with this:
+$  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
+         grep -B 1 `git hash-object filename`
+     \endverbatim </li>
+     <li> However this doesn't allow specification of the *content* (??),
+     and what if we want to search in all files? </li>
+     <li> Ask the git mailing list. </li>
+    </ol>
+   </li>
+   <li> How does remote access work:
+    <ol>
+     <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
+     <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
+     It seems there are three options:
+      <ul>
+       <li> ssh is used (either an automatic channel is set up, or the password is asked for; is
+       this always established by git-shell as in the next method?) </li>
+       <li> ssh is used and a special git-ssh-connection is established (git-shell); is a password
+       needed here? (or is this just the same as the "general ssh access"?!)  </li>
+       <li> no ssh is used, but on the remote repository git-daemon is running (this apparently does not
+       require anything on the pushing/pulling side?). </li>
+      </ul>
+      Does git automatically choose? Do we have a choice??
+     </li>
+     <li> Copied clones which know how to connect:
+     How to create a clone, which can be copied (as a directory),
+     and wherever this clone is used, by "git push" and "git pull" it connects by one of the three
+     above methods to the source, given that the service is activated? In this way we can make
+     the clone downloadable from the Internet, anybody can start developing locally, and they can
+     connect to the source-clone if they have the permissions. </li>
+     </li>
+    </ol>
+   </li>
+   <li> Why does the following not work: On csltok I have a copy of a clone of a repository on cs-wsok;
+   now when trying to push to it remotely, the following happens:
+   \verbatim
+> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
+Password:
+bash: git-receive-pack: command not found
+fatal: The remote end hung up unexpectedly
+error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
+   \endverbatim
+   What's wrong here?? The command is there:
+   \verbatim
+> which git-receive-pack
+/usr/local/bin/git-receive-pack
+   \endverbatim
+   </li>
+   <li> Cloning:
+    <ol>
+     <li> How can we clone also the ignore-patterns? </li>
+     <li> What does actually belong to a repository? Is there a
+     "full cloning" ? </li>
+    </ol>
+   </li>
+   <li> It seems that the .git directories grow rather fast? For csltok:
+    <ol>
+     <li> 6.6.2007: 4.3 MB </li>
+     <li> 7.6.2007: 4.4 MB </li>
+     <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
+     <li> 10.6.2007: 4.3 MB </li>
+     <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 21.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+    </ol>
+   </li>
+   <li> Secure pushs to the central repository on cs-oksvr:
+    <ol>
+     <li> Is it possible to only allows pushs to a repository if the pushing
+     repository is identical in content to the receiving repository? </li>
+    </ol>
+   </li>
+   <li> Moving:
+   How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
+   also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
+   Usage of "git mv" and subsequent commits is not clear:
+    <ol>
+     <li> The commit is performed by "git commit" (so except of the move nothing else should be
+     staged (since the commit message concerns all what is staged)). </li>
+     <li> Also with "git-gui" the commit will automatically work. </li>
+     <li> However, all what is done is that the old file is no longer in the repository,
+     while the new file is in the repository, with empty history except of the mv-information ---
+     the old file is still in the history, while the new file has no history! </li>
+     <li> "git mv file new_file" is equivalent to
+     \verbatim
+mv file new_file
+git rm file
+git add new_file
+     \endverbatim
+     Now for the commit the removal and the addition are staged, which git automatically combines
+     into a renaming. </li>
+     <li> The question seems now to be how to move also the history:
+      <ol>
+       <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
+       out certain files. Or one can build a completely new repository, with the appropriate
+       commits not (re-)done. </li>
+       <li> Still open the question of how to prepend the history of one file to the history
+       of another file? Seems not possible (without recreating the whole repository)? </li>
+       <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
+       (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
+       changed etc. The documentation of this command specifically contains an example of
+       how to remove a file from history. </li>
+       <li> So we should install the cogito-tool and experiment with it. </li>
+       <li> Actually, apparently "git-filter-branch" is supposed to replace "cg-admin-rewritehis",
+       so that we don't need cogito? </li>
+       <li> The problem with the broken-history-chain (when renaming) appparently
+       is solved with the new feature 
+       \verbatim
+git log -p --follow old_file
+       \endverbatim
+       which allows to show the whole history, following renamings. (What about gitk?) </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> Combining different repositories:
+   <ul>
+    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
+    --- and it worked: It merged the complete history of the Annotations-files and -directories
+    into the Transitional-directory. </li>
+    <li> Problematic only that it moved everything to the top-level: How can we achieve that
+    they all are moved to some sub-directory? The git-pull documentation seems not to say something
+    here? </li>
+    <li> The canonical thing to do seems to first create in the repository Annotations
+    a directory "Annotations", move all files with
+    \verbatim
+git mv file1 file2 dir1 dir2 Annotations
+    \endverbatim
+    to this subdirectory (with a subsequent "git commit"), and then with pulling
+    from this directory we get all files into Transitional (with new part "Annotations"). </li>
+   </ul>
+   </li>
+  </ul>
+
+
+  \todo Exploring usage patterns;
   <ul>
    <li> Likely when advancing the version of Transitional, we should tag all
    files:
@@ -275,28 +348,18 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      <li> Since every new version has a new name, it seems that we just need the possibility to remove
      the history of an item? </li>
      <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
+     <li> Another possibility is that the external sources are not under version control,
+     but we manage information like md5-checksums, and it's up to the user to download
+     the files. </li>
+     <li> For convenience we provide also an archive with all current external sources in it. </li>
+     <li> And/or the clone to download can be populated with the current external sources. </li>
+     <li> In any case, ExternalSources gets a sub-directory "sources". </li>
     </ol>
    </li>
    <li> What about version numbers in Git? What is the
    version-numbering-systems there, and what kind of statistics
-   are supported? </li>
+   are supported? It seems the answer is simple -- nothing?! </li>
    <li> How to handle change dates and revision numbers in files with Git?
-   </li>
-   <li> The central repository:
-   For a new version control system we have to find out how to establish the role of the repository at
-   cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
-   relying on ssh). </li>
-   <li> Models of behaviour for distributed version control:
-   Find out how to do the following:
-    <ul>
-     <li> We have the central repository R and a local repository L. L is changed (with commits, logs
-     and everything) to L', while meanwhile R has been changed to R'. Now it should not be possible to
-     submit L' to R', since L' is not up-to-date; so first all changes in R' have to be committed to
-     L', yielding L'' (without changing R'), and then L'' is submitted to R', yielding R''. </li>
-     <li> For the (off-line) laptop csltok: Can we just copy the local repository to disc, then copy this
-     to cs-wsok, synchronise it with the local repository on cs-wsok, run the tests, and then submit the
-     local repository on cs-wsok to the central repository? Should be no problem. DONE (yes, that's possible)</li>
-    </ul>
    </li>
    <li> Branching:
     <ul>
@@ -345,43 +408,10 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      update-solution for an external user (who extended the library)! </li>
     </ul>
    </li>
-   <li> When a sub-module progresses to a higher version number:
-   Tagging all files in the sub-module? DONE (Apparently
-   it is not possible to tag files, but only commits, and then tags seem to be
-   a global thing. So when advancing the version number of a module, we use the standardised
-   log-message
-   <center>
-   *** New version number ?.?.? (module XXX) ***
-   </center>
-   or
-   <center>
-   *** Initial version number ?.?.? (module XXX) ***
-   </center>
-   and this must suffice.)
-   </li>
-   <li> Files to ignore can be entered to .git/info/exclude. DONE </li>
-   </li>
-   <li> We have a little problems with submissions to the repository, which often span
-   many files, so the whole submission process takes a while, and it's not clear from
-   outside when it's finished (and the library is again in a well-defined state). DONE (With Git first all submissions are done to a local clone, and only
-   once this is all settled, the final push to central respository happens.)
-   </li>
-   <li> The main conceptual disadvantage (shared with CVS) of Subversion is that
-    no local repositories are possible; alternatives: DONE (the three
-    existing repositories have been copied over to Git).
-    <ol>
-     <li> Git (http://git.or.cz/) looks rather good --- one should try it out! </li>
-     <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. Can't find anything special
-     for it. DONE</li>
-     <li> What about Arch (http://www.gnuarch.org/gnuarchwiki/)? Doesn't seem to have the strong
-     development team as Git; and I can't see anything special about it. DONE</li>
-     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34]. See whether
-     meanwhile the have a comparison with Git! No, not yet --- my (OK) impression is that git is technically
-     much stronger (while Bazaar aims at being "nice"). DONE </li>
-     <li> svk (http://svk.elixus.org), apparently a further development of Subversion.
-     Looks somewhat immature --- and aims at just improving svn in some parts. DONE </li>
-    </ol>
-   </li>
+   <li> The central repository:
+   For a new version control system we have to find out how to establish the role of the repository at
+   cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
+   relying on ssh). </li>
   </ul>
 
 */
