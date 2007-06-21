@@ -16,6 +16,7 @@
    In HypergraphTransversals/plans/DirectTransversalEnumeration.hpp the
    following topics are handled:
     - Concepts
+    - %Implementation
 
   \par
    Create new milestones.
