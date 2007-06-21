@@ -11,6 +11,10 @@
    In Resolution/plans/Resolution.hpp the following topics are handled:
     - The basic problems
 
+   \par
+   In Resolution/plans/ResolutionClosure.hpp the following topics are handled:
+    - Primimplicates via resolution
+
   And new milestones have been created.
 
 
