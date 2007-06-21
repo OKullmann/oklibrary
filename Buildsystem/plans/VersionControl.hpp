@@ -76,6 +76,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 10.6.2007: 4.3 MB </li>
      <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
      <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 21.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
     </ol>
    </li>
    <li> Moving:
