@@ -4,10 +4,18 @@
   \file SumProduct/plans/SumProduct.hpp
   \brief Plans for the module on SumProduct components
 
-  \todo Create plans and milestones.
+  \todo Different levels of generalisation:
+  <ol>
+   <li> First implementing sum-product for trees. </li>
+   <li> Then for arbitrary factor-graphs. </li>
+   <li> Then Elitza Maneva's approach. </li>
+  </ol>
 
-  \todo The first submodule should be for generic marginalisation.
-  (See the MSc dissertation of ???.)
+
+  \todo Concepts
+  <ul>
+   <li> Semirings seem a reasonable environment. </li>
+  </ul>
 
 */
 

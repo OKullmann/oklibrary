@@ -3,5 +3,11 @@
 /*!
   \file SumProduct/plans/Marginalisation.hpp
   \brief Generic marginalisation (brute-force)
+
+  \todo %Implementation
+  <ul>
+   <li> Can something of B's dissertation used? </li>
+  </ul>
+
 */
 
