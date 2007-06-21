@@ -18,18 +18,20 @@
   \section StartingVersion Future milestones
 
   \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
-  \par AutarkySearch version 0.0.6 (OK, ML)
-  (see AutarkySearch/plans/milestones.hpp)
+  \par Buildsystem version 0.1.6 (OK, MH)
+  (see Buildsystem/plans/milestones.hpp)
   \par LocalSearch version 0.0.4 (OK, ML)
   (see LocalSearch/plans/milestones.hpp)
+  \par AutarkySearch version 0.0.6 (OK, ML)
+  (see AutarkySearch/plans/milestones.hpp)
+
+  \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Buildsystem version 0.1.6 (OK, MH)
-  (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
+  \subsection VersionTransitional017 0.1.7 : TO BE REACHED \deadline_017
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
   \par AtomicConditions version 0.0.3 (OK (MH))
@@ -64,7 +66,7 @@
   \par Update
   Update the subsequent milestones.
 
-  \subsection VersionTransitional017 0.1.7 : TO BE REACHED \deadline_017
+  \subsection VersionTransitional018 0.1.8 : TO BE REACHED \deadline_018
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
@@ -76,7 +78,7 @@
   \par Cryptanalysis version 0.0.3 (OK)
   (see Cryptanalysis/plans/milestones.hpp)
 
-  \subsection VersionTransitional018 0.1.8
+  \subsection VersionTransitional019 0.1.9
   \par Buildsystem version 0.2 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.8 (OK)
@@ -86,34 +88,34 @@
   \par ComplexitySystem version 0.2 (MH, OK))
   (see ComplexitySystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional019 0.1.9
+  \subsection VersionTransitional0110 0.1.10
   \par Buildsystem version 0.3
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.9 (OK)
   (see Messages/plans/milestones.hpp)
 
 
-  \subsection VersionTransitional0110 0.1.10
+  \subsection VersionTransitional0111 0.1.11
   \par Buildsystem version 0.4
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.8 (OK)
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional0111 0.1.11
+  \subsection VersionTransitional0112 0.1.12
   \par Buildsystem version 0.7
   (see Buildsystem/plans/milestones.hpp)
 
-  \subsection VersionTransitional0112 0.1.12
+  \subsection VersionTransitional0113 0.1.13
   \par Buildsystem version 0.5
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.8
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional0113 0.1.13
+  \subsection VersionTransitional0114 0.1.14
   \par Messages version 0.9
   (see Messages/plans/milestones.hpp)
 
-  \subsection VersionTransitional0114 0.1.14
+  \subsection VersionTransitional0115 0.1.15
   \par Buildsystem version 1.0
   (see Buildsystem/plans/milestones.hpp)
 
