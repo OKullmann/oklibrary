@@ -56,6 +56,9 @@
    <li> Maria-Luisa Bonet and group </li>
    <li> Lars Schewe </li>
    <li> Isabelle Oitavem and Reinhard Kahle (especially "theory") </li>
+   <li> Steve Cook and group (theoretical aspects) </li>
+   <li> Alasdair Urquhart and group (theoretical aspects) </li>
+   <li> Paul Beame and group </li>
   </ul>
   </li>
   <li> Contact e-mail:
