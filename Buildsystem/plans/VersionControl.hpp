@@ -37,7 +37,7 @@ cd /work/Repositories/Git/bare
 mkdir Annotations
 cd Annotations
 git --bare init --shared
-bit --bare fetch /work/Repositories/Git/Annotations master:master
+git --bare fetch /work/Repositories/Git/Annotations master:master
    \endverbatim
    Now every user has to create his master clone himself, via for example
    \verbatim
