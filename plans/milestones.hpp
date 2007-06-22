@@ -24,7 +24,7 @@
   (see LocalSearch/plans/milestones.hpp)
   \par AutarkySearch version 0.0.6 (OK, ML)
   (see AutarkySearch/plans/milestones.hpp)
-  \par AllSolutions version 0.0.3 (Ok, MH)
+  \par AllSolutions version 0.0.3 (Ok, MH) : DONE
   (see AllSolutions/plans/milestones.hpp)
 
   \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
