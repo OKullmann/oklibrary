@@ -74,6 +74,9 @@
    <li> Access to mailing-lists. </li>
    <li> Online-documentation (just the documentation-index-page;
    see Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp). </li>
+   <li> A project-page (for example Heribert Vollmer might have a student
+   project about implementing the NP-completeness of SAT (encoding of
+   Turing machines)). </li>
   </ul>
 
 
