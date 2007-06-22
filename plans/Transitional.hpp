@@ -96,6 +96,55 @@ namespace SatAlg = Satisfiability::Algorithms;
    are an issue, and one could move sensitive files to sub-directories
    "research" (moving also the whole history(!) --- see "Moving" in
    Buildsystem/plans/VersionControl.hpp). </li>
+   <li> Currently I (OK) am inclined to release everything as it is (including
+   "research secrets"), but this under the GPL: The OKplatform is a research
+   platform, not a "tool" for industrial exploitation. Seeing that valuable
+   research information is in the library, researchers will also add their
+   own ideas. The GPL-licence together with the possibility to check whether
+   a clone-repository has been corrupted should give enough security against
+   the worst misusers. </li>
+   <li> However, then perhaps Annotations simply stays a different repository. </li>
+   <li> At least for version transitions, is it possible to store clones somewhere
+   at an "official place" ?
+    <ol>
+     <li> What about that "SourceForge" ? </li>
+     <li> Perhaps "SourceForge" is more for active participation in the "classical way"? </li>
+     <li> Perhaps there are public scientific repositories? Or cultural repositories? </li>
+     <li> At least we should keep a history of main releases (backed-up). </li>
+     <li> Perhaps once we really go public (not yet with that "proto-release") we
+     have a "mirror" somewhere. </li>
+     <li> Perhaps actually the SAT community could provide a repository for SAT-related
+     software?! </li>
+     <li> But all this implies at least, that the external sources are not part
+     of the release --- otherwise it gets too big. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Repository Annotations:
+  <ul>
+   <li> Perhaps we should move some parts to Transitional, namely
+    <ol>
+     <li> "FullDocumentation" </li>
+     <li> the latex-support (needs clean-up) </li>
+    </ol>
+    Transitional/Annotations shall be the basis for writing documents and even
+    joint papers on the library.
+   </li>
+   <li> "History_OKsystem" seems obsolete, and should be removed. </li>
+   <li> "Release-1_0" perhaps should move (in some form) to Transitional/plans. </li>
+   <li> Research articles stay in the separate repository "Annotations" (only for internal
+   use). </li>
+   <li> Then we have some problems regarding the duplication of macros and bibtex-entries ?
+   Cleaning-up is needed:
+    <ol>
+     <li> What to do with Latex_macros/Basis.tex and Latex_macros/Definitionen.tex ? </li>
+     <li> What to do with Latex_bib/EigArt.bib ? </li>
+     <li> Perhaps I (OK) could re-organise my macros and bibtex-entries, and a "common"
+     part is moved to Transitional/Annotations ?! </li>
+    </ol>
+   </li>
   </ul>
 
 
