@@ -1,7 +1,7 @@
 // Oliver Kullmann, 6.6.2007 (Swansea)
 
 /*!
-  \file Transitional/plans/Transitional.hpp
+  \file Transitional/plans/general.hpp
   \brief Plans for the Transitional-library which do not belong to a single module
 
   \todo Upgrade to gcc-4.2.0

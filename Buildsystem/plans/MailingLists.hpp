@@ -84,7 +84,7 @@
   <li> An issue is how to separate out the "secret research":
    <ol>
     <li> See Buildsystem/plans/VersionControl.hpp. </li>
-    <li> See "Research sub-modules" in Transitional/plans/Transitional.hpp. </li>
+    <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
    </ol>
   </li>
   <li> More generally the question is, what kind of distribution-package the user get?

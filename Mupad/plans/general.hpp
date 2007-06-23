@@ -6,7 +6,7 @@
 
   \todo Rewriting:
   After a new computer-algebra system has been chosen (see "Computer algebra system"
-  in Transitional/plans/Transitional.hpp), all modules need to be redesigned
+  in Transitional/plans/general.hpp), all modules need to be redesigned
   and reimplemented:
   <ol>
    <li> Mupad/Design.mup : Just the incidence matrix of the Fano plane. </li>
