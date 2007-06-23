@@ -51,6 +51,8 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> Ifs ("Interfaces"; input, output etc.) </li>
          <li> Sol ("Solvers"; contains "OKsolver") </li>
          <li> Gen ("Generators") </li>
+         <li> LSe ("LocalSearch"; special components for local search (but
+         generic algorithms shall go to Satisfiability/Algorithms)) </li>
         </ol>
        </li>
        <li> "Graphs" ("Gra")
@@ -130,6 +132,21 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
        <li> "Numerical" ("Num") </li>
        <li> "Visualisation" ("Vis") </li>
+       <li> "UserInterfaces" ("UIc")
+        <ol>
+         <li> For researchers to create solvers (by assembling
+         given components). </li>
+         <li> Helping with the complex configuration of generic
+         components. </li>
+         <li> Headquarters for experimentation 
+          <ol>
+           <li> database access etc. </li>
+           <li> monitoring experiment execution </li>
+           <li> experiment planning </li>
+          </ol>
+         </li>
+        </ol>
+       </li>
       </ol>
      </li>
     </ol>
