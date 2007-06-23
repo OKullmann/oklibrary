@@ -6,7 +6,7 @@
   \par Version 0.0.5 :
 
   \par
-   In LocalSearch/plans/LocalSearch.hpp the following topics are handled:
+   In LocalSearch/plans/general.hpp the following topics are handled:
    - Installation of UBCSAT completed
    - Contact the developers of Ubcsat
    - Create further milestones

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 7.11.2006 (Swansea)
 
 /*!
-  \file LocalSearch/plans/LocalSearch.hpp
+  \file LocalSearch/plans/general.hpp
   \brief Plans for the general module on local search
 
   \todo Installation of UBCSAT completed:
