@@ -11,19 +11,57 @@
      <li> See "Mailman" in Buildsystem/plans/ExternalSources.hpp </li>
     </ol>
    </li>
-   <li> At least two lists: "Developers" and "Users". </li>
-   <li> Perhaps also a list where only general notifications are sent to. </li>
-   <li> And some list where only the Git-notifications are sent to. </li>
+   <li> Lists:
+    <ol>
+     <li> Developers
+      <ul>
+       <li> Only developer-e-mails </li>
+      </ul>
+      A developer is automatically member of "Git-notifications developers"
+     </li>
+     <li> Users
+      <ul>
+       <li> Only user-e-mails </li>
+      </ul>
+      A user is automatically member of "General notifications".
+     </li>
+     <li> General notifications
+      <ul>
+       <li> Only special notifications, when new versions are reached etc. </li>
+      </ul>
+     </li>
+     <li> Git-notifications developers
+      <ul>
+       <li> Exactly all the Git-e-mail notifications for the central repository </li>
+      </ul>
+     </li>
+     <li> Git-notifications users
+      <ul>
+       <li> Exactly all the Git-e-mail notifications for the user-clone </li>
+      </ul>
+     </li>
+    </ol>
+    Every e-mail is sent to exactly one list.
+   </li>
    <li> Is it possible to (automatically) show the list of users? </li>
    <li> Yet the Internet-address is "secret". </li>
    <li> We have a web-page explaining the use of the mailing-lists. </li>
+   <li> Which part of the mailing-list-system is under version control?
+    <ol>
+     <li> The mailing-lists-archives are not under version control, but they are backed-up (by the
+     departmental back-up on cs-svr1). </li>
+     <li> The web-pages and related configuration data is part of the OKlibrary. </li>
+     <li> Also the list of developers is part of the OKlibrary. </li>
+     <li> What about the list of users? </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo User mailing list
   <ul>
   <li> Invite the participants:
-  <ul>
+  <ol>
    <li> Joshua Buresh-Oppenheim: module Resolution </li>
    <li> Stefan Szeider and Marko Samer: new module Backdoors </li>
    <li> Hans van Maaren and Marijn Heule: General (?) </li>
@@ -59,7 +97,7 @@
    <li> Steve Cook and group (theoretical aspects) </li>
    <li> Alasdair Urquhart and group (theoretical aspects) </li>
    <li> Paul Beame and group </li>
-  </ul>
+  </ol>
   </li>
   <li> Contact e-mail:
    <ol>
@@ -81,21 +119,21 @@
   for modules or subjects, and then get commit-notifications related to those modules.
   Sending them also the patches? Or the new files??
   </li>
-  <li> An issue is how to separate out the "secret research":
-   <ol>
-    <li> See Buildsystem/plans/VersionControl.hpp. </li>
-    <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
-   </ol>
-  </li>
-  <li> More generally the question is, what kind of distribution-package the user get?
+  <li> What kind of distribution-package the user get?
    <ol>
     <li> They simply get a clone of the whole library (supposing that we have merged the different
     repositories plus the new ExternalSources-repository into one repository), with doc-directory
     preinstalled (so that they don't need to run anything --- just unpack and see).
     See point "Download possibilities" in Buildsystem/plans/Release.hpp. </li>
-    <li> As discussed above, all research-subdirectories are filtered out. </li>
     <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
     described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
+   </ol>
+  </li>
+  <li> An issue is how to separate out the "secret research":
+   <ol>
+    <li> See Buildsystem/plans/VersionControl.hpp. </li>
+    <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
+    <li> Seems to be solved by simply not separating out the "secret research".
    </ol>
   </li>
   </ul>
