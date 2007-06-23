@@ -6,31 +6,6 @@
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
   
-  \todo Compilation in AutarkySearch is done correctly: DONE
-   <ul>
-    <li> Using the modified Ubcsat-files throughout: DONE (by adding
-    \code
--I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local
-    \endcode
-     to the source-libraries-list; see Section "Correcting external
-     libraries" in Chapter "The compilation process" in the full
-     OKlibrary-documentation document) </li>
-    <li> Multiple definition of variable pActiveAlgorithm: DONE (for the OKlibrary
-     this variable must be declared as external, while for compiling the Ubsat
-     library it is a definition). </li>
-   </ul>
-     
-
-  \todo No C code anymore:
-  Create AnalyseTotalAssignment.cpp as (initially) a copy of
-  AnalyseTotalAssignment.c, and then change the code to proper C++,
-  introducing an additional header file for declarations.
-  Then remove AnalyseTotalAssignment.c from the repository.
-  (This should be done even if some parts of AnalyseTotalAssignment.c
-  will be removed later ---  we need the declarations anyway, and library
-  development must happen in small controlled steps.) DONE
-
-
   \todo Complete correct compilation in AutarkySearch:
    <ul>
     <li> Submit an error report to Gcc: Option "-I-" *cannot* be replaced by

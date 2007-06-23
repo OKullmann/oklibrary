@@ -22,7 +22,7 @@
   (see Buildsystem/plans/milestones.hpp)
   \par LocalSearch version 0.0.4 (OK, ML)
   (see LocalSearch/plans/milestones.hpp)
-  \par AutarkySearch version 0.0.6 (OK, ML)
+  \par AutarkySearch version 0.0.6 (OK, ML) : DONE
   (see AutarkySearch/plans/milestones.hpp)
   \par AllSolutions version 0.0.3 (Ok, MH) : DONE
   (see AllSolutions/plans/milestones.hpp)
