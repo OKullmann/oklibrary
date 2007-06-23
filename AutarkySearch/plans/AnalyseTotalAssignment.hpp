@@ -12,7 +12,9 @@
     \code
 -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local
     \endcode
-     to the source-libraries-list) </li>
+     to the source-libraries-list; see Section "Correcting external
+     libraries" in Chapter "The compilation process" in the full
+     OKlibrary-documentation document) </li>
     <li> Multiple definition of variable pActiveAlgorithm: DONE (for the OKlibrary
      this variable must be declared as external, while for compiling the Ubsat
      library it is a definition). </li>
