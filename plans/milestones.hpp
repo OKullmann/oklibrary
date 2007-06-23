@@ -20,7 +20,7 @@
   \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
   \par Buildsystem version 0.1.6 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par LocalSearch version 0.0.4 (OK, ML)
+  \par LocalSearch version 0.0.4 (OK, ML) : DONE
   (see LocalSearch/plans/milestones.hpp)
   \par AutarkySearch version 0.0.6 (OK, ML) : DONE
   (see AutarkySearch/plans/milestones.hpp)
