@@ -4,20 +4,6 @@
   \file Buildsystem/plans/Buildsystem.hpp
   \brief Plans for the buildsystem in general
 
-  \todo Overhaul of the general targets : DONE
-   - "all" should not compile the test-programs. Rather we want to have it so 
-     that "make new_check" and "make check" does the compilation. For performing
-     the checks they need to be compiled; we also need then special targets to 
-     just compile the test-programs. DONE (With the current build system
-     (14.6.2007) this is achieved for the new tests, and for the new build
-     system it is specified in plans/TargetSpecidictions.hpp)
-   - we must look at the support for linking with .o files from
-     the library itself (including linking with different versions) DONE
-     (see the creation of link-libraries in plans/TargetSpecifications.hpp)
-   - What is the role of prebuild? Still it is not eliminated --- do we need
-   it?. DONE (needed for installation)
-
-
   \todo License:
   <ul>
    <li> It seems LGPL is suitable; we have to check this (is it compabible
@@ -157,12 +143,6 @@
    - We need a standardised way of how to make information about the compilation
      process available to a program (and also the name of the program, etc.), so that
      for example via --version we get as much information as possible.
-
-
-  \todo Special runs : DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
-   - It seems we should create a special target "valgrind-check" where the files are
-     especially compiled for Valgrind --- this seems to be needed to do automatic
-     checks. So then the build system and the test system would be affected.
 
 
   \todo Source code directory structure:

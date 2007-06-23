@@ -44,13 +44,6 @@
     <li> Specify the functions of the build system as precise as possible. </li>
   </ul>
 
-  \todo .source_libraries: DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
-  - Like we have for link libraries, the specification of source libraries should
-  be (potentially) given in a .source_libraries file.
-  - The (recursive) make-variable source_libraries is kept,
-  predefined as "$(OKSystem_include) $(Boost_include)" (potentially
-  changed in the locale makefile): If .source_libraries exists, then it
-  overrides $(source_libraries).
 
   \todo Setting the paths to GCC and Boost link libraries
     - The setting of the Make variable "alternative_library_path" needs to be reviewed.
@@ -80,15 +73,6 @@
     - By default the make-process outputs it's basic assumptions (what compiler to be used, what
       external libraries, etc.).
 
-  \todo Directory structure: DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
-    - A module can have arbitrary submodules (with capital names) for (only) .hpp-files, each
-      with its own generic sub-directories "plans", "tests" and "messages". However only at the base level
-      we have the sub-directories "testobjects", "applications" and "implementations", which contain (only)
-      .cpp (and .c) files. Every file in applications implements %main(), and no other files. Compiled
-      testobject-files go to lib/tests/Module, compiled implementations go to lib, compiled test-programs go
-      to bin/tests, compiled applications go to bin. Thus names for implementation files and application files
-      need to be unique for the whole library, while names for testobject-files need to be unique within a module.
-    - Or we allow more freedom --- seems to be needed!
 
   \todo %Test system:
     - The most immediate thing is to make the test system work correctly, which (at least?)
@@ -114,22 +98,6 @@
     in Buildsystem/plans.
    </li>
   </ul> 
-
-  \todo Compilation: DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
-    - The names of the created .o-files and executables should reflect "all" compiler options.
-    - There are generic links to the unoptimised and the optimised version (the latest).
-      The test system uses these.
-    - For every created "file.o" and "file" we have the "file.compilation_log" (in the same directory
-      where these files go). Optionally we can switch it off.
-    - There is a make-variable for optional name extensions.
-
-  \todo Customisation: DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
-    - We keep our two-stages process: Every .cpp-files yields a .o-file, and finally exactly those .cpp-files with %main()
-      yield executables (the same for .c).
-    - Every .cpp-file has a .source_libraries file (if needed), a .link_libraries and .link_libraries_optimised file (if needed),
-      and a .compile_options and a .compile_options_optimised file (if needed).
-    - The link-libraries for a .cpp-file with %main() are collected from the link-libraries of the .cpp-files linked to it,
-      and from the link-library-file for this .cpp-file itself.
 
 
   \todo Log directory:

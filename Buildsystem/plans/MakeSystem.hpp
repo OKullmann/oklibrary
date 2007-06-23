@@ -104,12 +104,5 @@
    useful for that purpose) </li>
   </ul>
 
-
-  \todo Design : DONE (required for the new cmake-system)
-   - Larger makefiles should be composed (via inclusion) out of smaller
-   makefiles (if possible; otherwise there must be a "copy-and-paste"-comment
-   at each place).
-   - We should use (more) make-functions.
-
 */
 

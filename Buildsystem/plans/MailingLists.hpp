@@ -138,19 +138,5 @@
   </li>
   </ul>
 
-
-  \todo Notification list: DONE (is in Annotations/Release-1_0)
-  We had a list with names and addresses of people interested in the library,
-  which shall be informed personally about the release --- where is this
-  gone ??? Perhaps with Git we can search for "Sam Buss" ?!
-  See "Building and using Git" in Buildsystem/plans/VersionControl.hpp.
-
-
-  \todo Mailing list software : DONE (decided to use "Mailman")
-  <ul>
-   <li> We need to set up an OKlibrary mailing list with web interface. </li>
-   <li> "Mailman" http://www.gnu.org/software/mailman/ seems to be a good choice ?! </li>
-  </ul>
-
 */
 
