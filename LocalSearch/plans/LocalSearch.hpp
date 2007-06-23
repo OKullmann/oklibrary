@@ -63,6 +63,12 @@
   </ol>
 
 
+  \todo Contact the developers of Ubcsat
+  <ul>
+   <li> Create wish-list for a new Ubcsat-release. </li>
+  </ul>
+
+
   \todo Create further milestones (for 0.0.6)
 
 
