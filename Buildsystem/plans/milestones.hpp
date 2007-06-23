@@ -3,44 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.5 (31.3.2007)
-
-  \par Version 0.1.6 : THEME is "New infrastructure (version control, make, boost, gcc; planning for mailing lists)"
-
-  \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - CMake : DONE
-    - bug "Building Boost 1_34_0" : DONE
-    - bug "Building-Boost Errors" : DONE
-    - bug "Building gcc_doc" : DONE
-
-  \par
-   In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
-    - Design : DONE (moved to cmake-design)
-
-  \par
-   In Buildsystem/plans/MailingLists.hpp the following topics are handled:
-    - Notification list : DONE
-    - Mailing list software : DONE
-
-  \par
-   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
-    - Building Git, and basic usage : DONE
-    - New version control system : DONE
-
-  \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - Special runs : DONE
-    - Overhaul of the general targets : DONE
-    - Design : DONE (moved to Buildsystem/plans/MakeSystem.hpp)
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - .source_libraries : DONE
-    - Directory structure : DONE
-    - Compilation : DONE
-    - Customisation : DONE
-
+  \module_version Buildsystem 0.1.6 (24.6.2007)
 
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
@@ -200,8 +163,9 @@
    - 0.1.1 : 3.11.2006; some smaller corrections and modifications regarding naming issues.
    - 0.1.2 : 9.12.2006; systematic naming, placement and decomposition of makefiles; documentation of generic.mak; documentation-building improved.
    - 0.1.3 : 14.1.2007; further improvements on naming and placement of makefiles, improved building of external libraries, improved html-documentation.
-   - 0.1.4 : 8.2.2007; Steps towards a specified and testable buildsystem. Further documentation of generic.mak; corrections to makefile plans files suffixes; corrections to system-wide variable definitions.
+   - 0.1.4 : 8.2.2007; steps towards a specified and testable buildsystem. Further documentation of generic.mak; corrections to makefile plans files suffixes; corrections to system-wide variable definitions.
    - 0.1.5 : 31.3.2007; further steps towards a specified and testable buildsystem; started documenting generic.mak in the doxygen-system. Further improvements in the general structure of the documentation-pages.
+   - 0.1.6 : 24.6.2007; transition from CVS to Git and investigations into usage of Git, building and using Boost version 1_34_0, building gcc-4.2.0, building CMake and started planning a transition, investigations into mailing lists and the upcoming proto-release in general, overhaul of Buildsystem/plans, planning on configuration, planning on the web pages, doxygen-usage improvements, improvements of generic.mak, started creating user-documentation for the build-system, improved build of Ubcsat and Mhash, streamlining of building of external sources.
 
 */
 
