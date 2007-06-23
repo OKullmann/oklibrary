@@ -459,11 +459,19 @@ PNNIndices := proc(A) local Z, S, Z1, dummy, i, a, pos, neg, null; begin
    end_case
 end_proc:
 
+/* The hermitian rank of a matrix */
 herm := proc(A) local pnn; begin
   pnn := PNNIndices(A);
   return(max(pnn[1], pnn[2]))
 end_proc:
 
+/* The hermitian defect of a matrix */
+hermdef := proc(A) local pnn; begin
+  pnn := PNNIndices(A);
+  return(linalg::ncols(A) - max(pnn[1], pnn[2]))
+end_proc:
+
+/* The hermitian rank of a clause-set */
 hermKV := proc(F) begin
   if (F = FALSE) or (F = TRUE) then
     return(0)
@@ -472,14 +480,27 @@ hermKV := proc(F) begin
   end_if
 end_proc:
 
+/* The hermitian defect of a clause-set */
+hermdefKV := proc(F) begin
+  if (F = FALSE) then
+    return(1)
+  elif  (F = TRUE) then
+    return(0)
+  else
+    return(hermdef(Konfliktmatrix(F)))
+  end_if
+end_proc:
+
+
 
 /* ----------------------------------------------------------- */
 
 /* Spezielle Matrizen */
 
+/* Constant matrices filled with 1 */
 EinsMatrix := (n, m) -> Dom::Matrix(Dom::Rational)(n, m, (i,j) -> 1):
-
 QEinsMatrix := n -> ErzQR(n)((i,j) -> 1):
+/* Constant matrices filled with a can be obtained by multiplication */
 
 EMEMatrix := n -> QEinsMatrix(n) - (ErzQR(n))::one:
 /* Eins-Matrix minus Einheits-Matrix */
@@ -493,6 +514,18 @@ end_proc:
 /* Gestoerte l * EME-Matrix mit m rechts oben  */
 
 Winkler := r -> (Dom::SquareMatrix(r+2))((i,j) -> if i = j then 0 elif (i <= r) and (j <= r) then 2 else 1 end_if);
+
+/* Zero matrix : */
+zm := n -> (ErzQR(n))():
+
+/* Zero matrix except of first row and first column outside the diagonal --- there 1 : */
+zme := n -> (ErzQR(n))((i,j) -> if i = 1 and j = 1 then 0 elif i = 1 or j = 1 then 1 else 0 end_if):
+
+/* Adjacency matrix of a multiclique with parts of size l[1], l[2], ... : */
+multiclique := l -> VBlockDiagMatrix(zm(l[i]) $ i=1..nops(l), 1):
+/* A clique is obtained iff all entries are 1, a biclique is obtained if there are 2 entries. */
+/* zme(n) = multiclique([1,n-1]) */
+
 
 ZufallsMatrix := proc(n, u, o) local A, i, j, r, s; begin
    A := (ErzQR(n))();
@@ -554,7 +587,6 @@ RotationR := proc(L) local A, letztes; begin
       return([letztes] . L)
    end_if
 end_proc:
-
 /* rotiert eine Liste um eine Position nach rechts */
 
 
@@ -573,11 +605,11 @@ StdZyk := proc(n) local Z, A, i; begin
    end_for;
    (ErzQR(n))(A)
 end_proc:
-
 /* Standard-Zyklen-Matrix */
 
 
 ZeroDefektNotMSAT := (c, cred, p) -> linalg::stackMatrix(StdZufallsKVMatrix(cred, cred - 1, p) . Dom::Matrix(Dom::Rational)(cred, c - cred + 1), StdZufallsKVMatrix(c - cred, c, p)):
+
 
 /* ----------------------------------------------------------- */
 
