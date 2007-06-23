@@ -4,18 +4,6 @@
   \file Transitional/plans/general.hpp
   \brief Plans for the Transitional-library which do not belong to a single module
 
-  \todo Upgrade to gcc-4.2.0
-  <ul>
-   <li> Correct the template-errors:
-    <ol>
-     <li> Precise problem description: XXX </li>
-     <li> Methods to overcome the problem: XXX </li>
-     <li> Files affected: XXX </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Super-modules:
   <ul>
    <li> Currently 82 modules --- that needs a superstructure.
@@ -23,63 +11,127 @@
    corresponding to "super-modules". </li>
    <li> Problematic the correspondence between paths and namespaces:
     <ol>
-     <li> We could be consistent, using full super-module names
+     <li> We should be consistent, using full super-module names
      and incorporating them into the namespaces.
-      <ul>
-       <li> Perhaps a collection
-       of namespace-aliases could be provided ?! In this way we could use
-       abbreviations (if wished) without loosing expressivity ?! </li>
-       <li> Perhaps every namespace has a well-defined abbreviation, and there
-       are aliases for all full namespace-qualifications ?! </li>
-       <li> Better "OKlib" is not aliased, but only namespaces inside,
-       so for example (defined inside namespace ::OKlib):
-       \code
+     <li> Perhaps a collection
+     of namespace-aliases could be provided ?! In this way we could use
+     abbreviations (if wished) without loosing expressivity ?! </li>
+     <li> Perhaps every namespace has a well-defined abbreviation, and there
+     are aliases for all full namespace-qualifications ?! </li>
+     <li> Better "OKlib" is not aliased, but only namespaces inside,
+     so for example (defined inside namespace ::OKlib):
+     \code
 namespace Sat = Satisfiability;
 namespace SatAlg = Satisfiability::Algorithms;
-       \endcode
+     \endcode
+     </li>
+     <li> In every plans-file, besides the namespace-documentation, where also
+     the namespace is introduced (as C++ entity), we then have also the alias
+     definitions. </li>
+     <li> For the includes only the long forms can be used, but this seems to be
+     alright. </li>
+    </ol>
+   </li>
+   <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules; abbrevations
+   shall not be all-caps (reserved for macros)):
+      <ol>
+       <li> "Satisfiability" ("Sat")
+        <ol>
+         <li> Var ("Variables") </li>
+         <li> Lit ("Literals") </li>
+         <li> aCL ("ActiveClauses") </li>
+         <li> aCS ("ActiveClauseSets") </li>
+         <li> AaC ("AlliancesActiveClauseSets") </li>
+         <li> pAs ("PartialAssignments") </li>
+         <li> Aut ("Autarkies") </li>
+         <li> Heu ("Heuristics") </li>
+         <li> PSy ("ProofSystems") </li>
+         <li> Red ("Reductions") </li>
+         <li> Alg ("Algorithms"; (generic) algorithms for SAT solving and variations) </li>
+         <li> Ifs ("Interfaces"; input, output etc.) </li>
+         <li> Sol ("Solvers"; contains "OKsolver") </li>
+         <li> Gen ("Generators") </li>
+        </ol>
        </li>
-       <li> In every plans-file, besides the namespace-documentation, where also
-       the namespace is introduced (as C++ entity), we then have also the alias
-       definitions. </li>
-       <li> For the includes only the long forms can be used, but this seems to be
-       alright. </li>
-      </ul>
-     </li>
-     <li> Or we could make an exception, not incorporating
-     the super-modules into the namespace-hierarchy. Perhaps
-     we start the super-module-names with "_", and introduce the
-     general rule that such directories do not participate in the
-     namespace-hierarchy? </li>
-     <li> Or we could incorporate them, but using 3-letter abbreviations. </li>
-     <li> Possible super-modules:
-      <ol>
-       <li> SAL sat-algorithms </li>
-       <li> ACS active clause-sets </li>
-       <li> GEN general tools </li>
-       <li> GRA graphs </li>
-       <li> HYP hypergraphs </li>
-       <li> ALG algebra </li>
-       <li> THE theory (like Turing machines etc.) </li>
-       <li> TES test system </li>
-       <li> BUI build system </li>
-       <li> COS complexity system </li>
-       <li> HEU heuristics </li>
+       <li> "Graphs" ("Gra")
+        <ol>
+         <li> Gra ("Graphs") </li>
+         <li> Hyp ("Hypergraphs") </li>
+        </ol>
+       </li>
+       <li> "Structures" ("Str")
+        <ol>
+         <li> Alg ("Algebra") </li>
+         <li> Log ("Logic") </li>
+         <li> CTh ("ComplexityTheory") (contains "TuringMachines" TuM) </li>
+         <li> Ord ("OrderTheory") </li>
+        </ol>
+       </li>
+       <li> "Programming" ("Pro")
+        <ol>
+         <li> Gen ("GeneralTools") </li>
+         <li> Pll ("Parallelism") </li>
+        </ol>
+       </li>
+       <li> "System" ("Sys")
+        <ol>
+         <li> CoM ("ComplexityMeasurement") </li>
+         <li> TsS ("TestSystem") </li>
+         <li> Bui ("Buildsystem") </li>
+        </ol>
+       </li>
+       <li> "DataStructures" ("DaS") </li>
+       <li> "Applications" ("App")
+        <ol>
+         <li> CrA ("Cryptanalysis") </li>
+         <li> Col ("Colouring")
+          <ol>
+           <li> FrA ("FrequencyAssignment") </li>
+          </ol>
+         </li>
+         <li> Emb ("Embeddings") </li>
+         <li> Gam ("Games") </li>
+         <li> Lat ("LatinSquares") </li>
+         <li> QuP ("QuantumPhysics") </li>
+         <li> Ram ("RamseyTheory") </li>
+        </ol>
+       </li>
+       <li> "Experimentation" ("Exp")
+        <ol>
+         <li> Dab ("Database") </li>
+         <li> SaC ("SatCompetition") </li>
+        </ol>
+       </li>
+       <li> "ComputerAlgebra" ("CAl")
+        <ol>
+         <li> SAT tools: "Quick and dirty, but precise and elegant" </li>
+         <li> Mupad </li>
+        </ol>
+       </li>
+       <li> "ProofAssistants" ("PrA")
+        <ol>
+         <li> Verified components </li>
+         <li> %Algorithms extracted from proofs </li>
+         <li> Framework for formal upper bounds </li>
+         <li> Interface to Coq </li>
+        </ol>
+       </li>
+       <li> "Statistics" ("Sta")
+        <ol>
+         <li> R </li>
+        </ol>
+       </li>
+       <li> "Optimisation" ("Opt")
+        <ol>
+         <li> LiP ("LinearProgramming") </li>
+         <li> QuP ("QuadraticProgramming") </li>
+         <li> SeP ("SemidefiniteProgramming") </li>
+        </ol>
+       </li>
+       <li> "Numerical" ("Num") </li>
+       <li> "Visualisation" ("Vis") </li>
       </ol>
-      A (serious) problems with these abbreviations is, that all-capital-identifiers should
-      only be used for macros --- so better only the first letter capital.
      </li>
-     <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules):
-      <ol>
-       <li> (Acs,Heu,Sal) under "Satisfiability" ("Sat") </li>
-       <li> (Gra,Hyp,Alg,The) under "Structures" ("Str") </li>
-       <li> (Gen) under "Programming" ("Pro") </li>
-       <li> (Tes,Bui,Cos) under "System" ("Sys") </li>
-       <li> "DataStructures" ("Das") </li>
-       <li> "Applications" ("App") </li>
-       <li> "Deprecated" ("Dep") (obsolete parts) </li>
-      </ol>
-     </li>
-     </li> 
     </ol>
    </li>
    <li> Are there refactoring tools? Or can we finally finish module Refactoring ?!? </li>
@@ -189,6 +241,18 @@ namespace SatAlg = Satisfiability::Algorithms;
    linking? </li>
    <li> Or is "\example" meant for mentioning .cpp-files without their own
    doxygen-documentation?? </li>
+  </ul>
+
+
+  \todo Upgrade to gcc-4.2.0
+  <ul>
+   <li> Correct the template-errors:
+    <ol>
+     <li> Precise problem description: XXX </li>
+     <li> Methods to overcome the problem: XXX </li>
+     <li> Files affected: XXX </li>
+    </ol>
+   </li>
   </ul>
 
 
