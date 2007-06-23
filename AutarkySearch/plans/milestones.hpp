@@ -3,12 +3,7 @@
 /*!
   \file AutarkySearch/plans/milestones.hpp
 
-  \module_version AutarkySearch 0.0.5 (31.1.2007)
-
-  \par Version 0.0.6 : 
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Compilation in AutarkySearch is done correctly : DONE
-  - No C code anymore : DONE
+  \module_version AutarkySearch 0.0.6 (23.6.2007)
 
   \par Version 0.0.7
   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
@@ -48,7 +43,8 @@
 
    - 0.0.3 : 10.9.2006; initial version number (several plans).
    - 0.0.4 : 9.11.2006; started integrating UBCSAT.
-   - 0.0.5: 31.1.2007; UBCSAT locally installed (under ExternalSources).
+   - 0.0.5 : 31.1.2007; UBCSAT locally installed (under ExternalSources).
+   - 0.0.6 : 23.6.2007; updated implementations from C to C++, and usage of corrected Ubcsat-headers (as well as adapted Ubcsat-headers).
 
 */
 
