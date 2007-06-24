@@ -66,7 +66,6 @@
 
   \par
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - Building gcc_doc 
     - Corrections mhash
     - Problems with building Boost
 
