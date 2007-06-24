@@ -17,16 +17,6 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
-  \par Buildsystem version 0.1.6 (OK, MH) : DONE
-  (see Buildsystem/plans/milestones.hpp)
-  \par LocalSearch version 0.0.4 (OK, ML) : DONE
-  (see LocalSearch/plans/milestones.hpp)
-  \par AutarkySearch version 0.0.6 (OK, ML) : DONE
-  (see AutarkySearch/plans/milestones.hpp)
-  \par AllSolutions version 0.0.3 (OK, MH) : DONE
-  (see AllSolutions/plans/milestones.hpp)
-
   \subsection VersionTransitional016 0.1.6 : Theme "FIRST RELEASE"; TO BE REACHED \deadline_016
   \par Buildsystem version 0.1.7 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
@@ -203,6 +193,16 @@
    - concepts cleaned-up, preparing a concentrated effort
    - buildsystem further moved towards a specified and testable system, and
      various doxygen-related improvements.
+
+   \par 0.1.5 25/6/2007
+
+   - most work in the buildsystem: new version control system Git, planning
+     for the first release, various upgrades and improvements
+   - completed the basic installation (and upgrading) of UBCSAT (in module LocalSearch),
+     and established usage (in module AutarkySearch)
+   - various SAT-plans expanded (on hypergraph transversals, cryptanalysis, Sudoku, problem generators,
+     reductions, resolution)
+   - some advancements in programming (usage of threads, numerics, messages).
 
 */
 
