@@ -4,52 +4,6 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \bug Building gcc_doc : DONE
-
-  <ul>
-   <li> On cs-wsok we get the following build-error:
-    \verbatim
-~/SAT-Algorithmen/OKplatform/ExternalSources> make gcc-4.2.0
-...
-make[2]: Entering directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build'
-Doing pdf in gcc
-make[3]: Entering directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc'
-texi2pdf -I . -I /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc/../../gcc-4.2.0/gcc/doc -I /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc/../../gcc-4.2.0/gcc/doc/include -o doc/gcc.pdf ../../gcc-4.2.0/gcc/doc/gcc.texi
-make[3]: texi2pdf: Command not found
-make[3]: *** [doc/gcc.pdf] Error 127
-make[3]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build/gcc'
-make[2]: *** [pdf-gcc] Error 1
-make[2]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build'
-make[1]: *** [do-pdf] Error 2
-make[1]: Leaving directory `/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Gcc/gcc-4.2.0_Build'
-make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc/_gcc-4.2.0] Error 1
-    \endverbatim
-    ??? Where to get texi2pdf ? DONE (now in ExternalSources --- just a script, which can be put into ~/bin for
-    example; should the installation do something about it???) </li>
-   <li> What do do if the subdirectories of doc/Gcc already exist? DONE
-    (nothing done if the directories exist) </li>
-    <li> When it comes to renaming /share/doc to html, and the target
-    directory html already exists, then instead /share/doc is moved *into*
-    html --- how to avoid this?? DONE (first rename, then move) </li>
-   <li> Apparently the build does ONLY create sub-directories
-    <ol>
-     <li> info with a few text-files </li>
-     <li> man with a few files not containing much </li>
-    </ol>
-    ??? So the current build is incomplete. But what is to be added
-    to the build??? The only installation information provided with
-    the gcc-distribution apparently is in gcc-4.2.0/gcc/doc/gccinstall.info,
-    and there is no information on building documentation???
-    How to read gcc-4.2.0/gcc/doc/gccinstall.info??? (It's just an ugly
-    text-file???) DONE (it seems that now all possible documentation is build) </li>
-   <li> Target gcc_doc does not work (the link at
-   system_directories/doc/index.html is not working). DONE (still the
-   linking on the index page is to be performed). </li>
-   <li> *Only* the documentation is to be extracted, not the whole
-   distribution. DONE </li>
-  </ul>
-
-
   \todo Problems with building Boost (1_34_0)
   <ul>
    <li> Report to Boost: How to call the libraries is not documented, %e.g.,
@@ -145,6 +99,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    (but the general machinery is worth keeping)?!? DONE Very likely most of the times we will support only one boost-version --- but we need the machinery for the transition to newer version (then for some times 2 versions are around)! And we might try out beta-versions etc. So we need the boost-build-machinery. </li>
   </ul>
 
+
   \todo Building Ubcsat (OK, ML):
   Review of Ubcsat.mak review
   <ul>
@@ -152,6 +107,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    <li> What is the meaning of "tag" and "tag_" ??? The names should tell. </li>
    <li> No file modification in the external sources. DONE </li>
   </ul>
+
 
   \todo Documenting ExternalSources.mak
   <ul>
@@ -174,11 +130,13 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    Buildsystem/docus/ExternalSources.hpp. DONE </li>
   </ul>
 
+
   \todo Building documentation:
    - Documentation building should be done automatically when building.
    - We should extract only the documentation from the archives (and
    remove everything else which is not needed).
    
+
   \todo Mhash
   <ul>
    <li> mhash.mak needs a complete review; the usage of make-variables
@@ -202,6 +160,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    Then to clean everything there is already the target "cleanallmhash". </li>
   </ul>
    
+
   \todo General
   <ul>
    <li> It would ge good, if after doing a local installation, easily the
@@ -231,10 +190,13 @@ collect2: ld terminated with signal 11 [Segmentation fault]
     </ul>
    </li>
   </ul>
+
   
   \todo Gcc
   <ul>
-   <li> Instead of, e.g., "make gcc-4.1.2", wouldn't it be more consistent with
+   <li> Linking to the gcc-documentation (main info-page) should be checked
+   for completeness. </li>
+   <li> Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
    building Boost to use instead "make gcc gcc-version=4.1.2" ? </li>
    <li> If variable "gcc-version" is set, then it should have one of the
    allowed values (while otherwise we get an error). </li>
@@ -244,6 +206,9 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    some settings for the build of gcc. </li>
    <li> Shouldn't file external_sources_versions.mak be placed in
    subdirectory Buildsystem/ExternalSources ? </li>
+   <li> texti2pdf is a script, which can be put into ~/bin for example,
+   and is needed for building the gcc-documentation --- how to provide it?
+   Such small utilities could be put under version control (OKlibrary) ? </li>
    <li> If the filestamp does already exist, then we want nothing to happen ---
    however yet the build-directory will be rebuilt if not existent, since
    it is a prerequisite of the rule for the "tag-paths". So it seems
