@@ -4,63 +4,6 @@
   \file Buildsystem/plans/VersionControl.hpp
   \brief Plans and todos for the versioning control system
 
-  \todo New version control system : DONE
-  <ul>
-   <li> Models of behaviour for distributed version control: DONE
-   Find out how to do the following:
-    <ul>
-     <li> We have the central repository R and a local repository L. L is changed (with commits, logs
-     and everything) to L', while meanwhile R has been changed to R'. Now it should not be possible to
-     submit L' to R', since L' is not up-to-date; so first all changes in R' have to be committed to
-     L', yielding L'' (without changing R'), and then L'' is submitted to R', yielding R'' :
-     DONE (We must follow the protocol: First perform pull in L', obtaining L''. Then L''
-     has to tested again, and only then push in L'' can be performed, yielding R''. But see
-     "Save pushs" above.) </li>
-     <li> For the (off-line) laptop csltok: Can we just copy the local repository to disc, then copy this
-     to cs-wsok, synchronise it with the local repository on cs-wsok, run the tests, and then submit the
-     local repository on cs-wsok to the central repository? Should be no problem. DONE (yes, that's possible)</li>
-    </ul>
-   </li>
-   <li> When a sub-module progresses to a higher version number:
-   Tagging all files in the sub-module? DONE (Apparently
-   it is not possible to tag files, but only commits, and then tags seem to be
-   a global thing. So when advancing the version number of a module, we use the standardised
-   log-message
-   <center>
-   *** New version number ?.?.? (module XXX) ***
-   </center>
-   or
-   <center>
-   *** Initial version number ?.?.? (module XXX) ***
-   </center>
-   and this must suffice.)
-   </li>
-   <li> Files to ignore can be entered to .git/info/exclude. DONE </li>
-   </li>
-   <li> We have a little problems with submissions to the repository, which often span
-   many files, so the whole submission process takes a while, and it's not clear from
-   outside when it's finished (and the library is again in a well-defined state). DONE (With Git first all submissions are done to a local clone, and only
-   once this is all settled, the final push to central respository happens.)
-   </li>
-   <li> The main conceptual disadvantage (shared with CVS) of Subversion is that
-    no local repositories are possible; alternatives: DONE (the three
-    existing repositories have been copied over to Git).
-    <ol>
-     <li> Git (http://git.or.cz/) looks rather good --- one should try it out! </li>
-     <li> BitKeeper (http://www.bitkeeper.com) seems to be only proprietary. Can't find anything special
-     for it. DONE</li>
-     <li> What about Arch (http://www.gnuarch.org/gnuarchwiki/)? Doesn't seem to have the strong
-     development team as Git; and I can't see anything special about it. DONE</li>
-     <li> Bazaar (http://bazaar-vcs.org) was recommended in [{CVU}, vo. 10, no. 2, page 34]. See whether
-     meanwhile the have a comparison with Git! No, not yet --- my (OK) impression is that git is technically
-     much stronger (while Bazaar aims at being "nice"). DONE </li>
-     <li> svk (http://svk.elixus.org), apparently a further development of Subversion.
-     Looks somewhat immature --- and aims at just improving svn in some parts. DONE </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo More advanced usage:
   <ul>
    <li> Install qgit:
