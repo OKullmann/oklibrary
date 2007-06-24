@@ -12,7 +12,10 @@
     - Mailman
     - CMake-documentation building
     - Improving building Boost
+    - Problems with building Boost
     - Building Ubcsat
+    - Documenting ExternalSources.mak
+    - Building documentation
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
@@ -20,8 +23,46 @@
     - User mailing list
 
   \par
-   In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
-    - CMake
+   In Buildsystem/plans/Configuration.hpp the following topics are handled:
+    - Primary versus derived configurations
+    - Configuration data
+    - Software management
+    - external_sources_versions.mak
+    - Make-variables for external libraries
+    - Definitions for doxygen
+    - Developers information
+
+  \par
+   In Buildsystem/plans/Internet.hpp the following topics are handled:
+    - External vs. internal html-pages
+    - Html-Directory
+    - Configuration problem
+    - Content of the Internet-page
+    - Building the Internet-page
+
+  \par
+   In Buildsystem/plans/README.hpp the following topics are handled:
+    - Automatic generation
+    - Supported versions of gcc
+    - Update : DONE
+
+  \par
+   In Buildsystem/plans/Release.hpp the following topics are handled:
+    - Fundamental "axioms"
+    - Distributing the library
+    - Package construction script
+    - Release plan
+
+  \par
+   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
+    - More advanced usage
+    - Exploring usage patterns
+
+  \par
+   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+    - License
+    - system_definitions.mak
+    - System documentation
 
   \par
    In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
@@ -30,18 +71,14 @@
     - Boost-documentation
     - GCC-documentation
     - CMake documentation
+    - Page organisation
+    - Using css
+    - Meta tags
+    - Improved logo
 
   \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
-    - system_definitions.mak
-    - external_sources_versions.mak
-    - Make-variables for external libraries
-
-  \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
-    - Documenting ExternalSources.mak
-    - Building documentation
-
+   In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
+    - CMake
 
 
   \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
