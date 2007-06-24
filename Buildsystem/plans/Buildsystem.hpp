@@ -73,6 +73,11 @@
      Then we can partially automate it.
 
 
+  \todo System documentation:
+   - Document the basic version-control settings (location of server, configuration, how to use it).
+   - Document the build-system (general ideas, functionality).
+
+
   \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
   <ul>
    <li>
@@ -93,11 +98,6 @@
      (these settings are quite arcane).
    </li>
   </ul> 
-
-
-  \todo System documentation:
-   - Document the basic version-control settings (location of server, configuration, how to use it).
-   - Document the build-system (general ideas, functionality).
 
 
   \todo Documentation (Examples and Concepts) OK : this needs to be discussed and updated

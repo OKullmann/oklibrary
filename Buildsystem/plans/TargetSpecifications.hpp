@@ -108,6 +108,7 @@
    </li>
   </ul>
 
+
   \todo Target "prebuild"
   <ul>
    <li> Creating symbolic links (for the master-makefile-script), some
@@ -121,12 +122,14 @@
    for the dependency on the doxyfile. </li>
   </ul>
 
+
   \todo Target "reset"
   <ul>
    <li> This target is handled by the master-script, and it reruns cmake (while all
    other targets are passed to the created make-files --- this assumes, that
    cmake was run at least once, so perhaps reset is also part of "prebuild" ??). </li>
   </ul>
+
 
   \todo Target "new-module"
   <ul>

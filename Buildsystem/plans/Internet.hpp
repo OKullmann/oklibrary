@@ -24,6 +24,7 @@
    <li> And also all related material like pictures etc. </li>
   </ul>
 
+
   \todo Configuration problem:
   <ul>
    <li> We need a simple system which allows
