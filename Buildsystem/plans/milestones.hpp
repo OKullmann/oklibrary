@@ -59,7 +59,7 @@
     - Exploring usage patterns
 
   \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - License
     - system_definitions.mak
     - System documentation
@@ -84,7 +84,7 @@
   \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - Renaming module Buildsystem
 
   \par
@@ -107,7 +107,7 @@
     - Problems with building Boost
 
   \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - system_definitions.mak
     - Testing the build system
     - Licence
@@ -152,7 +152,7 @@
     - Gcc
 
   \par
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - License
     - Notification list
 
@@ -166,23 +166,23 @@
     - Directories with makefile-links
 
   \par Version 0.2 : THEME is "Basic functionality"
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - Full test
     - Nightly build
     
   \par Version 0.3 : THEME is "Complexity measurements"
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - Complexity system
     - Measurements
 
   \par Version 0.4 : THEME is "Packages and Distribution"
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - Package construction script
     - Competition extraction tools
     - Distributing the library
   
   \par Version 0.5 : THEME is "Rounding up"
-   In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
+   In Buildsystem/plans/general.hpp the following topics are handled:
     - New targets
     - Higher-order build tools
   

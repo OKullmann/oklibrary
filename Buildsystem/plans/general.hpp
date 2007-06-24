@@ -1,7 +1,7 @@
 // Oliver Kullmann, 12.8.2005 (Swansea)
 
 /*!
-  \file Buildsystem/plans/Buildsystem.hpp
+  \file Buildsystem/plans/general.hpp
   \brief Plans for the buildsystem in general
 
   \todo License:
