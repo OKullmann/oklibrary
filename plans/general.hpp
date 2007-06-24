@@ -191,32 +191,6 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Repository Annotations:
-  <ul>
-   <li> Perhaps we should move some parts to Transitional, namely
-    <ol>
-     <li> "FullDocumentation" </li>
-     <li> the latex-support (needs clean-up) </li>
-    </ol>
-    Transitional/Annotations shall be the basis for writing documents and even
-    joint papers on the library.
-   </li>
-   <li> "History_OKsystem" seems obsolete, and should be removed. </li>
-   <li> "Release-1_0" perhaps should move (in some form) to Transitional/plans. </li>
-   <li> Research articles stay in the separate repository "Annotations" (only for internal
-   use). </li>
-   <li> Then we have some problems regarding the duplication of macros and bibtex-entries ?
-   Cleaning-up is needed:
-    <ol>
-     <li> What to do with Latex_macros/Basis.tex and Latex_macros/Definitionen.tex ? </li>
-     <li> What to do with Latex_bib/EigArt.bib ? </li>
-     <li> Perhaps I (OK) could re-organise my macros and bibtex-entries, and a "common"
-     part is moved to Transitional/Annotations ?! </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Organisation of plans-directories
   <ul>
    <li> The module-plan-files is just called "general.hpp". </li>
