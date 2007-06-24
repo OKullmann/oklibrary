@@ -11,7 +11,7 @@
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - Mailman
     - CMake-documentation building
-    - Boost
+    - Improving building Boost
     - Building Ubcsat
 
   \par
@@ -68,7 +68,7 @@
    In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
     - Building gcc_doc 
     - Corrections mhash
-    - Building Boost Errors
+    - Problems with building Boost
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
@@ -114,7 +114,6 @@
     - PostgreSQL
     - General
     - Gcc
-    - Boost
 
   \par
    In Buildsystem/plans/Buildsystem.hpp the following topics are handled:
