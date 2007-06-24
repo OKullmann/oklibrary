@@ -12,9 +12,11 @@
   The build-system should also warn about this (and perhaps
   also about other assumptions not met).
 
+
   \bug Incorrect build of new tests I:
   The buildsystem does not handle the dependencies for the
   module-test-program.
+
 
   \bug Incorrect build of new tests II:
   While error I is as expected (at this time), the buildsystem behaves
@@ -22,6 +24,7 @@
    - Target new_check works from for example from level OKsystem %w.r.t.
      building test-object files if needed,
    - but from within the module this doesn't work.
+
 
   \todo Specification of build system II
   <ul>
@@ -56,8 +59,10 @@
       uses the system-wide installations of GCC and Boost. It should be possible
       to specify only the system-wide GCC or only the system-wide Boost, or both.
   
+
   \todo General_options:
   The current function of "General_options" is taken over by the new variable "Debug_options".
+
 
   \todo Dependency files: UPDATE once we know cmake better (it should solve such problems)
     - If when creating the .d-files an error occurs (for example
@@ -68,6 +73,7 @@
       unusable information (and must be deleted with "make cleandep").
       This problem seems hard to solve (one had to find out that different paths lead to the same file).
       So it must be documented well.
+
 
   \todo Verbosity:
     - By default the make-process outputs it's basic assumptions (what compiler to be used, what
@@ -82,6 +88,7 @@
     - We need special test-modes for more extensive messages.
     - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
       Perhaps also the test time-stamps should go here?
+
 
   \todo OKsystem/Buildsystem structure:
   <ul>
@@ -110,8 +117,10 @@
    with appropriately redirected output. </li>
   </ul>
   
+
   \todo Targets:
   - It should be possible to build just one application, or just one implementation.    
+
 
   \todo Cleaning:
     - We need cleaning tools which clean up directories (not single files).
@@ -121,29 +130,23 @@
     - Cleaning of test-objectfiles and test-programs.
     - Cleaning of test-depencies.
 
+
   \todo %Test cleaning:
     We need specialised cleaning regarding the test system :
     - Cleaning of special or all versions of the test-timestamps.
     - Cleaning of test-objectfiles and test-programs.
     - Cleaning of test-depencies.
 
+
   \todo Error messages of gcc should be processed:
     - We should support using a tool like TextFilt or STLFilt.
 
-  \todo %Tools for testing: DONE (moved to Buildsystem/plans/TargetSpecifications.hpp)
-    - valgrind has a (new) flag "--error-exitcode=", by which we should be able to get an error
-      making the build-process stop in case valgrind finds an error.
-    - We should use gcov from time to time (supported by the build system) to check
-      whether at least all lines of code are covered by the tests.
 
   \todo Linking and options:
   <ul>
-
-  <li>We need global control over dynamic/static linking. Is it the case that dynamic
-  linking only happens with .so files? Can investigate with strace tool..  </li>
-
-  <li>Is it possible to specify the path exactly to a link-library at runtime?</li>
-
+   <li> We need global control over dynamic/static linking. Is it the case that dynamic
+   linking only happens with .so files? Can investigate with strace tool..  </li>
+   <li> Is it possible to specify the path exactly to a link-library at runtime?</li>
    <li>
    Which compiler options are effective when linking? "Our" options are 
    <ul>
@@ -154,25 +157,20 @@
     <li> -03 (cc1plus)</li>
     <li> -DNDEBUG (cc1plus)</li>
    </ul>
-  
    Here, the names in brackets indicate, in the
    case of ld (linker) and cpp (preprocessor), the executables whose man 
    page documents the option and, in the case of cc1plus whether the help
-   file documents the option.
-  
-   It seems, at first glance, that all of "our" options are only effective
-   for the compiler.</li>
-  
+   file documents the option. It seems, at first glance, that all of "our"
+   options are only effective for the compiler.
+   </li>
    <li>
    CXXFLAGS is not used when linking the compilation units together --- is this
    how it should be, and how to set options for the linking stage?!
    </li>
-
    <li>
    What is the meaning of the strip-binutil-tool? Shall we use it? (Always? Sometimes?)
    At least we should have the option.
    </li>
-
   </ul>
 
 */
