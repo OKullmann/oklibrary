@@ -4,119 +4,6 @@
   \file Buildsystem/plans/ExternalSources.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \bug Building Boost 1_34_0 DONE (when removing this bug, then move the problematic aspects
-  to an appropriate todo --- however at the moment it seems we can ignore them).
-  <ul>
-   <li> Report for csltok:
-    <ol>
-     <li> First try with manual build and simply
-     \verbatim
-boost_1_34_0> ./configure --prefix=${OKPLATFORM}/ExternalSources/Boost/1_34_0
-make install
-     \endverbatim
-     (system installation with gcc 3.4.3) yields
-     \verbatim
-...failed updating 216 targets...
-...skipped 32 targets...
-...updated 5567 targets...
-Not all Boost libraries built properly.
-     \endverbatim
-     First guess is, that these failures are phython-related, so we should
-     actively disable phython. Try:
-     \verbatim
-boost_1_34_0> ./configure --prefix=${OKPLATFORM}/ExternalSources/Boost/1_34_0 --without-libraries=python
-make install
-     \endverbatim
-     (Report to Boost: How to call the libraries is not documented (the only
-     library-name mentioned is "Boost.Python").)
-     </li>
-     <li> Not only python seems problematic:
-     \verbatim
-`.L1119' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o
-`.L573' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o
-     \endverbatim
-     ???
-     But it seemed to work:
-     \verbatim
-...updated 5548 targets...
-     \endverbatim
-     </li>
-     <li> Next then is to build using gcc version 4.2.0: Seems to work
-     (but not used yet, since first the template-related (new)
-     errors have to be repaired). </li>
-    </ol>
-   </li>
-   <li> Report for cs-wsok:
-    <ol>
-     <li> Installation failed (using the system-gcc 4.0.2):
-     \verbatim
-ExternalSources> make boost-1_34_0
-
-...failed updating 8 targets...
-...skipped 24 targets...
-...updated 5517 targets...
-     \endverbatim
-     First check whether this also occurs with the manual installation, then find out
-     which libraries failed. Is the failure the same source as the bug about building boost below?
-     </li>
-     <li> Manual installations seems to yield the same result. </li>
-     <li> Installation with local gcc "make boost gcc-version=4.1.2" also fails:
-     \verbatim
-...failed updating 8 targets...
-...skipped 24 targets...
-...updated 5517 targets...
-     \endverbatim
-     Rerunning reveals
-     \verbatim
-...failed gcc.link.dll /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/Boost/1_34_0+4.1.2_Build/boost/bin.v2/libs/wave/build/gcc-4.1.2/debug/threading-multi/libboost_wave-gcc41-mt-d-1_34.so.1.34.0...
-gcc.link.dll /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/Boost/1_34_0+4.1.2_Build/boost/bin.v2/libs/graph/build/gcc-4.1.2/debug/threading-multi/libboost_graph-gcc41-mt-d-1_34.so.1.34.0
-collect2: ld terminated with signal 11 [Segmentation fault]
-     \endverbatim
-     So there are linking problems regarding the wave- and the graph-library. This seems not to be
-     of urgent concern for now (but the problem must be fixed).
-     </li>
-     <li> Building %boost with "make boost gcc-version=4.2.0" yields the same result. </li>
-    </ol>
-   </li>
-   <li> How to inform bjam about an alternative compiler? What about
-   <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ?? </li>
-   <li> Correct documentation building. DONE </li>
-   <li> We should read the installation documentation. DONE (unfortunately, there is not much in it) </li>
-   <li> The path to the bjam-sources now is boost_1_34_0/tools/jam/src. DONE </li>
-  </ul>
-
-
-  \bug Building-Boost Errors DONE (when removing this bug, then add to the new todo related
-  to the above bug)
-  <ul>
-   <li>
-   Suddenly building boost on cs-wsok with a local gcc (version 3.4.3 or
-   3.4.6 for example) doesn't work anymore, but there are linking errors.
-   It seems that on csltok everything works, so that it could be a
-   64bit thing.
-  
-   What did change?? And it seems that gcc versions for example 4.1.1
-   do work?? Since versions below 4.0.0 don't work, while above work,
-   it seems that the system-gcc (4.0.2) interferes; perhaps it tries to
-   link with the 32bit-version, can't do that, and then falls back to the
-   system version?
-  
-   What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.)
-  
-   OK (12.1.2007): When building boost with gcc-version 3.4.3 or 3.4.6, we get
-   \verbatim
-   ...failed updating 10 targets...
-   ...skipped 14 targets...
-   \endverbatim
-   Why this?
-  
-   We should check in general whether building boost links to the 32bit
-   or to the 64bit version. See the build-problems on cs-wsok described in
-   the bug above.
-   </li>
-  </ul>
-
-
   \bug Building gcc_doc : DONE
 
   <ul>
@@ -163,6 +50,54 @@ make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc
   </ul>
 
 
+  \todo Problems with building Boost (1_34_0)
+  <ul>
+   <li> Report to Boost: How to call the libraries is not documented, %e.g.,
+   the only library-name mentioned is "Boost.Python", while its real name
+   is "python". (Important for "--without-libraries=python".)
+   </li>
+   <li> On cs-ltok (32 bit) we get build-log-messages like
+   \verbatim
+`.L1119' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o
+`.L573' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o
+   \endverbatim
+   Does this indicate something we should worry about ?
+   </li>
+   <li> On cs-wsok (64 bit) we get
+   \verbatim
+ExternalSources> make boost-1_34_0
+
+...failed updating 8 targets...
+...skipped 24 targets...
+...updated 5517 targets...
+   \endverbatim
+   Rerunning reveals
+   \verbatim
+...failed gcc.link.dll /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/Boost/1_34_0+4.1.2_Build/boost/bin.v2/libs/wave/build/gcc-4.1.2/debug/threading-multi/libboost_wave-gcc41-mt-d-1_34.so.1.34.0...
+gcc.link.dll /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/Boost/1_34_0+4.1.2_Build/boost/bin.v2/libs/graph/build/gcc-4.1.2/debug/threading-multi/libboost_graph-gcc41-mt-d-1_34.so.1.34.0
+collect2: ld terminated with signal 11 [Segmentation fault]
+   \endverbatim
+   So there are linking problems regarding the wave- and the graph-library.
+   This seems not to be of urgent concern for now (but the problem must be
+   fixed in the future).
+   </li>
+   <li> How to inform bjam about an alternative compiler? What about
+   <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ??
+   </li>
+   <li> When building gcc with local versions, we should make sure that
+   the system-gcc doesn't interfere (especially important regarding linking).
+    <ol>
+     <li> On cs-wsok it seems that the system-gcc (4.0.2) interferes;
+     perhaps it tries to link with the 32bit-version, can't do that,
+     and then falls back to the system version? </li>
+     <li> What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.) </li>
+     <li> We should check in general whether building %boost links to the 32bit
+     or to the 64bit version. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Mailman
   <ul>
    <li> Building mailman on cs-wsok (for testing):
@@ -182,7 +117,7 @@ make: *** [/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Gcc
   </ul>
 
 
-  \todo Boost
+  \todo Improving building Boost
   <ul>
    <li> Like with gcc, the build-directory and the bjam-directory should not be a
    prerequisite (so that an unnecessary "make boost" is a noop). </li>
