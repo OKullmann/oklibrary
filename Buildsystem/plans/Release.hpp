@@ -45,16 +45,29 @@
 
   \todo Distributing the library
   <ul>
-   <li> A major problem is how to filter out the "secret" parts.
-    <ol>
-     <li> Hopefully with "git-submodule" we can create sub-repositories
-     (see Buildsystem/plans/VersionControl.hpp). </li>
-     <li> Likely critical are only the plans-directories. The simplest measure is to
-     create a sub-module without the plans-directories. And for special users we add then
-     appropriate plans-directories. </li>
-     <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
-     <li> Seems to be solved by simply not separating out the "secret research". </li>
-    </ol>
+   <li> Download possibilities:
+   <ol>
+    <li> The whole library (with all included libraries like Boost, doxygen, PostgreSQL etc.). </li>
+    <li> Only the minimum. </li>
+    <li> In both cases with or without the documentation preinstalled. </li>
+    <li> Or perhaps, easier, always with the documentation installed? Currently (17.6.2007)
+    the doc-directory is 46 MB, and the .gz-archive is 6.9 MB. </li>
+   </ol>
+   This gives two user types: "full user" and "minimal user".
+   We must make sure, that also the minimal user can use the test and the complexity system
+   (compiling it himself, or using the build system). And we must study, how a full user can keep his
+   file structure separate from the library by using links. Of course, easier is not to make
+   the distinction, but always to supply the full clone (with additionally the documentation
+   preinstalled, so that nothing needs to be run or compiled) ?!
+   </li>
+   <li> What kind of distribution-package the user get?
+   <ol>
+    <li> They simply get a clone of the whole library (supposing that we have merged the different
+    repositories plus the new ExternalSources-repository into one repository), with doc-directory
+    preinstalled (so that they don't need to run anything --- just unpack and see). </li>
+    <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
+    described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
+   </ol>
    </li>
    <li> Build stages:
    <ol>
@@ -82,33 +95,8 @@
     makefile is to be found in a subdirectory, only invoked if needed. </li>
    </ol>
    </li>
-   <li> Download possibilities:
-   <ol>
-    <li> The whole library (with all included libraries like Boost, doxygen, PostgreSQL etc.). </li>
-    <li> Only the minimum. </li>
-    <li> In both cases with or without the documentation preinstalled. </li>
-    <li> Or perhaps, easier, always with the documentation installed? Currently (17.6.2007)
-    the doc-directory is 46 MB, and the .gz-archive is 6.9 MB. </li>
-   </ol>
-   This gives two user types: "full user" and "minimal user".
-   We must make sure, that also the minimal user can use the test and the complexity system
-   (compiling it himself, or using the build system). And we must study, how a full user can keep his
-   file structure separate from the library by using links. Of course, easier is not to make
-   the distinction, but always to supply the full clone (with additionally the documentation
-   preinstalled, so that nothing needs to be run or compiled) ?!
-   </li>
-  <li> What kind of distribution-package the user get?
-   <ol>
-    <li> They simply get a clone of the whole library (supposing that we have merged the different
-    repositories plus the new ExternalSources-repository into one repository), with doc-directory
-    preinstalled (so that they don't need to run anything --- just unpack and see).
-    See point "Download possibilities" in Buildsystem/plans/Release.hpp. </li>
-    <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
-    described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
-   </ol>
-  </li>
-  <li> Updates:
-  How user can update:
+   <li> Updates:
+   How user can update:
    <ol>
     <li> The simplest category of user only uses the releases (the packages; see
     "Package construction script" below). </li>
@@ -116,11 +104,22 @@
     <li> Finally a user can become a "developer" (see "Developers" below). </li>
    </ol>
    Perhaps the dedicated user-clone is only updated "every few days".
-  </li>
-  <li> How can we create special "views" for the users? They should be able to register
-  for modules or subjects, and then get commit-notifications related to those modules.
-  Sending them also the patches? Or the new files??
-  </li>
+   </li>
+   <li> How can we create special "views" for the users? They should be able to register
+   for modules or subjects, and then get commit-notifications related to those modules.
+   Sending them also the patches? Or the new files??
+   </li>
+   <li> A major problem is how to filter out the "secret" parts.
+    <ol>
+     <li> Hopefully with "git-submodule" we can create sub-repositories
+     (see Buildsystem/plans/VersionControl.hpp). </li>
+     <li> Likely critical are only the plans-directories. The simplest measure is to
+     create a sub-module without the plans-directories. And for special users we add then
+     appropriate plans-directories. </li>
+     <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
+     <li> Seems to be solved by simply not separating out the "secret research". </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -139,6 +138,8 @@
    <li> Everybody can submit patches. </li>
    <li> Perhaps everybody except core developers should (always) work with branches ?!
    Submission then to the master-branch. </li>
+   <li> Local and external developers each have their own dedicated push+pull clones. Core developers
+   connects it with the main repository. </li>
   </ul>
 
 
