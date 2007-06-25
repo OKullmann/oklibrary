@@ -97,6 +97,9 @@
    <li> Steve Cook and group (theoretical aspects) </li>
    <li> Alasdair Urquhart and group (theoretical aspects) </li>
    <li> Paul Beame and group </li>
+   <li> Moshe Vardi </li>
+   <li> Phokion Kolaitis </li>
+   <li> Nadia Creignou </li>
   </ol>
   </li>
   <li> Contact e-mail:
