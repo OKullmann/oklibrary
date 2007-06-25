@@ -118,29 +118,7 @@
    adding this text.
   </li>
   <li> Only by invitation (yet). </li>
-  <li> How can we create special "views" for the users? They should be able to register
-  for modules or subjects, and then get commit-notifications related to those modules.
-  Sending them also the patches? Or the new files??
-  </li>
-  <li> What kind of distribution-package the user get?
-   <ol>
-    <li> They simply get a clone of the whole library (supposing that we have merged the different
-    repositories plus the new ExternalSources-repository into one repository), with doc-directory
-    preinstalled (so that they don't need to run anything --- just unpack and see).
-    See point "Download possibilities" in Buildsystem/plans/Release.hpp. </li>
-    <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
-    described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
-   </ol>
-  </li>
-  <li> An issue is how to separate out the "secret research":
-   <ol>
-    <li> See Buildsystem/plans/VersionControl.hpp. </li>
-    <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
-    <li> Seems to be solved by simply not separating out the "secret research".
-   </ol>
-  </li>
   </ul>
-
 
   \todo Instructions:
   A dedicated weg-page is needed on howto use the mailing-lists

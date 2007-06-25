@@ -52,6 +52,8 @@
      <li> Likely critical are only the plans-directories. The simplest measure is to
      create a sub-module without the plans-directories. And for special users we add then
      appropriate plans-directories. </li>
+     <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
+     <li> Seems to be solved by simply not separating out the "secret research". </li>
     </ol>
    </li>
    <li> Build stages:
@@ -95,16 +97,30 @@
    the distinction, but always to supply the full clone (with additionally the documentation
    preinstalled, so that nothing needs to be run or compiled) ?!
    </li>
-   <li> Updates:
-   How user can update:
-    <ol>
-     <li> The simplest category of user only uses the releases (the packages; see
-     "Package construction script" below). </li>
-     <li> An "active user" has pull-access to the dedicated user-clone. </li>
-     <li> Finally a user can become a "developer" (see "Developers" below). </li>
-    </ol>
-    Perhaps the dedicated user-clone is only updated "every few days".
-   </li>
+  <li> What kind of distribution-package the user get?
+   <ol>
+    <li> They simply get a clone of the whole library (supposing that we have merged the different
+    repositories plus the new ExternalSources-repository into one repository), with doc-directory
+    preinstalled (so that they don't need to run anything --- just unpack and see).
+    See point "Download possibilities" in Buildsystem/plans/Release.hpp. </li>
+    <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
+    described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
+   </ol>
+  </li>
+  <li> Updates:
+  How user can update:
+   <ol>
+    <li> The simplest category of user only uses the releases (the packages; see
+    "Package construction script" below). </li>
+    <li> An "active user" has pull-access to the dedicated user-clone. </li>
+    <li> Finally a user can become a "developer" (see "Developers" below). </li>
+   </ol>
+   Perhaps the dedicated user-clone is only updated "every few days".
+  </li>
+  <li> How can we create special "views" for the users? They should be able to register
+  for modules or subjects, and then get commit-notifications related to those modules.
+  Sending them also the patches? Or the new files??
+  </li>
   </ul>
 
 
