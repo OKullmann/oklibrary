@@ -50,29 +50,20 @@
      <li> OK's own bibtex-database </li>
      <li> Other developers bibtex-database. </li>
     </ol>
+    ?!?
    </li>
    <li> What to do with Latex_bib/EigArt.bib ? </li>
    <li> Bibtex-entries can easily be centralised, but what about the annotations? </li>
    <li> Is there some real bibtex-database-system ?
     <ol>
-     <li> "bibulus" (XML and Perl) http://www.nongnu.org/bibulus </li>
-     <li> "MibibTex" (close to XSLT) http://lifc.univ-fcomte.fr/~hufflen/texts/mlbibtex/mlbibtex/mlbibtex.html </li>
-     <li> "BibTex++" (Java) http://bibtex.enstb.org </li>
+     <li> "bibulus" (XML and Perl) http://www.nongnu.org/bibulus: Project apparently not completed. </li>
+     <li> "MibibTex" (close to XSLT) http://lifc.univ-fcomte.fr/~hufflen/texts/mlbibtex/mlbibtex/mlbibtex.html: There are some publications regarding it, but can't find something usable. </li>
+     <li> "BibTex++" (Java) http://bibtex.enstb.org: Looks quite experimental. </li>
     </ol>
    </li>
-   <li> Useful bibtex-database-management tools?
-    <ol>
-     <li> http://www.tug.org/tex-archive/biblio/bibtex/utils/ </li>
-     <li> http://bibliographic.openoffice.org/biblioo-sw.html </li>
-     <li> pybliographer (python-tool) http://pybliographer.org </li>
-     <li> JBibtexManagager (Java) http://jabref.sourceforge.net </li>
-    </ol>
-   </li>
-   <li> What to do about online-repositories?
-    <ol>
-     <li> http://www.math.utah.edu:8080/pub/tex/bib/index-table.html </li>
-     <li> http://liinwww.ira.uka.de/bibliography/index.html </li>
-    </ol>
+   <li> Since bibtex-entries typically don't need updates, the simplest solution is to have
+   only minimal bibtex-information in Transitional/Annotations, the rest in Annotations, and just
+   to update the .bib-files if needed. No sharing with for examples OK's own bibtex-database.
    </li>
   </ul>
 
