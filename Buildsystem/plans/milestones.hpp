@@ -21,6 +21,7 @@
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
     - Mailing lists
     - User mailing list
+    - Instructions
 
   \par
    In Buildsystem/plans/Configuration.hpp the following topics are handled:

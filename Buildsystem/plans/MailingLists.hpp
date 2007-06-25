@@ -138,5 +138,15 @@
   </li>
   </ul>
 
+
+  \todo Instructions:
+  A dedicated weg-page is needed on howto use the mailing-lists
+  <ul>
+   <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
+   like "newbie needs help". </li>
+   <li> About the identity of developers. </li>
+   <li> "How to reply". </li>
+  </ul>
+
 */
 
