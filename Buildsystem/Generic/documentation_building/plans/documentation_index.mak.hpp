@@ -20,6 +20,7 @@
    for the recommended version (the rest is provided by links). </li>
   </ul>
 
+
   \todo GCC-documentation
   <ul>
    <li> Include documentation for version 4.2.0 (make sure that everything
@@ -33,6 +34,7 @@
    However the main documentations should be for the recommended version,
    while for the other pages we provide links. </li>
   </ul>
+
 
   \todo CMake documentation
   <ul>
@@ -63,6 +65,7 @@
    css-file). </li>
   </ul>
 
+
   \todo Using css:
   <ul>
    <li> Is it really worth it? The main page of the OKlibrary documentation
@@ -80,10 +83,12 @@
    web-page, which is adjusted accordingly?!! </li>
   </ul>
 
+
   \todo Meta tags:
    - All the documentation should be available (finally) on the web; thus the index page will become
      a publically available web page, and needs all the meta tags, and also all the other declarations
      available, about encoding, last change date etc..
+
 
   \todo Improved logo:
    - yet the colour is a bit too lavenderish (a touch of darker blue perhaps)

@@ -95,23 +95,42 @@
    the distinction, but always to supply the full clone (with additionally the documentation
    preinstalled, so that nothing needs to be run or compiled) ?!
    </li>
+   <li> Updates:
+   How user can update:
+    <ol>
+     <li> The simplest category of user only uses the releases (the packages; see
+     "Package construction script" below). </li>
+     <li> An "active user" has pull-access to the dedicated user-clone. </li>
+     <li> Finally a user can become a "developer" (see "Developers" below). </li>
+    </ol>
+    Perhaps the dedicated user-clone is only updated "every few days".
+   </li>
   </ul>
 
 
-  \todo Competition extraction tools
-   - these tools, for a given program
-     build a package, which contains all necessary source code and can be build
-     using make (producing then the executable). A problem here are the link-libraries.
-     Without them, one could use the ability of g++ to produce compilation units (using
-     the option "-E" like "g++ -E Program.cpp -o Program.ii"), putting everything into one big file.
-     Knowing the link-libraries, just compiling Program.ii with the right .o-files yields the program.
-     So when we know all compilation units, we can preprocess them all and putting them
-     into the package; the package just compiles the units separately, and then links them together.
+  \todo Developers
+  <ul>
+   <li> Different types of developers:
+    <ol>
+     <li> main developer (OK) </li>
+     <li> core developer (full access to main repository) </li>
+     <li> local developer (only access to a controlled clone; local to Swansea) </li>
+     <li> external developer (only access to a controlled clone) </li>
+    </ol>
+   </li>
+   <li> See "Developers information" in Buildsystem/plans/Configuration.hpp. </li>
+   <li> Different defaults for mailing lists. </li>
+   <li> Everybody can submit patches. </li>
+   <li> Perhaps everybody except core developers should (always) work with branches ?!
+   Submission then to the master-branch. </li>
+  </ul>
 
 
   \todo Package construction script
-   - Writing the package-construction script. (Internal versions should
-     have date and time in the name.)
+  <ul>
+   <li> Writing the package-construction script. </li>
+   <li> A package exists for every new version number of Transitional. </li>
+  </ul>
 
 
   \todo Release plan
@@ -120,6 +139,24 @@
    --- what to do with this plan? </li>
    <li> Release plans perhaps should move to here --- or stay in Annotations? </li>
   </ul>
+
+
+  \todo Competition extraction tools
+  <ul>
+   <li> These tools, for a given program build a package, which contains
+   all necessary source code and can be build using make (producing then
+   the executable). </li>
+   <li> A problem here are the link-libraries. Without them, one could use
+   the ability of g++ to produce compilation units (using the option "-E"
+   like "g++ -E Program.cpp -o Program.ii"), putting everything into one
+   big file. </li>
+   <li> Knowing the link-libraries, just compiling Program.ii with the
+   right .o-files yields the program. </li>
+   <li> So when we know all compilation units, we can preprocess them all
+   and putting them into the package; the package just compiles the units
+   separately, and then links them together. </li>
+  </ul>
+
 
 */
 

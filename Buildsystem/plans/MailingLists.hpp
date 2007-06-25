@@ -97,6 +97,9 @@
    <li> Steve Cook and group (theoretical aspects) </li>
    <li> Alasdair Urquhart and group (theoretical aspects) </li>
    <li> Paul Beame and group </li>
+   <li> Moshe Vardi </li>
+   <li> Phokion Kolaitis </li>
+   <li> Nadia Creignou </li>
   </ol>
   </li>
   <li> Contact e-mail:
@@ -136,6 +139,16 @@
     <li> Seems to be solved by simply not separating out the "secret research".
    </ol>
   </li>
+  </ul>
+
+
+  \todo Instructions:
+  A dedicated weg-page is needed on howto use the mailing-lists
+  <ul>
+   <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
+   like "newbie needs help". </li>
+   <li> About the identity of developers. </li>
+   <li> "How to reply". </li>
   </ul>
 
 */

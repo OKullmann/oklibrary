@@ -12,6 +12,7 @@
    <li> Besides the text-file, also an html-page is produced. </li>
   </ul>
 
+
   \todo Supported versions of gcc:
   We need to clean-up regarding the supported versions of gcc.
   Perhaps actually we should support only from 4.1.1 onwards.

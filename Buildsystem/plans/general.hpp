@@ -1,7 +1,7 @@
 // Oliver Kullmann, 12.8.2005 (Swansea)
 
 /*!
-  \file Buildsystem/plans/Buildsystem.hpp
+  \file Buildsystem/plans/general.hpp
   \brief Plans for the buildsystem in general
 
   \todo License:
@@ -12,6 +12,19 @@
    <li> Once decided, we have to add appropriate licence texts to every file. </li>
    <li> Does every file needs the license text ?? Or is a reference
    sufficient? </li>
+  </ul>
+
+
+  \todo Renaming:
+  According to the general scheme, where all "genuine" files/directories
+  carry capitalised names, the following files shall be renamed:
+  <ul>
+   <li> Buildsystem/plans/generic.hpp -> Buildsystem/plans/Generic.hpp </li>
+   <li> Buildsystem/generic.mak -> Buildsystem/Generic.mak </li>
+   <li> Buildsystem/recursive.mak -> Buildsystem/Recursive.mak </li>
+   <li> Buildsystem/recursive_noneincluded.mak -> Buildsystem/Recursive_noneincluded.mak </li>
+   <li> Buildsystem/standardgoals.mak -> Buildsystem/Standardgoals.mak </li>
+   <li> Buildsystem/system_definitions.mak -> Buildsystem/System_definitions.mak </li>
   </ul>
 
 
@@ -73,6 +86,11 @@
      Then we can partially automate it.
 
 
+  \todo System documentation:
+   - Document the basic version-control settings (location of server, configuration, how to use it).
+   - Document the build-system (general ideas, functionality).
+
+
   \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
   <ul>
    <li>
@@ -93,11 +111,6 @@
      (these settings are quite arcane).
    </li>
   </ul> 
-
-
-  \todo System documentation:
-   - Document the basic version-control settings (location of server, configuration, how to use it).
-   - Document the build-system (general ideas, functionality).
 
 
   \todo Documentation (Examples and Concepts) OK : this needs to be discussed and updated

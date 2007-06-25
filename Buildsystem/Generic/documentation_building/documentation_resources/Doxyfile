@@ -177,11 +177,10 @@ TAB_SIZE               = 2
 # will result in a user-defined paragraph with heading "Side Effects:". 
 # You can put \n's in the value part of an alias to insert newlines.
 
-ALIASES                = transitional_version=0.1.4 \
-                         "transitional_version_full=0.1.4 (2.4.2007)" \
+ALIASES                = transitional_version=0.1.5 \
+                         "transitional_version_full=0.1.5 (25.6.2007)" \
                          oklib_version=0.0.1 \
                          "oklib_version_full=0.0.1 (3.3.2006)" \
-                         deadline_015=20.6.2007 \
                          deadline_016=30.7.2007 \
                          deadline_017=31.8.2007 \
                          "module_version=\xrefitem version \"Module Versions\" \"Module versions\""

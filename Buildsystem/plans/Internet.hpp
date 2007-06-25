@@ -24,6 +24,7 @@
    <li> And also all related material like pictures etc. </li>
   </ul>
 
+
   \todo Configuration problem:
   <ul>
    <li> We need a simple system which allows
@@ -71,7 +72,7 @@
   \todo Content of the Internet-page:
   <ul>
    <li> Download of the software </li>
-   <li> Access to mailing-lists. </li>
+   <li> Access to mailing-lists (with instructions). </li>
    <li> Online-documentation (just the documentation-index-page;
    see Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp). </li>
    <li> A project-page (for example Heribert Vollmer might have a student

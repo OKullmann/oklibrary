@@ -17,24 +17,30 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional015 0.1.5 : TO BE REACHED \deadline_015
-  \par Buildsystem version 0.1.6 (OK, MH)
+  \subsection VersionTransitional016 0.1.6 : Theme "FIRST RELEASE"; TO BE REACHED \deadline_016
+  \par Buildsystem version 0.1.7 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
-  \par LocalSearch version 0.0.4 (OK, ML) : DONE
-  (see LocalSearch/plans/milestones.hpp)
-  \par AutarkySearch version 0.0.6 (OK, ML) : DONE
-  (see AutarkySearch/plans/milestones.hpp)
-  \par AllSolutions version 0.0.3 (Ok, MH) : DONE
-  (see AllSolutions/plans/milestones.hpp)
-
-  \subsection VersionTransitional016 0.1.6 : TO BE REACHED \deadline_016
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par Resolution version 0.0.4 (OK, MH)
-  (see Resolution/plans/milestones.hpp)
-
+  \par Plans
+  All modules have a milestones-file, and the milestones
+  are integrated into the overall milestones (here).
+  \par Transitional/plans/general.hpp
+   - Super-modules
+   - Research sub-modules
+   - Organisation of plans-directories
+   - "OKlib" vs. "Transitional"
+   - Concepts
+   - Demos
+   - Upgrade to gcc-4.2.0
+   - Computer algebra system
+  \par Transitional/plans/Annotations.hpp
+   - Partially moving repository Annotations
+   - Latex macros
+   - Bibtex-database
+   
   \subsection VersionTransitional017 0.1.7 : TO BE REACHED \deadline_017
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
@@ -44,11 +50,13 @@
   (see Literals/plans/milestones.hpp)
   \par PartialAssignments version 0.0.5 (OK (MH))
   (see PartialAssignments/plans/milestones.hpp)
+  \par Resolution version 0.0.4 (OK, MH)
+  (see Resolution/plans/milestones.hpp)
   \par InjectivityConstraints version 0.0.3 (OK, MH)
   (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
-  \par Buildsystem version 0.1.7 (MH, OK)
+  \par Buildsystem version 0.1.8 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
@@ -66,9 +74,6 @@
   (see AutarkySearch/plans/milestones.hpp)
   \par SumProduct version 0.0.4 (OK, MH)
   (see SumProduct/plans/milestones.hpp)
-  \par Plans
-  All modules have a milestones-file, and the milestones
-  are integrated into the overall milestones (here).
   \par Update
   Update the subsequent milestones.
 
@@ -188,6 +193,16 @@
    - concepts cleaned-up, preparing a concentrated effort
    - buildsystem further moved towards a specified and testable system, and
      various doxygen-related improvements.
+
+   \par 0.1.5 25/6/2007
+
+   - most work in the buildsystem: new version control system Git, planning
+     for the first release, various upgrades and improvements
+   - completed the basic installation (and upgrading) of UBCSAT (in module LocalSearch),
+     and established usage (in module AutarkySearch)
+   - various SAT-plans expanded (on hypergraph transversals, cryptanalysis, Sudoku, problem generators,
+     reductions, resolution)
+   - some advancements in programming (usage of threads, numerics, messages).
 
 */
 
