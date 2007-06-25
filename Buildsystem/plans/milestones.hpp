@@ -61,6 +61,7 @@
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
     - License
+    - Renaming
     - system_definitions.mak
     - System documentation
 

@@ -15,6 +15,19 @@
   </ul>
 
 
+  \todo Renaming:
+  According to the general scheme, where all "genuine" files/directories
+  carry capitalised names, the following files shall be renamed:
+  <ul>
+   <li> Buildsystem/plans/generic.hpp -> Buildsystem/plans/Generic.hpp </li>
+   <li> Buildsystem/generic.mak -> Buildsystem/Generic.mak </li>
+   <li> Buildsystem/recursive.mak -> Buildsystem/Recursive.mak </li>
+   <li> Buildsystem/recursive_noneincluded.mak -> Buildsystem/Recursive_noneincluded.mak </li>
+   <li> Buildsystem/standardgoals.mak -> Buildsystem/Standardgoals.mak </li>
+   <li> Buildsystem/system_definitions.mak -> Buildsystem/System_definitions.mak </li>
+  </ul>
+
+
   \todo system_definitions.mak: UPDATE --- some content goes to
   plans/Configuration.hpp!
   <ul>
