@@ -13,8 +13,14 @@
 pgsql-version :=
 pgdata :=
 postgresql-base-directory := $(prefix)/Postgresql
+postgresql_installation_directory_names := $(patsubst postgresql-%, %, $(postgresql_targets))
+postgresql_installation_directory_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_installation_directory_names))
 postgresql_doc_dir := $(external_sources_doc_base_dir)/Postgresql
-postgresql-directories := $(postgresql-base-directory) $(postgresql_doc_dir)
+postgresql-directories := $(postgresql-base-directory) $(postgresql_doc_dir) $(postgresql_installation_directory_paths)
+postgresql_timestamp_prefix := _
+postgresql_tag_names:= $(addprefix $(postgresql_timestamp_prefix),$(postgresql_targets))
+postgresql_tag_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_tag_names))
+
 
 
 .PHONY : postgresql $(postgresql_targets) initialise-database create_postgresql_dirs
@@ -31,7 +37,7 @@ postgresql_doc : | $(postgresql_doc_dir)
 # ####################################
 
 $(postgresql-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 create_postgresql_dirs : $(postgresql-directories)
 
@@ -44,12 +50,15 @@ ifeq ($(pgdata), )
 pgdata := $(postgresql-base-directory)/$(pgsql-version)/data
 endif
 
-$(postgresql_targets) : create_postgresql_dirs
-	$(call unarchive,$@,$(postgresql-base-directory))
-	cd $(postgresql-base-directory)/$@; $(postcondition) \
-	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$*/lib' --prefix=$(postgresql-base-directory)/$*; $(postcondition) \
+$(postgresql_targets) : $(postgresql_tag_paths)
+
+$(postgresql_tag_paths) : $(postgresql_installation_directory_paths)
+	$(call unarchive,$(addprefix postgresql-,$(notdir $<)),$(postgresql-base-directory))
+	cd $(postgresql-base-directory)/$(addprefix postgresql-,$(notdir $<)); $(postcondition) \
+	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$(notdir $<)/lib' --prefix=$(postgresql-base-directory)/$(notdir $<); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition) \
+	touch $@; $(postcondition) \
 
 initialise-database :
 	$(postgresql-base-directory)/$(pgsql-version)/bin/initdb -D $(pgdata)

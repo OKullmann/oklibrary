@@ -220,10 +220,16 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   </ul>
   
   \todo PostgreSQL
-  - Update PostgreSQL to version 8.1 (or later; and test it).
+  - Test the updated PostgreSQL installation.
   - "make initialise-database" should work with the recommended version (and no specification
   of the pgsql-version should be needed).
   - A detailed user-manual is needed (on how to use the installed database).
+
+  \todo R
+  - Installation of R appears to require a Fortran compiler. Therefore the 
+    locally installed Gcc should have Fortran language support enabled.
+  - Enabling Fortran language support in Gcc requires also that the MPFR
+    and GMP libraries are installed, so we should install these locally also?
   
   \todo Other sources:
   - Build a local version of Xerces.

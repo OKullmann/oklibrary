@@ -85,7 +85,7 @@ mhash_recommended := $(mhash_targets_prefix)$(mhash_recommended_version_number)
 # Postgresql Versions
 # #################################
 
-postgresql_recommended_version_number := 8.0.3
+postgresql_recommended_version_number := 8.2.4
 postgresql_supported_not_recommended_version_numbers := 
 postgresql_supported_version_numbers := $(postgresql_supported_not_recommended_version_numbers) $(postgresql_recommended_version_number)
 
@@ -179,4 +179,20 @@ cmake_prefix := cmake
 cmake_targets_prefix := $(cmake_prefix)-
 cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
 cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
+
+# ################################
+# R Versions
+# ###############################
+
+R_recommended_version_number := 2.5.0
+R_supported_version_numbers := $(R_recommended_version_number)
+
+# ###########################################
+# R Version-dependent System Variables
+# ###########################################
+
+R_prefix := R
+R_targets_prefix := $(R_prefix)-
+R_targets := $(addprefix $(R_targets_prefix), $(R_supported_version_numbers))
+R_recommended := $(R_targets_prefix)$(R_recommended_version_number)
 

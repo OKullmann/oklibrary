@@ -80,6 +80,8 @@ include $(OKbuildsystem)/ExternalSources/ubcsat.mak
 include $(OKbuildsystem)/ExternalSources/asciidoc.mak
 include $(OKbuildsystem)/ExternalSources/git.mak
 include $(OKbuildsystem)/ExternalSources/cmake.mak
+include $(OKbuildsystem)/ExternalSources/R.mak
+
 
 # #################################
 # Cleaning
