@@ -95,6 +95,16 @@
    the distinction, but always to supply the full clone (with additionally the documentation
    preinstalled, so that nothing needs to be run or compiled) ?!
    </li>
+   <li> Updates:
+   How user can update:
+    <ol>
+     <li> The simplest category of user only uses the releases (the packages; see
+     "Package construction script" below). </li>
+     <li> An "active user" has pull-access to the dedicated user-clone. </li>
+     <li> Finally a user can become a "developer" (see "Developers" below). </li>
+    </ol>
+    Perhaps the dedicated user-clone is only updated "every few days".
+   </li>
   </ul>
 
 
@@ -110,13 +120,16 @@
    </li>
    <li> See "Developers information" in Buildsystem/plans/Configuration.hpp. </li>
    <li> Different defaults for mailing lists. </li>
+   <li> Everybody can submit patches. </li>
+   <li> Perhaps everybody except core developers should (always) work with branches ?!
+   Submission then to the master-branch. </li>
   </ul>
 
 
   \todo Package construction script
   <ul>
    <li> Writing the package-construction script. </li>
-   <li> Internal versions should have date and time in the name. </li>
+   <li> A package exists for every new version number of Transitional. </li>
   </ul>
 
 
