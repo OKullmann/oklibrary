@@ -4,6 +4,44 @@
   \file Transitional/plans/general.hpp
   \brief Plans for the Transitional-library which do not belong to a single module
 
+  \todo "OKlib" vs. "Transitional"
+  <ul>
+   <li> Perhaps we should give up the distinction between "Transitional" and
+   "OKlib", but rename "Transitional" to "OKlib", and remove the (empty)
+   repository "OKlibrary". </li>
+   <li> Likely it will be always like that, a lot of experimental stuff lying
+   around? But then we need clear indications what modules are usable already
+   --- this should be achieved by their version numbers.
+   See "Doxygen menu and main page review" in Buildsystem/Generic/documentation_building/plans/documentation_building.hpp.
+   </li>
+  </ul>
+
+
+  \todo Completing the repository
+  <ul>
+   <li> The new repository would have
+    <ol>
+     <li> OKplatform/ </li>
+     <li> OKplatform/system_directories </li>
+     <li> OKplatform/ExternalSources </li>
+     <li> OKplatform/ExternalSources/installations </li>
+     <li> OKplatform/ExternalSources/doc </li>
+     <li> OKplatform/ExternalSources/Sources </li>
+     <li> OKplatform/OKsystem </li>
+     <li> OKplatform/OKsystem/OKlib </li>
+    </ol>
+    where OKplatform/OKsystem/OKlib would be the current
+    OKplatform/OKsystem/Transitional.
+   </li>
+   <li> Potentially the build-system could be moved to
+   OKplatform/OKsystem/BuildSystem ? Or the whole new super-module
+   "System" (see below) ?? However the test system belongs to the OKlibrary.
+   Only the build-system does not contain C++ code, and thus could be moved
+   outside the OKlibrary. </li>
+   <li> So potentially additionally OKplatform/OKsystem/BuildSystem. </li>
+  </ul>
+
+
   \todo Super-modules:
   <ul>
    <li> Currently 82 modules --- that needs a superstructure.
@@ -201,19 +239,6 @@ namespace SatAlg = Satisfiability::Algorithms;
    wishes. (Which might not be realised --- general.hpp contains all
    wishes which are to be realised (first they unfold in general.hpp,
    and finally they got moved to their own plans-file).) </li>
-  </ul>
-
-
-  \todo "OKlib" vs. "Transitional"
-  <ul>
-   <li> Perhaps we should give up the distinction between "Transitional" and
-   "OKlib", but rename "Transitional" to "OKlib", and remove the (empty)
-   repository "OKlibrary". </li>
-   <li> Likely it will be always like that, a lot of experimental stuff lying
-   around? But then we need clear indications what modules are usable already
-   --- this should be achieved by their version numbers.
-   See "Doxygen menu and main page review" in Buildsystem/Generic/documentation_building/plans/documentation_building.hpp.
-   </li>
   </ul>
 
 
