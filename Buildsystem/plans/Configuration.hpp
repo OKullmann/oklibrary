@@ -117,6 +117,7 @@ SET(CONFIGVAR2 value2)
 
   \todo Developers information:
   <ul>
+   <li> Compare with "Developers" in Buildsystem/plans/Release.hpp </li>
    <li> We should have a subdirectory Configuration/Developers, containing files
     <ol>
      <li> current_main </li>

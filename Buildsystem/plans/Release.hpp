@@ -98,6 +98,21 @@
   </ul>
 
 
+  \todo Developers
+  <ul>
+   <li> Different types of developers:
+    <ol>
+     <li> main developer (OK) </li>
+     <li> core developer (full access to main repository) </li>
+     <li> local developer (only access to a controlled clone; local to Swansea) </li>
+     <li> external developer (only access to a controlled clone) </li>
+    </ol>
+   </li>
+   <li> See "Developers information" in Buildsystem/plans/Configuration.hpp. </li>
+   <li> Different defaults for mailing lists. </li>
+  </ul>
+
+
   \todo Package construction script
   <ul>
    <li> Writing the package-construction script. </li>
