@@ -80,13 +80,6 @@
   </ul>
 
 
-  \todo Testing the build system
-   - We need some test system for the build system. Optimally, it would run like our normal test
-     system; perhaps this is hard to achieve, but at least we need a list of manual checks, well specified,
-     which cover all functions of the build system, and which is performed from time to time (manually).
-     Then we can partially automate it.
-
-
   \todo System documentation:
    - Document the basic version-control settings (location of server, configuration, how to use it).
    - Document the build-system (general ideas, functionality).
