@@ -7,12 +7,17 @@
 
   \todo License:
   <ul>
-   <li> It seems LGPL is suitable; we have to check this (is it compabible
-   with all other licenses (for external sources) involved? I guess so). </li>
-   <li> Perhaps for the very first (test) release we use the GPL ? </li>
+   <li> Due to the research focus, we should use the GPL:
+    <ol>
+     <li> GPLv3 http://gplv3.fsf.org/gpl-draft-2007-05-31.html seems alright. </li>
+     <li> Also http://gplv3.fsf.org/rms-why.html sounds alright. </li>
+    </ol>
+   </li>
    <li> Once decided, we have to add appropriate licence texts to every file. </li>
    <li> Does every file needs the license text ?? Or is a reference
    sufficient? </li>
+   <li> It seems LGPL is suitable; we have to check this (is it compabible
+   with all other licenses (for external sources) involved? I guess so). DONE (for the research-platform, where everybody contributes ideas, we need stronger protection) </li>
   </ul>
 
 
