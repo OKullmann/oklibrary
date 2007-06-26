@@ -39,6 +39,27 @@
    Only the build-system does not contain C++ code, and thus could be moved
    outside the OKlibrary. </li>
    <li> So potentially additionally OKplatform/OKsystem/BuildSystem. </li>
+   <li> Discussion of the advantages and disadvantages of such a completed ("higher")
+   directory structure in the repository:
+    <ul>
+     <li> Advantages:
+      <ol>
+       <li> The full directory structure is fixed and explicit. </li>
+       <li> It is easier to exploit the full directory structure. </li>
+       <li> Package building becomes (a bit) easier. </li>
+      </ol>
+     </li>
+     <li> Disadvantages:
+      <ol>
+       <li> The full directory structure is fixed. </li>
+       <li> As know, "projecting the directory structure in the environment", we are
+       more flexible. </li>
+       <li> This Git-history-interruption is somewhat ugly. </li>
+       <li> It seems unusual (so well). </li>
+      </ol>
+     </li>
+    </ulJ
+   </li>
   </ul>
 
 
