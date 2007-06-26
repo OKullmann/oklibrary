@@ -104,5 +104,22 @@
    useful for that purpose) </li>
   </ul>
 
+
+  \todo Competition extraction tools
+  <ul>
+   <li> These tools, for a given program build a package, which contains
+   all necessary source code and can be build using make (producing then
+   the executable). </li>
+   <li> A problem here are the link-libraries. Without them, one could use
+   the ability of g++ to produce compilation units (using the option "-E"
+   like "g++ -E Program.cpp -o Program.ii"), putting everything into one
+   big file. </li>
+   <li> Knowing the link-libraries, just compiling Program.ii with the
+   right .o-files yields the program. </li>
+   <li> So when we know all compilation units, we can preprocess them all
+   and putting them into the package; the package just compiles the units
+   separately, and then links them together. </li>
+  </ul>
+
 */
 

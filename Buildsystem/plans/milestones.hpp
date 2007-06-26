@@ -55,6 +55,10 @@
     - Release plan
 
   \par
+   In Buildsystem/plans/PackageBuilding.hpp the following topics are handled:
+    - Package construction script
+
+  \par
    In Buildsystem/plans/VersionControl.hpp the following topics are handled:
     - More advanced usage
     - Exploring usage patterns
@@ -81,6 +85,8 @@
   \par
    In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
     - CMake
+    - Competition extraction tools
+
 
 
   \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
@@ -112,7 +118,6 @@
    In Buildsystem/plans/general.hpp the following topics are handled:
     - system_definitions.mak
     - Testing the build system
-    - Licence
     - Role of srcdir
     - System documentation
     - Documentation (Examples and Concepts)
@@ -158,35 +163,40 @@
     - License
     - Notification list
 
+
+
   \par Version 0.1.10 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
 
+
+
   \par Version 0.1.11 :
    In Buildsystem/plans/makefile.hpp the following topics are handled:
     - Directories with makefile-links
+
+
 
   \par Version 0.2 : THEME is "Basic functionality"
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Full test
     - Nightly build
+
+
     
   \par Version 0.3 : THEME is "Complexity measurements"
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Complexity system
     - Measurements
 
-  \par Version 0.4 : THEME is "Packages and Distribution"
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - Package construction script
-    - Competition extraction tools
-    - Distributing the library
-  
-  \par Version 0.5 : THEME is "Rounding up"
+
+
+  \par Version 0.4 : THEME is "Rounding up"
    In Buildsystem/plans/general.hpp the following topics are handled:
     - New targets
-    - Higher-order build tools
+
+
   
   \par Version 1.0 :
    

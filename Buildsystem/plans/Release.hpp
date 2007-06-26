@@ -2,7 +2,9 @@
 
 /*!
   \file Buildsystem/plans/Release.hpp
-  \brief Plans regarding package building etc.
+  \brief Plans regarding releasing the software
+
+  The special aspect of package building is treated in Buildsystem/plans/PackageBuilding.hpp
 
   \todo Fundamental "axioms"
   <ul>
@@ -143,37 +145,12 @@
   </ul>
 
 
-  \todo Package construction script
-  <ul>
-   <li> Writing the package-construction script. </li>
-   <li> A package exists for every new version number of Transitional. </li>
-  </ul>
-
-
   \todo Release plan
   <ul>
    <li> In Annotations/Release-1_0 we have a release plan for version 1.0
    --- what to do with this plan? </li>
    <li> Release plans perhaps should move to here --- or stay in Annotations? </li>
   </ul>
-
-
-  \todo Competition extraction tools
-  <ul>
-   <li> These tools, for a given program build a package, which contains
-   all necessary source code and can be build using make (producing then
-   the executable). </li>
-   <li> A problem here are the link-libraries. Without them, one could use
-   the ability of g++ to produce compilation units (using the option "-E"
-   like "g++ -E Program.cpp -o Program.ii"), putting everything into one
-   big file. </li>
-   <li> Knowing the link-libraries, just compiling Program.ii with the
-   right .o-files yields the program. </li>
-   <li> So when we know all compilation units, we can preprocess them all
-   and putting them into the package; the package just compiles the units
-   separately, and then links them together. </li>
-  </ul>
-
 
 */
 
