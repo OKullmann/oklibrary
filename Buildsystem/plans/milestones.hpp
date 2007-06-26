@@ -49,14 +49,15 @@
 
   \par
    In Buildsystem/plans/Release.hpp the following topics are handled:
-    - Fundamental "axioms"
+    - Special tag
     - Distributing the library
     - Package construction script
     - Release plan
 
   \par
    In Buildsystem/plans/PackageBuilding.hpp the following topics are handled:
-    - Package construction script
+    - General
+    - The script
 
   \par
    In Buildsystem/plans/VersionControl.hpp the following topics are handled:
@@ -81,6 +82,14 @@
     - Using css
     - Meta tags
     - Improved logo
+
+  \par
+   In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
+    - Test script
+
+  \par
+   In Buildsystem/plans/Foundations.hpp the following topics are handled:
+    - Fundamental "axioms"
 
   \par
    In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
