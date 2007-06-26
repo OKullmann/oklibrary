@@ -4,6 +4,18 @@
   \file Transitional/plans/general.hpp
   \brief Plans for the Transitional-library which do not belong to a single module
 
+
+  \todo License:
+  <ul>
+   <li> It seems LGPL is suitable; we have to check this (is it compabible
+   with all other licenses (for external sources) involved? I guess so). </li>
+   <li> Perhaps for the very first (test) release we use the GPL ? </li>
+   <li> Once decided, we have to add appropriate licence texts to every file. </li>
+   <li> Does every file needs the license text ?? Or is a reference
+   sufficient? </li>
+  </ul>
+
+
   \todo "OKlib" vs. "Transitional"
   <ul>
    <li> Perhaps we should give up the distinction between "Transitional" and
