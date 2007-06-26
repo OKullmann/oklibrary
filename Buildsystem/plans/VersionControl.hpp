@@ -103,6 +103,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
           Transitional total: 15.3 MB </li>
      <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
      <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
+     <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
     </ol>
    </li>
    <li> Secure pushs to the central repository on cs-oksvr:
