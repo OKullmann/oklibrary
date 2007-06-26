@@ -4,6 +4,7 @@
   \file Buildsystem/plans/generic.hpp
   \brief Plans for the generic makefile
 
+
   \bug Mixing C and C++:
   If we have files %XXX.c and XXX.cpp (with the same prefix) then
   the build-system apparently does not work properly.

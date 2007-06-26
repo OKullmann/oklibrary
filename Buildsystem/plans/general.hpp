@@ -4,6 +4,7 @@
   \file Buildsystem/plans/general.hpp
   \brief Plans for the buildsystem in general
 
+
   \todo License:
   <ul>
    <li> It seems LGPL is suitable; we have to check this (is it compabible

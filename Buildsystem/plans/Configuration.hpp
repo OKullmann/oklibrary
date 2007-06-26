@@ -4,6 +4,7 @@
   \file Buildsystem/plans/Configuration.hpp
   \brief Plans regarding configuration management
 
+
   \todo Primary versus derived configurations
   <ul>
    <li> The primary configurations are under version control. </li>
