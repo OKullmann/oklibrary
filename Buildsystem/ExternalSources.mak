@@ -82,6 +82,7 @@ include $(OKbuildsystem)/ExternalSources/git.mak
 include $(OKbuildsystem)/ExternalSources/cmake.mak
 include $(OKbuildsystem)/ExternalSources/R.mak
 include $(OKbuildsystem)/ExternalSources/mpfr.mak
+include $(OKbuildsystem)/ExternalSources/gmp.mak
 
 
 # #################################
