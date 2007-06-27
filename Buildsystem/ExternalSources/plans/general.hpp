@@ -1,8 +1,26 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
 
 /*!
-  \file Buildsystem/plans/ExternalSources.hpp
+  \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for the makefile responsible for handling external sources
+
+
+  \todo Renaming
+  <ul>
+   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
+   simply "Buildsystem/ExternalSources/makefile". </li>
+   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
+   to directory Buildsystem/ExternalSources, and then call it
+   simply "versions.mak". </li>
+  </ul>
+
+
+  \todo Plans-structure for ExternalSources
+  <ul>
+   <li> Likely we should now have also a milestones.hpp file. </li>
+   <li> Perhaps the version number of sub-module ExternalSources
+   is initially set to the current version number of Buildsystem? </li>
+  </ul>
 
 
   \todo Mailman

@@ -27,6 +27,14 @@
    - but from within the module this doesn't work.
 
 
+  \todo New directory-structure "Generic"
+  <ul>
+   <li> Likely, everything "generic"-related should move to
+   directory Buildsystem/Generic. </li>
+   <li> See "Renaming" in Buildsystem/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Specification of build system II
   <ul>
     <li> Moving stable documentations to "docus":

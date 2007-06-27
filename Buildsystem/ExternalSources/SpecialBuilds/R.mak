@@ -23,7 +23,7 @@ $(R_targets) : $(R-directories)
 	cd $(R-base-directory)/$@; $(postcondition) \
 	./configure; $(postcondition) \
 	make; $(postcondition) \
-	make install; $(postcondition)
+	sudo make install; $(postcondition)
 
 # #################################
 # Cleaning
