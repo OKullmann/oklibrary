@@ -9,6 +9,8 @@
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Renaming
+    - Plans-structure for ExternalSources
     - Mailman
     - CMake-documentation building
     - Improving building Boost
