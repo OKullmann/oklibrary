@@ -228,14 +228,12 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
   \todo R
   - Installation of R appears to require a Fortran compiler. Therefore the 
-    locally installed Gcc should have Fortran language support enabled.
+    system installation of Gcc should allow for enabling of Fortran language support..
   - Enabling Fortran language support in Gcc requires also that the MPFR
     and GMP libraries are installed, so we should install these locally also?
   
   \todo Other sources:
-  - Build a local version of Xerces.
-  - Build a local version of gmp.
-  - Build the R system (locally and globally).
+  - Build a local version of Xerces..
   - Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
   and tulip.
   - SOCI (soci.sourceforge.net) ?
