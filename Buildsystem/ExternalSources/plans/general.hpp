@@ -151,9 +151,11 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
 
   \todo Building documentation:
-   - Documentation building should be done automatically when building.
-   - We should extract only the documentation from the archives (and
-   remove everything else which is not needed).
+  <ul>
+   <li> Documentation building should be done automatically when building. </li>
+   <li> We should extract only the documentation from the archives (and
+   remove everything else which is not needed). </li>
+  </ul>
    
 
   \todo Mhash
@@ -240,10 +242,12 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
 
   \todo PostgreSQL
-  - Test the updated PostgreSQL installation.
-  - "make initialise-database" should work with the recommended version (and no specification
-  of the pgsql-version should be needed).
-  - A detailed user-manual is needed (on how to use the installed database).
+  <ul>
+   <li> Test the updated PostgreSQL installation. </li>
+   <li> "make initialise-database" should work with the recommended version (and no specification
+   of the pgsql-version should be needed). </li>
+   <li> A detailed user-manual is needed (on how to use the installed database). </li>
+  </ul>
 
 
   \todo R
@@ -257,16 +261,19 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   
 
   \todo Other sources:
-  - Build a local version of Xerces..
-  - Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
-  and tulip.
-  - SOCI (soci.sourceforge.net) ?
-  - gcc-xml (www.gccxml.org) ?
-  
+  <ul>
+   <li> Build a local version of Xerces. </li>
+   <li> Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
+   and tulip. </li>
+   <li> SOCI (soci.sourceforge.net) ? </li>
+   <li> gcc-xml (www.gccxml.org) ? </li>
+  </ul>
 
   \todo %Tools
-  - Investigate the NiX system (a system for managing libraries).
-  - Investigate the Poco C++ library (http://www.pocoproject.org; see
-    also [C Vu, 19:2, pages 12-15]).
+  <ul>
+   <li> Investigate the NiX system (a system for managing libraries). </li>
+   <li> Investigate the Poco C++ library (http://www.pocoproject.org; see
+   also [C Vu, 19:2, pages 12-15]). </li>
+  </ul>
      
 */
