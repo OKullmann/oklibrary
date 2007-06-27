@@ -194,6 +194,21 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
    the text in "hooks/post-receive"), which we should examine (it seems we should also set up
    an OKlibrary-e-mail-list ?!).
+   <ul>
+   <li>
+   To configure this script to send emails to a list of users we add, for example, the following lines to
+   the "config" file.
+   \verbatim
+   [hooks]
+        mailinglist = M.J.Henderson@Swansea.ac.uk, O.Kullmann@Swansea.ac.uk
+   \endverbatim 
+   </li>
+   <li>Should we use a link instead of replacing the original post-receive script?</li>
+   <li>We should "name" each repository by putting the name "Annotations" or "Transitional" in the
+   "description" file. Then the name appears in the emails.</li>
+   <li>Seems that each email always have [SCM] in the header. But we need to have various possibilities.
+   For example, just [OKLIB], [OKLIB][DEVEL], [OKLIB][USER], etc... How to achieve this?</li>
+   </ul>
    </li>
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
