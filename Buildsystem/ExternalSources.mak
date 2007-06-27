@@ -81,6 +81,7 @@ include $(OKbuildsystem)/ExternalSources/asciidoc.mak
 include $(OKbuildsystem)/ExternalSources/git.mak
 include $(OKbuildsystem)/ExternalSources/cmake.mak
 include $(OKbuildsystem)/ExternalSources/R.mak
+include $(OKbuildsystem)/ExternalSources/mpfr.mak
 
 
 # #################################
@@ -89,4 +90,4 @@ include $(OKbuildsystem)/ExternalSources/R.mak
 
 clean : cleangcc cleanboost cleanmhash
 
-cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen cleanallubcsat cleanallasciidoc cleanallgit
+cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen cleanallubcsat cleanallasciidoc cleanallgit cleanallmpfr
