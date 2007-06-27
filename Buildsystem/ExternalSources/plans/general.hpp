@@ -237,19 +237,25 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    to remove the build-directory from the prerequisite-list and to build it
    "manually") </li>
   </ul>
-  
+
+
   \todo PostgreSQL
   - Test the updated PostgreSQL installation.
   - "make initialise-database" should work with the recommended version (and no specification
   of the pgsql-version should be needed).
   - A detailed user-manual is needed (on how to use the installed database).
 
+
   \todo R
-  - Installation of R appears to require a Fortran compiler. Therefore the 
-    system installation of Gcc should allow for enabling of Fortran language support..
-  - Enabling Fortran language support in Gcc requires also that the MPFR
-    and GMP libraries are installed, so we should install these locally also?
+  <ul>
+   <li> Installation of R requires a Fortran compiler. Therefore the 
+    system installation of Gcc should allow for enabling of Fortran
+    language support. </li>
+   <li> Enabling Fortran language support in Gcc requires also that the MPFR
+    and GMP libraries are installed. Should we install these also locally? </li>
+  </ul>
   
+
   \todo Other sources:
   - Build a local version of Xerces..
   - Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
@@ -257,6 +263,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   - SOCI (soci.sourceforge.net) ?
   - gcc-xml (www.gccxml.org) ?
   
+
   \todo %Tools
   - Investigate the NiX system (a system for managing libraries).
   - Investigate the Poco C++ library (http://www.pocoproject.org; see
