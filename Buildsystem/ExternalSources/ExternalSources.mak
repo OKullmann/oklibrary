@@ -70,17 +70,17 @@ all : gcc boost postgresql valgrind mhash doxygen ubcsat asciidoc git
 include $(OKbuildsystem)/external_sources_versions.mak
 include $(OKbuildsystem)/ExternalSources/definitions_.mak
 # Special build targets:
-include $(OKbuildsystem)/ExternalSources/gcc.mak
-include $(OKbuildsystem)/ExternalSources/boost.mak
-include $(OKbuildsystem)/ExternalSources/postgresql.mak
-include $(OKbuildsystem)/ExternalSources/valgrind.mak
-include $(OKbuildsystem)/ExternalSources/mhash.mak
-include $(OKbuildsystem)/ExternalSources/doxygen.mak
-include $(OKbuildsystem)/ExternalSources/ubcsat.mak
-include $(OKbuildsystem)/ExternalSources/asciidoc.mak
-include $(OKbuildsystem)/ExternalSources/git.mak
-include $(OKbuildsystem)/ExternalSources/cmake.mak
-include $(OKbuildsystem)/ExternalSources/R.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gcc.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/boost.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/postgresql.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/valgrind.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/mhash.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/doxygen.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ubcsat.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/asciidoc.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/git.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/cmake.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/R.mak
 
 
 # #################################
