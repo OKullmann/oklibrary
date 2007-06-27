@@ -28,10 +28,11 @@
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
   \par Transitional/plans/general.hpp
+   - "OKlib" vs. "Transitional"
+   - Completing the repository
    - Super-modules
    - Research sub-modules
    - Organisation of plans-directories
-   - "OKlib" vs. "Transitional"
    - Concepts
    - Demos
    - Upgrade to gcc-4.2.0

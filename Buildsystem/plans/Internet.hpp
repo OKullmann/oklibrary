@@ -4,6 +4,7 @@
   \file Buildsystem/plans/Internet.hpp
   \brief Plans for the internet services (web page, etc.)
 
+
   \todo External vs. internal html-pages:
   We have the real Internet-pages, which will be accessible from the www,
   and we have the internal html-pages, documenting the platform.
@@ -75,6 +76,7 @@
    <li> Access to mailing-lists (with instructions). </li>
    <li> Online-documentation (just the documentation-index-page;
    see Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp). </li>
+   <li> Current external sources to download. </li>
    <li> A project-page (for example Heribert Vollmer might have a student
    project about implementing the NP-completeness of SAT (encoding of
    Turing machines)). </li>

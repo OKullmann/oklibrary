@@ -4,6 +4,82 @@
   \file Transitional/plans/general.hpp
   \brief Plans for the Transitional-library which do not belong to a single module
 
+
+  \todo License:
+  <ul>
+   <li> Due to the research focus, we should use the GPL:
+    <ol>
+     <li> GPLv3 http://gplv3.fsf.org/gpl-draft-2007-05-31.html seems alright. </li>
+     <li> Also http://gplv3.fsf.org/rms-why.html sounds alright. </li>
+    </ol>
+   </li>
+   <li> Once decided, we have to add appropriate licence texts to every file. </li>
+   <li> Does every file needs the license text ?? Or is a reference
+   sufficient? </li>
+   <li> It seems LGPL is suitable; we have to check this (is it compabible
+   with all other licenses (for external sources) involved? I guess so). DONE (for the research-platform, where everybody contributes ideas, we need stronger protection) </li>
+  </ul>
+
+
+  \todo "OKlib" vs. "Transitional"
+  <ul>
+   <li> Perhaps we should give up the distinction between "Transitional" and
+   "OKlib", but rename "Transitional" to "OKlib", and remove the (empty)
+   repository "OKlibrary". </li>
+   <li> Likely it will be always like that, a lot of experimental stuff lying
+   around? But then we need clear indications what modules are usable already
+   --- this should be achieved by their version numbers.
+   See "Doxygen menu and main page review" in Buildsystem/Generic/documentation_building/plans/documentation_building.hpp.
+   </li>
+  </ul>
+
+
+  \todo Completing the repository
+  <ul>
+   <li> The new repository would have
+    <ol>
+     <li> OKplatform/ </li>
+     <li> OKplatform/system_directories </li>
+     <li> OKplatform/ExternalSources </li>
+     <li> OKplatform/ExternalSources/installations </li>
+     <li> OKplatform/ExternalSources/doc </li>
+     <li> OKplatform/ExternalSources/Sources </li>
+     <li> OKplatform/OKsystem </li>
+     <li> OKplatform/OKsystem/OKlib </li>
+    </ol>
+    where OKplatform/OKsystem/OKlib would be the current
+    OKplatform/OKsystem/Transitional.
+   </li>
+   <li> Potentially the build-system could be moved to
+   OKplatform/OKsystem/BuildSystem ? Or the whole new super-module
+   "System" (see below) ?? However the test system belongs to the OKlibrary.
+   Only the build-system does not contain C++ code, and thus could be moved
+   outside the OKlibrary. </li>
+   <li> So potentially additionally OKplatform/OKsystem/BuildSystem. </li>
+   <li> Discussion of the advantages and disadvantages of such a completed ("higher")
+   directory structure in the repository:
+    <ul>
+     <li> Advantages:
+      <ol>
+       <li> The full directory structure is fixed and explicit. </li>
+       <li> It is easier to exploit the full directory structure. </li>
+       <li> Package building becomes (a bit) easier. </li>
+      </ol>
+     </li>
+     <li> Disadvantages:
+      <ol>
+       <li> The full directory structure is fixed. </li>
+       <li> As know, "projecting the directory structure in the environment", we are
+       more flexible. </li>
+       <li> This Git-history-interruption is somewhat ugly. </li>
+       <li> It seems unusual (so well). </li>
+      </ol>
+     </li>
+    </ulJ
+   </li>
+  </ul>
+
+
   \todo Super-modules:
   <ul>
    <li> Currently 82 modules --- that needs a superstructure.
@@ -201,19 +277,6 @@ namespace SatAlg = Satisfiability::Algorithms;
    wishes. (Which might not be realised --- general.hpp contains all
    wishes which are to be realised (first they unfold in general.hpp,
    and finally they got moved to their own plans-file).) </li>
-  </ul>
-
-
-  \todo "OKlib" vs. "Transitional"
-  <ul>
-   <li> Perhaps we should give up the distinction between "Transitional" and
-   "OKlib", but rename "Transitional" to "OKlib", and remove the (empty)
-   repository "OKlibrary". </li>
-   <li> Likely it will be always like that, a lot of experimental stuff lying
-   around? But then we need clear indications what modules are usable already
-   --- this should be achieved by their version numbers.
-   See "Doxygen menu and main page review" in Buildsystem/Generic/documentation_building/plans/documentation_building.hpp.
-   </li>
   </ul>
 
 
