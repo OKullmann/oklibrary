@@ -77,7 +77,7 @@ $(makefile_annotations) : $(OKbuildsystem)/Annotations.mak
 $(makefile_transitional) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
 
-$(makefile_externalsources) : $(OKbuildsystem)/ExternalSources.mak
+$(makefile_externalsources) : $(OKbuildsystem)/ExternalSources/ExternalSources.mak
 	- ln -s $< $@
 
 clean_links :
