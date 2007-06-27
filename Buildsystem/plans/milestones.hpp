@@ -16,6 +16,7 @@
     - Building Ubcsat
     - Documenting ExternalSources.mak
     - Building documentation
+    - R
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
