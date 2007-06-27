@@ -64,7 +64,7 @@ boost_documentation := boost.png \
 $(boost_installation_directory_paths) : % : | $(boost-base-directory) %_Build $(bjam_directory_path)
 
 $(boost-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 # ###############################
 # Making boost with the system gcc
