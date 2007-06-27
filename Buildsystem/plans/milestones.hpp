@@ -20,6 +20,10 @@
     - Building documentation
 
   \par
+   In Buildsystem/plans/generic.hpp the following topics are handled:
+    - New directory-structure "Generic"
+
+  \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
     - Mailing lists
     - User mailing list
