@@ -81,8 +81,8 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/asciidoc.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/git.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/cmake.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/R.mak
-include $(OKbuildsystem)/ExternalSources/mpfr.mak
-include $(OKbuildsystem)/ExternalSources/gmp.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/mpfr.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gmp.mak
 
 
 # #################################
