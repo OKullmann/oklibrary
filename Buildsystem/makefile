@@ -1,9 +1,6 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# ToDo:
-# Instead of copying use linking for the placement of the other makefiles
-
 # Special makefile for the buildsystem
 
 # ################################################################
