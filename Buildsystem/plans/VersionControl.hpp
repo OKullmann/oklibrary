@@ -235,7 +235,7 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
      <li> Another possibility is that the external sources are not under version control,
      but we manage information like md5-checksums, and it's up to the user to download
-     the files. </li>
+     the files. See "ExternalSources repository" in Buildsystem/plans/Release.hpp. </li>
      <li> For convenience we provide also an archive with all current external sources in it. </li>
      <li> And/or the clone to download can be populated with the current external sources. </li>
      <li> In any case, ExternalSources gets a sub-directory "sources". </li>

@@ -127,5 +127,12 @@ RELEASE_OKlib_0.1.6_31072007
    <li> Release plans perhaps should move to here --- or stay in Annotations? </li>
   </ul>
 
+
+  \todo ExternalSources repository
+  <ul>
+   <li> In cs-oksvr:/work/Repositories/ExternalSources_recommended we store the (currently) recommended
+   versions. We need then (likely under Configuration) a "database" with md5sum-results. See Buildsystem/plans/Configuration.hpp. </li>
+  </ul>
+
 */
 
