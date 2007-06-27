@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
 
 /*!
-  \file Buildsystem/plans/ExternalSources.hpp
+  \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for the makefile responsible for handling external sources
 
 
