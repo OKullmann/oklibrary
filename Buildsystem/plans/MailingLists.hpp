@@ -67,9 +67,10 @@
    <li> Further collaborators of Ines Lynce and Joao Marques-Silva </li>
    <li> John Franco and Sean Weaver: General (?) </li>
    <li> Hans van Maaren and Marijn Heule: General (?) </li>
-   <li> Arnold Beckmann and Klaus Aehlig: ?? </li>
+   <li> Arnold Beckmann </li>
    <li> Ulrich Berger: New module Formalisation </li>
    <li> Markus Roggenbach </li>
+   <li> Anton Setzer </li>
    <li> Phil Grant </li>
    <li> Elitza Maneva </li>
    <li> Isabelle Oitavem and Reinhard Kahle (especially "theory") </li>
