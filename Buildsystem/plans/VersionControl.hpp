@@ -199,16 +199,29 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    an OKlibrary-e-mail-list ?!).
    <ul>
     <li>
-    To configure this script to send emails to a list of users we add, for example, the following lines to
-    the "config" file (OK: which "config"-file?):
-    \verbatim
-    [hooks]
-         mailinglist = M.J.Henderson@Swansea.ac.uk, O.Kullmann@Swansea.ac.uk
-    \endverbatim 
+    As an intermediate solution we copy a modified version of the script "contrib/hooks/post-receive-email" to
+    both /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and/work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
     </li>
-    <li> Should we use a link instead of replacing the original post-receive script? (OK: a link to what?) </li>
-    <li> We should "name" each repository by putting the name "Annotations" or "Transitional" in the
-    "description" file (OK: which "description"-file?). Then the name appears in the emails. </li>
+    <li>
+    To configure the script to send emails to OK,MH and ML we tell Git via
+    \verbatim
+git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthew Henderson <M.J.Henderson@swansea.ac.uk>, Matthew Lewsey <csmatthewl@Swansea.ac.uk>"
+    \endverbatim
+    </li>
+    <li> To have the name Transitional appear in the email subject it is necessary to modify the
+    file /work/Repositories/Git/bare/Transitional/description so that it contains the single line 
+    \verbatim
+Transitional  
+    \endverbatim</li>
+    <li> Should we use a link instead of replacing the original post-receive script? (OK: a link to what?)
+    (MH: My intention was that the script would also be under version control. For example, it could be
+    in Transitional/Buildsystem/post-receive-email and then the Transitional bare repository on cs-oksvr 
+    has a link 
+\verbatim
+/work/Repositories/Git/bare/Transitional/hooks/post-receive-email --> /work/Repositories/Git/Transitional/Buildsystem/post-receive-email
+\endverbatim
+    But this isn't possible because then we always have to update the clone, or?
+    </li>
     <li> Seems that each email always has [SCM] in the header. But we need to have various possibilities.
     For example, just [OKLIB], [OKLIB][DEVEL], [OKLIB][USER], etc... How to achieve this? </li>
     <li> The configuration data about developers, library names etc. must go to Configuration (see
