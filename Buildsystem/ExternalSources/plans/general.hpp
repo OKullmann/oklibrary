@@ -7,7 +7,10 @@
   \todo Downloading sources
   <ul>
    <li> Via "make getsources" the system should downloaded all the packages from
-        cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended? </li>
+   \verbatim
+cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
+   \endverbatim
+  </li>
   </ul>
 
   \todo Renaming
