@@ -4,6 +4,11 @@
   \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for the makefile responsible for handling external sources
 
+  \todo Downloading sources
+  <ul>
+   <li> Via "make getsources" the system should downloaded all the packages from
+        cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended? </li>
+  </ul>
 
   \todo Renaming
   <ul>

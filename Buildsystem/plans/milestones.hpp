@@ -19,6 +19,7 @@
     - Documenting ExternalSources.mak
     - Building documentation
     - R
+    - Downloading sources
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
