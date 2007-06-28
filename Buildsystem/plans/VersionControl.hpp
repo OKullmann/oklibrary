@@ -103,6 +103,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
           Transitional total: 15.3 MB </li>
      <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
      <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
+     <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
     </ol>
    </li>
    <li> Secure pushs to the central repository on cs-oksvr:
@@ -197,19 +198,21 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    the text in "hooks/post-receive"), which we should examine (it seems we should also set up
    an OKlibrary-e-mail-list ?!).
    <ul>
-   <li>
-   To configure this script to send emails to a list of users we add, for example, the following lines to
-   the "config" file.
-   \verbatim
-   [hooks]
-        mailinglist = M.J.Henderson@Swansea.ac.uk, O.Kullmann@Swansea.ac.uk
-   \endverbatim 
-   </li>
-   <li>Should we use a link instead of replacing the original post-receive script?</li>
-   <li>We should "name" each repository by putting the name "Annotations" or "Transitional" in the
-   "description" file. Then the name appears in the emails.</li>
-   <li>Seems that each email always have [SCM] in the header. But we need to have various possibilities.
-   For example, just [OKLIB], [OKLIB][DEVEL], [OKLIB][USER], etc... How to achieve this?</li>
+    <li>
+    To configure this script to send emails to a list of users we add, for example, the following lines to
+    the "config" file (OK: which "config"-file?):
+    \verbatim
+    [hooks]
+         mailinglist = M.J.Henderson@Swansea.ac.uk, O.Kullmann@Swansea.ac.uk
+    \endverbatim 
+    </li>
+    <li> Should we use a link instead of replacing the original post-receive script? (OK: a link to what?) </li>
+    <li> We should "name" each repository by putting the name "Annotations" or "Transitional" in the
+    "description" file (OK: which "description"-file?). Then the name appears in the emails. </li>
+    <li> Seems that each email always has [SCM] in the header. But we need to have various possibilities.
+    For example, just [OKLIB], [OKLIB][DEVEL], [OKLIB][USER], etc... How to achieve this? </li>
+    <li> The configuration data about developers, library names etc. must go to Configuration (see
+    Buildsystem/plans/Configuration.hpp). </li>
    </ul>
    </li>
    <li> Git can handle symbolic links, so all symbolic links should go
@@ -232,7 +235,7 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
      <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
      <li> Another possibility is that the external sources are not under version control,
      but we manage information like md5-checksums, and it's up to the user to download
-     the files. </li>
+     the files. See "ExternalSources repository" in Buildsystem/plans/Release.hpp. </li>
      <li> For convenience we provide also an archive with all current external sources in it. </li>
      <li> And/or the clone to download can be populated with the current external sources. </li>
      <li> In any case, ExternalSources gets a sub-directory "sources". </li>

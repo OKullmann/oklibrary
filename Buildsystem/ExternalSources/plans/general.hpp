@@ -1,8 +1,26 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
 
 /*!
-  \file Buildsystem/plans/ExternalSources.hpp
+  \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for the makefile responsible for handling external sources
+
+
+  \todo Renaming
+  <ul>
+   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
+   simply "Buildsystem/ExternalSources/makefile". </li>
+   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
+   to directory Buildsystem/ExternalSources, and then call it
+   simply "versions.mak". </li>
+  </ul>
+
+
+  \todo Plans-structure for ExternalSources
+  <ul>
+   <li> Likely we should now have also a milestones.hpp file. </li>
+   <li> Perhaps the version number of sub-module ExternalSources
+   is initially set to the current version number of Buildsystem? </li>
+  </ul>
 
 
   \todo Mailman
@@ -133,9 +151,11 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
 
   \todo Building documentation:
-   - Documentation building should be done automatically when building.
-   - We should extract only the documentation from the archives (and
-   remove everything else which is not needed).
+  <ul>
+   <li> Documentation building should be done automatically when building. </li>
+   <li> We should extract only the documentation from the archives (and
+   remove everything else which is not needed). </li>
+  </ul>
    
 
   \todo Mhash
@@ -193,57 +213,29 @@ collect2: ld terminated with signal 11 [Segmentation fault]
   </ul>
 
   
-  \todo Gcc
-  <ul>
-   <li> Linking to the gcc-documentation (main info-page) should be checked
-   for completeness. </li>
-   <li> Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
-   building Boost to use instead "make gcc gcc-version=4.1.2" ? </li>
-   <li> If variable "gcc-version" is set, then it should have one of the
-   allowed values (while otherwise we get an error). </li>
-   <li> We must understand, how gcc interacts with 32- and 64-bit
-   environments, and how to take control of this. </li>
-   <li> There should be make-variables, which allow control over
-   some settings for the build of gcc. </li>
-   <li> Shouldn't file external_sources_versions.mak be placed in
-   subdirectory Buildsystem/ExternalSources ? </li>
-   <li> texti2pdf is a script, which can be put into ~/bin for example,
-   and is needed for building the gcc-documentation --- how to provide it?
-   Such small utilities could be put under version control (OKlibrary) ? </li>
-   <li> If the filestamp does already exist, then we want nothing to happen ---
-   however yet the build-directory will be rebuilt if not existent, since
-   it is a prerequisite of the rule for the "tag-paths". So it seems
-   necessary to remove the build-directory from the prerequisite-list,
-   however then it seems impossible to create the build-directory, if actually
-   gcc *is* to be build, via the target-mechanism. DONE (it seems reasonable
-   to remove the build-directory from the prerequisite-list and to build it
-   "manually") </li>
-  </ul>
-  
   \todo PostgreSQL
-  - Test the updated PostgreSQL installation.
-  - "make initialise-database" should work with the recommended version (and no specification
-  of the pgsql-version should be needed).
-  - A detailed user-manual is needed (on how to use the installed database).
+  <ul>
+   <li> Test the updated PostgreSQL installation. </li>
+   <li> "make initialise-database" should work with the recommended version (and no specification
+   of the pgsql-version should be needed). </li>
+   <li> A detailed user-manual is needed (on how to use the installed database). </li>
+  </ul>
 
-  \todo R
-  - Installation of R appears to require a Fortran compiler. Therefore the 
-    locally installed Gcc should have Fortran language support enabled.
-  - Enabling Fortran language support in Gcc requires also that the MPFR
-    and GMP libraries are installed, so we should install these locally also?
-  
+
   \todo Other sources:
-  - Build a local version of Xerces.
-  - Build a local version of gmp.
-  - Build the R system (locally and globally).
-  - Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
-  and tulip.
-  - SOCI (soci.sourceforge.net) ?
-  - gcc-xml (www.gccxml.org) ?
-  
+  <ul>
+   <li> Build a local version of Xerces. </li>
+   <li> Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
+   and tulip. </li>
+   <li> SOCI (soci.sourceforge.net) ? </li>
+   <li> gcc-xml (www.gccxml.org) ? </li>
+  </ul>
+
   \todo %Tools
-  - Investigate the NiX system (a system for managing libraries).
-  - Investigate the Poco C++ library (http://www.pocoproject.org; see
-    also [C Vu, 19:2, pages 12-15]).
+  <ul>
+   <li> Investigate the NiX system (a system for managing libraries). </li>
+   <li> Investigate the Poco C++ library (http://www.pocoproject.org; see
+   also [C Vu, 19:2, pages 12-15]). </li>
+  </ul>
      
 */

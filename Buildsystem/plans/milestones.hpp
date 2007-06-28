@@ -8,7 +8,9 @@
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
   \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Renaming
+    - Plans-structure for ExternalSources
     - Mailman
     - CMake-documentation building
     - Improving building Boost
@@ -16,6 +18,11 @@
     - Building Ubcsat
     - Documenting ExternalSources.mak
     - Building documentation
+    - R
+
+  \par
+   In Buildsystem/plans/generic.hpp the following topics are handled:
+    - New directory-structure "Generic"
 
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
@@ -119,7 +126,7 @@
     - OKsystem/Buildsystem structure
 
   \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Corrections mhash
     - Problems with building Boost
 
@@ -160,7 +167,7 @@
     - Test cleaning
 
   \par
-   In Buildsystem/plans/ExternalSources.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Other sources
     - %Tools
     - PostgreSQL

@@ -196,3 +196,34 @@ R_targets_prefix := $(R_prefix)-
 R_targets := $(addprefix $(R_targets_prefix), $(R_supported_version_numbers))
 R_recommended := $(R_targets_prefix)$(R_recommended_version_number)
 
+# ################################
+# mpfr Versions
+# ###############################
+
+mpfr_recommended_version_number := 2.2.1
+mpfr_supported_version_numbers := $(mpfr_recommended_version_number)
+
+# ###########################################
+# mpfr Version-dependent System Variables
+# ###########################################
+
+mpfr_prefix := mpfr
+mpfr_targets_prefix := $(mpfr_prefix)-
+mpfr_targets := $(addprefix $(mpfr_targets_prefix), $(mpfr_supported_version_numbers))
+mpfr_recommended := $(mpfr_targets_prefix)$(mpfr_recommended_version_number)
+
+# ################################
+# gmp Versions
+# ###############################
+
+gmp_recommended_version_number := 4.2.1
+gmp_supported_version_numbers := $(gmp_recommended_version_number)
+
+# ###########################################
+# gmp Version-dependent System Variables
+# ###########################################
+
+gmp_prefix := gmp
+gmp_targets_prefix := $(gmp_prefix)-
+gmp_targets := $(addprefix $(gmp_targets_prefix), $(gmp_supported_version_numbers))
+gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)

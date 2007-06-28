@@ -30,7 +30,8 @@ OKlib_0.1.6_31072007
     </ol
    </li>
    <li> Packages must be stored in an accesible depot. At least the
-   core-packages need to be backed-up on cs-oksvr. </li>
+   core-packages need to be backed-up on cs-oksvr. See
+   "ExternalSources repository" in Buildsystem/plans/Release.hpp. </li>
    <li> Package data must be on the Internet-page
    (as automatical as possible).
     <ol>
