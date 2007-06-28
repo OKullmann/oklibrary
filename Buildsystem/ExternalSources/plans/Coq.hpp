@@ -29,7 +29,9 @@ NDBM not found, the "dbm" library will not be supported.
    \endverbatim
    ???
    </li>
-   <li> Where do we get lablgtk2 (the problems seems to be version 2) ?? </li>
+   <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
+   (See below --- the Coq installation claims it's not there, but it should
+   have been build by the Ocaml installation.) </li>
    <li> Since we need it only to install Coq, can we perform just
    a local installation?
     <ol>
@@ -38,6 +40,17 @@ NDBM not found, the "dbm" library will not be supported.
      <li> But likely ocaml is not just needed for the installation
      of Coq, but also later, and then it might create trouble. </li>
      <li> So we should just stick to the system-wide installation. </li>
+     <li> But trying it out --- perhaps it solves the Coq-installation-problem ?
+      <ol>
+       <li>
+       \verbatim
+tar -xjf ocaml-3.10.0.tar.bz2; mkdir -p Ocaml/3.10.0; cd ocaml-3.10.0; \
+./configure -prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.10.0; \
+make world && make bootstrap && make opt && make opt.opt && sudo make install
+       \endverbatim
+       </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
@@ -113,6 +126,64 @@ Preprocessor error
 make: *** [lib/compat.cmx] Fehler 2
      \endverbatim
      ???
+     </li>
+     <li> Try to use the local ocaml-installation:
+     \verbatim
+tar -xzf coq-8.1.tar.gz
+cd coq-8.1
+export PATH=~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.10.0/bin:${PATH}
+./configure -opt --prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1 -fsets all -reals all
+make world
+make install
+     \endverbatim
+     Configure results in
+     \verbatim
+coq-8.1> ./configure -opt --prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1 -fsets all -reals all
+You have Objective-Caml 3.10.0. Good!
+You have native-code compilation. Good!
+LablGtk2 not found: CoqIde will not be available
+
+  Coq top directory                 : /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/coq-8.1
+  Architecture                      : i686
+  OS dependent libraries            : -cclib -lunix
+  Objective-Caml/Camlp4 version     : 3.10.0
+  Objective-Caml/Camlp4 binaries in : /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.10.0/bin
+  Objective-Caml library in         : /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.10.0/lib/ocaml
+  Camlp4 library in                 : +camlp4
+  FSets theory                      : All
+  Reals theory                      : All
+  CoqIde                            : no
+
+  Paths for true installation:
+    binaries   will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/bin
+    library    will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/lib/coq
+    man pages  will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/man
+    emacs mode will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/share/emacs/site-lisp
+
+If anything in the above is wrong, please restart './configure'
+     \endverbatim
+     But then "make world" again yields
+     \verbatim
+coq-8.1> make world
+OCAMLC    config/coq_config.mli
+OCAMLOPT  config/coq_config.ml
+ECHO... > scripts/tolink.ml
+OCAMLOPT  scripts/tolink.ml
+OCAMLOPT  scripts/coqmktop.ml
+OCAMLOPT -o bin/coqmktop.opt
+cd bin; ln -sf coqmktop.opt coqmktop
+OCAMLC    lib/pp_control.mli
+OCAMLOPT  lib/pp_control.ml
+OCAMLC    lib/pp.mli
+OCAMLOPT4 lib/pp.ml4
+OCAMLOPT  lib/compat.ml4
+Camlp4: Uncaught exception: DynLoader.Error ("pa_ifdef.cmo", "file not found in path")
+
+Preprocessor error
+make: *** [lib/compat.cmx] Fehler 2
+     \endverbatim
+     So it doesn't seem to be an ocaml-installation problem. In "Ocaml/3.10.0/lib/ocaml"
+     there is no "pa_ifdef.cmo".
      </li>
     </ol>
    </li>
