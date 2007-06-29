@@ -1,7 +1,6 @@
 // Oliver Kullmann, 15.5.2005 (Swansea)
 
 #ifndef VANDERWAERDENHYPERGRAPHTESTS_oppQyyr8838
-
 #define VANDERWAERDENHYPERGRAPHTESTS_oppQyyr8838
 
 #include <iterator>
@@ -15,10 +14,9 @@
 #include <Transitional/Concepts/Iterators.hpp>
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/RamseyTheory/Van_der_Waerden_hypergraph.hpp>
+#include <Transitional/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp>
 
 namespace OKlib {
-
   namespace Van_der_Waerden_hypergraph {
 
     template <class Iterator_arithmetic_progression>
@@ -118,7 +116,6 @@ namespace OKlib {
     // ------------------------------------------------------------------------------------------------------------------------
 
     }
-
 }
 
 #endif

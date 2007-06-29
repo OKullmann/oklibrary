@@ -1,8 +1,8 @@
 // Oliver Kullmann, 15.5.2005 (Swansea)
 
 /*!
-  \file RamseyTheory/Van_der_Waerden_hypergraph.hpp
-  \brief Tools for generating van der Waerden-hypergraphs.
+  \file Transitional/Applications/RamseyTheory/Van_der_Waerden_hypergraph.hpp
+  \brief %Tools for generating van der Waerden-hypergraphs.
 */
 
 #ifndef VANDERWAERDENHYPERGRAPH_77bQMQM
@@ -14,7 +14,6 @@
 #include <Transitional/Concepts/Iterators.hpp>
 
 namespace OKlib {
-
   namespace Van_der_Waerden_hypergraph {
 
     /*!
@@ -85,7 +84,6 @@ namespace OKlib {
 
 
   }
-
 }
 
 #endif
