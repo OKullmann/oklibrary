@@ -16,7 +16,19 @@
    <li> Once decided, we have to add appropriate licence texts to every file. </li>
    <li> Does every file needs the license text ?? Or is a reference
    sufficient? </li>
-   <li> It seems LGPL is suitable; we have to check this (is it compabible
+   <li> What about the copyright statements?
+    <ol>
+     <li> Initially every file has OK's copyright. </li>
+     <li> But once other external developers have contributed essentially to some file,
+     then perhaps they should also have copyright on this file (that is, the corresponding
+     group leader)? Perhaps we should ask the FSF how to handle such situations. </li>
+     <li> Perhaps for legal reasons it is not feasible to have such a fractured
+     copyright-situation, but then at least perhaps in every plans-directory we have
+     a files "contributors.hpp" where just the developers are mentioned which contributed
+     to the module (they enter themselves)? </li>
+    </ol>
+   </li>
+   <li> It seems LGPL is suitable; we have to check this (is it compatible
    with all other licenses (for external sources) involved? I guess so). DONE (for the research-platform, where everybody contributes ideas, we need stronger protection) </li>
   </ul>
 
@@ -36,7 +48,7 @@
 
   \todo Completing the repository
   <ul>
-   <li> The new repository would have
+   <li> The new repository would have a directory structure
     <ol>
      <li> OKplatform/ </li>
      <li> OKplatform/system_directories </li>
@@ -71,11 +83,12 @@
        <li> The full directory structure is fixed. </li>
        <li> As know, "projecting the directory structure in the environment", we are
        more flexible. </li>
-       <li> This Git-history-interruption is somewhat ugly. </li>
+       <li> The Git-history-interruption (due to the move) is somewhat ugly. </li>
+       <li> Git only notices a directory if it has some (indexed) file in it. </li>
        <li> It seems unusual (so well). </li>
       </ol>
      </li>
-    </ulJ
+    </ul>
    </li>
   </ul>
 
