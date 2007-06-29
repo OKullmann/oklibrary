@@ -186,47 +186,8 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> Are there several possibilities? Yes ... </li>
     </ol>
    </li>
-   <li> How to send notification-e-mails with Git: In the shared repository the file
-   "hooks/post-receive" has to be made executable, and then filled with action; temporary
-   solution (for Annotations):
-   \verbatim
-mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
-   \endverbatim
-   Apparently to the script "post-receive" per branch a line with reference-data is passed on stdin,
-   while stdin is passed onto mutt which then sends these lines in the body. A more sophisticated
-   solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
-   the text in "hooks/post-receive"), which we should examine (it seems we should also set up
-   an OKlibrary-e-mail-list ?!).
-   <ul>
-    <li>
-    As an intermediate solution we copy a modified version of the script "contrib/hooks/post-receive-email" to
-    both /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and/work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
-    </li>
-    <li>
-    To configure the script to send emails to OK,MH and ML we tell Git via
-    \verbatim
-git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthew Henderson <M.J.Henderson@swansea.ac.uk>, Matthew Lewsey <csmatthewl@Swansea.ac.uk>"
-    \endverbatim
-    </li>
-    <li> To have the name Transitional appear in the email subject it is necessary to modify the
-    file /work/Repositories/Git/bare/Transitional/description so that it contains the single line 
-    \verbatim
-Transitional  
-    \endverbatim</li>
-    <li> Should we use a link instead of replacing the original post-receive script? (OK: a link to what?)
-    (MH: My intention was that the script would also be under version control. For example, it could be
-    in Transitional/Buildsystem/post-receive-email and then the Transitional bare repository on cs-oksvr 
-    has a link 
-\verbatim
-/work/Repositories/Git/bare/Transitional/hooks/post-receive-email --> /work/Repositories/Git/Transitional/Buildsystem/post-receive-email
-\endverbatim
-    But this isn't possible because then we always have to update the clone, or?
-    </li>
-    <li> Seems that each email always has [SCM] in the header. But we need to have various possibilities.
-    For example, just [OKLIB], [OKLIB][DEVEL], [OKLIB][USER], etc... How to achieve this? </li>
-    <li> The configuration data about developers, library names etc. must go to Configuration (see
-    Buildsystem/plans/Configuration.hpp). </li>
-   </ul>
+   <li> The configuration data about developers, library names etc. must go to Configuration (see
+   Buildsystem/plans/Configuration.hpp). </li>
    </li>
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
@@ -310,6 +271,63 @@ Transitional
    For a new version control system we have to find out how to establish the role of the repository at
    cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
    relying on ssh). </li>
+  </ul>
+
+
+  \todo Notification-e-mails
+  <ul>
+   <li> Simple solution: In the shared repository the file
+   "hooks/post-receive" has to be made executable, and then filled with action; temporary
+   solution (for Annotations):
+   \verbatim
+mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
+   \endverbatim
+   Apparently to the script "post-receive" per branch a line with reference-data is passed on stdin,
+   while stdin is passed onto mutt which then sends these lines in the body. A more sophisticated
+   solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
+   the text in "hooks/post-receive"), which we should examine (it seems we should also set up
+   an OKlibrary-e-mail-list ?!).
+   </li>
+   <li>
+   As an intermediate solution we copy a modified version of the script "contrib/hooks/post-receive-email" to
+   both /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and/work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
+   </li>
+   <li>
+   To configure the script to send emails to OK,MH and ML we tell Git via
+   \verbatim
+git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthew Henderson <M.J.Henderson@swansea.ac.uk>, Matthew Lewsey <csmatthewl@Swansea.ac.uk>"
+   \endverbatim
+   </li>
+   <li> To have the name Transitional appear in the email subject it is necessary to modify the
+   file /work/Repositories/Git/bare/Transitional/description so that it contains the single line 
+   \verbatim
+Transitional  
+   \endverbatim
+   </li>
+   <li> Should we use a link instead of replacing the original post-receive script? (OK: a link to what?)
+   (MH: My intention was that the script would also be under version control. For example, it could be
+   in Transitional/Buildsystem/post-receive-email and then the Transitional bare repository on cs-oksvr 
+   has a link 
+   \verbatim
+/work/Repositories/Git/bare/Transitional/hooks/post-receive-email --> /work/Repositories/Git/Transitional/Buildsystem/post-receive-email
+   \endverbatim
+   But this isn't possible because then we always have to update the clone, or? OK: It seems saver to me to have a copy in the shared repositories, but
+   the script should be under version control (since we have to tweak it;
+   if it has already been changed, then we need first the original version
+   into version control).
+   </li>
+   <li> Improvements of the automatic e-mail:
+     <ol>
+      <li> Replace "[SCM]" by "[OKlibrary::Transitional]". </li>
+      <li> The subject header "Transitional branch, master, updated." is
+      misleading: There is no branch "Transitional". </li>
+      <li> Further in the subject header:
+      "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
+      tag? </li>
+      <li> Additionally, for each log-message we need the summary of
+      changes. </li>
+     </ol>
+   </li>
   </ul>
 
 */

@@ -71,6 +71,7 @@
    In Buildsystem/plans/VersionControl.hpp the following topics are handled:
     - More advanced usage
     - Exploring usage patterns
+    - Notification-e-mails
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
