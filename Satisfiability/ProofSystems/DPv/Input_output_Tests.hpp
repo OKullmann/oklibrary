@@ -1,5 +1,10 @@
 // Oliver Kullmann, 24.5.2005 (Swansea)
 
+/*!
+  \file Transitional/Satisfiability/ProofSystems/DPv/Input_output_Tests.hpp
+  \deprecated
+*/
+
 #ifndef INPUTOUTPUTTESTS_oPLmm8uuY
 #define INPUTOUTPUTTESTS_oPLmm8uuY
 
@@ -12,10 +17,9 @@
 #include <Transitional/TestSystem/TestExceptions.hpp>
 #include <Transitional/Parsing/ParserBase_Tests.hpp>
 
-#include <Transitional/DPv/BasicDataStructure.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
-
   namespace DPv {
 
     template <class ParserLiteral>

@@ -1,6 +1,7 @@
 /*!
-  \file DPv/BasicDataStructure.hpp
+  \file Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp
   \brief Deprecated. Contains simple classes for variables, literals, clauses, clause-sets and literal- and variables-sets.
+  \deprecated
   \todo Classes like this should be simple models of the general concepts.
 */
 
@@ -11,7 +12,6 @@
 #include <set>
 
 namespace OKlib {
-
   namespace DPv {
         
     typedef int int_type;

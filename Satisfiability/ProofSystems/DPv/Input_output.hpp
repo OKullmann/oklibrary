@@ -1,6 +1,7 @@
 /*!
-  \file DPv/Input_output.hpp
+  \file Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp
   \brief Deprecated. Input and output of cnf formulas in DIMACS format.
+  \deprecated
   \todo The new implementations (see below) could be the starting point
   for a generic Dimacs input library (belongs to the module InputOutput)
 */
@@ -23,11 +24,10 @@
 
 #include <Transitional/Parsing/ParserBase.hpp>
 
-#include <Transitional/DPv/DPv.hpp>
-#include <Transitional/DPv/BasicDataStructure.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
-  
   namespace DPv {
 
     // Deprecated ****************************************************************************************

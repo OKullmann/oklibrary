@@ -1,11 +1,16 @@
+/*!
+  \file Transitional/Satisfiability/ProofSystems/DPv/DPv.cpp
+  \deprecated
+*/
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
 
-#include <Transitional/DPv/DPv.hpp>
-#include <Transitional/DPv/Statistics.hpp>
-#include <Transitional/DPv/Input_output.hpp>
-#include <Transitional/DPv/BasicDataStructure.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/Statistics.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 int main(const int argc, const char* const argv[]){
   
@@ -15,7 +20,6 @@ int main(const int argc, const char* const argv[]){
   }
   
   const std::string filename = argv[1];
-  
   
   OKlib::DPv::Input::FStream input(filename.c_str());
   

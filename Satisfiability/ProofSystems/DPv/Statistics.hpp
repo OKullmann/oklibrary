@@ -1,6 +1,7 @@
 /*!
-  \file DPv/Statistics.hpp
+  \file Transitional/Satisfiability/ProofSystems/DPv/Statistics.hpp
   \brief Deprecated. Some functions for basic statistics about clause-sets.
+  \deprecated
   \todo These things (and more) should be part of the general hypergraph
   library (which must be directly applicable to clause-sets).
 */
@@ -8,10 +9,9 @@
 #ifndef STATISTICS_Jhh9YT324J
 #define STATISTICS_Jhh9YT324J
 
-#include <Transitional/DPv/BasicDataStructure.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
-
   namespace DPv {
 
     unsigned int clause_count(const Clause_set& cls){
@@ -20,22 +20,20 @@ namespace OKlib {
 
     unsigned int ldg(const Literal l, const Clause_set& cls){
       unsigned int counter = 0;
-       for (Clause_set::const_iterator i = cls.cs.begin(); i != cls.cs.end(); ++i) {
-	 if ( (*i).c.find(l) != (*i).c.end()) ++counter;
-
-    }
-       return counter;
+      for (Clause_set::const_iterator i = cls.cs.begin(); i != cls.cs.end(); ++i) {
+        if ( (*i).c.find(l) != (*i).c.end()) ++counter;
+      }
+      return counter;
     }
 
     
     unsigned int vdg(const Variable v, const Clause_set& cls){
-       return ldg(Literal(v.v), cls) + ldg(Literal(-v.v), cls);
+      return ldg(Literal(v.v), cls) + ldg(Literal(-v.v), cls);
     }
     
     unsigned int clause_left(const Variable& v, const Clause_set& cls) {
       return clause_count(DP_reduction(v,cls));
     }
-    
     
     template <typename T>
     T& operator <<(T& os, const Clause_set& cls){
@@ -46,7 +44,7 @@ namespace OKlib {
       }
       return os;
     }
-
+    
   }
 }
 #endif

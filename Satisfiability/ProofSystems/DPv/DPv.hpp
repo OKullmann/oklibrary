@@ -1,6 +1,7 @@
 /*!
-  \file DPv/DPv.hpp
+  \file Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp
   \brief Deprecated. Contains functions DP-reductions.
+  \deprecated
   \todo Improved implementations (as models of general concepts) in a new module
   DavisPutnamReduction.
 */
@@ -14,12 +15,10 @@
 #include <string>
 #include <vector>
 
-#include <Transitional/DPv/BasicDataStructure.hpp>
+#include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 
 namespace OKlib {
-  
   namespace DPv {
-    
     namespace Error{
       
       struct Unknown_result {
