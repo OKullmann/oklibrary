@@ -1,8 +1,10 @@
 // Oliver Kullmann, 14.2.2006 (Swansea)
 
 /*!
-  \file FrequencyAssignment/plans/FrequencyAssignment.hpp
+  \file FrequencyAssignment/plans/general.hpp
   \brief Plans for the module on frequency assignment
+
+
   \todo First the most important notions of frequency assignments
   have to be captured and formulated as generalised satisfiability
   problems. A good entry seems to be provided by
@@ -18,10 +20,14 @@
   The most important models seem MO-FAP, MS-FAP, MB-FAP, MI-FAP.
   Likely we can make use of the greater generality provided by our framework,
   and don't need to stick to the special formulations.
+
+
   \todo The above technical report mentions several benchmark collections;
   we need parsers. Perhaps the problem structures presented here are more
   important to us than those basic theoretical forms of FAP's (since we generalise
   them anyway).
+
+
   \todo MO-FAP: (G, D, c, T, K)
    - for vertex v in V(G) with requested number c(v) of frequencies and set D(v) <= NN_0
      of possible frequencies we have variables v_1, ..., v_{c(v)}, each with
@@ -37,10 +43,15 @@
      perhaps it's not worth a special active clause-set);
    - for all variables together (gathered in set VA) we have the upper bound constraint
      UPPER_V(VA, K) (see module LinearInequalities).
+
+
   \todo MS-FAP: We MO-FAP, but the third condition (the constraint on K) is replaced by:
    - maximal value for v in VA - minimal value for v in VA <= K.
+
+
   \todo Are there competitions on the subject? (We look only at the decision side; likely most
   activities in this field concentrate on optimisation?!)
+
 */
 
 /*!

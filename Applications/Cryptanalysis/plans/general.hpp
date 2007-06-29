@@ -1,11 +1,13 @@
 // Oliver Kullmann, 12.11.2006 (Swansea)
 
 /*!
-  \file Cryptanalysis/plans/Cryptanalysis.hpp
+  \file Cryptanalysis/plans/general.hpp
   \brief Plans for the module on cryptanalysis
+
 
   \todo What about DES? (see \cite{MassacciMarraro2000DESSAT})
   Is this easier or harder than AES to implement?
+
 
   \todo In analogy to the general structure of the translation
   as discussed in Rijndael.hpp we can also consider RSA, but
@@ -24,6 +26,7 @@
   (while a boolean translation looks hopeless); however obviously
   one must break the computations of p*q and of d into smaller parts
   (so that strong active clause-sets are obtained).
+
 
   \todo To SAT2007 there is a paper regarding MD4 and MD5 (De, Kumarasubramanian,
   Venkatesan).

@@ -1,8 +1,9 @@
 // Oliver Kullmann, 9.6.2007 (Swansea)
 
 /*!
-  \file Games/plans/Games.hpp
+  \file Games/plans/general.hpp
   \brief Module for game playing and SAT
+
 
   \todo What other games are interesting?
   <ul>
@@ -17,6 +18,7 @@
    exercise. </li>
    <li> For Sudoku see module LatinSquares. </li>
   </ul>
+
 
   \todo Kind of clear, that with (generalised) SAT, also
   with QBF, one does not get a "player", but only a
