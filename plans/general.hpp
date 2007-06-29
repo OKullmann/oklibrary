@@ -194,10 +194,6 @@ namespace SatAlg = Satisfiability::Algorithms;
         </ol>
        </li>
        <li> "ComputerAlgebra" ("CAl")
-        <ol>
-         <li> SAT tools: "Quick and dirty, but precise and elegant" </li>
-         <li> Mupad </li>
-        </ol>
        </li>
        <li> "ProofAssistants" ("PrA")
         <ol>
