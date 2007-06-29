@@ -23,6 +23,38 @@
 
 
   \todo Create a milestones-file.
-  
+
+
+  \todo %Test system
+  <ul>
+   <li> Is there some special test system? </li>
+  </ul>
+
+
+  \todo Input checking
+  <ul>
+   <li> How to handle input checking/type checking? </li>
+  </ul>
+
+
+  \todo Partial compilation
+  <ul>
+   <li> Is there compilation? </li>
+   <li> Is there partial compilation (using special properties to
+   produce more efficient code)? </li>
+  </ul>
+
+
+  \todo Abstraction
+  <ul>
+   <li> How to handle abstraction? </li>
+   <li> Can we abstractly specify types, functions ? </li>
+  </ul>
+
+
+  \todo Contexts
+  <ul>
+   <li> Is there the notion of a "context" ("block") ?
+  </ul>
 */
 
