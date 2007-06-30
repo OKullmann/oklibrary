@@ -221,7 +221,11 @@ namespace SatAlg = Satisfiability::Algorithms;
         </ol>
        </li>
        <li> "Numerical" ("Num") </li>
-       <li> "Visualisation" ("Vis") </li>
+       <li> "Visualisation" ("Vis")
+        <ol>
+         <li> GDr ("GraphDrawing") </li>
+        </ol>
+       </li>
        <li> "UserInterfaces" ("UIc")
         <ol>
          <li> For researchers to create solvers (by assembling
