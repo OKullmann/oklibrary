@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.7.2005 (Swansea)
 
 /*!
-  \file Combinatorics/plans/GrayCodes.hpp
+  \file Combinatorics/Enumeration/plans/GrayCodes.hpp
   \brief %Tools to enumerate combinations, that is all elements of
   A_1 x ... x A_n for finite linearly ordered sets A_i, in the order given by Gray codes.
 

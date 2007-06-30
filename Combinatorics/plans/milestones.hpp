@@ -7,8 +7,8 @@
 
   \par Version 0.1 :
   Simple implementations of LexicographicalPermutationGenerator
-  (see Combinatorics/plans/Permutations.hpp), based on the
-  permutation generator from the standard library,
+  (see Combinatorics/plans/Enumeration/Permutations.hpp), based on
+  the permutation generator from the standard library,
   and yielding fixed and arbitrary permutations, with and without
   fast inversion.
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 18.10.2005 (Swansea)
 
 /*!
-  \file Combinatorics/plans/Subsets.hpp
+  \file Combinatorics/Enumeration/plans/Subsets.hpp
   \brief %Tools for enumeration of all subsets of a set.
 
 

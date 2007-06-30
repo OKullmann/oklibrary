@@ -1,7 +1,7 @@
 // Oliver Kullmann, 20.8.2005 (Swansea)
 
 /*!
-  \file Combinatorics/plans/Permutations.hpp
+  \file Combinatorics/Enumeration/plans/Permutations.hpp
   \brief %Tools for enumeration of permutations.
 
 
