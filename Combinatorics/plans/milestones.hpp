@@ -3,8 +3,7 @@
 /*!
   \file Combinatorics/plans/milestones.hpp
 
-  \par Current version 0.0.2 (17.6.2006; no code yet, but several
-  plans)
+  \module_version Combinatorics 0.0.2 (17.6.2006)
 
   \par Version 0.1 :
   Simple implementations of LexicographicalPermutationGenerator

@@ -2,8 +2,10 @@
 
 /*!
   \file Combinatorics/plans/GrayCodes.hpp
-  \brief Tools to enumerate combinations, that is all elements of
+  \brief %Tools to enumerate combinations, that is all elements of
   A_1 x ... x A_n for finite linearly ordered sets A_i, in the order given by Gray codes.
+
+
   \todo Write an iterator (at least a forward iterator) that, after initialising
   the A_i in appropriate forms (as a sequence of ranges, or simpler by a
   sequence of natural numbers (the sizes of the A_i)), iterates through
@@ -24,6 +26,8 @@
      the next position of a flip (in the general situation I assume that telling the
      next position where a cyclic movement occurs is sufficient). It should be possible
      to obtain this information also when the iterator directly does the flip.
+
+
   \todo The first problem is to determine an algorithm, generalising algorithms
   for binary Gray codes (using the Hamming distance on A_1 x ... x A_n).
   \todo An efficiency problem occurs, when for example we want to enumerate
@@ -34,18 +38,6 @@
   the iterator could use here the total assignment (instead of its own representation).
   The general problem here is, that we might want to enumerate objects with some
   structure.
+
 */
 
-#ifndef GRAYCODES_096tGcv
-
-#define GRAYCODES_096tGcv
-
-namespace OKlib {
-
-  namespace Combinatorics {
-
-  }
-
-}
-
-#endif
