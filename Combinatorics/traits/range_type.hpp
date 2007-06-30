@@ -3,6 +3,8 @@
 /*!
   \file Combinatorics/traits/range_type.hpp
   \brief Traits-metafunction to extract the range type
+
+  \todo Where is this needed??
 */
 
 #ifndef COMBINATORICSRANGETYPE_kattrE4
