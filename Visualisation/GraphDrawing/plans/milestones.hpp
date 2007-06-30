@@ -3,7 +3,7 @@
 /*!
   \file GraphDrawing/plans/milestones.hpp
 
-  \par Current version 0.0.2 (30.8.2006)
+  \module_version GraphDrawing 0.0.2 (30.8.2006)
 
   \par Version 0.1 :
   Trees can be drawn, suitable for visualising the run of backtracking SAT solvers.

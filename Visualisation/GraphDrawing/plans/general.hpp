@@ -1,8 +1,12 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
 
 /*!
-  \file GraphDrawing/plans/GraphDrawing.hpp
+  \file GraphDrawing/plans/general.hpp
   \brief Plans for the graph drawing module (as a whole)
+
+
+  \todo Update namespaces.
+
 
   \todo The fundamental problem is to determine a suitable graphics library.
   Yet I see two possibilities:
@@ -18,14 +22,17 @@
      One should play around with Mesa to see what it can, and to estimate
      the quality of the library.
 
+
   \todo Second concepts for rooted oriented trees and for graphs are needed.
   For graphs the Boost graph library is not optimal, but not too bad.
+
 
   \todo For trees the Rheingold-Tilford algorithm is to be implemented (see the MSc
   thesis of Warren Bailey), adorning the tree with graphical elements, which
   then can be drawn. For graphs one or two standard graph drawing algorithm
   from the literature should be implemented, adorning in the same way the graph
   with graphical elements.
+
 
   \todo Applications:
    - SAT solvers output the search tree in xml format; the tree is drawn, and at least
@@ -44,7 +51,9 @@
    - For CS-342 a backtracking tree labeled with clause-sets would be useful
      (possible output in Latex-format).
 
+
   \todo It should be possible to create ps-, png- and Latex-files from the drawings.
+
 */
 
 /*!
