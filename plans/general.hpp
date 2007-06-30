@@ -144,34 +144,6 @@ namespace SatAlg = Satisfiability::Algorithms;
          generic algorithms shall go to Satisfiability/Algorithms)) </li>
         </ol>
        </li>
-       <li> "Graphs" ("Gra")
-        <ol>
-         <li> Gra ("Graphs") </li>
-         <li> Hyp ("Hypergraphs") </li>
-        </ol>
-       </li>
-       <li> "Structures" ("Str")
-        <ol>
-         <li> Alg ("Algebra") </li>
-         <li> Log ("Logic") </li>
-         <li> CTh ("ComplexityTheory") (contains "TuringMachines" TuM) </li>
-         <li> Ord ("OrderTheory") </li>
-        </ol>
-       </li>
-       <li> "Programming" ("Pro")
-        <ol>
-         <li> Gen ("GeneralTools") </li>
-         <li> Pll ("Parallelism") </li>
-        </ol>
-       </li>
-       <li> "System" ("Sys")
-        <ol>
-         <li> CoM ("ComplexityMeasurement") </li>
-         <li> TsS ("TestSystem") </li>
-         <li> Bui ("Buildsystem") </li>
-        </ol>
-       </li>
-       <li> "DataStructures" ("DaS") </li>
        <li> "Applications" ("App")
         <ol>
          <li> CrA ("Cryptanalysis") </li>
@@ -193,6 +165,39 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> SaC ("SatCompetition") </li>
         </ol>
        </li>
+       <li> "Combinatorics" ("Com")
+        <ol>
+         <li> Gra ("Graphs") </li>
+         <li> Hyp ("Hypergraphs") </li>
+        </ol>
+       </li>
+       <li> "Structures" ("Str")
+        <ol>
+         <li> Alg ("Algebra") </li>
+         <li> Ord ("OrderTheory") </li>
+         <li> Num ("NumberTheory") </li>
+        </ol>
+       </li>
+       <li> "Logic" ("Log")
+        <ol>
+         <li> CTh ("ComplexityTheory") </li>
+         <li> Cpa ("Computability") (contains "TuringMachines" TuM) </li>
+        </ol>
+       </li>
+       <li> "Programming" ("Pro")
+        <ol>
+         <li> Gen ("GeneralTools") </li>
+         <li> Pll ("Parallelism") </li>
+        </ol>
+       </li>
+       <li> "System" ("Sys")
+        <ol>
+         <li> CoM ("ComplexityMeasurement") </li>
+         <li> TsS ("TestSystem") </li>
+         <li> Bui ("Buildsystem") </li>
+        </ol>
+       </li>
+       <li> "DataStructures" ("DaS") </li>
        <li> "ComputerAlgebra" ("CAl")
        </li>
        <li> "ProofAssistants" ("PrA")
