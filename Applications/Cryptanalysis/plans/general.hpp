@@ -5,6 +5,9 @@
   \brief Plans for the module on cryptanalysis
 
 
+  \todo Update namespaces.
+
+
   \todo What about DES? (see \cite{MassacciMarraro2000DESSAT})
   Is this easier or harder than AES to implement?
 

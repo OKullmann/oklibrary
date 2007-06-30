@@ -1,9 +1,13 @@
 // Oliver Kullmann, 1.1.2007 (Swansea)
 
 /*!
-  \file AlgebraicStructures/plans/AlgebraicStructures.hpp
+  \file AlgebraicStructures/plans/general.hpp
   \brief General plans for the module on searching algebraic
   structures
+
+
+  \todo Update namespaces.
+
 
   \todo Besides groupoids (see plans/Groupoids.hpp), what
   other algebraic structures are amenable for (generalised)
@@ -15,6 +19,7 @@
   "combinatorial" structures arise (where a SAT-approach
   could be succesful --- the more "mathematical" the less
   likely is a SAT approach to succeed).
+
 */
 
 /*!

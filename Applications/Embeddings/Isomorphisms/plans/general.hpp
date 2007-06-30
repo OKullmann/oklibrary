@@ -1,8 +1,12 @@
 // Oliver Kullmann, 7.11.2006 (Swansea)
 
 /*!
-  \file Isomorphisms/plans/Isomorphisms.hpp
+  \file Isomorphisms/plans/general.hpp
   \brief Plans for the module on isomorphisms
+
+
+  \todo Update namespaces.
+
 */
 
 /*!

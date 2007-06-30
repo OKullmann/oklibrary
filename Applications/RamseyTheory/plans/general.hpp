@@ -6,6 +6,9 @@
   van der Waerden's problem)
 
 
+  \todo Update namespaces.
+
+
   \todo %Ramsey theory:
   We need generators for all types of Ramsey-problems; for van der Waerden's problem we already started.
   Such translators should only produce a hypergraph-colouring problem (to be handled then by the
@@ -14,8 +17,10 @@
 
   \todo Transfer:
   Transferring (and updating) generators for
-   - OKsolver/Experimental/Transformationen/Ramsey
-   - OKsolver/Experimental/Transformationen/VanderWaerden
+  <ul>
+   <li> OKsolver/Experimental/Transformationen/Ramsey </li>
+   <li> OKsolver/Experimental/Transformationen/VanderWaerden </li>
+  </ul>
   Especially  providing active clause-sets is very interesting.
 
 */

@@ -4,6 +4,7 @@
   \file AlgebraicStructures/plans/Groupoids.hpp
   \brief Plans related to the search for (certain) groupoids
 
+
   \todo For a natural number n, the groupoid structures on {1,...,n}
   are captured by the n^2 variables c_{i,j}, i,j in {1,...,n} with
   value-domains {1,...,n} (the value of c_{i,j} is the composition of
@@ -18,10 +19,12 @@
    </li>
   </ul>
 
+
   \todo Quasigroups:
   Quasigroups are just latin squares (see module LatinSquares), however
   the questions related to quasigroups likely are quite different from
   those occurring in the field of latin squares (?).
+
 
   \todo Literature surview:
   We need overview on the literature:
@@ -29,6 +32,7 @@
    <li> Searching for interesting problems. </li>
    <li> Searching for interesting algorithms. </li>
   </ul>
+
 
   \todo Discrete groupoids:
   I (OK) call a groupoid discrete if x * y in {x,y} is always the case
@@ -48,5 +52,6 @@
        to work with these special variables.
   </li>
  </ul>
+
 */
 

@@ -4,12 +4,15 @@
   \file Cryptanalysis/plans/Factorisation.hpp
   \brief Plans for the module on factorisation of natural numbers
 
+
   Tools for finding factorisations n = a * b.
+
 
   \todo Literature review:
    - Literature on factorisation via SAT and CSP
    - Literature on factorisation in general.
    - Literature on efficient multiplication.
+
 
   \todo Interesting good constraint representations:
   <ul>

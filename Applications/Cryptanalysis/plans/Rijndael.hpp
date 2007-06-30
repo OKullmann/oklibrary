@@ -4,29 +4,34 @@
   \file Cryptanalysis/plans/Rijndael.hpp
   \brief Plans for the module on factorisation
 
+
   \todo Implementing AES:
-  First the formulas F_AES(p, k, c) encoding
-  the encryption via AES, and F'_AES(p, k, c) encoding
-  the decryption via AES have to be created, as
-  plain CNF. The formulas F_AES etc. actually need a
-  further parameter 0 <= r <= 10, the number of rounds.
+  <ul>
+   <li> First the formulas F_AES(p, k, c) encoding
+   the encryption via AES, and F'_AES(p, k, c) encoding
+   the decryption via AES have to be created, as
+   plain CNF. The formulas F_AES etc. actually need a
+   further parameter 0 <= r <= 10, the number of rounds.
+   </li>
+   <li> That is, we can consider F_AES^r(p, k, c') for 0 <= r < = 10
+   which encodes that encryption of p via k in r rounds yields c',
+   and F'_AES^s(p', k, c) for 0 <= s < = 10
+   which encodes that decryption of c via k in s rounds yields p'.
+   We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
+   We have  F'_AES(p, k, c) = F'_AES^10(p, k, c).
+   </li>
+   <li> It seams reasonable to demand that F_AES^r(p, k, c') contains
+   F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
+   </li>
+   <li> The variables used in  F_AES^r(p, k, c') and F'_AES^s(p', k, c)
+   must be consistenly named, so that these formulas can be combined.
+   </li>
+   <li> (Compare the 2006-BSc-project by Gareth Thomas. The difference
+   between F_AES(p, k, c) and F'_AES(p, k, c) is in the use
+   of the auxiliary variables.)
+   </li>
+  </ul>
 
-  That is, we can consider F_AES^r(p, k, c') for 0 <= r < = 10
-  which encodes that encryption of p via k in r rounds yields c',
-  and F'_AES^s(p', k, c) for 0 <= s < = 10
-  which encodes that decryption of c via k in s rounds yields p'.
-  We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
-  We have  F'_AES(p, k, c) = F'_AES^10(p, k, c).
-
-  It seams reasonable to demand that F_AES^r(p, k, c') contains
-  F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
-
-  The variables used in  F_AES^r(p, k, c') and F'_AES^s(p', k, c)
-  must be consistenly named, so that these formulas can be combined.
-
-  (Compare the 2006-BSc-project by Gareth Thomas. The difference
-  between F_AES(p, k, c) and F'_AES(p, k, c) is in the use
-  of the auxiliary variables.)
 
   \todo First tests AES:
   Once we have these formulas, the first test is how
@@ -36,13 +41,17 @@
   could already be interesting, as a test for SAT solvers how
   good they understand the inversion.
   With
+  <center>
     F2_AES(p, k, c) := F_AES(p, k, c) + F'_AES(p, k, c)
+  </center>
   then both ways definitely should be fast.
+
 
   \todo Rijndael:
   Of course, AES should also be generalised to Rijndael,
   using other block lengths than 128 bit and other cipher lengths
   than 128 bit.
+
 
   \todo Further tests:
   <ul>
@@ -60,11 +69,13 @@
    </li>
   </ul>
 
+
   \todo Good constraints:
   Possibly implementing F_AES etc. as active clause-sets
   is interesting?!? Most likely F_AES as an active clause-set is
   not feasible, but F_AES (and variations) could be implemented
   using various active clause-sets (for example for field arithmetic).
+
 
   \todo Overview:
   There are many other cryptanalytic scenarios which are

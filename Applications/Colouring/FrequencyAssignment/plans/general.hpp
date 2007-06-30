@@ -5,11 +5,14 @@
   \brief Plans for the module on frequency assignment
 
 
+  \todo Update namespaces.
+
+
   \todo First the most important notions of frequency assignments
   have to be captured and formulated as generalised satisfiability
   problems. A good entry seems to be provided by
   @TechReport{ZIB2001FAP,
-  author =       {Karen I. Aardal and Stan P.M. van Hoesel and Arie M.C.A. Koster and Carlo Mannino and Antonio Sassano},
+  author =       {Karen I. Aardal and Stan %P.M. van Hoesel and Arie %M.C.A. Koster and Carlo Mannino and Antonio Sassano},
   title =        {Models and Solution Techniques for Frequency Assignment Problems},
   institution =  {Konrad-Zuse-Zentrum f\"ur Informationstechnik Berlin (ZIB)},
   year =         2001,

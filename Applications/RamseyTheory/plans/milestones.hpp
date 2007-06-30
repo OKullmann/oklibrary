@@ -6,7 +6,7 @@
   \par Current version 0.1 (1.11.2006)
 
   \par Version 0.1.1 :
-  In RamseyTheory/plans/RamseyTheory.hpp the topics
+  In RamseyTheory/plans/general.hpp the topics
    - "Ramsey theory"
    - "Transfer"
   have been further expanded.

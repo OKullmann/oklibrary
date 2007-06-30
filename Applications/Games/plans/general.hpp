@@ -5,6 +5,9 @@
   \brief Module for game playing and SAT
 
 
+  \todo Update namespaces.
+
+
   \todo What other games are interesting?
   <ul>
    <li> Go seems to be too "strategical". </li>

@@ -2,12 +2,14 @@
 
 /*!
   \file Isomorphisms/plans/GraphIsomorphisms.hpp
-  \brief Algorithms to determine graph isomorphisms (directly or by reducing
+  \brief %Algorithms to determine graph isomorphisms (directly or by reducing
   it to (generalised) SAT problems)
+
 
   Given two graphs G_1, G_2 together with maps v in V(G_1) -> D(v) <= V(G_2)
   specifying to which vertices v may me mapped, find a graph isomorphism from G_1
   to G_2 fulfilling these specifications.
+
 
   \todo The first step consists in applying algorithms which further reduce the sets D(v),
   for example by using that isomorphisms maintain vertex degrees. More generally,
@@ -24,16 +26,19 @@
   \todo Then (still just given G_1, G_2 and D, but D may have been further refined
   by the previous step) we obtain a Verbund of virtual clause-sets with variable set V(G_1)
   and variable domains given by D, with members
-   - BIJ(V(G_1), D, V(G_2)) (see module "Generators").
-   - A virtual clause-set which in principal for every vertex v and set V of possible values
+  <ol>
+   <li> BIJ(V(G_1), D, V(G_2)) (see module "Generators"). </li>
+   <li> A virtual clause-set which in principal for every vertex v and set V of possible values
      can yield for every vertex w adjacent to v in G the set of possible values W given by
      the set of w' such that v' in V with {v',w'} in E(G_2) exists. Of main importance are the
      cases with |V| = 1 (these conditions ensure completeness of the translation).
      This virtual clause-set may also offer stronger inferences. In principal it is again
      an algorithm from the first step, processing a refined domain-assignment as input
-     and computing further refinements.
+     and computing further refinements. </li>
+  </ol>
   This alliance then is passed to a SAT algorithm (or output, using the canonical
   clause-representation).
+
 
   \todo What about the graph embedding problem ? Should also be part of this module.
 

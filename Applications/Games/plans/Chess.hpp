@@ -4,10 +4,12 @@
   \file Games/plans/Chess.hpp
   \brief Submodule for chess playing and SAT
 
+
   \todo The appropriate decision problem seems to be:
   Given a position P and a natural number k (where the position
   includes the party who is to move), does there exist a legal
   sequence of k moves, so that finally the enemies king is taken?
+
 
   \todo Encodings
   <ul>
@@ -51,6 +53,7 @@
    we can fit it into the decision-framework? </li>
   </ul>
 
+
   \todo Problem formulations
   <ul>
    <li> That in position P white has a check mate in 2 moves can be expressed by the QBF
@@ -74,7 +77,9 @@
    reach the simple brute-force performance of a simple chess-programm. </li>
   </ul>
 
+
   \todo Planning: Discuss the relations to planning problems
+
 
   \todo Is there some C/C++ library for chess-programming?
   

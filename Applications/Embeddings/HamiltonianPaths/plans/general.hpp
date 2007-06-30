@@ -1,8 +1,12 @@
 // Oliver Kullmann, 13.2.2006 (Swansea)
 
 /*!
-  \file HamiltonianPaths/plans/HamiltonianPaths.hpp
+  \file HamiltonianPaths/plans/general.hpp
   \brief Plans for the module on Hamiltonian paths (cycles etc.)
+
+
+  \todo Update namespaces.
+
 
   \todo Given a graph G, the alliance expressing the Hamiltonian
   path (cycle) property has variables v_1, ..., v_n for n = |V(G)|
@@ -13,6 +17,7 @@
      clause-set the adjacency constraint.
 
   This is a special case of graph-embedding (embedding a path resp. a cycle).
+
    
   \todo One could add "opportunistically" some elements of the bijectivity
   constraint to the adjacency constraint; for example if there are v_i and v_j
@@ -28,10 +33,13 @@
   that the minimal distance in G of the possible values of any two vertices
   v_i and v_j is not larger than the distance of i and j).
 
+
   \todo Creating a catalogue with Hamiltonian graphs and
   non-Hamiltonian graphs (for creating benchmarks).
 
+
   \todo Are there competitions on the subject?
+
 
   \todo The Hamiltonian Path/Cycle problem is a special case
   of the graph embedding problem: The adjacency constraint
@@ -39,9 +47,11 @@
   instead of the path resp. cycle on v_1, ..., v_n. One needs good
   data structures for the adjacency constraint.
 
+
   \todo The graph isomorphism problem (see module Isomorphisms)
   is a special case of the graph embedding problem: How do
   graph embedding algorithms perform on graph isomorphism problems?
+
 */
 
 /*!
