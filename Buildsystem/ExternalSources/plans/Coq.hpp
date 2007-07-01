@@ -56,6 +56,18 @@ make world && make bootstrap && make opt && make opt.opt && sudo make install
   </ul>
 
 
+  \todo Install ocaml 3.09.3
+  <ul>
+   <li> Local installation
+   \verbatim
+tar -xzf ocaml-3.09.3.tar.gz; mkdir -p Ocaml/3.09.3; cd ocaml-3.09.3; \
+./configure -prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.09.3; \
+make world && make bootstrap && make opt && make opt.opt && sudo make install
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Install Coq (8.1)
   <ul>
    <li> Manual system-wide installation:
@@ -184,6 +196,70 @@ make: *** [lib/compat.cmx] Fehler 2
      \endverbatim
      So it doesn't seem to be an ocaml-installation problem. In "Ocaml/3.10.0/lib/ocaml"
      there is no "pa_ifdef.cmo".
+     </li>
+     <li> Try to use the local ocaml-3.09.3-installation:
+     \verbatim
+tar -xzf coq-8.1.tar.gz
+cd coq-8.1
+export PATH=~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.09.3/bin:${PATH}
+./configure -opt --prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1 -fsets all -reals all
+make world
+make install
+     \endverbatim
+     Configure results in
+     \verbatim
+You have Objective-Caml 3.09.3. Good!
+You have native-code compilation. Good!
+LablGtk2 not found: CoqIde will not be available
+
+  Coq top directory                 : /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/coq-8.1
+  Architecture                      : i686
+  OS dependent libraries            : -cclib -lunix
+  Objective-Caml/Camlp4 version     : 3.09.3
+  Objective-Caml/Camlp4 binaries in : /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.09.3/bin
+  Objective-Caml library in         : /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.09.3/lib/ocaml
+  Camlp4 library in                 : +camlp4
+  FSets theory                      : All
+  Reals theory                      : All
+  CoqIde                            : no
+
+  Paths for true installation:
+    binaries   will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/bin
+    library    will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/lib/coq
+    man pages  will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/man
+    emacs mode will be copied in /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Coq/8.1/share/emacs/site-lisp
+     \endverbatim
+     Then
+     \verbatim
+make world
+make install
+cd doc
+make all-ps
+make all-pdf
+     \endverbatim
+     For ps and pdf the location of coqdoc.sty had to be entered by hand?
+     html, refman, tutorial, faq doesn't work because of missing "hevea" ???
+     "make stdlib" yields an error, and target "install" is not known???
+     So nothing of
+     \verbatim
+make all-html
+make refman
+make tutorial
+make stdlib
+make faq
+make DOCDIR=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/doc/Coq/8.1 install
+     \endverbatim
+     works. But manually
+     \verbatim
+doc> cp */*.ps ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/doc/Coq/8.1/
+doc> cp */*.pdf ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/doc/Coq/8.1/
+doc> cp */*.dvi ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/doc/Coq/8.1/
+     \endverbatim
+     works. Finally
+     \verbatim
+cd ..
+make clean
+     \endverbatim
      </li>
     </ol>
    </li>
