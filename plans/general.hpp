@@ -128,6 +128,9 @@ namespace SatAlg = Satisfiability::Algorithms;
         <ol>
          <li> Var ("Variables") </li>
          <li> Lit ("Literals") </li>
+         <li> Cla ("Clauses") </li>
+         <li> Cls ("ClauseSets") </li>
+         <li> aLi ("ActiveLiterals") </li>
          <li> aCL ("ActiveClauses") </li>
          <li> aCS ("ActiveClauseSets") </li>
          <li> AaC ("AlliancesActiveClauseSets") </li>
@@ -137,12 +140,19 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> PSy ("ProofSystems") </li>
          <li> Red ("Reductions") </li>
          <li> Alg ("Algorithms"; (generic) algorithms for SAT solving and variations) </li>
-         <li> Ifs ("Interfaces"; input, output etc.) </li>
          <li> Sol ("Solvers"; contains "OKsolver") </li>
          <li> Gen ("Generators") </li>
          <li> LSe ("LocalSearch"; special components for local search (but
          generic algorithms shall go to Satisfiability/Algorithms)) </li>
+         <li> Qua ("Quantification") </li>
+         <li> Ifs ("Interfaces"; input, output etc.) </li>
         </ol>
+        Perhaps the first 9 items should go into a super-module
+        "ProblemInstances" (PrI) ?! However more precise would be
+        "Conditions" (Con) or perhaps the (too ambigue) "Constraints" ?
+        One could also think of separating the "conditions" from the
+        "models", that is, only the first 8 items are comprised, while
+        partial assignments go to "Assignments" (Asg) ?!
        </li>
        <li> "Applications" ("App")
         <ol>
@@ -182,6 +192,11 @@ namespace SatAlg = Satisfiability::Algorithms;
         <ol>
          <li> CTh ("ComplexityTheory") </li>
          <li> Cpa ("Computability") (contains "TuringMachines" TuM) </li>
+         <li> fMT ("FiniteModelTheory") </li>
+         <li> aTP ("AutomatedTheoremProving") (general frameworks) </li>
+         <li> FiO ("FirstOrderLogic") (here for example the decidable cases,
+         and the resolution calculus) </li>
+         <li> AlS ("AlgebraicSpecification") (CASL etc.) </li>
         </ol>
        </li>
        <li> "Programming" ("Pro")
@@ -206,6 +221,7 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> %Algorithms extracted from proofs </li>
          <li> Framework for formal upper bounds </li>
          <li> Interface to Coq </li>
+         <li> Interface to Isabelle </li>
         </ol>
        </li>
        <li> "Statistics" ("Sta")
