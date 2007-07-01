@@ -13,9 +13,9 @@
      <li> Also http://gplv3.fsf.org/rms-why.html sounds alright. </li>
     </ol>
    </li>
-   <li> Once decided, we have to add appropriate licence texts to every file. </li>
-   <li> Does every file needs the license text ?? Or is a reference
-   sufficient? </li>
+   <li> Download GPLv3 and put under Configuration. </li>
+   <li> Every file gets a short version as header, with copyright statement
+   and reference to the main text. </li>
    <li> What about the copyright statements?
     <ol>
      <li> Initially every file has OK's copyright. </li>
@@ -28,6 +28,10 @@
      to the module (they enter themselves)? </li>
     </ol>
    </li>
+   <li> Part of the licence must be that the full history is handed down. Is this
+   guaranteed by the original text, or do we need to amend it? </li>
+   <li> When external developers check in new files, then those must have the OK-copyright
+   etc. clause (otherwise the submission is rejected). </li>
    <li> It seems LGPL is suitable; we have to check this (is it compatible
    with all other licenses (for external sources) involved? I guess so). DONE (for the research-platform, where everybody contributes ideas, we need stronger protection) </li>
   </ul>
