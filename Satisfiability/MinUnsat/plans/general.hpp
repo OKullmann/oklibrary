@@ -1,11 +1,16 @@
 // Oliver Kullmann, 13.3.2007 (Swansea)
 
 /*!
-  \file MinUnsat/plans/MinUnsat.hpp
+  \file MinUnsat/plans/general.hpp
   \brief Plans for the module on minimal unsatisfiability
 
-  \todo Generator-plans mentioned elsewhere, and relevant here
+
+  \todo Update namespaces.
+
+
+  \todo Generator-plans mentioned elsewhere and relevant here
   should move to here.
+
 
   \todo SNS-matrices, Pfaffian graphs etc. (possibly this should
   go to its own module on combinatorial autarkies?)
@@ -17,6 +22,7 @@
    <li> Implement the related SAT decision algorithms. </li>
    <li> Implement the related MINUNSAT-algorithms. </li>
   </ul>
+
 */
 
 /*!

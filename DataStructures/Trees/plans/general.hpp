@@ -16,11 +16,11 @@
      <li> <code>vertex_type<Tree>::type;</code>
       fully constructible with equality and
       with singular value </li>
-     <li> root(T) of type vertex_type </li>
-     <li> vertex_type v: </li>
+     <li> <code>root(T)</code> of type vertex_type </li>
+     <li> <code>vertex_type v;</code> </li>
      <li> <code>Tree(T, v)</code> copy constructor for the subtree of T at v </li>
-     <li> <code>children(T, v)</code< yields a range, whose value-type is vertex_type </li>
-     <li> <code>parent(T, v)</li> of type vertex_type (singular iff v == root(T)) </li>
+     <li> <code>children(T, v)</code> yields a range, whose value-type is vertex_type </li>
+     <li> <code>parent(T, v)</code> of type vertex_type (singular iff v == root(T)) </li>
      <li> <code>property_map(m, T, v)</code> </li>
      <li> <code>swap(T1, T2)</code> </li>
      <li> <code>swap(T, v, T2, v2)</code> swaps the subtree of T at v with the
@@ -28,7 +28,7 @@
       but their meaning change). </li>
     </ol>
    </li>
-   <li> <code>in_order(T, v), pre_order(T, v), post_order(T, v) </code> yield ranges to
+   <li> <code>in_order(T, v), pre_order(T, v), post_order(T, v)</code> yield ranges to
    traverse the subtree of T at v. </li>
    <li> Refinement "mutable":
     <ol>

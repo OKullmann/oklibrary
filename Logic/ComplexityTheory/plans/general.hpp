@@ -1,15 +1,21 @@
 // Oliver Kullmann, 12.1.2006 (Swansea)
 
 /*!
-  \file ComplexityTheory/plans/ComplexityTheory.hpp
+  \file ComplexityTheory/plans/general.hpp
   \brief Plans for the module on complexity theoretical constructions
+
+
+  \todo Update namespaces.
+
 
   \todo Grammars:
   First we need formal grammars for the important types of
   Turing machines (there should be out there some code).
 
+
   \todo Simulation:
   Then we should (directly) simulate Turing machines.
+
 
   \todo NP-completeness:
   Implement the construction of SAT problems from
@@ -20,6 +26,7 @@
   there exists an input x of size n such that M accepts x, and this
   in at most t steps.
 
+
   \todo NP-completeness 2:
   Implement the construction of circuits from Turing machines
   as in [Complexity and Cryptography: An Introduction; John Talbot and
@@ -29,6 +36,7 @@
   SAT problems we get an example for the above SAT-NP-completeness
   construction. On the other hand, from the CNF's constructed there
   by circuit-reconstruction we should be able to get the circuits here!)
+
 */
 
 /*!
