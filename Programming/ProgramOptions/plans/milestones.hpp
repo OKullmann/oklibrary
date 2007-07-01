@@ -6,7 +6,7 @@
   \module_version ProgramOptions 0.0.3 (30.8.2006)
 
   \par Version 0.0.4 :
-  The plans in ProgramOptions/plans/ProgramOptions.hpp are reconsidered, and made
+  The plans in ProgramOptions/plans/general.hpp are reconsidered, and made
   systematic, so that milestones for reaching 0.1 can be created (at least the initial ones).
 
   \par Version 0.1 :

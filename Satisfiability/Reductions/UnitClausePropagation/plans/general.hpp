@@ -1,17 +1,24 @@
 // Oliver Kullmann, 25.11.2005 (Swansea)
 
 /*!
-  \file UnitClausePropagation/plans/UnitClausePropagation.hpp
+  \file UnitClausePropagation/plans/general.hpp
   \brief Plans for the module on unit clause propagation
+
+
+  \todo Update namespaces.
+
 
   \todo Transferring (and updating)
   OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp.
 
+
   \todo Implementing the standard linear time UP-algorithm
   (based on the bipartite structure) for P-clause-sets.
 
+
   \todo Investigate how to specialise the general UP-algorithm
   for clause-sets and boolean clause-sets.
+
 
   \todo The basic algorithm should assume an "active clause-set" and
   an "active partial assignment":
@@ -32,6 +39,7 @@
   the whole process is linear time; to do so the partial assignment must know for
   each literal which (subset of) clause-sets to notify.
 
+
   \todo A clause-set F can be constructed with a binding to a partial assignment F.phi(). With
   F.sat_status()
   we get whether F with the current value of F.phi() is unsatisfiable, satisfied or unknown (we need
@@ -39,10 +47,12 @@
   F.implied_literals()
   a sequence of implied literals is returned.
 
+
   \todo Regarding unit-clause-propagation for an alliance of active clause-sets:
    There is a "variable-constraint graph" (or "factor-graph"; possibly trivial) which enables access
    for every variable to the set of relevant active clause-sets (of course, assuming here variable-based
    literals). When active clause-sets apply partial assignments, they can update this graph.
+
 
   \todo UCP for clause-sets has the following interesting property: When applying an assignment
   v -> eps, running through all relevant clauses, then when evaluating the clauses the current
@@ -52,6 +62,7 @@
   processing a clause the current timestamp is stored with this clause, so that we can always
   check whether the last evaluation of this clause already included the currently processed
   literal (in which case we don't have to go through this clause again).
+
 
   \todo A variation point is whether we want to go also through the satisfied clauses or not
   (marking them as satisfied); this makes a difference for example for associated statistics

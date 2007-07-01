@@ -1,8 +1,12 @@
 // Oliver Kullmann, 30.10.2005 (Swansea)
 
 /*!
-  \file ProgramOptions/plans/ProgramOptions.hpp
+  \file ProgramOptions/plans/general.hpp
   \brief Plans for the module on program options (as a whole).
+
+
+  \todo Update namespaces.
+
 
   \todo The OLD point of view:
 
@@ -22,12 +26,14 @@
    - --language=
    - --verbosity=
 
+
   \todo The NEW point of view: It doesn't seem good design to me (OK) anymore that
   some kind of "universal program execution scheme" is invented here; in other words,
   it seems better to me now that the program-options module only provides means
   for providing the program parameters and for processing the *general* options (regarding
   help and documentation), while the interpretation of the specific "options" (or "commands")
   is not covered at all.
+
 
   \todo Programs can have three different kind of parameters (as strings), called "program parameters"
   from now on:
@@ -40,6 +46,7 @@
   </ul>
   Perhaps as a general guideline the short forms of options and assignments should consist
   of 3 letters (using a single letter only in case of well-established quasi-standards).
+
 
   \todo The following standard options are enabled by the system:
   <ul>
@@ -67,11 +74,13 @@
   "special program parameters" (while the above standard options and assignments
   are "standard program parameters").
 
+
   \todo There is an enumeration StandardProgramParameters (typedef StdPP for short)
   \code
-  enum StandardProgramParameters { other_std = 0, help, version, license, purpose,
+enum StandardProgramParameters { other_std = 0, help, version, license, purpose,
     usage, overview, language, verbosity_level };
   \endcode
+
 
   \todo For a new "program option system" a class has to be defined; lets calls it POS here.
   POS contains an enumeration SpecialProgramParameters (typedef SpecPP for short) with
@@ -100,6 +109,7 @@
   while the long form has additionally author names, compilation date, OKlib-version-number,
   filename, line number.
 
+
   \todo The general system provides a class
   \code
   struct Specification {
@@ -108,6 +118,7 @@
     std::string long;
   };
   \endcode
+
 
   \todo An object P of class type AnalyseProgramOptions is constructed with two streams out and err
   (corresponding to cout and cerr), and gives access to the message system (so that the POS object can
@@ -128,6 +139,7 @@
   is no overhead in case of a long list of program options); only when the iterator advances
   a new program option is considered.
 
+
   \todo Every program should just pass the three standard streams std::cout, std::cerr and
   std::cin and potentially count and argv to the constructor of some "program object",
   which runs then the actual actions. In this way we have a chance to test whole programs
@@ -135,6 +147,7 @@
   but likely no class hierarchy is useful here (one just has four forms of a constructor:
   without any parameters, with the three standard streams, with the program parameters,
   and with all five parameters).
+
 
   \todo The Boost program options library has the following weaknesses:
   <ul>
@@ -148,7 +161,9 @@
 
    But perhaps we can use some components from the Boost program options library?
 
+
    \todo The old system General/Kommandozeile needs to be inspected for some "goodies".
+
 */
 
 /*!

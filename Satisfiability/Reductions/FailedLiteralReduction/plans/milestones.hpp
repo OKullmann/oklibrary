@@ -8,7 +8,7 @@
   \par Version 0.0.5 :
 
   \par
-   In FailedLiteralReduction/plans/FailedLiteralReduction.hpp the following topics are handled:
+   In FailedLiteralReduction/plans/general.hpp the following topics are handled:
     - Foundations
 
   And new milestones have been created.

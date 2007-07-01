@@ -1,13 +1,18 @@
 // Oliver Kullmann, 17.12.2005 (Swansea)
 
 /*!
-  \file FailedLiteralReduction/plans/FailedLiteralReduction.hpp
+  \file FailedLiteralReduction/plans/general.hpp
   \brief Plans for the module FailedLiteralReduction
 
+
   The general case is handled in module KLevelForcedAssignments (see
-  plans/KLevelForcedAssignments.hpp), while this module considers
+  KLevelForcedAssignments/plans/general.hpp), while this module considers
   the case K=2 and extensions (with special algorithms etc.), including
   k=3.
+
+
+  \todo Update namespaces.
+
 
   \todo Foundations
   <ul>
@@ -20,7 +25,9 @@
    </li>
   </ul>
 
+
   \todo Transferring the implementation used in OKsolver.
+
 
   \todo The (old) OKsolver used a timestamp
   (see Transitional/Utilities/plans/Utilities.hpp),
@@ -33,6 +40,7 @@
      with the timestamp, so that when processing y, where meanwhile
      no failed literal has been detected, we know that we can skip y.
 
+
   \todo More complicated: If some reduction was performed, which other
   reductions have to be tested? While the above trick uses forward-implications,
   here we need to trace implications backwards: We need to find out the clauses
@@ -40,8 +48,10 @@
   which imply the negations of the literals in those clauses --- those need to
   be (re)tested. Testing this could be expensive.
 
+
   \todo Reduction uses already lazy datastructures, and we can also employ
   watched literals here (which are integrated into the occurrences lists).
+
 
   \todo Local learning: The cleanest way seems to me to handle all
   2-clauses separately, with a directed graph structure, and to maintain
@@ -53,11 +63,13 @@
   all unit clauses derived from >2-clauses must necessarily be new,
   we collect all of them, and go to the next stage etc.
 
+
   \todo Independent of the implementation, the interface should be that
   for each literal the list of "obtainable" implied other literals is available
   (this handles the 2-clauses and more) ---  either, as discussed before, all
   implications are explicitely stored, or they are computed.
   The two extremes are either only r_2, or with full local learning.
+
 
   \todo The known implications can be stored directly (as under local learning),
   which is fastest, but can use a lot of space, or we use further distributing
@@ -66,6 +78,7 @@
   source we want to know all reachable sinks: This can be stored directly
   as a table, or we use intermediate steps (employing a directed graph).
   Perhaps such algorithms are used for database-implementations?
+
 
   \todo Who is performing the r_2-reduction? One could imagine that every
   active clause-sets itself performs it, "flushing" at least when UCP has been
@@ -79,6 +92,7 @@
   themselves be considered as active clause-sets, and thus we also have the
   possibility to perform failed literal reduction in one active clause-set if we want.)
 
+
   \todo Perhaps at least in the presence of a local-learning-facility in the alliance,
   the alliance members should hand over all 2-clauses to this facility?! Perhaps better not,
   since in general this cannot be done reasonably. Perhaps initially, when the alliance is
@@ -87,9 +101,11 @@
   might still be the possibility that if an alliance member detects a global 2-clause that
   it can be handed over to the local learning facility.
 
+
   \todo There is the recurrent theme of "local vs. global": "Local" means relative to the
   current partial assignment, while "global" means relative to the initial (empty)
   partial assignment. There could be also forms in between, but they seem hard to handle.
+
 
   \todo Double look-ahead:
   What about the integration of partial double-look-ahead (partial r_3), as discussed
