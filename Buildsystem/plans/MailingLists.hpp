@@ -16,13 +16,13 @@
     <ol>
      <li> Developers
       <ul>
-       <li> Only developer-e-mails </li>
+       <li> Only developer-e-mails. </li>
       </ul>
       A developer is automatically member of "Git-notifications developers"
      </li>
      <li> Users
       <ul>
-       <li> Only user-e-mails </li>
+       <li> Only user-e-mails. </li>
       </ul>
       A user is automatically member of "General notifications".
      </li>
@@ -38,7 +38,14 @@
      </li>
      <li> Git-notifications users
       <ul>
-       <li> Exactly all the Git-e-mail notifications for the user-clone </li>
+       <li> Exactly all the Git-e-mail notifications for the user-pull-clone. </li>
+       <li> This allerts users about new updates. </li>
+      </ul>
+     </li>
+     <li> Git-notifications user-submissions
+      <ul>
+       <li> Exactly all the Git-e-mail notifications for the user-push-clones. </li>
+       <li> This serves also as a certificate of submission. </li>
       </ul>
      </li>
     </ol>
