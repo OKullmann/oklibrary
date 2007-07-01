@@ -72,6 +72,8 @@
     - More advanced usage
     - Exploring usage patterns
     - Notification-e-mails
+    - Tagging
+    - Moving files : DONE
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:

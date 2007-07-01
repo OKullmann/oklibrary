@@ -90,71 +90,10 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      "full cloning" ? </li>
     </ol>
    </li>
-   <li> It seems that the .git directories grow rather fast? For csltok:
-    <ol>
-     <li> 6.6.2007: 4.3 MB </li>
-     <li> 7.6.2007: 4.4 MB </li>
-     <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
-     <li> 10.6.2007: 4.3 MB </li>
-     <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 21.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 23.6.2006; 4.3 MB; after "git gc": 4.3 MB;
-          Transitional total: 15.3 MB </li>
-     <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
-     <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
-     <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
-     <li> 29.6.2007: 4.4 MB; Transitional total: 15.6 MB </li>
-     <li> 1.7.2007: 4.5 MB; Transitional total: 15.7 MB </li>
-    </ol>
-   </li>
    <li> Secure pushs to the central repository on cs-oksvr:
     <ol>
      <li> Is it possible to only allows pushs to a repository if the pushing
      repository is identical in content to the receiving repository? </li>
-    </ol>
-   </li>
-   <li> Moving:
-   How to move Learning/plans/Learning.hpp to Learning/plans/research/Learning.hpp, such that
-   also the complete history of Learning/plans/Learning.hpp is moved (nothing remains)?
-   Usage of "git mv" and subsequent commits is not clear:
-    <ol>
-     <li> The commit is performed by "git commit" (so except of the move nothing else should be
-     staged (since the commit message concerns all what is staged)). </li>
-     <li> Also with "git-gui" the commit will automatically work. </li>
-     <li> However, all what is done is that the old file is no longer in the repository,
-     while the new file is in the repository, with empty history except of the mv-information ---
-     the old file is still in the history, while the new file has no history! </li>
-     <li> "git mv file new_file" is equivalent to
-     \verbatim
-mv file new_file
-git rm file
-git add new_file
-     \endverbatim
-     Now for the commit the removal and the addition are staged, which git automatically combines
-     into a renaming. </li>
-     <li> The question seems now to be how to move also the history:
-      <ol>
-       <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
-       out certain files. Or one can build a completely new repository, with the appropriate
-       commits not (re-)done. </li>
-       <li> Still open the question of how to prepend the history of one file to the history
-       of another file? Seems not possible (without recreating the whole repository)? </li>
-       <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
-       (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
-       changed etc. The documentation of this command specifically contains an example of
-       how to remove a file from history. </li>
-       <li> So we should install the cogito-tool and experiment with it. </li>
-       <li> Actually, apparently "git-filter-branch" is supposed to replace "cg-admin-rewritehis",
-       so that we don't need cogito? </li>
-       <li> The problem with the broken-history-chain (when renaming) appparently
-       is solved with the new feature 
-       \verbatim
-git log -p --follow old_file
-       \endverbatim
-       which allows to show the whole history, following renamings. (What about gitk?) </li>
-      </ol>
-     </li>
     </ol>
    </li>
    <li> Combining different repositories:
@@ -179,15 +118,6 @@ git mv file1 file2 dir1 dir2 Annotations
 
   \todo Exploring usage patterns;
   <ul>
-   <li> Likely when advancing the version of Transitional, we should tag all
-   files:
-    <ol>
-     <li> How to do this? "git tag": Apparently a tag is just a mark for a commit;
-     so when committing the central milestones-file with the new version number,
-     thereafter a tag "Transitional ?.?.?" should be created. </li>
-     <li> Are there several possibilities? Yes ... </li>
-    </ol>
-   </li>
    <li> The configuration data about developers, library names etc. must go to Configuration (see
    Buildsystem/plans/Configuration.hpp). </li>
    </li>
@@ -331,6 +261,91 @@ Transitional
      </ol>
    </li>
   </ul>
+
+
+  \todo Tagging
+  <ul>
+   <li> When advancing the version of Transitional, we should create a tag:
+    <ol>
+     <li> "git tag": A tag is just a mark for a commit;
+     so when committing the central milestones-file with the new version number,
+     thereafter a tag "Transitional_?.?.?" should be created. </li>
+     <li> This tag is only a leight-weight tag: For releases a "full tag" with
+     PGP-signature should be used. </li>
+     <li> Or perhaps we should use such a "full tag" for every new version
+     of Transitional --- in this way we also make sure that the tag always
+     gets transmitted (via push or pull)! </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Space usage:
+  <ul>
+   <li> It seems that the .git directories grow rather fast? For csltok:
+    <ol>
+     <li> 6.6.2007: 4.3 MB </li>
+     <li> 7.6.2007: 4.4 MB </li>
+     <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
+     <li> 10.6.2007: 4.3 MB </li>
+     <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 21.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
+     <li> 23.6.2006; 4.3 MB; after "git gc": 4.3 MB;
+          Transitional total: 15.3 MB </li>
+     <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
+     <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
+     <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
+     <li> 29.6.2007: 4.4 MB; Transitional total: 15.6 MB </li>
+     <li> 1.7.2007: 4.5 MB; Transitional total: 15.7 MB </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Moving files: DONE
+  <ol>
+   <li> Use "git mv source destination" to move single files as well as whole directories. </li>
+   <li> The commit is performed by "git commit" (so except of the move nothing else should be
+   staged (since the commit message concerns all what is staged)). </li>
+   <li> Also with "git-gui" the commit will automatically work. </li>
+   <li> However, all what is done is that the old file is no longer in the repository,
+   while the new file is in the repository, with empty history except of the mv-information ---
+   the old file is still in the history, while the new file has no history! </li>
+   <li> "git mv file new_file" is equivalent to
+   \verbatim
+mv file new_file
+git rm file
+git add new_file
+   \endverbatim
+   Now for the commit the removal and the addition are staged, which git automatically combines
+   into a renaming. </li>
+   <li> The question seems now to be how to move also the history:
+    <ol>
+     <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
+     out certain files. Or one can build a completely new repository, with the appropriate
+     commits not (re-)done. </li>
+     <li> Still open the question of how to prepend the history of one file to the history
+     of another file? Seems not possible (without recreating the whole repository)? </li>
+     <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
+     (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
+     changed etc. The documentation of this command specifically contains an example of
+     how to remove a file from history. </li>
+     <li> So we should install the cogito-tool and experiment with it. </li>
+     <li> Actually, apparently "git-filter-branch" is supposed to replace "cg-admin-rewritehis",
+     so that we don't need cogito? </li>
+     <li> The problem with the broken-history-chain (when renaming) appparently
+     is solved with the new feature 
+     \verbatim
+git log -p --follow old_file
+     \endverbatim
+     which allows to show the whole history, following renamings. (What about gitk?) </li>
+    </ol>
+    History-surgery is only an option as long as there are no public clones out. But actually
+    we should not be hindered to move files and directories around as needed, and thus we
+    should not worry at all about certain problems regarding the history!
+   </li>
+  </ol>
 
 */
 
