@@ -8,7 +8,7 @@
   \par Version 0.1
 
   \par
-   In Matchings/plans/Matchings.hpp the following topics are handled:
+   In Matchings/plans/general.hpp the following topics are handled:
    - Literature and software review
    - Concepts for bipartite graphs
    - Correction : DONE
@@ -16,31 +16,31 @@
   \par Version 0.2
 
   \par
-   In Matchings/plans/Matchings.hpp the following topics are handled:
+   In Matchings/plans/general.hpp the following topics are handled:
    - First implementations
 
   \par Version 0.3
 
   \par
-   In Matchings/plans/Matchings.hpp the following topics are handled:
+   In Matchings/plans/general.hpp the following topics are handled:
    - Injectivity constraints
 
   \par Version 0.4
 
   \par
-   In Matchings/plans/Matchings.hpp the following topics are handled:
+   In Matchings/plans/general.hpp the following topics are handled:
    - Online
 
   \par Version 0.5
 
   \par
-   In Matchings/plans/Matchings.hpp the following topics are handled:
+   In Matchings/plans/general.hpp the following topics are handled:
    - Counting
 
   \par Version 0.6
 
   \par
-   In Matchings/plans/Matchings.hpp the following topics are handled:
+   In Matchings/plans/general.hpp the following topics are handled:
    - Surplus
 
   \par Version 1.0

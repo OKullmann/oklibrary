@@ -1,16 +1,23 @@
 // Oliver Kullmann, 11.1.2006 (Swansea)
 
 /*!
-  \file Matchings/plans/Matchings.hpp
+  \file Matchings/plans/general.hpp
+
 
   \todo Correction: DONE
   Find the date in the cvs-logs for Matchings/plans/milestones.hpp
   (originally the first version was 0.0.1, but this was changed to
   0.0.2, since there were already some more plans there).
 
+
+  \todo Update namespaces.
+
+
   \todo Literature and software review on matching algorithms
 
+
   \todo Concepts for bipartite graphs are needed.
+
 
   \todo First implementations
   <ul>
@@ -20,6 +27,7 @@
    <li> Hungarian method: Implement the basic direct algorithm
    for finding maximum matchings. </li>
   </ul>
+
 
   \todo Injectivity constraints
   <ul>
@@ -32,11 +40,13 @@
    injectivity-constraints. </li>
   </ul>
 
+
   \todo Online: We need also "online"-versions of these
   algorithms, allowing to remove some edges and recomputing
   the maximum matching respectively the set of unusable edges.
   Removing edges corresponds to applying some partial assignment;
   adding some edges then would correspond to backtracking steps.
+
 
   \todo Counting:
   We need (exact) algorithms for counting of perfect matchings
@@ -47,7 +57,8 @@
    <li> in hypergraphs </li>
    <li> in general hypergraphs. </li>
   </ul>
-  Direct implementations as well as translations to #SAT problems.
+  Direct implementations as well as translations to \#SAT problems.
+
 
   \todo Surplus:
    <ul>
