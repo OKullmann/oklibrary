@@ -1,7 +1,7 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
 
 /*!
-  \file Transitional/ComputerAlgebra/plans/general.hpp
+  \file ComputerAlgebra/plans/general.hpp
   \brief General plans regarding computer algebra (and SAT)
 
 
@@ -20,9 +20,6 @@
    possible). </li>
   </ul>
   Likely these principles should go to ComputerAlgebra/docus/general.hpp.
-
-
-  \todo Create a milestones-file.
 
 
   \todo %Test system
