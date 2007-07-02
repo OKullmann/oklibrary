@@ -18,12 +18,14 @@
   \section StartingVersion Future milestones
 
   \subsection VersionTransitional016 0.1.6 : Theme "FIRST RELEASE"; TO BE REACHED \deadline_016
-  \par Buildsystem version 0.1.7 (MH, OK)
+  \par Buildsystem version 0.1.7 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
+  \par ComputerAlgebra version 0.1.1 (OK, MH)
+  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
@@ -36,7 +38,7 @@
    - Concepts
    - Demos
    - Upgrade to gcc-4.2.0
-   - Computer algebra system
+   - Computer algebra system : DONE
   \par Transitional/plans/Annotations.hpp
    - Partially moving repository Annotations
    - Latex macros
