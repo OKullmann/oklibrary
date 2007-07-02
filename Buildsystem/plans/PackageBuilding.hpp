@@ -18,7 +18,10 @@
 OKlib_0.1.6_31072007
    \endverbatim
    this is, after the name comes the version number, and then the date
-   (day) of packaging.
+   (day) of packaging. But this is non-standard, so better we use
+   \verbatim
+OKlibrary-0.1.6
+   \endverbatim
     <ol>
      <li> Should also the time be included? Likely not (it must not
      matter). </li>
