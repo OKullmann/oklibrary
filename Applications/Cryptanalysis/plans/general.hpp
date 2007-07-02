@@ -8,7 +8,7 @@
   \todo Update namespaces.
 
 
-  \todo What about DES? (see \cite{MassacciMarraro2000DESSAT})
+  \todo What about DES? (see "\cite{MassacciMarraro2000DESSAT}")
   Is this easier or harder than AES to implement?
 
 

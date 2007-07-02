@@ -44,13 +44,13 @@ namespace OKlib {
        <li> virtual destructor </li>
        <li> <code> static Messages::Languages language(ostream& out) </code> : current language
        of the stream (default is <code> Messages::en_GB </code>) </li>
-       <li> >code> static Messages::Strata level(ostream& out) </code> : current level of the stream
+       <li> <code> static Messages::Strata level(ostream& out) </code> : current level of the stream
          (default is <code> Messages::Basic </code>) </li>
        <li> <code> static ostream& set(ostream& out, Messages::Languages lang, const char* coding = ".utf-8") </code> :
          set the current language (more precisely, locale) of <code>out</code> together
          with the prescribed encoding </li>
        <li> <code> static ostream& set(ostream& out, Messages::Strata level) </code> :
-         set the current level of >code>out</code>. </li>
+         set the current level of <code>out</code>. </li>
       </ul>
 
        Pure virtual member functions:

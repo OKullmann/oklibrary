@@ -1,5 +1,5 @@
 /*!
-  \file LocalSearch/Ubcsat/corrected/ubcsat-internal.h
+  \file LocalSearch/Ubcsat/corrected/ubcsat-internal.c
   \brief Changed variable types of bSolutionFound, pBool and bReportStateMOnly,
   added pointer-casts to sscanf-calls, and added default-case to switch-statement.
 */

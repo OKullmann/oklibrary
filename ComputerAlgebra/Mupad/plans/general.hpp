@@ -1,9 +1,10 @@
 // Oliver Kullmann, 23.6.2007 (Swansea)
 
 /*!
-  \file Transitional/ComputerAlgebra/Mupad/plans/general.hpp
+  \file ComputerAlgebra/Mupad/plans/general.hpp
   \brief Plans for the (deprecated) Mupad-module
   \deprecated To be replaced by an open-source system.
+
 
   \todo Rewriting:
   After a new computer-algebra system has been chosen (see "Computer algebra system"

@@ -11,6 +11,7 @@
   \todo First the most important notions of frequency assignments
   have to be captured and formulated as generalised satisfiability
   problems. A good entry seems to be provided by
+  \verbatim
   @TechReport{ZIB2001FAP,
   author =       {Karen I. Aardal and Stan %P.M. van Hoesel and Arie %M.C.A. Koster and Carlo Mannino and Antonio Sassano},
   title =        {Models and Solution Techniques for Frequency Assignment Problems},
@@ -20,6 +21,7 @@
   month =        {December},
   annote =       {pdf-Datei vorhanden.}
   }
+  \endverbatim
   The most important models seem MO-FAP, MS-FAP, MB-FAP, MI-FAP.
   Likely we can make use of the greater generality provided by our framework,
   and don't need to stick to the special formulations.
