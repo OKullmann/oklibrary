@@ -262,8 +262,6 @@ namespace SatAlg = Satisfiability::Algorithms;
         </ol>
        </li>
       </ol>
-     </li>
-    </ol>
    </li>
    <li> Are there refactoring tools? Or can we finally finish module Refactoring ?!? </li>
    <li> A feasible way for migration seems that we just slowly add new modules (which will
@@ -348,7 +346,7 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Computer algebra system:
+  \todo Computer algebra system: DONE (decided to use SAGE)
   Mupad used to be free, and thus we have the Mupad-module.
   Now this is no longer the case (check again), and we need
   a replacement:
