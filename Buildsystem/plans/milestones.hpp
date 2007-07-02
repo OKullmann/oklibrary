@@ -7,19 +7,8 @@
 
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
-  \par
-   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Renaming
-    - Plans-structure for ExternalSources
-    - Mailman
-    - CMake-documentation building
-    - Improving building Boost
-    - Problems with building Boost
-    - Building Ubcsat
-    - Documenting ExternalSources.mak
-    - Building documentation
-    - R
-    - Downloading sources
+  \par ExternalSources version 0.1.1
+  (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:

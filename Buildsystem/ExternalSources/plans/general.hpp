@@ -4,32 +4,6 @@
   \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for the makefile responsible for handling external sources
 
-  \todo Downloading sources
-  <ul>
-   <li> Via "make getsources" the system should downloaded all the packages from
-   \verbatim
-cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
-   \endverbatim
-  </li>
-  </ul>
-
-  \todo Renaming
-  <ul>
-   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
-   simply "Buildsystem/ExternalSources/makefile". </li>
-   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
-   to directory Buildsystem/ExternalSources, and then call it
-   simply "versions.mak". </li>
-  </ul>
-
-
-  \todo Plans-structure for ExternalSources
-  <ul>
-   <li> Likely we should now have also a milestones.hpp file. </li>
-   <li> Perhaps the version number of sub-module ExternalSources
-   is initially set to the current version number of Buildsystem? </li>
-  </ul>
-
 
   \todo Documenting ExternalSources.mak
   <ul>
@@ -53,7 +27,27 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
-  \todo Building documentation:
+  \todo Downloading sources
+  <ul>
+   <li> Via "make getsources" the system should downloaded all the packages from
+   \verbatim
+cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
+   \endverbatim
+  </li>
+  </ul>
+
+
+  \todo Renaming
+  <ul>
+   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
+   simply "Buildsystem/ExternalSources/makefile". </li>
+   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
+   to directory Buildsystem/ExternalSources, and then call it
+   simply "versions.mak". </li>
+  </ul>
+
+
+  \todo Building documentation
   <ul>
    <li> Documentation building should be done automatically when building. </li>
    <li> We should extract only the documentation from the archives (and
@@ -108,5 +102,15 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    <li> Investigate the Poco C++ library (http://www.pocoproject.org; see
    also [C Vu, 19:2, pages 12-15]). </li>
   </ul>
-     
+
+
+  \todo Plans-structure for ExternalSources : DONE
+  <ul>
+   <li> Perhaps the version number of sub-module ExternalSources
+   is initially set to the current version number of Buildsystem? DONE (used a lower
+   number to indicate, that the ExternalSources-part of the buildsystem is less
+   refined) </li>
+   <li> Likely we should now have also a milestones.hpp file. DONE </li>
+  </ul>
+
 */
