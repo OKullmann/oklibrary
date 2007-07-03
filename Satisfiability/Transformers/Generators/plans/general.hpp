@@ -1,8 +1,12 @@
 // Oliver Kullmann, 20.11.2005 (Swansea)
 
 /*!
-  \file Generators/plans/Generators.hpp
+  \file Generators/plans/general.hpp
   \brief Plans for the module %Generators (for creating SAT problems)
+
+
+  \todo Update namespaces.
+
 
   \todo Transferring (and updating):
   <ul>
@@ -14,6 +18,7 @@
   transformers are to be used.
   The variables are tuples of values.
 
+
   \todo We need active clause-sets for biclique-transformations for
   interesting classes of graphs (including complete graphs).
 
@@ -23,6 +28,7 @@
   \todo Generator for PHP, and more generally for matching formulas,
   given an arbitrary graph and a set of vertices to be matched.
   Directly, and as active clause-sets.
+
 
   \todo %Generators for finding incidence structures and designs:
   Naturally modelled by boolean variables I(p, b) ("I" like
@@ -42,10 +48,12 @@
   Or perhaps we should have a dedicated module on projective plans etc.?
   Sounds reasonable, but only after we really have something to start.
 
+
   \todo Very interesting are also the Extended Resolution extensions of PHP
   (and potentially other classes): Seeing the performance of SAT solvers
   on them would be interesting (or perhaps one can tune the SAT solvers
   to make good use of the extension clauses?!).
+
 
   \todo Transformers from non-boolean clause-sets to boolean
   clause-sets are needed (the standard translation, with or without
@@ -55,6 +63,7 @@
   Solving Non-Boolean Satisfiability Problems with Stochastic Local
   Search; 2001]), and [Ansotegui,Manya; Mapping Problems with
   Finite-Domain Variables to Problems with Boolean Variables].
+
 
   \todo Implement the general construction of Soeren Riis (especially
   interesting when we know that the formulas have short refutations).

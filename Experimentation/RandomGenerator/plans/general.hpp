@@ -1,8 +1,12 @@
 // Oliver Kullmann, 13.9.2005 (Swansea)
 
 /*!
-  \file RandomGenerator/plans/RandomGenerator.hpp
+  \file RandomGenerator/plans/general.hpp
   \brief Plans for the module RandomGenerator.
+
+
+  \todo Update namespaces.
+
 
   \todo Schedule:
   The first thing is to transfer (and upgrade) the
@@ -20,6 +24,7 @@
    <li> Replacing General/Kommandozeile (see General/Kommandozeile.hpp)
    by module Transitional/ProgramOptions. </li>
   </ol>
+
 */
 
 /*!

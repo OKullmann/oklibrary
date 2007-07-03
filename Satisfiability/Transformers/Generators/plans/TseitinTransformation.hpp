@@ -4,6 +4,7 @@
   \file Generators/plans/TseitinTransformation.hpp
   \brief Plans regarding the Tseitin-transformation
 
+
   \todo Implementing the Tseitin-transformation (with variations):
   <ol>
    <li>

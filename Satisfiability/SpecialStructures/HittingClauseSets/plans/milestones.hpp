@@ -3,7 +3,7 @@
 /*!
   \file HittingClauseSets/plans/milestones.hpp
 
-  \module_version HittingClauseSets 0.0.2 (6.11.2006)
+  \module_version Satisfiability/SpecialStructures/HittingClauseSets 0.0.2 (6.11.2006)
 
   \par Version 0.0.3 :
   The first task is create milestones.

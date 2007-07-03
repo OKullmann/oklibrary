@@ -3,7 +3,7 @@
 /*!
   \file Generators/plans/milestones.hpp
   
-  \module_version Generators 0.0.5 (11.6.2007)
+  \module_version Satisfiability/Transformers/Generators 0.0.5 (11.6.2007)
 
   \par Version 0.0.6
 

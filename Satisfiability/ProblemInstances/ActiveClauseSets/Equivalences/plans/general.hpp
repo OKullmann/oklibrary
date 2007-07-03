@@ -1,8 +1,12 @@
 // Oliver Kullmann, 1.2.2006 (Swansea)
 
 /*!
-  \file Equivalences/plans/Equivalences.hpp
+  \file Equivalences/plans/general.hpp
   \brief Plans for the module on equivalence handling
+
+
+  \todo Update namespaces.
+
 
   \todo Given a boolean clause-set, the first problem is to
   extract the equivalences.
@@ -17,6 +21,7 @@
   size 2^{k-1}.
   Stronger approaches find also "hidden equivalences".
 
+
   \todo Then we need an active clause-set representing systems of
   equations over ZZ_2: "Falsified" means that one equation is falsified
   by the current (partial) assignment, "satisfied" means that all equations
@@ -28,6 +33,7 @@
   better just kept "inside", as discussed in the next point).
   We need efficient algorithms ("online").
 
+
   \todo A fundamental problem arises here: How to handle equivalences
   v=v' in the context of an alliance of active clause-sets? It seems
   most natural not to do anything special here, but just let the
@@ -37,9 +43,11 @@
   to integrate from the various active clause-sets their complexity
   measurements.
 
+
   \todo How to generalise the concept of equivalences to non-boolean
   variables? Systems of equations over ZZ_m ? More general handling
   of system of equations of fields ? Rings ??!
+
 */
 
 /*!

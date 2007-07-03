@@ -5,6 +5,7 @@
   \brief Plans for the special linear inequality where all
   coefficients are 0 or 1
 
+
   \todo Upper bounds
   <ul>
    <li> A very basic (and important) form is the constraint
@@ -35,6 +36,7 @@
    </li>
    <li> See Generators/plans/AMO.hpp for the special case UPPER(L,1). </li>
   </ul>
+
 
   \todo Lower bounds
   <ul>

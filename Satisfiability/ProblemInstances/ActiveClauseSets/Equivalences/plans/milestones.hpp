@@ -3,7 +3,7 @@
 /*!
   \file Equivalences/plans/milestones.hpp
 
-  \par Current version 0.0.2 (1.9.2006)
+  \module_version Satisfiability/ProblemInstances/ActiveClauseSets/Equivalences 0.0.2 (1.9.2006)
 
   \par Version 0.0.3 :
 
