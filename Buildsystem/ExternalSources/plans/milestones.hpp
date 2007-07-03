@@ -3,23 +3,57 @@
 /*!
   \file Buildsystem/ExternalSources/plans/milestones.hpp
   
-  \module_version ExternalSources 0.1.0 (2.7.2007)
+  \module_version Buildsystem/ExternalSources 0.1.0 (2.7.2007)
 
   \par Version 0.1.1
 
   \par
-   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Renaming
-    - Mailman
-    - CMake-documentation building
-    - Improving building Boost
-    - Problems with building Boost
-    - Building Ubcsat
+   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Documenting ExternalSources.mak
-    - Building documentation
-    - R
     - Downloading sources
+    - Renaming
     - Plans-structure for ExternalSources : DONE
+
+  \par
+   In Buildsystem/ExternalSources/plans/Configuration.hpp the following topics are handled:
+    - Software management
+
+  \par
+   In Buildsystem/ExternalSources/plans/Mailman.hpp the following topics are handled:
+    - Building Mailman
+
+
+  \par Version 0.1.2
+
+  \par
+   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Building documentation
+    - General
+    - Make-variables for external libraries
+
+  \par
+   In Buildsystem/ExternalSources/plans/Configuration.hpp the following topics are handled:
+    - external_sources_versions.mak
+
+  \par
+   In Buildsystem/ExternalSources/plans/Boost.hpp the following topics are handled:
+    - Improving building Boost
+
+  \par
+   In Buildsystem/ExternalSources/plans/Gcc.hpp the following topics are handled:
+    - Gcc
+
+  \par
+   In Buildsystem/ExternalSources/plans/R.hpp the following topics are handled:
+    - R-documentation
+
+  \par
+   In Buildsystem/ExternalSources/plans/CMake.hpp the following topics are handled:
+    - CMake-documentation building
+
+  \par
+   In Buildsystem/ExternalSources/plans/Ubcsat.hpp the following topics are handled:
+    - Building Ubcsat
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
