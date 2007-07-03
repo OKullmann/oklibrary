@@ -142,33 +142,42 @@ namespace SatAlg = Satisfiability::Algorithms;
       <ol>
        <li> "Satisfiability" ("Sat")
         <ol>
-         <li> Var ("Variables") </li>
-         <li> Lit ("Literals") </li>
-         <li> Cla ("Clauses") </li>
-         <li> Cls ("ClauseSets") </li>
-         <li> aLi ("ActiveLiterals") </li>
-         <li> aCL ("ActiveClauses") </li>
-         <li> aCS ("ActiveClauseSets") </li>
-         <li> AaC ("AlliancesActiveClauseSets") </li>
-         <li> pAs ("PartialAssignments") </li>
-         <li> Aut ("Autarkies") </li>
-         <li> Heu ("Heuristics") </li>
-         <li> PSy ("ProofSystems") </li>
-         <li> Red ("Reductions") </li>
          <li> Alg ("Algorithms"; (generic) algorithms for SAT solving and variations) </li>
-         <li> Sol ("Solvers"; contains "OKsolver") </li>
-         <li> Gen ("Generators") </li>
-         <li> LSe ("LocalSearch"; special components for local search (but
-         generic algorithms shall go to Satisfiability/Algorithms)) </li>
-         <li> Qua ("Quantification") </li>
+          <ol>
+           <li> LSe ("LocalSearch") </li>
+          </ol>
+         </li>
+         <li> Asg ("Assignments")
+          <ol>
+           <li> Aut ("Autarkies") </li>
+           <li> pAs ("PartialAssignments") </li>
+          </ol>
+         </li>
+         <li> Heu ("Heuristics") </li>
          <li> Ifs ("Interfaces"; input, output etc.) </li>
+         <li> PrI ("ProblemInstances")
+          <ol>
+           <li> Var ("Variables") </li>
+           <li> Lit ("Literals") </li>
+           <li> Cla ("Clauses") </li>
+           <li> Cls ("ClauseSets") </li>
+           <li> aLi ("ActiveLiterals") </li>
+           <li> aCL ("ActiveClauses") </li>
+           <li> aCS ("ActiveClauseSets") </li>
+           <li> AaC ("AlliancesActiveClauseSets") </li>           
+          </ol>
+         </li>
+         <li> PSy ("ProofSystems") </li>
+         <li> Qua ("Quantification") </li>
+         <li> Red ("Reductions") </li>
+         <li> Sol ("Solvers"; contains "OKsolver") </li>
+         <li> SpS ("SpecialStructures") </li>
+         <li> Tra ("Transformers")
+          <ol>
+           <li> Gen ("Generators") </li>
+          </ol>
+         </li>
         </ol>
-        Perhaps the first 9 items should go into a super-module
-        "ProblemInstances" (PrI) ?! However more precise would be
-        "Conditions" (Con) or perhaps the (too ambigue) "Constraints" ?
-        One could also think of separating the "conditions" from the
-        "models", that is, only the first 8 items are comprised, while
-        partial assignments go to "Assignments" (Asg) ?!
        </li>
        <li> "Applications" ("App")
         <ol>
@@ -188,6 +197,8 @@ namespace SatAlg = Satisfiability::Algorithms;
        <li> "Experimentation" ("Exp")
         <ol>
          <li> Dab ("Database") </li>
+         <li> ExS ("ExperimentSystem") </li>
+         <li> RaG ("RandomGenerator") </li>
          <li> SaC ("SatCompetition") </li>
         </ol>
        </li>
