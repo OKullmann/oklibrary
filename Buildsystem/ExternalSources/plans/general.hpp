@@ -85,7 +85,20 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    </li>
   </ul>
 
-  
+
+  \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new view
+  of the configuration center)
+  <ul>
+   <li> How to define variables like Boost and Ubcsat in general?
+     We need a nice little method (plus documentation), so that we can add easily as
+     many external libraries as we want. </li>
+   <li> And then we have make-variables "gcc_version_number" (for generic.mak) and
+     "gcc-version" (for boost.mak) which likely should have the same names. </li>
+   <li> In system_definitions.mak we have a definition of Boost which seems wrong
+     to me (OK) (or at least misleading). DONE (resp. moved to other todos) </li>
+  </ul>
+
+
   \todo Other sources:
   <ul>
    <li> Build a local version of Xerces. </li>
