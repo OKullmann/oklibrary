@@ -298,6 +298,7 @@ Transitional
      <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
      <li> 29.6.2007: 4.4 MB; Transitional total: 15.6 MB </li>
      <li> 1.7.2007: 4.5 MB; Transitional total: 15.7 MB </li>
+     <li> 3.7.2006: 4.6 MB; Transitional total: 15.9 MB </li>
     </ol>
    </li>
   </ul>
