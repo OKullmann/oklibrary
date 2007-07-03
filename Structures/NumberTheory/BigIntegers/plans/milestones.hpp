@@ -3,7 +3,7 @@
 /*!
   \file BigIntegers/plans/milestones.hpp
 
-  \module_version BigIntegers 0.0.1 (25.6.2006; empty yet)
+  \module_version BigIntegers 0.0.1 (25.6.2006)
 
   \par Version 0.0.2 :
   In BigIntegers/plans/GMPWrapper.hpp the following topics are handled:

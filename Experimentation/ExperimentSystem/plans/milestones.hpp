@@ -3,7 +3,7 @@
 /*!
   \file ExperimentSystem/plans/milestones.hpp
 
-  \module_version 0.1 (6.11.2006)
+  \module_version ExperimentSystem 0.1 (6.11.2006)
 
   \par Version 0.1.1 :
   The first task is to make a plan and create milestones for the transition and extension of the old
