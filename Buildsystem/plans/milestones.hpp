@@ -7,8 +7,11 @@
 
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
-  \par ExternalSources version 0.1.1
+  \par ExternalSources version 0.1.2
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
+
+  \par Configuration version 0.0.6
+  (see Buildsystem/Configuration/plans/milestones.hpp)
 
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
@@ -19,16 +22,6 @@
     - Mailing lists
     - User mailing list
     - Instructions
-
-  \par
-   In Buildsystem/plans/Configuration.hpp the following topics are handled:
-    - Primary versus derived configurations
-    - Configuration data
-    - Software management
-    - external_sources_versions.mak
-    - Make-variables for external libraries
-    - Definitions for doxygen
-    - Developers information
 
   \par
    In Buildsystem/plans/Internet.hpp the following topics are handled:
