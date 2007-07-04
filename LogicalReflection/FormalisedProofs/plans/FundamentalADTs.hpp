@@ -1,7 +1,7 @@
 // Oliver Kullmann, 4.7.2007 (Swansea)
 
 /*!
-  \file LogicalReflection/plans/FundamentalADTs.hpp
+  \file LogicalReflection/FormalisedProofs/plans/FundamentalADTs.hpp
   \brief Plans for the fundamental abstract data types for
   problem instances
 

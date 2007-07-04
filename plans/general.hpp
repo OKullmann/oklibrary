@@ -244,11 +244,12 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
        <li> "LogicalReflection" ("LoR")
         <ol>
-         <li> Verified components </li>
-         <li> %Algorithms extracted from proofs </li>
-         <li> Framework for formal upper bounds </li>
-         <li> Interface to Coq </li>
-         <li> Interface to Isabelle </li>
+         <li> PrE ("ProgramExtraction") </li>
+         <li> FoP ("FormalisedProofs") (contains the framework for formalised
+         upper bound proofs) </li>
+         <li> PrA ("ProofAssistants") (contains sub-modules Coq and Isabelle
+         for interfacing and other tasks) </li>
+         <li> VrC ("VerifiedComponents") </li>
         </ol>
        </li>
        <li> "Statistics" ("Sta")
