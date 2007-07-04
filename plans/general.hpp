@@ -242,7 +242,7 @@ namespace SatAlg = Satisfiability::Algorithms;
        <li> "DataStructures" ("DaS") </li>
        <li> "ComputerAlgebra" ("CAl")
        </li>
-       <li> "ProofAssistants" ("PrA")
+       <li> "LogicalReflection" ("LoR")
         <ol>
          <li> Verified components </li>
          <li> %Algorithms extracted from proofs </li>
