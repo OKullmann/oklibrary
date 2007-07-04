@@ -1,9 +1,10 @@
 // Oliver Kullmann, 26.8.2005 (Swansea)
 
 /*!
-  \file HypergraphTransversals/plans/DirectTransversalEnumeration.hpp
+  \file Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp
   \brief Implementations of enumerations of hypergraph
   transversals based on the direct method.
+
 
   \todo Concepts
   <ul>

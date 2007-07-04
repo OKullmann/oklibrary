@@ -1,11 +1,12 @@
 // Oliver Kullmann, 9.6.2007 (Swansea)
 
 /*!
-  \file HypergraphTransversals/plans/ExactTransversals.hpp
+  \file Hypergraphs/Transversals/plans/ExactTransversals.hpp
   \brief Plans regarding exact transversals
 
   A transversal of a hypergraph is called <strong>exact</strong> if it
   intersects every hyperedge exactly once. Denote it by ETr(G).
+
 
   \todo The basic algorithm
   <ul>
@@ -53,6 +54,7 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
    is in [Karp 1972]; one should investigate the proof (also implementing the reduction). </li>
   </ul>
 
+
   \todo Exact transversal hypergraphs (that is, Tr(G) = ETr(G))
   <ul>
    <li> Implement the decision algorithm from [Eiter 1994]; exists
@@ -65,6 +67,7 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
    more efficient than the algorithm from [Eiter 1994]? (Exists as
    mupad-function "Transversals_exakt" in Mupad/Orthogonal.mup.) </li>
   </ul>
+
 
   \todo Generalisation to boolean CNF
   <ul>

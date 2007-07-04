@@ -1,7 +1,7 @@
 // Oliver Kullmann, 19.11.2006 (Swansea)
 
 /*!
-  \file Statistics/plans/Statistics.hpp
+  \file Statistics/plans/general.hpp
   \brief Plans for the module with statistical tools
 
   \deprecated This module will be dissolved into the new module

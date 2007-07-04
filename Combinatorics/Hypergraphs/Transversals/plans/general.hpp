@@ -1,8 +1,12 @@
 // Oliver Kullmann, 6.11.2006 (Swansea)
 
 /*!
-  \file HypergraphTransversals/plans/HypergraphTransversals.hpp
+  \file Hypergraphs/Transversals/plans/general.hpp
   \brief Plans for the module on hypergraph transversals
+
+
+  \todo Update namespaces.
+
 
   \todo Literature exploration:
   <ul>
@@ -31,6 +35,7 @@
     </ul>
    </li>
   </ul>
+
 
   \todo So the three problems
   <ol>

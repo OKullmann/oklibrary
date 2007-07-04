@@ -2,7 +2,7 @@
 
 /*!
   \file Statistics/plans/TimeSeriesAnalysis.hpp
-  \brief Tools for the analysis of the progress made by a SAT solver.
+  \brief %Tools for the analysis of the progress made by a SAT solver.
 
   \todo The following application should be handled: A complete SAT
   solver can, with every new node processed, compute the number of total
@@ -10,6 +10,7 @@
   this total number (or the proportion of the whole search space covered)
   and, via a time series analysis, make a prediction how long it will take
   to solve the problem.
+
 
   \todo More precisely, the computation is as follows: To every node
   of the search tree it is assigned its depth (the number of decision
@@ -27,6 +28,7 @@
   clause-set given by the learned clauses we can get a precise number.
   Is this interesting?
 
+
   \todo Instead of measuring the fraction of the search space covered every
   second, it is more natural, easier and more precise to just have record the
   time when a new increase happens. So there is a class ProgressPrediction
@@ -43,9 +45,11 @@
   compression, taking averages over intervals and then performing linear
   regression (possibly storing the whole sequence of measurements).
 
+
   \todo One could use these measurements together with taking measurements
   every second by storing the results obtained every second, and analysing
   whether there is a trend in the data, just using linear regression.
+
 
   \todo SAT algorithms should use this prediction power for example
   as follows (but these algorithms should go into a different module):

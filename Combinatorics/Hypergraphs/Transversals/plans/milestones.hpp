@@ -1,19 +1,19 @@
 // Oliver Kullmann, 6.11.2006 (Swansea)
 
 /*!
-  \file HypergraphTransversals/plans/milestones.hpp
+  \file Hypergraphs/Transversals/plans/milestones.hpp
 
-  \module_version HypergraphTransversals 0.0.4 (10.6.2007)
+  \module_version Combinatorics/Hypergraphs/Transversals 0.0.4 (10.6.2007)
 
   \par Version 0.0.5 :
 
   \par
-   In HypergraphTransversals/plans/HypergraphTransversals.hpp the following
+   In Hypergraphs/Transversals/plans/general.hpp the following
    topics are handled:
     - Literature exploration
 
   \par
-   In HypergraphTransversals/plans/DirectTransversalEnumeration.hpp the
+   In Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp the
    following topics are handled:
     - Concepts
     - %Implementation
