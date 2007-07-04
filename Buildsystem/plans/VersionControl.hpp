@@ -28,61 +28,6 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
      <li> Ask the git mailing list. </li>
     </ol>
    </li>
-   <li> How does remote access work:
-    <ol>
-     <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
-     <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
-     It seems there are three options:
-      <ul>
-       <li> ssh is used (either an automatic channel is set up, or the password is asked for; is
-       this always established by git-shell as in the next method?) </li>
-       <li> ssh is used and a special git-ssh-connection is established (git-shell); is a password
-       needed here? (or is this just the same as the "general ssh access"?!)  </li>
-       <li> no ssh is used, but on the remote repository git-daemon is running (this apparently does not
-       require anything on the pushing/pulling side?). </li>
-      </ul>
-      Does git automatically choose? Do we have a choice??
-     </li>
-     <li> Copied clones which know how to connect:
-     How to create a clone, which can be copied (as a directory),
-     and wherever this clone is used, by "git push" and "git pull" it connects by one of the three
-     above methods to the source, given that the service is activated? In this way we can make
-     the clone downloadable from the Internet, anybody can start developing locally, and they can
-     connect to the source-clone if they have the permissions. </li>
-     </li>
-     <li> It seems that shared repositories (that's what we are interested in) behave as follows:
-      <ol>
-       <li> When created, the default-group of the user is considered, and every user belonging
-       to this group can push to this repository. </li>
-       <li> To give an external developer access, one has to create an account, where the developer
-       just belongs to the group of the repository and to nothing else (also no home directory). </li>
-       <li> Such a system-user should not be able to do any harm other than pushing (and pulling) from
-       the repository. </li>
-       <li> For this to work, for every (external) developer-group a (Linux) user-group on cs-oksvr
-       has to be created, with a representative user in it (who has no other allowances). </li>
-       <li> Core developers would have to be members of all such groups. </li>
-       <li> Access would be via ssh. </li>
-      </ol>
-     </li>
-     <li> For "active users" (who pull from the user-clone) anonymous pull is needed, and thus
-     the git-daemon seems to be needed. </li>
-    </ol>
-   </li>
-   <li> Why does the following not work: On csltok I have a copy of a clone of a repository on cs-wsok;
-   now when trying to push to it remotely, the following happens:
-   \verbatim
-> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
-Password:
-bash: git-receive-pack: command not found
-fatal: The remote end hung up unexpectedly
-error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
-   \endverbatim
-   What's wrong here?? The command is there:
-   \verbatim
-> which git-receive-pack
-/usr/local/bin/git-receive-pack
-   \endverbatim
-   </li>
    <li> Cloning:
     <ol>
      <li> How can we clone also the ignore-patterns? </li>
@@ -259,6 +204,69 @@ Transitional
       <li> Additionally, for each log-message we need the summary of
       changes. </li>
      </ol>
+   </li>
+  </ul>
+
+
+  \todo Remote access
+  <ul>
+   <li> How does remote access work:
+    <ol>
+     <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
+     <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
+     It seems there are two options:
+      <ul>
+       <li> ssh is used (either an automatic channel is set up, or the password is asked for; at
+       the "plumbing"-level the commands "git-ssh-fetch" and "git-ssh-upload" are responsible for
+       this). For "untrusted users", on the server-side the special git-shell
+       should be used, which needs to be set up as the login-shell for that user (apparently
+       ssh has no control over the login-shell, but it's up to the login-shell on the server-side). </li>
+       <li> No ssh is used, but on the remote repository git-daemon is running (this apparently does not
+       require anything on the pushing/pulling side?). </li>
+      </ul>
+      Does git automatically choose? Do we have a choice??
+     </li>
+     <li> Copied clones which know how to connect:
+     How to create a clone, which can be copied (as a directory),
+     and wherever this clone is used, by "git push" and "git pull" it connects by one of the three
+     above methods to the source, given that the service is activated? In this way we can make
+     the clone downloadable from the Internet, anybody can start developing locally, and they can
+     connect to the source-clone if they have the permissions. </li>
+     </li>
+     <li> It seems that shared repositories (that's what we are interested in) behave as follows:
+      <ol>
+       <li> When created, the default-group of the user is considered, and every user belonging
+       to this group can push (i.e., write) to this repository (while all can pull, i.e., read). </li>
+       <li> To give an external developer access, one has to create an account, where the developer
+       just belongs to the group of the repository and to nothing else (also no home directory). </li>
+       <li> The login-shell of this user must be "/usr/local/bin/git-shell", which should ensure that
+       from the outside only this very restricted git-shell is used. </li>
+       <li> Such a system-user should not be able to do any harm other than pushing (and pulling) from
+       the repository. </li>
+       <li> For this to work, for every (external) developer-group a (Linux) user-group on cs-oksvr
+       has to be created, with a representative user in it (who has no other allowances). </li>
+       <li> Core developers would have to be members of all such groups. </li>
+       <li> Access would be via ssh. </li>
+      </ol>
+     </li>
+     <li> For "active users" (who pull from the user-clone) anonymous pull is needed, and thus
+     the git-daemon seems to be needed. </li>
+    </ol>
+   </li>
+   <li> Why does the following not work: On csltok I have a copy of a clone of a repository on cs-wsok;
+   now when trying to push to it remotely, the following happens:
+   \verbatim
+> git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
+Password:
+bash: git-receive-pack: command not found
+fatal: The remote end hung up unexpectedly
+error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
+   \endverbatim
+   What's wrong here?? The command is there:
+   \verbatim
+> which git-receive-pack
+/usr/local/bin/git-receive-pack
+   \endverbatim
    </li>
   </ul>
 
