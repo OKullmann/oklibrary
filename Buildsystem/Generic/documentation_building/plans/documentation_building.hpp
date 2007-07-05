@@ -4,6 +4,7 @@
   \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
   \brief Plans for documentation-creation
 
+
   \todo Doxygen general
   <ul>
    <li> Environment-variable expansion: Apparently doxygen replaces make-variable-evaluations
@@ -13,6 +14,10 @@
    <li> Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
      the tag EXPAND_AS_DEFINED (since we do not alter the definitions), however this
      does not work? </li>
+   <li> In OKDatabase/CreateStatistic.cpp we have, within an unnamed namespace, the private
+   member v of class Densities --- nevertheless doxygen claims, that at every other place,
+   where an object is called v, this private member is referenced??? This looks like a
+   clear doxygen-bug to me. </li>
    <li> Can doxygen tell which other files include a file (not in graph form, but in text form)? </li>
    <li> For functions there is a "callergraph" --- shall we use it? </li>
    <li> How to avoid that a leading "include" in a Doxygen-comment is interpreted as
@@ -32,6 +37,9 @@
      our use of doxygen :
      For simple lists we do it as here, otherwise we use the html-elements. Documented in the main documentation-document.
      However, how do they description-lists work? </li>
+   <li> Doxygen can create "man pages" --- what does this mean? </li>
+   <li> Doxygen can also use a "searchengine" (see activation in the "Doxyfile"):
+   This would be very useful, but apparently needs some php-stuff? </li>
    <li> See the doxygen-related problems in Messages (should be solvable by expanding those
      macros) : DONE </li>
    <li> How to integrate a *general* todo list into Doxygen? With xrefitem. However it seems we no longer need it : DONE </li>

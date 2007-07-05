@@ -1,4 +1,9 @@
 // Oliver Kullmann, 3.7.2002 (Swansea)
+/*!
+  \file OKDatabase/CreateStatistic.cpp
+  \brief Extracting the three .csv-files out of the random-formulas database
+  \deprecated Only to be used with the old system
+*/
 
 #include <string>
 #include <algorithm>
@@ -28,6 +33,8 @@ using namespace std;
 using namespace DatabaseHandler01;
 using namespace StringHandling;
 using namespace TimeHandling;
+
+namespace {
 
 // Messages -----------------------------------
 
@@ -107,7 +114,7 @@ const string table_densities = "bd_" + dim;
 
 // output files
 
-const string directory = "/h/21/GemeinsameBasis";
+const string directory = "/h/21/GemeinsameBasis/SAT-Algorithmen/RandomExperiments/Data";
 
 const string extension = ".csv";
 
@@ -603,6 +610,8 @@ private :
 // Indices --------------
 
 typedef vector<stat_values*> Matrix_indices;
+
+}
 
 
 // main program --------------------------------------------
