@@ -4,8 +4,7 @@
   \file Cryptanalysis/plans/Factorisation.hpp
   \brief Plans for the module on factorisation of natural numbers
 
-
-  Tools for finding factorisations n = a * b.
+  %Tools for finding factorisations n = a * b.
 
 
   \todo Literature review:

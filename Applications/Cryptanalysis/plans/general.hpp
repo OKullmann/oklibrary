@@ -8,11 +8,11 @@
   \todo Update namespaces.
 
 
-  \todo What about DES? (see "\cite{MassacciMarraro2000DESSAT}")
+  \todo What about DES? (see <cite>MassacciMarraro2000DESSAT</cite>)
   Is this easier or harder than AES to implement?
 
 
-  \todo In analogy to the general structure of the translation
+  \todo RSA: In analogy to the general structure of the translation
   as discussed in Rijndael.hpp we can also consider RSA, but
   here the two directions (encryption and decryption) are really
   different (and thus one cannot consider a combined translation):
@@ -31,7 +31,7 @@
   (so that strong active clause-sets are obtained).
 
 
-  \todo To SAT2007 there is a paper regarding MD4 and MD5 (De, Kumarasubramanian,
+  \todo In SAT2007 there is a paper regarding MD4 and MD5 (De, Kumarasubramanian,
   Venkatesan).
 
 */
