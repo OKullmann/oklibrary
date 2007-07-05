@@ -7,12 +7,15 @@
 
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
-  \par ExternalSources version 0.1.2
+  \par Buildsystem/ExternalSources version 0.1.2
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
-  \par Configuration version 0.0.6
+  \par Buildsystem/Configuration version 0.0.6
   (see Buildsystem/Configuration/plans/milestones.hpp)
 
+  \par Buildsystem/Html version 0.0.7
+  (see Buildsystem/Html/plans/milestones.hpp)
+  
   \par
    In Buildsystem/plans/generic.hpp the following topics are handled:
     - New directory-structure "Generic"
@@ -22,14 +25,6 @@
     - Mailing lists
     - User mailing list
     - Instructions
-
-  \par
-   In Buildsystem/plans/Internet.hpp the following topics are handled:
-    - External vs. internal html-pages
-    - Html-Directory
-    - Configuration problem
-    - Content of the Internet-page
-    - Building the Internet-page
 
   \par
    In Buildsystem/plans/README.hpp the following topics are handled:
