@@ -80,7 +80,7 @@ list_of_homepage_link_elements := $(boost_homepage_link_element) \
 # ##################################################
 
 title_element := "<title>OKlibrary Documentation</title>"
-stylesheet_location := $(OKbuildsystem)/Generic/documentation_building/documentation_index_resources/documentation_index_style.css
+stylesheet_location := $(OKbuildsystem)/Html/Local/documentation_index_style.css
 style_element := "<link rel=\"stylesheet\" type=\"text.css\" href=\"$(stylesheet_location)\""
 documentation_index_head := $(title_element) $(style_element)
 
@@ -112,7 +112,7 @@ external_documentation_division := "<div id=\"external_doc\">"$(local_index_divi
 # Logo Division
 # ##################################################
 
-logo_image_location := $(OKbuildsystem)/Generic/documentation_building/documentation_index_resources/logo.png
+logo_image_location := $(OKbuildsystem)/Html/Local/logo.png
 logo_division := "<div id=\"logo\"><img src=\"$(logo_image_location)\"/> </div>"
 
 # ##################################################

@@ -11,7 +11,11 @@
    <li> Access to mailing-lists (with instructions). </li>
    <li> Online-documentation (just the documentation-index-page;
    see Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp). </li>
-   <li> Current external sources to download. </li>
+   <li> Current external sources to download.
+    <ol>
+     <li> Package data (see Buildsystem/plans/PackageBuilding.hpp) </li>
+    </ol>
+   </li>
    <li> A project-page (for example, Heribert Vollmer might have a student
    project about implementing the NP-completeness of SAT (encoding of
    Turing machines)). </li>
