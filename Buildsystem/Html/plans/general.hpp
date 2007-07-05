@@ -5,16 +5,6 @@
   \brief General plans regarding the html-services
 
 
-  \todo Html-Directory:
-  <ul>
-   <li> We should have a new directory Buildsystem/html, where all
-   html-page-templates (to be processed by the preprocessor) go. </li>
-   <li> Or perhaps "Buildsystem/Html", since it is not a "systematic"
-   directory (found also at other places)? </li>
-   <li> And also all related material like pictures etc. </li>
-  </ul>
-
-
   \todo External vs. internal html-pages:
   We have the real Internet-pages, which will be accessible from the www,
   and we have the internal html-pages, documenting the platform.
@@ -67,6 +57,15 @@
      <li> asciidoc ?? </li>
      <li> doxygen ?? </li>
     </ol>
+  </ul>
+
+  \todo Html-Directory: DONE
+  <ul>
+   <li> We should have a new directory Buildsystem/html, where all
+   html-page-templates (to be processed by the preprocessor) go. </li>
+   <li> Or perhaps "Buildsystem/Html", since it is not a "systematic"
+   directory (found also at other places)? </li>
+   <li> And also all related material like pictures etc. </li>
   </ul>
 
 */

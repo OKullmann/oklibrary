@@ -60,18 +60,6 @@
     - System documentation
 
   \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
-   the following topics are handled
-    - bug "Naming"
-    - Boost-documentation
-    - GCC-documentation
-    - CMake documentation
-    - Page organisation
-    - Using css
-    - Meta tags
-    - Improved logo
-
-  \par
    In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
     - Test script
 
@@ -129,13 +117,6 @@
    the following topics are handled:
     - Doxygen general
 
-  \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp
-   the following topics are handled
-    - Page organisation
-    - Using css
-    - Meta tags
-    - Improved logo
 
   \par Version 0.1.9 : THEME is "Build system extensions"
    In Buildsystem/plans/generic.hpp the following topics are handled:

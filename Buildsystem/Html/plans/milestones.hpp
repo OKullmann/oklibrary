@@ -9,11 +9,19 @@
 
   \par
    In Buildsystem/Html/plans/general.hpp the following topics are handled:
-    - Html-Directory
     - External vs. internal html-pages
     - Configuration problem
     - Content of the Internet-page
     - Building the Internet-page
+    - Html-Directory : DONE
+
+  \par
+   In Buildsystem/Html/plans/LocalHomePage.hpp the following topics are handled:
+    - Boost-documentation
+    - GCC-documentation
+    - CMake documentation
+    - Using css
+    - bug "Naming" : DONE
 
 
   \par Version 0.0.7
@@ -26,6 +34,13 @@
    In Buildsystem/Html/plans/Internet.hpp the following topics are handled:
     - Content of the Internet-page
     - Building the Internet-page
+
+
+  \par
+   In Buildsystem/Html/plans/LocalHomePage.hpp the following topics are handled:
+    - Page organisation
+    - Meta tags
+    - Improved logo
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
