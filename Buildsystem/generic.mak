@@ -860,9 +860,8 @@ endif
 # DOCUMENTATION MAKEFILE INCLUDE STATEMENTS
 # ################################################################
 
-include $(OKbuildsystem)/Generic/documentation_building/doxygen_documentation.mak
-
-include $(OKbuildsystem)/Generic/documentation_building/documentation_index.mak
+include $(OKbuildsystem)/OKlibBuilding/Targets/html/doxygen_documentation.mak
+include $(OKbuildsystem)/OKlibBuilding/Targets/html/documentation_index.mak
 
 # ######################################################################
 

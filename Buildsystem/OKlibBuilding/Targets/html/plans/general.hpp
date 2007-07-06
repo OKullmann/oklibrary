@@ -1,8 +1,8 @@
 // Matthew Henderson, 15.11.2006 (Swansea)
 
 /*!
-  \file Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
-  \brief Plans for documentation-creation
+  \file Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp
+  \brief Plans for the documentation-extraction from the source-code
 
 
   \todo Doxygen general
@@ -65,7 +65,7 @@
   </ul>
 
 
-  \todo Directory structure:
+  \todo Directory structure: DONE (complete update)
   The directory structure under Buildsystem/Generic/documentation_building needs review:
   <ul>
    <li> Upper-case should be used (the names are not "systematic"). </li>
