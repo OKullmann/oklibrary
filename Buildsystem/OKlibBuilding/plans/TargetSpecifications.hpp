@@ -1,10 +1,10 @@
 // Oliver Kullmann, 13.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/plans/TargetSpecifications.hpp
+  \file Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp
   \brief Precise definitions of the targets for the build-system
 
-  See Buildsystem/plans/generic.hpp for overall todos.
+  See Buildsystem/OKlibBuilding/plans/generic.hpp for overall todos.
 
 
   \todo General look and feel

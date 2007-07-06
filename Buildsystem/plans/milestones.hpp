@@ -15,11 +15,10 @@
 
   \par Buildsystem/Html version 0.0.7
   (see Buildsystem/Html/plans/milestones.hpp)
-  
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - New directory-structure "Generic"
 
+  \par Buildsystem/OKlibBuilding 0.2.2
+  (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
+  
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
     - Mailing lists
@@ -54,7 +53,6 @@
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
-    - License
     - Renaming
     - system_definitions.mak
     - System documentation
@@ -68,65 +66,32 @@
     - Fundamental "axioms"
 
   \par
-   In Buildsystem/plans/MakeSystem.hpp the following topics are handled:
-    - CMake
-    - Competition extraction tools
-
+   In Buildsystem/plans/generic.hpp the following topics are handled:
+    - New directory-structure "Generic" : DONE
 
 
   \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
 
+  \par Buildsystem/OKlibBuilding 0.2.4
+  (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
+  
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Renaming module Buildsystem
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Mixing C and C++
-    - Incorrect build of new tests I
-    - Incorrect build of new tests II
-    - Specification of buildsystem II
-    - Setting the paths to GCC and Boost link libraries
-    - User control of system versions
-    - General_options
-    - Dependency files
-    - Verbosity
-    - Test system
-    - OKsystem/Buildsystem structure
+    - Documentation (Examples and Concepts)
+    - Modes of Usage
+    - makefile_recursive
+    - Source code directory structure
+    - Full test
+    - Integration testing
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Corrections mhash
     - Problems with building Boost
 
-  \par
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - system_definitions.mak
-    - Testing the build system
-    - Role of srcdir
-    - System documentation
-    - Documentation (Examples and Concepts)
-    - Force make
-    - Modes of Usage
-    - makefile_recursive
-    - Compilation information
-    - Source code directory structure
-
-  \par
-   In Buildsystem/Generic/documentation_building/plans/documentation_building.hpp
-   the following topics are handled:
-    - Doxygen general
-
 
   \par Version 0.1.9 : THEME is "Build system extensions"
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - Targets
-    - Error messages of gcc should be processed
-    - %Tools for testing
-    - Log directory
-    - Cleaning
-    - Linking and options
-    - Test cleaning
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
@@ -135,12 +100,6 @@
     - PostgreSQL
     - General
     - Gcc
-
-  \par
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - License
-    - Notification list
-
 
 
   \par Version 0.1.10 :
@@ -157,22 +116,12 @@
 
 
   \par Version 0.2 : THEME is "Basic functionality"
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - Full test
-    - Nightly build
-
 
     
   \par Version 0.3 : THEME is "Complexity measurements"
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - Complexity system
-    - Measurements
-
 
 
   \par Version 0.4 : THEME is "Rounding up"
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - New targets
 
 
   

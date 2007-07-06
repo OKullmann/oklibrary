@@ -9,12 +9,13 @@
   According to the general scheme, where all "genuine" files/directories
   carry capitalised names, the following files shall be renamed:
   <ul>
-   <li> Buildsystem/plans/generic.hpp -> Buildsystem/plans/Generic.hpp </li>
-   <li> Buildsystem/generic.mak -> Buildsystem/Generic.mak </li>
    <li> Buildsystem/recursive.mak -> Buildsystem/Recursive.mak </li>
    <li> Buildsystem/recursive_noneincluded.mak -> Buildsystem/Recursive_noneincluded.mak </li>
    <li> Buildsystem/standardgoals.mak -> Buildsystem/Standardgoals.mak </li>
    <li> Buildsystem/system_definitions.mak -> Buildsystem/System_definitions.mak </li>
+   <li> Buildsystem/generic.mak -> Buildsystem/Generic.mak DONE (topic moved
+   to Buildsystem/OKlibBuilding/plans/general.hpp) </li>
+   <li> Buildsystem/plans/generic.hpp -> Buildsystem/plans/Generic.hpp DONE (new naming scheme) </li>
   </ul>
 
 
@@ -74,26 +75,11 @@
    - Document the build-system (general ideas, functionality).
 
 
-  \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
-  <ul>
-   <li>
-     What is the role of variable srcdir ? Isn't the definition in makefile_recursive
-     superfluous now?
-     It is used in makefile_generic (so that we can call makefiles from other places,
-     without a change in behaviour; we should also document this), but why the
-     definition in makefile_recursive ? Can't makefile_generic define it on its own
-     (respectively, shouldn't the definition in makefile_generic  suffice) ?
-
-     Within recursive makefile-invocations we can use the option "--directory=DIR",
-     while from the command line, when calling a makefile from another directory,
-     the option "-C DIR" can be used. This seems to make srcdir superfluous?
-     If so, then is it worth to keep it for convenience?
-   </li>
-   <li>
-     Those settings of srcdir which remain should (if at all) receive some inline comments
-     (these settings are quite arcane).
-   </li>
-  </ul> 
+  \todo Renaming module Buildsystem:
+  To be consistent with the other module names, it should be called "BuildSystem" ?
+  But perhaps not --- it really is one "block", not composed of of two
+  somewhat indepedent parts?! We have "ComplexitySystem" and "TestSystem",
+  perhaps "Buildsystem" is different (somewhat more fundamental) ?!
 
 
   \todo Documentation (Examples and Concepts) OK : this needs to be discussed and updated
@@ -106,13 +92,6 @@
       </ol>
     </li>
   </ul>
-
-
-  \todo Force make:
-  Calling make with the option "-B" (or "--always-make") does not
-  work (it leads to an infinite loop) --- why is this so? What can be done
-  about it --- it would be nice to be able to force a rebuild, without having to delete
-  some directories (this might be dangerous).
 
 
   \todo Modes of Usage:
@@ -135,12 +114,6 @@
      directory-tree in system_directories must mirror the primary directory-tree.
 
    
-  \todo Compilation information: 
-   - We need a standardised way of how to make information about the compilation
-     process available to a program (and also the name of the program, etc.), so that
-     for example via --version we get as much information as possible.
-
-
   \todo Source code directory structure:
    - We need a rational system for the naming of header files. We should study the
      Boost library here.
@@ -161,35 +134,6 @@
      and libraries and test them.
 
 
-  \todo Nightly build
-   - Full check-out of the library (yet Transitional and 
-     OKlibrary) and full compilation and testing (i.e., create the package,
-     un-archive it, build it with "make" and then run "make check" in it).
-     Testing should invoke valgrind (with Test_tool="valgrind --quit").
-
-
-  \todo Complexity system: 
-   - "make measurements" will create an xml-file
-     (via the boost serialisation library) with information about all
-     operations which have been registered. A little viewing-program
-     allows to monitor these measurements (as they evolve over time).
-
-
-  \todo Measurements:
-   - Each "make test" etc. should gather summary statistics of the tests performed,
-     like the total number of testobjects, the total time spend and so on.
-     In order to do so, a test program can be asked to serialise the statistics
-     to a file or to standard output, and a simple evaluation program gathers
-     these statistics.
-   - Similar to the complexity measurements, for every task performed by the build
-     system it should be possible to save the measured run time, so that the development over
-     time for example of compile times, link times, test times can be followed, and also
-     the influence of compilers can be considered. By default, when running make only
-     the total times are output, but in a protocol mode everything is written to a file
-     (as for the complexity system; it should be possible for example to use the visualisation
-     tools there to look at the developments here).
-
-
   \todo Integration testing:
   <ul>
    <li> We need some file format (likely some xml) to specify one integration test:
@@ -207,20 +151,6 @@
   \todo Compiler versions:
   Do we get slower run-times with g++ 4.1.2 compared to 4.1.1, and thus we
   need to write no-throw-declarations? (Perhaps this needs to be done anyway?)
-
-
-  \todo New targets (needs update):
-   - "create_new_module" and "create_new_submodule",
-     which create a new subdirectory with test-program respectively new
-     .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
-     in the testprogram).
-
-
-  \todo Renaming module Buildsystem:
-  To be consistent with the other module names, it should be called "BuildSystem" ?
-  But perhaps not --- it really is one "block", not composed of of two
-  somewhat indepedent parts?! We have "ComplexitySystem" and "TestSystem",
-  perhaps "Buildsystem" is different (somewhat more fundamental) ?!
 
 
   \todo Version numbers

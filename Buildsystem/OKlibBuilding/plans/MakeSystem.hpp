@@ -1,7 +1,7 @@
 // Oliver Kullmann, 4.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/plans/MakeSystem.hpp
+  \file Buildsystem/OKlibBuilding/plans/MakeSystem.hpp
   \brief Plans for the core part of the build system, the
   make- or make-like engine
 

@@ -30,6 +30,7 @@
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
   \par Transitional/plans/general.hpp
+   - Licence
    - "OKlib" vs. "Transitional"
    - Completing the repository
    - Super-modules
