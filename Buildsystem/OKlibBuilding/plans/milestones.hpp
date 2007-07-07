@@ -22,6 +22,7 @@
 
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
+    - Environment-variable expansion
     - Doxygen general
     - Directory structure : DONE
 
@@ -47,6 +48,7 @@
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
     - Doxygen menu and main page review
+    - Search engine
 
 
   \par Version 0.2.3

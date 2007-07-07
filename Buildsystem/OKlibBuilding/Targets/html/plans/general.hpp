@@ -5,12 +5,18 @@
   \brief Plans for the documentation-extraction from the source-code
 
 
-  \todo Doxygen general
+  \todo Environment-variable expansion
   <ul>
-   <li> Environment-variable expansion: Apparently doxygen replaces make-variable-evaluations
+   <li> Apparently doxygen replaces make-variable-evaluations
    like "$(source_libraries)" or "$(HOME)" by their value, except if these terms are in
    quotes (as here, to avoid evaluation) ?!?! This could be useful, but is not documented?
    Ask the doxygen-mailing list! </li>
+   <li> Compare with "Definitions for doxygen" in Buildsystem/Configuration/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Doxygen general
+  <ul>
    <li> Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
      the tag EXPAND_AS_DEFINED (since we do not alter the definitions), however this
      does not work? </li>
@@ -38,8 +44,6 @@
      For simple lists we do it as here, otherwise we use the html-elements. Documented in the main documentation-document.
      However, how do they description-lists work? </li>
    <li> Doxygen can create "man pages" --- what does this mean? </li>
-   <li> Doxygen can also use a "searchengine" (see activation in the "Doxyfile"):
-   This would be very useful, but apparently needs some php-stuff? </li>
    <li> See the doxygen-related problems in Messages (should be solvable by expanding those
      macros) : DONE </li>
    <li> How to integrate a *general* todo list into Doxygen? With xrefitem. However it seems we no longer need it : DONE </li>
@@ -64,6 +68,16 @@
    mature modules). Or how else can we (automatically) display the levels of development? </li>
   </ul>
 
+
+  \todo Search engine
+  <ul>
+   <li> Doxygen can also use a "searchengine" (see activation in the "Doxyfile"):
+   This would be very useful, but apparently needs some php-stuff? </li>
+   <li> Moreover, a web server needs to be started? And then --- I installed php and
+   appache on csltok, and put all pages to /srv/www/htdocs, but still konqueror just
+   returns the search.php-file instead of doing something with it --- how should
+   konqueror know that also for local files the web server should be used? </li>
+  </ul>
 
   \todo Directory structure: DONE (complete update)
   The directory structure under Buildsystem/Generic/documentation_building needs review:

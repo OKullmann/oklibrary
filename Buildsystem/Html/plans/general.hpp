@@ -29,20 +29,60 @@
    to add invisible variables to the html-pages, whose visible values
    are updated by running some program (which has the list of current
    values). Then we can just write plain html-pages, and don't have
-   to bother about constructing them with make-commands.
+   to bother about constructing them with make-commands. The solution is an
+   html preprocessor (see http://htmlhelp.com/links/preprocessors.html)
    <ol>
-    <li> The solution is an html preprocessor (see http://htmlhelp.com/links/preprocessors.html). </li>
-    <li> The simplest case is just to use the C preprocessor (see
-    http://www.cs.tut.fi/~jkorpela/html/cpre.html)! This looks
-    rather attractive --- by using includes or by using macros we can
-    easily add some dynamic content. The main advantage is, that we
-    don't have to learn anything new (and what we learn is relevant
-    for us at other places (!)) --- so I (OK) am in favour of this
-    solution. </li>
-    <li> The next level of power would be m4 --- this is available on Linux
+    <li> m4 would work --- this is available on Linux
     and Unix systems (current version is 1.4.9, but the installed versions
-    should be fine). </li>
-    <li> Still more powerfull is hsc (http://www.linguistik.uni-erlangen.de/~msbethke/software.html).
+    should be fine).
+     <ol>
+      <li> According to "Configuration data format" in
+      Buildsystem/Configuration/plans/general.hpp all configuration data is
+      available as environment variables (at build-time). </li>
+      <li> Via
+      \verbatim
+m4_define(`m4_SHELL', `m4_esyscmd(echo -n ${$1})')m4_dnl
+      \endverbatim
+      in a file "m4_shell_macro" we get an m4-macro which makes shell-access easy. </li>
+      <li> Assume that in "configuration.mak" we have configuration-variable like
+      \verbatim
+PATH2=XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      \endverbatim
+      </li>
+      <li> Assume furthermore that in "file.html" we have
+      \verbatim
+hdhdhd m4_SHELL(PATH2)
+dkdkdl
+m4_SHELL(HOME) djdjdd
+      \endverbatim
+      (this is the file in which macro-substitution shall take place). </li>
+      <li> Furthermore we need the makefile
+      \verbatim
+include configuration.mak
+export
+all :
+        m4 --prefix-builtins m4_shell_macro file.html
+      \endverbatim
+      </li>
+      <li> Now "make all" yields
+      \verbatim
+m4 --prefix-builtins m4_shell_macro file.html
+hdhdhd XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+dkdkdl
+/home/kullmann djdjdd
+      \endverbatim
+      </li>
+     </ol>
+    </li>
+    <li> Apparently php can also be used as a preprocessor?
+     <ol>
+      <li> It seems that for using the doxygen-search-function we need to
+      install php anyway (see "Search engine" in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp). </li>
+      <li> Could php be useful for other stuff in the future? </li>
+     </ol>
+    </li>
+    <li> More powerfull is hsc (http://www.linguistik.uni-erlangen.de/~msbethke/software.html). DONE (has a bit more power, but not enough; and the somewhat waci tone
+    is unprofessional)
      <ol>
       <li> Is this system mature? </li>
       <li> Is the above basic task (macro usage) easily accomplished? </li>
@@ -50,12 +90,19 @@
       C, so it's easy to compile. </li>
       <li> Another advantage, of course, is that it understands html. But we have to learn
       another language (which we cannot use for something else). </li>
+    <li> The simplest case is just to use the C preprocessor (see
+    http://www.cs.tut.fi/~jkorpela/html/cpre.html)! This looks
+    rather attractive --- by using includes or by using macros we can
+    easily add some dynamic content. The main advantage is, that we
+    don't have to learn anything new (and what we learn is relevant
+    for us at other places (!)). However we get then these errors
+    --- not enough control. DONE</li>
      </ol>
     </li>
    </ol>
    </li>
    <li> Should we use .css-styles, or plain html-pages?
-   See Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp. </li>
+   See Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp. DONE (no and yes --- see "General rules for html-pages") </li>
    <li> The web-pages perhaps could be written by some system (using some
    higher-level language?). DONE (we should write the web pages by hand (at least at this
    time) --- it's much easier, and we can use any html-element we want)
