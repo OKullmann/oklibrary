@@ -7,8 +7,16 @@
 
   \todo Developers information
   <ul>
-   <li> Compare with "Developers" in Buildsystem/plans/Release.hpp </li>
-   <li> We should have a subdirectory Configuration/Developers, containing files
+   <li> Complete information in "Developers.html". </li>
+   <li> Link appropriately to "Developers.html" (from the local
+   home page; see Buildsystem/Html/plans/LocalHomePage.hpp). </li>
+   <li> Compare with "Developers" in Buildsystem/plans/Release.hpp. DONE </li>
+   <li> DONE (decided to produce an html-file "Developers.html" right away
+   due to greater flexibility, and it seems we do not automatically process
+   this information; we also don't need to distinguish between current
+   and past developers --- this might change, and one can see this in
+   the repository-information)
+   We should have a subdirectory Configuration/Developers, containing files
     <ol>
      <li> current_main </li>
      <li> past_main </li>

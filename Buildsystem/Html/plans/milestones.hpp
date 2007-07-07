@@ -9,18 +9,19 @@
 
   \par
    In Buildsystem/Html/plans/general.hpp the following topics are handled:
-    - External vs. internal html-pages
+    - General rules for html-pages
     - Configuration problem
-    - Content of the Internet-page
-    - Building the Internet-page
+    - External vs. internal html-pages : DONE
     - Html-Directory : DONE
 
   \par
    In Buildsystem/Html/plans/LocalHomePage.hpp the following topics are handled:
+    - Rewrite local home page
     - Boost-documentation
     - GCC-documentation
     - CMake documentation
-    - Using css
+    - Using css : DONE
+    - Page appearance : DONE
     - bug "Naming" : DONE
 
 

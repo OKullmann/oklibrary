@@ -5,6 +5,23 @@
   \brief Plans for the main local page
 
 
+  \todo Page organisation
+  <ul>
+   <li> Further links:
+    <ol>
+     <li> Internet page (which has links to the mailing lists) </li>
+     <li> The developers-page (see Buildsystem/Configuration/plans/Persons.hpp) </li>
+     <li> The docus-system via a start page. </li>
+     <li> The demos-system via a start page. </li>
+     <li> All documentation. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Rewrite local home page
+
+
   \todo Boost-documentation
   <ul>
    <li> Include documentation for version 1_34_0:
@@ -40,7 +57,20 @@
   </ul>
 
 
-  \todo Using css:
+  \todo Meta tags:
+   - All the documentation should be available (finally) on the web; thus the index page will become
+     a publically available web page, and needs all the meta tags, and also all the other declarations
+     available, about encoding, last change date etc..
+
+
+  \todo Improved logo:
+   - yet the colour is a bit too lavenderish (a touch of darker blue perhaps)
+   - perhaps a tiny bit of space between "OK" and "library" (looks squeezed)
+   - some comments on how the logo has been created are needed.
+
+
+  \todo Using css: DONE (see "General rules for html-pages" at
+  Buildsystem/Html/plans/general.hpp, and we'll use a preprocessor)
   <ul>
    <li> Is it really worth it? The main page of the OKlibrary documentation
    likely will forevery just stay one page, so the generality enabled by css
@@ -58,14 +88,9 @@
   </ul>
 
 
-  \todo Page organisation
+  \todo Page appearance : DONE (the local home page will be completely
+  rewritten according to the general guidelines in Buildsystem/Html/plans/general.hpp)
   <ul>
-   <li> Further links:
-    <ol>
-     <li> Internet page (which has links to the mailing lists) </li>
-     <li> CMake documentation (if we use it). </li>
-    </ol>
-   </li>
    <li>  On my laptop the columns are arranged in two rows (independent of
    the horizontal space available (a lot)). So something with the dimensions
    seems to be wrong.
@@ -81,18 +106,6 @@
    <li> Documentation is needed (in the form of inline-comments for the
    css-file). </li>
   </ul>
-
-
-  \todo Meta tags:
-   - All the documentation should be available (finally) on the web; thus the index page will become
-     a publically available web page, and needs all the meta tags, and also all the other declarations
-     available, about encoding, last change date etc..
-
-
-  \todo Improved logo:
-   - yet the colour is a bit too lavenderish (a touch of darker blue perhaps)
-   - perhaps a tiny bit of space between "OK" and "library" (looks squeezed)
-   - some comments on how the logo has been created are needed.
 
 
   \bug Naming: DONE

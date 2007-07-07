@@ -5,15 +5,22 @@
   \brief General plans regarding the html-services
 
 
-  \todo External vs. internal html-pages:
-  We have the real Internet-pages, which will be accessible from the www,
-  and we have the internal html-pages, documenting the platform.
-  We need to clarify the relation to
+  \todo General rules for html-pages
   <ol>
-   <li> Buildsystem/Generic/documentation_building/plans/documentation_building.hpp </li>
-   <li> Buildsystem/Generic/documentation_building/plans/documentation_index.mak.hpp </li>
+   <li> We concentrate first solely on the content, presented in a simple
+   and clear way. </li>
+   <li> Presentation issues are only considered after the pages have
+   been used for a while, and the system stabilised. </li>
+   <li> These two basic rules are reflected by the technical requirements,
+   that strict XHTML is used (thus deprecated features cannot be used,
+   that is, representational issues are suppressed), and that appearance
+   is handled via external style sheets, but only at a later point,
+   after the development has settled. </li>
+   <li> In general we want to leave as much details as possible to
+   the browser, so that it can adapt the appearance to the users wishes.
+   We are not an enterprise which needs to catch attraction by penetrating
+   effects. </li>
   </ol>
-  Perhaps the name "Internet.hpp" is not fully appropriate?
 
 
   \todo Configuration problem:
@@ -58,6 +65,21 @@
      <li> doxygen ?? </li>
     </ol>
   </ul>
+
+
+  \todo External vs. internal html-pages: DONE (the local home page
+  is handled in in this module, at Buildsystem/Html/plans/LocalHomePage.hpp,
+  while the doxygen-documentation-building is a different thing, discussed in
+  OKlib/Targets/html/plans)
+  We have the real Internet-pages, which will be accessible from the www,
+  and we have the internal html-pages, documenting the platform.
+  We need to clarify the relation to
+  <ol>
+   <li> Buildsystem/Generic/documentation_building/plans/documentation_building.hpp </li>
+   <li> Buildsystem/Generic/documentation_building/plans/documentation_index.hpp </li>
+  </ol>
+  Perhaps the name "Internet.hpp" is not fully appropriate?
+
 
   \todo Html-Directory: DONE
   <ul>

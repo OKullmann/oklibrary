@@ -110,7 +110,7 @@ RELEASE_OKlib_0.1.6_31072007
      <li> external developer (only access to a controlled clone) </li>
     </ol>
    </li>
-   <li> See "Developers information" in Buildsystem/plans/Configuration.hpp. </li>
+   <li> See "Developers information" in Buildsystem/Configuration/plans/Persons.hpp. </li>
    <li> Different defaults for mailing lists. </li>
    <li> Everybody can submit patches. </li>
    <li> Perhaps everybody except core developers should (always) work with branches ?!
