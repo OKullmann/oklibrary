@@ -52,10 +52,16 @@ SET(CONFIGVAR2 value2)
      so that these variables become environment variables?!? But then we would
      loose control.
    </li>
-   <li> If we are going to use CMake, then perhaps the variable settings should
-     be done in the cmake-syntax. </li>
+   <li> The solution seems to be not to do translations, but to have all
+   configuration-variables defined in makefiles as as make-variables.
+   Via the export-function then we have all them plus the environment
+   variables at hand, and every other usage of configuration variables
+   (doxygen or an html-preprocessor) just accesses environment variables. </li>
    <li> Splitting the definitions over several files is likely preferable from the
      order point of view. Shouldn't be too complicated to use them. </li>
+   <li> If we are going to use CMake, then perhaps the variable settings should
+     be done in the cmake-syntax. DONE (the cmake-transition, if at all, can
+     happen only after we have a running make-system) </li>
    </li>
   </ul>
 
@@ -80,7 +86,8 @@ SET(CONFIGVAR2 value2)
      <li> FILE_PATTERNS </li>
     </ol>
     could come from a separate configuration file --- how to achieve this? </li>
-   <li> Allows the Doxyfile for includes or macro expansion? </li>
+   <li> Allows the Doxyfile for includes or macro expansion? See "Environment-variable expansion"
+   in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. </li>
    <li> Perhaps it's best to define a "master-doxyfile" in the primary configuration system,
    containing macros or includes for the above four definitions, and then the build system
    builds the finale Doxyfile (in the derived configurations) in dependency on these
