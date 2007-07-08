@@ -190,7 +190,11 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
        <li> "System" ("Sys")
         <ol>
-         <li> CoM ("ComplexityMeasurement") </li>
+         <li> Com ("ComplexitySystem") (or CoM ("ComplexityMeasurement"),
+         or PeM ("PerformanceMeasurement") or Per ("PerformanceSystem");
+         but perhaps "-System" strengthens the link to the other
+         "-Systems", while "Complexity" emphasises the fundamental
+         character) </li>
          <li> Tes ("TestSystem") </li>
          <li> Bui ("BuildSystem") </li>
          <li> LeI ("LegalIssues") </li>
@@ -249,6 +253,22 @@ namespace SatAlg = Satisfiability::Algorithms;
    be super-modules), and move modules into them (first only plans-only-modules, so that
    we don't get build-problems). For that we have to find out how to use "git mv" (see
    "Building and using Git" in Buildsystem/plans/VersionControl.hpp). </li>
+  </ul>
+
+
+  \todo Handling of version-numbers
+  <ul>
+   <li> One could introduce a fourth digit, which is not
+   referenced in milestones-plans, but is increased each time
+   one of the immediate sub-goals of the milestones has been
+   fulfilled. Perhaps only for the "important version-numbers";
+   could help to give a stronger sense of achievement. </li>
+   <li> Important, that such a refinement does not lead to
+   unnecessary bureaucrazy --- it should be only a
+   "progress meter", and advances "at random". </li>
+   <li> Perhaps an "important version-numbers" is defined as
+   one where progress means that sub-version-numbers are
+   advanced. </li>
   </ul>
 
 

@@ -36,6 +36,7 @@
    - "OKlib" vs. "Transitional"
    - Completing the repository
    - Super-modules
+   - Handling of version-numbers
    - Research sub-modules
    - Organisation of plans-directories
    - Concepts
