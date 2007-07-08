@@ -73,7 +73,7 @@
    <li> Ines Lynce and Joao Marques-Silva: General (?) </li>
    <li> Further collaborators of Ines Lynce and Joao Marques-Silva </li>
    <li> John Franco and Sean Weaver: General (?) </li>
-   <li> Hans van Maaren and Marijn Heule: General (?) </li>
+   <li> Hans van Maaren and Marijn Heule </li>
    <li> Arnold Beckmann </li>
    <li> Ulrich Berger: New module Formalisation </li>
    <li> Markus Roggenbach </li>
@@ -103,11 +103,13 @@
    <li> Tobias Nipkow </li>
    <li> Uwe Schoening </li>
    <li> Sam Buss (asking very politely) </li>
+   <li> Edward Hirsch and group </li>
    <li> Phokion Kolaitis </li>
    <li> Andras Salomon </li>
    <li> Lars Schewe </li>
    <li> Steve Cook and group (theoretical aspects) </li>
    <li> Alasdair Urquhart and group (theoretical aspects) </li>
+   <li> Tonian Pitassi and group </li>
    <li> Moshe Vardi </li>
   </ol>
   </li>
@@ -135,9 +137,12 @@
   \todo Instructions:
   A dedicated weg-page is needed on howto use the mailing-lists
   <ul>
+   <li> The meaning of the different mailing lists, and how to use them
+   (registration etc.) </li>
+   <li> How to access the history. </li>
+   <li> About the identity of developers. </li>
    <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
    like "newbie needs help". </li>
-   <li> About the identity of developers. </li>
    <li> "How to reply". </li>
   </ul>
 
