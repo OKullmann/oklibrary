@@ -5,6 +5,20 @@
   \brief Plans for the makefile responsible for handling external sources
 
 
+  \todo Directory structure of OKplatform/ExternalSources
+  <ul>
+   <li> Perhaps two new sub-directories
+    <ol>
+     <li> OKplatform/ExternalSources/sources </li>
+     <li> OKplatform/ExternalSources/installations </li>
+     <li> OKplatform/ExternalSources/docs </li>
+    </ol>
+    where to "sources" all the tarballs go, while to "installations"
+    all current sub-directories go (and "docs" replaces the current
+    "doc"). </li>
+  </ul>
+
+
   \todo Documenting ExternalSources.mak
   <ul>
    <li> docus/ExternalSources.hpp is for the *user* documentation. So the
