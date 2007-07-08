@@ -17,20 +17,22 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional016 0.1.6 : Theme "FIRST RELEASE"; TO BE REACHED \deadline_016
+  \subsection VersionTransitional016 0.1.6 : Theme "PROTO-RELEASE"; TO BE REACHED \deadline_016
   \par Buildsystem version 0.1.7 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
+  \par LegalIssues version 
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  \par LegalIssues version 0.1 (OK)
+  (see LegalIssues/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
   \par Transitional/plans/general.hpp
-   - Licence
    - "OKlib" vs. "Transitional"
    - Completing the repository
    - Super-modules
@@ -40,10 +42,12 @@
    - Demos
    - Upgrade to gcc-4.2.0
    - Computer algebra system : DONE
+   - Licence : DONE (moved to System/LegalIssues)
   \par Transitional/plans/Annotations.hpp
    - Partially moving repository Annotations
    - Latex macros
    - Bibtex-database
+
    
   \subsection VersionTransitional017 0.1.7 : TO BE REACHED \deadline_017
   \par InputOutput version 0.0.8 (OK (MH))
@@ -80,6 +84,7 @@
   (see SumProduct/plans/milestones.hpp)
   \par Update
   Update the subsequent milestones.
+
 
   \subsection VersionTransitional018 0.1.8 : TO BE REACHED \deadline_018
   \par Messages version 0.7.7 (OK)
