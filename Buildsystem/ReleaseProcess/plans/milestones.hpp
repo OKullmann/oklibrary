@@ -54,7 +54,7 @@
 
   \par Version history
 
-   - 0.0.4   : 4.3.2006; initial version number (planning activities already for some time).
+   - 0.0.4   : 4.3.2006; initial version number (planning activities going on already for some time).
 
 */
 
