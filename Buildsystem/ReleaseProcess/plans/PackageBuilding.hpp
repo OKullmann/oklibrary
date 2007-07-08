@@ -1,7 +1,7 @@
 // Oliver Kullmann, 26.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/plans/PackageBuilding.hpp
+  \file Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp
   \brief Plans regarding package building
 
 
@@ -10,7 +10,7 @@
    <li> Checking is separate, has to be done (fully) in advance
    see Buildsystem/plans/CheckBuildSystem.hpp. </li>
    <li> The appropriate "user clone" has to be created in advance
-   (see Buildsystem/plans/Release.hpp) --- and also this clone has
+   (see Buildsystem/ReleaseProcess/plans/Release.hpp) --- and also this clone has
    been tested. </li>
    <li> A package exists for every new version number of Transitional. </li>
    <li> Packages need precise names; proposal (for the next release):

@@ -1,10 +1,10 @@
 // Oliver Kullmann, 7.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/plans/Release.hpp
+  \file Buildsystem/ReleaseProcess/plans/Release.hpp
   \brief Plans regarding releasing the software
 
-  The special aspect of package building is treated in Buildsystem/plans/PackageBuilding.hpp
+  The special aspect of package building is treated in Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp
 
 
   \todo Special tag
@@ -17,6 +17,7 @@
 RELEASE_OKlib_0.1.6_31072007
    \endverbatim
    (compare package-names in Buildsystem/plans/PackageBuilding.hpp). </li>
+   <li> Compare with "Tagging" in Buildsystem/SourceControl/plans/general.hpp. </li>
   </ul>
 
 
@@ -89,7 +90,7 @@ RELEASE_OKlib_0.1.6_31072007
    <li> A major problem is how to filter out the "secret" parts.
     <ol>
      <li> Hopefully with "git-submodule" we can create sub-repositories
-     (see Buildsystem/plans/VersionControl.hpp). </li>
+     (see Buildsystem/SourceControl/plans/general.hpp). </li>
      <li> Likely critical are only the plans-directories. The simplest measure is to
      create a sub-module without the plans-directories. And for special users we add then
      appropriate plans-directories. </li>

@@ -22,31 +22,10 @@
 
   \par Buildsystem/SourceControl 0.2.2
   (see Buildsystem/SourceControl/plans/milestones.hpp)
+
+  \par Buildsystem/ReleaseProcess 0.0.6
+  (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
   
-  \par
-   In Buildsystem/plans/MailingLists.hpp the following topics are handled:
-    - Mailing lists
-    - User mailing list
-    - Instructions
-
-  \par
-   In Buildsystem/plans/README.hpp the following topics are handled:
-    - Automatic generation
-    - Supported versions of gcc
-    - Update : DONE
-
-  \par
-   In Buildsystem/plans/Release.hpp the following topics are handled:
-    - Special tag
-    - Distributing the library
-    - Package construction script
-    - Release plan
-
-  \par
-   In Buildsystem/plans/PackageBuilding.hpp the following topics are handled:
-    - General
-    - The script
-
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Renaming
@@ -55,15 +34,11 @@
 
   \par
    In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
-    - Test script
+    - %Test script
 
   \par
    In Buildsystem/plans/Foundations.hpp the following topics are handled:
     - Fundamental "axioms"
-
-  \par
-   In Buildsystem/plans/generic.hpp the following topics are handled:
-    - New directory-structure "Generic" : DONE
 
 
   \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"

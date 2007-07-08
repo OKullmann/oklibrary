@@ -13,6 +13,7 @@
     - bug Incorrect build of new tests I
     - bug Incorrect build of new tests II
     - %Test system
+    - New directory-structure "Generic" : DONE
     - OKsystem/Buildsystem structure : DONE
     - Specification of build system : DONE
 

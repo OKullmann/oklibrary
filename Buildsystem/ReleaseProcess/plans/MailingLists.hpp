@@ -1,7 +1,7 @@
 // Oliver Kullmann, 24.5.2007 (Swansea)
 
 /*!
-  \file Buildsystem/plans/MailingLists.hpp
+  \file Buildsystem/ReleaseProcess/plans/MailingLists.hpp
   \brief Plans for the mailing lists
 
 
@@ -130,6 +130,7 @@
   </li>
   <li> Only by invitation (yet). </li>
   </ul>
+
 
   \todo Instructions:
   A dedicated weg-page is needed on howto use the mailing-lists
