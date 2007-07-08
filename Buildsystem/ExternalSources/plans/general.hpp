@@ -101,7 +101,7 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
 
 
   \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new view
-  of the configuration center)
+  of the configuration centre)
   <ul>
    <li> How to define variables like Boost and Ubcsat in general?
      We need a nice little method (plus documentation), so that we can add easily as
@@ -110,6 +110,21 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
      "gcc-version" (for boost.mak) which likely should have the same names. </li>
    <li> In system_definitions.mak we have a definition of Boost which seems wrong
      to me (OK) (or at least misleading). DONE (resp. moved to other todos) </li>
+  </ul>
+
+
+  \todo Installing SAT solvers
+  <ul>
+   <li> Installing external SAT solvers should be a special service. </li>
+   <li> Perhaps we have a special subdirectory of OKplatform/ExternalSources
+   (for example OKplatform/ExternalSources/SATsolver) ? </li>
+   <li> These solvers should be somewhat more integrated into the OKlibrary
+   than just ordinary external sources; on the other hand, these packages
+   are usually in much worse shape. </li>
+   <li> Of course, only open-source-solvers. </li>
+   <li> For C++ solvers we need the ability to use older gcc-versions. </li>
+   <li> We should have also a directory Buildsystem/ExternalSources/SATsolvers
+   (solvers are not "SpecialBuilds"). </li>
   </ul>
 
 

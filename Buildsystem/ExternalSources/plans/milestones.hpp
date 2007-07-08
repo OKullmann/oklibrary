@@ -40,6 +40,10 @@
   \par Version 0.1.3
 
   \par
+   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Installing SAT solvers
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
     - Improving building Boost
 
