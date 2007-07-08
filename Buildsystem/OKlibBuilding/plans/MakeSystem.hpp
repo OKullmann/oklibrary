@@ -96,6 +96,8 @@
    here, that every time a new files is introduced (or something similar), one must run cmake, while
    otherwise one can just run make. Seems not unreasonable, but of course one introduces a further
    possibility for making mistakes ?!? </li>
+   <li> It seems that the special makefile for external sources is the best
+   candidate for employing cmake; see "Using CMake" in Buildsystem/ExternalSources/plans/general.hpp. </li>
    <li> Investigate how our main tasks can be handled by cmake. </li>
    <li> How would the work flow be with the new system (the 2 levels,
    the cmake- and the make-level)? </li>

@@ -113,6 +113,14 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
+  \todo Using CMake
+  <ul>
+   <li> It seems that the special makefile for external sources might be a suitable
+   candidate for using CMake. </li>
+   <li> Compare "CMake" in Buildsystem/OKlibBuilding/plans/MakeSystem.hpp. </li>
+  </ul>
+
+
   \todo Other sources:
   <ul>
    <li> Build a local version of Xerces. </li>
