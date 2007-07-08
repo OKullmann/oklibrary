@@ -2,10 +2,10 @@
 
 /*!
   \file Statistics/plans/general.hpp
-  \brief Plans for the module with statistical tools
+  \brief Plans for the module with general statistical tools
 
-  \deprecated This module will be dissolved into the new module
-  Heuristics (after the two plans-files have been moved).
+
+  \todo Update namespaces.
 
 */
 
