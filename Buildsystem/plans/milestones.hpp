@@ -5,6 +5,7 @@
   
   \module_version Buildsystem 0.1.6 (24.6.2007)
 
+
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
   \par Buildsystem/ExternalSources version 0.1.2
@@ -18,6 +19,9 @@
 
   \par Buildsystem/OKlibBuilding 0.2.2
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
+
+  \par Buildsystem/SourceControl 0.2.2
+  (see Buildsystem/SourceControl/plans/milestones.hpp)
   
   \par
    In Buildsystem/plans/MailingLists.hpp the following topics are handled:
@@ -42,14 +46,6 @@
    In Buildsystem/plans/PackageBuilding.hpp the following topics are handled:
     - General
     - The script
-
-  \par
-   In Buildsystem/plans/VersionControl.hpp the following topics are handled:
-    - More advanced usage
-    - Exploring usage patterns
-    - Notification-e-mails
-    - Tagging
-    - Moving files : DONE
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:

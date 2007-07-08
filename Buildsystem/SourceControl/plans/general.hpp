@@ -5,152 +5,6 @@
   \brief Plans and todos for the versioning control system
 
 
-  \todo More advanced usage:
-  <ul>
-   <li> Install qgit:
-    <ol>
-     <li> Perhaps it allows to follow renaming (like --follows and --parents)? </li>
-    </ol>
-   </li>
-   <li> Searching:
-   How do we search for files with a given content, like searching
-   for files in the history which contained "Sam Buss"?
-    <ol>
-     <li> The git manual says:
-     \verbatim
-Somebody hands you a copy of a file, and asks which commits modified a file such that it contained the given content either before or after the commit. 
-You can find out with this:
-$  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
-         grep -B 1 `git hash-object filename`
-     \endverbatim </li>
-     <li> However this doesn't allow specification of the *content* (??),
-     and what if we want to search in all files? </li>
-     <li> Ask the git mailing list. </li>
-    </ol>
-   </li>
-   <li> Cloning:
-    <ol>
-     <li> How can we clone also the ignore-patterns? </li>
-     <li> What does actually belong to a repository? Is there a
-     "full cloning" ? </li>
-    </ol>
-   </li>
-   <li> Secure pushs to the central repository on cs-oksvr:
-    <ol>
-     <li> Is it possible to only allows pushs to a repository if the pushing
-     repository is identical in content to the receiving repository? </li>
-    </ol>
-   </li>
-   <li> Combining different repositories:
-   <ul>
-    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
-    --- and it worked: It merged the complete history of the Annotations-files and -directories
-    into the Transitional-directory. </li>
-    <li> Problematic only that it moved everything to the top-level: How can we achieve that
-    they all are moved to some sub-directory? The git-pull documentation seems not to say something
-    here? </li>
-    <li> The canonical thing to do seems to first create in the repository Annotations
-    a directory "Annotations", move all files with
-    \verbatim
-git mv file1 file2 dir1 dir2 Annotations
-    \endverbatim
-    to this subdirectory (with a subsequent "git commit"), and then with pulling
-    from this directory we get all files into Transitional (with new part "Annotations"). </li>
-   </ul>
-   </li>
-  </ul>
-
-
-  \todo Exploring usage patterns;
-  <ul>
-   <li> The configuration data about developers, library names etc. must go
-   to Configuration (see Buildsystem/Configuration/plans/Persons.hpp). </li>
-   </li>
-   <li> Git can handle symbolic links, so all symbolic links should go
-   into the respository? On the other hand, this seems to imply one universal
-   convention like "/h/21/GemeinsameBasis", which perhaps one better should avoid?!?
-    <ol>
-     <li> Symbolic links are stored exactly as given (in absolute or relative form). </li>
-     <li> So by using relative links we could put the links into the repository. </li>
-     <li> So it seems we should do that (since some directories have such a link, some
-     not; and the relative position of the build directory is also known --- in case of
-     a move something has to be done anyway). </li>
-    </ol>
-   </li>
-   <li> Once we have ExternalSources under version control, we need the possibility to just have
-   those binaries (the archives) in it, without any history, changes whatsoever (otherwise space
-   would explode over time) --- how to achieve this?
-    <ol>
-     <li> Since every new version has a new name, it seems that we just need the possibility to remove
-     the history of an item? </li>
-     <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
-     <li> Another possibility is that the external sources are not under version control,
-     but we manage information like md5-checksums, and it's up to the user to download
-     the files. See "ExternalSources repository" in Buildsystem/plans/Release.hpp. </li>
-     <li> For convenience we provide also an archive with all current external sources in it. </li>
-     <li> And/or the clone to download can be populated with the current external sources. </li>
-     <li> In any case, ExternalSources gets a sub-directory "sources". </li>
-    </ol>
-   </li>
-   <li> What about version numbers in Git? What is the
-   version-numbering-systems there, and what kind of statistics
-   are supported? It seems the answer is simple -- nothing?! </li>
-   <li> How to handle change dates and revision numbers in files with Git?
-   </li>
-   <li> Branching:
-    <ul>
-     <li> Yet we never branched; in [{CVU}, vo. 10, no. 2, page 34] it
-     is recommended (for Bazaar), that every work on a file (or
-     perhaps better on a module?) starts by creating a branch,
-     and that (only) after a review the branches are merged into
-     the main branch. </li>
-     <li> This sounds reasonable; perhaps
-     a problem would be, that the review manager (OK) would
-     not always be available (and it would also cost him additional
-     work). </li>
-    </ul>
-   </li>
-   <li> Unified repositories ("holistic" or "active" libraries)
-    <ul>
-     <li> Optimally, the OKlibrary-package is exactly a clone of the
-     repository (and then one just needs to run "make" in the top-level
-     directory). </li>
-     <li> So "Release = clone", and the user has the same power as the
-     developer --- the idea of an active library (users extend the library)! </li>
-     <li> For this also ExternalSources needs to be in the version control. </li>
-     <li> Optimally there is just one repository
-     for the whole library (containing the current three repositories Annotations,
-     OKlibrary, Transitional, and the new (sub-)repositories ExternalSources and Overview).
-     Then we need the possibility to restrict access to parts of the repository (so
-     that annotations and Transitional are not public). </li>
-     <li> A problem is, that Annotations currently has public as well as
-     non-public parts; likely this needs to be separated. </li>
-     <li> A good solution would be, if "selective cloning" would be possible
-     (push and pull for such clones then only concern the embedded parts). </li>
-     <li> It seems, that at least at a higher level Git currently does not
-     offer something in this direction. Send an e-mail to the Git-list! </li>
-     <li> Is "git-submodule" a solution? Unclear what it does?? And not available with
-     1.5.2.1. </li>
-     <li> And "repository surgery" is needed (like merging of repositories). DONE (see
-     "Combining different repositories" in the above todo) </li>
-    </ul>
-   </li>
-   <li> A distributed version control system as integral part of the library:
-    <ul>
-     <li> The version control system is built by the library (ExternalSources). </li>
-     <li> One has to reflect on how an (external) user of the library might want to
-     extend the library (under the version control!). </li>
-     <li> Hopefully the distributed version control constitutes also the main part of the
-     update-solution for an external user (who extended the library)! </li>
-    </ul>
-   </li>
-   <li> The central repository:
-   For a new version control system we have to find out how to establish the role of the repository at
-   cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
-   relying on ssh). </li>
-  </ul>
-
-
   \todo Notification-e-mails
   <ul>
    <li> Simple solution: In the shared repository the file
@@ -285,6 +139,153 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      gets transmitted (via push or pull)! </li>
     </ol>
    </li>
+   <li> Compare with "Special tag" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
+  </ul>
+
+
+  \todo More advanced usage:
+  <ul>
+   <li> Install qgit:
+    <ol>
+     <li> Perhaps it allows to follow renaming (like --follows and --parents)? </li>
+    </ol>
+   </li>
+   <li> Searching:
+   How do we search for files with a given content, like searching
+   for files in the history which contained "Sam Buss"?
+    <ol>
+     <li> The git manual says:
+     \verbatim
+Somebody hands you a copy of a file, and asks which commits modified a file such that it contained the given content either before or after the commit. 
+You can find out with this:
+$  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
+         grep -B 1 `git hash-object filename`
+     \endverbatim </li>
+     <li> However this doesn't allow specification of the *content* (??),
+     and what if we want to search in all files? </li>
+     <li> Ask the git mailing list. </li>
+    </ol>
+   </li>
+   <li> Cloning:
+    <ol>
+     <li> How can we clone also the ignore-patterns? </li>
+     <li> What does actually belong to a repository? Is there a
+     "full cloning" ? </li>
+    </ol>
+   </li>
+   <li> Secure pushs to the central repository on cs-oksvr:
+    <ol>
+     <li> Is it possible to only allows pushs to a repository if the pushing
+     repository is identical in content to the receiving repository? </li>
+    </ol>
+   </li>
+   <li> Combining different repositories:
+   <ul>
+    <li> Accidentally, from the Transitional-repository I pulled the Annotations-repository
+    --- and it worked: It merged the complete history of the Annotations-files and -directories
+    into the Transitional-directory. </li>
+    <li> Problematic only that it moved everything to the top-level: How can we achieve that
+    they all are moved to some sub-directory? The git-pull documentation seems not to say something
+    here? </li>
+    <li> The canonical thing to do seems to first create in the repository Annotations
+    a directory "Annotations", move all files with
+    \verbatim
+git mv file1 file2 dir1 dir2 Annotations
+    \endverbatim
+    to this subdirectory (with a subsequent "git commit"), and then with pulling
+    from this directory we get all files into Transitional (with new part "Annotations"). </li>
+   </ul>
+   </li>
+  </ul>
+
+
+  \todo Exploring usage patterns;
+  <ul>
+   <li> The configuration data about developers, library names etc. must go
+   to Configuration (see Buildsystem/Configuration/plans/Persons.hpp). </li>
+   </li>
+   <li> Git can handle symbolic links, so all symbolic links should go
+   into the respository? On the other hand, this seems to imply one universal
+   convention like "/h/21/GemeinsameBasis", which perhaps one better should avoid?!?
+    <ol>
+     <li> Symbolic links are stored exactly as given (in absolute or relative form). </li>
+     <li> So by using relative links we could put the links into the repository. </li>
+     <li> So it seems we should do that (since some directories have such a link, some
+     not; and the relative position of the build directory is also known --- in case of
+     a move something has to be done anyway). </li>
+    </ol>
+   </li>
+   <li> Once we have ExternalSources under version control, we need the possibility to just have
+   those binaries (the archives) in it, without any history, changes whatsoever (otherwise space
+   would explode over time) --- how to achieve this?
+    <ol>
+     <li> Since every new version has a new name, it seems that we just need the possibility to remove
+     the history of an item? </li>
+     <li> And perhaps we can tell git in advance that the new entry is "don't care" ? </li>
+     <li> Another possibility is that the external sources are not under version control,
+     but we manage information like md5-checksums, and it's up to the user to download
+     the files. See "ExternalSources repository" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
+     <li> For convenience we provide also an archive with all current external sources in it. </li>
+     <li> And/or the clone to download can be populated with the current external sources. </li>
+     <li> In any case, ExternalSources gets a sub-directory "sources". </li>
+    </ol>
+   </li>
+   <li> What about version numbers in Git? What is the
+   version-numbering-systems there, and what kind of statistics
+   are supported? It seems the answer is simple -- nothing?! </li>
+   <li> How to handle change dates and revision numbers in files with Git?
+   </li>
+   <li> Branching:
+    <ul>
+     <li> Yet we never branched; in [{CVU}, vo. 10, no. 2, page 34] it
+     is recommended (for Bazaar), that every work on a file (or
+     perhaps better on a module?) starts by creating a branch,
+     and that (only) after a review the branches are merged into
+     the main branch. </li>
+     <li> This sounds reasonable; perhaps
+     a problem would be, that the review manager (OK) would
+     not always be available (and it would also cost him additional
+     work). </li>
+    </ul>
+   </li>
+   <li> Unified repositories ("holistic" or "active" libraries)
+    <ul>
+     <li> Optimally, the OKlibrary-package is exactly a clone of the
+     repository (and then one just needs to run "make" in the top-level
+     directory). </li>
+     <li> So "Release = clone", and the user has the same power as the
+     developer --- the idea of an active library (users extend the library)! </li>
+     <li> For this also ExternalSources needs to be in the version control. </li>
+     <li> Optimally there is just one repository
+     for the whole library (containing the current three repositories Annotations,
+     OKlibrary, Transitional, and the new (sub-)repositories ExternalSources and Overview).
+     Then we need the possibility to restrict access to parts of the repository (so
+     that annotations and Transitional are not public). </li>
+     <li> A problem is, that Annotations currently has public as well as
+     non-public parts; likely this needs to be separated. </li>
+     <li> A good solution would be, if "selective cloning" would be possible
+     (push and pull for such clones then only concern the embedded parts). </li>
+     <li> It seems, that at least at a higher level Git currently does not
+     offer something in this direction. Send an e-mail to the Git-list! </li>
+     <li> Is "git-submodule" a solution? Unclear what it does?? And not available with
+     1.5.2.1. </li>
+     <li> And "repository surgery" is needed (like merging of repositories). DONE (see
+     "Combining different repositories" in the above todo) </li>
+    </ul>
+   </li>
+   <li> A distributed version control system as integral part of the library:
+    <ul>
+     <li> The version control system is built by the library (ExternalSources). </li>
+     <li> One has to reflect on how an (external) user of the library might want to
+     extend the library (under the version control!). </li>
+     <li> Hopefully the distributed version control constitutes also the main part of the
+     update-solution for an external user (who extended the library)! </li>
+    </ul>
+   </li>
+   <li> The central repository:
+   For a new version control system we have to find out how to establish the role of the repository at
+   cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
+   relying on ssh). </li>
   </ul>
 
 
@@ -304,6 +305,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> 29.6.2007: 4.4 MB; Transitional total: 15.6 MB </li>
      <li> 1.7.2007: 4.5 MB; Transitional total: 15.7 MB </li>
      <li> 3.7.2006: 4.6 MB; Transitional total: 15.9 MB </li>
+     <li> 8.7.2006: 4.6 MB; Transitional total: 15.9 MB </li>
     </ol>
    </li>
   </ul>
