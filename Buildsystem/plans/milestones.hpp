@@ -8,7 +8,7 @@
 
   \par Version 0.1.7 : THEME is "PROTO-RELEASE"
 
-  \par Buildsystem/ExternalSources version 0.1.2
+  \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Configuration version 0.0.6

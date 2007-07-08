@@ -9,9 +9,8 @@
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Directory structure of OKplatform/ExternalSources
     - Documenting ExternalSources.mak
-    - Downloading sources
-    - Renaming
     - Plans-structure for ExternalSources : DONE
 
   \par
@@ -27,6 +26,8 @@
 
   \par
    In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Downloading sources
+    - Renaming
     - Building documentation
     - General
     - Make-variables for external libraries
@@ -34,6 +35,9 @@
   \par
    In Buildsystem/ExternalSources/plans/Configuration.hpp the following topics are handled:
     - external_sources_versions.mak
+
+
+  \par Version 0.1.3
 
   \par
    In Buildsystem/ExternalSources/plans/Boost.hpp the following topics are handled:
@@ -54,6 +58,7 @@
   \par
    In Buildsystem/ExternalSources/plans/Ubcsat.hpp the following topics are handled:
     - Building Ubcsat
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
