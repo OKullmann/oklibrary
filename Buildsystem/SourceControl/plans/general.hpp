@@ -1,7 +1,7 @@
 // Oliver Kullmann, 10.4.2007 (Swansea)
 
 /*!
-  \file Buildsystem/plans/VersionControl.hpp
+  \file Buildsystem/SourceControl/plans/general.hpp
   \brief Plans and todos for the versioning control system
 
 
@@ -63,8 +63,8 @@ git mv file1 file2 dir1 dir2 Annotations
 
   \todo Exploring usage patterns;
   <ul>
-   <li> The configuration data about developers, library names etc. must go to Configuration (see
-   Buildsystem/plans/Configuration.hpp). </li>
+   <li> The configuration data about developers, library names etc. must go
+   to Configuration (see Buildsystem/Configuration/plans/Persons.hpp). </li>
    </li>
    <li> Git can handle symbolic links, so all symbolic links should go
    into the respository? On the other hand, this seems to imply one universal
@@ -290,17 +290,14 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
 
   \todo Space usage:
   <ul>
-   <li> It seems that the .git directories grow rather fast? For csltok:
+   <li> It seems that the .git directories grow rather fast? For csltok
+   (data always after "git gc --prune"):
     <ol>
-     <li> 6.6.2007: 4.3 MB </li>
-     <li> 7.6.2007: 4.4 MB </li>
-     <li> 9.6.2007: 4.5 MB; after "git gc": 4.1 MB </li>
-     <li> 10.6.2007: 4.3 MB </li>
-     <li> 14.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 17.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 21.6.2007: 4.3 MB; after "git gc": 4.2 MB </li>
-     <li> 23.6.2006; 4.3 MB; after "git gc": 4.3 MB;
-          Transitional total: 15.3 MB </li>
+     <li> 9.6.2007: 4.1 MB </li>
+     <li> 14.6.2007: 4.2 MB </li>
+     <li> 17.6.2007: 4.2 MB </li>
+     <li> 21.6.2007: 4.2 MB </li>
+     <li> 23.6.2006; 4.3 MB; Transitional total: 15.3 MB </li>
      <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
      <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
      <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
