@@ -1,13 +1,8 @@
 // Oliver Kullmann, 11.1.2006 (Swansea)
 
 /*!
-  \file Matchings/plans/general.hpp
-
-
-  \todo Correction: DONE
-  Find the date in the cvs-logs for Matchings/plans/milestones.hpp
-  (originally the first version was 0.0.1, but this was changed to
-  0.0.2, since there were already some more plans there).
+  \file Graphs/Matchings/plans/general.hpp
+  \brief Plans for matchings in graphs.
 
 
   \todo Update namespaces.
@@ -17,6 +12,13 @@
 
 
   \todo Concepts for bipartite graphs are needed.
+
+
+  \todo Relations
+  <ul>
+   <li> The matching problem for graphs is a special case of the matching
+   problem for hypergraphs (see Hypergraphs/Matchings/plans/general.hpp). </li>
+  </ul>
 
 
   \todo First implementations
@@ -68,6 +70,12 @@
    With these algorithms it can be decided whether a clause-set is
    matching-lean, etc.; see MatchingAutarkies/plans/MatchingAutarkies.hpp.
   
+
+  \todo Correction: DONE
+  Find the date in the cvs-logs for Matchings/plans/milestones.hpp
+  (originally the first version was 0.0.1, but this was changed to
+  0.0.2, since there were already some more plans there).
+
 */
 
 /*!

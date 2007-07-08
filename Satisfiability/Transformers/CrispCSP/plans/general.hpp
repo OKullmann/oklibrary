@@ -1,7 +1,7 @@
 // Oliver Kullmann, 20.11.2005 (Swansea)
 
 /*!
-  \file CrispCSP/plans/general.hpp
+  \file Transformers/CrispCSP/plans/general.hpp
   \brief Plans for the module CrispCSP
 
 
