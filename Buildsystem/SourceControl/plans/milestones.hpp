@@ -30,8 +30,8 @@
 
   \par Version history
 
-   - 0.2   : 8.7.2007; initial version number (we employed CVS, and moved
-   to Git).
+   - 0.2   : 8.7.2007; initial version number (we employed CVS, and then moved
+   to Git (where the basic functionality is established now)).
 
 */
 
