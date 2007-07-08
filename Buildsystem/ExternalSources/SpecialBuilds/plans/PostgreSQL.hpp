@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/PostgreSQL.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp
   \brief Plans regarding installation of the PostgreSQL package
 
 

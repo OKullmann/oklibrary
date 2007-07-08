@@ -1,7 +1,7 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Coq.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp
   \brief Plans regarding installation of Coq
 
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Ubcsat.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp
   \brief Plans regarding installation of the Ubcsat package
 
 

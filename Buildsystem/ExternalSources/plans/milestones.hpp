@@ -18,7 +18,7 @@
     - Software management
 
   \par
-   In Buildsystem/ExternalSources/plans/Mailman.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following topics are handled:
     - Building Mailman
 
 
@@ -40,23 +40,23 @@
   \par Version 0.1.3
 
   \par
-   In Buildsystem/ExternalSources/plans/Boost.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
     - Improving building Boost
 
   \par
-   In Buildsystem/ExternalSources/plans/Gcc.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following topics are handled:
     - Gcc
 
   \par
-   In Buildsystem/ExternalSources/plans/R.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
     - R-documentation
 
   \par
-   In Buildsystem/ExternalSources/plans/CMake.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following topics are handled:
     - CMake-documentation building
 
   \par
-   In Buildsystem/ExternalSources/plans/Ubcsat.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following topics are handled:
     - Building Ubcsat
 
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Mailman.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp
   \brief Plans regarding installation of the Mailman package
 
 

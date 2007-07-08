@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Boost.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp
   \brief Plans regarding installation of the Boost library
 
 

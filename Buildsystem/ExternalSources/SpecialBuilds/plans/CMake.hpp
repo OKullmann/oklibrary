@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/CMake.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp
   \brief Plans regarding installation of the CMake package
 
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Mhash.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/Mhash.hpp
   \brief Plans regarding installation of the Mhash library
 
 

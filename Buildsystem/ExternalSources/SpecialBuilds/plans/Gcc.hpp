@@ -1,7 +1,7 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Gcc.hpp
+  \file Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp
   \brief Plans regarding installation of gcc
 
   \todo Gcc
@@ -21,14 +21,6 @@
    <li> texti2pdf is a script, which can be put into ~/bin for example,
    and is needed for building the gcc-documentation --- how to provide it?
    Such small utilities could be put under version control (OKlibrary) ? </li>
-   <li> If the filestamp does already exist, then we want nothing to happen ---
-   however yet the build-directory will be rebuilt if not existent, since
-   it is a prerequisite of the rule for the "tag-paths". So it seems
-   necessary to remove the build-directory from the prerequisite-list,
-   however then it seems impossible to create the build-directory, if actually
-   gcc *is* to be build, via the target-mechanism. DONE (it seems reasonable
-   to remove the build-directory from the prerequisite-list and to build it
-   "manually") </li>
    <li> Installation of R requires a Fortran compiler. Therefore the 
     system-installation of Gcc should allow for enabling of Fortran
     language support. </li>
@@ -40,6 +32,14 @@
      system installation). </li>
     </ol>
    </li>
+   <li> If the filestamp does already exist, then we want nothing to happen ---
+   however yet the build-directory will be rebuilt if not existent, since
+   it is a prerequisite of the rule for the "tag-paths". So it seems
+   necessary to remove the build-directory from the prerequisite-list,
+   however then it seems impossible to create the build-directory, if actually
+   gcc *is* to be build, via the target-mechanism. DONE (it seems reasonable
+   to remove the build-directory from the prerequisite-list and to build it
+   "manually") </li>
   </ul>
 
 */
