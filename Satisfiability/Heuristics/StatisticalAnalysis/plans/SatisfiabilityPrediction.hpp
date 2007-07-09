@@ -1,8 +1,9 @@
 // Oliver Kullmann, 16.6.2007 (Swansea)
 
 /*!
-  \file Satisfiability/Heuristics/StatisticalAnalysis/plans/SatisfiabilityPrediction.hpp
+  \file Heuristics/StatisticalAnalysis/plans/SatisfiabilityPrediction.hpp
   \brief Submodule for computing approximated SAT-probabilities
+
 
   \todo The simplest method is to compute the (exact) probability
   that a random assignment satisfies the instance (used in the old
@@ -13,6 +14,7 @@
    distribution on the assignments (for example some variables have a
    higher probability)?! </li>
   </ul>
+
 
   \todo Approximating the exact probability via inclusion-exclusion
   <ul>
@@ -28,11 +30,13 @@
    <li> And finally an implementation of arbitrary k (at run-time). </li>
   </ul>
 
+
   \todo Experimentation
   <ul>
    <li> Experimentation with the precision of the various methods (first
    on random formulas). </li>
   </ul>
+
 
   \todo Counting falsifying assignment
   <ul>

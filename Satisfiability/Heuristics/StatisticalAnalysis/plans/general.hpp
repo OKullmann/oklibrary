@@ -1,11 +1,15 @@
 // Oliver Kullmann, 16.6.2007 (Swansea)
 
 /*!
-  \file Satisfiability/Heuristics/StatisticalAnalysis/plans/general.hpp
+  \file Heuristics/StatisticalAnalysis/plans/general.hpp
   \brief Module with statistical analysis tools for heuristics
 
-  \todo Move Transitional/Statistics/plans/RecogniseRandomFormulas.hpp
-  to here.
+
+  \todo Update namespaces.
+
+
+  \todo Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp
+  to here : DONE
 
 */
 
