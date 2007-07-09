@@ -25,6 +25,35 @@
      copyright-situation, but then at least perhaps in every plans-directory we have
      a files "contributors.hpp" where just the developers are mentioned which contributed
      to the module (they enter themselves)? </li>
+     <li> The possibility, that each files contains its own special copyright list,
+     where each contributor enters himself, does not seem feasible to me due to the
+     following reasons:
+      <ol>
+       <li> In each group, there is a hierarchy, and often students and research
+       assistants do the work as instructed by their supervisors --- not it wouldn't
+       be right that the student or assistant gets the copyright, but it must be
+       the supervisor who gets the copyright --- now who shall control this?? </li>
+       <li> How to make the distinction: Shall everybody who just corrects a little
+       spelling mistake get also the copyright? In our situation, perhaps different
+       from traditional (centralised) open-source development, everybody is
+       encouraged (and enabled) to do tiny contributions. </li>
+       <li> According the the Berne convention, the contributors do not
+       loose their "natural copyright" (as partial authors), it is only
+       that I (OK) express *my* copyright. More information is needed here XXX </li>
+       <li> Does it make a difference whether contributors submit files already
+       with OK's copyright, or perhaps would it be better if the copyright
+       would be left blank, and then OK's copyright is filled in? </li>
+       <li> What about the developer's file --- don't we run their into
+       similar problems, who shall be entered? And what is the scope of
+       contribution --- always the directory below it?? Seems to create also
+       trouble. Perhaps we do without it, and leave it to the source control
+       to log the contributors (would be more precise)? </li>
+       <li> Can we make the OKlibrary "officially" available? Or "more
+       official"?? Perhaps we need a Sourceforge-account??? </li>
+       <li> Having each file OK-copyright would emphasise the responsibility
+       of OK for the unity of the library. </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> It seems LGPL is suitable; we have to check this (is it compatible
