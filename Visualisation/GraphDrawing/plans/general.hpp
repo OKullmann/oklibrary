@@ -8,30 +8,38 @@
   \todo Update namespaces.
 
 
-  \todo The fundamental problem is to determine a suitable graphics library.
-  Yet I see two possibilities:
-   - Qt : very intrusive, and thus perhaps not the right choice
-   - OpenGL in the form of the Mesa library: Perhaps this is suitable.
-  This graphics library must offer the following functionality:
-   - a window with graphical elements can be created
-   - graphical elements can be handled as objects, and placed on the canvas
-     using coordinates
-   - graphical elements include at least pixels, points (in various sizes) and
+  \todo Graphics library:
+  The fundamental problem is to determine a suitable graphics library.
+  <ul>
+   <li> Possibilities:
+    <ol>
+     <li> Qt : very intrusive, and thus perhaps not the right choice </li>
+     <li> OpenGL in the form of the Mesa library: Perhaps this is suitable. </li>
+    </ol>
+   </li>
+   <li> This graphics library must offer the following functionality:
+    <ol>
+     <li> a window with graphical elements can be created </li>
+     <li> graphical elements can be handled as objects, and placed on the canvas
+     using coordinates </li>
+     <li> graphical elements include at least pixels, points (in various sizes) and
      lines; it should be possible to vary their appearance (including giving
-     them colours), and possibly these elements can be moved.
-     One should play around with Mesa to see what it can, and to estimate
-     the quality of the library.
+     them colours), and possibly these elements can be moved. </li>
+    </ol>
+    One should play around with Mesa to see what it can, and to estimate
+    the quality of the library.
+   </li>
+  </ul>
 
 
-  \todo Second concepts for rooted oriented trees and for graphs are needed.
+  \todo External libraries / programs:
+  <ul>
+   <li> there is this C-program especially for drawing large trees XXX </li>
+  </ul>
+
+
+  \todo Concepts for rooted oriented trees and for graphs are needed.
   For graphs the Boost graph library is not optimal, but not too bad.
-
-
-  \todo For trees the Rheingold-Tilford algorithm is to be implemented (see the MSc
-  thesis of Warren Bailey), adorning the tree with graphical elements, which
-  then can be drawn. For graphs one or two standard graph drawing algorithm
-  from the literature should be implemented, adorning in the same way the graph
-  with graphical elements.
 
 
   \todo Applications:

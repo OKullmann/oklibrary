@@ -63,6 +63,12 @@
      this distance was adopted to this particular tree. </li>
     </ol>
    </li>
+   <li> It should suffice to perform the calculations with 64-bit doubles. </li>
+   <li> For evaluation purposes, one should also consider the canonical
+   probability distribution on the tree (the "correct distribution", such
+   that each leave gets the same probability). </li>
+   <li> For detailed investigations visualisations of the tree are interesting;
+   see GraphDrawing/plans/Trees.hpp. </li>
   </ul>
 
 */
