@@ -15,7 +15,7 @@ cmake-directories := $(cmake-base-directory) $(cmake_doc_dir)
 # #################################
 
 $(cmake-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 create_cmake_dirs : $(cmake-directories)
 

@@ -24,7 +24,7 @@ ubcsat-changed_dir := $(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected
 ubcsat_changed_files := $(wildcard $(ubcsat-changed_dir)/*.h) $(wildcard $(ubcsat-changed_dir)/*.c)
 
 $(ubcsat-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
 paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))

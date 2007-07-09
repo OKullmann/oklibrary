@@ -55,7 +55,7 @@ all_mhash_targets := $(mhash_targets) $(mhash_gcc_targets)
 $(mhash_installation_directory_paths) : % : | $(mhash-base-directory) %_Build 
 
 $(mhash-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 define install-mhash
 	cd $(mhash-base-directory)/$(1)_Build; $(postcondition) \

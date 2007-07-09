@@ -14,7 +14,7 @@ asciidoc-directories := $(asciidoc-base-directory)
 # #################################
 
 $(asciidoc-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 create_asciidoc_dirs : $(asciidoc-directories)
 

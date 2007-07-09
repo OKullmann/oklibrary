@@ -22,7 +22,7 @@ valgrind-directories := $(valgrind-base-directory)
 # #################################
 
 $(valgrind-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 create_valgrind_dirs : $(valgrind-directories)
 

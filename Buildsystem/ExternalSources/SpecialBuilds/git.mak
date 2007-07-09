@@ -15,7 +15,7 @@ git-directories := $(git-base-directory) $(git_doc_dir)
 # #################################
 
 $(git-directories) : % : 
-	mkdir $@
+	mkdir -p $@
 
 create_git_dirs : $(git-directories)
 
