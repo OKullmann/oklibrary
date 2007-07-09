@@ -8,13 +8,11 @@
   \todo Update namespaces.
 
 
-  \todo Grammars:
-  First we need formal grammars for the important types of
-  Turing machines (there should be out there some code).
-
-
-  \todo Simulation:
-  Then we should (directly) simulate Turing machines.
+  \todo Turing machines
+  <ul>
+   <li> Connect to the development of Turing machines in module Computability
+   (see Logic/Computability/plans/general.hpp). </li>
+  </ul>
 
 
   \todo NP-completeness:
