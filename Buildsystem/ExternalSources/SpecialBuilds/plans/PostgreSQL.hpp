@@ -5,7 +5,13 @@
   \brief Plans regarding installation of the PostgreSQL package
 
 
-  \todo PostgreSQL
+  \bug Missing pgsql/libpq-fe.h
+   - For MG, pgsql/libpq-fe.h was not found when using "make postgresql".
+   - Obviously, the postgresql-installation shouldn't need anything
+   from postgresql already being installed?
+
+
+  \todo Improvements
   <ul>
    <li> %Test the updated PostgreSQL installation. </li>
    <li> "make initialise-database" should work with the recommended version (and no specification
