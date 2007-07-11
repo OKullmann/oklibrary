@@ -63,6 +63,10 @@
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following topics are handled:
     - Building Ubcsat
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following topics are handled:
+    - Missing pgsql/libpq-fe.h
+    - Improvements
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

@@ -5,10 +5,11 @@
   \brief Plans regarding installation of the PostgreSQL package
 
 
-  \bug Missing pgsql/libpq-fe.h
-   - For MG, pgsql/libpq-fe.h was not found when using "make postgresql".
-   - Obviously, the postgresql-installation shouldn't need anything
-   from postgresql already being installed?
+  \todo Missing pgsql/libpq-fe.h
+  <ul>
+   <li> Install the source-libraries for postgresql, and use them for
+   the compilation of the OKlibrary. </li>
+  </ul>
 
 
   \todo Improvements
