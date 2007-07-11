@@ -8,8 +8,8 @@
 /*!
   \page CurrentVersions Current versions
 
-  - Transitional \transitional_version_full
-  - OKlibrary \oklib_version_full
+  - Transitional $(transitional_version_full)
+  - OKlibrary $(oklib_version_full)
 */
 
 /*!
@@ -17,10 +17,12 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional016 0.1.6 : Theme "PROTO-RELEASE"; TO BE REACHED \deadline_016
+  \subsection VersionTransitional016 0.1.6 : Theme "PROTO-RELEASE"
+  TO BE REACHED $(deadline_016)
   \par Buildsystem version 0.1.7 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par LegalIssues version 
+  \par LegalIssues version 0.1
+  (see LegalIssues/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
@@ -50,7 +52,8 @@
    - Bibtex-database
 
    
-  \subsection VersionTransitional017 0.1.7 : TO BE REACHED \deadline_017
+  \subsection VersionTransitional017 0.1.7
+  TO BE REACHED $(deadline_017)
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
   \par AtomicConditions version 0.0.3 (OK (MH))
@@ -87,7 +90,8 @@
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional018 0.1.8 : TO BE REACHED \deadline_018
+  \subsection VersionTransitional018 0.1.8
+  TO BE REACHED $(deadline_018)
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
