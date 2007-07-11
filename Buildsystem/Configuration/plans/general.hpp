@@ -15,7 +15,7 @@
     </ol>
    </li>
    <li> html-pages </li>
-   <li> doxygen </li>
+   <li> The doxygen system (see "Definitions for doxygen" below). </li>
    <li> Personal information:
     <ol>
      <li> See Buildsystem/Configuration/plans/Persons.hpp. </li>
@@ -86,8 +86,6 @@ SET(CONFIGVAR2 value2)
      <li> FILE_PATTERNS </li>
     </ol>
     could come from a separate configuration file --- how to achieve this? </li>
-   <li> Allows the Doxyfile for includes or macro expansion? See "Environment-variable expansion"
-   in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. </li>
    <li> Perhaps it's best to define a "master-doxyfile" in the primary configuration system,
    containing macros or includes for the above four definitions, and then the build system
    builds the finale Doxyfile (in the derived configurations) in dependency on these
@@ -98,6 +96,8 @@ SET(CONFIGVAR2 value2)
    <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
    on the created doxyfile, one has to study the changes, and update the master-doxyfile
    accordingly. </li>
+   <li> Allows the Doxyfile for includes or macro expansion? See "Environment-variable expansion"
+   in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. DONE (yes) </li>
   </ul>
 
 */

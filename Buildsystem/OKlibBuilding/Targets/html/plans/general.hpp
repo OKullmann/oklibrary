@@ -7,11 +7,18 @@
 
   \todo Environment-variable expansion
   <ul>
+   <li> Describe more precisely the features of "$(VAR)"-usage:
+    <ol>
+     <li> "$(VAR)" in a file to be processed by doxygen cannot occur
+     on a "\par"-line. </li>
+     <li> "$(VAR)" in the Doxyfile can appear within quotation marks. </li>
+    </ol>
+   </li>
+   <li> Ask the doxygen-mailing list! </li>
+   <li> Compare with "Definitions for doxygen" in Buildsystem/Configuration/plans/general.hpp. DONE </li>
    <li> Apparently doxygen replaces make-variable-evaluations
    like "$(source_libraries)" or "$(HOME)" by their value, except if these terms are in
-   quotes (as here, to avoid evaluation) ?!?! This could be useful, but is not documented?
-   Ask the doxygen-mailing list! </li>
-   <li> Compare with "Definitions for doxygen" in Buildsystem/Configuration/plans/general.hpp. </li>
+   quotes (as here, to avoid evaluation) ?!?! This could be useful, but is not documented? DONE (decided to use this feature) </li>
   </ul>
 
 
@@ -43,7 +50,7 @@
      our use of doxygen :
      For simple lists we do it as here, otherwise we use the html-elements. Documented in the main documentation-document.
      However, how do they description-lists work? </li>
-   <li> Doxygen can create "man pages" --- what does this mean? </li>
+   <li> Doxygen can create "man pages" --- what does this %mean? </li>
    <li> See the doxygen-related problems in Messages (should be solvable by expanding those
      macros) : DONE </li>
    <li> How to integrate a *general* todo list into Doxygen? With xrefitem. However it seems we no longer need it : DONE </li>
