@@ -152,31 +152,23 @@ endif
 #  Transitional/Buildsystem/Annotations.mak
 # ################################################################
 
-# REMARK OK: The above list ist not maintainable --- something needs to happen! XXX
+# REMARK OK: The above list ist not maintainable --- something needs to happen! 
+# Answer OK: Will be removed with the arrival of the oklib-masterscript.
 
+# The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile (as the full directory path containing the OKplatform)!)
   endif
+endif
+ifndef OKconfiguration
+  OKconfiguration := $(OKplatform)/.oklib/Configuration
 endif
 
-ifndef OKsystem
-  ifdef OKSYSTEM
-    OKsystem := $(OKSYSTEM)
-  else
-    OKsystem := $(OKplatform)/OKsystem
-  endif
-endif
-
-ifndef OKbuildsystem
-  ifdef OKBUILDSYSTEM
-    OKbuildsystem := $(OKBUILDSYSTEM)
-  else
-    OKbuildsystem := $(OKsystem)/Transitional/Buildsystem
-  endif
-endif
+include $(OKconfiguration)/configuration_data.mak
+export
 
 # ######################################################################
 
