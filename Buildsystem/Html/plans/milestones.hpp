@@ -10,7 +10,8 @@
   \par
    In Buildsystem/Html/plans/general.hpp the following topics are handled:
     - General rules for html-pages
-    - Configuration problem
+    - Install configuration system
+    - Configuration problem : DONE
     - External vs. internal html-pages : DONE
     - Html-Directory : DONE
 

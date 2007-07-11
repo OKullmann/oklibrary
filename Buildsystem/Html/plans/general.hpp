@@ -23,18 +23,26 @@
   </ol>
 
 
-  \todo Configuration problem:
+  \todo Install configuration system
+  <ul>
+   <li> See solution to "Configuration problem" below. </li>
+  </ul>
+
+
+  \todo Configuration problem:  DONE
+   (decided to use the m4-system, since it is always available, it is simple
+   to use, and if php is needed later, then we can use both systems)
   <ul>
    <li> We need a simple system which allows
    to add invisible variables to the html-pages, whose visible values
    are updated by running some program (which has the list of current
    values). Then we can just write plain html-pages, and don't have
    to bother about constructing them with make-commands. The solution is an
-   html preprocessor (see http://htmlhelp.com/links/preprocessors.html)
+   html preprocessor (see http://htmlhelp.com/links/preprocessors.html).
    <ol>
     <li> m4 would work --- this is available on Linux
     and Unix systems (current version is 1.4.9, but the installed versions
-    should be fine).
+    should be fine). DONE (to be used as described below)
      <ol>
       <li> According to "Configuration data format" in
       Buildsystem/Configuration/plans/general.hpp all configuration data is
@@ -74,7 +82,7 @@ dkdkdl
       </li>
      </ol>
     </li>
-    <li> Apparently php can also be used as a preprocessor?
+    <li> Apparently php can also be used as a preprocessor? DONE (not used now; possibly later)
      <ol>
       <li> It seems that for using the doxygen-search-function we need to
       install php anyway (see "Search engine" in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp). </li>
