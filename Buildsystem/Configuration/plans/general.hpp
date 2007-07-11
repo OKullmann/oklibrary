@@ -25,7 +25,16 @@
 
   \todo Configuration data format
   <ul>
-   <li> We could use makefile-syntax, that is, we have make-files containing only variable settings
+   <li> In order that the configuration-variables become available, the corresponding master-process
+   has to be invoked by some makefile; so perhaps over time a collection of small specialised
+   makefiles arises. </li>
+   <li> Should the configuration-make-variables be recursive or not? Recursive variables
+   give more power ("one never knows"), and so at the moment the decision is to make
+   all configuration-make-variables recursive. </li>
+   <li> Splitting the definitions over several files is likely preferable from the
+     order point of view. Shouldn't be too complicated to use them. </li>
+   <li> DONE (we use makefiles with makevariable-definitions for all configuration data)
+     We could use makefile-syntax, that is, we have make-files containing only variable settings
      \verbatim
 CONFIGVAR1=value1
 CONFIGVAR2=value2
@@ -56,9 +65,8 @@ SET(CONFIGVAR2 value2)
    configuration-variables defined in makefiles as as make-variables.
    Via the export-function then we have all them plus the environment
    variables at hand, and every other usage of configuration variables
-   (doxygen or an html-preprocessor) just accesses environment variables. </li>
-   <li> Splitting the definitions over several files is likely preferable from the
-     order point of view. Shouldn't be too complicated to use them. </li>
+   (doxygen or an html-preprocessor) just accesses environment variables.
+   DONE (we do as proposed here) </li>
    <li> If we are going to use CMake, then perhaps the variable settings should
      be done in the cmake-syntax. DONE (the cmake-transition, if at all, can
      happen only after we have a running make-system) </li>
