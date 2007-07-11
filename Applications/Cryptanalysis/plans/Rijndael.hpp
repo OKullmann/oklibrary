@@ -33,7 +33,7 @@
    <li> The roughest subdivision presents just the input-output relation (this
    shouldn't not be considerd as an active clause). </li>
    <li> At the finest level we have represented the whole of AES as a boolean
-   CNF> </li>
+   CNF. </li>
    <li> Inbetween there are many possibilities to handle the round-computations. </li>
   </ul>
 
@@ -42,7 +42,7 @@
   <ul>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
-   levels for the active clauses used. </li>
+   levels" for the active clauses used. </li>
    <li> Only later should we consider a full C++ implementation, but first
    we create a prototype in the computer-algebra system. </li>
    <li> First the formulas F_AES(p, k, c) encoding
