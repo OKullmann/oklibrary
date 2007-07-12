@@ -57,7 +57,7 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    simply "Buildsystem/ExternalSources/makefile". </li>
    <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
    to directory Buildsystem/ExternalSources, and then call it
-   simply "versions.mak". </li>
+   simply "versions.mak". DONE (moved it to Buildsystem/Configuration) </li>
   </ul>
 
 

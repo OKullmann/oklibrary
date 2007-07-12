@@ -37,7 +37,6 @@ all : gcc boost postgresql valgrind mhash doxygen ubcsat asciidoc git
 # #################################
 
 # Versions, System-wide definitions and local definitions :
-include $(OKbuildsystem)/external_sources_versions.mak
 include $(OKbuildsystem)/ExternalSources/definitions_.mak
 # Special build targets:
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gcc.mak

@@ -16,8 +16,6 @@
    environments, and how to take control of this. </li>
    <li> There should be make-variables, which allow control over
    some settings for the build of gcc. </li>
-   <li> Shouldn't file external_sources_versions.mak be placed in
-   subdirectory Buildsystem/ExternalSources ? </li>
    <li> texti2pdf is a script, which can be put into ~/bin for example,
    and is needed for building the gcc-documentation --- how to provide it?
    Such small utilities could be put under version control (OKlibrary) ? </li>
@@ -32,6 +30,8 @@
      system installation). </li>
     </ol>
    </li>
+   <li> Shouldn't file external_sources_versions.mak be placed in
+   subdirectory Buildsystem/ExternalSources ? DONE (placed in Buildsystem/Configuration) </li>
    <li> If the filestamp does already exist, then we want nothing to happen ---
    however yet the build-directory will be rebuilt if not existent, since
    it is a prerequisite of the rule for the "tag-paths". So it seems

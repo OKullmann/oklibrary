@@ -154,15 +154,6 @@ export
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
-#  Definitions required from external_sources_versions.mak:
-#    gcc_recommended_version_number
-#    boost_recommended_version_number
-# ----------------------------------------------------------
-include $(OKbuildsystem)/external_sources_versions.mak
-export
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
 #  Definitions required from standardgoals.mak
 #    special_goals
 #    cleaning_goals

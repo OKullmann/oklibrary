@@ -17,7 +17,7 @@
   \todo external_sources_versions.mak: UPDATE needed (%w.r.t. the new view
   of the configuration center)
   <ul>
-   <li> The role of external_sources_versions.mak must
+   <li> The role of Configuration/external_sources_versions.mak must
    be clarified. </li>
    <li> Names like
    <code> doxygen_supported_not_recommended_version_numbers </code>

@@ -8,7 +8,7 @@
   
   XXX base directory OKplatform/ExternalSources
   
-  XXX version numbers in Buildsystem/external_sources_versions.mak
+  XXX version numbers in Buildsystem/Configuration/external_sources_versions.mak
 
   Buildsystem/ExternalSources.mak is the central makefile
   linked to by ExternalSources/makefile. Here are defined the main
