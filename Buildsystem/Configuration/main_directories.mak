@@ -22,7 +22,11 @@ ifndef OKbuildsystem
   OKbuildsystem = $(Transitional)/Buildsystem
 endif
 
+ifndef OKanchor
+  OKanchor = $(OKplatform)/.oklib
+endif
+
 ifndef OKoverrideconfig
-  OKoverrideconfig = $(OKplatform)/.oklib/override.mak
+  OKoverrideconfig = $(OKanchor)/override.mak
 endif
 
