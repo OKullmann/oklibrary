@@ -3,57 +3,27 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# ################################################################
-# Original definitions of OKplatform and OKbuildsystem, are 
-# in Transtional/Buildsystem/generic.mak and cut-and-pasted
-# to :
-#  Transitional/Buildsystem/ExternalSources.mak
-#  Transitional/Buildsystem/ExternalSources/boost.mak
-#  Transitional/Buildsystem/ExternalSources/doxygen.mak
-#  Transitional/Buildsystem/ExternalSources/gcc.mak
-#  Transitional/Buildsystem/ExternalSources/mhash.mak
-#  Transitional/Buildsystem/ExternalSources/postgresql.mak
-#  Transitional/Buildsystem/ExternalSources/ubcsat.mak
-#  Transitional/Buildsystem/ExternalSources/valgrind.mak
-#  Transitional/Buildsystem/makefile
-#  Transitional/Buildsystem/OKsystem.mak
-#  Transitional/Buildsystem/recursive.mak
-#  Transitional/Buildsystem/Transitional.mak
-#  Transitional/Buildsystem/Annotations.mak
-# ################################################################
-
+# The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
   else
-    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile!)
+    $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile (as the full directory path containing the OKplatform)!)
   endif
+endif
+ifndef OKconfiguration
+  OKconfiguration := $(OKplatform)/.oklib/Configuration
 endif
 
-ifndef OKsystem
-  ifdef OKSYSTEM
-    OKsystem := $(OKSYSTEM)
-  else
-    OKsystem := $(OKplatform)/OKsystem
-  endif
-endif
-
-ifndef OKbuildsystem
-  ifdef OKBUILDSYSTEM
-    OKbuildsystem := $(OKBUILDSYSTEM)
-  else
-    OKbuildsystem := $(OKsystem)/Transitional/Buildsystem
-  endif
-endif
+include $(OKconfiguration)/configuration_data.mak
+export
 
 # ######################################################################
 
 include $(OKbuildsystem)/system_definitions.mak
-
 export
 
 include $(OKbuildsystem)/standardgoals.mak
-
 export
 
 include $(Annotations_dir)/definitions.mak
@@ -62,11 +32,8 @@ include $(Annotations_dir)/definitions.mak
 # Root
 
 aux_dir := $(system_directories)/aux
-
 latex_dir := $(aux_dir)/latex
-
 doc_dir := $(system_directories)/doc
-
 dvi_dir := $(doc_dir)/dvi
 
 directories := $(aux_dir) $(latex_dir) $(doc_dir) $(dvi_dir)
@@ -74,9 +41,7 @@ directories := $(aux_dir) $(latex_dir) $(doc_dir) $(dvi_dir)
 # -------------------------------------------------------------------------
 
 tex_files := $(wildcard $(Annotations_dir)/*.tex)
-
 tex_files_bases := $(basename $(notdir $(tex_files)))
-
 dvi_files := $(addprefix $(dvi_dir)/, $(addsuffix .dvi, $(tex_files_bases)))
 
 # -------------------------------------------------------------------------
