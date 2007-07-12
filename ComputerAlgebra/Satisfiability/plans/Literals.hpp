@@ -1,7 +1,7 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
 
 /*!
-  \file Transitional/ComputerAlgebra/Satisfiability/plans/Literals.hpp
+  \file ComputerAlgebra/Satisfiability/plans/Literals.hpp
   \brief Plans for literals ("concrete")
 
 

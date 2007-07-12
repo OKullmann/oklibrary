@@ -1,7 +1,7 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
 
 /*!
-  \file Transitional/ComputerAlgebra/Satisfiability/plans/MinimalSatisfyingAssignments.hpp
+  \file ComputerAlgebra/Satisfiability/plans/MinimalSatisfyingAssignments.hpp
   \brief Plans for computing the set of minimal satisfying assignments
 
 

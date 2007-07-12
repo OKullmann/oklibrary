@@ -1,7 +1,7 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
 
 /*!
-  \file Transitional/ComputerAlgebra/Satisfiability/plans/Clauses.hpp
+  \file ComputerAlgebra/Satisfiability/plans/Clauses.hpp
   \brief Plans for clause-constructions
 
   \todo Boolean clauses
