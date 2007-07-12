@@ -17,6 +17,7 @@
    <li> Perhaps there is already some implementation? </li>
    <li> But in any case we need our own implementation, as elegant as possible,
    exploiting finite field arithmetic. </li>
+   <li> Compare the discussion under "Condition" in ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
   </ul>
 
 
