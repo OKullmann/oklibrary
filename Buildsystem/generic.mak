@@ -125,35 +125,6 @@ endif
 
 # Most system-wide environment and Make variables are defined in the file
 # Transitional/Buildsystem/system_definitions.mak.
-# However the build system requires in certain files (see next section)
-# that the definition of OKbuildsystem is available, and in order to provide
-# maximum flexibility and convenience for the user we chose to define in each
-# of those places the environment variable OKPLATFORM, OKSYSTEM, OKBUILDSYSTEM
-# and the Make variables OKplatform, OKsystem and OKbuildsystem. This is done
-# by cut-and-paste from the original definition in 
-# Transitional/Buildsystem/generic.mak.
-
-# ################################################################
-# Original definitions of OKplatform and OKbuildsystem, are 
-# in Transitional/Buildsystem/generic.mak and cut-and-pasted
-# to :
-#  Transitional/Buildsystem/ExternalSources.mak
-#  Transitional/Buildsystem/ExternalSources/boost.mak
-#  Transitional/Buildsystem/ExternalSources/doxygen.mak
-#  Transitional/Buildsystem/ExternalSources/gcc.mak
-#  Transitional/Buildsystem/ExternalSources/mhash.mak
-#  Transitional/Buildsystem/ExternalSources/postgresql.mak
-#  Transitional/Buildsystem/ExternalSources/ubcsat.mak
-#  Transitional/Buildsystem/ExternalSources/valgrind.mak
-#  Transitional/Buildsystem/makefile
-#  Transitional/Buildsystem/OKsystem.mak
-#  Transitional/Buildsystem/recursive.mak
-#  Transitional/Buildsystem/Transitional.mak
-#  Transitional/Buildsystem/Annotations.mak
-# ################################################################
-
-# REMARK OK: The above list ist not maintainable --- something needs to happen! 
-# Answer OK: Will be removed with the arrival of the oklib-masterscript.
 
 # The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
 ifndef OKplatform
