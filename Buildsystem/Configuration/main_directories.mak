@@ -10,6 +10,14 @@ ifndef ExternalSources
   ExternalSources = $(OKplatform)/ExternalSources
 endif
 
+ifndef system_directories
+  ifdef SYSTEMDIRECTORIES
+    system_directories := $(SYSTEMDIRECTORIES)
+  else
+    system_directories := $(OKplatform)/system_directories
+  endif
+endif
+
 ifndef OKsystem
   OKsystem = $(OKplatform)/OKsystem
 endif
