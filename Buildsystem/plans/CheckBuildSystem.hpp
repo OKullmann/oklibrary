@@ -4,6 +4,7 @@
   \file Buildsystem/plans/CheckBuildSystem.hpp
   \brief Plans regarding testing the build system
 
+
   \todo %Test script:
   We need some test system for the build system. Optimally, it would run
   like our normal test system; perhaps this is hard to achieve, but at
@@ -19,6 +20,17 @@
    <li> make html </li>
    <li> make %boost etc. (all external sources) </li>
    <li> make package (the future package building) </li>
+  </ul>
+
+
+  \todo Different environments
+  <ul>
+   <li> We should try to check different Linux distributions:
+    <ol>
+     <li> Suse 10.0 or greater </li>
+     <li> RedHat ??? </li>
+     <li> Debian </li>
+    </ol>
   </ul>
 
 */
