@@ -13,6 +13,7 @@
     - bug Incorrect build of new tests I
     - bug Incorrect build of new tests II
     - %Test system
+    - Log directory : DONE
     - New directory-structure "Generic" : DONE
     - OKsystem/Buildsystem structure : DONE
     - Specification of build system : DONE
@@ -23,6 +24,7 @@
 
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
+    - Doxygen error messages
     - Environment-variable expansion
     - Doxygen general
     - Directory structure : DONE
@@ -34,7 +36,6 @@
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
     - Renaming
     - Documenting the build system
-    - Log directory
     - Setting the paths to GCC and Boost link libraries
     - User control of system versions
     - General_options

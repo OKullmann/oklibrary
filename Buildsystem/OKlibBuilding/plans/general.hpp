@@ -55,17 +55,6 @@
   </ul>
 
 
-  \todo Log directory:
-  SystemDirectories gets a new sub-directory log, where the current
-  aux/DoxygenErrorMessages is placed. Every run of make copies it
-  output by default (can be switched off) into a file
-  log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
-  <ul>
-   <li> One possibility to achieve this is by letting makefile_recursive call makefile_generic
-   with appropriately redirected output. </li>
-  </ul>
-  
-
   \todo Setting the paths to GCC and Boost link libraries
     - The setting of the Make variable "alternative_library_path" needs to be reviewed.
       For example, the name "alternative_library_path" is no longer appropriate.
@@ -225,6 +214,17 @@
      .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
      in the testprogram).
 
+
+  \todo Log directory: DONE (delegated to the new masterscript)
+  SystemDirectories gets a new sub-directory log, where the current
+  aux/DoxygenErrorMessages is placed. Every run of make copies it
+  output by default (can be switched off) into a file
+  log/makefile_generic resp. log/makefile_ExternalSources resp. log/makefile_buildsystem.
+  <ul>
+   <li> One possibility to achieve this is by letting makefile_recursive call makefile_generic
+   with appropriately redirected output. </li>
+  </ul>
+  
 
   \todo New directory-structure "Generic" : DONE (complete restructuring)
   <ul>

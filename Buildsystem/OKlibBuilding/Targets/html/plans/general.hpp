@@ -5,6 +5,16 @@
   \brief Plans for the documentation-extraction from the source-code
 
 
+  \todo Doxygen error messages:
+  <ul>
+   <li> Move aux/DoxygenErrorMessages to directory
+   system_directories/log (and add suffix .txt; this filename
+   is a configuration-variable). </li>
+   <li> Perhaps the output of doxygen could be configured (only error
+   messages, all output, etc.). </li>
+  </ul>
+  
+
   \todo Environment-variable expansion
   <ul>
    <li> Describe more precisely the features of "$(VAR)"-usage:
