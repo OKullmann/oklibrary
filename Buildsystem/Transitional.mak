@@ -26,5 +26,5 @@ export
 
 # ######################################################################
 
-include $(OKbuildsystem)/recursive.mak
+include $(OKbuildsystem)/Recursive.mak
 

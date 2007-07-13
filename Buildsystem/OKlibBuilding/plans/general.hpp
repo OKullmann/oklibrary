@@ -95,11 +95,11 @@
   \todo Role of srcdir : UPDATE as soon as the usage of CMake becomes clearer
   <ul>
    <li>
-     What is the role of variable srcdir ? Isn't the definition in makefile_recursive
+     What is the role of variable srcdir ? Isn't the definition in Recursive.mak
      superfluous now?
      It is used in makefile_generic (so that we can call makefiles from other places,
      without a change in behaviour; we should also document this), but why the
-     definition in makefile_recursive ? Can't makefile_generic define it on its own
+     definition in Recursive.mak ? Can't makefile_generic define it on its own
      (respectively, shouldn't the definition in makefile_generic  suffice) ?
 
      Within recursive makefile-invocations we can use the option "--directory=DIR",
