@@ -5,7 +5,7 @@
   \brief Plans for satisfaction problems (in general)
   
   
-  \todo Variables
+  \todo %Variables
   <ul>
    <li> The set of all variables in some context is Va. </li>
   </ul>
@@ -17,7 +17,7 @@
   </ul>
 
 
-  \todo Total assignment
+  \todo Total assignments
   <ul>
    <li> one total assignment: f: Va -> Val </li>
    <li> the set TASS of all total assignments </li>
@@ -102,20 +102,49 @@
     </ol>
    </li>
    <li> Now the above fundamental task is to be considered for phi * P (and phi *' P). </li>
-   <li> A set of variables V is a "backdoor" for P regarding one of the above fundamental tasks,
-   if for every assignment of values to the variables in V the task can be "efficiently" solved.
-   The knowledge about some such backdoors is important structural information, either given with
-   the problem instance itself (a priori), or computed later (a posteriori). Given some set
-   of variables, an interesting task is to find a smallest backdoor (from the ones we know)
-   which includes this set.
+   <li> The "point of view of satisfiability" is the emphasise on partial assignments and
+   clause-sets relative to a notion of "literal":
     <ol>
-     <li> Consider as an example the condition given by AES (see Cryptanalysis/plans/Rijndael.hpp):
-     This is a condition on n+n+k boolean variables, where n is block length and k the key length.
-     Given n+?+k or ?+n+k variables, the remaining variables are uniquely determined and can
-     be efficiently computed by the encryption resp. decryption algorithm. </li>
-     <li> So we have two backdoors for computing a full DNF representation. </li>
+     <li> A "literal" is a special condition such that "x implies y" can always be decided
+     "very quickly" for literals x, y, and such that all fundamental tasks can be
+     performed "very quickly". </li>
+     <li> A "clause" is a finite set of literals, either interpreted as CNF-clause ("or") or as
+     DNF-clause ("and"). There are three normalising conditions on clauses:
+      <ol>
+       <li> No literal implies another literal. </li>
+       <li> Stronger: Two literals cannot be combined into an equivalent literal. </li>
+       <li> The clause does not represent a constant condition. </li>
+      </ol>
+     It must hold for normalised clauses, that a CNF-clause C implies a CNF-clause D
+     iff for all x in C there is a literal y in D such that x implies y. This restricts
+     the notion of literals. </li>
+     <li> "Parallel" to clauses one has partial assignments, which semantically correspond
+     to DNF-clauses for satisfiability testing, and to CNF-clauses for falsifiability testing,
+     but which have a different meaning: Partial assignments steer the backtracking process. </li>
+     <li> Clause-sets are set of clauses (with finitely many variables). </li>
+     <li> The fundamental tasks are solved by returning clause-sets, where typically
+     only the cumulative k-section (all clauses up to length k) is of interest:
+     k = 0 is just the sat-problem, k = 1 yields all implied unit-clauses (or some
+     of them), and so on. </li>
+     <li> One problem is, how to call these generalised "literals", "clauses", "clause-sets":
+      <ul>
+       <li> "abstract" literals, ... ? </li>
+       <li> "active" literals, ... ? </li>
+      </ul>
+      As examples for such "abstract literals" we have already
+       <ol>
+        <li> boolean literals </li>
+        <li> (generalised) literals </li>
+        <li> signed (or power-) literals. </li>
+       </ol>
+     </li>
+     <li> For an "effective condition" we have one associated literal type, and "most"
+     basic tasks can be solved "efficiently" (generalised clauses). </li>
+     <li> An "condition set" is a set of effective conditions, either a conjunction or a
+     disjunction (generalising clause-sets). </li>
+     <li> Finally we have "alliances of condition sets", which are combinations of condition
+     sets, allowing for different literal types to be used. </li>
     </ol>
-   </li>
   </ul>
 
 
@@ -130,6 +159,39 @@
 
   \todo %Evaluation of partial assignments
 
+
+  \todo Constructing conditions
+  <ul>
+   <li> We have the propositional connectives. </li>
+   <li> And the quantifiers "for all" and "exists". </li>
+  </ul>
+
+
+  \todo Functions for conditions
+  <ul>
+   <li> var(P) yields a set of variables, such that P does not depend on variables
+   not in var(P). </li>
+  </ul>
+
+
+  \todo Backdoors
+  <ul>
+   <li> A set of variables V is a "backdoor" for condition P regarding one of the above fundamental tasks,
+   if for every assignment of values to the variables in V the task can be "efficiently" solved.
+   The knowledge about some such backdoors is important structural information, either given with
+   the problem instance itself (a priori), or computed later (a posteriori). Given some set
+   of variables, an interesting task is to find a smallest backdoor (from the ones we know)
+   which includes this set.
+    <ol>
+     <li> Consider as an example the condition given by AES (see Cryptanalysis/plans/Rijndael.hpp):
+     This is a condition on n+n+k boolean variables, where n is block length and k the key length.
+     Given n+?+k or ?+n+k variables, the remaining variables are uniquely determined and can
+     be efficiently computed by the encryption resp. decryption algorithm. </li>
+     <li> So we have two backdoors for computing a full DNF representation. </li>
+    </ol>
+   </li>
+
+  </ul>
 
 */
 
