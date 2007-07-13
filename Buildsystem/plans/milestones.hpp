@@ -29,8 +29,8 @@
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Renaming
-    - system_definitions.mak
     - System documentation
+    - system_definitions.mak : DONE (moved to Buildsystem/Configuration/plans/milestones.hpp)
 
   \par
    In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:

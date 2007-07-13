@@ -20,11 +20,7 @@ export
 
 # ######################################################################
 
-include $(OKbuildsystem)/system_definitions.mak
-export
-
 include $(OKbuildsystem)/standardgoals.mak
-export
 
 include $(Annotations_dir)/definitions.mak
 

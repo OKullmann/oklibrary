@@ -123,9 +123,6 @@ endif
 # Every module which needs to be built contains a symbolic link, called "makefile"
 # to the generic makefile Transitional/Buildsystem/generic.mak.
 
-# Most system-wide environment and Make variables are defined in the file
-# Transitional/Buildsystem/system_definitions.mak.
-
 # The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
 ifndef OKplatform
   ifdef OKPLATFORM
@@ -142,16 +139,6 @@ include $(OKconfiguration)/configuration_data.mak
 export
 
 # ######################################################################
-
-# ----------------------------------------------------------
-#  Definitions required from system_definitions.mak:
-#    OKsystem_include
-#    Boost
-#    system_directories
-# ----------------------------------------------------------
-include $(OKbuildsystem)/system_definitions.mak
-export
-# ----------------------------------------------------------
 
 # ----------------------------------------------------------
 #  Definitions required from standardgoals.mak

@@ -18,8 +18,6 @@ export
 
 # ######################################################################
 
-include $(OKbuildsystem)/system_definitions.mak
-
 prefix := $(shell pwd)
 # OK: this looks odd???
 

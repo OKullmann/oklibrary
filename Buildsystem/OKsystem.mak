@@ -22,8 +22,6 @@ export
 
 # ######################################################################
 
-include $(OKbuildsystem)/system_definitions.mak
-
 srcdir := $(OKsystem)
 
 include $(OKbuildsystem)/standardgoals.mak

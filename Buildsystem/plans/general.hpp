@@ -12,61 +12,11 @@
    <li> Buildsystem/recursive.mak -> Buildsystem/Recursive.mak </li>
    <li> Buildsystem/recursive_noneincluded.mak -> Buildsystem/Recursive_noneincluded.mak </li>
    <li> Buildsystem/standardgoals.mak -> Buildsystem/Standardgoals.mak </li>
-   <li> Buildsystem/system_definitions.mak -> Buildsystem/System_definitions.mak </li>
+   <li> Buildsystem/system_definitions.mak -> Buildsystem/System_definitions.mak DONE (file and
+   topic moved to Configuration) </li>
    <li> Buildsystem/generic.mak -> Buildsystem/Generic.mak DONE (topic moved
    to Buildsystem/OKlibBuilding/plans/general.hpp) </li>
    <li> Buildsystem/plans/generic.hpp -> Buildsystem/plans/Generic.hpp DONE (new naming scheme) </li>
-  </ul>
-
-
-  \todo system_definitions.mak: UPDATE --- some content goes to
-  plans/Configuration.hpp!
-  <ul>
-   <li> The role of system_definitions.mak must be clarified.
-   Do those library variables (Boost, Ubcsat) belong to it??
-   <ul>
-   <li> system_definitions.mak should
-   contain definitions of Make variables which are used by
-   several makefiles. However, the prefix "system_" also implies that 
-   these variables belong to the OKlibrary and not to the external
-   sources, so perhaps the definitions of variables relevant
-   for the external sources are moved elsewhere.</li>
-   <li> Perhaps all variable definitions relevant for the 
-   external sources (including version numbers) should go into
-   ExternalSources/definitions.mak? OK:
-    <ol>
-     <li> What about that "ExternalSources/definitions_.mak" ?
-     (This name seems strange to me anyway.) </li>
-     <li> The main question is about visibility. There needs to be fixed
-     the architecture of our makefiles (w.r.t. inclusion and variable
-     definitions). </li>
-    </ol>
-   </li>
-   </ul>
-   </li>
-   <li> What is the precise relation to
-   external_sources_versions.mak ? </li>
-   <li> Boost:
-    <ul>
-     <li> The default value of Boost
-     <code> -I/usr/local/boost-1_33_1 </code>
-     is stale; the recommended Boost version number is needed. 
-     <ul>
-     <li>So for every external library Extlib the default value
-     of the Make variable Extlib should be the recommended version 
-     number?</li>
-     </ul>
-     </li>
-     <li> If the variable includes the "-I", then for other
-     variables we use a suffix "_include", which we should also
-     do for the boost-variables. </li>
-     <li> We need a precise and central definition of those
-     boost-variables. </li>
-     <li> The boost-variable definitions are inconsistent with
-     the rest of the build-system, so they should be reverted (as
-     discussed). DONE </li>
-    </ul>
-   </li>
   </ul>
 
 

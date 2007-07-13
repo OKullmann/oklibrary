@@ -88,6 +88,55 @@ SET(CONFIGVAR2 value2)
   </ul>
 
 
+  \todo system_definitions.mak:
+  <ul>
+   <li> The role of system_definitions.mak must be clarified.
+   Do those library variables (Boost, Ubcsat) belong to it??
+   <ul>
+    <li> system_definitions.mak should
+    contain definitions of Make variables which are used by
+    several makefiles. However, the prefix "system_" also implies that 
+    these variables belong to the OKlibrary and not to the external
+    sources, so perhaps the definitions of variables relevant
+    for the external sources are moved elsewhere.</li>
+    <li> Perhaps all variable definitions relevant for the 
+    external sources (including version numbers) should go into
+    ExternalSources/definitions.mak? OK:
+    <ol>
+     <li> What about that "ExternalSources/definitions_.mak" ?
+     (This name seems strange to me anyway.) </li>
+     <li> The main question is about visibility. There needs to be fixed
+     the architecture of our makefiles (w.r.t. inclusion and variable
+     definitions). DONE (handled by the new configuration system) </li>
+    </ol>
+   </li>
+   </ul>
+   </li>
+   <li> What is the precise relation to external_sources_versions.mak ? </li>
+   <li> Boost:
+    <ul>
+     <li> The default value of Boost
+     <code> -I/usr/local/boost-1_34_0 </code>
+     is stale; the recommended Boost version number is needed. 
+      <ul>
+       <li> So for every external library Extlib the default value
+       of the Make variable Extlib should be the recommended version 
+       number? </li>
+      </ul>
+     </li>
+     <li> If the variable includes the "-I", then for other
+     variables we use a suffix "_include", which we should also
+     do for the boost-variables. </li>
+     <li> We need a precise and central definition of those
+     boost-variables. </li>
+     <li> The boost-variable definitions are inconsistent with
+     the rest of the build-system, so they should be reverted (as
+     discussed). DONE </li>
+    </ul>
+   </li>
+  </ul>
+
+
   \todo Definitions for doxygen:
   <ul>
    <li> The Doxyfile should be part of the (primary) configuration system. </li>
