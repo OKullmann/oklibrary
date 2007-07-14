@@ -1,6 +1,6 @@
 
 /*!
-  \file Buildsystem/plans/Foundations.hpp
+  \file Transitional/plans/Foundations.hpp
   \brief The general principles of the OKlibrary
 
 

@@ -37,10 +37,6 @@
     - %Test script
 
   \par
-   In Buildsystem/plans/Foundations.hpp the following topics are handled:
-    - Fundamental "axioms"
-
-  \par
    In Buildsystem/plans/MasterScript.hpp the following topics are handled:
     - Design
     - Implementation

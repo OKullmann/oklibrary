@@ -51,6 +51,9 @@
    - Partially moving repository Annotations
    - Latex macros
    - Bibtex-database
+  \par Transitional/plans/Foundations.hpp
+    - Fundamental "axioms"
+
   \par Update
   Update the subsequent milestones.
 
