@@ -114,9 +114,7 @@ endif
 # module-name (LV)
 # The name of the current module.
 # ----------------------------------------------------------
-ifdef srcdir
 module-name := $(notdir $(srcdir))
-endif
 # ----------------------------------------------------------
 
 
@@ -126,13 +124,13 @@ endif
 # The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
 ifndef OKplatform
   ifdef OKPLATFORM
-    OKplatform := $(OKPLATFORM)
+    OKplatform = $(OKPLATFORM)
   else
     $(error Either OKplatform (a make-variable) or OKPLATFORM (an environment-variable) must be defined when calling this makefile (as the full directory path containing the OKplatform)!)
   endif
 endif
 ifndef OKconfiguration
-  OKconfiguration := $(OKplatform)/.oklib/Configuration
+  OKconfiguration = $(OKplatform)/.oklib/Configuration
 endif
 
 include $(OKconfiguration)/configuration_data.mak
@@ -183,39 +181,6 @@ source_libraries += $(OKsystem_include)
 # ################################################################
 
 # ----------------------------------------------------------
-# bin_dir (SV): Top-level directory for all executables.
-bin_dir := $(system_directories)/bin
-# ----------------------------------------------------------
-# lib_dir (SV): Top-level directory for all object-files.
-lib_dir := $(system_directories)/lib
-# ----------------------------------------------------------
-# doc_dir (SV): Top-level directory for all documentation. 
-doc_dir := $(system_directories)/doc
-# ----------------------------------------------------------
-# aux_dir (SV): Top-level directory for all dependency files,
-# error, message and log files, and latex auxilliary files.
-aux_dir := $(system_directories)/aux
-# ----------------------------------------------------------
-# latex_dir (SV): Directory for all latex auxilliary files.
-latex_dir := $(aux_dir)/latex
-# ----------------------------------------------------------
-# dependencies_dir (SV): Directory for all dependency files.
-dependencies_dir := $(aux_dir)/dependencies
-# ----------------------------------------------------------
-# html_dir (SV): Top-level directory for doxygen documentation.
-html_dir := $(doc_dir)/html
-# ----------------------------------------------------------
-# test-bin_dir (SV): Directory for all test executables.
-test-bin_dir := $(bin_dir)/tests
-# ----------------------------------------------------------
-# test-lib_dir (SV): Directory for current module test object-files. 
-test-lib_dir := $(lib_dir)/tests/$(module-name)
-# ----------------------------------------------------------
-# test-aux_dir (SV): Directory for current module test dependency files.
-test-aux_dir := $(aux_dir)/tests/$(module-name)
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # directories (SV)
 #
 # All the build directories.
@@ -226,7 +191,7 @@ directories := $(bin_dir) \
                $(latex_dir) \
                $(dependencies_dir) \
                $(doc_dir) \
-               $(html_dir) \
+               $(doxygen_html_dir) \
                $(test-bin_dir) \
                $(test-lib_dir) \
                $(test-aux_dir)
