@@ -10,18 +10,27 @@
    <li> Further links:
     <ol>
      <li> Internet page (which has links to the mailing lists) </li>
-     <li> The developers-page (see Buildsystem/Configuration/plans/Persons.hpp) </li>
-     <li> The docus-system via a start page. </li>
-     <li> The demos-system via a start page. </li>
-     <li> All documentation. </li>
+     <li> The docus-system via a start page (in Transitional/docus). </li>
+     <li> The demos-system via a start page (in Transitional/demos). </li>
      <li> Also a special overview and introduction would be needed;
      ideal a video. </li>
+     <li> The developers-page (see Buildsystem/Configuration/plans/Persons.hpp). DONE </li>
+     <li> All documentation. DONE </li>
     </ol>
    </li>
   </ul>
 
 
   \todo Rewrite local home page
+  <ul>
+   <li> Likely we should create a directory system_directories/doc/local, where the
+   local html-pages go; or perhaps "local_html". Perhaps the doxygen-directory
+   "doc/html" should be renamed to "doc/doxygen_html" ? </li>
+   <li> I (OK) find it a bit cumbersome, that the links have to be found within a sentence
+   (especially since most of the time one does not read the text anymore, but just wants
+   to access a link): A special dedicated link-symbol (created by a style-sheet) perhaps
+   would be better (also to be used where now "click" appears). </li>
+  </ul>
 
 
   \todo Boost-documentation
@@ -53,9 +62,13 @@
   </ul>
 
 
-  \todo CMake documentation
+  \todo Further documentation
   <ul>
-   <li> Create links to the documentation-pages (in Docs). </li>
+   <li> CMake documentation: Create links to the documentation-pages (in Docs). </li>
+   <li> R </li>
+   <li> Coq </li>
+   <li> Sage </li>
+   <li> GMP </li>
   </ul>
 
 
@@ -65,10 +78,12 @@
      available, about encoding, last change date etc..
 
 
-  \todo Improved logo:
-   - yet the colour is a bit too lavenderish (a touch of darker blue perhaps)
-   - perhaps a tiny bit of space between "OK" and "library" (looks squeezed)
-   - some comments on how the logo has been created are needed.
+  \todo Improved logo
+  <ul>
+   <li> yet the colour is a bit too lavenderish (a touch of darker blue perhaps) </li>
+   <li> perhaps a tiny bit of space between "OK" and "library" (looks squeezed) </li>
+   <li> some comments on how the logo has been created are needed. </li>
+  </ul>
 
 
   \todo Using css: DONE (see "General rules for html-pages" at

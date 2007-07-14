@@ -20,7 +20,7 @@
     - Rewrite local home page
     - Boost-documentation
     - GCC-documentation
-    - CMake documentation
+    - Further documentation
     - Using css : DONE
     - Page appearance : DONE
     - bug "Naming" : DONE
