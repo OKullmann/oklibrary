@@ -6,7 +6,7 @@
   \module_version Buildsystem 0.1.6 (24.6.2007)
 
 
-  \par Version 0.1.7 : THEME is "PROTO-RELEASE"
+  \par Version 0.2 : THEME is "PROTO-RELEASE"
 
   \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
@@ -46,7 +46,7 @@
     - Implementation
 
 
-  \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
+  \par Version 0.2.1 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par Buildsystem/OKlibBuilding 0.2.4
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
@@ -67,7 +67,7 @@
     - Problems with building Boost
 
 
-  \par Version 0.1.9 : THEME is "Build system extensions"
+  \par Version 0.2.2 : THEME is "Build system extensions"
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
@@ -78,26 +78,26 @@
     - Gcc
 
 
-  \par Version 0.1.10 :
+  \par Version 0.2.3 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
 
 
 
-  \par Version 0.1.11 :
+  \par Version 0.2.4 :
    In Buildsystem/plans/makefile.hpp the following topics are handled:
     - Directories with makefile-links
 
 
 
-  \par Version 0.2 : THEME is "Basic functionality"
+  \par Version 0.3 : THEME is "Basic functionality for everybody"
 
     
-  \par Version 0.3 : THEME is "Complexity measurements"
+  \par Version 0.4 : THEME is "Complexity measurements"
 
 
-  \par Version 0.4 : THEME is "Rounding up"
+  \par Version 0.5 : THEME is "Rounding up"
 
 
   

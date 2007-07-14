@@ -17,9 +17,10 @@
 
   \section StartingVersion Future milestones
 
-  \subsection VersionTransitional016 0.1.6 : Theme "PROTO-RELEASE"
-  TO BE REACHED $(deadline_016)
-  \par Buildsystem version 0.1.7 (OK, MH)
+
+  \section VersionTransitional020 0.2 : Theme "PROTO-RELEASE"
+  TO BE REACHED $(deadline_020)
+  \par Buildsystem version 0.2 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.1
   (see LegalIssues/plans/milestones.hpp)
@@ -50,10 +51,12 @@
    - Partially moving repository Annotations
    - Latex macros
    - Bibtex-database
+  \par Update
+  Update the subsequent milestones.
 
    
-  \subsection VersionTransitional017 0.1.7
-  TO BE REACHED $(deadline_017)
+  \subsection VersionTransitional021 0.2.1
+  TO BE REACHED $(deadline_021)
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
   \par AtomicConditions version 0.0.3 (OK (MH))
@@ -68,7 +71,7 @@
   (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
-  \par Buildsystem version 0.1.8 (MH, OK)
+  \par Buildsystem version 0.2.1 (MH, OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
@@ -90,8 +93,8 @@
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional018 0.1.8
-  TO BE REACHED $(deadline_018)
+  \subsection VersionTransitional022 0.2.2
+  TO BE REACHED $(deadline_022)
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
@@ -102,6 +105,7 @@
   (see Concepts/plans/milestones.hpp)
   \par Cryptanalysis version 0.0.3 (OK)
   (see Cryptanalysis/plans/milestones.hpp)
+  \par Update the subsequent milestones (on the way to 0.3).
 
   \subsection VersionTransitional019 0.1.9
   \par Buildsystem version 0.2 (MH, OK)
@@ -144,7 +148,8 @@
   \par Buildsystem version 1.0
   (see Buildsystem/plans/milestones.hpp)
 
-  \section VersionTransitional020 0.2.0 Build and test system basically finished, and basic concepts for generalised SAT solving established
+
+  \section VersionTransitional030 0.3 Build and test system basically finished, and basic concepts for generalised SAT solving established
   \par Messages version 1.0
   (see Messages/plans/milestones.hpp)
   \par ProgramOptions version ???
@@ -154,23 +159,24 @@
    - Except of warnings coming from Boost, no compiler warnings from our library.
 
 
-  \section VersionTransitional030 0.3.0 Complexity system ready
+  \section VersionTransitional040 0.4.0 Complexity system ready
   Complexity system completed and (partially) used
 
-  \section VersionTransitional040 0.4.0 Concepts ready
+  \section VersionTransitional050 0.5.0 Concepts ready
   Basic concepts all written (C++ and library-infrastructure-related),
   and the generic test system framework established and in use.
 
-  \section VersionTransitional050 0.5.0 Documentation ready
+  \section VersionTransitional060 0.6.0 Documentation ready
   Documentation completed (regarding the basics)
 
-  \section VersionTransitional060 0.6.0 Package management ready
+  \section VersionTransitional070 0.7.0 Package management ready
   Extending the build system regarding package management (other
   users)
 
   \section VersionTransitional100 1.0.0 Foundations completed
   A solid foundation is provided, now we can start.
 */
+
 
 /*!
    \page VersionHistoryTransitional Version history Transitional
