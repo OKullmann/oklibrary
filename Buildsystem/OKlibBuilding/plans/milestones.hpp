@@ -5,7 +5,11 @@
   
   \module_version Buildsystem/OKlibBuilding 0.2 (6.7.2007)
 
+
   \par Version 0.2.1
+
+  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.1
+  (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
@@ -23,15 +27,11 @@
    In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the following topics are handled:
     - General look and feel
 
-  \par
-   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
-    - Doxygen error messages
-    - Environment-variable expansion
-    - Doxygen general
-    - Directory structure : DONE
-
 
   \par Version 0.2.2
+
+  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.2
+  (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
@@ -46,11 +46,6 @@
     - Target "all":
     - Target "check"
     - Target "prebuild"
-
-  \par
-   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
-    - Doxygen menu and main page review
-    - Search engine
 
 
   \par Version 0.2.3
@@ -96,6 +91,7 @@
   \par
    In Buildsystem/OKlibBuilding/plans/MakeSystem.hpp the following topics are handled:
     - Competition extraction tools
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

@@ -5,6 +5,15 @@
   \brief Plans for the documentation-extraction from the source-code
 
 
+  \todo Move
+  <ul>
+   <li> Currently a part of Buildsystem/OKlibBuilding, this make-functionality
+   will move to Buildsystem/Html; see Buildsystem/plans/MasterScript.hpp. </li>
+   <li> The target "html" will then be split into targets for the local home
+   page and for the doxygen-system; this module here will be reponsible for
+   the doxygen-system. </li>
+  </ul>
+
   \todo Doxygen error messages:
   <ul>
    <li> Move aux/DoxygenErrorMessages to directory
@@ -95,6 +104,17 @@
    returns the search.php-file instead of doing something with it --- how should
    konqueror know that also for local files the web server should be used? </li>
   </ul>
+
+
+  \todo Other code
+  <ul>
+   <li> We should also integrate (somehow) documentation of other code (for
+   example all the computer-algebra code) into the doxygen-system (that is,
+   giving access also to the code, not just to the plans). </li>
+   <li> At least a simple "dump" should be possible ("as is"). </li>
+   <li> Can doxygen be extended? We need some easy solutions. </li>
+  </ul>
+
 
   \todo Directory structure: DONE (complete update)
   The directory structure under Buildsystem/Generic/documentation_building needs review:
