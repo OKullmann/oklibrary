@@ -25,15 +25,23 @@
 
   \todo Configuration data format
   <ul>
-   <li> In directory .oklib a file "override.mak" is placed, where overriding definitions
-   of configuration variables are to be put (for example variable ExternalSources
-   could be redefined here, to use the external sources of another
-   OKplatform-installation). </li>
+   <li> Standardisation of naming configuration variables:
+    <ol>
+     <li> Perhaps a directory gets the prefix "dir_", and a main directory "Directory"
+     is then called "dir_Directory". </li>
+    </ol>
+   </li>
+   <li> Perhaps for defining configuration variables we should always first check whether
+   it's already defined, and if not, then look for an environment variable. </li>
    <li> In order that the configuration-variables become available, the corresponding master-process
    has to be invoked by some makefile; so likely over time a collection of small specialised
    makefiles arises. </li>
    <li> Splitting the definitions over several files is likely preferable from the
-     order point of view. Shouldn't be too complicated to use them. </li>
+   order point of view. Shouldn't be too complicated to use them. </li>
+   <li> In directory .oklib a file "override.mak" is placed, where overriding definitions
+   of configuration variables are to be put (for example variable ExternalSources
+   could be redefined here, to use the external sources of another
+   OKplatform-installation). DONE </li>
    <li> Should the configuration-make-variables be recursive or not? Recursive variables
    give more power ("one never knows"), and so at the moment the decision is to make
    all configuration-make-variables recursive. DONE (recursive variables are needed,
