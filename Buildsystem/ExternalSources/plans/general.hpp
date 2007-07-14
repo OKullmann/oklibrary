@@ -51,16 +51,6 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
-  \todo Renaming
-  <ul>
-   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
-   simply "Buildsystem/ExternalSources/makefile". </li>
-   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
-   to directory Buildsystem/ExternalSources, and then call it
-   simply "versions.mak". DONE (moved it to Buildsystem/Configuration) </li>
-  </ul>
-
-
   \todo Building documentation
   <ul>
    <li> Documentation building should be done automatically when building. </li>
@@ -151,6 +141,17 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    <li> Investigate the NiX system (a system for managing libraries). </li>
    <li> Investigate the Poco C++ library (http://www.pocoproject.org; see
    also [C Vu, 19:2, pages 12-15]). </li>
+  </ul>
+
+
+  \todo Renaming : DONE
+  <ul>
+   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
+   simply "Buildsystem/ExternalSources/makefile". DONE (these issues are now
+   handled in Buildsystem/plans/MasterScript.hpp) </li>
+   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
+   to directory Buildsystem/ExternalSources, and then call it
+   simply "versions.mak". DONE (moved it to Buildsystem/Configuration) </li>
   </ul>
 
 

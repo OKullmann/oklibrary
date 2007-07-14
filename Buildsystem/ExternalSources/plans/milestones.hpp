@@ -11,6 +11,7 @@
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Directory structure of OKplatform/ExternalSources
     - Documenting ExternalSources.mak
+    - Renaming : DONE
     - Plans-structure for ExternalSources : DONE
 
   \par
@@ -27,7 +28,6 @@
   \par
    In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Downloading sources
-    - Renaming
     - Building documentation
     - General
     - Make-variables for external libraries

@@ -40,6 +40,11 @@
    In Buildsystem/plans/Foundations.hpp the following topics are handled:
     - Fundamental "axioms"
 
+  \par
+   In Buildsystem/plans/MasterScript.hpp the following topics are handled:
+    - Design
+    - Implementation
+
 
   \par Version 0.1.8 : THEME is "A specified and testable build system" and "Build system consolidation"
 

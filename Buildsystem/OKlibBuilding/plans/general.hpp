@@ -37,12 +37,6 @@
       Perhaps also the test time-stamps should go here?
 
 
-  \todo Renaming:
-  <ul>
-   <li> Buildsystem/generic.mak should be renamed and moved to Buildsystem/OKlibBuilding? </li>
-  </ul>
-
-
   \todo Documenting the build system
   <ul>
    <li> Moving stable documentations to "docus":
@@ -213,6 +207,12 @@
      which create a new subdirectory with test-program respectively new
      .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
      in the testprogram).
+
+
+  \todo Renaming: DONE (handled now in Buildsystem/plans/MasterScript.hpp)
+  <ul>
+   <li> Buildsystem/generic.mak should be renamed and moved to Buildsystem/OKlibBuilding? </li>
+  </ul>
 
 
   \todo Log directory: DONE (delegated to the new masterscript)
