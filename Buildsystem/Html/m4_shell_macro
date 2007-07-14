@@ -1,0 +1,1 @@
+m4_define(`m4_SHELL', `m4_esyscmd(echo -n ${$1})')m4_dnl
