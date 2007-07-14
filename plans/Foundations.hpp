@@ -12,7 +12,7 @@
    <li> SAT is considered at a very general level.
     <ol>
      <li> Open for CSP (while maintaining the spirit of "generalised SAT", with emphasise
-     on algorithms, not on language). </li>
+     on algorithms, not on language, and on partial assignments and clauses (for algorithms(!))). </li>
      <li> Open for extensions like QBF. </li>
      <li> Any applications included. </li>
      <li> Though not "core business", for example graph and hypergraph algorithms and libraries
@@ -33,7 +33,7 @@
    </li>
    <li> No "C code", but *modern C++ code*. </li>
    <li> No other programming language (but many other systems like Coq or Sage). </li>
-   <li> The master repository (with the names "OKlibrary", "OKplatform", "OKsystem")
+   <li> The master repositories (with the names "OKlibrary", "OKplatform", "OKsystem")
    are owned by OK. Everybody can use a clone for his own development, thus naturally
    bound by the GPL licence, so the history must be open, but the name of the system
    must be changed. </li>
@@ -45,6 +45,22 @@
    everybody has the same power. (Yet we do not have experience with that --- so
    a lot needs to be learned. And definitely yet the building powers are not general
    enough (works yet only at the OK-site) --- but we are getting there!) </li>
+   <li> Extensive planning, and this within the OKlibrary:
+    <ol>
+     <li> Every action is announced by plans (in the corresponding plans-file), so that
+     others know what's going on and can participate. Also only in this way the typical
+     loss due to interruptions is avoided. </li>
+     <li> These plans are continuously evolved (so that before programming starts,
+     a good "loose specification" is available. </li>
+     <li> Plans must be kept up-to-date, and also the corresponding milestone-entries. </li>
+     <li> So much of the planning process happens *within* the OKlibrary (not, as usual, somewhere
+     else). </li>
+     <li> Mailinglists are for more informel discussions (finding out about interests, "chatting"
+     about the plans (which is to be avoided in the plans-files)). So mailinglists are for
+     "pre-discussion", and, potentially, "meta-discussions"; but as soon things concretise,
+     they should move to the plans-files (only there they fully connect to the system). </li>
+    </ol>
+   </li>
   </ul>
 
 */
