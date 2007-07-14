@@ -147,25 +147,27 @@ SET(CONFIGVAR2 value2)
 
   \todo Definitions for doxygen:
   <ul>
-   <li> The Doxyfile should be part of the (primary) configuration system. </li>
-   <li> Perhaps it would be preferable, if the following variable definitions
+   <li> It would be preferable, if the following variable definitions
     <ol>
      <li> ALIASES </li>
      <li> PREDEFINED </li>
      <li> EXPAND_AS_DEFINED </li>
      <li> FILE_PATTERNS </li>
     </ol>
-    could come from a separate configuration file --- how to achieve this? </li>
+    would come from Configuration/doxygen_documentation.mak. </li>
+    <li> Likely for all settings we should have specific configuration variables. </li>
+   <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
+   on the created doxyfile, one has to study the changes, and update the master-doxyfile
+   accordingly. </li>
+   <li> The Doxyfile should be part of the (primary) configuration system. DONE </li>
    <li> Perhaps it's best to define a "master-doxyfile" in the primary configuration system,
    containing macros or includes for the above four definitions, and then the build system
    builds the finale Doxyfile (in the derived configurations) in dependency on these
    includes/macro-definitions. (Alternatively, one can specify directly a doxyfile to
    be used --- how to achieve this with cmake? In the normal case, target html depends
    on the doxyfile to be created if necessary, but if some variable is specified on the
-   make command line, then the doxyfile is not used.) </li>
-   <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
-   on the created doxyfile, one has to study the changes, and update the master-doxyfile
-   accordingly. </li>
+   make command line, then the doxyfile is not used.) DONE (we have the Doxyfile
+   in Buildsystem/Configuration, and we use environment variables) </li>
    <li> Allows the Doxyfile for includes or macro expansion? See "Environment-variable expansion"
    in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. DONE (yes) </li>
   </ul>

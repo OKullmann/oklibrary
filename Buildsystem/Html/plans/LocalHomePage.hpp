@@ -23,9 +23,13 @@
 
   \todo Rewrite local home page
   <ul>
-   <li> Likely we should create a directory system_directories/doc/local, where the
-   local html-pages go; or perhaps "local_html". Perhaps the doxygen-directory
-   "doc/html" should be renamed to "doc/doxygen_html" ? </li>
+   <li> We should create a directory system_directories/doc/local_html, where the
+   local html-pages go:
+    <ol>
+     <li> The settings and links for placing the local home page have to be changed. </li>
+     <li> The doxygen-directory "doc/html" should be renamed to "doc/doxygen_html" : DONE </li>
+    </ol>
+   </li>
    <li> I (OK) find it a bit cumbersome, that the links have to be found within a sentence
    (especially since most of the time one does not read the text anymore, but just wants
    to access a link): A special dedicated link-symbol (created by a style-sheet) perhaps

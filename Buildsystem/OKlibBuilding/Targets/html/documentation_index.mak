@@ -6,7 +6,6 @@
 # OKlibrary Documentation Location
 # ##################################################
 
-OKlibrary_html_documentation_index_location := $(doc_dir)/html/index.html
 OKlibrary_full_documentation_dvi_location := $(doc_dir)/dvi/FullDocumentation.dvi
 
 # ##################################################
