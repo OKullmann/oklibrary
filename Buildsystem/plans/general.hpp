@@ -5,6 +5,15 @@
   \brief Plans for the buildsystem in general
 
 
+  \todo Making make-variables compatible with shell-variables:
+  <ul>
+   <li> To avoid problems, we should use C(++) naming conventions for
+   make-variables, which means that in all make-variables a hyphen "-"
+   is replaced by an underscore "_" (being careful not to introduce
+   ambiguities). </li>
+  </ul>
+
+
   \todo Renaming:
   According to the general scheme, where all "genuine" files/directories
   carry capitalised names, the following files shall be renamed:
