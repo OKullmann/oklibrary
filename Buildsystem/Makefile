@@ -38,7 +38,7 @@ makefile_transitional := $(OKsystem)/Transitional/makefile
 
 $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
-prebuild : $(Directories) $(makefiles) $(makefile_oksystem) $(makefile_externalsources) $(doxy_file) $(generic_links) $(makefile_annotations) $(makefile_transitional)
+prebuild : $(Directories) $(makefile_oksystem) $(makefile_externalsources) $(generic_links) $(makefile_annotations) $(makefile_transitional)
 
 $(generic_links) : % :
 	- ln -s $(OKbuildsystem)/generic.mak $@
