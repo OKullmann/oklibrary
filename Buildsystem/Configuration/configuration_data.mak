@@ -11,6 +11,7 @@ include $(OKconfiguration)/version_numbers.mak
 include $(OKconfiguration)/external_sources_versions.mak
 include $(OKconfiguration)/system_definitions.mak
 include $(OKconfiguration)/build_directories.mak
+include $(OKconfiguration)/macro_replacement.mak
 include $(OKconfiguration)/doxygen_documentation.mak
 
 ifndef OKoverrideconfig

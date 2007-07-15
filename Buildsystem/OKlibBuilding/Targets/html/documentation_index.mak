@@ -161,7 +161,6 @@ documentation_index : new_documentation_index | $(doc_dir)
 	@echo $(documentation_index_html) > $(documentation_index_file) 
 
 # temporary (OK; shall go to configuration):
-m4_shell_macro = $(OKbuildsystem)/Html/m4_shell_macro
 local_html_documentation = $(doc_dir)
 internet_html_homepage = unknown
 local_home_page_template = $(OKbuildsystem)/Html/Local/HomePage.html
@@ -178,8 +177,8 @@ current_date = $(shell date --rfc-2822)
 export
 
 new_documentation_index :
-	m4 --prefix-builtins $(m4_shell_macro) $(local_home_page_template) > $(local_home_page_output)
-	m4 --prefix-builtins $(m4_shell_macro) $(aims_page_template) > $(aims_page_output)
-	m4 --prefix-builtins $(m4_shell_macro) $(history_page_template) > $(history_page_output)
+	$(preprocessing_call) $(local_home_page_template) > $(local_home_page_output)
+	$(preprocessing_call) $(aims_page_template) > $(aims_page_output)
+	$(preprocessing_call) $(history_page_template) > $(history_page_output)
 	cp $(logo_template) $(logo_output)
 	cp $(developers_template) $(developers_output)
