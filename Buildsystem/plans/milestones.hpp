@@ -82,8 +82,8 @@
 
 
   \par Version 0.2.4 :
-   In Buildsystem/plans/makefile.hpp the following topics are handled:
-    - Directories with makefile-links
+   In Buildsystem/plans/Makefile.hpp the following topics are handled:
+    -  Future of this makefile
 
 
 
