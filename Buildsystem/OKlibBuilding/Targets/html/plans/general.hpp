@@ -7,10 +7,11 @@
 
   \todo Move
   <ul>
-   <li> Currently a part of Buildsystem/OKlibBuilding, this make-functionality
-   will move to Buildsystem/Html; see Buildsystem/plans/MasterScript.hpp. </li>
+   <li> Currently a part of Buildsystem/OKlibBuilding, the make-functionality
+   under target "html" will move to Buildsystem/Html; see
+   Buildsystem/plans/MasterScript.hpp. </li>
    <li> The target "html" will then be split into targets for the local home
-   page and for the doxygen-system; this module here will be reponsible for
+   page and for the doxygen-system; this sub-module here will be reponsible for
    the doxygen-system. </li>
   </ul>
 
@@ -30,7 +31,9 @@
     <ol>
      <li> "$(VAR)" in a file to be processed by doxygen cannot occur
      on a "\par"-line. </li>
-     <li> "$(VAR)" in the Doxyfile can appear within quotation marks. </li>
+     <li> "$(VAR)" in the Doxyfile can appear within quotation marks. DONE (we
+     use m4-preprocessing for the doxyfile, and thus these issues are not of
+     interest anymore) </li>
     </ol>
    </li>
    <li> Ask the doxygen-mailing list! </li>
