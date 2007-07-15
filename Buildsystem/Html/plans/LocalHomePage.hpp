@@ -23,17 +23,18 @@
 
   \todo Rewrite local home page
   <ul>
+   <li> A special dedicated link-symbol (created by a style-sheet) perhaps
+   would be better (to be used where now "click" appears). </li>
+   <li> I (OK) find it a bit cumbersome, that the links have to be found within a sentence
+   (especially since most of the time one does not read the text anymore, but just wants
+   to access a link). DONE (all links are now in columns of a table) </li>
    <li> We should create a directory system_directories/doc/local_html, where the
-   local html-pages go:
+   local html-pages go: DONE
     <ol>
-     <li> The settings and links for placing the local home page have to be changed. </li>
+     <li> The settings and links for placing the local home page have to be changed. DONE </li>
      <li> The doxygen-directory "doc/html" should be renamed to "doc/doxygen_html" : DONE </li>
     </ol>
    </li>
-   <li> I (OK) find it a bit cumbersome, that the links have to be found within a sentence
-   (especially since most of the time one does not read the text anymore, but just wants
-   to access a link): A special dedicated link-symbol (created by a style-sheet) perhaps
-   would be better (also to be used where now "click" appears). </li>
   </ul>
 
 

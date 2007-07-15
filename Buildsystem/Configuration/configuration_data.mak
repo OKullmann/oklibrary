@@ -13,6 +13,7 @@ include $(OKconfiguration)/system_definitions.mak
 include $(OKconfiguration)/build_directories.mak
 include $(OKconfiguration)/macro_replacement.mak
 include $(OKconfiguration)/doxygen_documentation.mak
+include $(OKconfiguration)/local_html.mak
 
 ifndef OKoverrideconfig
   $(error The make-variable OKoverrideconfig  must be defined (as the path to the makefile containing overriding configuration definitions; default is OKplatform/.oklib/override.mak)!)

@@ -9,16 +9,6 @@
 OKlibrary_full_documentation_dvi_location := $(doc_dir)/dvi/FullDocumentation.dvi
 
 # ##################################################
-# Local Documentation Locations
-# ##################################################
-
-doxygen_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Doxygen/$(doxygen_recommended)/html/index.html
-boost_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Boost/$(boost_recommended_package_name)/index.htm
-pgsql_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Postgresql/doc/postgresql/html/index.html
-git_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Git/Documentation/git.html
-gcc_html_documentation_index_location := $(OKplatform)/ExternalSources/doc/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
-
-# ##################################################
 # OKlibrary Documentation Link Elements
 # ##################################################
 
@@ -45,16 +35,6 @@ list_of_local_index_link_elements :=  $(boost_html_index_link_element) \
                                       $(git_html_index_link_element) \
                                       $(pgsql_html_index_link_element)
 
-# ##################################################
-# WWW Homepage URLs
-# ##################################################
-
-boost_homepage_url := http://www.boost.org/
-doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
-gcc_homepage_url := http://gcc.gnu.org/
-git_homepage_url := http://git.or.cz/
-pgsql_homepage_url := http://www.postgresql.org/
-mhash_homepage_url := http://mhash.sourceforge.net/
 
 # ##################################################
 # WWW Homepage Link Elements
@@ -160,23 +140,7 @@ documentation_index : new_documentation_index | $(doc_dir)
 	@touch $(documentation_index_file)
 	@echo $(documentation_index_html) > $(documentation_index_file) 
 
-# temporary (OK; shall go to configuration):
-local_html_documentation = $(doc_dir)
-internet_html_homepage = unknown
-local_home_page_template = $(OKbuildsystem)/Html/Local/HomePage.html
-local_home_page_output = $(local_html_documentation)/temporary.html
-aims_page_template = $(OKbuildsystem)/Html/Local/Aims.html
-aims_page_output = $(local_html_documentation)/Aims.html
-history_page_template = $(OKbuildsystem)/Html/Local/History.html
-history_page_output = $(local_html_documentation)/History.html
-logo_template =  $(OKbuildsystem)/Html/Local/logo.png
-logo_output = $(local_html_documentation)/logo.png
-developers_template = $(OKbuildsystem)/Configuration/Developers.html
-developers_output = $(local_html_documentation)/Developers.html
-current_date = $(shell date --rfc-2822)
-export
-
-new_documentation_index :
+new_documentation_index : $(local_html_dir)
 	$(preprocessing_call) $(local_home_page_template) > $(local_home_page_output)
 	$(preprocessing_call) $(aims_page_template) > $(aims_page_output)
 	$(preprocessing_call) $(history_page_template) > $(history_page_output)
