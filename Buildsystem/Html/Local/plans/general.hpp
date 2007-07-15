@@ -1,7 +1,7 @@
 // Matthew Henderson, 14.11.2006 (Swansea)
 
 /*!
-  \file Buildsystem/Html/plans/LocalHomePage.hpp
+  \file Buildsystem/Html/Local/plans/general.hpp
   \brief Plans for the main local page
 
 
@@ -23,6 +23,15 @@
 
   \todo Rewrite local home page
   <ul>
+   <li> Link section to external sources:
+    <ol>
+     <li> Another column for the installation-status is needed. </li>
+     <li> The general distinctions is between system- and local-installation. </li>
+     <li> Via "Yes" or "No" then it must be indicated whether the installation
+     is present. </li>
+     <li> And a link to the docus-page is needed. </li>
+    </ol>
+   </li>
    <li> A special dedicated link-symbol (created by a style-sheet) perhaps
    would be better (to be used where now "click" appears). </li>
    <li> I (OK) find it a bit cumbersome, that the links have to be found within a sentence

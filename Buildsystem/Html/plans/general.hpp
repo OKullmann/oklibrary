@@ -25,7 +25,9 @@
 
   \todo Install configuration system
   <ul>
-   <li> See solution to "Configuration problem" below. </li>
+   <li> The m4-preprocessing should move to the Configuration-module. </li>
+   <li> See solution to "Configuration problem" below. DONE (the general usage
+   is clear) </li>
   </ul>
 
 
