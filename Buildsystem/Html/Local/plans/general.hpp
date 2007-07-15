@@ -94,9 +94,19 @@
 
   \todo Improved logo
   <ul>
-   <li> yet the colour is a bit too lavenderish (a touch of darker blue perhaps) </li>
-   <li> perhaps a tiny bit of space between "OK" and "library" (looks squeezed) </li>
-   <li> some comments on how the logo has been created are needed. </li>
+   <li> I (OK) played a bit around with Gimp, and managed to change to background colour
+   to white, to cut out the scriptur, and to make it smaller (all quite simple): It seems
+   better to me that the picture is basically just the scriptur, and before it seemed
+   to dominant to me. </li>
+   <li> Unclear how to handle background colours chosen by the user (different from our default).
+   It seems one could make the background of the logo transparent, but then the colour of the
+   scriptur becomes problematic. So perhaps if we want to use the logo, then we have to fix
+   the background-colour? </li>
+   <li> The colour of the scriptur is a bit too lavenderish (a touch of darker blue perhaps). </li>
+   <li> Perhaps a tiny bit of space between "OK" and "library" (looks squeezed) </li>
+   <li> Comments on how the logo has been created are needed: We need a kind of a
+   "generic template" (at least a procedure). Gimp is a powerful tool; perhaps we can
+   describe how to create the logo with Gimp? </li>
   </ul>
 
 
