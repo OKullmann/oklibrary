@@ -2,9 +2,10 @@
 
 # Specific settings for the doxygen system
 
-doxygen_project_name = OKlibrary:Transitional (version $(transitional_version))
+doxygen_project_name = "OKlibrary:Transitional (version $(transitional_version))"
 
-doxy_file = $(OKconfiguration)/Doxyfile
+doxy_file_template = $(OKconfiguration)/Doxyfile
+doxy_file = $(aux_dir)/Doxyfile
 doxygen_error_messages = $(aux_dir)/DoxygenErrorMessages
 
 doxygen_output_directory = $(doc_dir)
