@@ -180,24 +180,6 @@ source_libraries += $(OKsystem_include)
 # BUILD DIRECTORY STRUCTURE
 # ################################################################
 
-# ----------------------------------------------------------
-# directories (SV)
-#
-# All the build directories.
-# ----------------------------------------------------------
-directories := $(bin_dir) \
-               $(lib_dir) \
-               $(aux_dir) \
-               $(latex_dir) \
-               $(dependencies_dir) \
-               $(doc_dir) \
-               $(doxygen_html_dir) \
-               $(test-bin_dir) \
-               $(test-lib_dir) \
-               $(test-aux_dir)
-# ----------------------------------------------------------
-
-# ######################################################################
 
 # ################################################################
 # COMPILATION
@@ -785,12 +767,12 @@ all : unoptimised optimised
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
-# $(directories)
+# $(build_directories)
 #
 # Make a directory with the target name, creating all
 # parent directories if necessary.
 # ----------------------------------------------------------
-$(directories) :
+$(build_directories) :
 	@mkdir -p $@
 # ----------------------------------------------------------
 

@@ -30,3 +30,15 @@ test-lib_dir = $(lib_dir)/tests/$(module-name)
 # Directory for current module test dependency files:
 test-aux_dir = $(aux_dir)/tests/$(module-name)
 
+build_directories = \
+               $(bin_dir) \
+               $(lib_dir) \
+               $(aux_dir) \
+               $(latex_dir) \
+               $(dependencies_dir) \
+               $(doc_dir) \
+               $(doxygen_html_dir) \
+               $(test-bin_dir) \
+               $(test-lib_dir) \
+               $(test-aux_dir) \
+               $(local_html_dir)
