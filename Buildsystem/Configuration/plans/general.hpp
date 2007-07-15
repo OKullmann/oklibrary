@@ -38,6 +38,8 @@
    makefiles arises. </li>
    <li> Splitting the definitions over several files is likely preferable from the
    order point of view. Shouldn't be too complicated to use them. </li>
+   <li> Configuration variables shall follow the rules for C-names (so no hyphens for example),
+   since otherwise the shell can't handle them. </li>
    <li> In directory .oklib a file "override.mak" is placed, where overriding definitions
    of configuration variables are to be put (for example variable ExternalSources
    could be redefined here, to use the external sources of another
@@ -155,10 +157,12 @@ SET(CONFIGVAR2 value2)
      <li> FILE_PATTERNS </li>
     </ol>
     would come from Configuration/doxygen_documentation.mak. </li>
-    <li> Likely for all settings we should have specific configuration variables. </li>
+    <li> For all settings we should have specific configuration variables. </li>
    <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
-   on the created doxyfile, one has to study the changes, and update the master-doxyfile
-   accordingly. </li>
+   on the created doxyfile, one has to study the changes, and then one has to update
+   the master-doxyfile accordingly. </li>
+   <li> Mention in the documentation, that via "doxygen_parameters" one can set variables
+   from the doxygen-configuration-file (as an example present the switch to German). </li>
    <li> The Doxyfile should be part of the (primary) configuration system. DONE </li>
    <li> Perhaps it's best to define a "master-doxyfile" in the primary configuration system,
    containing macros or includes for the above four definitions, and then the build system
@@ -167,9 +171,9 @@ SET(CONFIGVAR2 value2)
    be used --- how to achieve this with cmake? In the normal case, target html depends
    on the doxyfile to be created if necessary, but if some variable is specified on the
    make command line, then the doxyfile is not used.) DONE (we have the Doxyfile
-   in Buildsystem/Configuration, and we use environment variables) </li>
+   in Buildsystem/Configuration, and we use m4-preprocessing) </li>
    <li> Allows the Doxyfile for includes or macro expansion? See "Environment-variable expansion"
-   in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. DONE (yes) </li>
+   in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. DONE (yes, but we use the m4-system) </li>
   </ul>
 
 */
