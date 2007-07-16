@@ -2,7 +2,7 @@
 
 /*!
   \file Buildsystem/ExternalSources/plans/general.hpp
-  \brief Plans for the makefile responsible for handling external sources
+  \brief Plans for building external sources in general
 
 
   \todo Directory structure of OKplatform/ExternalSources
@@ -21,21 +21,26 @@
 
   \todo Documenting ExternalSources.mak
   <ul>
-   <li> docus/ExternalSources.hpp is for the *user* documentation. So the
-   internals of the buildsystem should only be discussed in there as far
-   as they are relevant for using (and extending) the buildsystem for
-   external sources, and this information is not part of the "General
-   overview", but of an appendix explaining the extension process. </li>
+   <li> In ExternalSources/docus we should have general.hpp for general
+   explanations and links to the documentations for special builds, which
+   actually likely should go to SpecialBuilds/docus. </li>
+   <li> General explanations in ExternalSources/docus/general.hpp:
+    <ol>
+     <li> Only restricted installation support for special builds. </li>
+     <li> How to obtain the special installation instructions, such that
+     in case of a problem the problem can be reproduced independently of
+     the OKlibrary (necessary for requests to mailing lists associated
+     with the special packages).
+    </ol>
+   </li>
+   <li> Another file in ExternalSources/docus explains how to add the installation
+   of a new external source. </li>
+   <li> The files in ExternalSources/SpecialBuilds/docus.hpp are for the *user*
+   documentation, that is, how to install it, and very basic usage. </li>
    <li> The old OKBuildsystem/ExternalSources/doc.mak is gone?
    So documentation building should happen automatically (when building
-   the package). </li>
-   <li> Document packages:
-    <ul>
-     <li> Mhash (remark about corrected files; content of package) </li>
-     <li> Postgresql </li>
-     <li> UBCSAT : DONE </li>
-    </ul>
-   </li>
+   the package). DONE (extracting the documentation and moving to an appropriate
+   subdirectory of OKplatform/ExternalSources/doc is part of every installation) </li>
    <li> Move the documentation from ExternalSources.mak to
    Buildsystem/docus/ExternalSources.hpp. DONE </li>
   </ul>
@@ -43,11 +48,12 @@
 
   \todo Downloading sources
   <ul>
-   <li> Via "make getsources" the system should downloaded all the packages from
+   <li> Via "make getsources" the system should download all the packages from
    \verbatim
 cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    \endverbatim
-  </li>
+   </li>
+   <li> Perhaps best via anonymous ftp? </li>
   </ul>
 
 
@@ -63,15 +69,19 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   <ul>
    <li> It would ge good, if after doing a local installation, easily the
    installation could also be made global. </li>
+   <li> It should always be possible, to install something independently and
+   only to specify where to find something (so for every special build there
+   needs to be a specification what this build actually provides).
+   See "Software management" in Buildsystem/ExternalSources/plans/Configuration.hpp. </li>
    <li> Optionally there should be also local versions of valgrind and
    doxygen (and other tools). This is necessary on systems where the user
    does not have root access. </li>
    <li> For "make all" we have the following problems:
-   <ul>
-    <li> The user cannot wait for "sudo". </li>
-    <li> Perhaps for example asciidoc is already installed, and this
-    suffices? </li>
-   </ul>
+    <ul>
+     <li> The user cannot wait for "sudo". </li>
+     <li> Perhaps for example asciidoc is already installed, and this
+     suffices? </li>
+    </ul>
    </li>
    <li> Regarding documentation building: Currently boost.mak overrides old
    (existing) documentation, while gcc.mak leaves it intact --- should we
@@ -126,21 +136,9 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
-  \todo Other sources:
-  <ul>
-   <li> Build a local version of Xerces. </li>
-   <li> Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
-   and tulip. </li>
-   <li> SOCI (soci.sourceforge.net) ? </li>
-   <li> gcc-xml (www.gccxml.org) ? </li>
-  </ul>
-
-
   \todo %Tools
   <ul>
    <li> Investigate the NiX system (a system for managing libraries). </li>
-   <li> Investigate the Poco C++ library (http://www.pocoproject.org; see
-   also [C Vu, 19:2, pages 12-15]). </li>
   </ul>
 
 
