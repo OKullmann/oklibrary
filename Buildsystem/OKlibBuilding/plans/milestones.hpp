@@ -26,6 +26,7 @@
   \par
    In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the following topics are handled:
     - General look and feel
+    - New target for main action
 
 
   \par Version 0.2.2

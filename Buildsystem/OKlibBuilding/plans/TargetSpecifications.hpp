@@ -9,13 +9,21 @@
 
   \todo General look and feel
   <ul>
-   <li> Yet we can call for example "make -f Path/makefile all" from
-   anywhere, and it will have always the same effect (that is the role
-   of variable srcdir) --- will this be automatically achieved with
-   the makefiles created by cmake? </li>
    <li> The directory structure is "recursive", names with capital first
    letters for (sub-)modules, while "systematic directories" have all
    small letters. </li>
+   <li> Yet we can call for example "make -f Path/makefile all" from
+   anywhere, and it will have always the same effect (that is the role
+   of variable srcdir) --- will this be automatically achieved with
+   the makefiles created by cmake? DONE (with the masterscript oklib
+   we get full control over the effect of the calling place) </li>
+  </ul>
+
+
+  \todo New target for main action
+  <ul>
+   <li> Yet very often "make all check new_check html" is called. </li>
+   <li> The should be a super-target for that; how to call it? "update" ?? </li>
   </ul>
 
 
