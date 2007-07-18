@@ -164,10 +164,12 @@ git_recommended := $(git_targets_prefix)$(git_recommended_version_number)
 # Cmake
 # ###############################
 
-cmake_recommended_version_number = 2.4.6
+cmake_recommended_version_number = 2.4.7
 cmake_supported_version_numbers = $(cmake_recommended_version_number)
 
 cmake_prefix = cmake
+
+cmake_homepage_url := http://www.cmake.org/HTML/Index.html
 
 cmake_targets_prefix := $(cmake_prefix)-
 cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
