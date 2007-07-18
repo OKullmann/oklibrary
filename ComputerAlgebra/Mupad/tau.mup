@@ -2,7 +2,7 @@
 
 Oliver Kullmann, 5.8.2002 (Swansea)
 
-Tau-Funktion und Verwandtes.
+Tau function and relatives
 
 */
 
@@ -11,7 +11,55 @@ Tau-Funktion und Verwandtes.
 
 /* -------------------------------- */
 
-tau := l -> numeric::realroot(_plus(x^(-l[i]) $ i = 1..nops(l)) - 1, x = nops(l)^(1/stats::mean(l)) .. nops(l)^(1/min(l[i] $ i = 1..nops(l)))):
+tau := l -> if nops(l) = 1 then 1 else
+  numeric::realroot(_plus(x^(-l[i]) $ i = 1..nops(l)) - 1, x = nops(l)^(1/stats::mean(l)) .. nops(l)^(1/min(l[i] $ i = 1..nops(l))))
+end_if:
+/* tau([1,2]) = 1.618...
+   tau([3,3,3]) = 3^(1/3)
+ */
 
-/* tau([1,2]) = 1.618... */
+/* -------------------------------- */
+
+/* r-moment for a tree together with tree probability distribution;
+   Examples (T_1, p_1), (T_3, p_3) from OK's SAT-handbook-article:
+   T1 := [[1/2,1/2], [[1/2,1/2],[],[]], []]
+   T3 := [[1/3,1/3,1/3], [], [], [[1/2,1/2], [], []]]
+
+   Format of a tree with tree probability distribution: a list with
+   first entry specifying the list of edge probabilities and all further
+   entries the subtrees.
+
+   We always have tpd_moment(T,1) = nops(T).
+*/
+tpd_moment := (T, r) -> 
+  if nops(T) = 0 then 1 
+  else _plus(T[1][i]^(1-r) * tpd_moment(T[1+i],r) $ i = 1..nops(T[1])) 
+end_if:
+
+/* tree probability distribution from branching tuples;
+   Examples (T_1, d_1), (T_3, d_3) from OK's SAT-handbook-article:
+   T1t := [[1,2], [[1,1],[],[]], []]
+   T3t :=[[3,5,2], [], [], [[2,1], [], []]]
+ */
+tpd_tuples := proc(T) local t, d; begin
+  if nops(T) = 0 then return([]) else
+    t := tau(T[1]);
+    w := nops(T[1]);
+    d := [ t^(-T[1][i]) $ i = 1..w ];
+    return([d, tpd_tuples(T[1+i]) $ i=1..w])
+  end_if
+end_proc:
+
+/* Linear combination of branching tuples in a tree
+  Example from OK's SAT-handbook-article:
+  T1t2 := [[[1,2],[3,4]], [[[2,1],[1,2]],[],[]], []]
+*/
+td_combine := (T,c) -> 
+  if nops(T) = 0 then []
+  else [ [_plus(c[j] * T[1][j][i] $ j=1..nops(c)) $ i=1..nops(T[1][1])], td_combine(T[1+i], c) $ i=1..nops(T)-1]
+end_if:
+
+tpd_ccombine := (T, c) -> tpd_tuples(td_combine(T, append(c, 1-_plus(c[i]$i=1..nops(c))))):
+
+tpd_ccmoment := (T, c, r) -> tpd_moment(tpd_ccombine(T,c), r):
 
