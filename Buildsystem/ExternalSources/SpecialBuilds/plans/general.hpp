@@ -22,6 +22,28 @@
 
 
   \todo Build Sage.
+  <ol>
+  <li>Download source from:
+  \verbatim
+http://modular.math.washington.edu/sage/dist/src/sage-2.6.tar
+  \endverbatim
+  </li>
+  <li>Extract:
+  \verbatim
+tar xvf sage-2.6.tar
+  \endverbatim
+  </li>
+  <li>Change directory:
+  \verbatim
+cd sage-2.6
+  \endverbatim
+  </li>
+  <li>Build and install:
+  \verbatim
+make
+  \endverbatim
+  </li>
+  </ol>
 
 
   \todo Other sources:
