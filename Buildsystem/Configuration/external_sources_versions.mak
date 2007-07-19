@@ -38,6 +38,7 @@ boost_prefix = boost
 boost_html_documentation_index_location = $(ExternalSources_doc)/Boost/$(boost_recommended_package_name)/index.htm
 
 boost_homepage_url := http://www.boost.org/
+boost_documentation_url := http://www.boost.org/libs/libraries.htm
 
 boost_targets_prefix := $(boost_prefix)-
 boost_prefix_underscore := $(boost_prefix)_
@@ -62,6 +63,7 @@ doxygen_prefix = doxygen
 doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(doxygen_recommended)/html/index.html
 
 doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
+doxygen_documentation_url := http://www.stack.nl/~dimitri/doxygen/manual.html
 
 doxygen_targets_prefix := $(doxygen_prefix)-
 doxygen_targets := $(addprefix $(doxygen_targets_prefix), $(doxygen_supported_version_numbers))
