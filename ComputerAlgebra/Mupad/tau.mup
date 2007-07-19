@@ -6,13 +6,12 @@ Tau function and relatives
 
 */
 
-/* lesen := hold(read("/h/21/GemeinsameBasis/ZentralesArchiv/Hilfsprogramme/MupadBibliothek/tau.mup")) */
-
 
 /* -------------------------------- */
 
-tau := l -> if nops(l) = 1 then 1 else
-  numeric::realroot(_plus(x^(-l[i]) $ i = 1..nops(l)) - 1, x = nops(l)^(1/stats::mean(l)) .. nops(l)^(1/min(l[i] $ i = 1..nops(l))))
+tau := l -> if nops(l) = 1 then 1
+  elif min(l) = max(l) then nops(l)^(1/min(l)) else /* how to do it better? */
+  numeric::realroot(_plus(x^(-l[i]) $ i = 1..nops(l)) - 1, x = nops(l)^(1/stats::mean(l)) .. nops(l)^(1/min(l)))
 end_if:
 /* tau([1,2]) = 1.618...
    tau([3,3,3]) = 3^(1/3)
@@ -20,14 +19,25 @@ end_if:
 
 /* -------------------------------- */
 
+/*
+   Format of a tree with tree probability distribution: a list with
+   first entry specifying the list of edge probabilities and all further
+   entries the subtrees.
+*/
+
+
+/* flatten tree probability distribution
+   yields the list of leaf probabilities
+*/
+tpd_flatten := T -> 
+  if nops(T) = 0 then [1]
+  else _concat(map(tpd_flatten(T[1+i]), _mult, T[1][i]) $ i=1..nops(T[1]))
+end_if:
+
 /* r-moment for a tree together with tree probability distribution;
    Examples (T_1, p_1), (T_3, p_3) from OK's SAT-handbook-article:
    T1 := [[1/2,1/2], [[1/2,1/2],[],[]], []]
    T3 := [[1/3,1/3,1/3], [], [], [[1/2,1/2], [], []]]
-
-   Format of a tree with tree probability distribution: a list with
-   first entry specifying the list of edge probabilities and all further
-   entries the subtrees.
 
    We always have tpd_moment(T,1) = nops(T).
 */
@@ -59,7 +69,74 @@ td_combine := (T,c) ->
   else [ [_plus(c[j] * T[1][j][i] $ j=1..nops(c)) $ i=1..nops(T[1][1])], td_combine(T[1+i], c) $ i=1..nops(T)-1]
 end_if:
 
+/* tree probability distribution from a convex combination of distances */
 tpd_ccombine := (T, c) -> tpd_tuples(td_combine(T, append(c, 1-_plus(c[i]$i=1..nops(c))))):
 
+/* r-moment from a convex combination of distances */
 tpd_ccmoment := (T, c, r) -> tpd_moment(tpd_ccombine(T,c), r):
+
+/* -------------------------------- */
+
+/* Copy a mupad combinat::tree into our format, adding random branching tuples
+ k : number of distance functions
+ r : random generator
+*/
+add_tree_tuples := proc(T, k, r) local d, L, t, i, j; begin
+  d := nops(T);
+  if d=0 then return([]) end_if;
+  L := [];
+  for i from 1 to k do
+    t := [];
+    for j from 1 to d do
+      t := append(t, r())
+    end_for;
+    L := append(L, t)
+  end_for;
+  return([L, add_tree_tuples(T[i], k, r) $ i=1..d])
+end_proc:
+
+/* Create a random tree labelled with k branching tuples per inner node
+ s : number of nodes
+ k : number of different distance function
+ lb, ub: natural numbers bounding the (integral) distances
+*/
+random_tree_tuples := (s, k, lb, ub) -> add_tree_tuples(combinat::trees::random(s), k, random(lb..ub)):
+/* It would be better if single nodes would be avoided; the procedure combinat::trees::random
+has furthermore the disadvantage that it is easily defeated by the (ridiculous) maximal
+MAXDEPTH=1000 value. */
+
+/* -------------------------------- */
+
+/* Difference operator */
+delta_op := L -> 
+  if nops(L) <= 1 then L
+  else [L[i] - L[i+1] $ i=1..nops(L)-1]
+end_if:
+
+/* check whether an equidistant sequence of values is convex
+   (iff the return value is non-negative; strict convexity iff
+   the return value is positive)
+*/
+test_convex := L ->
+  min(delta_op(delta_op(L))):
+
+/* -------------------------------- */
+
+/* test whether the optimisation problem of the second moment for the convex
+   combination of 2 distances (that is, one parameter) is convex
+*/
+test_convexity_tau_opt_1 := proc(s, lb, ub, N) local T, i, m; begin
+  DIGITS := 20;
+  MAXDEPTH := 1000;
+  for i from 1 to N do
+    T := random_tree_tuples(s, 2, lb, ub);
+    m := test_convex([tpd_ccmoment(T, [i*0.01], 2) $ i=0..100]);
+    print(m);
+    if m < 0 then
+      print("Not convex!");
+      return(T)
+    end_if
+  end_for
+end_proc:
+/* Result of the experiment:The whole optimisation seems to be a convex optimisation problem! */
 
