@@ -8,7 +8,7 @@
   \par Version 0.2.1
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
     - Build Sage
 
   \par
