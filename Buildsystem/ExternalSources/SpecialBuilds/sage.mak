@@ -4,8 +4,8 @@
 # Directory Structure
 # ################################## 
 
-sage-base-directory := $(prefix)/sage
-sage-directories := $(sage-base-directory)
+
+sage_directories := $(sage_base_directory)
 
 .PHONY : sage $(sage_targets) create_sage_dirs
 
@@ -13,15 +13,19 @@ sage-directories := $(sage-base-directory)
 # Main sage targets
 # #################################
 
-$(sage-directories) : % : 
+$(sage_directories) : % : 
 	mkdir -p $@
 
 sage : $(sage_recommended)
 
-$(sage_targets) : $(sage-directories)
-	$(call unarchive_uncompressed,$@,$(sage-base-directory))
-	cd $(sage-base-directory)/$@; $(postcondition) \
-	make; $(postcondition) 
+$(sage_targets) : $(sage_directories)
+	$(call unarchive_uncompressed,$@,$(sage_base_directory))
+	cd $(sage_base_directory)/$@; $(postcondition) \
+	make; $(postcondition) \
+	cd devel/doc; $(postcondition) \
+	make pdf; $(postcondition) \
+	cd $(sage_base_directory)/$@; $(postcondition) \
+	make test
 
 # #################################
 # Cleaning
