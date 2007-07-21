@@ -58,4 +58,4 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/sage.mak
 
 clean : cleangcc cleanboost cleanmhash
 
-cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen cleanallubcsat cleanallasciidoc cleanallgit cleanallmpfr
+cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen cleanallubcsat cleanallasciidoc cleanallgit cleanallmpfr cleanallgcc
