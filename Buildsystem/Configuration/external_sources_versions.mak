@@ -18,6 +18,7 @@ gcc_prefix = gcc
 gcc_html_documentation_index_location = $(ExternalSources_doc)/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
 
 gcc_homepage_url := http://gcc.gnu.org/
+gcc_documentation_url := http://gcc.gnu.org/onlinedocs/
 
 gcc_targets_prefix := $(gcc_prefix)-
 gcc_targets := $(addprefix $(gcc_targets_prefix), $(gcc_supported_version_numbers))
@@ -80,6 +81,7 @@ mhash_supported_version_numbers = $(mhash_supported_not_recommended_version_numb
 mhash_prefix = mhash
 
 mhash_homepage_url := http://mhash.sourceforge.net/
+mhash_documentation_url := http://mhash.sourceforge.net/mhash.3.html
 
 mhash_targets_prefix := $(mhash_prefix)-
 mhash_targets := $(addprefix $(mhash_targets_prefix), $(mhash_supported_version_numbers))
@@ -99,6 +101,7 @@ postgresql_prefix = postgresql
 pgsql_html_documentation_index_location = $(ExternalSources_doc)/Postgresql/doc/postgresql/html/index.html
 
 pgsql_homepage_url := http://www.postgresql.org/
+pgsql_documentation_url := http://www.postgresql.org/docs/
 
 postgresql_targets_prefix := $(postgresql_prefix)-
 postgresql_targets := $(addprefix $(postgresql_targets_prefix), $(postgresql_supported_version_numbers))
@@ -115,6 +118,9 @@ valgrind_supported_version_numbers = $(valgrind_supported_not_recommended_versio
 
 valgrind_prefix = valgrind
 
+valgrind_homepage_url := http://valgrind.org/
+valgrind_documentation_url := http://valgrind.org/docs/manual/index.html
+
 valgrind_targets_prefix := $(valgrind_prefix)-
 valgrind_targets := $(addprefix $(valgrind_targets_prefix),$(valgrind_supported_version_numbers))
 valgrind_recommended := $(valgrind_targets_prefix)$(valgrind_recommended_version_number)
@@ -128,6 +134,9 @@ ubcsat_supported_but_not_recommended_version_numbers =
 ubcsat_supported_version_numbers = $(ubcsat_recommended_version_number) $(ubcsat_supported_but_not_recommended_version_numbers)
 
 ubcsat_prefix = ubcsat
+
+ubcsat_homepage_url := http://www.satlib.org/ubcsat/
+ubcsat_documentation_url := http://www.satlib.org/ubcsat/\#documentation
 
 ubcsat_targets_prefix := $(ubcsat_prefix)-
 ubcsat_targets := $(addprefix $(ubcsat_targets_prefix), $(ubcsat_supported_version_numbers))
@@ -157,6 +166,7 @@ git_prefix = git
 git_html_documentation_index_location = $(ExternalSources_doc)/Git/Documentation/git.html
 
 git_homepage_url := http://git.or.cz/
+git_documentation_url := http://git.or.cz/\#documentation
 
 git_targets_prefix := $(git_prefix)-
 git_targets := $(addprefix $(git_targets_prefix), $(git_supported_version_numbers))
@@ -172,6 +182,7 @@ cmake_supported_version_numbers = $(cmake_recommended_version_number)
 cmake_prefix = cmake
 
 cmake_homepage_url := http://www.cmake.org/HTML/Index.html
+cmake_documentation_url := http://www.cmake.org/HTML/Documentation.html
 
 cmake_targets_prefix := $(cmake_prefix)-
 cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
@@ -185,6 +196,9 @@ R_recommended_version_number = 2.5.0
 R_supported_version_numbers = $(R_recommended_version_number)
 
 R_prefix = R
+
+R_homepage_url := http://www.r-project.org/
+R_documentation_url := http://www.r-project.org/
 
 R_targets_prefix := $(R_prefix)-
 R_targets := $(addprefix $(R_targets_prefix), $(R_supported_version_numbers))
@@ -211,6 +225,9 @@ gmp_recommended_version_number = 4.2.1
 gmp_supported_version_numbers = $(gmp_recommended_version_number)
 
 gmp_prefix = gmp
+
+gmp_homepage_url := http://gmplib.org/
+gmp_documentation_url := http://gmplib.org/\#DOC
 
 gmp_targets_prefix := $(gmp_prefix)-
 gmp_targets := $(addprefix $(gmp_targets_prefix), $(gmp_supported_version_numbers))
@@ -256,8 +273,8 @@ sage_qd_dir = $(sage_installation_dir)/local/share/doc/qd
 sage_bzip2_version = $(subst bzip2-,,$(notdir $(wildcard $(sage_installation_dir)/spkg/build/bzip2-*)))
 sage_bzip2_dir = $(sage_installation_dir)/spkg/build/bzip2-$(sage_bzip2_version)
 
-sage_homepage_url := 
-sage_documentation_url := 
+sage_homepage_url := http://modular.math.washington.edu/sage/
+sage_documentation_url := http://modular.math.washington.edu/sage/documentation.html
 
 sage_targets_prefix := $(sage_prefix)-
 sage_targets := $(addprefix $(sage_targets_prefix), $(sage_supported_version_numbers))
