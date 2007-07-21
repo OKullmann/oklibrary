@@ -15,11 +15,11 @@ gcc_new_installation = 4.2.0
 gcc_supported_version_numbers = $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
 
 gcc_prefix = gcc
-gcc_targets_prefix = $(gcc_prefix)-
 gcc_html_documentation_index_location = $(ExternalSources_doc)/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
 
 gcc_homepage_url := http://gcc.gnu.org/
 
+gcc_targets_prefix := $(gcc_prefix)-
 gcc_targets := $(addprefix $(gcc_targets_prefix), $(gcc_supported_version_numbers))
 gcc_targets_old := $(addprefix $(gcc_targets_prefix), $(gcc_old_installation))
 gcc_targets_new := $(addprefix $(gcc_targets_prefix), $(gcc_new_installation))
@@ -35,6 +35,9 @@ boost_supported_not_recommended_version_numbers =
 boost_supported_version_numbers = $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
 boost_prefix = boost
+boost_recommended_package_name = $(boost_recommended_version_number)
+# OK: The variable boost_recommended_package_name seems wrong, and seems
+# to be used only for setting boost_html_documentation_index_location ??
 boost_html_documentation_index_location = $(ExternalSources_doc)/Boost/$(boost_recommended_package_name)/index.htm
 
 boost_homepage_url := http://www.boost.org/
@@ -42,10 +45,9 @@ boost_documentation_url := http://www.boost.org/libs/libraries.htm
 
 boost_targets_prefix := $(boost_prefix)-
 boost_prefix_underscore := $(boost_prefix)_
-
+# OK: where do we use boost_prefix_underscore ??
 boost_targets := $(addprefix $(boost_targets_prefix), $(boost_supported_version_numbers))
 boost_recommended := $(boost_targets_prefix)$(boost_recommended_version_number)
-boost_recommended_package_name := $(boost_recommended_version_number)
 
 # #################################
 # Doxygen
@@ -55,12 +57,10 @@ doxygen_recommended_version_number = 1.5.2
 doxygen_supported_not_recommended_version_numbers = 1.5.1
 doxygen_supported_version_numbers = $(doxygen_supported_not_recommended_version_numbers) $(doxygen_recommended_version_number)
 
-# remarks: 
-#  doxygen-1.4.6 broken
-#  doxygen-1.5.1 correction of 1.5.0
-
 doxygen_prefix = doxygen
-doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(doxygen_recommended)/html/index.html
+dogygen_full_prefix = $(doxygen_prefix)-$(doxygen_recommended_version_number)
+doxygen_recommended_package_name = $(dogygen_full_prefix).src
+doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(dogygen_full_prefix)/html/index.html
 
 doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
 doxygen_documentation_url := http://www.stack.nl/~dimitri/doxygen/manual.html
@@ -68,7 +68,6 @@ doxygen_documentation_url := http://www.stack.nl/~dimitri/doxygen/manual.html
 doxygen_targets_prefix := $(doxygen_prefix)-
 doxygen_targets := $(addprefix $(doxygen_targets_prefix), $(doxygen_supported_version_numbers))
 doxygen_recommended := $(doxygen_targets_prefix)$(doxygen_recommended_version_number)
-doxygen_recommended_package_name := $(doxygen_targets_prefix)$(doxygen_recommended_version_number).src
 
 # #################################
 # Mhash
@@ -111,6 +110,7 @@ postgresql_recommended := $(postgresql_targets_prefix)$(postgresql_recommended_v
 
 valgrind_recommended_version_number = 3.2.3
 valgrind_supported_not_recommended_version_numbers = 3.2.1
+# OK: shouldn't this be 3.2.2 ? Or perhaps just empty?
 valgrind_supported_version_numbers = $(valgrind_supported_not_recommended_version_numbers) $(valgrind_recommended_version_number)
 
 valgrind_prefix = valgrind
@@ -217,14 +217,48 @@ gmp_targets := $(addprefix $(gmp_targets_prefix), $(gmp_supported_version_number
 gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)
 
 # ################################
-# sage
+# Sage
 # ###############################
 
 sage_recommended_version_number = 2.6
-sage_supported_version_numbers = $(sage_recommended_version_number)
+sage_supported_not_recommended_version_numbers =
+sage_supported_version_numbers = $(sage_supported_not_recommended_version_numbers) $(sage_recommended_version_number)
 
 sage_prefix = sage
+sage_recommended_package_name = $(sage_prefix)-$(sage_recommended_version_number)
+sage_html_template = $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Sage.html
+sage_html_output = $(local_html_dir)/Sage.html
+sage_html_documentation_index_location = Sage.html
+
+sage_installation_dir = $(ExternalSources)/Sage/$(sage_recommended_package_name)
+sage_main_index = $(sage_installation_dir)/doc/index.html
+sage_devel_doc = $(sage_installation_dir)/devel/doc-$(sage_recommended_version_number)/paper-letter
+
+sage_maxima_dir = $(sage_installation_dir)/local/share/maxima
+sage_maxima_version = $(notdir $(wildcard $(sage_installation_dir)/local/share/maxima/*))
+sage_maxima_html = $(sage_maxima_dir)/$(sage_maxima_version)/doc/html
+sage_xmaxima_html = $(sage_maxima_dir)/$(sage_maxima_version)/xmaxima/html
+sage_maxima_share = $(sage_maxima_dir)/$(sage_maxima_version)/share
+
+sage_gap_version = $(subst gap-,,$(notdir $(wildcard $(sage_installation_dir)/local/lib/gap-*)))
+sage_guava_version = $(subst guava,,$(notdir $(wildcard $(sage_installation_dir)/local/lib/gap-$(sage_gap_version)/pkg/guava*)))
+sage_guave_html = $(sage_installation_dir)/local/lib/gap-$(sage_gap_version)/pkg/guava$(sage_guava_version)/htm
+
+sage_clisp_dir = $(sage_installation_dir)/local/share/doc/clisp
+sage_clisp_html = $(sage_clisp_dir)/doc
+
+sage_ipython_version = $(subst ipython-,,$(notdir $(wildcard $(sage_installation_dir)/local/share/doc/ipython-*)))
+sage_ipython_dir = $(sage_installation_dir)/local/share/doc/ipython-$(sage_ipython_version)
+
+sage_qd_dir = $(sage_installation_dir)/local/share/doc/qd
+
+sage_bzip2_version = $(subst bzip2-,,$(notdir $(wildcard $(sage_installation_dir)/spkg/build/bzip2-*)))
+sage_bzip2_dir = $(sage_installation_dir)/spkg/build/bzip2-$(sage_bzip2_version)
+
+sage_homepage_url := 
+sage_documentation_url := 
 
 sage_targets_prefix := $(sage_prefix)-
 sage_targets := $(addprefix $(sage_targets_prefix), $(sage_supported_version_numbers))
 sage_recommended := $(sage_targets_prefix)$(sage_recommended_version_number)
+
