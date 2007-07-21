@@ -24,17 +24,35 @@ tar xvf sage-2.6.tar
 cd sage-2.6
      \endverbatim
      </li>
-     <li> Build and install:
+     <li> Build and install locally:
      \verbatim
 make
+     \endverbatim
+     </li>
+     <li> Build documentation:
+     \verbatim
+cd devel/doc
+make pdf
+     \endverbatim
+     </li>
+     <li>
+     %Test:
+     \verbatim
+cd ../..
+make test
      \endverbatim
      </li>
     </ol>
    </li>
    <li> We should link at least to the latex-documentation. It speaks about
    it in the README-file, however one can find only index.html (at several
-   places!)? </li>
-   <li> No indication of the documentation about "Axioms" etc. ?? </li>
+   places!)? Apparently the README-file is not up-to-date, and meanwhile the
+   html-documentation became the default. With the above "make pdf" however
+   the latex-documentation is generated, and we should also link to it. DONE </li>
+   <li> Create a special documentation page for Sage (the internal-link of the local
+   home page links then to this special page), which contains all links to html-index
+   pages and pdf-files one can find in the Sage-directory. DONE </li>
+   <li> No indication of the documentation about "Axioms" etc. ?? DONE (not in the package) </li>
   </ul>
 
 */
