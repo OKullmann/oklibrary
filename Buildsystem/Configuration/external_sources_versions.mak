@@ -216,3 +216,15 @@ gmp_targets_prefix := $(gmp_prefix)-
 gmp_targets := $(addprefix $(gmp_targets_prefix), $(gmp_supported_version_numbers))
 gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)
 
+# ################################
+# sage
+# ###############################
+
+sage_recommended_version_number = 2.6
+sage_supported_version_numbers = $(sage_recommended_version_number)
+
+sage_prefix = sage
+
+sage_targets_prefix := $(sage_prefix)-
+sage_targets := $(addprefix $(sage_targets_prefix), $(sage_supported_version_numbers))
+sage_recommended := $(sage_targets_prefix)$(sage_recommended_version_number)
