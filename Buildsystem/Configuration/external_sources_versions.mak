@@ -230,7 +230,8 @@ sage_html_template = $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentatio
 sage_html_output = $(local_html_dir)/Sage.html
 sage_html_documentation_index_location = Sage.html
 
-sage_installation_dir = $(ExternalSources)/Sage/$(sage_recommended_package_name)
+sage_base_directory = $(ExternalSources)/Sage
+sage_installation_dir = $(sage_base_directory)/$(sage_recommended_package_name)
 sage_main_index = $(sage_installation_dir)/doc/index.html
 sage_devel_doc = $(sage_installation_dir)/devel/doc-$(sage_recommended_version_number)/paper-letter
 
