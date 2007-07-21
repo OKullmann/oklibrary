@@ -20,7 +20,7 @@
    generator </li>
    <li> Mupad/VanderWaerden.mup : Computing optimal resolution trees etc.
    for van der Waerden-clause-sets </li>
-   <li> Mupad/tau.mup : Just the general tau-function. </li>
+   <li> Mupad/tau.mup : See ComputerAlgebra/plans/Tau.hpp </li>
   </ol>
 
 */
