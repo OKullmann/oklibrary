@@ -51,6 +51,8 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/R.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/mpfr.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gmp.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/sage.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ocaml.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/coq.mak
 
 # #################################
 # Cleaning

@@ -86,7 +86,7 @@ make world && make bootstrap && make opt && make opt.opt && sudo make install
     \endverbatim
     Now what does it %mean to "keep the sources" --- they recommend
     not to use "make install", but then the manual etc. won't
-    be installed? We ignore this first, since writing tacticts
+    be installed? We ignore this first, since writing tactics
     will only come later, and we can reinstall Coq anytime. </li>
    <li> Problems with "configure":
     <ol>
@@ -261,6 +261,7 @@ cd ..
 make clean
      \endverbatim
      </li>
+     <li> Perhaps the documentation really must be downloaded. </li>
     </ol>
    </li>
   </ul>
