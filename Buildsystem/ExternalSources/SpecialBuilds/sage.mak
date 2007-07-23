@@ -7,7 +7,7 @@
 
 sage_directories := $(sage_base_directory)
 
-.PHONY : sage $(sage_targets) create_sage_dirs
+.PHONY : sage $(sage_targets)
 
 # #################################
 # Main sage targets
@@ -33,4 +33,3 @@ $(sage_targets) : $(sage_directories)
 
 cleanallsage : 
 	-rm -rf $(sage-base-directory)
- 
