@@ -4,7 +4,7 @@
   \file Buildsystem/ExternalSources/docus/ExternalSources.hpp
   \brief General documentation for the makefile Buildsystem/ExternalSources.mak, responsible for external builds
   
-  <H1> General overview </H1>
+  <h1> General overview </h1>
   
   XXX base directory OKplatform/ExternalSources
   
@@ -25,26 +25,26 @@
 
   Transitional/Buildsystem/ExternalSources.mak includes:
   <ul>
-  <li>Buildsystem/ExternalSources/mhash.mak
-  <li>Buildsystem/ExternalSources/gcc.mak
-  <li>Buildsystem/ExternalSources/doxygen.mak
-  <li>Buildsystem/ExternalSources/boost.mak
-  <li>Buildsystem/ExternalSources/postgresql.mak
-  <li>Buildsystem/ExternalSources/valgrind.mak
-  <li>Buildsystem/ExternalSources/ubcsat.mak
+  <li>Buildsystem/ExternalSources/mhash.mak </li>
+  <li>Buildsystem/ExternalSources/gcc.mak </li>
+  <li>Buildsystem/ExternalSources/doxygen.mak </li>
+  <li>Buildsystem/ExternalSources/boost.mak </li>
+  <li>Buildsystem/ExternalSources/postgresql.mak </li>
+  <li>Buildsystem/ExternalSources/valgrind.mak </li>
+  <li>Buildsystem/ExternalSources/ubcsat.mak </li>
   </ul>
   Each of these files contains the definitions required to build an
   external library. 
 
 
-  <H1> Installations </H1>
+  <h1> Installations </h1>
   
   
-  <H2> GCC </H2>
+  <h2> GCC </h2>
   
   Only local installation.
   
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
 
   <table>
    <tr>
@@ -61,16 +61,16 @@
    </tr>
   </table>
 
-  <H3> Usage </H3>
+  <h3> Usage </h3>
 
   XXX setting the link-path XXX
 
 
-  <H2> Boost </H2>
+  <h2> Boost </h2>
 
   Only local installation. If some required local installation of gcc is not available, then it is build first.
 
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
 
   The targets are <code>%boost</code>, <code>boost_all</code> and <code>boost_gcc_all</code>, with modifiers <code>boost_recommended=</code> and <code>gcc-version=</code>.
 
@@ -118,11 +118,11 @@
   </table>
 
 
-  <H2> UBCSAT </H2>
+  <h2> UBCSAT </h2>
 
   Only local installation.
 
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
   
   <table>
    <tr>
@@ -132,7 +132,7 @@
    </tr>
   </table>
 
-  <H3> Build explanations </H3>
+  <h3> Build explanations </h3>
 
   In ExternalSources/Ubcsat/1-0-0 one finds the extracted archive ubcsat-1-0-0.tar.gz,
   which contains pre-compiled binaries for Unix/Linux systems and Windows systems.
@@ -149,7 +149,7 @@
 
   The corrected sources come from Transitional/LocalSearch/Ubcsat/corrected.
 
-  <H3> Usage explanations </H3>
+  <h3> Usage explanations </h3>
 
   Calling the binary with "ubcsat -h" will show the list of options.
 
@@ -166,11 +166,11 @@
   Transitional/LocalSearch/Ubcsat/local/ubcsat.h.
 
 
-  <H2> Mhash </H2>
+  <h2> Mhash </h2>
 
   Only local installation.
   
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
   
   <table>
    <tr>
@@ -205,11 +205,11 @@
   </table>
 
 
-  <H2> Doxygen </H2>
+  <h2> Doxygen </h2>
 
   Only system-wide installation.
 
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
   
   <table>
    <tr>
@@ -224,11 +224,11 @@
   </table>
 
 
-  <H2> Valgrind </H2>
+  <h2> Valgrind </h2>
 
   Only system-wide installation.
 
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
   
   <table>
    <tr>
@@ -243,11 +243,11 @@
   </table>
 
 
-  <H2> PostgreSQL </H2>
+  <h2> PostgreSQL </h2>
 
   Only local installation.
 
-  <H3> Make targets </H3>
+  <h3> Make targets </h3>
   
   <table>
    <tr>
@@ -282,7 +282,5 @@
    </tr>
   </table>
 
-
 */
 
-  
