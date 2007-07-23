@@ -19,10 +19,6 @@
   supported and recommended version numbers and for version
   number dependendent variable definitions.
 
-  Buildsystem/ExternalSources.mak includes 
-  Buildsystem/ExternalSources/definitions_.mak for additional variable 
-  and function definitions.
-
   Transitional/Buildsystem/ExternalSources.mak includes:
   <ul>
   <li>Buildsystem/ExternalSources/mhash.mak </li>

@@ -114,7 +114,8 @@ SET(CONFIGVAR2 value2)
     ExternalSources/definitions.mak? OK:
     <ol>
      <li> What about that "ExternalSources/definitions_.mak" ?
-     (This name seems strange to me anyway.) </li>
+     (This name seems strange to me anyway.) DONE (merged into
+     ExternalSources/Makefile) </li>
      <li> The main question is about visibility. There needs to be fixed
      the architecture of our makefiles (w.r.t. inclusion and variable
      definitions). DONE (handled by the new configuration system) </li>
