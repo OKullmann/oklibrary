@@ -21,9 +21,6 @@
 
   \todo Documenting ExternalSources.mak
   <ul>
-   <li> In ExternalSources/docus we should have general.hpp for general
-   explanations and links to the documentations for special builds, which
-   actually likely should go to SpecialBuilds/docus. </li>
    <li> General explanations in ExternalSources/docus/general.hpp:
     <ol>
      <li> Only restricted installation support for special builds. </li>
@@ -35,8 +32,11 @@
    </li>
    <li> Another file in ExternalSources/docus explains how to add the installation
    of a new external source. </li>
-   <li> The files in ExternalSources/SpecialBuilds/docus.hpp are for the *user*
+   <li> The files in ExternalSources/SpecialBuilds/docus are for the *user*
    documentation, that is, how to install it, and very basic usage. </li>
+   <li> In ExternalSources/docus we should have general.hpp for general
+   explanations and links to the documentations for special builds, which
+   actually likely should go to SpecialBuilds/docus. DONE </li>
    <li> The old OKBuildsystem/ExternalSources/doc.mak is gone?
    So documentation building should happen automatically (when building
    the package). DONE (extracting the documentation and moving to an appropriate

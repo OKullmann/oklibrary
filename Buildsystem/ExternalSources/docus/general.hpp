@@ -5,35 +5,15 @@
   \brief General documentation for the makefile Buildsystem/ExternalSources/Makefile, responsible for external builds
   
   <h1> General overview </h1>
+
   
-  XXX base directory OKplatform/ExternalSources
+
   
-  XXX version numbers in Buildsystem/Configuration/external_sources_versions.mak
-
-  Buildsystem/ExternalSources.mak is the central makefile
-  linked to by ExternalSources/makefile. Here are defined the main
-  targets for building and cleaning of external libraries.
-
-  Buildsystem/ExternalSources.mak includes 
-  Buildsystem/external_sources_versions.mak for variable definitions of
-  supported and recommended version numbers and for version
-  number dependendent variable definitions.
-
-  Transitional/Buildsystem/ExternalSources.mak includes:
-  <ul>
-  <li>Buildsystem/ExternalSources/mhash.mak </li>
-  <li>Buildsystem/ExternalSources/gcc.mak </li>
-  <li>Buildsystem/ExternalSources/doxygen.mak </li>
-  <li>Buildsystem/ExternalSources/boost.mak </li>
-  <li>Buildsystem/ExternalSources/postgresql.mak </li>
-  <li>Buildsystem/ExternalSources/valgrind.mak </li>
-  <li>Buildsystem/ExternalSources/ubcsat.mak </li>
-  </ul>
-  Each of these files contains the definitions required to build an
-  external library. 
-
-
   <h1> Installations </h1>
+
+  <ol>
+   <li> Doxygen (Buildsystem/ExternalSources/SpecialBuilds/docus/Doxygen.hpp) </li>
+  </ol>
   
   
   <h2> GCC </h2>
@@ -197,25 +177,6 @@
    <tr>
     <td> <code> mhash_gcc_all </code> </td>
     <td> Build all supported versions of mhash for all all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-  </table>
-
-
-  <h2> Doxygen </h2>
-
-  Only system-wide installation.
-
-  <h3> Make targets </h3>
-  
-  <table>
-   <tr>
-    <td> <code> doxygen </code> </td>
-    <td> Build the recommended version of doxygen, using the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> doxygen-x.y.z </code> </td>
-    <td> Build the version x.y.z of doxygen, using the system-gcc (for example
-    <code>doxygen-1.5.2</code>). </td>
    </tr>
   </table>
 
