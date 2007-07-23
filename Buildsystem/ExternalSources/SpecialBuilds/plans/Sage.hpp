@@ -5,7 +5,7 @@
   \brief Plans regarding installation of Sage
 
 
-  \todo Build Sage
+  \todo Build Sage 2.6
   <ul>
    <li> Manual build
     <ol>
@@ -55,7 +55,8 @@ make test
    <li> No indication of the documentation about "Axioms" etc. ?? DONE (not in the package) </li>
   </ul>
 
-  \bug Building Sage on csltmh
+
+  \bug Building Sage 2.6 on csltmh
   \verbatim
 make[1]: Leaving directory `/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6'
 make[1]: Entering directory `/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6'
@@ -102,5 +103,19 @@ make[1]: *** [paper-letter/ref.pdf] Error 134
 make[1]: Leaving directory `/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6'
 make: *** [sage-2.6] Error 1
   \endverbatim
+
+
+  \todo Building Sage 2.7
+  <ul>
+   <li> Error related to gfortran:
+   \verbatim
+Error installing Fortran: On your system, you must install the gfortran VERSION 4.x compiler *manually* before installing SAGE.
+   \endverbatim
+   however gfortran 4.0.2 is installed (/usr/bin/gfortran), and apparently
+   the Sage build process realised this?
+   </li>
+   <li> Perhaps we could offer to install gfortran belonging to gcc-4.1.2
+   systemwide? </li>
+  </ul>
 
 */
