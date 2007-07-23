@@ -238,7 +238,7 @@ gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)
 # ###############################
 
 sage_recommended_version_number = 2.6
-sage_supported_not_recommended_version_numbers =
+sage_supported_not_recommended_version_numbers = 2.7
 sage_supported_version_numbers = $(sage_supported_not_recommended_version_numbers) $(sage_recommended_version_number)
 
 sage_prefix = sage
