@@ -32,7 +32,7 @@ generic_dirs := $(OKsystem)/Transitional/AtomicConditions $(OKsystem)/Transition
 generic_links = $(addsuffix /makefile, $(generic_dirs))
 
 makefile_oksystem := $(OKsystem)/makefile
-makefile_externalsources := $(ExternalSources)/makefile
+makefile_externalsources := $(ExternalSources)/Makefile
 makefile_annotations := $(Annotations_dir)/makefile
 makefile_transitional := $(OKsystem)/Transitional/makefile
 
@@ -56,7 +56,7 @@ $(makefile_annotations) : $(OKbuildsystem)/Annotations.mak
 $(makefile_transitional) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
 
-$(makefile_externalsources) : $(OKbuildsystem)/ExternalSources/ExternalSources.mak
+$(makefile_externalsources) : $(OKbuildsystem)/ExternalSources/Makefile
 	- ln -s $< $@
 
 

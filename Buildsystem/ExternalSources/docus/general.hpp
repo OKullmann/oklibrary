@@ -1,8 +1,8 @@
 // Oliver Kullmann, 9.4.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/docus/ExternalSources.hpp
-  \brief General documentation for the makefile Buildsystem/ExternalSources.mak, responsible for external builds
+  \file Buildsystem/ExternalSources/docus/general.hpp
+  \brief General documentation for the makefile Buildsystem/ExternalSources/Makefile, responsible for external builds
   
   <h1> General overview </h1>
   

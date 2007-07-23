@@ -14,7 +14,7 @@
     <ol>
      <li> Five main makefiles:
       <ol>
-       <li> Buildsystem/ExternalSources/Makefile (the current Buildsystem/ExternalSources/ExternalSources.mak) </li>
+       <li> Buildsystem/ExternalSources/Makefile </li>
        <li> Buildsystem/OKlibBuilding/Makefile (the current Buildsystem/generic.mak) </li>
        <li> Buildsystem/Html/Makefile (takes over target html from current Buildsystem/generic.mak) </li>
        <li> Buildsystem/Latex/Makefile (the current Buildsystem/Annotations.mak) </li>
