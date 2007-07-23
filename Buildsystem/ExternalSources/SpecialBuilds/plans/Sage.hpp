@@ -55,4 +55,52 @@ make test
    <li> No indication of the documentation about "Axioms" etc. ?? DONE (not in the package) </li>
   </ul>
 
+  \bug Building Sage on csltmh
+  \verbatim
+make[1]: Leaving directory `/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6'
+make[1]: Entering directory `/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6'
+cd paper-letter && TEXINPUTS=/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/commontex: python /home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/tools/mkhowto --paper=letter --pdf ../ref/ref.tex
++++ TEXINPUTS=/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/ref:/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/commontex:/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/paper-letter:/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/texinputs:
++++ pdflatex ref
++++ makeindex ref.idx
++++ pdflatex ref
++++ makeindex -s /home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/texinputs/python.ist ref.idx
+*** buffer overflow detected ***: makeindex terminated
+======= Backtrace: =========
+/lib/libc.so.6(__chk_fail+0x41)[0x4011b581]
+/lib/libc.so.6(__strcpy_chk+0x43)[0x4011aa53]
+makeindex[0x804ae8d]
+makeindex[0x804b0fa]
+/lib/libc.so.6(__libc_start_main+0xdc)[0x4005ff9c]
+makeindex[0x8049481]
+======= Memory map: ========
+08048000-0805e000 r-xp 00000000 03:02 1429826    /usr/share/texmf/teTeX/bin/i586-linux/makeindex
+0805e000-0805f000 r--p 00015000 03:02 1429826    /usr/share/texmf/teTeX/bin/i586-linux/makeindex
+0805f000-08069000 rw-p 00016000 03:02 1429826    /usr/share/texmf/teTeX/bin/i586-linux/makeindex
+08069000-08112000 rw-p 08069000 00:00 0          [heap]
+40000000-4001b000 r-xp 00000000 03:02 4063244    /lib/ld-2.5.so
+4001b000-4001d000 rw-p 0001a000 03:02 4063244    /lib/ld-2.5.so
+4001d000-4001e000 r-xp 4001d000 00:00 0          [vdso]
+4001e000-4001f000 rw-p 4001e000 00:00 0
+4004a000-40172000 r-xp 00000000 03:02 4063251    /lib/libc-2.5.so
+40172000-40173000 r--p 00128000 03:02 4063251    /lib/libc-2.5.so
+40173000-40175000 rw-p 00129000 03:02 4063251    /lib/libc-2.5.so
+40175000-40179000 rw-p 40175000 00:00 0
+40179000-40183000 r-xp 00000000 03:02 8962340    /usr/local/lib/libgcc_s.so.1
+40183000-40184000 r--p 00009000 03:02 8962340    /usr/local/lib/libgcc_s.so.1
+40184000-40185000 rw-p 0000a000 03:02 8962340    /usr/local/lib/libgcc_s.so.1
+bfdac000-bfdc9000 rw-p bfdac000 00:00 0          [stack]
+sh: line 1:   557 Aborted                 ( makeindex -s /home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/texinputs/python.ist ref.idx ) </dev/null >>/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/paper-letter/ref.how 2>&1
+*** Session transcript and error messages are in /home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/paper-letter/ref.how.
+*** Exited with status 134.
+The relevant lines from the transcript are:
+------------------------------------------------------------------------
++++ makeindex -s /home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/texinputs/python.ist ref.idx
+*** Session transcript and error messages are in /home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6/paper-letter/ref.how.
+*** Exited with status 134.
+make[1]: *** [paper-letter/ref.pdf] Error 134
+make[1]: Leaving directory `/home/csmatthew/OKplatform/ExternalSources/Sage/sage-2.6/devel/doc-2.6'
+make: *** [sage-2.6] Error 1
+  \endverbatim
+
 */
