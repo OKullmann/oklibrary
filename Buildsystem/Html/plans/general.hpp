@@ -26,6 +26,22 @@
   \todo Install configuration system
   <ul>
    <li> The m4-preprocessing should move to the Configuration-module. </li>
+   <li> Files created by the preprocessor should have a final line stating this
+   and the creation date; then also (for easy of modification) the original
+   template file should be specified (in a comment, or on the page).
+   The local home page has already a first solution, which should be systematised, that
+   is, a make-variable should be provided. Perhaps we just add "from ...", and
+   state the original template file also on the page; the new make-variable then
+   just contains the text with date etc.:
+   \verbatim
+automatic_masthead = Automatically created by the OKbuildsystem on $(current_date) from \
+  template file "
+   \endverbatim
+   where then the template file has to be added (by hand).
+   One problem here is that the current date should be the time when the specific page
+   was created, not when the whole process started --- is this achieved by recursive
+   make variables??
+   </li>
    <li> See solution to "Configuration problem" below. DONE (the general usage
    is clear) </li>
   </ul>
