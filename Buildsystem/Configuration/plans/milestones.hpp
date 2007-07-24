@@ -17,12 +17,22 @@
    In Buildsystem/Configuration/plans/Persons.hpp the following topics are handled:
     - Developers information
 
+  \par
+   In Buildsystem/Configuration/ExternalSources/plans/general.hpp the following topics are handled:
+    - Software management
+
+
   \par Version 0.0.6
 
   \par
    In Buildsystem/Configuration/plans/general.hpp the following topics are handled:
     - Variables for accessing external libraries
     - Definitions for doxygen
+
+  \par
+   In Buildsystem/Configuration/ExternalSources/plans/general.hpp the following topics are handled:
+    - Buildsystem/ExternalSources/all.mak
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

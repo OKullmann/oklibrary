@@ -17,10 +17,6 @@
     - Renaming : DONE
     - Plans-structure for ExternalSources : DONE
 
-  \par
-   In Buildsystem/ExternalSources/plans/Configuration.hpp the following topics are handled:
-    - Software management
-
 
   \par Version 0.1.2
 
@@ -33,10 +29,6 @@
     - Building documentation
     - General
     - Make-variables for external libraries
-
-  \par
-   In Buildsystem/ExternalSources/plans/Configuration.hpp the following topics are handled:
-    - Buildsystem/ExternalSources/all.mak
 
 
   \par Version 0.1.3

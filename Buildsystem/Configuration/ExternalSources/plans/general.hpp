@@ -1,7 +1,7 @@
 // Oliver Kullmann, 3.7.2007 (Swansea)
 
 /*!
-  \file Buildsystem/ExternalSources/plans/Configuration.hpp
+  \file Buildsystem/Configuration/ExternalSources/plans/general.hpp
   \brief Plans for handling of configuration data regarding external sources
 
 
