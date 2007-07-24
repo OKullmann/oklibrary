@@ -102,6 +102,8 @@ SET(CONFIGVAR2 value2)
   <ul>
    <li> The role of system_definitions.mak must be clarified.
    Do those library variables (Boost, Ubcsat) belong to it??
+   No: They must go the Configuration/ExternalSources --- for every external sources
+   there one finds variables yielding access to the resources provided by it.
    <ul>
     <li> system_definitions.mak should
     contain definitions of Make variables which are used by
@@ -111,7 +113,8 @@ SET(CONFIGVAR2 value2)
     for the external sources are moved elsewhere.</li>
     <li> Perhaps all variable definitions relevant for the 
     external sources (including version numbers) should go into
-    ExternalSources/definitions.mak? OK:
+    ExternalSources/definitions.mak? DONE (they go for example to
+    Configuration/ExternalSources/gcc.mak)
     <ol>
      <li> What about that "ExternalSources/definitions_.mak" ?
      (This name seems strange to me anyway.) DONE (merged into
@@ -123,7 +126,6 @@ SET(CONFIGVAR2 value2)
    </li>
    </ul>
    </li>
-   <li> What is the precise relation to external_sources_versions.mak ? </li>
    <li> Boost:
     <ul>
      <li> The default value of Boost
@@ -145,6 +147,8 @@ SET(CONFIGVAR2 value2)
      discussed). DONE </li>
     </ul>
    </li>
+   <li> What is the precise relation to external_sources_versions.mak ? DONE (all
+   variables related to external sources must leave system_definitions.mak) </li>
   </ul>
 
 

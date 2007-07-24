@@ -11,16 +11,16 @@
   
   XXX base directory $(ExternalSources) for installations of external sources
   
-  XXX version numbers in Buildsystem/Configuration/external_sources_versions.mak
+  XXX version numbers etc. in Buildsystem/Configuration/ExternalSources/all.mak
 
-  Buildsystem/ExternalSources/Makefile is the central makefile,
-  while $(ExternalSources)/makefile is a symbolic link to it.
-  Here are defined the main
-  targets for building and cleaning of external libraries.
-
-  Transitional/Buildsystem/ExternalSources.mak includes makefiles
-  in Buildsystem/ExternalSources/SpecialBuilds, each responsible
-  for building one external source.
+  Buildsystem/ExternalSources/Makefile is the central makefile:
+  <ul>
+   <li> $(ExternalSources)/makefile is a symbolic link to it </li>
+   <li> Defines the main targets for building and cleaning of
+   external libraries. </li>
+   <li> It includes makefiles in Buildsystem/ExternalSources/SpecialBuilds,
+   each responsible for building one external source. </li>
+  </ul>
 
 
   <h2> Adding new external sources </h2>

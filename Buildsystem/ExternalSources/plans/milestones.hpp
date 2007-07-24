@@ -36,7 +36,7 @@
 
   \par
    In Buildsystem/ExternalSources/plans/Configuration.hpp the following topics are handled:
-    - external_sources_versions.mak
+    - Buildsystem/ExternalSources/all.mak
 
 
   \par Version 0.1.3

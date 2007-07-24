@@ -8,7 +8,7 @@
   \todo Mhash
   <ul>
    <li> mhash.mak needs a complete review; the usage of make-variables
-   seems pretty random (we should synchronise it with external_sources_versions.mak
+   seems pretty random (we should synchronise it with Configuration/ExternalSources/all.mak
    and with the other build-files; and we need specifications for the variables,
    at least examples). </li>
    <li> Make a bug report about version 0.9.9 of Mhash (
@@ -21,7 +21,7 @@
    <li> The build-instructions for mhash should be as similar as possible
    to those for Boost. </li>
    <li> Shouldn't the default for building mhash be using the recommended
-   local gcc-version? </li>
+   local gcc-version? (Is linking necessary?) </li>
    <li> It seems that cleanmhash should also remove the installation directory.
    (MH) Isn't it the case that we want cleanmhash only to remove the build
    directory - so that the local installation can still be used after cleaning?
