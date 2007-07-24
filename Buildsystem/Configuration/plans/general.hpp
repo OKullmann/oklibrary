@@ -158,6 +158,8 @@ SET(CONFIGVAR2 value2)
    configuration-variables in doxygen-documentation (see for example the function
    doxygen_html_documentation_index_location_tag in
    Configuration/ExternalSources/doxygen.mak). </li>
+   <li> How can we reliably refer to a specific page within the doxygen
+   documentation? Are the url's relatively stable? </li>
    <li> It would be preferable, if the following variable definitions
     <ol>
      <li> ALIASES </li>

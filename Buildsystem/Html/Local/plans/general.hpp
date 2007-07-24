@@ -25,11 +25,16 @@
   <ul>
    <li> Link section to external sources:
     <ol>
-     <li> Another column for the installation-status is needed. </li>
-     <li> The general distinctions is between system- and local-installation. </li>
+     <li> Fill the "ready?"-columns. </li>
+     <li> Fill the "installation page"-column. </li>
+     <li> The general distinctions is between system- and local-installation. DONE
+     (not shown at this level) </li>
      <li> Via "Yes" or "No" then it must be indicated whether the installation
-     is present. </li>
-     <li> And a link to the docus-page is needed. </li>
+     is present --- perhaps this availability status (whether the system is
+     "ready" or not is just enough, and further details are to be found at the
+     docus-page. DONE (there is a special variable with values "YES", "NO"
+     or "MAYBE") </li>
+     <li> And a link to the docus-page is needed. DONE (now needs to be provided) </li>
     </ol>
    </li>
    <li> A special dedicated link-symbol (created by a style-sheet) perhaps
