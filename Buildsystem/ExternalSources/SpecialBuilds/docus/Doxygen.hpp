@@ -10,8 +10,38 @@
 
   <h2> On the purpose of Doxygen </h2>
 
+  Doxygen is a program to extract documentation from program sources. We use it
+  for the documentation of C and C++ code as well as for the plans and docus.
+
+
+  <h2> What the installation yields </h2>
+
+  <ul>
+   <li> Two executables
+    <ol>
+     <li> the <code>doxygen</code> program: Takes as input a file with configuration settings, and produces a directory with html-pages. </li>
+     <li> the <code>doxytag</code> program </li>
+    </ol>
+   </li>
+   <li> documentation </li>
+  </ul>
+  The OKlibrary build system needs access to the doxygen-program, and provides a link
+  to the doxyen-documentation. It administrates a doxygen-configuration file.
 
   <h2> Current state of installation </h2>
+
+  <ul>
+   <li> doxygen-program call = $(doxygen_call) </li>
+   <li> ready: $(doxygen_call_ready)
+    <ul>
+     <li> location = $(location_doxygen_call) </li>
+     <li> version = <code>$(version_doxygen_call)</code>
+     </li>
+    </ul>
+   </li>
+   <li> documentation: $(doxygen_html_documentation_index_location_tag) </li>
+   <li> doxygen-configuration file XXX </li>
+  </ul>
 
 
   <h2> How to install </h2>

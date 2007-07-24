@@ -10,6 +10,7 @@
    <li> Under SpecialBuilds/docus we need docus-files for every
    external source:
     <ol>
+     <li> Doxygen (started with the new reflection on configuration parameters) </li>
      <li> Mhash (remark about corrected files; content of package) </li>
      <li> Postgresql </li>
      <li> UBCSAT (remark about corrected files; content of package) </li>

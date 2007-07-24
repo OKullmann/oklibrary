@@ -154,6 +154,10 @@ SET(CONFIGVAR2 value2)
 
   \todo Definitions for doxygen:
   <ul>
+   <li> General make-functions are needed to overcome the restrictions on using
+   configuration-variables in doxygen-documentation (see for example the function
+   doxygen_html_documentation_index_location_tag in
+   Configuration/ExternalSources/doxygen.mak). </li>
    <li> It would be preferable, if the following variable definitions
     <ol>
      <li> ALIASES </li>

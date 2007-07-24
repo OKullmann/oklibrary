@@ -4,6 +4,8 @@
 
 ExternalSources_doc = $(ExternalSources)/doc
 
+include $(OKconfiguration)/ExternalSources/doxygen.mak
+
 # #################################
 # GCC
 # #################################
@@ -49,26 +51,6 @@ boost_prefix_underscore := $(boost_prefix)_
 # OK: where do we use boost_prefix_underscore ??
 boost_targets := $(addprefix $(boost_targets_prefix), $(boost_supported_version_numbers))
 boost_recommended := $(boost_targets_prefix)$(boost_recommended_version_number)
-
-# #################################
-# Doxygen
-# #################################
-
-doxygen_recommended_version_number = 1.5.2
-doxygen_supported_not_recommended_version_numbers = 1.5.1
-doxygen_supported_version_numbers = $(doxygen_supported_not_recommended_version_numbers) $(doxygen_recommended_version_number)
-
-doxygen_prefix = doxygen
-dogygen_full_prefix = $(doxygen_prefix)-$(doxygen_recommended_version_number)
-doxygen_recommended_package_name = $(dogygen_full_prefix).src
-doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(dogygen_full_prefix)/html/index.html
-
-doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
-doxygen_documentation_url := http://www.stack.nl/~dimitri/doxygen/manual.html
-
-doxygen_targets_prefix := $(doxygen_prefix)-
-doxygen_targets := $(addprefix $(doxygen_targets_prefix), $(doxygen_supported_version_numbers))
-doxygen_recommended := $(doxygen_targets_prefix)$(doxygen_recommended_version_number)
 
 # #################################
 # Mhash
