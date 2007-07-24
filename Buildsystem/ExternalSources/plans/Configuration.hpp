@@ -22,11 +22,11 @@
    <li> Names like
    <code> doxygen_supported_not_recommended_version_numbers </code>
    are misleading (these versions are not "not recommended"), and
-   they are too long. </li>
+   they are too long. Proposal: <code> doxygen_other_version_numbers </code> </li>
    <li> How we call our internal targets must be decoupled from
    how packages are called etc. </li>
    <li> There are several inline-comments in ExternalSources/all.mak,
-   typically referring to apparantly stale variables. </li>
+   typically referring to apparently stale variables. </li>
    <li> The variables related to the targets all (should) follow
    the same scheme, and perhaps should be defined in a general
    way in the main external-sources makefile (perhaps using
