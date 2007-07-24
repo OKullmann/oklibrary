@@ -38,3 +38,6 @@ ifndef OKoverrideconfig
   OKoverrideconfig = $(OKanchor)/override.mak
 endif
 
+ifndef Annotations_dir
+  Annotations_dir = $(OKsystem)/Annotations
+endif

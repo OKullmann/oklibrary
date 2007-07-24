@@ -21,8 +21,7 @@
 
   \par
    In Buildsystem/Configuration/plans/general.hpp the following topics are handled:
-    - system_definitions.mak
-    - Make-variables for external libraries
+    - Variables for accessing external libraries
     - Definitions for doxygen
 
 

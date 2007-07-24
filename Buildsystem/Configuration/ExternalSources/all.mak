@@ -52,6 +52,15 @@ boost_prefix_underscore := $(boost_prefix)_
 boost_targets := $(addprefix $(boost_targets_prefix), $(boost_supported_version_numbers))
 boost_recommended := $(boost_targets_prefix)$(boost_recommended_version_number)
 
+ifndef Boost
+  ifdef BOOST
+    Boost = -I$(BOOST)
+  else
+    Boost = -I/usr/local/$(boost_recommended)
+  endif
+endif
+# TODO: We must update and systematise the use of such variables!
+
 # #################################
 # Mhash
 # #################################
@@ -70,6 +79,16 @@ mhash_targets := $(addprefix $(mhash_targets_prefix), $(mhash_supported_version_
 # for example "mhash-0.9.7.1 mhash-0.9.9"
 mhash_recommended := $(mhash_targets_prefix)$(mhash_recommended_version_number)
 # for example "mhash-0.9.9"
+
+ifndef Mhash
+  ifdef MHASH
+    Mhash_dir := $(MHASH)
+  else
+    Mhash_dir := $(ExternalSources)/Mhash
+  endif
+  Mhash := $(Mhash_dir)/$(mhash_recommended_version_number)
+endif
+# TODO: We must update and systematise the use of such variables!
 
 # #################################
 # Postgresql
@@ -123,6 +142,16 @@ ubcsat_documentation_url := http://www.satlib.org/ubcsat/\#documentation
 ubcsat_targets_prefix := $(ubcsat_prefix)-
 ubcsat_targets := $(addprefix $(ubcsat_targets_prefix), $(ubcsat_supported_version_numbers))
 ubcsat_recommended := $(ubcsat_targets_prefix)$(ubcsat_recommended_version_number)
+
+ifndef Ubcsat
+  ifdef UBCSAT
+    Ubcsat_dir = $(UBCSAT)
+  else
+    Ubcsat_dir = $(ExternalSources)/Ubcsat
+  endif
+  Ubcsat = -I$(Ubcsat_dir)/$(ubcsat_recommended_version_number)/src
+endif
+# TODO: We must update and systematise the use of such variables.
 
 # ################################
 # Asciidoc
