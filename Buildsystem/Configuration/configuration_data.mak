@@ -9,7 +9,6 @@ endif
 include $(OKconfiguration)/main_directories.mak
 include $(OKconfiguration)/version_numbers.mak
 include $(OKconfiguration)/ExternalSources/all.mak
-include $(OKconfiguration)/system_definitions.mak
 include $(OKconfiguration)/build_directories.mak
 include $(OKconfiguration)/macro_replacement.mak
 include $(OKconfiguration)/doxygen_documentation.mak
