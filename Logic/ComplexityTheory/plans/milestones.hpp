@@ -3,14 +3,14 @@
 /*!
   \file ComplexityTheory/plans/milestones.hpp
 
-  \par Current version 0.0.2 (10.9.2006)
+  \module_version ComplexityTheory 0.0.2 (10.9.2006)
 
 
   \par Version 0.0.3 :
   In ComplexityTheory/plans/general.hpp the following
   topics are handled:
    - Update namespaces
-   - Turing machines
+   - Module Computability
 
   And milestones have been refined.
 

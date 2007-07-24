@@ -8,9 +8,11 @@
   \todo Update namespaces.
 
 
-  \todo Turing machines
+  \todo Module Computability
   <ul>
-   <li> Connect to the development of Turing machines in module Computability
+   <li> Connect to the development of Turing machines
+   (see Logic/Computability/plans/general.hpp). </li>
+   <li> Connect to the developments of Circuit models
    (see Logic/Computability/plans/general.hpp). </li>
   </ul>
 
@@ -22,7 +24,7 @@
   Dominic Welsh; 2006], Theorem 3.10): Given a Turing machine M and
   natural numbers n and t, construct F_M(n,t) which is satisfiable iff
   there exists an input x of size n such that M accepts x, and this
-  in at most t steps.
+  in at most t steps. Perhaps this should go to module Computability?
 
 
   \todo NP-completeness 2:
@@ -34,6 +36,7 @@
   SAT problems we get an example for the above SAT-NP-completeness
   construction. On the other hand, from the CNF's constructed there
   by circuit-reconstruction we should be able to get the circuits here!)
+  Perhaps this should go to module Computability?
 
 */
 
