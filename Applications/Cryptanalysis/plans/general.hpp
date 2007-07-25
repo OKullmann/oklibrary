@@ -1,7 +1,7 @@
 // Oliver Kullmann, 12.11.2006 (Swansea)
 
 /*!
-  \file Cryptanalysis/plans/general.hpp
+  \file Applications/Cryptanalysis/plans/general.hpp
   \brief Plans for the module on cryptanalysis
 
 

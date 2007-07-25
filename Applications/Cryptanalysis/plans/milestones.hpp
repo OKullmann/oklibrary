@@ -1,40 +1,28 @@
 // Oliver Kullmann, 12.11.2006 (Swansea)
 
 /*!
-  \file Cryptanalysis/plans/milestones.hpp
+  \file Applications/Cryptanalysis/plans/milestones.hpp
 
   \module_version Applications/Cryptanalysis 0.0.3 (5.7.2007)
+
 
   \par Version 0.0.4
 
   \par
    In Cryptanalysis/plans/Rijndael.hpp the following topics are handled:
-    - Overview
+    - Computer algebra implementation : DONE
+    - Rijndael : DONE
+    - Encoding AES : DONE
+    - Partitioning into active clauses : DONE
 
   
   \par Version 0.0.5
 
   \par
    In Cryptanalysis/plans/Rijndael.hpp the following topics are handled:
-    - Computer algebra implementation
-    - Rijndael
+    - Overview
 
-
-  \par Version 0.0.6
-
-  \par
-   In Cryptanalysis/plans/Rijndael.hpp the following topics are handled:
-    - Partitioning into active clauses
-
-
-  \par Version 0.0.7
-
-  \par
-   In Cryptanalysis/plans/Rijndael.hpp the following topics are handled:
-    - Encoding AES
-
-
-  \par Version 0.0.8
+  \par Version 0.1
 
   \par
    In Cryptanalysis/plans/Rijndael.hpp the following topics are handled:
@@ -42,14 +30,15 @@
     - Further tests
 
 
-  \par Version 0.1 :
+  \par Version 0.2 :
 
   \par
   A system for Rijndael has been implemented and tested, which can
   create interesting representations of various cryptographic problems
   (including CNF-representations).
 
-  \par Version 0.2 :
+
+  \par Version 0.3 :
 
   \par
    In Cryptanalysis/plans/Factorisation.hpp the following topics are handled:
@@ -69,5 +58,6 @@
 
    - 0.0.2 : 12.11.2006; initial version number (only some plans).
    - 0.0.3 : 5.7.2007; further plans and milestones created.
+   - 0.0.4 : 25.7.2007; first experience with a computer algebra implementation, and topics moved to a dedicated module in part ComputerAlgebra.
 
 */
