@@ -64,7 +64,19 @@
      If doxygen does not support it yet, then we should submit some feature request, and postphone
      this item. See what' in 1.5.3. </li>
    <li> It appears that all .cpp-files are considered as linked together? </li>
-   <li> Can makefiles (or cmake-files) be incorporated?! </li>
+   <li> Documentation for other programming languages?
+    <ol>
+     <li> makefiles ? </li>
+     <li> cmake-files ? </li>
+     <li> computer algebra ? </li>
+    </ol>
+    A simple way would be
+     <ol>
+      <li> just to allow verbatim processing of certain files </li>
+      <li> additionally, one could have the possiblity to define
+      the doxygen-comments. </li>
+     </ol>
+   </li>
    <li> What is the role of the doxygen configuration tag BUILTIN_STL_SUPPORT?
      Should we enable this? : Enabled; it should help --- check. </li>
    <li> Can we have nested lists? Numbered lists? These things should go into
