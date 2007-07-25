@@ -34,6 +34,24 @@
   </ul>
 
 
+  \todo Building Boost 1_34_1
+  <ul>
+   <li> On cs-wsok:
+    <ol>
+     <li> with system gcc
+     \verbatim
+...failed updating 8 targets...
+...skipped 24 targets...
+...updated 5517 targets...
+mv: cannot move `/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/1_34_1/include/boost-1_34_1' to a subdirectory of itself, `/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/1_34_1/include/boost-1_34_1/boost-1_34_1'
+     \endverbatim
+     </li>
+     <li> with local gcc 4.1.2. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Problems with building Boost (1_34_0)
   <ul>
    <li> Report to Boost: How to call the libraries is not documented, %e.g.,
