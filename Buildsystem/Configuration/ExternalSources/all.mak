@@ -34,7 +34,7 @@ gcc_recommended := $(gcc_targets_prefix)$(gcc_recommended_version_number)
 # #################################
 
 boost_recommended_version_number = 1_34_0
-boost_supported_not_recommended_version_numbers =
+boost_supported_not_recommended_version_numbers = 1_34_1
 boost_supported_version_numbers = $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
 boost_prefix = boost
