@@ -26,6 +26,8 @@
   \todo Install configuration system
   <ul>
    <li> The m4-preprocessing should move to the Configuration-module. </li>
+   <li> Local url's should be relative (so that the html-documentation is
+   moveable): The preprocessing approach needs to be generalised. </li>
    <li> Files created by the preprocessor should have a final line stating this
    and the creation date; then also (for easy of modification) the original
    template file should be specified (in a comment, or on the page).
