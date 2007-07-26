@@ -10,11 +10,22 @@
    <li> Under SpecialBuilds/docus we need docus-files for every
    external source:
     <ol>
-     <li> Doxygen (started with the new reflection on configuration parameters) </li>
-     <li> Mhash (remark about corrected files; content of package) </li>
-     <li> Postgresql </li>
-     <li> UBCSAT (remark about corrected files; content of package) </li>
-     <li> XXX </li>
+     <li> asciidoc </li>
+     <li> boost </li>
+     <li> cmake </li>
+     <li> coq </li>
+     <li> doxygen </li>
+     <li> gcc </li>
+     <li> git </li>
+     <li> gmp </li>
+     <li> mhash (remark about corrected files; content of package) </li>
+     <li> mpfr </li>
+     <li> ocaml </li>
+     <li> postgresql </li>
+     <li> r </li>
+     <li> sage </li>
+     <li> ubcsat (remark about corrected files; content of package) </li>
+     <li> valgrind </li>
     </ol>
    </li>
    <li> For each of these docus-files there is a link from
