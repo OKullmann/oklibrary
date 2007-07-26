@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# filename : Buildsystem/ExternalSources/boost.mak 
+# filename : Buildsystem/ExternalSources/SpecialBuilds/boost.mak 
 
 # ##################################
 # Directory Structure
@@ -82,7 +82,6 @@ $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
 	cd $(boost-base-directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*); \
-#	mv $(boost-base-directory)/$*/include/* $(boost-base-directory)/$*/include/boost-$*; $(postcondition) \
 	mln -s "$(boost-base-directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$*/lib/#1gcc#4"; $(postcondition) \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$*; $(postcondition) \
 	touch $@; $(postcondition)
