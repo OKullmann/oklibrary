@@ -5,6 +5,9 @@
   \brief Plans and todos for the versioning control system
 
 
+  \bug MG submitted to the shared repository, but no notification e-mail was created?
+
+
   \todo Notification-e-mails
   <ul>
    <li> Simple solution: In the shared repository the file
