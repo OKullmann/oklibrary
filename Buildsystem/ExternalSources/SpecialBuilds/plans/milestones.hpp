@@ -8,14 +8,19 @@
   \par Version 0.2.1
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
-    - Build Sage
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
     - Install ocaml (3.10.0)
     - Install ocaml 3.09.3
     - Install Coq (8.1)
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
+    - bug Building Sage 2.6
+    - Build Sage 2.6 : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
+    - Building Boost 1_34_1 : DONE
 
 
   \par Version 0.2.2
@@ -29,8 +34,8 @@
     - Building Mailman
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
-    - Building Boost 1_34_1 : DONE
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
+    - Build Sage 2.7
 
 
   \par Version 0.2.3
