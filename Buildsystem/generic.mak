@@ -473,8 +473,9 @@ testop_file := $(srcdir)/testop
 #
 # Name of the C++ compiler executable. 
 # default value: recommended library version of g++
+# OK: perhaps this should go to configuration?
 # ----------------------------------------------------------
-CXX := g++
+CXX = $(gpp_system_call)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -482,8 +483,9 @@ CXX := g++
 #
 # Name of the C compiler executable.
 # default value: recommended library version of gcc
+# OK: perhaps this should go to configuration?
 # ----------------------------------------------------------
-CC := gcc
+CC = $(gcc_system_call)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -720,8 +722,8 @@ endif
 alternative_library_path:=
 
 ifneq ($(gcc_version_number),) # alternative gcc specified
-  CXX := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/g++
-  CC := $(ExternalSources)/Gcc/$(gcc_version_number)/bin/gcc
+  CXX = $(ExternalSources)/Gcc/$(gcc_version_number)/bin/g++
+  CC = $(ExternalSources)/Gcc/$(gcc_version_number)/bin/gcc
   alternative_library_path:= -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib
   ifeq ($(boost_version_number),)
     ifndef Boost
