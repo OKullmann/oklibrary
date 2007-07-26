@@ -12,7 +12,7 @@ doxygen_recommended_package_name = $(dogygen_full_prefix).src
 
 doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(dogygen_full_prefix)/html/index.html
 doxygen_docu_page := $(doc_dir)/doxygen_html/db/dee/Doxygen_8hpp.html
-# OK: is the definition of doxygen_docu_page stable??
+# OK: is the definition of doxygen_docu_page stable?? Apparently not.
 
 doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
 doxygen_documentation_url := http://www.stack.nl/~dimitri/doxygen/manual.html
@@ -28,10 +28,10 @@ doxygen_call = doxygen
 doxytag_call = doxytag
 
 location_doxygen_call := $(shell which $(doxygen_call))
-version_doxygen_call := $(shell $(doxygen_call) --version)
 ifeq ($(location_doxygen_call),)
   doxygen_call_ready = NO
 else
+  version_doxygen_call := $(shell $(doxygen_call) --version)
   ifeq ($(version_doxygen_call),$(doxygen_recommended_version_number))
     doxygen_call_ready = YES
   else
