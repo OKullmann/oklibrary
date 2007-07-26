@@ -88,10 +88,8 @@ $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory
 
 # Comments:
 # 0) Failing boost-build does not stop the process (since a partial build is still useful).
-# 1) The mv-command repaires quirky inconsistent naming-schemes like "boost-1_34" (instead of 
-# "boost-1_34_0").
-# 2) The mln provides the usable links.
-# 3) The new documentation replaces old one (if existent).
+# 1) The mln provides the usable links.
+# 2) The new documentation replaces old one (if existent).
 
 # ###############################
 # Making boost with a local gcc
@@ -110,7 +108,6 @@ $(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2) $(bo
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \
-	mv $(boost-base-directory)/$(1)+$(2)/include/* $(boost-base-directory)/$(1)+$(2)/include/boost-$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	mln -s "$(boost-base-directory)/$(1)+$(2)/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$(1)+$(2)/lib/#1gcc#4"; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	touch $(boost-base-directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
