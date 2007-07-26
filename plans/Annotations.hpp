@@ -5,6 +5,10 @@
   \brief Plans for the Annotations-part of the OKlibrary, where
   latex-documents are handled
 
+
+  \bug On cs-wsok OKsystems/Annotations does not use the local bibtex files, but the ones of the user.
+
+
   \todo Partially moving repository Annotations:
   <ul>
    <li> Some parts should move to Transitional, namely
