@@ -5,29 +5,7 @@
 ExternalSources_doc = $(ExternalSources)/doc
 
 include $(OKconfiguration)/ExternalSources/doxygen.mak
-
-# #################################
-# GCC
-# #################################
-
-gcc_recommended_version_number = 4.1.2
-gcc_supported_not_recommended_version_numbers = 4.0.1 4.0.2 4.0.3 4.1.0 4.1.1 4.2.0
-gcc_old_installation = 4.0.1 4.0.2 4.0.3 4.1.0 4.1.1 4.1.2
-gcc_new_installation = 4.2.0
-gcc_supported_version_numbers = $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
-
-gcc_prefix = gcc
-gcc_html_documentation_index_location = $(ExternalSources_doc)/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
-
-gcc_homepage_url := http://gcc.gnu.org/
-gcc_documentation_url := http://gcc.gnu.org/onlinedocs/
-
-gcc_targets_prefix := $(gcc_prefix)-
-gcc_targets := $(addprefix $(gcc_targets_prefix), $(gcc_supported_version_numbers))
-gcc_targets_old := $(addprefix $(gcc_targets_prefix), $(gcc_old_installation))
-gcc_targets_new := $(addprefix $(gcc_targets_prefix), $(gcc_new_installation))
-# OK: temporary hack! The system must be rethought.
-gcc_recommended := $(gcc_targets_prefix)$(gcc_recommended_version_number)
+include $(OKconfiguration)/ExternalSources/gcc.mak
 
 # #################################
 # Boost
