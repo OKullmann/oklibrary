@@ -180,6 +180,14 @@ $  git log --raw -r --abbrev=40 --pretty=oneline -- filename |
     <ol>
      <li> Is it possible to only allows pushs to a repository if the pushing
      repository is identical in content to the receiving repository? </li>
+     <li> By default only fast-forward pushs are possible, that is, the pushing repository
+     is a "subset" (or "predecessor") of the receiving repository --- however with
+     <code>git push --force</code> this check could be overwritten? </li>
+     <li> So the problem is whether the application of option "--force" to push
+     can be disabled. </li>
+     <li> In Git/Documentation/cvs-migration.html under "Advanced Shared Repository Management"
+     there is a script (using an update hook) explained which allows differentiation between users who can use
+     --force and those who can't (and further measures). </li>
     </ol>
    </li>
    <li> Combining different repositories:
@@ -312,6 +320,7 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 11.7.2006: 4.7 MB; Transitional total: 16.1 MB </li>
      <li> 14.7.2006: 4.8 MB; Transitional total: 16.2 MB </li>
      <li> 14.7.2006: 4.9 MB; Transitional total: 16.3 MB </li>
+     <li> 14.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
     </ol>
    </li>
   </ul>
