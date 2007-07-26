@@ -34,38 +34,34 @@
   </ul>
 
 
-  \todo Building Boost 1_34_1
-  <ul>
-   <li> On cs-wsok:
-    <ol>
-     <li> with system gcc
-     \verbatim
-...failed updating 8 targets...
-...skipped 24 targets...
-...updated 5517 targets...
-mv: cannot move `/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/1_34_1/include/boost-1_34_1' to a subdirectory of itself, `/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/1_34_1/include/boost-1_34_1/boost-1_34_1'
-     \endverbatim
-     </li>
-     <li> with local gcc 4.1.2. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Problems with building Boost (1_34_0)
   <ul>
    <li> Report to Boost: How to call the libraries is not documented, %e.g.,
    the only library-name mentioned is "Boost.Python", while its real name
    is "python". (Important for "--without-libraries=python".)
    </li>
-   <li> On cs-ltok (32 bit) we get build-log-messages like
+   <li> How to inform bjam about an alternative compiler? What about
+   <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ??
+   </li>
+   <li> When building gcc with local versions, we should make sure that
+   the system-gcc doesn't interfere (especially important regarding linking).
+    <ol>
+     <li> On cs-wsok it seems that the system-gcc (4.0.2) interferes;
+     perhaps it tries to link with the 32bit-version, can't do that,
+     and then falls back to the system version? </li>
+     <li> What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.) </li>
+     <li> We should check in general whether building %boost links to the 32bit
+     or to the 64bit version. </li>
+    </ol>
+   </li>
+   <li> DONE (to be ignored for now) On cs-ltok (32 bit) we get build-log-messages like
    \verbatim
 `.L1119' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_iarchive.o
 `.L573' referenced in section `.rodata' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o: defined in discarded section `.gnu.linkonce.t._ZNK5boost7archive17archive_exception4whatEv' of bin.v2/libs/serialization/build/gcc-3.4.3/debug/threading-multi/xml_oarchive.o
    \endverbatim
    Does this indicate something we should worry about ?
    </li>
-   <li> On cs-wsok (64 bit) we get
+   <li> DONE (to be ignored for now) On cs-wsok (64 bit) we get
    \verbatim
 ExternalSources> make boost-1_34_0
 
@@ -83,26 +79,30 @@ collect2: ld terminated with signal 11 [Segmentation fault]
    This seems not to be of urgent concern for now (but the problem must be
    fixed in the future).
    </li>
-   <li> How to inform bjam about an alternative compiler? What about
-   <code> "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" </code> ??
-   </li>
-   <li> When building gcc with local versions, we should make sure that
-   the system-gcc doesn't interfere (especially important regarding linking).
-    <ol>
-     <li> On cs-wsok it seems that the system-gcc (4.0.2) interferes;
-     perhaps it tries to link with the 32bit-version, can't do that,
-     and then falls back to the system version? </li>
-     <li> What is the role of LD_LIBRARY_PATH ?? (On cs-wsok it is empty.) </li>
-     <li> We should check in general whether building %boost links to the 32bit
-     or to the 64bit version. </li>
-    </ol>
-   </li>
   </ul>
 
 
   \todo Documentation
   <ul>
    <li> Mention that the mcp-tools (mln, mmv) need to be installed (available in all distributions). </li>
+  </ul>
+
+
+  \todo Building Boost 1_34_1 DONE (seems to work (modulo these failures))
+  <ul>
+   <li> On cs-wsok:
+    <ol>
+     <li> with system gcc
+     \verbatim
+...failed updating 8 targets...
+...skipped 24 targets...
+...updated 5517 targets...
+mv: cannot move `/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/1_34_1/include/boost-1_34_1' to a subdirectory of itself, `/h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform//ExternalSources/Boost/1_34_1/include/boost-1_34_1/boost-1_34_1'
+     \endverbatim
+     </li>
+     <li> with local gcc 4.1.2. </li>
+    </ol>
+   </li>
   </ul>
 
 */

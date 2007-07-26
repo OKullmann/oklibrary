@@ -28,6 +28,10 @@
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following topics are handled:
     - Building Mailman
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
+    - Building Boost 1_34_1 : DONE
+
 
   \par Version 0.2.3
 
