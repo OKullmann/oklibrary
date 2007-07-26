@@ -6,6 +6,7 @@ ExternalSources_doc = $(ExternalSources)/doc
 
 include $(OKconfiguration)/ExternalSources/doxygen.mak
 include $(OKconfiguration)/ExternalSources/gcc.mak
+include $(OKconfiguration)/ExternalSources/r.mak
 
 # #################################
 # Boost
@@ -176,22 +177,6 @@ cmake_documentation_url := http://www.cmake.org/HTML/Documentation.html
 cmake_targets_prefix := $(cmake_prefix)-
 cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
 cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
-
-# ################################
-# R
-# ###############################
-
-R_recommended_version_number = 2.5.0
-R_supported_version_numbers = $(R_recommended_version_number)
-
-R_prefix = R
-
-R_homepage_url := http://www.r-project.org/
-R_documentation_url := http://www.r-project.org/
-
-R_targets_prefix := $(R_prefix)-
-R_targets := $(addprefix $(R_targets_prefix), $(R_supported_version_numbers))
-R_recommended := $(R_targets_prefix)$(R_recommended_version_number)
 
 # ################################
 # mpfr
