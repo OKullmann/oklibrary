@@ -7,10 +7,10 @@ doxygen_supported_not_recommended_version_numbers = 1.5.1
 doxygen_supported_version_numbers = $(doxygen_supported_not_recommended_version_numbers) $(doxygen_recommended_version_number)
 
 doxygen_prefix = doxygen
-dogygen_full_prefix = $(doxygen_prefix)-$(doxygen_recommended_version_number)
+doxygen_full_prefix = $(doxygen_prefix)-$(doxygen_recommended_version_number)
 doxygen_recommended_package_name = $(dogygen_full_prefix).src
 
-doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(dogygen_full_prefix)/html/index.html
+doxygen_html_documentation_index_location = $(ExternalSources_doc)/Doxygen/$(doxygen_full_prefix)/html/index.html
 doxygen_docu_page := $(doc_dir)/doxygen_html/db/dee/Doxygen_8hpp.html
 # OK: is the definition of doxygen_docu_page stable?? Apparently not.
 
