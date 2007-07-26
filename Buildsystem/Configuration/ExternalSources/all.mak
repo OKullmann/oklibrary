@@ -5,29 +5,8 @@
 ExternalSources_doc = $(ExternalSources)/doc
 
 include $(OKconfiguration)/ExternalSources/doxygen.mak
-
-# #################################
-# GCC
-# #################################
-
-gcc_recommended_version_number = 4.1.2
-gcc_supported_not_recommended_version_numbers = 4.0.1 4.0.2 4.0.3 4.1.0 4.1.1 4.2.0
-gcc_old_installation = 4.0.1 4.0.2 4.0.3 4.1.0 4.1.1 4.1.2
-gcc_new_installation = 4.2.0
-gcc_supported_version_numbers = $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
-
-gcc_prefix = gcc
-gcc_html_documentation_index_location = $(ExternalSources_doc)/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
-
-gcc_homepage_url := http://gcc.gnu.org/
-gcc_documentation_url := http://gcc.gnu.org/onlinedocs/
-
-gcc_targets_prefix := $(gcc_prefix)-
-gcc_targets := $(addprefix $(gcc_targets_prefix), $(gcc_supported_version_numbers))
-gcc_targets_old := $(addprefix $(gcc_targets_prefix), $(gcc_old_installation))
-gcc_targets_new := $(addprefix $(gcc_targets_prefix), $(gcc_new_installation))
-# OK: temporary hack! The system must be rethought.
-gcc_recommended := $(gcc_targets_prefix)$(gcc_recommended_version_number)
+include $(OKconfiguration)/ExternalSources/gcc.mak
+include $(OKconfiguration)/ExternalSources/r.mak
 
 # #################################
 # Boost
@@ -198,22 +177,6 @@ cmake_documentation_url := http://www.cmake.org/HTML/Documentation.html
 cmake_targets_prefix := $(cmake_prefix)-
 cmake_targets := $(addprefix $(cmake_targets_prefix), $(cmake_supported_version_numbers))
 cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
-
-# ################################
-# R
-# ###############################
-
-R_recommended_version_number = 2.5.0
-R_supported_version_numbers = $(R_recommended_version_number)
-
-R_prefix = R
-
-R_homepage_url := http://www.r-project.org/
-R_documentation_url := http://www.r-project.org/
-
-R_targets_prefix := $(R_prefix)-
-R_targets := $(addprefix $(R_targets_prefix), $(R_supported_version_numbers))
-R_recommended := $(R_targets_prefix)$(R_recommended_version_number)
 
 # ################################
 # mpfr

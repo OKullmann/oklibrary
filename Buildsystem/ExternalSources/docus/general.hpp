@@ -9,38 +9,13 @@
   
 
   
-  <h1> Installations </h1>
+  <h2> Installations </h2>
 
   <ol>
+   <li> Gcc (Buildsystem/ExternalSources/SpecialBuilds/docus/Gcc.hpp) </li>
    <li> Doxygen (Buildsystem/ExternalSources/SpecialBuilds/docus/Doxygen.hpp) </li>
   </ol>
   
-  
-  <h2> GCC </h2>
-  
-  Only local installation.
-  
-  <h3> Make targets </h3>
-
-  <table>
-   <tr>
-    <td> <code> gcc </code> </td>
-    <td> Build the recommended gcc-version (using the system-gcc). </td>
-   </tr>
-   <tr>
-    <td> <code> gcc_x.y.z </code> </td>
-    <td> Build the gcc version x.y.z (for example <code>gcc_4.1.2</code>; using the system-gcc). </td>
-   </tr>
-   <tr>
-    <td> <code> gcc_all </code> </td>
-    <td> Build all supported gcc-versions (using the system-gcc). </td>
-   </tr>
-  </table>
-
-  <h3> Usage </h3>
-
-  XXX setting the link-path XXX
-
 
   <h2> Boost </h2>
 

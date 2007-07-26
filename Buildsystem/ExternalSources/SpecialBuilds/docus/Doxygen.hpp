@@ -23,7 +23,7 @@
      <li> the <code>doxytag</code> program </li>
     </ol>
    </li>
-   <li> documentation </li>
+   <li> Documentation </li>
   </ul>
   The OKlibrary build system needs access to the doxygen-program, and provides a link
   to the doxyen-documentation. It administrates a doxygen-configuration file.
@@ -31,7 +31,7 @@
   <h2> Current state of installation </h2>
 
   <ul>
-   <li> doxygen-program call = $(doxygen_call) </li>
+   <li> doxygen-program call = <code>$(doxygen_call)</code> </li>
    <li> ready: $(doxygen_call_ready)
     <ul>
      <li> location = $(location_doxygen_call) </li>
