@@ -159,7 +159,8 @@ SET(CONFIGVAR2 value2)
    doxygen_html_documentation_index_location_tag in
    Configuration/ExternalSources/doxygen.mak). </li>
    <li> How can we reliably refer to a specific page within the doxygen
-   documentation? Are the url's relatively stable? </li>
+   documentation? Are the url's relatively stable? Yes, it seems they
+   only depend on the *doxygen path* ! </li>
    <li> It would be preferable, if the following variable definitions
     <ol>
      <li> ALIASES </li>
@@ -171,7 +172,15 @@ SET(CONFIGVAR2 value2)
     <li> For all settings we should have specific configuration variables. </li>
    <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
    on the created doxyfile, one has to study the changes, and then one has to update
-   the master-doxyfile accordingly. </li>
+   the master-doxyfile accordingly. First update the created Doxyfile
+   \verbatim
+OKplatform/system_directories/aux> doxygen -u Doxyfile
+   \endverbatim
+   and after studying these changes, update the template
+   \verbatim
+Transitional/Buildsystem/Configuration> doxygen -u Doxyfile
+   \endverbatim
+   </li>
    <li> Mention in the documentation, that via "doxygen_parameters" one can set variables
    from the doxygen-configuration-file (as an example present the switch to German). </li>
    <li> The Doxyfile should be part of the (primary) configuration system. DONE </li>
