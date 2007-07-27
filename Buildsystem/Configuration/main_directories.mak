@@ -11,10 +11,10 @@ ifndef ExternalSources
 endif
 
 ifndef system_directories
-  ifdef SYSTEMDIRECTORIES
-    system_directories := $(SYSTEMDIRECTORIES)
+  ifdef OKSYSTEMDIRECTORIES
+    system_directories = $(OKSYSTEMDIRECTORIES)
   else
-    system_directories := $(OKplatform)/system_directories
+    system_directories = $(OKplatform)/system_directories
   endif
 endif
 

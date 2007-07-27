@@ -10,8 +10,7 @@ gcc_supported_version_numbers = $(gcc_supported_not_recommended_version_numbers)
 
 gcc_prefix = gcc
 gcc_html_documentation_index_location = $(ExternalSources_doc)/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
-gcc_docu_page := $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
-# OK: is the definition of gcc_docu_page stable?? Apparently not.
+gcc_docu_page = $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
 
 
 gcc_homepage_url := http://gcc.gnu.org/

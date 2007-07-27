@@ -158,9 +158,6 @@ SET(CONFIGVAR2 value2)
    configuration-variables in doxygen-documentation (see for example the function
    doxygen_html_documentation_index_location_tag in
    Configuration/ExternalSources/doxygen.mak). </li>
-   <li> How can we reliably refer to a specific page within the doxygen
-   documentation? Are the url's relatively stable? Yes, it seems they
-   only depend on the *doxygen path* ! </li>
    <li> It would be preferable, if the following variable definitions
     <ol>
      <li> ALIASES </li>
@@ -183,6 +180,9 @@ Transitional/Buildsystem/Configuration> doxygen -u Doxyfile
    </li>
    <li> Mention in the documentation, that via "doxygen_parameters" one can set variables
    from the doxygen-configuration-file (as an example present the switch to German). </li>
+   <li> How can we reliably refer to a specific page within the doxygen
+   documentation? Are the url's relatively stable? DONE (yes, they are --- the temporary
+   problem was an md5-doxygen bug) </li>
    <li> The Doxyfile should be part of the (primary) configuration system. DONE </li>
    <li> Perhaps it's best to define a "master-doxyfile" in the primary configuration system,
    containing macros or includes for the above four definitions, and then the build system

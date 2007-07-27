@@ -9,8 +9,7 @@ R_supported_version_numbers = $(R_supported_not_recommended_version_numbers) $(R
 R_prefix = R
 
 R_html_documentation_index_location = $(ExternalSources_doc)/R/doc/html/index.html
-R_docu_page := $(doc_dir)/
-# OK: is the definition of R_docu_page stable?? Apparently not.
+R_docu_page = $(doc_dir)/
 
 R_homepage_url := http://www.r-project.org/
 R_documentation_url := http://www.r-project.org/
