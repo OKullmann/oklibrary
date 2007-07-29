@@ -3,34 +3,50 @@
 /* 
 Use by
 
-load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/TauMachinery/Basic.maxima")
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/TauMachinery/Basic.maxima");
 
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
-load (descriptive)$
+/*
+*******************************************************
+*   Computing the tau-function                        *
+*******************************************************
+*/
 
 chi(t,x) := apply("+", x^(-t));
 
-/* The tau-function: */
-tau(t) :=
-  block( [ lb : float(length(t)^(1/mean(t))), ub : float(length(t)^(1/lmin(t))) ],
-    if (signum(chi(t,lb)-1) * signum(chi(t,ub)-1) >= 0) then
-      return(ub)
-    else
-      return(find_root(chi(t,x)=1, x, lb, ub))
-  );
-taun([t]) := tau(t);
+/* Computing the tau-function by the Newton-method
+   (using (standard) floating point numbers): */
+load (descriptive)$
+load (newton1)$
+tau_eps(t,eps) := block( [x], newton(chi(t,x)-1, x, length(t)^(1/mean(t)), eps));
+taun_eps([v]) := tau_eps(rest(v,-1), last(v));
+tau(t) := tau_eps(float(t), 10^-15);
+taun([v]) := tau(v);
 tau2(x,y) := taun(x,y);
 tau3(x,y,z) := taun(x,y,z);
 /* tau([1,2]) = taun(1,2) = tau2(1,2) = 1.618... */
+/* floatnump(tau([1,2,3,4])) is true */
 
-/* The probability distribution derived from a branching tuple: */
-tprob(t) := tau(t)^(-t);
-tprobn([t]) := tprob(t);
-tprob2(x,y) := tprobn(x,y);
-tprob3(x,y,z) := tprobn(x,y,z);
-/* tprob([5,5,5]) = tprobn(5,5,5) = tprob3(5,5,5) = [1/3, 1/3, 1/3] */
+/* The tau-function, using interval-halving: */
+tau_ih(t) :=
+    if (length(t) = 1) then 1 else
+    block( [ lb : float(length(t)^(1/mean(t))), ub : float(length(t)^(1/lmin(t))), x ],
+      if (signum(chi(t,lb)-1) * signum(chi(t,ub)-1) >= 0) then
+        return(ub)
+      else
+        return(find_root(chi(t,x)=1, x, lb, ub))
+    );
+taun_ih([t]) := tau(t);
+tau2_ih(x,y) := taun(x,y);
+tau3_ih(x,y,z) := taun(x,y,z);
+
+/*
+*******************************************************
+*   Derivatives of the tau-function                   *
+*******************************************************
+*/
 
 /* The total differential for the tau-function */
 Dtau(t) := block( [ tv : tau(t)], block( [pv : tv^(-t) ] ,
@@ -45,4 +61,34 @@ Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
   return((- tv * log(tv) / apply("+", [x,y] * pv)) * pv)
 ));
 gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2]);
+
+/*
+*******************************************************
+*   The tau-function on a line                        *
+*******************************************************
+*/
+
+
+/* Considerung for a branching tuple t and a direction d (a real vector of the same
+length as t) the function x -> tau(t + x * d) : */
+line_tau(x) := tau(t + x * d);
+/* Returning the interval bounds (for the open interval): */
+line_tau_dom() := block(
+  [pos : sublist_indices(d, lambda([x], x > 0)), neg : sublist_indices(d, lambda([x], x < 0))],
+  [lmax(- part(t, pos) / part(d,pos)), lmin(- part(t, neg) / part(d, neg))]
+);
+
+/*
+*******************************************************
+*   The induced probability distribution              *
+*******************************************************
+*/
+
+/* The probability distribution derived from a branching tuple: */
+tprob(t) := tau(t)^(-t);
+tprobn([t]) := tprob(t);
+tprob2(x,y) := tprobn(x,y);
+tprob3(x,y,z) := tprobn(x,y,z);
+/* tprob([5,5,5]) = tprobn(5,5,5) = tprob3(5,5,5) = [1/3, 1/3, 1/3] */
+
 

@@ -9,7 +9,11 @@
   <ul>
    <li> Defining tau using the precise but slow interval-halving:
     <ol>
-     <li> How to define examples for functions? </li>
+     <li> The demo-file could be called "demos/Basic.hpp", using
+     doxyen comments?! </li>
+     <li> How to define examples for functions? DONE (creating demo-files,
+     loading them by "batch")
+     </li>
      <li> And it should be possible to define a variation which doesn't
      take a list but a variable number of arguments (for the tuple-values). DONE (define the
      n-ary function taun, and for plotting the fixed 2-ary resp. 3-ary function tau2, tau3) </li>
@@ -19,20 +23,18 @@
     </ol>
    </li>
    <li> Using the faster Newton-method:
-   \verbatim
-load (descriptive)$ 
-load (newton1)$
-taunt(t,eps) := newton(apply("+", x^(-t))-1, x, length(t)^(1/mean(t)), eps);
-   \endverbatim
     <ol>
-     <li> Again, one should define a variant without lists (but variadic). </li>
-     <li> Are there reasonable default values for eps? </li>
-     <li> Can a higher precision be used? Apparently not. </li>
-     <li> If all arguments are integers, then actually an expression is returned.
-     So well. </li>
+     <li> Can a higher precision be used? </li>
+     <li> What is the precision of float? It seems that actually 64-bit numbers
+     are used? </li>
      <li> Does the newton-procedure know how to differentiate the expression?
-     Don't think so, but apparently one can't tell the newton-procedure
-     about it? </li>
+     Perhaps. </li>
+     <li> If all arguments are integers, then actually an expression is returned.
+     So well. DONE (the "default"-version tau_nwt converts the input
+     into floating point) </li>
+     <li> Are there reasonable default values for eps? Perhaps the maximal
+     precision? DONE (used the apparently maximal precision) </li>
+     <li> Again, one should define a variant without lists (but variadic). DONE </li>
     </ol>
    </li>
    <li> How to make these definitions available? DONE (it seems that explicit load-instructions have
@@ -41,6 +43,10 @@ taunt(t,eps) := newton(apply("+", x^(-t))-1, x, length(t)^(1/mean(t)), eps);
 
 
   \todo Reimplement the remaining functionality from Mupad/tau.mup in Maxima
+  <ol>
+   <li> tau : DONE
+   <li> probability </li>
+  </ol>
 
 */
 
