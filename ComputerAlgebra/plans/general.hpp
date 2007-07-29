@@ -22,6 +22,22 @@
   Likely these principles should go to ComputerAlgebra/docus/general.hpp.
 
 
+  \todo How to use Sage?
+  <ul>
+   <li> One gets the impression that Sage does not really support
+   using the underlying systems, for example Maxima ? </li>
+   <li> So perhaps it would be easier for us (at least at this
+   stage) to not use Sage, but install Maxima ourselves? </li>
+   <li> How can we customise Sage from within the OKlibrary? </li>
+   <li> If we have code for Maxima, then obviously we use
+   \verbatim
+sage: maxima_console()
+   \endverbatim
+   So what use is Sage at all here? Isn't it just in the way, making
+   it harder (or impossible) to configure Maxima properly? </li>
+  </ul>
+
+
   \todo %Test system
   <ul>
    <li> Is there some special test system? </li>
@@ -53,5 +69,6 @@
   <ul>
    <li> Is there the notion of a "context" ("block") ?
   </ul>
+
 */
 
