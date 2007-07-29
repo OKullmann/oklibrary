@@ -1,53 +1,13 @@
 // Oliver Kullmann, 21.7.2007 (Swansea)
 
 /*!
-  \file ComputerAlgebra/plans/Tau.hpp
-  \brief Plans regarding the re-implementation of tau.mup
-  (compare ComputerAlgebra/Mupad/plans/general.hpp)
+  \file ComputerAlgebra/Satisfiability/TauMachinery/plans/general.hpp
+  \brief Plans regarding the tau function (see SAT-handbook article of OK)
   
   
-  \todo Maxima
+  \todo Tau for Maxima
   <ul>
    <li> Defining tau using the precise but slow interval-halving:
-   \verbatim
-load (descriptive)$
-
-chi(t,x) := apply("+", x^(-t));
-
-/* The tau-function: */
-tau(t) :=
-  block( [ lb : float(length(t)^(1/mean(t))), ub : float(length(t)^(1/lmin(t))) ],
-    if (signum(chi(t,lb)-1) * signum(chi(t,ub)-1) >= 0) then
-      return(ub)
-    else
-      return(find_root(chi(t,x)=1, x, lb, ub))
-  );
-taun([t]) := tau(t);
-tau2(x,y) := taun(x,y);
-tau3(x,y,z) := taun(x,y,z);
-/* tau([1,2]) = taun(1,2) = tau2(1,2) = 1.618... */
-
-/* The probability distribution derived from a branching tuple: */
-tprob(t) := tau(t)^(-t);
-tprobn([t]) := tprob(t);
-tprob2(x,y) := tprobn(x,y);
-tprob3(x,y,z) := tprobn(x,y,z);
-/* tprob([5,5,5]) = tprobn(5,5,5) = tprob3(5,5,5) = [1/3, 1/3, 1/3] */
-
-/* The total differential for the tau-function */
-Dtau(t) := block( [ tv : tau(t)], block( [pv : tv^(-t) ] ,
-  return((- tv * log(tv) / apply("+", t * pv)) * pv)
-));
-Dtaun([t]) := Dtau(t);
-Dtau2(x,y) := Dtaun(x,y);
-Dtau3(x,y,z) := Dtaun(x,y,z);
-
-/* Symbolic differentiation of tau2 */
-Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
-  return((- tv * log(tv) / apply("+", [x,y] * pv)) * pv)
-));
-gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2]);
-   \endverbatim
     <ol>
      <li> How to define examples for functions? </li>
      <li> And it should be possible to define a variation which doesn't
@@ -75,8 +35,12 @@ taunt(t,eps) := newton(apply("+", x^(-t))-1, x, length(t)^(1/mean(t)), eps);
      about it? </li>
     </ol>
    </li>
-   <li> How to make these definitions available? </li>
+   <li> How to make these definitions available? DONE (it seems that explicit load-instructions have
+   to be issued for each Maxima-session) </li>
   </ul>
+
+
+  \todo Reimplement the remaining functionality from Mupad/tau.mup in Maxima
 
 */
 
