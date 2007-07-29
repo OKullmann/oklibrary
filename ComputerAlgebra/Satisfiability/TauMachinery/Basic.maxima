@@ -71,9 +71,9 @@ gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2]);
 
 /* Considerung for a branching tuple t and a direction d (a real vector of the same
 length as t) the function x -> tau(t + x * d) : */
-line_tau(x) := tau(t + x * d);
+tau_line(x) := tau(t + x * d);
 /* Returning the interval bounds (for the open interval): */
-line_tau_dom() := block(
+tau_line_dom() := block(
   [pos : sublist_indices(d, lambda([x], x > 0)), neg : sublist_indices(d, lambda([x], x < 0))],
   [lmax(- part(t, pos) / part(d,pos)), lmin(- part(t, neg) / part(d, neg))]
 );
@@ -89,6 +89,8 @@ tprob(t) := tau(t)^(-t);
 tprobn([t]) := tprob(t);
 tprob2(x,y) := tprobn(x,y);
 tprob3(x,y,z) := tprobn(x,y,z);
-/* tprob([5,5,5]) = tprobn(5,5,5) = tprob3(5,5,5) = [1/3, 1/3, 1/3] */
+
+tprob_line(x) := tprob(t + x * d)[i];
+
 
 
