@@ -28,7 +28,7 @@
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par ComputerAlgebra version 0.1.1 (OK, MH)
+  \par ComputerAlgebra version 0.1.1 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
@@ -92,6 +92,9 @@
   (see AutarkySearch/plans/milestones.hpp)
   \par SumProduct version 0.0.4 (OK, MH)
   (see SumProduct/plans/milestones.hpp)
+  (see TestSystem/plans/milestones.hpp)
+  \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
+  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Update
   Update the subsequent milestones.
 

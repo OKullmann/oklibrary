@@ -11,7 +11,12 @@
   </ul>
 
 
-  \todo Create milestones.
+  \todo Update plans:
+  <ul>
+   <li> Satisfiability/plans/Clauses.hpp </li>
+   <li> Satisfiability/plans/Literals.hpp </li>
+   <li> Satisfiability/plans/MinimalSatisfyingAssignments.hpp </li>
+  </ul>
 
 */
 
