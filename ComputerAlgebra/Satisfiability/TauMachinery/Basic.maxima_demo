@@ -8,8 +8,10 @@ batch("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/TauMachi
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
+print("The chi-function for branching tuple [1,2]:")$
 chi([1,2],x);
 
+print("Various tau-values:")$
 tau_eps([1,2],0.1);
 tau_eps([1,2],0.01);
 tau_eps([1.0,2],0.1);
@@ -21,14 +23,25 @@ taun(1,2,3);
 tau2(1,2);
 tau3(1,2,3);
 
+print("Probability distributions associated with branching tuples via the tau-function:")$
 tprob([5,5,5,5]);
 tprobn(1,1,1);
 tprob3(11,11,11);
+tprob2(1,2);
 
+print("Plots of the tau2-function (with different plotting devices; you might rotate the plots a bit (left-click) while waiting for the following computations, or resize them (double-click)):")$
 plot3d(tau2, [x,0.5,2], [y,0.5,2]);
 plot3d(tau2, [x,0.5,2], [y,0.5,2], [gnuplot_pm3d, true]);
+print("The following plot you have to close in order to continue:")$
 plot3d(tau2, [x,0.5,2], [y,0.5,2], [plot_format, openmath]);
-contour_plot(tau2, [x,0.5,2], [y,0.5,2]);
+print("More balanced branching tuples have a smaller tau-value:")$
+tau_preamble: "set pm3d at s; unset surface; set contour; set cntrparam levels 15; unset key";
+plot3d(tau2, [x,1,3], [y,1,3], [grid, 50, 50], [gnuplot_pm3d, true], [gnuplot_preamble, tau_preamble])$
+print("Bogus question, so that you have time to investigate the plot (answer with \"no;\", so that the fact you established can be removed):")$
+askinteger(tau);
+facts();
+remove(tau, noninteger);
+facts();
 
 /* does not work
 load(draw);
@@ -38,3 +51,11 @@ scene2 : gr3d(explicit(taun(1,1)+ Dtau(1,1) . ([x,y] - [1,1]), x,0.5,2, y,0.5,2)
 draw(scene1, scene2);
 */
 
+print("Function chi2 is not convex (nor concave):")$
+t0 : [0.5, 0.5];
+d0 : [0.6, 0.6];
+a0 : 1.1;
+b0 : 0.5;
+eigen_chi2(0.5, 0.5, 1.1);
+chi_line_dom();
+plot2d(chi_line, [x,-0.199, 4]);
