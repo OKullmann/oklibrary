@@ -33,6 +33,7 @@
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Comparisons
     - %Test system
     - Input checking
     - Partial compilation

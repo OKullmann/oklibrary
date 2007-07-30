@@ -22,6 +22,29 @@
   Likely these principles should go to ComputerAlgebra/docus/general.hpp.
 
 
+  \todo Comparisons
+  <ul>
+   <li> At his time, Maxima and Axiom look most promising to me as general
+   purpose systems (for prototyping the SAT algorithms). </li>
+   <li> Maxima is a gold old Lisp system.
+    <ol>
+     <li> Might actually be not too bad for prototyping. </li>
+     <li> It seems there is no active develoment anymore(?). </li>
+     <li> For the SAT-part this isn't needed, but of course regarding
+     combinatorics, graph theory etc., it would be nice to have (much) more. </li>
+     <li> Perhaps here the Sage-surface could come to our rescue? </li>
+    </ol>
+   </li>
+   <li> Axiom has strong typing (like Mupad).
+    <ol>
+     <li> This might be closer to our global world (the C++ development) </li>
+     <li> Though, according to the experience with mupad, development takes longer. </li>
+    </ol>
+   </li>
+   <li> At least at the beginning, we could develop the basics both in Maxima and Axiom. </li>
+  </ul>
+
+
   \todo How to use Sage?
   <ul>
    <li> One gets the impression that Sage does not really support
