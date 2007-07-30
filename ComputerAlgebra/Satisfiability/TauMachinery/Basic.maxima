@@ -20,27 +20,26 @@ chi(t,x) := apply("+", x^(-t));
    (using (standard) floating point numbers): */
 load (descriptive)$
 load (newton1)$
-tau_eps(t,eps) := block( [x], newton(chi(t,x)-1, x, length(t)^(1/mean(t)), eps));
-taun_eps([v]) := tau_eps(rest(v,-1), last(v));
-tau(t) := tau_eps(float(t), 10^-15);
-taun([v]) := tau(v);
-tau2(x,y) := taun(x,y);
-tau3(x,y,z) := taun(x,y,z);
-/* tau([1,2]) = taun(1,2) = tau2(1,2) = 1.618... */
-/* floatnump(tau([1,2,3,4])) is true */
+tau_eps(t,eps) := (local(t,eps,xl), newton(chi(t,xl)-1, xl, length(t)^(1/mean(t)), eps));
+taun_eps([v]) := (local(v), tau_eps(rest(v,-1), last(v)));
+tau(t) := (local(t), tau_eps(float(t), 10^-15));
+taun([v]) := (local(v), tau(v));
+tau2(x,y) := (local(x,y), taun(x,y));
+tau3(x,y,z) := (local(x,y,z), taun(x,y,z));
+/* floatnump(tau(t)) is true */
 
 /* The tau-function, using interval-halving: */
-tau_ih(t) :=
+tau_ih(t) := (local(t, xl),
     if (length(t) = 1) then 1 else
-    block( [ lb : float(length(t)^(1/mean(t))), ub : float(length(t)^(1/lmin(t))), x ],
+    block( [ lb : float(length(t)^(1/mean(t))), ub : float(length(t)^(1/lmin(t)))],
       if (signum(chi(t,lb)-1) * signum(chi(t,ub)-1) >= 0) then
         return(ub)
       else
-        return(find_root(chi(t,x)=1, x, lb, ub))
-    );
-taun_ih([t]) := tau(t);
-tau2_ih(x,y) := taun(x,y);
-tau3_ih(x,y,z) := taun(x,y,z);
+        return(find_root(chi(t,xl)=1, xl, lb, ub))
+    ));
+taun_ih([t]) := (local(t), tau(t));
+tau2_ih(x,y) := (local(x,y), taun(x,y));
+tau3_ih(x,y,z) := (local(x,y,z), taun(x,y,z));
 
 /*
 *******************************************************
@@ -49,34 +48,18 @@ tau3_ih(x,y,z) := taun(x,y,z);
 */
 
 /* The total differential for the tau-function */
-Dtau(t) := block( [ tv : tau(t)], block( [pv : tv^(-t) ] ,
+Dtau(t) := (local(t), block( [ tv : tau(t)], block( [pv : tv^(-t) ],
   return((- tv * log(tv) / apply("+", t * pv)) * pv)
-));
-Dtaun([t]) := Dtau(t);
-Dtau2(x,y) := Dtaun(x,y);
-Dtau3(x,y,z) := Dtaun(x,y,z);
+)));
+Dtaun([t]) := (local(t), Dtau(t));
+Dtau2(x,y) := (local(x,y), Dtaun(x,y));
+Dtau3(x,y,z) := (local(x,y,z), Dtaun(x,y,z));
 
 /* Symbolic differentiation of tau2 */
-Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
+Dtau2s(x,y) := (local(x,y), block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
   return((- tv * log(tv) / apply("+", [x,y] * pv)) * pv)
-));
+)));
 gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2]);
-
-/*
-*******************************************************
-*   The tau-function on a line                        *
-*******************************************************
-*/
-
-
-/* Considerung for a branching tuple t and a direction d (a real vector of the same
-length as t) the function x -> tau(t + x * d) : */
-tau_line(x) := tau(t + x * d);
-/* Returning the interval bounds (for the open interval): */
-tau_line_dom() := block(
-  [pos : sublist_indices(d, lambda([x], x > 0)), neg : sublist_indices(d, lambda([x], x < 0))],
-  [lmax(- part(t, pos) / part(d,pos)), lmin(- part(t, neg) / part(d, neg))]
-);
 
 /*
 *******************************************************
@@ -85,12 +68,51 @@ tau_line_dom() := block(
 */
 
 /* The probability distribution derived from a branching tuple: */
-tprob(t) := tau(t)^(-t);
-tprobn([t]) := tprob(t);
-tprob2(x,y) := tprobn(x,y);
-tprob3(x,y,z) := tprobn(x,y,z);
+tprob(t) := (local(t), tau(t)^(-t));
+tprobn([t]) := (local(t), tprob(t));
+tprob2(x,y) := (local(x,y), tprobn(x,y));
+tprob3(x,y,z) := (local(x,y,z), tprobn(x,y,z));
 
-tprob_line(x) := tprob(t + x * d)[i];
+/*
+*******************************************************
+*   Convexity considerations: line versions           *
+*******************************************************
+*/
 
 
+/* Considerung for a branching tuple t0 and a direction d0 (a real vector of the same
+length as t) the function x -> tau(t0 + x * d0) : */
+
+tau_line(x) := (local(x), tau(t0 + x * d0));
+tprob_line(x) := (local(x), tprob(t + x * d)[i]);
+/* assume(length(t0) >= 1), assume(t0[i] > 0) */
+
+/* Returning the interval bounds (for the open interval): */
+tau_line_dom() := block(
+  [pos : sublist_indices(d0, lambda([x], x > 0)), neg : sublist_indices(d0, lambda([x], x < 0))],
+  [lmax(- part(t0, pos) / part(d0,pos)), lmin(- part(t0, neg) / part(d0, neg))]
+);
+
+
+/* The chi-function on a line (but chi(t,x) only for x > 1): */
+chi_line(x) := (local(x), chi(t0 + x * d0, a0 + x * b0));
+/* assume(length(t0) >= 2), assume(t0[i] > 0), assume(a0 > 1) */
+
+chi_line_dom() :=
+ block([ts : append(t0, [a0 - 1]), ds : append(d0, [b0])], 
+   block(
+    [pos : sublist_indices(ds, lambda([x], x > 0)), neg : sublist_indices(ds, lambda([x], x < 0))],
+    [lmax(- part(ts, pos) / part(ds,pos)), lmin(- part(ts, neg) / part(ds, neg))]
+));
+
+chin([u]) := (local(u), chi(rest(u,-1), last(u)));
+chi2(t1,t2,x) := (local(t1,t2,x), chin(t1,t2,x));
+chi3(t1,t2,t3,x) := (local(t1,t2,t3,x), chin(t1,t2,t3,x));
+
+hess_chi2 : hessian(chi2(t1,t2,x),[t1,t2,x]);
+/* if for example x has a value, then apply remvalue(x) */
+
+eigen_chi2(a,b,c) := (local(a,b,c), eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c])));
+/* a, b > 0, c > 1 */
+test_posdef_chi2(a,b,c) := (local(a,b,c), lmin(eigen_chi2(a,b,c)[1]));
 
