@@ -30,28 +30,29 @@
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
-  \par LegalIssues version 0.1 (OK)
-  (see LegalIssues/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
-  \par Transitional/plans/general.hpp
-   - "OKlib" vs. "Transitional"
-   - Completing the repository
-   - Super-modules
-   - Handling of version-numbers
-   - Research sub-modules
-   - Organisation of plans-directories
-   - Concepts
-   - Demos
-   - Upgrade to gcc-4.2.0
-   - Computer algebra system : DONE
-   - Licence : DONE (moved to System/LegalIssues)
-  \par Transitional/plans/Annotations.hpp
-   - Partially moving repository Annotations
-   - Latex macros
-   - Bibtex-database
-  \par Transitional/plans/Foundations.hpp
+  \par
+   In Transitional/plans/general.hpp the following topics are handled:
+    - "OKlib" vs. "Transitional"
+    - Completing the repository
+    - Super-modules
+    - Handling of version-numbers
+    - Research sub-modules
+    - Organisation of plans-directories
+    - Concepts
+    - Demos
+    - Upgrade to gcc-4.2.0
+    - Computer algebra system : DONE
+    - Licence : DONE (moved to System/LegalIssues)
+  \par
+   In Transitional/plans/Annotations.hpp the following topics are handled:
+    - Partially moving repository Annotations
+    - Latex macros
+    - Bibtex-database
+  \par
+   In Transitional/plans/Foundations.hpp the following topics are handled:
     - Fundamental "axioms"
 
   \par Update
