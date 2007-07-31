@@ -7,6 +7,8 @@ ExternalSources_doc = $(ExternalSources)/doc
 include $(OKconfiguration)/ExternalSources/doxygen.mak
 include $(OKconfiguration)/ExternalSources/gcc.mak
 include $(OKconfiguration)/ExternalSources/r.mak
+include $(OKconfiguration)/ExternalSources/ocaml.mak
+include $(OKconfiguration)/ExternalSources/coq.mak
 
 # #################################
 # Boost
@@ -253,44 +255,4 @@ sage_documentation_url := http://modular.math.washington.edu/sage/documentation.
 sage_targets_prefix := $(sage_prefix)-
 sage_targets := $(addprefix $(sage_targets_prefix), $(sage_supported_version_numbers))
 sage_recommended := $(sage_targets_prefix)$(sage_recommended_version_number)
-
-# ################################
-# Ocaml
-# ###############################
-
-ocaml_recommended_version_number = 3.09.3
-ocaml_supported_not_recommended_version_numbers =
-ocaml_supported_version_numbers = $(ocaml_supported_not_recommended_version_numbers) $(ocaml_recommended_version_number)
-
-ocaml_prefix = ocaml
-
-ocaml_base_directory = $(coq_base_directory)/Ocaml
-ocaml_installation_dir = $(ocaml_base_directory)/$(ocaml_recommended_version_number)
-ocaml_bin_dir = $(ocaml_installation_dir)/bin
-
-ocaml_homepage_url := 
-ocaml_documentation_url := 
-
-ocaml_targets_prefix := $(ocaml_prefix)-
-ocaml_targets := $(addprefix $(ocaml_targets_prefix), $(ocaml_supported_version_numbers))
-ocaml_recommended := $(ocaml_targets_prefix)$(ocaml_recommended_version_number)
-
-# ################################
-# Coq
-# ###############################
-
-coq_recommended_version_number = 8.1
-coq_supported_not_recommended_version_numbers =
-coq_supported_version_numbers = $(coq_supported_not_recommended_version_numbers) $(coq_recommended_version_number)
-
-coq_prefix = coq
-
-coq_base_directory = $(ExternalSources)/Coq
-
-coq_homepage_url := 
-coq_documentation_url := 
-
-coq_targets_prefix := $(coq_prefix)-
-coq_targets := $(addprefix $(coq_targets_prefix), $(coq_supported_version_numbers))
-coq_recommended := $(coq_targets_prefix)$(coq_recommended_version_number)
 
