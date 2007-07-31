@@ -8,6 +8,14 @@
   \bug MG submitted to the shared repository, but no notification e-mail was created?
 
 
+  \todo Git on the cs-oksvr
+  <ul>
+   <li> Git needs to be updated (and this also regularly). </li>
+   <li> The notification e-mails need to be re-installed (perhaps
+   this time with some improvements). </li>
+  </ul>
+
+
   \todo On branching
   <ul>
    <li> How did MG create the local rijndael-branch?
