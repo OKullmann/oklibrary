@@ -8,6 +8,35 @@
   \bug MG submitted to the shared repository, but no notification e-mail was created?
 
 
+  \todo On branching
+  <ul>
+   <li> How did MG create the local rijndael-branch?
+   \verbatim
+
+   \endverbatim
+   </li>
+   <li> How is such a local branch to be pushed to the shared repository? How did MG
+   do it?
+   \verbatim
+
+   \endverbatim
+   </li>
+   <li> Once in the shared repository a branch arrived, how do others (who don't know about
+   it yet) pull it?
+    <ol>
+     <li> Apparently via "pull" the changes somehow arrive (one can see them via
+     gitk), but not the branch itself? </li>
+     <li> One can create a local branch with the same name (via "git branch"),
+     but this doesn't seem correct? </li>
+     <li> One can also create branches via "git checkout", which in principle seems more
+     appropriate? </li>
+     <li> We want a correct "tracking behaviour" ?! </li>
+    </ol>
+   </li>
+   <li> Once the branch has been installed globally and locally, how to push and pull? </li>
+  </ul>
+
+
   \todo Notification-e-mails
   <ul>
    <li> Simple solution: In the shared repository the file
@@ -124,6 +153,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
 > which git-receive-pack
 /usr/local/bin/git-receive-pack
    \endverbatim
+   A similar thing happened on cs-oksvr when trying to clone there a repository from cs-wsok.
    </li>
   </ul>
 
