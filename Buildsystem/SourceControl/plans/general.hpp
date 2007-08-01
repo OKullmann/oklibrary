@@ -8,11 +8,12 @@
   \bug MG submitted to the shared repository, but no notification e-mail was created?
 
 
-  \todo Git on the cs-oksvr
+  \todo Git on the cs-oksvr : DONE
   <ul>
-   <li> Git needs to be updated (and this also regularly). </li>
    <li> The notification e-mails need to be re-installed (perhaps
-   this time with some improvements). </li>
+   this time with some improvements). DONE </li>
+   <li> Git needs to be updated (and this also regularly) : DONE (put the
+   OKlibrary into csoliver's account) </li>
   </ul>
 
 
@@ -245,35 +246,34 @@ git branch -d br
 
   \todo Notification-e-mails
   <ul>
-   <li> Simple solution: In the shared repository the file
-   "hooks/post-receive" has to be made executable, and then filled with action; temporary
-   solution (for Annotations):
-   \verbatim
-mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
-   \endverbatim
-   Apparently to the script "post-receive" per branch a line with reference-data is passed on stdin,
-   while stdin is passed onto mutt which then sends these lines in the body. A more sophisticated
-   solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
-   the text in "hooks/post-receive"), which we should examine (it seems we should also set up
-   an OKlibrary-e-mail-list ?!).
+   <li> Improvements of the automatic e-mail:
+     <ol>
+      <li> The subject header "Transitional branch, master, updated." is
+      misleading: There is no branch "Transitional". </li>
+      <li> Further in the subject header:
+      "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
+      tag? </li>
+      <li> Additionally, for each log-message we need the summary of
+      changes. </li>
+      <li> Replace "[SCM]" by "[OKlibrary::Transitional]". DONE </li>
+     </ol>
    </li>
-   <li>
-   As an intermediate solution we copy a modified version of the script "contrib/hooks/post-receive-email" to
-   both /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and/work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
-   </li>
-   <li>
+   <li> DONE (to be put to the documentation)
    To configure the script to send emails to OK,MH and ML we tell Git via
    \verbatim
-git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthew Henderson <M.J.Henderson@swansea.ac.uk>, Matthew Lewsey <csmatthewl@Swansea.ac.uk>"
+git config hooks.mailinglist "Oliver Kullmann <O.Kullmann@swansea.ac.uk>, Matthew Henderson <M.J.Henderson@swansea.ac.uk>, Matthew Lewsey <csmatthewl@Swansea.ac.uk>, Ulrich Berger <U.Berger@swansea.ac.uk>, Matthew Gwynne <M.S.GWYNNE.360678@swansea.ac.uk>"
    \endverbatim
    </li>
-   <li> To have the name Transitional appear in the email subject it is necessary to modify the
+   <li> DONE (to be put to the documentation)
+   To have the name Transitional appear in the email subject it is necessary to modify the
    file /work/Repositories/Git/bare/Transitional/description so that it contains the single line 
    \verbatim
-Transitional  
+OKlib::Transitional  
    \endverbatim
    </li>
-   <li> Should we use a link instead of replacing the original post-receive script? (OK: a link to what?)
+   <li> DONE (put under version control in Configuration/SourceControl; after an update it has to
+      be copied to .git/hooks of the central shared repositories)
+   Should we use a link instead of replacing the original post-receive script? (OK: a link to what?)
    (MH: My intention was that the script would also be under version control. For example, it could be
    in Transitional/Buildsystem/post-receive-email and then the Transitional bare repository on cs-oksvr 
    has a link 
@@ -285,17 +285,22 @@ Transitional
    if it has already been changed, then we need first the original version
    into version control).
    </li>
-   <li> Improvements of the automatic e-mail:
-     <ol>
-      <li> Replace "[SCM]" by "[OKlibrary::Transitional]". </li>
-      <li> The subject header "Transitional branch, master, updated." is
-      misleading: There is no branch "Transitional". </li>
-      <li> Further in the subject header:
-      "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
-      tag? </li>
-      <li> Additionally, for each log-message we need the summary of
-      changes. </li>
-     </ol>
+   <li> DONE
+   As an intermediate solution we copy a modified version of the script "contrib/hooks/post-receive-email" to
+   both /work/Repositories/Git/bare/Annotations/hooks/post-receive-email and/work/Repositories/Git/bare/Transitional/hooks/post-receive-email.
+   </li>
+   <li> DONE (replaced by the solution via the (much) more advanced Git-script)
+   Simple solution: In the shared repository the file
+   "hooks/post-receive" has to be made executable, and then filled with action; temporary
+   solution (for Annotations):
+   \verbatim
+mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.henderson@swansea.ac.uk csmatthewl@swan.ac.uk
+   \endverbatim
+   Apparently to the script "post-receive" per branch a line with reference-data is passed on stdin,
+   while stdin is passed onto mutt which then sends these lines in the body. A more sophisticated
+   solution is given in in the Git-repository under "contrib/hooks/post-receive-email" (see also
+   the text in "hooks/post-receive"), which we should examine (it seems we should also set up
+   an OKlibrary-e-mail-list ?!).
    </li>
   </ul>
 
