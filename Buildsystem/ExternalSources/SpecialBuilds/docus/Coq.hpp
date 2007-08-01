@@ -28,6 +28,7 @@
   <h2> Current state of installation </h2>
 
   <ul>
+   <li> Recommended version: $(coq_recommended_version_number) </li>
    <li> coq-program call = <code>$(coq_call)</code> </li>
    <li> ready: $(coq_call_ready)
     <ul>

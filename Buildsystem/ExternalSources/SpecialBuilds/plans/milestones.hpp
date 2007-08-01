@@ -9,9 +9,9 @@
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
-    - Install ocaml (3.10.0)
-    - Install ocaml 3.09.3
     - Install Coq (8.1)
+    - Install ocaml (3.10.0) : DONE
+    - Install ocaml 3.09.3 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
@@ -64,6 +64,11 @@
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following topics are handled:
     - Missing pgsql/libpq-fe.h
     - Improvements
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
+    - Improve ocaml installation
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,7 @@
 # Oliver Kullmann, 23.7.2007 (Swansea)
 
+# Building Ocaml
+
 # ##################################
 # Directory Structure
 # ################################## 
@@ -22,7 +24,7 @@ $(ocaml_targets) : ocaml-% : $(ocaml_directories)
 	$(call unarchive,$@,$(ocaml_base_directory))
 	cd $(ocaml_base_directory)/$@; $(postcondition) \
 	./configure -prefix $(ocaml_base_directory)/$*; $(postcondition) \
-	make world && make bootstrap && make opt && make opt.opt && make install
+	make world && make bootstrap && make opt && make opt.opt && make install && make clean
 
 # #################################
 # Cleaning

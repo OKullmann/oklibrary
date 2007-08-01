@@ -3,71 +3,8 @@
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp
   \brief Plans regarding installation of Coq
-
-
-  \todo Install ocaml (3.10.0)
-  <ul>
-   <li> ocaml and lablgtk are available with the Suse distribution --- so perhaps we simply don't bother about them? </li>
-   <li> Manual installation (system-wide):
-    <ol>
-     <li> <code>tar -xjf ocaml-3.10.0.tar.bz2</code> </li>
-     <li> <code>cd ocaml-3.10.0</code> </li>
-     <li> <code>./configure</code> </li>
-     <li> <code>make world</code> </li>
-     <li> <code>make bootstrap</code> </li>
-     <li> <code>make opt</code> </li>
-     <li> <code>make opt.opt</code> </li>
-     <li> <code>sudo make install</code> </li>
-     <li> <code>make clean</code> </li>
-    </ol>
-   </li>
-   <li> Target "make cleanocaml" then can remove the build-directory. </li>
-   <li> Libraries "tk-devel, tcl-devel" need to be installed (Suse). </li>
-   <li> What about (after "configure")
-   \verbatim
-NDBM not found, the "dbm" library will not be supported.
-   \endverbatim
-   ???
-   </li>
-   <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
-   (See below --- the Coq installation claims it's not there, but it should
-   have been build by the Ocaml installation.) </li>
-   <li> Since we need it only to install Coq, can we perform just
-   a local installation?
-    <ol>
-     <li> Apparently all what is needed is that the bin-directory
-     is on PATH? </li>
-     <li> But likely ocaml is not just needed for the installation
-     of Coq, but also later, and then it might create trouble. </li>
-     <li> So we should just stick to the system-wide installation. </li>
-     <li> But trying it out --- perhaps it solves the Coq-installation-problem ?
-      <ol>
-       <li>
-       \verbatim
-tar -xjf ocaml-3.10.0.tar.bz2; mkdir -p Ocaml/3.10.0; cd ocaml-3.10.0; \
-./configure -prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.10.0; \
-make world && make bootstrap && make opt && make opt.opt && sudo make install
-       \endverbatim
-       </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Install ocaml 3.09.3
-  <ul>
-   <li> Local installation
-   \verbatim
-tar -xzf ocaml-3.09.3.tar.gz; mkdir -p Ocaml/3.09.3; cd ocaml-3.09.3; \
-./configure -prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.09.3; \
-make world && make bootstrap && make opt && make opt.opt && sudo make install
-   \endverbatim
-   </li>
-  </ul>
-
-
+  
+  
   \todo Install Coq (8.1)
   <ul>
    <li> Manual system-wide installation:
@@ -263,6 +200,83 @@ make clean
      </li>
      <li> Perhaps the documentation really must be downloaded. </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo Improve ocaml installation
+  <ul>
+   <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
+   (The Coq installation claims it's not there, but it should
+   have been build by the Ocaml installation.) </li>
+   <li> Target "make cleanocaml" for removing the build-directory. </li>
+   <li> What about (after "configure")
+   \verbatim
+NDBM not found, the "dbm" library will not be supported.
+   \endverbatim
+   </li>
+  </ul>
+
+
+  \todo Install ocaml (3.10.0) : DONE
+  <ul>
+   <li> ocaml and lablgtk are available with the Suse distribution --- so perhaps we simply don't bother about them? </li>
+   <li> Manual installation (system-wide):
+    <ol>
+     <li> <code>tar -xjf ocaml-3.10.0.tar.bz2</code> </li>
+     <li> <code>cd ocaml-3.10.0</code> </li>
+     <li> <code>./configure</code> </li>
+     <li> <code>make world</code> </li>
+     <li> <code>make bootstrap</code> </li>
+     <li> <code>make opt</code> </li>
+     <li> <code>make opt.opt</code> </li>
+     <li> <code>sudo make install</code> </li>
+     <li> <code>make clean</code> </li>
+    </ol>
+   </li>
+   <li> Target "make cleanocaml" then can remove the build-directory. </li>
+   <li> Libraries "tk-devel, tcl-devel" need to be installed (Suse). </li>
+   <li> What about (after "configure")
+   \verbatim
+NDBM not found, the "dbm" library will not be supported.
+   \endverbatim
+   ???
+   </li>
+   <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
+   (See below --- the Coq installation claims it's not there, but it should
+   have been build by the Ocaml installation.) </li>
+   <li> Since we need it only to install Coq, can we perform just
+   a local installation?
+    <ol>
+     <li> Apparently all what is needed is that the bin-directory
+     is on PATH? </li>
+     <li> But likely ocaml is not just needed for the installation
+     of Coq, but also later, and then it might create trouble. </li>
+     <li> So we should just stick to the system-wide installation. </li>
+     <li> But trying it out --- perhaps it solves the Coq-installation-problem ?
+      <ol>
+       <li>
+       \verbatim
+tar -xjf ocaml-3.10.0.tar.bz2; mkdir -p Ocaml/3.10.0; cd ocaml-3.10.0; \
+./configure -prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.10.0; \
+make world && make bootstrap && make opt && make opt.opt && sudo make install
+       \endverbatim
+       </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Install ocaml 3.09.3 : DONE
+  <ul>
+   <li> Local installation
+   \verbatim
+tar -xzf ocaml-3.09.3.tar.gz; mkdir -p Ocaml/3.09.3; cd ocaml-3.09.3; \
+./configure -prefix ~/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Coq/Ocaml/3.09.3; \
+make world && make bootstrap && make opt && make opt.opt && sudo make install
+   \endverbatim
    </li>
   </ul>
 
