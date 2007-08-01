@@ -8,15 +8,6 @@
   \bug MG submitted to the shared repository, but no notification e-mail was created?
 
 
-  \todo Git on the cs-oksvr : DONE
-  <ul>
-   <li> The notification e-mails need to be re-installed (perhaps
-   this time with some improvements). DONE </li>
-   <li> Git needs to be updated (and this also regularly) : DONE (put the
-   OKlibrary into csoliver's account) </li>
-  </ul>
-
-
   \todo Tutorial on branching
   <ul>
    <li> Creating a (completely new) branch is a (purely) local matter; the name is
@@ -569,6 +560,15 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 29.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Git on the cs-oksvr : DONE
+  <ul>
+   <li> The notification e-mails need to be re-installed (perhaps
+   this time with some improvements). DONE </li>
+   <li> Git needs to be updated (and this also regularly) : DONE (put the
+   OKlibrary into csoliver's account) </li>
   </ul>
 
 

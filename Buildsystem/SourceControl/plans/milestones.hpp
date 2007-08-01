@@ -14,6 +14,7 @@
     - On branching (in our situation)
     - Notification-e-mails
     - Remote access
+    - Git on the cs-oksvr : DONE
     - Moving files : DONE
 
 
