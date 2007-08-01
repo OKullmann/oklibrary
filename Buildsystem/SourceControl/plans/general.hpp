@@ -217,15 +217,15 @@ git branch -d br
    <li> It appears that "secret" development cannot be achieved via branching,
    but a new dedicated repository has to be created. </li>
    <li> The following items need to be updated. </li>
-   <li> How did MG create the local rijndael-branch?
+   <li> MG created the local rijndael branch via
    \verbatim
-
+git branch --track rijndael
    \endverbatim
    </li>
-   <li> How is such a local branch to be pushed to the shared repository? How did MG
-   do it?
+   <li> How is such a local branch to be pushed to the shared repository? </li>
+   <li> MG pushed to the shared repository via </li>
    \verbatim
-
+git push csmatthewg@cs-oksvr.swan.ac.uk:/work/Repositories/Git/bare/Transitional rijndael:rijndael
    \endverbatim
    </li>
    <li> Once in the shared repository a branch arrived, how do others (who don't know about
@@ -238,6 +238,10 @@ git branch -d br
      <li> One can also create branches via "git checkout", which in principle seems more
      appropriate? </li>
      <li> We want a correct "tracking behaviour" ?! </li>
+     <li> MG checked out the rijndael branch once pushed into a clean clone via 
+     \verbatim
+git checkout --track -b rijndael origin/rijndael 
+     \endverbatim
     </ol>
    </li>
    <li> Once the branch has been installed globally and locally, how to push and pull? </li>
