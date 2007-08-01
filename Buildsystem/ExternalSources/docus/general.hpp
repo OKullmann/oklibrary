@@ -6,7 +6,15 @@
   
   <h1> General overview </h1>
 
-  
+
+  <h2> Configuration </h2>
+
+  Enter into OKplatform/.oklib/override.mak the overriding definitions, for example
+  \code
+ocaml_bin_dir := /usr/local/bin
+  \endcode
+  to use the system-wide ocaml-installation instead of the local installation.
+  (This prevents these variables from being defined by the configuration system.)
 
   
   <h2> Installations </h2>
