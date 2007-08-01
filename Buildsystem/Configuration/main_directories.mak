@@ -2,42 +2,14 @@
 
 # Here the main directories and files (for the whole system) are specified
 
-ifndef OKplatform
-  $(error The make-variable OKplatform must be defined when calling this makefile (as the full directory path containing the OKplatform)!)
-endif
+ExternalSources ?= $(OKplatform)/ExternalSources
 
-ifndef ExternalSources
-  ExternalSources = $(OKplatform)/ExternalSources
-endif
+system_directories ?= $(OKplatform)/system_directories
 
-ifndef system_directories
-  ifdef OKSYSTEMDIRECTORIES
-    system_directories = $(OKSYSTEMDIRECTORIES)
-  else
-    system_directories = $(OKplatform)/system_directories
-  endif
-endif
+OKsystem ?= $(OKplatform)/OKsystem
 
-ifndef OKsystem
-  OKsystem = $(OKplatform)/OKsystem
-endif
+Transitional ?= $(OKsystem)/Transitional
 
-ifndef Transitional
-  Transitional = $(OKsystem)/Transitional
-endif
+OKbuildsystem ?= $(Transitional)/Buildsystem
 
-ifndef OKbuildsystem
-  OKbuildsystem = $(Transitional)/Buildsystem
-endif
-
-ifndef OKanchor
-  OKanchor = $(OKplatform)/.oklib
-endif
-
-ifndef OKoverrideconfig
-  OKoverrideconfig = $(OKanchor)/override.mak
-endif
-
-ifndef Annotations_dir
-  Annotations_dir = $(OKsystem)/Annotations
-endif
+Annotations_dir ?= $(OKsystem)/Annotations

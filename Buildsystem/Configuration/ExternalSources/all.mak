@@ -2,7 +2,7 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-ExternalSources_doc = $(ExternalSources)/doc
+ExternalSources_doc ?= $(ExternalSources)/doc
 
 include $(OKconfiguration)/ExternalSources/doxygen.mak
 include $(OKconfiguration)/ExternalSources/gcc.mak
@@ -14,15 +14,15 @@ include $(OKconfiguration)/ExternalSources/coq.mak
 # Boost
 # #################################
 
-boost_recommended_version_number = 1_34_1
-boost_supported_not_recommended_version_numbers = 1_34_0
-boost_supported_version_numbers = $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
+boost_recommended_version_number ?= 1_34_1
+boost_supported_not_recommended_version_numbers ?= 1_34_0
+boost_supported_version_numbers ?= $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
-boost_prefix = boost
-boost_recommended_package_name = $(boost_recommended_version_number)
+boost_prefix ?= boost
+boost_recommended_package_name ?= $(boost_recommended_version_number)
 # OK: The variable boost_recommended_package_name seems wrong, and seems
 # to be used only for setting boost_html_documentation_index_location ??
-boost_html_documentation_index_location = $(ExternalSources_doc)/Boost/$(boost_recommended_package_name)/index.htm
+boost_html_documentation_index_location ?= $(ExternalSources_doc)/Boost/$(boost_recommended_package_name)/index.htm
 
 boost_homepage_url := http://www.boost.org/
 boost_documentation_url := http://www.boost.org/libs/libraries.htm
@@ -46,11 +46,11 @@ endif
 # Mhash
 # #################################
 
-mhash_recommended_version_number = 0.9.9
-mhash_supported_not_recommended_version_numbers = 0.9.7.1
-mhash_supported_version_numbers = $(mhash_supported_not_recommended_version_numbers) $(mhash_recommended_version_number)
+mhash_recommended_version_number ?= 0.9.9
+mhash_supported_not_recommended_version_numbers ?= 0.9.7.1
+mhash_supported_version_numbers ?= $(mhash_supported_not_recommended_version_numbers) $(mhash_recommended_version_number)
 
-mhash_prefix = mhash
+mhash_prefix ?= mhash
 
 mhash_homepage_url := http://mhash.sourceforge.net/
 mhash_documentation_url := http://mhash.sourceforge.net/mhash.3.html
@@ -63,11 +63,11 @@ mhash_recommended := $(mhash_targets_prefix)$(mhash_recommended_version_number)
 
 ifndef Mhash
   ifdef MHASH
-    Mhash_dir := $(MHASH)
+    Mhash_dir = $(MHASH)
   else
-    Mhash_dir := $(ExternalSources)/Mhash
+    Mhash_dir = $(ExternalSources)/Mhash
   endif
-  Mhash := $(Mhash_dir)/$(mhash_recommended_version_number)
+  Mhash = $(Mhash_dir)/$(mhash_recommended_version_number)
 endif
 # TODO: We must update and systematise the use of such variables!
 
@@ -75,12 +75,12 @@ endif
 # Postgresql
 # #################################
 
-postgresql_recommended_version_number = 8.2.4
-postgresql_supported_not_recommended_version_numbers = 
-postgresql_supported_version_numbers = $(postgresql_supported_not_recommended_version_numbers) $(postgresql_recommended_version_number)
+postgresql_recommended_version_number ?= 8.2.4
+postgresql_supported_not_recommended_version_numbers ?= 
+postgresql_supported_version_numbers ?= $(postgresql_supported_not_recommended_version_numbers) $(postgresql_recommended_version_number)
 
-postgresql_prefix = postgresql
-pgsql_html_documentation_index_location = $(ExternalSources_doc)/Postgresql/doc/postgresql/html/index.html
+postgresql_prefix ?= postgresql
+pgsql_html_documentation_index_location ?= $(ExternalSources_doc)/Postgresql/doc/postgresql/html/index.html
 
 pgsql_homepage_url := http://www.postgresql.org/
 pgsql_documentation_url := http://www.postgresql.org/docs/
@@ -93,12 +93,12 @@ postgresql_recommended := $(postgresql_targets_prefix)$(postgresql_recommended_v
 # Valgrind
 # #################################
 
-valgrind_recommended_version_number = 3.2.3
-valgrind_supported_not_recommended_version_numbers = 3.2.1
+valgrind_recommended_version_number ?= 3.2.3
+valgrind_supported_not_recommended_version_numbers ?= 3.2.1
 # OK: shouldn't this be 3.2.2 ? Or perhaps just empty?
-valgrind_supported_version_numbers = $(valgrind_supported_not_recommended_version_numbers) $(valgrind_recommended_version_number)
+valgrind_supported_version_numbers ?= $(valgrind_supported_not_recommended_version_numbers) $(valgrind_recommended_version_number)
 
-valgrind_prefix = valgrind
+valgrind_prefix ?= valgrind
 
 valgrind_homepage_url := http://valgrind.org/
 valgrind_documentation_url := http://valgrind.org/docs/manual/index.html
@@ -111,11 +111,11 @@ valgrind_recommended := $(valgrind_targets_prefix)$(valgrind_recommended_version
 # UBCSAT
 # ###############################
 
-ubcsat_recommended_version_number = 1-0-0
-ubcsat_supported_but_not_recommended_version_numbers = 
-ubcsat_supported_version_numbers = $(ubcsat_recommended_version_number) $(ubcsat_supported_but_not_recommended_version_numbers)
+ubcsat_recommended_version_number ?= 1-0-0
+ubcsat_supported_but_not_recommended_version_numbers ?= 
+ubcsat_supported_version_numbers ?= $(ubcsat_recommended_version_number) $(ubcsat_supported_but_not_recommended_version_numbers)
 
-ubcsat_prefix = ubcsat
+ubcsat_prefix ?= ubcsat
 
 ubcsat_homepage_url := http://www.satlib.org/ubcsat/
 ubcsat_documentation_url := http://www.satlib.org/ubcsat/\#documentation
@@ -138,10 +138,10 @@ endif
 # Asciidoc
 # ###############################
 
-asciidoc_recommended_version_number = 8.2.1
-asciidoc_supported_version_numbers = $(asciidoc_recommended_version_number)
+asciidoc_recommended_version_number ?= 8.2.1
+asciidoc_supported_version_numbers ?= $(asciidoc_recommended_version_number)
 
-asciidoc_prefix = asciidoc
+asciidoc_prefix ?= asciidoc
 
 asciidoc_targets_prefix := $(asciidoc_prefix)-
 asciidoc_targets := $(addprefix $(asciidoc_targets_prefix), $(asciidoc_supported_version_numbers))
@@ -151,11 +151,11 @@ asciidoc_recommended := $(asciidoc_targets_prefix)$(asciidoc_recommended_version
 # Git
 # ###############################
 
-git_recommended_version_number = 1.5.2.4
-git_supported_version_numbers = $(git_recommended_version_number) 1.5.2.3
+git_recommended_version_number ?= 1.5.2.4
+git_supported_version_numbers ?= $(git_recommended_version_number) 1.5.2.3
 
-git_prefix = git
-git_html_documentation_index_location = $(ExternalSources_doc)/Git/Documentation/git.html
+git_prefix ?= git
+git_html_documentation_index_location ?= $(ExternalSources_doc)/Git/Documentation/git.html
 
 git_homepage_url := http://git.or.cz/
 git_documentation_url := http://git.or.cz/\#documentation
@@ -168,10 +168,10 @@ git_recommended := $(git_targets_prefix)$(git_recommended_version_number)
 # Cmake
 # ###############################
 
-cmake_recommended_version_number = 2.4.7
-cmake_supported_version_numbers = $(cmake_recommended_version_number)
+cmake_recommended_version_number ?= 2.4.7
+cmake_supported_version_numbers ?= $(cmake_recommended_version_number)
 
-cmake_prefix = cmake
+cmake_prefix ?= cmake
 
 cmake_homepage_url := http://www.cmake.org/HTML/Index.html
 cmake_documentation_url := http://www.cmake.org/HTML/Documentation.html
@@ -184,10 +184,10 @@ cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
 # mpfr
 # ###############################
 
-mpfr_recommended_version_number = 2.2.1
-mpfr_supported_version_numbers = $(mpfr_recommended_version_number)
+mpfr_recommended_version_number ?= 2.2.1
+mpfr_supported_version_numbers ?= $(mpfr_recommended_version_number)
 
-mpfr_prefix = mpfr
+mpfr_prefix ?= mpfr
 
 mpfr_targets_prefix := $(mpfr_prefix)-
 mpfr_targets := $(addprefix $(mpfr_targets_prefix), $(mpfr_supported_version_numbers))
@@ -197,10 +197,10 @@ mpfr_recommended := $(mpfr_targets_prefix)$(mpfr_recommended_version_number)
 # gmp
 # ###############################
 
-gmp_recommended_version_number = 4.2.1
-gmp_supported_version_numbers = $(gmp_recommended_version_number)
+gmp_recommended_version_number ?= 4.2.1
+gmp_supported_version_numbers ?= $(gmp_recommended_version_number)
 
-gmp_prefix = gmp
+gmp_prefix ?= gmp
 
 gmp_homepage_url := http://gmplib.org/
 gmp_documentation_url := http://gmplib.org/\#DOC
@@ -213,41 +213,41 @@ gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)
 # Sage
 # ###############################
 
-sage_recommended_version_number = 2.6
-sage_supported_not_recommended_version_numbers = 2.7
-sage_supported_version_numbers = $(sage_supported_not_recommended_version_numbers) $(sage_recommended_version_number)
+sage_recommended_version_number ?= 2.6
+sage_supported_not_recommended_version_numbers ?= 2.7
+sage_supported_version_numbers ?= $(sage_supported_not_recommended_version_numbers) $(sage_recommended_version_number)
 
-sage_prefix = sage
-sage_recommended_package_name = $(sage_prefix)-$(sage_recommended_version_number)
-sage_html_template = $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Sage.html
-sage_html_output = $(local_html_dir)/Sage.html
-sage_html_documentation_index_location = Sage.html
+sage_prefix ?= sage
+sage_recommended_package_name ?= $(sage_prefix)-$(sage_recommended_version_number)
+sage_html_template ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Sage.html
+sage_html_output ?= $(local_html_dir)/Sage.html
+sage_html_documentation_index_location ?= Sage.html
 
-sage_base_directory = $(ExternalSources)/Sage
-sage_installation_dir = $(sage_base_directory)/$(sage_recommended_package_name)
-sage_main_index = $(sage_installation_dir)/doc/index.html
-sage_devel_doc = $(sage_installation_dir)/devel/doc-$(sage_recommended_version_number)/paper-letter
+sage_base_directory ?= $(ExternalSources)/Sage
+sage_installation_dir ?= $(sage_base_directory)/$(sage_recommended_package_name)
+sage_main_index ?= $(sage_installation_dir)/doc/index.html
+sage_devel_doc ?= $(sage_installation_dir)/devel/doc-$(sage_recommended_version_number)/paper-letter
 
-sage_maxima_dir = $(sage_installation_dir)/local/share/maxima
-sage_maxima_version = $(notdir $(wildcard $(sage_installation_dir)/local/share/maxima/*))
-sage_maxima_html = $(sage_maxima_dir)/$(sage_maxima_version)/doc/html
-sage_xmaxima_html = $(sage_maxima_dir)/$(sage_maxima_version)/xmaxima/html
-sage_maxima_share = $(sage_maxima_dir)/$(sage_maxima_version)/share
+sage_maxima_dir ?= $(sage_installation_dir)/local/share/maxima
+sage_maxima_version ?= $(notdir $(wildcard $(sage_installation_dir)/local/share/maxima/*))
+sage_maxima_html ?= $(sage_maxima_dir)/$(sage_maxima_version)/doc/html
+sage_xmaxima_html ?= $(sage_maxima_dir)/$(sage_maxima_version)/xmaxima/html
+sage_maxima_share ?= $(sage_maxima_dir)/$(sage_maxima_version)/share
 
-sage_gap_version = $(subst gap-,,$(notdir $(wildcard $(sage_installation_dir)/local/lib/gap-*)))
-sage_guava_version = $(subst guava,,$(notdir $(wildcard $(sage_installation_dir)/local/lib/gap-$(sage_gap_version)/pkg/guava*)))
-sage_guave_html = $(sage_installation_dir)/local/lib/gap-$(sage_gap_version)/pkg/guava$(sage_guava_version)/htm
+sage_gap_version ?= $(subst gap-,,$(notdir $(wildcard $(sage_installation_dir)/local/lib/gap-*)))
+sage_guava_version ?= $(subst guava,,$(notdir $(wildcard $(sage_installation_dir)/local/lib/gap-$(sage_gap_version)/pkg/guava*)))
+sage_guave_html ?= $(sage_installation_dir)/local/lib/gap-$(sage_gap_version)/pkg/guava$(sage_guava_version)/htm
 
-sage_clisp_dir = $(sage_installation_dir)/local/share/doc/clisp
-sage_clisp_html = $(sage_clisp_dir)/doc
+sage_clisp_dir ?= $(sage_installation_dir)/local/share/doc/clisp
+sage_clisp_html ?= $(sage_clisp_dir)/doc
 
-sage_ipython_version = $(subst ipython-,,$(notdir $(wildcard $(sage_installation_dir)/local/share/doc/ipython-*)))
-sage_ipython_dir = $(sage_installation_dir)/local/share/doc/ipython-$(sage_ipython_version)
+sage_ipython_version ?= $(subst ipython-,,$(notdir $(wildcard $(sage_installation_dir)/local/share/doc/ipython-*)))
+sage_ipython_dir ?= $(sage_installation_dir)/local/share/doc/ipython-$(sage_ipython_version)
 
-sage_qd_dir = $(sage_installation_dir)/local/share/doc/qd
+sage_qd_dir ?= $(sage_installation_dir)/local/share/doc/qd
 
-sage_bzip2_version = $(subst bzip2-,,$(notdir $(wildcard $(sage_installation_dir)/spkg/build/bzip2-*)))
-sage_bzip2_dir = $(sage_installation_dir)/spkg/build/bzip2-$(sage_bzip2_version)
+sage_bzip2_version ?= $(subst bzip2-,,$(notdir $(wildcard $(sage_installation_dir)/spkg/build/bzip2-*)))
+sage_bzip2_dir ?= $(sage_installation_dir)/spkg/build/bzip2-$(sage_bzip2_version)
 
 sage_homepage_url := http://modular.math.washington.edu/sage/
 sage_documentation_url := http://modular.math.washington.edu/sage/documentation.html

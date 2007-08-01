@@ -2,14 +2,14 @@
 
 # Settings for building and using R
 
-R_recommended_version_number = 2.5.0
-R_supported_not_recommended_version_numbers = 
-R_supported_version_numbers = $(R_supported_not_recommended_version_numbers) $(R_recommended_version_number)
+R_recommended_version_number ?= 2.5.0
+R_supported_not_recommended_version_numbers ?= 
+R_supported_version_numbers ?= $(R_supported_not_recommended_version_numbers) $(R_recommended_version_number)
 
-R_prefix = R
+R_prefix ?= R
 
-R_html_documentation_index_location = $(ExternalSources_doc)/R/doc/html/index.html
-R_docu_page = $(doc_dir)/
+R_html_documentation_index_location ?= $(ExternalSources_doc)/R/doc/html/index.html
+R_docu_page ?= $(doc_dir)/
 
 R_homepage_url := http://www.r-project.org/
 R_documentation_url := http://www.r-project.org/
