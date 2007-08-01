@@ -10,7 +10,8 @@
 
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
-    - On branching
+    - Tutorial on branching
+    - On branching (in our situation)
     - Notification-e-mails
     - Remote access
     - Moving files : DONE
