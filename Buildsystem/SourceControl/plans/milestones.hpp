@@ -10,10 +10,10 @@
 
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
-    - Tutorial on branching
-    - On branching (in our situation)
     - Notification-e-mails
     - Remote access
+    - Tutorial on branching : DONE
+    - On branching (in our situation) : DONE
     - Git on the cs-oksvr : DONE
     - Moving files : DONE
 
