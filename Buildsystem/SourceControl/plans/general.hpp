@@ -304,7 +304,12 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
   <ul>
    <li> How does remote access work:
     <ol>
-     <li> A clone stores the url of the source (supposedly): Where? Can one see this? </li>
+     <li> A clone stores the url of the source in the .git/config of the clone and this can be
+     accessed either directly via the config file or via
+     \verbatim
+git config remote.origin.url
+     \endverbatim</li>
+     <li> Remote repositories can be handled via git-remote (see man page - MG) </li>
      <li> When pushing to or pulling from a remote repository, how does git know how to communicate?
      It seems there are two options:
       <ul>
@@ -316,7 +321,9 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
        <li> No ssh is used, but on the remote repository git-daemon is running (this apparently does not
        require anything on the pushing/pulling side?). </li>
       </ul>
-      Does git automatically choose? Do we have a choice??
+      ssh is the default protocol, you can explicitly specify which you wish to use by adding the protocol
+      specifier to the url like so - ssh://username@host:/path/to/repository - 
+      (see http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS or man git-push)
      </li>
      <li> Copied clones which know how to connect:
      How to create a clone, which can be copied (as a directory),
