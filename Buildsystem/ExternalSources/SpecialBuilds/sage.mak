@@ -22,9 +22,6 @@ $(sage_targets) : $(sage_directories)
 	$(call unarchive_uncompressed,$@,$(sage_base_directory))
 	cd $(sage_base_directory)/$@; $(postcondition) \
 	make; $(postcondition) \
-	cd devel/doc; $(postcondition) \
-	make pdf; $(postcondition) \
-	cd $(sage_base_directory)/$@; $(postcondition) \
 	make test
 
 # #################################
