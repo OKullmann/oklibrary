@@ -11,6 +11,41 @@
      (perhaps a missing group-membership).
 
 
+  \bug OK on cs-wsok gets
+  \verbatim
+csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> git branch
+  master
+* rijndael
+csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> git pull
+Warning: No merge candidate found because value of config option
+         "branch.rijndael.merge" does not match any remote branch fetched.
+No changes.
+csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> more .git/config
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = cs-oksvr:/work/Repositories/Git/bare/Transitional
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+        remote = origin
+        merge = refs/heads/master
+[gui]
+        geometry = 1476x763+61+245 202 405
+[branch "rijndael"]
+        remote = origin
+        merge = refs/heads/rijndael refs/heads/master
+  \endverbatim
+  The problem seems to be that git cannot handle the multiple values for merge --- so how
+  to specify them??? Apparently with
+  \verbatim
+> git config branch.rijndael.merge "refs/heads/rijndael"
+> git config --add branch.rijndael.merge "refs/heads/rijndael"
+  \endverbatim
+
+
   \todo Notification-e-mails
   <ul>
    <li> Improvements of the automatic e-mail:
@@ -527,6 +562,7 @@ git config branch.br.merge "refs/heads/br refs/heads/master"
      \verbatim
 git pull
 git checkout -b br origin/br
+git config branch.br.remote "origin"
 git config branch.br.merge "refs/heads/br refs/heads/master"
      \endverbatim
      </li>
