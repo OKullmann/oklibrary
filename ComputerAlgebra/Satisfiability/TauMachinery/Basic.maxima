@@ -1,6 +1,9 @@
 /* Oliver Kullmann, 29.7.2007 (Swansea) */
 
-/* 
+/*!
+  \file ComputerAlgebra/Satisfiability/TauMachinery/Basic.maxima
+  \brief Maxima-implementations for the tau-function
+
 Use by
 
 load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/TauMachinery/Basic.maxima");

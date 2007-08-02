@@ -6,237 +6,9 @@
 
 
   \bug MG submitted to the shared repository, but no notification e-mail was created?
-
-
-  \todo Tutorial on branching
-  <ul>
-   <li> Creating a (completely new) branch is a (purely) local matter; the name is
-   better unique (different form files or other branches). Let's call it "br"
-   for demonstration here, then the basic command is
-   \verbatim
-git branch br
-   \endverbatim
-   which can be checked by <code>git branch</code> (whether the branch has been created),
-   while switching to the branch happens via
-   \verbatim
-git checkout br
-   \endverbatim
-   This can be combined into one step via
-   \verbatim
-git checkout -b br
-   \endverbatim
-   The new branch by default will contain the full history of the branch on which the
-   branch-creation command was issued (one can go back in history by adding a start-point
-   like a sha1-hash-value after the name of the new branch).
-   </li>
-   <li> A cloned repository automatically "tracks" branches from the master clone,
-   that is, when issuing "git pull" then the changes to the remotely tracked branches
-   are stored (but don't result in branches; one can see them via <code>gitk --all</code>,
-   but apparently one cannot do anything else with this stored information?). </li>
-   <li> When setting up the new branch (see above), then one can use instead
-   \verbatim
-git branch --track br 
-   \endverbatim
-   which has the only meaning that when "git pull" is issued when on branch br,
-   then the changes of the branch m on which the branch-creating-command was issued (the
-   tracked branch) are merged into br. So it appears to be just a sort of shortcut to issuing
-   \verbatim
-git merge m
-   \endverbatim
-   when on branch br.
-   </li>
-   <li> With the new local branch br (yet nobody else knows about it) one can work, do all sorts
-   of things, and its typical destination is to be merged into another branch m via
-   \verbatim
-git merge br
-   \endverbatim
-   when on branch m, and then possibly deleting the branch via <code>git branch -d br</code>
-   when on another branch. (It seems that somewhat strange things can happen when working
-   further with br (for example files created on br suddenly appear on m as untracked files)?
-   But it should be normal to do so?) </li>
-   <li> Now pushing a new branch to the shared central repository doesn't just happen via
-   "git push" now, since this pushes all "references" which exist locally *and* on the
-   remote repository, and yet there is no reference on the master clone (the repository
-   to which "git push" is adressed when not further specified, which we assume is normally
-   the shared central repository). To make the branch available use
-   \verbatim
-git push origin br:br
-   \endverbatim
-   where "origin" is the git-abbreviation of the url of the master clone (instead of "origin"
-   any other url of any other git-repository can be used), and "br:br" is a short version
-   of the full "refspec", the specification of the reference at the source (on the left-hand side;
-   this is the current repository) and at the destination (on the right-hand side; note
-   that one can push to any other branch, either existing or new (then created), but then
-   there would be no automatic link between the histories of the local branch br and the remote
-   branch br_remote). Alternatively one can use
-   \verbatim
-git push --all
-   \endverbatim
-   pushing all existing references.
-   </li>
-   <li> Now when on the central shared repository the new branch has been created, then, via the
-   automatic tracking, a "git pull" on another clone (of the central shared repository) will
-   pull it in, but not creating a new branch, which needs a special checkout-command; the whole
-   sequence on the clone then is
-   \verbatim
-git pull
-git checkout --track -b br origin/br
-   \endverbatim
-   where, as discussed above, the "--track" option just has the result, then when issuing
-   "git pull" (no further arguments) on branch br, then a merge from the central repository
-   of branch br is performed).
-   </li>
-   <li> It appears, that actually git doesn't know about the assumed relation between for example
-   branch br on the shared central repository and on the clone: Every branch is always local,
-   and that they have the same name as some branch somewhere else is considered to be purely
-   coincidental --- only the tracked references make some branches automatically merge into
-   other branches (namely "git pull" on branch m will fetch and merge the referenced branch
-   into m). </li>
-   <li> In the above example, the creator of branch br has a different relation to it then
-   the other which just copies it:
-    <ol>
-     <li> The creator tracks branch m (possibly the master-branch) and thus is responsible
-     for keeping br up-to-date with m (without the "--track"-option there would be no
-     default relation to any other branch). </li>
-     <li> The other (the copier) only tracks the changes coming from the central repository. </li>
-    </ol>
-    Perhaps this asymmetry is not appropriate (the creator was just the first one, like the first
-    one creating a file, but then other join in), and then in file .git/config more complicated
-    relations have to be established. For example, on the copying clone the entry for tracking
-    branch br from the central repository is
-    \verbatim
-[branch "br"]
-        remote = origin
-        merge = refs/heads/br
-    \endverbatim
-    which sets variable branch.br.merge to "refs/heads/br", the default for "git pull" (without
-    arguments). Now this variable can have a list of values, and so in this case several
-    remote branches can be pulled at once. The above sets also variable branch.br.remote
-    to "origin", where here apparently only one value (not a list) is allowed, namely
-    the repository from which "git pull" will pull by default; for tracking something from
-    the local repository the special value "." for remote is used, so for example for
-    the creator of branch br:
-    \verbatim
-[branch "br"]
-        remote = .
-        merge = refs/heads/master
-    \endverbatim
-    It appears not to be possible to combine local and remote merges.
-   </li>
-   <li> As an aside, such variable settings can either be handling by editing file .git/config,
-   or by using for example
-   \verbatim
-git config branch.br.merge "refs/heads/br refs/heads/m"
-   \endverbatim
-   which would for the copying clone result in not just following the central version of br,
-   but also the "master"-branch m. For the creator of branch m, who currently has to use
-   \verbatim
-git pull origin br
-   \endverbatim
-   to get the changes from the repository (recall that he tracks the local branch m), it would make
-   sense to use
-   \verbatim
-git config branch.br.remote "origin"
-git config branch.br.merge "refs/heads/br refs/heads/m"
-   \endverbatim
-   to get the same settings.
-   </li>
-   <li> We remark the asymmetry between pull and push: With "git pull" one only gets the
-   specific branches which are referenced by the current branch (except of that somewhat
-   strange situation, where a new branch appears on the master clone), while via
-   "git push" one pushes all currently referenced connections (not just on the current branch).
-   </li>
-   <li> Finally, merging br with its "master" m (abandoning br) happens via issuing by someone
-   on the (respective) master-branch m
-   \verbatim
-git merge br
-   \endverbatim
-   followed by
-   \verbatim
-git branch -d br
-   \endverbatim
-   on the central repository(!), followed by
-   \verbatim
-git branch -d br
-   \endverbatim
-    on all local copies.
-   </li>
-  </ul>
-
-
-  \todo On branching (in our situation)
-  <ul>
-   <li> The appropriate routine for creating a new branch br by developer D and making it
-   available on the shared repository seems to be as follows:
-    <ol>
-     <li> D in the master branch issues
-     \verbatim
-git branch br
-     \endverbatim
-     followed by making it known
-     \verbatim
-git push origin br:br
-     \endverbatim
-     (or, easier, by <code>git push --all</code>), followed by setting tracking behaviour 
-     (tracking master and br remotely)
-     \verbatim
-git config branch.br.remote "origin"
-git config branch.br.merge "refs/heads/br refs/heads/master"
-     \endverbatim
-     </li>
-     <li> Anybody else picks it up by
-     \verbatim
-git pull
-git checkout -b br origin/br
-git config branch.br.merge "refs/heads/br refs/heads/master"
-     \endverbatim
-     </li>
-     <li> Pushing now for every via <code>git push</code> means pushing all (committed)
-      changes to the central repository (all branches), while <code>git pull</code> on 
-      some branch will pull in all changes related to this branch only. </li>
-     <li> Finally abandoning the branch, re-merging it into master via
-     \verbatim
-git merge br
-     \endverbatim
-     while on branch master, followed by
-     \verbatim
-git branch -d br
-     \endverbatim
-     on the central repository and each local clone. </li>
-    </ol>
-   </li>
-   <li> It appears that "secret" development cannot be achieved via branching,
-   but a new dedicated repository has to be created. </li>
-   <li> The following items need to be updated. </li>
-   <li> MG created the local rijndael branch via
-   \verbatim
-git branch --track rijndael
-   \endverbatim
-   </li>
-   <li> How is such a local branch to be pushed to the shared repository? </li>
-   <li> MG pushed to the shared repository via </li>
-   \verbatim
-git push csmatthewg@cs-oksvr.swan.ac.uk:/work/Repositories/Git/bare/Transitional rijndael:rijndael
-   \endverbatim
-   </li>
-   <li> Once in the shared repository a branch arrived, how do others (who don't know about
-   it yet) pull it?
-    <ol>
-     <li> Apparently via "pull" the changes somehow arrive (one can see them via
-     gitk), but not the branch itself? </li>
-     <li> One can create a local branch with the same name (via "git branch"),
-     but this doesn't seem correct? </li>
-     <li> One can also create branches via "git checkout", which in principle seems more
-     appropriate? </li>
-     <li> We want a correct "tracking behaviour" ?! </li>
-     <li> MG checked out the rijndael branch once pushed into a clean clone via 
-     \verbatim
-git checkout --track -b rijndael origin/rijndael 
-     \endverbatim
-    </ol>
-   </li>
-   <li> Once the branch has been installed globally and locally, how to push and pull? </li>
-  </ul>
+   - One has to check whether the post-receive script is being executed.
+   - Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
+     (perhaps a missing group-membership).
 
 
   \todo Notification-e-mails
@@ -489,19 +261,6 @@ git mv file1 file2 dir1 dir2 Annotations
    are supported? It seems the answer is simple -- nothing?! </li>
    <li> How to handle change dates and revision numbers in files with Git?
    </li>
-   <li> Branching:
-    <ul>
-     <li> Yet we never branched; in [{CVU}, vo. 10, no. 2, page 34] it
-     is recommended (for Bazaar), that every work on a file (or
-     perhaps better on a module?) starts by creating a branch,
-     and that (only) after a review the branches are merged into
-     the main branch. </li>
-     <li> This sounds reasonable; perhaps
-     a problem would be, that the review manager (OK) would
-     not always be available (and it would also cost him additional
-     work). </li>
-    </ul>
-   </li>
    <li> Unified repositories ("holistic" or "active" libraries)
     <ul>
      <li> Optimally, the OKlibrary-package is exactly a clone of the
@@ -540,6 +299,22 @@ git mv file1 file2 dir1 dir2 Annotations
    For a new version control system we have to find out how to establish the role of the repository at
    cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
    relying on ssh). </li>
+   <li> Branching: DONE (for some developers, working on special areas and feeling unsage,
+   creating a branch might be quite reasonable, but for others who like OK work on many
+   parts of the library, follow the credo of permanent improvement, it would be a waste of
+   time)
+    <ul>
+     <li> Yet we never branched; in [{CVU}, vo. 10, no. 2, page 34] it
+     is recommended (for Bazaar), that every work on a file (or
+     perhaps better on a module?) starts by creating a branch,
+     and that (only) after a review the branches are merged into
+     the main branch. </li>
+     <li> This sounds reasonable; perhaps
+     a problem would be, that the review manager (OK) would
+     not always be available (and it would also cost him additional
+     work). </li>
+    </ul>
+   </li>
   </ul>
 
 
@@ -565,8 +340,212 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 19.7.2006: 4.9 MB; Transitional total: 16.3 MB </li>
      <li> 26.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
      <li> 29.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
+     <li> 1.8.2006: 5.0 MB; Transitional total: 16.6 MB </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Tutorial on branching : DONE (basic principle are understood; needs to be
+  transferred to the documentation-document)
+  <ul>
+   <li> Creating a (completely new) branch is a (purely) local matter; the name is
+   better unique (different form files or other branches). Let's call it "br"
+   for demonstration here, then the basic command is
+   \verbatim
+git branch br
+   \endverbatim
+   which can be checked by <code>git branch</code> (whether the branch has been created),
+   while switching to the branch happens via
+   \verbatim
+git checkout br
+   \endverbatim
+   This can be combined into one step via
+   \verbatim
+git checkout -b br
+   \endverbatim
+   The new branch by default will contain the full history of the branch on which the
+   branch-creation command was issued (one can go back in history by adding a start-point
+   like a sha1-hash-value after the name of the new branch).
+   </li>
+   <li> A cloned repository automatically "tracks" branches from the master clone,
+   that is, when issuing "git pull" then the changes to the remotely tracked branches
+   are stored (but don't result in branches; one can see them via <code>gitk --all</code>,
+   but apparently one cannot do anything else with this stored information?). </li>
+   <li> When setting up the new branch (see above), then one can use instead
+   \verbatim
+git branch --track br 
+   \endverbatim
+   which has the only meaning that when "git pull" is issued when on branch br,
+   then the changes of the branch m on which the branch-creating-command was issued (the
+   tracked branch) are merged into br. So it appears to be just a sort of shortcut to issuing
+   \verbatim
+git merge m
+   \endverbatim
+   when on branch br.
+   </li>
+   <li> With the new local branch br (yet nobody else knows about it) one can work, do all sorts
+   of things, and its typical destination is to be merged into another branch m via
+   \verbatim
+git merge br
+   \endverbatim
+   when on branch m, and then possibly deleting the branch via <code>git branch -d br</code>
+   when on another branch. (It seems that somewhat strange things can happen when working
+   further with br (for example files created on br suddenly appear on m as untracked files)?
+   But it should be normal to do so?) </li>
+   <li> Now pushing a new branch to the shared central repository doesn't just happen via
+   "git push" now, since this pushes all "references" which exist locally *and* on the
+   remote repository, and yet there is no reference on the master clone (the repository
+   to which "git push" is adressed when not further specified, which we assume is normally
+   the shared central repository). To make the branch available use
+   \verbatim
+git push origin br:br
+   \endverbatim
+   where "origin" is the git-abbreviation of the url of the master clone (instead of "origin"
+   any other url of any other git-repository can be used), and "br:br" is a short version
+   of the full "refspec", the specification of the reference at the source (on the left-hand side;
+   this is the current repository) and at the destination (on the right-hand side; note
+   that one can push to any other branch, either existing or new (then created), but then
+   there would be no automatic link between the histories of the local branch br and the remote
+   branch br_remote). Alternatively one can use
+   \verbatim
+git push --all
+   \endverbatim
+   pushing all existing references.
+   </li>
+   <li> Now when on the central shared repository the new branch has been created, then, via the
+   automatic tracking, a "git pull" on another clone (of the central shared repository) will
+   pull it in, but not creating a new branch, which needs a special checkout-command; the whole
+   sequence on the clone then is
+   \verbatim
+git pull
+git checkout --track -b br origin/br
+   \endverbatim
+   where, as discussed above, the "--track" option just has the result, then when issuing
+   "git pull" (no further arguments) on branch br, then a merge from the central repository
+   of branch br is performed).
+   </li>
+   <li> It appears, that actually git doesn't know about the assumed relation between for example
+   branch br on the shared central repository and on the clone: Every branch is always local,
+   and that they have the same name as some branch somewhere else is considered to be purely
+   coincidental --- only the tracked references make some branches automatically merge into
+   other branches (namely "git pull" on branch m will fetch and merge the referenced branch
+   into m). </li>
+   <li> In the above example, the creator of branch br has a different relation to it then
+   the other which just copies it:
+    <ol>
+     <li> The creator tracks branch m (possibly the master-branch) and thus is responsible
+     for keeping br up-to-date with m (without the "--track"-option there would be no
+     default relation to any other branch). </li>
+     <li> The other (the copier) only tracks the changes coming from the central repository. </li>
+    </ol>
+    Perhaps this asymmetry is not appropriate (the creator was just the first one, like the first
+    one creating a file, but then other join in), and then in file .git/config more complicated
+    relations have to be established. For example, on the copying clone the entry for tracking
+    branch br from the central repository is
+    \verbatim
+[branch "br"]
+        remote = origin
+        merge = refs/heads/br
+    \endverbatim
+    which sets variable branch.br.merge to "refs/heads/br", the default for "git pull" (without
+    arguments). Now this variable can have a list of values, and so in this case several
+    remote branches can be pulled at once. The above sets also variable branch.br.remote
+    to "origin", where here apparently only one value (not a list) is allowed, namely
+    the repository from which "git pull" will pull by default; for tracking something from
+    the local repository the special value "." for remote is used, so for example for
+    the creator of branch br:
+    \verbatim
+[branch "br"]
+        remote = .
+        merge = refs/heads/master
+    \endverbatim
+    It appears not to be possible to combine local and remote merges.
+   </li>
+   <li> As an aside, such variable settings can either be handling by editing file .git/config,
+   or by using for example
+   \verbatim
+git config branch.br.merge "refs/heads/br refs/heads/m"
+   \endverbatim
+   which would for the copying clone result in not just following the central version of br,
+   but also the "master"-branch m. For the creator of branch m, who currently has to use
+   \verbatim
+git pull origin br
+   \endverbatim
+   to get the changes from the repository (recall that he tracks the local branch m), it would make
+   sense to use
+   \verbatim
+git config branch.br.remote "origin"
+git config branch.br.merge "refs/heads/br refs/heads/m"
+   \endverbatim
+   to get the same settings.
+   </li>
+   <li> We remark the asymmetry between pull and push: With "git pull" one only gets the
+   specific branches which are referenced by the current branch (except of that somewhat
+   strange situation, where a new branch appears on the master clone), while via
+   "git push" one pushes all currently referenced connections (not just on the current branch).
+   </li>
+   <li> Finally, merging br with its "master" m (abandoning br) happens via issuing by someone
+   on the (respective) master-branch m
+   \verbatim
+git merge br
+   \endverbatim
+   followed by
+   \verbatim
+git branch -d br
+   \endverbatim
+   on the central repository(!), followed by
+   \verbatim
+git branch -d br
+   \endverbatim
+    on all local copies.
+   </li>
+  </ul>
+
+
+  \todo On branching (in our situation) DONE (fixed a reasonable procedure)
+  <ul>
+   <li> The appropriate routine for creating a new branch br by developer D and making it
+   available on the shared repository seems to be as follows:
+    <ol>
+     <li> D in the master branch issues
+     \verbatim
+git branch br
+     \endverbatim
+     followed by making it known
+     \verbatim
+git push origin br:br
+     \endverbatim
+     (or, easier, by <code>git push --all</code>), followed by setting tracking behaviour 
+     (tracking master and br remotely)
+     \verbatim
+git config branch.br.remote "origin"
+git config branch.br.merge "refs/heads/br refs/heads/master"
+     \endverbatim
+     </li>
+     <li> Anybody else picks it up by
+     \verbatim
+git pull
+git checkout -b br origin/br
+git config branch.br.merge "refs/heads/br refs/heads/master"
+     \endverbatim
+     </li>
+     <li> Pushing now for every via <code>git push</code> means pushing all (committed)
+      changes to the central repository (all branches), while <code>git pull</code> on 
+      some branch will pull in all changes related to this branch only. </li>
+     <li> Finally abandoning the branch, re-merging it into master via
+     \verbatim
+git merge br
+     \endverbatim
+     while on branch master, followed by
+     \verbatim
+git branch -d br
+     \endverbatim
+     on the central repository and each local clone. </li>
+    </ol>
+   </li>
+   <li> It appears that "secret" development cannot be achieved via branching,
+   but a new dedicated repository has to be created. </li>
   </ul>
 
 
