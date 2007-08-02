@@ -42,7 +42,7 @@ csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> more .git/c
   to specify them??? Apparently with
   \verbatim
 > git config branch.rijndael.merge "refs/heads/rijndael"
-> git config --add branch.rijndael.merge "refs/heads/rijndael"
+> git config --add branch.rijndael.merge "refs/heads/master"
   \endverbatim
 
 
