@@ -22,11 +22,19 @@
    <li> Fundamental design discussion
     <ol>
      <li> Which of the system made available by Sage to use? </li>
-     <li> Maxima: Does it have finite fields? </li>
-     <li> Axiom ?! </li>
+     <li> Maxima: Does it have finite fields? 
+      <ul>
+       <li>Possibly through a third party package. (see http://www.math.utexas.edu/pipermail/maxima/2006/003255.html), 
+       although this looks untested. </li>
+      </ul>
+     </li>
+     <li> Axiom 
+      <ul>
+       <li>Axiom does have finite fields but how flexible is the implementation?</li>
+      </ul>
+     </li>
     </ol>
    </li>
-   <li> 
   </ul>
 
 
