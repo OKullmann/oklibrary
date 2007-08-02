@@ -39,6 +39,9 @@
     <ol>
      <li> This might be closer to our global world (the C++ development) </li>
      <li> Though, according to the experience with mupad, development takes longer. </li>
+     <li> It seems, Aldor is a strong extension, and when considering Axiom,
+     then we should do programming in Aldor (also because of the stronger
+     syntax); see http://www.aldor.org/index.html. </li>
     </ol>
    </li>
    <li> At least at the beginning, we could develop the basics both in Maxima and Axiom. </li>
