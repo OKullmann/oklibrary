@@ -11,41 +11,6 @@
      (perhaps a missing group-membership).
 
 
-  \bug OK on cs-wsok gets
-  \verbatim
-csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> git branch
-  master
-* rijndael
-csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> git pull
-Warning: No merge candidate found because value of config option
-         "branch.rijndael.merge" does not match any remote branch fetched.
-No changes.
-csoliver@cs-wsok:~/SAT-Algorithmen/OKplatform/OKsystem/Transitional> more .git/config
-[core]
-        repositoryformatversion = 0
-        filemode = true
-        bare = false
-        logallrefupdates = true
-[remote "origin"]
-        url = cs-oksvr:/work/Repositories/Git/bare/Transitional
-        fetch = +refs/heads/*:refs/remotes/origin/*
-[branch "master"]
-        remote = origin
-        merge = refs/heads/master
-[gui]
-        geometry = 1476x763+61+245 202 405
-[branch "rijndael"]
-        remote = origin
-        merge = refs/heads/rijndael refs/heads/master
-  \endverbatim
-  The problem seems to be that git cannot handle the multiple values for merge --- so how
-  to specify them??? Apparently with
-  \verbatim
-> git config branch.rijndael.merge "refs/heads/rijndael"
-> git config --add branch.rijndael.merge "refs/heads/master"
-  \endverbatim
-
-
   \todo Notification-e-mails
   <ul>
    <li> Improvements of the automatic e-mail:
@@ -484,7 +449,8 @@ git checkout --track -b br origin/br
         merge = refs/heads/br
     \endverbatim
     which sets variable branch.br.merge to "refs/heads/br", the default for "git pull" (without
-    arguments). Now this variable can have a list of values, and so in this case several
+    arguments). Now this variable can have a multiple values (realised by
+    several assignments(!)), and so in this case several
     remote branches can be pulled at once. The above sets also variable branch.br.remote
     to "origin", where here apparently only one value (not a list) is allowed, namely
     the repository from which "git pull" will pull by default; for tracking something from
@@ -500,7 +466,8 @@ git checkout --track -b br origin/br
    <li> As an aside, such variable settings can either be handling by editing file .git/config,
    or by using for example
    \verbatim
-git config branch.br.merge "refs/heads/br refs/heads/m"
+git config branch.br.merge "refs/heads/br"
+git config --add branch.br.merge "refs/heads/m"
    \endverbatim
    which would for the copying clone result in not just following the central version of br,
    but also the "master"-branch m. For the creator of branch m, who currently has to use
@@ -511,7 +478,8 @@ git pull origin br
    sense to use
    \verbatim
 git config branch.br.remote "origin"
-git config branch.br.merge "refs/heads/br refs/heads/m"
+git config branch.br.merge "refs/heads/br"
+git config --add branch.br.merge "refs/heads/m"
    \endverbatim
    to get the same settings.
    </li>
@@ -555,7 +523,8 @@ git push origin br:br
      (tracking master and br remotely)
      \verbatim
 git config branch.br.remote "origin"
-git config branch.br.merge "refs/heads/br refs/heads/master"
+git config branch.br.merge "refs/heads/br"
+git config --add branch.br.merge "refs/heads/master"
      \endverbatim
      </li>
      <li> Anybody else picks it up by
@@ -563,12 +532,18 @@ git config branch.br.merge "refs/heads/br refs/heads/master"
 git pull
 git checkout -b br origin/br
 git config branch.br.remote "origin"
-git config branch.br.merge "refs/heads/br refs/heads/master"
+git config branch.br.merge "refs/heads/br"
+git config --add branch.br.merge "refs/heads/master"
      \endverbatim
      </li>
-     <li> Pushing now for every via <code>git push</code> means pushing all (committed)
-      changes to the central repository (all branches), while <code>git pull</code> on 
-      some branch will pull in all changes related to this branch only. </li>
+     <li> Pushing now via <code>git push</code> means pushing all (committed)
+     changes to the central repository (all branches), while <code>git pull</code> on 
+     some branch will pull in all changes related to the current branch only. </li>
+     <li> Since br is assumed to be an extension of m, normal works happens
+     in branch br, but when committing files, one has to take care only to 
+     commit the special files, while for the other files one changes to branch
+     m (via <code>git checkout m</code>; after all committs in branch br have
+     been handled --- otherwise git won't switch). </li>
      <li> Finally abandoning the branch, re-merging it into master via
      \verbatim
 git merge br

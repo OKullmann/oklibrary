@@ -77,6 +77,22 @@ tprob2(x,y) := (local(x,y), tprobn(x,y));
 tprob3(x,y,z) := (local(x,y,z), tprobn(x,y,z));
 
 /*
+**********************************************************************
+*   Convexity considerations: the associated super-linear functions  *
+**********************************************************************
+*/
+
+/* Auxiliary function to test for zero */
+zerop(x) := (local(x), is(equal(x,0)));
+notzerop(x) := (local(x), not zerop(x));
+/* Auxiliary function to test whether all entries of a list are zero */
+lzerop(l) := (local(l), is(emptyp(sublist_indices(l, notzerop))));
+sltau(t) := (local(t), if lzerop(t) then 0 else 1 / log(tau(t)));
+sltaun([t]) := (local(t), sltau(t));
+sltau2(x,y) := sltaun(x,y);
+sltau3(x,y,z) := sltaun(x,y,z);
+
+/*
 *******************************************************
 *   Convexity considerations: line versions           *
 *******************************************************
@@ -87,7 +103,10 @@ tprob3(x,y,z) := (local(x,y,z), tprobn(x,y,z));
 length as t) the function x -> tau(t0 + x * d0) : */
 
 tau_line(x) := (local(x), tau(t0 + x * d0));
-tprob_line(x) := (local(x), tprob(t + x * d)[i]);
+logtau_line(x) := (local(x), log(tau(t0 + x * d0)));
+loglogtau_line(x) := (local(x), log(logtau_line(x)));
+tprob_line(x) := (local(x), tprob(t0 + x * d0)[i0]);
+sltau_line(x) := (local(x), sltau(t0 + x * d0));
 /* assume(length(t0) >= 1), assume(t0[i] > 0) */
 
 /* Returning the interval bounds (for the open interval): */
@@ -113,7 +132,7 @@ chi2(t1,t2,x) := (local(t1,t2,x), chin(t1,t2,x));
 chi3(t1,t2,t3,x) := (local(t1,t2,t3,x), chin(t1,t2,t3,x));
 
 hess_chi2 : hessian(chi2(t1,t2,x),[t1,t2,x]);
-/* if for example x has a value, then apply remvalue(x) */
+/* if for example x has a value, then apply remvalue(x), or, better, kill(x) */
 
 eigen_chi2(a,b,c) := (local(a,b,c), eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c])));
 /* a, b > 0, c > 1 */
