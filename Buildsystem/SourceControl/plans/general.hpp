@@ -539,6 +539,21 @@ git config --add branch.br.merge "refs/heads/master"
      <li> Pushing now via <code>git push</code> means pushing all (committed)
      changes to the central repository (all branches), while <code>git pull</code> on 
      some branch will pull in all changes related to the current branch only. </li>
+     <li> In order to have pulls which combine different pull-actions,
+     in .git/remotes for example the file "Laptop" has been created with
+     the content
+     \verbatim
+URL: ~LaptopArchiv/OKsystem/Transitional/
+Push: master:master
+Push: rijndael:rijndael
+Pull: master:master
+Pull: rijndael:rijndael
+     \endverbatim
+     which means, that by using <code>git pull Laptop</code> both branches 
+     are updated from the Laptop-archive (independently), and that by 
+     "git push" one could push both branches (as said elsewhere, "pull" seems 
+     to be better than "push" in case of non-bare repositories) --- this works
+     independently of the branch from where the pull/push is issued. </li>
      <li> Since br is assumed to be an extension of m, normal works happens
      in branch br, but when committing files, one has to take care only to 
      commit the special files, while for the other files one changes to branch
