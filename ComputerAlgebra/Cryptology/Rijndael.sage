@@ -5,6 +5,8 @@
 #! \deprecated To be replaced by genuine computer algebra
 #! \todo Write documentation on how to use this program (including
 #!   how to load it into Sage)
+#! \todo What is the meaning of the "Use By" paragraph? We should avoid
+#! machine-dependent information?
 
 #
 # Use By
