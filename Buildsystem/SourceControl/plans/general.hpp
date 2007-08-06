@@ -10,7 +10,18 @@
    <li> One has to check whether the post-receive script is being executed. </li>
    <li> Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
    (perhaps a missing group-membership). </li>
-   <li> OK: The following discussion seems irrelevant to me. Whether from his
+   <li> MG : From looking at the post-receive mail script, it seems to use sendmail in much
+   the same way as described below, setting the From: field to the address of the committer
+   and when pushing to cs-oksvr, git seems to use ssh to login as csmatthewg and from what I 
+   can see, the hooks are run as the user logged in (ie csmatthewg) which, it would seem
+   to me, would produce a similar scenario as listed below with sendmail. Perhaps a simple
+   line in the post-receive hook such as 
+   \verbatim
+echo "$USER pushed" >> /some/path
+   \endverbatim
+   would confirm whether or not the post-receive script is actually being run when MG pushes.
+   
+   OK: The following discussion seems irrelevant to me. Whether from his
    account MG can or cannot send e-mails doesn't matter, since Git doesn't
    know about it --- it's just the (arbitrary) e-mail-address specified in
    the config-file, nothing else. According to Configuration/Developers.html,
