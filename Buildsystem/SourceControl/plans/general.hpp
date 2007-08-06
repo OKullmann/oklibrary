@@ -6,9 +6,41 @@
 
 
   \bug MG submitted to the shared repository, but no notification e-mail was created?
-   - One has to check whether the post-receive script is being executed.
-   - Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
-     (perhaps a missing group-membership).
+  <ul>
+   <li>One has to check whether the post-receive script is being executed.<li>
+   <li>Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
+   (perhaps a missing group-membership).</li>
+   <li>MG - Point to note, if I use sendmail from the command line without the envelope sender
+   (-f option), the mail doesn't arrive, but if I specify it, the mail arrives fine. From
+   what I can see, the envelope sender is only set in the post-receive script if 
+   hooks.envelope_sender is set. Ie - 
+   \verbatim
+csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t -f 360678@swan.ac.uk
+To: 360678@swan.ac.uk
+From: 360678@swan.ac.uk
+Subject: Testing sendmail for git
+
+Testing
+. 
+   \endverbatim
+   Works but the following doesn't 
+   \verbatim
+csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t
+To: 360678@swan.ac.uk
+From: 360678@swan.ac.uk
+Subject: Testing sendmail for git
+
+Testing
+. 
+   \endverbatim
+   Perhaps the mail is being sent by the hook script but isn't being routed
+   by the university mail servers due to the envelope sender being set to 
+   csmatthewg or something similar which it doesn't recognise as a valid
+   address/user to route for? Perhaps someone with access to the mail logs
+   on ok-svr could take a look to see if there is anything to suggest such 
+   a problem?
+   </li>
+  </ul>
 
 
   \todo Notification-e-mails
