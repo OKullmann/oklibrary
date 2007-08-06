@@ -7,10 +7,21 @@
 
   \bug MG submitted to the shared repository, but no notification e-mail was created?
   <ul>
-   <li>One has to check whether the post-receive script is being executed.<li>
-   <li>Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
-   (perhaps a missing group-membership).</li>
-   <li>MG - Point to note, if I use sendmail from the command line without the envelope sender
+   <li> One has to check whether the post-receive script is being executed. </li>
+   <li> Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
+   (perhaps a missing group-membership). </li>
+   <li> OK: The following discussion seems irrelevant to me. Whether from his
+   account MG can or cannot send e-mails doesn't matter, since Git doesn't
+   know about it --- it's just the (arbitrary) e-mail-address specified in
+   the config-file, nothing else. According to Configuration/Developers.html,
+   the e-mail of MG is 360678@Swansea.ac.uk, and this is to be used. But
+   moreover, the point is not sending e-mails, it is the action after receiving!
+   Whether MG's e-mail-address is completely fake or not doesn't matter
+   at all for that --- the process doesn't know. (And note that the point
+   is that *nobody* gets a notification after MG's submissions! While if somebody
+   else submits then it works.)
+
+   MG - Point to note, if I use sendmail from the command line without the envelope sender
    (-f option), the mail doesn't arrive, but if I specify it, the mail arrives fine. From
    what I can see, the envelope sender is only set in the post-receive script if 
    hooks.envelope_sender is set. Ie - 
