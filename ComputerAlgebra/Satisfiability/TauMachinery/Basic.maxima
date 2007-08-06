@@ -87,10 +87,22 @@ zerop(x) := (local(x), is(equal(x,0)));
 notzerop(x) := (local(x), not zerop(x));
 /* Auxiliary function to test whether all entries of a list are zero */
 lzerop(l) := (local(l), is(emptyp(sublist_indices(l, notzerop))));
-sltau(t) := (local(t), if lzerop(t) then 0 else 1 / log(tau(t)));
-sltaun([t]) := (local(t), sltau(t));
-sltau2(x,y) := sltaun(x,y);
-sltau3(x,y,z) := sltaun(x,y,z);
+taumean(t) := (local(t), if lzerop(t) then 0 else float(log(length(t))) / log(tau(t)));
+/* assume length(t) >= 2 */
+taumeann([t]) := (local(t), taumean(t));
+taumean2(x,y) := (local (x,y), taumeann(x,y));
+taumean3(x,y,z) := (local(x,y,z), taumeann(x,y,z));
+
+meann([t]) := (local(t), mean(t));
+gmean(t) := (local(t), apply("*", t)^(1/length(t)));
+gmeann([t]) := (local(t), gmean(t));
+hmean(t) := (local(t), length(t) / apply("+", t^(-1)));
+hmeann([t]) := (local(t), hmean(t));
+genmean(t, p) := (local(t,p), if is(equal(p,0)) then gmean(t) else
+  mean(t^p)^(1/p));
+genmeann([u]) := (local(u), genmean(rest(u,-1), last(u)));
+genmean2(x,y,p) := (local(x,y,p), genmeann(x,y,p));
+genmean3(x,y,z,p) := (local(x,y,z,p), genmeann(x,y,z,p));
 
 /*
 *******************************************************
@@ -106,8 +118,11 @@ tau_line(x) := (local(x), tau(t0 + x * d0));
 logtau_line(x) := (local(x), log(tau(t0 + x * d0)));
 loglogtau_line(x) := (local(x), log(logtau_line(x)));
 tprob_line(x) := (local(x), tprob(t0 + x * d0)[i0]);
-sltau_line(x) := (local(x), sltau(t0 + x * d0));
+taumean_line(x) := (local(x), taumean(t0 + x * d0));
 /* assume(length(t0) >= 1), assume(t0[i] > 0) */
+taumeandiff_line(x) := (local(x, t), 
+  block([t : t0 + x * d0], taumean(t) - genmean(t, p0))
+);
 
 /* Returning the interval bounds (for the open interval): */
 tau_line_dom() := block(
