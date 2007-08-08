@@ -8,15 +8,15 @@
   \par Version 0.2.1
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
-    - Install Coq (8.1)
-    - Install ocaml (3.10.0) : DONE
-    - Install ocaml 3.09.3 : DONE
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
     - bug Building Sage 2.6
     - Build Sage 2.6 : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
+    - Install Coq (8.1) : DONE
+    - Install ocaml (3.10.0) : DONE
+    - Install ocaml 3.09.3 : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
@@ -67,6 +67,7 @@
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
+    - Improve Coq installation
     - Improve ocaml installation
 
 

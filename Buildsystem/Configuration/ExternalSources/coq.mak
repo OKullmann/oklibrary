@@ -12,6 +12,7 @@ coq_html_output ?= $(local_html_dir)/Coq.html
 coq_html_documentation_index_location ?= Coq.html
 
 coq_base_directory ?= $(ExternalSources)/Coq
+coq_installation_dir ?= $(coq_base_directory)/$(coq_recommended_version_number)
 
 coq_documentation_dir ?= $(ExternalSources_doc)/Coq/$(coq_recommended_version_number)
 coq_docu_page ?= $(doc_dir)/doxygen_html/db/d6c/docus_2Coq_8hpp.html

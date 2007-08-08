@@ -5,17 +5,17 @@
   \brief Plans regarding installation of Coq
   
   
-  \todo Install Coq (8.1)
+  \todo Improve Coq installation
   <ul>
-   <li> Manual system-wide installation:
-    <ol>
-     <li> <code>tar -xzf coq-8.1.tar.gz</code> </li>
-     <li> <code>cd coq-8.1</code> </li>
-     <li> <code>./configure -opt --prefix /usr/local -fsets all -reals all</code> </li>
-     <li> <code>make world</code> </li>
-     <li> <code>sudo make install</code> </li>
-    </ol>
-    The manual says
+   <li> Download documentation and make it available.
+   (So likely in SpecialBuilds/coq.mak all code regarding documentation
+   building has to be removed.)</li>
+   <li> How to make the man-pages available? </li>
+   <li> What about
+   <code>LablGtk2 not found: CoqIde will not be available</code>:
+   This library comes normally with ocaml ?! </li>
+   <li> Tell the Coq-people about the incompatibility with Ocaml 3.10.0. </li>
+   <li> The manual says
     \verbatim
    If you wish to write tactics (and that really means that you belong
    to advanced users !) you *must* keep the Coq sources, without cleaning
@@ -25,11 +25,33 @@
     not to use "make install", but then the manual etc. won't
     be installed? We ignore this first, since writing tactics
     will only come later, and we can reinstall Coq anytime. </li>
-   <li> Problems with "configure":
-    <ol>
-     <li> <code>LablGtk2 not found: CoqIde will not be available</code> This library comes normally with ocaml ?! </li>
-    </ol>
+  </ul>
+
+
+  \todo Improve ocaml installation
+  <ul>
+   <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
+   (The Coq installation claims it's not there, but it should
+   have been build by the Ocaml installation.) </li>
+   <li> Target "make cleanocaml" for removing the build-directory. </li>
+   <li> What about (after "configure")
+   \verbatim
+NDBM not found, the "dbm" library will not be supported.
+   \endverbatim
    </li>
+  </ul>
+
+
+  \todo Install Coq (8.1) : DONE
+  <ul>
+   <li> Manual system-wide installation:
+    <ol>
+     <li> <code>tar -xzf coq-8.1.tar.gz</code> </li>
+     <li> <code>cd coq-8.1</code> </li>
+     <li> <code>./configure -opt --prefix /usr/local -fsets all -reals all</code> </li>
+     <li> <code>make world</code> </li>
+     <li> <code>sudo make install</code> </li>
+    </ol>
    <li> Problems with "make world":
     <ol>
      <li>
@@ -198,22 +220,10 @@ cd ..
 make clean
      \endverbatim
      </li>
-     <li> Perhaps the documentation really must be downloaded. </li>
+     <li> The problem likely is that usage of "pa_ifdef.cmo" has
+     been deprecated in the Ocaml-language, and finally removed in 3.10.0,
+     but Coq has not been updated. </li>
     </ol>
-   </li>
-  </ul>
-
-
-  \todo Improve ocaml installation
-  <ul>
-   <li> Where do we get lablgtk2 (the problems seems to be version 2) ??
-   (The Coq installation claims it's not there, but it should
-   have been build by the Ocaml installation.) </li>
-   <li> Target "make cleanocaml" for removing the build-directory. </li>
-   <li> What about (after "configure")
-   \verbatim
-NDBM not found, the "dbm" library will not be supported.
-   \endverbatim
    </li>
   </ul>
 

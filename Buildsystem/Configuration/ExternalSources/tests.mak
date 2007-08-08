@@ -107,6 +107,10 @@ else
   endif
 endif
 
+# the following construction needs to be generalised by some function
+ocaml_docu_page_tag ?= <a href="$(ocaml_docu_page)">Ocaml installation page</a>
+
+
 # New variables for the configuration of building coq (to be designed 
 # and implemented):
 
