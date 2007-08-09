@@ -24,7 +24,7 @@ $(coq_targets) : coq-% : $(coq_directories)
 	export PATH=$(ocaml_bin_dir):${PATH}; $(postcondition) \
 	./configure -opt --prefix $(coq_base_directory)/$* -fsets all -reals all; $(postcondition) \
 	make world && make install; $(postcondition) \
-	cd doc; $(postcondition) \
+#	cd doc; $(postcondition) \
 # documentation ???
 
 # #################################

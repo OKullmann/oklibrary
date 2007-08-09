@@ -66,7 +66,7 @@
    </tr>
    <tr>
     <td> <code> ocaml-x.y.z </code> </td>
-    <td> Build the version x.y.z of ocaml, using ocaml ??? (for example
+    <td> Build the version x.y.z of ocaml (for example
     <code>ocaml-3.09.3</code>). </td>
    </tr>
   </table>
