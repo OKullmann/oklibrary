@@ -126,6 +126,14 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
   </ul>
 
 
+  \todo Problems with branch rijndael:
+  <ul>
+   <li> Why are there these merge-cascades?  Aparently on my laptop I merge master into rijndael,
+   then on the workstation again, and then again on the server??? </li>
+   <li> Git-gui used to allow to switch branches, but then it stopped doing so?? </li>
+  </ul>
+
+
   \todo Remote access
   <ul>
    <li> How does remote access work:

@@ -11,6 +11,7 @@
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
     - Notification-e-mails
+    - Problems with branch rijndael
     - Remote access
     - Tutorial on branching : DONE
     - On branching (in our situation) : DONE
