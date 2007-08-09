@@ -135,3 +135,32 @@ endif
 # the following construction needs to be generalised by some function
 coq_html_documentation_index_location_tag ?= <a href="$(coq_html_output)">$(coq_html_output)</a>
 
+
+# New variables for the configuration of building sage (to be designed 
+# and implemented):
+
+sage_call ?= $(sage_installation_dir)/sage
+
+sage_version_number_extraction := > /dev/null; echo $$?
+# sage doesn't allow to ask for the version number
+
+location_sage_call ?= $(shell which $(sage_call))
+ifeq ($(location_sage_call),)
+  sage_call_ready ?= NO
+else
+  output_sage_call ?=  $(shell $(sage_call) -h $(sage_version_number_extraction))
+  ifeq ($(output_sage_call),1)
+    version_sage_call ?= $(sage_recommended_version_number)
+  else
+    version_sage_call ?= UNKNOWN
+  endif
+  ifeq ($(version_sage_call),$(sage_recommended_version_number))
+    sage_call_ready ?= YES
+  else
+    sage_call_ready ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+sage_html_documentation_index_location_tag ?= <a href="$(sage_html_output)">$(sage_html_output)</a>
+
