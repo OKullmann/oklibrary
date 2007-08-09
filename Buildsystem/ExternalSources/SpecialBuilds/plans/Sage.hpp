@@ -6,9 +6,10 @@
 
 
   \bug Building Sage 2.6 : some python error on csltmh and cs-wsok
-   - which make-command is causing the trouble? "make pdf" ?
+   - which make-command is causing the trouble? "make pdf" ? DONE
+   (documentation is now downloaded)
 
-  \todo Building Sage 2.7
+  \todo Building Sage 2.7 DONE (problems solved with version 2.7.2)
   <ul>
    <li> Error related to gfortran:
    \verbatim
@@ -27,8 +28,8 @@ Error installing Fortran: On your system, you must install the gfortran VERSION 
    </li>
    <li> We need documentation for the other systems:
     <ol>
-     <li> Gap </li>
-     <li> Singular </li>
+     <li> Gap : DONE (not included in Sage; later from Gap itself) </li>
+     <li> Singular (not included in Sage; later from Gap itself) </li>
     </ol>
   </ul>
 

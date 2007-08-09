@@ -9,7 +9,7 @@
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
-    - bug Building Sage 2.6
+    - bug Building Sage 2.6 : DONE
     - Build Sage 2.6 : DONE
 
   \par
