@@ -11,25 +11,33 @@
    external source:
     <ol>
      <li> asciidoc </li>
-     <li> boost </li>
+     <li> %boost </li>
      <li> cmake </li>
-     <li> coq </li>
-     <li> doxygen </li>
-     <li> gcc </li>
+     <li> coq : DONE </li>
+     <li> doxygen : DONE </li>
+     <li> gcc : DONE </li>
      <li> git </li>
      <li> gmp </li>
      <li> mhash (remark about corrected files; content of package) </li>
      <li> mpfr </li>
-     <li> ocaml </li>
+     <li> ocaml : DONE </li>
      <li> postgresql </li>
      <li> r </li>
-     <li> sage </li>
+     <li> sage : DONE </li>
      <li> ubcsat (remark about corrected files; content of package) </li>
      <li> valgrind </li>
     </ol>
    </li>
    <li> For each of these docus-files there is a link from
    ExternalSources/docus/general.hpp. </li>
+  </ul>
+
+
+  \todo Computer algebra
+  <ul>
+   <li> Install Axiom. </li>
+   <li> Install Aldor (open source version). </li>
+   <li> What about Octave? Gap? Singular? </li>
   </ul>
 
 
