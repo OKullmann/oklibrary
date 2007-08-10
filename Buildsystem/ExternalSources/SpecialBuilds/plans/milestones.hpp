@@ -3,25 +3,7 @@
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2 (16.7.2007)
-
-  \par Version 0.2.1
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
-    - bug Building Sage 2.6 : DONE
-    - Build Sage 2.6 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:
-    - Install Coq (8.1) : DONE
-    - Install ocaml (3.10.0) : DONE
-    - Install ocaml 3.09.3 : DONE
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
-    - Building Boost 1_34_1 : DONE
-
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1 (10.8.2007)
 
   \par Version 0.2.2
 
@@ -70,6 +52,13 @@
     - Improve Coq installation
     - Improve ocaml installation
 
+  \par
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
+    - Computer algebra
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
+    - Improving the Sage installation
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
@@ -77,5 +66,6 @@
   \par Version history
 
    - 0.2   : 16.7.2007; initial version, several special systems can be build (the special builds are the stronger parts of module ExternalSources, while the general structure is lagging behind).
+   - 0.2.1 : 10.8.2007; built Sage and Coq (and Boost 1_34_1), and extended substantially the documentation system (docus pages, functionality checks, and linking).
 
 */
