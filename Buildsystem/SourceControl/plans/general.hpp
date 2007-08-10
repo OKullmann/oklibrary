@@ -128,9 +128,16 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
 
   \todo Problems with branch rijndael:
   <ul>
-   <li> Why are there these merge-cascades?  Aparently on my laptop I merge master into rijndael,
-   then on the workstation again, and then again on the server??? </li>
+   <li> Why are there these merge-cascades?  Apparently on my laptop I merge master into rijndael,
+   then on the workstation again, and then again on the server (without wanting to do so)???
+   It seems that setting up the pull's so that they automatically merge branches master and rijndael
+   doesn't work nicely: Every different repository performs the merge again, and does not
+   recognise that this has already happened. (Why is this the case? A bug?)
+   So the cure is that every branch just pulls "itself", and no automatic merges (different from
+   what is proposed below). It is then the responsibility of the submitter to make sure that branch
+   rijndael is always a superset of of branch master. </li>
    <li> Git-gui used to allow to switch branches, but then it stopped doing so?? </li>
+   <li> Likely we have to ask these questions on the git-mailing-list. </li>
   </ul>
 
 
