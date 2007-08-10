@@ -3,7 +3,7 @@
 /*!
   \file Buildsystem/ExternalSources/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources 0.1 (2.7.2007)
+  \module_version Buildsystem/ExternalSources 0.1.0.1 (2.7.2007)
 
   \par Version 0.1.1
 
