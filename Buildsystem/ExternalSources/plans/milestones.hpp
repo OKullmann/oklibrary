@@ -7,15 +7,15 @@
 
   \par Version 0.1.1
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.1
-  (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
-
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Directory structure of OKplatform/ExternalSources
     - Documenting ExternalSources.mak
     - Renaming : DONE
     - Plans-structure for ExternalSources : DONE
+
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.1 : DONE
+  (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
 
   \par Version 0.1.2
