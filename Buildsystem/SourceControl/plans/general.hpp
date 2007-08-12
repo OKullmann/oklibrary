@@ -10,7 +10,34 @@
    <li> One has to check whether the post-receive script is being executed. </li>
    <li> Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
    (perhaps a missing group-membership). </li>
-   <li> MG : From looking at the post-receive mail script, it seems to use sendmail in much
+   <li> MG : Looking at the mail log (as a sufficiently privileged user) 
+   \verbatim
+grep csmatthewg /var/log/mail -A 5
+   \endverbatim
+   the messages appear to have been sent, relayed through to the university mail servers.
+
+   Setting hooks.envelopesender to O.Kullmann@swansea.ac.uk didn't initially work as the post-receive
+   script sets the option as 
+   \verbatim 
+-f 'O.Kullmann@swansea.ac.uk' 
+   \endverbatim 
+   which results in the single quotes being
+   included in envelope sender address. Changing the script to use double quotes instead fixes this issue
+   and then with hooks.envelopesender set correctly, mails appear to go through without issue upon
+   pushing to a test repository with the same permissions and setup as Transitional.
+
+   \verbatim
+csmatthewg@cs-oksvr:~/Transitional> diff /work/Repositories/Git/bare/Transitional/hooks/post-receive hooks/post-receive 
+603c603
+<               envelopesender="-f '$envelopesender'"
+---
+>               envelopesender="-f \"$envelopesender\""
+
+csmatthewg@cs-oksvr:~/Transitional> git config hooks.envelopesender
+O.Kullmann@swansea.ac.uk
+   \endverbatim
+   
+   MG : From looking at the post-receive mail script, it seems to use sendmail in much
    the same way as described below, setting the From: field to the address of the committer
    and when pushing to cs-oksvr, git seems to use ssh to login as csmatthewg and from what I 
    can see, the hooks are run as the user logged in (ie csmatthewg) which, it would seem
