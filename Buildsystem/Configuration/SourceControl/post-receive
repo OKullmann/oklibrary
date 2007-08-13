@@ -600,7 +600,7 @@ if [ -n "$1" -a -n "$2" -a -n "$3" ]; then
 	PAGER= generate_email $2 $3 $1
 else
 	if [ -n "$envelopesender" ]; then
-		envelopesender="-f '$envelopesender'"
+		envelopesender="-f \"$envelopesender\""
 	fi
 
 	while read oldrev newrev refname

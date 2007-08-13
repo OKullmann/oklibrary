@@ -7,9 +7,12 @@
 
   \bug MG submitted to the shared repository, but no notification e-mail was created?
   <ul>
-   <li> One has to check whether the post-receive script is being executed. </li>
-   <li> Most obvious guess is that something's wrong with the identity of MG on cs-oksvr
-   (perhaps a missing group-membership). </li>
+   <li> Changes performed as proposed below (using
+   \verbatim
+git config hooks.envelopesender O.Kullmann@Swansea.ac.uk
+   \endverbatim
+   on the shared central repository). One has to see whether it works now.
+   </li>
    <li> MG : Looking at the mail log (as a sufficiently privileged user) 
    \verbatim
 grep csmatthewg /var/log/mail -A 5
