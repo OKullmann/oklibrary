@@ -105,7 +105,23 @@ Testing
       "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
       tag? </li>
       <li> Additionally, for each log-message we need the summary of
-      changes. </li>
+      changes.
+
+      MG - This should be possible, as git-log and git-show can display
+      the files committed, it is simply that the option is discussed in the
+      man pages for git-diff-tree and so on which these higher level commands
+      use. For example 
+      \verbatim 
+git show --name-status -r
+git log --name-status -r -10 | cat
+      \endverbatim
+      "name-status" here causes the filenames and status for each commit to appear
+      and "-r" ensures it is recursive, which seems necessarily to ensure the full path 
+      is shown. 
+
+      I will look into adding this functionality to the post-receive script in a test repository
+      as well as the other issues.
+      </li>
       <li> Replace "[SCM]" by "[OKlibrary::Transitional]". DONE </li>
      </ol>
    </li>
