@@ -5,94 +5,6 @@
   \brief Plans and todos for the versioning control system
 
 
-  \bug MG submitted to the shared repository, but no notification e-mail was created?
-  <ul>
-   <li> Changes performed as proposed below (using
-   \verbatim
-git config hooks.envelopesender O.Kullmann@Swansea.ac.uk
-   \endverbatim
-   on the shared central repository). One has to see whether it works now.
-   </li>
-   <li> MG : Looking at the mail log (as a sufficiently privileged user) 
-   \verbatim
-grep csmatthewg /var/log/mail -A 5
-   \endverbatim
-   the messages appear to have been sent, relayed through to the university mail servers.
-
-   Setting hooks.envelopesender to O.Kullmann@swansea.ac.uk didn't initially work as the post-receive
-   script sets the option as 
-   \verbatim 
--f 'O.Kullmann@swansea.ac.uk' 
-   \endverbatim 
-   which results in the single quotes being
-   included in envelope sender address. Changing the script to use double quotes instead fixes this issue
-   and then with hooks.envelopesender set correctly, mails appear to go through without issue upon
-   pushing to a test repository with the same permissions and setup as Transitional.
-
-   \verbatim
-csmatthewg@cs-oksvr:~/Transitional> diff /work/Repositories/Git/bare/Transitional/hooks/post-receive hooks/post-receive 
-603c603
-<               envelopesender="-f '$envelopesender'"
----
->               envelopesender="-f \"$envelopesender\""
-
-csmatthewg@cs-oksvr:~/Transitional> git config hooks.envelopesender
-O.Kullmann@swansea.ac.uk
-   \endverbatim
-   
-   MG : From looking at the post-receive mail script, it seems to use sendmail in much
-   the same way as described below, setting the From: field to the address of the committer
-   and when pushing to cs-oksvr, git seems to use ssh to login as csmatthewg and from what I 
-   can see, the hooks are run as the user logged in (ie csmatthewg) which, it would seem
-   to me, would produce a similar scenario as listed below with sendmail. Perhaps a simple
-   line in the post-receive hook such as 
-   \verbatim
-echo "$USER pushed" >> /some/path
-   \endverbatim
-   would confirm whether or not the post-receive script is actually being run when MG pushes.
-   
-   OK: The following discussion seems irrelevant to me. Whether from his
-   account MG can or cannot send e-mails doesn't matter, since Git doesn't
-   know about it --- it's just the (arbitrary) e-mail-address specified in
-   the config-file, nothing else. According to Configuration/Developers.html,
-   the e-mail of MG is 360678@Swansea.ac.uk, and this is to be used. But
-   moreover, the point is not sending e-mails, it is the action after receiving!
-   Whether MG's e-mail-address is completely fake or not doesn't matter
-   at all for that --- the process doesn't know. (And note that the point
-   is that *nobody* gets a notification after MG's submissions! While if somebody
-   else submits then it works.)
-
-   MG - Point to note, if I use sendmail from the command line without the envelope sender
-   (-f option), the mail doesn't arrive, but if I specify it, the mail arrives fine. From
-   what I can see, the envelope sender is only set in the post-receive script if 
-   hooks.envelope_sender is set. Ie - 
-   \verbatim
-csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t -f 360678@swan.ac.uk
-To: 360678@swan.ac.uk
-From: 360678@swan.ac.uk
-Subject: Testing sendmail for git
-
-Testing
-. 
-   \endverbatim
-   Works but the following doesn't 
-   \verbatim
-csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t
-To: 360678@swan.ac.uk
-From: 360678@swan.ac.uk
-Subject: Testing sendmail for git
-
-Testing
-. 
-   \endverbatim
-   Perhaps the mail is being sent by the hook script but isn't being routed
-   by the university mail servers due to the envelope sender being set to 
-   csmatthewg or something similar which it doesn't recognise as a valid
-   address/user to route for? Perhaps someone with access to the mail logs
-   on ok-svr could take a look to see if there is anything to suggest such 
-   a problem?
-   </li>
-  </ul>
 
 
   \todo Notification-e-mails
@@ -174,6 +86,8 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
 
   \todo Problems with branch rijndael:
   <ul>
+   <li> Git-gui used to allow to switch branches, but then it stopped doing so?? </li>
+   <li> Likely we have to ask these questions on the git-mailing-list. </li>
    <li> Why are there these merge-cascades?  Apparently on my laptop I merge master into rijndael,
    then on the workstation again, and then again on the server (without wanting to do so)???
    It seems that setting up the pull's so that they automatically merge branches master and rijndael
@@ -181,9 +95,7 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
    recognise that this has already happened. (Why is this the case? A bug?)
    So the cure is that every branch just pulls "itself", and no automatic merges (different from
    what is proposed below). It is then the responsibility of the submitter to make sure that branch
-   rijndael is always a superset of of branch master. </li>
-   <li> Git-gui used to allow to switch branches, but then it stopped doing so?? </li>
-   <li> Likely we have to ask these questions on the git-mailing-list. </li>
+   rijndael is always a superset of of branch master. DONE (in this way it works reasonably) </li>
   </ul>
 
 
@@ -458,6 +370,96 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 1.8.2006: 5.0 MB; Transitional total: 16.6 MB </li>
      <li> 10.8.2006: 5.1 MB; Transitional total: 16.7 MB </li>
     </ol>
+   </li>
+  </ul>
+
+
+  \todo MG submitted to the shared repository, but no notification e-mail was created? DONE
+  <ul>
+   <li> Changes performed as proposed below (using
+   \verbatim
+git config hooks.envelopesender O.Kullmann@Swansea.ac.uk
+   \endverbatim
+   on the shared central repository). One has to see whether it works now.
+   </li>
+   <li> MG : Looking at the mail log (as a sufficiently privileged user) 
+   \verbatim
+grep csmatthewg /var/log/mail -A 5
+   \endverbatim
+   the messages appear to have been sent, relayed through to the university mail servers.
+
+   Setting hooks.envelopesender to O.Kullmann@swansea.ac.uk didn't initially work as the post-receive
+   script sets the option as 
+   \verbatim 
+-f 'O.Kullmann@swansea.ac.uk' 
+   \endverbatim 
+   which results in the single quotes being
+   included in envelope sender address. Changing the script to use double quotes instead fixes this issue
+   and then with hooks.envelopesender set correctly, mails appear to go through without issue upon
+   pushing to a test repository with the same permissions and setup as Transitional.
+
+   \verbatim
+csmatthewg@cs-oksvr:~/Transitional> diff /work/Repositories/Git/bare/Transitional/hooks/post-receive hooks/post-receive 
+603c603
+<               envelopesender="-f '$envelopesender'"
+---
+>               envelopesender="-f \"$envelopesender\""
+
+csmatthewg@cs-oksvr:~/Transitional> git config hooks.envelopesender
+O.Kullmann@swansea.ac.uk
+   \endverbatim
+   
+   MG : From looking at the post-receive mail script, it seems to use sendmail in much
+   the same way as described below, setting the From: field to the address of the committer
+   and when pushing to cs-oksvr, git seems to use ssh to login as csmatthewg and from what I 
+   can see, the hooks are run as the user logged in (ie csmatthewg) which, it would seem
+   to me, would produce a similar scenario as listed below with sendmail. Perhaps a simple
+   line in the post-receive hook such as 
+   \verbatim
+echo "$USER pushed" >> /some/path
+   \endverbatim
+   would confirm whether or not the post-receive script is actually being run when MG pushes.
+   
+   OK: The following discussion seems irrelevant to me. Whether from his
+   account MG can or cannot send e-mails doesn't matter, since Git doesn't
+   know about it --- it's just the (arbitrary) e-mail-address specified in
+   the config-file, nothing else. According to Configuration/Developers.html,
+   the e-mail of MG is 360678@Swansea.ac.uk, and this is to be used. But
+   moreover, the point is not sending e-mails, it is the action after receiving!
+   Whether MG's e-mail-address is completely fake or not doesn't matter
+   at all for that --- the process doesn't know. (And note that the point
+   is that *nobody* gets a notification after MG's submissions! While if somebody
+   else submits then it works.)
+
+   MG - Point to note, if I use sendmail from the command line without the envelope sender
+   (-f option), the mail doesn't arrive, but if I specify it, the mail arrives fine. From
+   what I can see, the envelope sender is only set in the post-receive script if 
+   hooks.envelope_sender is set. Ie - 
+   \verbatim
+csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t -f 360678@swan.ac.uk
+To: 360678@swan.ac.uk
+From: 360678@swan.ac.uk
+Subject: Testing sendmail for git
+
+Testing
+. 
+   \endverbatim
+   Works but the following doesn't 
+   \verbatim
+csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t
+To: 360678@swan.ac.uk
+From: 360678@swan.ac.uk
+Subject: Testing sendmail for git
+
+Testing
+. 
+   \endverbatim
+   Perhaps the mail is being sent by the hook script but isn't being routed
+   by the university mail servers due to the envelope sender being set to 
+   csmatthewg or something similar which it doesn't recognise as a valid
+   address/user to route for? Perhaps someone with access to the mail logs
+   on ok-svr could take a look to see if there is anything to suggest such 
+   a problem?
    </li>
   </ul>
 
