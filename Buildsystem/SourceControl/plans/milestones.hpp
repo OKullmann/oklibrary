@@ -13,6 +13,7 @@
     - Notification-e-mails
     - Problems with branch rijndael
     - Remote access
+    - bug notification e-mail : DONE
     - Tutorial on branching : DONE
     - On branching (in our situation) : DONE
     - Git on the cs-oksvr : DONE
