@@ -19,7 +19,7 @@ export
 # ######################################################################
 
 prefix := $(shell pwd)
-# OK: this looks odd???
+# OK: this looks odd??? Must be eliminated.
 
 # #################################
 # Main targets

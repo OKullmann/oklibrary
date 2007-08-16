@@ -4,7 +4,7 @@
 # Directory Structure
 # ################################## 
 
-git-base-directory := $(prefix)/Git
+git-base-directory := $(ExternalSources)/Git
 git_doc_dir := $(external_sources_doc_base_dir)/Git
 git-directories := $(git-base-directory) $(git_doc_dir)
 
@@ -22,7 +22,7 @@ create_git_dirs : $(git-directories)
 git : $(git_recommended)
 
 $(git_targets) : create_git_dirs
-	$(call unarchive,$@,$(git-base-directory)) $(postcondition) \
+	$(call unarchive,sources/Git/$@,$(git-base-directory)) $(postcondition) \
 	cd $(git-base-directory)/$@; $(postcondition) \
 	make configure; $(postcondition) \
 	sh ./configure --prefix=/usr/local; $(postcondition) \
