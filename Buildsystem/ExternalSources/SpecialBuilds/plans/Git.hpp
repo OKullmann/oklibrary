@@ -4,6 +4,7 @@
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp
   \brief Plans regarding installation of Git
 
+
   \todo Prerequisites
   <ul>
    <li> The build system can install asciidoc if needed; put it into
@@ -15,7 +16,13 @@
      <li> Suse 10.0 has it. </li>
     </ol>
    </li>
+   <li> What about
+   \verbatim
+/bin/sh: curl-config: command not found
+   \endverbatim
+   ??? Is this another missing prerequisite? </li>
   </ul>
+
 
 */
 

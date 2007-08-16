@@ -103,6 +103,8 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new view
   of the configuration centre)
   <ul>
+   <li> Variable "prefix" in ExternalSources/Makefile should be replaced by
+   variable ExternalSources. </li>
    <li> How to define variables like Boost and Ubcsat in general?
      We need a nice little method (plus documentation), so that we can add easily as
      many external libraries as we want. </li>

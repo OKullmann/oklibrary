@@ -3,6 +3,7 @@
 # Configuration variables regarding installation and documentation of external sources
 
 ExternalSources_doc ?= $(ExternalSources)/doc
+ExternalSources_sources ?= $(ExternalSources)/sources
 
 include $(OKconfiguration)/ExternalSources/doxygen.mak
 include $(OKconfiguration)/ExternalSources/gcc.mak
@@ -152,8 +153,8 @@ asciidoc_recommended := $(asciidoc_targets_prefix)$(asciidoc_recommended_version
 # Git
 # ###############################
 
-git_recommended_version_number ?= 1.5.2.4
-git_supported_version_numbers ?= $(git_recommended_version_number) 1.5.2.3
+git_recommended_version_number ?= 1.5.2.5
+git_supported_version_numbers ?= $(git_recommended_version_number) 1.5.2.4
 
 git_prefix ?= git
 git_html_documentation_index_location ?= $(ExternalSources_doc)/Git/Documentation/git.html
