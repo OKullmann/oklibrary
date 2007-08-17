@@ -17,6 +17,7 @@
   \par
    In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
     - Building the Internet-page
+    - Domain name
 
 
 
