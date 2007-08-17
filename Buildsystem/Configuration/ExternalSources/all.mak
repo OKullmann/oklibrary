@@ -11,13 +11,14 @@ include $(OKconfiguration)/ExternalSources/r.mak
 include $(OKconfiguration)/ExternalSources/ocaml.mak
 include $(OKconfiguration)/ExternalSources/coq.mak
 include $(OKconfiguration)/ExternalSources/sage.mak
+include $(OKconfiguration)/ExternalSources/git.mak
 
 # #################################
 # Boost
 # #################################
 
 boost_recommended_version_number ?= 1_34_1
-boost_supported_not_recommended_version_numbers ?= 1_34_0
+boost_supported_not_recommended_version_numbers ?=
 boost_supported_version_numbers ?= $(boost_supported_not_recommended_version_numbers) $(boost_recommended_version_number)
 
 boost_prefix ?= boost
@@ -148,23 +149,6 @@ asciidoc_prefix ?= asciidoc
 asciidoc_targets_prefix := $(asciidoc_prefix)-
 asciidoc_targets := $(addprefix $(asciidoc_targets_prefix), $(asciidoc_supported_version_numbers))
 asciidoc_recommended := $(asciidoc_targets_prefix)$(asciidoc_recommended_version_number)
-
-# ################################
-# Git
-# ###############################
-
-git_recommended_version_number ?= 1.5.2.5
-git_supported_version_numbers ?= $(git_recommended_version_number) 1.5.2.4
-
-git_prefix ?= git
-git_html_documentation_index_location ?= $(ExternalSources_doc)/Git/Documentation/git.html
-
-git_homepage_url := http://git.or.cz/
-git_documentation_url := http://git.or.cz/\#documentation
-
-git_targets_prefix := $(git_prefix)-
-git_targets := $(addprefix $(git_targets_prefix), $(git_supported_version_numbers))
-git_recommended := $(git_targets_prefix)$(git_recommended_version_number)
 
 # ################################
 # Cmake
