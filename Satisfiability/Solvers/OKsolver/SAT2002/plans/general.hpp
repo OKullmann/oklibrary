@@ -6,13 +6,38 @@
   old OKsolver
 
 
-   \todo Tests
-   <ul>
-    <li> Test the example file of Marijn Heule, on cs-wsok and csltok. </li>
-   </ul>
+  \bug Uninitialised values with optimised inlined versions
+  <ul>
+   <li> On cs-wsok, from the 2*3=6 executables for the OKsolver,
+   when run on the example data/uuf250-011.cnf, exactly those two inlined
+   "Gesamt" and "GesamtOKs" and compiled with optimisation fail (apparently
+   get into an infinite loop; the other programs produce the same
+   results, and valgrind can find no fail with them), yielding
+   \verbatim
+bin> valgrind ./Gesamt-O3-DNDEBUG uuf250-011.cnf
+==30110== Conditional jump or move depends on uninitialised value(s)
+==30110==    at 0x407597: Reduktion1 (in /home/csoliver/SAT-Algorithmen/OKplatform/system_directories/bin/Gesamt-O3-DNDEBUG)
+==30110==    by 0x409E95: main (in /home/csoliver/SAT-Algorithmen/OKplatform/system_directories/bin/Gesamt-O3-DNDEBUG)
+   \endverbatim
+   There could be further uninitialised values, or it could be a compiler
+   but (but suspicious that it's again in Reduktion1). The correct result is
+   \verbatim
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=250 initial_number_of_clauses=1065 initial_number_of_literal_occurrences=3195 running_time(s)=8.6 number_of_nodes=9681 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=65579 number_of_pure_literals=1402 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=25 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=45382 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=uuf250-011.cnf
+   \endverbatim
+   To emphasise, the program OK runs correct in both versions (also OK-O3-DNDEBUG)).
+   </li>
+  </ul>
 
 
-   \todo Language standards
+  \todo Tests
+  <ul>
+   <li> Test the example file of Marijn Heule, on cs-wsok and csltok. </li>
+   <li> Now under SAT2002/data. </li>
+  </ul>
+
+
+  \todo Language standards
   <ul>
    <li> Perhaps move everything to C++ (but no real changes to any data structures, etc.,
    only using C++ header files etc.). Or?? </li>

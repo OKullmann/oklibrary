@@ -10,6 +10,7 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - bug Uninitialised values with optimised inlined versions
     - Tests
     - bug Uninitialised values with the old OKsolver : DONE
 
