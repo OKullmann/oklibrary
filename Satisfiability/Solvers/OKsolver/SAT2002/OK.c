@@ -99,6 +99,8 @@
 
 /* ------------------------------------------------------------- */
 
+const bool internal = false; // keine Entwicklungsversion
+
 unsigned int Sprache = SPRACHE;
 unsigned int Standard = STANDARD;
 
@@ -136,7 +138,7 @@ bool randomisiert = false;
 #    error "Keine Kombination von DIMACS- und XML-Format moeglich!"
 #  endif
 bool spezRueckgabe = true; // Kodierung des Ergebnisses im Rueckgabewert
-Ausgabeformat Format = Dimacs_Format;
+enum Ausgabeformat Format = Dimacs_Format;
 #else
 bool spezRueckgabe = false;
 #  ifdef XMLAUS
@@ -206,7 +208,7 @@ static char* Wurzel = NULL;
 
 enum Ergebniswerte {SAT = 1, UNSAT = 0, Unbestimmt = 2};
 
-static Ergebniswerte s = Unbestimmt; /* Ergebniswert */
+static enum Ergebniswerte s = Unbestimmt; /* Ergebniswert */
 
 
 /* ------------------------------------------------------------- */
@@ -231,7 +233,7 @@ enum Spruenge { SAT1, SAT2 };
 
 struct Sammlung {
   unsigned int P2, N2, altZeiger2;
-  Spruenge Ruecksprung;
+  enum Spruenge Ruecksprung;
   unsigned int *AnzK2;
 #ifndef LOKALLERNEN
   Pfadinfo *altTiefe;
@@ -451,14 +453,14 @@ void FinaliseSATPath() {
 /* Die (rekursive) Loesungs-Prozedur */
 
 
-static Ergebniswerte SATEntscheidung( void )
+static enum Ergebniswerte SATEntscheidung( void )
 
 {
   unsigned int i;
   float opta; float a; unsigned int optaS;
   VAR v;
   VZ optZweig;
-  Spruenge r;
+  enum Spruenge r;
   unsigned int DN, DN2;
   StapeleintragFZ Z;
 
@@ -1019,7 +1021,7 @@ static char *NameBel = NULL; char *NameMon = NULL;
 
 
 
-int main(unsigned int argc, char *argv[])
+int main(int argc, char *argv[])
 
 {
   char *Ausgabedatei = "OKs" VERSIONSNUMMER1 "_" VERSIONSNUMMER2 "_" OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4".res";
@@ -1135,7 +1137,6 @@ int main(unsigned int argc, char *argv[])
 	  printf("%s/%s\" />\n", getenv("PWD"), argv[0]);
 	printf("  <options string = \"%s\" />\n", OPTIONENKENNUNG5 OPTIONENKENNUNG6 OPTIONENKENNUNG7 OPTIONENKENNUNG1 OPTIONENKENNUNG2 OPTIONENKENNUNG3 OPTIONENKENNUNG4);
 	{
-	  extern bool internal;
 	  if (internal)
 	    printf("  <internal/>\n");
 	}

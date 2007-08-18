@@ -12,6 +12,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+const bool internal = false; // keine Entwicklungsversion
+
 #ifdef BAUMRES
 
 unsigned int ANZWORTE;
