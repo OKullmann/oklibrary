@@ -164,3 +164,27 @@ endif
 # the following construction needs to be generalised by some function
 sage_html_documentation_index_location_tag ?= <a href="$(sage_html_output)">$(sage_html_output)</a>
 
+# New variables for the configuration of building git (to be designed 
+# and implemented):
+
+git_call ?= git
+
+git_version_number_extraction := awk '/ [0-9]\.[0-9]\.[0-9]\.[0-9]/{print $$3}'
+# assumes that the output of "git --version" contains a line of the form
+# (for example) "git version 1.5.2.4"
+
+location_git_call ?= $(shell which $(git_call))
+ifeq ($(location_git_call),)
+  git_call_ready ?= NO
+else
+  version_git_call ?= $(shell $(git_call) --version | $(git_version_number_extraction))
+  ifeq ($(version_git_call),$(git_recommended_version_number))
+    git_call_ready ?= YES
+  else
+    git_call_ready ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+git_html_documentation_index_location_tag ?= <a href="$(git_html_documentation_index_location)">$(git_html_documentation_index_location)</a>
+

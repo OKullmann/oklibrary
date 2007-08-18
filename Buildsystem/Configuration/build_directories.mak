@@ -30,7 +30,7 @@ test-lib_dir ?= $(lib_dir)/tests/$(module-name)
 # Directory for current module test dependency files:
 test-aux_dir ?= $(aux_dir)/tests/$(module-name)
 
-build_directories ?= \
+build_directories = \
                $(bin_dir) \
                $(lib_dir) \
                $(aux_dir) \
