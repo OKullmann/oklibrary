@@ -12,6 +12,7 @@ include $(OKconfiguration)/ExternalSources/ocaml.mak
 include $(OKconfiguration)/ExternalSources/coq.mak
 include $(OKconfiguration)/ExternalSources/sage.mak
 include $(OKconfiguration)/ExternalSources/git.mak
+include $(OKconfiguration)/ExternalSources/gmp.mak
 
 # #################################
 # Boost
@@ -178,20 +179,4 @@ mpfr_prefix ?= mpfr
 mpfr_targets_prefix := $(mpfr_prefix)-
 mpfr_targets := $(addprefix $(mpfr_targets_prefix), $(mpfr_supported_version_numbers))
 mpfr_recommended := $(mpfr_targets_prefix)$(mpfr_recommended_version_number)
-
-# ################################
-# gmp
-# ###############################
-
-gmp_recommended_version_number ?= 4.2.1
-gmp_supported_version_numbers ?= $(gmp_recommended_version_number)
-
-gmp_prefix ?= gmp
-
-gmp_homepage_url := http://gmplib.org/
-gmp_documentation_url := http://gmplib.org/\#DOC
-
-gmp_targets_prefix := $(gmp_prefix)-
-gmp_targets := $(addprefix $(gmp_targets_prefix), $(gmp_supported_version_numbers))
-gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)
 

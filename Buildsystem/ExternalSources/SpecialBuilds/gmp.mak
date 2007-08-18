@@ -4,30 +4,31 @@
 # Directory Structure
 # ################################## 
 
-gmp-base-directory := $(prefix)/gmp
-gmp-directories := $(gmp-base-directory)
+gmp_directories := $(gmp_base_directory)
 
-.PHONY : gmp $(gmp_targets) create_gmp_dirs
+.PHONY : gmp $(gmp_targets)
 
 # #################################
 # Main gmp targets
 # #################################
 
-$(gmp-directories) : % : 
+$(gmp_directories) : % : 
 	mkdir -p $@
 
 gmp : $(gmp_recommended)
 
-$(gmp_targets) : $(gmp-directories)
-	$(call unarchive,$@,$(gmp-base-directory))
-	cd $(gmp-base-directory)/$@; $(postcondition) \
+$(gmp_targets) : $(gmp_directories)
+	$(call unarchive,sources/Gmp/$@,$(gmp_base_directory)) $(postcondition) \
+	cd $(gmp_base_directory)/$@; $(postcondition) \
 	./configure; $(postcondition) \
 	make; $(postcondition) \
-	sudo make install; $(postcondition)
+	make check; $(postcondition) \
+	cd doc	&& make gmp.dvi ; $(postcondition) \
+#	sudo make install; $(postcondition)
 
 # #################################
 # Cleaning
 # #################################
 
 cleanallgmp : 
-	-rm -rf $(gmp-base-directory)
+	-rm -rf $(gmp_base_directory)
