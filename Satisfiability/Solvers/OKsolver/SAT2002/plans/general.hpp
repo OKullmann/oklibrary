@@ -6,21 +6,10 @@
   old OKsolver
 
 
-  \bug Uninitialised values with the old OKsolver
-
-  Running the OKsolver (for example the executable "Gesamt", but the same arises with
-  the two other versions "OK" and "GesamtOKs") with valgrind we get
-  \verbatim
-system_directories/bin> valgrind ./OK ${OKPLATFORM}/OKsystem/Transitional/QuantumPhysics/data/Peres33PointConfiguration.cnf
-...
-==8114== Conditional jump or move depends on uninitialised value(s)
-==8114==    at 0x804AC12: Reduktion1 (Reduktion.c:501)
-==8114==    by 0x804C832: SATEntscheidung (OK.c:481)
-==8114==    by 0x804FA94: main (OK.c:1379)
-   \endverbatim
-   The first guess is that the data member "belegt" is not properly (0-)initialised (apparently this
-   did not happen with older versions of gcc). Perhaps we eliminate first all warnings. How does valgrind know about the uninitialised values?
-   Attaching gdb and inspecting the value of v does show anything?
+   \todo Tests
+   <ul>
+    <li> Test the example file of Marijn Heule, on cs-wsok and csltok. </li>
+   </ul>
 
 
    \todo Language standards
@@ -90,6 +79,24 @@ system_directories/bin> valgrind ./OK ${OKPLATFORM}/OKsystem/Transitional/Quantu
    <li> We want to leave the code mainly as it is, but we can add doxygen
    documentation. </li>
   </ul>
+
+
+  \bug Uninitialised values with the old OKsolver : DONE (when initialising
+  the variables, then now also all are set to "unassigned")
+
+  Running the OKsolver (for example the executable "Gesamt", but the same arises with
+  the two other versions "OK" and "GesamtOKs") with valgrind we get
+  \verbatim
+system_directories/bin> valgrind ./OK ${OKPLATFORM}/OKsystem/Transitional/QuantumPhysics/data/Peres33PointConfiguration.cnf
+...
+==8114== Conditional jump or move depends on uninitialised value(s)
+==8114==    at 0x804AC12: Reduktion1 (Reduktion.c:501)
+==8114==    by 0x804C832: SATEntscheidung (OK.c:481)
+==8114==    by 0x804FA94: main (OK.c:1379)
+   \endverbatim
+   The first guess is that the data member "belegt" is not properly (0-)initialised (apparently this
+   did not happen with older versions of gcc). Perhaps we eliminate first all warnings. How does valgrind know about the uninitialised values?
+   Attaching gdb and inspecting the value of v does show anything?
 
 */
 

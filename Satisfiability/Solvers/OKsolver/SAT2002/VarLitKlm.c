@@ -605,6 +605,7 @@ void *VarLitKlmV(void *Z)
       {
 	v++;
         assert(v0);
+        v0 -> belegt = false;
 	v0 -> nae = v;
         assert(v);
 	v -> vor = v0;
