@@ -369,6 +369,7 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 29.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
      <li> 1.8.2006: 5.0 MB; Transitional total: 16.6 MB </li>
      <li> 10.8.2006: 5.1 MB; Transitional total: 16.7 MB </li>
+     <li> 18.8.2006: 5.2 MB; Transitional total: 17.0 MB </li>
     </ol>
    </li>
   </ul>
