@@ -1,0 +1,96 @@
+// Oliver Kullmann, 17.8.2007 (Swansea)
+
+/*!
+  \file Solvers/OKsolver/SAT2002/plans/general.hpp
+  \brief Plans on the maintenance of the code for the
+  old OKsolver
+
+
+  \bug Uninitialised values with the old OKsolver
+
+  Running the OKsolver (for example the executable "Gesamt", but the same arises with
+  the two other versions "OK" and "GesamtOKs") with valgrind we get
+  \verbatim
+system_directories/bin> valgrind ./OK ${OKPLATFORM}/OKsystem/Transitional/QuantumPhysics/data/Peres33PointConfiguration.cnf
+...
+==8114== Conditional jump or move depends on uninitialised value(s)
+==8114==    at 0x804AC12: Reduktion1 (Reduktion.c:501)
+==8114==    by 0x804C832: SATEntscheidung (OK.c:481)
+==8114==    by 0x804FA94: main (OK.c:1379)
+   \endverbatim
+   The first guess is that the data member "belegt" is not properly (0-)initialised (apparently this
+   did not happen with older versions of gcc). Perhaps we eliminate first all warnings. How does valgrind know about the uninitialised values?
+   Attaching gdb and inspecting the value of v does show anything?
+
+
+   \todo Language standards
+  <ul>
+   <li> Perhaps move everything to C++ (but no real changes to any data structures, etc.,
+   only using C++ header files etc.). Or?? </li>
+   <li> Why does GesamtOKs.cpp want to be a C++ program --- maybe we just stick to C?
+   Would be more honest! On the other hand, we are more knowledgeable with C++.) </li>
+   <li> The program uses typically C-methods to simulate abstract data types (a functional
+   interface is build, hiding all pointer access, which hapens in the implementation files).
+   So it appears that we better stick to C. </li>
+   <li> Eliminate all warnings. </li>
+   <li> Use standard include-guards. </li>
+  </ul>
+
+
+  \todo Buildsystem (replacing Buildtools/UebersetzungOKs.plx)
+  <ul>
+   <li> That Perl-script had the following purpose:
+    <ol>
+     <li> Reflect the settings of macro, compilation-options and
+     the choice of heuristics etc. in the name of the
+     executable (with suffix ".sa"). </li>
+     <li> Compile always a standard selection of combinations of
+     macro-settings (for the different variants of the OKsolver). </li>
+     <li> Create directories with a running number, containing
+     the created executables, for ease of archiving. </li>
+     <li> Take all compilation units, and insert them into one big
+     stand-alone file "GesamtOKs.cpp". </li>
+    </ol>
+   </li>
+   <li> We need to incorporate this functionality with our
+   build system. </li>
+   <li> Since we do not do any more experiments on variations of
+   the old OKsolver, we do not need to create the sequence
+   of directories anymore here. </li>
+   <li> The compilation of different variants could be handled
+   by creating files with the corresponding names to be created,
+   making them symbolic links to the main program, while
+   the compiler-options are set special for each of these variants. </li>
+   <li> There are three programs:
+    <ol>
+     <li> OK.c : standard C program (assumes linking with the other compilation units) </li>
+     <li> Gesamt.c : Same as OK.c, but includes all other compilation units, and thus
+     needs no linking. </li>
+     <li> GesamtOKs.cpp : Produced by UebersetzungOKs.plx out of all the compilation units
+     (and is treated as C++). (However OK.h and Parameter.h are not inserted, but included.) </li>
+    </ol>
+   <li> There should be no need anymore for the created file GesamtOKs.cpp. </li>
+   <li> The difference between OK.c and Gesamt.c is that the latter enables more inlining ---
+   can't this be achieved otherwise (through inline-specifications)? </li>
+   <li> The build system links the C programs as C++ programs; shouldn't make a big
+   difference for now, but should be rectified with the new system. </li>
+   <li> The build system doesn't know about the dependency of OK.c on the other .c-programs
+   (to which it links) --- this needs to be adressed! </li>
+  </ul>
+
+
+  \todo Complete the help facilities of the OKsolver
+  <ul>
+   <li> There are quite a few options availabe, and these should be documented. </li>
+  </ul>
+
+
+  \todo Add doxygen-documentation
+  <ul>
+   <li> We want to leave the code mainly as it is, but we can add doxygen
+   documentation. </li>
+  </ul>
+
+*/
+
+

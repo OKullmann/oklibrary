@@ -4,6 +4,12 @@
 /* ab Februar 1999: University of Toronto, Computer Science Department */
 
 
+/*!
+  \file Solvers/OKsolver/SAT2002/OK.c
+  \brief The main compilation unit for the old OKsolver
+*/
+
+
 /* Hauptprogramm */
 
 /* Einheit: OK */

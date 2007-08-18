@@ -7,6 +7,17 @@
 
 /* Einheit: Parameter */
 
+
+/*!
+  \file Solvers/OKsolver/SAT2002/GesamtOKs.c
+  \brief Code for the old OKsolver as participated at SAT2002.
+  \deprecated Only of "historical" value.
+
+  Obtained by (automatically) inserting all files into one big file.
+  No longer maintained.
+*/
+
+
 #include "OK.h"
 #include "Parameter.h"
 
