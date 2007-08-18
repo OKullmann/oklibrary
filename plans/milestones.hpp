@@ -61,6 +61,8 @@
    
   \subsection VersionTransitional021 0.2.1
   TO BE REACHED $(deadline_021)
+  \par Satisfiability/Solvers 0.2.1
+  (see Satisfiability/Solvers/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
   \par AtomicConditions version 0.0.3 (OK (MH))
