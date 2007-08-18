@@ -45,6 +45,13 @@ git rev-list --pretty $oldrev..$newrev ^$rijndaelhead
    hold. However, given that I don't understand fully the reasoning for 
    the git-rev-parse exclusions, I am unsure of a clear fix, or if this 
    is definitely the issue.</li>
+   <li> The last commit (with empty log message) attests your analysis.
+   This appears to be a clear case for the git-mailing-list. I'm on the list
+   for a couple of weeks, and they are very responsive. Can MG send an e-mail
+   to the list, with the bug-description and the request for a fix?
+   (Then, btw, one could also mention the other correction we made.)
+   Wouldn't it be easiest (and best) to get rid off these checks, and just
+   send e-mails for each branch on what has changed? </li>
   </ul>
 
   \todo Notification-e-mails
