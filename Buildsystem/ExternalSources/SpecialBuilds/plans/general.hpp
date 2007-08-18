@@ -16,7 +16,7 @@
      <li> coq : DONE </li>
      <li> doxygen : DONE </li>
      <li> gcc : DONE </li>
-     <li> git </li>
+     <li> git : DONE </li>
      <li> gmp </li>
      <li> mhash (remark about corrected files; content of package) </li>
      <li> mpfr </li>

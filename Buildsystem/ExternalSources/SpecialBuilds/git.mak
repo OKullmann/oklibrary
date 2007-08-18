@@ -1,33 +1,27 @@
 # Oliver Kullmann, 6.5.2007 (Swansea)
 
-# ##################################
-# Directory Structure
-# ################################## 
-
-git-base-directory := $(ExternalSources)/Git
-git_doc_dir := $(external_sources_doc_base_dir)/Git
-git-directories := $(git-base-directory) $(git_doc_dir)
-
-.PHONY : git $(git_targets) create_git_dirs
+git_directories := $(git_base_directory) $(git_documentation_dir)
 
 # #################################
 # Main Git targets
 # #################################
 
-$(git-directories) : % : 
+.PHONY : git $(git_targets) create_git_dirs
+
+$(git_directories) : % : 
 	mkdir -p $@
 
-create_git_dirs : $(git-directories)
+create_git_dirs : $(git_directories)
 
 git : $(git_recommended)
 
 $(git_targets) : create_git_dirs
-	$(call unarchive,sources/Git/$@,$(git-base-directory)) $(postcondition) \
-	cd $(git-base-directory)/$@; $(postcondition) \
+	$(call unarchive,sources/Git/$@,$(git_base_directory)) $(postcondition) \
+	cd $(git_base_directory)/$@; $(postcondition) \
 	make configure; $(postcondition) \
 	sh ./configure --prefix=/usr/local; $(postcondition) \
 	make all doc; $(postcondition) \
-	cp -r $(git-base-directory)/$@/Documentation $(git_doc_dir); $(postcondition) \
+	cp -r $(git_base_directory)/$@/Documentation $(git_documentation_dir); $(postcondition) \
 	sudo make install install-doc; $(postcondition)
 
 # #################################
@@ -35,4 +29,4 @@ $(git_targets) : create_git_dirs
 # #################################
 
 cleanallgit : 
-	-rm -rf $(git-base-directory)
+	-rm -rf $(git_base_directory)

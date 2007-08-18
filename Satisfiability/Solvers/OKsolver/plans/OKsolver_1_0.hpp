@@ -1,8 +1,15 @@
 // Oliver Kullmann, 1.2.2006 (Swansea)
 
 /*!
-  \file OKsolver_1_0/plans/OKsolver_1_0.hpp
+  \file Solvers/OKsolver/plans/OKsolver_1_0.hpp
   \brief Plans for the module simulating the old OKsolver
+
+
+  \todo Once we are ready to start, a new sub-module is needed.
+
+
+  \todo Update namespaces
+
 */
 
 /*!

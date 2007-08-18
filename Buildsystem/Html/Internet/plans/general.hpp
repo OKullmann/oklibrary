@@ -32,5 +32,18 @@
    should be necessary! </li>
   </ul>
 
+
+  \todo Domain name
+  <ul>
+   <li> It sems best to acquire a domain name like
+    <ol>
+     <li> www. oklibrary.edu </li>
+     <li> www. oklibrary.org </li>
+    </ol>
+   </li>
+   <li> How to become owner of such a domain name? </li>
+   <li> How to host such a domain on our machines? </li>
+  </ul>
+
 */
 

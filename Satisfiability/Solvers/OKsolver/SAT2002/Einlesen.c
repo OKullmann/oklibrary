@@ -1564,7 +1564,7 @@ Phase2:
 
  init2Klauseln = aktAnzK[2];
 
- extern Ausgabeformat Format;
+ extern enum Ausgabeformat Format;
  if (Format == XML_Format)
    for (unsigned int i = 0; i <= P - 2; InitAnzK[i+2] = aktAnzK[i+2], i++);
  // i wird von 0 gestartet, um Korrektheit auch im Falle von
@@ -1603,7 +1603,7 @@ __inline__ static char *Symbol1(unsigned int v)
 
 void AusgabeBelegung(FILE *fp)
 {
-  extern Ausgabeformat Format;
+  extern enum Ausgabeformat Format;
   const char *Einrueckung;
 
   if (Format == Dimacs_Format)

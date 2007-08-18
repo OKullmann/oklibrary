@@ -5,6 +5,16 @@
 
 /* Angelegt: 3.2.2001 */
 
+
+/*!
+  \file Solvers/OKsolver/SAT2002/Gesamt.c
+  \brief Complete program of the old OKsolver where everything is included (for
+  better inlining)
+
+  No linking needed here.
+*/
+
+
 #define __include__ include
 
 #include "Parameter.c"
