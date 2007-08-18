@@ -18,11 +18,18 @@
    only using C++ header files etc.). Or?? </li>
    <li> Why does GesamtOKs.cpp want to be a C++ program --- maybe we just stick to C?
    Would be more honest! On the other hand, we are more knowledgeable with C++.) </li>
-   <li> The program uses typically C-methods to simulate abstract data types (a functional
+   <li> The program uses typical C-methods to simulate abstract data types (a functional
    interface is build, hiding all pointer access, which hapens in the implementation files).
    So it appears that we better stick to C. </li>
    <li> Eliminate all warnings. </li>
    <li> Use standard include-guards. </li>
+   <li> Why are there these comments that string.h is included because of C++? Seems we should
+   remove them. </li>
+   <li> For the xml-output we should then state that C is the programming language. </li>
+   <li> All includes need to be changed to the library-style. Or? Perhaps, due to the
+   exceptional "historical" character, we don't do this here? Emphasising, that there
+   are no reusable components here?! </li>
+   <li> Deeper changes like const-introduction only later. </li>
   </ul>
 
 
@@ -58,7 +65,11 @@
      <li> GesamtOKs.cpp : Produced by UebersetzungOKs.plx out of all the compilation units
      (and is treated as C++). (However OK.h and Parameter.h are not inserted, but included.) </li>
     </ol>
-   <li> There should be no need anymore for the created file GesamtOKs.cpp. </li>
+   <li> There should be no need anymore for the created file GesamtOKs.cpp, however we need some
+   tests on the running times of GesamtOKs, Gesamt and OK, and this also compared with
+   the existing OKsolver-binaries. Optimally, we could do this simply with our build system
+   (as planned), but perhaps for the time being we just do some ad-hoc testing.
+   </li>
    <li> The difference between OK.c and Gesamt.c is that the latter enables more inlining ---
    can't this be achieved otherwise (through inline-specifications)? </li>
    <li> The build system links the C programs as C++ programs; shouldn't make a big
@@ -78,6 +89,44 @@
   <ul>
    <li> We want to leave the code mainly as it is, but we can add doxygen
    documentation. </li>
+  </ul>
+
+
+  \todo Write docus-pages
+  <ul>
+   <li> Should explain the history and usage. </li>
+   <li> Also the extension possibilities. </li>
+  </ul>
+
+
+  \todo Add asserts
+
+
+  \todo Write application tests
+
+
+  \todo Investigate unit-testing
+  <ul>
+   <li> Optimally, we write unit tests for all main components. </li>
+   <li> Possibly, the code doesn't allow easy unit testing? </li>
+  </ul>
+
+
+  \todo Apply time-measurements
+  <ul>
+   <li> Apply the time-measurement-system (assuming it is available by now). </li>
+  </ul>
+
+
+  \todo Use const-qualification
+  <ul>
+   <li> Where possible, const-qualification should be applied. </li>
+  </ul>
+
+
+  \todo Use restrict-qualification
+  <ul>
+   <li> We should investigate at which places this pointer-qualification can be used. </li>
   </ul>
 
 

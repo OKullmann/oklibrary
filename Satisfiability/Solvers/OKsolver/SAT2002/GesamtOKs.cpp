@@ -9,12 +9,13 @@
 
 
 /*!
-  \file Solvers/OKsolver/SAT2002/GesamtOKs.c
+  \file Solvers/OKsolver/SAT2002/GesamtOKs.cpp
   \brief Code for the old OKsolver as participated at SAT2002.
   \deprecated Only of "historical" value.
 
   Obtained by (automatically) inserting all files into one big file.
-  No longer maintained.
+  No longer maintained (that is, no longer updated according to the
+  changes of the inserted files.
 */
 
 
