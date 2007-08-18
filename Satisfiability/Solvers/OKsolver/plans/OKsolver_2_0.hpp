@@ -1,15 +1,27 @@
 // Oliver Kullmann, 1.2.2006 (Swansea)
 
 /*!
-  \file OKsolver_2_0/plans/OKsolver_2_0.hpp
+  \file Solvers/OKsolver/plans/OKsolver_2_0.hpp
   \brief Plans for the module for the new OKsolver;
   the goal is that OKsolver_2 is among the best three solvers
-  for all 3 * 3 subcompetitions of the SAT 2007 competition.
+  for all 3 * 3 subcompetitions of the SAT 2009 competition.
+
+
+  \todo Once we are ready to start, a new sub-module is needed.
+
+
+  \todo Update namespaces
+
+
+  \todo Planing:
+  Set up milestones etc.
+
 
   \todo How to refer to the different versions of OKsolver ?
   Perhaps
    - OKsolver_1.0, OKsolver_1.1
    - OKsolver_2, OKsolver_2.0, OKsolver_2.1 ?
+
 
   \todo OKsolver_2 extends OKsolver_1 by using alliances of
   active clause-sets with (at least) three members :
@@ -18,6 +30,7 @@
      (see module Learning)
    - the active clause-set for equivalence reasoning
      (see module Equivalences).
+
 
   \todo Furthermore, the "original clause-set" is split into active clause-sets with
    - the 2-clauses
@@ -28,18 +41,23 @@
    The active clause-set for 3-clauses  combines all clauses with the same variable-set,
    and extracts 2-clauses and equivalences.
 
+
   \todo An interesting option is to compress learned clauses further (using
   for example r_3); see module Learning : "After-burner".
+
 
   \todo Furthermore we perform reductions on the input (at
   least r_1, subsumption elimination and equivalence
   extraction; perhaps some forms of DP-reductions; and some
   forms of autarky reductions).
 
+
   \todo For failed literal reductions and strengthenings see the module "FailedLiteralReduction".
+
 
   \todo It would be good if instead of just using r_2 we could plug in other (stronger) forms
   (like r_3 or r_2 with local learning).
+
 
   \todo Regarding equivalence reasoning, the minimum is the detection of (a or b) and (not a or not b),
   with subsequent replacement of not a by b (or not b by a --- just go for the smaller substitution
@@ -50,10 +68,12 @@
   to push autarkies found to higher levels in the search tree, the substitutions applied have to be
   considered (the autarkies have to be extended by the substituted variables).
 
+
   \todo For the right-most branch in the search tree we can apply partial assignment "destructively"
   (irreversible). Potentially the memory savings (if returned to the pool) are considerable.
   \todo This brings up the question of memory management: The Boost Pool library must be
   investigated.
+
 
   \todo Autarky search (see module AutarkySearch) is integrated with global learning via the
   fundamental duality between resolution and autarkies: The global
@@ -67,12 +87,15 @@
   alliance are taken into account (this emphasis the requirement, that the members
   are active *clause-sets*, "faking" to be clause-sets via returning appropriate statistics).
 
+
   \todo Likely, autarky search should ignore learned clauses (when applying the autarky,
   learned clauses might get shortened).
+
 
   \todo So at each node a satisfiability problem is attacked by incomplete methods: Mainly
   local search, but one could also use additional measures (like reductions), which are
   especially appropriate once variables are being crossed out.
+
 
   \todo There are two points when autarky search can (and shall) be applied:
    - first before entering the first branch (no variables are crossed out);
@@ -84,6 +107,7 @@
      solved the sub-problem, and it seems from finding an autarky we don't gain
      anything for the remaining problems).
 
+
   \todo Autarkies can also be checked whether they extend further up the search tree (in the best
   of all cases they yield, composed together with the corresponding partial assignments, global
   autarkies). A classical situation, exploited in the Luckhardt
@@ -93,9 +117,11 @@
   are left. Marijn used these levels for his locality principle (the new branching variable must
   shorten at least one clause from the previous level).
 
+
   \todo Even if the local search algorithm only searches for a satisfying assignment, perhaps it's
   still worth trying in case no satisfying assignment was found if the assignment nevertheless
   contained an autarky (see AutarkySearch/plans/AnalyseTotalAssignment.hpp).
+
 
   \todo The heuristics for the branching variable is a  main open problem (while
   choosing the first branch is done like in the old OKsolver). Here likely a lot of
@@ -108,6 +134,7 @@
   the weighted number of new clauses (as in OKsolver); an interesting question here is
   whether new (that is, shortened) clauses from learned clauses should have a higher weight
   than new clauses from old clauses?!
+
 
   \todo Another main problem is the choice of the local search algorithm and the settings
   of its parameters:
@@ -128,8 +155,10 @@
    Or something else? Or some weights?? Yet I don't see something here, so we just
    use the plain form of random assignments.
 
+
   \todo If the "total" assignment computed is not satisfying, then still one can see whether
   it contains an autarky (as explained in AutarkySearch/plans).
+
 
   \todo The final algorithmic aspect is the restart policy: Somehow a "hopeless" situation
   has to be figured out, gathering then everything worthwhile learning and building
@@ -145,6 +174,7 @@
   measure we should be able to get some evaluation of the overall progress and restart
   if progress is too meager (compared to some envisaged running time).
 
+
   \todo Likely for OKsolver_2_0 the simplest prediction strategy should be used (as
   outlined in Statistics/TimeSeriesAnalysis.hpp), which just takes progress as constant
   over time. This leaves open the question about the restart policy. Most basic seems
@@ -159,8 +189,10 @@
   but yet I don't see a sensible way to do so, and so perhaps we leave it out (or leave it for
   OKsolver_3_0).
 
+
   \todo If restarts don't yield clear benefits, then they are not incorporated into
   OKsolver_2_0, but the whole issue is thoroughly treated with OKsolver_3_0.
+
 
   \todo The above resource management strategies use prediction; another possibility
   are the monitoring schemes similar to those investigated by Heule and van Maaren:
@@ -182,16 +214,18 @@
   One could also use processes/threads just to implement the jumping (in case of
   learning all these processes/threads need to send the learned clauses to a central control.
 
+
   \todo All the parameter settings depend on the input distribution, and so we should
   learn good parameter values by evaluating the SAT 2005 competition. The conceptually
   simplest way to achieve this is to optimise the score the solver would have achieved
   in the SAT 2005 competition. Since this needs running the solver on the whole
   competition many times, we need decent computational resources.
+
 */
 
 /*!
   \namespace OKlib::OKsolver_2_0
-  \brief Applications implementing the new OKsolver (for SAT 2007)
+  \brief Applications implementing the new OKsolver (for SAT 2009)
 */
 
 namespace OKlib {
