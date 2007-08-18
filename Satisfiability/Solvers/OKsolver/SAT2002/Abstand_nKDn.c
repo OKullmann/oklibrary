@@ -32,8 +32,12 @@ const char *Abstandsname = "Abstand_nKDn.c";
 float d0, d1;
 unsigned int d0S, d1S;
 
-#ifndef DYNAMISCH
-#error "DYNAMISCH muss definiert sein!"
+// #ifndef DYNAMISCH
+// #error "DYNAMISCH muss definiert sein!"
+// #endif
+
+#ifndef FAKTOR
+# define FAKTOR 1.0
 #endif
 
 static float q;

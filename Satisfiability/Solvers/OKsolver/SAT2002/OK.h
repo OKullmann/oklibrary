@@ -107,13 +107,15 @@
 
 #ifndef GELESENOK
 
+#include <stdbool.h>
+
 #define VERSIONSNUMMER1 "1"
 #define VERSIONSNUMMER2 "23"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
 #define DATUM "27.8.2004"
 
-const bool internal = false; // keine Entwicklungsversion
+extern const bool internal;
 
 /* Allgemeine Optionen */
 

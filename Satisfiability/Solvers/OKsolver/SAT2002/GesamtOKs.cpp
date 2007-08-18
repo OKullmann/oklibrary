@@ -7,10 +7,24 @@
 
 /* Einheit: Parameter */
 
+
+/*!
+  \file Solvers/OKsolver/SAT2002/GesamtOKs.cpp
+  \brief Code for the old OKsolver as participated at SAT2002.
+  \deprecated Only of "historical" value.
+
+  Obtained by (automatically) inserting all files into one big file.
+  No longer maintained (that is, no longer updated according to the
+  changes of the inserted files.
+*/
+
+
 #include "OK.h"
 #include "Parameter.h"
 
 /* ------------------------------------------------------------------------- */
+
+const bool internal = false; // keine Entwicklungsversion
 
 #ifdef BAUMRES
 

@@ -16,6 +16,12 @@
     - Building Mailman
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following topics are handled:
+    - Installation
+    - Local and system-wide
+    - C++
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
     - Build Sage 2.7
 
