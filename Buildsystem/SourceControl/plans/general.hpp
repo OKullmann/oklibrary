@@ -5,7 +5,47 @@
   \brief Plans and todos for the versioning control system
 
 
+  \bug Missing log of commit messages in some notification emails
+  <ul>
+   <li>MG - This seems to occur when one merges the master branch 
+   into rijndael in the same set of commits and then pushes those commits 
+   to the server. I believe this happens because of a bug in the post-receive 
+   mail script.
+   
+   It appears this occurs because of the following on line 342 of post-receive 
+   \verbatim
+git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
+git rev-list --pretty --stdin $oldrev..$newrev
+   \endverbatim
+   This appears to be what prints out the log messages. The git-rev-parse
+   section appears to produce a list of all the current HEAD commits from 
+   each of the branches prefixed with a ^ . The head of the current 
+   reference (master in the problem case) is then removed via the grep 
+   command. This leaves essentially the command 
+   \verbatim
+git rev-list --pretty $oldrev..$newrev ^$rijndaelhead
+   \endverbatim
+   which should print all commits from $oldrev to $newrev (the range of 
+   commits in the current push) but nothing before $rijndaelhead , which 
+   happens to be ahead of the other revisions as the merge is performed 
+   last and so the command returns nothing.
 
+   The exclusions from git-rev-parse appear to be used to try to ensure
+   that when commits from other branches/references have been merged into
+   the current branch/reference (that is being processed, since each 
+   reference that is being updated is passed into post-receive seperately
+   on a new line which is why the rijndael merge appears as a seperate 
+   email), people aren't emailed about the same commit twice, although I
+   am unsure of how this occurs. The explanation of the reasoning behind 
+   this is at the head of the generate_update_branch_email function on line 
+   227 in the post-receive script.
+   
+   Using a test repository and performing a push with and without having
+   merged master into rijndael in the same push set, the above appears to
+   hold. However, given that I don't understand fully the reasoning for 
+   the git-rev-parse exclusions, I am unsure of a clear fix, or if this 
+   is definitely the issue.</li>
+  </ul>
 
   \todo Notification-e-mails
   <ul>
