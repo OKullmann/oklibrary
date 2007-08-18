@@ -868,7 +868,7 @@ $(testop_file) : $(test_program)$(name_addition)
 $(test_timestamp) : $(new_test_program) | $(test-aux_dir)
 	$(Test_tool) $(new_test_program) $(test_parameters)
 	touch $(test_timestamp)
-$(testop_timestamp) : $(new_test_program_optimised)
+$(testop_timestamp) : $(new_test_program_optimised) | $(test-aux_dir)
 	$(Test_tool) $(new_test_program_optimised) $(test_parameters)
 	touch $(testop_timestamp)
 # ----------------------------------------------------------
