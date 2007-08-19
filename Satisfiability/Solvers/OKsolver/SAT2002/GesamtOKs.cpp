@@ -173,8 +173,7 @@ void setzenbelegt(VAR v, bool T)
   v -> belegt = T;
 }
 
-char *Symbol(VAR v)
-{
+const char* Symbol(VAR v) {
   return v -> Symbol;
 }
 

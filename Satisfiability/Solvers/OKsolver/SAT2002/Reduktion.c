@@ -26,6 +26,7 @@
 
 
 #include <stdlib.h>
+#include <assert.h>
 
 #include "OK.h"
 #include "VarLitKlm.h"
@@ -372,23 +373,21 @@ __inline__ static bool belege_Huelle( void )
 
 /* -------------------------------------------------------------------------------------- */
 
-void berechne_Huelle(LIT x)
-/* berechnet die Huelle von x und schreibt die Ergebnisse nach H */
-/*      (sp zeigt dann auf das erste freie Element) */
-/* Voraussetzung: Die leere Klausel entsteht nicht. */
-{
+void berechne_Huelle(LIT x) {
+  /* berechnet die Huelle von x und schreibt die Ergebnisse nach H */
+  /*      (sp zeigt dann auf das erste freie Element) */
+  /* Voraussetzung: Die leere Klausel entsteht nicht. */
+
   Stapeleintrag *p; /* zeigt auf die naechste "1-Klausel" */
-  LITV y, z;
-  LIT lz;
+  LITV z;
   KLN kn;
 
-  if (++Runde == 0)
-    {
-      NullsetzenRK(); NullsetzenRL();
-      Reduktionsrunde = 0; 
-/* (damit geht die Information zum aktuellen Reduktions-Durchlauf verloren) */
-      Runde = 1;
-    }
+  if (++Runde == 0) {
+    NullsetzenRK(); NullsetzenRL();
+    Reduktionsrunde = 0; 
+    /* (damit geht die Information zum aktuellen Reduktions-Durchlauf verloren) */
+    Runde = 1;
+  }
 
   p = H;
 #ifndef BAUMRES
@@ -397,52 +396,54 @@ void berechne_Huelle(LIT x)
   H -> l = x;
 #endif
   sp = H + 1; setzenRundeL(x);
-  do
-    {
-      for (y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y))
-	if (RundeK( kn = KlnVk(y) ) != Runde)
-	  /* Klausel von y noch nicht angefasst? */
-	  {
-          if (Laenge(kn) == 2)  /* 2-Klausel? */
-            {
-              lz = LitVk(naechstesVorkK(y)); 
+  do {
+    for (LITV y = erstesVork(x); echtesVork(y, x); y = naechstesVork(y))
+      if (RundeK( kn = KlnVk(y) ) != Runde) {
+        /* Klausel von y noch nicht angefasst? */
+        if (Laenge(kn) == 2) {  /* 2-Klausel? */
+          const LIT lz = LitVk(naechstesVorkK(y)); 
 #ifndef BAUMRES
-	      neue1Klausel(Komp(lz));
+          neue1Klausel(Komp(lz));
 #else
-	      neue1Klausel(Komp(lz), kn);
+          neue1Klausel(Komp(lz), kn);
 #endif
-            }
-          else  /* >= 3-Klausel */
-            {
-              setzenRundeK(kn);
-              ZuwLaLaenge(kn, Laenge(kn) - 1);
-            }
         }
+        else { /* >= 3-Klausel */
+          setzenRundeK(kn);
+          ZuwLaLaenge(kn, Laenge(kn) - 1);
+        }
+      }
       else  /* Klausel schon angefasst */
-	if (LaLaenge(kn) == 2)  /* 2-Klausel? */
-	  {
-	    for (z = naechstesVorkK(y); z!= y; z = naechstesVorkK(z))
-	      /* Suche zweites Literal */
-	      if (RundeL(lz = LitVk(z)) != Runde)
-		/* z nicht auf 0 gesetzt? */
-		break;
-#ifndef BAUMRES
-	    neue1Klausel(Komp(lz));
+	if (LaLaenge(kn) == 2) { /* 2-Klausel? */
+#ifndef NDEBUG
+          LIT lz = 0;
 #else
-	    neue1Klausel(Komp(lz), kn);
+          LIT lz;
 #endif
-	  }
+          for (z = naechstesVorkK(y); z!= y; z = naechstesVorkK(z))
+            /* Suche zweites Literal */
+            if (RundeL(lz = LitVk(z)) != Runde)
+              /* z nicht auf 0 gesetzt? */
+              break;
+#ifndef BAUMRES
+          assert(lz);
+          neue1Klausel(Komp(lz));
+#else
+          assert(lz);
+          neue1Klausel(Komp(lz), kn);
+#endif
+        }
 	else  /* >= 3-Klausel */
 	  M1LaLaenge(kn);
-
-      if (++p == sp)
-	break;
+    
+    if (++p == sp)
+      break;
 #ifndef BAUMRES
-      x = *p;
+    x = *p;
 #else
-      x = p -> l;
+    x = p -> l;
 #endif
-    }
+  }
   while (true);
 }
 
@@ -467,7 +468,7 @@ void *ReduktionsV(void *Z)
 /* -------------------------------------------------------------------------------------- */
 
 
-__inline__ char Reduktion1( void )
+__inline__ char Reduktion1( void ) {
 
 /* Fuehrt die aktuelle Klm F in r_2(F) ueber, wobei die entsprechende Belegung */
 /* in "Pfad" eingetragen wird. */
@@ -476,118 +477,102 @@ __inline__ char Reduktion1( void )
 /* 1: SAT, d.h. r_2(F) = {} */
 /* 2: UNSAT, d.h. r_2(F) = { {} } */
 
-{
+
   Stapeleintrag *sp0;
 #ifdef LOKALLERNEN
 #ifndef NL2RED
   Stapeleintrag *spneu0;
 #endif
 #endif
+  if (aktAnzK[2] == 0) /* ohne 2-Klauseln keine Chance */
+    return 0;
+
   bool r; /* wurde reduziert? */
   bool ersterZweig, zweiterZweig;
-  VAR v; LIT v0, v1;
-
-  if (aktAnzK[2] == 0) /* ohne 2-Klauseln keine Chance */
-    {
-      return 0;
-    }
 
   Reduktionsrunde = Runde;
-  do
-    {
-      r = false;
-      for (v = ersteVar(); echteVar(v); v = naechsteVar(v))
-	{
-	  if (r && belegt(v))
-	    continue; /* falls v von voriger Reduktion schon belegt wurde */
-	  v0 = Literal(v, Pos); H = H0; 
-	  if ((ersterZweig = (RundeL(v0) <= Reduktionsrunde)) && (La_Huelle(v0) == false))
-	    /* Huelle[ v -> 0 ] ergab die leere Klausel */
-	    {
-	      V1KlRed++; /* Anwendung einer Reduktion der 2. Stufe */
+  do {
+    r = false;
+    for (VAR v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
+      if (r && belegt(v))
+        continue; /* falls v von voriger Reduktion schon belegt wurde */
+      const LIT v0 = Literal(v, Pos); H = H0; 
+      if ((ersterZweig = (RundeL(v0) <= Reduktionsrunde)) && (La_Huelle(v0) == false)) {
+        /* Huelle[ v -> 0 ] ergab die leere Klausel */
+        ++V1KlRed; /* Anwendung einer Reduktion der 2. Stufe */
 #ifdef BAUMRES
-	      aktV_speichern();
+        aktV_speichern();
 #endif
-	      v1 = Literal(v,Neg);
-	      if (RundeL(v1) <= Reduktionsrunde)
-		{
-		  if (La_Huelle(v1) == false)
-		    /* auch Huelle[ v -> 1 ] ergab leere Klausel */
+        const LIT v1 = Literal(v,Neg);
+        if (RundeL(v1) <= Reduktionsrunde) {
+          if (La_Huelle(v1) == false) {
+            /* auch Huelle[ v -> 1 ] ergab leere Klausel */
 #ifndef BAUMRES
-		    return 2; /* UNSAT */
+            return 2; /* UNSAT */
 #else
-		    {
-		      hinzufuegenS();
-		      return 2; /* UNSAT */
-		    }
+            hinzufuegenS();
+            return 2; /* UNSAT */
+          }
 #endif
-		}
-	      else
-		berechne_Huelle(v1);
-	      if (belege_Huelle() == true)
-		/* Huelle[ v -> 1 ] ist erfuellend */
-		return 1; /* SAT */
-	      else
-		{
-		  r = true;  /* es wurde reduziert */
-		  Reduktionsrunde = Runde;
-		}
-	    }
-	  else  /* Zweig v -> 0 brachte nichts */
-	    {
-	      v1 = Literal(v,Neg); H = H1;
-	      /* Umschalten auf v -> 1 */
-	      /* (die zu v -> 0 gehoerende Belegung ist in H0) */
-	      sp0 = sp;
+        }
+        else
+          berechne_Huelle(v1);
+        if (belege_Huelle() == true)
+          /* Huelle[ v -> 1 ] ist erfuellend */
+          return 1; /* SAT */
+        else {
+          r = true;  /* es wurde reduziert */
+          Reduktionsrunde = Runde;
+        }
+      }
+      else { /* Zweig v -> 0 brachte nichts */
+        const LIT v1 = Literal(v,Neg); H = H1;
+        /* Umschalten auf v -> 1 */
+        /* (die zu v -> 0 gehoerende Belegung ist in H0) */
+        sp0 = sp;
 #ifdef LOKALLERNEN
 #ifndef NL2RED
-	      spneu0 = spneu;
+        spneu0 = spneu;
 #endif
 #endif
-	      if ((zweiterZweig = (RundeL(v1) <= Reduktionsrunde)) && (La_Huelle(v1) == false))
-		/* Huelle[ v -> 1 ] ergab die leere Klausel */
-		{
-		  V1KlRed++; /* Anwendung einer Reduktion der 2. Stufe */
-		  if (ersterZweig)
-		    {
-		      H = H0; sp = sp0; /* wieder zurueckschalten */
-		    }
-		  else
-		    berechne_Huelle(v0);
-		  if (belege_Huelle() == true)
-		    /* Huelle[ v -> 0 ] ist erfuellend */
-		    return 1; /* SAT */
-		  else
-		    {
-		      r = true;  /* es wurde reduziert */
-		      Reduktionsrunde = Runde;
-		    }
-		}
+        if ((zweiterZweig = (RundeL(v1) <= Reduktionsrunde)) && (La_Huelle(v1) == false)) {
+          /* Huelle[ v -> 1 ] ergab die leere Klausel */
+          ++V1KlRed; /* Anwendung einer Reduktion der 2. Stufe */
+          if (ersterZweig) {
+            H = H0; sp = sp0; /* wieder zurueckschalten */
+          }
+          else
+            berechne_Huelle(v0);
+          if (belege_Huelle() == true)
+            /* Huelle[ v -> 0 ] ist erfuellend */
+            return 1; /* SAT */
+          else {
+            r = true;  /* es wurde reduziert */
+            Reduktionsrunde = Runde;
+          }
+        }
 #ifdef LOKALLERNEN
 #ifndef NL2RED
-	      else
-		/* Beide Zweige brachten keine direkten Reduktionen */
-		{
-		  if (ersterZweig && (spneu0 < sp0))
-		    {
-		      eintragenNK();
-		      erzeugeNK(v0, spneu0, sp0);
-		      r = true;
-		      Reduktionsrunde = Runde;
-		    }
-		  if (zweiterZweig && (spneu < sp))
-		    {
-		      eintragenNK();
-		      erzeugeNK(v1, spneu, sp);
-		      r = true;
-		      Reduktionsrunde = Runde;
-		    }
-		}
+        else {
+          /* Beide Zweige brachten keine direkten Reduktionen */
+          if (ersterZweig && (spneu0 < sp0)) {
+            eintragenNK();
+            erzeugeNK(v0, spneu0, sp0);
+            r = true;
+            Reduktionsrunde = Runde;
+          }
+          if (zweiterZweig && (spneu < sp)) {
+            eintragenNK();
+            erzeugeNK(v1, spneu, sp);
+            r = true;
+            Reduktionsrunde = Runde;
+          }
+        }
 #endif
 #endif
-	    }
-	}
+      }
     }
+  }
   while (r);
   
   return 0;

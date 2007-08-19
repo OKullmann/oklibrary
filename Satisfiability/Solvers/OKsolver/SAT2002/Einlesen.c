@@ -19,6 +19,7 @@
 #include <ctype.h>
 #include <limits.h>
 #include <string.h> /* fuer C++ (memset; 14.8.2001) */
+#include <assert.h>
 
 
 #include "OK.h"
@@ -1259,7 +1260,7 @@ Phase2:
      int *EinerKlauseln; int *sz;
 
      void *Z; unsigned int k;
-     int *i; int *i0;
+     int *i;
      Klauselinfo *Klausel;
      unsigned int aktp;
 
@@ -1290,144 +1291,131 @@ Phase2:
        }
 
      i = LitTab;
-     for (k = 0; k < K; k++)
-       {
-	 int erstesLit, letztesLit;
+     for (k = 0; k < K; ++k) {
+       const int erstesLit = *i; int letztesLit;
 	 
-	 erstesLit = *i; i0 = i;
-	 do
-	   i++;
-	 while (*i != 0);
-	 if (i - i0 == 1)
-	   {
-	     if (belegt[erstesLit])
-	       {
-		 return Unsat;
-	       }
-	     if (! belegt[-erstesLit])
-	       {
-		 belegt[-erstesLit] = true;
-		 *(sz++) = -erstesLit;
-	       }
-	   }
-	 else
-	   {
-	     freiesAnfvork -> naechstes = Anfangsvorkommen[erstesLit].naechstes;
-	     Anfangsvorkommen[erstesLit].naechstes = freiesAnfvork;
-	     freiesAnfvork -> Klausel = freieKlausel;
-	     letztesLit = *(i-1);
-	     freiesEndvork -> naechstes = Endvorkommen[letztesLit].naechstes;
-	     Endvorkommen[letztesLit].naechstes = freiesEndvork;
-	     freiesEndvork -> Klausel =  freieKlausel;
-	     freieKlausel -> erfuellt = false;
-	     freieKlausel -> Anfang = i0;
-	     freieKlausel -> Ende = i - 1;
-	     freiesAnfvork++; freiesEndvork++; freieKlausel++;
-	   }
-	 i++;
+       int* const i0 = i;
+       do
+         ++i;
+       while (*i != 0);
+       if (i - i0 == 1) {
+         if (belegt[erstesLit])
+           return Unsat;
+         if (! belegt[-erstesLit]) {
+           belegt[-erstesLit] = true;
+           *(sz++) = -erstesLit;
+         }
        }
+       else {
+         freiesAnfvork -> naechstes = Anfangsvorkommen[erstesLit].naechstes;
+         Anfangsvorkommen[erstesLit].naechstes = freiesAnfvork;
+         freiesAnfvork -> Klausel = freieKlausel;
+         letztesLit = *(i-1);
+         freiesEndvork -> naechstes = Endvorkommen[letztesLit].naechstes;
+         Endvorkommen[letztesLit].naechstes = freiesEndvork;
+         freiesEndvork -> Klausel =  freieKlausel;
+         freieKlausel -> erfuellt = false;
+         freieKlausel -> Anfang = i0;
+         freieKlausel -> Ende = i - 1;
+         freiesAnfvork++; freiesEndvork++; freieKlausel++;
+       }
+       ++i;
+     }
 
-     do
-       {
-	 int l;
-	 Randvorkommen *x; Randvorkommen *xn;
+     do {
+       int l;
+       Randvorkommen *x; Randvorkommen *xn;
 
-	 l = *(--sz);
-	 if (Belegung)
-	   Pfad0[InitEinerRed++] = l;
-	 else
-	   InitEinerRed++;
+       l = *(--sz);
+       if (Belegung)
+         Pfad0[InitEinerRed++] = l;
+       else
+         InitEinerRed++;
 	 
-	 for (x = Anfangsvorkommen[l].naechstes; x != NULL; x = xn)
-	   {
-	     xn = x -> naechstes;
-	     Klausel = x -> Klausel;
-	     if (Klausel -> erfuellt)
-	       continue;
-	     aktp = 0;
-	     for (i = (Klausel -> Anfang) + 1; i != (Klausel -> Ende) + 1; i++)
-	       {
-		 if (belegt[-*i])
-		   {
-		     Klausel -> erfuellt = true;
-		     break;
-		   }
-		 if (! belegt[*i])
-		   {
-		     if (++aktp == 1)
-		       i0 = i;
-		     else
-		       break;
-		   }
-	       }
-	     if (Klausel -> erfuellt)
-	       continue;
-	     if (aktp == 0)
-	       {
-		 return Unsat;
-	       }
-	     if (aktp == 1)
-	       {
-		 belegt[-*i0] = true;
-		 *(sz++) = -*i0;
-		 Klausel -> erfuellt = true;
-	       }
-	     else
-	       {
-		 int a;
-		 
-		 a = *i0;
-		 x -> naechstes = Anfangsvorkommen[a].naechstes;
-		 Anfangsvorkommen[a].naechstes = x;
-		 Klausel -> Anfang = i0;
-	       }
-	   }
-
-	 for (x = Endvorkommen[l].naechstes; x != NULL; x = xn)
-	   {
-	     xn = x -> naechstes;
-	     Klausel = x -> Klausel;
-	     if (Klausel -> erfuellt)
-	       continue;
-	     aktp = 0;
-	     for (i = (Klausel -> Ende) - 1; i != (Klausel -> Anfang) - 1; i--)
-	       {
-		 if (belegt[-*i])
-		   {
-		     Klausel -> erfuellt = true;
-		     break;
-		   }
-		 if (! belegt[*i])
-		   {
-		     if (++aktp == 1)
-		       i0 = i;
-		     else
-		       break;
-		   }
-	       }
-	     if (Klausel -> erfuellt)
-	       continue;
-	     if (aktp == 0)
-	       {
-		 return Unsat;
-	       }
-	     if (aktp == 1)
-	       {
-		 belegt[-*i0] = true;
-		 *(sz++) = -*i0;
-		 Klausel -> erfuellt = true;
-	       }
-	     else
-	       {
-		 int a;
-		 
-		 a = *i0;
-		 x -> naechstes = Endvorkommen[a].naechstes;
-		 Endvorkommen[a].naechstes = x;
-		 Klausel -> Ende = i0;
-	       }
-	   }
+       for (x = Anfangsvorkommen[l].naechstes; x != NULL; x = xn) {
+         xn = x -> naechstes;
+         Klausel = x -> Klausel;
+         if (Klausel -> erfuellt)
+           continue;
+         aktp = 0;
+#ifndef NDEBUG
+         int* i0 = 0;
+#else
+         int* i0;
+#endif
+         for (i = (Klausel -> Anfang) + 1; i != (Klausel -> Ende) + 1; i++) {
+           if (belegt[-*i]) {
+             Klausel -> erfuellt = true;
+             break;
+           }
+           if (! belegt[*i]) {
+             if (++aktp == 1)
+               i0 = i;
+             else
+               break;
+           }
+         }
+         if (Klausel -> erfuellt)
+           continue;
+         if (aktp == 0)
+           return Unsat;
+         if (aktp == 1) {
+           assert(i0);
+           belegt[-*i0] = true;
+           *(sz++) = -*i0;
+           Klausel -> erfuellt = true;
+         }
+         else {
+           assert(i0);
+           const int a = *i0;
+           x -> naechstes = Anfangsvorkommen[a].naechstes;
+           Anfangsvorkommen[a].naechstes = x;
+           Klausel -> Anfang = i0;
+         }
        }
+       
+       for (x = Endvorkommen[l].naechstes; x != NULL; x = xn) {
+         xn = x -> naechstes;
+         Klausel = x -> Klausel;
+         if (Klausel -> erfuellt)
+           continue;
+         aktp = 0;
+#ifndef NDEBUG
+         int* i0 = 0;
+#else
+         int* i0;
+#endif
+         for (i = (Klausel -> Ende) - 1; i != (Klausel -> Anfang) - 1; i--) {
+           if (belegt[-*i]) {
+             Klausel -> erfuellt = true;
+             break;
+           }
+           if (! belegt[*i]) {
+             if (++aktp == 1)
+               i0 = i;
+             else
+               break;
+           }
+         }
+         if (Klausel -> erfuellt)
+           continue;
+         if (aktp == 0)
+           return Unsat;
+         if (aktp == 1) {
+           assert(i0);
+           belegt[-*i0] = true;
+           *(sz++) = -*i0;
+           Klausel -> erfuellt = true;
+         }
+         else {
+           assert(i0);
+           const int a = *i0;
+           x -> naechstes = Endvorkommen[a].naechstes;
+           Endvorkommen[a].naechstes = x;
+           Klausel -> Ende = i0;
+         }
+       }
+     }
      while (sz != EinerKlauseln);
 
      Hashtabelle = (unsigned int *) xmalloc((N + 1) * sizeof(unsigned int));
@@ -1435,52 +1423,46 @@ Phase2:
      if (Belegung)
        VarTab2 = (unsigned int *) xmalloc((N - InitEinerRed + 1) * sizeof(unsigned int));
      P = N = K = L = 0;
-     i0 = LitTab;
-     for (Klausel = BeginnKlauseln; Klausel != freieKlausel; Klausel++)
-       {
-	 if (Klausel -> erfuellt)
-	   continue;
-	 for (i = Klausel -> Anfang; i != (Klausel -> Ende) + 1; i++)
-	   if (belegt[-*i])
-	     {
-	       Klausel -> erfuellt = true;
-	       break;
-	     }
-	 if (Klausel -> erfuellt)
-	   continue;
-	 aktp = 0;
-	 for (i = Klausel -> Anfang; i != (Klausel -> Ende) + 1; i++)
-	   if (! belegt[*i])
-	     {
+     int* i0 = LitTab;
+     assert(i0);
+     for (Klausel = BeginnKlauseln; Klausel != freieKlausel; Klausel++) {
+       if (Klausel -> erfuellt)
+         continue;
+       for (i = Klausel -> Anfang; i != (Klausel -> Ende) + 1; i++)
+         if (belegt[-*i]) {
+           Klausel -> erfuellt = true;
+           break;
+         }
+       if (Klausel -> erfuellt)
+         continue;
+       aktp = 0;
+       for (i = Klausel -> Anfang; i != (Klausel -> Ende) + 1; i++)
+         if (! belegt[*i]) {
 	       unsigned int v0, v; int l; VZ e;
-	       
 	       aktp++; l = *i;
-	       if (l > 0)
-		 {
-		   v0 = l; e = Pos;
-		 }
-	       else
-		 {
-		   v0 = -l; e = Neg;
-		 }
+	       if (l > 0) {
+                 v0 = l; e = Pos;
+               }
+	       else {
+                 v0 = -l; e = Neg;
+               }
 	       v = *(Hashtabelle + v0);
-	       if (v == 0)
-		 {
-		   N++;
+	       if (v == 0) {
+		   ++N;
 		   v = *(Hashtabelle + v0) = N;
 		   if (Belegung)
 		     VarTab2[N] = v0;
-		 }
+               }
 	       *(i0++) = (e == Pos) ? (int) v : - (int) v; L++;
-	     }
-	 if (aktp > P)
-	   P = aktp;
-	 K++;
-	 *(i0++) = 0;
-       }
+         }
+       if (aktp > P)
+         P = aktp;
+       K++;
+       *(i0++) = 0;
+     }
      free(Hashtabelle); Hashtabelle = NULL;
      free(Z0); Z0 = NULL;
-
+     
      if (K == 0)
        return Sat;
    }

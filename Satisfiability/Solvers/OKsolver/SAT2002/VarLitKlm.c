@@ -20,12 +20,12 @@
 
 
 struct var {
-  struct lit *pos;
-  struct lit *neg;
-  struct var *vor;
-  struct var *nae;
+  struct lit* pos;
+  struct lit* neg;
+  struct var* vor;
+  struct var* nae;
   bool belegt;
-  char *Symbol;
+  const char* Symbol;
 #ifdef BAUMRES
   ZWort Position;
   Wort Maske;
@@ -33,9 +33,9 @@ struct var {
 };
 
 struct lit {
-  struct lit *Komp;
-  struct litv *erstes;
-  struct var *Var;
+  struct lit* Komp;
+  struct litv* erstes;
+  struct var* Var;
   unsigned int Runde;
 #ifdef FASTAUTARKIE
   bool schonFA;
@@ -51,16 +51,16 @@ static LIT erstesLiteral;
 static LITV F;
 static KLN FK;
 
-unsigned int *aktAnzK; /* unsigned int aktAnzK [ MAXP + 1 ]; */
-unsigned int *InitAnzK; // zur Speicherung der initialen Klauselnanzahlen im Falle, dass Format = XLM_Format
+unsigned int* aktAnzK; /* unsigned int aktAnzK [ MAXP + 1 ]; */
+unsigned int* InitAnzK; // zur Speicherung der initialen Klauselnanzahlen im Falle, dass Format = XLM_Format
 
 #ifdef BAUMRES
 
-#ifndef LITTAB
+# ifndef LITTAB
 static ZWort VarKl;
-#else
+# else
 static VarMaske *MaskenKl;
-#endif
+# endif
 
 #endif
 
@@ -68,102 +68,95 @@ static VarMaske *MaskenKl;
 
 /* -------------------------------------------------------------------------- */
 
-__inline__ LIT Literal(VAR v, VZ e)
-{
+__inline__ LIT Literal(const VAR v, const VZ e) {
   assert(v);
   switch (e) {
   case Pos : return v -> pos;
   case Neg : return v -> neg;
+  default :
+    assert(0);
+    abort();
   }
 }
 
-__inline__ VAR Var(LIT l)
-{
+__inline__ VAR Var(const LIT l) {
   assert(l);
   return l -> Var;
 }
 
-__inline__ LIT Komp(LIT l)
-{
+__inline__ LIT Komp(const LIT l) {
   assert(l);
   return l -> Komp;
 }
 
 #ifdef BAUMRES
-__inline__ ZWort VPosition(VAR v)
-{
+__inline__ ZWort VPosition(const VAR v) {
   assert(v);
   return v -> Position;
 }
 
-__inline__ Wort VMaske(VAR v)
-{
+__inline__ Wort VMaske(const VAR v) {
   assert(v);
   return v -> Maske;
 }
 #endif
 
-bool belegt(VAR v)
-{
+bool belegt(const VAR v) {
   assert(v);
   return v -> belegt;
 }
 
-void setzenbelegt(VAR v, bool T)
-{
+void setzenbelegt(const VAR v, const bool T) {
   assert(v);
   v -> belegt = T;
 }
 
-char *Symbol(VAR v)
-{
+const char* Symbol(const VAR v) {
   assert(v);
   return v -> Symbol;
 }
 
 /* ---------------------------------- */
 
-__inline__ void loeseV(VAR v)
-{
+__inline__ void loeseV(const VAR v) {
   assert(v);
+  assert(v -> vor);
+  assert(v -> nae);
   (v -> vor -> nae = v -> nae) -> vor = v -> vor;
 }
 
-__inline__ void bindeV(VAR v)
-{
+__inline__ void bindeV(const VAR v) {
   assert(v);
+  assert(v -> vor);
+  assert(v -> nae);
   v -> nae -> vor = v -> vor -> nae = v;
 }
 
 /* ---------------------------------- */
 
-__inline__ VAR ersteVar( void )
-{
+__inline__ VAR ersteVar( void ) {
+  assert(AnkerVar);
   return AnkerVar -> nae;
 }
 
-__inline__ bool echteVar(VAR v)
-{
+__inline__ bool echteVar(const VAR v) {
   assert(v);
   return (v != AnkerVar);
 }
 
-__inline__ VAR naechsteVar(VAR v)
-{
+__inline__ VAR naechsteVar(const VAR v) {
   assert(v);
   return v -> nae;
 }
 
 /* ---------------------------------- */
 
-__inline__ unsigned int RundeL(LIT l)
-{
+__inline__ unsigned int RundeL(const LIT l) {
   assert(l);
   return l -> Runde;
 }
 
-__inline__ void setzenRundeL(LIT l)
-{
+__inline__ void setzenRundeL(const LIT l) {
   extern unsigned int Runde;
   assert(l);
   l -> Runde = Runde;
@@ -183,35 +176,30 @@ __inline__ void NullsetzenRL(void)
 
 #ifdef FASTAUTARKIE
 
-__inline__ bool Fastautarkie(LIT l)
-{
+__inline__ bool Fastautarkie(const LIT l) {
   assert(l);
   return l -> schonFA;
 }
 
-__inline__ void setzenFastautarkie(LIT l, bool T)
-{
+__inline__ void setzenFastautarkie(const LIT l, const bool T) {
   assert(l);
   l -> schonFA = T;
 }
 
-__inline__ unsigned int RundeLFA(LIT l)
-{
+__inline__ unsigned int RundeLFA(const LIT l) {
   assert(l);
   return l -> RundeFA;
 }
 
-__inline__ void setzenRundeLFA(LIT l)
-{
+__inline__ void setzenRundeLFA(const LIT l) {
   extern unsigned int RundeFA;
   assert(l);
   l -> RundeFA = RundeFA;
 }
 
-__inline__ void NullsetzenRLFA(void)
-{
-  LIT l; unsigned int i;
-  for (l = erstesLiteral, i = 0; i < 2 * N; l++, i++) {
+__inline__ void NullsetzenRLFA(void) {
+  LIT l = erstesLiteral;
+  for (unsigned int i = 0; i < 2 * N; l++, i++) {
     assert(l);
     l -> RundeFA = 0;
   }
@@ -221,146 +209,138 @@ __inline__ void NullsetzenRLFA(void)
 
 /* ---------------------------------- */
 
-__inline__ void loeseLv(LITV x)
-{
+__inline__ void loeseLv(const LITV x) {
   assert(x);
-  if (x -> lLv == NULL)
+  if (! (x -> lLv)) {
+    assert(x -> lit);
     x -> lit -> erstes = x -> nLv;
-  else
+  }
+  else {
+    assert(x -> lLv);
     x -> lLv -> nLv = x -> nLv;
-  if (x -> nLv != NULL)
+  }
+  if (x -> nLv)
     x -> nLv -> lLv = x -> lLv;
 }
 
-__inline__ void bindeLv(LITV x)
-{
+__inline__ void bindeLv(const LITV x) {
   assert(x);
-  if (x -> lLv == NULL)
+  if (! (x -> lLv)) {
+    assert(x -> lit);
     x -> lit -> erstes = x;
-  else
+  }
+  else {
+    assert(x -> lLv);
     x -> lLv -> nLv = x;
-  if (x -> nLv != NULL)
+  }
+  if (x -> nLv)
     x -> nLv -> lLv = x;
 }
 
-__inline__ void loeseLK(LITV x)
-{
+__inline__ void loeseLK(const LITV x) {
   assert(x);
+  assert(x -> nLK);
+  assert(x -> lLK);
   ( ((x -> lLK) -> nLK) = (x -> nLK) ) -> lLK = x -> lLK;
 }
 
-__inline__ void bindeLK(LITV x)
-{
+__inline__ void bindeLK(const LITV x) {
   assert(x);
+  assert(x -> lLK);
+  assert(x -> nLK);
   (x -> nLK) -> lLK = (x -> lLK) -> nLK = x;
 }
 
 /* ---------------------------------- */
 
-__inline__ LITV erstesVork(LIT l)
-{
+__inline__ LITV erstesVork(const LIT l) {
   assert(l);
   return l -> erstes;
 }
 
 
-__inline__ bool echtesVork(LITV x, LIT l)
-{
+__inline__ bool echtesVork(const LITV x, const LIT dummy) { // ???
   return (x != NULL);
 }
 
 
-__inline__ LITV naechstesVork(LITV x)
-{
+__inline__ LITV naechstesVork(const LITV x) {
   assert(x);
   return x -> nLv;
 }
 
 /* ---------------------------------- */
 
-__inline__ LITV naechstesVorkK(LITV x)
-{
+__inline__ LITV naechstesVorkK(const LITV x) {
   assert(x);
   return x -> nLK;
 }
 
 /* ---------------------------------- */
 
-__inline__ LIT LitVk(LITV x)
-{
+__inline__ LIT LitVk(const LITV x) {
   assert(x);
   return x -> lit;
 }
 
-__inline__ KLN KlnVk(LITV x)
-{
+__inline__ KLN KlnVk(const LITV x) {
   assert(x);
   return x -> kln;
 }
 
 /* ---------------------------------- */
 
-__inline__ KLL Laenge(KLN k)
-{
+__inline__ KLL Laenge(const KLN k) {
   assert(k);
   return k -> Laenge;
 }
 
-__inline__ void ZuwLaenge(KLN k, KLL m)
-{
+__inline__ void ZuwLaenge(const KLN k, const KLL m) {
   assert(k);
   k -> Laenge = m;
 }
 
-__inline__ KLL LaengeM1(KLN k)
-{
+__inline__ KLL LaengeM1(const KLN k) {
   assert(k);
   return (k -> Laenge)--;
 }
 
-__inline__ KLL LaengeP1(KLN k)
-{
+__inline__ KLL LaengeP1(KLN k) {
   assert(k);
   return (k -> Laenge)++;
 }
 
-__inline__ KLL LaLaenge(KLN k)
-{
+__inline__ KLL LaLaenge(const KLN k) {
   assert(k);
   return k -> LaLaenge;
 }
 
-__inline__ void ZuwLaLaenge(KLN k, KLL m)
-{
+__inline__ void ZuwLaLaenge(const KLN k, const KLL m) {
   assert(k);
   k -> LaLaenge = m;
 }
 
-__inline__ KLL M1LaLaenge(KLN k)
-{
+__inline__ KLL M1LaLaenge(const KLN k) {
   assert(k);
   return --(k -> LaLaenge);
 }
 
 /* ---------------------------------- */
 
-__inline__ unsigned int RundeK(KLN k)
-{
+__inline__ unsigned int RundeK(const KLN k) {
   assert(k);
   return k -> RundeK;
 }
 
-__inline__ void setzenRundeK(KLN k)
-{
+__inline__ void setzenRundeK(const KLN k) {
   extern unsigned int Runde;
   assert(k);
   k -> RundeK = Runde;
 }
 
-__inline__ void NullsetzenRK( void )
-{
-  unsigned int k; KLN kn;
-  for (kn = FK, k = 0; k < K; k++, kn++) {
+__inline__ void NullsetzenRK( void ) {
+  KLN kn = FK;
+  for (unsigned int k = 0; k < K; ++k, ++kn) {
     assert(kn);
     kn -> RundeK = 0;
   }
@@ -370,8 +350,7 @@ __inline__ void NullsetzenRK( void )
 }
 
 #ifdef LOKALLERNEN
-__inline__ void setzen0RundeK(KLN k)
-{
+__inline__ void setzen0RundeK(const KLN k) {
   assert(k);
   k -> RundeK = 0;
 }
@@ -381,43 +360,37 @@ __inline__ void setzen0RundeK(KLN k)
 
 #ifdef BAUMRES
 
-#ifndef LITTAB
+# ifndef LITTAB
 
-__inline__ VarMenge VarK(KLN k)
-{
+__inline__ VarMenge VarK(const KLN k) {
   assert(k);
   return k -> VarM;
 }
 
 #else
 
-__inline__ void ZuwUrLaenge(KLN k, unsigned int m)
-{
+__inline__ void ZuwUrLaenge(const KLN k, const unsigned int m) {
   assert(k);
   k -> UrLaenge = m;
 }
 
-__inline__ void ZuwersteVK(KLN k, VarMaske *p)
-{
+__inline__ void ZuwersteVK(const KLN k, VarMaske* const p) {
   assert(k);
   k -> ersteV = p;
 }
 
 
-__inline__ unsigned int UrLaenge(KLN k)
-{
+__inline__ unsigned int UrLaenge(const KLN k) {
   assert(k);
   return k -> UrLaenge;
 }
 
-__inline__ VarMaske *ersteVK(KLN k)
-{
+__inline__ VarMaske* ersteVK(const KLN k) {
   assert(k);
   return k -> ersteV;
 }
 
-
-#endif
+# endif
 
 #endif
 
@@ -427,39 +400,30 @@ static LITV aktLitV;
 static LITV aktLitV0;
 static KLN aktKln;
 #ifdef BAUMRES
-#ifdef LITTAB
-static VarMaske *aktMaske;
-#endif
+# ifdef LITTAB
+static VarMaske* aktMaske;
+# endif
 #endif
 static unsigned int aktKlLaenge;
 
-__inline__ void Klauselanfangen(void)
-{
+__inline__ void Klauselanfangen(void) {
   aktKlLaenge = 0;
   assert(aktLitV);
   aktLitV -> lLK = aktLitV -> nLK = aktLitV;
 #ifdef BAUMRES
-#ifdef LITTAB
+# ifdef LITTAB
   assert(aktKln);
   aktKln -> ersteV = aktMaske;
-#endif
+# endif
 #endif
 }
 
-__inline__ void Literaleintragen(int l)
-{
-  unsigned int vi; VZ e; LIT a; VAR v;
-  aktKlLaenge++;
-  if (l > 0)
-    {
-      vi = l; e = Pos;
-    }
-  else
-    {
-      vi = -l; e = Neg;
-    }
-  v = AnkerVar + vi;
-  a = Literal(v, e);
+__inline__ void Literaleintragen(const int l) {
+  ++aktKlLaenge;
+  const unsigned int vi = (l > 0) ? l : -l;
+  const VZ e = (l > 0) ? Pos : Neg;
+  const VAR v = AnkerVar + vi;
+  const LIT a = Literal(v, e);
   assert(aktLitV);
   aktLitV -> lit = a;
   aktLitV -> kln = aktKln;
@@ -467,45 +431,46 @@ __inline__ void Literaleintragen(int l)
   aktLitV -> lLv = NULL;
   assert(a);
   aktLitV -> nLv = a -> erstes;
-  if (a -> erstes != NULL)
+  if (a -> erstes)
     a -> erstes -> lLv = aktLitV;
   a -> erstes = aktLitV;
 
-  if (aktKlLaenge > 1)
-    {
-      assert(aktLitV);
-      assert(aktLitV0);
-      aktLitV -> nLK = aktLitV0 -> nLK;
-      aktLitV -> lLK = aktLitV0;
-      aktLitV0 -> nLK -> lLK = aktLitV0 -> nLK = aktLitV;
-    }
+  if (aktKlLaenge > 1) {
+    assert(aktLitV);
+    assert(aktLitV0);
+    assert(aktLitV == aktLitV0+1);
+    aktLitV -> nLK = aktLitV0 -> nLK;
+    aktLitV -> lLK = aktLitV0;
+    aktLitV0 -> nLK -> lLK = aktLitV0 -> nLK = aktLitV;
+    assert(aktLitV0 -> nLK == aktLitV);
+    assert(aktLitV0 -> nLK -> lLK == aktLitV0); // ??? is this guaranteed ???
+  }
   aktLitV0 = aktLitV++;
 #ifdef BAUMRES
-#ifdef LITTAB
+# ifdef LITTAB
   assert(aktMaske);
   aktMaske -> Position = VPosition(v);
   aktMaske -> Maske = VMaske(v);
-  aktMaske++;
-#endif
+  ++aktMaske;
+# endif
 #endif
   return;
 }
   
-__inline__ void Klauselbeenden(void)
-{
+__inline__ void Klauselbeenden(void) {
   assert(aktKln);
   aktKln -> Laenge = aktKlLaenge;
 #ifdef BAUMRES
-#ifdef LITTAB
+# ifdef LITTAB
   aktKln -> UrLaenge = aktKlLaenge;
+# endif
 #endif
-#endif
-  aktAnzK[aktKlLaenge]++;
-  aktKln++;
+  // assert(aktKlLaenge <= MAXP); ???
+  ++aktAnzK[aktKlLaenge];
+  ++aktKln;
 }
 
-__inline__ void Symboleintragen(unsigned int v, char *S)
-{
+__inline__ void Symboleintragen(const unsigned int v, const char* const S) {
   assert(AnkerVar + v);
   (AnkerVar + v) -> Symbol  = S;
 }
@@ -513,52 +478,51 @@ __inline__ void Symboleintragen(unsigned int v, char *S)
 
 /* ---------------------------------- */
 
-__inline__ void setzenerstesV(LIT l, LITV x)
-{
+__inline__ void setzenerstesV(const LIT l, const LITV x) {
   assert(l);
+  assert(x);
   l -> erstes = x;
 }
 
-__inline__ void setzenLit(LITV x, LIT l)
-{
+__inline__ void setzenLit(const LITV x, const LIT l) {
   assert(x);
+  assert(l);
   x -> lit = l;
 }
 
-__inline__ void setzenKln(LITV x, KLN k)
-{
+__inline__ void setzenKln(const LITV x, const KLN k) {
   assert(x);
+  assert(k);
   x -> kln = k;
 }
 
-__inline__ void setzennLv(LITV x, LITV y)
-{
+__inline__ void setzennLv(const LITV x, const LITV y) {
   assert(x);
+  assert(y);
   x -> nLv = y;
 }
 
-__inline__ void setzenlLv(LITV x, LITV y)
-{
+__inline__ void setzenlLv(const LITV x, const LITV y) {
   assert(x);
+  assert(y);
   x -> lLv = y;
 }
 
-__inline__ void setzennLK(LITV x, LITV y)
-{
+__inline__ void setzennLK(const LITV x, const LITV y) {
   assert(x);
+  assert(y);
   x -> nLK = y;
 }
 
-__inline__ void setzenlLK(LITV x, LITV y)
-{
+__inline__ void setzenlLK(const LITV x, const LITV y) {
   assert(x);
+  assert(y);
   x -> lLK = y;
 }
 
 /* ---------------------------------- */
 
-size_t BedarfVarLitKlmV( void )
-{
+size_t BedarfVarLitKlmV( void ) {
   extern enum Ausgabeformat Format;
   return (N + 1) * sizeof(struct var) +
     (2 * N) * sizeof(struct lit) +
@@ -567,17 +531,19 @@ size_t BedarfVarLitKlmV( void )
     (P + 1) * sizeof(unsigned int) +
     ((Format == XML_Format) ? (P + 1) * sizeof(unsigned int) : 0)
 #ifdef BAUMRES
-#ifndef LITTAB
+# ifndef LITTAB
     + K * GroesseVarMenge
-#else
+# else
     + L * sizeof(VarMaske)
-#endif
+# endif
 #endif
     ;
  }
 
-void *VarLitKlmV(void *Z)
-{
+/*!
+  \brief Initialisation of the datastructure representing variables, literals and clauses-nodes
+*/
+void* VarLitKlmV(void* Z) {
   AnkerVar = (VAR) Z; Z = (void *) (AnkerVar + N + 1);
   erstesLiteral = (LIT) Z; Z = (void *) (erstesLiteral + 2 * N);
   aktLitV = F = (LITV) Z;  Z = (void *) (F + L);
@@ -588,39 +554,34 @@ void *VarLitKlmV(void *Z)
     InitAnzK = (unsigned int *) Z; Z = (void *) (InitAnzK + P + 1);
   }
 #ifdef BAUMRES
-#ifndef LITTAB
+# ifndef LITTAB
   VarKl = (ZWort) Z; Z = (void *) (VarKl + K * ANZWORTE);
-#else
+# else
   aktMaske = MaskenKl = (VarMaske *) Z; Z = (void *) (MaskenKl + L);
-#endif
+# endif
 #endif
 
-  {
-    VAR v0, v;
-    LIT l;
-    unsigned int i;
-    v0 = v = AnkerVar;
-    l = erstesLiteral;
-    for (i = 0; i < N; i++)
+  { // Initialisation of variables and literals
+    assert(AnkerVar);
+    VAR v0 = AnkerVar, v = AnkerVar;
+    assert(erstesLiteral);
+    LIT l = erstesLiteral;
+    for (unsigned int i = 0; i < N; ++i)
       {
-	v++;
-        assert(v0);
-        v0 -> belegt = false;
+	++v;
 	v0 -> nae = v;
-        assert(v);
 	v -> vor = v0;
+        v -> belegt = false;
 #ifdef BAUMRES
 	{
+	  const div_t q = div(i, BITS);
 	  extern VarMenge aktrelV;
-	  div_t q;
-	  q  = div(i, BITS);
 	  v -> Position = aktrelV + q.quot;
 	  v -> Maske = 1UL << q.rem;
 	}
 #endif
 	v -> pos = l;
 
-        assert(l);
 	l -> erstes = NULL;
 	l -> Var = v;
 	l -> Runde = 0;
@@ -629,7 +590,7 @@ void *VarLitKlmV(void *Z)
 	l -> RundeFA = 0;
 #endif
 	v -> neg = l -> Komp = l + 1;
-	l++;
+	++l;
 
 	l -> erstes = NULL;
 	l -> Var = v;
@@ -639,51 +600,46 @@ void *VarLitKlmV(void *Z)
 	l -> RundeFA = 0;
 #endif
 	l -> Komp = l - 1;
-	l++;
+	++l;
 	
 	v0 = v;
       }
     v -> nae = AnkerVar;
     AnkerVar -> vor = v;
   }
-  {
-    unsigned int k; KLN kn;
-    for (kn = FK, k = 0; k < K; k++, kn++) {
-      assert(kn);
+  { // Initialisation of clause-nodes
+    assert(FK);
+    KLN kn = FK;
+    for (unsigned int k = 0; k < K; ++k, ++kn)
       kn -> RundeK = 0;
-    }
   }
 #ifdef BAUMRES
-#ifndef LITTAB
+# ifndef LITTAB
   {
-    unsigned int i; KLN k; ZWort M;
     memset((void *) VarKl, 0, K * GroesseVarMenge);
-    for (i = 0, k = FK, M = VarKl; i < K; i++, k++, M += ANZWORTE) {
-      assert(k);
+    assert(FK);
+    KLN k = FK; ZWort M = VarKl;
+    for (unsigned int i = 0; i < K; i++, k++, M += ANZWORTE)
       k -> VarM = M;
-    }
   }
-#endif
+# endif
 #endif
   memset(aktAnzK, 0, (P+1) * sizeof(unsigned int));
+  assert(Z);
   return Z;
 }
 
-void InitVarLitKlm(void)
-{
+void InitVarLitKlm(void) {
 #ifdef BAUMRES
-#ifndef LITTAB
-  {
-    extern VarMenge aktrelV;
-    LITV x; VAR v; VarMenge M; unsigned int i;
-    for (x = F, i = 0; i < L; x++, i++)
-    {
-      v = Var(LitVk(x)); M = VarK(KlnVk(x));
-      assert(M + (VPosition(v) - aktrelV));
-      *(M + (VPosition(v) - aktrelV)) |= VMaske(v);
-    }
+# ifndef LITTAB
+  extern VarMenge aktrelV;
+  LITV x = F;
+  for (unsigned int i = 0; i < L; ++x, ++i) {
+    Var v = Var(LitVk(x)); VarMenge M = VarK(KlnVk(x));
+    assert(M + (VPosition(v) - aktrelV));
+    *(M + (VPosition(v) - aktrelV)) |= VMaske(v);
   }
-#endif
+# endif
 #endif
   return;
 }
