@@ -10,9 +10,9 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - bug Uninitialised values with optimised inlined versions
-    - bug Incorrect linking for optimised code
     - Tests
+    - bug Incorrect linking for optimised code
+    - bug Uninitialised values with optimised inlined versions : DONE
     - bug Uninitialised values with the old OKsolver : DONE
 
 

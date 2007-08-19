@@ -7,9 +7,22 @@
 
 /* Einheit: VarLitKlm */
 
+
+/*!
+  \file Solvers/OKsolver/SAT2002/VarLitKlm.c
+  \brief Implementations related to variables, literals, and clauses
+
+  Implementations of the types and functions
+  representing the abstract data type for variables, literals,
+  literal occurrences and clause-information-nodes; also
+  initialisation functions.
+*/
+
+
 #include <stdlib.h>
 #include <string.h> /* fuer C++ (memset; 14.8.2001) */
 #include <assert.h>
+#include <limits.h>
 
 #include "OK.h"
 #include "Parameter.h"
@@ -418,32 +431,34 @@ __inline__ void Klauselanfangen(void) {
 #endif
 }
 
+/*!
+  \brief Adding literal l to the current clause
+*/
 __inline__ void Literaleintragen(const int l) {
   ++aktKlLaenge;
-  const unsigned int vi = (l > 0) ? l : -l;
-  const VZ e = (l > 0) ? Pos : Neg;
-  const VAR v = AnkerVar + vi;
-  const LIT a = Literal(v, e);
-  assert(aktLitV);
-  aktLitV -> lit = a;
-  aktLitV -> kln = aktKln;
-
-  aktLitV -> lLv = NULL;
-  assert(a);
-  aktLitV -> nLv = a -> erstes;
-  if (a -> erstes)
-    a -> erstes -> lLv = aktLitV;
-  a -> erstes = aktLitV;
-
-  if (aktKlLaenge > 1) {
+  assert(l > INT_MIN);
+  const VAR v = AnkerVar + abs(l);
+  {
+    const LIT a = Literal(v, (l > 0) ? Pos : Neg);
+    assert(a);
     assert(aktLitV);
+    aktLitV -> lit = a;
+    aktLitV -> kln = aktKln;
+    aktLitV -> lLv = NULL;
+    aktLitV -> nLv = a -> erstes;
+    if (a -> erstes)
+      a -> erstes -> lLv = aktLitV;
+    a -> erstes = aktLitV;
+  }
+  if (aktKlLaenge > 1) {
+    // before: x <-> aktLitV0 <-> first
+    // after: x <-> aktLitV0 <-> aktLitV <-> first
     assert(aktLitV0);
     assert(aktLitV == aktLitV0+1);
     aktLitV -> nLK = aktLitV0 -> nLK;
     aktLitV -> lLK = aktLitV0;
-    aktLitV0 -> nLK -> lLK = aktLitV0 -> nLK = aktLitV;
-    assert(aktLitV0 -> nLK == aktLitV);
-    assert(aktLitV0 -> nLK -> lLK == aktLitV0); // ??? is this guaranteed ???
+    aktLitV0 -> nLK = aktLitV;
+    aktLitV -> nLK -> lLK = aktLitV;
   }
   aktLitV0 = aktLitV++;
 #ifdef BAUMRES
@@ -454,7 +469,6 @@ __inline__ void Literaleintragen(const int l) {
   ++aktMaske;
 # endif
 #endif
-  return;
 }
   
 __inline__ void Klauselbeenden(void) {
