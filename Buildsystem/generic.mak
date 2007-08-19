@@ -1031,7 +1031,8 @@ $(programs_optimised) : $(bin_dir)/%$(name_addition) : $(lib_dir)/%$(name_additi
 # ----------------------------------------------------------
 # test_link_libraries
 # ----------------------------------------------------------
-test_link_libraries := -liberty # because of demangling
+test_link_libraries := -liberty
+# because of demangling
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
