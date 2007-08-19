@@ -30,6 +30,17 @@ c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=250 i
   </ul>
 
 
+  \bug Incorrect linking for optimised code
+  <ul>
+   <li> The code in OK.link_libraries only (always) links with the unoptimised versions! </li>
+   <li> This also explains why program "OK" does not behave different that OK-O3-DNDEBUG
+   w.r.t. the above bug. </li>
+   <li> One solution is to use a make-variable which is empty or has the name-extension
+   in it, depending on whether the unoptimised or the optimised version is to be
+   compiled. </li>
+  </ul>
+
+
   \todo Tests
   <ul>
    <li> Test the example file of Marijn Heule, on cs-wsok and csltok. </li>
@@ -42,7 +53,9 @@ c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=250 i
    <li> Perhaps move everything to C++ (but no real changes to any data structures, etc.,
    only using C++ header files etc.). Or?? </li>
    <li> Why does GesamtOKs.cpp want to be a C++ program --- maybe we just stick to C?
-   Would be more honest! On the other hand, we are more knowledgeable with C++.) </li>
+   Would be more honest! On the other hand, we are more knowledgeable with C++.)
+   The purpose of GesamtOKs.cpp likely was to enable the use of C++ inlining --- but
+   also C99 has the inline keyword. </li>
    <li> The program uses typical C-methods to simulate abstract data types (a functional
    interface is build, hiding all pointer access, which hapens in the implementation files).
    So it appears that we better stick to C. </li>
@@ -124,7 +137,7 @@ c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=250 i
   </ul>
 
 
-  \todo Add asserts
+  \todo Add asserts throughout
 
 
   \todo Write application tests
@@ -140,6 +153,14 @@ c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=250 i
   \todo Apply time-measurements
   <ul>
    <li> Apply the time-measurement-system (assuming it is available by now). </li>
+  </ul>
+
+
+  \todo Declare variable as close to their first usage as possible
+  <ul>
+   <li> Since C99 also allows to appear declaration everywhere, one
+   should move many variable declarations to their first usage point. </li>
+   <li> And, as with C++, one can now declare loop-variables inside the loop. </li>
   </ul>
 
 
