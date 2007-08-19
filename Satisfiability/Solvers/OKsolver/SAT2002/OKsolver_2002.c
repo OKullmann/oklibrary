@@ -27,7 +27,7 @@
 #include "Abstand_nKaZ.c"
 #include "Projektion_Prod.c"
 #include "Speicher.c"
-#include "OK.c"
+#include "OKsolver_2002_lnk.c"
 #include "Ausgaben.c"
 #include "Einlesen.c"
 
