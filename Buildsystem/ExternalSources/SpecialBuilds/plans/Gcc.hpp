@@ -6,10 +6,18 @@
 
   \todo Gcc
   <ul>
-   <li> Linking to the gcc-documentation (main info-page) should be checked
-   for completeness. </li>
+   <li> Documentation:
+    <ol>
+     <li> Linking to the gcc-documentation (main info-page) should be checked
+     for completeness. </li>
+     <li> We could offer also to show the man-page (just open it into a browser);
+     however then it should be said that likely the html-documentation is more complete. </li>
+     <li> We should also move the info-pages to the doc-directory. How to view them?
+     The least is just to open them into a browser. </li>
+    </ol>
+   </li>
    <li> Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
-   building Boost to use instead "make gcc gcc-version=4.1.2" ? </li>
+   building Boost to also have "make gcc gcc-version=4.1.2" ? </li>
    <li> If variable "gcc-version" is set, then it should have one of the
    allowed values (while otherwise we get an error). </li>
    <li> We must understand, how gcc interacts with 32- and 64-bit
@@ -27,7 +35,7 @@
     <ol>
      <li> GMP is also of interest to us regarding big-number-types, so we need full
      control about it, and perhaps a local installation is warranted (ignoring the
-     system installation). </li>
+     system installation). UPDATE NEEDED </li>
     </ol>
    </li>
    <li> Shouldn't file external_sources_versions.mak be placed in
