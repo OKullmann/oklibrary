@@ -1583,74 +1583,62 @@ __inline__ static char *Symbol1(unsigned int v)
 }
 
 
-void AusgabeBelegung(FILE *fp)
-{
+void AusgabeBelegung(FILE* const fp) {
+  assert(fp);
   extern enum Ausgabeformat Format;
-  const char *Einrueckung;
+  const char* Einrueckung = 0;
 
   if (Format == Dimacs_Format)
     fprintf(fp, "v");
   else if (Format == XML_Format) {
     extern bool Dateiausgabe;
-    if (! Dateiausgabe)
-      Einrueckung = "  ";
-    else
-      Einrueckung = "";
+    Einrueckung = (Dateiausgabe) ? "" : " ";
     fprintf(fp, "%s<solution>\n", Einrueckung);
   }
 
   if (EinerKlausel)
-    {
-      unsigned int i; unsigned int v; VZ e;
-      for (i = 0; i < InitEinerRed; i++)
-	{
-	  if (Pfad0[i] > 0)
-	    {
-	      v = Pfad0[i]; e = Pos;
-	    }
-	  else
-	    {
-	      v = -Pfad0[i]; e = Neg;
-	    }
-	  if (Format == Dimacs_Format) {
-	    if (e == Neg)
-	      fprintf(fp, " %s", Symbol1(v));
-	    else
-	      fprintf(fp, " -%s", Symbol1(v));
-	  }
-	  else if (Format == XML_Format)
-	    fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol1(v), e);
-	  else
-	    fprintf(fp, "%7s %d\n", Symbol1(v), e);
-	}
+    for (unsigned int i = 0; i < InitEinerRed; ++i) {
+      assert(Pfad0[i] > INT_MIN);
+      const unsigned int v = abs(Pfad0[i]);
+      const VZ e = (Pfad0[i] > 0) ? Pos : Neg;
+      if (Format == Dimacs_Format) {
+        if (e == Neg)
+          fprintf(fp, " %s", Symbol1(v));
+        else
+          fprintf(fp, " -%s", Symbol1(v));
+      }
+      else if (Format == XML_Format) {
+        assert(Einrueckung);
+        fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol1(v), e);
+      }
+      else
+        fprintf(fp, "%7s %d\n", Symbol1(v), e);
     }
   {
-    Pfadinfo *Z; VAR v; LIT l; VZ e;
-    Z = Tiefe;
-    for (Tiefe = Pfad; Tiefe < Z; Tiefe++)
-      {
-	l = PfadLit(); v = Var(l);
-	if (l == Literal(v, Pos))
-	  e = Pos;
-	else
-	  e = Neg;
-	if (Format == Dimacs_Format) {
-	  if (e == Neg)
-	    fprintf(fp, " %s", Symbol(v));
-	  else
-	    fprintf(fp, " -%s", Symbol(v));
-	}
-	else if (Format == XML_Format)
-	  fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol(v), e);
-	else
-	  fprintf(fp, "%7s %d\n", Symbol(v), e);
+    const Pfadinfo* const Z = Tiefe;
+    for (Tiefe = Pfad; Tiefe < Z; ++Tiefe) {
+      const LIT l = PfadLit(); const VAR v = Var(l);
+      const VZ e = (l == Literal(v, Pos)) ? Pos : Neg;
+      if (Format == Dimacs_Format) {
+        if (e == Neg)
+          fprintf(fp, " %s", Symbol(v));
+        else
+          fprintf(fp, " -%s", Symbol(v));
       }
-    Tiefe = Z;
+      else if (Format == XML_Format) {
+        assert(Einrueckung);
+        fprintf(fp, "%s  <value var = \"%s\"> %d </value>\n", Einrueckung, Symbol(v), e);
+      }
+      else
+        fprintf(fp, "%7s %d\n", Symbol(v), e);
+    }
+    Tiefe = (Pfadinfo*) Z;
   }
 
   if (Format == Dimacs_Format)
     fprintf(fp, " 0\n");
   else if (Format == XML_Format) {
+    assert(Einrueckung);
     fprintf(fp, "%s</solution>\n", Einrueckung);
     extern bool Dateiausgabe;
     if (! Dateiausgabe)
