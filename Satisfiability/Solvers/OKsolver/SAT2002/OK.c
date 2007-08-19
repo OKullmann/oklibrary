@@ -857,7 +857,6 @@ Schleife:
   case SAT2 : goto nachSAT2;
   default :
     assert(0);
-    abort();
   } 
 }
 

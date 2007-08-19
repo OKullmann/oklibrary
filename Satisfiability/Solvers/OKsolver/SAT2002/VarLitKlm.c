@@ -88,7 +88,6 @@ __inline__ LIT Literal(const VAR v, const VZ e) {
   case Neg : return v -> neg;
   default :
     assert(0);
-    abort();
   }
 }
 
