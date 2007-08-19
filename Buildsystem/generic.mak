@@ -929,7 +929,7 @@ $(test_dependency_files) : $(test-aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(te
 # Compile optimised C++ object files for the current module.
 # ----------------------------------------------------------
 $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp | $(lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -938,7 +938,7 @@ $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp
 # Compile unoptimised C++ object files for the current module.
 # ----------------------------------------------------------
 $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -947,7 +947,7 @@ $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
 # Compile optimised C object files for the current module.
 # ----------------------------------------------------------
 $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -956,7 +956,7 @@ $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $
 # Compile unoptimised C object files for the current module.
 # ----------------------------------------------------------
 $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(General_options) $(CPPFLAGS) $(CFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -965,7 +965,7 @@ $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
 # Compile unoptimised test object files for the current module.
 # ----------------------------------------------------------
 $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -974,7 +974,7 @@ $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-l
 # Compile optimised test object files for the current module.
 # ----------------------------------------------------------
 $(test_object_files_optimised) : $(test-lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
