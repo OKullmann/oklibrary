@@ -11,7 +11,8 @@
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Tests
-    - bug Incorrect linking for optimised code
+    - Eliminate all warnings : DONE
+    - bug Incorrect linking for optimised code : DONE
     - bug Uninitialised values with optimised inlined versions : DONE
     - bug Uninitialised values with the old OKsolver : DONE
 

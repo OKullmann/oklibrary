@@ -6,44 +6,37 @@
   old OKsolver
 
 
-  \bug Incorrect linking for optimised code
-  <ul>
-   <li> The code in OK.link_libraries only (always) links with the unoptimised versions! </li>
-   <li> This also explains why program "OK" does not behave different that OK-O3-DNDEBUG
-   w.r.t. the above bug. </li>
-   <li> One solution is to use a make-variable which is empty or has the name-extension
-   in it, depending on whether the unoptimised or the optimised version is to be
-   compiled. </li>
-  </ul>
-
-
-  \todo Tests
-  <ul>
-   <li> Test the example file of Marijn Heule, on cs-wsok and csltok. </li>
-   <li> Now under SAT2002/data. </li>
-  </ul>
+  \todo Tests:
+  Test the example files (the example of Marijn Heule, now under
+  SAT2002/data, and the example under QuantumPhysics):
+  <ol>
+   <li> cs-wsok : </li>
+   <li> csltok : DONE </li>
+  </ol>
 
 
   \todo Language standards
   <ul>
-   <li> Perhaps move everything to C++ (but no real changes to any data structures, etc.,
-   only using C++ header files etc.). Or?? </li>
-   <li> Why does GesamtOKs.cpp want to be a C++ program --- maybe we just stick to C?
-   Would be more honest! On the other hand, we are more knowledgeable with C++.)
-   The purpose of GesamtOKs.cpp likely was to enable the use of C++ inlining --- but
-   also C99 has the inline keyword. </li>
-   <li> The program uses typical C-methods to simulate abstract data types (a functional
-   interface is build, hiding all pointer access, which hapens in the implementation files).
-   So it appears that we better stick to C. </li>
-   <li> Eliminate all warnings. </li>
+   <li> The old OKsolver is a C99 program. </li>
    <li> Use standard include-guards. </li>
    <li> Why are there these comments that string.h is included because of C++? Seems we should
    remove them. </li>
    <li> For the xml-output we should then state that C is the programming language. </li>
+   <li> Where we touch the code, we change the style to the standard
+   (otherwise we leave it). </li>
    <li> All includes need to be changed to the library-style. Or? Perhaps, due to the
    exceptional "historical" character, we don't do this here? Emphasising, that there
    are no reusable components here?! </li>
    <li> Deeper changes like const-introduction only later. </li>
+   <li> DONE (stick to C) Perhaps move everything to C++ (but no real changes to any data structures, etc.,
+   only using C++ header files etc.). Or?? </li>
+   <li> DONE (GesamtOKs.cpp removed) Why does GesamtOKs.cpp want to be a C++ program --- maybe we just stick to C?
+   Would be more honest! On the other hand, we are more knowledgeable with C++.)
+   The purpose of GesamtOKs.cpp likely was to enable the use of C++ inlining --- but
+   also C99 has the inline keyword. </li>
+   <li>  DONE (stick to C) The program uses typical C-methods to simulate abstract data types (a functional
+   interface is build, hiding all pointer access, which hapens in the implementation files).
+   So it appears that we better stick to C. </li>
   </ul>
 
 
@@ -90,6 +83,8 @@
    difference for now, but should be rectified with the new system. </li>
    <li> The build system doesn't know about the dependency of OK.c on the other .c-programs
    (to which it links) --- this needs to be adressed! </li>
+   <li> Compilation of lokalesLernen.c on its own should only happen with LOKALLERNEN defined
+   (without it a compile-time error should ensue). </li>
   </ul>
 
 
@@ -117,6 +112,9 @@
 
 
   \todo Write application tests
+  <ul>
+   <li> Testing at least the .cnf-files in the OKlibrary (under "data"). </li>
+  </ul>
 
 
   \todo Investigate unit-testing
@@ -149,6 +147,23 @@
   \todo Use restrict-qualification
   <ul>
    <li> We should investigate at which places this pointer-qualification can be used. </li>
+  </ul>
+
+
+  \todo Eliminate all warnings : DONE (all remaining warnings occur
+  in optimisation mode, and will not be eliminated according to our
+  policy not to do (any) unnecessary work at runtime (where it might
+  matter))
+
+
+  \bug Incorrect linking for optimised code : DONE (use .link_libraries_optimised)
+  <ul>
+   <li> The code in OK.link_libraries only (always) links with the unoptimised versions! </li>
+   <li> This also explains why program "OK" does not behave different that OK-O3-DNDEBUG
+   w.r.t. the above bug. </li>
+   <li> One solution is to use a make-variable which is empty or has the name-extension
+   in it, depending on whether the unoptimised or the optimised version is to be
+   compiled. </li>
   </ul>
 
 
