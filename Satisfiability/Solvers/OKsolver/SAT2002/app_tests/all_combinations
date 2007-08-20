@@ -1,0 +1,34 @@
+#!/bin/bash
+# Oliver Kullmann, 19.8.2007 (Swansea)
+
+# Run through all forms of executables for the OKsolver and
+# through all available test formulas and check the output
+
+list_solvers=${bin_dir}/OKsolver_2002*
+
+echo -e "SOLVERS FOUND:\n" ${list_solvers}
+
+list_test_cases=app_tests/test_cases/*.cnf
+
+echo -e "TEST FORMULAS FOUND:\n" ${list_test_cases}
+
+echo "EXECUTION OF SOLVERS:"
+
+match_tool=${bin_dir}/MatchFiles-O3-DNDEBUG
+
+for S in ${list_solvers}; do
+  echo;
+  for P in ${list_test_cases}; do
+    echo ${S} ${P};
+    output=$(${S} ${P});
+    template=$(dirname ${P})/dimacs_output/$(basename ${P} .cnf);
+    echo ${output} | ${match_tool} ${template};
+    result=$?;
+    if [[ ${result} != 0 ]]; then
+      echo -e "ERROR: OUTPUT of solver is\n${output}\n, while TEMPLATE is";
+      cat ${template}; echo; exit 1;
+    fi;
+  done;
+done
+
+exit 0
