@@ -5,9 +5,9 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestGeneralInputOutput
 
-programs :=
+programs := MatchFiles
 
-source_libraries =  $(Boost)
+source_libraries = $(Boost)
 
 link_libraries := 
 
