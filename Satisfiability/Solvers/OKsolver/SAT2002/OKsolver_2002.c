@@ -7,7 +7,7 @@
 
 
 /*!
-  \file Solvers/OKsolver/SAT2002/Gesamt.c
+  \file Solvers/OKsolver/SAT2002/OKsolver_2002.c
   \brief Complete program of the old OKsolver where everything is included (for
   better inlining)
 

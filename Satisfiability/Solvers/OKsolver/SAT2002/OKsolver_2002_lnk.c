@@ -5,7 +5,7 @@
 
 
 /*!
-  \file Solvers/OKsolver/SAT2002/OK.c
+  \file Solvers/OKsolver/SAT2002/OKsolver_2002_lnk.c
   \brief The main compilation unit for the old OKsolver
 */
 
