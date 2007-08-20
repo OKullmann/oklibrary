@@ -11,6 +11,7 @@
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Tests
+    - Write application tests : DONE
     - Eliminate all warnings : DONE
     - bug Incorrect linking for optimised code : DONE
     - bug Uninitialised values with optimised inlined versions : DONE
@@ -63,7 +64,7 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Write application tests
+    - Create systematic application tests
 
   \par
    Create a tag, stating that the basically unaltered original OKsolver

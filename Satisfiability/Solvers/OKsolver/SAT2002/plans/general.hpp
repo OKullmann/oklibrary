@@ -6,12 +6,19 @@
   old OKsolver
 
 
+  \todo Write application tests DONE (created a general framework, and filled it with some data)
+  <ul>
+   <li> Testing at least the .cnf-files in the OKlibrary (under "data"). </li>
+  </ul>
+
+
   \todo Tests:
-  Test the example files (the example of Marijn Heule, now under
-  SAT2002/data, and the example under QuantumPhysics):
+  
   <ol>
    <li> cs-wsok : </li>
    <li> csltok : DONE </li>
+   <li> Test the example files (the example of Marijn Heule, now under
+  SAT2002/data, and the example under QuantumPhysics). DONE (now in the application test framework) </li>
   </ol>
 
 
@@ -111,10 +118,7 @@
   \todo Add asserts throughout
 
 
-  \todo Write application tests
-  <ul>
-   <li> Testing at least the .cnf-files in the OKlibrary (under "data"). </li>
-  </ul>
+  \todo Create systematic application tests
 
 
   \todo Investigate unit-testing
@@ -147,6 +151,12 @@
   \todo Use restrict-qualification
   <ul>
    <li> We should investigate at which places this pointer-qualification can be used. </li>
+  </ul>
+
+
+  \todo Correct counting
+  <ul>
+   <li> Counting for example test_cases/TwoUnit.cnf is not correct. </li>
   </ul>
 
 
