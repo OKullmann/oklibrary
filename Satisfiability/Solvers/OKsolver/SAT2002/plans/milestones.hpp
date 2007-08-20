@@ -99,11 +99,18 @@
     - Use const-qualification
 
 
-    \par Version 1.0.5
+  \par Version 1.0.5
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Use restrict-qualification
+
+
+  \par Version 1.0.6
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Correct counting
 
 
 

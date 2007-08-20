@@ -6,12 +6,6 @@
   old OKsolver
 
 
-  \todo Write application tests DONE (created a general framework, and filled it with some data)
-  <ul>
-   <li> Testing at least the .cnf-files in the OKlibrary (under "data"). </li>
-  </ul>
-
-
   \todo Tests:
   
   <ol>
@@ -42,7 +36,7 @@
    The purpose of GesamtOKs.cpp likely was to enable the use of C++ inlining --- but
    also C99 has the inline keyword. </li>
    <li>  DONE (stick to C) The program uses typical C-methods to simulate abstract data types (a functional
-   interface is build, hiding all pointer access, which hapens in the implementation files).
+   interface is build, hiding all pointer access, which happens in the implementation files).
    So it appears that we better stick to C. </li>
   </ul>
 
@@ -73,23 +67,29 @@
    the compiler-options are set special for each of these variants. </li>
    <li> There are three programs:
     <ol>
-     <li> OK.c : standard C program (assumes linking with the other compilation units) </li>
-     <li> Gesamt.c : Same as OK.c, but includes all other compilation units, and thus
+     <li> OKsolver_2002.c : standard C program (assumes linking with the other compilation units) </li>
+     <li> OKsolver_2002_lnk.c : Same as OKsolver_2002.c, but includes all other compilation units, and thus
      needs no linking. </li>
-     <li> GesamtOKs.cpp : Produced by UebersetzungOKs.plx out of all the compilation units
+     <li> DONE (removed) GesamtOKs.cpp : Produced by UebersetzungOKs.plx out of all the compilation units
      (and is treated as C++). (However OK.h and Parameter.h are not inserted, but included.) </li>
     </ol>
-   <li> There should be no need anymore for the created file GesamtOKs.cpp, however we need some
-   tests on the running times of GesamtOKs, Gesamt and OK, and this also compared with
-   the existing OKsolver-binaries. Optimally, we could do this simply with our build system
+   <li> There is no need anymore for the created file GesamtOKs.cpp, however we need some
+   tests on the running times of GesamtOKs, OKsolver_2002 and OKsolver_2002_lnk, and this also
+   compared with the existing OKsolver-binaries. Optimally, we could do this simply with our build system
    (as planned), but perhaps for the time being we just do some ad-hoc testing.
    </li>
-   <li> The difference between OK.c and Gesamt.c is that the latter enables more inlining ---
+   <li> The difference between OKsolver_2002.c and OKsolver_2002_lnk.c is that the latter enables more inlining ---
    can't this be achieved otherwise (through inline-specifications)? </li>
    <li> The build system links the C programs as C++ programs; shouldn't make a big
    difference for now, but should be rectified with the new system. </li>
-   <li> The build system doesn't know about the dependency of OK.c on the other .c-programs
-   (to which it links) --- this needs to be adressed! </li>
+   <li> The build system doesn't know about the dependency of OKsolver_2002.c on the other .c-programs
+   (to which it links) --- this needs to be addressed!
+    <ol>
+     <li> For each program P, one additional dependency file has to be created which contains
+     the rule with target P, where the prerequisites are all the files P links together. </li>
+     <li> See the plans under Buildsystem. </li>
+    </ol>
+   </li>
    <li> Compilation of lokalesLernen.c on its own should only happen with LOKALLERNEN defined
    (without it a compile-time error should ensue). </li>
   </ul>
@@ -97,7 +97,7 @@
 
   \todo Complete the help facilities of the OKsolver
   <ul>
-   <li> There are quite a few options availabe, and these should be documented. </li>
+   <li> There are quite a few options available, and these should be documented. </li>
   </ul>
 
 
@@ -119,6 +119,14 @@
 
 
   \todo Create systematic application tests
+  <ul>
+   <li> Differentiate between solver runs which are expected to succeed and runs which
+   are expected to fail (so that in the latter case the output to stderr can be suppressed). </li>
+   <li> All possible syntactic errors diagnosed by the OKsolver need be checked. </li>
+   <li> Tautological clauses and repeated literals in clauses need to be checked. </li>
+   <li> Output of satisfying assignments needs to be checked. </li>
+   <li> We need also to check the other output formats. </li>
+  </ul>
 
 
   \todo Investigate unit-testing
@@ -157,6 +165,15 @@
   \todo Correct counting
   <ul>
    <li> Counting for example test_cases/TwoUnit.cnf is not correct. </li>
+   <li> See whether this can be easily rectified. </li>
+   <li> Possibly this is not the case; then we need a precise specification what
+   actually is counted, so that then the output can be declared as correct. </li>
+  </ul>
+
+
+  \todo Write application tests DONE (created a general framework, and filled it with some data)
+  <ul>
+   <li> Testing at least the .cnf-files in the OKlibrary (under "data"). </li>
   </ul>
 
 
