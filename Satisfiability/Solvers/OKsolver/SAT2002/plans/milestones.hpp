@@ -3,19 +3,7 @@
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9 (18.8.2007)
-
-
-  \par Version 0.9.1
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Tests : DONE
-    - Write application tests : DONE
-    - Eliminate all warnings : DONE
-    - bug Incorrect linking for optimised code : DONE
-    - bug Uninitialised values with optimised inlined versions : DONE
-    - bug Uninitialised values with the old OKsolver : DONE
+  \module_version OKsolver/SAT2002 0.9.1 (20.8.2007)
 
 
   \par Version 0.9.2
@@ -119,6 +107,7 @@
   \par Version history
 
    - 0.9   : 18.8.2007; initial version number (the old OKsolver mainly unchanged since SAT2002; a bug found by Marijn Heule showed up with newer versions of gcc)
+   - 0.9.1 : 20.8.2007; two bugs corrected, linking behaviour corrected, basic code maintenance performed, and basic application tests written and executed. The OKsolver in the standard version appears now to be bug-free.
 
 */
 

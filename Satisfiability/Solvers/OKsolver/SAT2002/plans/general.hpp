@@ -6,16 +6,6 @@
   old OKsolver
 
 
-  \todo Tests:
-  
-  <ol>
-   <li> cs-wsok : DONE </li>
-   <li> csltok : DONE </li>
-   <li> Test the example files (the example of Marijn Heule, now under
-  SAT2002/data, and the example under QuantumPhysics). DONE (now in the application test framework) </li>
-  </ol>
-
-
   \todo Language standards
   <ul>
    <li> The old OKsolver is a C99 program. </li>
@@ -169,73 +159,6 @@
    <li> Possibly this is not the case; then we need a precise specification what
    actually is counted, so that then the output can be declared as correct. </li>
   </ul>
-
-
-  \todo Write application tests DONE (created a general framework, and filled it with some data)
-  <ul>
-   <li> Testing at least the .cnf-files in the OKlibrary (under "data"). </li>
-  </ul>
-
-
-  \todo Eliminate all warnings : DONE (all remaining warnings occur
-  in optimisation mode, and will not be eliminated according to our
-  policy not to do (any) unnecessary work at runtime (where it might
-  matter))
-
-
-  \bug Incorrect linking for optimised code : DONE (use .link_libraries_optimised)
-  <ul>
-   <li> The code in OK.link_libraries only (always) links with the unoptimised versions! </li>
-   <li> This also explains why program "OK" does not behave different that OK-O3-DNDEBUG
-   w.r.t. the above bug. </li>
-   <li> One solution is to use a make-variable which is empty or has the name-extension
-   in it, depending on whether the unoptimised or the optimised version is to be
-   compiled. </li>
-  </ul>
-
-
-  \bug Uninitialised values with optimised inlined versions : DONE
-  (undefined behaviour resulted from an expression depending on the
-  order of evaluation)
-  <ul>
-   <li> On cs-wsok, from the 2*3=6 executables for the OKsolver,
-   when run on the example data/uuf250-011.cnf, exactly those two inlined
-   "Gesamt" and "GesamtOKs" and compiled with optimisation fail (apparently
-   get into an infinite loop; the other programs produce the same
-   results, and valgrind can find no fail with them), yielding
-   \verbatim
-bin> valgrind ./Gesamt-O3-DNDEBUG uuf250-011.cnf
-==30110== Conditional jump or move depends on uninitialised value(s)
-==30110==    at 0x407597: Reduktion1 (in /home/csoliver/SAT-Algorithmen/OKplatform/system_directories/bin/Gesamt-O3-DNDEBUG)
-==30110==    by 0x409E95: main (in /home/csoliver/SAT-Algorithmen/OKplatform/system_directories/bin/Gesamt-O3-DNDEBUG)
-   \endverbatim
-   There could be further uninitialised values, or it could be a compiler
-   but (but suspicious that it's again in Reduktion1). The correct result is
-   \verbatim
-s UNSATISFIABLE
-c sat_status=0 initial_maximal_clause_length=3 initial_number_of_variables=250 initial_number_of_clauses=1065 initial_number_of_literal_occurrences=3195 running_time(s)=8.6 number_of_nodes=9681 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=65579 number_of_pure_literals=1402 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=25 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=45382 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=uuf250-011.cnf
-   \endverbatim
-   To emphasise, the program OK runs correct in both versions (also OK-O3-DNDEBUG)).
-   </li>
-  </ul>
-
-
-  \bug Uninitialised values with the old OKsolver : DONE (when initialising
-  the variables, then now also all are set to "unassigned")
-
-  Running the OKsolver (for example the executable "Gesamt", but the same arises with
-  the two other versions "OK" and "GesamtOKs") with valgrind we get
-  \verbatim
-system_directories/bin> valgrind ./OK ${OKPLATFORM}/OKsystem/Transitional/QuantumPhysics/data/Peres33PointConfiguration.cnf
-...
-==8114== Conditional jump or move depends on uninitialised value(s)
-==8114==    at 0x804AC12: Reduktion1 (Reduktion.c:501)
-==8114==    by 0x804C832: SATEntscheidung (OK.c:481)
-==8114==    by 0x804FA94: main (OK.c:1379)
-   \endverbatim
-   The first guess is that the data member "belegt" is not properly (0-)initialised (apparently this
-   did not happen with older versions of gcc). Perhaps we eliminate first all warnings. How does valgrind know about the uninitialised values?
-   Attaching gdb and inspecting the value of v does show anything?
 
 */
 
