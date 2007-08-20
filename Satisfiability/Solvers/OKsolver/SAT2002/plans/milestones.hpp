@@ -10,8 +10,11 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - bug Uninitialised values with optimised inlined versions
     - Tests
+    - Write application tests : DONE
+    - Eliminate all warnings : DONE
+    - bug Incorrect linking for optimised code : DONE
+    - bug Uninitialised values with optimised inlined versions : DONE
     - bug Uninitialised values with the old OKsolver : DONE
 
 
@@ -54,14 +57,14 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Add asserts
+    - Add asserts throughout
 
 
   \par Version 1.0
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Write application tests
+    - Create systematic application tests
 
   \par
    Create a tag, stating that the basically unaltered original OKsolver
@@ -86,14 +89,28 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Declare variable as close to their first usage as possible
+
+
+  \par Version 1.0.4
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Use const-qualification
 
 
-    \par Version 1.0.4
+  \par Version 1.0.5
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Use restrict-qualification
+
+
+  \par Version 1.0.6
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Correct counting
 
 
 

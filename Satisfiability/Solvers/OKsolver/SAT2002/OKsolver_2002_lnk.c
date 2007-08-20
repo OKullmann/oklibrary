@@ -5,7 +5,7 @@
 
 
 /*!
-  \file Solvers/OKsolver/SAT2002/OK.c
+  \file Solvers/OKsolver/SAT2002/OKsolver_2002_lnk.c
   \brief The main compilation unit for the old OKsolver
 */
 
@@ -80,6 +80,7 @@
 #include <signal.h>
 #include <setjmp.h>
 #include <unistd.h>
+#include <assert.h>
 
 #ifdef SYSTIME
 
@@ -851,11 +852,12 @@ Schleife:
   }
   if (Monitor)
       Rekursionstiefe--;
-  switch (r)
-    {
-    case SAT1 : goto nachSAT1;
-    case SAT2 : goto nachSAT2;
-    } 
+  switch (r) {
+  case SAT1 : goto nachSAT1;
+  case SAT2 : goto nachSAT2;
+  default :
+    assert(0);
+  } 
 }
 
 

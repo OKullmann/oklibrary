@@ -12,7 +12,7 @@ new_test_targets := new_check
 test_goals :=$(test_files) $(test_targets)
 new_test_goals := $(new_test_phonies) $(new_test_targets)
 
-normal_goals := all $(preparation_goals) unoptimised optimised
+normal_goals := all $(preparation_goals) unoptimised optimised app_tests
 
 cleaning_goals := clean cleanobj cleantestobj cleandep cleanprograms cleanall cleantest cleantestop cleanalltests new_cleantest new_cleantestop new_cleanalltests
 

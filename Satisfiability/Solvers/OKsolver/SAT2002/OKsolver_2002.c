@@ -7,7 +7,7 @@
 
 
 /*!
-  \file Solvers/OKsolver/SAT2002/Gesamt.c
+  \file Solvers/OKsolver/SAT2002/OKsolver_2002.c
   \brief Complete program of the old OKsolver where everything is included (for
   better inlining)
 
@@ -27,7 +27,7 @@
 #include "Abstand_nKaZ.c"
 #include "Projektion_Prod.c"
 #include "Speicher.c"
-#include "OK.c"
+#include "OKsolver_2002_lnk.c"
 #include "Ausgaben.c"
 #include "Einlesen.c"
 

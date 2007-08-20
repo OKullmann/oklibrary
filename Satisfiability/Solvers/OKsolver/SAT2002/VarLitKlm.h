@@ -12,8 +12,8 @@
 
 #ifdef BAUMRES
 typedef unsigned long int Wort;
-typedef Wort *ZWort;
-typedef Wort *VarMenge;
+typedef Wort* ZWort;
+typedef Wort* VarMenge;
 typedef struct {
   ZWort Position;
   Wort Maske;
@@ -26,12 +26,12 @@ typedef struct {
 /* Die vier zentralen abstakten Datentypen VAR, LIT, KLN, LITV */
 
 #ifdef LOKALLERNEN
-typedef struct neuK *NKL;
+typedef struct neuK* NKL;
 #endif
-typedef struct var *VAR;
-typedef struct lit *LIT;
-typedef struct litv *LITV;
-typedef struct Klauselv *KLN;
+typedef struct var* VAR;
+typedef struct lit* LIT;
+typedef struct litv* LITV;
+typedef struct Klauselv* KLN;
 
 struct Klauselv {
   KLL Laenge;
@@ -43,25 +43,25 @@ struct Klauselv {
   VarMenge VarM;
 #else
   unsigned int UrLaenge;
-  VarMaske *ersteV;
+  VarMaske* ersteV;
 #endif
 #endif
 };
 
 struct litv {
-  struct litv *nLv;
-  struct litv *lLv;
-  struct litv *nLK;
-  struct litv *lLK;
-  struct lit *lit;
-  struct Klauselv *kln;
+  struct litv* nLv;
+  struct litv* lLv;
+  struct litv* nLK;
+  struct litv* lLK;
+  struct lit* lit;
+  struct Klauselv* kln;
 };
 
 #ifdef LOKALLERNEN
 
 typedef struct neuK {
-  struct neuK *naechstes;
-  struct neuK *vorheriges;
+  struct neuK* naechstes;
+  struct neuK* vorheriges;
   struct Klauselv Klausel;
   struct litv x1;
   struct litv x2;
@@ -79,9 +79,9 @@ extern const LIT NullLiteral;
 
 /* ------------------------------------------------- */
 
-extern unsigned int *aktAnzK;
+extern unsigned int* aktAnzK;
 /* extern unsigned int aktAnzK [ MAXP + 1 ]; */
-extern unsigned int *InitAnzK;
+extern unsigned int* InitAnzK;
 
 /* ------------------------------------------------- */
 
@@ -96,7 +96,7 @@ extern Wort VMaske(VAR v);
 #endif
 extern bool belegt(VAR v);
 extern void setzenbelegt(VAR v, bool T);
-extern char *Symbol(VAR v);
+extern const char* Symbol(VAR v);
 
 extern void loeseV(VAR v);
 extern void bindeV(VAR v);
@@ -150,7 +150,7 @@ extern void NullsetzenRK( void );
 extern VarMenge VarK(KLN k);
 #else
 extern unsigned int UrLaenge(KLN k);
-extern VarMaske *ersteVK(KLN k);
+extern VarMaske* ersteVK(KLN k);
 #endif
 #endif
 
@@ -161,7 +161,7 @@ extern void setzen0RundeK(KLN K);
 extern void Klauselanfangen(void);
 extern void Literaleintragen(int l);
 extern void Klauselbeenden(void);
-void Symboleintragen(unsigned int v, char *S);
+void Symboleintragen(unsigned int v, const char* S);
 
 void setzenerstesV(LIT l, LITV x);
 void setzenLit(LITV x, LIT l);

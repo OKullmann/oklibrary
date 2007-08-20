@@ -7,7 +7,14 @@
 
 /* Einheit: lokalesLernen */
 
-#ifdef LOKALLERNEN
+#ifndef LOKALESLERNEN_ajsje619Y5r
+#define LOKALESLERNEN_ajsje619Y5r
+
+# ifndef LOKALLERNEN
+
+struct EmptyFile;
+
+# else
 
 #include <stdlib.h>
 
@@ -288,4 +295,7 @@ void NullsetzenRKNK(void)
 }
 
 
+# endif
+
 #endif
+

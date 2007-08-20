@@ -929,7 +929,7 @@ $(test_dependency_files) : $(test-aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(te
 # Compile optimised C++ object files for the current module.
 # ----------------------------------------------------------
 $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp | $(lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -938,7 +938,7 @@ $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp
 # Compile unoptimised C++ object files for the current module.
 # ----------------------------------------------------------
 $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -947,7 +947,7 @@ $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
 # Compile optimised C object files for the current module.
 # ----------------------------------------------------------
 $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -956,7 +956,7 @@ $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $
 # Compile unoptimised C object files for the current module.
 # ----------------------------------------------------------
 $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(CPPFLAGS) $(CFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(General_options) $(CPPFLAGS) $(CFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -965,7 +965,7 @@ $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
 # Compile unoptimised test object files for the current module.
 # ----------------------------------------------------------
 $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(General_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -974,7 +974,7 @@ $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-l
 # Compile optimised test object files for the current module.
 # ----------------------------------------------------------
 $(test_object_files_optimised) : $(test-lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(CPPFLAGS) $(CXXFLAGS) $(Optimisation_options) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -1031,7 +1031,8 @@ $(programs_optimised) : $(bin_dir)/%$(name_addition) : $(lib_dir)/%$(name_additi
 # ----------------------------------------------------------
 # test_link_libraries
 # ----------------------------------------------------------
-test_link_libraries := -liberty # because of demangling
+test_link_libraries := -liberty
+# because of demangling
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -1053,6 +1054,16 @@ $(new_test_program) : $(test-bin_dir)/% : $(test_object_files) $(standard_test_p
 $(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bin_dir) $(test-aux_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised) $(test_link_libraries)
 # ----------------------------------------------------------
+
+# ----------------------------------------------------------
+
+# Testing applications
+# Run through all files directly under sub-directores app_tests, execute
+# them and fail if one of them fails
+
+app_tests :
+	L=$$(find * -path "app_tests/*" -and -type f -and -not -name "*~" -and -not -path "app_tests/?*/*") && \
+	for T in $${L}; do $${T}; if [ $$? != 0 ]; then exit 1; fi; done
 
 # ######################################################################
 
