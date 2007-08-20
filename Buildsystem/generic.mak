@@ -1055,6 +1055,16 @@ $(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_objec
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised) $(test_link_libraries)
 # ----------------------------------------------------------
 
+# ----------------------------------------------------------
+
+# Testing applications
+# Run through all files directly under sub-directores app_tests, execute
+# them and fail if one of them fails
+
+app_tests :
+	L=$$(find * -path "app_tests/*" -and -type f -and -not -name "*~" -and -not -path "app_tests/?*/*") && \
+	for T in $${L}; do $${T}; if [ $$? != 0 ]; then exit 1; fi; done
+
 # ######################################################################
 
 # ################################################################
