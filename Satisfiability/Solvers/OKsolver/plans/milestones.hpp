@@ -3,7 +3,7 @@
 /*!
   \file Satisfiability/Solvers/OKsolver/plans/milestones.hpp
 
-  \module_version OKsolver 0.5 (18.8.2007)
+  \module_version OKsolver 0.5.0.1 (20.8.2007)
 
 
   \par Version 0.5.1
