@@ -9,7 +9,7 @@
   \todo Tests:
   
   <ol>
-   <li> cs-wsok : </li>
+   <li> cs-wsok : DONE </li>
    <li> csltok : DONE </li>
    <li> Test the example files (the example of Marijn Heule, now under
   SAT2002/data, and the example under QuantumPhysics). DONE (now in the application test framework) </li>

@@ -10,7 +10,7 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Tests
+    - Tests : DONE
     - Write application tests : DONE
     - Eliminate all warnings : DONE
     - bug Incorrect linking for optimised code : DONE
