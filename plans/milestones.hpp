@@ -55,6 +55,14 @@
    In Transitional/plans/Foundations.hpp the following topics are handled:
     - Fundamental "axioms"
 
+  \par
+   In OKsolver/plans/general.hpp the following topics are handled:
+    - Submodule "Experimental"
+    - Submodule "Generator" : DONE
+    - Submodule "Hilfsprogramme" : DONE
+    - Submodule "Quellen" : DONE
+    - Submodule "Datenbank" : DONE
+
   \par Update
   Update the subsequent milestones.
 
