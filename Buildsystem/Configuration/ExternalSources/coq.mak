@@ -7,11 +7,13 @@ coq_supported_not_recommended_version_numbers ?=
 coq_supported_version_numbers ?= $(coq_supported_not_recommended_version_numbers) $(coq_recommended_version_number)
 
 coq_prefix ?= coq
+
 coq_html_template ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Coq.html
 coq_html_output ?= $(local_html_dir)/Coq.html
 coq_html_documentation_index_location ?= Coq.html
 
 coq_base_directory ?= $(ExternalSources)/Coq
+
 coq_installation_dir ?= $(coq_base_directory)/$(coq_recommended_version_number)
 
 coq_documentation_dir ?= $(ExternalSources_doc)/Coq/$(coq_recommended_version_number)
