@@ -5,10 +5,17 @@
   \brief Plans for the sub-module for wrapping the GMP-C-approach into a class according to the basic concept.
 
 
-  \todo Design the concept of a wrapper.
+  \todo Design the concept of a wrapper for a big-int-class
   <ul>
    <li> The main first "client" is the OKgenerator (see
-   RandomGenerator/plans/RandomGenerator.hpp) </li>
+   RandomGenerator/plans/RandomGenerator.hpp); for the generator
+   itself only VLiteralGeneratorAES.cpp and OKgenerator.cpp itself
+   use big integers. </li>
+   <li> Several constructors
+   </li>
+   <li> The standard operations in accumulator form. </li>
+   <li> Comparisons. </li>
+   <li> Streaming. </li>
   </ul>
 
 
