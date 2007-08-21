@@ -68,7 +68,8 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   \todo General
   <ul>
    <li> It would ge good, if after doing a local installation, easily the
-   installation could also be made global. </li>
+   installation could also be made global. See Gmp.mak and
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme. </li>
    <li> It should always be possible, to install something independently and
    only to specify where to find something (so for every special build there
    needs to be a specification what this build actually provides).
@@ -107,7 +108,8 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    variable ExternalSources. </li>
    <li> How to define variables like Boost and Ubcsat in general?
      We need a nice little method (plus documentation), so that we can add easily as
-     many external libraries as we want. </li>
+     many external libraries as we want. See See Gmp.mak and
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme. </li>
    <li> And then we have make-variables "gcc_version_number" (for generic.mak) and
      "gcc-version" (for boost.mak) which likely should have the same names. </li>
    <li> In system_definitions.mak we have a definition of Boost which seems wrong
