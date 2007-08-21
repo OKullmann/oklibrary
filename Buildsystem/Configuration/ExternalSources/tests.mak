@@ -188,3 +188,21 @@ endif
 # the following construction needs to be generalised by some function
 git_html_documentation_index_location_tag ?= <a href="$(git_html_documentation_index_location)">$(git_html_documentation_index_location)</a>
 
+# New variables for the configuration of building gmp (to be designed 
+# and implemented):
+
+check_gmp_header ?= $(shell [[ -f $(gmp_source_library)/gmp.h ]]; echo $?)
+ifeq ($(location_gmp_header),1)
+  gmp_ready ?= NO
+else
+  version_gmp ?= $(shell basename $$(dirname $(gmp_source_library)))
+  ifeq ($(version_gmp),$(gmp_recommended_version_number))
+    gmp_ready ?= YES
+  else
+    gmp_ready ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+gmp_html_documentation_index_location_tag ?= <a href="$(gmp_html_documentation_index_location)">$(gmp_html_documentation_index_location)</a>
+
