@@ -20,6 +20,6 @@ endif
 	$(run_all_makes)
 
 selected_module := $(OKsystem)/Transitional/Variables
-# arbitrary choice
-html :
-	make -f$(selected_module)/makefile html
+# arbitrary choice (this hack will become superfluous with the new master-script)
+html internet :
+	make -f$(selected_module)/makefile $@

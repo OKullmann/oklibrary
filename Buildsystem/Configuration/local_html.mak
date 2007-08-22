@@ -3,8 +3,11 @@
 # Configuration data regarding the local html-pages (not doxygen)
 
 local_html_dir ?= $(doc_dir)/local_html
+internet_html_dir ?= $(doc_dir)/internet_html
 
-internet_html_homepage ?= unknown
+# The directory where to put files to be put on ok-sat-library.org
+# is $(internet_dir), where this variable needs is specified
+# by the override-file.
 
 local_home_page_template ?= $(OKbuildsystem)/Html/Local/HomePage.html
 local_home_page_output ?= $(local_html_dir)/index.html
@@ -22,4 +25,7 @@ developers_template ?= $(OKconfiguration)/Developers.html
 developers_output ?= $(local_html_dir)/Developers.html
 
 current_date ?= $(shell date --rfc-2822)
+
+internet_home_page_template ?= $(OKbuildsystem)/Html/Internet/HomePage.html
+internet_home_page_output ?= $(internet_html_dir)/index.html
 
