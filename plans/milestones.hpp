@@ -35,15 +35,14 @@
   are integrated into the overall milestones (here).
   \par
    In Transitional/plans/general.hpp the following topics are handled:
+    - Handling of version-numbers
     - "OKlib" vs. "Transitional"
     - Completing the repository
     - Super-modules
-    - Handling of version-numbers
     - Research sub-modules
     - Organisation of plans-directories
-    - Concepts
     - Demos
-    - Upgrade to gcc-4.2.0
+    - Concepts : DONE
     - Computer algebra system : DONE
     - Licence : DONE (moved to System/LegalIssues)
   \par
@@ -54,6 +53,14 @@
   \par
    In Transitional/plans/Foundations.hpp the following topics are handled:
     - Fundamental "axioms"
+
+  \par
+   In OKsolver/plans/general.hpp the following topics are handled:
+    - Submodule "Experimental"
+    - Submodule "Generator" : DONE
+    - Submodule "Hilfsprogramme" : DONE
+    - Submodule "Quellen" : DONE
+    - Submodule "Datenbank" : DONE
 
   \par Update
   Update the subsequent milestones.
@@ -85,8 +92,6 @@
   (see Graphs/plans/milestones.hpp)
   \par HypergraphColouring version 0.0.5 (OK (MH))
   (see HypergraphColouring/plans/milestones.hpp)
-  \par OKsolver_2_0 version 0.0.5 (OK (MH))
-  (see OKsolver_2_0/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK)
   (see QuantumPhysics/plans/milestones.hpp)
   \par Messages version 0.7.6 (OK)
@@ -95,9 +100,15 @@
   (see AutarkySearch/plans/milestones.hpp)
   \par SumProduct version 0.0.4 (OK, MH)
   (see SumProduct/plans/milestones.hpp)
+  \par TestSystem version 0.1.4 
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  \par Transformers/Generators 0.0.6
+  (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
+  \par
+   In Transitional/plans/general.hpp the following topics are handled:
+    - Upgrade to gcc-4.2.1
   \par Update
   Update the subsequent milestones.
 

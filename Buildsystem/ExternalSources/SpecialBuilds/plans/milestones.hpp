@@ -17,13 +17,9 @@
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following topics are handled:
-    - Installation
-    - Local and system-wide
-    - C++
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
-    - Build Sage 2.7
+    - Write docus page : DONE
+    - Local and system-wide : DONE
+    - Installation : DONE
 
 
   \par Version 0.2.3
@@ -52,6 +48,10 @@
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following topics are handled:
     - Missing pgsql/libpq-fe.h
     - Improvements
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following topics are handled:
+    - C++
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Coq.hpp the following topics are handled:

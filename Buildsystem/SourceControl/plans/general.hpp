@@ -7,7 +7,7 @@
 
   \bug Missing log of commit messages in some notification emails
   <ul>
-   <li>MG - This seems to occur when one merges the master branch 
+   <li> MG - This seems to occur when one merges the master branch 
    into rijndael in the same set of commits and then pushes those commits 
    to the server. I believe this happens because of a bug in the post-receive 
    mail script.
@@ -53,6 +53,7 @@ git rev-list --pretty $oldrev..$newrev ^$rijndaelhead
    Wouldn't it be easiest (and best) to get rid off these checks, and just
    send e-mails for each branch on what has changed? </li>
   </ul>
+
 
   \todo Notification-e-mails
   <ul>
@@ -134,6 +135,8 @@ mutt -s "OKlibrary::Annotations Git Push -- $USER" O.Kullmann@Swansea.ac.uk m.j.
   \todo Problems with branch rijndael:
   <ul>
    <li> Git-gui used to allow to switch branches, but then it stopped doing so?? </li>
+   <li> Merge cascades still occur --- the key is to understand the merge-model of git,
+   and its implications on how to reach a fixed point. </li>
    <li> Likely we have to ask these questions on the git-mailing-list. </li>
    <li> Why are there these merge-cascades?  Apparently on my laptop I merge master into rijndael,
    then on the workstation again, and then again on the server (without wanting to do so)???
@@ -417,6 +420,7 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 1.8.2006: 5.0 MB; Transitional total: 16.6 MB </li>
      <li> 10.8.2006: 5.1 MB; Transitional total: 16.7 MB </li>
      <li> 18.8.2006: 5.2 MB; Transitional total: 17.0 MB </li>
+     <li> 22.8.2006: 5.3 MB; Transitional total: 16.9 MB </li>
     </ol>
    </li>
   </ul>

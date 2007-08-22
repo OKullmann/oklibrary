@@ -13,7 +13,6 @@
 #./Boost/%+?_Build : This is the staging directory where configuration and temporary files are stored. This Boost version % is build using GCC version ?. 
 #./Boost/%+? : The built Boost Libraries using GCC version ?. Libraries in this directory are then copied to the GCC ? lib directory.
 
-boost-base-directory := $(ExternalSources)/Boost
 abbr_boost_targets := $(patsubst boost-%, %, $(boost_targets))
 # creates e.g. 1_32_0 1_33_1
 
@@ -24,20 +23,20 @@ gcc-base-directory := $(ExternalSources)/Gcc
 boost_installation_directory_names := $(foreach gccversion, $(gcc_installation_directory_names), $(addsuffix +$(gccversion), $(abbr_boost_targets)))
 # creates e.g. 1_32_0+3.4.3 1_32_0+3.4.4 1_33_1+3.4.3 1_33_1+3.4.4
 boost_installation_directory_names += $(abbr_boost_targets)
-boost_installation_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_installation_directory_names))
+boost_installation_directory_paths := $(addprefix $(boost_base_directory)/,$(boost_installation_directory_names))
 
 boost_build_directory_names := $(addsuffix _Build, $(boost_installation_directory_names))
-boost_build_directory_paths := $(addprefix $(boost-base-directory)/,$(boost_build_directory_names))
+boost_build_directory_paths := $(addprefix $(boost_base_directory)/,$(boost_build_directory_names))
 
-bjam_directory_path := $(boost-base-directory)/bjam
+bjam_directory_path := $(boost_base_directory)/bjam
 # The relative path to to bjam-source:
 bjam_source := tools/jam/src
 
 boost_doc_dir := $(external_sources_doc_base_dir)/Boost
 
-boost-directories := $(boost-base-directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path) $(boost_doc_dir) $(addprefix $(boost_doc_dir)/, $(abbr_boost_targets))
+boost-directories := $(boost_base_directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path) $(boost_doc_dir) $(addprefix $(boost_doc_dir)/, $(abbr_boost_targets))
 
-boost_distribution_directories := $(addprefix $(boost-base-directory)/boost_, $(abbr_boost_targets))
+boost_distribution_directories := $(addprefix $(boost_base_directory)/boost_, $(abbr_boost_targets))
 
 boost_gcc_targets := $(foreach boostversion, $(boost_targets), $(addprefix $(boostversion)+, $(gcc_installation_directory_names)))
 all_boost_targets := $(boost_targets) $(boost_gcc_targets)
@@ -61,7 +60,7 @@ boost_documentation := boost.png \
 
 .PHONY : boost boost_all boost_gcc_all $(all_boost_targets)
 
-$(boost_installation_directory_paths) : % : | $(boost-base-directory) %_Build $(bjam_directory_path)
+$(boost_installation_directory_paths) : % : | $(boost_base_directory) %_Build $(bjam_directory_path)
 
 $(boost-directories) : % : 
 	mkdir -p $@
@@ -71,18 +70,18 @@ $(boost-directories) : % :
 # ###############################
 
 define install-boost
-	$(bjam_directory_path)/bjam --toolset=gcc --prefix=$(boost-base-directory)/$(1) --build-dir=$(boost-base-directory)/$(1)_Build install --without-python
+	$(bjam_directory_path)/bjam --toolset=gcc --prefix=$(boost_base_directory)/$(1) --build-dir=$(boost_base_directory)/$(1)_Build install --without-python
 endef
 
-$(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory)/boost-% : $(boost-base-directory)/% $(boost_doc_dir)/%
-	$(call unarchive,boost_$*,$(boost-base-directory)) $(postcondition) \
-	cd $(boost-base-directory)/boost_$*; $(postcondition) \
+$(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory)/boost-% : $(boost_base_directory)/% $(boost_doc_dir)/%
+	$(call unarchive,boost_$*,$(boost_base_directory)) $(postcondition) \
+	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	cd $(bjam_source); $(postcondition) \
 	./build.sh; $(postcondition) \
 	cp bin.*/bjam $(bjam_directory_path); $(postcondition) \
-	cd $(boost-base-directory)/boost_$*; $(postcondition) \
+	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*); \
-	mln -s "$(boost-base-directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$*/lib/#1gcc#4"; $(postcondition) \
+	mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$*/lib/#1gcc#4"; $(postcondition) \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$*; $(postcondition) \
 	touch $@; $(postcondition)
 
@@ -96,21 +95,21 @@ $(addprefix $(boost-base-directory)/, $(boost_targets)) : $(boost-base-directory
 # ###############################
 
 define install-boost_gcc
-	$(bjam_directory_path)/bjam --toolset=gcc-$(2) --toolset-root=$(gcc-base-directory)/$(2) --prefix=$(boost-base-directory)/$(1)+$(2) --build-dir=$(boost-base-directory)/$(1)+$(2)_Build "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" install --without-python
+	$(bjam_directory_path)/bjam --toolset=gcc-$(2) --toolset-root=$(gcc-base-directory)/$(2) --prefix=$(boost_base_directory)/$(1)+$(2) --build-dir=$(boost_base_directory)/$(1)+$(2)_Build "-sGCC_ROOT_DIRECTORY=$(gcc-base-directory)/$(2)" install --without-python
 endef
 
 define boost_gcc_rule
-$(boost-base-directory)/boost-$(1)+$(2) : $(boost-base-directory)/$(1)+$(2) $(boost_doc_dir)/$(1) | gcc-$(2) 
-	$(call unarchive,boost_$(1),$(boost-base-directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
-	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
+$(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(boost_doc_dir)/$(1) | gcc-$(2) 
+	$(call unarchive,boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
 	./build.sh; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp bin.*/bjam $(bjam_directory_path); if [ $$$$? != 0 ]; then exit 1; fi; \
-	cd $(boost-base-directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
+	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \
-	mln -s "$(boost-base-directory)/$(1)+$(2)/lib/*gcc[0-9][0-9]*" "$(boost-base-directory)/$(1)+$(2)/lib/#1gcc#4"; if [ $$$$? != 0 ]; then exit 1; fi; \
+	mln -s "$(boost_base_directory)/$(1)+$(2)/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$(1)+$(2)/lib/#1gcc#4"; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp -r $(boost_documentation) $(boost_doc_dir)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
-	touch $(boost-base-directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
+	touch $(boost_base_directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
 endef
 
 # Comments:
@@ -125,7 +124,7 @@ $(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_insta
 
 boost_gcc_all : $(all_boost_targets)
 
-$(all_boost_targets) : % : $(boost-base-directory)/%
+$(all_boost_targets) : % : $(boost_base_directory)/%
 
 ifeq ($(gcc-version),all)
  boost_all : $(boost_gcc_targets)
@@ -148,4 +147,4 @@ cleanboost :
 	-rm -rf $(boost_build_directory_paths) $(boost_distribution_directories) $(bjam_directory_path)
 
 cleanallboost : 
-	-rm -rf $(boost-base-directory)
+	-rm -rf $(boost_base_directory)

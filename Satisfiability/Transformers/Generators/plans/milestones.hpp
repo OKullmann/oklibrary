@@ -1,13 +1,19 @@
 // Oliver Kullmann, 11.6.2007 (Swansea)
 
 /*!
-  \file Generators/plans/milestones.hpp
+  \file Satisfiability/Transformers/Generators/plans/milestones.hpp
   
-  \module_version Satisfiability/Transformers/Generators 0.0.5 (11.6.2007)
+  \module_version Transformers/Generators 0.0.5 (11.6.2007)
 
   \par Version 0.0.6
 
+  \par
+   In Generators/plans/general.hpp the following topics are handled:
+    - Update
+
    Create further milestones.
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

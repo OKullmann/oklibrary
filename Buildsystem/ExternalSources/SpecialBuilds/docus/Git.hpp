@@ -16,7 +16,7 @@
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> Thee executables
+   <li> Three executables
     <ol>
      <li> the <code>git</code> program: command-line tool for complete access to the source control system; </li>
      <li> the <code>git-gui</code> program: simple and useful graphical interface to git-functionality related to commits; </li>
