@@ -3,11 +3,13 @@
 /*!
   \file Kryptologie/plans/milestones.hpp
 
-  \par Current version 0.0.7 (7.11.2006)
+  \module_version Kryptologie 0.0.7 (7.11.2006)
+
 
   \par Version 0.0.8 :
   In Kryptologie/plans/Kryptologie.hpp the topic
   "Update" has been handled, and further milestones created.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

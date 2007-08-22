@@ -4,7 +4,10 @@
   \file Concepts/plans/BigIntegers.hpp
   \brief Plans for concepts for big integer classes
 
+
   \todo The basic concept for big integers should include:
+   - fully constructible
+   - constructor from integral types
    - the assignment operations +=, *=, -=, /=, %=
    - the basic operation +, *, -, /, %
    - linear order
@@ -15,12 +18,14 @@
    - partial specialisation of boost::lexical_cast (from and to strings)
    - input and output streaming.
 
+
   \todo Natural numbers:
   One design issue is how to handle natural numbers (NN_0 and NN).
   Likely we need different concepts (the free ring vs. the free semiring, each
   of dimension 1), where the concepts allow for conversions. (NN is the
   free semigroup with one generator, while NN_0 is also the free monoid with
   one generator.)
+
 
   \todo Basic concepts are needed for the basic algebraic structures:
   <ul>
@@ -42,8 +47,10 @@
    <li> min and max </li>
   </ul>
 
+
   \todo What about generalisations/extensions of the integers?
   (Mostly number-theoretical.)
+
 
   \todo Boost:
   <ul>
@@ -51,11 +58,14 @@
    a class big_uint. </li>
   </ul>
 
+
   \todo First client:
   Most important is what module RandomGenerator needs
-  (see RandomGenerator/plans/RandomGenerator.hpp).
+  (see RandomGenerator/plans/general.hpp).
 
-  \todo Coordinate with module Transitional/BigIntegers
-  (see BigIntegers/plans/BigIntegers.hpp).
+
+  \todo Coordinate with module Structures/NumberTheory/BigIntegers
+  (see BigIntegers/plans/general.hpp).
+
 */
 
