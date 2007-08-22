@@ -11,11 +11,10 @@
     <ol>
      <li> OKplatform/ExternalSources/sources </li>
      <li> OKplatform/ExternalSources/installations </li>
-     <li> OKplatform/ExternalSources/docs </li>
+     <li> OKplatform/ExternalSources/doc </li>
     </ol>
     where to "sources" all the tarballs go, while to "installations"
-    all current sub-directories go (and "docs" replaces the current
-    "doc"). </li>
+    all current sub-directories go. </li>
   </ul>
 
 

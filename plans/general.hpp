@@ -27,7 +27,7 @@
      <li> OKplatform/ExternalSources </li>
      <li> OKplatform/ExternalSources/installations </li>
      <li> OKplatform/ExternalSources/doc </li>
-     <li> OKplatform/ExternalSources/Sources </li>
+     <li> OKplatform/ExternalSources/sources </li>
      <li> OKplatform/OKsystem </li>
      <li> OKplatform/OKsystem/OKlib </li>
     </ol>
@@ -53,7 +53,7 @@
      <li> Disadvantages:
       <ol>
        <li> The full directory structure is fixed. </li>
-       <li> As know, "projecting the directory structure in the environment", we are
+       <li> As now, "projecting the directory structure in the environment", we are
        more flexible. </li>
        <li> The Git-history-interruption (due to the move) is somewhat ugly. </li>
        <li> Git only notices a directory if it has some (indexed) file in it. </li>
@@ -167,6 +167,7 @@ namespace SatAlg = Satisfiability::Algorithms;
        <li> "Structures" ("Str")
         <ol>
          <li> Alg ("Algebra") </li>
+         <li> Cry ("Cryptology") </li>
          <li> Ord ("OrderTheory") </li>
          <li> Num ("NumberTheory") </li>
         </ol>
@@ -258,15 +259,18 @@ namespace SatAlg = Satisfiability::Algorithms;
 
   \todo Handling of version-numbers
   <ul>
-   <li> One could introduce a fourth digit, which is not
+   <li> The discussions below must be expanded into the general
+   documentation-document. </li>
+   <li> DONE (now being practised)
+   One could introduce a fourth digit, which is not
    referenced in milestones-plans, but is increased each time
    one of the immediate sub-goals of the milestones has been
    fulfilled. Perhaps only for the "important version-numbers";
    could help to give a stronger sense of achievement. </li>
-   <li> Important, that such a refinement does not lead to
+   <li> DONE Important, that such a refinement does not lead to
    unnecessary bureaucrazy --- it should be only a
    "progress meter", and advances "at random". </li>
-   <li> Perhaps an "important version-numbers" is defined as
+   <li> DONE Perhaps an "important version-number" is defined as
    one where progress means that sub-version-numbers are
    advanced. </li>
   </ul>
@@ -274,18 +278,7 @@ namespace SatAlg = Satisfiability::Algorithms;
 
   \todo Research sub-modules
   <ul>
-   <li> To solve the privace-issues, it seems that (yet) only plans-directories
-   are an issue, and one could move sensitive files to sub-directories
-   "research" (moving also the whole history(!) --- see "Moving" in
-   Buildsystem/plans/VersionControl.hpp). </li>
-   <li> Currently I (OK) am inclined to release everything as it is (including
-   "research secrets"), but this under the GPL: The OKplatform is a research
-   platform, not a "tool" for industrial exploitation. Seeing that valuable
-   research information is in the library, researchers will also add their
-   own ideas. The GPL-licence together with the possibility to check whether
-   a clone-repository has been corrupted should give enough security against
-   the worst misusers. </li>
-   <li> However, then perhaps Annotations simply stays a different repository. </li>
+   <li> Annotations simply stays a different repository. </li>
    <li> At least for version transitions, is it possible to store clones somewhere
    at an "official place" ?
     <ol>
@@ -297,30 +290,41 @@ namespace SatAlg = Satisfiability::Algorithms;
      have a "mirror" somewhere. </li>
      <li> Perhaps actually the SAT community could provide a repository for SAT-related
      software?! </li>
-     <li> But all this implies at least, that the external sources are not part
+     <li> DONE (external sources are not under version control (only their hash
+     values))
+     But all this implies at least, that the external sources are not part
      of the release --- otherwise it gets too big. </li>
     </ol>
    </li>
+   <li> DONE (all what we have currently is to be released; if in the future
+   there are "private" developments, then one has to create a branch or
+   a new repository)
+   To solve the privace-issues, it seems that (yet) only plans-directories
+   are an issue, and one could move sensitive files to sub-directories
+   "research" (moving also the whole history(!) --- see "Moving" in
+   Buildsystem/plans/VersionControl.hpp). </li>
+   <li> DONE (decided to go fully public)
+   Currently I (OK) am inclined to release everything as it is (including
+   "research secrets"), but this under the GPL: The OKplatform is a research
+   platform, not a "tool" for industrial exploitation. Seeing that valuable
+   research information is in the library, researchers will also add their
+   own ideas. The GPL-licence together with the possibility to check whether
+   a clone-repository has been corrupted should give enough security against
+   the worst misusers. </li>
   </ul>
 
 
   \todo Organisation of plans-directories
   <ul>
-   <li> The module-plan-files is just called "general.hpp". </li>
-   <li> A problem with that is, that under xemacs all such files look alike --- but perhaps
+   <li> A problem with "general.hpp" is, that under xemacs all such files look alike --- but perhaps
    xemacs can be configured to show also the comprising directory? </li>
    <li> Another "systematic" file in plans-directories is "wishlist.hpp",
    which is especially for users the place where they can articulate
    wishes. (Which might not be realised --- general.hpp contains all
    wishes which are to be realised (first they unfold in general.hpp,
    and finally they got moved to their own plans-file).) </li>
-  </ul>
-
-
-  \todo Concepts
-  <ul>
-   <li> Currently all concepts are collected in module Concepts. Perhaps every module
-   better should get its own sub-module "Module/concepts" ?! </li>
+   <li> DONE (now being practised)
+   The module-plan-files is just called "general.hpp". </li>
   </ul>
 
 
@@ -344,6 +348,14 @@ namespace SatAlg = Satisfiability::Algorithms;
      <li> Files affected: XXX </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Concepts : DONE (decided that concepts are now handled locally, in
+  each module)
+  <ul>
+   <li> Currently all concepts are collected in module Concepts. Perhaps every module
+   better should get its own sub-module "Module/concepts" ?! </li>
   </ul>
 
 

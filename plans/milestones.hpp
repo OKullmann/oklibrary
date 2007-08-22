@@ -35,15 +35,14 @@
   are integrated into the overall milestones (here).
   \par
    In Transitional/plans/general.hpp the following topics are handled:
+    - Handling of version-numbers
     - "OKlib" vs. "Transitional"
     - Completing the repository
     - Super-modules
-    - Handling of version-numbers
     - Research sub-modules
     - Organisation of plans-directories
-    - Concepts
     - Demos
-    - Upgrade to gcc-4.2.0
+    - Concepts : DONE
     - Computer algebra system : DONE
     - Licence : DONE (moved to System/LegalIssues)
   \par
@@ -107,6 +106,9 @@
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transformers/Generators 0.0.6
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
+  \par
+   In Transitional/plans/general.hpp the following topics are handled:
+    - Upgrade to gcc-4.2.1
   \par Update
   Update the subsequent milestones.
 
