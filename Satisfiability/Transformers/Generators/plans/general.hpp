@@ -8,22 +8,40 @@
   \todo Update namespaces.
 
 
-  \todo Transferring (and updating):
+  \todo Update
   <ul>
-   <li> OKsolver/Experimental/Transformationen/FaronsPuzzle </li>
-   <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique </li>
+   <li>
+    <ol> 
+     <li> FaronsPuzzle.hpp : </li>
+     <li> Filter.cpp : what is the purpose of this?? </li>
+     <li> LinInequal.hpp : </li>
+     <li> Ramsey.cpp </li>
+     <li> Ramsey.hpp </li>
+     <li> Generators/Test.cpp (the main procedure for Faron's Puzzle) : </li>
+     <li> Tests_Ramsey : </li>
+     <li> Test_Transformations.cpp : </li>
+     <li> VanderWaerden.cpp : </li>
+     <li> VanderWaerden.hpp : </li>
+     <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp : </li>
+    </ol>
+   </li>
+   <li> Transfer OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique to here. </li>
+   <li> The main generators should produce generalised clause-sets.
+   If output and/or boolean formulas is needed, then further
+   transformers are to be used.
+   The variables are tuples of values.
+   </li>
   </ul>
-  The main generators should produce generalised clause-sets.
-  If output and/or boolean formulas is needed, then further
-  transformers are to be used.
-  The variables are tuples of values.
+  
 
 
   \todo We need active clause-sets for biclique-transformations for
   interesting classes of graphs (including complete graphs).
 
+
   \todo The HKB-formulas (MUSAT_{delta=2}, where every literal occurs
   at least once) have to be constructed.
+
 
   \todo Generator for PHP, and more generally for matching formulas,
   given an arbitrary graph and a set of vertices to be matched.

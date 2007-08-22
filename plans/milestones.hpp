@@ -93,8 +93,6 @@
   (see Graphs/plans/milestones.hpp)
   \par HypergraphColouring version 0.0.5 (OK (MH))
   (see HypergraphColouring/plans/milestones.hpp)
-  \par OKsolver_2_0 version 0.0.5 (OK (MH))
-  (see OKsolver_2_0/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK)
   (see QuantumPhysics/plans/milestones.hpp)
   \par Messages version 0.7.6 (OK)
@@ -103,9 +101,12 @@
   (see AutarkySearch/plans/milestones.hpp)
   \par SumProduct version 0.0.4 (OK, MH)
   (see SumProduct/plans/milestones.hpp)
+  \par TestSystem version 0.1.4 
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  \par Transformers/Generators 0.0.6
+  (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
   \par Update
   Update the subsequent milestones.
 
