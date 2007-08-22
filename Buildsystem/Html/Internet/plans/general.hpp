@@ -38,8 +38,8 @@
    <li> Do we need e-mail-forwarding? </li>
    <li> How to host ok-sat-library.org on our machines DONE (set html-forwarding
    to the local address in Swansea, using the "cloak" method) </li>
-   <li> DONE (OK acquired "ok-sat-library.org" for 10 years; forgot to add the
-   "www.", but so well --- it would also be fake)
+   <li> DONE (OK acquired "ok-sat-library.org" for 10 years, which seems
+   to include "www.ok-sat-library.org" as well as just "ok-sat-library.org")
    It sems best to acquire a domain name like
     <ol>
      <li> www. oklibrary.edu </li>

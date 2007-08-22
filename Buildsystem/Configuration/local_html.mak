@@ -2,6 +2,9 @@
 
 # Configuration data regarding the local html-pages (not doxygen)
 
+# OK: According to the name of this file, the Internet-related content
+# should be put into another file (internet_html.mak?) ?
+
 local_html_dir ?= $(doc_dir)/local_html
 internet_html_dir ?= $(doc_dir)/internet_html
 
@@ -28,4 +31,6 @@ current_date ?= $(shell date --rfc-2822)
 
 internet_home_page_template ?= $(OKbuildsystem)/Html/Internet/HomePage.html
 internet_home_page_output ?= $(internet_html_dir)/index.html
+
+oklibrary_domain := http://www.ok-sat-library.org
 
