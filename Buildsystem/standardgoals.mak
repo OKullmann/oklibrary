@@ -3,7 +3,7 @@
 special_goals := prebuild
 preparation_goals := createdirs 
 
-html_goals := html
+html_goals := html internet
 
 test_files := test testop
 new_test_phonies := new_test new_testop # the notion of "phony" seems inappropriate here (since these are files!) ?!

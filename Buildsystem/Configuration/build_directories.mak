@@ -41,7 +41,8 @@ build_directories = \
                $(test-bin_dir) \
                $(test-lib_dir) \
                $(test-aux_dir) \
-               $(local_html_dir)
+               $(local_html_dir) \
+               $(internet_html_dir)
 
 OKsystem_include := -I$(OKsystem)
 

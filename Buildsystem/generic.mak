@@ -752,6 +752,7 @@ endif
 
 include $(OKbuildsystem)/OKlibBuilding/Targets/html/doxygen_documentation.mak
 include $(OKbuildsystem)/OKlibBuilding/Targets/html/documentation_index.mak
+include $(OKbuildsystem)/OKlibBuilding/Targets/internet/Makefile
 
 # ######################################################################
 
