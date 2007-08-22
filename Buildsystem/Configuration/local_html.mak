@@ -34,3 +34,5 @@ internet_home_page_output ?= $(internet_html_dir)/index.html
 
 oklibrary_domain := http://www.ok-sat-library.org
 
+main_docu_page ?= $(doc_dir)/doxygen_html/d0/dfd/docus_2general_8hpp.html
+
