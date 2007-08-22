@@ -1,10 +1,15 @@
 // Oliver Kullmann, 29.12.2005 (Swansea)
 
 /*!
-  \file Concepts/plans/Concepts.hpp
-  \brief Plans for the concepts module
+  \file Concepts/plans/general.hpp
+  \brief General plans for the concepts module
 
-  \todo Split the module:
+
+  \todo UPDATE : Since we are now placing concepts as local as possible,
+  the following must become a plan for moving files to their new place.
+  But the concepts for example regarding the standard library stay here.
+
+  Split the module:
   The module Concepts is becoming too big and one is loosing overlook.
   So it should split, with a recursive make under directory Concepts,
   into sub-modules
@@ -26,11 +31,6 @@
     <ul>
      <li> Concepts/plans/BipartiteGraphs.hpp </li>
      <li> Concepts/plans/Hypergraphs.hpp </li>
-    </ul>
-   </li>
-   <li> Numbers (or "Algebra" ?, "Mathematics" ?, "Math" ?)
-    <ul>
-     <li> Concepts/plans/BigIntegers.hpp </li>
     </ul>
    </li>
    <li> Std
@@ -64,10 +64,12 @@
   Concepts/plans/milestones.hpp.
   Would be good to have refactoring-tools ready for the necessary renamings.
 
+
   \todo Cannibalise the approach from 200203:
   Transfer if appropriate concepts from
   OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp,
   and once finished, mark this file to be obsolete.
+
 
   \todo Develop concepts:
    - atomic conditions
@@ -75,6 +77,7 @@
    - partial assignments
    - active clause-sets
    - clauses and clause-sets.
+
 
   \todo Develop a general strategy for creating generic tests:
   <ul>
@@ -96,11 +99,14 @@
    </li>
   </ul>
 
+
   \todo Warnings:
   Eliminate all warnings.
 
+
   \todo Tests:
   Move to the new test system.
+
 
   \todo Technical problems when formulating concepts:
   <ul>
@@ -111,6 +117,7 @@
    I would assume that here there is none. And in general?
    </li>
   </ul>
+
 
   \todo Complete the concepts and tests belonging to the standard:
   <ul>
