@@ -1,11 +1,18 @@
 // Oliver Kullmann, 19.10.2005 (Swansea)
 
 /*!
-  \file Concepts/plans/BigIntegers.hpp
+  \file BigIntegers/concepts/plans/general.hpp
   \brief Plans for concepts for big integer classes
 
 
-  \todo The basic concept for big integers should include:
+  \todo Boost:
+  <ul>
+   <li> May 2005 there was a simple implementation by Christopher Diggins for
+   a class big_uint. </li>
+  </ul>
+
+
+  \todo The basic concept for big integers should (just) include:
    - fully constructible
    - constructor from integral types
    - the assignment operations +=, *=, -=, /=, %=
@@ -17,6 +24,11 @@
    - partial specialisation of boost::numerical_cast
    - partial specialisation of boost::lexical_cast (from and to strings)
    - input and output streaming.
+
+
+  \todo First client:
+  Most important is what module RandomGenerator needs
+  (see RandomGenerator/plans/general.hpp).
 
 
   \todo Natural numbers:
@@ -50,22 +62,6 @@
 
   \todo What about generalisations/extensions of the integers?
   (Mostly number-theoretical.)
-
-
-  \todo Boost:
-  <ul>
-   <li> May 2005 there was a simple implementation by Christopher Diggins for
-   a class big_uint. </li>
-  </ul>
-
-
-  \todo First client:
-  Most important is what module RandomGenerator needs
-  (see RandomGenerator/plans/general.hpp).
-
-
-  \todo Coordinate with module Structures/NumberTheory/BigIntegers
-  (see BigIntegers/plans/general.hpp).
 
 */
 
