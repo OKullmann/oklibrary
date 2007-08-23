@@ -34,7 +34,7 @@
   </ul>
 
 
-  \todo Problems with building Boost (1_34_0)
+  \todo Problems with building Boost
   <ul>
    <li> Report to Boost: How to call the libraries is not documented, %e.g.,
    the only library-name mentioned is "Boost.Python", while its real name
@@ -84,6 +84,7 @@ collect2: ld terminated with signal 11 [Segmentation fault]
 
   \todo Documentation
   <ul>
+   <li> Complete Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp. </li>
    <li> Mention that the mcp-tools (mln, mmv) need to be installed (available in all distributions). </li>
   </ul>
 
