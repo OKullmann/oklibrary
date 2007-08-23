@@ -8,9 +8,21 @@
   \todo Update namespaces.
 
 
-  \todo First step is to transfer the experiment-system from OKgenerator
-  (see directory OKsolver/Generator) to the (transitional) library.
-  Necessary extensions (improvements):
+  \todo Transfer
+  <ul>
+   <li> First step is to transfer the experiment-system from OKgenerator
+   (see directory ExperimentSystem/RandomGenerator) to here. </li>
+   <li> Compilation is not an issue yet, but renaming and initial documentation. </li>
+  </ul>
+
+
+  \todo Working again
+  <ul>
+   <li> Make the tools compiling and running correctly. </li>
+  </ul>
+
+
+  \todo Necessary extensions (improvements) of the old experiment-system:
   <ul>
    <li> Descriptors:
     <ol>
