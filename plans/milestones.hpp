@@ -104,6 +104,10 @@
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  \par BigIntegers version 0.0.3
+  (see BigIntegers/plans/milestones.hpp)
+  \par Experimentation/RandomGenerator verion 0.5.1
+  (see RandomGenerator/plans/milestones.hpp)
   \par Transformers/Generators 0.0.6
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
   \par
