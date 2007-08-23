@@ -9,8 +9,8 @@
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Directory structure of OKplatform/ExternalSources
     - Documenting ExternalSources.mak
+    - Directory structure of OKplatform/ExternalSources : DONE
     - Renaming : DONE
     - Plans-structure for ExternalSources : DONE
 

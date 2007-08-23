@@ -5,20 +5,7 @@
   \brief Plans for building external sources in general
 
 
-  \todo Directory structure of OKplatform/ExternalSources
-  <ul>
-   <li> Perhaps two new sub-directories
-    <ol>
-     <li> OKplatform/ExternalSources/sources </li>
-     <li> OKplatform/ExternalSources/installations </li>
-     <li> OKplatform/ExternalSources/doc </li>
-    </ol>
-    where to "sources" all the tarballs go, while to "installations"
-    all current sub-directories go. </li>
-  </ul>
-
-
-  \todo Documenting ExternalSources.mak
+  \todo Documenting ExternalSources/Makefile
   <ul>
    <li> General explanations in ExternalSources/docus/general.hpp:
     <ol>
@@ -52,7 +39,11 @@
 cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    \endverbatim
    </li>
-   <li> Perhaps best via anonymous ftp? </li>
+   <li> Better, we make this directory available via the OKlibrary web site, and
+   then one can (manually) download each file separately, or an archive with
+   all of them, or via "make getsources". </li>
+   <li> Perhaps best via anonymous ftp? Better we use a password (a universal one,
+   given in Configuration). </li>
   </ul>
 
 
@@ -142,6 +133,20 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   \todo %Tools
   <ul>
    <li> Investigate the NiX system (a system for managing libraries). </li>
+  </ul>
+
+
+  \todo Directory structure of OKplatform/ExternalSources : DONE
+  <ul>
+   <li> One new sub-directory
+    <ol>
+     <li> OKplatform/ExternalSources/sources DONE (introduced, and mirrored in
+     Buildsystem/ExternalSources/sources) </li>
+     <li> OKplatform/ExternalSources/installations DONE (not needed) </li>
+     <li> OKplatform/ExternalSources/doc DONE (as is) </li>
+    </ol>
+    where to "sources" all the tarballs go, while to "installations"
+    all current sub-directories go. </li>
   </ul>
 
 
