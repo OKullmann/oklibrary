@@ -1,7 +1,7 @@
 // Oliver Kullmann, 28.10.2005 (Swansea)
 
 /*!
-  \file SATCompetition/LexicographicalEvaluationPolicies.hpp
+  \file Experimentation/Competition/LexicographicalEvaluationPolicies.hpp
   \brief Policies used by LexicographicalEvaluation.hpp
 
   \todo Write a concept.
@@ -15,8 +15,8 @@
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
 

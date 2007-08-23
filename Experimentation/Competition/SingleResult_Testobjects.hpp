@@ -5,8 +5,8 @@
 
 #include <Transitional/Concepts/ResultElements_Tests.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/SingleResult_Tests.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult_Tests.hpp>
 
 namespace OKlib {
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 5.11.2005 (Swansea)
 
 /*!
-  \file SATCompetition/ComputeAnalysis.cpp
+  \file Experimentation/Competition/ComputeAnalysis.cpp
   \brief Analyse a file with competition data by printing out for all benchmarks
   the number of succesful solvers, the result problem purse, the speed factor and the
   SAT status (as determined by the solver results).
@@ -18,10 +18,10 @@
 
 #include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
-#include <Transitional/SATCompetition/Scoring.hpp>
-#include <Transitional/SATCompetition/AnalysisTools.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/Scoring.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
 
 template <bool with_extension>
 struct result_database {

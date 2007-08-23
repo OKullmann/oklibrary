@@ -3,8 +3,8 @@
 #ifndef LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
 #define LEXICOGRAPHICALEVALUATIONTESTOBJECTS_757556
 
-#include <Transitional/SATCompetition/LexicographicalEvaluation.hpp>
-#include <Transitional/SATCompetition/LexicographicalEvaluation_Tests.hpp>
+#include <Transitional/Experimentation/Competition/LexicographicalEvaluation.hpp>
+#include <Transitional/Experimentation/Competition/LexicographicalEvaluation_Tests.hpp>
 
 namespace OKlib {
 

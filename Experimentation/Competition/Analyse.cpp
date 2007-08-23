@@ -1,7 +1,7 @@
 // Oliver Kullmann, 5.5.2005 (Swansea)
 
 /*!
-  \file SATCompetition/Analyse.cpp
+  \file Experimentation/Competition/Analyse.cpp
   \brief Reading in a data file, computing the lexicographical order of solvers.
   Superseded by ComputeLexicographicalEvaluation (which handles directly
   the original data file).

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 7.6.2005 (Swansea)
 
 /*!
-  \file SATCompetition/AnalysisTools.hpp
+  \file Experimentation/Competition/AnalysisTools.hpp
   \brief Class ElementaryAnalysis<Database> (supplying Database with some "indices") and related constructs.
 */
 
@@ -22,8 +22,8 @@
 
 #include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
 

@@ -24,8 +24,8 @@
 
 #include <Transitional/Parsing/ParserBase_Tests.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
 
 namespace OKlib {
 

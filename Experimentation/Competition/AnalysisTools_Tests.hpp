@@ -20,10 +20,10 @@
 #include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
 #include <Transitional/SetAlgorithms/SequenceOperations.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
 

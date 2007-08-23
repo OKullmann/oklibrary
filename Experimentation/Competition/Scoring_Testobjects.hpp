@@ -3,8 +3,8 @@
 #ifndef SCORINGTESTOBJECTS_poIU71k
 #define SCORINGTESTOBJECTS_poIU71k
 
-#include <Transitional/SATCompetition/Scoring.hpp>
-#include <Transitional/SATCompetition/Scoring_Tests.hpp>
+#include <Transitional/Experimentation/Competition/Scoring.hpp>
+#include <Transitional/Experimentation/Competition/Scoring_Tests.hpp>
 
 namespace OKlib {
 

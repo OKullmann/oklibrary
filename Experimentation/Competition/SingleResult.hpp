@@ -1,7 +1,7 @@
 // Oliver Kullmann, 8.5.2005 (Swansea)
 
 /*!
-  \file SATCompetition/SingleResult.hpp
+  \file Experimentation/Competition/SingleResult.hpp
   \brief Classes for representing results of one solver on one problem instance
 
   A polymorphic class hierarchy with ResultElement at the base, with derived class

@@ -3,8 +3,8 @@
 #ifndef ANALYSISTOOLSTESTOBJECTS_010uJn
 #define ANALYSISTOOLSTESTOBJECTS_010uJn
 
-#include <Transitional/SATCompetition/AnalysisTools.hpp>
-#include <Transitional/SATCompetition/AnalysisTools_Tests.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools_Tests.hpp>
 
 namespace OKlib {
 

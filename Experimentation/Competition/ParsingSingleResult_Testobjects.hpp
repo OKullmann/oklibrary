@@ -3,8 +3,8 @@
 #ifndef PARSINGSINGLERESULTTESTOBJECTSS_992ttgBa
 #define PARSINGSINGLERESULTTESTOBJECTSS_992ttgBa
 
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult_Tests.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
 
 namespace OKlib {
 

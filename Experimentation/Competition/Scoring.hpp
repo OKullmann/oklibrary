@@ -1,7 +1,7 @@
 // Oliver Kullmann, 17.6.2005 (Swansea)
 
 /*!
-  \file SATCompetition/Scoring.hpp
+  \file Experimentation/Competition/Scoring.hpp
   \brief Given an "indexed database", computing the solver scores.
 */
 
@@ -22,11 +22,11 @@
 #include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
 #include <Transitional/OrderRelations/DerivedRelations.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
-#include <Transitional/SATCompetition/AnalysisTools.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
 
 namespace OKlib {
 

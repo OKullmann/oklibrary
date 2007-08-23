@@ -3,8 +3,8 @@
 #ifndef PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
 #define PARSINGRESULTSEQUENCESTESTOBJECTS_8482hlal
 
-#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

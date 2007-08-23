@@ -21,10 +21,10 @@
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult_Tests.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

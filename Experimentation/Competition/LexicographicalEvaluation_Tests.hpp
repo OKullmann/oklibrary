@@ -1,7 +1,7 @@
 // Oliver Kullmann, 25.10.2005 (Swansea)
 
 /*!
-  \file SATCompetition/LexicographicalEvaluation_Tests.hpp
+  \file Experimentation/Competition/LexicographicalEvaluation_Tests.hpp
   \brief Tests for tools evaluating an "indexed database" by providing comparison tools.
   \todo Distinguishinging between basic and enhanced tests is needed;
   running through these big files is "enhanced testing".
@@ -25,13 +25,13 @@
 #include <Transitional/SetAlgorithms/SequenceOperations.hpp>
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/SATCompetition/SingleResult.hpp>
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
-#include <Transitional/SATCompetition/AnalysisTools.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
-#include <Transitional/SATCompetition/LexicographicalEvaluationPolicies.hpp>
+#include <Transitional/Experimentation/Competition/LexicographicalEvaluationPolicies.hpp>
 
 namespace OKlib {
 

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 17.6.2005 (Swansea)
 
 /*!
-  \file SATCompetition/Scoring_Tests.hpp
+  \file Experimentation/Competition/Scoring_Tests.hpp
   \brief Tests for scoring tools
   \todo Write basic tests.
 */
@@ -15,10 +15,10 @@
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult.hpp>
-#include <Transitional/SATCompetition/AnalysisTools.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences_Tests.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
 

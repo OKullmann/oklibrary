@@ -2,16 +2,16 @@
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/SATCompetition/SingleResult_Testobjects.hpp>
-#include <Transitional/SATCompetition/ParsingSingleResult_Testobjects.hpp>
-#include <Transitional/SATCompetition/ParsingResultSequences_Testobjects.hpp>
-#include <Transitional/SATCompetition/ResultProcessing_Testobjects.hpp>
-#include <Transitional/SATCompetition/AnalysisTools_Testobjects.hpp>
-#include <Transitional/SATCompetition/Scoring_Testobjects.hpp>
-#include <Transitional/SATCompetition/LexicographicalEvaluation_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/SingleResult_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/ParsingSingleResult_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/ParsingResultSequences_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/AnalysisTools_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/Scoring_Testobjects.hpp>
+#include <Transitional/Experimentation/Competition/LexicographicalEvaluation_Testobjects.hpp>
 
 /*!
-  \file SATCompetition/TestSATCompetition.cpp
+  \file Experimentation/Competition/TestSATCompetition.cpp
   \todo Tests reading files belong to the enhanced tests.
 */
 

@@ -3,8 +3,8 @@
 #ifndef RESULTPROCESSINGTESTOBJECTS_knNNw213
 #define RESULTPROCESSINGTESTOBJECTS_knNNw213
 
-#include <Transitional/SATCompetition/ResultProcessing.hpp>
-#include <Transitional/SATCompetition/ResultProcessing_Tests.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
+#include <Transitional/Experimentation/Competition/ResultProcessing_Tests.hpp>
 
 namespace OKlib {
 
