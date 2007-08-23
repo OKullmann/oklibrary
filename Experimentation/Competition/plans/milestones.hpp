@@ -19,6 +19,13 @@
    In SATCompetition/plans/SATCompetition.hpp the following topics are handled:
     - Update
 
+
+  \par Version 0.5.3 :
+
+  \par
+   In SATCompetition/plans/SATCompetition.hpp the following topics are handled:
+    - Concepts
+
   \par
    Create new milestones.
 

@@ -23,6 +23,14 @@
   </ul>
 
 
+  \todo Concepts
+  <ul>
+   <li> Move the three files Concepts/ResultElement* to subdirectory
+   Competition/concepts, once the build system can compile and run
+   the tests. </li>
+  </ul>
+
+
    \todo New tests
    Transfer to the new test system
 
