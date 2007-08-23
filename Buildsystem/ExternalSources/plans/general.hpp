@@ -5,20 +5,7 @@
   \brief Plans for building external sources in general
 
 
-  \todo Directory structure of OKplatform/ExternalSources
-  <ul>
-   <li> Perhaps two new sub-directories
-    <ol>
-     <li> OKplatform/ExternalSources/sources </li>
-     <li> OKplatform/ExternalSources/installations </li>
-     <li> OKplatform/ExternalSources/doc </li>
-    </ol>
-    where to "sources" all the tarballs go, while to "installations"
-    all current sub-directories go. </li>
-  </ul>
-
-
-  \todo Documenting ExternalSources.mak
+  \todo Documenting ExternalSources/Makefile
   <ul>
    <li> General explanations in ExternalSources/docus/general.hpp:
     <ol>
@@ -29,10 +16,12 @@
      with the special packages).
     </ol>
    </li>
+   <li> Move all special build instructions there to SpecialBuilds/docus. </li>
    <li> Another file in ExternalSources/docus explains how to add the installation
    of a new external source. </li>
    <li> The files in ExternalSources/SpecialBuilds/docus are for the *user*
    documentation, that is, how to install it, and very basic usage. </li>
+   <li> Explain in general the notion of "recommended version" etc. </li>
    <li> In ExternalSources/docus we should have general.hpp for general
    explanations and links to the documentations for special builds, which
    actually likely should go to SpecialBuilds/docus. DONE </li>
@@ -52,7 +41,11 @@
 cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    \endverbatim
    </li>
-   <li> Perhaps best via anonymous ftp? </li>
+   <li> Better, we make this directory available via the OKlibrary web site, and
+   then one can (manually) download each file separately, or an archive with
+   all of them, or via "make getsources". </li>
+   <li> Perhaps best via anonymous ftp? Better we use a password (a universal one,
+   given in Configuration). </li>
   </ul>
 
 
@@ -142,6 +135,20 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   \todo %Tools
   <ul>
    <li> Investigate the NiX system (a system for managing libraries). </li>
+  </ul>
+
+
+  \todo Directory structure of OKplatform/ExternalSources : DONE
+  <ul>
+   <li> One new sub-directory
+    <ol>
+     <li> OKplatform/ExternalSources/sources DONE (introduced, and mirrored in
+     Buildsystem/ExternalSources/sources) </li>
+     <li> OKplatform/ExternalSources/installations DONE (not needed) </li>
+     <li> OKplatform/ExternalSources/doc DONE (as is) </li>
+    </ol>
+    where to "sources" all the tarballs go, while to "installations"
+    all current sub-directories go. </li>
   </ul>
 
 

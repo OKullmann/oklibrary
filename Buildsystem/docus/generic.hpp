@@ -4,9 +4,9 @@
   \file Buildsystem/docus/generic.hpp
   \brief General documentation for the central makefile Buildsystem/generic.mak
 
-  <H1> Make targets </H1>
+  <h1> Make targets </h1>
 
-  <H2> Applications </H2>
+  <h2> Applications </h2>
 
   <table>
    <tr>
@@ -23,9 +23,10 @@
    </tr>
   </table>
 
-  <H2> %Test system </H2>
 
-  <H3> The old test system (deprecated) </H3>
+  <h2> %Test system </h2>
+
+  <h3> The old test system (deprecated) </h3>
 
   <table>
    <tr>
@@ -42,7 +43,7 @@
    </tr>
   </table>
 
-  <H3> The new test system </H3>
+  <h3> The new test system </h3>
 
   <table>
    <tr>
@@ -59,18 +60,33 @@
    </tr>
   </table>
 
-  <H2> Documentation </H2>
+  <h3> Application tests </h3>
+
+  <table>
+   <tr>
+    <td> <code> app_tests </code> </td>
+    <td> Performs (unconditionally) application tests. </td>
+   </tr>
+  </table>
+
+
+  <h2> Documentation </h2>
 
   <table>
    <tr>
     <td> <code> html </code> </td>
     <td> Creates the complete doxygen-documentation (wherever called). </td>
    </tr>
+   <tr>
+    <td> <code> internet </code> </td>
+    <td> Creates the Internet pages (wherever called). </td>
+   </tr>
   </table>
 
-  <H2> Cleaning </H2>
 
-  <H3> Regarding the old test system </H3>
+  <h2> Cleaning </h2>
+
+  <h3> Regarding the old test system </h3>
 
   <table>
    <tr>
@@ -89,7 +105,7 @@
    </tr>
   </table>
 
-  <H3> Regarding the new test system </H3>
+  <h3> Regarding the new test system </h3>
 
   <table>
    <tr>
@@ -122,7 +138,7 @@
    </tr>
   </table>
 
-  <H3> General cleaning </H3>
+  <h3> General cleaning </h3>
 
   <table>
    <tr>
@@ -152,7 +168,7 @@
   </table>
 
 
-  <H1> Customisation </H1>
+  <h1> Customisation </h1>
 
   The following make-variables can be used (on the command line):
   <table>

@@ -14,7 +14,8 @@
   following stages:
   <ol>
    <li> Creating the basic concept for BigIntegers
-   (see BigIntegers/plans/GMPWrapper.hpp), together with the wrapper for GMP. </li>
+   (see BigIntegers/concepts/plans/general.hpp), together with the wrapper for GMP
+   (see BigIntegers/plans/GMPWrapper.hpp). </li>
    <li> Replacing the current big-integer implementation in OKgenerator
    (files flint*; they are sub-standard, introducing macros like "isxdigit",
    many(!) others written with small letter and additional "_I", and even
@@ -33,6 +34,13 @@
   <ul>
    <li> Replacing General/Kommandozeile (see General/Kommandozeile.hpp)
    by module Transitional/ProgramOptions. </li>
+  </ul>
+
+
+  \todo Other tools
+  <ul>
+   <li> All other tools for experiment creation, processing and transfer shall
+   move to Experimentation/ExperimentSystem. </li>
   </ul>
 
 */

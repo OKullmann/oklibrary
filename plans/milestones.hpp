@@ -55,7 +55,7 @@
     - Fundamental "axioms"
 
   \par
-   In OKsolver/plans/general.hpp the following topics are handled:
+   In Solvers/OKsolver/plans/general.hpp the following topics are handled:
     - Submodule "Experimental"
     - Submodule "Generator" : DONE
     - Submodule "Hilfsprogramme" : DONE
@@ -104,6 +104,10 @@
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  \par BigIntegers version 0.0.3
+  (see BigIntegers/plans/milestones.hpp)
+  \par Experimentation version 0.4.1
+  (see Experimentation/plans/milestones.hpp)
   \par Transformers/Generators 0.0.6
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
   \par

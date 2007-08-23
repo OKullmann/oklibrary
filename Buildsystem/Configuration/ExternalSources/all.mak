@@ -5,6 +5,8 @@
 ExternalSources_doc ?= $(ExternalSources)/doc
 ExternalSources_sources ?= $(ExternalSources)/sources
 
+ext_src_checksum := md5sum
+
 include $(OKconfiguration)/ExternalSources/doxygen.mak
 include $(OKconfiguration)/ExternalSources/gcc.mak
 include $(OKconfiguration)/ExternalSources/r.mak

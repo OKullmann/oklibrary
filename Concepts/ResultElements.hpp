@@ -15,9 +15,9 @@
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/SATCompetition/traits/string_type.hpp>
-#include <Transitional/SATCompetition/traits/floating_point_type.hpp>
-#include <Transitional/SATCompetition/traits/natural_number_type.hpp>
+#include <Transitional/Experimentation/Competition/traits/string_type.hpp>
+#include <Transitional/Experimentation/Competition/traits/floating_point_type.hpp>
+#include <Transitional/Experimentation/Competition/traits/natural_number_type.hpp>
 
 namespace OKlib {
 

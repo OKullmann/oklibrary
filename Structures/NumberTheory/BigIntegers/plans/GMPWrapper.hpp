@@ -11,7 +11,7 @@
    RandomGenerator/plans/general.hpp); for the generator
    itself only VLiteralGeneratorAES.cpp and OKgenerator.cpp itself
    use big integers. </li>
-   <li> See Concepts/plans/BigIntegers.hpp. </li>
+   <li> See BigIntegers/concepts/plans/general.hpp. </li>
   </ul>
 
 

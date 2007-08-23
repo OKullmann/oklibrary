@@ -7,14 +7,16 @@
 
 
   \par Version 0.5.1 :
-  In RandomGenerator/plans/general.hpp the topic
-  - Basic revision
+   In RandomGenerator/plans/general.hpp the following topics are handled:
+    - Basic revision
+    - Other tools
 
-  is expanded, and further milestones are created.
+  \par
+   Further milestones are created.
 
 
   \par Version 0.6 :
-  All tools are compiling and running correctly.
+  The OKgenerator is compiling and running correctly.
 
 
   \par Version 0.7 :

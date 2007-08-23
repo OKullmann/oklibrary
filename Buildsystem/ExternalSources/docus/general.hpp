@@ -20,64 +20,16 @@ ocaml_bin_dir := /usr/local/bin
   <h2> Installations </h2>
 
   <ol>
+   <li> Boost (Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp) </li>
    <li> Coq (Buildsystem/ExternalSources/SpecialBuilds/docus/Coq.hpp) </li>
    <li> Doxygen (Buildsystem/ExternalSources/SpecialBuilds/docus/Doxygen.hpp) </li>
    <li> Gcc (Buildsystem/ExternalSources/SpecialBuilds/docus/Gcc.hpp) </li>
+   <li> Git (Buildsystem/ExternalSources/SpecialBuilds/docus/Git.hpp) </li>
+   <li> Gmp (Buildsystem/ExternalSources/SpecialBuilds/docus/Gmp.hpp) </li>
    <li> Ocaml (Buildsystem/ExternalSources/SpecialBuilds/docus/Ocaml.hpp) </li>
    <li> Sage (Buildsystem/ExternalSources/SpecialBuilds/docus/Sage.hpp) </li>
   </ol>
   
-
-  <h2> Boost </h2>
-
-  Only local installation. If some required local installation of gcc is not available, then it is build first.
-
-  <h3> Make targets </h3>
-
-  The targets are <code>%boost</code>, <code>boost_all</code> and <code>boost_gcc_all</code>, with modifiers <code>boost_recommended=</code> and <code>gcc-version=</code>.
-
-  <table>
-   <tr>
-    <td> <code> %boost </code> </td>
-    <td> Build the recommended Boost-version, using the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> %boost-V </code> </td>
-    <td> Build the Boost-version V, using the system-gcc (using for example <code>boost-1_33_1</code>). </td>
-   </tr>
-   <tr>
-    <td> <code> %boost %boost_recommended=boost-V </code> </td>
-    <td> Same as <code>%boost-V</code>. </td>
-   </tr>
-   <tr>
-    <td> <code> boost_all </code> </td>
-    <td> Build all supported Boost-versions, using the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> %boost gcc-version=x.y.z </code> </td>
-    <td> Build the recommended Boost-version, using the local gcc-version x.y.z (using for example <code>gcc-version=4.1.2</code>). </td>
-   </tr>
-   <tr>
-    <td> <code> %boost gcc-version=all </code> </td>
-    <td> Build the recommended Boost-version for all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> %boost %boost_recommended=boost-V gcc-version=x.y.z </code> </td>
-    <td> Build the Boost-version V, using the local gcc-version x.y.z. </td>
-   </tr>
-   <tr>
-    <td> <code> %boost-V+x.y.z </code> </td>
-    <td> Build the Boost-version V, using the local gcc-version x.y.z. </td>
-   </tr>
-   <tr>
-    <td> <code> %boost %boost_recommended=boost-V gcc-version=all </code> </td>
-    <td> Build the Boost-version V, for all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> boost_gcc_all </code> </td>
-    <td> Build all supported Boost-versions for all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-  </table>
 
 
   <h2> UBCSAT </h2>
