@@ -16,10 +16,12 @@
      with the special packages).
     </ol>
    </li>
+   <li> Move all special build instructions there to SpecialBuilds/docus. </li>
    <li> Another file in ExternalSources/docus explains how to add the installation
    of a new external source. </li>
    <li> The files in ExternalSources/SpecialBuilds/docus are for the *user*
    documentation, that is, how to install it, and very basic usage. </li>
+   <li> Explain in general the notion of "recommended version" etc. </li>
    <li> In ExternalSources/docus we should have general.hpp for general
    explanations and links to the documentations for special builds, which
    actually likely should go to SpecialBuilds/docus. DONE </li>
