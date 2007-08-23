@@ -24,23 +24,6 @@
   </ul>
 
 
-  \todo Transfer:
-  First the old module is transferred to the OKlibrary, and then
-  it is extended. DONE (transferred; extensions are to be planned)
-
-
-  \todo OKgenerator: DONE
-  Connect to the module RandomGenerator (see RandomGenerator/plans/RandomGenerator.hpp), and to the old module OKsolver/Generator.
-  This should concern mostly the tools for experiment-processing etc.
-  Likely all those programs should be transferred to this module.
-
-
-  \todo Renaming: DONE
-  Once we can do directory-renaming with the version control system, this
-  module should be renamed; possibilities:
-  - OKdatabase
-  - Database
-
 */
 
 
