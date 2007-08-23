@@ -8,10 +8,14 @@
   \todo Update the namespace.
 
 
-  \todo What is going on with Boost?
+  \todo Boost
+  <ul>
+   <li> Regarding the concepts see BigIntegers/concepts/plans/general.hpp. </li>
+   <li> And what about implementations? </li>
+  </ul>
 
 
-  \todo See the concepts in Concepts/plans/BigIntegers.hpp.
+  \todo See the concepts in Concepts/plans/BigIntegers.hpp. DONE
   <ul>
    <li> They shall move to here. </li>
   </ul>
