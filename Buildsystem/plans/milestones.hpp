@@ -38,8 +38,11 @@
 
   \par
    In Buildsystem/plans/MasterScript.hpp the following topics are handled:
-    - Design
     - Implementation
+
+  \par
+   Update the following milestones.
+
 
 
   \par Version 0.2.1 : THEME is "A specified and testable build system" and "Build system consolidation"
@@ -47,6 +50,10 @@
   \par Buildsystem/OKlibBuilding 0.2.4
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
   
+  \par
+   In Buildsystem/plans/MasterScript.hpp the following topics are handled:
+    - Further design
+
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Renaming module Buildsystem
@@ -73,12 +80,15 @@
     - General
     - Gcc
 
+  \par
+   In Buildsystem/plans/MasterScript.hpp the following topics are handled:
+    -  Further enhancements
+
 
   \par Version 0.2.3 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
-
 
 
   \par Version 0.2.4 :
