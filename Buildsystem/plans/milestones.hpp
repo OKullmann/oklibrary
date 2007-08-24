@@ -8,6 +8,9 @@
 
   \par Version 0.2 : THEME is "PROTO-RELEASE"
 
+  \par Buildsystem/MasterScript version 0.0.4
+  (see Buildsystem/MasterScript/plans/milestones.hpp)
+
   \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
@@ -50,6 +53,9 @@
   \par Buildsystem/OKlibBuilding 0.2.4
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
   
+  \par Buildsystem/MasterScript version 0.0.5
+  (see Buildsystem/MasterScript/plans/milestones.hpp)
+
   \par
    In Buildsystem/plans/MasterScript.hpp the following topics are handled:
     - Further design
