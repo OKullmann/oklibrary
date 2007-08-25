@@ -1,6 +1,6 @@
 // Oliver Kullmann, 3.7.2002 (Swansea)
 /*!
-  \file OKDatabase/CreateStatistic.cpp
+  \file Database/CreateStatistic.cpp
   \brief Extracting the three .csv-files out of the random-formulas database
   \deprecated Only to be used with the old system
 */

@@ -1,7 +1,7 @@
 // Oliver Kullmann, 30.12.2005 (Swansea)
 
 /*!
-  \file SATCompetition/traits/natural_number_type.hpp
+  \file Competition/traits/natural_number_type.hpp
   \brief Traits-metafunctions to extract the natural_number type.
 */
 
