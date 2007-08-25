@@ -21,7 +21,7 @@
      Buildsystem/ExternalSources/docus/general.hpp) is invoked. </li>
      <li> If D contains a file "definitions.mak" then the generic
      makefile for compiling the components of the library is invoked
-     (see Buildsystem/docus/generic.hpp). </li>
+     (see Buildsystem/OKlibBuilding/docus/general.hpp). </li>
      <li> If D is "Transitional" then a recursive makefile is invoked,
      calling the generic makefiles at lower levels. </li>
      <li> If D is "OKsystem" then another recursive makefile is invoked,

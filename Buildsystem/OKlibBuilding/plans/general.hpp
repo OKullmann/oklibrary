@@ -37,18 +37,6 @@
       Perhaps also the test time-stamps should go here?
 
 
-  \todo Documenting the build system
-  <ul>
-   <li> Moving stable documentations to "docus":
-     <ul>
-      <li> Buildsystem/generic.mak: </li>
-      <li> ExternalSources.mak: </li>
-     </ul>
-     And others.
-   </li>
-  </ul>
-
-
   \todo Setting the paths to GCC and Boost link libraries
     - The setting of the Make variable "alternative_library_path" needs to be reviewed.
       For example, the name "alternative_library_path" is no longer appropriate.
@@ -207,6 +195,18 @@
      which create a new subdirectory with test-program respectively new
      .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
      in the testprogram).
+
+
+  \todo Documenting the build system : DONE
+  <ul>
+   <li> Moving stable documentations to "docus":
+     <ul>
+      <li> Buildsystem/generic.mak: DONE </li>
+      <li> ExternalSources.mak: DONE </li>
+     </ul>
+     And others.
+   </li>
+  </ul>
 
 
   \todo Renaming: DONE (handled now in Buildsystem/plans/MasterScript.hpp)

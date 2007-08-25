@@ -19,7 +19,7 @@
    we can rethink the whole approach. </li>
    <li> For setting the local compiler, we need to use CC_FOR_BUILD and
    CPP_FOR_BUILD for configure. </li>
-   <li> Instead of making these case-distinctions in generic.mak,
+   <li> Instead of making these case-distinctions in OKlibBuilding/Makefile,
    it should be possible to delegate everything to the use of
    recursive make-variables! </li>
   </ul>

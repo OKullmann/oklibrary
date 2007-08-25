@@ -12,7 +12,7 @@
    <li> It should be possible to say "gcc-version=recommended". </li>
    <li> Instead of "boost boost_recommended=boost-1_33_1" we should use
    "boost boost-version=1_33_1". </li>
-   <li> The default for generic.mak is to use the recommended <strong>local</strong>
+   <li> The default for OKlibBuilding/Makefile is to use the recommended <strong>local</strong>
    gcc-installation --- shouldn't this then be also for building %boost
    the default ? </li>
    <li> Installation of bjam should be improved: Having exactly one

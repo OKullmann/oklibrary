@@ -66,11 +66,11 @@
    See below. </li>
    <li> The make-system has to be redesigned:
     <ol>
-     <li> Five (new) main makefiles:
+     <li> Five (partially new) main makefiles:
       <ol>
        <li> Buildsystem/ExternalSources/Makefile </li>
-       <li> Buildsystem/OKlibBuilding/Makefile (the current Buildsystem/generic.mak) </li>
-       <li> Buildsystem/Html/Makefile (takes over target html from current Buildsystem/generic.mak) </li>
+       <li> Buildsystem/OKlibBuilding/Makefile </li>
+       <li> Buildsystem/Html/Makefile (takes over target html from current Buildsystem/OKlibBuilding/Makefile) </li>
        <li> Buildsystem/Latex/Makefile (the current Buildsystem/Annotations.mak) </li>
        <li> Buildsystem/Makefile (the current Buildsystem/makefile). </li>
       </ol>

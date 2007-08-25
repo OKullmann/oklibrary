@@ -10,7 +10,7 @@
   delegates the targets to the makefiles documented here:
   <ul>
    <li> External sources building : Buildsystem/ExternalSources/docus/general.hpp </li>
-   <li> %OKlib building : Buildsystem/docus/generic.hpp </li>
+   <li> %OKlib building : Buildsystem/OKlibBuilding/docus/general.hpp </li>
   </ul>
 
   For the very initial set-up:

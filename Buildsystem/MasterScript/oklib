@@ -51,7 +51,7 @@ until [[ ${defining_dir} == ${top_dir} ]]; do
   if [[ ${defining_base} == ExternalSources ]]; then
     command="make --makefile=${buildsystem_dir}/ExternalSources/Makefile --directory=${top_dir}/ExternalSources OKplatform=${top_dir} $@"
   elif [[ -f ${defining_dir}/definitions.mak ]]; then
-    command="make --makefile=${buildsystem_dir}/generic.mak --directory=${current_dir} srcdir=${current_dir} OKplatform=${top_dir} $@"
+    command="make --makefile=${buildsystem_dir}/OKlibBuilding/Makefile --directory=${current_dir} srcdir=${current_dir} OKplatform=${top_dir} $@"
   elif [[ ${defining_base} == Transitional ]]; then
     command="make OKplatform=${top_dir} $@"
   elif [[ ${defining_base} == OKsystem ]]; then
