@@ -22,12 +22,19 @@ endif
 ifndef oklib_call
   oklib_call = ~/bin/oklib
 endif
+ifndef OKlog
+  OKlog = $(OKanchor)/log
+endif
+ifndef oklib_call
+  oklib_call = ~/bin/oklib
+endif
+
 
 .PHONY : all oklibrary_initialisation
 
 all : oklibrary_initialisation
 
-oklibrary_initialisation : $(OKanchor) $(OKconfiguration) $(OKoverrideconfig) $(oklib_call)
+oklibrary_initialisation : $(OKanchor) $(OKconfiguration) $(OKoverrideconfig) $(oklib_call) $(OKlog)
 
 $(OKanchor) :
 	mkdir $(OKanchor)
@@ -38,5 +45,9 @@ $(OKconfiguration) :
 $(OKoverrideconfig) :
 	touch $(OKoverrideconfig)
 
+$(OKlog) :
+	cd $(OKanchor) && ln -s ../system_directories/log
+
 $(oklib_call) :
 	cd ~/bin; ln -s $(OKconfiguration)/../MasterScript/oklib
+
