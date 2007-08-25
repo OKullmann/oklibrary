@@ -84,6 +84,11 @@
    <li> Where to put the GPL-text? </li>
    <li> For every release, the year of the release must be added to every file's copyright notice
    (if not already present). </li>
+   <li> In case of shell scripts, there are two leadings lines (one as above, and before it the
+   specification of the shell). </li>
+   <li> Data files don't get a licence. </li>
+   <li> What about the plans-files? </li>
+   <li> Can't we use a shortened header for very simple files? </li>
    <li> Download GPLv3 and put under Configuration. DONE </li>
   </ul>
 
@@ -91,6 +96,26 @@
   \todo Licence installation
   <ul>
    <li> In one go, every files gets the licence statement. </li>
+   <li> Can we write a little tool?
+    <ol>
+     <li> The simple shell scripts "AddLicense1/2", which take
+     the first 1/2 lines, then insert the licence header, and
+     then add the rest of the file, need more intelligence. </li>
+     <li> First, whether 1 or 2 lines are taken at the beginning, should
+     be automatically detected: 2 lines only if we find "#!/bin/bash"
+     in the first line. </li>
+     <li> From the line with the creation year XXXX we extract this year, and
+     the copyright statement then becomes "Copyright XXXX-2007 Oliver Kullmann". </li>
+     <li> And from the first line we also obtain the commenting-style: Either
+     a C-style for the whole block, or a script-style comment for each line. </li>
+    </ol>
+   </li>
+   <li> The tool should run through all files, each time showing the new beginning, asking
+   for confirmation. </li>
+   <li> If the file has already the licence statement, then possibly only the current year
+   is added to the copyright statement. </li>
+   <li> Perhaps we write another little tool, which finds all files which do not have
+   the creator and the creation date in the first line. </li>
   </ul>
 
 
