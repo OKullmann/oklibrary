@@ -10,13 +10,23 @@
 
   \todo First implementation
   <ul>
-   <li> The output is copied to system_directories/log/Makefiles/OKlibBuilding.txt
-   resp. to ExternalSources.txt etc.; this is achieved by putting symbolic
-   links into directory .oklib. </li>
+   <li> All output of OKlibBuilding (stderr and stdout) is copied to log/OKlibBuilding.
+   It seems this cannot be achieved by the shell, but we need to use the tools from
+   module GeneralInputOutput. Or we can use "exec". </li>
+   <li> The problem in using "exec" seems to be, that we want to force
+   the interpretation of "|&" as an argument for exec, and not as something
+   to be evaluated by the shell. However, if we quote "|&", then it's grabbed
+   by make ?? </li>
+   <li> Only the error output of ExternalSources is copied to log/ExternalSources.
+   Again it seems this cannot be achieved by the shell, but we need to use the tools from
+   module GeneralInputOutput. Or we can use "exec". </li>
    <li> It should be possible to explicitely specify the calling place as well
    as explicitely stating the makefile to be used. </li>
    <li> When calling the respective makefile, variables OKplatform etc.
    are appropriately defined. </li>
+   <li> The output is copied to system_directories/log/Makefiles/OKlibBuilding.txt
+   resp. to ExternalSources.txt etc.; this is achieved by putting symbolic
+   links into directory .oklib. DONE </li>
    <li> First we do not change the old makefiles, but we let oklib
    just replace the old links. DONE </li>
    <li> The necessary links to makefiles are all directly constructed from
