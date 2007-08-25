@@ -1,0 +1,71 @@
+#!/bin/bash
+# Oliver Kullmann, 25.8.2007 (Swansea)
+
+if [[ $# == 0 ]]; then
+  echo "oklib: no arguments given."
+  exit 0
+fi
+
+version=0.1
+
+if [[ $1 == "--version" ]]; then
+  echo "oklib version ${version}"
+  exit 0
+fi
+
+
+current_dir=$(pwd)
+
+top_dir=${current_dir}
+while [[ ! (-d ${top_dir}/.oklib) ]]; do
+  if [[ ${top_dir} == "/" ]]; then
+    echo "ERROR[oklib]: Not in an OKlibrary-directory (i.e., no directory containing a directory \".oklib\" on the path)."
+    exit 1
+  fi
+  top_dir=$(dirname ${top_dir})
+done
+anchor_dir=${top_dir}/.oklib
+
+buildsystem_dir=${anchor_dir}/Configuration/..
+
+
+if [[ $1 == "--setup" ]]; then
+  command="make --makefile=${buildsystem_dir}/SetUp.mak"
+  echo ${command}
+  $(echo ${command})
+  exit
+fi
+
+if [[ $1 == "--prebuild" ]]; then
+  command="make --makefile=${buildsystem_dir}/Makefile prebuild"
+  echo ${command}
+  $(echo ${command})
+  exit
+fi
+
+
+defining_dir=${current_dir}
+until [[ ${defining_dir} == ${top_dir} ]]; do
+  defining_base=$(basename ${defining_dir})
+
+  if [[ ${defining_base} == ExternalSources ]]; then
+    command="make --makefile=${buildsystem_dir}/ExternalSources/Makefile --directory=${top_dir}/ExternalSources OKplatform=${top_dir} $@"
+  elif [[ -f ${defining_dir}/definitions.mak ]]; then
+    command="make --makefile=${buildsystem_dir}/generic.mak --directory=${current_dir} srcdir=${current_dir} OKplatform=${top_dir} $@"
+  elif [[ ${defining_base} == Transitional ]]; then
+    command="make OKplatform=${top_dir} $@"
+  elif [[ ${defining_base} == OKsystem ]]; then
+    command="make OKplatform=${top_dir} $@"
+  else
+    defining_dir=$(dirname ${defining_dir})
+    continue
+  fi
+
+  echo ${command}
+  $(echo ${command})
+  exit
+
+done
+
+echo "oklib: no actions."
+

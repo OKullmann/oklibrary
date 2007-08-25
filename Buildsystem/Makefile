@@ -32,7 +32,6 @@ generic_dirs := $(OKsystem)/Transitional/AtomicConditions $(OKsystem)/Transition
 generic_links = $(addsuffix /makefile, $(generic_dirs))
 
 makefile_oksystem := $(OKsystem)/makefile
-makefile_externalsources := $(ExternalSources)/Makefile
 makefile_annotations := $(Annotations_dir)/makefile
 makefile_transitional := $(OKsystem)/Transitional/makefile
 makefile_satisfiability := $(OKsystem)/Transitional/Satisfiability/makefile
@@ -42,7 +41,7 @@ makefile_experimentation := $(OKsystem)/Transitional/Experimentation/makefile
 
 $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
-prebuild : $(Directories) $(makefile_oksystem) $(makefile_externalsources) $(generic_links) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation)
+prebuild : $(Directories) $(makefile_oksystem) $(generic_links) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation)
 
 $(generic_links) : % :
 	- ln -s $(OKbuildsystem)/generic.mak $@
@@ -69,9 +68,6 @@ $(makefile_experimentation) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
 
 
-
-$(makefile_externalsources) : $(OKbuildsystem)/ExternalSources/Makefile
-	- ln -s $< $@
 
 
 clean_links :

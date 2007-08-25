@@ -19,12 +19,15 @@ endif
 ifndef OKoverrideconfig
   OKoverrideconfig = $(OKanchor)/override.mak
 endif
+ifndef oklib_call
+  oklib_call = ~/bin/oklib
+endif
 
 .PHONY : all oklibrary_initialisation
 
 all : oklibrary_initialisation
 
-oklibrary_initialisation : $(OKanchor) $(OKconfiguration) $(OKoverrideconfig)
+oklibrary_initialisation : $(OKanchor) $(OKconfiguration) $(OKoverrideconfig) $(oklib_call)
 
 $(OKanchor) :
 	mkdir $(OKanchor)
@@ -34,3 +37,6 @@ $(OKconfiguration) :
 
 $(OKoverrideconfig) :
 	touch $(OKoverrideconfig)
+
+$(oklib_call) :
+	cd ~/bin; ln -s $(OKconfiguration)/../MasterScript/oklib

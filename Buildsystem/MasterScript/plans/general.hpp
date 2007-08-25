@@ -10,29 +10,30 @@
 
   \todo First implementation
   <ul>
-   <li> First we do not change the old makefiles, but we let oklib
-   just replace the old links. </li>
-   <li> The necessary links to makefiles are all directly constructed from
-   .oklib/Configuration (without access to the configuration-make-variables). </li>
    <li> The output is copied to system_directories/log/Makefiles/OKlibBuilding.txt
    resp. to ExternalSources.txt etc.; this is achieved by putting symbolic
    links into directory .oklib. </li>
-   <li> The choice of makefiles (for the delegation of the targets) is
-   hard-coded into oklib, based on the first action of oklib, finding
-   the first .oklib-directory on the path upwards, and then situating the
-   calling directory. </li>
-   <li> We need some special options for oklib itself (version at least),
-   for which we need a special syntax, perhaps for example "--oklib-version"
-   etc. </li>
-   <li> Every other option is (in the order given) passed onto the makefile,
-   which is selected according to the calling-place; additionally it
-   should be possible to explicitely specify the calling place as well
+   <li> It should be possible to explicitely specify the calling place as well
    as explicitely stating the makefile to be used. </li>
    <li> When calling the respective makefile, variables OKplatform etc.
    are appropriately defined. </li>
+   <li> First we do not change the old makefiles, but we let oklib
+   just replace the old links. DONE </li>
+   <li> The necessary links to makefiles are all directly constructed from
+   .oklib/Configuration (without access to the configuration-make-variables). DONE </li>
+   <li> The choice of makefiles (for the delegation of the targets) is
+   hard-coded into oklib, based on the first action of oklib, finding
+   the first .oklib-directory on the path upwards, and then situating the
+   calling directory. DONE </li>
    <li> Perhaps also special actions are provided for Buildsystem/Makefile
    and Buildsystem/Setup.mak ??
-   See Buildsystem/plans/Makefile.hpp and Buildsystem/plans/SetUp.hpp. </li>
+   See Buildsystem/plans/Makefile.hpp and Buildsystem/plans/SetUp.hpp.
+   DONE ("--setup" and "--prebuild") </li>
+   <li> We need some special options for oklib itself (version at least),
+   for which we need a special syntax, perhaps for example "--oklib-version"
+   etc. DONE (just "--version") </li>
+   <li> Every other option is (in the order given) passed onto the makefile,
+   which is selected according to the calling-place. DONE </li>
    <li> DONE Perhaps we create a new sub-directory "Buildsystem/MasterScript". </li>
   </ul>
 
@@ -43,6 +44,11 @@
    in the makefiles shall be removed. </li>
    <li> Then one after another the old makefiles are updated, but for now
    the old design is basically still kept. </li>
+   <li> Yet, all symbolic links to the generic makefile and the recursive makefile
+   are still needed, since otherwise the recursive makefile doesn't enter a directory
+   resp. the settings of variable srcdir do not work. It should be possible to
+   get rid off the symbolic links to the generic makefile by letting the recursive
+   makefile enter a directory if it contains definitions.mak. </li>
   </ul>
 
 
