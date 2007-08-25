@@ -33,7 +33,7 @@
       of tests happens whenever necessary (at this time (18.6.2006) the test object files need
       to be manually deleted (via "make cleantestobj") to enforce recompilation).
     - We need special test-modes for more extensive messages.
-    - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
+    - The output of testprograms is copied into a suitable subdirectory of system_directoires/log.
       Perhaps also the test time-stamps should go here?
 
 

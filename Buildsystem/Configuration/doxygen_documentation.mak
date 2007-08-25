@@ -6,7 +6,7 @@ doxygen_project_name ?= "OKlibrary:Transitional (version $(transitional_version)
 
 doxy_file_template ?= $(OKconfiguration)/Doxyfile
 doxy_file ?= $(aux_dir)/Doxyfile
-doxygen_error_messages ?= $(aux_dir)/DoxygenErrorMessages
+doxygen_error_messages ?= $(log_dir)/DoxygenErrorMessages
 
 doxygen_output_directory ?= $(doc_dir)
 doxygen_html_directory ?= doxygen_html
