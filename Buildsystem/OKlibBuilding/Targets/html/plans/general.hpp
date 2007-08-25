@@ -17,11 +17,11 @@
 
   \todo Doxygen error messages:
   <ul>
-   <li> Move aux/DoxygenErrorMessages to directory
-   system_directories/log (and add suffix .txt; this filename
-   is a configuration-variable). </li>
    <li> Perhaps the output of doxygen could be configured (only error
    messages, all output, etc.). </li>
+   <li> DONE Move aux/DoxygenErrorMessages to directory
+   system_directories/log (and add suffix .txt; this filename
+   is a configuration-variable). </li>
   </ul>
   
 

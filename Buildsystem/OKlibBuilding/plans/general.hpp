@@ -33,20 +33,8 @@
       of tests happens whenever necessary (at this time (18.6.2006) the test object files need
       to be manually deleted (via "make cleantestobj") to enforce recompilation).
     - We need special test-modes for more extensive messages.
-    - The output of testprograms is copied into a suitable subdirectory of SystemDirectories/log.
+    - The output of testprograms is copied into a suitable subdirectory of system_directoires/log.
       Perhaps also the test time-stamps should go here?
-
-
-  \todo Documenting the build system
-  <ul>
-   <li> Moving stable documentations to "docus":
-     <ul>
-      <li> Buildsystem/generic.mak: </li>
-      <li> ExternalSources.mak: </li>
-     </ul>
-     And others.
-   </li>
-  </ul>
 
 
   \todo Setting the paths to GCC and Boost link libraries
@@ -207,6 +195,18 @@
      which create a new subdirectory with test-program respectively new
      .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
      in the testprogram).
+
+
+  \todo Documenting the build system : DONE
+  <ul>
+   <li> Moving stable documentations to "docus":
+     <ul>
+      <li> Buildsystem/generic.mak: DONE </li>
+      <li> ExternalSources.mak: DONE </li>
+     </ul>
+     And others.
+   </li>
+  </ul>
 
 
   \todo Renaming: DONE (handled now in Buildsystem/plans/MasterScript.hpp)

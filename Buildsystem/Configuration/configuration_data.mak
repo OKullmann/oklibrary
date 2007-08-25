@@ -7,8 +7,8 @@ ifndef OKplatform
 endif
 
 OKanchor ?= $(OKplatform)/.oklib
-
 OKoverrideconfig ?= $(OKanchor)/override.mak
+OKlog ?= $(OKanchor)/log
 
 include $(OKoverrideconfig)
 

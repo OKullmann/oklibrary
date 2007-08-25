@@ -8,12 +8,7 @@
 
   The list of top-level docus pages for the sub-modules:
   <ul>
-   <li> The build system
-    <ul>
-     <li> External sources building : Buildsystem/ExternalSources/docus/general.hpp </li>
-     <li> %OKlib building : Buildsystem/docus/generic.hpp </li>
-    </ul>
-   </li>
+   <li> The build system : Buildsystem/docus/general.hpp </li>
    <li> The message system : </li>
   </ul>
 

@@ -1,8 +1,8 @@
 // Oliver Kullmann, 31.3.2007 (Swansea)
 
 /*!
-  \file Buildsystem/docus/generic.hpp
-  \brief General documentation for the central makefile Buildsystem/generic.mak
+  \file Buildsystem/OKlibBuilding/docus/general.hpp
+  \brief General documentation for the central makefile Buildsystem/OKlibBuilding/Makefile
 
   <h1> Make targets </h1>
 

@@ -2,7 +2,7 @@
 
 /*!
   \file Buildsystem/ExternalSources/docus/general.hpp
-  \brief General documentation for the makefile Buildsystem/ExternalSources/Makefile, responsible for external builds
+  \brief General documentation for the makefile "Buildsystem/ExternalSources/Makefile", responsible for external builds
   
   <h1> General overview </h1>
 
@@ -28,57 +28,9 @@ ocaml_bin_dir := /usr/local/bin
    <li> Gmp (Buildsystem/ExternalSources/SpecialBuilds/docus/Gmp.hpp) </li>
    <li> Ocaml (Buildsystem/ExternalSources/SpecialBuilds/docus/Ocaml.hpp) </li>
    <li> Sage (Buildsystem/ExternalSources/SpecialBuilds/docus/Sage.hpp) </li>
+   <li> Ubcsat (Buildsystem/ExternalSources/SpecialBuilds/docus/Ubcsat.hpp) </li>
   </ol>
   
-
-
-  <h2> UBCSAT </h2>
-
-  Only local installation.
-
-  <h3> Make targets </h3>
-  
-  <table>
-   <tr>
-    <td> <code> ubcsat </code> </td>
-    <td> Builds the source-library, the link-library and the ubcsat-program in
-    ExternalSources/Ubcsat/1-0-0. </td>
-   </tr>
-  </table>
-
-  <h3> Build explanations </h3>
-
-  In ExternalSources/Ubcsat/1-0-0 one finds the extracted archive ubcsat-1-0-0.tar.gz,
-  which contains pre-compiled binaries for Unix/Linux systems and Windows systems.
-  There are no changes, except that the source-files in sub-directory src are converted
-  to Unix/Linux line-endings.
-
-  The build adds sub-directories bin and lib:
-  <ol>
-   <li> In bin the ubcsat-executable is compiled with corrected sources. </li>
-   <li> In lib one finds the corresponding link-library, also compiled with the
-   corrected source, and now defining the macro ALTERNATEMAIN, so that no main
-   function is created. </li>
-  </ol>
-
-  The corrected sources come from Transitional/LocalSearch/Ubcsat/corrected.
-
-  <h3> Usage explanations </h3>
-
-  Calling the binary with "ubcsat -h" will show the list of options.
-
-  To use Ubcsat-components from inside the OKlibrary, in the ".link_libraries"-file the specification
-  \code echo -L${Ubcsat_dir}/1-0-0/lib -lubcsat \endcode
-  is needed, which enables linking with all functions and variables provided by the ubcsat-library. For the source-libraries add
-  \code -I- -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/local -I$(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected $(Ubcsat) \endcode
-  to the definition of <code>source_libraries</code> in <code>definitions.mak</code>:
-  This activates the localised version of header files from the Ubcsat-library, and,
-  if not already overwritten by a localised version, the corrected files (while
-  the other files are taken from ExternalSources/Ubcsat/1-0-0/src).
-
-  The main header file for the Ubcsat-library is
-  Transitional/LocalSearch/Ubcsat/local/ubcsat.h.
-
 
   <h2> Mhash </h2>
 

@@ -27,6 +27,8 @@
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
     - Improving building Boost
+    - Problems with building Boost
+    - Documentation
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following topics are handled:
@@ -43,6 +45,7 @@
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following topics are handled:
     - Building Ubcsat
+    - Complete docu-file
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following topics are handled:

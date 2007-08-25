@@ -1,7 +1,7 @@
 // Oliver Kullmann, 10.11.2006 (Swansea)
 
 /*!
-  \file OKsolver/plans/general.hpp
+  \file Transitional/OKsolver/plans/general.hpp
   \brief Plans for the module containing old OKsolver-etc-code
 
 

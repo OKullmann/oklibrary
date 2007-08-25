@@ -30,6 +30,9 @@ test-lib_dir ?= $(lib_dir)/tests/$(module-name)
 # Directory for current module test dependency files:
 test-aux_dir ?= $(aux_dir)/tests/$(module-name)
 
+# Directory for log-files:
+log_dir ?= $(system_directories)/log
+
 build_directories = \
                $(bin_dir) \
                $(lib_dir) \
@@ -42,7 +45,8 @@ build_directories = \
                $(test-lib_dir) \
                $(test-aux_dir) \
                $(local_html_dir) \
-               $(internet_html_dir)
+               $(internet_html_dir) \
+               $(log_dir)
 
 OKsystem_include := -I$(OKsystem)
 

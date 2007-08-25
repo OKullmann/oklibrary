@@ -17,6 +17,7 @@
     - bug Incorrect build of new tests I
     - bug Incorrect build of new tests II
     - %Test system
+    - Documenting the build system : DONE
     - Renaming : DONE
     - Log directory : DONE
     - New directory-structure "Generic" : DONE
@@ -36,7 +37,6 @@
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
-    - Documenting the build system
     - Setting the paths to GCC and Boost link libraries
     - User control of system versions
     - General_options

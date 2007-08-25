@@ -1,6 +1,6 @@
 # Oliver Kullmann, 6.3.2002 (Swansea)
 
-# See Buildsystem/docus/generic.hpp for the general documentation.
+# See Buildsystem/OKlibBuilding/docus/general.hpp for the general documentation.
 
 #
 # ===============================================================================
@@ -119,7 +119,7 @@ module-name := $(notdir $(srcdir))
 
 
 # Every module which needs to be built contains a symbolic link, called "makefile"
-# to the generic makefile Transitional/Buildsystem/generic.mak.
+# to the generic makefile Transitional/Buildsystem/OKlibBuilding/Makefile.
 
 # The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
 ifndef OKplatform
@@ -493,7 +493,6 @@ CC = $(gcc_system_call)
 # Standard_options_c (SV)
 #
 # Language-standard options for C++ and C compilation.
-# Defined in makefile_generic.mak.
 # Passed to the compiler for every program.
 # Default values : -ansi -pedantic resp. -std=c99 -pedantic.
 # ----------------------------------------------------------
@@ -504,7 +503,7 @@ Standard_options_c := -std=c99 -pedantic
 # ----------------------------------------------------------
 # Warning_options (SV)
 #
-# Compiler warnings. Defined in makefile_generic.mak. Passed to 
+# Compiler warnings. Passed to 
 # the compiler for every program.
 # Default value : -Wall
 # ----------------------------------------------------------

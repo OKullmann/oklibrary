@@ -13,3 +13,6 @@ Transitional ?= $(OKsystem)/Transitional
 OKbuildsystem ?= $(Transitional)/Buildsystem
 
 Annotations_dir ?= $(OKsystem)/Annotations
+
+oklib_call ?= $(OKbuildsystem)/MasterScript/oklib
+

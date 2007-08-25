@@ -6,12 +6,18 @@
 
 
   \todo Building Ubcsat (OK, ML):
-  Review of Ubcsat.mak review
+  Review of Ubcsat.mak
   <ul>
    <li> Remove the hardcoded version-numbers. </li>
    <li> What is the meaning of "tag" and "tag_" ??? The names should tell. </li>
    <li> No file modification in the external sources. DONE </li>
   </ul>
+
+
+  \todo Complete docu-file
+
+
+  \todo Check the new Ubcsat version.
 
 */
 
