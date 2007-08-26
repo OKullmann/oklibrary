@@ -1,10 +1,9 @@
 /*!
-  \file rijndael.cpp
+  \file Structures/Cryptology/rijndael.cpp
   \brief Implementation of the Rijndael cipher by Szymon Stefanek
 
-  Stylistic improvements for the OKlibrary.
-  \todo Proper testing!
-  \todo Replace the C headers by their corresponding C++ headers.
+  Stylistic improvements for the OKlibrary (also ported to C++).
+
 */
 
 //
@@ -44,7 +43,7 @@
 
 #define _RIJNDAEL_CPP_
 
-#include <Transitional/Kryptologie/rijndael.hpp>
+#include <Transitional/Structures/Cryptology/rijndael.hpp>
 
 #include <cstring>
 
