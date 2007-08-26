@@ -1,7 +1,7 @@
 // Oliver Kullmann, 7.11.2006 (Swansea)
 
 /*!
-  \file Structures/Cryptology/plans/Kryptologie.hpp
+  \file Structures/Cryptology/plans/general.hpp
   \brief Plans for the module on cryptological tools
 
 
