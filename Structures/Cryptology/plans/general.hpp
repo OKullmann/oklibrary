@@ -5,20 +5,6 @@
   \brief Plans for the module on cryptological tools
 
 
-  \todo Update: DONE
-  First an overview on the content of the module, and what to do with it, is needed.
-  <ul>
-   <li> DONE (new todos created)
-   Most important is to create a concept for
-   AES-encoding/decoding, choosing some reasonable implementation
-   (Kryptologie/rijndael.hpp and Kryptologie/rijndael.cpp seem to be fine,
-   at least for the start), and writing a wrapper for it (of course,
-   testing it). </li>
-   <li> A new module "Cryptology" should be created, with all these tools
-   (perhaps best in part "Structures"). DONE </li>
-  </ul>
-
-
   \todo Concept for aes-usage
   <ul>
    <li> Create a concept for AES-usage (see client Experimentation/RandomGenerator/BlockChiffAES.hpp). </li>
