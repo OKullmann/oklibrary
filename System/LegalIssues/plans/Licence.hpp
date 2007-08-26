@@ -37,21 +37,39 @@
        spelling mistake get also the copyright? In our situation, perhaps different
        from traditional (centralised) open-source development, everybody is
        encouraged (and enabled) to do tiny contributions. </li>
+       <li> Especially this "continuous model" of tiny steps, a lot of them just
+       regarding the documentation, is not compatible with the permanent trouble
+       of updating copyrights. </li>
+       <li> If in the future due to changed legislation etc. a licence change
+       is needed to maintain the open source character, then only the single
+       copyright guarantees that it can be done. </li>
+       <li> The only thing that could go wrong is that OK, the single copyright holder,
+       at some point changes the licence to a proprietary licence, and tries to get
+       rich. So well, this possibility seems only fair to me, given that incomparable
+       amount of work spent on the OKlibrary. The released code --- and there shall
+       be continous releases will always stay free (of course). </li>
+       <li> The possibility, that OK creates patents (which would disable others
+       to use the library) is excluded by the licence --- if later the licence would
+       be changed, then patents could only be issued on later code. </li>
        <li> According the the Berne convention, the contributors do not
        loose their "natural copyright" (as partial authors), it is only
        that I (OK) express *my* copyright. More information is needed here XXX </li>
        <li> Does it make a difference whether contributors submit files already
        with OK's copyright, or perhaps would it be better if the copyright
        would be left blank, and then OK's copyright is filled in? </li>
-       <li> What about the developer's file --- don't we run their into
+       <li> What about the contributor's file --- don't we run their into
        similar problems, who shall be entered? And what is the scope of
        contribution --- always the directory below it?? Seems to create also
        trouble. Perhaps we do without it, and leave it to the source control
-       to log the contributors (would be more precise)? </li>
+       to log the contributors (would be more precise)? (But, of course, we
+       have the central developers file.) </li>
        <li> Can we make the OKlibrary "officially" available? Or "more
-       official"?? Perhaps we need a Sourceforge-account??? </li>
+       official"?? Perhaps we need a Sourceforge-account??? The Git-history should
+       be well-secured. </li>
        <li> Having each file OK-copyright would emphasise the responsibility
-       of OK for the unity of the library. </li>
+       of OK for the unity of the library. A statement shall be made that OK tries
+       his best to maintain and develop all code accepted into the library. </li>
+       <li> Also the submissions which are not yet accepted are made visible somewhere. </li>
       </ol>
      </li>
     </ol>
