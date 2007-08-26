@@ -38,10 +38,11 @@ makefile_satisfiability := $(OKsystem)/Transitional/Satisfiability/makefile
 makefile_solvers := $(OKsystem)/Transitional/Satisfiability/Solvers/makefile
 makefile_oksolver := $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/makefile
 makefile_experimentation := $(OKsystem)/Transitional/Experimentation/makefile
+makefile_structures := $(OKsystem)/Transitional/Structures/makefile
 
 $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
-prebuild : $(Directories) $(makefile_oksystem) $(generic_links) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation)
+prebuild : $(Directories) $(makefile_oksystem) $(generic_links) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation) $(makefile_structures)
 
 $(generic_links) : % :
 	- ln -s $(OKbuildsystem)/OKlibBuilding/Makefile $@
@@ -66,7 +67,8 @@ $(makefile_oksolver) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
 $(makefile_experimentation) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
-
+$(makefile_structures) : $(OKbuildsystem)/Transitional.mak
+	- ln -s $< $@
 
 
 
