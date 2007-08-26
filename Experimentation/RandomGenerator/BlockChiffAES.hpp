@@ -1,6 +1,6 @@
 // Oliver Kullmann, 15.10.2001 (Swansea)
 
-// Name: BlockChiffAES.hpp
+// Name: Experimentation/RandomGenerator/BlockChiffAES.hpp
 
 // Copyright Oliver Kullmann, 15.10.2001
 // O.Kullmann@Swansea.ac.uk

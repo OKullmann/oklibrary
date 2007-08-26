@@ -21,10 +21,10 @@
    many(!) others written with small letter and additional "_I", and even
    "ggT", "xggT", "kgV", "chinrest" and "zweianteil"; perhaps one could have
    a look, whether there is a web page of Michael Welschenbach with improved code). </li>
-   <li> Creating the concept for AES in the (new) module Cryptology (see
-   Kryptologie/plans/Kryptologie.hpp). </li>
-   <li> Replacing the current AES implementation (Kryptologie/aes*)
-   by Kryptologie/rijndael*). </li>
+   <li> Creating the concept for AES in the module Cryptology (see
+   Cryptology/plans/general.hpp). </li>
+   <li> Replacing the current AES implementation (Cryptology/aes*)
+   by Cryptology/rijndael*). </li>
    <li> Correct General/Kommandozeile.hpp (there are input-errors,
    likely undefined behaviour). </li>
   </ol>
