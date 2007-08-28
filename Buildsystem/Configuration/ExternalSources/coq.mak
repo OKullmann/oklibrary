@@ -19,8 +19,8 @@ coq_installation_dir ?= $(coq_base_directory)/$(coq_recommended_version_number)
 coq_documentation_dir ?= $(ExternalSources_doc)/Coq/$(coq_recommended_version_number)
 coq_docu_page ?= $(doc_dir)/doxygen_html/db/d6c/docus_2Coq_8hpp.html
 
-coq_homepage_url := 
-coq_documentation_url := 
+coq_homepage_url := http://coq.inria.fr/
+coq_documentation_url := http://coq.inria.fr/doc-eng.html
 
 coq_targets_prefix := $(coq_prefix)-
 coq_targets := $(addprefix $(coq_targets_prefix), $(coq_supported_version_numbers))
