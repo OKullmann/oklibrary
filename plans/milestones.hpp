@@ -104,8 +104,8 @@
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
-  \par BigIntegers version 0.0.3
-  (see BigIntegers/plans/milestones.hpp)
+  \par Structures version 0.0.6
+  (see Structures/plans/milestones.hpp)
   \par Experimentation version 0.4.1
   (see Experimentation/plans/milestones.hpp)
   \par Transformers/Generators 0.0.6
@@ -129,6 +129,8 @@
   (see Concepts/plans/milestones.hpp)
   \par Cryptanalysis version 0.0.3 (OK)
   (see Cryptanalysis/plans/milestones.hpp)
+  \par Structures version 0.0.7
+  (see Structures/plans/milestones.hpp)
   \par Update the subsequent milestones (on the way to 0.3).
 
   \subsection VersionTransitional019 0.1.9

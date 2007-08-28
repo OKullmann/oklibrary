@@ -59,6 +59,14 @@
      about the plans (which is to be avoided in the plans-files)). So mailinglists are for
      "pre-discussion", and, potentially, "meta-discussions"; but as soon things concretise,
      they should move to the plans-files (only there they fully connect to the system). </li>
+     <li> To summarise, the planning process is somewhat similar to "patchwork", which comes
+     in small pieces, is always in a somewhat well-defined state, and can be interrupted
+     and continued as needed. This might be especially true for core developers, while
+     external developers might prefer a more traditional model, where only at the end
+     the distilled work (using the "cherry-picking" method perferred for example by the
+     Git developers) is submitted. However, after some initial period of getting used
+     to the continuous process of the OKlibrary, also external developers shall be
+     encouraged to use the "continuous model" (and not the "batch model"). </li>
     </ol>
    </li>
   </ul>

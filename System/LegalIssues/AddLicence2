@@ -1,0 +1,6 @@
+#!/bin/bash
+# Oliver Kullmann, 25.8.2007 (Swansea)
+
+head --lines=2 $1 | cat - Header.s > $$; tail --lines=+3 $1 | cat $$ -
+
+rm $$

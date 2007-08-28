@@ -1,9 +1,9 @@
 // Oliver Kullmann, 25.6.2006 (Swansea)
 
 /*!
-  \file BigIntegers/plans/milestones.hpp
+  \file NumberTheory/BigIntegers/plans/milestones.hpp
 
-  \module_version BigIntegers 0.0.2 (23.8.2007)
+  \module_version NumberTheory/BigIntegers 0.0.2 (23.8.2007)
 
 
   \par Version 0.0.3 :

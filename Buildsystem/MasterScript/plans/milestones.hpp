@@ -17,7 +17,7 @@
 
   \par
    In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
-    - Further steps
+    - Markers instead of links
 
   \par
    Further milestones are created (towards 0.1).
@@ -27,7 +27,7 @@
 
   \par
    In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
-    - Further design
+    - Improved makefiles
 
 
 
