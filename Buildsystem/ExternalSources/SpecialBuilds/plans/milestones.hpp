@@ -12,10 +12,6 @@
     - Documentation
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following topics are handled:
-    - Building Mailman
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following topics are handled:
     - Write docus page : DONE
     - Local and system-wide : DONE
@@ -23,6 +19,17 @@
 
 
   \par Version 0.2.3
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp the following topics are handled:
+    - Building Apache
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following topics are handled:
+    - Building Mailman
+
+
+  \par Version 0.2.4
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:

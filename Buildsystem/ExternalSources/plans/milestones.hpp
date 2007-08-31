@@ -20,7 +20,7 @@
 
   \par Version 0.1.2
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.2
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.3
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
@@ -33,7 +33,7 @@
 
   \par Version 0.1.3
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.3
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.4
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
