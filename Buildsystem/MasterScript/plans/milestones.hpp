@@ -10,7 +10,7 @@
 
   \par
    In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
-    - First implementation
+    - First implementation : DONE
 
 
   \par Version 0.0.5 :

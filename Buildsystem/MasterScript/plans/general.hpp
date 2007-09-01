@@ -11,7 +11,8 @@
   \todo First implementation
   <ul>
    <li> When calling the respective makefile, variables OKplatform etc.
-   are appropriately defined. </li>
+   are appropriately defined. DONE (only OKplatform needs to be defined; and likely
+   oklib should be doing as least as possible) </li>
    <li> It should be possible to explicitely stating the makefile to be used.
    DONE (it seems that wouldn't be needed anymore we the new scheme outlined below,
    with its local markers) </li>

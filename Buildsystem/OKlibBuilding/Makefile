@@ -121,7 +121,7 @@ module-name := $(notdir $(srcdir))
 # Every module which needs to be built contains a symbolic link, called "makefile"
 # to the generic makefile Transitional/Buildsystem/OKlibBuilding/Makefile.
 
-# The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
+# The oklib-masterscript defines OKplatform.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform = $(OKPLATFORM)

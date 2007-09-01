@@ -5,7 +5,7 @@
 SHELL = /bin/sh
 .SUFFIXES :
 
-# The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
+# The oklib-masterscript defines OKplatform.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)

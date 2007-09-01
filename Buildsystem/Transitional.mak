@@ -9,7 +9,7 @@ endef
 
 srcdir := $(shell cd $(dir $(call last-element, $(MAKEFILE_LIST))); pwd)
 
-# The following definitions are temporary: The oklib-masterscript will define OKplatform and OKconfiguration.
+# The oklib-masterscript definea OKplatform.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
