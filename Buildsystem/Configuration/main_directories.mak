@@ -16,3 +16,5 @@ Annotations_dir ?= $(OKsystem)/Annotations
 
 oklib_call ?= $(OKbuildsystem)/MasterScript/oklib
 
+documents_dir ?= $(OKsystem)/documents
+
