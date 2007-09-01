@@ -3,13 +3,10 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.6 (24.6.2007)
+  \module_version Buildsystem 0.1.6.1 (1.9.2007)
 
 
   \par Version 0.2 : THEME is "PROTO-RELEASE"
-
-  \par Buildsystem/MasterScript version 0.0.4
-  (see Buildsystem/MasterScript/plans/milestones.hpp)
 
   \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
@@ -29,6 +26,9 @@
   \par Buildsystem/ReleaseProcess 0.0.6
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
   
+  \par Buildsystem/MasterScript version 0.0.4 : DONE
+  (see Buildsystem/MasterScript/plans/milestones.hpp)
+
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
     - Renaming
