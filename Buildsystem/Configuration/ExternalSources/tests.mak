@@ -13,7 +13,7 @@ gcc_version_number_extraction := awk '/[0-9]\.[0-9]\.[0-9]/{print $$3}'
 # assumes that the output of "gcc --version" contains a line of the form
 # (for example) "gcc (GCC) 3.4.3"
 
-location_gpp_system_call ?= $(shell which $(gpp_system_call))
+location_gpp_system_call ?= $(shell (type -P $(gpp_system_call)))
 ifeq ($(location_gpp_system_call),)
   gpp_system_call_ready ?= NO
 else
@@ -24,7 +24,7 @@ else
     gpp_system_call_ready ?= MAYBE
   endif
 endif
-location_gcc_system_call ?= $(shell which $(gcc_system_call))
+location_gcc_system_call ?= $(shell (type -P $(gcc_system_call)))
 ifeq ($(location_gcc_system_call),)
   gcc_system_call_ready ?= NO
 else
@@ -39,7 +39,7 @@ endif
 gpp_local_call ?= $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/g++
 gcc_local_call ?= $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/gcc
 
-location_gpp_local_call ?= $(shell which $(gpp_local_call))
+location_gpp_local_call ?= $(shell (type -P $(gpp_local_call)))
 ifeq ($(location_gpp_local_call),)
   gpp_local_call_ready ?= NO
 else
@@ -50,7 +50,7 @@ else
     gpp_local_call_ready ?= ERROR
   endif
 endif
-location_gcc_local_call ?= $(shell which $(gcc_local_call))
+location_gcc_local_call ?= $(shell (type -P $(gcc_local_call)))
 ifeq ($(location_gcc_local_call),)
   gcc_local_call_ready ?= NO
 else
@@ -71,7 +71,7 @@ gcc_html_documentation_index_location_tag ?= <a href="$(gcc_html_documentation_i
 doxygen_call ?= doxygen
 doxytag_call ?= doxytag
 
-location_doxygen_call ?= $(shell which $(doxygen_call))
+location_doxygen_call ?= $(shell (type -P $(doxygen_call)))
 ifeq ($(location_doxygen_call),)
   doxygen_call_ready ?= NO
 else
@@ -95,7 +95,7 @@ ocaml_version_number_extraction := awk '/ [0-9]+\.[0-9]+(\.[0-9]+)?/{print $$6}'
 # assumes that the output of "ocaml -version" contains a line of the form
 # (for example) "The Objective Caml toplevel, version 3.10.0"
 
-location_ocaml_call ?= $(shell which $(ocaml_call) 2> /dev/null)
+location_ocaml_call ?= $(shell (type -P $(ocaml_call)))
 ifeq ($(location_ocaml_call),)
   ocaml_call_ready ?= NO
 else
@@ -120,7 +120,7 @@ coq_version_number_extraction := awk '/ [0-9]\.[0-9] /{print $$6}'
 # assumes that the output of "coq --version" contains a line of the form
 # (for example) "The Coq Proof Assistant, version 8.1 (Feb. 2007)"
 
-location_coq_call ?= $(shell which $(coq_call))
+location_coq_call ?= $(shell (type -P $(coq_call)))
 ifeq ($(location_coq_call),)
   coq_call_ready ?= NO
 else
@@ -144,7 +144,7 @@ sage_call ?= $(sage_installation_dir)/sage
 sage_version_number_extraction := > /dev/null; echo $$?
 # sage doesn't allow to ask for the version number
 
-location_sage_call ?= $(shell which $(sage_call))
+location_sage_call ?= $(shell (type -P $(sage_call)))
 ifeq ($(location_sage_call),)
   sage_call_ready ?= NO
 else
@@ -173,7 +173,7 @@ git_version_number_extraction := awk '/ [0-9]\.[0-9]\.[0-9]\.[0-9]/{print $$3}'
 # assumes that the output of "git --version" contains a line of the form
 # (for example) "git version 1.5.2.4"
 
-location_git_call ?= $(shell which $(git_call))
+location_git_call ?= $(shell (type -P $(git_call)))
 ifeq ($(location_git_call),)
   git_call_ready ?= NO
 else
