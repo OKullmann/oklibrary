@@ -14,7 +14,7 @@
   about supported and recommended versions.
 
 
-  \todo Buildsystem/ExternalSources/all.mak:
+  \todo Configuration/ExternalSources/all.mak:
   <ul>
    <li> All definitions for one external source go to for example
    Buildsystem/ExternalSources/gcc.mak, while ExternalSources/all.mak includes
@@ -37,6 +37,33 @@
    special sources which are general and relate to the version
    number and/or to the documentation and web pages and other
    resources provided by the external source) </li>
+  </ul>
+
+
+  \todo Configuration/ExternalSources/tests.mak
+  <ul>
+   <li> Why do we have to use
+   \verbatim
+$(shell (type -P $(gpp_system_call)))
+   \endverbatim
+   and can't use just
+  \verbatim
+$(shell type -P $(gpp_system_call))
+   \endverbatim
+   ???
+   </li>
+   <li> Perhaps we should process all shell-calls in one go? </li>
+   <li> We should improve parsing of version numbers:
+    <ol>
+     <li> Shall we use shell pattern matching or awk? </li>
+     <li> If using awk, how can we extract the field with the matching
+     content? </li>
+     <li> We need bash version 3.0 or newer for the regular expression
+     matching operator "=~"; perhaps this is common now. </li>
+     <li> Newer versions of bash seem to have "[:digit:]", but
+     3.00.0 doesn't have it, so we better use "[0-9]" instead. </li>
+    </ol>
+   </li>
   </ul>
 
 */  

@@ -31,7 +31,8 @@
 
   \par
    In Buildsystem/Configuration/ExternalSources/plans/general.hpp the following topics are handled:
-    - Buildsystem/ExternalSources/all.mak
+    - Configuration/ExternalSources/all.mak
+    - Configuration/ExternalSources/tests.mak
 
 
 

@@ -12,12 +12,16 @@ gcc_system_call ?= gcc
 gcc_version_number_extraction := awk '/[0-9]\.[0-9]\.[0-9]/{print $$3}'
 # assumes that the output of "gcc --version" contains a line of the form
 # (for example) "gcc (GCC) 3.4.3"
+# Perhaps all such calls should be replaced by the use of shell pattern matching
+# as shown in the setting of version_gpp_system_call (as opposed to
+# the setting of version_gcc_system_call) ?
 
 location_gpp_system_call ?= $(shell (type -P $(gpp_system_call)))
 ifeq ($(location_gpp_system_call),)
   gpp_system_call_ready ?= NO
 else
-  version_gpp_system_call ?= $(shell $(gpp_system_call) --version | $(gcc_version_number_extraction))
+  version_gpp_system_call ?= $(shell if [[ "$$($(gpp_system_call) --version)" =~ ".*([0-9]\.[0-9]\.[0-9]).*" ]]; then echo $${BASH_REMATCH[1]}; else echo "Unknown"; fi)
+# $(shell $(gpp_system_call) --version | $(gcc_version_number_extraction))
   ifeq ($(version_gpp_system_call),$(gcc_recommended_version_number))
     gpp_system_call_ready ?= YES
   else
