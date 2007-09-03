@@ -46,6 +46,14 @@
   </ul>
 
   Otherwise all targets are delegated to the respective makefiles.
+  Output is logged as follows:
+  <ul>
+   <li> In the anchor directory <code>.oklib</code> one finds a symbolic
+   link <code>log</code>, whose default value is $(log_dir). </li>
+   <li> When building external sources, error output is copied to
+   <code>log/ExternalSources</code>. </li>
+   <li> Otherwise all output is copied to <code>log/OKlibBuilding</code>. </li>
+  </ul>
 
 */
 
