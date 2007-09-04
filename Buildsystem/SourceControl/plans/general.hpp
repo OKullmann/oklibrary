@@ -404,25 +404,27 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 14.6.2007: 4.2 MB </li>
      <li> 17.6.2007: 4.2 MB </li>
      <li> 21.6.2007: 4.2 MB </li>
-     <li> 23.6.2006; 4.3 MB; Transitional total: 15.3 MB </li>
+     <li> 23.6.2007; 4.3 MB; Transitional total: 15.3 MB </li>
      <li> 24.6.2007; 4.3 MB; Transitional total: 15.4 MB </li>
      <li> 26.6.2007: 4.3 MB; Transitional total: 15.4 MB </li>
      <li> 27.6.2007: 4.4 MB; Transitional total: 15.4 MB </li>
      <li> 29.6.2007: 4.4 MB; Transitional total: 15.6 MB </li>
      <li> 1.7.2007: 4.5 MB; Transitional total: 15.7 MB </li>
-     <li> 3.7.2006: 4.6 MB; Transitional total: 15.9 MB </li>
-     <li> 8.7.2006: 4.6 MB; Transitional total: 15.9 MB </li>
-     <li> 11.7.2006: 4.7 MB; Transitional total: 16.1 MB </li>
-     <li> 14.7.2006: 4.8 MB; Transitional total: 16.2 MB </li>
-     <li> 19.7.2006: 4.9 MB; Transitional total: 16.3 MB </li>
-     <li> 26.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
-     <li> 29.7.2006: 5.0 MB; Transitional total: 16.5 MB </li>
-     <li> 1.8.2006: 5.0 MB; Transitional total: 16.6 MB </li>
-     <li> 10.8.2006: 5.1 MB; Transitional total: 16.7 MB </li>
-     <li> 18.8.2006: 5.2 MB; Transitional total: 17.0 MB </li>
-     <li> 22.8.2006: 5.3 MB; Transitional total: 16.9 MB </li>
-     <li> 22.8.2006: 5.3 MB; Transitional total: 16.9 MB </li>
-     <li> 25.8.2006: 5.4 MB; Transitional total: 17.3 MB </li>
+     <li> 3.7.2007: 4.6 MB; Transitional total: 15.9 MB </li>
+     <li> 8.7.2007: 4.6 MB; Transitional total: 15.9 MB </li>
+     <li> 11.7.2007: 4.7 MB; Transitional total: 16.1 MB </li>
+     <li> 14.7.2007: 4.8 MB; Transitional total: 16.2 MB </li>
+     <li> 19.7.2007: 4.9 MB; Transitional total: 16.3 MB </li>
+     <li> 26.7.2007: 5.0 MB; Transitional total: 16.5 MB </li>
+     <li> 29.7.2007: 5.0 MB; Transitional total: 16.5 MB </li>
+     <li> 1.8.2007: 5.0 MB; Transitional total: 16.6 MB </li>
+     <li> 10.8.2007: 5.1 MB; Transitional total: 16.7 MB </li>
+     <li> 18.8.2007: 5.2 MB; Transitional total: 17.0 MB </li>
+     <li> 22.8.2007: 5.3 MB; Transitional total: 16.9 MB </li>
+     <li> 22.8.2007: 5.3 MB; Transitional total: 16.9 MB </li>
+     <li> 25.8.2007: 5.4 MB; Transitional total: 17.3 MB </li>
+     <li> 4.9.2007: 5.4 MB; Transitional total: 17.5 MB;
+     after "git gc --aggressive": 5.3 MB; Transitional total: 17.3 MB </li>
     </ol>
    </li>
   </ul>
