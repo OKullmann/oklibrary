@@ -9,7 +9,7 @@
   <ul>
    <li> Set up the mailman system on cs-wsok.
     <ol>
-     <li> See Buildsystem/ExternalSources/plans/Mailman.hpp. </li>
+     <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp. </li>
     </ol>
    </li>
    <li> Lists:
