@@ -261,6 +261,8 @@ namespace SatAlg = Satisfiability::Algorithms;
   <ul>
    <li> The discussions below must be expanded into the general
    documentation-document. </li>
+   <li> We should always use all four digits, starting with 0.2 ---
+   which then would be "0.2.0.0". </li>
    <li> DONE (now being practised)
    One could introduce a fourth digit, which is not
    referenced in milestones-plans, but is increased each time
