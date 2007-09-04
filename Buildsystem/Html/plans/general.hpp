@@ -27,7 +27,39 @@
   <ul>
    <li> The m4-preprocessing should move to the Configuration-module. </li>
    <li> Local url's should be relative (so that the html-documentation is
-   moveable): The preprocessing approach needs to be generalised. </li>
+   moveable): The preprocessing approach needs to be generalised:
+    <ol>
+     <li> Best seems to create a make-function, which takes the current
+     location, the target location, and the OKplatform location,
+     all as absolute paths, and creates from that the relative path
+     from the current location to the target location. </li>
+     <li> The problem is how to get the current location? </li>
+     <li> For html-files created by us we know their location
+     (that is, where they will be put after preprocessing. Since we
+     actually have make-variables (in the configuration system) for this,
+     here we shouldn't have a problem. </li>
+     <li> But what about files created by doxygen? As we do it now, we
+     need a make-variable (in the configuration system) with the absolute
+     address (to be manually read-off), which should also be alright. </li>
+     <li> So all make-variables with url's contain absolute paths,
+     while all created html-files (our's or by doxygen) contain relative
+     paths. </li>
+     <li> There are two types of html-files, our own and doxygen-created,
+     and accordingly four types of links:
+      <ul>
+       <li> From our own files to other own files or to doxygen files
+       we use the system with the make-variables as discussed above. </li>
+       <li> From doxygen-files to other doxygen-files we use the
+       doxygen ability to handle parts of path names. </li>
+       <li> From doxygen-files to own files, there is the doxygen-capability
+       of creating links via the "\link" command, but this seems to
+       require a hard-coded path. Thus also here we use the above
+       mechanism (together with the tag-construction, which creates
+       the html-link-tag). </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
    <li> Files created by the preprocessor should have a final line stating this
    and the creation date; then also (for easy of modification) the original
    template file should be specified (in a comment, or on the page).
