@@ -110,6 +110,8 @@
   (see Experimentation/plans/milestones.hpp)
   \par Transformers/Generators 0.0.6
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
+  \par GeneralInputOutput 0.1.2
+  (see Transitional/GeneralInputOutput/plans/milestones.hpp)
   \par
    In Transitional/plans/general.hpp the following topics are handled:
     - Upgrade to gcc-4.2.1
