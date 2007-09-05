@@ -78,6 +78,9 @@ csmatthewg@cs-oksvr:~/Transitional> diff --normal /work/Repositories/Git/bare/Tr
    is already available on the list).
    
    </li>
+   <li>
+   MG - This change has now been applied and should hopefully resolve the issues.
+   </li>
   </ul>
 
 
