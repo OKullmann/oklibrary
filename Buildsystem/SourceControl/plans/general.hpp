@@ -52,6 +52,32 @@ git rev-list --pretty $oldrev..$newrev ^$rijndaelhead
    (Then, btw, one could also mention the other correction we made.)
    Wouldn't it be easiest (and best) to get rid off these checks, and just
    send e-mails for each branch on what has changed? </li>
+   <li>MG - Getting rid of the checks seems an easy fix since as far as I can
+   see, we aren't really interested in the behaviour the checks are supposed
+   to provide (namely preventing you from seeing commits from merges in both
+   emails/branch logs). Applying the following change seems to give the desired 
+   behaviour after very basic testing with a sample repository 
+   \verbatim
+csmatthewg@cs-oksvr:~/Transitional> diff --normal /work/Repositories/Git/bare/Transitional/hooks/post-receive hooks/post-receive 
+372,373c372,373
+<               git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
+<               git rev-list --pretty --stdin $oldrev..$newrev
+---
+>               #git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
+>               git rev-list --pretty  $oldrev..$newrev
+   \endverbatim
+
+   I have emailed the git mailing list describing the problems with an email 
+   entitled "Issues with envelopesender and empty log messages using 
+   contrib/hooks/post-receive-email", although I accidentally sent this in
+   reply to another and so in some email clients this will appear as a subthread of
+   another thread which may be the reason for little response. However, there was a
+   single immediate response from Junio C Hamano saying he has forwarded the email
+   to the author of the post-receive script (Andy Parkins) and suggesting a more
+   insightful fix for the initial quoting issue (I leave this out here since the email
+   is already available on the list).
+   
+   </li>
   </ul>
 
 
