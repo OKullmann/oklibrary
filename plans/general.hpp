@@ -28,12 +28,15 @@
      <li> OKplatform/ExternalSources/installations </li>
      <li> OKplatform/ExternalSources/doc </li>
      <li> OKplatform/ExternalSources/sources </li>
+     <li> OKplatform/ExternalSources/builds </li>
      <li> OKplatform/OKsystem </li>
      <li> OKplatform/OKsystem/OKlib </li>
     </ol>
     where OKplatform/OKsystem/OKlib would be the current
     OKplatform/OKsystem/Transitional.
    </li>
+   <li> For OKplatform/ExternalSources see "Elaborated directory structure"
+   in Buildsystem/ExternalSources/plans/general.hpp. </li>
    <li> Potentially the build-system could be moved to
    OKplatform/OKsystem/BuildSystem ? Or the whole new super-module
    "System" (see below) ?? However the test system belongs to the OKlibrary.

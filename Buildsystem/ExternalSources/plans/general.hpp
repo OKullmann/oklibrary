@@ -5,9 +5,27 @@
   \brief Plans for building external sources in general
 
 
-  \todo Documenting ExternalSources/Makefile
+  \todo Elaborated directory structure
   <ul>
-   <li> General explanations in ExternalSources/docus/general.hpp:
+   <li> Four sub-directories of OKplatform/ExternalSources:
+    <ol>
+     <li> builds </li>
+     <li> doc </li>
+     <li> installations </li>
+     <li> sources </li>
+    </ol>
+   </li>
+   <li> Perhaps we rename "doc" to "docs" ? </li>
+   <li> Perhaps better "Docs" and "Installations", since if
+   these directories are deleted, then something is lost. </li>
+   <li> Rewrite all build-make-files and make-variables to take
+   account of the new directory structure. </li>
+  </ul>
+
+
+  \todo Documenting ExternalSources/Makefile : DONE
+  <ul>
+   <li> General explanations in ExternalSources/docus/general.hpp: DONE
     <ol>
      <li> Only restricted installation support for special builds. </li>
      <li> How to obtain the special installation instructions, such that
@@ -16,12 +34,12 @@
      with the special packages).
     </ol>
    </li>
-   <li> Move all special build instructions there to SpecialBuilds/docus. </li>
    <li> Another file in ExternalSources/docus explains how to add the installation
-   of a new external source. </li>
+   of a new external source. DONE </li>
+   <li> Explain in general the notion of "recommended version" etc. DONE </li>
    <li> The files in ExternalSources/SpecialBuilds/docus are for the *user*
-   documentation, that is, how to install it, and very basic usage. </li>
-   <li> Explain in general the notion of "recommended version" etc. </li>
+   documentation, that is, how to install it, and very basic usage. DONE </li>
+   <li> Move all special build instructions there to SpecialBuilds/docus. DONE </li>
    <li> In ExternalSources/docus we should have general.hpp for general
    explanations and links to the documentations for special builds, which
    actually likely should go to SpecialBuilds/docus. DONE </li>
@@ -132,6 +150,18 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
+  \todo Complete Buildsystem/ExternalSources/docus/Internals.hpp
+  <ul>
+   <li> Complete the text. </li>
+   <li> Explain, how to obtain the special installation instructions, such that
+     in case of a problem the problem can be reproduced independently of
+     the OKlibrary (necessary for requests to mailing lists associated
+     with the special packages). It should be possible to run
+     the make-file in protocol mode, so that the sequence of build
+     instrations can be extracted. </li>
+  </ul>
+
+
   \todo %Tools
   <ul>
    <li> Investigate the NiX system (a system for managing libraries). </li>
@@ -139,6 +169,7 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
 
 
   \todo Directory structure of OKplatform/ExternalSources : DONE
+  (taken over by new todo "Elaborated directory structure")
   <ul>
    <li> One new sub-directory
     <ol>

@@ -9,7 +9,7 @@
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Documenting ExternalSources.mak
+    - Documenting ExternalSources.mak : DONE
     - Directory structure of OKplatform/ExternalSources : DONE
     - Renaming : DONE
     - Plans-structure for ExternalSources : DONE
@@ -25,6 +25,7 @@
 
   \par
    In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Elaborated directory structure
     - Downloading sources
     - Building documentation
     - General
@@ -41,6 +42,13 @@
     - Installing SAT solvers
 
 
+  \par Version 0.1.4
+
+  \par
+   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Complete Buildsystem/ExternalSources/docus/Internals.hpp
+
+  
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

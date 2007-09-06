@@ -7,17 +7,56 @@
   <h1> General overview </h1>
 
 
+  <h2> Basic ideas </h2>
+
+  <ul>
+   <li> The <strong>recommended version</strong> is the version installed by default;
+   using other versions might or might not work. </li>
+   <li> Two basic types of installations:
+    <ol>
+     <li> <strong>System-wide installation</strong>: installation in directories like
+     <code>/usr/local</code> (depending on the package); requires at the end of the
+     installation to enter the appropriate super-user password (if this was missed,
+     then just re-run the build, which should quickly arrive at the entry-point
+     again). </li>
+     <li> <strong>Local installation</strong>: installation to directory
+     <code>$(ExternalSources_installations)</code>. </li>
+    </ol>
+    In both case, if possible, we will extract documentation to the local documentation
+     directory <code>$(ExternalSources_doc)</code>.
+   </li>
+   <li> The build system provides access to the results of the builds:
+    <ol>
+     <li> executable programs </li>
+     <li> source-code libraries </li>
+     <li> link-libraries </li>
+     <li> documentation </li>
+     <li> other resources. </li>
+    </ol>
+   </li>
+   <li> As part of a "holistic" or "active" library, the part of the build system
+   responsible for building external sources is highly configurable and extensible;
+   details are explained in Buildsystem/ExternalSources/docus/Internals.hpp. </li>
+   <li> The OKlibrary (and its support "staff") can offer only very restricted
+   installation support (especially for general-purpose tools like web servers).
+   For more information on the internal build process see
+   Buildsystem/ExternalSources/docus/Internals.hpp. </li>
+  </ul>
+
+
   <h2> Configuration </h2>
 
-  Enter into OKplatform/.oklib/override.mak the overriding definitions, for example
+  Enter into <code>$(OKoverrideconfig)</code> the overriding definitions, for example
   \code
 ocaml_bin_dir := /usr/local/bin
   \endcode
   to use the system-wide ocaml-installation instead of the local installation.
-  (This prevents these variables from being defined by the configuration system.)
+  (These definitions prevent the involved variables from being (re-)defined by the configuration system.)
 
   
   <h2> Installations </h2>
+
+  User documentation on how to install supported software, and basic usage:
 
   <ol>
    <li> Boost (Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp) </li>
@@ -26,108 +65,14 @@ ocaml_bin_dir := /usr/local/bin
    <li> Gcc (Buildsystem/ExternalSources/SpecialBuilds/docus/Gcc.hpp) </li>
    <li> Git (Buildsystem/ExternalSources/SpecialBuilds/docus/Git.hpp) </li>
    <li> Gmp (Buildsystem/ExternalSources/SpecialBuilds/docus/Gmp.hpp) </li>
+   <li> Mhash (Buildsystem/ExternalSources/SpecialBuilds/docus/Mhash.hpp) </li>
    <li> Ocaml (Buildsystem/ExternalSources/SpecialBuilds/docus/Ocaml.hpp) </li>
+   <li> Postgresql (Buildsystem/ExternalSources/SpecialBuilds/docus/Postgresql.hpp) </li>
+   <li> R (Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp) </li>
    <li> Sage (Buildsystem/ExternalSources/SpecialBuilds/docus/Sage.hpp) </li>
    <li> Ubcsat (Buildsystem/ExternalSources/SpecialBuilds/docus/Ubcsat.hpp) </li>
+   <li> Valgrind (Buildsystem/ExternalSources/SpecialBuilds/docus/Valgrind.hpp) </li>
   </ol>
   
-
-  <h2> Mhash </h2>
-
-  Only local installation.
-  
-  <h3> Make targets </h3>
-  
-  <table>
-   <tr>
-    <td> <code> mhash </code> </td>
-    <td> Build the recommended version of mhash, using the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> mhash-a.b.c.d </code> </td>
-    <td> Build version a.b.c.d of mhash, using the system-gcc (using for
-    example <code>mhash-0.9.7.1</code>). </td>
-   </tr>
-   <tr>
-    <td> <code> mhash gcc-version=x.y.z </code> </td>
-    <td> Build the recommended version of mhash, using the local gcc-version x.y.z (for example use <code>gcc-version=4.1.2</code>). </td>
-   </tr>
-   <tr>
-    <td> <code> mhash gcc-version=all </code> </td>
-    <td> Build the recommended version of mhash for all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> mhash-a.b.c.d gcc-version=x.y.z </code> </td>
-    <td> Build version a.b.c.d of mhash, using the local gcc-version x.y.z. </td>
-   </tr>
-   <tr>
-    <td> <code> mhash-a.b.c.d gcc-version=all </code> </td>
-    <td> Build version a.b.c.d of mhash for all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> mhash_gcc_all </code> </td>
-    <td> Build all supported versions of mhash for all all supported local gcc-versions as well as the system-gcc. </td>
-   </tr>
-  </table>
-
-
-  <h2> Valgrind </h2>
-
-  Only system-wide installation.
-
-  <h3> Make targets </h3>
-  
-  <table>
-   <tr>
-    <td> <code> valgrind </code> </td>
-    <td> Build the recommended version of valgrind, using the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> valgrind-x.y.z </code> </td>
-    <td> Build the version x.y.z of valgrind, using the system-gcc (for example
-    <code>valgrind-3.2.3</code>). </td>
-   </tr>
-  </table>
-
-
-  <h2> PostgreSQL </h2>
-
-  Only local installation.
-
-  <h3> Make targets </h3>
-  
-  <table>
-   <tr>
-    <td> <code> postgresql </code> </td>
-    <td> Build server and client for the recommended version of postgresql, using the system-gcc. </td>
-   </tr>
-   <tr>
-    <td> <code> postgresql-x.y.z </code> </td>
-    <td> Build server and client for postgresql version x.y.z, using the system-gcc (for example <code>postgresql-8.0.3</code>). </td>
-   </tr>
-   <tr>
-    <td> <code> initialise-database </code> </td>
-    <td> Initialise the database and start the server, using the recommended
-    postgresql-version (x.y.z) and the default location
-    ExternalSources/Postgresql/x.y.z/data of the database. </td>
-   </tr>
-   <tr>
-    <td> <code> initialise-database pgsql-version=x.y.z </code> </td>
-    <td> Initialise the database and start the server, using the postgresql-version
-    x.y.z and the location ExternalSources/Postgresql/x.y.z/data of the database. </td>
-   </tr>
-   <tr>
-    <td> <code> initialise-database pgdata=P </code> </td>
-    <td> Initialise the database and start the server, using the recommended
-    postgresql-version and the location of the database given by the absolute
-    path P. </td>
-   </tr>
-   <tr>
-    <td> <code> initialise-database pgdata=P pgsql-version=x.y.z </code> </td>
-    <td> Initialise the database and start the server, using the postgresql-version
-    x.y.z and the location of the database given by the absolute path P. </td>
-   </tr>
-  </table>
-
 */
 

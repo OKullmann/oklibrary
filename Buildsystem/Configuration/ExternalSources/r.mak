@@ -8,8 +8,11 @@ R_supported_version_numbers ?= $(R_supported_not_recommended_version_numbers) $(
 
 R_prefix ?= R
 
-R_html_documentation_index_location ?= $(ExternalSources_doc)/R/doc/html/index.html
-R_docu_page ?= $(doc_dir)/
+R_base_directory ?= $(ExternalSources)/R
+
+R_documentation_dir ?= $(ExternalSources_doc)/R
+R_html_documentation_index_location ?= $(R_documentation_dir)/doc/html/index.html
+R_docu_page ?= $(doc_dir)//doxygen_html/da/d4d/docus_2R_8hpp.html
 
 R_homepage_url := http://www.r-project.org/
 R_documentation_url := http://www.r-project.org/

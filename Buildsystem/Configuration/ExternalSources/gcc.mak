@@ -9,9 +9,12 @@ gcc_new_installation ?= 4.2.0 4.2.1
 gcc_supported_version_numbers ?= $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
 
 gcc_prefix ?= gcc
-gcc_html_documentation_index_location ?= $(ExternalSources_doc)/Gcc/$(gcc_recommended_version_number)/html/gcc/index.html
-gcc_docu_page ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
 
+gcc_base_directory ?= $(ExternalSources)/Gcc
+
+gcc_documentation_dir ?= $(ExternalSources_doc)/Gcc
+gcc_html_documentation_index_location ?= $(gcc_documentation_dir)/$(gcc_recommended_version_number)/html/gcc/index.html
+gcc_docu_page ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
 
 gcc_homepage_url := http://gcc.gnu.org/
 gcc_documentation_url := http://gcc.gnu.org/onlinedocs/

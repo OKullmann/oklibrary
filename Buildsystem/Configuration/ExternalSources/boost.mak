@@ -10,10 +10,12 @@ boost_prefix ?= boost
 
 boost_base_directory ?= $(ExternalSources)/Boost
 
+boost_documentation_dir ?= $(ExternalSources_doc)/Boost
 boost_recommended_package_name ?= $(boost_recommended_version_number)
 # OK: The variable boost_recommended_package_name seems wrong, and seems
 # to be used only for setting boost_html_documentation_index_location ??
-boost_html_documentation_index_location ?= $(ExternalSources_doc)/Boost/$(boost_recommended_package_name)/index.htm
+boost_html_documentation_index_location ?= $(boost_documentation_dir)/$(boost_recommended_package_name)/index.htm
+boost_docu_page ?= $(doc_dir)/doxygen_html/d3/d24/docus_2Boost_8hpp.html
 
 boost_homepage_url := http://www.boost.org/
 boost_documentation_url := http://www.boost.org/libs/libraries.htm
