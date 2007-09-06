@@ -23,35 +23,6 @@
   </ul>
 
 
-  \todo Documenting ExternalSources/Makefile : DONE
-  <ul>
-   <li> General explanations in ExternalSources/docus/general.hpp: DONE
-    <ol>
-     <li> Only restricted installation support for special builds. </li>
-     <li> How to obtain the special installation instructions, such that
-     in case of a problem the problem can be reproduced independently of
-     the OKlibrary (necessary for requests to mailing lists associated
-     with the special packages).
-    </ol>
-   </li>
-   <li> Another file in ExternalSources/docus explains how to add the installation
-   of a new external source. DONE </li>
-   <li> Explain in general the notion of "recommended version" etc. DONE </li>
-   <li> The files in ExternalSources/SpecialBuilds/docus are for the *user*
-   documentation, that is, how to install it, and very basic usage. DONE </li>
-   <li> Move all special build instructions there to SpecialBuilds/docus. DONE </li>
-   <li> In ExternalSources/docus we should have general.hpp for general
-   explanations and links to the documentations for special builds, which
-   actually likely should go to SpecialBuilds/docus. DONE </li>
-   <li> The old OKBuildsystem/ExternalSources/doc.mak is gone?
-   So documentation building should happen automatically (when building
-   the package). DONE (extracting the documentation and moving to an appropriate
-   subdirectory of OKplatform/ExternalSources/doc is part of every installation) </li>
-   <li> Move the documentation from ExternalSources.mak to
-   Buildsystem/docus/ExternalSources.hpp. DONE </li>
-  </ul>
-
-
   \todo Downloading sources
   <ul>
    <li> Via "make getsources" the system should download all the packages from
@@ -162,45 +133,12 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
+  \todo Finish docus for special builds
+
+
   \todo %Tools
   <ul>
    <li> Investigate the NiX system (a system for managing libraries). </li>
-  </ul>
-
-
-  \todo Directory structure of OKplatform/ExternalSources : DONE
-  (taken over by new todo "Elaborated directory structure")
-  <ul>
-   <li> One new sub-directory
-    <ol>
-     <li> OKplatform/ExternalSources/sources DONE (introduced, and mirrored in
-     Buildsystem/ExternalSources/sources) </li>
-     <li> OKplatform/ExternalSources/installations DONE (not needed) </li>
-     <li> OKplatform/ExternalSources/doc DONE (as is) </li>
-    </ol>
-    where to "sources" all the tarballs go, while to "installations"
-    all current sub-directories go. </li>
-  </ul>
-
-
-  \todo Renaming : DONE
-  <ul>
-   <li> Perhaps we better call now "Buildsystem/ExternalSources/ExternalSources.mak"
-   simply "Buildsystem/ExternalSources/makefile". DONE (these issues are now
-   handled in Buildsystem/plans/MasterScript.hpp) </li>
-   <li> Perhaps we should move "Buildsystem/external_sources_versions.mak"
-   to directory Buildsystem/ExternalSources, and then call it
-   simply "versions.mak". DONE (moved it to Buildsystem/Configuration) </li>
-  </ul>
-
-
-  \todo Plans-structure for ExternalSources : DONE
-  <ul>
-   <li> Perhaps the version number of sub-module ExternalSources
-   is initially set to the current version number of Buildsystem? DONE (used a lower
-   number to indicate, that the ExternalSources-part of the buildsystem is less
-   refined) </li>
-   <li> Likely we should now have also a milestones.hpp file. DONE </li>
   </ul>
 
 */
