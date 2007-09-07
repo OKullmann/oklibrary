@@ -17,7 +17,7 @@
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> The boost header files and the corresponding link libraries XXX </li>
+   <li> The %boost header files and the corresponding link libraries XXX </li>
    <li> Documentation XXX </li>
   </ul>
 

@@ -10,7 +10,10 @@ doxygen_prefix ?= doxygen
 doxygen_full_prefix ?= $(doxygen_prefix)-$(doxygen_recommended_version_number)
 doxygen_recommended_package_name ?= $(dogygen_full_prefix).src
 
-doxygen_html_documentation_index_location ?= $(ExternalSources_doc)/Doxygen/$(doxygen_full_prefix)/html/index.html
+doxygen_base_directory ?= $(ExternalSources)/Doxygen
+
+doxygen_documentation_dir ?= $(ExternalSources_doc)/Doxygen
+doxygen_html_documentation_index_location ?= $(doxygen_documentation_dir)/$(doxygen_full_prefix)/html/index.html
 doxygen_docu_page ?= $(doc_dir)/doxygen_html/db/dee/Doxygen_8hpp.html
 
 doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/

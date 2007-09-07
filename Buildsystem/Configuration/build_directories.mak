@@ -50,3 +50,6 @@ build_directories = \
 
 OKsystem_include := -I$(OKsystem)
 
+oklib_building_log ?= $(log_dir)/OKlibBuilding
+external_sources_log ?= $(log_dir)/ExternalSources
+

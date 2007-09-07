@@ -210,3 +210,75 @@ endif
 # the following construction needs to be generalised by some function
 gmp_html_documentation_index_location_tag ?= <a href="$(gmp_html_documentation_index_location)">$(gmp_html_documentation_index_location)</a>
 
+# New variables for the configuration of building valgrind (to be designed 
+# and implemented):
+
+valgrind_call ?= valgrind
+
+valgrind_version_number_extraction := sed 's/valgrind-\([0-9]\.[0-9]\.[0-9]\)/\1/'
+# assumes that the output of "valgrind --version" is a line of the form
+# (for example) "valgrind-3.2.3"
+
+location_valgrind_call ?= $(shell (type -P $(valgrind_call)))
+ifeq ($(location_valgrind_call),)
+  valgrind_call_ready ?= NO
+else
+  version_valgrind_call ?= $(shell $(valgrind_call) --version | $(valgrind_version_number_extraction))
+  ifeq ($(version_valgrind_call),$(valgrind_recommended_version_number))
+    valgrind_call_ready ?= YES
+  else
+    valgrind_call_ready ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+valgrind_html_documentation_index_location_tag ?= <a href="$(valgrind_html_documentation_index_location)">$(valgrind_html_documentation_index_location)</a>
+
+# New variables for the configuration of building postgresql (to be designed 
+# and implemented):
+
+postgresql_call ?= psql
+
+postgresql_version_number_extraction := awk '/ [0-9]\.[0-9]\.[0-9]+/{print $$3}'
+# assumes that the output of "postgresql --version" contains a line of the form
+# (for example) "psql (PostgreSQL) 7.4.13"
+
+location_postgresql_call ?= $(shell (type -P $(postgresql_call)))
+ifeq ($(location_postgresql_call),)
+  postgresql_call_ready ?= NO
+else
+  version_postgresql_call ?= $(shell $(postgresql_call) --version | $(postgresql_version_number_extraction))
+  ifeq ($(version_postgresql_call),$(postgresql_recommended_version_number))
+    postgresql_call_ready ?= YES
+  else
+    postgresql_call_ready ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+postgresql_html_documentation_index_location_tag ?= <a href="$(postgresql_html_documentation_index_location)">$(postgresql_html_documentation_index_location)</a>
+
+# New variables for the configuration of building R (to be designed 
+# and implemented):
+
+R_call ?= R
+
+R_version_number_extraction := awk '/ [0-9]\.[0-9]\.[0-9]/{print $$3}'
+# assumes that the output of "R --version" contains a line of the form
+# (for example) "R version 2.5.0 (2007-04-23)"
+
+location_R_call ?= $(shell (type -P $(R_call)))
+ifeq ($(location_R_call),)
+  R_call_ready ?= NO
+else
+  version_R_call ?= $(shell $(R_call) --version | $(R_version_number_extraction))
+  ifeq ($(version_R_call),$(R_recommended_version_number))
+    R_call_ready ?= YES
+  else
+    R_call_ready ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+R_html_documentation_index_location_tag ?= <a href="$(R_html_documentation_index_location)">$(R_html_documentation_index_location)</a>
+
