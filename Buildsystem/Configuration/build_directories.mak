@@ -18,6 +18,9 @@ aux_dir ?= $(system_directories)/aux
 # Directory for all latex auxilliary files:
 latex_dir ?= $(aux_dir)/latex
 
+# Directory for all dvi files:
+dvi_dir ?= $(doc_dir)/dvi
+
 # Directory for all dependency files:
 dependencies_dir ?= $(aux_dir)/dependencies
 

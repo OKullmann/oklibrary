@@ -16,7 +16,6 @@ ifndef OKconfiguration
 endif
 
 include $(OKconfiguration)/configuration_data.mak
-export
 
 # ######################################################################
 
@@ -24,13 +23,7 @@ include $(OKbuildsystem)/standardgoals.mak
 
 include $(Annotations_dir)/definitions.mak
 
-# Definitions required from makefile.definitions:
-# Root
-
-aux_dir := $(system_directories)/aux
-latex_dir := $(aux_dir)/latex
-doc_dir := $(system_directories)/doc
-dvi_dir := $(doc_dir)/dvi
+export
 
 directories := $(aux_dir) $(latex_dir) $(doc_dir) $(dvi_dir)
 
@@ -41,9 +34,6 @@ tex_files_bases := $(basename $(notdir $(tex_files)))
 dvi_files := $(addprefix $(dvi_dir)/, $(addsuffix .dvi, $(tex_files_bases)))
 
 # -------------------------------------------------------------------------
-
-.PHONY : all optimised unoptimised check clean cleanall force test testop 
-# ToDo: get these phony targets from the standard source
 
 all force : $(dvi_files)
 
@@ -69,8 +59,6 @@ endif
 
 
 # -------------------------------------------------------------------------
-
-.PHONY : clean cleanall
 
 clean :
 	- rm $(addprefix $(aux_dir)/, $(addsuffix .*, $(tex_files_bases)))
