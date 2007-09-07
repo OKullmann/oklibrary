@@ -5,38 +5,6 @@
   \brief Plans for cryptological tools regarding the Rijndael cipher
 
 
-  \todo Computer algebra in general : DONE (tasks completed or delegated)
-  <ul>
-   <li> Compare the discussion under "Condition" in ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp.
-   DONE (postponed until the design of the Maxima installation) </li>
-   <li> Migrate the mupad-code. DONE (new todo) </li>
-   <li> Perhaps there is already some implementation out there? DONE (doesn't seem
-   to be the case) </li>
-   <li> But in any case we need our own implementation, as elegant as possible,
-   exploiting finite field arithmetic. DONE (yes) </li>
-   <li> A module for the (pure) AES-implementation in the computer-algebra-system
-   shall be created (we have already some Mupad-code). DONE </li>
-  </ul>
-
-
-  \todo New implementation : DONE (fundamental discussions completed)
-  <ul>
-   <li> Fundamental design discussion
-    <ol>
-     <li> Which of the system made available by Sage to use? DONE (concentrating
-     on first Maxima then Axiom) </li>
-     <li> Maxima: Does it have finite fields? DONE (we use some existing implementation)
-     </li>
-     <li> Axiom : DONE (comes later)
-      <ul>
-       <li> Axiom does have finite fields but how flexible is the implementation? </li>
-      </ul>
-     </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Finishing old implementation (ComputerAlgebra/Cryptology/Rijndael.sage)
   <ul>
    <li> Write documentation on how to use this program (including how to load it into Sage). </li>
@@ -142,8 +110,6 @@
    <li> Only later should we consider a full C++ implementation, but first
    we create a prototype in the computer-algebra system. DONE </li>
   </ul>
-
-
 
 */
 
