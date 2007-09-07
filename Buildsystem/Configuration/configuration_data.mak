@@ -21,8 +21,8 @@ include $(OKconfiguration)/version_numbers.mak
 include $(OKconfiguration)/ExternalSources/all.mak
 include $(OKconfiguration)/build_directories.mak
 include $(OKconfiguration)/macro_replacement.mak
-include $(OKconfiguration)/doxygen_documentation.mak
-include $(OKconfiguration)/local_html.mak
+include $(OKconfiguration)/Html/doxygen_documentation.mak
+include $(OKconfiguration)/Html/local_html.mak
 
 include $(OKconfiguration)/ExternalSources/tests.mak
 
