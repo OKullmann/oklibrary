@@ -369,8 +369,8 @@ generate_update_branch_email()
 	if [ -z "$rewind_only" ]; then
 
 		echo $LOGBEGIN
-		git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
-		git rev-list --pretty --stdin $oldrev..$newrev
+		#git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
+		git rev-list --pretty $oldrev..$newrev
 
 		# XXX: Need a way of detecting whether git rev-list actually outputted
 		# anything, so that we can issue a "no new revisions added by this

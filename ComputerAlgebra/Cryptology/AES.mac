@@ -1,0 +1,62 @@
+/* 
+ * CAS AES Implemention - In Progress
+ *
+ * To run this one will need gf.mac from http://sci.vu.edu.au/~amca/software.html
+ * to be placed somewhere in the maxima path which can be found by running maxima
+ * and using "file_search_maxima;", along with this file. One must then load this file
+ * by calling "load(aes);" from within maxima. 
+ *
+ * One can exit the maxima environment by pressing ctrl+d.
+ */
+load(gf);
+gf_set(2,8,x^8+x^4+x^3+x+1),
+
+srd(py) := if py = 0 then x^6 + x^5 + x + 1 else 
+block(
+    gf_set(2,8,x^8+x^4+x^3+x+1),
+    p : gf_inv(py),
+    gf_set(2,1,[x]),
+    v: matrix([coeff(p, x, 7)],[coeff(p, x, 6)],[coeff(p, x, 5)],
+              [coeff(p, x, 4)],[coeff(p, x, 3)],[coeff(p, x, 2)],
+              [coeff(p, x, 1)],[coeff(p, x, 0)]),
+    l : matrix([1,1,1,1,1,0,0,0],[0,1,1,1,1,1,0,0],
+               [0,0,1,1,1,1,1,0],[0,0,0,1,1,1,1,1],
+               [1,0,0,0,1,1,1,1],[1,1,0,0,0,1,1,1],
+               [1,1,1,0,0,0,1,1],[1,1,1,1,0,0,0,1]),
+    r : gf_matmul(l,v),
+    pr: (r[1][1] * x^7 + r[2][1] * x^6 + r[3][1] * x^5 + r[4][1] * x^4 + 
+         r[5][1] * x^3 + r[6][1] * x^2 + r[7][1] * x^1 + r[8][1]),
+    gf_set(2,8,x^8+x^4+x^3+x+1),
+    gf_add(pr, x^6 + x^5 + x + 1)
+)$
+
+keysch(k,r) := block (
+    a : gf_add(k[1][1], gf_add(srd(k[2][4]),gf_exp(x,r-1))),
+    b : gf_add(k[2][1], gf_add(srd(k[3][4]),gf_exp(x,r-1))),
+    c : gf_add(k[3][1], gf_add(srd(k[4][4]),gf_exp(x,r-1))),
+    d : gf_add(k[4][1], gf_add(srd(k[1][4]),gf_exp(x,r-1))),
+    matrix(
+        [a, gf_add(a,k[1][2]), gf_add(gf_add(a,k[1][2]),k[1][3]), 
+            gf_add(gf_add(gf_add(a,k[1][2]),k[1][3]),k[1][4])],
+        [a, gf_add(a,k[2][2]), gf_add(gf_add(a,k[2][2]),k[2][3]), 
+            gf_add(gf_add(gf_add(a,k[2][2]),k[2][3]),k[2][4])],
+        [a, gf_add(a,k[3][2]), gf_add(gf_add(a,k[3][2]),k[3][3]), 
+            gf_add(gf_add(gf_add(a,k[3][2]),k[3][3]),k[3][4])],
+        [a, gf_add(a,k[4][2]), gf_add(gf_add(a,k[4][2]),k[4][3]), 
+            gf_add(gf_add(gf_add(a,k[4][2]),k[4][3]),k[4][4])] )
+)$
+
+r(pm, km) := gf_matmul( 
+    matrix (
+        [x, x + 1, 1, 1], [1, x, x + 1, 1],[1, 1, x, x + 1],[x + 1, 1, 1, x]
+    ), matrix (
+        [srd(gf_add(pm[1][1], km[1][1])), srd(gf_add(pm[1][2], km[1][2])), 
+         srd(gf_add(pm[1][3], km[1][3])), srd(gf_add(pm[1][4], km[1][4]))]
+        [srd(gf_add(pm[2][4], km[2][4])), srd(gf_add(pm[2][1], km[2][1])), 
+         srd(gf_add(pm[2][2], km[2][2])), srd(gf_add(pm[2][3], km[2][3]))]
+        [srd(gf_add(pm[3][3], km[3][3])), srd(gf_add(pm[3][4], km[3][4])), 
+         srd(gf_add(pm[3][1], km[3][1])), srd(gf_add(pm[3][2], km[1][2]))]
+        [srd(gf_add(pm[4][2], km[4][2])), srd(gf_add(pm[4][3], km[4][3])), 
+         srd(gf_add(pm[4][4], km[4][4])), srd(gf_add(pm[4][1], km[4][1]))]
+    ) 
+)$
