@@ -9,7 +9,7 @@ local_html_dir ?= $(doc_dir)/local_html
 internet_html_dir ?= $(doc_dir)/internet_html
 
 # The directory where to put files to be put on ok-sat-library.org
-# is $(internet_dir), where this variable needs is specified
+# is $(internet_dir); if this variable is needed, then it is specified
 # by the override-file.
 
 local_home_page_template ?= $(OKbuildsystem)/Html/Local/HomePage.html
@@ -38,4 +38,6 @@ internet_home_page_output ?= $(internet_html_dir)/index.html
 oklibrary_domain := http://www.ok-sat-library.org
 
 main_docu_page ?= $(doc_dir)/doxygen_html/d0/dfd/docus_2general_8hpp.html
+
+documents_dir ?= $(OKsystem)/documents
 
