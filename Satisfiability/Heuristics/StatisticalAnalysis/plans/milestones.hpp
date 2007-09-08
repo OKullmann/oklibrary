@@ -9,15 +9,16 @@
   \par Version 0.0.5
 
   \par
+   In Heuristics/StatisticalAnalysis/plans/BacktrackingProbing.hpp the following topics are handled:
+    - Literature review
+
+  \par
    In Heuristics/StatisticalAnalysis/plans/general.hpp the following topics are handled:
     - Update namespaces : DONE
     - Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp to here : DONE
 
   \par
-   In Heuristics/StatisticalAnalysis/plans/BacktrackingProbing.hpp the following topics are handled:
-    - Literature review
-
-  And further milestones are created.
+   Further milestones are created.
 
 
 
