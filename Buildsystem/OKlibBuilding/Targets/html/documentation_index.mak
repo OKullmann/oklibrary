@@ -3,13 +3,6 @@
 # links to the web pages of Boost, Doxygen, Gcc etc
 
 # ##################################################
-# OKlibrary Documentation Location
-# ##################################################
-
-OKlibrary_full_documentation_dvi_location := $(doc_dir)/dvi/FullDocumentation.dvi
-
-
-# ##################################################
 # Main target for creating index
 # ##################################################
 
@@ -28,3 +21,4 @@ new_documentation_index : $(local_html_dir)
 	cp $(developers_template) $(developers_output)
 	$(preprocessing_call) $(sage_html_template) > $(sage_html_output)
 	$(preprocessing_call) $(coq_html_template) > $(coq_html_output)
+	cp -r $(documents_dir) $(doc_dir)
