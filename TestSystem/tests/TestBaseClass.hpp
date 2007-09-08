@@ -3,6 +3,10 @@
 /*!
   \file TestSystem/tests/TestBaseClass.hpp
   \brief Tests for the components from TestBaseClass_DesignStudy.hpp
+
+  \todo Improve the include list: Make clear what are library files,
+  and what is to be tested.
+
 */
 
 #ifndef TESTBASECLASSTESTSDESIGNSTUDY_iiUUyyTr5
