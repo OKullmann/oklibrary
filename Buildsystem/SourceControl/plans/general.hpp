@@ -366,6 +366,20 @@ git mv file1 file2 dir1 dir2 Annotations
    version-numbering-systems there, and what kind of statistics
    are supported? It seems the answer is simple -- nothing?! </li>
    <li> How to handle change dates and revision numbers in files with Git?
+    <ol>
+     <li> Where CVS puts date and revision number, we need now
+     data and the sha of the commit (or perhaps just the sha). </li>
+     <li> The problem is, that the sha is known only after the commit. </li>
+     <li> One could automatically add a second commit, where then the sha
+     of the previous commit has been added to the file. </li>
+     <li> It's possible, but somehow seems ugly to me. </li>
+     <li> Alternatively, one could enter the sha of last commit
+     for the file, plus the date. </li>
+     <li> Or one keeps the old format, and a program just enters before
+     commit the date and increments the (file) revision number (which then
+     would be just a natural number)? Perhaps additionally the sha of
+     the last commit. This seems reasonable to me. </li>
+    </ol>
    </li>
    <li> Unified repositories ("holistic" or "active" libraries)
     <ul>
