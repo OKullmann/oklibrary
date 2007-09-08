@@ -10,7 +10,7 @@
 
   \par
    In GeneralInputOutput/plans/general.hpp the following topics are handled:
-    - Update plans
+    - Transfer module to part Programming
 
   \par
    Further milestones are created. DONE
@@ -20,7 +20,7 @@
 
   \par
    In GeneralInputOutput/plans/general.hpp the following topics are handled:
-    - Transfer module to part Programming
+    - Update plans
 
 
   \par Version 0.1.3 :

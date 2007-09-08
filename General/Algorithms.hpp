@@ -1,7 +1,47 @@
 // Oliver Kullmann, 4.6.2002 (Swansea)
 
-#ifndef ALGORITHMSWAECHTER
+/*!
+  \file General/Algorithms.hpp
+  \brief Collection of various basic generic algorithms
+  \deprecated Contents shall move to dedicated places
 
+  \todo What are the right places for the code to move?
+  We have
+  <ul>
+   <li> Algorithms related to statistics :
+    <ol>
+     <li> Algorithms::Median </li>
+     <li> Algorithms::Rand </li>
+     <li> Algorithms::RandomGeneratorInterval </li>
+    </ol>
+    These three algorithms should be superceeded by the upcoming
+    Boost statistics library.
+   </li>
+   <li> Container algorithms :
+    <ol>
+     <li> Algorithms::exact_matches </li>
+     <li> Algorithms::matching_values </li>
+    </ol>
+    Should go to Programming/Container.
+   </li>
+   <li> Sequence algorithms :
+    <ol>
+     <li> Algorithms::copy_n and variations </li>
+     <li> Algorithms::pair2_find_if and variations </li>
+    </ol>
+    Should go to Programming/Sequences.
+   </li>
+   <li> Algebra :
+    <ol>
+     <li> Algorithms::Power_natural (fast exponentiation) </li>
+    </ol>
+    Should go to Structures/Algebra/BasicComputations.
+   </li>
+  </ul>
+
+*/
+
+#ifndef ALGORITHMSWAECHTER
 #define ALGORITHMSWAECHTER
 
 #include <algorithm>
@@ -314,15 +354,6 @@ namespace Algorithms {
           return std::make_pair(i, j);
     return std::make_pair(end, end);
   }
-}
-
-namespace Algorithms {
-
-  // ---------------------------------------------------
-  // Properties of sequences
-  // ---------------------------------------------------
-
-
 }
 
 namespace Algorithms {

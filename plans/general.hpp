@@ -70,9 +70,9 @@
 
   \todo Super-modules:
   <ul>
-   <li> Currently 82 modules --- that needs a superstructure.
+   <li> We needs a library directory-superstructure.
    So we should introduce sub-directories of Transitional,
-   corresponding to "super-modules". </li>
+   corresponding to "parts". </li>
    <li> Problematic the correspondence between paths and namespaces:
     <ol>
      <li> We should be consistent, using full super-module names
@@ -188,8 +188,11 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
        <li> "Programming" ("Pro")
         <ol>
-         <li> Gen ("GeneralTools") </li>
+         <li> Con ("Container") </li>
+         <li> Err ("ErrorHandling") </li>
          <li> Pll ("Parallelism") </li>
+         <li> PrO ("ProgramOptions") </li>
+         <li> Seq ("Sequences") </li>
         </ol>
        </li>
        <li> "System" ("Sys")
@@ -344,7 +347,7 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Upgrade to gcc-4.2.0
+  \todo Upgrade to gcc-4.2.1
   <ul>
    <li> Correct the template-errors:
     <ol>
