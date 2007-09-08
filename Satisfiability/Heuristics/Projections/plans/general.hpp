@@ -18,8 +18,8 @@ namespace OKlib {
     namespace Heuristics {
       namespace Projections {
       }
+      namespace Prj = Projections;
     }
   }
-  namespace SatHeuPrj = Satisfiability::Heuristics::Projections;
 }
 

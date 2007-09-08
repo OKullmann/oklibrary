@@ -5,11 +5,11 @@
   \brief Module for recognising structures in problem instances
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
   \todo Move Transitional/Statistics/plans/RecogniseRandomFormulas.hpp
-  to here.
+  to here : DONE
 
 */
 
@@ -17,7 +17,7 @@
   \namespace OKlib::Satisfiability::Heuristics::StructureRecognition
   \brief Components for structure recognition
 
-  Alias "Rec".
+  Alias "Rcg".
 */
 
 namespace OKlib {
@@ -25,8 +25,8 @@ namespace OKlib {
     namespace Heuristics {
       namespace StructureRecognition {
       }
+      namespace Rcg = StructureRecognition;
     }
   }
-  namespace SatHeuRec = Satisfiability::Heuristics::StructureRecognition;
 }
 

@@ -88,6 +88,8 @@
 namespace Sat = Satisfiability;
 namespace SatAlg = Satisfiability::Algorithms;
      \endcode
+     Or should be better not open the can of worms given by these
+     further aliases like "SatAlg" ? Looks better!
      </li>
      <li> In every plans-file, besides the namespace-documentation, where also
      the namespace is introduced (as C++ entity), we then have also the alias
@@ -186,7 +188,7 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> AlS ("AlgebraicSpecification") (CASL etc.) </li>
         </ol>
        </li>
-       <li> "Programming" ("Pro")
+       <li> "Programming" ("Prg")
         <ol>
          <li> Con ("Container") </li>
          <li> Err ("ErrorHandling") </li>

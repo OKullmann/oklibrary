@@ -10,7 +10,7 @@
 
   \par
    In Heuristics/StatisticalAnalysis/plans/general.hpp the following topics are handled:
-    - Update namespaces.
+    - Update namespaces : DONE
     - Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp to here : DONE
 
   \par
