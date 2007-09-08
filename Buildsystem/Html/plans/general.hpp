@@ -29,10 +29,26 @@
    <li> Local url's should be relative (so that the html-documentation is
    moveable): The preprocessing approach needs to be generalised:
     <ol>
-     <li> Best seems to create a make-function, which takes the current
-     location, the target location, and the OKplatform location,
-     all as absolute paths, and creates from that the relative path
-     from the current location to the target location. </li>
+     <li> Best seems to create a function called by the m4-preprocessor
+     (perhaps called "m4_RELPATH(C,T)"), which takes the current location C
+     and the target location T, all as absolute paths, and creates
+     from that the relative path from C to T:
+      <ol>
+       <li> The algorithm is, that the longest common prefix (path) P
+       of C and T is determined, and then the relative path from C
+       to T goes first (size(C) - size(P))-many steps up, and then uses
+       the piece of T starting with the end of P. </li>
+       <li> Here I used paths as sequences in the C++ sense, and it
+       seems best to implement this task as a little C++ application
+       (there appears to be no existing tool for that purpose). </li>
+       <li> Since all path names are constructed by us, we take their
+       representation (as strings) literal, that is, do not use
+       the equivalence of paths, but their equality (in therms of
+       the Boost filesystem library, part of the standard in the future). </li>
+       <li> A generic algorithm determines the longest prefix of
+       two sequences (given by input iterators). </li>
+      </ol>
+     </li>
      <li> The problem is how to get the current location? </li>
      <li> For html-files created by us we know their location
      (that is, where they will be put after preprocessing. Since we
@@ -54,8 +70,10 @@
        <li> From doxygen-files to own files, there is the doxygen-capability
        of creating links via the "\link" command, but this seems to
        require a hard-coded path. Thus also here we use the above
-       mechanism (together with the tag-construction, which creates
-       the html-link-tag). </li>
+       mechanism, together with the tag-construction, which creates
+       the html-link-tag: Problematic, that only variable values
+       can be used (no computations) ? Thus likely we have to compute
+       these paths in advance, and store them in (make-)variables. </li>
       </ul>
      </li>
     </ol>
