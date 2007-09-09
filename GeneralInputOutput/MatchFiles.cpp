@@ -4,7 +4,7 @@
   \file GeneralInputOutput/MatchFiles.cpp
   \brief Application for checking whether one file matches a regular expresssion
 
-  Two input parameter are required, which are the names of two files P and F.
+  Two input parameters are needed, which are the names of two files P and F.
   P (the "pattern") is a regular expression, and the return value
   is 0 if the content of file F matches exactly P, and 10 otherwise.
   If only one parameter is given, then it is taken for P, and F is read from
@@ -32,10 +32,10 @@ namespace {
 
 int main(const int argc, const char* const argv[]) {
   if (argc != 2 and argc != 3) {
-    std::cerr << "Either one or two inputs are required, the file-name for the "
-      "pattern, and the file-name of the file to check,\nwhere the latter"
+    std::cerr << "ERROR: Either one or two input parameters are required, the file-name "
+      "for the pattern, and the file-name of the file to check,\nwhere the latter"
       " can be supplied by standard input.\n However the "
-      "number of actual arguments was " << argc-1 <<".\n";
+      "number of actual arguments was " << argc-1 << ".\n";
     return EXIT_FAILURE;
   }
 
