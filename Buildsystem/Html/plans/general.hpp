@@ -76,6 +76,11 @@
        these paths in advance, and store them in (make-)variables. </li>
       </ul>
      </li>
+     <li> It would be easiest if all relative addresses would be computed
+     in advance in stored in make-configuration variables. Then better
+     we create (in Configuration/Html) a specific makefile with all
+     these settings, and this configuration makefile is only included
+     by OKlibBuilding/Targets/html/Makefile. </li>
     </ol>
    </li>
    <li> Files created by the preprocessor should have a final line stating this
