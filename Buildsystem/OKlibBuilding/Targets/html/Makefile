@@ -2,7 +2,14 @@
 
 # Sub-makefile defining rules to create local html documentation
 
+include $(OKconfiguration)/Html/include.mak
+export
+
 html : documentation_index doxygen_documentation
+
+ifeq ($(doxygen_html_dir),)
+$(error "Variable doxygen_html_dir is empty or undefined!")
+endif
 
 doxygen_documentation : $(doxygen_html_dir) $(log_dir)
 	- rm -r $(doxygen_html_dir)/*

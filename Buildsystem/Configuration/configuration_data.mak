@@ -1,6 +1,6 @@
 # Oliver Kullmann, 11.7.2007 (Swansea)
 
-# This makefile provides all configuration variables
+# This makefile provides all configuration variables (except for html purposes)
 
 ifndef OKplatform
   $(error The make-variable OKplatform must be defined when calling this makefile (as the full directory path containing the OKplatform)!)
@@ -21,8 +21,6 @@ include $(OKconfiguration)/version_numbers.mak
 include $(OKconfiguration)/ExternalSources/all.mak
 include $(OKconfiguration)/build_directories.mak
 include $(OKconfiguration)/macro_replacement.mak
-include $(OKconfiguration)/Html/doxygen_documentation.mak
-include $(OKconfiguration)/Html/local_html.mak
 
 include $(OKconfiguration)/ExternalSources/tests.mak
 
