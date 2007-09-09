@@ -180,6 +180,10 @@
     <td> <code> boost_version_number=V </code> </td>
     <td> Use the locally installed %boost with version V (for example <code>boost_version_number=1_34_0</code>); default value is the recommended version. </td>
    </tr>
+   <tr>
+    <td> <code> Test_tool=T </code> </td>
+    <td> For example T=<code>"valgrind"</code> or T=<code>"valgrind --quiet"</code>; default value is T=<code>time -p</code> </td>
+   </tr>
   </table>
 
 
