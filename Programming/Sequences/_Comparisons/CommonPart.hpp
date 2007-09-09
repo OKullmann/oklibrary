@@ -205,13 +205,13 @@ namespace OKlib {
       <class R1, class R2, class ImpPol>
       inline typename Common_part_res_t<R1,R2>::type
       common_part(R1& r1, R2& r2, ImpPol) {
-        return Common_part<R1, R2, ImpPol>(r1, r2);
+        return Common_part<R1, R2, ImpPol>()(r1, r2);
       }
       template
       <class R1, class R2, class ImpPol>
       inline typename Common_part_c_res_t<R1,R2>::type
       common_part_c(const R1& r1, const R2& r2, ImpPol) {
-        return Common_part_c<R1, R2, ImpPol>(r1, r2);
+        return Common_part_c<R1, R2, ImpPol>()(r1, r2);
       }
 
     }
