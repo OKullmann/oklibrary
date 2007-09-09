@@ -5,7 +5,7 @@
   \brief General plans regarding generic algorithms for comparing sequences
 
 
-  \todo Generate milestones file.
+  \todo Move parts of General/Algorithms.hpp to here.
 
 
   \todo Should module Iterators be included here?
@@ -15,11 +15,18 @@
   then the test system not arrange for including the Boost library,
   not the user of the test library?
 
+
+  \todo Consolidate tests.
+
+
+  \todo Write docus.
+
 */
 
 /*!
   \namespace OKlib::Programming::Sequences
   \brief Generic algorithms for sequences
 
+  Alias Seq.
 */
 
