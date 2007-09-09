@@ -8,22 +8,91 @@
   \todo Finishing old implementation (ComputerAlgebra/Cryptology/Rijndael.sage)
   <ul>
    <li> Write documentation on how to use this program (including how to load it into Sage). </li>
-   <li> Outline the general design (as a starting point for further investigations). </li>
-   <li> What is the meaning of the "Use By" paragraph? We should avoid machine-dependent
-   information? </li>
+   <li> Outline the general design (as a starting point for further investigations).
+    <ul>
+     <li> The overall view of the plaintext and key was that of a matrix of bytes/GF(2^8) elements </li>
+     <li>Split into MixColumns, ShiftRows and S_rd (which should really be called SBOX instead of the 
+     matrix used in S_Rd as is done) with additional functions for the inverse of these operations. Ideally
+     the inverses would be directly inferred from the functions themselves but I'm not sure if this is entirely
+     impossible in this environment?</li>
+     <li> Helper Functions for conversion between GF(2), GF(2^8) were made so that the different stages
+     within the rounds could work on the data at their respective levels as described by the algorithm 
+     (except for MixColumns due to issues with how to implement the 4-BYTE Ring that occurs).
+     
+     Was this really needed? It seems that better design here would have meant less of a need for some
+     of these and some of them are fairly pointless given the fairly trivial nature of the conversions 
+     (GF2t8ToNat for example).</li>
+     <li>For ShiftRows, a function was allowed to provide an arbitrary permutation. The default was one called
+     aesPerm, although this is perhaps badly named as it eventually became a more generalised version that represented
+     the permutation of the byte elements within Rijndael.</li>
+     <li> A lot of pythonesque structures and functions were used which might detract from the idea here. 
+     Initially this was avoided when starting out but during the generalisation to Rijndael took place,
+     a lack of design lead to a disorganised and inelegant method of generalisation. </li>
+     <li> Some basic "tests" were added by way of assertions to ensure the implementation matched
+     what encryption via AES or Rijndael should give. Ideally this would have better been seperated
+     into a runnable sets of tests rather than assertions as it simply served to slow down the loading
+     of the file into sage significantly, and a properly seperated set of runnable tests would have allowed
+     more freedom and been more structured. </li> 
+    </ul>
+   </li>
    <li> Enter the existing code in the OKlibrary. DONE </li>
    <li> Of course, AES should also be generalised to Rijndael,
   using other block lengths than 128 bit and other cipher lengths
   than 128 bit. DONE </li>
+   <li> What is the meaning of the "Use By" paragraph? We should avoid machine-dependent
+   information? MG - This was intended to document how to use the file within sage. The inclusion
+   of machine-dependent paths was an oversight on my part and has been corrected and further fixes
+   and documentations will be made as per other todos.</li>
   </ul>
 
 
   \todo Maxima: design
   <ul>
-   <li> Create a general design (here in the plans) which is stepwise refined to a Maxima implementation. </li>
+   <li> Create a general design (here in the plans) which is stepwise refined to a Maxima implementation. 
+    <ul>
+     <li>What specifically is needed from the maxima implementation?
+      <ul>
+       <li>A function F_AES(p,k) = c and F_AES'(c,k) = p .
+       
+       How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where the size of p and k is implicit
+       based on the structures used for p and k, and r is given? Is r really needed as it seems this is
+       a function of the size of p and k?</li>
+       <li>Potentially a separate round function to allow greater flexability when investigating reduced round
+       variants?</li>
+       <li> What sort of generalisations are needed? Should the elements of the round such as ShiftRows be
+       interchangable to some arbitrary permutation (perhaps just across rows?)? Should MixColumns be generalised
+       to an arbitrary 4-Byte value multiplication, should it even be viewed in this way?
+      </ul>
+     </li>
+     <li>Should it be split up into each of the individual round functions (MixColumns etc) or should these
+     be combined? Combining them might make certain relationships/conditions more obvious, but it also makes
+     things much less flexible and depending on how it is done, could make generalising to Rijndael harder.
+     </li>
+     <li> How to appraoch key scheduling? 
+
+     AES and symmetric plaintext-key sizes provide a fairly elegant recursive key generation where each round key
+     is just the result of the key generation on the last round key, whereas assymetric sizes such as 192bit plaintext
+     and a 128bit key means you will have to use parts of the previous two round keys. 
+     
+     This seems to be done with an expanded key which is a large array/list of round keys in Design of Rijndael.</li>
+     <li>How should the implementation of the individual aspects be achieved?
+      <ul>
+       <li>The initial example code uses matrices as this seemed natural from the description of AES but
+       this potentially makes generalisation to Rijndael more difficult unless a seperate implementation
+       is created for each plaintest-key pair size configuration is made which seems excessive. Using maxima
+       matrices in such ways also seems to bias the implementation to taking a view of the problem from one
+       particular aspect (ie GF(2) bytes etc) which may not be best.
+
+       Perhaps for use a simple list would be best as this seems to be the common unit in LISP and therefore maxima? 
+       This can be converted to a matrix if a given operation would be best accomplished this way...
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
    <li> Compare the discussion under "Condition" in ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
    <li> Look into whether/how maxima supports symbolic manipulation, so once a simple AES implementation is complete,
-   basic equations can be generated for study. This is seemingly possible in Sage by generating variables form PolynomialRings
+   basic equations can be generated for study. This is seemingly possible in Sage by generating variables from PolynomialRings
    and using these in the system although this seems to yield some issues with typing in some cases.</li>
   </ul>
 
@@ -32,13 +101,29 @@
   <ul>
    <li> Some initial/example code for this has been added in ComputerAlgebra/Cryptology/AES.mac .
    OK : where does the suffix ".mac" come from? looks unmotivated to me? is this the standard
-   ending for maxima-files, or for special ones? </li>
+   ending for maxima-files, or for special ones? MG - Looking through the maxima documentation and at
+   the Finite Fields package and others, it seemed to be the common file extension, and due to a misunderstanding
+   on my part, I believed that it was required, however I simply misunderstood the use of the load function and
+   a more explicit file extension of .maxima following the TauMachinery example seems sensible. </li>
    <li> The finite field packages function names, along with maximas syntax make things a little verbose
    and perhaps a little longer than is really necessary although this is more of a nuisance than a real
    problem.
    OK : Why is there a nuisance? In general in the OKlibrary "full" names are appreciated; is this
-   somewhat special here? </li>
-   <li> Since we need the package, and it doesn't come with Maxima, we need to handle it as an ExternalSource. </li>
+   somewhat special here?
+   MG : It only arose as an issue due to my wish to keep the code relatively short and concise and so while trying
+   to keep to a fixed line length of say 80 characters, this meant that the code become much longer. The syntax when
+   dealing with the binary operations as well doesn't seem to immediately make clear things such as associativity when
+   reading, in my mind, potentially making simplification more difficult. I imagine that this is more my unfamiliarity 
+   with the language and more importantly problems occuring due to lack of design.
+   as suggested below.</li>
+   <li> Since we need the package, and it doesn't come with Maxima, we need to handle it as an ExternalSource. 
+    <ul>
+     <li> What is the procedure for this? </li>
+     <li> When doing this, it might be beneficial to add some basic functionality such as a gf_matadd (matrix addition 
+     within the set field) and so on which isn't currently offered but seems trivial to implement using the functions 
+     defined in gf.mac, although whether this is useful would depend on the design.
+    </ul>
+   </li>
    <li> Right form of abstraction : DONE (these problems will go away through proper design)
     <ol>
      <li> Approaching the implementation from the perspective of the 4-byte block using this package (and with sage's

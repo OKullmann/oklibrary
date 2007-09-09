@@ -7,11 +7,11 @@
 #
 # Use By
 #
-# [{21:03} aeternus@anima Transitional] ~/Apps/sage/sage-2.7.2-debian-64bit-x86_64-Linux/sage    
-# ----------------------------------------------------------------------
-# | SAGE Version 2.7.2, Release Date: 2007-07-28                       |
-# | Type notebook() for the GUI, and license() for information.        |
-# ----------------------------------------------------------------------
+# attach $OKplatform/OKsystem/Transitional/ComputerAlgebra/Cryptology/Rijndael.sage 
+#
+# where $OKPLATFORM has to be replaced by the path to the OKplatform directory. 
+#
+# Example of use
 #
 # sage: k = hexToGF2t8Mat('00000000000000000000000000000000')                
 # sage: p = hexToGF2t8Mat('00000000000000000000000000000000')                
