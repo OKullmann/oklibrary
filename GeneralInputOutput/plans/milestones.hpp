@@ -10,27 +10,41 @@
 
   \par
    In GeneralInputOutput/plans/general.hpp the following topics are handled:
-    - Transfer module to part Programming
-
-  \par
-   Further milestones are created. DONE
+    - Write application "PathDifference"
 
 
   \par Version 0.1.2 :
 
   \par
    In GeneralInputOutput/plans/general.hpp the following topics are handled:
-    - Update plans
+    - Transfer the module to part Programming
+
+  \par
+   Further milestones are created. DONE
 
 
   \par Version 0.1.3 :
+
+  \par
+   In GeneralInputOutput/plans/general.hpp the following topics are handled:
+    - Update plans
+
+
+  \par Version 0.1.4 :
+
+  \par
+   In GeneralInputOutput/plans/general.hpp the following topics are handled:
+    - Move Refactoring/BoostPathCorrected.hpp to here
+
+
+  \par Version 0.1.5 :
 
   \par
    In In GeneralInputOutput/plans/general.hpp the following topics are handled:
     - Write docus
 
 
-  \par Version 0.1.4 :
+  \par Version 0.1.6 :
 
   \par
    In In GeneralInputOutput/plans/general.hpp the following topics are handled:

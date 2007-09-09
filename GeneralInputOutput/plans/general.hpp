@@ -5,7 +5,12 @@
   \brief Plans for the module on general input and output facilities
 
 
-  \todo Transfer module to part Programming.
+  \todo Write application "PathDifference" to be used by the build
+  system to compute a relative path between two absolute paths
+  (for a-tags in html-documents).
+
+
+  \todo Transfer the module to part Programming.
   <ul>
    <li> Perhaps the module-name "GeneralInputOutput" is not really
    adequate ? At least doxygen has problem with it in connection with
@@ -23,7 +28,11 @@
         and the bug should be handled) </li>
    <li> MatchFiles : (shall move to applications-sub-directory,
         or perhaps to somewhere else) </li>
+   <li> PathDifference : (same as MatchFiles) </li>
   </ul>
+
+
+  \todo Move Refactoring/BoostPathCorrected.hpp to here.
 
 
   \todo Write docus
