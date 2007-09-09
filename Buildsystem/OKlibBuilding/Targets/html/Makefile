@@ -1,18 +1,18 @@
-# Creating an index in $(system_directories)/doc to all the OKplatform
-# documentation, including external resources. This index also contains
-# links to the web pages of Boost, Doxygen, Gcc etc
+# Oliver Kullmann, 9.9.2007 (Swansea)
 
-# ##################################################
-# Main target for creating index
-# ##################################################
+# Sub-makefile defining rules to create local html documentation
 
-documentation_index_file := $(doc_dir)/index.html
+html : documentation_index doxygen_documentation
+
+doxygen_documentation : $(doxygen_html_dir) $(log_dir)
+	- rm -r $(doxygen_html_dir)/*
+	echo "Doxygen version: $$(doxygen --version)" && $(preprocessing_call) $(doxy_file_template) > $(doxy_file) && $(doxygen_call) $(doxy_file) $(Doxygen_modifier) 
 
 # temporary (OK):
-.PHONY : new_documentation_index
-documentation_index : new_documentation_index | $(doc_dir)
+# documentation_index : new_documentation_index | $(doc_dir)
+# why this extra indirection?? (OK)
 
-new_documentation_index : $(local_html_dir)
+documentation_index : $(local_html_dir)
 	$(preprocessing_call) $(local_home_page_template) > $(local_home_page_output)
 	$(preprocessing_call) $(aims_page_template) > $(aims_page_output)
 	$(preprocessing_call) $(history_page_template) > $(history_page_output)

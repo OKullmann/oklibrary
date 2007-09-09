@@ -74,8 +74,16 @@
 
   <table>
    <tr>
-    <td> <code> html </code> </td>
+    <td> <code> doxygen_documentation </code> </td>
     <td> Creates the complete doxygen-documentation (wherever called). </td>
+   </tr>
+   <tr>
+    <td> <code> documentation_index </code> </td>
+    <td> Creates local html index pages (wherever called). </td>
+   </tr>
+   <tr>
+    <td> <code> html </code> </td>
+    <td> Calls <code>doxygen_documentation</code> and <code>documentation_index</code> (wherever called). </td>
    </tr>
    <tr>
     <td> <code> internet </code> </td>

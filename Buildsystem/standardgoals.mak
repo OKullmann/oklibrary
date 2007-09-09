@@ -3,7 +3,9 @@
 special_goals := prebuild
 preparation_goals := createdirs 
 
-html_goals := html internet documentation_index
+local_html_goals := html doxygen_documentation documentation_index
+internet_goals := internet
+html_goals := $(local_html_goals) $(internet_goals)
 
 test_files := test testop
 new_test_phonies := new_test new_testop # the notion of "phony" seems inappropriate here (since these are files!) ?!
@@ -20,4 +22,4 @@ forced_goals := force
 
 all_goals := $(special_goals) $(html_goals) $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals)
 
-.PHONY : $(special_goals) $(html_goals) $(test_targets)  $(new_test_targets) $(normal_goals) $(cleaning_goals) $(forced_goals)
+.PHONY : $(special_goals) $(html_goals) $(test_targets) $(new_test_targets) $(normal_goals) $(cleaning_goals) $(forced_goals)
