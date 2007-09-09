@@ -5,11 +5,6 @@
   \brief Plans for the module on general input and output facilities
 
 
-  \todo Write application "PathDifference" to be used by the build
-  system to compute a relative path between two absolute paths
-  (for a-tags in html-documents).
-
-
   \todo Transfer the module to part Programming.
   <ul>
    <li> Perhaps the module-name "GeneralInputOutput" is not really
