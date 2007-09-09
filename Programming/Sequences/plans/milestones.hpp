@@ -3,21 +3,7 @@
 /*!
   \file Programming/Sequences/plans/milestones.hpp
   
-  \module_version Programming/Sequences 0.0.5 (9.9.2007)
-
-
-  \par Version 0.0.6
-
-  \par
-   In Sequences/plans/Comparisons.hpp the following topics are handled:
-    - Completing CommonPart : DONE
-
-  \par
-   In Sequences/plans/general.hpp the following topics are handled:
-    - Generate milestones file : DONE
-
-  \par
-   New milestones are created : DONE
+  \module_version Programming/Sequences 0.0.6 (9.9.2007)
 
 
   \par Version 0.0.7
@@ -49,6 +35,7 @@
   \par Version history
 
    - 0.0.5 : 9.9.2007; initial version; one implementation in the module, and some yet outside of it.
+   - 0.0.6 : 9.9.2007; completed implementation of computation of common prefix (returning now both iterators as well as the size of the prefix).
     
 */
 
