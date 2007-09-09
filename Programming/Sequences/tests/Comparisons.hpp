@@ -13,6 +13,7 @@
 #define COMPARISONS_nnxcad5410o
 
 #include <vector>
+#include <utility>
 
 #include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
 
@@ -21,13 +22,19 @@ namespace OKlib {
     namespace Sequences {
       namespace tests {
 
+# define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
+      (__FILE__, __DATE__, __TIME__, "$Date: 8.9.2007 23:20:00 $", "$Revision: 1 $")
+
         /*!
           \class CommonPart
           \brief Testing functors for computing longest common initial sequences
-        */
 
-# define OKLIB_FILE_ID new ::OKlib::Messages::Utilities::FileIdentification \
-      (__FILE__, __DATE__, __TIME__, "$Date: 8.9.2007 23:20:00 $", "$Revision: 1 $")
+          \todo Yet only the non-const version is handled.
+           <ul>
+            <li> Can we check for both in one test function ? </li>
+            <li> Or do we need another version CommonPart_c ? </li>
+           </ul>
+        */
 
         template <template <class R1, class R2, class IP> class CP, class ImpPol>
         OKLIB_TEST_CLASS(CommonPart) {
@@ -39,16 +46,25 @@ namespace OKlib {
               typedef CP<seq_t, seq_t, ImpPol> com_t;
               com_t com;
               seq_t v1, v2;
-              if (com(v1, v2) != v1.begin())
+              if (com(v1, v2) != std::make_pair(v1.begin(), v2.begin()))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v1.push_back(1);
-              if (com(v1, v2) != v1.begin())
+              if (com(v1, v2) != std::make_pair(v1.begin(), v2.begin()))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v2.push_back(1);
-              if (com(v1, v2) != v1.end())
+              if (com(v1, v2) != std::make_pair(v1.end(), v2.end()))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
-               v2.push_back(2);
-              if (com(v1, v2) != v1.end())
+              v2.push_back(2);
+              if (com(v1, v2) != std::make_pair(v1.end(), --v2.end()))
+                OKLIB_THROW("OKLIB_TEST_EQUAL");
+              v2.push_back(3);
+              if (com(v1, v2) != std::make_pair(v1.end(), ----v2.end()))
+                OKLIB_THROW("OKLIB_TEST_EQUAL");
+              v1.push_back(2);
+              if (com(v1, v2) != std::make_pair(v1.end(), --v2.end()))
+                OKLIB_THROW("OKLIB_TEST_EQUAL");
+              v1.push_back(3);
+              if (com(v1, v2) != std::make_pair(v1.end(), v2.end()))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
             }
           }
