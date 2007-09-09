@@ -56,13 +56,5 @@ build_directories = \
                $(internet_html_dir) \
                $(log_dir)
 
-OKsystem_include := -I$(OKsystem)
-
-oklib_building_log ?= $(log_dir)/OKlibBuilding
-external_sources_log ?= $(log_dir)/ExternalSources
-
 documents_dir ?= $(OKsystem)/documents
-
-oklibrary_dvi_documents ?= FullDocumentation
-OKlibrary_full_documentation_dvi_location ?= $(documents_html_dir)/FullDocumentation.dvi
 
