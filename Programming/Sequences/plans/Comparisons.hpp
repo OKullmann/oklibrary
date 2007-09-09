@@ -11,6 +11,8 @@
   \todo Documenting CommonPart
   <ul>
    <li> Write docus. </li>
+   <li> Write demos. (An external demo is given with
+   GeneralInputOutput/PathDifference.cpp.) </li>
   </ul>
 
 */
