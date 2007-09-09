@@ -10,7 +10,7 @@
 
   \par
    In Sequences/plans/Comparisons.hpp the following topics are handled:
-    - Completing CommonPart
+    - Completing CommonPart : DONE
 
   \par
    In Sequences/plans/general.hpp the following topics are handled:

@@ -5,12 +5,12 @@
   \brief Plans regarding generic algorithms for comparing sequences
 
 
-  \todo Completing CommonPart
+  \todo Completing CommonPart : DONE
   (for Sequences/_Comparisons/CommonPart.hpp)
   <ul>
    <li> Perhaps we better output a triple, where the third component
    is the size of common sequence found. Then the default
-   implementation should also be our own. </li>
+   implementation should also be our own. DONE </li>
    <li> Remove the asymmetry in the output, that is, output a pair
    of iterators : DONE </li>
   </ul>

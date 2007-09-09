@@ -13,7 +13,7 @@
 #define COMPARISONS_nnxcad5410o
 
 #include <vector>
-#include <utility>
+#include <tr1/tuple>
 
 #include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
 
@@ -46,25 +46,25 @@ namespace OKlib {
               typedef CP<seq_t, seq_t, ImpPol> com_t;
               com_t com;
               seq_t v1, v2;
-              if (com(v1, v2) != std::make_pair(v1.begin(), v2.begin()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.begin(), v2.begin(), 0U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v1.push_back(1);
-              if (com(v1, v2) != std::make_pair(v1.begin(), v2.begin()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.begin(), v2.begin(), 0U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v2.push_back(1);
-              if (com(v1, v2) != std::make_pair(v1.end(), v2.end()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.end(), v2.end(), 1U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v2.push_back(2);
-              if (com(v1, v2) != std::make_pair(v1.end(), --v2.end()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.end(), --v2.end(), 1U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v2.push_back(3);
-              if (com(v1, v2) != std::make_pair(v1.end(), ----v2.end()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.end(), ----v2.end(), 1U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v1.push_back(2);
-              if (com(v1, v2) != std::make_pair(v1.end(), --v2.end()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.end(), --v2.end(), 2U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
               v1.push_back(3);
-              if (com(v1, v2) != std::make_pair(v1.end(), v2.end()))
+              if (com(v1, v2) != std::tr1::make_tuple(v1.end(), v2.end(), 3U))
                 OKLIB_THROW("OKLIB_TEST_EQUAL");
             }
           }

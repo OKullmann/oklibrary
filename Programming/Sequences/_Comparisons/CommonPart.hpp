@@ -34,12 +34,20 @@
     condition.
    </li>
    <li> The convenience function Sequences::common_part(r1, r2) just chooses
-   Sequences::Implementation_common_part_std. </li>
+   Sequences::Implementation_common_part_self. </li>
    <li> The three-arguments function Sequences::common_part(r1, r2, pol)
    is a helper function, implementing the special policy pol; it also exists
    in the const-version. </li>
    <li> The meta-function Sequences::Common_part_res_t (with const-version
    Sequences::Common_part_c_res_t) is used to compute the return type. </li>
+  </ul>
+
+
+  \todo How can we combine the const- and the non-const variant (avoiding copy-and-paste) ?
+  <ul>
+   <li> One could define a macro for the common code-block; this would be ugly. </li>
+   <li> The problem appears to be just the different overload resolution for the boost-range
+   operations; one should parameterise and explicitely control this. </li>
   </ul>
   
 */
@@ -49,9 +57,11 @@
 
 #include <algorithm>
 #include <functional>
+#include <tr1/tuple>
 #include <utility>
 
 #include <boost/range/iterator.hpp>
+#include <boost/range/size_type.hpp>
 #include <boost/range/size.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
@@ -69,50 +79,68 @@ namespace OKlib {
       
       template <class Range1, class Range2>
       struct Common_part_res_t {
-        typedef std::pair<typename boost::range_iterator<Range1>::type, typename boost::range_iterator<Range2>::type> type;
+        typedef std::tr1::tuple<
+          typename boost::range_iterator<Range1>::type,
+          typename boost::range_iterator<Range2>::type,
+          typename boost::range_size<Range1>::type> type;
       };
       template <class Range1, class Range2>
       struct Common_part_c_res_t {
-        typedef std::pair<typename boost::range_const_iterator<Range1>::type, typename boost::range_const_iterator<Range2>::type> type;
+        typedef std::tr1::tuple<
+          typename boost::range_const_iterator<Range1>::type,
+          typename boost::range_const_iterator<Range2>::type,
+          typename boost::range_size<Range1>::type> type;
       };
       
       struct Implementation_common_part {};
       struct Implementation_common_part_std : virtual Implementation_common_part {};
       struct Implementation_common_part_self : virtual Implementation_common_part {};
 
-      template
-      <class Range1, class Range2>
+      template <class Range1, class Range2>
       struct Common_part<Range1, Range2, Implementation_common_part_std>
         : std::binary_function<Range1&, Range2&,
-                               typename Common_part_res_t<Range1, Range2>::type > {
+                               typename Common_part_res_t<Range1, Range2>::type> {
 
         typedef typename boost::range_iterator<Range1>::type iterator1_type;
         typedef typename boost::range_iterator<Range2>::type iterator2_type;
+        typedef typename boost::range_size<Range1>::type size_type;
 
-        std::pair<iterator1_type, iterator2_type> operator()(Range1& r1, Range2& r2) const {
-          if (boost::size(r1) <= boost::size(r2))
-            return std::mismatch(boost::begin(r1), boost::end(r1), boost::begin(r2));
+        std::tr1::tuple<iterator1_type, iterator2_type, size_type> operator()(Range1& r1, Range2& r2) const {
+          if (boost::size(r1) <= boost::size(r2)) {
+            const iterator1_type b1(boost::begin(r1));
+            typedef std::pair<iterator1_type, iterator2_type> pair_type;
+            const pair_type res(std::mismatch(b1, boost::end(r1), boost::begin(r2)));
+            return std::tr1::make_tuple(res.first, res.second, std::distance(b1, res.first));
+          }
           else {
-            const std::pair<iterator2_type, iterator1_type> res(std::mismatch(boost::begin(r2), boost::end(r2), boost::begin(r1)));
-            return std::make_pair(res.second, res.first);
+            const iterator1_type b1(boost::begin(r1));
+            typedef std::pair<iterator2_type, iterator1_type> pair_type;
+            const pair_type res(std::mismatch(boost::begin(r2), boost::end(r2), b1));
+            return std::tr1::make_tuple(res.second, res.first, std::distance(b1, res.second));
           }
         }
       };
-      template
-      <class Range1, class Range2>
+      template <class Range1, class Range2>
       struct Common_part_c<Range1, Range2, Implementation_common_part_std>
         : std::binary_function<const Range1&, const Range2&,
-                               typename Common_part_c_res_t<Range1, Range2>::type > {
+                               typename Common_part_c_res_t<Range1, Range2>::type> {
 
         typedef typename boost::range_const_iterator<Range1>::type iterator1_type;
         typedef typename boost::range_const_iterator<Range2>::type iterator2_type;
+        typedef typename boost::range_size<Range1>::type size_type;
 
-        std::pair<iterator1_type, iterator2_type> operator()(const Range1& r1, const Range2& r2) const {
-          if (boost::size(r1) <= boost::size(r2))
-            return std::mismatch(boost::begin(r1), boost::end(r1), boost::begin(r2));
+        std::tr1::tuple<iterator1_type, iterator2_type, size_type> operator()(const Range1& r1, const Range2& r2) const {
+          if (boost::size(r1) <= boost::size(r2)) {
+            const iterator1_type b1(boost::begin(r1));
+            typedef std::pair<iterator1_type, iterator2_type> pair_type;
+            const pair_type res(std::mismatch(b1, boost::end(r1), boost::begin(r2)));
+            return std::tr1::make_tuple(res.first, res.second, std::distance(b1, res.first));
+          }
           else {
-            const std::pair<iterator2_type, iterator1_type> res(std::mismatch(boost::begin(r2), boost::end(r2), boost::begin(r1)));
-            return std::make_pair(res.second, res.first);
+            const iterator1_type b1(boost::begin(r1));
+            typedef std::pair<iterator2_type, iterator1_type> pair_type;
+            const pair_type res(std::mismatch(boost::begin(r2), boost::end(r2), b1));
+            return std::tr1::make_tuple(res.second, res.first, std::distance(b1, res.second));
           }
         }
       };
@@ -125,15 +153,17 @@ namespace OKlib {
 
         typedef typename boost::range_iterator<Range1>::type iterator1_type;
         typedef typename boost::range_iterator<Range2>::type iterator2_type;
+        typedef typename boost::range_size<Range1>::type size_type;
 
-        std::pair<iterator1_type, iterator2_type> operator()(Range1& r1, Range2& r2) const {
+        std::tr1::tuple<iterator1_type, iterator2_type, size_type> operator()(Range1& r1, Range2& r2) const {
           const iterator1_type& end1(boost::end(r1));
           const iterator2_type& end2(boost::end(r2));
           iterator1_type it1(boost::begin(r1));
           iterator2_type it2(boost::begin(r2));
-          for (; it1 != end1 and it2 != end2; ++it1, ++it2)
+          size_type s = 0;
+          for (; it1 != end1 and it2 != end2; ++it1, ++it2, ++s)
             if (*it1 != *it2) break;
-          return std::make_pair(it1, it2);
+          return std::tr1::make_tuple(it1, it2, s);
         }
       };
       template
@@ -144,15 +174,17 @@ namespace OKlib {
 
         typedef typename boost::range_const_iterator<Range1>::type iterator1_type;
         typedef typename boost::range_const_iterator<Range2>::type iterator2_type;
+        typedef typename boost::range_size<Range1>::type size_type;
 
-        std::pair<iterator1_type, iterator2_type> operator()(const Range1& r1, const Range2& r2) const {
+         std::tr1::tuple<iterator1_type, iterator2_type, size_type> operator()(const Range1& r1, const Range2& r2) const {
           const iterator1_type& end1(boost::end(r1));
           const iterator2_type& end2(boost::end(r2));
           iterator1_type it1(boost::begin(r1));
           iterator2_type it2(boost::begin(r2));
-          for (; it1 != end1 and it2 != end2; ++it1, ++it2)
+          size_type s = 0;
+          for (; it1 != end1 and it2 != end2; ++it1, ++it2, ++s)
             if (*it1 != *it2) break;
-          return std::make_pair(it1, it2);
+          return std::tr1::make_tuple(it1, it2, s);
         }
       };
 
@@ -160,13 +192,13 @@ namespace OKlib {
       <class R1, class R2>
       inline typename Common_part_res_t<R1,R2>::type
       common_part(R1& r1, R2& r2) {
-        return common_part(r1, r2, Implementation_common_part_std());
+        return common_part(r1, r2, Implementation_common_part_self());
       }
       template
       <class R1, class R2>
       inline typename Common_part_c_res_t<R1,R2>::type
       common_part(const R1& r1, const R2& r2) {
-        return common_part_c(r1, r2, Implementation_common_part_std());
+        return common_part_c(r1, r2, Implementation_common_part_self());
       }
 
       template
