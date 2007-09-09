@@ -1,15 +1,15 @@
 /* 
  * CAS AES Implemention - In Progress
  *
- * To run this one will need gf.mac from http://sci.vu.edu.au/~amca/software.html
- * to be placed somewhere in the maxima path which can be found by running maxima
- * and using "file_search_maxima;", along with this file. One must then load this file
- * by calling "load(aes);" from within maxima. 
  *
- * One can exit the maxima environment by pressing ctrl+d.
+ * Use By
+ *
+ * load("$OKplatform/OKsystem/Transitional/ComputerAlgebra/Cryptology/AES.mac");
+ *
+ * where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
  */
 load(gf);
-gf_set(2,8,x^8+x^4+x^3+x+1),
+gf_set(2,8,x^8+x^4+x^3+x+1);
 
 srd(py) := if py = 0 then x^6 + x^5 + x + 1 else 
 block(
@@ -51,11 +51,11 @@ r(pm, km) := gf_matmul(
         [x, x + 1, 1, 1], [1, x, x + 1, 1],[1, 1, x, x + 1],[x + 1, 1, 1, x]
     ), matrix (
         [srd(gf_add(pm[1][1], km[1][1])), srd(gf_add(pm[1][2], km[1][2])), 
-         srd(gf_add(pm[1][3], km[1][3])), srd(gf_add(pm[1][4], km[1][4]))]
+         srd(gf_add(pm[1][3], km[1][3])), srd(gf_add(pm[1][4], km[1][4]))],
         [srd(gf_add(pm[2][4], km[2][4])), srd(gf_add(pm[2][1], km[2][1])), 
-         srd(gf_add(pm[2][2], km[2][2])), srd(gf_add(pm[2][3], km[2][3]))]
+         srd(gf_add(pm[2][2], km[2][2])), srd(gf_add(pm[2][3], km[2][3]))],
         [srd(gf_add(pm[3][3], km[3][3])), srd(gf_add(pm[3][4], km[3][4])), 
-         srd(gf_add(pm[3][1], km[3][1])), srd(gf_add(pm[3][2], km[1][2]))]
+         srd(gf_add(pm[3][1], km[3][1])), srd(gf_add(pm[3][2], km[1][2]))],
         [srd(gf_add(pm[4][2], km[4][2])), srd(gf_add(pm[4][3], km[4][3])), 
          srd(gf_add(pm[4][4], km[4][4])), srd(gf_add(pm[4][1], km[4][1]))]
     ) 
