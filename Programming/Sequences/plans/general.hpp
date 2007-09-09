@@ -23,11 +23,3 @@
 
 */
 
-namespace OKlib {
-  namespace Programming {
-    namespace Sequences {
-    }
-    namespace Seq = Sequences;
-  }
-}
-

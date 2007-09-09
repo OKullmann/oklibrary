@@ -17,9 +17,3 @@
 
 */
 
-namespace OKlib {
-  namespace Programming {
-  }
-  namespace Prg = Programming;
-}
-

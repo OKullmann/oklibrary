@@ -96,6 +96,13 @@ namespace SatAlg = Satisfiability::Algorithms;
      definitions. </li>
      <li> For the includes only the long forms can be used, but this seems to be
      alright. </li>
+     <li> To be usable, of course the alias definitions need to be provided
+     somewhere where they can be easily included!
+      <ol>
+       <li> Perhaps each module provides "declarations.hpp", containing
+       the alias-definition of this module (only). </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules; abbrevations
