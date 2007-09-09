@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestGeneralInputOutput
 
-programs := MatchFiles
+programs := MatchFiles PathDifference
 
 source_libraries = $(Boost)
 
