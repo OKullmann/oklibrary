@@ -4,7 +4,7 @@ special_goals := prebuild
 preparation_goals := createdirs 
 
 local_html_goals := html doxygen_documentation documentation_index
-internet_goals := internet
+internet_goals := internet internet_home_page internet_local internet_global
 html_goals := $(local_html_goals) $(internet_goals)
 
 test_files := test testop
