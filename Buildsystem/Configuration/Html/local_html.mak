@@ -30,7 +30,8 @@ developers_output ?= $(local_html_dir)/Developers.html
 current_date ?= $(shell date --rfc-2822)
 
 internet_home_page_template ?= $(OKbuildsystem)/Html/Internet/HomePage.html
-internet_home_page_output ?= $(internet_html_dir)/index.html
+internet_home_page_output_dir ?= $(internet_html_dir)
+internet_home_page_output ?= $(internet_home_page_output_dir)/index.html
 
 oklibrary_domain := http://www.ok-sat-library.org
 
