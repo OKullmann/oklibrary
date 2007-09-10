@@ -7,12 +7,7 @@ export
 
 html : documentation_index doxygen_documentation
 
-ifeq ($(doxygen_html_dir),)
-$(error "Variable doxygen_html_dir is empty or undefined!")
-endif
-
 doxygen_documentation : $(doxygen_html_dir) $(log_dir)
-	- rm -r $(doxygen_html_dir)/*
 	echo "Doxygen version: $$(doxygen --version)" && $(preprocessing_call) $(doxy_file_template) > $(doxy_file) && $(doxygen_call) $(doxy_file) $(Doxygen_modifier) 
 
 documentation_index : $(local_html_dir)

@@ -55,7 +55,10 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
    <li> The process should be fully automatic, including
    updating the packages etc. --- no alterations by hand
    should be necessary! </li>
-   <li> Apparently the sub-process running oklib uses a less
+   <li> We copy the internet-html-directory to its final place;
+   uses a lot of space, but seems the best solution. </li>
+   <li> DONE (we do not remove old doxygen-html-pages anymore)
+   Apparently the sub-process running oklib uses a less
    powerful shell, admitting fewer arguments to rm, and thus
    the removal of old doxygen-files failes:
     <ol>
@@ -64,8 +67,6 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
      Perhaps we should drop the removal at all? </li>
     </ol>
    </li>
-   <li> We copy the internet-html-directory to its final place;
-   uses a lot of space, but seems the best solution. </li>
    <li> The build-process copies all relevant files to the
    location where the web server accesses the pages : DONE
    (all local documentation now available (in principle)) </li>
