@@ -18,3 +18,6 @@ rel_lindex_main_docu_page := $(shell $(rel_path_tool) $(main_docu_page) $(local_
 rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
 # to be completed XXX
 
+# From the Internet home page:
+rel_ihp_local_home_page_output := $(shell $(rel_path_tool) $(local_home_page_output) $(internet_home_page_output))
+
