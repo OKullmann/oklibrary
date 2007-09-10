@@ -7,3 +7,5 @@
 include $(OKconfiguration)/Html/doxygen_documentation.mak
 include $(OKconfiguration)/Html/local_html.mak
 
+include $(OKconfiguration)/Html/relative_paths.mak
+
