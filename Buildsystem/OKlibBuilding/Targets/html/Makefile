@@ -15,10 +15,6 @@ doxygen_documentation : $(doxygen_html_dir) $(log_dir)
 	- rm -r $(doxygen_html_dir)/*
 	echo "Doxygen version: $$(doxygen --version)" && $(preprocessing_call) $(doxy_file_template) > $(doxy_file) && $(doxygen_call) $(doxy_file) $(Doxygen_modifier) 
 
-# temporary (OK):
-# documentation_index : new_documentation_index | $(doc_dir)
-# why this extra indirection?? (OK)
-
 documentation_index : $(local_html_dir)
 	$(preprocessing_call) $(local_home_page_template) > $(local_home_page_output)
 	$(preprocessing_call) $(aims_page_template) > $(aims_page_output)
