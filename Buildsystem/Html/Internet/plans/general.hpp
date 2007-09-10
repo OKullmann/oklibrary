@@ -21,14 +21,17 @@ internet_dir := /usr/local/apache2/htdocs/OKlib
 http://localhost/OKlib/internet_html/doc/internet_html/index.html
      \endverbatim
      </li>
-     <li> Slightly awkward the double nesting of the index page,
+     <li> htdocs/OKlib perhaps is best made owned by root (as
+     the creator, with group "users", and group-writable. </li>
+     <li> For the Internet page, the directories should better be made
+     non-readable. </li>
+     <li> DONE (corrected this by using the configuration system)
+     Slightly awkward the double nesting of the index page,
      but it reflects that building of the internet home page
      happened in the environment, where the new doc-directory
      is not "system_directories/doc", but
      "system_directories/doc/internet_html/doc" (for movability).
      And it will be hidden anyway by ok-sat-library.org. </li>
-     <li> htdocs/OKlib perhaps is best made owned by root (as
-     the creator, with group "users", and group-writable. </li>
     </ol>
    </li>
    </li>
@@ -72,6 +75,14 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
 
   \todo Domain name
   <ul>
+   <li> Is the "cloak" method good, or shouldn't we better use redirection?
+    <ol>
+     <li> If no new pages are created, then the visible address always the same,
+     making it harder to create links. (This is as with frames.) </li>
+     <li> On the other hand, having only the "public" url visible means
+     less confusion with changing "implementation" url's. </li>
+    </ol>
+   </li>
    <li> Do we need e-mail-forwarding? Can we have
     <ol>
      <li> developers@ok-sat-library.org </li>
