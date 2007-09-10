@@ -17,20 +17,31 @@
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
     - General principles
-    - How to use Sage?
-
-  \par
-   In ComputerAlgebra/Mupad/plans/general.hpp the following topics are handled:
-    - Rewriting
+    - Comparisons : DONE
+    - How to use Sage? : DONE
 
 
   \par Version 0.1.2
+
+  \par
+   In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Documentation
+
+  \par
+   Create further milestones.
+
+
+  \par Version 0.1.3
 
   \par ComputerAlgebra/Satisfiability version 0.0.7
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
   \par ComputerAlgebra/Cryptology version 0.0.6
   (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
+
+  \par
+   In ComputerAlgebra/Mupad/plans/general.hpp the following topics are handled:
+    - Rewriting
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:

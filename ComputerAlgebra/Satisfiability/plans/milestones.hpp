@@ -11,6 +11,9 @@
   \par ComputerAlgebra/Satisfiability/TauMachinery version 0.0.5
   (see ComputerAlgebra/Satisfiability/TauMachinery/plans/milestones.hpp)
 
+
+  \par Version 0.0.7
+
   \par
    In ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp the following topics are handled:
     - %Variables
@@ -20,7 +23,7 @@
     - The notion of "condition"
 
 
-  \par Version 0.0.7
+  \par Version 0.0.8
 
   \par ComputerAlgebra/Satisfiability/TauMachinery version 0.0.6
   (see ComputerAlgebra/Satisfiability/TauMachinery/plans/milestones.hpp)

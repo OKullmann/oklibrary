@@ -7,102 +7,123 @@
 
   \todo Finishing old implementation (ComputerAlgebra/Cryptology/Rijndael.sage)
   <ul>
-   <li> Write documentation on how to use this program (including how to load it into Sage).</li>
+   <li> Write documentation on how to use this program:
+    <ol>
+     <li> A basic problem is how to handle source code documentation (in the absence
+     of doxygen?). </li>
+     <li> And we need the docus- as well as the demos-system. </li>
+     <li> Also how to run these programs needs to be explained. </li>
+    </ol>
+   </li>
+   <li> The main goal is cleaning up, so that this program can be used in the future
+   (but no further developments on it). </li>
+   <li> Most important a precise specification of the functions (and other components):
+   What is the precise input, what is the precise output? </li>
    <li> Outline the general design (as a starting point for further investigations).
     <ul>
-     <li> The overall view of the plaintext and key was that of a matrix of bytes/GF(2^8) elements. 
-     This seemed to make some sense as this is how AES/Rijndael is described, however some papers 
-     have described AES as a slightly altered vector rather than a matrix, and it seems that simply
-     following the predescribed approach to AES/Rijndael implementation/conception may not necessarily be the best
-     strategy.</li>
-     <li>Split into MixColumns, ShiftRows and S_rd (which should really be called SBOX instead of the 
+     <li> Split into MixColumns, ShiftRows and S_rd (which should really be called SBOX instead of the 
      matrix used in S_Rd as is done) with additional functions for the inverse of these operations. Ideally
      the inverses would be directly inferred from the functions themselves but I'm not sure if this is entirely
-     impossible in this environment?</li>
-     <li> Helper Functions for conversion between GF(2), GF(2^8) were made so that the different stages
-     within the rounds could work on the data at their respective levels as described by the algorithm 
-     (except for MixColumns due to issues with how to implement the 4-BYTE Ring that occurs).
-     
-     Was this really needed? It seems that better design here would have meant less of a need for some
-     of these and some of them are fairly pointless given the fairly trivial nature of the conversions 
-     (GF2t8ToNat for example).</li>
-     <li>For ShiftRows, a function was allowed to provide an arbitrary permutation. The default was one called
-     aesPerm, although this is perhaps badly named as it eventually became a more generalised version that represented
-     the permutation of the byte elements within Rijndael.</li>
+     impossible in this environment? OK : as said, no big changes, just making it nice and clean. </li>
+     <li> Conversions:
+      <ol>
+       <li> Helper Functions for conversion between GF(2), GF(2^8) were made so that the different stages
+       within the rounds could work on the data at their respective levels as described by the algorithm 
+       (except for MixColumns due to issues with how to implement the 4-BYTE Ring that occurs). </li>
+       <li> Was this really needed? It seems that better design here would have meant less of a need for some
+       of these and some of them are fairly pointless given the fairly trivial nature of the conversions 
+       (GF2t8ToNat for example). </li>
+      </ol>
+     </li>
+     <li> For ShiftRows, a function was allowed to provide an arbitrary permutation. The default was one called
+     "aesPerm", although this is perhaps badly named as it eventually became a more generalised version that
+     represented the permutation of the byte elements within Rijndael. </li>
      <li> A lot of pythonesque structures and functions were used which might detract from the idea here. 
      Initially this was avoided when starting out but during the generalisation to Rijndael took place,
-     a lack of design lead to a disorganised and inelegant method of generalisation. </li>i
-     <li> Initially when dealing with AES, the keyscheduler was simply a single function of the form 
-     nextKey(k,r) where k is the previous round key and r is the round number, and the function would
-     return the next round key. 
-
-     When generalising this to Rijndael, more than one previous round key is necessary to calculate the
-     next due to the possibility of asymmetric plaintext-key sizes  and so rather than keeping track of 
-     these keys, it seemed better to generate the entire expanded key (done in getExpandedKey) as a list
-     of bytes using an altered version of the nextKey function internally and to then get each round key
-     using a helper function called getRoundKey .
-
-     This seems rather convoluted and the implementation of each of these functions is particularly messy
-     and not particularly well thought out.
+     a lack of design lead to a disorganised and inelegant method of generalisation. OK : can this
+     be easily fixed? doesn't need to be perfect. </li>
+     <li> Key schedule:
+      <ol>
+       <li> Initially when dealing with AES, the keyscheduler was simply a single function of the form 
+       nextKey(k,r) where k is the previous round key and r is the round number, and the function would
+       return the next round key. </li>
+       <li> When generalising this to Rijndael, more than one previous round key is necessary to calculate the
+       next due to the possibility of asymmetric plaintext-key sizes  and so rather than keeping track of 
+       these keys, it seemed better to generate the entire expanded key (done in getExpandedKey) as a list
+       of bytes using an altered version of the nextKey function internally and to then get each round key
+       using a helper function called getRoundKey. </li>
+       <li> This seems rather convoluted and the implementation of each of these functions is particularly messy
+       and not particularly well thought out. </li>
+      </ol>
+     </li>
      <li> Some basic "tests" were added by way of assertions to ensure the implementation matched
      what encryption via AES or Rijndael should give. Ideally this would have better been seperated
      into a runnable sets of tests rather than assertions as it simply served to slow down the loading
      of the file into sage significantly, and a properly seperated set of runnable tests would have allowed
      more freedom and been more structured. </li> 
+     <li> DONE (such considerations are for future developments)
+     The overall view of the plaintext and key was that of a matrix of bytes/GF(2^8) elements. 
+     This seemed to make some sense as this is how AES/Rijndael is described, however some papers 
+     have described AES as a slightly altered vector rather than a matrix, and it seems that simply
+     following the predescribed approach to AES/Rijndael implementation/conception may not necessarily be the best
+     strategy. </li>
     </ul>
    </li>
-   <li> Standardise and variable names due to the suggested problems in design. </li>
+   <li> Standardise variable names due to the suggested problems in design. </li>
    <li> Enter the existing code in the OKlibrary. DONE </li>
    <li> Of course, AES should also be generalised to Rijndael,
   using other block lengths than 128 bit and other cipher lengths
   than 128 bit. DONE </li>
    <li> What is the meaning of the "Use By" paragraph? We should avoid machine-dependent
-   information? MG - This was intended to document how to use the file within sage. The inclusion
+   information? DONE (MG - This was intended to document how to use the file within sage. The inclusion
    of machine-dependent paths was an oversight on my part and has been corrected and further fixes
-   and documentations will be made as per other todos.</li>
+   and documentations will be made as per other todos.) </li>
   </ul>
 
 
   \todo Maxima: design
   <ul>
+   <li> The following points need review --- the more general discussions belong to Axiom/Aldor
+   (see below), and should be moved to there, while here we have to decide what is the "right"
+   level of abstraction. </li>
    <li>What specifically is needed from the maxima implementation?
     <ul>
-     <li>A function F_AES(p,k) = c and F_AES'(c,k) = p .
-     
-     How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where the size of p and k is implicit
+     <li> A function F_AES(p,k) = c and F_AES'(c,k) = p . </li>
+     <li> How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where the size of p and k is implicit
      based on the structures used for p and k, and r is given? Is r really needed as it seems this is
-     a function of the size of p and k?</li>
-     <li>Potentially a separate round function to allow greater flexability when investigating reduced round
-     variants?</li>
+     a function of the size of p and k? </li>
+     <li> Potentially a separate round function to allow greater flexebility when investigating reduced round
+     variants? </li>
      <li> What sort of generalisations are needed? Should the elements of the round such as ShiftRows be
      interchangable to some arbitrary permutation (perhaps just across rows?)? Should MixColumns be generalised
-     to an arbitrary 4-Byte value multiplication, should it even be viewed in this way?
+     to an arbitrary 4-Byte value multiplication, should it even be viewed in this way? </li>
     </ul>
    </li>
    <li>Should it be split up into each of the individual round functions (MixColumns etc) or should these
    be combined? Combining them might make certain relationships/conditions more obvious, but it also makes
    things much less flexible and depending on how it is done, could make generalising to Rijndael harder.
    </li>
-   <li> How to approach key scheduling? 
-
-   AES and symmetric plaintext-key sizes provide a fairly elegant recursive key generation where each round key
-   is just the result of the key generation on the last round key, whereas asymetric sizes such as 192bit plaintext
-   and a 128bit key means you will have to use parts of the previous two round keys. 
-   
-   This seems to be done with an expanded key which is a large array/list of round keys in Design of Rijndael.</li>
-   <li>How should the implementation of the individual round operations be approached?
-   
-   The initial example code uses matrices as this seemed natural from the description of AES but
-   this potentially makes generalisation to Rijndael more difficult unless a seperate implementation
-   is created for each plaintest-key pair size configuration is made which seems excessive. Using maxima
-   matrices in such ways also seems to bias the implementation to taking a view of the problem from one
-   particular aspect (ie GF(2) bytes etc) which may not be best.
-
-   The advantage of matrices is that, the semantics of the operations are more easily visible at
-   a glance, although any well designed and implemented would probably provide this.
-
-   Perhaps for use a simple list would be best as this seems to be the common unit in LISP and therefore maxima? 
-   This can be converted to a matrix if a given operation would be best accomplished this way...
+   <li> How to approach key scheduling?
+    <ol>
+     <li> AES and symmetric plaintext-key sizes provide a fairly elegant recursive key generation where
+     each round key is just the result of the key generation on the last round key, whereas asymetric sizes
+     such as 192bit plaintext and a 128bit key means you will have to use parts of the previous two round keys. </li>
+     <li>  This seems to be done with an expanded key which is a large array/list of round keys in Design of
+     Rijndael. </li>
+    </ol>
+   </li>
+   <li> How should the implementation of the individual round operations be approached?
+    <ol>
+     <li> The initial example code uses matrices as this seemed natural from the description of AES but
+     this potentially makes generalisation to Rijndael more difficult unless a seperate implementation
+     is created for each plaintest-key pair size configuration is made which seems excessive. Using maxima
+     matrices in such ways also seems to bias the implementation to taking a view of the problem from one
+     particular aspect (ie GF(2) bytes etc) which may not be best. </li>
+     <li> The advantage of matrices is that, the semantics of the operations are more easily visible at
+     a glance, although any well designed and implemented would probably provide this. </li>
+     <li> Perhaps for use a simple list would be best as this seems to be the common unit in LISP and therefore
+     maxima? This can be converted to a matrix if a given operation would be best accomplished this way... </li>
+    </ol>
    </li>
    <li> Create a general design (here in the plans) which is stepwise refined to a Maxima implementation. </li>
    <li> Compare the discussion under "Condition" in ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
@@ -119,7 +140,8 @@
    ending for maxima-files, or for special ones? MG - Looking through the maxima documentation and at
    the Finite Fields package and others, it seemed to be the common file extension, and due to a misunderstanding
    on my part, I believed that it was required, however I simply misunderstood the use of the load function and
-   a more explicit file extension of .maxima following the TauMachinery example seems sensible. </li>
+   a more explicit file extension of .maxima following the TauMachinery example seems sensible. OK : one
+   could ask this question on the (main) maxima mailing list. </li>
    <li> The finite field packages function names, along with maximas syntax make things a little verbose
    and perhaps a little longer than is really necessary although this is more of a nuisance than a real
    problem.
@@ -133,10 +155,16 @@
    as suggested below.</li>
    <li> Since we need the package, and it doesn't come with Maxima, we need to handle it as an ExternalSource. 
     <ul>
-     <li> What is the procedure for this? </li>
+     <li> What is the procedure for this?
+      <ol>
+       <li> At least make the package (pyhsically) available. </li>
+       <li> Installation will at least unpack it, and put it to a right place. </li>
+       <li> There should be configuration variables which help us using the package. </li>
+      </ol>
+     </li>
      <li> When doing this, it might be beneficial to add some basic functionality such as a gf_matadd (matrix addition 
      within the set field) and so on which isn't currently offered but seems trivial to implement using the functions 
-     defined in gf.mac, although whether this is useful would depend on the design.
+     defined in gf.mac, although whether this is useful would depend on the design. </li>
     </ul>
    </li>
    <li> Right form of abstraction : DONE (these problems will go away through proper design)

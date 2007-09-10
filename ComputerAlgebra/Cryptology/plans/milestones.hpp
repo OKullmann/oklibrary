@@ -17,7 +17,7 @@
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Maxim: design
+    - Maxima: design
 
 
   \par Version 0.0.7
