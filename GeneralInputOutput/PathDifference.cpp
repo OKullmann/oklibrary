@@ -66,7 +66,7 @@ int main(const int argc, const char* const argv[]) {
   }
 
   const boost::filesystem::path pa(a);
-  const boost::filesystem::path pb(b);
+  boost::filesystem::path pb(b);
 
   if (not pa.has_root_directory()) {
     std::cerr << "ERROR[PathDifference]: The first path = \"" << a << "\" is not an absolute path.\n";
@@ -76,6 +76,17 @@ int main(const int argc, const char* const argv[]) {
     std::cerr << "ERROR[PathDifference]: The second path = \"" << b << "\" is not an absolute path.\n";
     return EXIT_FAILURE;
   }
+
+  assert(not pb.empty());
+  if (pb.has_branch_path()) {
+    if (*--pb.end() == ".")
+      pb.remove_leaf();
+    else {
+      pb.remove_leaf();
+      pb.remove_leaf();
+    }
+  }
+  assert(not pb.empty());
 
   typedef boost::filesystem::path::iterator iterator;
   typedef boost::range_size<boost::filesystem::path>::type size_type;
