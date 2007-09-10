@@ -17,7 +17,7 @@ namespace OKlib {
   namespace Satisfiability {
     namespace Heuristics {
     }
+    namespace Heu = Heuristics;
   }
-  namespace SatHeu = Satisfiability::Heuristics;
 }
 

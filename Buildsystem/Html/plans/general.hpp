@@ -25,14 +25,55 @@
 
   \todo Install configuration system
   <ul>
+   <li> Update all usages of absolute paths to our own html-pages or
+   to doxygen-pages. </li>
+   <li> Also all links to ExternalSources-docs need to be relativised,
+   since otherwise apache doesn't understand the url's. We need to
+   check, whether this works with ext-sources-doc and sys-dir-doc
+   set to their target locations. </li>
    <li> The m4-preprocessing should move to the Configuration-module. </li>
-   <li> Local url's should be relative (so that the html-documentation is
+   <li> Files created by the preprocessor should have a final line stating this
+   and the creation date; then also (for easy of modification) the original
+   template file should be specified (in a comment, or on the page).
+   The local home page has already a first solution, which should be systematised, that
+   is, a make-variable should be provided. Perhaps we just add "from ...", and
+   state the original template file also on the page; the new make-variable then
+   just contains the text with date etc.:
+   \verbatim
+automatic_masthead = Automatically created by the OKbuildsystem on $(current_date) from \
+  template file "
+   \endverbatim
+   where then the template file has to be added (by hand).
+   One problem here is that the current date should be the time when the specific page
+   was created, not when the whole process started --- is this achieved by recursive
+   make variables??
+   </li>
+   <li> DONE
+   Local url's should be relative (so that the html-documentation is
    moveable): The preprocessing approach needs to be generalised:
     <ol>
-     <li> Best seems to create a make-function, which takes the current
-     location, the target location, and the OKplatform location,
-     all as absolute paths, and creates from that the relative path
-     from the current location to the target location. </li>
+     <li> DONE (we simply precompute all relative paths; otherwise
+     the algorithm is implemented as described)
+     Best seems to create a function called by the m4-preprocessor
+     (perhaps called "m4_RELPATH(C,T)"), which takes the current location C
+     and the target location T, all as absolute paths, and creates
+     from that the relative path from C to T:
+      <ol>
+       <li> The algorithm is, that the longest common prefix (path) P
+       of C and T is determined, and then the relative path from C
+       to T goes first (size(C) - size(P))-many steps up, and then uses
+       the piece of T starting with the end of P. </li>
+       <li> Here I used paths as sequences in the C++ sense, and it
+       seems best to implement this task as a little C++ application
+       (there appears to be no existing tool for that purpose). </li>
+       <li> Since all path names are constructed by us, we take their
+       representation (as strings) literal, that is, do not use
+       the equivalence of paths, but their equality (in therms of
+       the Boost filesystem library, part of the standard in the future). </li>
+       <li> A generic algorithm determines the longest prefix of
+       two sequences (given by input iterators). </li>
+      </ol>
+     </li>
      <li> The problem is how to get the current location? </li>
      <li> For html-files created by us we know their location
      (that is, where they will be put after preprocessing. Since we
@@ -54,27 +95,19 @@
        <li> From doxygen-files to own files, there is the doxygen-capability
        of creating links via the "\link" command, but this seems to
        require a hard-coded path. Thus also here we use the above
-       mechanism (together with the tag-construction, which creates
-       the html-link-tag). </li>
+       mechanism, together with the tag-construction, which creates
+       the html-link-tag: Problematic, that only variable values
+       can be used (no computations) ? Thus likely we have to compute
+       these paths in advance, and store them in (make-)variables. </li>
       </ul>
      </li>
+     <li> DONE (created Configuration/Html/relative_paths.mak)
+     It would be easiest if all relative addresses would be computed
+     in advance in stored in make-configuration variables. Then better
+     we create (in Configuration/Html) a specific makefile with all
+     these settings, and this configuration makefile is only included
+     by OKlibBuilding/Targets/html/Makefile. </li>
     </ol>
-   </li>
-   <li> Files created by the preprocessor should have a final line stating this
-   and the creation date; then also (for easy of modification) the original
-   template file should be specified (in a comment, or on the page).
-   The local home page has already a first solution, which should be systematised, that
-   is, a make-variable should be provided. Perhaps we just add "from ...", and
-   state the original template file also on the page; the new make-variable then
-   just contains the text with date etc.:
-   \verbatim
-automatic_masthead = Automatically created by the OKbuildsystem on $(current_date) from \
-  template file "
-   \endverbatim
-   where then the template file has to be added (by hand).
-   One problem here is that the current date should be the time when the specific page
-   was created, not when the whole process started --- is this achieved by recursive
-   make variables??
    </li>
    <li> See solution to "Configuration problem" below. DONE (the general usage
    is clear) </li>

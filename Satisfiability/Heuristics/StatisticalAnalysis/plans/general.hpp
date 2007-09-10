@@ -5,7 +5,7 @@
   \brief Module with statistical analysis tools for heuristics
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
   \todo Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp
@@ -17,7 +17,7 @@
   \namespace OKlib::Satisfiability::Heuristics::StatisticalAnalysis
   \brief Components for statistical analysis tools supporting heuristics
 
-  Alias "Sta".
+  Alias "StA".
 */
 
 namespace OKlib {
@@ -25,8 +25,8 @@ namespace OKlib {
     namespace Heuristics {
       namespace StatisticalAnalysis {
       }
+      namespace StA = StatisticalAnalysis;
     }
   }
-  namespace SatHeuSta = Satisfiability::Heuristics::StatisticalAnalysis;
 }
 

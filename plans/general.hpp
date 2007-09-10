@@ -70,9 +70,9 @@
 
   \todo Super-modules:
   <ul>
-   <li> Currently 82 modules --- that needs a superstructure.
+   <li> We needs a library directory-superstructure.
    So we should introduce sub-directories of Transitional,
-   corresponding to "super-modules". </li>
+   corresponding to "parts". </li>
    <li> Problematic the correspondence between paths and namespaces:
     <ol>
      <li> We should be consistent, using full super-module names
@@ -88,12 +88,21 @@
 namespace Sat = Satisfiability;
 namespace SatAlg = Satisfiability::Algorithms;
      \endcode
+     Or should be better not open the can of worms given by these
+     further aliases like "SatAlg" ? Looks better!
      </li>
      <li> In every plans-file, besides the namespace-documentation, where also
      the namespace is introduced (as C++ entity), we then have also the alias
      definitions. </li>
      <li> For the includes only the long forms can be used, but this seems to be
      alright. </li>
+     <li> To be usable, of course the alias definitions need to be provided
+     somewhere where they can be easily included!
+      <ol>
+       <li> Perhaps each module provides "declarations.hpp", containing
+       the alias-definition of this module (only). </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> Perhaps the following "parts" of the OKlibrary (containing the super-modules; abbrevations
@@ -186,10 +195,13 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> AlS ("AlgebraicSpecification") (CASL etc.) </li>
         </ol>
        </li>
-       <li> "Programming" ("Pro")
+       <li> "Programming" ("Prg")
         <ol>
-         <li> Gen ("GeneralTools") </li>
+         <li> Con ("Container") </li>
+         <li> Err ("ErrorHandling") </li>
          <li> Pll ("Parallelism") </li>
+         <li> PrO ("ProgramOptions") </li>
+         <li> Seq ("Sequences") </li>
         </ol>
        </li>
        <li> "System" ("Sys")
@@ -344,7 +356,7 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
-  \todo Upgrade to gcc-4.2.0
+  \todo Upgrade to gcc-4.2.1
   <ul>
    <li> Correct the template-errors:
     <ol>

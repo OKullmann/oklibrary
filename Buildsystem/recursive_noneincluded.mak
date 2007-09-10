@@ -7,6 +7,7 @@ endef
 define run_all_makes_ignorant
   for sm in $(sub_make_directories); do cd $(srcdir)/$${sm}; $(MAKE) $@ --ignore-errors; done
 endef
+# run_all_makes_ignorant should be superfluous by now ?!
 
 unexport srcdir
 
@@ -21,5 +22,5 @@ endif
 
 selected_module := $(OKsystem)/Transitional/Variables
 # arbitrary choice (this hack will become superfluous with the new master-script)
-html internet :
+$(html_goals) :
 	make -f$(selected_module)/makefile $@

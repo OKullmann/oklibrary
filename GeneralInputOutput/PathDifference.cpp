@@ -1,0 +1,107 @@
+// Oliver Kullmann, 9.9.2007 (Swansea)
+
+/*!
+  \file GeneralInputOutput/PathDifference.cpp
+  \brief Application for computing the relative path from one location to another
+
+  Two input parameters are required, two absolute path A and B,
+  and the output R is the relative path leading from B to A
+  (so in a sense R = A - B, since R + B = A).
+
+  Further details:
+  <ul>
+   <li> For B only the directory part is of relevance, so that for example
+   B = /a/f.txt and B = /a/ are equivalent. </li>
+   <li> One the other side, for A the reached leaf is determinative, and
+   so A = /x/ and A = /x are equivalent. </li>
+  </ul>
+
+  Errors are:
+  <ul>
+   <li> A == B </li>
+   <li> A or B are not absolute paths. </li>
+  </ul>
+
+
+  \todo How to use boost::filesystem better?
+  <ul>
+   <li> It seems that paths cannot be constructed from their elements,
+   only from strings?? </li>
+  </ul>
+
+  \todo The functionality of this applications should go into its own
+  component (so that this application just becomes a wrapper).
+
+  \todo Document it precisely.
+
+  \todo Write extensive tests.
+
+*/
+
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <algorithm>
+#include <cassert>
+
+#include <boost/filesystem/path.hpp>
+
+#include <Transitional/Refactoring/BoostPathCorrected.hpp>
+#include <Transitional/Programming/Sequences/Comparisons.hpp>
+
+int main(const int argc, const char* const argv[]) {
+  if (argc != 3) {
+    std::cerr << "ERROR[PathDifference]: Two input parameters are required, the target path "
+      "and the source path (both as absolute paths).\n"
+      "However the number of actual arguments was " << argc-1 << ".\n";
+    return EXIT_FAILURE;
+  }
+
+  const std::string a(argv[1]);
+  const std::string b(argv[2]);
+
+  if (a == b) {
+    std::cerr << "ERROR[PathDifference]: The two input paths are identical, namely = \"" << a << "\".\n";
+    return EXIT_FAILURE;
+  }
+
+  const boost::filesystem::path pa(a);
+  boost::filesystem::path pb(b);
+
+  if (not pa.has_root_directory()) {
+    std::cerr << "ERROR[PathDifference]: The first path = \"" << a << "\" is not an absolute path.\n";
+    return EXIT_FAILURE;
+  }
+  if (not pb.has_root_directory()) {
+    std::cerr << "ERROR[PathDifference]: The second path = \"" << b << "\" is not an absolute path.\n";
+    return EXIT_FAILURE;
+  }
+
+  assert(not pb.empty());
+  if (pb.has_branch_path()) {
+    if (*--pb.end() == ".")
+      pb.remove_leaf();
+    else {
+      pb.remove_leaf();
+      pb.remove_leaf();
+    }
+  }
+  assert(not pb.empty());
+
+  typedef boost::filesystem::path::iterator iterator;
+  typedef boost::range_size<boost::filesystem::path>::type size_type;
+  iterator ca, cb; size_type cs;
+  std::tr1::tie(ca, cb, cs) = OKlib::Programming::Sequences::common_part(pa, pb);
+
+  const std::string one_level_up("..");
+  const std::string sep("/");
+  const size_type numbers_up = std::distance(cb, pb.end());
+  std::string r;
+  for (size_type i = 0; i < numbers_up; ++i)
+    r += one_level_up + sep;
+  for (iterator i = ca; i != pa.end(); ++i)
+    r += *i + sep;
+  assert(r.size() > 0);
+  std::cout << r.substr(0, r.size()-1) << "\n";
+}
+

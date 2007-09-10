@@ -5,11 +5,8 @@
 # OK: According to the name of this file, the Internet-related content
 # should be put into another file (internet_html.mak?) ?
 
-local_html_dir ?= $(doc_dir)/local_html
-internet_html_dir ?= $(doc_dir)/internet_html
-
 # The directory where to put files to be put on ok-sat-library.org
-# is $(internet_dir), where this variable needs is specified
+# is $(internet_dir); if this variable is needed, then it is specified
 # by the override-file.
 
 local_home_page_template ?= $(OKbuildsystem)/Html/Local/HomePage.html

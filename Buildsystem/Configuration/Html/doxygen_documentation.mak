@@ -4,7 +4,7 @@
 
 doxygen_project_name ?= "OKlibrary:Transitional (version $(transitional_version))"
 
-doxy_file_template ?= $(OKconfiguration)/Doxyfile
+doxy_file_template ?= $(OKconfiguration)/Html/Doxyfile
 doxy_file ?= $(aux_dir)/Doxyfile
 doxygen_error_messages ?= $(log_dir)/DoxygenErrorMessages
 

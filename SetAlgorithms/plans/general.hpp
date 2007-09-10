@@ -1,14 +1,27 @@
 // Oliver Kullmann, 19.11.2006 (Swansea)
 
 /*!
-  \file SetAlgorithms/plans/SetAlgorithms.hpp
+  \file SetAlgorithms/plans/general.hpp
   \brief Plans for the module on sets-related algorithms and datastructures
 
-  \todo Update
-   - doxygen-documentation
-   - new plans, transfer todos
 
-   \todo New test system
+  \todo Move to super-module Structures/Sets.
+
+
+  \todo Update
+  <ul>
+   <li> doxygen-documentation </li>
+   <li> new plans, transfer todos </li>
+  </ul>
+
+
+  \todo New test system
+
+
+  \todo Write docus.
+
+
+  \todo Write demos.
 
 */
 

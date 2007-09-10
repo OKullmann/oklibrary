@@ -12,8 +12,18 @@
    Buildsystem/plans/MasterScript.hpp. </li>
    <li> The target "html" will then be split into targets for the local home
    page and for the doxygen-system; this sub-module here will be reponsible for
-   the doxygen-system. </li>
+   the doxygen-system. Or not? See below. </li>
+   <li> One the other hand, yet it's easier to handle html-goals via
+   sub-makefiles of the OKlibBuilding-makefile, and also it's easier
+   to have the rules for the local home page and for the doxygen-system? </li>
+   <li> But compiling programs etc. has not much to do with creating
+   documentation, so documentation building should become an independent
+   makefile in Buildsystem/Html; this means then that the oklib-masterscript
+   needs to distinguish between "normal" and "html" goals (for calling
+   the appropriate makefiles) ? Hm, this might collide with the general
+   rule, that oklib just hands down all targets? </li>
   </ul>
+
 
   \todo Doxygen error messages:
   <ul>

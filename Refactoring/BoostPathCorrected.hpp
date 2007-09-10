@@ -8,7 +8,7 @@
 
   \todo What kind of range exactly?
   \todo Notifying the boost e-mail list about the missing functionality.
-  \todo Should go to module GeneralInputOutput (?).
+  \todo Should go to module GeneralInputOutput.
 */
 
 #ifndef BOOSTPATHCORRECTED_004ttGB
@@ -29,9 +29,18 @@ namespace boost {
     typedef boost::filesystem::path::iterator type;
   };
   template <>
+  struct range_const_iterator<const boost::filesystem::path> {
+    typedef boost::filesystem::path::iterator type;
+  };
+  template <>
   struct range_size<boost::filesystem::path> {
     typedef boost::filesystem::path::iterator::difference_type type;
   };
+  template <>
+  struct range_size<const boost::filesystem::path> {
+    typedef boost::filesystem::path::iterator::difference_type type;
+  };
+
 
   namespace filesystem {
 

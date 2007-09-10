@@ -744,14 +744,14 @@ endif
 
 # ######################################################################
 
+# Conditional inclusion of sub-makefiles for html-goals
 
-# ################################################################
-# DOCUMENTATION MAKEFILE INCLUDE STATEMENTS
-# ################################################################
-
-include $(OKbuildsystem)/OKlibBuilding/Targets/html/doxygen_documentation.mak
-include $(OKbuildsystem)/OKlibBuilding/Targets/html/documentation_index.mak
+ifneq ($(firstword $(filter $(local_html_goals), $(MAKECMDGOALS))),)
+include $(OKbuildsystem)/OKlibBuilding/Targets/html/Makefile
+endif
+ifneq ($(firstword $(filter $(internet_goals), $(MAKECMDGOALS))),)
 include $(OKbuildsystem)/OKlibBuilding/Targets/internet/Makefile
+endif
 
 # ######################################################################
 

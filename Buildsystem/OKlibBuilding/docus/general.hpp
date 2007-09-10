@@ -74,8 +74,16 @@
 
   <table>
    <tr>
-    <td> <code> html </code> </td>
+    <td> <code> doxygen_documentation </code> </td>
     <td> Creates the complete doxygen-documentation (wherever called). </td>
+   </tr>
+   <tr>
+    <td> <code> documentation_index </code> </td>
+    <td> Creates local html index pages (wherever called). </td>
+   </tr>
+   <tr>
+    <td> <code> html </code> </td>
+    <td> Calls <code>doxygen_documentation</code> and <code>documentation_index</code> (wherever called). </td>
    </tr>
    <tr>
     <td> <code> internet </code> </td>
@@ -179,6 +187,10 @@
    <tr>
     <td> <code> boost_version_number=V </code> </td>
     <td> Use the locally installed %boost with version V (for example <code>boost_version_number=1_34_0</code>); default value is the recommended version. </td>
+   </tr>
+   <tr>
+    <td> <code> Test_tool=T </code> </td>
+    <td> For example T=<code>"valgrind"</code> or T=<code>"valgrind --quiet"</code>; default value is T=<code>time -p</code> </td>
    </tr>
   </table>
 

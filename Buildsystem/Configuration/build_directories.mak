@@ -18,6 +18,9 @@ aux_dir ?= $(system_directories)/aux
 # Directory for all latex auxilliary files:
 latex_dir ?= $(aux_dir)/latex
 
+# Directory for all dvi files:
+dvi_dir ?= $(doc_dir)/dvi
+
 # Directory for all dependency files:
 dependencies_dir ?= $(aux_dir)/dependencies
 
@@ -32,6 +35,11 @@ test-aux_dir ?= $(aux_dir)/tests/$(module-name)
 
 # Directory for log-files:
 log_dir ?= $(system_directories)/log
+
+# Html directories:
+local_html_dir ?= $(doc_dir)/local_html
+internet_html_dir ?= $(doc_dir)/internet_html
+documents_html_dir ?= $(doc_dir)/documents
 
 build_directories = \
                $(bin_dir) \
@@ -48,8 +56,5 @@ build_directories = \
                $(internet_html_dir) \
                $(log_dir)
 
-OKsystem_include := -I$(OKsystem)
-
-oklib_building_log ?= $(log_dir)/OKlibBuilding
-external_sources_log ?= $(log_dir)/ExternalSources
+documents_dir ?= $(OKsystem)/documents
 
