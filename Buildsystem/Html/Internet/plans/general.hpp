@@ -101,15 +101,17 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
      <li> On the other hand, having only the "public" url visible means
      less confusion with changing "implementation" url's. </li>
     </ol>
+    Or can we solve the problem by using the DNS-sverice?
    </li>
-   <li> Do we need e-mail-forwarding? Can we have
+   <li> DONE (yes, such redirection is possible; see
+   Buildsystem/ReleaseProcess/plans/MailingLists.hpp)
+   Do we need e-mail-forwarding? Can we have
     <ol>
      <li> developers@ok-sat-library.org </li>
      <li> core-developers@ok-sat-library.org </li>
      <li> users@ok-sat-library.org </li>
      <li> announcements@ok-sat-library.org </li>
     </ol>
-    ???
    </li>
    <li> How to host ok-sat-library.org on our machines DONE (set html-forwarding
    to the local address in Swansea, using the "cloak" method) </li>

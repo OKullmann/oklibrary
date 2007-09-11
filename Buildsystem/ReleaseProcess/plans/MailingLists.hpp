@@ -12,21 +12,29 @@
      <li> See Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp. </li>
     </ol>
    </li>
+   <li> For the following public e-mail-addresses we need corresponding
+   local e-mail-addresses. </li>
    <li> Lists:
     <ol>
-     <li> Developers
+     <li> Developers (developers@ok-sat-library.org)
       <ul>
        <li> Only developer-e-mails. </li>
       </ul>
-      A developer is automatically member of "Git-notifications developers"
+      A developer is automatically member of "Git-notifications developers".
      </li>
-     <li> Users
+     <li> Core developers (core-developers@ok-sat-library.org)
+      <ul>
+       <li> Only for core developers. </li>
+      </ul>
+      A developer is automatically member of "Developers".
+     </li>
+     <li> Users (users@ok-sat-library.org)
       <ul>
        <li> Only user-e-mails. </li>
       </ul>
       A user is automatically member of "General notifications".
      </li>
-     <li> General notifications
+     <li> General notifications (announcements@ok-sat-library.org)
       <ul>
        <li> Only special notifications, when new versions are reached etc. </li>
       </ul>
