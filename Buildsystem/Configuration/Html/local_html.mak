@@ -15,6 +15,9 @@ local_home_page_output ?= $(local_html_dir)/index.html
 aims_page_template ?= $(OKbuildsystem)/Html/Local/Aims.html
 aims_page_output ?= $(local_html_dir)/Aims.html
 
+languages_page_template ?= $(OKbuildsystem)/Html/Local/ProgrammingLanguages.html
+languages_page_output ?= $(local_html_dir)/ProgrammingLanguages.html
+
 history_page_template ?= $(OKbuildsystem)/Html/Local/History.html
 history_page_output ?= $(local_html_dir)/History.html
 

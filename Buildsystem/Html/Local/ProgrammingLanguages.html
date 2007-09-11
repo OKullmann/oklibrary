@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+      
+  <head>
+    <title> OKlibrary: Programming languages </title>
+    <meta name="author" content="Oliver Kullmann" />
+    <meta name="description" content="Discussion of programming languages used by the OKlibrary" />
+    <meta name="robot" content="all" />
+    <meta http-equiv="content-type" content="text/html" />
+    <meta http-equiv="charset" content="utf-8" />
+  </head>
+  
+  <body>
+
+    <h1> Programming languages used by the OKlibrary </h1>
+
+    Several formal languages are used in the library, for programming, mark-up
+    and data description.
+
+
+    <h2> General programming </h2>
+
+    <ol>
+      <li> <strong>C++</strong> is the main general purpose language. We adhere strictly to the
+        C++ standard (in the 2003-version ("C++03"), which for all practical purposes is the same
+        as the 1998-version ("C++98")), except that we include the anticpated 2009-version
+        ("C++09").
+        <p> Files containing C++ code either have the suffix <code>.hpp</code> (for header files)
+          or the suffix <code>.cpp</code> (for implementation files).
+        </p>
+      </li>
+      <li> <strong>C</strong> is used only for the old OKsolver. We adhere strictly to the
+        1999-standard (<code>C99</code>).
+        <p> Files containing C code either have the suffix <code>.h</code> (for header files)
+          or the suffix <code>.c</code> (for implementation files).
+        </p>
+      </li>
+    </ol>
+    Programming languages like Perl or Python are not supported (they are considered as
+    "false programming languages", in reality scripting languages, but inflated to
+    appear as "real programming languages"). For the purposes of prototyping we support
+    languages from the realm of computer algebra (see below).
+
+
+    <h2> System programming </h2>
+
+    <ol>
+      <li> <strong>Make</strong> is the system for the build system, and the associated programming
+          language is accordingly the main programming language for the build system.
+          <p> Files containing make-programs are either called <code>Makefile</code>, or have
+            the suffix <code>.mak</code> (while the name <code>makefile</code> is only
+            used for deprecated makefiles).
+          </p>
+      </li>
+      <li> <strong>Bash</strong> or, more precisely, the associated programming language,
+        is the programming language for system programming, used for
+        meta-programs in the build-system, and for application test programs.
+        <p> Files containing Bash programs are not distinguished by a special naming
+          convention, but by their starting line <code>#!/bin/bash</code>. </p>
+       </li>
+    </ol>
+    We consider Bash as a "true scripting language", which is used for relative short and easy
+    programs. The use of Bash together with the Unix/Linux command line tools is unavoidable,
+    and then the effort to learn for example Perl is wasted time (besides the point,
+    that the character of Perl as the "private language of Larry" was finally to appalling
+    for OK).
+
+    <p>
+    The Make-system appears old-fashioned, but its full power, based on its Lisp-like
+    character, is not reached by any of the more modern system, while this power is
+    essential for a holistic library like the OKlibrary. </p>
+
+
+    <h2> Documentation </h2>
+
+    <ol>
+      <li> <strong>Doxygen</strong> (together with the associated mark-up language)
+        is the system used for the extraction of documentation from
+        source code, and also for writing general documentation which is closely
+        related to programming details.
+
+        XXX in C/C++ files XXX docus files
+      </li>
+      <li> <strong>XHTML</strong> in its strict form XXX for general overview and linking
+        pages XXX
+        <p> <code>.html</code> XXX</p>
+      </li>
+      <li> <strong>Latex</strong> is used for general ("conceptual") documentation. XXX
+        <p> <code>.tex</code> and <code>.bib</code> </p>
+      </li>
+    </ol>
+    Macro extensions XXX
+
+    Documentation for the <code>docus</code>-system is close to actual code, and thus we employ
+    also here the Doxygen system (even for programming languages where Doxygen doesn't support yet
+    adding documentation to the code itself).
+
+    XHTML in its strict form prevents the direct usage of formatting specification, which supports
+    the maxim "First content, then form",
+
+
+    <h2> Configuration languages </h2>
+
+    The configuration system for the OKlibrary is based on makefiles. Configuration files
+    for Doxygen and Apache are under source control (each with their own syntax), and also
+    allow macro extensions XXX
+
+
+    <h2> Computer algebra languages </h2>
+
+    <ol>
+      <li> <strong>Maxima</strong> (associated with <code>CLisp</code>) represents the "easiest" level
+        of programming, without concern for type structures and refined algorithms. XXX
+        <p> <code>.maxima</code> XXX </p>
+      </li>
+      <li> <strong>Axiom</strong> with associated language <strong>Aldor</strong> represents an
+        intermediate level, considering type and concept hierarchies, but not being concerned
+        with construction/destruction of objects, and also ignoring the fine details of
+        adapting algorithms and data structures. XXX
+        <p> extension ??? </p>
+      </li>
+      <li> Mupad was used, but since it is unfortunately no longer publically available, it was
+        deprecated. Files with Mupad code have the suffix <code>.mup</code>. </li>
+    </ol>
+
+
+    <h2> Specification and proof assistants </h2>
+
+    <ol>
+      <li> <strong>Coq</strong> XXX
+    </ol>
+
+
+    <h2> SAT and other problem instances </h2>
+
+    <ol>
+      <li> <strong>Dimacs</strong> XXX
+        <p> <code>.cnf</code> </p>
+      </li>
+    </ol>
+
+
+    <h2> Other data formats </h2>
+
+    <ol>
+      <li> Text files in general do not follow specific naming conventions (in some cases,
+        systematically <code>.txt</code> is used, but not in general). </li>
+    </ol>
+
+
+
+    <hr />
+      <!-- hhmts start -->
+Last modified: Tue Sep 11 10:54:25 BST 2007
+<!-- hhmts end -->
+      <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
+
+  </body>
+  
+</html>

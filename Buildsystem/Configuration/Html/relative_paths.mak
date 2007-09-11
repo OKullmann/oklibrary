@@ -14,6 +14,9 @@ rel_lindex_OKlibrary_html_documentation_index_location := $(shell $(rel_path_too
 rel_lindex_OKlibrary_full_documentation_dvi_location := $(shell $(rel_path_tool) $(OKlibrary_full_documentation_dvi_location) $(local_home_page_output))
 rel_lindex_main_docu_page := $(shell $(rel_path_tool) $(main_docu_page) $(local_home_page_output))
 
+# From the Aims-page:
+rel_aims_accu2006_talk_location := $(shell $(rel_path_tool) $(accu2006_talk_location) $(aims_page_output))
+
 # From the external sources page:
 rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
 # to be completed XXX
