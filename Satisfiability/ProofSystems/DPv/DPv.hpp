@@ -1,3 +1,5 @@
+// Tony Bao, 19.5.2005 (Swansea)
+
 /*!
   \file Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp
   \brief Deprecated. Contains functions DP-reductions.

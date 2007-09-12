@@ -1,3 +1,5 @@
+// Tony Bao, 6.4.2007 (Swansea)
+
 /*!
   \file Path_Loader.hpp
   \brief Needs a complete overhaul.

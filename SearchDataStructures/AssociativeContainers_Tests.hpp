@@ -1,3 +1,5 @@
+// Matthew Henderson, 6.9.2005 (Swansea)
+
 /*!
   \file SearchDataStructures/AssociativeContainers_Tests.hpp
   \brief Tests for search data structures.
@@ -17,7 +19,6 @@
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace SearchDataStructures {
 
     // ##############################################################

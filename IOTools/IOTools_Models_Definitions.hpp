@@ -1,3 +1,5 @@
+// Tony Bao, 11.4.2005 (Swansea)
+
 /*!
   \file IOTools/IOTools_Models_Definitions.hpp
   \brief Deprecated. File handling outsourced from Messages.
@@ -14,7 +16,6 @@
 #include <new>
 
 namespace OKlib {
-  
   namespace IOTools {
     
     // TO DO: Move to a different module (isn't there a standard implementation?!)

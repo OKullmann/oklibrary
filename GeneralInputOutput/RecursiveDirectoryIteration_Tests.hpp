@@ -1,3 +1,5 @@
+// Matthew Henderson, 25.10.2005 (Swansea)
+
 /*!
   \file GeneralInputOutput/RecursiveDirectoryIteration_Tests.hpp
   \brief Tests for recursive directory iteration.

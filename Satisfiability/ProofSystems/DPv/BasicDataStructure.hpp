@@ -1,3 +1,5 @@
+// Tony Bao, 22.5.2005 (Swansea)
+
 /*!
   \file Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp
   \brief Deprecated. Contains simple classes for variables, literals, clauses, clause-sets and literal- and variables-sets.

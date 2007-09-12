@@ -1,3 +1,4 @@
+// Oliver Kullmann, 14.7.2007 (Swansea)
 
 /*!
   \file Transitional/plans/Foundations.hpp

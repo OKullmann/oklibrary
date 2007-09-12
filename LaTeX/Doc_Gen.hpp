@@ -1,14 +1,11 @@
+// Tony Bao, 7.10.2004 (Swansea)
+
 /*!
   \file LaTeX/Doc_Gen.hpp
   \brief Created by TB for the purpose of writing the latex-files for the departmental timetable.
 */
 
 //Program: Class for Generating documents using Doc_Objects and different handlers;
-//Author: Tony H. Bao
-//Location: Swansea
-//Date: 2004.10.7
-//Last Modified Date: 2004.10.14
-//Version: 0.1.040
 
 #ifndef Doc_Gen_nbhguay7nq2
 #define Doc_Gen_nbhguay7nq2

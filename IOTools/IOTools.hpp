@@ -1,3 +1,5 @@
+// Tony Bao, 13.4.2005 (Swansea)
+
 /*!
   \file IOTools/IOTools.hpp
   \brief Deprecated.

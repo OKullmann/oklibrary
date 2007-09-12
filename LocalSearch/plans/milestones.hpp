@@ -1,3 +1,5 @@
+// Oliver Kullmann, 8.4.2007 (Swansea)
+
 /*!
   \file LocalSearch/plans/milestones.hpp
 
