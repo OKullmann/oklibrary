@@ -10,38 +10,45 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Language standards
+    - Enable finding all solutions
 
 
   \par Version 0.9.3
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Buildsystem
+    - Language standards
 
 
   \par Version 0.9.4
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Complete the help facilities of the OKsolver
+    - Buildsystem
 
 
   \par Version 0.9.5
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Add doxygen-documentation
+    - Complete the help facilities of the OKsolver
 
 
   \par Version 0.9.6
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Write docus-pages
+    - Add doxygen-documentation
 
 
   \par Version 0.9.7
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Write docus-pages
+
+
+  \par Version 0.9.8
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:

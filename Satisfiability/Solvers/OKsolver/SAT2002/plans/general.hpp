@@ -6,6 +6,20 @@
   old OKsolver
 
 
+  \todo Enable finding all solutions
+  <ul>
+   <li> MJHH made the request, that the OKsolver can continue
+   after a solution was found (and thus can find all solutions). </li>
+   <li> So another "#ifdef" needs to be introduced. </li>
+   <li> First all places need to be identified where a solution
+   can be found:
+    <ol>
+     <li> XXX </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Language standards
   <ul>
    <li> The old OKsolver is a C99 program. </li>
