@@ -99,20 +99,48 @@
 //  GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
    \endverbatim
    where "XX" is to be replaced by the current year. </li>
-   <li> Where to put the GPL-text? </li>
+   <li> Where to put the GPL-text? Here. </li>
    <li> For every release, the year of the release must be added to every file's copyright notice
    (if not already present). </li>
    <li> In case of shell scripts, there are two leadings lines (one as above, and before it the
    specification of the shell). </li>
    <li> Data files don't get a licence. </li>
-   <li> What about the plans-files? </li>
-   <li> Can't we use a shortened header for very simple files? </li>
+   <li> What about the plans-files? Also get a licence-statement, since they are as
+   important as the rest. </li>
+   <li> Can't we use a shortened header for very simple files?
+   The following version looks more sensible:
+   \verbatim
+// Name of file creator, date of file creation (place of file creation)
+// Copyright 20XX Oliver Kullmann
+// This file is part of the OKlibrary.
+//  OKlibrary is free software; you can redistribute it and/or modify it under the terms of
+//  the GNU General Public License as published by the Free Software Foundation; either
+//  version 3 of the License, or (at your option) any later version.
+s/>.
+   \endverbatim
+   The above seems to make a fetish out of these "legal formalities". We should use this version
+   for every file!
+   </li>
    <li> Download GPLv3 and put under Configuration. DONE </li>
   </ul>
 
 
   \todo Licence installation
   <ul>
+   <li> First, we should make all non-data files conform to the standard,
+   that the first line shows the file-creator and file-creation-date:
+    <ol>
+     <li> .cpp-files:
+     \verbatim
+Transitional> for F in $(find * -name "*.cpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
+     \endverbatim
+     </li>
+     <li> DONE .hpp-files: Extraktion with
+     \verbatim
+Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
+     \endverbatim
+     </li>
+    </ol>
    <li> In one go, every files gets the licence statement. </li>
    <li> Can we write a little tool?
     <ol>
@@ -132,8 +160,6 @@
    for confirmation. </li>
    <li> If the file has already the licence statement, then possibly only the current year
    is added to the copyright statement. </li>
-   <li> Perhaps we write another little tool, which finds all files which do not have
-   the creator and the creation date in the first line. </li>
   </ul>
 
 
