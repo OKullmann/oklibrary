@@ -20,10 +20,10 @@
 
   \section VersionTransitional020 0.2 : Theme "PROTO-RELEASE"
   TO BE REACHED $(deadline_020)
-  \par Buildsystem version 0.2 (OK, MH)
-  (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.1
   (see LegalIssues/plans/milestones.hpp)
+  \par Buildsystem version 0.2 (OK, MH)
+  (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)

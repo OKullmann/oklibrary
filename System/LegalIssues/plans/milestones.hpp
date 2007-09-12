@@ -10,28 +10,28 @@
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Problems with licence
+    - Plans on license installation
 
 
   \par Version 0.0.5
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Plans on license installation
+    - Licence installation
 
 
   \par Version 0.0.6
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Licence installation
+    - Licence documentation
 
 
   \par Version 0.1
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Licence documentation
+    - Problems with licence
 
 
 
