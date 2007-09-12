@@ -107,7 +107,7 @@
    <li> Nadia Creignou </li>
    <li> Zumkeller: ?? </li>
    <li> Paul Beame and group </li>
-   <li> Marina de Vos and Martin (Bath) </li>
+   <li> Marina de Vos and Martin Brain (Bath) </li>
    <li> Tobias Nipkow </li>
    <li> Uwe Schoening </li>
    <li> Sam Buss (asking very politely) </li>
