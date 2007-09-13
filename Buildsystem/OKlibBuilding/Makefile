@@ -1013,7 +1013,7 @@ $(new_test_program_optimised) : $(test_bin_dir)/%$(name_addition) : $(test_objec
 # them and fail if one of them fails
 
 app_tests :
-	L=$$(find * -path "app_tests/*" -and -type f -and -not -name "*~" -and -not -path "app_tests/?*/*") && \
+	L=$$(find * -path "app_tests/*" -and -type f -and -perm -100 -and -not -name "*~") && \
 	for T in $${L}; do $${T}; if [ $$? != 0 ]; then exit 1; fi; done
 
 # ######################################################################
