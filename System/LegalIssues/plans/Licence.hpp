@@ -135,7 +135,12 @@ s/>.
 Transitional> for F in $(find * -name "*.cpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
      \endverbatim
      </li>
-     <li> DONE .hpp-files: Extraktion with
+     <li> DONE .h-files:
+     \verbatim
+Transitional> for F in $(find * -name "*.h"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
+     \endverbatim
+     </li>
+     <li> DONE .hpp-files: Extraction with
      \verbatim
 Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
      \endverbatim
