@@ -10,13 +10,84 @@
   <ul>
    <li> MJHH made the request, that the OKsolver can continue
    after a solution was found (and thus can find all solutions). </li>
-   <li> So another "#ifdef" needs to be introduced. </li>
+   <li> So another "#ifdef" needs to be introduced:
+    <ol>
+     <li> Macro ALLSAT if set means all satisfying assignments will
+     be determined; default is unset. </li>
+     <li> If ALLSAT is set then macro NSAT_BITS determines in the
+     number N of bits in type uint_fastN_t (obtained by conditional
+     inclusion of stdint.h). "nsat_t" is a typedef for this type. </li>
+     <li> Default value of NSAT_BITS is 64. </li>
+     <li> Variable nsat of type nsat_t counts satisfying assignments. </li>
+     <li> Can we determine overflow? </li>
+     <li> This would be easier with an int type? </li>
+    </ol>
+   </li>
+   <li> The easiest (and most natural) way seems to be to treat a
+   satisfying assignment found just as a falsifying assignment:
+    <ol>
+     <li> Special operations like counting the number of satisfying
+     assignments found, output of the assignment or turning
+     off tree pruning have to be carried out. </li>
+     <li> Then backtracking is performed as for falsifying
+     assignments. </li>
+     <li> If the whole tree has been processed, then one has to check
+     (perhaps best by some dedicated boolean variable) whether
+     somewhere a satisfying assignment was found (for the overall
+     return value). </li>
+     <li> If already the input was found satisfiabile, then no further
+     search for another satisfying assignment is needed, since the
+     assignment was forced. </li>
+    </ol>
+   </li>
+   <li> Interaction with option BELEGUNG
+    <ol>
+     <li> Hopefully only function AusgabeBelegung needs to be called
+     additionally. </li>
+     <li> For that to work, the file pointer needed in case of output
+     to a file needs to be computed in advance, and a global variable
+     stores the output-stream pointer (either the file or stdout; null
+     if no output of satisfying assignments). </li>
+     <li> In case of file-output we just output all satisfying
+     assignments into the file. </li>
+     <li> A problem arises with option OUTPUTTREEDATAXML --- what
+     to do here (and what is this option about?)? </li>
+    </ol>
+   </li>
+   <li> Interaction with option BAUMRES
+    <ol>
+     <li> As soon as one satisfying assignment was found, then
+     above that point tree pruning is turned off. </li>
+     <li> Perhaps easiest by using a null pointer. </li>
+    </ol>
+   </li>
    <li> First all places need to be identified where a solution
    can be found:
     <ol>
-     <li> XXX </li>
+     <li> The global variable "erfuellt" (declared in
+     Solvers/OKsolver/SAT2002/Filter.h) communicates wether the "filter"
+     found the formula satisfiable. </li>
+     <li> There seems to be only one place, the loop in
+     OKsolver/SAT2002/OKsolver_2002_lnk.c over all variables, where "erfuellt"
+     is used, and where a satisfying assignment can be found. </li>
+     <li> Currently in case the filter found a satisfying assignment,
+     the assignment is actually applied (the filter uses a lazy
+     data structure to perform assignments, without actually changing
+     the formula). Why is this needed?? The comment says it is needed
+     for the output? </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Documentation problems
+  <ul>
+   <li> A lot of code (and doxygen-documentation) is conditionalised
+   --- and thus doesn't show up in the doxygen-documentation! </li>
+   <li> However we want the documentation of the whole code; how to
+   achieve this? </li>
+   <li> On the other hand, it it informative what is (and what is not)
+   defined by default. </li>
   </ul>
 
 
@@ -32,6 +103,9 @@
    <li> All includes need to be changed to the library-style. Or? Perhaps, due to the
    exceptional "historical" character, we don't do this here? Emphasising, that there
    are no reusable components here?! </li>
+   <li> Since the function specifier "inline" is available with C99, we should
+   remove the little apparatus with "KEININLINE" and "__inline__" (and replace
+   "__inline__" everywhere with "inline"). </li>
    <li> Deeper changes like const-introduction only later. </li>
    <li> DONE (stick to C) Perhaps move everything to C++ (but no real changes to any data structures, etc.,
    only using C++ header files etc.). Or?? </li>
