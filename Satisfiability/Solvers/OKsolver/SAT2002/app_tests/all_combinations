@@ -11,9 +11,9 @@ echo -e "SOLVERS FOUND:\n" ${list_solvers}
 case ${test_level} in
 basic) list_test_cases=app_tests/test_cases/basic/*.cnf
     ;;
-full) list_test_cases=app_tests/test_cases/basic/*.cnf app_tests/test_cases/full/*.cnf
+full) list_test_cases="app_tests/test_cases/basic/*.cnf app_tests/test_cases/full/*.cnf"
     ;;
-extensive) list_test_cases=app_tests/test_cases/basic/*.cnf app_tests/test_cases/full/*.cnf app_tests/test_cases/extensive/*.cnf 
+extensive) list_test_cases="app_tests/test_cases/basic/*.cnf app_tests/test_cases/full/*.cnf app_tests/test_cases/extensive/*.cnf"
     ;;
 esac
 
