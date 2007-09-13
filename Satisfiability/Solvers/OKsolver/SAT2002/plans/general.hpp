@@ -51,7 +51,8 @@
      <li> In case of file-output we just output all satisfying
      assignments into the file. </li>
      <li> A problem arises with option OUTPUTTREEDATAXML --- what
-     to do here (and what is this option about?)? </li>
+     to do here (and what is this option about?)?
+     </li>
     </ol>
    </li>
    <li> Interaction with option BAUMRES
@@ -75,6 +76,15 @@
      data structure to perform assignments, without actually changing
      the formula). Why is this needed?? The comment says it is needed
      for the output? </li>
+      <ol>
+       <li> The reason is simply convenience: The satisfying assignment
+       is split in the current working assignment and the look-ahead
+       assignment, and by applying the look-ahead assignment we have
+       everything "in one place". </li>
+       <li> This hack should be eliminated, and the function for outputting
+       the satisfying assignment should just accept to partial assignments
+       as input. </li>
+      </ol>
     </ol>
    </li>
   </ul>
@@ -142,7 +152,34 @@
    <li> The compilation of different variants could be handled
    by creating files with the corresponding names to be created,
    making them symbolic links to the main program, while
-   the compiler-options are set special for each of these variants. </li>
+   the compiler-options are set special for each of these variants.
+   The main options are:
+    <ol>
+     <li> BELEGUNG (for the output of a partial assignment) </li>
+     <li> BAUMRES (for the tree pruning) in two variants:
+      <ol>
+       <li> With NLITTAB. </li>
+       <li> Without NLITTAB. </li>
+      </ol>
+     </li>
+    </ol>
+    This makes 6 variants which should be compiled and tested:
+     <ol>
+      <li> OKsolver_2002 </li>
+      <li> OKsolver_2002_NLT (no littab) </li>
+      <li> OKsolver_2002_NTP (no tree pruning) </li>
+      <li> OKsolver_2002_osa (output satisfying assignment) </li>
+      <li> OKsolver_2002_NLT_osa </li>
+      <li> OKsolver_2002_NTP_osa </li>
+     </ol>
+     This multiplied with 2 for unoptimised/optimised. So we need to
+     distinguish the levels "basic, full, extended" for the application
+     tests! ("basic" doesn't run the one test which takes a few second,
+     "full" does). The test level is available in make-variable
+     "test_level", with values "basic, full, extensive".
+   </li>
+   <li> With the new option "ALLSAT" in principle we have another
+   factor of 2. There is no way out, must be done. </li>
    <li> There are three programs:
     <ol>
      <li> OKsolver_2002.c : standard C program (assumes linking with the other compilation units) </li>
