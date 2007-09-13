@@ -1,3 +1,10 @@
+// Oliver Kullmann, 3.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Belegung.h
+  \brief Header file with definitions for assignment handling
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -6,7 +13,8 @@
 /* Erzeugung: 3.2.2001 */
 
 
-#ifndef GELESENBELEGUNG
+#ifndef GELESENBELEGUNG_jqoqpC5
+#define GELESENBELEGUNG_jqoqpC5
 
 #include "OK.h"
 #include "VarLitKlm.h"
@@ -51,6 +59,3 @@ extern bool rebelege_Verz( LIT );
 #endif
 
 #endif
-
-#define GELESENBELEGUNG = 1
-

@@ -1,3 +1,10 @@
+// Oliver Kullmann, 4.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/anlVar.h
+  \brief Header file for functions creating the data structures
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -5,7 +12,8 @@
 
 /* angelegt: 4.2.2001 */
 
-#ifndef GELESENANLVAR
+#ifndef GELESENANLVAR_vqfsew9
+#define GELESENANLVAR_vqfsew9
 
 #include <stdlib.h>
 
@@ -32,5 +40,3 @@ extern void *AbstandsV (void *);
 extern void *BaumResV (void *);
 
 #endif
-
-#define GELESENANLVAR 1

@@ -1,3 +1,10 @@
+// Oliver Kullmann, 6.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Projektion_Prod.c
+  \brief The standard projection function, the product
+*/
+
 /* Einheit: Projektion_Prod */
 
 #include "OK.h"

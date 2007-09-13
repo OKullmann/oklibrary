@@ -1,3 +1,10 @@
+// Oliver Kullmann, 23.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Abstand_aK.c
+  \brief Distance function weighted number of (all) clauses, choice of branch according to approximation of true probability
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

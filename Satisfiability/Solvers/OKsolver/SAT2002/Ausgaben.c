@@ -1,3 +1,10 @@
+// Oliver Kullmann, 19.1.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Ausgaben.c
+  \brief Messages, and implementations for functions outputting messages
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

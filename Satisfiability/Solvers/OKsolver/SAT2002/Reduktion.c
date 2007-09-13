@@ -1,3 +1,10 @@
+// Oliver Kullmann, 1.11.1998 (Frankfurt)
+
+/*!
+  \file OKsolver/SAT2002/Reduktion.c
+  \brief The standard reduction process
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

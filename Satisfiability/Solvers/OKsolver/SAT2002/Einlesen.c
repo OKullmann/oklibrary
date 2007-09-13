@@ -1,3 +1,10 @@
+// Oliver Kullmann, 19.1.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Einlesen.c
+  \brief Implementations of input/output functions
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

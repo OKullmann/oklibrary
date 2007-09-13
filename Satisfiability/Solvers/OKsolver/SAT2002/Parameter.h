@@ -1,3 +1,10 @@
+// Oliver Kullmann, 8.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Parameter.h
+  \brief Header file for parameters needed for tree pruning
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -5,7 +12,8 @@
 
 /* angelegt: 8.2.2001 */
 
-#ifndef GELESENPARAMETER
+#ifndef GELESENPARAMETER_jJbcd4
+#define GELESENPARAMETER_jJbcd4
 
 #include "VarLitKlm.h"
 
@@ -17,6 +25,3 @@ extern unsigned GroesseVarMenge;
 /* extern unsigned int PositionAnker; */
 
 #endif
-
-#define GELESENPARAMETER 1
-

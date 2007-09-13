@@ -1,3 +1,10 @@
+// Oliver Kullmann, 8.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Parameter.c
+  \brief Definitions of parameters needed for tree pruning
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

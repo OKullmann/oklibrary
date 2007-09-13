@@ -1,3 +1,10 @@
+// Oliver Kullmann, 6.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Abstand_nKDn.c
+  \brief As Abstand_nK.c, but the distance mixes in Delta(n)
+*/
+
                       /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

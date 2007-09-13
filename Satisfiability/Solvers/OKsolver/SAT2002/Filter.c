@@ -1,3 +1,10 @@
+// Oliver Kullmann, 5.3.1998 (Frankfurt)
+
+/*!
+  \file Solvers/OKsolver/SAT2002/Filter.c
+  \brief %Implementation of the filter
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

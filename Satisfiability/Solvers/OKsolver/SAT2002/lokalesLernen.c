@@ -1,3 +1,10 @@
+// Oliver Kullmann, 4.3.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/lokalesLernen.c
+  \brief First implementation of local learning
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

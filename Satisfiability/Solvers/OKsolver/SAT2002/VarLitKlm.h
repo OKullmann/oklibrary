@@ -1,3 +1,10 @@
+// Oliver Kullmann, 14.3.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/VarLitKlm.h
+  \brief The interface for variables, literals and clause-sets
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -6,7 +13,8 @@
 /* Erzeugung: 14.3.2001 */
 
 
-#ifndef GELESENVARLITKLM
+#ifndef GELESENVARLITKLM_jJqp6
+#define GELESENVARLITKLM_jJqp6
 
 #include "OK.h"
 
@@ -173,6 +181,3 @@ void setzenlLK(LITV x, LITV y);
 
 
 #endif
-
-#define GELESENVARLITKLM 1
-

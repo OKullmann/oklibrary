@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 # Oliver Kullmann, 8.1.2002 (Swansea)
 
 # Aufruf:

@@ -1,12 +1,4 @@
-                       /* OKsolver; 5.3.1998 */
-
-/* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
-/* ab Februar 1999: University of Toronto, Computer Science Department */
-
-/* Angelegt: 16.3.2001 */
-
-/* Einheit: VarLitKlm */
-
+// Oliver Kullmann, 16.3.2001 (Toronto)
 
 /*!
   \file Solvers/OKsolver/SAT2002/VarLitKlm.c
@@ -17,6 +9,15 @@
   literal occurrences and clause-information-nodes; also
   initialisation functions.
 */
+
+                       /* OKsolver; 5.3.1998 */
+
+/* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
+/* ab Februar 1999: University of Toronto, Computer Science Department */
+
+/* Angelegt: 16.3.2001 */
+
+/* Einheit: VarLitKlm */
 
 
 #include <stdlib.h>

@@ -1,3 +1,10 @@
+// Oliver Kullmann, 5.3.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Abstand_DnaZ.c
+  \brief Distance function Delta(n), choice of branch according to maximal probability for random assignment
+*/
+
                       /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

@@ -2,7 +2,7 @@
 
 /*!
   \file Solvers/OKsolver/SAT2002/Filter.h
-  \brief Header file for the variable "filtering" function, used for selecting the branching variable
+  \brief Header file for the variable-"filtering" function, used for selecting the branching variable
 */
 
                        /* OKsolver; 5.3.1998 */

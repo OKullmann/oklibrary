@@ -1,3 +1,10 @@
+// Oliver Kullmann, 16.3.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/BaumRes.h
+  \brief The interface for tree pruning
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -9,7 +16,8 @@
 
 /* Zur Beschneidung des Suchbaumes */
 
-#ifndef GELESENBAUMRES
+#ifndef GELESENBAUMRES_096t4r
+#define GELESENBAUMRES_096t4r
 
 #ifdef BAUMRES
 
@@ -70,4 +78,3 @@ extern void AufraeumenBaumRes( void );
 
 #endif
 
-#define GELESENBAUMRES 1

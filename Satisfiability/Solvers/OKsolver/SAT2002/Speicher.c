@@ -1,3 +1,10 @@
+// Oliver Kullmann, 19.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Speicher.c
+  \brief Implementations of auxiliary functions regarding memory allocation
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

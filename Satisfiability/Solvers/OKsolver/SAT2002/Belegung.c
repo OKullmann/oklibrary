@@ -1,3 +1,10 @@
+// Oliver Kullmann, 3.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Belegung.c
+  \brief Implementations for assignment handling
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

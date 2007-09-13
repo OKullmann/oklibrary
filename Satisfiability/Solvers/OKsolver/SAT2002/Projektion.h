@@ -1,3 +1,10 @@
+// Oliver Kullmann, 6.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Projektion.h
+  \brief The interface for projection functions
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -5,7 +12,8 @@
 
 /* Angelegt: 6.2.2001 */
 
-#ifndef GELESENPROJEKTION
+#ifndef GELESENPROJEKTION_HbVd34
+#define GELESENPROJEKTION_HbVd34
 
 /* -------------------------------------------------------------------------- */
 
@@ -17,6 +25,3 @@ extern unsigned int Projektion2( void );
 extern const char *Projektionsname;
 
 #endif
-
-#define GELESENPROJEKTION 1
-

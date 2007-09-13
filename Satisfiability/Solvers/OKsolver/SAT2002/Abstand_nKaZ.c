@@ -1,3 +1,10 @@
+// Oliver Kullmann, 23.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Abstand_nKaZ.c
+  \brief Standard distance function (weighted number of new clauses), choice of branch according to maximal probability for random assignment
+*/
+
                       /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */

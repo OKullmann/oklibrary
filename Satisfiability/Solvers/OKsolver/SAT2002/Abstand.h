@@ -1,3 +1,10 @@
+// Oliver Kullmann, 6.2.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Abstand.h
+  \brief Header file for distance functions and choice of first branch
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -5,7 +12,8 @@
 
 /* Angelegt: 6.2.2001 */
 
-#ifndef GELESENABSTAND
+#ifndef GELESENABSTAND_37Teewq
+#define GELESENABSTAND_37Teewq
 
 /* -------------------------------------------------------------------------- */
 
@@ -25,6 +33,3 @@ extern void InitAbstand2( void );
 extern const char *Abstandsname;
 
 #endif
-
-#define GELESENABSTAND 1
-

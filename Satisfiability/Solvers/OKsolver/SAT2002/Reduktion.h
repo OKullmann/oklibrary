@@ -1,3 +1,10 @@
+// Oliver Kullmann, 2.3.2001 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Reduktion.h
+  \brief The interface for the reduction process
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -6,7 +13,8 @@
 /* Angelegt: 2.3.2001 */
 
 
-#ifndef GELESENREDUKTION
+#ifndef GELESENREDUKTION_4101Kj
+#define GELESENREDUKTION_4101Kj
 
 extern char Reduktion1( void );
 
@@ -24,6 +32,3 @@ typedef struct {
 #endif
 
 #endif
-
-#define GELESENREDUKTION = 1
-

@@ -1,3 +1,10 @@
+// Oliver Kullmann, 2.5.2000 (Toronto)
+
+/*!
+  \file OKsolver/SAT2002/Abstand_nK.c
+  \brief Standard distance function (weighted number of new clauses), choice of branch according to approximation of true probability
+*/
+
 /* Oliver Kullmann */
 /* 2.5.2000 */
 
