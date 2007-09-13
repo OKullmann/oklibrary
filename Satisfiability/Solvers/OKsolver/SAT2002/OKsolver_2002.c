@@ -1,10 +1,4 @@
-                       /* OKsolver; 5.3.1998 */
-
-/* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
-/* ab Februar 1999: University of Toronto, Computer Science Department */
-
-/* Angelegt: 3.2.2001 */
-
+// Oliver Kullmann, 3.2.2001 (Toronto)
 
 /*!
   \file Solvers/OKsolver/SAT2002/OKsolver_2002.c
@@ -13,6 +7,13 @@
 
   No linking needed here.
 */
+
+                       /* OKsolver; 5.3.1998 */
+
+/* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
+/* ab Februar 1999: University of Toronto, Computer Science Department */
+
+/* Angelegt: 3.2.2001 */
 
 
 #define __include__ include

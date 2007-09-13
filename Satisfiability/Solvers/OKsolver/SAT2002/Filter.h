@@ -1,3 +1,10 @@
+// Oliver Kullmann, 3.2.2001 (Toronto)
+
+/*!
+  \file Solvers/OKsolver/SAT2002/Filter.h
+  \brief Header file for the variable "filtering" function, used for selecting the branching variable
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -5,7 +12,8 @@
 
 /* Angelegt: 3.2.2001 */
 
-#ifndef GELESENFILTER
+#ifndef GELESENFILTER_hTrEw09u
+#define GELESENFILTER_hTrEw09u
 
 #include "VarLitKlm.h"
 /* #include "Klauselmenge.h" */
@@ -40,5 +48,5 @@ extern unsigned int *LaAnzK [ 2 ] [ 2 ];
 
 #endif
 
-#define GELESENFILTER = 1
+
 

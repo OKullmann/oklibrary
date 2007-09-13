@@ -1,3 +1,10 @@
+// Oliver Kullmann, 5.3.1998 (Frankfurt)
+
+/*!
+  \file OKsolver/SAT2002/OK.h
+  \brief Main header file for the old OKsolver
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
@@ -105,15 +112,16 @@
 
 /* --------------------------------------------------------- */
 
-#ifndef GELESENOK
+#ifndef GELESENOK_tdgb3w8
+#define GELESENOK_tdgb3w8
 
 #include <stdbool.h>
 
 #define VERSIONSNUMMER1 "1"
-#define VERSIONSNUMMER2 "23"
+#define VERSIONSNUMMER2 "24"
 /* Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2 */
 
-#define DATUM "27.8.2004"
+#define DATUM "13.9.2007"
 
 extern const bool internal;
 
@@ -122,6 +130,16 @@ extern const bool internal;
 /* Ist DYNAMISCH definiert, so wird vor jedem Bewertungsdurchlauf fuer
    die Variablen */
 /* InitAbstand2() aufgerufen. */
+
+/*!
+  \def DYNAMISCH
+  \brief Option for enabling initialisation of dynamic variable heuristics
+*/
+
+/*!
+  \def KEININLINE
+  \brief If set, the inline function specialisations are removed
+*/
 
 #ifdef KEININLINE
 #  define __inline__ 
@@ -148,6 +166,14 @@ extern const bool internal;
 /* (Dies kann den Suchbaum drastisch verkleinern, bringt aber auch zusaetzliche */
 /*  Arbeit mit sich.) */
 
+/*!
+  \def BAUMRES
+  \brief Option for performing tree resolution cutting (intelligent backtracking)
+
+  If option NBAUMRES is defined then BAUMRES is not defined (i.e., no pruning),
+  while otherwise BAUMRES is defined.
+*/
+
 #ifndef NBAUMRES
 #define BAUMRES
 #endif
@@ -156,6 +182,14 @@ extern const bool internal;
 /* mittels einer Literaltabelle implementiert (kostet ca. 5 - 10 % */
 /* mehr Zeit. */
 
+/*!
+  \def LITTAB
+  \brief Option for more space efficient tree pruning
+
+  If option NLITTAB is defined then LITTAB is not defined (i.e., more space
+  is needed), while otherwise LITTAB is defined.
+*/
+
 #ifdef BAUMRES
 #  ifndef NLITTAB
 #  define LITTAB
@@ -163,6 +197,11 @@ extern const bool internal;
 #endif
 
 /* Ist LOKALLERNEN definiert, so werden 2-Klauseln lokal gelernt. */
+
+/*!
+  \def LOKALLERNEN
+  \brief Option for enabling local learning of 2-clauses
+*/
 
 /* Ist NL2RED definiert, so werden beim lokalen Lernen keine 2-Reduktionen */
 /* gelernt (ist nicht FASTAUTARKIE definiert, so neutralisiert dies */
@@ -268,6 +307,22 @@ extern bool Belegung;
 #  endif
 #endif
 
+/*!
+  \def ASSIGNMENT
+  \brief Option which sets macro BELEGUNG
+
+  Only a translation.
+*/
+/*!
+  \def BELEGUNG
+  \brief If set, satisfying assignments are output
+
+  This only affects the default setting for outputting satisfying assignments,
+  that is, whether global variable Belegung is set true (for outputting
+  satisfying assignments) or false (no output) when initialised --- this can
+  be overridden by command line parameters.
+*/
+
 #ifdef ASSIGNMENT
 #  define BELEGUNG
 #endif
@@ -351,5 +406,4 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
 #endif
 
-#define GELESENOK 1
 
