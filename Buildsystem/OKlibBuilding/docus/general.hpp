@@ -182,17 +182,78 @@
   <table>
    <tr>
     <td> <code> gcc_version_number=V </code> </td>
-    <td> Use the locally installed gcc with version V (for example <code>gcc_version_number=4.2.0</code>); default value is the recommended version. </td>
+    <td> Use the locally installed gcc with version V (for example
+    <code>gcc_version_number=4.2.0</code>); default value is the
+    recommended version. </td>
    </tr>
    <tr>
     <td> <code> boost_version_number=V </code> </td>
-    <td> Use the locally installed %boost with version V (for example <code>boost_version_number=1_34_0</code>); default value is the recommended version. </td>
+    <td> Use the locally installed %boost with version V (for example
+    <code>boost_version_number=1_34_0</code>); default value is the
+    recommended version. </td>
    </tr>
    <tr>
     <td> <code> Test_tool=T </code> </td>
-    <td> For example T=<code>"valgrind"</code> or T=<code>"valgrind --quiet"</code>; default value is T=<code>time -p</code> </td>
+    <td> For example T=<code>"valgrind"</code> or T=<code>"valgrind --quiet"</code>;
+    default value is T=<code>time -p</code> </td>
    </tr>
   </table>
+
+
+  <h2> Settings for the new test system </h2>
+
+  The basic parameters are:
+  <table>
+   <tr>
+    <td> <code> test_level=L </code> </td>
+    <td> <code>L</code> is one of "basic", "full", "extensive"
+    (the test effort); default is "basic" </td>
+   </tr>
+   <tr>
+    <td> <code>error_level=l</code>, <code>message_level=l</code>,
+    <code>error_level=l</code> </td>
+    <td> <code>l</code> is one of 0,1,2 (the level of verbosity for
+    the three output streams); default is 0 </td>
+   </tr>
+  </table>
+
+  The three output streams with their meanings:
+  <ul>
+   <li> The <strong> error stream </strong> contains all output related to
+   test failures. It is set by default to
+   \verbatim
+error_stream = "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
+   \endverbatim
+   that is, error output goes at the same time to standard error, to the error
+   file, and to the log file. </li>
+   <li> The <strong> message stream </strong> contans all output which informs
+   about the general sequence of tests (it is produced by the test system
+   itself). It is set by default to
+   \verbatim
+message_stream = "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
+   \endverbatim
+   that is, message output goes at the same time to standard output, to the
+   message file, and to the log file. </li>
+   <li> The <strong> log stream </strong> contains all output specifically
+   produced by the test functions to inform about the tests. It is set by default to
+   \verbatim
+log_stream = "ofstream-w=$(log_file)"
+   \endverbatim
+   that is, log output only goes to the log file. </li>
+  </ul>
+  The default values for the three output files are
+  \verbatim
+error_file = $(test_aux_dir)/Error
+message_file = $(test_aux_dir)/Message
+log_file = $(test_aux_dir)/Log
+   \endverbatim
+   where the current value of configuration variable "test_aux_dir" (for this
+   run) is <code>$(test_aux_dir)</code>.
+
+   <p>
+   Finally for each stream the language can be set by <code>error_lang</code>,
+   <code>message_lang</code> and <code>log_lang</code>; the default value is
+   <code>en_GB</code>. </p>
 
 
   \todo Complete the information on customisation.
