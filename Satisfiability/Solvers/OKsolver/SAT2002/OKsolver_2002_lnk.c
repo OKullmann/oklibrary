@@ -1,13 +1,14 @@
+// Oliver Kullmann, 5.3.1998 (Frankfurt)
+
+/*!
+  \file OKsolver/SAT2002/OKsolver_2002_lnk.c
+  \brief The main compilation unit for the old OKsolver
+*/
+
                        /* OKsolver; 5.3.1998 */
 
 /* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
 /* ab Februar 1999: University of Toronto, Computer Science Department */
-
-
-/*!
-  \file Solvers/OKsolver/SAT2002/OKsolver_2002_lnk.c
-  \brief The main compilation unit for the old OKsolver
-*/
 
 
 /* Hauptprogramm */
@@ -463,7 +464,8 @@ void FinaliseSATPath() {
 static enum Ergebniswerte SATEntscheidung( void )
 
 {
-  unsigned int i;
+  typedef unsigned int loop_t;
+  loop_t i;
   float opta; float a; unsigned int optaS;
   VAR v;
   VZ optZweig;
@@ -571,84 +573,81 @@ Schleife:
 /*     sie ersetzt, falls besser, die alte, bisher beste Verzweigung. */
 /*     (Die Zweigauswahl wird von "Abstand" mitberechnet.) */
 
-  for (v = ersteVar(); echteVar(v); v = naechsteVar(v))
-    {
-      Filter(v);
-      if (erfuellt)
-        {
-          if (Belegung) /* Durchfuehrung der Belegung (zur Ausgabe) */
-            {
-              DN = DeltaN[Zweig][Schalter];
-              for (i = 0, Z = Huelle[Zweig][Schalter]; i < DN; i++, Z++)
+  for (v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
+    Filter(v);
+    if (erfuellt) {
+      if (Belegung) { /* Durchfuehrung der Belegung (zur Ausgabe) */
+        DN = DeltaN[Zweig][Schalter];
+        Z = Huelle[Zweig][Schalter];
+        for (loop_t i = 0; i < DN; ++i, ++Z) {
 #ifndef BAUMRES
-                belege(*Z);
+          belege(*Z);
 #else
-                belege(Z -> l);
+          belege(Z -> l);
 #endif
-            }
+        }
+      }
 #ifdef OUTPUTTREEDATAXML
-	  BeginTreeElement();
-	  FinaliseSATPath();
+      BeginTreeElement();
+      FinaliseSATPath();
 #endif  
-          return SAT;
-        }
-
-      if (reduziert)
-        goto alleReduktionen;
+      return SAT;
+    }
+    
+    if (reduziert) goto alleReduktionen;
       
-      if (Wahl)
-        {
-              if (Single)  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
-            {
-              /* Durchfuehrung der Belegung */
-              DN = DeltaN[Zweig][Schalter];
+    if (Wahl) {
+      if (Single) {  /* (zur Zeit) der (nicht-erfuellende) Autarkiefall */
+        /* Durchfuehrung der Belegung */
+        DN = DeltaN[Zweig][Schalter];
 #ifdef LOKALLERNEN
-              eintragenTiefe();
+        eintragenTiefe();
 #endif
-              for (i = 0, Z = Huelle[Zweig][Schalter]; i < DN; i++, Z++)
+        Z = Huelle[Zweig][Schalter];
+        for (loop_t i = 0; i < DN; ++i, ++Z) {
 #ifndef BAUMRES
-                belege(*Z);
+          belege(*Z);
 #else
-                belege(Z -> l);
+          belege(Z -> l);
 #endif
-              
-              /* Falls BAUMRES gesetzt ist: */
-              /* Da der Standard-Filter nur Autarkien hier liefern kann, */
-              /* die nie zur Erzeugung der leeren Klausel beitragen koennen, */
-              /* muss hier in relVar nichts eingetragen werden. */
-              
-              aktP = LaP[Zweig][Schalter];
-              aktN -= DeltaN[Zweig][Schalter];
-              memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
-              goto Schleife;
-            }
-          else
-            {
-              QuasiSingleKnoten++;
-              Schalter = ! Schalter;
-              optZweig = Zweig;
-              break;
-            }
         }
-
-      Abstand();
-      if (randomisiert)
-        a = Verschmierung(Projektion());
-      else
-        a = Projektion();
-      switch (Vergleich(a, opta)) {
-      case gleich :
-        if (Projektion2() <= optaS)
-          break;
-      case groesser :
-        opta = a; optaS = Projektion2();
+        
+        /* Falls BAUMRES gesetzt ist: */
+        /* Da der Standard-Filter nur Autarkien hier liefern kann, */
+        /* die nie zur Erzeugung der leeren Klausel beitragen koennen, */
+        /* muss hier in relVar nichts eingetragen werden. */
+        
+        aktP = LaP[Zweig][Schalter];
+        aktN -= DeltaN[Zweig][Schalter];
+        memcpy((void *)(aktAnzK + 2), (void *)(LaAnzK[Zweig][Schalter] + 2), (aktP - 1) * sizeof(unsigned int));
+        goto Schleife;
+      }
+      else {
+        ++QuasiSingleKnoten;
         Schalter = ! Schalter;
         optZweig = Zweig;
         break;
-      case kleiner :
-        break;
       }
     }
+
+    Abstand();
+    if (randomisiert)
+      a = Verschmierung(Projektion());
+    else
+      a = Projektion();
+    switch (Vergleich(a, opta)) {
+    case gleich :
+      if (Projektion2() <= optaS)
+        break;
+    case groesser :
+      opta = a; optaS = Projektion2();
+      Schalter = ! Schalter;
+      optZweig = Zweig;
+      break;
+    case kleiner :
+      break;
+    }
+  }
   
   /* Nun ist die beste Variable gefunden, und es wird verzweigt */
 
