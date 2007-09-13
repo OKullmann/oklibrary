@@ -8,7 +8,14 @@ list_solvers=${bin_dir}/OKsolver_2002*
 
 echo -e "SOLVERS FOUND:\n" ${list_solvers}
 
-list_test_cases=app_tests/test_cases/*.cnf
+case ${test_level} in
+basic) list_test_cases=app_tests/test_cases/basic/*.cnf
+    ;;
+full) list_test_cases=app_tests/test_cases/basic/*.cnf app_tests/test_cases/full/*.cnf
+    ;;
+extensive) list_test_cases=app_tests/test_cases/basic/*.cnf app_tests/test_cases/full/*.cnf app_tests/test_cases/extensive/*.cnf 
+    ;;
+esac
 
 echo -e "TEST FORMULAS FOUND:\n" ${list_test_cases}
 
