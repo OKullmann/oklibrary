@@ -232,7 +232,7 @@ endif
 # The full path name for the test executable for the
 # current module.
 # ----------------------------------------------------------
-new_test_program := $(test-bin_dir)/$(module-name)
+new_test_program := $(test_bin_dir)/$(module-name)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -351,7 +351,7 @@ dependency_files_c := $(addprefix $(dependencies_dir)/, $(dependency_files_c))
 # ----------------------------------------------------------
 test_dependency_files := $(notdir $(test_compilation_units))
 test_dependency_files := $(test_dependency_files:.cpp=.d)
-test_dependency_files := $(addprefix $(test-aux_dir)/, $(test_dependency_files))
+test_dependency_files := $(addprefix $(test_aux_dir)/, $(test_dependency_files))
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -432,7 +432,7 @@ object_files_optimised := $(object_files_cpp_optimised) $(object_files_c_optimis
 # ----------------------------------------------------------
 test_object_files := $(notdir $(test_compilation_units))
 test_object_files := $(test_object_files:.cpp=.o)
-test_object_files := $(addprefix $(test-lib_dir)/, $(test_object_files))
+test_object_files := $(addprefix $(test_lib_dir)/, $(test_object_files))
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -443,7 +443,7 @@ test_object_files := $(addprefix $(test-lib_dir)/, $(test_object_files))
 # ----------------------------------------------------------
 test_object_files_optimised := $(notdir $(test_compilation_units))
 test_object_files_optimised := $(test_object_files_optimised:.cpp=$(name_addition).o)
-test_object_files_optimised := $(addprefix $(test-lib_dir)/, $(test_object_files_optimised))
+test_object_files_optimised := $(addprefix $(test_lib_dir)/, $(test_object_files_optimised))
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -557,78 +557,29 @@ Test_tool := time -p
 # VARIABLES FOR CUSTOMISATION OF NEW TEST SYSTEM
 # ################################################################
 
-# ----------------------------------------------------------
-# test_level (SV)
-# By default has the value "basic" but can be
-# redefined to either of the values "full" or
-# "extensive". Specifies the level of testing
-# carried out be (new) test system.
 test_level := basic
-# ----------------------------------------------------------
-# error_file (SV)
-# Specifies the location of the error log file
-# for the test program of the current module.
-error_file := $(test-aux_dir)/Error
-# ----------------------------------------------------------
-# message_file (SV)
-# Specifies the location of the messages log file
-# for the test program of the current module.
-message_file := $(test-aux_dir)/Message
-# ----------------------------------------------------------
-# log_file (SV)
-# Specifies the location of the log file for the
-# test program of the current module.
-log_file := $(test-aux_dir)/Log
-# ----------------------------------------------------------
-# error_stream (SV)   
-# Specifies a stream for the streaming of error
-# messages.
-error_stream := "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
-# ----------------------------------------------------------
-# message_stream (SV)
-# Specifies a stream for the streaming of non-
-# error messages.
-message_stream := "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
-# ----------------------------------------------------------
-# log_stream (SV)
-# Specifies a stream for the streaming of log
-# messages.
-log_stream := "ofstream-w=$(log_file)"
-# ----------------------------------------------------------
-# error_level (SV)                 
-# Specifies verbosity level for error messages,
-# by default 0 (lowest verbosity).
+
+error_file = $(test_aux_dir)/Error
+message_file = $(test_aux_dir)/Message
+log_file = $(test_aux_dir)/Log
+
+error_stream = "cerr|ofstream-w=$(error_file)|ofstream-w=$(log_file)"
+message_stream = "cout|ofstream-w=$(message_file)|ofstream-w=$(log_file)"
+log_stream = "ofstream-w=$(log_file)"
+
 error_level := 0
-# ----------------------------------------------------------
-# message_level (SV)               
-# Specifies verbosity level for non-error 
-# messages, default 0 (lowest verbosity).
 message_level := 0
-# ----------------------------------------------------------
-# log_level (SV)                   
-# Specifies verbosity level for log 
-# messages, default 0 (lowest verbosity).
 log_level := 0
-# ----------------------------------------------------------
-# error_lang (SV)                   
-# Specifies language for error messages, by
-# default equal to en_GB.
+
 error_lang := en_GB
-# ----------------------------------------------------------
-# message_lang (SV)                
-# Specifies language for non-error messages, by
-# default equal to en_GB.
 message_lang := en_GB
-# ----------------------------------------------------------
-# log_lang (SV)             
-# Specifies language for log messages, by
-# default equal to en_GB.
 log_lang := en_GB
+
 # ----------------------------------------------------------
 # test_parameters (LV)              
 # Parameters to be passed to the test program for
 # the current module.
-test_parameters := $(test_level) \
+test_parameters = $(test_level) \
                    $(error_stream) \
                    $(message_stream) \
                    $(log_stream) \
@@ -646,7 +597,7 @@ test_parameters := $(test_level) \
 # Timestamp for the creation of test programs with
 # the new test system.
 # ----------------------------------------------------------
-test_timestamp := $(test-aux_dir)/new_test_$(test_level)
+test_timestamp := $(test_aux_dir)/new_test_$(test_level)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -655,7 +606,7 @@ test_timestamp := $(test-aux_dir)/new_test_$(test_level)
 # Timestamp for the creation of optimised test
 # programs with the new test system.
 # ----------------------------------------------------------
-testop_timestamp := $(test-aux_dir)/new_testop_$(test_level)
+testop_timestamp := $(test_aux_dir)/new_testop_$(test_level)
 # ----------------------------------------------------------
 
 # ######################################################################
@@ -865,10 +816,10 @@ $(testop_file) : $(test_program)$(name_addition)
 # Run the test program from the new test system, using the
 # $(Test_tool) and touch the corresponding timestamp file.
 # ----------------------------------------------------------
-$(test_timestamp) : $(new_test_program) | $(test-aux_dir)
+$(test_timestamp) : $(new_test_program) | $(test_aux_dir)
 	$(Test_tool) $(new_test_program) $(test_parameters)
 	touch $(test_timestamp)
-$(testop_timestamp) : $(new_test_program_optimised) | $(test-aux_dir)
+$(testop_timestamp) : $(new_test_program_optimised) | $(test_aux_dir)
 	$(Test_tool) $(new_test_program_optimised) $(test_parameters)
 	touch $(testop_timestamp)
 # ----------------------------------------------------------
@@ -919,8 +870,8 @@ $(dependency_files_c) : $(dependencies_dir)/%.d : $(srcdir)/%.c | $(dependencies
 # for the current module and write it to a dependency
 # file in $(dependencies_dir)
 # ----------------------------------------------------------
-$(test_dependency_files) : $(test-aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(test-aux_dir)
-	$(CXX) -MM -MF $@ -MT $(test-lib_dir)/$*.o -MT $(test-lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
+$(test_dependency_files) : $(test_aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(test_aux_dir)
+	$(CXX) -MM -MF $@ -MT $(test_lib_dir)/$*.o -MT $(test_lib_dir)/$*$(name_addition).o -MT $@ $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -964,7 +915,7 @@ $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
 #
 # Compile unoptimised test object files for the current module.
 # ----------------------------------------------------------
-$(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
+$(test_object_files) : $(test_lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test_lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
@@ -973,7 +924,7 @@ $(test_object_files) : $(test-lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test-l
 #
 # Compile optimised test object files for the current module.
 # ----------------------------------------------------------
-$(test_object_files_optimised) : $(test-lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test-lib_dir)
+$(test_object_files_optimised) : $(test_lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test_lib_dir)
 	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
 # ----------------------------------------------------------
 
@@ -1041,7 +992,7 @@ test_link_libraries := -liberty
 # Link together relevant object files to build the test program
 # for the current module.
 # ----------------------------------------------------------
-$(new_test_program) : $(test-bin_dir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test-bin_dir) $(test-aux_dir)
+$(new_test_program) : $(test_bin_dir)/% : $(test_object_files) $(standard_test_program_object_file) | $(test_bin_dir) $(test_aux_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(General_options) $^ $(alternative_library_path) $(get-link_libraries) $(test_link_libraries)
 # ----------------------------------------------------------
 
@@ -1051,7 +1002,7 @@ $(new_test_program) : $(test-bin_dir)/% : $(test_object_files) $(standard_test_p
 # Link together relevant object files to build the optimised 
 # test program for the current module.
 # ----------------------------------------------------------
-$(new_test_program_optimised) : $(test-bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test-bin_dir) $(test-aux_dir)
+$(new_test_program_optimised) : $(test_bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test_bin_dir) $(test_aux_dir)
 	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-link_libraries_optimised) $(test_link_libraries)
 # ----------------------------------------------------------
 

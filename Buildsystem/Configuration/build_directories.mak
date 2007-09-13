@@ -25,13 +25,13 @@ dvi_dir ?= $(doc_dir)/dvi
 dependencies_dir ?= $(aux_dir)/dependencies
 
 # Directory for all test executables:
-test-bin_dir ?= $(bin_dir)/tests
+test_bin_dir ?= $(bin_dir)/tests
 
 # Directory for current module test object-files:
-test-lib_dir ?= $(lib_dir)/tests/$(module-name)
+test_lib_dir = $(lib_dir)/tests/$(module-name)
 
 # Directory for current module test dependency files:
-test-aux_dir ?= $(aux_dir)/tests/$(module-name)
+test_aux_dir = $(aux_dir)/tests/$(module-name)
 
 # Directory for log-files:
 log_dir ?= $(system_directories)/log
@@ -49,9 +49,9 @@ build_directories = \
                $(dependencies_dir) \
                $(doc_dir) \
                $(doxygen_html_dir) \
-               $(test-bin_dir) \
-               $(test-lib_dir) \
-               $(test-aux_dir) \
+               $(test_bin_dir) \
+               $(test_lib_dir) \
+               $(test_aux_dir) \
                $(local_html_dir) \
                $(internet_html_dir) \
                $(log_dir)
