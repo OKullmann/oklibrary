@@ -1,7 +1,6 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
 special_goals := prebuild
-preparation_goals := createdirs 
 
 local_html_goals := html doxygen_documentation documentation_index
 internet_goals := internet internet_home_page internet_local internet_global
@@ -14,7 +13,7 @@ new_test_targets := new_check
 test_goals :=$(test_files) $(test_targets)
 new_test_goals := $(new_test_phonies) $(new_test_targets)
 
-normal_goals := all $(preparation_goals) unoptimised optimised app_tests documents
+normal_goals := all unoptimised optimised app_tests documents
 
 cleaning_goals := clean cleanobj cleantestobj cleandep cleanprograms cleanall cleantest cleantestop cleanalltests new_cleantest new_cleantestop new_cleanalltests
 
