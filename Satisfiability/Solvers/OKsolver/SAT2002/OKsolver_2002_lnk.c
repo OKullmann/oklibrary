@@ -473,6 +473,9 @@ static enum Ergebniswerte SATEntscheidung( void )
   unsigned int DN, DN2;
   StapeleintragFZ Z;
 
+#ifdef ALLSAT
+  assert(! Belegung);
+#endif
 
 Anfang:
 
@@ -717,7 +720,7 @@ Schleife:
         Verzweigungsliteralausgabe(Huelle[optZweig][! Schalter] -> l, Rekursionstiefe - 1);
 #endif
     }
-  goto Anfang;
+  goto Anfang; // Branching (recursion simulated)
 
 
   nachSAT1 :
@@ -738,14 +741,14 @@ Schleife:
 #ifdef LOKALLERNEN
   Rueckgaengigmachung(SatVar -> Marke);
 #else
-#ifndef BAUMRES
+# ifndef BAUMRES
   do
     {
       Tiefe--;
       rebelege(PfadLit());
     }
   while (Tiefe > SatVar -> altTiefe);
-#else
+# else
   while (--Tiefe > SatVar -> altTiefe)
     rebelege(PfadLit());
   if (rebelege_Verz(PfadLit()))
@@ -757,9 +760,9 @@ Schleife:
       r = SatVar -> Ruecksprung;
       SatVar = SatVar -> davor;
       if (SatVar == NULL) {
-#ifdef OUTPUTTREEDATAXML
+#  ifdef OUTPUTTREEDATAXML
 	EndTreeElement();
-#endif
+#  endif
         return UNSAT;
       }
       if (Monitor)
@@ -770,7 +773,7 @@ Schleife:
         case SAT2 : goto nachSAT2;
         }
     }
-#endif
+# endif
 #endif
 
   /* nun der zweite Zweig */
@@ -825,21 +828,21 @@ Schleife:
 #ifdef LOKALLERNEN
   Rueckgaengigmachung(SatVar -> Marke);
 #else
-#ifndef BAUMRES
+# ifndef BAUMRES
   do
   {
     Tiefe--;
     rebelege(PfadLit());
   }
   while (Tiefe > SatVar -> altTiefe);
-#else
+# else
   while (--Tiefe > SatVar -> altTiefe)
     rebelege(PfadLit());
   if (rebelege_Verz(PfadLit()))
     relVMhinzufuegen();
   else
     VerSingleKnoten++;
-#endif
+# endif
 #endif
   r = SatVar -> Ruecksprung;
   SatVar = SatVar -> davor;
