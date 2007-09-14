@@ -30,7 +30,8 @@ buildsystem_dir=${anchor_dir}/Configuration/..
 
 
 if [[ $1 == "--setup" ]]; then
-  command="make --makefile=${buildsystem_dir}/SetUp.mak"
+  shift
+  command="make --makefile=${buildsystem_dir}/SetUp.mak $*"
   echo ${command}
   ${command}
   exit
