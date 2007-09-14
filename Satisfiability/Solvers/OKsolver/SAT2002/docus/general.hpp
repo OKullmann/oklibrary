@@ -22,6 +22,22 @@
    is found, it is output, while otherwise only the satisfiability status
    is returned. (Internally, <code>ASSIGNMENT</code> is translated yet into
    <code>BELEGUNG</code>.) </li>
+   <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
+   is output into a file, using a simple XML structure and adorning each
+   node with some statistics. </li>
+   <li> If <code>ALLSAT</code> is defined, then all satisfying assignments
+   are found. Currently combination with <code>BAUMRES</code> or
+   <code>ASSIGNMENT</code> is not possible (and thus yet we just
+   count all satisfying assignments.
+    <ul>
+     <li> <code>NSAT_BITS</code> specifies the number of bits for the unsigned
+     int value of the number of satisfying assignments. The default is 64,
+     and it can set to any value supported by your platform. Overflows
+     are not detected, and the number of satisfying assignments is
+     thus only correct modulo 2^<code>NSAT_BITS</code> (however whether
+     the value is 0 or not is correctly reported). </li>
+    </ul>
+   </li>
   </ul>
 
 
