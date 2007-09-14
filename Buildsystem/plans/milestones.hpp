@@ -8,6 +8,9 @@
 
   \par Version 0.2 : THEME is "PROTO-RELEASE"
 
+  \par Buildsystem/ReleaseProcess 0.0.7
+  (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
+  
   \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
@@ -23,9 +26,6 @@
   \par Buildsystem/SourceControl 0.2.2
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
-  \par Buildsystem/ReleaseProcess 0.0.6
-  (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
-  
   \par Buildsystem/MasterScript version 0.0.4 : DONE
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 

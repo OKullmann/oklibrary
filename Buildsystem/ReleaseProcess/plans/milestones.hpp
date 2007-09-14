@@ -9,6 +9,14 @@
   \par Version 0.0.5
 
   \par
+   In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following topics are handled:
+    - General
+    - The script
+
+
+  \par Version 0.0.6
+
+  \par
    In Buildsystem/ReleaseProcess/plans/general.hpp the following topics are handled:
     - Plans-structure review
 
@@ -22,12 +30,8 @@
     - Developers
     - Release plan
 
-  \par
-   In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following topics are handled:
-    - General
 
-
-  \par Version 0.0.6
+  \par Version 0.0.7
 
   \par
    In Buildsystem/ReleaseProcess/plans/MailingLists.hpp the following topics are handled:
@@ -38,10 +42,6 @@
    In Buildsystem/ReleaseProcess/plans/Release.hpp the following topics are handled:
     - Special tag
     - ExternalSources repository
-
-  \par
-   In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following topics are handled:
-    - The script
 
   \par
    In Buildsystem/ReleaseProcess/plans/README.hpp the following topics are handled:

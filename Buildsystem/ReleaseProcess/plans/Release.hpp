@@ -23,7 +23,7 @@ RELEASE_OKlib_0.1.6_31072007
 
   \todo Distributing the library
   <ul>
-   <li> Synchronise the following with "The script" in Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp. </li>
+   <li> Synchronise the following with "The script" in Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp. The remainder of this todo is out-of-date. </li>
    <li> Download possibilities:
    <ol>
     <li> The whole library (with all included libraries like Boost, doxygen, PostgreSQL etc.). </li>
