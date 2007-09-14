@@ -1,6 +1,6 @@
 # Oliver Kullmann, 14.4.2005 (Swansea)
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 .SUFFIXES :
 
 # The oklib-masterscript defines OKplatform.

@@ -1,6 +1,6 @@
 # Recursive makefile, to invoke the makefiles for the modules in the OKlibrary
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 .SUFFIXES :
 
 define last-element

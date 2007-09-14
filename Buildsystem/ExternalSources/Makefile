@@ -1,4 +1,8 @@
-SHELL = /bin/sh
+# Oliver Kullmann, 13.6.2005 (Swansea)
+
+# Master makefile for building external sources
+
+SHELL = /bin/bash
 .SUFFIXES :
 
 # The oklib-masterscript defines OKplatform.

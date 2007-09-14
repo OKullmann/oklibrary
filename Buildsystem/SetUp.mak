@@ -3,6 +3,9 @@
 # Special makefile for setting up the basic system; does not depend on
 # other makefiles
 
+SHELL = /bin/bash
+.SUFFIXES :
+
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)

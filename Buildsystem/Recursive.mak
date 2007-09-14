@@ -1,6 +1,6 @@
 # Oliver Kullmann, 10.4.2005 (Swansea)
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 .SUFFIXES :
 
 # This makefile is only to be invoked by other makefiles.

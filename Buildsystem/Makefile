@@ -1,6 +1,6 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 .SUFFIXES :
 
 # Special makefile for preparing the buildsystem

@@ -2,7 +2,7 @@
 
 # Recursive makefile, to invoke the makefiles for annotations and the OKlibrary
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 .SUFFIXES :
 
 # The oklib-masterscript defines OKplatform.
