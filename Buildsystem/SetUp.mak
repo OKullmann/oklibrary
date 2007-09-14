@@ -30,11 +30,13 @@ ifndef oklib_call
 endif
 
 
-.PHONY : all oklibrary_initialisation
+.PHONY : all oklibrary_initialisation set_link
 
-all : oklibrary_initialisation
+all : oklibrary_initialisation set_link
 
-oklibrary_initialisation : $(OKanchor) $(OKconfiguration) $(OKoverrideconfig) $(oklib_call) $(OKlog)
+oklibrary_initialisation : $(OKanchor) $(OKconfiguration) $(OKoverrideconfig) $(OKlog)
+
+set_link :  $(oklib_call)
 
 $(OKanchor) :
 	mkdir $(OKanchor)
