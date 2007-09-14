@@ -6,7 +6,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1
+version=0.1.0.1
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -43,6 +43,15 @@ if [[ $1 == "--prebuild" ]]; then
   ${command}
   exit
 fi
+
+if [[ $1 == "--create-package" ]]; then
+  shift
+  command="make --makefile=${buildsystem_dir}/ReleaseProcess/Makefile $*"
+  echo ${command}
+  ${command}
+  exit
+fi
+
 
 oklib_building_log=${anchor_dir}/log/OKlibBuilding
 external_sources_log=${anchor_dir}/log/ExternalSources

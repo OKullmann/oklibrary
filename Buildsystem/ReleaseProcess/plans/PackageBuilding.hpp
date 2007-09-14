@@ -100,7 +100,8 @@ OKlib_0.1.6_31072007
    Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
    <li> Name of this Bash script: "CreatePackage". </li>
    <li> The script is invoked by oklib, and thus all configuration data
-   is available via the environment. </li>
+   is available via the environment --- but for this another
+   makefile ReleaseProcess/Makefile is needed. </li>
    <li> Syntax "oklib --create-package"; all further parameters are passed to
    CreatePackage. </li>
    <li> Main steps for the full package:

@@ -22,6 +22,7 @@ include $(OKconfiguration)/ExternalSources/all.mak
 include $(OKconfiguration)/build_directories.mak
 include $(OKconfiguration)/build_data.mak
 include $(OKconfiguration)/macro_replacement.mak
+include $(OKconfiguration)/ReleaseProcess/data.mak
 
 include $(OKconfiguration)/ExternalSources/tests.mak
 
