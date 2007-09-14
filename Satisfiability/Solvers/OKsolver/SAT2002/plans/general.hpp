@@ -10,19 +10,6 @@
   <ul>
    <li> MJHH made the request, that the OKsolver can continue
    after a solution was found (and thus can find all solutions). </li>
-   <li> So another "#ifdef" needs to be introduced:
-    <ol>
-     <li> Macro ALLSAT if set means all satisfying assignments will
-     be determined; default is unset. </li>
-     <li> If ALLSAT is set then macro NSAT_BITS determines in the
-     number N of bits in type uint_fastN_t (obtained by conditional
-     inclusion of stdint.h). "nsat_t" is a typedef for this type. </li>
-     <li> Default value of NSAT_BITS is 64. </li>
-     <li> Variable nsat of type nsat_t counts satisfying assignments. </li>
-     <li> Can we determine overflow? </li>
-     <li> This would be easier with an int type? </li>
-    </ol>
-   </li>
    <li> The easiest (and most natural) way seems to be to treat a
    satisfying assignment found just as a falsifying assignment:
     <ol>
@@ -40,7 +27,62 @@
      assignment was forced. </li>
     </ol>
    </li>
-   <li> Interaction with option BELEGUNG
+   <li> All places need to be identified where a solution
+   can be found:
+    <ol>
+     <li> The global variable "erfuellt" (declared in
+     Solvers/OKsolver/SAT2002/Filter.h) communicates wether the "filter"
+     found the formula satisfiable. </li>
+     <li> There is only one place, the loop in
+     OKsolver/SAT2002/OKsolver_2002_lnk.c over all variables, where "erfuellt"
+     is used, and where a satisfying assignment can be found. </li>
+     <li> Currently in case the filter found a satisfying assignment,
+     the assignment is actually applied (the filter uses a lazy
+     data structure to perform assignments, without actually changing
+     the formula). Why is this needed?? The comment says it is needed
+     for the output?
+      <ol>
+       <li> The reason is simply convenience: The satisfying assignment
+       is split in the current working assignment and the look-ahead
+       assignment, and by applying the look-ahead assignment we have
+       everything "in one place". </li>
+       <li> This hack should be eliminated, and the function for outputting
+       the satisfying assignment should just accept to partial assignments
+       as input. </li>
+      </ol>
+     </li>
+     <li> Now the problem is the simulation of the recursion:
+      <ol>
+       <li> The question is whether we are in branch 1 or in branch 2. </li>
+       <li> If in branch 1, then we should go to label nachSAT1, however without
+       undoing the branching, that is, we go directly to the second branch. </li>
+       <li> If in branch 2, then we go to label nachSAT2, however
+       without undoing the branching; and also the output "UNSAT" at
+       the root must be prevented. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> With the new option "ALLSAT" in principle we have another
+   factor of 2 for the test cases. There is no way out, must be done. </li>
+   <li> DONE
+   So another "#ifdef" needs to be introduced:
+    <ol>
+     <li> Macro ALLSAT if set means all satisfying assignments will
+     be determined; default is unset. </li>
+     <li> If ALLSAT is set then macro NSAT_BITS determines in the
+     number N of bits in type uint_fastN_t (obtained by conditional
+     inclusion of stdint.h). "nsat_t" is a typedef for this type. </li>
+     <li> Default value of NSAT_BITS is 64. </li>
+     <li> Variable nsat of type nsat_t counts satisfying assignments. </li>
+     <li> DONE (yet we only count in modular arithmetic)
+     Can we determine overflow? </li>
+     <li> DONE (ignored yet)
+     This would be easier with an int type? </li>
+    </ol>
+   </li>
+   <li> DONE (first excluded; to be done later)
+   Interaction with option BELEGUNG
     <ol>
      <li> Hopefully only function AusgabeBelegung needs to be called
      additionally. </li>
@@ -55,40 +97,14 @@
      </li>
     </ol>
    </li>
-   <li> Interaction with option BAUMRES
+   <li> DONE (first excluded; to be done later)
+   Interaction with option BAUMRES
     <ol>
      <li> As soon as one satisfying assignment was found, then
      above that point tree pruning is turned off. </li>
      <li> Perhaps easiest by using a null pointer. </li>
     </ol>
    </li>
-   <li> First all places need to be identified where a solution
-   can be found:
-    <ol>
-     <li> The global variable "erfuellt" (declared in
-     Solvers/OKsolver/SAT2002/Filter.h) communicates wether the "filter"
-     found the formula satisfiable. </li>
-     <li> There seems to be only one place, the loop in
-     OKsolver/SAT2002/OKsolver_2002_lnk.c over all variables, where "erfuellt"
-     is used, and where a satisfying assignment can be found. </li>
-     <li> Currently in case the filter found a satisfying assignment,
-     the assignment is actually applied (the filter uses a lazy
-     data structure to perform assignments, without actually changing
-     the formula). Why is this needed?? The comment says it is needed
-     for the output? </li>
-      <ol>
-       <li> The reason is simply convenience: The satisfying assignment
-       is split in the current working assignment and the look-ahead
-       assignment, and by applying the look-ahead assignment we have
-       everything "in one place". </li>
-       <li> This hack should be eliminated, and the function for outputting
-       the satisfying assignment should just accept to partial assignments
-       as input. </li>
-      </ol>
-    </ol>
-   </li>
-   <li> With the new option "ALLSAT" in principle we have another
-   factor of 2 for the test cases. There is no way out, must be done. </li>
   </ul>
 
 
