@@ -49,19 +49,19 @@
     </ol>
    </li>
    <li> Similar for .c-files. </li>
-   <li> Every .cpp-file has a .source_libraries file (if needed), a
-   .link_libraries and .link_libraries_optimised file (if needed),
-   and a .compile_options and a .compile_options_optimised file
-   (if needed).
+   <li> Customisation of compiler and linker options:
     <ol>
      <li> The link-libraries for a .cpp-file with %main() are collected from
      the link-libraries of the .cpp-files linked to it,
      and from the link-library-file for this .cpp-file itself. </li>
      <li> The (recursive) make-variable source_libraries is kept,
-  predefined as "$(OKSystem_include) $(Boost_include)" (potentially
-  changed in the locale definitions-makefile): If file .source_libraries
-  exists, then it overrides "$(source_libraries)".
-  </li>
+     predefined as "$(OKSystem_include) $(Boost_include)" (potentially
+     changed in the locale definitions-makefile): If file .source_libraries
+     exists, then it overrides "$(source_libraries)". </li>
+     <li Every .cpp-file has a .source_libraries file (if needed). </li>
+     <li> DONE : Every .cpp-file has a .link_libraries and
+     .link_libraries_optimised file (if needed), and a .compiler_options
+     and a .compiler_options_optimised file (if needed). </li>
     </ol>
    </li>
    <li> What to do with the unoptimised and the optimised versions?
