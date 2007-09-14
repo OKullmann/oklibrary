@@ -6,43 +6,6 @@
   old OKsolver
 
 
-  \todo Set up basic testing for main variants : DONE
-  <ul>
-   <li> DONE The main options are:
-    <ol>
-     <li> BELEGUNG (for the output of a partial assignment) </li>
-     <li> BAUMRES (for the tree pruning) in two variants:
-      <ol>
-       <li> With NLITTAB. </li>
-       <li> Without NLITTAB. </li>
-      </ol>
-     </li>
-    </ol>
-    This makes 6 variants which should be compiled and tested:
-     <ol>
-      <li> OKsolver_2002 </li>
-      <li> OKsolver_2002_NLT (no littab) </li>
-      <li> OKsolver_2002_NTP (no tree pruning) </li>
-      <li> OKsolver_2002_osa (output satisfying assignment) </li>
-      <li> OKsolver_2002_NLT_osa </li>
-      <li> OKsolver_2002_NTP_osa </li>
-     </ol>
-     This multiplied with 2 for unoptimised/optimised. So we need to
-     distinguish the levels "basic, full, extended" for the application
-     tests! ("basic" doesn't run the one test which takes a few second,
-     "full" does). The test level is available in make-variable
-     "test_level", with values "basic, full, extensive".
-   </li>
-   <li> The compilation of different variants could be handled
-   by creating files with the corresponding names to be created,
-   making them symbolic links to the main program, while
-   the compiler-options are set special for each of these variants.
-   DONE (principal scheme works)
-   </li>
-   <li> Enable the test-program to distinguish the test-levels. DONE </li>
-  </ul>
-
-
   \todo Enable finding all solutions
   <ul>
    <li> MJHH made the request, that the OKsolver can continue
