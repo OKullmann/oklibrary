@@ -875,12 +875,34 @@ $(test_dependency_files) : $(test_aux_dir)/%.d : $(testobjects-dir)/%.cpp | $(te
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
+# get-options
+#
+# If the current module contains a file 
+# target.compiler_options then echo the contents
+# of this file.
+# ----------------------------------------------------------
+define get-options
+$$(if [[ -e $(srcdir)/$*.compiler_options ]]; then $(srcdir)/$*.compiler_options; fi)
+endef
+# ----------------------------------------------------------
+# get-options_optimised
+#
+# If the current module contains a file 
+# target.compiler_options_optimised then echo the 
+# contents of this file, otherwise try the unoptimised versions.
+# ----------------------------------------------------------
+define get-options_optimised
+$$(if [[ -e $(srcdir)/$*.compiler_options_optimised ]]; then $(srcdir)/$*.compiler_options_optimised; else if [[ -e $(srcdir)/$*.compiler_options ]]; then $(srcdir)/$*.compiler_options; fi; fi)
+endef
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
 # $(object_files_cpp_optimised)
 #
 # Compile optimised C++ object files for the current module.
 # ----------------------------------------------------------
 $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp | $(lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(get-options_optimised) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -889,7 +911,7 @@ $(object_files_cpp_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.cpp
 # Compile unoptimised C++ object files for the current module.
 # ----------------------------------------------------------
 $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(get-options) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -898,7 +920,7 @@ $(object_files_cpp) : $(lib_dir)/%.o : $(srcdir)/%.cpp | $(lib_dir)
 # Compile optimised C object files for the current module.
 # ----------------------------------------------------------
 $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CFLAGS) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CFLAGS) $(get-options_optimised) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -907,7 +929,7 @@ $(object_files_c_optimised) : $(lib_dir)/%$(name_addition).o : $(srcdir)/%.c | $
 # Compile unoptimised C object files for the current module.
 # ----------------------------------------------------------
 $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
-	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(General_options) $(CPPFLAGS) $(CFLAGS) $(source_libraries) $<
+	$(Compile_tool) $(CC) -c -o $@ $(Standard_options_c) $(Warning_options) $(General_options) $(CPPFLAGS) $(CFLAGS) $(get-options) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -916,7 +938,7 @@ $(object_files_c) : $(lib_dir)/%.o : $(srcdir)/%.c | $(lib_dir)
 # Compile unoptimised test object files for the current module.
 # ----------------------------------------------------------
 $(test_object_files) : $(test_lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test_lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(General_options) $(CPPFLAGS) $(CXXFLAGS) $(get-options) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -925,14 +947,14 @@ $(test_object_files) : $(test_lib_dir)/%.o : $(testobjects-dir)/%.cpp | $(test_l
 # Compile optimised test object files for the current module.
 # ----------------------------------------------------------
 $(test_object_files_optimised) : $(test_lib_dir)/%$(name_addition).o : $(testobjects-dir)/%.cpp | $(test_lib_dir)
-	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(source_libraries) $<
+	$(Compile_tool) $(CXX) -c -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $(CPPFLAGS) $(CXXFLAGS) $(get-options_optimised) $(source_libraries) $<
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
 # get-link-libraries      
 #
 # If the current module contains a file 
-# Module.link_libraries then echo the contents
+# target.link_libraries then echo the contents
 # of this file, otherwise echo the Make variable
 # $(link_libraries).
 # ----------------------------------------------------------
@@ -940,14 +962,12 @@ define get-link_libraries
 $$(if [[ -e $(srcdir)/$*.link_libraries ]]; then $(srcdir)/$*.link_libraries; else echo $(link_libraries); fi)
 endef
 # ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # get-link-libraries_optimised
 #
 # If the current module contains a file 
-# Module.link_libraries_optimised then echo the 
-# contents of this file, otherwise echo the Make 
-# variable $(link_libraries).
+# target.link_libraries_optimised then echo the 
+# contents of this file, otherwise fall back to
+# the unoptimised version.
 # ----------------------------------------------------------
 define get-link_libraries_optimised
 $$(if [[ -e $(srcdir)/$*.link_libraries_optimised ]]; then $(srcdir)/$*.link_libraries_optimised; else if [[ -e $(srcdir)/$*.link_libraries ]]; then $(srcdir)/$*.link_libraries; else echo $(link_libraries); fi; fi)
