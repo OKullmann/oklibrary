@@ -28,7 +28,12 @@ for S in ${list_solvers}; do
   for P in ${list_test_cases}; do
     echo ${S} ${P};
     output=$(${S} ${P});
-    template=$(dirname ${P})/dimacs_output/$(basename ${P} .cnf);
+    case ${S} in
+    *_osa*) template=$(dirname ${P})/dimacs_output/osa/$(basename ${P} .cnf)
+        ;;
+    *) template=$(dirname ${P})/dimacs_output/$(basename ${P} .cnf)
+        ;;
+    esac
     echo ${output} | ${match_tool} ${template};
     result=$?;
     if [[ ${result} != 0 ]]; then
