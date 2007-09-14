@@ -649,7 +649,7 @@ void InitVarLitKlm(void) {
   extern VarMenge aktrelV;
   LITV x = F;
   for (unsigned int i = 0; i < L; ++x, ++i) {
-    Var v = Var(LitVk(x)); VarMenge M = VarK(KlnVk(x));
+    const VAR v = Var(LitVk(x)); const VarMenge M = VarK(KlnVk(x));
     assert(M + (VPosition(v) - aktrelV));
     *(M + (VPosition(v) - aktrelV)) |= VMaske(v);
   }
