@@ -10,10 +10,17 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Enable finding all solutions
+    - Set up basic testing for main variants : DONE
 
 
   \par Version 0.9.3
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Enable finding all solutions
+
+
+  \par Version 0.9.4
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
@@ -21,35 +28,35 @@
     - Language standards
 
 
-  \par Version 0.9.4
+  \par Version 0.9.5
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Buildsystem
 
 
-  \par Version 0.9.5
+  \par Version 0.9.6
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Complete the help facilities of the OKsolver
 
 
-  \par Version 0.9.6
+  \par Version 0.9.7
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Add doxygen-documentation
 
 
-  \par Version 0.9.7
+  \par Version 0.9.8
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Write docus-pages
 
 
-  \par Version 0.9.8
+  \par Version 0.9.9
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
@@ -106,7 +113,7 @@
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Correct counting
+    - Correct computation of basic statistics
 
 
 
