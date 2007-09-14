@@ -24,5 +24,20 @@
    <code>BELEGUNG</code>.) </li>
   </ul>
 
+
+  <h2> Precompiled programs </h2>
+
+  The optimised version of a program has the optimisation options
+  in the name. The following programs are created (in both versions,
+  unoptimised and optimised), as usual in <code>$(bin_dir)</code>:
+  <ol>
+   <li> <code>OKsolver_2002</code> </li>
+   <li> <code>OKsolver_2002_NTP</code> (no tree pruning) </li>
+   <li> <code>OKsolver_2002_NLT</code> (tree pruning needs more space, but is faster) </li>
+   <li> <code>OKsolver_2002_osa</code> (outputs satisfying assignments) </li>
+   <li> <code>OKsolver_2002_NTP_osa</code> </li>
+   <li> <code>OKsolver_2002_NLT_osa</code> </li>
+  </ol>
+
 */
 
