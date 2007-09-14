@@ -23,8 +23,36 @@
     </ol>
    </li>
    <li> Also a ((semi-)automatical) e-mail to the notification list. </li>
-   <li> DONE (basic ideas are clear now; text needs to be transferred to full
-   documentation)
+   <li> Package meta-data:
+    <ol>
+     <li> In Configuration/ReleaseProcess we have the file "ReleaseHistory"
+     with line-records of the form
+     \verbatim
+running-number version date SHA md5sum
+     \endverbatim
+     where
+      <ol>
+       <li> running number of left-padded with 5 digits (starting with "00001"), </li>
+       <li> version is the respective value of make-variable "transitional_version", </li>
+       <li> date is the respective value of make-variable "current_date", </li>
+       <li> SHA is given by
+       \verbatim
+git log HEAD | head -1 | cut --fields=2 --delimiter=" "
+       \verbatim
+       </li>
+       <li> md5sum is the md5sum of the finalised package. </li>
+      </ol>
+     </li>
+     <li> The package name is for example
+     \verbatim
+OKlibrary-0.2.0.0_00001.tar.bz2
+     \verbatim
+     (we need the running number, since many packages will be created,
+     and this is clearest to distinguish packages, and to decide which
+     is later). </li>
+    </ol>
+   </li>
+   <li> DONE (basic ideas are clear now; updated above)
    Packages are called like
    \verbatim
 OKlibrary-0.2.0.8
@@ -71,20 +99,44 @@ OKlib_0.1.6_31072007
    <li> Synchronise the following with "Distributing the library" in
    Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
    <li> Name of this Bash script: "CreatePackage". </li>
+   <li> The script is invoked by oklib, and thus all configuration data
+   is available via the environment. </li>
+   <li> Syntax "oklib --create-package"; all further parameters are passed to
+   CreatePackage. </li>
    <li> Main steps for the full package:
     <ol>
-     <li> mkdir OKplatform etc. </li>
-     <li> Copy the user-clone. </li>
-     <li> Copy external sources. </li>
-     <li> Copy documents. </li>
-     <li> Run Buildsystem/Makefile (for setup). </li>
-     <li> oklib --prebuild </li>
-     <li> oklib html </li>
+     <li> In the current system_directories, create a package directory called for example
+     "OKlibrary-0.2.0.0-000001" (extracting first the current version number,
+     and incrementing the running number of the last entry in ReleaseHistory). </li>
+     <li> In the package directory (pd) do
+          mkdir OKplatform OKplatform/OKsystem OKplatform/system_directories
+          OKplatform/ExternalSources </li>
+     <li> Make a clone of the current repository in pd:OKplatform/OKsystem.
+      <ol>
+       <li> What kind of clone? Does it have the address of the mother-clone inside? </li>
+       <li> It seems that
+       \verbatim
+git clone --no-hardlinks ${Transitional}
+       \endverbatim
+       should be reasonable; we have then always a clone of the working repository. </li>
+       <li> As a parameter one can pass an argument to option "--origin", to specify
+       a different repository as the "upstream" repository (to pull from). </li>
+       <li> And another parameter makes it possible to clone from a different repository. </li>
+      </ol>
+     </li>
+     <li> Copy ExternalSources/sources to pd:ExternalSources. </li>
+     <li> Copy OKsystem/documents to pd:OKsystem. </li>
+     <li> Run pd:Buildsystem/SetUp.mak with target oklibrary_initialisation and with
+     OKplatform set. </li>
+     <li> pd:oklib --prebuild </li>
+     <li> pd:oklib html </li>
+     <li> Create a symbolic link in pd:OKplatform to pk:oklib. </li>
+     <li> Create the current README-file in pd:OKplatform; this contains the information
+     that one can perform "oklib --setup" to create the link to oklib. </li>
      <li> Compress. </li>
+     <li> Create log-entry in file ReleaseHistory. </li>
     </ol>
    </li>
-   <li> For this to work we need to make the internal url's relative.
-   See "Install configuration system" in Buildsystem/Html/plans/general.hpp. </li>
    <li> So a complete package comes with documentation, and for the rest
    the standard build system can be used (no need for additional makefiles).
    However, there should be additional targets for the oklib-masterscript
@@ -96,6 +148,8 @@ OKlib_0.1.6_31072007
      <li> "doc" only with the documentation. </li>
     </ol>
    </li>
+   <li> DONE For this to work we need to make the internal url's relative.
+   See "Install configuration system" in Buildsystem/Html/plans/general.hpp. </li>
   </ul>
 
 */
