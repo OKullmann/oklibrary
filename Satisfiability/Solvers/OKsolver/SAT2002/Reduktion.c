@@ -512,11 +512,12 @@ __inline__ char Reduktion1( void ) {
 #endif
         const LIT v1 = Literal(v,Neg);
         if (RundeL(v1) <= Reduktionsrunde) {
-          if (La_Huelle(v1) == false) {
+          if (La_Huelle(v1) == false)
             /* auch Huelle[ v -> 1 ] ergab leere Klausel */
 #ifndef BAUMRES
             return 2; /* UNSAT */
 #else
+          {
             hinzufuegenS();
             return 2; /* UNSAT */
           }
