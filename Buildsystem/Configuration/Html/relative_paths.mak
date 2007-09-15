@@ -22,7 +22,7 @@ rel_aims_accu2006_talk_location := $(shell $(rel_path_tool) $(accu2006_talk_loca
 rel_history_epsrc_faststream_pdf_location := $(shell $(rel_path_tool) $(epsrc_faststream_pdf_location) $(history_page_output))
 rel_history_epsrc_6finalreport_pdf_location := $(shell $(rel_path_tool) $(epsrc_6finalreport_pdf_location) $(history_page_output))
 rel_history_epsrc_finalreport_pdf_location := $(shell $(rel_path_tool) $(epsrc_finalreport_pdf_location) $(history_page_output))
-
+rel_history_release_history := $(shell $(rel_path_tool) $(release_history) $(history_page_output))
 
 # From the external sources page:
 rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
