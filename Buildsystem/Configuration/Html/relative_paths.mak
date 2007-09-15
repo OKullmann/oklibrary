@@ -6,8 +6,9 @@
 
 # It is assumed here that all relevant make-variables got their values now.
 
-rel_path_tool ?= $(bin_dir)/PathDifference-O3-DNDEBUG
-rel_path_tool_debug ?= $(bin_dir)/PathDifference
+rel_path_tool_dir ?= $(bin_dir)
+rel_path_tool ?= $(rel_path_tool_dir)/PathDifference-O3-DNDEBUG
+rel_path_tool_debug ?= $(rel_path_tool_dir)/PathDifference
 
 # From the local home page:
 rel_lindex_OKlibrary_html_documentation_index_location := $(shell $(rel_path_tool) $(OKlibrary_html_documentation_index_location) $(local_home_page_output))
