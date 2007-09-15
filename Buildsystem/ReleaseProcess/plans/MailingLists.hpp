@@ -74,6 +74,19 @@
   </ul>
 
 
+  \todo Instructions:
+  A dedicated weg-page is needed on howto use the mailing-lists
+  <ul>
+   <li> The meaning of the different mailing lists, and how to use them
+   (registration etc.) </li>
+   <li> How to access the history. </li>
+   <li> About the identity of developers. </li>
+   <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
+   like "newbie needs help". </li>
+   <li> "How to reply". </li>
+  </ul>
+
+
   \todo User mailing list
   <ul>
   <li> Invite the participants (roughly in the following order --- slowly going on):
@@ -139,19 +152,6 @@
    adding this text.
   </li>
   <li> Only by invitation (yet). </li>
-  </ul>
-
-
-  \todo Instructions:
-  A dedicated weg-page is needed on howto use the mailing-lists
-  <ul>
-   <li> The meaning of the different mailing lists, and how to use them
-   (registration etc.) </li>
-   <li> How to access the history. </li>
-   <li> About the identity of developers. </li>
-   <li> Subject-lines in e-mails: "precise and short specifications", no nonsense
-   like "newbie needs help". </li>
-   <li> "How to reply". </li>
   </ul>
 
 */

@@ -3,7 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.6.2 (6.9.2007)
+  \module_version Buildsystem 0.1.6.3 (15.9.2007)
 
 
   \par Version 0.2 : THEME is "PROTO-RELEASE"

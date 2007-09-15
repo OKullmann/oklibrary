@@ -7,110 +7,6 @@
   The special aspect of package building is treated in Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp
 
 
-  \todo Special tag
-  <ul>
-   <li> A special Git-tag for a release should be created? </li>
-   <li> Or is it identical with a new version of the library? </li>
-   <li> The special tag should be a "full tag", with signature etc. </li>
-   <li> Text of the tag perhaps
-   \verbatim
-RELEASE_OKlib_0.1.6_31072007
-   \endverbatim
-   (compare package-names in Buildsystem/plans/PackageBuilding.hpp). </li>
-   <li> Compare with "Tagging" in Buildsystem/SourceControl/plans/general.hpp. </li>
-  </ul>
-
-
-  \todo Distributing the library : DONE
-  <ul>
-   <li> DONE (first version of the script completed)
-   Synchronise the following with "The script" in Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp. The remainder of this todo is out-of-date. </li>
-   <li> DONE (we have three download possibilities: minimal, full, and with external sources)
-   Download possibilities:
-   <ol>
-    <li> The whole library (with all included libraries like Boost, doxygen, PostgreSQL etc.). </li>
-    <li> Only the minimum. </li>
-    <li> In both cases with or without the documentation preinstalled. </li>
-    <li> Or perhaps, easier, always with the documentation installed? Currently (17.6.2007)
-    the doc-directory is 46 MB, and the .gz-archive is 6.9 MB. </li>
-   </ol>
-   </li>
-   <li> DONE (the minimal thing we provide is a clone --- this emphasises the character of
-   the library as "active")
-   This gives two user types: "full user" and "minimal user".
-   We must make sure, that also the minimal user can use the test and the complexity system
-   (compiling it himself, or using the build system). And we must study, how a full user can keep his
-   file structure separate from the library by using links. Of course, easier is not to make
-   the distinction, but always to supply the full clone (with additionally the documentation
-   preinstalled, so that nothing needs to be run or compiled) ?!
-   </li>
-   <li> DONE (there is no special "building of the library", just the build system for external sources)
-   Build stages:
-   <ol>
-    <li> The package is just a clone of the (complete) repository (containing the full
-    tree with root "OKplatform"); since we do not want to suppose non-standard
-    software to be installed, in directory OKplatform a simple makefile is to found,
-    which then can start the build process. Perhaps this makefile is one that is
-    created by CMake?! What is the functionality:
-    <ol>
-     <li> Building all necessary external software. </li>
-     <li> Running "prebuild" for the OKlibrary. </li>
-    </ol>
-    So perhaps there is a configuration step, asking for each external library, whether
-    <ol>
-     <li> a local build </li>
-     <li> a global build </li>
-     <li> no build (but using a preinstalled version) </li>
-     <li> "don't know" (the build system shall find out) </li>
-    </ol>
-    is wished, and then all is build. However, it seems, that the configuration step
-    is the responsibility of cmake, and not part of the created makefile-functionality?
-    </li>
-    <li> DONE (there is no cmake (at least not in the near future))
-    So perhaps the OKplatform-makefile just creates the cmake-executables, if wished,
-    and otherwise the user is to run the cmake-process? Then perhaps the cmake-building
-    makefile is to be found in a subdirectory, only invoked if needed. </li>
-   </ol>
-   </li>
-   <li> DONE (there is no "secret research")
-   A major problem is how to filter out the "secret" parts.
-    <ol>
-     <li> Hopefully with "git-submodule" we can create sub-repositories
-     (see Buildsystem/SourceControl/plans/general.hpp). </li>
-     <li> Likely critical are only the plans-directories. The simplest measure is to
-     create a sub-module without the plans-directories. And for special users we add then
-     appropriate plans-directories. </li>
-     <li> See "Research sub-modules" in Transitional/plans/general.hpp. </li>
-     <li> Seems to be solved by simply not separating out the "secret research". </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Improved releases
-  <ul>
-   <li> What kind of clones does the user get?
-    <ol>
-     <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
-     described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
-    </ol>
-   </li>
-   <li> How user can update:
-    <ol>
-     <li> The simplest category of user only uses the releases (the packages; see
-     "Package construction script" below). </li>
-     <li> An "active user" has pull-access to the dedicated user-clone. </li>
-     <li> Finally a user can become a "developer" (see "Developers" below). </li>
-    </ol>
-    Perhaps the dedicated user-clone is only updated "every few days".
-   </li>
-   <li> How can we create special "views" for the users? They should be able to register
-   for modules or subjects, and then get commit-notifications related to those modules.
-   Sending them also the patches? Or the new files??
-   </li>
-  </ul>
-
-
   \todo Developers
   <ul>
    <li> Different types of developers:
@@ -143,6 +39,44 @@ RELEASE_OKlib_0.1.6_31072007
   <ul>
    <li> In cs-oksvr:/work/Repositories/ExternalSources_recommended we store the (currently) recommended
    versions. We need then (likely under Configuration) a "database" with md5sum-results. See Buildsystem/plans/Configuration.hpp. </li>
+  </ul>
+
+
+  \todo Special tag
+  <ul>
+   <li> A special Git-tag for a release should be created? </li>
+   <li> Or is it identical with a new version of the library? </li>
+   <li> The special tag should be a "full tag", with signature etc. </li>
+   <li> Text of the tag perhaps
+   \verbatim
+RELEASE_OKlib_0.1.6_31072007
+   \endverbatim
+   (compare package-names in Buildsystem/plans/PackageBuilding.hpp). </li>
+   <li> Compare with "Tagging" in Buildsystem/SourceControl/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Improved releases
+  <ul>
+   <li> What kind of clones does the user get?
+    <ol>
+     <li> One master-user-clone is created on cs-oksvr, and the users get clones of it as
+     described in "Copied clones which know how to connect" in Buildsystem/plans/VersionControl.hpp. </li>
+    </ol>
+   </li>
+   <li> How user can update:
+    <ol>
+     <li> The simplest category of user only uses the releases (the packages; see
+     "Package construction script" below). </li>
+     <li> An "active user" has pull-access to the dedicated user-clone. </li>
+     <li> Finally a user can become a "developer" (see "Developers" below). </li>
+    </ol>
+    Perhaps the dedicated user-clone is only updated "every few days".
+   </li>
+   <li> How can we create special "views" for the users? They should be able to register
+   for modules or subjects, and then get commit-notifications related to those modules.
+   Sending them also the patches? Or the new files??
+   </li>
   </ul>
 
 */
