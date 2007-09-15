@@ -41,8 +41,26 @@
 
   <ul>
    <li> <code>--version</code> </li>
-   <li> <code>--setup</code> </li>
-   <li> <code>--prebuild</code> </li>
+   <li> <code>--setup</code> calls the set-up makefile with trailing arguments
+   (creating the .oklib-directory at OKplatform-level) .</li>
+   <li> <code>--prebuild</code> (creation of directories and placement of
+   makefile-links). </li>
+   <li> <code>--create-package</code> calls the ReleaseProcess makefile
+   with trailing arguments, creating a package in as given by packages_dir
+   (current value is <code>${packages_dir}</code>) including documentation,
+   and a full package including the external sources.
+
+   <p></p> Special settings (supplied as parameters) are:
+    <ol>
+     <li> With <code>git_repository=R</code> repository R (possibly
+     remote) is cloned instead of the current repository. </li>
+     <li> With <code>git_upstream=R</code> repository R (possibly
+     remote) is stated as mother-clone (to be pulled from) instead
+     of the current repository. </li>
+     <li> With <code>ExternalSources=""</code> the additional creation
+     of the full package (including external sources) is disabled. </li>
+    </ol>
+   </li>
   </ul>
 
   Otherwise all targets are delegated to the respective makefiles.

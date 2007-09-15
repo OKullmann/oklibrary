@@ -6,7 +6,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.1
+version=0.1.0.2
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
