@@ -1,22 +1,24 @@
 #!/bin/bash
 # Oliver Kullmann, 14.9.2007
 
+set -o errexit -o nounset -o xtrace
+
 if [ ! -d ${packages_dir} ]; then mkdir ${packages_dir}; fi
 
 if [ -s ${release_history} ]; then
-  counter=$(printf "%.5d" $(($(head -1 ${release_history} | cut --fields=1 --delimiter=" ") + 1)))
+  counter=$(printf "%.5d" $(($(tail -1 ${release_history} | cut --fields=1 --delimiter=" ") + 1)))
 else
   counter=00001
 fi
 
 package_name="OKlibrary-${transitional_version}_${counter}"
 package_directory=${packages_dir}/${package_name}
+package_OKplatform=${package_directory}/OKplatform
 
 if [ -e ${package_directory} ]; then
   echo "ERROR[CreatePackage]: There is already ${package_directory} !"
   exit 1
 fi;
-
 mkdir ${package_directory}
 cd ${package_directory}
 
@@ -26,26 +28,58 @@ mkdir OKplatform/ExternalSources
 
 cd OKplatform/OKsystem
 
-if [ "${git_upstream}" != "" ]; then
+if [ ${git_upstream:+1} ]; then
   git_origin="--option ${git_upstream}"
 else
   git_origin=""
 fi
-
 git clone --no-hardlinks ${git_origin} ${git_repository}
 
-cd ..
+cp -r ${documents_dir} .
+
+cd .. # in OKplatform now
+
+env -i PATH=${PATH} make -f OKsystem/Transitional/Buildsystem/SetUp.mak OKplatform=${package_OKplatform} oklibrary_initialisation
+ln -s OKsystem/Transitional/Buildsystem/MasterScript/oklib
+env -i PATH=${PATH} ./oklib --prebuild
+cp ${readme_file} .
+
+cd ../.. # package_directory now
+min_tar_package_name=${package_name}-minimal.tar.bz2
+echo "Creating minimal package ..."
+tar -cjf ${min_tar_package_name} ${package_name}
+
+cur_date=$(echo ${current_date} | tr --delete [:space:])
+cur_SHA=$(cd ${Transitional}; git log HEAD | head -1 | cut --fields=2 --delimiter=" ")
+record_begin="${counter} ${transitional_version} ${cur_SHA} ${cur_date}"
+
+printf "%s %s %s %s %s %s" ${record_begin} $(md5sum ${min_tar_package_name}) >> ${release_history}
+
+cd ${package_directory}/OKplatform/OKsystem
+
+env -i PATH=${PATH} oklib rel_path_tool_dir="${rel_path_tool_dir}" html
+
+cd ../../.. # in package_directory now
+tar_package_name=${package_name}.tar.bz2
+echo "Creating standard package ..."
+tar -cjf ${tar_package_name} ${package_name}
+
+printf " %s %s" $(md5sum ${tar_package_name}) >> ${release_history}
+
+cd ${package_directory}/OKplatform
+
 if [ "${ExternalSources}" != "" ]; then
+  echo "Copying ExternalSources ..."
   cp -r ${ExternalSources}/sources ExternalSources
+  full_package_name=${package_name}-full
+  tar_full_package_name=${full_package_name}.tar.bz2
+  cd ../.. # in package_directory now
+  echo "Creating full package ..."
+  tar -cjf ${tar_full_package_name} ${package_name}
+  printf " %s %s" $(md5sum ${tar_full_package_name}) >> ${release_history}
 fi
 
-cp -r ${documents_dir} OKsystem
+printf "\n" >> ${release_history}
 
-package_OKplatform=${package_directory}/OKplatform
-env -i PATH=${PATH} make -f OKsystem/Transitional/Buildsystem/SetUp.mak OKplatform=${package_OKplatform} oklibrary_initialisation
-
-env -i PATH=${PATH} oklib --prebuild
-
-cd OKsystem
-env -i PATH=${PATH} oklib rel_path_tool_dir="${rel_path_tool_dir}" html
+rm -rf ${package_directory}
 
