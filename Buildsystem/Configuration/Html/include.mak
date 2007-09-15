@@ -8,6 +8,8 @@ include $(OKconfiguration)/Html/doxygen_documentation.mak
 include $(OKconfiguration)/Html/local_html.mak
 include $(OKconfiguration)/Html/documents.mak
 
+include $(OKconfiguration)/ExternalSources/tests.mak
+
 # To be included last:
 include $(OKconfiguration)/Html/relative_paths.mak
 
