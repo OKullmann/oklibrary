@@ -19,6 +19,7 @@ ifndef OKconfiguration
 endif
 
 include $(OKconfiguration)/configuration_data.mak
+include $(OKconfiguration)/Html/include.mak
 export
 
 # ######################################################################
