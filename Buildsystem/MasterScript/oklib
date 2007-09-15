@@ -31,14 +31,14 @@ buildsystem_dir=${anchor_dir}/Configuration/..
 
 if [[ $1 == "--setup" ]]; then
   shift
-  command="make --makefile=${buildsystem_dir}/SetUp.mak $*"
+  command="make --makefile=${buildsystem_dir}/SetUp.mak OKplatform=${top_dir} $*"
   echo ${command}
   ${command}
   exit
 fi
 
 if [[ $1 == "--prebuild" ]]; then
-  command="make --makefile=${buildsystem_dir}/Makefile prebuild"
+  command="make --makefile=${buildsystem_dir}/Makefile OKplatform=${top_dir} prebuild"
   echo ${command}
   ${command}
   exit
@@ -46,7 +46,7 @@ fi
 
 if [[ $1 == "--create-package" ]]; then
   shift
-  command="make --makefile=${buildsystem_dir}/ReleaseProcess/Makefile $*"
+  command="make --makefile=${buildsystem_dir}/ReleaseProcess/Makefile OKplatform=${top_dir} $*"
   echo ${command}
   ${command}
   exit
