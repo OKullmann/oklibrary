@@ -98,21 +98,22 @@ OKlib_0.1.6_31072007
   <ul>
    <li> Synchronise the following with "Distributing the library" in
    Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
-   <li> Name of this Bash script: "CreatePackage". </li>
-   <li> The script is invoked by oklib, and thus all configuration data
+   <li> DONE Name of this Bash script: "CreatePackage". </li>
+   <li>  DONE The script is invoked by oklib, and thus all configuration data
    is available via the environment --- but for this another
    makefile ReleaseProcess/Makefile is needed. </li>
-   <li> Syntax "oklib --create-package"; all further parameters are passed to
+   <li> DONE (only the makefile gets parameters; thus all communication happens via make-variables)
+   Syntax "oklib --create-package"; all further parameters are passed to
    CreatePackage. </li>
    <li> Main steps for the full package:
     <ol>
-     <li> In the current system_directories, create a package directory called for example
-     "OKlibrary-0.2.0.0-000001" (extracting first the current version number,
+     <li> DONE In the current system_directories, create a package directory called for example
+     "OKlibrary-0.2.0.0_000001" (extracting first the current version number,
      and incrementing the running number of the last entry in ReleaseHistory). </li>
-     <li> In the package directory (pd) do
+     <li> DONE In the package directory (pd) do
           mkdir OKplatform OKplatform/OKsystem OKplatform/system_directories
           OKplatform/ExternalSources </li>
-     <li> Make a clone of the current repository in pd:OKplatform/OKsystem.
+     <li> DONE Make a clone of the current repository in pd:OKplatform/OKsystem.
       <ol>
        <li> What kind of clone? Does it have the address of the mother-clone inside? </li>
        <li> It seems that
@@ -121,15 +122,19 @@ git clone --no-hardlinks ${Transitional}
        \endverbatim
        should be reasonable; we have then always a clone of the working repository. </li>
        <li> As a parameter one can pass an argument to option "--origin", to specify
-       a different repository as the "upstream" repository (to pull from). </li>
-       <li> And another parameter makes it possible to clone from a different repository. </li>
+       a different repository as the "upstream" repository (to pull from).
+       DONE (set git_upstream) </li>
+       <li> And another parameter makes it possible to clone from a different repository.
+       DONE (set get_repository) </li>
       </ol>
      </li>
-     <li> Copy ExternalSources/sources to pd:ExternalSources. </li>
-     <li> Copy OKsystem/documents to pd:OKsystem. </li>
-     <li> Run pd:Buildsystem/SetUp.mak with target oklibrary_initialisation and with
+     <li> DONE (via 'oklib --create-package ExternalSources=""' copying of external sources is prevented)
+     Copy ExternalSources/sources to pd:ExternalSources; however it must be possible
+     to leave this out. </li>
+     <li> DONE Copy OKsystem/documents to pd:OKsystem. </li>
+     <li> DONE Run pd:Buildsystem/SetUp.mak with target oklibrary_initialisation and with
      OKplatform set. </li>
-     <li> pd:oklib --prebuild </li>
+     <li> DONE pd:oklib --prebuild </li>
      <li> pd:oklib html </li>
      <li> Create a symbolic link in pd:OKplatform to pk:oklib. </li>
      <li> Create the current README-file in pd:OKplatform; this contains the information

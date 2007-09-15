@@ -1,3 +1,51 @@
 #!/bin/bash
 # Oliver Kullmann, 14.9.2007
 
+if [ ! -d ${packages_dir} ]; then mkdir ${packages_dir}; fi
+
+if [ -s ${release_history} ]; then
+  counter=$(printf "%.5d" $(($(head -1 ${release_history} | cut --fields=1 --delimiter=" ") + 1)))
+else
+  counter=00001
+fi
+
+package_name="OKlibrary-${transitional_version}_${counter}"
+package_directory=${packages_dir}/${package_name}
+
+if [ -e ${package_directory} ]; then
+  echo "ERROR[CreatePackage]: There is already ${package_directory} !"
+  exit 1
+fi;
+
+mkdir ${package_directory}
+cd ${package_directory}
+
+mkdir -p OKplatform/OKsystem
+mkdir OKplatform/system_directories
+mkdir OKplatform/ExternalSources
+
+cd OKplatform/OKsystem
+
+if [ "${git_upstream}" != "" ]; then
+  git_origin="--option ${git_upstream}"
+else
+  git_origin=""
+fi
+
+git clone --no-hardlinks ${git_origin} ${git_repository}
+
+cd ..
+if [ "${ExternalSources}" != "" ]; then
+  cp -r ${ExternalSources}/sources ExternalSources
+fi
+
+cp -r ${documents_dir} OKsystem
+
+package_OKplatform=${package_directory}/OKplatform
+env -i PATH=${PATH} make -f OKsystem/Transitional/Buildsystem/SetUp.mak OKplatform=${package_OKplatform} oklibrary_initialisation
+
+env -i PATH=${PATH} oklib --prebuild
+
+cd OKsystem
+env -i PATH=${PATH} oklib rel_path_tool_dir="${rel_path_tool_dir}" html
+
