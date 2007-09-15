@@ -30,7 +30,7 @@ logo_output ?= $(local_html_dir)/logo.png
 developers_template ?= $(OKconfiguration)/Developers.html
 developers_output ?= $(local_html_dir)/Developers.html
 
-current_date ?= $(shell date --rfc-2822)
+current_date ?= $(shell date '+%a, %d %b %Y, %H:%M:%S %z')
 
 internet_home_page_template ?= $(OKbuildsystem)/Html/Internet/HomePage.html
 internet_home_page_output_dir ?= $(internet_html_dir)
