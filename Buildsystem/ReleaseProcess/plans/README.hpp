@@ -5,7 +5,9 @@
   \brief Plans for the README file
 
 
-  \todo Automatic generation:
+  \todo DONE (The documentation is mainly provided by the local
+  home page)
+  Automatic generation:
   <ul>
    <li> The README-file must be automatically produced from
    the configuration data, using some template, which is
@@ -14,7 +16,9 @@
   </ul>
 
 
-  \todo Supported versions of gcc:
+  \todo DONE (this information is now due to the ExternalSources
+  module)
+  Supported versions of gcc:
   We need to clean-up regarding the supported versions of gcc.
   Perhaps actually we should support only from 4.1.1 onwards.
 

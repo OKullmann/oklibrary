@@ -1,52 +1,23 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
 
--------------------------------------------
+----------------------------------------------
 
 Prerequisites (need to be installed):
 
-GNU make, version 3.80 or higher
-(check: run "make -v")
+ - Bash version 3.00 or higher
 
-gcc and g++
+ - GNU make, version 3.80 or higher
+  (check: run "make -v")
 
-the Qt library (version ???)
+ - gcc
 
-Latex (more specifically ???)
+For creation of documentation we also need:
 
--------------------------------------------
+ - the Qt library
 
-In case that system versions of the following programs/libraries
-shall be used (instead of the local versions), the following
-versions are supported:
+ - Latex
 
-g++, version 4.0.1 or higher
-(tested: 4.0.1, 4.0.2, 4.0.3, 4.1.0, 4.1.1, 4.1.2)
-(check: run "g++ -v")
-Recommended: 4.1.2
-Versions lower than 4.0.1 cannot compile the library
-Problems:
- - 4.0.1 - 4.0.2, 4.1.0 fail for some foreign locales.
- - 4.0.1 - 4.0.2 do not detect all syntax errors (wrong handling
-  of namespaces)
-
-Boost, version 1_34_0 or higher
-(tested: 1_34_0)
-Recommended: 1_34_0
-BOOST = path to the source library
-(for example BOOST = /usr/local/include/boost-1_33/)
-
-Doxygen, version 1.5.1 or higher
-(tested: 1.5.1, 1.52)
-(check: run doxygen --version)
-Recommended: 1.5.2
-
-Valgrind, version 3.1.0 or higher
-(check: run valgrind --version)
-Recommended: 3.2.3
-
-Git, version 1.5.2 or higher
-(check: run git --version)
-Recommended: 1.5.2
+Any recent Linux distribution supplies these prerequisites.
 
 ----------------------------------------------
 
@@ -54,8 +25,32 @@ System requirements:
 
 >= 512 MB main memory
 
+(but 1 GB is better).
+
 Disc space:
 
 For the full OKplatform, with some versions of gcc and Boost installed:
-10 GB should be fully sufficient.
+10 GB should be fully sufficient (however with only 1 GB it can get tight,
+and for installing everything it is too tight).
+
+----------------------------------------------
+
+Building:
+
+For using the package, we need "oklib" on your path.
+One symbolic link is already planted in the base directory OKplatform.
+Recommended is to set up a symbolic link in ~/bin; if you call
+
+./oklib --setup
+
+in directory OKplatform, then the build system will do this for you.
+
+----------------------------------------------
+
+All further documentation is found on the local home page in
+
+OKplatform/system_directories/doc/local_html/index.html.
+
+(For the minimal package, the documentation is not pre-installed,
+but has to be created by running "oklib html" (which needs doxygen).)
 
