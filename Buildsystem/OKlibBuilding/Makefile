@@ -834,9 +834,9 @@ force :
 
 # ----------------------------------------------------------
 # Include the list of dependencies from the relevant 
-# dependency file.
+# dependency file (only if target is not in the given list)
 # ----------------------------------------------------------
-ifeq ($(firstword $(filter $(special_goals) $(cleaning_goals) $(forced_goals), $(MAKECMDGOALS))),)
+ifeq ($(firstword $(filter $(special_goals) $(html_goals) $(cleaning_goals) $(forced_goals), $(MAKECMDGOALS))),)
 include $(dependency_files)
 endif
 # ----------------------------------------------------------
