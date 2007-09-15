@@ -7,28 +7,6 @@
 
   \todo Content of the Internet-page:
   <ul>
-   <li> Download of the software:
-    <ol>
-     <li> The current development-package (core), that is,
-     the skeleton directory structure of OKplatform, with
-     Transitional/OKlib filled in. </li>
-     <li> Current external sources to download.
-      <ol>
-       <li> Package data (see Buildsystem/plans/PackageBuilding.hpp) </li>
-       <li> The full current package. </li>
-      </ol>
-     </li>
-     <li> The installed docs-package. </li>
-     <li> The full package (with core, external sources and docs). </li>
-     <li> The package history
-      <ol>
-       <li> With SHA's to identify git-repository-states. </li>
-       <li> And md5sum's of packages. </li>
-       <li> And the packages themselves (only the cores). </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
    <li> Access to mailing-lists (with instructions). </li>
    <li> Online-documentation (the local home page):
     <ol>
@@ -59,6 +37,30 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
    <li> A project-page (for example, Heribert Vollmer might have a student
    project about implementing the NP-completeness of SAT (encoding of
    Turing machines)) --- but this perhaps should go to the local system? </li>
+   <li> DONE (three package types can be downloaded, containing together
+   all parts, while history is available via an automated package-history-log-file)
+   Download of the software:
+    <ol>
+     <li> The current development-package (core), that is,
+     the skeleton directory structure of OKplatform, with
+     Transitional/OKlib filled in. </li>
+     <li> Current external sources to download.
+      <ol>
+       <li> Package data (see Buildsystem/plans/PackageBuilding.hpp) </li>
+       <li> The full current package. </li>
+      </ol>
+     </li>
+     <li> The installed docs-package. </li>
+     <li> The full package (with core, external sources and docs). </li>
+     <li> The package history
+      <ol>
+       <li> With SHA's to identify git-repository-states. </li>
+       <li> And md5sum's of packages. </li>
+       <li> And the packages themselves (only the cores). </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
    <li> DONE (reports are available on the history page, as part of the
    local documentation, which is provided via a link)
    The EPSRC final report (short and long version) should be made
@@ -73,7 +75,13 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
    <li> The process should be fully automatic, including
    updating the packages etc. --- no alterations by hand
    should be necessary! </li>
-   <li> We copy the internet-html-directory to its final place;
+   <li> For download, simply move the content of
+   system_directories/packages to an accessible directory,
+   and make this directory readable (so that packages can
+   be downloaded). According to some policy to be developed,
+   remove packages from time to time which do not represent
+   official releases. </li>
+   <li> DONE We copy the internet-html-directory to its final place;
    uses a lot of space, but seems the best solution. </li>
    <li> DONE (we do not remove old doxygen-html-pages anymore)
    Apparently the sub-process running oklib uses a less
