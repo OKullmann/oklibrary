@@ -3,4 +3,6 @@
 # Configuration data for the release process
 
 package_build_script ?= $(OKbuildsystem)/ReleaseProcess/CreatePackage
+packages_dir ?= $(system_directories)/packages
+release_history ?= $(OKconfiguration)/ReleaseProcess/ReleaseHistory
 
