@@ -10,8 +10,14 @@
 
   \par
    In Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp the following topics are handled:
-    - General
-    - The script
+    - General : DONE
+    - The script : DONE
+
+  \par
+   In Buildsystem/ReleaseProcess/plans/README.hpp the following topics are handled:
+    - Automatic generation : DONE
+    - Supported versions of gcc : DONE
+    - Update : DONE
 
 
   \par Version 0.0.6
@@ -42,11 +48,6 @@
    In Buildsystem/ReleaseProcess/plans/Release.hpp the following topics are handled:
     - Special tag
     - ExternalSources repository
-
-  \par
-   In Buildsystem/ReleaseProcess/plans/README.hpp the following topics are handled:
-    - Automatic generation
-    - Supported versions of gcc
 
 
 

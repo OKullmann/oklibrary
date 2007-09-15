@@ -5,48 +5,55 @@
   \brief Plans regarding package building
 
 
-  \todo General
+  \todo General : DONE
   <ul>
-   <li> Checking is separate, has to be done (fully) in advance
+   <li> DONE (postponed)
+   Checking is separate, has to be done (fully) in advance
    see Buildsystem/plans/CheckBuildSystem.hpp. </li>
-   <li> The appropriate "user clone" has to be created in advance
+   <li> DONE (postponed)
+   The appropriate "user clone" has to be created in advance
    (see Buildsystem/ReleaseProcess/plans/Release.hpp) --- and also this clone has
    been tested. </li>
-   <li> Packages must be stored in an accessible depot. At least the
+   <li> DONE (postponed)
+   Packages must be stored in an accessible depot. At least the
    core-packages need to be backed-up on cs-oksvr. See
    "ExternalSources repository" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
-   <li> Package data must be on the Internet-page
+   <li> DONE (available now in the local html-documentation)
+   Package data must be on the Internet-page
    (as automatical as possible).
     <ol>
      <li> md5-checksums </li>
      <li> construction dates and times </li>
     </ol>
    </li>
-   <li> Also a ((semi-)automatical) e-mail to the notification list. </li>
-   <li> Package meta-data:
+   <li> DONE (postponed)
+   Also a ((semi-)automatical) e-mail to the notification list. </li>
+   <li> DONE
+   Package meta-data:
     <ol>
      <li> In Configuration/ReleaseProcess we have the file "ReleaseHistory"
      with line-records of the form
      \verbatim
-running-number version date SHA md5sum
+running-number version SHA date md5sum package-name
      \endverbatim
      where
       <ol>
        <li> running number of left-padded with 5 digits (starting with "00001"), </li>
        <li> version is the respective value of make-variable "transitional_version", </li>
-       <li> date is the respective value of make-variable "current_date", </li>
        <li> SHA is given by
        \verbatim
 git log HEAD | head -1 | cut --fields=2 --delimiter=" "
-       \verbatim
+       \endverbatim
        </li>
+       <li> date is the respective value of make-variable "current_date" (but with
+       spaces removed), </li>
        <li> md5sum is the md5sum of the finalised package. </li>
       </ol>
      </li>
      <li> The package name is for example
      \verbatim
 OKlibrary-0.2.0.0_00001.tar.bz2
-     \verbatim
+     \endverbatim
      (we need the running number, since many packages will be created,
      and this is clearest to distinguish packages, and to decide which
      is later). </li>
@@ -61,8 +68,10 @@ OKlibrary-0.2.0.8
    (the whole string "0.2.0.8" is given by make-variable "transitional_version").
     <ol>
      <li> So a new package is only created when at least the current stage
-     is advanced; users who wish to by fully update use Git. </li>
-     <li> Parts (without the external libraries etc.) should be suffixed
+     is advanced; users who wish to fully update use Git. </li>
+     <li> DONE (we have the standard version, including prebuild documentation,
+     and the full version, with external libraries)
+     Parts (without the external libraries etc.) should be suffixed
      like "-minimal". </li>
      <li> Regarding the date formatting, we should stick to this
      European form. DONE (no dates in the name; otherwise we use for
@@ -96,16 +105,16 @@ OKlib_0.1.6_31072007
 
   \todo The script
   <ul>
-   <li> Synchronise the following with "Distributing the library" in
+   <li> DONE Synchronise the following with "Distributing the library" in
    Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
    <li> DONE Name of this Bash script: "CreatePackage". </li>
-   <li>  DONE The script is invoked by oklib, and thus all configuration data
+   <li> DONE The script is invoked by oklib, and thus all configuration data
    is available via the environment --- but for this another
    makefile ReleaseProcess/Makefile is needed. </li>
    <li> DONE (only the makefile gets parameters; thus all communication happens via make-variables)
    Syntax "oklib --create-package"; all further parameters are passed to
    CreatePackage. </li>
-   <li> Main steps for the full package:
+   <li> Main steps for the full package: DONE
     <ol>
      <li> DONE In the current system_directories, create a package directory called for example
      "OKlibrary-0.2.0.0_000001" (extracting first the current version number,
@@ -135,19 +144,23 @@ git clone --no-hardlinks ${Transitional}
      <li> DONE Run pd:Buildsystem/SetUp.mak with target oklibrary_initialisation and with
      OKplatform set. </li>
      <li> DONE pd:oklib --prebuild </li>
-     <li> pd:oklib html </li>
-     <li> Create a symbolic link in pd:OKplatform to pk:oklib. </li>
-     <li> Create the current README-file in pd:OKplatform; this contains the information
-     that one can perform "oklib --setup" to create the link to oklib. </li>
-     <li> Compress. </li>
-     <li> Create log-entry in file ReleaseHistory. </li>
+     <li> DONE pd:oklib html </li>
+     <li> DONE Create a symbolic link in pd:OKplatform to pk:oklib. </li>
+     <li> DONE Create the current README-file in pd:OKplatform; this contains the information
+     that one can perform "./oklib --setup" to create the link to oklib. </li>
+     <li> DONE Compress. </li>
+     <li> DONE Create log-entry in file ReleaseHistory. </li>
+     <li> DONE Remove the okplatform-directory, so that only packages remain. </li>
     </ol>
    </li>
-   <li> So a complete package comes with documentation, and for the rest
+   <li> DONE (postponed)
+   So a complete package comes with documentation, and for the rest
    the standard build system can be used (no need for additional makefiles).
    However, there should be additional targets for the oklib-masterscript
    to "compile and test" everything. </li>
-   <li> Variations:
+   <li> DONE (three package versions now created; the package with external sources
+   only is not needed --- the few bytes more for the rest don't hurt anymore)
+   Variations:
     <ol>
      <li> "minimal" without external sources and html. </li>
      <li> "extern" only contains the external sources. </li>
@@ -156,6 +169,23 @@ git clone --no-hardlinks ${Transitional}
    </li>
    <li> DONE For this to work we need to make the internal url's relative.
    See "Install configuration system" in Buildsystem/Html/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo CreatePackage extensions
+  <ul>
+   <li> Perhaps there should be additional targets for the oklib-masterscript
+   to "compile and test" everything (to ease building a new environment). </li>
+   <li> For a package created, a ((semi-)automatical) e-mail to the notification list
+   should be sent. </li>
+   <li> Release-packages must be stored in an accessible depot. At least the
+   core-packages need to be backed-up on cs-oksvr. See
+   "ExternalSources repository" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
+   <li> Checking is separate, and has to be done (fully) in advance
+   see Buildsystem/plans/CheckBuildSystem.hpp. </li>
+   <li> The appropriate "user clone" has to be created in advance
+   (see Buildsystem/ReleaseProcess/plans/Release.hpp) --- and also this clone has to be
+   tested. </li>
   </ul>
 
 */
