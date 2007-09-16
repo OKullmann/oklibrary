@@ -3,17 +3,7 @@
 /*!
   \file Buildsystem/Html/Local/plans/milestones.hpp
   
-  \module_version Buildsystem/Html/Local 0.1 (15.7.2007)
-
-  \par Version 0.1.1
-
-  \par
-   In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
-    - Page organisation : DONE
-    - Rewrite local home page : DONE
-    - Using css : DONE
-    - Page appearance : DONE
-    - bug "Naming" : DONE
+  \module_version Buildsystem/Html/Local 0.1.1 (16.9.2007)
 
 
   \par Version 0.1.2
@@ -44,6 +34,7 @@
   \par Version history
 
    - 0.1   : 15.7.2006; initial version number (experience with the first version of the local home page, and the new version got started).
+   - 0.1.1 : 16.9.2007; complete rewrite of the local home page and subpages, applying general rules, and a general system, which allows to easily write html-pages with updatable content; also now more information available about the system in general.
 
 */
 
