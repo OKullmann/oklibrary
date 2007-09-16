@@ -3,13 +3,7 @@
 /*!
   \file Satisfiability/Solvers/OKsolver/plans/milestones.hpp
 
-  \module_version OKsolver 0.5.0.1 (20.8.2007)
-
-
-  \par Version 0.5.1
-
-  \par OKsolver/SAT2002 version 0.9.2
-  (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
+  \module_version OKsolver 0.5.1 (16.9.2007)
 
 
   \par Version 0.5.2
@@ -49,5 +43,6 @@
   \par Version history
 
    - 0.5   : 18.8.2007; initial version number (the old OKsolver is compilable and apparently bug-free, and there is a sort of complete outline of the anticipated new solver 2.0).
+   - 0.5.1 : 16.9.2007; one further bug eliminated, basic tests for old OKsolver established, and now all the main variants appear to be bug-free.
 
 */
