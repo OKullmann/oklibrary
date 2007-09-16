@@ -1,4 +1,9 @@
 // Tony H. Bao, 6.10.2004 (Swansea)
+/* Copyright 2004 - 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
 
 //Program: Automatic Time Table Generation (From clear text table outputed by SQL to LaTeX Document)
 //Last Modified Date: 2004.10.14
