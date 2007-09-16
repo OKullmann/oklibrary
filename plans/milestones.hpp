@@ -24,7 +24,7 @@
   (see LegalIssues/plans/milestones.hpp)
   \par Buildsystem version 0.2 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
-  \par Satisfiability/Solvers version 0.2.1
+  \par Satisfiability/Solvers version 0.2.1 : DONE
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par
    In Transitional/OKsolver/plans/general.hpp the following topics are handled:
