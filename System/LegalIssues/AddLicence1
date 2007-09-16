@@ -3,10 +3,12 @@
 
 # One input parameter is expected, a filename.
 # If the first line matches the regular expression (BRE)
-# ^// .+ \(200.\) (.+)$
+# ^// .*\([12][09][09][0-9]\).*(.+) *$
 # then Header.h is inserted right after the first line,
 # where XXXX is replaced either by "\1-2007" in case
 # \1 is not 2007, or otherwise just by "2007".
+# If the first lines doesn't match, then the filename
+# is printed out.
 
 set -o errexit -o nounset # -o xtrace
 shopt -s extglob

@@ -135,6 +135,7 @@ s/>.
    <li> First, we should make all non-data files conform to the standard,
    that the first line shows the file-creator and file-creation-date:
     <ol>
+     <li> The script-files (with first line starting with "#!"). </li>
      <li> DONE .c-files:
      \verbatim
 Transitional> for F in $(find * -name "*.c"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
@@ -158,7 +159,9 @@ Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${
     </ol>
    <li> In one go, every files gets the licence statement.
     <ol>
-     <li> First the C/C++-like files.
+     <li> Now the script-files (with first line starting with "#!"). </li>
+     <li> DONE
+     First the C/C++-like files.
      \verbatim
 Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" -or -name "*.c"); do System/LegalIssues/AddLicence1 ${F}; done
      \endverbatim
