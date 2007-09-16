@@ -5,11 +5,11 @@
   \brief Plans for the main local page
 
 
-  \todo Page organisation
+  \todo Page organisation : DONE
   <ul>
-   <li> Further links:
+   <li> Further links: DONE
     <ol>
-     <li> The demos-system via a start page (in Transitional/demos). </li>
+     <li> The demos-system via a start page (in Transitional/demos). DONE </li>
      <li> Internet page (which has links to the mailing lists) DONE </li>
      <li> The docus-system via a start page (in Transitional/docus). DONE </li>
      <li> The developers-page (see Buildsystem/Configuration/plans/Persons.hpp). DONE </li>

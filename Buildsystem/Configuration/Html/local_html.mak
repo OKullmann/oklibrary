@@ -40,3 +40,5 @@ oklibrary_domain := http://www.ok-sat-library.org
 
 main_docu_page ?= $(doc_dir)/doxygen_html/d0/dfd/docus_2general_8hpp.html
 
+main_demo_page ?= $(doc_dir)/doxygen_html/dc/d5b/demos_2general_8hpp.html
+
