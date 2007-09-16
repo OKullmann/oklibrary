@@ -6,18 +6,15 @@
   \module_version Buildsystem 0.1.6.3 (15.9.2007)
 
 
-  \par Version 0.2 : THEME is "PROTO-RELEASE"
+  \par Version 0.2 : THEME is "AVAILABILITY"
 
-  \par Buildsystem/ReleaseProcess 0.0.7
+  \par Buildsystem/ReleaseProcess 0.0.5 : DONE
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
   
-  \par Buildsystem/ExternalSources version 0.1.3
+  \par Buildsystem/ExternalSources version 0.1.1 : DONE
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
-  \par Buildsystem/Configuration version 0.0.6
-  (see Buildsystem/Configuration/plans/milestones.hpp)
-
-  \par Buildsystem/Html version 0.0.7
+  \par Buildsystem/Html version 0.0.6
   (see Buildsystem/Html/plans/milestones.hpp)
 
   \par Buildsystem/OKlibBuilding 0.2.2
@@ -43,12 +40,26 @@
    In Buildsystem/plans/MasterScript.hpp the following topics are handled:
     - Implementation
 
+
+  \par Version 0.2.1 : THEME is "PROTO-RELEASE"
+
+  \par Buildsystem/Configuration version 0.0.6
+  (see Buildsystem/Configuration/plans/milestones.hpp)
+
+  \par Buildsystem/ReleaseProcess 0.0.7
+  (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
+
+  \par Buildsystem/ExternalSources version 0.1.3
+  (see Buildsystem/ExternalSources/plans/milestones.hpp)
+
+  \par Buildsystem/Html version 0.0.7
+  (see Buildsystem/Html/plans/milestones.hpp)
+
   \par
    Update the following milestones.
 
 
-
-  \par Version 0.2.1 : THEME is "A specified and testable build system" and "Build system consolidation"
+  \par Version 0.2.2 : THEME is "A specified and testable build system" and "Build system consolidation"
 
   \par Buildsystem/OKlibBuilding 0.2.4
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
@@ -76,7 +87,7 @@
     - Problems with building Boost
 
 
-  \par Version 0.2.2 : THEME is "Build system extensions"
+  \par Version 0.2.3 : THEME is "Build system extensions"
 
   \par
    In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
@@ -91,13 +102,13 @@
     -  Further enhancements
 
 
-  \par Version 0.2.3 :
+  \par Version 0.2.4 :
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update
 
 
-  \par Version 0.2.4 :
+  \par Version 0.2.5 :
    In Buildsystem/plans/Makefile.hpp the following topics are handled:
     -  Future of this makefile
 
