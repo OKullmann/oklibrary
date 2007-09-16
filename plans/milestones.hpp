@@ -20,54 +20,65 @@
 
   \section VersionTransitional020 0.2 : Theme "PROTO-RELEASE"
   TO BE REACHED $(deadline_020)
-  \par LegalIssues version 0.1
+  \par LegalIssues version 0.0.5
   (see LegalIssues/plans/milestones.hpp)
   \par Buildsystem version 0.2 (OK, MH)
   (see Buildsystem/plans/milestones.hpp)
+  \par Satisfiability/Solvers version 0.2.1
+  (see Satisfiability/Solvers/plans/milestones.hpp)
+  \par
+   In Transitional/OKsolver/plans/general.hpp the following topics are handled:
+    - Submodule "Experimental"
+    - Submodule "Generator" : DONE
+    - Submodule "Hilfsprogramme" : DONE
+    - Submodule "Quellen" : DONE
+    - Submodule "Datenbank" : DONE
+  \par
+   In Transitional/plans/general.hpp the following topics are handled:
+    - "OKlib" vs. "Transitional"
+    - Completing the repository
+    - Concepts : DONE
+    - Computer algebra system : DONE
+    - Licence : DONE (moved to System/LegalIssues)
+  \par
+   In Transitional/plans/Foundations.hpp the following topics are handled:
+    - Fundamental "axioms"
+
+   
+  \subsection VersionTransitional021 0.2.1
+  TO BE REACHED $(deadline_021)
+  \par LegalIssues version 0.1
+  (see LegalIssues/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
+  \par Satisfiability/Solvers version 0.2.2
+  (see Satisfiability/Solvers/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
   \par
    In Transitional/plans/general.hpp the following topics are handled:
-    - Handling of version-numbers
-    - "OKlib" vs. "Transitional"
-    - Completing the repository
     - Super-modules
+    - Handling of version-numbers
     - Research sub-modules
     - Organisation of plans-directories
     - Demos
-    - Concepts : DONE
-    - Computer algebra system : DONE
-    - Licence : DONE (moved to System/LegalIssues)
   \par
    In Transitional/plans/Annotations.hpp the following topics are handled:
     - Partially moving repository Annotations
     - Latex macros
     - Bibtex-database
-  \par
-   In Transitional/plans/Foundations.hpp the following topics are handled:
-    - Fundamental "axioms"
-
-  \par
-   In Solvers/OKsolver/plans/general.hpp the following topics are handled:
-    - Submodule "Experimental"
-    - Submodule "Generator" : DONE
-    - Submodule "Hilfsprogramme" : DONE
-    - Submodule "Quellen" : DONE
-    - Submodule "Datenbank" : DONE
 
   \par Update
   Update the subsequent milestones.
 
-   
-  \subsection VersionTransitional021 0.2.1
-  TO BE REACHED $(deadline_021)
+
+  \subsection VersionTransitional022 0.2.2
+  TO BE REACHED $(deadline_022)
   \par Satisfiability/Solvers 0.2.1
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK (MH))
@@ -119,8 +130,8 @@
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional022 0.2.2
-  TO BE REACHED $(deadline_022)
+  \subsection VersionTransitional023 0.2.3
+  TO BE REACHED $(deadline_023)
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
@@ -135,9 +146,7 @@
   (see Structures/plans/milestones.hpp)
   \par Update the subsequent milestones (on the way to 0.3).
 
-  \subsection VersionTransitional019 0.1.9
-  \par Buildsystem version 0.2 (MH, OK)
-  (see Buildsystem/plans/milestones.hpp)
+  \subsection VersionTransitional024 0.2.4
   \par Messages version 0.7.8 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.2 (OK)
