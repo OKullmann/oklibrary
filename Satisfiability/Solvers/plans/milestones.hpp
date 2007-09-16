@@ -11,6 +11,12 @@
   \par OKsolver version 0.5.1
   (see Satisfiability/Solvers/OKsolver/plans/milestones.hpp)
 
+
+  \par Version 0.2.2
+
+  \par OKsolver version 0.5.2
+  (see Satisfiability/Solvers/OKsolver/plans/milestones.hpp)
+
   \par
    In Satisfiability/Solvers/plans/general.hpp the following topics are handled:
     - External solvers

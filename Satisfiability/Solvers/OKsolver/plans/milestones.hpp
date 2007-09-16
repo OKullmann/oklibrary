@@ -8,13 +8,13 @@
 
   \par Version 0.5.1
 
-  \par OKsolver/SAT2002 version 0.9.3
+  \par OKsolver/SAT2002 version 0.9.2
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
 
   \par Version 0.5.2
 
-  \par OKsolver/SAT2002 version 0.9.6
+  \par OKsolver/SAT2002 version 0.9.5
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
 
