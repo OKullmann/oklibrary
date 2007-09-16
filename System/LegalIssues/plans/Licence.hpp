@@ -130,7 +130,12 @@ s/>.
    <li> First, we should make all non-data files conform to the standard,
    that the first line shows the file-creator and file-creation-date:
     <ol>
-     <li> .cpp-files:
+     <li> DONE .c-files:
+     \verbatim
+Transitional> for F in $(find * -name "*.c"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
+     \endverbatim
+     </li>
+     <li> DONE .cpp-files:
      \verbatim
 Transitional> for F in $(find * -name "*.cpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
      \endverbatim
@@ -146,8 +151,18 @@ Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${
      \endverbatim
      </li>
     </ol>
-   <li> In one go, every files gets the licence statement. </li>
-   <li> Can we write a little tool?
+   <li> In one go, every files gets the licence statement.
+    <ol>
+     <li> First the C/C++-like files.
+     \verbatim
+Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" -or -name "*.c"); do System/LegalIssues/AddLicence1 ${F}; done
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> DONE (we use different tools for the different insertion cases;
+   AddLicence1 is now ready to handle C/C++-like files)
+   Can we write a little tool?
     <ol>
      <li> The simple shell scripts "AddLicense1/2", which take
      the first 1/2 lines, then insert the licence header, and
@@ -161,9 +176,12 @@ Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${
      a C-style for the whole block, or a script-style comment for each line. </li>
     </ol>
    </li>
-   <li> The tool should run through all files, each time showing the new beginning, asking
+   <li> DONE (since we don't have much "dangerous intelligence" in the tool,
+   we don't need confirmation)
+   The tool should run through all files, each time showing the new beginning, asking
    for confirmation. </li>
-   <li> If the file has already the licence statement, then possibly only the current year
+   <li> DONE (we use the tool only if the file does not have the licence statement)
+   If the file has already the licence statement, then possibly only the current year
    is added to the copyright statement. </li>
   </ul>
 
