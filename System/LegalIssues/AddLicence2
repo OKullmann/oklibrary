@@ -1,5 +1,5 @@
 #!/bin/bash
-# Oliver Kullmann, 25.8.2007 (Swansea)
+# Oliver Kullmann, 25.8.2007 (Swansea
 
 # Two input parameters are expected, a filename and string.
 # If the first two lines matches the regular expressions (BRE)
