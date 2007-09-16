@@ -167,7 +167,15 @@ Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${
     </ol>
    <li> In one go, every files gets the licence statement.
     <ol>
-     <li> Now the script-files (with first line starting with "#!"). </li>
+     <li> Now the script-files (with first line starting with "#!"):
+     \verbatim
+Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
+    -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
+  do
+    ${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/AddLicence2 ${F} "override";
+  done > Ausnahmen
+     \endverbatim
+     </li>
      <li> DONE
      First the C/C++-like files.
      \verbatim
