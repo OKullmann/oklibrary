@@ -1,4 +1,4 @@
-// Oliver Kullmann, 13.12.2002 (Swansea
+// Oliver Kullmann, 13.12.2002 (Swansea)
 
 #ifndef LITERALWAECHTER
 

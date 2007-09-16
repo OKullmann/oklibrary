@@ -1,4 +1,4 @@
-// Oliver Kullmann, 27.7.2003
+// Oliver Kullmann, 27.7.2003 (Swansea)
 
 #ifndef LITSETWAECHTER
 #define LITSETWAECHTER

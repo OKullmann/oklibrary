@@ -1,4 +1,4 @@
-// Oliver Kullmann, 25.11.2006
+// Oliver Kullmann, 25.11.2006 (Swansea)
 
 /*!
   \file Concepts/Literals.hpp

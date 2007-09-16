@@ -1,4 +1,4 @@
-// Oliver Kullmann, 6.12.2006
+// Oliver Kullmann, 6.12.2006 (Swansea)
 
 /*!
   \file Concepts/testobjects/AtomicConditions.cpp

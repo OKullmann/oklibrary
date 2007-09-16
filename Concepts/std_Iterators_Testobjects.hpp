@@ -1,4 +1,4 @@
-// Oliver Kullmann, 25.5.2005
+// Oliver Kullmann, 25.5.2005 (Swansea)
 
 #ifndef STDITERATORSTESTOBECTS_638usuDq
 #define STDITERATORSTESTOBECTS_638usuDq

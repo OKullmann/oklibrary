@@ -1,4 +1,4 @@
-// Oliver Kullmann, 15.5.2005
+// Oliver Kullmann, 15.5.2005 (Swansea)
 
 /*!
   \file Concepts/ConceptsBase.hpp

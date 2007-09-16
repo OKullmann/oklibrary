@@ -1,5 +1,4 @@
-// Oliver Kullmann, 4.4.2002
-
+// Oliver Kullmann, 4.4.2002 (Swansea)
 
 #include <cstdio>
 

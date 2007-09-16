@@ -1,7 +1,6 @@
+// Tony H. Bao, 7.10.2004 (Swansea)
+
 //Program: Classes to Handle different kinds of tables (or pre-formated data streams)
-//Author: Tony H. Bao
-//Location: Swansea
-//Creation Date: 2004.10.7
 //Last Modified Date: 2004.10.13
 //Version: 0.2.018
 

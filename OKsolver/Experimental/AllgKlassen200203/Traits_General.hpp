@@ -1,4 +1,4 @@
-// Oliver Kullmann, 3.10.2003, Swansea
+// Oliver Kullmann, 3.10.2003 (Swansea)
 
 #ifndef TRAITSGENERALWAECHTER_sjdfkvZQW23
 

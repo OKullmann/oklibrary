@@ -1,4 +1,4 @@
-// Oliver Kullmann, 16.6.2003
+// Oliver Kullmann, 16.6.2003 (Swansea)
 
 // #include <iostream>
 #include <cassert>

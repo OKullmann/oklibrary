@@ -1,4 +1,4 @@
-// Oliver Kullmann, 11.9.2004
+// Oliver Kullmann, 11.9.2004 (Swansea)
 
 #ifndef COMBINATORICS_TESTOBJECTS_1883GvZqLL
 

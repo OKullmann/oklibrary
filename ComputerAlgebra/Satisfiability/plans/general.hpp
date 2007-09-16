@@ -1,4 +1,4 @@
-// Oliver Kullmann
+// Oliver Kullmann, 29.6.2007 (Swansea)
 
 /*!
   \file ComputerAlgebra/Satisfiability/plans/general.hpp

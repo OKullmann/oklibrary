@@ -1,4 +1,4 @@
-// Oliver Kullmann, 18.8.2003
+// Oliver Kullmann, 18.8.2003 (Swansea)
 
 #ifndef AUXILIARYWAECHTER
 

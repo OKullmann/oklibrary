@@ -1,4 +1,4 @@
-// Matthew Lewsey 9.2.2007
+// Matthew Lewsey, 9.2.2007 (Swansea)
 
 /*!
   \file AutarkySearch/AnalyseTotalAssignment.hpp

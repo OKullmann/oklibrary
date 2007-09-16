@@ -1,4 +1,4 @@
-// Oliver Kullmann, 8.1.2006
+// Oliver Kullmann, 8.1.2006 (Swansea)
 
 /*!
   \file TestSystem/TestProgram_DesignStudy.cpp

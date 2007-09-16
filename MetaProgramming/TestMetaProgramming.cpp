@@ -1,4 +1,4 @@
-// Oliver Kullmann, 26.5.2005
+// Oliver Kullmann, 26.5.2005 (Swansea)
 
 #include <iostream>
 

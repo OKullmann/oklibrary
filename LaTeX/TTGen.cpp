@@ -1,7 +1,6 @@
+// Tony H. Bao, 6.10.2004 (Swansea)
+
 //Program: Automatic Time Table Generation (From clear text table outputed by SQL to LaTeX Document)
-//Author: Tony H. Bao
-//Location: Swansea
-//Creation Date: 2004.10.6
 //Last Modified Date: 2004.10.14
 //Version: 0.2.006
 

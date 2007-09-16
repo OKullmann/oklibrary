@@ -1,4 +1,4 @@
-// Oliver Kullmann, 5.12.2006
+// Oliver Kullmann, 5.12.2006 (Swansea)
 
 /*!
   \file Concepts/testobjects/Literals.cpp

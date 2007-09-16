@@ -1,4 +1,4 @@
-// Oliver Kullmann, 16.6.2003
+// Oliver Kullmann, 16.6.2003 (Swansea)
 // Kate 14/07/03
 
 #ifndef GENERATORSWAECHTER

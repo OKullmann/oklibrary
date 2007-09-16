@@ -1,4 +1,4 @@
-// Oliver Kullmann, 22.8.2004
+// Oliver Kullmann, 22.8.2004 (Swansea)
 
 /*!
   \file General/Combinatorics_Tests.hpp

@@ -1,7 +1,6 @@
+// Tony H. Bao, 7.10.2004 (Swansea)
+
 //Program: Class for different documnet objects; LaTeX, XML, etc...
-//Author: Tony H. Bao
-//Location: Swansea
-//Creation Date: 2004.10.7
 //Last Modified Date: 2004.10.8
 //Version: 0.2.007
 

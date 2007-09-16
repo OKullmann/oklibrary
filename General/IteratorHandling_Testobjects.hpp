@@ -1,4 +1,4 @@
-// Oliver Kullmann, 11.9.2004
+// Oliver Kullmann, 11.9.2004 (Swansea)
 
 #ifndef ITERATORHANDLING_TESTOBJECTS_Lgabz319K
 

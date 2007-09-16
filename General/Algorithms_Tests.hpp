@@ -1,4 +1,4 @@
-// Oliver Kullmann, 11.9.2004
+// Oliver Kullmann, 11.9.2004 (Swansea)
 
 #ifndef ALGORITHMS_TESTS_hh47bbs44Rd
 

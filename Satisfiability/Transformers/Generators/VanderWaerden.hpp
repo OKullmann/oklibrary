@@ -1,4 +1,4 @@
-// Oliver Kullmann, 31.5.2004
+// Oliver Kullmann, 31.5.2004 (Swansea)
 
 #ifndef VANDERWAERDENWAECHTER_3199GeQa
 

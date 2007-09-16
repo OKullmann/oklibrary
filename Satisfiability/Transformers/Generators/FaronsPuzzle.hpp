@@ -1,4 +1,5 @@
-// Oliver Kullmann, 28.2.2004
+// Oliver Kullmann, 28.2.2004 (Swansea)
+
 // See script for CS_342, 2003/04, week 05.
 
 #ifndef FARONSPUZZLEWAECHTER_dh3524Rda1

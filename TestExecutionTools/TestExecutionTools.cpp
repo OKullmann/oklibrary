@@ -1,3 +1,5 @@
+// Oliver Kullmann, 25.12.2005 (Swansea)
+
 // rename to TestTestExecutionTools.cpp
 
 #include <iostream>

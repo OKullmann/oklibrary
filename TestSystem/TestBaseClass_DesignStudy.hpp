@@ -1,4 +1,4 @@
-// Oliver Kullmann, 5.12.2005
+// Oliver Kullmann, 5.12.2005 (Swansea)
 
 /*!
   \file TestSystem/TestBaseClass_DesignStudy.hpp

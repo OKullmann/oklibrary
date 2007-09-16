@@ -1,4 +1,4 @@
-// Oliver Kullmann, 17.2.2006
+// Oliver Kullmann, 17.2.2006 (Swansea)
 
 /*!
   \file AllSolutions/plans/AllSolutions.hpp

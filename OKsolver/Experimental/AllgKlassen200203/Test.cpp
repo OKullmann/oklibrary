@@ -1,4 +1,4 @@
-// Oliver Kullmann, Swansea, 21.2.2003
+// Oliver Kullmann, 21.2.2003 (Swansea)
 
 #include <vector>
 #include <iostream>

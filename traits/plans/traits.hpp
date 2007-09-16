@@ -1,4 +1,4 @@
-// Oliver Kullmann, 29.12.2005
+// Oliver Kullmann, 29.12.2005 (Swansea)
 
 /*!
   \file traits/plans/traits.hpp
