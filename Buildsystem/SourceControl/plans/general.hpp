@@ -5,7 +5,7 @@
   \brief Plans and todos for the versioning control system
 
 
-  \bug Missing log of commit messages in some notification emails
+  \bug DONE Missing log of commit messages in some notification emails
   <ul>
    <li> MG - This seems to occur when one merges the master branch 
    into rijndael in the same set of commits and then pushes those commits 

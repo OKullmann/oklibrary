@@ -20,7 +20,7 @@
   \par Buildsystem/OKlibBuilding 0.2.1 : DONE
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
 
-  \par Buildsystem/SourceControl 0.2.2
+  \par Buildsystem/SourceControl 0.2.1
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
   \par Buildsystem/MasterScript version 0.0.4 : DONE
@@ -57,6 +57,9 @@
 
   \par Buildsystem/OKlibBuilding 0.2.2
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
+
+  \par Buildsystem/SourceControl 0.2.3
+  (see Buildsystem/SourceControl/plans/milestones.hpp)
 
   \par
    Update the following milestones.

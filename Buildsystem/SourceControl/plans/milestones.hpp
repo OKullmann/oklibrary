@@ -10,9 +10,6 @@
 
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
-    - Notification-e-mails
-    - Problems with branch rijndael
-    - Remote access
     - bug notification e-mail : DONE
     - Tutorial on branching : DONE
     - On branching (in our situation) : DONE
@@ -21,6 +18,15 @@
 
 
   \par Version 0.2.2
+
+  \par
+   In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
+    - Notification-e-mails
+    - Problems with branch rijndael
+    - Remote access
+
+
+  \par Version 0.2.3
 
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
