@@ -9,11 +9,9 @@
   <ul>
    <li> Further links:
     <ol>
-     <li> Internet page (which has links to the mailing lists) </li>
-     <li> The docus-system via a start page (in Transitional/docus). </li>
      <li> The demos-system via a start page (in Transitional/demos). </li>
-     <li> Also a special overview and introduction would be needed;
-     ideal a video. </li>
+     <li> Internet page (which has links to the mailing lists) DONE </li>
+     <li> The docus-system via a start page (in Transitional/docus). DONE </li>
      <li> The developers-page (see Buildsystem/Configuration/plans/Persons.hpp). DONE </li>
      <li> All documentation. DONE </li>
     </ol>
@@ -21,12 +19,10 @@
   </ul>
 
 
-  \todo Rewrite local home page
+  \todo Rewrite local home page : DONE
   <ul>
-   <li> Link section to external sources:
+   <li> Link section to external sources: DONE
     <ol>
-     <li> Fill the "ready?"-columns. </li>
-     <li> Fill the "installation page"-column. </li>
      <li> The general distinctions is between system- and local-installation. DONE
      (not shown at this level) </li>
      <li> Via "Yes" or "No" then it must be indicated whether the installation
@@ -37,8 +33,6 @@
      <li> And a link to the docus-page is needed. DONE (now needs to be provided) </li>
     </ol>
    </li>
-   <li> A special dedicated link-symbol (created by a style-sheet) perhaps
-   would be better (to be used where now "click" appears). </li>
    <li> I (OK) find it a bit cumbersome, that the links have to be found within a sentence
    (especially since most of the time one does not read the text anymore, but just wants
    to access a link). DONE (all links are now in columns of a table) </li>
@@ -49,6 +43,19 @@
      <li> The doxygen-directory "doc/html" should be renamed to "doc/doxygen_html" : DONE </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Complete local home page
+  <ul>
+   <li> Link section for external sources:
+    <ol>
+     <li> Fill the "ready?"-columns. </li>
+     <li> Fill the "installation page"-column. </li>
+    </ol>
+   </li>
+   <li> A special dedicated link-symbol (created by a style-sheet) perhaps
+   would be better (to be used where now "click" appears). </li>
   </ul>
 
 
@@ -112,6 +119,13 @@
    <li> Comments on how the logo has been created are needed: We need a kind of a
    "generic template" (at least a procedure). Gimp is a powerful tool; perhaps we can
    describe how to create the logo with Gimp? </li>
+  </ul>
+
+
+  \todo Better general documentation
+  <ul>
+   <li> Also a special overview and introduction would be needed;
+   ideal a video. </li>
   </ul>
 
 

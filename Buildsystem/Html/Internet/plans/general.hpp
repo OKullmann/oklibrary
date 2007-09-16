@@ -7,7 +7,6 @@
 
   \todo Content of the Internet-page:
   <ul>
-   <li> Access to mailing-lists (with instructions). </li>
    <li> Online-documentation (the local home page):
     <ol>
      <li> Using
@@ -33,10 +32,6 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
      And it will be hidden anyway by ok-sat-library.org. </li>
     </ol>
    </li>
-   <li> Perhaps a web-interace to the repository. </li>
-   <li> A project-page (for example, Heribert Vollmer might have a student
-   project about implementing the NP-completeness of SAT (encoding of
-   Turing machines)) --- but this perhaps should go to the local system? </li>
    <li> DONE (three package types can be downloaded, containing together
    all parts, while history is available via an automated package-history-log-file)
    Download of the software:
@@ -97,6 +92,16 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
    location where the web server accesses the pages : DONE
    (all local documentation now available (in principle)) </li>
    <li> A new target "Internet" : DONE </li>
+  </ul>
+
+
+  \todo Extended content of the Internet-page:
+  <ul>
+   <li> Access to mailing-lists (with instructions). </li>
+   <li> Perhaps a web-interface to the repository. </li>
+   <li> A project-page (for example, Heribert Vollmer might have a student
+   project about implementing the NP-completeness of SAT (encoding of
+   Turing machines)) --- but this perhaps should go to the local system? </li>
   </ul>
 
 

@@ -11,9 +11,11 @@
   \par Buildsystem/Html/Local version 0.1.1
   (see Buildsystem/Html/Local/plans/milestones.hpp)
 
+  \par Buildsystem/Html/Internet version 0.0.3
+  (see Buildsystem/Html/Internet/plans/milestones.hpp)
+
   \par
    In Buildsystem/Html/plans/general.hpp the following topics are handled:
-    - Install configuration system
     - Configuration problem : DONE
     - External vs. internal html-pages : DONE
     - Html-Directory : DONE
@@ -29,6 +31,7 @@
 
   \par
    In Buildsystem/Html/plans/general.hpp the following topics are handled:
+    - Install configuration system
     - General rules for html-pages
 
 

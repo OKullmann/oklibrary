@@ -9,13 +9,18 @@
 
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
-    - Rewrite local home page
+    - Page organisation : DONE
+    - Rewrite local home page : DONE
     - Using css : DONE
     - Page appearance : DONE
     - bug "Naming" : DONE
 
 
   \par Version 0.1.2
+
+  \par
+   In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
+    - Complete local home page
 
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
@@ -28,9 +33,9 @@
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
     - Further documentation
-    - Page organisation
     - Meta tags
     - Improved logo
+    - Better general documentation
 
 
 
