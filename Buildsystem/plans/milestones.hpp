@@ -3,19 +3,19 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.6.5 (16.9.2007)
+  \module_version Buildsystem 0.1.6.6 (16.9.2007)
 
 
   \par Version 0.2 : THEME is "AVAILABILITY"
+
+  \par Buildsystem/Html version 0.0.6
+  (see Buildsystem/Html/plans/milestones.hpp)
 
   \par Buildsystem/ReleaseProcess 0.0.5 : DONE
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
   
   \par Buildsystem/ExternalSources version 0.1.1 : DONE
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
-
-  \par Buildsystem/Html version 0.0.6
-  (see Buildsystem/Html/plans/milestones.hpp)
 
   \par Buildsystem/OKlibBuilding 0.2.1 : DONE
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
@@ -28,17 +28,8 @@
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
-    - Renaming
-    - System documentation
+    - Renaming : DONE
     - system_definitions.mak : DONE (moved to Buildsystem/Configuration/plans/milestones.hpp)
-
-  \par
-   In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
-    - %Test script
-
-  \par
-   In Buildsystem/plans/MasterScript.hpp the following topics are handled:
-    - Implementation
 
 
   \par Version 0.2.1 : THEME is "PROTO-RELEASE"
@@ -60,6 +51,15 @@
 
   \par Buildsystem/SourceControl 0.2.3
   (see Buildsystem/SourceControl/plans/milestones.hpp)
+
+  \par
+   In Buildsystem/plans/general.hpp the following topics are handled:
+    - Further renamings
+    - System documentation
+
+  \par
+   In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
+    - %Test script
 
   \par
    Update the following milestones.
