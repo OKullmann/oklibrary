@@ -43,7 +43,8 @@ if [[ "${second_line}" =~ "^# .+, [0-9]{1,2}\.[0-9]{1,2}\.([12][09][09][0-9]) \(
     echo ${second_line} >> $$
     sed -e "s;XXXX;${replacement};" ${licence_text_file} >> $$
     tail --lines=+3 $1 >> $$  
-    mv $$ $1
+    cat $$ > $1
+    rm $$
   fi
 else
   echo $1
