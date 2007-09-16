@@ -5,11 +5,11 @@
   \brief Plans regarding management of personal data
 
 
-  \todo Developers information
+  \todo Developers information : DONE
   <ul>
-   <li> Complete information in "Developers.html". </li>
+   <li> Complete information in "Developers.html". DONE </li>
    <li> Link appropriately to "Developers.html" (from the local
-   home page; see Buildsystem/Html/plans/LocalHomePage.hpp). </li>
+   home page; see Buildsystem/Html/plans/LocalHomePage.hpp). DONE </li>
    <li> Compare with "Developers" in Buildsystem/plans/Release.hpp. DONE </li>
    <li> DONE (decided to produce an html-file "Developers.html" right away
    due to greater flexibility, and it seems we do not automatically process

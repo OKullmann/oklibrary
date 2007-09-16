@@ -14,12 +14,12 @@
     - Primary versus derived configurations
 
   \par
-   In Buildsystem/Configuration/plans/Persons.hpp the following topics are handled:
-    - Developers information
-
-  \par
    In Buildsystem/Configuration/ExternalSources/plans/general.hpp the following topics are handled:
     - Software management
+
+  \par
+   In Buildsystem/Configuration/plans/Persons.hpp the following topics are handled:
+    - Developers information : DONE
 
 
   \par Version 0.0.6
