@@ -13,10 +13,6 @@
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
-    - bug Mixing C and C++
-    - bug Incorrect build of new tests I
-    - bug Incorrect build of new tests II
-    - %Test system
     - Documenting the build system : DONE
     - Renaming : DONE
     - Log directory : DONE
@@ -24,13 +20,23 @@
     - OKsystem/Buildsystem structure : DONE
     - Specification of build system : DONE
 
+
+  \par Version 0.2.2
+
+  \par
+   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
+    - bug Mixing C and C++
+    - bug Incorrect build of new tests I
+    - bug Incorrect build of new tests II
+    - %Test system
+
   \par
    In Buildsystem/OKlibBuilding/plans/TargetSpecifications.hpp the following topics are handled:
     - General look and feel
     - New target for main action
 
 
-  \par Version 0.2.2
+  \par Version 0.2.3
 
   \par Buildsystem/OKlibBuilding/Targets/html version 0.1.2
   (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
@@ -49,7 +55,7 @@
     - Target "prebuild"
 
 
-  \par Version 0.2.3
+  \par Version 0.2.4
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
@@ -66,7 +72,7 @@
     - Target "new-module"
 
 
-  \par Version 0.2.4
+  \par Version 0.2.5
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
@@ -82,7 +88,7 @@
     - CMake
 
 
-  \par Version 0.2.5
+  \par Version 0.2.6
 
   \par
    In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:

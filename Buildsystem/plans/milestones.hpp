@@ -17,7 +17,7 @@
   \par Buildsystem/Html version 0.0.6
   (see Buildsystem/Html/plans/milestones.hpp)
 
-  \par Buildsystem/OKlibBuilding 0.2.2
+  \par Buildsystem/OKlibBuilding 0.2.1
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
 
   \par Buildsystem/SourceControl 0.2.2
@@ -54,6 +54,9 @@
 
   \par Buildsystem/Html version 0.0.7
   (see Buildsystem/Html/plans/milestones.hpp)
+
+  \par Buildsystem/OKlibBuilding 0.2.2
+  (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
 
   \par
    Update the following milestones.
