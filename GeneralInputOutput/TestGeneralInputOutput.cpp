@@ -1,3 +1,5 @@
+// Matthew Henderson, 6.9.2005 (Swansea)
+
 #include <iostream>
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>

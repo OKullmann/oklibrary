@@ -1,3 +1,5 @@
+// Oliver Kullmann, 2.1.2006 (Swansea)
+
 #include <iostream>
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>

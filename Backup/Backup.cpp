@@ -1,6 +1,4 @@
-// Project: OKSystem Backup
-// Author: Tony H. Bao
-// Date: 06.04.2005
+// Tony H. Bao, 6.4.2005 (Swansea)
 
 #include <iostream>
 #include <string>
