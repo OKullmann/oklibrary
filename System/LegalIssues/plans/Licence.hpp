@@ -135,7 +135,9 @@ s/>.
    <li> First, we should make all non-data files conform to the standard,
    that the first line shows the file-creator and file-creation-date:
     <ol>
-     <li> The script-files (with first line starting with "#!").
+     <li> Next make-files. </li>
+     <li> DONE
+     The script-files (with first line starting with "#!").
      \verbatim
 Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
     -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
@@ -167,7 +169,9 @@ Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${
     </ol>
    <li> In one go, every files gets the licence statement.
     <ol>
-     <li> Now the script-files (with first line starting with "#!"):
+     <li> Next the make-files. </li>
+     <li> DONE
+     Now the script-files (with first line starting with "#!"):
      \verbatim
 Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
     -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
