@@ -1,5 +1,5 @@
 #!/bin/bash
-# Oliver Kullmann, 14.9.2007
+# Oliver Kullmann, 14.9.2007 (Swansea)
 
 set -o errexit -o nounset -o xtrace
 
