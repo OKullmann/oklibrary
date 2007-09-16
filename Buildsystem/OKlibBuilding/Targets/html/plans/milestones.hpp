@@ -9,9 +9,7 @@
 
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
-    - Doxygen error messages
-    - Environment-variable expansion
-    - Doxygen general
+    - Environment-variable expansion : DONE
     - Directory structure : DONE
 
 
@@ -20,6 +18,8 @@
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
     - Move
+    - Doxygen error messages
+    - Doxygen general
     - Doxygen menu and main page review
     - Search engine
 
