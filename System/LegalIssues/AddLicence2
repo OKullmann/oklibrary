@@ -1,6 +1,52 @@
 #!/bin/bash
 # Oliver Kullmann, 25.8.2007 (Swansea)
 
-head --lines=2 $1 | cat - Header.s > $$; tail --lines=+3 $1 | cat $$ -
+# Two input parameters are expected, a filename and string.
+# If the first two lines matches the regular expressions (BRE)
+# ^#!.+
+# ^# .+\([12][09][09][0-9]\).*(.+)$
+# then Header.s is inserted right after the second line,
+# where XXXX is replaced either by "\1-2007" in case
+# \1 is not 2007, or otherwise just by "2007".
+# If the first 2 lines don't match, then the filename
+# is printed out.
+# If the second parameter is not "override" then actually the file
+# is not changed.
 
-rm $$
+set -o errexit -o nounset # -o xtrace
+shopt -s extglob
+
+licence_text_file=${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/Header.s
+
+if [ $# != 2 ]; then
+  echo "ERROR[AddLicence1]: Two input parameter are expected, the name of the file where the licence is to be inserted, and a string (\"override\" for overriding the file)!"
+  exit 1
+fi
+
+first_line=$(head --lines=1 $1)
+
+if [[ ! "${first_line}" =~ "#!.+" ]]; then
+  exit 0;
+fi
+
+second_line=$(head --lines=2 $1 | tail --lines=1)
+
+if [[ "${second_line}" =~ "^# .+, [0-9]{1,2}\.[0-9]{1,2}\.([12][09][09][0-9]) \(.+\)$" ]]; then
+  if [ "$2" = "override" ]; then
+    year=${BASH_REMATCH[1]}
+    if [ "${year}" == "2007" ]; then
+        replacement="2007"
+    else
+        replacement="${year} - 2007"
+    fi
+    echo ${first_line} > $$
+    echo ${second_line} >> $$
+    sed -e "s;XXXX;${replacement};" ${licence_text_file} >> $$
+    tail --lines=+3 $1 >> $$  
+    mv $$ $1
+  fi
+else
+  echo $1
+fi
+
+

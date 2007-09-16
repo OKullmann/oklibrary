@@ -135,7 +135,15 @@ s/>.
    <li> First, we should make all non-data files conform to the standard,
    that the first line shows the file-creator and file-creation-date:
     <ol>
-     <li> The script-files (with first line starting with "#!"). </li>
+     <li> The script-files (with first line starting with "#!").
+     \verbatim
+Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
+    -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
+  do
+    ${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/AddLicence2 ${F} "noop";
+  done
+     \endverbatim
+     </li>
      <li> DONE .c-files:
      \verbatim
 Transitional> for F in $(find * -name "*.c"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
