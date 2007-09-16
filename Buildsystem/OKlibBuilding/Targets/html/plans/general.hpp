@@ -121,33 +121,4 @@
    <li> Can doxygen be extended? We need some easy solutions. </li>
   </ul>
 
-
-  \todo Environment-variable expansion : DONE
-  <ul>
-   <li> DONE (transferred to the full documentation)
-   Describe more precisely the features of "$(VAR)"-usage:
-    <ol>
-     <li> "$(VAR)" in a file to be processed by doxygen cannot occur
-     on a "\par"-line. </li>
-     <li> "$(VAR)" in the Doxyfile can appear within quotation marks. DONE (we
-     use m4-preprocessing for the doxyfile, and thus these issues are not of
-     interest anymore) </li>
-    </ol>
-   </li>
-   <li> Ask the doxygen-mailing list! DONE (variable expansion is a
-   feature) </li>
-   <li> Compare with "Definitions for doxygen" in Buildsystem/Configuration/plans/general.hpp. DONE </li>
-   <li> Apparently doxygen replaces make-variable-evaluations
-   like "$(source_libraries)" or "$(HOME)" by their value, except if these terms are in
-   quotes (as here, to avoid evaluation) ?!?! This could be useful, but is not documented? DONE (decided to use this feature) </li>
-  </ul>
-
-
-  \todo Directory structure: DONE (complete update)
-  The directory structure under Buildsystem/Generic/documentation_building needs review:
-  <ul>
-   <li> Upper-case should be used (the names are not "systematic"). </li>
-   <li> One nesting-level likely should be eliminated. </li>
-  </ul>
-
 */

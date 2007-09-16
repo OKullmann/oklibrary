@@ -3,15 +3,7 @@
 /*!
   \file Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp
   
-  \module_version Buildsystem/OKlibBuilding/Targets/html 0.1 (14.7.2007)
-
-  \par Version 0.1.1
-
-  \par
-   In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
-    - Environment-variable expansion : DONE
-    - Directory structure : DONE
-
+  \module_version Buildsystem/OKlibBuilding/Targets/html 0.1.1 (16.9.2007)
 
   \par Version 0.1.2
 
@@ -37,6 +29,7 @@
   \par Version history
 
    - 0.1   : 14.7.2007; initial version number (the doxygen-documentation works, the basic functionality is there).
+   - 0.1.1 : 16.9.2007; restructuring, and employing now the configuration system.
 
 */
 

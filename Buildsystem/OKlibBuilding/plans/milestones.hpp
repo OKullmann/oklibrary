@@ -3,12 +3,12 @@
 /*!
   \file Buildsystem/OKlibBuilding/plans/milestones.hpp
   
-  \module_version Buildsystem/OKlibBuilding 0.2 (6.7.2007)
+  \module_version Buildsystem/OKlibBuilding 0.2.0.1 (16.9.2007)
 
 
   \par Version 0.2.1
 
-  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.1
+  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.1 : DONE
   (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
 
   \par
