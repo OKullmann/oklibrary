@@ -5,85 +5,6 @@
   \brief Plans and todos for the versioning control system
 
 
-  \bug DONE Missing log of commit messages in some notification emails
-  <ul>
-   <li> MG - This seems to occur when one merges the master branch 
-   into rijndael in the same set of commits and then pushes those commits 
-   to the server. I believe this happens because of a bug in the post-receive 
-   mail script.
-   
-   It appears this occurs because of the following on line 342 of post-receive 
-   \verbatim
-git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
-git rev-list --pretty --stdin $oldrev..$newrev
-   \endverbatim
-   This appears to be what prints out the log messages. The git-rev-parse
-   section appears to produce a list of all the current HEAD commits from 
-   each of the branches prefixed with a ^ . The head of the current 
-   reference (master in the problem case) is then removed via the grep 
-   command. This leaves essentially the command 
-   \verbatim
-git rev-list --pretty $oldrev..$newrev ^$rijndaelhead
-   \endverbatim
-   which should print all commits from $oldrev to $newrev (the range of 
-   commits in the current push) but nothing before $rijndaelhead , which 
-   happens to be ahead of the other revisions as the merge is performed 
-   last and so the command returns nothing.
-
-   The exclusions from git-rev-parse appear to be used to try to ensure
-   that when commits from other branches/references have been merged into
-   the current branch/reference (that is being processed, since each 
-   reference that is being updated is passed into post-receive seperately
-   on a new line which is why the rijndael merge appears as a seperate 
-   email), people aren't emailed about the same commit twice, although I
-   am unsure of how this occurs. The explanation of the reasoning behind 
-   this is at the head of the generate_update_branch_email function on line 
-   227 in the post-receive script.
-   
-   Using a test repository and performing a push with and without having
-   merged master into rijndael in the same push set, the above appears to
-   hold. However, given that I don't understand fully the reasoning for 
-   the git-rev-parse exclusions, I am unsure of a clear fix, or if this 
-   is definitely the issue.</li>
-   <li> The last commit (with empty log message) attests your analysis.
-   This appears to be a clear case for the git-mailing-list. I'm on the list
-   for a couple of weeks, and they are very responsive. Can MG send an e-mail
-   to the list, with the bug-description and the request for a fix?
-   (Then, btw, one could also mention the other correction we made.)
-   Wouldn't it be easiest (and best) to get rid off these checks, and just
-   send e-mails for each branch on what has changed? </li>
-   <li>MG - Getting rid of the checks seems an easy fix since as far as I can
-   see, we aren't really interested in the behaviour the checks are supposed
-   to provide (namely preventing you from seeing commits from merges in both
-   emails/branch logs). Applying the following change seems to give the desired 
-   behaviour after very basic testing with a sample repository 
-   \verbatim
-csmatthewg@cs-oksvr:~/Transitional> diff --normal /work/Repositories/Git/bare/Transitional/hooks/post-receive hooks/post-receive 
-372,373c372,373
-<               git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
-<               git rev-list --pretty --stdin $oldrev..$newrev
----
->               #git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
->               git rev-list --pretty  $oldrev..$newrev
-   \endverbatim
-
-   I have emailed the git mailing list describing the problems with an email 
-   entitled "Issues with envelopesender and empty log messages using 
-   contrib/hooks/post-receive-email", although I accidentally sent this in
-   reply to another and so in some email clients this will appear as a subthread of
-   another thread which may be the reason for little response. However, there was a
-   single immediate response from Junio C Hamano saying he has forwarded the email
-   to the author of the post-receive script (Andy Parkins) and suggesting a more
-   insightful fix for the initial quoting issue (I leave this out here since the email
-   is already available on the list).
-   
-   </li>
-   <li>
-   MG - This change has now been applied and should hopefully resolve the issues.
-   </li>
-  </ul>
-
-
   \todo Notification-e-mails
   <ul>
    <li> Improvements of the automatic e-mail:
@@ -476,96 +397,6 @@ git mv file1 file2 dir1 dir2 Annotations
   </ul>
 
 
-  \todo MG submitted to the shared repository, but no notification e-mail was created? DONE
-  <ul>
-   <li> Changes performed as proposed below (using
-   \verbatim
-git config hooks.envelopesender O.Kullmann@Swansea.ac.uk
-   \endverbatim
-   on the shared central repository). One has to see whether it works now.
-   </li>
-   <li> MG : Looking at the mail log (as a sufficiently privileged user) 
-   \verbatim
-grep csmatthewg /var/log/mail -A 5
-   \endverbatim
-   the messages appear to have been sent, relayed through to the university mail servers.
-
-   Setting hooks.envelopesender to O.Kullmann@swansea.ac.uk didn't initially work as the post-receive
-   script sets the option as 
-   \verbatim 
--f 'O.Kullmann@swansea.ac.uk' 
-   \endverbatim 
-   which results in the single quotes being
-   included in envelope sender address. Changing the script to use double quotes instead fixes this issue
-   and then with hooks.envelopesender set correctly, mails appear to go through without issue upon
-   pushing to a test repository with the same permissions and setup as Transitional.
-
-   \verbatim
-csmatthewg@cs-oksvr:~/Transitional> diff /work/Repositories/Git/bare/Transitional/hooks/post-receive hooks/post-receive 
-603c603
-<               envelopesender="-f '$envelopesender'"
----
->               envelopesender="-f \"$envelopesender\""
-
-csmatthewg@cs-oksvr:~/Transitional> git config hooks.envelopesender
-O.Kullmann@swansea.ac.uk
-   \endverbatim
-   
-   MG : From looking at the post-receive mail script, it seems to use sendmail in much
-   the same way as described below, setting the From: field to the address of the committer
-   and when pushing to cs-oksvr, git seems to use ssh to login as csmatthewg and from what I 
-   can see, the hooks are run as the user logged in (ie csmatthewg) which, it would seem
-   to me, would produce a similar scenario as listed below with sendmail. Perhaps a simple
-   line in the post-receive hook such as 
-   \verbatim
-echo "$USER pushed" >> /some/path
-   \endverbatim
-   would confirm whether or not the post-receive script is actually being run when MG pushes.
-   
-   OK: The following discussion seems irrelevant to me. Whether from his
-   account MG can or cannot send e-mails doesn't matter, since Git doesn't
-   know about it --- it's just the (arbitrary) e-mail-address specified in
-   the config-file, nothing else. According to Configuration/Developers.html,
-   the e-mail of MG is 360678@Swansea.ac.uk, and this is to be used. But
-   moreover, the point is not sending e-mails, it is the action after receiving!
-   Whether MG's e-mail-address is completely fake or not doesn't matter
-   at all for that --- the process doesn't know. (And note that the point
-   is that *nobody* gets a notification after MG's submissions! While if somebody
-   else submits then it works.)
-
-   MG - Point to note, if I use sendmail from the command line without the envelope sender
-   (-f option), the mail doesn't arrive, but if I specify it, the mail arrives fine. From
-   what I can see, the envelope sender is only set in the post-receive script if 
-   hooks.envelope_sender is set. Ie - 
-   \verbatim
-csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t -f 360678@swan.ac.uk
-To: 360678@swan.ac.uk
-From: 360678@swan.ac.uk
-Subject: Testing sendmail for git
-
-Testing
-. 
-   \endverbatim
-   Works but the following doesn't 
-   \verbatim
-csmatthewg@cs-oksvr:~> /usr/sbin/sendmail -t
-To: 360678@swan.ac.uk
-From: 360678@swan.ac.uk
-Subject: Testing sendmail for git
-
-Testing
-. 
-   \endverbatim
-   Perhaps the mail is being sent by the hook script but isn't being routed
-   by the university mail servers due to the envelope sender being set to 
-   csmatthewg or something similar which it doesn't recognise as a valid
-   address/user to route for? Perhaps someone with access to the mail logs
-   on ok-svr could take a look to see if there is anything to suggest such 
-   a problem?
-   </li>
-  </ul>
-
-
   \todo Tutorial on branching : DONE (basic principle are understood; needs to be
   transferred to the documentation-document)
   <ul>
@@ -726,7 +557,8 @@ git branch -d br
   </ul>
 
 
-  \todo On branching (in our situation) DONE (fixed a reasonable procedure)
+   \todo On branching (in our situation) DONE (fixed a reasonable procedure; needs to
+   be transferred to the general documentation))
   <ul>
    <li> The appropriate routine for creating a new branch br by developer D and making it
    available on the shared repository seems to be as follows:
@@ -793,60 +625,6 @@ git branch -d br
    <li> It appears that "secret" development cannot be achieved via branching,
    but a new dedicated repository has to be created. </li>
   </ul>
-
-
-  \todo Git on the cs-oksvr : DONE
-  <ul>
-   <li> The notification e-mails need to be re-installed (perhaps
-   this time with some improvements). DONE </li>
-   <li> Git needs to be updated (and this also regularly) : DONE (put the
-   OKlibrary into csoliver's account) </li>
-  </ul>
-
-
-  \todo Moving files: DONE
-  <ol>
-   <li> Use "git mv source destination" to move single files as well as whole directories. </li>
-   <li> The commit is performed by "git commit" (so except of the move nothing else should be
-   staged (since the commit message concerns all what is staged)). </li>
-   <li> Also with "git-gui" the commit will automatically work. </li>
-   <li> However, all what is done is that the old file is no longer in the repository,
-   while the new file is in the repository, with empty history except of the mv-information ---
-   the old file is still in the history, while the new file has no history! </li>
-   <li> "git mv file new_file" is equivalent to
-   \verbatim
-mv file new_file
-git rm file
-git add new_file
-   \endverbatim
-   Now for the commit the removal and the addition are staged, which git automatically combines
-   into a renaming. </li>
-   <li> The question seems now to be how to move also the history:
-    <ol>
-     <li> The new "git-filter-branch" (not in 1.5.2.2) could be the solution for filtering
-     out certain files. Or one can build a completely new repository, with the appropriate
-     commits not (re-)done. </li>
-     <li> Still open the question of how to prepend the history of one file to the history
-     of another file? Seems not possible (without recreating the whole repository)? </li>
-     <li> A tool for rewriting the whole history (creating a new branch) is "cg-admin-rewritehis"
-     (belonging to the "cogito"-tool): With this files can be filtered out, log-messages
-     changed etc. The documentation of this command specifically contains an example of
-     how to remove a file from history. </li>
-     <li> So we should install the cogito-tool and experiment with it. </li>
-     <li> Actually, apparently "git-filter-branch" is supposed to replace "cg-admin-rewritehis",
-     so that we don't need cogito? </li>
-     <li> The problem with the broken-history-chain (when renaming) appparently
-     is solved with the new feature 
-     \verbatim
-git log -p --follow old_file
-     \endverbatim
-     which allows to show the whole history, following renamings. (What about gitk?) </li>
-    </ol>
-    History-surgery is only an option as long as there are no public clones out. But actually
-    we should not be hindered to move files and directories around as needed, and thus we
-    should not worry at all about certain problems regarding the history!
-   </li>
-  </ol>
 
 */
 
