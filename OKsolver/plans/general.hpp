@@ -16,6 +16,7 @@
    <li> "Graphen" : It seems there is nothing of real interest in here anymore.
      DONE (transferred to Combinatorics/Graphs/BoostSupport)
    </li>
+  </ul>
 
 
   \todo Submodule "Generator" must be transferred to module RandomGenerator. DONE
