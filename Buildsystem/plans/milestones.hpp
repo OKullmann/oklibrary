@@ -3,7 +3,7 @@
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.6.3 (15.9.2007)
+  \module_version Buildsystem 0.1.6.4 (16.9.2007)
 
 
   \par Version 0.2 : THEME is "AVAILABILITY"
@@ -17,7 +17,7 @@
   \par Buildsystem/Html version 0.0.6
   (see Buildsystem/Html/plans/milestones.hpp)
 
-  \par Buildsystem/OKlibBuilding 0.2.1
+  \par Buildsystem/OKlibBuilding 0.2.1 : DONE
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
 
   \par Buildsystem/SourceControl 0.2.2

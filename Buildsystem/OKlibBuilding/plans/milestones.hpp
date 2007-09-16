@@ -3,22 +3,7 @@
 /*!
   \file Buildsystem/OKlibBuilding/plans/milestones.hpp
   
-  \module_version Buildsystem/OKlibBuilding 0.2.0.1 (16.9.2007)
-
-
-  \par Version 0.2.1
-
-  \par Buildsystem/OKlibBuilding/Targets/html version 0.1.1 : DONE
-  (see Buildsystem/OKlibBuilding/Targets/html/plans/milestones.hpp)
-
-  \par
-   In Buildsystem/OKlibBuilding/plans/general.hpp the following topics are handled:
-    - Documenting the build system : DONE
-    - Renaming : DONE
-    - Log directory : DONE
-    - New directory-structure "Generic" : DONE
-    - OKsystem/Buildsystem structure : DONE
-    - Specification of build system : DONE
+  \module_version Buildsystem/OKlibBuilding 0.2.1 (16.9.2007)
 
 
   \par Version 0.2.2
@@ -106,6 +91,7 @@
   \par Version history
 
    - 0.2   : 6.7.2007; initial version number (the generic makefile is the most advanced part of the buildsystem).
+   - 0.2.1.: 16.9.2007; restructuring, improved documentation, and usage of the new configuration system.
 
 */
 
