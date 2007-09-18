@@ -33,7 +33,6 @@ import copy
 # the modulus defined for Rijndael.
 BIT.<z> = GF(2)[]
 BYTE.<a> = GF(2**8, 'a', z^8 + z^4 + z^3 + z + 1)
-FBYTE.<b> = GF(2**32, 'b', a^4 + 1)
 
 def natToGF2t8(n) :
     """ Converts From a number in Nat to the corresponding value in GF(2^8) given 
@@ -56,8 +55,6 @@ def GF2t8ToBitV(re) :
     """ Converts an element in GF(2^8) to a vector of bits """
     return re.vector()
 
-# Just to make sure the two above functions are the inverses of each other
-assert(reduce( lambda x, y : x and y ,[ GF2t8ToNat(natToGF2t8(x)) == x for x in range(0,256)]))
 
 def listToGF2t8Mat(rl) :
     """ Converts a list of natural numbers to a matrix of elements in GF(2^8) """
@@ -77,6 +74,10 @@ def hexToGF2t8Mat(n) :
     return matrix(BYTE, len(rl)/4, map(natToGF2t8, rl)).transpose()
 
 def GF2t8MatToHex(rm) :
+    """ Converts a 4xn matrix of GF(2^8) elements to a list of 2 digit hexidecimal 
+    strings where the hexidecimal value is the integer representation of the bitstring
+    representation of the coefficients of the GF(2^8) element's polynomial, where the
+    MSB is the coefficient of the highest order. """
     print reduce(lambda x,y : x + y[2:].rjust(2,'0'), map(hex, listFromGF2t8Mat(rm.transpose())),'').upper()
 
 def numberOfRounds(nb,nk) :
@@ -87,15 +88,15 @@ def numberOfRounds(nb,nk) :
     return 10 + max(nb,nk)
 
 # Rijndael Mix Columns Matrix
-# Equivalent to multiplication by constant 
-# in the 4-byte ring.
+# Equivalent to multiplication by constant in the 4-byte ring.
 RMCM = listToGF2t8Mat( 
     [2 , 3 , 1 , 1,
      1 , 2 , 3 , 1,
      1 , 1 , 2 , 3,
      3 , 1 , 1 , 2])
 
-SBOX = matrix(GF(2),8,
+# Rijndael SBox
+SBOX_MATRIX = matrix(GF(2),8,
     [1,0,0,0,1,1,1,1,
      1,1,0,0,0,1,1,1,
      1,1,1,0,0,0,1,1,
@@ -121,21 +122,28 @@ def aesPerm(n, nb) :
 
 def S_rd(x) :
     """ Takes a given byte in GF(2^8) and applies the subbytes operation to it """
-    return BitVToGF2t8(SBOX * GF2t8ToBitV(x ^ -1)) + BitVToGF2t8((1,1,0,0,0,1,1,0))
+    return BitVToGF2t8(SBOX_MATRIX * GF2t8ToBitV(x ^ -1)) + BitVToGF2t8((1,1,0,0,0,1,1,0))
 
 def InvS_rd(x) :
-    return (BitVToGF2t8((SBOX^-1) * GF2t8ToBitV(x)) + BitVToGF2t8((1,0,1,0,0,0,0,0))) ^ -1
+    return (BitVToGF2t8((SBOX_MATRIX^-1) * GF2t8ToBitV(x)) + BitVToGF2t8((1,0,1,0,0,0,0,0))) ^ -1
 
 ############## Main Round Operations ###################
 
 def MixColumns(rv) :
-#    return matrix(FBYTE,map(MixColumnsMult, RV.columns()))
+    """ Takes a 4xn matrix of GF(2^8) elements and returns
+    a matrix of GF(2^8) elements after the MixColumns Step """
     return RMCM * rv
 
 def InvMixColumns(rv) :
+    """ Takes a 4xn matrix of GF(2^8) elements and returns
+    a matrix of GF(2^8) elements after the Inverse MixColumns Step """
     return (RMCM ^ -1) * rv
 
 def ShiftRows(rm, perm = aesPerm) :
+    """ Takes a 4xn matrix of GF(2^8) elements and optionally
+    an arbitrary integer permutation function (f(x) = x') and returns
+    a matrix of GF(2^8) elements after the ShiftRows (or the custom) permutation
+    has been applied """
     rml = rm.list()
     rl = [1] * len(rml)
     for x in range(0,len(rml)) :
@@ -143,6 +151,13 @@ def ShiftRows(rm, perm = aesPerm) :
     return matrix(BYTE,4,rl)
 
 def InvShiftRows(rm, perm = aesPerm) :
+    """ Takes a 4xn matrix of GF(2^8) elements and optionally
+    an arbitrary integer permutation function (f(x) = x') and returns
+    a matrix of GF(2^8) elements after the Inverse ShiftRows (or the custom) permutation
+    has been applied. 
+    
+    The arbitrary permutation function is applied in the inverse manner to ShiftRows, so
+    the same permutation function should be used in each. """
     rml = rm.list()
     rl = [1] * len(rml)
     for x in range(0,len(rml)) :
@@ -150,13 +165,16 @@ def InvShiftRows(rm, perm = aesPerm) :
     return matrix(BYTE,4,rl)
 
 def SubBytes(rm) :
+    """ Takes a 4xn matrix of GF(2^8) elements and applies the Rijndael
+    Sbox pointwise to each element, returning a 4xn matrix of GF(2^8)
+    elements """
     return matrix(BYTE,4,map(S_rd, rm.list()))
 
 def InvSubBytes(rm) :
+    """ Takes a 4xn matrix of GF(2^8) elements and applies the Inverse of the Rijndael
+    Sbox pointwise to each element, returning a 4xn matrix of GF(2^8)
+    elements """
     return matrix(BYTE, 4, map(InvS_rd, rm.list()))
-
-def AddRoundKey(rm, rkm) :
-    return matrix(BYTE,4, map(lambda (n,m) : n + m, zip(rm.list(),rkm.list())) )
 
 def getExpandedKey(km, pl, r) :
     """ Takes in a key matrix, the plaintext length (in bytes) and the
@@ -204,63 +222,99 @@ def nextKey(prkl, r) :
     return nrkl
 
 def rijndael_en(pm,km,r = -1) :
+    """ Takes a 4xn matrix of GF(2^8) elements plaintext,
+    a 4xn matrix of GF(2^8) elements key and optionally
+    an integer (>0) number of rounds to apply and returns
+    a 4xn matrix of GF(2^8) elements representing the results
+    of the Rijndael block cipher given the parameters."""
     nb = len(pm.list())
     if r == -1 :
         r = numberOfRounds(nb, len(km.list()))
     ekl = getExpandedKey(km, nb, r)
     rkm = getRoundKey(ekl, nb, 0)
     # Initial Round
-    rm = AddRoundKey(pm, rkm)
+    rm = pm + rkm
     # Middle Rounds
     for i in range(1,r) :
         rm = SubBytes(rm)
         rm = ShiftRows(rm)
         rm = MixColumns(rm)
         rkm = getRoundKey(ekl, nb, i)
-        rm = AddRoundKey(rm, rkm)
+        rm = rm + rkm
     # Final Round
     rm = SubBytes(rm)
     rm = ShiftRows(rm)
     rkm = getRoundKey(ekl, nb, r)
-    rm = AddRoundKey(rm, rkm)
+    rm = rm + rkm
     return rm
 
-
 def rijndael_de(cm,km,r = -1) :
+    """ Takes a 4xn matrix of GF(2^8) elements plaintext,
+    a 4xn matrix of GF(2^8) elements key and optionally
+    an integer (>0) number of rounds to apply and returns
+    a 4xn matrix of GF(2^8) elements representing the results
+    of the Rijndael block cipher given the parameters."""
     nb = len(cm.list())
     if r == -1 :
         r = numberOfRounds(nb, len(km.list()))
     ekl = getExpandedKey(km, nb, r)
     # Final Round
     rkm = getRoundKey(ekl, nb, r)
-    rm = AddRoundKey(cm, rkm)
+    rm = cm + rkm
     rm = InvShiftRows(rm)
     rm = InvSubBytes(rm)
     # Middle Rounds
     for i in range(r-1,0,-1) :
         rkm = getRoundKey(ekl, nb, i)
-        rm = AddRoundKey(rm, rkm)
+        rm = rm + rkm
         rm = InvMixColumns(rm)
         rm = InvShiftRows(rm)
         rm = InvSubBytes(rm)
     # Initial Round
     rkm = getRoundKey(ekl, nb, 0)
-    rm = AddRoundKey(rm, rkm)
+    rm = rm + rkm
     return rm
 
 ###################### Tests ##################################
 
 # Test vectors from Design of Rijndael - Appendix D
 
-# Test the Sbox/subbytes works for a given test vector
-sbox1 = listToGF2t8Mat([25, 61, 227, 190, 160, 244, 226, 43, 154, 198, 141, 42, 233, 248, 72, 8]).transpose()
-assert(listFromGF2t8Mat(SubBytes(sbox1).transpose()) == [212, 39, 17, 174, 224, 191, 152, 241, 184, 180, 93, 229, 30, 65, 82, 48])
-# Test to ensure the encryption function works
-pm1 = listToGF2t8Mat([50, 67, 246, 168, 136, 90, 48, 141, 49, 49, 152, 162, 224, 55, 7, 52]).transpose()
-km1 = listToGF2t8Mat([43, 126, 21, 22, 40, 174, 210, 166, 171, 247, 21, 136, 9, 207, 79, 60]).transpose()
-cm1 = rijndael_en(pm1, km1, 10)
-assert(listFromGF2t8Mat(cm1) == [57, 2, 220, 25, 37, 220, 17, 106, 132, 9, 133, 11, 29, 251, 151, 50])
-assert(rijndael_de(cm1, km1, 10) == pm1)
-cm2 = rijndael_en(matrix(BYTE,4,[0]*32), matrix(BYTE,4,[0]*28))
-assert(listFromGF2t8Mat(cm2) == [188, 54, 187, 221, 53, 51, 80, 28, 24, 156, 39, 102, 109, 192, 210, 97, 191, 149, 28, 195, 186, 0, 50, 126, 109, 91, 188, 104, 91, 85, 11, 33])
-assert(listFromGF2t8Mat(rijndael_de(cm2,matrix(BYTE,4,[0]*28))) == ([0] * 32))
+def RijndaelTest () :
+    """ Rijndael Test Suite. 
+    
+    This can be run to perform a set of tests to try to ensure the correctness of the implementation. A message
+    will be printed to screen in the event of each failure, and in the event of no failure, the final message
+    should read 'n/n Tests Passed' where n is a positive integer. """
+    numTests = 6
+    numFailed = 0
+    # Just to make sure the two above functions are the inverses of each other
+    if (not (reduce( lambda x, y : x and y ,[ GF2t8ToNat(natToGF2t8(x)) == x for x in range(0,256)]))) :
+        print "GF2t8ToNat Conversion Test failed. GF2t8ToNat is not the inverse of natToGF2t8!"
+        numFailed += 1
+    # Test the Sbox/subbytes works for a given test vector
+    sbox1 = listToGF2t8Mat([25, 61, 227, 190, 160, 244, 226, 43, 154, 198, 141, 42, 233, 248, 72, 8]).transpose()
+    if  (not (listFromGF2t8Mat(SubBytes(sbox1).transpose()) == 
+        [212, 39, 17, 174, 224, 191, 152, 241, 184, 180, 93, 229, 30, 65, 82, 48])) :
+        print "Sbox Test Failed!...."
+        numFailed += 1
+    # Test to ensure the encryption function works
+    pm1 = listToGF2t8Mat([50, 67, 246, 168, 136, 90, 48, 141, 49, 49, 152, 162, 224, 55, 7, 52]).transpose()
+    km1 = listToGF2t8Mat([43, 126, 21, 22, 40, 174, 210, 166, 171, 247, 21, 136, 9, 207, 79, 60]).transpose()
+    cm1 = rijndael_en(pm1, km1, 10)
+    if (not (listFromGF2t8Mat(cm1) == [57, 2, 220, 25, 37, 220, 17, 106, 132, 9, 133, 11, 29, 251, 151, 50])) :
+        print "AES Encryption Test Failed!...."
+        numFailed += 1
+    if (not (rijndael_de(cm1, km1, 10) == pm1)) :
+        print "AES Decryption Test Failed!...."
+        numFailed += 1
+    cm2 = rijndael_en(matrix(BYTE,4,[0]*32), matrix(BYTE,4,[0]*28))
+    if (not (listFromGF2t8Mat(cm2) == 
+        [188, 54, 187, 221, 53, 51, 80, 28, 24, 156, 39, 102, 109, 192, 210, 97, 191, 
+        149, 28, 195, 186, 0, 50, 126, 109, 91, 188, 104, 91, 85, 11, 33])) :
+        print "Rijndael 256 bit plaintext, 192 bit key null Encryption Test Failed!...."
+        numFailed += 1
+    if (not (listFromGF2t8Mat(rijndael_de(cm2,matrix(BYTE,4,[0]*28))) == ([0] * 32))) :
+        print "Rijndael 256 bit plaintext, 192 bit key null Decryption Test Failed!...."
+        numFailed += 1
+    print str(numTests - numFailed) + "/" + str(numTests) + " Tests Passed"
+

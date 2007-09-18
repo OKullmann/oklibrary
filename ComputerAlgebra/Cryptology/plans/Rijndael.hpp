@@ -15,7 +15,46 @@ License, or any later version. */
    <li> Write documentation on how to use this program:
     <ol>
      <li> A basic problem is how to handle source code documentation (in the absence
-     of doxygen?). </li>
+     of doxygen?). 
+     
+     The option of simply including files in doxygen verbatim was suggested previously. This seems
+     to be fairly simple if one creates a basic filter to wrap things up and then sets
+     this as the input filter (it has some additional spaces due to use of verbatim tags
+     inside verbatim tags) - 
+     \verbatim
+#!/usr/bin/python
+import sys
+import os
+
+filename = sys.argv[1]
+fileHandle = open(filename, 'r')
+verbatimExtensions = ['.sage', '.mac']
+
+root,ext  = os.path.splitext(filename)
+
+if ext in verbatimExtensions :
+    print "/*!"
+    print "\\file " + filename
+    print "\\verbatim"
+    print fileHandle.read()
+    print "\n\\ endverbatim * /"
+else :
+    print fileHandle.read()
+     \endverbatim
+     Some sort of make variables could then perhaps set the verbatim extensions with the 
+     correct set of extensions that must be verbatim processed.
+
+     This method would work and would probably be the most straightforward method for systems
+     such as maxima where there is no supported language which is very similar within doxygen.
+     
+     In the case of sage, the syntax is so close to python that it seems a waste to be
+     reduced to a simple dump of the code, and given that sage produces an intermediate python
+     file which seems to maintain comments, it would seem fairly straightforward to generate
+     a valid python file (although how to do this without actually generating an intermediate
+     file with sage is something that needs invesigating) that doxygen would then support (as
+     python is supported in recent releases of doxygen. This would then have to make use of
+     either INPUT_FILTER or FILTER_PATTERNS in the Doxygen configuration.
+     </li>
      <li> And we need the docus- as well as the demos-system. </li>
      <li> Also how to run these programs needs to be explained. </li>
     </ol>
