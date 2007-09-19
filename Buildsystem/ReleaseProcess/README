@@ -5,17 +5,15 @@
 Prerequisites (need to be installed):
 
  - Bash version 3.00 or higher
-
  - GNU make, version 3.80 or higher
   (check: run "make -v")
-
  - gcc
 
 For creation of documentation we also need:
 
  - the Qt library
-
  - Latex
+ - the m4 preprocessor.
 
 Any recent Linux distribution supplies these prerequisites.
 
@@ -37,13 +35,26 @@ and for installing everything it is too tight).
 
 Building:
 
-For using the package, we need "oklib" on your path.
+1) For using the package, we need "oklib" on your path.
 One symbolic link is already planted in the base directory OKplatform.
 Recommended is to set up a symbolic link in ~/bin; if you call
 
 ./oklib --setup
 
 in directory OKplatform, then the build system will do this for you.
+
+Remark: It seems that on some systems (like Ubuntu) ~/bin is not
+automatically element of PATH; we would recommend to add it to
+your path in the bash-resources-file.
+
+2) Except of the minimal package, precomputed installation is included;
+regarding the information on external sources installed, this precomputed
+information is not relevant for your system, and to update it use
+
+oklib documentation_index
+
+Remark: "oklib html" installs the full documentation, however it needs an
+appropriate version of doxygen installed for this.
 
 ----------------------------------------------
 
