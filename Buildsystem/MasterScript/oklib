@@ -11,7 +11,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.2
+version=0.1.0.3
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -43,7 +43,8 @@ if [[ $1 == "--setup" ]]; then
 fi
 
 if [[ $1 == "--prebuild" ]]; then
-  command="make --makefile=${buildsystem_dir}/Makefile OKplatform=${top_dir} prebuild"
+  shift
+  command="make --makefile=${buildsystem_dir}/Makefile OKplatform=${top_dir} prebuild $*"
   echo ${command}
   ${command}
   exit
