@@ -43,15 +43,22 @@ Recommended is to set up a symbolic link in ~/bin; if you call
 
 in directory OKplatform, then the build system will do this for you.
 
-Remark: It seems that on some systems (like Ubuntu) ~/bin is not
+Remark: It seems that on some systems (like (K)Ubuntu) ~/bin is not
 automatically element of PATH; we would recommend to add it to
 your path in the bash-resources-file.
 
-2) Except of the minimal package, precomputed installation is included;
+2) The master script oklib should now be functional.
+The next is to prepare the build system: Call
+
+oklib --prebuild
+
+3) Except of the minimal package, precomputed installation is included;
 regarding the information on external sources installed, this precomputed
 information is not relevant for your system, and to update it use
 
 oklib documentation_index
+
+in directory OKsystem (or below it).
 
 Remark: "oklib html" installs the full documentation, however it needs an
 appropriate version of doxygen installed for this.
