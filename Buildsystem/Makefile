@@ -1,5 +1,8 @@
 # Oliver Kullmann, 15.4.2005 (Swansea)
 
+# For creating basic directories and for planting symbolic links to makefiles (the latter
+# should become superfluous soon).
+
 SHELL = /bin/bash
 .SUFFIXES :
 
@@ -42,16 +45,24 @@ makefile_structures := $(OKsystem)/Transitional/Structures/makefile
 makefile_programming := $(OKsystem)/Transitional/Programming/makefile
 makefile_applications := $(OKsystem)/Transitional/Applications/makefile
 
+
+########### Rules ######################
+
 $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
-prebuild : $(build_directories) $(Directories) $(makefile_oksystem) $(generic_links) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems)
+.PHONY : make_directories create_links clean_links
 
-$(generic_links) : % :
-	- ln -s $(OKbuildsystem)/OKlibBuilding/Makefile $@
+prebuild : make_directories create_links
+
+make_directories : $(build_directories) $(Directories)
 
 $(Directories) $(build_directories) : % :
 	- mkdir -p $@
 
+create_links :  $(generic_links) $(makefile_oksystem) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems)
+
+$(generic_links) : % :
+	- ln -s $(OKbuildsystem)/OKlibBuilding/Makefile $@
 
 $(makefile_oksystem) : $(OKbuildsystem)/OKsystem.mak
 	- ln -s $< $@
@@ -78,6 +89,6 @@ $(makefile_applications) : $(OKbuildsystem)/Transitional.mak
 $(makefile_proofsystems) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
 
-
 clean_links :
-	- rm $(generic_links) $(makefile_oksystem) $(makefile_annotations) $(makefile_transitional) $(makefile_externalsources)
+	- rm $(generic_links) $(makefile_oksystem) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems)
+
