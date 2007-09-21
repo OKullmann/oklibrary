@@ -27,14 +27,15 @@ export
 
 include $(OKbuildsystem)/standardgoals.mak
 
-Directories := $(ExternalSources)
+Directories := $(ExternalSources) $(Annotations_dir)
 
 generic_dirs := $(OKsystem)/Transitional/AtomicConditions $(OKsystem)/Transitional/AutarkySearch $(OKsystem)/Transitional/Backup $(OKsystem)/Transitional/Concepts $(OKsystem)/Transitional/General $(OKsystem)/Transitional/GeneralInputOutput $(OKsystem)/Transitional/InjectivityConstraints $(OKsystem)/Transitional/InputOutput $(OKsystem)/Transitional/IOTools $(OKsystem)/Transitional/Iterators $(OKsystem)/Transitional/LaTeX $(OKsystem)/Transitional/LatinSquares $(OKsystem)/Transitional/Literals $(OKsystem)/Transitional/LocalSearch $(OKsystem)/Transitional/Matrices $(OKsystem)/Transitional/Messages $(OKsystem)/Transitional/MetaProgramming $(OKsystem)/Transitional/OrderRelations $(OKsystem)/Transitional/Parallelism $(OKsystem)/Transitional/Parsing $(OKsystem)/Transitional/PartialAssignments $(OKsystem)/Transitional/QuantumPhysics $(OKsystem)/Transitional/Refactoring $(OKsystem)/Transitional/SATAlgorithms $(OKsystem)/Transitional/SearchDataStructures $(OKsystem)/Transitional/SetAlgorithms $(OKsystem)/Transitional/SystemSpecifics $(OKsystem)/Transitional/TestExecutionTools $(OKsystem)/Transitional/TestSystem $(OKsystem)/Transitional/traits $(OKsystem)/Transitional/TreeDecompositions $(OKsystem)/Transitional/Variables $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/SAT2002 $(OKsystem)/Transitional/Experimentation/Database $(OKsystem)/Transitional/Experimentation/Competition $(OKsystem)/Transitional/HypergraphColouring $(OKsystem)/Transitional/Structures/Cryptology $(OKsystem)/Transitional/Programming/Sequences $(OKsystem)/Transitional/Applications/RamseyTheory $(OKsystem)/Transitional/Satisfiability/ProofSystems/DPv
 
 generic_links := $(addsuffix /makefile, $(generic_dirs))
 
 makefile_oksystem := $(OKsystem)/makefile
-makefile_annotations := $(Annotations_dir)/makefile
+makefile_Annotations := $(Annotations_dir)/makefile
+makefile_annotations := $(OKsystem)/Transitional/annotations/makefile
 makefile_transitional := $(OKsystem)/Transitional/makefile
 makefile_satisfiability := $(OKsystem)/Transitional/Satisfiability/makefile
 makefile_proofsystems := $(OKsystem)/Transitional/Satisfiability/ProofSystems/makefile
@@ -59,7 +60,7 @@ make_directories : $(build_directories) $(Directories)
 $(Directories) $(build_directories) : % :
 	- mkdir -p $@
 
-create_links :  $(generic_links) $(makefile_oksystem) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems)
+create_links :  $(generic_links) $(makefile_oksystem) $(makefile_Annotations) $(makefile_annotations) $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems)
 
 $(generic_links) : % :
 	- ln -s $(OKbuildsystem)/OKlibBuilding/Makefile $@
@@ -67,7 +68,10 @@ $(generic_links) : % :
 $(makefile_oksystem) : $(OKbuildsystem)/OKsystem.mak
 	- ln -s $< $@
 
-$(makefile_annotations) : $(OKbuildsystem)/Annotations.mak
+$(makefile_Annotations) : $(OKbuildsystem)/Annotations.mak
+	- ln -s $< $@
+
+$(makefile_annotations) : $(OKbuildsystem)/annotations.mak
 	- ln -s $< $@
 
 $(makefile_transitional) : $(OKbuildsystem)/Transitional.mak
