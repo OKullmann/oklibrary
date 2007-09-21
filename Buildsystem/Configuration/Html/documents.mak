@@ -2,8 +2,9 @@
 
 # Configuration data regarding documents
 
-oklibrary_dvi_documents := FullDocumentation
-OKlibrary_full_documentation_dvi_location ?= $(documents_html_dir)/$(oklibrary_dvi_documents).dvi
+oklibrary_full_documentation := FullDocumentation
+oklibrary_dvi_documents ?= $(oklibrary_full_documentation)
+OKlibrary_full_documentation_dvi_location ?= $(documents_html_dir)/$(oklibrary_full_documentation).dvi
 
 accu2006_talk_location ?= $(documents_html_dir)/200604Oxford.pdf
 
