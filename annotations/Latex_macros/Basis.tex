@@ -1,0 +1,982 @@
+% 23.12.1999
+%
+% Die Basis fuer Folien wie fuer normale Texte.
+%
+% -----------------------------------------------------------------------------------------------------------------
+% ENVIRONMENT
+% -----------------------------------------------------------------------------------------------------------------
+%
+\scrollmode
+%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{stmaryrd}
+\usepackage{array}
+\usepackage{exscale}
+%
+\renewcommand{\baselinestretch}{1.05}
+%
+%
+% Bibliographie (7.3.2004)
+%
+\newcommand{\VolleBibliographie}{\bibliography{%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/EigArt,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/DP-SAT-Alg,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Resolution,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/UntereSchranken,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/complexity,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Logik,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Algebra,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/MiscSAT,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/polySAT,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Allg-SAT-Alg,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/SAT_Local_S,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Graphen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/BDD,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Average-time,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Matroide,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/minUNSAT,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/LP,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/ArtInt,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/SAT-Experimente,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Kombinatorik,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Matrizen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Kryptologie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/RandomSAT,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Computer/Software,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Computer/Linux,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Computer/Latex,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Programmierung,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/zuBeschaffen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Visualisierung,% 
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/BoolFunktionen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Stochastik,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Topologie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Analysis,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/KombGeo,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/EvolStrat,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Zahlentheorie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Verbaende,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Kategorien,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/EndModellT,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Rekursionstheorie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Constraints,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Mengenlehre,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Numerik,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/UnivAlg,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Modelltheorie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/DatenAlg,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Anwendungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/ATP,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Altern_SAT_A,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Approximation,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/proofsys,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Datenbanken,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Analys-Alg,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/MAXSat,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/ATPSammlungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/KombinatorikSammlungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/SAT-Samm,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/StochastikSammlungen.bib,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/LogikSammlungen.bib,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/NichtMathematischeSchriften,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Politik,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Literatur,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Musik,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Philosophie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Soziologie,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/ModelltheorieSammlungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/AlgebraSammlungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Schach,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Sport,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/TopologieSammlungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/QuantenC,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/StatMech,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Autarkien,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/AnalysisSammlungen,%
+  /h/21/GemeinsameBasis/Literatur/Bibliographie/Nichtmathematik/Kataloge%
+}
+}
+\newcommand{\BibliographyOKlibrary}{\bibliography{%
+  Latex_bib/EigArt,%
+  Latex_bib/MiscSAT,%
+  Latex_bib/Constraints,%
+  Latex_bib/C++,%
+  Latex_bib/AlgorithmsDataStructures,%
+  Latex_bib/GeneralProgramming%
+}
+}
+% Adressen (18.4.2004)
+\newcommand{\AdresseSwansea}{\author{Oliver Kullmann\\[1ex]
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\[1ex]
+ e-mail: O.Kullmann@Swansea.ac.uk\\
+  {\small
+    http://cs-svr1.swan.ac.uk/\rilde{}csoliver/}}
+}
+%
+\newcommand{\AdresseSwanseaEPSRCOne}{\author{Oliver Kullmann\thanks{Supported by EPSRC Grant GR/S58393/01}\\[1ex]
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\[1ex]
+ e-mail: O.Kullmann@Swansea.ac.uk\\
+  {\small
+    http://cs-svr1.swan.ac.uk/\rilde{}csoliver/}}
+}
+\newcommand{\AdresseSwanseaOKMH}{\author{Oliver Kullmann\thanks{Supported by EPSRC Grant GR/S58393/01}\\
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\
+ e-mail: O.Kullmann@Swansea.ac.uk\\
+  {\small
+    http://cs-svr1.swan.ac.uk/\rilde{}csoliver/}
+\and Matthew Henderson\thanks{Supported by EPSRC Grant GR/S58393/01}\\
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\
+ e-mail: M.Henderson@Swansea.ac.uk\\
+  {\small
+    http://XXX}}
+}
+\newcommand{\AdresseSwanseaMHOK}{\author{Matthew Henderson\thanks{Supported by EPSRC Grant GR/S58393/01}\\
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\
+ e-mail: M.Henderson@Swansea.ac.uk\\
+  {\small
+    http://cs-svr1.swan.ac.uk/\rilde{}csoliver/}
+\and Oliver Kullmann\thanks{Supported by EPSRC Grant GR/S58393/01}\\
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\
+ e-mail: O.Kullmann@Swansea.ac.uk\\
+  {\small
+    http://cs-svr1.swan.ac.uk/\rilde{}csoliver/}}
+}
+\newcommand{\AdresseSwanseaOKILJMS}{\author{Oliver Kullmann\thanks{Supported by EPSRC Grant GR/S58393/01}\\
+  Computer Science Department\\
+  University of Wales Swansea\\
+  Swansea, SA2 8PP, UK\\
+ e-mail: O.Kullmann@Swansea.ac.uk\\
+  {\small
+    http://cs-svr1.swan.ac.uk/\rilde{}csoliver/}
+  \and In{\^{e}}s Lynce\\
+  Departamento de Engenharia Informatica\\
+  Instituto Superior Tecnico\\
+  Universidade Tecnica de Lisboa\\
+  e-mail: ines@sat.inesc-id.pt\\
+  {\small
+    http://sat.inesc-id.pt/\rilde{}ines}
+  \and Jo{\~{a}}o Marques-Silva\\
+  School of Electronics and Computer Science\\
+  University of Southampton\\
+  Highfield, Southampton SO17 1BJ, UK\\
+  e-mail: jpms@soton.ac.uk\\
+  {\small
+    http://www.ecs.soton.ac.uk/\rilde{}jpms/}}
+}
+
+% ########################################################
+% ----------------------------------------------------------------------------------------------------------------
+% GENERAL CONSTRUCTS
+% -----------------------------------------------------------------------------------------------------------------
+% ########################################################
+\newcommand{\nc}{\newcommand}
+\newcommand{\ol}{\overline}
+\newcommand{\ul}{\underline}
+\newcommand{\es}{\emptyset}
+\newcommand{\sm}{\setminus}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\vp}{\varphi}
+\newcommand{\bw}{\bigwedge}
+\newcommand{\bv}{\bigvee}
+\newcommand{\bc}{\bigcup}
+\newcommand{\bca}{\bigcap}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\Lora}{\Longrightarrow}
+\newcommand{\Lla}{\Longleftarrow}
+\newcommand{\Llra}{\Longleftrightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\La}{\Leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\lora}{\longrightarrow}
+\newcommand{\la}{\leftarrow}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\da}{\downarrow}
+\newcommand{\ub}{\underbrace}
+\newcommand{\ob}{\overbrace}
+\newcommand{\sst}{\subset}
+\newcommand{\sse}{\subseteq}
+\newcommand{\spt}{\supset}
+\newcommand{\spe}{\supseteq}
+\newcommand{\fa}{\forall}
+\newcommand{\ex}{\exists}
+\newcommand{\mr}{\mathrm}
+\newcommand{\mc}{\mathcal}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\vtr}{\vartriangleright}
+\newcommand{\trd}{\triangledown}
+\newcommand{\DMO}{\DeclareMathOperator}
+%
+\newcommand{\DST}{\displaystyle}
+\newcommand{\TST}{\textstyle}
+\newcommand{\SST}{\scriptstyle}
+\newcommand{\SSST}{\scriptscriptstyle}
+%
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\NNZ}{\NN_0}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\AAM}{\mathbb{A}}
+\newcommand{\MM}{\mathbb{M}}
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\BB}{\mathbb{B}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\WW}{\mathbb{W}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\UU}{\mathbb{U}}
+\newcommand{\OO}{\mathbb{O}}
+\newcommand{\SSM}{\mathbb{S}}
+%
+\newcommand{\Ende}{\ \rule{0.4em}{1.7ex}}
+\newcommand{\pr}{\noindent\textbf{Proof:}\quad}
+\newcommand{\prd}{\noindent\textbf{Beweis:}\quad}
+%%
+\newcommand{\ha}{\hspace*{5mm}}
+\newcommand{\hb}{\hspace*{10mm}}
+\newcommand{\hc}{\hspace*{15mm}}
+\newcommand{\hd}{\hspace*{20mm}}
+\newcommand{\he}{\hspace*{25mm}}
+%
+\newcommand{\mar}[1]{\makebox[0cm]{#1}}
+%
+% 16.10.2003
+\newcommand{\NAA}{\setlength{\itemsep}{0pt}} % Null Aufzaehlungs-Abstand
+%
+% Tilde-Symbol ~ ("richtig"); fragiles Kommando (wg. \raisebox)
+% Do not use within the \url command --- there just use "~" !
+\newcommand{\rilde}{{\large\raisebox{-1ex}[0mm][0mm]{\~{}}\hspace{-0.05em}}}
+%
+% Quotierung (30.11.2003)
+\newcommand{\Quot}[1]{\glqq{}#1\grqq{}}
+\newcommand{\Qu}[1]{\Quot{#1}}
+%
+% Fuer xymatrix (18.11.2003)
+\newcommand{\aru}{\ar @{-}} % ungerichtete Kante
+\newcommand{\arug}{\ar @{--}} % gestrichelte ungerichtete Kante
+\newcommand{\ardg}{\ar @{-->}} % gestrichelte gerichtete Kante
+%
+% Wiedergabe von Programmen
+\usepackage{listings}
+\lstloadlanguages{Pascal,C++}
+\newcommand{\Pascal}{\lstset{language=Pascal,keywordstyle=\bfseries,breaklines,breakindent=30pt}}
+\newcommand{\Cpp}{\lstset{language=C++,keywordstyle=\bfseries,breaklines,breakindent=30pt}}
+\newcommand{\inl}[1]{\lstinline$#1$}
+% ########################################################
+% ----------------------------------------------------------------------------------------------------------------
+% MATHEMATICAL NOTATIONS
+% -----------------------------------------------------------------------------------------------------------------
+% ########################################################
+\newcommand{\und}{{\:\wedge\:}}
+\newcommand{\oder}{{\:\vee\:}}
+%
+\newcommand{\mb}{{\:|\:}} % Mengenbildner
+\newcommand{\set}[1]{\{ #1 \}}
+\newcommand{\setb}[1]{\big \{ \, #1 \, \big \}}
+%
+\newcommand{\rbca}[1]{\bca_{#1}\nolimits} % relative intersection
+% ToDo: How to produce \rbca{X}_{i \in I} ?! (\sideset is too restricted, since the symbol
+% will always be in displaystyle).
+%
+\DMO{\dom}{dom}
+\DMO{\id}{id}
+\DMO{\cod}{cod} % Codomain (28.11.2003)
+\DMO{\rg}{rg} % Wertemenge ("range")
+%
+\DMO{\simrv}{\,\sim\hspace{-0.05em}}
+\DMO{\simlv}{\!\sim\,}
+\nc{\simlvi}[1]{\!\sim_{#1}}
+%
+\newcommand{\nni}{\NNZ \cup \{+\infty\}}
+%
+% Abschluss von R (7.1.2004):
+\newcommand{\rri}{\ol{\RR}} % RR + -+unendlich
+%
+\newcommand{\ueber}[2]{\genfrac{}{}{0pt}{}{#1}{#2}}% ersetzt atop
+%
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\ceil}[1]{\lceil #1 \rceil}
+%
+\DMO{\sgn}{sgn} % 16.4.2000
+%
+\DMO{\rank}{rank} % 1.7.2000
+%
+\providecommand{\abs}[1]{\lvert #1 \rvert} % 29.8.2000
+\providecommand{\norm}[1]{\lVert #1 \rVert} % 29.11.2000
+%
+\DMO{\Q}{\mf{Q}} % 20.9.2000: die ``qualitive Klasse''
+%
+% Intervalle (20.12.2000): ``a'' fuer abgeschlossen, ``o'' fuer offen
+\providecommand{\iaa}[2]{[#1, #2]}
+\providecommand{\ioo}[2]{]#1, #2[}
+\providecommand{\iao}[2]{[#1, #2[\,}
+\providecommand{\ioa}[2]{\,]#1, #2]}
+%
+% 13.8.2001: Automorphismen
+\DMO{\auto}{Aut}
+\DMO{\edom}{End}
+%
+% 6.9.2001: Menge aller reellen Matrizen
+\DMO{\M}{\mc{M}}
+\DMO{\Mpm}{\M(\set{-1,0,+1})}
+%
+% 11.7.2003: Teilbereiche
+\newcommand{\tb}[2]{\set{#1, \dots, #2}} % Teilbereich
+%
+% 22.8.2003: Matrizen und Spur
+%
+\DMO{\Mat}{\mc{M}}
+\DMO{\tr}{tr}
+%
+% Projektionen
+\DMO{\proj}{pr}
+%
+% Zahlentheorie
+\DMO{\teilt}{|}
+\nc{\Prim}{\mc{PR}} % Primzahlen
+\DMO{\ord}{ord}
+\DMO{\ggt}{ggt}
+\DMO{\kgv}{kgv}
+%
+% 1.1.2004 Mengenoperationen
+\DMO{\symdif}{\vartriangle} % symmetrische Differenz
+\DMO{\addcup}{{\stackrel{\text{\raisebox{-2.2ex}[-0ex][-0ex]{\large$\cdot$}}}{\cup}}}
+\DMO{\addbcup}{{\stackrel{\text{\raisebox{-4.2ex}[-0ex][-0ex]{\Large$\cdot$}}}{\bigcup}}}
+\DMO{\Rel}{\mf{REL}} % Menge aller binaeren Relationen
+\DMO{\Abb}{\mf{MAP}} % Menge der Abbildungen
+\DMO{\Tra}{\mf{T}} % Menge der Tranformationen
+\DMO{\Per}{\mf{S}} % Menge der Permutationen
+\DMO{\Ptr}{\mf{PT}} % partielle Transformationen
+\DMO{\cmpl}{\complement}
+%
+\DMO{\card}{card}
+% Realteil und Imaginaerteil (8.1.2004)
+\DMO{\re}{Re}
+\DMO{\im}{Im}
+%
+% Auf- und absteigende Fakultaeten (23.4.2004)
+\newcommand{\untfak}[2]{(#1)_{\downarrow#2}}
+\newcommand{\obfak}[2]{(#1)_{\uparrow#2}}
+\DMO{\fak}{fac}
+%
+% Spezielle Zahlenfolgen (9.10.2005)
+\newcommand{\bernoulliz}[1]{b_{#1}}
+\newcommand{\bernoullip}[2]{b_{#1}(#2)}
+\newcommand{\stirlinge}[2]{s_{#1,#2}}
+\newcommand{\stirlingz}[2]{S_{#1,#2}}
+\newcommand{\partition}[2]{p_{#1}(#2)}
+\DMO{\partitiont}{p}
+%
+% Ramsey-Zahlen und aehnliches
+\DMO{\ramz}{N_R} % Ramsey-Zahl
+\DMO{\waez}{N_W} % van der Waerden-Zahl
+\DMO{\FvdW}{F_{vdW}} % Klauselmenge, die die van-der-Waerden-Zahl darstellt
+\DMO{\FRam}{F_{R}} % Klauselmenge, die Ramsey-Zahl darstellt
+\DMO{\arithp}{ap} % Menge aller arithmetischen Progressionen
+%
+%                                     Graphtheory
+%
+\DMO{\nachbarn}{\Gamma}
+%
+% Incidence matrices
+%
+\DMO{\inzEK}{\mc{I}^{\mr{V}}}
+\DMO{\inzEKe}{\mc{I}^{\mr{V}}_1}
+\DMO{\inzEKz}{\mc{I}^{\mr{V}}_2}
+\nc{\inzEKi}[1]{\mc{I}^{\mr{V}}_{#1}}
+\DMO{\inzKE}{\mc{I}^{\mr{E}}}
+\DMO{\inzKEe}{\mc{I}^{\mr{E}}_1}
+\DMO{\inzKEz}{\mc{I}^{\mr{E}}_2}
+\nc{\inzKEi}[1]{\mc{I}^{\mr{E}}_{#1}}
+%
+% Adjacency matrices
+%
+\DMO{\adjE}{\mc{A}^{\mr{V}}}
+\DMO{\adjEe}{\mc{A}^{\mr{V}}_1}
+\DMO{\adjEz}{\mc{A}^{\mr{V}}_2}
+\nc{\adjEi}[1]{\mc{A}^{\mr{V}}_{#1}}
+\DMO{\adjK}{\mc{A}^{\mr{E}}}
+%
+% Ranks and degrees
+%
+\DMO{\degmin}{\ul{\deg}}
+\DMO{\degmax}{\ol{\deg}}
+\DMO{\degdur}{\widetilde{\deg}}
+\DMO{\degmaxl}{\ol{\deg}_{<}}
+\DMO{\degl}{\deg_{<}}
+%
+\DMO{\rankmin}{\ul{\rank}}
+\DMO{\rankmax}{\ol{\rank}}
+\DMO{\rankdur}{\widetilde{\rank}}
+\DMO{\rankmaxl}{\ol{\rank}_{<}}
+\DMO{\rankl}{\rank_{<}}
+%
+% Hypergraphen:
+\DMO{\Tr}{Tr} % Transversalen
+\DMO{\Ind}{Ind} % independent sets
+\DMO{\St}{St} % stars
+\DMO{\Ints}{Ints} % intersecting hypergraphs
+\DMO{\Cov}{Cov} % coverings
+\DMO{\closse}{clo_{\sse}} % Abschluss unter Teilmengenbildung
+\DMO{\clospe}{clo_{\supseteq}} % Abschluss unter Obermengenbildung
+\DMO{\edgemg}{ML} % Kantenmultigraph
+%
+% Designs:
+\DMO{\PBD}{PBD}
+\nc{\BD}[1]{{#1}\text{-}\mr{BD}}
+\DMO{\BIBD}{BIBD}
+%
+% Graphenprodukte (10.10.2004)
+%
+\DMO{\gpk}{\Box} % Graphenprodukt: kartesisch
+\DMO{\gpw}{\times} % Graphenprodukt: schwaches
+\DMO{\gps}{\boxtimes} % Graphenprodukt: starkes
+\DMO{\gjoin}{\boxdot} % Join von Graphen
+\DMO{\gjoinplus}{\boxplus} % Join von Graphen
+%
+% Ordnungstheorie (26.2.2005)
+\DMO{\Ketten}{\mc{L}}
+\DMO{\Antiketten}{\mc{A}}
+\DMO{\comparable}{\Bumpeq}
+\DMO{\incomparable}{\parallel}
+%
+% Halbringe (30.10.2004)
+\DMO{\can}{Can} % kuerzbare Elemente (in Monoiden)
+\DMO{\addcan}{Can^+}
+\DMO{\multcan}{Can^{\ast}}
+\DMO{\sol}{Sol} % loesbare Elemente (in Monoiden)
+\DMO{\addsol}{Sol^+}
+\DMO{\multsol}{Sol^{\ast}}
+\DMO{\inv}{Inv} % invertierbare Elemente (in Monoiden)
+\DMO{\addinv}{Inv^+} % Menge der additiv invertierbaren Elemente
+\DMO{\multinv}{Inv^{\ast}} % Menge der multiplikativ invertierbaren Elemente
+\DMO{\idemp}{Ip} % idempotente Elemente (in Monoiden)
+\DMO{\addidemp}{Ip^+}
+\DMO{\multidemp}{Ip^{\ast}}
+%\DMO{\ker}{ker}
+%
+% Ganzzahliger Rest und ganzzahlige Division
+\DMO{\opmod}{mod}
+\DMO{\opdiv}{div}
+%
+% 21.11.2004
+\DMO{\pot}{\PP}
+\DMO{\pote}{\PP_f}
+\DMO{\potfv}{\overrightarrow{\PP}} % Vorwaerts-Potenzmengenfunktor
+\newcommand{\potfvi}[1]{\overrightarrow{\PP}_{\!\!#1}} % Vorwaerts-Potenzmengenfunktor mit Index
+\DMO{\potfvn}{\overrightarrow{\PP}^{\!*}} % nichtleerer Vorwaerts-Potenzmengenfunktor
+\newcommand{\potfvni}[1]{\overrightarrow{\PP}^{\!*}_{\!\!#1}} % nichtleerer Vorwaerts-Potenzmengenfunktor mit Index
+\DMO{\potfr}{\overleftarrow{\PP}} % Rueckwaerts-Potenzmengenfunktor
+\newcommand{\potfri}[1]{\overleftarrow{\PP}_{\!\!#1}} % Rueckwaerts-Potenzmengenfunktor mit Index
+%
+% Topologie
+%
+\DMO{\nf}{NF} % Nachbarschaftsfilter
+\DMO{\erzf}{\mf{GF}} % erzeugter Filter
+\DMO{\erzt}{\Ktop} % erzeugte Topologie
+\DMO{\abgh}{clo} % abgeschlossene Huelle
+\DMO{\offk}{int} % offener Kern
+\DMO{\rand}{fr} % alternativ koennte man den Rand auch mit \partial bezeichnen.
+\newcommand{\T}[1]{T_{\mr{#1}}}
+\DMO{\supp}{supp}
+\DMO{\C}{C}
+\DMO{\hypo}{\mf{H}} % Hypergraph der nichtleeren offenen Mengen
+%
+\nc{\sselr}{\sse^{\mapsto}}
+\nc{\sserl}{\sse^{\mapsfrom}}
+\nc{\spelr}{\spe^{\mapsto}}
+\nc{\sperl}{\spe^{\mapsfrom}}
+%
+% Dimension theory
+\nc{\Ccovdim}{\mc{CD}}
+\nc{\Cinddim}{\mc{SID}}
+\DMO{\inddim}{idim}
+\nc{\CInddim}{\mc{LID}}
+\DMO{\Inddim}{Idim}
+%
+\DMO{\sset}{sset} % Nachfolgermenge
+%
+% ########################################################
+% -----------------------------------------------------------------------------------------------------------------
+% CATEGORY THEORY
+% -----------------------------------------------------------------------------------------------------------------
+% ########################################################
+\DMO{\obj}{Obj}
+\DMO{\mor}{Mor}
+\DMO{\mendo}{End}
+%
+\newcommand{\prodmorf}{\bigotimes} % Produkt einer Morphismenfamilie f_i: X \ra Y_i als Morphismus von X nach dem Produkt der Y_i.
+\DMO{\prodmor}{\otimes} % Produkt zweier Morphismen
+\newcommand{\coprodmorf}{\bigsqcup} % Koprodukt einer Morphismenfamilie f_i: X_i \ra Y als Morphismus von dem Koprodukt der X_i nach Y.
+\DMO{\coprodmor}{\sqcup} %  Koprodukt zweier Morphismen
+\newcommand{\mprodmorf}{\prod} % "Mehrfaches" Produkt einer Familie
+\DMO{\mprodmor}{\times}
+\newcommand{\mcoprodmorf}{\coprod}
+\DMO{\mcoprodmor}{\amalg}
+%
+\newcommand{\Kset}{\mf{SET}} % Mengen
+\newcommand{\Kfset}{\Kset_{\mr{f}}} % endliche Mengen
+\newcommand{\Kard}{\mc{CARD}} % Kardinalzahlen
+\newcommand{\Ord}{\mc{ORD}} % Ordinalzahlen
+\newcommand{\Kardm}{\Kard_{\!-1}}
+\DMO{\cardsup}{cardsup}
+\DMO{\cardsupl}{cardsup_<}
+\DMO{\cardmin}{cardmin}
+%
+\newcommand{\Kkor}{\mf{KOR}} % Korrespondenzen
+\newcommand{\liei}{\mr{lu}} % linkseindeutig
+\newcommand{\reei}{\mr{ru}} % rechtseindeutig
+\newcommand{\lito}{\mr{lt}} % linkstotal
+\newcommand{\reto}{\mr{rt}} % rechtsstotal
+\newcommand{\kortyp}{\mr{KT}} % Korrespondenztypen
+%
+\newcommand{\Krel}{\mf{REL}} % Relationale
+\newcommand{\Krelk}[2]{\Krel_{#1}\mf{K}_{#2}} % Relationen mit Korrespondenzen
+\newcommand{\Krelkr}[2]{\Krelk{#1}{#2}\mf{R}} % Rueckwaertsmorphismen
+%
+% Quasiorders:
+%
+\newcommand{\Kqord}{\mf{QORD}} % Quasi-Ordnungen
+\newcommand{\Kpord}{\mf{PORD}} % partielle Ordnungen
+\newcommand{\Klord}{\mf{LORD}} % lineare Ordnungen
+\newcommand{\seb}{\mr{s}} % supremumserhaltend binaer
+\newcommand{\seu}{\seb^{\infty}} % supremumserhaltend unendlich
+\newcommand{\see}{\seb^{<\infty}} % supremumserhaltend endlich
+\newcommand{\seun}{\seb^{\infty}_{\not= \es}} % supremumserhaltend unendlich nichtleer
+\newcommand{\seen}{\seb^{<\infty}_{\not= \es}} % supremumserhaltend endlich nichtleer
+\newcommand{\ieb}{\mr{i}} % infimumserhaltend binaer
+\newcommand{\ieu}{\ieb^{\infty}} % infimumserhaltend unendlich
+\newcommand{\iee}{\ieb^{<\infty}} % infimumserhaltend endlich
+\newcommand{\ieun}{\ieb^{\infty}_{\not= \es}} % infimumserhaltend unendlich nichtleer
+\newcommand{\ieen}{\ieb^{<\infty}_{\not= \es}} % infimumserhaltend endlich nichtleer
+\newcommand{\Kvb}{\mf{LT}} % Verb\"ande
+\newcommand{\Kuvb}{\ul{\mf{S}}\Kvb} % untere Halbverb\"ande
+\newcommand{\Kovb}{\ol{\mf{S}}\Kvb} % obere Halbverb\"ande
+\newcommand{\Kvvb}{\mf{C}\Kvb} % vollstaendige Verb\"ande
+\newcommand{\Kvuvb}{\mf{C}\Kuvb} % untere vollstaendige Halbverb\"ande
+\newcommand{\Kvovb}{\mf{C}\Kovb} % obere vollstaendige Halbverb\"ande
+\newcommand{\Kbvb}{\mf{B}\Kvb} % Verb\"ande mit Null und Eins
+\newcommand{\Kbuvb}{\mf{B}\Kuvb} % untere Halbverb\"ande mit Null
+\newcommand{\Kbovb}{\mf{B}\Kovb} % obere Halbverb\"ande mit Eins
+\newcommand{\Kdvb}{\mf{D}\Kvb} % distributive Verb\"ande
+\newcommand{\Kkvb}{\mf{CO}\Kvb} % komplementierte Verb\"ande
+\newcommand{\Kekvb}{\mf{UCO}\Kvb} % eindeutig komplementierte Verb\"ande
+\newcommand{\Kboolvb}{\mf{BO}\Kvb} % boolesche Verb\"ande
+\newcommand{\Kvboolvb}{\mf{C}\Kboolvb} % vollstaendige boolesche Verb\"ande
+\newcommand{\dist}{\mr{d}} % distributiv
+\newcommand{\vdist}{\mr{d}^{\infty}} % vollst\"andig-distributiv
+\newcommand{\komp}{\mr{c}} % komplementiert
+\newcommand{\ekomp}{\mr{c}_1} % eindeutig komplementiert
+\DMO{\qo}{QO} % formation of quasi-order
+%
+% Gruppoids:
+%
+\newcommand{\Kgod}{\mf{GOD}} % Gruppoide
+\newcommand{\Ksgr}{\mf{SGR}} % Halbgruppen
+\newcommand{\Kugod}{\mf{UGOD}} % unitales Gruppoid
+\newcommand{\Kmon}{\mf{MON}} % Monoide
+\newcommand{\Kcgod}{\mf{CGOD}} % kuerzbare Gruppoide
+\newcommand{\Krgod}{\mf{RGOD}} % loesbare Gruppoide
+\newcommand{\Kqgp}{\mf{QGP}} % Quasigruppen
+\newcommand{\Kcsgr}{\mf{CSGR}} % kuerzbare Halbgruppen
+\newcommand{\Kcugod}{\mf{CUGOD}} % kuerzbare unitale Gruppoide
+\newcommand{\Krugod}{\mf{RUGOD}} % loesbare unitale Gruppoide
+\newcommand{\Kcmon}{\mf{CMON}} % kuerzbare Monoide
+\newcommand{\Klop}{\mf{LOP}} % Loops
+\newcommand{\Kgr}{\mf{GRP}} % Gruppen
+\newcommand{\Kagod}{\mf{AGOD}} % abelsche Gruppoide
+\newcommand{\Kasgr}{\mf{ASGR}} % abelsche Halbgruppen
+\newcommand{\Kaugod}{\mf{AUGOD}} % abelsche unitales Gruppoid
+\newcommand{\Kamon}{\mf{AMON}} % abelsche Monoide
+\newcommand{\Kacgod}{\mf{ACGOD}} % abelsche kuerzbare Gruppoide
+\newcommand{\Kargod}{\mf{ARGOD}} % abelsche loesbare Gruppoide
+\newcommand{\Kaqgp}{\mf{AQGP}} % abelsche Quasigruppen
+\newcommand{\Kacsgr}{\mf{ACSGR}} % abelsche kuerzbare Halbgruppen
+\newcommand{\Kacugod}{\mf{ACUGOD}} % abelsche kuerzbare unitale Gruppoide
+\newcommand{\Karugod}{\mf{ARUGOD}} % abelsche loesbare unitale Gruppoide
+\newcommand{\Kacmon}{\mf{ACMON}} % abelsche kuerzbare Monoide
+\newcommand{\Kalop}{\mf{ALOP}} % abelsche Loops
+\newcommand{\Kagr}{\mf{AGRP}} % abelsche Gruppen
+%
+\newcommand{\Klact}[2]{{}_{#1} #2} % Links-Aktionen (oder -Operation)
+\newcommand{\Kract}[2]{#2_{#1}} % Rechts-Aktionen (oder -Operation)
+\newcommand{\Kact}{\mf{ACT}} % Aktionen
+\newcommand{\Kopt}{\mf{OPT}} % Operationen
+%
+% Rings:
+%
+\newcommand{\Kring}{\mf{RNG}} % Ringe
+\newcommand{\Kkring}{\mf{CRNG}} % kommutative Ringe
+\newcommand{\Khring}{\mf{SRNG}} % Halbringe
+\newcommand{\Kpring}{\mf{PRNG}} % Pseudoringe
+\newcommand{\Kphring}{\mf{PSRNG}} % Pseudohalbringe
+\newcommand{\Kkhring}{\mf{CSRNG}} % kommutative Halbringe
+\newcommand{\Kkpring}{\mf{CPRNG}} % kommutative Pseudoringe
+\newcommand{\Kkphring}{\mf{CPSRNG}} % kommutative Pseudohalbringe
+\newcommand{\Kprering}{\mf{PRG}} % Pr\"aeringe
+%
+\newcommand{\Kkat}{\mf{KAT}} % Kategorie der Kategorien
+\newcommand{\Kpaddkat}{\mf{PAKAT}} % praeadditive Kategorien
+\newcommand{\Knpaddkat}{\mf{NPAKAT}} % normale praeadditive Kategorien
+\newcommand{\Ksaddkat}{\mf{SAKAT}} % semiadditive Kategorien
+\newcommand{\Kaddkat}{\mf{AKAT}} % additive Kategorien
+\newcommand{\Kkatn}{\mf{KAT}_2} % Kategorie der Kategorien mit natuerlichen Transformationen als Morphismen
+%
+\DMO{\Kfun}{\mf{FUN}} % Funktorkategorie
+\DMO{\nattr}{NAT} % natuerliche Transformationen
+%
+% Topology:
+%
+\newcommand{\Ktop}{\mf{TOP}} % Kategorie der topologischen R\"aume
+\newcommand{\modhom}{\mf{H}} % modulo Homotopie
+\newcommand{\Ktophom}{\Ktop\modhom} % Kategorie der topologischen R\"aume modulo Homotopie
+\newcommand{\Kptophom}{\mf{TOP}_*\modhom} % Kategorie der punktierten topologischen R\"aume modulo Homotopie
+\newcommand{\Ktoptmhom}{\Ktop_{[1]}\modhom_1} % Topologische Raeume mit Teilmengen modulo Homotopie
+\newcommand{\Katop}{\mf{ATOP}} % Kategorie der A-topologischen Raeume
+%
+\DMO{\Kdelta}{\Delta} % Mengen {0, ..., n-1} mit monoton steigenden Abbildungen
+\DMO{\Kdeltas}{\Delta_{\mr{s}}} % Mengen {0, ..., n-1} mit streng monoton steigenden Abbildungen
+\DMO{\Kdeltat}{\Delta^t}
+\DMO{\Kdeltast}{\Delta_{\mr{s}}^t}
+\DMO{\Kdeltap}{\Delta^+}
+\DMO{\Kdeltasp}{\Delta_{\mr{s}}^+}
+\DMO{\Kdeltapt}{{\Delta^+}^t}
+\DMO{\Kdeltaspt}{{\Delta_{\mr{s}}^+}^t}
+%
+\DMO{\symm}{Symm} % Symmetrisierung einer Kategorie
+%
+% Graphs:
+%
+\newcommand{\Kdgg}{\mf{DGG}} % directed general graphs
+\newcommand{\Kdg}{\mf{DG}} % directed graphs
+\newcommand{\Kdgl}{\mf{DGL}} % directed graphs with loops
+\newcommand{\Kgg}{\mf{GG}} % general graphs
+\newcommand{\Kg}{\mf{GR}} % graphs
+\newcommand{\Kgl}{\mf{GRL}} % graphs with loops
+\newcommand{\Khg}{\mf{HGR}} % hypergraphs
+\newcommand{\Khgi}{\Khg^{\infty}} % hypergraphs with infinite edges
+\newcommand{\Kfhg}{\Khg_{\mr{f}}} % finite hypergraphs 
+\newcommand{\Kghg}{\mf{G}\Khg} % general hypergraphs
+\newcommand{\Kghgi}{\Kghg^{\infty}} % general hypergraphs with infinite edges
+\newcommand{\Kfghg}{\Kghg_{\mr{f}}} % finite general hypergraphs
+\newcommand{\Kbip}{\mf{BIP}} % bipartite Systeme
+%
+\DMO{\dgg}{DGG} % formation of directed general graphs
+\DMO{\dgl}{DGL} % formation of directed graphs with loops
+\DMO{\dg}{DG} % formation of directed graphs
+\DMO{\ugg}{UGG} % zugrundeliegender allgemeiner Graph
+\DMO{\ugl}{UGL} % zugrundeliegender Graph mit Schlingen
+\DMO{\ug}{UG} % zugrundeliegender Graph
+\DMO{\sg}{SG} % Symmetrisierung eines Graphen
+\DMO{\sgl}{SG} % Symmetrisierung eines Graphen mit Schlingen
+%
+\DMO{\bip}{bip} % Das bipartite System assoziiert mit einem allgemeinen Hypergraphen
+\DMO{\hyp}{hyp} % der allgemeine Hypergraph assoziiert mit einem bipartiten System.
+%
+\DMO{\cat}{CAT} % formation of categories (e.g., the free category created by a graph)
+%
+% Base sets with set systems
+%
+\newcommand{\Ksetsys}{\mf{SSYS}}
+% ########################################################
+% ----------------------------------------------------------------------------------------------------------------
+% SAT NOTATIONS
+% -----------------------------------------------------------------------------------------------------------------
+% ########################################################
+\newcommand{\Va}{\mc{V\hspace{-0.4mm}A}}
+\newcommand{\Lit}{\mc{LIT}}
+\newcommand{\Cl}{\mc{CL}}
+\newcommand{\Cls}{\mc{CLS}}
+\newcommand{\Tcls}{3\mbox{--}\Cls}
+\newcommand{\Pcls}[1]{#1\mbox{--}\Cls}
+\newcommand{\Clsab}[2]{\Cls\mbox{-}(#1, #2)}
+\newcommand{\Clsr}[1]{\Cls\mbox{-}#1}
+\newcommand{\Pass}{\mc{P\hspace{-0.32em}ASS}}
+\newcommand{\Tass}{\mc{T\hspace{-0.35em}ASS}}
+\newcommand{\Sat}{\mc{SAT}}
+\newcommand{\Tsat}{3\mbox{-}\Sat}
+\newcommand{\Usat}{\mc{USAT}}
+\newcommand{\Usati}[1]{\Usat_{\!\!#1}}
+\newcommand{\Musat}{\mc{M\hspace{0.8pt}USAT}}
+\newcommand{\Musati}[1]{\Musat_{\!\!#1}}
+\newcommand{\Smusat}{\mc{S}\Musat}
+\newcommand{\Smusati}[1]{\Smusat_{\!\!#1}}
+\newcommand{\Mmusat}{\mc{M}\Musat}% marginale minimal unerf\"ullbare Klms (25.4.2001)
+\newcommand{\Mmusati}[1]{\Mmusat_{\!\!#1}}
+\newcommand{\Fpass}{{\mc{F}}\Pass}
+%
+\newcommand{\AF}{\mc{A}}% ausgezeichnete KNF
+\newcommand{\Clash}{\mc{HIT}} % schwach-resolvierbare Klauselmengen (global umdefiniert 24.7.2003)
+\newcommand{\Clashi}[1]{\Clash_{\!\!#1}}
+\newcommand{\Uclash}{\mc{U}\Clash} % unerfuellbare Treffklauselmengen
+\newcommand{\Uclashi}[1]{\Uclash_{\!\!#1}}
+\newcommand{\Sclash}{\mc{U}\Clash} % stark-resolvierbare Klauselmengen (global umdefiniert 24.7.2003)
+\newcommand{\Sclashk}[1]{\Sclash_{\! #1}}
+\newcommand{\Mclash}{\mc{M}\Clash} % Multi-hitting 25.9.2004
+\newcommand{\Pclash}[1]{{#1}_{\nless}\mbox{\!--}\Clash} % Klausell\"ange exakt k 13.11.2005; einen allgemeinen Standard einfuehren fuer solche exakten Klausellaengenangaben
+\newcommand{\Puclash}[1]{{#1}_{\nless}\mbox{--}\Uclash}
+\DMO{\maxnpuclash}{NH}
+\DMO{\munpuclash}{\mu{}NH}
+\DMO{\hdef}{\delta_{\mr{h}}} % hermitean defect 6.1.2004
+\DMO{\rdef}{\delta_{\mr{r}}} % rank defect 12.9.2004
+\newcommand{\Mclshd}{\Mcls_{\hdef}} % 24.7.2003
+\newcommand{\Clshd}{\Cls_{\hdef}} % 24.1.2004
+\newcommand{\Mmhd}{\Mclshd(1)} % 24.7.2003
+\newcommand{\Mclsp}{\Mcls_{i_+}} % 24.7.2003
+\newcommand{\Mclsn}{\Mcls_{i_-}} % 24.7.2003
+\newcommand{\Mclsh}{\Mcls_h} % 24.7.2003
+\newcommand{\Clsp}{\Cls_{i_+}} % 24.1.2004
+\newcommand{\Clsn}{\Cls_{i_-}} % 24.1.2004
+\newcommand{\Clsh}{\Cls_h} % 24.1.2004
+\newcommand{\Musath}{\Musat_{\!h}} % 24.7.2003
+\newcommand{\Musatd}{\Musat_{\!\delta}} % 24.7.2003
+\newcommand{\Smusatd}{\Smusat_{\!\delta}} % 24.7.2003
+\newcommand{\Mclsds}{\Mcls_{\delta^*}} % 24.7.2003
+\newcommand{\Trcls}{\mc{TCLS}}
+\newcommand{\Gtrcls}{\mc{GTCLS}}
+\newcommand{\Satein}{\Sat\mbox{-}1}
+\newcommand{\Lsat}{\mc{L}\Sat}
+\newcommand{\Ho}{\mc{HO}}
+\newcommand{\Rho}{\mc{R}\Ho}
+\newcommand{\Qho}{\mc{Q}\Ho}
+\newcommand{\Lean}{\mc{LEAN}}
+\newcommand{\Llean}{\mc{L}\Lean}
+\newcommand{\Umusat}{\mc{U}\Musat}
+\newcommand{\Mlean}{\mc{M}\Lean}
+\newcommand{\Mleani}[1]{\Mlean_{\!#1}}
+\newcommand{\Msat}{\mc{M}\Sat}
+\newcommand{\Lsatz}{{\Lsat\!}_0}
+\newcommand{\Satv}[1]{\Sat\!_{#1}} % 15.8.2001
+\newcommand{\Psat}{\mc{P}\Sat}
+\newcommand{\Plean}{\mc{P}\Lean}
+\newcommand{\Mcls}{\mc{M}\Cls} % 27.12.2002
+\newcommand{\Pmcls}[1]{#1\mbox{--}\Mcls}
+\newcommand{\Scls}{\mc{SCL}} % 27.5.2004
+\newcommand{\Ssat}{\Sat} % 9.6.2004
+\newcommand{\Dcls}{\mc{D}\Cls} % 28.11.2004 (diagonale Klauselmengen)
+%
+\DMO{\nulli}{null} % 17.5.2004
+%
+\newcommand{\dnf}{\mathrm{DNF}}
+\newcommand{\pdnf}{p\mbox{-}\mathrm{DNF}}
+\newcommand{\tdnf}{3\mbox{-}\mathrm{DNF}}
+\newcommand{\twdnf}{2\mbox{-}\mathrm{DNF}}
+\newcommand{\dnfa}{\mathrm{DNF}\mbox{-}(1, s)}
+\newcommand{\dnfoi}{\mathrm{DNF}\mbox{-}(1, \infty)}
+\newcommand{\dnfot}{\mathrm{DNF}\mbox{-}(1, 2)}
+\newcommand{\tdnfot}{3\mbox{-}\mathrm{DNF}\mbox{-}(1, 2)}
+\newcommand{\pdnfa}{p\mbox{-}\mathrm{DNF}\mbox{-}(1, s)}
+%
+\DMO{\res}{\diamond}
+%
+\newcommand{\pcl}[1]{${\SST\le} #1$-clause}
+\newcommand{\pkl}[1]{${\SST\le} #1$-Klausel}
+%
+\DMO{\lit}{lit}
+\DMO{\var}{var}
+\DMO{\val}{val}
+%
+\DMO{\dpl}{DP}
+\newcommand{\dpi}[1]{\dpl_{\!#1}}
+%
+\newcommand{\sateq}{\overset{\mr{sat}}{\equiv}}
+%
+\DMO{\comp}{Comp}
+\DMO{\compex}{\comp_{ER}}
+\DMO{\compr}{\comp_R}
+\DMO{\comptr}{\comp_{tR}}
+\newcommand{\Us}{\mc{U}} % August 2000
+\DMO{\comptru}{\comp_{tR(\Us)}}
+\DMO{\compru}{\comp_{R(\Us)}}
+\providecommand{\comptruv}[1]{\comp_{\mr{tR}(#1)}}
+\providecommand{\compruv}[1]{\comp_{\mr{R}(#1)}}
+\newcommand{\Sa}{\mc{S}} % September 2001
+%
+\newcommand{\php}{\mathrm{PHP}}
+\DMO{\pebf}{PF} % pebbling formulas (veraendert am 18.5.2001; vormals \pf)
+%
+\DMO{\rt}{root}
+\DMO{\nds}{nds}
+\DMO{\lvs}{lvs}
+\DMO{\cls}{cls}
+\DMO{\nlvs}{\#lvs}
+\DMO{\newcommandls}{\#cls}
+\DMO{\ds}{ds}
+\DMO{\dst}{ds_T}
+\DMO{\dsg}{ds_G}
+\DMO{\dpr}{dp}
+\DMO{\dprt}{dp_T}
+\DMO{\dprg}{dp_G}
+\DMO{\ind}{in}
+\DMO{\indg}{in_G}
+\DMO{\outd}{out}
+\DMO{\outdg}{out_G}
+\DMO{\height}{ht}
+%
+\DMO{\peb}{peb} % 20.2.2000
+%
+\DMO{\taum}{\tau_{max}}
+%
+\newcommand{\pab}[1]{\langle #1 \rangle}
+\newcommand{\pao}[2]{\langle #1 \ra #2 \rangle}
+\newcommand{\pat}[4]{\langle #1 \ra #2, #3 \ra #4 \rangle}
+%
+\newcommand{\Bt}{\mc BT}
+%
+\newcommand{\Cnf}{\mathrm{CNF}}
+\DMO{\pc}{pc}
+%
+\DMO{\aut}{Auk}
+\DMO{\laut}{LAuk}
+\DMO{\maut}{MAuk}
+\newcommand{\A}{\mc{A}} % Autarkie-System
+\DMO{\nv}{N}
+\DMO{\na}{\nv_a}
+\DMO{\nA}{\nv_{\A}} % Normalform
+\DMO{\nla}{\nv_{la}}
+\DMO{\nbla}{\nv_{bla}}
+\DMO{\nma}{\nv_{ma}}
+\DMO{\npa}{\nv_{pa}}
+\DMO{\baut}{BAuk} % balancierte Autarkien
+\DMO{\blaut}{BLAuk} % balancierte lineare Autarkien
+\DMO{\paut}{PAut} % pure Autarkien
+\newcommand{\SatA}{\Sat\!_{\A}}
+\newcommand{\LeanA}{\Lean\!_{\A}}
+%
+% relativierte Resolution (21.2.20000)
+\DMO{\resouz}{\overset{\Us, 0}{\vdash}}
+\DMO{\resouo}{\overset{\Us, 1}{\vdash}}
+\DMO{\resouk}{\overset{\Us,\, k}{\vdash}}
+\DMO{\resou}{\,\overset{\Us}{\vdash}\,}
+\DMO{\resour}{\,\overset{\Us_0}{\vdash}\,}
+\DMO{\resourz}{\,\overset{\Us_0, 0}{\vdash}\,}
+\DMO{\uresouk}{\resouk\hspace{-0.6em}\mbox{\raisebox{0.8ex}{\tiny u}}}
+\DMO{\bresouk}{\resouk\hspace{-0.6em}\mbox{\raisebox{0.8ex}{\tiny b}}}
+\DMO{\iresouk}{\resouk\hspace{-0.6em}\mbox{\raisebox{0.8ex}{\tiny i}}}
+\DMO{\resok}{\overset{k}{\vdash}} % 27.8.2000
+\newcommand{\resokv}[1]{\overset{#1}{\vdash}}
+\newcommand{\resoukv}[1]{\overset{\Us, \,#1}{\vdash}}
+%
+\DMO{\wid}{wid} % width
+\DMO{\widl}{\hspace*{-1.5pt}wid}
+\DMO{\widb}{\sideset{^{\mr{b}}}{}\widl}
+\DMO{\widi}{\sideset{^{\mr{i}}}{}\widl}
+\DMO{\cwid}{\mc{W}} % classes
+\DMO{\cwidl}{\hspace*{-1pt}\mc{W}} % classes
+\DMO{\cwidb}{\sideset{^{\mr{b}}}{}\cwidl}
+\DMO{\cwidi}{\sideset{^{\mr{i}}}{}\cwidl}
+%
+\DMO{\modp}{mod_p}
+\DMO{\modt}{mod_t}
+\DMO{\moda}{\mf{S}} % 15.1.2003; ``allgemeine Modelle''
+\DMO{\modf}{\mf{F}} % 27.11.2004; ``falsifizierende Modelle''
+%
+% 31.12.2000: Systems of Problem Instances
+\newcommand{\PI}{\mc{PI}}
+\newcommand{\Spi}{\mc{S}\PI}
+\newcommand{\Upi}{\,\mc{U}\PI}
+%
+% 14.7.2005: Hypergraphs of minimally unsatisfiable sub-clause-sets etc.
+\DMO{\mus}{MU}
+\DMO{\mss}{MS}
+\DMO{\cmus}{CMU}
+\DMO{\cmss}{CMS}
+%
+% Konfliktmatrizen
+%
+\DMO{\scf}{CM} % symmetric conflict matrix
+\DMO{\acf}{DCM} % asymmetric conflict matrix
+\DMO{\cmg}{cmg} % conflict multigraph
+\DMO{\cmdg}{cmdg} % conflict multidigraph
+\DMO{\cg}{cg} % conflict graph
+\DMO{\rsg}{rsg} % resolution graph
+\DMO{\acg}{acg} % accordance graph
+\DMO{\acmg}{acmg} % accordance graph
+\DMO{\nscf}{bcp} % symmetric conflict number
+\DMO{\nacf}{bcp_d} % asymmetric conflict number
+\DMO{\bcp}{bcp} % biclique partition number
+%
+%
+% Minimale Klauselnlaenge ... (aus meiner SAT-Vorlesung (CS-342) in 2003/04)
+%
+\DMO{\nsat}{\#sat}
+\DMO{\maxsat}{maxsat}
+%
+\DMO{\pmin}{\ul{rk}}
+\DMO{\pmax}{rk}
+\DMO{\pav}{\widetilde{rk}}
+%
+\DMO{\ldeg}{ldg}
+\DMO{\minldeg}{\ul{ldg}}
+%
+\DMO{\vdeg}{vdg}
+\DMO{\minvdeg}{\ul{vdg}}
+\DMO{\avvdeg}{\widetilde{vdg}}
+%
+\DMO{\cldeg}{cldg} % complementary literal degree
+%
+% Spezielle Klauselmengen
+\DMO{\Inj}{Inj}
+%
+% 13.6.2004
+\newcommand{\OKsolver}{\texttt{OKsolver}}
+\newcommand{\OKlibrary}{\texttt{OKlibrary}}
+\newcommand{\OKgenerator}{\texttt{OKgenerator}}
+\newcommand{\OKplatform}{\texttt{OKplatform}}
+\newcommand{\OKdatabase}{\texttt{OKdatabase}}
+\newcommand{\OKsystem}{\texttt{OKsystem}}
+%
+% ########################################################
+% ----------------------------------------------------------------------------------------------------------------
+% COMPLEXITY THEORY
+% -----------------------------------------------------------------------------------------------------------------
+% ########################################################
+%
+\DMO{\timem}{time}
+\DMO{\spacem}{space}
+\DMO{\dtime}{DTime}
+\DMO{\dspace}{DSpace}
+\nc{\Con}{\mr{Con}}
+\nc{\Lin}{\mr{Lin}}
+\nc{\Pol}{\mr{Pol}}
+\nc{\ExL}{\mr{ExL}}
+\nc{\ExP}{\mr{ExP}}
+\nc{\CTime}{\mr{CTime}}
+\nc{\CSpace}{\mr{CSpace}}
+\nc{\LTime}{\mr{LTime}}
+\nc{\LSpace}{\mr{LSpace}}
+\nc{\PTime}{\mr{PTime}}
+\nc{\PSpace}{\mr{PSpace}}
+\nc{\ELTime}{\mr{ELTime}}
+\nc{\ELSpace}{\mr{ELSpace}}
+\nc{\EPTime}{\mr{EPTime}}
+\nc{\EPSpace}{\mr{EPSpace}}
+\nc{\Np}{\mr{NP}}
+\nc{\Conp}{\text{co-NP}}
+\nc{\Poly}{\mr{P}}
+%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-parse-self: t
+%%% TeX-auto-save: t
+%%% TeX-master: "Definitionen"
+%%% End:

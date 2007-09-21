@@ -1,0 +1,890 @@
+@Article{DD92,
+  author = 	 "Gennady Davydov and Inna Davydova",
+  title = 	 "Tautologies and positive solvability of linear
+		  homogeneous systems",
+  journal =	 "Annals of Pure and Applied Logic",
+  year =	 1992,
+  volume =	 57,
+  pages =	 "27-43",
+  annote =	 "Zwei Theoreme werden bewiesen (umformuliert):
+		  
+		  1. Jede $ m \times n $-Matrix $A$ ueber den reellen
+		  Zahlen kann als Klauseln-Variablen-Matrix einer
+		  konjunktiven Normalform $F_A$ gedeutet werden (eine
+		  0-Spalte bedeutet eine bloss formal vorkommende
+		  Variable, und eine 0-Zeile die leere Klausel).
+		  
+		  Nun ist $F_A$ genau dann erfuellbar, wenn es eine 
+		  $n \times m$-Matrix $B$ gibt, die mit $A^t$ in den
+		  Vorzeichen uebereinstimmt (d.h., sie stimmen
+		  bzgl. Positivitaet, Negativitaet und Null-Sein
+		  ueberein), so dass dass Gleichungssystem
+		  $B \cdot x = 0$ unter der Bedingung $x \ge 0$ nur
+		  die triviale Loesung hat.
+		  
+		  2. Wenn $F_A$ minimal unerfuellbar ist, so hat der
+		  Vektor $B \cdot x$ fuer jede mit $A^t$ in den
+		  Vorzeichen uebereinstimmende Matrix $B$ und jedes
+		  nichttriviale $x$ eine positive
+		  Komponente. Umgekehrt folgt aus dieser Eigenschaft,
+		  dass $F_A$ unerfuellbar sein muss.
+		  
+		  Die Beweise sind wohl unbefriedigend.
+		  
+		  Aber da steckt etwas dahinter!!"
+}
+
+		  
+@Unpublished{DD95,
+  author = 	 {Gennady Davydov and Inna Davydova},
+  title = 	 {Combined calculus for solvable linear systems},
+  note = 	 {Preprint},
+  year =	 1995,
+  annote =	 {Siehe Besprechung in "MUSAT" im Ordner "Genauer".}
+}
+
+
+@Article{DD2000,
+  author = 	 {Gennady V.~Davydov and Inna M.~Davydova},
+  title = 	 {Number Representations of Satisfiability},
+  journal = 	 {Journal of Mathematical Sciences},
+  year = 	 2000,
+  volume =	 98,
+  number =	 4,
+  pages =	 {464-477},
+  month =	 {February},
+  note =	 {A Translation of Selected Russian-Language Serial Publications in Mathematics},
+  annote =	 {Vorabversion als ps-Datei vorhanden (2-mal). Siehe Besprechung}
+}
+
+
+
+@InProceedings{HMS94,
+  author = 	 "H.B. Hunt III and M.V. Marathe and R.E. Stearns",
+  title = 	 "Generalized {CNF} Satisfiability Problems and
+		  Non-Efficient Approximability",
+  pages =	 "356-366",
+  booktitle =	 "Proceedings of 10th Structure in Complexity
+		  Theory Conference",
+  year =	 1994,
+  organization = "IEEE",
+  annote =	 "Es wird folgendes gezeigt:
+		  
+		  1. Sei SAT(S) die von Schaefer 1978 eingefuehrte
+		  Problemklasse. Dann ist
+		  (a) jedes Problem in MAX SNP ``im wesentlichen''
+		  identisch zu einem Subproblem eines Problemes aus
+		  MAX SAT(S),
+		  (b) und ein Problem in MAX SAT(S) ist
+		  MAX-SNP-vollstaendig, wenn SAT(S) NP-vollstaendig
+		  ist.
+		  
+		  2. MAX SNF (gegeben eine Liste von aussagenlogischen 
+		  Formeln, finde die Maximalanzahl von simultan
+		  erfuellbaren unter ihnen) laesst sehr einfache
+		  Nicht-Approximierbarkeits-Resultate zu. Genauer:
+		  
+		  Theorem 2.8 Sei k >= 2 die (feste) Anzahl der
+		  Formeln. 3SAT ist quasi-Linearzeit-reduzierbar auf
+		  MAX NSF 3SAT (mit $k$ Formeln), wobei diese Formeln
+		  alle ``treewidth'' <= 3 haben, und entweder ist MAX NSF
+		  (maximum number satisfied formulas) 1 oder k.
+		  
+		  Bew. fuer k = 2: In F aus 3CNF werden fuer F_1 alle
+		  Variablenvorkommen durch jeweils neue Variablen
+		  ersetzt, waehrend F_2 die Aequivalenzen der neuen
+		  Variablen behauptet, die jeweils zu einer
+		  urspruenglichen Variablen gehoeren (diese
+		  Aequivalenzen sind einfach durch einen geschlossenen 
+		  Kreis von Implikationen ausdrueckbar (also durch
+		  2CNF)).
+		  
+		  Fuer die Linearzeit-Reduzierbarkeit wird F zunaechst 
+		  noch nach 3-CNF-3 transformiert.
+		  
+		  3. Ebenfalls laesst ``Ambiguous 3SAT'' einfache
+		  Nicht-Approximierbarkeitsbeweise zu (die Eingabe von 
+		  diesen Problemen ist eine 3CNF zusammen mit einer
+		  erfuellenden Belegung, und es wird gefragt, ob noch
+		  eine andere erfuellende Belegung existiert):
+		  
+		  Theorem 5.1 ``Ambigous planar 3SAT'' ist
+		  NP-vollstaendig.
+		  
+		  Der Beweis konstruiert mittels Standard-Techniken zu 
+		  gegebenem F ein neues F' (mit neuen Variablen), von
+		  dem man weiss, dass alle Variablen auf 1 gesetzt F' 
+		  erfuellen, und so dass F' genau eine erfuellende
+		  Belegung mehr hat als F.
+		  Etwas komplizierter ist nur der Aspekt der
+		  Planaritaet.
+		  F' ist die 3CNF-Transformierte von 
+		  $(F \und \neg w) \oder (v_1 \und \ldots v_n \und w)$, 
+		  wobei $v_1, \ldots v_n$ die Variablen von $F$ sind,
+		  und $w$ eine neue Variable ist.
+		  
+		  Eine Anwendung davon z.B. ist die Transformation
+		  eines 3SAT-Problemes in ein ILP zusammen mit einer
+		  Zielfunktion, so dass die Zielfunktion nur die Werte 
+		  0 oder 1 annehmen kann, und 1 angenommen wird gdw
+		  das urspruengliche Problem erfuellbar war.
+		  
+		  Na ja."
+}
+		  
+		  
+		  
+@InCollection{IT96,
+  author = 	 "Kazuo Iwama and Kazuya Takaki",
+  title = 	 "Satisfiability of {3CNF} Formulas with Small
+		  Clause/Variable-Ratio",
+  crossref =	 "DIM96",
+  annote =	 "Es wird die Formelklasse 3CNF(a, b, c) betrachtet:
+		  
+		  Alle Klauseln haben Laenge (genau) 3, genau a
+		  Variablen kommen genau dreimal vor, genau b
+		  Variablen genau viermal (jeweils in beiden
+		  Vorzeichen zusammen), und insgesamt gibt es genau c
+		  Klauseln (nur solche Werte von a und b sind
+		  zulaessig, fuer die $c = \frac{3 a + 4 b}{3}$
+		  ganzzahlig ist).
+		  
+		  Es wird bewiesen:
+		  
+		  Thm 1: Fuer alle $n \ge 13$ gibt es unerfuellbare
+		  Elemente von 3CNF(n - 9, 9, n + 3).
+		  
+		  Thm 2: Alle Elemente von 3CNF(n - 3, 3, n + 1) sind
+		  unerfuellbar.
+		  
+		  Der Zwischenfall von 3CNF(n - 6, 6, n + 2) ist noch
+		  offen.
+		  
+		  Thm 3: Alle Elemente von 3CNF(0, 9, 12) sind
+		  erfuellbar.
+		  
+		  In 3CNF(0, 12, 16) gibt es ein unerfuellbares
+		  Element.
+		  
+		  Wirkt alles sehr speziell und unuebersichtlich."
+}
+		  
+		  
+		  
+@TechReport{KhSu96,
+  author = 	 "Sanjeev Khanna and Madhu Sudan",
+  title = 	 "The Optimization Complexity of Constraint
+		  Satisfaction Problems",
+  institution =  "Electronical Colloquium on Computational Complexity",
+  year = 	 1996,
+  number =	 "TR96-028",
+  annote =	 "Das Schaefer'sche Dichotomie-Resultat fuer seine
+		  Klasse von ``constraint satisfaction problems''
+		  (entweder in P oder NP-vollstaendig, und konkrete
+		  Auflistung der Moeglichkeiten) wird auf die
+		  Maximierungs-Version uebertragen: 
+		  Entweder exakt loesbar in P, oder MAX
+		  SNP-vollstaendig. Die Liste der P-Faelle ist
+		  (naturgemaess) eine ganz andere:
+		  Entweder gibt es nur positive oder nur negative
+		  ``normale'' Klauseln, oder aber wir haben:
+		  Jede ``verallgemeinerte Klausel'' ist von der Form
+		  $(v_1 \und v_m) \oder (\neg w_1 \und \neg w_n)$, 
+		  wobei die $v_i$ und $w_j$ Platzhalter sind, es
+		  moeglicherweise Uebereinstimmungen zwischen den w's
+		  und v's gibt, es insgesamt nur eine feste Anzahl von 
+		  diesen Kombinationen gibt, und sowohl m als auch n
+		  Null sein koennen.
+		  Fuer 2-CNF heisst dass, dass es keine positiven oder 
+		  negativen 2-Klauseln geben kann. Da man obige
+		  Constraints ausmultiplizieren kann, ist auch jeder
+		  schnell loesbare Fall als ein solcher spezieller
+		  2-CNF-Fall darstellbar (d.h., die drei Faelle
+		  -- m = 0
+		  -- n = 0
+		  -- m = n = 1
+		  decken schon alle Moeglichkeiten ab).
+		  
+		  Es folgt, dass die Klassen von verallgemeinerten
+		  Klauselmengen, fuer die das Maximierungs-Problem
+		  polynomial loesbar ist, und die rein ueber eine
+		  endliche Liste von moeglichen (verallgemeinerten)
+		  Klauselgestalten definiert ist, genau die
+		  Teilklassen von 2-CNF ist, die keine positiven oder
+		  negativen 2-Klauseln enthalten --- ausser die
+		  trivialen Klassen von CNF's, die nur positive oder
+		  nur negative Klauseln enthalten.
+		  
+		  Es liegt nahe zu fragen, was man hier mit dem
+		  Autarkie-Gedanken machen kann??!!"
+}
+		  
+	
+% War To84 (17.11.2005)	  
+@Article{Tovey1984NPcomplete,
+  author = 	 "Craig A. Tovey",
+  title = 	 "A simplified {NP}-complete satisfiability problem",
+  journal =	 "Discrete Applied Mathematics",
+  year =	 1984,
+  volume =	 8,
+  pages =	 "85-89",
+  annote = {pdf-Datei vorhanden.}
+}
+
+
+@TechReport{RW99,
+  author = 	 {Amitabha Roy and Christopher Wilson},
+  title = 	 {Supermodels and Closed Sets},
+  institution =  {Electronic Colloquium on Computational Complexity (ECCC)},
+  year = 	 2000,
+  number =	 {Report No.~10},
+  annote =	 {Von Steve Cook zur Begutachtung erhalten. Kommentar (7.12.1999)
+(Siehe auch Gutachten RW00 im STOCS-Ordner). Ist dann als ECCC-Report erschienen
+(leicht veraendert).
+
+Kapitel 2: Definitions and Notations
+
+Sei $[n] := \set{1, \ldots, n}$, $2^{[n]} := \PP([n])$, und $\delta_i: 2^{[n]} \ra 2^{[n]}$ mit
+$X \mapsto X \triangle \set{i}$, wobei $\triangle$ die symmetrische Differenz meint.
+
+In Worten: $[n]$ ist die Menge der ersten $n$ natuerlichen Zahlen, $2^{[n]}$ die Menge
+aller Teilmengen davon, und $\delta_i$ der Operator auf $2^{[n]}$, der das Element $i$
+hinzunimmt, falls es fehlt, und andernfalls es wegnimmt --- also einen "Flip" an Position
+$i$ ausfuehrt.
+
+Fuer $i \not= j$ sei $\delta_{ij}(X) := \delta_i(\delta_j(X)) = \delta_j(\delta_i(X))$, d.h., einfache
+Hintereinanderausfuehrung.
+
+Allgemein: Fuer $S \sse [n]$ ist $\delta_S(X)$ die symmetrische Differenz von $X$ und $S$.
+
+Der Operator $\Delta_i(X) := \set{ \delta_{ij}(X) : j \in [n] \sm \set{i} }$ gibt die Menge aller
+"Flip-Resultate".
+
+Fuer ein System von Teilmengen $\mc{F} \sse 2^{[n]}$ sei $\mc{F}_k := \set{ X \in \mc{F}  : |X| = k}$
+die Teilmenge aller Elemente mit genau $k$ Elementen, und $\mc{F}_{\le k}$ die Teilmenge aller
+Elemente mit hoechstens $k$ Elementen.
+
+Sei $\choose{[n]}{k} := (2^{[n]})_k$ die Menge aller $k$-Mengen in $[n]$, und $\choose{[n]}{\le k}$
+die Menge aller $\le k$-Mengen.
+
+Die Menge der Variablen von (logischen) Formeln wird als $[n]$ angesetzt, und eine Belegung
+wird als Abbildung von $[n]$ nach $\set{0,1}$ gesetzt. Eine andere Deutung einer Belegung
+ist die als Teilmenge von $[n]$ (die wahr gesetzten Variablen sind enthalten). Ein Modell einer
+logischen Formel ist eine Belegung, die die Formel erfuellt.
+
+Alle Variablen sollen sowohl positiv als auch negativ vorkommen.
+
+Definition 2.1: Ein Modell $X$ einer Formel $F$ heisst "$(r, s)$-Supermodell" falls fuer
+alle $R \in \choose{[n]}{\le r}$ ein $S \in \choose{[n]}{\le s}$ existiert, so dass $R \cap S = \es$
+gilt, und $\delta_{R \cup S}(X)$ wieder ein Modell von $F$ ist.
+
+In Worten: Das Flippen von bis zu $r$-vielen Variablen kann durch das Flippen von maximal
+$s$-vielen anderen Variablen repariert werden.
+
+Ein "Supermodell" ist ein $(1,1)$-Supermodell.
+
+$SUP(r, s)$ sei die Menge der booleschen Formeln, die $(r, s)$-Supermodelle besitzen.
+
+Ein Mengensystem $\mc{C} \sse 2^{[n]}$ heisst "abgeschlossen" falls fuer alle $X \in \mc{C}$ und
+fuer alle $i \in [n]$ ein $j \in [n] \sm \set{i}$ mit $\delta_{ij}(X) \in \mc{C}$ existiert, d.h., wenn
+$\Delta_i(X) \cap \mc{C} \not= \es$ gilt.
+
+(Interpretiert man $\mc{C}$ als Modellmenge einer Formel, so heisst "abgeschlossen", dass
+alle Modelle Supermodelle sind, wobei alle Reparaturen innerhalb von $\mc{C}$ durchgefuehrt werden
+koennen --- jedoch mit einem Unterschied: 
+Der Begriff des Supermodells erlaubt, dass Reparatur unnoetig ist, dass also das Flippen einer
+Variablen einfach wieder auf ein neues Modell fuehrt; dies wird hier nicht betrachtet, sondern es 
+muss die Moeglichkeit einer "echten" Reparatur geben. Siehe unten: "schwach abgeschlossen".)
+
+Sei $\Delta_i(X, \mc{C}) := \Delta_i(X) \cap \mc{C}$, und $R_i(X, \mc{C}) := \set{ j \in [n] \sm \set{i} :
+\delta_{ij}(X) \in \mc{C} }$, d.h., $\Delta_i(X, \mc{C})$ ist die Menge der "reparierten $X$",
+waehrend $R_i(X, \mc{C})$ die Menge der "Reparaturstellen" ist.
+
+$\mc{C}$ heisst "duenn abgeschlossen", falls fuer alle $X \in \mc{C}$ und alle $i \in [n]$ genau
+eine Reparaturmoeglichkeit besteht, d.h., $|\Delta_i(X, \mc{C})| = 1$ gilt.
+
+Sei $\Delta^*_i(X) := \Delta_i(X) \cup \set{ \delta_i(X) }$ ---hier muss also nicht unbedingt
+repariert werden. $\mc{C}$ heisst nun "schwach abgeschlossen", falls fuer alle $X \in /mc{C}$
+und alle $i \in [n]$ gilt: $\Delta^*_i(X) \cap /mc{C} \not= \es$.
+
+Gegeben ein abgeschlossenes $\mc{C}$, ein Element $X \in \mc{C}$ heisst "redundant", falls
+fuer alle $i \in [n]$ gilt: $|\Delta_i(X, C)| > 1$. Dies impliziert, dass auch $\mc{C} \sm \set{X}$
+abgeschlossen ist.
+
+$\mc{C}$ heisst "minimal abgeschlossen", falls keine echte Teilmenge ebenfalls abgeschlossen ist.
+Daraus folgt, dass alle Elemente irredundant sind, aber die Umkehrung hiervon gilt wohl nicht.
+
+
+Kapitel 3: Supermodels of Boolean Formulas
+
+"Problem $SUP(r, s)$" fuer $r, s \ge 0$ bedeutet, zu gegebener Booleschen Formel $F$ die Frage
+zu beantworten, ob $F$ ein $(r, s)$-Supermodell besitzt. (Fuer $r = 0$ ist dies das SAT-Problem
+(fuer die volle Aussagenlogik)).
+
+Theorem 3.1: $SUP(r, s)$ ist NP-vollstaendig.
+
+Es wird nun der Begriff des $(r,s)$_Supermodells dahingehend verschaerft, dass nach der
+Reparatur nicht "irgendein" Modell entstehen soll, sondern eines, dass auch "gute" Reparatur-
+Eigenschaften besitzt:
+
+Fuer eine Formel $F$ sei
+
+                       $sup^0(r,s)(F) := \set{ X : X Modell von F}$
+
+                       $sup^k(r,s)(F) := \set{ X \in sup^{k-1}(r,s)(F) : das Flippen von bis zu r Werten
+                                                        kann durch Flippen von bis zu s anderen Werten so
+                                                        repariert werden, dass das Resultat in sup^{k-1}(r,s)(F) 
+                                                        liegt }$             
+
+                       $SUP^k(a,b) := \set{ F : sup^k(a,b)(F) \not= \es }$
+
+                       $SUP^*(a,b) := \bw_{k \in \NN} SUP^k(a,b)$. (Duchschnitt)
+
+Es ist $SUP^0(a,b) = SAT$ und $SUP^1(a,b) = SUP(a,b)$.
+
+Lemma 3.1 $SUP^*(1,1)$ ist genau die Menge der Formeln, so dass es eine nicht-leere Menge
+von Modellen gibt, die schwach abgeschlossen ist.
+
+(Es reicht also wohl nicht aus, nur von einem Modell gute Reparatur-Eigenschaften zu fordern,
+sondern es muss auch eine Art Abgeschlossenheit bzgl. Reparatur vorliegen.)
+
+Lemma 3.2: $SUP^*(1,1) \in NEXP$.
+Bew.: Raten einer schwach-abgeschlossenen Menge von Modellen.
+
+Theorem 3.2: $SUP^*(1,1)$ ist NP-schwer.
+
+Korollar 3.1: $SUP^k(1,1)$ ist NP-vollstaendig fuer alle $k \ge 0$.
+Bew.: Vollstaendigkeit folgt mit Thm 3.2. Dass das Problem in NP liegt, liegt am festen $k$:
+Rate das "$k$-Supermodell" und den "Reparatur-Baum" der Groesse $n^k$.
+
+
+Kapitel 4: Restricted Boolean Formulas
+
+Theorem 4.3: $SUP(1,1) \cap 2-CNF \in NL$. (Das Supermodell kann auch berechnet werden (wohl
+in FNL).)
+
+[ Verbesserter Beweis:
+
+Einer 2-CNF $F$ wird der gerichtete "Implikations-Graph" $G(F)$ zugeordnet, dessen Ecken die
+$2 n(F)$-vielen Literale ueber $F$ sind, waehrend jede 2-Klausel $\set{a,b}$ zwei Kanten 
+$\ol{a} \ra b$ und $\ol{b} \ra a$ induziert. (Eine 1-Klausel $\set{a}$ induziert eine Kante
+$\ol{a} \ra a$, waehrend die leere Klausel nicht zugelassen ist.)
+Die wesentlichen Eigenschaft von $G(F)$ ist (ein "Weg" sei eine (gerichtete) aneinander-
+passende Folge von Kanten, waehrend ein "Pfad" ein Weg sei, dessen Ecken alle veschieden
+sind):
+
+      Eine Klausel $\set{a, b}$ ($a = b$ ist zugelassen) folgt genau dann aus $F$ durch
+      Resolution, wenn es Pfade von $\ol{a}$ nach $b$ und von $\ol{b}$ nach $a$ in
+      $G(F)$ gibt.
+
+Man beachte, dass $G(\vp * F)$, wobei $\vp$ irgendeine partielle Belegung ist, die nicht
+die leere Klausel erzeugt, sich aus $G(F)$ durch entsprechende Anwendung von $\vp$ ergibt: 
+Herausnahme der belegten Literale, und fuer Kanten $a \ra b$, wo $a$ auf $1$ gesetzt wird,
+und $b$ nicht belegt wird, wird eine neue Kante $\ol{b} \ra b$ erzeugt (falls nicht schon
+vorhanden).
+
+Nemen wir an, dass es ein Supermodell $\vp$ fuer $F$ gibt, und sei $W = (a, k1, b, k2, c)$
+ein ungerichteter Weg in $G(F)$ mit 2 verschiedenen Kanten $k1, k2 \in E(G(F))$:
+
+(1) nach Definition gilt $\var(a) \not= \var(b)$ und $\var(b) \not= \var(c)$; 
+
+(2) die Gleichheit $a = c$ ist moeglich gdw $W$ gerichtet ist;
+
+(3) $a = \ol{c}$ ist nicht moeglich, da hieraus folgen wuerde, dass $F$ ein Literal $x$
+     impliziert, was der Existenz eines Supermodells widerspricht (Flippen von $x$ ist
+     ja so nicht moeglich);
+
+sei im folgenden $\var(a) \not= \var(c)$;
+
+(4) im Falle von $k1: a \ra b$ und $k2: b \ra c$ muss $\vp(a) = 0$ und $\vp(c) = 1$
+     gelten (sonst braeuchte Flippen von $a$ bzw. $c$ ein Reparatur an mindestens
+     zwei Stellen);
+     und im Falle von $k2: c \ra b$ und $k1: b \ra a$ folgt $\vp(c) = 0$ und $\vp(a) = 1$;
+
+(5) im Falle von $k1: a \ra b$ und $k2: c \ra b$ muss $\vp(a) = 0$ oder $\vp(c) = 0$ gelten
+     (sonst flippe man $b$);
+
+(6) im Falle von $k1: b \ra a$ und $k2: b \ra c$ muss $\vp(a) = 1$ oder $\vp(c) = 1$ gelten
+     (sonst flippe man $b$).
+
+Die Entscheidung "$F \in SUP(1,1)$ ?" sieht nun wie folgt aus:
+
+ -- kommt Situation (3) in $G(F)$ vor, so $F \notin SUP(1,1)$;
+
+ -- andernfalls konstruiere die den Bedingungen (4) - (6) entsprechende 2-Klauselmenge
+      $F'$ ((4) ergibt je zwei 1-Klauseln, waehrend (5) und (6) je eine 2-Klausel ergeben);
+
+ -- ist $F'$ unerfuellbar, so $F \notin SUP(1,1)$;
+
+ -- andernfalls waehle eine erfuellende Belegung $\vp'$ von $F'$ mit $\var(\vp') \sse \var(F')$
+      (jedes Supermodell von $F$ muss $F'$ erfuellen) und setze $F_0 := \vp' * F$;
+
+ -- die ungerichteten Zusammenhangskomponenten von $G(F^*)$ bestehen gerade aus 2-Kreisen
+      (die gerade die isolierten 2-Kreise in $G(F)$ sind) und einzelnen Kanten;
+
+ABBRUCH: Sollte so gehen --- es fehlt aber noch ein Vollstaendigkeitsresultat, dass die Bedingungen
+in $F'$ "alle wesentlichen" Bedingungen sind. ]
+
+Theorem 4.4: $SUP(1, b) \cap 2-CNF$ ist NP-vollstaendig fuer $b \ge 2$.
+
+Theorem 4.5: $SUP^*(1, 1) \cap 2-CNF \in P$.
+
+Theorem 4.6: $SUP(1, 1) \cap Horn$ ist NP-vollstaendig.
+
+Theorem 4.8: $SUP(r, s) \cap Affine \in P$.
+}
+}
+@String{FortsetzungRW99 = {
+Kapitel 5: Sparse Closed Sets
+
+Hier spielen Boolesche Formeln keine Rolle --- duenn abgeschlossene Mengen sind rein ueber
+die Reparatur-Eigenschaft erklaert (zu jedem Element und zu jeder Position gibt es genau eine
+andere Position, so dass Flippen dieser beiden Positionen in einem weiteren Element resultiert).
+
+Theorem 5.1: Jede duenn abgeschlossene Teilmenge von $2^{[n]}$ hat mindestens $(2 e)^{n/8}$-viele
+Elemente.
+
+Vermutung 5.1: Jede duenn abgeschlossene Teilmenge von $2^{[n]}$ hat mindestens $2^{n/2}$-viele
+Elemente.
+(Es wird ein Beispiel gegeben fuer ein minimal duenn abgeschlossenes Mengensystem mit $2^{n/2}$
+Elementen --- ein kleineres Beispiel fuer duenn abgeschlossene Mengensysteme ist nicht
+bekannt.)
+
+Korollar 5.1: Eine duenn abgeschlossene Teilmenge von $2^{[n]}$ hat hoechstens $O(2^n / n)$-viele
+Elemente.
+
+Korollar 5.2: Es gibt (nicht-minimale) duenn abgeschlossene Mengensysteme der Groesse
+$\Omega(2^n / n^2)$.
+
+Theorem 5.4: Es gibt minimal duenn abgeschlossene Mengensysteme der Groesse $80^{n/8}$.
+
+
+Kapitel 6: Closed Sets
+
+Sei $\mc{C} \sse 2^{[n]}$ ein nicht-leeres abgeschlossenes Mengensystem.
+
+Theorem 6.1: $|\mc{C}| \ge n$.
+
+Diese untere Schranke wird auch angenommen (durch eine Boolesche Formel).
+
+Theorem 6.2: Ist $\mc{C}$ minimal abgeschlossen, so $|\mc{C}| \le (4/5) 2^{n-1}$.
+
+Theorem 6.3: Es gibt minimal abgeschlossene Mengensysteme der Groesse $2^{2n/3}$.
+
+Vermutung 6.1: Das groesste minimal abgeschlossene Mengensystem hat die Groesse $2^{n-2}$.
+
+Theorem 6.4: Man kann in Polynomialzeit testen, ob eine gegebenes abgeschlossenes Mengensystem
+minimal ist
+
+Kapitel 7: Conclusions and future work
+
+Man kann auch das "eine" Problem $SUP(r, s)$ betrachten, wo $r, s$ auch Teil der Eingabe sind:
+Liegt in $\Sigma_3^P$, mehr ist nicht bekannt.
+}}
+
+
+
+@Article{FY80,
+  author = 	 {Aviezri S. Fraenkel and Yaacov Yesha},
+  title = 	 {Complexity of solving algebraic equations},
+  journal = 	 {Information Processing Letters},
+  year = 	 1980,
+  volume =	 10,
+  number =	 {4,5},
+  pages =	 {178-179},
+  month =	 {July},
+  annote =	 {Eintrag 20.4.2000
+Folgendes wird bewiesen: [ auf "k-SAT" verallgemeinert ]
+
+Gegeben eine k-CNF F, so kann man in Polynomialzeit (festes k) ein System von Polynomen
+P(F)_i konstruieren, so dass gilt (alle P(F)_i sind in Normalform):
+
+ -- P(F)_i hat nur Koeffizienten in {-1, +1}
+
+ -- der konstante Term in P(F)_i ist 0 oder 1
+
+ -- es gibt sonst nur Terme der Form c * x_i und d * x_i * x_j, wobei i <> j
+      (und, wie gesagt, c, d \in {-1, +1})
+
+ -- folgende Aussagen sind aequivalent fuer alle Koerper K:
+
+     - P(F)(x) = 0 hat eine Loesung in K^m ueber K
+        (wobei x der m-elementige Variablenvektor ist, und mit "P(F)(x) = 0" eine Loesung des
+        Systems P(F)_i(x) = 0 (alle i) gemeint ist)
+
+     - P(F)(x) = 0 hat eine Loesung in {0, 1}^m ueber K
+
+     - F ist erfuellbar
+
+ -- die (totalen) erfuellenden Belegungen stehen in 1-1-Korrespondenz zu den
+      {0, 1}-Loesungen von P(F)(x) = 0.
+
+% Die Autoren wollen "Wahr = Koerper-1", so dass das Produkt dem logischen Und entspricht.
+% Einfacher ist es jedoch, "Wahr = Koerper-0" zu waehlen, wobei dann das Produkt dem
+% logischen Oder entspricht. Die Konstruktion ist dann wie folgt:
+
+% P'(F) hat n(F) Variablen und c(F) Polynome P'(F)_i. Jedes P'(F)_i entspricht der Klausel C_i \in F,
+% und hat die Form
+%
+%     Produkt_{a \in C_i}   t(a)
+%
+% wobei t(a) = x_i im Falle von a = v_i, und t(a) = (1 - x_i) im Falle von a = (not v_i).
+%
+% P'(F) = 0 hat genau dann eine Loesung ueber K, wenn F erfuellbar ist, und es hat dann auch
+% eine Loesung ueber {0, 1}. Genauer erhaelt man genau die partiellen Modelle phi von F durch
+% die folgende Interpretation von x:
+%
+% x_i = 0 --> phi(v_i) = 1
+% x_i = 1 --> phi(v_i) = 0
+% x_i <> 0, 1 --> v_i nicht in var(phi).
+%
+% P(F) wird aus P'(F) durch Ausmultiplizieren erhalten (es entstehen nur {-1, +1}-Koeffizienten
+% hier), wobei dann noch Produkte mit mehr als zwei Faktoren durch Einfuehrung von
+% Abkuerzungen
+%
+% x_k = x_i * x_j
+%
+% in Produkte mit genau zwei Faktoren ueberfuehrt werden
+% (die Gleichung x_k = x_i * x_j wird als neues Polynom x_k - x_i * x_j hinzugefuegt,
+% wobei x_k eine neue Variable ist).
+
+Alles reichlich trivial, aber schlecht aufgeschrieben.
+
+% Betrachtet man P(F) : K^{n(F)} -> K^{c(F)}, so koennte man die Autarkien von F wie folgt
+% darstellen:
+%
+% ???
+% 
+}
+}
+
+@Unpublished{Dr97,
+  author = 	 "Habiba Drias",
+  title = 	 "A New Algorithm for Counting and Checking
+		  Satisfiability and a Restricted Unfavorable Region
+		  for Polynomial Average Time",
+  note = 	 "USTHB, Institut d'Informatique, drias@ist.cerist.dz",
+  year =	 1997,
+  annote =	 "Kopiert. Wurde mir zugesandt zur Begutachtung fuer
+		  ESOP 98 von Jaco de Bakker. Ist wohl wertlos (siehe
+		  das Gutachten, dass dem Artikel beigelegt ist).
+		  Der einzig interessante Punkt fuer mich ist, dass
+		  der Algorithmus, welcher einfach auf der Umformung
+		  von KNF nach DNF mittels Ausmultiplizieren beruht,
+		  eine (definitiv schlechtere) Version des
+		  Monien/Speckenmeyer-Algorithmus' ist (bzw. des
+		  Testens einer Klausel)."
+}
+		  
+
+@Article{John1999,
+  author = 	 {George Johnson},
+  title = 	 {Separating the Insolvable and the Merely Difficult},
+  journal = 	 {The New York Times},
+  year = 	 1999,
+  month =	 {July 13,},
+  note =         {See \url{http://www.nytimes.com/library/national/science/071399sci-satisfiability-problems.html}},
+  annote =	 {Siehe \url{http://www.nytimes.com/library/national/science/071399sci-satisfiability-problems.html}. Der Text dieser Seite befindet sich in ps/Fremd_Art/SATversch/NYT.
+
+Abstrakt:
+
+               July 13, 1999, Tuesday 
+                Separating the Insolvable and the Merely Difficult 
+                By GEORGE JOHNSON 
+                Source: The New York Times
+                Section: Science Desk 
+                1945 words
+
+                Abstract
+                Researchers and scientists study satisfiability problems, those in which increasing number
+                of conflicting demands must be resolved for problem to be resolved; satisfiability problems
+                arise in thousands of situations, from staffing companies and scheduling airline flights to
+                planning a wedding dinner; researchers, reaching beyond such practical considerations,
+                embrace satisfiability problems as tool for studying phenomenon called computational
+                complexity: some problems are inherently easy to solve, some difficult and some
+                impossible; in paper in current issue of Nature, international team of physicists and
+                computer scientists describes work that could help weed out problems that are hopeless
+                and suggest more efficient mehtods, or algorithms, for solving the rest; graph (L) 
+
+
+                Lead Paragraph
+                Anyone trying to cast a play or plan a social event has come face-to-face with what
+                scientists call a satisfiability problem. Suppose that a theatrical director feels obligated to
+                cast either his ingenue, Actress Alvarez, or his nephew, Actor Cohen, ... }
+}
+
+@Article{John1999kurz,
+  author = 	 {G.~Johnson},
+  title = 	 {Separating the Insol\-vab\-le and the Merely Difficult},
+  journal = 	 {NYT},
+  year = 	 1999,
+  note =         {www.nytimes.com/library/national/
+
+science/071399sci-satisfiability-problems.html}
+}
+
+
+@InProceedings{RT2001,
+  author = 	 {Anja Remshagen and Klaus Truemper},
+  title = 	 {Learning in a Compiler for {SAT} and {MINSAT} Algorithms -- A Summary},
+  booktitle = 	 {IJCAR 2001 - Short Papers (International Joint Conference on Automated Reasoning, Siena, Italy, June 2001)},
+  pages =	 {122-129},
+  year =	 2001,
+  editor =	 {Rajeev Gor{\'{e}} and Alexander Leitsch and Tobias Nipkov},
+  note =	 {\url{http://www.dii.unisi.it/~ijcar/}},
+  annote =	 {pdf-Datei vorhanden.}
+}
+
+
+@TechReport{BKB92,
+  author = 	 "M. Buro and H. Kleine B{\"u}ning",
+  title = 	 "Report on a SAT competition",
+  institution =  "Universit{\"a}t-Gesamthochschule Paderborn",
+  year = 	 1992,
+  number =	 "Reihe Informatik, Bericht Nr.~110/1992",
+  annote =	 "Vorhanden."
+}
+
+@InProceedings{GPFW96,
+  author = 	 "Jun Gu and Paul W. Purdom and John Franco and
+		  Benjamin W. Wah",
+  title = 	 "Algorithms for the Satisfiability ({SAT}) Problem: A Survey",
+  crossref =     "DIM96",
+  pages =        "19-151"
+}
+
+
+@InProceedings{Gu96,
+  author = 	 "Jun Gu",
+  title = 	 "Multi-SAT: An Algorithm Engineering Approach for
+		  Satisfiability Problems",
+  crossref =	 "Siena96",
+  note =	 "Abstract."
+}
+
+@Article{Gu1999,
+  author = 	 {Jun Gu},
+  title = 	 {The Multi-SAT algorithm},
+  journal = 	 {Discrete Applied Mathematics},
+  year = 	 1999,
+  volume =	 {96-97},
+  pages =	 {111-126},
+  annote =	 {pdf-Datei vorhanden.}
+}
+
+
+@InProceedings{GNTV2001,
+  author = 	 {Enrico Giunchiglia and Massimo Narizzano and Armando Tacchella and Moshe Y. Vardi},
+  title = 	 {Towards an Efficient Library for {SAT}: a Manifesto},
+  booktitle = 	 {Electronic Notes in Discrete Mathematics (ENDM), Volume 9},
+  crossref =	 {LICS2001},
+  year =	 2001,
+  annote =	 {ps-Datei vorhanden}
+}
+
+@InProceedings{BL1987,
+  author = 	 {Hans Kleine B{\"{u}}ning and Theodor Lettmann},
+  title = 	 {Perspektiven f{\"{u}}r die {L}ogikprogrammierung},
+  booktitle = 	 {Proceedings Workshop Wissensrepr{\"{a}}sentation in Expertensystemen},
+  year = 	 1987,
+  editor = 	 {G. Rahmstorf},
+  volume = 	 172,
+  series = 	 {Informatik Fachberichte},
+  publisher = {Springer-Verlag},
+  note = 	 {Presentation of the library ILFA; the present version can be downloaded from \url{http://www.uni-paderborn.de/cs/ag-klbue/staff/lettmann/research.html} under the name LogicAL (Logic Algorithms Library)}
+}
+
+@Article{DanPra2002FGPASat,
+  author = 	 {Andreas Dandalis and Viktor K. Prasanna},
+  title = 	 {Run-Time Performance Optimization of an FPGA-Based Deduction Engine for SAT Solvers},
+  journal = 	 {ACM Transactions on Design Automation of Electronic Systems},
+  year = 	 {2002},
+  OPTkey = 	 {},
+  volume = 	 {7},
+  OPTnumber = 	 {4},
+  pages = 	 {547-562},
+  month = 	 {October},
+  OPTnote = 	 {},
+  OPTannote = 	 {}
+}
+
+@Unpublished{HoorySzeider2004Tovey,
+  author = 	 {Shlomo Hoory and Stefan Szeider},
+  title = 	 {Families of unsatisfiable $k$-{CNF} formulas with few occurrences per variable},
+  note = 	 {Available from arXiv ???},
+  month =	 {November},
+  year =	 2004,
+  annote =	 {ps-Datei vorhanden.}
+}
+@Article{HoorySzeider2006Tovey,
+  author =       {Shlomo Hoory and Stefan Szeider},
+  title =        {A note on unsatisfiable $k$-{CNF} formulas with few occurrences per variable},
+  journal =      {SIAM Journal on Discrete Mathematics},
+  year =         2006,
+  volume =       20,
+  number =       2,
+  pages =        {523-528},
+  annote =       {pdf-Datei besorgen.}
+}
+
+@Unpublished{GutachtenIJCAI2005IsoElim,
+  author = 	 {Unbekannt},
+  title = 	 {Predicate-Oriented Isomorphism Elimination in Model Finding},
+  note = 	 {Gutachter-Exemplar fuer IJCAI 2005; nicht zur Veroeffentlichung},
+  month =	 {Februar},
+  year =	 2005,
+  annote =	 {pdf-Datei ijcai05_0777_87968be.pdf im ZurBegutachtung-Ordner.}
+}
+
+@Misc{Stein2004PacketVDW,
+  author =	 {Sterling Stuart Stein},
+  title =	 {Program package for computing van der {W}aerden numbers and related tasks},
+  howpublished = {\url{http://dimax.rutgers.edu/~sstein/vdw.htm}},
+  note =	 {Accessed 10/6/2004},
+  annote =	 {Packet runtergeladen.}
+}
+
+
+@Article{HoorySzeider2005FewOcc,
+  author = 	 {Shlomo Hoory and Stefan Szeider},
+  title = 	 {Computing unsatisfiable $k$-{SAT} instances with few occurrences per variable},
+  journal = 	 {Theoretical Computer Science},
+  year = 	 2005,
+  volume =	 337,
+  pages =	 {347-359},
+  annote =	 {pdf-Datei vorhanden.}
+}
+
+@Article{SavickySgall2000FewOcc,
+  author = 	 {P. Savick{\'{y}} and Ji{\v{r}}{\'{\i}} Sgall},
+  title = 	 {{DNF} tautologies with a limited number of occurrences of every variable},
+  journal = 	 {Theoretical Computer Science},
+  year = 	 2000,
+  volume =	 238,
+  pages =	 {495-498},
+  annote =	 {pdf-Datei vorhanden.}
+}
+
+@InProceedings{LeBerreSimon2004SAT2003,
+  author =       {Daniel Le Berre and Laurent Simon},
+  title =        {The Essentials of the {SAT} 2003 Competition},
+  booktitle =    {Theory and Applications of Satisfiability Testing 2003},
+  crossref =     {SantaMargherita2003b},
+  pages =        {452-467},
+  annote =       {pdf-Datei vorhanden.}
+}
+
+@Unpublished{SloanSzoerenyiTuran2005Primimplikanten,
+  author =       {Robert H. Sloan and Bal{\'{a}}zs S{\"{o}}r{\'{e}}nyi and Gy{\"{o}}rgy Tur{\'{a}}n},
+  title =        {On $k$-term {DNF} with the largest number of prime implicants},
+  note =         {Submitted},
+  month =        {May},
+  year =         2005,
+  annote =       {Gutachter-Examplar fuer SIAM Journal Discrete Mathematics (erhalten 2.7.2005 von Melissa Irwin).}
+}
+@TechReport{SloanSzoerenyiTuran2005Primimplikanten_0,
+  author =       {Robert H. Sloan and Bal{\'{a}}zs S{\"{o}}r{\'{e}}nyi and Gy{\"{o}}rgy Tur{\'{a}}n},
+  title =        {On $k$-term {DNF} with the largest number of prime implicants},
+  institution =  {Electronic Colloquium on Computational Complexity (ECCC)},
+  year =         2005,
+  number =       23,
+  month =        {February},
+  annote =       {Vorlaeufer von SloanSzoerenyiTuran2005Primimplikanten; ps-Datei vorhanden.}
+}
+
+@Article{Dubois1990Tovey,
+  author =       {Olivier Dubois},
+  title =        {On the $r,s$-satisfiability problem and a conjecture of {T}ovey},
+  journal =      {Discrete Applied Mathematics},
+  year =         1990,
+  volume =       26,
+  pages =        {5l-60},
+  annote =       {pdf-Datei vorhanden.}
+}
+
+@InProceedings{LeBerreSimon2005SAT2004,
+  author =       {Daniel Le Berre and Laurent Simon},
+  title =        {Fifty-Five Solvers in {V}ancouver: The {SAT} 2004 Competition},
+  booktitle =    {Theory and Applications of Satisfiability Testing 2004},
+  crossref =     {Vancouver2004b},
+  annote =       {pdf-Datei vorhanden.}
+}
+
+@InProceedings{NieuwenhuisOliveras2005SATModTheorien,
+  author =       {Robert Nieuwenhuis and Albert Oliveras},
+  title =        {Decision procedures for {SAT}, {SAT} Modulo Theories and Beyond. The {B}arcelogic{T}ools.},
+  booktitle =    {12th International Conference for Programming, Artificial Intelligence and Reasoning (LPAR)},
+  year =         2005,
+  annote =       {pdf-Datei vorhanden.}
+}
+
+@InProceedings{ZhangMalik2003SmallCores,
+  author =       {Lintao Zhang and Sharad Malik},
+  title =        {Extracting Small Unsatisfiable Cores from Unsatisfiable {B}oolean Formula},
+  booktitle =    {Sixth International Conference on Theory and Applications of Satisfiability Testing},
+  crossref =     {SantaMargherita2003},
+  pages =        {239-249},
+  annote =       {pdf-Datei vorhanden.}
+}
+@InProceedings{ZhangMalik2003SmallCores_kurz,
+  author =       {Lintao Zhang and Sharad Malik},
+  title =        {Extracting Small Unsatisfiable Cores from Unsatisfiable {B}oolean Formula},
+  booktitle =    {Sixth International Conference on Theory and Applications of Satisfiability Testing (SAT 2003)},
+  pages =        {239-249},
+  annote =       {pdf-Datei vorhanden.}
+}
+
+
+@Article{Goldberg2005SSP,
+  author =       {Eugene Goldberg},
+  title =        {Testing satisfiability of {CNF} formulas by computing a stable set of clusters},
+  journal =      {Annals of Mathematics and Artificial Intelligence},
+  year =         2005,
+  volume =       43,
+  pages =        {65-89},
+  annote =       {pdf-Datei vorhanden.}
+}
+
+@Unpublished{Goldberg2006SSC,
+  author =       {Eugene Goldberg},
+  title =        {Solving Satisfiability Problem by Computing Stable Sets of Points in Clusters},
+  note =         {Preprint},
+  month =        {December},
+  year =         2005,
+  annote =       {Von Peter Bro Miltersen zur Begutachtung fuer CSR 2006 bekommen.}
+}
+
+
+@Article{GelderPark2000Partitioning,
+  author =       {Allen Van Gelder and Tai Joon Park},
+  title =        {Partitioning Methods for Satisfiability Testing on Large Formulas},
+  journal =      {Information and Computation},
+  year =         2000,
+  volume =       162,
+  number =       1,
+  pages =        {179-184},
+  month =        {October},
+  annote =       {pdf-Datei vorhanden.}
+}
+
+
+@Article{HSt90,
+  author = 	 "H.B. Hunt and R.E. Stearns",
+  title = 	 "Power Indices and Easier Hard Problems",
+  journal =	 "Mathematical Systems Theory",
+  year =	 1990,
+  volume =	 23,
+  pages =	 "209--225",
+  annote =	 "Kopiert."
+}
+
+@MastersThesis{Herwig2006AufspaltungSAT,
+  author =       {P.R. Herwig},
+  title =        {Decomposing satisfiability problems},
+  school =       {Department of Electrical Engineering, Mathematics and Computer Science},
+  year =         2006,
+  address =      {Delft University of Technology},
+  month =        {October},
+  annote =       {pdf-Datei vorhanden.}
+}
+
