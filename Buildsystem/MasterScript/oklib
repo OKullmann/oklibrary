@@ -43,8 +43,12 @@ if [[ $1 == "--setup" ]]; then
 fi
 
 if [[ $1 == "--prebuild" ]]; then
-  shift
-  command="make --makefile=${buildsystem_dir}/Makefile OKplatform=${top_dir} prebuild $*"
+  if [ $# -eq 1 ]; then
+    command="make --makefile=${buildsystem_dir}/Makefile OKplatform=${top_dir} prebuild"
+  else
+    shift
+    command="make --makefile=${buildsystem_dir}/Makefile OKplatform=${top_dir} $*"
+  fi
   echo ${command}
   ${command}
   exit
