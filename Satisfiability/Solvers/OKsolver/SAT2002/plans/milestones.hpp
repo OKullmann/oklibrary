@@ -15,7 +15,7 @@ License, or any later version. */
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Enable finding all solutions
+    - Enable finding all solutions : DONE (postponed)
 
 
   \par Version 0.9.4

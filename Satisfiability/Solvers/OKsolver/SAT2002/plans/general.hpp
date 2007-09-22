@@ -11,7 +11,8 @@ License, or any later version. */
   old OKsolver
 
 
-  \todo Enable finding all solutions
+  \todo Enable finding all solutions : DONE (postponed, until
+  better documentation is available)
   <ul>
    <li> MJHH made the request, that the OKsolver can continue
    after a solution was found (and thus can find all solutions). </li>
@@ -24,58 +25,83 @@ License, or any later version. */
      <li> Then backtracking is performed as for falsifying
      assignments. </li>
      <li> If the whole tree has been processed, then one has to check
-     (perhaps best by some dedicated boolean variable) whether
-     somewhere a satisfying assignment was found (for the overall
+     whether somewhere a satisfying assignment was found (for the overall
      return value). </li>
      <li> If already the input was found satisfiabile, then no further
      search for another satisfying assignment is needed, since the
      assignment was forced. </li>
     </ol>
    </li>
+   <li> Reduktion2 applies pure literal elimination --- this is no longer
+   possible.
+    <ol>
+     <li> The OKsolver assumes that the formula is reduced w.r.t.
+     pure literals; this must then be changed. </li>
+     <li> We must apply Reduction1 to these variables (only the
+     falsifying value needs to be tested). </li>
+    </ol>
+   </li>
+   <li> The (real) autarky reduction (these are found by the filter)
+   can no longer be applied.
+    <ol>
+     <li> Except for the heuristics this can just be ignored. </li>
+     <li> A problem is that the distance needs to be non-zero, and
+     this is not the case for an autarky. </li>
+     <li> It seems most natural to try to avoid branching after such variables
+     (thus one could simply use the product value 0). </li>
+     <li> If only autarky variables are left, then Delta(n) is used for the
+     heuristics. </li>
+     <li> Of course, it could be that a branching with an autarky branch is
+     attractive, not because of new clauses now, but because of a big reduction
+     in problem size. However likely we should ignore this. </li>
+    </ol>
+   </li>
    <li> All places need to be identified where a solution
    can be found:
     <ol>
-     <li> The global variable "erfuellt" (declared in
-     Solvers/OKsolver/SAT2002/Filter.h) communicates wether the "filter"
-     found the formula satisfiable. </li>
-     <li> There is only one place, the loop in
-     OKsolver/SAT2002/OKsolver_2002_lnk.c over all variables, where "erfuellt"
-     is used, and where a satisfying assignment can be found. </li>
-     <li> Currently in case the filter found a satisfying assignment,
-     the assignment is actually applied (the filter uses a lazy
-     data structure to perform assignments, without actually changing
-     the formula). Why is this needed?? The comment says it is needed
-     for the output?
+     <li> Reduktion1 can find a satisfying assignment; these are forced assignments
+     (via failed literals). The solutions found are added, and backtracking is
+     performed (in the same way as if a contradiction would have been found).
+     (One has to see whether Reduktion1 did everything properly --- it could
+     be that since everything stopped anywhere no care has been taken to maintain
+     proper invariants. But it looks alright.) </li>
+     <li> Reduktion2 can find a satisfying; that is a satisfying assignment via
+     a pure autarky. Since Reduction2 won't be applied anymore, this is not
+     a problem. </li>
+     <li> The filter can find a satisfying assignment (this is where "erfuellt"
+     is used); this is a satisfying autarky. Here we have to add the satisfying
+     assignments found in this branch, and then the assignment for the other
+     branch has to performed, and the reduction cycle has to be re-started.
       <ol>
-       <li> The reason is simply convenience: The satisfying assignment
-       is split in the current working assignment and the look-ahead
-       assignment, and by applying the look-ahead assignment we have
-       everything "in one place". </li>
-       <li> This hack should be eliminated, and the function for outputting
-       the satisfying assignment should just accept to partial assignments
-       as input. </li>
-      </ol>
-     </li>
-     <li> Now the problem is the simulation of the recursion:
-      <ol>
-       <li> The question is whether we are in branch 1 or in branch 2. </li>
-       <li> If in branch 1, then we should go to label nachSAT1, however without
-       undoing the branching, that is, we go directly to the second branch. </li>
-       <li> If in branch 2, then we go to label nachSAT2, however
-       without undoing the branching; and also the output "UNSAT" at
-       the root must be prevented. </li>
-      </ol>
-     </li>
-    </ol>
+        <li> Currently in case the filter found a satisfying assignment,
+       the assignment is actually applied (the filter uses a lazy
+       data structure to perform assignments, without actually changing
+       the formula). Why is this needed?? The comment says it is needed
+       for the output?
+       <ol>
+        <li> The reason is simply convenience: The satisfying assignment
+        is split in the current working assignment and the look-ahead
+        assignment, and by applying the look-ahead assignment we have
+        everything "in one place". </li>
+        <li> This hack should be eliminated, and the function for outputting
+        the satisfying assignment should accept the partial assignments
+        as input. </li>
+       </ol>
+      </li>
+     </ol>
+    </li>
    </li>
+   <li> The output "UNSAT" at the root must be prevented, if
+   number_satisfying_assignments != 0. </li>
    <li> With the new option "ALLSAT" in principle we have another
    factor of 2 for the test cases. There is no way out, must be done. </li>
-   <li> DONE
+   <li> DONE (using the gmp abitrary precision library now)
    So another "#ifdef" needs to be introduced:
     <ol>
      <li> Macro ALLSAT if set means all satisfying assignments will
      be determined; default is unset. </li>
-     <li> If ALLSAT is set then macro NSAT_BITS determines in the
+     <li> 
+     If ALLSAT is set then macro NSAT_BITS determines in the
      number N of bits in type uint_fastN_t (obtained by conditional
      inclusion of stdint.h). "nsat_t" is a typedef for this type. </li>
      <li> Default value of NSAT_BITS is 64. </li>
@@ -115,12 +141,19 @@ License, or any later version. */
 
   \todo Documentation problems
   <ul>
-   <li> A lot of code (and doxygen-documentation) is conditionalised
-   --- and thus doesn't show up in the doxygen-documentation! </li>
-   <li> However we want the documentation of the whole code; how to
-   achieve this? </li>
-   <li> On the other hand, it it informative what is (and what is not)
-   defined by default. </li>
+   <li> Problems with macros:
+    <ol>
+     <li> A lot of code (and doxygen-documentation) is conditionalised
+     --- and thus doesn't show up in the doxygen-documentation! </li>
+     <li> However we want the documentation of the whole code; how to
+     achieve this? </li>
+     <li> On the other hand, it it informative what is (and what is not)
+     defined by default. </li>
+    </ol>
+   </li>
+   <li> The files which are just symbolic links either should be excluded
+   from the documentation, or, perhaps we can define the macros for them
+   in the right way so that doxygen shows the real code applicable here. </li>
   </ul>
 
 
