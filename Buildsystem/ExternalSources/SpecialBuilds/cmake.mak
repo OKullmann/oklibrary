@@ -22,7 +22,7 @@ create_cmake_dirs : $(cmake-directories)
 cmake : $(cmake_recommended)
 
 $(cmake_targets) : create_cmake_dirs
-	$(call unarchive,$@,$(cmake-base-directory)) $(postcondition) \
+	$(call unarchive,sources/Cmake/$@,$(cmake-base-directory)) $(postcondition) \
 	cd $(cmake-base-directory)/$@; $(postcondition) \
 	./bootstrap; $(postcondition) \
 	make; $(postcondition) \

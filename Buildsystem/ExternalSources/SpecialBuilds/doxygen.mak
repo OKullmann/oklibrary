@@ -30,7 +30,7 @@ create_doxygen_dirs : $(doxygen-directories)
 doxygen : $(doxygen_recommended)
 
 $(doxygen_targets) : create_doxygen_dirs
-	$(call unarchive,$@.src,$(doxygen-base-directory)) \
+	$(call unarchive,sources/Doxygen/$@.src,$(doxygen-base-directory)) \
 	cd $(doxygen-base-directory)/$@; $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \

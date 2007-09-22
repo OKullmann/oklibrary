@@ -34,7 +34,7 @@ paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))
 # #################################
 
 $(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory)
-	$(call unarchive,ubcsat-1-0-0,$(ubcsat-extract-directory),src)
+	$(call unarchive,sources/Ubcsat/ubcsat-1-0-0,$(ubcsat-extract-directory),src)
 	dos2unix $(ubcsat-src-directory)/*.c $(ubcsat-src-directory)/*.h
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
 	cp -f $(ubcsat_changed_files) $(ubcsat-tmp-src-directory)

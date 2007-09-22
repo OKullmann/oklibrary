@@ -38,7 +38,7 @@ mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mh
 # ##################################
 
 mhash_doc : | $(mhash_doc_dir)
-	- $(call unarchive,$(mhash_recommended),$(mhash_doc_dir))
+	- $(call unarchive,sources/Mhash/$(mhash_recommended),$(mhash_doc_dir))
 # OK : This should automatically be done when building.
 
 # ##################################
@@ -66,7 +66,7 @@ define install-mhash
 endef
 
 $(mhash_extract_dirs_paths) : $(mhash-base-directory)/mhash-% : $(mhash-base-directory)/%
-	$(call unarchive,mhash-$*,$(mhash-base-directory))
+	$(call unarchive,sources/Mhash/mhash-$*,$(mhash-base-directory))
 	$(call install-mhash,$*)
 	touch $@
 
@@ -86,7 +86,7 @@ endef
 
 define mhash_gcc_rule
 $(mhash-base-directory)/mhash-$(1)+$(2) : $(mhash-base-directory)/$(1)+$(2)
-	$(call unarchive,mhash-$(1),$(mhash-base-directory))
+	$(call unarchive,sources/Mhash/mhash-$(1),$(mhash-base-directory))
 	$(call install-mhash_gcc,$(1),$(2))
 endef
 

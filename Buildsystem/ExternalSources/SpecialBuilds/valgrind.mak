@@ -29,7 +29,7 @@ create_valgrind_dirs : $(valgrind-directories)
 valgrind : $(valgrind_recommended)
 
 $(valgrind_targets) : create_valgrind_dirs
-	$(call unarchive,$@,$(valgrind-base-directory))
+	$(call unarchive,sources/Valgrind/$@,$(valgrind-base-directory))
 	cd $(valgrind-base-directory)/$@; $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \

@@ -30,7 +30,7 @@ postgresql_tag_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_t
 # ####################################
 
 postgresql_doc : | $(postgresql_doc_dir)
-	- $(call unarchive,$(postgresql_recommended),$(postgresql_doc_dir))
+	- $(call unarchive,sources/Postgresql/$(postgresql_recommended),$(postgresql_doc_dir))
 
 # ####################################
 # The main targets for PostgreSQL
@@ -53,7 +53,7 @@ endif
 $(postgresql_targets) : $(postgresql_tag_paths)
 
 $(postgresql_tag_paths) : $(postgresql_installation_directory_paths)
-	$(call unarchive,$(addprefix postgresql-,$(notdir $<)),$(postgresql-base-directory))
+	$(call unarchive,sources/Postgresql/$(addprefix postgresql-,$(notdir $<)),$(postgresql-base-directory))
 	cd $(postgresql-base-directory)/$(addprefix postgresql-,$(notdir $<)); $(postcondition) \
 	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$(notdir $<)/lib' --prefix=$(postgresql-base-directory)/$(notdir $<); $(postcondition) \
 	make; $(postcondition) \
