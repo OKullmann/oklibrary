@@ -30,7 +30,7 @@ License, or any later version. */
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
    node with some statistics. </li>
-   <li> If <code>ALLSAT</code> is defined, then all satisfying assignments
+   <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all satisfying assignments
    are found. Currently combination with <code>BAUMRES</code> or
    <code>ASSIGNMENT</code> is not possible (and thus yet we just
    count all satisfying assignments.
