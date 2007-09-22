@@ -15,6 +15,16 @@ License, or any later version. */
   Clauses] (developers SS, MS, OK)
   <ul>
    <li> Similar to "sb-2cnf" (see Algorithms/Backdoors/plans/Horn.hpp). </li>
+   <li> Again (as in Backdoors/plans/2CNF.hpp), likely we should not
+   implement the algorithm, but just instantiate one of the generic
+   algorithms from Hypergraphs/Transversals/plans/SizeParameter.hpp:
+    <ol>
+     <li> For boolean clause-set F, construct the hypergraph G by dropping
+     all negative literals from clauses, and then let G' be the 2-section
+     of G. </li>
+     <li> Now the transversals of G' are exactly the backdoors for F. </li>
+    </ol>
+   </li>
   </ul>
 
 */

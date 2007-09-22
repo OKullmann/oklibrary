@@ -85,7 +85,28 @@ License, or any later version. */
     </ol>
    </li>
    <li> One can translate the problem into a SAT problem (input a hypergraph, every vertex
-   becomes a boolean variable ("crossed out or not")). </li>
+   becomes a boolean variable ("crossed out or not")).
+    <ol>
+     <li> For every hyperedge one can express that at most s vertices are not crossed out. </li>
+     <li> Or for every hypedge of length k on can express that k-2 vertices are crossed out. </li>
+    </ol>
+   </li>
+   <li> However, the easiest reduction (which also shows the fpt-property) is to the hypergraph
+   transversal problem:
+    <ol>
+     <li> For input hypergraph G compute the (s+1)-section G' (containing all (s+1)-subsets of
+     hyperedges). The solutions to the original problem on G (all vertex sets V such that V * G
+     has degree at most s) are exactly the transversals of G'. </li>
+     <li> Since the problem of finding k-transversals in hypergraphs of bounded degree is
+     fpt, we get an fpt-algorithm as required; and the trivial algorithm as in
+     Hypergraphs/Transversals/plans/SizeParameter.hpp then yields exactly the above
+     algorithm. </li>
+     <li> So best is not to implement the algorithm above, but just instantiate the generic algorithms
+     from Hypergraphs/Transversals/plans/SizeParameter.hpp. </li>
+     <li> The derived hypergraph G' can be computed directly, or an "active hypergraph" for construction
+     of sections is offered (which does not store the hyperedges, but just simulates them). </li>
+    </ol>
+   </li>
   </ul>
 
 */
