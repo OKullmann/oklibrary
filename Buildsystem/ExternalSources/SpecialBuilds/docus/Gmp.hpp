@@ -62,9 +62,9 @@ License, or any later version. */
 
   <h2> How to install </h2>
 
-  Local and system-wide installation possible; the default is local
-  installation if not configure otherwise.
-  Set variable <code>gmp_default_install</code> to value "system" to switch.
+  Local and system-wide installation possible, the default is local
+  installation;
+  set variable <code>gmp_default_install</code> to value "system" to switch.
 
   <h3> Make targets </h3>
   
