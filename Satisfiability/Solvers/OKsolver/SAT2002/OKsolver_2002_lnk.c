@@ -223,6 +223,9 @@ enum Ergebniswerte {SAT = 1, UNSAT = 0, Unbestimmt = 2};
 
 static enum Ergebniswerte s = Unbestimmt; /* Ergebniswert */
 
+#ifdef ALLSAT
+  nsat_t number_satisfying_assignments;
+#endif
 
 /* ------------------------------------------------------------- */
 
@@ -465,6 +468,12 @@ void FinaliseSATPath() {
 
 /* Die (rekursive) Loesungs-Prozedur */
 
+/*!
+  \brief The SAT decision procedure
+
+  Assume input has been read, and returns a decision.
+*/
+
 
 static enum Ergebniswerte SATEntscheidung( void )
 
@@ -480,11 +489,12 @@ static enum Ergebniswerte SATEntscheidung( void )
 
 #ifdef ALLSAT
   assert(! Belegung);
+  mpz_init(number_satisfying_assignments);
 #endif
 
 Anfang:
 
-  Knoten++;
+  ++Knoten;
 
 #ifdef OUTPUTTREEDATAXML
   SatVar -> number_2_reductions_at_new_node = V1KlRed;
