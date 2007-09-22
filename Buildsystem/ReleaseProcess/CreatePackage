@@ -46,12 +46,12 @@ cd .. # in OKplatform now
 
 env -i PATH=${PATH} make -f OKsystem/Transitional/Buildsystem/SetUp.mak OKplatform=${package_OKplatform} oklibrary_initialisation
 ln -s OKsystem/Transitional/Buildsystem/MasterScript/oklib
-env -i PATH=${PATH} ./oklib --prebuild
+env -i PATH=${PATH} ./oklib --prebuild make_directories
 cp ${readme_file} .
 
-cd ../.. # package_directory now
 min_tar_package_name=${package_name}-minimal.tar.bz2
 echo "Creating minimal package ..."
+cd ../.. # package_directory now
 tar -cjf ${min_tar_package_name} ${package_name}
 
 cur_date=$(echo ${current_date} | tr --delete [:space:])
@@ -61,25 +61,29 @@ record_begin="${counter} ${transitional_version} ${cur_SHA} ${cur_date}"
 printf "%s %s %s %s %s %s" ${record_begin} $(md5sum ${min_tar_package_name}) >> ${release_history_template}
 
 cd ${package_directory}/OKplatform/OKsystem
+oklib --prebuild create_links
 
 env -i PATH=${PATH} oklib rel_path_tool_dir="${rel_path_tool_dir}" html
 
-cd ../../.. # in package_directory now
 tar_package_name=${package_name}.tar.bz2
 echo "Creating standard package ..."
+oklib --prebuild clean_links
+cd ../../.. # in package_directory now
 tar -cjf ${tar_package_name} ${package_name}
 
 printf " %s %s" $(md5sum ${tar_package_name}) >> ${release_history_template}
 
 cd ${package_directory}/OKplatform
+(cd OKsystem; oklib --prebuild create_links)
 
 if [ "${ExternalSources}" != "" ]; then
   echo "Copying ExternalSources ..."
   cp -r ${ExternalSources}/sources ExternalSources
   full_package_name=${package_name}-full
   tar_full_package_name=${full_package_name}.tar.bz2
-  cd ../.. # in package_directory now
   echo "Creating full package ..."
+  (cd OKsystem; oklib --prebuild clean_links)
+  cd ../.. # in package_directory now
   tar -cjf ${tar_full_package_name} ${package_name}
   printf " %s %s" $(md5sum ${tar_full_package_name}) >> ${release_history_template}
 fi

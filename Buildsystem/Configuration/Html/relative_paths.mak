@@ -27,6 +27,20 @@ rel_history_release_history_output := $(shell $(rel_path_tool) $(release_history
 
 # From the external sources page:
 rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
+rel_les_mhash_docu_page := $(shell $(rel_path_tool) $(mhash_docu_page) $(externalsources_page_output))
+rel_les_gcc_docu_page := $(shell $(rel_path_tool) $(gcc_docu_page) $(externalsources_page_output))
+rel_les_ocaml_docu_page := $(shell $(rel_path_tool) $(ocaml_docu_page) $(externalsources_page_output))
+rel_les_valgrind_docu_page := $(shell $(rel_path_tool) $(valgrind_docu_page) $(externalsources_page_output))
+rel_les_git_docu_page := $(shell $(rel_path_tool) $(git_docu_page) $(externalsources_page_output))
+rel_les_doxygen_docu_page := $(shell $(rel_path_tool) $(doxygen_docu_page) $(externalsources_page_output))
+rel_les_cmake_docu_page := $(shell $(rel_path_tool) $(cmake_docu_page) $(externalsources_page_output))
+rel_les_postgresql_docu_page := $(shell $(rel_path_tool) $(postgresql_docu_page) $(externalsources_page_output))
+rel_les_R_docu_page := $(shell $(rel_path_tool) $(R_docu_page) $(externalsources_page_output))
+rel_les_gmp_docu_page := $(shell $(rel_path_tool) $(gmp_docu_page) $(externalsources_page_output))
+rel_les_sage_docu_page := $(shell $(rel_path_tool) $(sage_docu_page) $(externalsources_page_output))
+rel_les_coq_docu_page := $(shell $(rel_path_tool) $(coq_docu_page) $(externalsources_page_output))
+rel_les_ubcsat_docu_page := $(shell $(rel_path_tool) $(ubcsat_docu_page) $(externalsources_page_output))
+
 # to be completed XXX
 
 # From the Internet home page:

@@ -16,6 +16,7 @@ License, or any later version. */
     <ol>
      <li> Fill the "ready?"-columns. </li>
      <li> Fill the "installation page"-column. </li>
+     <li> Make all install-pages-links relative : DONE </li>
     </ol>
    </li>
    <li> A special dedicated link-symbol (created by a style-sheet) perhaps

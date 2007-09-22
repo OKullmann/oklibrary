@@ -14,5 +14,7 @@ OKbuildsystem ?= $(Transitional)/Buildsystem
 
 Annotations_dir ?= $(OKsystem)/Annotations
 
+annotations_dir ?= $(Transitional)/annotations
+
 oklib_call ?= $(OKbuildsystem)/MasterScript/oklib
 

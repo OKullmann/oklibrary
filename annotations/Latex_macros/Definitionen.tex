@@ -1,0 +1,63 @@
+% 23.12.1999
+% Definitionsdatei fuer normale Texte
+%
+\input Latex_macros/Basis.tex
+%
+\usepackage{theorem} % am 18.5.2001 von ``Basis'' hierhin verschoben
+\usepackage[hypertex]{hyperref} % 7.12.2001
+%
+\parskip1ex plus0.5ex minus0.2ex
+\renewcommand{\thefootnote}{\arabic{footnote})}%
+%
+\newtheorem{defi}{Definition}[section]
+\newtheorem{lem}[defi]{Lemma}
+\newtheorem{thm}[defi]{Theorem}
+\newtheorem{corol}[defi]{Corollary}
+\newtheorem{corold}[defi]{Korollar}
+\newtheorem{propo}[defi]{Proposition}
+\newtheorem{exerc}[defi]{Exercise}
+\newtheorem{exercd}[defi]{{\"U}bung}
+\newtheorem{conj}[defi]{Conjecture}
+\newtheorem{conjd}[defi]{Vermutung}
+\newtheorem{examp}[defi]{Example}
+\newtheorem{exampd}[defi]{Beispiel}
+%\newtheorem{claim}[defi]{Claim}
+% 
+\theorembodyfont{\rmfamily}
+\newtheorem{auf}{Aufgabe}[section]
+\theorembodyfont{}
+%
+% die folgenden Umgebungen wurden am 19.5.2001 hinzugefuegt fuer die
+% (deutschsprachigen) Literaturbearbeitungen
+% Nun obsolet.
+%
+\newcounter{dDef} % 16.11.2002; verschieden vom Argument(!)
+\newenvironment{dDef}[1]{\refstepcounter{dDef}\begin{sloppypar}\noindent\textbf{Definition #1}\,\itshape}{\end{sloppypar}}
+\newcounter{dLem} % 16.11.2002; verschieden vom Argument(!)
+\newenvironment{dLem}[1]{\refstepcounter{dLem}\begin{sloppypar}\noindent\textbf{Lemma #1}\,\itshape}{\end{sloppypar}}
+\newcounter{dThm} % 16.11.2002; verschieden vom Argument(!)
+\newenvironment{dThm}[1]{\refstepcounter{dThm}\begin{sloppypar}\noindent\textbf{Theorem #1}\,\itshape}{\end{sloppypar}}
+\newcounter{dPro} % 16.11.2002; verschieden vom Argument(!)
+\newenvironment{dPro}[1]{\refstepcounter{dPro}\begin{sloppypar}\noindent\textbf{Proposition #1}\,\itshape}{\end{sloppypar}}
+\newenvironment{dKor}[1]{\begin{sloppypar}\noindent\textbf{Korollar #1}\,\itshape}{\end{sloppypar}}
+\newenvironment{dKoro}{\begin{sloppypar}\noindent\textbf{Korollar }\itshape}{\end{sloppypar}}
+\newenvironment{dSat}[1]{\begin{sloppypar}\noindent\textbf{Satz #1}\,\itshape}{\end{sloppypar}}
+\newcounter{Beispielzaehler}
+\newenvironment{dBsp}{\begin{par}\noindent\textbf{Beispiele}\begin{list}{\arabic{Beispielzaehler}.}{\usecounter{Beispielzaehler}\setlength{\topsep}{0.0ex}\setlength{\itemsep}{0.0ex}}}{\end{list}\end{par}\smallskip}
+\newenvironment{dEin}{\begin{par}\noindent\textbf{Einschub}}{\textbf{Ende}\end{par}}
+% 15.8.2001
+\newenvironment{dVer}{\begin{par}\noindent\textbf{Vermutung}}{\textbf{Ende}\end{par}}
+%
+% 26.9.2001 Von ``Basis'' hierher verschoben, um Kompatibilitaet mit
+% foiltex zu gewaehrleisten:
+%
+\nc{\bm}{\boldmath}
+\nc{\bmm}[1]{\mbox{\bm$\DST #1$}}% Math. Fettdruck im Text- wie im math. Modus
+\nc{\mi}[1]{\bmm{\mathrm{(#1):}} \quad}% math item (verschoben am 28.1.2003)
+%
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-parse-self: t
+%%% TeX-auto-save: t
+%%% TeX-master: t
+%%% End:

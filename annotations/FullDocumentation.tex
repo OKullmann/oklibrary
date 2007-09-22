@@ -1,0 +1,2121 @@
+% LICENCE
+
+\documentclass{book}
+
+\input Latex_macros/OKplatform_Texpackages.tex
+\input Latex_macros/Basis.tex
+
+\usepackage{enumerate}
+
+
+\Cpp
+
+\parskip 1ex plus 0.5ex minus 0.2ex
+
+\newcommand{\filename}[1]{\texttt{#1}}
+\newcommand{\name}[1]{\texttt{#1}}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{3}
+
+\pagestyle{headings}
+
+\title{Full System Documentation of \OKlibrary{} and \OKplatform{} (including the coding standard)}
+
+\AdresseSwanseaEPSRCOne
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+
+
+\chapter{Introduction}
+\label{cha:About}
+
+
+\section{Literature}
+\label{sec:IntroLiterature}
+
+\subsection{C++}
+\label{sec:IntroLiteratureCpp}
+
+\begin{enumerate}
+\item Trevor Misfeldt, Gregory Bumgardner and Andrew Gray \textit{The Elements of C++ Style} \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}: This book is a cheap rewrite of the corresponding Java-book, and accordingly not only it contains many errors, but it completely misunderstands C++ (the worst C++ programmers are former Java programmers and former C programmers). The best use of it is in first approximation that one can see how not to do it. By chance, in the early days of the library we discussed it, and so at many places we refer to it (often negatively).
+\end{enumerate}
+
+
+
+
+\subsection{Programming in general}
+\label{sec:IntroLiteratureProgramminggeneral}
+
+\begin{enumerate}
+\item Pete Goodliffe \textit{Code Craft: The practice of writing excellent code} \cite{OKL_Goodliffe2007AllBrilliant}: The fundamental problems of this book are:
+  \begin{enumerate}
+  \item It has no understanding (at all) for library writing (and also no understanding of C++).
+  \item It is written in an infantilising style, a sermon by a post-post-modern priest to a crowd of giggling adolescents which think of themselves as very clever. If instead of over 550 pages it had 100 pages it would be much better.
+  \end{enumerate}
+  Some recommendations which are wrong in the context of (our) library development:
+  \begin{enumerate}[(i)]
+  \item \cite{OKL_Goodliffe2007AllBrilliant} recommends using unique filenames over the whole project, which breaks encapsulation.
+
+    On the contrary, all filenames are understood to include their path (relative to the OKlibrary; similar for namespaces(!)), so that the same ``systematic names'' (like ``wishlist.hpp'' or ``plans'') can be used at all places.
+  \item According to \cite{OKL_Goodliffe2007AllBrilliant} the build of the library should produce identical binaries, if ``nothing'' has been changed.
+
+    On the contrary, we include (automatically) details of the compilation into the binary files produced, so that it yields information about its (precise) origin.
+  \item Regarding maintenance of code from external sources, \cite{OKL_Goodliffe2007AllBrilliant} recommends to take over the style of the original source.
+
+    On the contrary, we use the style of the \OKlibrary, which will highlight much better the break between old and new code.
+  \item The standardised ideology of ``don't optimise'' is not appropriate:
+
+    Our aim is an appropriate design, so that we can start with a simple and elegant solution (correct(!)), but later it must be possible to use optimised components --- and this ability to use highly specialised components later must from the beginning be included into the design.
+  \end{enumerate}
+  For beginning programmers \cite{OKL_Goodliffe2007AllBrilliant} might have something to offer (since, unfortunately, the most basic rules of reasonable software practice are unknown to many programmers).
+\end{enumerate}
+
+
+
+\part{General principles and guidelines}
+\label{par:General}
+
+
+\chapter{General principles}
+\label{cha:GenPrinciples}
+
+Programming in the context of the \OKlibrary{} shall be guided by the following general principles:
+\begin{itemize}
+\item We ``trust the language'' (especially C++, our main language): We use all elements provided by the language standard, and we do not simulate other languages.
+\item In principle there is never a ``good enough'', but we aim at the highest standards throughout. This principle is mediated through the continuous improvement process: Every time a piece of code is considered, it is brought nearer to the state as it should be. Thus when created, there are many unknowns, and over-design should be avoided, but every time we come back to the code we improve it (on the other hand, if we don't come back, then the code is used elsewhere, and should be removed finally).
+\item We do it ``right from the start'', using all principles usable at this stage of development (no magical constants, avoiding unnecessary coupling etc.); again this is mediated through the principle of continuous improvement (and refactoring).
+\end{itemize}
+
+For guidelines on documentation see Chapter \ref{cha:DocumentationGeneral}.
+
+
+
+
+
+\section{Literature discussion}
+\label{sec:generalprinciplesliterature}
+
+(what to do with other libraries?! \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:1 ``adhere to the style of the original'' ?! We have a clear separation: Either our library (fully consistent), or their (unchanged). Our environment: Not the maintenence programmer, but the ``mad scientist''.)
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:2 ``adhere to the principle of least astonishment''. Never surprise the user of the library. interaction and behaviour should be predictable and consistent, and clearly document all unusual patterns. Five characteristics:
+\begin{itemize}
+\item Simplicity: NO; the best solution we are looking for
+\item Clarity: Of course
+\item Completeness
+\item Consistency
+\item Robustness
+\end{itemize}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[3] DO it right the first time. Always
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[4] Document any Deviations. If stepping away from standard for some reason, e.g. compiler issues, this should be well documented both external to the customers and internally to the developers.
+
+
+\section{No ``javaisms''}
+\label{sec:nojavaisms}
+
+no \name{get} no \name{set} (see XXX)
+
+variables are not called ``my'' (see XXX)
+
+\chapter{Concepts}
+\label{cha:Concepts}
+
+XXX All ideas and guidelines regarding the concepts of OKlibrary XXX
+
+OK (12.5.2007): needs a complete update. It seems that now we should use the concept-check-possibilities of C++09, which should be in gcc version 4.3 ?!
+
+
+
+\section{Modules and file structure}
+\label{sec:Modulesfilestructure}
+
+for a module $M$: (examples \name{Algorithms}, \name{ErrorHandling})
+\begin{enumerate}\sloppy
+\item Concepts
+  \begin{enumerate}
+  \item \filename{M\_Concept\_Syntax.hpp} with main namespace having the same name, using \name{boost::concept\_checking}; two files: \filename{M\_Concept\_Syntax\_Declarations.hpp} and \filename{M\_Concept\_Syntax\_Definitions.hpp} XXX new: concept syntax to module \texttt{Concepts}
+  \item \filename{M\_Concept\_Semantics.hpp} with main namespace having the same name; here we have the generic tests of the concepts; two files: \filename{M\_Concept\_Semantics\_Declarations.hpp} and \filename{M\_Concept\_Semantics\_Definitions.hpp} XXX new : \texttt{M\_Tests.hpp}
+  \item \filename{M\_Concept\_Complexity.hpp} with main namespace having the same name; here specification of the complexity of all operations (using expressions (symbolic algebra)); two \filename{M\_Concept\_Complexity\_Declarations.hpp} and  \filename{M\_Concept\_Complexity\_Definitions.hpp} XXX this has changed XXX
+  \item \filename{M\_Concept\_Documentation.tex} HERE happens the documentation XXX new : concept documentation per module in one Latex-file in \texttt{Documentation/Concepts}.
+  \end{enumerate}
+\item Infrastructure:
+  \begin{enumerate}
+  \item \filename{M\_Exceptions.hpp} the general exception classes for the module XXX ???
+  \item \filename{M\_Infrastructure\_Documentation.tex} XXX perhaps this is just achieved with the Doxygen-documentation?
+  \end{enumerate}
+\item Models
+  \begin{enumerate}
+  \item \filename{M\_Models\_Declarations.hpp} and \filename{M\_Models\_Definitions.hpp}; name\-space here just \name{M}; XXX now just \filename{M.hpp}
+  \item  \filename{M\_Specificationmodels\_Declarations.hpp} and \filename{M\_Specificationmodels\_Definitions.hpp}; name\-space here just \name{M};models with likely correct implementations XXX these files belong to the test system, and perhaps we don't need special conventions here
+  \item \filename{M\_Models\_Documentation.tex} XXX new : this should be achieved by the Doxygen documentation (and the examples)
+  \end{enumerate}
+\item \filename{M\_UserInterface.hpp} domain specific language (to order components); simplest level convenience classes i.e. we will provide the convenient \name{typedefs} for the end users.
+\item Test system: XXX new : this belongs to the generative machinery, which is not there yet ???
+  \begin{enumerate}
+  \item \filename{M\_Tests\_Syntax.hpp} testing models whether they are actually (syntactical) models of their concepts XXX in \texttt{Concepts} we have files \filename{Concepts/M.hpp} for this
+  \item \filename{M\_Tests\_Semantics.hpp}  with the functions providing the test objects belonging to this module; XXX we have ``axiomatic tests'' in module concepts and ``specific generic tests'' (typically using the template signatures of models)
+  \item \filename{M\_Tests\_Complexity.hpp} the apparatus to compute the constants in the complexity descriptions for models XXX this has changed; now we just take measures
+  \item \filename{M\_Tests\_Prototypes.hpp} testing algorithms and model generators, whether they only need what they say XXX new : this is currently just part of the syntax test
+  \item \filename{M\_Countermodels.hpp} XXX this would test the test system
+  \item \filename{M\_Testsystem\_Documentation.tex} XXX since tests are just components, their documentation follows the usual documentation stream
+  \end{enumerate}
+\end{enumerate}
+  
+Library Include system:
+\begin{enumerate}
+\item \filename{Modules.hpp} should be included by the end user of the library in their source code in order to use a group of modules. This file includes definition headers of the models defined in each of the modules included here.  XXX better just called \filename{M.hpp}
+\item \filename{Modules\_Declarations.hpp} serves a similar purpose except only the model's declaration headers are included here. XXX calling it \filename{M\_decl.hpp} ???
+\end{enumerate}
+
+\section{Syntax}
+\label{sec:Syntax}
+
+XXX operations XXX
+
+XXX implicit conversions XXX
+
+XXX just syntax!! XXX
+
+XXX Boost concept checking XXX
+
+XXX only positive requirements XXX
+
+\section{Semantics}
+\label{sec:Semantics}
+
+XXX mathematical specification XXX
+
+XXX implementation: testing XXX
+
+XXX general tests XXX testing only concepts (not models)
+
+XXX test objects XXX
+
+XXX estimating parameter values XXX test system XXX
+
+XXX general pattern matching: partial specialisation, overloading, enable\_if XXX
+
+\section{Complexity}
+\label{sec:Complexity}
+
+XXX operations with associated complexity terms XXX
+
+XXX complexity estimation system XXX
+
+
+\section{Models}
+\label{sec:Models}
+
+XXX Implementations of concepts XXX
+
+\subsection{Namespace}
+\label{subsec:Namespace}
+
+\OKlibrary{} implements one outer-most namespace \name{OKlib}. All models are implemented under different modules which have their own namespaces inside \name{OKlib}. Example, 
+
+\begin{verbatim}
+namespace OKlib {
+  namespace Messages {
+    ...
+  }
+}
+\end{verbatim}
+
+\section{Traits}
+\label{sec:Traits}
+  
+XXX Following the guidance given by \cite{OKL_AbrahamsGurtovoy2004Metaprogramming}, some traits classes are now \emph{meta functions} to be placed globally instead of within each module. XXX Models of OKLibrary Concepts should provide nested types such as \name{value\_type} which will be used by the traits meta functions, Example,
+
+\begin{verbatim}
+namespace OKlib {
+  namespace Traits {
+    template <typename T>
+    struct value_type {
+      typedef typename T::value_type type;
+    }
+  }
+}
+\end{verbatim}
+where \name{T} is a model of some concept in \OKlibrary{}.
+
+
+\chapter{Documentation}
+\label{cha:DocumentationGen}
+
+
+XXX UPDATE: This shall go to Chapter \ref{cha:DocumentationGeneral}. XXX
+
+always complete (including namespace qualifications and include-statements) XXX
+
+as modularised as possible (jumping right into it, and getting something out of it) XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[32] Document your software interface for those who must use it. We shall provide extensive documentation to all parts of the library, not just the interface.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[33] Document your software implementation for those who must maintain it. We shall provide extensive documentation to all parts of the library, not just the interface.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[34] Keep your comments and code synchronised. Yes, but this appears not to be an easy task. Comments appears inline must be maintained by the programmer when modifying the code as inline comments should be avoided but if necessary then they are just as important as the code itself. If document refers to program code as example then we might use ``Literal programming''. building up a collection of test programs, which are inserted into the documentation text via a tool like ``literate programming'' (?!?!), and are always checked for compiling
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[35] Embed application program interface (API) reference documentation in your source code. NO. Not documentation. inline comments must be avoided. requirements or hints may appear as inline comments during development but should be  removed.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[36] Generate API Reference documentation directly from the source code. We could use doxygen for such task but such reference documentation still needs further discussion as how much should be written. Extensive documentation should still be written outside of the source code.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[37] Document all significant software elements. Levels of significance need to be fixed. Namespaces are the outer most level (a module).
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[38] Document software elements as early as possible. Yes. Documentation should follow development of source code as two concurrent process.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[39] Use Block Comments to describe the programming interface. User interface exposed to the immediate user will be clearly documented, if doxygen is used then such block comment may not be possible to avoid. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[40] Use one-line comments to explain implementation details. Too much inline comments. No matter interface or Implementation are better documented outside of source code. Avoid the use of one line comments. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:41 Use a Single Consistent Format and Organisation for all documentation Comments. We have a system for documentation start right from the beginning.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:42 Provide a Summary Description of every declared element. Such summary need not be inline comments.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:43 Document the interface exposed by every function. Yes.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:44 Document thread synchronisation requirements. Not yet applicable but I we should document the level of thread safety provided.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:45 Provide examples to illustrate common and proper usage. Documentation needs to be as detailed as possible to provide the users of the library much insight as its developer.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:46 Document important preconditions, post conditions and invariant conditions. Such conditions should directly reflected by the source code. Documentation will of course provide explanations for having these conditions. again, not inline
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:47 Document Known defects and deficiencies. No, any such defect will be eliminated from source code and need not be documented. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:48 Use the active voice to describe actors and passive voice to describe actions. NO such rules needed. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:49 Use \name{this} rather than ``the'' when referring to instances of the current class. Yes
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:50 Explain why the code does what it does. Sure, we write clean and yet self explanatory code hence any algorithm used will be accompanied by full detailed documentation.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:51 Avoid the use of end line comments. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:52 Label closing braces in highly nested control structure. No. Code breaks etc... with xemacs, delete and reenter will show where they are started.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:53 Add a ``fall through'' comment between two case labels if no break statement separate these labels. NO.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:54 Use keyword to mark pending work, unresolved issues, defects and bug fixes.  We need a system (keywords) for only pending works, labels that clearly identify the nature of the pending work, who is responsible and to be reminded for release. These are inline comments, CVS commit comments etc... XXX
+
+
+
+
+
+\part{Coding principles and guidelines}
+\label{par:Programming}
+
+
+XXX All detailed coding conventions goes into this part. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:56 Choose simplicity over elegance. We write the best code for any given problem. We should write what comes most naturally instead of searching for the most simply or elegance solution just for the sake of it. 
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Naming conventions}
+\label{cha:Naming}
+
+
+
+\section{Syntax of names}
+\label{sec:Syntaxnames}
+
+In order to achieve good integration of names throughout the different components of the library (using different programming languages), we use only the common syntax elements, which coincides with the strict C/C++ syntax for identifiers:
+\begin{enumerate}
+\item The first character must be a letter.
+\item Then letter, digits and underscores follow.
+\item Digits are ``0-9'', letters are ``a-z'' and ``A-Z'', only using the 26 standard letters; the underscore character is ``\_''.
+\item Nothing else is allowed (no spaces, no hyphens, no colon etc.).
+\item Of course, all names are ``case-sensitive''.
+\end{enumerate}
+To emphasise, this applies not only to C/C++ names, but also to names of files, directories, make-variables, types, namespaces etc., simply \emph{to all names}.
+
+
+
+
+\section{General naming guidelines}
+\label{sec:GenNaming}
+
+Basic rules:
+\begin{enumerate}
+\item Use expressive names!
+\item Do not fear long names (if necessary)!
+\item Abbreviations only in well-established cases, and for local names.
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[25] ``Use meaningful names.'' However, for such places where names are only placeholders, names such as ``i'' and ``j'' are perfectly acceptable.
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[26] ``Use familiar names.'' Use words that exists in the target domain.
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[28] ``Avoid excessively long names.'' If necessary, then some systematic forms of abbreviations can be used.
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[29] ``Join the vowel generation -- Use complete words.'' As mentioned, somewhat longer identifiers are fully accepted (but we might introduce systematic abbreviations like ``dir'' for ``directory'' with make-variables; however, if we do so, then systematically).
+\end{enumerate}
+
+Further rules we consider as partially correct:
+\begin{enumerate}
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[14] ``Use nouns to name compound types. Classes, structs or typedefs that define objects or things should be identified with a noun.'' Most of time this is used, except for functors (which actually represent functions).
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[27] ``Avoid the use of digits within names. Using names such as str1 and str2 to distinguish them should be avoided.'' We use meaningful names, and if digits are necessary for the complete meaning of the variable, then we should use them, e.g., ``Utf16Encoding''.
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[30] ``Use `lowerCamelCase' for abbreviations.'' Often we do not need such renamings --- abbreviations should appear as they are. For example we can use ``XML'' (if this is not the full name --- only macros consist of only-upper-case-letters). In functions we can use small letters with underscores, e.g., ``valid\_xml''. Names consisting only of capital letters (and underscores) are reserved for preprocessor macros and environment variables.
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[11] ``Use ``UpperCamelCase'' for classes, constants, structures, enumerations and typedefs.'' Only for classes and structures (if they are ``classes'' --- not functors or something else) and enumerations. Typedefs typically follow the STL-tradition. And constants are just treated as ordinary variables (with a special qualification), and thus are written with only small letters (typically).
+\end{enumerate}
+
+``Advices'' we consider as bad advice:
+\begin{enumerate}
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[15] ``Pluralise the Names of Collections.'' We should avoid this. Use a better and longer description to identify a collection. e.g.
+  \begin{lstlisting}{}
+    class Shape {};
+    typedef std::list<Shape> shape_list;
+    typedef std::vector<Shape> shape_vector; 
+  \end{lstlisting}
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[18] ``Use \texttt{is set get} to name accessor and mutator functions''. Again this falls into ``no javaism''. Instead of calling a function ``isValid'' we'll use just ``valid'' in C++. As for \texttt{get} and \texttt{set}, we avoid this, but we use function overloading providing the same function name overloaded with const qualifier for the member function. Example,
+  
+XXX
+
+\item \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[31] ``Do not use case to differentiate names.'' On the contrary, we use the case-distinctions! Example: A functor class \name{Functor} is typically accompanied by a free-standing function \name{functor} (same name, but all lower case).
+\end{enumerate}
+
+
+
+
+\section{Preprocessor macros}
+\label{sec:PreprocessorNames}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[11] ``Use UPPERCASE and underscores for preprocessor macro names.'' Macros are rarely used in our code except a few which are necessary. This rule will be enforced if we do have to use macros. See also chapter \ref{cha:Idioms}.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[12] ``Add a unique prefix to macro names.'' 
+
+The guard idiom explained in Chapter \ref{cha:Idioms} will also have a random string of characters suffixed to the end of the macro names. This suffix will be a random string so it's not necessary that all characters are uppercase. The first part of the macro will use the file name with one exception. If there are underscores in the file name, the macro will use no underscore. Although the guard idiom is necessary and the macros must be used, they have no meaning at all in the names. We simply follow traditions so that we use file name as the first part of the macro but we don't want to make it seem to have a meaning by giving it a clear readable name.
+
+\begin{verbatim}
+#ifndef SOMEMODELDEFINITIONOKLIBRARY_jhaksjd67y
+#define SOMEMODELDEFINITIONOKLIBRARY_jhaksjd67y
+
+#endif
+\end{verbatim}
+
+
+
+
+\section{Namespaces}
+\label{sec:namespacenames}
+
+We use ``UpperCamelCase''-names for namespaces, which go in \textbf{parallel with the director structure}, except of the following two exceptional situations:
+\begin{enumerate}
+\item Small ``detail namespaces'' are not mirrored in the directory structure.
+\item Directories starting with an underscore (``\_'') are not mirrored in the namespace structure.
+
+  The main use for this is if a larger file \filename{File} is to be broken into components, but yet it seems overkill to provide a dedicated sub-module (with its own namespace), and so a subdirectory \filename{\_File} is created, where the parts are put, while \filename{File} now becomes the skeleton.
+\end{enumerate}
+
+
+See Section \ref{sec:DeclarationsNamespaces} on the usage of namespaces for declarations.
+
+
+
+
+\section{Name qualification}
+\label{sec:Namequalification}
+
+\textbf{Never use a \texttt{using}-directive} (\texttt{using}-directives disable refactoring) except when porting external libraries. 
+
+\textbf{The namespace-qualification is an \emph{essential part} of the name!}
+
+Use \texttt{using}-declarations only if \emph{technically needed}.
+
+Thus we use \texttt{std::} throughout (always!).
+
+Fully qualify also names from the same namespace in case the names are declared in a different file.
+
+
+
+\section{Types}
+\label{sec:TypeNames}
+
+UpperCamelCase for type names
+
+exception: sub types defined inside a class that resemble those which provided by the STL will use the same name as the STL for consistency. These types uses small letters with underscore e.g
+
+\begin{verbatim}
+ class MyClass_Interface {
+   typedef int size_type;
+ }
+\end{verbatim}
+
+
+
+\section{Functions}
+\label{sec:FuncNames}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[16] ``Use ``lowerCamelCase'' for function names.'' Never. Functions will be named using lower case letters and underscore.
+
+Never write
+
+\begin{verbatim}
+void myFunction(){
+
+}
+\end{verbatim}
+
+but write
+
+\begin{verbatim}
+void function() {
+
+}
+\end{verbatim}
+
+see no javaism above as well for more details on related rules.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:17 ``Use verbs to name functions''. Functions describe an action should be named with a verb. Never use get and set to prefix function names. again, no javaism.
+
+\section{Classes}
+\label{sec:ClassNames}
+
+UpperCamelCase for class, struct, typedef, class template. (additional suffix with underscore may be added to class names if its special XXX example XXX)
+
+\section{Variables}
+\label{sec:VariableNames}
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[19] Use ``lowerCamelCase'' for Variable and function parameter names. No such need necessary. Variable names are to be all small case letters and numbers, use underscore with suffix if needed.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[20] Use nouns to name variables. We use noun and adjectives to name variables. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[21] add a prefix or suffix to member variable names to distinguish them from other variables. No such need necessary especially not to use underscore to suffix member variables. Again, refer to no javaism for more details. 
+
+\section{Parameters}
+\label{sec:ParameterNames}
+
+Parameter names are to be all small letters and numbers, use underscore with suffix if needed.
+
+Same as variable names, use noun and adjective to name. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:22 Name all function parameters. This is not true. If we need to use a parameter in the function body later on then we name it otherwise not. dummy parameters must not have names.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:23 Use ``Other'' to for parameter Names in copy constructor and assignment operators. We need a placeholder for such parameter hence ``other'' or ``that'' are not god names. We'll use ``RHS'' in copy constructor and ``LHS'', ``RHS'' in assignment operator.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:24 Give function parameters the same name as the member variables you assigned them to. Yes. we do not use prefix or suffix on member variables so the function parameters will have exactly the same name as the member variables.  
+
+
+
+
+
+
+
+\chapter{Formatting conventions}
+\label{cha:Formatting}
+
+
+\section{Code spacing}
+\label{sec:CodeSpacing}
+
+\subsection{General spacing guidelines}
+\label{subsec:GenSpacing}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[10] Do not use ``Hard'' tabs. XXX
+
+No blank line after namespace, class, struct and function headings.
+
+Guard idiom: no blank line between the first two macro statement. 
+
+For example:
+
+\begin{verbatim}
+#ifndef MODELCONCEPTSYNTAX_hjUYThkui8
+#define MODELCONCEPTSYNTAX_hjUYThkui8
+
+//Code begin
+
+...
+
+//code end
+
+#endif
+\end{verbatim}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[8] break long statements into multiple lines. XXX example XXX
+
+\subsection{Function spacing}
+\label{subsec:FuncSpacing}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[9] include White Space
+
+Place a space after the function parameter list to separate the curly brackets.
+
+For example:
+
+\begin{verbatim}
+int a_function (int x, double y) {
+
+}                                          
+\end{verbatim}
+
+
+
+\subsection{Class spacing}
+\label{subsec:ClassSpacing}
+
+
+
+
+\section{Indentation}
+\label{sec:Indentation}
+
+\subsection{General indentation guidelines}
+\label{subsec:GenIndentation}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[5] use indented block statements. Consistent spacing through out library. 2 spaces are used.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[6] Indent statements after a Label. Not all necessary. Do not do this inside a case statement but do for loops (while, for, do)
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[7] Choose one style for brace placement. First style
+
+\begin{verbatim}
+void opening_on_same_line () {
+
+}                                          
+\end{verbatim}
+
+XXX examples for all different structures in C++ XXX
+
+
+\subsection{Function indentation}
+\label{subsec:FuncIndentation}
+
+\subsection{Class indentation}
+\label{subsec:ClassIndentation}
+
+
+
+
+
+
+\chapter{Preprocessor}
+\label{cha:Preprocessor}
+
+\section{Include-directives}
+\label{sec:PreprocessorInclude}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:68 states:
+\begin{quote}
+  Use ` {\#}include ``...'' ' for collocated header files and `{\#}include \texttt{<}...\texttt{>} ' for external header files.
+\end{quote}
+This is \emph{wrong}, since we are developing a library: \emph{Only} use the form for external header files (since only in this way complete control over the directories searched for the header files is given, while for the first form always the directory, where the containing file is placed, is searched first).
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:69 states:
+\begin{quote}
+  Place preprocessor Include Guards in header files.
+\end{quote}
+This is true for every \texttt{.hpp}- and \texttt{.h}-file. For details see subsection \ref{sec:includeguards}.
+
+
+\subsection{Include guards}
+\label{sec:includeguards}
+
+XXX
+
+
+\section{Conditional compilation}
+\label{sec:PreprocessorConditional}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:70 states:
+\begin{quote}
+  Use {\#}if...{\#}endif and {\#}ifdef...{\#}endif instead of ``/* ... */'' comments to hide blocks of code.
+\end{quote}
+Basically correct.
+
+
+\section{Macros}
+\label{sec:PreprocessorMacros}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:71 Use Macros sparingly.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:72 states:
+\begin{quote}
+  Add a semicolon after every statement expression macro.
+\end{quote}
+Semicolons can be added freely at block scope, but not at class or namespace scope! Since we compile with ``pedantic'' C++-language-interpretation, at class or namespace scope typically semicolons cannot be used --- this creates little problems with \texttt{Xemacs}, but this can be bypassed, if for formatting purposes temporarily semicolons are added, so that indentation of the next line is correct, and after that the semicolons are removed again.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:73 states:
+\begin{quote}
+  Use macros to capture the current file name and line number.
+\end{quote}
+In the \OKlibrary{} there should be no reasons to use these macros (directly), since the test-system and message-utilities provide access to file names and more.
+
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:74 Do not use ``{\#}define'' to define constants -- declare static const variables instead. 
+
+
+
+
+\chapter{Declarations}
+\label{cha:Declarations}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:75 Use portable types for portable code. One need to address the `grey' areas in the C++ standard where a number of language features are ``implementation defined''. Special attention must be paid to the intrinsic numeric types.
+
+\section{Enumerations}
+\label{sec:enum}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:77 Create a Zero-Valued Enumerator to indicate an uninitialised, invalid, unspecified, or default state. This is one possibility depending on the situation. Example, 
+
+\begin{verbatim}
+enum Color {None, Black, Red, Green, Blue}
+\end{verbatim}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:78 Do not define enumerations using macros or integer constants. Type safety issues. An enumeration in C++ is a separate type hence using them allows the compiler to enforce a certain amount type safety. 
+ 
+\section{Using auxiliary variables}
+\label{sec:auxvar}
+
+For improved efficiency and readability, we use const auxiliary variables a lot! examples XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:76 Use \name{typedefs} to simplify complicated type expressions. \name{typedef} is used for enhanced readability (see also XXX no magical constants!). \name{Typedef} within an class that provide \name{value\_type}, \name{iterator\_type} etc.. should follow the same name as the \name{STL}.
+
+
+
+\section{Scoping}
+\label{sec:Scoping}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:79 Declare Enumerations within a namespace or class. To avoid symbolic name conflicts between enumerators and other global names, nest \name{enum} declarations within the most closely related class or common namespace. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:80 Declare global functions, variables, or constant as static members of a class. Another stupid ``Javaism''. A clear NO.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:81 Declare for-loop Iteration Variables inside of \name{for} statements. This limits the scope of the iteration variable inside the for loop.
+
+
+
+
+\subsection{Namespaces}
+\label{sec:DeclarationsNamespaces}
+
+See Section \ref{sec:namespacenames} for naming-conventions regarding namespaces.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:163 ``Use unnamed namespaces instead of \name{static} to hide local functions and variables.''
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:164 ``Tread lightly on the global namespace. Avoid the use of global variables.''
+
+\emph{Every non-local name must be placed in a namespace!} For names in implementation files, an unnamed namespace must be used. For example the ``Hello, World!''-program in good C++:
+\begin{lstlisting}{HelloWorld}
+#include <string>
+#include <iostream>
+
+namespace {
+  std::string greeting() { return "Hello, World!"; }
+}
+
+int main() {
+  std::cout << greeting() << "\n";
+}
+\end{lstlisting}
+So every name for us either lives in namespace \name{OKlib}, in \name{std} or some library namespace (\name{boost}), or in an unnamed namespace (only for implementation-files).
+
+ 
+
+
+
+
+
+\chapter{Annotations}
+\label{cha:annotations}
+
+no history in the files
+
+\section{Tokens}
+
+\begin{description}
+\item[To Do:] immediately written!
+\end{description}
+
+
+\part{Programming guidelines}
+\label{par:programmingguidelines}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:55 Do not be afraid to do engineering. No limitations. We are scientists hence any problems must be taken to the farthest extent.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:57 Do not use a feature of C++ just ``because it is there''. No. We trust the language, if it's there then it must have a reason to be there. if using that feature is the most natural way resolve a problem then we should use it.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:58 Recognise the cost of reuse. We write generic code so they are automatically reusable. Learning process of writing code is most important.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:59 Program by contract. Look up with Example. XXX
+   
+\chapter{No magical constants!}
+\label{cha:magicconstants}
+
+using typedefs!
+
+\chapter{Idioms}
+\label{cha:Idioms}
+
+TO DISCUSS: What contents are to be included here in MetaDocumentation regarding Idioms? We also have BuchOKSystems, what to put in there regarding idioms? Since idioms are typically style guide, I do believe they have a place here in MetaDocumentation. 
+
+\section{Containers}
+\label{sec:container_idioms}
+
+Refer to \name{OKlib::Messages::Language\_base}, where we have a protected type member \name{std::map catalogue} containing objects of class \name{OKlib::Messages::Language} which derived from \name{OKlib::Messages::Language\_base}. For each object of the type \name{OKlib::Messages::Language} it was initialised and self-inserted into the container catalogue. XXX
+
+
+
+
+\chapter{Design patterns}
+\label{cha:DesignPatterns}
+
+
+
+\chapter{Statements and expressions}
+\label{cha:Statements}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:139 Do not rely on operator precedence in complex expressions. No. we trust the language. However, need to know the exact precedence. Also look up on shift operators.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:141 Do not test for equality with true. Example in book is not so clear. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:142 Replace repeated, non-trivial expressions with equivalent methods. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:143 Use \name{size\_t} variables for simple loop iteration and array subscripts. Sounds good but technically wrong as it's not possible for all.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:144 Use a dummy template function to eliminate warning for unused variables. More reasons, Compiler Warnings etc.. Link to a bigger section that explains this better. XXX 
+
+
+
+\section{Control flow}
+\label{sec:control}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:140 Use block statements in control flow constructs. example XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:145 Avoid \name{break} and \name{continue} in iteration statements. No need.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:146 Avoid multiple \name{return} statements in functions. No point.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:147 Do not use \name{goto}. We use it if needed. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:148 Do not Use \name{try...throw...catch} to manage control flow. Still don't know how to do this. TB XXX.  Consider this strustup's book. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:149 Never use \name{setjmp()} or \name{longjmp()} in a C++ program. Well, we have to if really necessary. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:150 Always code a \name{break} statement in the last case of a switch statement. 
+
+
+
+
+
+
+
+\chapter{Functions}
+\label{cha:Functions}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:82 Use an enumeration instead of a boolean to improve readability. One should try to avoid the use a boolean parameter and use an enumeration instead.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:83 Use an Object pointer instead of a reference if a function stores a reference or pointer to the object. We should in general avoid the use of pointers. Sometimes in OOP this might be difficult to manage so be careful.  we prefer references over pointer. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:84 Accept Objects by reference and primitive or pointer types by value. Need more explanation but seems OK. Is it really true that primitive types and pointer types are more efficient passed by value.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:85 Use a \name{const char*} for narrow character string parameters. No. \name{std::string} if we can.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:86 pass enumerator values, not integer constants.  We make use of type traits, as for bit mask, integer constants are not avoidable.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:87 Do not use \name{void*} in a public interface. We should avoid the use of \name{void*}. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:88 Use inline functions instead of macros. We try not to use macros so since inline function are designed to replace macros.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:89 Inline only the simplest functions. OK but what kind of guideline should we follow? Not only the number of line of code (may be 5 to 10) inside a function but also the complexity involved. XXX More issues regarding this. XXX inlining is a valuable feature provided by the language hence we are not afraid to use it. Some guideline or standard documentation regarding how compilers handle inlining will be helpful. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:90 Factor functions to allow inlining of trivial cases. It's a good idea to factor out functions.
+
+
+
+
+
+\chapter{Operators}
+\label{cha:Operators}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:110 Adhere to the natural semantics of operators. Provide (overload) operator for classes that makes sense. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:111 Do not overload \name{operator $\&\&$ ()} or \name{operator $\|$ ()}. See \cite{OKL_Meyers1996MoreEffective} pp. 35-38.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:112 Invoke the superclass Assignment operator(s) in the assignment operator of a subclass.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:113 Implement Copy-safe and exception-safe assignment operators. Example used in the book is poor but the rule is sound.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:114 Define binary operators outside of a class.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:115 Implement a Boolean operator in terms of its opposite.
+
+
+
+
+
+
+\chapter{Classes}
+\label{cha:class}
+
+
+\section{Class design}
+\label{sec:ClassDesign}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:60 Keep classes simple. We design and code by following concepts. Minimum core interface. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:61 Define subclasses so they may be used anywhere their superclasses may be used. Following the Liskov Substitution Principle and the open closed principle. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:91 Define small classes and small methods. Follow the Core interface principle.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:92 Build fundamental classes from standard types. For low-level, fundamental or concrete class types one should minimise dependencies on non-native, non-standard types.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:96 Avoid the use of friend declarations. In principle this  is true but in certain situations using \name{friend} declaration can not be avoided and may even bring benefits. 
+
+
+
+
+
+
+\section{Class members}
+\label{sec:ClassMembers}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:94 Declare the access level of all members. No need. We make use of the default provided by \name{class} and \name{struct}. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:95 Declare all member variables private. Accessor functions are a good idea but no need to be so restricted. According to the situation at hand to make the decision.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:97 Declare an explicit default constructor for added clarity. Provide an explicit one only when the default fails to perform it duty. We should trust the compiler to do the right thing for us.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:98 Always declare a copy constructor, assignment operator and destructor if the class can be instantiated. When the compiler provided special member functions perform the intended actions we do not need to explicitly add them. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:99 Always implement a Virtual destructor if your class may be subclassed. Only when using OOP. See the book by herb sutter for a finer example. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:100 Make constructor protected to prohibit direct instantiation. No need to do this. If we don't want direct instantiation, we don't provide constructors. See also \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:[101]
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:101 Make constructors private to prohibit derivation. XXX ``closed class'', Use a public static method to instantiate the class. this method acts as a ``factory''  for the class. See \cite{OKL_GammaHelmJohnsonVlissides1994DesignPattern}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:102 Declare a Private \name{operator new()} to prohibit dynamic allocation. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:103 Declare a Protected or Private destructor to prohibit static or automatic allocation. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:104 Declare Single-Parameter constructor as \name{explicit} to avoid unexpected type conversions. YES. 
+
+\begin{verbatim}
+class Foo {
+  public:
+    explicit Foo(int n);
+}
+\end{verbatim}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:105 Use default arguments to reduce the number of constructors. OK.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:106 Do not Overload Non-virtual methods in subclasses. Know the language. This does not work anyway since non-virtual methods in subclasses can not overload super class methods.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:107 Declare Virtual methods protected and call them using public non-virtual methods. YES. Nice trick. example XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:108 Keep your functions \name{const} correct. Yes and very important. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:109 Use object pointers and references in class declarations. We try to avoid pointers. example ??? 
+
+
+
+
+
+
+
+
+
+\section{Class inheritance}
+\label{sec:ClassInheritance}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:62 Use inheritance for ``is a'' relationship and containment for ``has a'' relationship. XXX example 
+
+\begin{verbatim}
+class Wheel {};
+class Truck {
+  protected:
+    vector<Wheel> wheels;
+};
+class Icecreamtruck : public Truck {
+// ...
+};
+\end{verbatim}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:63 Avoid multiple inheritance. No. use it.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:93 Avoid the use of virtual base classes in user-extensible class hierarchies. NO. Unclear.  
+
+
+
+
+
+
+
+
+
+
+\chapter{Templates}
+\label{cha:Templates}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:116 Use templates instead of macros to create parameterised code. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:117 Do not use CV-Qualified types as template parameters. One need to know C++ better to really make such a decision. There is always the issue of \name{const}.  
+
+
+
+
+
+
+\section{Function templates}
+\label{sec:FuncTemplates}
+
+
+
+\section{Class templates}
+\label{sec:ClassTemplates}
+
+
+
+
+\chapter{Initialisation and construction}
+\label{cha:Initialisation}
+
+
+
+\section{Variable initialisation}
+\label{sec:VarInitialisation}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:128 Initialise all variables. Most variables will not be initialised since it's not necessary. Doing so contradict the C++ Standard, can create a false sense of security. Locality of definition of variables. We should declare variables only at point of usage. Declaring a variable that does not immediately assigned a value indicate this variable is not needed at this point. Doing so is a sign of bad design in the program and thus should be avoided.      
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:129 Do not rely on the order of initialisation of global objects. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:130 Always construct objects in a valid state. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:131 Initialise member variables in the initialiser list. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:132 Initialise member variables in the order they are declared.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:133 Indicate when the declaration order of data members is significant. Write comment to indicate this?
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:134 Always list any superclass constructors in the initialiser list of a subclass constructor. We should know the language. Do this only when the compiler fails. XXX example.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:135 Do not call virtual functions in constructors and destructors.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:136 Declare and initialise static variables within functions. Read up XXX. Issues with multi-threading.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:137 Zero pointers after declaration. If we must use pointers then try to use \name{new} and \name{delete} operators instead.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:138 Use the \name{new} and \name{delete} operators instead of \name{malloc()} and \name{free()}. 
+
+
+
+
+
+\chapter{Finalisation and destruction}
+\label{cha:Finalisation}
+
+
+
+\chapter{Type safety, casting, and conversion}
+\label{cha:TypeSafty}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:118 Use C++ Casting operators instead of C-Style casts. One needs to know better the different cast operator provided by the language itself and also not to forget boost libraries.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:119 Avoid type casting and Do not force others to use it. See \cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:118
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:120 Use \name{static\_cast<>} to expose non-intuitive implicit conversions.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:121 Do not use \name{reinterpret\_cast<>} in portable code. Avoid instead of do not use. XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:122 ``Only use \name{const\_cast<>} on ``this'' or When dealing with non-const-correct code.'' We are not afraid of language features, if it's guaranteed by the standard where usage is correct, then we will use it.   
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:123 Never use \name{dynamic\_cast<>} as a substitute for polymorphism.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:124 Use \name{dynamic\_cast<>} to restore lost type information. XXX Use of dynamic cast might indicate a sign of bad design. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:125 Always treat string literals as \name{const char*}. This behaviour is built-in.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:126 Use C++ streams instead of \name{stdio} functions for type safety.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:127 Test all type conversions. XXX Is this asserts? Trust the language. 
+
+
+
+
+
+
+
+
+
+\chapter{Thread safety and concurrency} 
+\label{cha:Threads}
+
+XXX Another Issue needs investigation XXX
+ 
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:64 Design for reentrancy.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:65 Use thread only where appropriate. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:66 Avoid unnecessary synchronisation.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:67 Do not synchronise access to code that does not change shared state.
+
+
+
+
+
+\chapter{Library organisation}
+\label{sec:LibOrganization}
+
+\section{Modularisation}
+\label{sec:Modularisation}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:165 Place Types that are commonly used, changed, and released together, or mutually dependent on each other, into the same package. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:166 Isolate unstable classes in separate packages.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:167 Avoid making difficult-to-change packages dependent on packages that are easy to change.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:168 maximise abstraction to maximise stability. Concepts.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:169 Capture high-level design and architecture as stable abstractions organised into stable packages.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:170 Use the class name as the file name. ``Javaism'' Concept as guide, namespace as the outermost enclosure.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:171 Use separate files for each namespace-scope class, struct, union, enumeration, function, or overloaded function group. ``Javaism''
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:172 Use \name{{\#}include} sparingly in header files. We \name{include} those header files used in the including file. No more. No less.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:173 Implement class methods outside of their class declaration block. NO.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:174 Do not name files containing tests or examples the same as template header file names. What's the point of this? XXX
+
+XXX Source Files, applications, directory settings, aux settings ??? XXX
+
+
+ 
+\part{Documentation}
+\label{par:Documentation}
+
+\chapter{General guidelines}
+\label{cha:DocumentationGeneral}
+
+
+\section{Overview on the different aspects of our documentation}
+\label{sec:DocumentationOverview}
+
+\subsection{Code-documentation}
+\label{sec:DocumentationOverviewCode}
+
+The different components of the documentation of the \OKlibrary:
+\begin{enumerate}
+\item Together with the programming (!) the \emph{Doxygen-documentation} (see Chapter \ref{cha:Doxygen}) is created: Brief explanations, and usage and maintenance directives for every component. A general documentation is given in file- and namespace-documentation.
+\item \emph{Inline code documentation} (see Chapter \ref{cha:InlineDoc}) is used very sparingly (code must be self-documenting).
+\item The first (in principle extensive) use cases are given by the test system (see Part \ref{par:TestingSystem}).
+\item Once the (implicit) concepts (or the interfaces) have stabilised, \emph{example applications} are build (many, and elementary; see Chapter \ref{cha:DocumentationExamples}); they shall go into subdirectory \name{demos} of every module.
+\item Once the doxygen-documentation for the components has reached a certain maturity, then the general documentation moves to the subdirectory \name{docus}, where general (doxygen-)documentation is placed (same file-names as the files to be documented, with suffix \name{.hpp}). This concerns general usage-information etc.
+\item \emph{Concept documentation} (see Chapter \ref{cha:LatexDocumentation}) in Latex format for the broader mathematically-minded understanding.
+\end{enumerate}
+
+
+
+
+\subsection{Application-documentation}
+\label{sec:DocumentationOverviewApplication}
+
+Documentation of the functionality given by applications built from components of the \OKlibrary:
+\begin{enumerate}
+\item The module \texttt{ProgramOptions} (see Section \ref{sec:DocumentationProgramOptions}) provides the general framework for online-help and parameter handling.
+\item Messages are created by using the \texttt{Messages} module (see Section \ref{sec:DocumentationMessages}).
+\end{enumerate}
+
+
+
+
+\section{Generalities}
+\label{sec:DocumentationGeneralities}
+
+\begin{itemize}
+\item \textbf{Many elementary examples}, systematically showing all (or at least the main) usage cases (like test cases); these examples must only show ``one thing'', so that it is always perfectly clear what the intended outcome is.
+\item Say things \textbf{precisely and explicitly}; do not fear redundancies (on the contrary --- redundancy helps).
+\item Code examples always \textbf{complete} (with all headers); never any using directive (while namespace aliases should only be used when the alias definition is directly visible).
+\end{itemize}
+
+
+
+
+\section{ProgramOptions}
+\label{sec:DocumentationProgramOptions}
+
+The general framework for any application built from the \OKlibrary:
+\begin{enumerate}
+\item Reading of command line arguments.
+\item Online help.
+\end{enumerate}
+
+
+
+
+\section{Messages}
+\label{sec:DocumentationMessages}
+
+\begin{itemize}
+\item For every message, a message class is created, using the framework in the \texttt{Messages} module. These message classes are defined in a nested namespace \texttt{messages}.
+\item The messages for example for sub-module \filename{Messages/Languages.hpp} are put into \filename{Messages/messages/Languages.hpp} (so that most modules \filename{Module} will have a subdirectory \filename{messages}).
+\end{itemize}
+
+
+
+
+
+
+
+
+\chapter{Doxygen documentation}
+\label{cha:Doxygen}
+
+
+\section{General technicalities}
+\label{sec:DoxygenGeneraltechnicalities}
+
+\subsection{Macros}
+\label{sec:DoxygenGeneraltechnicalitiesMacros}
+
+In \filename{Buildsystem/Generic/documentation\_building/documentation\_resources/Doxyfile} we have set \texttt{ENABLE\_PREPROCESSING} and \texttt{MACRO\_EXPANSION}, so that also in the source-code \texttt{doxygen} expands macros, \emph{however} since also \texttt{EXPAND\_ONLY\_PREDEF} is set, only macros are expanded which are either in the list \texttt{EXPAND\_AS\_DEFINED} (just using the definition given in the code), or in the list \texttt{PREDEFINED} (where a new definition can be given).
+
+The list \texttt{PREDEFINED} is typically used to define a macro as the empty string, which results in the macro not being shown (at all).
+
+
+
+\subsection{Code-elements}
+\label{sec:DoxygenGeneraltechnicalitiesCodeelements}
+
+Small pieces of code are enclosed into the html-element
+\begin{verbatim}
+<code> piece of code </code>
+\end{verbatim}
+while for larger chunks (especially when spanning multiple lines)
+\begin{verbatim}
+  \code 
+code 
+  \endcode
+\end{verbatim}
+is used.
+
+However, for general types of code-output (like bash-scripts, or command-lines), the verbatim-enviroment
+\begin{verbatim}
+  \verbatim 
+code 
+  \endverbatim
+\end{verbatim}
+is more appropriate.
+
+
+
+\subsection{Environment-variables}
+\label{sec:DoxygenGeneraltechnicalitiesEnvironment}
+
+An enviroment-variable ``VAR'' (this includes here all (exported) make-variables) is accessible in doxygen-code via 
+\begin{verbatim}
+  $(VAR)
+\end{verbatim}
+The following rules apply:
+\begin{enumerate}
+\item This variable-expansion is not a preprocessing, that is, if the expansion results in an url, then doxygen will not create a link (but the url appears just as text).
+\item Variable-expansion is turned off by using quotation marks, i.e.,
+\begin{verbatim}
+  ``$(VAR)''
+\end{verbatim}
+\item Variable expansion is not performed on \texttt{$\backslash$par}-lines, and thus here doxygen-aliases must be used.
+\end{enumerate}
+There are special rules for the ``Doxyfile'' (the doxygen-configuration-file), however since there we use the m4-preprocessing (and no variable-expansion), we do not need to care about these pecularities (with the m4-preprocessing all these restrictions are overcome).
+
+
+
+
+
+\section{Documentation of library elements}
+\label{sec:Doxygenlibraryelements}
+
+\subsection{Namespaces}
+\label{sec:NamespaceDox}
+
+Namespaces correspond to modules, and thus the detailed namespace documentation should give an overview on the components provided by this module.
+
+\begin{verbatim}
+/*!
+  \namespace OKlib::Messages
+  \brief Brief description of the module Messages
+
+  More detailed description.
+*/
+\end{verbatim}
+
+\subsection{Files}
+\label{sec:FilesDox}
+
+More detailed than the namespace documentation, we find in the file documentation an overview on the components provided within this file (files should correspond to ``sub-modules'', and form some unit).
+
+To avoid ambiguities, at least the path from the module directory must be used in the specification of the comment, as in
+\begin{verbatim}
+/*!
+  \file Messages/Languages
+  \brief Brief description of sub-module Messages/Languages
+
+  More detailed description.
+*/
+\end{verbatim}
+
+
+\subsection{Classes}
+\label{sec:ClassDox}
+
+Classes are the main components of sub-modules:
+\begin{verbatim}
+/*!
+  \file OKlib::Module::Class
+  \brief Brief description of Class
+
+  More detailed description.
+*/
+\end{verbatim}
+The description should explain the meaning of the class, and how to use it (the interface need not to be specified in detail, since this is to be found in the concept definition and/or in the class definition --- the whole point of the doxygen-documentation is about meaning(!)).
+
+
+\subsection{Functions and variables}
+\label{sec:GlobalFuncDox}
+
+To avoid (dangerous) duplication, for functions and variables we do not use the doxygen-commands \texttt{$\backslash$fn} and \texttt{$\backslash$var}, but we rely just on putting these comments directly in front of the definitions (this is true also in case we use the explicit forms as above, but there we use the doxygen-commands for further highlighting). For namespace-scope we use
+\begin{verbatim}
+/*!
+  \brief Brief explanation of the function
+  
+  Longer explanation.
+*/
+// Here comes the function definition.
+
+/*!
+  \brief Brief explanation of the global variable
+    (of course, to be avoided if possible)
+
+  Longer explanation.
+*/
+// Here comes the variable definition.
+\end{verbatim}
+For block scope we use
+\begin{verbatim}
+//! Brief explanation of the function
+/*! Longer explanation (if needed). */
+// Here comes the function definition.
+
+//! Brief explanation of the global variable
+/*! Longer explanation (if needed). */
+// Here comes the variable definition.
+\end{verbatim}
+
+
+
+
+\section{Documentation of plans}
+\label{sec:DoxygenPlans}
+
+The naming of the plans-files (in subdirectory \texttt{plans} of the module-directory):
+\begin{itemize}
+\item one file \filename{plans/M.hpp}, where ``M'' is the module-name (17.6.2007: this is being replaced by \filename{plans/general.hpp});
+\item one file \filename{plans/wishlist.hpp};
+\item one file \filename{plans/milestones.hpp};
+\item for each submodule a file \filename{plans/S.hpp}, where ``S'' is the \emph{stem} of the submodule-file (for example, if we have \filename{M/X.hpp} and \filename{M/X.cpp}, then we have one file \filename{plans/X.hpp}; so the original suffix(es) are suppressed in the plans-file --- the submodule-identity is given by the submodule-name(!)).
+\end{itemize}
+The \filename{.hpp}-suffix recognises the C++ syntax of the plans file (related to \name{doxygen}), which is also important for the text editor.
+
+
+
+\subsection{The lifecycle of ideas through the plans-files}
+\label{sec:DoxygenPlansflow}
+
+Ideally the following ``waterfall'':
+\begin{enumerate}
+\item An idea about some new component or a variation of an existing component pops up, and is put as a new \texttt{$\backslash$todo} into \filename{wishlist.hpp}.
+\item This todo gets expanded (using lists).
+\item After some time it is decided, that this todo should be realised, so that it is moved to \filename{general.hpp}.
+\item There it gets further expanded.
+\item Then the todo gets scheduled in \filename{milestones.hpp}.
+\item The todo gets too big, and is moved into its own (new) module plans-file \filename{plans/Module.hpp}.
+\item There it is further expanded, implementation starts, and the milestones are appropriately adapted.
+\item Finally, it is finished, the completion gets a short entry into the milestones-history (at the occasion of the version-transition), and the todo is deleted.
+\end{enumerate}
+
+
+\subsection{Elements of plans-files}
+\label{sec:DoxygenPlansElements}
+
+The main elements in a plans-files are the \texttt{$\backslash$todo}-elements, and the \texttt{$\backslash$bug}-elements. Every todo has a short heading, and then a list of items.
+
+Milestone-files also contain exactly one \texttt{$\backslash$module\_version}-element for the current version.
+
+
+\subsection{Formatting}
+\label{sec:DoxygenPlansFormatting}
+
+
+\begin{itemize}
+\item Lists are organised using the html-elements \texttt{<ul>}, \texttt{<ol>} and \texttt{<li>}.
+\item The \texttt{<li>}-items are indented (one space), and there is one space after the \texttt{<li>}-item and one space before the \texttt{</li>}-item.
+\item Avoid paragraphs --- use lists instead.
+\item Strict xhtml-syntax is used (where possible).
+\end{itemize}
+ 
+
+
+
+
+
+
+
+
+
+\chapter{Inline documentation}
+\label{cha:InlineDoc}
+
+\section{General}
+\label{sec:InlineDocGeneral}
+
+Code must be \textbf{self-documenting}, and only to warn maintenance programmers inline comments should be used.
+
+
+\chapter{Example collection}
+\label{cha:DocumentationExamples}
+
+In its own directory \texttt{Documentation/Examples}, mirroring the \OKlibrary{} structure, for every module we find example applications: These are (mostly) very elementary, systematically declining the basic possibilities. The build system compiles these programs, so that they are always up-to-date.
+
+Within each example application, there are complete instructions how to compile it (with gcc), and comments what (precisely) these applications show. These comments are given as doxygen-comments.
+
+10.1.2007: Needs update. Better every module has a \texttt{demos}-subdirectory.
+
+
+
+\chapter{Concept documentation}
+\label{cha:LatexDocumentation}
+
+\section{General}
+\label{sec:LatexDocumentationGeneral}
+
+In module \texttt{Documentation/Concepts} for every module (of \OKlibrary) we have a Latex-file for all the relevant concepts. The models for the concepts one finds outlined in the corresponding namespace documentation (see Section \ref{sec:NamespaceDox}) and, in more detail, in the respective file documentations (see Section \ref{sec:FilesDox}).
+
+
+\part{The test system}
+\label{par:TestingSystem}
+
+
+\chapter{The structure of the test system}
+\label{cha:structuretestsystem}
+
+In the module \texttt{Concepts} one finds axiomatic tests and basis-tests: Tests only for \emph{types}, and not for dependent types (the test system only \emph{reacts} to the nested types).
+
+Then for an implementation (sub-)module in the accompanying test-(sub-)module we find tests for the \emph{dependent types} for which models are provided (now type parameters are \emph{chosen}).
+
+
+
+\chapter{The process of integrated coding and testing}
+\label{cha:Integratedcondingtesting}
+
+\section{How to flag problematic code}
+\label{sec:howflaggingproblematiccode}
+
+as stated in [link ???]: We do not have uncommented code in the library, except of the following forms:
+\begin{enumerate}
+\item A line of code which makes breakes the test system is commented out as follows:
+\begin{lstlisting}{}
+// STATEMENT; // Error_indicator name_abbreviation date
+\end{lstlisting}
+where \texttt{Error\_indicator} is one of
+\begin{enumerate}
+\item \texttt{COMPILATION ERROR}
+\item \texttt{ASSERT ERROR}
+\item \texttt{THROW ERROR}
+\item \texttt{ABORTION ERROR}
+\end{enumerate}
+and \texttt{name\_abbreviation} is the ``official'' abbreviation (like TB, MH, OK).
+\item A Doxygen-todo showing some code and explaining the problem with it.
+\end{enumerate}
+
+
+\section{Using the compiler}
+\label{sec:usingthecompiler}
+
+We should try to eliminate all warnings issued by g++ with \texttt{-Wall}. Techniques:
+\begin{enumerate}
+\item Missing enumerated values in \texttt{switch}-statements: A \texttt{default}-branch can be used.
+\end{enumerate}
+ 
+\chapter{Guidelines for better coding}
+\label{cha:TestingSystemGuidelines}
+
+\section{Efficiency}
+\label{sec:Efficiency}
+
+XXX optimisation XXX
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:160 Use lazy evaluation and initialisation. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:161 Reuse objects to avoid reallocation.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:162 Leave optimisation for last. Sometimes.
+
+
+
+
+\section{Error and exception handling}
+\label{sec:Error}
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:151 Use return code to report expected state change. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:152 USe assertions to enforce a programming contract. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:153 Do not silently absorb or ignore unexpected runtime errors.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:154 Use assertions to report unexpected or unhandled runtime errors. We use \name{assert} for errors otherwise should use exception.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:155 Use exceptions to report errors that may occur under normal program execution. 
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:156 Manage resource with RAII for exception safety.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:157 Catch exceptions by reference, not by value.
+
+\cite{OKL_MisfeldtBumgardnerGray2004CppStyle}:158 Do not discard exception information if you throw a new exception within a \name{catch} block.   
+
+2) Exception handling: Yet standard practice is in case an unknown
+exception is caught on the program level, to print a message out,
+and then to exit (with "return EXIT\_FAILURE"). But perhaps it's better,
+after printing the message, to just rethrow: The program will abort
+anyway, but we have the chance that the compiler helps us here, and
+catches the unknown error for us; that happens actually with 3.4.3,
+and so also in this case we get the type of the exception!
+
+
+
+
+\part{The programming process}
+\label{par:programmingprocess}
+
+Here we explain the process of developing \OKplatform.
+
+
+\chapter{Planning activities}
+\label{cha:Planningactivities}
+
+Before we attempt to do something, we plan (and discuss) it. In this chapter we describe the planning process we developed.
+
+
+\section{The ``plans'' subdirectory}
+\label{sec:planssubdirectory}
+
+Here we have at least \texttt{general.hpp} for general plans, \texttt{milestones.hpp} for the development plan, and for each submodule \texttt{Submodule.hpp} if needed.
+
+Every programming action is ``announced'' and discussed, at least one day prior to execution (with reasonable details --- the more the better), in its plans-file:
+\begin{itemize}
+\item This enables communication before or after something is done (others read the plan, and comment on it --- in the plans file).
+\item It encourages better planning: In a top-down approach the task at hand should become more and more specified by iterated entries into the plans-file. The author (and others) reflect on it, and so it becomes clear(er) what has to be done (and why(!)).
+\item It helps remembering what was to be done in the (frequent) case the task had to be delayed (and/or is to be executed by someone else(!)).
+\end{itemize}
+
+Everybody must read the change-log for all plans-files.
+
+The \texttt{milestones.hpp}-files serve as the ``keys'' to the development of the library: At the highest level we are led to the lower-level milestones, and there we are led to the more detailed plans-files.
+
+When creating a new milestones, we typically increase the second digit in the version, so for example when the current version is ``0.1'' then the next sub-major milestone is ``0.2''. Once this is envisaged, we try to create a development plan by creating minor milestones ``0.1.1, 0.1.2, ...'' (the more the better; if necessary, this top-down-approach is also applied for the minor mile-stones, subdividing them like ``0.1.1.1, 0.1.1.2, ...'').
+
+Each milestone typically consists of several topics. When a topic is handled the comment ``(DONE)'' is added, immediately after the explanation of the topic. Handled topics are only deleted when the milestone which contains them is deleted.
+
+Once a milestone is reached, the current version is updated, the reached milestone is entered into the history (with a brief explanation), and its specifications are otherwise deleted.
+
+
+
+
+\chapter{Submission}
+\label{cha:Submission}
+
+\section{Commit often to your local repository}
+\label{sec:Submitoften}
+
+\begin{itemize}
+\item Arrange your work on a file in meaningful stages, and commit after each completed stage.
+\item After a few hours work on a file, definitely the point of a commit is reached --- if not then (except of ``emergencies'') something is wrong with the way you approach the task: Precise small steps instead of fuzzy ``giant leaps into nowhere''.
+\item Commit file-changes together which very closely belong together (for example, performing string-replacement on a couple of files), but otherwise commit separately.
+\item Each log-message precise and clear, before performing the commit run all tests and look at the corresponding html-pages.
+\item Having \texttt{git-gui} open helps (but don't forget to press ``rescan'' each time you consider it again).
+\item Commits have several functions:
+  \begin{itemize}
+  \item They help you to become more aware of the tasks (writing down something makes a big difference).
+  \item They help you and others to continue with the task after a break (which happen quite often).
+  \item They are the main means to communicate (indirectly) with other developers (at least showing that you are working on it!).
+  \end{itemize}
+\item A fundamental (and common mistake, especially amongst students) is to ``go away and work days/weeks/months/years/aeons'' on something:
+  \begin{enumerate}
+  \item Meanwhile many changes happened, which quite likely make your work partially worthless.
+  \item Likely you cannot finish the task (for many reasons --- for example something urgent comes your way), and then this whole pile of work just vanishes into nothing (you didn't commit!).
+  \item Most of your work didn't leave a trace (it might only become engraved into your mind as another failure).
+  \end{enumerate}
+  On the other hand, committing often gives a sense of continuous progress.
+\end{itemize}
+
+
+
+
+\part{The build system}
+\label{par:Build}
+
+
+
+
+\chapter{The compilation process}
+\label{cha:BuildCompilation}
+
+\section{Correcting external libraries}
+\label{sec:Correctingexternallibraries}
+
+External libraries are not modified directly (in the installation directories), since these places are not under version control (and the changes go lost after a rebuild).
+
+Assume that an external library (like Boost or UBCSAT) contains some header files which have to be corrected (for example because of non-standard C++ usage). Then in an appropriate module a sub-directory for that external library would be created, and inside a directory \filename{corrected}. For example, for the correction of Ubcsat-code we have created \filename{LocalSearch/Ubcsat/corrected}.
+
+Inside directory \filename{corrected}, the corrected files are placed, with appropriate sub-directory structure to mirror the directory structure of the original source-library directory (so for Boost we would have the subdirectory \filename{corrected/boost}, and all code would go inside, while for Ubcsat, which (unfortunately) has no directory structure (version 1.0.0), the files are placed directly inside \filename{corrected}).
+
+Now to the source-library list (variable \name{source\_libraries} in \filename{definitions.mak}) at the front 
+\begin{verbatim}
+-I$(OKsystem)/Transitional/Module/ExternalLibrarySubModule/corrected
+\end{verbatim} is added (\name{gcc} scans the list of source-libraries from left to right, and if several choices for the inclusion of a header file are possible, the first is taken).
+
+There are some twists:
+\begin{itemize}
+\item If the external library (unfortunately) contains include-directives of the form \verb|#include "file"| (libraries should always use the form \verb|#include <file>|), which causes \name{gcc} to look first into the same directory as the including file itself (and thus the choice cannot be overridden by the \filename{corrected}-files), then before the include-option with the directory of the corrected files the option \texttt{-I-} has to be placed (which surpresses the special handling of the header-file directory; actually, this option has two effects --- additionally it surpresses any \texttt{-I}-options before it, and, oddly enough, the \texttt{-I-}-option is deprecated in gcc version 4.2.0 without an appropriate replacement(!)).
+
+  For an example see \filename{definitions.mak} in module \name{AutarkySearch} (there additionally also some of the files from Ubcsat have to be changed for usage as library files (the authors of Ubcsat did not think of using Ubcsat as a library, and didn't care of violations of ODR etc.), and so there is another directory \filename{LocalSearch/Ubcsat/local} for the local versions).
+\item If the corrected files have to be used also for the compilation of the source-library itself, then the build-script either might add the above inclusion-option for the corrected files to the gcc-calls in the build, or, if this is infeasible, then temporarily the build has to replace the old sources with the corrected ones.
+\end{itemize}
+
+
+
+
+
+
+\chapter{Makefiles}
+\label{cha:makefile}
+
+
+\section{The general design}
+\label{sec:Makefilesgeneraldesign}
+
+The build system is based on makefiles (``handwritten''), which are either ``recursive makefiles'' which pass the goals to makefiles in direct sub-directories, or ``leaf makefiles'', which do some job; if possible, except of local definitions all other definitions come from generic makefiles, which are included by the specific makefile.
+
+External libraries are either local to the \OKlibrary, or are addressed via environment variables such as \texttt{BOOST}. It must be tested whether these variables exist, and an error is issued in the negative case (therefore we must make sure, that only such environment variables are used which are really needed for the \emph{case at hand}). In most cases the default shall be to use a local installation (in \name{OKplatform/ExternalSources}).
+
+Inclusion, compilation options and link libraries and link options depend on a compilation unit. Exactly those libraries are included resp.~linked which are needed by this unit --- so we need specific information provided by the programmer for each ``unit''.
+
+
+
+\section{Directory structure}
+\label{sec:Buildsystemdirectorystructure}
+
+The following text needs REVIEW (OK, 26/2/2006):
+
+The module \OKlibrary{}, checked out from the repository or copied from a working copy, must be ready to work: At root level a makefile is positioned, which arranges all jobs carried out by the library.
+
+The \OKlibrary{} must always be in a clean state: Compilable and passing all tests. If work is done which endangers this, then a temporary fork must be performed. \OKlibrary{} depends only on external libraries (communication via environment variables).
+
+Checked out copies of \OKlibrary{} must not contain created or added files --- it must be essentially the same as in the repository.
+
+In \OKsystem{} currently (19.4.2005) we have the modules
+\begin{itemize}
+\item \texttt{Annotations}
+\item \OKlibrary
+\item \texttt{Transitional}
+\end{itemize}
+Also to create a package from \OKsystem{} must be possible just by copying a copy of \OKsystem, or by checking out the modules above, and running make in the subdirectory \texttt{Transitional/Buildsystem} to create the makefile at \OKsystem-level (since \OKsystem{} itself is not in a repository, only its components (which are independent of each other), and all non-produced files must be under version control, it follows that a special process must create the makefile at \OKsystem-level; for a package this makefile can be placed ``by hand'').
+
+
+\subsection{Directory names}
+\label{sec:Directorynames}
+
+For directories with a ``real name'' (like ``Messages'' or ``GraphDrawing'', ``hand-crafted'' and ``hand-maintained'') we use capital initial letters, for directories like ``lib'' or ``messages'' with a standardised functional name (reflecting that either it's systematically used at different places, or it's under control of the system) we use small letters.
+
+See Section \ref{sec:namespacenames} for namespace (which for the C++ part are closely linked to directory-names).
+
+
+\subsection{The directory structure}
+\label{sec:directorystructure}
+
+We have the following generic directories (thus using small letters):
+\begin{description}
+\item[plans] At the level of the whole library describes general milestones, while at the level of each module describes specific milestones (see section \ref{sec:planssubdirectory} for explaing the planning process).
+\item[traits] For traits-meta-functions (at the global level respectively at the module-level).
+\item[tests] The test-meta-functions.
+\item[testobjects] The test-objects (calling the test-meta-functions).
+\item[messages] The message-classes.
+\item[docus] General documentation (about the general functionality).
+\end{description}
+
+
+
+
+\section{Techniques for writing make-files}
+\label{sec:makeTechniques}
+
+\subsection{Actions}
+\label{sec:makeTechniquesActions}
+
+After the \emph{dependency-specification} in a \emph{rule} comes the \emph{action}; blank lines and comments are ignored, and all lines starting with a tab together constitute the action. Action-lines ending with a backslash are connected together, and after this preprocessing the actual command-lines are passed to the shell, where for each command-line a new sub-shell is created. If the command-line starts with a dash, then a failure-code returned from the sub-shell (note: this is the final return-code) is ignored, otherwise \texttt{make} aborts.
+
+Lines are connected together for the following reasons:
+\begin{itemize}
+\item save creation of sub-shells;
+\item keep the environment of a sub-shell (for example the working directory).
+\end{itemize}
+If within a command-line failures shall be checked, so after each sub-command the return-code must be checked.
+
+
+\subsection{Moving and copying files and directories}
+\label{sec:makeTechniquescopying}
+
+The shell-command \texttt{cp} always replaces all existing files and directories (also recursively (when invoked with \texttt{cp -r}) and opportunistically); it seems usual to use this behaviour (so that old files are always overwritten), but actually the \texttt{install}-command is often used.
+
+
+
+
+\section{Coding standards for make-files}
+\label{sec:makeCodingstandards}
+
+\begin{itemize}
+\item No end-of-line comments (they can create unwanted spaces).
+\item Variable names as in C(++) (this avoids compatibility problems, for example when exporting make-variables to the environment).
+\end{itemize}
+
+
+\section{Testing and debugging of make-files}
+\label{sec:makeTestingdebugging}
+
+Unfortunately, testing of make-files is very hard. The minimal measures are as follows:
+\begin{itemize}
+\item Variable values must be specified (explained), so that in case of problems they can be easily inspected.
+\item The effect of targets must be well-specified, and (manual) procedures for checking the functionality must be provided.
+\end{itemize}
+
+Test-output in a make-file is created by
+\begin{verbatim}
+$(warning Debugging MAKEFILE)
+$(warning Text)
+\end{verbatim}
+where ``MAKEFILE'' is to be replaced by the name of the make-file under consideration.
+
+
+
+
+
+
+\chapter{Debugging}
+\label{cha:debug}
+
+
+\section{After a crash}
+\label{sec:debugafter}
+
+In the bash shell via \texttt{ulimit -c unlimited} we allow unlimited core dumping. For this to be useful, programs need to be compiled with the option \texttt{-g}. Analysis of a failure then with
+\texttt{gdb a.out core}
+
+XXX Release mode (with -g) and final release mode (without -g) because of the debug info in the code.
+
+
+
+
+
+
+\part{Version control}
+\label{par:Versioncontrol}
+
+
+
+\chapter{How to use Git}
+\label{cha:HowGit}
+
+
+On 8.5.2007 the transition from CVS to Git started.
+
+\section{Creating and initialising repositories}
+\label{sec:GitInit}
+
+\subsection{Initialisation}
+\label{sec:GitInitialisation}
+
+In order that commits have the full name (``Oliver Kullmann'' instead of user-name ``csoliver'') and e-mail-address (``O.Kullmann@Swansea.ac.uk'' instead of the local address ``csoliver@cs-wsok.swan.ac.uk''), easiest is to tell Git for all repositories of the user (that is, in  ~/.gitconfig instead of .git/config) about it via
+\begin{verbatim}
+> git config --global user.name "Oliver Kullmann"
+> git config --global user.email O.Kullmann@Swansea.ac.uk
+\end{verbatim}
+Without the option \texttt{--global} only the repository from where this command was run is affected (has stored these details).
+
+
+
+
+
+\subsection{Creating a repository from a CVS-repository}
+\label{sec:CVStoGit}
+
+Assume we have a CVS-repository \texttt{Example} (where the central CVS ??? is in directory \filename{/work/Repositories/OKdevelopment/} XXX), and we want to create a Git-repository \texttt{Example} out of it (with the full history), where the new Git-repository is used as a shared central repository.
+
+The creation of the initial repository \texttt{Example} (can be eliminated later) in directory \filename{/work/Repositories/Git/} is done via
+\begin{verbatim}
+su csoksc
+cd /work/Repositories/Git/
+mkdir Example
+cd /work/Repositories/Git/Example
+git cvsimport -d /work/Repositories/OKdevelopment/  -v \
+   -A /work/Repositories/Git/e-mail_addresses Example
+\end{verbatim}
+Remarks:
+\begin{enumerate}
+\item The user \name{csoksc} is an artificial user, just owning the Git-repositories (and no other possibilities). He is only member of a special group, which contains exactly all developers with ssh-access to the shared repository.
+\item In file \filename{e-mail\_addresses} we have address information about those who submitted to the original CVS-repository, for example
+\begin{verbatim}
+XXX
+\end{verbatim}
+\end{enumerate}
+Then the shared repository is set up in directory \filename{/work/Repositories/Git/bare} via (as explained in ``git for CVS users'')
+\begin{verbatim}
+su csoksc
+cd /work/Repositories/Git/bare
+mkdir Example
+cd Example
+git --bare init --shared
+git --bare fetch /work/Repositories/Git/Example master:master
+\end{verbatim}
+Remarks:
+\begin{enumerate}
+\item A ``bare'' repository has never files checked-out in it (it is not meant to be worked with directly --- only clones are populated).
+\item The initial repository \filename{/work/Repositories/Git/Example} can now be discarded (and should be at least made write-protected, so that not by chance submits to it are performed).
+\end{enumerate}
+Now every user has to create his master clone himself, via for example
+\begin{verbatim}
+csoliver@cs-wsok:~/TargetDirectory> git clone \
+   cs-oksvr:/work/Repositories/Git/bare/Example
+\end{verbatim}
+that is, go to the directory where you want to place the master-close (which might be on another machine), and issue the git-clone-command (in this example, \name{cs-wsok} is the name of the machine where to place the clone (in directory \filename{TargetDirectory}), while \name{cs-oksvr} is the machine with the shared repository).
+
+
+
+\subsection{Special settings}
+\label{sec:GitSpecialsettings}
+
+Files to ignore can be entered into \filename{.git/info/exclude}.
+
+
+
+
+\section{The main workflow}
+\label{sec:Gitworkflow}
+
+
+\subsection{Committing changes}
+\label{sec:GitComittingchanges}
+
+The role of directories:
+\begin{enumerate}
+\item Directories are not under version control (only path-information is).
+\item Using \texttt{git add Directory} will add all files (recursively) contained in the directory to the staged-list, while \texttt{git commit Directory} will commit all files (recursively) contained in the directory.
+\end{enumerate}
+
+Committing:
+\begin{enumerate}
+\item With \texttt{git commit} everything currently staged will be committed. Staging happens via \texttt{git add Path}, and is necessary for new files, while otherwise via \texttt{git commit Path} staging and committing is combined (and by \texttt{git commit -a} everything will be committed (except of new files)).
+\item Via \texttt{git status} one can see new files (``Untracked files''), changed files not staged yet (``Changed but not updated''), and staged files (``Changed but not updated''). Files in the index which are no longer present are marked with ``D'' (they can be put into place again via \texttt{git checkout -f} (which will override all changes to tracked files, but will leave untracked files unchanged --- these can be removed by \texttt{git clean})).
+\item A nice tool for committing is \name{git-gui}, simply called via \texttt{git-gui \&} in the repository (as usual, this can happen in any subdirectory): It shows unstaged files, indicating whether they are tracked (``blank'') or not, and staged files --- pressing the commit-button will perform the commit with the staged files (files can be moved to the staged-area via clicking on their symbol (while clicking on the text shows the diff)). Via ``Add Existing'' all tracked files are added to the stage-area, while by activating ``Amend Last Commit'' the current commit is actually combined with the last commit (useful for example in case you forgot to commit something). Usage of ``Sign Off'' (which simply adds a signature to the log-message) seems unnecessary since the user is idendifiable via the git-user-name.
+\end{enumerate}
+
+
+
+\subsection{Moving and renaming files}
+\label{sec:GitMovingfiles}
+
+Git can detect automatically whether files are largely similar in content; explicit moving files (which includes renaming) can also be done:
+\begin{enumerate}
+\item Use \texttt{git mv source destination} to move single files as well as whole directories.
+\item The commit is performed by \texttt{git commit} (so except of the move nothing else should be staged (since the commit message concerns all what is staged)).
+\item Also with \texttt{git-gui} the commit will automatically work.
+\item However, all what is done is that the old file is no longer in the repository, while the new file is in the repository, with empty history except of the mv-information --- the old file is still in the history, while the new file has no history.
+\item \texttt{git mv file new\_file} is equivalent to
+\begin{verbatim}
+mv file new_file
+git rm file
+git add new_file
+\end{verbatim}
+  Now for the commit the removal and the addition are staged, which git automatically combines into a renaming.
+\item Broken history chains can be fixed by \texttt{git log -p --follow old\_file}, which allows to show the whole history, following renamings.
+\end{enumerate}
+
+
+
+\subsection{Viewing history}
+\label{sec:GitViewinghistory}
+
+A nice tool is \name{gitk}, either called without arguments (via \texttt{gitk \&}), showing then the history of the whole repository, or with a path argument, showing then only the path-relevant history (before the path(s) a separating double-hyphen ``--'' should be placed, since otherwise \name{gitk} does not know what to do with paths which do not corresponding to files in the current index (anymore)). 
+
+\name{gitk} can be called also from \texttt{git-gui} (menu-point ``Repository'', one of the visualisation-entries there); from \texttt{git-gui} under ``Repository:Browse Master'' also the functionality of \texttt{git-blame} is made available with clickable content (\texttt{git blame file} annotates every line of the file with its last change-commit).
+
+If you want to see the history since version 0.1.5 of Transitional, use \texttt{gitk Transitional\_0.1.5}. 
+
+
+
+
+\subsection{Submitting commits to the central repository}
+\label{sec:GitSubmittingchanges}
+
+For submitting a change to the central repository, perform the following steps (this is the procedure for a core developer, submitting to the central \OKlibrary-repository from a direct clone of it --- however, the same applies accordingly for any other repository from where you want to submit (but see below for the preference of ``pull'' over ``push'')):
+\begin{enumerate}
+\item With \texttt{git pull} update the repository.
+\item Check via \texttt{git status} that all files are checked-in (otherwise what you submit might be different from what you think, and thus broken --- the tests use all files available, also those not submitted).
+\item Run all tests (currently \texttt{make all check new\_check html}) --- only if no error occurs can something be submitted!
+\item Since the tests may take a while, check again with \texttt{git pull} whether meanwhile a new commit happened, and repeat the tests.
+\item Otherwise perform \texttt{git pull} to submit your changes, and check the e-mail-notification.
+\end{enumerate}
+
+Essential here that a push to the central repository happens only once the new (future) state of the central repository has been fully tested on the local clone (and found without error).
+
+Usage of \texttt{git push} is fine when pushing to bare repositories (not populated), however when you want to submit a change from clone \texttt{A} to a populated clone \texttt{B}, then better use \texttt{git pull Path\_to\_A} from inside \texttt{B}, since then also the new files are checked out (which does not happen when using \texttt{push}), and also a nice little submission-report is created.
+
+
+
+
+\subsection{Special events}
+\label{sec:GitSpecialevents}
+
+
+\subsubsection{New version numbers for modules (or parts)}
+\label{sec:GitSpecialeventsTransitionsmodules}
+
+When setting the new version number in the \filename{XXX/plans/milestones.hpp}-file, then use the standardised log-message
+\begin{verbatim}
+*** New version ?.?.? (Module) ***
+\end{verbatim}
+where ``Module'' is the name of the module. In case the milestone-files has been newly created, and the version number is the initial version number, use
+\begin{verbatim}
+*** Initial version ?.?.? (Module) ***
+\end{verbatim}
+In case of a module directly below the ground level \filename{Transitional}, use ``part'' in both cases instead of ``module''.
+
+
+
+
+\subsubsection{New version number for the library}
+\label{sec:GitSpecialeventsNewversionlibrary}
+
+When setting the new version number in the \filename{Transitional/plans/milestones.hpp}-file, then use the standardised log-message
+\begin{verbatim}
+*** New version Transitional (MILESTONE HEADING) ***
+\end{verbatim}
+where ``MILESTONE HEADING'' is to be replaced by the theme of the milestone. And set a tag
+\begin{verbatim}
+git tag Transitional_?.?.?
+\end{verbatim}
+showing the new version number (immediately after the above commit of the new version number, since the tag belongs to the last commit). Pushs and pulls related to this commit (which shall transfer also this ``leightweight tag'') must use the forms
+\begin{verbatim}
+git pull --tag
+git push --tag
+\end{verbatim}
+
+
+
+
+
+
+
+\subsection{Maintenance}
+\label{sec:GitMaintenance}
+
+Every few days perform the following (assuming that \texttt{git status} doesn't show anything uncommited):
+\begin{enumerate}
+\item Run \texttt{git gc} for cleanup.
+\item Run \texttt{git fsck --full --strict --unreachable}  for validity checking.
+\item If the check reveals ``dangling blobs'' etc., then via \texttt{git show BLOB-SHA} (where ``BLOB-SHA'' is the identification number of the blob (or any other object)) you can inspect that dangling thing: It might result for example when a file was staged for commit, changed but not restaged, the staged file (before the change) was committed, and then, after detecting the change, again the file was commited. Decide what to do (in the case just mentioned ignore it), and then, taking care of that nobody else accesses the repository now (otherwise the repository might get damaged), run \texttt{git gc --prune} (which will remove the dangling objects).
+\end{enumerate}
+
+
+
+\subsection{History surgery}
+\label{sec:GitHistorysurgery}
+
+\texttt{git-filter-branch} replaces \texttt{cg-admin-rewritehis}, and allows to create new branches (repositories) by applying filters (and adaptors).
+
+History-surgery is only an option as long as there are no public clones out.
+
+
+
+
+\subsection{Experimentation}
+\label{sec:GitExperimentation}
+
+Often one needs to try out how Git works. To create a repository, just perform \texttt{git init} inside a directory which shall become the repository: A \filename{.git}-subdirectory is created, initially the directory is empty, and one can start doing things.\footnote{For Git every repository just lives on its own, just the directory with \filename{.git} in it, and that's it --- deleting the directory will delete the repository, and no trace remains, except in case clones have been created, which are ``created equal'' and have their own lives (but know about the ``mother-clone'').}
+
+By the way, running \texttt{git init} in an existing repository will just update ``templates'', that is, potentially add new (commented-out) exclusion-patterns to file \filename{.git/info/exclude}, and add new (execution-disabled) scripts to the hook-directory \filename{.git/hooks}.
+
+
+
+\part{Deprecated texts}
+\label{par:Deprecatedtexts}
+
+Texts to be removed (after appropriate processing).
+
+
+\chapter{Tony's Final Report}
+\label{cha:finalreport}
+
+\section{SSH Trusted Hosts Setup}
+\label{sec:finalreportssh}
+
+The following method make use of public key/private key system to establish a trusted connection between two computers via ssh. Once the trust is build, you are no longer needed to type in a password everytime you execuate a ssh or scp command between these two computers.  
+
+On the local machine run the following command:
+
+\verb!User@LocalMachine:>ssh-keygen -t rsa!
+
+You will be propmted for a location to store the generated key, accept the default. When asked for a passphrase, leave it empty. The phrase `rsa' in the command is the encryption method which can be replace by `dsa' (Both supported by SSH)
+
+The program generates two files
+
+\begin{enumerate}
+\item \verb@~/.ssh/id_rsa@ is the private key which should NEVER be disclosed to anyone. Leave it in the default place is fine.
+\item \verb@~/.ssh/id_rsa.pub@ is the public key which is need on remote computers you wish to build the trust.
+\end{enumerate}
+
+On the remote machine, in the directory \verb@~/.ssh/@, there need to exist a file named `authorized\_keys' which contains all  
+public keys from trusted computers. The public key we just generated must then be appended to this file. The simplest way to do this is execuate the following commands on the local machine.
+
+\begin{verbatim}
+User@LocalMachine:>scp ~/.ssh/id_rsa.pub User@RemoteMachine:.ssh/temp
+User@LocalMachine:>ssh User@RemoteMachine 'touch ~/.ssh/authorized_keys'
+User@LocalMachine:>ssh User@RemoteMachine 'cat ~/.ssh/temp >> ~/.ssh/authorized_keys'
+User@LocalMachine:>ssh User@RemoteMachine 'rm -f ~/.ssh/temp'
+\end{verbatim}
+
+You will still need to type in password for the first three command. If we are successful, the last command will be execuated without the need of a password.
+
+Once finished, you can use `ssh' to run command on remote machine or use `scp' to copy files from local machine to the remote one without providing a password. This is especially useful when scripting between the two machines or using `ssh' as CVS access method while the repository is located on the remote machine.
+
+The pair of keys only need to be generated once. To setup more trusted remote machines, just repeat the above four commands. This trust is one way. The remote machine trusts the local one to run commands via ssh on it but not vice versa. Hence if one wants a two way trust, the same process must be repeated on the remote machine which one now consider as local.       
+
+\section{Time Prediction Formulas}
+\label{sec:finalreportprediction}
+
+The following formulas were used for time prediction of the threshold experiments.
+
+Node count for $\mathcal{USAT}$ formulas.
+
+\begin{displaymath}
+nds.usat := 2^{(-0.95 + (0.0077 \cdot n) - (60 \cdot d^{-2}) + (0.72 \cdot n \cdot d^{-2}) + (21 \cdot d^{-1})}
+\end{displaymath}
+
+Node count for $\mathcal{SAT}$ formulas.
+
+\begin{displaymath}
+nds.sat := 0.25215 \cdot nds.usat + 686.52981
+\end{displaymath}
+
+Time Prediction for $\mathcal{USAT}$ formulas.
+
+\begin{displaymath}
+t.usat := -1.443 + 0.0000005997 \cdot (\frac{d \cdot n \cdot nds.usat}{bogomips}) + 0.000439 \cdot nds.usat
+\end{displaymath}
+
+Time Prediction for $\mathcal{SAT}$ formulas.
+
+\begin{displaymath}
+t.sat := -1.443 + 0.0000005997 \cdot (\frac{d \cdot n \cdot nds.sat}{bogomips}) + 0.000439 \cdot nds.sat
+\end{displaymath}
+
+
+
+
+\chapter{Computing systems}
+\label{cha:computing}
+
+The following are short descriptions of the computing systems used in the project.
+ 
+\section{The Linux Lab}
+\label{sec:computinglinux}
+
+The linux lab consists of a total of 29 computers running SUSE Linux version 9.1. Most machines have Intel Pentium 4 CPU with clock speed of 2.80GHz.  
+
+\section{The Departmental Cluster}
+\label{sec:computingcluster}
+
+This is a 64 nodes Linux cluster system supplied by Workstation UK. All nodes are running Redhat Linux operating system with MPI support for parallel processing. The cluster uses a central file server for storage. To access an individual node, one must first ssh to the master node (node00) with \verb@ssh cswarm.swan.ac.uk@ and then ssh again to the other nodes (node01 - node63).
+
+All nodes are dual processor machines (Two Intel Xeon CPU at 2.66GHz) with 2GB of shared memory per node.      
+    
+\section{The Server}
+\label{sec:computingserver}
+
+The single node 1U Linux server (cs-oksvr.swan.ac.uk) is supplied by Fujitsu Siemens. The server runs SUSE Linux 9.2. It's a 64bit dual processor machine equiped with two AMD Opteron Processor type 250 with clock speed of 2.4GHz. The two CPUs share a total of 8GB of PC3200 type memory. The server consists of 4 Ultra320 SCSI harddisks (147GB each) configured with a internal RAID 5 PCI Controller. 
+
+
+
+
+
+
+\chapter{CVS}
+\label{cha:cvs}
+
+\section{Repository Setup} 
+\label{sec:cvsrepositorysetup}
+ 
+\texttt{OKplatform} make uses of two CVS repositories on the central server where we use ssh as the Client/Server access method.
+
+The repository \OKsystem{} contains the module \OKlibrary which is always in a clean state and ready to be released. The other repository \texttt{OKdevelopment} contains the modules \texttt{Annotations} and \texttt{Transitional}. \texttt{Annotations} holds the internal documentation regarding the entire \texttt{OKplatform}. \texttt{Transitional} holds all library components that are currently still under development. When these components are ready, they will be transferred to \OKlibrary.
+
+The repositories are located in \verb@cs-oksvr:/work/Repositories/@
+
+\section{Environment Variables}
+\label{sec:environmentvariables}
+
+{CVS\_RSH} must be set to specify Client/Server access method. This variable should be set to ``ssh''.
+
+{CVSUMASK} is set to govern the permissions of files and directories storied in the repository. When accessing the repository using ssh, CVS make use of the interactive shell resource file, hence this variable should be set in .bashrc (interactive shell) not in .profile (login shell). On SuSE linux system, the login shell also sources .bashrc so all setting to environment should be written in .bashrc (with the exception of languages which should go in the login shell). Setting this variable to 0007 to give full access to the owner and members of the group.
+
+\section{Repository Access}
+\label{sec:cvsrepositiryaccess}
+
+CVS doesn't have any specific control over the file permissions on the repository. Instead, it relies on the operating system to take care all the related issues.
+
+The repositories are created with a special system user and a special group. The details are as follows: 
+
+\begin{itemize}
+\item CVS User Name : csoksc (3909)
+\item CVS User Group : ok-scgrp (4001)
+\end{itemize} 
+
+This special user has neither home directory nor login permission. Only members of this special group are granted access to the repositories. The group sticky bit is set on both repositories so that all files stored in them automatically belong to this group. 
+
+Since the repository is located on a remote server and ssh is used to be the access method, one should use the following command to specify the location of the repository. 
+
+\begin{verbatim}
+cvs -d :ext:[User Name]@cs-oksvr:/work/Repositories/[Repository Name]
+\end{verbatim} 
+
+\section{E-mail notification}
+\label{sec:cvstipsandtricks}
+
+OKplatfrom uses an e-mail notification system for the repositories. When a user commits files to the repository, the system will send out e-mails containing the details of the commitment to all users on the predefined mailing list.
+
+With in each repository, inside the directory ``CVSROOT'' is a file called ``loginfo''. The following two lines are appended to the end of this file to setup the e-mail notification system:
+\begin{verbatim}
+# CVS notifications to all users on commit
+ALL (echo ""; echo %{sVv}; date; cat) | mutt -s "OKlibrary CVS Commit 
+-- $USER" O.Kullmann@Swansea.ac.uk T.H.Bao@Swansea.ac.uk
+\end{verbatim} 
+
+The first line starting with `\#' is a comment line. The next line is divided into two parts. The first part is the regular expression that matches the modules residing in the repository. Use `ALL' to match everything in the repository. The second part is the command to execute when a commitment occurs. In our system, an e-mail containing the details of the commitment will be send out to the listed e-mail addresses.
+
+
+
+
+%------------------------------------------------------------------------
+
+\bibliographystyle{plain}
+
+\BibliographyOKlibrary
+
+\end{document} 
