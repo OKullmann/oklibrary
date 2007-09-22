@@ -10,6 +10,7 @@ License, or any later version. */
 
   \module_version Combinatorics/Hypergraphs/Transversals 0.0.4 (10.6.2007)
 
+
   \par Version 0.0.5 :
 
   \par
@@ -22,6 +23,22 @@ License, or any later version. */
    following topics are handled:
     - Concepts
     - %Implementation
+
+
+  \par Version 0.0.6 :
+
+  \par
+   In Hypergraphs/Transversals/plans/SizeParameter.hpp the
+   following topics are handled:
+    - Trivial algorithm for input G, k
+
+
+  \par Version 0.0.7 :
+
+  \par
+   In Hypergraphs/Transversals/plans/ExactTransversals.hpp the
+   following topics are handled:
+    - The basic algorithm
 
   \par
    Create new milestones.
