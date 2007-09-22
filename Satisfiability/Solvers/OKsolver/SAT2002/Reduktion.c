@@ -8,20 +8,15 @@ License, or any later version. */
 /*!
   \file OKsolver/SAT2002/Reduktion.c
   \brief The standard reduction process
+
+  Main functions:
+  <ul>
+   <li> Reduktion1 eliminates failed literals in F
+   (that is, transfers F into r_2(F)). </li>
+   <li> Reduktion1 eliminates pure literals in F
+   (that is, computes the lean kernel w.r.t. pure autarkies). </li>
+  </ul>
 */
-
-                       /* OKsolver; 5.3.1998 */
-
-/* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
-/* ab Februar 1999: University of Toronto, Computer Science Department */
-
-/* Einheit: Reduktion */
-
-/* Das "Reduktionsmodul" */
-
-
-/* 1.11.1998 */
-
 
 /* 4.5.1999 Zum Aufbau: */
 
@@ -32,7 +27,7 @@ License, or any later version. */
 /* auf. */
 
 /* belege_Huelle ruft belege auf (und, falls BAUMRES gesetzt ist, belege_VK fuer */
-/* nicht-Verzweigungsvariablen. */
+/* nicht-Verzweigungsvariablen). */
 
 /* La_Huelle ruft La_Belege fuer die einzelnen Elemente der Huelle. */
 
@@ -101,6 +96,9 @@ __inline__ static void neue1Klausel(LIT x, KLN kn)
     }
 }
 
+/*!
+  \brief Apply x -> 0 in the look-ahead way (register unit-clauses found).
+*/
 
 __inline__ static bool La_belege( LIT x )
 
@@ -187,6 +185,10 @@ __inline__ static bool La_belege( LIT x )
 }
 
 
+/*!
+  \brief Apply x -> 0 and subsequent unit-clause-propagation in the
+  look-ahead way.
+*/
 
 __inline__ static bool La_Huelle(LIT x)
 
@@ -264,6 +266,10 @@ __inline__ static bool La_Huelle(LIT x)
   return true;
 }
 
+/*!
+  \brief Apply the assignment x -> 0 (using the special information
+  given by the reduction context).
+*/
 
 __inline__ static void belegeRed(LIT x)
 
@@ -342,6 +348,9 @@ __inline__ static void belege_VKRed(LIT x, KLN K)
 
 #endif
 
+/*!
+  \brief Apply the whole assignment (the case of a succesful reduction).
+*/
 
 __inline__ static bool belege_Huelle( void )
 
@@ -384,6 +393,10 @@ __inline__ static bool belege_Huelle( void )
 
 
 /* -------------------------------------------------------------------------------------- */
+
+/*!
+  \brief Compute unit-clause-propagation in the look-ahead way after x -> 0.
+*/
 
 void berechne_Huelle(LIT x) {
   /* berechnet die Huelle von x und schreibt die Ergebnisse nach H */
@@ -479,6 +492,19 @@ void *ReduktionsV(void *Z)
 
 /* -------------------------------------------------------------------------------------- */
 
+/*!
+  \brief Complete reduction by (iterated) failed literal reduction
+
+  Meaning of return values:
+  <ol>
+   <li> 1 means r_2(F) yields the empty clause-set (a forced satisfying
+   assignment) </li>
+   <li> 2 means r_2(F) yields the empty clause (F is unsatisfiable) </li>
+   <li> Otherwise 0 is returned. </li>
+  </ol>
+
+  \todo It should be unsigned char.
+*/
 
 __inline__ char Reduktion1( void ) {
 
@@ -594,6 +620,17 @@ __inline__ char Reduktion1( void ) {
 
 /* -------------------------------------------------------------------------------------- */
 
+/*!
+  \brief Elimination of pure literals
+
+  Meaning of the return value:
+  <ol>
+   <li> 1 means the formula was satisfied by a pure autarky. </li>
+   <li> Otherwise 0 is returned. </li>
+  </ol>
+
+  \todo It should be unsigned char.
+*/
 
 __inline__ char Reduktion2( void )
 
@@ -604,55 +641,39 @@ __inline__ char Reduktion2( void )
 
 {
   unsigned int dn = 0;
-  bool r;
-  LIT l, kl;
-  unsigned int i;
-  VAR v;
 
-  for (i = 0; i <= aktP; i++)
-    DK[i] = 0;
+  for (unsigned int i = 0; i <= aktP; ++i) DK[i] = 0;
 
-  do
-  {
+  for (bool r = true; r;) {
     r = false;
 
-    for (v = ersteVar(); echteVar(v); v = naechsteVar(v))
-    {
-      l = Literal(v,Pos); kl = Literal(v,Neg);
+    for (VAR v = ersteVar(); echteVar(v); v = naechsteVar(v)) {
+      LIT l = Literal(v,Pos); LIT kl = Literal(v,Neg);
 
-      if (! echtesVork(erstesVork(l), l))
-      {
+      if (! echtesVork(erstesVork(l), l)) {
 #ifdef LOKALLERNEN
 	eintragenTiefe();
 #endif
-        belegeRed(l); dn++;
-        r = true; PureL++;
+        belegeRed(l); ++dn;
+        r = true; ++PureL;
       }
-      else if (! echtesVork(erstesVork(kl), kl))
-      {
+      else if (! echtesVork(erstesVork(kl), kl)) {
 #ifdef LOKALLERNEN
 	eintragenTiefe();
 #endif
-        belegeRed(kl); dn++;
-        r = true; PureL++;
+        belegeRed(kl); ++dn;
+        r = true; ++PureL;
       }
     }
   }
-  while (r);
 
-  if (dn == 0)
-    return 0;
+  if (dn == 0) return 0;
 
-  for (i = aktP; i >= 2; i--)
-    aktAnzK[i] -= DK[i];
+  for (unsigned int i = aktP; i >= 2; --i) aktAnzK[i] -= DK[i];
 
-  for (i = aktP; i >= 2; i--)
-    if (aktAnzK[i] != 0)
-      break;
-
-  if (i == 1)
-    return 1;
-
+  unsigned int i;
+  for (i = aktP; i >= 2; --i) if (aktAnzK[i] != 0) break;
+  if (i == 1) return 1;
   aktP = i;
   aktN -= dn;
 
