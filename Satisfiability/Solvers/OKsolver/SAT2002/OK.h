@@ -276,13 +276,12 @@ extern const bool internal;
 # ifdef OUTPUTTREEDATAXML
 #  error "Currently combination of computing all solutions with tree data output is not possible."
 # endif
-# define NSAT_BITS 64
-# include <stdint.h>
-# define NSAT_TYPE(N) uint_fast ## N ## _t
-# define I_NSAT_TYPE(N) NSAT_TYPE(N)
- typedef I_NSAT_TYPE(NSAT_BITS) nsat_t;
+#include <stdio.h>
+#include <gmp.h>
+ //! integer type for counting satisfying assignments
+ typedef mpz_t nsat_t;
+ //! global variable for counting satisfying assignments
  extern nsat_t number_satisfying_assignments;
- extern bool found_satisfying_assignment;
 #endif
 
 
