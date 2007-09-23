@@ -84,10 +84,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo Plans on license installation
+  \todo Plans on license installation : DONE
   <ul>
    <li> Every file gets a short version as header, with copyright statement
    and reference to the main text. </li>
+   <li> However, html-files perhaps better don't get a licence statement. </li>
    <li> When external developers check in new files, then those must have the OK-copyright
    etc. clause (otherwise the submission is rejected). </li>
    <li> The head of every file would look like as follows:
@@ -130,12 +131,13 @@ s/>.
   </ul>
 
 
-  \todo Licence installation
+  \todo Licence installation : DONE
   <ul>
    <li> First, we should make all non-data files conform to the standard,
    that the first line shows the file-creator and file-creation-date:
     <ol>
-     <li> Next make-files. </li>
+     <li> Computer-algebra programs : DONE </li>
+     <li> Next make-files : DONE </li>
      <li> DONE
      The script-files (with first line starting with "#!").
      \verbatim
@@ -167,9 +169,10 @@ Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${
      \endverbatim
      </li>
     </ol>
-   <li> In one go, every files gets the licence statement.
+   <li> DONE In one go, every files gets the licence statement.
     <ol>
-     <li> Next the make-files. </li>
+     <li> Computer-algebra programs : DONE </li>
+     <li> Next the make-files : DONE </li>
      <li> DONE
      Now the script-files (with first line starting with "#!"):
      \verbatim

@@ -15,14 +15,14 @@ License, or any later version. */
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Plans on license installation
+    - Plans on license installation : DONE
 
 
   \par Version 0.0.5
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Licence installation
+    - Licence installation : DONE
 
 
   \par Version 0.0.6
