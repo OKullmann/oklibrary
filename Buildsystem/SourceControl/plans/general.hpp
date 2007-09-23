@@ -398,6 +398,7 @@ git mv file1 file2 dir1 dir2 Annotations
      (from now on always "git gc --aggressive" performed
      before measurement) </li>
      <li> 16.9.2007; 5.8 MB; Transitional total: 18.6 MB </li>
+     <li> 23.9.2007; 6.0 MB; Transitional total: 19.2 MB </li>
     </ol>
    </li>
   </ul>
