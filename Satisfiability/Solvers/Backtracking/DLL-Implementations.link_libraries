@@ -1,0 +1,1 @@
+echo ${lib_dir}/Kommandozeile.o ${lib_dir}/DLL_Algorithms.o
