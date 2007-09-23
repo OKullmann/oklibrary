@@ -11,7 +11,10 @@ License, or any later version. */
 
   <h1> Make targets </h1>
 
+
   <h2> Applications </h2>
+
+  The compilation-targets apply to the current directory and everything below.
 
   <table>
    <tr>
@@ -30,6 +33,8 @@ License, or any later version. */
 
 
   <h2> %Test system </h2>
+
+  The test-targets apply to the current directory and everything below.
 
   <h3> The old test system (deprecated) </h3>
 
@@ -75,29 +80,29 @@ License, or any later version. */
   </table>
 
 
-  <h2> Documentation </h2>
+  <h2> Local documentation </h2>
+
+  The following targets are independent from the calling-directory.
 
   <table>
    <tr>
     <td> <code> doxygen_documentation </code> </td>
-    <td> Creates the complete doxygen-documentation (wherever called). </td>
+    <td> Creates the complete doxygen-documentation. </td>
    </tr>
    <tr>
     <td> <code> documentation_index </code> </td>
-    <td> Creates local html index pages (wherever called). </td>
+    <td> Creates local html index pages. </td>
    </tr>
    <tr>
     <td> <code> html </code> </td>
-    <td> Calls <code>doxygen_documentation</code> and <code>documentation_index</code> (wherever called). </td>
-   </tr>
-   <tr>
-    <td> <code> internet </code> </td>
-    <td> Creates the Internet pages (wherever called). </td>
+    <td> Calls <code>doxygen_documentation</code> and <code>documentation_index</code>. </td>
    </tr>
   </table>
 
 
   <h2> Cleaning </h2>
+
+  The cleaning-targets apply to the current directory and everything below.
 
   <h3> Regarding the old test system </h3>
 
@@ -259,6 +264,50 @@ log_file = $(test_aux_dir)/Log
    Finally for each stream the language can be set by <code>error_lang</code>,
    <code>message_lang</code> and <code>log_lang</code>; the default value is
    <code>en_GB</code>. </p>
+
+
+  <h1> Internet pages </h1>
+
+  The following targets are independent from the calling-directory.
+
+  <table>
+   <tr>
+    <td> <code> internet_local </code> </td>
+    <td> Creates the (movable) Internet web pages first under the local doc-directory. </td>
+   </tr>
+   <tr>
+    <td> <code> internet_global </code> </td>
+    <td> Moves the Internet-web-pages-directory from the local place to the "global" place. </td>
+   </tr>
+   <tr>
+    <td> <code> internet_packages </code> </td>
+    <td> Moves the content of the (local) packages-directory to their "global" place. </td>
+   </tr>
+   <tr>
+    <td> <code> internet </code> </td>
+    <td> Calls <code>internet_local</code>, <code>internet_global</code> and <code>internet_packages</code>. </td>
+   </tr>
+  </table>
+
+  Remarks:
+  <ol>
+   <li> For the Internet web pages a version of the local documentation is created from scratch,
+   with appropriate movable url's. </li>
+   <li> The local directory with the (movable) Internet pages is "internet_html_dir" = <code>$(internet_html_dir)</code>. </li>
+   <li> The directory providing the "global" place is "internet_dir" = <code>$(internet_dir)</code>. This variable is to be set in the configuration-override file. </li>
+   <li> The local packages-directory is "packages_dir" = <code>$(packages_dir)</code>, the "global" packages-directory is "internet_dir/packages". </li>
+   <li> When testing the internet pages and their creation with a local web server, one can
+   proceed as follows, using the Apache web server and testing the central ok-library-web-page:
+    <ol>
+     <li> The default directory for placing web pages is <code>/usr/local/apache2/htdocs</code>. </li>
+     <li> In this directory root creates the directory <code>ok-sat-library</code>, with
+     group-ownership "users" and group-writable, but not accessible, readable or writable for "others". </li>
+     <li> Now after running <code>oklib internet</code> (of course as a normal user) we get the
+     Internet home page at "http://localhost/ok-sat-library/internet_html/index.html". </li>
+     <li> The packages need to be created before (by <code>oklib --create-packages</code>). </li>
+    </ol>
+   </li>
+  </ol>
 
 
   \todo Complete the information on customisation.
