@@ -19,21 +19,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Renaming:
-  According to the general scheme, where all "genuine" files/directories
-  carry capitalised names, the following files shall be renamed:
-  <ul>
-   <li> Buildsystem/makefile -> Buildsystem/Makefile DONE </li>
-   <li> Buildsystem/recursive.mak -> Buildsystem/Recursive.mak DONE </li>
-   <li> Buildsystem/setup.mak -> Buildsystem/SetUp.mak DONE </li>
-   <li> Buildsystem/system_definitions.mak -> Buildsystem/System_definitions.mak DONE (file and
-   topic moved to Configuration) </li>
-   <li> Buildsystem/generic.mak -> Buildsystem/Generic.mak DONE (topic moved
-   to Buildsystem/OKlibBuilding/plans/general.hpp) </li>
-   <li> Buildsystem/plans/generic.hpp -> Buildsystem/plans/Generic.hpp DONE (new naming scheme) </li>
-  </ul>
-
-
   \todo Further renamings:
   <ul>
    <li> Buildsystem/recursive_noneincluded.mak -> Buildsystem/Recursive_noneincluded.mak (perhaps also name should change) </li>

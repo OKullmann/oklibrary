@@ -8,33 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.6.7 (23.9.2007)
-
-
-  \par Version 0.2 : THEME is "AVAILABILITY"
-
-  \par Buildsystem/Html version 0.0.6 : DONE
-  (see Buildsystem/Html/plans/milestones.hpp)
-
-  \par Buildsystem/ReleaseProcess 0.0.5 : DONE
-  (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
-  
-  \par Buildsystem/ExternalSources version 0.1.1 : DONE
-  (see Buildsystem/ExternalSources/plans/milestones.hpp)
-
-  \par Buildsystem/OKlibBuilding 0.2.1 : DONE
-  (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
-
-  \par Buildsystem/SourceControl 0.2.1 : DONE
-  (see Buildsystem/SourceControl/plans/milestones.hpp)
-
-  \par Buildsystem/MasterScript version 0.0.4 : DONE
-  (see Buildsystem/MasterScript/plans/milestones.hpp)
-
-  \par
-   In Buildsystem/plans/general.hpp the following topics are handled:
-    - Renaming : DONE
-    - system_definitions.mak : DONE (moved to Buildsystem/Configuration/plans/milestones.hpp)
+  \module_version Buildsystem 0.2.0.0 (23.9.2007)
 
 
   \par Version 0.2.1 : THEME is "PROTO-RELEASE"
@@ -150,6 +124,7 @@ License, or any later version. */
    - 0.1.4 : 8.2.2007; steps towards a specified and testable buildsystem. Further documentation of generic.mak; corrections to makefile plans files suffixes; corrections to system-wide variable definitions.
    - 0.1.5 : 31.3.2007; further steps towards a specified and testable buildsystem; started documenting generic.mak in the doxygen-system. Further improvements in the general structure of the documentation-pages.
    - 0.1.6 : 24.6.2007; transition from CVS to Git and investigations into usage of Git, building and using Boost version 1_34_0, building gcc-4.2.0, building CMake and started planning a transition, investigations into mailing lists and the upcoming proto-release in general, overhaul of Buildsystem/plans, planning on configuration, planning on the web pages, doxygen-usage improvements, improvements of generic.mak, started creating user-documentation for the build-system, improved build of Ubcsat and Mhash, streamlining of building of external sources.
+   - 0.2  : 23.9.2007; established basic html services, locally and on the Internet, established basic package-building, improved information on external sources (with improved and extended builds), restructured make-files and improved overall documentation, introduced the new masterscript "oklib", and used and extended the configuration system throughout.
 
 */
 

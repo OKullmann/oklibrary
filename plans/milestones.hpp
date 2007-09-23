@@ -25,7 +25,7 @@ License, or any later version. */
 
   \section VersionTransitional020 0.2 : Theme "PROTO-RELEASE"
   TO BE REACHED $(deadline_020)
-  \par Buildsystem version 0.2 (OK, MH)
+  \par Buildsystem version 0.2 (OK, MH) : DONE
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.0.5 : DONE
   (see LegalIssues/plans/milestones.hpp)
