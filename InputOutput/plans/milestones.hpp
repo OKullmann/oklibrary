@@ -10,29 +10,48 @@ License, or any later version. */
 
   \module_version InputOutput 0.0.7 (7.11.2006)
 
+
   \par Version 0.0.8 :
-  In InputOutput/plans/InputOutput.hpp the following topics are handled:
-  - Update
+
+  \par
+   In InputOutput/plans/general.hpp the following topics are handled:
+    - Move to Satisfiability/Interfaces
+
+
+  \par Version 0.0.9 :
+
+  \par
+   In InputOutput/plans/general.hpp the following topics are handled:
+    - Update
 
   And further milestones are created.
 
-  \par Version 0.0.9 :
-  In InputOutput/plans/InputOutput.hpp the following topics are handled:
-  - Move to the new test system
 
   \par Version 0.0.10 :
-  In InputOutput/plans/InputOutput.hpp the following topics are handled:
-  - Complete the tests
+
+  \par
+   In InputOutput/plans/general.hpp the following topics are handled:
+    - Move to the new test system
+
+
+  \par Version 0.0.11 :
+
+  \par
+   In InputOutput/plans/general.hpp the following topics are handled:
+    - Complete the tests
+
 
   \par Version 0.1 :
-  In InputOutput/plans/InputOutput.hpp the following topics are handled:
-  - Complete the functionality
+
+  \par
+   In InputOutput/plans/general.hpp the following topics are handled:
+    - Complete the functionality
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
 
-   -  0.0.7 : 7.11.2006; initial version number (several implementations).
+   - 0.0.7 : 7.11.2006; initial version number (several implementations).
 
 */
 

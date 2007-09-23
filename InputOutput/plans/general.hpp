@@ -6,8 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/InputOutput/plans/InputOutput.hpp
+  \file Transitional/InputOutput/plans/general.hpp
   \brief Plans for the module on SAT-related input/output.
+
+
+  \todo Move to Satisfiability/Interfaces.
 
 
   \todo Update:

@@ -54,6 +54,8 @@ License, or any later version. */
   TO BE REACHED $(deadline_021)
   \par LegalIssues version 0.1
   (see LegalIssues/plans/milestones.hpp)
+  \par InputOutput version 0.0.8 (OK)
+  (see Transitional/InputOutput/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
