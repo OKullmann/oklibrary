@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Buildsystem/Html/plans/milestones.hpp
   
-  \module_version Buildsystem/Html 0.0.5.3 (23.9.2007)
+  \module_version Buildsystem/Html 0.0.5.4 (23.9.2007)
 
 
   \par Version 0.0.6
 
-  \par Buildsystem/Html/Internet version 0.0.4
+  \par Buildsystem/Html/Internet version 0.0.4 : DONE
   (see Buildsystem/Html/Internet/plans/milestones.hpp)
 
   \par Buildsystem/Html/Local version 0.1.1 : DONE
