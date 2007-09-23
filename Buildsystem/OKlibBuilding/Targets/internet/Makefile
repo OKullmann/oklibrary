@@ -10,7 +10,7 @@
 include $(OKconfiguration)/Html/include.mak
 export
 
-internet : internet_local internet_global
+internet : internet_local internet_global internet_packages
 
 internet_local : $(internet_html_dir) 
 	env --ignore-environment PATH=$$PATH oklib doc_dir=$(internet_html_dir)/doc ExternalSources_doc=$(internet_html_dir)/doc/doc internet_home_page_output_dir=$(internet_html_dir) html internet_home_page
@@ -21,4 +21,7 @@ internet_home_page : $(internet_home_page_output_dir)
 
 internet_global :
 	cp -r --force $(internet_html_dir) $(internet_dir)
+
+internet_packages :
+	mv $(packages_dir)/* $(internet_dir)/packages
 
