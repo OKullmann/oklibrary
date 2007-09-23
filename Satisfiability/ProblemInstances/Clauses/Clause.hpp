@@ -5,17 +5,23 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// Clause.hpp
+/*!
+  \file ProblemInstances/Clauses/Clause.hpp
+  \brief Old, very simple implementation of boolean clauses.
+  \deprecated
+*/
 
-#ifndef WAECHTERCLAUSE
+#ifndef WAECHTERCLAUSE_5454Dsw
+#define WAECHTERCLAUSE_5454Dsw
+
 
 #include <set>
 #include <algorithm>
 // #include <limits> not yet in gcc (2.9.5)
 #include <climits> // instead of <limits>
 
-#include "VarSet.hpp"
-#include "Literal.hpp"
+#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
 
 namespace Clauses {
 
@@ -224,9 +230,4 @@ namespace Clauses {
 
 }
 
-
 #endif
-
-#define WAECHTERCLAUSE
-
-

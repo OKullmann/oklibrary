@@ -5,16 +5,21 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// PartAssign.hpp
+/*!
+  \file Satisfiability/Assignments/PartAssign.hpp
+  \brief Old, very simple implementation of partial boolean assignments.
+  \deprecated
+*/
 
-#ifndef WAECHTERPARTASSIGN
+#ifndef WAECHTERPARTASSIGN_9Yfvce67
+#define WAECHTERPARTASSIGN_9Yfvce67
 
 #include <map>
 
-#include "VarSet.hpp"
-#include "Literal.hpp"
-#include "Clause.hpp"
-#include "ClauseSet.hpp"
+#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
 
 namespace PartAssignments {
 
@@ -126,6 +131,3 @@ namespace PartAssignments {
 }
 
 #endif
-
-#define WAECHTERPARTASSIGN
-

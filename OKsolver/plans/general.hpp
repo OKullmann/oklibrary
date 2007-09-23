@@ -16,17 +16,17 @@ License, or any later version. */
     <ol>
      <li> AllgKlassen200102:
       <ul>
-       <li> AllgKlassen200102/VarSet.hpp goes to
+       <li> DONE AllgKlassen200102/VarSet.hpp goes to
        Satisfiability/ProblemInstances/Variables. </li>
-       <li> AllgKlassen200102/Literal.hpp goes to
+       <li> DONE AllgKlassen200102/Literal.hpp goes to
        Satisfiability/ProblemInstances/Literals. </li>
-       <li> AllgKlassen200102/Clause.hpp goes to
+       <li> DONE AllgKlassen200102/Clause.hpp goes to
        Satisfiability/ProblemInstances/Clauses. </li>
-       <li> AllgKlassen200102/ClauseSet.hpp goes to
+       <li> DONE AllgKlassen200102/ClauseSet.hpp goes to
        Satisfiability/ProblemInstances/ClauseSets. </li>
-       <li> AllgKlassen200102/PartAssign.hpp goes to
+       <li> DONE AllgKlassen200102/PartAssign.hpp goes to
        Satisfiability/Assignments. </li>
-       <li> AllgKlassen200102/DLL_Algorithms.hpp and
+       <li> DONE AllgKlassen200102/DLL_Algorithms.hpp and
        AllgKlassen200102/DLL_Algorithms.cpp go to
        Satisfiability/Algorithms/Backtracking. </li>
        <li> AllgKlassen200102/DLL-Implementations.cpp goes to

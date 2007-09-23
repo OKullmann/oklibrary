@@ -5,12 +5,16 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// Literal.hpp
+/*!
+  \file ProblemInstances/Literals/Literal.hpp
+  \brief Old, very simple implementation of boolean literals.
+  \deprecated
+*/
 
-#ifndef WAECHTERLITERAL
+#ifndef WAECHTERLITERAL_jYtre34
+#define WAECHTERLITERAL_jYtre34
 
-
-#include "VarSet.hpp"
+#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
 
 
 namespace Literals {
@@ -66,5 +70,3 @@ namespace Literals {
 }
 
 #endif
-
-#define WAECHTERLITERAL

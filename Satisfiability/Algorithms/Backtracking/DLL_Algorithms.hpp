@@ -5,18 +5,22 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// DLL_algorithms.hpp
+/*!
+  \file Satisfiability/Algorithms/Backtracking/DLL_algorithms.hpp
+  \brief Old, very simple interface for (boolean) DLL-SAT-algorithms
+  \deprecated
+*/
 
-#ifndef WAECHTERDLLALGORITHMS
+#ifndef WAECHTERDLLALGORITHMS_76TTr4
+#define WAECHTERDLLALGORITHMS_76TTr4
 
 #include <string>
 
-#include "VarSet.hpp"
-#include "Literal.hpp"
-#include "Clause.hpp"
-#include "ClauseSet.hpp"
-#include "PartAssign.hpp"
-
+#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
+#include <Transitional/Satisfiability/Assignments/PartAssign.hpp>
 
 namespace DLL_Algorithms {
 
@@ -40,6 +44,3 @@ namespace DLL_Algorithms {
 }
 
 #endif
-
-#define WAECHTERDLLALGORITHMS
-

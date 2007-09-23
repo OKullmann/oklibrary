@@ -5,9 +5,14 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// VarSet.hpp
+/*!
+  \file ProblemInstances/Variables/VarSet.hpp
+  \brief Old, very simple implementation of variables and sets of variables.
+  \deprecated
+*/
 
-#ifndef WAECHTERVARSET
+#ifndef WAECHTERVARSET_6dfer2q
+#define WAECHTERVARSET_6dfer2q
 
 #include <map>
 #include <string>
@@ -111,9 +116,4 @@ namespace Variables {
 
 }
 
-
-
 #endif
-
-#define WAECHTERVARSET
-

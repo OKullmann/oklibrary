@@ -5,17 +5,22 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// ClauseSet.hpp
+/*!
+  \file ProblemInstances/ClauseSets/ClauseSet.hpp
+  \brief Old, very simple implementation of boolean clause-sets.
+  \deprecated
+*/
 
-#ifndef WAECHTERCLAUSESET
+#ifndef WAECHTERCLAUSESET_hbew90
+#define WAECHTERCLAUSESET_hbew90
 
 #include <set>
 #include <numeric>
 #include <iostream>
 
-#include "VarSet.hpp"
-#include "Literal.hpp"
-#include "Clause.hpp"
+#include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
 
 namespace Clausesets {
 
@@ -200,7 +205,3 @@ namespace Clausesets {
 }
 
 #endif
-
-#define WAECHTERCLAUSESET
-
-
