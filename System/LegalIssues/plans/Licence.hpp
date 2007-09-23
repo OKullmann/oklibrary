@@ -84,92 +84,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Licence installation : DONE
-  <ul>
-   <li> First, we should make all non-data files conform to the standard,
-   that the first line shows the file-creator and file-creation-date:
-    <ol>
-     <li> Computer-algebra programs : DONE </li>
-     <li> Next make-files : DONE </li>
-     <li> DONE
-     The script-files (with first line starting with "#!").
-     \verbatim
-Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
-    -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
-  do
-    ${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/AddLicence2 ${F} "noop";
-  done
-     \endverbatim
-     </li>
-     <li> DONE .c-files:
-     \verbatim
-Transitional> for F in $(find * -name "*.c"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
-     \endverbatim
-     </li>
-     <li> DONE .cpp-files:
-     \verbatim
-Transitional> for F in $(find * -name "*.cpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
-     \endverbatim
-     </li>
-     <li> DONE .h-files:
-     \verbatim
-Transitional> for F in $(find * -name "*.h"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
-     \endverbatim
-     </li>
-     <li> DONE .hpp-files: Extraction with
-     \verbatim
-Transitional> for F in $(find * -name "*.hpp"); do Z=$(head -1 ${F}); if [[ ! ${Z} =~ "// *" ]]; then echo ${F}; fi; done
-     \endverbatim
-     </li>
-    </ol>
-   <li> DONE In one go, every files gets the licence statement.
-    <ol>
-     <li> Computer-algebra programs : DONE </li>
-     <li> Next the make-files : DONE </li>
-     <li> DONE
-     Now the script-files (with first line starting with "#!"):
-     \verbatim
-Transitional> for F in $(find * -type f -and -not -type l -and -not -name "*~" -and -not -name "*.c" \
-    -and -not -name "*.cpp" -and -not -name "*.h" -and -not -name "*.hpp")
-  do
-    ${OKPLATFORM}/OKsystem/Transitional/System/LegalIssues/AddLicence2 ${F} "override";
-  done > Ausnahmen
-     \endverbatim
-     </li>
-     <li> DONE
-     First the C/C++-like files.
-     \verbatim
-Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" -or -name "*.c"); do System/LegalIssues/AddLicence1 ${F}; done
-     \endverbatim
-     </li>
-    </ol>
-   </li>
-   <li> DONE (we use different tools for the different insertion cases;
-   AddLicence1 is now ready to handle C/C++-like files)
-   Can we write a little tool?
-    <ol>
-     <li> The simple shell scripts "AddLicense1/2", which take
-     the first 1/2 lines, then insert the licence header, and
-     then add the rest of the file, need more intelligence. </li>
-     <li> First, whether 1 or 2 lines are taken at the beginning, should
-     be automatically detected: 2 lines only if we find "#!/bin/bash"
-     in the first line. </li>
-     <li> From the line with the creation year XXXX we extract this year, and
-     the copyright statement then becomes "Copyright XXXX-2007 Oliver Kullmann". </li>
-     <li> And from the first line we also obtain the commenting-style: Either
-     a C-style for the whole block, or a script-style comment for each line. </li>
-    </ol>
-   </li>
-   <li> DONE (since we don't have much "dangerous intelligence" in the tool,
-   we don't need confirmation)
-   The tool should run through all files, each time showing the new beginning, asking
-   for confirmation. </li>
-   <li> DONE (we use the tool only if the file does not have the licence statement)
-   If the file has already the licence statement, then possibly only the current year
-   is added to the copyright statement. </li>
-  </ul>
-
-
   \todo Licence documentation
   <ul>
    <li> Basic motivation for the GPL: Research platform. </li>
@@ -189,6 +103,10 @@ Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" 
    file's copyright notice (if not already present). This boils down to
    adding the new year to every copyright statement at the beginning
    of a new year. </li>
+   <li> "AddLicence2" is more advanced than "AddLicence1", so the latter
+   should be updated. </li>
+   <li> Also a third type of script is needed for make-files. </li>
+   <li> Important that these scripts tell us about "bad" files. </li>
   </ul>
 
 */
