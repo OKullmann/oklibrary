@@ -8,14 +8,7 @@ License, or any later version. */
 /*!
   \file LegalIssues/plans/milestones.hpp
   
-  \module_version LegalIssues 0.0.3 (8.7.2007)
-
-
-  \par Version 0.0.4
-
-  \par
-   In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Plans on license installation : DONE
+  \module_version LegalIssues 0.0.4 (23.9.2007)
 
 
   \par Version 0.0.5
@@ -37,6 +30,7 @@ License, or any later version. */
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
     - Problems with licence
+    - Licence maintenance
 
 
 
@@ -44,7 +38,8 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.0.3   : 8.7.2007; initial version number (several considerations and discussions; decided to use GPLv3).
+   - 0.0.3 : 8.7.2007; initial version number (several considerations and discussions; decided to use GPLv3).
+   - 0.0.4 : 23.9.2007; planned the various forms of licence-occurrences in different file-types.
 
 */
 

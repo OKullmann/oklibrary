@@ -84,53 +84,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Plans on license installation : DONE
-  <ul>
-   <li> Every file gets a short version as header, with copyright statement
-   and reference to the main text. </li>
-   <li> However, html-files perhaps better don't get a licence statement. </li>
-   <li> When external developers check in new files, then those must have the OK-copyright
-   etc. clause (otherwise the submission is rejected). </li>
-   <li> The head of every file would look like as follows:
-   \verbatim
-// Name of file creator, date of file creation (place of file creation)
-// Copyright 20XX Oliver Kullmann
-// This file is part of the OKlibrary.
-//  OKlibrary is free software; you can redistribute it and/or modify it under the terms of
-//  the GNU General Public License as published by the Free Software Foundation; either
-//  version 3 of the License, or (at your option) any later version.
-//  The OKlibrary is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-//  See the GNU General Public License for more details. You should have received a copy of the
-//  GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
-   \endverbatim
-   where "XX" is to be replaced by the current year. </li>
-   <li> Where to put the GPL-text? Here. </li>
-   <li> For every release, the year of the release must be added to every file's copyright notice
-   (if not already present). </li>
-   <li> In case of shell scripts, there are two leadings lines (one as above, and before it the
-   specification of the shell). </li>
-   <li> Data files don't get a licence. </li>
-   <li> What about the plans-files? Also get a licence-statement, since they are as
-   important as the rest. </li>
-   <li> Can't we use a shortened header for very simple files?
-   The following version looks more sensible:
-   \verbatim
-// Name of file creator, date of file creation (place of file creation)
-// Copyright 20XX Oliver Kullmann
-// This file is part of the OKlibrary.
-//  OKlibrary is free software; you can redistribute it and/or modify it under the terms of
-//  the GNU General Public License as published by the Free Software Foundation; either
-//  version 3 of the License, or (at your option) any later version.
-s/>.
-   \endverbatim
-   The above seems to make a fetish out of these "legal formalities". We should use this version
-   for every file!
-   </li>
-   <li> Download GPLv3 and put under Configuration. DONE </li>
-  </ul>
-
-
   \todo Licence installation : DONE
   <ul>
    <li> First, we should make all non-data files conform to the standard,
@@ -221,6 +174,21 @@ Transitional> for F in $(find * -name "*.hpp" -or -name "*.cpp" -or -name "*.h" 
   <ul>
    <li> Basic motivation for the GPL: Research platform. </li>
    <li> Create a special html-page, and link to it from the local documentation page. </li>
+  </ul>
+
+
+  \todo Licence maintenance
+  <ul>
+   <li> We must make sure, that every new non-data file gets the
+   licence statement. </li>
+   <li> When external developers check in new files, then those must have the
+   OK-copyright etc. clause (otherwise the submission is rejected). </li>
+   <li> We should also add the creation-information and licence to
+   html-files. </li>
+   <li> For every release, the year of the release must be added to every
+   file's copyright notice (if not already present). This boils down to
+   adding the new year to every copyright statement at the beginning
+   of a new year. </li>
   </ul>
 
 */
