@@ -14,8 +14,8 @@ License, or any later version. */
 
   \par
    In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
-    - Content of the Internet-page
-    - Building the Internet-page
+    - Content of the Internet-page : DONE
+    - Building the Internet-page : DONE
 
 
   \par Version 0.0.4
@@ -23,6 +23,12 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
     - Extended content of the Internet-page
+
+
+  \par Version 0.0.5
+
+  \par
+   In Buildsystem/Html/Internet/plans/general.hpp the following topics are handled:
     - Domain name
 
 

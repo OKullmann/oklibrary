@@ -10,23 +10,25 @@ License, or any later version. */
   \brief Plans for the internet services (web page, etc.)
 
 
-  \todo Content of the Internet-page:
+  \todo Content of the Internet-page: DONE
   <ul>
    <li> Online-documentation (the local home page):
     <ol>
      <li> Using
      \verbatim
-internet_dir := /usr/local/apache2/htdocs/OKlib
+internet_dir := /usr/local/apache2/htdocs/ok-sat-library
      \endverbatim
      in "override.mak", we get the Internet home page after
      <code> oklib internet </code> at
      \verbatim
-http://localhost/OKlib/internet_html/doc/internet_html/index.html
+http://localhost/ok-sat-library/internet_html/index.html
      \endverbatim
      </li>
-     <li> htdocs/OKlib perhaps is best made owned by root (as
+     <li> htdocs/ok-sat-library perhaps is best made owned by root (as
      the creator, with group "users", and group-writable. </li>
-     <li> For the Internet page, the directories should better be made
+     <li> DONE (NO - nothing secret should be put on the Internet site,
+     and then we can make it all readable)
+     For the Internet page, the directories should better be made
      non-readable. </li>
      <li> DONE (corrected this by using the configuration system)
      Slightly awkward the double nesting of the index page,
@@ -70,12 +72,15 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
   </ul>
 
 
-  \todo Building the Internet-page:
+  \todo Building the Internet-page: DONE
   <ul>
-   <li> The process should be fully automatic, including
+   <li> DONE (a simple target for moving the packages has been provided,
+   which should suffice for now (hard to see how to automatise more (sensibly)))
+   The process should be fully automatic, including
    updating the packages etc. --- no alterations by hand
    should be necessary! </li>
-   <li> For download, simply move the content of
+   <li> DONE (the policy is to be developed; see Buildsystem/ReleaseProcess/plans/general.hpp)
+   For download, simply move the content of
    system_directories/packages to an accessible directory,
    and make this directory readable (so that packages can
    be downloaded). According to some policy to be developed,
@@ -119,7 +124,7 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
      <li> On the other hand, having only the "public" url visible means
      less confusion with changing "implementation" url's. </li>
     </ol>
-    Or can we solve the problem by using the DNS-sverice?
+    Or can we solve the problem by using the DNS-service?
    </li>
    <li> DONE (yes, such redirection is possible; see
    Buildsystem/ReleaseProcess/plans/MailingLists.hpp)
@@ -143,6 +148,7 @@ http://localhost/OKlib/internet_html/doc/internet_html/index.html
    </li>
    <li> How to become owner of such a domain name? DONE </li>
   </ul>
+
 
 */
 
