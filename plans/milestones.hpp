@@ -29,7 +29,7 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.0.5 : DONE
   (see LegalIssues/plans/milestones.hpp)
-  \par Satisfiability/Solvers version 0.2.1 : DONE
+  \par Satisfiability/Solvers version 0.2.2 : DONE
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par
    In Transitional/OKsolver/plans/general.hpp the following topics are handled:
@@ -60,7 +60,7 @@ License, or any later version. */
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
-  \par Satisfiability/Solvers version 0.2.2
+  \par Satisfiability/Solvers version 0.2.4
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones

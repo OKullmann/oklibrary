@@ -8,10 +8,10 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/plans/milestones.hpp
 
-  \module_version Satisfiability/Solvers 0.2.1 (16.9.2007)
+  \module_version Satisfiability/Solvers 0.2.2 (23.9.2007)
 
 
-  \par Version 0.2.2
+  \par Version 0.2.3
 
   \par OKsolver version 0.5.2
   (see Satisfiability/Solvers/OKsolver/plans/milestones.hpp)
@@ -19,7 +19,21 @@ License, or any later version. */
   \par
    In Satisfiability/Solvers/plans/general.hpp the following topics are handled:
     - External solvers
+
+
+  \par Version 0.2.4
+
+  \par
+   In Satisfiability/Solvers/plans/general.hpp the following topics are handled:
     - Special solvers
+
+  \par
+   In Satisfiability/Solvers/Backtracking/plans/general.hpp the following topics are handled:
+    - Create milestones
+    - Trivial DLL-solver "DLL-Implementations"
+
+  \par
+   Create further milestones.
 
 
 
@@ -29,6 +43,7 @@ License, or any later version. */
 
    - 0.2   : 18.8.2007; initial version number (the OKsolver family has been set up).
    - 0.2.1 : 16.9.2007; settled the very basics for the old OKsolver.
+   - 0.2.2 : 23.9.2007; imported the trivial DLL-solver Backtracking/DLL-Implementations.cpp from Transitional/OKsolver/Experimental.
 
 */
 
