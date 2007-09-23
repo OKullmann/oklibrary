@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.0.6
 
-  \par Buildsystem/Html/Internet version 0.0.3
+  \par Buildsystem/Html/Internet version 0.0.4
   (see Buildsystem/Html/Internet/plans/milestones.hpp)
 
   \par Buildsystem/Html/Local version 0.1.1 : DONE
@@ -31,7 +31,7 @@ License, or any later version. */
   \par Buildsystem/Html/Local version 0.1.3
   (see Buildsystem/Html/Local/plans/milestones.hpp)
 
-  \par Buildsystem/Html/Internet version 0.0.4
+  \par Buildsystem/Html/Internet version 0.0.6
   (see Buildsystem/Html/Internet/plans/milestones.hpp)
 
   \par
