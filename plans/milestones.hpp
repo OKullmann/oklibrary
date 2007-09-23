@@ -32,13 +32,6 @@ License, or any later version. */
   \par Satisfiability/Solvers version 0.2.2 : DONE
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par
-   In Transitional/OKsolver/plans/general.hpp the following topics are handled:
-    - Submodule "Experimental"
-    - Submodule "Generator" : DONE
-    - Submodule "Hilfsprogramme" : DONE
-    - Submodule "Quellen" : DONE
-    - Submodule "Datenbank" : DONE
-  \par
    In Transitional/plans/general.hpp the following topics are handled:
     - "OKlib" vs. "Transitional"
     - Completing the repository
@@ -48,6 +41,15 @@ License, or any later version. */
   \par
    In Transitional/plans/Foundations.hpp the following topics are handled:
     - Fundamental "axioms"
+  \par
+   In Transitional/OKsolver/plans/general.hpp the following topics are handled:
+    - Submodule "Experimental 200102" : DONE
+    - Submodule "Transformationen" : DONE
+    - Submodule "Graphen" : DONE
+    - Submodule "Generator" : DONE
+    - Submodule "Hilfsprogramme" : DONE
+    - Submodule "Quellen" : DONE
+    - Submodule "Datenbank" : DONE
 
    
   \subsection VersionTransitional021 0.2.1
@@ -79,7 +81,9 @@ License, or any later version. */
     - Partially moving repository Annotations
     - Latex macros
     - Bibtex-database
-
+  \par
+   In Transitional/OKsolver/plans/general.hpp the following topics are handled:
+    - Submodule "Experimental 200203"
   \par Update
   Update the subsequent milestones.
 
