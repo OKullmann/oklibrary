@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Solvers/DLL/DLL-Implementations.cpp
+  \file Satisfiability/Solvers/Backtracking/DLL-Implementations.cpp
   \brief Old, very simple DLL SAT solver (for boolean CNF).
   \deprecated
 */
