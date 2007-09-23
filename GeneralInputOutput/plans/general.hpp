@@ -27,7 +27,7 @@ License, or any later version. */
    <li> RecursiveDirectoryIteration : (%boost can now be used here,
         and the bug should be handled) </li>
    <li> MatchFiles : (shall move to applications-sub-directory,
-        or perhaps to somewhere else) </li>
+        or perhaps to a Tools-directory) </li>
    <li> PathDifference : (same as MatchFiles) </li>
   </ul>
 
