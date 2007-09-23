@@ -1,3 +1,10 @@
+# Oliver Kullmann, 22.4.2005 (Swansea)
+# Copyright 2005-2007 Oliver Kullmann
+# This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
+# it and/or modify it under the terms of the GNU General Public License as published by
+# the Free Software Foundation and included in this library; either version 3 of the 
+# License, or any later version.
+
 sub_make_directories := $(dir $(shell cd $(srcdir); find * -mindepth 1 -maxdepth 1 -name "makefile"))
 
 define run_all_makes
