@@ -12,7 +12,34 @@ License, or any later version. */
 
   \todo Submodule "Experimental"
   <ul>
-   <li> "AllgKlassen" : All content should be transferred </li>
+   <li> "AllgKlassen" : All content should be transferred
+    <ol>
+     <li> AllgKlassen200102:
+      <ul>
+       <li> AllgKlassen200102/VarSet.hpp goes to
+       Satisfiability/ProblemInstances/Variables. </li>
+       <li> AllgKlassen200102/Literal.hpp goes to
+       Satisfiability/ProblemInstances/Literals. </li>
+       <li> AllgKlassen200102/Clause.hpp goes to
+       Satisfiability/ProblemInstances/Clauses. </li>
+       <li> AllgKlassen200102/ClauseSet.hpp goes to
+       Satisfiability/ProblemInstances/ClauseSets. </li>
+       <li> AllgKlassen200102/PartAssign.hpp goes to
+       Satisfiability/Assignments. </li>
+       <li> AllgKlassen200102/DLL_Algorithms.hpp and
+       AllgKlassen200102/DLL_Algorithms.cpp go to
+       Satisfiability/Algorithms/Backtracking. </li>
+       <li> AllgKlassen200102/DLL-Implementations.cpp goes to
+       Satisfiability/Solvers/DLL. It needs to be linked with
+       DLL_Algorithms.o and Kommandozeile.o.
+       </li>
+      </ul>
+     </li>
+     <li> AllgKlassen200203:
+
+     </li>
+    </ol>
+   </li>
    <li> After completed transfer, module should be removed. </li>
    <li> "Transformationen" : All content should be transferred
      (that is, what is still relevant). DONE (moved to
