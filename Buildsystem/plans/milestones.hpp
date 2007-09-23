@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.1.6.6 (16.9.2007)
+  \module_version Buildsystem 0.1.6.7 (23.9.2007)
 
 
   \par Version 0.2 : THEME is "AVAILABILITY"
 
-  \par Buildsystem/Html version 0.0.6
+  \par Buildsystem/Html version 0.0.6 : DONE
   (see Buildsystem/Html/plans/milestones.hpp)
 
   \par Buildsystem/ReleaseProcess 0.0.5 : DONE
