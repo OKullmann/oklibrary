@@ -30,5 +30,16 @@ License, or any later version. */
    "continuous releases" ? </li>
   </ul>
 
+
+  \todo Packages history
+  <ul>
+   <li> A policy is needed which packages to be kept. </li>
+   <li> Somewhere there should be already some discussion on
+   that? </li>
+   <li> In any case only the minimal packages are kept. </li>
+   <li> Perhaps the packages created with every advance in the
+   version number (disregarding the fourth digit). </li>
+  </ul>
+
 */
 

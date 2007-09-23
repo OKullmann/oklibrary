@@ -45,6 +45,13 @@ License, or any later version. */
    In Buildsystem/ReleaseProcess/plans/MailingLists.hpp the following topics are handled:
     - User mailing list
 
+
+  \par Version 0.0.9
+
+  \par
+   In Buildsystem/ReleaseProcess/plans/general.hpp the following topics are handled:
+    - Packages history
+
   \par
    In Buildsystem/ReleaseProcess/plans/Release.hpp the following topics are handled:
     - Improved releases
