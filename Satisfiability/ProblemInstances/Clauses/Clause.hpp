@@ -19,6 +19,7 @@ License, or any later version. */
 #include <algorithm>
 // #include <limits> not yet in gcc (2.9.5)
 #include <climits> // instead of <limits>
+#include <iterator>
 
 #include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
 #include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
@@ -33,10 +34,10 @@ namespace Clauses {
   // should be:
   // const set_length max_length = numeric_limits<size_type>::max();
 
-  inline const set<Var> operator + (const set<Var>& A, const set<Var>& B) {
-    set<Var> result;
-    insert_iterator< set<Var> > res_ins(result, result.begin());
-    set_union(A.begin(), A.end(), B.begin(), B.end(), res_ins);
+  inline const std::set<Var> operator + (const std::set<Var>& A, const std::set<Var>& B) {
+    std::set<Var> result;
+    std::insert_iterator< std::set<Var> > res_ins(result, result.begin());
+    std::set_union(A.begin(), A.end(), B.begin(), B.end(), res_ins);
     return result;
   }
 
@@ -46,7 +47,7 @@ namespace Clauses {
   public :
 
     Litset () {}
-    Litset (const set<Lit>&);
+    Litset (const std::set<Lit>&);
 
     bool is_tautological() const;
     bool is_empty() const;
@@ -56,7 +57,7 @@ namespace Clauses {
     bool contains(Lit) const;
 
     Litset comp() const;
-    set<Var> var() const;
+    std::set<Var> var() const;
 
     Litset& add(Lit);
     Litset& remove(Lit);
@@ -71,17 +72,17 @@ namespace Clauses {
     const Litset operator - (const Litset&) const;
     const Litset operator & (const Litset&) const;
     
-    set<Lit> ls;
+    std::set<Lit> ls;
 
   };
 
-  inline Litset::Litset(const set<Lit>& L) {
-    ls = set<Lit>(L);
+  inline Litset::Litset(const std::set<Lit>& L) {
+    ls = std::set<Lit>(L);
   }
 
   inline bool Litset::is_tautological() const {
     // uses the special order of literals
-    set<Lit>::iterator a0 = ls.begin(), a = a0;
+    std::set<Lit>::iterator a0 = ls.begin(), a = a0;
     if (a0 == ls.end())
       return false;
     a++;
@@ -110,8 +111,8 @@ namespace Clauses {
   }
 
   inline Litset Litset::comp() const {
-    set<Lit> result;
-    insert_iterator< set<Lit> > res_ins(result, result.begin());
+    std::set<Lit> result;
+    std::insert_iterator< std::set<Lit> > res_ins(result, result.begin());
     transform(ls.begin(), ls.end(), res_ins, Clauses::comp);
     return Litset(result);
   }
@@ -120,9 +121,9 @@ namespace Clauses {
     return x.var();
   }
 
-  inline set<Var> Litset::var() const {
-    set<Var> result;
-    insert_iterator< set<Var> > res_ins(result, result.begin());
+  inline std::set<Var> Litset::var() const {
+    std::set<Var> result;
+    std::insert_iterator< std::set<Var> > res_ins(result, result.begin());
     transform(ls.begin(), ls.end(), res_ins, Clauses::var);
     return result;
   }
@@ -156,23 +157,23 @@ namespace Clauses {
   }
 
   inline const Litset Litset::operator + (const Litset& L) const {
-    set<Lit> result;
-    insert_iterator< set<Lit> > res_ins(result, result.begin());
-    set_union(ls.begin(), ls.end(), L.ls.begin(), L.ls.end(), res_ins);
+    std::set<Lit> result;
+    std::insert_iterator< std::set<Lit> > res_ins(result, result.begin());
+    std::set_union(ls.begin(), ls.end(), L.ls.begin(), L.ls.end(), res_ins);
     return Litset(result);
   }
 
   inline const Litset Litset::operator - (const Litset& L) const {
-    set<Lit> result;
-    insert_iterator< set<Lit> > res_ins(result, result.begin());
-    set_difference(ls.begin(), ls.end(), L.ls.begin(), L.ls.end(), res_ins);
+    std::set<Lit> result;
+    std::insert_iterator< std::set<Lit> > res_ins(result, result.begin());
+    std::set_difference(ls.begin(), ls.end(), L.ls.begin(), L.ls.end(), res_ins);
     return Litset(result);
   }
 
   inline const Litset Litset::operator & (const Litset& L) const {
-    set<Lit> result;
-    insert_iterator< set<Lit> > res_ins(result, result.begin());
-    set_intersection(ls.begin(), ls.end(), L.ls.begin(), L.ls.end(), res_ins);
+    std::set<Lit> result;
+    std::insert_iterator< std::set<Lit> > res_ins(result, result.begin());
+    std::set_intersection(ls.begin(), ls.end(), L.ls.begin(), L.ls.end(), res_ins);
     return Litset(result);
   }
 
@@ -191,7 +192,7 @@ namespace Clauses {
   public :
 
     Cl () {};
-    Cl (const set<Lit>&);
+    Cl (const std::set<Lit>&);
     Cl (const Litset&);
 
     Cl& add(Lit);
@@ -200,7 +201,7 @@ namespace Clauses {
     
   };
 
-  inline Cl::Cl(const set<Lit>& L)
+  inline Cl::Cl(const std::set<Lit>& L)
     : Litset(L)
   {
     if (this -> Litset::is_tautological())

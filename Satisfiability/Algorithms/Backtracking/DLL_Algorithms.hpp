@@ -33,8 +33,8 @@ namespace DLL_Algorithms {
   struct result {
     bool sat;
     Pass phi;
-    string info;
-    result(bool s, const Pass& p = Pass(), string i = "") {sat = s; phi = p; info = i;}
+    std::string info;
+    result(bool s, const Pass& p = Pass(), std::string i = "") {sat = s; phi = p; info = i;}
   };
 
   typedef result SAT_Algorithms(const Cls&);

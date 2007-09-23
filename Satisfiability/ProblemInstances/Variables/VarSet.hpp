@@ -45,15 +45,15 @@ namespace Variables {
 
     Var_Set();
 
-    Var get_var(string);
+    Var get_var(std::string);
 
     Var_Set& operator = (const Var_Set&) { throw Error::invalid_assignment(); }
 
   private :
 
-    map<string, Var_id> idm; // identifier map
+    std::map<std::string, Var_id> idm; // identifier map
 
-    deque<string> nm; // name map
+    std::deque<std::string> nm; // name map
 
     Var_id current;
 
@@ -71,7 +71,7 @@ namespace Variables {
 
     Var() {}
 
-    string get_name() const;
+    std::string get_name() const;
 
     bool operator < (Var) const;
     bool operator == (Var) const;
@@ -93,17 +93,17 @@ namespace Variables {
     return S == v.S && id == v.id;
   }
 
-  inline string Var::get_name() const {
+  inline std::string Var::get_name() const {
     if (id == exception)
       return "";
     return (S -> nm)[id - 1];
   }
 
-  inline Var Var_Set::get_var(string s) {
+  inline Var Var_Set::get_var(std::string s) {
     if (s == "")
       throw Error::empty_name();
     Var v; v.S = this;
-    map<string, Var_id>::iterator p = idm.find(s);
+    std::map<std::string, Var_id>::iterator p = idm.find(s);
     if (p == idm.end()) {
       idm[s] = ++current;
       nm.push_back(s);

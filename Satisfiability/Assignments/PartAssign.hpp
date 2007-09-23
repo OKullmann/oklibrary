@@ -47,7 +47,7 @@ namespace PartAssignments {
 
     set_length n() const;
 
-    set<Var> var() const;
+    std::set<Var> var() const;
 
     bool in_domain(Var) const;
     bool val(Var) const;
@@ -55,24 +55,24 @@ namespace PartAssignments {
     Pass& composition_left(const Pass&);
     // Attention: the argument is composed from the *left*
 
-    Pass& restrict(const set<Var>&);
+    Pass& restrict(const std::set<Var>&);
 
     Cl clause() const;
 
     Cls operator * (const Cls&) const;
 
-    map<Var, bool> pa;
+    std::map<Var, bool> pa;
 
   };
 
   inline Pass::Pass(const Lit x) {
-    pa = map<Var, bool>();
+    pa = std::map<Var, bool>();
     pa[x.var()] = x.val();
   }
 
   inline Pass::Pass (const Cl& C) {
-    pa = map<Var, bool>();
-    for (set<Lit>::const_iterator i = C.ls.begin(); i != C.ls.end(); i++)
+    pa = std::map<Var, bool>();
+    for (std::set<Lit>::const_iterator i = C.ls.begin(); i != C.ls.end(); i++)
       pa[i -> var()] = i -> val();
   }
 
@@ -80,9 +80,9 @@ namespace PartAssignments {
     return pa.empty();
   }
 
-  inline set<Var> Pass::var() const {
-    set<Var> V;
-    for (map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
+  inline std::set<Var> Pass::var() const {
+    std::set<Var> V;
+    for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
       V.insert(i -> first);
     return V;
   }
@@ -96,7 +96,7 @@ namespace PartAssignments {
   }
 
   inline bool Pass::val(const Var v) const {
-    map<Var,bool>::const_iterator p = pa.find(v);
+    std::map<Var,bool>::const_iterator p = pa.find(v);
     if (p == pa.end())
       throw Error::not_in_domain();
     return p -> second;
@@ -107,22 +107,22 @@ namespace PartAssignments {
     return *this;
   }
 
-  inline Pass& Pass::restrict(const set<Var>& V) {
-    for (set<Var>::const_iterator i = V.begin(); i != V.end(); i++)
+  inline Pass& Pass::restrict(const std::set<Var>& V) {
+    for (std::set<Var>::const_iterator i = V.begin(); i != V.end(); i++)
       pa.erase(*i);
     return *this;
   }
 
   inline Cl Pass::clause() const {
     Cl C;
-    for (map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
+    for (std::map<Var,bool>::const_iterator i = pa.begin(); i != pa.end(); i++)
       C.ls.insert(Lit(i -> first, i -> second));
     return C;
   }
 
   inline Cls Pass::operator * (const Cls& F) const {
     Cls G;
-    for (set<Cl>::iterator i = F.cls.begin(); i != F.cls.end(); i++)
+    for (std::set<Cl>::iterator i = F.cls.begin(); i != F.cls.end(); i++)
       if ((*i & this -> clause().comp()).is_empty())
 	G.add(*i - this -> clause());
     return G;

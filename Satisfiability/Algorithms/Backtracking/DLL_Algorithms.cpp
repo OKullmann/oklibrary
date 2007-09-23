@@ -20,7 +20,7 @@ License, or any later version. */
 #include <Transitional/Satisfiability/ProblemInstances/Clauses/Clause.hpp>
 #include <Transitional/Satisfiability/ProblemInstances/ClauseSets/ClauseSet.hpp>
 #include <Transitional/Satisfiability/Assignments/PartAssign.hpp>
-#include <Transitional/Satisfiability/Algorithms/Backtracking/DLL_algorithms.hpp>
+#include <Transitional/Satisfiability/Algorithms/Backtracking/DLL_Algorithms.hpp>
 
 namespace DLL_Algorithms {
 
@@ -38,7 +38,7 @@ namespace DLL_Algorithms {
       return false;
     else {
       Var v = *F.var().begin();
-      return result(max(DLL_1(Pass(Lit(v, false)) * F).sat, DLL_1(Pass(Lit(v, true)) * F).sat));
+      return result(std::max(DLL_1(Pass(Lit(v, false)) * F).sat, DLL_1(Pass(Lit(v, true)) * F).sat));
     }
   }
 

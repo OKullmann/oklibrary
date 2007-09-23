@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> "AllgKlassen" : All content should be transferred
     <ol>
-     <li> AllgKlassen200102:
+     <li> AllgKlassen200102: DONE
       <ul>
        <li> DONE AllgKlassen200102/VarSet.hpp goes to
        Satisfiability/ProblemInstances/Variables. </li>
@@ -29,7 +29,7 @@ License, or any later version. */
        <li> DONE AllgKlassen200102/DLL_Algorithms.hpp and
        AllgKlassen200102/DLL_Algorithms.cpp go to
        Satisfiability/Algorithms/Backtracking. </li>
-       <li> AllgKlassen200102/DLL-Implementations.cpp goes to
+       <li> DONE AllgKlassen200102/DLL-Implementations.cpp goes to
        Satisfiability/Solvers/DLL. It needs to be linked with
        DLL_Algorithms.o and Kommandozeile.o.
        </li>

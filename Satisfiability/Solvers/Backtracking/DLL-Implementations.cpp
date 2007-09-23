@@ -8,11 +8,15 @@ License, or any later version. */
 /*!
   \file Satisfiability/Solvers/Backtracking/DLL-Implementations.cpp
   \brief Old, very simple DLL SAT solver (for boolean CNF).
+
+  Reads a CNF in Dimacs format from standard input.
   \deprecated
 */
 
 #include <iostream>
 #include <string>
+#include <set>
+#include <ctime>
 
 #include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
 #include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
@@ -23,18 +27,16 @@ License, or any later version. */
 
 #include <Transitional/General/Kommandozeile.hpp>
 
-#include <ctime>
-
-using namespace Variables;
-using namespace Literals;
-using namespace Clauses;
-using namespace Clausesets;
-using namespace PartAssignments;
-using namespace DLL_Algorithms;
-
 namespace {
 
-  const string Selbst = "DLL-Implementations";
+  using namespace Variables;
+  using namespace Literals;
+  using namespace Clauses;
+  using namespace Clausesets;
+  using namespace PartAssignments;
+  using namespace DLL_Algorithms;
+
+  const std::string Selbst = "DLL-Implementations";
 
   const char * const Version = "1.0";
   const char * const Datum = "6.3.2002";
@@ -70,38 +72,35 @@ namespace {
     return messages[i][Language];
   }
 
-  const string standarderr = message(5) + Selbst + "]: ";
+  const std::string standarderr = message(5) + Selbst + "]: ";
   
   void output_litset(const Litset& L) {
-    for (set<Lit>::iterator i = L.ls.begin(); i != L.ls.end(); i++) {
+    for (std::set<Lit>::iterator i = L.ls.begin(); i != L.ls.end(); i++) {
       Lit l = *i;
-      cout << " ";
+      std::cout << " ";
       if (l.val() == true)
-	cout << "-";
-      cout << l.var().get_name();
+	std::cout << "-";
+      std::cout << l.var().get_name();
     }
-    cout << "\n";
+    std::cout << "\n";
   }
   
-  void output_varset(const set<Var>& V) {
-    for (set<Var>::iterator i = V.begin(); i != V.end(); i++) {
-      cout << " " << i -> get_name();
+  void output_varset(const std::set<Var>& V) {
+    for (std::set<Var>::iterator i = V.begin(); i != V.end(); i++) {
+      std::cout << " " << i -> get_name();
     }
-    cout << "\n";
+    std::cout << "\n";
   }
  
 }
 
 
-int main (int argc, const char * argv[]) {
-
-  clock_t time_stored = 0;
-  clock_t time_used;
+int main (const int argc, const char * const argv[]) {
 
   enum choices {A_DLL_1};
   choices choice = A_DLL_1; // default
   if (argc >= 2) {
-    if (string(argv[1]) == "DLL_1")
+    if (std::string(argv[1]) == "DLL_1")
       choice = A_DLL_1;
   }
   SAT_Algorithms * algorithms[] = {DLL_1};
@@ -110,42 +109,42 @@ int main (int argc, const char * argv[]) {
   Cls F;
 
   try {
-    clock_t time_stored, time_new;
+    std::clock_t time_stored, time_new;
 
-    time_stored = clock();
+    time_stored = std::clock();
     F.read(V);
-    time_new = clock();
+    time_new = std::clock();
 
-    cout << message(7) << (double) (time_new - time_stored) / CLOCKS_PER_SEC << "\n";
+    std::cout << message(7) << (double) (time_new - time_stored) / CLOCKS_PER_SEC << "\n";
 
-    cout << "n = " << F.n() << ", c = " << F.c() << ", l = " << F.l() << ", pmin = " << F.pmin() << ", pmax = " << F.pmax() << "\n";
+    std::cout << "n = " << F.n() << ", c = " << F.c() << ", l = " << F.l() << ", pmin = " << F.pmin() << ", pmax = " << F.pmax() << "\n";
 
-    time_stored = clock();
+    time_stored = std::clock();
     result r = algorithms[choice](F);
-    time_new = clock();
+    time_new = std::clock();
     
-    cout << "sat = " << r.sat << "\n";
-    cout << message(6) << (double) (time_new - time_stored) / CLOCKS_PER_SEC << "\n";
+    std::cout << "sat = " << r.sat << "\n";
+    std::cout << message(6) << (double) (time_new - time_stored) / CLOCKS_PER_SEC << "\n";
   }
 
   catch (Variables::Error::empty_name) {
-    cout << standarderr << message(0) << "\n";
+    std::cout << standarderr << message(0) << "\n";
     return 1;
   }
   catch (Variables::Error::invalid_assignment) {
-    cout << standarderr << message(1) << "\n";
+    std::cout << standarderr << message(1) << "\n";
     return 1;
   }
   catch (Clauses::Error::not_a_clause) {
-    cout << standarderr << message(2) << "\n";
+    std::cout << standarderr << message(2) << "\n";
     return 1;
   }
   catch (PartAssignments::Error::not_in_domain) {
-    cout << standarderr << message(3) << "\n";
+    std::cout << standarderr << message(3) << "\n";
     return 1;
   }
   catch (PartAssignments::Error::inconsistent_extension) {
-    cout << standarderr << message(4) << "\n";
+    std::cout << standarderr << message(4) << "\n";
     return 1;
   }
 }

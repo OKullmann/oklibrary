@@ -17,6 +17,8 @@ License, or any later version. */
 #include <set>
 #include <numeric>
 #include <iostream>
+#include <iterator>
+#include <algorithm>
 
 #include <Transitional/Satisfiability/ProblemInstances/Variables/VarSet.hpp>
 #include <Transitional/Satisfiability/ProblemInstances/Literals/Literal.hpp>
@@ -33,7 +35,7 @@ namespace Clausesets {
   public :
 
     Cls () {}
-    Cls (const set<Cl>&);
+    Cls (const std::set<Cl>&);
 
     Cls& read(Var_Set&); // input from standard input in 
     // "generalised DIMACS format";
@@ -41,7 +43,7 @@ namespace Clausesets {
     // of "p" and "c"
     
 
-    set<Var> var() const;
+    std::set<Var> var() const;
     Litset lit() const;
 
     bool is_empty() const;
@@ -63,24 +65,24 @@ namespace Clausesets {
     const Cls operator - (const Cls&) const;
     const Cls operator & (const Cls&) const;
 
-    set<Cl> cls;
+    std::set<Cl> cls;
   };
 
-  inline Cls::Cls(const set<Cl>& F) {
+  inline Cls::Cls(const std::set<Cl>& F) {
     cls = F;
   }
 
   inline Cls& Cls::read(Var_Set& V) {
     Litset C;
-    string s;
+    std::string s;
     char c;
 
-    while (cin >> s) {
+    while (std::cin >> s) {
       if (s == "c" || s == "p") {
-        while (cin.get(c))
+        while (std::cin.get(c))
           if (c == '\n')
             break;
-        if (! cin)
+        if (! std::cin)
           break;
         else
           continue;
@@ -106,7 +108,7 @@ namespace Clausesets {
     return accumulate(cls.begin(), cls.end(), Litset(), acc_plus);
   }
 
-  inline set<Var> Cls::var() const {
+  inline std::set<Var> Cls::var() const {
     return this -> lit().var();
   }
 
@@ -154,15 +156,15 @@ namespace Clausesets {
 
   inline set_length Cls::pmin() const {
     set_length minl = max_length;
-    for (set<Cl>::iterator i = cls.begin(); i != cls.end(); i++)
-      minl = min(minl, i -> length());
+    for (std::set<Cl>::iterator i = cls.begin(); i != cls.end(); i++)
+      minl = std::min(minl, i -> length());
     return minl;
   }
 
   inline set_length Cls::pmax() const {
     set_length maxl = 0;
-    for (set<Cl>::iterator i = cls.begin(); i != cls.end(); i++)
-      maxl = max(maxl, i -> length());
+    for (std::set<Cl>::iterator i = cls.begin(); i != cls.end(); i++)
+      maxl = std::max(maxl, i -> length());
     return maxl;
   }
 
@@ -181,23 +183,23 @@ namespace Clausesets {
   }
 
   inline const Cls Cls::operator + (const Cls& F) const {
-    set<Cl> result;
-    insert_iterator< set<Cl> > res_ins(result, result.begin());
-    set_union(cls.begin(), cls.end(), F.cls.begin(), F.cls.end(), res_ins);
+    std::set<Cl> result;
+    std::insert_iterator< std::set<Cl> > res_ins(result, result.begin());
+    std::set_union(cls.begin(), cls.end(), F.cls.begin(), F.cls.end(), res_ins);
     return Cls(result);
   }
 
   inline const Cls Cls::operator - (const Cls& F) const {
-    set<Cl> result;
-    insert_iterator< set<Cl> > res_ins(result, result.begin());
-    set_difference(cls.begin(), cls.end(), F.cls.begin(), F.cls.end(), res_ins);
+    std::set<Cl> result;
+    std::insert_iterator< std::set<Cl> > res_ins(result, result.begin());
+    std::set_difference(cls.begin(), cls.end(), F.cls.begin(), F.cls.end(), res_ins);
     return result;
   }
 
   inline const Cls Cls::operator & (const Cls& F) const {
-    set<Cl> result;
-    insert_iterator< set<Cl> > res_ins(result, result.begin());
-    set_intersection(cls.begin(), cls.end(), F.cls.begin(), F.cls.end(), res_ins);
+    std::set<Cl> result;
+    std::insert_iterator< std::set<Cl> > res_ins(result, result.begin());
+    std::set_intersection(cls.begin(), cls.end(), F.cls.begin(), F.cls.end(), res_ins);
     return result;
   }
 
