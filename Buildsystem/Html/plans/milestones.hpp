@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/Html/plans/milestones.hpp
   
-  \module_version Buildsystem/Html 0.0.5.2 (5.7.2007)
+  \module_version Buildsystem/Html 0.0.5.3 (23.9.2007)
 
 
   \par Version 0.0.6

@@ -10,68 +10,6 @@ License, or any later version. */
   \brief Plans for the internet services (web page, etc.)
 
 
-  \todo Content of the Internet-page: DONE
-  <ul>
-   <li> Online-documentation (the local home page):
-    <ol>
-     <li> Using
-     \verbatim
-internet_dir := /usr/local/apache2/htdocs/ok-sat-library
-     \endverbatim
-     in "override.mak", we get the Internet home page after
-     <code> oklib internet </code> at
-     \verbatim
-http://localhost/ok-sat-library/internet_html/index.html
-     \endverbatim
-     </li>
-     <li> htdocs/ok-sat-library perhaps is best made owned by root (as
-     the creator, with group "users", and group-writable. </li>
-     <li> DONE (NO - nothing secret should be put on the Internet site,
-     and then we can make it all readable)
-     For the Internet page, the directories should better be made
-     non-readable. </li>
-     <li> DONE (corrected this by using the configuration system)
-     Slightly awkward the double nesting of the index page,
-     but it reflects that building of the internet home page
-     happened in the environment, where the new doc-directory
-     is not "system_directories/doc", but
-     "system_directories/doc/internet_html/doc" (for movability).
-     And it will be hidden anyway by ok-sat-library.org. </li>
-    </ol>
-   </li>
-   <li> DONE (three package types can be downloaded, containing together
-   all parts, while history is available via an automated package-history-log-file)
-   Download of the software:
-    <ol>
-     <li> The current development-package (core), that is,
-     the skeleton directory structure of OKplatform, with
-     Transitional/OKlib filled in. </li>
-     <li> Current external sources to download.
-      <ol>
-       <li> Package data (see Buildsystem/plans/PackageBuilding.hpp) </li>
-       <li> The full current package. </li>
-      </ol>
-     </li>
-     <li> The installed docs-package. </li>
-     <li> The full package (with core, external sources and docs). </li>
-     <li> The package history
-      <ol>
-       <li> With SHA's to identify git-repository-states. </li>
-       <li> And md5sum's of packages. </li>
-       <li> And the packages themselves (only the cores). </li>
-      </ol>
-     </li>
-    </ol>
-   </li>
-   <li> DONE (reports are available on the history page, as part of the
-   local documentation, which is provided via a link)
-   The EPSRC final report (short and long version) should be made
-   available. It should be accessible via the local documentation as well
-   as via the Internet.. So perhaps the Internet has some shortcut to
-   the pure html-parts of the local documentation? </li>
-  </ul>
-
-
   \todo Building the Internet-page: DONE
   <ul>
    <li> DONE (a simple target for moving the packages has been provided,
