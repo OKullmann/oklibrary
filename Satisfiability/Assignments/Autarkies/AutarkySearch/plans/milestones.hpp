@@ -12,41 +12,55 @@ License, or any later version. */
 
 
   \par Version 0.0.7
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Complete correct compilation in AutarkySearch
-  - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
-  - Design and implement class ComputeLargestAutarky
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - Complete correct compilation in AutarkySearch
+    - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
+    - Design and implement class ComputeLargestAutarky
 
 
   \par Version 0.0.8
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Design and implement class AutarkySearchUbcsat
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - Design and implement class AutarkySearchUbcsat
 
 
   \par Version 0.0.9
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - AnalyseTotalAssignment.cpp
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - AnalyseTotalAssignment.cpp
 
 
   \par Version 0.1 :
-  We have a first fully tested implementation using the method of
-  AnalyseTotalAssignment, and start experimentation.
+
+  \par
+   We have a first fully tested implementation using the method of
+   AnalyseTotalAssignment, and start experimentation.
 
 
   \par Version 0.2
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Complete autarky search
-  - New file structure
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - Complete autarky search
+    - New file structure
 
 
   \par Version 0.3
-  In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-  - Changing UBCSAT
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - Changing UBCSAT
 
 
   \par Version 1.0 :
-  Completely within the OKlibrary we can search for autarkies analysing total
-  assignments or searching through partial assignments.
+
+  \par
+   Completely within the OKlibrary we can search for autarkies analysing total
+   assignments or searching through partial assignments.
 
 
 

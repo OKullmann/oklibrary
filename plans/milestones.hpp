@@ -37,6 +37,8 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Satisfiability/Solvers version 0.2.4
   (see Satisfiability/Solvers/plans/milestones.hpp)
+  \par Satisfiability/Assignments version 0.0.5
+  (see Satisfiability/Assignments/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).

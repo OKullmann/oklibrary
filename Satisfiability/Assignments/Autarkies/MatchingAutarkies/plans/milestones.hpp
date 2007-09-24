@@ -10,6 +10,7 @@ License, or any later version. */
 
   \module_version MatchingAutarkies 0.0.1 (8.3.2006)
 
+
   \par Version 0.0.2
 
   \par
@@ -21,6 +22,7 @@ License, or any later version. */
    \par
     Further milestones are created.
 
+
   \par Version 0.1
 
   \par
@@ -29,6 +31,7 @@ License, or any later version. */
    - Implementation
    - Application
 
+
   \par Version 0.2
 
   \par
@@ -36,9 +39,11 @@ License, or any later version. */
    topics are handled:
    - Incremental
 
+
   \par Version 1.0
   A nice toolset of computing matching autarkies is available, which
   enables also interesting integration into an active clause-set.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
