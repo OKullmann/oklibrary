@@ -59,7 +59,7 @@ License, or any later version. */
 OKlibrary-0.1.6
    \endverbatim
    (compare package-names in Buildsystem/plans/PackageBuilding.hpp). </li>
-   <li> Message just for example "New version reached 24.9.2007". </li>
+   <li> Message just for example 'New version ("THEME")'. </li>
    <li> Compare with "Tagging" in Buildsystem/SourceControl/plans/general.hpp. </li>
   </ul>
 

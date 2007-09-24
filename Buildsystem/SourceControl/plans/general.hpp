@@ -189,7 +189,7 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      gets transmitted (via push or pull)! Better in this way. </li>
      <li> It seems that with
      \verbatim
-git tag -m "New version Transitional reached 24.9.2007" -a OKlibrary-0.2.0
+git tag -m 'New version ("PREPARING PROTO-RELEASE")' -a Transitional-0.2.0
      \endverbatim
      we can create a non-lightweight tag which doesn't need a gpg-signature.
      </li>
