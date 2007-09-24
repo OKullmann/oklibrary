@@ -25,7 +25,9 @@ License, or any later version. */
 
   \subsection VersionTransitional021 0.2.1 : Theme "PROTO-RELEASE"
   TO BE REACHED $(deadline_021)
-  \par LegalIssues version 0.1
+  \par Buildsystem version 0.2.1 (OK, MG)
+  (see Buildsystem/plans/milestones.hpp)
+  \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK)
   (see Transitional/InputOutput/plans/milestones.hpp)
@@ -35,9 +37,9 @@ License, or any later version. */
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
-  \par Satisfiability/Solvers version 0.2.4
+  \par Satisfiability/Solvers version 0.2.4 (OK)
   (see Satisfiability/Solvers/plans/milestones.hpp)
-  \par Satisfiability/Assignments version 0.0.5
+  \par Satisfiability/Assignments version 0.0.5 (OK)
   (see Satisfiability/Assignments/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
@@ -83,7 +85,7 @@ License, or any later version. */
   (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
-  \par Buildsystem version 0.2.1 (MH, OK)
+  \par Buildsystem version 0.2.2 (OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
