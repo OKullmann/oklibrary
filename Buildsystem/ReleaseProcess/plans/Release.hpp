@@ -50,13 +50,16 @@ License, or any later version. */
   \todo Special tag
   <ul>
    <li> A special Git-tag for a release should be created? </li>
-   <li> Or is it identical with a new version of the library? </li>
+   <li> Or is it identical with a new version of the library? Looks
+   better. </li>
    <li> The special tag should be a "full tag", with signature etc. </li>
-   <li> Text of the tag perhaps
+   <li> But perhaps we postpone the signature for now. </li>
+   <li> Name of the tag
    \verbatim
-RELEASE_OKlib_0.1.6_31072007
+OKlibrary-0.1.6
    \endverbatim
    (compare package-names in Buildsystem/plans/PackageBuilding.hpp). </li>
+   <li> Message just for example "New version reached 24.9.2007". </li>
    <li> Compare with "Tagging" in Buildsystem/SourceControl/plans/general.hpp. </li>
   </ul>
 

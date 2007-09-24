@@ -182,11 +182,17 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      <li> "git tag": A tag is just a mark for a commit;
      so when committing the central milestones-file with the new version number,
      thereafter a tag "Transitional_?.?.?" should be created. </li>
-     <li> This tag is only a leight-weight tag: For releases a "full tag" with
+     <li> This tag is only a light-weight tag: For releases a "full tag" with
      PGP-signature should be used. </li>
      <li> Or perhaps we should use such a "full tag" for every new version
      of Transitional --- in this way we also make sure that the tag always
-     gets transmitted (via push or pull)! </li>
+     gets transmitted (via push or pull)! Better in this way. </li>
+     <li> It seems that with
+     \verbatim
+git tag -m "New version Transitional reached 24.9.2007" -a OKlibrary-0.2.0
+     \endverbatim
+     we can create a non-lightweight tag which doesn't need a gpg-signature.
+     </li>
     </ol>
    </li>
    <li> Compare with "Special tag" in Buildsystem/ReleaseProcess/plans/Release.hpp. </li>
