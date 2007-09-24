@@ -1909,13 +1909,9 @@ When setting the new version number in the \filename{Transitional/plans/mileston
 \end{verbatim}
 where ``MILESTONE HEADING'' is to be replaced by the theme of the milestone. And set a tag
 \begin{verbatim}
-git tag Transitional_?.?.?
+git tag -m ``MILESTONE HEADING" -a Transitional-?.?.?
 \end{verbatim}
-showing the new version number (immediately after the above commit of the new version number, since the tag belongs to the last commit). Pushs and pulls related to this commit (which shall transfer also this ``leightweight tag'') must use the forms
-\begin{verbatim}
-git pull --tag
-git push --tag
-\end{verbatim}
+showing the new version number (immediately after the above commit of the new version number, since the tag belongs to the last commit). This form of tag (not ``lightweight'') is by default transmitted with push's and pull's.
 
 
 
