@@ -33,7 +33,7 @@ License, or any later version. */
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par
    In Transitional/plans/Foundations.hpp the following topics are handled:
-    - Fundamental "axioms"
+    - Fundamental "axioms" : DONE
   \par
    In Transitional/plans/general.hpp the following topics are handled:
     - Completing the repository : DONE
