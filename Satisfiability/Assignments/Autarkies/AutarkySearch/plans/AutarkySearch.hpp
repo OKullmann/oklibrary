@@ -9,6 +9,9 @@ License, or any later version. */
   \file AutarkySearch/plans/AutarkySearch.hpp
   \brief Plans for the module on autarky search
 
+
+  \todo Update namespaces.
+
 */
 
 /*!

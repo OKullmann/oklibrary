@@ -7,6 +7,6 @@ License, or any later version. */
 
 /*!
   \file AutarkySearch/AnalyseTotalAssignment.hpp
-  \brief Components regarding the determination of the largest autarky inside soma total (or partial) assignment
+  \brief Components regarding the determination of the largest autarky inside some total (or partial) assignment
 */
 

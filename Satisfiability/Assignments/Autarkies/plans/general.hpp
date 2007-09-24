@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Move Transitional/AutarkySearch here.
+  \todo Move Transitional/AutarkySearch here. DONE
 
 */
 
