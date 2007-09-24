@@ -10,28 +10,6 @@ License, or any later version. */
   \brief Plans for the module containing old OKsolver-etc-code
 
 
-  \todo Submodule "Experimental 200102" DONE
-  <ul>
-   <li> DONE AllgKlassen200102/VarSet.hpp goes to
-   Satisfiability/ProblemInstances/Variables. </li>
-   <li> DONE AllgKlassen200102/Literal.hpp goes to
-   Satisfiability/ProblemInstances/Literals. </li>
-   <li> DONE AllgKlassen200102/Clause.hpp goes to
-   Satisfiability/ProblemInstances/Clauses. </li>
-   <li> DONE AllgKlassen200102/ClauseSet.hpp goes to
-   Satisfiability/ProblemInstances/ClauseSets. </li>
-   <li> DONE AllgKlassen200102/PartAssign.hpp goes to
-   Satisfiability/Assignments. </li>
-   <li> DONE AllgKlassen200102/DLL_Algorithms.hpp and
-   AllgKlassen200102/DLL_Algorithms.cpp go to
-   Satisfiability/Algorithms/Backtracking. </li>
-   <li> DONE AllgKlassen200102/DLL-Implementations.cpp goes to
-   Satisfiability/Solvers/DLL. It needs to be linked with
-   DLL_Algorithms.o and Kommandozeile.o.
-   </li>
-  </ul>
-
-
   \todo Submodule "Experimental 200203"
   <ul>
    <li> AllgKlassen200203/Variables.hpp goes to
@@ -86,30 +64,5 @@ License, or any later version. */
    Satisfiability/Reductions/UnitClausePropagation. </li>
    <li> AllgKlassen200203/makefile will be replaced. </li>
   </ul>
-
-  
-  \todo Submodule "Transformationen" : All content should be transferred
-  (that is, what is still relevant). DONE (moved to
-  Satisfiability/Transformers/Generators)
-
-
-  \todo Submodule "Graphen" : It seems there is nothing of real interest in here anymore.
-  DONE (transferred to Combinatorics/Graphs/BoostSupport)
-
-
-  \todo Submodule "Generator" must be transferred to module RandomGenerator. DONE
-
-
-  \todo Submodule "Hilfsprogramme" should be inspected, what the compilation-tool there
-   is doing, so that interesting functions can be incorporated into the build system.
-   DONE (transferred to module Satisfiability/Solvers/OKsolver)
-
-
-  \todo Submodule "Quellen" should be transferred to module OKsolver_1_0. DONE
-  (moved to module Satisfiability/Solvers/OKsolver)
-
-
-  \todo Submodule "Datenbank" has been transferred to module OKdatabase,
-  and should sooner or later be removed. DONE
 
 */

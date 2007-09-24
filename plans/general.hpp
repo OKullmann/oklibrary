@@ -29,58 +29,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Completing the repository DONE (several plans moved to more
-  specialised plans, while in general the current structure works,
-  and doesn't need to be changed)
-  <ul>
-   <li> The new repository would have a directory structure
-    <ol>
-     <li> OKplatform/ </li>
-     <li> OKplatform/system_directories </li>
-     <li> OKplatform/ExternalSources </li>
-     <li> OKplatform/ExternalSources/installations </li>
-     <li> OKplatform/ExternalSources/doc </li>
-     <li> OKplatform/ExternalSources/sources </li>
-     <li> OKplatform/ExternalSources/builds </li>
-     <li> OKplatform/OKsystem </li>
-     <li> OKplatform/OKsystem/OKlib </li>
-    </ol>
-    where OKplatform/OKsystem/OKlib would be the current
-    OKplatform/OKsystem/Transitional.
-   </li>
-   <li> For OKplatform/ExternalSources see "Elaborated directory structure"
-   in Buildsystem/ExternalSources/plans/general.hpp. </li>
-   <li> Potentially the build-system could be moved to
-   OKplatform/OKsystem/BuildSystem ? Or the whole new super-module
-   "System" (see below) ?? However the test system belongs to the OKlibrary.
-   Only the build-system does not contain C++ code, and thus could be moved
-   outside the OKlibrary. </li>
-   <li> So potentially additionally OKplatform/OKsystem/BuildSystem. </li>
-   <li> Discussion of the advantages and disadvantages of such a completed ("higher")
-   directory structure in the repository:
-    <ul>
-     <li> Advantages:
-      <ol>
-       <li> The full directory structure is fixed and explicit. </li>
-       <li> It is easier to exploit the full directory structure. </li>
-       <li> Package building becomes (a bit) easier. </li>
-      </ol>
-     </li>
-     <li> Disadvantages:
-      <ol>
-       <li> The full directory structure is fixed. </li>
-       <li> As now, "projecting the directory structure in the environment", we are
-       more flexible. </li>
-       <li> The Git-history-interruption (due to the move) is somewhat ugly. </li>
-       <li> Git only notices a directory if it has some (indexed) file in it. </li>
-       <li> It seems unusual (so well). </li>
-      </ol>
-     </li>
-    </ul>
-   </li>
-  </ul>
-
-
   \todo Super-modules:
   <ul>
    <li> We needs a library directory-superstructure.
@@ -379,37 +327,6 @@ namespace SatAlg = Satisfiability::Algorithms;
     </ol>
    </li>
   </ul>
-
-
-  \todo Concepts : DONE (decided that concepts are now handled locally, in
-  each module)
-  <ul>
-   <li> Currently all concepts are collected in module Concepts. Perhaps every module
-   better should get its own sub-module "Module/concepts" ?! </li>
-  </ul>
-
-
-  \todo Computer algebra system: DONE (decided to use SAGE)
-  Mupad used to be free, and thus we have the Mupad-module.
-  Now this is no longer the case (check again), and we need
-  a replacement:
-  <ol>
-   <li> Sage (http://modular.math.washington.edu/sage/): I (OK) don't like the
-   python-hype. Otherwise it looks interesting. The core seems to be written in C++.
-   It also includes some other systems. Seems reasonably documented.
-   For programming some language has to be learned anyway. So perhaps the first choice. </li>
-   <li> Axiom (http://wiki.axiom-developer.org/FrontPage): Not bad; there is a book
-   on it; but somewhat unclear what it can. </li>
-   <li> Yacas (http://yacas.sourceforge.net): Not bad; again not clear what it
-   can do. </li>
-   <li> Maxima (http://maxima.sourceforge.net/): looks reasonable, but perhaps too
-   lisp-ish. </li>
-   <li> Singular (http://www.singular.uni-kl.de/): Interesting, but more specialised.
-   Perhaps it can be used besides a general-purpose system? </li>
-   <li> GiNaC is C++ (!) --- is it still under development? </li>
-   <li> Check the licence for Mupad (http://www.mupad.de/): It seems a licence has to be
-   purchased (and from my last experience with Mupad it seems also the Linux support is weak). DONE </li>
-  </ol>
 
 */
 

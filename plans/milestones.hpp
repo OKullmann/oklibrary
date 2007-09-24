@@ -23,35 +23,7 @@ License, or any later version. */
   \section StartingVersion Future milestones
 
 
-  \section VersionTransitional020 0.2 : Theme "PROTO-RELEASE"
-  TO BE REACHED $(deadline_020)
-  \par Buildsystem version 0.2 (OK, MH) : DONE
-  (see Buildsystem/plans/milestones.hpp)
-  \par LegalIssues version 0.0.5 : DONE
-  (see LegalIssues/plans/milestones.hpp)
-  \par Satisfiability/Solvers version 0.2.2 : DONE
-  (see Satisfiability/Solvers/plans/milestones.hpp)
-  \par
-   In Transitional/plans/Foundations.hpp the following topics are handled:
-    - Fundamental "axioms" : DONE
-  \par
-   In Transitional/plans/general.hpp the following topics are handled:
-    - Completing the repository : DONE
-    - Concepts : DONE
-    - Computer algebra system : DONE
-    - Licence : DONE (moved to System/LegalIssues)
-  \par
-   In Transitional/OKsolver/plans/general.hpp the following topics are handled:
-    - Submodule "Experimental 200102" : DONE
-    - Submodule "Transformationen" : DONE
-    - Submodule "Graphen" : DONE
-    - Submodule "Generator" : DONE
-    - Submodule "Hilfsprogramme" : DONE
-    - Submodule "Quellen" : DONE
-    - Submodule "Datenbank" : DONE
-
-   
-  \subsection VersionTransitional021 0.2.1
+  \subsection VersionTransitional021 0.2.1 : Theme "PROTO-RELEASE"
   TO BE REACHED $(deadline_021)
   \par LegalIssues version 0.1
   (see LegalIssues/plans/milestones.hpp)
@@ -81,6 +53,9 @@ License, or any later version. */
     - Partially moving repository Annotations
     - Latex macros
     - Bibtex-database
+  \par
+   In Transitional/plans/Foundations.hpp the following topics are handled:
+    - Improve the general design discussions
   \par
    In Transitional/OKsolver/plans/general.hpp the following topics are handled:
     - Submodule "Experimental 200203"
@@ -271,6 +246,25 @@ License, or any later version. */
    - various SAT-plans expanded (on hypergraph transversals, cryptanalysis, Sudoku, problem generators,
      reductions, resolution)
    - some advancements in programming (usage of threads, numerics, messages).
+
+   \par 0.2.0 24/9/2007
+
+   - complete overhaul of the buildsystem: installing the new configuration
+     management system, improvement of build capabilities (including new
+     masterscript oklib), established the local pages and the Internet
+     pages with associated package building, extended documentation;
+     also various external sources installed, and basic documentation
+     provided
+   - started complete restructuring of the directory structure (and of the
+     associated namespaces)
+   - starting overhauling the old OKsolver, removed bugs and making
+     it compiling again; also other transfers regarding old code,
+     and extended plans
+   - various works on computer algebra and cryptology; started using
+     Maxima (and Sage), and further plans
+   - decided upon the licence and added appropriate texts to all major files
+   - further investigations into distributed development (Git, mailing lists,
+     etc.).
 
 */
 
