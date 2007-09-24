@@ -32,15 +32,14 @@ License, or any later version. */
   \par Satisfiability/Solvers version 0.2.2 : DONE
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par
+   In Transitional/plans/Foundations.hpp the following topics are handled:
+    - Fundamental "axioms"
+  \par
    In Transitional/plans/general.hpp the following topics are handled:
-    - "OKlib" vs. "Transitional"
-    - Completing the repository
+    - Completing the repository : DONE
     - Concepts : DONE
     - Computer algebra system : DONE
     - Licence : DONE (moved to System/LegalIssues)
-  \par
-   In Transitional/plans/Foundations.hpp the following topics are handled:
-    - Fundamental "axioms"
   \par
    In Transitional/OKsolver/plans/general.hpp the following topics are handled:
     - Submodule "Experimental 200102" : DONE
@@ -71,6 +70,7 @@ License, or any later version. */
   are integrated into the overall milestones (here).
   \par
    In Transitional/plans/general.hpp the following topics are handled:
+    - "OKlib" instead of "Transitional"
     - Super-modules
     - Handling of version-numbers
     - Research sub-modules

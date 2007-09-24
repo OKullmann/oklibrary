@@ -10,20 +10,28 @@ License, or any later version. */
   \brief Plans for the Transitional-library which do not belong to a single module
 
 
-  \todo "OKlib" vs. "Transitional"
+  \todo "OKlib" instead of "Transitional"
   <ul>
-   <li> Perhaps we should give up the distinction between "Transitional" and
-   "OKlib", but rename "Transitional" to "OKlib", and remove the (empty)
-   repository "OKlibrary". </li>
-   <li> Likely it will be always like that, a lot of experimental stuff lying
-   around? But then we need clear indications what modules are usable already
+   <li> Rename "Transitional" to "OKlib", and remove the (empty)
+   repository "OKlibrary".
+    <ol>
+     <li> The best would be a program which goes through all
+     files containing "Transitional", shows the line plus its
+     environment, and asks whether the occurrence should be replaced by
+     "Oklib --- if not, then the filename is stored for later
+     consideration. </li>
+    </ol>
+   </li>
+   <li> We need clear indications what modules are usable already
    --- this should be achieved by their version numbers.
-   See "Doxygen menu and main page review" in Buildsystem/Generic/documentation_building/plans/documentation_building.hpp.
+   See "Doxygen menu and main page review" in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp.
    </li>
   </ul>
 
 
-  \todo Completing the repository
+  \todo Completing the repository DONE (several plans moved to more
+  specialised plans, while in general the current structure works,
+  and doesn't need to be changed)
   <ul>
    <li> The new repository would have a directory structure
     <ol>

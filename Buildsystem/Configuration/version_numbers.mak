@@ -8,8 +8,8 @@
 # Version numbers regarding the OKlibrary, and related information
 
 # Current version of Transitional:
-transitional_version ?= 0.1.5.6
-transitional_version_full ?= 0.1.5.6 (24.9.2007)
+transitional_version ?= 0.1.5.7
+transitional_version_full ?= 0.1.5.7 (24.9.2007)
 
 # Current version of OKlib:
 oklib_version ?= 0.0.1

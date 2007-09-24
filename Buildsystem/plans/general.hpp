@@ -31,11 +31,12 @@ License, or any later version. */
    - Document the build-system (general ideas, functionality).
 
 
-  \todo Renaming module Buildsystem:
-  To be consistent with the other module names, it should be called "BuildSystem" ?
-  But perhaps not --- it really is one "block", not composed of of two
-  somewhat indepedent parts?! We have "ComplexitySystem" and "TestSystem",
-  perhaps "Buildsystem" is different (somewhat more fundamental) ?!
+  \todo Renaming module Buildsystem
+  <ul>
+   <li> To be consistent with the other module names, it should be called
+   "BuildSystem". </li>
+   <li> And we should move the module to part System. </li>
+  </ul>
 
 
   \todo Documentation (Examples and Concepts) OK : this needs to be discussed and updated
