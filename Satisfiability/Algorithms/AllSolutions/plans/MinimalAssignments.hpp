@@ -9,16 +9,17 @@ License, or any later version. */
   \file AllSolutions/plans/MinimalAssignments.hpp
   \brief Plans for computing the generalised "transversal hypergraph"
 
+
   \todo The basic algorithm:
-  Hypergraph traversal is a special case of "clause-set
-  traversal", where for a clause-set the set of minimal satisfying
-  partial assignments has to be computed. Via the embedding
-  of hypergraphs into clause-sets as positive clause-sets,
-  hypergraph transversal (see HypergraphTransversals/plans/HypergraphTransversals.hpp)
-  can be obtained as special case.
-  For a clause-set F, let's call the set of minimal satisfying
-  partial assignment also "Tr(F)".
   <ul>
+   <li> Hypergraph traversal is a special case of "clause-set
+   traversal", where for a clause-set the set of minimal satisfying
+   partial assignments has to be computed. </li>
+   <li> Via the embedding of hypergraphs into clause-sets as positive clause-sets,
+   hypergraph transversal (see HypergraphTransversals/plans/general.hpp)
+   can be obtained as special case. </li>
+   <li> For a clause-set F, let's call the set of minimal satisfying
+   partial assignment also "Tr(F)". </li>
    <li> Computation of Tr(F) for clause-sets F. The fundamental formula is
     <center>
     Tr(F_1 union F_2) = min(Tr(F_1) * Tr(F_2))
@@ -61,6 +62,34 @@ License, or any later version. */
   is enabled in order to make sure that all minimal satisfying assignments
   are found; without global learning one could investigate the other branches
   first when performing subsumption elimination for the result).
+
+
+  \todo Parameterisation
+  <ul>
+   <li> As for the hypergraph case
+   (see Hypergraphs/Transversals/plans/SizeParameter.hpp),
+   the natural parameter is the size of the partial assignment. </li>
+   <li> The hypergraph algorithms can be immediately generalised, only
+   that now a variable v with domain size d leads to a branching of size
+   d+1 (hypergraphs: d=1). </li>
+  </ul>
+
+
+  \todo Tree pruning
+  <ul>
+   <li> Can tree pruning (minimising a satisfying assignment found, and
+   then cutting off unneeded branches) be understood as a special case
+   of normal tree pruning for SAT solving? </li>
+   <li> If we actually store the satisfying partial assignment found
+   (here it would make sense to keep it always subsumption-free, which is not
+   too costly, since new assignments cannot strictly subsume old assignments,
+   since they are already minimal), then this tree-pruning could be realised by
+   finding out that the current partial assignment phi is subsumed by one of the
+   assignments already stored, i.e., phi falsifies the negation of the stored DNF. </li>
+   <li> Here one could use more powerful methods to find a inconsistency?!
+   This should further cut the tree, and establish a kind of true dual
+   method here. </li>
+  </ul>
 
 
   \todo Apply it to compute all MUS's, given all MSS's.

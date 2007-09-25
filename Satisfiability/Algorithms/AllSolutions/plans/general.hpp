@@ -6,19 +6,26 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AllSolutions/plans/AllSolutions.hpp
+  \file AllSolutions/plans/general.hpp
   \brief Plans for the module on components for finding all
   satisfying assignments.
 
   Computing representations for the set of all satisfying assignments.
 
+
   \todo Hypergraph transversals:
-  See HypergraphTransversals/plans/HypergraphTransversals.hpp
-  for the special problem of finding minimal transversals.
+  
   <ul>
+   <li> See HypergraphTransversals/plans/general.hpp
+   for the special problem of finding minimal transversals. </li>
    <li> In AllSolutions/plans/MinimalAssignments.hpp the hypergraph-point-of-view
    is discussed in more details. </li>
-   <li> The links to module HypergraphTransversals should be clarified. </li>
+   <li> The links to module HypergraphTransversals should be clarified.
+    <li> The generic approach would be to only implement the SAT-case,
+    and the hypergraph case is then obtained as the special case of
+    uniform domain size 1 (for positive monosigned literals).
+    Looks desirable. </li>
+   </li>
   </ul>
 
 

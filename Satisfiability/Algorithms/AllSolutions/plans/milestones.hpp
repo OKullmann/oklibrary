@@ -6,9 +6,10 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AllSolutions/plans/milestones.hpp
+  \file Algorithms/AllSolutions/plans/milestones.hpp
 
-  \module_version AllSolutions 0.0.3 (22.6.2007)
+  \module_version Algorithms/AllSolutions 0.0.3 (22.6.2007)
+
 
   \par Version 0.0.4 :
 
@@ -18,13 +19,15 @@ License, or any later version. */
     - The basic algorithm
 
   \par
-   In AllSolutions/plans/AllSolutions.hpp the following
+   In AllSolutions/plans/general.hpp the following
    topics are handled:
     - Hypergraph transversals
     - Further milestones
 
+
   \par Version 0.1 :
   We have first implementations for enumerating all solutions.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
