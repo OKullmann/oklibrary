@@ -72,6 +72,7 @@ License, or any later version. */
    <li> The hypergraph algorithms can be immediately generalised, only
    that now a variable v with domain size d leads to a branching of size
    d+1 (hypergraphs: d=1). </li>
+   <li> For the optimisation version see Satisfiability/Optimisation/plans/general.hpp. </li>
   </ul>
 
 
