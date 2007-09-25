@@ -13,6 +13,9 @@ License, or any later version. */
   \todo Update the namespaces.
 
 
+  \todo All sub-modules have milestones.
+
+
    \todo Clarify the relations to
     - Concepts/plans/BipartiteGraphs.hpp
     - Hypergraph concepts (see Hypergraphs/concepts/plans/general.hpp)
