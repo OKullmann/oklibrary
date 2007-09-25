@@ -15,12 +15,6 @@ License, or any later version. */
   might go to part Satisfiability (if general enough) or
   to part Applications.
 
-
-  \todo Update namespaces. DONE
-
-
-  \todo All supermodules have plans and milestones. DONE
-
 */
 
 /*!

@@ -41,6 +41,8 @@ License, or any later version. */
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par Satisfiability/Assignments version 0.0.5 (OK)
   (see Satisfiability/Assignments/plans/milestones.hpp)
+  \par %Combinatorics 0.0.3 : DONE
+  (see Combinatorics/plans/milestones.hpp)
   \par Plans
   All modules have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
@@ -113,6 +115,8 @@ License, or any later version. */
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
   \par GeneralInputOutput 0.1.2
   (see Transitional/GeneralInputOutput/plans/milestones.hpp)
+  \par %Combinatorics 0.0.4
+  (see Combinatorics/plans/milestones.hpp)
   \par
    In Transitional/plans/general.hpp the following topics are handled:
     - Upgrade to gcc-4.2.1

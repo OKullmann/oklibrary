@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Combinatorics/plans/milestones.hpp
 
-  \module_version %Combinatorics 0.0.2 (17.6.2006)
-
-
-  \par Version 0.0.3 :
-
-  \par
-   In Transitional/Combinatorics/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces. DONE
-    - All supermodules have plans and milestones. DONE
+  \module_version %Combinatorics 0.0.3 (25.9.2007)
 
 
   \par Version 0.0.4 :
@@ -31,12 +22,16 @@ License, or any later version. */
   \par Combinatorics/Hypergraphs 0.0.4
   (see Combinatorics/Hypergraphs/plans/milestones.hpp)
 
+  \par
+   Create further milestones.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
 
-   -  0.0.2 : 17.6.2006; initial version number (only (several) plans).
+   - 0.0.2 : 17.6.2006; initial version number (only (several) plans).
+   - 0.0.3 : 25.9.2007; update module (new super-module) structure and plans.
 
 */
