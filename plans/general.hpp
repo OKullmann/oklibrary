@@ -131,7 +131,7 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> SaC ("SatCompetition") </li>
         </ol>
        </li>
-       <li> "Combinatorics" ("Com")
+       <li> "Combinatorics" ("Cmb")
         <ol>
          <li> Gra ("Graphs") </li>
          <li> Hyp ("Hypergraphs") </li>

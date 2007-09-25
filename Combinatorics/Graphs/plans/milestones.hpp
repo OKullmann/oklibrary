@@ -6,9 +6,10 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Graphs/plans/milestones.hpp
+  \file Combinatorics/Graphs/plans/milestones.hpp
 
-  \module_version %Graphs 0.0.2 (30.12.2006)
+  \module_version Combinatorics/Graphs 0.0.2 (30.12.2006)
+
 
   \par Version 0.0.3
 

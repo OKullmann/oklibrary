@@ -17,7 +17,7 @@ License, or any later version. */
    In Combinatorics/Enumeration/plans/general.hpp the following
    topics are handled:
     - Update namespaces
-    Create a development plan and milestones.
+    - Create a development plan and milestones
 
 
 

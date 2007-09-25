@@ -16,18 +16,24 @@ License, or any later version. */
   to part Applications.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
+
+
+  \todo All supermodules have plans and milestones. DONE
 
 */
 
 /*!
   \namespace OKlib::Combinatorics
-  \brief Module for general combinatorics
+  \brief The part of the OKlibrary for general combinatorics
+
+  Alias "Cmb".
 */
 
 
 namespace OKlib {
   namespace Combinatorics {
   }
+  namespace Cmb = Combinatorics;
 }
 

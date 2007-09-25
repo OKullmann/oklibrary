@@ -10,12 +10,28 @@ License, or any later version. */
 
   \module_version %Combinatorics 0.0.2 (17.6.2006)
 
-  \par Version 0.1 :
-  Simple implementations of LexicographicalPermutationGenerator
-  (see Combinatorics/plans/Enumeration/Permutations.hpp), based on
-  the permutation generator from the standard library,
-  and yielding fixed and arbitrary permutations, with and without
-  fast inversion.
+
+  \par Version 0.0.3 :
+
+  \par
+   In Transitional/Combinatorics/plans/general.hpp the following
+   topics are handled:
+    - Update namespaces. DONE
+    - All supermodules have plans and milestones. DONE
+
+
+  \par Version 0.0.4 :
+
+  \par Combinatorics/Enumeration 0.0.5
+  (see Combinatorics/Enumeration/plans/milestones.hpp)
+
+  \par Combinatorics/Graphs 0.0.3
+  (see Combinatorics/Graphs/plans/milestones.hpp)
+
+  \par Combinatorics/Hypergraphs 0.0.4
+  (see Combinatorics/Hypergraphs/plans/milestones.hpp)
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
