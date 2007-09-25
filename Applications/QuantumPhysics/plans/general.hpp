@@ -11,12 +11,6 @@ License, or any later version. */
   of satisfiability)
 
 
-  \todo Move this module to part Applications. DONE
-
-
-  \todo Update namespaces. DONE
-
-
   \todo Detailed examination of Peres33PointConfiguration.cnf
    - w.r.t. the number of variables or number of clauses the smallest
      minimally unsatisfiable sub-clause-set

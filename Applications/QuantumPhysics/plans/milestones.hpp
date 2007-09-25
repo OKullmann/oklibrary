@@ -8,17 +8,8 @@ License, or any later version. */
 /*!
   \file QuantumPhysics/plans/milestones.hpp
 
-  \module_version QuantumPhysics 0.0.7 (26.11.2006)
+  \module_version QuantumPhysics 0.0.8 (25.9.2006)
 
-
-  \par Version 0.0.8
-   In QuantumPhysics/plans/general.hpp the following topics are handled:
-    - Update namespaces : DONE
-    - Move the module to part Applications : DONE
-
-  \par
-   Update the milestones.
-   
 
   \par Version 0.0.9
   In QuantumPhysics/plans/OrthogonalTriples.hpp the following topics are handled:
@@ -63,5 +54,6 @@ License, or any later version. */
   \par Version history
 
    - 0.0.7 : 26.11.2006; initial version number (basic implementations, and plans).
+   - 0.0.8 : 25.9.2007; moved module to new place, and associated updates.
 
 */
