@@ -37,10 +37,8 @@ License, or any later version. */
   (see TestSystem/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
-  \par Satisfiability/Solvers version 0.2.4 (OK)
-  (see Satisfiability/Solvers/plans/milestones.hpp)
-  \par Satisfiability/Assignments version 0.0.5 (OK)
-  (see Satisfiability/Assignments/plans/milestones.hpp)
+  \par Transitional/Satisfiability version 0.1.2 (OK)
+  (see Transitional/Satisfiability/plans/milestones.hpp)
   \par %Combinatorics 0.0.3 : DONE
   (see Combinatorics/plans/milestones.hpp)
   \par Plans

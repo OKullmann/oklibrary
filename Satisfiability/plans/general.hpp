@@ -11,7 +11,12 @@ License, or any later version. */
   issues
 
 
-  \todo Milestones
+  \todo All sub-supermodules have milestones.
+
+
+  \todo Milestones : DONE
+  (we have enough structure in this part, so also here milestones are introduced,
+  establishing a proper hierarchy)
   <ul>
    <li> It seems that at least for now, there are no milestones at the level
    of super-module Satisfiability. </li>
