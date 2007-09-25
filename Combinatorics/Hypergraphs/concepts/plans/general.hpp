@@ -13,9 +13,6 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Move the related files from Transitional/Concepts here : DONE
-
-
   \todo Collect possible requirements on a hypergraph concept
   <ul>
    <li> We must connect to the similar (and more refined) considerations
@@ -94,6 +91,8 @@ License, or any later version. */
    <li> See QuantumPhysics/plans/OrthogonalTriples.hpp for some examples. </li>
   </ul>
 
+
+  \todo Move the related files from Transitional/Concepts here : DONE
 
 */
 
