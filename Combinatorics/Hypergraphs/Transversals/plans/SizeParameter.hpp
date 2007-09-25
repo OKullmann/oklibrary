@@ -19,14 +19,30 @@ License, or any later version. */
      extended to a transversal of size at most k. </li>
      <li> If all hyperedges are covered, return V. </li>
      <li> Otherwise, if |V| is of size = k, then return "impossible". </li>
-     <li> Otherwise chose hyperedge H which is not hit by V, and for v in H
-     try recursively H + {v}. </li>
+     <li> Otherwise choose hyperedge H which is not hit by V, and for v in H
+     try recursively V + {v}. </li>
     </ol>
    </li>
    <li> For the choice of H the simplest heuristics is to choose a
-   smallest H. </li>
+   smallest H.
+    <ol>
+     <li> Simplest to order the hyperedges once at the beginning. </li>
+     <li> Stronger if the hypergraph datastructure gives acces to the
+     current smallest hyperedge; but this is not enough, we need the
+     smallest *uncovered* hyperedge (one whose size has not changed
+     since the beginning). </li>
+    </ol>
+   </li>
    <li> For the order of vertices, the simplest heuristics is to order
    them in descending degree. </li>
+   <li> Special services needed from the hypergraph:
+    <ol>
+     <li> Necessary is a largest hyperedge. </li>
+     <li> For heuristical purposes a smallest hyperedge (strongest:
+     amongst the untouched hyperedges). </li>
+     <li> For heuristical purposes a vertex of largest degree. </li>
+    </ol>
+   </li>
   </ul>
 
 
