@@ -11,12 +11,13 @@ License, or any later version. */
   \module_version QuantumPhysics 0.0.7 (26.11.2006)
 
 
-   \par Version 0.0.8
-    In QuantumPhysics/plans/general.hpp the following topics are handled:
-     - Move the module to part Applications
+  \par Version 0.0.8
+   In QuantumPhysics/plans/general.hpp the following topics are handled:
+    - Update namespaces : DONE
+    - Move the module to part Applications : DONE
 
-   \par
-    Update the milestones.
+  \par
+   Update the milestones.
    
 
   \par Version 0.0.9
@@ -36,7 +37,12 @@ License, or any later version. */
   In QuantumPhysics/plans/OrthogonalTriples.hpp the following topics are handled:
   - Orthogonality relation
   - Extract triangles
+
+
+  \par Version 0.0.12
+  In QuantumPhysics/plans/OrthogonalTriples.hpp the following topics are handled:
   - Copying graphs.
+  - We need a new function "completion"
 
 
   \par Version 0.1

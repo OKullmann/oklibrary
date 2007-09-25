@@ -39,6 +39,8 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par QuantumPhysics version 0.0.8 (OK)
+  (see QuantumPhysics/plans/milestones.hpp)
   \par %Combinatorics 0.0.3 : DONE
   (see Combinatorics/plans/milestones.hpp)
   \par Plans
@@ -93,8 +95,6 @@ License, or any later version. */
   (see Graphs/plans/milestones.hpp)
   \par HypergraphColouring version 0.0.5 (OK (MH))
   (see HypergraphColouring/plans/milestones.hpp)
-  \par QuantumPhysics version 0.0.8 (OK)
-  (see QuantumPhysics/plans/milestones.hpp)
   \par Messages version 0.7.6 (OK)
   (see Messages/plans/milestones.hpp)
   \par AutarkySearch version 0.0.7 (OK (ML))

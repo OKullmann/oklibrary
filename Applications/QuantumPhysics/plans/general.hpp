@@ -11,7 +11,10 @@ License, or any later version. */
   of satisfiability)
 
 
-  \todo Move this module to part Applications.
+  \todo Move this module to part Applications. DONE
+
+
+  \todo Update namespaces. DONE
 
 
   \todo Detailed examination of Peres33PointConfiguration.cnf
@@ -48,12 +51,17 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::QuantumPhysics
+  \namespace OKlib::Applications::QuantumPhysics
   \brief Components related to certain aspects of quantum physics
+
+  Alias "QuP".
 */
 
 namespace OKlib {
-  namespace QuantumPhysics {
+  namespace Applications {
+    namespace QuantumPhysics {
+    }
+    namespace QuP = QuantumPhysics;
   }
 }
 

@@ -55,11 +55,11 @@ License, or any later version. */
 
   \todo Copying graphs
   Why does
-
-  #include <boost/graph/copy.hpp>
-  UndirectedGraphM g_m(num_vertices(g));
-  boost::copy_graph(g, g_m);
-
+  \code
+#include <boost/graph/copy.hpp>
+UndirectedGraphM g_m(num_vertices(g));
+boost::copy_graph(g, g_m);
+  \endcode
   not work??? Perhaps the problem is, that boost::copy_graph also wants to set the property in g_m ???
 
 
