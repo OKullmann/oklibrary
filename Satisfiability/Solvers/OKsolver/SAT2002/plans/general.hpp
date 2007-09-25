@@ -270,6 +270,19 @@ License, or any later version. */
      <li> Perhaps easiest by using a null pointer. </li>
     </ol>
    </li>
+   <li> A simple improvement is tree pruning (as discussed in
+   AllSolutions/plans/MinimalAssignments.hpp):
+    <ol>
+     <li> Once a solution is found, the solution is minimised
+     by removing unnecessary assignments (minimisation w.r.t.
+     set-inclusion, just find one minimal subset). </li>
+     <li> And then the tree is pruned if possible. </li>
+     <li> Of course, this will make the old OKsolver even more
+     complicated, and thus perhaps should perhaps be postponed
+     until the re-implementation (see
+     Solvers/OKsolver/plans/OKsolver_1_0.hpp). </li>
+    </ol>
+   </li>
   </ul>
 
 */
