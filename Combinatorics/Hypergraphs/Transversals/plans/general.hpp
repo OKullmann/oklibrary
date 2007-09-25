@@ -43,18 +43,35 @@ License, or any later version. */
   </ul>
 
 
-  \todo So the three problems
-  <ol>
-   <li> enumerating transversals </li>
-   <li> enumerating edge covers </li>
-   <li> enumerating independent sets </li>
-  </ol>
-  for hypergraphs can each be reduced to each other by a
-  combination of dualisation and hyperedge-complementation.
-  We should develop hypergraph adapters, which do not need to
-  actually perform the transformation, but provide a "view".
-  Perhaps this should be supported by the hypergraph concepts
-  (otherwise we have to handle expression templates).
+  \todo Duality
+  <ul>
+   <li> So the three problems
+    <ol>
+     <li> enumerating transversals </li>
+     <li> enumerating edge covers </li>
+     <li> enumerating independent sets </li>
+    </ol>
+    for hypergraphs can each be reduced to each other by a
+    combination of dualisation and hyperedge-complementation. </li>
+   <li> We should develop hypergraph adapters, which do not need to
+   actually perform the transformation, but provide a "view". </li>
+   <li> Perhaps this should be supported by the hypergraph concepts
+   (otherwise we have to handle expression templates). </li>
+  </ul>
+
+
+  \todo Compare with the SAT-generalisation
+  <ul>
+   <li> All the algorithms in this module can be naturally generalised to
+   (generalised) SAT; see AllSolutions/plans/MinimalAssignments.hpp. </li>
+   <li> So shall we only implement the general SAT case? </li>
+   <li> The embedding G -> F is given here by using the vertices v as
+   variables with domains D_v = {0}, and where all literals are
+   positive monosigned, i.e., "v=0". </li>
+   <li> An alternative is to use boolean variables: Then we have also the
+   possibility to cross out vertices (by setting the corresponding
+   literals to false). </li>
+  </ul>
 
 */
 

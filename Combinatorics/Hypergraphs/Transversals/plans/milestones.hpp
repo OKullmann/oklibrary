@@ -16,7 +16,12 @@ License, or any later version. */
   \par
    In Hypergraphs/Transversals/plans/general.hpp the following
    topics are handled:
+    - Update namespaces
     - Literature exploration
+    - Compare with the SAT-generalisation
+
+
+  \par Version 0.0.6 :
 
   \par
    In Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp the
@@ -25,7 +30,7 @@ License, or any later version. */
     - %Implementation
 
 
-  \par Version 0.0.6 :
+  \par Version 0.0.7 :
 
   \par
    In Hypergraphs/Transversals/plans/SizeParameter.hpp the
@@ -33,15 +38,25 @@ License, or any later version. */
     - Trivial algorithm for input G, k
 
 
-  \par Version 0.0.7 :
+  \par Version 0.0.8 :
 
   \par
    In Hypergraphs/Transversals/plans/ExactTransversals.hpp the
    following topics are handled:
     - The basic algorithm
 
+
+  \par Version 0.0.9 :
+
+  \par
+   In Hypergraphs/Transversals/plans/general.hpp the following
+   topics are handled:
+    - Duality
+
   \par
    Create new milestones.
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
