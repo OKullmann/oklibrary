@@ -10,14 +10,7 @@ License, or any later version. */
   \brief General plans for the concepts module
 
 
-  \todo UPDATE : Since we are now placing concepts as local as possible,
-  the following must become a plan for moving files to their new place.
-  But the concepts for example regarding the standard library stay here.
-
-  Split the module:
-  The module Concepts is becoming too big and one is loosing overlook.
-  So it should split, with a recursive make under directory Concepts,
-  into sub-modules
+  \todo Move special concepts to their new local places
   <ul>
    <li> SAT
     <ul>
@@ -32,20 +25,20 @@ License, or any later version. */
      <li> Concepts/ResultElements.hpp </li>
     </ul>
    </li>
-   <li> Graphs (or "Combinatorics" ?)
+   <li> Graphs
     <ul>
      <li> Concepts/plans/BipartiteGraphs.hpp </li>
-     <li> Concepts/plans/Hypergraphs.hpp </li>
+     <li> Concepts/plans/Hypergraphs.hpp : DONE </li>
     </ul>
    </li>
-   <li> Std
+   <li> Standard-related concepts --- should stay here.
     <ul>
      <li> Concepts/std_Basics.hpp </li>
      <li> Concepts/std_Container.hpp </li>
      <li> Concepts/std_Iterators.hpp </li>
     </ul>
    </li>
-   <li> StdExt
+   <li> Extended standard-related concepts --- should stay here.
     <ul>
      <li> Concepts/ConceptsBase.hpp </li>
      <li> Concepts/plans/Basics.hpp </li>
@@ -54,7 +47,7 @@ License, or any later version. */
      <li> Concepts/plans/Iterators.hpp </li>
     </ul>
    </li>
-   <li> Refactoring (perhaps more generally "Languages" ? or "Lang" ??)
+   <li> Refactoring
     <ul>
      <li> Concepts/plans/RefactoringIncludeHandling.hpp </li>
     </ul>
@@ -65,8 +58,6 @@ License, or any later version. */
     </ul>
    </li>
   </ul>
-  with Concepts/plans containing general Concepts/plans/Concepts.hpp and
-  Concepts/plans/milestones.hpp.
   Would be good to have refactoring-tools ready for the necessary renamings.
 
 

@@ -15,7 +15,7 @@ License, or any later version. */
 
    \todo Clarify the relations to
     - Concepts/plans/BipartiteGraphs.hpp
-    - Concepts/plans/Hypergraphs.hpp.
+    - Hypergraph concepts (see Hypergraphs/concepts/plans/general.hpp)
 
 */
 

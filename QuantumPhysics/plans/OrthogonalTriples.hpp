@@ -9,12 +9,15 @@ License, or any later version. */
   \file QuantumPhysics/plans/OrthogonalTriples.hpp
   \brief Plans regarding the elementary algorithms for handling orthogonal triples in 3-dimensional Euclidean space
 
+
   \todo The following todo's are about the reusable components in
   QuantumPhysics/OrthogonalTriples.cpp, which should be moved to appropriate
   library files (where they are tested).
 
+
   \todo Output CNFs
   SAT_translation should use the components in InputOutput.
+
 
   \todo Input and output of graphs
   With output_graph and read in HypergraphColouring/GreedyColouring.cpp we have
@@ -22,8 +25,10 @@ License, or any later version. */
   better; we should have the possibilities for comments, and perhaps for vertex
   and edge properties. This all shold go into a dedicated graph-module.
 
+
   \todo Input and Output
   Use Messages and ProgramOptions.
+
 
   \todo Linear algebra
   Move the components
@@ -31,17 +36,22 @@ License, or any later version. */
    - orthogonal (checking needs to be improved)
   to appropriate modules, and test them.
 
+
   \todo Hypergraphs
   In output_remaining_edges, output_hypergraph and extract_triangles a certain interface
-  for hypergraphs is used --- compare this with Concepts/plans/Hypergraphs.hpp.
+  for hypergraphs is used --- compare this with the concepts for
+  hypergraphs (see Hypergraphs/concepts/plans/general.hpp).
+
 
   \todo Orthogonality relation
   The function orthogonality_relation should be generalised, so that
   an arbitrary binrary predicate can be used.
 
+
   \todo Extract triangles
   The function extract_triangles should go into the general graph/hypergraph module.
   Are there better algorithms?
+
 
   \todo Copying graphs
   Why does
@@ -51,6 +61,7 @@ License, or any later version. */
   boost::copy_graph(g, g_m);
 
   not work??? Perhaps the problem is, that boost::copy_graph also wants to set the property in g_m ???
+
 
   \todo We need a new function "completion", which, given a point configuration, adds the unique
   orthogonal direction to every pair which is not contained in a triple. For the Peres 33-point
