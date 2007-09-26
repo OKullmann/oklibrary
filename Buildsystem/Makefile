@@ -13,7 +13,7 @@ SHELL = /bin/bash
 
 # Special makefile for preparing the buildsystem
 
-# The oklib-masterscript definea OKplatform.
+# The oklib-masterscript defines OKplatform.
 ifndef OKplatform
   ifdef OKPLATFORM
     OKplatform := $(OKPLATFORM)
@@ -34,7 +34,7 @@ include $(OKbuildsystem)/standardgoals.mak
 
 Directories := $(ExternalSources) $(Annotations_dir)
 
-generic_dirs := $(OKsystem)/Transitional/AtomicConditions $(OKsystem)/Transitional/Backup $(OKsystem)/Transitional/Concepts $(OKsystem)/Transitional/General $(OKsystem)/Transitional/GeneralInputOutput $(OKsystem)/Transitional/InjectivityConstraints $(OKsystem)/Transitional/InputOutput $(OKsystem)/Transitional/IOTools $(OKsystem)/Transitional/Iterators $(OKsystem)/Transitional/LaTeX $(OKsystem)/Transitional/LatinSquares $(OKsystem)/Transitional/Literals $(OKsystem)/Transitional/LocalSearch $(OKsystem)/Transitional/Matrices $(OKsystem)/Transitional/Messages $(OKsystem)/Transitional/MetaProgramming $(OKsystem)/Transitional/OrderRelations $(OKsystem)/Transitional/Parallelism $(OKsystem)/Transitional/Parsing $(OKsystem)/Transitional/PartialAssignments $(OKsystem)/Transitional/Refactoring $(OKsystem)/Transitional/SATAlgorithms $(OKsystem)/Transitional/SearchDataStructures $(OKsystem)/Transitional/SetAlgorithms $(OKsystem)/Transitional/SystemSpecifics $(OKsystem)/Transitional/TestExecutionTools $(OKsystem)/Transitional/TestSystem $(OKsystem)/Transitional/traits $(OKsystem)/Transitional/TreeDecompositions $(OKsystem)/Transitional/Variables $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/SAT2002 $(OKsystem)/Transitional/Experimentation/Database $(OKsystem)/Transitional/Experimentation/Competition $(OKsystem)/Transitional/HypergraphColouring $(OKsystem)/Transitional/Structures/Cryptology $(OKsystem)/Transitional/Programming/Sequences $(OKsystem)/Transitional/Applications/RamseyTheory $(OKsystem)/Transitional/Satisfiability/ProofSystems/DPv $(OKsystem)/Transitional/Satisfiability/Solvers/Backtracking $(OKsystem)/Transitional/Satisfiability/Algorithms/Backtracking $(OKsystem)/Transitional/Satisfiability/Assignments/Autarkies/AutarkySearch $(OKsystem)/Transitional/Applications/QuantumPhysics
+generic_dirs := $(OKsystem)/Transitional/AtomicConditions $(OKsystem)/Transitional/Backup $(OKsystem)/Transitional/Concepts $(OKsystem)/Transitional/General $(OKsystem)/Transitional/GeneralInputOutput $(OKsystem)/Transitional/InputOutput $(OKsystem)/Transitional/IOTools $(OKsystem)/Transitional/Iterators $(OKsystem)/Transitional/LaTeX $(OKsystem)/Transitional/LatinSquares $(OKsystem)/Transitional/Literals $(OKsystem)/Transitional/LocalSearch $(OKsystem)/Transitional/Matrices $(OKsystem)/Transitional/Messages $(OKsystem)/Transitional/MetaProgramming $(OKsystem)/Transitional/OrderRelations $(OKsystem)/Transitional/Parallelism $(OKsystem)/Transitional/Parsing $(OKsystem)/Transitional/PartialAssignments $(OKsystem)/Transitional/Refactoring $(OKsystem)/Transitional/SATAlgorithms $(OKsystem)/Transitional/SearchDataStructures $(OKsystem)/Transitional/SetAlgorithms $(OKsystem)/Transitional/SystemSpecifics $(OKsystem)/Transitional/TestExecutionTools $(OKsystem)/Transitional/TestSystem $(OKsystem)/Transitional/traits $(OKsystem)/Transitional/TreeDecompositions $(OKsystem)/Transitional/Variables $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/SAT2002 $(OKsystem)/Transitional/Experimentation/Database $(OKsystem)/Transitional/Experimentation/Competition $(OKsystem)/Transitional/HypergraphColouring $(OKsystem)/Transitional/Structures/Cryptology $(OKsystem)/Transitional/Programming/Sequences $(OKsystem)/Transitional/Applications/RamseyTheory $(OKsystem)/Transitional/Satisfiability/ProofSystems/DPv $(OKsystem)/Transitional/Satisfiability/Solvers/Backtracking $(OKsystem)/Transitional/Satisfiability/Algorithms/Backtracking $(OKsystem)/Transitional/Satisfiability/Assignments/Autarkies/AutarkySearch $(OKsystem)/Transitional/Applications/QuantumPhysics $(OKsystem)/Transitional/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints
 
 generic_links := $(addsuffix /makefile, $(generic_dirs))
 
@@ -51,6 +51,8 @@ makefile_autarkies := $(OKsystem)/Transitional/Satisfiability/Assignments/Autark
 makefile_proofsystems := $(OKsystem)/Transitional/Satisfiability/ProofSystems/makefile
 makefile_solvers := $(OKsystem)/Transitional/Satisfiability/Solvers/makefile
 makefile_oksolver := $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/makefile
+makefile_probleminstances := $(OKsystem)/Transitional/Satisfiability/ProblemInstances/makefile
+makefile_activeclauses := $(OKsystem)/Transitional/Satisfiability/ProblemInstances/ActiveClauses/makefile
 makefile_experimentation := $(OKsystem)/Transitional/Experimentation/makefile
 makefile_structures := $(OKsystem)/Transitional/Structures/makefile
 makefile_programming := $(OKsystem)/Transitional/Programming/makefile
@@ -60,7 +62,7 @@ makefile_algorithms := $(OKsystem)/Transitional/Satisfiability/Algorithms/makefi
 OKsystem_links := $(makefile_oksystem)
 Annotations_links := $(makefile_Annotations)
 annotations_links := $(makefile_annotations)
-Transitional_links := $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_algorithms) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems) $(makefile_assignments) $(makefile_autarkies)
+Transitional_links := $(makefile_transitional) $(makefile_satisfiability) $(makefile_solvers) $(makefile_oksolver) $(makefile_algorithms) $(makefile_experimentation) $(makefile_structures) $(makefile_programming) $(makefile_applications) $(makefile_proofsystems) $(makefile_assignments) $(makefile_autarkies) $(makefile_probleminstances) $(makefile_activeclauses)
 
 
 ########### Rules ######################
