@@ -11,12 +11,6 @@ License, or any later version. */
   and bijectivity constraints.
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Move to ProblemInstances/ActiveClauses. DONE
-
-
   \todo Update:
   <ul>
    <li> Get an update on the services (possibly) provided efficiently
@@ -122,6 +116,7 @@ License, or any later version. */
 
   \todo For variables v, v' not  only " v <> v' " is needed, but more general
   " f(v) <> f(v') " for some function f.
+
 */
 
 /*!

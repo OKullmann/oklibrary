@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file ActiveClauses/InjectivityConstraints/plans/milestones.hpp
 
-  \module_version ActiveClauses/InjectivityConstraints 0.0.2 (23.11.2006)
-
-
-  \par Version 0.0.3
-
-  \par
-   In InjectivityConstraints/plans/general.hpp the following topics are handled:
-    - Update namespaces : DONE
-    - Move to ProblemInstances/ActiveClauses : DONE
-    - Correct milestones-file : DONE
+  \module_version ActiveClauses/InjectivityConstraints 0.0.3 (26.9.2007)
 
 
   \par Version 0.0.4
@@ -91,6 +82,7 @@ License, or any later version. */
 
    - 0.0.1 : 8.3.2006; initial version number (only plans).
    - 0.0.2 : 23.11.2006; several plans, and first prototype.
+   - 0.0.3 : 26.9.2007; moved to the new hierarchy, and associated updates.
 
 */
 

@@ -39,7 +39,7 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
-  \par InjectivityConstraints version 0.0.3 (OK, MH)
+  \par InjectivityConstraints version 0.0.3 (OK, MH) : DONE
   (see InjectivityConstraints/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK) : DONE
   (see QuantumPhysics/plans/milestones.hpp)
