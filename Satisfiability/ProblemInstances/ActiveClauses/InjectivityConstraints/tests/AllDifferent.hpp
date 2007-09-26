@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InjectivityConstraints/tests/AllDifferent.hpp
+  \file ActiveClauses/InjectivityConstraints/tests/AllDifferent.hpp
   \brief Testing of algorithms for alldifferent constraint.
 
 */
@@ -14,12 +14,18 @@ License, or any later version. */
 #ifndef TEST_ALLDIFFERENT_9fw8PFh89
 #define TEST_ALLDIFFERENT_9fw8PFh89
 
-#include <Transitional/InjectivityConstraints/AllDifferent.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints/AllDifferent.hpp>
 
 namespace OKlib {
-  namespace InjectivityConstraints {
-    namespace tests {
+  namespace Sat {
+    namespace PrI {
+      namespace ACl {
+        namespace InC {
+          namespace tests {
 
+          }
+        }
+      }
     }
   }
 }

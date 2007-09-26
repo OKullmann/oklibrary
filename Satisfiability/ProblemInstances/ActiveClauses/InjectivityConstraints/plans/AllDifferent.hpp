@@ -6,30 +6,39 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InjectivityConstraints/plans/AllDifferent.hpp
+  \file ActiveClauses/InjectivityConstraints/plans/AllDifferent.hpp
   \brief Plans for all-different constraint.
 
-  \todo Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+
+  \todo Finish implementation of InjectivityConstraints::TrivialAllDifferent
+
 
   \todo What is the concept for TrivialAllDifferent<PASS> ?
-  An "active clause-set" ! Especially the eval-member-function needs
-  an overhaul (see Concepts/plans/ClauseSets.hpp; perhaps it makes
-  sense to always have a trivial evaluation?). The connection to the partial
-  assignment is critical; there are more return-possibilities (at least in
-  general; perhaps not for the trivial evaluation).
-  Perhaps a reference to phi should be stored at construction.
+  <ul>
+   <li> An "active clauses" ! </li>
+   <li> Especially the eval-member-function needs
+   an overhaul (see Concepts/plans/ClauseSets.hpp; perhaps it makes
+   sense to always have a trivial evaluation?). </li>
+   <li> The connection to the partial
+   assignment is critical; there are more return-possibilities (at least in
+   general; perhaps not for the trivial evaluation).
+   Perhaps a reference to phi should be stored at construction. </li>
+  </ul>
+
 
   \todo See also Concepts/plans/Variables.hpp and Concepts/plans/Literals.hpp.
   (Perhaps the value_type should always be order-comparable?)
 
-  \todo Test OKlib::InjectivityConstraints::TrivialAllDifferent
 
-  \todo Move the relevant parts from InjectivityConstraints/plans/InjectivityConstraints.hpp to here.
+  \todo Test InjectivityConstraints::TrivialAllDifferent
+
+
+  \todo Move the relevant parts from InjectivityConstraints/plans/general.hpp to here.
+
 
   \todo Old implementations:
   Perhaps the following tests can be reused?
-
-\code
+  \code
 #include <set>
 #include <algorithm>
 
@@ -237,7 +246,7 @@ namespace OKlib {
   }
 } 
 
-\endcode
+  \endcode
 
 
 */

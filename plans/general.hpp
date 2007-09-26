@@ -79,7 +79,7 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> Asg ("Assignments")
           <ol>
            <li> Aut ("Autarkies") </li>
-           <li> pAs ("PartialAssignments") </li>
+           <li> PAs ("PartialAssignments") </li>
           </ol>
          </li>
          <li> Heu ("Heuristics") </li>
@@ -90,9 +90,9 @@ namespace SatAlg = Satisfiability::Algorithms;
            <li> Lit ("Literals") </li>
            <li> Cla ("Clauses") </li>
            <li> Cls ("ClauseSets") </li>
-           <li> aLi ("ActiveLiterals") </li>
-           <li> aCL ("ActiveClauses") </li>
-           <li> aCS ("ActiveClauseSets") </li>
+           <li> ALi ("ActiveLiterals") </li>
+           <li> ACl ("ActiveClauses") </li>
+           <li> ACs ("ActiveClauseSets") </li>
            <li> AaC ("AlliancesActiveClauseSets") </li>           
           </ol>
          </li>

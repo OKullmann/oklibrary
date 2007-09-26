@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Objects for testing of algorithms for alldifferent constraint.
 */
 
-#include <Transitional/InjectivityConstraints/tests/AllDifferent.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/ActiveClauses/InjectivityConstraints/tests/AllDifferent.hpp>
 
 namespace {
 

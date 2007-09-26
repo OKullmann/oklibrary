@@ -6,45 +6,62 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InjectivityConstraints/plans/milestones.hpp
+  \file ActiveClauses/InjectivityConstraints/plans/milestones.hpp
 
-  \module_version InjectivityConstraints 0.0.2 (23.11.2006)
+  \module_version ActiveClauses/InjectivityConstraints 0.0.2 (23.11.2006)
+
 
   \par Version 0.0.3
 
   \par
-   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
-   - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
-   - What is the concept for TrivialAllDifferent<PASS> ?
+   In InjectivityConstraints/plans/general.hpp the following topics are handled:
+    - Update namespaces : DONE
+    - Move to ProblemInstances/ActiveClauses : DONE
+    - Correct milestones-file : DONE
 
-  \par
-   In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-   - Correct milestones-file : DONE
-
-  \par
-  And the following milestones are updated.
 
   \par Version 0.0.4
 
   \par
-   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
-   - Test OKlib::InjectivityConstraints::TrivialAllDifferent
+   In InjectivityConstraints/plans/general.hpp the following topics are handled:
+    - Update
+
+  \par
+   And the following milestones are updated.
+
 
   \par Version 0.0.5
 
   \par
    In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
-   - Old implementations
+    - Finish implementation of OKlib::InjectivityConstraints::TrivialAllDifferent
+    - What is the concept for TrivialAllDifferent<PASS> ?
+  
+
+  \par Version 0.0.6
+
+  \par
+   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+    - Test OKlib::InjectivityConstraints::TrivialAllDifferent
+
+
+  \par Version 0.0.7
+
+  \par
+   In InjectivityConstraints/plans/AllDifferent.hpp the following topics are handled:
+    - Old implementations
 
   \par
    In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-   - First Concepts
+    - First Concepts
+
 
   \par Version 0.1
 
   \par
    In InjectivityConstraints/plans/InjectivityConstraints.hpp the following topics are handled:
-   - Literature and software review
+    - Literature and software review
+
 
   \par Version 0.2
 
@@ -53,12 +70,14 @@ License, or any later version. */
    topics are handled:
    - Basic implementations
 
+
   \par Version 0.3
 
   \par
    In InjectivityConstraints/plans/InjectivityConstraints.hpp the following
    topics are handled:
    - Exploiting matching algorithms
+
 
   \par Version 1.0
   A flexible and powerful toolset for constructing active clause-sets

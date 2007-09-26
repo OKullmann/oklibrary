@@ -39,6 +39,8 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par InjectivityConstraints version 0.0.3 (OK, MH)
+  (see InjectivityConstraints/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK) : DONE
   (see QuantumPhysics/plans/milestones.hpp)
   \par %Combinatorics 0.0.3 : DONE
@@ -83,8 +85,6 @@ License, or any later version. */
   (see PartialAssignments/plans/milestones.hpp)
   \par Resolution version 0.0.4 (OK, MH)
   (see Resolution/plans/milestones.hpp)
-  \par InjectivityConstraints version 0.0.3 (OK, MH)
-  (see InjectivityConstraints/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
   \par Buildsystem version 0.2.2 (OK)

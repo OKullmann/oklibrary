@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InjectivityConstraints/AllDifferent.hpp
+  \file ActiveClauses/InjectivityConstraints/AllDifferent.hpp
   \brief Algorithms for all-different constraint.
 */
 
