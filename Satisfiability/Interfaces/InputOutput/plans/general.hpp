@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output.
 
 
-  \todo Move to Satisfiability/Interfaces. DONE
-
-
-  \todo Update namespaces. DONE
-
-
   \todo Rewrite code fot the new namespaces.
 
 

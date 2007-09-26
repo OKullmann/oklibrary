@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version Interfaces/InputOutput 0.0.7 (7.11.2006)
-
-
-  \par Version 0.0.8 :
-
-  \par
-   In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
-    - Move to Satisfiability/Interfaces : DONE
-    - Update namespaces : DONE
+  \module_version Interfaces/InputOutput 0.0.8 (26.9.2007)
 
 
   \par Version 0.0.9 :
@@ -49,11 +41,14 @@ License, or any later version. */
    In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
     - Complete the functionality
 
+
+
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
 
    - 0.0.7 : 7.11.2006; initial version number (several implementations).
+   - 0.0.8 : 26.9.2007; moved to new place in part Satisfiability, and related upates.
 
 */
 

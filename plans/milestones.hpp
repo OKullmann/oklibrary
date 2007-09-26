@@ -29,8 +29,6 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
-  \par InputOutput version 0.0.8 (OK)
-  (see Transitional/InputOutput/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
@@ -39,6 +37,8 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par InputOutput version 0.0.8 (OK) : DONE
+  (see Transitional/InputOutput/plans/milestones.hpp)
   \par InjectivityConstraints version 0.0.3 (OK, MH) : DONE
   (see InjectivityConstraints/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK) : DONE
