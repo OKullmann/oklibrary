@@ -6,22 +6,24 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/InputOutput/plans/milestones.hpp
+  \file Interfaces/InputOutput/plans/milestones.hpp
 
-  \module_version InputOutput 0.0.7 (7.11.2006)
+  \module_version Interfaces/InputOutput 0.0.7 (7.11.2006)
 
 
   \par Version 0.0.8 :
 
   \par
-   In InputOutput/plans/general.hpp the following topics are handled:
-    - Move to Satisfiability/Interfaces
+   In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
+    - Move to Satisfiability/Interfaces : DONE
+    - Update namespaces : DONE
 
 
   \par Version 0.0.9 :
 
   \par
-   In InputOutput/plans/general.hpp the following topics are handled:
+   In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
+    - Rewrite code fot the new namespaces.
     - Update
 
   And further milestones are created.
@@ -37,14 +39,14 @@ License, or any later version. */
   \par Version 0.0.11 :
 
   \par
-   In InputOutput/plans/general.hpp the following topics are handled:
+   In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
     - Complete the tests
 
 
   \par Version 0.1 :
 
   \par
-   In InputOutput/plans/general.hpp the following topics are handled:
+   In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
     - Complete the functionality
 
   -------------------------------------------------------------------------------------------------------------------------------------

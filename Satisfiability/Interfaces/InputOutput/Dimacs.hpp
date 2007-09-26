@@ -6,24 +6,34 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InputOutput/Dimacs.hpp
+  \file Interfaces/InputOutput/Dimacs.hpp
   \brief Tools for the input and output of cnf's in DIMACS format.
 
+
   \todo Consider the code-comments for checking.
+
 
   \todo What about writing a generic DIMACS parser, starting with
   ::OKlib::DPv::ParserLiteral and ::OKlib::DPv::DimacsParser
   (located in Input_output.hpp in module DPv) ?
 
+
   \todo Write extended Dimacs-parser for clause-sets with non-boolean variables:
-   - the parameter line now is of the form
-     <p> p gcnf n c k </p>
-     where k specifies the set of possible values {0, ..., k-1}
-   - literals are of the form
-     <p> n,v </p>
-     where n as usual is the variable (number), while v in {0, ..., k-1}.
-   - if k=2, then also "+n", "-n" and "n" are literals (so that ordinary Dimacs
-     inputs are accepted).
+  <ul>
+   <li> the parameter line now is of the form
+   \verbatim
+p gcnf n c k
+   \endverbatim
+   where k specifies the set of possible values {0, ..., k-1} </li>
+   <li> literals are of the form
+   \verbatim
+n,v
+   \endverbatim
+   where n as usual is the variable (number), while v in {0, ..., k-1}. </li>
+   <li> if k=2, then also "+n", "-n" and "n" are literals (so that ordinary
+   Dimacs inputs are accepted). </li>
+  </ul>
+
 
   \todo Write higher level modules like ReadClauseCollection<DimacsParser, ClauseCollection> and WriteClauseCollection<ClauseCollection, DimacsWriter> (likely this should go into a separate file).
 
@@ -48,7 +58,7 @@ License, or any later version. */
 
 #include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
 
-#include <Transitional/InputOutput/Exceptions.hpp>
+#include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
   namespace InputOutput {
@@ -66,13 +76,18 @@ namespace OKlib {
       extractors, since they yield undefined behaviour, so it seems necessary to write special
       tools to read and check integers from streams. (See my e-mail to Boost from 15/10/2005.) Perhaps the best solution here is to wrap int_type into a type with safe reading from istreams (setting the stream state accordingly). Or, perhaps better from a general design point of view, we should use a BigInteger class here for reading.
 
+
       \todo It must also be tested, whether the integers can be safely negated.
+
 
       \todo The exception safety level must be specified.
 
+
       \todo Use Messages for messages.
 
+
       \todo For throwing the exceptions a more structured approach should be used (so that the exceptions thrown become better testable).
+
     */
 
     template <class CLSAdaptor, typename Int = int>

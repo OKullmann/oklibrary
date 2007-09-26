@@ -6,8 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InputOutput/ClauseSetAdaptors.hpp
+  \file Interfaces/InputOutput/ClauseSetAdaptors.hpp
   \brief Adaptors to transfer clause-sets into some data structure.
+
 
   \todo Write concept for CLSAdaptor:
    - <code> CLSAdaptor::int_type </code> (default = int)
@@ -23,12 +24,15 @@ License, or any later version. */
      clause as a range over the literals, where multiple occurrences have been
      removed already, together with the total number of original literal occurrences).
 
+
   \todo Perhaps the adaptor should perform cleaning-up the input (regarding
   tautological clauses and multiple literal occurrences) ? But perhaps this
   is better done by some other component, while the adaptor is only responsible
   for the data transfer.
 
+
   \todo Write concepts for Statistics class.
+
 
   \todo Write tests!
 
@@ -52,7 +56,7 @@ License, or any later version. */
 
 #include <Transitional/Literals/TrivialLiterals.hpp>
 
-#include <Transitional/InputOutput/Exceptions.hpp>
+#include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 
 namespace OKlib {
   namespace InputOutput {

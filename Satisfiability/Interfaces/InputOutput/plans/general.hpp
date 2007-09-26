@@ -6,11 +6,17 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/InputOutput/plans/general.hpp
+  \file Interfaces/InputOutput/plans/general.hpp
   \brief Plans for the module on SAT-related input/output.
 
 
-  \todo Move to Satisfiability/Interfaces.
+  \todo Move to Satisfiability/Interfaces. DONE
+
+
+  \todo Update namespaces. DONE
+
+
+  \todo Rewrite code fot the new namespaces.
 
 
   \todo Update:
@@ -18,7 +24,7 @@ License, or any later version. */
   plans-files for the sub-modules, move the todo's to there, update
   the doxygen-documentation.
 
-   - InputOutput/ClauseSetAdaptors.hpp : DONE
+   - InputOutput/ClauseSetAdaptors.hpp :
    - InputOutput/Dimacs.hpp :
    - InputOutput/Exceptions.hpp :
 
@@ -40,12 +46,17 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::InputOutput
+  \namespace OKlib::Satisfiability::Interfaces::InputOutput
   \brief Components for SAT-related input/output
 */
 
 namespace OKlib {
-  namespace InputOutput {
+  namespace Satisfiability {
+    namespace Interfaces {
+      namespace InputOutput {
+      }
+      namespace InO = InputOutput;
+    }
   }
 }
 

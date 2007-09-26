@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file InputOutput/Dimacs_Tests.hpp
+  \file Interfaces/InputOutput/Dimacs_Tests.hpp
   \brief Tests for tools concerning DIMACS input and output
   \deprecated Move to the new test system.
 */
@@ -28,8 +28,8 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/InputOutput/Exceptions.hpp>
-#include <Transitional/InputOutput/ClauseSetAdaptors.hpp>
+#include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
+#include <Transitional/Satisfiability/Interfaces/InputOutput/ClauseSetAdaptors.hpp>
 
 namespace OKlib {
   namespace InputOutput {

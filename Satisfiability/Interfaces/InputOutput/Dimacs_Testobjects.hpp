@@ -8,8 +8,8 @@ License, or any later version. */
 #ifndef DIMACSTESTOBJECTS_lkjh45tr
 #define DIMACSTESTOBJECTS_lkjh45tr
 
-#include <Transitional/InputOutput/Dimacs.hpp>
-#include <Transitional/InputOutput/Dimacs_Tests.hpp>
+#include <Transitional/Satisfiability/Interfaces/InputOutput/Dimacs.hpp>
+#include <Transitional/Satisfiability/Interfaces/InputOutput/Dimacs_Tests.hpp>
 
 namespace OKlib {
   namespace InputOutput {
