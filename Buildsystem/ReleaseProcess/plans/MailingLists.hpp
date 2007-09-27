@@ -18,7 +18,11 @@ License, or any later version. */
     </ol>
    </li>
    <li> For the following public e-mail-addresses we need corresponding
-   local e-mail-addresses. </li>
+   local e-mail-addresses.
+    <ol>
+     <li> The question is, whether one is sufficient (would be easier)? </li>
+    </ol>
+   </li>
    <li> Lists:
     <ol>
      <li> Developers (developers@ok-sat-library.org)

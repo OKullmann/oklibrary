@@ -117,12 +117,33 @@ IMAGE_LOGOS = '/icons/'
    </li>
    <li> Setting up mail delivery to mailman
     <ol>
+     <li> OK: The following discussion is utterly confusing for me, though the issues
+     seems to me rather trivial:
+      <ol>
+       <li> As discussed in "Mailing lists" in Buildsystem/ReleaseProcess/plans/MailingLists.hpp,
+       we map the public e-mail-lists (like "developers@ok-sat-library.org")
+       to local e-mail-addresses. </li>
+       <li> These are best on the departmental server cs-svr1 (so that the
+       technical staff takes care about firewall-issues). </li>
+       <li> The only question here seems to be whether one address is enough
+       (we can separate out later the original different lists), or we need
+       several e-mail-addresses. </li>
+       <li> Then apparently we need some process running on the cs-oksvr (the
+       machine where mailman will run) which fetches these e-mails (or
+       should this be mailman itself?). </li>
+       <li> And finally mailmen need to be told about the new e-mail, so that
+       it does its act. </li>
+      </ol>
+      This needs to be achieved.
+     </li>
      <li> Now some set of controls must be set up to pass mail onto mailman when it is
      received. The basic approach is that when newlist is called (see below), mailman
      returns a list of aliases which can be placed in /etc/mail/aliases or the equivalent
      on the system, and then when a mail arrives to whatever mail server
      is running on the machine, those aliases inform the mail server that the mailman
-     command must be run with the given arguments. </li>
+     command must be run with the given arguments. OK: What does it mean that
+     an alias "informs" something? Please add more details, and this only
+     regarding our case (see above). </li>
      <li> An example of this is - 
      \verbatim
 testlist:              "|/usr/local/mailman/mail/mailman post testlist"
@@ -136,6 +157,7 @@ testlist-request:      "|/usr/local/mailman/mail/mailman request testlist"
 testlist-subscribe:    "|/usr/local/mailman/mail/mailman subscribe testlist"
 testlist-unsubscribe:  "|/usr/local/mailman/mail/mailman unsubscribe testlist"
      \endverbatim
+     OK: What is the meaning of any of these lines?
      </li>
      <li> However, this appears to be possible in a variety of ways. One of the
      discussed possibilities involved having all of the mailing list mails forwarded
@@ -147,6 +169,7 @@ poll email.swan.ac.uk with proto IMAP and options no dns
 
 smtphost localhost
      \endverbatim
+     OK: What is "anther account"? What type of "account"? For what purpose??
      </li>
      <li> Which, assuming fetchmail were setup properly to run as a daemon upon startup,
      would regularly pull the mail from the O.Kullmann@Swansea.ac.uk account down to the
@@ -200,7 +223,9 @@ smtphost localhost
 
      \endverbatim
      Which would cause the given mailman commands to be run when mail was pulled
-     down to the test user. </li>
+     down to the test user. OK: What is the meaning of any of these lines?
+     What is the "O.Kullmann@Swansea.ac.uk-account" ?? Where is the local
+     mail server --- university, department, cs-oksvr, or mailman??? </li>
      <li> I (MG) have tested this case myself and it appears to work perfectly well.
      Of course, if the email address to which the mailing list
      mail is forwarded/redirected to is actively used, then how to ensure that this
@@ -235,9 +260,9 @@ sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
      <li> This should be setup to be started when the machine starts but how to do this
      will depend on what sort of system one uses (MG - how does cs-oksvr do this?
      was this done for apache? This usually involves some kind of init script in
-     /etc/init.d)). </li>
+     /etc/init.d)). OK: This should be done using Yast. </li>
      <li> Opening http://www.ok-sat-library.org/mailman/admin (assuming the domain of the
-     system is www.ok-sat-librar.org) should then offer options to create further lists
+     system is www.ok-sat-library.org) should then offer options to create further lists
      and administrate users. A new list can then be created via this or via the newlist
      command line script as done previously when creating the default mailman list. </li>
     </ol>
