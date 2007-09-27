@@ -25,18 +25,18 @@ License, or any later version. */
    <li> Initially following instructions from http://www.gnu.org/software/mailman/mailman-install/index.html </li>
    <li>Building the main program
     <ol>
-     <li> First of all (assuming the install package has been unpacked somewhere)
+     <li> First of all
      a user and group must be setup which will own mailmans
      installed files and under which it will run (clearly these commands have to
-     be run as the superuser/root) - 
+     be run as the superuser/root):
      \verbatim
 groupadd mailman
-useradd -c''GNU Mailman'' -s /no/shell -d /no/home -g mailman mailman
+useradd --comment "GNU Mailman" --shell /no/shell --home /no/home --gid mailman mailman
      \endverbatim
      </li>
      <li> Then the directory to install mailman into must be created (the default is
      /usr/local/mailman, this is referenced by "$prefix" in the documentation)
-     and the setguid bit must be set -
+     and the setguid bit must be set:
      \verbatim
 mkdir /usr/local/mailman/
 cd /usr/local/mailman/
@@ -47,7 +47,7 @@ chmod a+rx,g+ws .
      <li> Now the configure script can be run. The main options here seem to be 
       <ul>
        <li> "--with-mail-gid "
-       <p></p> This is a comma seperated list of symbolically named groups or group ids
+       <p></p> This is a comma separated list of symbolically named groups or group ids
        which the mail program (Postfix, Exim etc, or possibly fetchmail etc (see below))
        which runs mailman will run mailman as. How the mail
        is delivered to mailman will effect which group(s) are set here.
@@ -55,36 +55,54 @@ chmod a+rx,g+ws .
        <li> "--with-cgi-gid"
        <p></p> This is a comma seperated list of symbolically named groups or group ids
        which the web server will run mailman's cgi scripts under. This is most likely
-       something like httpd,apache or www.
+       something like httpd, apache or www.
+       OK: What does this mean?? In Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp
+       one can see precisely how Apache was installed, and apparently this does
+       exactly install the group "www".
        </li>
        <li> "--with-mailhost"
-       <p></p> This is the default domain name that a new list with assume it is under
+       <p></p> This is the default domain name that a new list will assume it is under
        (ie ok-sat-library.org) regarding email. This can be configured later by setting
        DEFAULT_EMAIL_HOST in $prefix/Mailman/mm_cfg.py.
        </li>
        <li> "--with-urlhost"
-       <p></p> This is the default domain name that a new list with assume it is under
+       <p></p> This is the default domain name that a new list will assume it is under
        (ie ok-sat-library.org) regarding web access. This can be configured later by
        setting DEFAULT_URL_HOST in $prefix/Mailman/mm_cfg.py .
        </li>
       </ul>
      </li>
      <li> I used a domain of my own in testing but have substituted ok-sat-library.org in
-     it's place below - 
+     it's place below:
      \verbatim
-./configure --with-mail-gid=mail --with-cgi-gid=apache --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
+./configure --with-mail-gid=mail --with-cgi-gid=www --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
 make
 make install
+     \endverbatim
+     </li>
+     <li> That is for the OKlibrary:
+     \verbatim
+ExternalSources> mkdir Installations/Mailman
+ExternalSources> cd Installations/Mailman
+Mailman> tar -xzf ../../sources/Mailman/mailman-2.1.9.tgz
+Mailman> cd mailman-2.1.9
+mailman-2.1.9> ./configure --with-mail-gid=mail --with-cgi-gid=www --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
+mailman-2.1.9> make
+mailman-2.1.9> sudo make install
      \endverbatim
      </li>
     </ol>
    </li>
    <li> Hooking up to Apache
     <ol>
-     <li> This should leave mailman installed in /usr/local/mailman/ . Now assuming
-     apache has been setup for the given domain beforehand, it can now be setup to allow
+     <li> This should leave mailman installed in /usr/local/mailman/. Now assume
+     apache has been setup for the given domain beforehand. </li>
+     <li> How does this happen?? See Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp.
+     Especially how do we create a test system locally on some machine, without
+     Internet access? </li>
+     <li> It can now be setup to allow
      web administration of mailman by adding the following lines to the virtual 
-     host configuration (wherever the default vhost setup is stored) -
+     host configuration (wherever the default vhost setup is stored):
      \verbatim
 ScriptAlias /mailman/      /usr/local/mailman/cgi-bin/
 Alias /pipermail/ /usr/local/mailman/archives/public/
@@ -94,25 +112,36 @@ Options FollowSymLinks
 </Directory>
      \endverbatim
      </li>
-     <li> Of course Apache isn't the only choice here, any webserver capable of running
-     cgi scripts should be just as valid,
-     although Apache is very popular and widely supported, so it seems the most appropriate
-     choice, especially when 
-     considering the ability to transfer OKlibrary in it's entirety to other systems. </li>
+     <li> Again, what is the "virtual host configuration (wherever the default vhost
+     setup is stored)" ??? </li>
      <li> Copy the mailman icons across to somewhere web accessible (the main apache
      public directory for instance - although this and the next step appear to be purely
      asthetic, the mailman pages will work perfectly well without the icons, the images
-     will simply be replaced with with their title text) -
+     will simply be replaced with with their title text):
      \verbatim
 cp /usr/local/mailman/icons/*.{jpg,png} /var/www/localhost/htdocs/icons
      \endverbatim
      </li>
+     <li> What does this mean for the OKlibrary?
+      <ol>
+       <li> "Somewhere web accessible" is obviously not correct then. </li>
+       <li> At this time, the ok-library-home page is located on the main departmental
+       server (cs-svr1), while the mailing lists shall be installed on the
+       main oklibrary-server (cs-oksvr). </li>
+      </ol>
+     </li>
      <li> And then set add the IMAGE_LOGOS option to $prefix/Mailman/mm_cfg.py to
-     inform it of where the logos are, with respect to the url, not the local file path -
+     inform it of where the logos are, with respect to the url, not the local file path:
      \verbatim
 IMAGE_LOGOS = '/icons/'
      \endverbatim
      </li>
+     <li> DONE
+     Of course Apache isn't the only choice here, any webserver capable of running
+     cgi scripts should be just as valid,
+     although Apache is very popular and widely supported, so it seems the most appropriate
+     choice, especially when 
+     considering the ability to transfer OKlibrary in it's entirety to other systems. </li>
     </ol>
    </li>
    <li> Setting up mail delivery to mailman
@@ -144,7 +173,7 @@ IMAGE_LOGOS = '/icons/'
      command must be run with the given arguments. OK: What does it mean that
      an alias "informs" something? Please add more details, and this only
      regarding our case (see above). </li>
-     <li> An example of this is - 
+     <li> An example of this is:
      \verbatim
 testlist:              "|/usr/local/mailman/mail/mailman post testlist"
 testlist-admin:        "|/usr/local/mailman/mail/mailman admin testlist"
@@ -162,7 +191,7 @@ testlist-unsubscribe:  "|/usr/local/mailman/mail/mailman unsubscribe testlist"
      <li> However, this appears to be possible in a variety of ways. One of the
      discussed possibilities involved having all of the mailing list mails forwarded
      to another account. In this case, something like fetchmail
-     could be used with something like the following in /etc/fetchmailrc -
+     could be used with something like the following in /etc/fetchmailrc:
      \verbatim
 poll email.swan.ac.uk with proto IMAP and options no dns
          user O.Kullmann with pass "????"  is 'list' here options ssl keep
@@ -177,7 +206,7 @@ smtphost localhost
      from the outside should be irrelevant, it must only be able to route local mail and
      emails must somehow be able to be sent out) and then if this "list" user had a home
      directory and procmail were setup, something
-     like the following could be placed in /home/list/.procmailrc
+     like the following could be placed in /home/list/.procmailrc:
      \verbatim
 :0
 * ^(To|X-Original-To|Cc).*testlist@aeternus.no-ip.org 
@@ -241,18 +270,18 @@ smtphost localhost
    <li> Finishing mailman setup
     <ol>
      <li> However that is done, afterwards a default/sitewide mailing list for mailman
-     must be created, entering details as necessary - 
+     must be created, entering details as necessary:
      \verbatim
 /usr/local/mailman/bin/newlist mailman
      \endverbatim
      </li>
-     <li> Then the cron  jobs that mailman needs, need to be setup - 
+     <li> Then the cron  jobs that mailman needs, need to be setup:
      \verbatim
 sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
      \endverbatim
      </li>
      <li> The mailman daemon which handles the processing and sending of list messages
-     can then be started -
+     can then be started:
      \verbatim
 /usr/local/mailman/bin/mailmanctl start
      \endverbatim

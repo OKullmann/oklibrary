@@ -17,7 +17,7 @@ License, or any later version. */
      <li> Simple manual installation:
      \verbatim
 ExternalSources> mkdir Installations
-xternalSources> mkdir Installations/Apache
+ExternalSources> mkdir Installations/Apache
 ExternalSources> cd Installations/Apache/
 ExternalSources/Installations/Apache> tar -xjf ../../sources/Apache/httpd-2.2.4.tar.bz2
 ExternalSources/Installations/Apache> cd httpd-2.2.4/
