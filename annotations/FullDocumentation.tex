@@ -1356,10 +1356,13 @@ Milestone-files also contain exactly one \texttt{$\backslash$module\_version}-el
 
 
 \begin{itemize}
-\item Lists are organised using the html-elements \texttt{<ul>}, \texttt{<ol>} and \texttt{<li>}.
-\item The \texttt{<li>}-items are indented (one space), and there is one space after the \texttt{<li>}-item and one space before the \texttt{</li>}-item.
-\item Avoid paragraphs --- use lists instead.
+\item Avoid lines of width more than 80.
+\item Do not use a sequence of paragraphs --- use lists instead!
+\item Do not use long paragraphs --- break it into a list!
+\item Lists are organised using the html-elements \texttt{<ul>}, \texttt{<ol>} and \texttt{<li>}. These tags are indented (one space), with the exception of the outermost list-creation-tags for a \texttt{$\backslash$todo}, where are at the same level (this indentation is superfluous).
+\item There is one space after the \texttt{<li>}-item and one space before the \texttt{</li>}-item.
 \item Strict xhtml-syntax is used (where possible).
+\item Line breaks shall have no meaning for the html-output. The only case where a paragraph-break is needed is the case of a heading for a short item, and here use \texttt{<p></p>}.
 \end{itemize}
  
 
