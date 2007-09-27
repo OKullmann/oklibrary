@@ -16,25 +16,53 @@ License, or any later version. */
    external source:
     <ol>
      <li> asciidoc </li>
-     <li> %boost </li>
      <li> cmake </li>
+     <li> mhash (remark about corrected files; content of package) </li>
+     <li> mpfr </li>
+     <li> r </li>
+     <li> ubcsat (remark about corrected files; content of package) </li>
+     <li> %boost : DONE </li>
      <li> coq : DONE </li>
      <li> doxygen : DONE </li>
      <li> gcc : DONE </li>
      <li> git : DONE </li>
-     <li> gmp </li>
-     <li> mhash (remark about corrected files; content of package) </li>
-     <li> mpfr </li>
+     <li> gmp : DONE </li>
      <li> ocaml : DONE </li>
-     <li> postgresql </li>
-     <li> r </li>
+     <li> postgresql : DONE </li>
      <li> sage : DONE </li>
-     <li> ubcsat (remark about corrected files; content of package) </li>
-     <li> valgrind </li>
+     <li> valgrind : DONE </li>
     </ol>
    </li>
    <li> For each of these docus-files there is a link from
    ExternalSources/docus/general.hpp. </li>
+  </ul>
+
+
+  \todo Complete documentation
+  <ul>
+   <li> Most of the current docus are not complete. </li>
+  </ul>
+
+
+  \todo Enable local/global installation for all packages
+  <ul>
+   <li> Likely local installation should be the default. </li>
+   <li> See Gmp.mak and
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp
+   for the new scheme. </li>
+   <li> List of external sources to be localised:
+    <ol>
+     <li> Doxygen </li>
+     <li> Git </li>
+     <li> Valgrind </li>
+    </ol>
+   </li>
+   <li> List of external sources where also global installation should
+   be possible:
+    <ol>
+     <li> Gcc </li>
+    </ol>
+   </li>
   </ul>
 
 

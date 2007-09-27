@@ -37,10 +37,21 @@ License, or any later version. */
 
   \par Version 0.1.4
 
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.5
+  (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
+
   \par
    In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Finish docus for special builds
     - Complete Buildsystem/ExternalSources/docus/Internals.hpp
+
+  \par Update the following milestones.
+
+
+  \par Version 0.1.5
+
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
+  (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   
 

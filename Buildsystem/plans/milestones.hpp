@@ -16,17 +16,14 @@ License, or any later version. */
   \par Buildsystem/ReleaseProcess 0.0.7
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.3
+  \par Buildsystem/ExternalSources version 0.1.2
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.7
   (see Buildsystem/Html/plans/milestones.hpp)
 
-  \par
-   Update the following milestones.
 
-
-  \par Version 0.2.2 : THEME is "A specified and testable build system" and "Build system consolidation"
+  \par Version 0.2.2 : THEME is "CONSOLIDATION"
 
   \par Buildsystem/Configuration version 0.0.6
   (see Buildsystem/Configuration/plans/milestones.hpp)
@@ -39,6 +36,9 @@ License, or any later version. */
 
   \par Buildsystem/SourceControl 0.2.3
   (see Buildsystem/SourceControl/plans/milestones.hpp)
+
+  \par Buildsystem/ExternalSources version 0.1.3
+  (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par
    In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
@@ -61,20 +61,13 @@ License, or any later version. */
     - Integration testing
 
   \par
-   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Corrections mhash
-    - Problems with building Boost
+   Update the following milestones.
 
 
   \par Version 0.2.3 : THEME is "Build system extensions"
 
-  \par
-   In Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Other sources
-    - %Tools
-    - PostgreSQL
-    - General
-    - Gcc
+  \par Buildsystem/ExternalSources version 0.1.4
+  (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par
    In Buildsystem/plans/MasterScript.hpp the following topics are handled:
@@ -82,6 +75,11 @@ License, or any later version. */
 
 
   \par Version 0.2.4 :
+
+  \par Buildsystem/ExternalSources version 0.1.5
+  (see Buildsystem/ExternalSources/plans/milestones.hpp)
+
+  \par
    In Buildsystem/plans/README.hpp the following topics are handled:
     - Supported versions of gcc
     - Update

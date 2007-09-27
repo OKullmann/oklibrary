@@ -31,10 +31,19 @@ License, or any later version. */
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following topics are handled:
-    - Building Mailman
+    - Building Mailman on cs-wsok (for testing)
+    - Building Mailman in general
 
 
   \par Version 0.2.4
+
+  \par
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
+    - Complete documentation
+    - Enable local/global installation for all packages
+
+
+  \par Version 0.2.5
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following topics are handled:
@@ -51,10 +60,6 @@ License, or any later version. */
     - R-documentation
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following topics are handled:
-    - CMake-documentation building
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following topics are handled:
     - Building Ubcsat
     - Complete docu-file
@@ -63,6 +68,17 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following topics are handled:
     - Missing pgsql/libpq-fe.h
     - Improvements
+
+  \par
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
+    - Computer algebra
+
+
+  \par Version 0.2.6
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following topics are handled:
+    - CMake-documentation building
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following topics are handled:
@@ -74,12 +90,9 @@ License, or any later version. */
     - Improve ocaml installation
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
-    - Computer algebra
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following topics are handled:
     - Improving the Sage installation
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

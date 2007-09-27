@@ -53,16 +53,10 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
 
   \todo General
   <ul>
-   <li> It would ge good, if after doing a local installation, easily the
-   installation could also be made global. See Gmp.mak and
-   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme. </li>
    <li> It should always be possible, to install something independently and
    only to specify where to find something (so for every special build there
    needs to be a specification what this build actually provides).
    See "Software management" in Buildsystem/ExternalSources/plans/Configuration.hpp. </li>
-   <li> Optionally there should be also local versions of valgrind and
-   doxygen (and other tools). This is necessary on systems where the user
-   does not have root access. </li>
    <li> For "make all" we have the following problems:
     <ul>
      <li> The user cannot wait for "sudo". </li>
@@ -84,6 +78,14 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
      perhaps this is not very strong. </li>
     </ul>
    </li>
+   <li> DONE (transferred to Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
+   It would ge good, if after doing a local installation, easily the
+   installation could also be made global. See Gmp.mak and
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme. </li>
+   <li> DONE (transferred to Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
+   Optionally there should be also local versions of valgrind and
+   doxygen (and other tools). This is necessary on systems where the user
+   does not have root access. </li>
   </ul>
 
 
