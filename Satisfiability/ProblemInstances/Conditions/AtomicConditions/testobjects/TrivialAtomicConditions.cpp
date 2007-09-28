@@ -13,7 +13,7 @@ License, or any later version. */
 
 #include <Transitional/Concepts/tests/AtomicConditions.hpp>
 
-#include <Transitional/AtomicConditions/TrivialAtomicConditions.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
 
 namespace {
 
