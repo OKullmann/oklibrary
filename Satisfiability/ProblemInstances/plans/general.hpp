@@ -13,7 +13,20 @@ License, or any later version. */
   \todo Update namespaces. DONE
 
 
-  \todo Create milestones.
+  \todo Create milestones. DONE
+
+
+  \todo All existing components related to problem instances are
+  moved here.
+
+
+  \todo All sub-modules have milestones.
+
+
+  \todo Create a docus page with an overview on the concepts and ideas.
+
+
+  \todo Integration with computer algebra.
 
 */
 
