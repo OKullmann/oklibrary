@@ -10,10 +10,10 @@ License, or any later version. */
   \brief Plans for conditions
 
 
-  \todo Update namespaces. DONE
+  \todo Design conditions more general than "atomic conditions"
 
 
-  \todo Create milestones.
+  \todo Integration with computer algebra
 
 
 */
