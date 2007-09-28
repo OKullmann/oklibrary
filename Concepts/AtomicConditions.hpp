@@ -15,9 +15,9 @@ License, or any later version. */
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
 
-#include <Transitional/AtomicConditions/traits/value_type.hpp>
-#include <Transitional/AtomicConditions/eval.hpp>
-#include <Transitional/AtomicConditions/complement.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/traits/value_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/eval.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/complement.hpp>
 
 namespace OKlib {
   namespace Concepts {

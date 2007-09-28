@@ -22,7 +22,7 @@ License, or any later version. */
 #include <Transitional/Concepts/JoinedConceptTags.hpp>
 
 #include <Transitional/Variables/TrivialVariables.hpp>
-#include <Transitional/AtomicConditions/TrivialAtomicConditions.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
 
 #include <Transitional/Literals/traits/var_type.hpp>
 #include <Transitional/Literals/traits/cond_type.hpp>
