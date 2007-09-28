@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for atomic conditions
 
 
-  \todo Update namespaces.
-
-
-  \todo Move to Satisfiability/ProblemInstances/Conditions.
-
-
   \todo Move concepts from Transitional/Concepts here.
 
 
