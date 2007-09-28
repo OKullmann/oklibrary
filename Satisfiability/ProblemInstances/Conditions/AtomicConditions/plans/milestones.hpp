@@ -8,14 +8,35 @@ License, or any later version. */
 /*!
   \file AtomicConditions/plans/milestones.hpp
 
-  \module_version AtomicConditions 0.0.2 (9.12.2006)
+  \module_version Conditions/AtomicConditions 0.0.2 (9.12.2006)
+
 
   \par Version 0.0.3 :
-  In AtomicConditions/plans/AtomicConditions.hpp the following topics are handled:
-  - Further trivial atomic conditions
-  - First prototype of general atomic condition.
+  
+  \par
+   In AtomicConditions/plans/general.hpp the following topics are handled:
+    - Update namespaces : DONE
+    - Move to Satisfiability/ProblemInstances/Conditions : DONE
 
-  And further milestones are created.
+
+  \par Version 0.0.4 :
+  
+  \par
+   In AtomicConditions/plans/general.hpp the following topics are handled:
+    - Move concepts from Transitional/Concepts here
+    - Update code w.r.t. new namespaces
+  
+
+  \par Version 0.0.5 :
+
+  \par
+   In AtomicConditions/plans/general.hpp the following topics are handled:
+    - Further trivial atomic conditions
+    - First prototype of general atomic condition.
+
+  \par
+   Further milestones are created.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

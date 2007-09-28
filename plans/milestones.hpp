@@ -37,9 +37,11 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par AtomicConditions version 0.0.3 (OK)
+  (see AtomicConditions/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK) : DONE
   (see Transitional/InputOutput/plans/milestones.hpp)
-  \par InjectivityConstraints version 0.0.3 (OK, MH) : DONE
+  \par InjectivityConstraints version 0.0.3 (OK) : DONE
   (see InjectivityConstraints/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK) : DONE
   (see QuantumPhysics/plans/milestones.hpp)
@@ -77,8 +79,6 @@ License, or any later version. */
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK (MH))
   (see Transitional/InputOutput/plans/milestones.hpp)
-  \par AtomicConditions version 0.0.3 (OK (MH))
-  (see AtomicConditions/plans/milestones.hpp)
   \par Literals version 0.0.4 (OK (MH))
   (see Literals/plans/milestones.hpp)
   \par PartialAssignments version 0.0.5 (OK (MH))

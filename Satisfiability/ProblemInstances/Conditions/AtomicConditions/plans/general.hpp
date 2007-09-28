@@ -6,28 +6,58 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AtomicConditions/plans/AtomicConditions.hpp
+  \file AtomicConditions/plans/general.hpp
   \brief Plans for atomic conditions
 
+
+  \todo Update namespaces.
+
+
+  \todo Move to Satisfiability/ProblemInstances/Conditions.
+
+
+  \todo Move concepts from Transitional/Concepts here.
+
+
+  \todo Update code w.r.t. new namespaces.
+  <ul>
+   <li> Perhaps the module should be just called "Atomic" ? (Since the "Conditions"
+   in "AtomicConditions" is superfluous.) </li>
+  </ul>
+
+
   \todo Further trivial atomic conditions
-  - Perhaps Mono<int n>, where n >= 1. Contains an integer m,
-    which in case m >= 1 means the singleton {m}, while
-    in case m <= -1 the co-singleton {1,...,n} - {-m} is meant.
-    Invariant -n <= m <= n.
+  <ul>
+   <li> Perhaps Mono<int n>, where n >= 1. Contains an integer m,
+   which in case m >= 1 means the singleton {m}, while
+   in case m <= -1 the co-singleton {1,...,n} - {-m} is meant.
+   Invariant -n <= m <= n. </li>
+  </ul>
+
 
   \todo First prototype of general atomic condition
-  Very first prototype using std::set (for an arbitrary value-type)
-  or std::vector<bool> (for value-type {1,...,n}).
+  <ul>
+   <li> Very first prototype using std::set (for an arbitrary value-type)
+   or std::vector<bool> (for value-type {1,...,n}). </li>
+  </ul>
 
 */
 
 /*!
-  \namespace OKlib::AtomicConditions
-  \brief Components for atomic conditions
+  \namespace OKlib::Satisfiability::ProblemInstances::Conditions::AtomicConditions
+  \brief Components for atomic conditions (corresponding to characteristic functions of sets)
+
+  Alias "ACn".
 */
 
 namespace OKlib {
-  namespace AtomicConditions {
+  namespace Satisfiability {
+    namespace ProblemInstances {
+      namespace Conditions {
+        namespace AtomicConditions {
+        }
+        namespace ACn = AtomicConditions;
+      }
+    }
   }
 }
-
