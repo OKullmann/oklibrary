@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+      
+  <head>
+    <title> OKlibrary </title>
+    <meta name="author" content="Oliver Kullmann" />
+    <meta name="description" content="Tutorial for the OKlibrary" />
+    <meta name="robot" content="all" />
+    <meta http-equiv="content-type" content="text/html" />
+    <meta http-equiv="charset" content="utf-8" />
+  </head>
+  
+  <body>
+  
+    <h1> Tutorial </h1>
+
+    Provided the basic installations are performed, and you are informed
+    about the general ideas, here now you find a general overview on how
+    to explore the OKlibrary.
+
+    
+    <h2> About external sources </h2>
+
+    <ul>
+      <li> The external-sources-overview page reachable from the local home
+        page shows you the status of the current installation. </li>
+      <li> And following the docus-system-link you find under "Buildsystem"
+        also a general overview on build external sources. </li>
+    </ul>
+    The most important external sources you should build (via
+    <code>oklib external_source</code>, where for example "external_source"
+    is "gcc" or "git") are:
+    <ul>
+      <li> For compilation:
+        <ol>
+          <li> The local <code>gcc</code> (likely you system gcc is not
+            current enough for the OKlibrary, while installing the newest
+            gcc system-wide might create some trouble for you). </li>
+          <li> Necessary libraries:
+            <ul>
+              <li> <code>Boost</code> </li>
+              <li> <code>Ubcsat</code< </li>
+              <li> <code>Mhash</code> </li>
+              <li> <code>Gmp</code>. </li>
+            </ul>
+          </li>
+          <li> <code>Doxygen</code> is needed for documentation creation. </li>
+        </ol>
+      </li>
+      <li> For using the version control system (reading through the history,
+        and making (local or global) changes) <code>Git</code> is needed. </li>
+    </ul>
+
+
+    <h2> About the core library </h2>
+    
+    On the local home page you find links
+    <ul>
+      <li> to the root of the docus-system, which gives an overview on each
+        level of the OKlibrary; </li>
+      <li> the html documentation link then yields the full extracted
+        documentation (the docus-system is only a small part of it); </li>
+      <li> the main text explains fundamental ideas and rules. </li>
+    </ul>
+    All build-process (like compilation, running tests, building
+    external sources or creating documentation) use the <code>oklib</code>
+    program (which you have already encountered during the initial
+    installation).
+
+
+    <h2> The directory structure </h2>
+
+    Of general importance is the directory structure - it's all there to be
+    used, so you better familiarise yourself with it.
+    <ul>
+      <li> Directories starting with small letters are of "systematic nature",
+        either to be found at many places like the
+        <code>plans</code>-directories, or otherwise they are used by the
+        build-system. </li>
+      <li> Directories starting with capital letters are "genuine" and of
+        singular nature. </li>
+    </ul>
+
+
+    <hr />
+      <!-- hhmts start -->
+Last modified: Sat Sep 29 15:50:52 BST 2007
+<!-- hhmts end -->
+      <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
+
+  </body>
+  
+</html>

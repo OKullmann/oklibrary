@@ -26,6 +26,12 @@ languages_page_output ?= $(local_html_dir)/ProgrammingLanguages.html
 history_page_template ?= $(OKbuildsystem)/Html/Local/History.html
 history_page_output ?= $(local_html_dir)/History.html
 
+tutorial_page_template ?= $(OKbuildsystem)/Html/Local/Tutorial.html
+tutorial_page_output ?= $(local_html_dir)/Tutorial.html
+
+faq_page_template ?= $(OKbuildsystem)/Html/Local/FAQ.html
+faq_page_output ?= $(local_html_dir)/FAQ.html
+
 externalsources_page_template ?= $(OKbuildsystem)/Html/Local/ExternalSources.html
 externalsources_page_output ?= $(local_html_dir)/ExternalSources.html
 
