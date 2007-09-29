@@ -16,9 +16,12 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
     - Complete local home page
+    - Meta tags
+    - Improved logo
 
   \par
-   In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
+   In Buildsystem/Html/Local/plans/ExternalSources.hpp the following topics are handled:
+    - Links
     - Boost-documentation
     - GCC-documentation
 
@@ -27,10 +30,11 @@ License, or any later version. */
 
   \par
    In Buildsystem/Html/Local/plans/general.hpp the following topics are handled:
-    - Further documentation
-    - Meta tags
-    - Improved logo
     - Better general documentation
+
+  \par
+   In Buildsystem/Html/Local/plans/ExternalSources.hpp the following topics are handled:
+    - Further documentation
 
 
 

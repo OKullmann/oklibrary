@@ -13,6 +13,20 @@ License, or any later version. */
 
   \par Version 0.0.7
 
+  \par Buildsystem/Html/Local version 0.1.2
+  (see Buildsystem/Html/Local/plans/milestones.hpp)
+
+  \par Buildsystem/Html/Internet version 0.0.5
+  (see Buildsystem/Html/Internet/plans/milestones.hpp)
+
+  \par
+   In Buildsystem/Html/plans/general.hpp the following topics are handled:
+    - Install configuration system
+    - General rules for html-pages
+
+
+  \par Version 0.0.8
+
   \par Buildsystem/Html/Local version 0.1.3
   (see Buildsystem/Html/Local/plans/milestones.hpp)
 
@@ -20,9 +34,7 @@ License, or any later version. */
   (see Buildsystem/Html/Internet/plans/milestones.hpp)
 
   \par
-   In Buildsystem/Html/plans/general.hpp the following topics are handled:
-    - Install configuration system
-    - General rules for html-pages
+   Create further milestones.
 
 
 

@@ -40,13 +40,12 @@ License, or any later version. */
   \par Buildsystem/ExternalSources version 0.1.3
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
+  \par Buildsystem/Html version 0.0.8
+  (see Buildsystem/Html/plans/milestones.hpp)
+
   \par
    In Buildsystem/plans/CheckBuildSystem.hpp the following topics are handled:
     - %Test script
-
-  \par
-   In Buildsystem/plans/MasterScript.hpp the following topics are handled:
-    - Further design
 
   \par
    In Buildsystem/plans/general.hpp the following topics are handled:
