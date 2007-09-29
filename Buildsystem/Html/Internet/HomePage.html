@@ -41,11 +41,13 @@
       <li> Full packages, which additionally contain also all
         sources for external sources used by the library. </li>
     </ol>
-    Every package contains the directory "OKplatform"; to extract,
-    use <code>tar -xjf package-name</code>.
-
-    <p> For the release history see the history page of the local documentation
-    (use the link above). </p>
+    If in doubt, then download the full package.
+    <ul>
+      <li> Every package contains the directory "OKplatform"; to extract,
+        use <code>tar -xjf package-name</code>. </li>
+      <li> For the release history see the history page of the local documentation
+        (use the link above). </li>
+    </ul>
 
 
     <h3> Remarks on the release process </h3>
@@ -82,7 +84,7 @@
             on the mailing lists.
           </li>
           <li> Advancing the fourth digit is an automatic event, which
-            happens when some subgoals are reached (as can be seen
+            happens when some subgoal is reached (as can be seen
             in the plans).
           </li>
         </ol>
@@ -90,19 +92,41 @@
         release several packages a day, while advancing the version number
         might take weeks.
       </li>
+      <li> Updating your already existing OKlibrary-installation can happen (at least)
+        in the following ways:
+        <ol>
+          <li> If you didn't do anything inside your old installation, then
+            you can just replace it altogether by the new one. </li>
+          <li> If you installed some external sources, but you didn't change
+            the OKlibrary itself (inside directory "Transitional"), then
+            you can just replace directory Transitional (which is provided
+            already with the minimal package). </li>
+          <li> If you changed something inside the OKlibrary itself, then you
+            should have installed Git, and thus you can pull from the (local)
+            unpacked archive, that is, use "git pull path_to_new_Transitional"
+            inside the Transitional-directory you want to update. </li>
+          <li> You can also pull over the Internet from the central
+            OKlibrary-user-clone; currently for doing so you have to discuss
+            it with me (OK). </li>
+          <li> In any case, if you have downloaded the full package, then at least
+            you should replace the old OKplatform/ExternalSources/sources by
+            the new directory (if you don't have special reasons to keep old
+            packages). </li>
+        </ol>
+      </li>
       <li> Packages are <a href="../archive">archived</a>, but ignoring advances in the fourth
         digit and in the running number (only). </li>
       <li> Due to the research character and its continuous process, there is
         no distinction between "stable" and "unstable" releases. If you wish
         start using the OKlibrary, download the latest package, and later
-        perform updates via source control ("git pull").
+        perform updates as explained before.
       </li>
     </ul>
 
   
     <hr />
       <!-- hhmts start -->
-Last modified: Wed Sep 26 11:55:54 BST 2007
+Last modified: Sat Sep 29 14:27:35 BST 2007
 <!-- hhmts end -->
       <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
 
