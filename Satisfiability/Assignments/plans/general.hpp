@@ -11,20 +11,7 @@ License, or any later version. */
   implementations.
 
 
-  \todo Update namespaces. DONE
-
-
   \todo Move the Transitional/Concepts/plans/Assignments.hpp here.
-
-
-  \todo Improve module structure : DONE (moved to plans for PartialAssignments)
-  <ul>
-   <li> Perhaps we should have a sub-module "PartialAssignments", and
-   PartAssign.hpp goes there. </li>
-  </ul>
-
-
-  \todo Move Transitional/PartialAssignments here. DONE
 
 */
 
