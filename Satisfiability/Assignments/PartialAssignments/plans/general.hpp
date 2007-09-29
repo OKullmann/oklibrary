@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for the module on partial assignments
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Update w.r.t. new environments Satisfiability/Assignments.
-
-
   \todo Move Concepts/plans/PartialAssignments.hpp here.
 
 

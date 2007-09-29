@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.0.5
 
-  \par Assignments/PartialAssignments version 0.0.5
+  \par Assignments/PartialAssignments version 0.0.5 : DONE
   (see Assignments/PartialAssignments/plans/milestones.hpp)
 
   \par

@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Assignments/PartialAssignments/plans/milestones.hpp
 
-  \module_version Assignments/PartialAssignments 0.0.4 (28.11.2006)
-
-
-  \par Version 0.0.5
-
-  \par
-   In Assignments/PartialAssignments/plans/general.hpp the following topics are handled:
-    - Update namespaces : DONE
-    - Update w.r.t. new environments Satisfiability/Assignments : DONE
+  \module_version Assignments/PartialAssignments 0.0.5 (29.9.2007)
 
 
   \par Version 0.0.6
@@ -51,6 +43,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 28.11.2006; initial version number (some plans, one prototype).
+   - 0.0.5 : 29.9.2007; update module structure in new place.
 
 */
 
