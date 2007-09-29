@@ -7,7 +7,7 @@
 
 # Settings for building and using the Gmp library
 
-gmp_recommended_version_number ?= 4.2.1
+gmp_recommended_version_number ?= 4.2.2
 gmp_supported_not_recommended_version_numbers ?= 
 gmp_supported_version_numbers ?= $(gmp_recommended_version_number) $(gmp_supported_not_recommended_version_numbers)
 
