@@ -6,19 +6,23 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file PartialAssignments/plans/MultivaluedPartialAssignments.hpp
+  \file Assignments/PartialAssignments/plans/MultivaluedPartialAssignments.hpp
   \brief Plans regarding set-valued partial assignments
 
-  \todo Implementation OKlib::PartialAssignments::MultiPASS
-   - Reflect on the concept as discussed in Concepts/plans/PartialAssignments.hpp,
-     and update accordingly.
-   - Use literals from module Literals.
-   - Perhaps instead of the <Values, Var> there should be one template parameter Literal?
-     Seems sensible.
-   - The static assert should be easier to formulate (since such concept tests will be used
-     at many places; is some macro already in OKlib?).
 
-   \todo Test OKlib::PartialAssignments::MultiPASS
+  \todo Implementation OKlib::PartialAssignments::MultiPASS
+  <ul>
+   <li> Reflect on the concept as discussed in Concepts/plans/PartialAssignments.hpp,
+   and update accordingly. </li>
+   <li> Use literals from module Literals. </li>
+   <li> Perhaps instead of the <Values, Var> there should be one template parameter Literal?
+   Seems sensible. </li>
+   <li> The static assert should be easier to formulate (since such concept tests will be used
+   at many places; is some macro already in OKlib?). </li>
+  </ul>
+
+
+  \todo Test OKlib::PartialAssignments::MultiPASS
 
 */
 

@@ -11,25 +11,35 @@ License, or any later version. */
   implementations.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
 
 
-  \todo Move the related concepts and plans from Transitional/Concepts
-  here.
+  \todo Move the Transitional/Concepts/plans/Assignments.hpp here.
 
 
-  \todo Move Transitional/PartialAssignments here.
-
-
-  \todo Improve module structure
+  \todo Improve module structure : DONE (moved to plans for PartialAssignments)
   <ul>
    <li> Perhaps we should have a sub-module "PartialAssignments", and
    PartAssign.hpp goes there. </li>
   </ul>
 
 
-  \todo Update Satisfiability/Assignments/PartAssign.hpp, so that it becomes
-  a very simple implementation of the generic concepts.
+  \todo Move Transitional/PartialAssignments here. DONE
 
 */
+
+/*!
+  \namespace OKlib::Satisfiability::Assignments
+  \brief The part of the OKlibrary concerned with assignments (partial and total)
+
+  Alias "Asg".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace Assignments {
+    }
+    namespace Asg = Assignments;
+  }
+}
 

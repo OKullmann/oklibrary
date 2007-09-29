@@ -13,19 +13,29 @@ License, or any later version. */
 
   \par Version 0.0.5
 
+  \par Assignments/PartialAssignments version 0.0.5
+  (see Assignments/PartialAssignments/plans/milestones.hpp)
+
   \par
    In Satisfiability/Assignments/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - Move the related concepts and plans
-    - Move Transitional/PartialAssignments here
-    - Improve module structure
+    - Update namespaces : DONE
+    - Improve module structure : DONE
+    - Move Transitional/PartialAssignments here : DONE
 
 
   \par Version 0.0.6
 
   \par Assignments/Autarkies version 0.0.5
   (see Assignments/Autarkies/plans/milestones.hpp)
+
+  \par Assignments/PartialAssignments version 0.0.6
+  (see Assignments/PartialAssignments/plans/milestones.hpp)
+
+  \par
+   In Satisfiability/Assignments/plans/general.hpp the following
+   topics are handled:
+    - Move the Transitional/Concepts/plans/Assignments.hpp here
 
   \par
    Create further milestones.

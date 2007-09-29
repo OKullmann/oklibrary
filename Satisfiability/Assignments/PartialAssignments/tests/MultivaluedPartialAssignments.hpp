@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file PartialAssignments/tests/MultivaluedPartialAssignments.hpp
+  \file Assignments/PartialAssignments/tests/MultivaluedPartialAssignments.hpp
   \brief Tests for set-valued partial assignments
 */
 
 #ifndef TEST_MULTIVALUEDPARTIALASSIGNMENTS_jsbvVtr
 #define TEST_MULTIVALUEDPARTIALASSIGNMENTS_jsbvVtr
 
-#include <Transitional/PartialAssignments/MultivaluedPartialAssignments.hpp>
+#include <Transitional/Satisfiability/Assignments/PartialAssignments/MultivaluedPartialAssignments.hpp>
 
 namespace OKlib {
   namespace PartialAssignments {

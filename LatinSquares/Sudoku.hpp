@@ -19,7 +19,7 @@ License, or any later version. */
 
 #include <boost/logic/tribool.hpp>
 
-#include <Transitional/PartialAssignments/MultivaluedPartialAssignments.hpp>
+#include <Transitional/Satisfiability/Assignments/PartialAssignments/MultivaluedPartialAssignments.hpp>
 #include <Transitional/Variables/TrivialVariables.hpp>
 
 namespace OKlib {

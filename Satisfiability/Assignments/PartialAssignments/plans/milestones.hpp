@@ -6,19 +6,43 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file PartialAssignments/plans/milestones.hpp
+  \file Assignments/PartialAssignments/plans/milestones.hpp
 
-  \module_version PartialAssignments 0.0.4 (28.11.2006)
+  \module_version Assignments/PartialAssignments 0.0.4 (28.11.2006)
+
 
   \par Version 0.0.5
-  In PartialAssignments/plans/MultivaluedPartialAssignments.hpp the following topics are handled:
-  -  Implementation OKlib::PartialAssignments::MultiPASS
 
-  And further milestones are created.
+  \par
+   In Assignments/PartialAssignments/plans/general.hpp the following topics are handled:
+    - Update namespaces : DONE
+    - Update w.r.t. new environments Satisfiability/Assignments : DONE
 
-    \par Version 0.0.6
-  In PartialAssignments/plans/MultivaluedPartialAssignments.hpp the following topics are handled:
-  -  Test OKlib::PartialAssignments::MultiPASS
+
+  \par Version 0.0.6
+
+  \par
+   In Assignments/PartialAssignments/plans/general.hpp the following topics are handled:
+    - Move Concepts/plans/PartialAssignments.hpp here
+    - Move PartAssign.hpp here
+    - Update namespace usage
+
+
+  \par Version 0.0.7
+
+  \par
+   In PartialAssignments/plans/MultivaluedPartialAssignments.hpp the following topics are handled:
+    - Implementation OKlib::PartialAssignments::MultiPASS
+
+  \par
+   And further milestones are created.
+
+
+    \par Version 0.0.8
+
+    \par
+     In PartialAssignments/plans/MultivaluedPartialAssignments.hpp the following topics are handled:
+      - Test OKlib::PartialAssignments::MultiPASS
 
 
 
