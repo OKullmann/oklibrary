@@ -37,6 +37,96 @@ git log --name-status -r -10 | cat
       I will look into adding this functionality to the post-receive script in a test repository
       as well as the other issues.
       </li>
+      <li> The following change should provide the desired behaviour 
+      \verbatim
+diff --git a/Buildsystem/Configuration/SourceControl/post-receive b/Buildsystem/Configuration/SourceControl/post-receive
+index 5a6bfd2..2878d30 100644
+--- a/Buildsystem/Configuration/SourceControl/post-receive
++++ b/Buildsystem/Configuration/SourceControl/post-receive
+@@ -370,7 +370,7 @@ generate_update_branch_email()
+ 
+                echo $LOGBEGIN
+                #git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
+-               git rev-list --pretty $oldrev..$newrev
++               git log --name-status -r $oldrev..$newrev | cat
+ 
+                # XXX: Need a way of detecting whether git rev-list actually outputted
+                # anything, so that we can issue a "no new revisions added by this 
+      \endverbatim
+      I have tested it using a simple test repository (having cloned 
+      Transitional from OKlib) and it seems to work as expected, producing a 
+      list of files at the end of each commit and their status (modified/added 
+      etc) but not the number of lines changed. For example
+      \verbatim
+The branch, master has been updated
+       via  f1432693f17f9a92ce2c419452a1f2e7db0b2e35 (commit)
+      from  b6f477b97d095418be1226824a10fee12b5818ab (commit)
+
+- Log -----------------------------------------------------------------
+commit f1432693f17f9a92ce2c419452a1f2e7db0b2e35
+Author: Matthew Gwynne <360678@Swansea.ac.uk>
+Date:   Sun Sep 30 17:56:41 2007 +0100
+
+    Even more Testing
+
+M       Buildsystem/SourceControl/plans/general.hpp
+-----------------------------------------------------------------------
+
+Summary of changes:
+ Buildsystem/SourceControl/plans/general.hpp |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+
+hooks/post-receive
+--
+UNNAMED PROJECT
+      \endverbatim
+      Is this the desired behaviour or would it be better having the individual
+      summary of changes for each commit, like so
+      \verbatim
+Transitional $ git log --stat -r HEAD^^..HEAD | cat              
+commit a3f2b3278f915ded654deae8f93e12679ba392f4
+Merge: 7197813... 13d1f7f...
+Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
+Date:   Sat Sep 29 19:20:30 2007 +0100
+
+    Merge branch 'master' of /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/OKsystem/Transitional/
+
+commit 71978130099627902c7e8146783ddfa6c61e6be1
+Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
+Date:   Sat Sep 29 15:57:56 2007 +0100
+
+    Started a Tutorial- and a FAQ-page.
+
+ Buildsystem/Configuration/Html/local_html.mak   |    6 ++
+ Buildsystem/Html/Local/FAQ.html                 |   32 ++++++++
+ Buildsystem/Html/Local/HomePage.html            |   17 ++++-
+ Buildsystem/Html/Local/Tutorial.html            |   97 +++++++++++++++++++++++
+ Buildsystem/OKlibBuilding/Targets/html/Makefile |    2 +
+ 5 files changed, 152 insertions(+), 2 deletions(-)
+
+commit 13d1f7fb1886ccc8451c55a19a4fc92834581907
+Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
+Date:   Fri Sep 28 19:09:01 2007 +0100
+
+    Md5sum-addition.
+
+ .../sources/Mailman/mailman-2.1.9.tgz.md5sum       |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 84101cf8aaaf517e6e246c05306d4f0499054ee5
+Author: Oliver Kullmann <O.Kullmann@Swansea.ac.uk>
+Date:   Fri Sep 28 19:08:42 2007 +0100
+
+    New gmp version 4.2.2.
+
+ Buildsystem/Configuration/ExternalSources/gmp.mak  |    2 +-
+ .../sources/Gmp/gmp-4.2.1.tar.bz2.md5sum           |    1 -
+ .../sources/Gmp/gmp-4.2.2.tar.bz2.md5sum           |    1 +
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+
+      \endverbatim
+      </li>
       <li> Replace "[SCM]" by "[OKlibrary::Transitional]". DONE </li>
      </ol>
    </li>
