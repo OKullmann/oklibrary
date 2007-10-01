@@ -18,5 +18,8 @@ License, or any later version. */
 
   \todo Create milestones.
 
+
+  \todo Create module for SAT problems with bounded maximal deficiency.
+
 */
 
