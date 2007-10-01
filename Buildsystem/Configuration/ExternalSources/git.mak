@@ -7,8 +7,8 @@
 
 # Settings for building and using Git
 
-git_recommended_version_number ?= 1.5.3.2
-git_supported_not_recommended_version_numbers ?= 1.5.3.1
+git_recommended_version_number ?= 1.5.3.3
+git_supported_not_recommended_version_numbers ?= 1.5.3.2
 git_supported_version_numbers ?= $(git_recommended_version_number) $(git_supported_not_recommended_version_numbers)
 
 git_prefix ?= git
