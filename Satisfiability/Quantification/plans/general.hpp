@@ -35,6 +35,9 @@ License, or any later version. */
   </ul>
 
 
+  \todo Create milestones.
+
+
   \todo What are the input formats?
   <ul>
    <li> See SAT evaluation. </li>
@@ -47,15 +50,29 @@ License, or any later version. */
    <li> See sub-module Games/plans/Chess.hpp. </li>
   </ul>
 
+
+  \todo Bounded maximal deficiency
+  <ul>
+   <li> Implement the algorithm for QCNF with deficiency at most one
+   (after reduction to the lean kernel) as developed by Kleine Buening
+   and Zhao. </li>
+   <li> Perhaps a submodule is appropriate. </li>
+  </ul>
+
 */
 
 /*!
-  \namespace OKlib::Quantification
+  \namespace OKlib::Satisfiability::Quantification
   \brief Components for quantified generalised SAT problems
+
+  Alias "Qua".
 */
 
 namespace OKlib {
-  namespace Quantification {
+  namespace Satisfiability {
+    namespace Quantification {
+    }
+    namespace Qua = Quantification;
   }
 }
 
