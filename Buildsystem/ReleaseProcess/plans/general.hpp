@@ -23,7 +23,12 @@ License, or any later version. */
   </ul>
 
 
-  \todo Plans-structure review:
+  \todo DONE (there is only a permanent release process via packages
+  created every few days or so; to the outside
+  world it matters which functionality is provided, which is regulated
+  by the milestones, however this does not affect the release processj
+  yet no experience with access to git-repositories by users)
+  Plans-structure review:
   The plans-structure in Buildsystem/ReleaseProcess/plans/ needs review.
   <ul>
    <li> Should we make a distinction between "special releases" and
