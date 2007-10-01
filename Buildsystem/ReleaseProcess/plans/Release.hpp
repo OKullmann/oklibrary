@@ -35,8 +35,22 @@ License, or any later version. */
   \todo Release plan
   <ul>
    <li> In Annotations/Release-1_0 we have a release plan for version 1.0
-   --- what to do with this plan? </li>
-   <li> Release plans perhaps should move to here --- or stay in Annotations? </li>
+   --- what to do with this plan?
+    <ol>
+     <li> Move all plans there to the appropriate plans in Transitional. </li>
+     <li> Part I on components delived should be integrated into the
+     respective milestones. </li>
+     <li> Some with Part VII. </li>
+     <li> "Supported platforms": We must do something about Linux/Unix,
+     while the rest is not supported. </li>
+     <li> The relative order in the schedule can be considered when
+     integrating the plans. </li>
+     <li> Part IV on "Usage" should go to here. </li>
+     <li> Compare V, VI with "MailingLists.hpp". </li>
+    </ol>
+   </li>
+   <li> DONE (all plans more here)
+   Release plans perhaps should move to here --- or stay in Annotations? </li>
   </ul>
 
 

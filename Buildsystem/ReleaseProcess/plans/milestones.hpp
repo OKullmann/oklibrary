@@ -8,14 +8,10 @@ License, or any later version. */
 /*!
   \file Buildsystem/ReleaseProcess/plans/milestones.hpp
   
-  \module_version Buildsystem/ReleaseProcess 0.0.5 (15.9.2007)
+  \module_version Buildsystem/ReleaseProcess 0.0.5.1 (1.10.2007)
 
 
   \par Version 0.0.6
-
-  \par
-   In Buildsystem/ReleaseProcess/plans/general.hpp the following topics are handled:
-    - Plans-structure review
 
   \par
    In Buildsystem/ReleaseProcess/plans/MailingLists.hpp the following topics are handled:
@@ -25,6 +21,10 @@ License, or any later version. */
    In Buildsystem/ReleaseProcess/plans/Release.hpp the following topics are handled:
     - Developers
     - Release plan
+
+  \par
+   In Buildsystem/ReleaseProcess/plans/general.hpp the following topics are handled:
+    - Plans-structure review : DONE
 
 
   \par Version 0.0.7

@@ -8,24 +8,21 @@ License, or any later version. */
 /*!
   \file Satisfiability/Assignments/plans/milestones.hpp
 
-  \module_version Satisfiability/Assignments 0.0.4 (24.9.2007)
-
-
-  \par Version 0.0.5
-
-  \par
-   In Satisfiability/Assignments/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces
-    - Move the related concepts and plans
-    - Move Transitional/PartialAssignments here
-    - Improve module structure
+  \module_version Satisfiability/Assignments 0.0.5 (29.9.2007)
 
 
   \par Version 0.0.6
 
   \par Assignments/Autarkies version 0.0.5
   (see Assignments/Autarkies/plans/milestones.hpp)
+
+  \par Assignments/PartialAssignments version 0.0.6
+  (see Assignments/PartialAssignments/plans/milestones.hpp)
+
+  \par
+   In Satisfiability/Assignments/plans/general.hpp the following
+   topics are handled:
+    - Move the Transitional/Concepts/plans/Assignments.hpp here
 
   \par
    Create further milestones.
@@ -37,5 +34,6 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 24.9.2007; initial version number (several plans, and some implementations).
+   - 0.0.5 : 29.9.2007; update of module structure.
 
 */

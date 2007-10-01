@@ -6,23 +6,34 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file PartialAssignments/plans/PartialAssignments.hpp
+  \file Assignments/PartialAssignments/plans/general.hpp
   \brief Plans for the module on partial assignments
 
-  \todo See Concepts/plans/PartialAssignments.hpp.
+
+  \todo Move Concepts/plans/PartialAssignments.hpp here.
+
+
+  \todo Move PartAssign.hpp here.
+
+
+  \todo Update namespace usage.
+
 
   \todo Old implementations
-   - See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp
+  <ul>
+   <li> See OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp. </li>
+   <li> Update Satisfiability/Assignments/PartAssign.hpp, so that it becomes
+   a very simple implementation of the generic concepts. </li>
+  </ul>
+
 
   \todo It seems sensible that evaluation of literals is the direct
   responsibility of the partial assignment class, while for the evaluation
   of active clause-sets we have an algorithm
-
   \code
   template <class PASS, class CLS>
   boost::logic::tribool evaluate(PASS phi, CLS F, OKlib::PartialAssignments::evaluation_tag<CLS>::type, const OKlib::RootEvaluationTag& tag);
   \endcode
-
   with
   <code> struct RootEvaluationTag {}; </code>
   possibly to be replaced by a derived class (which might be polymorphic)
@@ -30,10 +41,9 @@ License, or any later version. */
   According to our general strategy, we should primarily implement
   evaluate as a class template (in namespace OKlib::PartialAssignments).
 
+
   \todo Design study:
-
   \code
-
   template <class PartialAssignment, class Formula>
   class Evaluate : std::binary_function<const PartialAssignment&, const Formula&, boost::tribool> {
     boost::tribool operator() (const PartialAssignment& phi, const Formula& F, const ::OKlib::RootEvaluationTag& tag = ::OKlib::RootEvaluationTag()) const {
@@ -69,18 +79,22 @@ License, or any later version. */
   boost::tribool evaluate_dispatch()(const PartialAssignment& phi, const Formula& F, ::OKlib::PartialAssignments::evaluation_literal, const ::OKlib::RootEvaluationTag&) {
     return phi(F);
   }
-
   \endcode
 
 */
 
 /*!
-  \namespace OKlib::PartialAssignments
+  \namespace OKlib::Satisfiability::Assignments::PartialAssignments
   \brief Components regarding partial assignments
 */
 
 namespace OKlib {
-  namespace PartialAssignments {
+  namespace Satisfiability {
+    namespace Assignments {
+      namespace PartialAssignments {
+      }
+      namespace PAs = PartialAssignments;
+    }
   }
 }
 

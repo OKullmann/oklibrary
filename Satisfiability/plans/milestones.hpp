@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Transitional/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.1 (28.9.2007)
+  \module_version Transitional/Satisfiability 0.1.0.2 (29.9.2007)
 
 
   \par Version 0.1.1
 
-  \par Satisfiability/Assignments version 0.0.5 (OK)
+  \par Satisfiability/Assignments version 0.0.5 (OK) : DONE
   (see Satisfiability/Assignments/plans/milestones.hpp)
 
   \par Satisfiability/ProblemInstances 0.0.3 : DONE
@@ -35,6 +35,9 @@ License, or any later version. */
 
   \par Satisfiability/ProblemInstances 0.0.4
   (see Satisfiability/ProblemInstances/plans/milestones.hpp)
+
+  \par Satisfiability/Assignments version 0.0.6 (OK)
+  (see Satisfiability/Assignments/plans/milestones.hpp)
 
   \par
    Create further milestones.
