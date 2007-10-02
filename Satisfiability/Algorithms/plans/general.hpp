@@ -16,7 +16,7 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Create milestones.
+  \todo Create milestones : DONE
 
 
   \todo Create module for SAT problems with bounded maximal deficiency.

@@ -13,6 +13,9 @@ License, or any later version. */
 
   \par Version 0.1.1
 
+  \par Satisfiability/Algorithms version 0.0.6
+  (see Satisfiability/Algorithms/plans/milestones.hpp)
+
   \par Satisfiability/Assignments version 0.0.5 (OK) : DONE
   (see Satisfiability/Assignments/plans/milestones.hpp)
 
