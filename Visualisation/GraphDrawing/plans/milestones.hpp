@@ -10,24 +10,36 @@ License, or any later version. */
 
   \module_version GraphDrawing 0.0.2 (30.8.2006)
 
+
   \par Version 0.0.3 :
 
   \par
    In GraphDrawing/plans/general.hpp the following topics are handled:
     - Update namespaces
     - Graphics library
+    - Graph visualisation library
     - External libraries / programs
+
+
+  \par Version 0.0.4 :
+
+  \par
+   In GraphDrawing/plans/general.hpp the following topics are handled:
+    - Concepts
+    - Applications
 
   \par
    In GraphDrawing/plans/Trees.hpp the following topics are handled:
     - Rheingold-Tilford algorithm outline
 
-  And further milestones created.
+  \par
+   Further milestones created.
 
 
   \par Version 0.1 :
   Trees can be drawn, suitable for visualising the run of backtracking SAT solvers.
   
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
