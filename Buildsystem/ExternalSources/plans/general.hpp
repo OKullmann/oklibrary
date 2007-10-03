@@ -117,6 +117,14 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    <li> For C++ solvers we need the ability to use older gcc-versions. </li>
    <li> We should have also a directory Buildsystem/ExternalSources/SATsolvers
    (solvers are not "SpecialBuilds"). </li>
+   <li> List of solvers/libraries:
+    <ol>
+     <li> http://sat.inesc-id.pt/OpenSAT/index.php </li>
+     <li> http://www.sat4j.org/ </li>
+     <li> http://www-verimag.imag.fr/~cotton/jat/ </li>
+     <li> http://sourceforge.net/projects/dpt </li>
+    </ol>
+   </li>
   </ul>
 
 
