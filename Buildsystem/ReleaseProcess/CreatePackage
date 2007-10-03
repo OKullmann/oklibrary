@@ -11,7 +11,7 @@ set -o errexit -o nounset -o xtrace
 if [ ! -d ${packages_dir} ]; then mkdir ${packages_dir}; fi
 
 if [ -s ${release_history_template} ]; then
-  counter=$(printf "%.5d" $(($(tail -1 ${release_history_template} | cut --fields=1 --delimiter=" ") + 1)))
+  counter=$(printf "%.5d" $(($(tail -1 ${release_history_template} | cut --fields=1 --delimiter=" " | sed 's/^0*//') + 1)))
 else
   counter=00001
 fi
