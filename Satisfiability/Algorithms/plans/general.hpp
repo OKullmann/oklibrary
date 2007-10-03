@@ -16,10 +16,25 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Create milestones : DONE
-
-
   \todo Create module for SAT problems with bounded maximal deficiency.
 
+
+  \todo Create milestones : DONE
+
 */
+
+/*!
+  \namespace OKlib::Satisfiability::Algorithms
+  \brief Components for (generalised) SAT algorithms
+
+  Alias "Alg".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace Algorithms {
+    }
+    namespace Alg = Algorithms;
+  }
+}
 

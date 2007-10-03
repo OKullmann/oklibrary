@@ -6,13 +6,22 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Learning/plans/milestones.hpp
+  \file Satisfiability/Algorithms/Learning/plans/milestones.hpp
 
-  \module_version Learning 0.0.3 (8.1.2007)
+  \module_version Satisfiability/Algorithmis/Learning 0.0.3 (8.1.2007)
+
 
   \par Version 0.0.4 :
-  The first task seems to be to determine the abstract framework (which
-  components in the solving process are responsible for learning?)
+
+  \par
+   In Satisfiability/Algorithms/Learning/plans/general.hpp the following todos are handled:
+    - Create milestones
+    - Framework
+    - Update namespaces : DONE
+
+  \par
+   New milestones are created.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

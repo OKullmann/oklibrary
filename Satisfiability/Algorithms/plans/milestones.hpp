@@ -16,11 +16,14 @@ License, or any later version. */
   \par Satisfiability/Algorithms/Backtracking version 0.0.5
   (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
 
+  \par Satisfiability/Algorithmis/Learning 0.0.4
+  (see Satisfiability/Algorithms/Learning/plans/milestones.hpp)
+
   \par
    In Satisfiability/Algorithms/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
     - Create module for SAT problems with bounded maximal deficiency
+    - Update namespaces : DONE
     - Create milestones : DONE
 
   \par
