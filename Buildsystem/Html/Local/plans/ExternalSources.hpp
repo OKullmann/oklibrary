@@ -12,13 +12,13 @@ License, or any later version. */
 
   \todo Links
   <ul>
-   <li> See
-   "Install configuration system:Also all links to ExternalSources-docs need to be relativised"
-   in Buildsystem/Html/plans/general.hpp. </li>
    <li> Fill the "ready?"-columns. </li>
    <li> Fill the "installation page"-column. </li>
    <li> A special dedicated link-symbol (created by a style-sheet) perhaps
    would be better (to be used where now "click" appears). </li>
+   <li> DONE See
+   "Install configuration system:Also all links to ExternalSources-docs need to be relativised"
+   in Buildsystem/Html/plans/general.hpp. </li>
    <li> Make all install-pages-links relative : DONE </li>
   </ul>
 

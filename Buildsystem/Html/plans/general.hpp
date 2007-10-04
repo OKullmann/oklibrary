@@ -32,20 +32,6 @@ License, or any later version. */
   <ul>
    <li> Update all usages of absolute paths to our own html-pages or
    to doxygen-pages. </li>
-   <li> Also all links to ExternalSources-docs need to be relativised,
-   since otherwise apache doesn't understand the url's.
-    <ol>
-     <li> We need to check, whether this works with ext-sources-doc and
-     sys-dir-doc set to their target locations. </li>
-     <li> However, then actually for normal use the documentation is
-     not movable, since normally the documentation is placed in
-     ExternalSources/doc, not in system_directories/doc. </li>
-     <li> So better for external-sources-links we have the choice
-     between absolute and relative paths, via a make-variable;
-     default is absolute, while for creating the internet-html-directory
-     it is switched to relative. </li>
-    </ol>
-   </li>
    <li> The m4-preprocessing should move to the Configuration-module. </li>
    <li> Files created by the preprocessor should have a final line stating this
    and the creation date; then also (for easy of modification) the original
@@ -62,6 +48,22 @@ automatic_masthead = Automatically created by the OKbuildsystem on $(current_dat
    One problem here is that the current date should be the time when the specific page
    was created, not when the whole process started --- is this achieved by recursive
    make variables??
+   </li>
+   <li> DONE (introduced makevariable extsrc_relative, which if non-empty
+   activates relative paths to external-sources-documentation)
+   Also all links to ExternalSources-docs need to be relativised,
+   since otherwise apache doesn't understand the url's.
+    <ol>
+     <li> We need to check, whether this works with ext-sources-doc and
+     sys-dir-doc set to their target locations. </li>
+     <li> However, then actually for normal use the documentation is
+     not movable, since normally the documentation is placed in
+     ExternalSources/doc, not in system_directories/doc. </li>
+     <li> So better for external-sources-links we have the choice
+     between absolute and relative paths, via a make-variable;
+     default is absolute, while for creating the internet-html-directory
+     it is switched to relative. </li>
+    </ol>
    </li>
    <li> DONE
    Local url's should be relative (so that the html-documentation is

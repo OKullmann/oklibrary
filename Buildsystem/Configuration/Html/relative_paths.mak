@@ -41,6 +41,31 @@ rel_les_gmp_docu_page := $(shell $(rel_path_tool) $(gmp_docu_page) $(externalsou
 rel_les_sage_docu_page := $(shell $(rel_path_tool) $(sage_docu_page) $(externalsources_page_output))
 rel_les_coq_docu_page := $(shell $(rel_path_tool) $(coq_docu_page) $(externalsources_page_output))
 rel_les_ubcsat_docu_page := $(shell $(rel_path_tool) $(ubcsat_docu_page) $(externalsources_page_output))
+ifeq ($(extsrc_relative),)
+  rel_les_boost_html_documentation_index_location := $(boost_html_documentation_index_location)
+  rel_les_mhash_html_documentation_index_location := $(mhash_html_documentation_index_location)
+  rel_les_gcc_html_documentation_index_location := $(gcc_html_documentation_index_location)
+  rel_les_valgrind_html_documentation_index_location := $(valgrind_html_documentation_index_location)
+  rel_les_git_html_documentation_index_location := $(git_html_documentation_index_location)
+  rel_les_doxygen_html_documentation_index_location := $(doxygen_html_documentation_index_location)
+  rel_les_cmake_html_documentation_index_location := $(cmake_html_documentation_index_location)
+  rel_les_pgsql_html_documentation_index_location := $(pgsql_html_documentation_index_location)
+  rel_les_R_html_documentation_index_location := $(R_html_documentation_index_location)
+  rel_les_gmp_html_documentation_index_location := $(gmp_html_documentation_index_location)
+  rel_les_ubcsat_html_documentation_index_location := $(ubcsat_html_documentation_index_location)
+else
+  rel_les_boost_html_documentation_index_location := $(shell $(rel_path_tool) $(boost_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_mhash_html_documentation_index_location := $(shell $(rel_path_tool) $(mhash_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_gcc_html_documentation_index_location := $(shell $(rel_path_tool) $(gcc_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_valgrind_html_documentation_index_location := $(shell $(rel_path_tool) $(valgrind_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_git_html_documentation_index_location := $(shell $(rel_path_tool) $(git_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_doxygen_html_documentation_index_location := $(shell $(rel_path_tool) $(doxygen_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_cmake_html_documentation_index_location := $(shell $(rel_path_tool) $(cmake_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_pgsql_html_documentation_index_location := $(shell $(rel_path_tool) $(pgsql_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_R_html_documentation_index_location := $(shell $(rel_path_tool) $(R_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_gmp_html_documentation_index_location := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_ubcsat_html_documentation_index_location := $(shell $(rel_path_tool) $(ubcsat_html_documentation_index_location) $(externalsources_page_output))
+endif
 
 # to be completed XXX
 
