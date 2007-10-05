@@ -22,6 +22,9 @@ License, or any later version. */
   \par Satisfiability/Algorithms/LocalSearch 0.0.5
   (see Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp)
 
+  \par Satisfiability/Algorithms/Autarkies 0.0.5
+  (see Satisfiability/Algorithms/Autarkies/plans/milestones.hpp)
+
   \par
    In Satisfiability/Algorithms/plans/general.hpp the following
    topics are handled:

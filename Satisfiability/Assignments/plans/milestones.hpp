@@ -13,9 +13,6 @@ License, or any later version. */
 
   \par Version 0.0.6
 
-  \par Assignments/Autarkies version 0.0.5
-  (see Assignments/Autarkies/plans/milestones.hpp)
-
   \par Assignments/PartialAssignments version 0.0.6
   (see Assignments/PartialAssignments/plans/milestones.hpp)
 
