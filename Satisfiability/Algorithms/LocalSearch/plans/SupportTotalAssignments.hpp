@@ -6,10 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file LocalSearch/plans/SupportTotalAssignments.hpp
+  \file Satisfiability/Algorithms/LocalSearch/plans/SupportTotalAssignments.hpp
   \brief Supporting data structures for total assignments to be used
   for efficient enumeration and local search (for satisfying assignments
   as well as autarkies). Operations to support variable flips.
+
 
   \todo Concepts:
   <ul>
@@ -18,13 +19,19 @@ License, or any later version. */
   </ul>
 
 
-  \todo Design and implement. Should utilise the clause-literal graph.
-  Default statistics: Number of falsified and satisfied literals per clause,
-  and the total number of satisfied and critical clauses.
-  Policies should allow for other statistics (for example when enumerating
-  all assignments, all kinds of maximisations/minimisations could be
-  performed; or when using the data structure for local search for
+  \todo Design and implement
+  <ul>
+  <li> Should utilise the clause-literal graph. </li>
+  <li> Default statistics: Number of falsified and satisfied literals
+  per clause, </li>
+  <li> and the total number of satisfied and critical clauses. </li>
+  <li> Policies should allow for other statistics (for example when
+  enumerating all assignments, all kinds of maximisations/minimisations
+  could be performed; </li>
+  <li> or when using the data structure for local search for
   autarkies, then the number of satisfied and critical clauses are needed
-  for all levels).
+  for all levels). </li>
+ </ul>
+
 */
 

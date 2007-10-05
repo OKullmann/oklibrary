@@ -6,14 +6,23 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file LocalSearch/plans/milestones.hpp
+  \file Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp
 
-  \module_version LocalSearch 0.0.4 (23.6.2007)
+  \module_version Satisfiability/Algorithms/LocalSearch 0.0.4 (23.6.2007)
+
 
   \par Version 0.0.5 :
 
   \par
-   In LocalSearch/plans/general.hpp the following topics are handled:
+   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following topics are handled:
+   - Update namespaces
+   - Update plans
+
+
+  \par Version 0.0.6 :
+
+  \par
+   In Satisfiability/Algorithms/LocalSearch/plans/general.hpp the following topics are handled:
    - Installation of UBCSAT completed
    - Contact the developers of Ubcsat
    - Create further milestones
@@ -21,6 +30,7 @@ License, or any later version. */
   \par
    In LocalSearch/plans/SupportTotalAssignments.hpp the following topics are handled:
    - Concepts
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

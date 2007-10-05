@@ -6,8 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file LocalSearch/plans/general.hpp
+  \file Satisfiability/Algorithms/LocalSearch/plans/general.hpp
   \brief Plans for the general module on local search
+
+
+  \todo Update namespaces.
+
+
+  \todo Update plans.
+
 
   \todo Installation of UBCSAT completed:
   <ol>
@@ -33,7 +40,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create further milestones (for 0.0.6)
+  \todo Create further milestones (for 0.0.7)
 
 
 */

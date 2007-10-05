@@ -16,10 +16,10 @@ License, or any later version. */
    <li> AtomicConditions to ProblemInstances/Conditions. </li>
    <li> Variables to ProblemInstances/Variables (a merge). </li>
    <li> Literals to ProblemInstances/Literals (a merge). </li>
-   <li> LocalSearch to Algorithms. </li>
    <li> PartialAssignments to Assignments. </li>
    <li> SATAlgorithms to Algorithms (a merge). </li>
    <li> Utilities to Algorithms or to ProblemInstances. </li>
+   <li> LocalSearch to Algorithms. DONE </li>
   </ol>
 
 

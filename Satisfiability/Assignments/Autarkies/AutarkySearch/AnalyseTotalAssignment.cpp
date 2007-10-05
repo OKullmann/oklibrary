@@ -38,7 +38,7 @@ License, or any later version. */
 #include <cassert>
 #include <cstdlib>
 
-#include <Transitional/LocalSearch/Ubcsat/local/ubcsat.h>
+#include <Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/local/ubcsat.h>
 
 namespace {
 
