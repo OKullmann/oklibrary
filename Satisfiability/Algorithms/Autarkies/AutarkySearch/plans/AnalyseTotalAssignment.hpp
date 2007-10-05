@@ -10,6 +10,7 @@ License, or any later version. */
   \brief Decision, whether a given partial assignment contains an autarky, and
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
+
   
   \todo Complete correct compilation in AutarkySearch:
    <ul>

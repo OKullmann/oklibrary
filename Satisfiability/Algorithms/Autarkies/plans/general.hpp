@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Assignments/Autarkies/plans/general.hpp
+  \file Satisfiability/Algorithms/Autarkies/plans/general.hpp
   \brief General plans on autarkies.
 
 

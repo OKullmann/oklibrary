@@ -6,9 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Assignments/Autarkies/plans/milestones.hpp
+  \file Algorithms/Autarkies/plans/milestones.hpp
 
-  \module_version Assignments/Autarkies 0.0.4 (24.9.2007)
+  \module_version Algorithms/Autarkies 0.0.4 (24.9.2007)
 
 
   \par Version 0.0.5

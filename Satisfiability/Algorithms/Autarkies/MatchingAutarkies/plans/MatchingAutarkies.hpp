@@ -9,6 +9,7 @@ License, or any later version. */
   \file MatchingAutarkies/plans/MatchingAutarkies.hpp
   \brief Algorithms regarding matching autarkies
 
+
   \todo Algorithms for the lean kernel:
   First the main algorithmic ideas have to be developed.
   <ol>
@@ -25,21 +26,26 @@ License, or any later version. */
    <li> Has Stefan Szeider a different algorithm? </li>
   </ol>
 
+
   \todo Algorithms for matching autarkies:
   Are there more heuristical approaches for finding just one matching autarky?
+
 
   \todo Implementation:
   A direct implementation of the computation
   of the matching lean kernel based on a matching algorithm.
 
+
   \todo Application:
   Write an application for computing the lean kernel,
   the largest matching autarky etc.
+
 
   \todo Incremental:
   Then one has to think about integration into a SAT solver. Likely maintenance of a maximum matching
   plays a role for incremental algorithm; the main change-operation is the application of partial
   assignments.
+
 */
 
 /*!
