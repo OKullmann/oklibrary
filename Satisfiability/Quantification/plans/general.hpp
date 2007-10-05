@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Module for quantified boolean formulas and generalisations
 
 
+  \todo Create milestones.
+
+
   \todo Main challenge are the concepts.
   <ul>
    <li> Arbitrary "constraint-problems" can be quantified. </li>
@@ -35,9 +38,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Create milestones.
-
-
   \todo What are the input formats?
   <ul>
    <li> See SAT evaluation. </li>
@@ -48,6 +48,18 @@ License, or any later version. */
   \todo Applications:
   <ul>
    <li> See sub-module Games/plans/Chess.hpp. </li>
+  </ul>
+
+
+  \todo Basic autarkies
+  <ul>
+   <li> Since QBF is a harder problem than SAT, here it might be worth to
+   eliminate all basic autarkies (i.e., just crossing out all universal
+   variables), i.e., to compute the lean kernel of the matrix (ignoring all
+   universal variables). </li>
+   <li> Of course, more heuristical schemes or polynomial-time algorithms for
+   autarky search can also be used. </li>
+   <li> See AutarkySearch/plans/general.hpp. </li>
   </ul>
 
 
