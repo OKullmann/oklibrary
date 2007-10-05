@@ -48,7 +48,16 @@ License, or any later version. */
 
   <h3> Make targets </h3>
   
-  XXX
+  <table>
+   <tr>
+    <td> <code> R </code> </td>
+    <td> Build the recommended R-version, using the system-gcc. </td>
+   </tr>
+   <tr>
+    <td> <code> R-V </code> </td>
+    <td> Build the R-version V, using the system-gcc (for example <code>R-2.5.0</code>). </td>
+   </tr>
+  </table>
 
 */
 

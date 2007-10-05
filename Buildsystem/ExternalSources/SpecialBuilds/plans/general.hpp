@@ -19,8 +19,8 @@ License, or any later version. */
      <li> cmake </li>
      <li> mhash (remark about corrected files; content of package) </li>
      <li> mpfr </li>
-     <li> r </li>
      <li> ubcsat (remark about corrected files; content of package) </li>
+     <li> r : DONE </li>
      <li> %boost : DONE </li>
      <li> coq : DONE </li>
      <li> doxygen : DONE </li>
