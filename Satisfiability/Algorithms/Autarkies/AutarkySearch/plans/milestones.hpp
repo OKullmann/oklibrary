@@ -14,20 +14,28 @@ License, or any later version. */
   \par Version 0.0.7
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-    - Complete correct compilation in AutarkySearch
-    - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
-    - Design and implement class ComputeLargestAutarky
+   In AutarkySearch/plans/general.hpp the following topics are handled:
+    - Update namespaces
+    - Update plans
 
 
   \par Version 0.0.8
 
   \par
    In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-    - Design and implement class AutarkySearchUbcsat
+    - Complete correct compilation in AutarkySearch
+    - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
+    - Design and implement class ComputeLargestAutarky
 
 
   \par Version 0.0.9
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - Design and implement class AutarkySearchUbcsat
+
+
+  \par Version 0.0.10
 
   \par
    In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:

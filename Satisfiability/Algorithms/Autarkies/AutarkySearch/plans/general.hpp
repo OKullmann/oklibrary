@@ -12,6 +12,17 @@ License, or any later version. */
 
   \todo Update namespaces.
 
+
+  \todo Update plans
+  <ul>
+   <li> Is this sub-module only for "direct" search for autarkies,
+   while the algorithms performing iterated SAT-search with
+   variable-cross-out (see [Kullmann, Lynce, Marques-Silva 2006])
+   goes to a different module? </li>
+   <li> Should we make an organisation difference between full
+   autarky search and partial autarky search? </li>
+  </ul>
+
 */
 
 /*!

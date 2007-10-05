@@ -6,8 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file MatchingAutarkies/plans/MatchingAutarkies.hpp
-  \brief Algorithms regarding matching autarkies
+  \file MatchingAutarkies/plans/general.hpp
+  \brief Plans for algorithms regarding matching autarkies
+
+
+  \todo Update namespaces.
+
+
+  \todo Update plans.
 
 
   \todo Algorithms for the lean kernel:

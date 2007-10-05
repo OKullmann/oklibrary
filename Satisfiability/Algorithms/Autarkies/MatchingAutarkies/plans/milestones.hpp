@@ -6,15 +6,24 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file MatchingAutarkies/plans/milestones.hpp
+  \file Autarkies/MatchingAutarkies/plans/milestones.hpp
 
-  \module_version MatchingAutarkies 0.0.1 (8.3.2006)
+  \module_version Autarkies/MatchingAutarkies 0.0.1 (8.3.2006)
 
 
   \par Version 0.0.2
 
   \par
-   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+   In MatchingAutarkies/plans/general.hpp the following
+   topics are handled:
+   - Update namespaces
+   - Update plans
+  
+
+  \par Version 0.0.3
+
+  \par
+   In MatchingAutarkies/plans/general.hpp the following
    topics are handled:
    - Algorithms for the lean kernel
    - Algorithms for matching autarkies
@@ -26,7 +35,7 @@ License, or any later version. */
   \par Version 0.1
 
   \par
-   In MatchingAutarkies/plans/MatchingAutarkies.hpp the following
+   In MatchingAutarkies/plans/general.hpp the following
    topics are handled:
    - Implementation
    - Application
