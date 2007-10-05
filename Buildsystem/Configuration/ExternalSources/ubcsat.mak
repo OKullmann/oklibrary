@@ -26,10 +26,10 @@ ubcsat_recommended := $(ubcsat_targets_prefix)$(ubcsat_recommended_version_numbe
 
 ifndef Ubcsat
   ifdef UBCSAT
-    Ubcsat_dir = $(UBCSAT)
+    Ubcsat_dir ?= $(UBCSAT)
   else
-    Ubcsat_dir = $(ExternalSources)/Ubcsat
+    Ubcsat_dir ?= $(ExternalSources)/Ubcsat
   endif
-  Ubcsat = -I$(Ubcsat_dir)/$(ubcsat_recommended_version_number)/src
+  Ubcsat ?= -I$(Ubcsat_dir)/$(ubcsat_recommended_version_number)/src
 endif
 # TODO: We must update and systematise the use of such variables.
