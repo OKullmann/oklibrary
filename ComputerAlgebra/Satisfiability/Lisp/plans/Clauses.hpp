@@ -9,6 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/plans/Clauses.hpp
   \brief Plans for clause-constructions
 
+
   \todo Boolean clauses
 
  
