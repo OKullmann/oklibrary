@@ -15,14 +15,21 @@ License, or any later version. */
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Licence documentation
+    - Licence documentation : DONE
+    - Problems with licence : DONE
+
+
+  \par Version 0.0.7
+
+  \par
+   In LegalIssues/plans/Licence.hpp the following topics are handled:
+    - Further licence installations
 
 
   \par Version 0.1
 
   \par
    In LegalIssues/plans/Licence.hpp the following topics are handled:
-    - Problems with licence
     - Licence maintenance
 
 

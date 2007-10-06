@@ -27,7 +27,7 @@ License, or any later version. */
   TO BE REACHED $(deadline_021)
   \par Buildsystem version 0.2.1 (OK, MG)
   (see Buildsystem/plans/milestones.hpp)
-  \par LegalIssues version 0.1 (OK)
+  \par LegalIssues version 0.0.7 (OK)
   (see LegalIssues/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
@@ -113,6 +113,8 @@ License, or any later version. */
   (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
   \par GeneralInputOutput 0.1.2
   (see Transitional/GeneralInputOutput/plans/milestones.hpp)
+  \par LegalIssues version 0.1 (OK)
+  (see LegalIssues/plans/milestones.hpp)
   \par %Combinatorics 0.0.4
   (see Combinatorics/plans/milestones.hpp)
   \par
