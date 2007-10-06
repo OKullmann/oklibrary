@@ -9,9 +9,10 @@
 
 Prerequisites (need to be installed):
 
- - Bash version 3.00 or higher
+ - Bash, version 3.00 or higher
+   (check: run "bash --version")
  - GNU make, version 3.80 or higher
-  (check: run "make -v")
+  (check: run "make --version")
  - gcc
 
 For creation of documentation we also need:
@@ -21,6 +22,16 @@ For creation of documentation we also need:
  - the m4 preprocessor.
 
 Any recent Linux distribution supplies these prerequisites.
+
+There are other Unix/Linux tools, which some "lean distributions"
+do not include (we propose you better go with a "fat distribution"),
+e.g.
+
+sudo
+dos2unix
+mmv
+
+And Latex should include the srcltx-package.
 
 ----------------------------------------------
 
