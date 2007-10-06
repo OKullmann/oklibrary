@@ -44,6 +44,9 @@ License, or any later version. */
    <li> In any case only the minimal packages are kept. </li>
    <li> Perhaps the packages created with every advance in the
    version number (disregarding the fourth digit). </li>
+   <li> Can we make the OKlibrary "officially" available? Or "more
+   official"?? Perhaps we need a Sourceforge-account??? The Git-history should
+   be well-secured. </li>
   </ul>
 
 */

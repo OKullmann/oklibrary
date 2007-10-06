@@ -72,3 +72,5 @@ endif
 # From the Internet home page:
 rel_ihp_local_home_page_output := $(shell $(rel_path_tool) $(local_home_page_output) $(internet_home_page_output))
 
+# From the licence page:
+rel_lic_licence_docu_page := $(shell $(rel_path_tool) $(licence_docu_page) $(licence_page_output))

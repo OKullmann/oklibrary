@@ -12,15 +12,16 @@ License, or any later version. */
   The basic decision is to use GPLv3 (http://www.fsf.org/licensing/licenses/gpl.html)
 
 
-  \todo Problems with licence
+  \todo Problems with licence : DONE
   <ul>
-   <li> Part of the licence must be that the full history is handed down. Is this
+   <li> DONE (postponed)
+   Part of the licence must be that the full history is handed down. Is this
    guaranteed by the original text, or do we need to amend it?
     <ol>
      <li> E-mail was sent to FSL. </li>
     </ol>
    </li>
-   <li> What about the copyright statements?
+   <li> What about the copyright statements? DONE (decided, and reasons written down)
     <ol>
      <li> Initially every file has OK's copyright. </li>
      <li> But once other external developers have contributed essentially to some file,
@@ -56,7 +57,7 @@ License, or any later version. */
        <li> The possibility, that OK creates patents (which would disable others
        to use the library) is excluded by the licence --- if later the licence would
        be changed, then patents could only be issued on later code. </li>
-       <li> According the the Berne convention, the contributors do not
+       <li> According to the Berne convention, the contributors do not
        loose their "natural copyright" (as partial authors), it is only
        that I (OK) express *my* copyright. More information is needed here XXX </li>
        <li> Does it make a difference whether contributors submit files already
@@ -74,7 +75,9 @@ License, or any later version. */
        <li> Having each file OK-copyright would emphasise the responsibility
        of OK for the unity of the library. A statement shall be made that OK tries
        his best to maintain and develop all code accepted into the library. </li>
-       <li> Also the submissions which are not yet accepted are made visible somewhere. </li>
+       <li> DONE (this would create too much trouble at this time; let's wait until
+       substantial external participation is there)
+       Also the submissions which are not yet accepted are made visible somewhere. </li>
       </ol>
      </li>
     </ol>
@@ -84,10 +87,18 @@ License, or any later version. */
   </ul>
 
 
-  \todo Licence documentation
+  \todo Licence documentation : DONE
   <ul>
-   <li> Basic motivation for the GPL: Research platform. </li>
-   <li> Create a special html-page, and link to it from the local documentation page. </li>
+   <li> DONE Basic motivation for the GPL: Research platform. </li>
+   <li> DONE Create a special html-page, and link to it from the local documentation page. </li>
+  </ul>
+
+
+  \todo Further licence installations
+  <ul>
+   <li> Also html and tex files need the licence. </li>
+   <li> Is it necessary that the licence is also visible on
+   each document page ? </li>
   </ul>
 
 
@@ -107,6 +118,14 @@ License, or any later version. */
    should be updated. </li>
    <li> Also a third type of script is needed for make-files. </li>
    <li> Important that these scripts tell us about "bad" files. </li>
+   <li> Part of the licence must be that the full history is handed down. Is this
+   guaranteed by the original text, or do we need to amend it?
+    <ol>
+     <li> E-mail was sent to FSL. </li>
+     <li> No answer (6.10.2007); one should try it again. </li>
+    </ol>
+   </li>
+
   </ul>
 
 */
