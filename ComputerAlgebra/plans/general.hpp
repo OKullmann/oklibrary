@@ -10,9 +10,9 @@ License, or any later version. */
   \brief General plans regarding computer algebra (and SAT)
 
 
-  \todo General principles
+  \todo General principles : DONE
   <ul>
-   <li> Formulate these principles in ComputerAlgebra/docus/general.hpp. </li>
+   <li> Formulate these principles in ComputerAlgebra/docus/general.hpp. DONE </li>
    <li> DONE (the Maxima level is the "fixed" level, without polymorphism
    and abstract concepts, but "flowing with Lisp" and providing simple
    and obvious implementations)

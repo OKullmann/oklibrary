@@ -11,10 +11,21 @@ License, or any later version. */
 
   <h1> Overview on the docus-system </h1>
 
-  The list of top-level docus pages for the sub-modules:
+  <h2> Meaning </h2>
+
+  The docus-system, which is available at (nearly) every node of the
+  directory tree (following the hierarchical structure of the library),
+  provides general usage information relevant for the respective
+  level (the closer to the leaves of the tree the more specific).
+
+
+  <h2> Sub-division </h2>
+
+  The list of top-level docus pages for the parts of the library
+  (UNDER CONSTRUCTION):
   <ul>
    <li> The build system : Buildsystem/docus/general.hpp </li>
-   <li> The message system : </li>
+   <li> The computer algebra system : ComputerAlgebra/docus/general.hpp </li>
   </ul>
 
 */

@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.0.1 (7.9.2007)
+  \module_version ComputerAlgebra 0.1.0.2 (7.10.2007)
 
 
   \par Version 0.1.1
 
-  \par ComputerAlgebra/Satisfiability version 0.0.6
+  \par ComputerAlgebra/Satisfiability version 0.0.5
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
   \par ComputerAlgebra/Cryptology version 0.0.5
@@ -21,7 +21,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - General principles
+    - General principles : DONE
     - Comparisons : DONE
     - How to use Sage? : DONE
 
@@ -38,7 +38,7 @@ License, or any later version. */
 
   \par Version 0.1.3
 
-  \par ComputerAlgebra/Satisfiability version 0.0.7
+  \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
   \par ComputerAlgebra/Cryptology version 0.0.6
