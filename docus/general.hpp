@@ -9,7 +9,9 @@ License, or any later version. */
   \file Transitional/docus/general.hpp
   \brief The central docus-file for the library
 
+
   <h1> Overview on the docus-system </h1>
+
 
   <h2> Meaning </h2>
 
@@ -24,6 +26,7 @@ License, or any later version. */
   The list of top-level docus pages for the parts of the library
   (UNDER CONSTRUCTION):
   <ul>
+   <li> Applications of (generalised) SAT : Applications/docus/general.hpp </li>
    <li> The build system : Buildsystem/docus/general.hpp </li>
    <li> The computer algebra system : ComputerAlgebra/docus/general.hpp </li>
   </ul>
