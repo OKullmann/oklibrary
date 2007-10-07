@@ -42,23 +42,25 @@ License, or any later version. */
 
   \todo Doxygen general
   <ul>
-   <li> Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we should use
-     the tag EXPAND_AS_DEFINED (since we do not alter the definitions), however this
-     does not work? </li>
-   <li> In OKDatabase/CreateStatistic.cpp we have, within an unnamed namespace, the private
-   member v of class Densities --- nevertheless doxygen claims, that at every other place,
-   where an object is called v, this private member is referenced??? This looks like a
-   clear doxygen-bug to me. </li>
-   <li> Can doxygen tell which other files include a file (not in graph form, but in text form)? </li>
+   <li> Instead of defining the exceptional macros by Doxyfile-tag PREDEFINED, we
+   should use the tag EXPAND_AS_DEFINED (since we do not alter the definitions),
+   however this does not work? </li>
+   <li> In OKDatabase/CreateStatistic.cpp we have, within an unnamed namespace, the
+   private member v of class Densities --- nevertheless doxygen claims, that at
+   every other place, where an object is called v, this private member is
+   referenced??? This looks like a clear doxygen-bug to me. </li>
+   <li> Can doxygen tell which other files include a file (not in graph form, but in
+   text form)? </li>
    <li> For functions there is a "callergraph" --- shall we use it? </li>
    <li> How to avoid that a leading "include" in a Doxygen-comment is interpreted as
-     a doxygen-command? And how to avoid that apparently certain "keywords" are captured by
-     doxygen? The keyword-interpretation can be avoided by prefixing them with "%". </li>
-   <li> How to obtain general statistics: About the number of classes, lines of code, etc. (best
-     with some statistics on the change over time)
-     and then also on the version numbers of the modules (again with changes over time).
-     If doxygen does not support it yet, then we should submit some feature request, and postphone
-     this item. See what' in 1.5.3. </li>
+     a doxygen-command? And how to avoid that apparently certain "keywords" are captured
+     by doxygen? The keyword-interpretation can be avoided by prefixing them with "%".
+   </li>
+   <li> How to obtain general statistics: About the number of classes, lines of code,
+   etc. (best with some statistics on the change over time) and then also on the
+   version numbers of the modules (again with changes over time). If doxygen does
+   not support it yet, then we should submit some feature request, and postphone
+   this item. See what' in 1.5.3. </li>
    <li> It appears that all .cpp-files are considered as linked together? </li>
    <li> Documentation for other programming languages?
     <ol>
@@ -78,14 +80,18 @@ License, or any later version. */
    <li> Can we have nested lists? Numbered lists? These things should go into
      our general documentation --- or we have some example files, which demonstrate
      our use of doxygen :
-     For simple lists we do it as here, otherwise we use the html-elements. Documented in the main documentation-document.
-     However, how do they description-lists work? </li>
+     For simple lists we do it as here, otherwise we use the html-elements. Documented
+     in the main documentation-document.  However, how do they description-lists work?
+     </li>
    <li> Doxygen can create "man pages" --- what does this %mean? </li>
-   <li> See the doxygen-related problems in Messages (should be solvable by expanding those
-     macros) : DONE </li>
-   <li> How to integrate a *general* todo list into Doxygen? With xrefitem. However it seems we no longer need it : DONE </li>
-   <li> Can doxygen extract a list with all modules and their current version numbers? Installed module_version : DONE </li>
-   <li> We should get the newest configuration file, and transfer our information from the old configuration file : DONE </li>
+   <li> See the doxygen-related problems in Messages (should be solvable by expanding
+   those macros) : DONE </li>
+   <li> How to integrate a *general* todo list into Doxygen? With xrefitem. However
+   it seems we no longer need it : DONE </li>
+   <li> Can doxygen extract a list with all modules and their current version numbers?
+   Installed module_version : DONE </li>
+   <li> We should get the newest configuration file, and transfer our information from
+   the old configuration file : DONE </li>
   </ul>
 
 
@@ -103,6 +109,14 @@ License, or any later version. */
      just as plain text files, without any special formatting). </li>
    <li> The page "Module versions" should be sortable by version numbers (to see the most
    mature modules). Or how else can we (automatically) display the levels of development? </li>
+  </ul>
+
+
+  \todo Docus pages
+  <ul>
+   <li> Docus-pages should get a somehow distinguished design. </li>
+   <li> For example the filename as title is not needed, and also not
+   the brief explanation. </li>
   </ul>
 
 

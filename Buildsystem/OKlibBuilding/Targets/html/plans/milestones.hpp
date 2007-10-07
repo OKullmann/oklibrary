@@ -18,13 +18,14 @@ License, or any later version. */
     - Doxygen error messages
     - Doxygen general
     - Doxygen menu and main page review
-    - Search engine
+    - Docus pages
 
 
   \par Version 0.1.3
 
   \par
    In Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp the following topics are handled:
+    - Search engine
     - Other code
 
 
