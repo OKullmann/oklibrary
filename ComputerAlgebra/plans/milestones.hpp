@@ -31,6 +31,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Naming conventions
     - Documentation
     - %Test system
     - Input checking

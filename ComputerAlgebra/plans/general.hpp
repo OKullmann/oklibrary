@@ -10,6 +10,15 @@ License, or any later version. */
   \brief General plans regarding computer algebra (and SAT)
 
 
+  \todo Naming conventions
+  <ul>
+   <li> Maxima-files: ".maxima" or ".mac" ? </li>
+   <li> What about clisp-files? </li>
+   <li> How to postfix Axiom-files? </li>
+   <li> How to postfix Aldor-files? </li>
+  </ul>
+
+
   \todo Documentation
   <ul>
    <li> The biggest problem we have at this time is the lack of source code
