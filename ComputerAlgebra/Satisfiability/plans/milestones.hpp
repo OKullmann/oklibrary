@@ -1,4 +1,3 @@
- 
 // Oliver Kullmann, 6.10.2007 (Swansea)
 /* Copyright 2007 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -22,8 +21,17 @@ License, or any later version. */
    topics are handled:
     - Create a development plan
 
+
+  \par Version 0.0.6
+
+  \par ComputerAlgebra/Satisfiability/Lisp version 0.0.7
+  (see ComputerAlgebra/Satisfiability/Lisp/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Satisfiability/Aldor version 0.0.2
+  (see ComputerAlgebra/Satisfiability/Aldor/plans/milestones.hpp)
+
   \par
-   Create further milestones.
+   Further milestones are created.
 
 
 

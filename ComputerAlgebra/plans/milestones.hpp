@@ -21,6 +21,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Abstraction : DONE
     - General principles : DONE
     - Comparisons : DONE
     - How to use Sage? : DONE
@@ -31,9 +32,12 @@ License, or any later version. */
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
     - Documentation
-
-  \par
-   Create further milestones.
+    - %Test system
+    - Input checking
+    - Partial compilation
+    - Contexts
+    - Lisp integration
+    - Aldor integration
 
 
   \par Version 0.1.3
@@ -47,14 +51,6 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Mupad/plans/general.hpp the following topics are handled:
     - Rewriting
-
-  \par
-   In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - %Test system
-    - Input checking
-    - Partial compilation
-    - Abstraction
-    - Contexts
 
 
 

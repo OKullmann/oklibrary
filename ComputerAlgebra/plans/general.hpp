@@ -65,16 +65,36 @@ License, or any later version. */
   </ul>
 
 
-  \todo Abstraction
-  <ul>
-   <li> How to handle abstraction? </li>
-   <li> Can we abstractly specify types, functions ? </li>
-  </ul>
-
-
   \todo Contexts
   <ul>
    <li> Is there the notion of a "context" ("block") ?
+  </ul>
+
+
+  \todo Lisp integration
+  <ul>
+   <li> The Lisp-dialect is "CLisp" --- are there books? </li>
+   <li> How to integrate CLisp with Maxima ? </li>
+   <li> Shouldn't we consider our code as Lisp-code, which uses the
+   maxima-library ? Perhaps we can discuss this on the Maxima mailing
+   list. </li>
+  </ul>
+
+
+  \todo Aldor integration
+  <ul>
+   <li> Literature on Aldor? </li>
+   <li> How to integrate Axiom with Aldor? </li>
+   <li> We should only write Aldor-code, using the Maxima-library ---
+   how to do this? </li>
+  </ul>
+
+
+  \todo Abstraction : DONE (no abstraction in Lisp/Maxima, full abstraction
+  in Aldor/Axiom)
+  <ul>
+   <li> How to handle abstraction? </li>
+   <li> Can we abstractly specify types, functions ? </li>
   </ul>
 
 
