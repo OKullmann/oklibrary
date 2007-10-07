@@ -22,8 +22,8 @@ License, or any later version. */
 
   \par Version 0.0.7
 
-  \par ComputerAlgebra/Satisfiability/Lisp/TauMachinery version 0.0.5
-  (see ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/milestones.hpp)
+  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.5
+  (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
 
   \par Version 0.0.8
@@ -39,8 +39,8 @@ License, or any later version. */
 
   \par Version 0.0.9
 
-  \par ComputerAlgebra/Satisfiability/Lisp/TauMachinery version 0.0.6
-  (see ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/milestones.hpp)
+  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
+  (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the following topics are handled:

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp
   \brief Plans regarding the tau function (see SAT-handbook article of OK)
   
   
@@ -62,7 +62,7 @@ License, or any later version. */
    <li> We should develop some general helper functions for branching tuples, and reimplement
    the tau-functions using those. </li>
    <li> Creating a new file "BranchingTuples.maxima". </li>
-   <li> Perhaps the module should be called "BranchingTuples" instead of "TauMachinery". </li>
+   <li> DONE Perhaps the module should be called "BranchingTuples" instead of "TauMachinery". </li>
   </ul>
 
 

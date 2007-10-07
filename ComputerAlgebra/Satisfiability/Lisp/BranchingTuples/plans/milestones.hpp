@@ -6,29 +6,29 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/milestones.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp
 
-  \module_version Satisfiability/Lisp/TauMachinery 0.0.4 (29.7.2007)
+  \module_version Satisfiability/Lisp/BranchingTuples 0.0.4 (29.7.2007)
 
 
   \par Version 0.0.5
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp the following topics are handled:
     - Tau for Maxima
 
 
   \par Version 0.0.6
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp the following topics are handled:
     - Branching tuples
 
 
   \par Version 0.0.7
 
   \par
-   In ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp the following topics are handled:
     - Reimplement the remaining functionality from Mupad/tau.hpp
 
 
