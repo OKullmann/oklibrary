@@ -6,21 +6,30 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/plans/milestones.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Satisfiability 0.0.5 (29.7.2007)
+  \module_version Satisfiability/Lisp 0.0.5 (29.7.2007)
 
 
   \par Version 0.0.6
 
-  \par ComputerAlgebra/Satisfiability/TauMachinery version 0.0.5
-  (see ComputerAlgebra/Satisfiability/TauMachinery/plans/milestones.hpp)
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following topics are handled:
+    - Redesign
+    - Relations to other modules
+    - Update plans
 
 
   \par Version 0.0.7
 
+  \par ComputerAlgebra/Satisfiability/Lisp/TauMachinery version 0.0.5
+  (see ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/milestones.hpp)
+
+
+  \par Version 0.0.8
+
   \par
-   In ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the following topics are handled:
     - %Variables
     - Value set
     - Total assignments
@@ -28,23 +37,18 @@ License, or any later version. */
     - The notion of "condition"
 
 
-  \par Version 0.0.8
+  \par Version 0.0.9
 
-  \par ComputerAlgebra/Satisfiability/TauMachinery version 0.0.6
-  (see ComputerAlgebra/Satisfiability/TauMachinery/plans/milestones.hpp)
+  \par ComputerAlgebra/Satisfiability/Lisp/TauMachinery version 0.0.6
+  (see ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/milestones.hpp)
 
   \par
-   In ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp the following topics are handled:
+   In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the following topics are handled:
     - Partial assignments
     - %Evaluation of partial assignments
     - Functions for conditions
     - Backdoors
 
-  \par
-   In ComputerAlgebra/Satisfiability/plans/general.hpp the following topics are handled:
-    - Relations to other modules
-    - Update plans
- 
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

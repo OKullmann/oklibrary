@@ -6,8 +6,16 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/plans/general.hpp
-  \brief Plans for SAT in computer algebra in general
+  \file ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp
+  \brief Plans for Lisp-SAT in general
+
+
+  \todo Redesign
+  <ul>
+   <li> First we consider the simple Lisp-level. </li>
+   <li> So all existing computer-algebra-SAT-components are moved
+   to Satisfiability/Lisp. </li>
+  </ul>
 
 
   \todo Relations to other modules
@@ -18,9 +26,10 @@ License, or any later version. */
 
   \todo Update plans:
   <ul>
-   <li> Satisfiability/plans/Clauses.hpp </li>
-   <li> Satisfiability/plans/Literals.hpp </li>
-   <li> Satisfiability/plans/MinimalSatisfyingAssignments.hpp </li>
+   <li> Satisfiability/Lisp/plans/Clauses.hpp </li>
+   <li> Satisfiability/Lisp/plans/Literals.hpp </li>
+   <li> Satisfiability/Lisp/plans/MinimalSatisfyingAssignments.hpp </li>
+   <li> Satisfiability/Lisp/plans/SatisfactionProblems.hpp </li>
   </ul>
 
 */

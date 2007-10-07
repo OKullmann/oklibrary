@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/TauMachinery/plans/general.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp
   \brief Plans regarding the tau function (see SAT-handbook article of OK)
   
   

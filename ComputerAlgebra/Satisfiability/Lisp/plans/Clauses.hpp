@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/plans/Clauses.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/plans/Clauses.hpp
   \brief Plans for clause-constructions
 
 

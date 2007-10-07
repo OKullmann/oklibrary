@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/plans/MinimalSatisfyingAssignments.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/plans/MinimalSatisfyingAssignments.hpp
   \brief Plans for computing the set of minimal satisfying assignments
 
 

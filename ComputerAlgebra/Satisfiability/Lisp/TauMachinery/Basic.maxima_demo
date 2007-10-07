@@ -8,7 +8,7 @@ License, or any later version. */
 /*
 Use by
 
-batch("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/TauMachinery/Basic.maxima_demo")$
+batch("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/TauMachinery/Basic.maxima_demo")$
 
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
