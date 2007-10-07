@@ -10,6 +10,7 @@ License, or any later version. */
   
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1 (10.8.2007)
 
+
   \par Version 0.2.2
 
   \par
@@ -32,15 +33,25 @@ License, or any later version. */
     - Building Apache
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following
+   topics are handled:
+    - Building Mailman on cs-wsok (for testing)
+    - Building Mailman in general
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - Install Maxima
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Aldor.hpp the following
    topics are handled:
-    - Building Mailman on cs-wsok (for testing)
-    - Building Mailman in general
+    - Install Aldor
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Axiom.hpp the following
+   topics are handled:
+    - Install Axiom
 
 
   \par Version 0.2.4
