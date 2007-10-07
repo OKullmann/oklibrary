@@ -18,10 +18,10 @@ License, or any later version. */
   <ul>
    <li> Some parts should move to Transitional, namely
     <ol>
-     <li> "FullDocumentation" </li>
+     <li> "FullDocumentation" : DONE </li>
      <li> the latex-support (needs clean-up) </li>
     </ol>
-    Transitional/Annotations shall be the basis for writing documents and even
+    Transitional/annotations shall be the basis for writing documents and even
     joint papers on the library.
    </li>
    <li> "History_OKsystem" seems obsolete, and should be removed. </li>
