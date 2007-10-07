@@ -22,6 +22,13 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp the following topics are handled:
+    - Branching tuples
+
+
+  \par Version 0.0.7
+
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/TauMachinery/plans/general.hpp the following topics are handled:
     - Reimplement the remaining functionality from Mupad/tau.hpp
 
 

@@ -42,8 +42,27 @@ License, or any later version. */
      <li> Again, one should define a variant without lists (but variadic). DONE </li>
     </ol>
    </li>
+   <li> The general convention should be, that for example the branching tuples contain real
+   terms, and then perhaps via some special naming convention we indicate that for this version
+   all arguments are automatically evaluated? </li>
+   <li> The experience we have made already should be extracted:
+    <ol>
+     <li> To the FullDocumentation-file? </li>
+     <li> There are many questions, so a more open format is needed --- perhaps
+     ComputerAlgebra/docus/Maxima.hpp. </li>
+    </ol>
+   </li>
    <li> How to make these definitions available? DONE (it seems that explicit load-instructions have
    to be issued for each Maxima-session) </li>
+  </ul>
+
+
+  \todo Branching tuples
+  <ul>
+   <li> We should develop some general helper functions for branching tuples, and reimplement
+   the tau-functions using those. </li>
+   <li> Creating a new file "BranchingTuples.maxima". </li>
+   <li> Perhaps the module should be called "BranchingTuples" instead of "TauMachinery". </li>
   </ul>
 
 
