@@ -10,6 +10,74 @@ License, or any later version. */
   \brief General plans regarding computer algebra (and SAT)
 
 
+  \todo Documentation
+  <ul>
+   <li> The biggest problem we have at this time is the lack of source code
+   documentation methods! </li>
+   <li> At least some work-arounds need to be found. </li>
+   <li> First experience and ideas should be developed in the context of
+   ComputerAlgebra/Cryptology/plans/Rijndael.hpp. </li>
+  </ul>
+
+
+  \todo %Test system
+  <ul>
+   <li> Is there some special test system? </li>
+   <li> Lisp/Maxima:
+    <ol>
+     <li> Similar to the C++ test-system, we have generic test functions,
+     which take as argument the function to be tested. </li>
+     <li> Likely only functions are to be tested. </li>
+     <li> So we could just use, as for the C++ test-system, sub-directories
+     "tests" and "testobjects", containing the generic test functions and the
+     test instantiations, respectively. </li>
+     <li> But, due to the simpler character of programming here, we just use
+     asserts for conditions (and no recovering of test conditions). </li>
+     <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Input checking
+  <ul>
+   <li> How to handle input checking/type checking? </li>
+   <li> Nothing at the Lisp/Maxima-level. </li>
+   <li> And at the Aldor/Axiom level type-checking is performed by the language. </li>
+   <li> Remains the question what to do with special conditions on the input?
+    <ol>
+     <li> For the C++ programming, this is relatively clear: Full checking of "real" input,
+     while preconditions of "internal" inputs are checked by assertions. </li>
+     <li> One could do the same here, however, due to the more interactive character,
+     every function might be exposed to "real" input. </li>
+     <li> Perhaps a global variable just says "all checks on" or "all checks off" ?? </li>
+     <li> Ask on the Maxima mailing list. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Partial compilation
+  <ul>
+   <li> Is there compilation? </li>
+   <li> Is there partial compilation (using special properties to
+   produce more efficient code)? </li>
+  </ul>
+
+
+  \todo Abstraction
+  <ul>
+   <li> How to handle abstraction? </li>
+   <li> Can we abstractly specify types, functions ? </li>
+  </ul>
+
+
+  \todo Contexts
+  <ul>
+   <li> Is there the notion of a "context" ("block") ?
+  </ul>
+
+
   \todo General principles : DONE
   <ul>
    <li> Formulate these principles in ComputerAlgebra/docus/general.hpp. DONE </li>
@@ -38,49 +106,6 @@ License, or any later version. */
    Concepts and (generic) algorithm for the OKlibrary are first
    prototyped in the context of the computer-algebra-system (if
    possible). </li>
-  </ul>
-
-
-  \todo Documentation
-  <ul>
-   <li> The biggest problem we have at this time is the lack of source code
-   documentation methods! </li>
-   <li> At least some work-arounds need to be found. </li>
-   <li> First experience and ideas should be developed in the context of
-   ComputerAlgebra/Cryptology/plans/Rijndael.hpp. </li>
-  </ul>
-
-
-  \todo %Test system
-  <ul>
-   <li> Is there some special test system? </li>
-  </ul>
-
-
-  \todo Input checking
-  <ul>
-   <li> How to handle input checking/type checking? </li>
-  </ul>
-
-
-  \todo Partial compilation
-  <ul>
-   <li> Is there compilation? </li>
-   <li> Is there partial compilation (using special properties to
-   produce more efficient code)? </li>
-  </ul>
-
-
-  \todo Abstraction
-  <ul>
-   <li> How to handle abstraction? </li>
-   <li> Can we abstractly specify types, functions ? </li>
-  </ul>
-
-
-  \todo Contexts
-  <ul>
-   <li> Is there the notion of a "context" ("block") ?
   </ul>
 
 
