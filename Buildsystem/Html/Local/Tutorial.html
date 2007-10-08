@@ -27,9 +27,9 @@
 
     <ul>
       <li> The external-sources-overview page reachable from the local home
-        page shows you the status of the current installation. </li>
+        page shows you the status of the current installations. </li>
       <li> And following the docus-system-link you find under "Buildsystem"
-        also a general overview on build external sources. </li>
+        also a general overview on building external sources. </li>
     </ul>
     The most important external sources you should build (via
     <code>oklib external_source</code>, where for example "external_source"
@@ -37,9 +37,15 @@
     <ul>
       <li> For compilation:
         <ol>
-          <li> The local <code>gcc</code> (likely you system gcc is not
-            current enough for the OKlibrary, while installing the newest
-            gcc system-wide might create some trouble for you). </li>
+          <li> The local <code>gcc</code>:
+            <ul>
+              <li> Especially <code>g++</code> is of importance, and here
+                we need to have full control. </li>
+              <li> Also the C, Fortran, Prolog and Java compiler which
+                come with the suite are of use (here your system version
+                might be sufficient --- if you have one). </li>
+            </ul>
+          </li>
           <li> Necessary libraries:
             <ul>
               <li> <code>Boost</code> </li>
@@ -51,7 +57,7 @@
           <li> <code>Doxygen</code> is needed for documentation creation. </li>
         </ol>
       </li>
-      <li> For using the version control system (reading through the history,
+      <li> For using the version control system (browsing through the history,
         and making (local or global) changes) <code>Git</code> is needed. </li>
     </ul>
 
@@ -84,11 +90,60 @@
       <li> Directories starting with capital letters are "genuine" and of
         singular nature. </li>
     </ul>
+    The main idea of the directory structure is that of a strict hierarchy,
+    where each internal node is an "administration point" for its subtree.
+
+
+    <h2> Documentation systems </h2>
+
+    Altogether there are 9 systems which provide structured information
+    about the OKlibrary, subdivided as follows:
+    <ul>
+      <li> Internet:
+        <ul>
+          <li> The main purpose of the <strong>Internet home page</strong>
+            of the OKlibrary is to provide download information. </li>
+          <li> And a link to the <strong>mailing lists</strong>
+            and their archives is given, where the mailing lists are
+            mainly a place for announcements, informal discussions and
+            questions. </li>
+        </ul>
+      </li>
+      <li> Local pages:
+        <ul>
+          <li> The thin layer of <strong>local html pages</strong>
+            (like this page) is for general discussion of aims and history,
+            and to provide general information. </li>
+          <li> <strong>Documents</strong> (created by the Latex system, in
+            article and book form) provide general theoretical foundations.
+            <ul>
+              <li> Currently only available at the "global level", with
+                general topics for the whole library. </li>
+              <li> In the future modules will contain their own texts
+                (for a kind of mathematical foundation). </li>
+            </ul>
+          </li>
+          <li> The <strong>Doxygen system</strong> represents source code
+            and accompanying dedicated summary information. </li>
+          <li> Embedded into the Doxygen system is the
+            <strong>docus system</strong>, which is there for specific
+            usage information. </li>
+          <li> Also embedded into the Doxygen system is the
+            <strong>demos system</strong>, which gives access to the
+            demonstration programs (which typically are not there to
+            "run and watch", but to study). </li>
+        </ul>
+      </li>
+      <li> <strong>External sources</strong> come with their own
+        documentation. </li>
+      <li> <strong>Git</strong> (especially <code>gitk</code>) finally
+        enables access to the history of the OKlibrary. </li>
+    </ul>
 
 
     <hr />
       <!-- hhmts start -->
-Last modified: Sat Sep 29 15:50:52 BST 2007
+Last modified: Mon Oct  8 23:04:54 BST 2007
 <!-- hhmts end -->
       <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
 
