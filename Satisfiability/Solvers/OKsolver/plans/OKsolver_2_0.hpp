@@ -304,6 +304,32 @@ License, or any later version. */
    <li> One could also use processes/threads just to implement the jumping (in case
    of learning all these processes/threads need to send the learned clauses to a
    central control. </li>
+   <li> Actually, a better point of view seems to me to introduce an element
+   of breadth-first search at the beginning:
+    <ol>
+     <li> The first goal is to determine the "frontier", a complete search tree
+     where all nodes are reduced, and except of the leaves all splitting
+     are complete; also all global learning and tree pruning has been performed. </li>
+     <li> One hope is that within this frontier the problem was already decided. </li>
+     <li> If this is not the case, then the leaves (all other nodes have been
+     processed) are sorted with descending approximated probabilities of being
+     satisfiable, and processed in this order. </li>
+     <li> If a leaf at the frontier has been processed, then the search tree up
+     to the frontier is updated (regarding tree pruning and global learning),
+     and if necessary probabilities are recalculated and resorted (for the
+     remaining leaves). </li>
+     <li> The main problem is the determination of the frontier. </li>
+     <li> The guiding principle should be, that we label each node with
+     the time spent on processing it, and then for all leaves the sum
+     of processing times on the path towards them is roughly the same. </li>
+     <li> The point is that where progress is easily achieved the frontier
+     should be pushed further. </li>
+     <li> Given this equal spread of workload, the problem now is the total
+     workload spend on the frontier (and the storage). </li>
+     <li> A principle should be that the harder the problem appears, the
+     more time is spent on this bread-first look-ahead. </li>
+    </ol>
+   </li>
   </ul>
 
 
