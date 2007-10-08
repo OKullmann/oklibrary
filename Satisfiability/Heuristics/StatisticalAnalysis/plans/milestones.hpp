@@ -14,11 +14,9 @@ License, or any later version. */
   \par Version 0.0.5
 
   \par
-   In Heuristics/StatisticalAnalysis/plans/BacktrackingProbing.hpp the following topics are handled:
-    - Literature review
-
-  \par
    In Heuristics/StatisticalAnalysis/plans/general.hpp the following topics are handled:
+    - Update the module according to OK's SAT-Handbook article
+    - What are the relations to module "Projections"
     - Update namespaces : DONE
     - Move Transitional/Statistics/plans/TimeSeriesAnalysis.hpp to here : DONE
 
@@ -26,6 +24,13 @@ License, or any later version. */
    Further milestones are created.
 
 
+  \par Version 0.0.6
+
+  \par
+   In Heuristics/StatisticalAnalysis/plans/BacktrackingProbing.hpp the following topics are handled:
+    - Literature review
+
+ 
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

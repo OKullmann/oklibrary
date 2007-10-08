@@ -9,6 +9,12 @@ License, or any later version. */
   \file Satisfiability/Heuristics/Projections/plans/general.hpp
   \brief Module for projections (making branching tuples comparable)
 
+
+  \todo Create milestones.
+
+
+  \todo Incorporate the theory from OK's SAT-Handbook-article.
+
 */
 
 /*!

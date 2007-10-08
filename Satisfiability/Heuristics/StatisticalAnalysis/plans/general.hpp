@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Module with statistical analysis tools for heuristics
 
 
+  \todo Update the module according to OK's SAT-Handbook article.
+
+
+  \todo What are the relations to module "Projections" ?
+
+
   \todo Update namespaces : DONE
 
 

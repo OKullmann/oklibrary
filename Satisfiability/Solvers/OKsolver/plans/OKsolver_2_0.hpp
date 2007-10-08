@@ -201,6 +201,9 @@ License, or any later version. */
    situation" is the weighted number of new clauses (as in OKsolver); an interesting
    question here is whether new (that is, shortened) clauses from learned clauses
    should have a higher weight than new clauses from old clauses?! </li>
+   <li> The new theory, based on my (OK's) SAT-Handbook article and handled in
+   module Satisfiability/Heuristics, should be applied! See module
+   Satisfiability/Heuristics/StatisticalAnalysis. </li>
   </ul>
 
 

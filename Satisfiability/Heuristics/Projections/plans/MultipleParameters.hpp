@@ -15,6 +15,7 @@ License, or any later version. */
   distance functions d_1, ..., d_m are given. "Hyper-branching tuples"
   are now tuples of m-tuples.
 
+
   \todo Linear combination
   <ul>
    <li> The simplest approach is to set

@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Submodule for tools supporting probing as proposed by Donald Knuth
 
 
-  \todo Literature review
+  \todo Literature review : NEEDS UPDATE
   <ul>
    <li> What is the original article by Knuth? </li>
    <li> In Section 5.3 in [Foundations of %Algorithms
