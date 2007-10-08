@@ -16,6 +16,12 @@ License, or any later version. */
   \par OKsolver/SAT2002 version 0.9.5
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
+  \par
+   In Satisfiability/Solvers/OKsolver/plans/general.hpp the following
+   topics are handled:
+    - Update namespaces
+    - How to refer to the different versions of OKsolver
+
 
   \par Version 0.5.3
 
@@ -33,7 +39,8 @@ License, or any later version. */
    of concepts etc., so that it needs only to be "pulled through".
 
 
-  \par Version 1.0 : OKsolver version 1.0 is ready
+  \par Version 1.0 : OKsolver version 1.0 (the reprogrammed and generalised
+  original OKsolver) is ready
 
 
   \par Version 2.0 : OKsolver version 2.0 is ready
