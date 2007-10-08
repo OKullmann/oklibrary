@@ -117,6 +117,7 @@ License, or any later version. */
    <li> Docus-pages should get a somehow distinguished design. </li>
    <li> For example the filename as title is not needed, and also not
    the brief explanation. </li>
+   <li> Perhaps we should use the "\page"-directive ? </li>
   </ul>
 
 
