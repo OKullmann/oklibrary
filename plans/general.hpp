@@ -61,7 +61,8 @@ namespace SatAlg = Satisfiability::Algorithms;
      somewhere where they can be easily included!
       <ol>
        <li> Perhaps each module provides "declarations.hpp", containing
-       the alias-definition of this module (only). </li>
+       the alias-definition of this module (only); see
+       Programming/declarations.hpp for an example. </li>
       </ol>
      </li>
     </ol>
