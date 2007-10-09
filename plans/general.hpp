@@ -296,6 +296,11 @@ namespace SatAlg = Satisfiability::Algorithms;
   <ul>
    <li> A problem with "general.hpp" is, that under xemacs all such files look alike --- but perhaps
    xemacs can be configured to show also the comprising directory? </li>
+   <li> Perhaps we should have files "strategy.hpp": The milestones
+   only contain the results of the planning process (and a bit of
+   indication of direction through the milestone-labels), while
+   the strategy-file would contain the rationales, strategic
+   decisions and strategic visions. </li>
    <li> Another "systematic" file in plans-directories is "wishlist.hpp",
    which is especially for users the place where they can articulate
    wishes. (Which might not be realised --- general.hpp contains all
