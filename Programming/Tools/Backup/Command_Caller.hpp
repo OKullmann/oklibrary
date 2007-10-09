@@ -14,8 +14,8 @@ License, or any later version. */
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include <Transitional/General/SystemHandling.hpp>
-#include <Transitional/Backup/Info_Holder.hpp>
-#include <Transitional/Backup/Path_Loader.hpp>
+#include <Transitional/Programming/Tools/Backup/Info_Holder.hpp>
+#include <Transitional/Programming/Tools/Backup/Path_Loader.hpp>
 
 namespace CommandCaller {
 
