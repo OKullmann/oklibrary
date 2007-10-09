@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Combinatorics/Hypergraphs/plans/milestones.hpp
 
-  \module_version Combinatorics/Hypergraphs 0.0.3.1 (9.10.2007)
+  \module_version Combinatorics/Hypergraphs 0.0.3.2 (9.10.2007)
 
 
   \par Version 0.0.4 :
@@ -19,7 +19,7 @@ License, or any later version. */
   \par Combinatorics/Hypergraphs/Transversals 0.0.5
   (see Hypergraphs/Transversals/plans/milestones.hpp)
 
-  \par Hypergraphs/Colourings 0.0.5
+  \par Hypergraphs/Colourings 0.0.5 : DONE
   (see Hypergraphs/Colourings/plans/milestones.hpp)
 
   \par

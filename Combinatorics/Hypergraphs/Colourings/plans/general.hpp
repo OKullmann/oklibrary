@@ -10,15 +10,6 @@ License, or any later version. */
   \brief Plans for the module on hypergraph (and graph) colouring
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Update milestones. DONE
-
-
-  \todo Move to Combinatorics/Hypergraphs. DONE
-
-
   \todo Update namespace-usage.
 
 

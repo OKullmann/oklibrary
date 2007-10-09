@@ -8,17 +8,7 @@ License, or any later version. */
 /*!
   \file Hypergraphs/Colourings/plans/milestones.hpp
 
-  \module_version Hypergraphs/Colourings 0.0.4 (15.12.2006)
-
-
-  \par Version 0.0.5 :
-
-  \par
-   In Hypergraphs/Colourings/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Update milestones : DONE
-    - Move to Combinatorics/Hypergraphs : DONE
+  \module_version Hypergraphs/Colourings 0.0.5 (9.10.2007)
 
 
   \par Version 0.0.6 :
@@ -68,6 +58,7 @@ License, or any later version. */
    - 0.0.2 : 31.10.2006; initial version number (some plans).
    - 0.0.3 : 24.11.2006; simple application program exploring greedy colouring.
    - 0.0.4 : 15.12.2006; the components from the greedy-colouring application have been outsourced to the sub-module GreedyColouring.hpp.
+   - 0.0.5 : 9.10.2007; updated the module in the new environment of super-module Combinatorics/Hypergraphs.
 
 */
 
