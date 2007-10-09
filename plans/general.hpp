@@ -323,6 +323,60 @@ namespace SatAlg = Satisfiability::Algorithms;
   </ul>
 
 
+  \todo Backups and archives
+  <ul>
+   <li> An inventory is needed of what needs backup:
+    <ol>
+     <li> Most important the main (git) repository (on cs-oksvr):
+      <ul>
+       <li> This is backuped nightly (on the departmental server);
+       one should check whether extraction actually works. </li>
+       <li> And every clone contains also essentially the same
+       information (so that the risk of loss should be low). </li>
+       <li> The configuration of the repository on cs-oksvr
+       contains some special settings, which should be documented. </li>
+      </ul>
+     </li>
+     <li> The mailing lists:
+      <ul>
+       <li> They need also a nightly backup on the departmental server. </li>
+       <li> One could include a copy to the full packages (shouldn't be that
+       big, and it would confirm to the idea of a "fully holistic
+       library"). </li>
+       <li> Or should it even go into the minimal package? </li>
+      </ul>
+     </li>
+     <li> The external sources: We have the checksums and version numbers,
+     this should be enough. </li>
+     <li> The packages archive: backed up on the departmental server, which
+     should suffice for the local backup (see also below). </li>
+     <li> Current packages: Can be recreated if needed, and a backed up
+     on the departmental server, which should suffice. </li>
+    </ol>
+   </li>
+   <li> Backup tools:
+    <ol>
+     <li> We should have some discussion on backup tools and their usage. </li>
+     <li> This was the original purpose of the Programming/Tools/Backup module
+     (see Backup/plans/Backup.hpp); however this module seems obsolete now. </li>
+    </ol>
+   </li>
+   <li> Archiving:
+    <ol>
+     <li> Compare "Packages history" in
+     Buildsystem/ReleaseProcess/plans/general.hpp for "local aspects". </li>
+     <li> Since the integrity of the history of the OKlibrary (i.e.,
+     the Git repository) is important, we need some "official" storage
+     of the packages archive. </li>
+     <li> Perhaps a Sourceforge-account is needed, where the archive
+     is mirrored, and where the most recent packages can also be
+     downloaded. </li>
+     <li> However this account should only be an "official mirror". </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Upgrade to gcc-4.2.1
   <ul>
    <li> Correct the template-errors:

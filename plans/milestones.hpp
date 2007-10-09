@@ -120,6 +120,7 @@ License, or any later version. */
   \par
    In Transitional/plans/general.hpp the following topics are handled:
     - Upgrade to gcc-4.2.1
+    - Backups and archives
   \par Update
   Update the subsequent milestones.
 

@@ -44,7 +44,19 @@ License, or any later version. */
    <li> In any case only the minimal packages are kept. </li>
    <li> Perhaps the packages created with every advance in the
    version number (disregarding the fourth digit). </li>
-   <li> Can we make the OKlibrary "officially" available? Or "more
+   <li> There could be months between advances in the version number,
+   but otherwise we have too much to store, and there should be enough
+   clones floating around in case of a dispute regarding the recent
+   history would show up (which seems unlikely). </li>
+   <li> However the policy about archiving packages should ask for
+   additional archiving of packages in case for a long time no advance
+   happened while there is activity (this should be prevented by
+   reasonable milestones). </li>
+   <li> Compare "Backups and archives" in Transitional/plans/general.hpp
+   for the "official history". </li>
+   <li> DONE (the "official history" is handled by "Backups and archives"
+   in Transitional/plans/general.hpp)
+   Can we make the OKlibrary "officially" available? Or "more
    official"?? Perhaps we need a Sourceforge-account??? The Git-history should
    be well-secured. </li>
   </ul>
