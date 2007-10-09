@@ -19,6 +19,87 @@ License, or any later version. */
    page?) </li>
   </ul>
 
+  \todo Building Mailman on freshly setup machine
+  <ul>
+   <li>
+   \verbatim
+ExternalSources/Installations/Postfix/postfix-2.4.5> cd ../../
+ExternalSources/Installations> mkdir fetchmail
+ExternalSources/Installations> cd fetchmail
+ExternalSources/Installations/fetchmail> wget http://download.berlios.de/fetchmail/fetchmail-6.3.8.tar.bz2
+ExternalSources/Installations/fetchmail> tar -jxvf fetchmail-6.3.8.tar.bz2
+ExternalSources/Installations/fetchmail> cd fetchmail-6.3.8
+ExternalSources/Installations/fetchmail/fetchmail-6.3.8> ./configure
+ExternalSources/Installations/fetchmail/fetchmail-6.3.8> make
+ExternalSources/Installations/fetchmail/fetchmail-6.3.8> sudo make install
+
+ExternalSources/Installations/fetchmail/fetchmail-6.3.8> cd ../../
+ExternalSources/Installations/> mkdir mailman
+ExternalSources/Installations/> cd mailman
+ExternalSources/Installations/mailman> wget http://ftp.gnu.org/gnu/mailman/mailman-2.1.9.tgz
+ExternalSources/Installations/mailman> tar -zxvf mailman-2.1.9.tgz
+ExternalSources/Installations/mailman> cd mailman-2.1.9
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo groupadd mailman
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo useradd --comment "GNU Mailman" --shell /no/shell --home /no/home --gid mailman mailman
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/mailman
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo chgrp mailman /usr/local/mailman 
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo chmod a+rx,g+ws /usr/local/mailman
+ExternalSources/Installations/mailman/mailman-2.1.9> ./configure --with-mail-gid=mailman --with-cgi-gid=apache --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
+ExternalSources/Installations/mailman/mailman-2.1.9> make
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo make install
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/BuildSystem/ReleaseProcess/http.conf /usr/local/apache2/conf/httpd.conf
+   \endverbatim
+   Perhaps this step should be part of the apache installation? 
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/apache2/htdocs/icons
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp /usr/local/mailman/icons/*.{jpg,png} /usr/local/apache2/htdocs/icons
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo sh -c "echo \"
+IMAGE_LOGOS = '/icons/'
+MTA='Postfix'\" >> /usr/local/mailman/Mailman/mm_cfg.py"
+ExternalSources/Installations/mailman/mailman-2.1.9> cd /usr/local/mailman
+/usr/local/mailman> sudo bin/genaliases
+/usr/local/mailman> sudo chown mailman:mailman data/aliases*
+/usr/local/mailman> sudo chmod g+w data/aliases*
+/usr/local/mailman> sudo sh -c "echo 'alias_maps = hash:/etc/aliases, hash:/usr/local/mailman/data/aliases' >> /etc/postfix/main.cf"
+/usr/local/mailman> sudo /usr/local/mailman/bin/newlist mailman
+/usr/local/mailman> sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
+
+/usr/local/mailman> sudo /usr/local/apache2/bin/apachectl -k start
+/usr/local/mailman> sudo postfix reload
+/usr/local/mailman> sudo /usr/local/mailman/bin/newlist developers
+
+/usr/local/mailman> sudo echo "
+set daemon 120
+
+poll aeternus.no-ip.org with proto IMAP and options no dns
+         localdomains ok-sat-library.org
+         user testlist with pass "testlist453"
+         is * here options dropdelivered
+
+smtphost localhost" > /etc/fetchmailrc
+   \endverbatim
+   Some explanation of the above configuration : 
+   <ol>
+    <li> "120" here is the number of seconds interval between polls (Ie 
+    fetchmail checks for mail every 2 minutes) </li>
+    <li> "aeternus.no-ip.org" is the mailserver I am pulling the mail from 
+    (would be cs-svr1?) </li>
+    <li>"testlist" is the my user on that mail server (ie might be developers 
+    if using developers@swan.ac.uk) "testlist453" is my password on that 
+    mailserver </li>
+   </ol>
+   Should this file be kept under version control even though it isn't part
+   of the Release?
+   \verbatim
+/usr/local/mailman> sudo chmod 710 /etc/fetchmailrc
+/usr/local/mailman> sudo /usr/local/mailman/bin/mailmanctl start
+/usr/local/mailman> sudo fetchmail -f /etc/fetchmailrc
+   \endverbatim
+   This should allow you to control mailinglists from 
+   http://ok-sat-library.org/mailman/admin/ . 
+   </li>
+  </ul>
+
 
   \todo Building Mailman in general
   <ul>
