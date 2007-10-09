@@ -23,7 +23,7 @@ License, or any later version. */
 
 #include <boost/graph/adjacency_list.hpp>
 
-#include <Transitional/Hypergraphs/Colourings/GreedyColouring.hpp>
+#include <Transitional/Combinatorics/Hypergraphs/Colourings/GreedyColouring.hpp>
 
 int main() {
 
