@@ -19,7 +19,11 @@ License, or any later version. */
       <li> Further in the subject header:
       "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
       tag? </li>
-      <li> Additionally, for each log-message we need the summary of
+      <li> There is a new post-receive script in the latest git, should
+      this be merged with our post-receive script? It has a better solution
+      to the problem with $envelopesender but does make changes to the use
+      of the From header which might not be wanted? </li>
+      <li> DONE - Additionally, for each log-message we need the summary of
       changes.
 
       MG - This should be possible, as git-log and git-show can display
@@ -126,6 +130,7 @@ Date:   Fri Sep 28 19:08:42 2007 +0100
  3 files changed, 2 insertions(+), 2 deletions(-)
 
       \endverbatim
+      This has been added to the Transitional and Annotations repositories. 
       </li>
       <li> Replace "[SCM]" by "[OKlibrary::Transitional]". DONE </li>
      </ol>

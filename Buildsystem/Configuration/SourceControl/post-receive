@@ -370,7 +370,7 @@ generate_update_branch_email()
 
 		echo $LOGBEGIN
 		#git rev-parse --not --branches | grep -v $(git rev-parse $refname) |
-		git rev-list --pretty $oldrev..$newrev
+		git log --stat -r $oldrev..$newrev | cat	
 
 		# XXX: Need a way of detecting whether git rev-list actually outputted
 		# anything, so that we can issue a "no new revisions added by this
