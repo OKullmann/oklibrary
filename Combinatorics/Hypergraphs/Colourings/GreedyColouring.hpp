@@ -6,8 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file HypergraphColouring/GreedyColouring.hpp
-  \brief Components related to the greeedy colouring algorithm
+  \file Hypergraphs/Colourings/GreedyColouring.hpp
+  \brief Components related to the greedy colouring algorithm
 */
 
 #ifndef GREEDYCOLOURING_hHHbswtT6t4

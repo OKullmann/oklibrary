@@ -10,7 +10,23 @@ License, or any later version. */
   \brief Components for hypergraph algorithms
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
 
 */
+
+/*!
+  \namespace OKlib::Combinatorics::Hypergraphs
+  \brief Supermodule for dedicated hypergraph algorithms
+
+  Alias "Hyp".
+*/
+
+
+namespace OKlib {
+  namespace Combinatorics {
+    namespace Hypergraphs {
+    }
+    namespace Hyp = Hypergraphs;
+  }
+}
 

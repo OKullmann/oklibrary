@@ -6,37 +6,52 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file HypergraphColouring/plans/GreedyColouring.hpp
+  \file Hypergraphs/Colourings/plans/GreedyColouring.hpp
   \brief Plans regarding the greedy graph colouring algorithm
 
-  \todo Outsourcing:
-  In GreedyColouring.hpp the components
+
+  \todo Outsourcing
   <ul>
-    <li> Out_degree_order </li>
-    <li> Edge </li>
-    <li> EdgeVector </li>
-    <li> read </li>
-    <li> output_vertex_degrees </li>
-  </ul> 
-  should be moved to a Graphs-module (of course, with added doxygen-
-  documentation, and with more (generic) power for input and output).
-  
-  \todo Full_greedy_colouring:
-   - The design needs an overhaul.
-   - Use Boost::permutation_iterator (and it should be made possible to iterate through
-     the vertex-permutations in some user-defined order).
-   - Test it.
+   <li> In GreedyColouring.hpp the components
+    <ul>
+     <li> Out_degree_order </li>
+     <li> Edge </li>
+     <li> EdgeVector </li>
+     <li> read </li>
+     <li> output_vertex_degrees </li>
+    </ul> 
+    should be moved to a Graphs-module (of course, with added doxygen-
+    documentation, and with more (generic) power for input and output).
+   </li>
+  </ul>
 
-  \todo GreedyColouring.cpp:
-   - Use Messages.
-   - Use ProgramOptions.
-   - Doxygen documentation.
-   - Test it.
 
-  \todo Literature:
-  Search for literature on heuristics for vertex orderings; from
-  CS-232 we have the traversing greedy colouring; it seems sensible to
-  combine this with a largest degree first-stratey.
+  \todo Full_greedy_colouring
+  <ul>
+   <li> The design needs an overhaul. </li>
+   <li> Use Boost::permutation_iterator (and it should be made possible
+   to iterate through the vertex-permutations in some user-defined
+   order). </li>
+   <li> Test it. </li>
+  </ul>
+
+
+  \todo GreedyColouring.cpp
+  <ul>
+   <li> Use Messages. </li>
+   <li> Use ProgramOptions. </li>
+   <li> Doxygen documentation. </li>
+   <li> Test it. </li>
+  </ul>
+
+
+  \todo Literature
+  <ul>
+   <li> Search for literature on heuristics for vertex orderings. </li>
+   <li> From CS-232 we have the traversing greedy colouring; it seems
+   sensible to combine this with a largest degree first-stratey. </li>
+  </ul>
+
 
   \todo How do these algorithms translate into SAT algorithms?
 
