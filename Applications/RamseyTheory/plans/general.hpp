@@ -14,10 +14,14 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo %Ramsey theory:
-  We need generators for all types of Ramsey-problems; for van der Waerden's problem we already started.
-  Such translators should only produce a hypergraph-colouring problem (to be handled then by the
-  general translations in module HypergraphColouring).
+  \todo %Ramsey theory
+  <ul>
+   <li> We need generators for all types of Ramsey-problems;
+   for van der Waerden's problem we already started. </li>
+   <li> Such translators should only produce a hypergraph-colouring problem
+   (to be handled then by the general translations in module
+   Hypergraphs/Colourings). </li>
+  </ul>
 
 
   \todo Transfer:

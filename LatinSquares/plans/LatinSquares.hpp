@@ -46,7 +46,7 @@ License, or any later version. */
   hypergraph G_n with 2n hyperedges of size n for the
   rows and columns together with the strong n-colouring
   problem for hypergraphs
-  (see HypergraphColouring/plans/StrongColouring.hpp).
+  (see Hypergraphs/Colourings/plans/StrongColouring.hpp).
   What can be done specially for latin squares, which cannot
   be done in general for the strong hypergraph colouring problem?
   (For example regarding symmetries?)
