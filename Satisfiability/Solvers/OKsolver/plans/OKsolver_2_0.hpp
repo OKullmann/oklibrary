@@ -186,11 +186,10 @@ License, or any later version. */
 
   \todo Heuristics
   <ul>
-   <li> The heuristics for the branching variable is a  main open problem (while
+   <li> The heuristics for the branching variable is a main open problem (while
    choosing the first branch is done like in the old OKsolver). </li>
-   <li> Here likely a lot of
-   experimentation is needed (starting with the heuristics from the old
-   OKsolver). </li>
+   <li> Here likely a lot of experimentation is needed (starting with the heuristics
+   from the old OKsolver). </li>
    <li> But basically we follow the old OKsolver, performing a full look-ahead, and
    choosing the best-looking future situation; likely this look-ahead should only
    involve unit-propagations --- it would be nice to do something stronger, but
@@ -204,6 +203,21 @@ License, or any later version. */
    <li> The new theory, based on my (OK's) SAT-Handbook article and handled in
    module Satisfiability/Heuristics, should be applied! See module
    Satisfiability/Heuristics/StatisticalAnalysis. </li>
+   <li> In analogy to the activity-based heuristics for conflict-driven solvers,
+   we can consider such quantities for variable v, where we have now richer
+   possibilities:
+    <ol>
+     <li> The number of learned clauses containing v; since we go "far back",
+     it might be appropriate here to consider v's involvement in the whole
+     resolution process leading to the learned clause in the end. And what to
+     do at inner nodes, where only resolution steps are performed? </li>
+     <li> The number of unit clauses with variable v found during reduction. </li>
+     <li> The number of failed literals with variable v. </li>
+    </ol>
+    The intuition is that if we can branch on a variable which was "recently"
+    active in a lot of inferences, then this variable might again provide
+    a lot of action, a kind of culmination point, and it might be good to branch
+    on it. To quantify "recent" one can use some decay scheme. </li>
   </ul>
 
 
