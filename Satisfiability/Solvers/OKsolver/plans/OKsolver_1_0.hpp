@@ -10,10 +10,36 @@ License, or any later version. */
   \brief Plans for the module simulating the old OKsolver
 
 
-  \todo Once we are ready to start, a new sub-module is needed.
+  \todo Once we are ready to start, a new sub-module is needed
+  <ul>
+   <li> How to name the module? </li>
+   <li> If the old-OKsolver-module becomes "Y2002", then we could
+   call it "Y2002_New", with alias "N02". </li>
+  </ul>
 
 
   \todo Update namespaces
+
+
+  \todo First in computer-algebra
+  <ul>
+   <li> First we write the "specification" in the Lisp/Maxima-system, such
+   that we obtain exactly the same counts (nodes, unit-propagations etc.)
+   as in the original OKsolver. </li>
+   <li> Following the general guidelines, this completely disregards
+   efficiency considerations. </li>
+   <li> And we do it first only for boolean clause-sets. </li>
+  </ul>
+
+
+  \todo Create first milestones.
+
+
+  \todo Create detailed milestones until completion
+  <ul>
+   <li> Detailed plans are needed, with outline of concepts etc.,
+   so that it needs only to be "pulled through". </li>
+  </ul>
 
 */
 

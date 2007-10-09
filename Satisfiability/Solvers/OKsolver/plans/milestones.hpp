@@ -22,11 +22,23 @@ License, or any later version. */
     - Update namespaces
     - How to refer to the different versions of OKsolver
 
+  \par
+   Update the following milestones. Perhaps "OKsolver/SAT2002 version 1.0"
+   should be reached only in 0.6, and the steps towards this milestone
+   contain more activities regarding OKsolver_1_0.hpp.
+
 
   \par Version 0.5.3
 
   \par OKsolver/SAT2002 version 1.0
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
+
+  \par
+   In Solvers/OKsolver/plans/OKsolver_1_0.hpp the following
+   topics are handled:
+    - Once we are ready to start, a new sub-module is needed
+    - Update namespaces
+    - Create milestones
 
 
   \par Version 0.6
@@ -35,8 +47,9 @@ License, or any later version. */
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
   \par
-   Milestones etc. for OKsolver version 1.0 have been set up, with outline
-   of concepts etc., so that it needs only to be "pulled through".
+   In Solvers/OKsolver/plans/OKsolver_1_0.hpp the following
+   topics are handled:
+    - Create detailed milestones until completion
 
 
   \par Version 1.0 : OKsolver version 1.0 (the reprogrammed and generalised
