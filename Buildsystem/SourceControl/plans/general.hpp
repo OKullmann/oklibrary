@@ -19,13 +19,12 @@ License, or any later version. */
       <li> Further in the subject header:
       "Testsystem_to_TestSystem_rename_tag-1504-geea1666" --- why this old
       tag? </li>
-      <li> There is a new post-receive script in the latest git, should
+      <li> There is a new post-receive script in git-1.5.3.4, should
       this be merged with our post-receive script? It has a better solution
       to the problem with $envelopesender but does make changes to the use
       of the From header which might not be wanted? </li>
       <li> DONE - Additionally, for each log-message we need the summary of
       changes.
-
       MG - This should be possible, as git-log and git-show can display
       the files committed, it is simply that the option is discussed in the
       man pages for git-diff-tree and so on which these higher level commands
@@ -41,7 +40,8 @@ git log --name-status -r -10 | cat
       I will look into adding this functionality to the post-receive script in a test repository
       as well as the other issues.
       </li>
-      <li> The following change should provide the desired behaviour 
+      <li> DONE (change performed)
+      The following change should provide the desired behaviour 
       \verbatim
 diff --git a/Buildsystem/Configuration/SourceControl/post-receive b/Buildsystem/Configuration/SourceControl/post-receive
 index 5a6bfd2..2878d30 100644
