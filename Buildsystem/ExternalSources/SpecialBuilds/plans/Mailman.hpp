@@ -49,7 +49,7 @@ ExternalSources/Installations/mailman/mailman-2.1.9> make
 ExternalSources/Installations/mailman/mailman-2.1.9> sudo make install
 ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/BuildSystem/ReleaseProcess/http.conf /usr/local/apache2/conf/httpd.conf
    \endverbatim
-   Perhaps this step should be part of the apache installation? 
+   Perhaps the next step should be part of the apache installation? 
    \verbatim
 ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/apache2/htdocs/icons
 ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp /usr/local/mailman/icons/*.{jpg,png} /usr/local/apache2/htdocs/icons
@@ -78,25 +78,30 @@ poll aeternus.no-ip.org with proto IMAP and options no dns
 
 smtphost localhost" > /etc/fetchmailrc
    \endverbatim
-   Some explanation of the above configuration : 
-   <ol>
-    <li> "120" here is the number of seconds interval between polls (Ie 
-    fetchmail checks for mail every 2 minutes) </li>
-    <li> "aeternus.no-ip.org" is the mailserver I am pulling the mail from 
-    (would be cs-svr1?) </li>
-    <li>"testlist" is the my user on that mail server (ie might be developers 
-    if using developers@swan.ac.uk) "testlist453" is my password on that 
-    mailserver </li>
-   </ol>
-   Should this file be kept under version control even though it isn't part
-   of the Release?
+   </li>
+   <li> Some explanation of the above configuration : 
+    <ol>
+     <li> "120" here is the number of seconds interval between polls (Ie 
+     fetchmail checks for mail every 2 minutes) </li>
+     <li> "aeternus.no-ip.org" is the mailserver I am pulling the mail from 
+     (would be cs-svr1?) </li>
+     <li>"testlist" is the my user on that mail server (ie might be developers 
+     if using developers@swan.ac.uk) "testlist453" is my password on that 
+     mailserver </li>
+    </ol>
+   </li>
+   <li> Should this file be kept under version control even though it isn't part
+   of the Release? (OK: which file? you mean /etc/fetchmailrc? and which
+   release it isn't a part of? their release?)
    \verbatim
 /usr/local/mailman> sudo chmod 710 /etc/fetchmailrc
 /usr/local/mailman> sudo /usr/local/mailman/bin/mailmanctl start
 /usr/local/mailman> sudo fetchmail -f /etc/fetchmailrc
    \endverbatim
    This should allow you to control mailinglists from 
-   http://ok-sat-library.org/mailman/admin/ . 
+   http://ok-sat-library.org/mailman/admin/ .
+   (OK: Where does this address "http://ok-sat-library.org/mailman/admin/"
+   come from?)
    </li>
   </ul>
 
