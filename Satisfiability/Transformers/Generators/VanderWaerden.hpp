@@ -24,7 +24,7 @@ namespace VanderWaerden {
 
   template <typename Int>
   class Arithmetical_progressions {
-    // ToDo: Integration with classes in HypergraphColouring/Van_der_Waerden_hypergraph.hpp and General/IteratorHandling.hpp
+    // ToDo: Integration with classes in Hypergraphs/Colourings/Van_der_Waerden_hypergraph.hpp and General/IteratorHandling.hpp
   public :
     typedef Int Index;
     const Index n;

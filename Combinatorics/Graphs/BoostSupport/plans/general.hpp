@@ -28,7 +28,7 @@ License, or any later version. */
   Collect all related components (and requests) from modules in
   the library, and transfer the todos to this module:
   <ul>
-   <li> HypergraphColouring/GreedyColouring.cpp </li>
+   <li> Hypergraphs/Colourings/GreedyColouring.cpp </li>
    <li> QuantumPhysics/OrthogonalTriples.cpp </li>
   </ul>
 

@@ -20,10 +20,14 @@ License, or any later version. */
 
 
   \todo Input and output of graphs
-  With output_graph and read in HypergraphColouring/GreedyColouring.cpp we have
-  a simple text format: There is also a simple format used in yEd? Perhaps this is
-  better; we should have the possibilities for comments, and perhaps for vertex
-  and edge properties. This all shold go into a dedicated graph-module.
+  <ul>
+   <li> With output_graph and read in Hypergraphs/Colourings/GreedyColouring.cpp
+   we have a simple text format. </li>
+   <li> There is also a simple format used in yEd? </li>
+   <li> Perhaps this is better; we should have the possibilities for comments,
+   and perhaps for vertex and edge properties. </li>
+   <li> This all shold go into a dedicated graph-module. </li>
+  </ul>
 
 
   \todo Input and Output

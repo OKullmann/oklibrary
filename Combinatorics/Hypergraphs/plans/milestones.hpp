@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Combinatorics/Hypergraphs/plans/milestones.hpp
 
-  \module_version Combinatorics/Hypergraphs 0.0.3 (25.9.2007)
+  \module_version Combinatorics/Hypergraphs 0.0.3.2 (9.10.2007)
 
 
   \par Version 0.0.4 :
@@ -19,10 +19,13 @@ License, or any later version. */
   \par Combinatorics/Hypergraphs/Transversals 0.0.5
   (see Hypergraphs/Transversals/plans/milestones.hpp)
 
+  \par Hypergraphs/Colourings 0.0.5 : DONE
+  (see Hypergraphs/Colourings/plans/milestones.hpp)
+
   \par
    In Hypergraphs/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
+    - Update namespaces : DONE
 
   \par
    Create further milestones.

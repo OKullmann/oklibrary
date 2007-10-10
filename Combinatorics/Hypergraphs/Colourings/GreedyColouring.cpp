@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file HypergraphColouring/GreedyColouring.cpp
+  \file Hypergraphs/Colourings/GreedyColouring.cpp
   \brief Application for performing greedy graph colouring (prototype)
 
   The program reads from standard input the number n of vertices and the
@@ -23,7 +23,7 @@ License, or any later version. */
 
 #include <boost/graph/adjacency_list.hpp>
 
-#include <Transitional/HypergraphColouring/GreedyColouring.hpp>
+#include <Transitional/Combinatorics/Hypergraphs/Colourings/GreedyColouring.hpp>
 
 int main() {
 
