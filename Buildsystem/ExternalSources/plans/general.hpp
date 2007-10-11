@@ -25,6 +25,11 @@ License, or any later version. */
    these directories are deleted, then something is lost. </li>
    <li> Rewrite all build-make-files and make-variables to take
    account of the new directory structure. </li>
+   <li> And then SpecialBuilds should be subdivided, perhaps best
+   in accordance to the sub-division on the external-sources
+   overview page. </li>
+   <li> But this subdivision perhaps best is avoided for
+   OKplatform/ExternalSources. </li>
   </ul>
 
 
