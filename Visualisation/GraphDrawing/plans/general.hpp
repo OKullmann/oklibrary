@@ -42,6 +42,8 @@ License, or any later version. */
    <li> http://www.ogdf.net/doku.php looks like a
    reasonable choice. </li>
    <li> Then perhaps we don't need the graphics library? </li>
+   <li> See "Graph drawing" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
   </ul>
 
 

@@ -105,29 +105,6 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
   </ul>
 
 
-  \todo Installing SAT solvers
-  <ul>
-   <li> Installing external SAT solvers should be a special service. </li>
-   <li> Perhaps we have a special subdirectory of OKplatform/ExternalSources
-   (for example OKplatform/ExternalSources/SATsolver) ? </li>
-   <li> These solvers should be somewhat more integrated into the OKlibrary
-   than just ordinary external sources; on the other hand, these packages
-   are usually in much worse shape. </li>
-   <li> Of course, only open-source-solvers. </li>
-   <li> For C++ solvers we need the ability to use older gcc-versions. </li>
-   <li> We should have also a directory Buildsystem/ExternalSources/SATsolvers
-   (solvers are not "SpecialBuilds"). </li>
-   <li> List of solvers/libraries:
-    <ol>
-     <li> http://sat.inesc-id.pt/OpenSAT/index.php </li>
-     <li> http://www.sat4j.org/ </li>
-     <li> http://www-verimag.imag.fr/~cotton/jat/ </li>
-     <li> http://sourceforge.net/projects/dpt </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Using CMake
   <ul>
    <li> It seems that the special makefile for external sources might be a suitable
