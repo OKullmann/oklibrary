@@ -19,6 +19,7 @@ License, or any later version. */
    page?) </li>
   </ul>
 
+
   \todo Building Mailman on freshly setup machine
   <ul>
    <li>
@@ -382,6 +383,28 @@ sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
      command line script as done previously when creating the default mailman list. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Testing
+  <ul>
+   <li> How can we test the mailman installation on for example my (OK's) laptop
+   (offline) ? (Together with the three related services provided by apache,
+   fetchmail and postfix.) </li>
+  </ul>
+
+
+  \todo Installation script
+  <ul>
+   <li> Standard makefile for installing fetchmail. </li>
+   <li> Standard makefile for installing mailman. </li>
+  </ul>
+
+
+  \todo Writing docus page
+  <ul>
+   <li> At least a quick overview is needed on what fetchmail and
+   mailman are doing. </li>
   </ul>
 
 */

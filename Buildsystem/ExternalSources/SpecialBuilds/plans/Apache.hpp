@@ -87,5 +87,18 @@ ExternalSources/Installations/Apache/httpd-2.2.4> sudo make install
    <li> But perhaps we should now first try to install mailman? </li>
   </ul>
 
+
+  \todo Installation script
+  <ul>
+   <li> A simple standard makefile is written for installing Apache (as
+   above). </li>
+  </ul>
+
+
+  \todo Writing docus page
+  <ul>
+   <li> At least a quick overview is needed on what this thing is doing. </li>
+  </ul>
+
 */
 
