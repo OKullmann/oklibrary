@@ -29,6 +29,7 @@ License, or any later version. */
    <li> Applications of (generalised) SAT : Applications/docus/general.hpp </li>
    <li> The build system : Buildsystem/docus/general.hpp </li>
    <li> The computer algebra system : ComputerAlgebra/docus/general.hpp </li>
+   <li> How to handle licences, copyright etc. : LegalIssues/docus/general.hpp </li>
   </ul>
 
 */

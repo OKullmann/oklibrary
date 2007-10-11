@@ -15,6 +15,7 @@ License, or any later version. */
   delegates the targets to the makefiles documented here:
   <ul>
    <li> External sources building : Buildsystem/ExternalSources/docus/general.hpp </li>
+   <li> The master-script "oklib" : Buildsystem/MasterScript/docus/general.hpp </li>
    <li> %OKlib building : Buildsystem/OKlibBuilding/docus/general.hpp </li>
   </ul>
 
