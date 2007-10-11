@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1 (10.8.2007)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.1 (21.8.2007)
 
 
   \par Version 0.2.2
