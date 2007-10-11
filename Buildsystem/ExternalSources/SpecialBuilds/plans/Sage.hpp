@@ -16,6 +16,7 @@ License, or any later version. */
    systems only work for Maxima, while otherwise these systems have to be
    build externally. </li>
    <li> Install at least Axiom (see Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp, "Computer algebra). </li>
+   <li> Update the installation. </li>
   </ul>
 
 */
