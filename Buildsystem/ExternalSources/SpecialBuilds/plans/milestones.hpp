@@ -11,7 +11,7 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.1 (21.8.2007)
 
 
-  \par Version 0.2.2
+  \par Version 0.2.2 (focus on documentation)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
@@ -25,18 +25,34 @@ License, or any later version. */
     - Installation : DONE
 
 
-  \par Version 0.2.3
+  \par Version 0.2.3 (installing e-mail services)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp the following
    topics are handled:
     - Building Apache
+    - Installation script
+    - Writing docus page
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following
    topics are handled:
     - Building Mailman on cs-wsok (for testing)
+    - Building Mailman on freshly setup machine
     - Building Mailman in general
+    - Testing
+    - Installation script
+    - Writing docus page
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Postfix.hpp the following
+   topics are handled:
+    - Building Postfix on a freshly setup test machine
+    - Installation script
+    - Writing docus page
+
+
+  \par Version 0.2.4 (installing computer algebra)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
@@ -53,17 +69,23 @@ License, or any later version. */
    topics are handled:
     - Install Axiom
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
+   topics are handled:
+    - Improving the Sage installation
 
-  \par Version 0.2.4
+
+  \par Version 0.2.5 (completion of general services, and installing SAT)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
     - Complete documentation
     - Enable local/global installation for all packages
+    - Installing SAT solvers
 
 
-  \par Version 0.2.5
+  \par Version 0.2.6 (cleaning up installations)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
@@ -93,13 +115,18 @@ License, or any later version. */
     - Missing pgsql/libpq-fe.h
     - Improvements
 
+
+  \par Version 0.2.7 (new external sources for computer algebra and graphs)
+
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
     - Computer algebra
+    - Graph drawing
+    - Graph algorithms libraries and programs
 
 
-  \par Version 0.2.6
+  \par Version 0.2.8
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following
@@ -116,11 +143,6 @@ License, or any later version. */
    topics are handled:
     - Improve Coq installation
     - Improve ocaml installation
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp the following
-   topics are handled:
-    - Improving the Sage installation
 
 
 
