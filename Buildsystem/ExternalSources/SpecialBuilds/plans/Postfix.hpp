@@ -1,4 +1,4 @@
-// Oliver Kullmann, 28.6.2007 (Swansea)
+// Matthew Gwynne, 9.10.2007 (Swansea)
 /* Copyright 2007 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -8,6 +8,9 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Postfix.hpp
   \brief Plans regarding installation of the Postfix package
+
+  Apparently, Postfix is for sending e-mails, and mailman (for the mailing lists)
+  needs such a service.
 
 
   \todo Building Postfix on a freshly setup test machine :
@@ -57,7 +60,24 @@ ExternalSources/Installations/Postfix/postfix-2.4.5> sudo postfix start
    </li>
    <li> The syslog step above might be hard to generalise as there are several 
    different syslog daemons and there will probably be preexisting configurations.
-   How to solve this?
+   How to solve this? OK: Which step is the "syslog step" ?
    </li>
+   <li> The above configuration should go to a configuration-file. </li>
+   <li> How can we make sure, that if we install sendmail, that then *our*
+   installation is used by mailman? </li>
   </ul>
+
+
+  \todo Installation script
+  <ul>
+   <li> A simple standard makefile is written for installing Postfix (as
+   above). </li>
+  </ul>
+
+
+  \todo Writing docus page
+  <ul>
+   <li> At least a quick overview is needed on what this thing is doing. </li>
+  </ul>
+
 */

@@ -27,17 +27,13 @@ License, or any later version. */
 
   \par Version 0.1.3
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.4
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.5
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
-
-  \par
-   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
-    - Installing SAT solvers
 
 
   \par Version 0.1.4
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.5
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
@@ -50,7 +46,7 @@ License, or any later version. */
 
   \par Version 0.1.5
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.8
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   

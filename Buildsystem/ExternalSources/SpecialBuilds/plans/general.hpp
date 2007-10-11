@@ -66,19 +66,60 @@ License, or any later version. */
   </ul>
 
 
+  \todo Installing SAT solvers
+  <ul>
+   <li> Installing external SAT solvers should be a special service. </li>
+   <li> Perhaps we have a special subdirectory of OKplatform/ExternalSources
+   (for example OKplatform/ExternalSources/SATsolver) ? </li>
+   <li> And perhaps also for SpecialBuilds we should create a sub-module
+   SATsolvers ? (We could subdivide SpecialBuilds into the different
+   sections.) </li>
+   <li> These solvers should be somewhat more integrated into the OKlibrary
+   than just ordinary external sources; on the other hand, these packages
+   are usually in much worse shape. </li>
+   <li> Of course, only open-source-solvers. </li>
+   <li> For C++ solvers we need the ability to use older gcc-versions. </li>
+   <li> We should have also a directory Buildsystem/ExternalSources/SATsolvers
+   (solvers are not "SpecialBuilds"). </li>
+   <li> List of solvers/libraries:
+    <ol>
+     <li> http://sat.inesc-id.pt/OpenSAT/index.php </li>
+     <li> http://www.sat4j.org/ </li>
+     <li> http://www-verimag.imag.fr/~cotton/jat/ </li>
+     <li> http://sourceforge.net/projects/dpt </li>
+     <li> Minisat: is there a "golden version"? Is it under active
+     development? </li>
+     <li> Chaff: same questions. </li>
+     <li> March: same questions, and is there a package? </li>
+     <li> Kcnfs: likely not under active development anymore. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Computer algebra
   <ul>
-   <li> Install Axiom. </li>
-   <li> Install Aldor (open source version). </li>
    <li> What about Octave? Gap? Singular? </li>
+  </ul>
+
+
+  \todo Graph drawing
+  <ul>
+   <li> http://www.ogdf.net/doku.php looks promising. </li>
+   <li> graphviz (the dot-tool is needed by doxygen for creating the graphs) </li>
+   <li> tulip </li>
+  </ul>
+
+
+  \todo Graph algorithms libraries and programs
+  <ul
+   <li> naughtly for graph isomorphisms </li>
   </ul>
 
 
   \todo Other sources:
   <ul>
    <li> Build a local version of Xerces. </li>
-   <li> Build and incorporate graphviz (the dot-tool is needed by doxygen for creating the graphs)
-   and tulip. </li>
    <li> Investigate the Poco C++ library (http://www.pocoproject.org; see
    also [C Vu, 19:2, pages 12-15]). </li>
    <li> SOCI (soci.sourceforge.net) ? </li>
