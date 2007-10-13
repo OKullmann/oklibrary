@@ -15,16 +15,6 @@ License, or any later version. */
   initialisation functions.
 */
 
-                       /* OKsolver; 5.3.1998 */
-
-/* Autor: Oliver Kullmann, Universitaet Frankfurt am Main, Germany */
-/* ab Februar 1999: University of Toronto, Computer Science Department */
-
-/* Angelegt: 16.3.2001 */
-
-/* Einheit: VarLitKlm */
-
-
 #include <stdlib.h>
 #include <string.h> /* fuer C++ (memset; 14.8.2001) */
 #include <assert.h>
@@ -74,13 +64,11 @@ unsigned int* aktAnzK; /* unsigned int aktAnzK [ MAXP + 1 ]; */
 unsigned int* InitAnzK; // zur Speicherung der initialen Klauselnanzahlen im Falle, dass Format = XLM_Format
 
 #ifdef BAUMRES
-
 # ifndef LITTAB
 static ZWort VarKl;
 # else
 static VarMaske *MaskenKl;
 # endif
-
 #endif
 
 
