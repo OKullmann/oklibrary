@@ -13,14 +13,20 @@ License, or any later version. */
   \todo Update namespaces.
 
 
+  \todo Create milestones.
+
+
   \todo First it has to be studied, how to translate these
   problems into our domain.
 
 
-  \todo Difference constraints is a nice special case; see
-  [Armando,Castellini,Giunchiglia,Maratea; A {SAT}-Based Decision
-  Procedure for the Boolean Combination of Difference Constraints].
-  For the active clause-sets the Bellman-Ford algorithm is applied.
+  \todo Difference constraints
+  <ul>
+   <li> See[Armando,Castellini,Giunchiglia,Maratea; A {SAT}-Based Decision
+   Procedure for the Boolean Combination of Difference Constraints]. </li>
+   <li> For the active clause-sets the Bellman-Ford algorithm is applied.
+   </li>
+  </ul>
 
 */
 

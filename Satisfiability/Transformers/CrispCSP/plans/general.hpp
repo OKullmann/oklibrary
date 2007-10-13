@@ -10,33 +10,55 @@ License, or any later version. */
   \brief Plans for the module CrispCSP
 
 
-  \todo The CSP formats
-  <ol>
-   <li> http://cpai.ucc.ie/05/xml.html </li>
-   <li> http://cpai.ucc.ie/05/table.html </li>
-  </ol>
-  are to be transformed into alliances of active P-clause-sets (or specialised
-  versions; perhaps just one P-clause-set is also alright; "mono-signed"
-  full clauses per constraint are exactly enough).
-  The benchmarks from http://cpai.ucc.ie/05/CallForSolvers.html should
-  all be tried!
+  \todo Update namespaces
 
 
-  \todo The "relations" are just "monosigned" full clause-sets, to be used
-  to specify the constraints (which each just specify a specific set
-  of variables). So it should be worth using some preprocessing
-  for the relations. We can use equivalence-simplifications (and we
-  should exploit that for us constraints can be arbitrary P-clause-sets).
+  \todo Create milestones.
 
 
-  \todo List of equivalence reductions:
-   - resolution clause-reductions
+  \todo Direct translations
+  <ul>
+   <li> The CSP formats
+    <ol>
+     <li> http://cpai.ucc.ie/05/xml.html </li>
+     <li> http://cpai.ucc.ie/05/table.html </li>
+    </ol>
+    are to be transformed into alliances of active P-clause-sets.
+   </li>
+   <li> Specialised versions are relevant of course; perhaps just one P-clause-set
+   per constraint is also alright. </li>
+   <li> "Mono-signed" full clauses per constraint are exactly enough. </li>
+   <li> The benchmarks from http://cpai.ucc.ie/05/CallForSolvers.html should
+   all be tried! </li>
+  </ul>
 
 
-  \todo One should study the problem, which clause-sets are especially
-  suitable for the representation of relations. If the relation is small,
-  then for example all prime implicants can be computed. And all
-  symmetries (but perhaps this doesn't help much?!).
+  \todo Preprocessing
+  <ul>
+   <li> The "relations" are just "monosigned" full clause-sets, to be used
+   to specify the constraints (which each just specify a specific set
+   of variables). </li>
+   <li> So it should be worth using some preprocessing
+   for the relations. </li>
+   <li> We could use sat-equivalence-simplifications. </li>
+   <li> And we should exploit that for us constraints can be arbitrary
+   P-clause-sets. </li>
+   <li> List of reductions:
+    <ul>
+     <li> resolution clause-reductions </li>
+    </ul>
+   </li>
+  </ul>
+
+
+  \todo Good representations
+  <ul>
+   <li> One should study the problem, which clause-sets are especially
+   suitable for the representation of relations. </li>
+   <li> If the relation is small, then for example all prime implicants can
+   be computed. </li>
+   <li> And all symmetries (but perhaps this doesn't help much?!). </li>
+  </ul>
 
 */
 

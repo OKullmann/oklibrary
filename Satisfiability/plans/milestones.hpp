@@ -16,6 +16,9 @@ License, or any later version. */
   \par Satisfiability/Algorithms version 0.0.6
   (see Satisfiability/Algorithms/plans/milestones.hpp)
 
+  \par Satisfiability/Transformers version 0.0.4
+  (see Satisfiability/Transformers/plans/milestones.hpp)
+
   \par Satisfiability/Assignments version 0.0.5 (OK) : DONE
   (see Satisfiability/Assignments/plans/milestones.hpp)
 

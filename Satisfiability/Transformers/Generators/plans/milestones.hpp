@@ -10,13 +10,22 @@ License, or any later version. */
   
   \module_version Transformers/Generators 0.0.5 (11.6.2007)
 
+
   \par Version 0.0.6
 
   \par
-   In Generators/plans/general.hpp the following topics are handled:
-    - Update
+   In Transformers/Generators/plans/general.hpp the following
+   topics are handled:
+    - Update namespaces
+    - Create milestones
 
-   Create further milestones.
+
+  \par Version 0.0.7
+
+  \par
+   In Transformers/Generators/plans/general.hpp the following
+   topics are handled:
+    - Update
 
 
 
