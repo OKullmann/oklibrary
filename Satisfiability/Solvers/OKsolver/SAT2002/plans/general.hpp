@@ -117,6 +117,10 @@ License, or any later version. */
   <ul>
    <li> We want to leave the code mainly as it is, but we can add doxygen
    documentation. </li>
+   <li> List of files (basic documentation):
+    <ol>
+     <li> OKsolver/SAT2002/VarLitKlm.h : DONE </li>
+    </ol>
   </ul>
 
 
