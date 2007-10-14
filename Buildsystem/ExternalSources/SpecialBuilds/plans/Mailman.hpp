@@ -33,8 +33,10 @@ ExternalSources/Installations/fetchmail> cd fetchmail-6.3.8
 ExternalSources/Installations/fetchmail/fetchmail-6.3.8> ./configure
 ExternalSources/Installations/fetchmail/fetchmail-6.3.8> make
 ExternalSources/Installations/fetchmail/fetchmail-6.3.8> sudo make install
-
-ExternalSources/Installations/fetchmail/fetchmail-6.3.8> cd ../../
+  \endverbatim
+  </li>
+  <li>
+  \verbatim
 ExternalSources/Installations/> mkdir mailman
 ExternalSources/Installations/> cd mailman
 ExternalSources/Installations/mailman> wget http://ftp.gnu.org/gnu/mailman/mailman-2.1.9.tgz
@@ -48,7 +50,7 @@ ExternalSources/Installations/mailman/mailman-2.1.9> sudo chmod a+rx,g+ws /usr/l
 ExternalSources/Installations/mailman/mailman-2.1.9> ./configure --with-mail-gid=mailman --with-cgi-gid=apache --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
 ExternalSources/Installations/mailman/mailman-2.1.9> make
 ExternalSources/Installations/mailman/mailman-2.1.9> sudo make install
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/BuildSystem/ReleaseProcess/http.conf /usr/local/apache2/conf/httpd.conf
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/Buildsystem/ReleaseProcess/httpd.conf /usr/local/apache2/conf/httpd.conf
    \endverbatim
    Perhaps the next step should be part of the apache installation? 
    \verbatim
@@ -103,6 +105,11 @@ smtphost localhost" > /etc/fetchmailrc
    http://ok-sat-library.org/mailman/admin/ .
    (OK: Where does this address "http://ok-sat-library.org/mailman/admin/"
    come from?)
+   </li>
+   <li> Alternative configuration (using the defaults??):
+   \verbatim
+mailman-2.1.9> ./configure --with-mail-gid=postfix --with-cgi-gid=daemon --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
+   \endverbatim
    </li>
   </ul>
 
@@ -384,6 +391,9 @@ sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
     </ol>
    </li>
   </ul>
+
+
+  \todo Update above instructions
 
 
   \todo Testing

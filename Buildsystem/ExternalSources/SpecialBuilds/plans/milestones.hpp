@@ -37,9 +37,10 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp the following
    topics are handled:
-    - Building Mailman on cs-wsok (for testing)
     - Building Mailman on freshly setup machine
     - Building Mailman in general
+    - Update above instructions
+    - Building Mailman on cs-wsok (for testing)
     - Testing
     - Installation script
     - Writing docus page

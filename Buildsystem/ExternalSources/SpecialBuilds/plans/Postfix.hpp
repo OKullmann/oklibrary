@@ -9,8 +9,33 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Postfix.hpp
   \brief Plans regarding installation of the Postfix package
 
-  Apparently, Postfix is for sending e-mails, and mailman (for the mailing lists)
-  needs such a service.
+  Postfix is for actively sending e-mails and possibly passively
+  receiving e-mails:
+  <ul>
+   <li> Mailman could possibly send e-mails to remote mail-servers
+   itself, but it seems much easier that Mailman delivers all e-mails
+   to a local mail-server (postfix here), and then the local
+   mail-server takes over and delivers it to the remote servers. </li>
+   <li> Furthermore, Mailman needs to be notified about received
+   e-mails. The best way to achieve this seems to be that some service
+   (direct delivery or pulling the mail via e.g. fetchmail) delivers
+   the e-mail to the local mail-server (Postfix(!)), which in turn
+   has hooks for special actions for special e-mails, in this case
+   for calling some dedicated mailman-script which hands over the
+   e-mail to the Mailman-system. </li>
+  </ul>
+
+  Installing and using Postfix happens as follows:
+  <ol>
+   <li> Installing Postfix by the OKlibrary is only recommended if no
+   Postfix is already in service on the machine (or, more generally,
+   no e-mail is sent otherwise from this machine using some mail-server). </li>
+   <li> If deemed necessary, then Postfix is installed (system-wide) as
+   explained below. </li>
+   <li> Later then, when installing Mailman, respective "aliases" have to
+   be installed (then) to tell Postfix that certain e-mail-addresses shall trigger
+   delivery to the Mailman-system. </li>
+  <ul>
 
 
   \todo Building Postfix on a freshly setup test machine :
@@ -70,8 +95,20 @@ ExternalSources/Installations/Postfix/postfix-2.4.5> sudo postfix start
 
   \todo Installation script
   <ul>
-   <li> A simple standard makefile is written for installing Postfix (as
-   above). </li>
+   <li> Create the original postfix-configuration-file in
+   Buildsystem/Configuration/ReleaseProcess. </li>
+   <li> Add configuration-variables to adapt it. </li>
+   <li> The Postfix-installation-makefile then creates from this template
+   the final configuration-file (similar to the doxygen-configuration-file). </li>
+   <li> Otherwise a simple standard makefile is written for installing Postfix, as
+   above, but using three sub-targets:
+    <ol>
+     <li> main-installation </li>
+     <li> syslog-configuration </li>
+     <li> alias-installation </li>
+    </ol>
+    (Alias-installation here is independent of any specific mailman-issues.)
+   </li>
   </ul>
 
 
