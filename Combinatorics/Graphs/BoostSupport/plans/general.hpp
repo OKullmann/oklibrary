@@ -33,6 +33,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Input/Output
+  <ul>
+   <li> Should we use the "DOT language" (graphviz) as the primary
+   graph-representation-format? (see "Graph drawing" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp) </li>
+  </ul>
+
+
   \todo Update namespaces.
 
 */
