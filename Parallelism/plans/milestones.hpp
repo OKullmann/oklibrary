@@ -10,23 +10,32 @@ License, or any later version. */
   
   \module_version Parallelism 0.0.3 (20.5.2007)
 
+
   \par Version 0.0.4
 
   \par
-   In Parallelism/plans/Parallelism.hpp the following topics are handled:
-    - Run through examples from [C++ Cookbook 2006, Chapter 12]
+   In Parallelism/plans/general.hpp the following topics are handled:
+    - Move to part Programming
 
+  
   \par Version 0.0.5
 
   \par
-   In Parallelism/plans/Parallelism.hpp the following topics are handled:
-    - New test system
+   In Parallelism/plans/general.hpp the following topics are handled:
+    - Run through examples from [C++ Cookbook 2006, Chapter 12]
 
 
   \par Version 0.0.6
 
   \par
-   In Parallelism/plans/Parallelism.hpp the following topics are handled:
+   In Parallelism/plans/general.hpp the following topics are handled:
+    - New test system
+
+
+  \par Version 0.0.7
+
+  \par
+   In Parallelism/plans/general.hpp the following topics are handled:
     - Investigate libraries for processes and threads
 
 
@@ -35,6 +44,7 @@ License, or any later version. */
   \par
    In Parallelism/plans/Parallelism.hpp the following topics are handled:
     - Decide, how to handle parallel computations for the OKlibrary.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

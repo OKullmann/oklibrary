@@ -19,16 +19,20 @@ demo_Example_12_1 1000000 3000000
   child thread with loop-bound 3000000 and output-file "OUTPUT_child"
   (see below).
 
+
   \todo The output-file should go somewhere in system_directories, like
   a sub-directory "data"; build-system support is needed here.
+
 
   \todo It seems that only because function OKlib::Parallelism::write_number
   is an inline function the program works? (If write_number would be a
   function, then we would have conflicting calls?? Or not --- there is
   no static data?) (If inline were needed, then it should be a functor-class.)
 
+
   \todo What does yield really accomplish? Just giving time to the child
   (which was already start), or starting the child(ren)?
+
 
   \todo Later this should go the a sub-directory demos. Or to a sub-directory
   "examples" ? (It is not a demo for our library, but for another library?!)

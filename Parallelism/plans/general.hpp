@@ -6,8 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parallelism/plans/Parallelism.hpp
+  \file Parallelism/plans/general.hpp
   \brief Plans for the module on parallelism
+
+
+  \todo Move to part Programming
+  <ul>
+   <li> Update namespaces. </li>
+  </ul>
+
 
   \todo Run through examples from [C++ Cookbook 2006, Chapter 12]
   <ul>
@@ -19,6 +26,7 @@ License, or any later version. */
    <li> 12.5 "Passing an Argument to a Thread Function" </li>
   </ul>
 
+
   \todo New test system
   <ol>
    <li> Transfer the tests. </li>
@@ -27,12 +35,14 @@ License, or any later version. */
    <li> How to do it right? </li>
   </ol>
 
+
   \todo Investigate libraries for processes and threads
   <ul>
    <li> Boost-1_34_0 (Threads and ???) </li>
    <li> Poco </li>
    <li> ACE </li>
   </ul>
+
 
   \todo Decide, how to handle parallel computations for the OKlibrary.
 
