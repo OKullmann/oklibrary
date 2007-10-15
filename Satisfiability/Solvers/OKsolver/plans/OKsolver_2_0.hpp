@@ -27,13 +27,13 @@ License, or any later version. */
   <ol>
    <li> the original clause-set </li>
    <li> the active clause-set for compressed r_2-learning (see
-   module Learning) </li>
+   module Learning, Satisfiability/Algorithms/Learning/plans/general.hpp). </li>
    <li> the active clause-set for equivalence reasoning (see
    module Equivalences). </li>
   </ol>
 
 
-  \todo Further splitting
+  \todo Further sub-division of the instance
   <ul>
    <li> The "original clause-set" is split into active clause-sets with
     <ol>
@@ -50,10 +50,21 @@ License, or any later version. */
   </ul>
 
 
-  \todo After-burner
+  \todo After-burner for learning
   <ul>
    <li> An interesting option is to compress learned clauses further (using
-   for example r_3); see module Learning : "After-burner". </li>
+   for example r_3); see module Learning
+   (Satisfiability/Algorithms/Learning/plans/general.hpp): "After-burner". </li>
+   <li> A related question is about "Re-working the tree" (see there).
+    <ol>
+     <li> According to the general guideline of avoiding "pure heuristics", we
+     should always rework the tree. </li>
+     <li> However, similar to the experience with r_2 and OKsolver2002, where
+     completing a round of reduction was found to be more efficient then immediate
+     restart of the reduction process, it is quite conceivable that the solver
+     starts "stammering" due to all this clean-up. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -273,7 +284,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Prediction
+  \todo Time-prediction
   <ul>
    <li> Likely for OKsolver_2_0 the simplest prediction strategy should be used (as
    outlined in Statistics/TimeSeriesAnalysis.hpp), which just takes progress as
@@ -298,15 +309,21 @@ License, or any later version. */
   OKsolver_2_0, but the whole issue is thoroughly treated with OKsolver_3_0.
 
 
-  \todo Monitoring
+  \todo Monitoring the search process
   <ul>
    <li> The above resource management strategies use prediction; another possibility
    are the monitoring schemes similar to those investigated by Heule and van Maaren:
-   Considering some observation level d in the search tree and a given total time R,
-   the time per observation node is R / 2^d. If the time is out, then the search is
-   interrupted, and search jumps to next node on the observation level, mainly
-   in the hope to find a satisfying assignment there, but also good learned clauses
-   could be obtained there. </li>
+    <ol>
+     <li> Considering some observation level d in the search tree and a given
+     total time R, the time per observation node is R / 2^d. If the time is out,
+     then the search is interrupted, and search jumps to next node on the observation
+     level, mainly in the hope to find a satisfying assignment there, but also good
+     learned clauses could be obtained there. </li>
+     <li> Actually, the scheme of Heule and van Maaren is simpler, since it always
+     completes the computation for the branches encountered at level d. See below
+     for furthe discussions. </li>
+    </ol>
+   </li>
    <li> Since mainly we hope for the satisfying assignment,
    and we assume that the first branch in general is better than the second branch,
    and furthermore we assume that deeper down the tree the prediction of the
@@ -347,6 +364,13 @@ License, or any later version. */
      more time is spent on this bread-first look-ahead. </li>
     </ol>
    </li>
+   <li> However, this breadth-first approach uses quite some space (if we
+   store what we have already computed, which seems reasonable) and time,
+   and thus the depth of the frontier is rather small. So perhaps we could
+   add the distribution-jumping strategy of Heule/Maaren, perhaps best as
+   mentioned above by a resource-bound (and not necessarily, as done by them,
+   completely finishing the node --- which of course needs less management,
+   since we do not need to keep the old nodes around). </li>
   </ul>
 
 
