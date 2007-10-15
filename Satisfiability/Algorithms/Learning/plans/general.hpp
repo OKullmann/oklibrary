@@ -80,6 +80,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Re-working the tree
+  <ul>
+   <li> After adding a new learned clause, then potentially all nodes on the
+   current path are no longer reduced anymore! </li>
+   <li> Is it possible by some conflict-analysis to determine that some nodes
+   might actually still be reduced? This question is similar to avoiding re-running
+   reductions for r_k (if we use r_k, then adding a single conflict-clause seems
+   to need r_{k+1} for the finally inferred assignment, and r_{k+2} for the other
+   directions enabled by the added clause). </li>
+   <li> The cleanest possibility is to always rework the tree, and (at least for
+   experimental purposes) we should support this fully. </li>
+  </ul>
+
+
   \todo "Intelligent backtracking"
   <ul>
    <li> A question is whether in case of "intelligent backtracking" the learned clauses which
