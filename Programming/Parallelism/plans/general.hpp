@@ -6,14 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parallelism/plans/general.hpp
+  \file Programming/Parallelism/plans/general.hpp
   \brief Plans for the module on parallelism
 
 
-  \todo Move to part Programming
-  <ul>
-   <li> Update namespaces. </li>
-  </ul>
+  \todo Update namespace-usage.
 
 
   \todo Run through examples from [C++ Cookbook 2006, Chapter 12]
@@ -49,12 +46,17 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::Parallelism
+  \namespace OKlib::Programming::Parallelism
   \brief Components for parallelising algorithms
+
+  Alias "Pll".
 */
 
 namespace OKlib {
-  namespace Parallelism {
+  namespace Programming {
+    namespace Parallelism {
+    }
+    namespace Pll = Parallelism;
   }
 }
 

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parallelism/ExperimentalThreads.hpp
+  \file Programming/Parallelism/ExperimentalThreads.hpp
   \brief Experiments using the Boost::Threads library
 
   \bug Parallelism::CounterWithMutex fails the test: Apparently an inconsistent copy-object is
@@ -67,7 +67,7 @@ namespace OKlib {
       \bug The problem likely is that after a copy-operation the copied object becomes invalid!
 
       \todo Document the class (what's the point of the strange design?).
-      \tod Can assertions be made about member mutex?
+      \todo Can assertions be made about member mutex?
     */
 
     template <int N>

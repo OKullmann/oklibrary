@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parallelism/ExperimentalThreads_Testobjects.hpp
+  \file Programming/Parallelism/ExperimentalThreads_Testobjects.hpp
   \brief Testobjects for testing parallelism
 
   Test-object deactivated due to a test-failure.
@@ -16,8 +16,8 @@ License, or any later version. */
 #ifndef EXPERIMENTALTHREADSTESTOBJECTS_045rtf
 #define EXPERIMENTALTHREADSTESTOBJECTS_045rtf
 
-#include <Transitional/Parallelism/ExperimentalThreads.hpp>
-#include <Transitional/Parallelism/ExperimentalThreads_Tests.hpp>
+#include <Transitional/Programming/Parallelism/ExperimentalThreads.hpp>
+#include <Transitional/Programming/Parallelism/ExperimentalThreads_Tests.hpp>
 
 namespace OKlib {
   namespace Parallelism {

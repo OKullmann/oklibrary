@@ -6,12 +6,13 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parallelism/ExperimentalThreads_Tests.hpp
+  \file Programming/Parallelism/ExperimentalThreads_Tests.hpp
   \brief Test metafunctions
   \deprecated Move to new test system.
 
   \todo By moving to the new test system it must become possible
   to find out exactly when the assertion in the failing test happens.
+
   \todo Describe what the tests test.
 */
 
