@@ -22,3 +22,9 @@ License, or any later version. */
 
 */
 
+namespace OKlib {
+  namespace Programming {
+  }
+  namespace Prg = Programming;
+}
+
