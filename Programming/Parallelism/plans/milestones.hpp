@@ -6,22 +6,16 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parallelism/plans/milestones.hpp
+  \file Programming/Parallelism/plans/milestones.hpp
   
-  \module_version Parallelism 0.0.3 (20.5.2007)
+  \module_version Programming/Parallelism 0.0.4 (16.10.2007)
 
 
-  \par Version 0.0.4
-
-  \par
-   In Parallelism/plans/general.hpp the following topics are handled:
-    - Move to part Programming
-
-  
   \par Version 0.0.5
 
   \par
    In Parallelism/plans/general.hpp the following topics are handled:
+    - Update namespace-usage
     - Run through examples from [C++ Cookbook 2006, Chapter 12]
 
 
@@ -52,6 +46,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.3 : 20.5.2007; initial version number (some experimental code).
+   - 0.0.4 : 16.10.2007; update in new environment, the part "Programming".
 
 */
 
