@@ -48,6 +48,28 @@ make: *** [march.o] Error 1
        \endverbatim
        </li>
        <li> An e-mail was sent to MJHH. </li>
+       <li> A better page seems
+       http://www.st.ewi.tudelft.nl/sat/download.php. </li>
+       <li> Installing march_ks:
+       \verbatim
+ExternalSources/Installations/SAT> unzip $(OKplatform)/ExternalSources/sources/SAT/march_ks.zip
+ExternalSources/Installations/SAT> cd march_ks/
+ExternalSources/Installations/SAT/march_ks> make
+       \endverbatim
+       seems correct, but then
+       \verbatim
+ExternalSources/Installations/SAT/march_ks> ./march_ks OKplatform/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
+c parseCNF():: the CNF contains 0 unary clauses.
+c runParser():: parsing was successful, warming up engines...
+Segmentation fault
+       \endverbatim
+       Valgrind shows
+       \verbatim
+==6582== Invalid read of size 4
+==6582==    at 0x40D41B: clsCompare (in OKplatform/ExternalSources/Installations/SAT/march_ks/march_ks)
+==6582==    by 0x41E439: msort_with_tmp (in OKplatform/ExternalSources/Installations/SAT/march_ks/march_ks)
+       \endverbatim
+       So it doesn't seem fit yet. </li>
       </ol>
      </li>
      <li> Kcnfs: likely not under active development anymore. </li>
