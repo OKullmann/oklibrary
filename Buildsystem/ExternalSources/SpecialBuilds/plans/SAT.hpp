@@ -34,7 +34,22 @@ License, or any later version. */
      <li> Minisat: is there a "golden version"? Is it under active
      development? </li>
      <li> Chaff: same questions. </li>
-     <li> March: same questions, and is there a package? </li>
+     <li> March:
+      <ol>
+       <li> Homepage http://www.st.ewi.tudelft.nl/sat/march_dl.php </li>
+       <li> Installation attempt:
+       \verbatim
+ExternalSources/Installations/SAT> tar -xzf $(OKplatform)/ExternalSources/sources/SAT/march_dl.tgz
+ExternalSources/Installations/SAT> cd march_dl/
+nstallations/SAT/march_dl> make
+gcc -c -s -O3 -fomit-frame-pointer -falign-functions=4 -funroll-loops -fexpensive-optimizations -malign-double -fschedule-insns2 -Wall   -o march.o march.c
+march.c:1: error: -malign-double makes no sense in the 64bit mode
+make: *** [march.o] Error 1
+       \endverbatim
+       </li>
+       <li> An e-mail was sent to MJHH. </li>
+      </ol>
+     </li>
      <li> Kcnfs: likely not under active development anymore. </li>
     </ol>
    </li>
