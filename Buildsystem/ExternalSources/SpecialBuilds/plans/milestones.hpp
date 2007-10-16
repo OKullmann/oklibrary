@@ -83,6 +83,10 @@ License, or any later version. */
    topics are handled:
     - Complete documentation
     - Enable local/global installation for all packages
+
+  \par
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
     - Installing SAT solvers
 
 
