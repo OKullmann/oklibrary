@@ -13,6 +13,9 @@ License, or any later version. */
   \todo Update namespaces.
 
 
+  \todo Create milestones.
+
+
   \todo Given a graph G, the alliance expressing the Hamiltonian
   path (cycle) property has variables v_1, ..., v_n for n = |V(G)|
   with domains V(G), and two active clause-sets:
@@ -56,6 +59,13 @@ License, or any later version. */
   \todo The graph isomorphism problem (see module Isomorphisms)
   is a special case of the graph embedding problem: How do
   graph embedding algorithms perform on graph isomorphism problems?
+
+
+  \todo TSP
+  <ul>
+   <li> Using appropriate weights, hamiltonian paths can be found
+   via TSP; see Applications/CombinatorialOptimisation/plans/general.hpp. </li>
+  </ul>
 
 */
 
