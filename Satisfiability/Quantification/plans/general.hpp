@@ -40,6 +40,7 @@ License, or any later version. */
 
   \todo What are the input formats?
   <ul>
+   <li> http://www.qbflib.org/qdimacs.html </li>
    <li> See SAT evaluation. </li>
    <li> This should become a part of Satisfiability/Interfaces. </li>
   </ul>
