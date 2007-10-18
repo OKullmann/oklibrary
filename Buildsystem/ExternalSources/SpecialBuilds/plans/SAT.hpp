@@ -27,13 +27,17 @@ License, or any later version. */
    (solvers are not "SpecialBuilds"). </li>
    <li> List of solvers/libraries:
     <ol>
-     <li> http://sat.inesc-id.pt/OpenSAT/index.php </li>
      <li> http://www.sat4j.org/ </li>
      <li> http://www-verimag.imag.fr/~cotton/jat/ </li>
      <li> http://sourceforge.net/projects/dpt </li>
-     <li> Minisat: is there a "golden version"? Is it under active
-     development? </li>
-     <li> Chaff: same questions. </li>
+     <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
+      <ol>
+       <li> Minisat </li>
+       <li> Minisat+ </li>
+      </ol>
+     </li>
+     <li> Chaff: doesn't seem to be open source, and thus can't be included.
+     </li>
      <li> March:
       <ol>
        <li> Homepage http://www.st.ewi.tudelft.nl/sat/march_dl.php </li>
@@ -73,6 +77,8 @@ Segmentation fault
       </ol>
      </li>
      <li> Kcnfs: likely not under active development anymore. </li>
+     <li> http://sat.inesc-id.pt/OpenSAT/index.php : DONE (not to be
+     included by request of the authors) </li>
     </ol>
    </li>
   </ul>
