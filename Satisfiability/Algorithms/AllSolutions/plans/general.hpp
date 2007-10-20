@@ -59,6 +59,12 @@ License, or any later version. */
   should go into it's own module; techniques seem to be different, and
   approximation makes sense for counting (not for enumeration).)
 
+
+  \todo Direct enumeration
+  <ul>
+   <li> See Combinatorics/Enumeration/plans/GrayCodes.hpp. </li>
+  </ul>
+
 */
 
 /*!

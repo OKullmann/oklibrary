@@ -35,6 +35,8 @@ License, or any later version. */
 
   \todo The first problem is to determine an algorithm, generalising algorithms
   for binary Gray codes (using the Hamming distance on A_1 x ... x A_n).
+
+
   \todo An efficiency problem occurs, when for example we want to enumerate
   all total assignments for a problem instance, and then doubling of the
   code word representation occurs: For the application algorithm we likely need
