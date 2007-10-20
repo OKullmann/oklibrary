@@ -26,6 +26,20 @@ License, or any later version. */
   \todo All sub-supermodules have milestones.
 
 
+  \todo Module structure:
+  <ul>
+   <li> Perhaps under Variations we should have a module Counting?
+    <ol>
+     <li> There we should implement the algorithm for approximating
+     the number of falsifying assignments by sampling. </li>
+    </ol>
+   </li>
+   <li> Of course, counting algorithms are also obtained by representing
+   all solutions, which is under AllSolutions/plans/general.hpp ? </li>
+   <li> We need to find a clear structure where to place what. </li>
+  </ul>
+
+
   \todo Milestones : DONE
   (we have enough structure in this part, so also here milestones are introduced,
   establishing a proper hierarchy)

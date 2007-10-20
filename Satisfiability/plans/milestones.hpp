@@ -30,6 +30,7 @@ License, or any later version. */
    topics are handled:
     - Move older modules here
     - All sub-supermodules have milestones
+    - Module structure
     - Milestones : DONE
     - Update namespaces : DONE
 
