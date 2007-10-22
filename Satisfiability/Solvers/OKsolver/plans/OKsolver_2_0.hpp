@@ -7,9 +7,7 @@ License, or any later version. */
 
 /*!
   \file Solvers/OKsolver/plans/OKsolver_2_0.hpp
-  \brief Plans for the module for the new OKsolver;
-  the goal is that OKsolver_2 is among the best three solvers
-  for all 3 * 3 sub-competitions of the SAT 2009 competition.
+  \brief Plans for the module for the new OKsolver
 
 
   \todo Once we are ready to start, a new sub-module is needed.
@@ -20,6 +18,20 @@ License, or any later version. */
 
   \todo Planing:
   Set up milestones etc.
+
+
+  \todo Goals
+  <ul>
+   <li> The old goals were: "OKsolver_2 is among the best three solvers
+   for all 3 * 3 sub-competitions of the SAT 2009 competition". </li>
+   <li> However, because of the overheads incurred by the planned integration
+   of the 3 solver paradigms, where the SAT competition is geared towards
+   speed (giving only a bit of time on each instance), perhaps better is
+   to seek a solver which can crack "really hard" instances from all
+   the 3 * 3 sub-competitions (i.e., over the full range of instances). </li>
+   <li> A lot of experimentation will be needed. Perhaps first we go for
+   an "experimental suite" ? </li>
+  </ul>
 
 
   \todo OKsolver_2 extends OKsolver_1 by using alliances of
@@ -197,8 +209,21 @@ License, or any later version. */
 
   \todo Heuristics
   <ul>
-   <li> The heuristics for the branching variable is a main open problem (while
-   choosing the first branch is done like in the old OKsolver). </li>
+   <li> The heuristics for the branching variable is a main open problem.
+    <ol> 
+     <li> Perhaps the central problem is, that for a look-ahead heuristics we
+     look at *both* branches (in the boolean case), which if not a satisfying
+     assignment were found, both will be executed. </li>
+     <li> So we need to balance both branches. </li>
+     <li> However for a conflict-driven solver the second branch happens
+     under different circumstances, having learned clauses added. And
+     potentially, due to non-chronological backtracking, the second branch
+     doesn't happen at all. </li>
+    </ol>
+   </li>
+   <li> Choosing the first branch perhaps is still done like in the old
+   OKsolver, seeking for a satisfying assignment. (The alternative is to seek
+   for "good resolutions" ?) </li>
    <li> Here likely a lot of experimentation is needed (starting with the heuristics
    from the old OKsolver). </li>
    <li> But basically we follow the old OKsolver, performing a full look-ahead, and
@@ -220,15 +245,47 @@ License, or any later version. */
     <ol>
      <li> The number of learned clauses containing v; since we go "far back",
      it might be appropriate here to consider v's involvement in the whole
-     resolution process leading to the learned clause in the end. And what to
-     do at inner nodes, where only resolution steps are performed? </li>
+     resolution process leading to the learned clause in the end. </li>
      <li> The number of unit clauses with variable v found during reduction. </li>
      <li> The number of failed literals with variable v. </li>
     </ol>
-    The intuition is that if we can branch on a variable which was "recently"
-    active in a lot of inferences, then this variable might again provide
-    a lot of action, a kind of culmination point, and it might be good to branch
-    on it. To quantify "recent" one can use some decay scheme. </li>
+   The intuition is that if we can branch on a variable which was "recently"
+   active in a lot of inferences, then this variable might again provide
+   a lot of action, a kind of culmination point, and it might be good to branch
+   on it. To quantify "recent" one can use some decay scheme. </li>
+   <li> A different approach takes the dynamic changes into account, where
+   (as discussed above) the second branch might hapen under very different
+   circumstances:
+    <ol>
+     <li> Instead of the "pessimistic" view, that both branches have to be
+     balanced, we could take an "optimistic" (or "greedy") view, and just to
+     seek for a *single* branch with the best prediction. </li>
+     <li> One could also try to change the branching strategy over the tree:
+      <ul>
+       <li> One could say, that near the root the second branch will have
+       a while to go, a lot will be learned until then, and so better we
+       are being greedy. While towards the leaves changes might be smaller,
+       and we balance more. </li>
+       <li> On the other hand, balancing is most effective near the root ?
+       So we could be more balancing towards the root, and the more we progress
+       towards the leaves, the greedier we become? </li>
+       <li> The latter proposal is in line with the view of having more
+       breadth-first near the root (generalised look-ahead). </li>
+       <li> This has to be tried out; it also depends on how we update (and
+       (partially) restart). </li>
+      </ul>
+     </li>
+     <li> The question is whether to use prediction for both branches, or
+     to seek for high activity (just for one assignment). </li>
+     <li> From the branching point of view, we compute a branching
+     phi_1, ..., phi_k (covering all possibilities), and then we process
+     the branches, where the only question is the order of branches. Now,
+     under those dynamic changes, a conflict-driven solver doesn't want to
+     be fixed to these decisions, but wants to re-evaluate them later. Since
+     a look-ahead solver spents a lot of work on the decisions, it might be
+     painful to throw them all over board. </li>
+    </ol>
+   </li>
   </ul>
 
 
