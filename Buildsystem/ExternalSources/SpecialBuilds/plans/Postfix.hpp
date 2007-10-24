@@ -35,7 +35,7 @@ License, or any later version. */
    <li> Later then, when installing Mailman, respective "aliases" have to
    be installed (then) to tell Postfix that certain e-mail-addresses shall trigger
    delivery to the Mailman-system. </li>
-  <ul>
+  </ol>
 
 
   \todo Building Postfix on a freshly setup test machine :
@@ -52,42 +52,24 @@ ExternalSources/Installations/Postfix/postfix-2.4.5> sudo groupadd postfix
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo useradd postfix -s /bin/false -g postfix
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo groupadd postdrop
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo mkdir /etc/postfix
-ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cp ../../../../OKsystem/Transitional/BuildSystem/ReleaseProcess/main.cf /etc/postfix/main.cf
+ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cp ../../../../OKsystem/Transitional/BuildSystem/Configuration/ReleaseProcess/main.cf /etc/postfix/main.cf
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo make upgrade
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo touch /etc/aliases
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo newaliases
-ExternalSources/Installations/Postfix/postfix-2.4.5> sudo echo "
-filter f_mailinfo   { level(info)      and facility(mail); };
-filter f_mailwarn   { level(warn)      and facility(mail); };
-filter f_mailerr    { level(err, crit) and facility(mail); };
-filter f_mail       { facility(mail); };
-
-#
-# Mail-messages in separate files:
-#
-destination mailinfo { file("/var/log/mail.info"); };
-log { source(src); filter(f_mailinfo); destination(mailinfo); };
-
-destination mailwarn { file("/var/log/mail.warn"); };
-log { source(src); filter(f_mailwarn); destination(mailwarn); };
-
-destination mailerr  { file("/var/log/mail.err" fsync(yes)); };
-log { source(src); filter(f_mailerr);  destination(mailerr); };
-
-#
-# and also all in one file:
-#
-destination mail { file("/var/log/mail"); };
-log { source(src); filter(f_mail); destination(mail); }; " >>  /etc/syslog-ng/syslog-ng.conf
+   \endverbatim
+   <li> The following step (involving syslog-ng.conf) might be hard to generalise as there are several 
+   different syslog daemons and there will probably be preexisting configurations.
+   How to solve this?
+   </li>
+   \verbatim
+ExternalSources/Installations/Postfix/postfix-2.4.5> sudo cat ../../../../OKsystem/Transitional/Buildsystem/Configuration/ReleaseProcess/syslog-ng.conf >>  /etc/syslog-ng/syslog-ng.conf
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo syslog-ng restart
 ExternalSources/Installations/Postfix/postfix-2.4.5> sudo postfix start
    \endverbatim
    </li>
-   <li> The syslog step above might be hard to generalise as there are several 
-   different syslog daemons and there will probably be preexisting configurations.
-   How to solve this? OK: Which step is the "syslog step" ?
-   </li>
-   <li> The above configuration should go to a configuration-file. </li>
+   <li> The above configuration should go to a configuration-file. -DONE
+   MG - Should this file (syslog-ng.conf, referenced above) be specially named
+   as it is not a complete configuration file but merely a fragment? </li>
    <li> How can we make sure, that if we install sendmail, that then *our*
    installation is used by mailman? </li>
   </ul>

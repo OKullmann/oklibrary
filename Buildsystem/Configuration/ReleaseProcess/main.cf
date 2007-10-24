@@ -647,4 +647,6 @@ sample_directory = /etc/postfix
 # readme_directory: The location of the Postfix README files.
 #
 readme_directory = no
+
+# Additional Alias mappings for OKlibrary mailman setup
 alias_maps = hash:/etc/aliases, hash:/usr/local/mailman/data/aliases
