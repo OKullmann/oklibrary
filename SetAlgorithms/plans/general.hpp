@@ -10,7 +10,11 @@ License, or any later version. */
   \brief Plans for the module on sets-related algorithms and datastructures
 
 
-  \todo Move to super-module Structures/Sets.
+  \todo Move to super-module Structures/Sets
+  <ul>
+   <li> Update namespace.
+   <li> Update milestones. </li>
+  </ul>
 
 
   \todo Update
