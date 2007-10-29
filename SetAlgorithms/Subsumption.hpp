@@ -8,6 +8,10 @@ License, or any later version. */
 /*!
   \file SetAlgorithms/Subsumption.hpp
   \brief Module, which mainly provides the class template Subsumption_elimination.
+
+
+  \todo Compare [Zhang SAT 2005].
+
 */
 
 #ifndef SUBSUMPTION_yhgBBv567

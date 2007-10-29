@@ -7,8 +7,8 @@
 
 # Settings for building and using doxygen
 
-doxygen_recommended_version_number ?= 1.5.3
-doxygen_supported_not_recommended_version_numbers ?= 
+doxygen_recommended_version_number ?= 1.5.4
+doxygen_supported_not_recommended_version_numbers ?=  1.5.3
 doxygen_supported_version_numbers ?= $(doxygen_supported_not_recommended_version_numbers) $(doxygen_recommended_version_number)
 
 doxygen_prefix ?= doxygen
