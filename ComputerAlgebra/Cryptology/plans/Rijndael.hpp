@@ -9,6 +9,23 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/plans/Rijndael.hpp
   \brief Plans for cryptological tools regarding the Rijndael cipher
 
+  \todo Terminology
+  <ul>
+   <li> A bit may be called an element in GF2 or in the Bit field. </li>
+   <li> An 8-byte element, representing a polynomial over GF2 or an element
+   in GF2^8 can be called an element in GF2t8 or an element in the Byte Field.
+   The most significant bit represents the highest order term in the polynomial
+   (7).</li>
+   <li> A 4-byte element formed by taking a column of GF2t8 elements in the 
+   Rijndael block might be called an element in the 4-Byte PID (Principal Ideal
+   Domain) or in the QR (Quotient Ring), as this is not actually a field (some
+   elements don't have an inverse as the modulus X^4 + 1 isn't irreducible over 
+   GF2t8). Which of these is most appropriate? It seems Quotient Ring but further
+   reading is necessary and perhaps a more elegant and more specific name can be 
+   found. Again, the most significant byte of the 4-bytes represents the coefficient
+   of the highest order term in the polynomial.
+   </li>
+  </ul>
 
   \todo Finishing old implementation (ComputerAlgebra/Cryptology/Rijndael.sage)
   <ul>
@@ -55,8 +72,6 @@ else :
      python is supported in recent releases of doxygen. This would then have to make use of
      either INPUT_FILTER or FILTER_PATTERNS in the Doxygen configuration.
      </li>
-     <li> And we need the docus- as well as the demos-system. </li>
-     <li> Also how to run these programs needs to be explained. </li>
     </ol>
    </li>
    <li> The main goal is cleaning up, so that this program can be used in the future
@@ -116,36 +131,79 @@ else :
    <li> Standardise variable names due to the suggested problems in design. </li>
    <li> Enter the existing code in the OKlibrary. DONE </li>
    <li> Of course, AES should also be generalised to Rijndael,
-  using other block lengths than 128 bit and other cipher lengths
-  than 128 bit. DONE </li>
+   using other block lengths than 128 bit and other cipher lengths
+   than 128 bit. DONE </li>
    <li> What is the meaning of the "Use By" paragraph? We should avoid machine-dependent
    information? DONE (MG - This was intended to document how to use the file within sage. The inclusion
    of machine-dependent paths was an oversight on my part and has been corrected and further fixes
    and documentations will be made as per other todos.) </li>
   </ul>
 
+  \todo Sage Implementation Docus and Demos
+  <ul>
+     <li> We need the docus- as well as the demos-system for the Sage implementation.</li>
+     <li> Also how to run these programs needs to be explained. What are suitable
+     examples here? Would a simple encryption scheme that takes a given ASCII string 
+     message and produces the encrypted result, and then decrypts the result be a reasonable
+     single example? Perhaps some use of the functions in producing pseudorandom data similar 
+     in idea to the use of AES in Random generators elsewhere in OKlibrary?</li>
+  </ul>
+
+  \todo Discussion on Generalisation/Parameterisation based on Algebraic Aspects
+  of the AES
+  <ul>
+   <li> Algebraic Aspects of the AES, discusses generalising each of the 
+   operations in AES/Rijndael to operations over field of size 4 and 8 bits
+   rather than just 8 (GF2t4 and GF2t8 rather than just GF2t8) using a parameter
+   e, as well as allowing a more diverse range of block structures, where the 
+   number of rows and columns in the block can range over {1,2,4}. This leads to 
+   a more general parameterised AES function of the form AES(r,n_R, n_C,e)(P,K,C), 
+   where r is the number of rounds, n_R is the number of rows in the block, n_C 
+   is the number of columns of length n_R and e is the word size, normally 8 
+   (ie GF2t8 elements), but extended to include values of e of 4 or 8. It would
+   be nice to include such generalisations (more than the obvious round variable r, 
+   which is fairly trivial to include) as including a variety of parameters which 
+   can be reduced to make more easily attackable, and more thoroughly analysable 
+   AES variants is advantageous, as most likely the full AES will not be broken
+   and simple reduced round variants seem less interesting, than reducing parameters
+   such as e, especially because inversion within GF2t8 can be expressed as 
+   operations on the inversion of the two GF2t4 elements comprising it (see
+   discussion on efficient implementation of AES in Design of Rijndael) and the
+   relationships between these variants and the full AES seems less explored in
+   previous research than simple reduced round variants of the cipher. </li>
+  </ul>
 
   \todo Maxima: design
   <ul>
-   <li> The following points need review --- the more general discussions belong to Axiom/Aldor
-   (see below), and should be moved to there, while here we have to decide what is the "right"
-   level of abstraction. </li>
+   <li> The following points need review --- the more general discussions belong
+   to Axiom/Aldor(see below), and should be moved to there, while here we have 
+   to decide what is the "right" level of abstraction. </li>
    <li>What specifically is needed from the maxima implementation?
     <ul>
      <li> A function F_AES(p,k) = c and F_AES'(c,k) = p . </li>
-     <li> How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where the size of p and k is implicit
-     based on the structures used for p and k, and r is given? Is r really needed as it seems this is
-     a function of the size of p and k? </li>
-     <li> Potentially a separate round function to allow greater flexebility when investigating reduced round
-     variants? </li>
-     <li> What sort of generalisations are needed? Should the elements of the round such as ShiftRows be
-     interchangable to some arbitrary permutation (perhaps just across rows?)? Should MixColumns be generalised
-     to an arbitrary 4-Byte value multiplication, should it even be viewed in this way? </li>
+     <li> How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where 
+     the size of p and k is implicit based on the structures used for p and k,
+     and r is given? Is r really needed as it seems this is a function of the 
+     size of p and k? 
+     </li>
+     <li> A separate round function to allow greater flexibility 
+     when investigating reduced round variants. </li>
+     <li> What sort of generalisations are needed? Should the elements of the
+     round such as ShiftRows be interchangable to some arbitrary permutation 
+     (perhaps just across rows?)? Should MixColumns be generalised to an 
+     arbitrary 4-Byte value multiplication, should it even be viewed in this 
+     way? See 
+     </li>
     </ul>
    </li>
    <li>Should it be split up into each of the individual round functions (MixColumns etc) or should these
    be combined? Combining them might make certain relationships/conditions more obvious, but it also makes
    things much less flexible and depending on how it is done, could make generalising to Rijndael harder.
+   It seems a better understanding of the nature of the cipher might yield a 
+   different perspective that isn't as focused on these functions? 
+   Further reading of Algebraic Aspects of the AES may yield some insight but this also 
+   appears to consider such functions (although generalised to produce a larger number
+   of AES variants), perhaps this is most natural?
    </li>
    <li> How to approach key scheduling?
     <ol>
@@ -155,18 +213,88 @@ else :
      <li>  This seems to be done with an expanded key which is a large array/list of round keys in Design of
      Rijndael. </li>
     </ol>
+   </li> 
+   <li>How to pass data around and represent field elements ?
+    <ol>
+     <li>It seems the simplest way to pass data around would be as a list of 
+     bits, given that this is one of the simplest representations, it translates
+     nicely when considering translation to SAT and translation from this to 
+     finite field elements and elements within the 4-Byte PID seems trivial.</li>
+    </ol>
+   <li>
    </li>
    <li> How should the implementation of the individual round operations be approached?
+
+    Programmatically 
+    <ul>
+     <li> 3/4 conversion functions with suitable inverses working on lists
+     of the appropriate elements :
+     <ol>
+      <li> hexToGF2 (with binToHex) for conversion of a hexidecimal string
+      in the same format as in the Design of Rijndael (discuss here). 
+      </li>
+      <li> GF2ToGF2t4 (with GF2t4ToGF2) for conversion of a list of binary bit 
+      values representing GF2 elements to a list of GF2t4 elements.
+      </li>
+      <li> GF4ToGF2t8 (with GF2t8ToGF2t4)) for a conversion from a list of 
+      elements in GF2t4 to elements in GF2t8.
+      </li>
+      <li> GF2t8ToPID (with PIDToGF2t8) for a conversion of a list of binary
+      bit values representing GF2 elements to a list of 4-Byte PID column elements.
+      </li>
+     </ol>
+     </li>
+     <li> The MixColumn operation, which would then take a list of GF2 
+     elements or bits and convert it to a list of elements in the 4-Byte PID, 
+     would simply be a mapping of the multiplication by the constant polynomial
+     (2x^3 + 3x^2 + x + 1) across the list. There may be a way to represent this
+     multiplication by simple operations over polynomials and so on, or it may 
+     have to be represented via a matrix multiplication over GF2t8. The list would
+     then be converted back to GF2 using the appropriate helper function. Such a 
+     mapping would be general across AES and Rijndael. Generalising this based on
+     parameter n_R discussed in Algebraic Aspects of the AES, seems possible by
+     use of a lookup function for the constant to multiply based on n_R, as well
+     as looking up the field to multiply over. Generalising over n_C should be 
+     trivial as given a function on elements in the QR/PID of size n_R (columns),
+     the result of MixColumns is just a mapping over n_C of these elements and so
+     the n_C parameter seems irrelevant here. Generalising over e, seems to tie
+     in closely with generalising over n_R, as the polynomial the elements in columns
+     of the block form, are over elements of size e.
+     </li>
+     <li> The SubBytes operation, would take a list of GF2 elements, convert this
+     list to a list of GF2t8 elements, and then map the S_rd operation across it. 
+     The resultant list would then be converted back to a list of GF2/bit elements.
+     Such a mapping would be general across AES and Rijndael. Discussion is needed 
+     on potential generalisation to 
+     </li>
+     <li> The ShiftRows operation is simply the shift operation applied to each row
+     in the block seperately depending on the size of the input. This can be achieved 
+     by taking the list of GF2 elements, and partitioning it into a list of 4 lists of
+     GF2 elements, which can then simply be shifted by the appropriate amounts, perhaps
+     determining the amount to shift/rotate by for each list/row by looking at the length
+     of the input list.
+     </li>
+     <li> The Key Scheduling operation could simply take a list of GF2 elements convert this
+     to a list of GF2t8 elements and perform the key schedule repeatedly in an iterative or
+     recursive manner to produce the expanded key, for which the algorithm is relatively 
+     simple and described in Design of Rijndael and in various other places, returning an 
+     expanded key (list of GF2 elements) of size of r+1 times the block size, which the 
+     individual round keys can then be extracted from using a helper function 
+     (extractRoundKey). Such
+     </li>
+    </ul>
+    Matrices or Algebraically
     <ol>
      <li> The initial example code uses matrices as this seemed natural from the description of AES but
      this potentially makes generalisation to Rijndael more difficult unless a seperate implementation
-     is created for each plaintest-key pair size configuration is made which seems excessive. Using maxima
+     is created for each plaintext-key pair size configuration is made which seems excessive. Using maxima
      matrices in such ways also seems to bias the implementation to taking a view of the problem from one
      particular aspect (ie GF(2) bytes etc) which may not be best. </li>
      <li> The advantage of matrices is that, the semantics of the operations are more easily visible at
      a glance, although any well designed and implemented would probably provide this. </li>
      <li> Perhaps for use a simple list would be best as this seems to be the common unit in LISP and therefore
      maxima? This can be converted to a matrix if a given operation would be best accomplished this way... </li>
+     <li> There seem to be 3 different representations considered when dealing with AES, byte sized 
     </ol>
    </li>
    <li> Create a general design (here in the plans) which is stepwise refined to a Maxima implementation. </li>
@@ -211,6 +339,18 @@ else :
      defined in gf.mac, although whether this is useful would depend on the design. </li>
     </ul>
    </li>
+   <li> How best to implement multiplication by the 4-byte constant in the 
+    MixColumns step (or it's equivalent), as it is not a field element? It
+    seems Maxima has functions regarding various operations on polynomials
+    (multiplication, quotient/modulus etc) but is this general enough in
+    terms of the field it works over or is it specific to the reals? It 
+    appears you can override the functions used for multiplication etc and
+    so generalising the field used, even if not easily possible, seems at
+    least possible? Is there a great deal of benefit from representing the
+    multiplication by this fixed constant in the 4-Byte PID/QR (or variants)
+    or is it better to simply represent this as matrix operation, does this
+    lose anything?
+   </li>
    <li> Right form of abstraction : DONE (these problems will go away through proper design)
     <ol>
      <li> Approaching the implementation from the perspective of the 4-byte block using this package (and with sage's
@@ -232,6 +372,11 @@ else :
 
 
   \todo Migrate the mupad-code.
+  <ul>
+   <li> What is to be achieved here? A movement of the relevant AES code from
+   Transitional/ComputerAlgebra/Mupad/TestenFormelGenAES.mup to a seperate mupad
+   AES implementation in ComputerAlgebra/Cryptology/ with docus and demos attached?</li>
+  </ul>
 
 
   \todo Axiom: design and implementation
