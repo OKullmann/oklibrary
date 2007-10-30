@@ -16,12 +16,15 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
     - Finishing old implementation
+    - Sage Implementation Docus and Demos
 
 
   \par Version 0.0.6
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
+    - Discussion on Generalisation/Parameterisation based on Algebraic Aspects
+         of the AES
     - Maxima: design
 
 
