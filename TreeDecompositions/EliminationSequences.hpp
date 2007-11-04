@@ -6,26 +6,32 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file EliminationSequences.hpp
+  \file TreeDecompositions/EliminationSequences.hpp
   \brief Methods for handling elimination sequences for graphs (related to the
   notion of treewidth)
+
+
   \todo Test Treewidth_by_enumerating_elimination_sequences; and generalise it
   by using strategy objects.
+
+
   \todo Extend Width_elimination_sequence by computing also the tree decompositon.
   Here it seems necessary that we make a local copy of the input graph, where each vertex
   in the copy has as property its associated vertex in the original graph (in this way we
   can change the copy, while the tree decomposition obtained referes to the original (unchanged)
   graph).
+
+
   \todo Implement the greedy strategy for computing an elimination sequence.
   Likely we achieve better performance when not going to the eye of the needle represented
   by the elimination sequence, but just taking as input a graph g with vertices and edges
   removable, and asking an algorithm visitor for the next vertex from the (remaining) graph ---
   the greedy algorithm then is realised by an algorithm visitor returning a vertex with
   minimum degree.
+
 */
 
 #ifndef ELIMINATIONSEQUENCES_hhgrrEw34
-
 #define ELIMINATIONSEQUENCES_hhgrrEw34
 
 #include <cassert>
@@ -48,7 +54,6 @@ License, or any later version. */
 #include <boost/range/iterator_range.hpp>
 
 namespace OKlib {
-
   namespace GraphDecomposition {
 
     /*!

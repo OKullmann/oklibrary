@@ -6,14 +6,16 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file EliminationSequences_Tests.hpp
+  \file TreeDecompositions/EliminationSequences_Tests.hpp
   \brief Tests for the methods for handling elimination sequences for graphs (related to the
   notion of treewidth)
+
+
   \todo Write tests for computations of treewidth.
+
 */
 
 #ifndef ELIMINATIONSEQUENCESTESTS_8uyTre
-
 #define ELIMINATIONSEQUENCESTESTS_8uyTre
 
 #include <vector>
@@ -23,7 +25,6 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace GraphDecomposition {
 
     template <template <class EliminationSequence, class Graph> class Width_elimination_sequence, class Graph>

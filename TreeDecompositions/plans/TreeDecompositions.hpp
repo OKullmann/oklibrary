@@ -8,6 +8,22 @@ License, or any later version. */
 /*!
   \file TreeDecompositions/plans/TreeDecompositions.hpp
   \brief Plans for the module regarding tree decompositions
+
+
+  \todo Move to Combinatorics/Graphs.
+
+
+  \todo Update namespaces.
+
+
+  \todo Move todos in TreeDecompositions/EliminationSequences.hpp to plans.
+
+
+  \todo Create milestones.
+
+
+  \todo Move to new test system.
+
 */
 
 /*!
