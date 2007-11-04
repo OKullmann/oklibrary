@@ -13,6 +13,12 @@ License, or any later version. */
   Computing representations for the set of all satisfying assignments.
 
 
+  \todo Update namespaces.
+
+
+  \todo Update milestones.
+
+
   \todo Hypergraph transversals:
   
   <ul>
