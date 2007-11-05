@@ -142,6 +142,8 @@ License, or any later version. */
    <li> Tautological clauses and repeated literals in clauses need to be checked. </li>
    <li> Output of satisfying assignments needs to be checked. </li>
    <li> We need also to check the other output formats. </li>
+   <li> Finally, a general system for testing SAT solvers, with a general
+   problem database, must be created. </li>
   </ul>
 
 
