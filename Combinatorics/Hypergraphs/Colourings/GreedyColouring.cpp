@@ -16,6 +16,9 @@ License, or any later version. */
   colouring algorithm for the input graph.
 
   \todo Use general components from module Graphs.
+
+  \todo Write docus.
+
 */
 
 #include <iostream>
