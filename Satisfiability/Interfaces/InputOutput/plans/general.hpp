@@ -10,17 +10,20 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output.
 
 
-  \todo Rewrite code fot the new namespaces.
+  \todo Rewrite code for the new namespaces.
 
 
   \todo Update:
   Get an overview on the current state of the module, create new
   plans-files for the sub-modules, move the todo's to there, update
   the doxygen-documentation.
-
-   - InputOutput/ClauseSetAdaptors.hpp :
-   - InputOutput/Dimacs.hpp :
-   - InputOutput/Exceptions.hpp :
+  <ul>
+   <li> InputOutput/ClauseSetAdaptors.hpp : </li>
+   <li> InputOutput/Dimacs.hpp : </li>
+   <li> InputOutput/Exceptions.hpp : </li>
+   <li> InputOutput/ExtendedToStrictDimacs.cpp : Move to sub-directory
+   apps, once buildsystem is ready. </li>
+  </ul>
 
 
   \todo See Transitional/Satisfiability/ProofSystems/DPv/Input_output.hpp
@@ -30,6 +33,12 @@ License, or any later version. */
 
 
   \todo Complete the tests.
+
+
+  \todo Write docus.
+
+
+  \todo Write demos.
 
 
   \todo Complete the functionality.
@@ -42,6 +51,8 @@ License, or any later version. */
 /*!
   \namespace OKlib::Satisfiability::Interfaces::InputOutput
   \brief Components for SAT-related input/output
+
+  Alias "InO".
 */
 
 namespace OKlib {

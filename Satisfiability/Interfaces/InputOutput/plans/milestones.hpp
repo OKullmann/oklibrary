@@ -15,7 +15,7 @@ License, or any later version. */
 
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
-    - Rewrite code fot the new namespaces.
+    - Rewrite code for the new namespaces.
     - Update
 
   And further milestones are created.
@@ -33,6 +33,8 @@ License, or any later version. */
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
     - Complete the tests
+    - Write docus.
+    - Write demos
 
 
   \par Version 0.1 :
@@ -48,7 +50,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.7 : 7.11.2006; initial version number (several implementations).
-   - 0.0.8 : 26.9.2007; moved to new place in part Satisfiability, and related upates.
+   - 0.0.8 : 26.9.2007; moved to new place in part Satisfiability, and related updates.
 
 */
 
