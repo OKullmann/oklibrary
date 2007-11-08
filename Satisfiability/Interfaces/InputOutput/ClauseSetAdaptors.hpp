@@ -11,18 +11,24 @@ License, or any later version. */
 
 
   \todo Write concept for CLSAdaptor:
-   - <code> CLSAdaptor::int_type </code> (default = int)
-   - <code> CLSAdaptor::string_type </code> (default = std::string)
-   - <code> adaptor.comment(string_type) </code> (input of comment-lines)
-   - <code> adaptor.n(int_type) </code> (input of parameter n)
-   - <code> adaptor.c(int_type) </code> (input of parameter c)
-   - <code> adaptor.finish() </code> (signal that input of clause-set is finished)
-   - <code> adaptor.tautological_clause(int_type number_literal_occurrences) </code>
-     (state that a tautological clauses with that-many literal occurrences (without
-     contractions) has been found)
-   - \code template <class ForwardRange> CLSAdaptor::clause(const Range& clause, int_type total_original_number_literal_occurrences) \endcode (input a non-tautological
-     clause as a range over the literals, where multiple occurrences have been
-     removed already, together with the total number of original literal occurrences).
+  <ul>
+   <li> <code> CLSAdaptor::int_type </code> (default = int) </li>
+   <li> <code> CLSAdaptor::string_type </code> (default = std::string) </li>
+   <li> <code> adaptor.comment(string_type) </code> (input of comment-lines) </li>
+   <li> <code> adaptor.n(int_type) </code> (input of parameter n) </li>
+   <li> <code> adaptor.c(int_type) </code> (input of parameter c) </li>
+   <li> <code> adaptor.finish() </code> (signal that input of clause-set is finished) </li>
+   <li> <code> adaptor.tautological_clause(int_type number_literal_occurrences) </code>
+   (state that a tautological clauses with that-many literal occurrences (without
+   contractions) has been found) </li>
+   <li> \code 
+template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
+                   int_type total_original_number_literal_occurrences) 
+        \endcode
+      (input a non-tautological clause as a range over the literals, where multiple
+      occurrences have been removed already, together with the total number of
+      original literal occurrences). </li>
+  </ul>
 
 
   \todo Perhaps the adaptor should perform cleaning-up the input (regarding
@@ -78,13 +84,16 @@ namespace OKlib {
         occurrences
       - finished : clause-set has been completely read.
 
+
       \todo For the output better a message-class is provided.
+
 
       \todo Create a concept:
       - at least Concepts::FullyConstructibleEq and Concepts::EqualitySubstitutable
       - default constructed: null-initialised
       - equality holds iff all members are equal
       - output-streamable (?)
+
     */
 
     template <typename Int = int>
@@ -149,7 +158,9 @@ namespace OKlib {
       Parameter n is considered as maximal possible variable index,
       while parameter c is considered as upper bound on the number of clauses.
 
+
       \todo For the output-jobs message-classes should be employed.
+
     */
 
     template <typename Int = int, class String = std::string, class AdaptorStatistics = CLSAdaptorStatistics<Int, String> >
