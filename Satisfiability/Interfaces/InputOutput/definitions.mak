@@ -5,9 +5,9 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestInputOutput
 
-programs :=
+programs := ExtendedToStrictDimacs
 
-source_libraries =  $(Boost)
+source_libraries = $(Boost)
 
 link_libraries := 
 
