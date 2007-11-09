@@ -51,29 +51,37 @@ march.c:1: error: -malign-double makes no sense in the 64bit mode
 make: *** [march.o] Error 1
        \endverbatim
        </li>
-       <li> An e-mail was sent to MJHH. </li>
+       <li> An e-mail was sent to MJHH. However it seems that this old solver
+       won't be updated (unlike the following), and so we don't include it.
+       </li>
        <li> A better page seems
-       http://www.st.ewi.tudelft.nl/sat/download.php. </li>
+       http://www.st.ewi.tudelft.nl/sat/download.php </li>
        <li> Installing march_ks:
        \verbatim
-ExternalSources/Installations/SAT> unzip $(OKplatform)/ExternalSources/sources/SAT/march_ks.zip
+ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/march_ks.zip
 ExternalSources/Installations/SAT> cd march_ks/
 ExternalSources/Installations/SAT/march_ks> make
+ExternalSources/Installations/SAT/march_ks> ./march_ks $OKPLATFORM/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
        \endverbatim
-       seems correct, but then
+       seems to work now. </li>
+       <li> Installing march_pl:
        \verbatim
-ExternalSources/Installations/SAT/march_ks> ./march_ks OKplatform/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf
-c parseCNF():: the CNF contains 0 unary clauses.
-c runParser():: parsing was successful, warming up engines...
-Segmentation fault
+ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/march_pl.zip
+ExternalSources/Installations/SAT> cd march_pl/
+ExternalSources/Installations/SAT/march_pl> make
+ExternalSources/Installations/SAT/march_pl> ./march_pl $OKPLATFORM/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
        \endverbatim
-       Valgrind shows
+       seems to work.
+       </li>
+       <li> Installing UnitMarch:
        \verbatim
-==6582== Invalid read of size 4
-==6582==    at 0x40D41B: clsCompare (in OKplatform/ExternalSources/Installations/SAT/march_ks/march_ks)
-==6582==    by 0x41E439: msort_with_tmp (in OKplatform/ExternalSources/Installations/SAT/march_ks/march_ks)
+ExternalSources/Installations/SAT> unzip $OKPLATFORM/ExternalSources/sources/SAT/March/UnitMarch.zip
+ExternalSources/Installations/SAT> cd UnitMarch64/
+ExternalSources/Installations/SAT/UnitMarch64> make
+ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/full/uuf250-011.cnf 
        \endverbatim
-       So it doesn't seem fit yet. </li>
+       ??? Only a 32-bits version?
+       </li>
       </ol>
      </li>
      <li> Kcnfs: likely not under active development anymore. </li>
