@@ -72,17 +72,20 @@ namespace OKlib {
       \brief Class for gathering statistics about input/output (especially in DIMCAS format).
 
       Meaning of data members:
-      - comment_count : number of comment-lines
-      - parameter_n : value of the first parameter in the parameter line
-      - parameter_c : value of the second parameter in the parameter line
-      - tautological_clauses_count : number of tautological clauses
-      - non_tautological_clauses_count : number of non-tautological clauses
-      - total_number_literals : number of literal occurrences in tautological and
-        non-tautological clauses together
-      - reduced_number_literals : number of literal occurrences after removal
-        of tautological clauses and after contraction of multiple literal
-        occurrences
-      - finished : clause-set has been completely read.
+      <ul>
+       <li> comment_count : number of comment-lines </li>
+       <li> parameter_n : value of the first parameter in the parameter line </li>
+       <li> parameter_c : value of the second parameter in the parameter line </li>
+       <li> tautological_clauses_count : number of tautological clauses </li>
+       <li> non_tautological_clauses_count : number of non-tautological
+       clauses </li>
+       <li> total_number_literals : number of literal occurrences in
+       tautological and non-tautological clauses together </li>
+       <li> reduced_number_literals : number of literal occurrences after
+       removal of tautological clauses and after contraction of multiple
+       literal occurrences </li>
+       <li> finished : clause-set has been completely read. </li>
+      </ul>
 
 
       \todo For the output better a message-class is provided.
@@ -160,6 +163,16 @@ namespace OKlib {
 
 
       \todo For the output-jobs message-classes should be employed.
+
+
+      \todo Handling of extended Dimacs-format (with real variable-names)
+      is needed:
+      <ul>
+       <li> Instead of using the indices, the output might use the
+       names via a supplied map from indices to strings. </li>
+       <li> Or the mapping from indices to names is added to the
+       comment section. </li>
+      </ul>
 
     */
 

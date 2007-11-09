@@ -20,6 +20,8 @@ License, or any later version. */
    format? </li>
    <li> Seems useless: turn it always on (this can handle also standard
    Dimacs input). </li>
+   <li> But we should have an option for adding to the comment-section
+   the map index -> original name. </li>
   </ul>
 
 

@@ -71,11 +71,28 @@ namespace OKlib {
       \brief Parsing an input stream containing a cnf formula in DIMACS format and transferring it to a CLS-adaptor.
 
 
-      \todo Add a policy which allows to handle extended Dimacs format.
+      \todo Add a policy L which allows to handle extended Dimacs format.
       <ul>
        <li> %Variables here are strings with identifier-syntax. </li>
-       <li> The policy manages a maps from identifiers to natural numbers and
+       <li> The policy L manages a maps from identifiers to natural numbers and
        back. </li>
+       <li> L is used exactly once, in member function read_clauses, replacing
+       \code in >> literal; \endcode </li>
+       <li> The main function is
+       \code L::operator()(std::istream& in, int_type& literal); \endcode
+       which reads the literal from the stream. </li>
+       <li> The "strict policy" emplements this bracket-operator just as
+       \code in >> literal; \endcode
+       (without anything further). </li>
+       <li> The "extended policy" contains
+        <ol>
+         <li> a map m, which assign to every occurring variable string its
+         index; </li>
+         <li> a counter n for the number of variables; </li>
+         <li> a vector, which for each variable index i contains an iterator
+         to the corresponding map entry. </li>
+        </ol>
+       </li>
       </ul>
 
 
