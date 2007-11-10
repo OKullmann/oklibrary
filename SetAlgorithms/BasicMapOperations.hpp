@@ -18,7 +18,6 @@ License, or any later version. */
 #include <cassert>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     /*!
@@ -28,9 +27,12 @@ namespace OKlib {
       Given an object m of type Map, via MapValue<Map>(m) we obtain a functor, that is,
       a function object which maps objects from the Map-key-type to the Map-value-type.
       The associated helper-function is map_value. Everything is handled by (const) reference.
+
       \todo There should also exist another version which returns the function value as a copy.
+
       \todo Via an error-policy there should be the possibility to throw an exception in
       case of an argument not in the domain.
+
     */
 
     template <class Map>
