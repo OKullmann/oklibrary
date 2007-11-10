@@ -5,7 +5,7 @@ Optimisation_options := -O3 -DNDEBUG
 
 test_program := TestInputOutput
 
-programs := ExtendedToStrictDimacs
+programs := ExtendedToStrictDimacs ExtendedDimacsStatistics
 
 source_libraries = $(Boost)
 
