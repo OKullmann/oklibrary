@@ -10,17 +10,16 @@ License, or any later version. */
   \brief Plans for the module for creating SAT problems from parameters
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
-  \todo Create milestones.
+  \todo Create milestones : DONE
 
 
   \todo Update
   <ul>
    <li>
     <ol> 
-     <li> FaronsPuzzle.hpp : </li>
      <li> Filter.cpp : what is the purpose of this?? </li>
      <li> LinInequal.hpp : </li>
      <li> Ramsey.cpp </li>
@@ -31,6 +30,10 @@ License, or any later version. */
      <li> VanderWaerden.cpp : </li>
      <li> VanderWaerden.hpp : </li>
      <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp : </li>
+     <li> makefile: This old makefile should be replaced by the standard
+     system. </li>
+     <li> FaronsPuzzle.hpp : DONE </li>
+     <li> Test.cpp : DONE </li>
     </ol>
    </li>
    <li> Transfer OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique to here. </li>
@@ -163,12 +166,17 @@ License, or any later version. */
 */
 
 /*!
-  \namespace OKlib::Generators
+  \namespace OKlib::Satisfiability::Transformers::Generators
   \brief Generators for (active) clause-sets (which are not yet in their own module).
 */
 
 namespace OKlib {
-  namespace Generators {
+  namespace Satisfiability {
+    namespace Transformers {
+      namespace Generators {
+      }
+      namespace Gen = Generators;
+    }
   }
 }
 

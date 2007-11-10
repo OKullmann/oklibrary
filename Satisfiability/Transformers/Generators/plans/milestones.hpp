@@ -16,16 +16,33 @@ License, or any later version. */
   \par
    In Transformers/Generators/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - Create milestones
+    - Update namespaces : DONE
+    - Create milestones : DONE
 
 
   \par Version 0.0.7
 
   \par
+   In Transformers/Generators/plans/FaronsPuzzle.hpp the following
+   topics are handled:
+    - bug : When using symmetry breaking
+    - Comments in output
+
+  \par
    In Transformers/Generators/plans/general.hpp the following
    topics are handled:
     - Update
+
+
+  \par Version 0.0.8
+
+  \par
+   In Transformers/Generators/plans/FaronsPuzzle.hpp the following
+   topics are handled:
+    - Create doxygen-documentation
+    - Use an CLSAdaptor for output
+    - Test.cpp
+    - Write docus
 
 
 

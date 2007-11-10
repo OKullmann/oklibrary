@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/plans/milestones.hpp
   
-  \module_version Satisfiability/Transformers 0.0.3 (13.10.2007)
+  \module_version Satisfiability/Transformers 0.0.3.1 (10.11.2007)
 
 
   \par Version 0.0.4
@@ -25,8 +25,14 @@ License, or any later version. */
   \par
    In Satisfiability/Transformers/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - Create milestones
+    - Create milestones : DONE
+    - Update namespaces : DONE
+
+
+  \par Version 0.0.5
+
+  \par Transformers/Generators version 0.0.8
+  (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
 
 
 

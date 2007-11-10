@@ -10,10 +10,28 @@ License, or any later version. */
   \brief General plans for the general module on transformers (creating SAT problems from other problems)
 
 
-  \todo Update namespaces.
+  \todo Update namespaces : DONE
 
 
-  \todo Create milestones.
+  \todo Create milestones : DONE
+
+
+  \todo Update namespace-usage.
 
 */
+
+/*!
+  \namespace OKlib::Satisfiability::Transformers
+  \brief The supermodule with components for transformers into SAT
+
+  Alias "Tra".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace Transformers {
+    }
+    namespace Tra = Transformers;
+  }
+}
 

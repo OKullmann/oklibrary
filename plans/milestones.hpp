@@ -109,8 +109,6 @@ License, or any later version. */
   (see Structures/plans/milestones.hpp)
   \par Experimentation version 0.4.1
   (see Experimentation/plans/milestones.hpp)
-  \par Transformers/Generators 0.0.6
-  (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
   \par GeneralInputOutput 0.1.2
   (see Transitional/GeneralInputOutput/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)

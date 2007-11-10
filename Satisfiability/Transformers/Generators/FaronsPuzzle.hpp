@@ -8,7 +8,6 @@ License, or any later version. */
 // See script for CS_342, 2003/04, week 05.
 
 #ifndef FARONSPUZZLEWAECHTER_dh3524Rda1
-
 #define FARONSPUZZLEWAECHTER_dh3524Rda1
 
 #include <string>
@@ -24,8 +23,6 @@ License, or any later version. */
 
 
 namespace FaronsPuzzle {
-
-  // "Quick and dirty" --- to be improved later (via using a standard output interface)
 
   class Test_score {
 
