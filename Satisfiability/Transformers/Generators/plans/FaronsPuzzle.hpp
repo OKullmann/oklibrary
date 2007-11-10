@@ -11,6 +11,10 @@ License, or any later version. */
 
 
   \bug When using symmetry breaking, the number of variables and clauses is not correctly computed.
+  <ul>
+   <li> The "comment" member functions needs to be redefined. </li>
+   <li> n and c needs to be computed differently. </li>
+  </ul>
 
 
   \todo Comments in output
