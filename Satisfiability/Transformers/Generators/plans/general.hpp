@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for the module for creating SAT problems from parameters
 
 
-  \todo Update namespaces : DONE
-
-
-  \todo Create milestones : DONE
-
-
   \todo Update
   <ul>
    <li>

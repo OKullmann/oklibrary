@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/Generators/plans/milestones.hpp
   
-  \module_version Transformers/Generators 0.0.5 (11.6.2007)
-
-
-  \par Version 0.0.6
-
-  \par
-   In Transformers/Generators/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Create milestones : DONE
+  \module_version Transformers/Generators 0.0.6 (10.11.2007)
 
 
   \par Version 0.0.7
@@ -51,6 +42,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.5 : 11.6.2007; initial version number (several plans, and two (old) implementations in OKsolver/Experimental/Transformationen).
+   - 0.0.6 : 10.11.2007; update of plans and restructuring.
 
 */
 
