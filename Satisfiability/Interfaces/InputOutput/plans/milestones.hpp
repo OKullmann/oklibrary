@@ -13,6 +13,18 @@ License, or any later version. */
 
   \par Version 0.0.9 :
 
+
+  \par
+   In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
+    - InputOutput/ExtendedToStrictDimacs.cpp
+
+  \par
+   In Interfaces/InputOutput/plans/Dimacs.hpp the following topics are handled:
+    - Add a policy L which allows to handle extended Dimacs format : DONE
+
+
+  \par Version 0.0.10 :
+
   \par
    In Interfaces/InputOutput/plans/general.hpp the following topics are handled:
     - Rewrite code for the new namespaces.
@@ -21,7 +33,7 @@ License, or any later version. */
   And further milestones are created.
 
 
-  \par Version 0.0.10 :
+  \par Version 0.0.11 :
 
   \par
    In InputOutput/plans/general.hpp the following topics are handled:

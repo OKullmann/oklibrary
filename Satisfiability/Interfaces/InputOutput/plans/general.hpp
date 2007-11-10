@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans for the module on SAT-related input/output.
 
 
+  \todo InputOutput/ExtendedToStrictDimacs.cpp
+  <ul>
+   <li> Really handle extended Dimacs format, using a policy for
+   OKlib::InputOutput::StandardDIMACSInput.
+   <ul>
+    <li> But we should have an option for adding to the comment-section
+    the map index -> original name. </li>
+    <li> Should we have a command-line option to turn on extended Dimacs
+    format? Seems useless: turn it always on (this can handle also standard
+    Dimacs input). DONE </li>
+   </ul>
+   </li>
+   <li> Complete doxygen-documentation. </li>
+  </ul>
+
+
   \todo Rewrite code for the new namespaces.
 
 
@@ -19,10 +35,9 @@ License, or any later version. */
   the doxygen-documentation.
   <ul>
    <li> InputOutput/ClauseSetAdaptors.hpp : </li>
-   <li> InputOutput/Dimacs.hpp : </li>
    <li> InputOutput/Exceptions.hpp : </li>
-   <li> InputOutput/ExtendedToStrictDimacs.cpp : Move to sub-directory
-   apps, once buildsystem is ready. </li>
+   <li> InputOutput/ExtendedToStrictDimacs.cpp : DONE </li>
+   <li> InputOutput/Dimacs.hpp : DONE </li>
   </ul>
 
 
@@ -42,6 +57,10 @@ License, or any later version. */
 
 
   \todo Complete the functionality.
+
+
+  \todo Move InputOutput/ExtendedToStrictDimacs.cpp to sub-directory
+   apps, once buildsystem is ready.
 
 
   \todo Input and output of partial assignments.

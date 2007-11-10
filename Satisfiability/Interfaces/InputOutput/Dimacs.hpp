@@ -9,37 +9,6 @@ License, or any later version. */
   \file Interfaces/InputOutput/Dimacs.hpp
   \brief %Tools for the input and output of cnf's in DIMACS format.
 
-
-  \todo Consider the code-comments for checking.
-
-
-  \todo What about writing a generic DIMACS parser, starting with
-  ::OKlib::DPv::ParserLiteral and ::OKlib::DPv::DimacsParser
-  (located in Input_output.hpp in module DPv) ?
-
-
-  \todo Write extended Dimacs-parser for clause-sets with non-boolean variables:
-  <ul>
-   <li> the parameter line now is of the form
-   \verbatim
-p gcnf n c k
-   \endverbatim
-   where k specifies the set of possible values {0, ..., k-1} </li>
-   <li> literals are of the form
-   \verbatim
-n,v
-   \endverbatim
-   where n as usual is the variable (number), while v in {0, ..., k-1}. </li>
-   <li> if k=2, then also "+n", "-n" and "n" are literals (so that ordinary
-   Dimacs inputs are accepted). </li>
-  </ul>
-
-
-  \todo Write higher level modules like
-  ReadClauseCollection<DimacsParser, ClauseCollection> and
-  WriteClauseCollection<ClauseCollection, DimacsWriter>
-  (likely this should go into a separate file).
-
 */
 
 
@@ -52,6 +21,9 @@ n,v
 #include <set>
 #include <sstream>
 #include <cstdlib>
+#include <map>
+#include <vector>
+#include <utility>
 
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/ref.hpp>
@@ -66,77 +38,138 @@ n,v
 namespace OKlib {
   namespace InputOutput {
 
+    // Policies for reading literals *******************************
+
+    /*!
+      \class LiteralReadingStrict
+      \brief Standard policy for reading a Dimacs-literal.
+    */
+
+    template <typename Int>
+    struct LiteralReadingStrict {
+      typedef Int int_type;
+      static void read(std::istream& in, int_type& literal) {
+        in >> literal;
+      }
+    };
+
+    /*!
+      \class LiteralReadingExtended
+      \brief Extended policy, which allows arbitrary strings as variables.
+
+      The Dimacs-parser uses member-function <code>read(in, literal)</code>,
+      while after parsing the mapping between strings and natural numbers
+      is available as follows:
+      <ul>
+       <li> <code>index(name)</code> returns the index of a variable (runs in
+       logarithmic time); </li>
+       <li> <code>name(index)</code> returns the name belonging to an index
+       (runs in constant time). </li>
+      </ul>
+
+      There are some restrictions on the strings:
+      <ul>
+       <li> They must be non-empty. </li>
+       <li> They must not contain space-symbols (more precisely, they are read
+       in at once when streaming-in std::string). </li>
+       <li> A leading '-' is interpreted as negation. </li>
+       <li> A string equal "0" is the end-of-clause-marker. </li>
+      </ul>
+
+    */
+
+    template <typename Int>
+    class LiteralReadingExtended {
+    public :
+      typedef Int int_type;
+    private :
+      typedef std::map<std::string, int_type> map_type;
+      static map_type indices;
+      typedef typename map_type::const_iterator iterator_type;
+      typedef std::vector<iterator_type> vector_type;
+      static vector_type names;
+      static int_type n;
+
+    public :
+      //! Used by the Dimacs-parser to read a literal
+      static void read(std::istream& in, int_type& literal) {
+        assert(in);
+        std::string literal_s;
+        in >> literal_s;
+        if (not in) return;
+        assert(not literal_s.empty());
+        if (literal_s == "0") {
+          literal = 0;
+          return;
+        }
+        const bool neg = (literal_s[0] == '-');
+        if (neg) literal_s.erase(0,1);
+        if (literal_s.empty())
+          throw ClauseInputError("OKlib::InputOutput:LiteralReadingExtended::read\n isolated \"-\" for literal=\"" + literal_s + "\"\n");
+        typedef typename map_type::iterator nc_iterator_type;
+        const nc_iterator_type literal_i = indices.lower_bound(literal_s);
+        if (literal_i == indices.end() or literal_s != literal_i -> first) {
+          const typename map_type::value_type value_pair(literal_s, ++n);
+          indices.insert(literal_i, value_pair);
+          names.push_back(indices.insert(literal_i, value_pair));
+          literal = n;
+        }
+        else
+          literal = literal_i -> second;
+        if (neg) literal = -literal;
+      }
+
+      /*! The mapping from strings (representing variables) to natural numbers
+        (in the order of occurrences in the input-stream).
+        Returns 0 if string is not element of the domain of the map.
+      */
+      static int_type index(const std::string name) {
+        const iterator_type index_i = indices.find(name);
+        if (index_i == indices.end())
+          return 0;
+        else {
+          assert(index_i -> second >= 1);
+          assert(index_i -> second <= n);
+          return index_i -> second;
+        }
+      }
+      //! The original name of an index; assumes a valid index.
+      static std::string name(const int_type index) {
+        assert(index >= 1);
+        assert(index <= n);
+        return names[index];
+      }
+      //! The (precise) number of variables found in total.
+      static int_type number_variables() { return n; }
+    };
+    template <typename Int>
+    typename LiteralReadingExtended<Int>::map_type LiteralReadingExtended<Int>::indices;
+    template <typename Int>
+    typename LiteralReadingExtended<Int>::vector_type LiteralReadingExtended<Int>::names;
+    template <typename Int>
+    typename LiteralReadingExtended<Int>::int_type LiteralReadingExtended<Int>::n(0);
+
+
+    // Parsing Dimacs input **************************************
+
     /*!
       \class StandardDIMACSInput
       \brief Parsing an input stream containing a cnf formula in DIMACS format and transferring it to a CLS-adaptor.
 
+      Constructing an object of this type means parsing an input-stream and
+      transfer to a clause-set-adaptor.
 
-      \todo Add a policy L which allows to handle extended Dimacs format.
+      Template parameters are:
       <ul>
-       <li> %Variables here are strings with identifier-syntax. </li>
-       <li> The policy L manages a maps from identifiers to natural numbers and
-       back. </li>
-       <li> L is used exactly once, in member function read_clauses, replacing
-       \code in >> literal; \endcode </li>
-       <li> The main function is
-       \code L::operator()(std::istream& in, int_type& literal); \endcode
-       which reads the literal from the stream. </li>
-       <li> The "strict policy" emplements this bracket-operator just as
-       \code in >> literal; \endcode
-       (without anything further). </li>
-       <li> The "extended policy" contains
-        <ol>
-         <li> a map m, which assign to every occurring variable string its
-         index; </li>
-         <li> a counter n for the number of variables; </li>
-         <li> a vector, which for each variable index i contains an iterator
-         to the corresponding map entry. </li>
-        </ol>
-       </li>
+       <li> CLSAdaptor : the parsed input is handed over to this adaptor. </li>
+       <li> LiteralReadingStrict : reads a literal-representation in the file,
+       and transfers it into a integer-literal. </li>
+       <li> Int : the integer type for representing literals. </li>
       </ul>
-
-
-      \todo Complete the doxygen-documentation.
-
-
-      \todo The constructor should take the following optional arguments:
-      <ul>
-       <li> comments require at least one space after "c" (default: no) </li>
-       <li> in the parameter line after "p" either exactly one or at least one
-       space is required (default: exactly one) </li>
-       <li> non-space characters on the parameter line after the second
-       parameter lead to an error (default: yes). </li>
-      </ul>
-
-
-      \todo What happens if the integers from the file are too big?
-      <ul>
-       <li> We cannot use the stream extractors, since they yield undefined
-       behaviour, so it seems necessary to write special
-       tools to read and check integers from streams. </li>
-       <li> (See my e-mail to Boost from 15/10/2005.) Perhaps the best
-       solution here is to wrap int_type into a type with safe reading from
-       istreams (setting the stream state accordingly). Or, perhaps better from
-       a general design point of view, we should use a BigInteger class here for
-       reading. </li>
-      </ul>
-
-
-      \todo It must also be tested, whether the integers can be safely negated.
-
-
-      \todo The exception safety level must be specified.
-
-
-      \todo Use Messages for messages.
-
-
-      \todo For throwing the exceptions a more structured approach should be used
-      (so that the exceptions thrown become better testable).
 
     */
 
-    template <class CLSAdaptor, typename Int = int>
+    template <class CLSAdaptor, template <typename Int> class LiteralReadingPolicy = LiteralReadingStrict, typename Int = int>
     class StandardDIMACSInput {
       boost::iostreams::filtering_istream in;
       CLSAdaptor& out;
@@ -251,9 +284,10 @@ namespace OKlib {
         bool tautological = false;
         size_type total_clause_size = 0;
         int_type clauses_found = 0;
-        
+
+        LiteralReadingPolicy<int_type> lit_handling;
         for (int_type literal;;) {
-          in >> literal; // needs to be checked #########################
+          lit_handling.read(in, literal); // needs to be checked #########################
           if (not in) {
             if (not in.eof())
               throw ClauseInputError("OKlib::InputOutput::StandardDIMACSInput::read_clauses:\n  syntax error before clause finished\n" + error_location());

@@ -12,21 +12,6 @@ License, or any later version. */
   Reads from standard input, and writes to standard output (and standard
   error). Extended Dimacs format allows identifiers as variable names.
 
-
-  \todo Really handle extended Dimacs format, using a policy for
-  OKlib::InputOutput::StandardDIMACSInput.
-  <ul>
-   <li> Should we have a command-line option to turn on extended Dimacs
-   format? </li>
-   <li> Seems useless: turn it always on (this can handle also standard
-   Dimacs input). </li>
-   <li> But we should have an option for adding to the comment-section
-   the map index -> original name. </li>
-  </ul>
-
-
-  \todo Complete doxygen-documentation.
-
 */
 
 
@@ -38,6 +23,6 @@ License, or any later version. */
 int main() {
   typedef OKlib::InputOutput::CLSAdaptorDIMACSOutput<> CLSAdaptor;
   CLSAdaptor output(std::cout);
-  OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor>(std::cin, output);
+  OKlib::InputOutput::StandardDIMACSInput<CLSAdaptor, OKlib::InputOutput::LiteralReadingExtended>(std::cin, output);
 }
 
