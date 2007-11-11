@@ -54,7 +54,31 @@ License, or any later version. */
   <ul>
    <li> We need a little programs which shows the black-white pattern
    found by a solution (the extracted B-variables, shown just as a
-   text-{0,1}-matrix of dimension d). </li>
+   text-{0,1}-matrix of dimension d). Especially for strict Dimacs
+   format. </li>
+  </ul>
+
+
+  \todo Symmetries
+  <ul>
+   <li> The basic symmetry breaking should be generalised, using arbitrary
+   fields, so that one can experiment whether these placement have an
+   influence. </li>
+   <li> Are there other symmetries exploitable? </li>
+  </ul>
+
+
+  \todo Alternative translations
+  <ul>
+   <li> See Configurations/MaxComponents/plans/general.hpp,
+   "Alternative formulations". </li>
+  </ul>
+
+
+  \todo Generalisations
+  <ul>
+   <li> See Configurations/MaxComponents/plans/general.hpp,
+   "Generalisation for arbitrary graphs". </li>
   </ul>
 
 */
