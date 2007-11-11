@@ -25,7 +25,7 @@ License, or any later version. */
     <ol>
      <li> OKsolver2002 in all variations </li>
      <li> The march solvers </li>
-     <li> Ubcsat solvers </li>
+     <li> Ubcsat solvers (rsaps seems best) </li>
      <li> Minisat </li>
     </ol>
    </li>
@@ -44,7 +44,16 @@ License, or any later version. */
   <ul>
    <li> Quantified Boolean Formulas ? </li>
    <li> Obviously we can use non-boolean variables; also more powerful
-   types of clauses? </li>
+   types of clauses?
+    <ol>
+     <li> While the primary variables are naturally boolean, for the auxiliary
+     variables we can use domain-size k (for every field an auxiliary
+     variable). </li>
+     <li> That all numbers are used is then captured by the surjectivity
+     condition (all auxiliary variables together must capture all k
+     numbers). </li>
+    </ol>
+   </li>
    <li> First-order logic ? </li>
    <li> Is there an alternative propositional translation? Using different
    auxiliary variables?
@@ -92,6 +101,22 @@ License, or any later version. */
    as inputs. </li>
    <li> The decision problem, now with two inputs G and k, should be
    NP-complete. </li>
+   <li> One can study the complexity of parameterised problems:
+    <ol>
+     <li> For fixed k and arbitrary G? Not even clear this is in P? </li>
+    </ol>
+   </li>
+   <li> For a graph G and a vertex set A let G[A] denote the induced subgraph,
+   and let ncc(G) denote the number of connected components of G.
+    <ol>
+     <li> So we have score(G) = max_{A <= V} ncc(G[A]) + ncc(G[V-A]). </li>
+     <li> Now for m >= 2 we can define score_m(G) as the maximum of
+     sum_{A in P} ncc(G[A]) over all partitions P of V with |P| <= m. </li>
+     <li> We have score_2(G) = score(G). </li>
+     <li> Instead of boolean primary variables now naturally m-valued variables
+     can be used. </li>
+    </ol>
+   </li>
   </ul>
 
 */
