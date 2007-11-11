@@ -15,14 +15,31 @@ License, or any later version. */
    <li> Really handle extended Dimacs format, using a policy for
    OKlib::InputOutput::StandardDIMACSInput.
    <ul>
-    <li> But we should have an option for adding to the comment-section
+    <li> We should have an option for adding to the comment-section
     the map index -> original name. </li>
+    <li> This map should be produced by the CLSAdaptor, and a standard
+    format is needed, so that it can be extracted by some tool. </li>
     <li> Should we have a command-line option to turn on extended Dimacs
     format? Seems useless: turn it always on (this can handle also standard
     Dimacs input). DONE </li>
    </ul>
    </li>
+   <li> The parameter-values should be the correct ones, not the original
+   ones. </li>
+   <li> We should add a comment-line (optionally) for the original
+   file-name, for the original parameter values, and if some cleaning
+   happened (tautological clauses or repeated literals), then these
+   numbers are also stated. </li>
    <li> Complete doxygen-documentation. </li>
+   <li> Write docus:
+    <ol>
+     <li> The output is cleaned of tautological clauses and repeated
+     literals, and the output of clauses is sorted according to natural
+     order for integers. </li>
+    </ol>
+   </li>
+   <li> Use Messages. </li>
+   <li> Use ProgramOptions. </li>
   </ul>
 
 
@@ -36,6 +53,7 @@ License, or any later version. */
   <ul>
    <li> InputOutput/ClauseSetAdaptors.hpp : </li>
    <li> InputOutput/Exceptions.hpp : </li>
+   <li> InputOutput/ExtendedDimacsStatistics.cpp : </li>
    <li> InputOutput/ExtendedToStrictDimacs.cpp : DONE </li>
    <li> InputOutput/Dimacs.hpp : DONE </li>
   </ul>

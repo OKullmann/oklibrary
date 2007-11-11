@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file Interfaces/InputOutput/ExtendedDimacsStatistics.cpp
-  \brief Application to computed simple statistics for extended Dimacs format
+  \brief Application to compute simple statistics for extended Dimacs format
 
   Reads from standard input, and writes to standard output (and standard
   error). Extended Dimacs format allows identifiers as variable names.
