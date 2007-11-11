@@ -6,7 +6,6 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #ifndef RAMSEY_hhfzqwk15183Gfzx
-
 #define RAMSEY_hhfzqwk15183Gfzx
 
 #include <stdexcept>
@@ -22,9 +21,9 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include "Combinatorics.hpp"
-#include "IteratorHandling.hpp"
-#include "Numerics.hpp"
+#include <Transitional/General/Combinatorics.hpp>
+#include <Transitional/General/IteratorHandling.hpp>
+#include <Transitional/General/Numerics.hpp>
 
 
 namespace Ramsey {
@@ -126,6 +125,8 @@ namespace Ramsey {
       comment();
       clauses();
     }
+
+    virtual ~Ramsey_TwoColours_1() {}
 
   private :
 

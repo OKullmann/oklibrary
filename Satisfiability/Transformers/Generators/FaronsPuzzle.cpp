@@ -13,35 +13,11 @@ License, or any later version. */
 
 #include <boost/lexical_cast.hpp>
 
-#include "LinInequal.hpp"
-#include "FaronsPuzzle.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
-// #include "StringHandling.hpp"
-#include "ErrorHandling.hpp"
-
-// typedef vector<string> st_vec;
+#include <Transitional/Satisfiability/Transformers/Generators/FaronsPuzzle.hpp>
 
 int main(const int argc, const char* const argv[]) {
-
-//   unsigned int L, B;
-//   cin >> L >> B;
-//   st_vec X; X.reserve(L);
-//   for (unsigned int i = 1; i <= L; ++i)
-//     X.push_back(P("V",i));
-//   AddVar(X.begin(), X.end(), "S", "H", cout);
-//   copy(X.begin(), X.end(), ostream_iterator<string>(cout, "0 \n"));
-//   const unsigned int blL = bin_length(L);
-//   st_vec S; S.reserve(blL);
-//   for (unsigned int i = 1; i <= blL; ++i)
-//     S.push_back(P("S", i));
-//   CompVar(S.begin(), S.end(), B, cout);
-
-//   ui_vec Cap;
-//   Cap.reserve(argc-2);
-//   for (unsigned int i = 1; i < argc-1; ++i)
-//     Cap.push_back(fromString<unsigned int>(argv[i]));
-//   const unsigned int level = fromString<unsigned int>(argv[argc-1]);
-//   Assignment(Cap, cin, level, cout);
 
   if (argc <= 2) {
     std::cerr << "Two arguments are needed: The dimension and the score.\n";

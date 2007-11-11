@@ -8,10 +8,10 @@ License, or any later version. */
 #include <iostream>
 #include <exception>
 
-#include "ErrorHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
-#include "Ramsey.hpp"
-#include "Tests_Ramsey.hpp"
+#include <Transitional/Satisfiability/Transformers/Generators/Ramsey.hpp>
+#include <Transitional/Satisfiability/Transformers/Generators/Tests_Ramsey.hpp>
 
 int main() {
   try {

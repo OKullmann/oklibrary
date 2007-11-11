@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li>
     <ol> 
-     <li> Filter.cpp : what is the purpose of this?? </li>
+     <li> Filter.cpp : what is the purpose of this?? Likely to be removed. </li>
      <li> LinInequal.hpp : </li>
      <li> Ramsey.cpp </li>
      <li> Ramsey.hpp </li>
@@ -25,7 +25,7 @@ License, or any later version. */
      <li> VanderWaerden.hpp : </li>
      <li> OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp : </li>
      <li> makefile: This old makefile should be replaced by the standard
-     system. </li>
+     system : DONE </li>
      <li> FaronsPuzzle.hpp : DONE </li>
      <li> Test.cpp : DONE </li>
     </ol>

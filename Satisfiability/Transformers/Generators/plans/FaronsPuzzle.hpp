@@ -33,16 +33,29 @@ License, or any later version. */
   </ul>
 
 
+  \todo Write docus
+  <ul>
+   <li> Link to the CS-342-script. </li>
+   <li> Link to module Applications/Configurations/MaxComponents. </li>
+  </ul>
+
+
   \todo Test.cpp
   <ul>
-   <li> This is just "FaronsPuzzle", and thus the
+   <li> Use Messages. </li>
+   <li> Use ProgramOptions. </li>
+   <li> DONE This is just "FaronsPuzzle", and thus the
      commented code should be removed, and the file renamed
      to the application FaronsPuzzle.cpp. </li>
   </ul>
 
 
-  \todo Write docus.
-
+  \todo %Tools
+  <ul>
+   <li> We need a little programs which shows the black-white pattern
+   found by a solution (the extracted B-variables, shown just as a
+   text-{0,1}-matrix of dimension d). </li>
+  </ul>
 
 */
 

@@ -8,9 +8,9 @@ License, or any later version. */
 #include <iostream>
 #include <exception>
 
-#include "ErrorHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
 
-#include "Ramsey.hpp"
+#include <Transitional/Satisfiability/Transformers/Generators/Ramsey.hpp>
 
 int main(const int argc, const char* const argv[]) {
     if (argc <= 2) {

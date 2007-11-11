@@ -64,6 +64,7 @@ namespace FaronsPuzzle {
       initial_symmetry_breaking();
     }
 
+    virtual ~Test_score() {}
 
   protected :
     virtual std::string b_var(const Index i, const Index j) const {
@@ -201,7 +202,7 @@ namespace FaronsPuzzle {
     }
   };
 
-  enum Versions {basic, simple_symmetry_breaking, extended_symmetry_breaking, };
+  enum Versions {basic, simple_symmetry_breaking, extended_symmetry_breaking };
 
 
 }

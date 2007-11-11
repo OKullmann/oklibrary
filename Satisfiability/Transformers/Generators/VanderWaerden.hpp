@@ -96,6 +96,8 @@ namespace VanderWaerden {
       clauses();
     }
 
+    virtual ~VanderWaerden_TwoParts_1() {}
+
   private :
 
     void virtual comment() const {
