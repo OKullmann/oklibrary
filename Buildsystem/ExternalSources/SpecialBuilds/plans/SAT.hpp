@@ -84,6 +84,43 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
        </li>
       </ol>
      </li>
+     <li> Installing HeerHugo http://www.win.tue.nl/~jfg/heerhugo.html :
+     \verbatim
+ExternalSources/Installations/SAT> tar -xzf $OKPLATFORM/ExternalSources/sources/SAT/HeerHugo/heerhugo0.3.tar.gz
+ExternalSources/Installations/SAT> cd heerhugo0.3/
+ExternalSources/Installations/SAT/heerhugo0.3> make
+cc  -O   -c scan.c
+scan.l: In function ‘yylook’:
+scan.l:262: warning: cast from pointer to integer of different size
+scan.l:276: warning: cast from pointer to integer of different size
+cc  -O   -c termnode.c
+cc  -O   -c main.c
+main.c:27:1: warning: "NULL" redefined
+In file included from /usr/include/_G_config.h:14,
+                 from /usr/include/libio.h:32,
+                 from /usr/include/stdio.h:72,
+                 from main.c:17:
+/usr/lib64/gcc/x86_64-suse-linux/4.0.2/include/stddef.h:403:1: warning: this is the location of the previous definition
+main.c: In function ‘main’:
+main.c:2610: warning: return type of ‘main’ is not ‘int’
+cc  -O   -c parse.c
+cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
+     \endverbatim
+     Comments:
+     <ol>
+      <li> The first 2 warnings seems to indicate, that the code won't run on
+      a 64-bit machine? </li>
+      <li> In scan.c we find
+      \verbatim
+/*	THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T	*/
+/*	The copyright notice above does not evidence any   	*/
+/*	actual or intended publication of such source code.	*/
+      \endverbatim
+      thus we shouldn't use this file anyway. </li>
+      <li> We should contact the authors and ask about the 64-bit
+      issue, and this copyright statement (possibly rewriting the code). </li>
+     </ol>
+     </li>
      <li> Kcnfs: likely not under active development anymore. </li>
      <li> http://sat.inesc-id.pt/OpenSAT/index.php : DONE (not to be
      included by request of the authors) </li>
