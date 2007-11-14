@@ -95,6 +95,8 @@ License, or any later version. */
   (see Concepts/plans/milestones.hpp)
   \par Graphs version  0.0.3 (OK (MH))
   (see Graphs/plans/milestones.hpp)
+  \par Parallelism version 0.0.5 (JW, OK)
+  (see Parallelism/plans/milestones.hpp)
   \par Messages version 0.7.6 (OK)
   (see Messages/plans/milestones.hpp)
   \par AutarkySearch version 0.0.7 (OK (ML))
