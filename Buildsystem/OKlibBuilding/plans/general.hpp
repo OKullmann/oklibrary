@@ -195,10 +195,18 @@ License, or any later version. */
      tools there to look at the developments here).
 
 
-  \todo New targets (needs update):
-   - "create_new_module" and "create_new_submodule",
-     which create a new subdirectory with test-program respectively new
-     .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
-     in the testprogram).
+  \todo New targets (needs update)
+  <ul>
+   <li> "create_new_module" and "create_new_submodule",
+   which create a new subdirectory with test-program respectively new
+   .hpp, _Tests.hpp and _Testobjects.hpp files (with additional inclusion
+   in the testprogram). </li>
+   <li> "--create-links" as command for oklib, for creating symbolic links
+   in ~/bin for all main programs:
+    <ol>
+     <li> all solver and related programs </li>
+    </ol>
+   </li>
+  </ul>
 
 */
