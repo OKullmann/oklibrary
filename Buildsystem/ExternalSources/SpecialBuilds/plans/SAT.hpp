@@ -128,5 +128,11 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
    </li>
   </ul>
 
+
+  \todo Model checking and variations
+  <ul>
+   <li> Alloy http://alloy.mit.edu/alloy4/ is open source. </li>
+  </ul>
+
 */
 
