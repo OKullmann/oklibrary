@@ -97,6 +97,9 @@ License, or any later version. */
 
   \todo Doxygen menu and main page review
   <ul>
+   <li> On the main page the link list shows now the full name (with doxygen version
+   1.5.4) in front of the page name (like "Class List"): How do we get back the
+   old behaviour, which only shows the page name? </li>
    <li> Sorting of file/directory lists should distinguish between capital and small
    first letters (as it is possible with Unix/Linux), so that "plans" etc. comes at the end.
    </li>
