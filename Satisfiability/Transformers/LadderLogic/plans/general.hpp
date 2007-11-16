@@ -22,7 +22,7 @@ License, or any later version. */
   \todo Ladder logic standard
   <ul>
    <li> There are several forms of ladder logic. </li>
-   <li> And there is a standard. </li>
+   <li> And there is the standard IEC 61131-3 (now in second edition). </li>
    <li> We need to decide on a solid basic form of ladder
    logic. </li>
    <li> The transformation needs to be able to handle this
@@ -35,6 +35,27 @@ License, or any later version. */
   <ul>
    <li> Is there some standard file format to express
    ladder logic? </li>
+  </ul>
+
+
+  \todo Iteration
+  <ul>
+   <li> We need the ability to run through a "ladder device"
+   ("ladder diagram" ?) k times. </li>
+   <li> Or perhaps this should happen at the level of the
+   boolean functions? </li>
+  </ul>
+
+
+  \todo Properties
+  <ul>
+   <li> We need to show properties of ladder logics. </li>
+   <li> Either by fixing an iteration depth, or by an induction
+   proof (encoded propositionally). </li>
+   <li> For the induction step strengthenings need to be considered
+   ("invariants"). </li>
+   <li> Again, perhaps this is best expressed at the level of
+   boolean functions? </li>
   </ul>
 
 
