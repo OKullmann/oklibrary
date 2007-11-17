@@ -8,20 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/Backtracking/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithms/Backtracking 0.0.4 (1.10.2007)
-
-
-  \par Version 0.0.5
-
-  \par
-   In Satisfiability/Algorithms/Backtracking/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Move the content of Transitional/SATAlgorithms here : DONE
-    - Create milestones : DONE
-
-  \par
-   Create further milestones.
+  \module_version Satisfiability/Algorithms/Backtracking 0.0.5 (17.11.2007)
 
 
   \par Version 0.0.6
@@ -40,6 +27,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 1.10.2007; initial version number (plans and some prototypes).
+   - 0.0.5 : 17.11.2007; merged with the newer, second approach towards a generic backtracking class, in the new module structure.
 
 */
 

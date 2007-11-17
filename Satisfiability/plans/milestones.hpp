@@ -52,6 +52,9 @@ License, or any later version. */
   \par Satisfiability/Transformers version 0.0.5
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
+  \par Satisfiability/Algorithms version 0.0.7
+  (see Satisfiability/Algorithms/plans/milestones.hpp)
+
   \par
    Create further milestones.
 

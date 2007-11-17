@@ -8,13 +8,10 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithms 0.0.5 (1.10.2007)
+  \module_version Satisfiability/Algorithms 0.0.5.1 (17.11.2007)
 
 
   \par Version 0.0.6
-
-  \par Satisfiability/Algorithms/Backtracking version 0.0.5
-  (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
 
   \par Satisfiability/Algorithmis/Learning 0.0.4
   (see Satisfiability/Algorithms/Learning/plans/milestones.hpp)
@@ -24,6 +21,9 @@ License, or any later version. */
 
   \par Satisfiability/Algorithms/Autarkies 0.0.5
   (see Satisfiability/Algorithms/Autarkies/plans/milestones.hpp)
+
+  \par Satisfiability/Algorithms/Backtracking version 0.0.5 : DONE
+  (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
 
   \par
    In Satisfiability/Algorithms/plans/general.hpp the following
@@ -35,6 +35,12 @@ License, or any later version. */
 
   \par
    Create further milestones.
+
+
+  \par Version 0.0.7
+
+  \par Satisfiability/Algorithms/Backtracking version 0.0.6
+  (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
 
 
 
