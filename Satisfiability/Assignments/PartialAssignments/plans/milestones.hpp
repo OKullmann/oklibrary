@@ -43,7 +43,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 28.11.2006; initial version number (some plans, one prototype).
-   - 0.0.5 : 29.9.2007; update module structure in new place.
+   - 0.0.5 : 29.9.2007; updated module structure in new place.
 
 */
 

@@ -13,13 +13,13 @@ License, or any later version. */
 
   \todo Move older modules here:
   <ol>
-   <li> AtomicConditions to ProblemInstances/Conditions. </li>
    <li> Variables to ProblemInstances/Variables (a merge). </li>
    <li> Literals to ProblemInstances/Literals (a merge). </li>
-   <li> PartialAssignments to Assignments. </li>
    <li> SATAlgorithms to Algorithms (a merge). DONE </li>
    <li> Utilities to Algorithms or to ProblemInstances. DONE
    (actually moved to Programming; one shall not forget it there) </li>
+   <li> AtomicConditions to ProblemInstances/Conditions. DONE </li>
+   <li> PartialAssignments to Assignments. DONE </li>
    <li> LocalSearch to Algorithms. DONE </li>
   </ol>
 
