@@ -11,7 +11,7 @@ License, or any later version. */
   implementations.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
 
 
   \todo Move module Transitional/Variables here.
@@ -21,8 +21,46 @@ License, or any later version. */
   here.
 
 
-  \todo Update ProblemInstances/Variables/VarSet.hpp, so that it becomes
-  a very simple implementation of the generic concepts.
+  \todo Create new milestones
+
+
+  \todo Prototypes
+  <ul>
+   <li> What to do with ProblemInstances/Variables/VarSet.hpp ? </li>
+  </ul>
+
+
+  \todo Update
+  <ul>
+   <li> doxygen-documentation </li>
+  </ul>
+
+
+  \todo Old implementations
+  <ul>
+   <li> See OKsolver/Experimental/AllgKlassen200203/Variables.hpp </li>
+   <li> See OKsolver/Experimental/AllgKlassen200203/SetsOfVariables.hpp </li>
+  </ul>
+
+
+  \todo New test system
 
 */
+
+/*!
+  \namespace OKlib::Satisfiability::ProblemInstances::Variables
+  \brief Components for variables
+
+  Alias "Var".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace ProblemInstances {
+      namespace Variables {
+      }
+      namespace Var = Variables;
+    }
+  }
+}
 
