@@ -12,6 +12,9 @@ License, or any later version. */
 
 
   \par Version 0.0.3 :
+
+  \par ProblemInstances/Variables version 0.0.6
+  (see ProblemInstances/Variables/plans/milestones.hpp)
   
   \par ProblemInstances/Conditions version 0.0.3
   (see ProblemInstances/Conditions/plans/milestones.hpp)
@@ -29,6 +32,9 @@ License, or any later version. */
 
 
   \par Version 0.0.4 :
+
+  \par ProblemInstances/Variables version 0.0.7
+  (see ProblemInstances/Variables/plans/milestones.hpp)
 
   \par ProblemInstances/Literals version 0.0.5
   (see ProblemInstances/Literals/plans/milestones.hpp)

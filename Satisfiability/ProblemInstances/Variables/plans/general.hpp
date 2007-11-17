@@ -17,11 +17,10 @@ License, or any later version. */
   \todo Move module Transitional/Variables here.
 
 
-  \todo Move the related concepts and plans from Transitional/Concepts
-  here.
+  \todo Create new milestones : DONE
 
 
-  \todo Create new milestones
+  \todo Move the related concepts and plans from Transitional/Concepts here.
 
 
   \todo Prototypes
@@ -32,7 +31,8 @@ License, or any later version. */
 
   \todo Update
   <ul>
-   <li> doxygen-documentation </li>
+   <li> Doxygen-documentation </li>
+   <li> Move plans and todos here. </li>
   </ul>
 
 

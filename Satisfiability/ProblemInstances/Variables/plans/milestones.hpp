@@ -6,16 +6,32 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Variables/plans/milestones.hpp
+  \file ProblemInstances/Variables/plans/milestones.hpp
 
-  \module_version Variables 0.0.5 (19.11.2006)
+  \module_version ProblemInstances/Variables 0.0.5 (19.11.2006)
+
 
   \par Version 0.0.6 :
 
-  In Variables/plans/Variables.hpp the following items are handled:
-   - Update
-   - Planning
-  And new milestones are created.
+  \par
+   In ProblemInstances/Variables/plans/general.hpp the following items are handled:
+   - Move module Transitional/Variables here
+   - Create new milestones : DONE
+   - Update namespaces : DONE
+
+
+  \par Version 0.0.7 :
+
+  \par
+   In ProblemInstances/Variables/plans/general.hpp the following items are handled:
+    - Move the related concepts and plans from Transitional/Concepts here
+    - Prototypes
+    - Update
+    - Old implementations
+
+  \par
+   Create new milestones.
+
 
   
   -------------------------------------------------------------------------------------------------------------------------------------
