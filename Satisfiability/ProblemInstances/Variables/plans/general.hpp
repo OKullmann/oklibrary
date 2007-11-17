@@ -11,15 +11,6 @@ License, or any later version. */
   implementations.
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Move module Transitional/Variables here.
-
-
-  \todo Create new milestones : DONE
-
-
   \todo Move the related concepts and plans from Transitional/Concepts here.
 
 

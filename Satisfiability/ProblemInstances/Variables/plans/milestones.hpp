@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file ProblemInstances/Variables/plans/milestones.hpp
 
-  \module_version ProblemInstances/Variables 0.0.5 (19.11.2006)
-
-
-  \par Version 0.0.6 :
-
-  \par
-   In ProblemInstances/Variables/plans/general.hpp the following items are handled:
-   - Move module Transitional/Variables here
-   - Create new milestones : DONE
-   - Update namespaces : DONE
+  \module_version ProblemInstances/Variables 0.0.6 (17.11.2007)
 
 
   \par Version 0.0.7 :
@@ -40,6 +31,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.5 : 19.11.2006, initial version number (some simple components, and plans (also elsewhere)).
+   - 0.0.6 : 17.11.2007; moved to new directory structure, and started merging with older implementations as well as concentrating everything regarding variables in this module.
 
 */
 

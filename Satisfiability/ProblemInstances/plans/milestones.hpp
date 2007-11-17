@@ -8,17 +8,17 @@ License, or any later version. */
 /*!
   \file Satisfiability/ProblemInstances/plans/milestones.hpp
 
-  \module_version Satisfiability/ProblemInstances 0.0.2.1 (17.11.2007)
+  \module_version Satisfiability/ProblemInstances 0.0.2.2 (17.11.2007)
 
 
   \par Version 0.0.3 :
 
-  \par ProblemInstances/Variables version 0.0.6
-  (see ProblemInstances/Variables/plans/milestones.hpp)
-  
   \par ProblemInstances/Conditions version 0.0.3
   (see ProblemInstances/Conditions/plans/milestones.hpp)
 
+  \par ProblemInstances/Variables version 0.0.6 : DONE
+  (see ProblemInstances/Variables/plans/milestones.hpp)
+  
   \par ProblemInstances/Literals version 0.0.4 : DONE
   (see ProblemInstances/Literals/plans/milestones.hpp)
 
