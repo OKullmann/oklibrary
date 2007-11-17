@@ -21,8 +21,15 @@ License, or any later version. */
   here.
 
 
-  \todo Update ProblemInstances/Literals/Literal.hpp, so that it becomes
-  a very simple implementation of the generic concepts.
+  \todo Prototypes
+  <ul>
+   <li> What to do with ProblemInstances/Literals/Literal.hpp ? </li>
+   <li> Very first prototype for "signed literals" (set-valued literals),
+   based on the basic atomic condition for arbitrary value-types. What to
+   do about the requirement that the atomic condition of a literal is not
+   constant? Just an invariant? </li>
+  </ul>
+
 
 */
 
