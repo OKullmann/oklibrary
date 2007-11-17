@@ -18,11 +18,11 @@ License, or any later version. */
 #include <Transitional/Concepts/Variables.hpp>
 #include <Transitional/Concepts/AtomicConditions.hpp>
 
-#include <Transitional/Literals/traits/var_type.hpp>
-#include <Transitional/Literals/traits/cond_type.hpp>
-#include <Transitional/Literals/var.hpp>
-#include <Transitional/Literals/cond.hpp>
-#include <Transitional/Literals/set_cond.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/var.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/cond.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/set_cond.hpp>
 
 namespace OKlib {
   namespace Concepts {

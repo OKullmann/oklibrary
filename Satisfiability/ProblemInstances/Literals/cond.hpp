@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/cond.hpp
+  \file ProblemInstances/Literals/cond.hpp
   \brief Primary function template for extracting the (atomic) condition from a literal
 */
 
 #ifndef COND_hahsVVbq715
 #define COND_hahsVVbq715
 
-#include <Transitional/Literals/traits/cond_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
 
 namespace OKlib {
   namespace Literals {

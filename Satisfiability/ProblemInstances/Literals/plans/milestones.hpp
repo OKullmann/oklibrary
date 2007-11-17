@@ -11,11 +11,10 @@ License, or any later version. */
   \module_version ProblemInstances/Literals 0.0.3 (9.12.2006)
 
 
-
   \par Version 0.0.4 :
    In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
-    - Update namespaces
-    - Move module Transitional/Literals here
+    - Update namespaces : DONE
+    - Move module Transitional/Literals here : DONE
 
 
   \par Version 0.0.5 :

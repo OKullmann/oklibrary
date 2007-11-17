@@ -11,14 +11,16 @@ License, or any later version. */
   implementations.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
 
 
-  \todo Move module Transitional/Literals here.
+  \todo Move module Transitional/Literals here. DONE
 
 
-  \todo Move the related concepts and plans from Transitional/Concepts
-  here.
+  \todo Move the related concepts and plans from Transitional/Concepts here.
+
+
+  \todo Update namespace-usage.
 
 
   \todo Prototypes
@@ -31,4 +33,21 @@ License, or any later version. */
   </ul>
 
 */
+
+/*!
+  \namespace OKlib::Satisfiability::ProblemInstances::Literals
+  \brief Module with components for (generalised) literals
+
+  Alias "Lit".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace ProblemInstances {
+      namespace Literals {
+      }
+      namespace Lit = Literals;
+    }
+  }
+}
 

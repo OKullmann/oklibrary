@@ -14,7 +14,7 @@ License, or any later version. */
   \todo Move older modules here:
   <ol>
    <li> Variables to ProblemInstances/Variables (a merge). </li>
-   <li> Literals to ProblemInstances/Literals (a merge). </li>
+   <li> Literals to ProblemInstances/Literals (a merge). DONE </li>
    <li> SATAlgorithms to Algorithms (a merge). DONE </li>
    <li> Utilities to Algorithms or to ProblemInstances. DONE
    (actually moved to Programming; one shall not forget it there) </li>

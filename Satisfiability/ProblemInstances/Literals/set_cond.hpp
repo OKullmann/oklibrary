@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/set_cond.hpp
+  \file ProblemInstances/Literals/set_cond.hpp
   \brief Primary function template to set the (atomic) condition in a literal
 */
 
 #ifndef SETCOND_2772ahhaBnm
 #define SETCOND_2772ahhaBnm
 
-#include <Transitional/Literals/traits/cond_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
 
 namespace OKlib {
   namespace Literals {

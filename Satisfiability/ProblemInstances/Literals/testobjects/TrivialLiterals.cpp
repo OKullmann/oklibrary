@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/testobjects/TrivialLiterals.cpp
+  \file ProblemInstances/Literals/testobjects/TrivialLiterals.cpp
 */
 
 #include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
 
 #include <Transitional/Concepts/tests/Literals.hpp>
 
-#include <Transitional/Literals/TrivialLiterals.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 
 namespace {
 

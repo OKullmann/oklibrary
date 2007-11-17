@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/traits/cond_type.hpp
+  \file ProblemInstances/Literals/traits/cond_type.hpp
   \brief Traits-metafunctions to extract the condition type
 */
 

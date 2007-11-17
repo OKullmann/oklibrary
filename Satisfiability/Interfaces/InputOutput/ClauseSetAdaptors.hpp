@@ -60,7 +60,7 @@ template <class ForwardRange> CLSAdaptor::clause(const Range& clause,
 #include <boost/range/end.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include <Transitional/Literals/TrivialLiterals.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/TrivialLiterals.hpp>
 
 #include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 

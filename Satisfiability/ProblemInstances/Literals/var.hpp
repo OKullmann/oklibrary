@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/var.hpp
+  \file ProblemInstances/Literals/var.hpp
   \brief Primary function template for extracting the variable from a literal
 
   \todo For the future perhaps we should use a call traits instead of the fixed
@@ -16,7 +16,7 @@ License, or any later version. */
 #ifndef VAR_jJJn1010156
 #define VAR_jJJn1010156
 
-#include <Transitional/Literals/traits/var_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
 
 namespace OKlib {
   namespace Literals {

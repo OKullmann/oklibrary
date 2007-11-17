@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/TrivialLiterals.hpp
+  \file  ProblemInstances/Literals/TrivialLiterals.hpp
   \brief Typedefs for models of concept Literals given by signed integral types
 */
 
@@ -24,10 +24,10 @@ License, or any later version. */
 #include <Transitional/Variables/TrivialVariables.hpp>
 #include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
 
-#include <Transitional/Literals/traits/var_type.hpp>
-#include <Transitional/Literals/traits/cond_type.hpp>
-#include <Transitional/Literals/var.hpp>
-#include <Transitional/Literals/cond.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/traits/cond_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/var.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Literals/cond.hpp>
 
 
 namespace OKlib {
