@@ -16,16 +16,22 @@ License, or any later version. */
   \par ProblemInstances/Conditions version 0.0.3
   (see ProblemInstances/Conditions/plans/milestones.hpp)
 
+  \par ProblemInstances/Literals version 0.0.4
+  (see ProblemInstances/Literals/plans/milestones.hpp)
+
   \par
    In SatisfiabilityProblemInstances/plans/general.hpp the following topics are handled:
-    - All existing components related to problem instances are moved here
     - All sub-modules have milestones
+    - All existing components related to problem instances are moved here : DONE
 
   \par
    Updated subsequent milestones.
 
 
   \par Version 0.0.4 :
+
+  \par ProblemInstances/Literals version 0.0.5
+  (see ProblemInstances/Literals/plans/milestones.hpp)
   
   \par
    In SatisfiabilityProblemInstances/plans/general.hpp the following topics are handled:

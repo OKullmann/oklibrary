@@ -17,7 +17,7 @@ License, or any later version. */
 
 
   \todo All existing components related to problem instances are
-  moved here.
+  moved here. DONE (handled already by another todo)
 
 
   \todo All sub-modules have milestones.

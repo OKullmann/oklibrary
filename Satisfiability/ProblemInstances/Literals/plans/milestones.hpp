@@ -6,15 +6,26 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Literals/plans/milestones.hpp
+  \file ProblemInstances/Literals/plans/milestones.hpp
 
-  \module_version Literals 0.0.3 (9.12.2006)
+  \module_version ProblemInstances/Literals 0.0.3 (9.12.2006)
+
+
 
   \par Version 0.0.4 :
-  In Literals/plans/Literals.hpp the following topics are handled:
-  - First prototype
+   In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
+    - Update namespaces
+    - Move module Transitional/Literals here
 
-  And further milestones are created.
+
+  \par Version 0.0.5 :
+   In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
+    - Move the related concepts and plans from Transitional/Concepts here
+    - Prototypes
+
+  \par
+   Further milestones are created.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

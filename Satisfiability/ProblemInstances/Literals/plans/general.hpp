@@ -30,6 +30,5 @@ License, or any later version. */
    constant? Just an invariant? </li>
   </ul>
 
-
 */
 
