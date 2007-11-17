@@ -16,12 +16,22 @@ License, or any later version. */
   \par
    In Satisfiability/Algorithms/Backtracking/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - Move the content of Transitional/SATAlgorithms here.
+    - Update namespaces : DONE
+    - Move the content of Transitional/SATAlgorithms here : DONE
     - Create milestones : DONE
 
   \par
    Create further milestones.
+
+
+  \par Version 0.0.6
+
+  \par
+   In Satisfiability/Algorithms/Backtracking/plans/general.hpp the following
+   topics are handled:
+    - Update namespace usage
+    - Concepts
+    - New milestones
 
 
 

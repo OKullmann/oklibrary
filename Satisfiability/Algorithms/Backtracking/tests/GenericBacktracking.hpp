@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SATAlgorithms/tests/GenericBacktracking.hpp
+  \file Satisfiability/Algorithms/Backtracking/tests/GenericBacktracking.hpp
   \brief Tests for generic backtracking (DPLL-like) solvers
 */
 
 #ifndef TEST_GENERICBACKTRACKING_kkabzcre
 #define TEST_GENERICBACKTRACKING_kkabzcre
 
-#include <Transitional/SATAlgorithms/GenericBacktracking.hpp>
+#include <Transitional/Satisfiability/Algorithms/Backtracking/GenericBacktracking.hpp>
 
 namespace OKlib {
   namespace SATAlgorithms {

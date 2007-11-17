@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Algorithms/Backtracking/DLL_algorithms.hpp
+  \file Satisfiability/Algorithms/Backtracking/DLL_Algorithms.hpp
   \brief Old, very simple interface for (boolean) DLL-SAT-algorithms
   \deprecated
 */

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SATAlgorithms/GenericBacktracking.hpp
+  \file Satisfiability/Algorithms/Backtracking/GenericBacktracking.hpp
   \brief Generic backtracking (DPLL-like) solvers
 */
 

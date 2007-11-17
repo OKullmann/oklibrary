@@ -11,17 +11,55 @@ License, or any later version. */
   implementations.
 
 
-  \todo Update namespaces.
+  \todo Update namespace usage.
 
 
-  \todo Move the content of Transitional/SATAlgorithms here.
+  \todo Concepts
+  <ul>
+   <li> We have now two initial approaches:
+    <ol>
+     <li> Satisfiability/Algorithms/Backtracking/DLL_Algorithms.cpp </li>
+     <li> Satisfiability/Algorithms/Backtracking/GenericBacktracking.hpp
+     (see Satisfiability/Algorithms/Backtracking/plans/GenericBacktracking.hpp) </li>
+    </ol>
+   </li>
+   <li> These attempts need to be merged. </li>
+   <li> Considers OK's 3 schemes in [Kullmann 2007; Present and future of
+   practical SAT solving]. </li>
+   <li> The purpose of this module is to deliver algorithmic skeletons; one question
+   is whether there should be only one, most general, or we should have several ones,
+   according to the current paradigms (and generalisations)? </li>
+  </ul>
 
 
-  \todo Create milestones.
+  \todo New milestones
+  <ul>
+   <li> Once the approach towards generic backtracking algorithm has been
+   clarified, further milestones need to be created. </li>
+  </ul>
 
 
-  \todo Update Satisfiability/Algorithms/Backtracking/DLL_Algorithms.cpp, so that it becomes
-  a very simple implementation of the generic concepts.
+  \todo Move the content of Transitional/SATAlgorithms here : DONE
+
+
+  \todo Update namespaces : DONE
 
 */
+
+/*!
+  \namespace OKlib::Satisfiability::Algorithms::Backtracking
+  \brief Components for (generalised) backtracking SAT algorithms
+
+  Alias "Bkt".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace Algorithms {
+      namespace Backtracking {
+      }
+    namespace Bkt = Backtracking;
+    }
+  }
+}
 
