@@ -18,7 +18,8 @@ License, or any later version. */
    <li> Literals to ProblemInstances/Literals (a merge). </li>
    <li> PartialAssignments to Assignments. </li>
    <li> SATAlgorithms to Algorithms (a merge). </li>
-   <li> Utilities to Algorithms or to ProblemInstances. </li>
+   <li> Utilities to Algorithms or to ProblemInstances. DONE
+   (actually moved to Programming; one shall not forget it there) </li>
    <li> LocalSearch to Algorithms. DONE </li>
   </ol>
 
