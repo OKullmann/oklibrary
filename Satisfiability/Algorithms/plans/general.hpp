@@ -35,8 +35,8 @@ License, or any later version. */
      runs through all 2^n assignments now needs only to consider 2^{n-k}
      assignments (with "big booleans") ? Should be possible, and then
      the direct enumeration using Gray codes (see
-     Combinatorics/Enumeration/plans/GrayCodes.hpp and
-     AllSolutions/plans/general.hpp) could be further boosted. </li>
+     Algorithms/AllSolutions/plans/Enumeration.hpp) could be further boosted.
+     </li>
     </ol>
    </li>
    <li> This has connections with many modules (counting, finding all

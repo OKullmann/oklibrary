@@ -66,11 +66,6 @@ License, or any later version. */
   approximation makes sense for counting (not for enumeration).)
 
 
-  \todo Direct enumeration
-  <ul>
-   <li> See Combinatorics/Enumeration/plans/GrayCodes.hpp. </li>
-  </ul>
-
 */
 
 /*!
