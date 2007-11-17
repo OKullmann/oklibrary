@@ -9,13 +9,19 @@ License, or any later version. */
   \file Concepts/plans/Literals.hpp
   \brief Plans for concepts for literals.
 
-  \todo Arity:
-  Now actually it seems best to have literals with arity n. This is accomplished by
-  using the generalised AtomicConditions-concept (see Concepts/plans/AtomicConditions.hpp),
-  and by generalising traits::var_type so that is actually returns a tuple type (of
-  the same arity as the value-tuple-type in traits::cond_type). For arity 1 there
-  should be also short-cuts, so that the current syntax works (can this be accomplished?
-  there is no conversion from an unary tuple to its value-type?)
+
+  \todo Arity
+  <ul>
+   <li> Now actually it seems best to have literals with arity n. </li>
+   <li> This is accomplished by using the generalised AtomicConditions-concept
+   (see Concepts/plans/AtomicConditions.hpp), and by generalising traits::var_type
+   so that is actually returns a tuple type (of the same arity as the value-tuple-type
+   in traits::cond_type). </li>
+   <li> For arity 1 there should be also short-cuts, so that the current syntax works
+   (can this be accomplished? there is no conversion from an unary tuple to its
+   value-type?) </li>
+  </ul>
+
 
   \todo Generalised literals:
   <ul>
@@ -57,6 +63,7 @@ License, or any later version. */
    meaningful? perhaps all three forms should be derived directly from the root). For partial assignments we need a distinction between "(potential) decision literals" and "non-decision literals", where the decision literals need negation, but the others do not. </li>
   </ul>
 
+
   \todo Requirements literals
   <ul>
    <li> It seems best that only refined versions of Literals offer operation
@@ -73,5 +80,6 @@ License, or any later version. */
    and then later we'll see. </li>
    <li> Out of literals we make partial assignments (DNF-clauses) and (CNF-)clauses. </li>
   </ul>
+
 */
 

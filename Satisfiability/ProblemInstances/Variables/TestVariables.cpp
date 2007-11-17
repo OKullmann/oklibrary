@@ -9,7 +9,7 @@ License, or any later version. */
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/Variables/TrivialVariables_Testobjects.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

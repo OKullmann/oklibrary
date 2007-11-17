@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Variables/traits/index_type.hpp
+  \file ProblemInstances/Variables/traits/index_type.hpp
   \brief Traits-metafunctions to extract the index type
 */
 

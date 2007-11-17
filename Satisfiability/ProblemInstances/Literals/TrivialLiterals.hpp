@@ -21,7 +21,7 @@ License, or any later version. */
 #include <Transitional/Concepts/Literals.hpp>
 #include <Transitional/Concepts/JoinedConceptTags.hpp>
 
-#include <Transitional/Variables/TrivialVariables.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
 #include <Transitional/Satisfiability/ProblemInstances/Conditions/AtomicConditions/TrivialAtomicConditions.hpp>
 
 #include <Transitional/Satisfiability/ProblemInstances/Literals/traits/var_type.hpp>

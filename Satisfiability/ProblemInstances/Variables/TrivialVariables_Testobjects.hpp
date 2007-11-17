@@ -10,11 +10,10 @@ License, or any later version. */
 
 #include <Transitional/Concepts/Variables_Tests.hpp>
 
-#include <Transitional/Variables/TrivialVariables.hpp>
-#include <Transitional/Variables/TrivialVariables_Tests.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables_Tests.hpp>
 
 namespace OKlib {
-
   namespace Variables {
 
     ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_signed_char> test_Variables_signed_char;
@@ -28,7 +27,6 @@ namespace OKlib {
     ::OKlib::Concepts::VariablesAsIndex_basic_test<Variables_unsigned_long_int> test_Variables_unsigned_long_int;
 
   }
-
 }
 
 #endif

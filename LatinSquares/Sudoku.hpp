@@ -20,7 +20,7 @@ License, or any later version. */
 #include <boost/logic/tribool.hpp>
 
 #include <Transitional/Satisfiability/Assignments/PartialAssignments/MultivaluedPartialAssignments.hpp>
-#include <Transitional/Variables/TrivialVariables.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp>
 
 namespace OKlib {
   namespace LatinSquares {

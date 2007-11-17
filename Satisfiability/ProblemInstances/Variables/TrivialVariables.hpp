@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Variables/TrivialVariables.hpp
+  \file Satisfiability/ProblemInstances/Variables/TrivialVariables.hpp
   \brief Typedefs for models of concept Variables given by signed and unsigned integral types
 */
 
@@ -14,7 +14,7 @@ License, or any later version. */
 #define TRIVIALVARIABLES_916TyVbx
 
 #include <Transitional/Concepts/traits/concept_tag.hpp>
-#include <Transitional/Variables/traits/index_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
 
 #include <Transitional/Concepts/Variables.hpp>
 #include <Transitional/Concepts/JoinedConceptTags.hpp>

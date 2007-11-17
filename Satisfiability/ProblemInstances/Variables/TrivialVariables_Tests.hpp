@@ -6,15 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #ifndef TRIVIALVARIABLESTESTS_90ioKl
-
 #define TRIVIALVARIABLESTESTS_90ioKl
 
 namespace OKlib {
-
   namespace Variables {
 
   }
-
 }
 
 #endif

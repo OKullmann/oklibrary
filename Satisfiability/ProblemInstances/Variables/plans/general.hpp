@@ -23,6 +23,9 @@ License, or any later version. */
   \todo Move the related concepts and plans from Transitional/Concepts here.
 
 
+  \todo Update namespace-usage.
+
+
   \todo Prototypes
   <ul>
    <li> What to do with ProblemInstances/Variables/VarSet.hpp ? </li>

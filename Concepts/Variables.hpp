@@ -16,7 +16,7 @@ License, or any later version. */
 #include <Transitional/traits/TypeTraits.hpp>
 
 #include <Transitional/Concepts/LibraryBasics.hpp>
-#include <Transitional/Variables/traits/index_type.hpp>
+#include <Transitional/Satisfiability/ProblemInstances/Variables/traits/index_type.hpp>
 
 namespace OKlib {
   namespace Concepts {
