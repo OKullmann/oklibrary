@@ -8,13 +8,7 @@ License, or any later version. */
 /*!
   \file ProblemInstances/Literals/plans/milestones.hpp
 
-  \module_version ProblemInstances/Literals 0.0.3 (9.12.2006)
-
-
-  \par Version 0.0.4 :
-   In ProblemInstances/Literals/plans/general.hpp the following topics are handled:
-    - Update namespaces : DONE
-    - Move module Transitional/Literals here : DONE
+  \module_version ProblemInstances/Literals 0.0.4 (17.11.2007)
 
 
   \par Version 0.0.5 :
@@ -32,7 +26,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.2 : 28.11.2006; initial version number (some concepts).
-   - 0.0.3 : 9.12.2006; trivial literals (using integral types) implemented
-             (based on a first literal-concept).
+   - 0.0.3 : 9.12.2006; trivial literals (using integral types) implemented (based on a first literal-concept).
+   - 0.0.4 : 17.11.2007; moved to new place, and merged with older attempts at literals.
 
 */

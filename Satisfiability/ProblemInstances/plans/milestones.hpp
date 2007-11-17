@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/ProblemInstances/plans/milestones.hpp
 
-  \module_version Satisfiability/ProblemInstances 0.0.2 (28.9.2007)
+  \module_version Satisfiability/ProblemInstances 0.0.2.1 (17.11.2007)
 
 
   \par Version 0.0.3 :
@@ -16,7 +16,7 @@ License, or any later version. */
   \par ProblemInstances/Conditions version 0.0.3
   (see ProblemInstances/Conditions/plans/milestones.hpp)
 
-  \par ProblemInstances/Literals version 0.0.4
+  \par ProblemInstances/Literals version 0.0.4 : DONE
   (see ProblemInstances/Literals/plans/milestones.hpp)
 
   \par
