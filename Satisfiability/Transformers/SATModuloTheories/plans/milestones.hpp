@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/SATModuloTheories/plans/milestones.hpp
   
-  \module_version Transformers/SATModuloTheories 0.0.1 (13.10.2007)
-
-
-  \par Version 0.0.2
-
-  \par
-   In SATModuloTheories/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Create milestones : DONE
+  \module_version Transformers/SATModuloTheories 0.0.2 (18.11.2007)
 
 
   \par Version 0.0.3
@@ -37,6 +28,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.1 : 13.10.2007; initial version number.
+   - 0.0.2 : 18.11.2007; moved to new environment, and first plans.
 
 */
 

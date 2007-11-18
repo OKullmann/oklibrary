@@ -10,12 +10,6 @@ License, or any later version. */
   \brief General Plans for SAT "modulo theories"
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Create milestones. DONE
-
-
   \todo Overview on SMT
   <ul>
    <li> Easiest access should be incorporating some open source SMT
