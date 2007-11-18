@@ -6,11 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Satisfiability/Transformers/LadderLogic/plans/general.hpp
+  \file Transformers/LadderLogic/plans/general.hpp
   \brief General plans for the module on transforming ladder logic in propositional logic
-
-
-  \todo Create milestones
 
 
   \todo Literature overview on boolean translations
@@ -38,6 +35,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Output format
+  <ul>
+   <li> What types of boolean connectives are used? </li>
+  </ul>
+
+
   \todo Iteration
   <ul>
    <li> We need the ability to run through a "ladder device"
@@ -56,16 +59,9 @@ License, or any later version. */
    ("invariants"). </li>
    <li> Again, perhaps this is best expressed at the level of
    boolean functions? </li>
+   <li> So the main gist is moved to two modules, on boolean functions
+   and on iterating boolean functions?! </li>
   </ul>
-
-
-  \todo Output format
-  <ul>
-   <li> What types of boolean connectives are used? </li>
-  </ul>
-
-
-  \todo Update namespaces : DONE
 
 */
 
