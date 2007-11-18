@@ -16,8 +16,19 @@ License, or any later version. */
   \par
    In SATModuloTheories/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - Create milestones
+    - Update namespaces : DONE
+    - Create milestones : DONE
+
+
+  \par Version 0.0.3
+
+  \par
+   In SATModuloTheories/plans/general.hpp the following
+   topics are handled:
+    - Overview on SMT
+    - Overview on main types of constraints
+    - How to translate these problems into our domain
+    - Create new milestones
 
 
 
