@@ -11,11 +11,20 @@ License, or any later version. */
   issues
 
 
-  \todo All sub-supermodules have milestones.
-
-
-  \todo Module structure:
+  \todo Strengthening the module structure
   <ul>
+   <li> Missing milestones:
+    <ol>
+     <li> Enumeration </li>
+     <li> Heuristics </li>
+     <li> Optimisation </li>
+     <li> ProofSystems </li>
+     <li> Quantification </li>
+     <li> Reductions </li>
+     <li> SpecialStructures </li>
+     <li> Variations </li>
+    </ol>
+   </li>
    <li> Perhaps under Variations we should have a module Counting?
     <ol>
      <li> There we should implement the algorithm for approximating

@@ -31,8 +31,7 @@ License, or any later version. */
   \par
    In Transitional/Satisfiability/plans/general.hpp the following
    topics are handled:
-    - All sub-supermodules have milestones
-    - Module structure
+    - Strengthening the module structure
     - Move older modules here : DONE
     - Milestones : DONE
     - Update namespaces : DONE
