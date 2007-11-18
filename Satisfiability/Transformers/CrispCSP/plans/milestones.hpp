@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/CrispCSP/plans/milestones.hpp
   
-  \module_version Transformers/CrispCSP 0.0.2 (13.10.2007)
-
-
-  \par Version 0.0.3
-
-  \par
-   In CrispCSP/plans/general.hpp the following
-   topics are handled:
-    - Update namespaces : DONE
-    - Create milestones : DONE
+  \module_version Transformers/CrispCSP 0.0.3 (18.11.2007)
 
 
   \par Version 0.0.4
@@ -39,6 +30,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.2 : 13.10.2007; initial version number (some plans).
+   - 0.0.3 : 18.11.2007; restructuring in new environment.
 
 */
 

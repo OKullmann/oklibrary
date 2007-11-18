@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/plans/milestones.hpp
   
-  \module_version Satisfiability/Transformers 0.0.3.3 (18.11.2007)
+  \module_version Satisfiability/Transformers 0.0.3.4 (18.11.2007)
 
 
   \par Version 0.0.4
 
-  \par Transformers/CrispCSP version 0.0.3
+  \par Transformers/CrispCSP version 0.0.3 : DONE
   (see Satisfiability/Transformers/CrispCSP/plans/milestones.hpp)
 
   \par Transformers/SATModuloTheories version 0.0.2 : DONE

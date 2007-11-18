@@ -10,12 +10,6 @@ License, or any later version. */
   \brief General plans for the module on "crisp CSP"
 
 
-  \todo Update namespaces : DONE
-
-
-  \todo Create milestones : DONE
-
-
   \todo Direct translations
   <ul>
    <li> The CSP formats
