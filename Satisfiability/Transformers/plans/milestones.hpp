@@ -8,25 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Transformers/plans/milestones.hpp
   
-  \module_version Satisfiability/Transformers 0.0.3.4 (18.11.2007)
-
-
-  \par Version 0.0.4
-
-  \par Transformers/CrispCSP version 0.0.3 : DONE
-  (see Satisfiability/Transformers/CrispCSP/plans/milestones.hpp)
-
-  \par Transformers/SATModuloTheories version 0.0.2 : DONE
-  (see Satisfiability/Transformers/SATModuloTheories/plans/milestones.hpp)
-
-  \par Transformers/Generators version 0.0.6 : DONE
-  (see Satisfiability/Transformers/Generators/plans/milestones.hpp)
-
-  \par
-   In Satisfiability/Transformers/plans/general.hpp the following
-   topics are handled:
-    - Create milestones : DONE
-    - Update namespaces : DONE
+  \module_version Satisfiability/Transformers 0.0.4 (18.11.2007)
 
 
   \par Version 0.0.5
@@ -37,6 +19,12 @@ License, or any later version. */
   \par Transformers/SATModuloTheories version 0.0.3
   (see Satisfiability/Transformers/SATModuloTheories/plans/milestones.hpp)
 
+  \par Transformers/CrispCSP version 0.0.4
+  (see Satisfiability/Transformers/CrispCSP/plans/milestones.hpp)
+
+  \par Transformers/LadderLogic version 0.0.4
+  (see Transformers/LadderLogic/plans/milestones.hpp)
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
@@ -44,6 +32,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.3 : 13.10.2007; initial version number (several old generators, and plans).
+   - 0.0.4 : 18.11.2007; restructuring of modules, update of plans, and introduction of new module on ladder logic.
 
 */
 
