@@ -16,8 +16,21 @@ License, or any later version. */
   \par
    In CrispCSP/plans/general.hpp the following
    topics are handled:
-    - Update namespaces
-    - Create milestones
+    - Update namespaces : DONE
+    - Create milestones : DONE
+
+
+  \par Version 0.0.4
+
+  \par
+   In CrispCSP/plans/general.hpp the following
+   topics are handled:
+    - Direct translations
+    - Overview
+    - Preprocessing
+
+  \par
+   Further milestones are created.
 
 
 

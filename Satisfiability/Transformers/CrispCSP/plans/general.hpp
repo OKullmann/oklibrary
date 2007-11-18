@@ -7,13 +7,13 @@ License, or any later version. */
 
 /*!
   \file Transformers/CrispCSP/plans/general.hpp
-  \brief Plans for the module CrispCSP
+  \brief General plans for the module on "crisp CSP"
 
 
-  \todo Update namespaces
+  \todo Update namespaces : DONE
 
 
-  \todo Create milestones.
+  \todo Create milestones : DONE
 
 
   \todo Direct translations
@@ -25,11 +25,18 @@ License, or any later version. */
     </ol>
     are to be transformed into alliances of active P-clause-sets.
    </li>
-   <li> Specialised versions are relevant of course; perhaps just one P-clause-set
-   per constraint is also alright. </li>
+   <li> Specialised versions are relevant of course; perhaps just one
+   P-clause-set per constraint is also alright. </li>
    <li> "Mono-signed" full clauses per constraint are exactly enough. </li>
    <li> The benchmarks from http://cpai.ucc.ie/05/CallForSolvers.html should
    all be tried! </li>
+  </ul>
+
+
+  \todo Overview
+  <ul>
+   <li> To get an overview on what has been done, we should install
+   under ExternalSources the available open source approaches. </li>
   </ul>
 
 
@@ -61,4 +68,21 @@ License, or any later version. */
   </ul>
 
 */
+
+/*!
+  \namespace OKlib::Satisfiability::Transformers::CrispCSP
+  \brief Module with components for transformers of crisp CSP problems into SAT
+
+  Alias "CrC".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace Transformers {
+      namespace CrispCSP {
+      }
+      namespace CrC = CrispCSP;
+    }
+  }
+}
 
