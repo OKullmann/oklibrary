@@ -121,6 +121,7 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
       issue, and this copyright statement (possibly rewriting the code). </li>
      </ol>
      </li>
+     <li> SatMate : http://www.cs.cmu.edu/~modelcheck/satmate </li>
      <li> Kcnfs: likely not under active development anymore. </li>
      <li> http://sat.inesc-id.pt/OpenSAT/index.php : DONE (not to be
      included by request of the authors) </li>
