@@ -38,6 +38,7 @@ License, or any later version. */
   \todo Output format
   <ul>
    <li> What types of boolean connectives are used? </li>
+   <li> See Interfaces/InputOutput/plans/general.hpp. </li>
   </ul>
 
 

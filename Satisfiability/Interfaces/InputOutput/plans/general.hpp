@@ -83,6 +83,23 @@ License, or any later version. */
 
   \todo Input and output of partial assignments.
 
+
+  \todo General propositional formulas and circuits
+  <ul>
+   <li> Formats:
+    <ol>
+     <li> Edimacs format: http://www.satcompetition.org/2005/edimacs.pdf </li>
+     <li> ISCAS ??? </li>
+    </ol>
+   </li>
+   <li> Benchmark collections
+    <ol>
+     <li> SAT 2005 ? </li>
+     <li> In [Jain, Bartzis, Clarke; SAT 2006] some benchmarks are mentioned. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
 /*!
