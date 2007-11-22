@@ -71,7 +71,9 @@ License, or any later version. */
    and SAT decision for Horn formulas is achievable in linear time,
    SAT decision for those generalised formulas F is achievable in linear time,
    </li>
-   <li> Is there a general input format for boolean formulas? </li>
+   <li> Is there a general input format for boolean formulas?
+   See "General propositional formulas and circuits" in
+   Interfaces/InputOutput/plans/general.hpp. </li>
    <li> Some obvious variations on the transformation F -> F':
     - handling of arbitrary and-or-arities
     - performing simplifications on the clauses
@@ -79,6 +81,14 @@ License, or any later version. */
       heuristic.
    </li>
   </ol>
+
+
+  \todo Other translations
+  <ul>
+   <li> Likely we should have a module Transformers/Propositional, for the various
+   translations from propositional logic into CNF's etc. </li>
+   <li> See [Manolios, Vroon; SAT 2007] for a recent new translation. </li>
+  </ul>
 
 */
 
