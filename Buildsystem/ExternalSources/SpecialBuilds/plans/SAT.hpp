@@ -112,9 +112,9 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
       a 64-bit machine? </li>
       <li> In scan.c we find
       \verbatim
-/*	THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T	*/
-/*	The copyright notice above does not evidence any   	*/
-/*	actual or intended publication of such source code.	*/
+	THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AT&T	
+	The copyright notice above does not evidence any   	
+	actual or intended publication of such source code.	
       \endverbatim
       thus we shouldn't use this file anyway. </li>
       <li> We should contact the authors and ask about the 64-bit
@@ -122,6 +122,7 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
      </ol>
      </li>
      <li> SatMate : http://www.cs.cmu.edu/~modelcheck/satmate </li>
+     <li> SIMO ? SIM ? </li>
      <li> Kcnfs: likely not under active development anymore. </li>
      <li> http://sat.inesc-id.pt/OpenSAT/index.php : DONE (not to be
      included by request of the authors) </li>
@@ -133,6 +134,13 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
   \todo Model checking and variations
   <ul>
    <li> Alloy http://alloy.mit.edu/alloy4/ is open source. </li>
+   <li> BAT http://www.cc.gatech.edu/~manolios/bat/ </li>
+  </ul>
+
+
+  \todo BDD's
+  <ul>
+    <li> CUDD ? </li>
   </ul>
 
 */
