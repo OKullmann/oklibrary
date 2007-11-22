@@ -25,6 +25,8 @@ License, or any later version. */
    <li> The transformation needs to be able to handle this
    basic form of ladder logic, and likely should be open
    to extensions. </li>
+   <li> Likely this module should move to Satisfiability/Interfaces,
+   and it just translates ladder logic into propositional logic. </li>
   </ul>
 
 
