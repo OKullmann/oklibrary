@@ -16,7 +16,14 @@ License, or any later version. */
    <li> Auxiliary.hpp </li>
    <li> Concepts_Graphs.hpp </li>
    <li> Generators.hpp </li>
-   <li> Graphs.hpp </li>
+   <li> Graphs.hpp
+    <ol>
+     <li> Class Graphs::MutableAdjacencyGraph_ViaIntegers looks
+     dubious; likely the point was to be able to construct a vertex
+     from a given integer-index, but this should be possible with
+     some given boost-graph-models. </li>
+    </ol>
+   </li>
    <li> makefile </li>
    <li> Support.hpp </li>
    <li> Test.cpp </li>
@@ -38,6 +45,28 @@ License, or any later version. */
    <li> Should we use the "DOT language" (graphviz) as the primary
    graph-representation-format? (see "Graph drawing" in
    Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp) </li>
+   <li> This seems to be the Boost input language, so we should use it. </li>
+   <li> Download the document specifying the language, and make it
+   accessible. </li>
+   <li> See Graphs/BoostSupport/demo_read_graph.cpp. </li>
+   <li> The complete graph with 3 vertices a, b, c can be specified as follows:
+   \verbatim
+graph G {
+a -- b;
+a -- c;
+b -- c
+}
+   \endverbatim
+   </li>
+   The directed cycle with three vertices a, b, c:
+   \verbatim
+digraph G {
+a -> b;
+b -> c;
+c -> a;
+}
+   \endverbatim
+   </li>
   </ul>
 
 
