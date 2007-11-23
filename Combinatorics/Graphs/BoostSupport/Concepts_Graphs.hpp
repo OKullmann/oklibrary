@@ -6,7 +6,6 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #ifndef CONCEPTSGRAPHSWAECHTER
-
 #define CONCEPTSGRAPHSWAECHTER
 
 #include <boost/graph/graph_traits.hpp>

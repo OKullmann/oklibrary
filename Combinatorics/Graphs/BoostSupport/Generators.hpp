@@ -18,7 +18,7 @@ License, or any later version. */
 
 #include <boost/concept_check.hpp>
 
-#include "Concepts_Graphs.hpp"
+#include <Transitional/Combinatorics/Graphs/BoostSupport/Concepts_Graphs.hpp>
 
 namespace Generators {
 
@@ -29,7 +29,7 @@ namespace Generators {
     boost::function_requires<boost::AssignableConcept<Graph> >();
     boost::function_requires<boost::CopyConstructibleConcept<Graph> >();
     Graph g(n);
-    complete_graph_imp(g, boost::graph_traits<Graph>::directed_category());
+    complete_graph_imp(g, typename boost::graph_traits<Graph>::directed_category());
     return g;
   }
   template <typename Graph>

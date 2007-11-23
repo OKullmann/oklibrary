@@ -6,7 +6,6 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 #ifndef GRAPHSWAECHTER
-
 #define GRAPHSWAECHTER
 
 #include <boost/graph/graph_traits.hpp>
@@ -54,7 +53,7 @@ namespace Graphs {
 namespace boost {
 
   template <>
-  struct boost::graph_traits<Graphs::MutableAdjacencyGraph_ViaIntegers> {
+  struct graph_traits<Graphs::MutableAdjacencyGraph_ViaIntegers> {
     typedef Graphs::MutableAdjacencyGraph_ViaIntegers::Vertices vertex_descriptor;
     typedef Graphs::MutableAdjacencyGraph_ViaIntegers::Edges edge_descriptor;
     typedef boost::adjacency_matrix_tag traversal_category;
