@@ -88,6 +88,8 @@ License, or any later version. */
    <li> Likely we should have a module Transformers/Propositional, for the various
    translations from propositional logic into CNF's etc. </li>
    <li> See [Manolios, Vroon; SAT 2007] for a recent new translation. </li>
+   <li> in [Een, Mishchenko, Soerensson; SAT 2007] several translations from
+   different types of circuits to SAT are presented. </li>
   </ul>
 
 */

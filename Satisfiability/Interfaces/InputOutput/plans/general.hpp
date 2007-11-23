@@ -90,6 +90,7 @@ License, or any later version. */
     <ol>
      <li> Edimacs format: http://www.satcompetition.org/2005/edimacs.pdf </li>
      <li> ISCAS ??? </li>
+     <li> AIGER http://fmv.jku.at/aiger/ ? </li>
     </ol>
    </li>
    <li> Benchmark collections
