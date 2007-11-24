@@ -16,7 +16,7 @@ License, or any later version. */
   \par Combinatorics/Enumeration 0.0.5
   (see Combinatorics/Enumeration/plans/milestones.hpp)
 
-  \par Combinatorics/Graphs 0.0.3
+  \par Combinatorics/Graphs 0.0.4
   (see Combinatorics/Graphs/plans/milestones.hpp)
 
   \par Combinatorics/Hypergraphs 0.0.4
