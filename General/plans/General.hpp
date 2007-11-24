@@ -9,40 +9,39 @@ License, or any later version. */
   \file General/plans/General.hpp
   \brief Plans for the (old) module on "general" components
 
-  \todo Transition
 
-  At the end of the day, all the components in this module
-  should be transferred (and updated and extended) to appropriate
-  (new) modules (then working inside namespace OKlib).
+  \todo Move all components in this module to appropriate new places.
+  <ul>
+   <li> Algebra : </li>
+   <li> Algorithms : </li>
+   <li> AutomatedCompilation : </li>
+   <li> CgiHandling : </li>
+   <li> Combinatorics.hpp :
+    <ol>
+     <li> The counting functionality goes to a new sub-module
+     Combinatorics/Enumeration/Counting. </li>
+     <li> While the enumeration of subsets perhaps goes to
+     a new sub-module Combinatorics/Enumeration/Subsets. </li>
+    </ol>
+   </li>
+   <li> DatabaseHandler01 : </li>
+   <li> EndlAuto : </li>
+   <li> ErrorHandling : </li>
+   <li> Function Handling : </li>
+   <li> IteratorHandling : </li>
+   <li> Kommandozeile : </li>
+   <li> Matrices : </li>
+   <li> MessageHandling : </li>
+   <li> NumberTheory : </li>
+   <li> NumericalLimits : </li>
+   <li> Numerics : </li>
+   <li> StreamHandling : </li>
+   <li> StringHandling : </li>
+   <li> SystemHandling : </li>
+   <li> TimeHandling : </li>
+   <li> XMLHandling : </li>
+   <li> XercesTools : </li>
+  </ul>
 
-  This might take a while (for the whole module),
-  and an intermediate step is to update the tests to the new
-  test system.
-
-  \todo Update
-  First we should create plans-files for all the existing submodules:
-
-   - Algebra :
-   - Algorithms :
-   - AutomatedCompilation :
-   - CgiHandling :
-   - Combinatoris :
-   - DatabaseHandler01 :
-   - EndlAuto :
-   - ErrorHandling :
-   - Function Handling :
-   - IteratorHandling :
-   - Kommandozeile :
-   - Matrices :
-   - MessageHandling :
-   - NumberTheory :
-   - NumericalLimits :
-   - Numerics :
-   - StreamHandling :
-   - StringHandling :
-   - SystemHandling :
-   - TimeHandling :
-   - XMLHandling :
-   - XercesTools : 
 */
 

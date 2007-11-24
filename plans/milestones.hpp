@@ -115,11 +115,13 @@ License, or any later version. */
   (see Transitional/GeneralInputOutput/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
-  \par %Combinatorics 0.0.4
+  \par %Combinatorics version 0.0.4
   (see Combinatorics/plans/milestones.hpp)
+  \par General version 0.6
+  (see General/plans/milestones.hpp)
   \par
    In Transitional/plans/general.hpp the following topics are handled:
-    - Upgrade to gcc-4.2.1
+    - Upgrade to gcc-4.2.2
     - Backups and archives
   \par Update
   Update the subsequent milestones.

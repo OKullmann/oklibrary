@@ -10,9 +10,17 @@ License, or any later version. */
 
   \module_version General 0.5 (6.11.2006)
 
-  \par Version 0.5.1 :
-  The first task is to create a plan and milestones for the transition
-  (see "Transition" in General/plans/General.hpp).
+
+  \par Versions 0.5.1 - 0.5.22
+
+  One sub-module after another is moved according to "Move all components"
+  in General/plans/General.hpp.
+
+
+  \par Version 0.6
+
+  All modules have been moved, and Transitional/General is eliminated.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
