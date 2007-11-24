@@ -28,15 +28,15 @@ License, or any later version. */
 
 
   \par Version 0.0.7 :
-  In Hypergraphs/Colourings/plans/GreedyColouring.hpp the topic
-  - Full_greedy_colouring
-  has been handled.
+  In Hypergraphs/Colourings/plans/GreedyColouring.hpp the following
+  topics are handled:
+   - Full_greedy_colouring
 
 
   \par Version 0.0.8 :
-  In Hypergraphs/Colourings/plans/GreedyColouring.hpp the topic
+  In Hypergraphs/Colourings/plans/GreedyColouring.hpp the following
+  topics are handled:
   - GreedyColouring.cpp
-  has been handled.
 
 
   \par Version 0.0.9 :

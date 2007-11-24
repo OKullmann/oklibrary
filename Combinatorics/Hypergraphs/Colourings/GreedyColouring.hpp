@@ -8,6 +8,8 @@ License, or any later version. */
 /*!
   \file Hypergraphs/Colourings/GreedyColouring.hpp
   \brief Components related to the greedy colouring algorithm
+
+  \todo Complete doxygen documentation.
 */
 
 #ifndef GREEDYCOLOURING_hHHbswtT6t4
@@ -46,22 +48,6 @@ namespace OKlib {
       }
     };
 
-    //! for reading edges from a stream
-    typedef std::pair<int, int> Edge;
-    typedef std::vector<Edge> EdgeVector;
-
-    //! return the number of vertices from the input (as stated in the input)
-    unsigned int read(OKlib::HypergraphColouring::EdgeVector& ev) {
-      unsigned int n, m;
-      std::cin >> n >> m;
-      for (unsigned int i = 0; i < m; ++i) {
-        int source, target;
-        std::cin >> source >> target;
-        ev.push_back(Edge(source,target));
-      }
-      return n;
-    }
-
     //! listing all vertex degrees
     template <class Graph>
     void output_vertex_degrees(const Graph& g, std::ostream& out) {
@@ -70,7 +56,7 @@ namespace OKlib {
       const vertex_range& r(vertices(g));
       const vertex_iterator& end(r.second);
       for (vertex_iterator i = r.first; i != end; ++i)
-        out << *i << " : " << out_degree(*i, g) << "\n";
+        out << get(boost::vertex_name, g, *i) << " : " << out_degree(*i, g) << "\n";
     }
 
     /*!
@@ -124,6 +110,7 @@ namespace OKlib {
       // number of colours used by running_colour
       colour_type num_colours;
 
+      //! the maps from vertex indices to colours representing optimal resp. worst colourings
       colour_vector_type optimal_colouring, worst_colouring;
       colour_type min_colours, max_colours;
 

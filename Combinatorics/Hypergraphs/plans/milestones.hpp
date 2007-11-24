@@ -31,6 +31,12 @@ License, or any later version. */
    Create further milestones.
 
 
+  \par Version 0.0.5 :
+
+  \par Hypergraphs/Colourings 0.0.6
+  (see Hypergraphs/Colourings/plans/milestones.hpp)
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 

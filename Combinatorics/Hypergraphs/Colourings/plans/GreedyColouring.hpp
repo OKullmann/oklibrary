@@ -15,10 +15,10 @@ License, or any later version. */
    <li> In GreedyColouring.hpp the components
     <ul>
      <li> Out_degree_order </li>
-     <li> Edge </li>
-     <li> EdgeVector </li>
-     <li> read </li>
      <li> output_vertex_degrees </li>
+     <li> Edge DONE (not needed anymore) </li>
+     <li> EdgeVector DONE (not needed anymore) </li>
+     <li> read DONE (replaced by using the dot-syntax) </li>
     </ul> 
     should be moved to a Graphs-module (of course, with added doxygen-
     documentation, and with more (generic) power for input and output).
@@ -38,11 +38,14 @@ License, or any later version. */
 
   \todo GreedyColouring.cpp
   <ul>
-   <li> Transfer todos here. </li>
+   <li> Eliminate code repetition. </li>
+   <li> Use general components from module Graphs. </li>
    <li> Use Messages. </li>
    <li> Use ProgramOptions. </li>
-   <li> Doxygen documentation. </li>
+   <li> Complete doxygen documentation. </li>
+   <li> Write docus. </li>
    <li> Test it. </li>
+   <li> Transfer todos here : DONE </li>
   </ul>
 
 

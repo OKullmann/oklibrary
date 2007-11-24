@@ -26,6 +26,12 @@ License, or any later version. */
    Create further milestones.
 
 
+  \par Version 0.0.5 :
+
+  \par Combinatorics/Hypergraphs 0.0.5
+  (see Combinatorics/Hypergraphs/plans/milestones.hpp)
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
