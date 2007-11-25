@@ -83,6 +83,64 @@ License, or any later version. */
    <li> One could hope to find a new heuristical principles
    for finding a satisfying assignment by generalising the
    various greedy algorithms. </li>
+   <li> Translating the decision problem, whether a vertex ordering
+   achieving at most k colours exist, into a SAT problem:
+    <ol>
+     <li> Variables are i_v, the index for vertex v, with domain
+     {1,...,|V|}, and c_v, the colour of v, with domain {1,...,k}. </li>
+     <li> Constraints are
+      <ul>
+       <li> the bijectivity constraint for the i_v, </li>
+       <li> the active clause-set for the colouring conditions (no adjacent
+       vertices get the same colour), </li>
+       <li> and the active clause-set stating that if all neighbours which
+       are also predecessors are coloured, then the colour of the vertex is
+       determined as the minimal available colour. </li>
+      </ul>
+     </li>
+     <li> Instead of the permutation one could also use a lineare ordering
+     with the corresponding axioms reflexivity, antisymmetry, transitivity
+     and totality. </li>
+    </ol>
+   </li>
+   <li> This SAT problem could be treated as a minimisation problem for k,
+   the domain size of the colour-variables. </li>
+   <li> One could treat the conditions regarding the i_v as "soft constraints",
+   since they are only there to guide the search for a colouring (we know that
+   an ordering exists iff a colouring exists). </li>
+   <li> Via this SAT formulation we also capture a backtracking search for
+   an ordering achieving k colours (though the question is whether this
+   SAT-approach can be as efficient as a direct implementation). </li>
+   <li> Of course it is questionable whether in this way something for
+   graph colouring is gained:
+    <ol>
+     <li> The only strength of the greedy approach seems to be that the number
+     of colours is not restricted. </li>
+     <li> But for the SAT translation it needs to be restricted. </li>
+     <li> The direct search space condition is k^n = n! for the given n:
+     for k with n! < k^n at least the primary search space is smaller. </li>
+     <li> In other words, the critical k is k = (n!)^(1/n), and for larger
+     k the direct search space of greedy colouring is smaller. </li>
+    </ol>
+    One simply should experiment with the approach.
+   </li>
+  </ul>
+
+
+  \todo Local search for a good vertex ordering
+  <ul>
+   <li> The direct approach is to consider it just as a standard optimisation
+   problem, where the search space is the space of all vertex permutations, and
+   where the goal function is the number of colours obtained by the permutation,
+   to be minimised. </li>
+   <li> The natural notion of a move would be a transposition (possibly
+   restricted to a neighbour swap). </li>
+   <li> A more restricted approach would consider the decision problem with
+   bound k, and would only construct the colouring corresponding to a permutation
+   until it gets larger than k, in which case the current "problematic"
+   vertex could simply be swapped with one of its coloured neighbours. </li>
+   <li> See Optimisation/LocalSearch/plans/general.hpp for a generic local
+   search algorithm. </li>
   </ul>
 
 
