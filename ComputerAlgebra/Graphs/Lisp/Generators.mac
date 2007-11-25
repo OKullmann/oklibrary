@@ -1,0 +1,52 @@
+/* Oliver Kullmann, 24.11.2007 (Swansea) */
+/* Copyright 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Graphs/Lisp/Generators.mac
+  \brief Maxima graph generators
+
+Use by
+
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+*/
+
+/* ***************************************
+   * Printing graphs in dot-format       *
+   ***************************************
+*/
+
+element_label(i) := (local(i), sconcat("e",i));
+string_vertex(v) := (local(v), xreduce(sconcat, map(element_label, v)));
+print_vertices(V) := (local(V, v), for v in V do print(sconcat(string_vertex(v), ";")));
+print_edge(e) := (local(e), block( [ le : listify(e) ], print(sconcat(string_vertex(le[1])," -- ",string_vertex(le[2]),";"))));
+print_edges(E) := (local(E, e), for e in E do print_edge(e));
+print_graph(G) := (local(G), print(sconcat("graph G {")), print_vertices(G[1]), print_edges(G[2]), print("}"));
+output_graph(g, n) := (local(g,n), with_stdout(n, print_graph(g)));
+
+/* ***************************************
+   * Kneser graphs                       *
+   ***************************************
+*/
+
+setn(n) := (local(n), setify(makelist(i,i,1,n)));
+
+/* Kneser-graphs: Vertices are the m-element subets of {1,..,n}, joined by an
+   edge if disjoint. */
+kneserg(n, m) := (local(n, m, A), block([sn : setn(n)],
+ [powerset(sn, m), 
+    map(setify, 
+      xreduce(union, 
+        makelist(cartesian_product({A}, powerset(setdifference(sn, A), m)), 
+                 A, listify(powerset(sn, m))
+      )
+     )   
+    )
+ ]
+));
+
