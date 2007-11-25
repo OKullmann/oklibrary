@@ -16,9 +16,34 @@ License, or any later version. */
   \todo All sub-modules have milestones.
 
 
-   \todo Clarify the relations to
-    - Concepts/plans/BipartiteGraphs.hpp
-    - Hypergraph concepts (see Hypergraphs/concepts/plans/general.hpp)
+  \todo Clarify the relations
+   <ul>
+    <li> Concepts/plans/BipartiteGraphs.hpp </li>
+    <li> Hypergraph concepts (see Hypergraphs/concepts/plans/general.hpp) </li>
+   </ul>
+
+
+  \todo Update namespace usage.
+
+
+  \todo Graph generators
+  <ul>
+   <li> Path and cycle graphs. </li>
+   <li> See for first attempts at complete and complete bipartite graphs in
+   Combinatorics/Graphs/BoostSupport/Generators.hpp. </li>
+   <li> Also complete k-partite graphs. </li>
+   <li> Circulant graphs. </li>
+   <li> Kneser grapsh (see ComputerAlgebra/Graphs), generalised Kneser graphs,
+   and Johnson graphs. </li>
+  </ul>
+
+
+  \todo Graph operations
+  <ul>
+   <li> Sum </li>
+   <li> Various products </li>
+   <li> Complement </li>
+  </ul>
 
 */
 
