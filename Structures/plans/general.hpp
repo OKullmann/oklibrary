@@ -7,10 +7,16 @@ License, or any later version. */
 
 /*!
   \file Structures/plans/general.hpp
-  \brief General plans for the part on structures
+  \brief General plans for the part on structures (in a mathematical sense)
 
 
   \todo Update namespaces.
+
+
+  \todo Organisation
+  <ul>
+   <li> Cryptology seems misplaced here; but where should it go? </li>
+  </ul>
 
 */
 
