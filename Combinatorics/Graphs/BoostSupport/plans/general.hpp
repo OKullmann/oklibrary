@@ -67,6 +67,13 @@ c -> a;
 }
    \endverbatim
    </li>
+   <li> Are comments possible? </li>
+   <li> What is the use of the graph name ("G") ? </li>
+   <li> Should we offer additional help for using boost::read_graphviz
+   and boost::write_graphviz? Or do we only provide good examples?
+   Definitely we first start with the examples. </li>
+   <li> See Hypergraphs/Colourings/GreedyColouring.cpp for an
+   example. </li>
   </ul>
 
 
