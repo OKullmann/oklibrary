@@ -480,7 +480,7 @@ testop_file := $(srcdir)/testop
 # default value: recommended library version of g++
 # OK: perhaps this should go to configuration?
 # ----------------------------------------------------------
-CXX = $(gpp_system_call)
+CXX = g++
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -490,7 +490,7 @@ CXX = $(gpp_system_call)
 # default value: recommended library version of gcc
 # OK: perhaps this should go to configuration?
 # ----------------------------------------------------------
-CC = $(gcc_system_call)
+CC = gcc
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
@@ -621,11 +621,13 @@ testop_timestamp := $(test_aux_dir)/new_testop_$(test_level)
 # ################################################################
 
 # ----------------------------------------------------------
-# system_version (LV)
+# system_versions (LV)
 #
 # If defined (with any non-empty value) then the build
-# system will use the system versions of gcc and boost
-# rather than the recommended local versions.
+# system by default will use the system versions of gcc and/or boost
+# rather than the recommended local versions (if not
+# gcc_version_number resp. boost_version_number is defined,
+# in which case the respective local version is used).
 #
 # gcc_version_number (SV)           
 #
