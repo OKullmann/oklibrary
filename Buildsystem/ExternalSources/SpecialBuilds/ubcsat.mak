@@ -23,7 +23,7 @@ ubcsat_names := adaptnovelty algorithms gsat gsat-tabu gwsat hsat hwsat irots mt
 ubcsat_c_files := $(addsuffix .c, $(ubcsat_names))
 ubcsat_c_files_paths := $(addprefix $(ubcsat-tmp-src-directory)/, $(ubcsat_c_files))
 
-ubcsat-changed_dir := $(OKsystem)/Transitional/LocalSearch/Ubcsat/corrected
+ubcsat-changed_dir := $(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected
 ubcsat_changed_files := $(wildcard $(ubcsat-changed_dir)/*.h) $(wildcard $(ubcsat-changed_dir)/*.c)
 
 $(ubcsat-directories) : % : 
