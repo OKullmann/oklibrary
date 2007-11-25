@@ -186,9 +186,41 @@ License, or any later version. */
   </table>
 
 
-  <h1> Customisation </h1>
+  <h1> Customisation of gcc and Boost </h1>
 
-  The following make-variables can be used (on the command line):
+  Regarding the usage of compiler and main external library currently
+  we have:
+  <ul>
+   <li> The current default is to use the locally installed gcc as well as the
+   locally installed %boost (under $(ExternalSources)), each in the
+   recommended version. </li>
+   <li> Locally installed %boost versions are compiled with one locally
+   installed gcc. </li>
+  </ul>
+  The versions of gcc and %boost can be changed as follows:
+  <ul>
+   <li> Either change the local version of %boost (typically only useful in
+   transition periods), while the build system chooses the recommended
+   local gcc. </li>
+   <li> Or change the local version of gcc, while the build system
+   chooses the appropriate local variant of the recommended %boost version. </li>
+  </ul>
+  Additionally there is the system gcc and potentially a system %boost:
+  <ul>
+   <li> The default can be switched to use these two system versions
+   (where still an include-directive for the recommended %boost-version
+   is issued). </li>
+   <li> If additionally a specific %boost version is specified, then a local version
+   is used, but compiled with the system compiler. </li>
+   <li> If on the other hand a version of gcc is specified, then the
+   previous switch to the system versions has no effect. </li>
+  </ul>
+  If both gcc- and %boost-version are specified, then the local versions are
+  always used (in the given combination).
+
+  <p></p>
+  Now the make-variables to be set on the command-line are as follows
+  (on the command line):
   <table>
    <tr>
     <td> <code> gcc_version_number=V </code> </td>
@@ -197,20 +229,44 @@ License, or any later version. */
     recommended version. </td>
    </tr>
    <tr>
-    <td> <code> boost_version_number=V </code> </td>
+    <td> <code> %boost_version_number=V </code> </td>
     <td> Use the locally installed %boost with version V (for example
     <code>boost_version_number=1_34_0</code>); default value is the
     recommended version. </td>
    </tr>
    <tr>
+    <td> <code> system_versions=X </code> </td>
+    <td> Switch the default to system gcc and system %boost. </td>
+   </tr>
+  </table>
+  The value for the definition of <code>system_versions</code> is currently not
+  used.
+
+
+  <h1> Customisation of compilation, linking and testing </h1>
+
+  By the following command-line settings compilation, linking and running tests
+  can be influenced:
+  <table>
+   <tr>
+    <td> <code> Compile_tool=T </code> </td>
+    <td> Command to prefix each call of the compiler;
+    default value is T=<code>"time -p"</code> </td>
+   </tr>
+   <tr>
+    <td> <code> Link_tool=T </code> </td>
+    <td> Command to prefix each call of the linker;
+    default value is T=<code>"time -p"</code> </td>
+   </tr>
+   <tr>
     <td> <code> Test_tool=T </code> </td>
     <td> For example T=<code>"valgrind"</code> or T=<code>"valgrind --quiet"</code>;
-    default value is T=<code>time -p</code> </td>
+    default value is T=<code>"time -p"</code> </td>
    </tr>
   </table>
 
 
-  <h2> Settings for the new test system </h2>
+  <h1> Settings for the new test system </h1>
 
   The basic parameters are:
   <table>
