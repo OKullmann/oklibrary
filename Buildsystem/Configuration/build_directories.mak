@@ -49,6 +49,9 @@ documents_html_dir ?= $(doc_dir)/documents
 # Tools for the build system
 tool_dir ?= $(system_directories)/tools
 
+# For documents (including the full documentation):
+documents_dir ?= $(OKsystem)/documents
+
 build_directories = \
                $(bin_dir) \
                $(lib_dir) \
@@ -63,7 +66,6 @@ build_directories = \
                $(local_html_dir) \
                $(internet_html_dir) \
                $(log_dir) \
-               $(tool_dir)
-
-documents_dir ?= $(OKsystem)/documents
+               $(tool_dir) \
+               $(documents_dir)
 
