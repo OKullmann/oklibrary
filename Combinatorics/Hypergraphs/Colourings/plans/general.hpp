@@ -13,10 +13,26 @@ License, or any later version. */
   \todo Update namespace-usage.
 
 
+  \todo Module structure
+  <ul>
+   <li> Should we make a distinction between graph colouring and hypergraph
+   colouring? In this case GreedyColouring.cpp (etc) should go to
+   Combinatorics/Graphs. </li>
+  </ul>
+
+
   \todo Translations
   <ul>
    <li> Given a (hyper)graph as input, translate the k-colouring problem into
    generalised or P-clause-sets. </li>
+  </ul>
+
+
+  \todo Other implementations
+  <ul>
+   <li> What open-source graph colouring implementations are available? </li>
+   <li> Problem collections? </li>
+   <li> Are there competitions? </li>
   </ul>
 
 

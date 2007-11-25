@@ -22,6 +22,7 @@ License, or any later version. */
    In Hypergraphs/Colourings/plans/general.hpp the following
    topics are handled:
     - Update namespace-usage
+    - Module structure
 
   \par
    Update milestones.
@@ -30,7 +31,7 @@ License, or any later version. */
   \par Version 0.0.7 :
   In Hypergraphs/Colourings/plans/GreedyColouring.hpp the following
   topics are handled:
-   - Full_greedy_colouring
+   - Class Greedy_colouring
 
 
   \par Version 0.0.8 :
@@ -40,8 +41,11 @@ License, or any later version. */
 
 
   \par Version 0.0.9 :
-  In Hypergraphs/Colouring/plans/general.hpp the topic
-  "Translation" is further expanded, and related milestones are created.
+
+  \par
+   In Hypergraphs/Colourings/plans/general.hpp the following
+   topics are handled:
+    - Translation
 
 
   \par Version 0.1 :
