@@ -60,12 +60,12 @@ namespace OKlib {
     }
 
     /*!
-      \class Full_greedy_colouring
+      \class Greedy_colouring
       \brief Evaluation of greedy colouring for a graph
     */
 
     template <class UndirectedGraph>
-    struct Full_greedy_colouring {
+    struct Greedy_colouring {
 
       typedef UndirectedGraph graph_type;
 
@@ -125,7 +125,7 @@ namespace OKlib {
       // ----------------------------------------------------------------------
 
       //! fills hash_orders and optimal_order, worst_order together with associated optimal_colouring, worst_colouring
-      explicit Full_greedy_colouring(const graph_type& g) :
+      explicit Greedy_colouring(const graph_type& g) :
         g(g),
         n(checked_size(g)),
         sort(g),
@@ -136,7 +136,9 @@ namespace OKlib {
         min_colours(n+1),
         max_colours(0),
         running_order(n)
-      {
+      {}
+
+      void evaluation() {
         permutation_type permutation(boost::counting_iterator<order_index_type>(0), boost::counting_iterator<order_index_type>(n));
         do {
           set_order(permutation);

@@ -13,6 +13,10 @@ License, or any later version. */
   It prints the number of vertices, the number of edges, and all vertex degrees,
   followed by an analysis of the generic colouring algorithm for the input graph.
 
+  If no command-line argument is given, then only the lexicographical order and
+  the max- and min-degree order are evaluated, while otherwise all orders are
+  evaluated.
+
 */
 
 #include <iostream>
@@ -27,7 +31,7 @@ License, or any later version. */
 
 #include <Transitional/Combinatorics/Hypergraphs/Colourings/GreedyColouring.hpp>
 
-int main() {
+int main(const int argc, const char* const argv[]) {
 
   //! undirected graphs with out-edges stored in lists and the vertices stored in a vector (to enable index-access)
   typedef boost::adjacency_list<boost::listS, boost::vecS, boost::undirectedS, boost::property<boost::vertex_name_t, std::string> > UndirectedGraph;
@@ -49,28 +53,8 @@ int main() {
   OKlib::HypergraphColouring::output_vertex_degrees(g, std::cout);
   std::cout << std::endl;
 
-  OKlib::HypergraphColouring::Full_greedy_colouring<UndirectedGraph> fgg(g);
+  OKlib::HypergraphColouring::Greedy_colouring<UndirectedGraph> fgg(g);
   assert(fgg.n == n);
-
-  for (vertices_size_type i = 0; i <= n; ++i)
-    std::cout << i << " : " << fgg.hash_orders[i] << "\n";
-  std::cout << std::endl;
-
-  std::cout << "min numbers of colours = " << fgg.min_colours << std::endl;
-  for (vertices_size_type i = 0; i < n; ++i)
-    std::cout << get(boost::vertex_name, g, fgg.optimal_order[i]) << " ";
-  std::cout << std::endl;
-  for (vertices_size_type i = 0; i < n; ++i)
-    std::cout <<  get(boost::vertex_name, g, fgg.optimal_order[i]) << " -> " << fgg.optimal_colouring[get(boost::vertex_index, g, fgg.optimal_order[i])] << ", ";
-  std::cout << std::endl;
-
-  std::cout << "max number of colours = " << fgg.max_colours << std::endl;
-  for (vertices_size_type i = 0; i < n; ++i)
-    std::cout <<  get(boost::vertex_name, g, fgg.worst_order[i]) << " ";
-  std::cout << std::endl;
-  for (vertices_size_type i = 0; i < n; ++i)
-    std::cout << get(boost::vertex_name, g, fgg.worst_order[i]) << " -> " << fgg.worst_colouring[get(boost::vertex_index, g, fgg.worst_order[i])] << ", ";
-  std::cout << std::endl;
 
   {
     typedef std::map<std::string, vertex_type> name_map_type;
@@ -92,7 +76,7 @@ int main() {
   for (vertices_size_type i = 0; i < n; ++i)
     std::cout << get(boost::vertex_name, g, fgg.running_order[i]) << " -> " << fgg.colour_vec[get(boost::vertex_index, g, fgg.running_order[i])] << ", ";
   std::cout << std::endl;
-
+  
   std::stable_sort(fgg.running_order.begin(), fgg.running_order.end(), fgg.sort);
   fgg.colouring();
   std::cout << "smallest degrees first = " << fgg.num_colours << std::endl;
@@ -102,7 +86,7 @@ int main() {
   for (vertices_size_type i = 0; i < n; ++i)
     std::cout << get(boost::vertex_name, g, fgg.running_order[i]) << " -> " << fgg.colour_vec[get(boost::vertex_index, g, fgg.running_order[i])] << ", ";
   std::cout << std::endl;
-
+  
   std::reverse(fgg.running_order.begin(), fgg.running_order.end());
   fgg.colouring();
   std::cout << "largest degrees first = " << fgg.num_colours << std::endl;
@@ -112,6 +96,31 @@ int main() {
   for (vertices_size_type i = 0; i < n; ++i)
     std::cout << get(boost::vertex_name, g, fgg.running_order[i]) << " -> " << fgg.colour_vec[get(boost::vertex_index, g, fgg.running_order[i])] << ", ";
   std::cout << std::endl;
+  
+  if (argc > 1) {
+    fgg.evaluation();
+
+    std::cout << "\n";
+    for (vertices_size_type i = 0; i <= n; ++i)
+      std::cout << i << " : " << fgg.hash_orders[i] << "\n";
+    std::cout << std::endl;
+    
+    std::cout << "min numbers of colours = " << fgg.min_colours << std::endl;
+    for (vertices_size_type i = 0; i < n; ++i)
+      std::cout << get(boost::vertex_name, g, fgg.optimal_order[i]) << " ";
+    std::cout << std::endl;
+    for (vertices_size_type i = 0; i < n; ++i)
+      std::cout <<  get(boost::vertex_name, g, fgg.optimal_order[i]) << " -> " << fgg.optimal_colouring[get(boost::vertex_index, g, fgg.optimal_order[i])] << ", ";
+    std::cout << std::endl;
+    
+    std::cout << "max number of colours = " << fgg.max_colours << std::endl;
+    for (vertices_size_type i = 0; i < n; ++i)
+      std::cout <<  get(boost::vertex_name, g, fgg.worst_order[i]) << " ";
+    std::cout << std::endl;
+    for (vertices_size_type i = 0; i < n; ++i)
+      std::cout << get(boost::vertex_name, g, fgg.worst_order[i]) << " -> " << fgg.worst_colouring[get(boost::vertex_index, g, fgg.worst_order[i])] << ", ";
+    std::cout << std::endl;
+  }
 
 }
 
