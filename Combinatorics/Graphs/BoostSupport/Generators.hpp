@@ -4,11 +4,15 @@ This file is part of the OKlibrary. OKlibrary is free software; you can redistri
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
-// Kate 14/07/03
 
-#ifndef GENERATORSWAECHTER
+/*!
+  \file Combinatorics/Graphs/BoostSupport/Generators.hpp
+  \brief Old attempt by BSc project (Kate) for generators.
+  \deprecated
+*/
 
-#define GENERATORSWAECHTER
+#ifndef GENERATORSWAECHTER_jhg4erC
+#define GENERATORSWAECHTER_jhg4erC
 
 #include <iostream>
 #include <vector>
