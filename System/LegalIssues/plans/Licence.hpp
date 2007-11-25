@@ -16,7 +16,9 @@ License, or any later version. */
   <ul>
    <li> Also html and tex files need the licence. </li>
    <li> Is it necessary that the licence is also visible on
-   each document page ? </li>
+   each document page ? Seems so. It seems that there is no
+   special doxygen construction for licence text; perhaps
+   one should ask on the doxygen mailing list. </li>
   </ul>
 
 
