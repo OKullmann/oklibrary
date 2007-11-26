@@ -141,7 +141,13 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo BDD's
   <ul>
-    <li> CUDD ? </li>
+    <li> CUDD http://vlsi.colorado.edu/~fabio/CUDD/ </li>
+  </ul>
+
+
+  \todo Automated theorem proving
+  <ul>
+   <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/ </li>
   </ul>
 
 */
