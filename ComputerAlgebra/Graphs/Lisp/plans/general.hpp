@@ -28,6 +28,19 @@ License, or any later version. */
    <li> Write documentation. </li>
    <li> Can we add comments to the graph-output? </li>
    <li> Should we give the graphs in the dot-output a dedicated name? </li>
+   <li> Generalise the graph output, so that arbitrary graphs
+   can be output (making function "string_vertex" a parameter). </li>
+   <li> Generalisations of the Kneser graphs:
+    <ol>
+     <li> The Johnson graphs J(n,k,i), consisting like the Kneser
+     graphs of all k-subsets of n, while we have an edge joining
+     two vertices if the intersection has exactly size i. </li>
+     <li> The generalised Kneser graph K(n,k,t), the union
+     of J(n,k,i) for 0 <= i < t. </li>
+     <li> The Kneser graph K(G) of a hypergraph G, with vertices
+     the hyperedges, joined by an edge if disjoint. </li>
+    </ol>
+   </li>
   </ul>
 
 */
