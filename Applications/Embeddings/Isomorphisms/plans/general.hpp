@@ -6,11 +6,17 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Isomorphisms/plans/general.hpp
+  \file Applications/Embeddings/Isomorphisms/plans/general.hpp
   \brief Plans for the module on isomorphisms
 
 
   \todo Update namespaces.
+
+
+  \todo Create milestones.
+
+
+  \todo Update namespace usage.
 
 */
 

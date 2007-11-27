@@ -11,18 +11,6 @@ License, or any later version. */
 
   Needs two filenames for dot-graphs as parameters.
 
-  \todo Clarify handling of loops and parallel edges.
-
-  \todo Use ProgramOptions.
-
-  \todo Use Messages.
-
-  \todo Write docus.
-
-  \todo Write doxygen documentation.
-
-  \todo Optionally handle directed graphs.
-
 */
 
 #include <iostream>
