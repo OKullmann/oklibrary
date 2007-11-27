@@ -11,33 +11,33 @@ License, or any later version. */
 
   \todo Terminology
   <ul>
-   <li> A bit may be called an element in GF2 or in the Bit field. </li>
-   <li> An 8-byte element, representing a polynomial over GF2 or an element
-   in GF2^8 can be called an element in GF2t8 or an element in the Byte Field.
-   The most significant bit represents the highest order term in the polynomial
-   (7).</li>
-   <li> A 4-byte element formed by taking a column of GF2t8 elements in the 
-   Rijndael block might be called an element in the 4-Byte PID (Principal Ideal
+   <li> A bit may be called an element in GF(2) or in the "bit field". </li>
+   <li> An 8-bit element, representing a polynomial over GF(2) or an element
+   in GF(2^8), can be called an element in GF(2^8) or an element in the
+   "byte field". The most significant bit represents the highest order term
+   in the polynomial.</li>
+   <li> A 4-byte element, formed by taking a column of GF(2^8) elements in the 
+   Rijndael block, might be called an element in the 4-Byte PID (Principal Ideal
    Domain) or in the QR (Quotient Ring), as this is not actually a field (some
    elements don't have an inverse as the modulus X^4 + 1 isn't irreducible over 
-   GF2t8). Which of these is most appropriate? It seems Quotient Ring but further
+   GF(2^8)). </li>
+   <li> Which of these is most appropriate? It seems "Quotient Ring" but further
    reading is necessary and perhaps a more elegant and more specific name can be 
    found. Again, the most significant byte of the 4-bytes represents the coefficient
-   of the highest order term in the polynomial.
-   </li>
+   of the highest order term in the polynomial. </li>
   </ul>
+
 
   \todo Finishing old implementation (ComputerAlgebra/Cryptology/Rijndael.sage)
   <ul>
    <li> Write documentation on how to use this program:
     <ol>
      <li> A basic problem is how to handle source code documentation (in the absence
-     of doxygen?). 
-     
-     The option of simply including files in doxygen verbatim was suggested previously. This seems
-     to be fairly simple if one creates a basic filter to wrap things up and then sets
-     this as the input filter (it has some additional spaces due to use of verbatim tags
-     inside verbatim tags) - 
+     of doxygen?). </li>
+     <li> The option of simply including files in doxygen verbatim was suggested
+     previously. This seems to be fairly simple if one creates a basic filter to
+     wrap things up and then sets this as the input filter (it has some additional
+     spaces due to use of verbatim tags inside verbatim tags):
      \verbatim
 #!/usr/bin/python
 import sys
@@ -58,20 +58,20 @@ if ext in verbatimExtensions :
 else :
     print fileHandle.read()
      \endverbatim
-     Some sort of make variables could then perhaps set the verbatim extensions with the 
-     correct set of extensions that must be verbatim processed.
-
-     This method would work and would probably be the most straightforward method for systems
-     such as maxima where there is no supported language which is very similar within doxygen.
-     
-     In the case of sage, the syntax is so close to python that it seems a waste to be
-     reduced to a simple dump of the code, and given that sage produces an intermediate python
-     file which seems to maintain comments, it would seem fairly straightforward to generate
-     a valid python file (although how to do this without actually generating an intermediate
-     file with sage is something that needs invesigating) that doxygen would then support (as
-     python is supported in recent releases of doxygen. This would then have to make use of
-     either INPUT_FILTER or FILTER_PATTERNS in the Doxygen configuration.
-     </li>
+     OK: What is the meaning of this??
+     Some sort of make variables could then perhaps set the verbatim extensions
+     with the correct set of extensions that must be verbatim processed. </li>
+     <li> This method would work and would probably be the most straightforward
+     method for systems such as maxima, where there is no supported language which
+     is very similar within doxygen. </li>
+     <li> In the case of sage, the syntax is so close to python that it seems a
+     waste to be reduced to a simple dump of the code, and given that sage produces
+     an intermediate python file which seems to maintain comments, it would seem
+     fairly straightforward to generate a valid python file (although how to do
+     this without actually generating an intermediate file with sage is something
+     that needs invesigating) that doxygen would then support (as python is
+     supported in recent releases of doxygen. This would then have to make use of
+     either INPUT_FILTER or FILTER_PATTERNS in the Doxygen configuration. </li>
     </ol>
    </li>
    <li> The main goal is cleaning up, so that this program can be used in the future
@@ -80,46 +80,56 @@ else :
    What is the precise input, what is the precise output? </li>
    <li> Outline the general design (as a starting point for further investigations).
     <ul>
-     <li> Split into MixColumns, ShiftRows and S_rd (which should really be called SBOX instead of the 
-     matrix used in S_Rd as is done) with additional functions for the inverse of these operations. Ideally
-     the inverses would be directly inferred from the functions themselves but I'm not sure if this is entirely
-     impossible in this environment? OK : as said, no big changes, just making it nice and clean. </li>
+     <li> Split into MixColumns, ShiftRows and S_rd (which should really be called
+     SBOX instead of the matrix used in S_Rd as is done) with additional functions
+     for the inverse of these operations. </li>
+     <li> Ideally the inverses would be directly inferred from the functions
+     themselves but I'm not sure if this is entirely impossible in this environment?
+     OK : as said, no big changes, just making it nice and clean. </li>
      <li> Conversions:
       <ol>
-       <li> Helper Functions for conversion between GF(2), GF(2^8) were made so that the different stages
-       within the rounds could work on the data at their respective levels as described by the algorithm 
-       (except for MixColumns due to issues with how to implement the 4-BYTE Ring that occurs). </li>
-       <li> Was this really needed? It seems that better design here would have meant less of a need for some
-       of these and some of them are fairly pointless given the fairly trivial nature of the conversions 
-       (GF2t8ToNat for example). </li>
+       <li> Helper Functions for conversion between GF(2), GF(2^8) were made so
+       that the different stages within the rounds could work on the data at their
+       respective levels as described by the algorithm (except for MixColumns due
+       to issues with how to implement the 4-BYTE Ring that occurs). </li>
+       <li> Was this really needed? It seems that better design here would have
+       meant less of a need for some of these and some of them are fairly
+       pointless given the fairly trivial nature of the conversions ("GF2t8ToNat"
+       for example). </li>
       </ol>
      </li>
-     <li> For ShiftRows, a function was allowed to provide an arbitrary permutation. The default was one called
-     "aesPerm", although this is perhaps badly named as it eventually became a more generalised version that
-     represented the permutation of the byte elements within Rijndael. </li>
-     <li> A lot of pythonesque structures and functions were used which might detract from the idea here. 
-     Initially this was avoided when starting out but during the generalisation to Rijndael took place,
-     a lack of design lead to a disorganised and inelegant method of generalisation. OK : can this
+     <li> For ShiftRows, a function was allowed to provide an arbitrary permutation.
+     The default was one called "aesPerm", although this is perhaps badly named as
+     it eventually became a more generalised version that represented the permutation
+     of the byte elements within Rijndael. </li>
+     <li> A lot of pythonesque structures and functions were used which might detract
+     from the idea here. Initially this was avoided when starting out but during
+     the generalisation to Rijndael took place, a lack of design lead to a
+     disorganised and inelegant method of generalisation. OK : can this
      be easily fixed? doesn't need to be perfect. </li>
      <li> Key schedule:
       <ol>
-       <li> Initially when dealing with AES, the keyscheduler was simply a single function of the form 
-       nextKey(k,r) where k is the previous round key and r is the round number, and the function would
-       return the next round key. </li>
-       <li> When generalising this to Rijndael, more than one previous round key is necessary to calculate the
-       next due to the possibility of asymmetric plaintext-key sizes  and so rather than keeping track of 
-       these keys, it seemed better to generate the entire expanded key (done in getExpandedKey) as a list
-       of bytes using an altered version of the nextKey function internally and to then get each round key
+       <li> Initially when dealing with AES, the keyscheduler was simply a
+       single function of the form "nextKey(k,r)" where k is the previous round
+       key and r is the round number, and the function would return the next
+       round key. </li>
+       <li> When generalising this to Rijndael, more than one previous round
+       key is necessary to calculate the next due to the possibility of
+       asymmetric plaintext-key sizes  and so rather than keeping track of 
+       these keys, it seemed better to generate the entire expanded key
+       (done in "getExpandedKey") as a list of bytes using an altered version
+       of the "nextKey" function internally and to then get each round key
        using a helper function called getRoundKey. </li>
-       <li> This seems rather convoluted and the implementation of each of these functions is particularly messy
-       and not particularly well thought out. </li>
+       <li> This seems rather convoluted and the implementation of each of these
+       functions is particularly messy and not particularly well thought out. </li>
       </ol>
      </li>
-     <li> Some basic "tests" were added by way of assertions to ensure the implementation matched
-     what encryption via AES or Rijndael should give. Ideally this would have better been seperated
-     into a runnable sets of tests rather than assertions as it simply served to slow down the loading
-     of the file into sage significantly, and a properly seperated set of runnable tests would have allowed
-     more freedom and been more structured. </li> 
+     <li> Some basic "tests" were added by way of assertions to ensure the
+     implementation matched what encryption via AES or Rijndael should give.
+     Ideally this would have better been seperated into a runnable sets of tests
+     rather than assertions as it simply served to slow down the loading of the
+     file into sage significantly, and a properly seperated set of runnable tests
+     would have allowed more freedom and been more structured. </li> 
      <li> DONE (such considerations are for future developments)
      The overall view of the plaintext and key was that of a matrix of bytes/GF(2^8) elements. 
      This seemed to make some sense as this is how AES/Rijndael is described, however some papers 
@@ -139,46 +149,56 @@ else :
    and documentations will be made as per other todos.) </li>
   </ul>
 
+
   \todo Sage Implementation Docus and Demos
   <ul>
-     <li> We need the docus- as well as the demos-system for the Sage implementation.</li>
-     <li> Also how to run these programs needs to be explained. What are suitable
-     examples here? Would a simple encryption scheme that takes a given ASCII string 
-     message and produces the encrypted result, and then decrypts the result be a reasonable
-     single example? Perhaps some use of the functions in producing pseudorandom data similar 
-     in idea to the use of AES in Random generators elsewhere in OKlibrary?</li>
+   <li> We need the docus- as well as the demos-system for the Sage implementation. </li>
+   <li> Also how to run these programs needs to be explained. What are suitable
+   examples here? Would a simple encryption scheme that takes a given ASCII string 
+   message and produces the encrypted result, and then decrypts the result be a reasonable
+   single example? Perhaps some use of the functions in producing pseudorandom data similar 
+   in idea to the use of AES in Random generators elsewhere in OKlibrary? </li>
   </ul>
+
 
   \todo Discussion on Generalisation/Parameterisation based on Algebraic Aspects
   of the AES
   <ul>
-   <li> Algebraic Aspects of the AES, discusses generalising each of the 
+   <li> [Algebraic Aspects of the AES] discusses generalising each of the 
    operations in AES/Rijndael to operations over field of size 4 and 8 bits
-   rather than just 8 (GF2t4 and GF2t8 rather than just GF2t8) using a parameter
-   e, as well as allowing a more diverse range of block structures, where the 
-   number of rows and columns in the block can range over {1,2,4}. This leads to 
-   a more general parameterised AES function of the form AES(r,n_R, n_C,e)(P,K,C), 
-   where r is the number of rounds, n_R is the number of rows in the block, n_C 
-   is the number of columns of length n_R and e is the word size, normally 8 
-   (ie GF2t8 elements), but extended to include values of e of 4 or 8. It would
-   be nice to include such generalisations (more than the obvious round variable r, 
-   which is fairly trivial to include) as including a variety of parameters which 
-   can be reduced to make more easily attackable, and more thoroughly analysable 
-   AES variants is advantageous, as most likely the full AES will not be broken
-   and simple reduced round variants seem less interesting, than reducing parameters
-   such as e, especially because inversion within GF2t8 can be expressed as 
-   operations on the inversion of the two GF2t4 elements comprising it (see
-   discussion on efficient implementation of AES in Design of Rijndael) and the
-   relationships between these variants and the full AES seems less explored in
-   previous research than simple reduced round variants of the cipher. </li>
+   rather than just 8 (GF(2^4) and GF(2^8) rather than just GF(2^8)) using a
+   parameter e, as well as allowing a more diverse range of block structures, where the 
+   number of rows and columns in the block can range over {1,2,4}. </li>
+   <li> This leads to a more general parameterised AES function of the form
+   AES(r,n_R, n_C,e)(P,K,C), where
+    <ol>
+     <li> r is the number of rounds, </li>
+     <li> n_R is the number of rows in the block, </li>
+     <li> n_C is the number of columns of length n_R, </li>
+     <li> and e is the word size, normally 8 (ie GF(2^8) elements), but extended
+     to include values of e of 4 or 8. </li>
+    </ol>
+   </li>
+   <li> It would be nice to include such generalisations (more than the obvious
+   round variable r, which is fairly trivial to include) as including a variety
+   of parameters which can be reduced to make more easily attackable, and more
+   thoroughly analysable AES variants is advantageous, as most likely the full
+   AES will not be broken and simple reduced round variants seem less interesting,
+   than reducing parameters such as e. </li>
+   <li> Especially because inversion within GF(2^8) can be expressed as operations
+   on the inversion of the two GF(2^4) elements comprising it (see discussion on
+   efficient implementation of AES in [Design of Rijndael]), and the relationships
+   between these variants and the full AES seems less explored in previous research
+   than simple reduced round variants of the cipher. </li>
   </ul>
+
 
   \todo Maxima: design
   <ul>
    <li> The following points need review --- the more general discussions belong
-   to Axiom/Aldor(see below), and should be moved to there, while here we have 
+   to Axiom/Aldor(see below), and should be moved there, while here we have 
    to decide what is the "right" level of abstraction. </li>
-   <li>What specifically is needed from the maxima implementation?
+   <li> What specifically is needed from the maxima implementation?
     <ul>
      <li> A function F_AES(p,k) = c and F_AES'(c,k) = p . </li>
      <li> How to generalise this to Rijndael? Perhaps F_Rijndael(p,k,r) where 
@@ -188,144 +208,179 @@ else :
      </li>
      <li> A separate round function to allow greater flexibility 
      when investigating reduced round variants. </li>
-     <li> What sort of generalisations are needed? Should the elements of the
-     round such as ShiftRows be interchangable to some arbitrary permutation 
-     (perhaps just across rows?)? Should MixColumns be generalised to an 
-     arbitrary 4-Byte value multiplication, should it even be viewed in this 
-     way? See 
+     <li> What sort of generalisations are needed?
+      <ol>
+       <li> Should the elements of the round such as ShiftRows be interchangable
+       to some arbitrary permutation (perhaps just across rows?)? </li>
+       <li> Should MixColumns be generalised to an arbitrary 4-Byte value
+       multiplication, should it even be viewed in this way? See ??? </li>
+      </ol>
      </li>
     </ul>
    </li>
-   <li>Should it be split up into each of the individual round functions (MixColumns etc) or should these
-   be combined? Combining them might make certain relationships/conditions more obvious, but it also makes
-   things much less flexible and depending on how it is done, could make generalising to Rijndael harder.
-   It seems a better understanding of the nature of the cipher might yield a 
-   different perspective that isn't as focused on these functions? 
-   Further reading of Algebraic Aspects of the AES may yield some insight but this also 
-   appears to consider such functions (although generalised to produce a larger number
-   of AES variants), perhaps this is most natural?
+   <li> Should it be split up into each of the individual round functions
+   ("MixColumns" etc) or should these be combined?
+    <ol>
+     <li> Combining them might make certain relationships/conditions more obvious,
+     but it also makes things much less flexible and depending on how it is done,
+     could make generalising to Rijndael harder. </li>
+     <li> It seems a better understanding of the nature of the cipher might yield
+     a different perspective that isn't as focused on these functions? </li>
+    </ol>
+    Further reading of Algebraic Aspects of the AES may yield some insight but this also 
+    appears to consider such functions (although generalised to produce a larger number
+    of AES variants), perhaps this is most natural?
    </li>
    <li> How to approach key scheduling?
     <ol>
-     <li> AES and symmetric plaintext-key sizes provide a fairly elegant recursive key generation where
-     each round key is just the result of the key generation on the last round key, whereas asymetric sizes
-     such as 192bit plaintext and a 128bit key means you will have to use parts of the previous two round keys. </li>
+     <li> AES and symmetric plaintext-key sizes provide a fairly elegant recursive
+     key generation where each round key is just the result of the key generation
+     on the last round key, whereas asymetric sizes such as 192bit plaintext and a
+     128bit key means you will have to use parts of the previous two round keys. </li>
      <li>  This seems to be done with an expanded key which is a large array/list of round keys in Design of
      Rijndael. </li>
     </ol>
    </li> 
-   <li>How to pass data around and represent field elements ?
+   <li> How to pass data around and represent field elements ?
     <ol>
-     <li>It seems the simplest way to pass data around would be as a list of 
+     <li> It seems the simplest way to pass data around would be as a list of 
      bits, given that this is one of the simplest representations, it translates
      nicely when considering translation to SAT and translation from this to 
-     finite field elements and elements within the 4-Byte PID seems trivial.</li>
+     finite field elements and elements within the 4-Byte PID seems trivial. </li>
     </ol>
-   <li>
    </li>
    <li> How should the implementation of the individual round operations be approached?
-
-    Programmatically 
     <ul>
-     <li> 3/4 conversion functions with suitable inverses working on lists
+     <li> 3/4 conversion functions (OK: ???) with suitable inverses working on lists
      of the appropriate elements :
      <ol>
       <li> hexToGF2 (with binToHex) for conversion of a hexidecimal string
       in the same format as in the Design of Rijndael (discuss here). 
       </li>
       <li> GF2ToGF2t4 (with GF2t4ToGF2) for conversion of a list of binary bit 
-      values representing GF2 elements to a list of GF2t4 elements.
+      values representing GF(2) elements to a list of GF(2^4) elements.
       </li>
       <li> GF4ToGF2t8 (with GF2t8ToGF2t4)) for a conversion from a list of 
-      elements in GF2t4 to elements in GF2t8.
+      elements in GF(2^4) to elements in GF(2^8).
       </li>
       <li> GF2t8ToPID (with PIDToGF2t8) for a conversion of a list of binary
-      bit values representing GF2 elements to a list of 4-Byte PID column elements.
+      bit values representing GF(2) elements to a list of 4-Byte PID column elements.
       </li>
      </ol>
      </li>
-     <li> The MixColumn operation, which would then take a list of GF2 
+     <li> The MixColumn operation, which would then take a list of GF(2) 
      elements or bits and convert it to a list of elements in the 4-Byte PID, 
      would simply be a mapping of the multiplication by the constant polynomial
-     (2x^3 + 3x^2 + x + 1) across the list. There may be a way to represent this
+     (2x^3 + 3x^2 + x + 1) across the list. </li>
+     <li> There may be a way to represent this
      multiplication by simple operations over polynomials and so on, or it may 
-     have to be represented via a matrix multiplication over GF2t8. The list would
-     then be converted back to GF2 using the appropriate helper function. Such a 
-     mapping would be general across AES and Rijndael. Generalising this based on
-     parameter n_R discussed in Algebraic Aspects of the AES, seems possible by
-     use of a lookup function for the constant to multiply based on n_R, as well
-     as looking up the field to multiply over. Generalising over n_C should be 
-     trivial as given a function on elements in the QR/PID of size n_R (columns),
-     the result of MixColumns is just a mapping over n_C of these elements and so
-     the n_C parameter seems irrelevant here. Generalising over e, seems to tie
-     in closely with generalising over n_R, as the polynomial the elements in columns
-     of the block form, are over elements of size e.
-     </li>
-     <li> The SubBytes operation, would take a list of GF2 elements, convert this
-     list to a list of GF2t8 elements, and then map the S_rd operation across it. 
-     The resultant list would then be converted back to a list of GF2/bit elements.
+     have to be represented via a matrix multiplication over GF(2^8). </li>
+     <li> The list would then be converted back to GF(2) using the appropriate
+     helper function. </li>
+     <li> Such a  mapping would be general across AES and Rijndael. </li>
+     <li> Generalising this based on parameter n_R discussed in [Algebraic
+     Aspects of the AES}, seems possible by use of a lookup function for the
+     constant to multiply based on n_R, as well as looking up the field to
+     multiply over. </li>
+     <li> Generalising over n_C should be trivial as given a function on elements
+     in the QR/PID of size n_R (columns), the result of MixColumns is just a
+     mapping over n_C of these elements and so the n_C parameter seems irrelevant
+     here. </li>
+     <li> Generalising over e, seems to tie in closely with generalising over n_R,
+     as the polynomial the elements in columns of the block form, are over elements
+     of size e. </li>
+     <li> The SubBytes operation would take a list of GF(2) elements, convert this
+     list to a list of GF(2^8) elements, and then map the S_rd operation across it. 
+     The resultant list would then be converted back to a list of GF(2)/bit elements.
      Such a mapping would be general across AES and Rijndael. Discussion is needed 
-     on potential generalisation to 
+     on potential generalisation to ???
      </li>
      <li> The ShiftRows operation is simply the shift operation applied to each row
      in the block seperately depending on the size of the input. This can be achieved 
-     by taking the list of GF2 elements, and partitioning it into a list of 4 lists of
-     GF2 elements, which can then simply be shifted by the appropriate amounts, perhaps
+     by taking the list of GF(2) elements, and partitioning it into a list of 4 lists of
+     GF(2) elements, which can then simply be shifted by the appropriate amounts, perhaps
      determining the amount to shift/rotate by for each list/row by looking at the length
      of the input list.
      </li>
-     <li> The Key Scheduling operation could simply take a list of GF2 elements convert this
-     to a list of GF2t8 elements and perform the key schedule repeatedly in an iterative or
+     <li> The Key Scheduling operation could simply take a list of GF(2) elements convert this
+     to a list of GF(2^8) elements and perform the key schedule repeatedly in an iterative or
      recursive manner to produce the expanded key, for which the algorithm is relatively 
      simple and described in Design of Rijndael and in various other places, returning an 
-     expanded key (list of GF2 elements) of size of r+1 times the block size, which the 
+     expanded key (list of GF(2) elements) of size of r+1 times the block size, which the 
      individual round keys can then be extracted from using a helper function 
-     (extractRoundKey). Such
+     (extractRoundKey). Such ???
      </li>
     </ul>
-    Matrices or Algebraically
-    <ol>
-     <li> The initial example code uses matrices as this seemed natural from the description of AES but
-     this potentially makes generalisation to Rijndael more difficult unless a seperate implementation
-     is created for each plaintext-key pair size configuration is made which seems excessive. Using maxima
-     matrices in such ways also seems to bias the implementation to taking a view of the problem from one
-     particular aspect (ie GF(2) bytes etc) which may not be best. </li>
-     <li> The advantage of matrices is that, the semantics of the operations are more easily visible at
-     a glance, although any well designed and implemented would probably provide this. </li>
-     <li> Perhaps for use a simple list would be best as this seems to be the common unit in LISP and therefore
-     maxima? This can be converted to a matrix if a given operation would be best accomplished this way... </li>
-     <li> There seem to be 3 different representations considered when dealing with AES, byte sized 
-    </ol>
    </li>
-   <li> Create a general design (here in the plans) which is stepwise refined to a Maxima implementation. </li>
-   <li> Compare the discussion under "Condition" in ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
-   <li> Look into whether/how maxima supports symbolic manipulation, so once a simple AES implementation is complete,
-   basic equations can be generated for study. This is seemingly possible in Sage by generating variables from PolynomialRings
-   and using these in the system although this seems to yield some issues with typing in some cases.</li>
+  </ul>
+
+
+  \todo Algebraic aspects
+  <ul>
+   <li> The initial example code uses matrices as this seemed natural from the
+   description of AES but this potentially makes generalisation to Rijndael
+   more difficult unless a seperate implementation is created for each
+   plaintext-key pair size configuration is made which seems excessive. </li>
+   <li> Using maxima matrices in such ways also seems to bias the implementation
+   to taking a view of the problem from one particular aspect (ie GF(2) bytes etc)
+   which may not be best. </li>
+   <li> The advantage of matrices is that, the semantics of the operations are
+   more easily visible at a glance, although any well designed and implemented
+   would probably provide this. </li>
+   <li> Perhaps for use a simple list would be best as this seems to be the
+   common unit in LISP and therefore maxima? </li>
+   <li> This can be converted to a matrix if a given operation would be best
+   accomplished this way... </li>
+   <li> There seem to be 3 different representations considered when dealing
+   with AES, byte sized. </li>
+   <li> Create a general design (here in the plans) which is stepwise refined to a
+   Maxima implementation. </li>
+   <li> Compare the discussion under "Condition" in
+   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
+   <li> Look into whether/how maxima supports symbolic manipulation, so once a
+   simple AES implementation is complete, basic equations can be generated for
+   study. </li>
+   <li> This is seemingly possible in Sage by generating variables from PolynomialRings
+   and using these in the system although this seems to yield some issues with typing
+   in some cases. </li>
   </ul>
 
 
   \todo Maxima: implementation issues
   <ul>
-   <li> Some initial/example code for this has been added in ComputerAlgebra/Cryptology/AES.mac .
-   OK : where does the suffix ".mac" come from? looks unmotivated to me? is this the standard
-   ending for maxima-files, or for special ones? MG - Looking through the maxima documentation and at
-   the Finite Fields package and others, it seemed to be the common file extension, and due to a misunderstanding
-   on my part, I believed that it was required, however I simply misunderstood the use of the load function and
-   a more explicit file extension of .maxima following the TauMachinery example seems sensible. OK : one
+   <li> Some initial/example code for this has been added in
+   ComputerAlgebra/Cryptology/AES.mac. </li>
+   <li> OK : where does the suffix ".mac" come from? looks unmotivated to me?
+   is this the standard ending for maxima-files, or for special ones? </li>
+   <li> MG - Looking through the maxima documentation and at
+   the Finite Fields package and others, it seemed to be the common file extension,
+   and due to a misunderstanding on my part, I believed that it was required, however
+   I simply misunderstood the use of the load function and a more explicit file
+   extension of .maxima following the TauMachinery example seems sensible. OK : one
    could ask this question on the (main) maxima mailing list. </li>
-   <li> The finite field packages function names, along with maximas syntax make things a little verbose
-   and perhaps a little longer than is really necessary although this is more of a nuisance than a real
-   problem.
+   <li> Most important: Follow the standard coding practice!
+    <ol>
+     <li> Use named constants. </li>
+     <li> Do not use abbreviated names except of well-established cases. </li>
+     <li> Add code documentation for the specification of functions. </li>
+    </ol>
+    Furthermore declarations of local variables are needed.
+   </li>
+   <li> The finite field packages function names, along with maximas syntax make
+   things a little verbose and perhaps a little longer than is really necessary a
+   lthough this is more of a nuisance than a real problem.
    OK : Why is there a nuisance? In general in the OKlibrary "full" names are appreciated; is this
    somewhat special here?
-   MG : It only arose as an issue due to my wish to keep the code relatively short and concise and so while trying
-   to keep to a fixed line length of say 80 characters, this meant that the code become much longer. The syntax when
-   dealing with the binary operations as well doesn't seem to immediately make clear things such as associativity when
-   reading, in my mind, potentially making simplification more difficult. I imagine that this is more my unfamiliarity 
+   MG : It only arose as an issue due to my wish to keep the code relatively
+   short and concise and so while trying to keep to a fixed line length of say
+   80 characters, this meant that the code become much longer. The syntax when
+   dealing with the binary operations as well doesn't seem to immediately make
+   clear things such as associativity when reading, in my mind, potentially making
+   simplification more difficult. I imagine that this is more my unfamiliarity 
    with the language and more importantly problems occuring due to lack of design.
    as suggested below.</li>
-   <li> Since we need the package, and it doesn't come with Maxima, we need to handle it as an ExternalSource. 
+   <li> Since we need the package, and it doesn't come with Maxima, we need to
+   handle it as an ExternalSource. 
     <ul>
      <li> What is the procedure for this?
       <ol>
@@ -334,39 +389,47 @@ else :
        <li> There should be configuration variables which help us using the package. </li>
       </ol>
      </li>
-     <li> When doing this, it might be beneficial to add some basic functionality such as a gf_matadd (matrix addition 
-     within the set field) and so on which isn't currently offered but seems trivial to implement using the functions 
+     <li> When doing this, it might be beneficial to add some basic functionality
+     such as a gf_matadd (matrix addition within the set field) and so on which
+     isn't currently offered but seems trivial to implement using the functions 
      defined in gf.mac, although whether this is useful would depend on the design. </li>
     </ul>
    </li>
    <li> How best to implement multiplication by the 4-byte constant in the 
-    MixColumns step (or it's equivalent), as it is not a field element? It
-    seems Maxima has functions regarding various operations on polynomials
-    (multiplication, quotient/modulus etc) but is this general enough in
-    terms of the field it works over or is it specific to the reals? It 
-    appears you can override the functions used for multiplication etc and
-    so generalising the field used, even if not easily possible, seems at
-    least possible? Is there a great deal of benefit from representing the
-    multiplication by this fixed constant in the 4-Byte PID/QR (or variants)
-    or is it better to simply represent this as matrix operation, does this
-    lose anything?
+    MixColumns step (or it's equivalent), as it is not a field element?
+     <ol>
+      <li> It seems Maxima has functions regarding various operations on
+      polynomials (multiplication, quotient/modulus etc) but is this general
+      enough in terms of the field it works over or is it specific to the reals? </li>
+      <li> It appears you can override the functions used for multiplication etc and
+      so generalising the field used, even if not easily possible, seems at
+      least possible? </li>
+      <li> Is there a great deal of benefit from representing the
+      multiplication by this fixed constant in the 4-Byte PID/QR (or variants)
+      or is it better to simply represent this as matrix operation, does this
+      lose anything? </li>
+     </ol>
    </li>
    <li> Right form of abstraction : DONE (these problems will go away through proper design)
     <ol>
-     <li> Approaching the implementation from the perspective of the 4-byte block using this package (and with sage's
-     finite fields) seems to be a little harder as the 4-byte block only forms a ring and it needs to be looked into
-     how to form rings that behave in the same way (with a given polynomial modulus etc). Trying to create a field object
-     without checking if the modulus is irreducible and then somehow casting that to a Ring doesn't seem to work although
-     I'm not sure why it would. </li>
-     <li> It seems easier to me to express the system in terms of the byte field elements (GF(2^8)) as most of the operations
-     are easily expressed as operations on these elements although it doesn't appear that many others have looked at the 
-     problem from the perspectives other than GF(2^8) and GF(2) so other perspectives (4-byte block, considering things
-     as operations on integers etc) might yield something different. </li>
-     <li> OK: The problem I see here is that there is no proper design --- design (in the plans) must come first!
-     (Implementations come later!!) </li>
+     <li> Approaching the implementation from the perspective of the 4-byte block
+     using this package (and with sage's finite fields) seems to be a little harder
+     as the 4-byte block only forms a ring and it needs to be looked into
+     how to form rings that behave in the same way (with a given polynomial modulus etc).
+     Trying to create a field object without checking if the modulus is irreducible and then
+     somehow casting that to a Ring doesn't seem to work although I'm not sure why it would. </li>
+     <li> It seems easier to me to express the system in terms of the byte field
+     elements (GF(2^8)) as most of the operations  are easily expressed as operations
+     on these elements although it doesn't appear that many others have looked at the 
+     problem from the perspectives other than GF(2^8) and GF(2) so other perspectives
+     (4-byte block, considering things as operations on integers etc) might yield
+     something different. </li>
+     <li> OK: The problem I see here is that there is no proper design --- design
+     (in the plans) must come first! (Implementations come later!!) </li>
     </ol>
    </li>
-   <li> Finite fields? Possibly through a third party package. (see http://www.math.utexas.edu/pipermail/maxima/2006/003255.html), 
+   <li> Finite fields? Possibly through a third party package. (see
+   http://www.math.utexas.edu/pipermail/maxima/2006/003255.html), 
    although this looks untested. DONE (started using it) </li>
   </ul>
 
@@ -384,7 +447,8 @@ else :
 
   \todo Partitioning into active clauses
   <ul>
-   <li> This todo has to be updated according to ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
+   <li> This todo has to be updated according to
+   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
    <li> An overview on the possibilities of anatomising the AES-process into
    active clauses has to be gained. </li>
    <li> The roughest subdivision presents just the input-output relation (this
