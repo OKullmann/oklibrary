@@ -9,6 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/plans/Rijndael.hpp
   \brief Plans for cryptological tools regarding the Rijndael cipher
 
+
   \todo Terminology
   <ul>
    <li> A bit could be called 
@@ -160,7 +161,7 @@ else :
   </ul>
 
 
-  \todo Sage Implementation Docus and Demos
+  \todo Docus and demos for the sage implementation
   <ul>
      <li> We need the docus- as well as the demos-system for the Sage implementation. 
      MG - A very basic docu has now been setup and this needs to be expanded. </li>
@@ -172,8 +173,21 @@ else :
   </ul>
 
 
-  \todo Discussion on Generalisation/Parameterisation based on Algebraic Aspects
-  of the AES
+  \todo Restructuring
+  <ul>
+   <li> Create sub-modules for "Lisp" and "Aldor". </li>
+   <li> Likely "Sage" is not treated on its own. </li>
+   <li> Some todos need to be reworked:
+    <ol>
+     <li> "Maxima: implementation issues" and "Maxima: design" needs
+     unification/splitting. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Discussion on Generalisation/Parameterisation based on [Algebraic Aspects
+  of the AES]
   <ul>
    <li> [Algebraic Aspects of the AES] discusses several generalisations of Rijndael. </li>
    <li> Rather than using GF(2^8), a parameter <em>e</em> is introduced, which 
@@ -378,6 +392,7 @@ else :
 
   \todo Maxima: implementation issues
   <ul>
+   <li> The main point is to have a very neat implementation of AES/Rijndael. </li>
    <li> Some initial/example code for this has been added in
    ComputerAlgebra/Cryptology/AES.mac. </li>
    <li> OK : where does the suffix ".mac" come from? looks unmotivated to me?

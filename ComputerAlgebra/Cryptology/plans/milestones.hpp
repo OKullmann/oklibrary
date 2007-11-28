@@ -15,24 +15,29 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
+    - Terminology
     - Finishing old implementation
-    - Sage Implementation Docus and Demos
+    - Docus and demos for the sage implementation
+    - Restructuring
+
+  \par
+   Update the subsequent milestones.
 
 
   \par Version 0.0.6
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Discussion on Generalisation/Parameterisation based on Algebraic Aspects
-         of the AES
     - Maxima: design
+    - Maxima: implementation issues
 
 
   \par Version 0.0.7
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Maxima: implementation issues
+    - Discussion on Generalisation/Parameterisation
+    - Algebraic aspects
 
 
   \par Version 0.0.8

@@ -26,6 +26,9 @@ License, or any later version. */
     - Comparisons : DONE
     - How to use Sage? : DONE
 
+  \par
+   Update the following milestones.
+
 
   \par Version 0.1.2
 
