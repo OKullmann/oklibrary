@@ -11,12 +11,22 @@ License, or any later version. */
 
   \todo Terminology
   <ul>
-   <li> A bit may be called an element in GF2 or in the Bit field. </li>
-   <li> An 8-byte element, representing a polynomial over GF2 or an element
-   in GF2^8 can be called an element in GF2t8 or an element in the Byte Field.
+   <li> A bit could be called 
+    <ul>
+     <li> an element in GF(2) </li>
+     <li> an element in the Bit Field. </li>
+    </ul>
+   <li> An 8-byte element, representing a polynomial over GF(2) or an element
+   in GF(2^8) can be called
+   <ul>
+    <li> an element in GF(2^8) </li>
+    <li> an element in the Byte Field </li>
+   </ul>
    The most significant bit represents the highest order term in the polynomial
-   (7).</li>
-   <li> A 4-byte element formed by taking a column of GF2t8 elements in the 
+   (7), and values are usually written in hexadecimal notation, so, for example, 
+   A2 is 10100010. Some clarification may be needed on the implementation details
+   for the specific GF(2^8) field.</li>
+   <li> A 4-byte element formed by taking a column of GF(2^8) elements in the 
    Rijndael block might be called an element in the 4-Byte PID (Principal Ideal
    Domain) or in the QR (Quotient Ring), as this is not actually a field (some
    elements don't have an inverse as the modulus X^4 + 1 isn't irreducible over 
@@ -141,36 +151,45 @@ else :
 
   \todo Sage Implementation Docus and Demos
   <ul>
-     <li> We need the docus- as well as the demos-system for the Sage implementation.</li>
+     <li> We need the docus- as well as the demos-system for the Sage implementation. 
+     MSG - A very basic docu has now been setup and this needs to be expanded.</li>
      <li> Also how to run these programs needs to be explained. What are suitable
      examples here? Would a simple encryption scheme that takes a given ASCII string 
      message and produces the encrypted result, and then decrypts the result be a reasonable
      single example? Perhaps some use of the functions in producing pseudorandom data similar 
-     in idea to the use of AES in Random generators elsewhere in OKlibrary?</li>
+     in idea to the use of AES in Random generators elsewhere in OKlibrary?
+     </li>
   </ul>
 
   \todo Discussion on Generalisation/Parameterisation based on Algebraic Aspects
   of the AES
   <ul>
-   <li> Algebraic Aspects of the AES, discusses generalising each of the 
-   operations in AES/Rijndael to operations over field of size 4 and 8 bits
-   rather than just 8 (GF2t4 and GF2t8 rather than just GF2t8) using a parameter
-   e, as well as allowing a more diverse range of block structures, where the 
-   number of rows and columns in the block can range over {1,2,4}. This leads to 
-   a more general parameterised AES function of the form AES(r,n_R, n_C,e)(P,K,C), 
-   where r is the number of rounds, n_R is the number of rows in the block, n_C 
-   is the number of columns of length n_R and e is the word size, normally 8 
-   (ie GF2t8 elements), but extended to include values of e of 4 or 8. It would
-   be nice to include such generalisations (more than the obvious round variable r, 
-   which is fairly trivial to include) as including a variety of parameters which 
-   can be reduced to make more easily attackable, and more thoroughly analysable 
-   AES variants is advantageous, as most likely the full AES will not be broken
-   and simple reduced round variants seem less interesting, than reducing parameters
-   such as e, especially because inversion within GF2t8 can be expressed as 
-   operations on the inversion of the two GF2t4 elements comprising it (see
-   discussion on efficient implementation of AES in Design of Rijndael) and the
+   <li>Algebraic Aspects of the AES discusses several generalisations of Rijndael </li>
+   <li> Rather than using GF(2^8), a parameter <em>e</em> is introduced, which 
+   specifies 4 or 8 to indicate whether the block should deal in elements in 
+   GF(2^4) or elements in GF(2^8) where appropriate modulo polynomials and S_rd 
+   affine transforms are defined for GF(2^4). This seems interesting because 
+   inversion within GF(2^8) can be expressed as operations on the inversion of 
+   the two GF2t4 elements comprising it (see discussion on efficient implementation 
+   of AES in Design of Rijndael) 
+   </li>
+   <li> <em>n_R</em> is the number of rows in the block and may range over {1,2,4} where the normal
+   AES/Rijndael default is 4. Clearly here the main issue is with Mixcolumns which
+   works on the columns of size 4 and so different constants over these 1, 2 or 4
+   element polynomials but with the same basic operation involved (multiplying
+   each column by a constant in that Quotient Ring).
+   </li>
+   <li> <em>n_C</em> is the number of rows in the block and may range over {1,2,4}. 
+   This only affects ShiftRows and as with n_R, variants are defined for each 
+   of these.
+   </li>
+   <li> <em>r</em> is the number of rounds as normal. </li>
+   <li> Such abstractions seem to offer more interesting ways of generalising and producing
+   AES/Rijndael variants with reduced complexity, which might offer better and possibly
+   interesting results with translations and the
    relationships between these variants and the full AES seems less explored in
-   previous research than simple reduced round variants of the cipher. </li>
+   previous research than simple reduced round variants of the cipher.
+   </li>
   </ul>
 
   \todo Maxima: design
@@ -280,7 +299,7 @@ else :
      simple and described in Design of Rijndael and in various other places, returning an 
      expanded key (list of GF2 elements) of size of r+1 times the block size, which the 
      individual round keys can then be extracted from using a helper function 
-     (extractRoundKey). Such
+     (extractRoundKey).
      </li>
     </ul>
     Matrices or Algebraically
@@ -294,8 +313,11 @@ else :
      a glance, although any well designed and implemented would probably provide this. </li>
      <li> Perhaps for use a simple list would be best as this seems to be the common unit in LISP and therefore
      maxima? This can be converted to a matrix if a given operation would be best accomplished this way... </li>
-     <li> There seem to be 3 different representations considered when dealing with AES, byte sized 
     </ol>
+    It seems that defining such operations as operations on matrices provides the 
+    most clear representation of each round function. The question of how to 
+    parameterise such an implementation, may be addressed by parameterising
+    the round functions or at least their basic operations themselves.
    </li>
    <li> Create a general design (here in the plans) which is stepwise refined to a Maxima implementation. </li>
    <li> Compare the discussion under "Condition" in ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
