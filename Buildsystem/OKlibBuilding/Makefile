@@ -620,32 +620,6 @@ testop_timestamp := $(test_aux_dir)/new_testop_$(test_level)
 # VARIABLES FOR GCC AND BOOST VERSIONS, INCLUDES AND LINKING
 # ################################################################
 
-# ----------------------------------------------------------
-# system_versions (LV)
-#
-# If defined (with any non-empty value) then the build
-# system by default will use the system versions of gcc and/or boost
-# rather than the recommended local versions (if not
-# gcc_version_number resp. boost_version_number is defined,
-# in which case the respective local version is used).
-#
-# gcc_version_number (SV)           
-#
-# Can be defined to specify the version number
-# of a locally installed GCC to be used by the
-# build system instead of the system compiler. By
-# default, has the value of the recommended version
-# of gcc.
-# 
-# boost_version_number (SV)
-#
-# Can be defined to specify the version number
-# of a locally installed Boost to be used by the
-# build system instead of the system Boost. By
-# default, has the value of the recommended version
-# of boost.
-#
-# ----------------------------------------------------------
 system_versions :=
 
 ifeq ($(system_versions),)
@@ -665,10 +639,6 @@ endif
 #  pass the option "-rpath Path" to the linker, which will 
 #  add Path to the places searched for this program for 
 #  run-time-libraries.
-#
-# boost_version_number
-#
-#  The version number of the Boost library.
 #
 # Boost
 #

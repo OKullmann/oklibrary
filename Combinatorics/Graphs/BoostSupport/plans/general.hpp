@@ -72,8 +72,12 @@ c -> a;
    <li> Should we offer additional help for using boost::read_graphviz
    and boost::write_graphviz? Or do we only provide good examples?
    Definitely we first start with the examples. </li>
-   <li> See Hypergraphs/Colourings/GreedyColouring.cpp for an
-   example. </li>
+   <li> Examples:
+    <ol>
+     <li> Hypergraphs/Colourings/GreedyColouring.cpp </li>
+     <li> Graphs/Isomorphisms/SimpleBacktracking.cpp </li>
+    </ol>
+   </li>
   </ul>
 
 
