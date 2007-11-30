@@ -1,0 +1,97 @@
+/* Oliver Kullmann, 29.11.2007 (Swansea) */
+/* Copyright 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
+  \brief Functions for basic operations with clause-sets
+
+Use by
+
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
+Needs ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac.
+
+*/
+
+/*
+ A "boolean variable" might be any expression x, such that "- x" is defined
+ and yields a different object.
+*/
+
+/* 
+ A "boolean literal" might be a boolean variable v or a negated boolean
+ variables.
+*/
+
+/* the underlying variable of a literal */
+var_l(x) := (local(x), abs(x));
+
+/* complementation of a set of literals */
+comp_sl(L) := (local(L), map(lambda([l], -l), L));
+
+/*
+ A "boolean clause" is a set C of boolean literals such that
+ C and comp(C) have empty intersection.
+*/
+
+var_c(C) := (local(C), map(var_l, C));
+
+/*
+ A "boolean clause-set" is a set of boolean clauses.
+*/
+
+var_cs(F) := (local(F), xreduce(union, map(var_c, F)));
+var_cs_f(FF) := (local(FF), FF[1]);
+
+nvar_f(FF) := (local(FF), length(var_cs_f(FF)));
+
+clauses_f(FF) := (local(FF), FF[2]);
+
+comp_cs(F) := (local(F), map(comp_sl, F));
+
+/*
+ A "formal boolean clause-set" is a pair (V, F), where V is the set of 
+ variables, and F is a boolean clause-set with var_cs(F) <= V.
+*/
+
+/*
+ A "partial boolean assignment" is a boolean clause, interpreted
+ as setting its elements to true.
+*/
+
+/* apply a partial assignment to a boolean clause-set */
+apply_pa(phi,F) := (local(phi,F), setdifference2(remove_non_disjoint(F,phi), comp_sl(phi)));
+apply_pa_f(phi,FF) := (local(phi,FF), [setdifference(var_cs_f(FF), var_c(phi)),
+  apply_pa(phi, clauses_f(FF))]);
+
+
+/* *****************************************
+   * Printing clause-sets in Dimacs-format *
+   *****************************************
+*/
+
+/* output a literal */
+dimacs_l_string(x) := (local(x), sconcat(x," "));
+/* output a clause */
+dimacs_c_string(C) := (local(C), xreduce(sconcat, map(dimacs_l_string, C)));
+/* print a string without line-breaks */
+print_nlb(s) := (local(s), block([old_linel : linel],
+  linel : slength(s) + 1,
+  print(s),
+  linel : old_linel
+));
+/* print a formal clause-set in Dimacs format */
+print_cs_f(comment,FF) := (local(comment,FF),
+  print_nlb(sconcat("c ", comment)),
+  print_nlb(sconcat("p ", nvar_f(FF), " ", length(clauses_f(FF)))),
+  for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
+);
+/* output formal clause-set FF to file n */
+output_cs_f(comment,FF,n) := (local(comment,FF,n), with_stdout(n, print_cs_f(comment,FF)));
+
