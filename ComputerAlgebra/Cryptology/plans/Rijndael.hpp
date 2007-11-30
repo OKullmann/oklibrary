@@ -537,5 +537,23 @@ else :
    we create a prototype in the computer-algebra system. DONE </li>
   </ul>
 
+
+  \todo Active clauses for field operations
+  <ul>
+   <li> Likely the two best first candidates for general clause-sets
+   are the S-box (as map GF(2^8) -> GF(2^8)) and multiplication with
+   some constant a in GF(2^8)^* (again, as map GF(2^8) -> GF(2^8)). </li>
+   <li> Both types of functions yield boolean functions in 16 variables. </li>
+   <li> As bijections, they all have trivial DNF representations (with 256
+   satisfying assignments). </li>
+   <li> The CNF representations are more interesting, and one should study
+   good CNF's. </li>
+   <li> Obviously also of interest are OBDD representations of these boolean
+   functions. </li>
+   <li> These allow efficient handling of all basic tasks for active clauses
+   (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp). </li>
+   <li> Of course, special algorithms should be investigated. </li>
+  <ul>
+
 */
 
