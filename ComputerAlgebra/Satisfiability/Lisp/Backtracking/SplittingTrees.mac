@@ -1,0 +1,58 @@
+/* Oliver Kullmann, 29.11.2007 (Swansea) */
+/* Copyright 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
+  \brief Functions for handling of splitting trees
+
+Use by
+
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
+Needs ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac and
+ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
+
+*/
+
+/*
+ A "boolean splitting tree" for a clause-set F is either 
+  -[[]] for "nothing done",
+  - or [false] in case F contains the empty clause,
+  - or [true] in case F is empty,
+  - or [x, T0, T1], where x is a boolean literal and
+    T0/1 is a splitting tree of <x -> 0/1> * F.
+*/
+
+/*
+ A boolean splitting tree is complete iff no leaf is [[]].
+*/
+
+/* for input FF (a formal clause-set) returns a pair consisting of a splitting
+   tree of minimum size, and its size */
+optimal_splitting_tree(FF) := (local(FF), if is_empty(FF[2]) then [[true],1]
+  elseif has_empty_element(FF[2]) then [[false],1] else
+  block([best_tree : [[]], min_size : inf], for v in FF[1] do 
+    block([osp0 : optimal_splitting_tree(apply_pa_f({-v}, FF)),
+          osp1 : optimal_splitting_tree(apply_pa_f({v}, FF))],
+          block([new_size : osp0[2] + osp1[2]],
+          if new_size < min_size then (best_tree : [v, osp0[1], osp1[1]], min_size : new_size))),
+  [best_tree, min_size+1]));
+
+/* Counting the satisfying assignments in a splitting tree (relative to the set
+   V of variables) */
+count_sat_st(st,V) := (local(st,V), if st = [true] then 2^(length(V)) 
+  elseif st = [false] then 0 else
+  block([nV : disjoin(var_l(st[1]), V)], count_sat_st(st[2],nV) + count_sat_st(st[3],nV)));
+
+/* Compute the satisfying (partial) assignments in a splitting tree */
+sat_pass_st(st) := (local(st), sat_pass_st_a(st,{}));
+sat_pass_st_a(st,phi) := (local(st,phi), if st = [true] then [phi] 
+  elseif st = [false] then [] else
+  append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi))));
+ 
