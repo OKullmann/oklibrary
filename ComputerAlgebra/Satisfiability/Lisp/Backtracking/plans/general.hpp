@@ -21,15 +21,26 @@ License, or any later version. */
 
   \todo optimal_splitting_tree
   <ul>
-   <li> Instead of just getting the minimal size, the function should return
-   the complete distribution (for every occurring tree size the number of trees
-   for that size). </li>
-   <li> But storing the trees only for the best and perhaps for the worst
-   case. </li>
+   <li> Perhaps storing the trees also for the worst case. </li>
+   <li> When searching only for the best case, then branches which
+   cannot improve the current minimal size can be cut off. </li>
+   <li> Instead of minimising the number of overall nodes, that is,
+   minimising the number of leaves (since every inner node has exactly
+   two successors), one can also minimise the number of true-leafes (the
+   number of clauses in the DNF-representation) or the number of false-leaves
+   (the number of clauses in the CNF-representation). </li>
    <li> Introduce an additional parameter d (from 0 to inf), and for depth < d
    then the orbits of the automorphism group acting on the set of 2n literals
    is computed, and instead of evaluated all 2n trees only one element of
-   each orbit is chosen (evaluated appropriately). </li>
+   each orbit is chosen (evaluated appropriately).
+    <ol>
+     <li> See "Symmetries" in
+     ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp. </li>
+    </ol>
+   </li>
+   <li> Instead of just getting the minimal size, a variations return
+   the complete distribution (for every occurring tree size the number of trees
+   for that size). </li>
   </ul>
 
 
