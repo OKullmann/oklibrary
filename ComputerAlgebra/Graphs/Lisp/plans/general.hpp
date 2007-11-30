@@ -26,10 +26,15 @@ License, or any later version. */
   <ul>
    <li> Extend the documentation. </li>
    <li> Write documentation. </li>
-   <li> Can we add comments to the graph-output? </li>
-   <li> Should we give the graphs in the dot-output a dedicated name? </li>
-   <li> Generalise the graph output, so that arbitrary graphs
-   can be output (making function "string_vertex" a parameter). </li>
+   <li> Output :
+    <ol>
+     <li> Can we add comments to the graph-output? </li>
+     <li> Should we give the graphs in the dot-output a dedicated name? </li>
+     <li> Generalise the graph output, so that arbitrary graphs
+     can be output (making function "string_vertex" a parameter). </li>
+     <li> Move graph output to dedicated "InputOutput.mac". </li>
+    </ol>
+   </li>
    <li> Generalisations of the Kneser graphs:
     <ol>
      <li> The Johnson graphs J(n,k,i), consisting like the Kneser

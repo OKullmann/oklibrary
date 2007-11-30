@@ -26,19 +26,22 @@ string_vertex(v) := (local(v), xreduce(sconcat, map(element_label, v)));
 print_vertices(V) := (local(V, v), for v in V do print(sconcat(string_vertex(v), ";")));
 print_edge(e) := (local(e), block( [ le : listify(e) ], print(sconcat(string_vertex(le[1])," -- ",string_vertex(le[2]),";"))));
 print_edges(E) := (local(E, e), for e in E do print_edge(e));
+/* print a graph in the dot-format */
 print_graph(G) := (local(G), print(sconcat("graph G {")), print_vertices(G[1]), print_edges(G[2]), print("}"));
-output_graph(g, n) := (local(g,n), with_stdout(n, print_graph(g)));
+/* output a graph g to file n */
+output_graph(g,n) := (local(g,n), with_stdout(n, print_graph(g)));
 
 /* ***************************************
    * Kneser graphs                       *
    ***************************************
 */
 
+/* the set {1,...,n} */
 setn(n) := (local(n), setify(makelist(i,i,1,n)));
 
 /* Kneser-graphs: Vertices are the m-element subets of {1,..,n}, joined by an
    edge if disjoint. */
-kneserg(n, m) := (local(n, m, A), block([sn : setn(n)],
+Kneser_graph(n,m) := (local(n,m,A), block([sn : setn(n)],
  [powerset(sn, m), 
     map(setify, 
       xreduce(union, 
