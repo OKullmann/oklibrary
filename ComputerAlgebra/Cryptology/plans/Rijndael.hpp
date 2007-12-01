@@ -547,9 +547,21 @@ else :
    <li> As bijections, they all have trivial DNF representations (with 256
    satisfying assignments). </li>
    <li> The CNF representations are more interesting, and one should study
-   good CNF's. </li>
+   good CNF's.
+    <ol>
+     <li> Compute all prime implicates. </li>
+     <li> Also other optimisation should be in reach. </li>
+     <li> Computing optimal hitting-clause-set-representations should
+     be possible (they allow many services needed for active clauses). </li>
+    </ol>
+   </li>
    <li> Obviously also of interest are OBDD representations of these boolean
-   functions. </li>
+   functions.
+    <ol>
+     <li> One should come pretty close to finding an optimal variable
+     ordering. </li>
+    </ol>
+   </li>
    <li> These allow efficient handling of all basic tasks for active clauses
    (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp). </li>
    <li> Of course, special algorithms should be investigated. </li>

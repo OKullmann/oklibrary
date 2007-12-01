@@ -144,8 +144,20 @@ License, or any later version. */
        </ol>
      </li>
      <li> For an "effective condition" we have one associated literal type, and "most"
-     basic tasks can be solved "efficiently" (generalised clauses). </li>
-     <li> An "condition set" is a set of effective conditions, either a conjunction or a
+     basic tasks can be solved "efficiently" (generalised clauses).
+      <ol>
+       <li> These would be the "active clauses". </li>
+       <li> While the fundamental tasks can be performed in constant time
+       for active literals, now we can do then in polynomial time. </li>
+       <li> Having a OBDD representation should mean that we have
+       an active clause. </li>
+       <li> And perhaps also representations as hitting clause-sets
+       imply "active clause". </li>
+      </ol>
+      This kind of discussion needs clean-up (should be moved to
+      Satisfiability/ProblemInstances/concepts/plans).
+     </li>
+     <li> A "condition set" is a set of effective conditions, either a conjunction or a
      disjunction (generalising clause-sets). </li>
      <li> Finally we have "alliances of condition sets", which are combinations of condition
      sets, allowing for different literal types to be used. </li>
