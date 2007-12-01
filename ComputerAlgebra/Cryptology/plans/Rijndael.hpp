@@ -540,16 +540,24 @@ else :
 
   \todo Active clauses for field operations
   <ul>
-   <li> Likely the two best first candidates for general clause-sets
+   <li> Likely the two best first candidates for active clauses
    are the S-box (as map GF(2^8) -> GF(2^8)) and multiplication with
    some constant a in GF(2^8)^* (again, as map GF(2^8) -> GF(2^8)). </li>
    <li> Both types of functions yield boolean functions in 16 variables. </li>
    <li> As bijections, they all have trivial DNF representations (with 256
    satisfying assignments). </li>
-   <li> The CNF representations are more interesting, and one should study
-   good CNF's.
+   <li> The CNF representations are more interesting (perhaps one should better
+   say challenging), and one should study good CNF's.
     <ol>
-     <li> Compute all prime implicates. </li>
+     <li> Compute all prime implicates.
+      <ol>
+       <li> See below for some further comments. </li>
+       <li> For every permutation of GF(2^8) we have at least
+       2 * 2^8 * 8 = 2^12 = 4096 prime implicants, given by fixing 8 bit in either
+       the input or the output. </li>
+       <li> Are there others? In case of multiplication, the multiplication
+       with 1 obviously has others. </li>
+     </li>
      <li> Also other optimisation should be in reach. </li>
      <li> Computing optimal hitting-clause-set-representations should
      be possible (they allow many services needed for active clauses). </li>
@@ -565,7 +573,64 @@ else :
    <li> These allow efficient handling of all basic tasks for active clauses
    (see ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp). </li>
    <li> Of course, special algorithms should be investigated. </li>
-  <ul>
+   <li> It seems, that actually the DNF representation we have, which actually
+   is a full DNF, and just having 256 clauses, yields an unbeatable active
+   clause:
+    <ol>
+     <li> Given any DNF representation D of a boolean function F, satisfiability
+     of phi * F is just checked by testing whether phi * D is not the empty
+     clause-set. </li>
+     <li> In general, for a clause-set F, considered as CNF or DNF, the opposite
+     representation is just obtained by the transversal hypergraph, from which
+     non-clauses are eliminated, and which then is complemented. </li>
+     <li> So forced literals for phi * D are literals which occur in every
+     clause. This can be checked by just checking the literal degrees. </li>
+     <li> And the number of satisfying assignments for a hitting D can be
+     computed by the standard counting arguments. The given case is even
+     simpler, since we have a full clause-set (where full clause-sets are
+     stable under application of partial assignments), and so we just need
+     to count the remaining clauses. </li>
+     <li> Nevertheless we need to compute the prime-implicate representation,
+     since the minimal size of a prime implicate tells us how many variables
+     have to be set until we may obtain a contradiction --- this is important
+     information for the analysis, and furthermore for the active clause it
+     can be used the threshold which only triggers some action (before we are
+     just lazy and don't do anything (w.r.t. updating the counters)). </li>
+     <li> Given a full CNF F, isn't it then easy (relative to the size of F) to
+     compute the set of prime implicates? (In our case we have 2^16 - 2^8 =
+     65280 full clauses, which shouldn't be too bad.)
+      <ol>
+       <li> Isn't subsumption-resolution (at least one parent clause is subsumed
+       by the resolvent (and gets removed)) complete here?! </li>
+      </ol>
+     </li>
+     <li> All these generalisations are very general, and should go to
+     supermodule Satisfiability/ProblemInstances. </li>
+    </ol>
+    Using these active clauses should give us a good advantage over any CNF
+    translation!
+   </li>
+   <li> We should aim at "high integration":
+    <ol>
+     <li> The more active clauses can manage the better. </li>
+     <li> So we should have the full S-box an active clause, and not
+     dividing it further. </li>
+     <li> Perhaps in combination with the various permutations we can combine
+     several "micro-steps" into one. Perhaps the ShiftRows step doesn't need
+     to be made explicit at all. And also MixColumns operates on the bytes. </li>
+     <li> Perhaps we create "generic active clauses" for these cases, and
+     instantiate them appropriately (so that many variations of the same basic
+     active clause appear). </li>
+     <li> Identifying transformations of GF(2^8) seems most promising, since
+     this yield active clauses with 16 bits, which can be thoroughly
+     analysed. 32 bits likely is too much (since we won't have much
+     exploitable structure(?)). </li>
+    </ol>
+   </li>
+   <li> We have also the field addition, which can be broken down into binary
+   xor, and perhaps a dedicated active clause(-set) handles all these equations
+   over GF(2) (via Gaussian elimination). </li>
+  </ul>
 
 */
 
