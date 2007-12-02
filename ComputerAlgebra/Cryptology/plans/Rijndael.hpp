@@ -19,14 +19,15 @@ License, or any later version. */
     </ul>
    <li> An 8-bit element, representing a polynomial over GF(2) or an element
    in GF(2^8) can be called
-   <ul>
-    <li> an element in GF(2^8) </li>
-    <li> an element in the "byte field". </li>
-   </ul>
-   The most significant bit represents the highest order term in the polynomial,
+    <ul>
+     <li> an element in GF(2^8) </li>
+     <li> an element in the "byte field". </li>
+    </ul>
+   </li>
+   <li> The most significant bit represents the highest order term in the polynomial,
    and values are usually written in hexadecimal notation, so, for example, 
    A2 is 10100010. Some clarification may be needed on the implementation details
-   for the specific GF(2^8) field.</li>
+   for the specific GF(2^8) field. </li>
    <li> A 4-byte element formed by taking a column of GF(2^8) elements in the 
    Rijndael block might be called an element in the 4-Byte PID (Principal Ideal
    Domain) or in the QR (Quotient Ring), as this is not actually a field (some
@@ -45,6 +46,7 @@ License, or any later version. */
     <ol>
      <li> A basic problem is how to handle source code documentation (in the absence
      of doxygen?). </li>
+     <li> See "Documentation" in ComputerAlgebra/plans/general.hpp. </li>
      <li> The option of simply including files in doxygen verbatim was suggested
      previously. This seems to be fairly simple if one creates a basic filter to
      wrap things up and then sets this as the input filter (it has some additional

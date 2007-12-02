@@ -88,8 +88,8 @@ License, or any later version. */
 
 
   \todo Graph algorithms libraries and programs
-  <ul
-   <li> naughtly for graph isomorphisms </li>
+  <ul>
+   <li> naughty for graph isomorphisms </li>
   </ul>
 
 

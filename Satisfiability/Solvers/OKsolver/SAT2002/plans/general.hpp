@@ -7,8 +7,7 @@ License, or any later version. */
 
 /*!
   \file Solvers/OKsolver/SAT2002/plans/general.hpp
-  \brief Plans on the maintenance of the code for the
-  old OKsolver
+  \brief Plans on the maintenance of the code for the old OKsolver
 
 
   \todo Documentation problems

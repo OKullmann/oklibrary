@@ -23,7 +23,7 @@ License, or any later version. */
    </li>
   </ul>
 
-  <h2> Main Functions </h3>
+  <h2> Main Functions </h2>
   
   The sage implementation offers several main functions to encrypt various block 
   and key sizes with the Rijndael block cipher and these are also made up 
