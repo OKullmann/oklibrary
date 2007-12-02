@@ -16,6 +16,10 @@ load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSyst
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
+/*!
+\htmlonly
+*/
+
 /* is_empty(S) is true iff S is the empty set system */
 is_empty(S) := (local(S), emptyp(S));
 
@@ -33,3 +37,7 @@ remove_with_element(S,a) := (local(S,a), subset(S, lambda([s], not elementp(a,s)
 /* more generally, remove_non_disjoint(S,b) is the subset of S with all sets
 disjoint to b */
 remove_non_disjoint(S,b) := (local(S,b), subset(S, lambda([s], disjointp(s,b))));
+
+/*!
+\endhtmlonly
+*/

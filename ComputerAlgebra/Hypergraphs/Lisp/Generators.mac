@@ -19,6 +19,10 @@ Needs ComputerAlgebra/Graphs/Lisp/Generators.mac.
 
 */
 
+/*!
+\htmlonly
+*/
+
 /*
  A "hypergraph" is a pair (V,E), where V is a set and E a subset of
  the powerset of V.
@@ -31,3 +35,6 @@ ArithmeticProgressions(k,n) := (local(k,n,i), block([V : setn(n)],
   elseif k = 1 then return([V,setify(makelist({i},i,1,n))]) else
   return([V, union(ArithmeticProgressions(k,n-1)[2], setify(makelist(setify(makelist(n-d*i,i,0,k-1)), d, 1, floor((n-1)/(k-1)))))])));
 
+/*!
+\endhtmlonly
+*/

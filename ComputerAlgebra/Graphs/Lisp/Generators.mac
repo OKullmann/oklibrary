@@ -16,6 +16,10 @@ load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Graphs/Lisp/Generators.m
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
+/*!
+\htmlonly
+*/
+
 /* ***************************************
    * Printing graphs in dot-format       *
    ***************************************
@@ -53,3 +57,6 @@ Kneser_graph(n,m) := (local(n,m,A), block([sn : setn(n)],
  ]
 ));
 
+/*!
+\endhtmlonly
+*/

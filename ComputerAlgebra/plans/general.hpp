@@ -12,10 +12,11 @@ License, or any later version. */
 
   \todo Naming conventions
   <ul>
-   <li> Maxima-files: ".maxima" or ".mac" ? </li>
    <li> What about clisp-files? </li>
    <li> How to postfix Axiom-files? </li>
    <li> How to postfix Aldor-files? </li>
+   <li> DONE (.max is to be used)
+   Maxima-files: ".maxima" or ".mac" ? </li>
   </ul>
 
 
@@ -23,7 +24,17 @@ License, or any later version. */
   <ul>
    <li> The biggest problem we have at this time is the lack of source code
    documentation methods! </li>
-   <li> At least some work-arounds need to be found. </li>
+   <li> At least some work-arounds need to be found.
+    <ol>
+     <li> Maxima : The solution seems to be to start the .mac-files
+     with the usual preamble, and then via "\htmlonly" and
+     "\endhtmlonly" to surpress the extraction of code-comments
+     (the source code is shown verbatim!). </li>
+     <li> We should discuss this on the doxygen mailing list:
+     Perhaps a dedicated doxygen-command could be introduced? </li>
+     <li> Or should one use the verbatim-commands? </li>
+    </ol>
+   </li>
    <li> First experience and ideas should be developed in the context of
    ComputerAlgebra/Cryptology/plans/Rijndael.hpp. </li>
   </ul>

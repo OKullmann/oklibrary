@@ -20,6 +20,10 @@ ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
 
 */
 
+/*!
+\htmlonly
+*/
+
 /*
  A "boolean splitting tree" for a clause-set F is either 
   -[[]] for "nothing done",
@@ -56,3 +60,6 @@ sat_pass_st_a(st,phi) := (local(st,phi), if st = [true] then [phi]
   elseif st = [false] then [] else
   append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi))));
  
+/*!
+\endhtmlonly
+*/

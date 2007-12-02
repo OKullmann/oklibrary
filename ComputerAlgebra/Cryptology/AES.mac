@@ -5,16 +5,20 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/* 
- * AES Implemention
- *
- *
- * Use By
- *
- * load("$OKplatform/OKsystem/Transitional/ComputerAlgebra/Cryptology/AES.mac");
- *
- * where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
- */
+/*!
+  \file ComputerAlgebra/Cryptology/AES.mac
+  \brief Implementing AES and generalisations
+
+Use by
+
+load("$OKplatform/OKsystem/Transitional/ComputerAlgebra/Cryptology/AES.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+*/
+
+/*!
+\htmlonly
+*/
 
 load(gf);
 gf_set(2,8,x^8+x^4+x^3+x+1);
@@ -68,3 +72,7 @@ r(pm, km) := gf_matmul(
          srd(gf_add(pm[4][4], km[4][4])), srd(gf_add(pm[4][1], km[4][1]))]
     ) 
 )$
+
+/*!
+\endhtmlonly
+*/
