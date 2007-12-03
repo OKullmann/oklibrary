@@ -5,7 +5,12 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-// See script for CS_342, 2003/04, week 05.
+/*!
+  \file Satisfiability/Transformers/Generators/FaronsPuzzle.hpp
+  \brief Tools for coding "Enigma 1277" as CNF.
+
+  \todo See script for CS_342, week 05.
+*/
 
 #ifndef FARONSPUZZLEWAECHTER_dh3524Rda1
 #define FARONSPUZZLEWAECHTER_dh3524Rda1
@@ -19,7 +24,6 @@ License, or any later version. */
 #include <boost/lexical_cast.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
-
 
 
 namespace FaronsPuzzle {
