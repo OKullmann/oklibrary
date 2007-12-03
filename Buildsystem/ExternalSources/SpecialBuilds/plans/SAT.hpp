@@ -150,5 +150,13 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
    <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/ </li>
   </ul>
 
+
+  \todo CSP
+  <ul>
+   <li> Gnu Prolog ? </li>
+   <li> CHIP ? </li>
+   <li> Benchmarks? Competitions? </li>
+  </ul>
+
 */
 
