@@ -16,5 +16,5 @@ oklib_version := 0.0.1
 oklib_version_full := 0.0.1 (3.3.2006)
 
 # Deadlines for next versions of Transitional
-deadline_021 ?= 30.11.2007
-deadline_022 ?= 31.12.2007
+deadline_021 ?= 31.12.2007
+deadline_022 ?= 31.1.2008
