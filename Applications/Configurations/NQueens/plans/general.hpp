@@ -19,7 +19,25 @@ License, or any later version. */
   \todo Literature review
   <ul>
    <li> What is the complexity of finding one solution and
-   of counting all solutions (in n) ? </li>
+   of counting all solutions (in n) ?
+    <ol>
+     <li> A first introduction one finds in
+     http://en.wikipedia.org/wiki/Eight_queens_puzzle. </li>
+     <li> There is also an algorithm given for quickly finding one
+     solution, so that's not a problem. </li>
+     <li> The true challenge is counting all solutions. </li>
+     <li> http://www.research.att.com/~njas/sequences/A000170
+     shows the current state-of-the-art: With a lot of computing
+     power n = 25 was solved recently. </li>
+     <li> http://www.research.att.com/~njas/sequences/A002562
+     is about counting symmetric solutions only once. Here only
+     n = 23 is known. </li>
+    </ol>
+    If we could count for n=26, this would yield some nice
+    publicity.
+   </li>
+   <li> http://www.liacs.nl/home/kosters/nqueens.html
+   is a collection of literature. </li>
    <li> One can also consider the enumeration of all
    solutions, for example in lexicographical order,
    with polynomial delay (or finding the first and
