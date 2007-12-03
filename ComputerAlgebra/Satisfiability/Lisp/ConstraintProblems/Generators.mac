@@ -55,6 +55,9 @@ Queens_propagator_it_la_it : prop_fixedpoint(Queens_propagator_it_la);
 
 /* Using the default backtracking algorithm to solve it */
 Queens_constraint_backtracking(n) := (local(n), constraint_backtracking(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau));
+/* Counting all solutions */
+Queens_constraint_backtracking_counting(n) := (local(n), constraint_backtracking_counting(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau));
+
 
 /*!
 \endhtmlonly
