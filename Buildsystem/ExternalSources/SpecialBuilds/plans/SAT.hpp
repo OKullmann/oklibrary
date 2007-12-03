@@ -153,8 +153,13 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo CSP
   <ul>
-   <li> Gnu Prolog ? </li>
-   <li> CHIP ? </li>
+   <li> http://en.wikipedia.org/wiki/Constraint_programming gives an
+   overview. </li>
+   <li> Eclipse http://eclipse-clp.org/ </li>
+   <li> Gnu Prolog http://www.gprolog.org/ </li>
+   <li> Swi Prolog http://www.swi-prolog.org/ </li>
+   <li> Gecode http://www.gecode.org/
+   <li> Minion http://minion.sourceforge.net/ </li>
    <li> Benchmarks? Competitions? </li>
   </ul>
 
