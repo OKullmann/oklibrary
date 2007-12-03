@@ -19,7 +19,8 @@ License, or any later version. */
   \todo Write docus
 
 
-  \todo optimal_splitting_tree
+  \todo optimal_splitting_tree in
+  ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
   <ul>
    <li> Perhaps storing the trees also for the worst case. </li>
    <li> When searching only for the best case, then branches which
@@ -47,6 +48,51 @@ License, or any later version. */
   \todo Display splitting trees
   <ul>
    <li> Latex output of splitting trees </li>
+  </ul>
+
+
+  \todo constraint_backtracking in
+  ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac
+  <ul>
+   <li> Also output the corresponding splitting trees; perhaps they
+   contain the enforced assignments. </li>
+   <li> Given such splitting trees, again one can represent all solutions,
+   and/or count all solutions. </li>
+   <li> The simple code for "constraint_backtracking_counting" shows
+   the big problem of the notion of "propagators": Only total solutions
+   are recognised! The generalised SAT approach should overcome this. </li>
+  </ul>
+
+
+  \todo Heuristics in
+  ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac
+  <ul>
+   <li> For the purpose of comparisons implement also the 3 other heuristics
+   from [Beek, 2006, Backtracking Search Algorithms] (which use only the
+   the domain sizes from the look-ahead).
+    <ol>
+     <li> Brown and Purdom: Minimise the remaining domain size + the
+     minimum over all other variables of the sum of their domain
+     sizes in the branches. </li>
+     <li> Geelen: Minimise for a variable the sum over its values
+     of the product of the remaining domain sizes over all other
+     variables. (This is closest to our, but it replaces the tau-rule
+     by the sum, which should be a bad approximation.) </li>
+     <li> Freeman: As Geelen, but instead of taking the product again
+     the sum is chosen. </li>
+    </ol>
+    To me (OK) this all looks like guessing around, where the true rule is
+    the tau-rule of variable_heuristics_tau.
+   </li>
+   <li> The heuristics should be optimal, given that only the domain sizes
+   for the potential branches are available ?! </li>
+  </ul>
+
+
+  \todo Further propagators
+  <ul>
+   <li> "Enigma 1277" (see
+   Satisfiability/Transformers/Generators/FaronsPuzzle.cpp) </li>
   </ul>
 
 */

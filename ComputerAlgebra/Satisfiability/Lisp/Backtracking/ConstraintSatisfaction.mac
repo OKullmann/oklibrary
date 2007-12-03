@@ -26,6 +26,11 @@ Needs
 \htmlonly
 */
 
+/* ***************
+   * Propagators *
+   ***************
+*/
+
 /*
  A "propagator" is a function which potentially removes values from domains
  in a domain association. It changes the domain association in place,
@@ -50,12 +55,17 @@ look_ahead(prop) := (local(prop), buildq([prop], lambda([dom],
     return(p))
 )));
 
-/* for a constraint satisfaction problem given by domain association and
+
+/* ***********
+   * Solvers *
+   ***********
+*/
+
+/* For a constraint satisfaction problem given by domain association and
    a propagator, return [sol,size], where size is the number of nodes
    in the search tree, while sol is a solution as a list of values or false iff 
    no solution exists; the heuristics computes a pair [variable, [list of values]] */
-constraint_backtracking(dom,prop,heur) := block([size],
-   size : 1,
+constraint_backtracking(dom,prop,heur) := block([size : 1],
    (prop_fixedpoint(look_ahead(prop)))(dom),
    if min_dom_size(dom) = 0 then [false,size]
    elseif max_dom_size(dom) = 1 then [makelist(listify(dom[i])[1],i,1,length(dom)),size] else (
@@ -69,7 +79,32 @@ constraint_backtracking(dom,prop,heur) := block([size],
      if loopbreak then return([res[1],size]) else return([false,size])))
 );
 
-/* for a constraint satisfaction problem given by domain association and
+/* Variation for counting solutions; outputs the number of solutions and the size */
+constraint_backtracking_counting(dom,prop,heur) := (
+   (prop_fixedpoint(look_ahead(prop)))(dom),
+   if min_dom_size(dom) = 0 then [0,1]
+   elseif max_dom_size(dom) = 1 then [1,1] else (
+     block([v,val, count : 0, size : 1],
+     [v, val] : heur(dom,prop),
+     for e in val do (
+       block([new_dom : copylist(dom), c, s],
+       new_dom[v] : {e},
+       [c,s] : constraint_backtracking_counting(new_dom,prop,heur),
+       count : count + c,
+       size : size + s
+     )),
+     return([count,size])
+     )
+   )
+);
+
+
+/* **************
+   * Heuristics *
+   **************
+*/
+
+/* For a constraint satisfaction problem given by domain association and
    a propagator, compute the best variable as the variable with minimal
    tau-value, where the branching tuple is given by the measure differences
    applied to the domain association before and after propagation,
