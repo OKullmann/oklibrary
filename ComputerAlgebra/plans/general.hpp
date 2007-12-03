@@ -15,7 +15,7 @@ License, or any later version. */
    <li> What about clisp-files? </li>
    <li> How to postfix Axiom-files? </li>
    <li> How to postfix Aldor-files? </li>
-   <li> DONE (.max is to be used)
+   <li> DONE (.mac is to be used)
    Maxima-files: ".maxima" or ".mac" ? </li>
   </ul>
 
@@ -56,6 +56,24 @@ License, or any later version. */
      <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Maxima
+  <ul>
+   <li> How to simulate "#include" ? </li>
+   <li> Is there a timing command ? </li>
+   <li> How to make sure, that variables are local?
+    <ol>
+     <li> Is "local" needed? For what is it good for? </li>
+     <li> It seems not necessary to protect the parameter, or? </li>
+     <li> Can everything done with "block" ? </li>
+    </ol>
+   </li>
+   <li> How to obtain information about symbols (so that for example clashes
+   can be avoided) ? </li>
+   <li> We need "oklib maxima", which starts the maxima-shell and also loads
+   all functions from the OKlibrary. </li>
   </ul>
 
 

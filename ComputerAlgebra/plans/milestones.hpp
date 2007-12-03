@@ -37,6 +37,7 @@ License, or any later version. */
     - Naming conventions
     - Documentation
     - %Test system
+    - Maxima
     - Input checking
     - Partial compilation
     - Contexts
