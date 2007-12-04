@@ -59,6 +59,25 @@ sat_pass_st(st) := (local(st), sat_pass_st_a(st,{}));
 sat_pass_st_a(st,phi) := (local(st,phi), if st = [true] then [phi] 
   elseif st = [false] then [] else
   append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi))));
+
+
+/* **********
+   * Output *
+   **********
+*/
+
+load("stringproc");
+
+/* Output a splitting tree st to stream s */
+tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
+  elseif st = [false] then printf(s, "~a", "\\Tdot")
+  else (
+     printf(s, "~a~a~a", "\\pstree{\\TR{", st[1], "}}"),
+     printf(s, "{"), tex_st(s, st[2]), tex_st(s, st[3]), printf(s, "}")
+);
+
+/* Output a splitting tree st to file with name n */
+tex_st_f(n, st) := (block[s : openw(n)], tex_st(s, st), close(s));
  
 /*!
 \endhtmlonly

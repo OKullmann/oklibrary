@@ -45,9 +45,38 @@ License, or any later version. */
   </ul>
 
 
-  \todo Display splitting trees
+  \todo Processing splitting trees
   <ul>
-   <li> Latex output of splitting trees </li>
+   <li> Latex output of splitting trees by "tex_st" in
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
+    <ol>
+     <li> For the docu:
+      <ul>
+       <li> Use "\usepackage{pstricks,pst-node,pst-tree}". </li>
+       <li> For the outermost "pstree" preferably the optional argument
+       "[nodesep=2pt]" is added (otherwise the edges are too close to
+       the nodes). </li>
+       <li> Via "[nodesep=2pt,levelsep=20pt]" furthermore the distance
+       between levels could be reduced. </li>
+       <li> And via "treemode=r" the tree grows from left to right. </li>
+       <li> The graphics is only viewable via the ps-file (use dvips);
+       for creating pdf-files, first create a ps-file, and then apply
+       ps2pdf. </li>
+      </ul>
+     </li>
+     <li> Yet everything on one line --- could we add nice intentation? </li>
+    </ol>
+   </li>
+   <li> Resolution tree creation
+    <ol>
+     <li> Write a function which takes a splitting for an unsatisfiable
+     clause-set F, and F as second argument, and produces a resolution
+     tree. </li>
+     <li> Apply tree pruning if an unnecessary splitting was applied. </li>
+     <li> A little helper function is needed which returns for a partial
+     assignment phi and a clause-set F the clauses of F falsified by
+     phi. </li>
+    </ol>
   </ul>
 
 
