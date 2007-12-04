@@ -161,6 +161,23 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
    <li> Gecode http://www.gecode.org/
    <li> Minion http://minion.sourceforge.net/ </li>
    <li> Benchmarks? Competitions? </li>
+   <li> n queens:
+    <ol>
+     <li> http://www.jsomers.com/nqueen_demo/nqueens.html with
+     jmsnqueens.zip
+      <ul>
+       <li> We should upgrade the code to C99, using appropriately
+       32,64 or 128 bits (and getting rid off the "WIN32"-etc-macros). </li>
+       <li> We should also add a compile-time check for the required
+       "2's complement architecture". </li>
+       <li> Add a compile-time option to (somehow) compute the number of
+       "nodes". </li>
+       <li> Apparently no special compiler-options are recommended. </li>
+      </ul>
+     </li>
+     <li> reines.tgz </li>
+    </ol>
+   </li>
   </ul>
 
 */

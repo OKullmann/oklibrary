@@ -176,6 +176,35 @@ License, or any later version. */
    <li> Another possibility is to use symmetry; though it seems that
    counting solutions modulo symmetry makes the problem actually harder.
    Of course, the question here is what kinds of symmetries to consider. </li>
+   <li> The program apparently currently the fastest (jmsnqueens.zip;
+   see Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp),
+   is actually a very simple backtracker! It's all about brute force. </li>
+   <li> The current best processing speed seems to be around 1.7 * 10^6
+   solutions per second for n=17, and 10^6 solutions per second for
+   n=23 (Pentium4 Xeon 2.8 GHz;
+   http://www.arch.cs.titech.ac.jp/~kise/doc/paper/uec-is-2004-06.pdf,
+   [Solving the 24-queens Problem using MPI on a PC Cluster].
+   Likely the numbers need to be divided by 2 due to the simple
+   symmetry-trick. </li>
+   <li> So actually, despite its simplicity, the program doesn't seem
+   to spend much time on unsatisfiable branches? One should obtain
+   a node count. </li>
+   <li> The general question is, how easy it is to avoid unsatisfiable
+   branches (see above). Perhaps it is quite easy? </li>
+   <li> Parallelisation:
+    <ol>
+     <li> This should work very well with a look-ahead architecture. </li>
+     <li> Basically we have two levels: Say we want to split into 64
+     problems. Then we look at depth d = 6:
+      <ul>
+       <li> Up to depth d we use strong inference, strong heuristics, etc.
+       </li>
+       <li> Once the problem is split, then we use weaker methods. </li>
+      </ul>
+     </li>
+     <li> One would assume that not much load balancing is needed, but that
+     automatically the 2^d processes are very similar. </li>
+    </ol>
   </ul>
 
 */
