@@ -24,7 +24,7 @@ License, or any later version. */
      <li> A first introduction one finds in
      http://en.wikipedia.org/wiki/Eight_queens_puzzle. </li>
      <li> There is also an algorithm given for quickly finding one
-     solution, so that's not a problem. </li>
+     solution, so that's not a problem (but see below). </li>
      <li> The true challenge is counting all solutions. </li>
      <li> http://www.research.att.com/~njas/sequences/A000170
      shows the current state-of-the-art: With a lot of computing
@@ -149,6 +149,33 @@ License, or any later version. */
    (creating a new active clause-set from a given one), it would need
    from the given active clause-set the set of implied units (and the
    given active clause-set should be operatable in "look-ahead mode"). </li>
+   <li> As noted above, for for each n the problem is solvable and and also
+   to find one solution is easy, however the real question is about the
+   complexity of the *partially instantiated* board!
+    <ol>
+     <li> The most intuitive situation is, that some queens are already
+     placed on the board, and the problem is to decide whether this
+     position can be extended to one using n queens. </li>
+     <li> More generally, the question is about the abbove different
+     problem formulation, and whether the n-queens active-clause-set
+     can actually be turned into an active clause. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo The challenge of counting
+  <ul>
+   <li> The big problem for counting all solutions is the large
+   number of solutions, which are all total, and thus a SAT solver,
+   which must create a node for each such (total) solution, has to
+   create a large number of nodes even if he can completely avoid
+   to explore unsatisfiable nodes. </li>
+   <li> One possibility would be to invent some new form of ("intelligent")
+   literals which would allow for partial solutions. </li>
+   <li> Another possibility is to use symmetry; though it seems that
+   counting solutions modulo symmetry makes the problem actually harder.
+   Of course, the question here is what kinds of symmetries to consider. </li>
   </ul>
 
 */
