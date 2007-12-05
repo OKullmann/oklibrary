@@ -14,11 +14,21 @@ License, or any later version. */
   \par Version 0.0.4
 
   \par
+   In Applications/LatinSquares/plans/general.hpp the following
+   topics are handled:
+    - Update namespaces
+    - Update milestones
+    - Update the following todos
+
+
+  \par Version 0.0.5
+
+  \par
    In Applications/LatinSquares/plans/Sudoku.hpp the following topics are handled:
     - Complete implementation of OKlib::LatinSquares::SudokuProblem.
 
 
-  \par Version 0.0.5
+  \par Version 0.0.6
 
   \par
    In Applications/LatinSquares/plans/Sudoku.hpp the following topics are handled:
