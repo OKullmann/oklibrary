@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file LatinSquares/Sudoku.hpp
+  \file Applications/LatinSquares/Sudoku.hpp
   \brief Components for solving Sudoku problems
 */
 
@@ -31,6 +31,7 @@ namespace OKlib {
 
       \todo Once we have fixed the concepts (a bit more), likely we should rename
       the parameter BijectivityConstraint.
+
       \todo More doxygen-documentation is needed.
     */
 

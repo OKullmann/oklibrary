@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file LatinSquares/tests/Sudoku.hpp
+  \file Applications/LatinSquares/tests/Sudoku.hpp
   \brief Tests for Sudoku problem solvers
 */
 
 #ifndef TEST_SUDOKU_jjNNcdeRQR
 #define TEST_SUDOKU_jjNNcdeRQR
 
-#include <Transitional/LatinSquares/Sudoku.hpp>
+#include <Transitional/Applications/LatinSquares/Sudoku.hpp>
 
 namespace OKlib {
   namespace LatinSquares {
