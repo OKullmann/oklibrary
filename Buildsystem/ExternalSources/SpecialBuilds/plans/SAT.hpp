@@ -139,9 +139,12 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
   </ul>
 
 
-  \todo BDD's
+  \todo BDD's and boolean functions
   <ul>
     <li> CUDD http://vlsi.colorado.edu/~fabio/CUDD/ </li>
+    <li> [Coudert, O; 1994, Two-level logic minimization: An overview;
+    Integration, the VLSI Journal, vol. 17, pages 97-140] could serve
+    as a start for the area of optimisation of boolean functions. </li>
   </ul>
 
 
@@ -170,7 +173,7 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
        32,64 or 128 bits (and getting rid off the "WIN32"-etc-macros). </li>
        <li> We should also add a compile-time check for the required
        "2's complement architecture". </li>
-       <li> Add a compile-time option to (somehow) compute the number of
+       <li> Add conditionally compiled code to (somehow) compute the number of
        "nodes". </li>
        <li> Apparently no special compiler-options are recommended. </li>
       </ul>
