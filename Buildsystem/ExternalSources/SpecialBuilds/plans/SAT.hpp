@@ -84,6 +84,11 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
        </li>
       </ol>
      </li>
+     <li> BASolver http://logic.pdmi.ras.ru/~basolver/index.html (apparently
+     doesn't have a licence; so well); contains also documentation about boolean
+     function formats etc. </li>
+     <li> Fahiem Bacchus' solvers http://www.cs.toronto.edu/~fbacchus/sat.html
+     are not available under a free licence. </li>
      <li> Installing HeerHugo http://www.win.tue.nl/~jfg/heerhugo.html :
      \verbatim
 ExternalSources/Installations/SAT> tar -xzf $OKPLATFORM/ExternalSources/sources/SAT/HeerHugo/heerhugo0.3.tar.gz
@@ -145,6 +150,11 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
     <li> [Coudert, O; 1994, Two-level logic minimization: An overview;
     Integration, the VLSI Journal, vol. 17, pages 97-140] could serve
     as a start for the area of optimisation of boolean functions. </li>
+    <li> [Ron Rymon, 1994, An SE-tree-based Prime Implicant Generation Algorithm]
+    contains algorithms for computing prime implicants (via transversals). </li>
+    <li> http://www.dei.isep.ipp.pt/~ACC/bfunc/ seems not to be open source. </li>
+    <li> http://www.tcs.hut.fi/~tjunttil/circuits/index.html has translators and
+    generators for boolean circuits. </li>
   </ul>
 
 

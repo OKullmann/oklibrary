@@ -91,6 +91,8 @@ License, or any later version. */
      <li> Edimacs format: http://www.satcompetition.org/2005/edimacs.pdf </li>
      <li> ISCAS ??? </li>
      <li> AIGER http://fmv.jku.at/aiger/ ? </li>
+     <li> See "BDD's and boolean functions" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp. </li>
     </ol>
    </li>
    <li> Benchmark collections
