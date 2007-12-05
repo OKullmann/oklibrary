@@ -632,6 +632,27 @@ else :
    <li> We have also the field addition, which can be broken down into binary
    xor, and perhaps a dedicated active clause(-set) handles all these equations
    over GF(2) (via Gaussian elimination). </li>
+   <li> The main underlying theoretical question is whether the conditions
+   "x * y = 1" and "a * x = y" are active clauses (for arbitrary GF(2^n).
+    <ol>
+     <li> This depends on the choice of literals (i.e., which partial assignments
+     are allowed). </li>
+     <li> A coarse choice is to use byte-valued variables (x, y here are just
+     elements of the byte-field) and standard literals: Here we have active clauses,
+     since the field operations as well as inversions can be performed in polynomial
+     time. </li>
+     <li> The next level (perhaps our preferred level) is the boolean level
+     (now the bits of x and y can be queried). Using the natural representation
+     of elements of GF(2^n) as vectors in the canonical base, we obtain
+     one quadratic equation in both cases. If quadratic equations in GF(2^n)
+     can be solved in polynomial time, then we are done, if not then we have
+     to investigate whether the special form of equations we have matters or
+     not. </li>
+     <li> A fine level considers again byte-valued variables, but signed
+     literals. It seems rather unlikely that this can be solved in polynomial
+     time. However for n=8 perhaps we can perform heavy preprocessing? </li>
+    </ol>
+   </li>
   </ul>
 
 */
