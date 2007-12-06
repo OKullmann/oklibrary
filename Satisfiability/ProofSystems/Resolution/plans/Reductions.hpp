@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Resolution/plans/Reductions.hpp
+  \file ProofSystems/Resolution/plans/Reductions.hpp
   \brief Plans for resolution reductions
 
   Here we handle reductions which have to do with adding resolvents,
@@ -15,9 +15,12 @@ License, or any later version. */
   for the general case, in module KLevelForcedAssignments (see
   plans/KLevelForcedAssignments.hpp).
 
+
   \todo Implement the reductions from the Kullmann/Luckhardt-preprints.
 
+
   \todo Implement bounded resolution.
+
 
   \todo All kinds of binary-clause reasoning are handled by module
   FailedLiteralReduction, or?

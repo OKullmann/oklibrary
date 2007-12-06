@@ -6,21 +6,33 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Resolution/plans/milestones.hpp
+  \file ProofSystems/Resolution/plans/milestones.hpp
   
-  \module_version Resolution 0.0.3 (22.5.2007)
+  \module_version ProofSystems/Resolution 0.0.3 (22.5.2007)
 
-  \par Version 0.0.4 :
+
+  \par Version 0.0.4
 
   \par
-   In Resolution/plans/Resolution.hpp the following topics are handled:
+   In Resolution/plans/general.hpp the following topics are handled:
+    - Update namespaces
+    - Update milestones
+    - Update todos
+    - Whatever remains of module DPv shall move to here
+
+
+  \par Version 0.0.5 :
+
+  \par
+   In Resolution/plans/general.hpp the following topics are handled:
     - The basic problems
 
    \par
-   In Resolution/plans/ResolutionClosure.hpp the following topics are handled:
-    - Primimplicates via resolution
+    In Resolution/plans/ResolutionClosure.hpp the following topics are handled:
+     - Primimplicates via resolution
 
-  And new milestones have been created.
+   \par New milestones have been created.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

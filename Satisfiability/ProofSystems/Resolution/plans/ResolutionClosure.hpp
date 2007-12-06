@@ -6,13 +6,16 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Resolution/plans/ResolutionClosure.hpp
+  \file ProofSystems/Resolution/plans/ResolutionClosure.hpp
   \brief Plans for computing all resolvents (resp. all minimal resolvents)
+
 
   \todo Primimplicates via resolution
   <ul>
    <li> The basic algorithm is to create all resolvents round
    for round, removing all subsumptions found as early as possible. </li>
+   <li> Compare "Prime implicants and implicates" in
+   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
   </ul>
 
 */

@@ -6,8 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Resolution/plans/Certificates.hpp
+  \file ProofSystems/Resolution/plans/Certificates.hpp
   \brief Plans for resolution certificates (for unsatisfiability)
+
 
   \todo Verification of r-resolution refutations:
   <ul>
@@ -29,6 +30,7 @@ License, or any later version. */
         seek to provide verified verifiers (collaboration with Markus
         Roggenbach and/or Ulrich Berger?) </li>
   </ul>
+
 
   \todo Stronger proof systems:
   <ul>
