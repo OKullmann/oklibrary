@@ -144,6 +144,10 @@ License, or any later version. */
    But perhaps in case everything went through, then a success report
    with date and time should be printed (totgether with the targets),
    so that one can see what's done. </li>
+   <li> Shall oklib also handle git-commands (i.e., "oklib pull" instead
+   of "git pull")? I (OK) am somewhat skeptical about that, since it might
+   create trouble. And the user need to get used to git and its documentation.
+   </li>
   </ul>
 
 */
