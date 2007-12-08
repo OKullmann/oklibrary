@@ -21,10 +21,12 @@ License, or any later version. */
 
   \todo %Implementation
   <ul>
-   <li> The general implementation as discussed in AllSolutions/plans/MinimalAssignments.hpp
-   ("The basic algorithm") should be generic enough to obtain the
-   hypergraph case as a special case. </li>
+   <li> The general implementation as discussed in
+   AllSolutions/plans/MinimalAssignments.hpp ("The basic algorithm") should
+   be generic enough to obtain the hypergraph case as a special case. </li>
    <li> Worth having a dedicated hypergraph-implementation? </li>
+   <li> For prototypes see ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp.
+   </li>
   </ul>
 
 */

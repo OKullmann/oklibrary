@@ -18,5 +18,13 @@ License, or any later version. */
 
   \todo Write docus
 
+
+  \todo Hypergraph transversals
+  <ul>
+   <li> See Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp. </li>
+   <li> See "Rewrite hypergraph transversal functions in Maxima" in
+   ComputerAlgebra/Mupad/plans/general.hpp. </li>
+  </ul>
+
 */
 
