@@ -203,7 +203,6 @@ namespace SatAlg = Satisfiability::Algorithms;
          <li> SeP ("SemidefiniteProgramming") </li>
         </ol>
        </li>
-       <li> "Numerical" ("Num") </li>
        <li> "Visualisation" ("Vis")
         <ol>
          <li> GDr ("GraphDrawing") </li>
