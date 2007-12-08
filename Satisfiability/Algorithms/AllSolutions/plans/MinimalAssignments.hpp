@@ -9,8 +9,11 @@ License, or any later version. */
   \file AllSolutions/plans/MinimalAssignments.hpp
   \brief Plans for computing the generalised "transversal hypergraph"
 
+  Computing Tr(F) for a clause-set F, the set of all consistent clauses minimal
+  transversals of F as hypergraph (with literals as vertices).
 
-  \todo The basic algorithm:
+
+  \todo Relation to hypergraph transversals
   <ul>
    <li> Hypergraph traversal is a special case of "clause-set
    traversal", where for a clause-set the set of minimal satisfying
@@ -18,9 +21,15 @@ License, or any later version. */
    <li> Via the embedding of hypergraphs into clause-sets as positive clause-sets,
    hypergraph transversal (see HypergraphTransversals/plans/general.hpp)
    can be obtained as special case. </li>
+  </ul>
+
+
+  \todo The basic algorithm:
+  <ul>
    <li> For a clause-set F, let's call the set of minimal satisfying
-   partial assignment also "Tr(F)". </li>
-   <li> Computation of Tr(F) for clause-sets F. The fundamental formula is
+   partial assignment also "Tr(F)" (as for hypergraphs). </li>
+   <li> Or, perhaps better, Tr(F) is again a set of clauses?! </li>
+   <li> The fundamental formula is for computing Tr(F) is
     <center>
     Tr(F_1 union F_2) = min(Tr(F_1) * Tr(F_2))
     </center>
@@ -32,36 +41,89 @@ License, or any later version. */
    interpreting P_1, P_2 as clause-sets this corresponds to the
    computation of all possible unions, while suppressing tautological
    clauses). </li>
-   <li> The simplest way to apply this formula is to enumerate all
-   clauses, and then adding clauses one by one. Even here the
-   order of clauses might be important, and perhaps using more
-   general splitting strategies might be worth considering.
-   It might be also interesting to investigate storing Tr(F)
-   via (variations on) OBDD's (see Laurent Simon's work).
-   For computing min efficiently, subsumption elimination
-   is crucial (see SetAlgorithms/Subsumption.hpp), especially
-   using the literal-clause graph.
+   <li> Heuristics:
+    <ol>
+     <li> The simplest way to apply this formula is to enumerate all
+     clauses, and then adding clauses one by one. </li>
+     <li> Even here the order of clauses might be important, and perhaps
+     using more general splitting strategies might be worth considering. </li>
+     <li> It might be also interesting to investigate storing Tr(F)
+     via (variations on) OBDD's (see Laurent Simon's work). </li>
+     <li> For computing min efficiently, subsumption elimination
+     is crucial (see SetAlgorithms/Subsumption.hpp), especially
+     using the literal-clause graph. </li>
+     <li> The general strategy for choosing F_1 and F_2 is:
+      <ul>
+       <li> One thing is how easy it is to compute Tr(F_1) and Tr(F_2). </li>
+       <li> Second, in the optimal case no combinations for * are inconsistent
+       (so that no effort in computing Tr(F_1), Tr(F_2) was wasted). </li>
+       <li> By the same reasoning, in the optimal case no subsumption elimination
+       takes place . </li>
+      </ul>
+     </li>
+     <li> It seems hard to predict when inconsistency elimination or subsumption
+     elimination will take place (but see below), and so the simplest first
+     approach is a greedy heuristics, where a set of easy special cases for
+     computing Tr(F) is given, and greedily such a special F_1 is computed.
+     So the formula is then
+     <center>
+       Tr(F_1 union F_2) = min(Tr_sp(F_1) * Tr(F_2))
+     </center>
+     where Sp_sp is the special method for computing Tr. </li>
+    </ol>
    </li>
+   <li> If F is disconnected (regarding the variable interactions), then we
+   can split the computation of Tr(F) into the computation of the components,
+   and need then only to take all combinations --- no subsumptions or
+   inconsistencies are possible here. (It might be easy advisible here not to
+   perform taking all combinations, but to compute a suitable expression).
+   The formula here is
+   <center>
+     Tr(F_1 union F_2) = Tr(F_1) *' Tr(F_2)
+   </center>
+   where "*'" means that no inconsistencies can arise. </li>
+   <li> Special cases for F when Tr(F) is easy to compute (in linear time
+   in |E(Tr(F))|):
+    <ol>
+     <li> Two different clauses of F are variable-disjoint. </li>
+    </ol>
+   </li>
+   <li> What is the known complexity of computing Tr(F) (in |E(Tr(F))|) ?
+   It seems the only two question here is how good inconsistency-eliminatiion
+   and subsumption-elimination can be avoided, since churning out possibly
+   inconsistent ransversals is not a problem. </li>
+   <li> A variation of the problem is to output one minimal transversal at a
+   time, and to minimise the delays between outputs. The main problem then
+   is to output *minimal* transversals. </li>
    <li> In order to compute Tr(Tr(F)) (the set of prime implicates of
    F), Tr(F) is interpreted as a clause-set (all minimal clauses clashing
    with F). </li>
   </ul>
 
 
-  \todo Computing Tr(F) can also be achieved by somehow computing the
-  set of all satisfying assignment,
-  and then extracting the set of minimal assignments from it;
-  for example computing a DNF G equivalent to F, and then computing
-  all prime implicates.
+  \todo Using some DNF representation
+  <ul>
+   <li> Computing Tr(F) can also be achieved by somehow computing the
+   set of all satisfying assignment,
+   and then extracting the set of minimal assignments from it;
+   for example computing a DNF G equivalent to F, and then computing
+   all prime implicates. </li>
+   <li> This could lead to savings for clause-sets, but not for
+   hypergraphs. </li>
+  </ul>
 
 
-  \todo Another possibility is to use a "ternary DPLL", where for
-  branching variable v the three branches
-  {v} * F, <v -> 0> * F, <v -> 1> * F
-  are explored (the first branch must be explored first if global learning
-  is enabled in order to make sure that all minimal satisfying assignments
-  are found; without global learning one could investigate the other branches
-  first when performing subsumption elimination for the result).
+  \todo Backtracking (DPLL)
+  <ul>
+   <li> Another possibility is to use a "ternary DPLL", where for
+   branching variable v the three branches
+   {v} * F, <v -> 0> * F, <v -> 1> * F
+   are explored (the first branch must be explored first if global learning
+   is enabled in order to make sure that all minimal satisfying assignments
+   are found; without global learning one could investigate the other branches
+   first when performing subsumption elimination for the result). </li>
+   <li> The main question is how to handle subsumption-elimination. </li>
+  </ul>
 
 
   \todo Parameterisation
@@ -72,11 +134,12 @@ License, or any later version. */
    <li> The hypergraph algorithms can be immediately generalised, only
    that now a variable v with domain size d leads to a branching of size
    d+1 (hypergraphs: d=1). </li>
+   <li> Here now the backtracking approach seems more natural. </li>
    <li> For the optimisation version see Satisfiability/Optimisation/plans/general.hpp. </li>
   </ul>
 
 
-  \todo Tree pruning
+  \todo Tree pruning for the backtracking approach
   <ul>
    <li> Can tree pruning (minimising a satisfying assignment found, and
    then cutting off unneeded branches) be understood as a special case
@@ -87,7 +150,7 @@ License, or any later version. */
    since they are already minimal), then this tree-pruning could be realised by
    finding out that the current partial assignment phi is subsumed by one of the
    assignments already stored, i.e., phi falsifies the negation of the stored DNF. </li>
-   <li> Here one could use more powerful methods to find a inconsistency?!
+   <li> Here one could use more powerful methods to find an inconsistency?!
    This should further cut the tree, and establish a kind of true dual
    method here. </li>
   </ul>
