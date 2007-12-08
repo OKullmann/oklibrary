@@ -1,0 +1,46 @@
+/* Oliver Kullmann, 8.12.2007 (Swansea) */
+/* Copyright 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/Basics.mac
+  \brief Basic Maxima functions for hypergraphs
+
+Use by
+
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/*
+ A "hypergraph" is a pair (V,E), where V is a set and E a subset of
+ the powerset of V.
+*/
+
+/*
+ A "general hypergraph" is a triple (V,E,f), where V, E are sets, while
+ f is a function such that f(e) for e in E is a subset of V.
+*/
+
+/* Promotes a hypergraph to a general hypergraph */
+promote_general_hypergraph(G) := [G[1], G[2], identity];
+
+/* The underlying hypergraph */
+underlying_hypergraph(G) := [G[1], setify(makelist((G[3])(e), e, listify(G[2])))];
+
+/* The dual of a general hypergraph */
+dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
+ lambda([e], subset(V, lambda([v], elementp(e,f(v))))))];
+
+/*!
+\endhtmlonly
+*/

@@ -23,9 +23,10 @@ Needs ComputerAlgebra/Graphs/Lisp/Generators.mac.
 \htmlonly
 */
 
-/*
- A "hypergraph" is a pair (V,E), where V is a set and E a subset of
- the powerset of V.
+
+/* *****************
+   * Ramsey Theory *
+   *****************
 */
 
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n} */
