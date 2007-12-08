@@ -6,13 +6,13 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Matrices/testobjects/Symmetry.cpp
+  \file LinearAlgebra/Matrices/testobjects/Symmetry.cpp
   \brief Testobjects for Matrices/tests/Symmetry.hpp
 */
 
 #include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
 
-#include <Transitional/Matrices/tests/Symmetry.hpp>
+#include <Transitional/Structures/LinearAlgebra/Matrices/tests/Symmetry.hpp>
 
 namespace {
 

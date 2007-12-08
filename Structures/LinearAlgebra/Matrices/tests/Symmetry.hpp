@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Matrices/tests/Symmetry.hpp
+  \file LinearAlgebra/Matrices/tests/Symmetry.hpp
   \brief Tests for components from Matrices/Symmetry.hpp
 */
 
