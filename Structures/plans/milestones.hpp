@@ -17,7 +17,10 @@ License, or any later version. */
   (see Structures/Cryptology/plans/milestones.hpp)
 
   \par NumberTheory/BigIntegers 0.0.3
-  (see BigIntegers/plans/milestones.hpp
+  (see BigIntegers/plans/milestones.hpp)
+
+  \par LinearAlgebra/Matrices 0.1.2
+  (see LinearAlgebra/Matrices/plans/milestones.hpp)
 
 
   \par Version 0.0.7 :
