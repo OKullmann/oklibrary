@@ -14,6 +14,11 @@ Use by
 load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
 
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
+Needs
+
+ - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac.
+
 */
 
 /*!
@@ -35,13 +40,11 @@ print_graph(G) := (local(G), print(sconcat("graph G {")), print_vertices(G[1]), 
 /* output a graph g to file n */
 output_graph(g,n) := (local(g,n), with_stdout(n, print_graph(g)));
 
+
 /* ***************************************
    * Kneser graphs                       *
    ***************************************
 */
-
-/* the set {1,...,n} */
-setn(n) := (local(n), setify(makelist(i,i,1,n)));
 
 /* Kneser-graphs: Vertices are the m-element subets of {1,..,n}, joined by an
    edge if disjoint. */
