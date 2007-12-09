@@ -20,23 +20,71 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 \htmlonly
 */
 
+/* *********************
+   * Set constructions *
+   *********************
+*/
+
+/* the union of a set system */
+set_system_union(S) := if emptyp(S) then {} else xreduce(union, S);
+
+/* the union of a list of sets */
+list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L);
+
+/* the union of a family of sets (i.e., given is a domain I and a map f(i)) */
+family_sets_union(I, f) := if emptyp(I) then {} else block([res : {}],
+ for i in I do res : union(res, f(i)), res);
+
+
+/* the set {1,...,n} */
+setn(n) := setify(makelist(i,i,1,n));
+
+
+/* *************************
+   * Tests for set systems *
+   *************************
+*/
+
 /* is_empty(S) is true iff S is the empty set system */
-is_empty(S) := (local(S), emptyp(S));
+is_empty(S) := emptyp(S);
 
-/* has_empty_element(S) is true iff set system S contains
-the empty set */
-has_empty_element(S) := (local(S), some(emptyp, S));
+/* has_empty_element(S) is true iff set system S contains the empty set */
+has_empty_element(S) := some(emptyp, S);
 
-/* setdifference2(S,b) removes the elements of b from every element
-of S */
-setdifference2(S,b) := (local(S,b), map(lambda([s], setdifference(s,b)), S));
+/* computes the first pair of indices of non-disjoint elements */
+non_disjoint_pair(L) := block([l : length(L), nd : false, res : []],
+  for i : 1 thru l-1 unless nd do block([A : L[i]], 
+    for j : i+1 thru l unless nd do
+      if not disjointp(A, L[j]) then (res : [i,j], nd : true)),
+  return(res));
 
-/* remove_with_element(S,a) is the subset of S with all sets not
-containing element a */
-remove_with_element(S,a) := (local(S,a), subset(S, lambda([s], not elementp(a,s))));
+/* whether S is a disjoint set system */
+is_disjoint_set_system(S) := emptyp(non_disjoint_pair(listify(S)));
+
+
+/* ********************************
+   * Transformers for set systems *
+   ********************************
+*/
+
+/* setdifference2(S,b) returns the set system where the elements of b have been
+   removed from every element of S */
+setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S);
+
+/* remove_with_element(S,a) is the subset of S with all sets not containing element a */
+remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)));
+
 /* more generally, remove_non_disjoint(S,b) is the subset of S with all sets
 disjoint to b */
-remove_non_disjoint(S,b) := (local(S,b), subset(S, lambda([s], disjointp(s,b))));
+remove_non_disjoint(S,b) := subset(S, lambda([s], disjointp(s,b)));
+
+
+/* Replaces two elements by their union until the set system is disjoint */
+unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
+  while not (p : non_disjoint_pair(L), emptyp(p)) do (
+    A : L[p[1]], B : L[p[2]],
+    L : delete(A,L), L : delete(B,L), L : append(L, [union(A,B)])),
+  setify(L));
 
 /*!
 \endhtmlonly
