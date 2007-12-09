@@ -74,6 +74,13 @@ License, or any later version. */
    can be avoided) ? </li>
    <li> We need "oklib maxima", which starts the maxima-shell and also loads
    all functions from the OKlibrary. </li>
+   <li> Document important programming techniques:
+    <ol>
+     <li> How to handle local variables (see above). </li>
+     <li> All different types of loops (see the existing code). </li>
+     <li> How to create lambda-terms. </li>
+    </ol>
+   </li>
   </ul>
 
 

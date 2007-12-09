@@ -17,6 +17,10 @@ License, or any later version. */
 
 
   \todo Write docus
+  <ul>
+   <li> We should have a list of all available functions. </li>
+   <li> Seems that this list needs to be maintained manually? </li>
+  </ul>
 
 
   \todo Hypergraph transversals
