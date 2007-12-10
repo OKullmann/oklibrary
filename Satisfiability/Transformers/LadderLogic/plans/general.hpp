@@ -64,6 +64,10 @@ License, or any later version. */
    boolean functions? </li>
    <li> So the main gist is moved to two modules, on boolean functions
    and on iterating boolean functions?! </li>
+   <li> See
+   http://ieeexplore.ieee.org/iel3/4960/13643/00627776.pdf?arnumber=627776
+   for an example of analysing ladder logic (apparently simpler, since
+   non-iterative?). </li>
   </ul>
 
 */
