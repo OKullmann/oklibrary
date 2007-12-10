@@ -93,6 +93,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Combinatorics
+  <ul>
+   <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>
+  </ul>
+
+
   \todo Other sources:
   <ul>
    <li> Build a local version of Xerces. </li>
