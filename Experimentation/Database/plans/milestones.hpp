@@ -15,6 +15,7 @@ License, or any later version. */
 
   \par
    In Database/plans/general.hpp the following topics are handled:
+    - bug "We should avoid any rounding errors"
     - Documentation
 
 

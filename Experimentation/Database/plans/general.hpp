@@ -10,6 +10,14 @@ License, or any later version. */
   \brief Plans for the module concerning the formulas-database
 
 
+  \bug We should avoid any rounding errors in the output of CreateStatistics.cpp
+  <ul>
+   <li> Scientific notation perhaps is better avoided. </li>
+   <li> And floating point numbers should be output at a high
+   precision. </li>
+  </ul>
+
+
   \todo Documentation
   <ul>
    <li> Add minimal doxygen-documentation to the C++ files. </li>
