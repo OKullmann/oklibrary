@@ -15,20 +15,25 @@ load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Clau
 
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 
-Needs ComputerAlgebra/Hypergraphs/Lisp/Generators.mac and
-ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
+Needs 
+ - ComputerAlgebra/Hypergraphs/Lisp/Generators.mac
+ - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
 
+*/
+
+/* ***************************
+   * Van der Waerden problem *
+   ***************************
 */
 
 /* Boolean clause-sets, wholes solutions are the partitionings of {1,...,n}
  into two parts such that none of them contains an arithmetic progression
  of size k */
-VanDerWaerden2_cs_f(k,n) := (local(k,n), block([G : ArithmeticProgressions(k,n)], [G[1], union(G[2], comp_cs(G[2]))]));
+VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], [G[1], union(G[2], comp_cs(G[2]))]);
 
 output_VanDerWaerden2_cs_f(k,n,filename) := 
- (local(k,n,filename), 
   output_cs_f(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", ", n, " elements."), 
     VanDerWaerden2_cs_f(k,n),
-    filename));
+    filename);
 

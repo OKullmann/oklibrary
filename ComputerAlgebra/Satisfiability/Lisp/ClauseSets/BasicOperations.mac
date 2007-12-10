@@ -19,6 +19,11 @@ Needs ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac.
 
 */
 
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
 /*
  A "boolean variable" might be any expression x, such that "- x" is defined
  and yields a different object.
@@ -30,30 +35,30 @@ Needs ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac.
 */
 
 /* the underlying variable of a literal */
-var_l(x) := (local(x), abs(x));
+var_l(x) := abs(x);
 
 /* complementation of a set of literals */
-comp_sl(L) := (local(L), map(lambda([l], -l), L));
+comp_sl(L) := map(lambda([l], -l), L);
 
 /*
  A "boolean clause" is a set C of boolean literals such that
  C and comp(C) have empty intersection.
 */
 
-var_c(C) := (local(C), map(var_l, C));
+var_c(C) := map(var_l, C);
 
 /*
  A "boolean clause-set" is a set of boolean clauses.
 */
 
-var_cs(F) := (local(F), xreduce(union, map(var_c, F)));
-var_cs_f(FF) := (local(FF), FF[1]);
+var_cs(F) := xreduce(union, map(var_c, F));
+var_cs_f(FF) := FF[1];
 
-nvar_f(FF) := (local(FF), length(var_cs_f(FF)));
+nvar_f(FF) := length(var_cs_f(FF));
 
-clauses_f(FF) := (local(FF), FF[2]);
+clauses_f(FF) := FF[2];
 
-comp_cs(F) := (local(F), map(comp_sl, F));
+comp_cs(F) := map(comp_sl, F);
 
 /*
  A "formal boolean clause-set" is a pair (V, F), where V is the set of 
@@ -66,9 +71,9 @@ comp_cs(F) := (local(F), map(comp_sl, F));
 */
 
 /* apply a partial assignment to a boolean clause-set */
-apply_pa(phi,F) := (local(phi,F), setdifference2(remove_non_disjoint(F,phi), comp_sl(phi)));
-apply_pa_f(phi,FF) := (local(phi,FF), [setdifference(var_cs_f(FF), var_c(phi)),
-  apply_pa(phi, clauses_f(FF))]);
+apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi));
+apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
+  apply_pa(phi, clauses_f(FF))];
 
 
 /* *****************************************
@@ -77,21 +82,20 @@ apply_pa_f(phi,FF) := (local(phi,FF), [setdifference(var_cs_f(FF), var_c(phi)),
 */
 
 /* output a literal */
-dimacs_l_string(x) := (local(x), sconcat(x," "));
+dimacs_l_string(x) := sconcat(x," ");
 /* output a clause */
-dimacs_c_string(C) := (local(C), xreduce(sconcat, map(dimacs_l_string, C)));
+dimacs_c_string(C) := xreduce(sconcat, map(dimacs_l_string, C));
 /* print a string without line-breaks */
-print_nlb(s) := (local(s), block([old_linel : linel],
+print_nlb(s) := block([old_linel : linel],
   linel : slength(s) + 1,
   print(s),
-  linel : old_linel
-));
+  linel : old_linel);
 /* print a formal clause-set in Dimacs format */
-print_cs_f(comment,FF) := (local(comment,FF),
+print_cs_f(comment,FF) := (
   print_nlb(sconcat("c ", comment)),
   print_nlb(sconcat("p ", nvar_f(FF), " ", length(clauses_f(FF)))),
   for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
 );
 /* output formal clause-set FF to file n */
-output_cs_f(comment,FF,n) := (local(comment,FF,n), with_stdout(n, print_cs_f(comment,FF)));
+output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF));
 

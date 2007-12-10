@@ -21,11 +21,12 @@ License, or any later version. */
 
   \todo Input and output
   <ul>
-   <li> Functions currently in ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
+   <li> Functions currently in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
    should move to their own file "InputOutput.mac". </li>
    <li> The usage of "print" likely should be replaced by "printf" from
    package "stringproc". </li>
-   <li> We need also reading from Dimacs-files.
+   <li> We need also reading from Dimacs-files. </li>
   </ul>
 
 

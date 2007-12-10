@@ -38,12 +38,11 @@ Needs
 */
 
 /* A new propagator which iterates the given one until a fixed point is reached */
-prop_fixedpoint(prop) := (local(prop), buildq([prop], lambda([dom], block([p : false],
-  for i : 1 thru inf do if prop(dom) then p : true else return(p))
-)));
+prop_fixedpoint(prop) := buildq([prop], lambda([dom], block([p : false],
+  for i : 1 thru inf do if prop(dom) then p : true else return(p))));
 
 /* A propagator transformer, removing values which lead to a contradiction by propagation */
-look_ahead(prop) := (local(prop), buildq([prop], lambda([dom],
+look_ahead(prop) := buildq([prop], lambda([dom],
   block([n : length(dom), p : prop(dom)],
     for i : 1 thru n do block([dom_i : dom[i]],
       if length(dom_i) > 1 then
@@ -52,8 +51,7 @@ look_ahead(prop) := (local(prop), buildq([prop], lambda([dom],
         prop(copy_dom),
         if min_dom_size(copy_dom) = 0 then
           (dom[i] : disjoin(e, dom_i), p : true))),
-    return(p))
-)));
+    return(p))));
 
 
 /* ***********
