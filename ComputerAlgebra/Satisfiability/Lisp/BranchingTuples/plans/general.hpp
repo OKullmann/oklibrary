@@ -47,8 +47,8 @@ License, or any later version. */
    </li>
    <li> The general convention should be, that for example the branching tuples
    contain real terms, and then perhaps via some special naming convention we
-   indicate that for this version
-   all arguments are automatically evaluated? </li>
+   indicate that for this version all arguments are automatically evaluated?
+   </li>
    <li> The experience we have made already should be extracted:
     <ol>
      <li> To the FullDocumentation-file? </li>
@@ -61,21 +61,30 @@ License, or any later version. */
   </ul>
 
 
-  \todo Branching tuples
+  \todo Reimplement the remaining functionality from Mupad/tau.mup in Maxima
+  <ol>
+   <li> tau : DONE
+   <li> probability </li>
+  </ol>
+
+
+  \todo Branching tuples : DONE
   <ul>
-   <li> We should develop some general helper functions for branching tuples t,
+   <li> DONE We should develop some general helper functions for branching tuples t,
    and reimplement the tau-functions using those.
     <ol>
-     <li> A branching tuple is a non-empty list of positive real numbers,
+     <li> DONE A branching tuple is a list of positive real numbers,
      where in case of width 1 also 0 is allowed (excluded for "non-zero
      branching tuples"). </li>
-     <li> bt_min(t) := lmin(t) </li>
-     <li> bt_max(t) := lmax(t) </li>
-     <li> bt_sum(t) := apply("+", t) </li>
-     <li> bt_width(t) := length(t) </li>
-     <li> Then there are power means and their special cases;
+     <li> DONE There are power means and their special cases;
      do we need special functions here? Like  bt_mean(t) := mean(t) ? </li>
-     <li> Is it worth to introduce all the above special abbreviations ?
+     <li> bt_min(t) := lmin(t) DONE </li>
+     <li> bt_max(t) := lmax(t) DONE </li>
+     <li> bt_sum(t) := apply("+", t) DONE </li>
+     <li> bt_width(t) := length(t) DONE </li>
+     <li> DONE (those functions can be used, but there is no must ---
+     we haved fixed the representation once and for all)
+     Is it worth to introduce all the above special abbreviations ?
       <ul>
        <li> It adds a certain meaning. </li>
        <li> But perhaps it is better handled by implicit conversion of
@@ -87,7 +96,8 @@ License, or any later version. */
        already exist??). </li>
       </ul>
      </li>
-     <li> Perhaps we have checks
+     <li> DONE (not needed)
+     Perhaps we have checks
       <ol>
        <li> is_bt(a) (all entries are real and > 0, or a = (0)) </li>
        <li> is_nz_bt(a) (not (0)) </li>
@@ -95,23 +105,17 @@ License, or any later version. */
        <li> is_s_bt(a) (strict bt, i.e., nz and ne). </li>
       </ol>
      </li>
-     <li> The concatenation of branching tuples is just the concatenation of
+     <li> DONE The concatenation of branching tuples is just the concatenation of
      lists, so again we do not need to introduce a special function. </li>
-     <li> However composition of branching tuples a, b at position i of
+     <li> DONE However composition of branching tuples a, b at position i of
      a is needed: bt_composition(a,b,i). </li>
     </ol>
    </li>
-   <li> Creating a new file "BranchingTuples.maxima". </li>
+   <li> DONE (called now "Basic.mac")
+   Creating a new file "BranchingTuples.maxima". </li>
    <li> DONE Perhaps the module should be called "BranchingTuples" instead of
    "TauMachinery". </li>
   </ul>
-
-
-  \todo Reimplement the remaining functionality from Mupad/tau.mup in Maxima
-  <ol>
-   <li> tau : DONE
-   <li> probability </li>
-  </ol>
 
 */
 
