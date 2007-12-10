@@ -72,13 +72,15 @@ License, or any later version. */
    </li>
    <li> How to obtain information about symbols (so that for example clashes
    can be avoided) ? </li>
+   <li> What is the difference between "apply" and "xreduce" ? </li>
    <li> We need "oklib maxima", which starts the maxima-shell and also loads
    all functions from the OKlibrary. </li>
    <li> Document important programming techniques:
     <ol>
      <li> How to handle local variables (see above). </li>
      <li> All different types of loops (see the existing code). </li>
-     <li> How to create lambda-terms. </li>
+     <li> How to create lambda-terms (see the existing code). </li>
+     <li> Function-application (also "map" etc.; see above). </li>
     </ol>
    </li>
   </ul>
