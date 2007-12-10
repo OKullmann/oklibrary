@@ -16,7 +16,6 @@ License, or any later version. */
    <li> Mupad/Orthogonal.mup : Hypergraphs transversals </li>
    <li>
     <ol>
-     <li> sub_min_l, sub_min, ist_sub_min </li>
      <li> streichen, hinzufuegen, streichen_bedingt </li>
      <li> union_S, star </li>
      <li> ist_exakt_transversal </li>
@@ -24,6 +23,7 @@ License, or any later version. */
      <li> enthaelt_disjunkt </li>
      <li> ist_speziell_exakt_transversal </li>
      <li> Transversals </li>
+     <li> sub_min_l, sub_min, ist_sub_min : DONE </li>
     </ol>
    </li>
   </ul>

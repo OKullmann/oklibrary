@@ -61,6 +61,14 @@ non_disjoint_pair(L) := block([l : length(L), nd : false, res : []],
 /* whether S is a disjoint set system */
 is_disjoint_set_system(S) := emptyp(non_disjoint_pair(listify(S)));
 
+/* whether S contains no subsumed elements */
+is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subsumption : false, A],
+  for i : 1 thru l-1 unless subsumption do (A : S[i],
+    for j : i+1 thru l unless subsumption do
+      if subsetp(A, S[j]) then subsumption : true),
+  return(not subsumption)
+);
+
 
 /* ********************************
    * Transformers for set systems *
@@ -85,6 +93,34 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
     A : L[p[1]], B : L[p[2]],
     L : delete(A,L), L : delete(B,L), L : append(L, [union(A,B)])),
   setify(L));
+
+
+/* Sorts the elements of a list according to their length (ascending) */
+sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)));
+/* Sorts the elements of a list according to their length (descending) */
+sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)));
+
+
+/* Eliminates all subsumed elements from a set system */
+min_elements(S) := block([remains : sort_length(listify(S)), result : [], A, not_subsumed],
+ while not emptyp(remains) do (
+  A : first(remains), remains : rest(remains),
+  result : append(result, [A]),
+  not_subsumed : sublist_indices(remains, lambda([B], not subsetp(A, B))),
+  remains : makelist(remains[j], j, not_subsumed)),
+  setify(result)
+);
+
+/* Eliminates all contained elements from a set system */
+max_elements(S) := block([remains : sort_length_desc(listify(S)), result : [], A, not_contained],
+ while not emptyp(remains) do (
+  A : first(remains), remains : rest(remains),
+  result : append(result, [A]),
+  not_contained : sublist_indices(remains, lambda([B], not subsetp(B, A))),
+  remains : makelist(remains[j], j, not_contained)),
+  setify(result)
+);
+
 
 /*!
 \endhtmlonly
