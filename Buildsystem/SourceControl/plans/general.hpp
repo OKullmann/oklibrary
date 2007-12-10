@@ -24,6 +24,7 @@ License, or any later version. */
     <ol>
      <li> The modified script "hooks/post-receive". </li>
      <li> The modified configuration file "config". </li>
+     <li> The modified file "description" for the project-name. </li>
     </ol>
    </li>
   </ul>
