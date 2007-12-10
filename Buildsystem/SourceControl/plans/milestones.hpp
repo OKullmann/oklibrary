@@ -26,6 +26,7 @@ License, or any later version. */
 
   \par
    In Buildsystem/SourceControl/plans/general.hpp the following topics are handled:
+    - Resetting the shared repository
     - Tagging
     - More advanced usage
     - Exploring usage patterns

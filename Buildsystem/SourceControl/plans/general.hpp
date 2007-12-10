@@ -10,6 +10,25 @@ License, or any later version. */
   \brief Plans and todos for the versioning control system
 
 
+  \todo Resetting the shared repository
+  <ul>
+   <li> Why can't the shared bare repository on cs-oksvr not be reset
+   as every other repository? git complains about it, but it seems
+   senseless? </li>
+   <li> What are the alternatives? The present method, to create a clone,
+   reset the clone, and to create a new bare repository from the clone,
+   which replaces the old repository, looks like a waste of time. </li>
+   <li> And we have the problem: What does "cloning" clone?? See below. </li>
+   <li> We need some process which defines what is in the main repository,
+   and how to clone all that:
+    <ol>
+     <li> The modified script "hooks/post-receive". </li>
+     <li> The modified configuration file "config". </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Notification-e-mails
   <ul>
    <li> Improvements of the automatic e-mail:
