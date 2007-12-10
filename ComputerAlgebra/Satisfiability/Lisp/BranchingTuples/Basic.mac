@@ -185,12 +185,16 @@ genmean3(x,y,z,p) := genmeann(x,y,z,p);
 /* Auxiliary function to test for zero */
 zerop(x) := is(equal(x,0));
 /* Auxiliary function to test for +infinity */
-infp(x) := is(equal(x,inf))
+infp(x) := is(equal(x,inf));
 
 /* the tau-mean for tuples (allowing zero values) */
-taumean(t) := if length(t) <= 1 then inf elseif some(zerop, t) then 0 else float(log(length(t))) / log(tau(t));
+taumean(t) := if length(t) <= 1 then inf 
+  elseif some(zerop, t) then 0 
+  else float(log(length(t))) / log(tau(t));
 /* tau-mean now also allowing inf-values */
-taumean_inf(t) := block([t : delete(inf, t)], taumean(t));
+taumean_inf(t) := if some(infp, t) then 
+    block([t : delete(inf, t)], if t = [0] then unknown else taumean(t))
+  else taumean(t);
 /* the n-ary tau-mean */
 taumeann([t]) := taumean(t);
 /* the binary tau-mean */
