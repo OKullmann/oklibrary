@@ -555,7 +555,7 @@ else :
       <ol>
        <li> See below for some further comments. </li>
        <li> For every permutation of GF(2^8) we have at least
-       2 * 2^8 * 8 = 2^12 = 4096 prime implicants, given by fixing 8 bit in either
+       2 * 2^8 * 8 = 2^12 = 4096 prime implicates, given by fixing 8 bit in either
        the input or the output. </li>
        <li> Are there others? In case of multiplication, the multiplication
        with 1 obviously has others. </li>
@@ -596,14 +596,15 @@ else :
      since the minimal size of a prime implicate tells us how many variables
      have to be set until we may obtain a contradiction --- this is important
      information for the analysis, and furthermore for the active clause it
-     can be used the threshold which only triggers some action (before we are
+     can be used as threshold which triggers some action (before, we are
      just lazy and don't do anything (w.r.t. updating the counters)). </li>
      <li> Given a full CNF F, isn't it then easy (relative to the size of F) to
      compute the set of prime implicates? (In our case we have 2^16 - 2^8 =
      65280 full clauses, which shouldn't be too bad.)
       <ol>
-       <li> Isn't subsumption-resolution (at least one parent clause is subsumed
-       by the resolvent (and gets removed)) complete here?! </li>
+       <li> Yes; see
+       Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
+       "Prime implicants and implicates". </li>
       </ol>
      </li>
      <li> All these generalisations are very general, and should go to
