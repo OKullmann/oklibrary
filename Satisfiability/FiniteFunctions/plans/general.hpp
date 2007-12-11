@@ -59,6 +59,38 @@ License, or any later version. */
      implicants), and both together are only used to make the algorithm
      polynomial time (since then, e.g. in the boolean case, the input
      is of size 2^n, while a trivial essential uppper bound is 3^n). </li>
+     <li> The algorithm in more detail:
+      <ol>
+       <li> Input is a clause-set F (either CNF or DNF). </li>
+       <li> In general a "subsumption-resolution" is one resolution step where
+       the resolvent subsumes at least one parent clause. A
+       "2-subsumption-resolution" is where both parent clauses are subsumed
+       (that is, iff both parent clauses are identical except of the clashing
+       literal). </li>
+       <li> Let k := n(F), F_k := F. </li>
+       <li> While k > 0 do
+        <ol>
+         <li> F_{k-1} := all 2-subsumption-resolvents from F_k. </li>
+         <li> Remove from F_k all clauses which were involved in a
+         resolution. </li>
+        </ol>
+       </li>
+       <li> The union of F_n, ..., F_0 then is the set of prime implicates (for CNF)
+       resp. prime implicants (for DNF), where F_k contains the clauses of
+       length k. </li>
+      </ol>
+     </li>
+     <li> Correctness follows by the simple fact that when F_k is first
+     computated, then it contains exactly all implicates (implicants) of
+     size k. </li>
+     <li> The main point for the efficient implementation is finding the
+     2-subsumption-resolutions fast.
+      <ul>
+       <li> One could think of representing the clauses in the levels F_k
+       not directly, but indirectly, how they were created. This should
+       save space, and could also be more time efficient. </li>
+      </ul>
+     </li>
      <li> Is there a way of using both the satisfying and the falsifying
      total assignments? Likely the way to do is to combine the resolution
      algorithm with the dualisation algorithm. </li>
