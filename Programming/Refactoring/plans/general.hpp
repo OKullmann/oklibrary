@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for the module on refactoring
 
 
-  \todo Move this module to part Programming. DONE
-
-
-  \todo What about Refactoring/plans/Transition_Plans.hpp ? DONE
-
-
   \todo Update namespaces.
 
 

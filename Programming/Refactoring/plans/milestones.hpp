@@ -8,18 +8,34 @@ License, or any later version. */
 /*!
   \file Programming/Refactoring/plans/milestones.hpp
 
-  \module_version Programming/Refactoring 0.0.7 (18.11.2006)
+  \module_version Programming/Refactoring 0.0.8 (11.12.2007)
 
 
-  \par Version 0.0.8 :
+  \par Version 0.0.9
 
   \par
    In Refactoring/plans/general.hpp the following topics are handled:
-    - Move this module : DONE
-    - What about Refactoring/plans/Transition_Plans.hpp : DONE
+    - Update namespaces
+    - Update namespace-usage
+    - Update the doxygen-documentation, and create further plans(-files)
+    - Move Concepts/RefactoringIncludeHandling.hpp here.
+
+
+  \par Version 0.0.10
 
   \par
-   Create further milestones.
+   In Refactoring/plans/general.hpp the following topics are handled:
+    - Investigating existing tools for parsing and refactoring C++ code
+
+
+  \par Version 0.0.11
+
+  \par
+   In Refactoring/plans/general.hpp the following topics are handled:
+    - Transfer the tests to the new test system.
+
+  \par
+   Create new milestones.
 
 
   \par Version 0.1 :
@@ -33,5 +49,6 @@ License, or any later version. */
   \par Version history
 
    - 0.0.7 : 18.11.2006; initial version number (several components; module in unclear state).
+   - 0.0.8 : 11.12.2007; move to part "Programming", and editorial updates.
 
 */

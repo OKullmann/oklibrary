@@ -50,7 +50,7 @@ License, or any later version. */
   \par %Combinatorics 0.0.3 : DONE
   (see Combinatorics/plans/milestones.hpp)
   \par Plans
-  All modules have a milestones-file, and the milestones
+  All parts have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
   \par
    In Transitional/plans/general.hpp the following topics are handled:
