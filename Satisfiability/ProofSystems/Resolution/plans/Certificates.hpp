@@ -37,7 +37,8 @@ License, or any later version. */
    <li> At least a file format and a verifier for extended resolution,
         and for the combination with the above r-resolution. </li>
    <li> What about Frege-Systems, extended Frege-Systems? (They should go
-        to a different module.) </li>
+        to a different module; see ProofSystems/plans/general.hpp, topic
+        "Stronger propositional proof systems than resolution".) </li>
    <li> What about proof systems for parameterised UNSAT formulas
         (or for tautologies), that is for UNSAT generators?
         Of course, also SAT generators are relevant.
