@@ -33,8 +33,6 @@ License, or any later version. */
 #include <Transitional/General/Algorithms.hpp>
 #include <Transitional/General/ErrorHandling.hpp>
 
-using namespace std;
-
 using namespace DatabaseHandler01;
 using namespace StringHandling;
 using namespace TimeHandling;
@@ -107,38 +105,38 @@ const char * const Meldungen[][number_languages] = {
 
 // global constants -------------------------------------
 
-const string database = "OKRandGen";
-const string SQL_true = "t";
+const std::string database = "OKRandGen";
+const std::string SQL_true = "t";
 
-const string dim = "1";
+const std::string dim = "1";
 const unsigned int p = 3; // can be other values
-const string length = "{" + toString(p) + "}";
+const std::string length = "{" + toString(p) + "}";
 // given dim and length, the frame_id is uniquely determined
 
-const string table_densities = "bd_" + dim;
+const std::string table_densities = "bd_" + dim;
 
 // output files
 
-const string directory = "/h/21/GemeinsameBasis/SAT-Algorithmen/RandomExperiments/Data";
+const std::string directory = "/h/21/GemeinsameBasis/SAT-Algorithmen/RandomExperiments/Data";
 
-const string extension = ".csv";
+const std::string extension = ".csv";
 
-const string output_sat = directory + "/" + "OKgp" + toString(p) + "alleS" + extension;
-const string output_unsat = directory + "/" + "OKgp" + toString(p) + "alleU" + extension;
-const string output_stat_sat = directory + "/" + "OKgp" + toString(p) + "prob" + extension;
+const std::string output_sat = directory + "/" + "OKgp" + toString(p) + "alleS" + extension;
+const std::string output_unsat = directory + "/" + "OKgp" + toString(p) + "alleU" + extension;
+const std::string output_stat_sat = directory + "/" + "OKgp" + toString(p) + "prob" + extension;
 
 // output tables
 
-const string output_table_sat = "statsatp" + toString(p);
-const string output_table_unsat = "statunsatp" + toString(p);
-const string output_table_prob = "probsatp" + toString(p);
+const std::string output_table_sat = "statsatp" + toString(p);
+const std::string output_table_unsat = "statunsatp" + toString(p);
+const std::string output_table_prob = "probsatp" + toString(p);
 
 // formatting data
 
-const string separator = ",";
+const std::string separator = ",";
 
-const string null_sql = "NULL";
-const string null_r = "NA";
+const std::string null_sql = "NULL";
+const std::string null_r = "NA";
 
 // minimal resolution complexity for unsatisfiable clause-sets
 
@@ -170,7 +168,7 @@ Command Comm(DH);
 // computation of maximal indices
 class Max_index {
 public :
-  Max_index(const string& field, const string& table) {
+  Max_index(const std::string& field, const std::string& table) {
     Sel.issue("select max(" + field + ") from " + table + ";");
     ++Sel;
     max = fromString<int>(Sel.value("max"));
@@ -196,10 +194,10 @@ public :
     fi = Value(AFrames("frame_id"));
     nfi = fromString<int>(fi);
   }
-  operator string() const { return fi; }
+  operator std::string() const { return fi; }
   operator int() const { return nfi; }
 private :
-  string fi;
+  std::string fi;
   int nfi;
 };
 
@@ -207,8 +205,8 @@ private :
 
 struct density {
   bool fi; // whether equal to the unique frame identity or not
-  string d1; // not as double to avoid rounding problems
-  density(bool f, const string& d)
+  std::string d1; // not as double to avoid rounding problems
+  density(bool f, const std::string& d)
     : fi(f), d1(d) {}
   density() {}
 };
@@ -216,27 +214,27 @@ struct density {
 class Densities {
   // the map from m_dens_id to densities
 public :
-  Densities(const string& fi) {
+  Densities(const std::string& fi) {
     v.resize(Max_index("m_dens_id", table_densities) + 1);
     Sel.issue("select m_dens_id, frame_id, d1 from " + table_densities + ";");
     while (++Sel) {
-      v[fromString<int>(Sel.value("m_dens_id"))] = density((string(Sel.value("frame_id")) == fi), Sel.value("d1"));
+      v[fromString<int>(Sel.value("m_dens_id"))] = density((std::string(Sel.value("frame_id")) == fi), Sel.value("d1"));
     }
   }
   const density& operator [] (int index) const {
     return v[index];
   }
 private :
-  vector<density> v;
+  std::vector<density> v;
 };
 
 // handling of statistical values ----------------------------------------
 
-const string header_common = "n,d1,nds,count,depth,pl,aut,sn,qsn,l2r,an,countwa,ndswa,countws,ndsws,countwq,ndswq,maxnds,minnds,stdnds,mednds";
-const string header_unsat =  header_common + ",prm";
-const string header_sat = header_common + ",trv,nb,nl2r,ndswb";
+const std::string header_common = "n,d1,nds,count,depth,pl,aut,sn,qsn,l2r,an,countwa,ndswa,countws,ndsws,countwq,ndswq,maxnds,minnds,stdnds,mednds";
+const std::string header_unsat =  header_common + ",prm";
+const std::string header_sat = header_common + ",trv,nb,nl2r,ndswb";
 
-const string header_prob_sat = "n,d1,sat,c";
+const std::string header_prob_sat = "n,d1,sat,c";
 
 class activate_median;
 
@@ -244,7 +242,7 @@ class stat_values {
 public :
 
   stat_values()
-    : nds(0), count(1), depth(0), pl(0), aut(0), sn(0), qsn(0), l2r(0), an(0),  countwa(0), ndswa(0), countws(0), ndsws(0), countwq(0), ndswq(0), maxnds(0), minnds(numeric_limits<double>::max()), stdnds(0), sum_sq_nds(0), vecndsp(0) {}
+    : nds(0), count(1), depth(0), pl(0), aut(0), sn(0), qsn(0), l2r(0), an(0),  countwa(0), ndswa(0), countws(0), ndsws(0), countwq(0), ndswq(0), maxnds(0), minnds(std::numeric_limits<double>::max()), stdnds(0), sum_sq_nds(0), vecndsp(0) {}
   virtual ~stat_values() {}
 
   virtual void enter_bcls_data(const Select& S) { ++count; }
@@ -274,8 +272,8 @@ public :
       ++countwq;
       ndswq += current_nds;
     }
-    maxnds = max(maxnds, current_nds);
-    minnds = min(minnds, current_nds);
+    maxnds = std::max(maxnds, current_nds);
+    minnds = std::min(minnds, current_nds);
     sum_sq_nds += current_nds * current_nds;
   }
 
@@ -306,8 +304,8 @@ public :
       assert(count == vecndsp -> size());
       assert(boost::test_tools::close_at_tolerance<double>(boost::test_tools::fraction_tolerance(10 * std::numeric_limits<double>::epsilon()))(nds, std::accumulate(vecndsp -> begin(), vecndsp -> end(), double(0)) / count));
       std::sort(vecndsp -> begin(), vecndsp -> end());
-      const vector<double>::size_type size = vecndsp -> size();
-      const vector<double>::size_type middle = size / 2;
+      const std::vector<double>::size_type size = vecndsp -> size();
+      const std::vector<double>::size_type middle = size / 2;
       const double median2 = (size % 2 == 0) ? ((*vecndsp)[middle-1] + (*vecndsp)[middle]) / 2.0 : (*vecndsp)[middle];
       if (not boost::test_tools::close_at_tolerance<double>(boost::test_tools::fraction_tolerance(5 * std::numeric_limits<double>::epsilon()))(mednds, median2)) {
 	std::cerr << "FEHLER!\ncount = " << count << ", mednds = " << mednds << ", median2 = " << median2 << "\n sortierter Vektor =\n";
@@ -324,7 +322,7 @@ public :
     vecndsp = 0;
   }
 
-  virtual void output(ostream& f, const string& null, const string& sep) const {
+  virtual void output(std::ostream& f, const std::string& null, const std::string& sep) const {
     f << nds << sep << count << sep << depth << sep << pl << sep << aut << sep << sn << sep << qsn << sep << l2r << sep << an;
     f << sep << countwa << sep;
     if (countwa == 0)
@@ -358,7 +356,7 @@ private :
   double countwa, ndswa, countws, ndsws, countwq, ndswq;
   double maxnds, minnds, stdnds, sum_sq_nds;
 
-  vector<double>* vecndsp;
+  std::vector<double>* vecndsp;
   double mednds;
   friend class activate_median;
 
@@ -400,7 +398,7 @@ public :
     
   }
 
-  virtual void output(ostream& f, const string& null = null_r, const string& sep = separator) const {
+  virtual void output(std::ostream& f, const std::string& null = null_r, const std::string& sep = separator) const {
     stat_values::output(f, null, sep);
     f << sep << trv << sep << nb << sep << nl2r << sep << ndswb;
   }
@@ -425,7 +423,7 @@ public :
     prm /= count;
   }
 
-  virtual void output(ostream& f, const string& null = null_r, const string& sep = separator) const {
+  virtual void output(std::ostream& f, const std::string& null = null_r, const std::string& sep = separator) const {
     stat_values::output(f, null, sep);
     f << sep << prm;
   }
@@ -449,7 +447,7 @@ public:
     total += m;
   }
 
-  void output(ostream& f, const string& null = null_r, const string& sep = separator) const {
+  void output(std::ostream& f, const std::string& null = null_r, const std::string& sep = separator) const {
     f << sat / total << sep << total;
   }
 
@@ -483,9 +481,9 @@ private :
   const Densities& Den;
 };
 
-typedef map<Matrix_key, UNSAT_values> UNSAT_matrices;
-typedef map<Matrix_key, SAT_values> SAT_matrices;
-typedef map<Matrix_key, prob_sat, readable_sorting> prob_matrices;
+typedef std::map<Matrix_key, UNSAT_values> UNSAT_matrices;
+typedef std::map<Matrix_key, SAT_values> SAT_matrices;
+typedef std::map<Matrix_key, prob_sat, readable_sorting> prob_matrices;
 
 UNSAT_matrices UNSAT_matrix;
 SAT_matrices SAT_matrix;
@@ -493,8 +491,8 @@ SAT_matrices SAT_matrix;
 // preparing for the median computation
 
 struct activate_median {
-  template <class T> void operator() (pair<const Matrix_key, T>& x) const {
-    x.second.vecndsp = new vector<double>;
+  template <class T> void operator() (std::pair<const Matrix_key, T>& x) const {
+    x.second.vecndsp = new std::vector<double>;
     x.second.vecndsp -> reserve(int(x.second.count));
   }
 };
@@ -502,7 +500,7 @@ struct activate_median {
 // processing (after completed collection from the database)
 
 struct mean {
-  template <class T> void operator() (pair<const Matrix_key, T>& x) const {
+  template <class T> void operator() (std::pair<const Matrix_key, T>& x) const {
     x.second.compute_mean();
   }
 };
@@ -510,14 +508,14 @@ struct mean {
 class update_sat {
 public :
   update_sat(prob_matrices& pm) : prob_matrix(pm) {}
-  template <class T> void operator() (const pair<const Matrix_key, T>& x) const;
+  template <class T> void operator() (const std::pair<const Matrix_key, T>& x) const;
 private :
   prob_matrices& prob_matrix;
 };
-template <> inline void update_sat::operator() (const pair<const Matrix_key, UNSAT_values>& x) const {
+template <> inline void update_sat::operator() (const std::pair<const Matrix_key, UNSAT_values>& x) const {
     prob_matrix[x.first].update_unsat(x.second.count);
   }
-template <> inline void update_sat::operator() (const pair<const Matrix_key, SAT_values>& x) const {
+template <> inline void update_sat::operator() (const std::pair<const Matrix_key, SAT_values>& x) const {
     prob_matrix[x.first].update_sat(x.second.count);
   }
 
@@ -526,29 +524,29 @@ template <> inline void update_sat::operator() (const pair<const Matrix_key, SAT
 
 
 template <class Transformer, class Matrix>
-inline void file_output(const string& filename, const string& header, const Matrix& M, const Densities& D) {
-  ofstream out(filename.c_str());
+inline void file_output(const std::string& filename, const std::string& header, const Matrix& M, const Densities& D) {
+  std::ofstream out(filename.c_str());
   out << header << "\n";
-  for_each(M.begin(), M.end(), Transformer(out, D));
+  std::for_each(M.begin(), M.end(), Transformer(out, D));
 }
 
 template <class Transformer, class Matrix>
-inline void table_output(const string& tablename, const string& header, const Matrix& M, const Densities& D) {
-  const string query_0 = "insert into " + tablename + "(" + header + ") values ";
-  ostringstream s;
+inline void table_output(const std::string& tablename, const std::string& header, const Matrix& M, const Densities& D) {
+  const std::string query_0 = "insert into " + tablename + "(" + header + ") values ";
+  std::ostringstream s;
   const Transformer T(s, D, false);
   for (typename Matrix::const_iterator i = M.begin(); i != M.end(); ++i) {
 #ifdef DEBUG
-    cout << "(1) s = " << s.str() << ";";
+    std::cout << "(1) s = " << s.str() << ";";
 #endif
     s.str("");
     T(*i);
 #ifdef DEBUG
-    cout << " (2) s = " << s.str() << ";";
+    std::cout << " (2) s = " << s.str() << ";";
 #endif
     Comm.issue(query_0 + s.str() + ";");
 #ifdef DEBUG
-    cout << "Comm.issue(query_0 + s.str() + \";\"); erfolgreich" << endl;
+    std::cout << "Comm.issue(query_0 + s.str() + \";\"); erfolgreich" << std::endl;
 #endif
   }
 }
@@ -560,8 +558,8 @@ class output_line {
   // line of values
 
 public :
-  output_line(ostream& f, const Densities& D, const bool fR = true) : out(f), Den(D), for_R(fR) {}
-  template <class T> void operator() (const pair<const Matrix_key, T>& x) const {
+  output_line(std::ostream& f, const Densities& D, const bool fR = true) : out(f), Den(D), for_R(fR) {}
+  template <class T> void operator() (const std::pair<const Matrix_key, T>& x) const {
     if (for_R) {
       out << x.first.n << separator << Den[x.first.m_dens_id].d1 << separator;
       x.second.output(out);
@@ -576,12 +574,12 @@ public :
 
 #ifdef DEBUG
   ~output_line() {
-    cout << "Destruktor output_line" << endl;
+    std::cout << "Destruktor output_line" << std::endl;
   }
 #endif
 
 private :
-  ostream& out;
+  std::ostream& out;
   const Densities& Den;
   const bool for_R;
 };
@@ -590,8 +588,8 @@ class output_prob_sat_line {
   // line of values
 
 public :
-  output_prob_sat_line(ostream& f, const Densities& D, const bool fR = true) : out(f), Den(D), for_R(fR) {}
-  void operator() (const pair<const Matrix_key, prob_sat>& x) const {
+  output_prob_sat_line(std::ostream& f, const Densities& D, const bool fR = true) : out(f), Den(D), for_R(fR) {}
+  void operator() (const std::pair<const Matrix_key, prob_sat>& x) const {
     if (for_R) {
       out << x.first.n << separator << Den[x.first.m_dens_id].d1 << separator;
       x.second.output(out);
@@ -605,7 +603,7 @@ public :
   }
 
 private :
-  ostream& out;
+  std::ostream& out;
   const Densities& Den;
   const bool for_R;
 };
@@ -614,7 +612,7 @@ private :
 
 // Indices --------------
 
-typedef vector<stat_values*> Matrix_indices;
+typedef std::vector<stat_values*> Matrix_indices;
 
 }
 
@@ -625,38 +623,38 @@ int main() {
 
   try {
 
-    cout << "[" << Selbst << "] " << Meldungen[14][language] << " " << currentDateTime() << endl;
+    std::cout << "[" << Selbst << "] " << Meldungen[14][language] << " " << currentDateTime() << std::endl;
 
     WallTime Total_time;
 
     const Frame_id frame_id;
     const Densities densities(frame_id);
 
-    cout << Meldungen[3][language] << endl;
+    std::cout << Meldungen[3][language] << std::endl;
     const Max_index max_cls_id("cls_id", "bcls");
-    cout << Meldungen[7][language] << max_cls_id << endl;
+    std::cout << Meldungen[7][language] << max_cls_id << std::endl;
     Matrix_indices* cls_id_index_p = new Matrix_indices(max_cls_id+1);
 
     { // Reading from bcls
-      cout << Meldungen[0][language] << endl;
-      Progress P(cout, max_cls_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
+      std::cout << Meldungen[0][language] << std::endl;
+      Progress P(std::cout, max_cls_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
       Sel.set_cursor_step(cursor_step_bcls);
       Sel.issue("select cls_id, n, m_dens_id, dim, sat from bcls", true);
       while (++Sel) {
 	P();
-	if (string(Sel.value("dim")) != dim)
+	if (std::string(Sel.value("dim")) != dim)
 	  continue;
 	const int m_dens_id = fromString<int>(Sel.value("m_dens_id"));
 	if (! densities[m_dens_id].fi)
 	  continue;
 	const int n = fromString<int>(Sel.value("n"));
-	const bool sat = string(Sel.value("sat")) == SQL_true;
+	const bool sat = std::string(Sel.value("sat")) == SQL_true;
 	const int cls_id = fromString<int>(Sel.value("cls_id"));
 	const Matrix_key key = {m_dens_id, n};
 	if (sat) {
 	  SAT_matrices::iterator i = SAT_matrix.lower_bound(key);
 	  if (i == SAT_matrix.end() or i -> first != key)
-	    i = SAT_matrix.insert(i, make_pair(key, SAT_values()));
+	    i = SAT_matrix.insert(i, std::make_pair(key, SAT_values()));
 	  else
 	    i -> second.enter_bcls_data(Sel);
 	  (*cls_id_index_p)[cls_id] = &(i -> second);
@@ -664,25 +662,25 @@ int main() {
 	else {
 	  UNSAT_matrices::iterator i = UNSAT_matrix.lower_bound(key);
 	  if (i == UNSAT_matrix.end() or i -> first != key)
-	    i = UNSAT_matrix.insert(i, make_pair(key, UNSAT_values()));
+	    i = UNSAT_matrix.insert(i, std::make_pair(key, UNSAT_values()));
 	  else
 	    i -> second.enter_bcls_data(Sel);
 	  (*cls_id_index_p)[cls_id] = &(i -> second);
 	}
       }
       Sel.truncate_result();
-      cout << endl;
+      std::cout << std::endl;
     }
     
-    cout << Meldungen[4][language] << endl;
+    std::cout << Meldungen[4][language] << std::endl;
     const Max_index max_b_info_id("b_info_id", "bcls_info");
-    cout << Meldungen[7][language] << max_b_info_id << endl;
-    cout << Meldungen[23][language] << endl;
+    std::cout << Meldungen[7][language] << max_b_info_id << std::endl;
+    std::cout << Meldungen[23][language] << std::endl;
     Matrix_indices* b_info_id_index_p = new Matrix_indices(max_b_info_id+1);
     
     { // Reading from bcls_info
-      cout << Meldungen[5][language] << endl;
-      Progress P(cout, max_b_info_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
+      std::cout << Meldungen[5][language] << std::endl;
+      Progress P(std::cout, max_b_info_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
       Sel.set_cursor_step(cursor_step_bcls_info);
       Sel.issue("select b_info_id, cls_id, tree_depth, pure_literals, real_autarkies, nodes, single_nodes, quasi_s_nodes, an from bcls_info", true);
       while (++Sel) {
@@ -690,7 +688,7 @@ int main() {
 	const int cls_id = fromString<int>(Sel.value("cls_id"));
 #ifdef DEBUG
 	if (cls_id > max_cls_id)
-	  cout << "Fehler: cls_id = " << cls_id << ", max_cls_id = " << max_cls_id << endl;
+	  std::cout << "Fehler: cls_id = " << cls_id << ", max_cls_id = " << max_cls_id << std::endl;
 #endif
 	stat_values* const p = (*cls_id_index_p)[cls_id];
 	if (! p)
@@ -698,42 +696,42 @@ int main() {
 	const int b_info_id = fromString<int>(Sel.value("b_info_id"));
 #ifdef DEBUG
 	if (b_info_id > max_b_info_id)
-	  cout << "Fehler: b_info_id = " << b_info_id << ", max_b_info_id = " << max_b_info_id << endl;
+	  std::cout << "Fehler: b_info_id = " << b_info_id << ", max_b_info_id = " << max_b_info_id << std::endl;
 #endif
 	(*b_info_id_index_p)[b_info_id] = p;
 	p -> enter_bcls_info_data(Sel);
       }
       Sel.truncate_result();
-      cout << endl;
+      std::cout << std::endl;
     }
 
     delete cls_id_index_p;
 
     { // Reading from b_unit_reductions
-      cout << Meldungen[6][language] << endl;
-      cout << Meldungen[7][language] << max_b_info_id << endl;
-      Progress P(cout, max_b_info_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
+      std::cout << Meldungen[6][language] << std::endl;
+      std::cout << Meldungen[7][language] << max_b_info_id << std::endl;
+      Progress P(std::cout, max_b_info_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
       Sel.set_cursor_step(cursor_step_b_unit_reductions);
       Sel.issue("select * from b_unit_reductions", true);
       while (++Sel) {
 	P();
 	const int b_info_id = fromString<int>(Sel.value("b_info_id"));
 	stat_values* const p = (*b_info_id_index_p)[b_info_id];
-	if (! p or string(Sel.value("u_level")) != "2")
+	if (! p or std::string(Sel.value("u_level")) != "2")
 	  continue;
 	p -> enter_b_unit_reductions_data(Sel);
       }
       Sel.truncate_result();
-      cout << endl;
+      std::cout << std::endl;
     }
 
     { // reading from bcls_info to compute median(nds)
-      cout << Meldungen[22][language] << endl;
-      for_each(UNSAT_matrix.begin(), UNSAT_matrix.end(), activate_median());
-      for_each(SAT_matrix.begin(), SAT_matrix.end(), activate_median());
-      cout << Meldungen[21][language] << endl;
-      cout << Meldungen[7][language] << max_b_info_id << endl;
-      Progress P(cout, max_b_info_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
+      std::cout << Meldungen[22][language] << std::endl;
+      std::for_each(UNSAT_matrix.begin(), UNSAT_matrix.end(), activate_median());
+      std::for_each(SAT_matrix.begin(), SAT_matrix.end(), activate_median());
+      std::cout << Meldungen[21][language] << std::endl;
+      std::cout << Meldungen[7][language] << max_b_info_id << std::endl;
+      Progress P(std::cout, max_b_info_id, progress_step, Meldungen[1][language], Meldungen[2][language]);
       Sel.set_cursor_step(cursor_step_bcls_info_median);
       Sel.issue("select b_info_id, nodes from bcls_info", true);
       while (++Sel) {
@@ -745,32 +743,32 @@ int main() {
 	p -> enter_bcls_info_mean_data(Sel);
       }
       Sel.truncate_result();
-      cout << endl;
+      std::cout << std::endl;
     }
 
     delete b_info_id_index_p;
     
     // computation of the mean values
 
-    cout << Meldungen[8][language] << endl;
-    cout << Meldungen[15][language] << endl;
-    for_each(UNSAT_matrix.begin(), UNSAT_matrix.end(), mean());
-    for_each(SAT_matrix.begin(), SAT_matrix.end(), mean());
+    std::cout << Meldungen[8][language] << std::endl;
+    std::cout << Meldungen[15][language] << std::endl;
+    std::for_each(UNSAT_matrix.begin(), UNSAT_matrix.end(), mean());
+    std::for_each(SAT_matrix.begin(), SAT_matrix.end(), mean());
     
     // computation of sat-statistics
-    cout << Meldungen[16][language] << endl;
+    std::cout << Meldungen[16][language] << std::endl;
 
     prob_matrices prob_matrix((readable_sorting(densities)));
 
-    for_each(UNSAT_matrix.begin(), UNSAT_matrix.end(), update_sat(prob_matrix));
-    for_each(SAT_matrix.begin(), SAT_matrix.end(), update_sat(prob_matrix));
+    std::for_each(UNSAT_matrix.begin(), UNSAT_matrix.end(), update_sat(prob_matrix));
+    std::for_each(SAT_matrix.begin(), SAT_matrix.end(), update_sat(prob_matrix));
 
     {
-      cout << Meldungen[17][language] << endl;
+      std::cout << Meldungen[17][language] << std::endl;
       Sel.set_cursor_step(cursor_step_intervalls);
       Sel.issue("select n, m_dens_id, dim, count_all, count_sat, stored_sat, stored_unsat from SatUnsatAggregates;");
       while (++Sel) {
-	if (string(Sel.value("dim")) != dim)
+	if (std::string(Sel.value("dim")) != dim)
 	  continue;
 	const int m_dens_id = fromString<int>(Sel.value("m_dens_id"));
 	if (! densities[m_dens_id].fi)
@@ -780,9 +778,9 @@ int main() {
 	const double count_all = fromString<double>(Sel.value("count_all"));
 	const double count_sat = fromString<double>(Sel.value("count_sat"));
 	const double count_unsat = count_all - count_sat;
-	if (string(Sel.value("stored_sat")) != SQL_true)
+	if (std::string(Sel.value("stored_sat")) != SQL_true)
 	  prob_matrix[key].update_sat(count_sat);
-	if (string(Sel.value("stored_unsat")) != SQL_true)
+	if (std::string(Sel.value("stored_unsat")) != SQL_true)
 	  prob_matrix[key].update_unsat(count_unsat);
       }
     }
@@ -790,51 +788,51 @@ int main() {
     // now the computations are finished, and we can write to the files
 
     // new sorting of the matrices for SAT and UNSAT
-    cout << Meldungen[18][language] << endl;
-    map<Matrix_key, UNSAT_values, readable_sorting> UNSAT_matrix_n(UNSAT_matrix.begin(), UNSAT_matrix.end(), readable_sorting(densities));
+    std::cout << Meldungen[18][language] << std::endl;
+    std::map<Matrix_key, UNSAT_values, readable_sorting> UNSAT_matrix_n(UNSAT_matrix.begin(), UNSAT_matrix.end(), readable_sorting(densities));
     UNSAT_matrix.clear();
-    map<Matrix_key, SAT_values, readable_sorting> SAT_matrix_n(SAT_matrix.begin(), SAT_matrix.end(), readable_sorting(densities));
+    std::map<Matrix_key, SAT_values, readable_sorting> SAT_matrix_n(SAT_matrix.begin(), SAT_matrix.end(), readable_sorting(densities));
     SAT_matrix.clear();
       
     // file output
-    cout << Meldungen[19][language] << endl;
+    std::cout << Meldungen[19][language] << std::endl;
     file_output<output_line>(output_unsat, header_unsat, UNSAT_matrix_n, densities);
     file_output<output_line>(output_sat, header_sat, SAT_matrix_n, densities);
     file_output<output_prob_sat_line>(output_stat_sat, header_prob_sat, prob_matrix, densities);      
 
     // table output
-    cout << Meldungen[20][language] << endl;
+    std::cout << Meldungen[20][language] << std::endl;
     Comm.issue("truncate table " + output_table_unsat + ";");
     table_output<output_line>(output_table_unsat, header_unsat, UNSAT_matrix_n, densities);
 #ifdef DEBUG
-    cout << "UNSAT" << endl;
+    std::cout << "UNSAT" << std::endl;
 #endif
     Comm.issue("truncate table " + output_table_sat + ";");
     table_output<output_line>(output_table_sat, header_sat, SAT_matrix_n, densities);
 #ifdef DEBUG
-    cout << "SAT" << endl;
+    std::cout << "SAT" << std::endl;
 #endif
     Comm.issue("truncate table " + output_table_prob + ";");
     table_output<output_prob_sat_line>(output_table_prob, header_prob_sat, prob_matrix, densities);     
 
     // final messages
 
-    cout << Meldungen[11][language] << " " << output_unsat << " " << output_sat << " " << output_stat_sat << endl;
-    cout << Meldungen[12][language] << " " << output_table_unsat << " " << output_table_sat << " " << output_table_prob << endl;
-    cout << Meldungen[9][language] << " " << Total_time / 60 << " m" << endl;
-    cout << "[" << Selbst << "] " << Meldungen[13][language] << " " << currentDateTime() << endl;
+    std::cout << Meldungen[11][language] << " " << output_unsat << " " << output_sat << " " << output_stat_sat << std::endl;
+    std::cout << Meldungen[12][language] << " " << output_table_unsat << " " << output_table_sat << " " << output_table_prob << std::endl;
+    std::cout << Meldungen[9][language] << " " << Total_time / 60 << " m" << std::endl;
+    std::cout << "[" << Selbst << "] " << Meldungen[13][language] << " " << currentDateTime() << std::endl;
   }
 
   catch (const ErrorHandling::Error& e) {
-    cerr << ErrorHandling::Error2string(e) << endl;
+    std::cerr << ErrorHandling::Error2string(e) << std::endl;
     return 1;
   }
   catch (const std::exception& e) {
-    cerr << ErrorHandling::Error2string(e) << endl;
+    std::cerr << ErrorHandling::Error2string(e) << std::endl;
     return 1;
   }
   catch (...) {
-    cerr << "Unknown exception!\n";
+    std::cerr << "Unknown exception!\n";
     return 1;
   }
  
