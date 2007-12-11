@@ -8,11 +8,10 @@ License, or any later version. */
 #ifndef INCLUDEHANDLINGTESTOBJECTS_plmJJk
 #define INCLUDEHANDLINGTESTOBJECTS_plmJJk
 
-#include <Transitional/Refactoring/IncludeHandling.hpp>
-#include <Transitional/Refactoring/IncludeHandling_Tests.hpp>
+#include <Transitional/Programming/Refactoring/IncludeHandling.hpp>
+#include <Transitional/Programming/Refactoring/IncludeHandling_Tests.hpp>
 
 namespace OKlib {
-
   namespace Refactoring {
    
     Test_BoostFilesystemFix test_boost_filesystem_fix;

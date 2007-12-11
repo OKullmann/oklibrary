@@ -225,7 +225,8 @@ namespace SatAlg = Satisfiability::Algorithms;
        </li>
       </ol>
    </li>
-   <li> Are there refactoring tools? Or can we finally finish module Refactoring ?!? </li>
+   <li> Are there refactoring tools? Or can we finally finish module
+   Refactoring ?!? See Programming/Refactoring/plans/general.hpp. </li>
    <li> A feasible way for migration seems that we just slowly add new modules (which will
    be super-modules), and move modules into them (first only plans-only-modules, so that
    we don't get build-problems). For that we have to find out how to use "git mv" (see

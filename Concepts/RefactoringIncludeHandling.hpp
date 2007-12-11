@@ -17,14 +17,14 @@ License, or any later version. */
 
 #include <Transitional/traits/TypeTraits.hpp>
 
-#include <Transitional/Refactoring/traits/string_type.hpp>
-#include <Transitional/Refactoring/traits/size_type.hpp>
+#include <Transitional/Programming/Refactoring/traits/string_type.hpp>
+#include <Transitional/Programming/Refactoring/traits/size_type.hpp>
 
 #include <Transitional/Concepts/InputOutput.hpp>
 
-#include <Transitional/Refactoring/BoostPathCorrected.hpp>
+#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
 
-#include <Transitional/Refactoring/IncludeHandling.hpp>
+#include <Transitional/Programming/Refactoring/IncludeHandling.hpp>
 
 namespace OKlib {
   namespace Concepts {

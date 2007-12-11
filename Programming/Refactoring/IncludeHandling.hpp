@@ -6,16 +6,19 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Refactoring/IncludeHandling.hpp
+  \file Programming/Refactoring/IncludeHandling.hpp
   \brief Refactoring of include directives in C and C++ programs.
 
+
   \todo More flexible tools are needed for
-   - renaming header files
-   - adding new directory levels
-   - removing directory levels
-   - moving some directory to another place.
-   The aim is that we are free to further differentiate (or change)
-   the directory structure in our library as needed.
+  <ul>
+   <li> renaming header files </li>
+   <li> adding new directory levels </li>
+   <li> removing directory levels </li>
+   <li> moving some directory to another place. </li>
+  </ul>
+  The aim is that we are free to further differentiate (or change)
+  the directory structure in our library as needed.
 
 */
 
@@ -49,7 +52,7 @@ License, or any later version. */
 #include <boost/range/iterator_range.hpp>
 #include <boost/range/value_type.hpp>
 
-#include <Transitional/Refactoring/BoostPathCorrected.hpp>
+#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
 
 #include <Transitional/General/IteratorHandling.hpp>
 
@@ -62,7 +65,6 @@ License, or any later version. */
 
 
 namespace OKlib {
-
   namespace Refactoring {
 
     enum Include_forms { system_header, source_code_header, undefined_include_form };

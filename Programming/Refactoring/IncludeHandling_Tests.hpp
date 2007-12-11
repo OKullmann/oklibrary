@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Refactoring/IncludeHandling_Tests.hpp
+  \file Programming/Refactoring/IncludeHandling_Tests.hpp
   \brief Tests regarding include statement handling.
 
   \todo More thorough testing: For example if we want to test container class X, and we initialise a data member, then we should check that member.
@@ -28,7 +28,7 @@ License, or any later version. */
 #include <boost/tuple/tuple.hpp>
 #include <boost/assign/list_of.hpp>
 
-#include <Transitional/Refactoring/BoostPathCorrected.hpp>
+#include <Transitional/Programming/Refactoring/BoostPathCorrected.hpp>
 
 #include <Transitional/General/IteratorHandling.hpp>
 
@@ -39,7 +39,6 @@ License, or any later version. */
 
 
 namespace OKlib {
-
   namespace Refactoring {
 
     /*!

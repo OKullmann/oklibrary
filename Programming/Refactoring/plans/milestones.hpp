@@ -6,16 +6,17 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Refactoring/plans/milestones.hpp
+  \file Programming/Refactoring/plans/milestones.hpp
 
-  \module_version Refactoring 0.0.7 (18.11.2006)
+  \module_version Programming/Refactoring 0.0.7 (18.11.2006)
 
 
   \par Version 0.0.8 :
 
   \par
    In Refactoring/plans/general.hpp the following topics are handled:
-    - Move this module
+    - Move this module : DONE
+    - What about Refactoring/plans/Transition_Plans.hpp : DONE
 
   \par
    Create further milestones.
@@ -24,6 +25,7 @@ License, or any later version. */
   \par Version 0.1 :
   We have a working system to automatically update the include-directives when
   changing the directory structure.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

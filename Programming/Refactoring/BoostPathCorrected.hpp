@@ -6,14 +6,18 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Refactoring/BoostPathCorrected.hpp
+  \file Programming/Refactoring/BoostPathCorrected.hpp
   \brief Adding missing functionality to Boost::filesystem::path.
   
   Making Boost::filesystem::path a model of a range.
 
+
   \todo What kind of range exactly?
+
   \todo Notifying the boost e-mail list about the missing functionality.
+
   \todo Should go to module GeneralInputOutput.
+
 */
 
 #ifndef BOOSTPATHCORRECTED_004ttGB

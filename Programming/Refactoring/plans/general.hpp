@@ -6,20 +6,29 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Refactoring/plans/general.hpp
+  \file Programming/Refactoring/plans/general.hpp
   \brief Plans for the module on refactoring
 
 
-  \todo Move this module to part Programming.
+  \todo Move this module to part Programming. DONE
+
+
+  \todo What about Refactoring/plans/Transition_Plans.hpp ? DONE
+
+
+  \todo Update namespaces.
+
+
+  \todo Update namespace-usage.
 
 
   \todo Update the doxygen-documentation, and create further plans(-files).
 
 
+  \todo Move Concepts/RefactoringIncludeHandling.hpp here.
+
+
   \todo Transfer the tests to the new test system.
-
-
-  \todo What about Refactoring/plans/Transition_Plans.hpp ?
 
 
   \todo Investigating existing tools for parsing and refactoring C++ code.

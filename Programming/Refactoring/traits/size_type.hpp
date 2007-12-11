@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Refactoring/traits/size_type.hpp
+  \file Programming/Refactoring/traits/size_type.hpp
   \brief Traits-metafunctions to extract the size type.
 */
 
