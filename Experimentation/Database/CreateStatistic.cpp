@@ -24,6 +24,7 @@ License, or any later version. */
 #include <cmath>
 #include <cassert>
 #include <numeric>
+#include <iomanip>
 
 #include <boost/test/floating_point_comparison.hpp>
 
@@ -137,6 +138,8 @@ const std::string separator = ",";
 
 const std::string null_sql = "NULL";
 const std::string null_r = "NA";
+
+const unsigned int precision = std::numeric_limits<double>::digits10;
 
 // minimal resolution complexity for unsatisfiable clause-sets
 
@@ -526,6 +529,7 @@ template <> inline void update_sat::operator() (const std::pair<const Matrix_key
 template <class Transformer, class Matrix>
 inline void file_output(const std::string& filename, const std::string& header, const Matrix& M, const Densities& D) {
   std::ofstream out(filename.c_str());
+  out << std::setprecision(precision);
   out << header << "\n";
   std::for_each(M.begin(), M.end(), Transformer(out, D));
 }
