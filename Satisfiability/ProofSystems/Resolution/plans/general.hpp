@@ -6,11 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ProofSystems/Resolution/plans/Resolution.hpp
+  \file ProofSystems/Resolution/plans/general.hpp
   \brief Plans for the modules providing components for resolution handling
-
-
-  \todo Update filename.
 
 
   \todo Update namespaces.
