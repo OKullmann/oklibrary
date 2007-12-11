@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Iterators/ImplicitConversionsBoost_Tests.hpp
+  \file Programming/Iterators/ImplicitConversionsBoost_Tests.hpp
   \brief Tests for the extensions of boost iterators by implicit conversions
 */
 
@@ -20,16 +20,17 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace Iterators {
 
     /*!
       \class Test_counting_iterator
       \brief Testing the extended counting iterator.
+
       \todo Yet the tests are very sporadic:
-       - Use the generic test facilities to check whether counting_iterator is actually a forward
-       iterator etc.
-       - Test whether all specific functionality of boost::counting_iterator has been transferred.
+       - Use the generic test facilities to check whether counting_iterator is
+         actually a forward iterator etc.
+       - Test whether all specific functionality of boost::counting_iterator
+         has been transferred.
     */
 
      template <template <class Incrementable, class CategoryOrTraversal = boost::use_default, class Difference = boost::use_default> class counting_iterator>

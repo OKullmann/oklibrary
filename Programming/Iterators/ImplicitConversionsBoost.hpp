@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Iterators/ImplicitConversionsBoost.hpp
+  \file Programming/Iterators/ImplicitConversionsBoost.hpp
   \brief Extending boost iterators by implicit conversions
 
   \todo Once we can use directory structures, likely classes should be seperated into
   files so that each file includes only one boost header file.
 
-  \todo One should test, whether these constructions hamper run-time and run-space
-  efficiency (with compiler optimisation turned on they should not).
+  \todo One should test, whether these constructions hamper run-time and
+  run-space efficiency (with compiler optimisation turned on they should not).
 */
 
 #ifndef IMPLICITCONVERSIONSBOOST_88uJJnhhg
@@ -22,7 +22,6 @@ License, or any later version. */
 #include <boost/iterator/counting_iterator.hpp>
 
 namespace OKlib {
-
   namespace Iterators {
 
     /*!
