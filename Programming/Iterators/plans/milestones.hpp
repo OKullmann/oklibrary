@@ -6,23 +6,56 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Iterators/plans/milestones.hpp
+  \file Programming/Iterators/plans/milestones.hpp
 
-  \par Current version 0.0.7 (17.6.2006)
+  \module_version Programming/Iterators 0.0.5 (7.11.2006)
+
 
   \par Version 0.0.6 :
-  In Iterators/plans/Iterators.hpp the item
-  "Update" has been handled, and new milestones created.
+
+  \par
+   In Iterators/plans/Iterators.hpp the following topics are handled:
+    - Move to part Programming
+
+
+  \par Version 0.0.7 :
+
+  \par
+   In Iterators/plans/Iterators.hpp the following topics are handled:
+    - Update namespaces
+    - Update namespace-usage
+    - Transfer the todos
+
+
+  \par Version 0.0.8 :
+
+  \par
+   In Iterators/plans/Iterators.hpp the following topics are handled:
+    - Update the doxygen-documentation
+
+
+  \par Version 0.0.9 :
+
+  \par
+   In Iterators/plans/Iterators.hpp the following topics are handled:
+    - Switch to the new test system
+
 
   \par Version 0.1 :
-  In Iterators/plans/Iterators.hpp the item
-  "New test system" has been handled.
+
+  \par
+   In Iterators/plans/Iterators.hpp the following topics are handled:
+    - Move the iterated-related concepts from module Concepts here
+
+  \par
+   Further milestones are created.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
 
-   -  0.0.7 : 7.11.2006; initial version number (some implementations).
+   -  0.0.5 : 7.11.2006; initial version number (some implementations).
 
 */

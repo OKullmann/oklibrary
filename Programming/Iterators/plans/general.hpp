@@ -6,14 +6,30 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Iterators/plans/Iterators.hpp
+  \file Programming/Iterators/plans/general.hpp
   \brief Plans for the iterators module
 
-  \todo Update
-  Create plans, transfer the todo's, update the doxygen-documentation.
+
+  \todo Move to part Programming DONE
+
+
+  \todo Update namespaces
+
+
+  \todo Update namespace-usage
+
+
+  \todo Transfer the todos
+
+
+  \todo Update the doxygen-documentation.
+
   
-  \todo New test system
-  Switch to the new test system
+  \todo Switch to the new test system
+
+
+  \todo Move the iterated-related concepts from module Concepts here.
+
 */
 
 /*!
