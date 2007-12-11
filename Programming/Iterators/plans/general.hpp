@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans for the iterators module
 
 
-  \todo Move to part Programming DONE
-
-
   \todo Update namespaces
 
 
