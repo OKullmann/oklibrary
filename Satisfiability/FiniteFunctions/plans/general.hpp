@@ -18,6 +18,7 @@ License, or any later version. */
 
   \todo Prime implicants and implicates
   <ul>
+   <li> This whole topic seems to deserve its own module (and plans-file). </li>
    <li> What terminology to use for *clause-sets*, where we could have
    CNF's or DNF (thus prime implicates or prime implicants) ? </li>
    <li> We consider the whole range of generalised clause-sets, from boolean
@@ -89,11 +90,45 @@ License, or any later version. */
        <li> One could think of representing the clauses in the levels F_k
        not directly, but indirectly, how they were created. This should
        save space, and could also be more time efficient. </li>
+       <li> The most promising approach seems to me (OK):
+        <ol>
+         <li> The underlying observation is, that a clause of length k
+         has exactly k possible partners for 2-subsumption resolution. </li>
+         <li> So at level k (where all clauses have length k) each clause has
+         an associated vector of boolean of length k, showing whether on
+         the associated variable of the clause a 2-subsumption resolution
+         has been done. </li>
+         <li> Now processing of level k happens by running through the list
+         of clauses, for each clauses finding the available 2-subsumption
+         resolution partners, performing the resolutions and entering this
+         information into the vectors. </li>
+         <li> The main (potential) saving lies in actively searching for
+         the resolution partners, which must be supported by some appropriate
+         search data structure. Either a search tree or a hash table. </li>
+         <li> Perhaps one could also use the 2-subsumption resolution graph,
+         where the edges are labelled with the resolution variables. </li>
+         <li> The vectors saves a factor of 2 (possibly more, since the
+         resolvent needs not to be considered for the next level) due to
+         not attempting the second time a resolution. </li>
+         <li> Further savings could be achieved by more generally not
+         attempting resolution steps where the resolvent has already
+         been obtained. </li>
+        </ol>
+       </li>
       </ul>
      </li>
      <li> Is there a way of using both the satisfying and the falsifying
      total assignments? Likely the way to do is to combine the resolution
      algorithm with the dualisation algorithm. </li>
+     <li> Can the Quine/McClusky-algorithm be generalised from boolean
+     clause-sets to more general forms of clause-sets?
+      <ol>
+       <li> For clause-sets with non-boolean variables it should be the
+       similar (only that for a variable of domain size m then m parent
+       clauses are needed). </li>
+       <li> Questionable for general signed clause-sets. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>

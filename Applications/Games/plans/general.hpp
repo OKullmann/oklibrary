@@ -26,6 +26,22 @@ License, or any later version. */
    <li> Backgammon perhaps involves too much special knowledge. </li>
    <li> "Tic, Tac, Toe" and generalisations could be a nice exercise. </li>
    <li> For Sudoku see module LatinSquares. </li>
+   <li> For Poker we should make a clear distinction between the "real
+   situation" and the "imagined situation": In the context of this library,
+   a "poker assistant" is sought which analyses precisely the current
+   factual situation, yielding a "useful" representation on which basis
+   the player then can use his "psychological" and "strategic" skills
+   for the next move.
+    <ol>
+     <li> Poker should have some combinatorial content. </li>
+     <li> This is mixed with probabilities, for which a good theory
+     perhaps must be compiled in advance. </li>
+     <li> The advice could be a series of possible "best moves",
+     with associated probability distributions about "what could be"
+     and "what could happen". </li>
+     <li> First we need some overview on the literature. </li>
+    </ol>
+   </li>
   </ul>
 
 
