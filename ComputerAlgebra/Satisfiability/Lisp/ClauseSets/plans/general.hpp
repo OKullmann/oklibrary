@@ -30,5 +30,12 @@ License, or any later version. */
   </ul>
 
 
+  \todo Random generator
+  <ul>
+   <li> Using the maxima-aes-implementation, implement the random generator
+   as in Experimentation/RandomGenerator/plans/general.hpp. </li>
+  </ul>
+
+
 */
 

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file RandomGenerator/plans/general.hpp
+  \file Experimentation/RandomGenerator/plans/general.hpp
   \brief Plans regarding the random generation of problem instances
 
 
@@ -33,6 +33,9 @@ License, or any later version. */
    <li> Correct General/Kommandozeile.hpp (there are input-errors,
    likely undefined behaviour). </li>
   </ol>
+  Regarding testing we should link to the computer-algebra implementation of
+  the generator (see "Random generator" in
+  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp). </li>
 
 
   \todo Improvements
