@@ -104,12 +104,32 @@ License, or any later version. */
          information into the vectors. </li>
          <li> The main (potential) saving lies in actively searching for
          the resolution partners, which must be supported by some appropriate
-         search data structure. Either a search tree or a hash table. </li>
+         search data structure. Either a search tree or a hash table.
+          <ul>
+           <li> For small n (<= 16) one can treat clauses as vectors of
+           length n with entries 0,1,2, which can be hashed to a bit-vector
+           of length 3^n by interpretation as a positional representation
+           of a ternary number. </li>
+           <li> This vector for n = 16 has 3^16 / 8 = 5380840 bytes, and
+           initialising this data structure once shouldn't be a problem
+           (setting the bits for existing clauses to 1, others to 0).
+           (The hash map could be implemented via template
+           metaprogramming.) </li>
+           <li> For n=20 we need 436 MB; best to use a macro, with
+           default value 18 (48 MB), for the maximal n where such a hash
+           table is to be used. </li>
+           <li> This hash map can also be used for computing the prime
+           implicates via the resolution method in general, however
+           since it doesn't solve the subsumption problem it is perhaps
+           less useful. </li>
+          </ul>
+         </li>
          <li> Perhaps one could also use the 2-subsumption resolution graph,
          where the edges are labelled with the resolution variables. </li>
          <li> The vectors saves a factor of 2 (possibly more, since the
          resolvent needs not to be considered for the next level) due to
-         not attempting the second time a resolution. </li>
+         not attempting the second time a resolution. When using the
+         above hash table, then perhaps it is not worth the effort. </li>
          <li> Further savings could be achieved by more generally not
          attempting resolution steps where the resolvent has already
          been obtained. </li>
