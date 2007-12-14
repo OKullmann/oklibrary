@@ -12,13 +12,17 @@ License, or any later version. */
 
   \todo Concept for aes-usage
   <ul>
-   <li> Create a concept for AES-usage (see client Experimentation/RandomGenerator/BlockChiffAES.hpp). </li>
+   <li> Create a concept for AES-usage (see client
+   Experimentation/RandomGenerator/BlockChiffAES.hpp). </li>
    <li> Replace the C-header in rijndael.hpp by the corresponding C++ headers. </li>
    <li> Create doxygen-documentation for rijndael.hpp/.cpp. </li>
    <li> Implement the AES-concept by rijndael. </li>
    <li> Create a generic test function for AES (see the tests in
    Experimentation/RandomGenerator) </li>
    <li> Test the AES-wrapper of rijndael. </li>
+   <li> We also should have application tests, which can be used for the
+   computer-algebra programs as well (see
+   ComputerAlgebra/Cryptology/plans/Rijndael.hpp). </li>
   </ul>
 
 

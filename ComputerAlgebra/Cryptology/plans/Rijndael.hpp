@@ -185,6 +185,8 @@ else :
      unification/splitting. </li>
     </ol>
    </li>
+   <li> Link to module Structures/Cryptology (see
+   Structures/Cryptology/plans/general.hpp). </li>
   </ul>
 
 
