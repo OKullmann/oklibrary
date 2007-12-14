@@ -16,10 +16,55 @@ load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Clau
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 
 Needs 
+
  - ComputerAlgebra/Hypergraphs/Lisp/Generators.mac
  - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
 
 */
+
+/* ********************
+   * Full clause-sets *
+   ********************
+*/
+
+/* a formal full clause set with variable set {1,...,n} and all possible (full) clauses */
+full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian_product, makelist({-i,i},i,1,n)))];
+
+
+/* ************************
+   * Pigeon-hole formulas *
+   ************************
+*/
+
+/* Variables are "php(i,j)", meaning that pigeon i is in hole j */
+declare(php, noun);
+
+/* The set of variables for the pigeonhole formulas with m pigeons and n holes */
+var_php(m,n) := block([L : []],
+ for i : 1 thru m do
+  for j : 1 thru n do
+   L : append(L, [php(i,j)]),
+ setify(L));
+
+/* In the following m denotes the number of pigeons, n the number of holes */
+
+/* no two pigeon in the same hole */
+pigeons_different_holes(m,n) := block([L : []],
+ for i : 1 thru m-1 do
+  for j : i+1 thru m do
+   for k : 1 thru n do
+    L : append(L, [{- php(i,k), - php(j,k)}]),
+ setify(L));
+
+/* every pigeon in one hole *.
+pigeons_in_holes(m,n) := block([L : []],
+ for i : 1 thru m do
+  L : append(L, [setify(makelist(php(i,j), j, 1, n))]),
+ setify(L));
+
+weak_php(m,n) := [var_php(m,n), 
+ union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))];
+
 
 /* ***************************
    * Van der Waerden problem *
