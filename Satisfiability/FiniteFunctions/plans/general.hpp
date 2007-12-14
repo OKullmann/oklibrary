@@ -73,7 +73,9 @@ License, or any later version. */
         <ol>
          <li> F_{k-1} := all 2-subsumption-resolvents from F_k. </li>
          <li> Remove from F_k all clauses which were involved in a
-         resolution. </li>
+         resolution; and furthermore check whether "by chance" a clause
+         in F_k is otherwise subsumed by some clause in F_{k-1} (then that
+         clause is also removed). </li>
         </ol>
        </li>
        <li> The union of F_n, ..., F_0 then is the set of prime implicates (for CNF)
@@ -83,7 +85,9 @@ License, or any later version. */
      </li>
      <li> Correctness follows by the simple fact that when F_k is first
      computated, then it contains exactly all implicates (implicants) of
-     size k. </li>
+     size k. and furthermore if a clause of size k was not involved in a
+     resolution step when going to level k-1, then it cannot become useful
+     later, since we already knew all implicates of size k-1. </li>
      <li> The main point for the efficient implementation is finding the
      2-subsumption-resolutions fast.
       <ul>
@@ -137,8 +141,11 @@ License, or any later version. */
        </li>
       </ul>
      </li>
+     <li> One also has to think about the additional subsumption
+     checks. (We also need an example to see that these additional checks
+     are indeed needed.) </li>
      <li> Is there a way of using both the satisfying and the falsifying
-     total assignments? Likely the way to do is to combine the resolution
+     total assignments? Likely the way to do this is to combine the resolution
      algorithm with the dualisation algorithm. </li>
      <li> Can the Quine/McClusky-algorithm be generalised from boolean
      clause-sets to more general forms of clause-sets?
