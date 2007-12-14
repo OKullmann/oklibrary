@@ -1,0 +1,62 @@
+/* Oliver Kullmann, 14.12.2007 (Swansea) */
+/* Copyright 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac
+  \brief Functions for resolution operations on clause-sets
+
+Use by
+
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
+Needs 
+
+ - ComputerAlgebra/Hypergraphs/Lisp/ClauseSets/BasicOperations.mac
+ - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac
+
+*/
+
+/* checks whether two clauses are resolvable */
+resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1);
+
+/* the resolution literal of two resolvable clauses */
+resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1];
+
+/* the resolvent of two resolvable clauses */
+resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disjoin(-x, D)));
+
+/* checks whether a set of clauses is resolvable */
+resolvable_s(S) := block([L : listify(S)], resolvable(L[1], L[2]));
+
+/* the resolvent of a resolvable set of clauses */
+resolvent_s(S) := block([L : listify(S)], resolvent(L[1], L[2]));
+
+/* the resolvable 2-sets of a clause-set */
+resolvable_cs(F) := subset(powerset(F,2), resolvable_s);
+
+/* all resolvents of a clause-set */
+resolvents_cs(F) := map(resolvent_s, resolvable_cs(F));
+
+/* adds all resolvents to a clause-set */
+add_resolvents_cs(F) := union(F, resolvents_cs(F));
+
+/* the (full) resolution closure of a clause-set */
+resolution_closure_cs(F) := block([nF : add_resolvents_cs(F)],
+  while length(nF) > length(F) do (F : nF, nF : add_resolvents_cs(F)),
+  nF);
+
+/* adds all resolvents to a clause-set and then applies subsumption-elimination */
+min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F));
+
+/* the prime-implicates of a clause-set (as CNF) */
+min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F)],
+  while nF # F do (F : nF, nF : min_add_resolvents_cs(F)),
+  nF);
+/* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
+
