@@ -123,8 +123,12 @@ License, or any later version. */
 
   \todo Is there some C/C++ library for chess-programming?
   <ul>
-   <li> What about crafty? </li>
+   <li> What about crafty? http://www.cis.uab.edu/info/faculty/hyatt/hyatt.html ?
+   </li>
    <li gnu-chess? </li>
+   <li> JoseChess http://jose-chess.sourceforge.net ? </li>
+   <li> FruitChess http://www.fruitchess.com/index.htm ? </li>
+   <li> Database Scid http://scid.sourceforge.net </li>
   </ul>
 
 
