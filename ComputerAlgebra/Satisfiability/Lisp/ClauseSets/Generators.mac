@@ -61,7 +61,7 @@ pigeons_different_holes(m,n) := block([L : []],
     L : append(L, [{- php(i,k), - php(j,k)}]),
  setify(L));
 
-/* every pigeon in one hole *.
+/* every pigeon in one hole */
 pigeons_in_holes(m,n) := block([L : []],
  for i : 1 thru m do
   L : append(L, [setify(makelist(php(i,j), j, 1, n))]),
