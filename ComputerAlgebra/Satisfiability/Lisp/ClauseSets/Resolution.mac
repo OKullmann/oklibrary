@@ -89,10 +89,16 @@ resolution_closure_cs(F) := block([nF : add_resolvents_cs(F)],
 /* adds all resolvents to a clause-set and then applies subsumption-elimination */
 min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
 
-/* the prime-implicates of a clause-set (as CNF) */
-min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F)],
-  while nF # F do (F : nF, nF : min_add_resolvents_cs(F)),
-  nF)$
+/* the prime-implicates of a clause-set F (as CNF), and the list of clause-counts
+   for the successive extensions of F (until a fixed point is reached) */
+min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  if oklib_monitor then print(history),
+  while nF # F do (
+    F : nF, nF : min_add_resolvents_cs(F),
+    history : append(history, [length(nF)]),
+    if oklib_monitor then print(last(history))),
+  return([nF, history]))$
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
 
 

@@ -41,11 +41,14 @@ License, or any later version. */
   <ul>
    <li> min_resolution_closure_cs :
     <ol>
+     <li> As in "Maxima"-"Monitoring" in ComputerAlgebra/plans/general.hpp,
+     perhaps the monitoring-output should be standardised, containing the name
+     of the functiion? </li>
      <li> A second output is needed, with the list of c(F_i)
-     for the successive stages. </li>
+     for the successive stages. DONE </li>
      <li> In monitoring mode these numbers are output once a round is
      completed (compare "Maxima"-"Monitoring" in
-     ComputerAlgebra/plans/general.hpp). </li>
+     ComputerAlgebra/plans/general.hpp). DONE </li>
     </ol>
    </li>
   </ul>
