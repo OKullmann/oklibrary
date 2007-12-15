@@ -22,6 +22,10 @@ Needs
 
 */
 
+/*!
+\htmlonly
+*/
+
 /* ********************
    * Full clause-sets *
    ********************
@@ -38,6 +42,7 @@ full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian
 
 /* Variables are "php(i,j)", meaning that pigeon i is in hole j */
 declare(php, noun);
+declare(php, posfun);
 
 /* The set of variables for the pigeonhole formulas with m pigeons and n holes */
 var_php(m,n) := block([L : []],
@@ -62,8 +67,15 @@ pigeons_in_holes(m,n) := block([L : []],
   L : append(L, [setify(makelist(php(i,j), j, 1, n))]),
  setify(L));
 
+/* the weak pigeon formula as formal clause-set */
 weak_php(m,n) := [var_php(m,n), 
  union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))];
+
+output_weak_php(m,n,filename) := 
+  output_cs_f(
+    sconcat("The weak pigeonhole principle: ", m, " pigeons, ", n, " holes."), 
+    weak_php(m,n),
+    filename);
 
 
 /* ***************************
@@ -82,3 +94,6 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
     VanDerWaerden2_cs_f(k,n),
     filename);
 
+/*!
+\endhtmlonly
+*/
