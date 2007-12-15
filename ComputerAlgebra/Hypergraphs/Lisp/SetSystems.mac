@@ -79,10 +79,10 @@ is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subs
    removed from every element of S */
 setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S);
 
-/* remove_with_element(S,a) is the subset of S with all sets not containing element a */
+/* remove_with_element(S,a) is the subset of S of all sets not containing element a */
 remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)));
 
-/* more generally, remove_non_disjoint(S,b) is the subset of S with all sets
+/* more generally, remove_non_disjoint(S,b) is the subset of S of all sets
 disjoint to b */
 remove_non_disjoint(S,b) := subset(S, lambda([s], disjointp(s,b)));
 
