@@ -22,6 +22,17 @@ Needs
 
 */
 
+/*!
+\htmlonly
+*/
+
+/* ***************************
+   * Single resolution steps *
+   ***************************
+*/
+
+/* Basic operations */
+
 /* checks whether two clauses are resolvable */
 resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1);
 
@@ -31,11 +42,35 @@ resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1];
 /* the resolvent of two resolvable clauses */
 resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disjoin(-x, D)));
 
+
+/* The variation of a set of parent clauses */
+
 /* checks whether a set of clauses is resolvable */
 resolvable_s(S) := block([L : listify(S)], resolvable(L[1], L[2]));
 
 /* the resolvent of a resolvable set of clauses */
 resolvent_s(S) := block([L : listify(S)], resolvent(L[1], L[2]));
+
+
+/* The variation for a given resolution literal */
+
+/* checks whether two clauses are resolvable on a given resolution literal */
+resolvable(C,D,x) := is(intersection(C, comp_sl(D)) = {x});
+
+/* checks whether a set of clauses is resolvable on a given resolution literal */
+resolvable_s(S,x) := block([L : listify(S)], resolvable(L[1], L[2], x) or resolvable(L[1], L[2], -x));
+
+/* the resolvent of two resolvable clauses on a given resolution literal */
+resolvent(C,D,x) := union(disjoin(x, C), disjoin(-x, D));
+
+/* the resolvent of a resolvable set of clauses on a given resolution literal */
+resolvent_s(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {x,-x}));
+
+
+/* ***********************
+   * Iterated resolution *
+   ***********************
+*/
 
 /* the resolvable 2-sets of a clause-set */
 resolvable_cs(F) := subset(powerset(F,2), resolvable_s);
@@ -60,3 +95,22 @@ min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F)],
   nF);
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
 
+
+/* *****************
+   * DP resolution *
+   *****************
+*/
+
+/* the resolvable 2-sets of a clause-set on a given resolution literal */
+resolvable_cs(F,x) := subset(powerset(F,2), lambda([Cs], resolvable_s(Cs,x)));
+
+/* all resolvents of a clause-set on a given resolution literal */
+resolvents_cs(F,x) := map(lambda([S], resolvent_s(S,x)), resolvable_cs(F,x));
+
+/* the DP-operator in one step */
+dp_operator(F,v) := block([Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
+ union(setdifference(F, Fv), resolvents_cs(Fv,v)));
+
+/*!
+\endhtmlonly
+*/
