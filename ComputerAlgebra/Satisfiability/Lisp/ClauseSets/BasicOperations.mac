@@ -41,7 +41,7 @@ Needs
 */
 
 /* the underlying variable of a literal */
-var_l(x) := abs(x);
+var_l(x) := abs(x)$
 
 /* ***************************
    * Clauses and clause-sets *
@@ -49,14 +49,14 @@ var_l(x) := abs(x);
 */
 
 /* complementation of a set of literals */
-comp_sl(L) := map(lambda([l], -l), L);
+comp_sl(L) := map(lambda([l], -l), L)$
 
 /*
  A "boolean clause" is a set C of boolean literals such that
  C and comp_sl(C) have empty intersection.
 */
 
-var_c(C) := map(var_l, C);
+var_c(C) := map(var_l, C)$
 
 /*
  A "boolean clause-set" is a set of boolean clauses.
@@ -69,18 +69,18 @@ var_c(C) := map(var_l, C);
 */
 
 /* the variables in a clause-set */
-var_cs(F) := if emptyp(F) then {} else xreduce(union, map(var_c, F));
+var_cs(F) := if emptyp(F) then {} else xreduce(union, map(var_c, F))$
 /* the variables in a formal clause-set */
-var_cs_f(FF) := FF[1];
+var_cs_f(FF) := FF[1]$
 
 /* number of variables of a formal clause-set */
-nvar_f(FF) := length(var_cs_f(FF));
+nvar_f(FF) := length(var_cs_f(FF))$
 
 /* the clause-set of a formal clause-set */
-clauses_f(FF) := FF[2];
+clauses_f(FF) := FF[2]$
 
 /* complementation (literal-wise) of a clause-set */
-comp_cs(F) := map(comp_sl, F);
+comp_cs(F) := map(comp_sl, F)$
 
 
 /* ***********************
@@ -94,10 +94,10 @@ comp_cs(F) := map(comp_sl, F);
 */
 
 /* apply a partial assignment to a boolean clause-set */
-apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi));
+apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi))$
 /* apply a partial assignment to a formal boolean clause-set */
 apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
-  apply_pa(phi, clauses_f(FF))];
+  apply_pa(phi, clauses_f(FF))]$
 
 
 /* *****************************************
@@ -106,26 +106,26 @@ apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
 */
 
 /* output a literal */
-dimacs_l_string(x) := sconcat(x," ");
+dimacs_l_string(x) := sconcat(x," ")$
 
 /* output a clause */
-dimacs_c_string(C) := xreduce(sconcat, map(dimacs_l_string, C));
+dimacs_c_string(C) := xreduce(sconcat, map(dimacs_l_string, C))$
 
 /* print a string without line-breaks */
 print_nlb(s) := block([old_linel : linel],
   linel : slength(s) + 1,
   print(s),
-  linel : old_linel);
+  linel : old_linel)$
 
 /* print a formal clause-set in Dimacs format */
 print_cs_f(comment,FF) := (
   print_nlb(sconcat("c ", comment)),
   print_nlb(sconcat("p cnf ", nvar_f(FF), " ", length(clauses_f(FF)))),
   for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
-);
+)$
 
 /* output formal clause-set FF to file n */
-output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF));
+output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF))$
 
 /*!
 \endhtmlonly

@@ -41,21 +41,21 @@ Needs
 */
 
 /* Promotes a set system to a hypergraph */
-set_system_hypergraph(S) := [set_system_union(S), S];
+set_system_hypergraph(S) := [set_system_union(S), S]$
 
 /* Converts a list of sets to a hypergraph */
-list_sets_hypergraph(L) := set_system_hypergraph(setify(L));
+list_sets_hypergraph(L) := set_system_hypergraph(setify(L))$
 
 /* Converts a list of sets to a general hypergraph */
 list_sets_general_hypergraph(L) := [list_sets_union(L),
  setify(makelist(i,i,1,length(L))),
- buildq([list : L], lambda([i], list[i]))];
+ buildq([list : L], lambda([i], list[i]))]$
 
 /* Promotes a hypergraph to a general hypergraph */
-promote_general_hypergraph(G) := [G[1], G[2], identity];
+promote_general_hypergraph(G) := [G[1], G[2], identity]$
 
 /* The underlying hypergraph */
-underlying_hypergraph(G) := [G[1], setify(makelist((G[3])(e), e, listify(G[2])))];
+underlying_hypergraph(G) := [G[1], setify(makelist((G[3])(e), e, listify(G[2])))]$
 
 
 /* *****************
@@ -65,7 +65,7 @@ underlying_hypergraph(G) := [G[1], setify(makelist((G[3])(e), e, listify(G[2])))
 
 /* The dual of a general hypergraph */
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
- lambda([e], subset(V, lambda([v], elementp(e,f(v))))))];
+ lambda([e], subset(V, lambda([v], elementp(e,f(v))))))]$
 
 
 /* *****************
@@ -74,11 +74,11 @@ dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
 */
 
 /* computes the set system of vertex sets of connnected components */
-components_hypergraph(G) := unify_nondisjoint_elements(G[2]);
-components_general_hypergraph(G) := components_hypergraph(underlying_hypergraph(G));
+components_hypergraph(G) := unify_nondisjoint_elements(G[2])$
+components_general_hypergraph(G) := components_hypergraph(underlying_hypergraph(G))$
 
 /* whether a hypergraph is connected */
-is_connected_hypergraph(G) := is(length(components_hypergraph(G)) <= 1);
+is_connected_hypergraph(G) := is(length(components_hypergraph(G)) <= 1)$
 
 
 /*!
