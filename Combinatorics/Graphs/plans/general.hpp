@@ -45,6 +45,15 @@ License, or any later version. */
    <li> Complement </li>
   </ul>
 
+
+  \todo Organisation
+  <ul>
+   <li> New module "TravellingSalesman"; see "Travelling salesman problem"
+   in Applications/CombinatorialOptimisation/plans/general.hpp. </li>
+   <li> New module "HamiltonianPaths"; see HamiltonianPaths/plans/general.hpp
+   for SATT applications. </li>
+  </ul>
+
 */
 
 /*!
