@@ -37,5 +37,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Resolution
+  <ul>
+   <li> min_resolution_closure_cs :
+    <ol>
+     <li> A second output is needed, with the list of c(F_i)
+     for the successive stages. </li>
+     <li> In monitoring mode these numbers are output once a round is
+     completed (compare "Maxima"-"Monitoring" in
+     ComputerAlgebra/plans/general.hpp). </li>
+    </ol>
+   </li>
+  </ul>
+
+
 */
 
