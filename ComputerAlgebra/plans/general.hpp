@@ -52,7 +52,16 @@ License, or any later version. */
      "tests" and "testobjects", containing the generic test functions and the
      test instantiations, respectively. </li>
      <li> But, due to the simpler character of programming here, we just use
-     asserts for conditions (and no recovering of test conditions). </li>
+     asserts for conditions (and no recovering of test conditions). Or??
+      <ol>
+       <li> Likely better if we establish a system similar to the C++
+       system! This strengthens the design of the test-system. </li>
+       <li> So a test function perhaps returns a list, whose first element
+       is true or false (in case of failure), while the second element
+       in the failure case contains the error-description. </li>
+       <li> Perhaps the backtrace-function is useful here. </li>
+      </ol>
+     </li>
      <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
     </ol>
    </li>
@@ -64,7 +73,7 @@ License, or any later version. */
    <li> How to simulate "#include" ? </li>
    <li> Monitoring
     <ol>
-     <li> Perhaps we introduce a global variable "oklib_monitoring",
+     <li> Perhaps we introduce a global variable "oklib_monitor",
      which our functions can use, and if set to true then they
      output progress information. </li>
      <li> This output should happen in a standardised way, so that
