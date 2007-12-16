@@ -84,6 +84,8 @@ License, or any later version. */
      non-intrusive? </li>
      <li> Or functions which support monitoring come in two versions? </li>
     </ol>
+    For the introduction of "oklib_monitor", apparently "define_variable"
+    should be used?
    </li>
    <li> Is there a timing command ?
     <ol>
