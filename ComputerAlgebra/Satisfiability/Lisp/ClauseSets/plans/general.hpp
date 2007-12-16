@@ -39,6 +39,7 @@ License, or any later version. */
 
   \todo Resolution
   <ul>
+   <li> Perhaps this topic should go into its own plans-file. </li>
    <li> min_resolution_closure_cs :
     <ol>
      <li> As in "Maxima"-"Monitoring" in ComputerAlgebra/plans/general.hpp,
@@ -62,6 +63,35 @@ License, or any later version. */
     <ol>
      <li> We need also the greedy heuristics, which chooses the DP-variable
      such that the number of clauses for the next level is minimised. </li>
+    </ol>
+   </li>
+   <li> Resolution proofs
+    <ol>
+     <li> The natural format for a resolution proof is a non-empty list,
+     where each entry is either a clause (an "axiom") or a pair consisting
+     of a clause (the "resolvent") and a pair of (smaller) indices (the
+     indices of the "parent clauses"). </li>
+     <li> We need a correctness-checker. </li>
+     <li> We should also investigate the existing file-formats for resolution
+     proofs, and we should provide input- and output-facilities. </li>
+     <li> This linear format is in 1-1 correspondence to the representation
+     via labelled dag's; we need a representation of labelled graphs,
+     digraphs and labelled digraphs. </li>
+     <li> The above can easily be generalised to non-boolean clause-sets.
+     </li>
+    </ol>
+   </li>
+   <li> Bounded resolution
+    <ol>
+     <li> Implement the different forms of bounded resolution. </li>
+     <li> In this way we can determine the width of a clause-set. </li>
+    </ol>
+   </li>
+   <li> Read-once resolution proofs
+    <ol>
+     <li> Write a checker whether a resolution proof is read-once. </li>
+     <li> Implement the translation of "has read-once refutation" into
+     SAT. </li>
     </ol>
    </li>
   </ul>
