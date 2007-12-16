@@ -82,9 +82,15 @@ resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
 add_resolvents_cs(F) := union(F, resolvents_cs(F))$
 
 /* the (full) resolution closure of a clause-set */
-resolution_closure_cs(F) := block([nF : add_resolvents_cs(F)],
-  while length(nF) > length(F) do (F : nF, nF : add_resolvents_cs(F)),
-  nF)$
+resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  if oklib_monitor then print(history),
+  while length(nF) > length(F) do (
+    F : nF, nF : add_resolvents_cs(F),
+    history : append(history, [length(nF)]),
+    if oklib_monitor then print(last(history))
+  ),
+  return([nF, history]))$
 
 /* adds all resolvents to a clause-set and then applies subsumption-elimination */
 min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
@@ -97,7 +103,8 @@ min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : 
   while nF # F do (
     F : nF, nF : min_add_resolvents_cs(F),
     history : append(history, [length(nF)]),
-    if oklib_monitor then print(last(history))),
+    if oklib_monitor then print(last(history))
+  ),
   return([nF, history]))$
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
 
@@ -116,6 +123,20 @@ resolvents_cs_l(F,x) := map(lambda([S], resolvent_s_l(S,x)), resolvable_cs_l(F,x
 /* the DP-operator in one step */
 dp_operator(F,v) := block([Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
  union(setdifference(F, Fv), resolvents_cs_l(Fv,v)))$
+
+/* DP combined with subsumption elimination */
+min_dp_operator(F,v) := min_elements(dp_operator(F,v))$
+
+opt_min_dp(FF) := block([P : permutations(FF[1]), opt : inf, l : length(FF[2]), opt_p, worst : minf, worst_p],
+  for p in P do block([F : FF[2], s : l],
+    for v in p do (
+      F : min_dp_operator(F,v),
+      s : s + length(F)
+    ),
+    if s < opt then (opt : s, opt_p : p),
+    if s > worst then (worst : s, worst_p : p)
+  ),
+  return([opt_p, opt, worst_p, worst]))$
 
 /*!
 \endhtmlonly

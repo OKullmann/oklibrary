@@ -43,12 +43,25 @@ License, or any later version. */
     <ol>
      <li> As in "Maxima"-"Monitoring" in ComputerAlgebra/plans/general.hpp,
      perhaps the monitoring-output should be standardised, containing the name
-     of the functiion? </li>
+     of the function? </li>
      <li> A second output is needed, with the list of c(F_i)
      for the successive stages. DONE </li>
      <li> In monitoring mode these numbers are output once a round is
      completed (compare "Maxima"-"Monitoring" in
      ComputerAlgebra/plans/general.hpp). DONE </li>
+    </ol>
+   </li>
+   <li> resolution_closure_cs
+    <ol>
+     <li> Same regarding monitoring as min_resolution_closure_cs. </li>
+     <li> The implementation is very similar to min_resolution_closure_cs:
+     Should we construct a common generalisation? </li>
+    </ol>
+   </li>
+   <li> DP
+    <ol>
+     <li> We need also the greedy heuristics, which chooses the DP-variable
+     such that the number of clauses for the next level is minimised. </li>
     </ol>
    </li>
   </ul>
