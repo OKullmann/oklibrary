@@ -40,6 +40,7 @@ License, or any later version. */
   \todo Resolution
   <ul>
    <li> Perhaps this topic should go into its own plans-file. </li>
+   <li> See ProofSystems/Resolution/plans/Search.hpp. </li>
    <li> min_resolution_closure_cs :
     <ol>
      <li> As in "Maxima"-"Monitoring" in ComputerAlgebra/plans/general.hpp,
@@ -61,6 +62,23 @@ License, or any later version. */
    </li>
    <li> DP
     <ol>
+     <li> The current implementation of opt_min_dp can be improved if only
+     the minimum or the maximum is sought. </li>
+     <li> DONE (there is only the technical problem that apparently local hash
+     arrays are not recognised by "arrayinfo" and "listarray" ? We should
+     ask about this at the maxima-mailing-list)
+     To make the current implementation worthwhile, perhaps it should
+     show the full distribution of sizes, using a map (size -> count). </li>
+     <li> DONE The output of distribution_min_dp should be further processed,
+     so that easily all information is available.
+      <ol>
+       <li> Perhaps we just sort the ocurring sizes together with their
+       counts, and then output a list of pairs [size, count], sorted
+       by size (ascending). </li>
+       <li> It seems actually, that "arrayinfo" already returns a sorted list,
+       so that nothing needs to be done. </li>
+      </ol>
+     </li>
      <li> We need also the greedy heuristics, which chooses the DP-variable
      such that the number of clauses for the next level is minimised. </li>
     </ol>
