@@ -107,6 +107,13 @@ License, or any later version. */
    all functions from the OKlibrary.
     <ol>
      <li> Perhaps it sets also the timing output. </li>
+     <li> Best is perhaps to have an initialisation file (to be passed
+     to maxima), which contains the list of all files to be included. </li>
+     <li> Should this list just be all .mac-files ? </li>
+     <li> Furthermore a variable is needed for the OKlib-path. </li>
+     <li> And a function for reloading all files. </li>
+     <li> Of course, this initialisation file is created by the usual
+     preprocessing. </li>
     </ol>
    </li>
    <li> Document important programming techniques:
