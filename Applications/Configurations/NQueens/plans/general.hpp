@@ -204,7 +204,14 @@ License, or any later version. */
      </li>
      <li> One would assume that not much load balancing is needed, but that
      automatically the 2^d processes are very similar. </li>
+     <li> The distributed processes should have many variables already
+     eliminated, and they should be able to exploit this (so "eager
+     preprocessing" here is needed). </li>
     </ol>
+   </li>
+   <li> The DNF structure is very "simple": only full clauses. But perhaps
+   the prime implicates have some interesting structure ?!? (Using non-boolean
+   clause-sets.) </li>
   </ul>
 
 */
