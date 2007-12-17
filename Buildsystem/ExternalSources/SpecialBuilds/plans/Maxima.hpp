@@ -14,7 +14,7 @@ License, or any later version. */
   <ul>
    <li> Maxima 5.13 seems appropriate.
     <ol>
-     <li> First install clisp (should we supply this?). </li>
+     <li> First install clisp (should we supply this?); see below. </li>
      <li>
      \verbatim
 Installations> mkdir Maxima
@@ -64,6 +64,43 @@ Machine: I686 (I686) csltok.swan.ac.uk [128.163.146.167]
    </li>
    <li> Move all maxima-documention-links from the Sage-documentation
    page to the Maxima documentation. </li>
+  </ul>
+
+
+  \todo Install clisp (version 2.43)
+  <ul>
+   <li> First attempt on cs-ltok:
+   \verbatim
+Installations> mkdir CLisp
+Installations> cd CLisp/
+CLisp> tar -xjf ../../sources/Maxima/clisp-2.43.tar.bz2
+CLisp> cd clisp-2.43/
+clisp-2.43> ./configure
+   \endverbatim
+   results in
+   \verbatim
+  libsigsegv: no, consider installing GNU libsigsegv
+./configure: libsigsegv was not detected, thus some features, such as
+  generational garbage collection and
+  stack overflow detection in interpreted Lisp code
+cannot be provided.
+Please do this:
+  mkdir tools; cd tools; prefix=`pwd`/i686-pc-linux-gnu
+  wget http://ftp.gnu.org/pub/gnu/libsigsegv/libsigsegv-2.5.tar.gz
+  tar xfz libsigsegv-2.5.tar.gz
+  cd libsigsegv-2.5
+  ./configure --prefix=${prefix} && make && make check && make install
+  cd ../..
+  ./configure --with-libsigsegv-prefix=${prefix}
+If you insist on building without libsigsegv, please pass
+  --ignore-absence-of-libsigsegv
+to this script:
+  ./configure --ignore-absence-of-libsigsegv
+   \endverbatim
+   </li>
+   <li> So apparently we need to install "libsigsegv" first. </li>
+   <li> What about those "modules" ? It seems we don't need any optional
+   module. </li>
   </ul>
 
 */
