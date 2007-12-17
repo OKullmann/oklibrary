@@ -73,14 +73,26 @@ var_cs(F) := if emptyp(F) then {} else xreduce(union, map(var_c, F))$
 /* the variables in a formal clause-set */
 var_cs_f(FF) := FF[1]$
 
-/* number of variables of a formal clause-set */
-nvar_f(FF) := length(var_cs_f(FF))$
-
 /* the clause-set of a formal clause-set */
 clauses_f(FF) := FF[2]$
 
 /* complementation (literal-wise) of a clause-set */
 comp_cs(F) := map(comp_sl, F)$
+
+/* ************
+   * Measures *
+   ************
+*/
+
+/* number of variables of a formal clause-set */
+nvar_f(FF) := length(var_cs_f(FF))$
+
+/* number of clauses of a formal  clause-set */
+ncl_f(FF) := length(clauses_f(FF))$
+
+/* number of literal occurrences in a clause-set */
+nlitocc(F) := block([s : 0],
+ for C in F do s : s + length(C), return(s))$
 
 
 /* ***********************
