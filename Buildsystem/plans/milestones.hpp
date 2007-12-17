@@ -31,7 +31,7 @@ License, or any later version. */
   \par Buildsystem/OKlibBuilding 0.2.4
   (see Buildsystem/OKlibBuilding/plans/milestones.hpp)
   
-  \par Buildsystem/MasterScript version 0.0.5
+  \par Buildsystem/MasterScript version 0.0.6
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
   \par Buildsystem/SourceControl 0.2.3

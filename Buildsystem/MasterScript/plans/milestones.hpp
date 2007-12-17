@@ -18,6 +18,16 @@ License, or any later version. */
     - Markers instead of links
 
   \par
+   Further milestones are created
+
+   
+  \par Version 0.0.6 :
+
+  \par
+   In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
+    - About access to main programs (including "oklib")
+
+  \par
    Further milestones are created (towards 0.1).
 
 
