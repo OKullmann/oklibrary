@@ -26,6 +26,14 @@ License, or any later version. */
    should move to their own file "InputOutput.mac". </li>
    <li> The usage of "print" likely should be replaced by "printf" from
    package "stringproc". </li>
+   <li> We should have options for output:
+    <ol>
+     <li> Instead of for example "php(3,2)" print out "php_3_2". </li>
+     <li> And also print it out in strict Dimacs format, optionally
+     with the mapping from natural numbers to original variables given
+     in the comments. </li>
+    </ol>
+   </li>
    <li> We need also reading from Dimacs-files. </li>
   </ul>
 
