@@ -1,0 +1,151 @@
+/* Oliver Kullmann, 14.12.2007 (Swansea) */
+/* Copyright 2007 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac
+  \brief Functions for resolution operations on clause-sets
+
+Use by
+
+load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac");
+
+where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
+Needs 
+
+ - ComputerAlgebra/Hypergraphs/Lisp/ClauseSets/BasicOperations.mac
+ - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* ***************************
+   * Single resolution steps *
+   ***************************
+*/
+
+/* Basic operations */
+
+/* checks whether two clauses are resolvable */
+resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1)$
+
+/* the resolution literal of two resolvable clauses */
+resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1]$
+
+/* the resolvent of two resolvable clauses */
+resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disjoin(-x, D)))$
+
+
+/* The variation of a set of parent clauses */
+
+/* checks whether a set of clauses is resolvable */
+resolvable_s(S) := block([L : listify(S)], resolvable(L[1], L[2]))$
+
+/* the resolvent of a resolvable set of clauses */
+resolvent_s(S) := block([L : listify(S)], resolvent(L[1], L[2]))$
+
+
+/* The variation for a given resolution literal */
+
+/* checks whether two clauses are resolvable on a given resolution literal */
+resolvable_l(C,D,x) := is(intersection(C, comp_sl(D)) = {x})$
+
+/* checks whether a set of clauses is resolvable on a given resolution literal */
+resolvable_s_l(S,x) := block([L : listify(S)], resolvable_l(L[1], L[2], x) or resolvable_l(L[1], L[2], -x))$
+
+/* the resolvent of two resolvable clauses on a given resolution literal */
+resolvent_l(C,D,x) := union(disjoin(x, C), disjoin(-x, D))$
+
+/* the resolvent of a resolvable set of clauses on a given resolution literal */
+resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {x,-x}))$
+
+
+/* ***********************
+   * Iterated resolution *
+   ***********************
+*/
+
+/* the resolvable 2-sets of a clause-set */
+resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
+ for i : 1 thru l-1 do block([C : LF[i]],
+  for j : i+1 thru l do
+   if resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
+ return(setify(R)))$
+/* resolvable_cs(F) = subset(powerset(F,2), resolvable_s) */
+
+/* all resolvents of a clause-set */
+resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
+
+/* adds all resolvents to a clause-set */
+add_resolvents_cs(F) := union(F, resolvents_cs(F))$
+
+/* the (full) resolution closure of a clause-set */
+resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  if oklib_monitor then print(history),
+  while length(nF) > length(F) do (
+    F : nF, nF : add_resolvents_cs(F),
+    history : append(history, [length(nF)]),
+    if oklib_monitor then print(last(history))
+  ),
+  return([nF, history]))$
+
+/* adds all resolvents to a clause-set and then applies subsumption-elimination */
+min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
+
+/* the prime-implicates of a clause-set F (as CNF), and the list of clause-counts
+   for the successive extensions of F (until a fixed point is reached) */
+min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : [length(F)]],
+  history : append(history, [length(nF)]),
+  if oklib_monitor then print(history),
+  while nF # F do (
+    F : nF, nF : min_add_resolvents_cs(F),
+    history : append(history, [length(nF)]),
+    if oklib_monitor then print(last(history))
+  ),
+  return([nF, history]))$
+/* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
+
+
+/* *****************
+   * DP resolution *
+   *****************
+*/
+
+/* the resolvable 2-sets of a clause-set on a given resolution literal */
+resolvable_cs_l(F,x) := subset(powerset(F,2), lambda([Cs], resolvable_s_l(Cs,x)))$
+
+/* all resolvents of a clause-set on a given resolution literal */
+resolvents_cs_l(F,x) := map(lambda([S], resolvent_s_l(S,x)), resolvable_cs_l(F,x))$
+
+/* the DP-operator in one step */
+dp_operator(F,v) := block([Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
+ union(setdifference(F, Fv), resolvents_cs_l(Fv,v)))$
+
+/* DP combined with subsumption elimination */
+min_dp_operator(F,v) := min_elements(dp_operator(F,v))$
+
+/* Returns a list of pairs [s,c], where s is the size of DP-procedure-run
+   (the sum of sizes of the clause-sets) and c is the count, where the list
+   is sorted by ascending s. */
+distribution_min_dp(FF) := block([P : permutations(FF[1]), l : length(FF[2]), hash, counts : {}],
+  for p in P do block([F : FF[2], s : l],
+    for v in p do (
+      F : min_dp_operator(F,v),
+      s : s + length(F)
+    ),
+    if elementp(s, counts) then hash[s] : hash[s] + 1 else (
+      counts : adjoin(s, counts), hash[s] : 1)
+  ),
+  return(makelist([s, hash[s]], s, listify(counts))))$
+
+/*!
+\endhtmlonly
+*/

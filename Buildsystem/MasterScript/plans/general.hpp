@@ -58,6 +58,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo About access to main programs (including "oklib"):
+  <ul>
+   <li> Perhaps we always have OKplatform/bin with links to all important
+   programs (including oklib). </li>
+   <li> Via "oklib --prebuild" then these links can be copied to some
+   other place, by default "~user/bin". </li>
+   <li> Under Buildsystem/Configuration a file is needed containing the
+   settings for those main links. </li>
+  </ul>
+
+
   \todo Improved makefiles
   <ul>
    <li> Five (partially new) main makefiles:
@@ -146,7 +157,7 @@ License, or any later version. */
    so that one can see what's done. </li>
    <li> Shall oklib also handle git-commands (i.e., "oklib pull" instead
    of "git pull")? I (OK) am somewhat skeptical about that, since it might
-   create trouble. And the user need to get used to git and its documentation.
+   create trouble. And the users need to get used to git and its documentation.
    </li>
   </ul>
 

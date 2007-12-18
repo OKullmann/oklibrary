@@ -53,13 +53,78 @@ License, or any later version. */
   </ul>
 
 
-  \todo How to compute the minimal regular-resolution complexity?
+  \todo Regular-resolution complexity
+  <ul>
+   <li> One could handle it like resolution complexity, only with the
+   additional restriction on the paths that no resolution variable may
+   occur twice. </li>
+  </ul>
 
 
   \todo How to compute the minimal DP-resolution complexity?
+  <ul>
+   <li> Is it necessary to run through all permutations of the set
+   of variables ? </li>
+   <li> The question here is about the notion of complexity:
+    <ol>
+     <li> One could consider ordinary resolution complexity, only that
+     the order of variables on all paths is the same. </li>
+     <li> Or one considers the sum of the sizes of the levels of the
+     DP-procedure. </li>
+    </ol>
+   </li>
+   <li> In case one considers resolution complexity, then one can
+   use the methods for (full) resolution proofs (or for regular
+   resolution proofs). </li>
+   <li> When considering the sum of sizes, then perhaps one has to
+   run through all permutations.
+    <ol>
+     <li> Via a greedy heuristics we start with a "promising" ordering. </li>
+     <li> Then we can stop any other order as soon that the sum is bigger than
+     what we have already achieved. </li>
+     <li> Likely subsumption elimination should be applied throughout. </li>
+     <li> If an ordering v_1, ..., v_k was ruled out (a partial ordering, only
+     specifying an initial segment), then actually all orderings which use
+     a permutation of these v_1, ..., v_k as an initial a segment are ruled
+     out as well! </li>
+     <li> One needs a nice way of implementing this, but it should achieve
+     a substantial shortcut. </li>
+    </ol>
+   </li>
+  </ul>
 
 
-  \todo How to compute the minimal resolution complexity?
+  \todo Resolution complexity
+  <ul>
+   <li> First we should concentrate on the decision problem, whether
+   input F has a resolution refutation of length at most k. </li>
+   <li> One approach is to translate the search for a resolution
+   refutation into a (generalised) SAT problem: We have k variables for
+   the k steps in the proof (presented as a sequence), and values are
+   either clauses from F or a pair of indices for a resolution step. </li>
+   <li> Preprocessing:
+    <ol>
+     <li> Subsumption elimination should be performed first. </li>
+     <li> And then the learn kernel is to be computed (removing all clauses
+     which cannot participate in a resolution refutation). </li>
+     <li> We must also find out the necessary clauses (since they have to be
+     placed). </li>
+    </ol>
+   </li>
+   <li> Backtracking approach:
+    <ol>
+     <li> A question is whether we should enumerate all unsatisfiable
+     sub-clause-sets, and take each as the basis for a search (in a
+     related search those clauses must then all be used). </li>
+     <li> An easy criterion to see that the goal can't be reached is
+     given by the observation that each resolution step can only remove
+     at most one literal. So clauses which are too long to reach the empty
+     clause in the given number of steps can be removed. </li>
+     <li> And when reusing a clause C, then it must be smallest
+     w.r.t. subsumption. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Implement the Buresh-Oppenheim/Mitchell algorithm

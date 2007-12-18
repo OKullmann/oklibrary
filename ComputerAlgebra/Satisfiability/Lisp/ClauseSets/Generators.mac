@@ -16,10 +16,126 @@ load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Clau
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 
 Needs 
+
  - ComputerAlgebra/Hypergraphs/Lisp/Generators.mac
  - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
 
 */
+
+/*!
+\htmlonly
+*/
+
+/* ********************
+   * Full clause-sets *
+   ********************
+*/
+
+/* a formal full clause set with variable set {1,...,n} and all possible (full) clauses */
+full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian_product, makelist({-i,i},i,1,n)))]$
+
+
+/* ************************
+   * Pigeon-hole formulas *
+   ************************
+*/
+
+/* Variables are "php(i,j)", meaning that pigeon i is in hole j */
+declare(php, noun)$
+declare(php, posfun)$
+
+/* The set of variables for the pigeonhole formulas with m pigeons and n holes */
+var_php(m,n) := block([L : []],
+ for i : 1 thru m do
+  for j : 1 thru n do
+   L : append(L, [php(i,j)]),
+ setify(L))$
+
+/* In the following m denotes the number of pigeons, n the number of holes */
+
+/* no two pigeon in the same hole */
+pigeons_different_holes(m,n) := block([L : []],
+ for i : 1 thru m-1 do
+  for j : i+1 thru m do
+   for k : 1 thru n do
+    L : append(L, [{- php(i,k), - php(j,k)}]),
+ setify(L))$
+
+/* every pigeon in one hole */
+pigeons_in_holes(m,n) := block([L : []],
+ for i : 1 thru m do
+  L : append(L, [setify(makelist(php(i,j), j, 1, n))]),
+ setify(L))$
+
+/* the weak pigeon formula as formal clause-set */
+weak_php(m,n) := [var_php(m,n), 
+ union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))]$
+
+output_weak_php(m,n,filename) := 
+  output_cs_f(
+    sconcat("The weak pigeonhole principle: ", m, " pigeons, ", n, " holes."), 
+    weak_php(m,n),
+    filename)$
+
+
+/* *******************
+   * Sudoku problems *
+   *******************
+*/
+
+/* Variables are "sdk(i,j,k)", meaning that field (i,j) carries number k */
+declare(sdk, noun)$
+declare(sdk, posfun)$
+
+/* The set of variables for Sudoku formulas of box-dimension p */
+var_sdk(p) := block([N : p^2],
+ setify(create_list(sdk(i,j,k), i,1,N, j,1,N, k,1,N)))$
+
+
+/* In the following p denotes the box-dimension */
+
+/* different numbers in each row */
+sdk_different_rows(p) := block([N : p^2],
+ setify(create_list({- sdk(i,j1,k), - sdk(i,j2,k)}, i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
+
+/* different numbers in each column */
+sdk_different_columns(p) := block([N : p^2],
+ setify(create_list({- sdk(i1,j,k), - sdk(i2,j,k)}, j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
+
+
+/* Given box coordinates 1 <= i,j <= p, the list of coordinates of fields */
+sdk_positions_box(i,j,p) := block(
+ [row_offset : p * (i-1), column_offset : p * (j-1)],
+ create_list([row_offset + r, column_offset + c], r,1,p, c,1,p))$
+
+/* different numbers in each box */
+sdk_different_boxes(p) := block([N : p^2, L : []],
+ for i : 1 thru p do
+  for j : 1 thru p do block([P : sdk_positions_box(i,j,p)],
+   for k : 1 thru N do
+    for p1 : 1 thru N-1 do
+     for p2 : p1+1 thru N do
+      L : cons({- sdk(P[p1][1],P[p1][2],k), - sdk(P[p2][1],P[p2][2],k)}, L)),
+ setify(L))$
+
+
+/* every field carries a number */
+sdk_filled_fields(p) := block([N : p^2],
+ setify(create_list(setify(makelist(sdk(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
+
+
+/* the sudoku problem as formal clause-set */
+weak_sdk(p) := [var_sdk(p), 
+ union(sdk_different_rows(p), sdk_different_columns(p), sdk_different_boxes(p),
+       sdk_filled_fields(p))]$
+
+output_weak_sdk(p,filename) := 
+  output_cs_f(
+    sconcat("The Sudoku problem with box-dimension ", p, "."), 
+    weak_sdk(p),
+    filename)$
+
+
 
 /* ***************************
    * Van der Waerden problem *
@@ -29,11 +145,14 @@ Needs
 /* Boolean clause-sets, wholes solutions are the partitionings of {1,...,n}
  into two parts such that none of them contains an arithmetic progression
  of size k */
-VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], [G[1], union(G[2], comp_cs(G[2]))]);
+VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], [G[1], union(G[2], comp_cs(G[2]))])$
 
 output_VanDerWaerden2_cs_f(k,n,filename) := 
   output_cs_f(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", ", n, " elements."), 
     VanDerWaerden2_cs_f(k,n),
-    filename);
+    filename)$
 
+/*!
+\endhtmlonly
+*/

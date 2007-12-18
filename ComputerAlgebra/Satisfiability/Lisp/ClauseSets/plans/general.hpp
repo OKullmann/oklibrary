@@ -26,6 +26,14 @@ License, or any later version. */
    should move to their own file "InputOutput.mac". </li>
    <li> The usage of "print" likely should be replaced by "printf" from
    package "stringproc". </li>
+   <li> We should have options for output:
+    <ol>
+     <li> Instead of for example "php(3,2)" print out "php_3_2". </li>
+     <li> And also print it out in strict Dimacs format, optionally
+     with the mapping from natural numbers to original variables given
+     in the comments. </li>
+    </ol>
+   </li>
    <li> We need also reading from Dimacs-files. </li>
   </ul>
 
@@ -34,6 +42,91 @@ License, or any later version. */
   <ul>
    <li> Using the maxima-aes-implementation, implement the random generator
    as in Experimentation/RandomGenerator/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Resolution
+  <ul>
+   <li> Perhaps this topic should go into its own plans-file. </li>
+   <li> See ProofSystems/Resolution/plans/Search.hpp. </li>
+   <li> min_resolution_closure_cs :
+    <ol>
+     <li> As in "Maxima"-"Monitoring" in ComputerAlgebra/plans/general.hpp,
+     perhaps the monitoring-output should be standardised, containing the name
+     of the function? </li>
+     <li> A second output is needed, with the list of c(F_i)
+     for the successive stages. DONE </li>
+     <li> In monitoring mode these numbers are output once a round is
+     completed (compare "Maxima"-"Monitoring" in
+     ComputerAlgebra/plans/general.hpp). DONE </li>
+    </ol>
+   </li>
+   <li> resolution_closure_cs
+    <ol>
+     <li> Same regarding monitoring as min_resolution_closure_cs. </li>
+     <li> The implementation is very similar to min_resolution_closure_cs:
+     Should we construct a common generalisation? </li>
+    </ol>
+   </li>
+   <li> DP
+    <ol>
+     <li> The current implementation of opt_min_dp can be improved if only
+     the minimum or the maximum is sought. </li>
+     <li> DONE (there is only the technical problem that apparently local hash
+     arrays are not recognised by "arrayinfo" and "listarray" ? We should
+     ask about this at the maxima-mailing-list)
+     To make the current implementation worthwhile, perhaps it should
+     show the full distribution of sizes, using a map (size -> count). </li>
+     <li> DONE The output of distribution_min_dp should be further processed,
+     so that easily all information is available.
+      <ol>
+       <li> Perhaps we just sort the ocurring sizes together with their
+       counts, and then output a list of pairs [size, count], sorted
+       by size (ascending). </li>
+       <li> It seems actually, that "arrayinfo" already returns a sorted list,
+       so that nothing needs to be done. </li>
+      </ol>
+     </li>
+     <li> We need also the greedy heuristics, which chooses the DP-variable
+     such that the number of clauses for the next level is minimised. </li>
+    </ol>
+   </li>
+   <li> Resolution proofs
+    <ol>
+     <li> The natural format for a resolution proof is a non-empty list,
+     where each entry is either a clause (an "axiom") or a pair consisting
+     of a clause (the "resolvent") and a pair of (smaller) indices (the
+     indices of the "parent clauses"). </li>
+     <li> We need a correctness-checker. </li>
+     <li> We should also investigate the existing file-formats for resolution
+     proofs, and we should provide input- and output-facilities. </li>
+     <li> This linear format is in 1-1 correspondence to the representation
+     via labelled dag's; we need a representation of labelled graphs,
+     digraphs and labelled digraphs. </li>
+     <li> The above can easily be generalised to non-boolean clause-sets.
+     </li>
+    </ol>
+   </li>
+   <li> Bounded resolution
+    <ol>
+     <li> Implement the different forms of bounded resolution. </li>
+     <li> In this way we can determine the width of a clause-set. </li>
+    </ol>
+   </li>
+   <li> Read-once resolution proofs
+    <ol>
+     <li> Write a checker whether a resolution proof is read-once. </li>
+     <li> Implement the translation of "has read-once refutation" into
+     SAT. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Generators
+  <ul>
+   <li> Replace, if possible, all loops by the use of "create_list". </li>
+   <li> Sudoku: compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
   </ul>
 
 

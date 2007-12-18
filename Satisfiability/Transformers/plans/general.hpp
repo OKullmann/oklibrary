@@ -18,6 +18,18 @@ License, or any later version. */
 
   \todo Update namespace-usage.
 
+
+  \todo Travelling salesman
+  <ul>
+   <li> What are the fileformats for TSPs ? </li>
+   <li> And then there are the different versions of TSP ? </li>
+   <li> Of course, the first thing is are translations into CNF; first via
+   Lisp/Maxima. </li>
+   <li> Compare "Organisation" in Graphs/plans/general.hpp. </li>
+   <li> Can translations of Hamiltonian-path-problems into SAT be understood as
+   special cases? </li>
+  </ul>
+
 */
 
 /*!

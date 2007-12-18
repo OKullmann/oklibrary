@@ -6,17 +6,18 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parsing/plans/general.hpp
+  \file Programming/Parsing/plans/general.hpp
   \brief Plans for the parsing modules
 
 
-  \todo Move this module to part Programming.
+  \todo Update namespaces
+  <ul>
+   <li> Either change the name of the module to "Parser", or change the
+   namespace to "Parsing". </li>
+  </ul>
 
 
-  \todo Create a milestones file.
-
-
-  \todo Either change the name of the module to "Parser", or change the namespace to "Parsing".
+  \todo Update namespace-usage
 
 
   \todo Update the doxygen-documentation for this module.
@@ -30,7 +31,8 @@ License, or any later version. */
   </ul>
 
 
-  \todo Transfer the tests to the new system (where are the current test functions used?)
+  \todo Transfer the tests to the new system (where are the current test
+  functions used?)
 
 */
 

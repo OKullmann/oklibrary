@@ -57,6 +57,8 @@ License, or any later version. */
 
   \todo Complete implementation of OKlib::LatinSquares::SudokuProblem
   <ul>
+   <li> Compare the handling of coordinates with
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac. </li>
    <li> Given n in N, let I_1 := {1, ..., n} and I_2 := I_1^2,
    I_2' := {1,...,n^2}. </li>
    <li> Variables are v_{i,j} for i, j in I_2 with domains D(v) = I_2'. </li>

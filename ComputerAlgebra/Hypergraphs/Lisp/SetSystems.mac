@@ -26,18 +26,18 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
 /* the union of a set system */
-set_system_union(S) := if emptyp(S) then {} else xreduce(union, S);
+set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
 
 /* the union of a list of sets */
-list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L);
+list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L)$
 
 /* the union of a family of sets (i.e., given is a domain I and a map f(i)) */
 family_sets_union(I, f) := if emptyp(I) then {} else block([res : {}],
- for i in I do res : union(res, f(i)), res);
+ for i in I do res : union(res, f(i)), res)$
 
 
 /* the set {1,...,n} */
-setn(n) := setify(makelist(i,i,1,n));
+setn(n) := setify(makelist(i,i,1,n))$
 
 
 /* *************************
@@ -46,20 +46,20 @@ setn(n) := setify(makelist(i,i,1,n));
 */
 
 /* is_empty(S) is true iff S is the empty set system */
-is_empty(S) := emptyp(S);
+is_empty(S) := emptyp(S)$
 
 /* has_empty_element(S) is true iff set system S contains the empty set */
-has_empty_element(S) := some(emptyp, S);
+has_empty_element(S) := some(emptyp, S)$
 
 /* computes the first pair of indices of non-disjoint elements */
 non_disjoint_pair(L) := block([l : length(L), nd : false, res : []],
   for i : 1 thru l-1 unless nd do block([A : L[i]], 
     for j : i+1 thru l unless nd do
       if not disjointp(A, L[j]) then (res : [i,j], nd : true)),
-  return(res));
+  return(res))$
 
 /* whether S is a disjoint set system */
-is_disjoint_set_system(S) := emptyp(non_disjoint_pair(listify(S)));
+is_disjoint_set_system(S) := emptyp(non_disjoint_pair(listify(S)))$
 
 /* whether S contains no subsumed elements */
 is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subsumption : false, A],
@@ -67,7 +67,7 @@ is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subs
     for j : i+1 thru l unless subsumption do
       if subsetp(A, S[j]) then subsumption : true),
   return(not subsumption)
-);
+)$
 
 
 /* ********************************
@@ -77,14 +77,14 @@ is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subs
 
 /* setdifference2(S,b) returns the set system where the elements of b have been
    removed from every element of S */
-setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S);
+setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 
-/* remove_with_element(S,a) is the subset of S with all sets not containing element a */
-remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)));
+/* remove_with_element(S,a) is the subset of S of all sets not containing element a */
+remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)))$
 
-/* more generally, remove_non_disjoint(S,b) is the subset of S with all sets
+/* more generally, remove_non_disjoint(S,b) is the subset of S of all sets
 disjoint to b */
-remove_non_disjoint(S,b) := subset(S, lambda([s], disjointp(s,b)));
+remove_non_disjoint(S,b) := subset(S, lambda([s], disjointp(s,b)))$
 
 
 /* Replaces two elements by their union until the set system is disjoint */
@@ -92,13 +92,13 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
   while not (p : non_disjoint_pair(L), emptyp(p)) do (
     A : L[p[1]], B : L[p[2]],
     L : delete(A,L), L : delete(B,L), L : append(L, [union(A,B)])),
-  setify(L));
+  setify(L))$
 
 
 /* Sorts the elements of a list according to their length (ascending) */
-sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)));
+sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)))$
 /* Sorts the elements of a list according to their length (descending) */
-sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)));
+sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
 
 
 /* Eliminates all subsumed elements from a set system */
@@ -109,7 +109,7 @@ min_elements(S) := block([remains : sort_length(listify(S)), result : [], A, not
   not_subsumed : sublist_indices(remains, lambda([B], not subsetp(A, B))),
   remains : makelist(remains[j], j, not_subsumed)),
   setify(result)
-);
+)$
 
 /* Eliminates all contained elements from a set system */
 max_elements(S) := block([remains : sort_length_desc(listify(S)), result : [], A, not_contained],
@@ -119,7 +119,7 @@ max_elements(S) := block([remains : sort_length_desc(listify(S)), result : [], A
   not_contained : sublist_indices(remains, lambda([B], not subsetp(B, A))),
   remains : makelist(remains[j], j, not_contained)),
   setify(result)
-);
+)$
 
 
 /*!

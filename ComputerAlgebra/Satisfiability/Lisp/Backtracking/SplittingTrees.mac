@@ -15,8 +15,10 @@ load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Back
 
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 
-Needs ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac and
-ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
+Needs
+
+ - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac
+ - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
 
 */
 
@@ -46,19 +48,20 @@ optimal_splitting_tree(FF) := if is_empty(FF[2]) then [[true],1]
           osp1 : optimal_splitting_tree(apply_pa_f({v}, FF))],
           block([new_size : osp0[2] + osp1[2]],
           if new_size < min_size then (best_tree : [v, osp0[1], osp1[1]], min_size : new_size))),
-  [best_tree, min_size+1]);
+  return([best_tree, min_size+1]))$
 
 /* Counting the satisfying assignments in a splitting tree (relative to the set
    V of variables) */
 count_sat_st(st,V) := if st = [true] then 2^(length(V)) 
   elseif st = [false] then 0 else
-  block([nV : disjoin(var_l(st[1]), V)], count_sat_st(st[2],nV) + count_sat_st(st[3],nV));
+  block([nV : disjoin(var_l(st[1]), V)],
+    return(count_sat_st(st[2],nV) + count_sat_st(st[3],nV)))$
 
 /* Compute the satisfying (partial) assignments in a splitting tree */
-sat_pass_st(st) := sat_pass_st_a(st,{});
+sat_pass_st(st) := sat_pass_st_a(st,{})$
 sat_pass_st_a(st,phi) := if st = [true] then [phi] 
   elseif st = [false] then [] else
-  append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi)));
+  append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi)))$
 
 
 /* **********
@@ -66,7 +69,7 @@ sat_pass_st_a(st,phi) := if st = [true] then [phi]
    **********
 */
 
-load("stringproc");
+load("stringproc")$
 
 /* Output a splitting tree st to stream s */
 tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
@@ -74,10 +77,10 @@ tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
   else (
      printf(s, "~a~a~a", "\\pstree{\\TR{", st[1], "}}"),
      printf(s, "{"), tex_st(s, st[2]), tex_st(s, st[3]), printf(s, "}")
-);
+)$
 
 /* Output a splitting tree st to file with name n */
-tex_st_f(n, st) := (block[s : openw(n)], tex_st(s, st), close(s));
+tex_st_f(n, st) := (block[s : openw(n)], tex_st(s, st), close(s))$
  
 /*!
 \endhtmlonly

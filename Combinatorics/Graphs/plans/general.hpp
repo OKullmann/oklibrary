@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for the general module on graph-components
 
 
-  \todo Update the namespaces.
+  \todo Update the namespaces : DONE
 
 
   \todo All sub-modules have milestones.
@@ -45,15 +45,44 @@ License, or any later version. */
    <li> Complement </li>
   </ul>
 
+
+  \todo Organisation
+  <ul>
+   <li> New module "TravellingSalesman"; see "Travelling salesman problem"
+   in Applications/CombinatorialOptimisation/plans/general.hpp.
+    <ol>
+     <li> Does this really belong to supermodule "Graphs"? Wouldn't part
+     "Optimisation" be better? But that part is only for "real optimisation" ?
+     </li>
+     <li> Translation of SAT problems (given in Dimacs-format) into the
+     various forms of NP-complete TSP-problems (first in Maxima/Lisp). </li>
+     <li> And translations between the various forms of TSP-problems. </li>
+    </ol>
+   </li>
+   <li> New module "HamiltonianPaths"; see HamiltonianPaths/plans/general.hpp
+   for SAT applications.
+    <ol>
+     <li> Translation of SAT-problems (given in DIMACS-format) into
+     Hamiltonian-path-problems (first in Maxima/Lisp). </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
 /*!
-  \namespace OKlib::Graphs
-  \brief Components for working with graphs (especially support for Boost::Graph)
+  \namespace OKlib::Combinatorics::Graphs
+  \brief Supermodule for dedicated graph algorithms
+
+  Alias "Hyp".
 */
 
+
 namespace OKlib {
-  namespace Graphs {
+  namespace Combinatorics {
+    namespace Graphs {
+    }
+    namespace Gra = Graphs;
   }
 }
 

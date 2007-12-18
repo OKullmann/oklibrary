@@ -30,18 +30,18 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
    ************************
 */
 
-bt_min(t) := lmin(t);
-bt_max(t) := lmax(t);
-bt_width(t) := length(t);
-bt_sum(t) := apply("+", t);
+bt_min(t) := lmin(t)$
+bt_max(t) := lmax(t)$
+bt_width(t) := length(t)$
+bt_sum(t) := apply("+", t)$
 
 /* For the concatenation of branching tuples, "append" is to be used. *.
 
 /* Composition of branching tuples at position 1 */
-bt_composition(a,b) := if emptyp(a) then [] else append(a[1] + b, rest(a));
+bt_composition(a,b) := if emptyp(a) then [] else append(a[1] + b, rest(a))$
 /* Composition of branching tuples at position i */
 bt_composition(a,b,i) := if emptyp(a) then [] 
-  else append(rest(a, -(length(a) - i + 1)), a[i] + b, rest(a,i));
+  else append(rest(a, -(length(a) - i + 1)), a[i] + b, rest(a,i))$
 
 /*
  A "permutation" in S_n is a list P of length n of all the elements in {1,...,n};
@@ -49,7 +49,7 @@ bt_composition(a,b,i) := if emptyp(a) then []
 */
 
 /* Apply a permutation (or, more generally, an index selection) */
-bt_apply_permutation(perm, t) := makelist(t[perm[i]], i, 1, length(t));
+bt_apply_permutation(perm, t) := makelist(t[perm[i]], i, 1, length(t))$
 
 /*
 *******************************************************
@@ -58,7 +58,7 @@ bt_apply_permutation(perm, t) := makelist(t[perm[i]], i, 1, length(t));
 */
 
 /* the chi-functional */
-chi(t,x) := bt_sum(x^(-t));
+chi(t,x) := bt_sum(x^(-t))$
 
 /* Computing the tau-function by the Newton-method
    (using (standard) floating point numbers): */
@@ -68,21 +68,21 @@ load (newton1)$
 
 /* Given a branching tuple t and a precision eps */
 tau_eps(t,eps) := block([l : length(t), xl], if l = 0 then inf
-  elseif l = 1 then 1 else newton(chi(t,xl)-1, xl, l^(1/mean(t)), eps));
+  elseif l = 1 then 1 else newton(chi(t,xl)-1, xl, l^(1/mean(t)), eps))$
 
 /* (n+1)-ary version, where eps is appended to the end */
-taun_eps([v]) := tau_eps(rest(v,-1), last(v));
+taun_eps([v]) := tau_eps(rest(v,-1), last(v))$
 
 /* Given a branching tuple (supplying a standard eps) */
-tau(t) := tau_eps(float(t), 10^-15);
+tau(t) := tau_eps(float(t), 10^-15)$
 /* floatnump(tau(t)) is true */
 
 /* n-ary version (using the standard eps) */
-taun([v]) := tau(v);
+taun([v]) := tau(v)$
 
 /* Binary and ternary versions */
-tau2(x,y) := taun(x,y);
-tau3(x,y,z) := taun(x,y,z);
+tau2(x,y) := taun(x,y)$
+tau3(x,y,z) := taun(x,y,z)$
 
 /* The tau-function, using interval-halving: */
 tau_ih(t) :=
@@ -92,11 +92,11 @@ tau_ih(t) :=
       return(ub)
     else
       return(find_root(chi(t,xl)=1, xl, lb, ub))
-  );
+  )$
 
 /* bt_comparison(t,alpha) is pos, zero, neg if tau(t) > alpha resp. = alpha resp. < alpha 
    (this decision uses only symbolic means, no numeric ones) */
-bt_comparison(t,alpha) := sign(chi(t,alpha) - 1);
+bt_comparison(t,alpha) := sign(chi(t,alpha) - 1)$
 
 load(sqdnst)$
 
@@ -107,12 +107,12 @@ tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], if l = 0 the
        n_pos : length(pos_sol),
        if n_pos = 1 then return(sqrtdenest(sol[pos_sol[1]]))
        elseif n_pos >= 2 then print("INCONSISTENCY with tau_symbolical for ", t)
-       else return(false)));
+       else return(false)))$
 /* Use float(x) to compute a floating-point representation of x. 
    To use higher precision, set fpprec to the required number of
    decimal digits, and convert via bfloat. Or use the following conversion function:
 */
-hp_float(x, decimal_digits) := block([fpprec : fpprec], fpprec : decimal_digits, bfloat(x));
+hp_float(x, decimal_digits) := block([fpprec : fpprec], fpprec : decimal_digits, bfloat(x))$
 
 /*
 *******************************************************
@@ -122,17 +122,17 @@ hp_float(x, decimal_digits) := block([fpprec : fpprec], fpprec : decimal_digits,
 
 /* The total differential for the tau-function */
 Dtau(t) := block([tv : tau(t)], block([pv : tv^(-t) ],
-  return((- tv * log(tv) / apply("+", t * pv)) * pv)));
+  return((- tv * log(tv) / apply("+", t * pv)) * pv)))$
 
-Dtaun([t]) := Dtau(t);
-Dtau2(x,y) := Dtaun(x,y);
-Dtau3(x,y,z) := Dtaun(x,y,z);
+Dtaun([t]) := Dtau(t)$
+Dtau2(x,y) := Dtaun(x,y)$
+Dtau3(x,y,z) := Dtaun(x,y,z)$
 
 /* Symbolic differentiation of tau2 */
 Dtau2s(x,y) := block( [ tv : tau2s(x,y)], block( [pv : tv^(-[x,y]) ] ,
-  return((- tv * log(tv) / apply("+", [x,y] * pv)) * pv)));
+  return((- tv * log(tv) / apply("+", [x,y] * pv)) * pv)))$
 
-gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2]);
+gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2])$
 
 
 /*
@@ -142,10 +142,10 @@ gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2]);
 */
 
 /* The probability distribution derived from a branching tuple: */
-tprob(t) := tau(t)^(-t);
-tprobn([t]) := tprob(t);
-tprob2(x,y) := tprobn(x,y);
-tprob3(x,y,z) := tprobn(x,y,z);
+tprob(t) := tau(t)^(-t)$
+tprobn([t]) := tprob(t)$
+tprob2(x,y) := tprobn(x,y)$
+tprob3(x,y,z) := tprobn(x,y,z)$
 
 
 /* ***************
@@ -155,26 +155,26 @@ tprob3(x,y,z) := tprobn(x,y,z);
 
 /* n-ary arithmetic mean (while the arithmetic mean for branching tuples t
    is just mean(t)) */
-meann([t]) := mean(t);
+meann([t]) := mean(t)$
 
 /* geometric mean */
-gmean(t) := apply("*", t)^(1/length(t)));
+gmean(t) := apply("*", t)^(1/length(t)))$
 /* n-ary geometric mean */
-gmeann([t]) := gmean(t);
+gmeann([t]) := gmean(t)$
 
 /* harmonic mean */
-hmean(t) := length(t) / apply("+", t^(-1));
+hmean(t) := length(t) / apply("+", t^(-1))$
 /* n-ary harmonic mean */
-hmeann([t]) := hmean(t);
+hmeann([t]) := hmean(t)$
 
 /* power means with index -inf <= p <= inf */
-genmean(t, p) := if p = minf then lmin(t) elseif p = 0 then gmean(t) elseif p = inf then lmax(t) else mean(t^p)^(1/p);
+genmean(t, p) := if p = minf then lmin(t) elseif p = 0 then gmean(t) elseif p = inf then lmax(t) else mean(t^p)^(1/p)$
 /* (n+1)-ary power means */
-genmeann([u]) := genmean(rest(u,-1), last(u));
+genmeann([u]) := genmean(rest(u,-1), last(u))$
 /* binary power mean */
-genmean2(x,y,p) := genmeann(x,y,p);
+genmean2(x,y,p) := genmeann(x,y,p)$
 /* ternary power mean */
-genmean3(x,y,z,p) := genmeann(x,y,z,p);
+genmean3(x,y,z,p) := genmeann(x,y,z,p)$
 
 
 /* ****************
@@ -183,24 +183,24 @@ genmean3(x,y,z,p) := genmeann(x,y,z,p);
 */
 
 /* Auxiliary function to test for zero */
-zerop(x) := is(equal(x,0));
+zerop(x) := is(equal(x,0))$
 /* Auxiliary function to test for +infinity */
-infp(x) := is(equal(x,inf));
+infp(x) := is(equal(x,inf))$
 
 /* the tau-mean for tuples (allowing zero values) */
 taumean(t) := if length(t) <= 1 then inf 
   elseif some(zerop, t) then 0 
-  else float(log(length(t))) / log(tau(t));
+  else float(log(length(t))) / log(tau(t))$
 /* tau-mean now also allowing inf-values */
 taumean_inf(t) := if some(infp, t) then 
     block([t : delete(inf, t)], if t = [0] then unknown else taumean(t))
-  else taumean(t);
+  else taumean(t)$
 /* the n-ary tau-mean */
-taumeann([t]) := taumean(t);
+taumeann([t]) := taumean(t)$
 /* the binary tau-mean */
-taumean2(x,y) := taumeann(x,y);
+taumean2(x,y) := taumeann(x,y)$
 /* the ternary tau-mean */
-taumean3(x,y,z) := taumeann(x,y,z);
+taumean3(x,y,z) := taumeann(x,y,z)$
 
 
 /*
@@ -213,25 +213,25 @@ taumean3(x,y,z) := taumeann(x,y,z);
 /* Considerung for a branching tuple t0 and a direction d0 (a real vector of the same
 length as t) the function x -> tau(t0 + x * d0) : */
 
-tau_line(x) := (local(x), tau(t0 + x * d0));
-logtau_line(x) := (local(x), log(tau(t0 + x * d0)));
-loglogtau_line(x) := (local(x), log(logtau_line(x)));
-tprob_line(x) := (local(x), tprob(t0 + x * d0)[i0]);
-taumean_line(x) := (local(x), taumean(t0 + x * d0));
+tau_line(x) := (local(x), tau(t0 + x * d0))$
+logtau_line(x) := (local(x), log(tau(t0 + x * d0)))$
+loglogtau_line(x) := (local(x), log(logtau_line(x)))$
+tprob_line(x) := (local(x), tprob(t0 + x * d0)[i0])$
+taumean_line(x) := (local(x), taumean(t0 + x * d0))$
 /* assume(length(t0) >= 1), assume(t0[i] > 0) */
 taumeandiff_line(x) := (local(x, t), 
   block([t : t0 + x * d0], taumean(t) - genmean(t, p0))
-);
+)$
 
 /* Returning the interval bounds (for the open interval): */
 tau_line_dom() := block(
   [pos : sublist_indices(d0, lambda([x], x > 0)), neg : sublist_indices(d0, lambda([x], x < 0))],
   [lmax(- part(t0, pos) / part(d0,pos)), lmin(- part(t0, neg) / part(d0, neg))]
-);
+)$
 
 
 /* The chi-function on a line (but chi(t,x) only for x > 1): */
-chi_line(x) := (local(x), chi(t0 + x * d0, a0 + x * b0));
+chi_line(x) := (local(x), chi(t0 + x * d0, a0 + x * b0))$
 /* assume(length(t0) >= 2), assume(t0[i] > 0), assume(a0 > 1) */
 
 chi_line_dom() :=
@@ -239,18 +239,18 @@ chi_line_dom() :=
    block(
     [pos : sublist_indices(ds, lambda([x], x > 0)), neg : sublist_indices(ds, lambda([x], x < 0))],
     [lmax(- part(ts, pos) / part(ds,pos)), lmin(- part(ts, neg) / part(ds, neg))]
-));
+))$
 
-chin([u]) := (local(u), chi(rest(u,-1), last(u)));
-chi2(t1,t2,x) := (local(t1,t2,x), chin(t1,t2,x));
-chi3(t1,t2,t3,x) := (local(t1,t2,t3,x), chin(t1,t2,t3,x));
+chin([u]) := (local(u), chi(rest(u,-1), last(u)))$
+chi2(t1,t2,x) := (local(t1,t2,x), chin(t1,t2,x))$
+chi3(t1,t2,t3,x) := (local(t1,t2,t3,x), chin(t1,t2,t3,x))$
 
-hess_chi2 : hessian(chi2(t1,t2,x),[t1,t2,x]);
+hess_chi2 : hessian(chi2(t1,t2,x),[t1,t2,x])$
 /* if for example x has a value, then apply remvalue(x), or, better, kill(x) */
 
-eigen_chi2(a,b,c) := (local(a,b,c), eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c])));
+eigen_chi2(a,b,c) := (local(a,b,c), eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c])))$
 /* a, b > 0, c > 1 */
-test_posdef_chi2(a,b,c) := (local(a,b,c), lmin(eigen_chi2(a,b,c)[1]));
+test_posdef_chi2(a,b,c) := (local(a,b,c), lmin(eigen_chi2(a,b,c)[1]))$
 
 /*!
 \endhtmlonly

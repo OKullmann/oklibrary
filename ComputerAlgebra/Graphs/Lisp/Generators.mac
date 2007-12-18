@@ -30,15 +30,15 @@ Needs
    ***************************************
 */
 
-element_label(i) := (local(i), sconcat("e",i));
-string_vertex(v) := (local(v), xreduce(sconcat, map(element_label, v)));
-print_vertices(V) := (local(V, v), for v in V do print(sconcat(string_vertex(v), ";")));
-print_edge(e) := (local(e), block( [ le : listify(e) ], print(sconcat(string_vertex(le[1])," -- ",string_vertex(le[2]),";"))));
-print_edges(E) := (local(E, e), for e in E do print_edge(e));
+element_label(i) := (local(i), sconcat("e",i))$
+string_vertex(v) := (local(v), xreduce(sconcat, map(element_label, v)))$
+print_vertices(V) := (local(V, v), for v in V do print(sconcat(string_vertex(v), ";")))$
+print_edge(e) := (local(e), block( [ le : listify(e) ], print(sconcat(string_vertex(le[1])," -- ",string_vertex(le[2]),";"))))$
+print_edges(E) := (local(E, e), for e in E do print_edge(e))$
 /* print a graph in the dot-format */
-print_graph(G) := (local(G), print(sconcat("graph G {")), print_vertices(G[1]), print_edges(G[2]), print("}"));
+print_graph(G) := (local(G), print(sconcat("graph G {")), print_vertices(G[1]), print_edges(G[2]), print("}"))$
 /* output a graph g to file n */
-output_graph(g,n) := (local(g,n), with_stdout(n, print_graph(g)));
+output_graph(g,n) := (local(g,n), with_stdout(n, print_graph(g)))$
 
 
 /* ***************************************
@@ -58,7 +58,7 @@ Kneser_graph(n,m) := (local(n,m,A), block([sn : setn(n)],
      )   
     )
  ]
-));
+))$
 
 /*!
 \endhtmlonly

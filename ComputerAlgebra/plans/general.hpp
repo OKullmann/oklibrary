@@ -52,7 +52,16 @@ License, or any later version. */
      "tests" and "testobjects", containing the generic test functions and the
      test instantiations, respectively. </li>
      <li> But, due to the simpler character of programming here, we just use
-     asserts for conditions (and no recovering of test conditions). </li>
+     asserts for conditions (and no recovering of test conditions). Or??
+      <ol>
+       <li> Likely better if we establish a system similar to the C++
+       system! This strengthens the design of the test-system. </li>
+       <li> So a test function perhaps returns a list, whose first element
+       is true or false (in case of failure), while the second element
+       in the failure case contains the error-description. </li>
+       <li> Perhaps the backtrace-function is useful here. </li>
+      </ol>
+     </li>
      <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
     </ol>
    </li>
@@ -62,7 +71,30 @@ License, or any later version. */
   \todo Maxima
   <ul>
    <li> How to simulate "#include" ? </li>
-   <li> Is there a timing command ? </li>
+   <li> Monitoring
+    <ol>
+     <li> Perhaps we introduce a global variable "oklib_monitor",
+     which our functions can use, and if set to true then they
+     output progress information. </li>
+     <li> This output should happen in a standardised way, so that
+     the source of the output is recognisable. </li>
+     <li> On the other hand, in this way we uglify the code ?!? </li>
+     <li> Could there be a general scheme, that certain variables are
+     watched and printed if they changed value, and this happens
+     non-intrusive? </li>
+     <li> Or functions which support monitoring come in two versions? </li>
+    </ol>
+    For the introduction of "oklib_monitor", apparently "define_variable"
+    should be used?
+   </li>
+   <li> Is there a timing command ?
+    <ol>
+     <li> "time (%o1, %o2, %o3, ...)" returns the time it took to
+     compute the respective outputs. </li>
+     <li> With "showtime: true " Maxima outputs the timing result
+     after each computation. </li>
+    </ol>
+   </li>
    <li> How to make sure, that variables are local?
     <ol>
      <li> Is "local" needed? For what is it good for? </li>
@@ -74,13 +106,44 @@ License, or any later version. */
    can be avoided) ? </li>
    <li> What is the difference between "apply" and "xreduce" ? </li>
    <li> We need "oklib maxima", which starts the maxima-shell and also loads
-   all functions from the OKlibrary. </li>
+   all functions from the OKlibrary.
+    <ol>
+     <li> Perhaps it sets also the timing output. </li>
+     <li> Best is perhaps to have an initialisation file (to be passed
+     to maxima), which contains the list of all files to be included. </li>
+     <li> Should this list just be all .mac-files ? </li>
+     <li> Furthermore a variable is needed for the OKlib-path. </li>
+     <li> And a function for reloading all files. </li>
+     <li> Of course, this initialisation file is created by the usual
+     preprocessing. </li>
+    </ol>
+   </li>
+   <li> List operations
+    <ol>
+     <li> A frequent operation is to add an element x to a list L
+     *in-place*. </li>
+     <li> Apparently the most efficient operations seems to be
+     <code>L : cons(x,L)</code> resp. <code>L : endcons(x,L)</code>,
+     where both operations seem to take place not in-place, but involve
+     copying and re-assignment, making it very inefficient?? </li>
+     <li> In general we want to avoid any efficiency-considerations, however
+     having in-place modifications of lists would also increase ease of
+     use. </li>
+    </ol>
+   </li>
    <li> Document important programming techniques:
     <ol>
      <li> How to handle local variables (see above). </li>
-     <li> All different types of loops (see the existing code). </li>
+     <li> All different types of loops (see the existing code).
+     Especially nested loops. </li>
      <li> How to create lambda-terms (see the existing code). </li>
      <li> Function-application (also "map" etc.; see above). </li>
+    </ol>
+   </li>
+   <li> Partial compilation:
+    <ol>
+     <li> "compfile" writes Lisp-code into files? </li>
+     <li> "compile" ? </li>
     </ol>
    </li>
   </ul>
@@ -104,14 +167,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Partial compilation
-  <ul>
-   <li> Is there compilation? </li>
-   <li> Is there partial compilation (using special properties to
-   produce more efficient code)? </li>
-  </ul>
-
-
   \todo Contexts
   <ul>
    <li> Is there the notion of a "context" ("block") ?
@@ -132,8 +187,17 @@ License, or any later version. */
   <ul>
    <li> Literature on Aldor? </li>
    <li> How to integrate Axiom with Aldor? </li>
-   <li> We should only write Aldor-code, using the Maxima-library ---
+   <li> We should only write Aldor-code, using the Axiom-library ---
    how to do this? </li>
+  </ul>
+
+
+  \todo Partial compilation : DONE (to be handled for Maxima/Lisp and
+  Axiom/Aldor separately)
+  <ul>
+   <li> Is there compilation? </li>
+   <li> Is there partial compilation (using special properties to
+   produce more efficient code)? </li>
   </ul>
 
 

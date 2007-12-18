@@ -53,6 +53,40 @@ License, or any later version. */
    </li>
    <li> We should also explores the use of ordinal numbers in heuristics
    for the TSP as proposed by AB. </li>
+   <li> Interesting translations from/to SAT:
+    <ol>
+     <li> The hypothesis (OK) is that SAT handles the "combinatorial heart",
+     while TSP is for the "geometrical surface". </li>
+     <li> So "typical SAT problems" translated into TSP-problems should
+     be hard. </li>
+     <li> As well as a SAT solver should have problems (starting with the
+     problem size) in handling TSP-problems. However here active clause-sets
+     could come to the rescue. </li>
+    </ol>
+   </li>
+   <li> Organisation questions:
+    <ol>
+     <li> Perhaps we better speak of "Travelling Salesperson Problem", as
+     originally introduced? Does this have to do with "British English"
+     vs. "US-american English" ? Or perhaps the "travelling salesperson
+     is political correctness, and the "salesman" is the original version?
+     Then, of course, we stick to the "salesman". </li>
+     <li> It should get its own module, "TravellingSalesperson" or
+     "TravellingSalesman", with namespace-alias "TrS". </li>
+     <li> Here, in part "Applications", we only have SAT-applications; however
+     we need also a module devoted to the TSP (where direct approaches etc.
+     are handled). Likely this should go to supermodule Combinatorics/Graphs.
+     See "Organisation" in Graphs/plans/general.hpp. </li>
+     <li> See "Travelling salesman" in
+     Satisfiability/Transformers/plans/general.hpp
+     for translations into SAT. </li>
+     <li> And see "Organisation" in Graphs/plans/general.hpp for translations
+     from SAT to TSP. </li>
+     <li> See "Travelling salesman" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp
+     for installing external software. </li>
+    </ol>
+   </li>
   </ul>
 
 */

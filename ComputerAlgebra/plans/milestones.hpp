@@ -21,6 +21,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Partial compilation : DONE
     - Abstraction : DONE
     - General principles : DONE
     - Comparisons : DONE
@@ -41,7 +42,6 @@ License, or any later version. */
     - %Test system
     - Maxima
     - Input checking
-    - Partial compilation
     - Contexts
     - Lisp integration
     - Aldor integration

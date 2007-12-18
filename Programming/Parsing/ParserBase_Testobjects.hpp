@@ -5,12 +5,15 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#include <iostream>
+#ifndef PARSERBASETESTOBJECTS_74719nHap
+#define PARSERBASETESTOBJECTS_74719nHap
 
-#include <Transitional/TestSystem/TestBaseClass.hpp>
+#include <Transitional/Programming/Parsing/ParserBase.hpp>
+#include <Transitional/Programming/Parsing/ParserBase_Tests.hpp>
 
-#include <Transitional/Parsing/ParserBase_Testobjects.hpp>
+namespace OKlib {
+  namespace Parser {
 
-int main(const int argc, const char* const argv[]) {
-  return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);
+  }
 }
+#endif

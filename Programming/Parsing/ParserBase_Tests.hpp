@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parsing/ParserBase_Tests.hpp
+  \file Programming/Parsing/ParserBase_Tests.hpp
   \brief Tools for testing parsers
 */
 
@@ -21,7 +21,6 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace Parser {
 
     enum Matching_possibilities { match_full, match_not_full };

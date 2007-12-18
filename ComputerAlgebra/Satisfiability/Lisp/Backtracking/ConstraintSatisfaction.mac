@@ -39,7 +39,7 @@ Needs
 
 /* A new propagator which iterates the given one until a fixed point is reached */
 prop_fixedpoint(prop) := buildq([prop], lambda([dom], block([p : false],
-  for i : 1 thru inf do if prop(dom) then p : true else return(p))));
+  for i : 1 thru inf do if prop(dom) then p : true else return(p))))$
 
 /* A propagator transformer, removing values which lead to a contradiction by propagation */
 look_ahead(prop) := buildq([prop], lambda([dom],
@@ -51,7 +51,7 @@ look_ahead(prop) := buildq([prop], lambda([dom],
         prop(copy_dom),
         if min_dom_size(copy_dom) = 0 then
           (dom[i] : disjoin(e, dom_i), p : true))),
-    return(p))));
+    return(p))))$
 
 
 /* ***********
@@ -75,7 +75,7 @@ constraint_backtracking(dom,prop,heur) := block([size : 1],
        size : size + res[2],
        if listp(res[1]) then (loopbreak : true, return(true))),
      if loopbreak then return([res[1],size]) else return([false,size])))
-);
+)$
 
 /* Variation for counting solutions; outputs the number of solutions and the size */
 constraint_backtracking_counting(dom,prop,heur) := (
@@ -94,7 +94,7 @@ constraint_backtracking_counting(dom,prop,heur) := (
      return([count,size])
      )
    )
-);
+)$
 
 
 /* **************
@@ -120,7 +120,7 @@ variable_heuristics_tau(dom,prop) := (local(dom,prop,opt_tau,opt_v,opt_dist,mu,n
   block([L : makelist(i,i,1,length(dom_v)), comp : lambda([i,j], is(opt_dist[i] <= opt_dist[j]))], 
     L : sort(L, comp),
     return([opt_v, makelist((listify(dom_v))[i], i, L)])))
-);
+)$
 
 /*!
 \endhtmlonly

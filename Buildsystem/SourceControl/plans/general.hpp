@@ -18,7 +18,9 @@ License, or any later version. */
    <li> What are the alternatives? The present method, to create a clone,
    reset the clone, and to create a new bare repository from the clone,
    which replaces the old repository, looks like a waste of time. </li>
-   <li> And we have the problem: What does "cloning" clone?? See below. </li>
+   <li> And we have the problem: What does "cloning" clone?? See below
+   ("Cloning"). </li>
+   <li> The above should be asked at the git-mailing-list (MG). </li>
    <li> We need some process which defines what is in the main repository,
    and how to clone all that:
     <ol>
@@ -525,6 +527,7 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 13.10.2007; 6.3 MB; Transitional total: 19.9 MB </li>
      <li> 11.11.2007; 6.3 MB; Transitional total: 20.1 MB </li>
      <li> 26.11.2007; 6.5 MB; Transitional total: 20.4 MB </li>
+     <li> 15.12.2007; 6.7 MB; Transitional total: 20.9 MB </li>
     </ol>
    </li>
   </ul>

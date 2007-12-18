@@ -15,9 +15,9 @@ License, or any later version. */
 
   \par
    In Graphs/plans/general.hpp the following topics are handled:
-    - Update the namespaces
     - All sub-modules have milestones
     - Clarify the relations
+    - Update the namespaces : DONE
 
 
   \par Version 0.0.4

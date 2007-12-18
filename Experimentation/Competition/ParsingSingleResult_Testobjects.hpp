@@ -12,9 +12,7 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
-
     namespace Testobjects {
 
       Test_ParserResultElement_SuperSeries<SuperSeries> test_SuperSeries;

@@ -31,7 +31,7 @@ Needs
    ************
 
 /* The domain association for n Queens */
-Queens_dom(n) := (local(n), block([sn : setify(makelist(i,i,1,n))], makelist(sn,i,1,n)));
+Queens_dom(n) := (local(n), block([sn : setify(makelist(i,i,1,n))], makelist(sn,i,1,n)))$
 
 /* The propagator for n queens; changes its arguments, returns true if a change
    took place */
@@ -42,21 +42,21 @@ Queens_propagator(dom) := (local(dom), block([n : length(dom), prop : false],
         dom[k] : setdifference(dom_k, {j,j-k+i,j+k-i}),
         if length(dom[k]) < length(dom_k) then prop : true)),
   return(prop))
-);
+)$
 
 /* Iterated propagator for n queens */
-Queens_propagator_it : prop_fixedpoint(Queens_propagator);
+Queens_propagator_it : prop_fixedpoint(Queens_propagator)$
 
 /* The look-ahead version of the iterated propagator */
-Queens_propagator_it_la : look_ahead(Queens_propagator_it);
+Queens_propagator_it_la : look_ahead(Queens_propagator_it)$
 
 /* The look-ahead version iterator */
-Queens_propagator_it_la_it : prop_fixedpoint(Queens_propagator_it_la);
+Queens_propagator_it_la_it : prop_fixedpoint(Queens_propagator_it_la)$
 
 /* Using the default backtracking algorithm to solve it */
-Queens_constraint_backtracking(n) := (local(n), constraint_backtracking(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau));
+Queens_constraint_backtracking(n) := (local(n), constraint_backtracking(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau))$
 /* Counting all solutions */
-Queens_constraint_backtracking_counting(n) := (local(n), constraint_backtracking_counting(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau));
+Queens_constraint_backtracking_counting(n) := (local(n), constraint_backtracking_counting(Queens_dom(n),Queens_propagator_it,variable_heuristics_tau))$
 
 
 /*!
