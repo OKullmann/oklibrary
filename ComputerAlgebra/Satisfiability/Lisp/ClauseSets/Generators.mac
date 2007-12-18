@@ -88,58 +88,41 @@ declare(sdk, noun)$
 declare(sdk, posfun)$
 
 /* The set of variables for Sudoku formulas of box-dimension p */
-var_sdk(p) := block([N : p^2, L : []],
- for i : 1 thru N do
-  for j : 1 thru N do
-   for k : 1 thru N do
-    L : append(L, [sdk(i,j,k)]),
- setify(L))$
+var_sdk(p) := block([N : p^2],
+ setify(create_list(sdk(i,j,k), i,1,N, j,1,N, k,1,N)))$
+
 
 /* In the following p denotes the box-dimension */
 
 /* different numbers in each row */
-sdk_different_rows(p) := block([N : p^2, L : []],
- for i : 1 thru N do
-  for k : 1 thru N do
-   for j1 : 1 thru N-1 do
-    for j2 : j1+1 thru N do
-     L : endcons({- sdk(i,j1,k), - sdk(i,j2,k)}, L),
- setify(L))$
+sdk_different_rows(p) := block([N : p^2],
+ setify(create_list({- sdk(i,j1,k), - sdk(i,j2,k)}, i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
 
 /* different numbers in each column */
-sdk_different_columns(p) := block([N : p^2, L : []],
- for j : 1 thru N do
-  for k : 1 thru N do
-   for i1 : 1 thru N-1 do
-    for i2 : i1+1 thru N do
-     L : endcons({- sdk(i1,j,k), - sdk(i2,j,k)}, L),
- setify(L))$
+sdk_different_columns(p) := block([N : p^2],
+ setify(create_list({- sdk(i1,j,k), - sdk(i2,j,k)}, j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
+
 
 /* Given box coordinates 1 <= i,j <= p, the list of coordinates of fields */
 sdk_positions_box(i,j,p) := block(
- [L : [], row_offset : p * (i-1), column_offset : p * (j-1)],
- for r : 1 thru p do
-  for c : 1 thru p do
-   L : endcons([row_offset + r, column_offset + c], L),
- return(L))$
+ [row_offset : p * (i-1), column_offset : p * (j-1)],
+ create_list([row_offset + r, column_offset + c], r,1,p, c,1,p))$
 
 /* different numbers in each box */
 sdk_different_boxes(p) := block([N : p^2, L : []],
- for k : 1 thru N do
-  for i : 1 thru p do
-   for j : 1 thru p do block([P : sdk_positions_box(i,j,p)],
+ for i : 1 thru p do
+  for j : 1 thru p do block([P : sdk_positions_box(i,j,p)],
+   for k : 1 thru N do
     for p1 : 1 thru N-1 do
      for p2 : p1+1 thru N do
-      L : endcons({- sdk(P[p1][1],P[p1][2],k), - sdk(P[p2][1],P[p2][2],k)}, L)),
+      L : cons({- sdk(P[p1][1],P[p1][2],k), - sdk(P[p2][1],P[p2][2],k)}, L)),
  setify(L))$
 
 
 /* every field carries a number */
-sdk_filled_fields(p) := block([N : p^2, L : []],
- for i : 1 thru N do
-  for j : 1 thru N do
-   L : endcons(setify(makelist(sdk(i,j,k), k, 1, N)), L),
- setify(L))$
+sdk_filled_fields(p) := block([N : p^2],
+ setify(create_list(setify(makelist(sdk(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
+
 
 /* the sudoku problem as formal clause-set */
 weak_sdk(p) := [var_sdk(p), 

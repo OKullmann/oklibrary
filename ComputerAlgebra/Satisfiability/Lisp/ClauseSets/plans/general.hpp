@@ -125,6 +125,7 @@ License, or any later version. */
 
   \todo Generators
   <ul>
+   <li> Replace, if possible, all loops by the use of "create_list". </li>
    <li> Sudoku: compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
   </ul>
 
