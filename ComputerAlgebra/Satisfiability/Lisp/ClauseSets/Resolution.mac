@@ -73,7 +73,12 @@ resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {
 */
 
 /* the resolvable 2-sets of a clause-set */
-resolvable_cs(F) := subset(powerset(F,2), resolvable_s)$
+resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
+ for i : 1 thru l-1 do block([C : LF[i]],
+  for j : i+1 thru l do
+   if resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
+ return(setify(R)))$
+/* resolvable_cs(F) = subset(powerset(F,2), resolvable_s) */
 
 /* all resolvents of a clause-set */
 resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
