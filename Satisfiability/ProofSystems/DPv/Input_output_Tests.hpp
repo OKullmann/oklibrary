@@ -20,7 +20,7 @@ License, or any later version. */
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
-#include <Transitional/Parsing/ParserBase_Tests.hpp>
+#include <Transitional/Programming/Parsing/ParserBase_Tests.hpp>
 
 #include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
 

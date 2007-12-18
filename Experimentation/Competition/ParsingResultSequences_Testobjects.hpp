@@ -12,7 +12,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     Test_Copy_results_ParserResult_Result test_CopyResults;

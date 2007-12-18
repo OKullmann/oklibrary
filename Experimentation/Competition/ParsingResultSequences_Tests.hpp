@@ -13,7 +13,7 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/Parsing/ParserBase_Tests.hpp>
+#include <Transitional/Programming/Parsing/ParserBase_Tests.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
 #include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
@@ -21,7 +21,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ParsingSingleResult_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     template <class Container>

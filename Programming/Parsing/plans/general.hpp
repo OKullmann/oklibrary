@@ -10,13 +10,23 @@ License, or any later version. */
   \brief Plans for the parsing modules
 
 
-  \todo Move this module to part Programming.
+  \todo Move this module to part Programming. DONE
 
 
   \todo Create a milestones file.
 
 
-  \todo Either change the name of the module to "Parser", or change the namespace to "Parsing".
+  \todo Update namespaces
+  <ul>
+   <li> Either change the name of the module to "Parser", or change the
+   namespace to "Parsing". </li>
+  </ul>
+
+
+  \todo Update namespace-usage
+
+
+  \todo
 
 
   \todo Update the doxygen-documentation for this module.

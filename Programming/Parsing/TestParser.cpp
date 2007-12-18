@@ -9,7 +9,7 @@ License, or any later version. */
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/Parsing/ParserBase_Testobjects.hpp>
+#include <Transitional/Programming/Parsing/ParserBase_Testobjects.hpp>
 
 int main(const int argc, const char* const argv[]) {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

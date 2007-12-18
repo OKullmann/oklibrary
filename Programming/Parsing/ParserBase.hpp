@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Parsing/ParserBase.hpp
+  \file Programming/Parsing/ParserBase.hpp
   \brief Base class for parsers in the Boost::Spirit framework
 */
 
@@ -17,7 +17,6 @@ License, or any later version. */
 #include <boost/spirit/core.hpp>
 
 namespace OKlib {
-
   namespace Parser {
 
     template <typename CharT = char, typename ParseIterator_ = const CharT*>

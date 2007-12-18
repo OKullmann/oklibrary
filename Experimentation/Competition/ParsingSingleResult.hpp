@@ -23,12 +23,11 @@ License, or any later version. */
 #include <boost/filesystem/path.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/Parsing/ParserBase.hpp>
+#include <Transitional/Programming/Parsing/ParserBase.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     struct ParserError : std::runtime_error {

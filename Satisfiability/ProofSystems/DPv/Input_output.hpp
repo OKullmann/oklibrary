@@ -29,7 +29,7 @@ License, or any later version. */
 #include <boost/lexical_cast.hpp>
 #include <boost/spirit/core.hpp>
 
-#include <Transitional/Parsing/ParserBase.hpp>
+#include <Transitional/Programming/Parsing/ParserBase.hpp>
 
 #include <Transitional/Satisfiability/ProofSystems/DPv/DPv.hpp>
 #include <Transitional/Satisfiability/ProofSystems/DPv/BasicDataStructure.hpp>
