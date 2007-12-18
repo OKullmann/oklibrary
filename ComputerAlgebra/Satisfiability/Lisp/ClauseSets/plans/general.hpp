@@ -123,5 +123,11 @@ License, or any later version. */
   </ul>
 
 
+  \todo Generators
+  <ul>
+   <li> Sudoku: compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
+  </ul>
+
+
 */
 
