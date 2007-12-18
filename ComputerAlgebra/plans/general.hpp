@@ -118,6 +118,19 @@ License, or any later version. */
      preprocessing. </li>
     </ol>
    </li>
+   <li> List operations
+    <ol>
+     <li> A frequent operation is to add an element x to a list L
+     *in-place*. </li>
+     <li> Apparently the most efficient operations seems to be
+     <code>L : cons(x,L)</code> resp. <code>L : endcons(x,L)</code>,
+     where both operations seem to take place not in-place, but involve
+     copying and re-assignment, making it very inefficient?? </li>
+     <li> In general we want to avoid any efficiency-considerations, however
+     having in-place modifications of lists would also increase ease of
+     use. </li>
+    </ol>
+   </li>
    <li> Document important programming techniques:
     <ol>
      <li> How to handle local variables (see above). </li>
