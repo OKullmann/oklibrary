@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/messages/Levels.hpp
+  \file Programming/Messages/messages/Levels.hpp
   \brief Translations of level names (provided by a message class).
 
   Defines class Messages::messages::LevelNames for output of level descriptions.
@@ -15,8 +15,8 @@ License, or any later version. */
 #ifndef LEVELSEXPLANATIONS_khgFFr4
 #define LEVELSEXPLANATIONS_khgFFr4
 
-#include <Transitional/Messages/MessagesMain.hpp>
-#include <Transitional/Messages/LineHandling.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/LineHandling.hpp>
 
 namespace OKlib {
   namespace Messages {

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Utilities/Umlaute.hpp
+  \file Programming/Messages/Utilities/Umlaute.hpp
   \brief Macros defining the UTF-8 code sequences for the seven special German
   characters.
 

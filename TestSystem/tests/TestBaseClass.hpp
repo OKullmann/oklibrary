@@ -19,8 +19,8 @@ License, or any later version. */
 
 #include <sstream>
 
-#include <Transitional/Messages/Utilities/TrivialMessage.hpp>
-#include <Transitional/Messages/messages/Levels.hpp>
+#include <Transitional/Programming/Messages/Utilities/TrivialMessage.hpp>
+#include <Transitional/Programming/Messages/messages/Levels.hpp>
 
 #include <Transitional/TestSystem/TestBaseClass_DesignStudy.hpp>
 #include <Transitional/TestSystem/RunTest_DesignStudy.hpp>

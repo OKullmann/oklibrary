@@ -26,8 +26,8 @@ License, or any later version. */
 #include <boost/lexical_cast.hpp>
 
 #include <Transitional/GeneralInputOutput/Multiplexer.hpp>
-#include <Transitional/Messages/MessagesMain.hpp>
-#include <Transitional/Messages/LanguageNames.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/LanguageNames.hpp>
 
 #include <Transitional/TestSystem/RunTest_DesignStudy.hpp>
 

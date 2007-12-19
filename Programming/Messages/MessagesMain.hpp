@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/MessagesMain.hpp
+  \file Programming/Messages/MessagesMain.hpp
   \brief The complete messages framework (including the macro support).
 
   The (public) macros defined here are
@@ -33,7 +33,7 @@ License, or any later version. */
 #include <boost/preprocessor/seq/to_tuple.hpp>
 #include <boost/preprocessor/tuple/to_list.hpp>
 
-#include <Transitional/Messages/MessagesBase.hpp>
+#include <Transitional/Programming/Messages/MessagesBase.hpp>
 // this is guaranteed to be included
 
 namespace OKlib {

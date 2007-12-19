@@ -13,8 +13,8 @@ License, or any later version. */
 #ifndef TESTLEVELEXPLANATIONS_uYYtr5
 #define TESTLEVELEXPLANATIONS_uYYtr5
 
-#include <Transitional/Messages/MessagesMain.hpp>
-#include <Transitional/Messages/LineHandling.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/LineHandling.hpp>
 
 #include <Transitional/TestSystem/TestFondement.hpp>
 

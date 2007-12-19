@@ -6,9 +6,9 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/plans/milestones.hpp
+  \file Programming/Messages/plans/milestones.hpp
 
-  \module_version Messages version 0.7.4 (6.2.2007)
+  \module_version Programming/Messages version 0.7.4 (6.2.2007)
 
   \par Version 0.7.5 :
 

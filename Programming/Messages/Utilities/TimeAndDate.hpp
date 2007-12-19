@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Utilities/TimeAndDate.hpp
+  \file Programming/Messages/Utilities/TimeAndDate.hpp
   \brief Message classes for time and date representation
 */
 
@@ -15,7 +15,7 @@ License, or any later version. */
 
 #include <Transitional/General/TimeHandling.hpp>
 
-#include <Transitional/Messages/MessagesBase.hpp>
+#include <Transitional/Programming/Messages/MessagesBase.hpp>
 
 namespace OKlib {
   namespace Messages {

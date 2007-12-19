@@ -17,8 +17,8 @@ License, or any later version. */
 
 #include <Transitional/General/TimeHandling.hpp>
 
-#include <Transitional/Messages/MessagesMain.hpp>
-#include <Transitional/Messages/Utilities/TimeAndDate.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/Utilities/TimeAndDate.hpp>
 
 #include <Transitional/TestSystem/messages/TestLevel.hpp>
 #include <Transitional/TestSystem/TestFondement.hpp>

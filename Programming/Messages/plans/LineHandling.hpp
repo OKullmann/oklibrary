@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/plans/LineHandling.hpp
+  \file Programming/Messages/plans/LineHandling.hpp
   \brief Plans regarding the line-handling message-classes
 
   \todo Extend doxygen-documentation for Messages::MessagesPrePost

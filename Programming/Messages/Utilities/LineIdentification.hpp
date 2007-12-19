@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Utilities/LineIdentification.hpp
+  \file Programming/Messages/Utilities/LineIdentification.hpp
   \brief Message class to provide source-code line-number information, plus supporting macro
 */
 
@@ -15,8 +15,8 @@ License, or any later version. */
 
 #include <string>
 
-#include <Transitional/Messages/MessagesMain.hpp>
-#include <Transitional/Messages/LineHandling.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/LineHandling.hpp>
 
 namespace OKlib {
   namespace Messages {

@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Utilities/TrivialMessage.hpp
+  \file Programming/Messages/Utilities/TrivialMessage.hpp
   \brief Components to wrap a streamable object as a message object
 */
 
 #ifndef TRIVIALMESSAGE_jdjNNaml74re34
 #define TRIVIALMESSAGE_jdjNNaml74re34
 
-#include <Transitional/Messages/MessagesBase.hpp>
+#include <Transitional/Programming/Messages/MessagesBase.hpp>
 
 namespace OKlib {
   namespace Messages {

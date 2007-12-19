@@ -29,9 +29,9 @@ License, or any later version. */
 #include <boost/iostreams/filtering_stream.hpp>
 
 #include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
-#include <Transitional/Messages/MessagesBase.hpp>
-#include <Transitional/Messages/Utilities/TrivialMessage.hpp>
-#include <Transitional/Messages/Utilities/FileIdentification.hpp> // guaranteed to be included
+#include <Transitional/Programming/Messages/MessagesBase.hpp>
+#include <Transitional/Programming/Messages/Utilities/TrivialMessage.hpp>
+#include <Transitional/Programming/Messages/Utilities/FileIdentification.hpp> // guaranteed to be included
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/TestFondement.hpp>

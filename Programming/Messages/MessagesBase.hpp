@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/MessagesBase.hpp
+  \file Programming/Messages/MessagesBase.hpp
   \brief The base class of the messages framework
 
   Including this file suffices to get the message service without the
@@ -20,8 +20,8 @@ License, or any later version. */
 #include <iosfwd>
 #include <locale>
 
-#include <Transitional/Messages/Languages.hpp>
-#include <Transitional/Messages/Levels.hpp>
+#include <Transitional/Programming/Messages/Languages.hpp>
+#include <Transitional/Programming/Messages/Levels.hpp>
 
 namespace OKlib {
   namespace Messages {

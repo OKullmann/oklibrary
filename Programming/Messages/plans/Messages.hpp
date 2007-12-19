@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/plans/Messages.hpp
+  \file Programming/Messages/plans/Messages.hpp
   \brief Plans for the messages module (as a whole)
 
   \todo The general concept of a "message":

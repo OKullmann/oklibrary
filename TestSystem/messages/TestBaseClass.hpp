@@ -18,10 +18,10 @@ License, or any later version. */
 #include <tr1/memory>
 
 #include <Transitional/SystemSpecifics/Demangling.hpp>
-#include <Transitional/Messages/MessagesMain.hpp>
-#include <Transitional/Messages/LineHandling.hpp>
-#include <Transitional/Messages/Utilities/FileIdentification.hpp>
-#include <Transitional/Messages/Utilities/LineIdentification.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/LineHandling.hpp>
+#include <Transitional/Programming/Messages/Utilities/FileIdentification.hpp>
+#include <Transitional/Programming/Messages/Utilities/LineIdentification.hpp>
 
 #include <Transitional/TestSystem/BasicDeclarations.hpp>
 #include <Transitional/TestSystem/TestFondement.hpp>

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/plans/MessagesMain.hpp
+  \file Programming/Messages/plans/MessagesMain.hpp
   \brief Plans for the module providing the framework for messages
 
   \todo Write tests (in the new test system; at least consistency checks for the macros).

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/plans/Languages.hpp
+  \file Programming/Messages/plans/Languages.hpp
   \brief Plans for the module providing definitions for the available languages
 
   \todo Write tests (in the new test system).

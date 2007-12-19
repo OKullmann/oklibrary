@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/messages/Languages.hpp
+  \file Programming/Messages/messages/Languages.hpp
   \brief Explanations of language names
 
   Defines class Messages::messages::LanguageNames for output of descriptions of languages.
@@ -15,7 +15,7 @@ License, or any later version. */
 #ifndef LANGUAGESEXPLANATIONS_8Uh26266
 #define LANGUAGESEXPLANATIONS_8Uh26266
 
-#include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
 
 namespace OKlib {
   namespace Messages {

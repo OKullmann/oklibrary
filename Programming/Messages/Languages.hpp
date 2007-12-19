@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Languages.hpp
+  \file Programming/Messages/Languages.hpp
   \brief Definitions for identification and handling of (natural) languages supported by the library
 
   The message system is based on "raw" character sequences, assuming the UTF-8

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Levels.hpp
+  \file Programming/Messages/Levels.hpp
   \brief Definition of the level system (as used by messages)
 */
 
@@ -16,7 +16,7 @@ License, or any later version. */
 #include <boost/preprocessor/seq/enum.hpp>
 #include <boost/preprocessor/seq/size.hpp>
 
-#include <Transitional/Messages/Languages.hpp>
+#include <Transitional/Programming/Messages/Languages.hpp>
 
 namespace OKlib {
   namespace Messages {

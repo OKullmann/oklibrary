@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/plans/Levels.hpp
+  \file Programming/Messages/plans/Levels.hpp
   \brief Plans for the module providing the level system for messages
 
   \todo Write tests (in the new test system).

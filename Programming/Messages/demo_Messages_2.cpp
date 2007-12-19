@@ -6,14 +6,14 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/demo_Messages_2.cpp
+  \file Programming/Messages/demo_Messages_2.cpp
   \brief Further demonstration of basic usage of Messages-components
 */
 
 #include <sstream>
 #include <cassert>
 
-#include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
 
 namespace OKlib {
   namespace Messages {

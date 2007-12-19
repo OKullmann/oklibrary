@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Messages_Testapplication.cpp
+  \file Programming/Messages/Messages_Testapplication.cpp
   \brief Temporary test application
   \deprecated
 
@@ -16,10 +16,10 @@ License, or any later version. */
 #include <iostream>
 #include <memory>
 
-#include <Transitional/Messages/MessagesMain.hpp>
+#include <Transitional/Programming/Messages/MessagesMain.hpp>
 
-#include <Transitional/Messages/messages/Languages.hpp>
-#include <Transitional/Messages/messages/Levels.hpp>
+#include <Transitional/Programming/Messages/messages/Languages.hpp>
+#include <Transitional/Programming/Messages/messages/Levels.hpp>
 
 namespace Implementation {
 

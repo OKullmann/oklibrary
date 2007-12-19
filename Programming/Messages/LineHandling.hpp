@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/LineHandling.hpp
+  \file Programming/Messages/LineHandling.hpp
   \brief General message-class for line-start and line-end handling
 */
 
@@ -15,7 +15,7 @@ License, or any later version. */
 
 #include <string>
 
-#include <Transitional/Messages/MessagesBase.hpp>
+#include <Transitional/Programming/Messages/MessagesBase.hpp>
 
 namespace OKlib {
   namespace Messages {
