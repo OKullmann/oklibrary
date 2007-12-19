@@ -10,6 +10,37 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo Install CLisp
+  <ul>
+   <li> We should provide "oklib libsigsegv" (yet only system-wide), but
+   documentation only as part of the installation of CLisp.
+    <ol>
+     <li> Perhaps the target "libsigsegv" is just realised as a sub-target
+     in the installation-makefile for clisp. </li>
+    </ol>
+   </li>
+   <li> Write configuration file for clisp DONE (only some informations
+   are missing) </li>
+   <li> Write installation script for clisp. </li>
+   <li> Provide links to the documentation for clisp. </li>
+   <li> Write docu for installation of clisp. </li>
+   <li> Put information on the main-external-sources-page. </li>
+  </ul>
+
+
+  \todo Install Maxima
+  <ul>
+   <li> Write configuration file for Maxima. DONE (only some informations
+   are missing) </li>
+   <li> Write installation script for Maxima. </li>
+   <li> Provide links to the documentation for Maxima (including
+   the maxima-book and the tutorial. </li>
+   <li> What about the documentation for Maxima provided with Sage? </li>
+   <li> Write docu for installation of Maxima. </li>
+   <li> Put information on the main-external-sources-page. </li>
+  </ul>
+
+
   \todo Install Maxima 5.13 on csltok
   <ul>
    <li> First install clisp (should we supply this?); see below. </li>
