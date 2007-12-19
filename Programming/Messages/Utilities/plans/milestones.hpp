@@ -6,31 +6,50 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Utilities/plans/milestones.hpp
+  \file Programming/Messages/Utilities/plans/milestones.hpp
 
-  \module_version Messages/Utilities 0.0.7 (13.1.2007)
+  \module_version Programming/Messages/Utilities 0.0.7 (13.1.2007)
+
 
   \par Version 0.0.8 :
 
-  In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - Identification services
-  - Warning and error messages:
+  \par
+   In Messages/Utilities/plans/general.hpp the following topics are handled:
+    - Update namespace
+    - Update namespace usage.
+
 
   \par Version 0.0.9 :
 
-  In Messages/Utilities/plans/TimeAndDate.hpp the following topics are handled:
-  - Time and Date
+  \par
+   In Messages/Utilities/plans/general.hpp the following topics are handled:
+    - Identification services
+    - Warning and error messages
+
 
   \par Version 0.0.10 :
 
-  In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - Error handling
+  \par
+   In Messages/Utilities/plans/TimeAndDate.hpp the following topics are handled:
+    - Time and Date
+
+
+  \par Version 0.0.11 :
+
+  \par
+   In Messages/Utilities/plans/general.hpp the following topics are handled:
+    - Error handling
+
 
   \par Version 0.1 :
 
-  In Messages/Utilities/plans/Utilities.hpp the following topics are handled:
-  - Testing
-  All components are tested (via the new test system).
+  \par
+   In Messages/Utilities/plans/general.hpp the following topics are handled:
+    - Testing
+
+  \par
+   All components are tested (via the new test system).
+
 
   
   -------------------------------------------------------------------------------------------------------------------------------------

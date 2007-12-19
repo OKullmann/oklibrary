@@ -6,8 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Messages/Utilities/plans/Utilities.hpp
+  \file Programming/Messages/Utilities/plans/general.hpp
   \brief General plans for the Messages/Utilities module.
+
+
+  \todo Update namespace
+
+
+  \todo Update namespace usage.
+
 
    \todo Identification services:
    We need further classes (and macros) for identification purposes:
@@ -24,25 +31,42 @@ License, or any later version. */
     </ul>
 
 
-   \todo Warning and error messages:
-   We need components (message classes and handlers) for creating warning and error
-   messages (using the above facilities)
+   \todo Warning and error messages
+   <ul>
+    <li> We need components (message classes and handlers) for creating warning
+    and error messages (using the above facilities). </li>
+   </ul>
 
-   \todo Error handling:
-   Module ErrorHandling should offer a base class using message objects.
 
-   \todo Testing:
-   Where to put the tests for module Messages/Utilities ? We need tests for all the components
-   in this module. With the current system we have to put them to Messages/tests and
-   Messages/testobjects. But this seems ugly --- we need a simple extension of the build system,
-   which allows also subdirectories "tests" and "testobjects" in sub-modules. Perhaps a simple
-   make-variable, which contains the list of sub-modules with own test-facilities. The question
-   then however is where to put the test-object-files and programs? We need then corresponding
-   sub-directories.
+   \todo Error handling
+   <ul>
+    <li> Module ErrorHandling should offer a base class using message
+    objects. </li>
+   </ul>
+
+
+   \todo Testing
+   <ul>
+    <li> Where to put the tests for module Messages/Utilities ? </li>
+    <li> We need tests for all the components in this module. </li>
+    <li> With the current system we have to put them to Messages/tests and
+    Messages/testobjects. </li>
+    <li> But this seems ugly --- we need a simple extension of the build system,
+    which allows also subdirectories "tests" and "testobjects" in
+    sub-modules. </li>
+    <li> Perhaps a simple make-variable, which contains the list of sub-modules
+    with own test-facilities. </li>
+    <li> The question then however is where to put the test-object-files and
+    programs? We need then corresponding sub-directories. </li>
+   </ul>
+
 
    \todo Umlaute
-   Is it guaranteed that the UTF-8 encoding of a file will translate into the same encoding as given
-   by the macros in Messages/Utilities/Umlaute.hpp for the string literals?
+   <ul>
+    <li> Is it guaranteed that the UTF-8 encoding of a file will translate
+    into the same encoding as given by the macros in
+    Messages/Utilities/Umlaute.hpp for the string literals? </li>
+   </ul>
 
 */
 
