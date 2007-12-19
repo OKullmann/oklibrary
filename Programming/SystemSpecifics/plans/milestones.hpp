@@ -8,23 +8,34 @@ License, or any later version. */
 /*!
   \file Programming/SystemSpecifics/plans/milestones.hpp
 
-  \module_version Programming/SystemSpecifics 0.0.1 (23.6.2006)
-
-
-  \par Version 0.0.2 :
-  "Testing" in SystemSpecifics/plans/Demangling.hpp is handled.
+  \module_version Programming/SystemSpecifics 0.0.2 (19.12.2007)
 
 
   \par Version 0.0.3 :
-  "Usage of demangle.h" in SystemSpecifics/plans/Demangling.hpp is handled.
+
+  \par
+   In Programming/SystemSpecifics/plans/general.hpp the following topics are
+   handled:
+    - Update namespace
+    - Update milestones
 
 
   \par Version 0.0.4 :
-  "Linkage" in SystemSpecifics/plans/Demangling.hpp is handled.
 
-  
-  \par Version 0.10. :
-  Basic doxygen-documentation available (and completely overhauled).
+  \par
+   In Programming/SystemSpecifics/plans/Demangling.hpp the following topics are
+   handled:
+    - Testing
+    - Usage of demangle.h
+    - Linkage
+
+
+  \par Version 0.0.5 :
+
+  \par
+   In Programming/SystemSpecifics/plans/Demangling.hpp the following topics are
+   handled:
+    - Write docus
 
 
 
@@ -32,7 +43,8 @@ License, or any later version. */
 
   \par Version history
 
-   -  0.0.1 : 23.6.2006; initial version number (only plans).
+   - 0.0.1 : 23.6.2006; initial version number (plans, and supported demangling via imported demangle.h).
+   - 0.0.2 : 19.12.2007; moved to part Programming, and editorial overhaul.
 
 */
 
