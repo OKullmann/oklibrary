@@ -17,11 +17,15 @@
    Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
+/*!
+  \file Programming/SystemSpecifics/demangle.h
+  \brief Adaptation for the OKlibrary
+*/
 
 #if !defined (DEMANGLE_H)
 #define DEMANGLE_H
 
-#include <Transitional/SystemSpecifics/libiberty.h>
+#include <Transitional/Programming/SystemSpecifics/libiberty.h>
 
 #ifdef __cplusplus
 extern "C" {

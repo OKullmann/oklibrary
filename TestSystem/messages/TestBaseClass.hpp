@@ -17,7 +17,7 @@ License, or any later version. */
 #include <string>
 #include <tr1/memory>
 
-#include <Transitional/SystemSpecifics/Demangling.hpp>
+#include <Transitional/Programming/SystemSpecifics/Demangling.hpp>
 #include <Transitional/Programming/Messages/MessagesMain.hpp>
 #include <Transitional/Programming/Messages/LineHandling.hpp>
 #include <Transitional/Programming/Messages/Utilities/FileIdentification.hpp>

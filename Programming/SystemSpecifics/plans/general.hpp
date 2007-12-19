@@ -6,8 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SystemSpecifics/plans/SystemSpecifics.hpp
+  \file Programming/SystemSpecifics/plans/general.hpp
   \brief Plans for the module with system-specific components/tools
+
+
+  \todo Update namespace.
+
+
+  \todo Create milestones.
+
 */
 
 /*!

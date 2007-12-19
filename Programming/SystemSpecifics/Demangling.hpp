@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SystemSpecifics/Demangling.hpp
+  \file ProgrammingSystemSpecifics/Demangling.hpp
   \brief Translating type names in a readable form
 
   Users need to link with -liberty.
@@ -20,11 +20,10 @@ License, or any later version. */
 #include <cassert>
 #include <cstdlib>
 
-#include <Transitional/SystemSpecifics/demangle.h>
+#include <Transitional/Programming/SystemSpecifics/demangle.h>
 // this was /usr/include/demangle.h
 
 namespace OKlib {
-
   namespace SystemSpecifics {
 
     /*!

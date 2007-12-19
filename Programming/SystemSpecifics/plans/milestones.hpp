@@ -6,21 +6,26 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SystemSpecifics/plans/milestones.hpp
+  \file Programming/SystemSpecifics/plans/milestones.hpp
 
-  \par Current version 0.0.1 (23.6.2006)
+  \module_version Programming/SystemSpecifics 0.0.1 (23.6.2006)
+
 
   \par Version 0.0.2 :
   "Testing" in SystemSpecifics/plans/Demangling.hpp is handled.
 
+
   \par Version 0.0.3 :
   "Usage of demangle.h" in SystemSpecifics/plans/Demangling.hpp is handled.
 
+
   \par Version 0.0.4 :
   "Linkage" in SystemSpecifics/plans/Demangling.hpp is handled.
+
   
   \par Version 0.10. :
   Basic doxygen-documentation available (and completely overhauled).
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
