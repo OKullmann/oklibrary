@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file TreeDecompositions/EliminationSequences_Tests.hpp
+  \file Combinatorics/Graphs/TreeDecompositions/EliminationSequences_Tests.hpp
   \brief Tests for the methods for handling elimination sequences for graphs (related to the
   notion of treewidth)
 
