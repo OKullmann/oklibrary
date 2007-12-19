@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Tests for the methods for handling elimination sequences for graphs (related to the
   notion of treewidth)
 
-
-  \todo Write tests for computations of treewidth.
-
 */
 
 #ifndef ELIMINATIONSEQUENCESTESTS_8uyTre

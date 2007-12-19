@@ -6,33 +6,57 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file TreeDecompositions/plans/TreeDecompositions.hpp
+  \file Combinatorics/Graphs/TreeDecompositions/plans/general.hpp
   \brief Plans for the module regarding tree decompositions
 
 
-  \todo Move to Combinatorics/Graphs.
+  \todo Move to Combinatorics/Graphs. DONE
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
 
 
-  \todo Move todos in TreeDecompositions/EliminationSequences.hpp to plans.
+  \todo Move todos in TreeDecompositions/EliminationSequences.hpp to plans. DONE
 
 
-  \todo Create milestones.
+  \todo Update namespace usage
+
+
+  \todo Create milestones
+  <ul>
+   <li> See Combinatorics/Graphs/TreeDecompositions/plans/EliminationSequences.hpp.
+   </li>
+  </ul>
+
+
+  \todo Complete doxygen documentation.
 
 
   \todo Move to new test system.
 
+
+  \todo Write tests.
+
+
+  \todo Write a simple application.
+
 */
 
 /*!
-  \namespace OKlib::TreeDecompositions
+  \namespace OKlib::Combinatorics::Graphs::TreeDecompositions
   \brief Module for tree decompositions
+
+  Alias "TrD".
 */
 
+
 namespace OKlib {
-  namespace TreeDecompositions {
+  namespace Combinatorics {
+    namespace Graphs {
+      namespace TreeDecompositions {
+      }
+    namespace TrD = TreeDecompositions;
+    }
   }
 }
 
