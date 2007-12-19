@@ -29,8 +29,8 @@ maxima_main_index ?= $(maxima_installation_dir)/doc/index.html
 
 maxima_docu_page ?= $(doc_dir)/doxygen_html/
 
-maxima_homepage_url := http://
-maxima_documentation_url := http://
+maxima_homepage_url := http://maxima.sourceforge.net/
+maxima_documentation_url := http://maxima.sourceforge.net/docs.shtml
 
 maxima_targets_prefix := $(maxima_prefix)-
 maxima_targets := $(addprefix $(maxima_targets_prefix), $(maxima_supported_version_numbers))

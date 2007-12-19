@@ -19,8 +19,7 @@ License, or any later version. */
      in the installation-makefile for clisp. </li>
     </ol>
    </li>
-   <li> Write configuration file for clisp DONE (only some informations
-   are missing) </li>
+   <li> Write configuration file for clisp DONE </li>
    <li> Write installation script for clisp. </li>
    <li> Provide links to the documentation for clisp. </li>
    <li> Write docu for installation of clisp. </li>
@@ -30,8 +29,7 @@ License, or any later version. */
 
   \todo Install Maxima
   <ul>
-   <li> Write configuration file for Maxima. DONE (only some informations
-   are missing) </li>
+   <li> Write configuration file for Maxima. DONE </li>
    <li> Write installation script for Maxima. </li>
    <li> Provide links to the documentation for Maxima (including
    the maxima-book and the tutorial. </li>

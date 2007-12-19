@@ -29,8 +29,8 @@ clisp_main_index ?= $(clisp_installation_dir)/doc/index.html
 
 clisp_docu_page ?= $(doc_dir)/doxygen_html/
 
-clisp_homepage_url := http://
-clisp_documentation_url := http://
+clisp_homepage_url := http://www.clisp.org/
+clisp_documentation_url := http://clisp.sourceforge.net/resources.html
 
 clisp_targets_prefix := $(clisp_prefix)-
 clisp_targets := $(addprefix $(clisp_targets_prefix), $(clisp_supported_version_numbers))
