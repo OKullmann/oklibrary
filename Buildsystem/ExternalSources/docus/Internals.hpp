@@ -14,23 +14,60 @@ License, or any later version. */
 
   <h2> General overview </h2>
   
-  XXX base directory $(ExternalSources) for installations of external sources
-  
-  XXX version numbers etc. in Buildsystem/Configuration/ExternalSources/all.mak XXX
-
-  Buildsystem/ExternalSources/Makefile is the central makefile:
+  Main directories involved are:
   <ul>
-   <li> $(ExternalSources)/makefile is a symbolic link to it XXX </li>
+   <li> The base directory for installations of external sources is
+    $(ExternalSources) (variable "ExternalSources"):
+    <ol>
+     <li> The sources one finds in $(ExternalSources_sources) (variable
+     "ExternalSources_sources"). </li>
+     <li> The installed software then is located in $(ExternalSources_installations)
+     (variable "ExternalSources_installations"). </li>
+     <li> Building the packages is done (if possible) in separate directories,
+     which can be find in $(ExternalSources_builds) (variable
+     "ExternalSources_builds"). </li>
+     <li> Finally the extracted documentation is located in $(ExternalSources_doc)
+     (variable "ExternalSources_doc"). </li>
+    </ol>
+   </li>
+   <li> The scripts etc. for building the external sources are in
+   $(OKbuildsystem)/ExternalSources, with the following sub-directories:
+    <ol>
+     <li> "SpecialBuilds" contains information on how to build the packages. </li>
+     <li> The standard "systematic directories", "docus" and "plans", contain,
+     as usual, user documentation (like this file) and plans. </li>
+     <li> "sources" mirrors $(ExternalSources_sources), and contains the
+     checksums for all external sources (obtained by the tool
+     <code> $(ext_src_checksum) </code>). </li>
+    </ol>
+   </li>
+   <li> Finally the configuration information (like Version numbers etc.) is in
+   $(OKbuildsystem)/Configuration/ExternalSources/all.mak. </li>
+  </ul>
+
+  $(OKbuildsystem)/ExternalSources/Makefile is the central makefile:
+  <ul>
+   <li> $(ExternalSources)/Makefile is a symbolic link to it XXX </li>
    <li> Defines the main targets for building and cleaning of
    external libraries. XXX </li>
-   <li> It includes makefiles in Buildsystem/ExternalSources/SpecialBuilds,
+   <li> It includes the makefiles from $(OKbuildsystem)/ExternalSources/SpecialBuilds,
    each responsible for building one external source. XXX </li>
   </ul>
 
 
   <h2> Adding new external sources </h2>
 
-  XXX
+  In the following the directory $(OKbuildsystem) containing the buildsystem for
+  the OKlibrary is abbreviated by "Buildsystem". Assume that "ExS" is to be built:
+  <ol>
+   <li>
+    First in directory <code>Buildsystem/Configuration/ExternalSources</code>
+    a configuration file "exs.mak" is to be created (copying an appropriate role
+    model), and it is to be included in
+    <code>Buildsystem/Configuration/ExternalSources/all.mak</code>.
+   </li>
+  </ol>
+
 
 
   <h2> In case of trouble </h2>
