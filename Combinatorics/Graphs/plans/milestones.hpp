@@ -28,6 +28,9 @@ License, or any later version. */
   \par Graphs/Matchings version 0.0.3
   (see Graphs/Matchings/plans/milestones.hpp)
 
+  \par Graphs/TreeDecompositions 0.0.6
+  (see Combinatorics/Graphs/TreeDecompositions/plans/milestones.hpp)
+
   \par
    Further milestones have been created.
 
