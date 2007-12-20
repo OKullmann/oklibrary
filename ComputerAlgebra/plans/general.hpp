@@ -22,158 +22,15 @@ License, or any later version. */
 
   \todo Documentation
   <ul>
-   <li> The biggest problem we have at this time is the lack of source code
-   documentation methods! </li>
-   <li> At least some work-arounds need to be found.
-    <ol>
-     <li> Maxima : The solution seems to be to start the .mac-files
-     with the usual preamble, and then via "\htmlonly" and
-     "\endhtmlonly" to surpress the extraction of code-comments
-     (the source code is shown verbatim!). </li>
-     <li> We should discuss this on the doxygen mailing list:
-     Perhaps a dedicated doxygen-command could be introduced? </li>
-     <li> Or should one use the verbatim-commands? </li>
-    </ol>
-   </li>
-   <li> First experience and ideas should be developed in the context of
-   ComputerAlgebra/Cryptology/plans/Rijndael.hpp. </li>
+   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
+   <li> Aldor/Axiom ??? </li>
   </ul>
 
 
   \todo %Test system
   <ul>
-   <li> Is there some special test system? </li>
-   <li> Lisp/Maxima:
-    <ol>
-     <li> Similar to the C++ test-system, we have generic test functions,
-     which take as argument the function to be tested. </li>
-     <li> Likely only functions are to be tested. </li>
-     <li> So we could just use, as for the C++ test-system, sub-directories
-     "tests" and "testobjects", containing the generic test functions and the
-     test instantiations, respectively. </li>
-     <li> But, due to the simpler character of programming here, we just use
-     asserts for conditions (and no recovering of test conditions). Or??
-      <ol>
-       <li> Likely better if we establish a system similar to the C++
-       system! This strengthens the design of the test-system. </li>
-       <li> So a test function perhaps returns a list, whose first element
-       is true or false (in case of failure), while the second element
-       in the failure case contains the error-description. </li>
-       <li> Perhaps the backtrace-function is useful here. </li>
-      </ol>
-     </li>
-     <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Maxima
-  <ul>
-   <li> Perhaps we should create a new file "Maxima.hpp" here. </li>
-   <li> How to simulate "#include" ? </li>
-   <li> Monitoring
-    <ol>
-     <li> Perhaps we introduce a global variable "oklib_monitor",
-     which our functions can use, and if set to true then they
-     output progress information. </li>
-     <li> This output should happen in a standardised way, so that
-     the source of the output is recognisable. </li>
-     <li> On the other hand, in this way we uglify the code ?!? </li>
-     <li> Could there be a general scheme, that certain variables are
-     watched and printed if they changed value, and this happens
-     non-intrusive? </li>
-     <li> Or functions which support monitoring come in two versions? </li>
-    </ol>
-    For the introduction of "oklib_monitor", apparently "define_variable"
-    should be used?
-   </li>
-   <li> Is there a timing command ?
-    <ol>
-     <li> "time (%o1, %o2, %o3, ...)" returns the time it took to
-     compute the respective outputs. </li>
-     <li> With "showtime: true " Maxima outputs the timing result
-     after each computation. </li>
-    </ol>
-   </li>
-   <li> How to make sure, that variables are local?
-    <ol>
-     <li> Is "local" needed? For what is it good for? </li>
-     <li> It seems not necessary to protect the parameter, or? </li>
-     <li> Can everything done with "block" ? </li>
-    </ol>
-   </li>
-   <li> How to obtain information about symbols (so that for example clashes
-   can be avoided) ? </li>
-   <li> What is the difference between "apply" and "xreduce" ? </li>
-   <li> We need "oklib maxima", which starts the maxima-shell and also loads
-   all functions from the OKlibrary.
-    <ol>
-     <li> We should set the timing output. </li>
-     <li> We have an initialisation file, which contains
-     the list of all files to be included. </li>
-     <li> It seems "maxima-init.mac" is the standard configuration file.
-     The possible placements are given by the value of variable
-     file_search_maxima. </li>
-     <li> Should this list just be all .mac-files ? Seems easiest. </li>
-     <li> However this list is obtained, a loop should be invoked which calls
-     "load(name)" for all (full path-)names in that list; this loop
-     is performed by function "load_oklib". </li>
-     <li> Furthermore a variable is needed for the OKlib-path.
-      <ol>
-       <li> Via "system(string_with_shell_code)" one can perform
-       system calls, however to obtain the value of a variable,
-       one has to use 'system("echo ${Var}")' and copy the output
-       from the screen. </li>
-       <li> So at least we should define "OKplatform", and perhaps
-       some other main directories. </li>
-      </ol>
-     </li>
-     <li> A problem is how during a session to add a new file with
-     maxima-code? Perhaps nothing special is done, only the name
-     of the list with .mac-files can be manipulated (and load_oklib
-     called). </li>
-     <li> Of course, this initialisation file is created by the usual
-     preprocessing. </li>
-     <li> The syntax for a call is "oklib --maxima". All arguments after
-     "--maxima" are passed to the responsible makefile. </li>
-     <li> Since oklib does not have access to the configuration variables
-     itself, it needs to call a (new) makefile which includes the same
-     variables as the makefile for external sources, and which then calls
-     maxima. </li>
-     <li> This makefile has the standard goal "all", with subgoals
-     "configuration" for creating the configuration-file, and "run"
-     for actually starting the maxima-program. </li>
-    </ol>
-   </li>
-   <li> List operations
-    <ol>
-     <li> A frequent operation is to add an element x to a list L
-     *in-place*. </li>
-     <li> Apparently the most efficient operations seems to be
-     <code>L : cons(x,L)</code> resp. <code>L : endcons(x,L)</code>,
-     where both operations seem to take place not in-place, but involve
-     copying and re-assignment, making it very inefficient?? </li>
-     <li> In general we want to avoid any efficiency-considerations, however
-     having in-place modifications of lists would also increase ease of
-     use. </li>
-    </ol>
-   </li>
-   <li> Document important programming techniques:
-    <ol>
-     <li> How to handle local variables (see above). </li>
-     <li> All different types of loops (see the existing code).
-     Especially nested loops ("create_list"). </li>
-     <li> How to create lambda-terms (see the existing code). </li>
-     <li> Function-application (also "map" etc.; see above). </li>
-    </ol>
-   </li>
-   <li> Partial compilation:
-    <ol>
-     <li> "compfile" writes Lisp-code into files? </li>
-     <li> "compile" ? </li>
-    </ol>
-   </li>
+   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
+   <li> Aldor/Axiom ??? </li>
   </ul>
 
 
@@ -201,16 +58,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Lisp integration
-  <ul>
-   <li> The Lisp-dialect is "CLisp" --- are there books? </li>
-   <li> How to integrate CLisp with Maxima ? </li>
-   <li> Shouldn't we consider our code as Lisp-code, which uses the
-   maxima-library ? Perhaps we can discuss this on the Maxima mailing
-   list. </li>
-  </ul>
-
-
   \todo Aldor integration
   <ul>
    <li> Literature on Aldor? </li>
@@ -218,6 +65,9 @@ License, or any later version. */
    <li> We should only write Aldor-code, using the Axiom-library ---
    how to do this? </li>
   </ul>
+
+
+  \todo Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
 
 
   \todo Partial compilation : DONE (to be handled for Maxima/Lisp and

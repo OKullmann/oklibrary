@@ -40,11 +40,10 @@ License, or any later version. */
     - Naming conventions
     - Documentation
     - %Test system
-    - Maxima
     - Input checking
     - Contexts
-    - Lisp integration
     - Aldor integration
+    - Maxima : DONE
 
 
   \par Version 0.1.3
