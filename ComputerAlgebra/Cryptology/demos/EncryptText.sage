@@ -13,9 +13,11 @@
 # Use By
 #
 # First, ensure the Rijndael module has been compiled into it's precompiled
-# python state - 
+# python state:
 #
 # sage $OKplatform/OKsystem/Transitional/ComputerAlgebra/Cryptology/Rijndael.sage
+#
+# and then run the application:
 #
 # $OKplatform/OKsystem/Transitional/ComputerAlgebra/Cryptology/demos/EncryptText.sage [encrypt|decrypt] keyfile plainfile cryptfile
 #
