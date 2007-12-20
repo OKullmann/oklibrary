@@ -12,5 +12,11 @@ License, or any later version. */
 
   \todo See Applications/Cryptanalysis/plans/general.hpp.
 
+
+  \todo Write "oklib --sage"
+  <ul>
+   <li> Automatise loading, compiling etc. </li>
+  </ul>
+
 */
 
