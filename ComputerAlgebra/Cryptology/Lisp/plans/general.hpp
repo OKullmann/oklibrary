@@ -1,4 +1,4 @@
-// Oliver Kullmann, 25.7.2007 (Swansea)
+// Oliver Kullmann, 20.12.2007 (Swansea)
 /* Copyright 2007 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,17 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Cryptology/plans/general.hpp
-  \brief Plans for cryptological tools realised in the computer algebra system
+  \file ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
+  \brief Plans for cryptological tools realised in Maxima/Lisp
 
 
-  \todo See Applications/Cryptanalysis/plans/general.hpp.
-
-
-  \todo Write "oklib --sage"
-  <ul>
-   <li> Automatise loading, compiling etc. </li>
-  </ul>
+  \todo Create milestones. DONE
 
 */
 

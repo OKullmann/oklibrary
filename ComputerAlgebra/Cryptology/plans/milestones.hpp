@@ -16,9 +16,9 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
     - Terminology
-    - Finishing old implementation
-    - Docus and demos for the sage implementation
     - Restructuring
+    - Finishing old implementation
+    - Docus and demos for the sage implementation : DONE
 
   \par
    Update the subsequent milestones.
@@ -26,10 +26,8 @@ License, or any later version. */
 
   \par Version 0.0.6
 
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Maxima: design
-    - Maxima: implementation issues
+  \par ComputerAlgebra/Cryptology/Lisp version 0.0.6
+  (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
 
 
   \par Version 0.0.7
