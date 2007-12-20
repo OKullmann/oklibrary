@@ -8,6 +8,10 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/plans/Rijndael.hpp
   \brief Plans for cryptological tools regarding the Rijndael cipher using Maxima
+
+
+  \todo Split "Maxima: design" into subtopics (and update)
+
   
   \todo Maxima: design
   <ul>
@@ -132,6 +136,10 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Split "Maxima: implementation issues" into subtopics (and update)
+
+
   \todo Maxima: implementation issues
   <ul>
    <li> The main point is to have a very neat implementation of AES/Rijndael. </li>
@@ -219,4 +227,5 @@ License, or any later version. */
    http://www.math.utexas.edu/pipermail/maxima/2006/003255.html), 
    although this looks untested. DONE (started using it) </li>
   </ul>
+
 */
