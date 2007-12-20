@@ -83,7 +83,7 @@ def GF2t8MatToHex(rm) :
     strings where the hexidecimal value is the integer representation of the bitstring
     representation of the coefficients of the GF(2^8) element's polynomial, where the
     MSB is the coefficient of the highest order. """
-    print reduce(lambda x,y : x + y[2:].rjust(2,'0'), map(hex, listFromGF2t8Mat(rm.transpose())),'').upper()
+    return reduce(lambda x,y : x + y[2:].rjust(2,'0'), map(hex, listFromGF2t8Mat(rm.transpose())),'').upper()
 
 def numberOfRounds(nb,nk) :
     """ Given the size of the plaintext and the key in bytes, returns
@@ -111,6 +111,11 @@ SBOX_MATRIX = matrix(GF(2),8,
      0,0,1,1,1,1,1,0,
      0,0,0,1,1,1,1,1])
 
+# Sbox Affine Constant
+SBOX_CONSTANT = (1,1,0,0,0,1,1,0)
+# Sbox Inverse Affine Constant
+SBOX_INV_CONSTANT = (1,0,1,0,0,0,0,0)
+
 def aesPerm(n, nb) :
     """ Given a value n, maps n to m where m is the new position that the Rijndael 
         byte should map to in the block during the ShiftRows operation """
@@ -127,22 +132,23 @@ def aesPerm(n, nb) :
 
 def S_rd(x) :
     """ Takes a given byte in GF(2^8) and applies the subbytes operation to it """
-    return BitVToGF2t8(SBOX_MATRIX * GF2t8ToBitV(x ^ -1)) + BitVToGF2t8((1,1,0,0,0,1,1,0))
+    return BitVToGF2t8(SBOX_MATRIX * GF2t8ToBitV(x ^ -1)) + BitVToGF2t8(SBOX_CONSTANT)
 
 def InvS_rd(x) :
-    return (BitVToGF2t8((SBOX_MATRIX^-1) * GF2t8ToBitV(x)) + BitVToGF2t8((1,0,1,0,0,0,0,0))) ^ -1
+    """ Takes a given byte in GF(2^8) and applies the inverse subbytes operation to it """
+    return (BitVToGF2t8((SBOX_MATRIX^-1) * GF2t8ToBitV(x)) + BitVToGF2t8(SBOX_INV_CONSTANT)) ^ -1
 
 ############## Main Round Operations ###################
 
-def MixColumns(rv) :
+def MixColumns(rm) :
     """ Takes a 4xn matrix of GF(2^8) elements and returns
     a matrix of GF(2^8) elements after the MixColumns Step """
-    return RMCM * rv
+    return RMCM * rm
 
-def InvMixColumns(rv) :
+def InvMixColumns(rm) :
     """ Takes a 4xn matrix of GF(2^8) elements and returns
     a matrix of GF(2^8) elements after the Inverse MixColumns Step """
-    return (RMCM ^ -1) * rv
+    return (RMCM ^ -1) * rm
 
 def ShiftRows(rm, perm = aesPerm) :
     """ Takes a 4xn matrix of GF(2^8) elements and optionally
