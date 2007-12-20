@@ -39,16 +39,6 @@ License, or any later version. */
    of the highest order term in the polynomial. </li>
   </ul>
 
-  \todo Docus and demos for the sage implementation
-  <ul>
-     <li> We need the docus- as well as the demos-system for the Sage implementation. 
-     MG - A very basic docu has now been setup and this needs to be expanded. </li>
-     <li> Also how to run these programs needs to be explained. What are suitable
-     examples here? Would a simple encryption scheme that takes a given ASCII string 
-     message and produces the encrypted result, and then decrypts the result be a reasonable
-     single example? Perhaps some use of the functions in producing pseudorandom data similar 
-     in idea to the use of AES in Random generators elsewhere in OKlibrary? </li>
-  </ul>
 
   \todo Documentation
   <ul>
@@ -454,6 +444,19 @@ else :
    information? DONE (MG - This was intended to document how to use the file within sage. The inclusion
    of machine-dependent paths was an oversight on my part and has been corrected and further fixes
    and documentations will be made as per other todos.) </li>
+  </ul>
+  
+  
+  \todo Docus and demos for the sage implementation - DONE
+  <ul>
+     <li> We need the docus- as well as the demos-system for the Sage implementation. 
+     MG : A very basic docu has now been setup and this needs to be expanded. </li>
+     <li> Also how to run these programs needs to be explained. What are suitable
+     examples here? Would a simple encryption scheme that takes a given ASCII string 
+     message and produces the encrypted result, and then decrypts the result be a reasonable
+     single example? Perhaps some use of the functions in producing pseudorandom data similar 
+     in idea to the use of AES in Random generators elsewhere in OKlibrary?
+     MG : A simple file encryption demo has been added. </li>
   </ul>
 
 */
