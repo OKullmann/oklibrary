@@ -29,18 +29,28 @@ License, or any later version. */
   and key sizes with the Rijndael block cipher and these are also made up 
   of several functions.
   <ul>
-   <li> rijndael_en(pm,km,r = -1)  - where pm is a matrix of GF(2^8) field 
-   elements (see Helper Functions) representing the plaintext block, km is 
-   the key represented as a matrix of GF(2^8) field elements, and r is an optional
-   argument specifying the number of rounds, where if unspecified will deduce the
-   recommended number of rounds for the given block and key sizes. The result of this 
-   function is the encrypted ciphertext block represented as a matrix of GF(2^8) elements.
+   <li> rijndael_en(pm,km,r = -1)  - where 
+    <ul>
+     <li> pm is a matrix of GF(2^8) field elements (see Helper Functions) 
+     representing the plaintext block </li>
+     <li> km is the key represented as a matrix of GF(2^8) field elements </li>
+     <li> r is an optional argument specifying the number of rounds, where if 
+     unspecified will deduce the recommended number of rounds for the given 
+     block and key sizes. </li>
+     <li> The result of this function is the encrypted ciphertext block 
+     represented as a matrix of GF(2^8) elements. </li>
+    </ul>
    </li>
-   <li> rijndael_de(cm,km,r = -1)  - where cm is a matrix of GF(2^8) field 
-   elements (see Helper Functions) representing the ciphertext block, km is 
-   the key represented as a matrix of GF(2^8) field elements, and r is an optional
-   argument specifying the number of rounds, where if unspecified it will deduce the
-   recommended number of rounds for the given block and key sizes.
+   <li> rijndael_de(cm,km,r = -1)  - where
+    <ul>
+     <li> cm is a matrix of GF(2^8) field elements (see Helper Functions) 
+     representing the ciphertext block <li>
+     <li> km is the key represented as a matrix of GF(2^8) field elements </li>
+     <li> r is an optional argument specifying the number of rounds, where if 
+     unspecified it will deduce the recommended number of rounds for the given 
+     block and key sizes. </li>
+     <li> The result of this function is the decrypted plaintext block 
+     represented as a matrix of GF(2^8) elements. </li>
    </li>
   </ul>
 
