@@ -9,7 +9,8 @@
 
 ExternalSources_doc ?= $(ExternalSources)/doc
 ExternalSources_sources ?= $(ExternalSources)/sources
-ExternalSources_installations ?= $(ExternalSources)/installations
+ExternalSources_installations ?= $(ExternalSources)/Installations
+ExternalSources_builds ?= $(ExternalSources)/builds
 
 ext_src_checksum := md5sum
 
@@ -26,6 +27,7 @@ include $(OKconfiguration)/ExternalSources/r.mak
 include $(OKconfiguration)/ExternalSources/sage.mak
 include $(OKconfiguration)/ExternalSources/ubcsat.mak
 include $(OKconfiguration)/ExternalSources/valgrind.mak
+include $(OKconfiguration)/ExternalSources/maxima.mak
 
 # ################################
 # Asciidoc

@@ -70,6 +70,7 @@ License, or any later version. */
 
   \todo Maxima
   <ul>
+   <li> Perhaps we should create a new file "Maxima.hpp" here. </li>
    <li> How to simulate "#include" ? </li>
    <li> Monitoring
     <ol>
@@ -108,14 +109,41 @@ License, or any later version. */
    <li> We need "oklib maxima", which starts the maxima-shell and also loads
    all functions from the OKlibrary.
     <ol>
-     <li> Perhaps it sets also the timing output. </li>
-     <li> Best is perhaps to have an initialisation file (to be passed
-     to maxima), which contains the list of all files to be included. </li>
-     <li> Should this list just be all .mac-files ? </li>
-     <li> Furthermore a variable is needed for the OKlib-path. </li>
-     <li> And a function for reloading all files. </li>
+     <li> We should set the timing output. </li>
+     <li> We have an initialisation file, which contains
+     the list of all files to be included. </li>
+     <li> It seems "maxima-init.mac" is the standard configuration file.
+     The possible placements are given by the value of variable
+     file_search_maxima. </li>
+     <li> Should this list just be all .mac-files ? Seems easiest. </li>
+     <li> However this list is obtained, a loop should be invoked which calls
+     "load(name)" for all (full path-)names in that list; this loop
+     is performed by function "load_oklib". </li>
+     <li> Furthermore a variable is needed for the OKlib-path.
+      <ol>
+       <li> Via "system(string_with_shell_code)" one can perform
+       system calls, however to obtain the value of a variable,
+       one has to use 'system("echo ${Var}")' and copy the output
+       from the screen. </li>
+       <li> So at least we should define "OKplatform", and perhaps
+       some other main directories. </li>
+      </ol>
+     </li>
+     <li> A problem is how during a session to add a new file with
+     maxima-code? Perhaps nothing special is done, only the name
+     of the list with .mac-files can be manipulated (and load_oklib
+     called). </li>
      <li> Of course, this initialisation file is created by the usual
      preprocessing. </li>
+     <li> The syntax for a call is "oklib --maxima". All arguments after
+     "--maxima" are passed to the responsible makefile. </li>
+     <li> Since oklib does not have access to the configuration variables
+     itself, it needs to call a (new) makefile which includes the same
+     variables as the makefile for external sources, and which then calls
+     maxima. </li>
+     <li> This makefile has the standard goal "all", with subgoals
+     "configuration" for creating the configuration-file, and "run"
+     for actually starting the maxima-program. </li>
     </ol>
    </li>
    <li> List operations
@@ -135,7 +163,7 @@ License, or any later version. */
     <ol>
      <li> How to handle local variables (see above). </li>
      <li> All different types of loops (see the existing code).
-     Especially nested loops. </li>
+     Especially nested loops ("create_list"). </li>
      <li> How to create lambda-terms (see the existing code). </li>
      <li> Function-application (also "map" etc.; see above). </li>
     </ol>
