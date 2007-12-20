@@ -10,9 +10,33 @@ License, or any later version. */
   \brief Plans for cryptological tools regarding the Rijndael cipher using Maxima
 
 
-  \todo Split "Maxima: design" into subtopics (and update)
+  \todo New design and implementation
+  <ul>
+   <li> Move items from below to here, if appropriate. </li>
+   <li> Regarding generalisations (AES -> Rijndael -> small-scale variations):
+   If they come natural then they are done now, otherwise later (after we have
+   more experience). </li>
+   <li> Finite field operations
+    <ol>
+     <li> Create an interface to the gf-package. </li>
+     <li> Create field-identification list [p, n, poly]. </li>
+     <li> Field-operation-functions take such an "object" as additional argument,
+     to specify the field. </li>
+    </ol>
+   </li>
+   <li> Basic aes-functions:
+    <ol>
+     <li> S-box </li>
+     <li> round-function </li>
+     <li> key-schedule </li>
+    </ol>
+   </li>
+  </ul>
 
   
+  \todo Split "Maxima: design" into subtopics (and update)
+
+
   \todo Maxima: design
   <ul>
    <li> The following points need review --- the more general discussions belong
