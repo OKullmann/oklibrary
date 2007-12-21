@@ -80,6 +80,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo optimal_r_splitting_tree in
+  ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
+  <ul>
+   <li> Given an r_k-splitting tree for F, and F, counting the satisfying
+   assignments. </li>
+   <li> We need the notion of an "extended r_k-splitting tree", which at
+   each node contains also the (forced) partial assignment leading to the
+   reduced clause-set at this node (except for the case where an inconsistency
+   has been found, since here this partial assignment is not well-defined).
+   </li>
+  </ul>
+
+
   \todo constraint_backtracking in
   ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac
   <ul>

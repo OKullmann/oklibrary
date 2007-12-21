@@ -18,7 +18,8 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 Needs
 
  - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac
- - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
+ - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
+ - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reductions.mac.
 
 */
 
@@ -28,7 +29,7 @@ Needs
 
 /*
  A "boolean splitting tree" for a clause-set F is either 
-  -[[]] for "nothing done",
+  - [[]] for "nothing done",
   - or [false] in case F contains the empty clause,
   - or [true] in case F is empty,
   - or [x, T0, T1], where x is a boolean literal and
@@ -43,11 +44,15 @@ Needs
    tree of minimum size, and its size */
 optimal_splitting_tree(FF) := if is_empty(FF[2]) then [[true],1]
   elseif has_empty_element(FF[2]) then [[false],1] else
-  block([best_tree : [[]], min_size : inf], for v in FF[1] do 
+  block([best_tree : [[]], min_size : inf], 
+   for v in FF[1] do 
     block([osp0 : optimal_splitting_tree(apply_pa_f({-v}, FF)),
           osp1 : optimal_splitting_tree(apply_pa_f({v}, FF))],
           block([new_size : osp0[2] + osp1[2]],
-          if new_size < min_size then (best_tree : [v, osp0[1], osp1[1]], min_size : new_size))),
+          if new_size < min_size then 
+            (best_tree : [v, osp0[1], osp1[1]], min_size : new_size)
+          )
+    ),
   return([best_tree, min_size+1]))$
 
 /* Counting the satisfying assignments in a splitting tree (relative to the set
@@ -57,11 +62,45 @@ count_sat_st(st,V) := if st = [true] then 2^(length(V))
   block([nV : disjoin(var_l(st[1]), V)],
     return(count_sat_st(st[2],nV) + count_sat_st(st[3],nV)))$
 
-/* Compute the satisfying (partial) assignments in a splitting tree */
+/* Compute the satisfying (*partial*) assignments in a splitting tree */
 sat_pass_st(st) := sat_pass_st_a(st,{})$
 sat_pass_st_a(st,phi) := if st = [true] then [phi] 
   elseif st = [false] then [] else
   append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi)))$
+
+/*
+ A "boolean r_k-splitting tree" for a clause-set F is either 
+  - [[]] for "nothing done",
+  - or [false] in case r_k(F) = {{}},
+  - or [true] in case r_k(F) = {},
+  - or [x, T0, T1], where x is a boolean literal and
+    T0/1 is a r_k-splitting tree of <x -> 0/1> * r_k(F).
+*/
+/*
+ So splitting trees are exactly the r_0-splitting trees. 
+*/
+
+/*
+ A boolean r_k-splitting tree is complete iff no leaf is [[]].
+*/
+
+/* for input F (a clause-set) returns a pair consisting of a r_k-splitting
+   tree of minimum size, and its size */
+optimal_r_splitting_tree(F,k) := block([Fr : generalised_ucp(F,k), V],
+  V : var_cs(Fr),
+  if Fr = {} then [[true],1]
+  elseif Fr = {{}} then [[false],1] else
+  block([best_tree : [[]], min_size : inf], 
+   for v in V do 
+    block([osp0 : optimal_r_splitting_tree(apply_pa({-v}, Fr),k),
+          osp1 : optimal_r_splitting_tree(apply_pa({v}, Fr),k)],
+          block([new_size : osp0[2] + osp1[2]],
+          if new_size < min_size then 
+            (best_tree : [v, osp0[1], osp1[1]], min_size : new_size)
+          )
+    ),
+  return([best_tree, min_size+1])))$
+
 
 
 /* **********
@@ -71,7 +110,7 @@ sat_pass_st_a(st,phi) := if st = [true] then [phi]
 
 load("stringproc")$
 
-/* Output a splitting tree st to stream s */
+/* Output a splitting tree st as latex-ps-tree to stream s */
 tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
   elseif st = [false] then printf(s, "~a", "\\Tdot")
   else (
@@ -79,7 +118,7 @@ tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")
      printf(s, "{"), tex_st(s, st[2]), tex_st(s, st[3]), printf(s, "}")
 )$
 
-/* Output a splitting tree st to file with name n */
+/* Output a splitting tree st as latex-ps-tree to file with name n */
 tex_st_f(n, st) := (block[s : openw(n)], tex_st(s, st), close(s))$
  
 /*!
