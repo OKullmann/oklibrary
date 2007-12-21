@@ -54,6 +54,18 @@ License, or any later version. */
   \todo Include
   <ul>
    <li> How to simulate "#include" ? </li>
+   <li> It seems we should write "oklib_load(filename)":
+    <ol>
+     <li> "filename" is only the relative name, while oklib_load
+     adds the right prefix. </li>
+     <li> oklib_load stores whether a file has already been loaded, and does
+     not reload it again, except of when explicitely requested. </li>
+     <li> When the argument to oklib_load is a directory, then all
+     .mac-files inside the directory (recursively) are loaded. </li>
+     <li> Every maxima-file loads via oklib_load the needed files. </li>
+     <li> Perhaps also a special mode for handling demo-files is needed. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -131,6 +143,9 @@ License, or any later version. */
    maxima-code? Perhaps nothing special is done, only the name
    of the list with .mac-files can be manipulated (and load_oklib
    called). </li>
+   <li> Actually, perhaps it is best not to auto-load everything,
+   but just to make the above function "oklib_load" available,
+   and then everything else can easily be done by the user. </li>
    <li> Of course, this initialisation file is created by the usual
    preprocessing. </li>
    <li> The syntax for a call is "oklib --maxima". All arguments after
