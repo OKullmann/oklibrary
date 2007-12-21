@@ -41,31 +41,22 @@ full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian
 */
 
 /* Variables are "php(i,j)", meaning that pigeon i is in hole j */
+kill(php)$
 declare(php, noun)$
 declare(php, posfun)$
 
 /* The set of variables for the pigeonhole formulas with m pigeons and n holes */
-var_php(m,n) := block([L : []],
- for i : 1 thru m do
-  for j : 1 thru n do
-   L : append(L, [php(i,j)]),
- setify(L))$
+var_php(m,n) := setify(create_list(php(i,j), i,1,m, j,1,n))$
 
 /* In the following m denotes the number of pigeons, n the number of holes */
 
 /* no two pigeon in the same hole */
-pigeons_different_holes(m,n) := block([L : []],
- for i : 1 thru m-1 do
-  for j : i+1 thru m do
-   for k : 1 thru n do
-    L : append(L, [{- php(i,k), - php(j,k)}]),
- setify(L))$
+pigeons_different_holes(m,n) := setify(create_list({- php(i,k), - php(j,k)}, 
+  i,1,m-1, j,i+1,m, k,1,n))$
 
 /* every pigeon in one hole */
-pigeons_in_holes(m,n) := block([L : []],
- for i : 1 thru m do
-  L : append(L, [setify(makelist(php(i,j), j, 1, n))]),
- setify(L))$
+pigeons_in_holes(m,n) := setify(
+  makelist(setify(makelist(php(i,j), j, 1, n)), i,1,m))$
 
 /* the weak pigeon formula as formal clause-set */
 weak_php(m,n) := [var_php(m,n), 
@@ -84,6 +75,7 @@ output_weak_php(m,n,filename) :=
 */
 
 /* Variables are "sdk(i,j,k)", meaning that field (i,j) carries number k */
+kill(sdk)$
 declare(sdk, noun)$
 declare(sdk, posfun)$
 
@@ -145,7 +137,8 @@ output_weak_sdk(p,filename) :=
 /* Boolean clause-sets, wholes solutions are the partitionings of {1,...,n}
  into two parts such that none of them contains an arithmetic progression
  of size k */
-VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], [G[1], union(G[2], comp_cs(G[2]))])$
+VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], 
+  [G[1], union(G[2], comp_cs(G[2]))])$
 
 output_VanDerWaerden2_cs_f(k,n,filename) := 
   output_cs_f(
