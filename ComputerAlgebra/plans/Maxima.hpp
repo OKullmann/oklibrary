@@ -35,18 +35,32 @@ License, or any later version. */
    <li> Likely only functions are to be tested. </li>
    <li> So we could just use, as for the C++ test-system, sub-directories
    "tests" and "testobjects", containing the generic test functions and the
-   test instantiations, respectively. </li>
-   <li> But, due to the simpler character of programming here, we just use
-   asserts for conditions (and no recovering of test conditions). Or??
+   test instantiations (i.e., expressions evaluating the test function on
+   the function to be tested), respectively.
     <ol>
-     <li> Likely better if we establish a system similar to the C++
-     system! This strengthens the design of the test-system. </li>
-     <li> So a test function perhaps returns a list, whose first element
-     is true or false (in case of failure), while the second element
-     in the failure case contains the error-description. </li>
-     <li> Perhaps the backtrace-function is useful here. </li>
+     <li> Execution of the tests just means loading the testobject-files.
     </ol>
    </li>
+   <li> Due to the simpler character of programming here, we just use
+   asserts for conditions and print error-messages.
+    <ol>
+     <li> But desirable if we establish a system a bit similar to the C++
+     system! This strengthens the design of the test-system. </li>
+     <li> Every test-function returns just true in case of success,
+     while otherwise false is returned --- though the return value
+     likely is not much of use, but the real output is the side
+     effect that an error-message is printed, using "error" (this
+     should cause abortion). </li>
+     <li> The "backtrace()"-call is useful here: In case of
+     an error not just the error message is printed, but also the trace of
+     function calls. </li>
+     <li> Perhaps we create a macro for this error-output (similar
+     to the C++-macro). </li>
+     <li> There is a global variable for the test-level. </li>
+    </ol>
+   </li>
+   <li> "oklib check" is also responsible for the maxima-tests, via a sub-goal
+   (so that also only the maxima-tests can be involved). </li>
    <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
   </ul>
 
