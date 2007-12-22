@@ -22,10 +22,9 @@ License, or any later version. */
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/fstream.hpp>
 
-#include <Transitional/OrderRelations/DerivedRelations.hpp>
+#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
                    
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     /*!
@@ -102,7 +101,6 @@ namespace OKlib {
     OKLIB_DERIVED_UNEQUAL(DirectoryIterator)
 
   }
-
 }
 
 #endif

@@ -24,7 +24,7 @@ License, or any later version. */
 #include <cassert>
 #include <functional>
 
-#include <Transitional/OrderRelations/DerivedRelations.hpp>
+#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>

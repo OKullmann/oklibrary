@@ -19,7 +19,6 @@ License, or any later version. */
 #include <boost/type_traits.hpp>
 
 namespace OKlib {
-
   namespace OrderRelations {
 
     /*!
@@ -121,7 +120,6 @@ namespace OKlib {
 
 
   }
-
 }
 
 #endif

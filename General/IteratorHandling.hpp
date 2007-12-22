@@ -23,7 +23,7 @@ License, or any later version. */
 #include <boost/range/metafunctions.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include <Transitional/OrderRelations/DerivedRelations.hpp>
+#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
 #include <Transitional/General/FunctionHandling.hpp>
 

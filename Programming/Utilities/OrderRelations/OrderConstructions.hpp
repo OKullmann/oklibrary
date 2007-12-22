@@ -13,7 +13,6 @@ License, or any later version. */
 #include <boost/functional.hpp>
 
 namespace OKlib {
-
   namespace OrderRelations {
 
     template <class LessThanRelation>
@@ -33,7 +32,6 @@ namespace OKlib {
     };
 
   }
-
 }
 
 #endif

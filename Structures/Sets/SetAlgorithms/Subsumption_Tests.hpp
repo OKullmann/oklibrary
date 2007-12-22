@@ -23,7 +23,7 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/OrderRelations/OrderConstructions.hpp>
+#include <Transitional/Programming/Utilities/OrderRelations/OrderConstructions.hpp>
     
 namespace OKlib {
   namespace SetAlgorithms {

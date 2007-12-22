@@ -32,7 +32,7 @@ License, or any later version. */
 #include <boost/functional.hpp>
 
 #include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
-#include <Transitional/OrderRelations/DerivedRelations.hpp>
+#include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
 #include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
