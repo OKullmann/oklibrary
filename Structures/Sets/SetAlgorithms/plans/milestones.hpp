@@ -15,14 +15,25 @@ License, or any later version. */
 
   \par
    In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
-    - Move to super-module Structures/Sets
+    - Move to super-module Structures/Sets : DONE
+    - Update milestones : DONE
 
 
   \par Version 0.3.2 :
 
   \par
    In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
-    - Update
+    - Update namespace
+    - Update namespace-usage
+    - Update doxygen-documentation
+
+
+  \par Version 0.3.3 :
+
+  \par
+   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
+    - Update plans, transfer todos
+    - Reorganisation
 
   \par
    Create new milestones.
@@ -43,6 +54,7 @@ License, or any later version. */
 
   \par Version history
 
-   -  0.3 : 19.11.2006; initial version number (several components).
+   - 0.3   : 19.11.2006; initial version number (several components).
+   - 0.3.1 : 22.12.2007; moved to supermodule Structures/Sets, and editorial updates.
 
 */

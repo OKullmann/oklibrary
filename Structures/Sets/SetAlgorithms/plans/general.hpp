@@ -10,17 +10,30 @@ License, or any later version. */
   \brief Plans for the module on sets-related algorithms and datastructures
 
 
-  \todo Move to super-module Structures/Sets
-  <ul>
-   <li> Update namespace.
-   <li> Update milestones. </li>
-  </ul>
+  \todo Move to super-module Structures/Sets : DONE
 
 
-  \todo Update
+  \todo Update milestones : DONE
+
+
+  \todo Update namespace
+
+
+  \todo Update namespace-usage
+
+
+  \todo Update doxygen-documentation
+
+
+  \todo Update plans, transfer todos
+
+
+  \todo Reorganisation
   <ul>
-   <li> doxygen-documentation </li>
-   <li> new plans, transfer todos </li>
+   <li> "Sets" is also in the supermodule-name, so should be removed from
+   the module-name. </li>
+   <li> Perhaps we should have a module with basic set operations (like
+   union and intersection), and another one with subsumption. </li>
   </ul>
 
 
