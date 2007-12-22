@@ -55,6 +55,13 @@ License, or any later version. */
     - New tests
 
 
+  \par Version 0.2.1 :
+
+  \par
+   In Programming/InputOutput/plans/general.hpp the following topics are handled:
+    - Generic inserters and extractors
+
+
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
