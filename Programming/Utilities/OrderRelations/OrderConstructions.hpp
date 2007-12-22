@@ -5,6 +5,11 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*!
+  \file Programming/Utilities/OrderRelations/OrderConstructions.hpp
+  \brief Components for the construction of order relations
+*/
+
 #ifndef ORDERCONSTRUCTIONS_jdjJn6
 #define ORDERCONSTRUCTIONS_jdjJn6
 

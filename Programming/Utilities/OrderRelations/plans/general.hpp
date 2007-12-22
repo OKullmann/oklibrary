@@ -6,15 +6,30 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file OrderRelations/plans/OrderRelations.hpp
+  \file Programming/Utilities/OrderRelations/plans/OrderRelations.hpp
   \brief Plans for the module on order relations
 
-  \todo Update
-  Create plans for the submodules and update and extend the
-  doxygen-documentation.
 
-  \todo Tests
-  Write tests (in the new system).
+  \todo Update namespaces.
+
+
+  \todo Update namespace usage.
+
+
+  \todo Write doxygen documentation
+
+
+  \todo Write docus
+  <ul>
+   <li> Clarify the relations to similar facilities in the standard library
+   and in Boost. </li>
+  </ul>
+
+
+  \todo Write demos.
+
+
+  \todo Write tests (in the new system).
 
 */
 

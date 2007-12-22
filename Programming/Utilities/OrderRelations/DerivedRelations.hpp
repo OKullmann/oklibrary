@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file OrderRelations/DerivedRelations.hpp
+  \file Programming/Utilities/OrderRelations/DerivedRelations.hpp
   \brief Functors and macros for order and comparison relations derived from < and == in the standard way.
 */
 
