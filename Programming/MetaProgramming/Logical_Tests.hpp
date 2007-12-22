@@ -11,7 +11,6 @@ License, or any later version. */
 #include <boost/static_assert.hpp>
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
     template <template <class T> class True>

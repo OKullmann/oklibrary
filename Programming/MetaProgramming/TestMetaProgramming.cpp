@@ -9,9 +9,9 @@ License, or any later version. */
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/MetaProgramming/Logical_Testobjects.hpp>
-#include <Transitional/MetaProgramming/TaggingPolymorphism_Testobjects.hpp>
-#include <Transitional/MetaProgramming/Numerical_Testobjects.hpp>
+#include <Transitional/Programming/MetaProgramming/Logical_Testobjects.hpp>
+#include <Transitional/Programming/MetaProgramming/TaggingPolymorphism_Testobjects.hpp>
+#include <Transitional/Programming/MetaProgramming/Numerical_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

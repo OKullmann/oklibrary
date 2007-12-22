@@ -14,11 +14,10 @@ License, or any later version. */
 #ifndef LOGICALTESTOBJECTS_847ncVb
 #define LOGICALTESTOBJECTS_847ncVb
 
-#include <Transitional/MetaProgramming/Logical.hpp>
-#include <Transitional/MetaProgramming/Logical_Tests.hpp>
+#include <Transitional/Programming/MetaProgramming/Logical.hpp>
+#include <Transitional/Programming/MetaProgramming/Logical_Tests.hpp>
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
       template class Test_True_T<True>;

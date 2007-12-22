@@ -9,7 +9,6 @@ License, or any later version. */
 #define TAGGINGPOLYMORPHISM_009ikm
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
     struct property_tag {};

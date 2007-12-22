@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file MetaProgramming/Numerical_Tests.hpp
+  \file Programming/MetaProgramming/Numerical_Tests.hpp
   \brief Tests for numerical metafunctions
 */
 
@@ -16,7 +16,6 @@ License, or any later version. */
 #include <boost/static_assert.hpp>
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
     /*!

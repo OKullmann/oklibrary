@@ -21,7 +21,7 @@ License, or any later version. */
 #include <boost/type_traits.hpp>
 #include <boost/mpl/has_xxx.hpp>
 
-#include <Transitional/MetaProgramming/Logical.hpp>
+#include <Transitional/Programming/MetaProgramming/Logical.hpp>
 
 #include <Transitional/Concepts/ConceptsBase.hpp>
 #include <Transitional/Concepts/traits/concept_tag.hpp>

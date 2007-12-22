@@ -16,7 +16,7 @@ License, or any later version. */
 #include <boost/iterator/counting_iterator.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include <Transitional/MetaProgramming/Numerical.hpp>
+#include <Transitional/Programming/MetaProgramming/Numerical.hpp>
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
@@ -24,7 +24,6 @@ License, or any later version. */
 #include <Transitional/TestExecutionTools/SecondOrderTestTools.hpp>
 
 namespace OKlib {
-
   namespace TestExecutionTools {
 
     /*!

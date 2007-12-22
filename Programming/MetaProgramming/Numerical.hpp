@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file MetaProgramming/Numerical.hpp
+  \file Programming/MetaProgramming/Numerical.hpp
   \brief Numerical metafunctions
 
   \todo Write Factorial.
@@ -19,7 +19,6 @@ License, or any later version. */
 #include <boost/mpl/long.hpp>
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
     /*!

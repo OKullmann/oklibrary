@@ -9,11 +9,9 @@ License, or any later version. */
 #define TAGGINGPOLYMORPHISMTESTS_alam610
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
   }
-
 }
 
 #endif

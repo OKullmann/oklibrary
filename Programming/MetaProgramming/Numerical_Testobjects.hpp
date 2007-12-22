@@ -8,11 +8,10 @@ License, or any later version. */
 #ifndef NUMERICALTESTOBJECTS_uHnBfqpq
 #define NUMERICALTESTOBJECTS_uHnBfqpq
 
-#include <Transitional/MetaProgramming/Numerical.hpp>
-#include <Transitional/MetaProgramming/Numerical_Tests.hpp>
+#include <Transitional/Programming/MetaProgramming/Numerical.hpp>
+#include <Transitional/Programming/MetaProgramming/Numerical_Tests.hpp>
 
 namespace OKlib {
-
   namespace MetaProgramming {
 
     template class Test_Power<Power>;

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file MetaProgramming/Logical.hpp
+  \file Programming/MetaProgramming/Logical.hpp
   \brief Logical metafunctions, and some macros for defining metafunctions.
 
   \todo Likely the macros are superfluous, and should be removed.
@@ -18,9 +18,7 @@ License, or any later version. */
 #include <boost/mpl/bool.hpp>
 
 namespace OKlib {
-
   namespace MetaProgramming {
-
     namespace MacrosForMetaValues {
 
 #define OKLIB_META_VALUE typedef type::value_type value_type; \

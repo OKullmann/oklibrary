@@ -17,10 +17,9 @@ License, or any later version. */
 #include <boost/mpl/or.hpp>
 #include <boost/type_traits.hpp>
 
-#include <Transitional/MetaProgramming/Logical.hpp>
+#include <Transitional/Programming/MetaProgramming/Logical.hpp>
 
 namespace OKlib {
-
   namespace traits {
 
     template <typename T>
@@ -46,7 +45,6 @@ namespace OKlib {
     struct is_unsigned_integral : is_unqualified_unsigned_integral<typename ::boost::remove_cv<T>::type> {};
 
   }
-
 }
 
 #endif

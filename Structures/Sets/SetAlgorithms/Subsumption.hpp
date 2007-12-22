@@ -26,7 +26,7 @@ License, or any later version. */
 #include <boost/mpl/if.hpp>
 
 #include <Transitional/traits/TypeTraitsContainer.hpp>
-#include <Transitional/MetaProgramming/TaggingPolymorphism.hpp>
+#include <Transitional/Programming/MetaProgramming/TaggingPolymorphism.hpp>
 
 namespace OKlib {
   namespace SetAlgorithms {
