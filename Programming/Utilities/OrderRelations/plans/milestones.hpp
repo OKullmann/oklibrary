@@ -6,21 +6,37 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file OrderRelations/plans/milestones.hpp
+  \file Programming/Utilities/OrderRelations/plans/milestones.hpp
 
-  \par Current version 0.0.7 (11.11.2006)
+  \module_version Programming/Utilities/OrderRelations 0.0.8 (22.12.2007)
 
-  \par Version 0.0.8 :
 
-  In OrderRelations/plans/OrderRelations.hpp the following topics are handled:
-  - Update
+  \par Version 0.0.9 :
 
-  And then update the milestones.
+  \par
+   In OrderRelations/plans/OrderRelations.hpp the following topics are handled:
+    - Update namespaces
+    - Update namespace usage
+    - Write doxygen documentation
+
+
+  \par Version 0.0.10 :
+
+  \par
+   In OrderRelations/plans/OrderRelations.hpp the following topics are handled:
+    - Write docus
+    - Write demos
+
 
   \par Version 0.1 :
 
-  IIn OrderRelations/plans/OrderRelations.hpp the following topics are handled:
-  - Tests.
+  \par
+   In OrderRelations/plans/OrderRelations.hpp the following topics are handled:
+    - Write tests (in the new system)
+
+  \par
+   Create new milestones.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
@@ -28,6 +44,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.7 : 11.11.2006; initial version number (some implementations).
+   - 0.0.8 : 22.12.2007; moved to supermodule Programming/Utilities, and editorial updates.
 
 */
 
