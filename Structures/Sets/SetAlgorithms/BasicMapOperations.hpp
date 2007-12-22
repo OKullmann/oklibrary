@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/BasicMapOperations.hpp
+  \file Structures/Sets/SetAlgorithms/BasicMapOperations.hpp
   \brief Basic tools for handling maps (in the std-sense as well as in
   the general sense).
 */

@@ -14,7 +14,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/SingleResult_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     ::OKlib::Concepts::ResultElement_basic_test<SATCompetition::ResultElement> test_ResultElement;

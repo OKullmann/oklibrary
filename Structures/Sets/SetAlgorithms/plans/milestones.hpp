@@ -6,22 +6,22 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/plans/milestones.hpp
+  \file Structures/Sets/SetAlgorithms/plans/milestones.hpp
 
-  \module_version SetAlgorithms 0.3 (19.11.2006)
+  \module_version Structures/Sets/SetAlgorithms 0.3 (19.11.2006)
 
 
   \par Version 0.3.1 :
 
   \par
-   In SetAlgorithms/plans/general.hpp the following items are handled:
+   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
     - Move to super-module Structures/Sets
 
 
   \par Version 0.3.2 :
 
   \par
-   In SetAlgorithms/plans/general.hpp the following items are handled:
+   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
     - Update
 
   \par
@@ -29,13 +29,14 @@ License, or any later version. */
 
 
   \par Version 0.4 :
-  In SetAlgorithms/plans/general.hpp the following items are handled:
+  In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
    - New test system
    - Write docus
    - Write demos
 
   \par
    There are tests for all components. 
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

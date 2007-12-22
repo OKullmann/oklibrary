@@ -6,9 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/Subsumption.hpp
+  \file Structures/Sets/SetAlgorithms/Subsumption.hpp
   \brief Module, which mainly provides the class template Subsumption_elimination.
-
 
   \todo Compare [Zhang SAT 2005].
 
@@ -30,9 +29,7 @@ License, or any later version. */
 #include <Transitional/MetaProgramming/TaggingPolymorphism.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
-
     namespace SubsumptionsTags {
 
       struct size_tag : OKlib::MetaProgramming::property_tag {};

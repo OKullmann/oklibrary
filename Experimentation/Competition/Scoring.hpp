@@ -24,7 +24,7 @@ License, or any later version. */
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
 #include <Transitional/OrderRelations/DerivedRelations.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
@@ -34,7 +34,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/AnalysisTools.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     /*!

@@ -25,7 +25,7 @@ License, or any later version. */
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
 #include <Transitional/Experimentation/Competition/ResultProcessing.hpp>

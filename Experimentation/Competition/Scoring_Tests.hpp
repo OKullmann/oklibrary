@@ -26,7 +26,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     template <template <class IndexedDatabase, class SeriesPursePolicy = SAT2005SeriesPurse, typename NumberType = double> class  PurseScoring>

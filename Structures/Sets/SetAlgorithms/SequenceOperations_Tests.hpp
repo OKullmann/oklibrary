@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SequenceOperations_Tests.hpp
+  \file Structures/Sets/SetAlgorithms/SequenceOperations_Tests.hpp
   \brief Tests for sequence operations.
 
   \todo Completing Test_Sum_sizes:
@@ -23,7 +23,6 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     template <template <class Range> class Sum_sizes>

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/Subsumption_Tests.hpp
+  \file Structures/Sets/SetAlgorithms/Subsumption_Tests.hpp
   \brief Testing the concept underlying the class template Subsumption_elimination.
 */
 
@@ -26,7 +26,6 @@ License, or any later version. */
 #include <Transitional/OrderRelations/OrderConstructions.hpp>
     
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     /*!

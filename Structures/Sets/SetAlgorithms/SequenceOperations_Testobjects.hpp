@@ -8,11 +8,10 @@ License, or any later version. */
 #ifndef SEQUENCEOPERATIONSTESTOBJECTS_1029563
 #define SEQUENCEOPERATIONSTESTOBJECTS_1029563
 
-#include <Transitional/SetAlgorithms/SequenceOperations.hpp>
-#include <Transitional/SetAlgorithms/SequenceOperations_Tests.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/SequenceOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/SequenceOperations_Tests.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     Test_Sum_sizes<Sum_sizes> test_sum_sizes;

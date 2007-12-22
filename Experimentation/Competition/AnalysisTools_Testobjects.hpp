@@ -12,7 +12,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/AnalysisTools_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     Test_ElementaryAnalysis<ElementaryAnalysis> test_elementary_analysis;

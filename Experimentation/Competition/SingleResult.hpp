@@ -37,7 +37,6 @@ License, or any later version. */
 #include <Transitional/OrderRelations/DerivedRelations.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     /*!

@@ -8,13 +8,11 @@ License, or any later version. */
 #ifndef BASICSETOPERATIONSTESTOBJECTS_llLn4rT
 #define BASICSETOPERATIONSTESTOBJECTS_llLn4rT
 
-#include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
-#include <Transitional/SetAlgorithms/BasicSetOperations_Tests.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations_Tests.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
-
     namespace Testobjects {
 
       Test_Union<Union> test_union;

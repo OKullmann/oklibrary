@@ -22,8 +22,8 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
-#include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
-#include <Transitional/SetAlgorithms/SequenceOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/SequenceOperations.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
 #include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
@@ -31,7 +31,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     template <template <class Database> class ElementaryAnalysis>

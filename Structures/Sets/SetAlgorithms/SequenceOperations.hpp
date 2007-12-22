@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/SequenceOperations.hpp
+  \file Structures/Sets/SetAlgorithms/SequenceOperations.hpp
   \brief Basic operations for sequences
 
   Contains: sum of ranges.
@@ -26,7 +26,6 @@ License, or any later version. */
 #include <boost/iterator/transform_iterator.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     template <class Range>

@@ -8,13 +8,11 @@ License, or any later version. */
 #ifndef BASICMAPOPERATIONSTESTOBJECTS_alakah66
 #define BASICMAPOPERATIONSTESTOBJECTS_alakah66
 
-#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
-#include <Transitional/SetAlgorithms/BasicMapOperations_Tests.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations_Tests.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
-
     namespace Testobjects {
 
       Test_MapValue<MapValue> test_map_value;

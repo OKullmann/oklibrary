@@ -12,7 +12,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/LexicographicalEvaluation_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     Test_RepresentationSolverSeries<LexicographicalEvaluation> test_representation_solver_series;

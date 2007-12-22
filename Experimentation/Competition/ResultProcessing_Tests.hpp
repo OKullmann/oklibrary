@@ -21,7 +21,7 @@ License, or any later version. */
 #include <boost/iterator/transform_iterator.hpp>
 
 #include <Transitional/General/FunctionHandling.hpp>
-#include <Transitional/SetAlgorithms/BasicMapOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicMapOperations.hpp>
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 #include <Transitional/TestSystem/TestExceptions.hpp>
@@ -32,7 +32,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ParsingResultSequences_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     template <class Map, typename Size>

@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/plans/general.hpp
+  \file Structures/Sets/SetAlgorithms/plans/general.hpp
   \brief Plans for the module on sets-related algorithms and datastructures
 
 

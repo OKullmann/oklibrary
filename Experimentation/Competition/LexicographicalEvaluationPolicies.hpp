@@ -24,7 +24,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ResultProcessing.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     // Policies for LexicographicalEvaluation ###########################

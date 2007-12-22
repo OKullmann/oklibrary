@@ -9,7 +9,6 @@ License, or any later version. */
 #define SINGLERESULTTESTS_1019HvR
 
 namespace OKlib {
-
   namespace SATCompetition {
 
   }

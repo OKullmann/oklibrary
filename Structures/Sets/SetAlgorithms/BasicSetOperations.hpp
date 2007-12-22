@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file SetAlgorithms/BasicSetOperations.hpp
+  \file Structures/Sets/SetAlgorithms/BasicSetOperations.hpp
   \brief Classes Union<InputIterator_sets, OutputIterator> and
   Intersection<InputIterator_sets, OutputIterator> for the computation
   of unions and intersections of sequences of sets.
@@ -27,7 +27,6 @@ License, or any later version. */
 #include <boost/range/metafunctions.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     /*!

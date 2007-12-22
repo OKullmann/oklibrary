@@ -12,7 +12,6 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/Scoring_Tests.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     Test_PurseScoring<PurseScoring> test_PurseScoring;

@@ -26,7 +26,6 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace SetAlgorithms {
 
     template <class SetCollection, class ReferenceSet, template <class OutputIterator> class Operation>

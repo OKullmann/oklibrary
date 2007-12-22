@@ -31,14 +31,13 @@ License, or any later version. */
 
 #include <Transitional/General/FunctionHandling.hpp>
 
-#include <Transitional/SetAlgorithms/BasicSetOperations.hpp>
+#include <Transitional/Structures/Sets/SetAlgorithms/BasicSetOperations.hpp>
 
 #include <Transitional/Experimentation/Competition/SingleResult.hpp>
 #include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
 #include <Transitional/Experimentation/Competition/ParsingResultSequences.hpp>
 
 namespace OKlib {
-
   namespace SATCompetition {
 
     class ResultNode;

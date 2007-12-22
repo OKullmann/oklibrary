@@ -23,64 +23,67 @@ License, or any later version. */
 #include <Transitional/Experimentation/Competition/ParsingSingleResult.hpp>
 #include <Transitional/Experimentation/Competition/LexicographicalEvaluation.hpp>
 
-template <bool with_extension>
-struct LexicographicalEvaluationRandom_from_file {
-  typedef OKlib::SATCompetition::LexicographicalEvaluationRandom_from_file<OKlib::SATCompetition::ParserThreeElements> type;
-};
-template <>
-struct LexicographicalEvaluationRandom_from_file<false> {
-  typedef OKlib::SATCompetition::LexicographicalEvaluationRandom_from_file<> type;
-};
+namespace {
 
-// #############################
-
-template <bool with_extension>
-struct Evaluation {
-
-  const std::string& filename;
-  const char* const specifier;
-
-  typedef typename ::LexicographicalEvaluationRandom_from_file<with_extension>::type evaluation_from_file_type;
-  evaluation_from_file_type eval;
-
-  Evaluation(const std::string& filename, const char* const specifier) : filename(filename), specifier(specifier), eval(filename) {
-
-    std::cout << "\nFile name = " << filename;
-    if (specifier)
-      std::cout << "\nsyntax specifier = " << specifier;
-    std::cout << "\n\n";
-
-    std::cout << "\nALL results: ---------------------------------------------------------------------------------------------------------------------\n\n";
-    std::cout << "Unfolded lexicographical order:\n\n";
-    eval.evaluation_unfolded_all.print(std::cout);
-    std::cout << "\n";
-    std::cout << "Induced lexicographical order:\n\n";
-    eval.evaluation_induced_all.print(std::cout);
-    std::cout << "\n";
-
-    std::cout << "\nSAT results: ---------------------------------------------------------------------------------------------------------------------\n\n";
-    std::cout << "Unfolded lexicographical order:\n\n";
-    eval.evaluation_unfolded_sat.print(std::cout);
-    std::cout << "\n";
-    std::cout << "Induced lexicographical order:\n\n";
-    eval.evaluation_induced_sat.print(std::cout);
-    std::cout << "\n";
+  template <bool with_extension>
+  struct LexicographicalEvaluationRandom_from_file {
+    typedef OKlib::SATCompetition::LexicographicalEvaluationRandom_from_file<OKlib::SATCompetition::ParserThreeElements> type;
+  };
+  template <>
+  struct LexicographicalEvaluationRandom_from_file<false> {
+    typedef OKlib::SATCompetition::LexicographicalEvaluationRandom_from_file<> type;
+  };
+  
+  // #############################
+  
+  template <bool with_extension>
+  struct Evaluation {
     
-    std::cout << "\nUNSAT results: ---------------------------------------------------------------------------------------------------------------------\n\n";
-    std::cout << "Unfolded lexicographical order:\n\n";
-    eval.evaluation_unfolded_unsat.print(std::cout);
-    std::cout << "\n";
-    std::cout << "Induced lexicographical order:\n\n";
-    eval.evaluation_induced_unsat.print(std::cout);
-    std::cout << "\n";
-
-  }
-};
+    const std::string& filename;
+    const char* const specifier;
+    
+    typedef typename ::LexicographicalEvaluationRandom_from_file<with_extension>::type evaluation_from_file_type;
+    evaluation_from_file_type eval;
+    
+    Evaluation(const std::string& filename, const char* const specifier) : filename(filename), specifier(specifier), eval(filename) {
+      
+      std::cout << "\nFile name = " << filename;
+      if (specifier)
+        std::cout << "\nsyntax specifier = " << specifier;
+      std::cout << "\n\n";
+      
+      std::cout << "\nALL results: ---------------------------------------------------------------------------------------------------------------------\n\n";
+      std::cout << "Unfolded lexicographical order:\n\n";
+      eval.evaluation_unfolded_all.print(std::cout);
+      std::cout << "\n";
+      std::cout << "Induced lexicographical order:\n\n";
+      eval.evaluation_induced_all.print(std::cout);
+      std::cout << "\n";
+      
+      std::cout << "\nSAT results: ---------------------------------------------------------------------------------------------------------------------\n\n";
+      std::cout << "Unfolded lexicographical order:\n\n";
+      eval.evaluation_unfolded_sat.print(std::cout);
+      std::cout << "\n";
+      std::cout << "Induced lexicographical order:\n\n";
+      eval.evaluation_induced_sat.print(std::cout);
+      std::cout << "\n";
+      
+      std::cout << "\nUNSAT results: ---------------------------------------------------------------------------------------------------------------------\n\n";
+      std::cout << "Unfolded lexicographical order:\n\n";
+      eval.evaluation_unfolded_unsat.print(std::cout);
+      std::cout << "\n";
+      std::cout << "Induced lexicographical order:\n\n";
+      eval.evaluation_induced_unsat.print(std::cout);
+      std::cout << "\n";
+      
+    }
+  };
+}
 
 
 // #############################
 
-int main(const int argc, char* const argv[]) {
+int main(const int argc, const char* const argv[]) {
 
   if (argc <= 1 or argc >= 4) {
     std::cerr << "One or two arguments required (the name of the file, and optionally a syntax specifier).\n";
