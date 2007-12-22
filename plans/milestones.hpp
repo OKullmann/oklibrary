@@ -44,7 +44,7 @@ License, or any later version. */
   \par AtomicConditions version 0.0.3 (OK) : DONE
   (see AtomicConditions/plans/milestones.hpp)
   \par InputOutput version 0.0.8 (OK) : DONE
-  (see Transitional/InputOutput/plans/milestones.hpp)
+  (see Satisfiability/Interfaces/InputOutput/plans/milestones.hpp)
   \par InjectivityConstraints version 0.0.3 (OK) : DONE
   (see InjectivityConstraints/plans/milestones.hpp)
   \par QuantumPhysics version 0.0.8 (OK) : DONE
@@ -81,8 +81,6 @@ License, or any later version. */
   TO BE REACHED $(deadline_022)
   \par Satisfiability/Solvers 0.2.1
   (see Satisfiability/Solvers/plans/milestones.hpp)
-  \par InputOutput version 0.0.8 (OK (MH))
-  (see Transitional/InputOutput/plans/milestones.hpp)
   \par Literals version 0.0.4 (OK (MH))
   (see Literals/plans/milestones.hpp)
   \par PartialAssignments version 0.0.5 (OK (MH))

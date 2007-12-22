@@ -10,16 +10,26 @@ License, or any later version. */
   \brief Plans for the module on general input and output facilities
 
 
-  \todo Transfer the module to part Programming.
+  \todo Transfer the module to part Programming. DONE
   <ul>
-   <li> Perhaps the module-name "GeneralInputOutput" is not really
+   <li> DONE (now just "InputOutput")
+   Perhaps the module-name "GeneralInputOutput" is not really
    adequate ? At least doxygen has problem with it in connection with
    "InputOutput" (same suffix). </li>
   </ul>
 
 
+  \todo Update namespaces
+
+
+  \todo Update namespace-usage
+
+
+  \todo Complete doxygen-documentation
+
+
   \todo Update plans
-  Write plans for all submodules, transfer all todo's, and update the doxygen-documentation.
+  Write plans for all submodules and transfer all todo's:
   <ul>
    <li> IOStreamFilters : </li>
    <li> IOStreamSinks : </li>

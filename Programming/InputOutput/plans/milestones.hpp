@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Transitional/Programming/InputOutput/plans/milestones.hpp
+  \file Programming/InputOutput/plans/milestones.hpp
 
   \module_version Programming/InputOutput 0.1.1 (9.9.2007)
 
@@ -15,31 +15,40 @@ License, or any later version. */
 
   \par
    In Programming/InputOutput/plans/general.hpp the following topics are handled:
-    - Transfer the module to part Programming
+    - Transfer the module to part Programming : DONE
 
 
   \par Version 0.1.3 :
 
   \par
    In Programming/InputOutput/plans/general.hpp the following topics are handled:
-    - Update plans
+    - Update namespaces
+    - Update namespace-usage
+    - Complete doxygen-documentation
 
 
   \par Version 0.1.4 :
 
   \par
    In Programming/InputOutput/plans/general.hpp the following topics are handled:
-    - Move Refactoring/BoostPathCorrected.hpp to here
+    - Update plans
 
 
   \par Version 0.1.5 :
+
+  \par
+   In Programming/InputOutput/plans/general.hpp the following topics are handled:
+    - Move Refactoring/BoostPathCorrected.hpp to here
+
+
+  \par Version 0.1.6 :
 
   \par
    In In Programming/InputOutput/plans/general.hpp the following topics are handled:
     - Write docus
 
 
-  \par Version 0.1.6 :
+  \par Version 0.1.7 :
 
   \par
    In In Programming/InputOutput/plans/general.hpp the following topics are handled:
