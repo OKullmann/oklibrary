@@ -8,14 +8,7 @@ License, or any later version. */
 /*!
   \file Programming/InputOutput/plans/milestones.hpp
 
-  \module_version Programming/InputOutput 0.1.1 (9.9.2007)
-
-
-  \par Version 0.1.2 :
-
-  \par
-   In Programming/InputOutput/plans/general.hpp the following topics are handled:
-    - Transfer the module to part Programming : DONE
+  \module_version Programming/InputOutput 0.1.2 (22.12.2007)
 
 
   \par Version 0.1.3 :
@@ -69,6 +62,7 @@ License, or any later version. */
 
    - 0.1   : 6.11.2006; initial version number (several working sub-modules).
    - 0.1.1 : 9.9.2007; two new applications created (MatchFiles and PathDifference), and update of plans.
+   - 0.1.2 : 22.12.2007; moved to part Programming, and editorial updates.
 
 */
 
