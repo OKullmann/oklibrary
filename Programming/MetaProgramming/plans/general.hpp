@@ -6,21 +6,33 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file MetaProgramming/plans/MetaProgramming.hpp
-  \brief Plans for the metaprogramming module
+  \file Programming/MetaProgramming/plans/general.hpp
+  \brief Plans for the metaprogramming supermodule
 
-  \todo Update
-  Write plans-files, transfer the todo's, and update the doxygen documentation:
 
-   - Logical.hpp : 
-   - Numerical.hpp : 
-   - TaggingPolymorphism.hpp : 
+  \todo Update namespaces
 
-   \todo Transfer tests to the new test system
+
+  \todo Update namespace usage
+
+
+  \todo Update the doxygen documentation
+
+
+  \todo Update plans
+  <ul>
+   <li> Logical.hpp :
+   <li> Numerical.hpp :
+   <li> TaggingPolymorphism.hpp : 
+  </ul>
+
+
+  \todo Transfer tests to the new test system
+
 */
 
 /*!
-  \namespace MetaProgramming
+  \namespace OKlib::MetaProgramming
   \brief Components to support meta programming
 */
 
