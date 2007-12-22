@@ -31,6 +31,23 @@ License, or any later version. */
 
   \todo Write tests (in the new system).
 
+
+  \todo String comparison
+  <ul>
+   <li> Lexicographical comparison of C-strings via
+   \code
+#include <functional>
+#include <cstdlib>
+struct string_compare : std::binary_function<const char*, const char*, bool> {
+  bool operator() (const char* const a, const char* const b) {
+    return std::strcmp(a,b) < 0;
+  }
+};
+   \endcode
+   </li>
+   <li> Isn't there a standard implementation?! </li>
+  </ul>
+
 */
 
 /*!
