@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Structures/Sets/SetAlgorithms/plans/milestones.hpp
 
-  \module_version Structures/Sets/SetAlgorithms 0.3 (19.11.2006)
-
-
-  \par Version 0.3.1 :
-
-  \par
-   In Structures/Sets/SetAlgorithms/plans/general.hpp the following items are handled:
-    - Move to super-module Structures/Sets : DONE
-    - Update milestones : DONE
+  \module_version Structures/Sets/SetAlgorithms 0.3.1 (22.12.2007)
 
 
   \par Version 0.3.2 :
