@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/IOStreamFilters_Tests.hpp
+  \file Programming/InputOutput/IOStreamFilters_Tests.hpp
   \brief Tests for iostream-filters.
 */
 
@@ -30,7 +30,6 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     /*!
@@ -145,7 +144,6 @@ namespace OKlib {
     };
 
   }
-
 }
 
 #endif

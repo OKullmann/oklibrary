@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/IOStreamFilters.hpp
+  \file Programming/InputOutput/IOStreamFilters.hpp
   \brief Filters according to the Boost Iostream library.
 */
 
@@ -24,7 +24,6 @@ License, or any later version. */
 #include <boost/iostreams/filter/line.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     /*!
@@ -129,7 +128,6 @@ namespace OKlib {
     typedef BasicIndentLines<wchar_t> WIndentLines;
     
   }
-
 }
 
 #endif

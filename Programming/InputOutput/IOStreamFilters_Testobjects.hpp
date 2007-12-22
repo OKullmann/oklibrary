@@ -8,11 +8,10 @@ License, or any later version. */
 #ifndef IOSTREAMFILTERSTESTOBJECTS_gGVVc5
 #define IOSTREAMFILTERSTESTOBJECTS_gGVVc5
 
-#include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
-#include <Transitional/GeneralInputOutput/IOStreamFilters_Tests.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamFilters.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamFilters_Tests.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     ::OKlib::GeneralInputOutput::Test_BasicCounter< ::OKlib::GeneralInputOutput::BasicCounter> test_basic_counter;
@@ -20,7 +19,6 @@ namespace OKlib {
     ::OKlib::GeneralInputOutput::Test_BasicIndentLines< ::OKlib::GeneralInputOutput::BasicIndentLines> test_basic_indentlines;
     
   }
-
 }
 
 #endif

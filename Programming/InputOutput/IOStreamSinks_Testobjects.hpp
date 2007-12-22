@@ -8,18 +8,16 @@ License, or any later version. */
 #ifndef IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
 #define IOSTREAMSINKSTESTOBJECTS_9Uhxxml5
 
-#include <Transitional/GeneralInputOutput/IOStreamSinks.hpp>
-#include <Transitional/GeneralInputOutput/IOStreamSinks_Tests.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamSinks.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamSinks_Tests.hpp>
 
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     Test_NullStream<NullStream> test_null_stream;
 
   }
-
 }
 
 #endif

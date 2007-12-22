@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/MatchFiles.cpp
+  \file Programming/InputOutput/MatchFiles.cpp
   \brief Application for checking whether one file matches a regular expresssion
 
   Two input parameters are needed, which are the names of two files P and F.

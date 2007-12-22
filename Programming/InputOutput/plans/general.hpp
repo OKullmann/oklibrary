@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/plans/general.hpp
+  \file Programming/InputOutput/plans/general.hpp
   \brief Plans for the module on general input and output facilities
 
 

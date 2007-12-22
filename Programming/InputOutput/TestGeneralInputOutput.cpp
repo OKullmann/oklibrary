@@ -9,10 +9,10 @@ License, or any later version. */
 
 #include <Transitional/TestSystem/TestBaseClass.hpp>
 
-#include <Transitional/GeneralInputOutput/RecursiveDirectoryIteration_Testobjects.hpp>
-#include <Transitional/GeneralInputOutput/IOStreamFilters_Testobjects.hpp>
-#include <Transitional/GeneralInputOutput/IOStreamSinks_Testobjects.hpp>
-#include <Transitional/GeneralInputOutput/Multiplexer_Testobjects.hpp>
+#include <Transitional/Programming/InputOutput/RecursiveDirectoryIteration_Testobjects.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamFilters_Testobjects.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamSinks_Testobjects.hpp>
+#include <Transitional/Programming/InputOutput/Multiplexer_Testobjects.hpp>
 
 int main() {
   return OKlib::TestSystem::TestBase::run_tests_default(std::cerr);

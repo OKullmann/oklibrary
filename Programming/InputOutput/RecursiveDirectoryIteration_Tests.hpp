@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/RecursiveDirectoryIteration_Tests.hpp
+  \file Programming/InputOutput/RecursiveDirectoryIteration_Tests.hpp
   \brief Tests for recursive directory iteration.
 
   \bug Checking for directories should not involve CVS-files!
@@ -213,7 +213,6 @@ namespace OKlib {
     };
 
   }
-
 }
 
 #endif

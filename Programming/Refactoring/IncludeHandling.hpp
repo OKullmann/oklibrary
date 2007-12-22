@@ -56,7 +56,7 @@ License, or any later version. */
 
 #include <Transitional/General/IteratorHandling.hpp>
 
-#include <Transitional/GeneralInputOutput/RecursiveDirectoryIteration.hpp>
+#include <Transitional/Programming/InputOutput/RecursiveDirectoryIteration.hpp>
 #include <Transitional/SearchDataStructures/AssociativeContainers.hpp>
 #include <Transitional/Programming/Utilities/OrderRelations/DerivedRelations.hpp>
 

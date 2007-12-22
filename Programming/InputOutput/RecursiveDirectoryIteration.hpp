@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/RecursiveDirectoryIteration.hpp
+  \file Programming/InputOutput/RecursiveDirectoryIteration.hpp
   \brief Recursive iteration over the files and subdirectories 
   contained within a filesystem directory.
 */

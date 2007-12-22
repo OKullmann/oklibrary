@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/PathDifference.cpp
+  \file Programming/InputOutput/PathDifference.cpp
   \brief Application for computing the relative path from one location to another
 
   Two input parameters are required, two absolute path A and B,

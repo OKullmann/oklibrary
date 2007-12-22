@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/Multiplexer_Tests.hpp
+  \file Programming/InputOutput/Multiplexer_Tests.hpp
   \brief Testing of components for gathering and distributing input and output from and to different streams
 */
 
@@ -28,7 +28,6 @@ License, or any later version. */
 #include <Transitional/TestSystem/TestExceptions.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     /*!
@@ -346,7 +345,6 @@ namespace OKlib {
     };
 
   }
-
 }
 
 #endif

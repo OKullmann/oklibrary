@@ -31,7 +31,7 @@ License, or any later version. */
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/GeneralInputOutput/IOStreamFilters.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamFilters.hpp>
 
 #include <Transitional/Satisfiability/Interfaces/InputOutput/Exceptions.hpp>
 

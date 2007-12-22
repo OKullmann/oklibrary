@@ -37,6 +37,8 @@ License, or any later version. */
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par Programming/InputOutput 0.1.2
+  (see Transitional/Programming/InputOutput/plans/milestones.hpp)
   \par Parallelism version 0.0.4 (OK) : DONE
   (see Parallelism/plans/milestones.hpp)
   \par AtomicConditions version 0.0.3 (OK) : DONE
@@ -111,8 +113,6 @@ License, or any later version. */
   (see Structures/plans/milestones.hpp)
   \par Experimentation version 0.4.1
   (see Experimentation/plans/milestones.hpp)
-  \par GeneralInputOutput 0.1.2
-  (see Transitional/GeneralInputOutput/plans/milestones.hpp)
   \par LegalIssues version 0.1 (OK)
   (see LegalIssues/plans/milestones.hpp)
   \par %Combinatorics version 0.0.4

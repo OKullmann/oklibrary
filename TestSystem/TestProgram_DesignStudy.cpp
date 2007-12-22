@@ -25,7 +25,7 @@ License, or any later version. */
 #include <boost/range/iterator_range.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/GeneralInputOutput/Multiplexer.hpp>
+#include <Transitional/Programming/InputOutput/Multiplexer.hpp>
 #include <Transitional/Programming/Messages/MessagesMain.hpp>
 #include <Transitional/Programming/Messages/LanguageNames.hpp>
 

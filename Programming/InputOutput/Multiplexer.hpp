@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/Multiplexer.hpp
+  \file Programming/InputOutput/Multiplexer.hpp
   \brief Components for gathering and distributing input and output from and to different streams
   \todo Complete the documentation.
 */
@@ -35,10 +35,9 @@ License, or any later version. */
 #include <boost/utility.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <Transitional/GeneralInputOutput/IOStreamSinks.hpp>
+#include <Transitional/Programming/InputOutput/IOStreamSinks.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     /*!
@@ -253,7 +252,6 @@ namespace OKlib {
     };
 
   }
-
 }
 
 #endif

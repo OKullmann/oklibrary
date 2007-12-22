@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file GeneralInputOutput/IOStreamSinks.hpp
+  \file Programming/InputOutput/IOStreamSinks.hpp
   \brief Output devices according to the Boost Iostream library
 */
 
@@ -17,7 +17,6 @@ License, or any later version. */
 #include <boost/iostreams/stream.hpp>
 
 namespace OKlib {
-
   namespace GeneralInputOutput {
 
     /*!
@@ -40,7 +39,6 @@ namespace OKlib {
     typedef BasicNullStream<wchar_t> WNullStream;
 
   }
-
 }
 
 #endif
