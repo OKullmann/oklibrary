@@ -7,7 +7,8 @@ License, or any later version. */
 
 /*!
   \file Transitional/OKsolver/plans/general.hpp
-  \brief Plans for the module containing old OKsolver-etc-code
+  \brief Plans for the deprecated module containing old experimental code
+  \deprecated To be dissolved soon.
 
 
   \todo Submodule "Experimental 200203"
