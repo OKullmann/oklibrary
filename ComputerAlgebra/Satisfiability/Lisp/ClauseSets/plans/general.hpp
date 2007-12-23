@@ -38,13 +38,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Random generator
-  <ul>
-   <li> Using the maxima-aes-implementation, implement the random generator
-   as in Experimentation/RandomGenerator/plans/general.hpp. </li>
-  </ul>
-
-
   \todo Resolution
   <ul>
    <li> Perhaps this topic should go into its own plans-file. </li>
@@ -121,19 +114,6 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
-
-
-  \todo Generators
-  <ul>
-   <li> Sudoku: compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
-   <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
-   to store an intermediate value)
-   Replace, if possible, all loops by the use of "create_list". </li>
-   <li> DONE It seems that "declare(php, noun)" cannot be used twice, and thus
-   we cannot reload a file containing such a declaration?? Is just to kill
-   "php" before the solution? </li>
-  </ul>
-
 
 */
 
