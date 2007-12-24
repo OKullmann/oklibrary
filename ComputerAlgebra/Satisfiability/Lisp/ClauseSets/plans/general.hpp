@@ -19,6 +19,9 @@ License, or any later version. */
   \todo Write docus
 
 
+  \todo Systematise the use of suffices like "cs" and "cs_f".
+
+
   \todo Input and output
   <ul>
    <li> Functions currently in
