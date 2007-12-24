@@ -40,9 +40,13 @@ License, or any later version. */
   \todo Sudoku
   <ul>
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
+   <li> We need an easy method for specifying partial assignments to
+   fields. </li>
    <li> One should try whether using "create_list" in sdk_different_boxes,
    without storing the intermediate value, really slows down the computation
    (possibly the optimisation is detected?). </li>
+   <li> We also need generators for Latin square completition problems,
+   etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
    <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
    to store an intermediate value)
    Replace, if possible, all loops by the use of "create_list". </li>
