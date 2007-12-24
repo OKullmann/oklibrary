@@ -201,7 +201,13 @@ License, or any later version. */
   \todo Partial compilation:
   <ul>
    <li> "compfile" writes Lisp-code into files? </li>
-   <li> "compile" ? </li>
+   <li> It seems that we should use "compile(all)" from time to time, and also
+   with "oklib".
+    <ol>
+     <li> There are warnings about undefined global variables, but since they
+     involve even for example "inf" it seems we can ignore these warnings? </li>
+    </ol>
+   </li>
   </ul>
 
 
