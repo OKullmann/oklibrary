@@ -67,6 +67,39 @@ License, or any later version. */
   </ul>
 
 
+  \todo Frobenius problem
+  <ul>
+   <li> http://en.wikipedia.org/wiki/Coin_problem </li>
+   <li> What is the precise computational complexity ?
+    <ol>
+     <li> How to measure the input length?? Unary or binary notation??? </li>
+     <li> What does the "NP-hardness" mean? Upper bounds??
+      <ol>
+       <li> Consider the decision version "g(a_1,...,a_n) >= K ?". </li>
+       <li> It seems that measuring the a_i in unary, the problem is solvable
+       in polynomial time, while for a_i taken binary the problem seems to
+       be NP-complete. </li>
+      </ol>
+     </li>
+     <li> Parameterised complexity:
+      <ol>
+       <li> A natural parameter is the dimension n. (Seems to be poly-time
+       for fixed n; FPT??) </li>
+       <li> Another is the bound K. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> Direct algorithms:
+    <ol>
+     <li> "Heap and Lynn method", reducing the problem in a direct way
+     to the index of primitivity, should be implemented. (While
+     the index of primitivity has a trivial direct solution.) </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
 
 
