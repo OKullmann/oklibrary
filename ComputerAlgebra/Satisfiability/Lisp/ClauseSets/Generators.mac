@@ -146,6 +146,35 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
     VanDerWaerden2_cs_f(k,n),
     filename)$
 
+
+/* ***************************************
+   * Minimally unsatisfiable clause-sets *
+   ***************************************
+*/
+
+/* The translations into MUSAT according to [Papadimitriou, Wolfe 1988] */
+
+/* New variables are "pawo(i)", where i is the index of the clause in F */
+kill(pawo)$
+declare(pawo, noun)$
+declare(pawo, posfun)$
+
+/* Input a formal clause-set F, returns a formal clause-set G such that
+   if F is satisfiable the G is satisfiable, while if F is unsatisfiable
+   then G is minimally unsatisfiable.
+*/
+/* Thus USAT is reduced to MUSAT. */
+usat_musat(FF) := if not freeof(pawo, FF) then error("usat_musat[ERROR]: input contains variable scheme pawo!") else
+ block([L : listify(FF[2]), m : length(FF[2]), Y],
+  Y : setify(makelist(pawo(i), i, 1, m)),
+  return(
+    [union(FF[1], Y), setify(append(
+      makelist(union(L[i], disjoin(pawo(i), Y)), i, 1, m),
+      create_list(union({-listify(L[i])[j], -pawo(i)}, disjoin(pawo(i), Y)), i,1,m, j,1,length(L[i])),
+      create_list({-pawo(i), -pawo(j)}, i,1,m-1, j,i+1,m)))]
+  ))$
+
+
 /*!
 \endhtmlonly
 */
