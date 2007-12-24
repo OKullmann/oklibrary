@@ -19,7 +19,18 @@ License, or any later version. */
 
   \todo Variables
   <ul>
-   <li> Given a formal clause-set FF, how to create *new* variables? </li>
+   <li> Given a formal clause-set FF, how to create *new* variables?
+    <ol>
+     <li> The need arises in constructions. </li>
+     <li> Perhaps for each construction a new type of variable is introduced,
+     like "php" for the pigeonhole formulas. </li>
+     <li> Transformers which use a given clause-set F should at least
+     check that F doesn't contain the dedicated "new" variables --- otherwise
+     perhaps the computation is just aborted with an error message. </li>
+     <li> This test can be performed with e.g. <code>freeof(php,F)</code>.
+     </li>
+    </ol>
+   </li>
    <li> DONE It seems that "declare(php, noun)" cannot be used twice, and thus
    we cannot reload a file containing such a declaration?? Is just to kill
    "php" before the solution? </li>
@@ -29,9 +40,20 @@ License, or any later version. */
   \todo Sudoku
   <ul>
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
+   <li> One should try whether using "create_list" in sdk_different_boxes,
+   without storing the intermediate value, really slows down the computation
+   (possibly the optimisation is detected?). </li>
    <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
    to store an intermediate value)
    Replace, if possible, all loops by the use of "create_list". </li>
+  </ul>
+
+
+  \todo Translations to MUSAT
+  <ul>
+   <li> Implement the other elements of the reduction. </li>
+   <li> DONE Implement the basic UNSAT-MUSAT reduction from
+   [Papadimitriou, Wolfe; 1988]. </li>
   </ul>
 
 */
