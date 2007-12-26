@@ -15,10 +15,21 @@ License, or any later version. */
 
   \todo Graph concepts
   <ul>
-   <li> A graph is just a 2-element list, consisting of the set of
+   <li> A "graph" is just a 2-element list, consisting of the set of
    vertices, and a set of 2-element vertex sets. </li>
-   <li> How to handle "properties" ? </li>
-   <li> Can we tag such objects as being "graphs" ? </li>
+   <li> A "graph with loops" also allows 1-element vertex sets. </li>
+   <li> A "general graph" is a triple [V,E,f], where V, E are sets and
+   f is a map from E to 1-2-element subsets of V. </li>
+   <li> The same with directed graphs, only that this time we have
+   vertex lists instead of vertex sets. </li>
+   <li> There is also the (cryptomorphic) notion of a "precategory",
+   which is a 4-tuple [V,E,source,target]. </li>
+   <li> Given a vertex, we need the set of edges incident to the vertex;
+   this can be handled via the dual hypergraph, we we should provide some
+   more convenient methods. </li>
+   <li> How to handle "properties" ? DONE (these shall just be maps) </li>
+   <li> Can we tag such objects as being "graphs" ? DONE (we are living
+   type-free) </li>
   </ul>
 
 
@@ -46,6 +57,22 @@ License, or any later version. */
      the hyperedges, joined by an edge if disjoint. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Graph traversal
+  <ul>
+   <li> Implement the generic graph traversal from module CS-232. </li>
+   <li> Compute connected components and strong connected components. </li>
+  </ul>
+
+
+  \todo Primitive directed graphs etc.
+  <ul>
+   <li> Compute the index of imprimitivity of a directed graph (with loops).
+   </li>
+   <li> And for primitive directed graphs (with loops) compute the index of
+   primitivity. </li>
   </ul>
 
 */
