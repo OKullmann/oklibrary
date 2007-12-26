@@ -20,7 +20,25 @@ License, or any later version. */
     </ol>
    </li>
    <li> Write configuration file for clisp DONE </li>
-   <li> Write installation script for clisp. </li>
+   <li> Write installation script for clisp. DONE
+    <ol>
+     <li> Apparently the clisp-maxima system is faulty and doesn't admit
+     automatic installation. </li>
+     <li> We keep the clisp.mak for the installation, and perhaps something
+     changes in the future (and one can use it to install libsigsegv),
+     however in the docu we give instruction on manual (syste-wide)
+     building. </li>
+     <li> Apparently on cs-wsok one needs to use "ulimit -s 16384; make" ? </li>
+     <li> Perhaps one should better use "ulimit -s 16384 -S; make", so that in
+     case actually "ulimit -s" was already greater than 16384, it is not
+     reduced?? Or should we just use "ulimit -s unlimited" ?? Or should
+     we first find out whether "ulimit -s" yields a value which is at least
+     16384 ?? The strange thing is that with "ulimit -s XXX" apparently the
+     stacksize can actually only be reduced ??? </li>
+     <li> And in order to compile for 64 bit on cs-wsok, apparently CC has to
+     be set to "gcc -m64" ?? By using 'make CC="gcc -m64"' ?? </li>
+    </ol>
+   </li>
    <li> Provide links to the documentation for clisp. </li>
    <li> Write docu for installation of clisp. </li>
    <li> Put information on the main-external-sources-page. </li>
@@ -30,7 +48,7 @@ License, or any later version. */
   \todo Install Maxima
   <ul>
    <li> Write configuration file for Maxima. DONE </li>
-   <li> Write installation script for Maxima. </li>
+   <li> Write installation script for Maxima. DONE </li>
    <li> Provide links to the documentation for Maxima (including
    the maxima-book and the tutorial. </li>
    <li> What about the documentation for Maxima provided with Sage? </li>
@@ -39,7 +57,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Install Maxima 5.13 on csltok
+  \todo Install Maxima 5.13 on csltok : DONE (works now (with 5.14))
   <ul>
    <li> First install clisp (should we supply this?); see below. </li>
    <li>
@@ -133,7 +151,7 @@ maxima-5.13.0> make install
   </ul>
 
 
-  \todo Install clisp (version 2.43) on csltok:
+  \todo Install clisp (version 2.43) on csltok: DONE (manual installation must suffice)
   <ul>
    <li> 
    \verbatim

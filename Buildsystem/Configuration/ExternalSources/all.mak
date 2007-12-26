@@ -27,6 +27,7 @@ include $(OKconfiguration)/ExternalSources/r.mak
 include $(OKconfiguration)/ExternalSources/sage.mak
 include $(OKconfiguration)/ExternalSources/ubcsat.mak
 include $(OKconfiguration)/ExternalSources/valgrind.mak
+include $(OKconfiguration)/ExternalSources/clisp.mak
 include $(OKconfiguration)/ExternalSources/maxima.mak
 
 # ################################

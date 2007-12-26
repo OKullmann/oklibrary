@@ -7,32 +7,34 @@
 
 # Settings for building and using Maxima
 
-maxima_recommended_version_number ?= 5.13
-maxima_supported_not_recommended_version_numbers ?= 5.12
-maxima_supported_version_numbers ?= $(maxima_supported_not_recommended_version_numbers) $(maxima_recommended_version_number)
+maxima_recommended_version_number_okl ?= 5.14.0
+maxima_supported_not_recommended_version_numbers_okl ?= 5.12
+maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
 
-maxima_prefix ?= maxima
+maxima_prefix_okl ?= maxima
 
-maxima_recommended_package_name ?= $(maxima_prefix)-$(maxima_recommended_version_number)
+maxima_recommended_package_name_okl ?= $(maxima_prefix_okl)-$(maxima_recommended_version_number_okl)
 
-maxima_html_template ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Maxima.html
-maxima_html_output ?= $(local_html_dir)/Maxima.html
-maxima_html_documentation_index_location ?= Maxima.html
+maxima_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Maxima.html
+maxima_html_output_okl ?= $(local_html_dir)/Maxima.html
+maxima_html_documentation_index_location_okl ?= Maxima.html
 
-maxima_base_directory ?= $(ExternalSources_installations)/Maxima
-maxima_installation_dir ?= $(maxima_base_directory)/$(maxima_recommended_version_number)
-maxima_build_dir ?= $(ExternalSources_builds)/Maxima/$(maxima_recommended_package_name)
-maxima_doc_dir ?= $(ExternalSources_doc)/Maxima/$(maxima_recommended_version_number)
+maxima_base_installation_dir_okl ?= $(ExternalSources_installations)/Maxima
+maxima_installation_dir_okl ?= $(maxima_base_installation_dir_okl)/$(maxima_recommended_version_number_okl)
+maxima_base_build_dir_okl ?= $(ExternalSources_builds)/Maxima
+maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_package_name_okl)
+maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
+maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number)
 
-maxima_call ?= $(maxima_installation_dir)/bin/maxima
-maxima_main_index ?= $(maxima_installation_dir)/doc/index.html
+maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
+maxima_main_index_okl ?= $(maxima_doc_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/html/maxima.html
 
-maxima_docu_page ?= $(doc_dir)/doxygen_html/
+maxima_docu_page_okl ?= $(doc_dir)/doxygen_html/
 
-maxima_homepage_url := http://maxima.sourceforge.net/
-maxima_documentation_url := http://maxima.sourceforge.net/docs.shtml
+maxima_homepage_url_okl := http://maxima.sourceforge.net/
+maxima_documentation_url_okl := http://maxima.sourceforge.net/docs.shtml
 
-maxima_targets_prefix := $(maxima_prefix)-
-maxima_targets := $(addprefix $(maxima_targets_prefix), $(maxima_supported_version_numbers))
-maxima_recommended := $(maxima_targets_prefix)$(maxima_recommended_version_number)
+maxima_targets_prefix_okl := $(maxima_prefix_okl)-
+maxima_targets_okl := $(addprefix $(maxima_targets_prefix_okl), $(maxima_supported_version_numbers_okl))
+maxima_recommended_okl := $(maxima_targets_prefix_okl)$(maxima_recommended_version_number_okl)
 

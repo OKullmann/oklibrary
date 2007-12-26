@@ -17,32 +17,37 @@ License, or any later version. */
   Main directories involved are:
   <ul>
    <li> The base directory for installations of external sources is
-    $(ExternalSources) (variable "ExternalSources"):
+    <code>$(ExternalSources)</code> (variable "ExternalSources"):
     <ol>
-     <li> The sources one finds in $(ExternalSources_sources) (variable
-     "ExternalSources_sources"). </li>
-     <li> The installed software then is located in $(ExternalSources_installations)
+     <li> The sources one finds in <code>$(ExternalSources_sources)</code>
+     (variable "ExternalSources_sources"). </li>
+     <li> The installed software then is located in
+     <code>$(ExternalSources_installations)</code>
      (variable "ExternalSources_installations"). </li>
      <li> Building the packages is done (if possible) in separate directories,
-     which can be find in $(ExternalSources_builds) (variable
+     which can be found in <code>$(ExternalSources_builds)</code> (variable
      "ExternalSources_builds"). </li>
-     <li> Finally the extracted documentation is located in $(ExternalSources_doc)
-     (variable "ExternalSources_doc"). </li>
+     <li> Finally the extracted documentation is located in
+     <code>$(ExternalSources_doc)</code> (variable "ExternalSources_doc").
+     </li>
     </ol>
    </li>
    <li> The scripts etc. for building the external sources are in
-   $(OKbuildsystem)/ExternalSources, with the following sub-directories:
+   <code>$(OKbuildsystem)/ExternalSources</code>, with the following
+   sub-directories:
     <ol>
      <li> "SpecialBuilds" contains information on how to build the packages. </li>
      <li> The standard "systematic directories", "docus" and "plans", contain,
      as usual, user documentation (like this file) and plans. </li>
-     <li> "sources" mirrors $(ExternalSources_sources), and contains the
-     checksums for all external sources (obtained by the tool
+     <li> "sources" mirrors <code>$(ExternalSources_sources)</code>, and
+     contains the checksums for all external sources (obtained by the tool
      <code> $(ext_src_checksum) </code>). </li>
     </ol>
    </li>
    <li> Finally the configuration information (like Version numbers etc.) is in
-   $(OKbuildsystem)/Configuration/ExternalSources/all.mak. </li>
+   <code>$(OKbuildsystem)/Configuration/ExternalSources/all.mak</code> (via
+   inclusion of the special makefiles responsible for building single external
+   sources). </li>
   </ul>
 
   $(OKbuildsystem)/ExternalSources/Makefile is the central makefile:
@@ -65,6 +70,12 @@ License, or any later version. */
     a configuration file "exs.mak" is to be created (copying an appropriate role
     model), and it is to be included in
     <code>Buildsystem/Configuration/ExternalSources/all.mak</code>.
+   </li>
+   <li>
+   Then in directory <code>Buildsystem/ExternalSources/SpecialBuilds</code>
+   the makefile "exc.mak" for building the source is to be created (copying
+   an appropriate role model), and it is to be include in the makefile
+   <code>Buildsystem/ExternalSources/Makefile</code>.
    </li>
   </ol>
 

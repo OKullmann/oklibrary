@@ -76,6 +76,8 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gmp.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/sage.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ocaml.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/coq.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/clisp.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
 
 # #################################
 # Cleaning
