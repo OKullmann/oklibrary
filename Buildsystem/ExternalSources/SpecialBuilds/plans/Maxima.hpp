@@ -188,7 +188,7 @@ to this script:
   </ul>
 
 
-  \todo Install clisp (version 2.43) on cs-wsok (system-wide)
+  \todo Install clisp (version 2.43) on cs-wsok (system-wide) : DONE (same error as on csltok)
   <ul>
    <li> Same problem with libsigsegv. </li>
    <li> Installing libsigsegv (system-wide)

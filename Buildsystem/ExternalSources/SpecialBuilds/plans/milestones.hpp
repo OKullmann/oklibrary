@@ -20,9 +20,9 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Install CLisp : DONE
-    - Install clisp (version 2.43) on cs-wsok
     - Install Maxima
+    - Install CLisp : DONE
+    - Install clisp (version 2.43) on cs-wsok : DONE
     - Install Maxima 5.13 on csltok : DONE
     - Install clisp (version 2.43) on csltok : DONE
 
