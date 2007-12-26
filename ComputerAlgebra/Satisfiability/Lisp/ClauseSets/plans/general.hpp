@@ -41,9 +41,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo General clause-sets
+  <ul>
+   <li> A "general clause-set" is a triple ,V,F,f], where V is a set of
+   variables, F a set of clause-labels, and f assigns to each element of
+   F a clause over V. </li>
+   <li> As we have a promotion from clause-sets to formal clause-sets, we
+   also need a promotion from a formal clause-set to a general clause-set.
+   </li>
+  </ul>
+
+
   \todo Resolution
   <ul>
-   <li> Perhaps this topic should go into its own plans-file. </li>
+   <li> Perhaps this topic should go into its own plans-file (and likely
+   even into its own module). </li>
    <li> See ProofSystems/Resolution/plans/Search.hpp. </li>
    <li> min_resolution_closure_cs :
     <ol>

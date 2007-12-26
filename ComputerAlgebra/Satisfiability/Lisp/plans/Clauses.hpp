@@ -10,16 +10,18 @@ License, or any later version. */
   \brief Plans for clause-constructions
 
 
-  \todo Boolean clauses
-
- 
-  \todo %Clauses
-
-
-  \todo Signed clauses
-
-  
-  \todo Conversions
+  \todo Boolean clauses, and more general clauses
+  <ul>
+   <li> We have a notion of boolean clauses in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac,
+   and this seems sufficient. </li>
+   <li> Also clauses of more general literals are all just
+   plain sets. </li>
+   <li> With more general literals we get the problem of "standardising"
+   clauses. </li>
+   <li> We also need to provide promotions (just promoting the literals).
+   </li>
+  </ul>
 
 
   \todo Signed clauses as conditions
