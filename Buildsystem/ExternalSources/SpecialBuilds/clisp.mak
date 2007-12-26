@@ -49,7 +49,7 @@ cleanallclisp :
 # Tool libsigsegv
 ###################################
 
-libsigsegv_directories := $(libsigsegv_base_build_dir_okl)
+libsigsegv_directories_okl := $(libsigsegv_base_build_dir_okl)
 
 .PHONY : libsigsegv $(libsigsegv_targets_okl)
 
