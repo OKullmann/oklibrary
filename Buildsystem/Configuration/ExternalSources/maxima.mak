@@ -24,7 +24,7 @@ maxima_installation_dir_okl ?= $(maxima_base_installation_dir_okl)/$(maxima_reco
 maxima_base_build_dir_okl ?= $(ExternalSources_builds)/Maxima
 maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_package_name_okl)
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
-maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number)
+maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
 
 maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
 maxima_main_index_okl ?= $(maxima_doc_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/html/maxima.html
