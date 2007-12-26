@@ -95,6 +95,8 @@ License, or any later version. */
      <li> "Heap and Lynn method", reducing the problem in a direct way
      to the index of primitivity, should be implemented. (While
      the index of primitivity has a trivial direct solution.) </li>
+     <li> See ComputerAlgebra/Graphs/Lisp/plans/general.hpp,
+     "Primitive directed graphs etc.". </li>
     </ol>
    </li>
   </ul>
