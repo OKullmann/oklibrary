@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Install CLisp
+  \todo Install CLisp : DONE
   <ul>
    <li> We should provide "oklib libsigsegv" (yet only system-wide), but
    documentation only as part of the installation of CLisp.
@@ -40,8 +40,8 @@ License, or any later version. */
     </ol>
    </li>
    <li> Write docu for installation of clisp. DONE </li>
-   <li> Provide links to the documentation for clisp. </li>
-   <li> Put information on the main-external-sources-page. </li>
+   <li> Provide links to the documentation for clisp. DONE </li>
+   <li> Put information on the main-external-sources-page. DONE </li>
   </ul>
 
 

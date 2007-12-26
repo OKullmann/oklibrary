@@ -73,7 +73,7 @@ License, or any later version. */
    </li>
    <li>
    Then in directory <code>Buildsystem/ExternalSources/SpecialBuilds</code>
-   the makefile "exc.mak" for building the source is to be created (copying
+   the makefile "exs.mak" for building the source is to be created (copying
    an appropriate role model), and it is to be include in the makefile
    <code>Buildsystem/ExternalSources/Makefile</code>.
    </li>
@@ -90,7 +90,12 @@ License, or any later version. */
      <li> This docu-file should get a link in
      <code>Buildsystem/ExternalSources/docus/general.hpp</code>. </li>
      <li> And its address can now be entered into the configuration makefile
-     <code>Buildsystem/Configuration/ExternalSources</code>. </li>
+     <code>Buildsystem/Configuration/ExternalSources/exs.mak</code>. </li>
+     <li> Finally we create an entry in the main external-sources overview
+     page <code>Buildsystem/Html/Local/ExternalSources.html</code> (again,
+     by copy-and-paste from other entries). </li>
+     <li> And for the links to work new entries are added (appropriately) in
+     <code>Buildsystem/Configuration/Html/relative_paths.mak</code>. </li>
     </ol>
    </li>
   </ol>

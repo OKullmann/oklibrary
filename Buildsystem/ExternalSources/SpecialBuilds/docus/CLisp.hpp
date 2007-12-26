@@ -16,7 +16,7 @@ License, or any later version. */
   <h2> On the purpose of CLisp </h2>
 
   The computer algebra system is implemented in "Common Lisp", and
-  CLisp is an implementation of the form of Lisp, suitable for the
+  CLisp is an implementation of this form of Lisp, suitable for the
   computer algebra system Maxima.
 
 
