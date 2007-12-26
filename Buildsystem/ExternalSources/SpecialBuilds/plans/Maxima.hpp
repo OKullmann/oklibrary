@@ -39,8 +39,8 @@ License, or any later version. */
      be set to "gcc -m64" ?? By using 'make CC="gcc -m64"' ?? </li>
     </ol>
    </li>
+   <li> Write docu for installation of clisp. DONE </li>
    <li> Provide links to the documentation for clisp. </li>
-   <li> Write docu for installation of clisp. </li>
    <li> Put information on the main-external-sources-page. </li>
   </ul>
 

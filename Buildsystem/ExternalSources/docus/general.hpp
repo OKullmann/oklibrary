@@ -61,10 +61,12 @@ ocaml_bin_dir := /usr/local/bin
   
   <h2> Installations </h2>
 
-  User documentation on how to install supported software, and basic usage:
+  User documentation on how to install supported software and basic usage
+  (sorted alphabetically):
 
   <ol>
    <li> Boost (Buildsystem/ExternalSources/SpecialBuilds/docus/Boost.hpp) </li>
+   <li> CLisp (Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp) </li>
    <li> Coq (Buildsystem/ExternalSources/SpecialBuilds/docus/Coq.hpp) </li>
    <li> Doxygen (Buildsystem/ExternalSources/SpecialBuilds/docus/Doxygen.hpp) </li>
    <li> Gcc (Buildsystem/ExternalSources/SpecialBuilds/docus/Gcc.hpp) </li>

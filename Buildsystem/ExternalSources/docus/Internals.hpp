@@ -77,6 +77,22 @@ License, or any later version. */
    an appropriate role model), and it is to be include in the makefile
    <code>Buildsystem/ExternalSources/Makefile</code>.
    </li>
+   <li> Documentation:
+    <ol>
+     <li> First the file
+     <code>Buildsystem/Configuration/ExternalSources/tests.mak</code>
+     has to be extended with test-code for ExS, copying appropriate
+     role models. </li>
+     <li> And using these variables, a docu-file has to be produced
+     named
+     <code>Buildsystem/ExternalSources/SpecialBuilds/docus/ExS.hpp</code>.
+     </li>
+     <li> This docu-file should get a link in
+     <code>Buildsystem/ExternalSources/docus/general.hpp</code>. </li>
+     <li> And its address can now be entered into the configuration makefile
+     <code>Buildsystem/Configuration/ExternalSources</code>. </li>
+    </ol>
+   </li>
   </ol>
 
 

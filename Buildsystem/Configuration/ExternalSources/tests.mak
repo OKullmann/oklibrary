@@ -287,3 +287,25 @@ endif
 # the following construction needs to be generalised by some function
 R_html_documentation_index_location_tag ?= <a href="$(R_html_documentation_index_location)">$(R_html_documentation_index_location)</a>
 
+
+# New variables for the configuration of building clisp (to be designed 
+# and implemented):
+
+clisp_version_number_extraction_okl := awk '/ CLISP [0-9]+\.[0-9]+/{print $$3}'
+# assumes that the output of "clisp -version" contains a line of the form
+# (for example) "GNU CLISP 2.43 (2007-11-18) (built 3407616533) (memory 3407616899)"
+
+location_clisp_call_okl ?= $(shell (type -P $(clisp_call_okl)))
+ifeq ($(location_clisp_call_okl),)
+  clisp_call_ready_okl ?= NO
+else
+  version_clisp_call_okl ?= $(shell $(clisp_call_okl) --version | $(clisp_version_number_extraction_okl))
+  ifeq ($(version_clisp_call_okl),$(clisp_recommended_version_number_okl))
+    clisp_call_ready_okl ?= YES
+  else
+    clisp_call_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+clisp_docu_page_tag_okl ?= <a href="$(clisp_docu_page_okl)">Clisp installation page</a>

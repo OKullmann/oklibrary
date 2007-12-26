@@ -15,9 +15,9 @@ clisp_prefix_okl ?= clisp
 
 clisp_recommended_package_name_okl ?= $(clisp_prefix_okl)-$(clisp_recommended_version_number_okl)
 
-clisp_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Clisp.html
-clisp_html_output_okl ?= $(local_html_dir)/Clisp.html
-clisp_html_documentation_index_location_okl ?= Clisp.html
+# clisp_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Clisp.html
+# clisp_html_output_okl ?= $(local_html_dir)/Clisp.html
+# clisp_html_documentation_index_location_okl ?= Clisp.html
 
 clisp_base_installation_dir_okl ?= $(ExternalSources_installations)/CLisp
 clisp_installation_dir_okl ?= $(clisp_base_installation_dir_okl)/$(clisp_recommended_version_number_okl)
@@ -28,7 +28,7 @@ clisp_doc_dir_okl ?= $(clisp_base_doc_dir_okl)/$(clisp_recommended_version_numbe
 
 clisp_call_okl ?= clisp
 
-clisp_docu_page_okl ?= $(doc_dir)/doxygen_html/
+clisp_docu_page_okl ?= $(doc_dir)/doxygen_html/df/dfc/CLisp_8hpp.html
 
 clisp_homepage_url_okl := http://www.clisp.org/
 clisp_documentation_url_okl := http://clisp.sourceforge.net/resources.html

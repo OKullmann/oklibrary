@@ -11,11 +11,17 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.1 (21.8.2007)
 
 
-  \par Version 0.2.2 (focus on documentation)
+  \par Version 0.2.2 (documentation and Maxima)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
     - Documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Install CLisp
+    - Install Maxima
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
@@ -54,12 +60,6 @@ License, or any later version. */
 
 
   \par Version 0.2.4 (installing computer algebra)
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
-   topics are handled:
-    - Install CLisp
-    - Install Maxima
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Aldor.hpp the following
