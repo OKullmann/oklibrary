@@ -23,6 +23,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Hypergraphs/Lisp/Generators.mac
+  <ul>
+   <li> Create complete r-graphs. </li>
+   <li> Create Ramsey graphs etc. </li>
+  </ul>
+
+
   \todo Hypergraph transversals
   <ul>
    <li> See Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp. </li>
