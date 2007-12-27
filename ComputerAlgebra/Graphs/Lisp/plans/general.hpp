@@ -24,8 +24,10 @@ License, or any later version. */
    vertex lists instead of vertex sets. </li>
    <li> There is also the (cryptomorphic) notion of a "precategory",
    which is a 4-tuple [V,E,source,target]. </li>
+   <li> Since also for general graphs the edge set needs to be given, we don't
+   have the possibility of "lazy graph representations". Seems unavoidable. /li>
    <li> Given a vertex, we need the set of edges incident to the vertex;
-   this can be handled via the dual hypergraph, we we should provide some
+   this can be handled via the dual hypergraph, but we should provide some
    more convenient methods. </li>
    <li> How to handle "properties" ? DONE (these shall just be maps) </li>
    <li> Can we tag such objects as being "graphs" ? DONE (we are living
@@ -33,7 +35,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Generators.mac
+  \todo InputOutput.mac
   <ul>
    <li> Extend the documentation. </li>
    <li> Write documentation. </li>
@@ -43,9 +45,15 @@ License, or any later version. */
      <li> Should we give the graphs in the dot-output a dedicated name? </li>
      <li> Generalise the graph output, so that arbitrary graphs
      can be output (making function "string_vertex" a parameter). </li>
-     <li> Move graph output to dedicated "InputOutput.mac". </li>
+     <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
     </ol>
    </li>
+
+
+  \todo Generators.mac
+  <ul>
+   <li> Create complete graphs. </li>
+   <li> Create complete bipartite graphs. </li>
    <li> Generalisations of the Kneser graphs:
     <ol>
      <li> The Johnson graphs J(n,k,i), consisting like the Kneser
