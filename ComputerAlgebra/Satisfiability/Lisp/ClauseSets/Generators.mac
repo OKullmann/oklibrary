@@ -116,18 +116,33 @@ sdk_filled_fields(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
 
 
-/* the sudoku problem as formal clause-set */
+/* the sudoku problem (weak form) as formal clause-set */
 weak_sdk(p) := [var_sdk(p), 
  union(sdk_different_rows(p), sdk_different_columns(p), sdk_different_boxes(p),
        sdk_filled_fields(p))]$
 
-output_weak_sdk(p,filename) := 
-  output_cs_f(
-    sconcat("The Sudoku problem with box-dimension ", p, "."), 
-    weak_sdk(p),
-    filename)$
+output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
+  output_cs_f_v(
+    sconcat("The Sudoku problem (weak form) with box-dimension ", p, "."), 
+    FF[1],
+    filename,
+    FF[2]))$
 
+/* every field carris different numbers */
+sdk_different_fields(p) := block([N : p^2],
+  setify(create_list({-sdk(i,j,k1), -sdk(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
 
+/* the sudoku problem as formal clause-set */
+strong_sdk(p) := [var_sdk(p), 
+ union(sdk_different_rows(p), sdk_different_columns(p), sdk_different_boxes(p),
+       sdk_filled_fields(p), sdk_different_fields(p))]$
+
+output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
+  output_cs_f_v(
+    sconcat("The Sudoku problem (strong form) with box-dimension ", p, "."), 
+    FF[1],
+    filename,
+    FF[2]))$
 
 /* ***************************
    * Van der Waerden problem *

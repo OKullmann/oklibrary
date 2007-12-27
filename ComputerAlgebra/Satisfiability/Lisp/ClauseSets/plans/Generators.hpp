@@ -47,6 +47,8 @@ License, or any later version. */
    (possibly the optimisation is detected?). </li>
    <li> We also need generators for Latin square completition problems,
    etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
+   <li> Add the conditions, that a field doesn't git several colours.
+   DONE. </li>
    <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
    to store an intermediate value)
    Replace, if possible, all loops by the use of "create_list". </li>
