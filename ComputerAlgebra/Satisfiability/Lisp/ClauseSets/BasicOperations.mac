@@ -82,6 +82,15 @@ cs_to_fcs(F) := [var_cs(F), F]$
 /* complementation (literal-wise) of a clause-set */
 comp_cs(F) := map(comp_sl, F)$
 
+/* Translating variable names of a formal clause-set into natural numbers; 
+   outputs a pair consisting of the translated formal clause-set and
+   the list of old variable names (positions corresponding to new
+   variable-numbers */
+standardise_fcs(FF) := block([n : length(FF[1]), V : listify(FF[1])], 
+  for i : 1 thru n do FF : substitute(i, V[i], FF),
+  return([FF,V]))$
+
+
 /* ************
    * Measures *
    ************
@@ -141,6 +150,20 @@ print_cs_f(comment,FF) := (
 
 /* output formal clause-set FF to file n */
 output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF))$
+
+/* print a formal clause-set in Dimacs format, together with a map
+   which explains the variable meaning */
+print_cs_f_v(comment,FF,varlist) := (
+  print_nlb(sconcat("c ", comment)),
+  for i from 1 thru length(varlist) do print_nlb(sconcat("c ", i, " : ", varlist[i])),
+  print_nlb(sconcat("p cnf ", nvar_f(FF), " ", length(clauses_f(FF)))),
+  for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
+)$
+
+/* output formal clause-set FF to file n, using a variable-list */
+output_cs_f_v(comment,FF,n,varlist) := 
+  with_stdout(n, print_cs_f_v(comment,FF,varlist))$
+
 
 /*!
 \endhtmlonly
