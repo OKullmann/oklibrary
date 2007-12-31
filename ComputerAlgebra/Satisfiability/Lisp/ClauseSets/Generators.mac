@@ -44,19 +44,20 @@ full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian
 kill(php)$
 declare(php, noun)$
 declare(php, posfun)$
+php_var(i,j) := nounify(php)(i,j)$
 
 /* The set of variables for the pigeonhole formulas with m pigeons and n holes */
-var_php(m,n) := setify(create_list(php(i,j), i,1,m, j,1,n))$
+var_php(m,n) := setify(create_list(php_var(i,j), i,1,m, j,1,n))$
 
 /* In the following m denotes the number of pigeons, n the number of holes */
 
 /* no two pigeon in the same hole */
-pigeons_different_holes(m,n) := setify(create_list({- php(i,k), - php(j,k)}, 
+pigeons_different_holes(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)}, 
   i,1,m-1, j,i+1,m, k,1,n))$
 
 /* every pigeon in one hole */
 pigeons_in_holes(m,n) := setify(
-  makelist(setify(makelist(php(i,j), j, 1, n)), i,1,m))$
+  makelist(setify(makelist(php_var(i,j), j, 1, n)), i,1,m))$
 
 /* the weak pigeon formula as formal clause-set */
 weak_php(m,n) := [var_php(m,n), 
@@ -78,20 +79,21 @@ output_weak_php(m,n,filename) :=
 kill(sdk)$
 declare(sdk, noun)$
 declare(sdk, posfun)$
+sdk_var(i,j,k) := nounify(sdk)(i,j,k)$
 
 /* The set of variables for Sudoku formulas of box-dimension p */
 var_sdk(p) := block([N : p^2],
- setify(create_list(sdk(i,j,k), i,1,N, j,1,N, k,1,N)))$
+ setify(create_list(sdk_var(i,j,k), i,1,N, j,1,N, k,1,N)))$
 
 /* In the following p denotes the box-dimension */
 
 /* different numbers in each row */
 sdk_different_rows(p) := block([N : p^2],
- setify(create_list({- sdk(i,j1,k), - sdk(i,j2,k)}, i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
+ setify(create_list({- sdk_var(i,j1,k), - sdk_var(i,j2,k)}, i,1,N, k,1,N, j1,1,N-1, j2,j1+1,N)))$
 
 /* different numbers in each column */
 sdk_different_columns(p) := block([N : p^2],
- setify(create_list({- sdk(i1,j,k), - sdk(i2,j,k)}, j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
+ setify(create_list({- sdk_var(i1,j,k), - sdk_var(i2,j,k)}, j,1,N, k,1,N, i1,1,N-1, i2,i1+1,N)))$
 
 
 /* Given box coordinates 1 <= i,j <= p, the list of coordinates of fields */
@@ -106,12 +108,12 @@ sdk_different_boxes(p) := block([N : p^2, L : []],
    for k : 1 thru N do
     for p1 : 1 thru N-1 do
      for p2 : p1+1 thru N do
-      L : cons({- sdk(P[p1][1],P[p1][2],k), - sdk(P[p2][1],P[p2][2],k)}, L)),
+      L : cons({- sdk_var(P[p1][1],P[p1][2],k), - sdk_var(P[p2][1],P[p2][2],k)}, L)),
  setify(L))$
 
 /* every field carries a number */
 sdk_filled_fields(p) := block([N : p^2],
- setify(create_list(setify(makelist(sdk(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
+ setify(create_list(setify(makelist(sdk_var(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
 
 
 /* the sudoku problem (weak form) as formal clause-set */
@@ -129,7 +131,7 @@ output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
 
 /* every field carris different numbers */
 sdk_different_fields(p) := block([N : p^2],
-  setify(create_list({-sdk(i,j,k1), -sdk(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
+  setify(create_list({-sdk_var(i,j,k1), -sdk_var(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
 
 /* the sudoku problem as formal clause-set */
 strong_sdk(p) := [var_sdk(p), 
@@ -200,24 +202,25 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
 
 /* The translations into MUSAT according to [Papadimitriou, Wolfe 1988] */
 
-/* New variables are "pawo(i)", where i is the index of the clause in F */
-kill(pawo)$
-declare(pawo, noun)$
-declare(pawo, posfun)$
+/* New variables are "mupw(i)", where i is the index of the clause in F */
+kill(mupw)$
+declare(mupw, noun)$
+declare(mupw, posfun)$
+mupw_var(i) := nounify(mupw)(i)$
 
 /* Input a formal clause-set F, returns a formal clause-set G such that
    if F is satisfiable the G is satisfiable, while if F is unsatisfiable
    then G is minimally unsatisfiable.
 */
 /* Thus USAT is reduced to MUSAT. */
-usat_musat(FF) := if not freeof(pawo, FF) then error("usat_musat[ERROR]: input contains variable scheme pawo!") else
+usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input contains variable scheme mupw!") else
  block([L : listify(FF[2]), m : length(FF[2]), Y],
-  Y : setify(makelist(pawo(i), i, 1, m)),
+  Y : setify(makelist(mupw_var(i), i, 1, m)),
   return(
     [union(FF[1], Y), setify(append(
-      makelist(union(L[i], disjoin(pawo(i), Y)), i, 1, m),
-      create_list(union({-listify(L[i])[j], -pawo(i)}, disjoin(pawo(i), Y)), i,1,m, j,1,length(L[i])),
-      create_list({-pawo(i), -pawo(j)}, i,1,m-1, j,i+1,m)))]
+      makelist(union(L[i], disjoin(mupw_var(i), Y)), i, 1, m),
+      create_list(union({-listify(L[i])[j], -mupw_var(i)}, disjoin(mupw_var(i), Y)), i,1,m, j,1,length(L[i])),
+      create_list({-mupw_var(i), -mupw_var(j)}, i,1,m-1, j,i+1,m)))]
   ))$
 
 
