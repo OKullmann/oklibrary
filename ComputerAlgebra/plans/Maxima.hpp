@@ -195,6 +195,19 @@ License, or any later version. */
    Especially nested loops ("create_list"). </li>
    <li> How to create lambda-terms (see the existing code). </li>
    <li> Function-application (also "map" etc.; see above). </li>
+   <li> Hash tables
+    <ol>
+     <li> Package "graphs" establishes the following interface to
+     lisp-hash-tables. </li>
+     <li> First use "load(graphs);" </li>
+     <li> Via "h : hash_table()" a new hash table is created. </li>
+     <li> Via "set_hash("abc", h, 78)" we set h("abc") = 78. </li>
+     <li> Via "get_hash("abc", h)" we get (h("abc") if defined, and
+     false otherwise. </li>
+     <li> And via "hash_table_data(h)" we get the list of all assignments
+     in h. </li>
+    </ol>
+   </li>
   </ul>
 
 
