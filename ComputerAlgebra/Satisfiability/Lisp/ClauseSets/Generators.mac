@@ -83,7 +83,6 @@ declare(sdk, posfun)$
 var_sdk(p) := block([N : p^2],
  setify(create_list(sdk(i,j,k), i,1,N, j,1,N, k,1,N)))$
 
-
 /* In the following p denotes the box-dimension */
 
 /* different numbers in each row */
@@ -110,7 +109,6 @@ sdk_different_boxes(p) := block([N : p^2, L : []],
       L : cons({- sdk(P[p1][1],P[p1][2],k), - sdk(P[p2][1],P[p2][2],k)}, L)),
  setify(L))$
 
-
 /* every field carries a number */
 sdk_filled_fields(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
@@ -128,6 +126,7 @@ output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
     filename,
     FF[2]))$
 
+
 /* every field carris different numbers */
 sdk_different_fields(p) := block([N : p^2],
   setify(create_list({-sdk(i,j,k1), -sdk(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
@@ -143,6 +142,38 @@ output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
     FF[1],
     filename,
     FF[2]))$
+
+/* Measures for the translated formulas */
+
+/* Number of variables */
+n_var_sdk(p) := p^6$
+
+/* List of clause-counts as with ncl_list_f */
+ncl_list_weak_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
+ block([N : p^2],
+  return([
+   [2, 3 * N^2 * binom(N,2) - N^2 * N * (p-1)],
+   [N, N^2]
+  ]))$
+ncl_list_strong_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
+ block([N : p^2],
+  return([
+   [2, 4 * N^2 * binom(N,2) - N^2 * N * (p-1)],
+   [N, N^2]
+  ]))$
+
+/* Total number of clauses */
+ncl_weak_sdk(p) := block([L : ncl_list_weak_sdk(p)],
+ return(sum(L[i][2],i,1,length(L))))$
+ncl_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
+ return(sum(L[i][2],i,1,length(L))))$
+
+/* Number of literal occurrences */
+nlitocc_weak_sdk(p) := block([L : ncl_list_weak_sdk(p)],
+ return(sum(L[i][1] * L[i][2],i,1,length(L))))$
+nlitocc_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
+ return(sum(L[i][1] * L[i][2],i,1,length(L))))$
+
 
 /* ***************************
    * Van der Waerden problem *
