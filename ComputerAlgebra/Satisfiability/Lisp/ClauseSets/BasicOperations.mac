@@ -79,16 +79,31 @@ clauses_f(FF) := FF[2]$
 /* clause-sets to formal clause-sets */
 cs_to_fcs(F) := [var_cs(F), F]$
 
+
 /* complementation (literal-wise) of a clause-set */
 comp_cs(F) := map(comp_sl, F)$
+
+
+/* ************
+   * Renaming *
+   ************
+*/
+
+load(graphs)$ /* needed for the hash-table */
+
+/* rename literal x via hash table h */
+rename_literal(x,h) := if x > 0 then get_hash(x,h) else -get_hash(-x,h)$
+
+/* rename clause C via hash table h */
+rename_clause(C,h) := map(lambda([x],rename_literal(x,h)), C)$
 
 /* Translating variable names of a formal clause-set into natural numbers; 
    outputs a pair consisting of the translated formal clause-set and
    the list of old variable names (positions corresponding to new
    variable-numbers */
-standardise_fcs(FF) := block([n : length(FF[1]), V : listify(FF[1])], 
-  for i : 1 thru n do FF : substitute(i, V[i], FF),
-  return([FF,V]))$
+standardise_fcs(FF) := block([h : hash_table(), V : listify(FF[1])],
+ for i : 1 thru length(V) do set_hash(V[i], h, i),
+ return([[setn(length(V)), map(lambda([C],rename_clause(C,h)), FF[2])],V]))$
 
 
 /* ************
