@@ -105,6 +105,17 @@ ncl_f(FF) := length(clauses_f(FF))$
 /* number of literal occurrences in a clause-set */
 nlitocc(F) := block([s : 0],
  for C in F do s : s + length(C), return(s))$
+ 
+/* the list of pairs
+   [occurring clause-lengths, number of clauses of this length],
+   sorted by ascending clause-length.
+*/
+ncl_list_f(FF) := block([counts : make_array(fixnum, length(FF[1])+1), res : []],
+ for C in FF[2] do block([l : length(C)],
+  counts[l] : counts[l] + 1),
+ for i : 0 thru length(FF[1]) do
+  if counts[i] # 0 then res : endcons([i, counts[i]], res),
+ return(res))$
 
 
 /* ***********************
