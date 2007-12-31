@@ -29,9 +29,26 @@ License, or any later version. */
    <li> Given a vertex, we need the set of edges incident to the vertex;
    this can be handled via the dual hypergraph, but we should provide some
    more convenient methods. </li>
+   <li> Likely, our graph-etc-concepts are conceptually, but when using or
+   implementing algorithms then we should, if possible, use the maxima-graphs. </li>
    <li> How to handle "properties" ? DONE (these shall just be maps) </li>
    <li> Can we tag such objects as being "graphs" ? DONE (we are living
    type-free) </li>
+  </ul>
+
+
+  \todo Maxima package "graphs"
+  <ul>
+   <li> We need conversions between graphs and maxima-graphs.
+    <ol>
+     <li> Given a graph, we can either just forget the vertex names, or use
+     them as vertex labels. </li>
+     <li> And given a maxima-graph, we can use the standard-vertex-names 0, ...,
+     or we can use the vertex-labels (if present). </li>
+    </ol>
+   </li>
+   <li> And we need conversions between directed graphs and maxima-digraphs. </li>
+   <li> Find out about the output-formats for maxima-graphs. </li>
   </ul>
 
 
@@ -52,8 +69,8 @@ License, or any later version. */
 
   \todo Generators.mac
   <ul>
-   <li> Create complete graphs. </li>
-   <li> Create complete bipartite graphs. </li>
+   <li> Create complete graphs. DONE (already in package "graphs") </li>
+   <li> Create complete bipartite graphs. DONE (already in package "graphs") </li>
    <li> Generalisations of the Kneser graphs:
     <ol>
      <li> The Johnson graphs J(n,k,i), consisting like the Kneser
@@ -71,6 +88,7 @@ License, or any later version. */
   \todo Graph traversal
   <ul>
    <li> Implement the generic graph traversal from module CS-232. </li>
+   <li> This is likely best done with the maxima-graphs. </li>
    <li> Compute connected components and strong connected components. </li>
   </ul>
 
@@ -81,6 +99,8 @@ License, or any later version. */
    </li>
    <li> And for primitive directed graphs (with loops) compute the index of
    primitivity. </li>
+   <li> Again, perhaps best done with the maxima-graph-package. But then loops
+   need to be handled specially (is this reasonable?). </li>
   </ul>
 
 */
