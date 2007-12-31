@@ -10,29 +10,6 @@ License, or any later version. */
   \brief Plans for Maxima-generators for clause-sets
 
 
-  \todo standardise_fcs (in
-  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
-  <ul>
-   <li> The current implementation (using iterated substitution) is
-   incorrect in case the clause-set uses already natural numbers as
-   variables. </li>
-   <li> So ask on maxima-mailing-list whether a parallel substitution
-   is available. </li>
-   <li> Otherwise, investigate how hash-maps can be made available,
-   store the (whole) substitution via a hash-map, and compute
-   the new clause-set via transforming clause for clause. </li>
-   <li> Perhaps we could establish general renaming functionality. </li>
-  </ul>
-
-
-  \todo Further statistics (for
-  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac))
-  <ul>
-   <li> A map from literals to literal-degrees. </li>
-   <li> A map from variables to variable-degrees. </li>
-  </ul>
-
-
   \todo Random generator
   <ul>
    <li> Using the maxima-aes-implementation, implement the random generator
@@ -42,6 +19,11 @@ License, or any later version. */
 
   \todo Variables
   <ul>
+   <li> Is the new scheme (using in functions "php_var(i,j)" instead
+   of "php(i,j)", where php_var(i,j) := nounify(php)(i,j), now right?
+   Why didn't the old scheme work?? (It kept a memory for the created
+   symbols about their place of creation!!) Why is nounify(php) needed,
+   where php is already a "noun" ?? </li>
    <li> Given a formal clause-set FF, how to create *new* variables?
     <ol>
      <li> The need arises in constructions. </li>
@@ -68,7 +50,13 @@ License, or any later version. */
    <li> One should try whether using "create_list" in sdk_different_boxes,
    without storing the intermediate value, really slows down the computation
    (possibly the optimisation is detected?). </li>
-   <li> We also need generators for Latin square completition problems,
+   <li> For the creation of random Sudoku-problems the easiest approach
+   seems to fix the number f of fixed fields, and then choose f random
+   fields from the N^2 fields, and for each chosen field choose a random
+   value from {1,...,N}. </li>
+   <li> Such random Sudoku-problems should also undergo a phase transition
+   (for fixed p and appropriate f) ?! </li>
+   <li> We also need generators for Latin square completion problems,
    etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
    <li> Add the conditions, that a field doesn't git several colours.
    DONE. </li>

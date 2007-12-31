@@ -43,12 +43,35 @@ License, or any later version. */
 
   \todo General clause-sets
   <ul>
-   <li> A "general clause-set" is a triple ,V,F,f], where V is a set of
+   <li> A "general clause-set" is a triple [V,F,f], where V is a set of
    variables, F a set of clause-labels, and f assigns to each element of
    F a clause over V. </li>
    <li> As we have a promotion from clause-sets to formal clause-sets, we
    also need a promotion from a formal clause-set to a general clause-set.
    </li>
+  </ul>
+
+
+  \todo standardise_fcs (in
+  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
+  <ul>
+   <li> DONE The current implementation (using iterated substitution) is
+   incorrect in case the clause-set uses already natural numbers as
+   variables. </li>
+   <li> So ask on maxima-mailing-list whether a parallel substitution
+   is available. </li>
+   <li> DONE Otherwise, investigate how hash-maps can be made available,
+   store the (whole) substitution via a hash-map, and compute
+   the new clause-set via transforming clause for clause. </li>
+   <li> Perhaps we could establish general renaming functionality. </li>
+  </ul>
+
+
+  \todo Further statistics (for
+  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac))
+  <ul>
+   <li> A map from literals to literal-degrees. </li>
+   <li> A map from variables to variable-degrees. </li>
   </ul>
 
 
