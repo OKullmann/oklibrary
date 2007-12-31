@@ -10,6 +10,29 @@ License, or any later version. */
   \brief Plans for Maxima-generators for clause-sets
 
 
+  \todo standardise_fcs (in
+  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
+  <ul>
+   <li> The current implementation (using iterated substitution) is
+   incorrect in case the clause-set uses already natural numbers as
+   variables. </li>
+   <li> So ask on maxima-mailing-list whether a parallel substitution
+   is available. </li>
+   <li> Otherwise, investigate how hash-maps can be made available,
+   store the (whole) substitution via a hash-map, and compute
+   the new clause-set via transforming clause for clause. </li>
+   <li> Perhaps we could establish general renaming functionality. </li>
+  </ul>
+
+
+  \todo Further statistics (for
+  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac))
+  <ul>
+   <li> A map from literals to literal-degrees. </li>
+   <li> A map from variables to variable-degrees. </li>
+  </ul>
+
+
   \todo Random generator
   <ul>
    <li> Using the maxima-aes-implementation, implement the random generator
