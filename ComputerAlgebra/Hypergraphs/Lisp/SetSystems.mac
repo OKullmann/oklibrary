@@ -14,6 +14,7 @@ Use by
 load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
+
 */
 
 /*!
@@ -25,6 +26,10 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
    *********************
 */
 
+/* the set {1,...,n} */
+setn(n) := setify(makelist(i,i,1,n))$
+
+
 /* the union of a set system */
 set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
 
@@ -35,9 +40,11 @@ list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L)$
 family_sets_union(I, f) := if emptyp(I) then {} else block([res : {}],
  for i in I do res : union(res, f(i)), res)$
 
-
-/* the set {1,...,n} */
-setn(n) := setify(makelist(i,i,1,n))$
+/* the sum of a list of sets */
+set_sum(L) := block([I : setn(length(L))],
+ family_sets_union(I, lambda([i], cartesian_product(L[i], {i}))))$
+/* the n-ary version */
+set_sumn([L]) := set_sum(L)$
 
 
 /* *************************
