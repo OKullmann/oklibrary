@@ -41,10 +41,12 @@ License, or any later version. */
   <ul>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
-     <li> Given a graph, we can either just forget the vertex names, or use
+     <li> DONE (the vertex names become vertex labels)
+     Given a graph, we can either just forget the vertex names, or use
      them as vertex labels. </li>
-     <li> And given a maxima-graph, we can use the standard-vertex-names 0, ...,
-     or we can use the vertex-labels (if present). </li>
+     <li> DONE And given a maxima-graph, we can use the standard-vertex-names
+     0, ... </li>
+     <li> Or we can use the vertex-labels (assuming they are present). </li>
     </ol>
    </li>
    <li> And we need conversions between directed graphs and maxima-digraphs. </li>
