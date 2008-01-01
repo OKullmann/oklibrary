@@ -35,7 +35,7 @@ bt_max(t) := lmax(t)$
 bt_width(t) := length(t)$
 bt_sum(t) := apply("+", t)$
 
-/* For the concatenation of branching tuples, "append" is to be used. *.
+/* For the concatenation of branching tuples, "append" is to be used. */
 
 /* Composition of branching tuples at position 1 */
 bt_composition(a,b) := if emptyp(a) then [] else append(a[1] + b, rest(a))$
@@ -158,7 +158,7 @@ tprob3(x,y,z) := tprobn(x,y,z)$
 meann([t]) := mean(t)$
 
 /* geometric mean */
-gmean(t) := apply("*", t)^(1/length(t)))$
+gmean(t) := apply("*", t)^(1/length(t))$
 /* n-ary geometric mean */
 gmeann([t]) := gmean(t)$
 
@@ -187,14 +187,10 @@ zerop(x) := is(equal(x,0))$
 /* Auxiliary function to test for +infinity */
 infp(x) := is(equal(x,inf))$
 
-/* the tau-mean for tuples (allowing zero values) */
+/* the tau-mean for tuples (allowing zero-values) */
 taumean(t) := if length(t) <= 1 then inf 
   elseif some(zerop, t) then 0 
   else float(log(length(t))) / log(tau(t))$
-/* tau-mean now also allowing inf-values */
-taumean_inf(t) := if some(infp, t) then 
-    block([t : delete(inf, t)], if t = [0] then unknown else taumean(t))
-  else taumean(t)$
 /* the n-ary tau-mean */
 taumeann([t]) := taumean(t)$
 /* the binary tau-mean */
@@ -202,6 +198,11 @@ taumean2(x,y) := taumeann(x,y)$
 /* the ternary tau-mean */
 taumean3(x,y,z) := taumeann(x,y,z)$
 
+/* tau-mean additionally also allowing inf-values */
+taumean_inf(t) := if some(infp, t) then 
+    block([t : delete(inf, t)], if t = [0] then unknown else taumean(t))
+  else taumean(t)$
+taumean_infn([t]) := taumean_inf(t)$
 
 /*
 *******************************************************
