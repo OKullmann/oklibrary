@@ -18,7 +18,8 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 Needs 
 
  - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac
- - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac.
+ - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
+ - ComputerAlgebra/Graphs/Lisp/Generators.mac.
 
 */
 
@@ -27,8 +28,8 @@ Needs
 */
 
 /* the clause-variable graph of a formal clause-set */
-cl_var_graph(FF) := [union(FF[1], FF[2]),
-  family_sets_union(FF[2], lambda([C], setify(makelist({C,var_l(x)},x,listify(C)))))]$
+cl_var_graph(FF) := [set_sumn(FF[2], FF[1]),
+  family_sets_union(FF[2], lambda([C], setify(makelist({[C,1],[var_l(x),2]},x,listify(C)))))]$
 
 /* the deficiency of a formal clause-set */
 deficiency_fcs(FF) := length(FF[2]) - length(FF[1])$
