@@ -58,7 +58,21 @@ License, or any later version. */
    (for fixed p and appropriate f) ?! </li>
    <li> We also need generators for Latin square completion problems,
    etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
-   <li> Add the conditions, that a field doesn't git several colours.
+   <li> Can something be done about
+   \verbatim
+(%i184) output_strong_sdk(6,"~/sdk_s_6.cnf");
+Maxima encountered a Lisp error:
+*** - Program stack overflow. RESET
+[1]>
+[CTRL D]
+*** - handle_fault error2 ! address = 0x80a30f2a not in [0x4e0dcbf0,0x68095000) !
+SIGSEGV cannot be cured. Fault address = 0x80a30f2a.
+Permanently allocated: 92096 bytes.
+Currently in use: 673594256 bytes.
+Free space: 16453216 bytes.
+   \endverbatim
+   ? Try it on cs-wsok. </li>
+   <li> Add the conditions, that a field doesn't get several colours.
    DONE. </li>
    <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
    to store an intermediate value)
