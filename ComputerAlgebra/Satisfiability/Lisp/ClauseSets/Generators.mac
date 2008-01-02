@@ -195,9 +195,20 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
     filename)$
 
 
-/* ***************************************
-   * Minimally unsatisfiable clause-sets *
-   ***************************************
+/* *******************************************************
+   * Minimally unsatisfiable clause-sets of deficiency 2 *
+   *******************************************************
+*/
+
+/* The standard MUSAT(def=2) formulas where every literal occurs at least twice,
+   for n >= 2 */
+musatd2(n) := [setn(n), union({setify(makelist(i,i,1,n)), setify(makelist(-i,i,1,n))},
+ setify(makelist({-i,i+1},i,1,n-1)), {{-n,1}})]$
+
+
+/* **************************************************
+   * Translated minimally unsatisfiable clause-sets *
+   **************************************************
 */
 
 /* The translations into MUSAT according to [Papadimitriou, Wolfe 1988] */
@@ -209,10 +220,9 @@ declare(mupw, posfun)$
 mupw_var(i) := nounify(mupw)(i)$
 
 /* Input a formal clause-set F, returns a formal clause-set G such that
-   if F is satisfiable the G is satisfiable, while if F is unsatisfiable
+   if F is satisfiable then G is satisfiable, while if F is unsatisfiable
    then G is minimally unsatisfiable.
-*/
-/* Thus USAT is reduced to MUSAT. */
+   Thus USAT is reduced to MUSAT. */
 usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input contains variable scheme mupw!") else
  block([L : listify(FF[2]), m : length(FF[2]), Y],
   Y : setify(makelist(mupw_var(i), i, 1, m)),
@@ -223,6 +233,14 @@ usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input c
       create_list({-mupw_var(i), -mupw_var(j)}, i,1,m-1, j,i+1,m)))]
   ))$
 
+/* Input a formal clause-set F, returns a formal clause-set GP such that
+   if F is satisfiable then GP is minimally unsatisfiable, 
+   while if F is unsatisfiable then GP is unsatisfiable but not minimally
+   unsatisfiable. Thus SAT is reduced to MUSAT. */
+sat_musat(FF) := block([m : length(FF[2]), Y, G],
+ Y : setify(makelist(mupw_var(i), i, 1, m)),
+ G : usat_musat(FF),
+ return([G[1], union(G[2],{Y})]))$
 
 /*!
 \endhtmlonly
