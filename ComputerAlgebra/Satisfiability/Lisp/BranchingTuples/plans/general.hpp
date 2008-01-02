@@ -12,13 +12,14 @@ License, or any later version. */
   
   \todo Tau for Maxima
   <ul>
+   <li> The demo-file could be called "demos/Basic.hpp", using doxyen comments?!
+   </li>
    <li> Defining tau using the precise but slow interval-halving:
     <ol>
-     <li> The demo-file could be called "demos/Basic.hpp", using
-     doxyen comments?! </li>
+     <li> How can "find_root" be instrumented to use bfloat? Or should we
+     implement find_root ourselves? </li>
      <li> How to define examples for functions? DONE (creating demo-files,
-     loading them by "batch")
-     </li>
+     loading them by "batch") </li>
      <li> And it should be possible to define a variation which doesn't
      take a list but a variable number of arguments (for the tuple-values). DONE
      (define the n-ary function taun, and for plotting the fixed 2-ary resp.
@@ -31,7 +32,11 @@ License, or any later version. */
    </li>
    <li> Using the faster Newton-method:
     <ol>
-     <li> Can a higher precision be used? </li>
+     <li> Can a higher precision be used?
+      <ol>
+       <li> The problem seems to be that "newton" only uses type float ? </li>
+      </ol>
+     </li>
      <li> What is the precision of float? It seems that actually 64-bit numbers
      are used? </li>
      <li> Does the newton-procedure know how to differentiate the expression?
