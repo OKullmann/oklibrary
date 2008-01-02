@@ -18,10 +18,25 @@ License, or any later version. */
    more experience). </li>
    <li> Finite field operations
     <ol>
-     <li> Create an interface to the gf-package. </li>
-     <li> Create field-identification list [p, n, poly]. </li>
+     <li> Move the interface to the gf-package into a seperate module / .mac file. </li>
+     <li> The gf_set operation in the finite field package takes a considerable
+     amount of time to complete and doesn't seem to cache 
+     any of the results in any way and so each call takes the same amount of 
+     time and so simply calling gf_set inside wrappers, as has been done, 
+     causes issues where these functions are called often (such as in the case 
+     of egf_add).
+      <ol>
+       <li> Perhaps a potential solution would be to keep track of which field
+       is currently being used, and only if the field being used is different 
+       to the last call would gf_set be called? (although in general, this 
+       concept of keeping global state in such a way seems like it will cause 
+       problems) .</li>
+      </ol>
+     </li>
+     <li> Create an interface to the gf-package. DONE </li>
+     <li> Create field-identification list [p, n, poly]. DONE </li>
      <li> Field-operation-functions take such an "object" as additional argument,
-     to specify the field. </li>
+     to specify the field. DONE </li>
     </ol>
    </li>
    <li> Basic aes-functions:
