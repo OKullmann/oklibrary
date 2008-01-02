@@ -41,6 +41,39 @@ License, or any later version. */
      are used? </li>
      <li> Does the newton-procedure know how to differentiate the expression?
      Perhaps. </li>
+     <li> Initial value: DONE (correct as given)
+      <ol>
+       <li> Can cyclic behaviour happen for our use of the initial value,
+       given by the arithmetic mean? </li>
+       <li> The problem in using tau_up is that the power-means are numerically
+       complicated to compute. </li>
+       <li> An alternative simple upper bound is obtained by scaling the tuple
+       to minimal value 1, where then the width of the tuple is an upper
+       bound on the tau-value.
+       \verbatim
+tau_eps(t,eps) := block([l : length(t)], 
+ if l = 0 then inf elseif l = 1 then 1 else
+  block([m : lmin(t), s, xl], s : t / m,
+   return(newton(chi(s,xl)-1, xl, l, eps)^(1/m))))$
+       \endverbatim
+       </li>
+       <li> However already for t=[1,2,3,4] this yields a
+       "floating point overflow" ???
+       \verbatim
+newton(chi([1,2,3,4],x)-1,x,4,10^(-1));
+Maxima encountered a Lisp error:
+floating point overflow
+       \endverbatim
+       </li>
+       <li> Perhaps actually in the given representation of the function as
+       monotically decreasing, we actually should start with a lower bound?!!
+       YES, that's the case: Due to the convexity monotonic convergence
+       is guaranteed, while for an initial value larger than the root
+       the derivative is close to zero, and the Newton-method becomes
+       unusable.
+       </li>
+      </ol>
+     </li>
      <li> If all arguments are integers, then actually an expression is returned.
      So well. DONE (the "default"-version tau_nwt converts the input
      into floating point) </li>
