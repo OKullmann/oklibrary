@@ -22,6 +22,7 @@ License, or any later version. */
     <ul>
      <li> an element in GF(2^8) </li>
      <li> an element in the "byte field". </li>
+     <li> an element in the "rijndael byte field" </li>
     </ul>
    </li>
    <li> The most significant bit represents the highest order term in the polynomial,
@@ -29,10 +30,14 @@ License, or any later version. */
    A2 is 10100010. Some clarification may be needed on the implementation details
    for the specific GF(2^8) field. </li>
    <li> A 4-byte element formed by taking a column of GF(2^8) elements in the 
-   Rijndael block might be called an element in the 4-Byte PID (Principal Ideal
-   Domain) or in the QR (Quotient Ring), as this is not actually a field (some
-   elements don't have an inverse as the modulus X^4 + 1 isn't irreducible over 
-   GF(2^8)). </li>
+   Rijndael block might be called
+    <ul>
+     <li> a 4-byte column </li>
+     <li> an element in the 4-Byte PID (Principal Ideal Domain) </li>
+     <li> an element in the QR (Quotient Ring) </li>
+    </ul>
+   as this is not actually a field (some elements don't have an inverse as the 
+   modulus x^4 + 1 isn't irreducible over GF(2^8)). </li>
    <li> Which of these is most appropriate? It seems "Quotient Ring" but further
    reading is necessary and perhaps a more elegant and more specific name can be 
    found. Again, the most significant byte of the 4-bytes represents the coefficient
