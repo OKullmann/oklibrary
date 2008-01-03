@@ -19,6 +19,13 @@ License, or any later version. */
    (see Hypergraphs/Transversals/plans/general.hpp). </li>
    <li> The special problem for graphs is the edge cover
    problem (see Graphs/EdgeCovers/plans/general.hpp). </li>
+   <li> Exact coverings (disjoint coverings):
+    <ol>
+     <li> Does this belong to this module, or to
+     Hypergraphs/Matchings (see Hypergraphs/Matchings/plans/general.hpp). </li>
+    </ol>
+   </li>
   </ul>
+
 
 */

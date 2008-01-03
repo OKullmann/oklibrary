@@ -60,6 +60,8 @@ License, or any later version. */
    <li> And see "n Queens" in
    ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/general.hpp
    for further plans (in the context of the Lisp/Maxima system). </li>
+   <li> See "Relations" in Hypergraphs/Matchings/plans/general.hpp for
+   the reduction to the exact-cover problem. </li>
   </ul>
 
 

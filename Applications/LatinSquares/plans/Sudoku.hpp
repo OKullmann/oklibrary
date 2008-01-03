@@ -82,8 +82,10 @@ License, or any later version. */
 
 
   \todo Complete implementation of OKlib::LatinSquares::Trivial_reduction_Sudoku
-  Likely this should be just a generic algorithm, applicable to any collection of
-  constraints (active clause-sets)?!
+  <ul>
+   <li> Likely this should be just a generic algorithm, applicable to any
+   collection of constraints (active clause-sets)?! </li>
+  </ul>
 
 
   \todo Test OKlib::LatinSquares::SudokuProblem
@@ -104,11 +106,20 @@ License, or any later version. */
   </ul>
 
 
-  \todo Another representation of Sudoku uses one Latin square plus N*N bijectivity
-  constraints (for the boxes).
+  \todo Another representation of Sudoku uses one Latin square plus
+  N*N bijectivity constraints (for the boxes).
 
 
   \todo As a prototype, implement Sudoku-solvers.
+
+
+  \todo Relations
+  <ul>
+   <li> See "Relations" in Hypergraphs/Matchings/plans/general.hpp. </li>
+   <li> See "Sudoku" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp.
+   </li>
+  </ul>
 
 */
 

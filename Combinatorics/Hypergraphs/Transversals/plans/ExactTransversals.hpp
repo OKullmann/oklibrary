@@ -119,5 +119,12 @@ void enumerate_exact_transversals(const Hypergraph G, std::ostream& out, const H
     </ol>
   </ul>
 
+
+  \todo Exact covers
+  <ul>
+   <li> The dual problem to exact transversals is the "exact cover"-problem;
+   see "Exact coverings" in Hypergraphs/Matchings/plans/general.hpp. </li>
+  </ul>
+
 */
 
