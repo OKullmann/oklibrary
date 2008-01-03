@@ -207,6 +207,7 @@ Installations> cd CLisp/
 CLisp> tar -xjf ../../sources/Maxima/clisp-2.43.tar.bz2
 CLisp>  cd clisp-2.43/
 clisp-2.43> ./configure
+   \endverbatim
    </li>
    yields the recommendation
    \verbatim
@@ -224,6 +225,7 @@ lisp-2.43/src> ulimit -s 16384
 clisp-2.43/src> make
 clisp-2.43/src> make check
 clisp-2.43/src> make install
+   \endverbatim
    </li>
    <li> Perhaps the above installation is not a 64-bit installation?
    One had to set CC to "gcc -m64" ?? </li>

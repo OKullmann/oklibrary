@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ProgrammingSystemSpecifics/Demangling.hpp
+  \file Programming/SystemSpecifics/Demangling.hpp
   \brief Translating type names in a readable form
 
   Users need to link with -liberty.
