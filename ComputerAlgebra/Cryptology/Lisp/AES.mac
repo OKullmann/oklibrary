@@ -20,57 +20,202 @@ where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 \htmlonly
 */
 
+/* This should be better removed and handled by oklib --maxima */
 load(gf);
-gf_set(2,8,x^8+x^4+x^3+x+1);
 
-srd(py) := if py = 0 then x^6 + x^5 + x + 1 else 
-block(
-    gf_set(2,8,x^8+x^4+x^3+x+1),
-    p : gf_inv(py),
-    gf_set(2,1,[x]),
-    v: matrix([coeff(p, x, 7)],[coeff(p, x, 6)],[coeff(p, x, 5)],
-              [coeff(p, x, 4)],[coeff(p, x, 3)],[coeff(p, x, 2)],
-              [coeff(p, x, 1)],[coeff(p, x, 0)]),
-    l : matrix([1,1,1,1,1,0,0,0],[0,1,1,1,1,1,0,0],
-               [0,0,1,1,1,1,1,0],[0,0,0,1,1,1,1,1],
-               [1,0,0,0,1,1,1,1],[1,1,0,0,0,1,1,1],
-               [1,1,1,0,0,0,1,1],[1,1,1,1,0,0,0,1]),
-    r : gf_matmul(l,v),
-    pr: (r[1][1] * x^7 + r[2][1] * x^6 + r[3][1] * x^5 + r[4][1] * x^4 + 
-         r[5][1] * x^3 + r[6][1] * x^2 + r[7][1] * x^1 + r[8][1]),
-    gf_set(2,8,x^8+x^4+x^3+x+1),
-    gf_add(pr, x^6 + x^5 + x + 1)
+/* ***************************************
+   * Constants                           *
+   ***************************************
+*/
+
+RIJNDAEL_AFFINE_CONSTANT : x^6 + x^5 + x + 1;
+RIJNDAEL_SBOX_MATRIX : matrix(
+                        [1,1,1,1,1,0,0,0],
+                        [0,1,1,1,1,1,0,0],
+                        [0,0,1,1,1,1,1,0],
+                        [0,0,0,1,1,1,1,1],
+                        [1,0,0,0,1,1,1,1],
+                        [1,1,0,0,0,1,1,1],
+                        [1,1,1,0,0,0,1,1],
+                        [1,1,1,1,0,0,0,1])$
+RIJNDAEL_POLYNOMIAL : x^8+x^4+x^3+x+1 $
+RIJNDAEL_MIXCOLUMNS_MATRIX : matrix (
+        [x, x + 1, 1, 1], 
+        [1, x, x + 1, 1],
+        [1, 1, x, x + 1],
+        [x + 1, 1, 1, x])$
+RIJNDAEL_BIT_FIELD : [2,1,[x]]$
+RIJNDAEL_BYTE_FIELD : [2,8,RIJNDAEL_POLYNOMIAL]$
+RIJNDAEL_SHIFTROWS_SHIFTS : [0,1,2,3]$
+
+/* ***************************************
+   * Helper Functions                    *
+   ***************************************
+*/
+
+polynomialToBitVector(poly) := (local(poly), 
+    matrix([coeff(poly, x, 7)],[coeff(poly,x, 6)],[coeff(poly, x, 5)],
+           [coeff(poly, x, 4)],[coeff(poly, x, 3)],[coeff(poly, x, 2)],
+           [coeff(poly, x, 1)],[coeff(poly, x,0)]))$
+
+bitVectorToPolynomial(byte) := (local(byte),
+    (byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
+    + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]))$
+
+/* List Processing 
+ * (Are there built-in versions of these or functions with similar purposes?) */
+
+/* Returns a list of n (or less if len(l) < n) elements from the beginning of 
+ * l 
+ */
+take(l,n) := (local(l,n),
+    if (n <= 0) or (l = []) then [] else cons(first(l), take(rest(l),n - 1)))$
+
+/* Returns the result of removing the first n elements
+ * from l
+ */
+drop(l,n) := (local(l,n),
+    if (n <= 0) or l = [] then l else drop(rest(l),n - 1))$
+
+/* Partitions a given list l into a list of smaller lists of size n,
+ * or less (in the case of the last element list)
+ */
+partition(l,n) := (local(l,n),
+    if l = [] then [] else append([take(l,n)], partition(drop(l,n),n)))$
+
+/* Rotates a list n elements to the left */
+rotateLeft(l,n) := (local(l,n), 
+    if n <= 0 or l = [] then l
+    else rotateLeft(append(rest(l), [first(l)]), n-1))$
+
+/* Flattens a matrix or list into a list of the elements, row by row */
+matrixToList(m) := (local(m),
+    if m = [] or m = matrix() then [] 
+    else append(first(m), matrixToList(rest(m))))$
+
+/* Takes a two parameter function f, and then two lists 'a' and 'b',
+ * and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
+ * n is the minimum of len(a) and len(b).
+ */
+zipWith(f,a,b) := (local(f,a,b),
+    if a = [] or b = [] then []
+    else cons(f(first(a),first(b)), zipWith(f, rest(a), rest(b)))
 )$
 
-keysch(k,r) := block (
-    a : gf_add(k[1][1], gf_add(srd(k[2][4]),gf_exp(x,r-1))),
-    b : gf_add(k[2][1], gf_add(srd(k[3][4]),gf_exp(x,r-1))),
-    c : gf_add(k[3][1], gf_add(srd(k[4][4]),gf_exp(x,r-1))),
-    d : gf_add(k[4][1], gf_add(srd(k[1][4]),gf_exp(x,r-1))),
-    matrix(
-        [a, gf_add(a,k[1][2]), gf_add(gf_add(a,k[1][2]),k[1][3]), 
-            gf_add(gf_add(gf_add(a,k[1][2]),k[1][3]),k[1][4])],
-        [a, gf_add(a,k[2][2]), gf_add(gf_add(a,k[2][2]),k[2][3]), 
-            gf_add(gf_add(gf_add(a,k[2][2]),k[2][3]),k[2][4])],
-        [a, gf_add(a,k[3][2]), gf_add(gf_add(a,k[3][2]),k[3][3]), 
-            gf_add(gf_add(gf_add(a,k[3][2]),k[3][3]),k[3][4])],
-        [a, gf_add(a,k[4][2]), gf_add(gf_add(a,k[4][2]),k[4][3]), 
-            gf_add(gf_add(gf_add(a,k[4][2]),k[4][3]),k[4][4])] )
+/* ***************************************
+   * Finite Field Wrapper Functions      *
+   ***************************************
+*/
+
+/* It appears you can not overload functions with different arities
+ * and so the gf_* functions have been prefixed with an 'e' for 
+ * extended. These functions perform the same duty as their gf_*
+ * counterparts but requ
+ */
+
+egf_add(field, a,b) := (local(field,a,b),
+    block(
+        gf_set(field[1],field[2],field[3]),
+        gf_add(a,b)
+    ))$
+
+egf_mul(field, a,b) := (local(field,a,b),
+    block(
+        gf_set(field[1],field[2],field[3]),
+        gf_mul(a,b)
+    ))$
+
+egf_matmul(field, a,b) := (local(field,a,b),
+    block(
+        gf_set(field[1],field[2],field[3]),
+        gf_matmul(a,b)
+    ))$
+
+egf_inv(field, a) := (local(field,a),
+    block(
+        gf_set(field[1],field[2],field[3]),
+        gf_inv(a)
+    ))$
+
+
+/* ***************************************
+   * Main Round Functions                *
+   ***************************************
+*/
+
+sbox(byte) := 
+    (local(byte,invByte,result),
+    if byte = 0 then 
+        RIJNDAEL_AFFINE_CONSTANT
+    else 
+        block(
+            invByte : egf_inv(RIJNDAEL_BYTE_FIELD,byte),
+            result : egf_matmul(RIJNDAEL_BIT_FIELD,RIJNDAEL_SBOX_MATRIX,
+                polynomialToBitVector(invByte)),
+            egf_add(RIJNDAEL_BYTE_FIELD, bitVectorToPolynomial(result),
+                RIJNDAEL_AFFINE_CONSTANT)
+        )
+    )$
+
+subBytes(inputBlock) := (local(inputBlock), map(sbox, inputBlock))$
+
+/**
+ * Takes a list of GF(2^8) elements (the block), and
+ * performs the shiftrows operation, returning the resulting
+ * block as a list of GF(2^8) elements.
+ */
+shiftRows(inputBlock) := (local(inputBlock,r),
+    block(
+        listOfRows : partition(inputBlock,4),
+        matrixToList (
+            create_list(rotateLeft(listOfRows[r+1],r), r, 
+                RIJNDAEL_SHIFTROWS_SHIFTS))
+    ))$
+
+/**
+ * Takes a list of GF(2^8) elements (the block), and
+ * performs the mixcolumns operation, returning the resulting
+ * block as a list of GF(2^8) elements.
+ */
+mixColumns(inputBlock) := (local(inputBlock),
+    matrixToList(
+        egf_matmul(RIJNDAEL_BYTE_FIELD, RIJNDAEL_MIXCOLUMNS_MATRIX, 
+            apply(matrix, partition(inputBlock,4)))))$
+
+/**
+ * Takes a round key matrix km for round r-1 and a round number r and produces
+ * the round key matrix for round r.
+ *
+ * This needs reworking as it should follow the same scheme as other functions
+ * to take a list and produce a list.
+ */
+keysch(km,r) := (local(km,r),
+    block (
+        a : gf_add(km[1][1], gf_add(sbox(km[2][4]),gf_exp(x,r-1))),
+        b : gf_add(km[2][1], gf_add(sbox(km[3][4]),gf_exp(x,r-1))),
+        c : gf_add(km[3][1], gf_add(sbox(km[4][4]),gf_exp(x,r-1))),
+        d : gf_add(km[4][1], gf_add(sbox(km[1][4]),gf_exp(x,r-1))),
+        matrix(
+            [a, gf_add(a,km[1][2]), gf_add(gf_add(a,km[1][2]),km[1][3]), 
+                gf_add(gf_add(gf_add(a,km[1][2]),km[1][3]),km[1][4])],
+            [a, gf_add(a,km[2][2]), gf_add(gf_add(a,km[2][2]),km[2][3]), 
+                gf_add(gf_add(gf_add(a,km[2][2]),km[2][3]),km[2][4])],
+            [a, gf_add(a,km[3][2]), gf_add(gf_add(a,km[3][2]),km[3][3]), 
+                gf_add(gf_add(gf_add(a,km[3][2]),km[3][3]),km[3][4])],
+            [a, gf_add(a,km[4][2]), gf_add(gf_add(a,km[4][2]),km[4][3]), 
+                gf_add(gf_add(gf_add(a,km[4][2]),km[4][3]),km[4][4])] )
+    )
 )$
 
-r(pm, km) := gf_matmul( 
-    matrix (
-        [x, x + 1, 1, 1], [1, x, x + 1, 1],[1, 1, x, x + 1],[x + 1, 1, 1, x]
-    ), matrix (
-        [srd(gf_add(pm[1][1], km[1][1])), srd(gf_add(pm[1][2], km[1][2])), 
-         srd(gf_add(pm[1][3], km[1][3])), srd(gf_add(pm[1][4], km[1][4]))],
-        [srd(gf_add(pm[2][4], km[2][4])), srd(gf_add(pm[2][1], km[2][1])), 
-         srd(gf_add(pm[2][2], km[2][2])), srd(gf_add(pm[2][3], km[2][3]))],
-        [srd(gf_add(pm[3][3], km[3][3])), srd(gf_add(pm[3][4], km[3][4])), 
-         srd(gf_add(pm[3][1], km[3][1])), srd(gf_add(pm[3][2], km[1][2]))],
-        [srd(gf_add(pm[4][2], km[4][2])), srd(gf_add(pm[4][3], km[4][3])), 
-         srd(gf_add(pm[4][4], km[4][4])), srd(gf_add(pm[4][1], km[4][1]))]
-    ) 
+/* Takes the plaintext list of GF(2^8) elements and the 
+ * round key for this round as a list of GF(2^8) elements and
+ * returns a list of the same size of GF(2^8) elements as the plaintext
+ * as the result of the round operation. 
+ */
+round(pl, rkl) := (local(pl,rkl), 
+    zipWith(lambda([a,b], egf_add(RIJNDAEL_BYTE_FIELD,a,b)),
+        mixColumns(shiftRows(subBytes(pl))), 
+        rkl )
 )$
 
 /*!
