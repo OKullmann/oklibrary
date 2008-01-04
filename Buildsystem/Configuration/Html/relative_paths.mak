@@ -1,5 +1,5 @@
 # Oliver Kullmann, 9.9.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -42,6 +42,7 @@ rel_les_sage_docu_page := $(shell $(rel_path_tool) $(sage_docu_page) $(externals
 rel_les_coq_docu_page := $(shell $(rel_path_tool) $(coq_docu_page) $(externalsources_page_output))
 rel_les_ubcsat_docu_page := $(shell $(rel_path_tool) $(ubcsat_docu_page) $(externalsources_page_output))
 rel_les_clisp_docu_page_okl := $(shell $(rel_path_tool) $(clisp_docu_page_okl) $(externalsources_page_output))
+rel_les_maxima_docu_page_okl := $(shell $(rel_path_tool) $(maxima_docu_page_okl) $(externalsources_page_output))
 ifeq ($(extsrc_relative),)
   rel_les_boost_html_documentation_index_location := $(boost_html_documentation_index_location)
   rel_les_mhash_html_documentation_index_location := $(mhash_html_documentation_index_location)

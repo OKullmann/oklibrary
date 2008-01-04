@@ -1,5 +1,5 @@
 # Oliver Kullmann, 1.8.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -173,6 +173,7 @@ endif
 # the following construction needs to be generalised by some function
 sage_html_documentation_index_location_tag ?= <a href="$(sage_html_output)">$(sage_html_output)</a>
 
+
 # New variables for the configuration of building git (to be designed 
 # and implemented):
 
@@ -307,5 +308,27 @@ else
   endif
 endif
 
+
+
+# New variables for the configuration of building maxima (to be designed 
+# and implemented):
+
+maxima_version_number_extraction_okl := awk '/Maxima [0-9]+\.[0-9]+\.[0-9]+/{print $$2}'
+# assumes that the output of "maxima --version" contains a line of the form
+# (for example) "Maxima 5.14.0"
+
+location_maxima_call_okl ?= $(shell (type -P $(maxima_call_okl)))
+ifeq ($(location_maxima_call_okl),)
+  maxima_call_ready_okl ?= NO
+else
+  version_maxima_call_okl ?= $(shell $(maxima_call_okl) --version | $(maxima_version_number_extraction_okl))
+  ifeq ($(version_maxima_call_okl),$(maxima_recommended_version_number_okl))
+    maxima_call_ready_okl ?= YES
+  else
+    maxima_call_ready_okl ?= MAYBE
+  endif
+endif
+
 # the following construction needs to be generalised by some function
-clisp_docu_page_tag_okl ?= <a href="$(clisp_docu_page_okl)">Clisp installation page</a>
+maxima_html_documentation_index_location_tag_okl ?= <a href="$(maxima_html_output_okl)">$(maxima_html_output_okl)</a>
+

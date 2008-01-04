@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.10.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -45,15 +45,16 @@ License, or any later version. */
   </ul>
 
 
-  \todo Install Maxima
+  \todo Install Maxima : DONE
   <ul>
    <li> Write configuration file for Maxima. DONE </li>
    <li> Write installation script for Maxima. DONE </li>
    <li> Provide links to the documentation for Maxima (including
-   the maxima-book and the tutorial. </li>
-   <li> What about the documentation for Maxima provided with Sage? </li>
-   <li> Write docu for installation of Maxima. </li>
-   <li> Put information on the main-external-sources-page. </li>
+   the maxima-book and the tutorial. DONE </li>
+   <li> What about the documentation for Maxima provided with Sage? DONE
+   (removed) </li>
+   <li> Write docu for installation of Maxima. DONE </li>
+   <li> Put information on the main-external-sources-page. DONE </li>
   </ul>
 
 

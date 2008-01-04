@@ -26,10 +26,17 @@ maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_packag
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
 
-maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
-maxima_main_index_okl ?= $(maxima_doc_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/html/maxima.html
+maxima_book_name_okl ?= maximabook-19-Sept-2004.pdf
+maxima_book_source_okl ?= $(ExternalSources_sources)/Maxima/$(maxima_book_name_okl)
+maxima_book_doc_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_book_name_okl)
 
-maxima_docu_page_okl ?= $(doc_dir)/doxygen_html/
+maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
+
+maxima_htlm_doc_okl ?= $(maxima_doc_dir_okl)/html
+maxima_main_index_okl ?= $(maxima_htlm_doc_okl)/maxima.html
+maxima_tutorial_doc_okl ?= $(maxima_htlm_doc_okl)/intromax.html
+
+maxima_docu_page_okl ?= $(doc_dir)/doxygen_html/df/d26/Buildsystem_2ExternalSources_2SpecialBuilds_2docus_2Maxima_8hpp.html
 
 maxima_homepage_url_okl := http://maxima.sourceforge.net/
 maxima_documentation_url_okl := http://maxima.sourceforge.net/docs.shtml
