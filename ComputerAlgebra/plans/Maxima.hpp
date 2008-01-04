@@ -133,17 +133,23 @@ License, or any later version. */
   <ul>
    <li> We need "oklib maxima", which starts the maxima-shell and also loads
    all functions from the OKlibrary.
-   <li> We should set the timing output. </li>
    <li> We have an initialisation file, which contains
    the list of all files to be included. </li>
-   <li> It seems "maxima-init.mac" is the standard configuration file.
-   The possible placements are given by the value of variable
-   file_search_maxima. </li>
    <li> Should this list just be all .mac-files ? Seems easiest. </li>
    <li> However this list is obtained, a loop should be invoked which calls
    "load(name)" for all (full path-)names in that list; this loop
-   is performed by function "load_oklib". </li>
-   <li> Furthermore a variable is needed for the OKlib-path.
+   is performed by function "oklib_load". </li>
+   <li> Perhaps it is best just to provide special .mac-files for each
+   directory-level, which just include everything below. So that with
+   'oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mak")'
+   we would for example get everything SAT-related. </li>
+   <li> Then we need Transitional/ComputerAlgebra/include.mak to include
+   all Maxima-stuff ?! </li>
+   <li> We should set the timing output. DONE </li>
+   <li> It seems "maxima-init.mac" is the standard configuration file.
+   The possible placements are given by the value of variable
+   file_search_maxima. DONE </li>
+   <li> DONE Furthermore a variable is needed for the OKlib-path.
     <ol>
      <li> Via "system(string_with_shell_code)" one can perform
      system calls, however to obtain the value of a variable,
@@ -153,22 +159,22 @@ License, or any later version. */
      some other main directories. </li>
     </ol>
    </li>
-   <li> A problem is how during a session to add a new file with
+   <li> DONE A problem is how during a session to add a new file with
    maxima-code? Perhaps nothing special is done, only the name
-   of the list with .mac-files can be manipulated (and load_oklib
+   of the list with .mac-files can be manipulated (and oklib_load
    called). </li>
-   <li> Actually, perhaps it is best not to auto-load everything,
+   <li> DONE Actually, perhaps it is best not to auto-load everything,
    but just to make the above function "oklib_load" available,
    and then everything else can easily be done by the user. </li>
-   <li> Of course, this initialisation file is created by the usual
+   <li> DONE Of course, this initialisation file is created by the usual
    preprocessing. </li>
-   <li> The syntax for a call is "oklib --maxima". All arguments after
+   <li> DONE The syntax for a call is "oklib --maxima". All arguments after
    "--maxima" are passed to the responsible makefile. </li>
-   <li> Since oklib does not have access to the configuration variables
+   <li> DONE Since oklib does not have access to the configuration variables
    itself, it needs to call a (new) makefile which includes the same
    variables as the makefile for external sources, and which then calls
    maxima. </li>
-   <li> This makefile has the standard goal "all", with subgoals
+   <li> DONE This makefile has the standard goal "all", with subgoals
    "configuration" for creating the configuration-file, and "run"
    for actually starting the maxima-program. </li>
   </ul>

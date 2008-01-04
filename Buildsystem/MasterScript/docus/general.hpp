@@ -50,6 +50,7 @@ License, or any later version. */
    (creating the .oklib-directory at OKplatform-level) .</li>
    <li> <code>--prebuild</code> (creation of directories and placement of
    makefile-links). </li>
+   <li> <code>--maxima</code> (configures and calls Maxima) </li>
    <li> <code>--create-package</code> calls the ReleaseProcess makefile
    with trailing arguments, creating a package in as given by packages_dir
    (current value is <code>${packages_dir}</code>) including documentation,

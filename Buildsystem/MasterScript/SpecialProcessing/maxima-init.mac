@@ -1,0 +1,25 @@
+/* Oliver Kullmann, 4.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+OKplatform : "m4_SHELL(OKplatform)";
+OKsystem : "m4_SHELL(OKsystem)";
+
+showtime : true;
+
+oklib_load_round : 0;
+oklib_loaded_files["maxima-init.mac"] : 0;
+
+oklib_load(name) := block([full_name : sconcat(OKsystem,"/",name)],
+ oklib_load_round : oklib_load_round+1,
+ load(full_name),
+ oklib_loaded_files[full_name] : oklib_load_round);
+
+oklib_include(name) := block([full_name : sconcat(OKsystem,"/",name)],
+ if oklib_loaded_files[full_name] # oklib_load_round then
+  (load(full_name), oklib_loaded_files[full_name] : oklib_load_round)
+);
+
