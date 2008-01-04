@@ -65,6 +65,10 @@ License, or any later version. */
     <td> Build the version x.y.z of maxima (for example
     <code>maxima-5.14.0</code>). </td>
    </tr>
+   <tr>
+    <td> <code> cleanallmaxima </code> </td>
+    <td> Removes the build-, installation- and documentation-directories. </td>
+   </tr>
   </table>
 
 */
