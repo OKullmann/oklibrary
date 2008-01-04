@@ -11,19 +11,15 @@ License, or any later version. */
 
 Use by
 
-load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
-
-where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
-
-Needs
-
- - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac.
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
 
 */
 
 /*!
 \htmlonly
 */
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* ********************************
    * Connections to Maxima-graphs *

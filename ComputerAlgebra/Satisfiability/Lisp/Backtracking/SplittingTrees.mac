@@ -11,21 +11,18 @@ License, or any later version. */
 
 Use by
 
-load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
-
-where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
-
-Needs
-
- - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac
- - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
- - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reductions.mac.
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
 
 */
 
 /*!
 \htmlonly
 */
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reductions.mac")$
+
 
 /*
  A "boolean splitting tree" for a clause-set F is either 

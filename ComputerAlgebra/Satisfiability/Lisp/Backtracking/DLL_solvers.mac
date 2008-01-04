@@ -11,14 +11,7 @@ License, or any later version. */
 
 Use by
 
-load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
-
-where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
-
-Needs
-
- - ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
- - ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac.
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 
 */
 
@@ -26,6 +19,9 @@ Needs
 /*!
 \htmlonly
 */
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The simplest scheme: input is a formal clause-set, and the return value
    is true or false.

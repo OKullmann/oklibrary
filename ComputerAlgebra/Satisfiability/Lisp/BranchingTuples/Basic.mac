@@ -11,9 +11,8 @@ License, or any later version. */
 
 Use by
 
-load("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
 
-where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
 /*!
