@@ -20,10 +20,10 @@ License, or any later version. */
    <li> Two basic types of installations:
     <ol>
      <li> <strong>System-wide installation</strong>: installation in directories like
-     <code>/usr/local</code> (depending on the package); requires at the end of the
-     installation to enter the appropriate super-user password (if this was missed,
-     then just re-run the build, which should quickly arrive at the entry-point
-     again). </li>
+     <code>/usr/local</code> (depending on the package's own build system); requires
+     at the end of the installation to enter the appropriate super-user password
+     (if this was missed, then just re-run the build, which should quickly arrive
+     at the entry-point again). </li>
      <li> <strong>Local installation</strong>: installation to directory
      <code>$(ExternalSources_installations)</code>. </li>
     </ol>
@@ -72,6 +72,7 @@ ocaml_bin_dir := /usr/local/bin
    <li> Gcc (Buildsystem/ExternalSources/SpecialBuilds/docus/Gcc.hpp) </li>
    <li> Git (Buildsystem/ExternalSources/SpecialBuilds/docus/Git.hpp) </li>
    <li> Gmp (Buildsystem/ExternalSources/SpecialBuilds/docus/Gmp.hpp) </li>
+   <li> Maxima (Buildsystem/ExternalSources/SpecialBuilds/docus/Maxima.hpp) </li>
    <li> Mhash (Buildsystem/ExternalSources/SpecialBuilds/docus/Mhash.hpp) </li>
    <li> Ocaml (Buildsystem/ExternalSources/SpecialBuilds/docus/Ocaml.hpp) </li>
    <li> Postgresql (Buildsystem/ExternalSources/SpecialBuilds/docus/Postgresql.hpp) </li>
