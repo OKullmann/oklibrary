@@ -63,6 +63,8 @@ License, or any later version. */
      in the directory where the build shall proceed. </li>
      <li> <code>cd $(clisp_recommended_package_name_okl)</code> </li>
      <li> <code>./configure</code> </li>
+     <li> Have a look at the recommendations. </li>
+     <li> <code>cd src</code> </li>
      <li> <code>make</code> </li>
      <li> <code>make check</code> </li>
      <li> <code>sudo make install</code> </li>
