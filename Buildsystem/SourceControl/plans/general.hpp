@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.4.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -529,6 +529,7 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 26.11.2007; 6.5 MB; Transitional total: 20.4 MB </li>
      <li> 15.12.2007; 6.7 MB; Transitional total: 20.9 MB </li>
      <li> 19.12.2007; 6.8 MB; Transitional total: 21.2 MB </li>
+     <li> 4.1.2008; 7.0 MB; Transitional total: 21.6 MB </li>
     </ol>
    </li>
   </ul>
