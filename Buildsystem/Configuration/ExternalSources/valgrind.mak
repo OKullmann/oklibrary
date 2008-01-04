@@ -7,8 +7,8 @@
 
 # Settings for building and using Valgrind
 
-valgrind_recommended_version_number ?= 3.2.3
-valgrind_supported_not_recommended_version_numbers ?= 3.2.1
+valgrind_recommended_version_number ?= 3.3.0
+valgrind_supported_not_recommended_version_numbers ?= 3.2.3
 # OK: shouldn't this be 3.2.2 ? Or perhaps just empty?
 valgrind_supported_version_numbers ?= $(valgrind_supported_not_recommended_version_numbers) $(valgrind_recommended_version_number)
 
