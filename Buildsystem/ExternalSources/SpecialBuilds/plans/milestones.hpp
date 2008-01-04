@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.1 (21.8.2007)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.2 (4.1.2008)
 
 
   \par Version 0.2.2 (documentation and Maxima)
@@ -20,7 +20,7 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Install Maxima
+    - Install Maxima : DONE
     - Install CLisp : DONE
     - Install clisp (version 2.43) on cs-wsok : DONE
     - Install Maxima 5.13 on csltok : DONE
