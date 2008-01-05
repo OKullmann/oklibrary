@@ -1,0 +1,112 @@
+/* Oliver Kullmann, 5.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac
+  \brief Functions regarding tree probability distributions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+
+/* ****************************
+   * Labelled rooted trees    *
+   ****************************
+*/
+
+/* A "labelled rooted tree" is recursively defined as a list
+   [L, T_1, ..., T_n], n >= 0, where L is the label, and the T_i
+   are the subtrees.
+*/
+
+/* the number of leaves in a labelled rooted tree */
+nlvs_l(T) := if length(T) = 1 then 1 else sum(nlvs_l(T[i]),i,2,length(T))$
+
+/* Transforms a graph G, which is a tree, into a labelled rooted tree 
+   (using root r) */
+graph2tree(G,r) := block([N : listify(neighbours(r,G))],
+ return(cons(r, makelist(graph2tree(remove_vertices_graph({r},G),v),v,N))))$
+
+load(graphs);
+/* a random labelled tree with n vertices (labels 0,...,n-1; root is 0) */
+random_ltree(n) := graph2tree(mg2g(random_tree(n)),0);
+
+
+/* **********************************************************
+   * Rooted trees labelled with probability distributions   *
+   **********************************************************
+*/
+
+/* A "rooted tree with tree probability distribution (tpd)" is recursively 
+   defined as [[p_1, ..., p_n], T_1, ..., T_n] (n >= 0) where p_i are the 
+   probabilities attached to subtree T_i (n = 0 is the case of a leaf). */
+/*
+   Examples (T_1, p_1), (T_3, p_3) from OK's SAT-handbook-article:
+   T1 : [[1/2,1/2], [[1/2,1/2],[[]],[[]]], [[]]];
+   T3 : [[1/3,1/3,1/3], [[]], [[]], [[1/2,1/2], [[]], [[]]]];
+*/
+
+/* the probability distribution induced on the leaves by a tree with tpd */
+tpd_flatten(T) := if T = [[]] then [1] else 
+ xreduce(append, T[1] * map(tpd_flatten, rest(T)))$
+
+/* the r-th moment of the random variable prob^-1 */
+tpd_moment(T,r) := xreduce("+",tpd_flatten(T)^(1-r))$
+/* We have tpd_moment(T,r) = length(tpd_flatten(T)). */
+
+/* the variance of the random variable prob^-1 */
+tpd_variance(T) := tpd_moment(T,2) - nlvs_l(T)^2$
+
+/* the lower bound on the number of leaves associated with the random variable prob^-1 */
+lower_bound_nlvs(T) := 1 / lmax(tpd_flatten(T))$
+
+/* the upper bound on the number of leaves associated with the random variable prob^-1 */
+upper_bound_nlvs(T) := 1 / lmin(tpd_flatten(T))$
+
+
+/* the induced probability distribution of the random variable prob^-1 
+   as a hash-table */
+load(graphs)$
+ipd_rp(T) := block([P : tpd_flatten(T), h : hash_table()],
+ for p in P do block([rp : 1/p, v],
+  v : get_hash(rp,h),
+  if v = false then set_hash(rp,h,p) else set_hash(rp,h,v+p)),
+ return(h))$
+
+
+/* *******************************************
+   * Analysing unlabelled rooted trees       *
+   *******************************************
+*/
+
+/* An "unlabelled rooted tree" is recursively defined as a list
+   [T_1, ..., T_n], where the T_i are the subtrees (the case
+   n=0, i.e., the empty list, represents the trivial tree).
+*/
+
+/* removes the labelling from a labelled tree */
+remove_labels_tree(T) := makelist(remove_labels_tree(T[i]),i,2,length(T))$
+  
+/* For an unlabelled tree T, returns the tree equipped with the canonical
+   tpd together with the number of vertices */
+canonical_tpd(T) := block([w : length(T)],
+ if w = 0 then [ [[]], 1 ] else
+ block([S : makelist(canonical_tpd(T[i]), i, 1, w), s],
+  s : sum(S[i][2],i,1,w),
+  return([ cons(makelist(S[i][2]/s,i,1,w), makelist(S[i][1],i,1,w)), s ])))$
+
+/*!
+\endhtmlonly
+*/

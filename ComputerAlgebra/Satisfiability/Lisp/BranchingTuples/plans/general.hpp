@@ -100,10 +100,19 @@ floating point overflow
 
 
   \todo Reimplement the remaining functionality from Mupad/tau.mup in Maxima
-  <ol>
+  <ul>
    <li> tau : DONE
-   <li> probability </li>
-  </ol>
+   <li> tree probability distributions:
+    <ol>
+     <li> tpd_flatten : DONE </li>
+     <li> tpd_moment : DONE </li>
+     <li> tpd_tuples </li>
+     <li> td_combine </li>
+     <li> tpd_ccombine </li>
+     <li> tpd_ccmoment </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Branching tuples : DONE
