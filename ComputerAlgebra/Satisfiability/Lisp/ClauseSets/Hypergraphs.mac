@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergra
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 
 
 /* the clause-variable graph of a formal clause-set */
