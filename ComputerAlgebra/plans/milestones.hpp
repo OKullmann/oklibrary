@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,26 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.0.2 (7.10.2007)
-
-
-  \par Version 0.1.1
-
-  \par
-   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - Include : DONE
-    - "oklib --maxima" : DONE
-
-  \par
-   In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - Partial compilation : DONE
-    - Abstraction : DONE
-    - General principles : DONE
-    - Comparisons : DONE
-    - How to use Sage? : DONE
-
-  \par
-   Update the following milestones.
+  \module_version ComputerAlgebra 0.1.1 (5.1.2008)
 
 
   \par Version 0.1.2
@@ -86,7 +67,8 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.1   : 2.7.2007; quite a few Mupad-functions produced (but without higher design, and not connected to the main concepts of (generalised) satisfiability)
+   - 0.1   : 2.7.2007; quite a few Mupad-functions produced (but without higher design, and not connected to the main concepts of (generalised) satisfiability).
+   - 0.1.1 : 5.1.2007; concentration on Maxima: created a file-inclusion-system similar to the C++ system, and provided easy installation and access; also created general documentation, and clarified the roles of Maxima/Lisp vs. Axiom/Aldor. On the way also basic functionality regarding graphs, hypergraphs and satisfiability has been established in Maxima.
 
 */
 

@@ -65,23 +65,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Include : DONE
-  <ul>
-   <li> DONE How to simulate "#include" ? </li>
-   <li> DONE It seems we should write "oklib_load(filename)":
-    <ol>
-     <li> "filename" is only the relative name, while oklib_load
-     adds the right prefix. </li>
-     <li> oklib_load stores whether a file has already been loaded, and does
-     not reload it again, except of when explicitely requested. </li>
-     <li> When the argument to oklib_load is a directory, then all
-     .mac-files inside the directory (recursively) are loaded. </li>
-     <li> Every maxima-file loads via oklib_load the needed files. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Handling of demos
   <ul>
    <li> How to call the maxima-demos-files? </li>
@@ -135,57 +118,6 @@ License, or any later version. */
   \todo Function application
   <ul>
    <li> What is the difference between "apply" and "xreduce" ? </li>
-  </ul>
-
-
-  \todo "oklib --maxima" : DONE
-  <ul>
-   <li> DONE We need "oklib maxima", which starts the maxima-shell and also loads
-   all functions from the OKlibrary.
-   <li> DONE We have an initialisation file, which contains
-   the list of all files to be included. </li>
-   <li> DONE Should this list just be all .mac-files ? Seems easiest. </li>
-   <li> DONE However this list is obtained, a loop should be invoked which calls
-   "load(name)" for all (full path-)names in that list; this loop
-   is performed by function "oklib_load". </li>
-   <li> DONE Perhaps it is best just to provide special .mac-files for each
-   directory-level, which just include everything below. So that with
-   'oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mak")'
-   we would for example get everything SAT-related. </li>
-   <li> DONE Then we need Transitional/ComputerAlgebra/include.mak to include
-   all Maxima-stuff ?! </li>
-   <li> We should set the timing output. DONE </li>
-   <li> It seems "maxima-init.mac" is the standard configuration file.
-   The possible placements are given by the value of variable
-   file_search_maxima. DONE </li>
-   <li> DONE Furthermore a variable is needed for the OKlib-path.
-    <ol>
-     <li> Via "system(string_with_shell_code)" one can perform
-     system calls, however to obtain the value of a variable,
-     one has to use 'system("echo ${Var}")' and copy the output
-     from the screen. </li>
-     <li> So at least we should define "OKplatform", and perhaps
-     some other main directories. </li>
-    </ol>
-   </li>
-   <li> DONE A problem is how during a session to add a new file with
-   maxima-code? Perhaps nothing special is done, only the name
-   of the list with .mac-files can be manipulated (and oklib_load
-   called). </li>
-   <li> DONE Actually, perhaps it is best not to auto-load everything,
-   but just to make the above function "oklib_load" available,
-   and then everything else can easily be done by the user. </li>
-   <li> DONE Of course, this initialisation file is created by the usual
-   preprocessing. </li>
-   <li> DONE The syntax for a call is "oklib --maxima". All arguments after
-   "--maxima" are passed to the responsible makefile. </li>
-   <li> DONE Since oklib does not have access to the configuration variables
-   itself, it needs to call a (new) makefile which includes the same
-   variables as the makefile for external sources, and which then calls
-   maxima. </li>
-   <li> DONE This makefile has the standard goal "all", with subgoals
-   "configuration" for creating the configuration-file, and "run"
-   for actually starting the maxima-program. </li>
   </ul>
 
 
