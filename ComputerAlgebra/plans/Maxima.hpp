@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.12.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -131,19 +131,19 @@ License, or any later version. */
 
   \todo "oklib --maxima"
   <ul>
-   <li> We need "oklib maxima", which starts the maxima-shell and also loads
+   <li> DONE We need "oklib maxima", which starts the maxima-shell and also loads
    all functions from the OKlibrary.
-   <li> We have an initialisation file, which contains
+   <li> DONE We have an initialisation file, which contains
    the list of all files to be included. </li>
-   <li> Should this list just be all .mac-files ? Seems easiest. </li>
-   <li> However this list is obtained, a loop should be invoked which calls
+   <li> DONE Should this list just be all .mac-files ? Seems easiest. </li>
+   <li> DONE However this list is obtained, a loop should be invoked which calls
    "load(name)" for all (full path-)names in that list; this loop
    is performed by function "oklib_load". </li>
-   <li> Perhaps it is best just to provide special .mac-files for each
+   <li> DONE Perhaps it is best just to provide special .mac-files for each
    directory-level, which just include everything below. So that with
    'oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mak")'
    we would for example get everything SAT-related. </li>
-   <li> Then we need Transitional/ComputerAlgebra/include.mak to include
+   <li> DDONE Then we need Transitional/ComputerAlgebra/include.mak to include
    all Maxima-stuff ?! </li>
    <li> We should set the timing output. DONE </li>
    <li> It seems "maxima-init.mac" is the standard configuration file.

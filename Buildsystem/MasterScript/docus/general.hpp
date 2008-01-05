@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -50,7 +50,8 @@ License, or any later version. */
    (creating the .oklib-directory at OKplatform-level) .</li>
    <li> <code>--prebuild</code> (creation of directories and placement of
    makefile-links). </li>
-   <li> <code>--maxima</code> (configures and calls Maxima) </li>
+   <li> <code>--maxima</code> (configures and calls Maxima; see
+   ComputerAlgebra/docus/Maxima.hpp) </li>
    <li> <code>--create-package</code> calls the ReleaseProcess makefile
    with trailing arguments, creating a package in as given by packages_dir
    (current value is <code>${packages_dir}</code>) including documentation,

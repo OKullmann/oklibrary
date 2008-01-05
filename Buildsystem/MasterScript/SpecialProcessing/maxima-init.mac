@@ -23,3 +23,4 @@ oklib_include(name) := block([full_name : sconcat(OKsystem,"/",name)],
   (load(full_name), oklib_loaded_files[full_name] : oklib_load_round)
 );
 
+oklib_load_all() := oklib_load("Transitional/ComputerAlgebra/include.mac");
