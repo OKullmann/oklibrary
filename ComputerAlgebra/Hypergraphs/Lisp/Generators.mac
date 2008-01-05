@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* *****************
