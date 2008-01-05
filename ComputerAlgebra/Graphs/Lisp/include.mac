@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/include.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/InputOutput.mac")$
 

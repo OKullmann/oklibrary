@@ -51,6 +51,13 @@ License, or any later version. */
    </li>
    <li> And we need conversions between directed graphs and maxima-digraphs. </li>
    <li> Find out about the output-formats for maxima-graphs. </li>
+   <li> Bug:
+   \verbatim
+draw_graph(complete_graph(3))$
+gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 1 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 2 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 3 t '' w p ps 2 pt 7 lc rgb 'red'
+         "/home/kullmann/maxout.gnuplot", line 22: ';' expected
+   \endverbatim
+   Notify maxima mailing-list. </li>
   </ul>
 
 
