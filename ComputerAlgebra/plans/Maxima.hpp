@@ -152,7 +152,12 @@ License, or any later version. */
      <li> Via "get_hash("abc", h)" we get (h("abc") if defined, and
      false otherwise. </li>
      <li> And via "hash_table_data(h)" we get the list of all assignments
-     in h. </li>
+     in h.
+      <ol>
+       <li> For an assignment A ("x -> y") we obtain the argument by
+       "part(A,1)" and the value by "part(A,2)". </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
