@@ -65,10 +65,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Include
+  \todo Include : DONE
   <ul>
-   <li> How to simulate "#include" ? </li>
-   <li> It seems we should write "oklib_load(filename)":
+   <li> DONE How to simulate "#include" ? </li>
+   <li> DONE It seems we should write "oklib_load(filename)":
     <ol>
      <li> "filename" is only the relative name, while oklib_load
      adds the right prefix. </li>
@@ -77,9 +77,18 @@ License, or any later version. */
      <li> When the argument to oklib_load is a directory, then all
      .mac-files inside the directory (recursively) are loaded. </li>
      <li> Every maxima-file loads via oklib_load the needed files. </li>
-     <li> Perhaps also a special mode for handling demo-files is needed. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Handling of demos
+  <ul>
+   <li> How to call the maxima-demos-files? </li>
+   <li> How is it integrated into the general demos-system for the OKlibrary?
+   Perhaps it is just the incarnation of the general system in the context
+   of Maxima/Lisp. </li>
+   <li> Extend "oklib_load" to process the maxima-demos. </li>
   </ul>
 
 
@@ -129,7 +138,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo "oklib --maxima"
+  \todo "oklib --maxima" : DONE
   <ul>
    <li> DONE We need "oklib maxima", which starts the maxima-shell and also loads
    all functions from the OKlibrary.
@@ -143,7 +152,7 @@ License, or any later version. */
    directory-level, which just include everything below. So that with
    'oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mak")'
    we would for example get everything SAT-related. </li>
-   <li> DDONE Then we need Transitional/ComputerAlgebra/include.mak to include
+   <li> DONE Then we need Transitional/ComputerAlgebra/include.mak to include
    all Maxima-stuff ?! </li>
    <li> We should set the timing output. DONE </li>
    <li> It seems "maxima-init.mac" is the standard configuration file.

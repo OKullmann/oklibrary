@@ -13,11 +13,10 @@ License, or any later version. */
 
   \par Version 0.1.1
 
-  \par ComputerAlgebra/Satisfiability version 0.0.5
-  (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
-
-  \par ComputerAlgebra/Cryptology version 0.0.5
-  (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
+  \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Include : DONE
+    - "oklib --maxima" : DONE
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
@@ -26,6 +25,29 @@ License, or any later version. */
     - General principles : DONE
     - Comparisons : DONE
     - How to use Sage? : DONE
+
+  \par
+   Update the following milestones.
+
+
+  \par Version 0.1.2
+
+  \par ComputerAlgebra/Satisfiability version 0.0.5
+  (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Cryptology version 0.0.5
+  (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
+
+  \par
+   In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Naming conventions
+    - Aldor integration
+
+  \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Documentation
+    - %Test system
+    - Handling of demos
 
   \par
    Update the following milestones.
