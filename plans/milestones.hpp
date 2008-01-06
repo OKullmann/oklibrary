@@ -29,10 +29,6 @@ License, or any later version. */
   (see Buildsystem/plans/milestones.hpp)
   \par LegalIssues version 0.0.7 (OK)
   (see LegalIssues/plans/milestones.hpp)
-  \par Messages version 0.7.5 (OK)
-  (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.1.4 (OK)
-  (see TestSystem/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.2 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
   \par ComputerAlgebra version 0.1.1 (OK, MH, MG) : DONE
@@ -61,6 +57,23 @@ License, or any later version. */
     - Handling of version-numbers
     - Research sub-modules
     - Organisation of plans-directories
+  \par
+   In Transitional/plans/Foundations.hpp the following topics are handled:
+    - Improve the general design discussions
+  \par Update
+  Update the subsequent milestones.
+
+
+  \subsection VersionTransitional022 0.2.2 : Theme "BASIC FUNCTIONALITY"
+  TO BE REACHED $(deadline_022)
+  \par Buildsystem version 0.2.2 (OK)
+  (see Buildsystem/plans/milestones.hpp)
+  \par Messages version 0.7.5 (OK)
+  (see Messages/plans/milestones.hpp)
+  \par TestSystem version 0.1.4 (OK)
+  (see TestSystem/plans/milestones.hpp)
+  \par
+   In Transitional/plans/general.hpp the following topics are handled:
     - Demos
   \par
    In Transitional/plans/Annotations.hpp the following topics are handled:
@@ -68,17 +81,14 @@ License, or any later version. */
     - Latex macros
     - Bibtex-database
   \par
-   In Transitional/plans/Foundations.hpp the following topics are handled:
-    - Improve the general design discussions
-  \par
    In Transitional/OKsolver/plans/general.hpp the following topics are handled:
     - Submodule "Experimental 200203"
   \par Update
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional022 0.2.2
-  TO BE REACHED $(deadline_022)
+  \subsection VersionTransitional023 0.2.3
+  TO BE REACHED $(deadline_023)
   \par Satisfiability/Solvers 0.2.1
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par Literals version 0.0.4 (OK (MH))
@@ -89,7 +99,7 @@ License, or any later version. */
   (see Resolution/plans/milestones.hpp)
   \par LatinSquares version 0.0.5 (OK, MH)
   (see LatinSquares/plans/milestones.hpp)
-  \par Buildsystem version 0.2.2 (OK)
+  \par Buildsystem version 0.2.3 (OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Concepts version 0.1.3 (OK (MH))
   (see Concepts/plans/milestones.hpp)
@@ -125,8 +135,8 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional023 0.2.3
-  TO BE REACHED $(deadline_023)
+  \subsection VersionTransitional024 0.2.4
+  TO BE REACHED $(deadline_024)
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
@@ -141,47 +151,10 @@ License, or any later version. */
   (see Structures/plans/milestones.hpp)
   \par Update the subsequent milestones (on the way to 0.3).
 
-  \subsection VersionTransitional024 0.2.4
-  \par Messages version 0.7.8 (OK)
-  (see Messages/plans/milestones.hpp)
-  \par TestSystem version 0.2 (OK)
-  (see TestSystem/plans/milestones.hpp)
-  \par ComplexitySystem version 0.2 (MH, OK))
-  (see ComplexitySystem/plans/milestones.hpp)
-
-  \subsection VersionTransitional0110 0.1.10
-  \par Buildsystem version 0.3
-  (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.7.9 (OK)
-  (see Messages/plans/milestones.hpp)
 
 
-  \subsection VersionTransitional0111 0.1.11
-  \par Buildsystem version 0.4
-  (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8 (OK)
-  (see Messages/plans/milestones.hpp)
-
-  \subsection VersionTransitional0112 0.1.12
-  \par Buildsystem version 0.7
-  (see Buildsystem/plans/milestones.hpp)
-
-  \subsection VersionTransitional0113 0.1.13
-  \par Buildsystem version 0.5
-  (see Buildsystem/plans/milestones.hpp)
-  \par Messages version 0.8
-  (see Messages/plans/milestones.hpp)
-
-  \subsection VersionTransitional0114 0.1.14
-  \par Messages version 0.9
-  (see Messages/plans/milestones.hpp)
-
-  \subsection VersionTransitional0115 0.1.15
-  \par Buildsystem version 1.0
-  (see Buildsystem/plans/milestones.hpp)
-
-
-  \section VersionTransitional030 0.3 Build and test system basically finished, and basic concepts for generalised SAT solving established
+  \section VersionTransitional030 0.3 Build and test system basically finished, and basic
+  concepts for generalised SAT solving established
   \par Messages version 1.0
   (see Messages/plans/milestones.hpp)
   \par ProgramOptions version ???
@@ -207,6 +180,7 @@ License, or any later version. */
 
   \section VersionTransitional100 1.0.0 Foundations completed
   A solid foundation is provided, now we can start.
+
 */
 
 
