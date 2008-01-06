@@ -107,6 +107,35 @@ canonical_tpd(T) := block([w : length(T)],
   s : sum(S[i][2],i,1,w),
   return([ cons(makelist(S[i][2]/s,i,1,w), makelist(S[i][1],i,1,w)), s ])))$
 
+
+/* **************************************************
+   * Rooted trees labelled with branching tuples    *
+   **************************************************
+*/
+
+/* A "distance" on a rooted tree is given by a labelling of the nodes
+   with branching tuples (of the same width as the branching), while
+   a "measure" is given by a node-labelling with numbers.
+*/
+
+/* Transformations of a tree with distances to a tree with measure: */
+
+/* the min-sum of a tree with branching tuples */
+min_sum_tbt(T) := block([w : length(T)], if w = 1 then [0] else
+ block([L : makelist(min_sum_tbt(T[i]),i,2,w)],
+  return(cons(lmin(makelist(T[1][i]+L[i][1],i,1,w-1)),L))))$
+
+/* the max-sum of a tree with branching tuples */
+max_sum_tbt(T) := block([w : length(T)], if w = 1 then [0] else
+ block([L : makelist(max_sum_tbt(T[i]),i,2,w)],
+  return(cons(lmax(makelist(T[1][i]+L[i][1],i,1,w-1)),L))))$
+
+/* Transformation of a tree with measure to a tree with distance: */
+
+/* the differences for a tree with a measure */
+Delta_tm(T) := block([w : length(T)], if w = 1 then [[]] else
+ return(cons(makelist(T[1]-T[i][1],i,2,w), makelist(Delta_tm(T[i]),i,2,w))))$
+
 /*!
 \endhtmlonly
 */
