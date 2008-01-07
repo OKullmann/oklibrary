@@ -78,7 +78,7 @@ define install-boost
 endef
 
 $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory)/boost-% : $(boost_base_directory)/% $(boost_doc_dir)/%
-	$(call unarchive,sources/Boost/boost_$*,$(boost_base_directory)) $(postcondition) \
+	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$*,$(boost_base_directory)) $(postcondition) \
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	cd $(bjam_source); $(postcondition) \
 	./build.sh; $(postcondition) \
@@ -104,7 +104,7 @@ endef
 
 define boost_gcc_rule
 $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(boost_doc_dir)/$(1) | gcc-$(2) 
-	$(call unarchive,sources/Boost/boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
 	./build.sh; if [ $$$$? != 0 ]; then exit 1; fi; \

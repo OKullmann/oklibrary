@@ -24,7 +24,7 @@ $(sage_directories) : % :
 sage : $(sage_recommended)
 
 $(sage_targets) : $(sage_directories)
-	$(call unarchive_uncompressed,sources/Sage/$@,$(sage_base_directory))
+	$(call unarchive_uncompressed,$(ExternalSources)/sources/Sage/$@,$(sage_base_directory))
 	cd $(sage_base_directory)/$@; $(postcondition) \
 	make; $(postcondition) \
 	make test

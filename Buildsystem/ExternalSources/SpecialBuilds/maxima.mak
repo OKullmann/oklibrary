@@ -23,7 +23,7 @@ $(maxima_directories_okl) : % :
 maxima : $(maxima_recommended_okl)
 
 $(maxima_targets_okl) : $(maxima_directories_okl)
-	$(call unarchive,sources/Maxima/$@,$(maxima_base_build_dir_okl))
+	$(call unarchive,$(ExternalSources)/sources/Maxima/$@,$(maxima_base_build_dir_okl))
 	cd $(maxima_build_dir_okl); $(postcondition) \
 	LANG=C ./configure --prefix=${maxima_installation_dir_okl}; $(postcondition) \
 	LANG=C make; $(postcondition) \

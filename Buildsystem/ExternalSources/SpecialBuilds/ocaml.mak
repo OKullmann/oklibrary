@@ -26,7 +26,7 @@ $(ocaml_directories) : % :
 ocaml : $(ocaml_recommended)
 
 $(ocaml_targets) : ocaml-% : $(ocaml_directories)
-	$(call unarchive,sources/Ocaml/$@,$(ocaml_base_directory))
+	$(call unarchive,$(ExternalSources)/sources/Ocaml/$@,$(ocaml_base_directory))
 	cd $(ocaml_base_directory)/$@; $(postcondition) \
 	./configure -prefix $(ocaml_base_directory)/$*; $(postcondition) \
 	make world && make bootstrap && make opt && make opt.opt && make install && make clean

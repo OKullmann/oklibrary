@@ -30,7 +30,7 @@ $(clisp_directories_okl) : % :
 clisp : $(clisp_recommended_okl)
 
 $(clisp_targets_okl) : $(clisp_directories_okl)
-	$(call unarchive,sources/CLisp/$@,$(clisp_base_build_dir_okl))
+	$(call unarchive,$(ExternalSources)/sources/CLisp/$@,$(clisp_base_build_dir_okl))
 	cd $(clisp_build_dir_okl); $(postcondition) \
 	./configure --prefix=$(clisp_installation_dir_okl); $(postcondition) \
 	cd src; $(postcondition) \

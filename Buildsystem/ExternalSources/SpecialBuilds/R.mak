@@ -24,7 +24,7 @@ $(R-directories) : % :
 R : $(R_recommended)
 
 $(R_targets) : $(R-directories)
-	$(call unarchive,sources/R/$@,$(R-base-directory))
+	$(call unarchive,$(ExternalSources)/sources/R/$@,$(R-base-directory))
 	cd $(R-base-directory)/$@; $(postcondition) \
 	./configure; $(postcondition) \
 	make; $(postcondition) \

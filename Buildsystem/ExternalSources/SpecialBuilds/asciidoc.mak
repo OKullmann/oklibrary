@@ -26,7 +26,7 @@ create_asciidoc_dirs : $(asciidoc-directories)
 asciidoc : $(asciidoc_recommended)
 
 $(asciidoc_targets) : create_asciidoc_dirs
-	$(call unarchive,sources/Asciidoc/$@,$(asciidoc-base-directory))
+	$(call unarchive,$(ExternalSources)/sources/Asciidoc/$@,$(asciidoc-base-directory))
 	cd $(asciidoc-base-directory)/$@; $(postcondition) \
 	sudo ./install.sh; $(postcondition)
 

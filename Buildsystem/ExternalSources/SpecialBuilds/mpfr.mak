@@ -24,7 +24,7 @@ $(mpfr-directories) : % :
 mpfr : $(mpfr_recommended)
 
 $(mpfr_targets) : $(mpfr-directories)
-	$(call unarchive,$@,$(mpfr-base-directory))
+	$(call unarchive,$(ExternalSources)/sources/Gmp/$@,$(mpfr-base-directory))
 	cd $(mpfr-base-directory)/$@; $(postcondition) \
 	./configure; $(postcondition) \
 	make; $(postcondition) \

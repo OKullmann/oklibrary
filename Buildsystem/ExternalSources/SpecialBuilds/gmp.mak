@@ -23,7 +23,7 @@ $(gmp_directories) : % :
 gmp : $(gmp_recommended)
 
 $(gmp_targets) : $(gmp_directories)
-	$(call unarchive,sources/Gmp/$@,$(gmp_base_directory)) $(postcondition) \
+	$(call unarchive,$(ExternalSources)/sources/Gmp/$@,$(gmp_base_directory)) $(postcondition) \
 	cd $(gmp_base_directory)/$@; $(postcondition) \
 	./configure --prefix=$(gmp_install_directory); $(postcondition) \
 	make; $(postcondition) \

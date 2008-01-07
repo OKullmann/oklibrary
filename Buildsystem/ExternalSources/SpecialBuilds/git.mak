@@ -21,7 +21,7 @@ create_git_dirs : $(git_directories)
 git : $(git_recommended)
 
 $(git_targets) : create_git_dirs
-	$(call unarchive,sources/Git/$@,$(git_base_directory)) $(postcondition) \
+	$(call unarchive,$(ExternalSources)/sources/Git/$@,$(git_base_directory)) $(postcondition) \
 	cd $(git_base_directory)/$@; $(postcondition) \
 	make configure; $(postcondition) \
 	sh ./configure --prefix=/usr/local; $(postcondition) \
