@@ -44,6 +44,15 @@ License, or any later version. */
 
   \todo Sudoku
   <ul>
+   <li> Surjectivity constraints:
+    <ol>
+     <li> For rows, columns, and boxes translate the surjectivity
+     constraints. </li>
+     <li> Create a "dual weak sdk". </li>
+     <li> The union of weak sdk and dual weak sdk then deserves the
+     name "strong sdk". </li>
+    </ol>
+   </li>
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
    <li> We need an easy method for specifying partial assignments to
    fields. </li>
