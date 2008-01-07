@@ -161,6 +161,8 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
   \todo Automated theorem proving
   <ul>
    <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/ </li>
+   <li> Otter http://www.mcs.anl.gov/AR/otter/ ? (it seems that it was
+   replaced by Prover9) </li>
   </ul>
 
 
