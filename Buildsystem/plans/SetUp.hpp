@@ -12,6 +12,11 @@ License, or any later version. */
 
   \todo Further actions by the setup-process:
   <ul>
+   <li> The log-link is currently only set by SetUp.mak, but when moving
+   system_directories, then this link becomes stale (while SetUp.mak is
+   not equipped to update the link): We should document this; the easy
+   solution seems to be just to manually redefine the log-link, but it
+   should also be possible via oklib. </li>
    <li> Create a copy in ~/bin of the oklib-script, and make it executable. </li>
   </ul>
 
