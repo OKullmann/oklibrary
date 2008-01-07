@@ -25,23 +25,35 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The simplest scheme: input is a formal clause-set, and the return value
    is true or false.
-   The heuristics returns a literal for input a formal clause-set */
+   The heuristics has to return a literal for input a formal clause-set. */
 
 dll_simplest(FF, h) := if is_empty(FF[2]) then true
  elseif has_empty_element(FF[2]) then false
  else block([x : h(FF)], 
     return(dll_simplest(apply_pa_f({x}, FF), h) or dll_simplest(apply_pa_f({-x}, FF), h)))$
 
+/* The variation where the return value is not true/false but the computed 
+   splitting tree. */
+dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
+ elseif has_empty_element(FF[2]) then [false]
+ else block([x : h(FF)], 
+    return([x,
+            dll_simplest_st(apply_pa_f({x}, FF), h),
+            dll_simplest_st(apply_pa_f({-x}, FF), h)]))$
+
+
 /* The simplest heuristics: return the first variable */
 dll_heuristics_first_formal(FF) := first(FF[1])$
 
 dll_simplest_trivial1(FF) := dll_simplest(FF, dll_heuristics_first_formal)$
+dll_simplest_st_trivial1(FF) := dll_simplest_st(FF, dll_heuristics_first_formal)$
 
 /* The second-simplest heuristics: return the literal of the first
    literal-occurrence */
 dll_heuristics_first_real(FF) := first(first(FF[2]))$
 
 dll_simplest_trivial2(FF) := dll_simplest(FF, dll_heuristics_first_real)$
+dll_simplest_st_trivial2(FF) := dll_simplest_st(FF, dll_heuristics_first_real)$
 
 /* Heuristics: first literal in first shortest clause */
 dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
@@ -49,6 +61,7 @@ dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
   return(x))$
 
 dll_simplest_first_shortest_clause(FF) := dll_simplest(FF, dll_heuristics_first_shortest_clause)$
+dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_clause)$
 
 /*!
 \endhtmlonly
