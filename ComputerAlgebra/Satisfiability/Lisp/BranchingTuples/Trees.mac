@@ -98,9 +98,12 @@ ipd_rp(T) := block([P : tpd_flatten(T), h : hash_table()],
 
 /* removes the labelling from a labelled tree */
 remove_labels_tree(T) := makelist(remove_labels_tree(T[i]),i,2,length(T))$
+
+/* counts the number of nodes in an unlabelled tree */
+nnds(T) := 1+sum(nnds(T[i]),i,1,length(T))$
   
 /* For an unlabelled tree T, returns the tree equipped with the canonical
-   tpd together with the number of vertices */
+   tpd together with the number of leaves */
 canonical_tpd(T) := block([w : length(T)],
  if w = 0 then [ [[]], 1 ] else
  block([S : makelist(canonical_tpd(T[i]), i, 1, w), s],

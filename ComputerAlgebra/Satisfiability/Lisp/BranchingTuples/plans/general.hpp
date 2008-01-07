@@ -115,6 +115,16 @@ floating point overflow
   </ul>
 
 
+  \todo Trees
+  <ul>
+   <li> Some of the tree functions should go to a general module
+   on trees. </li>
+   <li> For example these functions can be applied to splitting trees
+   (see ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac).
+   </li>
+  </ul>
+
+
   \todo Branching tuples : DONE
   <ul>
    <li> DONE We should develop some general helper functions for branching tuples t,

@@ -24,6 +24,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp the following topics are handled:
     - Reimplement the remaining functionality from Mupad/tau.hpp
+    - Trees
 
   \par
    Create further milestones.
