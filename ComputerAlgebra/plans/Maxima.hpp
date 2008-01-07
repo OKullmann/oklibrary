@@ -75,6 +75,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo New module "Trees"
+  <ul>
+   <li> Gather all general tree-functionality, and put into its own module
+   "Trees". </li>
+  </ul>
+
+
   \todo Monitoring
   <ul>
    <li> Perhaps we introduce a global variable "oklib_monitor",
