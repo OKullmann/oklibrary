@@ -63,10 +63,12 @@ cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
 # mpfr
 # ###############################
 
-mpfr_recommended_version_number ?= 2.2.1
+mpfr_recommended_version_number ?= 2.3.0
 mpfr_supported_version_numbers ?= $(mpfr_recommended_version_number)
 
 mpfr_prefix ?= mpfr
+
+mpfr_homepage_url := http://www.mpfr.org/
 
 mpfr_targets_prefix := $(mpfr_prefix)-
 mpfr_targets := $(addprefix $(mpfr_targets_prefix), $(mpfr_supported_version_numbers))
