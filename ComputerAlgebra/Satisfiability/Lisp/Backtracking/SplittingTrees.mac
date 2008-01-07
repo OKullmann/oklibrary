@@ -38,7 +38,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reduc
 */
 
 /* for input FF (a formal clause-set) returns a pair consisting of a splitting
-   tree of minimum size, and its size */
+   tree of minimum size, and its size (the number of nodes) */
 optimal_splitting_tree(FF) := if is_empty(FF[2]) then [[true],1]
   elseif has_empty_element(FF[2]) then [[false],1] else
   block([best_tree : [[]], min_size : inf], 
