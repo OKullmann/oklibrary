@@ -145,6 +145,16 @@ apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi))$
 apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
   apply_pa(phi, clauses_f(FF))]$
 
+/* the set of satisfied, falsified, untouched and critical clauses for
+   a partial assignment w.r.t. a clause-set */
+analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
+ for C in F do
+  if disjointp(var_c(C), V) then u : adjoin(C, u) 
+  elseif apply_pa(phi,{C}) = {} then s : adjoin(C,s)
+  elseif apply_pa(phi,{C}) = {{}} then f : adjoin(C,f)
+  else c : adjoint(C,c),
+ return([s,f,u,c]))$
+
 
 /* *****************************************
    * Printing clause-sets in Dimacs-format *
