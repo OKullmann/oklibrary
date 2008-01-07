@@ -56,7 +56,29 @@ License, or any later version. */
 ocaml_bin_dir := /usr/local/bin
   \endcode
   to use the system-wide ocaml-installation instead of the local installation.
-  (These definitions prevent the involved variables from being (re-)defined by the configuration system.)
+  (These definitions prevent the involved variables from being (re-)defined by
+  the configuration system.)
+
+  <p />
+
+  Since directory ExternalSources (<code>$(ExternalSources)</code>) can become
+  quite big, one might want to move its content to directory "OtherLocation":
+  <ol>
+   <li> Enter
+   \verbatim
+ExternalSources = FullPathToOtherLocation
+   \endverbatim
+   into <code>$(OKoverrideconfig)</code>; a concrete example would be
+   \verbatim
+ExternalSources = /home/user/ExternalSources
+   \endverbatim
+   </li>
+   <li> Move the content of directory ExternalSources to the new place (so that
+   the elements of ExternalSources become the elements of OtherLocation). </li>
+   <li> Now the old directory ExternalSources has become empty, and is only to
+   be used for the oklib-calls (like <code>oklib maxima</code> for installing
+   Maxima). </li>
+  </ol>
 
   
   <h2> Installations </h2>
