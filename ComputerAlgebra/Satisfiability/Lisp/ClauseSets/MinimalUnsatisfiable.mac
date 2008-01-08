@@ -21,11 +21,25 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/MinimalU
 
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
    The second input, the "solver", shall just return true or false. */
-min_unsat_by_def(FF, solver) := not solver(FF) and 
+min_unsat_bydef(FF, solver) := not solver(FF) and 
  block([all_sat : true],
   for C in FF[2] unless not all_sat do 
    all_sat : solver([FF[1], disjoin(C, FF[2])]),
   return(all_sat))$
+
+/* Returns the minimum size of a minimally unsatisfiable sub-clause-set
+   of clause-set F; uses sat-solver S */
+min_size_mus_bydef(F, S) := if S([var_cs(F),F]) then inf else
+ block([k : 0, scls : {}],
+  while every(\lambda([G], S([var_cs(G),G])), scls) do (
+   k : k+1, scls : powerset(F, k)),
+ return(k))$
+
+/* Decides whether clause-set F contains a (minimally) unsatisfiable 
+   sub-clause-set of size at most k; uses sat-solver S */
+contains_us_bydef(F, k, S) := 
+ not every(\lambda([G], S([var_cs(G),G])), powerset(F,k))$
+
 
 /*!
 \endhtmlonly
