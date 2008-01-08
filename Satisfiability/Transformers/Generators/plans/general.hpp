@@ -39,6 +39,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Sudoku
+  <ul>
+   <li> Similar to
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac,
+   write a generator for weak, dual-weak and strong Sudoku problems,
+   for the empty initial position. </li>
+   <li> Fixing fields then happens by just appending to the generated
+   base-files. </li>
+   <li> For creating the weak clause-sets, we already avoid creating
+   those box-constraints-clauses which are already covered by the row
+   and column constraints. </li>
+  </ul>
+
+
   \todo Biclique-transformations
   <ul>
    <li> We need active clause-sets for biclique-transformations for
@@ -51,6 +65,9 @@ License, or any later version. */
    <li> MUSAT_{delta=1} </li>
    <li> The HKB-formulas (MUSAT_{delta=2}, where every literal occurs
    at least once) have to be constructed. </li>
+   <li> Do we actually need MUSaT(1,2), since we have it already in
+   the Maxima/Lisp system (see
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac) ? </li>
   </ul>
 
 

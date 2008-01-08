@@ -24,8 +24,16 @@ License, or any later version. */
    topics are handled:
     - Update
 
+  \par
+   Update milestones.
+
 
   \par Version 0.0.8
+
+  \par
+   In Transformers/Generators/plans/general.hpp the following
+   topics are handled:
+    - Sudoku
 
   \par
    In Transformers/Generators/plans/FaronsPuzzle.hpp the following
@@ -34,6 +42,9 @@ License, or any later version. */
     - Use an CLSAdaptor for output
     - Test.cpp
     - Write docus
+
+  \par
+   Create new milestones.
 
 
 
