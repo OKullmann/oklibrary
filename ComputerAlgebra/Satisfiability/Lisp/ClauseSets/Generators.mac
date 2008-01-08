@@ -108,14 +108,14 @@ sdk_different_boxes(p) := block([N : p^2, L : []],
  setify(L))$
 
 /* every field carries a number */
-sdk_filled_fields(p) := block([N : p^2],
+sdk_all_fields(p) := block([N : p^2],
  setify(create_list(setify(makelist(sdk_var(i,j,k), k, 1, N)), i,1,N, j,1,N)))$
 
 
 /* the sudoku problem (weak form) as formal clause-set */
 weak_sdk(p) := [var_sdk(p), 
  union(sdk_different_rows(p), sdk_different_columns(p), sdk_different_boxes(p),
-       sdk_filled_fields(p))]$
+       sdk_all_fields(p))]$
 
 output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
   output_cs_f_v(
@@ -125,14 +125,40 @@ output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
     FF[2]))$
 
 
-/* every field carris different numbers */
+/* every row contains all numbers */
+sdk_all_rows(p) := block([N : p^2],
+ setify(create_list(setify(makelist(sdk_var(i,j,k),j,1,N)), i,1,N, k,1,N)))$
+
+/* every column contains all numbers */
+sdk_all_columns(p) := block([N : p^2],
+ setify(create_list(setify(makelist(sdk_var(i,j,k),i,1,N)), j,1,N, k,1,N)))$
+
+/* every box contains all numbers */
+sdk_all_boxes(p) := block([N : p^2],
+ setify(create_list(setify(makelist(sdk_var(p[1],p[2],k),p,sdk_positions_box(i,j,p))),
+  i,1,p, j,1,p, k,1,N)))$
+
+/* every field carries a different numbers */
 sdk_different_fields(p) := block([N : p^2],
   setify(create_list({-sdk_var(i,j,k1), -sdk_var(i,j,k2)}, i,1,N, j,1,N, k1,1,N-1, k2,k1+1,N)))$
 
-/* the sudoku problem as formal clause-set */
+
+/* the sudoku problem (dual weak form) as formal clause-set */
+dual_weak_sdk(p) := [var_sdk(p), 
+ union(sdk_all_rows(p), sdk_all_columns(p), sdk_all_boxes(p),
+       sdk_different_fields(p))]$
+
+output_dual_weak_sdk(p,filename) := block([FF : standardise_fcs(dual_weak_sdk(p))],
+  output_cs_f_v(
+    sconcat("The Sudoku problem (dual weak form) with box-dimension ", p, "."), 
+    FF[1],
+    filename,
+    FF[2]))$
+
+
+/* the strong sudoku problem as formal clause-set */
 strong_sdk(p) := [var_sdk(p), 
- union(sdk_different_rows(p), sdk_different_columns(p), sdk_different_boxes(p),
-       sdk_filled_fields(p), sdk_different_fields(p))]$
+ union(weak_sdk(p)[2], dual_weak_sdk(p)[2])]$
 
 output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
   output_cs_f_v(
@@ -141,33 +167,34 @@ output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
     filename,
     FF[2]))$
 
+
 /* Measures for the translated formulas */
 
 /* Number of variables */
 n_var_sdk(p) := p^6$
 
-/* List of clause-counts as with ncl_list_f */
+/* List of clause-counts for weak_sdk as with ncl_list_f */
 ncl_list_weak_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
- block([N : p^2],
-  return([
-   [2, 3 * N^2 * binom(N,2) - N^2 * N * (p-1)],
-   [N, N^2]
-  ]))$
+ block([N : p^2], return([ [2, 3 * N^2 * binom(N,2) - N^2 * N * (p-1)], [N, N^2] ]))$
+/* List of clause-counts for dual_weak_sdk as with ncl_list_f */
+ncl_list_dual_weak_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
+ block([N : p^2], return([[2, N^2 * binom(N,2)], [N, 3 * N^2]]))$
+/* List of clause-counts for dual_weak_sdk as with ncl_list_f */
 ncl_list_strong_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
- block([N : p^2],
-  return([
-   [2, 4 * N^2 * binom(N,2) - N^2 * N * (p-1)],
-   [N, N^2]
-  ]))$
+ block([N : p^2], return([ [2, 4 * N^2 * binom(N,2) - N^2 * N * (p-1)], [N, 4 * N^2] ]))$
 
 /* Total number of clauses */
 ncl_weak_sdk(p) := block([L : ncl_list_weak_sdk(p)],
+ return(sum(L[i][2],i,1,length(L))))$
+ncl_dual_weak_sdk(p) := block([L : ncl_list_dual_weak_sdk(p)],
  return(sum(L[i][2],i,1,length(L))))$
 ncl_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
  return(sum(L[i][2],i,1,length(L))))$
 
 /* Number of literal occurrences */
 nlitocc_weak_sdk(p) := block([L : ncl_list_weak_sdk(p)],
+ return(sum(L[i][1] * L[i][2],i,1,length(L))))$
+nlitocc_dual_weak_sdk(p) := block([L : ncl_list_dual_weak_sdk(p)],
  return(sum(L[i][1] * L[i][2],i,1,length(L))))$
 nlitocc_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
  return(sum(L[i][1] * L[i][2],i,1,length(L))))$
@@ -178,7 +205,7 @@ nlitocc_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
    ***************************
 */
 
-/* Boolean clause-sets, wholes solutions are the partitionings of {1,...,n}
+/* Boolean clause-sets, whose solutions are the partitionings of {1,...,n}
  into two parts such that none of them contains an arithmetic progression
  of size k */
 VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], 
