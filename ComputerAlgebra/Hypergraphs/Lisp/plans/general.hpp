@@ -26,6 +26,14 @@ License, or any later version. */
   \todo Hypergraphs/Lisp/Generators.mac
   <ul>
    <li> Create complete r-graphs. </li>
+   <li> Create Sudoko-hypergraphs (such that the Sudoko-problems can be
+   expressed as strong colouring problems).
+    <ol>
+     <li> For box dimension p the vertex set should be {1,...,p}^2. </li>
+     <li> The 3N hyperedges (N=p^2) just correspond to the rows, columns
+     and boxes (the hypergraph is thus N-uniform). </li>
+    </ol>
+   </li>
    <li> Create Ramsey graphs etc. </li>
   </ul>
 

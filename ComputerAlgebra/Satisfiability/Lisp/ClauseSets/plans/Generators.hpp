@@ -44,15 +44,6 @@ License, or any later version. */
 
   \todo Sudoku
   <ul>
-   <li> Surjectivity constraints:
-    <ol>
-     <li> For rows, columns, and boxes translate the surjectivity
-     constraints. </li>
-     <li> Create a "dual weak sdk". </li>
-     <li> The union of weak sdk and dual weak sdk then deserves the
-     name "strong sdk". </li>
-    </ol>
-   </li>
    <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
    <li> We need an easy method for specifying partial assignments to
    fields. </li>
@@ -98,13 +89,29 @@ Currently in use: 673594256 bytes.
 Free space: 16453216 bytes.
    \endverbatim
    ? Try it on cs-wsok. </li>
-   <li> Add the conditions, that a field doesn't get several colours.
+   <li> Surjectivity constraints: DONE
+    <ol>
+     <li> For rows, columns, and boxes translate the surjectivity
+     constraints. </li>
+     <li> Create a "dual weak sdk". </li>
+     <li> The union of weak sdk and dual weak sdk then deserves the
+     name "strong sdk". </li>
+    </ol>
+   </li>
+   <li> Add the conditions, that a field doesn't get several numbers.
    DONE. </li>
    <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
    to store an intermediate value)
    Replace, if possible, all loops by the use of "create_list". </li>
   </ul>
-
+   
+   
+  \todo Colouring problems
+  <ul>
+   <li> Translate graph colouring problems into SAT. </li>
+   <li> Translate hypergraph colouring problems (strong and weak) into
+   SAT. </li>
+  </ul>
 
   \todo Translations to MUSAT
   <ul>
