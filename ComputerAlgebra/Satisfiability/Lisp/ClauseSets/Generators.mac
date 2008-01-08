@@ -265,6 +265,62 @@ sat_musat(FF) := block([m : length(FF[2]), Y, G],
  G : usat_musat(FF),
  return([G[1], union(G[2],{Y})]))$
 
+
+/* ********************************************************
+   * Max-Clique translated to "SHORT RES" and "SMALL MUS" *
+   ********************************************************
+*/
+
+/* According to [Fellows, Szeider, Wrightson; 2006]. */
+
+/* Variables are "srfswx(i)", "srfswy(i,j)" and "srfswz(v,i)" for natural
+   numbers i,j and vertices v. */
+kill(srfswx,srfswy,srfswz)$
+declare(srfswx, noun, srfswy, noun, srfswz, noun)$
+declare(srfswx, posfun, srfswy, posfun, srfswz, posfun)$
+srfswx_var(i) := nounify(srfswx)(i)$
+srfswy_var(i,j) := nounify(srfswy)(i,j)$
+srfswz_var(v,i) := nounify(srfswz)(v,i)$
+
+new_k(k) := binom(k,2) + 2 * k$
+
+/* Input a graph G and k >= 0, output a formal clause-set FF 
+   which contains a minimally unsatisfiable sub-clause-set of size 
+     at most new_k(k) + 1 iff
+   FF has a resolution-dag with at most new_k(k) non-source-nodes iff
+   G contains a clique of size k. 
+
+   Thus contains_us_bydef(maxclique_mures(G,k), new_k(k)+1, Solver) is true
+   iff G contains a clique of size k.
+
+   Furthermore FF is unsatisfiable iff G has at least one edge.
+*/
+/* Auxiliary functions: */
+maxclique_start(k) := {setify(append(makelist(srfswx_var(i),i,1,k), create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)))}$
+maxclique_edges(E,k) := setify(create_list({-srfswy_var(i,j), srfswz_var(listify(E[e])[1],i), srfswz_var(listify(E[e])[2],j)}, i,1,k-1, j,i+1,k, e,1,length(E)))$
+/* Remark to maxclique_edges: the underlying paper is ambiguous here whether to use
+the orientation of the edges or not (we do). */
+maxclique_vertices(V,k) := setify(create_list({-srfswx_var(i), srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
+maxclique_cleanup(V,k) := setify(create_list({-srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
+/* The main function: */
+maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
+ [union(setify(makelist(srfswx_var(i),i,1,k)), 
+        setify(create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)),
+        setify(create_list(srfswz_var(V[v],i), v,1,length(V), i,1,k))),
+  union(maxclique_start(k),maxclique_edges(E,k),maxclique_vertices(V,k),maxclique_cleanup(V,k))])$
+
+/* Measures for the translated formulas */
+
+/* Number of variables */
+n_var_maxclique_mures(G,k) := k + binom(k,2) + length(G[1]) * k$
+
+/* List of clause-counts as with ncl_list_f */
+ncl_list_maxclique_mures(G,k) := block([n : length(G[1]), m : length(G[2])],
+ if k = 0 then [[0,1]]
+ elseif k = 1 then [[1, n + 1], [2, n * k]]
+ elseif k = 2 then [[1, n * k], [2, n * k], [3, binom(k,2) * m + 1]] else
+ [[1, n * k], [2, n * k], [3, binom(k,2) * m ], [k + binom(k,2), 1]])$
+
 /*!
 \endhtmlonly
 */
