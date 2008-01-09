@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/include.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mac")$
