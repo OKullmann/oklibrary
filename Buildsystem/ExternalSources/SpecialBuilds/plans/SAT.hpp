@@ -193,6 +193,14 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
      <li> reines.tgz </li>
     </ol>
    </li>
+   <li> Sudoku:
+    <ol>
+     <li> http://sudoku.sourceforge.net/ (Java) </li>
+     <li> http://pythonsudoku.sourceforge.net/ (Python) </li>
+     <li> http://sudoku-sensei.sourceforge.net/ (C) </li>
+     <li> http://robert.rsa3.com/sudoku.html (C++) </li>
+    </ol>
+   </li>
   </ul>
 
 
