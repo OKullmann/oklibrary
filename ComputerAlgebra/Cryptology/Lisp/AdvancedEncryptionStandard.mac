@@ -52,12 +52,12 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
    ***************************************
 */
 
-polynomialToBitVector(poly) := 
+polynomial2bitvector(poly) := 
     matrix([coeff(poly, x, 7)],[coeff(poly,x, 6)],[coeff(poly, x, 5)],
            [coeff(poly, x, 4)],[coeff(poly, x, 3)],[coeff(poly, x, 2)],
            [coeff(poly, x, 1)],[coeff(poly, x,0)])$
 
-bitVectorToPolynomial(byte) := 
+bitvector2polynomial(byte) := 
     byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
     + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]$
 
@@ -74,9 +74,9 @@ partition(l,n) := if emptyp(l) then [] else
   cons(take(l,n), partition(rest(l,min(length(l),n)),n))$
 
 /* Rotates a list n elements to the left */
-rotateLeft(l,n) := 
+rotate_left(l,n) := 
     if n <= 0 or l = [] then l
-    else rotateLeft(append(rest(l), [first(l)]), n-1)$
+    else rotate_left(append(rest(l), [first(l)]), n-1)$
 
 /* Takes a two parameter function f and two lists 'a' and 'b',
    and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
@@ -88,7 +88,7 @@ map_rel(f,a,b) := block([m : min(length(a),length(b))],
   map(f,a,b))$
 
 /* Flattens a matrix or list into a list of the elements, row by row */
-matrixToList(m) := apply(append, makelist(m[i],i,1,length(m)))$
+matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
 
 
 /* ***************************************
@@ -129,29 +129,29 @@ egf_inv(field, a) := (
 */
 
 sbox(byte) := 
-    block([invByte,result],
+    block([invbyte,result],
     if byte = 0 then 
         rijndael_affine_constant
     else (
-        invByte : egf_inv(rijndael_byte_field,byte),
+        invbyte : egf_inv(rijndael_byte_field,byte),
         result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
-            polynomialToBitVector(invByte)),
-        egf_add(rijndael_byte_field, bitVectorToPolynomial(result),
+            polynomial2bitvector(invbyte)),
+        egf_add(rijndael_byte_field, bitvector2polynomial(result),
             rijndael_affine_constant)
         )
     )$
 
-subBytes(inputBlock) := map(sbox, inputBlock)$
+subbytes(inputblock) := map(sbox, inputblock)$
 
 /**
  * Takes a list of GF(2^8) elements (the block), and
  * performs the shiftrows operation, returning the resulting
  * block as a list of GF(2^8) elements.
  */
-shiftRows(inputBlock) := block([r],
-     listOfRows : partition(inputBlock,4),
-     matrixToList (
-         create_list(rotateLeft(listOfRows[r+1],r), r, 
+shiftrows(inputblock) := block([r],
+     list_rows : partition(inputblock,4),
+     matrix2list (
+         create_list(rotate_left(list_rows[r+1],r), r, 
              rijndael_shiftrows_shifts))
 )$
 
@@ -160,10 +160,10 @@ shiftRows(inputBlock) := block([r],
  * performs the mixcolumns operation, returning the resulting
  * block as a list of GF(2^8) elements.
  */
-mixColumns(inputBlock) :=
-    matrixToList(
+mixcolumns(inputblock) :=
+    matrix2list(
         egf_matmul(rijndael_byte_field, rijndael_mixcolumns_matrix, 
-            apply(matrix, partition(inputBlock,4))))$
+            apply(matrix, partition(inputblock,4))))$
 
 /**
  * Takes a round key matrix km for round r-1 and a round number r and produces
@@ -199,7 +199,7 @@ keysch(km,r) :=
  */
 round(pl, rkl) := 
     map_rel(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
-        mixColumns(shiftRows(subBytes(pl))), 
+        mixcolumns(shiftrows(subbytes(pl))), 
         rkl)$
 
 /*!
