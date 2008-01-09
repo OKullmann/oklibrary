@@ -61,38 +61,35 @@ bitVectorToPolynomial(byte) :=
     byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
     + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]$
 
-/* List Processing 
- * (Are there built-in versions of these or functions with similar purposes?) */
+/* List Processing */
 
-/* Returns a list of n (or less if len(l) < n) elements from the beginning of 
- * l 
+/* Returns a list of n (or less if len(l) < n) elements from the beginning of l 
  */
-take(l,n) := 
-    if (n <= 0) or (l = []) then [] else cons(first(l), take(rest(l),n - 1))$
+take(l,n) := rest(l,-max(length(l)-n,0))$
 
-/* Partitions a given list l into a list of smaller lists of size n,
+/* Partitions a given list l into a list of lists of size n,
  * or less (in the case of the last element list)
  */
-partition(l,n) := 
-    if l = [] then [] else append([take(l,n)], partition(rest(l,n),n))$
+partition(l,n) := if emptyp(l) then [] else 
+  cons(take(l,n), partition(rest(l,min(length(l),n)),n))$
 
 /* Rotates a list n elements to the left */
 rotateLeft(l,n) := 
     if n <= 0 or l = [] then l
     else rotateLeft(append(rest(l), [first(l)]), n-1)$
 
-/* Flattens a matrix or list into a list of the elements, row by row */
-matrixToList(m) := 
-    if m = [] or m = matrix() then [] 
-    else append(first(m), matrixToList(rest(m)))$
-
-/* Takes a two parameter function f, and then two lists 'a' and 'b',
- * and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
- * n is the minimum of len(a) and len(b).
+/* Takes a two parameter function f and two lists 'a' and 'b',
+   and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
+   n is the minimum of len(a) and len(b).
+   "map_rel" means "map relaxed".
  */
-zipWith(f,a,b) := 
-    if a = [] or b = [] then []
-    else cons(f(first(a),first(b)), zipWith(f, rest(a), rest(b)))$
+map_rel(f,a,b) := block([m : min(length(a),length(b))],
+  if m < length(a) then a : take(a,m) elseif m < length(b) then b : take(b,m),
+  map(f,a,b))$
+
+/* Flattens a matrix or list into a list of the elements, row by row */
+matrixToList(m) := apply(append, makelist(m[i],i,1,length(m)))$
+
 
 /* ***************************************
    * Finite Field Wrapper Functions      *
@@ -201,7 +198,7 @@ keysch(km,r) :=
  * as the result of the round operation. 
  */
 round(pl, rkl) := 
-    zipWith(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
+    map_rel(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
         mixColumns(shiftRows(subBytes(pl))), 
         rkl)$
 
