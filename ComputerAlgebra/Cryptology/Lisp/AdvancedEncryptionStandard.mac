@@ -52,14 +52,14 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
    ***************************************
 */
 
-polynomialToBitVector(poly) := (local(poly), 
+polynomialToBitVector(poly) := 
     matrix([coeff(poly, x, 7)],[coeff(poly,x, 6)],[coeff(poly, x, 5)],
            [coeff(poly, x, 4)],[coeff(poly, x, 3)],[coeff(poly, x, 2)],
-           [coeff(poly, x, 1)],[coeff(poly, x,0)]))$
+           [coeff(poly, x, 1)],[coeff(poly, x,0)])$
 
-bitVectorToPolynomial(byte) := (local(byte),
-    (byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
-    + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]))$
+bitVectorToPolynomial(byte) := 
+    byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
+    + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]$
 
 /* List Processing 
  * (Are there built-in versions of these or functions with similar purposes?) */
@@ -67,39 +67,38 @@ bitVectorToPolynomial(byte) := (local(byte),
 /* Returns a list of n (or less if len(l) < n) elements from the beginning of 
  * l 
  */
-take(l,n) := (local(l,n),
-    if (n <= 0) or (l = []) then [] else cons(first(l), take(rest(l),n - 1)))$
+take(l,n) := 
+    if (n <= 0) or (l = []) then [] else cons(first(l), take(rest(l),n - 1))$
 
 /* Returns the result of removing the first n elements
  * from l
  */
-drop(l,n) := (local(l,n),
-    if (n <= 0) or l = [] then l else drop(rest(l),n - 1))$
+drop(l,n) := 
+    if (n <= 0) or l = [] then l else drop(rest(l),n - 1)$
 
 /* Partitions a given list l into a list of smaller lists of size n,
  * or less (in the case of the last element list)
  */
-partition(l,n) := (local(l,n),
-    if l = [] then [] else append([take(l,n)], partition(drop(l,n),n)))$
+partition(l,n) := 
+    if l = [] then [] else append([take(l,n)], partition(drop(l,n),n))$
 
 /* Rotates a list n elements to the left */
-rotateLeft(l,n) := (local(l,n), 
+rotateLeft(l,n) := 
     if n <= 0 or l = [] then l
-    else rotateLeft(append(rest(l), [first(l)]), n-1))$
+    else rotateLeft(append(rest(l), [first(l)]), n-1)$
 
 /* Flattens a matrix or list into a list of the elements, row by row */
-matrixToList(m) := (local(m),
+matrixToList(m) := 
     if m = [] or m = matrix() then [] 
-    else append(first(m), matrixToList(rest(m))))$
+    else append(first(m), matrixToList(rest(m)))$
 
 /* Takes a two parameter function f, and then two lists 'a' and 'b',
  * and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
  * n is the minimum of len(a) and len(b).
  */
-zipWith(f,a,b) := (local(f,a,b),
+zipWith(f,a,b) := 
     if a = [] or b = [] then []
-    else cons(f(first(a),first(b)), zipWith(f, rest(a), rest(b)))
-)$
+    else cons(f(first(a),first(b)), zipWith(f, rest(a), rest(b)))$
 
 /* ***************************************
    * Finite Field Wrapper Functions      *
@@ -109,32 +108,28 @@ zipWith(f,a,b) := (local(f,a,b),
 /* It appears you can not overload functions with different arities
  * and so the gf_* functions have been prefixed with an 'e' for 
  * extended. These functions perform the same duty as their gf_*
- * counterparts but requ
+ * counterparts but requ ???
  */
 
-egf_add(field, a,b) := (local(field,a,b),
-    block(
+egf_add(field, a,b) :=  (
         gf_set(field[1],field[2],field[3]),
         gf_add(a,b)
-    ))$
+    )$
 
-egf_mul(field, a,b) := (local(field,a,b),
-    block(
+egf_mul(field, a,b) := (
         gf_set(field[1],field[2],field[3]),
         gf_mul(a,b)
-    ))$
+    )$
 
-egf_matmul(field, a,b) := (local(field,a,b),
-    block(
+egf_matmul(field, a,b) := (
         gf_set(field[1],field[2],field[3]),
         gf_matmul(a,b)
-    ))$
+    )$
 
-egf_inv(field, a) := (local(field,a),
-    block(
+egf_inv(field, a) := (
         gf_set(field[1],field[2],field[3]),
         gf_inv(a)
-    ))$
+    )$
 
 
 /* ***************************************
@@ -143,43 +138,41 @@ egf_inv(field, a) := (local(field,a),
 */
 
 sbox(byte) := 
-    (local(byte,invByte,result),
+    block([invByte,result],
     if byte = 0 then 
         rijndael_affine_constant
-    else 
-        block(
-            invByte : egf_inv(rijndael_byte_field,byte),
-            result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
-                polynomialToBitVector(invByte)),
-            egf_add(rijndael_byte_field, bitVectorToPolynomial(result),
-                rijndael_affine_constant)
+    else (
+        invByte : egf_inv(rijndael_byte_field,byte),
+        result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
+            polynomialToBitVector(invByte)),
+        egf_add(rijndael_byte_field, bitVectorToPolynomial(result),
+            rijndael_affine_constant)
         )
     )$
 
-subBytes(inputBlock) := (local(inputBlock), map(sbox, inputBlock))$
+subBytes(inputBlock) := map(sbox, inputBlock)$
 
 /**
  * Takes a list of GF(2^8) elements (the block), and
  * performs the shiftrows operation, returning the resulting
  * block as a list of GF(2^8) elements.
  */
-shiftRows(inputBlock) := (local(inputBlock,r),
-    block(
-        listOfRows : partition(inputBlock,4),
-        matrixToList (
-            create_list(rotateLeft(listOfRows[r+1],r), r, 
-                rijndael_shiftrows_shifts))
-    ))$
+shiftRows(inputBlock) := block([r],
+     listOfRows : partition(inputBlock,4),
+     matrixToList (
+         create_list(rotateLeft(listOfRows[r+1],r), r, 
+             rijndael_shiftrows_shifts))
+)$
 
 /**
  * Takes a list of GF(2^8) elements (the block), and
  * performs the mixcolumns operation, returning the resulting
  * block as a list of GF(2^8) elements.
  */
-mixColumns(inputBlock) := (local(inputBlock),
+mixColumns(inputBlock) :=
     matrixToList(
         egf_matmul(rijndael_byte_field, rijndael_mixcolumns_matrix, 
-            apply(matrix, partition(inputBlock,4)))))$
+            apply(matrix, partition(inputBlock,4))))$
 
 /**
  * Takes a round key matrix km for round r-1 and a round number r and produces
@@ -188,12 +181,15 @@ mixColumns(inputBlock) := (local(inputBlock),
  * This needs reworking as it should follow the same scheme as other functions
  * to take a list and produce a list.
  */
-keysch(km,r) := (local(km,r),
-    block (
+
+/* ??????????????????? b,c,d are not used ??????? */
+keysch(km,r) := 
+    block([
         a : gf_add(km[1][1], gf_add(sbox(km[2][4]),gf_exp(x,r-1))),
         b : gf_add(km[2][1], gf_add(sbox(km[3][4]),gf_exp(x,r-1))),
         c : gf_add(km[3][1], gf_add(sbox(km[4][4]),gf_exp(x,r-1))),
-        d : gf_add(km[4][1], gf_add(sbox(km[1][4]),gf_exp(x,r-1))),
+        d : gf_add(km[4][1], gf_add(sbox(km[1][4]),gf_exp(x,r-1)))
+          ],
         matrix(
             [a, gf_add(a,km[1][2]), gf_add(gf_add(a,km[1][2]),km[1][3]), 
                 gf_add(gf_add(gf_add(a,km[1][2]),km[1][3]),km[1][4])],
@@ -203,19 +199,17 @@ keysch(km,r) := (local(km,r),
                 gf_add(gf_add(gf_add(a,km[3][2]),km[3][3]),km[3][4])],
             [a, gf_add(a,km[4][2]), gf_add(gf_add(a,km[4][2]),km[4][3]), 
                 gf_add(gf_add(gf_add(a,km[4][2]),km[4][3]),km[4][4])] )
-    )
-)$
+    )$
 
 /* Takes the plaintext list of GF(2^8) elements and the 
  * round key for this round as a list of GF(2^8) elements and
  * returns a list of the same size of GF(2^8) elements as the plaintext
  * as the result of the round operation. 
  */
-round(pl, rkl) := (local(pl,rkl), 
+round(pl, rkl) := 
     zipWith(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
         mixColumns(shiftRows(subBytes(pl))), 
-        rkl )
-)$
+        rkl)$
 
 /*!
 \endhtmlonly
