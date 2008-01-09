@@ -70,17 +70,11 @@ bitVectorToPolynomial(byte) :=
 take(l,n) := 
     if (n <= 0) or (l = []) then [] else cons(first(l), take(rest(l),n - 1))$
 
-/* Returns the result of removing the first n elements
- * from l
- */
-drop(l,n) := 
-    if (n <= 0) or l = [] then l else drop(rest(l),n - 1)$
-
 /* Partitions a given list l into a list of smaller lists of size n,
  * or less (in the case of the last element list)
  */
 partition(l,n) := 
-    if l = [] then [] else append([take(l,n)], partition(drop(l,n),n))$
+    if l = [] then [] else append([take(l,n)], partition(rest(l,n),n))$
 
 /* Rotates a list n elements to the left */
 rotateLeft(l,n) := 
