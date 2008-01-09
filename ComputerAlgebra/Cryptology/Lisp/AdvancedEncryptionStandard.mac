@@ -27,8 +27,8 @@ load(gf);
    ***************************************
 */
 
-RIJNDAEL_AFFINE_CONSTANT : x^6 + x^5 + x + 1;
-RIJNDAEL_SBOX_MATRIX : matrix(
+rijndael_affine_constant : x^6 + x^5 + x + 1;
+rijndael_sbox_matrix : matrix(
                         [1,1,1,1,1,0,0,0],
                         [0,1,1,1,1,1,0,0],
                         [0,0,1,1,1,1,1,0],
@@ -37,15 +37,15 @@ RIJNDAEL_SBOX_MATRIX : matrix(
                         [1,1,0,0,0,1,1,1],
                         [1,1,1,0,0,0,1,1],
                         [1,1,1,1,0,0,0,1])$
-RIJNDAEL_POLYNOMIAL : x^8+x^4+x^3+x+1 $
-RIJNDAEL_MIXCOLUMNS_MATRIX : matrix (
+rijndael_polynomial : x^8+x^4+x^3+x+1 $
+rijndael_mixcolumns_matrix : matrix (
         [x, x + 1, 1, 1], 
         [1, x, x + 1, 1],
         [1, 1, x, x + 1],
         [x + 1, 1, 1, x])$
-RIJNDAEL_BIT_FIELD : [2,1,[x]]$
-RIJNDAEL_BYTE_FIELD : [2,8,RIJNDAEL_POLYNOMIAL]$
-RIJNDAEL_SHIFTROWS_SHIFTS : [0,1,2,3]$
+rijndael_bit_field : [2,1,[x]]$
+rijndael_byte_field : [2,8,rijndael_polynomial]$
+rijndael_shiftrows_shifts : [0,1,2,3]$
 
 /* ***************************************
    * Helper Functions                    *
@@ -145,14 +145,14 @@ egf_inv(field, a) := (local(field,a),
 sbox(byte) := 
     (local(byte,invByte,result),
     if byte = 0 then 
-        RIJNDAEL_AFFINE_CONSTANT
+        rijndael_affine_constant
     else 
         block(
-            invByte : egf_inv(RIJNDAEL_BYTE_FIELD,byte),
-            result : egf_matmul(RIJNDAEL_BIT_FIELD,RIJNDAEL_SBOX_MATRIX,
+            invByte : egf_inv(rijndael_byte_field,byte),
+            result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
                 polynomialToBitVector(invByte)),
-            egf_add(RIJNDAEL_BYTE_FIELD, bitVectorToPolynomial(result),
-                RIJNDAEL_AFFINE_CONSTANT)
+            egf_add(rijndael_byte_field, bitVectorToPolynomial(result),
+                rijndael_affine_constant)
         )
     )$
 
@@ -168,7 +168,7 @@ shiftRows(inputBlock) := (local(inputBlock,r),
         listOfRows : partition(inputBlock,4),
         matrixToList (
             create_list(rotateLeft(listOfRows[r+1],r), r, 
-                RIJNDAEL_SHIFTROWS_SHIFTS))
+                rijndael_shiftrows_shifts))
     ))$
 
 /**
@@ -178,7 +178,7 @@ shiftRows(inputBlock) := (local(inputBlock,r),
  */
 mixColumns(inputBlock) := (local(inputBlock),
     matrixToList(
-        egf_matmul(RIJNDAEL_BYTE_FIELD, RIJNDAEL_MIXCOLUMNS_MATRIX, 
+        egf_matmul(rijndael_byte_field, rijndael_mixcolumns_matrix, 
             apply(matrix, partition(inputBlock,4)))))$
 
 /**
@@ -212,7 +212,7 @@ keysch(km,r) := (local(km,r),
  * as the result of the round operation. 
  */
 round(pl, rkl) := (local(pl,rkl), 
-    zipWith(lambda([a,b], egf_add(RIJNDAEL_BYTE_FIELD,a,b)),
+    zipWith(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
         mixColumns(shiftRows(subBytes(pl))), 
         rkl )
 )$
