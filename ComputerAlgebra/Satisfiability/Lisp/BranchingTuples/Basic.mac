@@ -220,6 +220,10 @@ tprobn([t]) := tprob(t)$
 tprob2(x,y) := tprobn(x,y)$
 tprob3(x,y,z) := tprobn(x,y,z)$
 
+/* Symbolical computation (if possible) */
+tprob_symbolical(t) := tau_symbolical(t)^(-t)$
+/* Applying factor(expand(r)) to the result r helps simplifying. */
+
 /* The canonical inversion for tuples p with bt_sum(p) = 1 */
 invtprob(p) := -map(log,p)$
 /* tprob(invtprop(p)) = p and invtprop(tprob(t)) = t * log(tau(t)) */
