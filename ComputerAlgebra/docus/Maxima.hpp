@@ -50,5 +50,85 @@ License, or any later version. */
    </li>
   </ul>
 
+  <h2> Tutorial </h2>
+
+  <ol>
+    <li>Load all OKlibrary functions.
+      \verbatim
+(%i1) oklib_load_all();
+0 errors, 0 warnings
+(%o1)                                  1
+      \endverbatim
+    </li> 
+    </li>Graphs
+      <ol>
+        <li>Creating a graph.
+          \verbatim
+(%i2) g:[{1,2,3},{{1,2},{1,3}}];
+(%o2)                    [{1, 2, 3}, {{1, 2}, {1, 3}}]
+          \endverbatim
+        </li>
+        <li>Basic graph operations.
+          <ol>
+            <li>Neighbourhood of a vertex:
+              \verbatim
+(%i3) neighbours(1,g);
+(%o3)                               {2, 3}
+              \endverbatim
+            </li>
+	    <li>Remove a vertex:
+              \verbatim
+(%i4) remove_vertices_graph({2},g);
+(%o4)                        [{1, 3}, {{1, 3}}]
+              \endverbatim
+            </li>
+          </ol>
+        </li>
+        <li>Graph generators
+          \verbatim
+(%i5) k:Kneser_graph(5,2);
+(%o5) [{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {2, 3}, {2, 4}, {2, 5}, {3, 4},
+{3, 5}, {4, 5}}, {{{1, 2}, {3, 4}}, {{1, 2}, {3, 5}}, {{1, 2}, {4, 5}},
+{{1, 3}, {2, 4}}, {{1, 3}, {2, 5}}, {{1, 3}, {4, 5}}, {{1, 4}, {2, 3}},
+{{1, 4}, {2, 5}}, {{1, 4}, {3, 5}}, {{1, 5}, {2, 3}}, {{1, 5}, {2, 4}},
+{{1, 5}, {3, 4}}, {{2, 3}, {4, 5}}, {{2, 4}, {3, 5}}, {{2, 5}, {3, 4}}}]
+          \endverbatim
+        </li>
+        <li>Graph output
+          \verbatim
+(%i6) print_graph_dot(k);
+graph G {
+e1e2;
+e1e3;
+e1e4;
+e1e5;
+e2e3;
+e2e4;
+e2e5;
+e3e4;
+e3e5;
+e4e5;
+e1e2 -- e3e4;
+e1e2 -- e3e5;
+e1e2 -- e4e5;
+e1e3 -- e2e4;
+e1e3 -- e2e5;
+e1e3 -- e4e5;
+e1e4 -- e2e3;
+e1e4 -- e2e5;
+e1e4 -- e3e5;
+e1e5 -- e2e3;
+e1e5 -- e2e4;
+e1e5 -- e3e4;
+e2e3 -- e4e5;
+e2e4 -- e3e5;
+e2e5 -- e3e4;
+}
+(%o6)                                 }
+          \endverbatim
+        </li>
+      </ol>
+    </li>
+  </ol>
 */
 
