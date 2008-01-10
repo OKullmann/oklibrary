@@ -1,5 +1,5 @@
 // Oliver Kullmann, 29.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,21 +12,26 @@ License, or any later version. */
   
   \todo %Variables
   <ul>
-   <li> The set of all variables in some context is Va. </li>
-   <li> Is this needed? </li>
+   <li> The set of all variables in some context is Var. </li>
+   <li> However, it seems to be to use this concept only "implicitely". </li>
   </ul>
 
   
   \todo Value set
   <ul>
-   <li> The set of all possible values for the variable in Va (in some context) is Val. </li>
+   <li> The set of all possible values for the variable in Var (in some context)
+   is Val. </li>
+   <li> Again, likely this is best only used implicitely. </li>
   </ul>
 
 
   \todo Total assignments
   <ul>
-   <li> one total assignment: f: Va -> Val </li>
-   <li> the set TASS of all total assignments </li>
+   <li> One total assignment: f: Var -> Val, just treated as a function which
+   can be evaluated on all elements of Var (while otherwise behaviour is
+   undefined) and yields and element of Val. </li>
+   <li> The set of all total assignments is TASS (again, likely only to be
+   used implicitely). </li>
   </ul>
    
 
@@ -48,22 +53,22 @@ License, or any later version. */
 
   \todo The notion of "condition"
   <ul>
-   <li> A condition is a map from TASS to {0,1}. </li>
-   <li> A solution is a total assignment evaluating to 1; perhaps better,
+   <li> A condition is a map from TASS to {false,true}. </li>
+   <li> A solution is a total assignment evaluating to true; perhaps better,
    a "satisfying assignment", since as interesting (in general) are the
    "falsifying assignments". </li>
    <li> So for a most general condition, all what can be done (at first) is
    to run through all total assignment; this is the "oracle model". </li>
    <li> The fundamental task (for the theory of generalised satisfiability(!))
    for a condition P (like "problem"):
-   <center> Represent P^{-1}(0) and P^{-1}(1). </center>
+   <center> Represent P^{-1}(false) and P^{-1}(true). </center>
    "Representation" of sets of total assignments can mean different things:
     <ol>
      <li> Measure the set, either with its natural probability in the product
      probability space TASS, or just classifying it as empty or non-empty. </li>
      <li> Give a power-clause-set representation, i.e., a signed
-     CNF-representation of P^{-1}(0) resp. a signed DNF-representation of
-     P^{-1}(1), where we have several refinements:
+     CNF-representation of P^{-1}(false) resp. a signed DNF-representation of
+     P^{-1}(true), where we have several refinements:
       <ol>
        <li> A prime power-clause-set, that is, a prime signed CNF resp. a
        prime signed DNF: no clause can be replaced by a smaller one (where
@@ -80,8 +85,8 @@ License, or any later version. */
       The power-clause-set can be given either explicitly listed, or "online",
       one clause after another.
      </li>
-     <li> Give a BDD representation; this represents directly P^{-1}(0) and
-     P^{-1}(1) together. </li>
+     <li> Give a BDD representation; this represents directly P^{-1}(false) and
+     P^{-1}(true) together. </li>
     </ol>
    In each case, also partial information is important:
     <ol>
@@ -117,6 +122,8 @@ License, or any later version. */
    </li>
    <li> Now the above fundamental task is to be considered for phi * P (and
    phi *' P). </li>
+   <li> Compare with
+   ComputerAlgebra/Satisfiability/Lisp/plans/PartialAssignments.hpp. </li>
    <li> The "point of view of satisfiability" is the emphasise on partial
    assignments and clause-sets relative to a notion of "literal":
     <ol>
@@ -156,6 +163,7 @@ License, or any later version. */
         <li> (generalised) literals </li>
         <li> signed (or power-) literals. </li>
        </ol>
+       See ComputerAlgebra/Satisfiability/Lisp/plans/Literals.hpp.
      </li>
      <li> For an "effective condition" we have one associated literal type, and
      "most" basic tasks can be solved "efficiently" (generalised clauses).
@@ -177,18 +185,6 @@ License, or any later version. */
      of condition sets, allowing for different literal types to be used. </li>
     </ol>
   </ul>
-
-
-  \todo Partial assignments
-  <ul>
-   <li> A finite number of variables gets a value. </li>
-   <li> Inclusion relation </li>
-   <li> Composition of partial assignments </li>
-   <li> Multi-assignments </li>
-  </ul>
-
-
-  \todo %Evaluation of partial assignments
 
 
   \todo Constructing conditions
