@@ -166,10 +166,7 @@ tau_ih(t, decimal_digits) :=
      if (signum(chi(ft,lb)-1) * signum(chi(ft,ub)-1) >= 0) then
       return(ub)
      else
-      return(find_root(chi(ft,xl)=1, xl, lb, ub))
-    )
-   )
-  )$
+      return(find_root(chi(ft,xl)=1, xl, lb, ub)))))$
 
 
 /* ************************
@@ -180,7 +177,8 @@ tau_ih(t, decimal_digits) :=
 load(sqdnst)$
 
 /* computes a symbolical solution if possible (otherwise returns false) */
-tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], if l = 0 then inf elseif l = 1 then 1
+tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], 
+ if l = 0 then inf elseif l = 1 then 1
  else (sol : map(rhs, solve(chi(t,x)-1, x)), 
        pos_sol : sublist_indices(sol, lambda([x], is(equal(imagpart(x),0)) and is(sign(x) = pos))),
        n_pos : length(pos_sol),
@@ -196,8 +194,8 @@ tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], if l = 0 the
 */
 
 /* The total differential for the tau-function */
-Dtau(t) := block([tv : tau(t)], block([pv : tv^(-t) ],
-  return((- tv * log(tv) / apply("+", t * pv)) * pv)))$
+Dtau(t) := block([tv : tau(t)], block([pv : tv^(-t)],
+  return((-tv * log(tv) / apply("+", t * pv)) * pv)))$
 
 Dtaun([t]) := Dtau(t)$
 Dtau2(x,y) := Dtaun(x,y)$
@@ -221,6 +219,10 @@ tprob(t) := tau(t)^(-t)$
 tprobn([t]) := tprob(t)$
 tprob2(x,y) := tprobn(x,y)$
 tprob3(x,y,z) := tprobn(x,y,z)$
+
+/* The canonical inversion for tuples p with bt_sum(p) = 1 */
+invtprob(p) := -map(log,p)$
+/* tprob(invtprop(p)) = p and invtprop(tprob(t)) = t * log(tau(t)) */
 
 
 /* ****************
