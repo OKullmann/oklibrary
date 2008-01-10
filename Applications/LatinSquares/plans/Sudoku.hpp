@@ -121,5 +121,40 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Visualisation of the runs of solvers
+  <ul>
+   <li> Boolean SAT-solvers
+    <ol>
+     <li> We have the general possibilities of visualising the run of
+     a SAT solver. See part Visualisation (especially
+     GraphDrawing/plans/general.hpp). </li>
+     <li> Additionally, we should try to exploit the special geometrical
+     structure. </li>
+     <li> One could visualise the current partial assignment for a node
+     (online):
+      <ul>
+       <li> One could represent the p^6 variables by a p^3 x p^3 board. </li>
+       <li> A variable, of course, can be unassigned, 0 or 1. </li>
+       <li> And it can be a decision variable on the first branch, on
+       the second branch, or inferred (this for look-ahead solvers). </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+   <li> Solvers with variables with domains {1,...,p^2} (assuming that this
+   represents also the splitting possibilities, i.e., the literals are
+   monosigned)
+    <ol>
+     <li> Again we have the general possibilities from part Visualisation.
+     </li>
+     <li> Again representing the partial assignments, one could use a
+     more condensed representation "unassigned vs. assigned" plus the
+     above distinctions regarding decision variables and inferred
+     variables. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 

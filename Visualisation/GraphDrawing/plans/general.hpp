@@ -62,10 +62,45 @@ License, or any later version. */
 
   \todo Applications
   <ul>
-   <li> SAT solvers output the search tree in xml format; the tree is drawn, and at least
-   one selected value labeling the vertices is visualised using some colour scheme
-   (here another module "Visualisation" is needed, providing different methods
-   for mapping numbers to colours). </li>
+   <li> Likely the different sub-points deserve their own modules. </li>
+   <li> SAT solvers output the search tree in xml format; the tree is drawn,
+   and at least one selected value labeling the vertices is visualised using
+   some colour scheme; see GraphDrawing/plans/Trees.hpp.
+    <ol>
+     <li> The information for each node varies from solver to solver, so we need
+     several xml-fields. </li>
+     <li> Possible information is
+      <ul>
+       <li> The branching variable. </li>
+       <li> Number of r_k-reductions for available k. </li>
+       <li> Number of pure literals. </li>
+       <li> Autarkie reductions. </li>
+       <li> Measures for the clause-set. </li>
+       <li> Time needed to process the node. </li>
+      </ul>
+      Should we treat this information all as numerical? The branching variable
+      is different --- here we need the precise value (and also a name is
+      attached to it).
+     </li>
+     <li> Besides node-labellings with numerical values we also have
+     edge labellings:
+      <ul>
+       <li> The distances for the branching (the one used to select the
+       branching, and also additional ones). <li>
+       <li> The probability in the probability distribution corresponding
+       to the branching tuple (see
+       Heuristics/StatisticalAnalysis/plans/BacktrackingProbing.hpp) </li>
+       <li> the optimal probability (from the canonical probability distribution
+       of the tree; see OK's SAT-handbook article on heuristics) </li>
+       <li> The estimated probability for satisfiability (for choosing the
+       first branch; see
+       Heuristics/StatisticalAnalysis/plans/SatisfiabilityPrediction.hpp). </li>
+      </ul>
+      As a non-numerical labelling we have the branching literal.
+     </li>
+    </ol>
+    This all for backtracking-solvers; conflict-learning is difficult. </li>
+   </li>
    <li> The various (multi)graphs associated with CNFs should be visualised
    (static snapshots, and also dynamic simulations). </li>
    <li> For CS-232 a visualisation of the graph_traversal algorithm is needed, starting
