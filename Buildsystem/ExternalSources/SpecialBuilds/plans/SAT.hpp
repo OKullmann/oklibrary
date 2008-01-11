@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.10.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -12,6 +12,8 @@ License, or any later version. */
 
   \todo Installing SAT solvers
   <ul>
+   <li> Perhaps we put building of the different solvers all into one makefile
+   "sat.mak". </li>
    <li> Installing external SAT solvers should be a special service. </li>
    <li> Perhaps we have a special subdirectory of OKplatform/ExternalSources
    (for example OKplatform/ExternalSources/SATsolver) ? </li>
@@ -32,8 +34,17 @@ License, or any later version. */
      <li> http://sourceforge.net/projects/dpt </li>
      <li> http://www.cs.chalmers.se/Cs/Research/FormalMethods/MiniSat/
       <ol>
-       <li> Minisat </li>
-       <li> Minisat+ </li>
+       <li> Minisat
+        \verbatim
+Installations/SAT> unzip ../../sources/SAT/MiniSat/MiniSat_v1.14.2006-Aug-29.src.zip
+Installations/SAT> cd MiniSat_v1.14
+> make
+        \endverbatim
+        creates the executable "minisat". It should be "make rs" for the
+        "statically linked release version".
+       </li>
+       <li> Minisat+ ? Let's ignore it at this time. </li>
+       <li> What is minisat2-070721.zip ? Let's ignore it at this time. </li>
       </ol>
      </li>
      <li> Chaff: doesn't seem to be open source, and thus can't be included.
