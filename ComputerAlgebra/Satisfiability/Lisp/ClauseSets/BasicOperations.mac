@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 29.11.2007 (Swansea) */
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -148,11 +148,11 @@ apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
 /* the set of satisfied, falsified, untouched and critical clauses for
    a partial assignment w.r.t. a clause-set */
 analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
- for C in F do
-  if disjointp(var_c(C), V) then u : adjoin(C, u) 
-  elseif apply_pa(phi,{C}) = {} then s : adjoin(C,s)
-  elseif apply_pa(phi,{C}) = {{}} then f : adjoin(C,f)
-  else c : adjoint(C,c),
+ for C in F do block([r : apply_pa(phi,{C})],
+  if r = {} then s : adjoin(C,s)
+  elseif r = {{}} then f : adjoin(C,f)
+  elseif disjointp(var_c(C), V) then u : adjoin(C,u) 
+  else c : adjoin(C,c)),
  return([s,f,u,c]))$
 
 
