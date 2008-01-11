@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,6 +59,21 @@ License, or any later version. */
    <li> <code>OKsolver_2002_NTP_osa</code> </li>
    <li> <code>OKsolver_2002_NLT_osa</code> </li>
   </ol>
+
+
+  <h2> Command-line options </h2>
+
+
+  <h2> Signals </h2>
+
+  Given the process identity <code>id</code>, a signal called "SIGNAL" is sent to the process
+  via <code>kill -s SIGNAL id</code>.
+  <ul>
+   <li> Sending the signal <code>SIGUSR1</code> to the OKsolver causes the printout
+   of the current statistics. </li>
+   <li> Sending the signal <code>SIGUSR2</code> to the OKsolver aborts the computation after
+   the same printout as with <code>SIGUSR1</code>. </li>
+  </ul>
 
 */
 
