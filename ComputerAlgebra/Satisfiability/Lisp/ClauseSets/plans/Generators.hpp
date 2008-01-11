@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.12.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -140,5 +140,21 @@ Free space: 16453216 bytes.
    <li> How to get the MUSAT(1)-clause-sets from SMUSAT(1) ? </li>
   </ul>
 
+
+  \todo Hard clause-sets (for resolution and refinements)
+  <ul>
+   <li> Tseitin's formulas </li>
+   <li> IMP and IMP' [Buresh-Oppenheim, Pitassi; 2007] </li>
+   <li> GT and GT' [Buresh-Oppenheim, Pitassi; 2007] </li>
+   <li> SP and SP' [Buresh-Oppenheim, Pitassi; 2007] </li>
+  </ul>
+
+
+  \todo Operations (new clause-sets from old ones)
+  <ul>
+   <li> Product </li>
+   <li> Sum </li>
+   <li> Xorification [Buresh-Oppenheim, Pitassi; 2007] </li>
+  </ul>
 */
 
