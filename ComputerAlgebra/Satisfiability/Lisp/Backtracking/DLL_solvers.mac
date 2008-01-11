@@ -25,7 +25,8 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The simplest scheme: input is a formal clause-set, and the return value
    is true or false.
-   The heuristics has to return a literal for input a formal clause-set. */
+   The heuristics has to return a literal for input a formal clause-set
+   and this literal is first set to true. */
 
 dll_simplest(FF, h) := if is_empty(FF[2]) then true
  elseif has_empty_element(FF[2]) then false
@@ -37,7 +38,7 @@ dll_simplest(FF, h) := if is_empty(FF[2]) then true
 dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
  elseif has_empty_element(FF[2]) then [false]
  else block([x : h(FF)], 
-    return([x,
+    return([-x,
             dll_simplest_st(apply_pa_f({x}, FF), h),
             dll_simplest_st(apply_pa_f({-x}, FF), h)]))$
 
