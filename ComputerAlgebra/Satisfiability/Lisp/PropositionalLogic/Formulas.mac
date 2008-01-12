@@ -1,0 +1,187 @@
+/* Oliver Kullmann, 12.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac
+  \brief Functions for basic representations of and operations with formulas
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+
+
+/* ***********************************
+   * Representation of formulas      *
+   ***********************************
+*/
+
+/* A "propositional variable" is any term which might be evaluated to
+   true or false.
+*/
+
+/* A "propositional formula" is a labelled tree, where the labels are either
+   variables at the leaves or operation-labels at inner nodes, which are 
+   strings "and", "not", "xor", "equiv" representing n-ary operations, 
+   "impl" (binary) and "not" (unary).
+   The deMorgan-base is "and", "or", "not".
+*/
+
+/* A "propositional literal" is either "v" or "not v" where v is a 
+   propositional variable.
+*/
+
+/* Propositional formulas can also use literals instead of variables at
+   the leaves. */
+
+/* The variable of a propositional literal */
+var_prpl(x) := if not atom(x) and op(x) = "not" then part(x,1) else x$
+
+/* The set of variables of a propositional formula (tree) */
+var_ft(F) := block([l : length(F)],
+  if l = 1 then {var_prpl(F[1])} else
+  family_sets_union(setmn(2,l), lambda([i],var_ft(F[i]))))$
+
+
+/* ******************************************
+   * Basic transformations of formula trees *
+   ******************************************
+*/
+
+/* Move the negation down a formula tree (in the deMorgan-base), using literals
+   at the leaves, eliminating double negations */
+/* Formulas where negations appear only in literals are in 
+   "negation normal form". */
+move_negation_down(FT) := move_negation_down_rel(FT, false)$
+move_negation_down_rel(FT, negated) := 
+  if length(FT) = 1 then if negated then [not FT[1]] else FT
+  elseif FT[1] = "not" then move_negation_down_rel(FT[2], not negated)
+  elseif negated then
+    if FT[1] = "or" then
+      cons("and", makelist(move_negation_down_rel(FT[i], true),i,2,length(FT)))
+    else 
+      cons("or", makelist(move_negation_down_rel(FT[i], true),i,2,length(FT)))
+  else cons(FT[1], makelist(move_negation_down_rel(FT[i], false),i,2,length(FT)))$
+
+
+/* ******************
+   * Measures       *
+   ******************
+*/
+
+/* number of variables in a formula tree */
+nvar_ft(F) := length(var_ft(F))$
+
+/* number of literal occurrences in a formula tree */
+nlitocc_ft(F) := nlvs_l(F)$
+
+/* number of binary "and" (interpreted as binary) in formula trees 
+   (typically this makes only sense if F is in negation normal form) */
+nands_ft(F) := block([l : length(F)],
+  if l = 1 then 0 else
+  block([s : sum(nands_ft(F[i]),i,2,l)],
+    if F[1] = "and" then return(l - 2 + s)
+    else return(s)
+  ))$
+
+/* cohesion (generalisation of the deficiency) */
+cohesion_ft(F) := 1 + nands_ft(F) - nvar_ft(F)$
+
+
+/* ******************
+   * Translations   *
+   ******************
+*/
+
+/* For a boolean variable v, prp(v) is the corresponding propositional
+   variable. */
+kill(prp)$
+declare(prp,noun)$
+prp_var(v) := nounify(prp)(v)$
+
+/* translating a boolean literal into a propositional literal */
+boollit_proplit(x) := if x > 0 then prp(x) else not prp(var_l(x))$
+
+/* a clause-set as a CNF */
+cls_cnf(F) := cons("and", makelist(
+ cons("or", map(lambda([x],[boollit_proplit(x)]),listify(C))), C, listify(F)))$
+/* a clause-set as a DNF */
+cls_dnf(F) := cons("or", makelist(
+ cons("and", map(lambda([x],[boollit_proplit(x)]),listify(C))), C, listify(F)))$
+
+
+/* ****************************
+   * Tseitin translation      *
+   ****************************
+*/
+
+/* A "path" P for a rooted tree T is a list of natural numbers (>= 1), denoting
+   the list of branches starting with the root (so the root itself is
+   represented by the empty list).
+*/
+
+/* The variables for the Tseitin translation: tstr(P) is the variable
+   corresponding to the node reached by path P in the formula tree
+*/
+kill(tstr)$
+declare(tstr,noun)$
+tstr_var(P) := nounify(tstr)(P)$
+
+/* Given a formula tree F, compute the
+   list of equivalences for the Tseitin translation */
+tseitin_trans_list_rel(F,prefix) := block(
+  [l : length(F), v : tstr_var(prefix)],
+  if l = 1 then [["equiv", [v], [F[1]]]]
+  else block(
+    [E : ["equiv", [v], [F[1],makelist(tstr_var(endcons(i-1,prefix)),i,2,l)]]],
+    return(
+     cons(E, apply(append, 
+      makelist(tseitin_trans_list_rel(F[i], endcons(i-1,prefix)),i,2,l))))))$
+tseitin_trans_list(F) := tseitin_trans_list_rel(F,[])$
+
+
+/* **********
+   * Output *
+   **********
+*/
+
+/* Translate operation-labels into latex-symbols */
+trans_op_latex(string) :=
+ if string="not" then "\\neg"
+ elseif string="impl" then "\\rightarrow"
+ elseif string="equiv" then "\\leftrightarrow"
+ elseif string="xor" then "\\oplus"
+ elseif string="or" then "\\vee"
+ else "\\wedge"$
+
+/* Output a formula tree st as latex-ps-tree to stream s */
+tex_ft(s,F) := 
+  if length(F) = 1 then 
+    if not(atom(F[1])) and op(F[1]) = "not" then printf(s, "~a~a~a", "\\TR{$\\neg ", part(F[1],1), "$}")
+    else printf(s, "~a~a~a", "\\TR{$", F[1], "$}")
+  else (
+     printf(s, "~a~a~a", "\\pstree{\\TR{$", trans_op_latex(F[1]), "$}}"),
+     printf(s, "{"),
+     for i : 2 thru length(F) do tex_ft(s,F[i]),
+     printf(s, "}")
+  )$
+
+/* Output a formula tree st as latex-ps-tree to file with name n */
+tex_ft_f(n, F) := (block[s : openw(n)], tex_ft(s, F), close(s))$
+
+
+/*!
+\endhtmlonly
+*/
