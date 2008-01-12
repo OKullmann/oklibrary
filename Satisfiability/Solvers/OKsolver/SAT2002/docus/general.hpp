@@ -30,8 +30,8 @@ License, or any later version. */
    <li> If <code>OUTPUTTREEDATAXML</code> is defined, then the search tree
    is output into a file, using a simple XML structure and adorning each
    node with some statistics. </li>
-   <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all satisfying assignments
-   are found. Currently combination with <code>BAUMRES</code> or
+   <li> NOT IMPLEMENTED YET If <code>ALLSAT</code> is defined, then all satisfying
+   assignments are found. Currently combination with <code>BAUMRES</code> or
    <code>ASSIGNMENT</code> is not possible (and thus yet we just
    count all satisfying assignments.
     <ul>
@@ -54,7 +54,8 @@ License, or any later version. */
   <ol>
    <li> <code>OKsolver_2002</code> </li>
    <li> <code>OKsolver_2002_NTP</code> (no tree pruning) </li>
-   <li> <code>OKsolver_2002_NLT</code> (tree pruning needs more space, but is faster) </li>
+   <li> <code>OKsolver_2002_NLT</code> (tree pruning needs more space, but is
+   faster) </li>
    <li> <code>OKsolver_2002_osa</code> (outputs satisfying assignments) </li>
    <li> <code>OKsolver_2002_NTP_osa</code> </li>
    <li> <code>OKsolver_2002_NLT_osa</code> </li>
@@ -66,13 +67,14 @@ License, or any later version. */
 
   <h2> Signals </h2>
 
-  Given the process identity <code>id</code>, a signal called "SIGNAL" is sent to the process
-  via <code>kill -s SIGNAL id</code>.
+  Given the process identity <code>id</code>, a signal called "SIGNAL" is sent
+  to the process via <code>kill -s SIGNAL id</code>.
   <ul>
-   <li> Sending the signal <code>SIGUSR1</code> to the OKsolver causes the printout
-   of the current statistics. </li>
-   <li> Sending the signal <code>SIGUSR2</code> to the OKsolver aborts the computation after
-   the same printout as with <code>SIGUSR1</code>. </li>
+   <li> Sending the signal <code>SIGUSR1</code> to the OKsolver causes the
+   printout of the current statistics. </li>
+   <li> Sending the signal <code>SIGINT</code> to the OKsolver aborts the
+   computation after printing the statistics. This signal is send to a program
+   when pressing <code>CTRL C</code> on the command line. </li>
   </ul>
 
 */

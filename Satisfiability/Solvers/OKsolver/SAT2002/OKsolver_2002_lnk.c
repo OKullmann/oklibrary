@@ -1031,7 +1031,7 @@ jmp_buf Ausgabepunkt;
 
 static void Abbruch (int signum)
 {
-  signal(SIGUSR2, Abbruch);
+  signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
   longjmp(Ausgabepunkt, 1);
 }
@@ -1053,7 +1053,7 @@ int main(int argc, char *argv[])
   char *Version = VERSIONSNUMMER1 "." VERSIONSNUMMER2;
 
   signal(SIGUSR1, Zustandsanzeige);
-  signal(SIGUSR2, Abbruch);
+  signal(SIGINT, Abbruch);
   signal(SIGALRM, Abbruch);
   if (setjmp(Ausgabepunkt))
     goto Ausgabe;
