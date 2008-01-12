@@ -75,11 +75,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo New module "Trees"
-  <ul>
-   <li> Gather all general tree-functionality, and put into its own module
-   "Trees". </li>
-  </ul>
+  \todo New module "Trees" : DONE
 
 
   \todo Monitoring

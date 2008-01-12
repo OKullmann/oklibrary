@@ -20,28 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Tre
 */
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-
-/* ****************************
-   * Labelled rooted trees    *
-   ****************************
-*/
-
-/* A "labelled rooted tree" is recursively defined as a list
-   [L, T_1, ..., T_n], n >= 0, where L is the label, and the T_i
-   are the subtrees.
-*/
-
-/* the number of leaves in a labelled rooted tree */
-nlvs_l(T) := if length(T) = 1 then 1 else sum(nlvs_l(T[i]),i,2,length(T))$
-
-/* Transforms a graph G, which is a tree, into a labelled rooted tree 
-   (using root r) */
-graph2tree(G,r) := block([N : listify(neighbours(r,G))],
- return(cons(r, makelist(graph2tree(remove_vertices_graph({r},G),v),v,N))))$
-
-load(graphs);
-/* a random labelled tree with n vertices (labels 0,...,n-1; root is 0) */
-random_ltree(n) := graph2tree(mg2g(random_tree(n)),0);
+oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
 
 /* **********************************************************
@@ -91,17 +70,6 @@ ipd_rp(T) := block([P : tpd_flatten(T), h : hash_table()],
    *******************************************
 */
 
-/* An "unlabelled rooted tree" is recursively defined as a list
-   [T_1, ..., T_n], where the T_i are the subtrees (the case
-   n=0, i.e., the empty list, represents the trivial tree).
-*/
-
-/* removes the labelling from a labelled tree */
-remove_labels_tree(T) := makelist(remove_labels_tree(T[i]),i,2,length(T))$
-
-/* counts the number of nodes in an unlabelled tree */
-nnds(T) := 1+sum(nnds(T[i]),i,1,length(T))$
-  
 /* For an unlabelled tree T, returns the tree equipped with the canonical
    tpd together with the number of leaves */
 canonical_tpd(T) := block([w : length(T)],

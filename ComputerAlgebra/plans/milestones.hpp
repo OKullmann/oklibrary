@@ -29,7 +29,7 @@ License, or any later version. */
     - Documentation
     - %Test system
     - Handling of demos
-    - New module "Trees"
+    - New module "Trees" : DONE
 
   \par
    Update the following milestones.
