@@ -26,6 +26,8 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 /* the set {1,...,n} */
 setn(n) := setify(makelist(i,i,1,n))$
+/* the set {m, ..., n} */
+setmn(m,n) := setify(makelist(i,i,m,n))$
 
 
 /* the union of a set system */
