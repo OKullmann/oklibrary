@@ -37,10 +37,21 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
    strings "and", "not", "xor", "equiv" representing n-ary operations, 
    "impl" (binary) and "not" (unary).
    The deMorgan-base is "and", "or", "not".
+   The empty "and" is true, the empty "or" is false, the empty "xor" is false, the
+   empty "equiv" is true.
+*/
+
+/* Remark: Consider [op, x1, ..., xn] where op is "equiv" or "xor":
+   If n is even then "equiv" is the negation of xor, while for odd n
+   "equiv" and "xor" or identical.
+   If op is "equiv", then the evaluation is true iff an even number of the x_i
+    are false, while if op is "xor" then the evaluation is true iff an odd
+    number of the x_i are true.
 */
 
 /* A "propositional literal" is either "v" or "not v" where v is a 
-   propositional variable.
+   propositional variable; and also "true" and "false" are allowed.
+   Formulas tree also allow propositional literals.
 */
 
 /* Propositional formulas can also use literals instead of variables at
@@ -49,7 +60,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 /* The variable of a propositional literal */
 var_prpl(x) := if not atom(x) and op(x) = "not" then part(x,1) else x$
 
-/* The set of variables of a propositional formula (tree) */
+/* The set of variables of a propositional formula (tree) without empty operations */
 var_ft(F) := block([l : length(F)],
   if l = 1 then {var_prpl(F[1])} else
   family_sets_union(setmn(2,l), lambda([i],var_ft(F[i]))))$
@@ -60,20 +71,92 @@ var_ft(F) := block([l : length(F)],
    ******************************************
 */
 
-/* Move the negation down a formula tree (in the deMorgan-base), using literals
-   at the leaves, eliminating double negations */
-/* Formulas where negations appear only in literals are in 
+/* Replace equivalences by xor's */
+equivalences2xors(F) := block([l : length(F)],
+  if F[1] = "equiv" then
+    if l = 1 then return([true])
+    elseif l = 2 then return(equivalences2xors(F[2]))
+    elseif evenp(l) then 
+      return(cons("xor", makelist(equivalences2xors(F[i]),i,2,l)))
+    else return(["not", cons("xor", makelist(equivalences2xors(F[i]),i,2,l))])
+  else return(cons(F[1], makelist(equivalences2xors(F[i]),i,2,l))))$
+
+/* Eliminate implications */
+eliminate_implications_ft(F) := block([l : length(F)],
+  if l = 3 and F[1] = "impl" then
+    return(["or", ["not", eliminate_implications_ft(F[2])], eliminate_implications_ft(F[3])])
+  else return(cons(F[1], map(eliminate_implications_ft, makelist(F[i],i,2,l)))))$
+
+/* Evaluating empty n-ary operations */
+evaluate_empty_ft(F) := block([l : length(F)],
+  if l >= 2 then return(cons(F[1], makelist(evaluate_empty_ft(F[i]),i,2,l)))
+  elseif F[1] = "and" then return([true])
+  elseif F[1] = "or" then return([false])
+  elseif F[1] = "xor" then return([false])
+  elseif F[1] = "equiv" then return([true])
+  else return(F))$
+
+/* tests whether literal x is "true" or "false" */
+truefalse_literalp(x) := is(x = true) or is(x = false)$
+/* tests whether formula F is "true" or "false" (as is) */
+truefalse_ft(F) := is(length(F) = 1) and truefalse_literalp(F[1])$
+
+/* Helper function: partition a list into yes- and no- instances */
+partition_list(L,pred) := block([Y : [], N : []],
+  for x in L do if pred(x) then Y : endcons(x,Y) else N : endcons(x,N),
+  return([Y,N]))$
+
+/* Elimination of constants from a formula tree without implications, equivalences
+   or empty operations (creating possibly unary operations and negations) */
+elimination_constants_ft(F) := block([l : length(F)],
+  if l = 1 then return(F)
+  else block([R : makelist(elimination_constants_ft(F[i]),i,2,l), C, nc, r],
+    [C,R] : partition_list(R, truefalse_ft),
+    if emptyp(C) then return(cons(F[1], R)),
+    if F[1] = "not" then return([not R[1]]),
+    nc : length(C),
+    C : makelist(C[i][1],i,1,nc),
+    if F[1] = "and" then (
+      r : every(identity, C),
+      if not r or nc = l-1 then return([r])
+      else return(cons("and", R)))
+    elseif F[1] = "or" then (
+      r : some(identity, C),
+      if r or nc = l-1 then return([r])
+      else return(cons("or", R)))
+    else /* now F[1] = "xor" */ (
+      r : oddp(length(sublist_indices(C, identity))),
+      if nc = l-1 then return ([r])
+      elseif not r then return(cons("xor", R))
+      else return(["not", (cons("xor", R))]))))$
+
+/* Eliminating superfluous unary operations */
+eliminate_unary_ft(F) := block([l : length(F)],
+  if l = 1 then F 
+  elseif l = 2 and F[1] # "not" then eliminate_unary_ft(F[2])
+  else cons(F[1], makelist(eliminate_unary_ft(F[i]),i,2,l)))$
+
+/* Move the negations down a formula tree without equivalences or empty operations, 
+   using literals at the leaves, eliminating double negations. */
+/* deMorgan-formulas where negations appear only in literals are in 
    "negation normal form". */
-move_negation_down(FT) := move_negation_down_rel(FT, false)$
-move_negation_down_rel(FT, negated) := 
-  if length(FT) = 1 then if negated then [not FT[1]] else FT
-  elseif FT[1] = "not" then move_negation_down_rel(FT[2], not negated)
+move_negations_down(F) := move_negations_down_rel(F, false)$
+move_negations_down_rel(F, negated) := block([l : length(F)],
+  if l = 1 then if negated then return([not F[1]]) else return(F)
+  elseif F[1] = "not" then return(move_negations_down_rel(F[2], not negated))
   elseif negated then
-    if FT[1] = "or" then
-      cons("and", makelist(move_negation_down_rel(FT[i], true),i,2,length(FT)))
-    else 
-      cons("or", makelist(move_negation_down_rel(FT[i], true),i,2,length(FT)))
-  else cons(FT[1], makelist(move_negation_down_rel(FT[i], false),i,2,length(FT)))$
+    if F[1] = "or" then
+      return(cons("and", makelist(move_negations_down_rel(F[i], true),i,2,l)))
+    elseif F[1] = "and" then
+      return(cons("or", makelist(move_negations_down_rel(F[i], true),i,2,l)))
+    else /* now F[1] = "xor" */
+      return(append(["xor", move_negations_down_rel(F[2], true)], 
+                    makelist(move_negations_down_rel(F[i], false),i,3,l)))
+  else return(cons(F[1], makelist(move_negations_down_rel(F[i], false),i,2,l))))$
+
+
+/* Basic simplification of a formula-tree */
+basic_simplification_ft(F) := move_negations_down(eliminate_unary_ft(elimination_constants_ft(evaluate_empty_ft(eliminate_implications_ft(equivalences2xors(F))))))$
 
 
 /* ******************
@@ -145,11 +228,14 @@ tseitin_trans_list_rel(F,prefix) := block(
   [l : length(F), v : tstr_var(prefix)],
   if l = 1 then [["equiv", [v], [F[1]]]]
   else block(
-    [E : ["equiv", [v], [F[1],makelist(tstr_var(endcons(i-1,prefix)),i,2,l)]]],
+    [E : ["equiv", [v], cons(F[1],makelist([tstr_var(endcons(i-1,prefix))],i,2,l))]],
     return(
      cons(E, apply(append, 
       makelist(tseitin_trans_list_rel(F[i], endcons(i-1,prefix)),i,2,l))))))$
 tseitin_trans_list(F) := tseitin_trans_list_rel(F,[])$
+
+/* Compute the conjunction which represents the original formula */
+tseitin_trans_basic(F) := append(["and", [tstr_var([])]], tseitin_trans_list(F))$
 
 
 /* **********
@@ -164,7 +250,8 @@ trans_op_latex(string) :=
  elseif string="equiv" then "\\leftrightarrow"
  elseif string="xor" then "\\oplus"
  elseif string="or" then "\\vee"
- else "\\wedge"$
+ elseif string="or" then "\\wedge"
+ else string$
 
 /* Output a formula tree st as latex-ps-tree to stream s */
 tex_ft(s,F) := 
