@@ -8,9 +8,8 @@ License, or any later version. */
 /*
 Use by
 
-batch("$OKPLATFORM/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.maxima_demo")$
+batch(sconcat(OKsystem, "/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.maxima_demo"))$
 
-where $OKPLATFORM has to be replaced by the path to the OKplatform directory.
 */
 
 print("The chi-function for branching tuple [1,2]:")$
@@ -29,10 +28,10 @@ tau2(1,2);
 tau3(1,2,3);
 
 print("Probability distributions associated with branching tuples via the tau-function:")$
-tprob([5,5,5,5]);
-tprobn(1,1,1);
-tprob3(11,11,11);
-tprob2(1,2);
+tauprob([5,5,5,5]);
+tauprobn(1,1,1);
+tauprob3(11,11,11);
+tauprob2(1,2);
 
 print("Plots of the tau2-function (with different plotting devices; you might rotate the plots a bit (left-click) while waiting for the following computations, or resize them (double-click)):")$
 plot3d(tau2, [x,0.5,2], [y,0.5,2]);
