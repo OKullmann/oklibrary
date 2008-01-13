@@ -33,8 +33,8 @@ oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    probabilities attached to subtree T_i (n = 0 is the case of a leaf). */
 /*
    Examples (T_1, p_1), (T_3, p_3) from OK's SAT-handbook-article:
-   T1 : [[1/2,1/2], [[1/2,1/2],[[]],[[]]], [[]]];
-   T3 : [[1/3,1/3,1/3], [[]], [[]], [[1/2,1/2], [[]], [[]]]];
+   T1p : [[1/2,1/2], [[1/2,1/2],[[]],[[]]], [[]]];
+   T3p : [[1/3,1/3,1/3], [[]], [[]], [[1/2,1/2], [[]], [[]]]];
 */
 
 /* the probability distribution induced on the leaves by a tree with tpd */
@@ -88,6 +88,12 @@ canonical_tpd(T) := block([w : length(T)],
    with branching tuples (of the same width as the branching), while
    a "measure" is given by a node-labelling with numbers.
 */
+/*
+   Examples (T_1, d_1), (T_3, d_3) from OK's SAT-handbook-article:
+   T1d : [[1,2], [[1,1],[[]],[[]]], [[]]];
+   T3d : [[3,5,2], [[]], [[]], [[2,1], [[]], [[]]]];
+*/
+
 
 /* Transformations of a tree with distances to a tree with measure: */
 
@@ -101,11 +107,33 @@ max_sum_tbt(T) := block([w : length(T)], if w = 1 then [0] else
  block([L : makelist(max_sum_tbt(T[i]),i,2,w)],
   return(cons(lmax(makelist(T[1][i]+L[i][1],i,1,w-1)),L))))$
 
+
 /* Transformation of a tree with measure to a tree with distance: */
 
 /* the differences for a tree with a measure */
-Delta_tm(T) := block([w : length(T)], if w = 1 then [[]] else
- return(cons(makelist(T[1]-T[i][1],i,2,w), makelist(Delta_tm(T[i]),i,2,w))))$
+delta_tm(T) := block([w : length(T)], if w = 1 then [[]] else
+ return(cons(makelist(T[1]-T[i][1],i,2,w), makelist(delta_tm(T[i]),i,2,w))))$
+
+
+/* Transformation of a tree with distances to a tree with tpd: */
+tauprob_tbt(T) := block([w : length(T)], if w = 1 then [[]] else
+ return(cons(tauprob(T[1]), makelist(tauprob_tbt(T[i]),i,2,w))))$
+
+
+/* The maximal tau-value for a tree with distances */
+maxtau_tbt(T) := block([w : length(T)], if w = 1 then 1 else
+ max(tau(T[1]), lmax(makelist(maxtau_tbt(T[i]),i,2,w))))$
+/* The minimal tau-value for a tree with distances */
+mintau_tbt(T) := block([w : length(T)], if w = inf then 1 else
+ min(tau(T[1]), lmin(makelist(mintau_tbt(T[i]),i,2,w))))$
+
+/* The lower bound on nlvs for a tree with distances given by
+   the tau-function */
+lower_bound_nlvs_tau(T) := mintau_tbt(T)^(min_sum_tbt(T)[1])$
+/* The upper bound on nlvs for a tree with distances given by
+   the tau-function */
+upper_bound_nlvs_tau(T) := maxtau_tbt(T)^(max_sum_tbt(T)[1])$
+
 
 /*!
 \endhtmlonly
