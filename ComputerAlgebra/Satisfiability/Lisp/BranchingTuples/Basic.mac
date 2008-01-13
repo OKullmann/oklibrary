@@ -215,18 +215,18 @@ gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2])$
 */
 
 /* The probability distribution derived from a branching tuple: */
-tprob(t) := tau(t)^(-t)$
-tprobn([t]) := tprob(t)$
-tprob2(x,y) := tprobn(x,y)$
-tprob3(x,y,z) := tprobn(x,y,z)$
+tauprob(t) := tau(t)^(-t)$
+tauprobn([t]) := tauprob(t)$
+tauprob2(x,y) := tauprobn(x,y)$
+tauprob3(x,y,z) := tauprobn(x,y,z)$
 
 /* Symbolical computation (if possible) */
-tprob_symbolical(t) := tau_symbolical(t)^(-t)$
+tauprob_symbolical(t) := tau_symbolical(t)^(-t)$
 /* Applying factor(expand(r)) to the result r helps simplifying. */
 
 /* The canonical inversion for tuples p with bt_sum(p) = 1 */
-invtprob(p) := -map(log,p)$
-/* tprob(invtprop(p)) = p and invtprop(tprob(t)) = t * log(tau(t)) */
+invtauprob(p) := -map(log,p)$
+/* tauprob(invtprop(p)) = p and invtprop(tauprob(t)) = t * log(tau(t)) */
 
 
 /* ****************
@@ -269,7 +269,7 @@ length as t) the function x -> tau(t0 + x * d0) : */
 tau_line(x) := (local(x), tau(t0 + x * d0))$
 logtau_line(x) := (local(x), log(tau(t0 + x * d0)))$
 loglogtau_line(x) := (local(x), log(logtau_line(x)))$
-tprob_line(x) := (local(x), tprob(t0 + x * d0)[i0])$
+tauprob_line(x) := (local(x), tauprob(t0 + x * d0)[i0])$
 taumean_line(x) := (local(x), taumean(t0 + x * d0))$
 /* assume(length(t0) >= 1), assume(t0[i] > 0) */
 taumeandiff_line(x) := (local(x, t), 
