@@ -10,6 +10,21 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding propositional logic
 
 
+  \todo MAXIMA BUG
+  <ul>
+   <li> The code
+   \verbatim
+not f([1]);
+   \endverbatim
+   produces
+   \verbatim
+Maxima encountered a Lisp error:
+*** - Lisp stack overflow. RESET
+   \endverbatim
+   </li>
+  </ul>
+
+
   \todo Create milestones.
 
 
@@ -17,6 +32,23 @@ License, or any later version. */
   <ul>
    <li> Write direct translation (without new variables). </li>
    <li> Complete the Tseitin translation. </li>
+  </ul>
+
+
+  \todo Simplifications
+  <ul>
+   <li> Discuss basic_simplification_ft. </li>
+   <li> Write merging-transformation (eliminating chains). </li>
+   <li> Contract repeated subtrees at a node. </li>
+  </ul>
+
+
+  \todo Using Maxima expressions
+  <ul>
+   <li> As a second method for handling propositional logic, define
+   appropriate new functions with appropriate properties, so that
+   we can express propositional logic via Maxima terms. </li>
+   <li> Then exploit the built-in simplification methods. </li>
   </ul>
 
 */
