@@ -29,5 +29,31 @@ License, or any later version. */
   </ul>
 
 
+  \todo Tree drawing (output as Latex code)
+  <ul>
+   <li> Generalise the various forms of transforming trees to ps-trees. </li>
+   <li> The output should be nicely indented. </li>
+   <li> We need general conventions on transferring boolean and propositional
+   literals to Latex. </li>
+   <li> We need docus on how to adjust the Latex-code to various standard
+   circumstances (scaling, rotation, etc.). </li>
+   <li> We also should offer output using "\xygraph". </li>
+   <li> For that we need to compute the horizontal displacement. So the
+   Rheingold-Tilford algorithm should be implemented. See
+   Visualisation/GraphDrawing/plans/Trees.hpp. </li>
+  </ul>
+
+
+  \todo Graph drawing (output as Latex code)
+  <ul>
+   <li> It would be nice to have the possibility to output graphs
+   in the "\xygraph"-format. </li>
+   <li> And also using the pstricks-package. </li>
+   <li> One possibility is to compute coordinates and then to adjust them
+   to a grid. </li>
+   <li> It would also be good if somehow one could specify rough placements.
+   </li>
+  </ul>
+
 */
 
