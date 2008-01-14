@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -48,15 +48,15 @@ const char *Meldungen[ANZSPRACHEN][55] =
    "Syntax-Fehler! Es muss ein neues Literal folgen am Dateiende.", /* 15 */
    "Syntax-Fehler! Es muss ein neues Literal folgen.", /* 16 */
    "Syntaxfehler in", /* 17 */
-   "Der Option -L muss eine Nummer folgen.", /* 18 */
+   "Der Option --language= muss eine Nummer folgen.", /* 18 */
    "Nummern fuer Sprachen sind 0, ..,", /* 19 */
-   "Der Option -S muss eine Nummer folgen.", /* 20 */
+   "Der Option --standard= muss eine Nummer folgen.", /* 20 */
    "Nummern fuer Standards sind 1, ..,", /* 21 */
    "Die folgende Option wurde nicht erkannt:", /* 22 */
    "Position in der Zeile:", /* 23 */
    "OKsolver: 5.3.1998 -", /* 24 */
    "Oliver Kullmann (Frankfurt, Toronto, Swansea); O.Kullmann@Swansea.ac.uk", /* 25 */
-   "OKsolver wird mit einer Liste von Argumenten aufgerufen, die der Reihe nach abgearbeitet werden. Neben Dateinamen (fuer Klauselmengen) koennen dies die folgenden Optionen sein:\n-V -A -H -O -F -M -P -R -B -I -RA -Li -Si -Di -MAXN= -MAXK= -MAXL= -Ti -seed= -quot=\nwobei i fuer eine natuerliche Zahl steht.", /* 26 */
+   "OKsolver wird mit einer Liste von Argumenten aufgerufen, die der Reihe nach abgearbeitet werden. Neben Dateinamen (fuer Klauselmengen) koennen dies die folgenden Optionen sein:\n--version --author --help -O -F -M -P -R -B --info -RA --language=i --standard=i -Di -MAXN= -MAXK= -MAXL= --timeout=i -seed= -quot=\nwobei i fuer eine natuerliche Zahl steht.", /* 26 */
    "Die folgende Datei konnte nicht zum Einschreiben der erfuellenden Belegung geoeffnet werden:", /* 27 */
    "Name der Datei und Anzahl der Beobachtungsknoten:", /* 28 */
    "Die folgende Datei konnte nicht zum Einschreiben der Ueberwachungsmeldungen geoeffnet werden:", /* 29 */
@@ -72,7 +72,7 @@ const char *Meldungen[ANZSPRACHEN][55] =
    "Der Option -MAXK= muss eine natuerliche Zahl folgen.", /* 39 */
    "Die maximale Klauselanzahl kann nicht negativ sein.", /* 40 */
    "Die maximale Klauselnanzahl wurde ueberschritten.", /* 41 */
-   "Der Option -T muss eine natuerliche Zahl folgen.", /* 42 */
+   "Der Option --timeout= muss eine natuerliche Zahl folgen.", /* 42 */
    "Zeit wird durch eine natuerliche Zahl (>=0) angegeben (Sekunden).", /* 43 */
    "Uebersetzer-Optionen:", /* 44 */
    "Datei mit Abstandsfunktion:", /* 45 */
@@ -105,15 +105,15 @@ const char *Meldungen[ANZSPRACHEN][55] =
    "Syntax error! There must be another literal at the end of file.", /* 15 */
    "Syntax error! There must be another literal.", /* 16 */
    "Syntax error in", /* 17 */
-   "Option -L must be followed by a number", /* 18 */
+   "Option --language= must be followed by a number", /* 18 */
    "Numbers for languages are 0, ...,", /* 19 */
-   "Option -L must be followed by a number", /* 20 */
+   "Option --standard= must be followed by a number", /* 20 */
    "Numbers for standards are 1, ...,", /* 21 */
    "The following option has not been recognized:", /* 22 */
    "position in the line:", /* 23 */
    "OKsolver: 5.3.1998 -", /* 24 */
-   "Oliver Kullmann (Frankfurt, Toronto, Swansea); O.Kullmann@Swan.ac.uk", /* 25 */
-   "OKsolver is called with a list of arguments, which will be processed consecutively. The arguments can be names of files (for clause-sets) as well as the following options:\n-V -A -H -O -F -M -P -R -B -I -RA -Li -Si -Di -MAXN= -MAXK= -MAXL= -Ti -seed= -quot=\nwhere i is a non-negative integer.", /* 26 */
+   "Oliver Kullmann (Frankfurt, Toronto, Swansea); o.kullmann@swansea.ac.uk", /* 25 */
+   "OKsolver is called with a list of arguments, which will be processed consecutively. The arguments can be names of files (for clause-sets) as well as the following options:\n--version --author --help -O -F -M -P -R -B --info -RA --language=i --standard=i -Di -MAXN= -MAXK= -MAXL= --timeout=i -seed= -quot=\nwhere i is a non-negative integer.", /* 26 */
    "The following file could not be opened for writing the satisfying partial assignment:", /* 27 */
    "Name of file and number of monitoring nodes:", /* 28 */
    "The following file could not be opened for writing the monitor messages:", /* 29 */
@@ -129,7 +129,7 @@ const char *Meldungen[ANZSPRACHEN][55] =
    "Option -MAXK must be followed by a non-negative integer.", /* 39 */
    "The maximal number of clauses can not be negative.", /* 40 */
    "The maximal number of clauses has been exceeded:", /* 41 */
-   "Option -T must be followed by a non-negative integer.", /* 42 */
+   "Option --timeout= must be followed by a non-negative integer.", /* 42 */
    "Time must be given by a non-negative integer (seconds).", /* 43 */
    "Compiler options:", /* 44 */
    "File with distance function:", /* 45 */

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.3.1998 (Frankfurt)
-/* Copyright 1998 - 2007 Oliver Kullmann
+/* Copyright 1998 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -1074,7 +1074,7 @@ int main(int argc, char *argv[])
 
   for (Argument = 1; Argument < argc; Argument++)
     {
-      if (strcmp("-V", argv[Argument]) == 0)
+      if (strcmp("--version", argv[Argument]) == 0)
         {
           printf("%s %s; %s %s\n%s: %s, %s\n", Meldung(24), DATUM, Meldung(2), Version, Meldung(6), __DATE__, __TIME__);
           printf("%s", Meldung(44));
@@ -1114,9 +1114,9 @@ int main(int argc, char *argv[])
           printf("%s %s\n", Meldung(45), Abstandsname);
           printf("%s %s\n", Meldung(46), Projektionsname);
         }
-      else if (strcmp("-A", argv[Argument]) == 0)
+      else if (strcmp("--author", argv[Argument]) == 0)
         printf("%s\n", Meldung(25));
-      else if (strcmp("-H", argv[Argument]) == 0)
+      else if (strcmp("--help", argv[Argument]) == 0)
         printf("%s\n", Meldung(26));
       else if (strcmp("-O", argv[Argument]) == 0)
         Belegung = ! Belegung;
@@ -1130,7 +1130,7 @@ int main(int argc, char *argv[])
         spezRueckgabe = ! spezRueckgabe;
       else if (strcmp("-B", argv[Argument]) == 0)
         Schranken = ! Schranken;
-      else if (strcmp("-I", argv[Argument]) == 0)
+      else if (strcmp("--info", argv[Argument]) == 0)
         printf("%s\n%s\n", Meldung(47), Meldung(48));
       else if (strcmp("-RA", argv[Argument]) == 0)
         randomisiert = ! randomisiert;
@@ -1146,14 +1146,14 @@ int main(int argc, char *argv[])
         Format = Tabellen_Format;
 	spezRueckgabe = false;
       }
-      else if (strcmp("-specification", argv[Argument]) == 0) {
+      else if (strcmp("--specification", argv[Argument]) == 0) {
 	printf("<SAT-solver.specification>\n");
 	printf("  <solver-type mode = \"deterministic\">\n");
 	printf("    <complete/>\n");
 	printf("  </solver-type>\n");
-	printf("  <solver-name base-name = \"%s\" version = \"%s\" url = \"%s\" />\n", "OKsolver", Version, "http://cs-svr1.swan.ac.uk/~csoliver/OKsolver");
-	printf("  <solver-author first_name = \"Oliver\" last_name = \"Kullmann\" country = \"United Kingdom\" e-mail = \"O.Kullmann@Swansea.ac.uk\" www = \"http://cs-svr1.swan.ac.uk/~csoliver/\" />\n");
-	printf("  <programming_language name = \"C++\" />\n");
+	printf("  <solver-name base-name = \"%s\" version = \"%s\" url = \"%s\" />\n", "OKsolver", Version, "http://cs.swan.ac.uk/~csoliver/OKsolver");
+	printf("  <solver-author first_name = \"Oliver\" last_name = \"Kullmann\" country = \"United Kingdom\" e-mail = \"O.Kullmann@Swansea.ac.uk\" www = \"http://cs.swan.ac.uk/~csoliver/\" />\n");
+	printf("  <programming_language name = \"C\" />\n");
 	printf("  <compilation_time timestamp = \"%s %s\" />\n", __DATE__, __TIME__);
 	printf("  <url for = \"executable\" value = \"");
 	if (argv[0][0] == '/') // absoluter Pfadname
@@ -1167,10 +1167,10 @@ int main(int argc, char *argv[])
 	}
 	printf("</SAT-solver.specification>\n");
       }
-      else if (strncmp("-L", argv[Argument], 2) == 0)
+      else if (strncmp("--language=", argv[Argument], 11) == 0)
         {
           int Nummer;
-          if (sscanf(argv[Argument] + 2, "%d", &Nummer) != 1)
+          if (sscanf(argv[Argument] + 11, "%d", &Nummer) != 1)
             {
               fprintf(stderr, "%s\n", Meldung(18));
               return 1;
@@ -1182,15 +1182,15 @@ int main(int argc, char *argv[])
             }
           Sprache = Nummer;
         }
-      else if (strncmp("-S", argv[Argument], 2) == 0)
+      else if (strncmp("--standard=", argv[Argument], 11) == 0)
         {
           int Nummer;
-          if (sscanf(argv[Argument] + 2, "%d", &Nummer) != 1)
+          if (sscanf(argv[Argument] + 11, "%d", &Nummer) != 1)
             {
               fprintf(stderr, "%s\n", Meldung(20));
               return 1;
             }
-          if ((Nummer < 0) || (Nummer > ANZSTANDARDS))
+          if ((Nummer <= 0) || (Nummer > ANZSTANDARDS))
             {
               fprintf(stderr, "%s %2d\n", Meldung(21), ANZSTANDARDS);
               return 1;
@@ -1263,10 +1263,10 @@ int main(int argc, char *argv[])
             }
           MAXK = maxk;
         }
-      else if (strncmp("-T", argv[Argument], 2) == 0)
+      else if (strncmp("--timeout=", argv[Argument], 10) == 0)
         {
           int t;
-          if (sscanf(argv[Argument] + 2, "%d", &t) != 1)
+          if (sscanf(argv[Argument] + 10, "%d", &t) != 1)
             {
               fprintf(stderr, "%s\n", Meldung(42));
               return 1;

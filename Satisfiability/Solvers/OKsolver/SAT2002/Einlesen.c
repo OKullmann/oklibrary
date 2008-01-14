@@ -1,5 +1,5 @@
 // Oliver Kullmann, 19.1.2001 (Toronto)
-/* Copyright 2001 - 2007 Oliver Kullmann
+/* Copyright 2001 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -123,16 +123,17 @@ bool Kommentar[CHAR_MAX];
 
 void setzenStandard(void)
 {
-  int i;
+  assert(Standard >= 1);
+  assert(Standard <= 4);
   switch (Standard) {
   case 1 :
-    for (i = 0; i <= CHAR_MAX; i++)
+    for (int i = 0; i <= CHAR_MAX; ++i)
       Negator[i] = Kommentar[i] = false;
     Negator['-'] = true;
     Kommentar['c'] = Kommentar['p'] = true;
     break;
   case 2 :
-    for (i = 0; i <= CHAR_MAX; i++)
+    for (int i = 0; i <= CHAR_MAX; ++i)
       Beginn[i] = Ende[i] = Trenner[i] = Negator[i] = Kommentar[i] = false;
     Beginn['('] = true;
     Ende[')'] = true;
@@ -141,7 +142,7 @@ void setzenStandard(void)
     Kommentar['%'] = true;
     break;
   case 3 :
-    for (i = 0; i <= CHAR_MAX; i++)
+    for (int i = 0; i <= CHAR_MAX; ++i)
       Beginn[i] = Ende[i] = Negator[i] = Kommentar[i] = false;
     Beginn['('] = true;
     Ende[')'] = true;
@@ -149,7 +150,7 @@ void setzenStandard(void)
     Kommentar['%'] = true;
     break;
   case 4 :
-    for (i = 0; i <= CHAR_MAX; i++)
+    for (int i = 0; i <= CHAR_MAX; ++i)
       Negator[i] = Kommentar[i] = false;
     Negator['-'] = true;
     Kommentar['%'] = true;

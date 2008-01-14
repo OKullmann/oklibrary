@@ -62,7 +62,48 @@ License, or any later version. */
   </ol>
 
 
+  <h2> Basic usage </h2>
+
+  <ul>
+   <li> Call the OKsolver with one parameter, the filename containing the CNF in
+   DIMACS format. </li>
+   <li> The OKsolver accepts also arbitrary non-empty sequences of digits and
+   letters for variable-names, with the exception that in DIMACS format a first
+   character must not be "0", "p" or "c". </li>
+  </ul>
+
+
   <h2> Command-line options </h2>
+
+  The solver reads the arguments in order, processes each and exits.
+
+  <ul>
+   <li> Without any argument just a short instruction is printed. </li>
+   <li> Option <code>--help</code> creates a short help message. </li>
+   <li> <code>--version</code> prints version information. </li>
+   <li> <code>--author</code> prints information about the author. </li>
+   <li> <code>--info</code> shows how to interpret the (standard) output. </li>
+   <li> <code>--specification</code> prints a solver specification in XML. </li>
+   <li> <code>--language=x</code> switches the output-language; supported values
+   are x=0 for German and x=1 for English (the default). </li>
+   <li> <code>--timeout=n</code> for a time-out in n seconds (wall-clock), where
+   n=0 means no time-out. </li>
+   <li> <code>--standard=x</code> switches the input-format; supported values
+   are
+    <ol>
+     <li> x=1 for DIMACS (the default; as always, "extended", allowing names
+     for variables). </li>
+     <li> x=2 uses "%" for beginning a comment (anywhere), "(" for opening a
+     clause, ")" for closing a clause, and literals are separated by a comma.
+     </li>
+     <li> x=3 as x=2 but (arbitrary) space symbols separate literals. </li>
+     <li> x=4 as x=3, but no clause-begin, and line-end finishes a clause. </li>
+    </ol>
+    The restrictions for variable-names (not beginning with "0,c,p") only hold
+    for DIMACS (x=1). DIMACS does not accept an empty clause, while the other
+    formats do. </li>
+    <li> To be completed. </li>
+  </ul>
 
 
   <h2> Signals </h2>
