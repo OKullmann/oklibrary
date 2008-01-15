@@ -39,7 +39,7 @@ bt_sum(t) := apply("+", t)$
 /* Composition of branching tuples at position 1 */
 bt_composition(a,b) := if emptyp(a) then [] else append(a[1] + b, rest(a))$
 /* Composition of branching tuples at position i */
-bt_composition(a,b,i) := if emptyp(a) then [] 
+bt_composition_i(a,b,i) := if emptyp(a) then [] 
   else append(rest(a, -(length(a) - i + 1)), a[i] + b, rest(a,i))$
 
 /*
@@ -49,6 +49,19 @@ bt_composition(a,b,i) := if emptyp(a) then []
 
 /* Apply a permutation (or, more generally, an index selection) */
 bt_apply_permutation(perm, t) := makelist(t[perm[i]], i, 1, length(t))$
+
+/* The branching-tuple-hull of a branching tuple t w.r.t. upper-bound
+   s on the maximum, together with the set of saturated elements */
+bth(t, s) := if s < bt_max(t) then [{},{}] else 
+ block([hull : {t}, new_size : 1, old_size : 0, saturated : {}],
+  while new_size > old_size do (
+    old_size : new_size,
+    for a in hull unless new_size > old_size do (
+      hull : union(hull, permutations(a), 
+               map(lambda([b],bt_composition(a,b)),
+                   subset(hull,lambda([b], is(a[1]+bt_max(b) <= s))))),
+      new_size : length(hull))),
+  return([hull, block([mt:bt_max(t)], subset(hull, lambda([a],is(bt_min(a)+mt>s))))]))$
 
 
 /* ***************
