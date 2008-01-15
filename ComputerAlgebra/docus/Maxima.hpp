@@ -55,9 +55,8 @@ License, or any later version. */
   <ol>
     <li>Load all OKlibrary functions.
       \verbatim
-(%i1) oklib_load_all();
+(%i1) oklib_load_all()$
 0 errors, 0 warnings
-(%o1)                                  1
       \endverbatim
     </li> 
     </li>Graphs
@@ -84,47 +83,80 @@ License, or any later version. */
             </li>
           </ol>
         </li>
+        <li>Conversion to/from Maxima graph.
+              \verbatim
+(%i5) mg:g2mg(g);
+(%o5)                                GRAPH
+(%i6) mg2g(mg);
+(%o6)                    [{1, 2, 3}, {{1, 2}, {1, 3}}]
+              \endverbatim
+        </li>
         <li>Graph generators
           \verbatim
-(%i5) k:Kneser_graph(5,2);
-(%o5) [{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {2, 3}, {2, 4}, {2, 5}, {3, 4},
-{3, 5}, {4, 5}}, {{{1, 2}, {3, 4}}, {{1, 2}, {3, 5}}, {{1, 2}, {4, 5}},
-{{1, 3}, {2, 4}}, {{1, 3}, {2, 5}}, {{1, 3}, {4, 5}}, {{1, 4}, {2, 3}},
-{{1, 4}, {2, 5}}, {{1, 4}, {3, 5}}, {{1, 5}, {2, 3}}, {{1, 5}, {2, 4}},
-{{1, 5}, {3, 4}}, {{2, 3}, {4, 5}}, {{2, 4}, {3, 5}}, {{2, 5}, {3, 4}}}]
+(%i7) k:g2mg(Kneser_graph(5,2))$
           \endverbatim
         </li>
         <li>Graph output
           \verbatim
-(%i6) print_graph_dot(k);
-graph G {
-e1e2;
-e1e3;
-e1e4;
-e1e5;
-e2e3;
-e2e4;
-e2e5;
-e3e4;
-e3e5;
-e4e5;
-e1e2 -- e3e4;
-e1e2 -- e3e5;
-e1e2 -- e4e5;
-e1e3 -- e2e4;
-e1e3 -- e2e5;
-e1e3 -- e4e5;
-e1e4 -- e2e3;
-e1e4 -- e2e5;
-e1e4 -- e3e5;
-e1e5 -- e2e3;
-e1e5 -- e2e4;
-e1e5 -- e3e4;
-e2e3 -- e4e5;
-e2e4 -- e3e5;
-e2e5 -- e3e4;
-}
-(%o6)                                 }
+(%i8) print_graph(k)$
+
+Graph on 10 vertices with 15 edges.
+Adjacencies:
+ 10 :  5  2  1
+  9 :  6  3  1
+  8 :  7  4  1
+  7 :  8  3  2
+  6 :  9  4  2
+  5 : 10  4  3
+  4 :  8  6  5
+  3 :  9  7  5
+  2 : 10  7  6
+  1 : 10  9  8
+          \endverbatim
+        </li>
+      </ol>
+    </li>
+    <li>Satisfiability
+      <ol>
+        <li>The pigeonhole principle for 2 pigeons in 2 pigeonholes:
+          \verbatim
+(%i9)  php:weak_php(2,2)$
+          \endverbatim
+        </li>
+        <li>Satisfiability decision by DLL solver:
+          \verbatim
+(%i10) dll_simplest_first_shortest_clause(php);
+(%o10)                                true
+          \endverbatim
+        </li>
+        <li>Splitting tree by DLL solver:
+          \verbatim
+(%i11) split_tree:dll_simplest_st_first_shortest_clause(php);
+(%o11) [php(1, 1), [- php(1, 2), [php(2, 2), [- php(2, 1), [true], [false]],
+[false]], [false]], [php(2, 1), [- php(2, 2), [php(1, 2), [true], [false]],
+[false]], [false]]]
+          \endverbatim
+        </li>
+        <li>Extract satisfying assignments from splitting tree.
+          \verbatim
+(%i12) sat_pass_st(split_tree);
+(%o12) [{- php(1, 1), php(1, 2), php(2, 1), - php(2, 2)},
+                              {php(1, 1), - php(1, 2), - php(2, 1), php(2, 2)}]
+          \endverbatim
+        </li>
+        <li>Output splitting tree to file in PStree format.
+          \verbatim
+(%i13) tex_st_f("tree.tex", split_tree)$
+          \endverbatim
+        </li>
+        <li> VanDerWaerden2_cs_f(k,n) is the Boolean clause-set whose solutions are the partitionings of {1,...,n} into two parts such that none of them contains an arithmetic progression of size k.
+          \verbatim
+(%i14) vdw:VanDerWaerden2_cs_f(3,8)$
+(%i15) dll_simplest_first_shortest_clause(vdw);
+(%o15)                               true
+(%i16) vdw:VanDerWaerden2_cs_f(3,9)$
+(%i17) dll_simplest_first_shortest_clause(vdw);
+(%o17)                               false
           \endverbatim
         </li>
       </ol>
