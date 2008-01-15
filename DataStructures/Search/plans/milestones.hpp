@@ -1,21 +1,43 @@
 // Oliver Kullmann, 18.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file SearchDataStructures/plans/milestones.hpp
+  \file DataStructures/Search/plans/milestones.hpp
 
-  \par Current version 0.0.7 (18.11.2006)
+  \module_version DataStructures/Search 0.0.7 (18.11.2006)
+
 
   \par Version 0.0.8 :
-  In SearchDataStructures/plans/SearchDataStructures.hpp the following topics are handled:
-   - Update
+
+  \par
+   In DataStructures/Search/plans/general.hpp the following topics are handled:
+    - Transfer to part DataStructures
+ 
+
+  \par Version 0.0.9 :
+
+  \par
+   In DataStructures/Search/plans/general.hpp the following topics are handled:
+    - Update namespaces
+    - Update namespace-usage
+    - General update
+
+
+  \par Version 0.0.10 :
+
+  \par
+   In DataStructures/Search/plans/general.hpp the following topics are handled:
+    - New test system
+
 
   \par Version 0.1 :
-  The module is updated and ready to use, and clear milestones for the further development exist.
+  The module is updated and ready to use, and clear milestones for the further
+  development exist.
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
