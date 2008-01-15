@@ -8,15 +8,8 @@ License, or any later version. */
 /*!
   \file DataStructures/Search/plans/milestones.hpp
 
-  \module_version DataStructures/Search 0.0.7 (18.11.2006)
+  \module_version DataStructures/Search 0.0.8 (15.1.2008)
 
-
-  \par Version 0.0.8 :
-
-  \par
-   In DataStructures/Search/plans/general.hpp the following topics are handled:
-    - Transfer to part DataStructures
- 
 
   \par Version 0.0.9 :
 
@@ -44,6 +37,7 @@ License, or any later version. */
 
   \par Version history
 
-   -  0.0.7 : 18.11.2006; initial version number (some components, some plans).
+   - 0.0.7 : 18.11.2006; initial version number (some components, some plans).
+   - 0.0.8 : 15.1.2008: moved to part DataStructures, and editorial updates.
 
 */

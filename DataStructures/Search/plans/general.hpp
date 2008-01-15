@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans for the supermodule on searching
 
 
-  \todo Transfer to part DataStructures : DONE
-
-
   \todo Update namespaces
 
 
