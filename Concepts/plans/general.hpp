@@ -8,6 +8,8 @@ License, or any later version. */
 /*!
   \file Concepts/plans/general.hpp
   \brief General plans for the concepts module
+  \deprecated Everything here will be moved to their own
+  modules (in respective concepts-subdirectories).
 
 
   \todo Move special concepts to their new local places
