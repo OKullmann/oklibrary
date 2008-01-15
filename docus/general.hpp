@@ -1,5 +1,5 @@
 // Oliver Kullmann, 22.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -23,13 +23,25 @@ License, or any later version. */
 
   <h2> Sub-division </h2>
 
-  The list of top-level docus pages for the parts of the library
-  (UNDER CONSTRUCTION):
+  The list of top-level docus pages for the parts of the library:
   <ul>
    <li> Applications of (generalised) SAT : Applications/docus/general.hpp </li>
    <li> The build system : Buildsystem/docus/general.hpp </li>
+   <li> Combinatorial problems: Combinatorics/docus/general.hpp </li>
    <li> The computer algebra system : ComputerAlgebra/docus/general.hpp </li>
-   <li> How to handle licences, copyright etc. : LegalIssues/docus/general.hpp </li>
+   <li> Data structures : DataStructures/docus/general.hpp </li>
+   <li> Experimentation : Experimentation/docus/general.hpp </li>
+   <li> Logic : Logic/docus/general.hpp </li>
+   <li> Logic for program construction and verification : LogicalReflection/docus/general.hpp </li>
+   <li> Optimisation : Optimisation/docus/general.hpp </li>
+   <li> Programming : Programming/docus/general.hpp </li>
+   <li> Satisfiability : Satisfiability/docus/general.hpp </li>
+   <li> Statistics : Statistics/docus/general.hpp </li>
+   <li> Mathematical structures : Transitional/Structures/docus/general.hpp </li>
+   <li> Systemic aspects (build system, test system, complexity system,
+   legal issues): Transitional/System/docus/general.hpp </li>
+   <li> The test system : TestSystem/docus/general.hpp </li>
+   <li> Visualisation : Visualisation/docus/general.hpp </li>
   </ul>
 
 */

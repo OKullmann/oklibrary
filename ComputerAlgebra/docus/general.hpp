@@ -37,6 +37,17 @@ License, or any later version. */
      programming, for prototyping and experimentation. </li>
      <li> No simulations of programming concepts which where not
      anticipated with Lisp. </li>
+     <li> Furthermore, the role model for all data types is set theory.
+      <ol>
+       <li> For example, a graph is a pair of vertex-set and a set of 2-element
+       subsets of the vertex-set. </li>
+       <li> Faithful to the set-theoretic approach, a "vertex" can be
+       anything. </li>
+       <li> For a "general graph" we use a map from the set of edge-labels
+       to the 1- or 2-element subsets. </li>
+       <li> Similarly, a clause-set is a set of clauses, etc. </li>
+      </ol>
+     </li>
     </ul>
    </li>
    <li> The "extended level" is the "Aldor level", that is, Aldor

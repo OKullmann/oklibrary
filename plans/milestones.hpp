@@ -62,6 +62,8 @@ License, or any later version. */
     - Improve the general design discussions
   \par Update
   Update the subsequent milestones.
+  \par Docus : DONE
+  All parts have a central docus-file.
 
 
   \subsection VersionTransitional022 0.2.2 : Theme "BASIC FUNCTIONALITY"
