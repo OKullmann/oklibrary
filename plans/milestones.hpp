@@ -23,7 +23,7 @@ License, or any later version. */
   \section StartingVersion Future milestones
 
 
-  \subsection VersionTransitional021 0.2.1 : Theme "PROTO-RELEASE"
+  \subsection VersionTransitional021 0.2.1 : ALPHA RELEASE
   TO BE REACHED $(deadline_021)
   \par Buildsystem version 0.2.1 (OK, MG)
   (see Buildsystem/plans/milestones.hpp)
@@ -66,7 +66,7 @@ License, or any later version. */
   All parts have a central docus-file.
 
 
-  \subsection VersionTransitional022 0.2.2 : Theme "BASIC FUNCTIONALITY"
+  \subsection VersionTransitional022 0.2.2 : BASIC FUNCTIONALITY
   TO BE REACHED $(deadline_022)
   \par Buildsystem version 0.2.2 (OK)
   (see Buildsystem/plans/milestones.hpp)
@@ -89,7 +89,7 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional023 0.2.3
+  \subsection VersionTransitional023 0.2.3 BETA RELEASE
   TO BE REACHED $(deadline_023)
   \par Satisfiability/Solvers 0.2.1
   (see Satisfiability/Solvers/plans/milestones.hpp)
@@ -155,12 +155,12 @@ License, or any later version. */
 
 
 
-  \section VersionTransitional030 0.3 Build and test system basically finished, and basic
-  concepts for generalised SAT solving established
+  \section VersionTransitional030 0.3 RELEASE
+  \par
+   Build and test system basically finished, and basic
+   concepts for generalised SAT solving established
   \par Messages version 1.0
   (see Messages/plans/milestones.hpp)
-  \par ProgramOptions version ???
-  \par ErrorHandling version ???
   \par General goals:
    - Transition to new test system complete (all old tests transferred to the new test system).
    - Except of warnings coming from Boost, no compiler warnings from our library.
@@ -175,10 +175,6 @@ License, or any later version. */
 
   \section VersionTransitional060 0.6.0 Documentation ready
   Documentation completed (regarding the basics)
-
-  \section VersionTransitional070 0.7.0 Package management ready
-  Extending the build system regarding package management (other
-  users)
 
   \section VersionTransitional100 1.0.0 Foundations completed
   A solid foundation is provided, now we can start.
