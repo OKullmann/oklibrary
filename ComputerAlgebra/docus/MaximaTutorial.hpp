@@ -56,7 +56,7 @@ License, or any later version. */
 (%i7) k:g2mg(Kneser_graph(5,2))$
           \endverbatim
         </li>
-        <li> Graph output
+        <li> Graph output for Maxima-graphs
           \verbatim
 (%i8) print_graph(k)$
 
@@ -80,18 +80,22 @@ Adjacencies:
       <ol>
         <li> The pigeonhole principle for 2 pigeons in 2 pigeonholes:
           \verbatim
-(%i9)  php:weak_php(2,2)$
+(%i9)  php22:weak_php(2,2);
+(%o9) [{php(1, 1), php(1, 2), php(2, 1), php(2, 2)},
+{{- php(1, 1), - php(2, 1)}, {php(1, 1), php(1, 2)},
+{- php(1, 2), - php(2, 2)}, {php(2, 1), php(2, 2)}}]
           \endverbatim
+          (note the usage of function "php" for variables).
         </li>
         <li> Satisfiability decision by DLL solver:
           \verbatim
-(%i10) dll_simplest_first_shortest_clause(php);
+(%i10) dll_simplest_first_shortest_clause(php22);
 (%o10)                                true
           \endverbatim
         </li>
         <li> Splitting tree by DLL solver:
           \verbatim
-(%i11) split_tree:dll_simplest_st_first_shortest_clause(php);
+(%i11) split_tree:dll_simplest_st_first_shortest_clause(php22);
 (%o11) [php(1, 1), [- php(1, 2), [php(2, 2), [- php(2, 1), [true], [false]],
 [false]], [false]], [php(2, 1), [- php(2, 2), [php(1, 2), [true], [false]],
 [false]], [false]]]
@@ -108,14 +112,28 @@ Adjacencies:
           \verbatim
 (%i13) tex_st_f("tree.tex", split_tree)$
           \endverbatim
+         (this file is placed in the directory from where you started Maxima).
         </li>
         <li> VanDerWaerden2_cs_f(k,n) is the Boolean clause-set whose solutions are the partitionings of {1,...,n} into two parts such that none of them contains an arithmetic progression of size k.
           \verbatim
-(%i14) vdw:VanDerWaerden2_cs_f(3,8)$
-(%i15) dll_simplest_first_shortest_clause(vdw);
+(%i14) vdw38:VanDerWaerden2_cs_f(3,8);
+(%o14) [{1, 2, 3, 4, 5, 6, 7, 8}, {{- 8, - 7, - 6}, {- 8, - 6, - 4},
+{- 8, - 5, - 2}, {- 7, - 6, - 5}, {- 7, - 5, - 3}, {- 7, - 4, - 1},
+{- 6, - 5, - 4}, {- 6, - 4, - 2}, {- 5, - 4, - 3}, {- 5, - 3, - 1},
+{- 4, - 3, - 2}, {- 3, - 2, - 1}, {1, 2, 3}, {1, 3, 5}, {1, 4, 7}, {2, 3, 4},
+{2, 4, 6}, {2, 5, 8}, {3, 4, 5}, {3, 5, 7}, {4, 5, 6}, {4, 6, 8}, {5, 6, 7},
+{6, 7, 8}}]
+(%i15) dll_simplest_first_shortest_clause(vdw38);
 (%o15)                               true
-(%i16) vdw:VanDerWaerden2_cs_f(3,9)$
-(%i17) dll_simplest_first_shortest_clause(vdw);
+(%i16) vdw39:VanDerWaerden2_cs_f(3,9);
+(%o16) [{1, 2, 3, 4, 5, 6, 7, 8, 9}, {{- 9, - 8, - 7}, {- 9, - 7, - 5},
+{- 9, - 6, - 3}, {- 9, - 5, - 1}, {- 8, - 7, - 6}, {- 8, - 6, - 4},
+{- 8, - 5, - 2}, {- 7, - 6, - 5}, {- 7, - 5, - 3}, {- 7, - 4, - 1},
+{- 6, - 5, - 4}, {- 6, - 4, - 2}, {- 5, - 4, - 3}, {- 5, - 3, - 1},
+{- 4, - 3, - 2}, {- 3, - 2, - 1}, {1, 2, 3}, {1, 3, 5}, {1, 4, 7}, {1, 5, 9},
+{2, 3, 4}, {2, 4, 6}, {2, 5, 8}, {3, 4, 5}, {3, 5, 7}, {3, 6, 9}, {4, 5, 6},
+{4, 6, 8}, {5, 6, 7}, {5, 7, 9}, {6, 7, 8}, {7, 8, 9}}]
+(%i17) dll_simplest_first_shortest_clause(vdw39);
 (%o17)                               false
           \endverbatim
         </li>
