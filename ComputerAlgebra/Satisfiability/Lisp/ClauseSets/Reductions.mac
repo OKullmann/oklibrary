@@ -27,12 +27,26 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 
 /* input a clause-set F and level k, output r_k(F) */
 generalised_ucp(F,k) := block([V : var_cs(F), break : false],
- if k = 0 then if has_empty_element(F) then return({{}}) else return(F),
- for v in V unless break do for eps in {-1,1} unless break do
-  if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
-    (F : apply_pa({-eps * v}, F), break : true),
- if break then return(generalised_ucp(F,k)) else return(F))$
+  if k = 0 then if has_empty_element(F) then return({{}}) else return(F),
+  for v in V unless break do for eps in {-1,1} unless break do
+    if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
+      (F : apply_pa({-eps * v}, F), break : true),
+  if break then return(generalised_ucp(F,k)) else return(F))$
 
+/* input a clause-set F and level k, output r_k(F) together with a forced
+   partial assignment phi s.t. phi * F = r_k(F) */
+generalised_ucp_pa(F,k) := block([V : var_cs(F), break : false, phi : {}],
+  if k = 0 then 
+    if has_empty_element(F) then return([{{}},{}]) else return([F,{}]),
+  for v in V unless break do for eps in {-1,1} unless break do
+    if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then (
+      phi : adjoin(-eps * v, phi),
+      F : apply_pa({-eps * v}, F),
+      break : true
+    ),
+  if break then block([R : generalised_ucp_pa(F,k)],
+    return([R[1], union(phi, R[2])]))
+  else return([F,{}]))$
 
 /*!
 \endhtmlonly

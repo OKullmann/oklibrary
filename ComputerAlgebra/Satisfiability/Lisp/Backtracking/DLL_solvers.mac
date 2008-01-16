@@ -23,6 +23,12 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_so
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
+
+/* **********************************
+   * Backtracking without reduction *
+   **********************************
+*/
+
 /* The simplest scheme: input is a formal clause-set, and the return value
    is true or false.
    The heuristics has to return a literal for input a formal clause-set
@@ -43,11 +49,40 @@ dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
             dll_simplest_st(apply_pa_f({-x}, FF), h)]))$
 
 
+/* ***********************************
+   * Backtracking with r_k-reduction *
+   ***********************************
+*/
+
+dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
+  if is_empty(Fr) then true
+  elseif has_empty_element(Fr) then false
+  else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
+    return(dll_rk(apply_pa_f({x}, [V,Fr]), h, k) 
+           or dll_rk(apply_pa_f({-x}, [V,Fr]), h, k)))))$
+
+/* The variation where the return value is the computed r_k-splitting tree. */
+dll_rk_st(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
+  if is_empty(Fr) then [true]
+  elseif has_empty_element(Fr) then [false]
+  else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
+    return([-x,
+            dll_rk_st(apply_pa_f({x}, [V,Fr]), h, k),
+            dll_rk_st(apply_pa_f({-x}, [V,Fr]), h, k)]))))$
+
+
+/* *****************
+   * Heuristics    *
+   *****************
+*/
+
 /* The simplest heuristics: return the first variable */
 dll_heuristics_first_formal(FF) := first(FF[1])$
 
 dll_simplest_trivial1(FF) := dll_simplest(FF, dll_heuristics_first_formal)$
 dll_simplest_st_trivial1(FF) := dll_simplest_st(FF, dll_heuristics_first_formal)$
+dll_rk_trivial1(FF,k) := dll_rk(FF, dll_heuristics_first_formal, k)$
+dll_rk_st_trivial1(FF,k) := dll_rk_st(FF, dll_heuristics_first_formal, k)$
 
 /* The second-simplest heuristics: return the literal of the first
    literal-occurrence */
@@ -55,6 +90,8 @@ dll_heuristics_first_real(FF) := first(first(FF[2]))$
 
 dll_simplest_trivial2(FF) := dll_simplest(FF, dll_heuristics_first_real)$
 dll_simplest_st_trivial2(FF) := dll_simplest_st(FF, dll_heuristics_first_real)$
+dll_rk_trivial2(FF,k) := dll_rk(FF, dll_heuristics_first_real, k)$
+dll_rk_st_trivial2(FF,k) := dll_rk_st(FF, dll_heuristics_first_real, k)$
 
 /* Heuristics: first literal in first shortest clause */
 dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
@@ -63,6 +100,8 @@ dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
 
 dll_simplest_first_shortest_clause(FF) := dll_simplest(FF, dll_heuristics_first_shortest_clause)$
 dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_clause)$
+dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_claus, ke)$
+dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
 
 /*!
 \endhtmlonly

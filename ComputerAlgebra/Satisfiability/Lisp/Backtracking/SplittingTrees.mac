@@ -131,6 +131,30 @@ optimal_r_splitting_tree(F,k) := block([Fr : generalised_ucp(F,k), V],
   return([best_tree, min_size+1])))$
 
 
+/*
+ An "amended r_k-splitting tree" has as labels for the non-leaf-nodes
+ pairs [x,phi], where phi is the partial assignment yielding the
+ reduced clause-set associated to the node, that is, phi applied to the 
+ unreduced clause-set associated with the node yields
+ the reduced clause-set.
+ The unreduced clause-set associated with the root is the input,
+ while otherwise it is the branching assignment (just one variable
+ involving) applied to the reduced clause-set associated with the
+ parent node.
+ Accordingly leaf-nodes are labelled with pairs [true/false,phi].
+*/
+
+/* Given a clause-set F and an r_k-splitting tree T for F, compute
+   the amended r_k-splitting tree. */
+amend_r_splitting_tree(F,T,k) := block(
+  [x : T[1], Fr : generalised_ucp_pa(F,k)],
+  if length(T) = 1 then 
+    return([[x,Fr[2]]])
+  else block([
+    T0 : amend_r_splitting_tree(apply_pa({-x},Fr[1]), T[2], k),
+    T1 : amend_r_splitting_tree(apply_pa({x},Fr[1]), T[3], k)],
+    return([[x,Fr[2]], T0, T1])))$
+
 
 /* **********
    * Output *
