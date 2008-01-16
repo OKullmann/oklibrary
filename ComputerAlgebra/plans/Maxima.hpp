@@ -30,6 +30,8 @@ License, or any later version. */
 
   \todo %Test system
   <ul>
+   <li> This needs to be established now! </li>
+   <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
    <li> Similar to the C++ test-system, we have generic test functions,
    which take as argument the function to be tested. </li>
    <li> Likely only functions are to be tested. </li>
@@ -38,7 +40,19 @@ License, or any later version. */
    test instantiations (i.e., expressions evaluating the test function on
    the function to be tested), respectively.
     <ol>
-     <li> Execution of the tests just means loading the testobject-files.
+     <li> Execution of the tests just means loading the testobjects-files.
+     <li> Or perhaps better, like with the C++ system, in the testobjects-files
+     one finds instructions for loading the "testobjects" into a global list
+     (provided via dynamic binding when running the tests).
+      <ol>
+       <li> These "testobjects" perhaps are just the respective function calls,
+       unevaluated, while executing the tests means evaluating these terms. </li>
+       <li> So we need one function "install_testokl(t)", which stores the term
+       t, unevaluated, on a global list "testobjects_testokl". </li>
+      </ol>
+     </li>
+     <li> The files in the "tests"-directories get loaded with oklib_load_all(),
+     but not the testobjects-files. </li>
     </ol>
    </li>
    <li> Due to the simpler character of programming here, we just use
@@ -56,12 +70,59 @@ License, or any later version. */
      function calls. </li>
      <li> Perhaps we create a macro for this error-output (similar
      to the C++-macro). </li>
+     <li> Is it possible to provide information about the file etc. where
+     the error-message was issued? Seems not to be possible. So perhaps
+     some global variables are set, and in case of an error a maxima session
+     is opened? For that we need to evaluate each term with "errcatch", and
+     printing actively the error-message with "errormsg()".
+      <ul>
+       <li> With "errcatch(t,true)" the testterm is evaluated, and true is
+       returned if no error was found, and [] otherwise. </li>
+       <li> Via "errormsg()" then the error message is printed, and also
+       the term t should be displayed. </li>
+       <li> For this to be visible it is perhaps needed that an interactive
+       session is started. </li>
+       <li> So we want just batch-processing without output if no error occurs.
+       </li>
+       <li> Seems difficult; perhaps the error-output is stored in a file? </li>
+       <li> This would then be the error-output and the testobject-term. </li>
+       <li> It seems not possible to redirect the output of the
+       backtrace-function? </li>
+       <li> Perhaps we use "load" first to load the testobject-files (without
+       output), and then via "batch" the testobjects are processed, without
+       (much) output in case of no error, while we have all the above
+       error-information in case of an error. </li>
+       <li> We issue then an error inside the batch-file, and so the make-process
+       notices the error and halts. </li>
+       <li> If an error occurred, perhaps with "trace(all)" everything is traced,
+       and the error term is re-evaluated? "trace" seems to be more informative
+       than "backtrace". </li>
+      </ul>
+     </li>
      <li> There is a global variable for the test-level. </li>
+     <li> Since we don't have namespaces, we need naming-conventions.
+     Perhaps "testokl_" as generic prefix. </li>
+     <li> Each test-function has one argument, the function to be tested. </li>
     </ol>
    </li>
    <li> "oklib check" is also responsible for the maxima-tests, via a sub-goal
-   (so that also only the maxima-tests can be involved). </li>
-   <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
+   (so that also only the maxima-tests can be involved).
+    <ol>
+     <li> After loading all testobject-files, a function "run_testokl" is called
+     which evaluates the terms in "testobjects_testokl". </li>
+     <li> A complication arises for functions to be tested which require
+     special contexts. Best to avoid this. However if needed, then the
+     testobject should just also contain this context. </li>
+     <li> "Contexts" seem just to refer to "facts" etc. It could be that
+     a special environment is needed, with special variables and functions
+     defined; but again this should be provided by the testobject. </li>
+     <li> As usual all testobjects for the calling directory level are
+     executed. </li>
+     <li> Likely we should not provide a mechanism for running only tests when
+     needed (too complicated). Just run always all respective tests (and "basic"
+     tests really should run quickly). </li>
+    </ol>
+   </li>
   </ul>
 
 
