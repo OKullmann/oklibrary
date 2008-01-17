@@ -57,7 +57,7 @@ dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
 dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
   if is_empty(Fr) then true
   elseif has_empty_element(Fr) then false
-  else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
+  else block([V : var_cs(Fr)], block([x : h([V,Fr])],
     return(dll_rk(apply_pa_f({x}, [V,Fr]), h, k) 
            or dll_rk(apply_pa_f({-x}, [V,Fr]), h, k)))))$
 
@@ -69,6 +69,31 @@ dll_rk_st(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
     return([-x,
             dll_rk_st(apply_pa_f({x}, [V,Fr]), h, k),
             dll_rk_st(apply_pa_f({-x}, [V,Fr]), h, k)]))))$
+
+
+/* *****************************************
+   * Backtracking with arbitrary reduction *
+   *****************************************
+*/
+
+/* the reduction takes a clause-set and returns a clause-set */
+dll_red(FF, h, red) := block([Fr : red(FF[2])],
+  if is_empty(Fr) then true
+  elseif has_empty_element(Fr) then false
+  else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
+    return(dll_red(apply_pa_f({x}, [V,Fr]), h, red) 
+           or dll_red(apply_pa_f({-x}, [V,Fr]), h, red)))))$
+
+/* dll_red(FF, h, lambda([F], generalised_ucp(F,k))) = dll_rk(FF, h, k) */
+
+/* The variation where the return value is the computed r-splitting tree. */
+dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
+  if is_empty(Fr) then [true]
+  elseif has_empty_element(Fr) then [false]
+  else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
+    return([-x,
+            dll_red_st(apply_pa_f({x}, [V,Fr]), h, red),
+            dll_red_st(apply_pa_f({-x}, [V,Fr]), h, red)]))))$
 
 
 /* *****************
