@@ -39,6 +39,10 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* the underlying variable of a literal */
 var_l(x) := abs(x)$
 
+/* the literals for a set of variables */
+literals_v(V) := block([L : listify(V)],
+  setify(append(L,-L)))$
+
 /* ***************************
    * Clauses and clause-sets *
    ***************************
