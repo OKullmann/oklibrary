@@ -5,6 +5,6 @@ Optimisation_options := -O3 -DNDEBUG
 
 programs := AnalyseTotalAssignment
 
-source_libraries = -I- -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/local -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected $(Ubcsat)
+source_libraries = $(ubcsat_include_option_okl)
 
 link_libraries := 

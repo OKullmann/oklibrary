@@ -332,3 +332,24 @@ endif
 # the following construction needs to be generalised by some function
 maxima_html_documentation_index_location_tag_okl ?= <a href="$(maxima_html_output_okl)">$(maxima_html_output_okl)</a>
 
+
+
+# New variables for the configuration of building ubcsat (to be designed 
+# and implemented):
+
+ubcsat_version_number_extraction_okl := awk '/UBCSAT version [0-9]+\.[0-9]+\.[0-9]+/{print $$4}'
+# assumes that the output of "ubcsat --version" contains a line of the form
+# (for example) "# UBCSAT version 1.0.0 (Grouse Mountain Release)"
+
+location_ubcsat_call_okl ?= $(shell (type -P $(ubcsat_call_okl)))
+ifeq ($(location_ubcsat_call_okl),)
+  ubcsat_call_ready_okl ?= NO
+else
+  version_ubcsat_call_okl ?= $(shell $(ubcsat_call_okl) -hc | $(ubcsat_version_number_extraction_okl))
+  ifeq ($(version_ubcsat_call_okl),$(subst -,.,$(ubcsat_recommended_version_number_okl)))
+    ubcsat_call_ready_okl ?= YES
+  else
+    ubcsat_call_ready_okl ?= MAYBE
+  endif
+endif
+

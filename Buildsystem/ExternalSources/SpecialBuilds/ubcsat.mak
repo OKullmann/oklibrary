@@ -1,5 +1,5 @@
 # Matthew Lewsey, 9.11.2006 (Swansea)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,55 +9,38 @@
 # Directory Structure
 # ##################################
 
-ubcsat-base-directory := $(ExternalSources)/Ubcsat
-ubcsat-extract-directory := $(ubcsat-base-directory)/1-0-0
-ubcsat-lib-directory := $(ubcsat-base-directory)/1-0-0/lib
-ubcsat-bin-directory := $(ubcsat-base-directory)/1-0-0/bin
-ubcsat-src-directory := $(ubcsat-base-directory)/1-0-0/src
-ubcsat-tmp-src-directory := $(ubcsat-base-directory)/1-0-0/tmp
+ubcsat-lib-directory := $(ubcsat_build_dir_okl)/lib
+ubcsat-bin-directory := $(ubcsat_build_dir_okl)/bin
+ubcsat-src-directory := $(ubcsat_build_dir_okl)/src
+ubcsat-tmp-src-directory := $(ubcsat_build_dir_okl)/tmp
 
-ubcsat-directories := $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-lib-directory) $(ubcsat-bin-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory)
-
-ubcsat_names := adaptnovelty algorithms gsat gsat-tabu gwsat hsat hwsat irots mt19937ar mylocal novelty parameters reports rnovelty rots samd saps ubcsat ubcsat-help ubcsat-internal ubcsat-io ubcsat-mem ubcsat-reports ubcsat-time ubcsat-triggers walksat walksat-tabu
-
-ubcsat_c_files := $(addsuffix .c, $(ubcsat_names))
-ubcsat_c_files_paths := $(addprefix $(ubcsat-tmp-src-directory)/, $(ubcsat_c_files))
-
-ubcsat-changed_dir := $(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected
-ubcsat_changed_files := $(wildcard $(ubcsat-changed_dir)/*.h) $(wildcard $(ubcsat-changed_dir)/*.c)
+ubcsat-directories := $(ubcsat_base_build_dir_okl) $(ubcsat_build_dir_okl) $(ubcsat-lib-directory) $(ubcsat-bin-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory) $(ubcsat_installation_dir_okl)
 
 $(ubcsat-directories) : % : 
 	mkdir -p $@
 
-ubcsat_o_files := $(addsuffix .o, $(ubcsat_names))
-paths := $(addprefix $(ubcsat-lib-directory)/, $(ubcsat_o_files))
 
 # #################################
 # The Targets
 # #################################
 
-$(ubcsat-extract-directory)/tag : | $(ubcsat-base-directory) $(ubcsat-extract-directory) $(ubcsat-src-directory) $(ubcsat-tmp-src-directory)
-	$(call unarchive,$(ExternalSources)/sources/Ubcsat/ubcsat-1-0-0,$(ubcsat-extract-directory),src)
+ubcsat : $(ubcsat_recommended_okl)
+
+$(ubcsat_targets_okl) : $(ubcsat-directories)
+	$(call unarchive,$(ExternalSources_sources)/SAT/Ubcsat/$@,$(ubcsat_build_dir_okl),src)
 	dos2unix $(ubcsat-src-directory)/*.c $(ubcsat-src-directory)/*.h
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
-	cp -f $(ubcsat_changed_files) $(ubcsat-tmp-src-directory)
-	touch $@
+	cp -f $(ubcsat_corrected_files_okl) $(ubcsat-tmp-src-directory)
+	gcc -Wall -O3 -o $(ubcsat-bin-directory)/ubcsat -DNDEBUG $(ubcsat-tmp-src-directory)/*.c -lm
+	cd $(ubcsat-tmp-src-directory); gcc -Wall -O3 -c -DNDEBUG -DALTERNATEMAIN *.c
+	cp $(ubcsat-tmp-src-directory)/*.o $(ubcsat-lib-directory)
+	$(AR) $(ARFLAGS) $(ubcsat-lib-directory)/libubcsat.a $(ubcsat-lib-directory)/*.o
+	cp -r $(ubcsat-lib-directory) $(ubcsat_installation_dir_okl)
+	cp -r $(ubcsat-bin-directory) $(ubcsat_installation_dir_okl)
+	cp -r $(ubcsat-src-directory) $(ubcsat_installation_dir_okl)
+	ln -s --force $(ubcsat_call_okl) $(public_bin_dir_okl)/ubcsat
 
-ubcsat : $(ubcsat-extract-directory)/tag $(ubcsat-bin-directory)/ubcsat $(ubcsat-lib-directory)/libubcsat.a clean_tmp
 
-$(ubcsat-bin-directory)/ubcsat : | $(ubcsat-bin-directory)
-	gcc -Wall -O3 -o $(ubcsat-bin-directory)/ubcsat $(ubcsat_c_files_paths) -lm
-
-$(paths) : $(ubcsat-lib-directory)/%.o : $(ubcsat-tmp-src-directory)/%.c | $(ubcsat-installation-directory) $(ubcsat-lib-directory)
-	gcc -Wall -O3 -c $< -o $@ -DALTERNATEMAIN
-
-$(ubcsat-lib-directory)/libubcsat.a : $(paths)
-	$(AR) $(ARFLAGS) $@ $^
-
-.PHONY : clean_tmp cleanallubcsat
-
-clean_tmp :
-	rm -rf $(ubcsat-tmp-src-directory)
 
 cleanallubcsat :
-	-rm -rf $(ubcsat-base-directory)
+	-rm -rf $(ubcsat_base_build_dir_okl) $(ubcsat_base_installation_dir_okl)

@@ -1,1 +1,1 @@
-echo -L${Ubcsat_dir}/1-0-0/lib -lubcsat
+echo ${ubcsat_link_option_okl}

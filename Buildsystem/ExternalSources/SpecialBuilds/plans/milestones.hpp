@@ -116,7 +116,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
     - Building Ubcsat
-    - Complete docu-file
+    - Complete docu-file : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following
