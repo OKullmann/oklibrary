@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,34 +9,25 @@
 # Directory Structure
 # ################################## 
 
-#Root directory ".", where this makefile is located via inclusion),
-# contains also all software source archives and sub-directories.
+valgrind_directories_okl := $(valgrind_base_build_dir_okl) $(valgrind_base_doc_dir_okl) $(valgrind_doc_dir_okl)
 
-#In the following text, ? denotes the Valgrind version number.
-#./Valgrind : Contain unarchived various versions of Valgrind.
-#./Valgrind/valgrind-? : This is the original unarchived source directory which is also used for configuration and building. Valgrind is only installed system-wide.
-
-valgrind-base-directory := $(prefix)/Valgrind
-valgrind-directories := $(valgrind-base-directory)
-
-.PHONY : valgrind $(valgrind_targets) create_valgrind_dirs
+.PHONY : valgrind $(valgrind_recommended_okl)
 
 # #################################
 # Main Valgrind targets
 # #################################
 
-$(valgrind-directories) : % : 
+$(valgrind_directories_okl) : % : 
 	mkdir -p $@
 
-create_valgrind_dirs : $(valgrind-directories)
+valgrind : $(valgrind_recommended_okl)
 
-valgrind : $(valgrind_recommended)
-
-$(valgrind_targets) : create_valgrind_dirs
-	$(call unarchive,$(ExternalSources)/sources/Valgrind/$@,$(valgrind-base-directory))
-	cd $(valgrind-base-directory)/$@; $(postcondition) \
+$(valgrind_recommended_okl) : $(valgrind_directories_okl)
+	$(call unarchive,$(ExternalSources)/sources/Valgrind/$@,$(valgrind_base_build_dir_okl))
+	cd $(valgrind_build_dir_okl); $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \
+	cp -r $(valgrind_doc_dir_build_okl) $(valgrind_doc_dir_okl)
 	sudo make install; $(postcondition)
 
 # #################################
@@ -44,4 +35,4 @@ $(valgrind_targets) : create_valgrind_dirs
 # #################################
 
 cleanallvalgrind : 
-	-rm -rf $(valgrind-base-directory)
+	-rm -rf $(valgrind_base_build_dir_okl) $(valgrind_base_doc_dir_okl)

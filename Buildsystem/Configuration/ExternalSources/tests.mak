@@ -219,26 +219,26 @@ gmp_html_documentation_index_location_tag ?= <a href="$(gmp_html_documentation_i
 # New variables for the configuration of building valgrind (to be designed 
 # and implemented):
 
-valgrind_call ?= valgrind
+valgrind_call_okl ?= valgrind
 
-valgrind_version_number_extraction := sed 's/valgrind-\([0-9]\.[0-9]\.[0-9]\)/\1/'
+valgrind_version_number_extraction_okl := sed 's/valgrind-\([0-9]\.[0-9]\.[0-9]\)/\1/'
 # assumes that the output of "valgrind --version" is a line of the form
 # (for example) "valgrind-3.2.3"
 
-location_valgrind_call ?= $(shell (type -P $(valgrind_call)))
-ifeq ($(location_valgrind_call),)
-  valgrind_call_ready ?= NO
+location_valgrind_call_okl ?= $(shell (type -P $(valgrind_call_okl)))
+ifeq ($(location_valgrind_call_okl),)
+  valgrind_call_ready_okl ?= NO
 else
-  version_valgrind_call ?= $(shell $(valgrind_call) --version | $(valgrind_version_number_extraction))
-  ifeq ($(version_valgrind_call),$(valgrind_recommended_version_number))
-    valgrind_call_ready ?= YES
+  version_valgrind_call_okl ?= $(shell $(valgrind_call_okl) --version | $(valgrind_version_number_extraction_okl))
+  ifeq ($(version_valgrind_call_okl),$(valgrind_recommended_version_number_okl))
+    valgrind_call_ready_okl ?= YES
   else
-    valgrind_call_ready ?= MAYBE
+    valgrind_call_ready_okl ?= MAYBE
   endif
 endif
 
 # the following construction needs to be generalised by some function
-valgrind_html_documentation_index_location_tag ?= <a href="$(valgrind_html_documentation_index_location)">$(valgrind_html_documentation_index_location)</a>
+valgrind_html_documentation_index_location_tag_okl ?= <a href="$(valgrind_html_documentation_index_location_okl)">$(valgrind_html_documentation_index_location_okl)</a>
 
 # New variables for the configuration of building postgresql (to be designed 
 # and implemented):
