@@ -19,7 +19,7 @@ License, or any later version. */
      <li> cmake </li>
      <li> mhash (remark about corrected files; content of package) </li>
      <li> mpfr </li>
-     <li> ubcsat (remark about corrected files; content of package) </li>
+     <li> ubcsat (remark about corrected files; content of package) : DONE </li>
      <li> r : DONE </li>
      <li> %boost : DONE </li>
      <li> coq : DONE </li>
@@ -41,6 +41,19 @@ License, or any later version. */
   \todo Complete documentation
   <ul>
    <li> Most of the current docus are not complete. </li>
+  </ul>
+
+
+  \todo Handling of different versions
+  <ul>
+   <li> Perhaps it is easier to handle installation of different versions
+   by just setting the variable "XXX_recommended_version_number_okl" ? </li>
+   <li> This would save us the effort of creating different targets etc. </li>
+   <li> Only one has to take care of the clashes with
+   "XXX_supported_not_recommended_version_numbers_okl". </li>
+   <li> But once we do not need the other targets anymore, this problem
+   will vanish! </li>
+   <li> First tried out this scheme with Valgrind. </li>
   </ul>
 
 

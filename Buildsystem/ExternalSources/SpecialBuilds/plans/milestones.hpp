@@ -86,6 +86,7 @@ License, or any later version. */
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
     - Complete documentation
+    - Handling of different versions
     - Enable local/global installation for all packages
 
   \par
