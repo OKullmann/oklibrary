@@ -52,6 +52,10 @@ tool_dir ?= $(system_directories)/tools
 # For documents (including the full documentation):
 documents_dir ?= $(OKsystem)/documents
 
+# Links to all main programs
+public_bin_dir_okl ?= $(OKplatform)/bin
+
+
 build_directories = \
                $(bin_dir) \
                $(lib_dir) \
@@ -67,5 +71,6 @@ build_directories = \
                $(internet_html_dir) \
                $(log_dir) \
                $(tool_dir) \
-               $(documents_dir)
+               $(documents_dir) \
+               $(public_bin_dir_okl)
 

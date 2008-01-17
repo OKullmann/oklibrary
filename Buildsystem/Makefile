@@ -80,9 +80,9 @@ Transitional_links := $(makefile_transitional) $(makefile_satisfiability) $(make
 
 $(test_goals) $(new_test_goals) $(normal_goals) $(cleaning_goals) $(forced_goals) :
 
-.PHONY : make_directories create_links clean_links
+.PHONY : make_directories create_links clean_links create_public_links
 
-prebuild : make_directories create_links
+prebuild : make_directories create_links create_public_links
 
 make_directories : $(build_directories) $(Directories)
 
@@ -105,6 +105,10 @@ $(annotations_links) : $(OKbuildsystem)/annotations.mak
 
 $(Transitional_links) : $(OKbuildsystem)/Transitional.mak
 	- ln -s $< $@
+
+create_public_links :
+	cd $(public_bin_dir_okl); for L in $(public_link_list_okl); do ln -s --force $${L}; done
+
 
 clean_links :
 	- rm $(generic_links) $(OKsystem_links) $(Annotations_links) $(annotations_links) $(Transitional_links)

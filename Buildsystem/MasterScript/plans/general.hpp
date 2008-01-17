@@ -60,11 +60,12 @@ License, or any later version. */
 
   \todo About access to main programs (including "oklib"):
   <ul>
-   <li> Perhaps we always have OKplatform/bin with links to all important
+   <li> DONE Perhaps we always have OKplatform/bin with links to all important
    programs (including oklib). </li>
    <li> Via "oklib --prebuild" then these links can be copied to some
    other place, by default "~user/bin". </li>
-   <li> Under Buildsystem/Configuration a file is needed containing the
+   <li> DONE (public_links.mak)
+   Under Buildsystem/Configuration a file is needed containing the
    settings for those main links. </li>
   </ul>
 

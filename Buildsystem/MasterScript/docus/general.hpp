@@ -46,18 +46,30 @@ License, or any later version. */
 
   <ul>
    <li> <code>--version</code> </li>
-   <li> <code>--setup</code> calls the set-up makefile with trailing arguments
-   (creating the .oklib-directory at OKplatform-level) .</li>
-   <li> <code>--prebuild</code> (creation of directories and placement of
-   makefile-links). </li>
+   <li> <code>--setup</code>
+    <ol>
+     <li> Only used for initialisation. </li>
+     <li> Calls the set-up makefile with trailing arguments (creating the
+     .oklib-directory at OKplatform-level) .</li>
+    </ol>
+   </li>
+   <li> <code>--prebuild</code>
+    <ol>
+     <li> Used to update the directory-structure and especially to update
+     links. </li>
+     <li> Creates basic directories. </li>
+     <li> Creates makefile-links. </li>
+     <li> Creates links (in $(public_bin_dir_okl)) to the main executables
+     produced by the OKlibrary. </li>
+    </ol>
+   </li>
    <li> <code>--maxima</code> (configures and calls Maxima; see
    ComputerAlgebra/docus/Maxima.hpp) </li>
    <li> <code>--create-package</code> calls the ReleaseProcess makefile
-   with trailing arguments, creating a package in as given by packages_dir
-   (current value is <code>${packages_dir}</code>) including documentation,
-   and a full package including the external sources.
-
-   <p></p> Special settings (supplied as parameters) are:
+   with trailing arguments, creating three packages in the directory given by
+   variable packages_dir (current value is <code>$(packages_dir)</code>),
+   one basic, one including documentation, and one full package including
+   the external sources. Special settings (supplied as parameters) are:
     <ol>
      <li> With <code>git_repository=R</code> repository R (possibly
      remote) is cloned instead of the current repository. </li>
