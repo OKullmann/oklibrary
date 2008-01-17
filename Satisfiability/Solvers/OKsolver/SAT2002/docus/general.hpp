@@ -52,7 +52,8 @@ License, or any later version. */
   in the name. The following programs are created (in both versions,
   unoptimised and optimised), as usual in <code>$(bin_dir)</code>:
   <ol>
-   <li> <code>OKsolver_2002</code> </li>
+   <li> <code>OKsolver_2002</code> (the default version; a link is also provided
+   in the public bin-directory <code>$(public_bin_dir_okl)</code>)</li>
    <li> <code>OKsolver_2002_NTP</code> (no tree pruning) </li>
    <li> <code>OKsolver_2002_NLT</code> (tree pruning needs more space, but is
    faster) </li>
@@ -70,6 +71,11 @@ License, or any later version. */
    <li> The OKsolver accepts also arbitrary non-empty sequences of digits and
    letters for variable-names, with the exception that in DIMACS format a first
    character must not be "0", "p" or "c". </li>
+   <li> By default satisfying assignments are not output, but this can be turned on,
+   and also all output can be printed into a file. </li>
+   <li> A monitoring level of the search tree can be established, such that
+   finished nodes at this level are reported, and predicated running times are
+   computed. </li>
   </ul>
 
 
