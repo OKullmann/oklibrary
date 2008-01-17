@@ -23,15 +23,23 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
-/* the r_k reductions */
+/* **********************
+   * The r_k reductions *
+   **********************
+*/
 
-/* input a clause-set F and level k, output r_k(F) */
+/* "Generalised unit-clause-propagation:
+    input a clause-set F and level k, output r_k(F) */
 generalised_ucp(F,k) := block([V : var_cs(F), break : false],
   if k = 0 then if has_empty_element(F) then return({{}}) else return(F),
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
       (F : apply_pa({-eps * v}, F), break : true),
   if break then return(generalised_ucp(F,k)) else return(F))$
+/* generalised_ucp(F,1) is unit-clause-elimination.
+   If F in 2-CNF, then generalised_ucp(F,2) = {{}} iff F is unsatisfiable.
+   If {} in F, then the result is always {{}}.
+*/
 
 /* input a clause-set F and level k, output r_k(F) together with a forced
    partial assignment phi s.t. phi * F = r_k(F) */
@@ -47,6 +55,57 @@ generalised_ucp_pa(F,k) := block([V : var_cs(F), break : false, phi : {}],
   if break then block([R : generalised_ucp_pa(F,k)],
     return([R[1], union(phi, R[2])]))
   else return([F,{}]))$
+
+
+/* ********************************************
+   * Generalised elimination of pure literals *
+   ********************************************
+*/
+
+/* Generalised pure-literal-elimination ("ple") */
+generalised_ple(F,k) := block([L : literals_v(var_cs(F)), break : false, G],
+  for x in L unless break do (
+    G : generalised_ucp(apply_pa({x},F),k),
+    if subsetp(G, F) then (F : G, break : true)
+  ),
+  if break then return(generalised_ple(G,k)) else return(F))$
+
+/* generalised_ple(F,0) is pure-literal-elimination.
+   generalised_ple(F,1) is the learn kernel for F in 2-CNF.
+   But if {} in F then the result is always {{}}.
+*/
+
+/* Additionally return the weak autarky found */
+generalised_ple_pa(F,k) := block([L : literals_v(var_cs(F)), break : false, y],
+  for x in L unless break do
+    if subsetp(generalised_ucp(apply_pa({x},F),k), F) then (y : x, break : true),
+  if break then
+   block([G : generalised_ucp_pa(apply_pa({y},F),k)],
+    block([H : generalised_ple_pa(G[1],k)], 
+     return([H[1], union(H[2], G[2], {y})])))
+  else return([F,{}]))$
+
+
+/* ****************************************************************
+   * Combining generalised unit-clause and pure-literal elimation *
+   ****************************************************************
+*/
+
+/* Combined generalised ucp-ple: Guarantees that
+   either F = {{}} or F = {} or for all literals x we have
+     generalised_ucp(apply_pa({x}, F),k) <> {{}} and
+     generalised_ucp(apply_pa({x}, F),k) is not subset of F.
+*/
+generalised_ucp_ple(F,k) := generalised_ple(generalised_ucp(F,k+1),k)$
+
+/* generalised_ucp_ple(F,0) is unit-clause-elimination and elimination
+   of pure literals. */
+
+/* additionally return the partial assignment leading to the reduced
+   clause-set */
+generalised_ucp_ple_pa(F,k) := block([G : generalised_ucp_pa(F,k+1), H],
+  H : generalised_ple_pa(G[1],k),
+  return([H[1], union(G[2], H[2])]))$
 
 /*!
 \endhtmlonly
