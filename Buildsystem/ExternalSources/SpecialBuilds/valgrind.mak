@@ -27,7 +27,7 @@ $(valgrind_recommended_okl) : $(valgrind_directories_okl)
 	cd $(valgrind_build_dir_okl); $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \
-	cp -r $(valgrind_doc_dir_build_okl) $(valgrind_doc_dir_okl)
+	cp -r $(valgrind_doc_dir_build_okl) $(valgrind_doc_dir_okl); $(postcondition) \
 	sudo make install; $(postcondition)
 
 # #################################
