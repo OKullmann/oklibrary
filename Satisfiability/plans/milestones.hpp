@@ -19,6 +19,9 @@ License, or any later version. */
   \par Satisfiability/Interfaces version 0.0.6
   (see Satisfiability/Interfaces/plans/milestones.hpp)
 
+  \par Satisfiability/Enumeration 0.0.3
+  (see Satisfiability/Enumeration/plans/milestones.hpp)
+
   \par Satisfiability/Transformers version 0.0.4 : DONE
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
