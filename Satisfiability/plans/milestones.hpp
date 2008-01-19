@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Transitional/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.4 (18.11.2007)
+  \module_version Transitional/Satisfiability 0.1.0.5 (19.1.2008)
 
 
   \par Version 0.1.1
@@ -19,7 +19,7 @@ License, or any later version. */
   \par Satisfiability/Interfaces version 0.0.6
   (see Satisfiability/Interfaces/plans/milestones.hpp)
 
-  \par Satisfiability/Enumeration 0.0.3
+  \par Satisfiability/Enumeration 0.0.3 : DONE
   (see Satisfiability/Enumeration/plans/milestones.hpp)
 
   \par Satisfiability/Transformers version 0.0.4 : DONE

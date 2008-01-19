@@ -31,12 +31,6 @@ License, or any later version. */
   and conjectures.
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Create milestones. DONE
-
-
   \todo Links to other modules
   <ul>
    <li> We need to establish links. </li>
