@@ -63,6 +63,28 @@ bth(t, s) := if s < bt_max(t) then [{},{}] else
       new_size : length(hull))),
   return([hull, block([mt:bt_max(t)], subset(hull, lambda([a],is(bt_min(a)+mt>s))))]))$
 
+/* Compute greedily one saturated tuple in the branching-tuple-hull */
+bth_saturated_greedy(t,s) := block([m : bt_max(t), ts : sort(t)],
+  while ts[1] + m <= s do (
+    ts : bt_composition(ts,t),
+    ts : sort(ts)
+  ),
+  return(ts))$
+
+/* the integer sequence corresponding to an integer branching tuple,
+   that is, the first n elements */
+int_seq_bt(t) := block([m : bt_max(t), l : length(t)], 
+  return(buildq([m,l,t],
+   lambda([n], block([S : makelist(1,i,1,min(n,m))],
+     for i : m thru n-1 do
+       S : endcons(sum(S[i-t[j]+1],j,1,l),S),
+     return(S)))
+   )))$
+/* for example with fibi : int_seq_bt([1,2]) we get
+   fibi(7) = [1, 1, 2, 3, 5, 8, 13]
+   (note that fib is the predefined Fibonacci-function).
+*/
+
 
 /* ***************
    * Power means *
