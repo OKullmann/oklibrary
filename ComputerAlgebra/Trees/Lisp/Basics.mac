@@ -38,6 +38,13 @@ remove_labels_tree(T) := makelist(remove_labels_tree(T[i]),i,2,length(T))$
 /* counts the number of nodes in an unlabelled tree */
 nnds(T) := 1+sum(nnds(T[i]),i,1,length(T))$
 
+/* the number of leaves in an unlabelled rooted tree */
+nlvs(T) := if T = [] then 1 else sum(nlvs(T[i]),i,1,length(T))$
+
+/* the height of an unlabelled tree */
+height(T) := if T = [] then 0 else
+  1 + lmax(makelist(height(T[i]),i,1,length(T)))$
+
 
 /* ****************************
    * Labelled rooted trees    *
