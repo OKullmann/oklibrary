@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Transitional/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.5 (19.1.2008)
+  \module_version Transitional/Satisfiability 0.1.0.6 (19.1.2008)
 
 
   \par Version 0.1.1
@@ -19,13 +19,16 @@ License, or any later version. */
   \par Satisfiability/Interfaces version 0.0.6
   (see Satisfiability/Interfaces/plans/milestones.hpp)
 
+  \par Satisfiability/FiniteFunctions 0.0.3 : DONE
+  (see Satisfiability/FiniteFunctions/plans/milestones.hpp)
+
   \par Satisfiability/Enumeration 0.0.3 : DONE
   (see Satisfiability/Enumeration/plans/milestones.hpp)
 
-  \par Satisfiability/Transformers version 0.0.4 : DONE
+  \par Satisfiability/Transformers 0.0.4 : DONE
   (see Satisfiability/Transformers/plans/milestones.hpp)
 
-  \par Satisfiability/Assignments version 0.0.5 (OK) : DONE
+  \par Satisfiability/Assignments 0.0.5 (OK) : DONE
   (see Satisfiability/Assignments/plans/milestones.hpp)
 
   \par Satisfiability/ProblemInstances 0.0.3 : DONE

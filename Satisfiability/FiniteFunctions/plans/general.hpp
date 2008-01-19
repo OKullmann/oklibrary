@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.12.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,8 +13,11 @@ License, or any later version. */
   are finite sets (in the boolean case we have F_i = {0,1}).
 
 
-  \todo Create milestones.
-
+  \todo Links and plans
+  <ul>
+   <li> Establish links to other modules (especially computer algebra). </li>
+   <li> Create a development plan and further milestones. </li>
+  </ul>
 
   \todo Prime implicants and implicates
   <ul>
@@ -166,8 +169,10 @@ License, or any later version. */
 
   \todo BDDs
   <ul>
-   <li> In general, the decision diagrams are no longer "binare".
+   <li> In general, the decision diagrams are no longer "binary".
    Perhaps it's called "FDD" ("finite decision diagram") ? </li>
+   <li> But at the beginning, especially at the Maxima/Lisp level, we only
+   consider the binary case. </li>
   </ul>
 
 */

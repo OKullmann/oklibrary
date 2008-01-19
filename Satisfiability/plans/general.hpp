@@ -16,6 +16,7 @@ License, or any later version. */
    <li> Missing milestones:
     <ol>
      <li> Enumeration : DONE </li>
+     <li> FiniteFunctions : DONE </li>
      <li> Heuristics </li>
      <li> Optimisation </li>
      <li> ProofSystems </li>
