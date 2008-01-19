@@ -28,14 +28,17 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
    **********************
 */
 
-/* "Generalised unit-clause-propagation:
+/* "Generalised unit-clause-propagation":
     input a clause-set F and level k, output r_k(F) */
-generalised_ucp(F,k) := block([V : var_cs(F), break : false],
-  if k = 0 then if has_empty_element(F) then return({{}}) else return(F),
+generalised_ucp(F,k) := 
+ if min_rank_cs(F) > k then F
+ elseif k = 0 then {{}} else
+  block([V : var_cs(F), break : false],
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
       (F : apply_pa({-eps * v}, F), break : true),
   if break then return(generalised_ucp(F,k)) else return(F))$
+
 /* generalised_ucp(F,1) is unit-clause-elimination.
    If F in 2-CNF, then generalised_ucp(F,2) = {{}} iff F is unsatisfiable.
    If {} in F, then the result is always {{}}.
@@ -43,9 +46,10 @@ generalised_ucp(F,k) := block([V : var_cs(F), break : false],
 
 /* input a clause-set F and level k, output r_k(F) together with a forced
    partial assignment phi s.t. phi * F = r_k(F) */
-generalised_ucp_pa(F,k) := block([V : var_cs(F), break : false, phi : {}],
-  if k = 0 then 
-    if has_empty_element(F) then return([{{}},{}]) else return([F,{}]),
+generalised_ucp_pa(F,k) :=
+ if min_rank_cs(F) > k then [F,{}]
+ elseif k = 0 then [{{}},{}] else
+  block([V : var_cs(F), break : false, phi : {}],
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then (
       phi : adjoin(-eps * v, phi),
@@ -55,6 +59,14 @@ generalised_ucp_pa(F,k) := block([V : var_cs(F), break : false, phi : {}],
   if break then block([R : generalised_ucp_pa(F,k)],
     return([R[1], union(phi, R[2])]))
   else return([F,{}]))$
+
+
+/* Instances */
+
+generalised_ucp1(F) := generalised_ucp(F,1);
+generalised_ucp2(F) := generalised_ucp(F,2);
+generalised_ucp_pa1(F) := generalised_ucp_pa(F,1);
+generalised_ucp_pa2(F) := generalised_ucp_pa(F,2);
 
 
 /* ********************************************
@@ -106,6 +118,14 @@ generalised_ucp_ple(F,k) := generalised_ple(generalised_ucp(F,k+1),k)$
 generalised_ucp_ple_pa(F,k) := block([G : generalised_ucp_pa(F,k+1), H],
   H : generalised_ple_pa(G[1],k),
   return([H[1], union(G[2], H[2])]))$
+
+/* Instances */
+
+generalised_ucp_ple0(F) := generalised_ucp_ple(F,0)$
+generalised_ucp_ple1(F) := generalised_ucp_ple(F,1)$
+generalised_ucp_ple_pa0(F) := generalised_ucp_ple_pa(F,0)$
+generalised_ucp_ple_pa1(F) := generalised_ucp_ple_pa(F,1)$
+
 
 /*!
 \endhtmlonly
