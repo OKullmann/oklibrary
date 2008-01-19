@@ -113,9 +113,14 @@ standardise_fcs(FF) := block([h : hash_table(), V : listify(FF[1])],
 
 /* number of variables of a formal clause-set */
 nvar_f(FF) := length(var_cs_f(FF))$
+/* number of variables of a clause-set */
+nvar_cs(F) := length(var_cs(F))$
 
-/* number of clauses of a formal  clause-set */
+
+/* number of clauses of a formal clause-set */
 ncl_f(FF) := length(clauses_f(FF))$
+/* number of clauses of a clause-set */
+ncl_cs(F) := length(F)$
 
 /* number of literal occurrences in a clause-set */
 nlitocc(F) := block([s : 0],
@@ -131,6 +136,15 @@ ncl_list_f(FF) := block([counts : make_array(fixnum, length(FF[1])+1), res : []]
  for i : 0 thru length(FF[1]) do
   if counts[i] # 0 then res : endcons([i, counts[i]], res),
  return(res))$
+
+/* maximal clause-length of a clause-set */
+max_rank_cs(F) := block([m : -1],
+  for C in F do if length(C) > m then m : length(C),
+  return(m))$
+/* minimal clause-length of a clause-set */
+min_rank_cs(F) := block([m : inf],
+  for C in F do if length(C) < m then m : length(C),
+  return(m))$
 
 
 /* ***********************
