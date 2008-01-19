@@ -31,18 +31,40 @@ License, or any later version. */
   and conjectures.
 
 
-  \todo Update namespaces.
+  \todo Update namespaces. DONE
 
 
-  \todo Create milestones.
+  \todo Create milestones. DONE
 
 
   \todo Links to other modules
   <ul>
+   <li> We need to establish links. </li>
    <li> Isomorphisms of clause-sets are relevant here. </li>
    <li> And considerations regarding random clause-sets. </li>
+   <li> For sampling-procedures we should use the OKgenerator. </li>
    <li> The computer algebra system is a natural environment at least for the
    counting-formulas. </li>
+   <li> And, of course, the first implementation is always in the Maxima/Lisp
+   system. </li>
+   <li> Where to put the catalogues? </li>
+  </ul>
+
+
+  \todo Planning
+  <ul>
+   <li> We need a plan what to attack, in which form. </li>
+   <li> Initially, all plans are moved to Lisp/Maxima. </li>
+   <li> We need some standard naming conventions for the basic tasks:
+    <ol>
+     <li> Counting. </li>
+     <li> Enumeration (all at once). </li>
+     <li> Generation (one after another). </li>
+     <li> Random sampling. </li>
+    </ol>
+   </li>
+   <li> And also standards for the basic operations for creating new
+   classes from old ones are needed. </li>
   </ul>
 
 
@@ -106,4 +128,19 @@ License, or any later version. */
   </ul>
   
 */
+
+/*!
+  \namespace OKlib::Satisfiability::Enumeration
+  \brief Supermodule for counting, enumerating and sampling SAT problems
+
+  Alias "Enu".
+*/
+
+namespace OKlib {
+  namespace Satisfiability {
+    namespace Enumeration {
+    }
+    namespace Enu = Enumeration;
+  }
+}
 
