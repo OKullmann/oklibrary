@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 24.12.2007 (Swansea) */
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -127,6 +127,115 @@ dll_simplest_first_shortest_clause(FF) := dll_simplest(FF, dll_heuristics_first_
 dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_clause)$
 dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_claus, ke)$
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
+
+
+/* Heuristics scheme given by a pair of distances and projections (for 
+   lexicographical ordering in case of ties) and an approximation of
+    satisfiability probability; look-ahead by reduction r (a map from
+    clause-sets to clause-sets). */
+/* If the distance yields <= 0 then the whole branching is disqualified,
+   if the distance yields infinity, then this branching is chosen 
+   immediately. */
+/* A projection is the better the smaller. Inputs are positive and
+   not infinity, and the same for the output. */
+heuristics_lookahead_distances(r, distances, projections, satprob) :=
+  buildq([r, distances, projections, satprob], lambda([FF],
+   block(
+    [best_var, branch_lit, opt_projections : [inf,inf], break : false, Fopt],
+    for v in FF[1] unless break do block([F0,F1,d0,d1,d0a,d1a,p,pa],
+      F1 : r(apply_pa({v},FF[2])),
+      d1 : distances[1](FF[2], F1),
+      if d1 = inf then (branch_lit : v, break : true, return(false)),
+      if d1 <= 0 then return(false),
+      d1a : distances[2](FF[2], F1),
+      if d1a = inf then (branch_lit : v, break : true, return(false)),
+      if d1a <= 0 then return(false),
+      F0 : r(apply_pa({-v},FF[2])),
+      d0 : distances[1](FF[2], F0),
+      if d0 = inf then (branch_lit : -v, break : true, return(false)),
+      if d0 <= 0 then return(false),
+      d0a : distances[2](FF[2], F0),
+      if d0a = inf then (branch_lit : -v, break : true, return(false)),
+      if d0a <= 0 then return(false),
+      p : projections[1](d0,d1),
+      pa : projections[2](d0a,d1a),
+      if p < opt_projections[1] 
+       or (p = opt_projections[1] and pa < opt_projections[2]) then (
+        opt_projections : [p,pa], best_var : v, Fopt : [F1,F0],
+        return(true))
+    ),
+    if break then return(branch_lit),
+    if opt_projections = [inf,inf] then
+      error("heuristics_lookahead_distances: all variables disabled!"),
+    if satprob(Fopt[1]) > satprob(Fopt[2]) then return(best_var)
+    else return(-best_var)
+   )))$
+
+
+/* *************
+   * Distances *    
+   *************
+*/
+
+/* Distances have as input two clause-sets Ffrom, Fto,
+   and return a real number or inf.
+*/
+
+/* The difference in the number of variables */
+delta_n(Ffrom,Fto) := nvar_cs(Ffrom) - nvar_cs(Fto)$
+
+/* The difference in the number of clauses */
+delta_c(Ffrom,Fto) := ncl_cs(Ffrom) - ncl_cs(Fto)$
+
+/* The difference in the number of literal occurrences */
+delta_l(Ffrom,Fto) := nlitocc(Ffrom) - nlitocc(Fto)$
+
+/* The scheme for the weighted number of new clauses (wf, the
+   weight function, takes natural numbers >= 2 as inputs (the clause-lengths),
+   and returns positive real numbers). */
+wn_newclauses(wf) := buildq([wf], lambda([Ffrom,Fto],
+  block([nC : listify(setdifference(Fto, Ffrom))],
+    return(sum(wf(length(nC[i])),i,1,length(nC))))))$
+
+/* The variation of wn_newclauses where instances of 2-CLS are detected: */
+wn_newclauses_2(wf)  := buildq([wf], lambda([Ffrom,Fto],
+  if max_rank_cs(Fto) <= 2 then inf else
+   block([nC : listify(setdifference(Fto, Ffrom))],
+    return(sum(wf(length(nC[i])),i,1,length(nC))))))$
+
+
+/* ***************
+   * Projections *
+   ***************
+*/
+
+/* For binary clauses: */
+
+/* We have tau2. */
+
+prod_proj(x,y) := 1/(x*y)$
+
+
+/* *********************************
+   * Satisfiability approximations *
+   *********************************
+*/
+
+/* These "approximations" are just real numbers, and the greater the
+   higher the probability of satisfiability.
+   The value inf says the formula is surely satisfiable, the value
+   minf says the forrmula is surely unsatisfiable.
+*/
+
+/* The logarithm that a random assignment over the variables in the
+   given clause-set satisfies a random clause-set drawn with the same
+   number of clauses of the same lengths as the given clause-set. */
+/* With the exception that log(1) = 0 is translated to inf. */
+
+logprobrand(F) := if F = {} then inf else 
+ block([L : ncl_list_f(cs_to_fcs(F))],
+  if L[1][1] = 0 then return(minf) else
+  return(sum(L[i][2] * float(log(1-2^(-L[i][1]))), i, 1, length(L))))$
 
 /*!
 \endhtmlonly
