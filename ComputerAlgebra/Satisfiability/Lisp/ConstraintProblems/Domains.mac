@@ -26,19 +26,19 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/
 */
 
 /* for a domain association returns the list of domain sizes */
-dom_lengths(dom) := (local(dom), makelist(length(dom[i]),i,1,length(dom)))$
+dom_lengths(dom) := makelist(length(dom[i]),i,1,length(dom))$
 /* for a domain association returns the list of logs of domain sizes */
-log_dom_lengths(dom) := (local(dom), makelist(float(log(length(dom[i]))),i,1,length(dom)))$
+log_dom_lengths(dom) := makelist(float(log(length(dom[i]))),i,1,length(dom))$
 
 
 /* for a domain association returns the minimal domain size */
-min_dom_size(dom) := (local(dom), lmin(dom_lengths(dom)))$
+min_dom_size(dom) := lmin(dom_lengths(dom))$
 
 /* for a domain association returns the maximal domain size */
-max_dom_size(dom) := (local(dom), lmax(dom_lengths(dom)))$
+max_dom_size(dom) := lmax(dom_lengths(dom))$
 
 /* for a domain association returns the sum of logarithms of domain sizes */
-sum_log_dom_size(dom) := (local(dom), xreduce("+", log_dom_lengths(dom)))$
+sum_log_dom_size(dom) := xreduce("+", log_dom_lengths(dom))$
 
 /*!
 \endhtmlonly
