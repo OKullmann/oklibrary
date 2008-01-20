@@ -147,7 +147,7 @@ dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shor
    ****************************
 */
 
-/* Heuristics scheme given by a pair of distances and projections (for 
+/* Heuristics scheme given by a list of distances and projections (for 
    lexicographical ordering in case of ties) and an approximation of
     satisfiability probability; look-ahead by reduction r (a map from
     clause-sets to clause-sets). */
@@ -156,48 +156,56 @@ dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shor
    immediately. */
 /* A projection is the better the smaller. Inputs are positive and
    not infinity, and the same for the output. */
+/* If there are less projections than distances, then the last projection
+   is reused. */
 
 /* A helper-function for evaluating a branching variable:
    Using dynamic binding for F, F1, F0 and v. */
-evaluating_branching_variable(d) := block(
- [x,d0,d1],
-  x : v,
-  d1 : d(F, F1),
+evaluating_branching_variable(d) := block([x,d0,d1],
+  x : v, d1 : d(F, F1),
   if d1 = inf then return([[x,d1]])
   elseif d1 <= 0 then return([]) else (
-    x : -v,
-    d0 : d(F, F0),
+    x : -v, d0 : d(F, F0),
     if d0 = inf then (return([[x,d0]]))
     elseif d0 <= 0 then return([])),
   return([d1,d0]))$
 
+/* Helper-function for lexicographical ordering of lists:
+   returns true if A < B */
+lexicographical_orderp(A,B) :=
+  if A = [] then if B = [] then false else true
+  elseif B = [] then false
+  elseif A[1] < B[1] then true
+  elseif A[1] > B[1] then false
+  else lexicographical_orderp(rest(A),rest(B))$
+
 heuristics_lookahead_distances(r, distances, projections, satprob) :=
-  buildq([r, distances, projections, satprob], lambda([FF],
+ block([nd : length(distances), np : length(projections)],
+  buildq([r, distances, projections, satprob, nd, np], lambda([FF],
    block(
-    [best_var, branch_lit, opt_projections : [inf,inf], break : false, Fopt],
-    for v in FF[1] unless break do block([E,F,F0,F1,d0,d1,d0a,d1a,p,pa],
-      F : FF[2], F1 : r(apply_pa({v},FF[2])), F0 : r(apply_pa({-v},FF[2])),
-      E : evaluating_branching_variable(distances[1]),
-      if length(E) = 0 then return(false),
-      if length(E) = 1 then (branch_lit : E[1][1], break : true, return(false)),
-      [d1,d0] : E,
-      E : evaluating_branching_variable(distances[2]),
-      if length(E) = 0 then return(false),
-      if length(E) = 1 then (branch_lit : E[1][1], break : true, return(false)),
-      [d1a,d0a] : E,
-      p : projections[1](d0,d1),
-      pa : projections[2](d0a,d1a),
-      if p < opt_projections[1] 
-       or (p = opt_projections[1] and pa < opt_projections[2]) then (
-        opt_projections : [p,pa], best_var : v, Fopt : [F1,F0],
-        return(true))
+    [F : FF[2], best_var, branch_lit, best_proj : [inf], immediate : false, Fbest],
+    for v in FF[1] unless immediate do 
+     block([E, F0,F1, D : [], P : [], ignore : false],
+      F1 : r(apply_pa({v},F)), F0 : r(apply_pa({-v},F)),
+      for i : 1 thru nd do (
+        E : evaluating_branching_variable(distances[i]),
+        if length(E) = 0 then (ignore : true, return(false)),
+        if length(E) = 1 then (branch_lit : E[1][1], immediate : true, return(false)),
+        D : endcons(E,D)
+      ),
+      if ignore or immediate then return(false),
+      for i : 1 thru nd do block([p : projections[min(np,i)]],
+        P : endcons(p(D[i][1], D[i][2]), P)),
+      if lexicographical_orderp(P, best_proj) then (
+        best_proj : P, best_var : v, Fbest : [F1,F0]
+      )
     ),
-    if break then return(branch_lit),
-    if opt_projections = [inf,inf] then
+    if immediate then return(branch_lit),
+    if best_proj = [inf] then
       error("heuristics_lookahead_distances: all variables disabled!"),
-    if satprob(Fopt[1]) > satprob(Fopt[2]) then return(best_var)
+    if satprob(Fbest[1]) > satprob(Fbest[2]) then return(best_var)
     else return(-best_var)
-   )))$
+   ))))$
 
 
 /* *************
