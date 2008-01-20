@@ -46,7 +46,26 @@ okt_php_54 : OKsolver_2002_st(weak_php(5,4));
     etc. </li>
    <li> For weak_php(6,5) the problem gets further pronounced:
    Here we have 79 nodes versus 89 nodes, and a depth of 9 versus 10. </li>
+   <li> And with weak_php(7,6) we have 479 nodes and height 14 against 539
+   nodes and height 15. </li>
    <li> So there seems to be a systematic problem. </li>
+   <li> By the way, we should also collect data on weak (and strong) php:
+    <ol>
+     <li> First weak_php(m+1,m), for m >= 4. </li>
+     <li> For m = 3 we have 3 nodes, height = 1 = levelled height. Likely
+     we should exclude m <= 3 due to "irregularity". </li>
+     <li> The levelled height of the trees found by the Maxima-OKsolver is
+     2,3,4 for the above three formulas. Since the levelled height of
+     weak_php(m+1,m) is m, and the OKsolver uses r_2, this seems optimal.
+     It should be m-2 in general. </li>
+     <li> Height is 5, 9, 14. Could be quadratic (then (8,7) -> 20).
+     And yes, the C-OKsolver yields 6,10,15,21,28,36,45. So the guess is 
+     that the first differences are 4,5,6, ... </li>
+     <li> For the number of nodes we have 17, 79, 479. One would expect
+     these numbers to be some "random". </li>
+     <li> The optimal numbers of nodes for r_2-splitting trees are ? </li>
+    </ol>
+   </li>
   </ul>
 
   \todo Tree pruning
