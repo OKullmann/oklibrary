@@ -1,5 +1,5 @@
 // Oliver Kullmann, 17.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -188,8 +188,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo OUTPUTTREEDATAXML
+  <ul>
+   <li> We need to compile versions with this macro defined. </li>
+   <li> We need to test these versions. </li>
+   <li> Document these versions. </li>
+   <li> Apparently yet only the number of r_2-reductions is output
+   at each node. We need to strengthen this by outputting most
+   data, definitely also the branching literal. </li>
+  </ul>
+
+
   \todo Enable finding all solutions
   <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/OKsolver2002.hpp.
+   </li>
    <li> Reduktion2 applies pure literal elimination --- this is no longer
    possible.
     <ol>

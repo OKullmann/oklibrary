@@ -9,6 +9,28 @@ License, or any later version. */
   \file Solvers/OKsolver/SAT2002/docus/general.hpp
   \brief General documentation on the original OKsolver
 
+
+  <h1> The OKsolver from 2002 </h1>
+
+  This first version of the OKsolver is made accessible here.
+  Since it has a rather canonical "semantics", it can serve
+  as a kind of standard implementation of
+  <ul>
+   <li> a look-ahead solver </li>
+   <li> who employes full failed-literal-reduction ("r_2") </li>
+   <li> and full unit-clause-propagation ("r_1") look-ahead. </li>
+  </ul>
+  The heuristics is given by (weigthed) counting of new clauses,
+  and here naturally basic autarky reduction (generalising
+  pure-literal-elimination) is utilised.
+
+
+  <h2> Specification </h2>
+
+  Procedural specifications at the Lisp/Maxima level are given in
+  ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac.
+
+
   <h2> Macro options </h2>
 
   The most important macro options (that is, compile time options):
@@ -18,9 +40,9 @@ License, or any later version. */
    it is turned on (that is, <code>BAUMRES</code> gets defined).
     <ul>
      <li> If <code>NLITTAB</code> is defined, then the more space efficient
-     (but less time time efficient) special datastructure is not used, while
-     otherwise (the default) it is used (that is, <code>LITTAB</code> gets
-     defined). </li>
+     (but less time time efficient) special datastructure is not used. </li>
+     <li> Otherwise (the default) it is used (that is,
+     <code>LITTAB</code> gets defined). </li>
     </ul>
    </li>
    <li> If <code>ASSIGNMENT</code> is defined, then if a satisfying assignment
@@ -36,11 +58,12 @@ License, or any later version. */
    count all satisfying assignments.
     <ul>
      <li> <code>NSAT_BITS</code> specifies the number of bits for the unsigned
-     int value of the number of satisfying assignments. The default is 64,
-     and it can set to any value supported by your platform. Overflows
-     are not detected, and the number of satisfying assignments is
-     thus only correct modulo 2^<code>NSAT_BITS</code> (however whether
-     the value is 0 or not is correctly reported). </li>
+     int value of the number of satisfying assignments. </li>
+     <li> The default is 64, and it can be set to any value supported by your
+     platform. </li>
+     <li> Overflows are not detected, and the number of satisfying
+     assignments is thus only correct modulo 2^<code>NSAT_BITS</code>
+     (however whether the value is 0 or not is correctly reported). </li>
     </ul>
    </li>
   </ul>
