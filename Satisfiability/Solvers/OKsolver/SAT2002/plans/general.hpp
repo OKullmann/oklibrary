@@ -199,6 +199,26 @@ License, or any later version. */
   </ul>
 
 
+  \todo Elimination of compile-time options
+  <ul>
+   <li> LOKALLERNEN
+    <ol>
+     <li> Extract ideas. </li>
+     <li> Eliminate option and code. </li>
+    </ol>
+   </li>
+   <li> FASTAUTARKIEN
+    <ol>
+     <li> Extract ideas. </li>
+     <li> Eliminate option and code. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Eliminate old history in code.
+
+
   \todo Enable finding all solutions
   <ul>
    <li> See

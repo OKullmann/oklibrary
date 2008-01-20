@@ -114,7 +114,24 @@ License, or any later version. */
     - OUTPUTTREEDATAXML
 
 
+  \par Version 1.0.8
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Elimination of compile-time options
+
+
   \par Version 1.1
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Eliminate old history in code
+
+  \par
+   The fully cleaned-up and documented original OKsolver.
+
+
+  \par Version 1.2
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
