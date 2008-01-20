@@ -95,10 +95,23 @@ dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
             dll_red_st(apply_pa_f({x}, [V,Fr]), h, red),
             dll_red_st(apply_pa_f({-x}, [V,Fr]), h, red)]))))$
 
+/* Amend the splitting tree with the distances used by the heuristics;
+   so this time the "amended heuristics" returns a pair [x,[d1,d0]],
+   and non-leaf-nodes a labelled with pairs [x,[d0,d1]], while
+   leaf-nodes are still just labelled with [true] or [false]. */
+dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
+  if is_empty(Fr) then [true]
+  elseif has_empty_element(Fr) then [false]
+  else block([V : var_cs(Fr)], block([H : ah([V,Fr]), x], 
+    x : H[1],
+    return([[-x,reverse(H[2])],
+            dll_red_st_dist(apply_pa_f({x}, [V,Fr]), ah, red),
+            dll_red_st_dist(apply_pa_f({-x}, [V,Fr]), ah, red)]))))$
 
-/* *****************
-   * Heuristics    *
-   *****************
+
+/* ************************
+   * Simple heuristics    *
+   ************************
 */
 
 /* The simplest heuristics: return the first variable */
@@ -129,6 +142,11 @@ dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_c
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
 
 
+/* ****************************
+   * Heuristics via distances *
+   ****************************
+*/
+
 /* Heuristics scheme given by a pair of distances and projections (for 
    lexicographical ordering in case of ties) and an approximation of
     satisfiability probability; look-ahead by reduction r (a map from
@@ -138,25 +156,35 @@ dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shor
    immediately. */
 /* A projection is the better the smaller. Inputs are positive and
    not infinity, and the same for the output. */
+
+/* A helper-function for evaluating a branching variable:
+   Using dynamic binding for F, F1, F0 and v. */
+evaluating_branching_variable(d) := block(
+ [x,d0,d1],
+  x : v,
+  d1 : d(F, F1),
+  if d1 = inf then return([[x,d1]])
+  elseif d1 <= 0 then return([]) else (
+    x : -v,
+    d0 : d(F, F0),
+    if d0 = inf then (return([[x,d0]]))
+    elseif d0 <= 0 then return([])),
+  return([d1,d0]))$
+
 heuristics_lookahead_distances(r, distances, projections, satprob) :=
   buildq([r, distances, projections, satprob], lambda([FF],
    block(
     [best_var, branch_lit, opt_projections : [inf,inf], break : false, Fopt],
-    for v in FF[1] unless break do block([F0,F1,d0,d1,d0a,d1a,p,pa],
-      F1 : r(apply_pa({v},FF[2])),
-      d1 : distances[1](FF[2], F1),
-      if d1 = inf then (branch_lit : v, break : true, return(false)),
-      if d1 <= 0 then return(false),
-      d1a : distances[2](FF[2], F1),
-      if d1a = inf then (branch_lit : v, break : true, return(false)),
-      if d1a <= 0 then return(false),
-      F0 : r(apply_pa({-v},FF[2])),
-      d0 : distances[1](FF[2], F0),
-      if d0 = inf then (branch_lit : -v, break : true, return(false)),
-      if d0 <= 0 then return(false),
-      d0a : distances[2](FF[2], F0),
-      if d0a = inf then (branch_lit : -v, break : true, return(false)),
-      if d0a <= 0 then return(false),
+    for v in FF[1] unless break do block([E,F,F0,F1,d0,d1,d0a,d1a,p,pa],
+      F : FF[2], F1 : r(apply_pa({v},FF[2])), F0 : r(apply_pa({-v},FF[2])),
+      E : evaluating_branching_variable(distances[1]),
+      if length(E) = 0 then return(false),
+      if length(E) = 1 then (branch_lit : E[1][1], break : true, return(false)),
+      [d1,d0] : E,
+      E : evaluating_branching_variable(distances[2]),
+      if length(E) = 0 then return(false),
+      if length(E) = 1 then (branch_lit : E[1][1], break : true, return(false)),
+      [d1a,d0a] : E,
       p : projections[1](d0,d1),
       pa : projections[2](d0a,d1a),
       if p < opt_projections[1] 
