@@ -45,6 +45,17 @@ nlvs(T) := if T = [] then 1 else sum(nlvs(T[i]),i,1,length(T))$
 height(T) := if T = [] then 0 else
   1 + lmax(makelist(height(T[i]),i,1,length(T)))$
 
+/* the "levelled height" of an unlabelled tree 
+   (also the "Horton-Strahler number" */
+levelled_height(T) := if T = [] then 0 else block(
+ [l : length(T), max : minf, imax, strict : true],
+  block([H : makelist(levelled_height(T[i]),i,1,l)],
+   for i : 1 thru l do
+    if H[i] > max then (imax : i, max : H[i]),
+   for i : 1 thru l unless not strict do
+    if i # imax and H[i] = max then strict : false,
+   if strict then return(max) else return(1+max)))$
+
 
 /* ****************************
    * Labelled rooted trees    *
