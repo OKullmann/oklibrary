@@ -156,19 +156,19 @@ chi_newtonstep(t) := buildq([t],
  lambda([x], block([p : x^(-t)],
   return((apply("+",p)-1) / apply("+",t*p/x)))))$
 
-/* Computing the tau-function by the Newton-method.
-   Sets oklib_tau_precise to true if precision was reached. */
-tau_eps(t,eps,max_it) := block([l:length(t)],
+/* Computing the tau-function by the Newton-method. */
+tau_eps(t,eps) := block([l:length(t)],
  if l = 0 then inf elseif l = 1 then 1 else
- block([dxf : chi_newton(t), x : tau_lo(t), break : false],
-  for i : 1 thru max_it unless break do block([dx : dxf(x)],
+ block([dxf : chi_newton(t), x : tau_lo(t), dx],
+  do (
+    dx : dxf(x),
     x : x + dx,
-    if dx <= eps then break : true),
-  oklib_tau_precise : break,
+    if dx <= eps then return(true)
+  ),
   return(x)))$
 
 /* Given a branching tuple, compute its tau-value (supplying a standard eps) */
-tau(t) := tau_eps(float(t), 10^-15, 20)$
+tau(t) := tau_eps(float(t), 10^-15)$
 /* floatnump(tau(t)) is true */
 /* n-ary version (using the standard eps) */
 taun([v]) := tau(v)$
@@ -192,10 +192,10 @@ tau3(x,y,z) := taun(x,y,z)$
 hp_float(x, decimal_digits) := block([fpprec : fpprec], fpprec : decimal_digits, bfloat(x))$
 
 /* the tau-value with a given precision */
-tau_hp(t, decimal_digits, max_it) := block(
+tau_hp(t, decimal_digits) := block(
  [fpprec : fpprec], 
   fpprec : decimal_digits,
-  tau_eps(bfloat(t), 10^(-decimal_digits+1), max_it))$
+  tau_eps(bfloat(t), 10^(-decimal_digits+1)))$
 
 
 /* ************************
