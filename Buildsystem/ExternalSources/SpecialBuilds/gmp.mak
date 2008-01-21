@@ -38,4 +38,4 @@ gmp : $(gmp_directories_okl)
 # #################################
 
 cleanallgmp : 
-	-rm -rf $(gmp_base_build_dir_okl) $(gmp_base_installation_dir_okl) $(gmp_doc_dir_okl)
+	-rm -rf $(gmp_base_build_dir_okl) $(gmp_base_installation_dir_okl) $(gmp_base_doc_dir_okl)
