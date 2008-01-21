@@ -24,6 +24,8 @@ $(ubcsat-directories) : % :
 # The Targets
 # #################################
 
+.PHONY : ubcsat $(ubcsat_targets_okl)
+
 ubcsat : $(ubcsat_recommended_okl)
 
 $(ubcsat_targets_okl) : $(ubcsat-directories)
