@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.11.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -64,7 +64,7 @@ License, or any later version. */
        ps2pdf. </li>
       </ul>
      </li>
-     <li> Yet everything on one line --- could we add nice intentation? </li>
+     <li> Yet everything on one line --- could we add nice indentation? </li>
     </ol>
    </li>
    <li> Resolution tree creation
@@ -85,7 +85,9 @@ License, or any later version. */
   <ul>
    <li> Given an r_k-splitting tree for F, and F, counting the satisfying
    assignments. </li>
-   <li> We need the notion of an "extended r_k-splitting tree", which at
+   <li> DONE (amend_r_splitting_tree does the job, for each node : the
+   assignments are not unique anyway, only the results)
+   We need the notion of an "extended r_k-splitting tree", which at
    each node contains also the (forced) partial assignment leading to the
    reduced clause-set at this node (except for the case where an inconsistency
    has been found, since here this partial assignment is not well-defined).
