@@ -1,5 +1,5 @@
 # Oliver Kullmann, 18.8.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,42 +7,44 @@
 
 # Settings for building and using the Gmp library
 
-gmp_recommended_version_number ?= 4.2.2
-gmp_supported_not_recommended_version_numbers ?= 
-gmp_supported_version_numbers ?= $(gmp_recommended_version_number) $(gmp_supported_not_recommended_version_numbers)
+gmp_recommended_version_number_okl ?= 4.2.2
+gmp_supported_not_recommended_version_numbers_okl ?= 
+gmp_supported_version_numbers_okl ?= $(gmp_recommended_version_number_okl) $(gmp_supported_not_recommended_version_numbers_okl)
 
-gmp_prefix ?= gmp
+gmp_prefix_okl ?= gmp
 
-gmp_base_directory ?= $(ExternalSources)/Gmp
+gmp_targets_prefix_okl := $(gmp_prefix_okl)-
+gmp_recommended_okl := $(gmp_targets_prefix_okl)$(gmp_recommended_version_number_okl)
+gmp_source_dir_okl := $(ExternalSources)/sources/Gmp/$(gmp_recommended_okl)
 
-gmp_default_install ?= local
+gmp_base_build_dir_okl ?= $(ExternalSources_builds)/Gmp
+gmp_build_dir_okl ?= $(gmp_base_build_dir_okl)/$(gmp_recommended_okl)
+
+gmp_default_install_okl ?= local
 # other possibility: system
 
-gmp_local_install_directory ?= $(gmp_base_directory)/$(gmp_recommended_version_number)
-gmp_system_install_directory ?= /usr/local
-ifeq ($(gmp_default_install),local)
-  gmp_install_directory ?= $(gmp_local_install_directory)
-  gmp_link_option ?= -L $(gmp_install_directory)/lib -Wl,-rpath,$(gmp_install_directory)/lib -lgmp
-  gmp_install_command ?= make install
+gmp_base_installation_dir_okl ?= $(ExternalSources_installations)/Gmp
+gmp_installation_dir_okl ?= $(gmp_base_installation_dir_okl)/$(gmp_recommended_version_number_okl)
+gmp_system_install_directory_okl ?= /usr/local
+ifeq ($(gmp_default_install_okl),local)
+  gmp_install_directory_okl ?= $(gmp_installation_dir_okl)
+  gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib -Wl,-rpath,$(gmp_install_directory_okl)/lib -lgmp
+  gmp_install_command_okl ?= make install
 else
-  gmp_install_directory ?= $(gmp_system_install_directory)
-  gmp_link_option ?= -L $(gmp_install_directory)/lib -lgmp
-  gmp_install_command ?= sudo make install
+  gmp_install_directory_okl ?= $(gmp_system_install_directory)
+  gmp_link_option_okl ?= -L $(gmp_install_directory_okl)/lib -lgmp
+  gmp_install_command_okl ?= sudo make install
 endif
 
-gmp_source_library ?= $(gmp_install_directory)/include
-gmp_include_option ?= -I $(gmp_source_library)
+gmp_source_library_okl ?= $(gmp_install_directory_okl)/include
+gmp_include_option_okl ?= -I $(gmp_source_library_okl)
 
-gmp_documentation_base_dir ?= $(ExternalSources_doc)/Gmp
-gmp_documentation_dir ?= $(gmp_documentation_base_dir)/$(gmp_recommended_version_number)
-gmp_html_documentation_index_location ?= $(gmp_documentation_dir)/gmp.html/index.html
-gmp_dvi_documentation_index_location ?= $(gmp_documentation_dir)/gmp.dvi
-gmp_docu_page ?= $(doc_dir)/doxygen_html/d5/d9b/docus_2Gmp_8hpp.html
+gmp_base_doc_dir_okl ?= $(ExternalSources_doc)/Gmp
+gmp_doc_dir_okl ?= $(gmp_base_doc_dir_okl)/$(gmp_recommended_version_number_okl)
+gmp_html_documentation_index_location_okl ?= $(gmp_doc_dir_okl)/gmp.html/index.html
+gmp_dvi_documentation_index_location_okl ?= $(gmp_doc_dir_okl)/gmp.dvi
+gmp_docu_page_okl ?= $(doc_dir)/doxygen_html/d5/d9b/docus_2Gmp_8hpp.html
 
-gmp_homepage_url := http://gmplib.org/
-gmp_documentation_url := http://gmplib.org/\#DOC
-
-gmp_targets_prefix := $(gmp_prefix)-
-gmp_targets := $(addprefix $(gmp_targets_prefix), $(gmp_supported_version_numbers))
-gmp_recommended := $(gmp_targets_prefix)$(gmp_recommended_version_number)
+gmp_homepage_url_okl := http://gmplib.org/
+gmp_documentation_url_okl := http://gmplib.org/\#DOC
 

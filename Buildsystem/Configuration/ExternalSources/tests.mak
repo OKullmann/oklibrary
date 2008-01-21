@@ -201,20 +201,20 @@ git_html_documentation_index_location_tag ?= <a href="$(git_html_documentation_i
 # New variables for the configuration of building gmp (to be designed 
 # and implemented):
 
-check_gmp_header ?= $(shell [[ -f $(gmp_source_library)/gmp.h ]]; echo $?)
-ifeq ($(location_gmp_header),1)
-  gmp_ready ?= NO
+check_gmp_header_okl ?= $(shell [[ -f $(gmp_source_library_okl)/gmp.h ]]; echo $$?)
+ifneq ($(check_gmp_header_okl),0)
+  gmp_ready_okl ?= NO
 else
-  version_gmp ?= $(shell basename $$(dirname $(gmp_source_library)))
-  ifeq ($(version_gmp),$(gmp_recommended_version_number))
-    gmp_ready ?= YES
+  version_gmp_okl ?= $(shell basename $$(dirname $(gmp_source_library_okl)))
+  ifeq ($(version_gmp_okl),$(gmp_recommended_version_number_okl))
+    gmp_ready_okl ?= YES
   else
-    gmp_ready ?= MAYBE
+    gmp_ready_okl ?= MAYBE
   endif
 endif
 
 # the following construction needs to be generalised by some function
-gmp_html_documentation_index_location_tag ?= <a href="$(gmp_html_documentation_index_location)">$(gmp_html_documentation_index_location)</a>
+gmp_html_documentation_index_location_tag_okl ?= <a href="$(gmp_html_documentation_index_location_okl)">$(gmp_html_documentation_index_location_okl)</a>
 
 # New variables for the configuration of building valgrind (to be designed 
 # and implemented):

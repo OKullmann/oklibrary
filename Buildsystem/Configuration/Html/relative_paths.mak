@@ -37,7 +37,7 @@ rel_les_doxygen_docu_page := $(shell $(rel_path_tool) $(doxygen_docu_page) $(ext
 rel_les_cmake_docu_page := $(shell $(rel_path_tool) $(cmake_docu_page) $(externalsources_page_output))
 rel_les_postgresql_docu_page := $(shell $(rel_path_tool) $(postgresql_docu_page) $(externalsources_page_output))
 rel_les_R_docu_page := $(shell $(rel_path_tool) $(R_docu_page) $(externalsources_page_output))
-rel_les_gmp_docu_page := $(shell $(rel_path_tool) $(gmp_docu_page) $(externalsources_page_output))
+rel_les_gmp_docu_page_okl := $(shell $(rel_path_tool) $(gmp_docu_page_okl) $(externalsources_page_output))
 rel_les_sage_docu_page := $(shell $(rel_path_tool) $(sage_docu_page) $(externalsources_page_output))
 rel_les_coq_docu_page := $(shell $(rel_path_tool) $(coq_docu_page) $(externalsources_page_output))
 rel_les_ubcsat_docu_page_okl := $(shell $(rel_path_tool) $(ubcsat_docu_page_okl) $(externalsources_page_output))
@@ -53,7 +53,7 @@ ifeq ($(extsrc_relative),)
   rel_les_cmake_html_documentation_index_location := $(cmake_html_documentation_index_location)
   rel_les_pgsql_html_documentation_index_location := $(pgsql_html_documentation_index_location)
   rel_les_R_html_documentation_index_location := $(R_html_documentation_index_location)
-  rel_les_gmp_html_documentation_index_location := $(gmp_html_documentation_index_location)
+  rel_les_gmp_html_documentation_index_location_okl := $(gmp_html_documentation_index_location_okl)
 else
   rel_les_boost_html_documentation_index_location := $(shell $(rel_path_tool) $(boost_html_documentation_index_location) $(externalsources_page_output))
   rel_les_mhash_html_documentation_index_location := $(shell $(rel_path_tool) $(mhash_html_documentation_index_location) $(externalsources_page_output))
@@ -64,7 +64,7 @@ else
   rel_les_cmake_html_documentation_index_location := $(shell $(rel_path_tool) $(cmake_html_documentation_index_location) $(externalsources_page_output))
   rel_les_pgsql_html_documentation_index_location := $(shell $(rel_path_tool) $(pgsql_html_documentation_index_location) $(externalsources_page_output))
   rel_les_R_html_documentation_index_location := $(shell $(rel_path_tool) $(R_html_documentation_index_location) $(externalsources_page_output))
-  rel_les_gmp_html_documentation_index_location := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location) $(externalsources_page_output))
+  rel_les_gmp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_clisp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(clisp_html_documentation_index_location_okl) $(externalsources_page_output))
 endif
 

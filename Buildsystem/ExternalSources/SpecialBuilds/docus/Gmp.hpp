@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,8 +15,8 @@ License, or any later version. */
 
   <h2> On the purpose of Gmp </h2>
 
-  Gmp is a C-library for computation with integers, rationals and floating point
-  numbers of arbitrary size.
+  Gmp is a C-library for computation with integers, rationals and floating
+  point numbers of arbitrary size.
 
 
   <h2> What the installation yields </h2>
@@ -39,24 +39,26 @@ License, or any later version. */
    \code
 #include <gmp.h>
    \endcode
-   together with "${gmp_include_option}". </li>
-   <li> To link with gmp, use "${gmp_link_option}". </li>
+   together with "${gmp_include_option_okl}". </li>
+   <li> To link with gmp, use "${gmp_link_option_okl}". </li>
   </ul>
 
 
   <h2> Current state of installation </h2>
 
   <ul>
-   <li> gmp include option = <code>$(gmp_include_option)</code> </li>
-   <li> gmp link option = <code>$(gmp_link_option)</code> </li>
-   <li> ready: $(gmp_ready)
+   <li> Recommended version =
+   <code>$(gmp_recommended_version_number_okl)</code> </li>
+   <li> gmp include option = <code>$(gmp_include_option_okl)</code> </li>
+   <li> gmp link option = <code>$(gmp_link_option_okl)</code> </li>
+   <li> ready: $(gmp_ready_okl)
     <ul>
-     <li> mode = <code>$(gmp_default_install)</code> </li>
-     <li> version = <code>$(version_gmp)</code>
+     <li> mode = <code>$(gmp_default_install_okl)</code> </li>
+     <li> version = <code>$(version_gmp_okl)</code>
      </li>
     </ul>
    </li>
-   <li> documentation: $(gmp_html_documentation_index_location_tag) </li>
+   <li> documentation: $(gmp_html_documentation_index_location_tag_okl) </li>
   </ul>
 
 
@@ -64,7 +66,7 @@ License, or any later version. */
 
   Local and system-wide installation possible, the default is local
   installation;
-  set variable <code>gmp_default_install</code> to value "system" to switch.
+  set variable <code>gmp_default_install_okl</code> to value "system" to switch.
 
   <h3> Make targets </h3>
   
@@ -74,9 +76,8 @@ License, or any later version. */
     <td> Build the recommended version of gmp, using the system-gcc. </td>
    </tr>
    <tr>
-    <td> <code> gmp-a.b.c </code> </td>
-    <td> Build the version a.b.c of gmp, using the system-gcc (for example
-    <code>gmp-4.2.1</code>). </td>
+    <td> <code> cleanallgmp </code> </td>
+    <td> Remove build, installation and documentation directory. </td>
    </tr>
   </table>
 
