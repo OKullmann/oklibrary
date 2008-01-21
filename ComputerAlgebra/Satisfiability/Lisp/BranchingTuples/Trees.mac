@@ -94,6 +94,12 @@ canonical_tpd(T) := block([w : length(T)],
    T3d : [[3,5,2], [[]], [[]], [[2,1], [[]], [[]]]];
 */
 
+/* check whether T is a "formally" tree with a distances 
+   (or "with branching tuples") */
+tbtp(T) := if not listp(T) then false else block([l : length(T)],
+  is(l > 0) and listp(T[1]) and length(T[1]) = l-1 and
+   apply("and",makelist(tbtp(T[i]),i,2,l)))$
+
 
 /* Transformations of a tree with distances to a tree with measure: */
 
