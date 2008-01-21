@@ -96,15 +96,16 @@ dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
             dll_red_st(apply_pa_f({-x}, [V,Fr]), h, red)]))))$
 
 /* Amend the splitting tree with the distances used by the heuristics;
-   so this time the "amended heuristics" returns a pair [x,[d1,d0]],
-   and non-leaf-nodes a labelled with pairs [x,[d0,d1]], while
-   leaf-nodes are still just labelled with [true] or [false]. */
+   so this time the "amended heuristics" returns a pair [x,L],
+   and non-leaf-nodes a labelled with pairs [x,L], while
+   leaf-nodes are still just labelled with [true] or [false].
+   Here L is the list of distance-pairs used by the heuristic. */
 dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
   if is_empty(Fr) then [true]
   elseif has_empty_element(Fr) then [false]
   else block([V : var_cs(Fr)], block([H : ah([V,Fr]), x], 
     x : H[1],
-    return([[-x,reverse(H[2])],
+    return([[-x, map(reverse, H[2])],
             dll_red_st_dist(apply_pa_f({x}, [V,Fr]), ah, red),
             dll_red_st_dist(apply_pa_f({-x}, [V,Fr]), ah, red)]))))$
 
@@ -163,10 +164,10 @@ dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shor
    Using dynamic binding for F, F1, F0 and v. */
 evaluating_branching_variable(d) := block([x,d0,d1],
   x : v, d1 : d(F, F1),
-  if d1 = inf then return([[x,d1]])
+  if d1 = inf then return([x])
   elseif d1 <= 0 then return([]) else (
     x : -v, d0 : d(F, F0),
-    if d0 = inf then (return([[x,d0]]))
+    if d0 = inf then (return([x]))
     elseif d0 <= 0 then return([])),
   return([d1,d0]))$
 
@@ -190,7 +191,7 @@ heuristics_lookahead_distances(r, distances, projections, satprob) :=
       for i : 1 thru nd do (
         E : evaluating_branching_variable(distances[i]),
         if length(E) = 0 then (ignore : true, return(false)),
-        if length(E) = 1 then (branch_lit : E[1][1], immediate : true, return(false)),
+        if length(E) = 1 then (branch_lit : E[1], immediate : true, return(false)),
         D : endcons(E,D)
       ),
       if ignore or immediate then return(false),
@@ -203,9 +204,59 @@ heuristics_lookahead_distances(r, distances, projections, satprob) :=
     if immediate then return(branch_lit),
     if best_proj = [inf] then
       error("heuristics_lookahead_distances: all variables disabled!"),
-    if satprob(Fbest[1]) > satprob(Fbest[2]) then return(best_var)
+    if satprob(Fbest[1]) >= satprob(Fbest[2]) then return(best_var)
     else return(-best_var)
    ))))$
+
+/* The amended variation, returning the list of associated distances;
+   additionally a list of monitoring distances can be specified.
+   For the list of distances returned at a node, the number of "deciding"
+   distances can vary if inf-values occur, however there are always
+   length(mon_distances) many monitoring-distances. */
+amended_heuristics_lookahead_distances(r, distances, projections, satprob, mon_distances) :=
+ block([nd : length(distances), np : length(projections), nm : length(mon_distances)],
+  buildq([r, distances, projections, satprob, mon_distances, nd, np, nm], lambda([FF],
+   block(
+    [F : FF[2], best_var, branch_lit, best_proj : [inf], immediate : false, Fbest, best_dist],
+    for v in FF[1] unless immediate do 
+     block([E, F0,F1, D : [], P : [], ignore : false],
+      F1 : r(apply_pa({v},F)), F0 : r(apply_pa({-v},F)),
+      for i : 1 thru nd do (
+        E : evaluating_branching_variable(distances[i]),
+        if length(E) = 0 then (ignore : true, return(false)),
+        if length(E) = 1 then (
+          branch_lit : E[1], immediate : true,
+          if branch_lit > 0 then E : [inf,0] else E : [0,inf],
+          best_dist : endcons(E,D),
+          return(false)
+        ),
+        D : endcons(E,D)
+      ),
+      if ignore or immediate then return(false),
+      for i : 1 thru nd do block([p : projections[min(np,i)]],
+        P : endcons(p(D[i][1], D[i][2]), P)),
+      if lexicographical_orderp(P, best_proj) then (
+        best_proj : P, best_var : v, Fbest : [F1,F0], best_dist : D
+      )
+    ),
+    if best_proj = [inf] then
+      error("heuristics_lookahead_distances: all variables disabled!"),
+    for i : 1 thru nm do block([p : mon_distances[i]],
+      best_dist : endcons([p(F,Fbest[1]),p(F,Fbest[2])], best_dist)),
+    if not immediate then 
+      if satprob(Fbest[1]) >= satprob(Fbest[2]) then 
+        branch_lit : best_var 
+      else
+        branch_lit : -best_var,
+    if branch_lit < 0 then best_dist : map(reverse, best_dist),
+    return([branch_lit, best_dist])
+   ))))$
+
+
+/* Extract a tree with distances */
+extract_tbt(T,i) := block([l : length(T)],
+  if l = 1 then [[]] else
+  cons(T[1][2][i], makelist(extract_tbt(T[j],i),j,2,l)))$
 
 
 /* *************
@@ -216,6 +267,9 @@ heuristics_lookahead_distances(r, distances, projections, satprob) :=
 /* Distances have as input two clause-sets Ffrom, Fto,
    and return a real number or inf.
 */
+
+/* The trivial distance */
+trivial_distance(Ffrom,Fto) := 1$
 
 /* The difference in the number of variables */
 delta_n(Ffrom,Fto) := nvar_cs(Ffrom) - nvar_cs(Fto)$
@@ -262,6 +316,9 @@ prod_proj(x,y) := 1/(x*y)$
    The value inf says the formula is surely satisfiable, the value
    minf says the forrmula is surely unsatisfiable.
 */
+
+/* The trivial approximation */
+trivial_sat_approx(F) := 1$
 
 /* The logarithm that a random assignment over the variables in the
    given clause-set satisfies a random clause-set drawn with the same
