@@ -8,21 +8,15 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp
 
-  \module_version Satisfiability/Lisp/BranchingTuples 0.0.4 (29.7.2007)
+  \module_version Satisfiability/Lisp/BranchingTuples 0.0.5 (21.1.2008)
 
 
-  \par Version 0.0.5
-
-  \par
-   In ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp the following topics are handled:
-    - Tau for Maxima : DONE
-    - Branching tuples : DONE
-
-
-  \par Version 0.0.6
+    \par Version 0.0.6
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/general.hpp the following topics are handled:
+    - Handling of demos
+    - Cleanup BranchingTuples/Basic.mac
     - Reimplement the remaining functionality from Mupad/tau.hpp
     - Trees
 
@@ -36,6 +30,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.4 : 29.7.2007; started re-implementing the Mupad-functions in Maxima.
+   - 0.0.5 : 21.1.2008; completed the basic functionality regarding branching tuples and the tau-function; also basic functionality regarding trees.
 
 */
 

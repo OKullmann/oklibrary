@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/plans/milestones.hpp
 
-  \module_version Satisfiability/Lisp 0.0.5 (29.7.2007)
+  \module_version Satisfiability/Lisp 0.0.5.1 (21.1.2008)
 
 
   \par Version 0.0.6
@@ -19,7 +19,7 @@ License, or any later version. */
     - Relations to other modules
     - Update plans
 
-  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.5
+  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.5 : DONE
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
 
