@@ -14,7 +14,15 @@ License, or any later version. */
   <ul>
    <li> The demo-file could be called "demos/Basic.hpp", using doxyen comments?!
    </li>
-   <li> Defining tau using the precise but slow interval-halving:
+   <li> The experience we have made already should be extracted:
+    <ol>
+     <li> To the FullDocumentation-file? </li>
+     <li> There are many questions, so a more open format is needed --- perhaps
+     ComputerAlgebra/docus/Maxima.hpp. </li>
+    </ol>
+   </li>
+   <li> DONE (no need for this --- Newton is always superior here)
+    Defining tau using the precise but slow interval-halving:
     <ol>
      <li> How can "find_root" be instrumented to use bfloat? Or should we
      implement find_root ourselves? </li>
@@ -30,7 +38,8 @@ License, or any later version. */
      DONE </li>
     </ol>
    </li>
-   <li> Using the faster Newton-method:
+   <li> Using the faster Newton-method: DONE
+    (solved problems by self-implementing the Newton-method)
     <ol>
      <li> Can a higher precision be used?
       <ol>
@@ -83,16 +92,10 @@ floating point overflow
      </li>
     </ol>
    </li>
-   <li> The general convention should be, that for example the branching tuples
+   <li> DONE (the standard-interface methods convert to float resp. bfloat)
+   The general convention should be, that for example the branching tuples
    contain real terms, and then perhaps via some special naming convention we
    indicate that for this version all arguments are automatically evaluated?
-   </li>
-   <li> The experience we have made already should be extracted:
-    <ol>
-     <li> To the FullDocumentation-file? </li>
-     <li> There are many questions, so a more open format is needed --- perhaps
-     ComputerAlgebra/docus/Maxima.hpp. </li>
-    </ol>
    </li>
    <li> How to make these definitions available? DONE (it seems that explicit
    load-instructions have to be issued for each Maxima-session) </li>
