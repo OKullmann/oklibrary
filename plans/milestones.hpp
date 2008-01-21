@@ -74,6 +74,8 @@ License, or any later version. */
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
+  \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
+  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par
    In Transitional/plans/general.hpp the following topics are handled:
     - Demos
@@ -117,7 +119,7 @@ License, or any later version. */
   (see SumProduct/plans/milestones.hpp)
   \par TestSystem version 0.1.4 
   (see TestSystem/plans/milestones.hpp)
-  \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
+  \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Structures version 0.0.6
   (see Structures/plans/milestones.hpp)

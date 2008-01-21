@@ -10,11 +10,12 @@ License, or any later version. */
   \brief Plans regarding the tau function (see SAT-handbook article of OK)
   
   
-  \todo Tau for Maxima
+  \todo Tau for Maxima : DONE
   <ul>
-   <li> The demo-file could be called "demos/Basic.hpp", using doxyen comments?!
+   <li> DONE (moved)
+   The demo-file could be called "demos/Basic.hpp", using doxyen comments?!
    </li>
-   <li> The experience we have made already should be extracted:
+   <li> DONE The experience we have made already should be extracted:
     <ol>
      <li> To the FullDocumentation-file? </li>
      <li> There are many questions, so a more open format is needed --- perhaps
@@ -99,6 +100,15 @@ floating point overflow
    </li>
    <li> How to make these definitions available? DONE (it seems that explicit
    load-instructions have to be issued for each Maxima-session) </li>
+  </ul>
+
+
+  \todo Handling of demos
+  <ul>
+   <li> See "Handling of demos" in ComputerAlgebra/plans/Maxima.hpp. </li>
+   <li> We must likely update the current file. </li>
+   <li> We should write a dedicated demos-file with the computations
+   for OK's handbook-article on heuristics. </li>
   </ul>
 
 

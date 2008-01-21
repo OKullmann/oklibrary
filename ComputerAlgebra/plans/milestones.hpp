@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.1.2
 
-  \par ComputerAlgebra/Satisfiability version 0.0.5
+  \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
   \par ComputerAlgebra/Cryptology version 0.0.5
@@ -35,7 +35,7 @@ License, or any later version. */
    Update the following milestones.
 
 
-  \par Version 0.1.2
+  \par Version 0.1.3
 
   \par ComputerAlgebra/Mupad version 0.5.1
 
@@ -50,7 +50,7 @@ License, or any later version. */
     - Maxima : DONE
 
 
-  \par Version 0.1.3
+  \par Version 0.1.4
 
   \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)

@@ -19,10 +19,13 @@ License, or any later version. */
     - Relations to other modules
     - Update plans
 
+  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.5
+  (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
+
 
   \par Version 0.0.7
 
-  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.5
+  \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
 
