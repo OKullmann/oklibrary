@@ -128,11 +128,16 @@ License, or any later version. */
 
   \todo Handling of demos
   <ul>
+   <li> The demos-files are put into demos-subdirectory, and are plain
+   .mac-files (intented to be processed). </li>
    <li> How to call the maxima-demos-files? </li>
+   <li> How to print out explanations? </li>
+   <li> How to create pauses? </li>
    <li> How is it integrated into the general demos-system for the OKlibrary?
-   Perhaps it is just the incarnation of the general system in the context
-   of Maxima/Lisp. </li>
-   <li> Extend "oklib_load" to process the maxima-demos. </li>
+   Likely nothing special is done, only we need load-capabilities, likely
+   here only for single files. </li>
+   <li> Extend "oklib_load" to process the maxima-demos? Perhaps better
+   a dedicated function. </li>
   </ul>
 
 
@@ -222,6 +227,25 @@ License, or any later version. */
        "part(A,1)" and the value by "part(A,2)". </li>
       </ol>
      </li>
+    </ol>
+   </li>
+   <li> Dynamic binding: Important to understand this, since nowadays
+   static binding is most common. </li>
+   <li> Arbitrary precision:
+    <ol>
+     <li> For a local computation Comp with d decimal digits use
+     \verbatim
+block([fpprec : fpprec], fpprec : d, Comp)
+     \endverbatim
+     </li>
+     <li> Numbers used in Comp must be converted to bfloat, since otherwise
+     exact computations are used, while number-literals like
+     "1.0" are by default interpreted as float. </li>
+     <li> However numerical procedures often enforce usage of type
+     float (for example "newton"), and thus can't be used (succesfully)
+     in Comp. </li>
+     <li> It seems that an expression involving some bfloat-argument
+     is always evaluated in bfloat-arithmetic. </li>
     </ol>
    </li>
   </ul>
