@@ -67,6 +67,9 @@ levelled_height(T) := if T = [] then 0 else block(
    are the subtrees.
 */
 
+/* number of nodes in a labelled rooted tree */
+nnds_l(T) := if length(T) = 1 then 1 else 1+sum(nnds_l(T[i]),i,2,length(T))$
+
 /* the number of leaves in a labelled rooted tree */
 nlvs_l(T) := if length(T) = 1 then 1 else sum(nlvs_l(T[i]),i,2,length(T))$
 
