@@ -26,6 +26,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Debugging
     - Documentation
     - %Test system
     - Handling of demos

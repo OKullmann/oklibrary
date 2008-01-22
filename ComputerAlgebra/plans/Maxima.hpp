@@ -9,6 +9,14 @@ License, or any later version. */
   \file ComputerAlgebra/plans/Maxima.hpp
   \brief General plans regarding the Maxima computer algebra system
 
+
+  \todo Debugging
+  <ul>
+   <li> Again and again it happens that somehow the Lisp-debugger is entered,
+   and apparently there is NO ESCAPTE (":top" apparently should be the escape,
+   but doesn't work). </li>
+   <li> How to disable the debugger ?? </li>
+  </ul>
   
   \todo Documentation
   <ul>
@@ -206,7 +214,13 @@ License, or any later version. */
 
   \todo Document important programming techniques:
   <ul>
-   <li> How to handle local variables (see above). </li>
+   <li> How to handle local variables (see above).
+    <ol>
+     <li> A source of errors regarding the block-expression is that
+     returns inside it just leave *this* block --- so one has to
+     be careful by introducing blocks (since they change the semantics)! </li>
+    </ol>
+   </li>
    <li> All different types of loops (see the existing code).
    Especially nested loops ("create_list"). </li>
    <li> How to create lambda-terms (see the existing code). </li>
