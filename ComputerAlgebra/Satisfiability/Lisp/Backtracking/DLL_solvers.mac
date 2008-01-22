@@ -228,6 +228,7 @@ amended_heuristics_lookahead_distances(r, distances, projections, satprob, mon_d
           branch_lit : E[1], immediate : true,
           if branch_lit > 0 then E : [inf,0] else E : [0,inf],
           best_dist : endcons(E,D),
+          Fbest : [F1,F0],
           return(false)
         ),
         D : endcons(E,D)
