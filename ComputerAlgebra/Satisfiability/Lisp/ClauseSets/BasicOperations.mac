@@ -147,6 +147,15 @@ min_rank_cs(F) := block([m : inf],
   return(m))$
 
 
+/* ***********************************
+   * Selecting parts of a clause-set *
+   ***********************************
+*/
+
+/* all clauses of length k of a clause-set */
+scls_k(F,k) := subset(F, lambda([C], is(length(C) = k)))$
+
+
 /* ***********************
    * Partial assignments *
    ***********************
