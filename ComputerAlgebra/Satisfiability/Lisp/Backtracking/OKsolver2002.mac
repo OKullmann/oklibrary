@@ -37,7 +37,7 @@ heuristics_OKsolver2002 :
   heuristics_lookahead_distances(
     generalised_ucp1,
     distances_OKsolver2002,
-    [prod_proj, prod_proj],
+    [prod_proj],
     logprobrand)$
 
 /* The following abstraction of OKsolver_2002 ignores: 
