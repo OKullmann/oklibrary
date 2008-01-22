@@ -260,6 +260,44 @@ extract_tbt(T,i) := block([l : length(T)],
   if l = 1 then [[]] else
   cons(T[1][2][i], makelist(extract_tbt(T[j],i),j,2,l)))$
 
+/* Check that inf-branches are trivial: m is the number of monitoring
+   distances, returns the top-most offending nodes */
+check_inf_branches(T,m) := block([l : length(T), rel_distances, inf_ind],
+  if l = 1 then return([]),
+  rel_distances : rest(T[1][2],-m),
+  inf_ind : sublist_indices(rel_distances, lambda([d], member(inf,d))),
+  if not emptyp(inf_ind) then (
+    if length(inf_ind) # 1 then 
+      error("check_inf_branches: more than one inf-notification!"),
+    inf_ind : sublist_indices(rel_distances[inf_ind[1]], lambda([x],is(x=inf))),
+    if not every(makelist(is(nnds_l(T[1+i]) = 1), i, inf_ind)) then
+      return(append([T[1], inf_ind], makelist(nnds_l(T[1+i]),i,inf_ind)))
+  ),
+  return(apply(append, makelist(check_inf_branches(T[i],m),i,2,l))))$
+
+/* Counts nodes containing some inf-distance-value */
+count_inf_branches(T,m) := block([l : length(T), flag : 0],
+  if l = 1 then return(0),
+  if not emptyp(sublist_indices(rest(T[1][2],-m), lambda([d], member(inf,d))))
+    then flag : 1,
+  return(flag + sum(count_inf_branches(T[i],m),i,2,l)))$
+
+/* Collapses nodes where all branches except of one are inf-branches
+   (such nodes are hidden reductions). */
+collapse_inf_branches(T,m) := block(
+  [l : length(T), rel_distances, inf_ind, other],
+  if l = 1 then return(T),
+  rel_distances : rest(T[1][2],-m),
+  inf_ind : sublist_indices(rel_distances, lambda([d], member(inf,d))),
+  if not emptyp(inf_ind) then (
+    inf_ind : sublist_indices(rel_distances[inf_ind[1]],lambda([x],is(x=inf))),
+    if length(inf_ind) = l-2 then (
+      other : listify(setdifference(setmn(1,l-1),setify(inf_ind)))[1],
+      T : T[1+other],
+      return(collapse_inf_branches(NT,m)))
+  ),
+  return(cons(T[1], makelist(collapse_inf_branches(T[i],m),i,2,l))))$
+
 
 /* *************
    * Distances *    
