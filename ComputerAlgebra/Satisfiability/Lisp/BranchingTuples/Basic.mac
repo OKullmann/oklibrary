@@ -159,7 +159,7 @@ chi_newtonstep(t) := buildq([t],
 /* Computing the tau-function by the Newton-method. */
 tau_eps(t,eps) := block([l:length(t)],
  if l = 0 then inf elseif l = 1 then 1 else
- block([dxf : chi_newton(t), x : tau_lo(t), dx],
+ block([dxf : chi_newtonstep(t), x : tau_lo(t), dx],
   do (
     dx : dxf(x),
     x : x + dx,
