@@ -28,13 +28,10 @@ oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    **********************************************************
 */
 
-/* A "rooted tree with tree probability distribution (tpd)" is recursively 
+/* 
+   A "rooted tree with tree probability distribution (tpd)" is recursively 
    defined as [[p_1, ..., p_n], T_1, ..., T_n] (n >= 0) where p_i are the 
-   probabilities attached to subtree T_i (n = 0 is the case of a leaf). */
-/*
-   Examples (T_1, p_1), (T_3, p_3) from OK's SAT-handbook-article:
-   T1p : [[1/2,1/2], [[1/2,1/2],[[]],[[]]], [[]]];
-   T3p : [[1/3,1/3,1/3], [[]], [[]], [[1/2,1/2], [[]], [[]]]];
+   probabilities attached to subtree T_i (n = 0 is the case of a leaf). 
 */
 
 /* the probability distribution induced on the leaves by a tree with tpd */
@@ -77,6 +74,10 @@ canonical_tpd(T) := block([w : length(T)],
  block([S : makelist(canonical_tpd(T[i]), i, 1, w), s],
   s : sum(S[i][2],i,1,w),
   return([ cons(makelist(S[i][2]/s,i,1,w), makelist(S[i][1],i,1,w)), s ])))$
+
+/* Simpler, equip unlabelled tree T with the uniform tpd at each node */
+uniform_tpd(T) := block([l : length(T)],
+  cons(makelist(1/l,i,1,l), makelist(uniform_tpd(T[i]),i,1,l)))$
 
 
 /* **************************************************
