@@ -244,10 +244,15 @@ gradef(tau2s(x,y), Dtau2s(x,y)[1], Dtau2s(x,y)[2])$
 */
 
 /* The probability distribution derived from a branching tuple: */
-tauprob(t) := tau(t)^(-t)$
+tauprob(t) := block([ts : t / lmin(t)], tau(ts)^(-ts))$
 tauprobn([t]) := tauprob(t)$
 tauprob2(x,y) := tauprobn(x,y)$
 tauprob3(x,y,z) := tauprobn(x,y,z)$
+
+/* Higher precision */
+tauprob_hp(t, decimal_digits) := block([fpprec : fpprec], 
+  fpprec : decimal_digits, t : bfloat(t),
+  block([ts : t / lmin(t)], tau_hp(ts,decimal_digits)^(-ts)))$
 
 /* Symbolical computation (if possible) */
 tauprob_symbolical(t) := tau_symbolical(t)^(-t)$

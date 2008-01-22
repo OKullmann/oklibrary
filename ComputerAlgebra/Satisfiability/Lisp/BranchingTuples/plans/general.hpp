@@ -51,5 +51,22 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Details of computations
+  <ul>
+   <li> tauprob :
+    <ol>
+     <li> Are there better scaling schemes? </li>
+    </ol>
+   </li>
+   <li> tau_eps :
+    <ol>
+     <li> Could epsilon be eliminated, and the computation always proceeds
+     until dx is 0 (for the arithmetic)? </li>
+     <li> Are there better lower bounds than tau_lo ? </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
