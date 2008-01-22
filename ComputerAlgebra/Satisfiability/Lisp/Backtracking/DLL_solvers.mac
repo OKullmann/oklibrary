@@ -239,15 +239,16 @@ amended_heuristics_lookahead_distances(r, distances, projections, satprob, mon_d
         best_proj : P, best_var : v, Fbest : [F1,F0], best_dist : D
       )
     ),
-    if best_proj = [inf] then
-      error("heuristics_lookahead_distances: all variables disabled!"),
-    for i : 1 thru nm do block([p : mon_distances[i]],
-      best_dist : endcons([p(F,Fbest[1]),p(F,Fbest[2])], best_dist)),
-    if not immediate then 
+    for i : 1 thru nm do block([md : mon_distances[i]],
+      best_dist : endcons([md(F,Fbest[1]),md(F,Fbest[2])], best_dist)),
+    if not immediate then (
+      if best_proj = [inf] then
+        error("heuristics_lookahead_distances: all variables disabled!"),
       if satprob(Fbest[1]) >= satprob(Fbest[2]) then 
         branch_lit : best_var 
       else
-        branch_lit : -best_var,
+        branch_lit : -best_var
+    ),
     if branch_lit < 0 then best_dist : map(reverse, best_dist),
     return([branch_lit, best_dist])
    ))))$
@@ -286,12 +287,15 @@ delta_l(Ffrom,Fto) := nlitocc(Ffrom) - nlitocc(Fto)$
 wn_newclauses(wf) := buildq([wf], lambda([Ffrom,Fto],
   block([nC : listify(setdifference(Fto, Ffrom))],
     return(sum(wf(length(nC[i])),i,1,length(nC))))))$
-
 /* The variation of wn_newclauses where instances of 2-CLS are detected: */
 wn_newclauses_2(wf)  := buildq([wf], lambda([Ffrom,Fto],
   if max_rank_cs(Fto) <= 2 then inf else
    block([nC : listify(setdifference(Fto, Ffrom))],
     return(sum(wf(length(nC[i])),i,1,length(nC))))))$
+
+/* Just the number of new clauses of length k */
+n_newclauses(k) := buildq([k], lambda([Ffrom,Fto],
+  length(setdifference(scls_k(Fto,k), scls_k(Ffrom,k)))))$
 
 
 /* ***************
