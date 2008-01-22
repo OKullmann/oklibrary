@@ -32,14 +32,38 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
    n=0, i.e., the empty list, represents the trivial tree).
 */
 
-/* removes the labelling from a labelled tree */
-remove_labels_tree(T) := makelist(remove_labels_tree(T[i]),i,2,length(T))$
-
-/* counts the number of nodes in an unlabelled tree */
+/* the number of nodes in an unlabelled tree */
 nnds(T) := 1+sum(nnds(T[i]),i,1,length(T))$
 
 /* the number of leaves in an unlabelled rooted tree */
 nlvs(T) := if T = [] then 1 else sum(nlvs(T[i]),i,1,length(T))$
+
+/* A "node representation" for an unlabelled rooted tree is a list
+   of natural numbers (>= 1) representing the path from the root
+   to the node. */
+
+/* the set of "leaves" of an unlabelled tree */
+lvs(T) := if emptyp(T) then {[]} else
+  apply(union,
+    makelist(
+      map(lambda([p], cons(i,p)), lvs(T[i])),
+      i,1,length(T)))$
+
+/* the set of "nodes" of an unlabelled tree */
+nds(T) := union({[]}, apply(union,
+  makelist(
+    map(lambda([p], cons(i,p)), nds(T[i])),
+    i,1,length(T))))$
+
+/* the subtee of unlabelled tree T at node (representation) p */
+subtree(T,p) := if p = [] then T else
+  subtree(T[p[1]], rest(p))$
+
+/* the successor nodes (i.e., representations) of node (representation) p
+   in unlabelled tree T */
+dst(T,p) := block([S : subtree(T,p)],
+  setify(makelist(endcons(i,p),i,1,length(S))))$
+
 
 /* the height of an unlabelled tree */
 height(T) := if T = [] then 0 else
@@ -66,6 +90,9 @@ levelled_height(T) := if T = [] then 0 else block(
    [L, T_1, ..., T_n], n >= 0, where L is the label, and the T_i
    are the subtrees.
 */
+
+/* transforms a labelled into an unlabelled tree by removing the labels */
+l2ult(T) := makelist(l2ult(T[i]),i,2,length(T))$
 
 /* number of nodes in a labelled rooted tree */
 nnds_l(T) := if length(T) = 1 then 1 else 1+sum(nnds_l(T[i]),i,2,length(T))$
