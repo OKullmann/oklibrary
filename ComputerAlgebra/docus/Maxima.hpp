@@ -13,7 +13,7 @@ License, or any later version. */
   <h1> Maxima/Lisp in the OKlibrary </h1>
 
 
-  <h2> Usage </h2>
+  <h2> Configuration </h2>
 
   <ul>
    <li> Via <code>oklib --maxima</code> (see
@@ -54,10 +54,19 @@ License, or any later version. */
   </ul>
 
 
-  <h2> General principles </h2>
+  <h2> Usage </h2>
 
   <ul>
    <li> For a tutorial see ComputerAlgebra/docus/MaximaTutorial.hpp. </li>
+  </ul>
+
+
+  <h2> Overviews </h2>
+
+  <ul>
+   <li> %Graphs : ComputerAlgebra/Graphs/Lisp/docus/general.hpp </li>
+   <li> Satisfiability : ComputerAlgebra/Satisfiability/Lisp/docus/general.hpp
+   </li>
   </ul>
 
 */
