@@ -97,9 +97,6 @@ License, or any later version. */
 
   \todo Doxygen menu and main page review
   <ul>
-   <li> On the main page the link list shows now the full name (with doxygen version
-   1.5.4) in front of the page name (like "Class List"): How do we get back the
-   old behaviour, which only shows the page name? </li>
    <li> Sorting of file/directory lists should distinguish between capital and small
    first letters (as it is possible with Unix/Linux), so that "plans" etc. comes at the end.
    </li>
@@ -112,6 +109,11 @@ License, or any later version. */
      just as plain text files, without any special formatting). </li>
    <li> The page "Module versions" should be sortable by version numbers (to see the most
    mature modules). Or how else can we (automatically) display the levels of development? </li>
+   <li> DONE (doxygen_project_name now only contains the name, not the
+   version number)
+   On the main page the link list shows now the full name (with doxygen version
+   1.5.4) in front of the page name (like "Class List"): How do we get back the
+   old behaviour, which only shows the page name? </li>
   </ul>
 
 

@@ -7,7 +7,8 @@
 
 # Specific settings for the doxygen system
 
-doxygen_project_name ?= "OKlibrary:Transitional (version $(transitional_version))"
+doxygen_project_name ?= "OKlibrary:Transitional"
+doxygen_project_number_okl ?= $(transitional_version)
 
 doxy_file_template ?= $(OKconfiguration)/Html/Doxyfile
 doxy_file ?= $(aux_dir)/Doxyfile
@@ -20,4 +21,6 @@ OKlibrary_html_documentation_index_location ?= $(doxygen_html_dir)/index.html
 
 doxygen-parameters ?= 
 Doxygen_modifier ?= 2> $(doxygen_error_messages)
+
+doxygen_footer_file_okl ?= $(OKconfiguration)/Html/doxygen_footer.html
 
