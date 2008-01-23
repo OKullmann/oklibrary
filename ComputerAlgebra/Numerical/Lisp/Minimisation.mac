@@ -1,0 +1,54 @@
+/* Oliver Kullmann, 23.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Numerical/Lisp/Minimisation.mac
+  \brief Minimisation of arbitrary functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* ******************************
+   * Constraint minimisation    *
+   ******************************
+*/
+
+/* Given a function f in n arguments and a list "bounds" of length n with
+   elements [xi_begin, xi_end], run through all x-values where each
+   interval is devided into N parts, and determine the minimum amongst
+   all function-values.
+   Returns a pair [f(x_min), x_min].
+
+  Assumes that no function "f8765" has been defined.
+*/
+min_scanning(f8765, bounds, N) := block([n : length(bounds)],
+  if n = 0 then return([apply(f8765,[]),[]]),
+  block([begin : bounds[1][1], end : bounds[1][2], cur_min : inf, delta, best],
+   delta : (end - begin) / N,
+   for x : begin thru end step delta do block(
+    [val : min_scanning(
+             buildq([x,f8765],lambda([[y]],apply(f8765,cons(x,y)))), 
+             rest(bounds), 
+             N)],
+     if val[1] < cur_min then (
+       cur_min : val[1], best : cons(x, val[2])
+     )
+   ),
+  return([cur_min, best])))$
+  
+
+/*!
+\endhtmlonly
+*/
+
