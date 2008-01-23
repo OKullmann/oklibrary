@@ -294,7 +294,7 @@ collapse_inf_branches(T,m) := block(
     if length(inf_ind) = l-2 then (
       other : listify(setdifference(setmn(1,l-1),setify(inf_ind)))[1],
       T : T[1+other],
-      return(collapse_inf_branches(NT,m)))
+      return(collapse_inf_branches(T,m)))
   ),
   return(cons(T[1], makelist(collapse_inf_branches(T[i],m),i,2,l))))$
 
