@@ -47,5 +47,12 @@ License, or any later version. */
    symmetries, and Gap is the real tool here. </li>
   </ul>
 
+
+  \todo Proof systems
+  <ul>
+   <li> We need a dedicated module for proof systems. </li>
+   <li> See Satisfiability/ProofSystems/plans/general.hpp. </li>
+  </ul>
+
 */
 
