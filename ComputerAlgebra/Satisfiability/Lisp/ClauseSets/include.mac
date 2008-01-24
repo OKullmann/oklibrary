@@ -25,6 +25,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hyper
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/MinimalUnsatisfiable.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Conflicts.mac");
 
 /*!
 \endhtmlonly
