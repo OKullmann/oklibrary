@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Transitional/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.6 (19.1.2008)
+  \module_version Transitional/Satisfiability 0.1.0.7 (19.1.2008)
 
 
   \par Version 0.1.1
@@ -18,6 +18,9 @@ License, or any later version. */
 
   \par Satisfiability/Interfaces version 0.0.6
   (see Satisfiability/Interfaces/plans/milestones.hpp)
+
+  \par Satisfiability/Heuristics version 0.0.2 : DONE
+  (see Satisfiability/Heuristics/plans/milestones.hpp)
 
   \par Satisfiability/FiniteFunctions 0.0.3 : DONE
   (see Satisfiability/FiniteFunctions/plans/milestones.hpp)

@@ -17,7 +17,7 @@ License, or any later version. */
     <ol>
      <li> Enumeration : DONE </li>
      <li> FiniteFunctions : DONE </li>
-     <li> Heuristics </li>
+     <li> Heuristics : DONE </li>
      <li> Optimisation </li>
      <li> ProofSystems </li>
      <li> Quantification </li>
