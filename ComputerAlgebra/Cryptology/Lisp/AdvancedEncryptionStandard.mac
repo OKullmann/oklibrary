@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/OKsystem/Transitional/ComputerAlgebra/Cryptology/AES.mac");
+oklib_load("Transitional/OKsystem/Transitional/ComputerAlgebra/Cryptology/AdvancedEncryptionStandard.mac");
 
 */
 
@@ -27,6 +27,7 @@ load(gf)$
 */
 
 rijndael_affine_constant : x^6 + x^5 + x + 1$
+/* REMARK : What is "x" ??? */
 
 rijndael_sbox_matrix : matrix(
                         [1,1,1,1,1,0,0,0],
@@ -37,37 +38,58 @@ rijndael_sbox_matrix : matrix(
                         [1,1,0,0,0,1,1,1],
                         [1,1,1,0,0,0,1,1],
                         [1,1,1,1,0,0,0,1])$
+/* REMARK : Since this matrix has a regular structure, it should be
+produced by a general function. */
 
 rijndael_polynomial : x^8+x^4+x^3+x+1 $
+/* REMARK : Explain the special property! */
+
+/* REMARK : The above definitions should be accompanied by the
+sbox-definition --- since this is their meaning! */
 
 rijndael_mixcolumns_matrix : matrix (
         [x, x + 1, 1, 1], 
         [1, x, x + 1, 1],
         [1, 1, x, x + 1],
         [x + 1, 1, 1, x])$
+/* REMARK : Explain! Likely best also accompanied by its use! */
+/* REMARK : Since this matrix has a regular structure, it should be
+produced by a general function (namely the same as used above!):
+cyclic_matrix(first_row, shift left or shift right, number of shifts),
+cyclic_sqmatrix(...). */
+
 
 rijndael_bit_field : [2,1,[x]]$
+/* REMARK : Explain! */
 
 rijndael_byte_field : [2,8,rijndael_polynomial]$
+/* REMARK : Explain! */
 
 rijndael_shiftrows_shifts : [0,1,2,3]$
+/* REMARK : Explain */
 
 
 /* ***************************************
    * Helper Functions                    *
    ***************************************
 */
+/* REMARK : We shouldn't have a section with "useless stuff":
+Auxiliary functions either directly accompany their main user, or are
+not just "helper functions". */
 
 polynomial2bitvector(poly) := 
   matrix([coeff(poly, x, 7)],[coeff(poly,x, 6)],[coeff(poly, x, 5)],
     [coeff(poly, x, 4)],[coeff(poly, x, 3)],[coeff(poly, x, 2)],
     [coeff(poly, x, 1)],[coeff(poly, x,0)])$
+/* REMARK : Obviously, this needs an algorithm. */
 
 bitvector2polynomial(byte) := 
   byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
   + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]$
+/* REMARK : Obviously, this needs an algorithm. */
 
 /* List Processing */
+/* REMARK : Should go elsewhere (module Lists). */
 
 /* Returns a list of n (or less if len(l) < n) elements from the beginning of l */
 take(l,n) := rest(l,-max(length(l)-n,0))$
@@ -101,11 +123,19 @@ matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
    ***************************************
 */
 
+/* REMARK : This should go to module Algebra. */
+
 /* It appears you can not overload functions with different arities
    and so the gf_* functions have been prefixed with an 'e' for 
    extended. These functions perform the same duty as their gf_*
    counterparts but requ ???
  */
+/* REMARK : Such remarks should not stay in implementation files, but
+should go to plans-files. */
+
+/* REMARK : We need documentation (as docus) on gf and these functions. */
+
+/* REMARK : Each of the following function needs a specification! */
 
 egf_add(field, a,b) := (
   gf_set(field[1],field[2],field[3]),
@@ -123,22 +153,28 @@ egf_inv(field, a) := (
   gf_set(field[1],field[2],field[3]),
   gf_inv(a))$
 
+/* REMARK : Setting the byte-field is cumbersome. Setting the field should
+also be provided, and used appropriately. */
+
 
 /* ***************************************
    * Main Round Functions                *
    ***************************************
 */
 
+/* REMARK : SPECIFICATION NEEDED! */
+
 sbox(byte) := 
   block([invbyte,result],
   if byte = 0 then 
     rijndael_affine_constant
-  else (
+  else block([invbyte,result],
     invbyte : egf_inv(rijndael_byte_field,byte),
     result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
       polynomial2bitvector(invbyte)),
-    egf_add(rijndael_byte_field, bitvector2polynomial(result),
+    return(egf_add(rijndael_byte_field, bitvector2polynomial(result),
       rijndael_affine_constant)))$
+/* REMARK : We should set the field only once. */
 
 subbytes(inputblock) := map(sbox, inputblock)$
 
@@ -147,10 +183,9 @@ subbytes(inputblock) := map(sbox, inputblock)$
    performs the shiftrows operation, returning the resulting
    block as a list of GF(2^8) elements.
 */
-shiftrows(inputblock) := block([r],
-  list_rows : partition(inputblock,4),
+shiftrows(inputblock) := block([list_rows : partition(inputblock,4)],
   matrix2list (
-    create_list(rotate_left(list_rows[r+1],r), r, rijndael_shiftrows_shifts)))$
+    makelist(rotate_left(list_rows[r+1],r), r, rijndael_shiftrows_shifts)))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -169,6 +204,7 @@ mixcolumns(inputblock) :=
    This needs reworking as it should follow the same scheme as other functions
    to take a list and produce a list.
 */
+/* REMARK: Plans should be moved to the plans-file. */
 
 /* ??????????????????? b,c,d are not used ??????? */
 keysch(km,r) := 
@@ -187,15 +223,19 @@ keysch(km,r) :=
             gf_add(gf_add(gf_add(a,km[3][2]),km[3][3]),km[3][4])],
           [a, gf_add(a,km[4][2]), gf_add(gf_add(a,km[4][2]),km[4][3]), 
             gf_add(gf_add(gf_add(a,km[4][2]),km[4][3]),km[4][4])] ))$
+/* REMARK: Here, in contrast to the above, the field is not set explicitely
+at all! */
 
 /* Takes the plaintext list of GF(2^8) elements and the 
- * round key for this round as a list of GF(2^8) elements and
+ * round key for this round as a list of GF(2^8) elements, and
  * returns a list of the same size of GF(2^8) elements as the plaintext
  * as the result of the round operation. 
  */
 round(pl, rkl) := 
   map_rel(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
     mixcolumns(shiftrows(subbytes(pl))), rkl)$
+
+/* REMARK: Where is the aes-function??? */
 
 /*!
 \endhtmlonly
