@@ -1,0 +1,61 @@
+/* Oliver Kullmann, 25.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac
+  \brief Inclusion file for Maxima functions regarding quadratic forms and symmetric bilinear forms
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* Auxiliary function: Find an element in a symmetric matrix which is largest 
+   with respect to its absolute value, where diagonal elements are preferred.
+   Return the index-pair. Assumes the matrix is non-empty. */
+pivot_d(M) := block([A : abs(M), m : matrix_size(M)[1], l, il : 1, jl : 1, a],
+  l : A[il,jl],
+  for i : 2 thru m do (a : A[i,i], if a > l then (l : a, il : i, jl : i)),
+  for i : 1 thru m-1 do for j : i+1 thru m do
+    (a : A[i,j], if a > l then (l : a, il : i, jl : j)),
+  return([il,jl]))$
+
+/* For a symmetric real matrix M compute [index of positivity, index of
+  negativity, index of nullity]. */
+pnn_indices(M) := block([m : matrix_size(M)[1], pi, pj, s, res],
+  if m = 0 then return([0,0,0]),
+  [pi,pj] : pivot_d(M),
+  if [pi,pj] # [1,1] then (
+    M : rowswap(M,1,pi), M : columnswap(M,1,pi),
+    if pi # pj then (
+      M : columnop(M,1,pj,-1), M : rowop(M,1,pj,-1)
+    )),
+  s : sign(M[1,1]),
+  if s # zero then (
+    for i : 2 thru m do block([a : M[1,i] / M[1,1]],
+      M : rowop(M,i,1,a), M : columnop(M,i,1,a))),
+  M : minor(M,1,1),
+  res : pnn_indices(M),
+  if s = zero then return(res + [0,0,1])
+  elseif s = pos then return(res + [1,0,0])
+  else return(res + [0,1,0]))$
+
+/* The hermitian rank of a symmetric real matrix */
+hermitean_rank(M) := block([pnn : pnn_indices(M)],
+  max(pnn[1],pnn[2]))$
+
+/* The hermitian defect of a symmetric real matrix */
+hermitean_def(M) := matrix_size(M)[1] - hermitean_rank(M)$
+
+/*!
+\endhtmlonly
+*/

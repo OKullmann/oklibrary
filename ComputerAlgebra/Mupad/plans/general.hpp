@@ -34,7 +34,11 @@ License, or any later version. */
   <ul>
    <li> Mupad/Design.mup : Just the incidence matrix of the Fano plane. </li>
    <li> Mupad/Hilfsfunktionen.mup : Various general functions </li>
-   <li> Mupad/Orthogonal.mup : others than above </li>
+   <li> Mupad/Orthogonal.mup : others than above
+    <ol>
+     <li> PNNIndices, herm, hermdef, kernKV, hermdefKV : DONE </li>
+    </ol>
+   </li>
    <li> Mupad/SATCounting.mup : Precise calculations of satisfiability
    probabilities in the standard random-formula model (constant density) </li>
    <li> Mupad/TestenFormelGenAES.mup : Testing the random clause-set

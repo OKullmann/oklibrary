@@ -1,0 +1,35 @@
+/* Oliver Kullmann, 25.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac
+  \brief Demonstration for quadratic forms and symmetric bilinear forms
+
+Use by
+
+?? oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
+
+/* The hermitean defect of the squares matrices M_n of order n with zeros on
+   the diagonal and 1 elsewhere is 1. */
+
+M(n) := 1+zeromatrix(n,n)-ident(n);
+/* We have M(n) = adjacency_matrix(complete_graph(n)). */
+
+hermitean_def(M(20)); /* 1 */
+
+/*!
+\endhtmlonly
+*/
+

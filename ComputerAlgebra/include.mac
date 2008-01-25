@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/include.mac");
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/include.mac");
 
 /*!
 \endhtmlonly
