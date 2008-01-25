@@ -31,14 +31,14 @@ min_unsat_bydef(FF, solver) := not solver(FF) and
    of clause-set F; uses sat-solver S */
 min_size_mus_bydef(F, S) := if S([var_cs(F),F]) then inf else
  block([k : 0, scls : {}],
-  while every(\lambda([G], S([var_cs(G),G])), scls) do (
+  while every(lambda([G], S([var_cs(G),G])), scls) do (
    k : k+1, scls : powerset(F, k)),
  return(k))$
 
 /* Decides whether clause-set F contains a (minimally) unsatisfiable 
    sub-clause-set of size at most k; uses sat-solver S */
 contains_us_bydef(F, k, S) := 
- not every(\lambda([G], S([var_cs(G),G])), powerset(F,k))$
+ not every(lambda([G], S([var_cs(G),G])), powerset(F,k))$
 
 
 /*!
