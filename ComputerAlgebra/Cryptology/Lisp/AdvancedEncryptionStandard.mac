@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/AdvancedEncryptionStandard.mac
-  \brief Implementing AES and generalisations
+  \brief Implementing AES (Rijndael) and generalisations
 
 Use by
 
@@ -26,8 +26,9 @@ load(gf)$
    ***************************************
 */
 
+kill(x)$
 rijndael_affine_constant : x^6 + x^5 + x + 1$
-/* REMARK : What is "x" ??? */
+/* REMARK : document "x"; something else??? */
 
 rijndael_sbox_matrix : matrix(
                         [1,1,1,1,1,0,0,0],
@@ -104,6 +105,7 @@ partition(l,n) := if emptyp(l) then [] else
 rotate_left(l,n) := 
   if n <= 0 or l = [] then l
   else rotate_left(append(rest(l), [first(l)]), n-1)$
+/* REMARK : "n <= 0" needed? */
 
 /* Takes a two parameter function f and two lists 'a' and 'b',
    and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
@@ -113,6 +115,7 @@ rotate_left(l,n) :=
 map_rel(f,a,b) := block([m : min(length(a),length(b))],
   if m < length(a) then a : take(a,m) elseif m < length(b) then b : take(b,m),
   map(f,a,b))$
+/* REMARK : relaxed needed ?? */
 
 /* Flattens a matrix or list into a list of the elements, row by row */
 matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$

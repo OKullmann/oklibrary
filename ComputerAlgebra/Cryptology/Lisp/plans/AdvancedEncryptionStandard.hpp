@@ -96,8 +96,8 @@ License, or any later version. */
      key generation where each round key is just the result of the key generation
      on the last round key, whereas asymetric sizes such as 192bit plaintext and a
      128bit key means you will have to use parts of the previous two round keys. </li>
-     <li>  This seems to be done with an expanded key which is a large array/list of round keys in Design of
-     Rijndael. </li>
+     <li>  This seems to be done with an expanded key which is a large array/list
+     of round keys in Design of Rijndael. </li>
     </ol>
    </li> 
    <li> How to pass data around and represent field elements ?
@@ -161,12 +161,13 @@ License, or any later version. */
      determining the amount to shift/rotate by for each list/row by looking at the length
      of the input list.
      </li>
-     <li> The Key Scheduling operation could simply take a list of GF(2) elements convert this
-     to a list of GF(2^8) elements and perform the key schedule repeatedly in an iterative or
-     recursive manner to produce the expanded key, for which the algorithm is relatively 
-     simple and described in Design of Rijndael and in various other places, returning an 
-     expanded key (list of GF(2) elements) of size of r+1 times the block size, which the 
-     individual round keys can then be extracted from using a helper function. </li>
+     <li> The Key Scheduling operation could simply take a list of GF(2) elements
+     convert this to a list of GF(2^8) elements and perform the key schedule
+     repeatedly in an iterative or recursive manner to produce the expanded key,
+     for which the algorithm is relatively simple and described in Design of
+     Rijndael and in various other places, returning an expanded key (list
+     of GF(2) elements) of size of r+1 times the block size, which the individual
+     round keys can then be extracted from using a helper function. </li>
      <li> It seems that defining such operations as operations on matrices provides the 
      most clear representation of each round function. The question of how to 
      parameterise such an implementation, may be addressed by parameterising
