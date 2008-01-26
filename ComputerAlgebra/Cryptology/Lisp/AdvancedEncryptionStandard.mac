@@ -176,7 +176,7 @@ sbox(byte) :=
     result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
       polynomial2bitvector(invbyte)),
     return(egf_add(rijndael_byte_field, bitvector2polynomial(result),
-      rijndael_affine_constant)))$
+      rijndael_affine_constant))))$
 /* REMARK : We should set the field only once. */
 
 subbytes(inputblock) := map(sbox, inputblock)$
