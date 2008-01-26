@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Debugging
   <ul>
    <li> Again and again it happens that somehow the Lisp-debugger is entered,
-   and apparently there is NO ESCAPTE (":top" apparently should be the escape,
+   and apparently there is NO ESCAPE (":top" apparently should be the escape,
    but doesn't work). </li>
    <li> How to disable the debugger ?? </li>
   </ul>
@@ -39,7 +39,12 @@ License, or any later version. */
   \todo %Test system
   <ul>
    <li> This needs to be established now! </li>
-   <li> Ask on the Maxima mailing list, whether they have a system in use. </li>
+   <li> Ask on the Maxima mailing list, whether they have a system in use.
+    <ol>
+     <li> Apparently, they only have a system where they put expressions and expected
+     values into files. That's insufficient. </li>
+    </ol>
+   </li>
    <li> Similar to the C++ test-system, we have generic test functions,
    which take as argument the function to be tested. </li>
    <li> Likely only functions are to be tested. </li>
@@ -107,7 +112,8 @@ License, or any later version. */
        than "backtrace". </li>
       </ul>
      </li>
-     <li> There is a global variable for the test-level. </li>
+     <li> There is a global variable "test_level" for the test-level. </li>
+     <li> And perhaps also "log_level". </li>
      <li> Since we don't have namespaces, we need naming-conventions.
      Perhaps "testokl_" as generic prefix. </li>
      <li> Each test-function has one argument, the function to be tested. </li>
@@ -124,11 +130,28 @@ License, or any later version. */
      <li> "Contexts" seem just to refer to "facts" etc. It could be that
      a special environment is needed, with special variables and functions
      defined; but again this should be provided by the testobject. </li>
+     <li> Preparing the environment:
+      <ol>
+       <li> Since we run the test with a fresh Maxima, we don't need to use
+       "kill(all)" at the beginning. </li>
+       <li> However we should have the possibility to run the tests several times,
+       to see whether there are harmful side-effects. </li>
+       <li> So all "main" functions of the OKlibrary shouldn't change the global
+       environment (these "main" functions include all test-functions; perhaps
+       "main" here means "testable"). </li>
+      </ol>
+     </li>
      <li> As usual all testobjects for the calling directory level are
      executed. </li>
      <li> Likely we should not provide a mechanism for running only tests when
-     needed (too complicated). Just run always all respective tests (and "basic"
-     tests really should run quickly). </li>
+     needed (too complicated).
+      <ol>
+       <li> Just run always all respective tests (and "basic"
+       tests really should run quickly). </li>
+       <li> But, as usual, only those belonging to the current directory
+       level. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
@@ -189,6 +212,15 @@ License, or any later version. */
    <li> Can everything done with "block" ? </li>
    <li> How to obtain information about symbols (so that for example clashes
    can be avoided) ? </li>
+  </ul>
+
+
+  \todo Global variables
+  <ul>
+   <li> Under "reset" there is some Maxima-information about global variables.
+   Unclear whether we should use this. </li>
+   <li> See "Variables" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp. </li>
   </ul>
 
 

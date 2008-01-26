@@ -19,6 +19,8 @@ License, or any later version. */
 
   \todo Variables
   <ul>
+   <li> Compare "Global variables" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
    <li> Is the new scheme (using in functions "php_var(i,j)" instead
    of "php(i,j)", where php_var(i,j) := nounify(php)(i,j), now right?
    Why didn't the old scheme work?? (It kept a memory for the created
