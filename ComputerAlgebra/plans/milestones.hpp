@@ -28,9 +28,13 @@ License, or any later version. */
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - Debugging
     - Documentation
-    - %Test system
     - Handling of demos
     - New module "Trees" : DONE
+
+  \par
+   In ComputerAlgebra/TestSystem/Lisp/plans/general.hpp the following topics
+   are handled:
+    - %Test system
 
   \par
    Update the following milestones.
