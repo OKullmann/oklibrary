@@ -56,6 +56,10 @@ comp_sl(L) := map(lambda([l], -l), L)$
  C and comp_sl(C) have empty intersection.
 */
 
+/* Tests whether two literal sets contain a clashing literal. */
+clashp(A,B) := not emptyp(intersection(A,comp_sl(B)))$
+
+/* The set of variables in a clause */
 var_c(C) := map(var_l, C)$
 
 /*
@@ -82,6 +86,21 @@ cs_to_fcs(F) := [var_cs(F), F]$
 
 /* complementation (literal-wise) of a clause-set */
 comp_cs(F) := map(comp_sl, F)$
+
+
+/* ************************************
+   * Representing boolean clause-sets *
+   ************************************
+*/
+
+/* The clause-variable matrix of a formal clause-set (as a combinatorial
+   matrix) */
+cvcom(FF) := [FF[2], FF[1], lambda([C,v],
+ block([i : intersection(C, {v,-v})],
+  if emptyp(i) then return(0)
+  elseif i = {v} then return(+1)
+  else return(-1)))]$
+
 
 
 /* ************

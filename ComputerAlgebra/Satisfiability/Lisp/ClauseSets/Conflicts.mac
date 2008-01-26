@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Conflicts.mac
-  \brief Functions related tot the conflict-combinatorics of clause-sets
+  \brief Functions related to the conflict-combinatorics of clause-sets
 
 Use by
 
@@ -23,22 +23,45 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
 
-/* The clause-variable matrix of a formal clause-set (as a combinatorial
-   matrix) */
-cvcom(FF) := [FF[2], FF[1], lambda([C,v],
- block([i : intersection(C, {v,-v})],
-  if emptyp(i) then return(0)
-  elseif i = {v} then return(+1)
-  else return(-1)))]$
+
+/* *****************
+   * Constructions *
+   *****************
+*/
 
 /* The conflict-matrix (as a square combinatorial matrix) of a clause-set */
 cm_cs(F) := [F, lambda([C,D], length(intersection(C,comp_sl(D))))]$
+
+/* The conflict-graph of a clause-set */
+cg_cs(F) := [F, subset(powerset(F,2),lambda([S], 
+  block([L:listify(S)], return(clashp(L[1],L[2])))))]$
+/* cg_cs(F) = com2g(cm_cs(F)) */
+
+
+/* *********
+   * Tests *
+   *********
+*/
+
+/* Tests whether a clause-set is a hitting clause-set */
+hittingcsp(F) := block([l : length(F), L : listify(F), break : false],
+  for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
+    if not clashp(L[i], L[j]) then break : true,
+  return(not break))$
+/* hittingcsp(F) = completegrp(cg_cs(F)) */
+
+
+/* ************
+   * Measures *
+   ************
+*/
 
 /* The hermitean rank of a boolean clause-set F */
 hermitean_rank_cs(F) := hermitean_rank(scom2m(cm_cs(F)))$
 
 /* The hermitean defect of a boolean clause-set F */
 hermitean_defect_cs(F) := ncl_cs(F) - hermitean_rank_cs(F)$
+
 
 /*!
 \endhtmlonly

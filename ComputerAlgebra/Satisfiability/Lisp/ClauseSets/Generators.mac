@@ -232,6 +232,9 @@ nlitocc_strong_sdk(p) := block([L : ncl_list_strong_sdk(p)],
  of size k */
 VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], 
   [G[1], union(G[2], comp_cs(G[2]))])$
+/* VanDerWaerden2_cs_f(k,n) is isomorphic to 
+   tcol2sat(ArithmeticProgressions(k,n). */
+
 
 output_VanDerWaerden2_cs_f(k,n,filename) := 
   output_cs_f(
