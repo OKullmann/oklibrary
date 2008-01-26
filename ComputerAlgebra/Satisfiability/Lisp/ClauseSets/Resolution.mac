@@ -32,6 +32,10 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* checks whether two clauses are resolvable */
 resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1)$
 
+/* Checks whether two clauses are resolvable and that the resolvent subsumes 
+   the two parents */
+two_subsumption_resolvable(C,D) := resolvable(C,D) and is(length(symmdifference(C,D)) = 2)$
+
 /* the resolution literal of two resolvable clauses */
 resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1]$
 
@@ -76,8 +80,18 @@ resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
  return(setify(R)))$
 /* resolvable_cs(F) = subset(powerset(F,2), resolvable_s) */
 
+/* the two_subsumption_resolvable 2-sets of a clause-set */
+two_subsumption_resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
+ for i : 1 thru l-1 do block([C : LF[i]],
+  for j : i+1 thru l do
+   if two_subsumption_resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
+ return(setify(R)))$
+
 /* all resolvents of a clause-set */
 resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
+
+/* all 2_subsumption_resolvents of a clause-set */
+two_subsumption_resolvents_cs(F) := map(resolvent_s, two_subsumption_resolvable_cs(F))$
 
 /* adds all resolvents to a clause-set */
 add_resolvents_cs(F) := union(F, resolvents_cs(F))$
@@ -108,6 +122,16 @@ min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : 
   ),
   return([nF, history]))$
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
+
+full_cs_min_resolution_closure_cs(F) := block([IF : [], CI : F, PI : {}, N : length(var_cs(F)) ],
+ for i : N step -1 thru 1 do block(
+    PI : CI,
+    CI : two_subsumption_resolvents_cs(PI),
+    PI : setdifference(min_elements(union(CI,PI)), CI),
+    IF : cons(PI,IF)
+ ),
+ IF : cons(PI,IF),
+ return(apply(union, IF)))$
 
 
 /* *****************
