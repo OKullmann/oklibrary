@@ -65,6 +65,9 @@ License, or any later version. */
    </li>
    <li> <code>--maxima</code> (configures and calls Maxima; see
    ComputerAlgebra/docus/Maxima.hpp) </li>
+   <li> <code>--R</code> (calls R, currently in "vanilla"-version
+   (all special configurations disabled; see
+   Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp). </li>
    <li> <code>--create-package</code> calls the ReleaseProcess makefile
    with trailing arguments, creating three packages in the directory given by
    variable packages_dir (current value is <code>$(packages_dir)</code>),

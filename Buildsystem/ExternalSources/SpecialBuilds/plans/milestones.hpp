@@ -8,14 +8,19 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.2 (4.1.2008)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.3 (26.1.2008)
 
 
-  \par Version 0.2.2 (documentation and Maxima)
+  \par Version 0.2.2 (documentation, and mathematical packages)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
     - Documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
+    - R-documentation : DONE
+    - Documentation-page : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
@@ -110,10 +115,6 @@ License, or any later version. */
     - Gcc
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
-    - R-documentation
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
    topics are handled:
     - Building Ubcsat
@@ -124,6 +125,12 @@ License, or any later version. */
    topics are handled:
     - Missing pgsql/libpq-fe.h
     - Improvements
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
+    -  Packages
+    - Improving the docus-page
+    - Building dvi,pdf,info-documentation
 
 
   \par Version 0.2.7 (new external sources for computer algebra and graphs)

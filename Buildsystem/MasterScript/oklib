@@ -11,7 +11,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.4
+version=0.1.0.5
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -68,6 +68,14 @@ if [[ $1 == "--maxima" ]]; then
   ${command}
   exit
 fi
+
+if [[ $1 == "--R" ]]; then
+  shift
+  command="make --makefile=${buildsystem_dir}/MasterScript/SpecialProcessing/call_R.mak OKplatform=${top_dir} $*"
+  ${command}
+  exit
+fi
+
 
 oklib_building_log=${anchor_dir}/log/OKlibBuilding
 external_sources_log=${anchor_dir}/log/ExternalSources

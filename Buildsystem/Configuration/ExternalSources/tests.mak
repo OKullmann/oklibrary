@@ -267,26 +267,24 @@ postgresql_html_documentation_index_location_tag ?= <a href="$(postgresql_html_d
 # New variables for the configuration of building R (to be designed 
 # and implemented):
 
-R_call ?= R
-
-R_version_number_extraction := awk '/ [0-9]\.[0-9]\.[0-9]/{print $$3}'
+R_version_number_extraction_okl := awk '/ [0-9]\.[0-9]\.[0-9]/{print $$3}'
 # assumes that the output of "R --version" contains a line of the form
 # (for example) "R version 2.5.0 (2007-04-23)"
 
-location_R_call ?= $(shell (type -P $(R_call)))
-ifeq ($(location_R_call),)
-  R_call_ready ?= NO
+location_R_call_okl ?= $(shell (type -P $(R_call_okl)))
+ifeq ($(location_R_call_okl),)
+  R_call_ready_okl ?= NO
 else
-  version_R_call ?= $(shell $(R_call) --version | $(R_version_number_extraction))
-  ifeq ($(version_R_call),$(R_recommended_version_number))
-    R_call_ready ?= YES
+  version_R_call_okl ?= $(shell $(R_call_okl) --version | $(R_version_number_extraction_okl))
+  ifeq ($(version_R_call_okl),$(R_recommended_version_number_okl))
+    R_call_ready_okl ?= YES
   else
-    R_call_ready ?= MAYBE
+    R_call_ready_okl ?= MAYBE
   endif
 endif
 
 # the following construction needs to be generalised by some function
-R_html_documentation_index_location_tag ?= <a href="$(R_html_documentation_index_location)">$(R_html_documentation_index_location)</a>
+R_html_documentation_index_location_tag_okl ?= <a href="$(R_html_documentation_index_location_okl)">$(R_html_documentation_index_location_okl)</a>
 
 
 # New variables for the configuration of building clisp (to be designed 

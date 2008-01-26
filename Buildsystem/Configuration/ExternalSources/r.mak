@@ -1,5 +1,5 @@
 # Oliver Kullmann, 26.7.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,21 +7,41 @@
 
 # Settings for building and using R
 
-R_recommended_version_number ?= 2.5.0
-R_supported_not_recommended_version_numbers ?= 
-R_supported_version_numbers ?= $(R_supported_not_recommended_version_numbers) $(R_recommended_version_number)
+R_recommended_version_number_okl ?= 2.6.1
+R_supported_not_recommended_version_numbers_okl ?= 2.5.0
 
-R_prefix ?= R
+R_prefix_okl ?= R
 
-R_base_directory ?= $(ExternalSources)/R
+R_targets_prefix_okl := $(R_prefix_okl)-
+R_recommended_okl := $(R_targets_prefix_okl)$(R_recommended_version_number_okl)
+R_source_dir_okl := $(ExternalSources)/sources/R/$(R_recommended_okl)
 
-R_documentation_dir ?= $(ExternalSources_doc)/R
-R_html_documentation_index_location ?= $(R_documentation_dir)/doc/html/index.html
-R_docu_page ?= $(doc_dir)//doxygen_html/da/d4d/docus_2R_8hpp.html
+R_base_build_dir_okl ?= $(ExternalSources_builds)/R
+R_build_dir_okl ?= $(R_base_build_dir_okl)/$(R_recommended_okl)
 
-R_homepage_url := http://www.r-project.org/
-R_documentation_url := http://www.r-project.org/
+R_default_install_okl ?= local
+# other possibility: system
 
-R_targets_prefix := $(R_prefix)-
-R_targets := $(addprefix $(R_targets_prefix), $(R_supported_version_numbers))
-R_recommended := $(R_targets_prefix)$(R_recommended_version_number)
+R_base_installation_dir_okl ?= $(ExternalSources_installations)/R
+R_installation_dir_okl ?= $(R_base_installation_dir_okl)/$(R_recommended_version_number_okl)
+R_system_install_directory_okl ?= /usr/local
+ifeq ($(R_default_install_okl),local)
+  R_install_directory_okl ?= $(R_installation_dir_okl)
+  R_install_command_okl ?= make install
+  R_call_okl ?= $(R_installation_dir_okl)/bin/R
+else
+  R_install_directory_okl ?= $(R_system_install_directory)
+  R_install_command_okl ?= sudo make install
+  R_call_okl ?= R
+endif
+
+R_base_doc_dir_okl ?= $(ExternalSources_doc)/R
+R_doc_dir_okl ?= $(R_base_doc_dir_okl)/$(R_recommended_version_number_okl)
+R_html_documentation_index_location_okl ?= $(R_doc_dir_okl)/doc/html/index.html
+R_dvi_documentation_index_location_okl ?= 
+R_pdf_documentation_index_location_okl ?= 
+R_docu_page_okl ?= $(doc_dir)//doxygen_html/da/d4d/docus_2R_8hpp.html
+
+R_homepage_url_okl := http://www.r-project.org/
+R_documentation_url_okl := http://www.r-project.org/
+
