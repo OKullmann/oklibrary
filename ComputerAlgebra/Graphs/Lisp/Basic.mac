@@ -35,6 +35,16 @@ remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
 
 
+/* **********
+   * Tests  *
+   **********
+*/
+
+/* Tests whether a graph is complete */
+completegrp(G) := block([n : length(G[1]), m : length(G[2])],
+  is(binom(n,2) = m))$
+
+
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************

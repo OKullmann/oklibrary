@@ -92,6 +92,44 @@ splitting2resolution_tree_rel(st,phi,F) :=
 splitting2resolution_tree(st,F) := splitting2resolution_tree_rel(st,{},F)$
 
 
+/* Given a splitting tree (a tree whose inner nodes are labelled by boolean
+   variables), extract the corresponding "tree hitting clause-set" (which is
+   unsatisfiable iff the tree is complete; the "clause-set" contains a tautological 
+   clause (this for the CNF interpretation) iff a variable occurs twice on some 
+   path). */
+/* The unsatisfiable clause-sets without tautological clauses are exactly those
+   hitting clause-sets which have a read-once resolution refutation. */
+treehittingcls_st(T) := block([l : length(T), x : T[1], F0, F1],
+  if l = 1 then if T = [false] then {{}} else {} else (
+    F0 : map(lambda([C],adjoin(x,C)), treehittingcls_st(T[2])),
+    F1 : map(lambda([C],adjoin(-x,C)), treehittingcls_st(T[3])),
+    return(union(F0,F1))))$
+
+
+/* ***********************************
+   * Generators for splitting trees  *
+   ***********************************
+*/
+
+/* "Tree-variables": terms trv(path), where path is a path in a tree. */
+kill(trv)$
+declare(trv,noun)$
+declare(trv,posfun)$
+trv_var(v) := nounify(trv)(v)$
+
+/* The complete splitting tree of height k which is complete as tree and which has
+   different tree-variables at each inner node. */
+/* The corresponding tree-hitting clause-sets are exactly the saturated
+   minimally unsatisfiable clause-sets of deficiency 1; equivalently, exactly
+   the unsatisfiable regular hitting clause-sets. */
+complete_st_alldifferent(k) := complete_st_alldifferent_pref(k,[])$
+complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
+  [trv_var(prefix), 
+     complete_st_alldifferent_pref(k-1, cons(1,prefix)),
+     complete_st_alldifferent_pref(k-1, cons(2,prefix))]$
+  
+
+
 /* ***********************
    * r_k splitting trees *
    ***********************
