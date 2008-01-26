@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.2.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,15 @@ License, or any later version. */
 /*!
   \file TestSystem/plans/TestSystem.hpp
   \brief Plans for the test system (as a whole)
+
+  At the moment, the test system is in a patchy state due to several
+  interruptions and re-designs. However, basically the re-design is
+  over, and all what is needed is a clean-up, and instrumenting
+  the build-system to handle the new test-system correctly.
+
+
+  \todo Update the documentation.
+
 
   \todo Documentation:
    - especially the division of labour between the three streams,

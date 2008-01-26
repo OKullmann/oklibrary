@@ -10,25 +10,28 @@ License, or any later version. */
   \brief General plans for the Maxima test system
 
 
-  \todo %Test system
+  \todo Outline of the test system
   <ul>
-   <li> This needs to be established now! </li>
    <li> Ask on the Maxima mailing list, whether they have a system in use.
     <ol>
      <li> Apparently, they only have a system where they put expressions and expected
      values into files. That's insufficient. </li>
     </ol>
    </li>
-   <li> Similar to the C++ test-system, we have generic test functions,
-   which take as argument the function to be tested. </li>
-   <li> Likely only functions are to be tested. </li>
-   <li> So we could just use, as for the C++ test-system, sub-directories
-   "tests" and "testobjects", containing the generic test functions and the
-   test instantiations (i.e., expressions evaluating the test function on
-   the function to be tested), respectively.
+   <li> Compare with the C++ test system; see TestSystem/plans/TestSystem.hpp.
     <ol>
-     <li> Execution of the tests just means loading the testobjects-files.
-     <li> Or perhaps better, like with the C++ system, in the testobjects-files
+     <li> Similar to the C++ test-system, we have generic test functions,
+     which take as argument the function to be tested. </li>
+     <li> Likely only functions are to be tested. </li>
+     <li> So we could just use, as for the C++ test-system, sub-directories
+     "tests" and "testobjects", containing the generic test functions and the
+     test instantiations (i.e., expressions evaluating the test function on
+     the function to be tested), respectively. </li>
+    </ol>
+   </li>
+   <li> Execution of the tests:
+    <ol>
+     <li> Like with the C++ system, in the testobjects-files
      one finds instructions for loading the "testobjects" into a global list
      (provided via dynamic binding when running the tests).
       <ol>
@@ -40,13 +43,15 @@ License, or any later version. */
      </li>
      <li> The files in the "tests"-directories get loaded with oklib_load_all(),
      but not the testobjects-files. </li>
+     <li> But the mechanics of running tests (how to find out about errors,
+     how to get more precise information, etc.) is not clear yet. See
+     the next point about "Assert". </li>
     </ol>
    </li>
-   <li> Due to the simpler character of programming here, we just use
-   asserts for conditions and print error-messages.
+   <li> Asserts:
     <ol>
-     <li> But desirable if we establish a system a bit similar to the C++
-     system! This strengthens the design of the test-system. </li>
+     <li> As with the C++ system, we have some special "asserts" for conditions,
+     which also provide error-messages. </li>
      <li> Every test-function returns just true in case of success,
      while otherwise false is returned --- though the return value
      likely is not much of use, but the real output is the side

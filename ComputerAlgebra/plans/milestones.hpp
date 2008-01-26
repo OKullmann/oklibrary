@@ -34,7 +34,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/TestSystem/Lisp/plans/general.hpp the following topics
    are handled:
-    - %Test system
+    - Outline of the test system
 
   \par
    Update the following milestones.
