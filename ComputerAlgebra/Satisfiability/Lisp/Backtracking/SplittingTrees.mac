@@ -22,7 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/Splitt
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reductions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 
 
 /* ***************************

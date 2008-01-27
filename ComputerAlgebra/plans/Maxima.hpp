@@ -68,7 +68,7 @@ License, or any later version. */
    <li> Or functions which support monitoring come in two versions? </li>
    <li> For the introduction of "oklib_monitor", apparently "define_variable"
    should be used? </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Resolution.mac for
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac for
    first examples. </li>
   </ul>
 

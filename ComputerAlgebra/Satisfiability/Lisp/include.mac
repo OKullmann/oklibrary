@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.mac")$
