@@ -24,6 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac");
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.mac");
 
 /*!
 \endhtmlonly

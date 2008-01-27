@@ -1,0 +1,98 @@
+/* Oliver Kullmann, 27.1.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac
+  \brief Functions translating autarky-search-problems into other problems
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+
+/* *********************************************************
+   * Translation to SAT according to Liffiton and Sakallah *
+   *********************************************************
+*/
+
+/* Based on [Liffiton, Sakallah, 2008; Searching for Autarkies to Trim
+   Unsatisfiable Clause Sets]. */
+
+/* "lsav" : Liffiton-Sakallah autarky variables */
+kill(lsavl,lsavv,lsavc)$
+declare(lsavl, noun, lsavv, noun, lsavc, noun)$
+declare(lsavl, posfun, lsavv, posfun, lsavc, posfun)$
+lsavl_var(v,s) := nounify(lsavl)(v,s)$ /* v an original variable, s in {-1,1} */
+lsavv_var(v) := nounify(lsavv)(v)$ /* v an original variable */
+lsavc_var(C) := nounify(lsavc)(C)$ /* C an original clause */
+
+/* Auxiliary function to translate literals */
+trans_lit_ls(x) := if x > 0 then lsavl_var(x,1) else lsavl_var(-x,-1)$
+
+/* Input a formal clause-set F, returns a formal clause-set G whose
+   satisfying assignments correspond to the autarkies of F.
+   More precisely, the assigned original variables v are those
+   with lsavv(c) true, and the satisfied clauses C are those
+   with lsavc(C) true. */
+aut_sat_ls(FF) := if not freeof(lsavl, FF) or not freeof(lsavv, FF) or 
+ not freeof(lsavc, FF) then
+  error("aut_sat_ls[ERROR]: input contains variable scheme lsav!")
+ else block([V : listify(FF[1]), L : listify(FF[2])],
+  return(
+   [union(FF[1],
+     setify(makelist(lsavl_var(v,-1),v,V)),
+     setify(makelist(lsavl_var(v,+1),v,V)),
+     setify(makelist(lsavv_var(v),v,V)),
+     setify(makelist(lsavc_var(C),C,L))),
+    union(
+     setify(makelist(adjoin(-lsavc_var(C),map(trans_lit_ls,C)),C,L)),
+     family_sets_union(V, lambda([v], {
+       {-lsavl_var(v,1),lsavv_var(v)},
+       {-lsavl_var(v,1),v},
+       {lsavl_var(v,1),-lsavv_var(v),-v}})),
+     family_sets_union(V, lambda([v], {
+       {-lsavl_var(v,-1),lsavv_var(v)},
+       {-lsavl_var(v,-1),-v},
+       {lsavl_var(v,-1),-lsavv_var(v),v}})),
+     setify(create_list({-lsavv_var(var_l(x)),lsavc_var(C)}, C,L, x,listify(C))))]))$
+
+/* Translates an autarky phi for formal clause-set F into a satisfying 
+   assignment for aut_sat_ls(FF). */
+trans_aut_sat_ls(phi,FF) := block(
+ [VF : listify(FF[1]), L : listify(FF[2]), S : sat_pa(phi,FF[2]), V, OV],
+ phi : restr_pa(phi, FF[1]),
+ V : var_pa(phi),
+ OV : setdifference(FF[1], V),
+ return(union(phi,
+  map(lambda([x],lsavl_var(var_l(x),sign_l(x))), phi),
+  map(lambda([x],-lsavl_var(var_l(x),-sign_l(x))), phi),
+  map(lambda([v],-lsavl_var(v,-1)), OV),
+  map(lambda([v],-lsavl_var(v,+1)), OV),
+  map(lsavv_var,V),
+  comp_sl(map(lsavv_var,OV)),
+  setify(makelist(lsavc_var(C),C,listify(S))),
+  setify(makelist(-lsavc_var(C),C,listify(setdifference(FF[2],S)))))))$
+/* For
+ check_ls(phi,FF) := satisfyingpap(trans_aut_sat_ls(phi,FF),aut_sat_ls(FF)[2])
+   we have check_ls(phi,FF) = true iff phi is an autarky for FF.
+*/
+
+/* The corresponding translation F -> G such that F is lean iff G is
+   unsatisfiable. */
+lean_usat_ls(FF) := block([T : aut_sat_ls(FF)],
+  [T[1], adjoin(map(lsavv,FF[1]),T[2])])$
+
+/*!
+\endhtmlonly
+*/
