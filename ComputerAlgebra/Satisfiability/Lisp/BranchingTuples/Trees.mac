@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Tre
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
@@ -88,11 +89,7 @@ uniform_tpd(T) := block([l : length(T)],
 /* A "distance" on a rooted tree is given by a labelling of the nodes
    with branching tuples (of the same width as the branching), while
    a "measure" is given by a node-labelling with numbers.
-*/
-/*
-   Examples (T_1, d_1), (T_3, d_3) from OK's SAT-handbook-article:
-   T1d : [[1,2], [[1,1],[[]],[[]]], [[]]];
-   T3d : [[3,5,2], [[]], [[]], [[2,1], [[]], [[]]]];
+   Trees with distances are treated here as "trees with branching tuples".
 */
 
 /* check whether T is a "formally" tree with a distances 
@@ -132,6 +129,7 @@ tauprob_hp_tbt(T,d) := block([w : length(T)], if w = 1 then [[]] else
 tauprob_symbolical_tbt(T) := block([w : length(T)], if w = 1 then [[]] else
  return(cons(tauprob_symbolical(T[1]), 
              makelist(tauprob_symbolical_tbt(T[i]),i,2,w))))$
+
 
 /* The maximal tau-value for a tree with distances */
 maxtau_tbt(T) := block([w : length(T)], if w = 1 then 1 else
