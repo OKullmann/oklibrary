@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Installing SAT solvers
   <ul>
    <li> Perhaps we put building of the different solvers all into one makefile
-   "sat.mak". </li>
+   "sat.mak". Better not; but via "oklib SAT" all SAT-solvers are build. </li>
    <li> Installing external SAT solvers should be a special service. </li>
    <li> Perhaps we have a special subdirectory of OKplatform/ExternalSources
    (for example OKplatform/ExternalSources/SATsolver) ? </li>
@@ -157,6 +157,7 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo BDD's and boolean functions
   <ul>
+    <li> There is an R-package with Quine/McCluskey etc. </li>
     <li> CUDD http://vlsi.colorado.edu/~fabio/CUDD/ </li>
     <li> [Coudert, O; 1994, Two-level logic minimization: An overview;
     Integration, the VLSI Journal, vol. 17, pages 97-140] could serve
