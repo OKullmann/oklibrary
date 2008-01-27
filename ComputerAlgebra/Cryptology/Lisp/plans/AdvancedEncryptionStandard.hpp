@@ -16,40 +16,8 @@ License, or any later version. */
    If they come natural then they are done now, otherwise later (after we have
    more experience). </li>
    <li> Move list helper functions to a seperate List module </li>
-   <li> Finite field operations
-    <ol>
-     <li> Move the interface to the gf-package into a seperate module / .mac file. 
-     This should be moved to LinearAlgebra.</li>
-     <li> The gf_set operation in the finite field package takes a considerable
-     amount of time to complete and doesn't seem to cache 
-     any of the results in any way and so each call takes the same amount of 
-     time and so simply calling gf_set inside wrappers, as has been done, 
-     causes issues where these functions are called often (such as in the case 
-     of egf_add).
-      <ol>
-       <li> Perhaps a potential solution would be to keep track of which field
-       is currently being used, and only if the field being used is different 
-       to the last call would gf_set be called? (although in general, this 
-       concept of keeping global state in such a way seems like it will cause 
-       problems) .</li>
-       <li> It seems the best way to approach this is to provide an
-       egf_set function that calls gf_set, which keeps track of
-       the finite field being used in a global variable. Then each of the
-       other functions then offer the option to pass in the field. If the field
-       is passed in, then the operation is done in that field, but the overall
-       global variable is not changed so any other operations are still done
-       in the field set with egf_set, otherwise the operation is done in the 
-       field set with egf_set. This would allow one to set a default field but then
-       perform other operations in other fields if necessary without 
-       interrupting the flow of code. </li>
-      </ol>
-     </li>
-     <li> Create an interface to the gf-package. DONE </li>
-     <li> Create field-identification list [p, n, poly]. DONE </li>
-     <li> Field-operation-functions take such an "object" as additional argument,
-     to specify the field. DONE </li>
-    </ol>
-   </li>
+   <li> Document functions and constants with explanation of use </li>
+   <li> How to integrate the key schedule? </li>
    <li> Basic aes-functions:
     <ol>
      <li> S-box </li>
@@ -58,7 +26,40 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
-
+  
+  \todo Finite Field operations
+  <ol>
+   <li> Move the interface to the gf-package into a seperate module / .mac file. 
+   This should be moved to LinearAlgebra.</li>
+   <li> The gf_set operation in the finite field package takes a considerable
+   amount of time to complete and doesn't seem to cache 
+   any of the results in any way and so each call takes the same amount of 
+   time and so simply calling gf_set inside wrappers, as has been done, 
+   causes issues where these functions are called often (such as in the case 
+   of egf_add).
+   <ol>
+    <li> Perhaps a potential solution would be to keep track of which field
+    is currently being used, and only if the field being used is different 
+    to the last call would gf_set be called? (although in general, this 
+    concept of keeping global state in such a way seems like it will cause 
+    problems) .</li>
+    <li> It seems the best way to approach this is to provide an
+    egf_set function that calls gf_set, which keeps track of
+    the finite field being used in a global variable. Then each of the
+    other functions then offer the option to pass in the field. If the field
+    is passed in, then the operation is done in that field, but the overall
+    global variable is not changed so any other operations are still done
+    in the field set with egf_set, otherwise the operation is done in the 
+    field set with egf_set. This would allow one to set a default field but then
+    perform other operations in other fields if necessary without 
+    interrupting the flow of code. </li>
+   </ol>
+   </li>
+   <li> Create an interface to the gf-package. DONE </li>
+   <li> Create field-identification list [p, n, poly]. DONE </li>
+   <li> Field-operation-functions take such an "object" as additional argument,
+   to specify the field. DONE </li>
+  </ol>
   
   \todo Split "Maxima: design" into subtopics (and update)
 
