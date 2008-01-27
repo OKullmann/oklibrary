@@ -9,16 +9,17 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
   \brief Plans for cryptological tools regarding the Rijndael cipher using Maxima
 
-
   \todo New design and implementation
   <ul>
    <li> Move items from below to here, if appropriate. </li>
    <li> Regarding generalisations (AES -> Rijndael -> small-scale variations):
    If they come natural then they are done now, otherwise later (after we have
    more experience). </li>
+   <li> Move list helper functions to a seperate List module </li>
    <li> Finite field operations
     <ol>
-     <li> Move the interface to the gf-package into a seperate module / .mac file. </li>
+     <li> Move the interface to the gf-package into a seperate module / .mac file. 
+     This should be moved to LinearAlgebra.</li>
      <li> The gf_set operation in the finite field package takes a considerable
      amount of time to complete and doesn't seem to cache 
      any of the results in any way and so each call takes the same amount of 
@@ -31,6 +32,16 @@ License, or any later version. */
        to the last call would gf_set be called? (although in general, this 
        concept of keeping global state in such a way seems like it will cause 
        problems) .</li>
+       <li> It seems the best way to approach this is to provide an
+       egf_set function that calls gf_set, which keeps track of
+       the finite field being used in a global variable. Then each of the
+       other functions then offer the option to pass in the field. If the field
+       is passed in, then the operation is done in that field, but the overall
+       global variable is not changed so any other operations are still done
+       in the field set with egf_set, otherwise the operation is done in the 
+       field set with egf_set. This would allow one to set a default field but then
+       perform other operations in other fields if necessary without 
+       interrupting the flow of code. </li>
       </ol>
      </li>
      <li> Create an interface to the gf-package. DONE </li>
