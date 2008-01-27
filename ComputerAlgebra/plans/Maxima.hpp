@@ -56,20 +56,55 @@ License, or any later version. */
 
   \todo Monitoring
   <ul>
-   <li> Perhaps we introduce a global variable "oklib_monitor",
+   <li> We introduce a global variable "oklib_monitor",
    which our functions can use, and if set to true then they
    output progress information. </li>
+   <li> Additionally we have "oklib_monitor_level":
+    <ol>
+     <li> The default is level 0, meaning that only basic messages
+     are print. </li>
+     <li> Greater values are then used at the discretion of the affected
+     function. </li>
+     <li> "inf" always indicates full output. </li>
+    </ol>
+   </li>
    <li> This output should happen in a standardised way, so that
-   the source of the output is recognisable. </li>
-   <li> On the other hand, in this way we uglify the code ?!? </li>
-   <li> Could there be a general scheme, that certain variables are
-   watched and printed if they changed value, and this happens
-   non-intrusive? </li>
-   <li> Or functions which support monitoring come in two versions? </li>
+   the source of the output is recognisable.
+    <ol>
+     <li> We use "M[function_name]:" to start the message. </li>
+     <li> Perhaps we can offer some general services, like functions
+     which print the opening and ending. Something similar to the
+     Messages-system for C++ perhaps.
+      <ul>
+       <li> But we don't consider internationalisation. </li>
+       <li> And, of course, no compile-time-issues. </li>
+       <li> Is there a general facility to find out the current
+       function? Otherwise perhaps we use some standard variable,
+       which is then set to the name of the function. </li>
+     </li>
+    </ol>
+   </li>
+   <li> The monitoring code uglifies the procedure:
+    <ol>
+     <li> Could there be a general scheme, that certain variables are
+     watched and printed if they changed value, and this happens
+     non-intrusively? But we need dedicated text etc., so this doesn't
+     seem to hlep.</li>
+     <li> Or functions which support monitoring come in two versions?
+     This would created too much code-bloat. </li>
+     <li> Output should always happen via helper-functions, so the
+     interruption is minimal. Standard: "monitorcheck". </li>
+     <li> This procedure just inherits all variable etc. via
+     dynamic binding. </li>
+    </ol>
+   </li>
    <li> For the introduction of "oklib_monitor", apparently "define_variable"
    should be used? </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac for
-   first examples. </li>
+   <li> See first examples:
+    <ol>
+     <li> ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac </li>
+     <li> ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac </li>
+    </ol>
   </ul>
 
 

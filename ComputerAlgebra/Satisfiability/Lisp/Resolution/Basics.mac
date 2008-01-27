@@ -63,9 +63,9 @@ resolvent_l(C,D,x) := union(disjoin(x, C), disjoin(-x, D))$
 resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {x,-x}))$
 
 
-/* ***********************
-   * Iterated resolution *
-   ***********************
+/* *************************
+   * Adding all resolvents *
+   *************************
 */
 
 /* the resolvable 2-sets of a clause-set */
@@ -82,14 +82,26 @@ resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
 /* adds all resolvents to a clause-set */
 add_resolvents_cs(F) := union(F, resolvents_cs(F))$
 
+
+/* ***********************
+   * Iterated resolution *
+   ***********************
+*/
+
+monitorcheck_resolution_closure_init(name) := if oklib_monitor then (
+  print(sconcat("M[",name,"]:"), history))$
+monitorcheck_resolution_closure_loop(name) := if oklib_monitor then (
+  print(last(history)))$
+
+
 /* the (full) resolution closure of a clause-set */
 resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(F)]],
   history : append(history, [length(nF)]),
-  if oklib_monitor then print(history),
+  monitorcheck_resolution_closure_init("resolution_closure_cs"),
   while length(nF) > length(F) do (
     F : nF, nF : add_resolvents_cs(F),
     history : append(history, [length(nF)]),
-    if oklib_monitor then print(last(history))
+    monitorcheck_resolution_closure_loop("resolution_closure_cs")
   ),
   return([nF, history]))$
 
@@ -100,11 +112,11 @@ min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
    for the successive extensions of F (until a fixed point is reached) */
 min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : [length(F)]],
   history : append(history, [length(nF)]),
-  if oklib_monitor then print(history),
+  monitorcheck_resolution_closure_init("min_resolution_closure_cs"),
   while nF # F do (
     F : nF, nF : min_add_resolvents_cs(F),
     history : append(history, [length(nF)]),
-    if oklib_monitor then print(last(history))
+    monitorcheck_resolution_closure_loop("min_resolution_closure_cs")
   ),
   return([nF, history]))$
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */

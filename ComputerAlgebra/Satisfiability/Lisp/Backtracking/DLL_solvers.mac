@@ -54,7 +54,14 @@ dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
    ***********************************
 */
 
+monitorcheck_dll(name,red) := if oklib_monitor then (
+  print(sconcat("M[",name,"]:"), "Entry (reduction =", red, ")."),
+  if oklib_monitor_level >= 1 then (
+    print("F: ", statistics_fcs(FF)),
+    print("Fr: ", statistics_fcs(cs_to_fcs(Fr)))))$
+
 dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
+  monitorcheck_dll("dll_rk",k),
   if is_empty(Fr) then true
   elseif has_empty_element(Fr) then false
   else block([V : var_cs(Fr)], block([x : h([V,Fr])],
@@ -63,6 +70,7 @@ dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
 
 /* The variation where the return value is the computed r_k-splitting tree. */
 dll_rk_st(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
+  monitorcheck_dll("dll_rk_st",k),
   if is_empty(Fr) then [true]
   elseif has_empty_element(Fr) then [false]
   else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
@@ -76,8 +84,10 @@ dll_rk_st(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
    *****************************************
 */
 
+
 /* the reduction takes a clause-set and returns a clause-set */
 dll_red(FF, h, red) := block([Fr : red(FF[2])],
+  monitorcheck_dll("dll_red", red),
   if is_empty(Fr) then true
   elseif has_empty_element(Fr) then false
   else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
@@ -88,6 +98,7 @@ dll_red(FF, h, red) := block([Fr : red(FF[2])],
 
 /* The variation where the return value is the computed r-splitting tree. */
 dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
+  monitorcheck_dll("dll_red_st", red),
   if is_empty(Fr) then [true]
   elseif has_empty_element(Fr) then [false]
   else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
@@ -101,6 +112,7 @@ dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
    leaf-nodes are still just labelled with [true] or [false].
    Here L is the list of distance-pairs used by the heuristic. */
 dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
+  monitorcheck_dll("dll_red_st_dist", red),
   if is_empty(Fr) then [true]
   elseif has_empty_element(Fr) then [false]
   else block([V : var_cs(Fr)], block([H : ah([V,Fr]), x], 
@@ -162,7 +174,7 @@ dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shor
 
 /* A helper-function which determines whether a value evaluates to inf.
    Ignores presence of minf; Maxima evaluates 0*inf to 0. */
-equivinvp(x) := is(not freeof(inf, x))$
+equivinfp(x) := is(not freeof(inf, x))$
 
 /* A helper-function for evaluating a branching variable:
    Using dynamic binding for F, F1, F0 and v. */
@@ -172,8 +184,8 @@ evaluating_branching_variable(d) := block([x,d0,d1],
   elseif d1 <= 0 then return([]) else (
     x : -v, d0 : d(F, F0),
     if equivinfp(d0) then (return([x]))
-    elseif d0 <= 0 then return([])),
-  return([d1,d0]))$
+    elseif d0 <= 0 then return([])
+    else return([d1,d0])))$
 
 /* Helper-function for lexicographical ordering of lists:
    returns true if A < B */
@@ -183,6 +195,12 @@ lexicographical_orderp(A,B) :=
   elseif A[1] < B[1] then true
   elseif A[1] > B[1] then false
   else lexicographical_orderp(rest(A),rest(B))$
+
+monitorcheck_hld(name) := if oklib_monitor then (
+  print(sconcat("M[",name,"]:"), "immediate:", immediate, ", best_proj:", best_proj))$
+monitorcheck_hld_v(name) := if oklib_monitor then (
+  if oklib_monitor_level >= 1 then (
+    print(sconcat("M[",name,"]: LOOP "),  "variable:", v, ", immediate:", immediate, ", ignore:", ignore, ", distances:", D)))$
 
 heuristics_lookahead_distances(r, distances, projections, satprob) :=
  block([nd : length(distances), np : length(projections)],
@@ -200,6 +218,7 @@ heuristics_lookahead_distances(r, distances, projections, satprob) :=
         ),
         D : endcons(E,D)
       ),
+      monitorcheck_hld_v("heuristics_lookahead_distances"),
       if ignore or immediate then return(false),
       for i : 1 thru nd do block([p : projections[min(np,i)]],
         P : endcons(p(D[i][1], D[i][2]), P)),
@@ -207,6 +226,7 @@ heuristics_lookahead_distances(r, distances, projections, satprob) :=
         best_proj : P, best_var : v, Fbest : [F1,F0]
       )
     ),
+    monitorcheck_hld("heuristics_lookahead_distances"),
     if immediate then return(branch_lit),
     if best_proj = [inf] then
       error("heuristics_lookahead_distances: all variables disabled!"),
@@ -239,6 +259,7 @@ amended_heuristics_lookahead_distances(r, distances, projections, satprob, mon_d
         ),
         D : endcons(E,D)
       ),
+      monitorcheck_hld_v("amended_heuristics_lookahead_distances"),
       if ignore or immediate then return(false),
       for i : 1 thru nd do block([p : projections[min(np,i)]],
         P : endcons(p(D[i][1], D[i][2]), P)),
@@ -246,6 +267,7 @@ amended_heuristics_lookahead_distances(r, distances, projections, satprob, mon_d
         best_proj : P, best_var : v, Fbest : [F1,F0], best_dist : D
       )
     ),
+    monitorcheck_hld("amended_heuristics_lookahead_distances"),
     for i : 1 thru nm do block([md : mon_distances[i]],
       best_dist : endcons([md(F,Fbest[1]),md(F,Fbest[2])], best_dist)),
     if not immediate then (

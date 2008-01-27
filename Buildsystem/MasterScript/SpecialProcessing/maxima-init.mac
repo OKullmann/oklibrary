@@ -10,6 +10,9 @@ OKsystem : "m4_SHELL(OKsystem)";
 
 showtime : true;
 
+oklib_monitor : false;
+oklib_monitor_level : 0;
+
 oklib_load_round : 0;
 oklib_loaded_files["maxima-init.mac"] : 0;
 
