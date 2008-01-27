@@ -64,9 +64,6 @@ License, or any later version. */
 
   <h2> How to install </h2>
 
-  Local and system-wide installation possible, the default is local
-  installation;
-  set variable <code>gmp_default_install_okl</code> to value "system" to switch.
 
   <h3> Make targets </h3>
   
@@ -80,6 +77,21 @@ License, or any later version. */
     <td> Remove build, installation and documentation directory. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> Local versus system-wide installation:
+    <ol>
+     <li> The default is local installation. </li>
+     <li> Set variable <code>gmp_default_install_okl</code> to value
+     "system" to switch. </li>
+    </ol>
+   </li>
+   <li> To install a different version, set variable
+   <code>gmp_recommended_version_number_okl</code> accordingly. </li>
+  </ul>
 
 */
 
