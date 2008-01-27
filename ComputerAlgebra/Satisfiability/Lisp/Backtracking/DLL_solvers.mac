@@ -160,14 +160,18 @@ dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shor
 /* If there are less projections than distances, then the last projection
    is reused. */
 
+/* A helper-function which determines whether a value evaluates to inf.
+   Ignores presence of minf; Maxima evaluates 0*inf to 0. */
+equivinvp(x) := is(not freeof(inf, x))$
+
 /* A helper-function for evaluating a branching variable:
    Using dynamic binding for F, F1, F0 and v. */
 evaluating_branching_variable(d) := block([x,d0,d1],
   x : v, d1 : d(F, F1),
-  if d1 = inf then return([x])
+  if equivinfp(d1) then return([x])
   elseif d1 <= 0 then return([]) else (
     x : -v, d0 : d(F, F0),
-    if d0 = inf then (return([x]))
+    if equivinfp(d0) then (return([x]))
     elseif d0 <= 0 then return([])),
   return([d1,d0]))$
 
@@ -191,7 +195,9 @@ heuristics_lookahead_distances(r, distances, projections, satprob) :=
       for i : 1 thru nd do (
         E : evaluating_branching_variable(distances[i]),
         if length(E) = 0 then (ignore : true, return(false)),
-        if length(E) = 1 then (branch_lit : E[1], immediate : true, return(false)),
+        if length(E) = 1 then (
+          branch_lit : E[1], immediate : true, return(false)
+        ),
         D : endcons(E,D)
       ),
       if ignore or immediate then return(false),
