@@ -211,10 +211,12 @@ tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos],
  else (sol : map(rhs, solve(chi(t,x)-1, x)), 
        pos_sol : sublist_indices(sol, lambda([x], is(equal(imagpart(x),0)) and is(sign(x) = pos))),
        n_pos : length(pos_sol),
-       if n_pos = 1 then return(sqrtdenest(sol[pos_sol[1]]))
+       if n_pos = 1 then 
+         return(sqrtdenest(sqrtdenest(sol[pos_sol[1]])))
        elseif n_pos >= 2 then print("INCONSISTENCY with tau_symbolical for ", t)
        else return(false)))$
-
+/* Remark: Apply "optimize" to the result to obtain a representation with
+   shared subterms. */
 
 /*
 *******************************************************
@@ -256,7 +258,8 @@ tauprob_hp(t, decimal_digits) := block([fpprec : fpprec],
 
 /* Symbolical computation (if possible) */
 tauprob_symbolical(t) := tau_symbolical(t)^(-t)$
-/* Applying factor(expand(r)) to the result r helps simplifying. */
+/* Applying factor(expand(r)), radcan(r) or fullratsimp(r) to the result r 
+   might help simplifying. */
 
 /* The canonical inversion for tuples p with bt_sum(p) = 1 */
 invtauprob(p) := -map(log,p)$

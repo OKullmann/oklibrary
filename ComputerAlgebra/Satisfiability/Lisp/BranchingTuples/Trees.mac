@@ -125,7 +125,13 @@ delta_tm(T) := block([w : length(T)], if w = 1 then [[]] else
 /* Transformation of a tree with distances to a tree with tpd: */
 tauprob_tbt(T) := block([w : length(T)], if w = 1 then [[]] else
  return(cons(tauprob(T[1]), makelist(tauprob_tbt(T[i]),i,2,w))))$
-
+/* The same, but with higher precision: */
+tauprob_hp_tbt(T,d) := block([w : length(T)], if w = 1 then [[]] else
+ return(cons(tauprob_hp(T[1],d), makelist(tauprob_hp_tbt(T[i],d),i,2,w))))$
+/* The same, but using symbolical calculations (if possible!): */
+tauprob_symbolical_tbt(T) := block([w : length(T)], if w = 1 then [[]] else
+ return(cons(tauprob_symbolical(T[1]), 
+             makelist(tauprob_symbolical_tbt(T[i]),i,2,w))))$
 
 /* The maximal tau-value for a tree with distances */
 maxtau_tbt(T) := block([w : length(T)], if w = 1 then 1 else
