@@ -36,7 +36,8 @@ set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
 /* the union of a list of sets */
 list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L)$
 
-/* the union of a family of sets (i.e., given is a domain I and a map f(i)) */
+/* the union of a family of sets (i.e., given is a domain I and a map f(i)).
+   I can be a set or a list. */
 family_sets_union(I, f) := if emptyp(I) then {} else block([res : {}],
  for i in I do res : union(res, f(i)), res)$
 
