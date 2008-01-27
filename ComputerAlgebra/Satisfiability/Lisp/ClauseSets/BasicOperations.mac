@@ -39,13 +39,16 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* the underlying variable of a literal */
 var_l(x) := abs(x)$
 
+/* The sign of a literal in {-1,+1}. */
+sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
+
 /* the literals for a set of variables */
 literals_v(V) := block([L : listify(V)],
   setify(append(L,-L)))$
 
-/* ***************************
-   * Clauses and clause-sets *
-   ***************************
+/* ***********
+   * Clauses *
+   ***********
 */
 
 /* complementation of a set of literals */
@@ -61,6 +64,17 @@ clashp(A,B) := not emptyp(intersection(A,comp_sl(B)))$
 
 /* The set of variables in a clause */
 var_c(C) := map(var_l, C)$
+
+/* The positive literals in a clause */
+pospart_c(C) := subset(C, lambda([x], is(x>0)))$
+/* The negative literals in a clause */
+negpart_c(C) := subset(C, lambda([x], is(x<0)))$
+
+
+/* ***************
+   * Clause-sets *
+   ***************
+*/
 
 /*
  A "boolean clause-set" is a set of boolean clauses.
@@ -185,11 +199,23 @@ scls_k(F,k) := subset(F, lambda([C], is(length(C) = k)))$
  as setting its elements to true.
 */
 
+/* The variables in a partial assignment. */
+var_pa(phi) := var_c(phi)$
+
+/* Restricting a partial assignment phi to a set V of variables. */
+restr_pa(phi,V) := subset(phi, lambda([x], elementp(var_l(x),V)))$
+
 /* apply a partial assignment to a boolean clause-set */
 apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi))$
 /* apply a partial assignment to a formal boolean clause-set */
 apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
   apply_pa(phi, clauses_f(FF))]$
+
+/* The set of satisfied clauses for a partial assignment w.r.t. a clause-set */
+sat_pa(phi,F) := subset(F, lambda([C], is(apply_pa(phi,{C}) = {})))$
+
+/* Test for a satisfying assignment w.r.t. a clause-set */
+satisfyingpap(phi,F) := is(sat_pa(phi,F) = F)$
 
 /* the set of satisfied, falsified, untouched and critical clauses for
    a partial assignment w.r.t. a clause-set */
