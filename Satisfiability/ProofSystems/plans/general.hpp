@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Update namespaces.
 
 
-  \todo Create milestones
+  \todo Create further milestones
 
 
   \todo Stronger propositional proof systems than resolution

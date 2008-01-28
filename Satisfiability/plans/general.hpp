@@ -19,7 +19,7 @@ License, or any later version. */
      <li> FiniteFunctions : DONE </li>
      <li> Heuristics : DONE </li>
      <li> Optimisation : DONE </li>
-     <li> ProofSystems </li>
+     <li> ProofSystems : DONE </li>
      <li> Quantification </li>
      <li> Reductions </li>
      <li> SpecialStructures </li>

@@ -19,7 +19,12 @@ License, or any later version. */
   \todo Update todos.
 
 
-  \todo Whatever remains of module DPv shall move to here.
+  \todo Whatever remains of module DPv shall move here
+  <ul>
+   <li> It seems that a dedicated module on Davis-Putnam-resolution
+   is needed, but likely this is best handled as submodule of
+   the resolution module. </li>
+  </ul>
 
 
   \todo The basic problems

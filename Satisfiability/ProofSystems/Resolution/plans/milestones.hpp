@@ -14,7 +14,8 @@ License, or any later version. */
   \par Version 0.0.4
 
   \par
-   In Resolution/plans/general.hpp the following topics are handled:
+   In ProofSystems/Resolution/plans/general.hpp the following topics are
+   handled:
     - Update namespaces
     - Update milestones
     - Update todos
@@ -24,11 +25,13 @@ License, or any later version. */
   \par Version 0.0.5 :
 
   \par
-   In Resolution/plans/general.hpp the following topics are handled:
+   In ProofSystems/Resolution/plans/general.hpp the following topics are
+   handled:
     - The basic problems
 
    \par
-    In Resolution/plans/ResolutionClosure.hpp the following topics are handled:
+    In ProofSystems/Resolution/plans/ResolutionClosure.hpp the following
+    topics are handled:
      - Primimplicates via resolution
 
    \par New milestones have been created.
