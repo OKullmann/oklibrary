@@ -18,7 +18,7 @@ License, or any later version. */
      <li> Enumeration : DONE </li>
      <li> FiniteFunctions : DONE </li>
      <li> Heuristics : DONE </li>
-     <li> Optimisation </li>
+     <li> Optimisation : DONE </li>
      <li> ProofSystems </li>
      <li> Quantification </li>
      <li> Reductions </li>
