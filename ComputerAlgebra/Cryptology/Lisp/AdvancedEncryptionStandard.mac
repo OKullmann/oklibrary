@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("Transitional/OKsystem/Transitional/ComputerAlgebra/Cryptology/AdvancedEncryptionStandard.mac");
+oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/AdvancedEncryptionStandard.mac");
 
 */
 
@@ -26,48 +26,14 @@ load(gf)$
    ***************************************
 */
 
-kill(x)$
-rijndael_affine_constant : x^6 + x^5 + x + 1$
-/* REMARK : document "x"; something else??? */
-
-rijndael_sbox_matrix : matrix(
-                        [1,1,1,1,1,0,0,0],
-                        [0,1,1,1,1,1,0,0],
-                        [0,0,1,1,1,1,1,0],
-                        [0,0,0,1,1,1,1,1],
-                        [1,0,0,0,1,1,1,1],
-                        [1,1,0,0,0,1,1,1],
-                        [1,1,1,0,0,0,1,1],
-                        [1,1,1,1,0,0,0,1])$
-/* REMARK : Since this matrix has a regular structure, it should be
-produced by a general function. */
-
 rijndael_polynomial : x^8+x^4+x^3+x+1 $
 /* REMARK : Explain the special property! */
-
-/* REMARK : The above definitions should be accompanied by the
-sbox-definition --- since this is their meaning! */
-
-rijndael_mixcolumns_matrix : matrix (
-        [x, x + 1, 1, 1], 
-        [1, x, x + 1, 1],
-        [1, 1, x, x + 1],
-        [x + 1, 1, 1, x])$
-/* REMARK : Explain! Likely best also accompanied by its use! */
-/* REMARK : Since this matrix has a regular structure, it should be
-produced by a general function (namely the same as used above!):
-cyclic_matrix(first_row, shift left or shift right, number of shifts),
-cyclic_sqmatrix(...). */
-
 
 rijndael_bit_field : [2,1,[x]]$
 /* REMARK : Explain! */
 
 rijndael_byte_field : [2,8,rijndael_polynomial]$
 /* REMARK : Explain! */
-
-rijndael_shiftrows_shifts : [0,1,2,3]$
-/* REMARK : Explain */
 
 
 /* ***************************************
@@ -101,11 +67,11 @@ take(l,n) := rest(l,-max(length(l)-n,0))$
 partition(l,n) := if emptyp(l) then [] else 
   cons(take(l,n), partition(rest(l,min(length(l),n)),n))$
 
-/* Rotates a list n elements to the left */
-rotate_left(l,n) := 
-  if n <= 0 or l = [] then l
-  else rotate_left(append(rest(l), [first(l)]), n-1)$
-/* REMARK : "n <= 0" needed? */
+/* Rotates a list n elements to the right. Negative n rotates to the left. */
+rotate(l,n) := 
+  if n = 0 or l = [] then l
+  else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
+  else rotate(append(rest(l), [first(l)]), n+1)$
 
 /* Takes a two parameter function f and two lists 'a' and 'b',
    and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
@@ -167,6 +133,14 @@ also be provided, and used appropriately. */
 
 /* REMARK : SPECIFICATION NEEDED! */
 
+kill(x)$
+rijndael_affine_constant : x^6 + x^5 + x + 1$
+/* REMARK : document "x"; something else??? */
+
+rijndael_sbox_matrix : apply(matrix,
+    makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
+/* REMARK : Explain! Likely best also accompanied by its use! */
+
 sbox(byte) := 
   block([invbyte,result],
   if byte = 0 then 
@@ -179,7 +153,18 @@ sbox(byte) :=
       rijndael_affine_constant))))$
 /* REMARK : We should set the field only once. */
 
+/* 
+   Takes the input block as a list of 16 bytes and applies
+   the sbox operation to each byte, returning the list of 
+   result bytes.
+*/
 subbytes(inputblock) := map(sbox, inputblock)$
+
+/*
+   List of shifts left for each row in the block in the  shiftrows
+   operation.
+*/
+rijndael_shiftrows_shifts : [0,1,2,3]$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -188,7 +173,16 @@ subbytes(inputblock) := map(sbox, inputblock)$
 */
 shiftrows(inputblock) := block([list_rows : partition(inputblock,4)],
   matrix2list (
-    makelist(rotate_left(list_rows[r+1],r), r, rijndael_shiftrows_shifts)))$
+    makelist(rotate(list_rows[r+1],-r), r, rijndael_shiftrows_shifts)))$
+
+/*
+   Matrix used in the mixcolumns step to model the 
+   multiplication of each 4-byte column by a constant
+   in a polynomial ring of at most order 4 with coefficients in
+   GF(2^8).
+*/
+rijndael_mixcolumns_matrix : apply(matrix, 
+    makelist(rotate([x, x + 1, 1, 1], i),i,0,3))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
