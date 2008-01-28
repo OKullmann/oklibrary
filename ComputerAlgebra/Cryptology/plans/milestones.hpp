@@ -36,6 +36,9 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
     - Discussion on Generalisation/Parameterisation
     - Algebraic aspects
+  
+  \par ComputerAlgebra/Cryptology/Lisp version 0.0.7
+  (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
 
 
   \par Version 0.0.8
