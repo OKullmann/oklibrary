@@ -97,6 +97,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> http://www.labri.fr/perso/auber/projects/tulip/ </li>
+   <li> dot2texi: http://www.fauskes.net/nb/introducing-dot2texi/ </li>
   </ul>
 
 
