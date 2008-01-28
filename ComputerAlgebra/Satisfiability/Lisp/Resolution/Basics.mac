@@ -81,7 +81,8 @@ resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
 /* resolvable_cs(F) = subset(powerset(F,2), resolvable_s) */
 
 /* the two_subsumption_resolvable 2-sets of a clause-set */
-two_subsumption_resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
+two_subsumption_resolvable_cs(F) := block(
+ [LF : listify(F), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
   for j : i+1 thru l do
    if two_subsumption_resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
@@ -119,11 +120,14 @@ resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(
   ),
   return([nF, history]))$
 
-/* adds all resolvents to a clause-set and then applies subsumption-elimination */
+
+/* adds all resolvents to a clause-set and then applies 
+   subsumption-elimination */
 min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
 
-/* the prime-implicates of a clause-set F (as CNF), and the list of clause-counts
-   for the successive extensions of F (until a fixed point is reached) */
+/* the prime-implicates of a clause-set F (as CNF), and the list of 
+   clause-counts for the successive extensions of F (until a fixed point is 
+   reached) */
 min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : [length(F)]],
   history : append(history, [length(nF)]),
   monitorcheck_resolution_closure_init("min_resolution_closure_cs"),
@@ -135,12 +139,15 @@ min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : 
   return([nF, history]))$
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
 
-full_cs_min_resolution_closure_cs(F) := block([IF : [], CI : F, PI : {}, N : length(var_cs(F)) ],
+/* The special case of min_resolution_closure_cs where the input clauses
+   are all full (contain all all variables). */
+min_2resolution_closure_cs(F) := block(
+ [IF : [], CI : F, PI : {}, N : length(var_cs(F)) ],
  for i : N step -1 thru 1 do block(
-    PI : CI,
-    CI : two_subsumption_resolvents_cs(PI),
-    PI : setdifference(min_elements(union(CI,PI)), CI),
-    IF : cons(PI,IF)
+   PI : CI,
+   CI : two_subsumption_resolvents_cs(PI),
+   PI : setdifference(min_elements(union(CI,PI)), CI),
+   IF : cons(PI,IF)
  ),
  IF : cons(PI,IF),
  return(apply(union, IF)))$
