@@ -54,14 +54,21 @@ License, or any later version. */
   </ul>
 
 
-  <h2> Usage </h2>
+  <h2> Documentation in general </h2>
 
   <ul>
    <li> For a tutorial see ComputerAlgebra/docus/MaximaTutorial.hpp. </li>
+   <li> The demonstrations (in <code>demos</code>-subdirectories) can be run via
+   <code>oklib_demo(filename)</code> (as to be found in the preamble of the
+   respective demos-file). After showing each expression to be evaluated you need
+   to press the cr-key. </li>
+   <li> Another possibility to load a file with protocolling of the expressions
+   to be executed is to use <code>oklib_batch</code>, which, different from
+   oklib_demo, does not pause after each expression. </li>
   </ul>
 
 
-  <h2> Overviews </h2>
+  <h2> Overviews on specific modules </h2>
 
   <ul>
    <li> %Graphs : ComputerAlgebra/Graphs/Lisp/docus/general.hpp </li>

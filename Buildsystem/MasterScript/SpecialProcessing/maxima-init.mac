@@ -9,6 +9,7 @@ OKplatform : "m4_SHELL(OKplatform)";
 OKsystem : "m4_SHELL(OKsystem)";
 
 showtime : true;
+linel : 100;
 
 oklib_monitor : false;
 oklib_monitor_level : 0;
@@ -27,3 +28,9 @@ oklib_include(name) := block([full_name : sconcat(OKsystem,"/",name)],
 );
 
 oklib_load_all() := oklib_load("Transitional/ComputerAlgebra/include.mac");
+
+oklib_batch(name) := block([full_name : sconcat(OKsystem,"/",name)],
+ batch(full_name));
+oklib_demo(name) := block([full_name : sconcat(OKsystem,"/",name)],
+ demo(full_name));
+
