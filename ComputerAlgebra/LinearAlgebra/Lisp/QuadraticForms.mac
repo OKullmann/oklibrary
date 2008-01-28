@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac
-  \brief Inclusion file for Maxima functions regarding quadratic forms and symmetric bilinear forms
+  \brief Maxima functions regarding quadratic forms and symmetric bilinear forms
 
 Use by
 
