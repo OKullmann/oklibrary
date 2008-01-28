@@ -17,6 +17,8 @@ License, or any later version. */
    <li> Of potential interest:
     <ol>
      <li> "SparseM" </li>
+     <li> "QCA" (Quine-McCluskey;
+     http://cran.r-project.org/src/contrib/Descriptions/QCA.html) </li>
      <li> "boolean" </li>
      <li> "combinat" </li>
      <li> "dyn" </li>
