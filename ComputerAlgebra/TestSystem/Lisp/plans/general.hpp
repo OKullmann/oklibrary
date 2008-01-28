@@ -41,6 +41,8 @@ License, or any later version. */
        t, unevaluated, on a global list "testobjects_testokl". </li>
       </ol>
      </li>
+     <li> However, just writing the expressions into the testobject-file is easier,
+     and seems to do the job as well ?!? </li>
      <li> The files in the "tests"-directories get loaded with oklib_load_all(),
      but not the testobjects-files. </li>
      <li> But the mechanics of running tests (how to find out about errors,
@@ -91,10 +93,12 @@ License, or any later version. */
        than "backtrace". </li>
       </ul>
      </li>
+     <li> On the other hand, just using the error-function seems to provide
+     enough information?!? </li>
      <li> There is a global variable "test_level" for the test-level. </li>
      <li> And perhaps also "log_level". </li>
      <li> Since we don't have namespaces, we need naming-conventions.
-     Perhaps "testokl_" as generic prefix. </li>
+     Perhaps "okltest_" as generic prefix. </li>
      <li> Each test-function has one argument, the function to be tested. </li>
     </ol>
    </li>
@@ -130,6 +134,10 @@ License, or any later version. */
        <li> But, as usual, only those belonging to the current directory
        level. </li>
       </ol>
+     </li>
+     <li> Perhaps simplest is that "oklib check" gathers all testobject-files
+     (by "find"), writes "oklib_load"-instructions accordingly into a file
+     "okltest", and then just runs Maxima, using the option "--batch=okltest".
      </li>
     </ol>
    </li>
