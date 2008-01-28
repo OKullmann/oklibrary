@@ -52,6 +52,18 @@ License, or any later version. */
    </li>
    <li> Asserts:
     <ol>
+     <li> In ComputerAlgebra/TestSystem/Lisp/Asserts.mac we have implemented
+     first assert-functions, which seem to work (and so the discussions below
+     perhaps are outdated).
+      <ol>
+       <li> One problem is that for file-names only the basename is printed.
+       </li>
+       <li> In the context of the test-system this seems less harmful, since
+       the backtrace writes also the oklib_load-function-calls. </li>
+       <li> However it would be nice to tell the system to print filenames
+       using (some part of) the path. </li>
+      </ol>
+     </li>
      <li> As with the C++ system, we have some special "asserts" for conditions,
      which also provide error-messages. </li>
      <li> Every test-function returns just true in case of success,
@@ -135,9 +147,28 @@ License, or any later version. */
        level. </li>
       </ol>
      </li>
-     <li> Perhaps simplest is that "oklib check" gathers all testobject-files
-     (by "find"), writes "oklib_load"-instructions accordingly into a file
-     "okltest", and then just runs Maxima, using the option "--batch=okltest".
+     <li> Perhaps actually simplest is that "oklib check" gathers all
+     testobject-files (by "find"), writes "oklib_load"-instructions
+     accordingly into a file "okltest", and then just runs Maxima, using the
+     option "--batch=okltest".
+      <ol>
+       <li> More precisely, the manual set-up would just create an
+       include-hierarchy, parallel to the include-hierarchy for normal
+       Maxima-code. </li>
+       <li> And then running the tests at a specific level happens via
+       batch-processing the include-file at the wished level. </li>
+       <li> Should we use "oklib_load" or "oklib_include" ? Perhaps
+       oklib_load, since repeated inclusion is unlikely, and if, then
+       there should be a reason. </li>
+       <li> Now the build-system just simulates creation of these
+       include-files (this is more intelligent than the above simple
+       method, lumping all includes into one file). </li>
+       <li> The main target is "check-maxima", with subtargets
+       "prepare_tests_maxima" and "run_tests_maxima". </li>
+       <li> prepare_tests_maxima recursively creates the include-files,
+       in system_directories/tests. </li>
+       <li> run_tests_maxima runs the appropriate include-file. </li>
+      </ol>
      </li>
     </ol>
    </li>
