@@ -21,7 +21,7 @@ License, or any later version. */
      <li> Optimisation : DONE </li>
      <li> ProofSystems : DONE </li>
      <li> Quantification : DONE </li>
-     <li> Reductions </li>
+     <li> Reductions : DONE </li>
      <li> SpecialStructures </li>
      <li> Variations </li>
     </ol>
