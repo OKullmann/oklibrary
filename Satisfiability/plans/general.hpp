@@ -20,7 +20,7 @@ License, or any later version. */
      <li> Heuristics : DONE </li>
      <li> Optimisation : DONE </li>
      <li> ProofSystems : DONE </li>
-     <li> Quantification </li>
+     <li> Quantification : DONE </li>
      <li> Reductions </li>
      <li> SpecialStructures </li>
      <li> Variations </li>
