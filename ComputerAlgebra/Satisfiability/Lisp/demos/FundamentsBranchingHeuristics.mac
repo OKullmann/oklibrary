@@ -11,7 +11,11 @@ License, or any later version. */
 
 Use by
 
-?? oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
+oklib_demo("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
+or
+oklib_batch("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
+or
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac");
 
 */
 
@@ -174,10 +178,10 @@ T_3_bt : [[3,5,2], [[]], [[]], [[2,1],[[]],[[]]]];
 tbtp(T_3_bt);
 T_1_bt_minsum : min_sum_tbt(T_1_bt);
 T_1_bt_maxsum : max_sum_tbt(T_1_bt);
-is(T_1_bt_minsum = T_1_bt_maxsum);
+assert(T_1_bt_minsum = T_1_bt_maxsum);
 T_3_bt_minsum : min_sum_tbt(T_3_bt);
 T_3_bt_maxsum : max_sum_tbt(T_3_bt);
-is(T_1_bt = delta_tm(T_1_bt_minsum));
+assert(T_1_bt = delta_tm(T_1_bt_minsum));
 delta_tm(T_3_bt_minsum);
 delta_tm(T_3_bt_maxsum);
 
@@ -185,7 +189,7 @@ delta_tm(T_3_bt_maxsum);
 /* Example 1.4.6 */
 
 T_1_tpd : tauprob_tbt(T_1_bt);
-fullratsimp(tauprob_symbolical_tbt(T_1_bt));
+T_1_stpd: fullratsimp(tauprob_symbolical_tbt(T_1_bt));
 T_3_tpd : tauprob_tbt(T_3_bt);
 
 
@@ -237,6 +241,20 @@ sat_length_2_ways(t,s) := [length(bth_saturated_greedy(t,s)),
    * Section "Evaluating and optimising distance functions" *
    **********************************************************
 */
+
+/* Example 1.7.1 */
+
+h_T1bt : ipd_rp(T_1_stpd)$
+float(hash_table_data(h_T1bt));
+tpd_flatten(T_1_stpd);
+
+h_T3bt : ipd_rp(T_3_tpd)$
+float(hash_table_data(h_T3bt));
+tpd_flatten(T_3_tpd);
+
+
+
+/* Example 1.7.2 */
 
 /* The trivial heuristics */
 
@@ -452,19 +470,28 @@ assert_float_equal(upper_bound_nlvs_tau(tpd_l_ok2002_ncl234_ast_65), 92.08543943
 minvarn(x) := tpd_variance(tauprob_tbt(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_n_ok2002_ncl234_ast_65));
 plot2d(minvarn, [x,0,1]);
-approx_min_varn : min_scanning(minvarn, [0,1], [0,1], 100);
+approx_min_varn : min_scanning(minvarn, [[0,1]], 100)[2][1];
+assert_float_equal(approx_min_varn, 1);
+
+roundd(x,d) := float(round(x*10^d)/10^d);
 
 minvarc(x) := tpd_variance(tauprob_tbt(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_c_ok2002_ncl234_ast_65));
 plot2d(minvarc, [x,0,1]);
-approx_min_varc : min_scanning(minvarc, [0,1], [0,1], 100);
-/* minimum around 0.985 */
+approx_min_varc : min_scanning(minvarc, [[0,1]], 100)[2][1];
+approx_min_varc : min_scanning(minvarc, [[approx_min_varc-0.1,min(approx_min_varc+0.1,1)]], 100)[2][1];
+approx_min_varc : min_scanning(minvarc, [[approx_min_varc-0.01,min(approx_min_varc+0.01,1)]], 100)[2][1];
+assert_float_equal(approx_min_varc, 0.9543999999999999);
+approx_min_varc : roundd(approx_min_varc, 4);
+assert_float_equal(approx_min_varc, 0.9544);
 
 minvarl(x) := tpd_variance(tauprob_tbt(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_l_ok2002_ncl234_ast_65));
 plot2d(minvarl, [x,0,1]); 
-approx_min_varl : min_scanning(minvarl, [0,1], [0,1], 100);
-/* minimum around 0.985 */
+approx_min_varl : min_scanning(minvarl, [[0,1]], 100)[2][1];
+approx_min_varl : min_scanning(minvarl, [[approx_min_varl-0.1,min(approx_min_varl+0.1,1)]], 100)[2][1];
+approx_min_varl : min_scanning(minvarl, [[approx_min_varl-0.01,min(approx_min_varl+0.01,1)]], 100)[2][1];
+assert_float_equal(approx_min_varl, 0.985);
 
 tpbt_w2_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 6);
 tpbt_w3_ok2002_ncl234_ast_65 : extract_tbt(col_ok2002_ncl234_ast_65, 7);
@@ -474,27 +501,42 @@ minvarw23(x,y) := tpd_variance(tauprob_tbt(
   x * tpbt_w2_ok2002_ncl234_ast_65 + y * (1-x) * tpbt_w3_ok2002_ncl234_ast_65 +
   (1 - x - y * (1-x)) * tpbt_w4_ok2002_ncl234_ast_65))$
 plot3d(minvarw23, [x,0.1,0.9], [y,0.1,0.9]);
-
-approx_min_varw23 : min_scanning(minvarw23, [0.1,0.9], [0.1,0.9], 30);
+approx_min_varw23 : min_scanning(minvarw23, [[0.1,0.9], [0.1,0.9]], 30)[2];
+approx_min_varw23 : min_scanning(minvarw23, 
+  [[approx_min_varw23[1]-0.1,approx_min_varw23[1]+0.1], 
+  [approx_min_varw23[2]-0.1,approx_min_varw23[2]+0.1]], 
+  30)[2];
+approx_min_varw23 : min_scanning(minvarw23, 
+  [[approx_min_varw23[1]-0.01,approx_min_varw23[1]+0.01], 
+  [approx_min_varw23[2]-0.01,approx_min_varw23[2]+0.01]], 
+  30)[2];
+assert_float_equal(approx_min_varw23[1],0.7146666666666667);
+assert_float_equal(approx_min_varw23[2], 0.358);
+approx_min_varw23[1] : roundd(approx_min_varw23[1], 4);
+assert_float_equal(approx_min_varw23[1],0.7147);
 
 /* For unconstrained optimisation one could use x = exp(lambda)/(1+exp(lambda)) and
    y = exp(mu)/(1+exp(mu)), where now lambda, mu are arbitrary real numbers
    (this also takes care of openness).
 */
 
-/* Via the use of min_scanning(minvarw23, [0.1,0.9], [0.1,0.9], 20)
-   and stepwise refinements we find a minimum at around 
-   x = 0.715, y = 0.358, and so the relative weights for
-   clauses of sizes 2,3,4 are 1, 0.1426, 0.2559.
-*/
+approx_min_varw : [
+ approx_min_varw23[1], 
+ approx_min_varw23[2] * (1-approx_min_varw23[1]),
+ 1 - approx_min_varw23[1] - approx_min_varw23[2] * (1-approx_min_varw23[1])];
+approx_min_varw : approx_min_varw / approx_min_varw[1];
+approx_min_varw[2] : roundd(approx_min_varw[2],3);
+approx_min_varw[3] : roundd(approx_min_varw[3],3);
+assert_float_equal(approx_min_varw[1], 1);
+assert_float_equal(approx_min_varw[2], 0.143);
+assert_float_equal(approx_min_varw[3], 0.256);
+
 
 
 /* Optimised heuristics: clause-weights (using Delta(l) as secondary heuristics) */
 
 weightingscheme_special(k) :=
-  if k = 2 then 1
-  elseif k = 3 then 0.1426
-  elseif k = 4 then 0.2559
+  if k >= 2 and k <= 4 then approx_min_varw[k-1]
   else error("Only clause-lengths 2,3,4 allowed!")$
 
 ok2002_php65_ucp1 : amended_heuristics_lookahead_distances(
@@ -550,7 +592,8 @@ assert(levelled_height(l2ult(col_ok2002n_php65_ast_65)) = 2);
 ok2002wl_php65_ucp1 : amended_heuristics_lookahead_distances(
   generalised_ucp1, 
   [lambda([F0,F1], 
-    0.985 * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) + (1-0.985) * delta_l(F0,F1)),
+    approx_min_varl * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+    + (1-approx_min_varl) * delta_l(F0,F1)),
    delta_n], 
   [tau2], 
   trivial_sat_approx, 
@@ -577,7 +620,8 @@ assert(levelled_height(l2ult(col_ok2002wl_php65_ast_65)) = 2);
 ok2002wc_php65_ucp1 : amended_heuristics_lookahead_distances(
   generalised_ucp1, 
   [lambda([F0,F1], 
-    0.985 * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) + (1-0.985) * delta_c(F0,F1)),
+    approx_min_varc * wn_newclauses_2(weightingscheme_OKsolver2002)(F0,F1) 
+    + (1-approx_min_varc) * delta_c(F0,F1)),
    delta_n], 
   [tau2], 
   trivial_sat_approx, 
@@ -604,24 +648,24 @@ assert(levelled_height(l2ult(col_ok2002wc_php65_ast_65)) = 2);
 mintaun(x) := upper_bound_nlvs_tau(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_n_ok2002_ncl234_ast_65);
 plot2d(mintaun, [x,0,1]);
-approx_min_taun : min_scanning(mintaun, [0,1], [0,1], 100);
+approx_min_taun : min_scanning(mintaun, [[0,1], [0,1]], 100);
 
 mintauc(x) := upper_bound_nlvs_tau(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_c_ok2002_ncl234_ast_65);
 plot2d(mintauc, [x,0,1]); /* minimum around ??? */
-approx_min_tauc : min_scanning(mintauc, [0,1], [0,1], 100);
+approx_min_tauc : min_scanning(mintauc, [[0,1], [0,1]], 100);
 
 mintaul(x) := upper_bound_nlvs_tau(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_l_ok2002_ncl234_ast_65);
 plot2d(mintaul, [x,0,1]); /* minimum around ??? */
-approx_min_taul : min_scanning(mintaul, [0,1], [0,1], 100);
+approx_min_taul : min_scanning(mintaul, [[0,1], [0,1]], 100);
 
 mintauw23(x,y) := upper_bound_nlvs_tau(
   x * tpbt_w2_ok2002_ncl234_ast_65 + y * (1-x) * tpbt_w3_ok2002_ncl234_ast_65 +
   (1 - x - y * (1-x)) * tpbt_w4_ok2002_ncl234_ast_65)$
 plot3d(mintauw23, [x,0.1,0.9], [y,0.1,0.9]);
 
-approx_min_tauw23 : min_scanning(mintauw23, [0.1,0.9], [0.1,0.9], 30);
+approx_min_tauw23 : min_scanning(mintauw23, [[0.1,0.9], [0.1,0.9]], 30);
 
 /*!
 \endhtmlonly
