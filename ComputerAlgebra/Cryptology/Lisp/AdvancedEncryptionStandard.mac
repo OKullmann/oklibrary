@@ -96,16 +96,6 @@ rotate(l,n) :=
   else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
   else rotate(append(rest(l), [first(l)]), n+1)$
 
-/* Takes a two parameter function f and two lists 'a' and 'b',
-   and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
-   n is the minimum of len(a) and len(b).
-   "map_rel" means "map relaxed".
-*/
-map_rel(f,a,b) := block([m : min(length(a),length(b))],
-  if m < length(a) then a : take(a,m) elseif m < length(b) then b : take(b,m),
-  map(f,a,b))$
-/* REMARK : relaxed needed ?? */
-
 /* Flattens a matrix or list into a list of the elements, row by row */
 matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
 
@@ -257,7 +247,7 @@ at all! */
  * as the result of the round operation. 
  */
 round(pl, rkl) := 
-  map_rel(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
+  map(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
     mixcolumns(shiftrows(subbytes(pl))), rkl)$
 
 /* REMARK: Where is the aes-function??? */
