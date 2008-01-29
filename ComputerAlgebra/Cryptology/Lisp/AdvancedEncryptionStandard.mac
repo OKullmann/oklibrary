@@ -26,14 +26,32 @@ load(gf)$
    ***************************************
 */
 
-rijndael_polynomial : x^8+x^4+x^3+x+1 $
-/* REMARK : Explain the special property! */
-
+/*
+   3-tuple used to represent a field with the egf functions representing the 
+   bit field or field of integers modulo 2. Of the form [p, n, ip] where "p"
+   is the prime characteristic of the field, "n" is the power to which "p" is 
+   raised, and "ip" the polynomial irreducible over GF(p) such that a field
+   GF(p^n) is defined with operations being performed on polynomials over 
+   GF(p) modulo ip.
+*/
 rijndael_bit_field : [2,1,[x]]$
-/* REMARK : Explain! */
 
+/*
+   Polynomial irreducible over GF(2) used as the modulus in Rijndael to define 
+   a GF(2^8) field (all operations are performed on polynomials over GF(2) 
+   modulo this irreducible polynomial.
+*/
+rijndael_polynomial : x^8+x^4+x^3+x+1 $
+
+/*
+   3-tuple used to represent a field with the egf functions representing the 
+   Rijndael byte field. Of the form [p, n, ip] where "p"
+   is the prime characteristic of the field, "n" is the power to which "p" is 
+   raised, and "ip" the polynomial irreducible over GF(p) such that a field
+   GF(p^n) is defined with operations being performed on polynomials over 
+   GF(p) modulo ip.
+*/
 rijndael_byte_field : [2,8,rijndael_polynomial]$
-/* REMARK : Explain! */
 
 
 /* ***************************************
@@ -44,16 +62,21 @@ rijndael_byte_field : [2,8,rijndael_polynomial]$
 Auxiliary functions either directly accompany their main user, or are
 not just "helper functions". */
 
-polynomial2bitvector(poly) := 
-  matrix([coeff(poly, x, 7)],[coeff(poly,x, 6)],[coeff(poly, x, 5)],
-    [coeff(poly, x, 4)],[coeff(poly, x, 3)],[coeff(poly, x, 2)],
-    [coeff(poly, x, 1)],[coeff(poly, x,0)])$
-/* REMARK : Obviously, this needs an algorithm. */
+/* 
+   Returns a vector (column matrix) of size n of the coefficients of the given
+   polynomial, with the top value in the vector being the coefficient for the
+   highest order term (with order < n).
+*/ 
+polynomial2vector(poly, n) := 
+    apply(matrix, reverse(makelist([coeff(poly, x, i)],i,0,n-1)))$
 
-bitvector2polynomial(byte) := 
-  byte[1][1] * x^7 + byte[2][1] * x^6 + byte[3][1] * x^5 + byte[4][1] * x^4
-  + byte[5][1] * x^3 + byte[6][1] * x^2 + byte[7][1] * x^1 + byte[8][1]$
-/* REMARK : Obviously, this needs an algorithm. */
+/* Returns a polynomial given the vector v, such that the polynomial is of 
+   order n where n is the size of the vector, and the values of the vector 
+   form the coefficients of the polynomial, with the first value in the 
+   vector becoming the coefficient of the highest order polynomial (order n-1).
+*/
+vector2polynomial(v) := block([n : length(v)],
+    sum(v[i][1] * x^(n - i), i, 1, n))$
 
 /* List Processing */
 /* REMARK : Should go elsewhere (module Lists). */
@@ -73,16 +96,6 @@ rotate(l,n) :=
   else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
   else rotate(append(rest(l), [first(l)]), n+1)$
 
-/* Takes a two parameter function f and two lists 'a' and 'b',
-   and returns a list of the form [f(a[1],b[1]),...f(a[n],b[n])] where
-   n is the minimum of len(a) and len(b).
-   "map_rel" means "map relaxed".
-*/
-map_rel(f,a,b) := block([m : min(length(a),length(b))],
-  if m < length(a) then a : take(a,m) elseif m < length(b) then b : take(b,m),
-  map(f,a,b))$
-/* REMARK : relaxed needed ?? */
-
 /* Flattens a matrix or list into a list of the elements, row by row */
 matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
 
@@ -97,7 +110,12 @@ matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
 /* It appears you can not overload functions with different arities
    and so the gf_* functions have been prefixed with an 'e' for 
    extended. These functions perform the same duty as their gf_*
-   counterparts but requ ???
+   counterparts but require additionally an argument that specifies
+   which field the operation is being performed over in the form [p,n,ip] where
+   "p" is the prime characteristic of the field, "n" is the power to which "p" 
+   is raised, and "ip" the polynomial irreducible over GF(p) such that a field
+   GF(p^n) is defined with operations being performed on polynomials over
+   GF(p) modulo ip.
  */
 /* REMARK : Such remarks should not stay in implementation files, but
 should go to plans-files. */
@@ -148,8 +166,8 @@ sbox(byte) :=
   else block([invbyte,result],
     invbyte : egf_inv(rijndael_byte_field,byte),
     result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
-      polynomial2bitvector(invbyte)),
-    return(egf_add(rijndael_byte_field, bitvector2polynomial(result),
+      polynomial2vector(invbyte,8)),
+    return(egf_add(rijndael_byte_field, vector2polynomial(result),
       rijndael_affine_constant))))$
 /* REMARK : We should set the field only once. */
 
@@ -228,8 +246,8 @@ at all! */
  * returns a list of the same size of GF(2^8) elements as the plaintext
  * as the result of the round operation. 
  */
-round(pl, rkl) := 
-  map_rel(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
+aes_round(pl, rkl) := 
+  map(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
     mixcolumns(shiftrows(subbytes(pl))), rkl)$
 
 /* REMARK: Where is the aes-function??? */

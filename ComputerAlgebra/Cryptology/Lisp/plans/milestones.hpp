@@ -19,8 +19,13 @@ License, or any later version. */
     - Split "Maxima: design" into subtopics
     - Split "Maxima: implementation issues" into subtopics
 
+  \par Version 0.0.7
+
   \par
-   Create new milestones.
+   In ComputerAlgebra/Cryptology/Lisp/plans/Rijndael.hpp the following topics
+   are handled:
+    - Finite Field functions
+    - New design and implementation
 
 
 
