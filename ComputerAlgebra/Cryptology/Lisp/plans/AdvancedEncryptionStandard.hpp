@@ -9,6 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
   \brief Plans for cryptological tools regarding the Rijndael cipher using Maxima
 
+
   \todo New design and implementation
   <ul>
    <li> Move items from below to here, if appropriate. </li>
@@ -27,6 +28,7 @@ License, or any later version. */
    </li>
   </ul>
   
+
   \todo Finite Field operations
   <ol>
    <li> Move the interface to the gf-package into a seperate module / .mac file. 
@@ -61,6 +63,7 @@ License, or any later version. */
    to specify the field. DONE </li>
   </ol>
   
+
   \todo Split "Maxima: design" into subtopics (and update)
 
 
