@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Transitional/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.11 (29.1.2008)
+  \module_version Transitional/Satisfiability 0.1.0.12 (29.1.2008)
 
 
   \par Version 0.1.1
@@ -18,6 +18,9 @@ License, or any later version. */
 
   \par Satisfiability/Interfaces version 0.0.6
   (see Satisfiability/Interfaces/plans/milestones.hpp)
+
+  \par Satisfiability/SpecialStructures version 0.0.3 : DONE
+  (see Satisfiability/SpecialStructures/plans/milestones.hpp)
 
   \par Satisfiability/Reductions version 0.0.4 : DONE
   (see Satisfiability/Reductions/plans/milestones.hpp)
@@ -86,6 +89,9 @@ License, or any later version. */
 
   \par Satisfiability/Reductions version 0.0.5
   (see Satisfiability/Reductions/plans/milestones.hpp)
+
+  \par Satisfiability/SpecialStructures version 0.0.4
+  (see Satisfiability/SpecialStructures/plans/milestones.hpp)
 
   \par
    Create further milestones.

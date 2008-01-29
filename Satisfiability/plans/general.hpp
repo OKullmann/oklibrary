@@ -22,7 +22,7 @@ License, or any later version. */
      <li> ProofSystems : DONE </li>
      <li> Quantification : DONE </li>
      <li> Reductions : DONE </li>
-     <li> SpecialStructures </li>
+     <li> SpecialStructures : DONE </li>
      <li> Variations </li>
     </ol>
    </li>
