@@ -13,9 +13,9 @@ License, or any later version. */
   <h2> General ideas </h2>
 
   <ul>
-   <li> Boolean clause-sets are treated directly, very similar to the mathematical
-   definition. </li>
-   <li The point is not efficient computation, but
+   <li> Boolean clause-sets are treated directly, very similar to the
+   mathematical definition. </li>
+   <li> The point is not efficient computation, but
     <ol>
      <li> readability of code </li>
      <li> ease of writing code. </li>
@@ -26,11 +26,26 @@ License, or any later version. */
   </ul>
 
 
-  <h2> Usage </h2>
+  <h2> General documentation </h2>
 
   <ul>
    <li> See the Tutorial
    ComputerAlgebra/Satisfiability/Lisp/docus/Tutorial.hpp (by MH). </li>
+  </ul>
+
+
+  <h2> Overview on docus </h2>
+
+  <ul>
+   <li> Autarkies : to be completed </li>
+   <li> Backtracking : to be completed </li>
+   <li> BranchingTuples :
+   ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/docus/general.hpp </li>
+   <li> %ClauseSets : to be completed </li>
+   <li> ConstraintProblems : to be completed </li>
+   <li> MinimalUnsatisfiability : to be completed </li>
+   <li> PropositionalLogic : to be completed </li>
+   <li> Resolution : to be completed </li>
   </ul>
 
 */

@@ -5,7 +5,7 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-/*
+/*!
   \file ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/demos/Basic.mac
   \brief Demonstration of Maxima-implementations regarding the tau-function
 
@@ -13,6 +13,10 @@ Use by
 
 oklib_demo("/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/demos/Basic.mac")$
 
+*/
+
+/*!
+\htmlonly
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
@@ -64,3 +68,8 @@ b0 : 0.5;
 eigen_chi2(0.5, 0.5, 1.1);
 chi_line_dom();
 plot2d(chi_line, [x,-0.199, 4]);
+
+/*!
+\endhtmlonly
+*/
+
