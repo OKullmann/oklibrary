@@ -72,6 +72,7 @@ License, or any later version. */
 
   <ul>
    <li> %Graphs : ComputerAlgebra/Graphs/Lisp/docus/general.hpp </li>
+   <li> Linear algebra : ComputerAlgebra/LinearAlgebra/Lisp/docus/general.hpp </li>
    <li> Satisfiability : ComputerAlgebra/Satisfiability/Lisp/docus/general.hpp
    </li>
   </ul>
