@@ -10,6 +10,9 @@ License, or any later version. */
   \brief General plans for the Maxima test system
 
 
+  \todo Create milestones.
+
+
   \todo Outline of the test system
   <ul>
    <li> Ask on the Maxima mailing list, whether they have a system in use.
@@ -172,6 +175,26 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Testing the demos
+  <ul>
+   <li> Also the demos-files need to be run, via oklib_load, to see whether
+   they still function correct. </li>
+   <li> Since they contain asserts, this is also contains tests. </li>
+   <li> A problem is that some demos run longer. </li>
+   <li> So demos need to be qualified as "basic tests", "full tests",
+   or "extensive tests". The problem how to do this. </li>
+   <li> And should these "tests" be included in the normal maxima-test? </li>
+   <li> First we create a special target "maxima_check_demos", and then
+   we'll decide. </li>
+   <li> This target, as usual, loads all demos-files (.mac-files in
+   demos-directories) below the given directory. </li>
+   <li> So again a special maxima-init-file is created by the process,
+   which contains all respective load-instructions. </li>
+   <li> Again the question is whether we do this recursively. </li>
+   <li> And again this appears to be superior. </li>
   </ul>
 
 */
