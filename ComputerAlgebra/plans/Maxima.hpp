@@ -249,6 +249,8 @@ block([fpprec : fpprec], fpprec : d, Comp)
     <ol>
      <li> There are warnings about undefined global variables, but since they
      involve even for example "inf" it seems we can ignore these warnings? </li>
+     <li> Now it stopped working at all, and so we need to investigate the
+     failures. </li>
     </ol>
    </li>
   </ul>
