@@ -17,6 +17,7 @@ License, or any later version. */
    but doesn't work). </li>
    <li> How to disable the debugger ?? </li>
   </ul>
+
   
   \todo Documentation
   <ul>
@@ -40,13 +41,42 @@ License, or any later version. */
   <ul>
    <li> The demos-files are put into demos-subdirectory, and are plain
    .mac-files (intented to be processed). </li>
-   <li> How to call the maxima-demos-files? </li>
-   <li> How to print out explanations? </li>
-   <li> How to create pauses? </li>
-   <li> How is it integrated into the general demos-system for the OKlibrary?
+   <li> How to run the maxima-demos-files?
+    <ol>
+     <li> Apparently, "batch" is when we want to "run through it", while
+     "demo" is when we want to pause after each expression. </li>
+    </ol>
+   </li>
+   <li> How to name the demos-files?
+    <ol>
+     <li> If the demonstation accompanies a file, then it has the same name. </li>
+     <li> Otherwise any appropriate name. </li>
+     <li> The suffix ".dem" is mentioned in the Maxima-manual. This or
+     ".mac" ?! </li>
+    </ol>
+   </li>
+   <li> How to create pauses?
+    <ol>
+     <li> On a global level one has the distinction between "oklib_batch"
+     and "oklib_demo". </li>
+   </li>
+   <li> DONE How to print out explanations?
+    <ol>
+     <li> The problem is that when using "batch" or "demo", where expressions
+     are reported before being printed, the explanations, for which we only
+     have the print-statement, are printed twice?? </li>
+     <li> The solution seems to be to use just the expression
+     \verbatim
+"Text to be shown"$
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> DONE How is it integrated into the general demos-system for the OKlibrary?
    Likely nothing special is done, only we need load-capabilities, likely
    here only for single files. </li>
-   <li> Extend "oklib_load" to process the maxima-demos? Perhaps better
+   <li> DONE (oklib_batch, oklib_demo)
+   Extend "oklib_load" to process the maxima-demos? Perhaps better
    a dedicated function. </li>
   </ul>
 
@@ -219,6 +249,8 @@ block([fpprec : fpprec], fpprec : d, Comp)
     <ol>
      <li> There are warnings about undefined global variables, but since they
      involve even for example "inf" it seems we can ignore these warnings? </li>
+     <li> Now it stopped working at all, and so we need to investigate the
+     failures. </li>
     </ol>
    </li>
   </ul>

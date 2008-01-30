@@ -1,12 +1,12 @@
 // Oliver Kullmann, 17.12.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file FailedLiteralReduction/plans/general.hpp
+  \file Reductions/FailedLiteralReduction/plans/general.hpp
   \brief Plans for the module FailedLiteralReduction
 
 
@@ -28,6 +28,7 @@ License, or any later version. */
      <li> Resolution </li>
     </ul>
    </li>
+   <li> See the ComputerAlgebra-part. </li>
   </ul>
 
 
@@ -37,7 +38,7 @@ License, or any later version. */
   \todo Timestamp
   <ul>
    <li> The (old) OKsolver used a timestamp
-   (see Transitional/Utilities/plans/Utilities.hpp),
+   (see Transitional/Programming/Utilities/TimeStamps/plans/general.hpp),
    incremented with each new literal processed
    (attempting to find a failed literal), which was used in two ways:
    <ol>

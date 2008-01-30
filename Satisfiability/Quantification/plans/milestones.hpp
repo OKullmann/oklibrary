@@ -1,26 +1,26 @@
-// Oliver Kullmann, 22.5.2007 (Swansea)
-/* Copyright 2007, 2008 Oliver Kullmann
+// Oliver Kullmann, 29.1.2008 (Swansea)
+/* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Reductions/FailedLiteralReduction/plans/milestones.hpp
-  
-  \module_version Reductions/FailedLiteralReduction 0.0.4 (22.5.2007)
+  \file Transitional/Satisfiability/Quantification/plans/milestones.hpp
+
+  \module_version Satisfiability/Quantification 0.0.3 (29.1.2008)
 
 
-  \par Version 0.0.5 :
+  \par Version 0.0.4
 
   \par
-   In FailedLiteralReduction/plans/general.hpp the following topics
+   In Satisfiability/Quantification/plans/general.hpp the following topics
    are handled:
-    - Update namespaces
-    - Foundations
+    - Main challenge are the concepts
+    - What are the input formats?
 
   \par
-   New milestones have been created.
+   Create further milestones.
 
 
 
@@ -28,7 +28,7 @@ License, or any later version. */
 
   \par Version history
 
-   - 0.0.4 : 22.5.2007; initial version number (several plans, and the experience with the (old) OKsolver).
+   - 0.0.3 : 29.1.2008; initial version number (several plans).
 
 */
 

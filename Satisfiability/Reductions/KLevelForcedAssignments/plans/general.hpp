@@ -1,12 +1,12 @@
 // Oliver Kullmann, 17.12.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file KLevelForcedAssignments/plans/general.hpp
+  \file Reductions/KLevelForcedAssignments/plans/general.hpp
   \brief Plans for the module KLevelForcedAssignments
 
   The special case K=2 (and extensions) is handled in module
@@ -21,6 +21,9 @@ License, or any later version. */
 
 
   \todo First the scope (the (informal) concepts) has to be established.
+
+
+  \todo Create milestones.
 
 */
 

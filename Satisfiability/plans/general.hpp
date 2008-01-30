@@ -18,32 +18,24 @@ License, or any later version. */
      <li> Enumeration : DONE </li>
      <li> FiniteFunctions : DONE </li>
      <li> Heuristics : DONE </li>
-     <li> Optimisation </li>
-     <li> ProofSystems </li>
-     <li> Quantification </li>
-     <li> Reductions </li>
-     <li> SpecialStructures </li>
-     <li> Variations </li>
+     <li> Optimisation : DONE </li>
+     <li> ProofSystems : DONE </li>
+     <li> Quantification : DONE </li>
+     <li> Reductions : DONE </li>
+     <li> SpecialStructures : DONE </li>
+     <li> Variations : DONE </li>
     </ol>
    </li>
-   <li> Perhaps under Variations we should have a module Counting?
-    <ol>
-     <li> There we should implement the algorithm for approximating
-     the number of falsifying assignments by sampling. </li>
-    </ol>
+  </ul>
+
+
+  \todo New supermodule on CSP
+  <ul>
+   <li> This module would consider mostly the traditional CSP
+   approaches (like in
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac)
    </li>
-   <li> Of course, counting algorithms are also obtained by representing
-   all solutions, which is under AllSolutions/plans/general.hpp ? </li>
-   <li> We need to find a clear structure where to place what. </li>
-   <li> New supermodule on CSP:
-    <ol>
-     <li> This module would consider mostly the traditional CSP
-     approaches (like in
-     ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac)
-     </li>
-     <li> How to name it: "ConstraintSatisfaction" ? Alias "CoS" ? </li>
-    </ol>
-   </li>
+   <li> How to name it: "ConstraintSatisfaction" ? Alias "CoS" ? </li>
   </ul>
 
 

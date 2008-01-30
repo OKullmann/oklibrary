@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-?? oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac");
+oklib_demo("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac");
 
 */
 
@@ -20,14 +20,23 @@ Use by
 */
 
 oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
-/* The hermitean defect of the squares matrices M_n of order n with zeros on
-   the diagonal and 1 elsewhere is 1. */
+"Squares matrices M_n of order n with zeros on the diagonal and 1 elsewhere:"$
 
 M(n) := 1+zeromatrix(n,n)-ident(n);
-/* We have M(n) = adjacency_matrix(complete_graph(n)). */
 
-hermitean_def(M(20)); /* 1 */
+M(4);
+
+"We have M(n) = adjacency_matrix(complete_graph(n)):"$
+
+load(graphs)$
+assert(adjacency_matrix(complete_graph(4)) = M(4));
+
+"The hermitean defect of the matrices M_n of order n is 1."$
+
+assert(hermitean_def(M(20)) = 1);
+assert(hermitean_rank(M(20)) = 20 - 1);
 
 /*!
 \endhtmlonly

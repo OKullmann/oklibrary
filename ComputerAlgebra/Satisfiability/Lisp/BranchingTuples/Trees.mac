@@ -35,6 +35,8 @@ oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
    probabilities attached to subtree T_i (n = 0 is the case of a leaf). 
 */
 
+/* For the following functions the input T is a tree with tpd. */
+
 /* the probability distribution induced on the leaves by a tree with tpd */
 tpd_flatten(T) := if T = [[]] then [1] else 
  xreduce(append, T[1] * map(tpd_flatten, rest(T)))$
@@ -92,7 +94,7 @@ uniform_tpd(T) := block([l : length(T)],
    Trees with distances are treated here as "trees with branching tuples".
 */
 
-/* check whether T is a "formally" tree with a distances 
+/* check whether T is "formally" a tree with distances
    (or "with branching tuples") */
 tbtp(T) := if not listp(T) then false else block([l : length(T)],
   is(l > 0) and listp(T[1]) and length(T[1]) = l-1 and

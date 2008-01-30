@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac");
 */
 
 /* ******************************
-   * Constraint minimisation    *
+   * Constrained minimisation    *
    ******************************
 */
 
@@ -32,18 +32,34 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac");
 
   Assumes that no function "f8765" has been defined.
 */
-min_scanning(f8765, bounds, N) := block([n : length(bounds)],
+
+monitorcheck_min_scanning(name) := 
+ if oklib_monitor and length(bounds) > 0 then (
+  print(sconcat("M[",name,"]:"), 
+    "Entry (", orig_n, "dimensions, N =", N, ")."))$
+monitorcheck_min_scanning_loop(name) := if oklib_monitor then (
+  if orig_n - n <= oklib_monitor_level - 1 then (
+    print(sconcat("M[",name,"]: LOOP "), 
+      "dim:", n, ", x:", float(x), ", best:", float(best), 
+      ", cur_min:", float(cur_min))))$
+
+min_scanning(f8765, bounds, N) := block([orig_n : length(bounds)],
+  monitorcheck_min_scanning("min_scanning"),
+  min_scanning_aux(f8765, bounds, N))$
+min_scanning_aux(f8765, bounds, N) := block([n : length(bounds)],
   if n = 0 then return([apply(f8765,[]),[]]),
   block([begin : bounds[1][1], end : bounds[1][2], cur_min : inf, delta, best],
    delta : (end - begin) / N,
-   for x : begin thru end step delta do block(
-    [val : min_scanning(
+   for i : 0 thru N do block(
+    [x : begin + i * delta, val],
+     val : min_scanning_aux(
              buildq([x,f8765],lambda([[y]],apply(f8765,cons(x,y)))), 
              rest(bounds), 
-             N)],
+             N),
      if val[1] < cur_min then (
        cur_min : val[1], best : cons(x, val[2])
-     )
+     ),
+     monitorcheck_min_scanning_loop("min_scanning")
    ),
   return([cur_min, best])))$
   

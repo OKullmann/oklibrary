@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Transitional/Satisfiability/plans/milestones.hpp
 
-  \module_version Transitional/Satisfiability 0.1.0.7 (19.1.2008)
+  \module_version Transitional/Satisfiability 0.1.0.14 (29.1.2008)
 
 
   \par Version 0.1.1
@@ -18,6 +18,24 @@ License, or any later version. */
 
   \par Satisfiability/Interfaces version 0.0.6
   (see Satisfiability/Interfaces/plans/milestones.hpp)
+
+  \par Satisfiability/Variations version 0.0.2 : DONE
+  (see Satisfiability/Variations/plans/general.hpp)
+
+  \par Satisfiability/SpecialStructures version 0.0.3 : DONE
+  (see Satisfiability/SpecialStructures/plans/milestones.hpp)
+
+  \par Satisfiability/Reductions version 0.0.4 : DONE
+  (see Satisfiability/Reductions/plans/milestones.hpp)
+
+  \par Satisfiability/Quantification version 0.0.3 : DONE
+  (see Transitional/Satisfiability/Quantification/plans/milestones.hpp)
+
+  \par Satisfiability/ProofSystems version 0.0.3 : DONE
+  (see Transitional/Satisfiability/ProofSystems/plans/milestones.hpp)
+
+  \par Satisfiability/Optimisation version 0.0.2 : DONE
+  (see Satisfiability/Optimisation/plans/milestones.hpp)
 
   \par Satisfiability/Heuristics version 0.0.2 : DONE
   (see Satisfiability/Heuristics/plans/milestones.hpp)
@@ -40,7 +58,7 @@ License, or any later version. */
   \par
    In Transitional/Satisfiability/plans/general.hpp the following
    topics are handled:
-    - Strengthening the module structure
+    - Strengthening the module structure : DONE
     - Move older modules here : DONE
     - Milestones : DONE
     - Update namespaces : DONE
@@ -62,6 +80,29 @@ License, or any later version. */
 
   \par Satisfiability/Algorithms version 0.0.7
   (see Satisfiability/Algorithms/plans/milestones.hpp)
+
+  \par Satisfiability/Optimisation version 0.0.3
+  (see Satisfiability/Optimisation/plans/milestones.hpp)
+
+  \par Satisfiability/ProofSystems version 0.0.4
+  (see Transitional/Satisfiability/ProofSystems/plans/milestones.hpp)
+
+  \par Satisfiability/Quantification 0.0.4
+  (see Transitional/Satisfiability/Quantification/plans/milestones.hpp)
+
+  \par Satisfiability/Reductions version 0.0.5
+  (see Satisfiability/Reductions/plans/milestones.hpp)
+
+  \par Satisfiability/SpecialStructures version 0.0.4
+  (see Satisfiability/SpecialStructures/plans/milestones.hpp)
+
+  \par Satisfiability/Variations version 0.0.3
+  (see Satisfiability/Variations/plans/general.hpp)
+
+  \par
+   In Transitional/Satisfiability/plans/general.hpp the following
+   topics are handled:
+    - New supermodule on CSP
 
   \par
    Create further milestones.
