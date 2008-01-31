@@ -27,7 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Reductions.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac");
