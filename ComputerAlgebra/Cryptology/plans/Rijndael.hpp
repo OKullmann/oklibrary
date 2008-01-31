@@ -9,42 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/plans/Rijndael.hpp
   \brief Plans for cryptological tools regarding the Rijndael cipher
 
-
-  \todo Terminology
-  <ul>
-   <li> A bit could be called 
-    <ul>
-     <li> an element in GF(2) </li>
-     <li> an element in the "bit field". </li>
-    </ul>
-   <li> An 8-bit element, representing a polynomial over GF(2) or an element
-   in GF(2^8) can be called
-    <ul>
-     <li> an element in GF(2^8) </li>
-     <li> an element in the "byte field". </li>
-     <li> an element in the "rijndael byte field" </li>
-    </ul>
-   </li>
-   <li> The most significant bit represents the highest order term in the polynomial,
-   and values are usually written in hexadecimal notation, so, for example, 
-   A2 is 10100010. Some clarification may be needed on the implementation details
-   for the specific GF(2^8) field. </li>
-   <li> A 4-byte element formed by taking a column of GF(2^8) elements in the 
-   Rijndael block might be called
-    <ul>
-     <li> a 4-byte column </li>
-     <li> an element in the 4-Byte PID (Principal Ideal Domain) </li>
-     <li> an element in the QR (Quotient Ring) </li>
-    </ul>
-   as this is not actually a field (some elements don't have an inverse as the 
-   modulus x^4 + 1 isn't irreducible over GF(2^8)). </li>
-   <li> Which of these is most appropriate? It seems "Quotient Ring" but further
-   reading is necessary and perhaps a more elegant and more specific name can be 
-   found. Again, the most significant byte of the 4-bytes represents the coefficient
-   of the highest order term in the polynomial. </li>
-  </ul>
-
-
+  
   \todo Restructuring
   <ul>
    <li> Link to module Structures/Cryptology (see
@@ -59,6 +24,13 @@ License, or any later version. */
    <li> Create sub-modules for "Lisp" and "Aldor". DONE </li>
    <li> DONE (yes, only Maxima and Axiom (at this time))
    Likely "Sage" is not treated on its own. </li>
+  </ul>
+
+  
+  \todo Expand docus
+  <ul>
+   <li>Add basic overview of AES/Rijndael.</li>
+   <li>Add additional terminology and refine current terminology</li>
   </ul>
 
 
@@ -460,6 +432,41 @@ else :
      message and produces the encrypted result, and then decrypts the result be a reasonable
      single example? Perhaps some use of the functions in producing pseudorandom data similar 
      in idea to the use of AES in Random generators elsewhere in OKlibrary? </li>
+  </ul>
+  
+  \todo Terminology (DONE Moved to 
+  ComputerAlgebra/Cryptology/docus/Rijndael.hpp . See "Expand docus" todo)
+  <ul>
+   <li> A bit could be called 
+    <ul>
+     <li> an element in GF(2) </li>
+     <li> an element in the "bit field". </li>
+    </ul>
+   <li> An 8-bit element, representing a polynomial over GF(2) or an element
+   in GF(2^8) can be called
+    <ul>
+     <li> an element in GF(2^8) </li>
+     <li> an element in the "byte field". </li>
+     <li> an element in the "rijndael byte field" </li>
+    </ul>
+   </li>
+   <li> The most significant bit represents the highest order term in the polynomial,
+   and values are usually written in hexadecimal notation, so, for example, 
+   A2 is 10100010. Some clarification may be needed on the implementation details
+   for the specific GF(2^8) field. </li>
+   <li> A 4-byte element formed by taking a column of GF(2^8) elements in the 
+   Rijndael block might be called
+    <ul>
+     <li> a 4-byte column </li>
+     <li> an element in the 4-Byte PID (Principal Ideal Domain) </li>
+     <li> an element in the QR (Quotient Ring) </li>
+    </ul>
+   as this is not actually a field (some elements don't have an inverse as the 
+   modulus x^4 + 1 isn't irreducible over GF(2^8)). </li>
+   <li> Which of these is most appropriate? It seems "Quotient Ring" but further
+   reading is necessary and perhaps a more elegant and more specific name can be 
+   found. Again, the most significant byte of the 4-bytes represents the coefficient
+   of the highest order term in the polynomial. </li>
   </ul>
 
 */
