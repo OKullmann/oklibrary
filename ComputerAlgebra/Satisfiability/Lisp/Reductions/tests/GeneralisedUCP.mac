@@ -20,6 +20,43 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Ge
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
+
+kill(f)$
+
+okltest_generalised_ucp(f) := block(
+  for k : 0 thru 10 do (
+    assert(f({},k) = {}),
+    assert(f({{}},k) = {{}}),
+    assert(f({{},{1,2}},k) = {{}}),
+    assert(f({{1},{-1,2,3}},k) = if k=0 then {{1},{-1,2,3}} else {{2,3}}),
+    assert(f({{1},{-1,2}},k) = if k=0 then {{1},{-1,2}} else {})
+  ),
+  if oklib_test_level = 0 then return(true),
+
+  for k : 1 thru 3 do block([F : weak_php(k+1,k)[2]],
+    for k2 : 0 thru k-1 do
+      assert(f(F,k2) = F),
+    assert(f(F,k) = {{}})
+  ),
+  if oklib_test_level = 1 then return(true),
+
+  for k : 4 thru 4 do block([F : weak_php(k+1,k)[2]],
+    for k2 : 0 thru k-1 do
+      assert(f(F,k2) = F),
+    assert(f(F,k) = {{}})
+  ),
+  if oklib_test_level = 2 then return(true),
+
+  true
+)$
+
+okltest_generalised_ucp_pa(f) := (
+  okltest_generalised_ucp(buildq([f], lambda([F,k], f(F,k)[1]))),
+  true
+)$
+
+
 
 
 /*!
