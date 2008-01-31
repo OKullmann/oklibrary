@@ -23,6 +23,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBra
 \htmlonly
 */
 
+if oklib_test_demos then
+ if oklib_test_demos_level < 3 then return()$
+
 oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac");

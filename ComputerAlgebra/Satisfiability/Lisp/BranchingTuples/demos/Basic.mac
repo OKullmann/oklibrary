@@ -19,6 +19,9 @@ oklib_demo("/Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/de
 \htmlonly
 */
 
+if oklib_test_demos then
+ if oklib_test_demos_level < 2 then return()$
+
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 
 "The chi-function for branching tuple [1,2]:"$
@@ -44,9 +47,6 @@ tauprob2(1,2);
 "Plots of the tau2-function (with different plotting devices; you might rotate the plots a bit (left-click) while waiting for the following computations, or resize them (double-click)):"$
 plot3d(tau2, [x,0.5,2], [y,0.5,2]);
 plot3d(tau2, [x,0.5,2], [y,0.5,2], [gnuplot_pm3d, true]);
-
-"The following plot you have to close in order to continue:"$
-plot3d(tau2, [x,0.5,2], [y,0.5,2], [plot_format, openmath]);
 
 "More balanced branching tuples have a smaller tau-value:"$
 tau_preamble: "set pm3d at s; unset surface; set contour; set cntrparam levels 15; unset key";

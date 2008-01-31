@@ -19,6 +19,9 @@ oklib_demo("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms
 \htmlonly
 */
 
+if oklib_test_demos then
+ if oklib_test_demos_level < 1 then return()$
+
 oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac");
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
