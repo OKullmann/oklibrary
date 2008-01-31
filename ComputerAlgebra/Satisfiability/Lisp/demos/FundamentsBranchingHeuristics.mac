@@ -728,18 +728,17 @@ ok2002nt_php65_ast_65 : dll_red_st_dist(
   ok2002nt_php65_ucp1,
   generalised_ucp_ple1);
 
-/*
-assert(nnds_l(ok2002nt_php65_ast_65) = 67);
-assert(height(l2ult(ok2002nt_php65_ast_65)) = 12);
+assert(nnds_l(ok2002nt_php65_ast_65) = 79);
+assert(height(l2ult(ok2002nt_php65_ast_65)) = 9);
 assert(levelled_height(l2ult(ok2002nt_php65_ast_65)) = 3);
 
-assert(count_inf_branches(ok2002nt_php65_ast_65, 0) = 13);
+assert(count_inf_branches(ok2002nt_php65_ast_65, 0) = 25);
 col_ok2002nt_php65_ast_65 : collapse_inf_branches(ok2002nt_php65_ast_65, 0);
 
-assert(nnds_l(col_ok2002nt_php65_ast_65) = 41);
-assert(height(l2ult(col_ok2002nt_php65_ast_65)) = 11);
+assert(nnds_l(col_ok2002nt_php65_ast_65) = 29);
+assert(height(l2ult(col_ok2002nt_php65_ast_65)) = 6);
 assert(levelled_height(l2ult(col_ok2002nt_php65_ast_65)) = 2);
-*/
+
 
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(n) */
 
@@ -757,7 +756,6 @@ ok2002wnt_php65_ast_65 : dll_red_st_dist(
   ok2002wnt_php65_ucp1,
   generalised_ucp_ple1);
 
-/*
 assert(nnds_l(ok2002wnt_php65_ast_65) = 79);
 assert(height(l2ult(ok2002wnt_php65_ast_65)) = 9);
 assert(levelled_height(l2ult(ok2002wnt_php65_ast_65)) = 3);
@@ -768,7 +766,7 @@ col_ok2002wnt_php65_ast_65 : collapse_inf_branches(ok2002wnt_php65_ast_65, 0);
 assert(nnds_l(col_ok2002wnt_php65_ast_65) = 29);
 assert(height(l2ult(col_ok2002wnt_php65_ast_65)) = 6);
 assert(levelled_height(l2ult(col_ok2002wnt_php65_ast_65)) = 2);
-*/
+
 
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(c) */
 
@@ -786,7 +784,6 @@ ok2002wct_php65_ast_65 : dll_red_st_dist(
   ok2002wct_php65_ucp1,
   generalised_ucp_ple1);
 
-/*
 assert(nnds_l(ok2002wct_php65_ast_65) = 79);
 assert(height(l2ult(ok2002wct_php65_ast_65)) = 9);
 assert(levelled_height(l2ult(ok2002wct_php65_ast_65)) = 3);
@@ -797,7 +794,7 @@ col_ok2002wct_php65_ast_65 : collapse_inf_branches(ok2002wct_php65_ast_65, 0);
 assert(nnds_l(col_ok2002wct_php65_ast_65) = 29);
 assert(height(l2ult(col_ok2002wct_php65_ast_65)) = 6);
 assert(levelled_height(l2ult(col_ok2002wct_php65_ast_65)) = 2);
-*/
+
 
 /* Optimised heuristics: Linear combination of weighted clauses and Delta(l) */
 
@@ -815,7 +812,6 @@ ok2002wlt_php65_ast_65 : dll_red_st_dist(
   ok2002wlt_php65_ucp1,
   generalised_ucp_ple1);
 
-/*
 assert(nnds_l(ok2002wlt_php65_ast_65) = 79);
 assert(height(l2ult(ok2002wlt_php65_ast_65)) = 9);
 assert(levelled_height(l2ult(ok2002wlt_php65_ast_65)) = 3);
@@ -826,7 +822,7 @@ col_ok2002wlt_php65_ast_65 : collapse_inf_branches(ok2002wlt_php65_ast_65, 0);
 assert(nnds_l(col_ok2002wlt_php65_ast_65) = 29);
 assert(height(l2ult(col_ok2002wlt_php65_ast_65)) = 6);
 assert(levelled_height(l2ult(col_ok2002wlt_php65_ast_65)) = 2);
-*/
+
 
 /*!
 \endhtmlonly
