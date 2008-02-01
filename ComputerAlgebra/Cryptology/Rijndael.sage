@@ -42,23 +42,36 @@ BYTE.<a> = GF(2**8, 'a', z^8 + z^4 + z^3 + z + 1)
 def natToGF2t8(n) :
     """ Converts From a number in Nat to the corresponding value in GF(2^8) given 
         that the number is a binary value and the binary bits are seen to be 
-        the coefficients in GF(2) or the polynomials making up GF(2^8)"""
+        the coefficients in GF(2) or the polynomials making up GF(2^8). The
+        least significant bit becomes the coefficient of the term with the
+        lowest order (i.e x^0)."""
     return BYTE.fetch_int(n)
  
 def GF2t8ToNat(n) :
     """ Converts to a number in Nat from the corresponding value in GF(2^8) 
         given that the number is a binary value and the binary bits are 
-        seen to be the coefficients in GF(2) or the polynomials making up GF(2^8)"""
+        seen to be the coefficients in GF(2) or the polynomials making up
+        GF(2^8). The least significant bit is the coefficient of the term
+        with the lowest order (i.e x^0)."""
     return int(n)
 
 def BitVToGF2t8(v) :
-    """ Converts a vector of bits to an element in GF(2^8) """
-    return (v[0] + v[1] * a^1 + v[2] * a^2 + v[3] * a^3 + v[4] * a^4 + 
-            v[5] * a^5 + v[6] * a^6 + v[7] * a^7)
+    """ Converts a vector of bits to an element in GF(2^8) where the first
+    element in the vector is the highest coefficient in the GF(2^8) 
+    polynomial. """
+    result = 0
+    vLen = len(v)
+    for i in range(0,vLen) :
+        result += v[i] * a^(vLen - i - 1)
+    return result
 
 def GF2t8ToBitV(re) :
-    """ Converts an element in GF(2^8) to a vector of bits """
-    return re.vector()
+    """ Converts an element in GF(2^8) to a vector of bits where the first
+    element in the vector is the highest coefficient in the GF(2^8) 
+    polynomial. """
+    returnList = re.vector().list()
+    returnList.reverse()
+    return vector(returnList)
 
 
 def listToGF2t8Mat(rl) :
@@ -102,19 +115,19 @@ RMCM = listToGF2t8Mat(
 
 # Rijndael SBox
 SBOX_MATRIX = matrix(GF(2),8,
-    [1,0,0,0,1,1,1,1,
-     1,1,0,0,0,1,1,1,
-     1,1,1,0,0,0,1,1,
-     1,1,1,1,0,0,0,1,
-     1,1,1,1,1,0,0,0,
+    [1,1,1,1,1,0,0,0,
      0,1,1,1,1,1,0,0,
      0,0,1,1,1,1,1,0,
-     0,0,0,1,1,1,1,1])
+     0,0,0,1,1,1,1,1,
+     1,0,0,0,1,1,1,1,
+     1,1,0,0,0,1,1,1,
+     1,1,1,0,0,0,1,1,
+     1,1,1,1,0,0,0,1])
 
 # Sbox Affine Constant
-SBOX_CONSTANT = (1,1,0,0,0,1,1,0)
+SBOX_CONSTANT = (0,1,1,0,0,0,1,1)
 # Sbox Inverse Affine Constant
-SBOX_INV_CONSTANT = (1,0,1,0,0,0,0,0)
+SBOX_INV_CONSTANT = (0,0,0,0,0,1,0,1)
 
 def aesPerm(n, nb) :
     """ Given a value n, maps n to m where m is the new position that the Rijndael 
