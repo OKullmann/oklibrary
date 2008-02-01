@@ -24,6 +24,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Gener
 
 kill(f)$
 
+/* **********************
+   * The r_k reductions *
+   **********************
+*/
+
 okltest_generalised_ucp(f) := block(
   for k : 0 thru 10 do (
     assert(f({},k) = {}),
@@ -51,12 +56,220 @@ okltest_generalised_ucp(f) := block(
   true
 )$
 
-okltest_generalised_ucp_pa(f) := (
+
+okltest_generalised_ucp_pa(f) := block(
   okltest_generalised_ucp(buildq([f], lambda([F,k], f(F,k)[1]))),
+
+  for k : 0 thru 10 do (
+    assert(f({},k)[2] = {}),
+    assert(f({{}},k)[2] = {}),
+    assert(apply_pa(f({{},{1,2}},k)[2], {{},{1,2}}) = {{}}),
+    assert(f({{1},{-1,2,3}},k)[2] = if k=0 then {} else {1}),
+    assert(f({{1},{-1,2}},k)[2] = if k=0 then {} else {1,2})
+  ),
+  if oklib_test_level = 0 then return(true),
+
+  for k : 1 thru 3 do block([F : weak_php(k+1,k)[2]],
+    for k2 : 0 thru k-1 do
+      assert(f(F,k2)[2] = {}),
+    assert(apply_pa(f(F,k)[2], F) = {{}})
+  ),
+  if oklib_test_level = 1 then return(true),
+
+  for k : 4 thru 4 do block([F : weak_php(k+1,k)[2]],
+    for k2 : 0 thru k-1 do
+      assert(f(F,k2)[2] = {}),
+    assert(apply_pa(f(F,k)[2], F) = {{}})
+  ),
+  if oklib_test_level = 2 then return(true),
+
   true
 )$
 
 
+/* *******************************
+   * Reduction by weak autarkies *
+   *******************************
+*/
+
+okltest_weakaut_red(f) := block([F],
+  for k : 0 thru 5 do (
+    assert(f({},k) = {}),
+    assert(f({{}},k) = {{}}),
+    assert(f({{1,2}},k) = if k=0 then {{1,2}} else {}),
+    F : {{1,-2},{2,-3},{3,-4},{4}},
+    assert(f(F,k) = if k=0 then F else {}),
+    F : {{-1},{1},{2}},
+    assert(f(F,k) = if k=0 then F else {{-1},{1}}),
+    F : {{1,2},{-1,-2}},
+    assert(f(F,k) = if k<=1 then F else {})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
+
+
+okltest_weakaut_red_pa(f) := block([F],
+  okltest_weakaut_red(buildq([f],lambda([F,k],f(F,k)[1]))),
+
+  for k : 0 thru 5 do (
+    assert(f({},k)[2] = {}),
+    assert(f({{}},k)[2] = {}),
+    F : {{1,2}},
+    if k=0 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2], F) = {}),
+    F : {{1,-2},{2,-3},{3,-4},{4}},
+    if k=0 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(f(F,k)[2] = {1,2,3,4}),
+    F : {{1,2},{-1,-2}},
+    if k<=1 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2], F) = {})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
+
+
+/* ****************************************************************
+   * Combining generalised unit-clause and weak-autarky-reduction *
+   ****************************************************************
+*/
+
+okltest_generalised_ucp_war(f) := block([F],
+  for k : 0 thru 10 do (
+    assert(f({},k) = {}),
+    assert(f({{}},k) = {{}}),
+    assert(f({{},{1,2}},k) = {{}}),
+    F : {{1},{-1,2,3}},
+    assert(f(F,k) = if k=0 then F else {}),
+    F : {{1,2},{-1,2},{1,-2}},
+    assert(f(F,k) = if k<=1 then F else {})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
+
+okltest_generalised_ucp_war_pa(f) := block(
+  okltest_generalised_ucp_war(buildq([f],lambda([F,k],f(F,k)[1]))),
+
+  for k : 0 thru 10 do (
+    assert(f({},k)[2] = {}),
+    assert(f({{}},k)[2] = {}),
+    F : {{},{1,2}},
+    assert(apply_pa(f(F,k)[2],F) = {{}}),
+    F : {{1},{-1,2,3}},
+    if k=0 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2],F) = {}),
+    F : {{1,2},{-1,2},{1,-2}},
+    if k<=1 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2],F) = {})
+  ),
+  if oklib_test_level = 0 then return(true),
+
+  true)$
+
+
+/* ******************************************************************
+   * Generalised elimination of pure literals by forced assignments *
+   ******************************************************************
+*/
+
+okltest_generalised_ple(f) := block([F],
+  for k : 0 thru 5 do (
+    assert(f({},k) = {}),
+    assert(f({{}},k) = {{}}),
+    assert(f({{1,2}},k) = {}),
+    F : {{1,-2},{2,-3},{3,-4},{4}},
+    assert(f(F,k) = {}),
+    F : {{-1},{1},{2}},
+    assert(f(F,k) = if k = 0 then {{-1},{1}} else F),
+    F : {{1,2},{-1,-2}},
+    assert(f(F,k) = if k=0 then F else {}),
+    F : {{1,2},{-1,2},{1,-2},{-1,-2},{3,4},{-3,4},{-3,-4}},
+    assert(f(F,k) = if k#1 then F else {{1,2},{-1,2},{1,-2},{-1,-2}})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
+
+okltest_generalised_ple_pa(f) := block([F],
+  okltest_generalised_ple(buildq([f],lambda([F,k],f(F,k)[1]))),
+  for k : 0 thru 5 do (
+    assert(f({},k)[2] = {}),
+    assert(f({{}},k)[2] = {}),
+    F : {{1,2}},
+    assert(apply_pa(f(F,k)[2],F) = {}),
+    F : {{1,-2},{2,-3},{3,-4},{4}},
+    assert(apply_pa(f(F,k)[2],F) = {}),
+    F : {{-1},{1},{2}},
+    assert(f(F,k)[2] = if k = 0 then {2} else {}),
+    F : {{1,2},{-1,-2}},
+    if k=0 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2],F) = {}),
+    F : {{1,2},{-1,2},{1,-2},{-1,-2},{3,4},{-3,4},{-3,-4}},
+    if k#1 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2],F) = {{1,2},{-1,2},{1,-2},{-1,-2}})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
+
+
+/* *******************************************************
+   * Look-ahead reduction for r_k and enforced autarkies *
+   *******************************************************
+*/
+
+okltest_generalised_ucp_ple(f) := block([F],
+  for k : 0 thru 5 do (
+    assert(f({},k) = {}),
+    assert(f({{}},k) = {{}}),
+    assert(f({{1,2}},k) = {}),
+    F : {{1,-2},{2,-3},{3,-4},{4}},
+    assert(f(F,k) = {}),
+    F : {{-1},{1},{2}},
+    assert(f(F,k) = {{}}),
+    F : {{1,2},{-1,-2}},
+    assert(f(F,k) = if k=0 then F else {}),
+    F : {{1,2},{-1,2},{1,-2},{-1,-2},{3,4},{-3,4},{-3,-4}},
+    assert(f(F,k) = if k=0 then F else {{}})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
+
+okltest_generalised_ucp_ple_pa(f) := block([F],
+  okltest_generalised_ucp_ple(buildq([f],lambda([F,k],f(F,k)[1]))),
+  for k : 0 thru 5 do (
+    assert(f({},k)[2] = {}),
+    assert(f({{}},k)[2] = {}),
+    F : {{1,2}},
+    assert(apply_pa(f({{1,2}},k)[2],F) = {}),
+    F : {{1,-2},{2,-3},{3,-4},{4}},
+    assert(f(F,k)[2] = {1,2,3,4}),
+    F : {{-1},{1},{2}},
+    assert(apply_pa(f(F,k)[2],F) = {{}}),
+    F : {{1,2},{-1,-2}},
+    if k=0 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2],F) = {}),
+    F : {{1,2},{-1,2},{1,-2},{-1,-2},{3,4},{-3,4},{-3,-4}},
+    if k=0 then
+      assert(f(F,k)[2] = {})
+    else
+      assert(apply_pa(f(F,k)[2],F) = {{}})
+  ),
+  if oklib_test_level = 0 then return(true),
+  true)$
 
 
 /*!

@@ -24,6 +24,19 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests
 okltest_generalised_ucp(generalised_ucp);
 okltest_generalised_ucp_pa(generalised_ucp_pa);
 
+okltest_weakaut_red(weakaut_red);
+okltest_weakaut_red_pa(weakaut_red_pa);
+
+okltest_generalised_ucp_war(generalised_ucp_war);
+okltest_generalised_ucp_war_pa(generalised_ucp_war_pa);
+
+okltest_generalised_ple(generalised_ple);
+okltest_generalised_ple_pa(generalised_ple_pa);
+
+okltest_generalised_ucp_ple(generalised_ucp_ple);
+okltest_generalised_ucp_ple_pa(generalised_ucp_ple_pa);
+
+
 /*!
 \endhtmlonly
 */

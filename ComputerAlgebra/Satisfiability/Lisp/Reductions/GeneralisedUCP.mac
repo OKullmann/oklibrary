@@ -29,15 +29,16 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 */
 
 /* "Generalised unit-clause-propagation":
-    input a clause-set F and level k, output r_k(F) */
-generalised_ucp(F,k) := 
- if min_rank_cs(F) > k then F
- elseif k = 0 then {{}} else
+    input a clause-set F and level k, output r_k(F).
+    Every forced assignment is found for k large enough. */
+generalised_ucp(F,k) := block([mr : min_rank_cs(F)],
+ if mr > k then F
+ elseif mr = 0 then {{}} else
   block([V : var_cs(F), break : false],
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then
       (F : apply_pa({-eps * v}, F), break : true),
-  if break then return(generalised_ucp(F,k)) else return(F))$
+  if break then return(generalised_ucp(F,k)) else return(F)))$
 
 /* generalised_ucp(F,1) is unit-clause-elimination.
    If F in 2-CNF, then generalised_ucp(F,2) = {{}} iff F is unsatisfiable.
@@ -46,19 +47,18 @@ generalised_ucp(F,k) :=
 
 /* input a clause-set F and level k, output r_k(F) together with a forced
    partial assignment phi s.t. phi * F = r_k(F) */
-generalised_ucp_pa(F,k) :=
- if min_rank_cs(F) > k then [F,{}]
- elseif k = 0 then [{{}},{}] else
-  block([V : var_cs(F), break : false, phi : {}],
+generalised_ucp_pa(F,k) := block([V : var_cs(F), mr : min_rank_cs(F)],
+ if mr > k then [F,{}]
+ elseif mr = 0 then [{{}},V] else
+  block([break : false, phi],
   for v in V unless break do for eps in {-1,1} unless break do
     if generalised_ucp(apply_pa({eps * v}, F), k-1) = {{}} then (
-      phi : adjoin(-eps * v, phi),
-      F : apply_pa({-eps * v}, F),
-      break : true
-    ),
+      phi : {-eps * v},
+      F : apply_pa(phi, F),
+      break : true),
   if break then block([R : generalised_ucp_pa(F,k)],
     return([R[1], union(phi, R[2])]))
-  else return([F,{}]))$
+  else return([F,{}])))$
 
 
 /* Instances */
@@ -69,22 +69,98 @@ generalised_ucp_pa1(F) := generalised_ucp_pa(F,1);
 generalised_ucp_pa2(F) := generalised_ucp_pa(F,2);
 
 
-/* ********************************************
-   * Generalised elimination of pure literals *
-   ********************************************
+/* *******************************
+   * Reduction by weak autarkies *
+   *******************************
 */
 
-/* Generalised pure-literal-elimination ("ple") */
+/* Generalised pure-literal-elimination ("ple"), more precisely, reduction by
+   weak autarkies found by making k assumptions; input a clause-set.
+   generalised_ple(F,1) is pure-literal-elimination.
+   Every weak autarky is found for k large enough. */
+weakaut_red(F,k) := if k = 0 then F else
+  block([L : literals_v(var_cs(F)), break : false, G],
+    for x in L unless break do (
+      G : weakaut_red(apply_pa({x},F),k-1),
+      if subsetp(G, F) then break : true),
+    if break then return(weakaut_red(G,k)) else return(F))$
+
+/* Additionally return the weak autarky found. */
+weakaut_red_pa(F,k) := if k = 0 then [F,{}] 
+ else block(
+  [V : var_cs(F), L, break : false, y, G, H],
+  L : literals_v(V),
+  for x in L unless break do (
+    G : weakaut_red_pa(apply_pa({x},F),k-1),
+    if subsetp(G[1], F) then (y : x, break : true)
+  ),
+  if break then (
+    H : weakaut_red_pa(G[1],k), 
+    return([H[1], union(H[2], G[2], {y})]))
+  else return([F,{}]))$
+
+
+/* ****************************************************************
+   * Combining generalised unit-clause and weak-autarky-reduction *
+   ****************************************************************
+*/
+
+/* Combined generalised ucp and weak-autarky-reductions: Guarantees that
+   either F = {{}} or F = {} or for all literals x we have
+     generalised_ucp(apply_pa({x}, F),k-1) <> {{}} and
+     generalised_weakaut(apply_pa({x}, F),k-1) is not subset of F.
+  For k >= n(F) solves the SAT-problem for F.
+*/
+generalised_ucp_war(F,k) := if has_empty_element(F) then {{}}
+  elseif k = 0 then F else
+  block([L : literals_v(var_cs(F)), break : false, G],
+    for x in L unless break do (
+      G : generalised_ucp_war(apply_pa({x},F),k-1),
+      if G = {{}} then (
+        F : apply_pa({-x},F), break : true)
+      elseif subsetp(G, F) then (
+        F : G, break : true
+      )),
+    if break then return(generalised_ucp_war(F,k)) else return(F))$
+
+/* Additionally return the partial assignment yielding the result. */
+generalised_ucp_war_pa(F,k) := block([V : var_cs(F)],
+ if has_empty_element(F) then return([{{}}, V])
+ elseif k = 0 then return([F,{}]) 
+ else block(
+  [L : literals_v(V), break : false, y, G, H],
+  for x in L unless break do (
+    G : generalised_ucp_war_pa(apply_pa({x},F),k-1),
+    if G[1] = {{}} then (
+      F : apply_pa({-x},F), y : -x, break : true)
+    elseif subsetp(G[1], F) then (
+      F : G[1], y : x, break : true)),
+  if break then (
+    H : generalised_ucp_war_pa(F,k), 
+    return([H[1], union(H[2], G[2], {y})]))
+  else return([F,{}])))$
+
+
+/* ******************************************************************
+   * Generalised elimination of pure literals by forced assignments *
+   ******************************************************************
+*/
+
+/* This reduction is really meaningful only as a part of generalised_ucp_ple 
+   below. */
+
+/* Generalised pure-literal-elimination ("ple") by sub-ordinated ucp.
+   Finds thus all weak autarkies which are "mostly enforced". */
 generalised_ple(F,k) := block([L : literals_v(var_cs(F)), break : false, G],
   for x in L unless break do (
     G : generalised_ucp(apply_pa({x},F),k),
-    if subsetp(G, F) then (F : G, break : true)
-  ),
+    if subsetp(G, F) then break : true),
   if break then return(generalised_ple(G,k)) else return(F))$
 
 /* generalised_ple(F,0) is pure-literal-elimination.
-   generalised_ple(F,1) is the learn kernel for F in 2-CNF.
-   But if {} in F then the result is always {{}}.
+   generalised_ple(F,1) is the lean kernel for F in 2-CNF if F all clauses of
+   F have length (exactly) 2.
+   If {} in F then the result is {{}}.
 */
 
 /* Additionally return the weak autarky found */
@@ -98,9 +174,9 @@ generalised_ple_pa(F,k) := block([L : literals_v(var_cs(F)), break : false, y],
   else return([F,{}]))$
 
 
-/* ****************************************************************
-   * Combining generalised unit-clause and pure-literal elimation *
-   ****************************************************************
+/* *******************************************************
+   * Look-ahead reduction for r_k and enforced autarkies *
+   *******************************************************
 */
 
 /* Combined generalised ucp-ple: Guarantees that
@@ -111,9 +187,11 @@ generalised_ple_pa(F,k) := block([L : literals_v(var_cs(F)), break : false, y],
 generalised_ucp_ple(F,k) := generalised_ple(generalised_ucp(F,k+1),k)$
 
 /* generalised_ucp_ple(F,0) is unit-clause-elimination and elimination
-   of pure literals. */
+   of pure literals.
+   generalised_ucp_ple(F,1) solves SAT for clause-sizes at most 2.
+*/
 
-/* additionally return the partial assignment leading to the reduced
+/* Additionally return the partial assignment leading to the reduced
    clause-set */
 generalised_ucp_ple_pa(F,k) := block([G : generalised_ucp_pa(F,k+1), H],
   H : generalised_ple_pa(G[1],k),
@@ -126,7 +204,7 @@ generalised_ucp_ple1(F) := generalised_ucp_ple(F,1)$
 generalised_ucp_ple_pa0(F) := generalised_ucp_ple_pa(F,0)$
 generalised_ucp_ple_pa1(F) := generalised_ucp_ple_pa(F,1)$
 
-/* Note that splitting trees obtained via generalised_ucp_ple_pa(F,k)
+/* Note that splitting trees obtained via generalised_ucp_ple(F,k)
    for unsatisfiable F are r_{k+1}-splitting trees!
 */
 
