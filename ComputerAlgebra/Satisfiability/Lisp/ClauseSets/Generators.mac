@@ -86,6 +86,18 @@ output_strong_php(m,n,filename) := block([FF : standardise_fcs(strong_php(m,n))]
     sconcat("The pigeonhole principle (strong form): ", m, " pigeons, ", n, " holes."), 
     FF[1], filename, FF[2]))$
 
+/* Measures */
+
+nvar_php(m,n) := m * n$
+
+/* List of clause-counts for weak_php as with ncl_list_f */
+ncl_list_weak_php(m,n) :=
+  if m = 0 then []
+  elseif n = 0 then [[0,1]]
+  elseif m = 1 then [[n,m]]
+  elseif n = 1 then [[n,m], [2,n*binom(m,2)]]
+  elseif n = 2 then [[2,n*binom(m,2)+m]]
+  else [[2,n*binom(m,2)], [n,m]]$
 
 
 /* *******************
@@ -193,7 +205,7 @@ output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
 /* Measures for the translated formulas */
 
 /* Number of variables */
-n_var_sdk(p) := p^6$
+nvar_sdk(p) := p^6$
 
 /* List of clause-counts for weak_sdk as with ncl_list_f */
 ncl_list_weak_sdk(p) := if p = 0 then [] elseif p = 1 then [[1,1]] else
