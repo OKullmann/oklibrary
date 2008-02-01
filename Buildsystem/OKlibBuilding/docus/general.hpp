@@ -242,6 +242,18 @@ License, or any later version. */
   The value for the definition of <code>system_versions</code> is currently not
   used.
 
+  <p /> Examples:
+  <ul>
+   <li>
+    \verbatim
+oklib all check new_check app_tests html boost_version_number=1_34_1 system_versions=X test_level=full
+    \endverbatim
+    is for using the locally installed Boost-library together with the system-gcc
+    (and first compiling everything, then running all tests, and finally creating
+    the documentation).
+   </li>
+  </ul>
+
 
   <h1> Customisation of compilation, linking and testing </h1>
 
