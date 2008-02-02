@@ -78,6 +78,43 @@ License, or any later version. */
      relevant for us? </li>
     </ol>
    </li>
+   <li> A Sudoku generator for the Minion constraint solver.
+     <ol>
+       <li> Parameters: n (box size), N = n^2, M = N^2  </li>
+       <li> Cells variables : {x_1,...,x_M}. dom(x_i) = {1,...,N} for 
+            i = 1...M. x_i = j means j is assigned to cell i. </li>
+       <li> Boxes are represented by vectors v_i (i = 1..N) of cell 
+            variables. </li>
+       <li> The Sudoku then consists of a single N x N matrix of cell variables. </li>
+       <li> Implementation: 
+         <ul>
+           <li> Row constraints:
+             \verbatim
+alldifferent(row(m_0),i)
+             \endverbatim
+             for i = 1..N  
+           </li>
+           <li> Column constraints: 
+             \verbatim
+alldifferent(col(m_0,i))
+             \endverbatim
+             for i = 1..N
+           </li>
+           <li> Box constraints:
+             \verbatim
+alldifferent(v_i)
+             \endverbatim
+             for i = 1..N
+           </li>
+         </ul>
+       </li>
+       <li> Syntax:
+\verbatim
+sudoku_minion_format(boxsize, filename)
+\endverbatim
+       </li>
+     </ol>
+   </li>
    <li> We also need generators for Latin square completion problems,
    etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
    <li> Can something be done about
