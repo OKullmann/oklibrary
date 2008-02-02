@@ -86,7 +86,7 @@ License, or any later version. */
        <li> Boxes are represented by vectors v_i (i = 1..N) of cell 
             variables. </li>
        <li> The Sudoku then consists of a single N x N matrix of cell variables. </li>
-       <li> Implementation: 
+       <li> %Implementation: 
          <ul>
            <li> Row constraints:
              \verbatim
