@@ -73,6 +73,9 @@ License, or any later version. */
      <li> However, even r_1-reduction for box-dimension 2 takes a long
      time in Maxima (90 s). Thus this filtering cannot be done in Maxima,
      but we need C++ components. </li>
+     <li> Is the discussion and implementation of a Sudoku generator at 
+     http://skas-blog.blogspot.com/2007/07/end-of-sudoku-road.html
+     relevant for us? </li>
     </ol>
    </li>
    <li> We also need generators for Latin square completion problems,
