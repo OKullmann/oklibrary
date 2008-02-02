@@ -29,8 +29,6 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac");
    interval is devided into N parts, and determine the minimum amongst
    all function-values.
    Returns a pair [f(x_min), x_min].
-
-  Assumes that no function "f8765" has been defined.
 */
 
 monitorcheck_min_scanning(name) := 
@@ -43,17 +41,18 @@ monitorcheck_min_scanning_loop(name) := if oklib_monitor then (
       "dim:", n, ", x:", float(x), ", best:", float(best), 
       ", cur_min:", float(cur_min))))$
 
-min_scanning(f8765, bounds, N) := block([orig_n : length(bounds)],
+kill(f)$
+min_scanning(f, bounds, N) := block([orig_n : length(bounds)],
   monitorcheck_min_scanning("min_scanning"),
-  min_scanning_aux(f8765, bounds, N))$
-min_scanning_aux(f8765, bounds, N) := block([n : length(bounds)],
-  if n = 0 then return([apply(f8765,[]),[]]),
+  min_scanning_aux(f, bounds, N))$
+min_scanning_aux(f, bounds, N) := block([n : length(bounds)],
+  if n = 0 then return([apply(f,[]),[]]),
   block([begin : bounds[1][1], end : bounds[1][2], cur_min : inf, delta, best],
    delta : (end - begin) / N,
    for i : 0 thru N do block(
     [x : begin + i * delta, val],
      val : min_scanning_aux(
-             buildq([x,f8765],lambda([[y]],apply(f8765,cons(x,y)))), 
+             buildq([x,f],lambda([[y]],apply(f,cons(x,y)))), 
              rest(bounds), 
              N),
      if val[1] < cur_min then (

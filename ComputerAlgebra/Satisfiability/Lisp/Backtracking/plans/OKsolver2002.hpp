@@ -51,6 +51,8 @@ okt_php_54 : OKsolver_2002_st(weak_php(5,4));
    <li> So there seems to be a systematic problem. </li>
    <li> By the way, we should also collect data on weak (and strong) php:
     <ol>
+     <li> Such data should perhaps be systematically collected somewhere.
+     Perhaps in part Experimentation. </li>
      <li> First weak_php(m+1,m), for m >= 4. </li>
      <li> For m = 3 we have 3 nodes, height = 1 = levelled height. Likely
      we should exclude m <= 3 due to "irregularity". </li>
@@ -62,8 +64,14 @@ okt_php_54 : OKsolver_2002_st(weak_php(5,4));
      And yes, the C-OKsolver yields 6,10,15,21,28,36,45. So the guess is 
      that the first differences are 4,5,6, ... </li>
      <li> For the number of nodes we have 17, 79, 479. One would expect
-     these numbers to be some "random". </li>
-     <li> The optimal numbers of nodes for r_2-splitting trees are ? </li>
+     these numbers to be somewhat "random". </li>
+     <li> The optimal numbers of nodes for r_2-splitting trees are ?
+      <ol>
+       <li> weak_php(3,2) : 1 node (height 0) </li>
+       <li> weak_php(4,3) : 3 nodes (height 1) </li>
+       <li> weak_php(5,4) : 12 nodes (height ???); tree is ??? </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>

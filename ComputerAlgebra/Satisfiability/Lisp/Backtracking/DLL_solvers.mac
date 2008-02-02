@@ -56,9 +56,8 @@ dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
 
 monitorcheck_dll(name,red) := if oklib_monitor then (
   print(sconcat("M[",name,"]:"), "Entry (reduction =", red, ")."),
-  if oklib_monitor_level >= 1 then (
     print("F: ", statistics_fcs(FF)),
-    print("Fr: ", statistics_fcs(cs_to_fcs(Fr)))))$
+    print("Fr: ", statistics_fcs(cs_to_fcs(Fr))))$
 
 dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
   monitorcheck_dll("dll_rk",k),

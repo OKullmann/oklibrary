@@ -14,6 +14,10 @@ linel : 100;
 oklib_monitor : false;
 oklib_monitor_level : 0;
 
+oklib_test_level : 0;
+oklib_test_demos : false;
+oklib_test_demos_level : 0;
+
 oklib_load_round : 0;
 oklib_loaded_files["maxima-init.mac"] : 0;
 

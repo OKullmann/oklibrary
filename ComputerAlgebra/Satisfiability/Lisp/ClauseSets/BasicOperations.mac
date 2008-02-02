@@ -179,9 +179,13 @@ min_rank_cs(F) := block([m : inf],
   for C in F do if length(C) < m then m : length(C),
   return(m))$
 
+/* Gathers main statistics for a clause-set */
+statistics_cs(F) := 
+  [nvar_cs(F),ncl_cs(F),nlitocc(F),max_rank_cs(F),min_rank_cs(F)]$
 /* Gathers main statistics for a formal clause-set */
 statistics_fcs(FF) := 
   [nvar_f(FF),ncl_f(FF),nlitocc(FF[2]),max_rank_cs(FF[2]),min_rank_cs(FF[2])]$
+
 
 /* ***********************************
    * Selecting parts of a clause-set *
