@@ -26,7 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Confl
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Generators.mac");
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac");
 
 /*!
 \endhtmlonly
