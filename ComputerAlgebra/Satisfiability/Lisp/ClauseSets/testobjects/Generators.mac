@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Generators.mac");
 
 
 okltest_nvar_php(nvar_php);

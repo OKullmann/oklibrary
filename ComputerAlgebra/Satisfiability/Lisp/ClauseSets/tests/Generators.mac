@@ -23,12 +23,12 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
 
+kill(f)$
+
 /* ***********************
    * Pigeonhole formulas *
    ***********************
 */
-
-kill(f)$
 
 /* Measures */
 
