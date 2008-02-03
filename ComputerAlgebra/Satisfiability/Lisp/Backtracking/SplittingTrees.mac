@@ -50,7 +50,7 @@ monitorcheck_osl(name) := if oklib_monitor then (
 monitorcheck_osl_v(name) := if oklib_monitor then (
   if depth + 1 <= oklib_monitor_level then (
     print(sconcat("M[",name,"]:"), "depth:", depth,  
-          ", new best variable:", v, ", new min size:", min_size+1)))$
+          ", new best variable:", v, ", new min size:", min_size)))$
 
 /* For input F (a clause-set) returns a pair consisting of a splitting
    tree of minimum size, and its size (the number of nodes).

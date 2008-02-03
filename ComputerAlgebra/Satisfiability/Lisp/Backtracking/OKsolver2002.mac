@@ -39,6 +39,14 @@ heuristics_OKsolver2002 :
     distances_OKsolver2002,
     [prod_proj],
     logprobrand)$
+aheuristics_OKsolver2002 : 
+  amended_heuristics_lookahead_distances(
+    generalised_ucp1,
+    distances_OKsolver2002,
+    [prod_proj],
+    logprobrand,
+    [])$
+
 
 /* The following abstraction of OKsolver_2002 ignores: 
   - clause-sets are for the OKsolver_2002 clause-*lists*;
@@ -50,6 +58,7 @@ heuristics_OKsolver2002 :
 
 OKsolver_2002(FF) := dll_red(FF, heuristics_OKsolver2002, generalised_ucp_ple1)$
 OKsolver_2002_st(FF) := dll_red_st(FF, heuristics_OKsolver2002, generalised_ucp_ple1)$
+OKsolver_2002_ast(FF) := dll_red_st_dist(FF, aheuristics_OKsolver2002, generalised_ucp_ple1)$
 
 /*
  Splitting trees produced by OKsolver_2002_st for unsatisfiable clause-sets

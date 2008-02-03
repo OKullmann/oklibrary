@@ -122,9 +122,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Heuristics, distances etc.
+  <ul>
+   <li> Likely these things should go into a dedicated module. </li>
+  </ul>
+
+
   \todo constraint_backtracking in
   ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac
   <ul>
+   <li> Likely the constraint-related backtracking should go into its own
+   module? </li>
    <li> Also output the corresponding splitting trees; perhaps they
    contain the enforced assignments. </li>
    <li> Given such splitting trees, again one can represent all solutions,
