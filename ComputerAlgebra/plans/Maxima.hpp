@@ -156,6 +156,15 @@ License, or any later version. */
    <li> Can everything done with "block" ? </li>
    <li> How to obtain information about symbols (so that for example clashes
    can be avoided) ? </li>
+   <li> A serious problem is that function-parameters are overwritten by
+   existing functions with the same name.
+    <ol>
+     <li> So we reserve names "f", possibly followed by digits: Nobody
+     shall define functions with these names. </li>
+     <li> For function definitions using function parameters, we use then
+     these special names, and also kill the ones used before. </li>
+    </ol>
+   </li>
   </ul>
 
 

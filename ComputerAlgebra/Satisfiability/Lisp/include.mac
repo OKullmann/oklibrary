@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/inclu
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac");
 
 /*!
 \endhtmlonly

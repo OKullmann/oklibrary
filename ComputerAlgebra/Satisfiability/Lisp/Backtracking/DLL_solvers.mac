@@ -56,9 +56,8 @@ dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
 
 monitorcheck_dll(name,red) := if oklib_monitor then (
   print(sconcat("M[",name,"]:"), "Entry (reduction =", red, ")."),
-  if oklib_monitor_level >= 1 then (
     print("F: ", statistics_fcs(FF)),
-    print("Fr: ", statistics_fcs(cs_to_fcs(Fr)))))$
+    print("Fr: ", statistics_fcs(cs_to_fcs(Fr))))$
 
 dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
   monitorcheck_dll("dll_rk",k),
@@ -151,7 +150,7 @@ dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
 
 dll_simplest_first_shortest_clause(FF) := dll_simplest(FF, dll_heuristics_first_shortest_clause)$
 dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_clause)$
-dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_claus, ke)$
+dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_claus, k)$
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
 
 

@@ -14,17 +14,42 @@ License, or any later version. */
 
 
   \todo Write tests
+  <ul>
+   <li> Optimal splitting trees:
+    <ol>
+     <li> We need test cases for satisfiable instances! </li>
+     <li> See the CS-342-script for already established optimal
+     trees (which can be used as test data). </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Write docus
 
 
-  \todo optimal_splitting_tree in
+  \todo optimal_splitting_tree and optimal_r_splitting_tree in
   ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
   <ul>
+   <li> Improving "branch and bound" for the version which only seeks to find
+   a best tree (not more exhaustive statistics):
+    <ol>
+     <li> Perhaps a heuristic can be used which tries to choose the best variable
+     first and the worst branch (this to get the bounds tigther for the second
+     branch). </li>
+     <li> The problem seems to be that for the first branch currently we have
+     only a very weak bound. But for that case the second branch had a very
+     tight bound. So for that one could actually first consider the second
+     branch whether it can produce the trivial tree, and if not then
+     the upper bound for the first branch can be lowered. This looks reasonable
+     in any case. </li>
+     <li> This looks like a combination of upper and *lower* bounds,
+     which are explored in a more distributed fashion. </li>
+     <li> But likely this heuristic versions get more complicated, and should
+     be realised by a different function. </li>
+    </ol>
+   </li>
    <li> Perhaps storing the trees also for the worst case. </li>
-   <li> When searching only for the best case, then branches which
-   cannot improve the current minimal size can be cut off. </li>
    <li> Instead of minimising the number of overall nodes, that is,
    minimising the number of leaves (since every inner node has exactly
    two successors), one can also minimise the number of true-leafes (the
@@ -42,6 +67,8 @@ License, or any later version. */
    <li> Instead of just getting the minimal size, a variations return
    the complete distribution (for every occurring tree size the number of trees
    for that size). </li>
+   <li> DONE When searching only for the best case, then branches which
+   cannot improve the current minimal size can be cut off. </li>
   </ul>
 
 

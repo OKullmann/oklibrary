@@ -185,7 +185,23 @@ License, or any later version. */
    <li> Since they contain asserts, this is also contains tests. </li>
    <li> A problem is that some demos run longer. </li>
    <li> So demos need to be qualified as "basic tests", "full tests",
-   or "extensive tests". The problem how to do this. </li>
+   or "extensive tests". The problem how to do this.
+    <ol>
+     <li> The first line of a demos-file shall be
+     \code
+if oklib_test_demos then
+ if oklib_test_demos_level < 2 then return()$
+     \endcode
+     (where "2" here is the test-level of this file ("extensive" in
+     this case)).
+     </li>
+     <li> Normally, oklib_test_demos=false. </li>
+     <li> For running the demos in test-mode, oklib_test_demos=true,
+     and then oklib_test_demos_level decides whether to run the demos-file
+     or not.
+     </li>
+    </ol>
+   </li>
    <li> And should these "tests" be included in the normal maxima-test? </li>
    <li> First we create a special target "maxima_check_demos", and then
    we'll decide. </li>
