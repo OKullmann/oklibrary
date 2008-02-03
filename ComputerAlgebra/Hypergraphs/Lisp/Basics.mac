@@ -62,6 +62,11 @@ underlying_hypergraph(G) := [G[1], setify(makelist((G[3])(e), e, listify(G[2])))
 /* The k-section of a hypergraph */
 section_hyp(G,k) := [G[1], family_sets_union(G[2], lambda([H], powerset(H,k)))]$
 
+/* The edge-wise complement of a hypergraph */
+ecomp_hyp(G) := [G[1], ecomp(G[2],G[1])]$
+
+/* The closure under subset-formation of a hypergraph */
+subset_closure_hyp(G) := [G[1], subset_closure(G[2])]$
 
 /* The dual of a general hypergraph */
 dual_general_hypergraph(G) := [G[2], G[1], buildq([V : G[2], f : G[3]],
