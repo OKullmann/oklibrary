@@ -1,12 +1,12 @@
 // Oliver Kullmann, 26.8.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp
+  \file Combinatorics/Hypergraphs/Transversals/plans/DirectTransversalEnumeration.hpp
   \brief Implementations of enumerations of hypergraph
   transversals based on the direct method.
 
@@ -27,6 +27,13 @@ License, or any later version. */
    <li> Worth having a dedicated hypergraph-implementation? </li>
    <li> For prototypes see ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp.
    </li>
+  </ul>
+
+
+  \todo Connections
+  <ul>
+   <li> See "Hypergraph transversals" in
+   ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp. </li>
   </ul>
 
 */
