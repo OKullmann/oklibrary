@@ -27,6 +27,8 @@ License, or any later version. */
    <li> Of course, counting algorithms are also obtained by representing
    all solutions, which is under AllSolutions/plans/general.hpp ? </li>
    <li> We need to find a clear structure where to place what. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Counting/plans/general.hpp.
+   </li>
   </ul>
 
 */
