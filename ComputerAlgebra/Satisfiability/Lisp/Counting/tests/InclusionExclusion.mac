@@ -23,7 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 kill(f)$
 
-okltest_satprob_msind(f) := block([F],
+okltest_satprob_mcind(f) := block([F],
   assert(f({}) = 1),
   assert(f({{}}) = 0),
   assert(f({{1}}) = 1/2),

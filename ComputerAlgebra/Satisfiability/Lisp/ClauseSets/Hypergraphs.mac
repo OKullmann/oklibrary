@@ -38,7 +38,8 @@ var_hyp(FF) := [FF[1], map(var_c,FF[2])]$
 /* The variable-interaction graph (or "primal graph") of a formal clause-set */
 vig_fcs(FF) := section_hyp(var_hyp(FF),2)$
 
-/* The common-variable graph of a clause-set */
+/* The common-variable graph of a clause-set (this is also the
+   "stochastic-dependence graph"). */
 cvg_cs(F) := [F, 
  subset(powerset(F,2), lambda([S], 
         block([L : listify(S)], not disjointp(var_c(L[1]), var_c(L[2])))))]$

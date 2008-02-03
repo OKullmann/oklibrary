@@ -19,14 +19,14 @@ License, or any later version. */
   \todo Write a scheme which uses r_k-splitting trees
 
 
-  \todo okltest_satprob_msind
+  \todo okltest_satprob_mcind
   <ul>
    <li> This test-function should be a general test function for the counting
    of satisfiying assignments of boolean clause-sets. </li>
   </ul>
 
 
-  \todo satprob_msind
+  \todo satprob_mcind
   <ul>
    <li> See "Conflicts.mac" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp. </li>

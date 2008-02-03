@@ -22,7 +22,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Inclusi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac");
 
 
-okltest_satprob_msind(satprob_msind);
+okltest_satprob_mcind(satprob_mcind);
 
 /*!
 \endhtmlonly
