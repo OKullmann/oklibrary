@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.11.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -10,31 +10,6 @@ License, or any later version. */
   \brief Plans for the sub-module on input/output in DIMACS format
 
 
-  \todo Add a policy L which allows to handle extended Dimacs format. DONE
-  <ul>
-   <li> %Variables here are strings with identifier-syntax. </li>
-   <li> The policy L manages a maps from identifiers to natural numbers and
-   back. </li>
-   <li> L is used exactly once, in member function read_clauses, replacing
-   \code in >> literal; \endcode </li>
-   <li> The main function is
-   \code L::operator()(std::istream& in, int_type& literal); \endcode
-   which reads the literal from the stream. </li>
-   <li> The "strict policy" emplements this bracket-operator just as
-   \code in >> literal; \endcode
-   (without anything further). </li>
-   <li> The "extended policy" contains
-    <ol>
-     <li> a map m, which assign to every occurring variable string its
-     index; </li>
-     <li> a counter n for the number of variables; </li>
-     <li> a vector, which for each variable index i contains an iterator
-     to the corresponding map entry. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Complete the doxygen-documentation.
 
 
@@ -42,19 +17,6 @@ License, or any later version. */
 
 
   \todo Write demos.
-
-
-  \todo The constructor of InputOutput::StandardDIMACSInput should take the
-  following optional arguments:
-  <ul>
-   <li> comments require at least one space after "c" (default: no) </li>
-   <li> in the parameter line after "p" either exactly one or at least one
-   space is required (default: exactly one) </li>
-   <li> non-space characters on the parameter line after the second
-   parameter lead to an error (default: yes). </li>
-   <li> Perhaps this is all packaged into a syntax-strategy-object. </li>
-   <li> Compare below "Error handling". </li>
-  </ul>
 
 
   \todo What happens if the integers from the file are too big?
@@ -74,25 +36,47 @@ License, or any later version. */
   \todo It must also be tested, whether the integers can be safely negated.
 
 
-  \todo The exception safety level must be specified.
+  \todo Consider the code-comments regarding checking.
+
+
+  \todo Improve class InputOutput::StandardDIMACSInput
+  <ul>
+   <li> The constructor of InputOutput::StandardDIMACSInput should take the
+   following optional arguments:
+    <ol>
+     <li> comments require at least one space after "c" (default: no) </li>
+     <li> in the parameter line after "p" either exactly one or at least one
+     space is required (default: exactly one) </li>
+     <li> non-space characters on the parameter line after the second
+     parameter lead to an error (default: yes). </li>
+     <li> Perhaps this is all packaged into a syntax-strategy-object. </li>
+     <li> Compare below "Error handling". </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Use Messages for messages.
 
 
-  \todo For throwing the exceptions a more structured approach should be used
-      (so that the exceptions thrown become better testable).
-
-
-  \todo Consider the code-comments regarding checking.
-
-
-  \todo Making a distinction between the two types of public member functions
-  in InputOutput::LiteralReadingExtended:
+  \todo Exceptions
   <ul>
-   <li> One could make the policy an "inheritance policy", where "read"
-   is a protected member function inherited by the Dimacs-parser, while
-   the three accessor-functions are public. </li>
+   <li> The exception safety level must be specified. </li>
+   <li> For throwing the exceptions a more structured approach should be used
+   (so that the exceptions thrown become better testable). </li>
+  </ul>
+
+
+  \todo Improving class InputOutput::LiteralReadingExtended
+  <ul>
+   <li> Making a distinction between the two types of public member functions
+   in InputOutput::LiteralReadingExtended:
+    <ol>
+     <li> One could make the policy an "inheritance policy", where "read"
+     is a protected member function inherited by the Dimacs-parser, while
+     the three accessor-functions are public. </li>
+    </ol>
+   </li>
   </ul>
 
 
