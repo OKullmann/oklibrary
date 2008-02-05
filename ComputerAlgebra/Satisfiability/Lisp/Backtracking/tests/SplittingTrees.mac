@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 
 kill(f)$
 

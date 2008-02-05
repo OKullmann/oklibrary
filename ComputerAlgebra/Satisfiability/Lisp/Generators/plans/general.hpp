@@ -6,8 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
   \brief Plans for Maxima-generators for clause-sets
+
+
+  \todo Split Generators/Generators.mac.
 
 
   \todo Random generator

@@ -6,12 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Generators.mac
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac
   \brief Tests for clause-set-generators
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Generators.mac");
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac");
 
 */
 
@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Ge
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 
 kill(f)$
 
@@ -35,13 +35,14 @@ kill(f)$
 okltest_nvar_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = nvar_f(weak_php(m,n)))
-)$
+   assert(f(m,n) = nvar_f(weak_php(m,n))),
+ true)$
 
 okltest_ncl_list_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
-   assert(f(m,n) = ncl_list_f(weak_php(m,n)))
+   assert(f(m,n) = ncl_list_f(weak_php(m,n))),
+ true
 )$
 
 /*!
