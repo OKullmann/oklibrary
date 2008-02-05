@@ -75,45 +75,65 @@ License, or any later version. */
      but we need C++ components. </li>
      <li> Is the discussion and implementation of a Sudoku generator at 
      http://skas-blog.blogspot.com/2007/07/end-of-sudoku-road.html
-     relevant for us? </li>
+     relevant for us?
+      <ul>
+       <li> To me (OK) this looks rather amateurish; and, of
+       course, completely ignored is the main perspective for us, that
+       of generalised Sudoku as an NP-complete problem. </li>
+       <li> And it seems one must stay away from such
+       "planted-solution schemes", which typically are very biased. </li>
+       <li> Though, normally for creating problems with unique solutions
+       one has mothing else than massaging planted solutions. </li>
+       <li> But I don't think we should take this unique-solution business
+       very serious; it's just one facet. </li>
+       <li> In those discussions the "hardness" of a problem always plays
+       a role; I think a good way to measure it is the least k such that
+       r_k yields the solution (this only works for unique solutions;
+       otherwise generalised reductions have to be used). </li>
+      </ul>
+     </li>
     </ol>
    </li>
    <li> A Sudoku generator for the Minion constraint solver.
-     <ol>
-       <li> Parameters: n (box size), N = n^2, M = N^2  </li>
-       <li> Cells variables : {x_1,...,x_M}. dom(x_i) = {1,...,N} for 
-            i = 1...M. x_i = j means j is assigned to cell i. </li>
-       <li> Boxes are represented by vectors v_i (i = 1..N) of cell 
-            variables. </li>
-       <li> The Sudoku then consists of a single N x N matrix of cell variables. </li>
-       <li> %Implementation: 
-         <ul>
-           <li> Row constraints:
-             \verbatim
+   (This should be placed into a module for constraint satisfaction.)
+    <ol>
+     <li> What is the meaning of "generator" here? </li>
+     <li> Parameters: n (box size), N = n^2, M = N^2  </li>
+     <li> Cells variables : {x_1,...,x_M}. dom(x_i) = {1,...,N} for 
+          i = 1...M. x_i = j means j is assigned to cell i. </li>
+     <li> Boxes are represented by vectors v_i (i = 1..N) of cell 
+          variables. </li>
+     <li> The Sudoku then consists of a single N x N matrix of cell variables.
+     </li>
+     <li> %Implementation: 
+      <ul>
+       <li> Row constraints:
+       \verbatim
 alldifferent(row(m_0),i)
-             \endverbatim
-             for i = 1..N  
-           </li>
-           <li> Column constraints: 
-             \verbatim
+       \endverbatim
+       for i = 1..N  
+       </li>
+       <li> Column constraints: 
+       \verbatim
 alldifferent(col(m_0,i))
-             \endverbatim
-             for i = 1..N
-           </li>
-           <li> Box constraints:
-             \verbatim
+       \endverbatim
+       for i = 1..N
+       </li>
+       <li> Box constraints:
+       \verbatim
 alldifferent(v_i)
-             \endverbatim
-             for i = 1..N
-           </li>
-         </ul>
+       \endverbatim
+       for i = 1..N
        </li>
-       <li> Syntax:
-\verbatim
+      </ul>
+     </li>
+     <li> Syntax:
+     (what syntax??)
+     \verbatim
 sudoku_minion_format(boxsize, filename)
-\endverbatim
-       </li>
-     </ol>
+     \endverbatim
+     </li>
+    </ol>
    </li>
    <li> We also need generators for Latin square completion problems,
    etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
