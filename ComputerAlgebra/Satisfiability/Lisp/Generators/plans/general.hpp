@@ -10,7 +10,29 @@ License, or any later version. */
   \brief Plans for Maxima-generators for clause-sets
 
 
-  \todo Split Generators/Generators.mac.
+  \todo Split Generators/Generators.mac
+  <ul>
+   <li> Pigeonhole formulas </li>
+   <li> %Ramsey problems </li>
+   <li> Special minimally unsatisfiable clause-sets </li>
+   <li> The translations are not generators, and should go somewhere else.
+    <ol>
+     <li> Perhaps to modules related to the problems they solve (by
+     reduction). </li>
+     <li> Or as kind of transformer-generators to the module where the
+     transformed problem is solved. </li>
+     <li> In any case, links should be provided. </li>
+    </ol>
+   </li>
+   <li> Sudoku-problems : DONE </li>
+  </ul>
+
+
+  \todo Accompanying statistics
+  <ul>
+   <li> We need to establish the scheme how to supply measurements for
+   generators (i.e., computing measures without creating the problems). </li>
+  </ul>
 
 
   \todo Random generator
@@ -20,7 +42,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Variables
+  \todo %Variables
   <ul>
    <li> Compare "Global variables" in
    ComputerAlgebra/plans/Maxima.hpp. </li>
@@ -47,130 +69,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Sudoku
-  <ul>
-   <li> Compare with Applications/LatinSquares/plans/Sudoku.hpp. </li>
-   <li> We need an easy method for specifying partial assignments to
-   fields. </li>
-   <li> One should try whether using "create_list" in sdk_different_boxes,
-   without storing the intermediate value, really slows down the computation
-   (possibly the optimisation is detected?). </li>
-   <li> For the creation of random Sudoku-problems the easiest approach
-   seems to fix the number f of fixed fields, and then choose f random
-   fields from the N^2 fields, and for each chosen field choose a random
-   value from {1,...,N}. In other words, using the natural notion of
-   (non-boolean) literals a random problem is just given by a random
-   partial assignment with a fixed number of f variables.
-    <ol>
-     <li> Such random Sudoku-problems should also undergo a phase transition
-     (for fixed p and appropriate f) ?! </li>
-     <li> Creation of the partial assignment (with non-boolean variables)
-     simply as a random clause by the OKgenerator. </li>
-     <li> For the analysis one can filter out partial assignments which
-     are not r_k-consistent (so r_0-consistency just means that the
-     partial assignment does not (directly) falsify a clause); no
-     consistency check then would be "-1-consistency". </li>
-     <li> To speed up the creation, filtering out of r_k-inconsistent
-     partial assignments can be done already during the creation (without
-     disturbing the probability distribution). </li>
-     <li> However, even r_1-reduction for box-dimension 2 takes a long
-     time in Maxima (90 s). Thus this filtering cannot be done in Maxima,
-     but we need C++ components. </li>
-     <li> Is the discussion and implementation of a Sudoku generator at 
-     http://skas-blog.blogspot.com/2007/07/end-of-sudoku-road.html
-     relevant for us?
-      <ul>
-       <li> To me (OK) this looks rather amateurish; and, of
-       course, completely ignored is the main perspective for us, that
-       of generalised Sudoku as an NP-complete problem. </li>
-       <li> And it seems one must stay away from such
-       "planted-solution schemes", which typically are very biased. </li>
-       <li> Though, normally for creating problems with unique solutions
-       one has mothing else than massaging planted solutions. </li>
-       <li> But I don't think we should take this unique-solution business
-       very serious; it's just one facet. </li>
-       <li> In those discussions the "hardness" of a problem always plays
-       a role; I think a good way to measure it is the least k such that
-       r_k yields the solution (this only works for unique solutions;
-       otherwise generalised reductions have to be used). </li>
-      </ul>
-     </li>
-    </ol>
-   </li>
-   <li> A Sudoku generator for the Minion constraint solver.
-   (This should be placed into a module for constraint satisfaction.)
-    <ol>
-     <li> What is the meaning of "generator" here? </li>
-     <li> Parameters: n (box size), N = n^2, M = N^2  </li>
-     <li> Cells variables : {x_1,...,x_M}. dom(x_i) = {1,...,N} for 
-          i = 1...M. x_i = j means j is assigned to cell i. </li>
-     <li> Boxes are represented by vectors v_i (i = 1..N) of cell 
-          variables. </li>
-     <li> The Sudoku then consists of a single N x N matrix of cell variables.
-     </li>
-     <li> %Implementation: 
-      <ul>
-       <li> Row constraints:
-       \verbatim
-alldifferent(row(m_0),i)
-       \endverbatim
-       for i = 1..N  
-       </li>
-       <li> Column constraints: 
-       \verbatim
-alldifferent(col(m_0,i))
-       \endverbatim
-       for i = 1..N
-       </li>
-       <li> Box constraints:
-       \verbatim
-alldifferent(v_i)
-       \endverbatim
-       for i = 1..N
-       </li>
-      </ul>
-     </li>
-     <li> Syntax:
-     (what syntax??)
-     \verbatim
-sudoku_minion_format(boxsize, filename)
-     \endverbatim
-     </li>
-    </ol>
-   </li>
-   <li> We also need generators for Latin square completion problems,
-   etc. Compare Applications/LatinSquares/plans/general.hpp. </li>
-   <li> Can something be done about
-   \verbatim
-(%i184) output_strong_sdk(6,"~/sdk_s_6.cnf");
-Maxima encountered a Lisp error:
-*** - Program stack overflow. RESET
-[1]>
-[CTRL D]
-*** - handle_fault error2 ! address = 0x80a30f2a not in [0x4e0dcbf0,0x68095000) !
-SIGSEGV cannot be cured. Fault address = 0x80a30f2a.
-Permanently allocated: 92096 bytes.
-Currently in use: 673594256 bytes.
-Free space: 16453216 bytes.
-   \endverbatim
-   ? Try it on cs-wsok. </li>
-   <li> Surjectivity constraints: DONE
-    <ol>
-     <li> For rows, columns, and boxes translate the surjectivity
-     constraints. </li>
-     <li> Create a "dual weak sdk". </li>
-     <li> The union of weak sdk and dual weak sdk then deserves the
-     name "strong sdk". </li>
-    </ol>
-   </li>
-   <li> Add the conditions, that a field doesn't get several numbers.
-   DONE. </li>
-   <li> DONE (except of sdk_different_boxes, where it doesn't seem possible
-   to store an intermediate value)
-   Replace, if possible, all loops by the use of "create_list". </li>
-  </ul>
-   
-   
   \todo Colouring problems
   <ul>
    <li> Translate graph colouring problems into SAT. </li>
