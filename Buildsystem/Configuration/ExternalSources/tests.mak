@@ -179,7 +179,7 @@ sage_html_documentation_index_location_tag ?= <a href="$(sage_html_output)">$(sa
 
 git_call ?= git
 
-git_version_number_extraction := awk '/ [0-9]\.[0-9]\.[0-9]\.[0-9]/{print $$3}'
+git_version_number_extraction := awk '/ [0-9]\.[0-9](\.[0-9])+/{print $$3}'
 # assumes that the output of "git --version" contains a line of the form
 # (for example) "git version 1.5.2.4"
 
