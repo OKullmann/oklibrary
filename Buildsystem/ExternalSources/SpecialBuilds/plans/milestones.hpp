@@ -146,6 +146,11 @@ License, or any later version. */
   \par Version 0.2.8
 
   \par
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
+   topics are handled:
+    - Optimisation
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/CMake.hpp the following
    topics are handled:
     - CMake-documentation building
