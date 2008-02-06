@@ -149,6 +149,7 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo Model checking and variations
   <ul>
+   <li> BoolVar http://boolvar.net/ </li>
    <li> Alloy http://alloy.mit.edu/alloy4/ is open source. </li>
    <li> BAT http://www.cc.gatech.edu/~manolios/bat/ </li>
    <li> ABC http://www.eecs.berkeley.edu/~alanmi/abc/ </li>
