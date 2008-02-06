@@ -10,12 +10,6 @@ License, or any later version. */
   \brief General plans on interfaces for satisfiability
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Create milestones. DONE
-
-
   \todo Ladder logic
   <ul>
    <li> Is the super-module the right place for transformations from
