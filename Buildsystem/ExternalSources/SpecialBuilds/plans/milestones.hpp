@@ -8,14 +8,19 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.3 (26.1.2008)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.4 (7.2.2008)
 
 
-  \par Version 0.2.2 (documentation, and mathematical packages)
+  \par Version 0.2.2 (documentation, mathematical packages, and updates)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
     - Documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
+   topics are handled:
+    - Update the installation process : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
@@ -165,6 +170,13 @@ License, or any later version. */
    topics are handled:
     - Improve Coq installation
     - Improve ocaml installation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
+   topics are handled:
+    - Prerequisites
+    - Info- and man-pages
+    - Installation process
 
 
 

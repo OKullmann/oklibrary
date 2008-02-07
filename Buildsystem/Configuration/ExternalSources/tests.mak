@@ -177,26 +177,25 @@ sage_html_documentation_index_location_tag ?= <a href="$(sage_html_output)">$(sa
 # New variables for the configuration of building git (to be designed 
 # and implemented):
 
-git_call ?= git
-
-git_version_number_extraction := awk '/ [0-9]\.[0-9](\.[0-9])+/{print $$3}'
+git_version_number_extraction_okl := awk '/ [0-9]\.[0-9](\.[0-9])+/{print $$3}'
 # assumes that the output of "git --version" contains a line of the form
-# (for example) "git version 1.5.2.4"
+# (for example) "git version 1.5.2.4" or "git version 1.5.4"
 
-location_git_call ?= $(shell (type -P $(git_call)))
-ifeq ($(location_git_call),)
-  git_call_ready ?= NO
+location_git_call_okl ?= $(shell (type -P $(git_call_okl)))
+ifeq ($(location_git_call_okl),)
+  git_call_ready_okl ?= NO
 else
-  version_git_call ?= $(shell $(git_call) --version | $(git_version_number_extraction))
-  ifeq ($(version_git_call),$(git_recommended_version_number))
-    git_call_ready ?= YES
+  version_git_call_okl ?= $(shell $(git_call_okl) --version | $(git_version_number_extraction_okl))
+  ifeq ($(version_git_call_okl),$(git_recommended_version_number_okl))
+    git_call_ready_okl ?= YES
   else
-    git_call_ready ?= MAYBE
+    git_call_ready_okl ?= MAYBE
   endif
 endif
 
 # the following construction needs to be generalised by some function
-git_html_documentation_index_location_tag ?= <a href="$(git_html_documentation_index_location)">$(git_html_documentation_index_location)</a>
+git_html_documentation_index_location_tag_okl ?= <a href="$(git_html_documentation_index_location_okl)">$(git_html_documentation_index_location_okl)</a>
+
 
 # New variables for the configuration of building gmp (to be designed 
 # and implemented):
