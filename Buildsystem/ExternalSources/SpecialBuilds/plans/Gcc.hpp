@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,7 +9,15 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp
   \brief Plans regarding installation of gcc
 
-  \todo Gcc
+
+  \todo Install GCC 4.2.3
+  <ul>
+   <li> First only as an alternative (since yet code doesn't compile with
+   versions later than 4.2). </li>
+  </ul>
+  
+
+  \todo Installation in general
   <ul>
    <li> Documentation:
     <ol>
