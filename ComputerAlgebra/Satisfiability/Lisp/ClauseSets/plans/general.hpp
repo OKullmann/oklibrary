@@ -79,9 +79,9 @@ License, or any later version. */
   <ul>
    <li> We should have a devoted module for conflict-combinatorics. </li>
    <li> How to call it? "Conflicts"? "ConflictCombinatorics" ? </li>
-   <li> msind_cs, sind_cs:
+   <li> mcind_cs, cind_cs:
     <ol>
-     <li> The naming should reflect the special method used (here using
+     <li> DONE The naming should reflect the special method used (here using
      traversals). </li>
      <li> Likely the best is just to refer to all possible ways of
      computing maximal independent sets of a hypergraph (or, of a graph;
