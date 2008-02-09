@@ -19,12 +19,16 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
-/* The transversal hypergraph of a hypergraph G */
-transversal_hyp(G) := [G[1],transversal_ses(min_elements(G[2]))]$
+/* The tranversal hypergraph via the independence hypergraph */
+transversal_hyp_ind(G, Ind) := ecomp_hyp(Ind(G))$
+
+/* The transversal hypergraph of a hypergraph G, via recursive splitting */
+transversal_hyp_rs(G) := [G[1],transversal_ses_rs(min_elements(G[2]))]$
 /* The transversal hypergraph of a set-system S */
-transversal_ses(S) := block([M : listify(S),l, h,S1,S2],
+transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],
  l : length(M),
  if l = 0 then return({{}})
  elseif l = 1 then return(singletons(M[1]))
@@ -34,11 +38,7 @@ transversal_ses(S) := block([M : listify(S),l, h,S1,S2],
  h : floor(l/2),
  S1 : rest(M,-h),
  S2 : rest(M,l-h),
- return(min_elements(cunion(transversal_ses(S1),transversal_ses(S2)))))$
-
-/* The hypergraph of maximal independent sets of a hypergraph G */
-ind_hyp(G) := ecomp_hyp(transversal_hyp(G))$
-
+ return(min_elements(cunion(transversal_ses_rs(S1),transversal_ses_rs(S2)))))$
 
 /*!
 \endhtmlonly

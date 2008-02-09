@@ -21,8 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Transversa
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac");
 
-okltest_transversal_hyp(transversal_hyp);
-okltest_ind_hyp(ind_hyp);
+okltest_transversal_hyp(transversal_hyp_rs);
 
 /*!
 \endhtmlonly

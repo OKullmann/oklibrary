@@ -19,15 +19,16 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac");
 
 kill(f)$
 
 check_involutiv_min(f,G) := block([G2 : f(f(G))],
   is(G2[1] = G[1] and G2[2] = min_elements(G[2])))$
 
+/* Testing whether f computes the transversal hypergraph */
 okltest_transversal_hyp(f) := block([G],
   assert(f([{},{}]) = [{},{{}}]),
   assert(f([{},{{}}]) = [{},{}]),
@@ -37,14 +38,11 @@ okltest_transversal_hyp(f) := block([G],
   for k : 0 thru 3 do
     for n : 0 thru 6 do
       assert(check_involutiv_min(f,ArithmeticProgressions(k,n))),
+  if oklib_test_level = 0 then return(true),
+  block([oklib_test_level : min(oklib_test_level-1, 2)],
+    okltest_independence_hyp(buildq([f],lambda([G],ecomp_hyp(f(G)))))
+  ),
 true)$
-
-okltest_ind_hyp(f) := block([G],
-  assert(f([{},{}]) = [{},{{}}]),
-  assert(f([{},{{}}]) = [{},{}]),
-  assert(f([{1,2},{{1}}]) = [{1,2},{{2}}]),
-true)$
-
 
 /*!
 \endhtmlonly
