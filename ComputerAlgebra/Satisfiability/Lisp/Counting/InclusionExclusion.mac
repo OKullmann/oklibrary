@@ -23,8 +23,10 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Confl
 
 /* The probability of a satisfying assignments computed via the Iwama-formula
    ([Iwama, 1989, CNF satisfiability test by counting and polynomial average
-   time]). */
-satprob_mcind(F) := block([MI : listify(cind_cs(F)[2])],
+   time]). 
+   Computing the independent sets via the recursive-splitting-transversal
+   algorithm. */
+satprob_mcind_trrs(F) := block([MI : listify(cind_cs_trrs(F)[2])],
   sum((-1)^(ncl_cs(MI[i])) * 2^(-nvar_cs(MI[i])), i,1,length(MI)))$
 
 

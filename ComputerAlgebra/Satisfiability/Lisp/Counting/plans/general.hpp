@@ -14,14 +14,20 @@ License, or any later version. */
 
 
   \todo Write the direct algorithm (running through all total assignments)
+  <ul>
+   <li> Perhaps in "Counting/Basics.mac". </li>
+  </ul>
 
 
   \todo Write a scheme which uses r_k-splitting trees
 
 
-  \todo okltest_satprob_mcind
+  \todo okltest_satprob
   <ul>
-   <li> This test-function should be a general test function for the counting
+   <li> We should perhaps create Counting/tests/Basics.mac, and move this
+   general testfunction there. </li>
+   <li> DONE
+   This test-function should be a general test function for the counting
    of satisfiying assignments of boolean clause-sets. </li>
   </ul>
 
