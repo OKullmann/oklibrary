@@ -21,8 +21,14 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
 kill(f)$
+
+okltest_negate_st(f) := block(
+  assert(f([true]) = [false]),
+  assert(f([false]) = [true]),
+  true)$
 
 okltest_optimal_splitting_tree(f) := block(
   assert(f({}) = [[true],1]),
@@ -50,6 +56,32 @@ okltest_optimal_r_splitting_tree(f) := block(
   for k : 4 thru 4 do
     assert(f(weak_php(k+1,k)[2],k-1)[2] = if k=1 then 5 else 3),
   true)$
+
+
+okltest_sat_pass_st(f) := block(
+  assert(f([true]) = [{}]),
+  assert(f([false]) = []),
+  assert(f([1,[false],[false]]) = []),
+  assert(f([1,[true],[false]]) = [{-1}]),
+  assert(f([1,[true],[true]]) = [{-1},{1}]),
+  if oklib_test_level = 0 then return(true),
+  block([oklib_test_level : min(oklib_test_level - 1, 2)],
+    okltest_usat_clauses_st(buildq([f],lambda([T], comp_cs(f(negate_st(T))))))
+  ),
+  true)$
+
+okltest_usat_clauses_st(f) := block(
+  assert(f([false]) = [{}]),
+  assert(f([true]) = []),
+  assert(f([1,[false],[false]]) = [{1},{-1}]),
+  assert(f([1,[true],[false]]) = [{-1}]),
+  assert(f([1,[true],[true]]) = []),
+  if oklib_test_level = 0 then return(true),
+  block([oklib_test_level : min(oklib_test_level - 1, 2)],
+    okltest_sat_pass_st(buildq([f],lambda([T], comp_cs(f(negate_st(T))))))
+  ),
+  true)$
+
 
 /*!
 \endhtmlonly
