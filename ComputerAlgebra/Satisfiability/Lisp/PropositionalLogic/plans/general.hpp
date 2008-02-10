@@ -10,7 +10,9 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding propositional logic
 
 
-  \todo MAXIMA BUG
+  \todo DONE ("not" is now only used for logical evaluation at the
+  Maxima-level, and replaced for literals by "neg")
+  MAXIMA BUG
   <ul>
    <li> The code
    \verbatim

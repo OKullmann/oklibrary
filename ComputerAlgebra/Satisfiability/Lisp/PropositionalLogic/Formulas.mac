@@ -28,14 +28,16 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
    ***********************************
 */
 
-/* A "propositional variable" is any term which might be evaluated to
-   true or false.
-*/
+/* A "propositional variable" is any term. */
+/* A "propositional literal" is either a variable "v" or "neg(v)" 
+   or "true" or "false". */
 
 /* A "propositional formula" is a labelled tree, where the labels are either
-   variables at the leaves or operation-labels at inner nodes, which are 
+   literals at the leaves or operation-labels at inner nodes, which are 
    strings "and", "not", "xor", "equiv" representing n-ary operations, 
    "impl" (binary) and "not" (unary).
+*/
+/*
    The deMorgan-base is "and", "or", "not".
    The empty "and" is true, the empty "or" is false, the empty "xor" is false, the
    empty "equiv" is true.
@@ -49,21 +51,25 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
     number of the x_i are true.
 */
 
-/* A "propositional literal" is either "v" or "not v" where v is a 
-   propositional variable; and also "true" and "false" are allowed.
-   Formulas tree also allow propositional literals.
-*/
+kill(neg)$
+tellsimp(neg(false), true)$
+tellsimp(neg(true), false)$
+matchdeclare(negexpr,true)$
+tellsimp(neg(neg(negexpr)),negexpr);
 
-/* Propositional formulas can also use literals instead of variables at
-   the leaves. */
-
-/* The variable of a propositional literal */
-var_prpl(x) := if not atom(x) and op(x) = "not" then part(x,1) else x$
-
+/* The set of variables of a propositional literal */
+var_prpl(x) := if not atom(x) and part(x,0) = neg then {part(x,1)} 
+ elseif x = true or x = false then {}
+ else {x}$
 /* The set of variables of a propositional formula (tree) without empty operations */
 var_ft(F) := block([l : length(F)],
-  if l = 1 then {var_prpl(F[1])} else
+  if l = 1 then var_prpl(F[1]) else
   family_sets_union(setmn(2,l), lambda([i],var_ft(F[i]))))$
+
+/* Tests whether literal x is "true" or "false" */
+truefalse_literalp(x) := is(x = true) or is(x = false)$
+/* tests whether formula F is "true" or "false" (as is) */
+truefalse_ft(F) := is(length(F) = 1) and truefalse_literalp(F[1])$
 
 
 /* ******************************************
@@ -95,11 +101,6 @@ evaluate_empty_ft(F) := block([l : length(F)],
   elseif F[1] = "xor" then return([false])
   elseif F[1] = "equiv" then return([true])
   else return(F))$
-
-/* tests whether literal x is "true" or "false" */
-truefalse_literalp(x) := is(x = true) or is(x = false)$
-/* tests whether formula F is "true" or "false" (as is) */
-truefalse_ft(F) := is(length(F) = 1) and truefalse_literalp(F[1])$
 
 /* Helper function: partition a list into yes- and no- instances */
 partition_list(L,pred) := block([Y : [], N : []],
@@ -142,7 +143,7 @@ eliminate_unary_ft(F) := block([l : length(F)],
    "negation normal form". */
 move_negations_down(F) := move_negations_down_rel(F, false)$
 move_negations_down_rel(F, negated) := block([l : length(F)],
-  if l = 1 then if negated then return([not F[1]]) else return(F)
+  if l = 1 then if negated then return([neg(F[1])]) else return(F)
   elseif F[1] = "not" then return(move_negations_down_rel(F[2], not negated))
   elseif negated then
     if F[1] = "or" then
@@ -157,6 +158,28 @@ move_negations_down_rel(F, negated) := block([l : length(F)],
 
 /* Basic simplification of a formula-tree */
 basic_simplification_ft(F) := move_negations_down(eliminate_unary_ft(elimination_constants_ft(evaluate_empty_ft(eliminate_implications_ft(equivalences2xors(F))))))$
+
+
+/* ***********************
+   * Partial assignments *
+   ***********************
+*/
+
+/* A "partial assignment" for propositional logic is a set of propositional 
+   literals (to be set to true)
+*/
+
+/* Apply a partial assignment to a literal */
+apply_pa_prpl(phi,x) := block([vs : var_prpl(x)],
+  if vs = {} then return(x),
+  if elementp(x, phi) then return(true)
+  elseif elementp(neg(x), phi) then return(false)
+  else return(x))$
+
+/* Apply a partial assignment to a formula tree (without simplification) */
+apply_pa_ft(phi, F) := block([l : length(F)],
+  if l = 1 then return([apply_pa_prpl(phi,F[1])])
+  else return(cons(F[1], makelist(apply_pa_ft(phi,F[i]),i,2,l))))$
 
 
 /* ******************
