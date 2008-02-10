@@ -1,0 +1,46 @@
+/* Oliver Kullmann, 10.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Backtracking.mac
+  \brief Tests for backtracking solvers for propositional formulas
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Backtracking.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+
+kill(f)$
+
+/* Checks whether f determines satisfiability of formula-trees correctly */
+okltest_satisfiability_ft(f) := block([a,b,c],
+  assert(f([false]) = false),
+  assert(f([true]) = true),
+  assert(f(["and"]) = true),
+  assert(f(["or"]) = false),
+  assert(f([a]) = true),
+  assert(f([neg(a)]) = true),
+  assert(f(["and", [a], [neg(a)]]) = false),
+  assert(f(["equiv", [a], [a]]) = true),
+  assert(f(["equiv", [a], [neg(a)]]) = false),
+  assert(f(["xor", [a], [a]]) = false),
+  assert(f(["xor", [a], [neg(a)]]) = true),
+  assert(f(["not", ["impl", ["and", [a], [b]], ["or", [a], [neg(b)]]]]) = false),
+  assert(f(["not", ["impl", ["or",[a],[b]], ["and",[a],[b]]]]) = true),
+  assert(f(["not", ["impl", ["and", ["impl",[a],[b]], ["impl",[b],[c]]], ["impl",[a],[c]]]]) = false),
+  true)$
+
+/*!
+\endhtmlonly
+*/
