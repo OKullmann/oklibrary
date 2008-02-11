@@ -21,8 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testob
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac");
 
+okltest_negate_st(negate_st);
+
 okltest_optimal_splitting_tree(optimal_splitting_tree);
 okltest_optimal_r_splitting_tree(optimal_r_splitting_tree);
+
+okltest_sat_pass_st(sat_pass_st);
+okltest_usat_clauses_st(usat_clauses_st);
 
 /*!
 \endhtmlonly

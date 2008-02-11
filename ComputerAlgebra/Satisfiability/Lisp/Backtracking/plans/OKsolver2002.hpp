@@ -13,6 +13,11 @@ License, or any later version. */
   \todo Differences to the original OKsolver2002
   <ul>
    <li> On weak_php(5,4) the C-OKsolver needs 17 nodes and depth 6,
+   \verbatim
+Pigeonhole> OKsolver_2002-O3-DNDEBUG php54_w.cnf
+s UNSATISFIABLE
+c sat_status=0 initial_maximal_clause_length=4 initial_number_of_variables=20 initial_number_of_clauses=45 initial_number_of_literal_occurrences=100 running_time(s)=0.0 number_of_nodes=17 number_of_single_nodes=0 number_of_quasi_single_nodes=6 number_of_2-reductions=23 number_of_pure_literals=5 number_of_autarkies=0 number_of_missed_single_nodes=0 max_tree_depth=6 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=72 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=40 file_name=php54_w.cnf
+   \endverbatim
    while the Maxima-OKsolver needs 15 nodes and depth 5. </li>
    <li> The Maxima-tree is (labelled):
    \verbatim
@@ -21,16 +26,31 @@ okt_php_54 : OKsolver_2002_st(weak_php(5,4));
  [- php(1, 2), [- php(2, 1), [false], [false]],
   [- php(2, 3), [false], 
    [- php(2, 4), [false],
-    [- php(3, 1), [false], [false]]
-   ]
-  ]
- ]
-];
+    [- php(3, 1), [false], [false]]]]]];
    \endverbatim
    This tree seems correct.
    </li>
+   <li> We need to get the tree also with the distances, so that we can
+   collaps the inf-branches.
+   \verbatim
+okat_php_54 : OKsolver_2002_ast(weak_php(5,4));
+[[- php(1, 1), [[0.2, 0.8], [1, 5]]], 
+  [[- php(2, 2), [[0, inf]]], [false], [false]],
+  [[- php(1, 2), [[1, 0.8], [1, 5]]], 
+    [[- php(2, 1), [[0, inf]]], [false], [false]],
+    [[- php(2, 3), [[0, inf]]], [false], 
+      [[- php(2, 4), [[0, inf]]], [false],
+        [[- php(3, 1), [[0, inf]]], [false], [false]]]]]]
+count_inf_branches(okat_php_54, 0);
+5
+okcat_php_54 : collapse_inf_branches(okat_php_54, 0);
+[[- php(1, 1), [[0.2, 0.8], [1, 5]]], [false],
+  [[- php(1, 2), [[1, 0.8], [1, 5]]], [false], [false]]]
+   \endverbatim  
+   </li>
    <li> It seems that at the deep right end the C-OKsolver added
-   a further branching. </li>
+   a further branching, namely a quasi-single node (the Maxima-solver
+   has only 5 quasi-single nodes, while the C-solver has 6). </li>
    <li> Could be chance (due to the quasi-single-nodes). </li>
    <li> But we must check; we need the C-OKsolver to output the
    branching literals. See "OUTPUTTREEDATAXML" in
@@ -69,14 +89,25 @@ okt_php_54 : OKsolver_2002_st(weak_php(5,4));
       <ol>
        <li> weak_php(3,2) : 1 node (height 0) </li>
        <li> weak_php(4,3) : 3 nodes (height 1) </li>
-       <li> weak_php(5,4) : 12 nodes (height ???); tree is ??? </li>
+       <li> weak_php(5,4) : 11 nodes (height 3); tree is
+       \verbatim
+[php(1, 1), 
+  [php(1, 2), [php(2, 1), [false], [false]], 
+    [php(2, 1), [false], [false]]],
+  [php(2, 2), [false], [false]]]
+       \endverbatim
+       (The OKsolver-tree above needed more nodes since it used
+       the implicit reductions when 2-CLSs were detected; after collapsing
+       these reductions then the tree only has 5 nodes.)
+       </li>
       </ol>
      </li>
     </ol>
    </li>
   </ul>
 
-  \todo Tree pruning
+
+  \todo Tree pruning ("intelligent backtracking")
   <ul>
    <li> We need to get the variables used in a refutation. </li>
    <li> Then tree-pruning follows straight. </li>

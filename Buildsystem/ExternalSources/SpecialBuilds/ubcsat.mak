@@ -43,6 +43,9 @@ $(ubcsat_targets_okl) : $(ubcsat-directories)
 	ln -s --force $(ubcsat_call_okl) $(public_bin_dir_okl)/ubcsat
 
 
+# #################################
+# Cleaning
+# #################################
 
 cleanallubcsat :
 	-rm -rf $(ubcsat_base_build_dir_okl) $(ubcsat_base_installation_dir_okl)

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 16.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,7 +15,7 @@ License, or any later version. */
 
   <h2> On the purpose of Git </h2>
 
-  Git is a distributed source control system, used by the OKlibrary.
+  Git is the distributed source control system used by the OKlibrary.
 
 
   <h2> What the installation yields </h2>
@@ -35,21 +35,35 @@ License, or any later version. */
   <h2> Current state of installation </h2>
 
   <ul>
-   <li> git-program call = <code>$(git_call)</code> </li>
-   <li> ready: $(git_call_ready)
+   <li> Recommended version =
+   <code>$(git_recommended_version_number_okl)</code> </li>
+   <li> Paths to the three executables:
+    <ol>
+     <li>git program call = <code>$(git_call_okl)</code> </li>
+     <li>gitk program call = <code>$(gitk_call_okl)</code> </li>
+     <li>git-gui program call = <code>$(gitgui_call_okl)</code> </li>
+    </ol>
+   </li>
+   <li> ready: $(git_call_ready_okl)
     <ul>
-     <li> location = $(location_git_call) </li>
-     <li> version = <code>$(version_git_call)</code>
+     <li> location = $(location_git_call_okl) </li>
+     <li> version = <code>$(version_git_call_okl)</code>
      </li>
     </ul>
    </li>
-   <li> documentation: $(git_html_documentation_index_location_tag) </li>
+   <li> documentation: $(git_html_documentation_index_location_tag_okl) </li>
   </ul>
 
 
   <h2> How to install </h2>
 
-  Only system-wide installation currently.
+  <h3> Prerequisites </h3>
+
+  <ul>
+   <li> <code>gcc</code> is needed (as for many packages). </li>
+   <li> <code>asciidoc</code> (often already installed). </li>
+  </ul>
+
 
   <h3> Make targets </h3>
   
@@ -59,11 +73,25 @@ License, or any later version. */
     <td> Build the recommended version of git, using the system-gcc. </td>
    </tr>
    <tr>
-    <td> <code> git-a.b.c.d </code> </td>
-    <td> Build the version a.b.c.d of git, using the system-gcc (for example
-    <code>git-1.5.2.5</code>). </td>
+    <td> <code> cleanallgit </code> </td>
+    <td> Remove build, installation and documentation directory. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> Local versus system-wide installation:
+    <ol>
+     <li> The default is local installation. </li>
+     <li> Set variable <code>git_default_install_okl</code> to value
+     "system" to switch. </li>
+    </ol>
+   </li>
+   <li> To install a different version, set variable
+   <code>git_recommended_version_number_okl</code> accordingly. </li>
+  </ul>
 
 */
 

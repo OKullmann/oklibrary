@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac");
 
 
 okltest_var_l(var_l)$

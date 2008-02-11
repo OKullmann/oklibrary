@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.11.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -72,6 +72,24 @@ License, or any later version. */
   <ul>
    <li> A map from literals to literal-degrees. </li>
    <li> A map from variables to variable-degrees. </li>
+  </ul>
+
+
+  \todo Conflicts.mac
+  <ul>
+   <li> We should have a devoted module for conflict-combinatorics. </li>
+   <li> How to call it? "Conflicts"? "ConflictCombinatorics" ? </li>
+   <li> mcind_cs, cind_cs:
+    <ol>
+     <li> DONE The naming should reflect the special method used (here using
+     traversals). </li>
+     <li> Likely the best is just to refer to all possible ways of
+     computing maximal independent sets of a hypergraph (or, of a graph;
+     likely one can take advantage of this more special situation). </li>
+     <li> It seems not to be worth to develop an algorithm which computes
+     directly all indepedent sets? </li>
+    </ol>
+   </li>
   </ul>
 
 */

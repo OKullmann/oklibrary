@@ -29,6 +29,10 @@ setn(n) := setify(makelist(i,i,1,n))$
 /* the set {m, ..., n} */
 setmn(m,n) := setify(makelist(i,i,m,n))$
 
+/* A set of singletons from a set */
+singletons(M) := makeset({x},[x],cartesian_product(M))$
+/* All unordered pairs (possible degenerated) from two sets */
+upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
 
 /* the union of a set system */
 set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
@@ -46,6 +50,11 @@ set_sum(L) := block([I : setn(length(L))],
  family_sets_union(I, lambda([i], cartesian_product(L[i], {i}))))$
 /* the n-ary version */
 set_sumn([L]) := set_sum(L)$
+
+/* Complex-union (pairwise union) */
+cunion(A,B) := block([LA: listify(A), LB : listify(B)],
+ makeset(ev(union(LA[i],LB[j]),noeval), [i,j],
+  cartesian_product(setn(length(LA)),setn(length(LB)))))$
 
 
 /* *************************
@@ -83,6 +92,9 @@ is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subs
    ********************************
 */
 
+/* Elementwise complementation of set-system S w.r.t. universe U */
+ecomp(S,U) := setify(makelist(setdifference(U,s),s,listify(S)))$
+
 /* setdifference2(S,b) returns the set system where the elements of b have been
    removed from every element of S */
 setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
@@ -101,6 +113,10 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
     A : L[p[1]], B : L[p[2]],
     L : delete(A,L), L : delete(B,L), L : append(L, [union(A,B)])),
   setify(L))$
+
+
+/* The closure of a set system under subset-formation */
+subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$
 
 
 /* Sorts the elements of a list according to their length (ascending) */

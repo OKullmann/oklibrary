@@ -21,12 +21,12 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Ba
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
+kill(f)$
+
 /* **************************
    * Variables and literals *
    **************************
 */
-
-kill(f)$
 
 okltest_var_l(f) := (
   for i : 1 thru 10 do (

@@ -1,0 +1,50 @@
+/* Oliver Kullmann, 1.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac
+  \brief Tests for clause-set-generators
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+
+kill(f)$
+
+/* ***********************
+   * Pigeonhole formulas *
+   ***********************
+*/
+
+/* Measures */
+
+okltest_nvar_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = nvar_f(weak_php(m,n))),
+ true)$
+
+okltest_ncl_list_weak_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = ncl_list_f(weak_php(m,n))),
+ true
+)$
+
+/*!
+\endhtmlonly
+*/

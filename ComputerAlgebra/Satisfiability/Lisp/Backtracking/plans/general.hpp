@@ -112,6 +112,9 @@ License, or any later version. */
   <ul>
    <li> Given an r_k-splitting tree for F, and F, counting the satisfying
    assignments. </li>
+   <li> With the current algorithm computing an optimal r_2-splitting
+   tree for weak_php(6,5) is hopeless. Hopefully, as described above,
+   introducing also lower bounds enables us to process this. </li>
    <li> DONE (amend_r_splitting_tree does the job, for each node : the
    assignments are not unique anyway, only the results)
    We need the notion of an "extended r_k-splitting tree", which at
@@ -122,9 +125,17 @@ License, or any later version. */
   </ul>
 
 
+  \todo Heuristics, distances etc.
+  <ul>
+   <li> Likely these things should go into a dedicated module. </li>
+  </ul>
+
+
   \todo constraint_backtracking in
   ComputerAlgebra/Satisfiability/Lisp/Backtracking/ConstraintSatisfaction.mac
   <ul>
+   <li> Likely the constraint-related backtracking should go into its own
+   module? </li>
    <li> Also output the corresponding splitting trees; perhaps they
    contain the enforced assignments. </li>
    <li> Given such splitting trees, again one can represent all solutions,

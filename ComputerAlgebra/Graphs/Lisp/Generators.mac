@@ -21,9 +21,18 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
-/* ***************************************
-   * Kneser graphs                       *
-   ***************************************
+/* *******************
+   * Complete graphs *
+   *******************
+*/
+
+/* The complete graph for vertex set V */
+complete_gr(V) := [V, powerset(V,2)]$
+
+
+/* *****************
+   * Kneser graphs *
+   *****************
 */
 
 /* Kneser-graphs: Vertices are the m-element subets of {1,..,n}, joined by an

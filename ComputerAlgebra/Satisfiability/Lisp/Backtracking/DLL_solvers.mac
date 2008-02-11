@@ -150,7 +150,7 @@ dll_heuristics_first_shortest_clause(FF) := block([ml : inf, x],
 
 dll_simplest_first_shortest_clause(FF) := dll_simplest(FF, dll_heuristics_first_shortest_clause)$
 dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_first_shortest_clause)$
-dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_claus, k)$
+dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_clause, k)$
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
 
 
@@ -310,7 +310,8 @@ count_inf_branches(T,m) := block([l : length(T), flag : 0],
   return(flag + sum(count_inf_branches(T[i],m),i,2,l)))$
 
 /* Collapses nodes where all branches except of one are inf-branches
-   (such nodes are hidden reductions). */
+   (such nodes are hidden reductions); m is the number of monitoring
+   distances */
 collapse_inf_branches(T,m) := block(
   [l : length(T), rel_distances, inf_ind, other],
   if l = 1 then return(T),

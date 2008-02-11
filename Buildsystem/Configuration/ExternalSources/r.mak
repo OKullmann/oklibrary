@@ -40,7 +40,7 @@ R_doc_dir_okl ?= $(R_base_doc_dir_okl)/$(R_recommended_version_number_okl)
 R_html_documentation_index_location_okl ?= $(R_doc_dir_okl)/doc/html/index.html
 R_dvi_documentation_index_location_okl ?= 
 R_pdf_documentation_index_location_okl ?= 
-R_docu_page_okl ?= $(doc_dir)//doxygen_html/da/d4d/docus_2R_8hpp.html
+R_docu_page_okl ?= $(doc_dir)/doxygen_html/da/d4d/docus_2R_8hpp.html
 
 R_homepage_url_okl := http://www.r-project.org/
 R_documentation_url_okl := http://www.r-project.org/

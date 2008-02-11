@@ -61,10 +61,17 @@ Building:
  - One symbolic link is already planted in the base directory OKplatform,
    but this is only for the purpose of setting up the OKlibrary, and is
    otherwise of restricted use.
+
  - The public bin-directory "OKplatform/bin" (in this directory) contains 
    links to the main executables supplied by the OKlibrary, including "oklib".
- - So you can put this bin-directory on your path.
- - Or you can set up a symbolic link to oklib in ~/bin; if you call
+ - So you can put this bin-directory on your path via adding
+PATH=OKPLATFORM/bin:${PATH}
+   to ~/.bashrc, where OKPLATFORM is to be replaced by the (absolute)
+   path to the OKplatform-directory. In order to conveniently use
+   all main programs supplied by the OKlibrary, this step is RECOMMENDED.
+
+ - Or you can set up a symbolic link to oklib in ~/bin.
+   DEPRECATED: If you call
      ./oklib --setup
    in directory OKplatform, then the build system will create this link in ~/bin.
    Remark: It seems that on some systems (like (K)Ubuntu) ~/bin is not

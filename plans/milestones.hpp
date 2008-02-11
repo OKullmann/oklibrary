@@ -158,6 +158,7 @@ License, or any later version. */
 
 
   \section VersionTransitional030 0.3 RELEASE
+  TO BE REACHED $(deadline_030)
   \par
    Build and test system basically finished, and basic
    concepts for generalised SAT solving established

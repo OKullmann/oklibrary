@@ -21,6 +21,11 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
+/* **************************
+   * Basic graph operations *
+   **************************
+*/
+
 /* A "graph" is just a 2-element list, consisting of the set of
    vertices, and a set of 2-element vertex sets.
    A "graph with loops" also allows 1-element vertex sets.
@@ -33,6 +38,15 @@ neighbours(v,G) := disjoin(v, list_sets_union(
 /* Removes vertex set V from graph G (with loops) */
 remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
+
+
+/* *****************************
+   * Basic graph constructions *
+   *****************************
+*/
+
+/* The complement graph of a graph */
+comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
 
 
 /* **********

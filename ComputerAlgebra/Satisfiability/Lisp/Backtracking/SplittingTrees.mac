@@ -25,11 +25,6 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 
 
-/* ***************************
-   * Finding splitting trees *
-   ***************************
-*/
-
 /*
  A "boolean splitting tree" for a clause-set F is either 
   - [[]] for "nothing done",
@@ -39,8 +34,26 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basic
     T0/1 is a splitting tree of <x -> 0/1> * F.
 */
 
+/* So splitting tree can be seen as exactly boolean decision trees. */
+
 /*
  A boolean splitting tree is complete iff no leaf is [[]].
+*/
+
+
+/* ********************************
+   * Manipulating splitting trees *
+   ********************************
+*/
+
+/* Negate a splitting tree, i.e., negate the leaves. */
+negate_st(T) := if length(T) = 1 then [not T[1]] else
+[T[1], negate_st(T[2]), negate_st(T[3])]$
+
+
+/* ***************************
+   * Finding splitting trees *
+   ***************************
 */
 
 monitorcheck_osl(name) := if oklib_monitor then (
@@ -50,7 +63,7 @@ monitorcheck_osl(name) := if oklib_monitor then (
 monitorcheck_osl_v(name) := if oklib_monitor then (
   if depth + 1 <= oklib_monitor_level then (
     print(sconcat("M[",name,"]:"), "depth:", depth,  
-          ", new best variable:", v, ", new min size:", min_size+1)))$
+          ", new best variable:", v, ", new min size:", min_size)))$
 
 /* For input F (a clause-set) returns a pair consisting of a splitting
    tree of minimum size, and its size (the number of nodes).
@@ -95,11 +108,23 @@ count_sat_st(st,V) := if st = [true] then 2^(length(V))
   block([nV : disjoin(var_l(st[1]), V)],
     return(count_sat_st(st[2],nV) + count_sat_st(st[3],nV)))$
 
-/* Compute the satisfying (*partial*) assignments in a splitting tree */
+/* Compute the satisfying (*partial*) assignments in a splitting tree.
+   Returns a list which scans the true-leaves from left to right.
+   If T is a splitting tree for clause-set F (as CNF), then the returned
+   clause-set G (the setification of the returned list) is a tree hitting 
+   clause-set which as DNF is equivalent to F. */
 sat_pass_st(st) := sat_pass_st_a(st,{})$
 sat_pass_st_a(st,phi) := if st = [true] then [phi] 
   elseif st = [false] then [] else
   append(sat_pass_st_a(st[2], adjoin(-st[1],phi)), sat_pass_st_a(st[3], adjoin(st[1],phi)))$
+/* Dually, compute the hitting clause-set (as a clause-list, scanning the
+   tree from left to right) which (as CNF) represents the falsifying
+   assignments. */
+usat_clauses_st(st) := usat_clauses_st_a(st,{})$
+usat_clauses_st_a(st,C) := if st = [false] then [C] 
+  elseif st = [true] then [] else
+  append(usat_clauses_st_a(st[2], adjoin(st[1],C)), usat_clauses_st_a(st[3], adjoin(-st[1],C)))$
+
 
 /* Given a complete splitting tree for a clause-set F, return a resolution
    tree */
@@ -143,9 +168,9 @@ trv_var(v) := nounify(trv)(v)$
 
 /* The complete splitting tree of height k which is complete as tree and which has
    different tree-variables at each inner node. */
-/* The corresponding tree-hitting clause-sets are exactly the saturated
+/* The corresponding tree-hitting clause-sets are exactly the uniform saturated
    minimally unsatisfiable clause-sets of deficiency 1; equivalently, exactly
-   the unsatisfiable regular hitting clause-sets. */
+   the unsatisfiable uniform regular hitting clause-sets. */
 complete_st_alldifferent(k) := complete_st_alldifferent_pref(k,[])$
 complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
   [trv_var(prefix), 

@@ -1,0 +1,35 @@
+/* Oliver Kullmann, 3.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac
+  \brief Functions related to counting of satisfying assignments via inclusion/exclusion techniques
+
+Use by
+
+oklib_load("ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Conflicts.mac");
+
+/* The probability of a satisfying assignments computed via the Iwama-formula
+   ([Iwama, 1989, CNF satisfiability test by counting and polynomial average
+   time]). 
+   Computing the independent sets via the recursive-splitting-transversal
+   algorithm. */
+satprob_mcind_trrs(F) := block([MI : listify(cind_cs_trrs(F)[2])],
+  sum((-1)^(ncl_cs(MI[i])) * 2^(-nvar_cs(MI[i])), i,1,length(MI)))$
+
+
+/*!
+\endhtmlonly
+*/

@@ -22,7 +22,7 @@ License, or any later version. */
      <li> Transversals_exakt </li>
      <li> enthaelt_disjunkt </li>
      <li> ist_speziell_exakt_transversal </li>
-     <li> Transversals </li>
+     <li> Transversals  : DONE</li>
      <li> sub_min_l, sub_min, ist_sub_min : DONE </li>
     </ol>
    </li>
