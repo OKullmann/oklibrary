@@ -99,6 +99,12 @@ rotate(l,n) :=
 /* Flattens a matrix or list into a list of the elements, row by row */
 matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
 
+/* Returns a list of the given matrix's columns (as lists) */
+matrixcolumns(m) := partition(matrix2list(transpose(m)),length(m))$
+
+/* Builds a matrix from a list of it's columns (as lists) */
+columns2matrix(mc) := transpose(apply(matrix, mc))$
+
 
 /* ***************************************
    * Finite Field Wrapper Functions      *
@@ -213,44 +219,60 @@ mixcolumns(inputblock) :=
       apply(matrix, partition(inputblock,4))))$
 
 /*
-   Takes a round key matrix km for round r-1 and a round number r and produces
-   the round key matrix for round r.
- 
-   This needs reworking as it should follow the same scheme as other functions
-   to take a list and produce a list.
+  Takes the initial key as a list of GF(2^8) elements, the size (in 32 bit words) 
+  of the plaintext block, and the number of rounds and returns the expanded key
+  (all of the round keys as one large block) as a list of GF(2^8) elements.
 */
-/* REMARK: Plans should be moved to the plans-file. */
-
-/* ??????????????????? b,c,d are not used ??????? */
-keysch(km,r) := 
-  block([
-        a : gf_add(km[1][1], gf_add(sbox(km[2][4]),gf_exp(x,r-1))),
-        b : gf_add(km[2][1], gf_add(sbox(km[3][4]),gf_exp(x,r-1))),
-        c : gf_add(km[3][1], gf_add(sbox(km[4][4]),gf_exp(x,r-1))),
-        d : gf_add(km[4][1], gf_add(sbox(km[1][4]),gf_exp(x,r-1)))
-        ],
-    matrix(
-          [a, gf_add(a,km[1][2]), gf_add(gf_add(a,km[1][2]),km[1][3]), 
-            gf_add(gf_add(gf_add(a,km[1][2]),km[1][3]),km[1][4])],
-          [a, gf_add(a,km[2][2]), gf_add(gf_add(a,km[2][2]),km[2][3]), 
-            gf_add(gf_add(gf_add(a,km[2][2]),km[2][3]),km[2][4])],
-          [a, gf_add(a,km[3][2]), gf_add(gf_add(a,km[3][2]),km[3][3]), 
-            gf_add(gf_add(gf_add(a,km[3][2]),km[3][3]),km[3][4])],
-          [a, gf_add(a,km[4][2]), gf_add(gf_add(a,km[4][2]),km[4][3]), 
-            gf_add(gf_add(gf_add(a,km[4][2]),km[4][3]),km[4][4])] ))$
-/* REMARK: Here, in contrast to the above, the field is not set explicitely
-at all! */
-
-/* Takes the plaintext list of GF(2^8) elements and the 
- * round key for this round as a list of GF(2^8) elements, and
- * returns a list of the same size of GF(2^8) elements as the plaintext
- * as the result of the round operation. 
+key_expansion(kl, n_b ,n_r) := block(
+    [n_k : length(kl) / 4, 
+    cols : matrixcolumns(apply(matrix,partition(kl, 4))) ],
+    for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
+        print(length(cols)),
+        if mod(j, n_k) = 0 then block (
+            column[1] : 
+                egf_add(rijndael_byte_field, cols[j-n_k+1][1],
+                        egf_add(rijndael_byte_field,
+                            sbox(cols[j][2]), x^(floor(j/n_k) -1))),
+            for i : 1 thru 3 do 
+                column[i+1] : egf_add(rijndael_byte_field,cols[j-n_k+1][i+1],
+                    sbox(cols[j][mod(i+1,4)+1]))
+        ) else for i : 1 thru 4 do
+            column[i] : egf_add(rijndael_byte_field,cols[j][i], 
+                cols[j-n_k+1][i]),
+        cols : append(cols, [column])
+    ),
+    print(cols),
+    return(apply(append,map(
+        lambda([ma],matrix2list(columns2matrix(ma))),
+        partition(cols,n_b))))
+)$
+/* 
+   Takes the plaintext list of GF(2^8) elements and the 
+   round key for this round as a list of GF(2^8) elements, and
+   returns a list of the same size of GF(2^8) elements as the plaintext
+   as the result of the round operation. 
  */
 aes_round(pl, rkl) := 
   map(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
     mixcolumns(shiftrows(subbytes(pl))), rkl)$
 
-/* REMARK: Where is the aes-function??? */
+/* 
+   Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   encryption algorithm (hence number of rounds is assumed to be 10).
+*/
+aes(pl, kl) := block(
+    [n_b : length(pl)/4, num_rounds : 10], 
+    /* Initial Rounds */
+    ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),print("here"),
+    initial_rk : first(ekl), final_rk : last(ekl),
+    initial_result : lreduce(aes_round, rest(rest(ekl), -1),
+    map(lambda([a,b],egf_add(rijndael_byte_field,a,b)),pl, initial_rk)),
+    print(initial_result),
+    /* Final Round */
+    map(lambda([a,b],egf_add(rijndael_byte_field,a,b)),final_rk, 
+        shiftrows(subbytes(initial_result))) 
+)$
 
 /*!
 \endhtmlonly
