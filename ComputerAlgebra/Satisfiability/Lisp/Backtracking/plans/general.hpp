@@ -112,6 +112,9 @@ License, or any later version. */
   <ul>
    <li> Given an r_k-splitting tree for F, and F, counting the satisfying
    assignments. </li>
+   <li> With the current algorithm computing an optimal r_2-splitting
+   tree for weak_php(6,5) is hopeless. Hopefully, as described above,
+   introducing also lower bounds enables us to process this. </li>
    <li> DONE (amend_r_splitting_tree does the job, for each node : the
    assignments are not unique anyway, only the results)
    We need the notion of an "extended r_k-splitting tree", which at
