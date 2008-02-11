@@ -1,5 +1,5 @@
 // Oliver Kullmann, 9.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,15 +15,10 @@ License, or any later version. */
 
   \todo Update namespaces.
 
+
+  \todo Create milestones.
+
   
-  \todo Turing machines
-  <ul>
-   <li> First we need formal grammars for the important types of
-   Turing machines (there should be out there some code). </li>
-   <li> Then we should (directly) simulate Turing machines. </li>
-  </ul>
-
-
   \todo Circuits
   <ul>
    <li> Circuits and uniform circuits as computational models
