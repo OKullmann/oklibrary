@@ -44,11 +44,17 @@ Installations/SAT> cd MiniSat_v1.14
         "statically linked release version".
        </li>
        <li> Minisat+ ? Let's ignore it at this time. </li>
-       <li> What is minisat2-070721.zip ? Let's ignore it at this time. </li>
+       <li> What is minisat2-070721.zip ? The new version, apparently
+       their new best piece. </li>
       </ol>
      </li>
      <li> Chaff: doesn't seem to be open source, and thus can't be included.
      </li>
+     <li> RSat: doesn't seem to be open source, and thus can't be included.
+     </li>
+     <li> Picosat: http://picosat.com/ </li>
+     <li> SatElite: According to the Minisat page, this is subsumed by
+     Minisat2 (see above). </li>
      <li> March:
       <ol>
        <li> Homepage http://www.st.ewi.tudelft.nl/sat/march_dl.php </li>
