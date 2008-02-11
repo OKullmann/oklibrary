@@ -128,32 +128,75 @@ should go to plans-files. */
 
 /* REMARK : We need documentation (as docus) on gf and these functions. */
 
-/* REMARK : Each of the following function needs a specification! */
+/* 
+   Global field variable used to keep a record of the default field to be used
+   when a field is not provided as an argument to egf_add etc. 
+*/
+define_variable(egf_field, 'egf_field, any_check);
+egf_field : [2,1,[x]]$ /* Default to GF(2) */
 
-egf_add(field, a,b) := (
-  gf_set(field[1],field[2],field[3]),
-  gf_add(a,b))$
+/* 
+   Allows the default field that all operations (egf_*) will be performed in to
+   be set if a field argument is not specified. If a field argument is specified
+   to any of the given commands, then that field is used only for the given
+   function call and from then on the default field (set with this function) 
+   is used again.
+*/
+egf_set(field) := (
+  apply(gf_set,field),
+  egf_field : field)$
 
-egf_mul(field, a,b) := (
-  gf_set(field[1],field[2],field[3]),
-  gf_mul(a,b))$
+/*
+   Maps any given gf_* function (func) to a egf_* function by allowing it to 
+   take a field or use the default field otherwise.
+*/
+egf_func(func,args) := (
+  if length(args) > 2 then block(
+    apply(gf_set, first(args)),
+    result : apply(func,rest(args)),
+    apply(gf_set,egf_field),
+    return(result))
+  else
+    apply(func, args))$
 
-egf_matmul(field, a,b) := (
-  gf_set(field[1],field[2],field[3]),
-  gf_matmul(a,b))$
+/* 
+   Analogue of gf_add, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_add([args]) := egf_func(gf_add, args)$
 
-egf_inv(field, a) := (
-  gf_set(field[1],field[2],field[3]),
-  gf_inv(a))$
+/* 
+   Analogue of gf_mul, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_mul([args]) := egf_func(gf_mul, args)$
 
-/* REMARK : Setting the byte-field is cumbersome. Setting the field should
-also be provided, and used appropriately. */
+/* 
+   Analogue of gf_matmul, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_matmul([args]) := egf_func(gf_matmul, args)$
 
+/* 
+   Analogue of gf_inv, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_inv([args]) := egf_func(gf_inv, args)$
 
 /* ***************************************
    * Main Round Functions                *
    ***************************************
 */
+
+/* 
+   First of all set the default field. All operations will be performed in the
+   byte field unless otherwise specified.
+*/
+egf_set(rijndael_byte_field);
 
 /* REMARK : SPECIFICATION NEEDED! */
 
@@ -170,12 +213,11 @@ sbox(byte) :=
   if byte = 0 then 
     rijndael_affine_constant
   else block([invbyte,result],
-    invbyte : egf_inv(rijndael_byte_field,byte),
+    invbyte : egf_inv(byte),
     result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
       polynomial2vector(invbyte,8)),
-    return(egf_add(rijndael_byte_field, vector2polynomial(result),
+    return(egf_add(vector2polynomial(result),
       rijndael_affine_constant))))$
-/* REMARK : We should set the field only once. */
 
 /* 
    Takes the input block as a list of 16 bytes and applies
@@ -215,7 +257,7 @@ rijndael_mixcolumns_matrix : apply(matrix,
 */
 mixcolumns(inputblock) :=
   matrix2list(
-    egf_matmul(rijndael_byte_field, rijndael_mixcolumns_matrix, 
+    egf_matmul(rijndael_mixcolumns_matrix, 
       apply(matrix, partition(inputblock,4))))$
 
 /*
@@ -224,28 +266,24 @@ mixcolumns(inputblock) :=
   (all of the round keys as one large block) as a list of GF(2^8) elements.
 */
 key_expansion(kl, n_b ,n_r) := block(
-    [n_k : length(kl) / 4, 
-    cols : matrixcolumns(apply(matrix,partition(kl, 4))) ],
-    for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
-        print(length(cols)),
-        if mod(j, n_k) = 0 then block (
-            column[1] : 
-                egf_add(rijndael_byte_field, cols[j-n_k+1][1],
-                        egf_add(rijndael_byte_field,
-                            sbox(cols[j][2]), x^(floor(j/n_k) -1))),
-            for i : 1 thru 3 do 
-                column[i+1] : egf_add(rijndael_byte_field,cols[j-n_k+1][i+1],
-                    sbox(cols[j][mod(i+1,4)+1]))
-        ) else for i : 1 thru 4 do
-            column[i] : egf_add(rijndael_byte_field,cols[j][i], 
-                cols[j-n_k+1][i]),
-        cols : append(cols, [column])
-    ),
-    print(cols),
-    return(apply(append,map(
-        lambda([ma],matrix2list(columns2matrix(ma))),
-        partition(cols,n_b))))
+  [n_k : length(kl) / 4, 
+  cols : matrixcolumns(apply(matrix,partition(kl, 4))) ],
+  for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
+    print(length(cols)),
+    if mod(j, n_k) = 0 then block (
+      column[1] : egf_add(cols[j-n_k+1][1], 
+        egf_add(sbox(cols[j][2]), x^(floor(j/n_k) -1))),
+      for i : 1 thru 3 do 
+        column[i+1] : egf_add(cols[j-n_k+1][i+1], sbox(cols[j][mod(i+1,4)+1]))
+    ) else for i : 1 thru 4 do 
+      column[i] : egf_add(cols[j][i], cols[j-n_k+1][i]),
+    cols : append(cols, [column])
+  ),
+  print(cols),
+  return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
+    partition(cols,n_b))))
 )$
+
 /* 
    Takes the plaintext list of GF(2^8) elements and the 
    round key for this round as a list of GF(2^8) elements, and
@@ -253,8 +291,7 @@ key_expansion(kl, n_b ,n_r) := block(
    as the result of the round operation. 
  */
 aes_round(pl, rkl) := 
-  map(lambda([a,b], egf_add(rijndael_byte_field,a,b)),
-    mixcolumns(shiftrows(subbytes(pl))), rkl)$
+  map(lambda([a,b], egf_add(a,b)),mixcolumns(shiftrows(subbytes(pl))), rkl)$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
@@ -262,16 +299,15 @@ aes_round(pl, rkl) :=
    encryption algorithm (hence number of rounds is assumed to be 10).
 */
 aes(pl, kl) := block(
-    [n_b : length(pl)/4, num_rounds : 10], 
-    /* Initial Rounds */
-    ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),print("here"),
-    initial_rk : first(ekl), final_rk : last(ekl),
-    initial_result : lreduce(aes_round, rest(rest(ekl), -1),
-    map(lambda([a,b],egf_add(rijndael_byte_field,a,b)),pl, initial_rk)),
-    print(initial_result),
-    /* Final Round */
-    map(lambda([a,b],egf_add(rijndael_byte_field,a,b)),final_rk, 
-        shiftrows(subbytes(initial_result))) 
+  [n_b : length(pl)/4, num_rounds : 10], 
+  /* Initial Rounds */
+  ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),
+  initial_rk : first(ekl), final_rk : last(ekl),
+  initial_result : lreduce(aes_round, rest(rest(ekl), -1),
+    map(lambda([a,b],egf_add(a,b)),pl, initial_rk)),
+  /* Final Round */
+  map(lambda([a,b],egf_add(rijndael_byte_field,a,b)),final_rk, 
+  shiftrows(subbytes(initial_result))) 
 )$
 
 /*!
