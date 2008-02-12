@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 
 /* **************
@@ -52,6 +53,11 @@ treehittingcls_st(T) := setify(usat_clauses_st(T))$
 uniform_usat_hitting_min(k) := treehittingcls_st(complete_st_alldifferent(k))$
 uniform_usat_hitting_max(k) := full_fcs(k)[2]$
 
+/* Example from [Savicky, Sgall, 2000, DNF tautologies with a limited number
+   of occurrences of every variable] */
+sasg2000 : [setn(4), {{1,-2,4},{2,-3,4},{-1,3,4},{1,2,3},
+ {1,-2,-4},{2,-3,-4},{-1,3,-4},{-1,-2,-3}}]$
+
 
 /* *********
    * Tests *
@@ -75,6 +81,10 @@ treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
       v : listify(D)[1],
       return(
         treehittingcsp(apply_pa({v},F)) and treehittingcsp(apply_pa({-v},F))))))$
+
+/* Tests whether a clause-set is a uniform unsatisfiable hitting clause-set */
+uuhittingcsp(F) := hittingcsp(F) and uniformcsp(F)$
+
 
 /*!
 \endhtmlonly

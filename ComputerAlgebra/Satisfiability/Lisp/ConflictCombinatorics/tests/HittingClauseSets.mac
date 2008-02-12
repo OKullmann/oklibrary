@@ -21,8 +21,28 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
 kill(f)$
+
+
+/* **************
+   * Generators *
+   **************
+*/
+
+okltest_sasg2000(FF) := block([F : FF[2]],
+  assert(FF[1] = {1,2,3,4}),
+  assert(nvar_cs(F) = 4),
+  assert(nlitocc(F) = 24),
+  assert(max_rank_cs(F) = 3),
+  assert(uuhittingcsp(F)),
+  assert(not treehittingcsp(F)),
+  assert(literalregularcsp(F)),
+  assert(min_literal_degree_cs(F) = 3),
+  assert(max_variable_frequency_cs(F) = 3/4),
+  true)$
+
 
 /* *********
    * Tests *
