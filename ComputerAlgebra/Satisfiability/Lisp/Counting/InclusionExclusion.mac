@@ -19,7 +19,7 @@ oklib_load("ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac"
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Conflicts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac");
 
 /* The probability of a satisfying assignments computed via the Iwama-formula
    ([Iwama, 1989, CNF satisfiability test by counting and polynomial average

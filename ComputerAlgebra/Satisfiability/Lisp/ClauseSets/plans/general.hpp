@@ -74,23 +74,5 @@ License, or any later version. */
    <li> A map from variables to variable-degrees. </li>
   </ul>
 
-
-  \todo Conflicts.mac
-  <ul>
-   <li> We should have a devoted module for conflict-combinatorics. </li>
-   <li> How to call it? "Conflicts"? "ConflictCombinatorics" ? </li>
-   <li> mcind_cs, cind_cs:
-    <ol>
-     <li> DONE The naming should reflect the special method used (here using
-     traversals). </li>
-     <li> Likely the best is just to refer to all possible ways of
-     computing maximal independent sets of a hypergraph (or, of a graph;
-     likely one can take advantage of this more special situation). </li>
-     <li> It seems not to be worth to develop an algorithm which computes
-     directly all indepedent sets? </li>
-    </ol>
-   </li>
-  </ul>
-
 */
 
