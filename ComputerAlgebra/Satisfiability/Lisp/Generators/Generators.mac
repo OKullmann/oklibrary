@@ -22,12 +22,14 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generato
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
+
 /* ********************
    * Full clause-sets *
    ********************
 */
 
-/* a formal full clause set with variable set {1,...,n} and all possible (full) clauses */
+/* A formal full clause set with variable set {1,...,n} and all possible
+   (full) clauses (also known as "canonical CNF/DNF") */
 full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian_product, makelist({-i,i},i,1,n)))]$
 
 

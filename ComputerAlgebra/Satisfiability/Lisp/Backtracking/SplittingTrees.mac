@@ -141,20 +141,6 @@ splitting2resolution_tree_rel(st,phi,F) :=
 splitting2resolution_tree(st,F) := splitting2resolution_tree_rel(st,{},F)$
 
 
-/* Given a splitting tree (a tree whose inner nodes are labelled by boolean
-   literals), extract the corresponding "tree hitting clause-set" (which is
-   unsatisfiable iff the tree is complete; the "clause-set" contains a tautological 
-   clause (this for the CNF interpretation) iff a variable occurs twice on some 
-   path). */
-/* The unsatisfiable clause-sets without tautological clauses are exactly those
-   hitting clause-sets which have a read-once resolution refutation. */
-treehittingcls_st(T) := block([l : length(T), x : T[1], F0, F1],
-  if l = 1 then if T = [false] then {{}} else {} else (
-    F0 : map(lambda([C],adjoin(x,C)), treehittingcls_st(T[2])),
-    F1 : map(lambda([C],adjoin(-x,C)), treehittingcls_st(T[3])),
-    return(union(F0,F1))))$
-
-
 /* ***********************************
    * Generators for splitting trees  *
    ***********************************

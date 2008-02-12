@@ -42,6 +42,9 @@ License, or any later version. */
    <li> BranchingTuples :
    ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/docus/general.hpp </li>
    <li> %ClauseSets : to be completed </li>
+   <li> ConflictCombinatoris :
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/docus/general.hpp
+   </li>
    <li> ConstraintProblems : to be completed </li>
    <li> MinimalUnsatisfiability : to be completed </li>
    <li> PropositionalLogic : to be completed </li>

@@ -47,24 +47,16 @@ mcind_cs_trrs(F) := mcind_cs(F, independence_hyp_trrs)$
 cind_cs_trrs(F) := subset_closure_hyp(mcind_cs_trrs(F))$
 
 
-/* *********
-   * Tests *
-   *********
-*/
-
-/* Tests whether a clause-set is a hitting clause-set */
-hittingcsp(F) := block([l : length(F), L : listify(F), break : false],
-  for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
-    if not clashp(L[i], L[j]) then break : true,
-  return(not break))$
-/* hittingcsp(F) = completegrp(cg_cs(F)) */
-/* Also: hittingcsp(F) iff independence_number_cs(F) <= 1. */
-
-
 /* ************
    * Measures *
    ************
 */
+
+/* The number of conflicts of a boolean clause-set F */
+nconflicts(F) := sum_scom(cm_cs(F))/2$
+/* The "reduced number of conflicts" of a boolean clause-set F 
+   (counting only one possible conflict per pair of clauses) */
+rnconflicts(F) := length(cg_cs(F)[2])$
 
 /* The hermitean rank of a boolean clause-set F */
 hermitean_rank_cs(F) := hermitean_rank(scom2m(cm_cs(F)))$

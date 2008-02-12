@@ -1,0 +1,81 @@
+/* Oliver Kullmann, 12.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+  \brief Functions related to hitting clause-sets and generalisations
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
+
+
+/* **************
+   * Generators *
+   **************
+*/
+
+/* Given a splitting tree (a tree whose inner nodes are labelled by boolean
+   literals), extract the hitting clause-set given by the false-leaves
+   (which is unsatisfiable iff the tree is complete; the "clause-set" 
+   contains a tautological clause (this for the CNF interpretation) iff a 
+   variable occurs twice on some  path). */
+/* The unsatisfiable hitting clause-sets generated in this way are the
+   "tree hitting clause-sets", and with tautological clauses removed these
+   are exactly those hitting clause-sets which have a read-once resolution 
+   refutation.
+   The other hitting clause-sets created are subsets of tree hitting 
+   clause-sets. */
+treehittingcls_st(T) := setify(usat_clauses_st(T))$
+
+/* An unsatisfiable uniform clause-set F with clause-length k has at least
+   2^k clauses, and the minimum is attained exactly for the uniform hitting
+   clause-sets with clause-length k and 2^k clauses. */
+/* The two extreme cases are given by full_fcs(n) (with maximal deficiency)
+   and by the following special SMUSAT(1) clause-sets (with minimal 
+   deficiency), which are (up to renaming) exactly the uniform elements of
+   SMUSAT(1) with clause-length k. */
+uniform_usat_hitting_min(k) := treehittingcls_st(complete_st_alldifferent(k))$
+uniform_usat_hitting_max(k) := full_fcs(k)[2]$
+
+
+/* *********
+   * Tests *
+   *********
+*/
+
+/* Tests whether a clause-set is a hitting clause-set */
+hittingcsp(F) := block([l : length(F), L : listify(F), break : false],
+  for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
+    if not clashp(L[i], L[j]) then break : true,
+  return(not break))$
+/* hittingcsp(F) = completegrp(cg_cs(F)) */
+/* Also: hittingcsp(F) iff independence_number_cs(F) <= 1. */
+
+/* Tests whether a clause-set is a tree hitting clause-set */
+treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
+  if emptyp(G[1]) then return(is(F = {{}}))
+  else block([D : apply(intersection, listify(G[2])), v],
+    if emptyp(D) then return(false)
+    else (
+      v : listify(D)[1],
+      return(
+        treehittingcsp(apply_pa({v},F)) and treehittingcsp(apply_pa({-v},F))))))$
+
+/*!
+\endhtmlonly
+*/

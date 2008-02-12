@@ -1,0 +1,63 @@
+/* Oliver Kullmann, 12.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingClauseSets.mac
+  \brief Tests for basic conflict-combinatorics-functionality
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingClauseSets.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+
+kill(f)$
+
+/* *********
+   * Tests *
+   *********
+*/
+
+okltest_hittingcsp(f) := block(
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = true),
+  assert(f({{},{1}}) = false),
+  for n : 2 thru 4 do
+    assert(f(musatd2(n)[2]) = if n <= 3 then true else false),
+  assert(f({{1},{-1}}) = true),
+  for n : 0 thru 4 do
+    assert(f(uniform_usat_hitting_min(n))),
+  for n : 0 thru 4 do
+    assert(f(uniform_usat_hitting_max(n))),
+  true)$
+
+
+okltest_treehittingcsp(f) := block(
+  assert(f({}) = false),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = false),
+  assert(f({{},{1}}) = false),
+  assert(f({{1},{-1}}) = true),
+  for n : 2 thru 4 do
+    assert(f(musatd2(n)[2]) = if n <= 2 then true else false),
+  for n : 0 thru 4 do
+    assert(f(uniform_usat_hitting_min(n))),
+  for n : 0 thru 4 do
+    assert(f(uniform_usat_hitting_max(n))),
+  true)$
+
+/*!
+\endhtmlonly
+*/
