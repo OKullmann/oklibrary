@@ -30,6 +30,9 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
    *******************
 */
 
+/* A formal clause-set as a hypergraph */
+hyp_fcs(FF) := [literals_v(FF[1]), FF[2]]$
+
 /* The clause-variable graph of a formal clause-set (also "incidence graph") */
 cl_var_graph(FF) := [set_sumn(FF[2], FF[1]),
   family_sets_union(FF[2], lambda([C], setify(makelist({[C,1],[var_l(x),2]},x,listify(C)))))]$
