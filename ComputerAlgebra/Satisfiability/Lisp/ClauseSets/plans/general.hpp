@@ -70,8 +70,12 @@ License, or any later version. */
   \todo Further statistics (for
   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac))
   <ul>
-   <li> A map from literals to literal-degrees. </li>
-   <li> A map from variables to variable-degrees. </li>
+   <li> DONE A map from literals to literal-degrees. </li>
+   <li> DONE A map from variables to variable-degrees. </li>
+   <li> Inversely, for every variable- resp. literal degree the number
+   of variables resp. literals with that degree. </li>
+   <li> DONE Tests whether a clause-set is variable-regular or literal-regular.
+   </li>
   </ul>
 
 */

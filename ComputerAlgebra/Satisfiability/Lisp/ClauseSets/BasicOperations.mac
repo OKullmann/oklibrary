@@ -133,7 +133,7 @@ rename_clause(C,h) := map(lambda([x],rename_literal(x,h)), C)$
 /* Translating variable names of a formal clause-set into natural numbers; 
    outputs a pair consisting of the translated formal clause-set and
    the list of old variable names (positions corresponding to new
-   variable-numbers */
+   variable-numbers) */
 standardise_fcs(FF) := block([h : hash_table(), V : listify(FF[1])],
  for i : 1 thru length(V) do set_hash(V[i], h, i),
  return([[setn(length(V)), map(lambda([C],rename_clause(C,h)), FF[2])],V]))$
@@ -178,6 +178,8 @@ max_rank_cs(F) := block([m : -1],
 min_rank_cs(F) := block([m : inf],
   for C in F do if length(C) < m then m : length(C),
   return(m))$
+/* Tests whether a clause-set F is uniform */
+uniformcsp(F) := is(max_rank_cs(F) <= min_rank_cs(F))$
 
 /* Gathers main statistics for a clause-set */
 statistics_cs(F) := 
@@ -185,6 +187,53 @@ statistics_cs(F) :=
 /* Gathers main statistics for a formal clause-set */
 statistics_fcs(FF) := 
   [nvar_f(FF),ncl_f(FF),nlitocc(FF[2]),max_rank_cs(FF[2]),min_rank_cs(FF[2])]$
+
+load(graphs)$
+/* the literal-degrees of a clause-set, as hash-map */
+literal_degrees_cs(F) := block([h : hash_table()],
+ for C in F do
+  for x in C do block([val : get_hash(x,h)],
+   if val=false then set_hash(x,h,1)
+   else set_hash(x,h,val+1)),
+ return(h))$
+/* minimal literal-degree of a clause-set */
+min_literal_degree_cs(F) := 
+  lmin(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
+/* maximal literal-degree of a clause-set */
+max_literal_degree_cs(F) := 
+  lmax(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
+/* tests whether a clause-set is literal-regular (all literals have the same
+   degree) */
+literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$
+/* the average literal degree of a formal clause-set */
+mean_literal_degree_fcs(FF) := nlitocc(FF[2]) / (2 * nvar_f(FF))$
+/* literal frequencies in various forms: */
+min_literal_frequency_cs(F) := min_literal_degree_cs(F) / ncl_cs(F)$
+max_literal_frequency_cs(F) := max_literal_degree_cs(F) / ncl_cs(F)$
+mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
+
+/* the variable-degrees of a clause-set, as hash-map */
+variable_degrees_cs(F) := block([h : hash_table()],
+ for C in F do
+  for v in var_c(C) do block([val : get_hash(v,h)],
+   if val=false then set_hash(v,h,1)
+   else set_hash(v,h,val+1)),
+ return(h))$
+/* minimal variable-degree of a clause-set */
+min_variable_degree_cs(F) := 
+  lmin(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
+/* maximal variable-degree of a clause-set */
+max_variable_degree_cs(F) := 
+  lmax(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
+/* tests whether a clause-set is variable-regular (all variables have the same
+   degree) */
+variableregularcsp(F) := is(min_variable_degree_cs(F) >= max_variable_degree_cs(F))$
+/* the average variable-degree of a formal clause-set */
+mean_variable_degree_cs(FF) := 2 * mean_literal_degree_fcs(FF)$
+/* literal frequencies in various forms: */
+min_variable_frequency_cs(F) := min_variable_degree_cs(F) / ncl_cs(F)$
+max_variable_frequency_cs(F) := max_variable_degree_cs(F) / ncl_cs(F)$
+mean_variable_frequency_cs(FF) := mean_variable_degree_fcs(FF) / ncl_f(FF)$
 
 
 /* ***********************************
