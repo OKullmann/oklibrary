@@ -18,6 +18,8 @@ License, or any later version. */
    more experience). </li>
    <li> Move list helper functions to a seperate List module </li>
    <li> Document functions and constants with explanation of use </li>
+   <li> Produce list of conversion functions (bit lists, hex etc) which can 
+   later be moved to Cryptology. </li>
    <li> How to integrate the key schedule? </li>
    <li> Basic aes-functions:
     <ol>
