@@ -66,5 +66,42 @@ License, or any later version. */
    <li> See [Hoory, Szeider, 2006]. </li>
    <li> Are there other generators for unsatisfiable hitting clause-sets? </li>
   </ul>
+
+
+  \todo Searching for ABD(n,k)
+  <ul>
+   <li> Most natural seems the clause-based approach:
+    <ol>
+     <li> For each of the 2^k clauses we have a variable, with domain
+     all binom(n,k) * 2^k clauses. </li>
+     <li> We have one injectivity condition over all variables (an active
+     clause). </li>
+     <li> We have one condition stating that all assigned clauses clash
+     pairwise.
+      <ul>
+       <li> Unclear whether this yields an active clause. </li>
+       <li> The underlying general problem is for a hitting clause-set to find
+       a satisfying partial assignment of minimal size --- unclear whether this
+       can be done in polynomial time. </li>
+      </ul>
+     </li>
+     <li> And for each variable we have the condition that it occurs in
+     exactly 2^k * k / n clauses; this should yield (n) active clauses. </li>
+     <li> Finally, symmetry-breaking can be established by choosing a linear
+     order on all clauses (for example lexicographical) and also order the
+     variables, and by demanding that the first variable gets the smallest
+     clause and that the order is variable-values is strictly ascending.
+     Are there suitable orderings, so that this becomes an active clause??
+     Perhaps we shouldn't demand strict ascending, since this is already
+     covered by the injectivity constraint. </li>
+    </ol>
+   </li>
+   <li> Apparently the smallest open case is to find an ABD(12,6) (or to
+   determine that it doesn't exist). An easier test case should be ABD(8,5)
+   (here there are solutions; perhaps we can determine them all?). </li>
+   <li> Regarding the quality-measure mu(n,k) = log_k(n) (the more the better)
+   we have mu(4,3) < mu(8,5) < mu(12,6). </li>
+  </ul>
+  
 */
 

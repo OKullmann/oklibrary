@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/Spl
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
 
 /* **************
@@ -83,8 +84,14 @@ treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
         treehittingcsp(apply_pa({v},F)) and treehittingcsp(apply_pa({-v},F))))))$
 
 /* Tests whether a clause-set is a uniform unsatisfiable hitting clause-set */
-uuhittingcsp(F) := hittingcsp(F) and uniformcsp(F)$
+uuhittingcsp(F) := 
+ hittingcsp(F) and uniformcsp(F) and not emptyp(F) and is(ncl_cs(F) = 2^(length(listify(F)[1])))$
 
+/* Returns false if F is not an ABD, and otherwise 
+   returns (n,k) */
+abd_parameters(F) := 
+ if not uuhittingcsp(F) or not variableregularcsp(F) then false
+ else return([nvar_cs(F), length(listify(F)[1])])$
 
 /*!
 \endhtmlonly
