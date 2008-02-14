@@ -25,6 +25,7 @@ oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.ma
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
 
 /* *****************
    * Constructions *
@@ -68,6 +69,8 @@ hermitean_defect_cs(F) := ncl_cs(F) - hermitean_rank_cs(F)$
    for computing the independence number of a graph */
 independence_number_cs(F, ind_num_f) :=ind_num_f(cg_cs(F))$
 
+/* Using the Maxima-function */
+independence_number_m_cs(F) := independence_number_cs(F, independence_number_gr_m)$
 
 /*!
 \endhtmlonly
