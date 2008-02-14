@@ -31,7 +31,8 @@ prefix := $(shell pwd)
 
 .PHONY : all clean cleanall
 
-all : gcc boost postgresql valgrind mhash doxygen ubcsat asciidoc git
+all : 
+	echo "NOT READY YET!"
 
 # #################################
 # Functions
@@ -83,6 +84,6 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
 # Cleaning
 # #################################
 
-clean : cleangcc cleanboost cleanmhash
+clean : 
 
-cleanall : clean cleanallgcc cleanallboost cleanallpostgresql cleanallvalgrind cleanallmhash cleanalldoxygen cleanallubcsat cleanallasciidoc cleanallgit cleanallmpfr cleanallgcc
+cleanall : 
