@@ -85,6 +85,15 @@ License, or any later version. */
        resp. prime implicants (for DNF), where F_k contains the clauses of
        length k. </li>
       </ol>
+     MG - Many descriptions of the Quine-McCluskey algorithm seem to 
+     include an additional minimisation step to calculate all essential prime 
+     implicates/implicants, removing certain clauses after the steps listed 
+     above. For example, the above algorithm given 
+     {{- 3, - 1, 2}, {- 3, 1, 2}, {- 2, - 1, 3}, {- 1, 2, 3}} returns
+     {{- 3, 2}, {- 1, 2}, {- 1, 3}}, however the input clause set is equivalent
+     to {{-3,2},{-1,3}} and the R implementation mentioned in 
+     Buildsystem\ExternalSources\SpecialBuilds\plans gives {{-3,2},{-1,3}
+     as well.
      </li>
      <li> Correctness follows by the simple fact that when F_k is first
      computated, then it contains exactly all implicates (implicants) of
