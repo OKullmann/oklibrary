@@ -57,7 +57,7 @@ $(gcc_tag_paths_old) : $(gcc-base-directory)/_gcc-%  : | $(gcc-base-directory) $
 	cd $(gcc-base-directory)/gcc-$*_Build; $(postcondition) \
 	../gcc-$*/configure --prefix=$(gcc-base-directory)/$* --enable-languages=$(enable-languages) --enable-threads=posix --enable-shared; $(postcondition) \
 	make; $(postcondition) \
-	make html dvi; $(postcondition) \
+	make html; $(postcondition) \
 	make install; $(postcondition) \
 	if [[ !(-d $(gcc_doc_dir)/$*/doc) ]]; then mv gcc/doc $(gcc_doc_dir)/$*; fi; $(postcondition) \
 	if [[ !(-d $(gcc_doc_dir)/$*/man) ]]; then mv $(gcc-base-directory)/$*/man $(gcc_doc_dir)/$*; fi; $(postcondition) \
