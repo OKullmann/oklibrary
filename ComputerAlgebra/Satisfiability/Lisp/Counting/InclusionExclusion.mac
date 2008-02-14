@@ -11,7 +11,7 @@ License, or any later version. */
 
 Use by
 
-oklib_load("ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
 
 */
 

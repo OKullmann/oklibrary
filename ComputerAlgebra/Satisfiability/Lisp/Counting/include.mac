@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/include.ma
 \htmlonly
 */
 
-oklib_include("ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac");
 
