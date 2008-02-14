@@ -41,6 +41,21 @@ okltest_satprob(f) := block([F],
     assert(f({setn(n)}) = 1 - 2^(-n)),
   true)$
 
+/* Testing whether f computes the list of approximations of the
+    probability of satisfying assignments via inclusion-exclusion */
+okltest_satprob_approxlist(f) := block([F],
+  assert(f({}) = [1]),
+  assert(f({{}}) = [1,0]),
+  assert(f({{1}}) = [1,1/2]),
+  assert(f({{1},{-1}}) = [1,0]),
+  assert(f({{1},{2}}) = [1,0,1/4]),
+  assert(f({{1,2},{-2,3},{2,3}}) = [1,1/4,3/8]),
+  assert(f({{1,2},{-2,3},{-3},{-1}}) = [1,-1/2,0]),
+  assert(f({{1,2},{-2,3},{2,-3},{1,-3}}) = [1,0,3/8,2/8]),
+  if oklib_test_level = 0 then return(true),
+  block([oklib_test_level : 0],
+    okltest_satprob(buildq([f],lambda([F],last(f(F)))))),
+  true)$
 
 /*!
 \endhtmlonly

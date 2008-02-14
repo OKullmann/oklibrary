@@ -21,13 +21,27 @@ oklib_load("ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac"
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac");
 
-/* The probability of a satisfying assignments computed via the Iwama-formula
+/* The probability of a satisfying assignment computed via the Iwama-formula
    ([Iwama, 1989, CNF satisfiability test by counting and polynomial average
    time]). 
    Computing the independent sets via the recursive-splitting-transversal
    algorithm. */
 satprob_mcind_trrs(F) := block([MI : listify(cind_cs_trrs(F)[2])],
   sum((-1)^(ncl_cs(MI[i])) * 2^(-nvar_cs(MI[i])), i,1,length(MI)))$
+
+/* Computes the full list of approximations of satprob(F) of length
+   independence_number_cs(F) + 1 */
+/* The first element is always 1, the second element is a lower bound (assuming the
+   falsifying assignments for different clauses are different). The last element
+   is the true probability. */
+satprob_seqap_mcind_trrs(F) := block([MI : cind_cs_trrs(F)[2], r, appr, res],
+  r : lmax(map(length,MI)), appr : make_array(fixnum, r+1),
+  for S in MI do block([l : length(S)],
+    appr[l] : appr[l] + (-1)^(ncl_cs(S)) * 2^(-nvar_cs(S))),
+  res : [appr[0]],
+  for i : 1 thru r do
+    res : endcons(appr[i]+last(res), res),
+  return(res))$
 
 
 /*!

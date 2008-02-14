@@ -41,5 +41,12 @@ License, or any later version. */
 
   \todo Connect to the counting-module in part Satisfiability.
 
+
+  \todo satprob_seqap
+  <ul>
+   <li> It looks as if the sequence of approximations alternates between
+   upper and lower bounds, and also gets better and better ?? </li>
+  </ul>
+
 */
 

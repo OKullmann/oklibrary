@@ -388,12 +388,19 @@ prod_proj(x,y) := 1/(x*y)$
    minf says the forrmula is surely unsatisfiable.
 */
 
-/* The trivial approximation */
+/* The trivial approximation of satprob(F) ("approximation of order 0") */
 trivial_sat_approx(F) := 1$
 
-/* The logarithm that a random assignment over the variables in the
-   given clause-set satisfies a random clause-set drawn with the same
-   number of clauses of the same lengths as the given clause-set. */
+/* The first-order approximation of satprob(F) (a lower bound on the true
+   probability), increased to inf if sat is established */
+firstorder_sat_approx(F) := block([L : listify(F), a],
+ a : 1 - sum(2^(-length(L[i])),i,1,length(L)),
+ if a > 0 then return(inf) else return(a))$
+
+/* The logarithm of the probability that a random assignment over the 
+   variables in the given clause-set satisfies a random clause-set 
+   drawn with the same number of clauses of the same lengths as the
+   given clause-set. */
 /* With the exception that log(1) = 0 is translated to inf. */
 
 logprobrand(F) := if F = {} then inf else 
