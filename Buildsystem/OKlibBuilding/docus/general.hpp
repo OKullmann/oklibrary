@@ -9,6 +9,12 @@ License, or any later version. */
   \file Buildsystem/OKlibBuilding/docus/general.hpp
   \brief General documentation for the central makefile Buildsystem/OKlibBuilding/Makefile
 
+  <h1> Usage </h1>
+
+  These targets are to be used together with the <code>oklib</code>-command
+  (see Buildsystem/MasterScript/docus/general.hpp).
+
+
   <h1> Make targets </h1>
 
 
