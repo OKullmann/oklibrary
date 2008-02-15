@@ -77,23 +77,20 @@ gcc_html_documentation_index_location_tag ?= <a href="$(gcc_html_documentation_i
 # New variables for the configuration of building doxygen (to be designed 
 # and implemented):
 
-doxygen_call ?= doxygen
-doxytag_call ?= doxytag
-
-location_doxygen_call ?= $(shell (type -P $(doxygen_call)))
-ifeq ($(location_doxygen_call),)
-  doxygen_call_ready ?= NO
+location_doxygen_call_okl ?= $(shell (type -P $(doxygen_call_okl)))
+ifeq ($(location_doxygen_call_okl),)
+  doxygen_call_ready_okl ?= NO
 else
-  version_doxygen_call ?= $(shell $(doxygen_call) --version)
-  ifeq ($(version_doxygen_call),$(doxygen_recommended_version_number))
-    doxygen_call_ready ?= YES
+  version_doxygen_call_okl ?= $(shell $(doxygen_call_okl) --version)
+  ifeq ($(version_doxygen_call_okl),$(doxygen_recommended_version_number_okl))
+    doxygen_call_ready_okl ?= YES
   else
-    doxygen_call_ready ?= MAYBE
+    doxygen_call_ready_okl ?= MAYBE
   endif
 endif
 
 # the following construction needs to be generalised by some function
-doxygen_html_documentation_index_location_tag ?= <a href="$(doxygen_html_documentation_index_location)">$(doxygen_html_documentation_index_location)</a>
+doxygen_html_documentation_index_location_tag_okl ?= <a href="$(doxygen_html_documentation_index_location_okl)">$(doxygen_html_documentation_index_location_okl)</a>
 
 # New variables for the configuration of building ocaml (to be designed 
 # and implemented):

@@ -7,25 +7,47 @@
 
 # Settings for building and using doxygen
 
-doxygen_recommended_version_number ?= 1.5.4
-doxygen_supported_not_recommended_version_numbers ?=  1.5.3
-doxygen_supported_version_numbers ?= $(doxygen_supported_not_recommended_version_numbers) $(doxygen_recommended_version_number)
+doxygen_recommended_version_number_okl ?= 1.5.4
+doxygen_supported_not_recommended_version_numbers_okl ?=  1.5.3
 
-doxygen_prefix ?= doxygen
-doxygen_full_prefix ?= $(doxygen_prefix)-$(doxygen_recommended_version_number)
-doxygen_recommended_package_name ?= $(dogygen_full_prefix).src
+doxygen_prefix_okl ?= doxygen
 
-doxygen_base_directory ?= $(ExternalSources)/Doxygen
+doxygen_targets_prefix_okl := $(doxygen_prefix_okl)-
+doxygen_recommended_okl := $(doxygen_targets_prefix_okl)$(doxygen_recommended_version_number_okl)
+doxygen_source_okl := $(ExternalSources)/sources/Doxygen/$(doxygen_recommended_okl).src
 
-doxygen_documentation_dir ?= $(ExternalSources_doc)/Doxygen
-doxygen_html_documentation_index_location ?= $(doxygen_documentation_dir)/$(doxygen_full_prefix)/html/index.html
-doxygen_docu_page ?= $(doc_dir)/doxygen_html/db/dee/Doxygen_8hpp.html
+doxygen_base_build_dir_okl ?= $(ExternalSources_builds)/Doxygen
+doxygen_build_dir_okl ?= $(doxygen_base_build_dir_okl)/$(doxygen_recommended_okl)
 
-doxygen_homepage_url := http://www.stack.nl/~dimitri/doxygen/
-doxygen_documentation_url := http://www.stack.nl/~dimitri/doxygen/manual.html
+doxygen_default_install_okl ?= local
+# other possibility: system
 
-doxygen_targets_prefix := $(doxygen_prefix)-
-doxygen_targets := $(addprefix $(doxygen_targets_prefix), $(doxygen_supported_version_numbers))
-doxygen_recommended := $(doxygen_targets_prefix)$(doxygen_recommended_version_number)
+doxygen_base_installation_dir_okl ?= $(ExternalSources_installations)/Doxygen
+doxygen_installation_dir_okl ?= $(doxygen_base_installation_dir_okl)/$(doxygen_recommended_version_number_okl)
+doxygen_system_install_directory_okl ?= /usr/local
+ifeq ($(doxygen_default_install_okl),local)
+  doxygen_install_directory_okl ?= $(doxygen_installation_dir_okl)
+  doxygen_install_command_okl ?= make install
+  doxygen_call_okl ?= $(doxygen_installation_dir_okl)/bin/doxygen
+  doxytag_call_okl ?= $(doxygen_installation_dir_okl)/bin/doxytag
+else
+  doxygen_install_directory_okl ?= $(doxygen_system_install_directory)
+  doxygen_install_command_okl ?= sudo make install
+  doxygen_call_okl ?= doxygen
+  doxytag_call_okl ?= doxytag
+endif
+
+doxygen_base_doc_dir_okl ?= $(ExternalSources_doc)/Doxygen
+doxygen_doc_dir_okl ?= $(doxygen_base_doc_dir_okl)/$(doxygen_recommended_version_number_okl)
+doxygen_html_documentation_index_location_okl ?= $(doxygen_doc_dir_okl)/html/index.html
+doxygen_docu_page_okl ?= $(doc_dir)/doxygen_html/db/dee/Doxygen_8hpp.html
+
+doxygen_homepage_url_okl := http://www.stack.nl/~dimitri/doxygen/
+doxygen_documentation_url_okl := http://www.stack.nl/~dimitri/doxygen/manual.html
+
+
+
+
+
 
 
