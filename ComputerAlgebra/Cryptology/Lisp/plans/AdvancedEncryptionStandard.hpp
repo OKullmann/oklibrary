@@ -10,6 +10,39 @@ License, or any later version. */
   \brief Plans for cryptological tools regarding the Rijndael cipher using Maxima
 
 
+  \todo New structure
+  <ul>
+   <li> In the CryptoSystems- as well as in the Cryptanalysis-modules we
+   need sub-modules "Rijndael". </li>
+  </ul>
+
+
+  \todo Modularising the Rijndael-implementation
+  <ul>
+   <li> The following ideas need to be integrated into the plans (after
+   milestone 0.1).
+   <li> All field-operations should be abstracted away (most obvious, by
+   using an S-box function as parameter). </li>
+   <li> And then we provide different implementations:
+    <ol>
+     <li> As now. </li>
+     <li> Via table-lookup (using arrays; this is then much faster). </li>
+     <li> Also trivial (other) functions, for easy "variations" of
+     Rijndael. </li>
+    </ol>
+   </li>
+   <li> It would also be interested to have an expression-based implementation.
+    <ol>
+     <li> Based on the basic abstract operations (perhaps there are options).
+     </li>
+     <li> Likely the whole creates an expression which is too big (since
+     expression cannot re-use subterms). </li>
+     <li> But one-round expressions should be feasible. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo New design and implementation
   <ul>
    <li> Move items from below to here, if appropriate. </li>
@@ -33,8 +66,8 @@ License, or any later version. */
 
   \todo Finite Field operations
   <ol>
-   <li> Move the interface to the gf-package into a seperate module / .mac file. 
-   This should be moved to LinearAlgebra.</li>
+   <li> Move the interface to the gf-package into a seperate module / .mac
+   file. This should be moved to Algebra.</li>
    <li> The gf_set operation in the finite field package takes a considerable
    amount of time to complete and doesn't seem to cache 
    any of the results in any way and so each call takes the same amount of 

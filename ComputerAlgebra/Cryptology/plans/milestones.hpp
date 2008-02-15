@@ -14,8 +14,12 @@ License, or any later version. */
   \par Version 0.0.5
 
   \par
+   In ComputerAlgebra/Cryptology/plans/general.hpp the following topics
+   are handled:
+    - Write "oklib --sage"
+
+  \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Restructuring
     - Finishing old implementation
     - Terminology : DONE
     - Docus and demos for the sage implementation : DONE
@@ -25,6 +29,17 @@ License, or any later version. */
 
 
   \par Version 0.0.6
+
+    \par
+   In ComputerAlgebra/Cryptology/plans/general.hpp the following topics
+   are handled:
+    - Restructuring
+    - See Applications/Cryptanalysis/plans/general.hpp
+    - Write a general docus-file
+
+  \par
+   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
+    - Restructuring
 
   \par ComputerAlgebra/Cryptology/Lisp version 0.0.6
   (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)

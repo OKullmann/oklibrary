@@ -16,11 +16,24 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Split "Maxima: design" into subtopics
-    - Split "Maxima: implementation issues" into subtopics
+    - New structure
 
 
   \par Version 0.0.7
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Modularising the Rijndael-implementation
+    - Split "Maxima: design" into subtopics
+    - Split "Maxima: implementation issues" into subtopics
+
+  \par
+   Update the following milestones.
+   (Towards 0.1, which is the current implementation finished.)
+
+
+  \par Version 0.0.8
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
