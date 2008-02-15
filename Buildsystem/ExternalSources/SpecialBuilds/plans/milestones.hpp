@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
     - Documentation
+    - Handling of different versions : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
@@ -96,7 +97,6 @@ License, or any later version. */
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
     - Complete documentation
-    - Handling of different versions
     - Enable local/global installation for all packages
 
   \par
