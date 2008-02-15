@@ -39,19 +39,19 @@ License, or any later version. */
    <code>$(git_recommended_version_number_okl)</code> </li>
    <li> Paths to the three executables:
     <ol>
-     <li>git program call = <code>$(git_call_okl)</code> </li>
-     <li>gitk program call = <code>$(gitk_call_okl)</code> </li>
-     <li>git-gui program call = <code>$(gitgui_call_okl)</code> </li>
+     <li> git program call = <code>$(git_call_okl)</code> </li>
+     <li> gitk program call = <code>$(gitk_call_okl)</code> </li>
+     <li> git-gui program call = <code>$(gitgui_call_okl)</code> </li>
     </ol>
    </li>
-   <li> ready: $(git_call_ready_okl)
+   <li> Ready: $(git_call_ready_okl)
     <ul>
      <li> location = $(location_git_call_okl) </li>
      <li> version = <code>$(version_git_call_okl)</code>
      </li>
     </ul>
    </li>
-   <li> documentation: $(git_html_documentation_index_location_tag_okl) </li>
+   <li> Documentation: $(git_html_documentation_index_location_tag_okl) </li>
   </ul>
 
 
