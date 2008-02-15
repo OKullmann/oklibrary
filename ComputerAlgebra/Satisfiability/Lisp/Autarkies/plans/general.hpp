@@ -19,13 +19,6 @@ License, or any later version. */
   \todo Write docus
 
 
-  \todo Translation to SAT according to Liffiton and Sakallah
-  <ul>
-   <li> Implement the back-translation, satisfying assignments
-   to autarkies. </li>
-  </ul>
-
-
   \todo Basic translation
   <ul>
    <li> Implement the basic translation, which just translates
