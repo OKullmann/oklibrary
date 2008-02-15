@@ -29,8 +29,7 @@ doxygen_base : $(doxygen_directories_okl)
 	sh ./configure --prefix $(doxygen_install_directory_okl); $(postcondition) \
 	make; $(postcondition) \
 	make docs; $(postcondition) \
-	make pdf; $(postcondition) \
-	$(doxygen_install_command_okl) install_docs; $(postcondition) \
+	$(doxygen_install_command_okl); $(postcondition) \
 	cp -r $(doxygen_build_dir_okl)/html $(doxygen_doc_dir_okl)
 
 ifeq ($(doxygen_default_install_okl),local)
