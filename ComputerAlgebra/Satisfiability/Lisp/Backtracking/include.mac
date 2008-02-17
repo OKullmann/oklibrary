@@ -24,6 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac");
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/DLL_solvers.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/SplittingTrees.mac");
 
 /*!

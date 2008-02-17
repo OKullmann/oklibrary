@@ -22,6 +22,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_so
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 
 
 /* **********************************
@@ -402,11 +404,29 @@ firstorder_sat_approx(F) := block([L : listify(F), a],
    drawn with the same number of clauses of the same lengths as the
    given clause-set. */
 /* With the exception that log(1) = 0 is translated to inf. */
-
+/* See probsatrand in
+ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac. */
 logprobrand(F) := if F = {} then inf else 
  block([L : ncl_list_f(cs_to_fcs(F))],
   if L[1][1] = 0 then return(minf) else
   return(sum(L[i][2] * float(log(1-2^(-L[i][1]))), i, 1, length(L))))$
+
+/* The reciprocal maximum over all clauses C of the sums of 2^(-|D|) over 
+   neighbours D of C in the common-variable graph, as motivated by
+   the asymetric local lemma of Lovasz. */
+/* Compare with locallemma_sattest_asymmetric in
+   ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac. */
+locallemma_satapprox(F) := if F = {} then inf else 
+  if has_empty_element(F) then minf else 
+   block([G : g2mg(cvg_cs(F)), m : 0, c],
+    c : graph_size(G),
+    for i : 2 thru c do block([N : neighbors(i, G), s : 0],
+      for j in N do
+        s : s + 2^(-length(get_vertex_label(j,G))),
+      m : max(m,s)),
+    if m = 0 then return(inf)
+    elseif m <= 1/4 then return(inf)
+    else return(1/m))$
 
 /*!
 \endhtmlonly
