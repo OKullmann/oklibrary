@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
+    - New structure
     - Split "Maxima: design" into subtopics DONE
     - Split "Maxima: implementation issues" into subtopics DONE
 
@@ -25,6 +26,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
+    - Modularising the Rijndael-implementation
     - Finite Field operations
     - New design and implementation
     - Key schedule
@@ -32,11 +34,12 @@ License, or any later version. */
     - Requirements
     - File Extensions
     - Tests
-
+  
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
    the following topics are handled:
     - Conversion Functions
+
 
   \par Version 0.0.8
 
@@ -44,13 +47,16 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
     - Generalisations
+  
+  \par
+   Update the following milestones.
+   (Towards 0.1, which is the current implementation finished.)
 
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.6 : 17.02.2007; ....
    - 0.0.5 : 20.12.2007; initial version number (many plans, started implementing AES).
 
 

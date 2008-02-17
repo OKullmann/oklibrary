@@ -1,5 +1,5 @@
 // Oliver Kullmann, 25.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,6 +14,8 @@ License, or any later version. */
   <ul>
    <li> Link to module Structures/Cryptology (see
    Structures/Cryptology/plans/general.hpp). </li>
+   <li> All the plans in this file should move to appropriate
+   sub-modules of the Lisp-modules. </li>
    <li> DONE (moved to ComputerAlgebra/Cryptology/Lisp/plans/Rijndael.hpp)
    Some todos need to be reworked:
     <ol>
@@ -29,14 +31,19 @@ License, or any later version. */
   
   \todo Expand docus
   <ul>
-   <li>Add basic overview of AES/Rijndael.</li>
-   <li>Add additional terminology and refine current terminology</li>
+   <li> Add basic overview of AES/Rijndael.</li>
+   <li> Add additional terminology and refine current terminology</li>
   </ul>
 
 
   \todo Finishing old implementation (ComputerAlgebra/Cryptology/Rijndael.sage)
   <ul>
-   <li> The following needs to be commented. </li>
+   <li> Likely we just remove this code (it is no longer properly maintained,
+   and provides thus irritation). The following todos should be inspected,
+   whether they contain some more general aspects, but otherwise they are
+   outdated then. </li>
+   <li> Also the docus etc. need to be inspected for something useful, but
+   otherwise are removed then. </li>
    <li> Write documentation on how to use this program:
     <ol>
      <li> A basic problem is how to handle source code documentation (in the absence

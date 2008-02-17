@@ -179,8 +179,22 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo Automated theorem proving
   <ul>
-   <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/ </li>
-   <li> Otter http://www.mcs.anl.gov/AR/otter/ ? (it seems that it was
+   <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/
+    <ol>
+     <li> Installation:
+     \verbatim
+ExternalSources/builds/Prover9> tar -xzf /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/sources/Prover9/LADR-Dec-2007.tar.gz
+ExternalSources/builds/Prover9> cd LADR-Dec-2007/
+LADR-Dec-2007> make all
+LADR-Dec-2007> make test1
+LADR-Dec-2007> make test2
+LADR-Dec-2007> make test3
+LADR-Dec-2007> bin/prover9 --version
+     \endverbatim
+     </li>
+    </ol>
+   </li>
+   <li> DONE Otter http://www.mcs.anl.gov/AR/otter/ ? (it seems that it was
    replaced by Prover9) </li>
   </ul>
 

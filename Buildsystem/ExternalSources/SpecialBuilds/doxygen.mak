@@ -1,5 +1,5 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -9,45 +9,42 @@
 # Directory Structure
 # ##################################
 
-#Root directory ".", where this makefile is located, contains also all software source archives and sub-directories.
+doxygen_directories_okl := $(doxygen_base_installation_dir_okl) $(doxygen_base_build_dir_okl) $(doxygen_base_doc_dir_okl) $(doxygen_doc_dir_okl)
 
-#In the following text, ? denotes the Doxygen version number.
-#./Doxygen : Contain unarchived various versions of Doxygen.
-#./Doxygen/doxygen-? : This is the original unarchived source directory which is also used for configuration and building. Doxygen is only installed system-wide.
-
-doxygen-base-directory := $(prefix)/Doxygen
-doxygen_doc_dir := $(external_sources_doc_base_dir)/Doxygen
-doxygen-directories := $(doxygen-base-directory) $(doxygen_doc_dir)
+$(doxygen_directories_okl) : % : 
+	mkdir -p $@
 
 
 # ##################################
 # The main targets for doxygen
 # ##################################
 
-.PHONY : doxygen $(doxygen_targets) create_doxygen_dirs
+.PHONY : doxygen doxygen_base doxygen_links
 
-$(doxygen-directories) : % : 
-	mkdir -p $@
+doxygen : doxygen_base doxygen_links
 
-create_doxygen_dirs : $(doxygen-directories)
-
-doxygen : $(doxygen_recommended)
-
-$(doxygen_targets) : create_doxygen_dirs
-	$(call unarchive,$(ExternalSources)/sources/Doxygen/$@.src,$(doxygen-base-directory)) \
-	cd $(doxygen-base-directory)/$@; $(postcondition) \
-	sh ./configure; $(postcondition) \
+doxygen_base : $(doxygen_directories_okl)
+	$(call unarchive,$(doxygen_source_okl),$(doxygen_base_build_dir_okl)) $(postcondition) \
+	cd $(doxygen_build_dir_okl); $(postcondition) \
+	sh ./configure --prefix $(doxygen_install_directory_okl); $(postcondition) \
 	make; $(postcondition) \
 	make docs; $(postcondition) \
 	make pdf; $(postcondition) \
-	sudo make install; $(postcondition) \
-	sudo make install_docs; $(postcondition) \
-	cp -r $(doxygen-base-directory)/$@ $(doxygen_doc_dir)/$@; $(postcondition)
+	$(doxygen_install_command_okl) install_docs; $(postcondition) \
+	cp -r $(doxygen_build_dir_okl)/html $(doxygen_doc_dir_okl)
+
+ifeq ($(doxygen_default_install_okl),local)
+doxygen_links :
+	ln -s --force $(doxygen_call_okl) $(public_bin_dir_okl)/doxygen; $(postcondition) \
+	ln -s --force $(doxytag_call_okl) $(public_bin_dir_okl)/doxytag
+else
+doxygen_links :
+endif
 
 
 # ####################################
 # Cleaning
 # ####################################
 
-cleanalldoxygen :
-	-rm -rf $(doxygen-base-directory)
+cleanalldoxygen : 
+	-rm -rf $(doxygen_base_build_dir_okl) $(doxygen_base_installation_dir_okl) $(doxygen_base_doc_dir_okl)

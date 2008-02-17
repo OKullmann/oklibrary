@@ -30,7 +30,7 @@ git_base : $(git_directories_okl)
 	sh ./configure --prefix=$(git_install_directory_okl); $(postcondition) \
 	make all doc; $(postcondition) \
 	cp -r $(git_build_dir_okl)/Documentation $(git_doc_dir_okl); $(postcondition) \
-	$(R_install_command_okl) install-doc; $(postcondition) \
+	$(git_install_command_okl) install-doc; $(postcondition) \
 
 ifeq ($(git_default_install_okl),local)
 git_links :
