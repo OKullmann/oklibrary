@@ -41,6 +41,47 @@ okltest_cvg_cs(f) := block([F,G],
   ),
   true)$
 
+
+/* ************
+   * Measures *
+   ************
+*/
+
+okltest_min_degree_cvg_cs(f) := block(
+  assert(f({}) = inf),
+  assert(f({{}}) = 0),
+  assert(f({{1}}) = 0),
+  assert(f({{1},{-1}}) = 1),
+  assert(f({{1},{-1},{}}) = 0),
+  true)$
+
+okltest_max_degree_cvg_cs(f) := block(
+  assert(f({}) = minf),
+  assert(f({{}}) = 0),
+  assert(f({{1}}) = 0),
+  assert(f({{1},{-1}}) = 1),
+  assert(f({{1},{-1},{}}) = 1),
+  true)$
+
+okltest_deficiency_fcs(f) := block(
+  assert(f([{},{}]) = 0),
+  assert(f([{},{{}}]) = 1),
+  assert(f([{1},{{1}}]) = 0),
+  assert(f([{1},{{1},{-1}}]) = 1),
+  assert(f([{1},{{1},{-1},{}}]) = 2),
+  assert(f([{1,2},{{1},{-1}}]) = 0),
+  true)$
+
+okltest_max_deficiency_fcs(f) := block(
+  assert(f([{},{}]) = 0),
+  assert(f([{},{{}}]) = 1),
+  assert(f([{1},{{1}}]) = 0),
+  assert(f([{1},{{1},{-1}}]) = 1),
+  assert(f([{1},{{1},{-1},{}}]) = 2),
+  assert(f([{1,2},{{1},{-1}}]) = 1),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

@@ -54,10 +54,18 @@ cvg_cs(F) := [F,
    ************
 */
 
-/* the deficiency of a formal clause-set */
+/* The minimal degree of the common-variable graph */
+min_degree_cvg_cs(F) := if emptyp(F) then inf else
+  min_degree(g2mg(cvg_cs(F)))[1]$
+/* The maximal degree of the common-variable graph */
+max_degree_cvg_cs(F) := if emptyp(F) then minf else
+  max_degree(g2mg(cvg_cs(F)))[1]$
+
+
+/* The deficiency of a formal clause-set */
 deficiency_fcs(FF) := length(FF[2]) - length(FF[1])$
 
-/* the maximal deficiency of a formal clause-set */
+/* The maximal deficiency of a formal clause-set */
 max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(cl_var_graph(FF))))$
 
 /*!

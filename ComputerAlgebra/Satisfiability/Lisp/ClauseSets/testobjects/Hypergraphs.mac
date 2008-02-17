@@ -24,6 +24,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
 
 okltest_cvg_cs(cvg_cs);
 
+okltest_min_degree_cvg_cs(min_degree_cvg_cs);
+okltest_max_degree_cvg_cs(max_degree_cvg_cs);
+
+okltest_deficiency_fcs(deficiency_fcs);
+okltest_max_deficiency_fcs(max_deficiency_fcs);
+
+
 /*!
 \endhtmlonly
 */
