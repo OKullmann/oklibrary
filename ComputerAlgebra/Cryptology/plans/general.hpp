@@ -21,11 +21,12 @@ License, or any later version. */
   \todo See Applications/Cryptanalysis/plans/general.hpp
   <ul>
    <li> Provide links. </li>
-   <li> Update milestones. <//li>
+   <li> Update milestones. </li>
   </ul>
 
 
-  \todo Write "oklib --sage"
+  \todo Write "oklib --sage" : DONE (moved to
+  Buildsystem/MasterScript/plans/general.hpp)
   <ul>
    <ul> This should be moved to sonewhere else. </li>
    <li> Automatise loading, compiling etc. </li>

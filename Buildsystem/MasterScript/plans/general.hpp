@@ -1,5 +1,5 @@
 // Oliver Kullmann, 13.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -147,6 +147,12 @@ License, or any later version. */
   \todo Further enhancements:
   <ul>
    <li> --help </li>
+   <li> Write "oklib --sage", similar to "oklib --maxima".
+    <ol>
+     <li> First without anything else. </li>
+     <li> Later we must add support for our Maxima-system. </li>
+    </ol>
+   </li>
    <li> It seems hard to avoid, and also not important, that if we interrupt
    the makefile for external sources, then the error messages are not
    printed --- we know it anyway. Nevertheless one could ponder again
