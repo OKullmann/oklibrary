@@ -204,7 +204,7 @@ location_asciidoc_call_okl ?= $(shell (type -P $(asciidoc_call_okl)))
 ifeq ($(location_asciidoc_call_okl),)
   asciidoc_call_ready_okl ?= NO
 else
-  version_asciidoc_call_okl ?= $(shell $(asciidoc_call_okl) --version | $(asciidoc_version_number_extraction_okl))
+  version_asciidoc_call_okl ?= $(shell $(asciidoc_call_okl) --version 2>&1 | $(asciidoc_version_number_extraction_okl))
   ifeq ($(version_asciidoc_call_okl),$(asciidoc_recommended_version_number_okl))
     asciidoc_call_ready_okl ?= YES
   else

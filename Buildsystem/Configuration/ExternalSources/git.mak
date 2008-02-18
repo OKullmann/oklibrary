@@ -7,8 +7,8 @@
 
 # Settings for building and using Git
 
-git_recommended_version_number_okl ?= 1.5.4.1
-git_supported_not_recommended_version_numbers_okl ?= 1.5.4
+git_recommended_version_number_okl ?= 1.5.4.2
+git_supported_not_recommended_version_numbers_okl ?= 1.5.4.1
 
 git_prefix_okl ?= git
 
@@ -51,7 +51,8 @@ git_documentation_url_okl := http://git.or.cz/\#documentation
 # Asciidoc
 # ###############################
 
-asciidoc_recommended_version_number_okl ?= 8.2.1
+asciidoc_recommended_version_number_okl ?= 8.2.5
+asciidoc_supported_not_recommended_version_numbers_okl ?= 8.2.1
 
 asciidoc_prefix_okl ?= asciidoc
 
