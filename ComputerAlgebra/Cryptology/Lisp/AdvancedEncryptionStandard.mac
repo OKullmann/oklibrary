@@ -150,8 +150,8 @@ egf_set(field) := (
    Maps any given gf_* function (func) to a egf_* function by allowing it to 
    take a field or use the default field otherwise.
 */
-egf_func(func,args) := (
-  if length(args) > 2 then block(
+egf_func(func,numargs,args) := (
+  if length(args) > numargs then block(
     apply(gf_set, first(args)),
     result : apply(func,rest(args)),
     apply(gf_set,egf_field),
@@ -164,28 +164,36 @@ egf_func(func,args) := (
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_add([args]) := egf_func(gf_add, args)$
+egf_add([args]) := egf_func(gf_add, 2, args)$
 
 /* 
    Analogue of gf_mul, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_mul([args]) := egf_func(gf_mul, args)$
+egf_mul([args]) := egf_func(gf_mul, 2, args)$
 
 /* 
    Analogue of gf_matmul, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_matmul([args]) := egf_func(gf_matmul, args)$
+egf_matmul([args]) := egf_func(gf_matmul, 2, args)$
+
+/* 
+   Analogue of gf_matmul, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_matinv([args]) := egf_func(gf_matinv, 1, args);
 
 /* 
    Analogue of gf_inv, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_inv([args]) := egf_func(gf_inv, args)$
+egf_inv([args]) := egf_func(gf_inv, 1, args)$
+
 
 /* ***************************************
    * Main Round Functions                *
@@ -202,10 +210,12 @@ egf_set(rijndael_byte_field);
 
 kill(x)$
 rijndael_affine_constant : x^6 + x^5 + x + 1$
+rijndael_inv_affine_constant : x^2 + 1$ 
 /* REMARK : document "x"; something else??? */
 
 rijndael_sbox_matrix : apply(matrix,
     makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
+rijndael_inv_sbox_matrix : egf_matinv(rijndael_bit_field,rijndael_sbox_matrix)$ 
 /* REMARK : Explain! Likely best also accompanied by its use! */
 
 sbox(byte) := 
@@ -219,12 +229,29 @@ sbox(byte) :=
     return(egf_add(vector2polynomial(result),
       rijndael_affine_constant))))$
 
+inv_sbox(byte) :=
+  block([final_result, result],
+    result : egf_matmul(rijndael_bit_field,rijndael_inv_sbox_matrix,
+      polynomial2vector(byte,8)),
+    final_result : egf_add(vector2polynomial(result),
+      rijndael_inv_affine_constant),
+    if (final_result = 0) then 0
+    else egf_inv(final_result)
+)$
+
 /* 
    Takes the input block as a list of 16 bytes and applies
    the sbox operation to each byte, returning the list of 
    result bytes.
 */
 subbytes(inputblock) := map(sbox, inputblock)$
+
+/* 
+   Takes the input block as a list of 16 bytes and applies
+   the inverse sbox operation to each byte, returning the list of 
+   result bytes.
+*/
+inv_subbytes(inputblock) := map(inv_sbox, inputblock)$
 
 /*
    List of shifts left for each row in the block in the  shiftrows
@@ -239,7 +266,16 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
 */
 shiftrows(inputblock) := block([list_rows : partition(inputblock,4)],
   matrix2list (
-    makelist(rotate(list_rows[r+1],-r), r, rijndael_shiftrows_shifts)))$
+    makelist(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)))$
+
+/*
+   Takes a list of GF(2^8) elements (the block), and
+   performs the inverse shiftrows operation, returning the resulting
+   block as a list of GF(2^8) elements.
+*/
+inv_shiftrows(inputblock) := 
+  block([rijndael_shiftrows_shifts : -rijndael_shiftrows_shifts],
+  shiftrows(inputblock))$
 
 /*
    Matrix used in the mixcolumns step to model the 
@@ -249,6 +285,7 @@ shiftrows(inputblock) := block([list_rows : partition(inputblock,4)],
 */
 rijndael_mixcolumns_matrix : apply(matrix, 
     makelist(rotate([x, x + 1, 1, 1], i),i,0,3))$
+rijndael_inv_mixcolumns_matrix : egf_matinv(rijndael_mixcolumns_matrix)$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -261,6 +298,15 @@ mixcolumns(inputblock) :=
       apply(matrix, partition(inputblock,4))))$
 
 /*
+   Takes a list of GF(2^8) elements (the block), and
+   performs the inverse mixcolumns operation, returning the resulting
+   block as a list of GF(2^8) elements.
+*/
+inv_mixcolumns(inputblock) := 
+  block([rijndael_mixcolumns_matrix : rijndael_inv_mixcolumns_matrix],
+    mixcolumns(inputblock))$
+
+/*
   Takes the initial key as a list of GF(2^8) elements, the size (in 32 bit words) 
   of the plaintext block, and the number of rounds and returns the expanded key
   (all of the round keys as one large block) as a list of GF(2^8) elements.
@@ -269,7 +315,6 @@ key_expansion(kl, n_b ,n_r) := block(
   [n_k : length(kl) / 4, 
   cols : matrixcolumns(apply(matrix,partition(kl, 4))) ],
   for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
-    print(length(cols)),
     if mod(j, n_k) = 0 then block (
       column[1] : egf_add(cols[j-n_k+1][1], 
         egf_add(sbox(cols[j][2]), x^(floor(j/n_k) -1))),
@@ -279,7 +324,6 @@ key_expansion(kl, n_b ,n_r) := block(
       column[i] : egf_add(cols[j][i], cols[j-n_k+1][i]),
     cols : append(cols, [column])
   ),
-  print(cols),
   return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
     partition(cols,n_b))))
 )$
@@ -290,25 +334,42 @@ key_expansion(kl, n_b ,n_r) := block(
    returns a list of the same size of GF(2^8) elements as the plaintext
    as the result of the round operation. 
  */
-aes_round(pl, rkl) := 
-  map(lambda([a,b], egf_add(a,b)),mixcolumns(shiftrows(subbytes(pl))), rkl)$
+aes_round(pl, rkl) := map(egf_add,mixcolumns(shiftrows(subbytes(pl))), rkl)$
+inv_aes_round(pl,rkl) := 
+  inv_subbytes(inv_shiftrows(inv_mixcolumns(map(egf_add,pl,rkl))))$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes(pl, kl) := block(
+aes_encrypt(pl, kl) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
   ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
-  initial_result : lreduce(aes_round, rest(rest(ekl), -1),
-    map(lambda([a,b],egf_add(a,b)),pl, initial_rk)),
+  initial_result : lreduce(aes_round, rest(rest(ekl), -1), 
+    map(egf_add,pl,initial_rk)),
   /* Final Round */
-  map(lambda([a,b],egf_add(rijndael_byte_field,a,b)),final_rk, 
-  shiftrows(subbytes(initial_result))) 
+  map(egf_add,shiftrows(subbytes(initial_result)), final_rk)
 )$
+
+/* 
+   Takes the ciphertext list of 16 GF(2^8) elements, the key list of 16
+   GF(2^8) elements and returns the result of applying the 128 bit AES 
+   decryption algorithm (hence number of rounds is assumed to be 10).
+*/
+aes_decrypt(pl, kl) := block(
+  [n_b : length(pl)/4, num_rounds : 10], 
+  /* Initial Rounds */
+  ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),
+  initial_rk : first(ekl), final_rk : last(ekl),
+  /* Final Round */
+  initial_result : 
+    inv_subbytes(inv_shiftrows(map(egf_add,pl,final_rk))),
+  map(egf_add, rreduce(inv_aes_round, rest(rest(ekl), -1), initial_result), initial_rk)
+)$
+
 
 /*!
 \endhtmlonly
