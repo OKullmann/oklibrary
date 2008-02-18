@@ -39,6 +39,7 @@ okltest_locallemma_satapprox(f) := block(
   assert(f({{1,2,3},{-1,2,3}}) = inf),
   assert(f({{1,2,3},{-1,2,3},{1,-2,3}}) = inf),
   assert(f({{1,2,3},{-1,2,3},{1,-2,3},{1,2,-3}}) = 8/3),
+  assert(f({{-1,-2,-3,-4},{1,4},{2,4},{3,4}}) = 4/3),
   for n : 0 thru 4 do
     assert(f(full_fcs(n)[2]) = if n = 0 then minf else  1 / ((2^n - 1) * 2^(-n))),
   true)$

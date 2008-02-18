@@ -420,13 +420,27 @@ locallemma_satapprox(F) := if F = {} then inf else
   if has_empty_element(F) then minf else 
    block([G : g2mg(cvg_cs(F)), m : 0, c],
     c : graph_size(G),
-    for i : 2 thru c do block([N : neighbors(i, G), s : 0],
+    for i : 1 thru c do block([N : neighbors(i, G), s : 0],
       for j in N do
         s : s + 2^(-length(get_vertex_label(j,G))),
       m : max(m,s)),
     if m = 0 then return(inf)
     elseif m <= 1/4 then return(inf)
     else return(1/m))$
+
+/* As in [Hooker, Vinai, 1995], the variation of locallemma_satapprox
+   using the sum instead of the max. */
+locallemmasum_satapprox(F) := if F = {} then inf else 
+  if has_empty_element(F) then minf else 
+   block([G : g2mg(cvg_cs(F)), S : 0, c],
+    c : graph_size(G),
+    for i : 1 thru c do block([N : neighbors(i, G), s : 0],
+      for j in N do
+        s : s + 2^(-length(get_vertex_label(j,G))),
+      S : S + s),
+    if S = 0 then return(inf)
+    else return(1/S))$
+
 
 /*!
 \endhtmlonly
