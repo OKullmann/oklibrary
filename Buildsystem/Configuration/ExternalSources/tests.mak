@@ -193,6 +193,25 @@ endif
 # the following construction needs to be generalised by some function
 git_html_documentation_index_location_tag_okl ?= <a href="$(git_html_documentation_index_location_okl)">$(git_html_documentation_index_location_okl)</a>
 
+# New variables for the configuration of building asciidoc (to be designed 
+# and implemented):
+
+asciidoc_version_number_extraction_okl := awk '/ [0-9]\.[0-9](\.[0-9])+/{print $$2}'
+# assumes that the output of "asciidoc --version" contains a line of the form
+# (for example) "asciidoc version 8.2.1"
+
+location_asciidoc_call_okl ?= $(shell (type -P $(asciidoc_call_okl)))
+ifeq ($(location_asciidoc_call_okl),)
+  asciidoc_call_ready_okl ?= NO
+else
+  version_asciidoc_call_okl ?= $(shell $(asciidoc_call_okl) --version 2>&1 | $(asciidoc_version_number_extraction_okl))
+  ifeq ($(version_asciidoc_call_okl),$(asciidoc_recommended_version_number_okl))
+    asciidoc_call_ready_okl ?= YES
+  else
+    asciidoc_call_ready_okl ?= MAYBE
+  endif
+endif
+
 
 # New variables for the configuration of building gmp (to be designed 
 # and implemented):

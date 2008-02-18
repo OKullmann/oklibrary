@@ -17,6 +17,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo Tests
+  <ul>
+   <li> Tests are needed for this. </li>
+   <li> A simple test of each component (sbox etc) is needed. </li>
+   <li> A test of the main aes encryption and decryption functions is needed
+   checking edge cases, and then some test vectors given in [Design of 
+   Rijndael]. </li>
+  </ul>
+ 
+
   \todo Modularising the Rijndael-implementation
   <ul>
    <li> The following ideas need to be integrated into the plans (after
@@ -112,16 +122,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Tests
-  <ul>
-   <li> Tests are needed for this. </li>
-   <li> A simple test of each component (sbox etc) is needed. </li>
-   <li> A test of the main aes encryption and decryption functions is needed
-   checking edge cases, and then some test vectors given in [Design of 
-   Rijndael]. </li>
-  </ul>
- 
-
   \todo Finite Field operations
   <ol>
    <li> Move the interface to the gf-package into a seperate module / .mac
@@ -203,11 +203,6 @@ License, or any later version. */
    </li> 
   </ul>
 
-  \todo Docus and Demos
-  <ul>
-   <li> Demos are needed of the system. </li>
-   <li> Docus are needed of the system. </li>
-  </ul>
 
   \todo Design of round functions
   <ul>
@@ -265,20 +260,13 @@ License, or any later version. */
    </li>
   </ul>
 
-  \todo Generalisations
+
+  \todo Docus and Demos
   <ul>
-   <li> Generalising this based on parameter n_R discussed in [Algebraic
-   Aspects of the AES}, seems possible by use of a lookup function for the
-   constant to multiply based on n_R, as well as looking up the field to
-   multiply over. </li>
-   <li> Generalising over n_C should be trivial as given a function on elements
-   in the QR/PID of size n_R (columns), the result of MixColumns is just a
-   mapping over n_C of these elements and so the n_C parameter seems irrelevant
-   here. </li>
-   <li> Generalising over e, seems to tie in closely with generalising over n_R,
-   as the polynomial the elements in columns of the block form, are over elements
-   of size e. </li>
+   <li> Demos are needed of the system. </li>
+   <li> Docus are needed of the system. </li>
   </ul>
+
 
   \todo Requirements
   <ul>
@@ -307,18 +295,6 @@ License, or any later version. */
    </li>
   </ul>
 
-  \todo File Extensions
-  <ul>
-   <li> OK : where does the suffix ".mac" come from? looks unmotivated to me?
-   is this the standard ending for maxima-files, or for special ones? </li>
-   <li> MG - Looking through the maxima documentation and at
-   the Finite Fields package and others, it seemed to be the common file extension,
-   and due to a misunderstanding on my part, I believed that it was required, however
-   I simply misunderstood the use of the load function and a more explicit file
-   extension of .maxima following the TauMachinery example seems sensible. OK : one
-   could ask this question on the (main) maxima mailing list. </li>
-   <li> Can this be moved to ComputerAlgebra/plans/Maxima.hpp ? </li>
-  </ul>
 
   \todo Coding Standards
   <ul>
@@ -333,8 +309,8 @@ License, or any later version. */
    <li> The finite field packages function names, along with maximas syntax make
    things a little verbose and perhaps a little longer than is really necessary a
    lthough this is more of a nuisance than a real problem.
-   OK : Why is there a nuisance? In general in the OKlibrary "full" names are appreciated; is this
-   somewhat special here?
+   OK : Why is there a nuisance? In general in the OKlibrary "full" names are
+   appreciated; is this somewhat special here?
    MG : It only arose as an issue due to my wish to keep the code relatively
    short and concise and so while trying to keep to a fixed line length of say
    80 characters, this meant that the code become much longer. The syntax when
@@ -346,6 +322,36 @@ License, or any later version. */
   </ul>
   
   
+  \todo Generalisations
+  <ul>
+   <li> Generalising this based on parameter n_R discussed in [Algebraic
+   Aspects of the AES}, seems possible by use of a lookup function for the
+   constant to multiply based on n_R, as well as looking up the field to
+   multiply over. </li>
+   <li> Generalising over n_C should be trivial as given a function on elements
+   in the QR/PID of size n_R (columns), the result of MixColumns is just a
+   mapping over n_C of these elements and so the n_C parameter seems irrelevant
+   here. </li>
+   <li> Generalising over e, seems to tie in closely with generalising over n_R,
+   as the polynomial the elements in columns of the block form, are over elements
+   of size e. </li>
+  </ul>
+
+
+  \todo File Extensions : DONE (for now we use the current "standard")
+  <ul>
+   <li> OK : where does the suffix ".mac" come from? looks unmotivated to me?
+   is this the standard ending for maxima-files, or for special ones? </li>
+   <li> MG - Looking through the maxima documentation and at
+   the Finite Fields package and others, it seemed to be the common file extension,
+   and due to a misunderstanding on my part, I believed that it was required, however
+   I simply misunderstood the use of the load function and a more explicit file
+   extension of .maxima following the TauMachinery example seems sensible. OK : one
+   could ask this question on the (main) maxima mailing list. </li>
+   <li> Can this be moved to ComputerAlgebra/plans/Maxima.hpp ? </li>
+  </ul>
+
+
   \todo Split "Maxima: design" into subtopics (and update) DONE
 
 

@@ -80,6 +80,8 @@ License, or any later version. */
     steps by first starting with the "C core part" of C++, and then
     adding abstraction and refinements.
    </li>
+   <li> The usage of Sage is restricted to provide interfaces between the
+   different systems. </li>
   </ol>
   The underlying mathematical concepts are the same for all three levels,
   but their realisations might differ considerably in the three levels.

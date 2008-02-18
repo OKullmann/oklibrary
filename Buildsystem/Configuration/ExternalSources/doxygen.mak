@@ -31,7 +31,7 @@ ifeq ($(doxygen_default_install_okl),local)
   doxygen_call_okl ?= $(doxygen_installation_dir_okl)/bin/doxygen
   doxytag_call_okl ?= $(doxygen_installation_dir_okl)/bin/doxytag
 else
-  doxygen_install_directory_okl ?= $(doxygen_system_install_directory)
+  doxygen_install_directory_okl ?= $(doxygen_system_install_directory_okl)
   doxygen_install_command_okl ?= sudo make install
   doxygen_call_okl ?= doxygen
   doxytag_call_okl ?= doxytag

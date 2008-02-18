@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp 0.0.5 (20.12.2007)
+  \module_version ComputerAlgebra/Cryptology/Lisp 0.0.5.1 (17.2.2008)
 
 
   \par Version 0.0.6
@@ -19,6 +19,12 @@ License, or any later version. */
     - New structure
     - Split "Maxima: design" into subtopics DONE
     - Split "Maxima: implementation issues" into subtopics DONE
+    - File Extensions : DONE
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
+   the following topics are handled:
+    - Create milestones : DONE
 
 
   \par Version 0.0.7
@@ -26,19 +32,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Modularising the Rijndael-implementation
-    - Finite Field operations
-    - New design and implementation
-    - Key schedule
-    - Docus and Demos
-    - Requirements
-    - File Extensions
     - Tests
-  
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
-   the following topics are handled:
-    - Conversion Functions
 
 
   \par Version 0.0.8
@@ -46,11 +40,43 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
    the following topics are handled:
-    - Generalisations
+    - Modularising the Rijndael-implementation
+    - New design and implementation
+    - Finite Field operations
+    - Key schedule
+    - Design of round functions
+  
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
+   the following topics are handled:
+    - Conversion Functions
+
+
+  \par Version 0.0.9
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Docus and Demos
+    - Requirements
+    - Coding Standards
+
+
+  \par Version 0.1
+
+  \par
+   An elegant and fully tested and documented AES implementation is completed.
   
   \par
    Update the following milestones.
-   (Towards 0.1, which is the current implementation finished.)
+
+
+  \par Version 0.1.1
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   the following topics are handled:
+    - Generalisations
 
 
 

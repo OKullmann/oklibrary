@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Incl
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 
 
 kill(f)$
@@ -39,6 +40,10 @@ okltest_satprob(f) := block([F],
   assert(f({{1},{2,3},{-3,4}}) = 1/4),
   for n : 0 thru 10 do
     assert(f({setn(n)}) = 1 - 2^(-n)),
+  if oklib_test_level = 0 then return(true),
+  for m : 0 thru 3 do
+   for n : 0 thru 3 do
+    assert(f(weak_php(m,n)[2]) = satprob_weak_php(m,n)),
   true)$
 
 /* Testing whether f computes the list of approximations of the

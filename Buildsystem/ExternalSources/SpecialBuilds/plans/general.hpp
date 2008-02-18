@@ -15,7 +15,7 @@ License, or any later version. */
    <li> Under SpecialBuilds/docus we need docus-files for every
    external source:
     <ol>
-     <li> asciidoc </li>
+     <li> asciidoc : DONE </li>
      <li> cmake </li>
      <li> mhash (remark about corrected files; content of package) </li>
      <li> mpfr </li>

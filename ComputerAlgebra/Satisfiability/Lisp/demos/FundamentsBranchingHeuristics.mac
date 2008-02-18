@@ -34,6 +34,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/OKsolver2002.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
+
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 
@@ -823,6 +828,42 @@ assert(nnds_l(col_ok2002wlt_php65_ast_65) = 29);
 assert(height(l2ult(col_ok2002wlt_php65_ast_65)) = 6);
 assert(levelled_height(l2ult(col_ok2002wlt_php65_ast_65)) = 2);
 
+
+/* ***********************************
+   * Section "The order of branches" *
+   ***********************************
+*/
+
+/* Example 1.8.1 */
+
+F0 : weak_php(3,2);
+F1 : weak_php(3,3);
+
+assert(probsatrand(F0[2]) = 19683 / 262144);
+assert_float_equal(log(probsatrand(F0[2])), logprobrand(F0[2]));
+assert(probsatrand(F1[2]) = 6751269 / 134217728);
+assert_float_equal(log(probsatrand(F1[2])), logprobrand(F1[2]));
+
+assert(1 - firstorder_sat_approx(F0[2]) = 9/4);
+assert(1 - firstorder_sat_approx(F1[2]) = 21/8);
+
+assert(independence_number_m_cs(F0[2]) = 6);
+assert(hermitean_defect_cs(F0[2]) = 6);
+assert(1 - rest(satprob_seqap_mcind_trrs(F0[2]),1) = [9/4, 3/8, 5/4, 59/64, 65/64, 1]);
+
+assert(independence_number_m_cs(F1[2]) = 9);
+assert(hermitean_defect_cs(F1[2]) = 9);
+assert(1 - rest(satprob_seqap_mcind_trrs(F1[2]),1) = [21/8, -33/64, 1045/512, 107/256, 157/128, 469/512, 257/256, 505/512, 253/256]);
+
+1 - float(rest(satprob_seqap_mcind_trrs(weak_php(4,3)[2]),1));
+
+assert(max_degree_cvg_cs(F0[2]) = 4);
+assert(1 / locallemma_satapprox(F0[2]) = 4 * 1/4);
+assert(max_degree_cvg_cs(F1[2]) = 6);
+assert(1 / locallemma_satapprox(F1[2]) = 6 * 1/4);
+
+assert(1 / locallemmasum_satapprox(F0[2]) = 3 * 1 + 6 * (2 * 1/4 + 2 * 1/4));
+assert(1 / locallemmasum_satapprox(F1[2]) = 3 * 3/2 + 9 * (2 * 1/4 + 2 * 1/8));
 
 /*!
 \endhtmlonly

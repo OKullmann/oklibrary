@@ -1,0 +1,31 @@
+/* Oliver Kullmann, 16.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Counting/testobjects/Degrees.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobjects/Degrees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac");
+
+
+okltest_locallemma_sattest_clausedeg(locallemma_sattest_clausedeg);
+okltest_locallemma_sattest_vardeg(locallemma_sattest_vardeg);
+okltest_locallemma_sattest_asymmetric(locallemma_sattest_asymmetric);
+
+/*!
+\endhtmlonly
+*/

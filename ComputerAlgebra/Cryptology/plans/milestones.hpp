@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology 0.0.4 (7.9.2007)
+  \module_version ComputerAlgebra/Cryptology 0.0.4.1 (17.2.2008)
 
 
   \par Version 0.0.5
@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/plans/general.hpp the following topics
    are handled:
-    - Write "oklib --sage"
+    - Write "oklib --sage" : DONE
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:

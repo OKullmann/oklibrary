@@ -41,15 +41,17 @@ rijndael_bit_field : [2,1,[x]]$
    a GF(2^8) field (all operations are performed on polynomials over GF(2) 
    modulo this irreducible polynomial.
 */
-rijndael_polynomial : x^8+x^4+x^3+x+1$
+kill(x)$
+rijndael_polynomial : x^8 + x^4 + x^3 + x + 1$
+/* REMARK : document "x"; can we avoid this global variable? */
 
 /*
    3-tuple used to represent a field with the egf functions representing the 
    Rijndael byte field. Of the form [p, n, ip] where "p"
    is the prime characteristic of the field, "n" is the power to which "p" is 
-   raised, and "ip" the polynomial irreducible over GF(p) such that a field
-   GF(p^n) is defined with operations being performed on polynomials over 
-   GF(p) modulo ip.
+   raised, and "ip" the polynomial of degree p^n and irreducible over GF(p) 
+   such that a field GF(p^n) is defined with operations being performed on 
+   polynomials over GF(p) modulo ip.
 */
 rijndael_byte_field : [2,8,rijndael_polynomial]$
 
@@ -174,14 +176,14 @@ egf_add([args]) := egf_func(gf_add, 2, args)$
 egf_mul([args]) := egf_func(gf_mul, 2, args)$
 
 /* 
-   Analogue of gf_matmul, which optionally takes an additional field argument (as
-   the first argument) to specify that this operation should be performed in the
-   given field.
+   Analogue of gf_matmul, which optionally takes an additional field argument
+   (as the first argument) to specify that this operation should be performed
+   in the given field.
 */
 egf_matmul([args]) := egf_func(gf_matmul, 2, args)$
 
 /* 
-   Analogue of gf_matmul, which optionally takes an additional field argument (as
+   Analogue of gf_matinv, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
@@ -195,6 +197,7 @@ egf_matinv([args]) := egf_func(gf_matinv, 1, args);
 egf_inv([args]) := egf_func(gf_inv, 1, args)$
 
 
+
 /* ***************************************
    * Main Round Functions                *
    ***************************************
@@ -205,18 +208,14 @@ egf_inv([args]) := egf_func(gf_inv, 1, args)$
    byte field unless otherwise specified.
 */
 egf_set(rijndael_byte_field);
+/* REMARK : This is unsuitable, since it makes the operations unreliable. */
 
-/* REMARK : SPECIFICATION NEEDED! */
-
-kill(x)$
 rijndael_affine_constant : x^6 + x^5 + x + 1$
 rijndael_inv_affine_constant : x^2 + 1$ 
-/* REMARK : document "x"; something else??? */
 
 rijndael_sbox_matrix : apply(matrix,
     makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
 rijndael_inv_sbox_matrix : egf_matinv(rijndael_bit_field,rijndael_sbox_matrix)$ 
-/* REMARK : Explain! Likely best also accompanied by its use! */
 
 sbox(byte) := 
   block([invbyte,result],
@@ -319,11 +318,10 @@ key_expansion(kl, n_b ,n_r) := block(
       column[1] : egf_add(cols[j-n_k+1][1], 
         egf_add(sbox(cols[j][2]), x^(floor(j/n_k) -1))),
       for i : 1 thru 3 do 
-        column[i+1] : egf_add(cols[j-n_k+1][i+1], sbox(cols[j][mod(i+1,4)+1]))
-    ) else for i : 1 thru 4 do 
+        column[i+1] : egf_add(cols[j-n_k+1][i+1], sbox(cols[j][mod(i+1,4)+1])))
+    else for i : 1 thru 4 do 
       column[i] : egf_add(cols[j][i], cols[j-n_k+1][i]),
-    cols : append(cols, [column])
-  ),
+    cols : append(cols, [column])),
   return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
     partition(cols,n_b))))
 )$

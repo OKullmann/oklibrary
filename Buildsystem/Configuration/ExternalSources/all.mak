@@ -31,19 +31,6 @@ include $(OKconfiguration)/ExternalSources/clisp.mak
 include $(OKconfiguration)/ExternalSources/maxima.mak
 
 # ################################
-# Asciidoc
-# ###############################
-
-asciidoc_recommended_version_number ?= 8.2.1
-asciidoc_supported_version_numbers ?= $(asciidoc_recommended_version_number)
-
-asciidoc_prefix ?= asciidoc
-
-asciidoc_targets_prefix := $(asciidoc_prefix)-
-asciidoc_targets := $(addprefix $(asciidoc_targets_prefix), $(asciidoc_supported_version_numbers))
-asciidoc_recommended := $(asciidoc_targets_prefix)$(asciidoc_recommended_version_number)
-
-# ################################
 # Cmake
 # ###############################
 
