@@ -61,7 +61,8 @@ License, or any later version. */
 
   <ul>
    <li> <code>gcc</code> is needed (as for many packages). </li>
-   <li> <code>asciidoc</code> (often already installed). </li>
+   <li> <code>asciidoc</code> (often already installed; see
+   Buildsystem/ExternalSources/SpecialBuilds/docus/Asciidoc.hpp). </li>
   </ul>
 
 
