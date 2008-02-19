@@ -20,9 +20,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Finishing old implementation
     - Terminology : DONE
-    - Docus and demos for the sage implementation : DONE
 
   \par
    Update the subsequent milestones.
