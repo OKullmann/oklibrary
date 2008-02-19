@@ -197,6 +197,11 @@ License, or any later version. */
      <li> Also other optimisation should be in reach. </li>
      <li> Computing optimal hitting-clause-set-representations should
      be possible (they allow many services needed for active clauses). </li>
+     <li> Likely the most useful translation is obvious translation to CNF,
+     from the DNF via the Tseitin-translation. Perhaps some optimisation can
+     be applied. </li>
+     <li> This translation works independent of the specific nature of the S-boc
+     etc. --- any table can be used. </li>
     </ol>
    </li>
    <li> Obviously also of interest are OBDD representations of these boolean
