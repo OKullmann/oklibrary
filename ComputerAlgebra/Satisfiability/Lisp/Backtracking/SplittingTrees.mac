@@ -162,7 +162,13 @@ complete_st_alldifferent_pref(k,prefix) := if k = 0 then [false] else
   [trv_var(prefix), 
      complete_st_alldifferent_pref(k-1, cons(1,prefix)),
      complete_st_alldifferent_pref(k-1, cons(2,prefix))]$
-  
+
+/* The complete splitting tree of height k and levelled height <= 1 */
+/* The corresponding tree-hitting clause-sets are exactly the saturated
+   minimally unsatisfiable Horn clause-sets. */
+horn_st(k) := horn_st_pref(k,[])$
+horn_st_pref(k,prefix) := if k = 0 then [false] else
+  [trv_var(prefix), [false], horn_st_pref(k-1, cons(2,prefix))]$
 
 
 /* ***********************
