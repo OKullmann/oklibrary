@@ -25,14 +25,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write "oklib --sage" : DONE (moved to
-  Buildsystem/MasterScript/plans/general.hpp)
-  <ul>
-   <ul> This should be moved to sonewhere else. </li>
-   <li> Automatise loading, compiling etc. </li>
-  </ul>
-
-
   \todo Write a general docus-file
 
 */
