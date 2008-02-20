@@ -12,9 +12,23 @@ License, or any later version. */
 
   \todo Restructuring
   <ul>
-   <li> We should have sub-modules "Cryptanalysis" and "CryptoSystems" (say),
+   <li> Link to module Structures/Cryptology (see
+   Structures/Cryptology/plans/general.hpp). </li>
+   <li> DONE We should have sub-modules "Cryptanalysis" and "CryptoSystems" (say),
    which contain attacks resp. different implementations. </li>
-   <li> Likely this goes (first) to the Lisp-submodules. </li>
+   <li> DONE Likely this goes (first) to the Lisp-submodules. </li>
+   <li> DONE All the plans in this file should move to appropriate
+   sub-modules of the Lisp-modules. </li>
+   <li> DONE (moved to ComputerAlgebra/Cryptology/Lisp/plans/Rijndael.hpp)
+   Some todos need to be reworked:
+    <ol>
+     <li> "Maxima: implementation issues" and "Maxima: design" needs
+     unification/splitting. </li>
+    </ol>
+   </li>
+   <li> Create sub-modules for "Lisp" and "Aldor". DONE </li>
+   <li> DONE (yes, only Maxima and Axiom (at this time))
+   Likely "Sage" is not treated on its own. </li>
   </ul>
 
 

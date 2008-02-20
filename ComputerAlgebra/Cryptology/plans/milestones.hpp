@@ -20,21 +20,12 @@ License, or any later version. */
     - See Applications/Cryptanalysis/plans/general.hpp
     - Write a general docus-file
 
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Restructuring
-
   \par ComputerAlgebra/Cryptology/Lisp version 0.0.6
   (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
 
 
   \par Version 0.0.7
 
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Discussion on Generalisation/Parameterisation
-    - Algebraic aspects
-  
   \par ComputerAlgebra/Cryptology/Lisp version 0.0.7
   (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
 
@@ -49,16 +40,8 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
+   In ComputerAlgebra/Cryptology/Aldor/plans/Rijndael.hpp the following topics are handled:
     - Axiom: design and implementation
-
-
-  \par Version 0.0.10
-
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Partitioning into active clauses
-    - Encoding AES (top down)
 
 
 
