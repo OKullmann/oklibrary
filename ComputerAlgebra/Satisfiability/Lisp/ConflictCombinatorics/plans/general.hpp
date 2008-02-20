@@ -19,10 +19,16 @@ License, or any later version. */
   \todo Write docus
 
 
+  \todo Relations to other modules
+  <ul>
+   <li> See Experimentation/Investigations/plans/general.hpp. </li>
+  </ul>
+
+
   \todo mcind_cs, cind_cs:
   <ul>
    <li> DONE The naming should reflect the special method used (here using
-   traversals). </li>
+   transversals). </li>
    <li> Likely the best is just to refer to all possible ways of
    computing maximal independent sets of a hypergraph (or, of a graph;
    likely one can take advantage of this more special situation). </li>
