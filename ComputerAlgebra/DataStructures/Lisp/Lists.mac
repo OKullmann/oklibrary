@@ -1,0 +1,36 @@
+/* Oliver Kullmann, 20.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/Lists.mac
+  \brief Functions for handling lists (in Maxima/Lisp)
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* The first n elements of L for 0 <= n <= length(L), while for 
+   length(L) <= n <= 2 length(L) we use n' := 2 length(L) - n and
+   return the last n' elements. Error if n < 0 or n > 2 length(L). */
+/* Returns a shallow copy of L. */
+take_elements(n,L) := rest(L, - (length(L) - n))$
+
+/* Removes element with index i from list L. Error if i < 1 or 
+   i > length(L). */
+/* Returns a shallow copy of L. */
+remove_element(i,L) := append(take_elements(i-1,L), rest(L,i))$
+
+
+/*!
+\endhtmlonly
+*/
