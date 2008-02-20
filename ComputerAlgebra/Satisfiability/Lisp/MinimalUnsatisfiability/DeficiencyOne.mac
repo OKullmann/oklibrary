@@ -1,0 +1,73 @@
+/* Oliver Kullmann, 19.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac
+  \brief Operations regarding minimally unsatisfiable clause-sets
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+
+
+/* ******************************************************
+   * Heuristical approach: removing literal occurrences *
+   * to achieve a given maximal degree                  *
+   ******************************************************
+*/
+
+/* Auxiliary function */
+find_removable_remlitocc(L,x,k) := block(
+ [occ : sublist_indices(L, lambda([C],elementp(x,C))), deg, locc],
+  deg : length(occ),
+  occ : sublist(occ, lambda([i],is(length(L[i]) > k))),
+  locc : length(occ),
+  if locc < deg then return([occ, locc]),
+  block([minl : inf, mini],
+   for i : 1 thru locc do
+    if length(L[i]) < minl then (minl : length(L[i]), mini : i),
+   return([remove_element(mini, occ), locc-1])))$
+
+/* Input clause-set F (without pure literals, and with min-rank at least k).
+   Returns [false] if an unsolvable situation was generated, and other a
+   pair [F',r'], where F' is obtained from F by removal of 
+   literal-occurrences and r' <= r is the realised maximal var-degree
+   (maintaining the above invariants throughout). */
+remlitocc_greedy(F,k,r) := if F = {} or F = {{}} then [F, minf]
+ elseif r <= 1 then [false,inf] else block([res : false],
+ while res = false do (
+   res : block([degv : max_variable_degree_v_cs(F), 
+      deg,v,dif, L, pocc,lp, nocc,ln, occ],
+    [deg,v] : degv,
+    if deg <= r then return([F, deg]),
+    dif : deg - r,
+    L : listify(F),
+    [pocc, lp] : find_removable_remlitocc(L,v,k),
+    [nocc, ln] : find_removable_remlitocc(L,-v,k),
+    if lp + ln < dif then return([false,deg]),
+    occ : append(pocc,nocc),
+    occ : take_elements(dif, sort(occ, lambda([i,j],is(L[i]>L[j])))),
+    for i in occ do
+      L[i] : setdifference(L[i], {v,-v}),
+    F : setify(L), return(false))),
+ return(res))$
+
+/* Marginal elements of MUSAT(1) with 2^k clauses */
+marginal_musat1(k) := remlitocc(uniform_usat_hitting_min(k),1,2)[1];
+
+/*!
+\endhtmlonly
+*/
