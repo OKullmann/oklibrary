@@ -225,6 +225,13 @@ min_variable_degree_cs(F) :=
 /* maximal variable-degree of a clause-set */
 max_variable_degree_cs(F) := 
   lmax(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
+/* also returns a variable of maximal degree (if there is a variable) */
+max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
+  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(variable_degrees_cs(F))),  
+   optv : 0, maxd : minf],
+  for m in D do block([d : m[2]],
+    if d > maxd then (maxd : d, optv : m[1])),
+  return([maxd, optv]))$
 /* tests whether a clause-set is variable-regular (all variables have the same
    degree) */
 variableregularcsp(F) := is(min_variable_degree_cs(F) >= max_variable_degree_cs(F))$
