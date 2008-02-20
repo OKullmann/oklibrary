@@ -27,7 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/include.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/include.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/include.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac");
 
