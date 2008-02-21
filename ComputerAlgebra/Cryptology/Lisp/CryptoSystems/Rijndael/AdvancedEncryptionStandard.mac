@@ -215,7 +215,7 @@ rijndael_inv_affine_constant : x^2 + 1$
 
 rijndael_sbox_matrix : apply(matrix,
     makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
-rijndael_inv_sbox_matrix : egf_matinv(rijndael_bit_field,rijndael_sbox_matrix)$ 
+/* rijndael_inv_sbox_matrix : egf_matinv(rijndael_bit_field,rijndael_sbox_matrix)$ */
 
 sbox(byte) := 
   block([invbyte,result],
