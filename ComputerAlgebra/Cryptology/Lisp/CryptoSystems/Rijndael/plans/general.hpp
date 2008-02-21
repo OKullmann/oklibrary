@@ -1,4 +1,4 @@
-// Matthew Gwynne, 8.12.2007 (Swansea)
+// Matthew Gwynne, 19.2.2008 (Swansea)
 /* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,16 +6,8 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
-  \brief Plans for cryptological tools regarding the Rijndael cipher using Maxima
-
-
-  \todo New structure
-  <ul>
-   <li> In the CryptoSystems- as well as in the Cryptanalysis-modules we
-   need sub-modules "Rijndael". </li>
-  </ul>
-
+  \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+  \brief Plans for the Rijndael CryptoSystem in maxima/lisp
 
   \todo Tests
   <ul>
@@ -356,5 +348,5 @@ License, or any later version. */
 
 
   \todo Split "Maxima: implementation issues" into subtopics (and update) DONE
-
 */
+

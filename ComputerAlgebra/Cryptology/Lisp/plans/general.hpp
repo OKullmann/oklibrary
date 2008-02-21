@@ -9,6 +9,11 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
   \brief Plans for cryptological tools realised in Maxima/Lisp
 
+  \todo New structure
+  <ul>
+   <li> In the CryptoSystems- as well as in the Cryptanalysis-modules we
+   need sub-modules "Rijndael". </li>
+  </ul>
 
   \todo Conversion Functions
   <ul>

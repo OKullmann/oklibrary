@@ -8,24 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology 0.0.4.1 (17.2.2008)
-
-
-  \par Version 0.0.5
-
-  \par
-   In ComputerAlgebra/Cryptology/plans/general.hpp the following topics
-   are handled:
-    - Write "oklib --sage" : DONE
-
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Finishing old implementation
-    - Terminology : DONE
-    - Docus and demos for the sage implementation : DONE
-
-  \par
-   Update the subsequent milestones.
+  \module_version ComputerAlgebra/Cryptology 0.0.5 (19.2.2008)
 
 
   \par Version 0.0.6
@@ -37,21 +20,12 @@ License, or any later version. */
     - See Applications/Cryptanalysis/plans/general.hpp
     - Write a general docus-file
 
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Restructuring
-
   \par ComputerAlgebra/Cryptology/Lisp version 0.0.6
   (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
 
 
   \par Version 0.0.7
 
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Discussion on Generalisation/Parameterisation
-    - Algebraic aspects
-  
   \par ComputerAlgebra/Cryptology/Lisp version 0.0.7
   (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
 
@@ -66,16 +40,8 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
+   In ComputerAlgebra/Cryptology/Aldor/plans/Rijndael.hpp the following topics are handled:
     - Axiom: design and implementation
-
-
-  \par Version 0.0.10
-
-  \par
-   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
-    - Partitioning into active clauses
-    - Encoding AES (top down)
 
 
 
@@ -85,5 +51,5 @@ License, or any later version. */
 
    - 0.0.3 : 25.7.2007; initial version number (several plans, starting prototyping).
    - 0.0.4 : 7.9.2007; made plans more concrete, and explored the landscape; a first Sage-implementation exists, from which now the Maxima implementation is to be designed.
-
+   - 0.0.5 : 19.2.2008; Rijndael docus started; Sage implementation abandoned. Maxima implementation started. From here more work needs to be done on the plans and docus.
 */

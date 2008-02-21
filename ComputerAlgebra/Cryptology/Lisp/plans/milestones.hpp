@@ -14,23 +14,28 @@ License, or any later version. */
   \par Version 0.0.6
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
    the following topics are handled:
     - New structure
+    - Create milestones : DONE
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoAnalysis/Rijndael/plans/general.hpp
+   the following topics are handled:
+   - Update milestones above to include todos
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   the following topics are handled:
     - Split "Maxima: design" into subtopics DONE
     - Split "Maxima: implementation issues" into subtopics DONE
     - File Extensions : DONE
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
-   the following topics are handled:
-    - Create milestones : DONE
 
 
   \par Version 0.0.7
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Tests
 
@@ -38,7 +43,7 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Modularising the Rijndael-implementation
     - New design and implementation
@@ -55,7 +60,7 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Docus and Demos
     - Requirements
@@ -74,7 +79,7 @@ License, or any later version. */
   \par Version 0.1.1
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/AdvancedEncryptionStandard.hpp
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Generalisations
 
