@@ -21,6 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac");
+
 /*!
 \endhtmlonly
 */

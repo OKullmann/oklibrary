@@ -9,11 +9,13 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
   \brief Plans for cryptological tools realised in Maxima/Lisp
 
+
   \todo New structure
   <ul>
    <li> In the CryptoSystems- as well as in the Cryptanalysis-modules we
    need sub-modules "Rijndael". </li>
   </ul>
+
 
   \todo Conversion Functions
   <ul>
@@ -34,6 +36,8 @@ License, or any later version. */
      <li> GF2t8ToPID (with PIDToGF2t8) for a conversion of a list of binary
      bit values representing GF(2) elements to a list of 4-Byte PID column elements.
      </li>
+    </ol>
+   </li>
   </ul>
 
 

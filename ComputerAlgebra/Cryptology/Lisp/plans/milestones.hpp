@@ -20,9 +20,9 @@ License, or any later version. */
     - Create milestones : DONE
 
   \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoAnalysis/Rijndael/plans/general.hpp
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
    the following topics are handled:
-   - Update milestones above to include todos
+    - Create / update milestones
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp

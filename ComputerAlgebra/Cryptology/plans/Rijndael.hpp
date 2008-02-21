@@ -33,7 +33,7 @@ License, or any later version. */
   
   
   \todo Terminology (DONE Moved to 
-  ComputerAlgebra/Cryptology/docus/Rijndael.hpp . See "Expand docus" todo)
+  ComputerAlgebra/Cryptology/docus/Rijndael.hpp)
   <ul>
    <li> A bit could be called 
     <ul>

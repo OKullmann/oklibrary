@@ -8,20 +8,24 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology 0.0.5 (19.2.2008)
+  \module_version ComputerAlgebra/Cryptology 0.0.5.1 (19.2.2008)
 
 
   \par Version 0.0.6
 
-    \par
+  \par ComputerAlgebra/Cryptology/Lisp version 0.0.6
+  (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
+
+  \par
    In ComputerAlgebra/Cryptology/plans/general.hpp the following topics
    are handled:
     - Restructuring
     - See Applications/Cryptanalysis/plans/general.hpp
     - Write a general docus-file
 
-  \par ComputerAlgebra/Cryptology/Lisp version 0.0.6
-  (ComputerAlgebra/Cryptology/Lisp/plans/milestones.hpp)
+  \par
+   In ComputerAlgebra/Cryptology/plans/Rijndael.hpp the following topics are handled:
+    - Terminology : DONE
 
 
   \par Version 0.0.7
