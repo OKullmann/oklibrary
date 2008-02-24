@@ -24,6 +24,11 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 /* Computing the independence number of a graph via the Maxima function */
 independence_number_gr_m(G) := length(max_independent_set(g2mg(G)))$
 
+/* Computing the partition number of a graph via the Maxima function */
+partition_number_gr_m(G) := if emptyp(G[2]) then length(G[1]) else
+ chromatic_number(complement_graph(g2mg(G)))$
+
+
 /*!
 \endhtmlonly
 */
