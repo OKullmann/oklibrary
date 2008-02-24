@@ -43,6 +43,12 @@ License, or any later version. */
     </ol>
     We should be able to figure this out; see below.
    </li>
+   <li> The conflict-partition_number as upper-bounded by the length of
+   hitting_decomposition_m_cs(weak_php(n+1,n)[2]) seems to be the
+   same as the conflict-independence number. Perhaps the conflict-graph
+   is even perfect?! </li>
+   <li> In general: Is the hermitean deficiency actually an upper bound
+   on the conflict-partition-number ?!? </li>
    <li> Hermitean rank and deficiency:
     <ol>
      <li> weak_php(1,0) -> [0,1] </li>
