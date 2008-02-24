@@ -1,0 +1,40 @@
+// Oliver Kullmann, 23.2.2008 (Swansea)
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Constructions.hpp
+  \brief Plans for basic clause-set constructions
+
+
+  \todo Representations of the basic logical operations
+  <ul>
+   <li> The problem is, given clause-sets F_1, F_2, find representations
+   of F_1 and F_1, F_1 or F_2, not F_1, F_1 <-> F_2, F_1 -> F_2 and so on.
+   </li>
+   <li> Here we consider F_1, F_2 as CNF --- in general we consider clause-sets
+   as combinatorial objects, which can represent CNF *and* DNF, but here
+   it seems helpful, since otherwise perhaps no good names are available? </li>
+   <li> F_1 and F_2 is the union of F_1, F_2; see "and_cs". </li>
+   <li> F_1 or F_2 is or_cs(F_1, F_2). </li>
+   <li> (CLS, and_cs, or_cs, {}, {{}}) is a commutative semiring with
+   idempotent addition. </li>
+   <li> Perhaps these rules should better be represented by the operations.
+   </li>
+   <li> In CLS as category, with morphisms complement-preserving homomorphisms
+   for hypergraphs, it should and_cs be the coproduct, but or_cs doesn't
+   look like a product. One could repear that by using as homomorphisms
+   complement-preserving maps f: F -> G from literals to literals such that
+   for C in F there exists D in G with D <= f(C) ?! </li>
+   <li> So perhaps we should use the names "coproduct_cs" and "product_cs"
+   ?! </li>
+   <li> Negation perhaps has no canonical representation(?): A semantic
+   negation G of a clause-set F is characterised by comp_cs(G) being a
+   DNF-representation of F. </li>
+  </ul>
+
+*/
+

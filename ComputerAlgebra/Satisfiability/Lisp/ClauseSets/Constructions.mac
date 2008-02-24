@@ -1,0 +1,55 @@
+/* Oliver Kullmann, 23.2.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac
+  \brief basic constructions for clause-sets
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+
+
+/* Complementation (literal-wise) of a clause-set or clause-list */
+comp_cs(F) := map(comp_sl, F)$
+
+/* The canonical representation of the "and" of two clause-sets as cnf's
+   (as n-ary operation) */
+and_cs([L]) := apply(union,L)$
+
+/* All non-clashing unions of the clauses of two given clause-sets, which
+   represents the "or" of the clause-sets as cnf's. */
+or_cs2(F1,F2) := 
+ map(list_sets_union,
+  subset(cartesian_product(F1,F2), lambda([P],not clashp(P[1],P[2]))))$
+/* As n-ary operation */
+or_cs([L]) := block([l : length(L)],
+ if l = 0 then {{}} elseif l = 1 then L[1] 
+ else apply(or_cs, cons(or_cs2(L[1],L[2]), rest(L,2))))$
+
+/* The canonical DNF-representation of a clause-set F as CNF */
+dual_cs(F) := apply(or_cs,
+ makelist(setify(makelist({x},x,listify(C))), C,listify(F)))$
+/* Subsumption elimination applied to the result yields the set of
+   all prime implicants (all minimal satisfying partial assignments). */
+
+/* The canonical negation of a clause-set */
+neg_cs(F) := dual_cs(comp_cs(F))$
+
+/*!
+\endhtmlonly
+*/
+

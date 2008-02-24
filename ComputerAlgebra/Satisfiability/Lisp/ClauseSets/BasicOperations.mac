@@ -98,10 +98,6 @@ clauses_f(FF) := FF[2]$
 cs_to_fcs(F) := [var_cs(F), F]$
 
 
-/* complementation (literal-wise) of a clause-set or clause-list */
-comp_cs(F) := map(comp_sl, F)$
-
-
 /* ************************************
    * Representing boolean clause-sets *
    ************************************
