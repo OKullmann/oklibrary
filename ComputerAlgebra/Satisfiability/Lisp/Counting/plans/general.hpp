@@ -36,6 +36,16 @@ License, or any later version. */
   <ul>
    <li> See "Conflicts.mac" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp. </li>
+   <li> Given an upper bound on the independence number, compute the hypergraph
+   of independent subsets more directly. </li>
+  </ul>
+
+
+  \todo satprob_incexl_hitting
+  <ul>
+   <li> Similar to satprob_mcind, compute approximations. </li>
+   <li> One would assume, that this computation is always less efficient
+   than satprob_mcind? </li>
   </ul>
 
 

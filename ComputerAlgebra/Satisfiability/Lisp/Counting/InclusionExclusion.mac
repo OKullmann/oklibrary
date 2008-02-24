@@ -20,6 +20,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionE
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
+
 
 /* The probability of a satisfying assignment computed via the Iwama-formula
    ([Iwama, 1989, CNF satisfiability test by counting and polynomial average
@@ -42,7 +46,25 @@ satprob_seqap_mcind_trrs(F) := block([MI : cind_cs_trrs(F)[2], r, appr, res],
   for i : 1 thru r do
     res : endcons(appr[i]+last(res), res),
   return(res))$
+/* The second element of that list (compare firstorder_sat_approx) */
+satprob_hitting(F) := block([L : listify(F)],
+ return(1 - sum(2^(-length(L[i])),i,1,length(L))))$
 
+/* Direct application of inclusion/exclusion to a clause-set represented via
+   a list of hitting clause-sets (as their union).
+   According to [Dubois 1991, Counting the number of solutions for instances
+   of satisfiability, TCS]. */
+satprob_incexl_hitting(L) := if emptyp(L) then 1 else
+ block([P : powerset(setn(length(L)))],
+  P : listify(disjoin({},P)),
+  return(sum(
+          satprob_hitting(apply(or_cs,makelist(L[i],i,listify(P[p])))) * 
+            (-1)^(length(P[p])-1),
+          p, 1, length(P))))$
+
+/* Using the partitioning into hitting clause-sets via the maxima
+   max-clique function */
+satprob_incexl_hitting_hcm(F) := satprob_incexl_hitting(hitting_decomposition_m_cs(F))$
 
 /*!
 \endhtmlonly
