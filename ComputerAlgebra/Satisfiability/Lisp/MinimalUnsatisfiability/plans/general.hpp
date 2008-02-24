@@ -75,7 +75,7 @@ License, or any later version. */
   \todo The heuristical function remlitocc_greedy
   <ul>
    <li> Just to find an example for (k=3,r=5) from uniform_usat_hitting_min(m)
-   doesn't work for m <= 12. </li>
+   doesn't work for m <= 14. </li>
    <li> Are these instances in MUSAT(1) so large? </li>
    <li> Or should we start from different elements F in SMUSAT(1) ? </li>
    <li> Or is the heuristic so weak?
