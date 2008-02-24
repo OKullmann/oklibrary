@@ -24,7 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 /* **************
    * Generators *
@@ -91,11 +91,28 @@ treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
 uuhittingcsp(F) := 
  hittingcsp(F) and uniformcsp(F) and not emptyp(F) and is(ncl_cs(F) = 2^(length(listify(F)[1])))$
 
-/* Returns false if F is not an ABD, and otherwise 
-   returns (n,k) */
+/* Returns false if F is not an ABD, and otherwise returns (n,k) */
 abd_parameters(F) := 
  if not uuhittingcsp(F) or not variableregularcsp(F) then false
  else return([nvar_cs(F), length(listify(F)[1])])$
+
+
+/* ****************************************************
+   * Representing clause-sets via hitting clause-sets *
+   ****************************************************
+*/
+
+/* Decomposition into a list of hitting clause-sets via the Maxima
+   function max_clique; simple greedy approach by grabbing the largest
+   clique. */
+/* The length of the returned list is an upper bound on the partition
+   number of the conflict graph. */
+hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
+ G2 : copy_graph(G),
+ while graph_size(G2) > 0 do block([M : max_clique(G2)],
+   R : endcons(setify(M), R),
+   for v in M do remove_vertex(v, G2)),
+ map(lambda([M],map(lambda([v],get_vertex_label(v,G)),M)), R))$
 
 /*!
 \endhtmlonly

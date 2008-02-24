@@ -30,6 +30,8 @@ okltest_rnconflicts(rnconflicts);
 
 okltest_hermitean_rank_cs(hermitean_rank_cs);
 
+okltest_partition_number_cs(partition_number_m_cs);
+
 /*!
 \endhtmlonly
 */

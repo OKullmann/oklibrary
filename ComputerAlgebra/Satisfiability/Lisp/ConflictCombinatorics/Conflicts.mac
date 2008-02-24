@@ -27,6 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
 
+
 /* *****************
    * Constructions *
    *****************
@@ -65,12 +66,18 @@ hermitean_rank_cs(F) := hermitean_rank(scom2m(cm_cs(F)))$
 /* The hermitean defect of a boolean clause-set F */
 hermitean_defect_cs(F) := ncl_cs(F) - hermitean_rank_cs(F)$
 
-/* The independence number of a clause-set F, using function ind_num_f
+/* The conflict-independence number of a clause-set F, using function ind_num_f
    for computing the independence number of a graph */
 independence_number_cs(F, ind_num_f) :=ind_num_f(cg_cs(F))$
-
 /* Using the Maxima-function */
 independence_number_m_cs(F) := independence_number_cs(F, independence_number_gr_m)$
+
+/* The conflict-partition number of a clause-set F, using function part_num_f
+   for computing the partition number of a graph */
+/* The conflict-partition number of F is <= 1 iff F is hitting. */
+partition_number_cs(F, part_num_f) := part_num_f(cg_cs(F))$
+/* Using the Maxima-function */
+partition_number_m_cs(F) := partition_number_cs(F, partition_number_gr_m)$
 
 /*!
 \endhtmlonly

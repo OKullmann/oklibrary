@@ -81,6 +81,21 @@ okltest_hermitean_rank_cs(f) := block(
     assert(f(uniform_usat_hitting_min(k)) = 2^k - 1),
   true)$
 
+/* Tests whether f computes the conflict-partition-number of a clause-set
+   (the minimal number of hitting sets partitioning the clause-set) */
+okltest_partition_number_cs(f) := block(
+  assert(f({}) = 0),
+  assert(f({{}}) = 1),
+  assert(f({{1}}) = 1),
+  assert(f({{1},{-1}}) = 1),
+  assert(f({{1},{2}}) = 2),
+  for k : 0 thru 3 do (
+    assert(f(uniform_usat_hitting_min(k)) = 1),
+    assert(f(uniform_usat_hitting_max(k)) = 1),
+    assert(f(smusat_horn(k)) = 1)),
+  assert(f(sasg2000[2]) = 1),
+true)$
+
 /*!
 \endhtmlonly
 */
