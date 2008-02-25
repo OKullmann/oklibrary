@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 kill(f)$
 
@@ -39,6 +40,15 @@ okltest_sasg2000(FF) := block([F : FF[2]],
   assert(min_literal_degree_cs(F) = 3),
   assert(max_variable_frequency_cs(F) = 3/4),
   assert(abd_parameters(F) = [4,3]),
+  true)$
+
+okltest_brouwer1999(FF) := block([F : FF[2]],
+  assert(FF[1] = setn(8)),
+  assert(not treehittingcsp(F)),
+  assert(literalregularcsp(F)),
+  assert(min_literal_degree_cs(F) = 10),
+  assert(max_variable_frequency_cs(F) = 5/8),
+  assert(abd_parameters(F) = [8,5]),
   true)$
 
 
