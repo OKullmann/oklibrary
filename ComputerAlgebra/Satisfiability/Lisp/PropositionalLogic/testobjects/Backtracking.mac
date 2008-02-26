@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLog
 
 okltest_satisfiability_ft(sat_backtracking_trivh_bft);
 okltest_satisfiability_ft(sat_backtracking_firstlh_bft);
+
 /*!
 \endhtmlonly
 */
