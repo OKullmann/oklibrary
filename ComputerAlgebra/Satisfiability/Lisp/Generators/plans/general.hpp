@@ -76,6 +76,7 @@ License, or any later version. */
    SAT. </li>
   </ul>
 
+
   \todo Translations to MUSAT
   <ul>
    <li> Implement the other elements of the reduction.
@@ -91,16 +92,25 @@ License, or any later version. */
 
   \todo SMUSAT(1) and tree hitting clause-sets
   <ul>
-   <li> The basic question is how to represent trees. </li>
-   <li> And we need two variants: One where the inner nodes are
+   <li> We need to establish links in the docus to the generators mentioned
+   below from other modules. </li>
+   <li> DONE (see ComputerAlgebra/Trees/Lisp/Basics.mac)
+   The basic question is how to represent trees. </li>
+   <li> DONE (see
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac)
+   And we need two variants: One where the inner nodes are
    labelled with variables, and one without (here standard variables
    are supplied). </li>
-   <li> The construction works also in case of "regular variable
+   <li> DONE The construction works also in case of "regular variable
    labellings", where variables may occur at many places, but only
    once on a path. </li>
-   <li> In this general form we get exactly the "tree hitting clause-sets".
+   <li> DONE In this general form we get exactly the "tree hitting clause-sets".
    </li>
-   <li> How to get the MUSAT(1)-clause-sets from SMUSAT(1) ? </li>
+   <li> DONE (see
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp
+   and
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac)
+   How to get the MUSAT(1)-clause-sets from SMUSAT(1) ? </li>
   </ul>
 
 
@@ -115,8 +125,10 @@ License, or any later version. */
 
   \todo Operations (new clause-sets from old ones)
   <ul>
-   <li> Product </li>
-   <li> Sum </li>
+   <li> Again the request to establish links. </li>
+   <li> DONE (see
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac)
+   Product and Sum </li>
    <li> Xorification [Buresh-Oppenheim, Pitassi; 2007] </li>
   </ul>
 */
