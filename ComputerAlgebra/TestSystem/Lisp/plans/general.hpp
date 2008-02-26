@@ -175,6 +175,22 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> First rough "script" for running the tests
+    <ol>
+     <li>
+     \verbatim
+OKplatform> (for F in $(find OKsystem/Transitional/ComputerAlgebra -path "*/testobjects/*.mac"); do oklib --maxima --batch=${F} --very-quiet; if [[ $? != 0 ]]; then exit 1; fi; done)
+     \endverbatim
+     would work except that maxima returns 0 apparently in any case???
+     It seems not possible to get a reaction on the error??? </li>
+     <li> A possibility would be to set an environment-variable via "system".
+     But apparently using for example system("export OKLIBMAXIMA=1") is not
+     transported to the outer world, and thus is unusable. </li>
+     <li> Or we use a different configuration file, as discussed above; but
+     still the problem how to get informed about the error. </li>
+     <li> Is it really necessary to write to a file via "system" ??? </li>
+    </ol>
+   </li>
   </ul>
 
 
