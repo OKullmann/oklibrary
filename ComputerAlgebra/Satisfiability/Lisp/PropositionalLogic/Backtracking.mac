@@ -34,7 +34,7 @@ trivial_heuristics_bft(F) := first(listify(var_ft(F)))$
 sat_backtracking_trivh_bft(F) := sat_backtracking_ft(F,trivial_heuristics_bft)$
 
 firstliteralheuristics_bft(F) := if length(F) = 1 then F[1]
- else firstliteralheuristics_bfl(F[2])$
+ else firstliteralheuristics_bft(F[2])$
 
 sat_backtracking_firstlh_bft(F) := sat_backtracking_ft(F,firstliteralheuristics_bft)$
 
