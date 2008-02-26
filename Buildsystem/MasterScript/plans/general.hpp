@@ -146,6 +146,17 @@ License, or any later version. */
 
   \todo Further enhancements:
   <ul>
+   <li> It seems we should remove the "command"-construction.
+    <ol>
+     <li> The point was the echo. </li>
+     <li> This is applied inconsistently, and doesn't seem useful anymore. </li>
+     <li> Otherwise it just causes complications. </li>
+    </ol>
+   </li>
+   <li> And exit-values should reflect the last return-value. </li>
+   <li> As we have it now, passing all arguments to Maxima, we cannot pass for
+   example different targets to the makefile --- we somehow need a (convenient)
+   possibility to have both possibilities. </li>
    <li> --help </li>
    <li> Write "oklib --sage", similar to "oklib --maxima".
     <ol>
