@@ -86,6 +86,11 @@ scomequalp(A,B) := is(A[1] = B[1]) and
     if A[2](a,b) # B[2](a,b) then break : true,
   return(not break))$
 
+/* The minimum over all entries of a combinatorial matrix */
+min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
+/* The maximum over all entries of a combinatorial matrix */
+max_com(M) := lmax(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
+
 /* The sum over all entries of a combinatorial matrix */
 sum_com(M) := block(
  [R : listify(M[1]), m, C : listify(M[2]), n],
