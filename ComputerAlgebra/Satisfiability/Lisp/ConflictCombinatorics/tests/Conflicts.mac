@@ -96,6 +96,28 @@ okltest_partition_number_cs(f) := block(
   assert(f(sasg2000[2]) = 1),
 true)$
 
+
+/* *********
+   * Tests *
+   *********
+*/
+
+okltest_graphiccsp(f) := block(
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = true),
+  assert(f({{1},{-1}}) = true),
+  assert(f({{},{1}}) = true),
+  assert(f({{1,2},{-1,-2}}) = false),
+  true);
+
+okltest_alon_saks_cs(f) := block(
+  assert(f({}) = [true,true,0,1,1]),
+  assert(f({{}}) = [true,true,1,1,1]),
+  assert(f({{1},{-1}}) = [true,true,2,2,2]),
+  assert(f({{1,2},{-1,-2}}) = unknown),
+  true);
+
 /*!
 \endhtmlonly
 */

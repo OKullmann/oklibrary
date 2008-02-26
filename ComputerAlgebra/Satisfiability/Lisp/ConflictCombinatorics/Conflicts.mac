@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 
 
 /* *****************
@@ -78,6 +79,30 @@ independence_number_m_cs(F) := independence_number_cs(F, independence_number_gr_
 partition_number_cs(F, part_num_f) := part_num_f(cg_cs(F))$
 /* Using the Maxima-function */
 partition_number_m_cs(F) := partition_number_cs(F, partition_number_gr_m)$
+
+
+/* *********
+   * Tests *
+   *********
+*/
+
+/* Whether a clause-set is graphic (the conflict multigraph
+   is a graph) */
+graphiccsp(F) := is(max_com(scom2com(cm_cs(F))) <= 1)$
+
+/* The Alon-Saks-conjecture for graphs states that the chromatic number
+   is at most the biclique-partion number + 1.
+   We transfer this to clause-sets, and return unknown in case the clause-set
+   is not graphic, while otherwise a list is return with first entry a boolean
+   on whether the conjecture is true for this case or not.
+   The second entry is again a boolean, about the (likely false) strengthened
+   conjecture where n(F)+1 is lower-bounded by h(F)+1.
+   The remaining three entries are the numbers involved. */
+alon_saks_cs(F) := if not graphiccsp(F) then unknown else
+ block([chi : chromatic_number_gr_m(cg_cs(F)), 
+        r : hermitean_rank_cs(F), 
+        n : nvar_cs(F)],
+  return([is(chi <= n+1),is(chi <= r+1),chi,r+1,n+1]))$
 
 /*!
 \endhtmlonly
