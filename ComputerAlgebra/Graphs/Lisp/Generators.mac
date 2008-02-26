@@ -36,7 +36,7 @@ complete_gr(V) := [V, powerset(V,2)]$
 */
 
 /* Kneser-graphs: Vertices are the m-element subets of {1,..,n}, joined by an
-   edge if disjoint. */
+   edge if disjoint. Prerequisites: n >= m >= 1 */
 Kneser_graph(n,m) := block([sn : setn(n)],
  [powerset(sn, m), 
     map(setify, 
