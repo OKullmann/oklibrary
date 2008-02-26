@@ -23,6 +23,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfi
 
 okltest_remlitocc_greedy(remlitocc_greedy);
 
+okltest_marginal_musat1(marginal_musat1);
+
 /*!
 \endhtmlonly
 */

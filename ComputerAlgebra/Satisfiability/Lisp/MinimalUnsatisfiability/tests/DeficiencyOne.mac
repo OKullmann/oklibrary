@@ -39,6 +39,15 @@ okltest_remlitocc_greedy(f) := block(
     assert(is_tree(g2mg(cg_cs(F))) = true),
   true)$
 
+okltest_marginal_musat1(f) := block(
+  assert(f(0) = {{}}),
+  for k : 1 thru 4 do block([F : f(k)],
+    assert(length(F) = 2^k),
+    assert(max_variable_degree_cs(F) = 2),
+    assert(graphiccsp(F) = true),
+    assert(is_tree(g2mg(cg_cs(F))) = true)),
+  true)$
+
 /*!
 \endhtmlonly
 */

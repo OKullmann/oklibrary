@@ -66,7 +66,7 @@ remlitocc_greedy(F,k,r) := if F = {} or F = {{}} then [F, minf]
  return(res))$
 
 /* Marginal elements of MUSAT(1) with 2^k clauses */
-marginal_musat1(k) := remlitocc(uniform_usat_hitting_min(k),1,2)[1];
+marginal_musat1(k) := remlitocc_greedy(uniform_usat_hitting_min(k),1,2)[1];
 
 /*!
 \endhtmlonly
