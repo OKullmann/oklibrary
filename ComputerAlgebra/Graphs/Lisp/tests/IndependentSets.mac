@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac")
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/IndependentSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 kill(f)$
