@@ -189,6 +189,20 @@ OKplatform> (for F in $(find OKsystem/Transitional/ComputerAlgebra -path "*/test
      <li> Or we use a different configuration file, as discussed above; but
      still the problem how to get informed about the error. </li>
      <li> Is it really necessary to write to a file via "system" ??? </li>
+     <li> It seems that we should add the capability to the assert-function
+     that in case of error and oklib_automatic_test=true (by default it's
+     false) something is written to a file. </li>
+     <li> For batch-running testobject-files, before the run the file is
+     deleted, and if it has been created then the buildsystem issues an
+     error. </li>
+     <li> This assumes that every testobject-file is run on its own ---
+     seems alright. </li>
+     <li> The output of the batch-runs is all redirected into one log-file.
+     One needs to look at it from time to time. </li>
+     <li> Perhaps automatically one should parse the output for "error" etc.
+     </li>
+     <li> According to the e-mail reply by Mike Hansen to my request at the
+     Maxima-mailing list (27.2.2008) we could use the Sage interface. </li>
     </ol>
    </li>
   </ul>
