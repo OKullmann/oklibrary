@@ -36,6 +36,7 @@ License, or any later version. */
 
   \todo Matching autarkies
   <ul>
+   <li> See MatchingAutarkies/plans/general.hpp. </li>
    <li> Finding some matching autarky. </li>
    <li> Computing the matching-lean kernel. </li>
   </ul>
@@ -51,6 +52,18 @@ License, or any later version. */
 
 
   \todo Autarky search via running through all total assignments
+  <ul>
+   <li> First implement the autarky extraction as discussed in
+   AutarkySearch/plans/AnalyseTotalAssignment.hpp. </li>
+   <li> Then implement a simple search through all total
+   assignments. </li>
+   <li> We need a module on local search where we implement the basic
+   algorithms (of course, this will be slow, but that doesn't matter
+   here). </li>
+   <li> Then we can experiment with different connections to
+   local search (as discussed in
+   AutarkySearch/plans/AnalyseTotalAssignment.hpp. </li>
+  </ul>
 
 
   \todo Implement the translation of USAT to LEAN according the our

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.9.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,27 +15,35 @@ License, or any later version. */
 
   \par
    In AutarkySearch/plans/general.hpp the following topics are handled:
-    - Update namespaces
-    - Update plans
+    - Update namespaces : DONE
+    - Update plans : DONE
 
 
   \par Version 0.0.8
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-    - Complete correct compilation in AutarkySearch
-    - Connect with LocalSearch/plans/SupportTotalAssignments.hpp
-    - Design and implement class ComputeLargestAutarky
+   In AutarkySearch/plans/general.hpp the following topics are handled:
+    - Update namespace usage
+    - Link to ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/general.hpp
 
 
   \par Version 0.0.9
 
   \par
    In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
-    - Design and implement class AutarkySearchUbcsat
+    - Complete correct compilation in AutarkySearch
+    - Connections with other modules and parts
+    - Design and implement class ComputeLargestAutarky
 
 
   \par Version 0.0.10
+
+  \par
+   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+    - Design and implement class AutarkySearchUbcsat
+
+
+  \par Version 0.0.11
 
   \par
    In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
@@ -47,6 +55,16 @@ License, or any later version. */
   \par
    We have a first fully tested implementation using the method of
    AnalyseTotalAssignment, and start experimentation.
+
+
+
+  \par Version 0.1.1 :
+
+  \par
+   In AutarkySearch/plans/EvaluatePartialAssignments.hpp the following topics
+   are handled:
+    - Measures
+    - Design
 
 
   \par Version 0.2
