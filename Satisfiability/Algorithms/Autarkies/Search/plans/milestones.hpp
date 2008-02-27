@@ -6,15 +6,15 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AutarkySearch/plans/milestones.hpp
+  \file Autarkies/Search/plans/milestones.hpp
 
-  \module_version AutarkySearch 0.0.6 (23.6.2007)
+  \module_version Autarkies/Search 0.0.6 (23.6.2007)
 
 
   \par Version 0.0.7
 
   \par
-   In AutarkySearch/plans/general.hpp the following topics are handled:
+   In Autarkies/Search/plans/general.hpp the following topics are handled:
     - Update namespaces : DONE
     - Update plans : DONE
 
@@ -22,7 +22,7 @@ License, or any later version. */
   \par Version 0.0.8
 
   \par
-   In AutarkySearch/plans/general.hpp the following topics are handled:
+   In Autarkies/Search/plans/general.hpp the following topics are handled:
     - Update namespace usage
     - Link to ComputerAlgebra/Satisfiability/Lisp/Autarkies/plans/general.hpp
 
@@ -30,7 +30,8 @@ License, or any later version. */
   \par Version 0.0.9
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+   In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
+   are handled:
     - Complete correct compilation in AutarkySearch
     - Connections with other modules and parts
     - Design and implement class ComputeLargestAutarky
@@ -39,14 +40,16 @@ License, or any later version. */
   \par Version 0.0.10
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+   In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
+   are handled:
     - Design and implement class AutarkySearchUbcsat
 
 
   \par Version 0.0.11
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+   In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
+   are handled:
     - AnalyseTotalAssignment.cpp
 
 
@@ -61,7 +64,7 @@ License, or any later version. */
   \par Version 0.1.1 :
 
   \par
-   In AutarkySearch/plans/EvaluatePartialAssignments.hpp the following topics
+   In Autarkies/Search/plans/EvaluatePartialAssignments.hpp the following topics
    are handled:
     - Measures
     - Design
@@ -70,7 +73,8 @@ License, or any later version. */
   \par Version 0.2
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+   In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
+   are handled:
     - Complete autarky search
     - New file structure
 
@@ -78,7 +82,8 @@ License, or any later version. */
   \par Version 0.3
 
   \par
-   In AutarkySearch/plans/AnalyseTotalAssignment.hpp the following topics are handled:
+   In Autarkies/Search/plans/AnalyseTotalAssignment.hpp the following topics
+   are handled:
     - Changing UBCSAT
 
 

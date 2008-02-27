@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AutarkySearch/plans/general.hpp
+  \file Autarkies/Search/plans/general.hpp
   \brief Plans for the module on autarky search
 
   Searching for (single) autarkies, using complete or incomplete methods.

@@ -113,8 +113,8 @@ License, or any later version. */
   (see Parallelism/plans/milestones.hpp)
   \par Messages version 0.7.6 (OK)
   (see Messages/plans/milestones.hpp)
-  \par AutarkySearch version 0.0.7 (OK (ML))
-  (see AutarkySearch/plans/milestones.hpp)
+  \par Autarkies/Search version 0.0.7 (OK (ML))
+  (see Autarkies/Search/plans/milestones.hpp)
   \par SumProduct version 0.0.4 (OK, MH)
   (see SumProduct/plans/milestones.hpp)
   \par TestSystem version 0.1.4 
@@ -226,7 +226,7 @@ License, or any later version. */
    - most work in the buildsystem: new version control system Git, planning
      for the first release, various upgrades and improvements
    - completed the basic installation (and upgrading) of UBCSAT (in module LocalSearch),
-     and established usage (in module AutarkySearch)
+     and established usage (in module Autarkies/Search)
    - various SAT-plans expanded (on hypergraph transversals, cryptanalysis, Sudoku, problem generators,
      reductions, resolution)
    - some advancements in programming (usage of threads, numerics, messages).

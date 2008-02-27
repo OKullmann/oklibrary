@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AutarkySearch/plans/EvaluatePartialAssignments.hpp
+  \file Autarkies/Search/plans/EvaluatePartialAssignments.hpp
   \brief Evaluation of partial assignments, computing a heuristical
   value of how close the assignment is to an autarky for a given
   clause-set.

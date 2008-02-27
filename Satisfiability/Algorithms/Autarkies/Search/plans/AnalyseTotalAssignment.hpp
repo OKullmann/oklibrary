@@ -6,13 +6,13 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file AutarkySearch/plans/AnalyseTotalAssignment.hpp
+  \file Autarkies/Search/plans/AnalyseTotalAssignment.hpp
   \brief Decision, whether a given partial assignment contains an autarky, and
   applications for autarky search (via enumeration of all total assignments, or
   local search through total assignments).
 
   
-  \todo Complete correct compilation in AutarkySearch:
+  \todo Complete correct compilation:
    <ul>
     <li> Submit an error report to Gcc: Option "-I-" *cannot* be replaced by
     "-iquote", and there is also no alternative! </li>
@@ -32,7 +32,7 @@ License, or any later version. */
 
 
   \todo Design and implement class ComputeLargestAutarky (goes to
-  AutarkySearch/AnalyseTotalAssignment.hpp)
+  Autarkies/Search/AnalyseTotalAssignment.hpp)
   <ul>
    <li> Connecting to UBCSAT, computes largest autarky given a current total
    assignment and clause-set. </li>
@@ -42,7 +42,7 @@ License, or any later version. */
 
 
   \todo Design and implement class AutarkySearchUbcsat (goes to
-  AutarkySearch/AnalyseTotalAssignment.hpp)
+  Autarkies/Search/AnalyseTotalAssignment.hpp)
   <ul>
    <li> Use the class ComputeLargestAutarky: Run any UBCSAT-algorithm for
    finding a satisfying assignment, and check the total assignments considered

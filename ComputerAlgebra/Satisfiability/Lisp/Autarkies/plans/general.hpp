@@ -54,7 +54,7 @@ License, or any later version. */
   \todo Autarky search via running through all total assignments
   <ul>
    <li> First implement the autarky extraction as discussed in
-   AutarkySearch/plans/AnalyseTotalAssignment.hpp. </li>
+   Autarkies/Search/plans/AnalyseTotalAssignment.hpp. </li>
    <li> Then implement a simple search through all total
    assignments. </li>
    <li> We need a module on local search where we implement the basic
@@ -62,7 +62,7 @@ License, or any later version. */
    here). </li>
    <li> Then we can experiment with different connections to
    local search (as discussed in
-   AutarkySearch/plans/AnalyseTotalAssignment.hpp. </li>
+   Autarkies/Search/plans/AnalyseTotalAssignment.hpp. </li>
   </ul>
 
 

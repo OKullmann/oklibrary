@@ -61,7 +61,7 @@ License, or any later version. */
    universal variables). </li>
    <li> Of course, more heuristical schemes or polynomial-time algorithms for
    autarky search can also be used. </li>
-   <li> See AutarkySearch/plans/general.hpp. </li>
+   <li> See Autarkies/Search/plans/general.hpp. </li>
   </ul>
 
 

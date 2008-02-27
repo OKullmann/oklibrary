@@ -68,7 +68,7 @@ namespace OKlib {
         typedef string_type el_t;
 
         prefix_vector_2 +=
-          el_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem");
+          el_t("AnalyseTotalAssignment.hpp/Autarkies/Search/OKsystem");
 
         prefix_vector +=
           el_t("test001.hpp/dir001/"),
@@ -111,7 +111,7 @@ namespace OKlib {
         typedef tuple_type el_t;
 
         extension_vector_2 +=
-          el_t("AnalyseTotalAssignment.hpp",true,"AnalyseTotalAssignment.hpp/AutarkySearch/OKsystem",true);
+          el_t("AnalyseTotalAssignment.hpp",true,"AnalyseTotalAssignment.hpp/Autarkies/Search/OKsystem",true);
 
         extension_vector +=
           el_t("test001.hpp",true,"test001.hpp/dir001/",true),

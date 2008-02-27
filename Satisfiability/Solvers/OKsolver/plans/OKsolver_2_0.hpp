@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.2.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -134,7 +134,7 @@ License, or any later version. */
 
   \todo Autarky search
   <ul>
-   <li> Autarky search (see module AutarkySearch) is integrated with global learning
+   <li> Autarky search (see module Autarkies/Search) is integrated with global learning
    via the fundamental duality between resolution and autarkies: The global
    learning component manages the set of variables used in the current resolution
    tree fragment (for this node(!)), and at every node of the search tree after
@@ -203,7 +203,7 @@ License, or any later version. */
    <li> Even if the local search algorithm only searches for a satisfying assignment,
    perhaps it's still worth trying in case no satisfying assignment was found if the
    assignment nevertheless contained an autarky (see
-   AutarkySearch/plans/AnalyseTotalAssignment.hpp). </li>
+   Autarkies/Search/plans/AnalyseTotalAssignment.hpp). </li>
   </ul>
 
 

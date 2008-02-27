@@ -76,7 +76,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef value_type v_t;
         vec_pair_include_directive += 
-          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKlibrary/AutarkySearch/AnalyseTotalAssignment.hpp");
+          v_t(0,0,"AnalyseTotalAssignment.hpp",source_code_header,"OKlibrary/Autarkies/Search/AnalyseTotalAssignment.hpp");
         assert(vec_pair_include_directive.size() == 1);
       }      
 
@@ -134,7 +134,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef string_type s_t;
         ref_prefix_vector += 
-          s_t("AnalyseTotalAssignment.hpp/AutarkySearch/OKlibrary");
+          s_t("AnalyseTotalAssignment.hpp/Autarkies/Search/OKlibrary");
       }      
     };
         
@@ -161,7 +161,7 @@ namespace OKlib {
         using namespace boost::assign;
         typedef program_pair_type pp_t;
         working_vector +=
-          pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKlibrary/AutarkySearch/AnalyseTotalAssignment.hpp\"");
+          pp_t("#include \"AnalyseTotalAssignment.hpp\"","#include \"OKlibrary/Autarkies/Search/AnalyseTotalAssignment.hpp\"");
       }
 
       string_type program(const_iterator iter) const {
