@@ -20,6 +20,7 @@ License, or any later version. */
    - doxygen documentation
    - new plans files and todo's transferred
    - new milestones
+   - bug in DataStructures/Search/AssociativeContainers_Tests.hpp
 
 
   \todo New test system

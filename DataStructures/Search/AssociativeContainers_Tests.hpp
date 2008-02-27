@@ -8,6 +8,10 @@ License, or any later version. */
 /*!
   \file DataStructures/Search/AssociativeContainers_Tests.hpp
   \brief Tests for search data structures.
+
+  \bug The tests succeed though the inverted path for Autarkies/Search
+  is wrong. It seems these tests are not performed.
+
 */
 
 #ifndef ASSOCIATIVECONTAINERSTESTS_okMMnh
