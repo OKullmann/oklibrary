@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Algorithms/Autarkies/plans/milestones.hpp
 
-  \module_version Algorithms/Autarkies 0.0.4 (24.9.2007)
+  \module_version Algorithms/Autarkies 0.0.4.2 (27.2.2008)
 
 
   \par Version 0.0.5
@@ -16,8 +16,14 @@ License, or any later version. */
   \par MatchingAutarkies version 0.0.2
   (see MatchingAutarkies/plans/milestones.hpp)
 
-  \par AutarkySearch 0.0.7
+  \par AutarkySearch 0.0.7 : DONE
   (see AutarkySearch/plans/milestones.hpp)
+
+  \par
+   In Satisfiability/Algorithms/Autarkies/plans/general.hpp the following
+   topics are handled:
+    - Update namespaces : DONE
+    - Move Transitional/AutarkySearch here : DONE
 
 
 
