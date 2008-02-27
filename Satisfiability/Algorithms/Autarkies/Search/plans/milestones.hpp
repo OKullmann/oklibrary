@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Autarkies/Search/plans/milestones.hpp
 
-  \module_version Autarkies/Search 0.0.6 (23.6.2007)
-
-
-  \par Version 0.0.7
-
-  \par
-   In Autarkies/Search/plans/general.hpp the following topics are handled:
-    - Update namespaces : DONE
-    - Update plans : DONE
+  \module_version Autarkies/Search 0.0.7 (27.2.2008)
 
 
   \par Version 0.0.8
@@ -103,6 +95,7 @@ License, or any later version. */
    - 0.0.4 : 9.11.2006; started integrating UBCSAT.
    - 0.0.5 : 31.1.2007; UBCSAT locally installed (under ExternalSources).
    - 0.0.6 : 23.6.2007; updated implementations from C to C++, and usage of corrected Ubcsat-headers (as well as adapted Ubcsat-headers).
+   - 0.0.7 : 27.2.2008; update of plans, complete reorganisation; a big change is the development of "procedural specifications" in the computer algebra part.
 
 */
 
