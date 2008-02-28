@@ -68,6 +68,8 @@ License, or any later version. */
     the conflict-indepence-number equals the hermitean defect, and show that
     weak_php is an instance (while not being eigensharp).
    </li>
+   <li> The number of prime implicates for satisfiable php would be
+   interesting. </li>
   </ul>
 
 
