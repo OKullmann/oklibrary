@@ -16,6 +16,8 @@ License, or any later version. */
   <h2> Configuration </h2>
 
   <ul>
+   <li> For questions related to building Maxima see
+   Buildsystem/ExternalSources/SpecialBuilds/docus/Maxima.hpp. </li>
    <li> Via <code>oklib --maxima</code> (see
    Buildsystem/MasterScript/docus/general.hpp for general information on the
    masterscript "oklib") a Maxima-console is opened, with
@@ -35,11 +37,17 @@ License, or any later version. */
       </ul>
      </li>
     </ol>
+    Further parameter can be provided (they are passed on to Maxima),
+    so for example by
+    \verbatim
+oklib --maxima --batch=FILE
+    \endverbatim
+    the file FILE is batch-processed by Maxima.
    </li>
    <li> Inside a Maxima-file (in the context of the OKlibrary) inclusion of
    other Maxima-files happens via <code>oklib_include(filename)</code>,
    where filename is the relative path starting with "Transitional". </li>
-   <li> Access to configuration variables:
+   <li> Access to configuration-variables:
     <ol>
      <li> From a Maxima-session, via "system(string_with_shell_code)" one can
      perform system calls, however to obtain the value of a variable,
@@ -57,11 +65,15 @@ License, or any later version. */
   <h2> Documentation in general </h2>
 
   <ul>
+   <li> For general Maxima-documentation see
+   $(maxima_html_documentation_index_location_tag_okl). All further
+   documentation below is on the Maxima-library provided by the OKlibrary.
+   </li>
    <li> For a tutorial see ComputerAlgebra/docus/MaximaTutorial.hpp. </li>
    <li> The demonstrations (in <code>demos</code>-subdirectories) can be run via
    <code>oklib_demo(filename)</code> (as to be found in the preamble of the
-   respective demos-file). After showing each expression to be evaluated you need
-   to press the cr-key. </li>
+   respective demos-file). After showing each expression to be evaluated,
+   Maxima waits for the user to press the cr-key. </li>
    <li> Another possibility to load a file with protocolling of the expressions
    to be executed is to use <code>oklib_batch</code>, which, different from
    oklib_demo, does not pause after each expression. </li>
