@@ -177,8 +177,12 @@ License, or any later version. */
      <li> Likely the most useful translation is obvious translation to CNF,
      from the DNF via the Tseitin-translation. Perhaps some optimisation can
      be applied. </li>
-     <li> This translation works independent of the specific nature of the S-boc
+     <li> This translation works independent of the specific nature of the S-box
      etc. --- any table can be used. </li>
+     <li> One can also run a SAT-solver on the DNF-representation, taken as CNF,
+     in order to get a hitting clause-set representation of the falsifying
+     assignments. Interesting whether something smaller than the full CNF
+     is created. </li>
     </ol>
    </li>
    <li> Obviously also of interest are OBDD representations of these boolean
