@@ -34,15 +34,17 @@ License, or any later version. */
   <h2> Current state of installation </h2>
 
   <ul>
-   <li> maxima-program call = <code>$(maxima_call_okl)</code> </li>
-   <li> ready: $(maxima_call_ready_okl)
+   <li> Recommended version =
+   <code>$(maxima_recommended_version_number_okl)</code> </li>
+   <li> Maxima-program call = <code>$(maxima_call_okl)</code> </li>
+   <li> Ready: $(maxima_call_ready_okl)
     <ul>
      <li> location = $(location_maxima_call_okl) </li>
      <li> version = <code>$(version_maxima_call_okl)</code>
      </li>
     </ul>
    </li>
-   <li> documentation: $(maxima_html_documentation_index_location_tag_okl) </li>
+   <li> Documentation: $(maxima_html_documentation_index_location_tag_okl) </li>
   </ul>
 
 
