@@ -10,13 +10,6 @@ License, or any later version. */
   \brief Plans for cryptological tools realised in Maxima/Lisp
 
 
-  \todo New structure
-  <ul>
-   <li> In the CryptoSystems- as well as in the Cryptanalysis-modules we
-   need sub-modules "Rijndael". </li>
-  </ul>
-
-
   \todo Conversion Functions
   <ul>
     <li> Needs tidying. </li>
@@ -38,6 +31,13 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo New structure DONE
+  <ul>
+   <li> DONE In the CryptoSystems- as well as in the Cryptanalysis-modules we
+   need sub-modules "Rijndael". </li>
   </ul>
 
 

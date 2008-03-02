@@ -19,69 +19,49 @@ License, or any later version. */
     - New structure
     - Create milestones : DONE
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Create / update milestones
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Split "Maxima: design" into subtopics DONE
-    - Split "Maxima: implementation issues" into subtopics DONE
-    - File Extensions : DONE
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.6
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
 
 
   \par Version 0.0.7
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Tests
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.7
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
+  
+  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis version 0.0.3
+  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
 
 
   \par Version 0.0.8
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Modularising the Rijndael-implementation
-    - New design and implementation
-    - Finite Field operations
-    - Key schedule
-    - Design of round functions
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.8
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
   
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
-   the following topics are handled:
-    - Conversion Functions
+  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis version 0.0.4
+  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
 
 
   \par Version 0.0.9
 
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Docus and Demos
-    - Requirements
-    - Coding Standards
-
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.9
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
+  
+  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis version 0.0.5
+  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
 
   \par Version 0.1
 
-  \par
-   An elegant and fully tested and documented AES implementation is completed.
-  
-  \par
-   Update the following milestones.
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.1
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
 
 
   \par Version 0.1.1
 
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.1.1
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
+  
   \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Generalisations
+   Update the following milestones.
 
 
 

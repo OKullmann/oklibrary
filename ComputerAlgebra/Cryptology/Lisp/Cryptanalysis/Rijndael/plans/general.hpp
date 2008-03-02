@@ -9,8 +9,8 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
   \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
 
-
-  \todo Create / update milestones
+  
+  \todo Review and tidy todos
 
   
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic Aspects
@@ -275,6 +275,9 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
+  
+
+  \todo Create / update milestones DONE
 
 
 */

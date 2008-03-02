@@ -25,13 +25,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Expand docus
-  <ul>
-   <li> Add basic overview of AES/Rijndael.</li>
-   <li> Add additional terminology and refine current terminology</li>
-  </ul>
-  
-  
   \todo Terminology (DONE Moved to 
   ComputerAlgebra/Cryptology/docus/Rijndael.hpp)
   <ul>
