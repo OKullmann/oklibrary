@@ -9,6 +9,12 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
   \brief Plans for the Rijndael CryptoSystem in maxima/lisp
 
+  \todo Create data
+  <ul>
+   <li> Create data directory with sbox array data. </li>
+   <li> What additional data needs to go here? </li>
+  </ul>
+
   \todo Tests
   <ul>
    <li> Tests are needed for this. </li>
