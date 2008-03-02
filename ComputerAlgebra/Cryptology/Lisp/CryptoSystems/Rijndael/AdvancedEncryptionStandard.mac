@@ -215,7 +215,8 @@ rijndael_inv_affine_constant : x^2 + 1$
 
 rijndael_sbox_matrix : apply(matrix,
     makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
-/* rijndael_inv_sbox_matrix : egf_matinv(rijndael_bit_field,rijndael_sbox_matrix)$ */
+rijndael_inv_sbox_matrix : apply(matrix,
+  makelist(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
 
 sbox(byte) := 
   block([invbyte,result],
@@ -238,19 +239,26 @@ inv_sbox(byte) :=
     else egf_inv(final_result)
 )$
 
+/* Sbox implementation that utilises a lookup array to provide fast operation */
+lookup_sbox(byte) := sbox_data[byte];
+
+/* Inverse Sbox implementation that utilises a lookup array to provide 
+   fast operation */
+lookup_inv_sbox(byte) := inv_sbox_data[byte];
+
 /* 
    Takes the input block as a list of 16 bytes and applies
    the sbox operation to each byte, returning the list of 
    result bytes.
 */
-subbytes(inputblock) := map(sbox, inputblock)$
+subbytes(inputblock, sbox_f) := map(sbox_f, inputblock)$
 
 /* 
    Takes the input block as a list of 16 bytes and applies
    the inverse sbox operation to each byte, returning the list of 
    result bytes.
 */
-inv_subbytes(inputblock) := map(inv_sbox, inputblock)$
+inv_subbytes(inputblock,inv_sbox_f) := map(inv_sbox_f, inputblock)$
 
 /*
    List of shifts left for each row in the block in the  shiftrows
@@ -284,7 +292,8 @@ inv_shiftrows(inputblock) :=
 */
 rijndael_mixcolumns_matrix : apply(matrix, 
     makelist(rotate([x, x + 1, 1, 1], i),i,0,3))$
-rijndael_inv_mixcolumns_matrix : egf_matinv(rijndael_mixcolumns_matrix)$
+rijndael_inv_mixcolumns_matrix :apply(matrix,
+  makelist(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -310,15 +319,15 @@ inv_mixcolumns(inputblock) :=
   of the plaintext block, and the number of rounds and returns the expanded key
   (all of the round keys as one large block) as a list of GF(2^8) elements.
 */
-key_expansion(kl, n_b ,n_r) := block(
+key_expansion(kl, n_b ,n_r, sbox_f) := block(
   [n_k : length(kl) / 4, 
   cols : matrixcolumns(apply(matrix,partition(kl, 4))) ],
   for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
     if mod(j, n_k) = 0 then block (
       column[1] : egf_add(cols[j-n_k+1][1], 
-        egf_add(sbox(cols[j][2]), x^(floor(j/n_k) -1))),
+        egf_add(sbox_f(cols[j][2]), x^(floor(j/n_k) -1))),
       for i : 1 thru 3 do 
-        column[i+1] : egf_add(cols[j-n_k+1][i+1], sbox(cols[j][mod(i+1,4)+1])))
+        column[i+1] : egf_add(cols[j-n_k+1][i+1], sbox_f(cols[j][mod(i+1,4)+1])))
     else for i : 1 thru 4 do 
       column[i] : egf_add(cols[j][i], cols[j-n_k+1][i]),
     cols : append(cols, [column])),
@@ -332,24 +341,25 @@ key_expansion(kl, n_b ,n_r) := block(
    returns a list of the same size of GF(2^8) elements as the plaintext
    as the result of the round operation. 
  */
-aes_round(pl, rkl) := map(egf_add,mixcolumns(shiftrows(subbytes(pl))), rkl)$
-inv_aes_round(pl,rkl) := 
-  inv_subbytes(inv_shiftrows(inv_mixcolumns(map(egf_add,pl,rkl))))$
+aes_round(pl, rkl, sbox_f) := 
+  map(egf_add,mixcolumns(shiftrows(subbytes(pl,sbox_f))), rkl)$
+inv_aes_round(pl,rkl,inv_sbox_f) := 
+  inv_subbytes(inv_shiftrows(inv_mixcolumns(map(egf_add,pl,rkl))), inv_sbox_f)$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes_encrypt(pl, kl) := block(
+aes_encrypt(pl, kl, sbox_f) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
-  ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),
+  ekl : partition(key_expansion(kl,n_b,num_rounds, sbox_f),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
-  initial_result : lreduce(aes_round, rest(rest(ekl), -1), 
-    map(egf_add,pl,initial_rk)),
+  initial_result : lreduce(lambda([a,b],aes_round(a,b,sbox_f)), 
+    rest(rest(ekl), -1), map(egf_add,pl,initial_rk)),
   /* Final Round */
-  map(egf_add,shiftrows(subbytes(initial_result)), final_rk)
+  map(egf_add,shiftrows(subbytes(initial_result,sbox_f)), final_rk)
 )$
 
 /* 
@@ -357,15 +367,16 @@ aes_encrypt(pl, kl) := block(
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    decryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes_decrypt(pl, kl) := block(
+aes_decrypt(pl, kl, sbox_f, inv_sbox_f) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
-  ekl : partition(key_expansion(kl,n_b,num_rounds),n_b*4),
+  ekl : partition(key_expansion(kl,n_b,num_rounds,sbox_f),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   initial_result : 
-    inv_subbytes(inv_shiftrows(map(egf_add,pl,final_rk))),
-  map(egf_add, rreduce(inv_aes_round, rest(rest(ekl), -1), initial_result), initial_rk)
+    inv_subbytes(inv_shiftrows(map(egf_add,pl,final_rk)), inv_sbox_f),
+  map(egf_add, rreduce(lambda([a,b],inv_aes_round(a,b,inv_sbox_f)), 
+    rest(rest(ekl), -1), initial_result), initial_rk)
 )$
 
 

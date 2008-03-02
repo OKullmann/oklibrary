@@ -11,8 +11,8 @@ License, or any later version. */
 
   \todo Create data
   <ul>
-   <li> Create data directory with sbox array data. </li>
    <li> What additional data needs to go here? </li>
+   <li> Create data directory with sbox array data. DONE </li>
   </ul>
 
   \todo Tests
