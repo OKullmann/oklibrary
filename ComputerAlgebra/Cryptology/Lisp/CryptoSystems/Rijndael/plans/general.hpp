@@ -15,15 +15,6 @@ License, or any later version. */
    <li> Create data directory with sbox array data. DONE </li>
   </ul>
 
-  \todo Tests
-  <ul>
-   <li> Tests are needed for this. </li>
-   <li> A simple test of each component (sbox etc) is needed. </li>
-   <li> A test of the main aes encryption and decryption functions is needed
-   checking edge cases, and then some test vectors given in [Design of 
-   Rijndael]. </li>
-  </ul>
- 
 
   \todo Modularising the Rijndael-implementation
   <ul>
@@ -335,6 +326,16 @@ License, or any later version. */
    of size e. </li>
   </ul>
 
+  
+  \todo Tests DONE
+  <ul>
+   <li> Tests are needed for this. DONE </li>
+   <li> A simple test of each component (sbox etc) is needed. DONE </li>
+   <li> A test of the main aes encryption and decryption functions is needed
+   checking edge cases, and then some test vectors given in [Design of 
+   Rijndael]. DONE </li>
+  </ul>
+ 
 
   \todo File Extensions : DONE (for now we use the current "standard")
   <ul>

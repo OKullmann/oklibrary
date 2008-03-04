@@ -27,7 +27,7 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Create data
-    - Tests
+    - Tests DONE
 
 
   \par Version 0.0.8
