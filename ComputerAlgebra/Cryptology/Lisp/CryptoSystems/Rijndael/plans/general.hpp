@@ -137,6 +137,12 @@ License, or any later version. */
     field set with egf_set. This would allow one to set a default field but then
     perform other operations in other fields if necessary without 
     interrupting the flow of code. </li>
+    <li> Calling egf_set once in a file causes problems as then if that file 
+    is loaded and then other operations are performed then this original set
+    can not be relied on, but clearly there is an overhead (of around 2 
+    seconds or more on a current machine) to this operation. </li>
+    <li> Perhaps have this operation check to see if the field being set is
+    different to the current field and only then call gf_set? </li>
    </ol>
    </li>
    <li> DONE Since we need the package, and it 

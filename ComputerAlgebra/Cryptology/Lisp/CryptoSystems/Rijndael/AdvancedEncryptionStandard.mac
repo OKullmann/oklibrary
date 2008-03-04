@@ -208,7 +208,6 @@ egf_inv([args]) := egf_func(gf_inv, 1, args)$
    byte field unless otherwise specified.
 */
 egf_set(rijndael_byte_field);
-/* REMARK : This is unsuitable, since it makes the operations unreliable. */
 
 rijndael_affine_constant : x^6 + x^5 + x + 1$
 rijndael_inv_affine_constant : x^2 + 1$ 
