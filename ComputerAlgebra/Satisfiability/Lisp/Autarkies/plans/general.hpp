@@ -26,6 +26,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Translation to SAT according to Liffiton and Sakallah
+  <ul>
+   <li> Extend the documentation on the meaning of the variables. </li>
+   <li> Implement the back-translation, satisfying assignments
+   to autarkies. </li>
+   <li> Derive an autarky-search-function (searching for some
+   non-trivial autarky, using some SAT-solver as argument). </li>
+   <li> Write a generic autarky-search-test (for functions which
+   return a non-trivial autarky or "false" if none exists). </li>
+   <li> Create a demo. </li>
+  </ul>
+
+
   \todo Lean kernel via variable-elimination
   <ul>
    <li> Implement the computation of the lean kernel via a SAT-solver,
