@@ -273,22 +273,47 @@ git config remote.origin.url
      the git-daemon seems to be needed. </li>
     </ol>
    </li>
-   <li> Why does the following not work: On csltok I have a copy of a clone of a repository on cs-wsok;
-   now when trying to push to it remotely, the following happens:
-   \verbatim
+   <li> Why does the following not work:
+    <ol>
+     <li> On csltok I have a copy of a clone of a repository on cs-wsok;
+     now when trying to push to it remotely, the following happens:
+     \verbatim
 > git push csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional
 Password:
 bash: git-receive-pack: command not found
 fatal: The remote end hung up unexpectedly
 error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
-   \endverbatim
-   What's wrong here?? The command is there:
-   \verbatim
+     \endverbatim
+     What's wrong here?? The command is there:
+     \verbatim
 > which git-receive-pack
 /usr/local/bin/git-receive-pack
-   \endverbatim
-   A similar thing happened on cs-oksvr when trying to clone there a repository from cs-wsok.
-   </li>
+     \endverbatim
+     A similar thing happened on cs-oksvr when trying to clone there a repository from cs-wsok.
+     </li>
+     <li> The solutions for "pull" is
+     \verbatim
+Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-upload-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
+     \endverbatim
+     </li>
+     <li> For "push" the following should work:
+     \verbatim
+Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
+     \endverbatim
+     however this creates the error
+     \verbatim
+Password:
+Counting objects: 133, done.
+Compressing objects: 100% (99/99), done.
+Writing objects: 100% (103/103), 19.61 KiB, done.
+Total 103 (delta 61), reused 0 (delta 0)
+fatal: exec index-pack failed.
+error: unpack failed: index-pack abnormal exit
+To ssh://csoliver@137.44.2.227/~/SAT-Algorithmen/OKplatform/OKsystem/Transitional
+ ! [remote rejected] master -> master (n/a (unpacker error))
+     \endverbatim
+     ???
+     </li>
   </ul>
 
 
