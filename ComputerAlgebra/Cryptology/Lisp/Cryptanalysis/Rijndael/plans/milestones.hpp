@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael 0.0.4 (27.2.2008)
+  \module_version Lisp/Cryptanalysis/Rijndael 0.0.4 (7.3.2008)
 
 
   \par Version 0.0.5
@@ -56,6 +56,6 @@ License, or any later version. */
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.4 : 27.2.2008; initial version number (quite a few Rijndael-related plans).
+   - 0.0.4 : 7.3.2008; initial version number (quite a few plans for translations to SAT).
 
 */
