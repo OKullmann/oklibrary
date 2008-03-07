@@ -101,6 +101,70 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
        </li>
       </ol>
      </li>
+     <li> Satz
+      <ol>
+       <li> ParaSatz
+       \verbatim
+Satz> tar -xzf ../../../sources/SAT/Satz/ParaSatz.tar.gz
+Satz> cd ParaSatz
+       \endverbatim
+       this is mainly a script to run Satz (214) in parallel. </li>
+       <li> adaptg2wsat+
+       \verbatim
+Satz> tar -xf ../../../sources/SAT/Satz/adaptg2wsat+ForCompetition.tar
+Satz> cd adaptg2wsat+ForCompetition
+adaptg2wsat+ForCompetition> make
+       \endverbatim
+       creates executable adaptg2wsat+. And there is a pdf-file. </li>
+       <li> adaptg2wsat0
+       \verbatim
+Satz> tar -xf ../../../sources/SAT/Satz/adaptg2wsat0.tar
+Satz> cd adaptg2wsat0
+adaptg2wsat0> make
+       \endverbatim
+       proces executable adaptg2wsat0, and there is a pdf-file. </li>
+       <li> adaptg2wsat0, competition version:
+       \verbatim
+Satz> tar -xf ../../../sources/SAT/Satz/adaptg2wsat0ForCompetition.tar
+Satz> cd adaptg2wsat0ForCompetition
+       \endverbatim
+       the make-file is erreneous (easy to be corrected: wrong file-name). </li>
+       <li> eqsatz
+       \verbatim
+Satz> cp ../../../sources/SAT/Satz/eqsatz20.c .
+Satz> gcc -O3 -o eqsatz eqsatz20.c
+       \endverbatim
+       </li>
+       <li> g2wsat
+       \verbatim
+kullmann-0:Satz> cp ../../../sources/SAT/Satz/g2wsat2005.c .
+kullmann-0:Satz> gcc -O3 -o g2wsat g2wsat2005.c
+       \endverbatim
+       </li>
+       <li> Maxsat
+       \verbatim
+Satz> tar -xzf ../../../sources/SAT/Satz/maxsatz.tar.gz
+Satz> cd maxsatz
+maxsatz> make
+       \endverbatim
+       creates executables maxsatz, maxsat0, maxsat12, maxsat1234.
+       </li>
+       <li> Compactor
+       \verbatim
+Satz> cp ../../../sources/SAT/Satz/my_compact.c .
+Satz> gcc -O3 -o compact my_compact.c
+       \endverbatim
+       </li>
+       <li>
+       \verbatim
+Satz> cp ../../../sources/SAT/Satz/satz214.2.c .
+Satz> gcc -O3 -o satz214 satz214.2.c
+Satz> cp ../../../sources/SAT/Satz/satz215.2.c .
+Satz> gcc -O3 -o satz215 satz215.2.c
+       \endverbatim
+       </li>
+      </ol>
+     </li>
      <li> BASolver http://logic.pdmi.ras.ru/~basolver/index.html (apparently
      doesn't have a licence; so well); contains also documentation about boolean
      function formats etc. </li>
@@ -179,6 +243,8 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo Automated theorem proving
   <ul>
+   <li> ACL2 http://www.cs.utexas.edu/~moore/acl2/ (especially interesting since
+   they are using SAT). </li>
    <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/
     <ol>
      <li> Installation:
