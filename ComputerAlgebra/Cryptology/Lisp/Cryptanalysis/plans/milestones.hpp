@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/Cryptanalysis 0.0.2 (27.2.2008)
+  \module_version Cryptology/Lisp/Cryptanalysis 0.0.2 (7.3.2008)
 
 
   \par Version 0.0.3
@@ -24,6 +24,6 @@ License, or any later version. */
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.2 : 27.2.2008; initial version number (several plans related to AES).
+   - 0.0.2 : 7.3.2008; initial version number (several plans related to AES).
 
 */
