@@ -277,8 +277,11 @@ License, or any later version. */
   </ul>
   
 
-  \todo Create / update milestones DONE
-
+  \todo Create / update milestones
+  <ul>
+   <li> The first goal is with milestone 0.1, where we have a working
+   translation. </li>
+  </ul>
 
 */
 

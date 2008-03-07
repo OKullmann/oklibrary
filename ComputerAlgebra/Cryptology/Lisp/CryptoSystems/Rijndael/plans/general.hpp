@@ -7,7 +7,8 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-  \brief Plans for the Rijndael CryptoSystem in maxima/lisp
+  \brief Plans for the Rijndael crypto system in Maxima/Lisp
+
 
   \todo Create data
   <ul>

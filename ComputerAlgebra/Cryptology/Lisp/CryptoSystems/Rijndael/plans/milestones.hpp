@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael 0.0.5.1 (26.2.2008)
+  \module_version ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael 0.0.5 (20.12.2007)
 
 
   \par Version 0.0.6
@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Tests : DONE
     - Split "Maxima: design" into subtopics DONE
     - Split "Maxima: implementation issues" into subtopics DONE
     - File Extensions : DONE
@@ -27,7 +28,6 @@ License, or any later version. */
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
     - Create data
-    - Tests DONE
 
 
   \par Version 0.0.8
@@ -42,7 +42,7 @@ License, or any later version. */
     - Design of round functions
   
   
-  \par Version 0.0.9
+  \par Version 0.1
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
@@ -51,12 +51,6 @@ License, or any later version. */
     - Requirements
     - Coding Standards
 
-
-  \par Version 0.1
-
-  \par
-   An elegant and fully tested and documented AES implementation is completed.
-  
   \par
    Update the following milestones.
 

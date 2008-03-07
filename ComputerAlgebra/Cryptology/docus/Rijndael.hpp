@@ -7,8 +7,9 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/docus/Rijndael.hpp
-  \brief The docus for Computer Algebra System Implementations of the Rijndael block cipher.
+  \brief The docus for computer algebra system implementations of the Rijndael block cipher.
   
+
   <h1> Terminology </h1>
 
   <ul>
@@ -44,6 +45,5 @@ License, or any later version. */
    in general, modelled as a (4xn) matrix of bytes (hence the requirement for 
    block size to be in increments of 32 bits).</li>
   </ul>
-
 
 */

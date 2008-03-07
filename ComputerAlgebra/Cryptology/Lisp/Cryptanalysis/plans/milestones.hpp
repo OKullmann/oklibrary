@@ -13,32 +13,17 @@ License, or any later version. */
 
   \par Version 0.0.3
 
-  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.3
-  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
-  
-
-  \par Version 0.0.4
-  
-  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.4
-  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
-  
-
-  \par Version 0.0.5
-
   \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.5
   (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
 
+  \par
+   Update the following milestones.
 
-  \par Version 0.0.6
-  
-  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.6
-  (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
 
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.2 : 27.2.2008; initial version number.
-
+   - 0.0.2 : 27.2.2008; initial version number (several plans related to AES).
 
 */

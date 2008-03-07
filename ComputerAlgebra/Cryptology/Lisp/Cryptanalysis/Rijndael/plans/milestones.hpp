@@ -8,32 +8,39 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael 0.0.2 (27.2.2008)
-
-
-  \par Version 0.0.3
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Review and tidy todos
-    - Create / update milestones DONE
-
-
-  \par Version 0.0.4
-  
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Encoding AES (top down)
+  \module_version ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael 0.0.4 (27.2.2008)
 
 
   \par Version 0.0.5
 
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Review and tidy todos
+    - Create / update milestones
+
+
+  \par Version 0.1
+  
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Encoding AES (top down)
+
+  \par
+   The aim is to have a first translation, so that amongst others SAT-solvers
+   can be utilised to attack AES.
+
+  \par
+   Update the following milestones.
+
+
+  \par Version 0.1.1
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
     - Discussion on Generalisation/Parameterisation
 
 
-  \par Version 0.0.6
+  \par Version 0.1.2
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
@@ -45,10 +52,10 @@ License, or any later version. */
    Update the following milestones.
 
 
+
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.2 : 27.2.2008; initial version number.
-
+   - 0.0.4 : 27.2.2008; initial version number (quite a few Rijndael-related plans).
 
 */
