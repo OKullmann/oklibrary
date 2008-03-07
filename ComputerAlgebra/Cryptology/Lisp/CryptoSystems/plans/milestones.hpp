@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/CryptoSystems 0.0.3.1 (7.3.2008)
+  \module_version Cryptology/Lisp/CryptoSystems 0.0.3.1 (7.3.2008)
 
 
   \par Version 0.0.4
@@ -38,6 +38,9 @@ License, or any later version. */
 
   \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael version 0.2
   (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp)
+
+  \par
+   The implementation of at least one other cryptosystem has started.
 
 
 
