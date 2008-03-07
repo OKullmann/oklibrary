@@ -247,7 +247,7 @@ sat_length_2_ways(t,s) := [length(bth_saturated_greedy(t,s)),
 
 
 /* **********************************************************
-   * Section "Evaluating and optimising distance functions" *
+   * Section "How to select distances and measures" *
    **********************************************************
 */
 
@@ -270,8 +270,16 @@ tpd_variance(T_3_tpd);
 
 /* The trivial heuristics */
 
-trivial_ncl_ucp1 : amended_heuristics_lookahead_distances(generalised_ucp1, [trivial_distance], [tau2], trivial_sat_approx, [delta_n,delta_c,delta_l])$
-trivial_ncl_ast_54 : dll_red_st_dist(weak_php(5,4), trivial_ncl_ucp1, generalised_ucp1);
+trivial_ncl_ucp1 : amended_heuristics_lookahead_distances(
+  generalised_ucp1, 
+  [trivial_distance], 
+  [tau2], 
+  trivial_sat_approx, 
+  [delta_n,delta_c,delta_l])$
+trivial_ncl_ast_54 : dll_red_st_dist(
+  weak_php(5,4), 
+  trivial_ncl_ucp1, 
+  generalised_ucp1);
 
 assert(nnds_l(trivial_ncl_ast_54) = 103);
 assert(height(l2ult(trivial_ncl_ast_54)) = 8);
@@ -390,8 +398,16 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_lt_ast_54), 512.0);
 
 /* The weighted number of clauses as heuristics */
 
-wnc_nclt_ucp1 : amended_heuristics_lookahead_distances(generalised_ucp1, [wn_newclauses(weightingscheme_OKsolver2002)], [tau2], trivial_sat_approx, [delta_n,delta_c,delta_l,trivial_distance])$
-wnc_nclt_ast_54 : dll_red_st_dist(weak_php(5,4), wnc_nclt_ucp1, generalised_ucp1);
+wnc_nclt_ucp1 : amended_heuristics_lookahead_distances(
+  generalised_ucp1, 
+  [wn_newclauses(weightingscheme_OKsolver2002)], 
+  [tau2], 
+  trivial_sat_approx, 
+  [delta_n,delta_c,delta_l,trivial_distance])$
+wnc_nclt_ast_54 : dll_red_st_dist(
+  weak_php(5,4), 
+  wnc_nclt_ucp1, 
+  generalised_ucp1);
 
 assert(nnds_l(wnc_nclt_ast_54) = 47);
 assert(height(l2ult(wnc_nclt_ast_54)) = 10);
