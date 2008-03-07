@@ -8,18 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael 0.0.5 (20.12.2007)
-
-
-  \par Version 0.0.6
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Tests : DONE
-    - Split "Maxima: design" into subtopics DONE
-    - Split "Maxima: implementation issues" into subtopics DONE
-    - File Extensions : DONE
+  \module_version Lisp/CryptoSystems/Rijndael 0.0.6 (7.3.2008)
 
 
   \par Version 0.0.7
@@ -27,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - bug: The test takes far too long
     - Create data
 
 
@@ -67,7 +57,6 @@ License, or any later version. */
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.5 : 20.12.2007; initial version number (many plans, started implementing AES).
-
+   - 0.0.6 : 7.3.2008; initial version number (basic implementation of AES completed with tests, and settling of module structure).
 
 */

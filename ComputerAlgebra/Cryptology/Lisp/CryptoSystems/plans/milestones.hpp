@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Cryptology/Lisp/CryptoSystems 0.0.3 (26.2.2008)
+  \module_version ComputerAlgebra/Cryptology/Lisp/CryptoSystems 0.0.3.1 (7.3.2008)
 
 
   \par Version 0.0.4

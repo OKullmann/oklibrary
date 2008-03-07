@@ -338,34 +338,5 @@ License, or any later version. */
    of size e. </li>
   </ul>
 
-  
-  \todo Tests DONE
-  <ul>
-   <li> Tests are needed for this. DONE </li>
-   <li> A simple test of each component (sbox etc) is needed. DONE </li>
-   <li> A test of the main aes encryption and decryption functions is needed
-   checking edge cases, and then some test vectors given in [Design of 
-   Rijndael]. DONE </li>
-  </ul>
- 
-
-  \todo File Extensions : DONE (for now we use the current "standard")
-  <ul>
-   <li> OK : where does the suffix ".mac" come from? looks unmotivated to me?
-   is this the standard ending for maxima-files, or for special ones? </li>
-   <li> MG - Looking through the maxima documentation and at
-   the Finite Fields package and others, it seemed to be the common file extension,
-   and due to a misunderstanding on my part, I believed that it was required, however
-   I simply misunderstood the use of the load function and a more explicit file
-   extension of .maxima following the TauMachinery example seems sensible. OK : one
-   could ask this question on the (main) maxima mailing list. </li>
-   <li> Can this be moved to ComputerAlgebra/plans/Maxima.hpp ? </li>
-  </ul>
-
-
-  \todo Split "Maxima: design" into subtopics (and update) DONE
-
-
-  \todo Split "Maxima: implementation issues" into subtopics (and update) DONE
 */
 
