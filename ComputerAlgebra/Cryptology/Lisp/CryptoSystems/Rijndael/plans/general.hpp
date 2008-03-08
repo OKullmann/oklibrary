@@ -10,9 +10,16 @@ License, or any later version. */
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
 
-  \bug The test
+  \bug Many tests in
   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/AdvancedEncryptionStandard.mac
-  takes far too long. The current test is only acceptable at level 2.
+  fail:
+  <ul>
+   <li> okltest_sbox(sbox), okltest_inv_sbox(inv_sbox) do not terminate. </li>
+   <li> okltest_mixcolumns(mixcolumns), okltest_inv_mixcolumns(inv_mixcolumns)
+   assert. </li>
+   <li> All other tests yield an error "Subscripts may not be in CRE form".
+   </li>
+  </ul>
 
 
   \todo Create data
