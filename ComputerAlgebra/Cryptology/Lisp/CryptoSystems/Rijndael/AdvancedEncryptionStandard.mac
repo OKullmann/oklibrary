@@ -19,7 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 \htmlonly
 */
 
-load(gf)$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac");
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac");
 
 /* ***************************************
    * Constants                           *
@@ -115,6 +116,8 @@ columns2matrix(mc) := transpose(apply(matrix, mc))$
 
 /* REMARK : This should go to module Algebra. */
 
+load(gf)$
+
 /* It appears you can not overload functions with different arities
    and so the gf_* functions have been prefixed with an 'e' for 
    extended. These functions perform the same duty as their gf_*
@@ -151,6 +154,7 @@ egf_set(field) := (
 /*
    Maps any given gf_* function (func) to a egf_* function by allowing it to 
    take a field or use the default field otherwise.
+   OK: ???
 */
 egf_func(func,numargs,args) := (
   if length(args) > numargs then block(
