@@ -20,7 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-kill(f,inv_f,x)$
+
+kill(f)$
 
 
 /* ********************
@@ -39,7 +40,7 @@ true)$
 
 /* Test inverse of AES sbox operation */
 okltest_inv_sbox(f) := block(
-  /* Extreme Cases for sbox */
+  /* Extreme Cases for sbox OK: ??? */
   assert(f(0) = x^6+x^4+x),
   assert(f(x^6 + x^5 + x + 1) = 0),
   assert(f(x^4 + x^2 + x) = x^7+x^6+x^5+x^4+x^3+x^2+x^1+1),
@@ -47,8 +48,8 @@ true)$
 
 /* Test AES mixcolumns operation. */
 okltest_mixcolumns(f) := block(
-  /* Extreme Cases for sbox */
-  assert(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+  /* Extreme Cases for sbox : OK: ??? */
+  assert(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(f([x^5+x^4+x,x^7+x^3,x^5+x^4+1,x^7+x^6+x^5,x^6+x+1,x^6+x^4+x^3+x,
     x^5+x^4+1,x^5+x^4+x^2+x+1,x^7+x^6+x^5+x^4+x^2+x,x^5+x^4,x^7+x^4+x^3,
     x^2+x+1,x^7+x^5+x^3,x^7+x^3+x^2+1,x^7+x^5+x,x^5+x^4+x^2]) = 
@@ -60,7 +61,7 @@ true)$
 
 /* Test inverse of AES mixcolumns operation. */
 okltest_inv_mixcolumns(f) := block(
-  /* Extreme Cases for sbox */
+  /* Extreme Cases for sbox OK: ??? */
   assert(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(f([x^7+x^6+x^5+x^4+x^3+x^2+x+1,x^6+x^4+x^3,x^3+x+1,x^7+x^5+x^4+1,x^4+
     x^3+x^2+1,x^7+x^6+x^5+1,x^6+x,x^7+x^5+x^4+x+1,x^6+x^5+x^2+1,x^5+x^4+x^3+
