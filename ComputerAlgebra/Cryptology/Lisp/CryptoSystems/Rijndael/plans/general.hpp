@@ -14,6 +14,10 @@ License, or any later version. */
   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/AdvancedEncryptionStandard.mac
   fail:
   <ul>
+   <li> MG : This seems to be due to the fact that a different gf.mac (the 
+   finite fields package) file was being picked up from my home directory. 
+   Comparing the two should yield the answer as to why the current errors
+   are occurring. </li>
    <li> okltest_sbox(sbox), okltest_inv_sbox(inv_sbox) do not terminate. </li>
    <li> okltest_mixcolumns(mixcolumns), okltest_inv_mixcolumns(inv_mixcolumns)
    assert. </li>
