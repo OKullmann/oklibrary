@@ -19,6 +19,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo Representations
+  <ul>
+   <li> hitting_cls_rep_st(T) represents the boolean function F underlying T
+   in the following ways in case T involves reduction r:
+    <ol>
+     <li> In any case both representations (CNF and DNF) are satisfiability-
+     equivalent. </li>
+     <li> If r only used forced assignments, then after amendment
+     the DNF-representation yields an equivalent clause-set. </li>
+    </ol>
+   </li>
+   <li> This should be documented, and perhaps r-splitting trees using only
+   forced assignments get a proper name. </li>
+  </ul>
+
+
   \todo Decomposing clause-sets into hitting clause-sets
   <ul>
    <li> DONE

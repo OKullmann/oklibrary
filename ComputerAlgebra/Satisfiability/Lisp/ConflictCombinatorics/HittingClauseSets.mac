@@ -27,9 +27,9 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 
-/* **************
-   * Generators *
-   **************
+/* ***************************************
+   * Representations via splitting trees *
+   ***************************************
 */
 
 /* Given a splitting tree (a tree whose inner nodes are labelled by boolean
@@ -44,6 +44,17 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
    The other hitting clause-sets created are subsets of tree hitting 
    clause-sets. */
 treehittingcls_st(T) := setify(usat_clauses_st(T))$
+/* The full representation, consisting of a hitting clause-set representing
+   the falsifying assignments (as CNF), and of a hitting clause-set 
+   representing the satisfying assignments (as DNF, i.e. as sets of
+   partial assignments). */
+hitting_cls_rep_st(T) := [treehittingcls_st(T), setify(sat_pass_st(T))]$
+
+
+/* **************
+   * Generators *
+   **************
+*/
 
 /* An unsatisfiable uniform clause-set F with clause-length k has at least
    2^k clauses, and the minimum is attained exactly for the uniform hitting
