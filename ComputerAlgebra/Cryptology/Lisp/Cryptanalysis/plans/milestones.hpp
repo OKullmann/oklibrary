@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.0.3
 
-  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.5
+  \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael version 0.0.6
   (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/milestones.hpp)
 
   \par

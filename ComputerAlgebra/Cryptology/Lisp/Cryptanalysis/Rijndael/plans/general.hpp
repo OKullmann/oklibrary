@@ -12,7 +12,12 @@ License, or any later version. */
   
   \todo Review and tidy todos
 
-  
+  \todo Sbox CNF and DNF generation functions
+  <ul>
+   <li> Two small functions are needed which generate the CNF and DNF clause 
+   sets for the AES Sbox. </li>
+  </ul>
+
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic Aspects
   of the AES]
   <ul>

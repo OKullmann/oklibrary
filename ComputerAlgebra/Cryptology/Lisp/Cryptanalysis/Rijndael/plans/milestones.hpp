@@ -18,6 +18,11 @@ License, or any later version. */
     - Review and tidy todos
     - Create / update milestones
 
+  \par Version 0.0.6
+  
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Sbox CNF and DNF generation functions
 
   \par Version 0.1
   
