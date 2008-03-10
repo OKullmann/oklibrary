@@ -22,8 +22,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Convert AES functions to use more natural representation
+  <ul>
+   <li> Make functions take lists of bit vectors or more likely, lists of 
+   integers corresponding to bit vectors. </li>
+   <li> This seems more friendly in terms of input and output, and makes more 
+   sense when considering a wider use of AES. </li>
+  </ul>
+
   \todo Create data
   <ul>
+   <li> This shouldn't use the maxima global "hashed arrays" as these 
+   are not particularly well defined or behaved, and considering the 
+   "Convert AES functions to use more natural representation" todo, it makes
+   more sense to simply use very basic arrays with integer indices. </li>
    <li> What additional data needs to go here? </li>
    <li> Create data directory with sbox array data. DONE </li>
   </ul>
