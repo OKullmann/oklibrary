@@ -111,7 +111,7 @@ count_sat_st(st,V) := if st = [true] then 2^(length(V))
 /* Compute the satisfying (*partial*) assignments in a splitting tree.
    Returns a list which scans the true-leaves from left to right.
    If T is a splitting tree for clause-set F (as CNF), then the returned
-   clause-set G (the setification of the returned list) is a tree hitting 
+   clause-set G (the setification of the returned list) is a hitting 
    clause-set which as DNF is equivalent to F. */
 sat_pass_st(st) := sat_pass_st_a(st,{})$
 sat_pass_st_a(st,phi) := if st = [true] then [phi] 
