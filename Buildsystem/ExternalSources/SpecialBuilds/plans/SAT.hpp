@@ -228,7 +228,28 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
 
   \todo BDD's and boolean functions
   <ul>
-    <li> There is an R-package with Quine/McCluskey etc. </li>
+    <li> There is an R-package with Quine/McCluskey etc.
+     <ol>
+      <li> Installation (from CRAN)
+      \verbatim
+> oklib --R
+# Within R environment
+> install.packages("QCA")
+      \endverbatim
+      This draws the package from external CRAN sources. The lpSolve package 
+      dependency seems to be already installed for R in oklib.
+      </li>
+      <li> Installation (from source tarball)
+      \verbatim
+ExternalSources/Installations/R> oklib --R
+# Within R environment (with  QCA_0.5-0.tar.gz in the current directory)
+> install.packages("QCA_0.5-0.tar.gz", repos=NULL)
+      \endverbatim
+      Setting the "repos" parameter to null seems to force it to treat the 
+      package arguments as file paths to tar.gz packages.
+      </li>
+     </ol>
+    </li>
     <li> CUDD http://vlsi.colorado.edu/~fabio/CUDD/ </li>
     <li> [Coudert, O; 1994, Two-level logic minimization: An overview;
     Integration, the VLSI Journal, vol. 17, pages 97-140] could serve
