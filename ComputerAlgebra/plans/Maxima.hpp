@@ -59,6 +59,7 @@ License, or any later version. */
     <ol>
      <li> On a global level one has the distinction between "oklib_batch"
      and "oklib_demo". </li>
+    </ol>
    </li>
    <li> DONE How to print out explanations?
     <ol>
@@ -111,6 +112,7 @@ License, or any later version. */
        <li> Is there a general facility to find out the current
        function? Otherwise perhaps we use some standard variable,
        which is then set to the name of the function. </li>
+      </ul>
      </li>
     </ol>
    </li>
@@ -135,6 +137,7 @@ License, or any later version. */
      <li> ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac </li>
      <li> ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac </li>
     </ol>
+   </li>
   </ul>
 
 
