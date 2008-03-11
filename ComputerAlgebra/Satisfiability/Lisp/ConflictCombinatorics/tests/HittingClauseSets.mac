@@ -27,6 +27,20 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 kill(f)$
 
+/* *******************
+   * Representations *
+   *******************
+*/
+
+okltest_hitting_cls_rep_st(f) := block(
+  assert(f([true]) = [{},{{}}]),
+  assert(f([false]) = [{{}}, {}]),
+  assert(f([1,[false],[false]]) = [{{1},{-1}},{}]),
+  assert(f([1,[false],[true]]) = [{{1}},{{1}}]),
+  assert(f([1,[true],[false]]) = [{{-1}},{{-1}}]),
+  assert(f([1,[true],[true]]) = [{},{{-1},{1}}]),
+  true)$
+
 
 /* **************
    * Generators *

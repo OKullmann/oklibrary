@@ -184,6 +184,10 @@ statistics_cs(F) :=
 statistics_fcs(FF) := 
   [nvar_f(FF),ncl_f(FF),nlitocc(FF[2]),max_rank_cs(FF[2]),min_rank_cs(FF[2])]$
 
+
+/* The degree of a literal in a clause-set */
+literal_degree_cs(F,l) := length(subset(F,lambda([C],elementp(l,C))))$
+
 load(graphs)$
 /* the literal-degrees of a clause-set, as hash-map */
 literal_degrees_cs(F) := block([h : hash_table()],
@@ -198,6 +202,13 @@ min_literal_degree_cs(F) :=
 /* maximal literal-degree of a clause-set */
 max_literal_degree_cs(F) := 
   lmax(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
+/* also returns a literal of maximal degree (if there is a literal) */
+max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
+  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(literal_degrees_cs(F))),  
+   optl : 0, maxd : minf],
+  for m in D do block([d : m[2]],
+    if d > maxd then (maxd : d, optl : m[1])),
+  return([maxd, optl]))$
 /* tests whether a clause-set is literal-regular (all literals have the same
    degree) */
 literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$

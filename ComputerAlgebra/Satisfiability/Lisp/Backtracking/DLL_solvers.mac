@@ -155,6 +155,27 @@ dll_simplest_st_first_shortest_clause(FF) := dll_simplest_st(FF, dll_heuristics_
 dll_rk_first_shortest_clause(FF,k) := dll_rk(FF, dll_heuristics_first_shortest_clause, k)$
 dll_rk_st_first_shortest_clause(FF,k) := dll_rk_st(FF, dll_heuristics_first_shortest_clause, k)$
 
+/* Heuristics: choose a literal occurring most often. */
+dll_heuristics_max_lit(FF) := max_literal_degree_l_cs(FF[2])[2]$
+
+dll_simplest_max_lit(FF) := dll_simplest(FF, dll_heuristics_max_lit)$
+dll_simplest_st_max_lit(FF) := dll_simplest_st(FF, dll_heuristics_max_lit)$
+dll_rk_max_lit(FF,k) := dll_rk(FF, dll_heuristics_max_lit, k)$
+dll_rk_st_max_lit(FF,k) := dll_rk_st(FF, dll_heuristics_max_lit, k)$
+
+/* Heuristics: choose a literal occurring most often, and choose the sign
+   first which satisfies most clauses. */
+
+dll_heuristics_max_var(FF) := block(
+ [v : max_variable_degree_v_cs(FF[2])[2]],
+ if literal_degree_cs(FF[2],v) >= literal_degree_cs(FF[2],-v) then
+   return(v) else return(-v))$
+
+dll_simplest_max_var(FF) := dll_simplest(FF, dll_heuristics_max_var)$
+dll_simplest_st_max_var(FF) := dll_simplest_st(FF, dll_heuristics_max_var)$
+dll_rk_max_var(FF,k) := dll_rk(FF, dll_heuristics_max_var, k)$
+dll_rk_st_max_var(FF,k) := dll_rk_st(FF, dll_heuristics_max_var, k)$
+
 
 /* ****************************
    * Heuristics via distances *

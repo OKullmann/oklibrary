@@ -21,6 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingClauseSets.mac");
 
+okltest_hitting_cls_rep_st(hitting_cls_rep_st);
+
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);
 
