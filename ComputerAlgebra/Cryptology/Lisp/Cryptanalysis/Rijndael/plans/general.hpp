@@ -18,6 +18,23 @@ License, or any later version. */
    sets for the AES Sbox. </li>
   </ul>
 
+  \todo Generate minimal hitting clause set for AES Sbox
+  <ul>
+   <li> The following two functions should be useful :
+    <ol>
+     <li> "dll_simplest_st_max_lit" in 
+     ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
+     </li>
+     <li> "hitting_cls_rep_st" in
+     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+     </li>
+    </ol>
+    Although using other dll splitting trees generator functions in the above 
+    module might yield better results?
+   </li>
+   <li> This needs to be elaborated along with the reasoning. </li>
+  </ul>
+
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic Aspects
   of the AES]
   <ul>
