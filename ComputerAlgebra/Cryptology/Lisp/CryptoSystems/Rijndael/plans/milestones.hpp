@@ -16,8 +16,8 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - bug: The test takes far too long
     - Create data
+    - bug: The test takes far too long DONE
 
 
   \par Version 0.0.8

@@ -225,10 +225,11 @@ sbox(byte) :=
   block([invbyte,result],
   if byte = 0 then 
     rijndael_affine_constant
-  else block([invbyte,result],
-    invbyte : egf_inv(byte),
+  else block([invbyte,result],print("Here0"),
+    invbyte : egf_inv(byte),print("Here1"),
     result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
       polynomial2vector(invbyte,8)),
+    print("Here2"),
     return(egf_add(vector2polynomial(result),
       rijndael_affine_constant))))$
 
@@ -243,11 +244,11 @@ inv_sbox(byte) :=
 )$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation */
-lookup_sbox(byte) := sbox_data[byte];
+lookup_sbox(byte) := sbox_data[totaldisrep(byte)];
 
 /* Inverse Sbox implementation that utilises a lookup array to provide 
    fast operation */
-lookup_inv_sbox(byte) := inv_sbox_data[byte];
+lookup_inv_sbox(byte) := inv_sbox_data[totaldisrep(byte)];
 
 /* 
    Takes the input block as a list of 16 bytes and applies

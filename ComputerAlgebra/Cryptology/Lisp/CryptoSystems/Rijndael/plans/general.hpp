@@ -9,23 +9,7 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
-
-  \bug Many tests in
-  ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/AdvancedEncryptionStandard.mac
-  fail:
-  <ul>
-   <li> MG : This seems to be due to the fact that a different gf.mac (the 
-   finite fields package) file was being picked up from my home directory. 
-   Comparing the two should yield the answer as to why the current errors
-   are occurring. </li>
-   <li> okltest_sbox(sbox), okltest_inv_sbox(inv_sbox) do not terminate. </li>
-   <li> okltest_mixcolumns(mixcolumns), okltest_inv_mixcolumns(inv_mixcolumns)
-   assert. </li>
-   <li> All other tests yield an error "Subscripts may not be in CRE form".
-   </li>
-  </ul>
-
-
+  
   \todo Convert AES functions to use more natural representation
   <ul>
    <li> Make functions take lists of bit vectors or more likely, lists of 
@@ -34,6 +18,7 @@ License, or any later version. */
    sense when considering a wider use of AES. </li>
   </ul>
 
+  
   \todo Create data
   <ul>
    <li> This shouldn't use the maxima global "hashed arrays" as these 
@@ -360,6 +345,38 @@ License, or any later version. */
    as the polynomial the elements in columns of the block form, are over elements
    of size e. </li>
   </ul>
+  
+  
+  \bug DONE Many tests in
+  ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/AdvancedEncryptionStandard.mac
+  fail:
+  <ul>
+   <li> This will likely become a non-issue when 
+   "Convert AES functions to use more natural representation" is addressed. 
+   </li>
+   <li> The issue with non-termination arises due to "gf_set" not terminating
+   when called in the following way "gf_set(2,1,[x]);". It seems to have issues
+   with the degree being set to 1 as changing the polynomial modulus doesn't
+   seem to have any effect. This should be moved to a seperate bug.</li>
+   <li> All issues here seem to be due to the fact that array and list 
+   subscripts do not accept polynomials in CRE (canonical rational expression)
+   form, which is what the current "gf.mac" passes around. This causes problems
+   when the result of one of the finite field functions is used for a lookup.
+   This is easily fixed by using "totaldisrep" which converts a polynomial
+   in CRE form to a standard polynomial, which can be used as a subscript. 
+   </li>
+   <li> MG : This seems to be due to the fact that a different gf.mac (the 
+   finite fields package) file was being picked up from my home directory. 
+   Comparing the two should yield the answer as to why the current errors
+   are occurring. </li>
+   <li> okltest_sbox(sbox), okltest_inv_sbox(inv_sbox) do not terminate. </li>
+   <li> okltest_mixcolumns(mixcolumns), okltest_inv_mixcolumns(inv_mixcolumns)
+   assert. </li>
+   <li> All other tests yield an error "Subscripts may not be in CRE form".
+   </li>
+  </ul>
+
+
 
 */
 
