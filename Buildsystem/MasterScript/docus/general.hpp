@@ -49,18 +49,29 @@ License, or any later version. */
    <li> <code>--setup</code>
     <ol>
      <li> Only used for initialisation. </li>
-     <li> Calls the set-up makefile with trailing arguments (creating the
-     .oklib-directory at OKplatform-level) .</li>
+     <li> Calls the set-up makefile (<code>${buildsystem_dir}/SetUp.mak</code>)
+     with trailing arguments (creating the .oklib-directory at
+     OKplatform-level) .</li>
     </ol>
    </li>
    <li> <code>--prebuild</code>
     <ol>
      <li> Used to update the directory-structure and especially to update
      links. </li>
-     <li> Creates basic directories. </li>
-     <li> Creates makefile-links. </li>
-     <li> Creates links (in $(public_bin_dir_okl)) to the main executables
-     produced by the OKlibrary. </li>
+     <li> Calls the prebuild-makefile
+     (<code>$(OKbuildsystem)/Makefile</code>) with target "prebuild"
+     in case no further arguments are supplied, and otherwise with trailing
+     arguments (as targets). </li>
+     <li> Target "prebuild" comprises the sub-targets "make_directories",
+     "create_links" and "create_public_links", for
+      <ol>
+       <li> creating basic directories; </li>
+       <li> creating makefile-links; </li>
+       <li> creating links to the main executables produced by the OKlibrary
+        (in <code>$(public_bin_dir_okl)</code>). </li>
+      </ol>
+     </li>
+     <li> The target "clean_links" removes all makefile-links. </li>
     </ol>
    </li>
    <li> <code>--maxima</code> (configures and calls Maxima; see
