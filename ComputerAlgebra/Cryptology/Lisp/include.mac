@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/include.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/include.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/include.mac")$
 
 /*!
 \endhtmlonly

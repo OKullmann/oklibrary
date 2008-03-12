@@ -12,11 +12,6 @@ License, or any later version. */
   
   \todo Review and tidy todos
 
-  \todo Sbox CNF and DNF generation functions
-  <ul>
-   <li> Two small functions are needed which generate the CNF and DNF clause 
-   sets for the AES Sbox. </li>
-  </ul>
 
   \todo Generate minimal hitting clause set for AES Sbox
   <ul>
@@ -303,6 +298,13 @@ License, or any later version. */
   <ul>
    <li> The first goal is with milestone 0.1, where we have a working
    translation. </li>
+  </ul>
+  
+  
+  \todo DONE Sbox CNF and DNF generation functions
+  <ul>
+   <li> DONE Two small functions are needed which generate the CNF and DNF clause 
+   sets for the AES Sbox. </li>
   </ul>
 
 */

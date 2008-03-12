@@ -22,8 +22,8 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Sbox CNF and DNF generation functions
     - Generate minimal hitting clause set for AES Sbox
+    - Sbox CNF and DNF generation functions DONE
 
   \par Version 0.1
   
