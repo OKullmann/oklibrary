@@ -12,6 +12,9 @@ License, or any later version. */
   
   \bug Finite Fields package function doesn't terminate
   <ul>
+   <li> This has been raised on the maxima bug tracker as #1913047 
+   https://sourceforge.net/tracker/?func=detail&atid=104933&aid=1913047&group_id=4933
+   </li>
    <li> "gf_set" doesn't terminate when passed 1 as an argument for the degree. 
    </li>
    <li> "gf_set(2,1,[x]);" leads to non-termination (MG : or at least it takes
