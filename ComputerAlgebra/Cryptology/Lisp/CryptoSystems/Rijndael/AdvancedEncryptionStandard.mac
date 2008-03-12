@@ -225,11 +225,10 @@ sbox(byte) :=
   block([invbyte,result],
   if byte = 0 then 
     rijndael_affine_constant
-  else block([invbyte,result],print("Here0"),
-    invbyte : egf_inv(byte),print("Here1"),
+  else block([invbyte,result],
+    invbyte : egf_inv(byte),
     result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
       polynomial2vector(invbyte,8)),
-    print("Here2"),
     return(egf_add(vector2polynomial(result),
       rijndael_affine_constant))))$
 
