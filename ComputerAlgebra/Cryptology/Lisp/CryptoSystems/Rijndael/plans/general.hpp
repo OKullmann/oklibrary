@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
   
+  \bug Finite Fields package function doesn't terminate
+  <ul>
+   <li> "gf_set" doesn't terminate when passed 1 as an argument for the degree. 
+   </li>
+   <li> "gf_set(2,1,[x]);" leads to non-termination (MG : or at least it takes
+   much longer than expected) </li>
+   <li> This should be moved when the wrapper functions are moved into a 
+   seperate module </li>
+  </ul>
+
+
   \todo Convert AES functions to use more natural representation
   <ul>
    <li> Make functions take lists of bit vectors or more likely, lists of 
