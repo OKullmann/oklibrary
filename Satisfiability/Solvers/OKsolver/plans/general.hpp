@@ -19,7 +19,7 @@ License, or any later version. */
   \todo How to refer to the different versions of OKsolver ?
   <ul>
    <li> Perhaps the main name is "OKsolver2002" for the old OKsolver,
-   OKsolver2008 for the new version etc. </li>
+   OKsolver2009 for the new version etc. </li>
    <li> Yet we use "OKsolver_2002", but the underscore seems superfluous
    (and creates problems when writing the name). </li>
    <li> A problem then is how to call the re-programmed original
@@ -28,12 +28,12 @@ License, or any later version. */
    matter so much. </li>
    <li> So once the plans for the new OKsolver (currently "OKsolver_2_0")
    are completed, the year of it first appearance should be estimated (likely
-   2008), and the module "OKsolver2008" (or else) has to be created. </li>
+   2009), and the module "OKsolver2009" (or else) has to be created. </li>
    <li> Perhaps then "SAT2002" should be renamed to "OKsolver2002" --- or
-   perhaps we just call the modules "2002", "2008", etc., according to
+   perhaps we just call the modules "2002", "2009", etc., according to
    our strategy to use the full path name? </li>
    <li> Then we get a bit of a problem with the namespaces and their aliases;
-   the modules could be called "Y2002", "Y2008", etc., with aliases
+   the modules could be called "Y2002", "Y2009", etc., with aliases
    "Y02", "Y08". Solvers still "OKsolver2002" etc. </li>
    <li> Should the versions appear in the name? Better not. </li>
    <li> The version of each OKsolver is the version of its module. </li>
