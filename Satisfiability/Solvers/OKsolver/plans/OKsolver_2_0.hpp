@@ -9,6 +9,8 @@ License, or any later version. */
   \file Solvers/OKsolver/plans/OKsolver_2_0.hpp
   \brief Plans for the module for the new OKsolver
 
+  Possibly called "OKsolver2009".
+
 
   \todo Once we are ready to start, a new sub-module is needed.
 
@@ -77,6 +79,11 @@ License, or any later version. */
      starts "stammering" due to all this clean-up. </li>
     </ol>
    </li>
+   <li> As discussed in OK's article [Present and future of practical SAT
+   solving, Oliver Kullmann, 2008], the view of learning as still working
+   with a tree might be misleading, and an iterative view more appropriate.
+   But the tree-view corresponds to the "look-ahead part", and thus cannot
+   be ignored. </li>
   </ul>
 
 
