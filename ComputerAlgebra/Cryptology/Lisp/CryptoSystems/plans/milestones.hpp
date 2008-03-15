@@ -8,13 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp
 
-  \module_version Cryptology/Lisp/CryptoSystems 0.0.3.1 (7.3.2008)
-
-
-  \par Version 0.0.4
-
-  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael version 0.0.7
-  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp)
+  \module_version Cryptology/Lisp/CryptoSystems 0.0.4 (15.3.2008)
 
 
   \par Version 0.0.5
@@ -48,5 +42,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.3 : 26.2.2008; initial version number (focus on AES; first implementation nearly finished).
+   - 0.0.4 : 15.3.2008; first implementation of AES finished with tests implemented.
 
 */
