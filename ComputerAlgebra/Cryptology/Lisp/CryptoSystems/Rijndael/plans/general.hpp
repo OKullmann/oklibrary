@@ -27,23 +27,17 @@ License, or any later version. */
   \todo Convert AES functions to use more natural representation
   <ul>
    <li> Make functions take lists of bit vectors or more likely, lists of 
-   integers corresponding to bit vectors. </li>
+   integers corresponding to bit vectors.
+    <ul>
+     <li> Lists of integers seem more likely here as then the sbox lookup table
+     can be changed to use simple arrays rather than the less well defined
+     hashed arrays. </li>
+    </ul>
    <li> This seems more friendly in terms of input and output, and makes more 
    sense when considering a wider use of AES. </li>
   </ul>
 
   
-  \todo Create data
-  <ul>
-   <li> This shouldn't use the maxima global "hashed arrays" as these 
-   are not particularly well defined or behaved, and considering the 
-   "Convert AES functions to use more natural representation" todo, it makes
-   more sense to simply use very basic arrays with integer indices. </li>
-   <li> What additional data needs to go here? </li>
-   <li> Create data directory with sbox array data. DONE </li>
-  </ul>
-
-
   \todo Modularising the Rijndael-implementation
   <ul>
    <li> The following ideas need to be integrated into the plans (after
@@ -361,6 +355,20 @@ License, or any later version. */
   </ul>
   
   
+  \todo Create data DONE
+  <ul>
+   <li> This shouldn't use the maxima global "hashed arrays" as these 
+   are not particularly well defined or behaved, and considering the 
+   "Convert AES functions to use more natural representation" todo, it makes
+   more sense to simply use very basic arrays with integer indices.
+   (DONE Moved to "Convert AES functions to use more natural representation" 
+   todo) </li>
+   <li> What additional data needs to go here? (DONE New todos can be opened
+   if necessary) </li>
+   <li> Create data directory with sbox array data. DONE </li>
+  </ul>
+
+
   \bug DONE Many tests in
   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/testobjects/AdvancedEncryptionStandard.mac
   fail:
