@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.9.2007 (Durham)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,6 +14,8 @@ License, or any later version. */
   2004, Detecting Backdoor Sets with Respect to Horn and Binary
   Clauses] (developers SS, MS, OK)
   <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Backdoors/plans/general.hpp.
+   </li>
    <li> Input-output:
     <ul>
      <li> Needed is the clause-set F, together with a heap
