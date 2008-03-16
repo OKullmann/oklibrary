@@ -8,16 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/CryptoSystems/Rijndael 0.0.6 (7.3.2008)
-
-
-  \par Version 0.0.7
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Create data
-    - bug: The test takes far too long DONE
+  \module_version Lisp/CryptoSystems/Rijndael 0.0.7 (15.3.2008)
 
 
   \par Version 0.0.8
@@ -60,5 +51,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.6 : 7.3.2008; initial version number (basic implementation of AES completed with tests, and settling of module structure).
+   - 0.0.7 : 15.3.2008; some bugs in tests fixed, as well as sbox lookup data added and integrated with AES implementation.
 
 */
