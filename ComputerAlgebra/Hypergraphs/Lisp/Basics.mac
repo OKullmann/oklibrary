@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
 
 /*
  A "hypergraph" is a pair (V,E), where V is a set and E a subset of
@@ -30,6 +31,14 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
  A "general hypergraph" is a triple (V,E,f), where V, E are sets, while
  f is a function such that f(e) for e in E is a subset of V.
 */
+
+/* Equality test for general hypergraphs */
+ghypequalp(G1,G2) := is(G1[1] = G2[1]) and is(G1[2] = G2[2]) and
+ block([break : false],
+  for e in G1[2] unless break do
+    if G1[3](e) # G2[3](e) then break : true,
+  return(not break))$
+
 
 /* ************* **
    * Conversions *
@@ -52,6 +61,22 @@ promote_general_hypergraph(G) := [G[1], G[2], identity]$
 
 /* The underlying hypergraph */
 underlying_hypergraph(G) := [G[1], setify(makelist((G[3])(e), e, listify(G[2])))]$
+
+/* The combinatorial (hyper)edge-vertex matrix of a hypergraph */
+edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v], 
+  if elementp(v, H) then 1 else 0)]$
+
+/* The (hyper)edge intersection matrix (as a square combinatorial matrix)
+   of a hypergraph */
+edge_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
+ return(com2scom(prod_com(M, trans(M)))))$
+
+/* The vertex intersection matrix (as a square combinatorial matrix)
+   of a hypergraph (for each pair of vertices the number of common
+   occurrences) */
+vertex_int_com_hyp(G) := block([M : edge_vertex_com_hyp(G)],
+ return(com2scom(prod_com(trans(M), M))))$
+
 
 
 /* *****************

@@ -1,0 +1,61 @@
+/* Oliver Kullmann, 16.3.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac
+  \brief Tests for transversal-functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
+
+
+kill(f)$
+
+
+okltest_edge_vertex_com_hyp(f) := (
+  assert(comequalp(f([{},{}]), emptycom) = true),
+  assert(comequalp(f([{},{{}}]), zerocom({{}},{})) = true),
+  assert(comequalp(f([{1},{}]), zerocom({},{1})) = true),
+  assert(comequalp(f([{1},{{}}]), zerocom({{}},{1})) = true),
+  assert(comequalp(f([{1},{{1}}]), constantcom({{1}},{1},1)) = true),
+  assert(comequalp(f([{1,2},{{1}}]), [{{1}},{1,2},lambda([H,v],if v=1 then 1 else 0)]) = true),
+true)$
+
+okltest_edge_int_com_hyp(f) := (
+  assert(scomequalp(f([{},{}]), emptyscom) = true),
+  assert(scomequalp(f([{},{{}}]), zeroscom({{}})) = true),
+  assert(scomequalp(f([{1,2},{{}}]), zeroscom({{}})) = true),
+  assert(scomequalp(f([{1},{{1}}]), constantscom({{1}},1)) = true),
+  assert(scomequalp(f([{1},{{1},{}}]), [{{1},{}},lambda([H1,H2], if emptyp(H1) or emptyp(H2) then 0 else 1)]) = true),
+  assert(scomequalp(f([{1,2},{{1},{2}}]), [{{1},{2}},lambda([H1,H2], if H1 = H2 then 1 else 0)]) = true),
+  assert(scomequalp(f([{1,2},{{1},{1,2}}]), [{{1},{1,2}},lambda([H1,H2], if H1 = {1} or H2 = {1} then 1 else 2)]) = true),
+  true)$
+
+okltest_vertex_int_com_hyp(f) := (
+  assert(scomequalp(f([{},{}]), emptyscom) = true),
+  assert(scomequalp(f([{},{{}}]), emptyscom) = true),
+  assert(scomequalp(f([{1,2},{{}}]), zeroscom({1,2})) = true),
+  assert(scomequalp(f([{1},{{1}}]), constantscom({1},1)) = true),
+  assert(scomequalp(f([{1},{{1},{}}]), constantscom({1},1)) = true),
+  assert(scomequalp(f([{1,2},{{1},{2}}]), [{1,2},lambda([v1,v2], if v1 = v2 then 1 else 0)]) = true),
+  assert(scomequalp(f([{1,2},{{1},{1,2}}]), [{1,2},lambda([v1,v2], if v1 = 1 and v2 = 1 then 2 else 1)]) = true),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
