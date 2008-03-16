@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
 
 
 /* *******************
@@ -47,6 +48,26 @@ vig_fcs(FF) := section_hyp(var_hyp(FF),2)$
 cvg_cs(F) := [F, 
  subset(powerset(F,2), lambda([S], 
         block([L : listify(S)], not disjointp(var_c(L[1]), var_c(L[2])))))]$
+
+/* The combinatorial clause-variable matrix of a formal clause-set */
+cl_var_com_fcs(FF) := [FF[2], FF[1], lambda([C,v], 
+  if elementp(v, C) then +1 else if elementp(-v,C) then -1 else 0)]$
+/* abs_com(cls_var_com_fcs(FF)) = edge_vertex_com_hyp(hyp_fcs(FF)) */
+
+/* The clause-intersection matrix (as square combinatorial matrix)
+   of a clause-set (for each pair of clauses the number of common literals
+   minus the number of clashing literals) */
+cl_int_scom_cs(F) := block([FF : cs_to_fcs(F), M],
+ M : cl_var_com_fcs(FF),
+  return(com2scom(prod_com(M, trans(M)))))$
+
+/* The variable-intersection matrix (as square combinatorial matrix)
+   of a formal clause-set (for each pair of variables the number of 
+   occurrences with the same sign occurrences minus the number of 
+   occurrences with opposite signs) */
+var_int_scom_fcs(FF) := block([M : cl_var_com_fcs(FF)],
+  return(com2scom(prod_com(trans(M), M))))$
+
 
 
 /* ************

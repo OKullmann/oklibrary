@@ -22,7 +22,23 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hyper
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac");
 
 
+/* *******************
+   * Transformations *
+   *******************
+*/
+
 okltest_cvg_cs(cvg_cs);
+
+okltest_cl_var_com_fcs(cl_var_com_fcs);
+
+okltest_cl_int_scom_cs(cl_int_scom_cs);
+okltest_var_int_scom_fcs(var_int_scom_fcs);
+
+
+/* ************
+   * Measures *
+   ************
+*/
 
 okltest_min_degree_cvg_cs(min_degree_cvg_cs);
 okltest_max_degree_cvg_cs(max_degree_cvg_cs);
