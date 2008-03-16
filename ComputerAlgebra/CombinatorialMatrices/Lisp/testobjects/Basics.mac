@@ -21,6 +21,9 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac");
 
+
+okltest_com2ghyp(com2ghyp);
+
 okltest_comequalp(comequalp);
 okltest_scomequalp(scomequalp);
 

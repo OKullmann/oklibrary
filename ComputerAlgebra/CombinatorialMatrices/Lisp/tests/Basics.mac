@@ -20,8 +20,22 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+
 
 kill(f)$
+
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+okltest_com2ghyp(f) := (
+  assert(ghypequalp(f(emptycom), [{},{}, identity]) = true),
+  assert(ghypequalp(f(zerocom({1,2},{1,2})), [{1,2},{1,2}, lambda([e],{})]) = true),
+  assert(ghypequalp(f(constantcom({1,2},{3,4},2)), [{1,2},{3,4}, lambda([e],{1,2})]) = true),
+  true)$
+
 
 /* ********************
    * Basic operations *

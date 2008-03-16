@@ -76,6 +76,10 @@ m2com(M) := block([m,n],
 com2g(M) := [M[1], subset(powerset(M[1],2), lambda([S],
   block([L : listify(S)], return(is(M[2](L[1],L[2]) # 0)))))]$
 
+/* Transforms a combinatorial matrix into a general hypergraph */
+com2ghyp(M) := [M[1], M[2], buildq([M], 
+ lambda([j], subset(M[1], lambda([i], is(M[3](i,j) # 0)))))]$
+
 
 /* ********************
    * Basic operations *
