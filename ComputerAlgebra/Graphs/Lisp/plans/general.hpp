@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.11.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -39,6 +39,9 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
+   <li> We need to find out whether for example the colouring function computes an
+   exact value or an approximation! See my e-mail to the maxima-mailing-list (yet,
+   18.3.2008, without answer). </li>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
      <li> DONE (the vertex names become vertex labels)
@@ -99,6 +102,18 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
    <li> Implement the generic graph traversal from module CS-232. </li>
    <li> This is likely best done with the maxima-graphs. </li>
    <li> Compute connected components and strong connected components. </li>
+  </ul>
+
+
+  \todo Treewidth
+  <ul>
+   <li> Implement all basic methods for computing the treewidth of a graph. </li>
+   <li> See Combinatorics/Graphs/TreeDecompositions/EliminationSequences.hpp for
+   one algorithm, and
+   Combinatorics/Graphs/TreeDecompositions/plans/EliminationSequences.hpp for
+   plans. </li>
+   <li> See also Combinatorics/Graphs/TreeDecompositions/plans/general.hpp.
+   </li>
   </ul>
 
 
