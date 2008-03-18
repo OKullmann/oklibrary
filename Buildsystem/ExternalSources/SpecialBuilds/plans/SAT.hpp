@@ -261,14 +261,5 @@ ExternalSources/Installations/R> oklib --R
     generators for boolean circuits. </li>
   </ul>
 
-
-  \todo Travelling salesman
-  <ul>
-   <li> In [Gutin, Punnen; The Traveling Salesman Problem and Its
-   Variations], Chapter 16, one finds a first overview, with web page
-   http://www.or.deis.unibo.it/research_pages/tspsoft.html
-   or http://or.unbsj.ca/~punnen/tspsoft.html. </li>
-  </ul>
-
 */
 

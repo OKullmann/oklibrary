@@ -97,28 +97,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Graph drawing
-  <ul>
-   <li> http://www.ogdf.net/doku.php looks promising. </li>
-   <li> http://graphviz.org/Download_source.php
-    <ol>
-     <li> the dot-tool is needed by doxygen for creating the graphs </li>
-     <li> likely we should use the "DOT language"
-     (http://graphviz.org/doc/info/lang.html) as the primary language
-     for input and output of graphs (supported by Boost) ?! </li>
-    </ol>
-   </li>
-   <li> http://www.labri.fr/perso/auber/projects/tulip/ </li>
-   <li> dot2texi: http://www.fauskes.net/nb/introducing-dot2texi/ </li>
-  </ul>
-
-
-  \todo Graph algorithms libraries and programs
-  <ul>
-   <li> naughty for graph isomorphisms </li>
-  </ul>
-
-
   \todo Combinatorics
   <ul>
    <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>
