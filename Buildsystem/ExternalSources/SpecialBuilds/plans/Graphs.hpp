@@ -47,5 +47,11 @@ License, or any later version. */
    or http://or.unbsj.ca/~punnen/tspsoft.html. </li>
   </ul>
 
+
+  \todo Graph colouring
+  <ul>
+   <li> http://www.cs.ualberta.ca/joe/Coloring (solver and generator) </li>
+  </ul>
+
 */
 
