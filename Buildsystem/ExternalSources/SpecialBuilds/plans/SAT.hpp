@@ -217,6 +217,12 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
   </ul>
 
 
+  \todo Belief and Survey propagation
+  <ul>
+   <li> http://www.ictp.trieste.it/~zecchina/SP/ </li>
+  </ul>
+
+
   \todo Model checking and variations
   <ul>
    <li> BoolVar http://boolvar.net/ </li>
