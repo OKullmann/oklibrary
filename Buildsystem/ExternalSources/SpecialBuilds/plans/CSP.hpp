@@ -19,6 +19,7 @@ License, or any later version. */
    <li> Swi Prolog http://www.swi-prolog.org/ </li>
    <li> Gecode http://www.gecode.org/
    <li> Minion http://minion.sourceforge.net/ </li>
+   <li> The MAC-algorithm at http://www.hulubei.net/tudor/csp ? </li>
    <li> Benchmarks? Competitions? </li>
   </ul>
 
