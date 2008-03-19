@@ -84,14 +84,11 @@ vector2polynomial(v) := block([n : length(v)],
 /* List Processing */
 /* REMARK : Should go elsewhere (module Lists). */
 
-/* Returns a list of n (or less if len(l) < n) elements from the beginning of l */
-take(l,n) := rest(l,-max(length(l)-n,0))$
-
 /* Partitions a given list l into a list of lists of size n,
    or less (in the case of the last element list)
 */
 partition(l,n) := if emptyp(l) then [] else 
-  cons(take(l,n), partition(rest(l,min(length(l),n)),n))$
+  cons(take_elements(n,l), partition(rest(l,min(length(l),n)),n))$
 
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
 rotate(l,n) := 
