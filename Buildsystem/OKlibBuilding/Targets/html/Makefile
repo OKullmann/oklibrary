@@ -16,7 +16,7 @@ include $(temporary_makefile)
 .PHONY : clean_up
 $(temporary_makefile) : $(rel_path_tool)
 	cp $(OKconfiguration)/Html/include.mak $(temporary_makefile)
-$(rel_path_tool) : $(tool_dir)
+$(rel_path_tool) : $(tool_dir) $(rel_path_tool_origin) 
 	cp -f $(rel_path_tool_origin) $(rel_path_tool)
 	strip --strip-unneeded $(rel_path_tool)
 
