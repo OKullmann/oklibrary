@@ -182,7 +182,24 @@ License, or any later version. */
 
   \todo Function application
   <ul>
-   <li> What is the difference between "apply" and "xreduce" ? </li>
+   <li> What is the difference between "apply" and "xreduce" ?
+    <ul>
+     <li> When the arity of the function being applied isn't known, for 
+     instance when the function is a "noun" or isn't defined at this point,
+     "apply" continues to treat the function as an n-ary function where n is
+     the size of the list argument, whereas "xreduce" treats the function as a
+     binary function.
+     \verbatim
+(%i11) apply(nounify(union), [a,b,c,d]);
+Evaluation took 0.00 seconds (0.00 elapsed) using 416 bytes.
+(%o11)                                   union(a, b, c, d)
+(%i12) xreduce(nounify(union), [a,b,c,d]);
+Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
+(%o12)                            union(union(union(a, b), c), d)
+     \endverbatim
+     </li>
+    </ul>
+   </li>
   </ul>
 
 
