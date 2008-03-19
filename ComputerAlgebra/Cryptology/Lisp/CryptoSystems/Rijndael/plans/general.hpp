@@ -70,8 +70,8 @@ License, or any later version. */
    <li> Regarding generalisations (AES -> Rijndael -> small-scale variations):
    If they come natural then they are done now, otherwise later (after we have
    more experience). </li>
-   <li> Move list helper functions to a seperate List module </li>
    <li> Document functions and constants with explanation of use </li>
+   <li> DONE Move list helper functions to a seperate List module </li>
    <li> (DONE Moved to ComputerAlgebra/Cryptology/Lisp/plans/general.hpp) 
    Produce list of conversion functions (bit lists, hex etc) which can 
    later be moved to Cryptology. </li>

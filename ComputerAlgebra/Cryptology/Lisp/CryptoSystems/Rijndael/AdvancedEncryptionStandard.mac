@@ -82,30 +82,6 @@ polynomial2vector(poly, n) :=
 vector2polynomial(v) := block([n : length(v)],
     sum(v[i][1] * x^(n - i), i, 1, n))$
 
-/* List Processing */
-/* REMARK : Should go elsewhere (module Lists). */
-
-/* Partitions a given list l into a list of lists of size n,
-   or less (in the case of the last element list)
-*/
-partition_elements(l,n) := if emptyp(l) then [] else 
-  cons(take_elements(n,l), partition_elements(rest(l,min(length(l),n)),n))$
-
-/* Rotates a list n elements to the right. Negative n rotates to the left. */
-rotate(l,n) := 
-  if n = 0 or l = [] then l
-  else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
-  else rotate(append(rest(l), [first(l)]), n+1)$
-
-/* Flattens a matrix or list into a list of the elements, row by row */
-matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
-
-/* Returns a list of the given matrix's columns (as lists) */
-matrixcolumns(m) := partition_elements(matrix2list(transpose(m)),length(m))$
-
-/* Builds a matrix from a list of it's columns (as lists) */
-columns2matrix(mc) := transpose(apply(matrix, mc))$
-
 
 /* ***************************************
    * Finite Field Wrapper Functions      *
