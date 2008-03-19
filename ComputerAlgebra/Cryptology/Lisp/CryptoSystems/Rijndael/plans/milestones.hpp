@@ -19,10 +19,10 @@ License, or any later version. */
     - bug: Finite Fields package function doesn't terminate
     - Convert AES functions to use more natural representation
     - Modularising the Rijndael-implementation
-    - New design and implementation
     - Finite Field operations
     - Key schedule
     - Design of round functions
+    - New design and implementation DONE
   
   
   \par Version 0.1

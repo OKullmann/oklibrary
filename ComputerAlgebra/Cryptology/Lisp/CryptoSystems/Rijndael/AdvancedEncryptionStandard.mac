@@ -187,14 +187,20 @@ egf_inv([args]) := egf_func(gf_inv, 1, args)$
 */
 egf_set(rijndael_byte_field);
 
+/* Constant used in the affine transformation within sbox */
 rijndael_affine_constant : x^6 + x^5 + x + 1$
+/* Constant used in the affine transformation within inv_sbox */
 rijndael_inv_affine_constant : x^2 + 1$ 
 
+/* Matrix used in the affine transformation within sbox */
 rijndael_sbox_matrix : apply(matrix,
     makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
+/* Matrix used in the affine transformation within inv_sbox */
 rijndael_inv_sbox_matrix : apply(matrix,
   makelist(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
 
+/* AES sbox. Takes a value in GF(2^8) and returns the result of applying the
+   Rijndael Sbox operation on the value. */
 sbox(byte) := 
   block([invbyte,result],
   if byte = 0 then 
@@ -206,6 +212,7 @@ sbox(byte) :=
     return(egf_add(vector2polynomial(result),
       rijndael_affine_constant))))$
 
+/* Inverse of sbox */
 inv_sbox(byte) :=
   block([final_result, result],
     result : egf_matmul(rijndael_bit_field,rijndael_inv_sbox_matrix,
@@ -269,6 +276,7 @@ inv_shiftrows(inputblock) :=
 */
 rijndael_mixcolumns_matrix : apply(matrix, 
     makelist(rotate([x, x + 1, 1, 1], i),i,0,3))$
+/* Inverse of the rijndael_mix_columns_matrix */
 rijndael_inv_mixcolumns_matrix :apply(matrix,
   makelist(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3))$
 
