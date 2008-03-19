@@ -83,14 +83,15 @@ intToPoly(n,coeff_base) :=
 /* NB: Further clarification is needed here. */
 hexToGF2t8List(hex) :=
   matrix2list(transpose(apply(matrix,
-    partition(map(lambda([a],intToPoly(baseNToInt(simplode(a),16),2)),
-      partition(strToChrList(hex),2)),4))))$
+    partition_elements(map(lambda([a],intToPoly(baseNToInt(simplode(a),16),2)),
+      partition_elements(strToChrList(hex),2)),4))))$
   
 /* Converts a list of GF(2^8) elements to a hexidecimal string */
 /* NB: Further clarification is needed here. */
 GF2t8ListToHex(lst) :=
     simplode(flatten(map(lambda([a], lpad(simplode([intToBaseN(a,16)]),"0",2)),  
-      subst(2,x,matrix2list(transpose(apply(matrix,partition(lst,length(lst)/4))))))))$
+      subst(2,x,matrix2list(transpose(apply(matrix,
+        partition_elements(lst,length(lst)/4))))))))$
 
 /*!
 \endhtmlonly

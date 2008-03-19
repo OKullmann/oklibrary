@@ -87,8 +87,8 @@ vector2polynomial(v) := block([n : length(v)],
 /* Partitions a given list l into a list of lists of size n,
    or less (in the case of the last element list)
 */
-partition(l,n) := if emptyp(l) then [] else 
-  cons(take_elements(n,l), partition(rest(l,min(length(l),n)),n))$
+partition_elements(l,n) := if emptyp(l) then [] else 
+  cons(take_elements(n,l), partition_elements(rest(l,min(length(l),n)),n))$
 
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
 rotate(l,n) := 
@@ -100,7 +100,7 @@ rotate(l,n) :=
 matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
 
 /* Returns a list of the given matrix's columns (as lists) */
-matrixcolumns(m) := partition(matrix2list(transpose(m)),length(m))$
+matrixcolumns(m) := partition_elements(matrix2list(transpose(m)),length(m))$
 
 /* Builds a matrix from a list of it's columns (as lists) */
 columns2matrix(mc) := transpose(apply(matrix, mc))$
@@ -271,7 +271,7 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
    performs the shiftrows operation, returning the resulting
    block as a list of GF(2^8) elements.
 */
-shiftrows(inputblock) := block([list_rows : partition(inputblock,4)],
+shiftrows(inputblock) := block([list_rows : partition_elements(inputblock,4)],
   matrix2list (
     makelist(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)))$
 
@@ -303,7 +303,7 @@ rijndael_inv_mixcolumns_matrix :apply(matrix,
 mixcolumns(inputblock) :=
   matrix2list(
     egf_matmul(rijndael_mixcolumns_matrix, 
-      apply(matrix, partition(inputblock,4))))$
+      apply(matrix, partition_elements(inputblock,4))))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -321,7 +321,7 @@ inv_mixcolumns(inputblock) :=
 */
 key_expansion(kl, n_b ,n_r, sbox_f) := block(
   [n_k : length(kl) / 4, 
-  cols : matrixcolumns(apply(matrix,partition(kl, 4))) ],
+  cols : matrixcolumns(apply(matrix,partition_elements(kl, 4))) ],
   for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
     if mod(j, n_k) = 0 then block (
       column[1] : egf_add(cols[j-n_k+1][1], 
@@ -332,7 +332,7 @@ key_expansion(kl, n_b ,n_r, sbox_f) := block(
       column[i] : egf_add(cols[j][i], cols[j-n_k+1][i]),
     cols : append(cols, [column])),
   return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
-    partition(cols,n_b))))
+    partition_elements(cols,n_b))))
 )$
 
 /* 
@@ -354,7 +354,7 @@ inv_aes_round(pl,rkl,inv_sbox_f) :=
 aes_encrypt(pl, kl, sbox_f) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
-  ekl : partition(key_expansion(kl,n_b,num_rounds, sbox_f),n_b*4),
+  ekl : partition_elements(key_expansion(kl,n_b,num_rounds, sbox_f),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : lreduce(lambda([a,b],aes_round(a,b,sbox_f)), 
     rest(rest(ekl), -1), map(egf_add,pl,initial_rk)),
@@ -370,7 +370,7 @@ aes_encrypt(pl, kl, sbox_f) := block(
 aes_decrypt(pl, kl, sbox_f, inv_sbox_f) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
-  ekl : partition(key_expansion(kl,n_b,num_rounds,sbox_f),n_b*4),
+  ekl : partition_elements(key_expansion(kl,n_b,num_rounds,sbox_f),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   initial_result : 
