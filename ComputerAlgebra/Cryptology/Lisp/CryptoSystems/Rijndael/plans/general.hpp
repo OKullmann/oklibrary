@@ -136,7 +136,8 @@ License, or any later version. */
   \todo Finite Field operations
   <ol>
    <li> Move the interface to the gf-package into a seperate module / .mac
-   file. This should be moved to Algebra.</li>
+   file. This should be moved to Algebra. MG : Should a new module 
+   "ComputerAlgebra/Algebra" be created or does this mean LinearAlgebra? </li>
    <li> The gf_set operation in the finite field package takes a considerable
    amount of time to complete and doesn't seem to cache 
    any of the results in any way and so each call takes the same amount of 
