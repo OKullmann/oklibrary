@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac");
 
