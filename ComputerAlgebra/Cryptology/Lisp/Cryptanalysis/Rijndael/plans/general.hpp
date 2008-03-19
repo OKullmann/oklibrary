@@ -135,6 +135,52 @@ License, or any later version. */
 
   \todo Encoding AES (top down)
   <ul>
+   <li> For an initial translation to CNF, the following seems sensible
+    <ol>
+     <li> Function of the form aes_cp(p1,...,p128,k1,...,k128,c1,...,c128) 
+     which given the plaintext, key and ciphertext variables, produces a
+     set of conditions. </li>
+     <li> At the highest level, the "aes_cp" could produce a set of conditions
+     in terms of an "aes_round_cd" condition, which could then later be defined
+     through functions which would then be substituted for conditions in the
+     set. </li>
+     <li> The conditions can be replaced by functions that 
+     are only *then* evaluated by use of "obsubst", providing a more
+     structured intentional approach, which makes substituting different
+     conditions into the final expansion far easier (without constant 
+     function renaming). </li>
+     <li> This methodology can be applied down to levels such as the sbox
+     and field element multiplications (within reason) and then additional
+     must be made of these operations. </li>
+     <li> An issue that arises is the naming/production of new variables. 
+     Given that these will be needed at various levels to "join" various result 
+     bits to input bits of different conditions, but if such a scheme uses
+     function evaluations, how to produce such variables without sharing some
+     kind of global state? </li>
+     <li> Passing an initial variable pool (list of variables) into the 
+     conditions could work, but this doesn't seem to fit well with the conditions
+     being simple conditions given a set of input bits. Perhaps a method which 
+     evaluates a given set of conditions and condition producing functions and
+     then defines this variable pool, which is then in the scope of the 
+     condition producing functions when they are substituted and evaluated? 
+     </li>
+     <li> Also, if each of these functions produces a set of conditions, then
+     simple substitution would yield a set of sets, and then a set of set of
+     sets etc. A simple solution here seems to be, to return the union of 
+     any unevaluated conditions, where this union will be applied 
+     (automatically by maxima) only when the entire expression has been 
+     sufficiently evaluated, such that each of these conditions yields
+     a set. </li>
+     <li> "nounify" appears to be useful here, to force functions such as
+     "union" to become "nouns" rather than "verbs", which are then not 
+     immediately evaluated. This is only an issue in some cases such as "union"
+     where it expects it's arguments to be of the correct type and won't return
+     the unevaluated expression if not, but instead returns an error. </li>
+     <li> For the unevaluated conditions (placeholders) within the sets, 
+     perhaps the postfix "_c" for condition, could be used, and for the
+     functions producing the conditions, perhaps "_cp" as a postfix? </li>
+    </ol>
+   </li>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
    levels" for the "active clauses" used; see "Partitioning into active clauses"

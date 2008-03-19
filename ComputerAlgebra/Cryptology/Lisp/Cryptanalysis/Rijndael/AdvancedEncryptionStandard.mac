@@ -21,6 +21,10 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac");
 
+/* ******************************************
+   * Sbox Analysis                          *
+   ******************************************
+*/
 
 /* Function for generation of a full DNF clause set representing the AES sbox */
 generate_full_aes_sbox_dnf_fcs() :=  
@@ -44,6 +48,66 @@ binary_list_to_dnf_c(bv) :=
   setify(map(lambda([b,j],(-1 + b * 2) * j),
     bv,makelist(i,i,1,length(bv))))$
 
+/* ***************************************
+   * Sets of Conditions                  *
+   ***************************************
+*/
+
+/* Generates a list of variables of the form name_i where
+   name is given and i ranges between n and m */
+make_vars(name, n,m) := 
+  makelist(eval_string(concat(name,string(i))),i,n,m)$
+
+/* Returns a set of conditions representing AES given
+   128 plaintext variables, 128 key variables and 128
+   variables. */
+aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rl : []],
+  pBits : take(bits, 128),
+  kBits : take(rest(bits,128), 128),
+  cBits : rest(bits,256),
+  ekBits : make_vars("ek",1, 11*128),
+  /* Key Expansion */
+  rl : cons(apply(key_expansion_cd,append(kBits, ekBits)),rl),
+  ib : pBits,
+  all_ob : make_vars("o",1,11*128),
+  ob : take(all_ob, 128),
+  /* Initial Round Key Addition */
+  rl : cons(apply(aes_add_key_c,append(ib,take(ekBits,128),ob)),rl),
+  ib : ob,
+  /* Rounds */
+  for j : 1 thru 9 do block(
+    ob : take(rest(all_ob,j*128),128),
+    rl : cons(apply(aes_round_c,append(ib,take(rest(ekBits,j*128),128),ob)),
+      rl),
+    ib : ob
+  ),
+  /* Final Round */
+  ob : rest(all_ob,10*128),
+  rl : cons(apply(aes_final_round_c,append(ib,take(rest(ekBits,10*128),128),ob)),
+    rl),
+  return(apply(nounify(union),rl))
+)$
+/* NB : the round number, block and key size seem trivially parameterisable */
+
+/* NB : This needs to be changed as a method is needed to change
+   the name of the auxillary variables based on the call */
+/*aes_round_cp([bits]) := block([iBits, rkBits, oBits,rl:[]],
+  iBits : take(bits, 128),
+  rkBits : take(rest(bits,128),128),
+  oBits : rest(bits,256),
+  tBits : make_vars("so", 1,128),
+  rl : cons(apply(aes_sbox_c,append(iBits, tBits)),rl),
+  iBits : tBits,
+  tBits : make_vars("ro", 1,128),
+  rl : cons(apply(aes_shiftrows_c,append(iBits, tBits)),rl),
+  iBits : tBits,
+  tBits : make_vars("mo", 1,128),
+  rl : cons(apply(aes_mixcolumns_c,append(iBits, tBits)),rl),
+  iBits : tBits,
+  tBits : make_vars("ko", 1,128),
+  rl : cons(apply(aes_add_key_c,append(iBits, tBits)),rl),
+  return(apply(nounify(union),rl))
+)$*/
 
 /*!
 \endhtmlonly
