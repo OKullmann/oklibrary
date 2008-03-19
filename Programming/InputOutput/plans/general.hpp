@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,17 @@ License, or any later version. */
 /*!
   \file Programming/InputOutput/plans/general.hpp
   \brief Plans for the module on general input and output facilities
+
+
+  \todo Compiler options for Programming/InputOutput/PathDifference.cpp
+  <ul>
+   <li> Would "-m32", supplied via PathDifference.compiler_options,
+   still run on AMD-64-bit machines? </li>
+   <li> Or are there other options which would make it running on
+   both 32-bit and 64-bit machines? </li>
+   <li> See "bug The binary coming with the package" in
+   Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp. </li>
+  </ul>
 
 
   \todo Update namespaces

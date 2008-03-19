@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,18 @@ License, or any later version. */
 /*!
   \file Buildsystem/ReleaseProcess/plans/PackageBuilding.hpp
   \brief Plans regarding package building
+
+
+  \bug The binary coming with the package (for creating links) does not work
+  on standard 32-bit platforms
+  <ul>
+   <li> The problem is Programming/InputOutput/PathDifference.cpp. </li>
+   <li> Is it possible to compile it in such a way that it will run on all
+   standard 32-bit and 64-bit systems? </li>
+   <li> See "Compiler options for Programming/InputOutput/PathDifference.cpp"
+   in Programming/InputOutput/plans/general.hpp. </li>
+   <li> Ask on the gcc mailing list! </li>
+  </ul>
 
 
   \todo CreatePackage extensions
