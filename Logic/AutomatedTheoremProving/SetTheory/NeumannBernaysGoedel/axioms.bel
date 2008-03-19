@@ -1,0 +1,174 @@
+
+list(usable).
+
+% Axiom Group A
+% definition of subclass
+-member(x,y) | -subclass(y,z) | member(x,z).
+member(notsub(x,y),x) | subclass(x,y).
+-member(notsub(x,y),y) | subclass(x,y).
+% axiom A-2: elements of classes are sets 
+subclass(x,V).
+% axiom A-3: extensionality
+-subclass(x,y) | -subclass(y,x) | equal(x,y).
+
+% definition of unordered pair
+-member(x,pairset(y,z)) | equal(x,y) | equal(x,z).
+-member(x,V) | member(x,pairset(x,y)).
+-member(x,V) | member(x,pairset(y,x)).
+% axiom A-4: unordered pairs
+member(pairset(x,y),V).
+% definition of singleton
+equal(pairset(x,x),singleton(x)).
+
+% Axiom Group B
+% Quaife's definition of ordered pair
+equal(pairset(singleton(x),pairset(x,singleton(y))),
+  pair(x,y)).
+% axiom B-5'a: Cartesian product
+-member(pair(u,v),cart(x,y)) | member(u,x).
+-member(pair(u,v),cart(x,y)) | member(v,y).
+member(pair(u,v),cart(x,y)) | -member(u,x) | -member(v,y).
+% axiom B-5'b: Cartesian projections first and second
+-member(x,cart(y,z)) | equal(pair(first(x),second(x)),x).
+
+% axiom B-1: elementhood relation E
+subclass(E,cart(V,V)).
+-member(pair(x,y),E) | member(x,y).
+-member(pair(x,y),cart(V,V)) | -member(x,y) | 
+   member(pair(x,y),E).
+% axiom B-2: binary intersection
+-member(x,intersection(y,z)) | member(x,y).
+-member(x,intersection(y,z)) | member(x,z).
+-member(x,y) | -member(x,z) | member(x,intersection(y,z)).
+% axiom B-3: complement
+-member(x,complement(y)) | -member(x,y).
+-member(x,V) | member(x,y) | member(x,complement(y)).
+
+% definition of binary union
+equal(complement(intersection(complement(x),complement(y))),
+   union(x,y)).
+% definition of symmetric difference (not used)
+equal(symmetricdifference(x,y),
+  intersection(union(x,y),complement(intersection(x,y)))).
+% definition of restriction
+equal(intersection(x,cart(y,z)),restrict(x,y,z)).
+% definition of disjointness for classes
+-equal(intersection(x,y),0) | disjoint(x,y).
+-disjoint(x,y) | equal(intersection(x,y),0).
+
+% axiom B-4: (Domain)
+-member(x,D(z)) | -equal(restrict(z,singleton(x),V),0).
+member(x,D(z)) | equal(restrict(z,singleton(x),V),0).
+
+% axiom B-7: rotate
+subclass(rotate(x),cart(cart(V,V),V)).
+-member(pair(pair(u,v),w),rotate(x)) | 
+   member(pair(pair(v,w),u),x).
+-member(pair(pair(u,v),w),cart(cart(V,V),V)) | 
+   -member(pair(pair(v,w),u),x) | 
+   member(pair(pair(u,v),w),rotate(x)).
+
+% axiom B-8: flip
+subclass(flip(x),cart(cart(V,V),V)).
+-member(pair(pair(u,v),w),flip(x)) | 
+   member(pair(pair(v,u),w),x).
+-member(pair(pair(u,v),w),cart(cart(V,V),V)) | 
+   -member(pair(pair(v,u),w),x) | 
+   member(pair(pair(u,v),w),flip(x)).
+
+% definition of inverse
+equal(D(flip(cart(x,V))),inverse(x)).
+% definition of R  (Range)
+equal(D(inverse(x)),R(x)).
+
+% definition of dom and ran
+equal(first(notsub(restrict(x,y,singleton(z)),0)),
+  dom(x,y,z)).
+equal(second(notsub(restrict(x,singleton(y),z),0)),
+  ran(x,y,z)).
+% definition of image
+equal(R(restrict(x,y,V)),image(x,y)).
+
+% Axiom Group C
+% definition of composite
+equal(D(intersection(rotate(flip(cart(x,V))),
+       flip(rotate(cart(y,V))))), composite(x,y)).
+
+% definition of subset relation.
+equal(intersection(complement(composite(complement(E),
+   inverse(E))),cart(V,V)),S).
+% definition of identity relation
+equal(intersection(S,inverse(S)),Id).
+equal(restrict(Id,x,x),id(x)).
+% definition of diversity relation (used by Tarski \& Givant)
+equal(restrict(complement(Id),V,V),Di).
+
+% Definition of the Singleton Function.
+equal(intersection(E,complement(composite(E,complement(Id)))),
+   SINGLETON).
+
+% definition of successor
+equal(union(x,singleton(x)),succ(x)).
+
+% new definition of successor relation
+equal(intersection(E,S),ES).
+equal(intersection(complement(Id),S),PS).
+equal(intersection(ES,complement(composite(PS,ES))),SUCC).
+
+% Quaife's definition of INDUCTIVE
+-INDUCTIVE(x) | member(0,x).
+-INDUCTIVE(x) | subclass(image(SUCC,x),x).
+-member(0,x) | -subclass(image(SUCC,x),x) | INDUCTIVE(x).
+
+% axiom C-1: Quaife's axiom of infinity
+member(omega,V).
+INDUCTIVE(omega).
+-INDUCTIVE(x) | subclass(omega,x).
+
+% definition of sum class (= unary union)
+equal(D(restrict(E,V,x)),U(x)).
+% axiom C-2: sum class axiom
+-member(x,V) | member(U(x),V).
+
+% definition of A  (intersection of a collection of sets)
+equal(complement(D(restrict(complement(E),V,x))),A(x)).
+
+% definition of power class
+equal(complement(image(E,complement(x))),P(x)).
+% axiom C-3: power class axiom
+-member(x,V) | member(P(x),V).
+
+% definition of SINGLEVALUED
+-SINGLEVALUED(x) | subclass(composite(x,inverse(x)),Id).
+-subclass(composite(x,inverse(x)),Id) | 
+  SINGLEVALUED(x).
+% Definitions of sv1, sv2 and sv3.
+equal(first(notsub(composite(x,inverse(x)),Id)),sv1(x)).
+equal(second(notsub(composite(x,inverse(x)),Id)),sv2(x)).
+equal(dom(x,image(inverse(x),singleton(sv1(x))),sv2(x)),
+   sv3(x)).
+
+% direct definition of FUNCTION
+-FUNCTION(x) | subclass(x,cart(V,V)).
+-FUNCTION(x) | subclass(composite(x,inverse(x)),Id).
+-subclass(composite(x,inverse(x)),Id) | 
+   -subclass(x,cart(V,V)) | FUNCTION(x).
+
+% axiom C-4:  axiom of replacement
+-FUNCTION(x) | -member(y,V) | member(image(x,y),V).
+
+% Axiom Group D    Regularity
+-AxReg | equal(x,0) | member(regular(x),x).
+-AxReg | equal(x,0) | equal(intersection(regular(x),x),0).
+AxReg | -equal(IRREG,0).
+AxReg | -member(x,IRREG)| -equal(intersection(IRREG,x),0).
+
+% Axiom Group E.   Choice
+-AxCh | FUNCTION(CHOICE).
+-AxCh | subclass(CHOICE,inverse(E)).
+-AxCh | equal(D(CHOICE),complement(0)).
+-FUNCTION(z) | -subclass(z,inverse(E)) | 
+  -equal(D(z),complement(0)) | AxCh.
+
+end_of_list.
+
