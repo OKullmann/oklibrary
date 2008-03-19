@@ -22,6 +22,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+
 
 kill(f)$
 
@@ -34,6 +37,11 @@ okltest_cm_cs(f) := block([F,M],
   assert(scomequalp(f({}), emptyscom)),
   F : {{}}, M : f(F),
   assert(scomequalp(M, zeroscom(F))),
+  block([alt_cm_cs : lambda([F], 
+      scprod_scom(1/2, diff_scom(cl_varint_scom_cs(F), cl_int_scom_cs(F))))],
+    for n : 0 thru (if oklib_test_level = 0 then 2 else 3) do 
+     block([F : full_fcs(n)[2]],
+      assert(scomequalp(f(F), alt_cm_cs(F))))),
   true)$
 
 okltest_cg_cs(f) := block([F,G],

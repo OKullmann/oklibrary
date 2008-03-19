@@ -30,10 +30,27 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 /* Converts a square combinatorial matrix into a combinatorial matrix */
 scom2com(M) := [M[1],M[1],M[2]]$
 
+/* Converts a combinatorial matrix with equal row and column set into
+   a square combinatorial matrix */
+com2scom(M) := [M[1],M[3]]$
+
+/* The empty combinatorial matrix */
+emptycom : [{},{},lambda([i,j],false)]$
 /* The empty square combinatorial matrix */
 emptyscom : [{},lambda([i,j],false)]$
+/* The zero combinatorial matrix for given index sets */
+zerocom(I,J) := [I,J,lambda([i,j],0)]$
 /* The zero square combinatorial matrix for a given index set */
 zeroscom(I) := [I,lambda([i,j],0)]$
+/* The constant combinatorial matrix for given index sets and value */
+constantcom(I,J,a) := [I,J,buildq([a],lambda([i,j],a))]$
+/* The constant square combinatorial matrix for given index set and value */
+constantscom(I,a) := [I,buildq([a],lambda([i,j],a))]$
+
+/* The identity matrix */
+idscom(I) := [I, lambda([i,j],if i=j then 1 else 0)]$
+/* The diagonal matrix with constant diagonal value */
+cdiagscom(I,a) := [I,buildq([a],lambda([i,j],if i=j then a else 0))]$
 
 
 /* *******************
@@ -59,6 +76,10 @@ m2com(M) := block([m,n],
 com2g(M) := [M[1], subset(powerset(M[1],2), lambda([S],
   block([L : listify(S)], return(is(M[2](L[1],L[2]) # 0)))))]$
 
+/* Transforms a combinatorial matrix into a general hypergraph */
+com2ghyp(M) := [M[1], M[2], buildq([M], 
+ lambda([j], subset(M[1], lambda([i], is(M[3](i,j) # 0)))))]$
+
 
 /* ********************
    * Basic operations *
@@ -72,6 +93,9 @@ order_scom(M) := length(M[1])$
 
 /* Transposition of a combinatorial matrix */
 trans(M) := [M[2], M[1], buildq([M], lambda([i,j], M[3](j,i)))]$
+/* Transposition of a square combinatorial matrix */
+strans(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
+
 
 /* Equality test for combinatorial matrices */
 comequalp(A,B) := is(A[1] = B[1]) and is(A[2] = B[2]) and
@@ -86,6 +110,20 @@ scomequalp(A,B) := is(A[1] = B[1]) and
     if A[2](a,b) # B[2](a,b) then break : true,
   return(not break))$
 
+/* The difference of two square combinatorial matrices
+   Precondition: A[1] = B[1]. */
+diff_scom(A,B) := [A[1], buildq([A,B],
+  lambda([i,j], A[2](i,j) - B[2](i,j)))]$
+
+/* Multiplying a square combinatorial matrix with a scalar */
+scprod_scom(a,A) := [A[1], buildq([a,A], lambda([i,j], a * A[2](i,j)))]$
+
+/* The product of two combinatorial matrices.
+   Precondition: A[2] = B[1]. */
+prod_com(A,B) := [A[1], B[2], buildq([A,B],
+  lambda([i,j], sum(A[3](i,listify(A[2])[k]) * B[3](listify(B[1])[k],j), 
+                    k,1,length(listify(A[2])))))]$
+
 /* The minimum over all entries of a combinatorial matrix */
 min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
 /* The maximum over all entries of a combinatorial matrix */
@@ -98,6 +136,12 @@ sum_com(M) := block(
   sum(sum(M[3](R[i],C[j]), i,1,m), j,1,n))$
 /* The sum over all entries of a square combinatorial matrix */
 sum_scom(M) := sum_com(scom2com(M))$
+
+/* The entrywise absolute values of a combinatorial matrix */
+abs_com(M) := [M[1], M[2], buildq([M],lambda([i,j], abs(M[3](i,j))))]$
+/* The entrywise absolute values of a square combinatorial matrix */
+abs_scom(M) := [M[1], buildq([M],lambda([i,j], abs(M[2](i,j))))]$
+
 
 /*!
 \endhtmlonly

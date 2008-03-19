@@ -36,6 +36,7 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 
 /* The conflict-matrix (as a square combinatorial matrix) of a clause-set */
 cm_cs(F) := [F, lambda([C,D], length(intersection(C,comp_sl(D))))]$
+/* cm_cs(F) = 1/2 (cl_varint_scom_cs(F) - cl_int_scom_cs(F)). */
 
 /* The conflict-graph of a clause-set */
 cg_cs(F) := [F, subset(powerset(F,2),lambda([S], 

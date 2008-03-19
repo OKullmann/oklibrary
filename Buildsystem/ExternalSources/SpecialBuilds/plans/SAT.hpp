@@ -217,6 +217,12 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
   </ul>
 
 
+  \todo Belief and Survey propagation
+  <ul>
+   <li> http://www.ictp.trieste.it/~zecchina/SP/ </li>
+  </ul>
+
+
   \todo Model checking and variations
   <ul>
    <li> BoolVar http://boolvar.net/ </li>
@@ -259,77 +265,6 @@ ExternalSources/Installations/R> oklib --R
     <li> http://www.dei.isep.ipp.pt/~ACC/bfunc/ seems not to be open source. </li>
     <li> http://www.tcs.hut.fi/~tjunttil/circuits/index.html has translators and
     generators for boolean circuits. </li>
-  </ul>
-
-
-  \todo Automated theorem proving
-  <ul>
-   <li> ACL2 http://www.cs.utexas.edu/~moore/acl2/ (especially interesting since
-   they are using SAT). </li>
-   <li> Prover9 http://www.cs.unm.edu/~mccune/prover9/
-    <ol>
-     <li> Installation:
-     \verbatim
-ExternalSources/builds/Prover9> tar -xzf /h/21/GemeinsameBasis/SAT-Algorithmen/OKplatform/ExternalSources/sources/Prover9/LADR-Dec-2007.tar.gz
-ExternalSources/builds/Prover9> cd LADR-Dec-2007/
-LADR-Dec-2007> make all
-LADR-Dec-2007> make test1
-LADR-Dec-2007> make test2
-LADR-Dec-2007> make test3
-LADR-Dec-2007> bin/prover9 --version
-     \endverbatim
-     </li>
-    </ol>
-   </li>
-   <li> DONE Otter http://www.mcs.anl.gov/AR/otter/ ? (it seems that it was
-   replaced by Prover9) </li>
-  </ul>
-
-
-  \todo CSP
-  <ul>
-   <li> http://en.wikipedia.org/wiki/Constraint_programming gives an
-   overview. </li>
-   <li> Eclipse http://eclipse-clp.org/ </li>
-   <li> Gnu Prolog http://www.gprolog.org/ </li>
-   <li> Swi Prolog http://www.swi-prolog.org/ </li>
-   <li> Gecode http://www.gecode.org/
-   <li> Minion http://minion.sourceforge.net/ </li>
-   <li> Benchmarks? Competitions? </li>
-   <li> n queens:
-    <ol>
-     <li> http://www.jsomers.com/nqueen_demo/nqueens.html with
-     jmsnqueens.zip
-      <ul>
-       <li> We should upgrade the code to C99, using appropriately
-       32,64 or 128 bits (and getting rid off the "WIN32"-etc-macros). </li>
-       <li> We should also add a compile-time check for the required
-       "2's complement architecture". </li>
-       <li> Add conditionally compiled code to (somehow) compute the number of
-       "nodes". </li>
-       <li> Apparently no special compiler-options are recommended. </li>
-      </ul>
-     </li>
-     <li> reines.tgz </li>
-    </ol>
-   </li>
-   <li> Sudoku:
-    <ol>
-     <li> http://sudoku.sourceforge.net/ (Java) </li>
-     <li> http://pythonsudoku.sourceforge.net/ (Python) </li>
-     <li> http://sudoku-sensei.sourceforge.net/ (C) </li>
-     <li> http://robert.rsa3.com/sudoku.html (C++) </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Travelling salesman
-  <ul>
-   <li> In [Gutin, Punnen; The Traveling Salesman Problem and Its
-   Variations], Chapter 16, one finds a first overview, with web page
-   http://www.or.deis.unibo.it/research_pages/tspsoft.html
-   or http://or.unbsj.ca/~punnen/tspsoft.html. </li>
   </ul>
 
 */

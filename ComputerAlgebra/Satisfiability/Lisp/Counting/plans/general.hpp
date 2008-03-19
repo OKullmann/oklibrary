@@ -51,5 +51,18 @@ License, or any later version. */
 
   \todo Connect to the counting-module in part Satisfiability.
 
+
+  \todo Sum-product (belief propagation) and beyond
+  <ul>
+   <li> Implement the sum-product algorithm (see also
+   Satisfiability/Algorithms/SumProduct/plans/general.hpp). </li>
+   <li> Implement the "Iterative Join-Graph Propagation" IJGP, especially
+   in the form "IJGP(i)-SC" from [Kask, Dechter, Gogate; Counting-Based
+   Look-Ahead Schemes for Constraint Satisfaction; CP 2004]. </li>
+   <li> Comparing tw(vig(F)) (the treewidth of the variable-interaction
+   graph) with alpha(cg(F)) (the independence number of the conflict graph)
+   is here of interest. </li>
+  </ul>
+
 */
 
