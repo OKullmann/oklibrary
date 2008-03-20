@@ -30,3 +30,5 @@ include $(OKconfiguration)/macro_replacement.mak
 include $(OKconfiguration)/ReleaseProcess/data.mak
 include $(OKconfiguration)/SourceControl/data.mak
 include $(OKconfiguration)/public_links.mak
+
+include $(OKconfiguration)/functions.mak

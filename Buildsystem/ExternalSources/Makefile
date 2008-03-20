@@ -43,10 +43,6 @@ all :
 # Functions
 # #################################
 
-define postcondition 
-if [ $$? != 0 ]; then exit 1; fi;
-endef
-
 define unarchive_uncompressed
 if [ -f $(1).tar ]; then tar --extract --directory=$(2) --file=$(1).tar; else exit 1; fi;
 endef
