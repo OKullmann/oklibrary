@@ -9,16 +9,23 @@
 
 temporary_makefile := $(aux_dir)/temporary.mak
 # The point of the temporary makefile is, that $(rel_path_tool) must
-# be available before $(OKconfiguration)/Html/include.mak is read.
+# be available before $(OKconfiguration)/Html/include.mak is read
+# (and this can only be achieved by attaching the action of creating/updating
+# $(rel_path_tool) to the action of creating a makefile).
 
 include $(temporary_makefile)
 
 .PHONY : clean_up
-$(temporary_makefile) : $(rel_path_tool)
+
+$(temporary_makefile) : $(tool_dir)
 	cp $(OKconfiguration)/Html/include.mak $(temporary_makefile)
-$(rel_path_tool) : $(tool_dir) $(rel_path_tool_origin) 
-	cp -f $(rel_path_tool_origin) $(rel_path_tool)
-	strip --strip-unneeded $(rel_path_tool)
+	(if [[ ! -f $(rel_path_tool) ]]; then \
+	  cp $(rel_path_tool_origin) $(rel_path_tool); $(postcondition) \
+	  strip --strip-unneeded $(rel_path_tool); $(postcondition) \
+	elif [[ -e $(rel_path_tool_origin) &&  $(rel_path_tool_origin) -nt $(rel_path_tool) ]]; then \
+	  cp -f $(rel_path_tool_origin) $(rel_path_tool); $(postcondition) \
+	  strip --strip-unneeded $(rel_path_tool); $(postcondition) \
+	fi); if [ $$? != 0 ]; then rm $(temporary_makefile); exit 1; fi
 
 export
 
