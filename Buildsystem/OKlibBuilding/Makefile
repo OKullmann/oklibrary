@@ -1000,7 +1000,7 @@ $(new_test_program) : $(test_bin_dir)/% : $(test_object_files) $(standard_test_p
 # test program for the current module.
 # ----------------------------------------------------------
 $(new_test_program_optimised) : $(test_bin_dir)/%$(name_addition) : $(test_object_files_optimised) $(standard_test_program_object_file_optimised) | $(test_bin_dir) $(test_aux_dir)
-	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-options_optimised $(get-link_libraries_optimised) $(test_link_libraries)
+	$(Link_tool) $(CXX) -o $@ $(Standard_options) $(Warning_options) $(Optimisation_options) $^ $(alternative_library_path) $(get-options_optimised) $(get-link_libraries_optimised) $(test_link_libraries)
 # ----------------------------------------------------------
 
 # ----------------------------------------------------------
