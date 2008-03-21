@@ -8,17 +8,8 @@ License, or any later version. */
 /*!
   \file Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp
 
-  \module_version Algorithms/Autarkies/MatchingAutarkies 0.0.1 (8.3.2006)
+  \module_version Algorithms/Autarkies/MatchingAutarkies 0.0.2 (21.3.2008)
 
-
-  \par Version 0.0.2
-
-  \par
-   In MatchingAutarkies/plans/general.hpp the following
-   topics are handled:
-   - Update namespaces : DONE
-   - Update plans : DONE
-  
 
   \par Version 0.0.3
 
@@ -42,6 +33,7 @@ License, or any later version. */
   \par Version history
 
    - 0.0.1 : 8.3.2006;  initial version number (only plans).
+   - 0.0.2 : 21.3.2008; restructuring, extension of plans (at this time focus on the Maxima/Lisp level).
 
 */
 

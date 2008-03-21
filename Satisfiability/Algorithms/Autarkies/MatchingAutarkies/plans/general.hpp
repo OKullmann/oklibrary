@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for algorithms regarding matching autarkies
 
 
-  \todo Update namespaces. DONE
-
-
-  \todo Update plans. DONE
-
-
   \todo Connections to other modules
   <ul>
    <li> See

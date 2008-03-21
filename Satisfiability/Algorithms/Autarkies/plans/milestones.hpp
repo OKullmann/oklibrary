@@ -8,12 +8,12 @@ License, or any later version. */
 /*!
   \file Algorithms/Autarkies/plans/milestones.hpp
 
-  \module_version Algorithms/Autarkies 0.0.4.2 (27.2.2008)
+  \module_version Algorithms/Autarkies 0.0.4.3 (21.3.2008)
 
 
   \par Version 0.0.5
 
-  \par MatchingAutarkies version 0.0.2
+  \par MatchingAutarkies version 0.0.2 : DONE
   (see Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp)
 
   \par AutarkySearch 0.0.7 : DONE
