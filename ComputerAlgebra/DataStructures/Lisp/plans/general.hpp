@@ -13,6 +13,6 @@ License, or any later version. */
   \todo Create milestones
 
 
-  \todo Move the helper-functions from Cryptology here.
+  \todo DONE Move the helper-functions from Cryptology here.
 
 */

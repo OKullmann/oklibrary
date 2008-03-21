@@ -171,14 +171,20 @@ License, or any later version. */
      (automatically by maxima) only when the entire expression has been 
      sufficiently evaluated, such that each of these conditions yields
      a set. </li>
-     <li> "nounify" appears to be useful here, to force functions such as
+     <li> On second thought, it seems more natural, considering each of
+     these functions can be run in isolation and should produce a set of
+     conditions, that only at the substitution stage should the issue,
+     of joining the set produced by a condition to the parent set, be
+     considered. </li>
+     <li> For the unevaluated conditions (placeholders) within the sets, 
+     perhaps the postfix "_c" for condition, could be used, and for the
+     functions producing the conditions, perhaps "_cp" as a postfix? </li>
+     <li> DONE (Not needed, we want a set of conditions to be produced)
+     "nounify" appears to be useful here, to force functions such as
      "union" to become "nouns" rather than "verbs", which are then not 
      immediately evaluated. This is only an issue in some cases such as "union"
      where it expects it's arguments to be of the correct type and won't return
      the unevaluated expression if not, but instead returns an error. </li>
-     <li> For the unevaluated conditions (placeholders) within the sets, 
-     perhaps the postfix "_c" for condition, could be used, and for the
-     functions producing the conditions, perhaps "_cp" as a postfix? </li>
     </ol>
    </li>
    <li> The following needs updating, so that from the beginning
