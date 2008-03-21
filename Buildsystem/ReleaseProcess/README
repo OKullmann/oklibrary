@@ -52,6 +52,8 @@ For the full OKplatform, with some versions of gcc and Boost installed:
 and for installing everything it is too tight).
 
 ----------------------------------------------
+----------------------------------------------
+
 
 Building:
 
@@ -81,32 +83,58 @@ PATH=OKPLATFORM/bin:${PATH}
 Once you decided on how to access "oklib" in the future, you might delete the
 symbolic link in directory OKplatform.
 
+
 2) The master script oklib should now be functional.
 The next is to prepare the build system: Call
 
 oklib --prebuild
 
-3) Except for the minimal package, precomputed installation is included.
+
+3) Except for the minimal package, precomputed documentation is included.
 Regarding the information on the installed external sources, this precomputed
 information is not fully relevant for your system (since several test actions 
-have to be performed), and to update it use
+have to be performed on *your* system), and to (partially) update it use
 
 oklib documentation_index
 
 in directory OKsystem (or below it).
 
 Remarks: 
- - "oklib html" would install the full documentation, however it needs an
-   appropriate version of doxygen installed for this.
+ - "oklib html" would fully re-install the documentation, however it needs an
+   appropriate version of doxygen installed for this. See Step 4).
  - If you get error messages with "oklib documentation_index" then likely
-   this means that one binary, which is needed to translate paths and which
-   needs to be compiled by the OKlibrary, and which we supply as a binary,
-   doesn't run on your system. "oklib all" in OKsystem will compile it
+   this means that the binary "PathDifference", needed to translate paths and 
+   which needs to be compiled by the OKlibrary, and which we supply 
+   as a binary (in the optimised version), doesn't run on your system (so likely
+   your system is not a i386-architecture). "oklib all" in OKsystem will compile it
    (amongst others), but you need gcc and Boost ready for this.
 
 All necessary installations can be carried out through the OKlibrary; see
 information on external sources on the local home page.
 
+
+4) "oklib documentation_index" cannot update for examples the links in the
+html-documentation to documentation of external sources. To get the documentation
+fully updated, running "oklib html" (in directory OKsystem or below) is needed.
+
+For this doxygen is needed. The OKlibrary provides a local installation, which
+you can execute by calling "oklib doxygen" in directory OKplatform/ExternalSources.
+After this installation is finished, "oklib html" should now run successfully.
+
+
+5) In order to use the version control system, we recommend to install git
+via the OKlibrary, again by runnning "oklib git" in directory 
+OKplatform/ExternalSources.
+
+Again, after installation a link is planted in the public bin-directory 
+OKplatform/bin.
+
+Git comes with modern Linux distributions, but the OKLibrary should provide
+the most suitable version (either the newest one, or in case of some trouble
+an appropriate earlier version).
+
+
+----------------------------------------------
 ----------------------------------------------
 
 All further documentation is found on the local home page in
