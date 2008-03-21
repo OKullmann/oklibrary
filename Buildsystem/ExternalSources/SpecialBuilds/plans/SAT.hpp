@@ -101,6 +101,7 @@ ExternalSources/Installations/SAT/UnitMarch64> ./UnitMarch_32_bits $OKPLATFORM/O
        </li>
       </ol>
      </li>
+     <li> *SAT http://www.mrg.dist.unige.it/~tac/StarSAT.html </li>
      <li> Satz
       <ol>
        <li> ParaSatz
@@ -229,6 +230,7 @@ cc  -O   -o heerhugo scan.o termnode.o parse.o main.o
    <li> Alloy http://alloy.mit.edu/alloy4/ is open source. </li>
    <li> BAT http://www.cc.gatech.edu/~manolios/bat/ </li>
    <li> ABC http://www.eecs.berkeley.edu/~alanmi/abc/ </li>
+   <li> Modella http://www.science.unitn.it/~stonetta/modella.html </li>
   </ul>
 
 
