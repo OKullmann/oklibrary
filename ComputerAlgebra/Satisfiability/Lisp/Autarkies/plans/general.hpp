@@ -47,46 +47,11 @@ License, or any later version. */
   </ul>
 
 
-  \todo Matching autarkies
+  \todo Lean kernel via oracle for leanness-decision
   <ul>
-   <li> See MatchingAutarkies/plans/general.hpp. </li>
-   <li> Finding some matching autarky. </li>
-   <li> Computing the matching-lean kernel. </li>
-  </ul>
-
-
-  \todo Linear autarkies
-  <ul>
-   <li> Given the clause-variable matrix M, non-trival linear autarkies
-   are given as non-trivial solutions of M x >= 0. </li>
-   <li> From what Maxima provides, apparently only maximize_lp (in package
-   "simplex") is of use. </li>
-   <li> One possibility to achieve complete search for linear autarkies
-   is to consider one after another the additional constraints x_i >= 1
-   and x_i <= -1. </li>
-   <li> An alternative is to first consider balanced linear autarkies (by
-   linear equations, i.e., M x = 0), and then solving all M x = e_i
-   for the possible e_i. </li>
-   <li> In both cases the objective function would be constant zero. </li>
-   <li> The above methods just search for feasible solutions.
-   How can we use the optimisation facilities? Apparently only heuristical
-   usage is possible?
-    <ol>
-     <li> For example maximising the sum of all x_i. </li>
-     <li> If this only yields 0, then one can attempt minimising the sum
-     of the x_i. </li>
-     <li> What can be said in the remaining case? All solutions fulfill
-     sum x_i = 0; is this possible if we also know that no balanced
-     autarkies (non-trivial solutions of M x = 0) exist? </li>
-    </ol>
-   </li>
-   <li> Finally we need a dedicated approach.
-    <ol>
-     <li> M has a non-trival linear autarky iff the polyhedron M x >= 0
-     is unbounded, and a non-trivial autarky corresponds to an infinite
-     ray contained in the polyhedron. Can this be better exploited? </li>
-    </ol>
-   </li>
+   <li> See [Kullmann 2003 (DAM)], Lemma 8.6. </li>
+   <li> In [Kullmann, CSR 12-2007], Lemma 3.1 this is generalised to
+   non-boolean clause-sets. </li>
   </ul>
 
 
@@ -111,7 +76,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Implement the translation of USAT to LEAN according the our
+  \todo Implement the translation of USAT to LEAN according to our
   article with Victor and Mirek
 
 

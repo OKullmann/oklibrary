@@ -14,7 +14,7 @@ License, or any later version. */
   \par Version 0.0.5
 
   \par MatchingAutarkies version 0.0.2
-  (see MatchingAutarkies/plans/milestones.hpp)
+  (see Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp)
 
   \par AutarkySearch 0.0.7 : DONE
   (see AutarkySearch/plans/milestones.hpp)
@@ -24,6 +24,16 @@ License, or any later version. */
    topics are handled:
     - Update namespaces : DONE
     - Move Transitional/AutarkySearch here : DONE
+
+  \par
+   Further milestones are created.
+
+
+  \par Version 0.0.6
+
+  \par MatchingAutarkies version 0.0.3
+  (see Algorithms/Autarkies/MatchingAutarkies/plans/milestones.hpp)
+
 
 
 
