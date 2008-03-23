@@ -32,6 +32,9 @@ Maxima encountered a Lisp error:
 
   \todo Translations to CNF/DNF
   <ul>
+   <li> Compare with Transformers/Generators/plans/TseitinTransformation.hpp.
+   </li>
+   <li> We should have a dedicated sub-module. </li>
    <li> Write direct translation (without new variables). </li>
    <li> Complete the Tseitin translation. </li>
   </ul>
