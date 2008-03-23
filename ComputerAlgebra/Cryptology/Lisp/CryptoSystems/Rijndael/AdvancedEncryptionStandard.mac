@@ -188,24 +188,38 @@ rijndael_mixcolumns_matrix : apply(matrix,
 rijndael_inv_mixcolumns_matrix :apply(matrix,
   makelist(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3))$
 
-/*
-   Takes a list of GF(2^8) elements (the block), and
-   performs the mixcolumns operation, returning the resulting
-   block as a list of GF(2^8) elements.
-*/
-mixcolumns(inputblock) :=
-  matrix2list(
-    egf_matmul(rijndael_mixcolumns_matrix, 
-      apply(matrix, partition_elements(inputblock,4))))$
+/* Mixcolumn operation applied to the elements of a single
+   column in the AES/Rijndael block. */
+mixcolumn(inputblock) :=
+  matrixcolumns(
+    egf_matmul(rijndael_mixcolumns_matrix,columns2matrix([inputblock])))[1]$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
-   performs the inverse mixcolumns operation, returning the resulting
-   block as a list of GF(2^8) elements.
+   performs the mixcolumns operation, returning the resulting
+   block as a list of GF(2^8) elements. A function specifying
+   the actual operation done on a particular column must be
+   provided as the second argument.
 */
-inv_mixcolumns(inputblock) := 
+mixcolumns(inputblock,mixcolumn_f) :=
+  matrix2list(columns2matrix(
+    map(mixcolumn_f,matrixcolumns(
+      apply(matrix,partition_elements(inputblock,4))))))$
+
+/* Mixcolumn operation applied to the elements of a single
+   column in the AES/Rijndael block. */
+inv_mixcolumn(inputblock) :=
   block([rijndael_mixcolumns_matrix : rijndael_inv_mixcolumns_matrix],
-    mixcolumns(inputblock))$
+    mixcolumn(inputblock))$
+/*
+   Takes a list of GF(2^8) elements (the block), and
+   performs the inverse mixcolumns operation, returning the resulting
+   block as a list of GF(2^8) elements. A function specifying
+   the actual operation done on a particular column must be
+   provided as the second argument.
+*/
+inv_mixcolumns(inputblock,inv_mixcolumn_f) := 
+  mixcolumns(inputblock,inv_mixcolumn_f)$
 
 /*
   Takes the initial key as a list of GF(2^8) elements, the size (in 32 bit words) 
@@ -234,22 +248,23 @@ key_expansion(kl, n_b ,n_r, sbox_f) := block(
    returns a list of the same size of GF(2^8) elements as the plaintext
    as the result of the round operation. 
  */
-aes_round(pl, rkl, sbox_f) := 
-  map(egf_add,mixcolumns(shiftrows(subbytes(pl,sbox_f))), rkl)$
-inv_aes_round(pl,rkl,inv_sbox_f) := 
-  inv_subbytes(inv_shiftrows(inv_mixcolumns(map(egf_add,pl,rkl))), inv_sbox_f)$
+aes_round(pl, rkl, sbox_f, mixcolumn_f) := 
+  map(egf_add,mixcolumns(shiftrows(subbytes(pl,sbox_f)),mixcolumn_f), rkl)$
+inv_aes_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) := 
+  inv_subbytes(inv_shiftrows(
+    inv_mixcolumns(map(egf_add,pl,rkl),inv_mixcolumn_f)), inv_sbox_f)$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes_encrypt(pl, kl, sbox_f) := block(
+aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
   ekl : partition_elements(key_expansion(kl,n_b,num_rounds, sbox_f),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
-  initial_result : lreduce(lambda([a,b],aes_round(a,b,sbox_f)), 
+  initial_result : lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f)),
     rest(rest(ekl), -1), map(egf_add,pl,initial_rk)),
   /* Final Round */
   map(egf_add,shiftrows(subbytes(initial_result,sbox_f)), final_rk)
@@ -260,7 +275,7 @@ aes_encrypt(pl, kl, sbox_f) := block(
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    decryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes_decrypt(pl, kl, sbox_f, inv_sbox_f) := block(
+aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
   ekl : partition_elements(key_expansion(kl,n_b,num_rounds,sbox_f),n_b*4),
@@ -268,7 +283,8 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f) := block(
   /* Final Round */
   initial_result : 
     inv_subbytes(inv_shiftrows(map(egf_add,pl,final_rk)), inv_sbox_f),
-  map(egf_add, rreduce(lambda([a,b],inv_aes_round(a,b,inv_sbox_f)), 
+  map(egf_add, rreduce(lambda([a,b],
+    inv_aes_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
     rest(rest(ekl), -1), initial_result), initial_rk)
 )$
 

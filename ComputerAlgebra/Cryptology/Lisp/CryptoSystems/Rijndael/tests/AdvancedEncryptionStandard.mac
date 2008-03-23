@@ -49,29 +49,29 @@ true)$
 /* Test AES mixcolumns operation. */
 okltest_mixcolumns(f) := block(
   /* Extreme Cases for sbox : OK: ??? */
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])) = 
+  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],mixcolumn)) = 
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(totaldisrep(f([x^5+x^4+x,x^7+x^3,x^5+x^4+1,x^7+x^6+x^5,x^6+x+1,
     x^6+x^4+x^3+x,x^5+x^4+1,x^5+x^4+x^2+x+1,x^7+x^6+x^5+x^4+x^2+x,x^5+x^4,
-    x^7+x^4+x^3,x^2+x+1,x^7+x^5+x^3,x^7+x^3+x^2+1,x^7+x^5+x,x^5+x^4+x^2])) = 
-    [x^7+x^6+x^5+x^4+x^3+x^2+x+1,x^6+x^4+x^3,x^3+x+1,x^7+x^5+x^4+1,x^4+x^3+
-    x^2+1,x^7+x^6+x^5+1,x^6+x,x^7+x^5+x^4+x+1,x^6+x^5+x^2+1,x^5+x^4+x^3+x^2+x,
-    x^7+x^6+x^4+x^2+x,x^7+x^2+1,x^7+x^5+x^3,x^7+x^6+x^5+x^3,x^7+x^5+x^2+1,
-    x^6+x^5+x+1]),
+    x^7+x^4+x^3,x^2+x+1,x^7+x^5+x^3,x^7+x^3+x^2+1,x^7+x^5+x,x^5+x^4+x^2],
+    mixcolumn)) = [x^7+x^6+x^5+x^4+x^3+x^2+x+1,x^6+x^4+x^3,x^3+x+1,x^7+x^5+x^4+
+    1,x^4+x^3+x^2+1,x^7+x^6+x^5+1,x^6+x,x^7+x^5+x^4+x+1,x^6+x^5+x^2+1,x^5+x^4+
+    x^3+x^2+x,x^7+x^6+x^4+x^2+x,x^7+x^2+1,x^7+x^5+x^3,x^7+x^6+x^5+x^3,x^7+x^5+
+    x^2+1,x^6+x^5+x+1]),
 true)$
 
 /* Test inverse of AES mixcolumns operation. */
 okltest_inv_mixcolumns(f) := block(
   /* Extreme Cases for sbox OK: ??? */
-  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]))=
+  assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],inv_mixcolumn))=
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(totaldisrep(f([x^7+x^6+x^5+x^4+x^3+x^2+x+1,x^6+x^4+x^3,x^3+x+1,
     x^7+x^5+x^4+1,x^4+x^3+x^2+1,x^7+x^6+x^5+1,x^6+x,x^7+x^5+x^4+x+1,x^6+x^5+
     x^2+1,x^5+x^4+x^3+x^2+x,x^7+x^6+x^4+x^2+x,x^7+x^2+1,x^7+x^5+x^3,x^7+x^6+
-    x^5+x^3,x^7+x^5+x^2+1,x^6+x^5+x+1]))=[x^5+x^4+x,x^7+x^3,x^5+x^4+1,x^7+x^6+
-    x^5,x^6+x+1,x^6+x^4+x^3+x,x^5+x^4+1,x^5+x^4+x^2+x+1,x^7+x^6+x^5+x^4+x^2+x,
-    x^5+x^4,x^7+x^4+x^3,x^2+x+1,x^7+x^5+x^3,x^7+x^3+x^2+1,x^7+x^5+x,x^5+x^4+
-    x^2]),
+    x^5+x^3,x^7+x^5+x^2+1,x^6+x^5+x+1],inv_mixcolumn))=[x^5+x^4+x,x^7+x^3,x^5+
+    x^4+1,x^7+x^6+x^5,x^6+x+1,x^6+x^4+x^3+x,x^5+x^4+1,x^5+x^4+x^2+x+1,x^7+x^6+
+    x^5+x^4+x^2+x,x^5+x^4,x^7+x^4+x^3,x^2+x+1,x^7+x^5+x^3,x^7+x^3+x^2+1,x^7+
+    x^5+x,x^5+x^4+x^2]),
 true)$
 
 /* Test AES shiftrows operation */
@@ -143,9 +143,9 @@ okltest_aes_round(f) := block(
   ,x^5+x^3+x,x^3],[x^7+x^5,x^7+x^3,x^5+x+1,x^5+x^3+x,x^7+x^6+x^5+x^4+x^3+x,x^6+
   x^4+x^2,x^7+x^5+x+1,x^6+x^5+x^3+x^2,x^7+x^6+x^5+x^4+x^3+x^2+x,x^5+x^3+x^2,
   x^5+x^4+x^3+1,x^6+x^5+x^4+x^2+x,x^4+x^2+x+1,x^7+x^5+x^4+1,x^5+x^4+x^3+1,
-  x^2+1],lookup_sbox)) = [x^7+x^5+x^2,x^6+x^5+x^3,x^6+x^5+x^3+x+1,x,x^7+x^4+
-  x^3+x^2,x^7+x^4+x^3+x^2+x+1,x^6+x^4+x^3+x+1,x^6+x^5+x^3+x,x^6+x^5+x^4+
-  x^3+x^2+x+1,x^5+x^4+x^2+1,x^7+x^6+x^5+x^3+x,x^6+x^4,x^7+x^6+x^5+x^4+x,x^5+
+  x^2+1],lookup_sbox,mixcolumn)) = [x^7+x^5+x^2,x^6+x^5+x^3,x^6+x^5+x^3+x+1,x,
+  x^7+x^4+x^3+x^2,x^7+x^4+x^3+x^2+x+1,x^6+x^4+x^3+x+1,x^6+x^5+x^3+x,x^6+x^5+x^4
+  +x^3+x^2+x+1,x^5+x^4+x^2+1,x^7+x^6+x^5+x^3+x,x^6+x^4,x^7+x^6+x^5+x^4+x,x^5+
   x^3+x+1,x^6+x+1,x^6+x^3+1]),
   assert(totaldisrep(f([x^6+x^3,x^6+x^5+x^2+x+1,x^6+x^3+x^2+1,x^7+x^6+x^4+x^2+x
   ,x^6+x^5+x^3+x^2,x^4+x^3+x^2+1,x^7+x^6+x^5+x+1,x^6+x^4+x^3+x^2+x+1,x^6+x^3+
@@ -153,10 +153,10 @@ okltest_aes_round(f) := block(
   x^2+1,x^5+x^4+x^3,x^7+x^6+x^5+x^2+x+1],[x^7+x^6+x^5+x^3+x^2+x+1,x^7+x^5+x^3,
   x^7+x^5+x^4+x^2+x,x^7+x^6+x^4+x^3+x+1,x^6+x^2,x^6+x^4+x,x^6+x^5+x^4+1,x^3+x+1
   ,x^7+x^5+x^2+1,x^6+x^4+x^3+x+1,x^5+x^2+1,x^7+x^5+x^3+x^2+1,x^6+1,x^6+x^5+x^4+
-  x^3+x^2+x+1,x^5+x^4+x^3+x+1,0], lookup_sbox)) = [x^7+x^6+x^5,x^7+x^6+x^3,x^7+
-  x^6+x^4+x^3+1,x^7+x^2+1,x^7+x^4+x,x^6+x^5+x+1,x^7+x^5+x^4+1,x^7+x^5+x^4+x^3,
-  x^6+x^5+x^4+x^3+x^2+x+1,x^6+x^5+x+1,x^5+x^4+x^2+1,x^7+x^5+x^4+x^3+x^2+x,x^7+
-  x^6+x^5+x^3,x^7+x^6,x^6+x^4,1]),
+  x^3+x^2+x+1,x^5+x^4+x^3+x+1,0], lookup_sbox,mixcolumn)) = [x^7+x^6+x^5,x^7+
+  x^6+x^3,x^7+x^6+x^4+x^3+1,x^7+x^2+1,x^7+x^4+x,x^6+x^5+x+1,x^7+x^5+x^4+1,x^7+
+  x^5+x^4+x^3,x^6+x^5+x^4+x^3+x^2+x+1,x^6+x^5+x+1,x^5+x^4+x^2+1,x^7+x^5+x^4+x^3
+  +x^2+x,x^7+x^6+x^5+x^3,x^7+x^6,x^6+x^4,1]),
 true)$
 
 /* Test inverse of individual AES round operation */
@@ -168,26 +168,26 @@ okltest_inv_aes_round(f) := block(
   1,x^6+x^3+1],[x^7+x^5,x^7+x^3,x^5+x+1,x^5+x^3+x,x^7+x^6+x^5+x^4+x^3+x,x^6+x^4
   +x^2,x^7+x^5+x+1,x^6+x^5+x^3+x^2,x^7+x^6+x^5+x^4+x^3+x^2+x,x^5+x^3+x^2,
   x^5+x^4+x^3+1,x^6+x^5+x^4+x^2+x,x^4+x^2+x+1,x^7+x^5+x^4+1,x^5+x^4+x^3+1,
-  x^2+1],lookup_inv_sbox)) = [x^4+x^3+1,x^7+x^5,x^7+x^4+x^3+x,x^7+x^6+x^5+x^3+1,
-  x^5+x^4+x^3+x^2+1,x^7+x^6+x^5+x^4+x^2,x^7+x^6+x^2+x,x^7+x^6+x^5+x^4+x^3,
-  x^7+x^6+x^5+x+1,x^7+x^6+x^5+x,x^7+x^3+x^2+1,x^6+x^3,x^7+x^5+x^4+x^3+x^2+x,
-  x^5+x^3+x+1,x^5+x^3+x,x^3]),
+  x^2+1],lookup_inv_sbox,inv_mixcolumn)) = [x^4+x^3+1,x^7+x^5,x^7+x^4+x^3+x,x^7
+  +x^6+x^5+x^3+1,x^5+x^4+x^3+x^2+1,x^7+x^6+x^5+x^4+x^2,x^7+x^6+x^2+x,x^7+x^6+
+  x^5+x^4+x^3,x^7+x^6+x^5+x+1,x^7+x^6+x^5+x,x^7+x^3+x^2+1,x^6+x^3,x^7+x^5+x^4+
+  x^3+x^2+x,x^5+x^3+x+1,x^5+x^3+x,x^3]),
   assert(totaldisrep(f([x^7+x^6+x^5,x^7+x^6+x^3,x^7+x^6+
   x^4+x^3+1,x^7+x^2+1,x^7+x^4+x,x^6+x^5+x+1,x^7+x^5+x^4+1,x^7+x^5+x^4+x^3,x^6+
   x^5+x^4+x^3+x^2+x+1,x^6+x^5+x+1,x^5+x^4+x^2+1,x^7+x^5+x^4+x^3+x^2+x,x^7+x^6+
   x^5+x^3,x^7+x^6,x^6+x^4,1],[x^7+x^6+x^5+x^3+x^2+x+1,x^7+x^5+x^3,x^7+x^5+
   x^4+x^2+x,x^7+x^6+x^4+x^3+x+1,x^6+x^2,x^6+x^4+x,x^6+x^5+x^4+1,x^3+x+1,x^7+
   x^5+x^2+1,x^6+x^4+x^3+x+1,x^5+x^2+1,x^7+x^5+x^3+x^2+1,x^6+1,x^6+x^5+x^4+x^3+
-  x^2+x+1,x^5+x^4+x^3+x+1,0], lookup_inv_sbox)) = [x^6+x^3,x^6+x^5+x^2+x+1,x^6+x^3+
-  x^2+1,x^7+x^6+x^4+x^2+x,x^6+x^5+x^3+x^2,x^4+x^3+x^2+1,x^7+x^6+x^5+x+1,x^6+
-  x^4+x^3+x^2+x+1,x^6+x^3+x^2+x,x^7+x^4+x^3+x^2+1,x^7+x^5+x^4+1,x^6+x^4+x^3,
-  x^7+x^6+x^5+x^3+x^2+x,x^3+x^2+1,x^5+x^4+x^3,x^7+x^6+x^5+x^2+x+1]),
+  x^2+x+1,x^5+x^4+x^3+x+1,0], lookup_inv_sbox,inv_mixcolumn)) = [x^6+x^3,x^6+
+  x^5+x^2+x+1,x^6+x^3+x^2+1,x^7+x^6+x^4+x^2+x,x^6+x^5+x^3+x^2,x^4+x^3+x^2+1,x^7+
+  x^6+x^5+x+1,x^6+x^4+x^3+x^2+x+1,x^6+x^3+x^2+x,x^7+x^4+x^3+x^2+1,x^7+x^5+x^4+1,
+  x^6+x^4+x^3,x^7+x^6+x^5+x^3+x^2+x,x^3+x^2+1,x^5+x^4+x^3,x^7+x^6+x^5+x^2+x+1]),
 true)$
 
 /* Test full AES encryption */
 okltest_aes_encrypt(f) := block(
   assert(totaldisrep(f([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lookup_sbox)) = 
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lookup_sbox,mixcolumn)) = 
     [x^6+x^5+x^2+x,x^7+x^6+x^5+x^3+x^2+x+1,x^7+x^3,x^7+x^6+x^3+x,
     x^7+x^6+x^5+x^3+1,x^7+x^3+x,x^6+x^3+x^2,x^5+x^4+x^2,x^6+x^3+x+1,x^5+x^3+
     x^2,x^7+x^6+x^5+x^4+x^3+x,x^5+x^3+x+1,x^7+x^6+x^4+x^2,x^5+x^4+x^3+x+1,
@@ -198,7 +198,7 @@ okltest_aes_encrypt(f) := block(
     [x^5+x^3+x+1,x^5+x^3,x^7+x^5+x^3+x+1,x^3+1,x^6+x^5+x^4+x^3+x^2+x,
     x^7+x^5+x^3+x^2+x,x^7+x^6+x^5+x^4+x^2+x+1,x^7+x^6+x^3+x^2+x+1,
     x^4+x^2+1,x^7+x^6+x^4+x,x^4+x^2+1,x^6+x^3+x^2+x+1,x^4+x^2+x,x^7
-    +x^5+x^2+x,x^7+x^3,x^5+x^4+x^3+x^2], lookup_sbox)) = 
+    +x^5+x^2+x,x^7+x^3,x^5+x^4+x^3+x^2],lookup_sbox,mixcolumn)) = 
     [x^5+x^4+x^3+1,x,x^7+x^6+x^4+x^3+x^2,x^4+x^3+1,x^5+x^2+1,x^7+x^6+x^4+
     x^3+x^2,x^4+1,x^6+x^5+x^3+x,x^7+x^2,x^3+1,x^7+x^2+1,x^3+x+1,x^4+x^3+x^2+1,
     x^7+x^6+x^5+x^4+x^3+x+1,x^7+x^4+x^2+x+1,x^5+x^4+x]),
@@ -213,7 +213,7 @@ okltest_aes_decrypt(f) := block(
     [x^5+x^3+x+1,x^5+x^3,x^7+x^5+x^3+x+1,x^3+1,x^6+x^5+x^4+x^3+x^2+x,
     x^7+x^5+x^3+x^2+x,x^7+x^6+x^5+x^4+x^2+x+1,x^7+x^6+x^3+x^2+x+1,x^4+x^2+1,x^7
     +x^6+x^4+x,x^4+x^2+1,x^6+x^3+x^2+x+1,x^4+x^2+x,x^7+x^5+x^2+x,x^7+x^3,x^5+
-    x^4+x^3+x^2],lookup_sbox, lookup_inv_sbox)) =
+    x^4+x^3+x^2],lookup_sbox,lookup_inv_sbox,inv_mixcolumn)) =
     [x^5+x^4+x,x^7+x^3,x^5+x^4+1,x^7+x^6+x^5,x^6+x+1,x^6+x^4+x^3+x,
      x^5+x^4+1,x^5+x^4+x^2+x+1,x^7+x^6+x^5+x^4+x^2+x,x^5+x^4,x^7+x^4+x^3,
      x^2+x+1,x^7+x^5+x^3,x^7+x^3+x^2+1,x^7+x^5+x,x^5+x^4+x^2]),
@@ -221,7 +221,8 @@ okltest_aes_decrypt(f) := block(
     x^3+x,x^7+x^6+x^5+x^3+1,x^7+x^3+x,x^6+x^3+x^2,x^5+x^4+x^2,x^6+x^3+x+1,x^5+
     x^3+x^2,x^7+x^6+x^5+x^4+x^3+x,x^5+x^3+x+1,x^7+x^6+x^4+x^2,x^5+x^4+x^3+x+1,
     x^6+x^4+x^3+1,x^5+x^3+x^2+x],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    lookup_sbox, lookup_inv_sbox)) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+    lookup_sbox,lookup_inv_sbox,inv_mixcolumn)) = 
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
 true)$
 
 /*!
