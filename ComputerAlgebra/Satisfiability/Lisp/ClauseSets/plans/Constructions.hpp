@@ -31,9 +31,17 @@ License, or any later version. */
    for C in F there exists D in G with D <= f(C) ?! </li>
    <li> So perhaps we should use the names "coproduct_cs" and "product_cs"
    ?! </li>
-   <li> Negation perhaps has no canonical representation(?): A semantic
-   negation G of a clause-set F is characterised by comp_cs(G) being a
-   DNF-representation of F. </li>
+   <li> Negation
+    <ol>
+     <li> "dual_cs" is the clause-set obtained by full distribution. </li>
+     <li> Compare with ComputerAlgebra/Hypergraphs/Lisp/plans/Transversals.hpp.
+     </li>
+     <li> Compare with Algorithms/AllSolutions/plans/MinimalAssignments.hpp.
+     </li>
+     <li> A semantic negation G of a clause-set F is characterised by
+     comp_cs(G) being a DNF-representation of F. </li>
+    </ol>
+   </li>
   </ul>
 
 
