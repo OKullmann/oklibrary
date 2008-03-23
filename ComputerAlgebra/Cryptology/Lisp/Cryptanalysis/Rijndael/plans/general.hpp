@@ -179,6 +179,10 @@ License, or any later version. */
      <li> For the unevaluated conditions (placeholders) within the sets, 
      perhaps the postfix "_c" for condition, could be used, and for the
      functions producing the conditions, perhaps "_cp" as a postfix? </li>
+     <li> Could such condition sets also be used as a representation when
+     dealing with active clauses? A generalised solver that looked for 
+     operators within the set and then applied appropriate given functions
+     for those operators that would determine heuristics etc? </li>
      <li> DONE (Not needed, we want a set of conditions to be produced)
      "nounify" appears to be useful here, to force functions such as
      "union" to become "nouns" rather than "verbs", which are then not 
