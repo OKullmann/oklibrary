@@ -26,7 +26,7 @@ License, or any later version. */
    </li>
    <li> In CLS as category, with morphisms complement-preserving homomorphisms
    for hypergraphs, it should and_cs be the coproduct, but or_cs doesn't
-   look like a product. One could repear that by using as homomorphisms
+   look like a product. One could repair that by using as homomorphisms
    complement-preserving maps f: F -> G from literals to literals such that
    for C in F there exists D in G with D <= f(C) ?! </li>
    <li> So perhaps we should use the names "coproduct_cs" and "product_cs"
@@ -34,6 +34,16 @@ License, or any later version. */
    <li> Negation perhaps has no canonical representation(?): A semantic
    negation G of a clause-set F is characterised by comp_cs(G) being a
    DNF-representation of F. </li>
+  </ul>
+
+
+  \todo Gluing operations
+  <ul>
+   <li> Given clause-sets F, G, use a new variable v, add v to all of
+   F, add -v to all of G, and take the union. </li>
+   <li> Semantically this represents ( exists(v) : F or G). </li>
+   <li> Often this operation needs variable-disjointness, so we need
+   some operation to make F, G variable-disjoint. </li>
   </ul>
 
 */
