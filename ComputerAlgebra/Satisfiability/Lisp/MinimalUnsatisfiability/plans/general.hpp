@@ -87,6 +87,34 @@ License, or any later version. */
   </ul>
 
 
+  \todo Minimal variable-degree of uniform minimally unsatisfiable clause-sets
+  <ul>
+   <li> Let minvardeg_umu(k) for k >= 0 be the minimal possible (maximal)
+   variable-degree of (minimally) unsatisfiable k-uniform boolean
+   clause-sets F. </li>
+   <li> The todos "Small variable-degrees" and
+   "The heuristical function remlitocc_greedy" above are about heuristics
+   for finding upper bounds on minvardeg_umu(k). </li>
+   <li> We need to implement minvardeg_umu(k) that it yields the currently
+   known lower and upper bounds. </li>
+   <li> We also need witnesses for the upper and lower bounds:
+    <ol>
+     <li> Upper bounds are realised by single examples. </li>
+     <li> See "Translations reducing the number of variable-occurrences" in
+     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Translations.hpp for
+     the realisation of the upper bound 2+2^(k-2) (k >= 2). </li>
+     <li> For lower bounds one needs algorithms which find quickly a
+     satisfying assignments. </li>
+     <li> The lower bound k+1 (k >= 1) is realised by matching-satisfiability.
+     </li>
+    </ol>
+   </li>
+   <li> The restrictions to hitting clause-sets F are considered in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp.
+   </li>
+  </ul>
+
+
   \todo Creating marginal elements of MUSAT(1)
   <ul>
    <li> What is the scope of marginal_musat1(k) ? </li>
