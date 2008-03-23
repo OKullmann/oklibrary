@@ -1,0 +1,116 @@
+/* Matthew Gwynne, 22.3.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/FiniteFields.mac
+  \brief Finite field functions.
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+
+/* ***************************************
+   * Finite Field Wrapper Functions      *
+   ***************************************
+*/
+
+load(gf)$
+
+/* It appears you can not overload functions with different arities
+   and so the gf_* functions have been prefixed with an 'e' for 
+   extended. These functions perform the same duty as their gf_*
+   counterparts but require additionally an argument that specifies
+   which field the operation is being performed over in the form [p,n,ip] where
+   "p" is the prime characteristic of the field, "n" is the power to which "p" 
+   is raised, and "ip" the polynomial irreducible over GF(p) such that a field
+   GF(p^n) is defined with operations being performed on polynomials over
+   GF(p) modulo ip.
+ */
+/* REMARK : Such remarks should not stay in implementation files, but
+should go to plans-files. */
+
+/* REMARK : We need documentation (as docus) on gf and these functions. */
+
+/* 
+   Global field variable used to keep a record of the default field to be used
+   when a field is not provided as an argument to egf_add etc. 
+*/
+define_variable(egf_field, 'egf_field, any_check);
+egf_field : [2,1,[x]]$ /* Default to GF(2) */
+
+/* 
+   Allows the default field that all operations (egf_*) will be performed in to
+   be set if a field argument is not specified. If a field argument is specified
+   to any of the given commands, then that field is used only for the given
+   function call and from then on the default field (set with this function) 
+   is used again.
+*/
+egf_set(field) := (
+  apply(gf_set,field),
+  egf_field : field)$
+
+/*
+   Maps any given gf_* function (func) to a egf_* function by allowing it to 
+   take a field or use the default field otherwise.
+   OK: ???
+*/
+egf_func(func,numargs,args) := (
+  if length(args) > numargs then block(
+    apply(gf_set, first(args)),
+    result : apply(func,rest(args)),
+    apply(gf_set,egf_field),
+    return(result))
+  else
+    apply(func, args))$
+
+/* 
+   Analogue of gf_add, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_add([args]) := egf_func(gf_add, 2, args)$
+
+/* 
+   Analogue of gf_mul, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_mul([args]) := egf_func(gf_mul, 2, args)$
+
+/* 
+   Analogue of gf_matmul, which optionally takes an additional field argument
+   (as the first argument) to specify that this operation should be performed
+   in the given field.
+*/
+egf_matmul([args]) := egf_func(gf_matmul, 2, args)$
+
+/* 
+   Analogue of gf_matinv, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_matinv([args]) := egf_func(gf_matinv, 1, args);
+
+/* 
+   Analogue of gf_inv, which optionally takes an additional field argument (as
+   the first argument) to specify that this operation should be performed in the
+   given field.
+*/
+egf_inv([args]) := egf_func(gf_inv, 1, args)$
+
+
+
+/*!
+\endhtmlonly
+*/

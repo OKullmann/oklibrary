@@ -16,12 +16,13 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - bug: Finite Fields package function doesn't terminate
     - Convert AES functions to use more natural representation
     - Modularising the Rijndael-implementation
-    - Finite Field operations
     - Key schedule
     - Design of round functions
+    - Finite Field operations DONE (Moved To ComputerAlgebra/Algebra)
+    - bug: Finite Fields package function doesn't terminate DONE 
+      (Moved To ComputerAlgebra/Algebra)
     - New design and implementation DONE
   
   
