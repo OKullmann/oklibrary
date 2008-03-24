@@ -293,6 +293,28 @@ block([fpprec : fpprec], fpprec : d, Comp)
    maxima-library ? Perhaps we can discuss this on the Maxima mailing
    list. </li>
   </ul>
+     
+     
+  \todo Collaboration with the Maxima community
+  <ul>
+   <li> On the plans for the "Google Summer of code" at
+   http://maxima.sourceforge.net/wiki/index.php/Design Notes
+   there are quite some overlaps with the OKlibrary (especially
+   regarding "Boolean algebra and logic". </li>
+   <li> At some point we should contact "the Maxima community",
+   and discuss possibilities for collaborations:
+    <ol>
+     <li> The OKlibrary uses the Maxima-level only for
+     "procedural specifications". </li>
+     <li> So the Maxima community can use this as a map for the whole
+     field, and produce some specific more efficient implementations at
+     the Lisp level. </li>
+     <li> Of course, also input on the use of Maxima in the OKlibrary would
+     be welcome. </li>
+     <li> And doxygen support for Maxima would be great. </li>
+    </ol>
+   </li>
+  </ul>
 
 */
 
