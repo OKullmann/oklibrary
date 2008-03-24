@@ -115,5 +115,19 @@ License, or any later version. */
   </ul>
 
 
+  \todo Experimental investigations on heuristics
+  <ul>
+   <li> Above we have precise data on families of problem instances. </li>
+   <li> Is now this supermodule also the right place for collecting
+   data about computational experiments? </li>
+   <li> Finally, a database is needed (like SatEx), and this should go
+   somewhere else. </li>
+   <li> Taking [Hooker, Vinay, 1995, Branching Rules for Satisfiability]
+   as a starting point, we should completely update the data, using
+   new heuristics and benchmarks (and also various evaluation techniques).
+   But we should stay within the lookahead-paradigm, but perhaps generalised
+   on the strength of reduction and look-ahead. </li>
+  </ul>
+
 */
 

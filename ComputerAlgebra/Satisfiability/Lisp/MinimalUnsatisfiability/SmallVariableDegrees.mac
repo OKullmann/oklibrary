@@ -1,0 +1,36 @@
+/* Oliver Kullmann, 24.3.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.mac
+  \brief Operations regarding the smallest possible variable degrees of uniform minimally unsatisfiable clause-sets
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+
+
+/* Formal boolean clause-set with 10 variables and 13 clauses, such that
+   the variable-degree is 4, and every satisfying assignment for variable 1
+   must set it to false. */
+tovey84 : [setn(10), {{-8,-9,-10},
+{-1,2,3}, {8,-2,-3}, {8,2,-3}, {8,-2,3},
+{-1,4,5}, {9,-4,-5},{9,4,-5}, {9,-4,5}, 
+{-1,6,7}, {10,-6,-7}, {10,6,-7}, {10,-6,7}}]$
+
+
+/*!
+\endhtmlonly
+*/

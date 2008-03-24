@@ -1,12 +1,12 @@
 // Oliver Kullmann, 21.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
 /*!
-  \file AllSolutions/plans/MinimalAssignments.hpp
+  \file Algorithms/AllSolutions/plans/MinimalAssignments.hpp
   \brief Plans for computing the generalised "transversal hypergraph"
 
   Computing Tr(F) for a clause-set F, the set of all consistent clauses minimal
@@ -19,13 +19,16 @@ License, or any later version. */
    traversal", where for a clause-set the set of minimal satisfying
    partial assignments has to be computed. </li>
    <li> Via the embedding of hypergraphs into clause-sets as positive clause-sets,
-   hypergraph transversal (see HypergraphTransversals/plans/general.hpp)
+   hypergraph transversal (see Hypergraphs/Transversals/plans/general.hpp)
    can be obtained as special case. </li>
   </ul>
 
 
   \todo The basic algorithm:
   <ul>
+   <li> Compare with
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Constructions.hpp.
+   </li>
    <li> For a clause-set F, let's call the set of minimal satisfying
    partial assignment also "Tr(F)" (as for hypergraphs). </li>
    <li> Or, perhaps better, Tr(F) is again a set of clauses?! </li>

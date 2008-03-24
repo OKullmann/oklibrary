@@ -67,18 +67,21 @@ Building:
  - The public bin-directory "OKplatform/bin" (in this directory) contains 
    links to the main executables supplied by the OKlibrary, including "oklib".
  - So you can put this bin-directory on your path via adding
-PATH=OKPLATFORM/bin:${PATH}
+export PATH=OKPLATFORM/bin:${PATH}
    to ~/.bashrc, where OKPLATFORM is to be replaced by the (absolute)
    path to the OKplatform-directory. In order to conveniently use
    all main programs supplied by the OKlibrary, this step is RECOMMENDED.
 
  - Or you can set up a symbolic link to oklib in ~/bin.
+
+   Remark: It seems that on some systems (like (K)Ubuntu) ~/bin is not
+   automatically element of PATH, so you would need to add ~/bin to
+   your path in the bash-resources-file.
+
    DEPRECATED: If you call
      ./oklib --setup
-   in directory OKplatform, then the build system will create this link in ~/bin.
-   Remark: It seems that on some systems (like (K)Ubuntu) ~/bin is not
-   automatically element of PATH; we would recommend to add it to
-   your path in the bash-resources-file.
+   in directory OKplatform, then the build system will create a symbolic
+   link to oklib in ~/bin.
 
 Once you decided on how to access "oklib" in the future, you might delete the
 symbolic link in directory OKplatform.
@@ -89,6 +92,7 @@ The next is to prepare the build system: Call
 
 oklib --prebuild
 
+(still in the OKplatform-directory).
 
 3) Except for the minimal package, precomputed documentation is included.
 Regarding the information on the installed external sources, this precomputed
@@ -103,8 +107,8 @@ Remarks:
  - "oklib html" would fully re-install the documentation, however it needs an
    appropriate version of doxygen installed for this. See Step 4).
  - If you get error messages with "oklib documentation_index" then likely
-   this means that the binary "PathDifference", needed to translate paths and 
-   which needs to be compiled by the OKlibrary, and which we supply 
+   this means that the binary "PathDifference" (needed to translate paths and 
+   which needs to be compiled by the OKlibrary), which we supply 
    as a binary (in the optimised version), doesn't run on your system (so likely
    your system is not a i386-architecture). "oklib all" in OKsystem will compile it
    (amongst others), but you need gcc and Boost ready for this.
