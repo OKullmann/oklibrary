@@ -298,9 +298,9 @@ block([fpprec : fpprec], fpprec : d, Comp)
   \todo Collaboration with the Maxima community
   <ul>
    <li> On the plans for the "Google Summer of code" at
-   http://maxima.sourceforge.net/wiki/index.php/Design Notes
+   http://maxima.sourceforge.net/wiki/index.php/Design%20Notes
    there are quite some overlaps with the OKlibrary (especially
-   regarding "Boolean algebra and logic". </li>
+   regarding "Boolean algebra and logic"). </li>
    <li> At some point we should contact "the Maxima community",
    and discuss possibilities for collaborations:
     <ol>
