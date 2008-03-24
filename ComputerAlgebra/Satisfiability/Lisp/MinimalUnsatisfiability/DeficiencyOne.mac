@@ -25,7 +25,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
 
 /* ******************************************************
    * Heuristical approach: removing literal occurrences *
-   * to achieve a given maximal degree                  *
+   * to achieve a given maximal variable degree         *
    ******************************************************
 */
 
@@ -42,7 +42,7 @@ find_removable_remlitocc(L,x,k) := block(
    return([remove_element(mini, occ), locc-1])))$
 
 /* Input clause-set F (without pure literals, and with min-rank at least k).
-   Returns [false] if an unsolvable situation was generated, and other a
+   Returns [false] if an unsolvable situation was generated, and otherwise a
    pair [F',r'], where F' is obtained from F by removal of 
    literal-occurrences and r' <= r is the realised maximal var-degree
    (maintaining the above invariants throughout). */
