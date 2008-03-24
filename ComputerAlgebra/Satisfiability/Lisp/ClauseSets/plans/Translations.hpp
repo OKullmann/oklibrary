@@ -24,29 +24,63 @@ License, or any later version. */
      </li>
      <li> Introduce a new variable v. </li>
      <li> Replace C, D by (C - {x}) + {v}, (D - {x}) + {v}, {-v,x}. </li>
-     <li> Perhaps signs are standardised, so  that the new binary clauses
-     are negative. </li>
+     <li> In effect, we eliminated one occurrence of literal x, and we
+     introduced a new variable v occurring (2,1). </li>
     </ol>
    </li>
-   <li> Performing this basic step for all *original* literals, we obtain
-   F' such that
+   <li> Performing this basic step iteratedly for all literals such that
+   the underlying variable occurs at least 4 times (so we never need
+   to consider the newly introduced variables), we obtain F' such that
     <ol>
-     <li> All original variables occur (1,1). </li>
-     <li> All new variables occur (2,1). </li>
+     <li> All variables occur at most 3 times. </li>
      <li> All original clauses kept their length. </li>
      <li> All new clauses are binary. </li>
     </ol>
    </li>
-   <li> There is also interest in obtaining also a uniform k-CNF at the end:
+   <li> Alternatively, by [Tovey, 1984, DAM] we obtain a different general
+   translation, which for a variable v in F occurring at least 4 times
+   removes all occurrences at once as follows:
     <ol>
-     <li> First reduce (change) the clause-length (see above). </li>
-     <li> Then reduce the number of literal occurrences by the basic steps.
-     </li>
+     <li> Consider a variable v occurring m >= 4 times. </li>
+     <li> For each occurrence of v, introduce a new variable w_i. </li>
+     <li> Replace each occurrence of v by the corresponding w_i, using the
+     same sign. </li>
+     <li> Add the equivalence ring (w_1 -> w_2), ..., (w_{m-1} -> w_m),
+     (w_m -> w_1). </li>
+    </ol>
+    This translation has the same 3 properties as the above translation,
+    and additionally when considering only the new binary clauses, then
+    every variable occurs only 2 times.
+   </li>
+   <li> There is also interest in obtaining also a uniform k-CNF at the end
+   (with a small variable degree):
+    <ol>
+     <li> First reduce or change the clause-length, by any method, for
+     example reducing the clause-length as in the todo above, or increasing
+     the clause-length by inverse 2-subsumption resolution. </li>
+     <li> Then reduce the number of literal occurrences by any of the
+     above two methods. </li>
      <li> Perhaps integration of these two operations can save variables.
      </li>
-     <li> Finally expand the new binary clauses to length k (by inverse
-     2-subsumption resolution). </li>
-     <li> In this way we obtain (maximally) (2,2^(k-2)) occurrences. </li>
+     <li> The final (and crucial step) is to expand the new binary clauses
+     to size k:
+      <ul>
+       <li> The simplest method is inverse 2-subsumption resolution, but this
+       introduces too many literal occurrences. </li>
+       <li> A more powerful general method (used by [Tovey, 1984, DAM]) is to
+       expand a clause C simply by new variables v to the desired length k,
+       and then to add for each new variable v a dedicated clause-set F_v,
+       variable-disjoint except of v, which forces v to be false, and such that
+       the variable-degree of F_v is at most s, except of v, which has a
+       variable-degree at most s-1. </li>
+       <li> Such F_v are trivially obtained from any (minimally) unsatisfiable
+       clause-set F which is k-uniform and has variable-degree at most s
+       (by removing one clause). </li>
+       <li> See "Pumping up binary clauses" in
+       ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp
+       for dedicated constructions of such F_v. </li>
+      </ul>
+     </li>
     </ol>
    </li>
   </ul>
