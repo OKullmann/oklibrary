@@ -25,6 +25,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hyper
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 
 /* ***************************************
@@ -44,11 +45,20 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
    The other hitting clause-sets created are subsets of tree hitting 
    clause-sets. */
 treehittingcls_st(T) := setify(usat_clauses_st(T))$
+/* The dual hitting clause-set, representing the unterlying CNF as DNF */
+dualtreehittingcls_st(T) := setify(sat_pass_st(T))$
 /* The full representation, consisting of a hitting clause-set representing
    the falsifying assignments (as CNF), and of a hitting clause-set 
    representing the satisfying assignments (as DNF, i.e. as sets of
    partial assignments). */
-hitting_cls_rep_st(T) := [treehittingcls_st(T), setify(sat_pass_st(T))]$
+hitting_cls_rep_st(T) := [treehittingcls_st(T), dualtreehittingcls_st(T)]$
+
+/* Convenience functions, which generate splitting trees by backtracking
+   solvers (without backtracking); the heuristics needs to be
+   supplied). */
+treehittingcls_fcs(FF,h) := treehittingcls_st(dll_simplest_st(FF,h))$
+dualtreehittingcls_fcs(FF,h) := dualtreehittingcls_st(dll_simplest_st(FF,h))$
+hitting_cls_rep_fcs(FF,h) := hitting_cls_rep_st(dll_simplest_st(FF,h))$
 
 
 /* **************
