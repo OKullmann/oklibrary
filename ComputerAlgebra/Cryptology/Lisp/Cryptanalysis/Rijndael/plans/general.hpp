@@ -13,22 +13,37 @@ License, or any later version. */
   \todo Review and tidy todos
 
 
-  \todo Generate minimal hitting clause set for AES Sbox
+  \todo Generate "good" CNF hitting clause-sets for the AES Sbox
   <ul>
-   <li> The following two functions should be useful :
-    <ol>
-     <li> "dll_simplest_st_max_lit" in 
-     ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
-     </li>
-     <li> "hitting_cls_rep_st" in
-     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
-     </li>
-    </ol>
-    Although using other dll splitting trees generator functions in the above 
-    module might yield better results?
+   <li> Different heuristics:
+   \verbatim
+length(hitting_cnf_aes_sbox(dll_heuristics_first_formal));
+2048
+length(hitting_cnf_aes_sbox(dll_heuristics_first_real));
+2048
+length(hitting_cnf_aes_sbox(dll_heuristics_first_shortest_clause));
+2048
+length(hitting_cnf_aes_sbox(dll_heuristics_max_lit));
+1513
+length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
+2048
+   \endverbatim
+   Would be interesting to understand this. </li>
+   <li> Use heuristics_lookahead_distances with different lookahead-reductions
+   and different distances. </li>
+   <li> Since the AES-DNF is unique, as a correctness test we can
+   just check whether we get the input back (using any heuristics):
+   \verbatim
+is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)),dll_heuristics_first_formal)) =
+   generate_full_aes_sbox_dnf_fcs());
+   \endverbatim
    </li>
-   <li> This needs to be elaborated along with the reasoning. </li>
+   <li> We should also use reductions. For that we need the ability
+   to translate r_k-splitting trees into hitting clause-sets, which can
+   be done in a straightforward way, by just making the forced assignments
+   into trees of levelled height 1 (ignoring the actual reduction). </li>
   </ul>
+
 
   \todo Discussion on Generalisation/Parameterisation based on [Algebraic Aspects
   of the AES]
