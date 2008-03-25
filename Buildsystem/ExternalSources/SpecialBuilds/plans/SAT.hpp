@@ -280,6 +280,13 @@ actual or intended publication of such source code.
   \todo Posit
 
 
+  \todo Generators
+  <ul>
+   <li> http://www.dis.uniroma1.it/~massacci/cryptoSAT should contain
+   the DES -> SAT translator. </li>
+  </ul>
+
+
   \todo DONE Chaff
   <ul>
    <li> Not open source, and thus can't be included. </li>
