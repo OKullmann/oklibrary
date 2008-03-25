@@ -163,7 +163,7 @@ dll_simplest_st_max_lit(FF) := dll_simplest_st(FF, dll_heuristics_max_lit)$
 dll_rk_max_lit(FF,k) := dll_rk(FF, dll_heuristics_max_lit, k)$
 dll_rk_st_max_lit(FF,k) := dll_rk_st(FF, dll_heuristics_max_lit, k)$
 
-/* Heuristics: choose a literal occurring most often, and choose the sign
+/* Heuristics: choose a variable occurring most often, and choose the sign
    first which satisfies most clauses. */
 
 dll_heuristics_max_var(FF) := block(
