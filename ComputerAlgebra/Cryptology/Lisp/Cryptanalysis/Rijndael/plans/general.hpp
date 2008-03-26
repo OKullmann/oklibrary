@@ -126,14 +126,6 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
   </ul>
 
 
-  \todo Migrate the mupad-code.
-  <ul>
-   <li> What is to be achieved here? A movement of the relevant AES code from
-   Transitional/ComputerAlgebra/Mupad/TestenFormelGenAES.mup to a seperate mupad
-   AES implementation in ComputerAlgebra/Cryptology/ with docus and demos attached?</li>
-  </ul>
-
-
   \todo Partitioning into active clauses
   <ul>
    <li> This todo has to be updated according to
