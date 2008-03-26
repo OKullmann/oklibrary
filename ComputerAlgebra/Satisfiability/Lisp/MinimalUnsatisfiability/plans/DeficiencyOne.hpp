@@ -36,15 +36,15 @@ License, or any later version. */
    <li> The problem is in NP, one likely also NP-complete (also for
    inputs from SMUSAT(1)). </li>
    <li> The general question is to find out for given uniform clause-length k
-   what is the smallest possible variable-degree r = f(k) which still allows
-   unsatisfiable F, where in this todo we consider F in MUSAT(1).
-   See
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.
-   for the general case F in MUSAT (where f is called "minvardeg_umu"). </li>
+   what is the smallest possible variable-degree r = f(k)+1 which still allows
+   unsatisfiable F, where in this todo we consider F in MUSAT(1). </li>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.hpp
+   for the general case F in MUSAT (where f+1 is called "minvardeg_umu"). </li>
    <li> Back to MUSAT(1), i.e., for f only F in MUSAT(1) are considered, and
    we use f_1 to emphasise this:
     <ol>
-     <li> Apparently f_1(3) = 4 and f_1(4) = 5 are the only known precise
+     <li> Apparently f_1(3)+1 = 4 and f_1(4)+1 = 5 are the only known precise
      values. </li>
      <li> Interesting also the (minimal) clause-numbers for realising the
      minimal parameter values (since the deficiency is fixed, this is the
@@ -57,6 +57,7 @@ License, or any later version. */
      <li> We should exhibit such examples. </li>
      <li> We should implement [Hoory, Szeider]; perhaps also [Dubois, DAM 1990]
      contains some constructions. </li>
+     <li> As a name for "f_1+1" perhaps we use "minvardeg_umu_d1". </li>
     </ol>
    </li>
    <li> A translation into SAT of course is of interest, directly into

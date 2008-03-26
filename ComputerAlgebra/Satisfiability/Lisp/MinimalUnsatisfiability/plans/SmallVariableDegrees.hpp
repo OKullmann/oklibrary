@@ -15,17 +15,31 @@ License, or any later version. */
    <li> Let minvardeg_umu(k) for k >= 0 be the minimal possible (maximal)
    variable-degree of (minimally) unsatisfiable k-uniform boolean
    clause-sets F. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp
-   for some heuristics for upper bounds on minvardeg_umu(k). </li>
    <li> We need to implement minvardeg_umu(k) so that it yields the currently
-   known lower and upper bounds. </li>
+   known lower and upper bounds.
+    <ol>
+     <li> We need a table with the best known values. </li>
+     <li> Then there are several functions for computing upper bounds, which
+     can be invoked for unknown k. </li>
+     <li> Once we computed such an upper bound, then we might wish to store it
+     (especially if the computation was rather expensive); how to do this? </li>
+    </ol>
+   </li>
    <li> We also need witnesses for the upper and lower bounds:
     <ol>
      <li> Upper bounds are realised by single examples. </li>
-     <li> See topic "Pumping up binary clauses" for a method of constructing clause-sets,
-     which is directly connected to the NP-completeness proof. </li>
-     <li> In [Hoory, Szeider, arXiv, 2004] a general construction is discussed,
-     which we should implement. </li>
+     <li> See topic "Pumping up binary clauses" for a method of constructing
+     clause-sets, which is directly connected to the NP-completeness proof.
+     </li>
+     <li> In [Hoory, Szeider, arXiv, 2004], identical with [Hoory, Szeider, SIAM
+     Discrete Mathematics, 2006], a general construction is discussed;
+     see todo below. </li>
+     <li> See "Small variable-degrees in MUSAT(1)" in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp
+     for methods, which apparently yield the strongest examples currently. </li>
+     <li> Apparently the examples are rather large, so that also more compressed
+     representations (term-based, or merely stating main parameters), are
+     needed. </li>
      <li> For lower bounds one needs algorithms which find quickly a
      satisfying assignments. </li>
      <li> The lower bound k+1 (k >= 1) is realised by matching-satisfiability.
@@ -57,6 +71,23 @@ License, or any later version. */
    <li> Due to m(3) <= 4 we get m(k) <= 2^(k-1) for all k >= 3, simply by
    expanding the above F_v to higher clause-length using inverse 2-subsumption
    resolution (using new variables each time). </li>
+  </ul>
+
+
+  \todo Implementing [Hoory, Szeider, SIAM Discrete Mathematics, 2006]
+  <ul>
+   <li> In Section 4, Definition 4.1, Lemma 4.2, rules 1,2, and the variation
+   on page 527 top, a general (nondeterministic) construction is introduced,
+   which we should implement. </li>
+   <li> Then (page 527) the two special families from Sections 2, 3 are
+   derived; again we should implement this. </li>
+   <li> Let minvardeg_umu_hs(k) be the minimal (maximal) variable-degree
+   obtainable by this construction (in the article called "f_2(k) + 1"). </li>
+   <li> At the end of Section 4 a simple algorithm is presented for computing
+   minvardeg_umu_hs(k), which we should implement. </li>
+   <li> Likely the formulas constructed are minimally unsatisfiable? </li>
+   <li> What are their parameters (deficiency, number of variables)? </li>
+   <li> How regular are these formulas? </li>
   </ul>
 
 */
