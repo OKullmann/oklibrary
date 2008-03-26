@@ -1,4 +1,4 @@
-/* Matthew Gwynne, 11.9.2007 (Swansea) */
+/* Matthew Gwynne, 26.3.2008 (Swansea) */
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,12 +6,12 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/AdvancedEncryptionStandard.mac
-  \brief Cryptanalysis functions and tools for AES/Rijndael
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac
+  \brief Cryptanalysis functions for translations of Rijndael into Active Clauses etc
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/AdvancedEncryptionStandard.mac");
+oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac");
 
 */
 
@@ -21,40 +21,6 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
-
-
-/* ******************************************
-   * Sbox Analysis                          *
-   ******************************************
-*/
-
-/* Generation of the full DNF clause-set representing the AES sbox */
-generate_full_aes_sbox_dnf_fcs() :=  
-  cs_to_fcs(map(lambda([ce],binary_list_to_dnf_c(
-    append(polynomial2list(ce,8),polynomial2list(lookup_sbox(ce),8)))),
-    map(lambda([se], xreduce(lambda([a,b],a+b),se,0)), 
-      powerset(setify(makelist(x^i,i,0,7))))))$
-
-/* Generation of the full CNF clause-set representing the AES sbox */
-generate_full_aes_sbox_cnf_fcs() := block(
-  [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
-  clauses_f(generate_full_aes_sbox_dnf_fcs())],
-  cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
-
-/* Generation of a CNF hitting clause-set, given a heuristics h for
-   a backtracking solver (without reduction) */
-hitting_cnf_aes_sbox(h) := dualtreehittingcls_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
-
-/* Convert a given polynomial to a list of coefficients of length n */
-/* OK : in which order? */
-polynomial2list(poly,n) := makelist(coeff(poly, x, n-i),i,1,n)$
-
-/* Generate a DNF clause from a list of values in {0,1} */
-/* OK : what is the meaning of this ??? */
-binary_list_to_dnf_c(bv) := 
-  setify(map(lambda([b,j],(-1 + b * 2) * j),
-    bv,makelist(i,i,1,length(bv))))$
 
 
 /* ***************************************

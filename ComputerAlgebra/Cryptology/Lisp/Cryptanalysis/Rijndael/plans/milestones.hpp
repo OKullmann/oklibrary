@@ -21,14 +21,14 @@ License, or any later version. */
   \par Version 0.0.6
   
   \par
-  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
     - Generate "good" CNF hitting clause-sets for the AES Sbox
     - Sbox CNF and DNF generation functions DONE
 
   \par Version 0.1
   
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Encoding AES (top down)
 
   \par
@@ -49,7 +49,7 @@ License, or any later version. */
   \par Version 0.1.2
   
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
     - Active clauses for field operations
     - Partitioning into active clauses
     - Algebraic aspects DONE (Moved to CryptoSystems/Rijndael)
