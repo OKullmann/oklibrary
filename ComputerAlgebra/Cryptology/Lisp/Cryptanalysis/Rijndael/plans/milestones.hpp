@@ -50,9 +50,9 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Algebraic aspects
     - Active clauses for field operations
     - Partitioning into active clauses
+    - Algebraic aspects DONE (Moved to CryptoSystems/Rijndael)
   
   \par
    Update the following milestones.

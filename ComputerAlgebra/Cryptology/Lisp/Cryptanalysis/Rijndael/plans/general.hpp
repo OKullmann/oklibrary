@@ -95,37 +95,6 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
   </ul>
 
 
-  \todo Algebraic aspects
-  <ul>
-   <li> The initial example code uses matrices as this seemed natural from the
-   description of AES but this potentially makes generalisation to Rijndael
-   more difficult unless a seperate implementation is created for each
-   plaintext-key pair size configuration is made which seems excessive. </li>
-   <li> Using maxima matrices in such ways also seems to bias the implementation
-   to taking a view of the problem from one particular aspect (ie GF(2) bytes etc)
-   which may not be best. </li>
-   <li> The advantage of matrices is that, the semantics of the operations are
-   more easily visible at a glance, although any well designed and implemented
-   would probably provide this. </li>
-   <li> Perhaps for use a simple list would be best as this seems to be the
-   common unit in LISP and therefore maxima? </li>
-   <li> This can be converted to a matrix if a given operation would be best
-   accomplished this way... </li>
-   <li> There seem to be 3 different representations considered when dealing
-   with AES, byte sized. </li>
-   <li> Create a general design (here in the plans) which is stepwise refined to a
-   Maxima implementation. </li>
-   <li> Compare the discussion under "Condition" in
-   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
-   <li> Look into whether/how maxima supports symbolic manipulation, so once a
-   simple AES implementation is complete, basic equations can be generated for
-   study. </li>
-   <li> This is seemingly possible in Sage by generating variables from PolynomialRings
-   and using these in the system although this seems to yield some issues with typing
-   in some cases. </li>
-  </ul>
-
-
   \todo Partitioning into active clauses
   <ul>
    <li> This todo has to be updated according to
@@ -198,6 +167,8 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
      the unevaluated expression if not, but instead returns an error. </li>
     </ol>
    </li>
+   <li> Compare the discussion under "Condition" in
+   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
    levels" for the "active clauses" used; see "Partitioning into active clauses"

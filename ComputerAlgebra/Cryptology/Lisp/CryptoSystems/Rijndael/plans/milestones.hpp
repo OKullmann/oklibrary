@@ -20,6 +20,7 @@ License, or any later version. */
     - Modularising the Rijndael-implementation
     - Key schedule
     - Design of round functions
+    - Algebraic aspects
     - Finite Field operations DONE (Moved To ComputerAlgebra/Algebra)
     - bug: Finite Fields package function doesn't terminate DONE 
       (Moved To ComputerAlgebra/Algebra)
