@@ -26,6 +26,7 @@ License, or any later version. */
 
   \todo Encoding AES (top down)
   <ul>
+   <li> Break this todo into seperate todos </li>
    <li> For an initial translation to CNF, the following seems sensible
     <ol>
      <li> Function of the form aes_cp(p1,...,p128,k1,...,k128,c1,...,c128) 
@@ -82,6 +83,9 @@ License, or any later version. */
      the unevaluated expression if not, but instead returns an error. </li>
     </ol>
    </li>
+   <li> Using the concept of a "Constraint" (rather than condition), where this
+   can be represented by a tuple consisting of a name, a set of named variables
+   and a function to evaluate it, given a partial assignment. </li>
    <li> Compare the discussion under "Condition" in
    ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
