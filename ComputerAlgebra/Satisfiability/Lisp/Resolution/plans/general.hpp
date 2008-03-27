@@ -54,14 +54,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo min_2resolution_closure_cs
-  <ul>
-   <li> Currently the name likely is not corrected, since if the input is not
-   a full clause-set, then likely we do not compute the min-closure under
-   2-subsumption resolution (example?). </li>
-  </ul>
-
-
   \todo Resolution proofs
   <ul>
    <li> The natural format for a resolution proof is a non-empty list,

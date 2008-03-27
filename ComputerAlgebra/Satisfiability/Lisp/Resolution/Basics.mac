@@ -139,19 +139,6 @@ min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : 
   return([nF, history]))$
 /* min_resolution_closure_cs(F) = min_elements(resolution_closure_cs(F)) */
 
-/* The special case of min_resolution_closure_cs where the input clauses
-   are all full (contain all variables). */
-min_2resolution_closure_cs(F) := block(
- [IF : [], CI : F, PI : {}, N : length(var_cs(F)) ],
- for i : N step -1 thru 1 do block(
-   PI : CI,
-   CI : two_subsumption_resolvents_cs(PI),
-   PI : setdifference(min_elements(union(CI,PI)), CI),
-   IF : cons(PI,IF)
- ),
- IF : cons(PI,IF),
- return(apply(union, IF)))$
-
 
 /* *****************
    * DP resolution *

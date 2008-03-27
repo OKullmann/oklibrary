@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac");
+
 
 /*!
 \endhtmlonly
