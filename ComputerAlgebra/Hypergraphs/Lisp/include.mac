@@ -28,6 +28,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac");
 
 

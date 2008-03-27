@@ -19,6 +19,15 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 \htmlonly
 */
 
+/* **************
+   * Singletons *
+   **************
+*/
+
+singletonp(S) := is(length(S) = 1)$
+single_element(S) := listify(S)[1]$
+
+
 /* *********************
    * Set constructions *
    *********************
