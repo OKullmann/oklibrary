@@ -21,13 +21,15 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.m
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+
 
 /* ***************************
    * Single resolution steps *
    ***************************
 */
 
-/* Basic operations */
+/* Checks */
 
 /* checks whether two clauses are resolvable */
 resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1)$
@@ -36,6 +38,9 @@ resolvable(C,D) := is(length(intersection(C, comp_sl(D))) = 1)$
    the two parents */
 two_subsumption_resolvable(C,D) := resolvable(C,D) and is(length(symmdifference(C,D)) = 2)$
 
+
+/* Basic resolution operations */
+
 /* the resolution literal of two resolvable clauses */
 resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1]$
 
@@ -43,7 +48,23 @@ resolution_literal(C,D) := listify(intersection(C, comp_sl(D)))[1]$
 resolvent(C,D) := block([x : resolution_literal(C,D)], union(disjoin(x, C), disjoin(-x, D)))$
 
 
-/* The variation of a set of parent clauses */
+/* Resolution operations as partial operations, returning either [R]  or []. */
+
+/* If two clauses are resolvable with resolution literal x, then return [x],
+   else return []. */
+resolvable_p(C,D) :=  block([clashs : intersection(C, comp_sl(D))],
+ if length(clashs) = 1 then [listify(clashs)[1]] else [])$
+
+two_subsumption_resolvent_p(C,D) := block([x : resolvable_p(C,D)],
+ if not emptyp(x) then 
+  block([x : x[1], R],
+   R : disjoin(x,C), if R = disjoin(-x,D) then return([R]) else return([]))
+ else return([]))$
+/* two_subsumption_resolvent_p(C,D) =
+ if two_subsumption_resolvable(C,D) then [resolvent(C,D)] else [] */
+
+
+/* The variations for sets of parent clauses */
 
 /* checks whether a set of clauses is resolvable */
 resolvable_s(S) := block([L : listify(S)], resolvable(L[1], L[2]))$
@@ -72,7 +93,7 @@ resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {
    *************************
 */
 
-/* the resolvable 2-sets of a clause-set */
+/* The resolvable 2-sets of a clause-set. */
 resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
   for j : i+1 thru l do
@@ -80,7 +101,7 @@ resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
  return(setify(R)))$
 /* resolvable_cs(F) = subset(powerset(F,2), resolvable_s) */
 
-/* the two_subsumption_resolvable 2-sets of a clause-set */
+/* The 2-subsumption-resolvable 2-sets of a clause-set. */
 two_subsumption_resolvable_cs(F) := block(
  [LF : listify(F), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
@@ -88,14 +109,29 @@ two_subsumption_resolvable_cs(F) := block(
    if two_subsumption_resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
  return(setify(R)))$
 
-/* all resolvents of a clause-set */
+/* All resolvents of a clause-set. */
 resolvents_cs(F) := map(resolvent_s, resolvable_cs(F))$
 
-/* all 2_subsumption_resolvents of a clause-set */
+/* All 2-subsumption-resolvents of a clause-set. */
 two_subsumption_resolvents_cs(F) := map(resolvent_s, two_subsumption_resolvable_cs(F))$
 
-/* adds all resolvents to a clause-set */
+/* Returns a pair [res, R], where res is the set of 2-subsumption-resolvents
+   of F, while R is the set of remaining clauses of F, i.e., clauses not 
+   subsumed by their 2-subsumption-resolvents. */
+two_subsumption_resolvents_rem_cs(F) := block(
+ [L : listify(F), l : length(F), subsumed, result : {}],
+  subsumed : make_array(fixnum, l),
+  for i : 1 thru l - 1 do block([C : L[i], used : false],
+    for j : i+1 thru l do block([R : two_subsumption_resolvent_p(C,L[j])],
+      if not emptyp(R) then (
+        result : adjoin(R[1], result),
+        used : true, subsumed[j-1] : 1)),
+    if used then subsumed[i-1] : 1),
+  return([result,setify(sublist_indicator(L,subsumed))]))$
+
+/* Adds all resolvents to a clause-set. */
 add_resolvents_cs(F) := union(F, resolvents_cs(F))$
+
 
 
 /* ***********************
