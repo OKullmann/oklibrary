@@ -30,6 +30,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/inclu
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/include.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac");
 
 /*!
 \endhtmlonly
