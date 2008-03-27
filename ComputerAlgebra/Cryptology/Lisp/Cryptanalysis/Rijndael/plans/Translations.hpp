@@ -128,33 +128,10 @@ License, or any later version. */
    <li> Both types of functions yield boolean functions in 16 variables. </li>
    <li> As bijections, they all have trivial DNF representations (with 256
    satisfying assignments). </li>
-   <li> The CNF representations are more interesting (perhaps one should better
-   say challenging), and one should study good CNF's.
-    <ol>
-     <li> Compute all prime implicates.
-      <ol>
-       <li> See below for some further comments. </li>
-       <li> For every permutation of GF(2^8) we have at least
-       2 * 2^8 * 8 = 2^12 = 4096 prime implicates, given by fixing 8 bit in either
-       the input or the output. </li>
-       <li> Are there others? In case of multiplication, the multiplication
-       with 1 obviously has others. </li>
-      </ol>
-     </li>
-     <li> Also other optimisation should be in reach. </li>
-     <li> Computing optimal hitting-clause-set-representations should
-     be possible (they allow many services needed for active clauses). </li>
-     <li> Likely the most useful translation is obvious translation to CNF,
-     from the DNF via the Tseitin-translation. Perhaps some optimisation can
-     be applied. </li>
-     <li> This translation works independent of the specific nature of the S-box
-     etc. --- any table can be used. </li>
-     <li> One can also run a SAT-solver on the DNF-representation, taken as CNF,
-     in order to get a hitting clause-set representation of the falsifying
-     assignments. Interesting whether something smaller than the full CNF
-     is created. </li>
-    </ol>
-   </li>
+   <li> For CNF representations see
+   "Generate good CNF clause-sets for the AES Sbox" above
+   (obviously all the algorithmic techniques can be generalised to any function given
+   by truth tables. </li>
    <li> Obviously also of interest are OBDD representations of these boolean
    functions.
     <ol>
@@ -188,15 +165,6 @@ License, or any later version. */
      information for the analysis, and furthermore for the active clause it
      can be used as threshold which triggers some action (before, we are
      just lazy and don't do anything (w.r.t. updating the counters)). </li>
-     <li> Given a full CNF F, isn't it then easy (relative to the size of F) to
-     compute the set of prime implicates? (In our case we have 2^16 - 2^8 =
-     65280 full clauses, which shouldn't be too bad.)
-      <ol>
-       <li> Yes; see
-       Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
-       "Prime implicants and implicates". </li>
-      </ol>
-     </li>
      <li> All these generalisations are very general, and should go to
      supermodule Satisfiability/ProblemInstances. </li>
     </ol>

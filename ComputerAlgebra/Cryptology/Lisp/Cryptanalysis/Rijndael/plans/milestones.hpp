@@ -18,12 +18,17 @@ License, or any later version. */
     - Review and tidy todos
     - Create / update milestones
 
+  \par
+  In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Sbox CNF and DNF generation functions DONE
+
+
   \par Version 0.0.6
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Generate "good" CNF hitting clause-sets for the AES Sbox
-    - Sbox CNF and DNF generation functions DONE
+    - Generate good CNF clause-sets for the AES Sbox
+
 
   \par Version 0.1
   
