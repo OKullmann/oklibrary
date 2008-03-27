@@ -28,12 +28,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basic
    are all full (contain all variables). */
 min_2resolution_closure_cs(F) := block(
  [levels : [], new_implicates, n : nvar_cs(F)],
-  for i : n step -1 thru 1 do (
+  for i : n step -1 thru 0 do (
     new_implicates : F,
     F : two_subsumption_resolvents_cs(new_implicates),
     new_implicates : setdifference(min_elements(union(F,new_implicates)), F),
     levels : cons(new_implicates,levels)),
-  levels : cons(new_implicates,levels),
   return(apply(union, levels)))$
 
 
