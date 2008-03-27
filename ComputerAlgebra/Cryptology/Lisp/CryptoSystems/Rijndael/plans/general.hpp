@@ -227,6 +227,46 @@ License, or any later version. */
   </ul>
   
   
+  \todo Algebraic aspects
+  <ul>
+   <li> There seem to be 3 different representations considered when dealing
+   with AES, byte sized, bit sized, and in 4 byte columns, each represented
+   by different algebraic structures (GF(2^8),GF(2) and a Euclidean domain 
+   (is this the closest fitting name?) respectively) </li>
+   <li> Look into whether/how maxima supports symbolic manipulation, so once a
+   simple AES implementation is complete, basic equations can be generated for
+   study. </li>
+   <li> With the generalisations made to the implementation, can we provide
+   further generalisations based on certain algebraic aspects of the AES? Is
+   there any need? </li>
+   <li> Is this todo needed any longer? </li>
+   <li> (DONE Lists are better for understanding and generalising here)
+   The initial example code uses matrices as this seemed natural from the
+   description of AES but this potentially makes generalisation to Rijndael
+   more difficult unless a seperate implementation is created for each
+   plaintext-key pair size configuration is made which seems excessive. </li>
+   <li> DONE 
+   Using maxima matrices in such ways also seems to bias the implementation
+   to taking a view of the problem from one particular aspect (ie GF(2) bytes 
+   etc) which may not be best. </li>
+   <li> (DONE Not needed. Better achieved with lists and more fundamental 
+   operations)
+   The advantage of matrices is that, the semantics of the operations are
+   more easily visible at a glance, although any well designed and implemented
+   system would probably provide this. </li>
+   <li> (DONE Lists were used. See "New design and implementation")
+   Perhaps for use a simple list would be best as this seems to be the
+   common unit in LISP and therefore maxima? </li>
+   <li> (DONE Handled by other todos. See "New design and implementation")
+   Create a general design (here in the plans) which is stepwise refined to a
+   Maxima implementation. </li>
+   <li> (DONE Sage implementation has been replaced by maxima)
+   This is seemingly possible in Sage by generating variables from 
+   PolynomialRings and using these in the system although this seems to yield 
+   some issues with typing in some cases. </li>
+  </ul>
+
+
   \todo DONE New design and implementation
   <ul>
    <li> DONE Move items from below to here, if appropriate. </li>

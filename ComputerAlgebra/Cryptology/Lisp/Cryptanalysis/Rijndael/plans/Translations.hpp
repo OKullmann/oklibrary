@@ -1,4 +1,4 @@
-// Matthew Gwynne, 19.2.2008 (Swansea)
+// Matthew Gwynne, 26.3.2008 (Swansea)
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,160 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-  \brief Plans for the Cryptanalysis of Rijndael in Maxima/Lisp
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
+  \brief Plans for the translation of Rijndael into active clauses etc in Maxima
 
   
-  \todo Review and tidy todos
-
-
-  \todo Create / update milestones
-  <ul>
-   <li> The first goal is with milestone 0.1, where we have a working
-   translation. </li>
-  </ul>
-
-
-  \todo Generate good CNF clause-sets for the AES Sbox : TO BE TRANSFERRED
-   <li> Different heuristics for generating hitting clause-sets
-   \verbatim
-length(hitting_cnf_aes_sbox(dll_heuristics_first_formal));
-2048
-length(hitting_cnf_aes_sbox(dll_heuristics_first_real));
-2048
-length(hitting_cnf_aes_sbox(dll_heuristics_first_shortest_clause));
-2048
-length(hitting_cnf_aes_sbox(dll_heuristics_max_lit));
-1513
-length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
-2048
-   \endverbatim
-   Would be interesting to understand this. </li>
-   <li> Use heuristics_lookahead_distances with different lookahead-reductions
-   and different distances. </li>
-   <li> Since the AES-DNF is unique, as a correctness test we can
-   just check whether we get the input back (using any heuristics):
-   \verbatim
-is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)),dll_heuristics_first_formal)) =
-   generate_full_aes_sbox_dnf_fcs());
-   \endverbatim
-   </li>
-   <li> We should also use reductions. For that we need the ability
-   to translate r_k-splitting trees into hitting clause-sets, which can
-   be done in a straightforward way, by just making the forced assignments
-   into trees of levelled height 1 (ignoring the actual reduction). </li>
-   <li> As explained in "Hitting clause-sets" in
-   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
-   given a hitting clause-set representation, from it we can obtain a shorter
-   representation by prime implicates. This is a better representation. </li>
-   <li> The question is how small can we get a CNF representation? We need
-   also to investigate the size of a CNF obtained from the DNF via Tseitin
-   translation (and optimisation); see
-   ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
-   </li>
-   <li> Compute *all* prime implicates (for the purpose of analysis):
-    <ol>
-     <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
-     potential prime implicates, given by fixing 8 bit in either the inputor
-     the output, and one further bit to the wrong value. As one can see by
-     the identity, these are not neccessarily prime, since the identify
-     just has 16 prime implicates (of length 2). </li>
-     <li> One should test these. </li>
-     <li> If the Maxima computation, via
-     \verbatim
-min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
-     \endverbatim
-     takes too long, then we need a C++ implementation; see
-     Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
-     "Prime implicants and implicates". A simple implementation should
-     suffice here. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Discussion on Generalisation/Parameterisation based on [Algebraic Aspects
-  of the AES]
-  <ul>
-   <li> [Algebraic Aspects of the AES] discusses several generalisations of
-   Rijndael. </li>
-   <li> Rather than using GF(2^8), a parameter <em>e</em> is introduced, which 
-   specifies 4 or 8 to indicate whether the block should deal in elements in 
-   GF(2^4) or elements in GF(2^8) where appropriate modulo polynomials and S_rd 
-   affine transforms are defined for GF(2^4). This seems interesting because 
-   inversion within GF(2^8) can be expressed as operations on the inversion of 
-   the two GF(2^4) elements comprising it (see discussion on efficient
-   implementation  of AES in [Design of Rijndael]). </li>
-   <li> <em>n_R</em> is the number of rows in the block and may range over {1,2,4}
-   where the normal AES/Rijndael default is 4. Clearly here the main issue is with
-   Mixcolumns which works on the columns of size 4 and so different constants over
-   these 1, 2 or 4 element polynomials but with the same basic operation involved
-   (multiplying each column by a constant in that Quotient Ring). </li>
-   <li> <em>n_C</em> is the number of rows in the block and may range over {1,2,4}. 
-   This only affects ShiftRows and as with n_R, variants are defined for each 
-   of these. </li>
-   <li> <em>r</em> is the number of rounds as normal. </li>
-   <li> Such abstractions seem to offer more interesting ways of generalising and
-   producing AES/Rijndael variants with reduced complexity, which might offer
-   better and possibly interesting results with translations and the
-   relationships between these variants and the full AES seems less explored in
-   previous research than simple reduced round variants of the cipher. </li>
-   <li> So we get a more general parameterised AES function of the form
-   AES(r,n_R, n_C,e)(P,K,C), where
-    <ol>
-     <li> r is the number of rounds, </li>
-     <li> n_R is the number of rows in the block, </li>
-     <li> n_C is the number of columns of length n_R, </li>
-     <li> and e is the word size, normally 8 (ie GF(2^8) elements), but extended
-     to include values of e of 4 or 8. </li>
-    </ol>
-   </li>
-   <li> It would be nice to include such generalisations (more than the obvious
-   round variable r, which is fairly trivial to include) as including a variety
-   of parameters which can be reduced to make more easily attackable, and more
-   thoroughly analysable AES variants is advantageous, as most likely the full
-   AES will not be broken and simple reduced round variants seem less interesting,
-   than reducing parameters such as e. </li>
-   <li> Especially because inversion within GF(2^8) can be expressed as operations
-   on the inversion of the two GF(2^4) elements comprising it (see discussion on
-   efficient implementation of AES in [Design of Rijndael]), and the relationships
-   between these variants and the full AES seems less explored in previous research
-   than simple reduced round variants of the cipher. </li>
-  </ul>
-
-
-  \todo Algebraic aspects ???
-  <ul>
-   <li> The initial example code uses matrices as this seemed natural from the
-   description of AES but this potentially makes generalisation to Rijndael
-   more difficult unless a seperate implementation is created for each
-   plaintext-key pair size configuration is made which seems excessive. </li>
-   <li> Using maxima matrices in such ways also seems to bias the implementation
-   to taking a view of the problem from one particular aspect (ie GF(2) bytes etc)
-   which may not be best. </li>
-   <li> The advantage of matrices is that, the semantics of the operations are
-   more easily visible at a glance, although any well designed and implemented
-   would probably provide this. </li>
-   <li> Perhaps for use a simple list would be best as this seems to be the
-   common unit in LISP and therefore maxima? </li>
-   <li> This can be converted to a matrix if a given operation would be best
-   accomplished this way... </li>
-   <li> There seem to be 3 different representations considered when dealing
-   with AES, byte sized. </li>
-   <li> Create a general design (here in the plans) which is stepwise refined to a
-   Maxima implementation. </li>
-   <li> Compare the discussion under "Condition" in
-   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
-   <li> Look into whether/how maxima supports symbolic manipulation, so once a
-   simple AES implementation is complete, basic equations can be generated for
-   study. </li>
-   <li> This is seemingly possible in Sage by generating variables from PolynomialRings
-   and using these in the system although this seems to yield some issues with typing
-   in some cases. </li>
-  </ul>
-
-
-  \todo Partitioning into active clauses : TO BE TRANSFERRED
+  \todo Partitioning into active clauses
   <ul>
    <li> This todo has to be updated according to
    ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
@@ -173,8 +24,9 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
   </ul>
 
 
-  \todo Encoding AES (top down) : TO BE TRANSFERRED
+  \todo Encoding AES (top down)
   <ul>
+   <li> Break this todo into seperate todos </li>
    <li> For an initial translation to CNF, the following seems sensible
     <ol>
      <li> Function of the form aes_cp(p1,...,p128,k1,...,k128,c1,...,c128) 
@@ -231,6 +83,11 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
      the unevaluated expression if not, but instead returns an error. </li>
     </ol>
    </li>
+   <li> Using the concept of a "Constraint" (rather than condition), where this
+   can be represented by a tuple consisting of a name, a set of named variables
+   and a function to evaluate it, given a partial assignment. </li>
+   <li> Compare the discussion under "Condition" in
+   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
    levels" for the "active clauses" used; see "Partitioning into active clauses"
@@ -263,7 +120,7 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
   </ul>
 
 
-  \todo Active clauses for field operations : TO BE TRANSFERRED
+  \todo Active clauses for field operations
   <ul>
    <li> Likely the two best first candidates for active clauses
    are the S-box (as map GF(2^8) -> GF(2^8)) and multiplication with
@@ -271,10 +128,33 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
    <li> Both types of functions yield boolean functions in 16 variables. </li>
    <li> As bijections, they all have trivial DNF representations (with 256
    satisfying assignments). </li>
-   <li> For CNF representations see
-   "Generate good CNF clause-sets for the AES Sbox" above (obviously all
-   the algorithmic techniques can be generalised to any function given
-   by truth tables. </li>
+   <li> The CNF representations are more interesting (perhaps one should better
+   say challenging), and one should study good CNF's.
+    <ol>
+     <li> Compute all prime implicates.
+      <ol>
+       <li> See below for some further comments. </li>
+       <li> For every permutation of GF(2^8) we have at least
+       2 * 2^8 * 8 = 2^12 = 4096 prime implicates, given by fixing 8 bit in either
+       the input or the output. </li>
+       <li> Are there others? In case of multiplication, the multiplication
+       with 1 obviously has others. </li>
+      </ol>
+     </li>
+     <li> Also other optimisation should be in reach. </li>
+     <li> Computing optimal hitting-clause-set-representations should
+     be possible (they allow many services needed for active clauses). </li>
+     <li> Likely the most useful translation is obvious translation to CNF,
+     from the DNF via the Tseitin-translation. Perhaps some optimisation can
+     be applied. </li>
+     <li> This translation works independent of the specific nature of the S-box
+     etc. --- any table can be used. </li>
+     <li> One can also run a SAT-solver on the DNF-representation, taken as CNF,
+     in order to get a hitting clause-set representation of the falsifying
+     assignments. Interesting whether something smaller than the full CNF
+     is created. </li>
+    </ol>
+   </li>
    <li> Obviously also of interest are OBDD representations of these boolean
    functions.
     <ol>
@@ -308,6 +188,15 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
      information for the analysis, and furthermore for the active clause it
      can be used as threshold which triggers some action (before, we are
      just lazy and don't do anything (w.r.t. updating the counters)). </li>
+     <li> Given a full CNF F, isn't it then easy (relative to the size of F) to
+     compute the set of prime implicates? (In our case we have 2^16 - 2^8 =
+     65280 full clauses, which shouldn't be too bad.)
+      <ol>
+       <li> Yes; see
+       Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
+       "Prime implicants and implicates". </li>
+      </ol>
+     </li>
      <li> All these generalisations are very general, and should go to
      supermodule Satisfiability/ProblemInstances. </li>
     </ol>
@@ -356,8 +245,6 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
     </ol>
    </li>
   </ul>
-=======
->>>>>>> 8beb1672e0922b8f9cae64f61b5325b040cdeb07:ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp
-  
+
 */
 

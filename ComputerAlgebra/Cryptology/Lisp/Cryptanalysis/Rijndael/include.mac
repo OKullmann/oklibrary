@@ -19,7 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/AdvancedEncryptionStandard.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac")$
 
 /*!
 \endhtmlonly
