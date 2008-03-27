@@ -13,9 +13,9 @@ License, or any later version. */
   \todo Review and tidy todos
 
 
-  \todo Generate "good" CNF hitting clause-sets for the AES Sbox
+  \todo Generate good CNF clause-sets for the AES Sbox
   <ul>
-   <li> Different heuristics:
+   <li> Different heuristics for generating hitting clause-sets
    \verbatim
 length(hitting_cnf_aes_sbox(dll_heuristics_first_formal));
 2048
@@ -42,6 +42,33 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
    to translate r_k-splitting trees into hitting clause-sets, which can
    be done in a straightforward way, by just making the forced assignments
    into trees of levelled height 1 (ignoring the actual reduction). </li>
+   <li> As explained in "Hitting clause-sets" in
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
+   given a hitting clause-set representation, from it we can obtain a shorter
+   representation by prime implicates. This is a better representation. </li>
+   <li> The question is how small can we get a CNF representation? We need
+   also to investigate the size of a CNF obtained from the DNF via Tseitin
+   translation (and optimisation); see
+   ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
+   </li>
+   <li> Compute *all* prime implicates (for the purpose of analysis):
+    <ol>
+     <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
+     potential prime implicates, given by fixing 8 bit in either the inputor
+     the output, and one further bit to the wrong value. As one can see by
+     the identity, these are not neccessarily prime, since the identify
+     just has 16 prime implicates (of length 2). </li>
+     <li> One should test these. </li>
+     <li> If the Maxima computation, via
+     \verbatim
+min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
+     \endverbatim
+     takes too long, then we need a C++ implementation; see
+     Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
+     "Prime implicants and implicates". A simple implementation should
+     suffice here. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -246,33 +273,10 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
    <li> Both types of functions yield boolean functions in 16 variables. </li>
    <li> As bijections, they all have trivial DNF representations (with 256
    satisfying assignments). </li>
-   <li> The CNF representations are more interesting (perhaps one should better
-   say challenging), and one should study good CNF's.
-    <ol>
-     <li> Compute all prime implicates.
-      <ol>
-       <li> See below for some further comments. </li>
-       <li> For every permutation of GF(2^8) we have at least
-       2 * 2^8 * 8 = 2^12 = 4096 prime implicates, given by fixing 8 bit in either
-       the input or the output. </li>
-       <li> Are there others? In case of multiplication, the multiplication
-       with 1 obviously has others. </li>
-      </ol>
-     </li>
-     <li> Also other optimisation should be in reach. </li>
-     <li> Computing optimal hitting-clause-set-representations should
-     be possible (they allow many services needed for active clauses). </li>
-     <li> Likely the most useful translation is obvious translation to CNF,
-     from the DNF via the Tseitin-translation. Perhaps some optimisation can
-     be applied. </li>
-     <li> This translation works independent of the specific nature of the S-box
-     etc. --- any table can be used. </li>
-     <li> One can also run a SAT-solver on the DNF-representation, taken as CNF,
-     in order to get a hitting clause-set representation of the falsifying
-     assignments. Interesting whether something smaller than the full CNF
-     is created. </li>
-    </ol>
-   </li>
+   <li> For CNF representations see
+   "Generate good CNF clause-sets for the AES Sbox" above (obviously all
+   the algorithmic techniques can be generalised to any function given
+   by truth tables. </li>
    <li> Obviously also of interest are OBDD representations of these boolean
    functions.
     <ol>
@@ -306,15 +310,6 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
      information for the analysis, and furthermore for the active clause it
      can be used as threshold which triggers some action (before, we are
      just lazy and don't do anything (w.r.t. updating the counters)). </li>
-     <li> Given a full CNF F, isn't it then easy (relative to the size of F) to
-     compute the set of prime implicates? (In our case we have 2^16 - 2^8 =
-     65280 full clauses, which shouldn't be too bad.)
-      <ol>
-       <li> Yes; see
-       Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
-       "Prime implicants and implicates". </li>
-      </ol>
-     </li>
      <li> All these generalisations are very general, and should go to
      supermodule Satisfiability/ProblemInstances. </li>
     </ol>
