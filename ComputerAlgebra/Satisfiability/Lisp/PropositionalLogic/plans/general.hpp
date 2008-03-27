@@ -30,16 +30,6 @@ Maxima encountered a Lisp error:
   \todo Create milestones.
 
 
-  \todo Translations to CNF/DNF
-  <ul>
-   <li> Compare with Transformers/Generators/plans/TseitinTransformation.hpp.
-   </li>
-   <li> We should have a dedicated sub-module. </li>
-   <li> Write direct translation (without new variables). </li>
-   <li> Complete the Tseitin translation. </li>
-  </ul>
-
-
   \todo Simplifications
   <ul>
    <li> Discuss basic_simplification_ft. </li>
