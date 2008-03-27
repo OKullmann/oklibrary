@@ -28,6 +28,8 @@ okltest_partition_elements(partition_elements);
 
 okltest_rotate(rotate);
 
+okltest_sublist_indicator(sublist_indicator);
+
 okltest_matrix2list(matrix2list);
 okltest_matrixcolumns(matrixcolumns);
 okltest_columns2matrix(columns2matrix);

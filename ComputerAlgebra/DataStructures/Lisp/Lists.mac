@@ -45,6 +45,14 @@ rotate(l,n) :=
   else if sign(n) = pos then  rotate(append([last(l)],rest(l,-1)), n-1)
   else rotate(append(rest(l), [first(l)]), n+1)$
 
+
+/* Return the sublist of list L for which the corresponding entry in
+   array I is 0. Returns a shallow copy. */
+sublist_indicator(L,I) := block([res : [], l : length(L)],
+ for i : 0 thru l-1 do if I[i] = 0 then res : endcons(L[i+1],res),
+ return(res))$
+
+
 /* REMARK : Functions below should go to LinearAlgebra? */
 
 /* Flattens a matrix or list into a list of the elements, row by row */
