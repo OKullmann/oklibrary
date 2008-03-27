@@ -87,7 +87,7 @@ License, or any later version. */
    can be represented by a tuple consisting of a name, a set of named variables
    and a function to evaluate it, given a partial assignment. </li>
    <li> Compare the discussion under "Condition" in
-   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
    levels" for the "active clauses" used; see "Partitioning into active clauses"
