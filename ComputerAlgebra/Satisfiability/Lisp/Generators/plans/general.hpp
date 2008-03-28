@@ -131,5 +131,16 @@ License, or any later version. */
    Product and Sum </li>
    <li> Xorification [Buresh-Oppenheim, Pitassi; 2007] </li>
   </ul>
+
+
+  \todo Hiding small unsatisfiable clause-sets
+  <ul>
+   <li> In [Ouyang, 1999, Implementations of the DPLL algorithm] an
+   MUSAT(1) clause-set with small variable degree (see
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/DeficiencyOne.hpp)
+   is hidden inside a "misleading" combination of other clauses (variable-
+   disjoint). We should implement these clause-sets. </li>
+  </ul>
+  
 */
 
