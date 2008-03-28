@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImp
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
 
 
 /* The special case of min_resolution_closure_cs where the input clauses
@@ -47,6 +48,18 @@ contained_prime_implicate(F,C,S) := block([reduced : true],
      if S(apply_pa(comp_sl(D), F)) = false then (
        C : D, reduced : true))),
  return(C))$
+
+
+/* Replace for a clause-set F each clause C by a prime
+   implicate C' <= C, using a SAT solver which works on
+   the closure of {F} under the application of partial
+   assignments. */
+replace_by_prime_implicates(F,S) := block([G : {}],
+  for C in F do G : adjoin(contained_prime_implicate(F,C,S), G),
+  return(G))$
+/* The special case where F is a hitting clause-set. */
+replace_by_prime_implicates_hitting(F) := 
+  replace_by_prime_implicates(F,sat_decision_hitting_cs)$
 
 
 /*!

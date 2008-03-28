@@ -51,6 +51,7 @@ License, or any later version. */
    clause C in F a prime implicate C' <= C of F, by greedily removing
    literals from C and checking whether still F implies C' holds.
     <ol>
+     <li> Achieved by "replace_by_prime_implicates_hitting". </li>
      <li> Can all prime implicates of F be obtained in this way (for
      fixed F)? Likely not (examples?). </li>
      <li> Likely there can be exponentially many prime implicates
@@ -73,6 +74,7 @@ License, or any later version. */
    </li>
    <li> It should be possible to compute with polynomial delay
    all prime implicates which are subsuming some clause from F.
+   See "contained_prime_implicate" below. </li>
   </ul>
 
 

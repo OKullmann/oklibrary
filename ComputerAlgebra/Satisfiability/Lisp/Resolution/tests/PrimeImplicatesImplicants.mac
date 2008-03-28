@@ -51,6 +51,17 @@ okltest_contained_prime_implicate(f) := block(
     assert(f(F, comp_sl(setn(n)), S) = {-1})),
   true)$
 
+okltest_replace_by_prime_implicates_hitting(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1}}) = {{1}}),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)[2]) = {{}}),
+  assert(f({{1,2}}) = {{1,2}}),
+  assert(f({{1,2},{-1,-2}}) = {{1,2},{-1,-2}}),
+  true)$
+
+
 /*!
 \endhtmlonly
 */
