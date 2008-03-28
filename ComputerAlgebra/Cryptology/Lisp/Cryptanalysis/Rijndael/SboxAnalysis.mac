@@ -42,6 +42,10 @@ generate_full_aes_sbox_cnf_fcs() := block(
   clauses_f(generate_full_aes_sbox_dnf_fcs())],
   cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
 
+/* Tests whether a full CNF clause-set represents the AES sbox */
+test_CNF_aes_sbox(FF) := 
+ is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) = generate_full_aes_sbox_dnf_fcs())$
+
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction) */
 hitting_cnf_aes_sbox(h) := dualtreehittingcls_fcs(generate_full_aes_sbox_dnf_fcs(),h)$

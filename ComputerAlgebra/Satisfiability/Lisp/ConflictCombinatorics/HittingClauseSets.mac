@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
 
 
 /* ***************************************
@@ -100,6 +101,9 @@ brouwer1999 : [setn(8), {
    * Tests *
    *********
 */
+
+/* SAT decision for hitting clause-sets */
+sat_decision_hitting_cs(F) := is(satprob_hitting(F) > 0)$
 
 /* Tests whether a clause-set is a hitting clause-set */
 hittingcsp(F) := block([l : length(F), L : listify(F), break : false],

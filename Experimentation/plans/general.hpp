@@ -37,6 +37,8 @@ License, or any later version. */
      by the Wilcoxon signed rank test. (Instead of fixing the
      "95% significance level", perhaps one should report the dependency of the
      outcome (A wins, B wins, or a draw) on the significance level.) </li>
+     <li> See [Ouyang, 1999, Implementations of the DPLL algorithm] for
+     further statistical tests to compare two solvers. </li>
      <li> Easier to let the solver compete on single instances. </li>
      <li> Given that the single games are determined, the question then
      is how to derive a global ranking. </li>

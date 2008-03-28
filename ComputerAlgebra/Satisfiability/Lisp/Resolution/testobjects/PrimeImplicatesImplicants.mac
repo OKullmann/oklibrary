@@ -24,6 +24,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests
 
 okltest_min_2resolution_closure_cs(min_2resolution_closure_cs);
 
+okltest_contained_prime_implicate(contained_prime_implicate);
+
+okltest_replace_by_prime_implicates_hitting(replace_by_prime_implicates_hitting);
+
+
 /*!
 \endhtmlonly
 */
