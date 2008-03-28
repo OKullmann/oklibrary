@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+
+
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
    The second input, the "solver", shall just return true or false. */
 min_unsat_bydef(FF, solver) := not solver(FF) and 
@@ -26,6 +29,14 @@ min_unsat_bydef(FF, solver) := not solver(FF) and
   for C in FF[2] unless not all_sat do 
    all_sat : solver([FF[1], disjoin(C, FF[2])]),
   return(all_sat))$
+/* More generally, returns true iff input FF (formal clause-set) is 
+   irredundant. */
+irredundant_bydef(FF, solver) := 
+ block([V : FF[1], F : FF[2], redundancy : false],
+  for C in F unless redundancy do
+   redundancy : not solver([V,apply_pa(comp_sl(C),disjoin(C,F))]),
+  return(not redundancy))$
+
 
 /* Returns the minimum size of a minimally unsatisfiable sub-clause-set
    of clause-set F; uses sat-solver S */
@@ -43,12 +54,23 @@ contains_us_bydef(F, k, S) :=
 /* Returns some minimally unsatisfiable sub-clause-set of input FF,
    a formal unsatisfiable clause-set (trivial heuristics, removing
    the first possible clause). */
-first_mus_fcs(FF, S) := block([V : FF[1], F : FF[2], reduced : true],
-  while reduced do (
-    reduced : false,
-    for C in F unless reduced do block([F2 :  disjoin(C,F)],
-      if not S([V, F2]) then (F : F2, reduced : true))),
-  return([V,F]))$
+first_mus_fcs(FF, S) := block(
+ [V : FF[1], F : FF[2], Core : {}],
+  for C in FF[2] do (
+      if S([V, disjoin(C,F)]) then 
+        Core : adjoin(C,Core) 
+      else F : disjoin(C,F)),
+  return([V,Core]))$
+/* More generally, returns some irredundant sub-clause-set of input FF,
+   (trivial heuristics, removing the first possible clause). */
+first_irr_fcs(FF, S) := block(
+ [V : FF[1], F : FF[2], Core : {}],
+    for C in FF[2] do (
+      if S([V,apply_pa(comp_sl(C), disjoin(C,F))]) then 
+        Core : adjoin(C,Core)
+      else F : disjoin(C,F)),
+  return([V,Core]))$
+
 
 /*!
 \endhtmlonly
