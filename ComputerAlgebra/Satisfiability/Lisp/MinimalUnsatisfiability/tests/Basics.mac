@@ -1,0 +1,53 @@
+/* Oliver Kullmann, 28.3.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Basics.mac
+  \brief Tests for functions related to MUSAT(1)
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Basics.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+
+kill(f)$
+
+
+okltest_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{}],S) = false),
+  assert(f([{},{{}}],S) = true),
+  assert(f([{1},{{1}}],S) = false),
+  assert(f([{1},{{1},{}}],S) = false),
+  assert(f([{1},{{}}],S) = true),
+  assert(f([{1},{{1},{-1}}],S) = true),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n),S) = true),
+  if oklib_test_level = 0 then return(true),
+  for n : 0 thru 3 do
+    assert(f(weak_php(n+1,n),S) = true),
+  true)$
+
+okltest_first_mus_fcs(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{{}}],S) = [{},{{}}]),
+  assert(f([{1},{{},{1}}],S) = [{1},{{}}]),
+  assert(f([{1},{{1},{-1}}],S) = [{1},{{1},{-1}}]),
+  assert(f([{1,2},{{1},{-1},{1,2}}],S) = [{1,2},{{1},{-1}}]),
+  for n : 0 thru 3 do block([FF : full_fcs(n)],
+    assert(f(FF,S) = FF)),
+  true)$
+
+/*!
+\endhtmlonly
+*/

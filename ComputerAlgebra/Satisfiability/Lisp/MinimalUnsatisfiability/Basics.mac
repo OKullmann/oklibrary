@@ -40,6 +40,15 @@ min_size_mus_bydef(F, S) := if S([var_cs(F),F]) then inf else
 contains_us_bydef(F, k, S) := 
  not every(lambda([G], S([var_cs(G),G])), powerset(F,k))$
 
+/* Returns some minimally unsatisfiable sub-clause-set of input FF,
+   a formal unsatisfiable clause-set (trivial heuristics, removing
+   the first possible clause). */
+first_mus_fcs(FF, S) := block([V : FF[1], F : FF[2], reduced : true],
+  while reduced do (
+    reduced : false,
+    for C in F unless reduced do block([F2 :  disjoin(C,F)],
+      if not S([V, F2]) then (F : F2, reduced : true))),
+  return([V,F]))$
 
 /*!
 \endhtmlonly
