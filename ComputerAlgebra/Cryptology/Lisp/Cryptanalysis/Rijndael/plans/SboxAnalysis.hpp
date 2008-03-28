@@ -19,8 +19,8 @@ length(hitting_cnf_aes_sbox(dll_heuristics_first_real));
 2048
 length(hitting_cnf_aes_sbox(dll_heuristics_first_shortest_clause));
 2048
-length(hitting_cnf_aes_sbox(dll_heuristics_max_lit));
-1513
+statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit));
+[16, 1513, 19546, 16, 6]
 length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
 2048
    \endverbatim
@@ -30,8 +30,7 @@ length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
    <li> Since the AES-DNF is unique, as a correctness test we can
    just check whether we get the input back (using any heuristics):
    \verbatim
-is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)),dll_heuristics_first_formal)) =
-   generate_full_aes_sbox_dnf_fcs());
+test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
    \endverbatim
    </li>
    <li> We should also use reductions. For that we need the ability
@@ -41,7 +40,27 @@ is(cs_to_fcs(dualtreehittingcls_fcs(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristic
    <li> As explained in "Hitting clause-sets" in
    ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
    given a hitting clause-set representation, from it we can obtain a shorter
-   representation by prime implicates. This is a better representation. </li>
+   representation by prime implicates. This is a better representation.
+    <ol>
+     <li> This is achieved by "replace_by_prime_implicates_hitting". </li>
+     <li>
+     \verbatim
+h_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit)$
+p_aes : replace_by_prime_implicates_hitting(h_aes)$
+statistics_cs(p_aes);
+[16, 1359, 9430, 9, 6]
+irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
+false
+ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
+statistics_cs(ip_aes[2]);
+???
+test_CNF_aes_sbox(cs_to_fcs(ip_aes));
+???
+     \endverbatim
+     (computations to be finished).
+     </li>
+    </ol>
+   </li>
    <li> The question is how small can we get a CNF representation? We need
    also to investigate the size of a CNF obtained from the DNF via Tseitin
    translation (and optimisation); see
@@ -66,7 +85,13 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
     </ol>
    </li>
   </ul>
-
+     
+     
+  \todo Organisation
+  <ul>
+   <li> Perhaps we should provide a constant for
+   generate_full_aes_sbox_cnf_fcs(). </li>
+  </ul>
 
 
   \todo DONE Sbox CNF and DNF generation functions
