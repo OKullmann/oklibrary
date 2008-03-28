@@ -71,6 +71,14 @@ okltest_brouwer1999(FF) := block([F : FF[2]],
    *********
 */
 
+okltest_sat_decision_hitting_cs(f) := (
+  assert(f({}) = true),
+  assert(f({{}}) = false),
+  assert(f({{1}}) = true),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)[2]) = false),
+  true)$
+
 okltest_hittingcsp(f) := block(
   assert(f({}) = true),
   assert(f({{}}) = true),

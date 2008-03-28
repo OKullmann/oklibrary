@@ -26,6 +26,8 @@ okltest_hitting_cls_rep_st(hitting_cls_rep_st);
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);
 
+okltest_sat_decision_hitting_cs(sat_decision_hitting_cs);
+
 okltest_hittingcsp(hittingcsp);
 okltest_treehittingcsp(treehittingcsp);
 
