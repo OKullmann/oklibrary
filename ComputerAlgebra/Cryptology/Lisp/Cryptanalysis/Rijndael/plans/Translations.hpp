@@ -7,26 +7,27 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp
-  \brief Plans for the translation of Rijndael into active clauses etc in Maxima
+  \brief Plans for the translation of Rijndael into active clauses ("SAT constraints") etc in Maxima
 
   
   \todo Partitioning into active clauses
   <ul>
    <li> This todo has to be updated according to
-   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
    <li> An overview on the possibilities of anatomising the AES-process into
    active clauses has to be gained. </li>
    <li> The roughest subdivision presents just the input-output relation (this
-   shouldn't not be considerd as an active clause). </li>
+   shouldn't not be considered as an active clause). </li>
    <li> At the finest level we have represented the whole of AES as a boolean
    CNF. </li>
-   <li> Inbetween there are many possibilities to handle the round-computations. </li>
+   <li> Inbetween there are many possibilities to handle the round-computations.
+   </li>
   </ul>
 
 
   \todo Encoding AES (top down)
   <ul>
-   <li> Break this todo into seperate todos </li>
+   <li> Break this todo into separate todos </li>
    <li> For an initial translation to CNF, the following seems sensible
     <ol>
      <li> Function of the form aes_cp(p1,...,p128,k1,...,k128,c1,...,c128) 
@@ -84,10 +85,10 @@ License, or any later version. */
     </ol>
    </li>
    <li> Using the concept of a "Constraint" (rather than condition), where this
-   can be represented by a tuple consisting of a name, a set of named variables
+   can be represented by a tuple consisting of a name, a set of variables
    and a function to evaluate it, given a partial assignment. </li>
    <li> Compare the discussion under "Condition" in
-   ComputerAlgebra/Satisfiability/plans/SatisfactionProblems.hpp. </li>
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
    we consider families of encoding, using different "granularity
    levels" for the "active clauses" used; see "Partitioning into active clauses"
@@ -109,7 +110,7 @@ License, or any later version. */
    F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
    </li>
    <li> The variables used in  F_AES^r(p, k, c') and F'_AES^s(p', k, c)
-   must be consistenly named, so that these formulas can be combined.
+   must be consistently named, so that these formulas can be combined.
    </li>
    <li> (Compare the 2006-BSc-project by Gareth Thomas. The difference
    between F_AES(p, k, c) and F'_AES(p, k, c) is in the use
@@ -128,10 +129,11 @@ License, or any later version. */
    <li> Both types of functions yield boolean functions in 16 variables. </li>
    <li> As bijections, they all have trivial DNF representations (with 256
    satisfying assignments). </li>
-   <li> For CNF representations see
-   "Generate good CNF clause-sets for the AES Sbox" above
-   (obviously all the algorithmic techniques can be generalised to any function given
-   by truth tables. </li>
+   <li> For CNF representations see "Generate good CNF clause-sets for the AES
+   Sbox" in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
+   (obviously all the algorithmic techniques can be generalised to any function
+   given by truth tables. </li>
    <li> Obviously also of interest are OBDD representations of these boolean
    functions.
     <ol>
