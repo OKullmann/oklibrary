@@ -19,7 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Pr
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 kill(f)$
@@ -35,6 +39,17 @@ okltest_min_2resolution_closure_cs(f) := (
     assert(f(full_fcs(n)[2]) = {{}}),
   true)$
 
+okltest_contained_prime_implicate(f) := block(
+ [S : lambda([F],dll_simplest_trivial1(cs_to_fcs(F)))],
+  assert(f({{}},{},lambda([F],false)) = {}),
+  assert(f({{}},{1,2,3},lambda([F],false)) = {}),
+  for n : 1 thru 3 do block([F : full_fcs(n)[2]],
+    assert(f(F, setn(n), S) = {})),
+  assert(f({{1}}, {1,2}, S) = {1}),
+  assert(f({{2}}, {1,2}, S) = {2}),
+  for n : 1 thru 3 do block([F : disjoin(setn(n), full_fcs(n)[2])],
+    assert(f(F, comp_sl(setn(n)), S) = {-1})),
+  true)$
 
 /*!
 \endhtmlonly

@@ -75,5 +75,15 @@ License, or any later version. */
    all prime implicates which are subsuming some clause from F.
   </ul>
 
+
+  \todo contained_prime_implicate
+  <ul>
+   <li> Write the more general function "all_contained_prime_implicates",
+   which returns the set of all prime implicates contained in S (so now
+   we also allow that C doesn't follow from F, which holds iff the returned
+   clause-set is empty). </li>
+   <li> For a recursive solution the problem is to avoid overlaps. </li>
+  </ul>
+
 */
 
