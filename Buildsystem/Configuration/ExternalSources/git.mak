@@ -7,8 +7,8 @@
 
 # Settings for building and using Git
 
-git_recommended_version_number_okl ?= 1.5.4.4
-git_supported_not_recommended_version_numbers_okl ?= 1.5.4.3
+git_recommended_version_number_okl ?= 1.5.4.5
+git_supported_not_recommended_version_numbers_okl ?= 1.5.4.4
 
 git_prefix_okl ?= git
 
