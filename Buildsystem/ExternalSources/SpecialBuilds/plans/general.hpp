@@ -80,6 +80,27 @@ License, or any later version. */
   </ul>
 
 
+  \todo Organisation of links
+  <ul>
+   <li> There should be one main page for SAT-installation (compare
+   "Installation in general" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp), and similar
+   also for all other subjects. </li>
+   <li> On these overview-pages then we place also links to software
+   which is not included (since it's not open-source). </li>
+   <li> Then we need also (in the doxygen-system) a general overview
+   page on external sources, which contains all links to these special
+   overview pages. </li>
+   <li> Perhaps best we keep the current local-system overview page on
+   external sources, and link it with the general doxygen overview page.
+   This current page ("External Sources overview and index page")
+   perhaps is then only called "External Sources index page". </li>
+   <li> The new external-sources-overview page then occurs also on the
+   local home page, under "Documentation". </li>
+   </li>
+  </ul>
+
+
   \todo Optimisation
   <ul>
    <li> COmputational INfrastructure for Operations Research(COIN-OR)
