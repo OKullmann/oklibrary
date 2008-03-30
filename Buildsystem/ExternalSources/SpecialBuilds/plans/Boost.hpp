@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans regarding installation of the Boost library
 
 
+  \todo Building version 1_35_0
+  <ul>
+   <li> Building seems unproblematic (but very fast?). </li>
+   <li> However the usual problem with their inconsistent names. </li>
+   <li> We use (with "oklib all")
+   \verbatim
+   -I/${OKPLATFORM}/ExternalSources/Boost/1_35_0+4.1.2/include/boost-1_35_0
+   \endverbatim
+   but it needs to be "boost-1_35". </li>
+   <li> Also our system for handling Boost is a mess. Where does "Boost"
+   get its value? </li>
+  </ul>
+
+
   \todo Improving building Boost
   <ul>
    <li> Like with gcc, the build-directory and the bjam-directory should not be a
