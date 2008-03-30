@@ -53,12 +53,13 @@ irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ip_aes[2]);
-???
-test_CNF_aes_sbox(cs_to_fcs(ip_aes));
-???
+[16, 581, 4006, 8, 6]
+test_CNF_aes_sbox(ip_aes);
+true
      \endverbatim
-     (computations to be finished).
      </li>
+     <li> This looks very interesting! Should be close to the optimum.
+     And looks much smaller than to be expected. </li>
     </ol>
    </li>
    <li> The question is how small can we get a CNF representation? We need
