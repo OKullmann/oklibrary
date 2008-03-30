@@ -98,6 +98,7 @@ License, or any later version. */
    topics are handled:
     - Complete documentation
     - Enable local/global installation for all packages
+    - Organisation of links
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following

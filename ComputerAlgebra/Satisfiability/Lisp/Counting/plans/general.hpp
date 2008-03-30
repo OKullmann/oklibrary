@@ -64,5 +64,19 @@ License, or any later version. */
    is here of interest. </li>
   </ul>
 
+
+  \todo Sampling falsifying assignments
+  <ul>
+   <li> In Section 28.1 of [Vazirani, 2001, Approximation Algorithms] one finds
+   an algorithm for efficient sampling of falsifying assignments for CNF
+   (an "FPRAS"; there in the language of DNF). </li>
+   <li> This is an easy algorithm, and we should implement it. Search also
+   for some other literature. </li>
+   <li> Augmented with the calculations on how often to sample to achieve some
+   guarantee, that is, for given approximation ratio epsilon and success
+   probability p, find a way (by random sampling and repeating the whole
+   computation) to achieve (epsilon,p) as efficient as possible. </li>
+  </ul>
+
 */
 

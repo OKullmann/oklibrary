@@ -27,6 +27,8 @@ License, or any later version. */
    <li> For C++ solvers we need the ability to use older gcc-versions. </li>
    <li> We should have also a directory Buildsystem/ExternalSources/SATsolvers
    (solvers are not "SpecialBuilds"). </li>
+   <li> Compare "Organisation of links" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp. </li>
   </ul>
 
   
