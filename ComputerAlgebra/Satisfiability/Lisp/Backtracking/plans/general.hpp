@@ -177,5 +177,18 @@ License, or any later version. */
    Satisfiability/Transformers/Generators/FaronsPuzzle.cpp) </li>
   </ul>
 
+
+  \todo "Theoretical algorithms"
+  <ul>
+   <li> All algorithms from the realm of worst-case upper bounds
+   on SAT (and, finally, also for all other areas), should be
+   implemented. </li>
+   <li> Randomised as well as deterministic algorithms. </li>
+   <li> And also the (typically very simple) algorithms from probabilistic
+   analysis of SAT (and other areas). </li>
+   <li> All these algorithms should be spread out over the modules to
+   which their algorithms fit best? </li>
+  </ul>
+
 */
 
