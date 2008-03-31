@@ -128,6 +128,24 @@ License, or any later version. */
   \todo Heuristics, distances etc.
   <ul>
    <li> Likely these things should go into a dedicated module. </li>
+   <li> We should also implement the well-known branching rules from
+   the literature as heuristics (but in the documentation we should
+   somehow emphasise their "historical status").
+    <ol>
+     <li> Jeroslow-Wang ([Jeroslow, Wang, 1990, Solving propositional
+     satisfiability problems]) </li>
+     <li> 2-sided Jeroslow-Wang ([Hooker, Vinay, 1995, Branching rules for
+     satisfiability]) </li>
+     <li> dsj ([Van Gelder, Tsuji, 1996, Satisfiability Testing with More
+     Reasoning and Less Guessing]) </li>
+     <li> B ([Ouyang, 1999, Implementations of the DPLL algorithm]) </li>
+     <li> MAR ([van Maaren, Warners, 2000, Solving satisfiability problems
+     using elliptic approximations --- Effective branching rules]);
+     based on using var_int_scom_fcs
+     (ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac).
+     Additionally here we need appropriate weights for clause-lengths. </li>
+    </ol>
+   </li>
   </ul>
 
 
