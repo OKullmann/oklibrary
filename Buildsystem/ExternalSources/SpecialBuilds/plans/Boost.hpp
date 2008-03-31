@@ -21,6 +21,71 @@ License, or any later version. */
    but it needs to be "boost-1_35". </li>
    <li> Also our system for handling Boost is a mess. Where does "Boost"
    get its value? </li>
+   <li> The problem of the wrong path "boost-1_35" can be temporarily fixed
+   by renaming "include/boost-1_35" to "include/boost-1_35_0" by hand.
+   This should then be simply done in the build-script (renaming whatever
+   it finds inside "include"). </li>
+   <li> We get a compilation error with QuantumPhysics/OrthogonalTriples.cpp,
+   which seems unjustified:
+    <ol>
+     <li> The problems are in function template orthogonality_relation. </li>
+     <li> First we get the (non-sensical) warning that in
+     \verbatim
+assert(num_vertices(g) == boost::size(r));
+     \endverbatim
+     we would compare an unsigned number with a signed number --- according
+     to the concepts both types should by unsigned! </li>
+     <li> If we replace "boost::size(r)" by "size_type(boost::size(r))"
+     then the warning goes away --- however size_type should be the type
+     of boost::size(r) ! </li>
+     <li> The "real" compilation error then happens in line
+     \verbatim
+Graph g(ev.begin(), ev.end(), boost::size(r), ev.size());
+     \endverbatim
+     where in boost/graph/detail/adjacency_list.hpp:2113 the wrong type
+     of an argument to pointer dereference "*" is claimed ??? </li>
+     <li> Compilation happens with "-ansi -pedantic", however also without
+     these options we get the same errors. </li>
+     <li> Perhaps the problem is a boost::range problem. </li>
+     <li> Hopefully a small example can be extracted, which can be
+     shown to the boost mailing list. </li>
+     <li> By casting both occurrences of boost::size(r) to size_type,
+     and by not compiling with -strict (because of "long long"),
+     compilation succeeds. </li>
+     <li> Another problem is that (again(!)) the link-libraries have
+     been renamed, this time apparently replacing "gcc" in the name
+     by "gcc-mt". Renaming (temporarily) the links (created by our
+     build-process) to their old forms (without the "-mt") solves
+     the problem at least for the graph-library. </li>
+     <li> Next problem then with the compilation of Concepts/TestConcepts.cpp,
+     where now we get a problem with the concept-checking-class
+     ResultElementWithName in Concepts/ResultElements.hpp, due to
+     compiler actually wanting to link(!) something for the instruction
+     \verbatim
+static_cast<string_type>(r.name());
+     \endverbatim
+     (and which it claims yields an
+     "undefined reference to `boost::system::get_system_category()"). </li>
+     <li> Could this be a problem with the Boost concept-checking library ??
+     </li>
+     <li> Similarly we get a link-error for concept-check
+     FullyEqualityComparable in Concepts/Basics.hpp related to
+     \verbatim
+bo = static_cast<bool>(a != y);
+     \endverbatim
+     (and not for the two similar instructions above!). This seems nonsense.
+     </li>
+     <li> Temporarily we can get rid off this error by just not linking
+     the program "TestConcepts" (compilation of the .o-file works without
+     problems). </li>
+     <li> Then compilation errors in TestSATCompetition.cpp, apparently
+     all related to boost-range. </li>
+     <li> Perhaps the critical function is IteratorHandling::range_first
+     in General/IteratorHandling.hpp. </li>
+     <li> This function needs to be specified (what it is supposed to
+     do), and then perhaps we show it to the boost mailing list. </li>
+    </ol>
+   </li>
   </ul>
 
 
