@@ -78,6 +78,16 @@ okltest_all_irr_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1},{1,2}}],S) = {{1}}),
   true)$
 
+okltest_all_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{}],S) = {{}}),
+  assert(f([{},{{}}],S) = {{{}}}),
+  assert(f([{1},{{1}}],S) = {{{1}}}),
+  assert(f([{1},{{1},{}}],S) = {{{}}}),
+  assert(f([{1},{{1},{-1}}],S) = {{{1},{-1}}}),
+  assert(f([{1},{{1},{-1},{}}],S) = {{{1},{-1}},{{}}}),
+  assert(f([{1,2},{{1,2},{-1,2}}],S) = {{{1,2},{-1,2}}}),
+  true)$
+
 /*!
 \endhtmlonly
 */

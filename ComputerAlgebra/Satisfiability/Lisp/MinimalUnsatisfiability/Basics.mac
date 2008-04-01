@@ -61,14 +61,14 @@ first_mus_fcs(FF, S) := block(
         Core : adjoin(C,Core) 
       else F : disjoin(C,F)),
   return([V,Core]))$
-/* More generally, returns some irredundant sub-clause-set of input FF,
+/* More generally, returns some irredundant core of input FF,
    (trivial heuristics, removing the first possible clause). */
 first_irr_fcs(FF, S) := block(
  [V : FF[1], F : FF[2], Core : {}],
-    for C in FF[2] do (
+    for C in FF[2] do
       if S([V,apply_pa(comp_sl(C), disjoin(C,F))]) then 
         Core : adjoin(C,Core)
-      else F : disjoin(C,F)),
+      else F : disjoin(C,F),
   return([V,Core]))$
 
 /* Returns the set of all irredundant clauses (for unsatisfiable
@@ -77,6 +77,37 @@ all_irr_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
   for C in F do 
     if S([V,apply_pa(comp_sl(C), disjoin(C,F))]) then I : adjoin(C,I),
   return(I))$
+
+/* The set of all irredundant cores */
+all_irr_cores_bydef(FF,S) := block(
+ [I : all_irr_bydef(FF,S)], 
+  if oklib_monitor then (
+    print("all_irr_cores_bydef:", statistics_cs(FF[2]), ",", statistics_cs(I)),
+    block([counter_irr : 0],
+      all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S)))
+  else all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S))$
+
+/* The set of all irredundant cores of union(Forced,Possible) which contain 
+   the given "forced" clauses. Prerequisite: Forced is irredundant. */
+all_forced_irr_cores_bydef(Forced, Possible, S) := block(
+ [V : var_cs(Forced), candidate : []],
+  for C in Possible unless not emptyp(candidate) do (
+    Possible : disjoin(C, Possible),
+    if S([V,apply_pa(comp_sl(C), Forced)]) then
+      candidate : [C]),
+  if emptyp(candidate) then (
+    if oklib_monitor then (
+      counter_irr : counter_irr + 1, 
+      print("all_forced_irr_cores_bydef:", counter_irr, ",", statistics_cs(Forced))),
+    return({Forced})
+  ),
+  block(
+   [C : candidate[1], FF : cs_to_fcs(union(Forced,Possible)), Cores_with],
+    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced),Possible,S),
+    if S(apply_pa_f(comp_sl(C), FF)) then
+      return(Cores_with_C)
+    else 
+      return(union(Cores_with_C,all_forced_irr_cores_bydef(Forced,Possible,S)))))$
 
 /*!
 \endhtmlonly

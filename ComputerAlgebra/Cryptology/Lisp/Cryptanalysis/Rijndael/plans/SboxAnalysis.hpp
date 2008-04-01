@@ -69,6 +69,8 @@ statistics_cs(ir_p_aes);
 [16, 447, 3087, 8, 6]
 ncl_list_f(cs_to_fcs(ir_p_aes));
 [[6, 99], [7, 291], [8, 57]]
+oklib_monitor : true;
+irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
      \endverbatim
     </ol>
    </li>
