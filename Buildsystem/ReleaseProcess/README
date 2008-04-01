@@ -11,6 +11,13 @@ Licence text: See OKplatform/OKsystem/Transitional/System/LegalIssues/GPLv3.txt
 
 ----------------------------------------------
 
+****************************************
+* Please read the following rather     *
+* carefully: Since the OKlibrary is an *
+* "active library", you need to become *
+* familiar with the innards of it.     *
+****************************************
+
 Prerequisites (need to be installed):
 
  - Bash, version 3.00 or higher
@@ -57,15 +64,24 @@ and for installing everything it is too tight).
 
 Building:
 
-1) For using the package, we need "oklib" on your path (or otherwise you
+1) In the OKplatform-directory (where this README
+is placed), call
+
+./oklib --prebuild
+
+This creates links and directories.
+
+
+2) For using the package, we need "oklib" on your path (or otherwise you
    have to call it always with its full path):
 
- - One symbolic link is already planted in the base directory OKplatform,
-   but this is only for the purpose of setting up the OKlibrary, and is
-   otherwise of restricted use.
+ - One symbolic link is already planted in the base directory OKplatform
+   (you have used that in Step 1)), but this is only for the purpose of setting up
+   the OKlibrary, and is otherwise of restricted use.
 
- - The public bin-directory "OKplatform/bin" (in this directory) contains 
-   links to the main executables supplied by the OKlibrary, including "oklib".
+ - The public bin-directory "OKplatform/bin" (in this directory) contains
+   links to the main executables supplied by the OKlibrary, 
+   including "oklib".
  - So you can put this bin-directory on your path via adding
 export PATH=OKPLATFORM/bin:${PATH}
    to ~/.bashrc, where OKPLATFORM is to be replaced by the (absolute)
@@ -86,15 +102,12 @@ export PATH=OKPLATFORM/bin:${PATH}
 Once you decided on how to access "oklib" in the future, you might delete the
 symbolic link in directory OKplatform.
 
+The master script oklib should now be functional. (You can test this
+by just calling "oklib --version" somewhere.)
 
-2) The master script oklib should now be functional.
-The next is to prepare the build system: Call
 
-oklib --prebuild
-
-(still in the OKplatform-directory).
-
-3) Except for the minimal package, precomputed documentation is included.
+3) Except for the minimal package, precomputed documentation is included
+in the documentation (see local home page below).
 Regarding the information on the installed external sources, this precomputed
 information is not fully relevant for your system (since several test actions 
 have to be performed on *your* system), and to (partially) update it use
@@ -106,6 +119,10 @@ in directory OKsystem (or below it).
 Remarks: 
  - "oklib html" would fully re-install the documentation, however it needs an
    appropriate version of doxygen installed for this. See Step 4).
+ - Information on installation status at the main page for "external sources"
+   (directly reachable from the local home page, see below) should now
+   be correct, but updating the information on the specific installation pages
+   needs the full "oklib html".
  - If you get error messages with "oklib documentation_index" then likely
    this means that the binary "PathDifference" (needed to translate paths and 
    which needs to be compiled by the OKlibrary), which we supply 
@@ -119,7 +136,7 @@ information on external sources on the local home page.
 
 4) "oklib documentation_index" cannot update for examples the links in the
 html-documentation to documentation of external sources. To get the documentation
-fully updated, running "oklib html" (in directory OKsystem or below) is needed.
+fully updated, run "oklib html" (in directory OKsystem or below).
 
 For this doxygen is needed. The OKlibrary provides a local installation, which
 you can execute by calling "oklib doxygen" in directory OKplatform/ExternalSources.
@@ -127,13 +144,13 @@ After this installation is finished, "oklib html" should now run successfully.
 
 
 5) In order to use the version control system, we recommend to install git
-via the OKlibrary, again by runnning "oklib git" in directory 
+via the OKlibrary, again by running "oklib git" in directory 
 OKplatform/ExternalSources.
 
 Again, after installation a link is planted in the public bin-directory 
 OKplatform/bin.
 
-Git comes with modern Linux distributions, but the OKLibrary should provide
+Git comes with modern Linux distributions, but the OKlibrary should provide
 the most suitable version (either the newest one, or in case of some trouble
 an appropriate earlier version).
 
@@ -146,5 +163,5 @@ All further documentation is found on the local home page in
 OKplatform/system_directories/doc/local_html/index.html.
 
 (However, for the minimal package the documentation is not pre-installed,
-but has to be created by running "oklib html" (which needs doxygen installed).)
+but has to be created by running "oklib html" (see Step 4) above).)
 
