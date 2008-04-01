@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 
 kill(f)$
@@ -64,6 +65,17 @@ okltest_first_irr_fcs(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1},{1,2}}],S) = [{1,2},{{1}}]),
   block([oklib_test_level : oklib_test_level-1],
     okltest_first_mus_fcs(f)),
+  true)$
+
+okltest_all_irr_bydef(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{}],S) = {}),
+  assert(f([{},{{}}],S) = {{}}),
+  assert(f([{1},{{}}],S) = {{}}),
+  assert(f([{1},{{1}}],S) = {{1}}),
+  assert(f([{1},{{1},{-1}}],S) = {{1},{-1}}),
+  assert(f([{1},{{1},{}}],S) = {{}}),
+  assert(f([{1},{{1},{-1},{}}],S) = {}),
+  assert(f([{1,2},{{1},{1,2}}],S) = {{1}}),
   true)$
 
 /*!

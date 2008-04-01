@@ -49,6 +49,8 @@ h_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
 [16, 1359, 9430, 9, 6]
+ncl_list_f(cs_to_fcs(p_aes));
+[[6, 265], [7, 913], [8, 180], [9, 1]]
 irredundant_bydef(cs_to_fcs(p_aes), dll_simplest_trivial1);
 false
 ip_aes : first_irr_fcs(cs_to_fcs(p_aes), dll_simplest_trivial2)$
@@ -60,6 +62,14 @@ true
      </li>
      <li> This looks very interesting! Should be close to the optimum.
      And looks much smaller than to be expected. </li>
+     <li> Analysing p_aes:
+     \verbatim
+ir_p_aes : all_irr_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
+statistics_cs(ir_p_aes);
+[16, 447, 3087, 8, 6]
+ncl_list_f(cs_to_fcs(ir_p_aes));
+[[6, 99], [7, 291], [8, 57]]
+     \endverbatim
     </ol>
    </li>
    <li> The question is how small can we get a CNF representation? We need
