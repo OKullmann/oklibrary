@@ -9,6 +9,20 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp
   \brief Plans for the Cryptanalysis of the Rijndael Sbox in Maxima/Lisp
 
+
+  \todo Provide tests for all functions
+  <ul>
+   <li> generate_full_aes_sbox_dnf_fcs </li>
+   <li> generate_full_aes_sbox_cnf_fcs </li>
+   <li> test_CNF_aes_sbox </li>
+   <li> hitting_cnf_aes_sbox </li>
+   <li> polynomial2list </li>
+   <li> binary_list_to_dnf_c </li>
+  </ul>
+
+
+  \todo Move functions which do not belong to this module.
+
   
   \todo Generate good CNF clause-sets for the AES Sbox
   <ul> 
@@ -86,24 +100,42 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
    translation (and optimisation); see
    ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/plans/TseitinTranslation.hpp
    </li>
-   <li> Compute *all* prime implicates (for the purpose of analysis):
-    <ol>
-     <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
-     potential prime implicates, given by fixing 8 bit in either the inputor
-     the output, and one further bit to the wrong value. As one can see by
-     the identity, these are not neccessarily prime, since the identify
-     just has 16 prime implicates (of length 2). </li>
-     <li> One should test these. </li>
-     <li> If the Maxima computation, via
-     \verbatim
+  </ul>
+
+
+  \todo Compute *all* prime implicates (for the purpose of analysis):
+  <ul>
+   <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
+   potential prime implicates, given by fixing 8 bit in either the inputor
+   the output, and one further bit to the wrong value. As one can see by
+   the identity, these are not neccessarily prime, since the identify
+   just has 16 prime implicates (of length 2). </li>
+   <li> One should test these. </li>
+   <li> If the Maxima computation, via
+   \verbatim
 min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
-     \endverbatim
-     takes too long, then we need a C++ implementation; see
-     Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
-     "Prime implicants and implicates". A simple implementation should
-     suffice here. </li>
+   \endverbatim
+   takes too long, then we need a C++ implementation; see
+   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
+   "Prime implicants and implicates". A simple implementation should
+   suffice here. </li>
+   <li> However, since the S-box has a perfectly regular structure, it
+   should also be possible to analytically determine all prime implicates:
+    <ol>
+     <li> Extract from the above results prime implicates, determine
+     their structure, and generalise. </li>
+     <li> See the 4096 candidates above. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Related 8-bit bijections
+  <ul>
+   <li> Investigate random permutations of {0,1}^8, and compare them
+   with the AES Sbox. </li>
+   <li> Find representations for the multiplication with a constant in
+   GF(2^8). </li>
   </ul>
      
 

@@ -12,11 +12,11 @@ License, or any later version. */
 
 
   \par Version 0.0.5
-
+  
   \par
-   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
-    - Review and tidy todos
-    - Create / update milestones
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
+    - Provide tests for all functions
+    - Move functions which do not belong to this module
 
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
@@ -24,6 +24,13 @@ License, or any later version. */
 
 
   \par Version 0.0.6
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/general.hpp the following topics are handled:
+    - Review and tidy todos
+    - Create / update milestones
+
+  \par Version 0.0.7
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
