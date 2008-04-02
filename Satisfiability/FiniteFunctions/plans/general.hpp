@@ -173,6 +173,22 @@ License, or any later version. */
   </ul>
 
 
+  \todo C++ implementation of Quine-McCluskey
+  <ul>
+   <li> A C++ implementation is needed for finding prime implicates as the 
+   current maxima implementation simply takes far too long. </li>
+   <li> What parts of Satisfiability/ in the library would be useful (classes 
+   for clausesets, clauses etc)? </li>
+   <li> What other considerations are there?
+    <ul>
+     <li> Naming conventions? </li>
+     <li> Efficiency Considerations? </li>
+     <li> Testing? </li>
+    </ul>
+   </li>
+  </ul> 
+
+
   \todo Minimisation
 
 
