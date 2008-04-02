@@ -23,6 +23,16 @@ License, or any later version. */
   <ul>
    <li> What to do with the computations under
    "Convexity considerations: line versions" ? </li>
+   <li> The point should be to demonstrate that certain functions
+   are not convex; see
+   ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/demos/Basic.mac. </li>
+   <li> For example linear combination of distances, where the target is
+   to minimise the variance, does not yield a convex optimisation
+   problem, as shown in
+   ComputerAlgebra/Satisfiability/Lisp/demos/FundamentsBranchingHeuristics.mac
+   </li>
+   <li> So likely all these convexity considerations should move to the
+   demos. </li>
   </ul>
 
 
@@ -66,6 +76,37 @@ License, or any later version. */
      <li> Are there better lower bounds than tau_lo ? </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Optimisation
+  <ul>
+   <li> Support typical applications to worst-case upper bounds:
+    <ol>
+     <li> Given a parameter alpha and branching tuples depending
+     on alpha, find the minimal tau-value depending on alpha, for
+     a given domain. </li>
+     <li> This is a very common task, and we should provide a convenient
+     framework for this, with  some nice demos (for the upper-bounds
+     community). </li>
+     <li> The common case seems to be a linear dependence on alpha,
+     and then the domain can be computed via linear programming. </li>
+     <li> We should provide a variety of optimisation methods. </li>
+     <li> See the methods for quasi-convex optimisation discussed in
+     [Eppstein, 2006, Quasiconvex Analysis of Multivariate Recurrence
+     Equations for Backtracking Algorithms]. </li>
+    </ol>
+   </li>
+   <li> The other basic case is optimising a distance on a given tree,
+   and again a convenient framework needs to be provided.
+    <ol>
+     <li> See
+     ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/demos/Basic.mac.
+     </li>
+     <li> See "Mupad/tau.mup" above. </li>
+    </ol>
+   </li>
+   <li> Likely this should go into its own submodule. </li>
   </ul>
 
 */
