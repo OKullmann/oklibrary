@@ -251,7 +251,7 @@ sat_length_2_ways(t,s) := [length(bth_saturated_greedy(t,s)),
    **********************************************************
 */
 
-/* Example 1.7.1 */
+/* Example 1.8.1 */
 
 h_T1bt : ipd_rp(T_1_stpd)$
 float(hash_table_data(h_T1bt));
@@ -266,7 +266,7 @@ tpd_flatten(T_3_tpd);
 tpd_variance(T_3_tpd);
 
 
-/* Example 1.7.2 */
+/* Example 1.8.2 and 1.8.3 */
 
 /* The trivial heuristics */
 
@@ -417,6 +417,25 @@ tbt_wncwnc_ast_54 : extract_tbt(wnc_nclt_ast_54, 1);
 tbt_wncn_ast_54 : extract_tbt(wnc_nclt_ast_54, 2);
 tbt_wncc_ast_54 : extract_tbt(wnc_nclt_ast_54, 3);
 tbt_wncl_ast_54 : extract_tbt(wnc_nclt_ast_54, 4);
+tbt_wnct_ast_54 : extract_tbt(wnc_nclt_ast_54, 5);
+
+tpd_wncwnc_ast_54 : tauprob_tbt(tbt_wncwnc_ast_54);
+tpd_wncn_ast_54 : tauprob_tbt(tbt_wncn_ast_54);
+tpd_wncc_ast_54 : tauprob_tbt(tbt_wncc_ast_54);
+tpd_wncl_ast_54 : tauprob_tbt(tbt_wncl_ast_54);
+tpd_wnct_ast_54 : tauprob_tbt(tbt_wnct_ast_54);
+
+assert_float_equal(tpd_variance(tpd_wncwnc_ast_54), 3.4394359770340516E+8);
+assert_float_equal(tpd_variance(tpd_wncn_ast_54), 3.615624833939703E+7);
+assert_float_equal(tpd_variance(tpd_wncc_ast_54), 1730952.892499223);
+assert_float_equal(tpd_variance(tpd_wncl_ast_54), 1872320.636555014);
+assert_float_equal(tpd_variance(tpd_wnct_ast_54), 2968.0);
+
+assert_float_equal(upper_bound_nlvs_tau(tbt_wncwnc_ast_54), 1.910402952727581E+78);
+assert_float_equal(upper_bound_nlvs_tau(tbt_wncn_ast_54), 1.890496564547904E+14);
+assert_float_equal(upper_bound_nlvs_tau(tbt_wncc_ast_54), 9.850640859775653E+10);
+assert_float_equal(upper_bound_nlvs_tau(tbt_wncl_ast_54), 2.481139355236184E+10);
+assert_float_equal(upper_bound_nlvs_tau(tbt_wnct_ast_54), 1024.0);
 
 
 /* Delta(l) as heuristics for weak_php(6,5) */
@@ -447,6 +466,14 @@ assert_float_equal(upper_bound_nlvs_tau(tbt_ln_ast_65), 4.745043472858466E+15);
 assert_float_equal(upper_bound_nlvs_tau(tbt_lc_ast_65), 3.227130302471304E+14);
 assert_float_equal(upper_bound_nlvs_tau(tbt_lt_ast_65), 65536.0);
 
+
+
+
+
+
+/* Example 1.8.4 */
+
+/* Minimising the variances */
 
 /* The weighted number of clauses as heuristics for weak_php(6,5) */
 
@@ -492,11 +519,6 @@ assert_float_equal(upper_bound_nlvs_tau(tpd_n_ok2002_ncl234_ast_65), 61.85207603
 assert_float_equal(upper_bound_nlvs_tau(tpd_c_ok2002_ncl234_ast_65), 100.8063825114651);
 assert_float_equal(upper_bound_nlvs_tau(tpd_l_ok2002_ncl234_ast_65), 92.08543943298893);
 
-
-
-/* Example 1.7.3 */
-
-/* Minimising the variances */
 
 minvarn(x) := tpd_variance(tauprob_tbt(
   x * tbt_wnc_ok2002_ncl234_ast_65 + (1-x) * tbt_n_ok2002_ncl234_ast_65));
@@ -674,7 +696,7 @@ assert(height(l2ult(col_ok2002wc_php65_ast_65)) = 6);
 assert(levelled_height(l2ult(col_ok2002wc_php65_ast_65)) = 2);
 
 
-/* Example 1.7.4 */
+/* Example 1.8.5 */
 
 /* Minimising the tau-upper bounds */
 
@@ -850,7 +872,7 @@ assert(levelled_height(l2ult(col_ok2002wlt_php65_ast_65)) = 2);
    ***********************************
 */
 
-/* Example 1.8.1 */
+/* Example 1.9.1 */
 
 F0 : weak_php(3,2);
 F1 : weak_php(3,3);
