@@ -11,6 +11,7 @@ License, or any later version. */
 
   
   \todo Generate good CNF clause-sets for the AES Sbox
+  <ul> 
    <li> Different heuristics for generating hitting clause-sets
    \verbatim
 length(hitting_cnf_aes_sbox(dll_heuristics_first_formal));
@@ -23,10 +24,16 @@ statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit));
 [16, 1513, 19546, 16, 6]
 length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
 2048
+statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(3,3)));
+[16, 1468, 18925, 16, 6]
+statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4)));
+[16, 1460, 18873, 16, 5]
    \endverbatim
    Would be interesting to understand this. </li>
    <li> Use heuristics_lookahead_distances with different lookahead-reductions
-   and different distances. </li>
+   and different distances. (MG: Looking at several combinations of the already
+   defined reductions, all seem to lead to 2048. I am still trying different
+   combinations) </li>
    <li> Since the AES-DNF is unique, as a correctness test we can
    just check whether we get the input back (using any heuristics):
    \verbatim
@@ -87,7 +94,7 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
    </li>
   </ul>
      
-     
+
   \todo Organisation
   <ul>
    <li> Perhaps we should provide a constant for
