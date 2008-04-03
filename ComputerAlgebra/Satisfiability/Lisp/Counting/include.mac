@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/include.ma
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Backtracking.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac");
