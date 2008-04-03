@@ -86,12 +86,12 @@ test_CNF_aes_sbox(cs_to_fcs(h2_aes));
 true
 p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
 statistics_cs(p2_aes);
-
+[16, 1374, 9524, 9, 5]
 ip2_aes : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
 statistics_cs(ip2_aes[2]);
-
+[16, 566, 3898, 9, 5]
 test_CNF_aes_sbox(ip2_aes);
-
+true
      \endverbatim
      (to be completed)
      </li>
