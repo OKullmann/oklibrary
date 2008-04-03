@@ -123,9 +123,9 @@ dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
             dll_red_st_dist(apply_pa_f({-x}, [V,Fr]), ah, red)]))))$
 
 
-/* ************************
-   * Simple heuristics    *
-   ************************
+/* *******************************
+   * Simple heuristics for DLL   *
+   *******************************
 */
 
 /* The simplest heuristics: return the first variable */
@@ -175,6 +175,19 @@ dll_simplest_max_var(FF) := dll_simplest(FF, dll_heuristics_max_var)$
 dll_simplest_st_max_var(FF) := dll_simplest_st(FF, dll_heuristics_max_var)$
 dll_rk_max_var(FF,k) := dll_rk(FF, dll_heuristics_max_var, k)$
 dll_rk_st_max_var(FF,k) := dll_rk_st(FF, dll_heuristics_max_var, k)$
+
+
+/* Heuristics for a good representation of the set of satisfying
+   assignments (thus "satisfiability-driven"). */
+
+/* Given an approximation A for SAT-probability, returns the heuristics,
+   which chooses the literal maximising A(<x -> 1> * FF). At least one 
+   literal x must yield a value A > minf. */
+choose_most_sat_literal_h(A) := buildq([A], lambda([FF],
+  block([L : literals_v(FF[1]), opta : minf, optx],
+    for x in L do block([a : A(apply_pa_f({x}, FF))],
+      if a > opta then (opta : a, optx : x)),
+    return(optx))))$
 
 
 /* ****************************

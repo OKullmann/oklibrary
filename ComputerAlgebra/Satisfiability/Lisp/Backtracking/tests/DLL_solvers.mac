@@ -21,8 +21,37 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+
 
 kill(f)$
+
+/* *******************************
+   * Simple heuristics for DLL   *
+   *******************************
+*/
+
+okltest_choose_most_sat_literal_h(f) := (
+  block([h : f(lambda([FF], 1))],
+   assert(h([{1},{}]) = -1),
+   assert(h([{1},{{}}]) = -1),
+   assert(h([{1,2},{{}}]) = -2),
+   assert(h([{1,2},{{1,2}}]) = -2)
+  ),
+  block([h : f(lambda([FF],satprob_mcind_trrs(FF[2])))],
+   assert(h([{1},{}]) = -1),
+   assert(h([{1},{{}}]) = -1),
+   assert(h([{1,2},{{}}]) = -2),
+   assert(h([{1,2},{{1,2}}]) = 1),
+   assert(h([{1,2},{{1},{1,2}}]) = 1)
+  ),
+  true)$
+
+
+/* *********************************
+   * Satisfiability approximations *
+   *********************************
+*/
 
 okltest_locallemma_satapprox(f) := block(
   assert(f({}) = inf),

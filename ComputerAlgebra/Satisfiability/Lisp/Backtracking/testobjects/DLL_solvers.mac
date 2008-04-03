@@ -21,6 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testob
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/DLL_solvers.mac");
 
+okltest_choose_most_sat_literal_h(choose_most_sat_literal_h);
+
 okltest_locallemma_satapprox(locallemma_satapprox);
 
 /*!
