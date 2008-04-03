@@ -34,7 +34,8 @@ License, or any later version. */
   
   \par
   In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp the following topics are handled:
-    - Generate good CNF clause-sets for the AES Sbox
+    - Generate good CNF hitting clause-sets for the AES Sbox
+    - Extracting prime implicate representations from the hitting-cls-representations
 
 
   \par Version 0.1

@@ -24,7 +24,7 @@ License, or any later version. */
   \todo Move functions which do not belong to this module.
 
   
-  \todo Generate good CNF clause-sets for the AES Sbox
+  \todo Generate good CNF hitting clause-sets for the AES Sbox
   <ul> 
    <li> Different heuristics for generating hitting clause-sets
    \verbatim
@@ -60,14 +60,23 @@ test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
    to translate r_k-splitting trees into hitting clause-sets, which can
    be done in a straightforward way, by just making the forced assignments
    into trees of levelled height 1 (ignoring the actual reduction). </li>
+   <li> A general conjecture is: "For computing small dual hitting cause-sets,
+   use as splitting literal one with leads to maximal probability of
+   satisfiability." So using choose_most_sat_literal_h in
+   ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
+   should do a good job --- let's test it here! </li>
+  </ul>
+
+
+  \todo Extracting prime implicate representations from the hitting-cls-representations
+  <ul>
    <li> As explained in "Hitting clause-sets" in
    ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp,
    given a hitting clause-set representation, from it we can obtain a shorter
-   representation by prime implicates. This is a better representation.
-    <ol>
-     <li> This is achieved by "replace_by_prime_implicates_hitting". </li>
-     <li>
-     \verbatim
+   representation by prime implicates. This is a better representation. </li>
+   <li> This is achieved by "replace_by_prime_implicates_hitting". </li>
+   <li>
+   \verbatim
 h_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit)$
 p_aes : replace_by_prime_implicates_hitting(h_aes)$
 statistics_cs(p_aes);
@@ -92,13 +101,12 @@ statistics_cs(ip2_aes[2]);
 [16, 566, 3898, 9, 5]
 test_CNF_aes_sbox(ip2_aes);
 true
-     \endverbatim
-     (to be completed)
-     </li>
-     <li> This looks very interesting! Should be close to the optimum.
-     And looks much smaller than to be expected. </li>
-     <li> Analysing p_aes:
-     \verbatim
+   \endverbatim
+   </li>
+   <li> This looks very interesting! Should be close to the optimum.
+   And looks much smaller than to be expected. </li>
+   <li> Analysing p_aes:
+   \verbatim
 ir_p_aes : all_irr_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ir_p_aes);
 [16, 447, 3087, 8, 6]
@@ -106,14 +114,12 @@ ncl_list_f(cs_to_fcs(ir_p_aes));
 [[6, 99], [7, 291], [8, 57]]
 oklib_monitor : true;
 irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
-     \endverbatim
-     </li>
-     <li> The computation of all irredundant cores of p_aes was aborted after
-     having produced 559 cores, all with 629 clauses, while literal occurrences
-     ranged from 4328 to 4330. There could be trillions of such tiny
-     variations. Need to try random sampling. </li>
-    </ol>
+   \endverbatim
    </li>
+   <li> The computation of all irredundant cores of p_aes was aborted after
+   having produced 559 cores, all with 629 clauses, while literal occurrences
+   ranged from 4328 to 4330. There could be trillions of such tiny
+   variations. Need to try random sampling. </li>
    <li> The question is how small can we get a CNF representation? We need
    also to investigate the size of a CNF obtained from the DNF via Tseitin
    translation (and optimisation); see
