@@ -104,7 +104,7 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
   else
     xreduce(lambda([a,b], if second(a) > second(b) then a else b), 
       map(lambda([c], max_literal_degree_tb(FF, first(c),d-1,n)), 
-        block([ml : sublist(rest(old),lambda([a],second(a)=second(first(old))))],
+        block([ml : sublist(rest(old),lambda([a],is(second(a)=second(first(old)))))],
           take_elements(min(n,length(ml)),ml))),
     first(old)))$
 
