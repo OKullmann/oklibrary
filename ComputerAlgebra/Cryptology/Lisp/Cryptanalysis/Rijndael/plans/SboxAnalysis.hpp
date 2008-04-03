@@ -60,11 +60,69 @@ test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
    to translate r_k-splitting trees into hitting clause-sets, which can
    be done in a straightforward way, by just making the forced assignments
    into trees of levelled height 1 (ignoring the actual reduction). </li>
-   <li> A general conjecture is: "For computing small dual hitting cause-sets,
-   use as splitting literal one with leads to maximal probability of
+   <li> 
+   A general conjecture is: "For computing small dual hitting cause-sets,
+   use as splitting literal one which leads to maximal probability of
    satisfiability." So using choose_most_sat_literal_h in
    ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
-   should do a good job --- let's test it here! </li>
+   should do a good job --- let's test it here! 
+   
+\verbatim
+statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(firstorder_sat_approx_t)))$
+[16, 1515, 19540, 16, 6]
+statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simplest_trivial1)))$
+\endverbatim
+   <ul>
+    <li> One issue here is that some of the approximations tend to return "inf" 
+    when the clauseset is satisfiable or highly satisfiable which is fine for 
+    SAT decision, where the only interest is if the branch is satisfiable,
+    but completely defeats the point in this case. In the tests above, such 
+    problems have been avoided by taking the function definition and temporarily
+    defining the function to return the calculated probability. Such functions 
+    have been postfixed with "_t" for "true". </li>
+    <li> The first result seems very similar to using of 
+    "dll_heuristics_max_lit", which they should (in this particular case) given 
+    at every stage, under any partial assignment, we always have a full clause 
+    set, and each clause falsifies a given total assignment (given the domain of
+    only 16 variables). Therefore, branching on the literal with the max 
+    occurrences results in most clauses which represent falsifying assignments 
+    occurring on that branch. Conversely, given we have a full clause set at 
+    each stage, the negation of the maximally occurring literal must be the 
+    minimally occurring literal, and given each clause represents a single total
+    falsifying assignment, this other branch must represent the choice of 
+    literal which leads to maximal probability of satisfiability (and therefore
+    min of unsatisfiability). </li>
+    <li> IE, in the case of full clause sets, "min_lit" is equivalent in nature
+    to choosing the literal which leads to maximal probability of satisfiability
+    and "max_lit" is equivalent in nature to choosing the literal which leads to
+    maximal probability of unsatisfiability. </li>
+    <li> Given this duality with full clause sets, it is arbitrary whether we
+    choose to maximise satisfiability or unsatisfiability as you simply 
+    generate splitting trees which are mirror images of each other (ignoring
+    issues with the ordering imposed when there are ties for maximum and 
+    minimum approximations). </li>
+    <li> SAT approximations seems to generalise the advantage gained by 
+    "max_lit" to clause sets rather than being restricted to full 
+    clause sets. </li>
+    <li> It is likely that the SAT approximation heuristic would benefit from
+    some lookahead, as was presented with regards to max_lit, so as to 
+    differentiate when ties occur for the maximal probability of satisfiability.
+    We wish the same idea of maximising satisfiability to occur at the next 
+    level, and so the literal which results in the most "bias" when that
+    literal assignment is made (or potentially taking into account both 
+    branches) should be chosen. </li>
+    <li> The reasoning behind maximising "bias" at each level needs to be made
+    clear here (falsifying assignments occurring along the same "path" down the
+    tree result in less branch offs for the satisfying assignments, where 
+    the branch offs are then the clauses we take for the dual hitting clause 
+    set (after compacting?) - this is likely very imprecise and unclear). </li>
+    <li> Most likely, there is a small difference here between "max_lit" and 
+    the probability-based heuristic due to issues with ordering and joint
+    maximums and minimums not necessarily coinciding. </li>
+    <li> Likely this needs tidying or making more concise, as well as certain
+    aspects more clearly explained/defined. </li>
+   </ul>
+   </li>
   </ul>
 
 
