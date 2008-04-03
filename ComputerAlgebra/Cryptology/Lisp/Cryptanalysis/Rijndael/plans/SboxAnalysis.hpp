@@ -81,7 +81,19 @@ statistics_cs(ip_aes[2]);
 [16, 581, 4006, 8, 6]
 test_CNF_aes_sbox(ip_aes);
 true
+h2_aes : hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4))$
+test_CNF_aes_sbox(cs_to_fcs(h2_aes));
+true
+p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
+statistics_cs(p2_aes);
+
+ip2_aes : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
+statistics_cs(ip2_aes[2]);
+
+test_CNF_aes_sbox(ip2_aes);
+
      \endverbatim
+     (to be completed)
      </li>
      <li> This looks very interesting! Should be close to the optimum.
      And looks much smaller than to be expected. </li>
