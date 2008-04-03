@@ -50,6 +50,15 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basic
 negate_st(T) := if length(T) = 1 then [not T[1]] else
 [T[1], negate_st(T[2]), negate_st(T[3])]$
 
+/* Condense a splitting tree to a splitting tree representing the same
+   boolean function, but were every inner node has one satisfiable
+   and one unsatisfiable successor. */
+condense_st(T) := if length(T) = 1 then T else block(
+ [x : T[1], T1 : condense_st(T[2]), T2 : condense_st(T[3])],
+ if T1 = [false] and T2 = [false] then return([false])
+ elseif T1 = [true] and T2 = [true] then return([true])
+ else return([x, T1, T2]))$
+
 
 /* ***************************
    * Finding splitting trees *

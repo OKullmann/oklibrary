@@ -25,10 +25,31 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Const
 
 kill(f)$
 
+/* ********************************
+   * Manipulating splitting trees *
+   ********************************
+*/
+
 okltest_negate_st(f) := block(
   assert(f([true]) = [false]),
   assert(f([false]) = [true]),
   true)$
+
+okltest_condense_st(f) := block(
+  assert(f([true]) = [true]),
+  assert(f([false]) = [false]),
+  assert(f([1,[false],[false]]) = [false]),
+  assert(f([1,[false],[true]]) = [1,[false],[true]]),
+  assert(f([1,[true],[false]]) = [1,[true],[false]]),
+  assert(f([1,[true],[true]]) = [true]),
+  assert(f([1,[2,[false],[false]],[2,[true],[true]]]) = [1,[false],[true]]),
+  assert(f([1,[2,[false],[false]],[2,[false],[false]]]) = [false]),
+  true)$
+
+/* ***************************
+   * Finding splitting trees *
+   ***************************
+*/
 
 okltest_optimal_splitting_tree(f) := block(
   assert(f({}) = [[true],1]),
