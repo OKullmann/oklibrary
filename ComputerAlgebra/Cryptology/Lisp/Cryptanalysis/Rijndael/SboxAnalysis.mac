@@ -48,7 +48,7 @@ test_CNF_aes_sbox(FF) :=
 
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction) */
-hitting_cnf_aes_sbox(h) := dualtreehittingcls_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
+hitting_cnf_aes_sbox(h) := dualtreehittingcls_condensed_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
 
 /* Convert a given polynomial to a list of coefficients of length n */
 /* OK : in which order? */

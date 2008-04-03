@@ -44,6 +44,8 @@ statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4)));
 [16, 1460, 18873, 16, 5]
    \endverbatim
    Would be interesting to understand this. </li>
+   <li> Also interesting that all the hitting trees produced by the
+   SAT solvers are already condensed. </li>
    <li> Use heuristics_lookahead_distances with different lookahead-reductions
    and different distances. (MG: Looking at several combinations of the already
    defined reductions, all seem to lead to 2048. I am still trying different
@@ -93,6 +95,11 @@ ncl_list_f(cs_to_fcs(ir_p_aes));
 oklib_monitor : true;
 irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
      \endverbatim
+     </li>
+     <li> The computation of all irredundant cores of p_aes was aborted after
+     having produced 559 cores, all with 629 clauses, while literal occurrences
+     ranged from 4328 to 4330. There could be trillions of such tiny
+     variations. Need to try random sampling. </li>
     </ol>
    </li>
    <li> The question is how small can we get a CNF representation? We need
