@@ -183,6 +183,8 @@ dll_rk_st_max_var(FF,k) := dll_rk_st(FF, dll_heuristics_max_var, k)$
 /* Given an approximation A for SAT-probability, returns the heuristics,
    which chooses the literal maximising A(<x -> 1> * FF). At least one 
    literal x must yield a value A > minf. */
+/* NB: Could some of this not be generalised to some sort of  maximise(f) 
+   function? */
 choose_most_sat_literal_h(A) := buildq([A], lambda([FF],
   block([L : literals_v(FF[1]), opta : minf, optx],
     for x in L do block([a : A(apply_pa_f({x}, FF))],
