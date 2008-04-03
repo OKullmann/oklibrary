@@ -71,7 +71,10 @@ literal_degree_ordering_asc(ld1, ld2) := is(second(ld1) < second(ld2))$
 literal_degree_ordering_des(ld1, ld2) := is(second(ld2) < second(ld1))$
 /* Returns the pairs of literal and literal degree of a clause-set F in 
    descending order of the number of literals
-   OK: why is this needed? */
+   OK: why is this needed? How is the order specified??
+   Use better variable names!
+   The loop should be eliminated! And just map the hash-table.
+   The order used deviates from the normal order imposed on literals. */
 ordered_literal_degrees_cs(F) := block([ldl : [], ldh : literal_degrees_cs(F)],
    for v in var_cs(F) do block(
        block([ld : get_hash(v,ldh)],
