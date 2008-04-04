@@ -22,15 +22,11 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/SboxAnalysis.mac");
 
 
-okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
-
 okltest_polynomial2list(polynomial2list);
 
 okltest_binary_list_to_dnf_c(binary_list_to_dnf_c);
 
 okltest_generate_full_aes_sbox_dnf_fcs(generate_full_aes_sbox_dnf_fcs);
-
-okltest_dll_heuristics_max_lit_tb(dll_heuristics_max_lit_tb);
 
 /*!
 \endhtmlonly
