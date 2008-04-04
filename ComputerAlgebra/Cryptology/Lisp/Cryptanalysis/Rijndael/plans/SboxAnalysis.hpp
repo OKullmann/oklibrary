@@ -164,12 +164,12 @@ true
 h0_aes : hitting_cnf_aes_sbox(dll_heuristics_first_formal)$
 p0_aes : replace_by_prime_implicates_hitting(h0_aes)$
 statistics_cs(p0_aes);
-
+[16, 1722, 12118, 9, 5]
 ip0_aes : first_irr_fcs(cs_to_fcs(p0_aes), dll_simplest_trivial2)$
 statistics_cs(ip0_aes[2]);
-
+[16, 680, 4784, 9, 5]
 test_CNF_aes_sbox(ip0_aes);
-
+true
    \endverbatim
    </li>
    <li> This looks very interesting! Should be close to the optimum.
