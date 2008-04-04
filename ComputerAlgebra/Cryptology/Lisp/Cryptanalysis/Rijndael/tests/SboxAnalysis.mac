@@ -50,6 +50,15 @@ okltest_polynomial2list(f) := block(
   assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
 true)$
 
+okltest_binary_list_to_dnf_c(f) := block(
+  assert(f([]) = {}),
+  assert(f([0,0,0]) = {-1,-2,-3}),
+  assert(f([0,1,0]) = {-1,2,-3}),
+  assert(f([1,0,0]) = {1,-2,-3}),
+  assert(f([1,1,1]) = {1,2,3}),
+  assert(f([1,0,0,1,1,0,0,1]) = {1,-2,-3,4,5,-6,-7,8}),
+true)$
+
 okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
   sboxFullDNF : f(),
   assert(length(sboxFullDNF[2]) = 256),
