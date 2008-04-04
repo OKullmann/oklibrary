@@ -81,8 +81,8 @@ statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simples
     problems have been avoided by taking the function definition and temporarily
     defining the function to return the calculated probability. Such functions 
     have been postfixed with "_t" for "true". </li>
-    <li> The first result seems very similar to using of 
-    "dll_heuristics_max_lit", which they should (in this particular case) given 
+    <li> The first result seems very similar to use of 
+    "dll_heuristics_max_lit", which it should (in this particular case) given 
     at every stage, under any partial assignment, we always have a full clause 
     set, and each clause falsifies a given total assignment (given the domain of
     only 16 variables). Therefore, branching on the literal with the max 
@@ -102,20 +102,20 @@ statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simples
     generate splitting trees which are mirror images of each other (ignoring
     issues with the ordering imposed when there are ties for maximum and 
     minimum approximations). </li>
-    <li> SAT approximations seems to generalise the advantage gained by 
+    <li> SAT approximations seem to generalise the advantage gained by 
     "max_lit" to clause sets rather than being restricted to full 
     clause sets. </li>
     <li> It is likely that the SAT approximation heuristic would benefit from
     some lookahead, as was presented with regards to max_lit, so as to 
     differentiate when ties occur for the maximal probability of satisfiability.
-    We wish the same idea of maximising satisfiability to occur at the next 
-    level, and so the literal which results in the most "bias" when that
-    literal assignment is made (or potentially taking into account both 
-    branches) should be chosen. </li>
+    We wish the same idea of maximising satisfiability to occur when we make
+    the assignment and move 1 level down in the tree, and so the literal 
+    which results in the most "bias" when that literal assignment is made 
+    (or potentially taking into account both branches) should be chosen. </li>
     <li> The reasoning behind maximising "bias" at each level needs to be made
     clear here (falsifying assignments occurring along the same "path" down the
-    tree result in less branch offs for the satisfying assignments, where 
-    the branch offs are then the clauses we take for the dual hitting clause 
+    tree result in less "branch off"s for the satisfying assignments, where 
+    the "branch off"s are then the clauses we take for the dual hitting clause 
     set (after compacting?) - this is likely very imprecise and unclear). </li>
     <li> Most likely, there is a small difference here between "max_lit" and 
     the probability-based heuristic due to issues with ordering and joint
