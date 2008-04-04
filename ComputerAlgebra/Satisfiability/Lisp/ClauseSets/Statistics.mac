@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac
-  \brief Functions for basic operations with clause-sets
+  \brief Functions for basic statistics for clause-sets
 
 Use by
 
@@ -21,6 +21,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statisti
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
+
+/* ******************
+   * Basic measures *
+   ******************
+*/
 
 /* number of variables of a formal clause-set */
 nvar_f(FF) := length(var_cs_f(FF))$
@@ -66,6 +71,11 @@ statistics_cs(F) :=
 statistics_fcs(FF) := 
   [nvar_f(FF),ncl_f(FF),nlitocc(FF[2]),max_rank_cs(FF[2]),min_rank_cs(FF[2])]$
 
+
+/* *******************
+   * Literal degrees *
+   *******************
+*/
 
 /* The degree of a literal in a clause-set */
 literal_degree_cs(F,l) := length(subset(F,lambda([C],elementp(l,C))))$
@@ -137,6 +147,12 @@ mean_literal_degree_fcs(FF) := nlitocc(FF[2]) / (2 * nvar_f(FF))$
 min_literal_frequency_cs(F) := min_literal_degree_cs(F) / ncl_cs(F)$
 max_literal_frequency_cs(F) := max_literal_degree_cs(F) / ncl_cs(F)$
 mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
+
+
+/* ********************
+   * Variable degrees *
+   ********************
+*/
 
 /* the variable-degrees of a clause-set, as hash-map */
 variable_degrees_cs(F) := block([h : hash_table()],
