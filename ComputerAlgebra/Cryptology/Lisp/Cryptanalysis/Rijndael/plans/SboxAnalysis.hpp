@@ -43,9 +43,11 @@ statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(3,3)));
 statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4)));
 [16, 1460, 18873, 16, 5]
    \endverbatim
-   Would be interesting to understand this. </li>
-   <li> Also interesting that all the hitting trees produced by the
-   SAT solvers are already condensed. </li>
+   Would be interesting to understand this. See below. </li>
+   <li> DONE (explained below: there are no forced assignments, so no 
+   false-condensation can take place, while true-condensations can't happen
+   with clause-sets) Also interesting that all the hitting trees
+   produced by the SAT solvers are already condensed. </li>
    <li> Use heuristics_lookahead_distances with different lookahead-reductions
    and different distances. (MG: Looking at several combinations of the already
    defined reductions, all seem to lead to 2048. I am still trying different
@@ -59,12 +61,46 @@ test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
    <li> We should also use reductions. For that we need the ability
    to translate r_k-splitting trees into hitting clause-sets, which can
    be done in a straightforward way, by just making the forced assignments
-   into trees of levelled height 1 (ignoring the actual reduction). </li>
-   <li> A general conjecture is: "For computing small dual hitting cause-sets,
-   use as splitting literal one with leads to maximal probability of
-   satisfiability." So using choose_most_sat_literal_h in
-   ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
-   should do a good job --- let's test it here! </li>
+   into trees of levelled height 1 (ignoring the actual reduction).
+   DONE (as explained below, here there are no forced assignments. Nevertheless,
+   in general this approach should be implemented.) </li>
+   <li> A general conjecture on computing dual hitting clause-sets from a
+   clause-set F.
+    <ol>
+     <li> "For computing small dual hitting cause-sets, use as splitting literal
+     one with leads to maximal probability of satisfiability." </li>
+     <li> So using choose_most_sat_literal_h in
+     ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac
+     should do a good job. </li>
+     <li> Also the reductions and the look-ahead need to be considered. </li>
+     <li> "The strongest approach is to use full elimination of forced 
+     assignments at each node. The look-ahead then also takes all forced
+     assignments into account." </li>
+     <li> If the reduction misses forced assignments, then in principle this
+     is not a problem for the tree, since condensing the tree will remove
+     unneccesary branches at the end. However it affects the look-ahead. </li>
+     <li> If F is a hitting clause-set, then computing the sat-probability
+     is easy (and all other tasks), and the above heuristics is the Johnson
+     heuristics. The heuristics finds also all forced assignments in the
+     "combined" look-ahead, since forced assignments are identified as branches
+     where the other branch has sat-probability 0; however it is cleaner to
+     put this completely into the reduction. </li>
+     <li> If more specially F is a full clause-set (and the class of full
+     clause-sets is stable under partial assignments(!)), then the Johnson-
+     heuristic just becomes the maxlit-occurrences heuristic above, choosing a
+     literal occurring most often. </li>
+     <li> Moreoever, in our case dll_heuristics_max_lit actually implements
+     the full elimination of forced assignments and the full look-ahead(!):
+      <ol>
+       <li> The Sbox-function, as any other permutation, allows only satisfying
+       assignments of full length --- and thus (for the CNF-perspective) there
+       are no forced assignments at all! </li>
+       <li> So reduction and look-ahead are so "strong" because there is simply
+       nothing to be reduced (via forced assignments). </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
