@@ -21,6 +21,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOpe
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
+/* Guaranteed to be included: */
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac");
+
+
 /* **************************
    * Variables and literals *
    **************************
@@ -133,158 +137,6 @@ rename_clause(C,h) := map(lambda([x],rename_literal(x,h)), C)$
 standardise_fcs(FF) := block([h : hash_table(), V : listify(FF[1])],
  for i : 1 thru length(V) do set_hash(V[i], h, i),
  return([[setn(length(V)), map(lambda([C],rename_clause(C,h)), FF[2])],V]))$
-
-
-/* ************
-   * Measures *
-   ************
-*/
-
-/* number of variables of a formal clause-set */
-nvar_f(FF) := length(var_cs_f(FF))$
-/* number of variables of a clause-set */
-nvar_cs(F) := length(var_cs(F))$
-
-
-/* number of clauses of a formal clause-set */
-ncl_f(FF) := length(clauses_f(FF))$
-/* number of clauses of a clause-set */
-ncl_cs(F) := length(F)$
-
-/* number of literal occurrences in a clause-set */
-nlitocc(F) := block([s : 0],
- for C in F do s : s + length(C), return(s))$
- 
-/* the list of pairs
-   [occurring clause-lengths, number of clauses of this length],
-   sorted by ascending clause-length.
-*/
-ncl_list_f(FF) := block([counts : make_array(fixnum, length(FF[1])+1), res : []],
- for C in FF[2] do block([l : length(C)],
-  counts[l] : counts[l] + 1),
- for i : 0 thru length(FF[1]) do
-  if counts[i] # 0 then res : endcons([i, counts[i]], res),
- return(res))$
-
-/* maximal clause-length of a clause-set */
-max_rank_cs(F) := block([m : -1],
-  for C in F do if length(C) > m then m : length(C),
-  return(m))$
-/* minimal clause-length of a clause-set */
-min_rank_cs(F) := block([m : inf],
-  for C in F do if length(C) < m then m : length(C),
-  return(m))$
-/* Tests whether a clause-set F is uniform */
-uniformcsp(F) := is(max_rank_cs(F) <= min_rank_cs(F))$
-
-/* Gathers main statistics for a clause-set */
-statistics_cs(F) := 
-  [nvar_cs(F),ncl_cs(F),nlitocc(F),max_rank_cs(F),min_rank_cs(F)]$
-/* Gathers main statistics for a formal clause-set */
-statistics_fcs(FF) := 
-  [nvar_f(FF),ncl_f(FF),nlitocc(FF[2]),max_rank_cs(FF[2]),min_rank_cs(FF[2])]$
-
-
-/* The degree of a literal in a clause-set */
-literal_degree_cs(F,l) := length(subset(F,lambda([C],elementp(l,C))))$
-
-load(graphs)$
-/* the literal-degrees of a clause-set, as hash-map */
-literal_degrees_cs(F) := block([h : hash_table()],
- for C in F do
-  for x in C do block([val : get_hash(x,h)],
-   if val=false then set_hash(x,h,1)
-   else set_hash(x,h,val+1)),
- return(h))$
-/* minimal literal-degree of a clause-set */
-min_literal_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
-/* maximal literal-degree of a clause-set */
-max_literal_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
-/* also returns a literal of maximal degree (if there is a literal) */
-max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
-  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(literal_degrees_cs(F))),  
-   optl : 0, maxd : minf],
-  for m in D do block([d : m[2]],
-    if d > maxd then (maxd : d, optl : m[1])),
-  return([maxd, optl]))$
-/* Ordering relation for literal,degree pairs */
-literal_degree_ordering_des(ld1, ld2) := is(second(ld2) < second(ld1))$
-/* Returns the pairs of literal and literal degree of a clause-set F in 
-   descending order of the number of literals
-   OK: why is this needed? How is the order specified??
-   Use better variable names!
-   The loop should be eliminated! And just map the hash-table.
-   The order used deviates from the normal order imposed on literals. */
-ordered_literal_degrees_cs(F) := block([ldl : [], ldh : literal_degrees_cs(F)],
-   for v in var_cs(F) do block(
-       block([ld : get_hash(v,ldh)],
-           if not (ld = false) then
-               ldl : cons([v,ld],ldl)),
-       block([ld : get_hash(-v,ldh)],
-           if not (ld = false) then
-               ldl : cons([-v,ld],ldl))),
-   return(sort(ldl,literal_degree_ordering_des)))$
-/* OK; ???? what is this doing ? What is "tb" ? */
-max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
-      [max_l1, max_ld1] : max_literal_degree_tb_l_cs(apply_pa_f({l}, FF),d,n),
-      [max_l2, max_ld2] : max_literal_degree_tb_l_cs(apply_pa_f({-l}, FF),d,n),
-      [if max_ld1 > max_ld2 then max_l1 else max_l2, max_ld1 + max_ld2])$
-/* Returns the pair of literal and literal degree for the literal
-   with the maximum degree in the given clause set, where look-aheads are made
-   when a tie occurs for the maximum degree, looking up to d levels deeper 
-   and considering up to n tied literals. */
-/* OK: "look-ahead" ??? */
-max_literal_degree_tb_l_cs(FF,d,n) := block(
-  [old : ordered_literal_degrees_cs(FF[2])],
-  if emptyp(old) then [0,0]
-  else if d < 1 then old[1]
-  else
-    xreduce(lambda([a,b], if second(a) > second(b) then a else b), 
-      map(lambda([c], max_literal_degree_tb(FF, first(c),d-1,n)), 
-        block([ml : sublist(rest(old),lambda([a],is(second(a)=second(first(old)))))],
-          take_elements(min(n,length(ml)),ml))),
-    first(old)))$
-/* tests whether a clause-set is literal-regular (all literals have the same
-   degree) */
-literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$
-/* the average literal degree of a formal clause-set */
-mean_literal_degree_fcs(FF) := nlitocc(FF[2]) / (2 * nvar_f(FF))$
-/* literal frequencies in various forms: */
-min_literal_frequency_cs(F) := min_literal_degree_cs(F) / ncl_cs(F)$
-max_literal_frequency_cs(F) := max_literal_degree_cs(F) / ncl_cs(F)$
-mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
-
-/* the variable-degrees of a clause-set, as hash-map */
-variable_degrees_cs(F) := block([h : hash_table()],
- for C in F do
-  for v in var_c(C) do block([val : get_hash(v,h)],
-   if val=false then set_hash(v,h,1)
-   else set_hash(v,h,val+1)),
- return(h))$
-/* minimal variable-degree of a clause-set */
-min_variable_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
-/* maximal variable-degree of a clause-set */
-max_variable_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
-/* also returns a variable of maximal degree (if there is a variable) */
-max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
-  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(variable_degrees_cs(F))),  
-   optv : 0, maxd : minf],
-  for m in D do block([d : m[2]],
-    if d > maxd then (maxd : d, optv : m[1])),
-  return([maxd, optv]))$
-/* tests whether a clause-set is variable-regular (all variables have the same
-   degree) */
-variableregularcsp(F) := is(min_variable_degree_cs(F) >= max_variable_degree_cs(F))$
-/* the average variable-degree of a formal clause-set */
-mean_variable_degree_cs(FF) := 2 * mean_literal_degree_fcs(FF)$
-/* literal frequencies in various forms: */
-min_variable_frequency_cs(F) := min_variable_degree_cs(F) / ncl_cs(F)$
-max_variable_frequency_cs(F) := max_variable_degree_cs(F) / ncl_cs(F)$
-mean_variable_frequency_cs(FF) := mean_variable_degree_fcs(FF) / ncl_f(FF)$
 
 
 /* ***********************************

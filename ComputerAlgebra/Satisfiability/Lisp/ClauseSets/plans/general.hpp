@@ -28,7 +28,14 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> We should create "Statistics.mac". </li>
+   <li> We should create "Statistics.mac".
+    <ol>
+     <li> DONE : move. </li>
+     <li> A problem is now how to handle inclusion. </li>
+     <li> For the moment, "Statistics.mac" and "BasicOperations.mac" are
+     inclusions-wise equivalent. </li>
+    </ol>
+   </li>
    <li> See "Input and output" below. </li>
   </ul>
 
