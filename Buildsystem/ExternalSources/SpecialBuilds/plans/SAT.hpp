@@ -289,6 +289,13 @@ actual or intended publication of such source code.
   </ul>
 
 
+  \todo Symmetries
+  <ul>
+   <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
+   open source. </li>
+  </ul>
+
+
   \todo DONE Chaff
   <ul>
    <li> Not open source, and thus can't be included. </li>
