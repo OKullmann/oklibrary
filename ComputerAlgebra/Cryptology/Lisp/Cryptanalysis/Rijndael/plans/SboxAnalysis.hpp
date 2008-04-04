@@ -12,16 +12,13 @@ License, or any later version. */
 
   \todo Provide tests for all functions
   <ul>
-   <li> generate_full_aes_sbox_dnf_fcs </li>
    <li> generate_full_aes_sbox_cnf_fcs </li>
    <li> test_CNF_aes_sbox </li>
    <li> hitting_cnf_aes_sbox </li>
-   <li> polynomial2list </li>
+   <li> generate_full_aes_sbox_dnf_fcs </li>
    <li> binary_list_to_dnf_c </li>
+   <li> DONE polynomial2list </li>
   </ul>
-
-
-  \todo Move functions which do not belong to this module.
 
   
   \todo Generate good CNF hitting clause-sets for the AES Sbox
@@ -228,6 +225,9 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
    <li> Perhaps we should provide a constant for
    generate_full_aes_sbox_cnf_fcs(). </li>
   </ul>
+
+
+  \todo DONE Move functions which do not belong to this module.
 
 
   \todo DONE Sbox CNF and DNF generation functions
