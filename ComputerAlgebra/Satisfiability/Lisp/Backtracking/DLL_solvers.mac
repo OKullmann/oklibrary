@@ -163,6 +163,17 @@ dll_simplest_st_max_lit(FF) := dll_simplest_st(FF, dll_heuristics_max_lit)$
 dll_rk_max_lit(FF,k) := dll_rk(FF, dll_heuristics_max_lit, k)$
 dll_rk_st_max_lit(FF,k) := dll_rk_st(FF, dll_heuristics_max_lit, k)$
 
+/* Heuristics: choose a literal occurring most often and do additional
+   "lookahead" to try to avoid ties (hence tb "tie break"). */
+
+/* Returns a literal with the maximum literal degree from the given clause-set
+   using lookahead up to depth d, considering n tied literals at each stage if
+   ties occur for a maximum literal. This heuristic for higher d and n can be
+   expensive. */
+/* OK: what is the meaning of this??? */
+dll_heuristics_max_lit_tb(d,n) :=
+  buildq([d,n],lambda([FF],max_literal_degree_tb_l_cs(FF,d,n)[1]))$
+
 /* Heuristics: choose a variable occurring most often, and choose the sign
    first which satisfies most clauses. */
 
@@ -176,13 +187,14 @@ dll_simplest_st_max_var(FF) := dll_simplest_st(FF, dll_heuristics_max_var)$
 dll_rk_max_var(FF,k) := dll_rk(FF, dll_heuristics_max_var, k)$
 dll_rk_st_max_var(FF,k) := dll_rk_st(FF, dll_heuristics_max_var, k)$
 
-
 /* Heuristics for a good representation of the set of satisfying
    assignments (thus "satisfiability-driven"). */
 
 /* Given an approximation A for SAT-probability, returns the heuristics,
    which chooses the literal maximising A(<x -> 1> * FF). At least one 
    literal x must yield a value A > minf. */
+/* NB: Could some of this not be generalised to some sort of  maximise(f) 
+   function? */
 choose_most_sat_literal_h(A) := buildq([A], lambda([FF],
   block([L : literals_v(FF[1]), opta : minf, optx],
     for x in L do block([a : A(apply_pa_f({x}, FF))],

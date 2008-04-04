@@ -47,6 +47,14 @@ okltest_choose_most_sat_literal_h(f) := (
   ),
   true)$
 
+okltest_dll_heuristics_max_lit_tb(f) := block(
+  for n : 0 thru 3 do
+    for m : 0 thru 3 do
+      assert(f(n,m)(cs_to_fcs({{1,2},{1},{1,2,3}})) = 1),
+  for n : 1 thru 3 do
+    for m : 2 thru 3 do
+      assert(not f(n,m)(cs_to_fcs({{-1,-2,-3},{1,-2,-3},{1,2,3}})) = 1),
+true)$
 
 /* *********************************
    * Satisfiability approximations *

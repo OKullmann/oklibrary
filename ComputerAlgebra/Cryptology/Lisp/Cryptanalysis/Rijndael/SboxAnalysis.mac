@@ -60,62 +60,6 @@ binary_list_to_dnf_c(bv) :=
   setify(map(lambda([b,j],(-1 + b * 2) * j),
     bv,makelist(i,i,1,length(bv))))$
 
-/* OK: Obviously, the following code shouldn't be here!
-   Most to
-   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac,
-   and the heuristics to 
-   ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac */
-
-/* OK: The following is not needed. */
-literal_degree_ordering_asc(ld1, ld2) := is(second(ld1) < second(ld2))$
-literal_degree_ordering_des(ld1, ld2) := is(second(ld2) < second(ld1))$
-/* Returns the pairs of literal and literal degree of a clause-set F in 
-   descending order of the number of literals
-   OK: why is this needed? How is the order specified??
-   Use better variable names!
-   The loop should be eliminated! And just map the hash-table.
-   The order used deviates from the normal order imposed on literals. */
-ordered_literal_degrees_cs(F) := block([ldl : [], ldh : literal_degrees_cs(F)],
-   for v in var_cs(F) do block(
-       block([ld : get_hash(v,ldh)],
-           if not (ld = false) then
-               ldl : cons([v,ld],ldl)),
-       block([ld : get_hash(-v,ldh)],
-           if not (ld = false) then
-               ldl : cons([-v,ld],ldl))),
-   return(sort(ldl,literal_degree_ordering_des)))$
-
-
-/* OK; ???? what is this doing ? What is "tb" ? */
-max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
-      [max_l1, max_ld1] : max_literal_degree_tb_l_cs(apply_pa_f({l}, FF),d,n),
-      [max_l2, max_ld2] : max_literal_degree_tb_l_cs(apply_pa_f({-l}, FF),d,n),
-      [if max_ld1 > max_ld2 then max_l1 else max_l2, max_ld1 + max_ld2])$
-
-/* Returns the pair of literal and literal degree for the literal
-   with the maximum degree in the given clause set, where look-aheads are made
-   when a tie occurs for the maximum degree, looking up to d levels deeper 
-   and considering up to n tied literals. */
-/* OK: "look-ahead" ??? */
-max_literal_degree_tb_l_cs(FF,d,n) := block(
-  [old : ordered_literal_degrees_cs(FF[2])],
-  if emptyp(old) then [0,0]
-  else if d < 1 then old[1]
-  else
-    xreduce(lambda([a,b], if second(a) > second(b) then a else b), 
-      map(lambda([c], max_literal_degree_tb(FF, first(c),d-1,n)), 
-        block([ml : sublist(rest(old),lambda([a],is(second(a)=second(first(old)))))],
-          take_elements(min(n,length(ml)),ml))),
-    first(old)))$
-
-/* Returns a literal with the maximum literal degree from the given clause-set
-   using lookahead up to depth d, considering n tied literals at each stage if
-   ties occur for a maximum literal. This heuristic for higher d and n can be
-   expensive. */
-/* OK: what is the meaning of this??? */
-dll_heuristics_max_lit_tb(d,n) :=
-  buildq([d,n],lambda([FF],max_literal_degree_tb_l_cs(FF,d,n)[1]))$
-
 /*!
 \endhtmlonly
 */

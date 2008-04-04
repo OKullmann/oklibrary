@@ -24,6 +24,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
 
 okltest_var_l(var_l)$
 
+okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
+
 /*!
 \endhtmlonly
 */
