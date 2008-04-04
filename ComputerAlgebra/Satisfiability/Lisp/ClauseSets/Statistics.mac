@@ -94,7 +94,8 @@ min_literal_degree_cs(F) :=
 /* maximal literal-degree of a clause-set */
 max_literal_degree_cs(F) := 
   lmax(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
-/* also returns a literal of maximal degree (if there is a literal) */
+/* also returns a literal of maximal degree (if there is a literal);
+   in case of ties, the return value is implementation-defined. */
 max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(literal_degrees_cs(F))),  
    optl : 0, maxd : minf],
@@ -183,6 +184,21 @@ mean_variable_degree_cs(FF) := 2 * mean_literal_degree_fcs(FF)$
 min_variable_frequency_cs(F) := min_variable_degree_cs(F) / ncl_cs(F)$
 max_variable_frequency_cs(F) := max_variable_degree_cs(F) / ncl_cs(F)$
 mean_variable_frequency_cs(FF) := mean_variable_degree_fcs(FF) / ncl_f(FF)$
+
+
+/* *******************************
+   * Weighted numbers of clauses *
+   *******************************
+*/
+
+/* The weighted number of clauses, using weights 2^(-k) for clause-length k.
+   This is also the expected number of falsified clauses, under a random
+   assignment (with uniform distribution). And for a hitting clause-set,
+   it is the probability that a random assignment falsifies the clause.
+*/
+weighted_ncl_2n_cs(F) := block([L : listify(F)],
+ return(sum(2^(-length(L[i])),i,1,length(L))))$
+weighted_ncl_2n_fcs(FF) := weighted_ncl_2n_cs(FF[2])$
 
 
 /*!

@@ -27,6 +27,8 @@ okltest_satprob(satprob_incexl_hitting_hcm);
 
 okltest_satprob_approxlist(satprob_seqap_mcind_trrs);
 
+okltest_satprob_hitting(satprob_hitting);
+
 /*!
 \endhtmlonly
 */

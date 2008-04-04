@@ -71,20 +71,13 @@ test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
      should do a good job. </li>
      <li> Experimental results:
      \verbatim
-statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(firstorder_sat_approx_t)))$
-[16, 1515, 19540, 16, 6]
-statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simplest_trivial1)))$
+statistics_cs(hitting_cnf_aes_sbox(johnson_heuristic));
+[16, 1516, 19573, 16, 6]
+statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simplest_trivial1)));
 [16, 1516, 19573, 16, 6]
      \endverbatim
-     <li> DONE: firstorder_sat_approx is simply not appropriate here.
-     One issue here is that some of the approximations tend to return "inf" 
-     when the clauseset is satisfiable or highly satisfiable which is fine for 
-     SAT decision, where the only interest is if the branch is satisfiable,
-     but completely defeats the point in this case. In the tests above, such 
-     problems have been avoided by taking the function definition and temporarily
-     defining the function to return the calculated probability. Such functions 
-     have been postfixed with "_t" for "true". </li>
-     <li> The strange thing here are these little differences "1513, 1515, 1516", where
+     <li> DONE (differences are due to ties)
+     The strange thing here are these little differences "1513, 1515, 1516", where
      actually all three trees should be identical! We need to investigate this.
      (Perhaps this comes from tie-braking. But still, shouldn't be there.) </li>
      <li> Also the reductions and the look-ahead need to be considered. </li>

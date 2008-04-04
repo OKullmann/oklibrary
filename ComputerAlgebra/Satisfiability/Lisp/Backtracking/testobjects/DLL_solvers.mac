@@ -23,6 +23,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tes
 
 okltest_choose_most_sat_literal_h(choose_most_sat_literal_h);
 
+okltest_johnson_heuristic(johnson_heuristic);
+
 okltest_dll_heuristics_max_lit_tb(dll_heuristics_max_lit_tb);
 
 okltest_locallemma_satapprox(locallemma_satapprox);

@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac");
 
 
 /* The probability of a satisfying assignment computed via the Iwama-formula
@@ -47,8 +48,8 @@ satprob_seqap_mcind_trrs(F) := block([MI : cind_cs_trrs(F)[2], r, appr, res],
     res : endcons(appr[i]+last(res), res),
   return(res))$
 /* The second element of that list (compare firstorder_sat_approx) */
-satprob_hitting(F) := block([L : listify(F)],
- return(1 - sum(2^(-length(L[i])),i,1,length(L))))$
+satprob_hitting(F) := 1 - weighted_ncl_2n_cs(F)$
+satprob_hitting_f(FF) := satprob_hitting(FF[2])$
 
 /* Direct application of inclusion/exclusion to a clause-set represented via
    a list of hitting clause-sets (as their union).

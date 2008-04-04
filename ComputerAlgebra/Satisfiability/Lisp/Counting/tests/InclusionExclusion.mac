@@ -63,6 +63,19 @@ okltest_satprob_approxlist(f) := block([F],
     okltest_satprob(buildq([f],lambda([F],last(f(F)))))),
   true)$
 
+okltest_satprob_hitting(f) := (
+  assert(f({}) = 1),
+  assert(f({{}}) = 0),
+  assert(f({{1}}) = 1/2),
+  assert(f({{-1}}) = 1/2),
+  assert(f({{1},{-1}}) = 0),
+  assert(f({{1,2}}) = 3/4),
+  assert(f({{1,2},{-1,2}}) = 1/2),
+  assert(f({{1,2},{-1,2}, {1,-2}}) = 1/4),
+  assert(f({{},{1},{1,2}}) = 1 - 7/4),
+  true)$
+
+
 /*!
 \endhtmlonly
 */
