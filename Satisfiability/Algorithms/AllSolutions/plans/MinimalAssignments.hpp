@@ -9,8 +9,23 @@ License, or any later version. */
   \file Algorithms/AllSolutions/plans/MinimalAssignments.hpp
   \brief Plans for computing the generalised "transversal hypergraph"
 
-  Computing Tr(F) for a clause-set F, the set of all consistent clauses minimal
+  Computing Tr(F) for a clause-set F, the set of all consistent minimal
   transversals of F as hypergraph (with literals as vertices).
+
+
+  \todo Brute-force approach
+  <ul>
+   <li> The simplest thing to do, and the best thing to start with, is
+   the brute-force approach. </li>
+   <li> For an upper bound k, run through all partial assignments of length
+   up to k, check whether they satisfy the problem instance, and if yes,
+   then store them. </li>
+   <li> Subsumption-elimination would then be made at the end. We should
+   implement that. </li>
+   <li> But likely it is more efficient to do subsumption-elimination on the
+   fly. Perhaps this is most naturally done within a backtracking approach;
+   see "Backtracking (DPLL)" below. </li>
+  </ul>
 
 
   \todo Relation to hypergraph transversals
@@ -107,10 +122,9 @@ License, or any later version. */
   \todo Using some DNF representation
   <ul>
    <li> Computing Tr(F) can also be achieved by somehow computing the
-   set of all satisfying assignment,
-   and then extracting the set of minimal assignments from it;
-   for example computing a DNF G equivalent to F, and then computing
-   all prime implicates. </li>
+   set of all satisfying assignment, and then extracting the set of minimal
+   assignments from it; for example computing a DNF G equivalent to F, and 
+   then computing all prime implicates. </li>
    <li> This could lead to savings for clause-sets, but not for
    hypergraphs. </li>
   </ul>
@@ -126,6 +140,7 @@ License, or any later version. */
    are found; without global learning one could investigate the other branches
    first when performing subsumption elimination for the result). </li>
    <li> The main question is how to handle subsumption-elimination. </li>
+   <li> See "Tree pruning for the backtracking approach" below. </li>
   </ul>
 
 

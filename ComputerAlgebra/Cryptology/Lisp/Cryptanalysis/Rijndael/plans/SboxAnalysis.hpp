@@ -139,6 +139,9 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 
   \todo Compute *all* prime implicates (for the purpose of analysis):
   <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
+   </li>
    <li> For a permutation of GF(2^8) we have 2 * 2^8 * 8 = 2^12 = 4096
    potential prime implicates, given by fixing 8 bit in either the inputor
    the output, and one further bit to the wrong value. As one can see by
@@ -153,6 +156,32 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
    Transitional/Satisfiability/FiniteFunctions/plans/general.hpp,
    "Prime implicants and implicates". A simple implementation should
    suffice here. </li>
+   <li> Brute-force approaches:
+    <ol>
+     <li> There are 3^16 = 43,046,721 clauses with 16 variables altogether,
+     so with a C++ implementation it is even no problem to run through
+     all clauses and determine in this brute-force way the prime implicates. </li>
+     <li> We should write a little Maxima function which searches for prime 
+     implicates (of length up to k) of a clause-set via this brute-force approach
+     (using some input SAT solver). This would need as input one of the
+     CNF-representations; since they are hitting clause-sets, we can then use
+     a specialised SAT solver. </li>
+     <li> We should also write a Maxima function for brute-force determination of
+     all dual prime implicates (up to a given length), that is, the minimal 
+     satisfying (partial) assignments. This is even simpler and doesn't need a 
+     SAT solver. </li>
+     <li> Perhaps we should write this function then also in C++ --- it's the 
+     most simple function imaginable here, just run through all partial 
+     assignments and check whether they satisfy the given clause-set. </li>
+     <li> The only thing to think about is subsumption-elimination. But the
+     simple implementation just does it at the end (since we have already a
+     function for that!). As a side result, we obtain here the number of all
+     satisfying partial assignments (which otherwise is actually not so easy to
+     compute?!?). </li>
+     <li> This would belong to module Satisfiability/Algorithms/AllSolutions;
+     see Algorithms/AllSolutions/plans/MinimalAssignments.hpp. </li>
+    </ol>
+   </li>
    <li> However, since the S-box has a perfectly regular structure, it
    should also be possible to analytically determine all prime implicates:
     <ol>

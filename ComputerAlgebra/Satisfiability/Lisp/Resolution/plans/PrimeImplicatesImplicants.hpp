@@ -8,6 +8,31 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Resolution/plans/PrimeImplicatesImplicants.hpp
   \brief Plans for Maxima-components regarding computation of prime implicates/implicants of boolean functions and clause-sets
+
+
+  \todo Organisation
+  <ul>
+   <li> The resolution-module doesn't seem to be the right place. </li>
+   <li> Perhaps we create a whole new module. </li>
+   <li> The basic tasks for a given *clause-set* to compute "prime clauses"
+   and "dual prime clauses". </li>
+   <li> For a boolean function this means that the prime implicates and prime
+   implicants are to be computed. </li>
+   <li> We have this basic terminology problem:
+    <ol>
+     <li> Coming from boolean functions, an absolute point of view is taken,
+     where implicates belong to the "false" side, and "implicants" to the
+     "true" side. </li>
+     <li> The other point of view (as taken above with "prime clauses" etc.)
+     is relative: Within the given representation (CNF or DNF based) either
+     stay with the representation and minimise the clauses (given a CNF,
+     this would mean the prime implicates), or "go to the other side"
+     (for a CNF this means prime implicants). </li>
+    </ol>
+   </li>
+   <li> See "Dualisation" below. </li>
+   <li> See "Connections" below. </li>
+  </ul>
   
   
   \todo min_2resolution_closure_cs
@@ -23,7 +48,7 @@ License, or any later version. */
    <li> Implement the algorithm given by "dual_cs" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac
    </li>
-   <li> Or sh0uld this go somewhere else?? </li>
+   <li> Or should this go somewhere else?? </li>
   </ul>
 
 
@@ -38,6 +63,9 @@ License, or any later version. */
      <li> See AllSolutions/plans/general.hpp, and especially
      AllSolutions/plans/MinimalAssignments.hpp. </li>
     </ol>
+   </li>
+   <li> One application is discussed in
+   ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp.
    </li>
   </ul>
 
