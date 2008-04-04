@@ -71,6 +71,7 @@ test_CNF_aes_sbox(cs_to_fcs(hitting_cnf_aes_sbox(dll_heuristics_max_lit)));
 statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(firstorder_sat_approx_t)))$
 [16, 1515, 19540, 16, 6]
 statistics_cs(hitting_cnf_aes_sbox(choose_most_sat_literal_h(satprob_dll_simplest_trivial1)))$
+[16, 1516, 19573, 16, 6]
 \endverbatim
    <ul>
     <li> One issue here is that some of the approximations tend to return "inf" 
