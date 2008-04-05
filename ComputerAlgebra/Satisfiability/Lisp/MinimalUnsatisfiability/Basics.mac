@@ -138,6 +138,54 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
   return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,S)))))$
 
 
+/* A sample of at most N elements of the set of all irredundant cores,
+   where for the recursive branching with probability p first the left
+   branch is taken (not including the considered clause). */
+sample_irr_cores(FF,Solver,Count,branch_probability,seed) := block(
+ [counter_irr : 0,
+  potentially_unusable_clauses : false,
+  generator_state : make_random_state(seed)], 
+  set_random_state(generator_state),
+  monitor_message_all_irr_cores_bydef(),
+  sample_forced_irr_cores({}, FF[2]))$
+
+/* The set of all irredundant cores of union(Forced,Possible) which contain 
+   the given "forced" clauses. Prerequisite: Forced is irredundant. */
+/* Uses inherited variable Solver, Count, branch_probability and
+   counter_irr, potentially_unusable_clauses. */
+sample_forced_irr_cores(Forced, Possible) := block(
+ if Count <= 0 then return({}),
+ monitor_message_1_all_forced_irr_cores_bydef(),
+ block( /* find new forced clauses */
+  [Possible_old : Possible, F : union(Forced, Possible), V],
+   V : var_cs(F),
+   for C in Possible_old do (
+     if not impliesp_f([V,disjoin(C,F)],C,S) then (
+       Possible : disjoin(C,Possible),
+       Forced : adjoin(C,Forced)))),
+ if potentially_unusable_clauses and not irredundant_bydef(cs_to_fcs(Forced),S) then return({}),
+ block( /* remove superfluous clauses */
+  [Possible_old : Possible, V : var_cs(Forced)],
+   for C in Possible_old do
+     if impliesp_f([V,Forced],C,S) then Possible : disjoin(C,Possible)),
+ /* now compute solutions */
+ if emptyp(Possible) then (
+   Count : Count - 1,
+   monitor_message_2_all_forced_irr_cores_bydef(),
+   return({Forced})),
+ block([C : choose_element(Possible)],
+  Possible : disjoin(C,Possible),
+  if random(1.0) <= branch_probability then block([Cores_without_C],
+    Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,S),
+    Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
+    return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,S))))
+  else block([Cores_with_C],
+    potentially_unusable_clauses : true,
+    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced), Possible,S),
+    return(union(Cores_with_C, all_forced_irr_cores_bydef(Forced,Possible,S))))))$
+
+
+
 /*!
 \endhtmlonly
 */
