@@ -32,17 +32,14 @@ License, or any later version. */
 
   \todo all_irr_cores_bydef
   <ul>
-   <li> We could have a randomised version of all_forced_irr_cores_bydef,
-   not using backtracking but just exploring one path.
+   <li> Yet we choose just an arbitrary clause for the branching:
     <ol>
-     <li> Where are Maxima random generators? </li>
-     <li> More generally, we ask for a "random sample" of N
-     (if existent) irredundant cores. </li>
-     <li> A parameter p controls the probability of going left
-     or right in the recursive splitting step. </li>
-     <li> Then p=0 and p=1 correspond to the existing version
-     and the alternative version (with switched branches) mentioned
-     below. Using N=inf we obtain then all irredundant cores. </li>
+     <li> A reasonable heuristic would be to choose a clause of
+     minimal length. </li>
+     <li> Perhaps we supply the heuristics as a parameter (selecting
+     a clause C from Possible). </li>
+     <li> Should this heuristics also have access to Forced? Likely yes.
+     </li>
     </ol>
    </li>
    <li> If we monitor the computation and decide that the currently
@@ -60,6 +57,34 @@ License, or any later version. */
    <li> We could write a version of all_forced_irr_cores_bydef, which
    only works on unsatisfiable clause-sets. On the other hand, not much
    advantage seems to follow from this additional knowledge? </li>
+  </ul>
+
+
+  \todo sample_irr_cores
+  <ul>
+   <li> The task is to obtain a random sample of N (if existent)
+   irredundant cores. </li>
+   <li> DONE Where are Maxima random generators? </li>
+   <li> DONE A parameter p controls the probability of going left
+   or right in the recursive splitting step. </li>
+   <li> DONE Then p=0 and p=1 correspond to the existing version
+   and the alternative version (with switched branches) mentioned
+   below. Using N=inf we obtain then all irredundant cores. </li>
+   <li> However, the problem will be that these samples will stay
+   close to the first completed path (due to the backtracking
+   process). </li>
+   <li> So perhaps we create another version, which after each
+   completed sample starts a complete new path. </li>
+   <li> The problem with that is that it takes endless to go down
+   the path, just to find one instance. </li>
+   <li> So perhaps here we just go down the path, only checking
+   the clause selected, whether it is necessary or unusable, or
+   whether it is a choice clause. </li>
+   <li> And only at the end do we check whether the obtained clause-set
+   is actually irredundant --- if not then we just restart. </li>
+   <li> For testing we then use a function "irredundant_corep"
+   (for checking whether a clause-set is an irredundant core of
+   another clause-set). </li>
   </ul>
 
 
