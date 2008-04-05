@@ -40,6 +40,10 @@ okltest_single_element(f) := (
   assert(f({{}}) = {}),
   true)$
 
+okltest_choose_element(f) := (
+  assert(f({1}) = 1),
+  assert(elementp(f({1,2}),{1,2}) = true),
+  true)$
 
 /*!
 \endhtmlonly

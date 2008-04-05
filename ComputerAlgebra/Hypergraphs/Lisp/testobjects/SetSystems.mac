@@ -28,6 +28,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.ma
 
 okltest_singletonp(singletonp);
 okltest_single_element(single_element);
+okltest_choose_element(choose_element);
 
 
 /*!
