@@ -74,7 +74,7 @@ okltest_first_irr_fcs(f) := block([S : dll_simplest_trivial1],
     okltest_first_mus_fcs(f)),
   true)$
 
-okltest_all_irr_bydef(f) := block([S : dll_simplest_trivial1],
+okltest_all_irrcl_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{},{}],S) = {}),
   assert(f([{},{{}}],S) = {{}}),
   assert(f([{1},{{}}],S) = {{}}),

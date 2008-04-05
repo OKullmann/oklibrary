@@ -78,7 +78,7 @@ first_irr_fcs(FF, S) := block(
 
 /* Returns the set of all irredundant clauses (for unsatisfiable
    clause-sets also called necessary clauses) for input FF. */
-all_irr_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
+all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
   for C in F do 
     if not impliesp_f([V,disjoin(C,F)],C,S) then I : adjoin(C,I),
   return(I))$
@@ -91,7 +91,7 @@ monitor_message_all_irr_cores_bydef() :=
     print("all_irr_cores_bydef: ENTRY;", statistics_cs(FF[2]), ",", statistics_cs(I))$
 
 all_irr_cores_bydef(FF,S) := block(
- [I : all_irr_bydef(FF,S), counter_irr : 0], 
+ [I : all_irrcl_bydef(FF,S), counter_irr : 0], 
   monitor_message_all_irr_cores_bydef(),
   all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S))$
 

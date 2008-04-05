@@ -176,7 +176,7 @@ true
    And looks much smaller than to be expected. </li>
    <li> Analysing p_aes:
    \verbatim
-ir_p_aes : all_irr_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
+ir_p_aes : all_irrcl_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
 statistics_cs(ir_p_aes);
 [16, 447, 3087, 8, 6]
 ncl_list_f(cs_to_fcs(ir_p_aes));
