@@ -30,7 +30,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo all_forced_irr_cores_bydef
+  \todo all_irr_cores_bydef
   <ul>
    <li> We could have a randomised version of all_forced_irr_cores_bydef,
    not using backtracking but just exploring one path.
@@ -49,7 +49,11 @@ License, or any later version. */
    obtained clause-sets are enough --- is there any way to stop the
    computation, keeping the current results?? Ask on Maxima mailing
    list. </li>
-   <li> An alternative version of all_forced_irr_cores_bydef would
+   <li> A variation of all_forced_irr_cores_bydef would postpone the
+   irredundancy check just before "return({Forced})". However, I (OK)
+   cannot imagine this to be more efficient. </li>
+   <li> DONE (the corrected version has on the first branch on deletions)
+   An alternative version of all_forced_irr_cores_bydef would
    make the recursive branching with switched branches, delaying
    as much as possible the inclusion of clauses. Perhaps this is
    handled by the randomised version above. </li>

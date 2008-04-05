@@ -94,15 +94,23 @@ okltest_all_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1},{{1},{-1},{}}],S) = {{{1},{-1}},{{}}}),
   assert(f([{1,2},{{1,2},{-1,2}}],S) = {{{1,2},{-1,2}}}),
   assert(f([{1,2,3},{{1,2},{1,-2},{1},{3}}],S) = {{{1},{3}}, {{1,2},{1,-2},{3}}}),
+  assert(f([{1,2},{{-1},{1},{2},{-2}}],S) = {{{-1},{1}},{{-2},{2}}}),
+  assert(f([{1,2,3,4},{{1,2},{-1,2},{-2},{3},{4},{-3,-4}}],S) = {{{1,2},{-1,2},{-2}}, {{3},{4},{-3,-4}}}),
   true)$
 
-okltest_all_forced_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
-  assert(f({},{},S) = {{}}),
-  assert(f({},{{}},S) = {{{}}}),
-  assert(f({},{{1}},S) = {{{1}}}),
-  assert(f({{1}},{},S) = {{{1}}}),
-  assert(f({{1}},{{1,2}},S) = {{{1}}}),
-  assert(f({{1,2}},{{-1,2}},S) = {{{1,2},{-1,2}}}),
+okltest_all_forced_irr_cores_bydef(f) := block(
+ [S : dll_simplest_trivial1,
+  nf : buildq([f,S],lambda([F,P], block (
+   [counter_irr : 0, potentially_unusable_clauses : not emptyp(F)],
+    f(F,P,S))))],
+  assert(nf({},{}) = {{}}),
+  assert(nf({},{{}}) = {{{}}}),
+  assert(nf({},{{1}}) = {{{1}}}),
+  assert(nf({{1}},{}) = {{{1}}}),
+  assert(nf({{1}},{{1,2}}) = {{{1}}}),
+  assert(nf({{1,2}},{{-1,2}}) = {{{1,2},{-1,2}}}),
+  assert(nf({{1}},{{2},{-2}}) = {}),
+  assert(nf({{1}},{{-1},{2},{-2}}) = {{{1},{-1}}}),
   true)$
 
 /*!

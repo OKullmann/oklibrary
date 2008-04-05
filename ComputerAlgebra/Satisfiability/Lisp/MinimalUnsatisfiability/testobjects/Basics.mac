@@ -32,7 +32,7 @@ okltest_first_irr_fcs(first_irr_fcs);
 
 okltest_all_irrcl_bydef(all_irrcl_bydef);
 
-/* okltest_all_irr_cores_bydef(all_irr_cores_bydef); */
+okltest_all_irr_cores_bydef(all_irr_cores_bydef);
 okltest_all_forced_irr_cores_bydef(all_forced_irr_cores_bydef);
 
 /*!

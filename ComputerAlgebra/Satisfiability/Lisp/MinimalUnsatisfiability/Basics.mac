@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+
 
 
 /* Predicate to decide whether formal clause-set FF implies clause C,
@@ -88,23 +90,21 @@ all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
 
 monitor_message_all_irr_cores_bydef() := 
   if oklib_monitor and oklib_monitor_level >= 1 then
-    print("all_irr_cores_bydef: ENTRY;", statistics_cs(FF[2]), ",", statistics_cs(I))$
+    print("all_irr_cores_bydef: ENTRY;", statistics_fcs(FF))$
 
 all_irr_cores_bydef(FF,S) := block(
- [I : all_irrcl_bydef(FF,S), counter_irr : 0], 
+ [counter_irr : 0, potentially_unusable_clauses : false], 
   monitor_message_all_irr_cores_bydef(),
-  all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S))$
+  all_forced_irr_cores_bydef({}, FF[2], S))$
 
 
 /* The set of all irredundant cores of union(Forced,Possible) which contain 
-   the given "forced" clauses. Prerequisite: 
-    - Forced is irredundant,
-    - Forced, Possible are disjoint. */
-/* Uses inherited variable counter_irr. */
+   the given "forced" clauses. Prerequisite: Forced, Possible are disjoint. */
+/* Uses inherited variables counter_irr and potentially_unusable_clauses. */
 
 monitor_message_1_all_forced_irr_cores_bydef() := 
-  if oklib_monitor and oklib_monitor_level >= 2 then (
-    print("all_forced_irr_cores_bydef:"),
+  if oklib_monitor and oklib_monitor_level >= 1 then (
+    print("all_forced_irr_cores_bydef: Entry"),
     print("Forced:", statistics_cs(Forced)),
     print("Possible:", statistics_cs(Possible)))$
 monitor_message_2_all_forced_irr_cores_bydef() := 
@@ -112,28 +112,30 @@ monitor_message_2_all_forced_irr_cores_bydef() :=
     counter_irr : counter_irr + 1, 
     print("all_forced_irr_cores_bydef: found no.", counter_irr, ",", statistics_cs(Forced)),
     if oklib_monitor_level >= 2 then print(Forced))$
-monitor_message_3_all_forced_irr_cores_bydef() := 
-  if oklib_monitor and oklib_monitor_level >= 2 then 
-    print("all_forced_irr_cores_bydef: candidate =", C)$
 
 all_forced_irr_cores_bydef(Forced, Possible, S) := block(
- [V : var_cs(Forced), candidate : []],
-  monitor_message_1_all_forced_irr_cores_bydef(),
-  for C in Possible unless not emptyp(candidate) do (
-    Possible : disjoin(C, Possible),
-    if not impliesp_f([V,Forced],C,S) then candidate : [C]),
-  if emptyp(candidate) then (
-    monitor_message_2_all_forced_irr_cores_bydef(),
-    return({Forced})
-  ),
-  block(
-   [C : candidate[1], FF : cs_to_fcs(union(Forced,Possible)), Cores_with_C],
-    monitor_message_3_all_forced_irr_cores_bydef(),
-    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced),Possible,S),
-    if not impliesp_f(FF,C,S) then
-      return(Cores_with_C)
-    else 
-      return(union(Cores_with_C,all_forced_irr_cores_bydef(Forced,Possible,S)))))$
+ monitor_message_1_all_forced_irr_cores_bydef(),
+ block( /* find new forced clauses */
+  [Possible_old : Possible, F : union(Forced, Possible), V],
+   V : var_cs(F),
+   for C in Possible_old do (
+     if not impliesp_f([V,disjoin(C,F)],C,S) then (
+       Possible : disjoin(C,Possible),
+       Forced : adjoin(C,Forced)))),
+ if potentially_unusable_clauses and not irredundant_bydef(cs_to_fcs(Forced),S) then return({}),
+ block( /* remove superfluous clauses */
+  [Possible_old : Possible, V : var_cs(Forced)],
+   for C in Possible_old do
+     if impliesp_f([V,Forced],C,S) then Possible : disjoin(C,Possible)),
+ /* now compute solutions */
+ if emptyp(Possible) then (
+   monitor_message_2_all_forced_irr_cores_bydef(),
+   return({Forced})),
+ block([C : choose_element(Possible), Cores_without_C],
+  Possible : disjoin(C,Possible),
+  Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,S),
+  Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
+  return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,S)))))$
 
 
 /*!
