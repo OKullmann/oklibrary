@@ -182,13 +182,11 @@ statistics_cs(ir_p_aes);
 ncl_list_f(cs_to_fcs(ir_p_aes));
 [[6, 99], [7, 291], [8, 57]]
 oklib_monitor : true;
+oklib_monitor_level : 1;
 irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
    \endverbatim
    </li>
-   <li> The computation of all irredundant cores of p_aes was aborted after
-   having produced 559 cores, all with 629 clauses, while literal occurrences
-   ranged from 4328 to 4330. There could be trillions of such tiny
-   variations. Need to try random sampling. </li>
+   <li> We should try random sampling of the irredundant cores. </li>
    <li> The question is how small can we get a CNF representation? We need
    also to investigate the size of a CNF obtained from the DNF via Tseitin
    translation (and optimisation); see
