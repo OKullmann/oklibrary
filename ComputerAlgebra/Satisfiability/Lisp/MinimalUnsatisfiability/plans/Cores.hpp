@@ -26,7 +26,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> We should group these functions better together. </li>
-   <li> We should use an "impliesp(F,C,S)" predicate. </li>
+   <li> DONE We should use an "impliesp(F,C,S)" predicate. </li>
   </ul>
 
 

@@ -22,6 +22,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
 
+/* Predicate to decide whether formal clause-set FF implies clause C,
+   using solver S. */
+impliesp_f(FF,C,S) := not S(apply_pa_f(comp_sl(C),FF))$
+
+
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
    The second input, the "solver", shall just return true or false. */
 min_unsat_bydef(FF, solver) := not solver(FF) and 
@@ -34,7 +39,7 @@ min_unsat_bydef(FF, solver) := not solver(FF) and
 irredundant_bydef(FF, solver) := 
  block([V : FF[1], F : FF[2], redundancy : false],
   for C in F unless redundancy do
-   redundancy : not solver([V,apply_pa(comp_sl(C),disjoin(C,F))]),
+   redundancy : impliesp_f([V,disjoin(C,F)],C,S),
   return(not redundancy))$
 
 
@@ -66,7 +71,7 @@ first_mus_fcs(FF, S) := block(
 first_irr_fcs(FF, S) := block(
  [V : FF[1], F : FF[2], Core : {}],
     for C in FF[2] do
-      if S([V,apply_pa(comp_sl(C), disjoin(C,F))]) then 
+      if not impliesp_f([V,disjoin(C,F)],C,S) then 
         Core : adjoin(C,Core)
       else F : disjoin(C,F),
   return([V,Core]))$
@@ -75,39 +80,61 @@ first_irr_fcs(FF, S) := block(
    clause-sets also called necessary clauses) for input FF. */
 all_irr_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
   for C in F do 
-    if S([V,apply_pa(comp_sl(C), disjoin(C,F))]) then I : adjoin(C,I),
+    if not impliesp_f([V,disjoin(C,F)],C,S) then I : adjoin(C,I),
   return(I))$
 
-/* The set of all irredundant cores */
+/* The set of all irredundant cores of a formal clause-set, using
+   solver S. */
+
+monitor_message_all_irr_cores_bydef() := 
+  if oklib_monitor and oklib_monitor_level >= 1 then
+    print("all_irr_cores_bydef: ENTRY;", statistics_cs(FF[2]), ",", statistics_cs(I))$
+
 all_irr_cores_bydef(FF,S) := block(
- [I : all_irr_bydef(FF,S)], 
-  if oklib_monitor then (
-    print("all_irr_cores_bydef:", statistics_cs(FF[2]), ",", statistics_cs(I)),
-    block([counter_irr : 0],
-      all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S)))
-  else all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S))$
+ [I : all_irr_bydef(FF,S), counter_irr : 0], 
+  monitor_message_all_irr_cores_bydef(),
+  all_forced_irr_cores_bydef(I, setdifference(FF[2],I), S))$
+
 
 /* The set of all irredundant cores of union(Forced,Possible) which contain 
-   the given "forced" clauses. Prerequisite: Forced is irredundant. */
+   the given "forced" clauses. Prerequisite: 
+    - Forced is irredundant,
+    - Forced, Possible are disjoint. */
+/* Uses inherited variable counter_irr. */
+
+monitor_message_1_all_forced_irr_cores_bydef() := 
+  if oklib_monitor and oklib_monitor_level >= 2 then (
+    print("all_forced_irr_cores_bydef:"),
+    print("Forced:", statistics_cs(Forced)),
+    print("Possible:", statistics_cs(Possible)))$
+monitor_message_2_all_forced_irr_cores_bydef() := 
+  if oklib_monitor then (
+    counter_irr : counter_irr + 1, 
+    print("all_forced_irr_cores_bydef: found no.", counter_irr, ",", statistics_cs(Forced)),
+    if oklib_monitor_level >= 2 then print(Forced))$
+monitor_message_3_all_forced_irr_cores_bydef() := 
+  if oklib_monitor and oklib_monitor_level >= 2 then 
+    print("all_forced_irr_cores_bydef: candidate =", C)$
+
 all_forced_irr_cores_bydef(Forced, Possible, S) := block(
  [V : var_cs(Forced), candidate : []],
+  monitor_message_1_all_forced_irr_cores_bydef(),
   for C in Possible unless not emptyp(candidate) do (
     Possible : disjoin(C, Possible),
-    if S([V,apply_pa(comp_sl(C), Forced)]) then
-      candidate : [C]),
+    if not impliesp_f([V,Forced],C,S) then candidate : [C]),
   if emptyp(candidate) then (
-    if oklib_monitor then (
-      counter_irr : counter_irr + 1, 
-      print("all_forced_irr_cores_bydef:", counter_irr, ",", statistics_cs(Forced))),
+    monitor_message_2_all_forced_irr_cores_bydef(),
     return({Forced})
   ),
   block(
-   [C : candidate[1], FF : cs_to_fcs(union(Forced,Possible)), Cores_with],
+   [C : candidate[1], FF : cs_to_fcs(union(Forced,Possible)), Cores_with_C],
+    monitor_message_3_all_forced_irr_cores_bydef(),
     Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced),Possible,S),
-    if S(apply_pa_f(comp_sl(C), FF)) then
+    if not impliesp_f(FF,C,S) then
       return(Cores_with_C)
     else 
       return(union(Cores_with_C,all_forced_irr_cores_bydef(Forced,Possible,S)))))$
+
 
 /*!
 \endhtmlonly
