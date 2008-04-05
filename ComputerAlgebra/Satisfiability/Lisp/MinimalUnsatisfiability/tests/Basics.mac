@@ -26,6 +26,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 kill(f)$
 
 
+okltest_impliesp_f(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{}],{1},S) = false),
+  assert(f([{},{{}}],{1},S) = true),
+  assert(f([{},{{}}],{},S) = true),
+  assert(f([{1,2},{{1}}],{1,2},S) = true),
+  true)$
+
 okltest_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{},{}],S) = false),
   assert(f([{},{{}}],S) = true),
@@ -86,6 +93,16 @@ okltest_all_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1},{{1},{-1}}],S) = {{{1},{-1}}}),
   assert(f([{1},{{1},{-1},{}}],S) = {{{1},{-1}},{{}}}),
   assert(f([{1,2},{{1,2},{-1,2}}],S) = {{{1,2},{-1,2}}}),
+  assert(f([{1,2,3},{{1,2},{1,-2},{1},{3}}],S) = {{{1},{3}}, {{1,2},{1,-2},{3}}}),
+  true)$
+
+okltest_all_forced_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
+  assert(f({},{},S) = {{}}),
+  assert(f({},{{}},S) = {{{}}}),
+  assert(f({},{{1}},S) = {{{1}}}),
+  assert(f({{1}},{},S) = {{{1}}}),
+  assert(f({{1}},{{1,2}},S) = {{{1}}}),
+  assert(f({{1,2}},{{-1,2}},S) = {{{1,2},{-1,2}}}),
   true)$
 
 /*!

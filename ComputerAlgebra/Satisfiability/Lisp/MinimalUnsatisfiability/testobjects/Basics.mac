@@ -21,6 +21,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Basics.mac");
 
+
+okltest_impliesp_f(impliesp_f);
+
 okltest_min_unsat_bydef(min_unsat_bydef);
 okltest_irredundant_bydef(irredundant_bydef);
 
@@ -29,7 +32,8 @@ okltest_first_irr_fcs(first_irr_fcs);
 
 okltest_all_irr_bydef(all_irr_bydef);
 
-okltest_all_irr_cores_bydef(all_irr_cores_bydef);
+/* okltest_all_irr_cores_bydef(all_irr_cores_bydef); */
+okltest_all_forced_irr_cores_bydef(all_forced_irr_cores_bydef);
 
 /*!
 \endhtmlonly
