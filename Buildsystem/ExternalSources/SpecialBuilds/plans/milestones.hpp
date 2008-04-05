@@ -145,9 +145,13 @@ License, or any later version. */
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
    topics are handled:
-    - Computer algebra
     - Graph drawing
     - Graph algorithms libraries and programs
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the following
+   topics are handled:
+    - Systems
 
 
   \par Version 0.2.8

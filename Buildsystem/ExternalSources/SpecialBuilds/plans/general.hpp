@@ -108,16 +108,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Computer algebra
-  <ul>
-   <li> What about Octave? http://www.gnu.org/software/octave/
-   It has (only) numerical capabilities, and we should evaluate
-   which could be usefule for us (sparse matrices and optimisation). </li>
-   <li> Gap http://www-gap.mcs.st-and.ac.uk/ </li>
-   <li> Singular: http://www.singular.uni-kl.de </li>
-  </ul>
-
-
   \todo Combinatorics
   <ul>
    <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>
