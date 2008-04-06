@@ -113,9 +113,11 @@ okltest_all_forced_irr_cores_bydef(f) := block(
   assert(nf({{1}},{{-1},{2},{-2}}) = {{{1},{-1}}}),
   true)$
 
-okltest_sample_irr_cores(f) := block([S,x],
-  assert(f([{},{}],S,0,x,0) = {}),
-  assert(f([{},{{}}],S,0,x,0) = {}),
+okltest_sample_irr_cores(f) := block([Sol,x],
+  assert(f([{},{}],Sol,0,x,0) = {}),
+  assert(f([{},{{}}],Sol,0,x,0) = {}),
+  Sol : dll_simplest_trivial1,
+  assert(f([{},{{}}],Sol,1,0,0) = {{{}}}),
   if oklib_test_level = 0 then return(true),
   block([oklib_test_level : oklib_test_level - 1],
     okltest_all_irr_cores_bydef(buildq([f],lambda([FF,S],f(FF,S,inf,1,0)))),

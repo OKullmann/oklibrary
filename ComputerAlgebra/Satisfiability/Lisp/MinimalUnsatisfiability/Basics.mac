@@ -160,14 +160,14 @@ sample_forced_irr_cores(Forced, Possible) := block(
   [Possible_old : Possible, F : union(Forced, Possible), V],
    V : var_cs(F),
    for C in Possible_old do (
-     if not impliesp_f([V,disjoin(C,F)],C,S) then (
+     if not impliesp_f([V,disjoin(C,F)],C,Solver) then (
        Possible : disjoin(C,Possible),
        Forced : adjoin(C,Forced)))),
- if potentially_unusable_clauses and not irredundant_bydef(cs_to_fcs(Forced),S) then return({}),
+ if potentially_unusable_clauses and not irredundant_bydef(cs_to_fcs(Forced),Solver) then return({}),
  block( /* remove superfluous clauses */
   [Possible_old : Possible, V : var_cs(Forced)],
    for C in Possible_old do
-     if impliesp_f([V,Forced],C,S) then Possible : disjoin(C,Possible)),
+     if impliesp_f([V,Forced],C,Solver) then Possible : disjoin(C,Possible)),
  /* now compute solutions */
  if emptyp(Possible) then (
    Count : Count - 1,
@@ -176,13 +176,13 @@ sample_forced_irr_cores(Forced, Possible) := block(
  block([C : choose_element(Possible)],
   Possible : disjoin(C,Possible),
   if random(1.0) <= branch_probability then block([Cores_without_C],
-    Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,S),
+    Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,Solver),
     Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
-    return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,S))))
+    return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))
   else block([Cores_with_C],
     potentially_unusable_clauses : true,
-    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced), Possible,S),
-    return(union(Cores_with_C, all_forced_irr_cores_bydef(Forced,Possible,S))))))$
+    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced), Possible,Solver),
+    return(union(Cores_with_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))))$
 
 
 
