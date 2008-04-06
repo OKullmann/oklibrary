@@ -1,0 +1,119 @@
+/* Matthew Gwynne, 5.4.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac
+  \brief Tests for the Cryptology conversion functions.
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+
+kill(f)$
+
+
+okltest_lpad(f) := block(
+  for n : 0 thru 3 do
+    assert(f("","",n) = ""),
+  for n : -3 thru 4 do
+    assert(f("test","c",n) = "test"),
+  assert(f("","-",1) = "-"),
+  assert(f("","-",2) = "--"),
+  assert(f("abc","d",4) = "dabc"),
+true)$
+
+okltest_list2polynomial(f) := block(
+  for n : 0 thru 3 do
+    assert(f([]) = 0),
+  for n : -3 thru 4 do
+    assert(f([n]) = n),
+  assert(f([0,0,0,0,0]) = 0),
+  assert(f([1,1,1,1,1]) = x^4+x^3+x^2+x+1),
+  assert(f([5,4,3,-1,0,4]) = 5*x^5+4*x^4+3*x^3-x^2+4),
+true)$
+
+okltest_digitToInt(f) := block(
+  for n : 0 thru 9 do
+    assert(f(string(n)) = n),
+  assert(f("A") = 10),
+  assert(f("F") = 15),
+  assert(f("Z") = 35),
+true)$
+
+okltest_intToDigit(f) := block(
+  for n : 0 thru 9 do
+    assert(f(n) = string(n)),
+  assert(f(10) = "A"),
+  assert(f(15) = "F"),
+  assert(f(35) = "Z"),
+true)$
+
+okltest_baseNToInt(f) := block(
+  for n : 0 thru 3 do
+    assert(f("",n) = 0),
+  for n : 0 thru 3 do
+    assert(f("0",n) = 0),
+  for n : 0 thru 3 do
+    assert(f("00000",n) = 0),
+  for n : 0 thru 3 do
+    assert(f("10",n) = n),
+  /*for n : -3 thru 3 do
+    assert(f(string(n),abs(n)+1) = n),*/
+  /* assert(f("FGDD",0) = 0), */
+  assert(f("EE8C04",16) = 15633412),
+  /*assert(f("-EE8C04",16) = -15633412),*/
+  assert(f("MK014LZDF",36) = 63631769456211), 
+  /*assert(f("-MK014LZDF",36) = -63631769456211),*/
+true)$
+
+okltest_intToBaseN(f) := block(
+  for n : 0 thru 3 do
+    assert(f(0,n) = "0"),
+  for n : 2 thru 12 do
+    assert(f(n,n) = "10"),
+  /*for n : -12 thru 12 do
+    assert(f(n,abs(n)+1) = string(n)),*/
+  assert(f(15633412,16) = "EE8C04"),
+  /*assert(f(-15633412,16) = "-EE8C04"),*/
+  assert(f(63631769456211,36) = "MK014LZDF"), 
+  /*assert(f(-63631769456211,36) = "-MK014LZDF"),*/
+true)$
+
+okltest_intToPoly(f) := block(
+  for n : 1 thru 3 do
+    assert(f(0,n) = 0),
+  /*for n : -12 thru 12 do
+    assert(f(n,abs(n)+1) = n),*/
+  for n : 2 thru 10 do
+    assert(f(n,n) = x),
+  assert(f(275,2) = x^8+x^4+x+1),
+  assert(f(423423,15) = 8*x^4+5*x^3+6*x^2+13*x+3),
+true)$
+
+okltest_polyToInt(f) := block(
+  for n : 1 thru 3 do
+    assert(f(0,n,x) = 0),
+  for n : -12 thru 12 do
+    assert(f(n,abs(n)+1,x) = n),
+  for n : 2 thru 10 do
+    assert(f(x,n,x) = n),
+  assert(f(x^8+x^4+x+1,2,x) = 275),
+  assert(f(a^8+a^4+a+1,2,a) = 275),
+  assert(f(8*x^4+5*x^3+6*x^2+13*x+3,15,x) = 423423),
+true)$
+
+/*!
+\endhtmlonly
+*/

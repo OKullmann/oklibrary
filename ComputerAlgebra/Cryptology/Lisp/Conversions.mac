@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 
 oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
 
-/* NB : These should be moved elsewhere (such as the List module when setup
+/* MG : These should be moved elsewhere (such as the List module when setup
    and are most likely unnecessary and can be replaced by the relevant 
    maxima functions when found or the functions that use them are reworked */
 
@@ -31,9 +31,9 @@ floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
   if b^(l+1) <= n then (l+1) else
   if b^(l) > n then (l-1) else l)$ /* Handle Issues with precision */
 
-/* Returns the floor of the logarithm of n base b, correcting
-   for issues in precision causing round off. */
-lpad(st, c, n) := simplode(append(makelist(c,i,1,n-slength(st)),[st]))$
+/* Pads a string s to the left with character c until it is n characters in
+   length */
+lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
 
 /* Converts a list of coefficients to a polynomial in "x" with the first
 element in the list being the coefficient of the highest order of x */
@@ -50,41 +50,50 @@ digitToInt(d) :=
   else (10 + (cint(d) - cint("A")))$
 
 /* Converts a string representing a number in base N to an integer. */
+/* MG: This currently only supports natural numbers */
+/* MG: Should baseNToInt("SOMETHING",0) = 0 ? */
 baseNToInt(str,n) := 
   lreduce(lambda([a,b], a * n + digitToInt(b)),strToChrList(str),0)$
 
 /* Converts an integer to a digit char in base N. N is not necessary as
    a parameter as this is for a single digit and so the integer is
    assumed to be within the correct range for the given base. */
-intToBaseNDigit(m) := 
+intToDigit(m) := 
     if m < 10 then ascii(cint("0") + m)
     else ascii(cint("A") + (m-10))$
 
 /* Converts a given positive integer "m" to its base "n" representation. */
-/* NB: This should be generalised to include negative numbers */
+/* MG: This should be generalised to include negative numbers */
 intToBaseN(m,n) := 
   if m = 0 then "0" 
   else block([result : []],
     for ei : floorlog(m,n) step -1  thru 0 do block([dn], 
-      dn : floor(m/n^ei), result : append(result,[intToBaseNDigit(dn)]), m : m -dn*n^ei),
+      dn : floor(m/n^ei), result : append(result,[intToDigit(dn)]), m : m -dn*n^ei),
     return(simplode(result)))$
 
 /* Converts an integer to a polynomial with coefficients in the given base by
    converting the integer to a number in that base and taking each digit as a
    coefficient of increasing powers of "x". */
+/* MG: Should this handle coeff_base = 0? */
+/* MG: Should this take the variable the polynomial should be in? */
 intToPoly(n,coeff_base) := 
   list2polynomial( 
     map(digitToInt,strToChrList(intToBaseN(n,coeff_base))))$ 
 
+/* Converts the given polynomial to an integer, assuming that the polynomial
+   in "poly_x" represents an integer in the given base "poly_b". */
+/* MG : Should this return an error expression if "poly" isn't univariate? */
+polyToInt(poly, poly_b, poly_x) := subst(poly_b,poly_x,poly)$
+
 /* Converts a hexidecimal string to a list of GF(2^8) elements */
-/* NB: Further clarification is needed here. */
+/* MG: Further clarification is needed here. */
 hexToGF2t8List(hex) :=
   matrix2list(transpose(apply(matrix,
     partition_elements(map(lambda([a],intToPoly(baseNToInt(simplode(a),16),2)),
       partition_elements(strToChrList(hex),2)),4))))$
   
 /* Converts a list of GF(2^8) elements to a hexidecimal string */
-/* NB: Further clarification is needed here. */
+/* MG: Further clarification is needed here. */
 GF2t8ListToHex(lst) :=
     simplode(flatten(map(lambda([a], lpad(simplode([intToBaseN(a,16)]),"0",2)),  
       subst(2,x,matrix2list(transpose(apply(matrix,
