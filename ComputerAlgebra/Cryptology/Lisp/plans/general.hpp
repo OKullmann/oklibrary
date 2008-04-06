@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans for cryptological tools realised in Maxima/Lisp
 
 
+  \bug Integer conversion functions don't handle negative numbers.
+  <ul>
+   <li> Example : "intToPoly(-4,2);" errors. </li>
+   <li> Example : "intToBaseN(-10,3);" errors. </li>
+  </ul>
+
+
   \todo Conversion Functions
   <ul>
     <li> Needs tidying. </li>
