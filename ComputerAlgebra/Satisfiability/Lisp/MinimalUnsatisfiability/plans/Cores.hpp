@@ -36,6 +36,17 @@ License, or any later version. */
     <ol>
      <li> A reasonable heuristic would be to choose a clause of
      minimal length. </li>
+     <li> The target would be to get the smallest irredundant cores
+     at the beginning. </li>
+     <li> Otherwise actually it doesn't seem to have any influence. </li>
+     <li> However, we first remove the clause! So perhaps we should choose
+     a clause of maximal length? </li>
+     <li> One would guess that choosing a clause of maximal length
+     would tend to first produce a core of small size, while choosing
+     a clause of minimal length would quicker lead to the first
+     core, since we get more forced clauses. </li>
+     <li> These considerations should be more relevant to the sampling
+     version below. </li>
      <li> Perhaps we supply the heuristics as a parameter (selecting
      a clause C from Possible). </li>
      <li> Should this heuristics also have access to Forced? Likely yes.
