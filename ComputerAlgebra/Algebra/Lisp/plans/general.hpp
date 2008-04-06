@@ -21,6 +21,9 @@ License, or any later version. */
    <li> This has been raised on the maxima bug tracker as #1913047 
    https://sourceforge.net/tracker/?func=detail&atid=104933&aid=1913047&group_id=4933
    </li>
+   <li> This has been fixed in the latest cvs version of maxima (5.15) and the 
+   upcoming release candidate. 5.15 should be available in the next few weeks.
+   </li>
    <li> Additionally an email entitled "Setting GF(2) in share/contrib/gf.mac 
    doesn't terminate?" has now been sent to the mailing list. </li>
    <li> The current distributor of the package seems to be Jacopo Daurizio? Is
