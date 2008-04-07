@@ -251,6 +251,18 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
   </ul>
 
 
+  \todo Find the symmetries of the AES Sbox DNF
+  <ul>
+   <li> See
+   ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
+   <li> We have at least the symmetry exchanging input and output variables.
+   (since x^(-1) in the field is self-inverse). </li>
+   <li> Then we could simply run through all 8! * 2^8 1,032,1920
+   literal substitutions on the input variables, while copying the
+    values for the output variables accordingly. </li>
+  </ul>
+
+
   \todo Related 8-bit bijections
   <ul>
    <li> Investigate random permutations of {0,1}^8, and compare them
