@@ -13,6 +13,42 @@ License, or any later version. */
   \todo Create milestones.
 
 
+  \todo Using Prover9
+  <ul>
+   <li> We need to install it, providing then a link as usual. </li>
+   <li> Proving "A = B", one first needs to prove "subset(A,B)", then
+   "subset(B,A)", and then finally "A = B" can be shown. So well, but is
+   this necessary? </li>
+   <li> Is ".bel" the usual suffix ? </li>
+  </ul>
+
+
+  \todo Notations
+  <ul>
+   <li> Very first examples in "Extensionality.bel" (for set theory). </li>
+   <li> Shall we write "subseteq" instead of "subset" ? </li>
+   <li> Shall we speak immediately about "classes" ? </li>
+   <li> "cex_sub" (for "counter-example subset") is called "notsub" in
+   axioms.bel; what's better? </li>
+  </ul>
+
+
+  \todo Proving distributivity of union and intersection
+  <ul>
+   <li> See Extensionality.bel. </li>
+   <li> The first statements Prover9 can't proof apparently are for
+   distributivity of union and intersection, one direction of each case.
+    <ol>
+     <li> Can we supply further lemmata to make it easier? </li>
+     <li> Both cases are the "difficult" direction, where cases has to be
+     considered. </li>
+     <li> Can be said that Prover9 is in general weak with case distinctons?
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Updating and extending axioms.bel
   <ul>
    <li> Is axioms.bel still valid for Prover9 ? </li>

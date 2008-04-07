@@ -1,0 +1,108 @@
+formulas(sos).
+
+% Axioms for empty set:
+-member(x,0).
+x != 0 -> member(element(x),x).
+
+% Lemma "Specification empty set":
+(all a -member(a,x)) <-> x = 0.
+
+
+% Definition for subset relation:
+-subset(x,y) -> member(cex_sub(x,y),x) & -member(cex_sub(x,y),y).
+subset(x,y) & member(z,x) -> member(z,y).
+
+% Lemma "Reflexivity of subset relation":
+subset(x,x).
+% Lemma "Transitivity of subset relation":
+subset(x,y) & subset(y,z) -> subset(x,z).
+
+% Definition for strict subset relation
+strictsubset(x,y) <-> subset(x,y) & x != y.
+
+% Lemma "Transitivity for strict subset relation":
+subset(x,y) & strictsubset(y,z) -> strictsubset(x,z).
+strictsubset(x,y) & subset(y,z) -> strictsubset(x,z).
+
+
+% Extensionality axiom:
+subset(x,y) & subset(y,x) -> x = y.
+
+
+% Binary union axiom:
+member(x,union(y,z)) <-> member(x,y) | member(x,z).
+
+% Lemma "Idempotency of union"
+subset(union(x,x),x).
+subset(x,union(x,x)).
+union(x,x) = x.
+
+% Lemma "Commutativity of union":
+subset(union(x,y), union(y,x)).
+subset(union(y,x), union(x,y)).
+union(x,y) = union(y,x).
+
+% Lemma "Associativity of union":
+subset(union(union(x,y),z),union(x,union(y,z))).
+subset(union(x,union(y,z)),union(union(x,y),z)).
+union(union(x,y),z) = union(x,union(y,z)).
+
+% Lemma "Identity for union":
+subset(union(x,0),x).
+subset(x,union(x,0)).
+union(x,0) = x.
+
+% Lemma "Subset relation for union"
+subset(x,union(x,y)).
+
+% Lemma "Subset characterisation by union"
+subset(x,y) <-> subset(union(x,y),y) & subset(y,union(x,y)).
+subset(x,y) <-> union(x,y) = y.
+
+
+% Binary intersection axiom:
+member(x,intersection(y,z)) <-> member(x,y) & member(x,z).
+
+% Lemma "Idempotency of intersection"
+subset(intersection(x,x),x).
+subset(x,intersection(x,x)).
+intersection(x,x) = x.
+
+% Lemma "Commutativity of intersection":
+subset(intersection(x,y), intersection(y,x)).
+subset(intersection(y,x), intersection(x,y)).
+intersection(x,y) = intersection(y,x).
+
+% Lemma "Associativity of intersection":
+subset(intersection(intersection(x,y),z),intersection(x,intersection(y,z))).
+subset(intersection(x,intersection(y,z)),intersection(intersection(x,y),z)).
+intersection(intersection(x,y),z) = intersection(x,intersection(y,z)).
+
+% Lemma "Null for intersection":
+subset(intersection(x,0),0).
+subset(0,intersection(x,0)).
+intersection(x,0) = 0.
+
+% Lemma "Subset characterisation by intersection"
+subset(x,y) <-> subset(intersection(x,y),x) & subset(x,intersection(x,y)).
+subset(x,y) <-> intersection(x,y) = x.
+
+
+% Lemma "Absorption for union and intersection"
+union(x,intersection(x,y)) = x.
+intersection(x,union(x,y)) = x.
+
+% Lemma "Distributivity for union and intersection"
+subset(union(x,intersection(y,z)), intersection(union(x,y),union(x,z))).
+
+subset(union(intersection(x,y),intersection(x,z)), intersection(x,union(y,z))).
+
+end_of_list.
+ 
+formulas(goals).
+
+% subset(intersection(x,union(y,z)), union(intersection(x,y),intersection(x,z))).
+% subset(intersection(union(x,y),union(x,z)), union(x,intersection(y,z))).
+
+end_of_list.
+
