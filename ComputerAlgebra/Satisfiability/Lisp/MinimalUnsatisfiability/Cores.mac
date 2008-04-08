@@ -81,6 +81,9 @@ all_irr_cores_bydef(FF,S) := block(
   monitor_message_all_irr_cores_bydef(),
   all_forced_irr_cores_bydef({}, FF[2], S))$
 
+/* All minimally unsatisfiable cores of an unsatisfiable clause-set */
+all_min_usat_cores_bydef(F,S) := all_irr_cores_bydef(cs_to_fcs(F),S)$
+
 
 /* The set of all irredundant cores of union(Forced,Possible) which contain 
    the given "forced" clauses. Prerequisite: Forced, Possible are disjoint. */
@@ -167,6 +170,56 @@ sample_forced_irr_cores(Forced, Possible) := block(
     potentially_unusable_clauses : true,
     Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced), Possible,Solver),
     return(union(Cores_with_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))))$
+
+
+/* ********************************************
+   * Maximally non-equivalent sub-clause-sets *
+   ********************************************
+*/
+
+/* The set of sub-clause-sets of F, which are not equivalent to some given
+   boolean function F_0, and which are maximal w.r.t. this property. */
+/* EQp(F) decides whether F is equivalent to this underlying F_0 or not.
+   It is assumed that if EQp(G) is true for G <= F, then also EQp(G') is
+   true for all G <= G' <= F. */
+all_max_noneq_scs_bydef(F,EQp) := if F = {} then 
+ if EQp({}) then {} else {{}}
+ else all_forced_max_noneq_scs_bydef({},F,{})$
+
+/* The variation where the elements of Forced need to be taken,
+   and the whole F is union(Forced,Possible,Removed). */
+/* Inherits EQp. Invariant: EQp(Forced) is false. */
+all_forced_max_noneq_scs_bydef(Forced,Possible,Removed) := block(
+ [extension : []],
+ for C in Possible while emptyp(extension) do
+   if not EQp(adjoin(C,Forced)) then extension : [C],
+ if emptyp(extension) then (
+   extension : false,
+   for C in Removed unless extension do
+     if not EQp(adjoin(C,Forced)) then extension : true,
+   if extension then return({}) else return({Forced}))
+ else block([C : extension[1]],
+   Possible : disjoin(C,Possible),
+   return(union(
+     all_forced_max_noneq_scs_bydef(adjoin(C,Forced),Possible,Removed),
+     all_forced_max_noneq_scs_bydef(Forced,Possible,adjoin(C,Removed))))))$
+
+/* Given the result S of all_max_noneq_scs_bydef(F), then
+   the minimal transversals of ecomp_hyp([F,S]) are exactly
+   the irredundant cores of F. */
+
+/* Assumption: F is unsatisfiable. */
+all_max_sat_scs_bydef(F,S) := 
+ all_max_noneq_scs_bydef(F,buildq([S],lambda([G],not(S(cs_to_fcs(G))))))$
+
+/* Delivers a generic equivalence-checker for sub-clause-sets */
+equivalence_checker_scl_bydef(F,S) := 
+ buildq([F,S],lambda([G],every(lambda([C],impliesp(G,C,S)),setdifference(F,G))))$
+
+/* All maximally non-equivalent sub-clause-sets of clause-set F. */
+/* Remark: For unsatisfiable F use all_max_sat_scs_bydef. */
+all_max_neq_scs_bydef(F,S) := all_max_noneq_scs_bydef(F,equivalence_checker_scl_bydef(F,S))$
+
 
 /*!
 \endhtmlonly

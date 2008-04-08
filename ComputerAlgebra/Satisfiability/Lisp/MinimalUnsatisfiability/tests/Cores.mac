@@ -22,6 +22,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+
 
 kill(f)$
 
@@ -31,14 +35,14 @@ kill(f)$
    *************************************************
 */
 
-okltest_min_size_mus_bydef(f) := block([S : dll_simplest_trivial1],
+okltest_min_size_mus(f) := block([S : dll_simplest_trivial1],
   assert(f({{}},S) = 1),
   assert(f({{1},{-1}},S) = 2),
   assert(f({{1},{-1},{2},{-2}},S) = 2),
   assert(f({{1},{-1},{}},S) = 1),
   true)$
 
-okltest_contains_us_bydef(f) := block([S : dll_simplest_trivial1],
+okltest_contains_us(f) := block([S : dll_simplest_trivial1],
   assert(f({},0,S) = false),
   assert(f({},1,S) = false),
   assert(f({},inf,S) = false),
@@ -71,11 +75,12 @@ okltest_first_irr_fcs(f) := block([S : dll_simplest_trivial1],
   assert(f([{1},{{1}}],S) = [{1},{{1}}]),
   assert(f([{1,2},{{1,2},{-1,2}}],S) = [{1,2},{{1,2},{-1,2}}]),
   assert(f([{1,2},{{1},{1,2}}],S) = [{1,2},{{1}}]),
+  if oklib_test_level = 0 then return(true),
   block([oklib_test_level : oklib_test_level-1],
     okltest_first_mus_fcs(f)),
   true)$
 
-okltest_all_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
+okltest_all_irr_cores(f) := block([S : dll_simplest_trivial1],
   assert(f([{},{}],S) = {{}}),
   assert(f([{},{{}}],S) = {{{}}}),
   assert(f([{1},{{1}}],S) = {{{1}}}),
@@ -86,9 +91,12 @@ okltest_all_irr_cores_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2,3},{{1,2},{1,-2},{1},{3}}],S) = {{{1},{3}}, {{1,2},{1,-2},{3}}}),
   assert(f([{1,2},{{-1},{1},{2},{-2}}],S) = {{{-1},{1}},{{-2},{2}}}),
   assert(f([{1,2,3,4},{{1,2},{-1,2},{-2},{3},{4},{-3,-4}}],S) = {{{1,2},{-1,2},{-2}}, {{3},{4},{-3,-4}}}),
+  if oklib_test_level = 0 then return(true),
+  block([oklib_test_level : oklib_test_level - 1],
+    okltest_all_min_usat_cores_bydef(buildq([f],lambda([F,S],f(cs_to_fcs(F),S))))),
   true)$
 
-okltest_all_forced_irr_cores_bydef(f) := block(
+okltest_all_forced_irr_cores(f) := block(
  [S : dll_simplest_trivial1,
   nf : buildq([f,S],lambda([F,P], block (
    [counter_irr : 0, potentially_unusable_clauses : not emptyp(F)],
@@ -103,6 +111,15 @@ okltest_all_forced_irr_cores_bydef(f) := block(
   assert(nf({{1}},{{-1},{2},{-2}}) = {{{1},{-1}}}),
   true)$
 
+okltest_all_min_usat_cores(f) := block([S : dll_simplest_trivial1],
+  assert(f({{}},S) = {{{}}}),
+  assert(f({{1},{-1}},S) = {{{1},{-1}}}),
+  assert(f({{1},{-1},{1,2}},S) = {{{1},{-1}}}),
+  assert(f({{1},{-1},{}},S) = {{{1},{-1}},{{}}}),
+  assert(f({{1},{-1},{2},{-2}},S) = {{{1},{-1}},{{2},{-2}}}),
+  assert(f({{1},{-1},{2},{-2},{1,2}},S) = {{{1},{-1}},{{2},{-2}},{{1,2},{-1},{-2}}}),
+  true);
+
 okltest_sample_irr_cores(f) := block([Sol,x],
   assert(f([{},{}],Sol,0,x,0) = {}),
   assert(f([{},{{}}],Sol,0,x,0) = {}),
@@ -114,6 +131,57 @@ okltest_sample_irr_cores(f) := block([Sol,x],
     okltest_all_irr_cores_bydef(buildq([f],lambda([FF,S],f(FF,S,inf,0.5,0)))),
     okltest_all_irr_cores_bydef(buildq([f],lambda([FF,S],f(FF,S,inf,0,0))))
   ),
+  true)$
+
+
+/* ********************************************
+   * Maximally non-equivalent sub-clause-sets *
+   ********************************************
+*/
+
+okltest_all_max_noneq_scs(f) := (
+  block([EQp : lambda([F],is(F={}))],
+    assert(f({},EQp) = {})
+  ),
+  block([EQp : lambda([F], not dll_simplest_trivial1(cs_to_fcs(F)))],
+    assert(f({},EQp) = {{}}),
+    assert(f({{}},EQp) = {{}})
+  ),
+  true)$
+
+okltest_all_max_sat_scs(f) := block([S : dll_simplest_trivial1],
+  assert(f({{}},S) = {{}}),
+  assert(f({{1},{-1}},S) = {{{1}},{{-1}}}),
+  assert(f({{1},{-1},{}},S) = {{{1}},{{-1}}}),
+  assert(f({{1},{-1},{1,2}},S) = {{{1},{1,2}},{{-1},{1,2}}}),
+  assert(f({{1},{-1},{2},{-2}},S) = {{{1},{2}},{{1},{-2}},{{-1},{2}},{{-1},{-2}}}),
+  if oklib_test_level = 0 then return(true),
+  block(
+   [oklib_test_level : oklib_test_level - 1,
+    muf : buildq([f],lambda([F,S],transversal_hyp_rs(ecomp_hyp([F,f(F,S)]))[2]))],
+    okltest_all_min_usat_cores(muf)),
+  true)$
+
+okltest_equivalence_checker_scl(f) := block([S : dll_simplest_trivial1],
+  assert(f({},S)({}) = true),
+  block([EQp : f({{}},S)],
+    assert(EQp({}) = false),
+    assert(EQp({{}}) = true)
+  ),
+  true)$
+
+okltest_all_max_neq_scs(f) := block([S : dll_simplest_trivial1],
+  assert(f({},S) = {}),
+  assert(f({{}},S) = {{}}),
+  if oklib_test_level = 0 then return(true),
+  block(
+   [oklib_test_level : oklib_test_level - 1],
+     okltest_all_max_sat_scs(f)),
+  if oklib_test_level = 1 then return(true),
+  block(
+   [oklib_test_level : oklib_test_level - 1,
+    irf : buildq([f],lambda([FF,S],transversal_hyp_rs(ecomp_hyp([FF[2],f(FF[2],S)]))[2]))],
+    okltest_all_irr_cores(irf)),
   true)$
 
 /*!
