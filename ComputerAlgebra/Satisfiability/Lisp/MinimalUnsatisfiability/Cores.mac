@@ -1,0 +1,173 @@
+/* Oliver Kullmann, 8.4.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac
+  \brief Functions for computing minimally unsatisfiable and irredundant cores
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac");
+
+
+/* *************************************************
+   * Minimally unsatisfiable cores of minimum size *
+   *************************************************
+*/
+
+/* Returns the minimum size of a minimally unsatisfiable sub-clause-set
+   of clause-set F; uses sat-solver S */
+min_size_mus_bydef(F, S) := if S([var_cs(F),F]) then inf else
+ block([k : 0, scls : {}],
+  while every(lambda([G], S([var_cs(G),G])), scls) do (
+   k : k+1, scls : powerset(F, k)),
+ return(k))$
+
+/* Decides whether clause-set F contains a (minimally) unsatisfiable 
+   sub-clause-set of size at most k; uses sat-solver S */
+contains_us_bydef(F, k, S) := 
+ not every(lambda([G], S([var_cs(G),G])), powerset(F,min(k,ncl_cs(F))))$
+
+
+/* **********************************************
+   * Scanning and sampling of irredundant cores *
+   **********************************************
+*/
+
+/* Returns some minimally unsatisfiable sub-clause-set of input FF,
+   a formal unsatisfiable clause-set (trivial heuristics, removing
+   the first possible clause). */
+first_mus_fcs(FF, S) := block(
+ [V : FF[1], F : FF[2], Core : {}],
+  for C in FF[2] do (
+      if S([V, disjoin(C,F)]) then 
+        Core : adjoin(C,Core) 
+      else F : disjoin(C,F)),
+  return([V,Core]))$
+/* More generally, returns some irredundant core of input FF,
+   (trivial heuristics, removing the first possible clause). */
+first_irr_fcs(FF, S) := block(
+ [V : FF[1], F : FF[2], Core : {}],
+    for C in FF[2] do
+      if not impliesp_f([V,disjoin(C,F)],C,S) then 
+        Core : adjoin(C,Core)
+      else F : disjoin(C,F),
+  return([V,Core]))$
+
+
+/* The set of all irredundant cores of a formal clause-set, using
+   solver S. */
+
+monitor_message_all_irr_cores_bydef() := 
+  if oklib_monitor and oklib_monitor_level >= 1 then
+    print("all_irr_cores_bydef: ENTRY;", statistics_fcs(FF))$
+
+all_irr_cores_bydef(FF,S) := block(
+ [counter_irr : 0, potentially_unusable_clauses : false], 
+  monitor_message_all_irr_cores_bydef(),
+  all_forced_irr_cores_bydef({}, FF[2], S))$
+
+
+/* The set of all irredundant cores of union(Forced,Possible) which contain 
+   the given "forced" clauses. Prerequisite: Forced, Possible are disjoint. */
+/* Uses inherited variables counter_irr and potentially_unusable_clauses. */
+
+monitor_message_1_all_forced_irr_cores_bydef() := 
+  if oklib_monitor and oklib_monitor_level >= 1 then (
+    print("all_forced_irr_cores_bydef: Entry"),
+    print("Forced:", statistics_cs(Forced)),
+    print("Possible:", statistics_cs(Possible)))$
+monitor_message_2_all_forced_irr_cores_bydef() := 
+  if oklib_monitor then (
+    counter_irr : counter_irr + 1, 
+    print("all_forced_irr_cores_bydef: found no.", counter_irr, ",", statistics_cs(Forced)),
+    if oklib_monitor_level >= 2 then print(Forced))$
+
+all_forced_irr_cores_bydef(Forced, Possible, S) := block(
+ monitor_message_1_all_forced_irr_cores_bydef(),
+ block( /* find new forced clauses */
+  [Possible_old : Possible, F : union(Forced, Possible), V],
+   V : var_cs(F),
+   for C in Possible_old do (
+     if not impliesp_f([V,disjoin(C,F)],C,S) then (
+       Possible : disjoin(C,Possible),
+       Forced : adjoin(C,Forced)))),
+ if potentially_unusable_clauses and not irredundant_bydef(cs_to_fcs(Forced),S) then return({}),
+ block( /* remove superfluous clauses */
+  [Possible_old : Possible, V : var_cs(Forced)],
+   for C in Possible_old do
+     if impliesp_f([V,Forced],C,S) then Possible : disjoin(C,Possible)),
+ /* now compute solutions */
+ if emptyp(Possible) then (
+   monitor_message_2_all_forced_irr_cores_bydef(),
+   return({Forced})),
+ block([C : choose_element(Possible), Cores_without_C],
+  Possible : disjoin(C,Possible),
+  Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,S),
+  Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
+  return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,S)))))$
+
+
+/* A sample of at most N elements of the set of all irredundant cores,
+   where for the recursive branching with probability p first the left
+   branch is taken (not including the considered clause). */
+sample_irr_cores(FF,Solver,Count,branch_probability,seed) := block(
+ [counter_irr : 0,
+  potentially_unusable_clauses : false,
+  generator_state : make_random_state(seed)], 
+  set_random_state(generator_state),
+  monitor_message_all_irr_cores_bydef(),
+  sample_forced_irr_cores({}, FF[2]))$
+
+/* The set of all irredundant cores of union(Forced,Possible) which contain 
+   the given "forced" clauses. Prerequisite: Forced is irredundant. */
+/* Uses inherited variable Solver, Count, branch_probability and
+   counter_irr, potentially_unusable_clauses. */
+sample_forced_irr_cores(Forced, Possible) := block(
+ if Count <= 0 then return({}),
+ monitor_message_1_all_forced_irr_cores_bydef(),
+ block( /* find new forced clauses */
+  [Possible_old : Possible, F : union(Forced, Possible), V],
+   V : var_cs(F),
+   for C in Possible_old do (
+     if not impliesp_f([V,disjoin(C,F)],C,Solver) then (
+       Possible : disjoin(C,Possible),
+       Forced : adjoin(C,Forced)))),
+ if potentially_unusable_clauses and not irredundant_bydef(cs_to_fcs(Forced),Solver) then return({}),
+ block( /* remove superfluous clauses */
+  [Possible_old : Possible, V : var_cs(Forced)],
+   for C in Possible_old do
+     if impliesp_f([V,Forced],C,Solver) then Possible : disjoin(C,Possible)),
+ /* now compute solutions */
+ if emptyp(Possible) then (
+   Count : Count - 1,
+   monitor_message_2_all_forced_irr_cores_bydef(),
+   return({Forced})),
+ block([C : choose_element(Possible)],
+  Possible : disjoin(C,Possible),
+  if random(1.0) <= branch_probability then block([Cores_without_C],
+    Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,Solver),
+    Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
+    return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))
+  else block([Cores_with_C],
+    potentially_unusable_clauses : true,
+    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced), Possible,Solver),
+    return(union(Cores_with_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))))$
+
+/*!
+\endhtmlonly
+*/

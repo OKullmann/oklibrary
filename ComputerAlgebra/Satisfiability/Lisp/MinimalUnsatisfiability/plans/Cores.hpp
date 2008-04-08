@@ -10,26 +10,6 @@ License, or any later version. */
   \brief Plans related to irredundant cores
 
 
-  \todo Organisation
-  <ul>
-   <li> Create sub-modules "Cores.mac". </li>
-   <li> From
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
-   the following functions should belong to it:
-    <ol>
-     <li> min_size_mus_bydef(F, S) </li>
-     <li> contains_us_bydef </li>
-     <li> first_mus_fcs </li>
-     <li> first_irr_fcs </li>
-     <li> all_irr_cores_bydef </li>
-     <li> all_forced_irr_cores_bydef </li>
-    </ol>
-   </li>
-   <li> We should group these functions better together. </li>
-   <li> DONE We should use an "impliesp(F,C,S)" predicate. </li>
-  </ul>
-
-
   \todo all_irr_cores_bydef
   <ul>
    <li> Yet we choose just an arbitrary clause for the branching:
@@ -56,7 +36,14 @@ License, or any later version. */
    <li> If we monitor the computation and decide that the currently
    obtained clause-sets are enough --- is there any way to stop the
    computation, keeping the current results?? Ask on Maxima mailing
-   list. </li>
+   list.
+    <ol>
+     <li> One possibility would be to push the results into a global
+     variable. </li>
+     <li> Or, better, to provide a variable into which these results
+     are pushed. So we need to provide the *name* of the variable? </li>
+    </ol>
+   </li>
    <li> A variation of all_forced_irr_cores_bydef would postpone the
    irredundancy check just before "return({Forced})". However, I (OK)
    cannot imagine this to be more efficient. </li>
@@ -105,6 +92,26 @@ License, or any later version. */
    <li> Similar to optimal_splitting_tree (in
    ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac)
    we need a branch-and-bound implementation. </li>
+  </ul>
+
+
+  \todo Organisation : DONE
+  <ul>
+   <li> DONE Create sub-modules "Cores.mac". </li>
+   <li> DONE From
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
+   the following functions should belong here:
+    <ol>
+     <li> min_size_mus_bydef(F, S) </li>
+     <li> contains_us_bydef </li>
+     <li> first_mus_fcs </li>
+     <li> first_irr_fcs </li>
+     <li> all_irr_cores_bydef </li>
+     <li> all_forced_irr_cores_bydef </li>
+    </ol>
+   </li>
+   <li> DONE We should group these functions better together. </li>
+   <li> DONE We should use an "impliesp(F,C,S)" predicate. </li>
   </ul>
 
 */
