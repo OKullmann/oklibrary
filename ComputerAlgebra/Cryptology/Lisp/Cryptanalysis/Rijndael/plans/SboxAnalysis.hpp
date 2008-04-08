@@ -187,6 +187,18 @@ irrc_p_aes : all_irr_cores_bydef(cs_to_fcs(p_aes), dll_simplest_trivial2)$
    \endverbatim
    </li>
    <li> We should try random sampling of the irredundant cores. </li>
+   <li> Alternatively we compute all maximal non-equivalent sub-clause-sets
+  via all_max_noneq_scs_bydef:
+    <ol>
+     <li> See 
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac </li>
+     <li> Function test_CNF_aes_sbox delivers the required equivalence test.
+     </li>
+     <li> Then via hypergraph transversals we obtain all irredundant cores. 
+     </li>
+     <li> Likely there are (too) many sub-clause-sets, but we can try. </li>
+    </ol>
+   </li>
    <li> The question is how small can we get a CNF representation? We need
    also to investigate the size of a CNF obtained from the DNF via Tseitin
    translation (and optimisation); see
