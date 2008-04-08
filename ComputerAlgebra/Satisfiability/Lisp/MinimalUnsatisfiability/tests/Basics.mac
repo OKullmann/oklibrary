@@ -47,13 +47,13 @@ okltest_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
     assert(f(weak_php(n+1,n),S) = true),
   true)$
 
-okltest_irredundant_bydef(f) := block([S : dll_simplest_trivial1],
-  assert(f([{},{}],S) = true),
-  assert(f([{1},{{1}}],S) = true),
-  assert(f([{1,2},{{1},{1,2}}],S) = false),
+okltest_irredundant_bydef(f) := block([Sol : dll_simplest_trivial1],
+  assert(f([{},{}],Sol) = true),
+  assert(f([{1},{{1}}],Sol) = true),
+  assert(f([{1,2},{{1},{1,2}}],Sol) = false),
   if oklib_test_level = 0 then return(true),
   block([oklib_test_level : oklib_test_level-1],
-    okltest_min_unsat_bydef(buildq([f],lambda([FF,S], is(not S(FF) and f(FF,S)))))),
+    okltest_min_unsat_bydef(buildq([f],lambda([FF,Sol], is(not Sol(FF) and f(FF,Sol)))))),
   true)$
 
 okltest_all_irrcl_bydef(f) := block([S : dll_simplest_trivial1],

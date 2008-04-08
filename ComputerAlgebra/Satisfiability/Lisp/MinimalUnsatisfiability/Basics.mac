@@ -41,7 +41,7 @@ min_unsat_bydef(FF, solver) := not solver(FF) and
 irredundant_bydef(FF, solver) := 
  block([V : FF[1], F : FF[2], redundancy : false],
   for C in F unless redundancy do
-   redundancy : impliesp_f([V,disjoin(C,F)],C,S),
+   redundancy : impliesp_f([V,disjoin(C,F)],C,solver),
   return(not redundancy))$
 
 
