@@ -163,13 +163,13 @@ sample_forced_irr_cores(Forced, Possible) := block(
  block([C : choose_element(Possible)],
   Possible : disjoin(C,Possible),
   if random(1.0) <= branch_probability then block([Cores_without_C],
-    Cores_without_C : all_forced_irr_cores_bydef(Forced, Possible,Solver),
+    Cores_without_C : sample_forced_irr_cores(Forced, Possible),
     Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
-    return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))
+    return(union(Cores_without_C, sample_forced_irr_cores(Forced,Possible))))
   else block([Cores_with_C],
     potentially_unusable_clauses : true,
-    Cores_with_C : all_forced_irr_cores_bydef(adjoin(C,Forced), Possible,Solver),
-    return(union(Cores_with_C, all_forced_irr_cores_bydef(Forced,Possible,Solver))))))$
+    Cores_with_C : sample_forced_irr_cores(adjoin(C,Forced), Possible),
+    return(union(Cores_with_C, sample_forced_irr_cores(Forced,Possible))))))$
 
 
 /* ********************************************
