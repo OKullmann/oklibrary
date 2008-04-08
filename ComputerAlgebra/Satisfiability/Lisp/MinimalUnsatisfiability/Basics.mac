@@ -25,6 +25,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 /* Predicate to decide whether formal clause-set FF implies clause C,
    using solver S. */
 impliesp_f(FF,C,S) := not S(apply_pa_f(comp_sl(C),FF))$
+/* The variation for clause-sets F. */
+impliesp(F,C,S) := not S(cs_to_fcs(apply_pa(comp_sl(C),F)))$
 
 
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
