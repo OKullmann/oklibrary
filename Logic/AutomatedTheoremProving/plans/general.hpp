@@ -29,6 +29,8 @@ License, or any later version. */
    (see LogicalReflection/ProofAssistants/plans/general.hpp) </li>
    <li> A natural "client" seems to be module BoundedArithmetic
    (see Logic/BoundedArithmetic/plans/general.hpp) ? </li>
+   <li> In part ComputerAlgebra we provide first implementations; see
+   ComputerAlgebra/AutomatedTheoremProving/plans/general.hpp. </li>
   </ul>
 
 */
