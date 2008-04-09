@@ -24,88 +24,191 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 
 
 /* ***************************************
-   * Sets of Conditions                  *
+   * Variables                           *
    ***************************************
 */
 
-/* Generates a list of variables of the form name_i where
-   name is given and i ranges between n and m */
-make_vars(name, n,m) := 
-  makelist(eval_string(concat(name,string(i))),i,n,m)$
+/* Variables are 
+      aes_p(i) meaning the ith bit (starting at 1) of the AES plaintext
+      aes_k(i) meaning the ith bit (starting at 1) of the AES key 
+      aes_c(i) meaning the ith bit (starting at 1) of the AES ciphertext 
+      aes_rk(r,i) meaning the ith bit (starting at 1) of the round key for the
+        rth round.
+      aes_r(r,n,i) meaning the ith bit (starting 1 ) of the nth set of
+        variables used for input/output in the rth round
+      aes_ke(n,i) meaning the ith bit (starting 1 ) of the nth set of
+        variables used for input/output in the key expansion 
+      aes_sr(r,n,i) meaning the ith bit (starting 1 ) of the nth set of
+        variables used for input/output in the rth round in shiftrows
+      aes_sb(r,n,i) meaning the ith bit (starting 1) of the nth set of 
+        variables used for input/output in the rth round in the sbox  
+      aes_mc(r,n,i) meaning the ith bit (starting 1) of the nth set of 
+        variables used for input/output in the rth round in the mixcolumns */
+kill(aes_p);
+declare(aes_p, noun);
+declare(aes_p, posfun);
+aes_p_var(i) := nounify(aes_p)(i)$
+kill(aes_k);
+declare(aes_k, noun);
+declare(aes_k, posfun);
+aes_k_var(i) := nounify(aes_k)(i)$
+kill(aes_c);
+declare(aes_c, noun);
+declare(aes_c, posfun);
+aes_c_var(i) := nounify(aes_c)(i)$
+kill(aes_rk);
+declare(aes_rk, noun);
+declare(aes_rk, posfun);
+aes_rk_var(r,i) := nounify(aes_rk)(r,i)$
+kill(aes_io);
+declare(aes_r, noun);
+declare(aes_r, posfun);
+aes_r_var(r,u,i) := nounify(aes_r)(r,u,i)$
+declare(aes_ke, noun);
+declare(aes_ke, posfun);
+aes_ke_var(u,i) := nounify(aes_ke)(u,i)$
+declare(aes_sr, noun);
+declare(aes_sr, posfun);
+aes_sr_var(r,u,i) := nounify(aes_sr)(r,u,i)$
+declare(aes_sb, noun);
+declare(aes_sb, posfun);
+aes_sb_var(r,u,i) := nounify(aes_sb)(r,u,i)$
+declare(aes_mc, noun);
+declare(aes_mc, posfun);
+aes_mc_var(r,u,i) := nounify(aes_mc)(r,u,i)$
 
-/* Returns a set of conditions representing AES given
-   128 plaintext variables, 128 key variables and 128
-   variables. */
-aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
-  pBits : take_elements(128,bits),
-  kBits : take_elements(128,rest(bits,128)),
-  cBits : rest(bits,256),
-  ekBits : make_vars("ek",1, 11*128),
-  /* Key Expansion */
-  rs : adjoin(apply(key_expansion_cd,append(kBits, ekBits)),rs),
-  ib : pBits,
-  all_ob : make_vars("o",1,11*128),
-  ob : take_elements(128,all_ob),
-  /* Initial Round Key Addition */
-  rs : adjoin(apply(aes_add_key_c,append(ib,take_elements(128,ekBits),ob)),rs),
-  ib : ob,
-  /* Rounds */
-  for j : 1 thru 9 do block(
-    ob : take_elements(128,rest(all_ob,j*128)),
-    rs : adjoin(apply(aes_round_c,append(ib,take_elements(128,rest(ekBits,j*128)),
-      ob)),rs),
-    ib : ob
-  ),
-  /* Final Round */
-  ob : rest(all_ob,10*128),
-  rs : adjoin(apply(aes_final_round_c,append(ib,take_elements(128,
-    rest(ekBits,10*128)),ob)),rs),
-  return(rs)
-)$
-/* NB : the round number, block and key size seem trivially parameterisable */
+/* Given a constraint, this function returns the minimum
+round number associated with any variable in the variable
+set associated with the constraint */
+/*aes_min_r(cd) := $ */
 
-/* NB : This needs to be changed as a method is needed to change
-   the name of the auxillary variables based on the call */
-/*aes_round_cp([bits]) := block([iBits, rkBits, oBits,tBits,rs:{}],
-  iBits : take_elements(128,bits),
-  rkBits : take_elements(128,rest(bits,128)),
-  oBits : rest(bits,256),
-  tBits : make_vars("so", 1,128),
-  rs : adjoin(apply(aes_sbox_c,append(iBits, tBits)),rs),
-  iBits : tBits,
-  tBits : make_vars("ro", 1,128),
-  rs : cons(apply(aes_shiftrows_c,append(iBits, tBits)),rs),
-  iBits : tBits,
-  tBits : make_vars("mo", 1,128),
-  rs : cons(apply(aes_mixcolumns_c,append(iBits, tBits)),rs),
-  iBits : tBits,
-  tBits : make_vars("ko", 1,128),
-  rs : cons(apply(aes_add_key_c,append(iBits, tBits)),rs),
-  return(rs)
+/* ***************************************
+   * Condition Evaluation Functions      *
+   ***************************************
+*/
+
+/*aes_cd_eval(phi) :=  $ */
+/*aes_key_expansion_cd_eval(phi) :=  $ */
+/*aes_round_cd_eval(phi) :=  $ */
+/*aes_final_round_cd_eval(phi) :=  $ */
+/*aes_shiftrows_cd_eval(phi) :=  $ */
+/*aes_mixcolumns_cd_eval(phi) :=  $ */
+/*aes_addition_cd_eval(phi) :=  $ */
+/*aes_equiv_cd_eval(phi) :=  $ */
+
+/* **********************************************************
+   * Condition Producing Functions or "Rewrite Rules"       *
+   **********************************************************
+*/
+
+/* A constraint is a tuple containing the name of the constraint (an arbitrary
+   term, the set of variables and a function to evaluate the constraint
+   given a partial assignment */
+/* MG : This should be defined elsewhere more generally? */
+
+/* Each constraint producing function below, takes a constraint and then produces
+a new set of constraints to replace that constraint */
+
+/* Returns a set of constraints representing 128 bit AES */
+/* MG : Should this take the block and key sizes for generalisations? */
+/*aes_cp(cd) := block([rs : {}],
+  if first(cd) = "aes_cd" then
+    rs : adjoin(["aes_key_expansion_cd",setify(append(makelist(aes_k_var(i),i,1,128),
+      create_list(aes_rk_var(r,i),r,0,10,i,1,128))),aes_key_expansion_eval],rs),
+    rs : adjoin(["aes_add_key_cd",setify(append(makelist(aes_rk_var(0,i),i,1,128),
+      makelist(aes_p_var(i),i,1,128), makelist(aes_r_var(1,i),i,1,128))),
+      aes_add_key_cd_eval],rs),
+    for r : 1 thru 9 do block(
+      rs :adjoin(["aes_round_cd",setify(append(makelist(aes_rk_var(r,i),i,1,128),
+        makelist(aes_r_var(r,i),i,1,128),makelist(aes_r_var(r+1,1,i),i,1,128))
+      ),aes_round_cd_eval],rs)
+    ),
+    rs :adjoin(["aes_final_round_cd",setify(append(makelist(aes_rk_var(10,i),i,1,128),
+      makelist(aes_r_var(10,1,i),i,1,128),makelist(aes_c_var(i),i,1,128))
+    ),aes_final_round_cd_eval],rs),
+    return([rs])
+  else
+    return([])
 )$*/
 
-/* NB : This needs to be changed as a method is needed to change
-   the name of the auxillary variables based on the call */
-/*aes_shiftrows_cp([bits]) := block([iBits, oBits],
-  iBits : take_elements(128,bits),
-  oBits : take_elements(128,rest(bits,128)),
-  setify(map(lambda([a,b],a = b), iBits, 
-    apply(append,(shiftrows(partition_elements(oBits,8))))))
+/* Given a constraint, returns a list of length 1 containing the sets of 
+   constraints to rewrite the input constraint to if the input constraint
+   is rewritable (ie is an AES round constraint) with this rule, or the 
+   empty list otherwise */
+/* MG: the round number, block and key size seem trivially parameterisable */
+/* MG: Somehow r must be found or there must be a way to determine which 
+   variables are which from the given constraint, so they can be correctly
+   passed to the next. */
+/*aes_round_cp(cd) := block([r, rs:{}],
+  if first(cd) = "aes_round_cd" then block(
+    r : aes_min_r(cd),
+    rs :adjoin(["aes_sbox_cd",setify(append(makelist(aes_r_var(r,1,i),i,1,128),
+      makelist(aes_io_var(r,2,i),i,1,128))
+    ),aes_sbox_cd_eval],rs),
+    rs :adjoin(["aes_shiftrows_cd",setify(append(
+      makelist(aes_io_var(r,2,i),i,1,128),makelist(aes_io_var(r,3,i),i,1,128))),
+      aes_shiftrows_cd_eval],rs),
+    rs :adjoin(["aes_mixcolumns_cd",setify(append(
+      makelist(aes_io_var(r,3,i),i,1,128),makelist(aes_io_var(r,4,i),i,1,128))),
+      aes_shiftrows_cd_eval],rs),
+    rs :adjoin(["aes_addition_cd",setify(append(
+      makelist(aes_io_var(r,4,i),i,1,128),makelist(aes_io_var(r+1,0,i),i,1,128))),
+      aes_addition_cd_eval],rs),
+    return([rs]))
+  else
+    return([])
 )$*/
 
-/* NB : This needs to be changed as a method is needed to change
-   the name of the auxillary variables based on the call */
-/*aes_mixcolumns_cp([bits]) := block([iBits, oBits, nc],
-  iBits : take_elements(128,bits),
-  oBits : rest(bits,128),
-  nc : length(iBits)/32,
-  setify(map(lambda([a,b], 
-    apply(aes_mixcolumn_cd,append(apply(append,a),apply(append,b)))),
-    matrixcolumns(apply(matrix,partition_elements(
-      partition_elements(iBits,8),nc))),
-    matrixcolumns(apply(matrix,partition_elements(
-      partition_elements(oBits,8),nc)))))
+/* Given a constraint, returns a list of length 1 containing the sets of 
+   constraints to rewrite the input constraint to if the input constraint
+   is rewritable (ie is an AES shiftrows constraint) with this rule, or the 
+   empty list otherwise */
+/*aes_shiftrows_cp(cd) := block([r,rs : {}], 
+  if first(cd) = "aes_shiftrows_cd" then block(
+    r : aes_min_r(cd),
+    setify(map(lambda([a,b],
+        ["aes_equiv_cd",union(setify(a),setify(b)),aes_equiv_cd_eval]), 
+      partition_elements(makelist(aes_io_var(r,0,i),i,1,128),8), 
+      shiftrows(partition_elements(aes_io_var(r,1,i),i,1,128),8))))
+  else
+    return([])
 )$*/
+
+/* MG: This must be changed to used constraints rather than lists of bits */
+/*aes_mixcolumns_cp([bits]) := block([r,rs:{}],
+  if first(cd) = "aes_mixcolumns_cd" then block()
+  else 
+    return([])
+)$*/
+
+/* MG: This must be changed to used constraints rather than lists of bits */
+/*aes_keyexpansion_cp([bits]) := block([rs:{}],
+  if first(cd) = "aes_key_expansion_cd" then block()
+  else 
+    return([])
+)$*/
+
+/* MG: This must be changed to used constraints rather than lists of bits */
+/*aes_sbox_cp([bits]) := block([rs:{}],
+  if first(cd) = "aes_sbox_cd" then block()
+  else 
+    return([])
+)$*/
+
+
+/* ***************************************
+   * Rewrite System/Functions            *
+   ***************************************
+*/
+
+/* MG: We need something here which takes a given rewrite rule
+   and applies it to the set of constraints, renaming 
+   variables etc if necessary to ensure there are no clashes
+   between internal variables used in one constraint and
+   those used in another. */
+
+/*apply_rule(rule,con_set) := $ */
+
 
 /*!
 \endhtmlonly

@@ -42,6 +42,7 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/plans/Translations.hpp the following topics are handled:
+    - Constraint Rewrite System
     - Encoding AES (top down)
 
   \par

@@ -24,11 +24,111 @@ License, or any later version. */
    </li>
   </ul>
 
+  \todo Constraint Rewrite System
+  <ul>
+   <li> In translating AES to a CNF, one can define a rewrite system based
+   around sets of constraints 
+    <ol>
+     <li> A constraint is simply a 3-tuple with a name, a set of variables and
+     a function for evaluation given a partial assignment to the variables. 
+     </li>
+     <li> A rewrite function "f" is defined to take a constraint and if it is
+     applicable (ie if "f" is a rewrite rule for that constraint), it returns a
+     set of new constraints, otherwise it returns false (in some way. This may
+     be handled by a unit list and empty list rather than use of "false") .
+     </li>
+     <li> An application function is necessary to apply a given rewrite rule
+     to a set of constraints. When a particular rewrite rule applies, the 
+     constraints it returns must be joined to the current set of constraints
+     and issues such as variable clashes etc handled. </li>
+     <li> Translations may be achieved by applying such rewrite rules using
+     the application functions to sets of constraints in an interative manner.
+     </li>
+     <li> Starting initially with a single "aes" constraint, rewrite rules 
+     can then be iteratively applied to reduce the system to much simpler
+     sets of constraints. </li>
+    </ol>
+   </li>
+   <li> How  to handle variables?
+    <ol>
+      <li> How to name variables? Seperate variable prefixes for plaintext, 
+      ciphertext, key and round key bits seem sensible, as well as seperate
+      input and output bits for each round and then a variable
+      prefix for each constraint? %Variables used when rewriting a particular
+      constraint would then use the variables appropriate to that constraint? 
+      </li>
+      <li> Indices can be used to represent that a variable belongs to a 
+      particular round "r" (if applicable), and then it seems sensible to 
+      provide an index "i" which specifies the position of the bit in a 
+      particular grouping, for instance the "ith" bit of the plaintext. 
+      Lastly, an index "n" to determine that this is the nth set of such
+      variables should suffice, for situations within constraint rewriting
+      where multiple sets of internal variables are needed for a single
+      constraint rewrite. </li>
+      <li> When applying a rewrite rule "f" to a constraint "c", given that 
+      a particular rewrite rule has no knowledge of the wider set of
+      constraints "S_t" (only the constraint given to it), how to rename or reindex
+      the variables in the set of constraints "S_o" that "f" outputs so that 
+      internal variables (ie variables not present in the variable set "S_c" 
+      for "c") do not clash with others in "S_t"? </li>
+      <li> Simply take some kind of maximum index "m" derived from indices 
+      used in variables in "S_t" and then rewrite any variables in "S_o"
+      by taking the indices "u" used there and adding to them "m"? For instance
+      transforming "sbox_var(r,u,i)" to "sbox_var(r,u+m,i)". %Variables occuring
+      in "S_c" must obviously be exempt from this, but this should be trivial to
+      achieve. </li>
+      <li> How should a given rewrite rule know which variables represent which
+      bits in the problem when we consider only a set of variables? Special 
+      knowledge of the system works well enough for everything outside of the 
+      Sbox and potentially addition within the rijndael byte field, as these
+      are used in various places? </li>
+      <li> Should the rewrite rules for such constraints (sbox etc) simply make
+      hardcoded case distinctions based on the variables occuring in the 
+      variable set? </li>
+    </ol>
+   </li>
+  </ul>
+
 
   \todo Encoding AES (top down)
   <ul>
    <li> Break this todo into separate todos </li>
-   <li> For an initial translation to CNF, the following seems sensible
+   <li> Using the concept of a "Constraint" (rather than condition), where this
+   can be represented by a tuple consisting of a name, a set of variables
+   and a function to evaluate it, given a partial assignment. </li>
+   <li> Compare the discussion under "Condition" in
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
+   <li> The following needs updating, so that from the beginning
+   we consider families of encoding, using different "granularity
+   levels" for the "active clauses" used; see "Partitioning into active clauses"
+   above. </li>
+   <li> First the formulas F_AES(p, k, c) encoding
+   the encryption via AES, and F'_AES(p, k, c) encoding
+   the decryption via AES have to be created, as
+   plain CNF. The formulas F_AES etc. actually need a
+   further parameter 0 <= r <= 10, the number of rounds.
+   </li>
+   <li> That is, we can consider F_AES^r(p, k, c') for 0 <= r < = 10
+   which encodes that encryption of p via k in r rounds yields c',
+   and F'_AES^s(p', k, c) for 0 <= s < = 10
+   which encodes that decryption of c via k in s rounds yields p'.
+   We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
+   We have  F'_AES(p, k, c) = F'_AES^10(p, k, c).
+   </li>
+   <li> It seams reasonable to demand that F_AES^r(p, k, c') contains
+   F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
+   </li>
+   <li> The variables used in  F_AES^r(p, k, c') and F'_AES^s(p', k, c)
+   must be consistently named, so that these formulas can be combined.
+   </li>
+   <li> (Compare the 2006-BSc-project by Gareth Thomas. The difference
+   between F_AES(p, k, c) and F'_AES(p, k, c) is in the use
+   of the auxiliary variables.)
+   </li>
+   <li> Only later should we consider a full C++ implementation, but first
+   we create a prototype in the computer-algebra system. DONE </li>
+   <li> (DONE Discussion reformulated in "Constraint Rewrite System")
+   For an initial translation to CNF, the following seems sensible
     <ol>
      <li> Function of the form aes_cp(p1,...,p128,k1,...,k128,c1,...,c128) 
      which given the plaintext, key and ciphertext variables, produces a
@@ -72,7 +172,8 @@ License, or any later version. */
      <li> For the unevaluated conditions (placeholders) within the sets, 
      perhaps the postfix "_c" for condition, could be used, and for the
      functions producing the conditions, perhaps "_cp" as a postfix? </li>
-     <li> Could such condition sets also be used as a representation when
+     <li> (DONE yes this is precisely the intention)
+     Could such condition sets also be used as a representation when
      dealing with active clauses? A generalised solver that looked for 
      operators within the set and then applied appropriate given functions
      for those operators that would determine heuristics etc? </li>
@@ -84,40 +185,6 @@ License, or any later version. */
      the unevaluated expression if not, but instead returns an error. </li>
     </ol>
    </li>
-   <li> Using the concept of a "Constraint" (rather than condition), where this
-   can be represented by a tuple consisting of a name, a set of variables
-   and a function to evaluate it, given a partial assignment. </li>
-   <li> Compare the discussion under "Condition" in
-   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
-   <li> The following needs updating, so that from the beginning
-   we consider families of encoding, using different "granularity
-   levels" for the "active clauses" used; see "Partitioning into active clauses"
-   above. </li>
-   <li> First the formulas F_AES(p, k, c) encoding
-   the encryption via AES, and F'_AES(p, k, c) encoding
-   the decryption via AES have to be created, as
-   plain CNF. The formulas F_AES etc. actually need a
-   further parameter 0 <= r <= 10, the number of rounds.
-   </li>
-   <li> That is, we can consider F_AES^r(p, k, c') for 0 <= r < = 10
-   which encodes that encryption of p via k in r rounds yields c',
-   and F'_AES^s(p', k, c) for 0 <= s < = 10
-   which encodes that decryption of c via k in s rounds yields p'.
-   We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
-   We have  F'_AES(p, k, c) = F'_AES^10(p, k, c).
-   </li>
-   <li> It seams reasonable to demand that F_AES^r(p, k, c') contains
-   F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
-   </li>
-   <li> The variables used in  F_AES^r(p, k, c') and F'_AES^s(p', k, c)
-   must be consistently named, so that these formulas can be combined.
-   </li>
-   <li> (Compare the 2006-BSc-project by Gareth Thomas. The difference
-   between F_AES(p, k, c) and F'_AES(p, k, c) is in the use
-   of the auxiliary variables.)
-   </li>
-   <li> Only later should we consider a full C++ implementation, but first
-   we create a prototype in the computer-algebra system. DONE </li>
   </ul>
 
 
