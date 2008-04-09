@@ -33,6 +33,8 @@ License, or any later version. */
      a function for evaluation given a partial assignment to the variables.
      OK: The notion of "constraint" is not really appropriate. And in general
      the partial assignment must be *total* w.r.t. the scope.
+     MG: What would be better terminology? Active unit? Condition also doesn't
+     appear to fit for similar reasons (?).
      </li>
      <li> A rewrite function "f" is defined to take a constraint, and if it is
      applicable (i.e., if "f" is a rewrite rule for that constraint), it returns a

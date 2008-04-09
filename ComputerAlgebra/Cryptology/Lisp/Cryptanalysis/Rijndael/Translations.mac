@@ -80,21 +80,21 @@ aes_mc_var(r,u,i) := nounify(aes_mc)(r,u,i)$
 /* Given a constraint, this function returns the minimum
 round number associated with any variable in the variable
 set associated with the constraint. */
-/*aes_min_r(cd) := $ */
+/*aes_min_r(con) := $ */
 
 /* ***************************************
    * Condition Evaluation Functions      *
    ***************************************
 */
 
-/*aes_cd_eval(phi) :=  $ */
-/*aes_key_expansion_cd_eval(phi) :=  $ */
-/*aes_round_cd_eval(phi) :=  $ */
-/*aes_final_round_cd_eval(phi) :=  $ */
-/*aes_shiftrows_cd_eval(phi) :=  $ */
-/*aes_mixcolumns_cd_eval(phi) :=  $ */
-/*aes_addition_cd_eval(phi) :=  $ */
-/*aes_equiv_cd_eval(phi) :=  $ */
+/*aes_con_eval(phi) :=  $ */
+/*aes_key_expansion_con_eval(phi) :=  $ */
+/*aes_round_con_eval(phi) :=  $ */
+/*aes_final_round_con_eval(phi) :=  $ */
+/*aes_shiftrows_con_eval(phi) :=  $ */
+/*aes_mixcolumns_con_eval(phi) :=  $ */
+/*aes_addition_con_eval(phi) :=  $ */
+/*aes_equiv_con_eval(phi) :=  $ */
 
 /* **********************************************************
    * Condition Producing Functions or "Rewrite Rules"       *
@@ -111,92 +111,99 @@ set associated with the constraint. */
 
 /* Returns a set of constraints representing 128 bit AES */
 /* MG : Should this take the block and key sizes for generalisations? */
-/*aes_cp(cd) := block([rs : {}],
-  if first(cd) = "aes_cd" then
-    rs : adjoin(["aes_key_expansion_cd",setify(append(makelist(aes_k_var(i),i,1,128),
+/*aes_rewrite_rule(con) := block([rs : {}],
+  if first(con) = "aes_con" then
+    rs : adjoin(["aes_key_expansion_con",setify(append(makelist(aes_k_var(i),i,1,128),
       create_list(aes_rk_var(r,i),r,0,10,i,1,128))),aes_key_expansion_eval],rs),
-    rs : adjoin(["aes_add_key_cd",setify(append(makelist(aes_rk_var(0,i),i,1,128),
+    rs : adjoin(["aes_add_key_con",setify(append(makelist(aes_rk_var(0,i),i,1,128),
       makelist(aes_p_var(i),i,1,128), makelist(aes_r_var(1,i),i,1,128))),
-      aes_add_key_cd_eval],rs),
+      aes_add_key_con_eval],rs),
     for r : 1 thru 9 do block(
-      rs :adjoin(["aes_round_cd",setify(append(makelist(aes_rk_var(r,i),i,1,128),
+      rs :adjoin(["aes_round_con",setify(append(makelist(aes_rk_var(r,i),i,1,128),
         makelist(aes_r_var(r,i),i,1,128),makelist(aes_r_var(r+1,1,i),i,1,128))
-      ),aes_round_cd_eval],rs)
+      ),aes_round_con_eval],rs)
     ),
-    rs :adjoin(["aes_final_round_cd",setify(append(makelist(aes_rk_var(10,i),i,1,128),
+    rs :adjoin(["aes_final_round_con",setify(append(makelist(aes_rk_var(10,i),i,1,128),
       makelist(aes_r_var(10,1,i),i,1,128),makelist(aes_c_var(i),i,1,128))
-    ),aes_final_round_cd_eval],rs),
+    ),aes_final_round_con_eval],rs),
     return([rs])
   else
     return([])
 )$*/
 
-/* Given a constraint, returns a list of length 1 containing the sets of 
+/* Given a constraint, returns a list of length 1 containing the set of 
    constraints to rewrite the input constraint to if the input constraint
    is rewritable (ie is an AES round constraint) with this rule, or the 
    empty list otherwise */
-/* OK: "sets of constraints", but length 1 ??? */
 /* MG: the round number, block and key size seem trivially parameterisable */
 /* MG: Somehow r must be found or there must be a way to determine which 
    variables are which from the given constraint, so they can be correctly
    passed to the next. */
 /* OK: Typical problem: name of the function to short, don't know what it means ??? */
-/*aes_round_cp(cd) := block([r, rs:{}],
-  if first(cd) = "aes_round_cd" then block(
-    r : aes_min_r(cd),
-    rs :adjoin(["aes_sbox_cd",setify(append(makelist(aes_r_var(r,1,i),i,1,128),
-      makelist(aes_io_var(r,2,i),i,1,128))
-    ),aes_sbox_cd_eval],rs),
-    rs :adjoin(["aes_shiftrows_cd",setify(append(
-      makelist(aes_io_var(r,2,i),i,1,128),makelist(aes_io_var(r,3,i),i,1,128))),
-      aes_shiftrows_cd_eval],rs),
-    rs :adjoin(["aes_mixcolumns_cd",setify(append(
-      makelist(aes_io_var(r,3,i),i,1,128),makelist(aes_io_var(r,4,i),i,1,128))),
-      aes_shiftrows_cd_eval],rs),
-    rs :adjoin(["aes_addition_cd",setify(append(
-      makelist(aes_io_var(r,4,i),i,1,128),makelist(aes_io_var(r+1,0,i),i,1,128))),
-      aes_addition_cd_eval],rs),
+/*aes_round_rewrite_rule(con) := block([r, rs:{}],
+  if first(con) = "aes_round_con" then block(
+    r : aes_min_r(con),
+    rs :adjoin(["aes_sbox_con",setify(append(makelist(aes_r_var(r,1,i),i,1,128),
+      makelist(aes_r_var(r,2,i),i,1,128))
+    ),aes_sbox_con_eval],rs),
+    rs :adjoin(["aes_shiftrows_con",setify(append(
+      makelist(aes_r_var(r,2,i),i,1,128),makelist(aes_r_var(r,3,i),i,1,128))),
+      aes_shiftrows_con_eval],rs),
+    rs :adjoin(["aes_mixcolumns_con",setify(append(
+      makelist(aes_r_var(r,3,i),i,1,128),makelist(aes_r_var(r,4,i),i,1,128))),
+      aes_mixcolumns_con_eval],rs),
+    rs :adjoin(["aes_addition_con",setify(append(
+      makelist(aes_r_var(r,4,i),i,1,128),makelist(aes_r_var(r+1,0,i),i,1,128))),
+      aes_addition_con_eval],rs),
     return([rs]))
   else
     return([])
 )$*/
 
-/* Given a constraint, returns a list of length 1 containing the sets of 
+/* Given a constraint, returns a list of length 1 containing the set of 
    constraints to rewrite the input constraint to if the input constraint
    is rewritable (ie is an AES shiftrows constraint) with this rule, or the 
    empty list otherwise */
-/* OK: again the contradiction "list of length 1" and "sets" ??? */
-/*aes_shiftrows_cp(cd) := block([r,rs : {}], 
-  if first(cd) = "aes_shiftrows_cd" then block(
-    r : aes_min_r(cd),
+/*aes_shiftrows_rewrite_rule(con) := block([r,rs : {}], 
+  if first(con) = "aes_shiftrows_con" then block(
+    r : aes_min_r(con),
     setify(map(lambda([a,b],
-        ["aes_equiv_cd",union(setify(a),setify(b)),aes_equiv_cd_eval]), 
-      partition_elements(makelist(aes_io_var(r,0,i),i,1,128),8), 
-      shiftrows(partition_elements(aes_io_var(r,1,i),i,1,128),8))))
+        ["aes_equiv_con",union(setify(a),setify(b)),aes_equiv_con_eval]), 
+      partition_elements(makelist(aes_r_var(r,0,i),i,1,128),8), 
+      shiftrows(partition_elements(aes_r_var(r,1,i),i,1,128),8))))
   else
     return([])
 )$*/
 
-/* MG: This must be changed to used constraints rather than lists of bits */
-/* OK: What is it doing ??? */
-/*aes_mixcolumns_cp([bits]) := block([r,rs:{}],
-  if first(cd) = "aes_mixcolumns_cd" then block()
+/* Given a constraint, returns a list of length 1 containing the set of 
+   constraints to rewrite the input constraint to if the input constraint
+   is rewritable (ie is an AES mixcolumns constraint) with this rule, or the 
+   empty list otherwise */
+/* MG: This is a placeholder for later code */
+/*aes_mixcolumns_rewrite_rule([bits]) := block([r,rs:{}],
+  if first(con) = "aes_mixcolumns_con" then block()
   else 
     return([])
 )$*/
 
-/* MG: This must be changed to used constraints rather than lists of bits */
-/* OK: What is it doing ??? */
-/*aes_keyexpansion_cp([bits]) := block([rs:{}],
-  if first(cd) = "aes_key_expansion_cd" then block()
+/* Given a constraint, returns a list of length 1 containing the set of 
+   constraints to rewrite the input constraint to if the input constraint
+   is rewritable (ie is an AES key expansion constraint) with this rule, or the
+   empty list otherwise */
+/* MG: This is a placeholder for later code */
+/*aes_key_expansion_rewrite_rule([bits]) := block([rs:{}],
+  if first(con) = "aes_key_expansion_con" then block()
   else 
     return([])
 )$*/
 
-/* MG: This must be changed to used constraints rather than lists of bits */
-/* OK: What is it doing ??? */
-/*aes_sbox_cp([bits]) := block([rs:{}],
-  if first(cd) = "aes_sbox_cd" then block()
+/* Given a constraint, returns a list of length 1 containing the set of 
+   constraints to rewrite the input constraint to if the input constraint
+   is rewritable (ie is an AES sbox constraint) with this rule, or the 
+   empty list otherwise */
+/* MG: This is a placeholder for later code */
+/*aes_sbox_rewrite_rule([bits]) := block([rs:{}],
+  if first(con) = "aes_sbox_con" then block()
   else 
     return([])
 )$*/
@@ -213,7 +220,7 @@ set associated with the constraint. */
    between internal variables used in one constraint and
    those used in another. */
 
-/*apply_rule(rule,con_set) := $ */
+/*apply_rewrite_eule(rule,con_set) := $ */
 
 
 /*!
