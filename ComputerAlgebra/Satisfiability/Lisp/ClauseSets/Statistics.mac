@@ -81,13 +81,23 @@ statistics_fcs(FF) :=
 literal_degree_cs(F,l) := length(subset(F,lambda([C],elementp(l,C))))$
 
 load(graphs)$
-/* the literal-degrees of a clause-set, as hash-map */
+
+/* The literal-degrees of a clause-set, as hash-map */
 literal_degrees_cs(F) := block([h : hash_table()],
  for C in F do
   for x in C do block([val : get_hash(x,h)],
    if val=false then set_hash(x,h,1)
    else set_hash(x,h,val+1)),
  return(h))$
+/* Returns the pairs of literal and literal degree of a clause-set F in 
+   descending order of the number of literals using the given order
+   on literals  for equal counts. */
+/* This assumes that the Maxima "sort" is a stable sort (which actually is
+   not specified?). */
+ordered_literal_degrees_cs(F) := 
+   sort(map(args,hash_table_data(literal_degrees_cs(F))),
+        lambda([P1,P2], is(second(P1) > second(P2))))$
+
 /* minimal literal-degree of a clause-set */
 min_literal_degree_cs(F) := 
   lmin(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
@@ -102,15 +112,8 @@ max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optl : m[1])),
   return([maxd, optl]))$
-/* Ordering relation for literal,degree pairs */
-literal_degree_ordering_des(ld1, ld2) := is(second(ld2) < second(ld1))$
-/* Returns the pairs of literal and literal degree of a clause-set F in 
-   descending order of the number of literals using natural order
-   on literals otherwise
-   OK: why is this needed? */
-ordered_literal_degrees_cs(F) := 
-   sort(map(args,hash_table_data(literal_degrees_cs(F))),
-     literal_degree_ordering_des)$
+
+
 /* OK; ???? what is this doing ? What is "tb" ? */
 max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
       [max_l1, max_ld1] : max_literal_degree_tb_l_cs(apply_pa_f({l}, FF),d,n),
@@ -120,7 +123,7 @@ max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
    with the maximum degree in the given clause set, where look-aheads are made
    when a tie occurs for the maximum degree, looking up to d levels deeper 
    and considering up to n tied literals. */
-/* OK: "look-ahead" ??? */
+/* OK: "look-ahead" ??? a definition is needed. */
 max_literal_degree_tb_l_cs(FF,d,n) := block(
   [old : ordered_literal_degrees_cs(FF[2])],
   if emptyp(old) then [0,0]
@@ -131,7 +134,8 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
         block([ml : sublist(rest(old),lambda([a],is(second(a)=second(first(old)))))],
           take_elements(min(n,length(ml)),ml))),
     first(old)))$
-/* tests whether a clause-set is literal-regular (all literals have the same
+
+/* Tests whether a clause-set is literal-regular (all literals have the same
    degree) */
 literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$
 /* the average literal degree of a formal clause-set */
