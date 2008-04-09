@@ -314,6 +314,10 @@ block([fpprec : fpprec], fpprec : d, Comp)
      <li> And doxygen support for Maxima would be great. </li>
     </ol>
    </li>
+   <li> A "Logic Algebra" (title of the email) module has been submitted to the
+   maxima mailing list for consideration for inclusion in share/contrib and is 
+   viewable at http://beshenov.ru/maxima/logic/ . Perhaps some collaboration
+   could initially occur here? </li>
   </ul>
 
 */
