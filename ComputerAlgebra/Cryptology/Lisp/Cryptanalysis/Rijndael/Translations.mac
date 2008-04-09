@@ -60,19 +60,23 @@ kill(aes_rk);
 declare(aes_rk, noun);
 declare(aes_rk, posfun);
 aes_rk_var(r,i) := nounify(aes_rk)(r,i)$
-kill(aes_io);
+kill(aes_r);
 declare(aes_r, noun);
 declare(aes_r, posfun);
 aes_r_var(r,u,i) := nounify(aes_r)(r,u,i)$
+kill(aes_ke);
 declare(aes_ke, noun);
 declare(aes_ke, posfun);
 aes_ke_var(u,i) := nounify(aes_ke)(u,i)$
+kill(aes_sr);
 declare(aes_sr, noun);
 declare(aes_sr, posfun);
 aes_sr_var(r,u,i) := nounify(aes_sr)(r,u,i)$
+kill(aes_sb);
 declare(aes_sb, noun);
 declare(aes_sb, posfun);
 aes_sb_var(r,u,i) := nounify(aes_sb)(r,u,i)$
+kill(aes_mc);
 declare(aes_mc, noun);
 declare(aes_mc, posfun);
 aes_mc_var(r,u,i) := nounify(aes_mc)(r,u,i)$
