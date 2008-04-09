@@ -105,20 +105,12 @@ max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
 /* Ordering relation for literal,degree pairs */
 literal_degree_ordering_des(ld1, ld2) := is(second(ld2) < second(ld1))$
 /* Returns the pairs of literal and literal degree of a clause-set F in 
-   descending order of the number of literals
-   OK: why is this needed? How is the order specified??
-   Use better variable names!
-   The loop should be eliminated! And just map the hash-table.
-   The order used deviates from the normal order imposed on literals. */
-ordered_literal_degrees_cs(F) := block([ldl : [], ldh : literal_degrees_cs(F)],
-   for v in var_cs(F) do block(
-       block([ld : get_hash(v,ldh)],
-           if not (ld = false) then
-               ldl : cons([v,ld],ldl)),
-       block([ld : get_hash(-v,ldh)],
-           if not (ld = false) then
-               ldl : cons([-v,ld],ldl))),
-   return(sort(ldl,literal_degree_ordering_des)))$
+   descending order of the number of literals using natural order
+   on literals otherwise
+   OK: why is this needed? */
+ordered_literal_degrees_cs(F) := 
+   sort(map(args,hash_table_data(literal_degrees_cs(F))),
+     literal_degree_ordering_des)$
 /* OK; ???? what is this doing ? What is "tb" ? */
 max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
       [max_l1, max_ld1] : max_literal_degree_tb_l_cs(apply_pa_f({l}, FF),d,n),

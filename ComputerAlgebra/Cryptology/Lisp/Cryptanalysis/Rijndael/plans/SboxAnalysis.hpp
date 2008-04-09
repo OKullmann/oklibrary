@@ -38,7 +38,7 @@ length(hitting_cnf_aes_sbox(dll_heuristics_max_var));
 statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(3,3)));
 [16, 1468, 18925, 16, 6]
 statistics_cs(hitting_cnf_aes_sbox(dll_heuristics_max_lit_tb(4,4)));
-[16, 1460, 18873, 16, 5]
+[16, 1438, 18536, 16, 6]
    \endverbatim
    Would be interesting to understand this. See below. </li>
    <li> DONE (explained below: there are no forced assignments, so no 
@@ -155,10 +155,10 @@ test_CNF_aes_sbox(cs_to_fcs(h2_aes));
 true
 p2_aes : replace_by_prime_implicates_hitting(h2_aes)$
 statistics_cs(p2_aes);
-[16, 1374, 9524, 9, 5]
+[16, 1303, 9011, 9, 6]
 ip2_aes : first_irr_fcs(cs_to_fcs(p2_aes), dll_simplest_trivial2)$
 statistics_cs(ip2_aes[2]);
-[16, 566, 3898, 9, 5]
+[16, 559, 3838, 8, 6]
 test_CNF_aes_sbox(ip2_aes);
 true
 h0_aes : hitting_cnf_aes_sbox(dll_heuristics_first_formal)$
