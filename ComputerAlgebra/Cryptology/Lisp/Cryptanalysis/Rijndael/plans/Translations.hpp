@@ -27,15 +27,17 @@ License, or any later version. */
   \todo Constraint Rewrite System
   <ul>
    <li> In translating AES to a CNF, one can define a rewrite system based
-   around sets of constraints 
+   around sets of constraints.
     <ol>
-     <li> A constraint is simply a 3-tuple with a name, a set of variables and
-     a function for evaluation given a partial assignment to the variables. 
+     <li> A "constraint" is simply a 3-tuple with a name, a set of variables and
+     a function for evaluation given a partial assignment to the variables.
+     OK: The notion of "constraint" is not really appropriate. And in general
+     the partial assignment must be *total* w.r.t. the scope.
      </li>
-     <li> A rewrite function "f" is defined to take a constraint and if it is
-     applicable (ie if "f" is a rewrite rule for that constraint), it returns a
-     set of new constraints, otherwise it returns false (in some way. This may
-     be handled by a unit list and empty list rather than use of "false") .
+     <li> A rewrite function "f" is defined to take a constraint, and if it is
+     applicable (i.e., if "f" is a rewrite rule for that constraint), it returns a
+     set of new constraints, otherwise it returns false (in some way). This may
+     be handled by a unit list and empty list rather than use of "false".
      </li>
      <li> An application function is necessary to apply a given rewrite rule
      to a set of constraints. When a particular rewrite rule applies, the 
@@ -45,7 +47,7 @@ License, or any later version. */
      the application functions to sets of constraints in an interative manner.
      </li>
      <li> Starting initially with a single "aes" constraint, rewrite rules 
-     can then be iteratively applied to reduce the system to much simpler
+     can then be iteratively applied to reduce the system to simpler
      sets of constraints. </li>
     </ol>
    </li>
@@ -53,30 +55,31 @@ License, or any later version. */
     <ol>
       <li> How to name variables? Seperate variable prefixes for plaintext, 
       ciphertext, key and round key bits seem sensible, as well as seperate
-      input and output bits for each round and then a variable
-      prefix for each constraint? %Variables used when rewriting a particular
+      input and output bits for each round, and then a variable
+      prefix for each constraint? </li>
+      <li> %Variables used when rewriting a particular
       constraint would then use the variables appropriate to that constraint? 
       </li>
       <li> Indices can be used to represent that a variable belongs to a 
       particular round "r" (if applicable), and then it seems sensible to 
       provide an index "i" which specifies the position of the bit in a 
-      particular grouping, for instance the "ith" bit of the plaintext. 
-      Lastly, an index "n" to determine that this is the nth set of such
+      particular grouping, for instance the "ith" bit of the plaintext. </li>
+      <li> Lastly, an index "n" to determine that this is the nth set of such
       variables should suffice, for situations within constraint rewriting
       where multiple sets of internal variables are needed for a single
       constraint rewrite. </li>
       <li> When applying a rewrite rule "f" to a constraint "c", given that 
       a particular rewrite rule has no knowledge of the wider set of
       constraints "S_t" (only the constraint given to it), how to rename or reindex
-      the variables in the set of constraints "S_o" that "f" outputs so that 
-      internal variables (ie variables not present in the variable set "S_c" 
+      the variables in the set of constraints "S_o" that "f" outputs, so that 
+      internal variables (i.e., variables not present in the variable set "S_c" 
       for "c") do not clash with others in "S_t"? </li>
       <li> Simply take some kind of maximum index "m" derived from indices 
-      used in variables in "S_t" and then rewrite any variables in "S_o"
-      by taking the indices "u" used there and adding to them "m"? For instance
-      transforming "sbox_var(r,u,i)" to "sbox_var(r,u+m,i)". %Variables occuring
-      in "S_c" must obviously be exempt from this, but this should be trivial to
-      achieve. </li>
+      used in variables in "S_t", and then rewrite any variables in "S_o"
+      by taking the indices "u" used there and adding to them "m"? </li>
+      <li> For instance transforming "sbox_var(r,u,i)" to "sbox_var(r,u+m,i)".
+      %Variables occuring in "S_c" must obviously be exempt from this, but this
+      should be trivial to achieve. </li>
       <li> How should a given rewrite rule know which variables represent which
       bits in the problem when we consider only a set of variables? Special 
       knowledge of the system works well enough for everything outside of the 
@@ -93,9 +96,9 @@ License, or any later version. */
   \todo Encoding AES (top down)
   <ul>
    <li> Break this todo into separate todos </li>
-   <li> Using the concept of a "Constraint" (rather than condition), where this
+   <li> Using the concept of a "constraint" (rather than condition), where this
    can be represented by a tuple consisting of a name, a set of variables
-   and a function to evaluate it, given a partial assignment. </li>
+   and a function to evaluate it, given an assignment. </li>
    <li> Compare the discussion under "Condition" in
    ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp. </li>
    <li> The following needs updating, so that from the beginning
@@ -111,10 +114,9 @@ License, or any later version. */
    <li> That is, we can consider F_AES^r(p, k, c') for 0 <= r < = 10
    which encodes that encryption of p via k in r rounds yields c',
    and F'_AES^s(p', k, c) for 0 <= s < = 10
-   which encodes that decryption of c via k in s rounds yields p'.
-   We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
-   We have  F'_AES(p, k, c) = F'_AES^10(p, k, c).
-   </li>
+   which encodes that decryption of c via k in s rounds yields p'. </li>
+   <li> We have  F_AES(p, k, c) = F_AES^10(p, k, c) and
+   F'_AES(p, k, c) = F'_AES^10(p, k, c). </li>
    <li> It seams reasonable to demand that F_AES^r(p, k, c') contains
    F_AES^r'(p, k, c') for r' <= r, and the same for F'_AES^s(p', k, c).
    </li>

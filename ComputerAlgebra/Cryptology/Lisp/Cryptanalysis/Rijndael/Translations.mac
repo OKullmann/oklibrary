@@ -79,7 +79,7 @@ aes_mc_var(r,u,i) := nounify(aes_mc)(r,u,i)$
 
 /* Given a constraint, this function returns the minimum
 round number associated with any variable in the variable
-set associated with the constraint */
+set associated with the constraint. */
 /*aes_min_r(cd) := $ */
 
 /* ***************************************
@@ -102,12 +102,12 @@ set associated with the constraint */
 */
 
 /* A constraint is a tuple containing the name of the constraint (an arbitrary
-   term, the set of variables and a function to evaluate the constraint
+   term, the set of variables, and a function to evaluate the constraint
    given a partial assignment */
 /* MG : This should be defined elsewhere more generally? */
 
-/* Each constraint producing function below, takes a constraint and then produces
-a new set of constraints to replace that constraint */
+/* Each constraint-producing function below, takes a constraint and then
+   produces a new set of constraints to replace that constraint. */
 
 /* Returns a set of constraints representing 128 bit AES */
 /* MG : Should this take the block and key sizes for generalisations? */
@@ -135,10 +135,12 @@ a new set of constraints to replace that constraint */
    constraints to rewrite the input constraint to if the input constraint
    is rewritable (ie is an AES round constraint) with this rule, or the 
    empty list otherwise */
+/* OK: "sets of constraints", but length 1 ??? */
 /* MG: the round number, block and key size seem trivially parameterisable */
 /* MG: Somehow r must be found or there must be a way to determine which 
    variables are which from the given constraint, so they can be correctly
    passed to the next. */
+/* OK: Typical problem: name of the function to short, don't know what it means ??? */
 /*aes_round_cp(cd) := block([r, rs:{}],
   if first(cd) = "aes_round_cd" then block(
     r : aes_min_r(cd),
@@ -163,6 +165,7 @@ a new set of constraints to replace that constraint */
    constraints to rewrite the input constraint to if the input constraint
    is rewritable (ie is an AES shiftrows constraint) with this rule, or the 
    empty list otherwise */
+/* OK: again the contradiction "list of length 1" and "sets" ??? */
 /*aes_shiftrows_cp(cd) := block([r,rs : {}], 
   if first(cd) = "aes_shiftrows_cd" then block(
     r : aes_min_r(cd),
@@ -175,6 +178,7 @@ a new set of constraints to replace that constraint */
 )$*/
 
 /* MG: This must be changed to used constraints rather than lists of bits */
+/* OK: What is it doing ??? */
 /*aes_mixcolumns_cp([bits]) := block([r,rs:{}],
   if first(cd) = "aes_mixcolumns_cd" then block()
   else 
@@ -182,6 +186,7 @@ a new set of constraints to replace that constraint */
 )$*/
 
 /* MG: This must be changed to used constraints rather than lists of bits */
+/* OK: What is it doing ??? */
 /*aes_keyexpansion_cp([bits]) := block([rs:{}],
   if first(cd) = "aes_key_expansion_cd" then block()
   else 
@@ -189,6 +194,7 @@ a new set of constraints to replace that constraint */
 )$*/
 
 /* MG: This must be changed to used constraints rather than lists of bits */
+/* OK: What is it doing ??? */
 /*aes_sbox_cp([bits]) := block([rs:{}],
   if first(cd) = "aes_sbox_cd" then block()
   else 
