@@ -176,8 +176,8 @@ sat_pa(phi,F) := subset(F, lambda([C], is(apply_pa(phi,{C}) = {})))$
 /* Test for a satisfying assignment w.r.t. a clause-set */
 satisfyingpap(phi,F) := is(sat_pa(phi,F) = F)$
 
-/* the set of satisfied, falsified, untouched and critical clauses for
-   a partial assignment w.r.t. a clause-set */
+/* The set of satisfied, falsified, untouched and critical (original) clauses
+   for a partial assignment w.r.t. a clause-set. */
 analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
  for C in F do block([r : apply_pa(phi,{C})],
   if r = {} then s : adjoin(C,s)

@@ -19,6 +19,18 @@ License, or any later version. */
   \todo Write docus
 
 
+  \todo Basic functionality
+  <ul>
+   <li> Check whether a partial assignment is an autarky:
+    <ol>
+     <li> See
+     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac. </li>
+     <li> Use analyse_pa. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Basic translation
   <ul>
    <li> Implement the basic translation, which just translates
