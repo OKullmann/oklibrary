@@ -43,13 +43,6 @@ should go to plans-files. */
 /* REMARK : We need documentation (as docus) on gf and these functions. */
 
 /* 
-   Global field variable used to keep a record of the default field to be used
-   when a field is not provided as an argument to egf_add etc. 
-*/
-define_variable(egf_field, 'egf_field, any_check);
-egf_field : [2,1,[x]]$ /* Default to GF(2) */
-
-/* 
    Allows the default field that all operations (egf_*) will be performed in to
    be set if a field argument is not specified. If a field argument is specified
    to any of the given commands, then that field is used only for the given
@@ -62,52 +55,48 @@ egf_set(field) := (
 
 /*
    Maps any given gf_* function (func) to a egf_* function by allowing it to 
-   take a field or use the default field otherwise.
+   take a field as an argument.
    OK: ???
 */
-egf_func(func,numargs,args) := (
-  if length(args) > numargs then block(
+egf_func(func,args) := block(
     apply(gf_set, first(args)),
     result : apply(func,rest(args)),
-    apply(gf_set,egf_field),
-    return(result))
-  else
-    apply(func, args))$
+    return(result))$
 
 /* 
    Analogue of gf_add, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_add([args]) := egf_func(gf_add, 2, args)$
+egf_add([args]) := egf_func(gf_add, args)$
 
 /* 
    Analogue of gf_mul, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_mul([args]) := egf_func(gf_mul, 2, args)$
+egf_mul([args]) := egf_func(gf_mul, args)$
 
 /* 
    Analogue of gf_matmul, which optionally takes an additional field argument
    (as the first argument) to specify that this operation should be performed
    in the given field.
 */
-egf_matmul([args]) := egf_func(gf_matmul, 2, args)$
+egf_matmul([args]) := egf_func(gf_matmul, args)$
 
 /* 
    Analogue of gf_matinv, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_matinv([args]) := egf_func(gf_matinv, 1, args);
+egf_matinv([args]) := egf_func(gf_matinv, args);
 
 /* 
    Analogue of gf_inv, which optionally takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
-egf_inv([args]) := egf_func(gf_inv, 1, args)$
+egf_inv([args]) := egf_func(gf_inv, args)$
 
 
 

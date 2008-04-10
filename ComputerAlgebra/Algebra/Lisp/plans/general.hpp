@@ -15,6 +15,10 @@ License, or any later version. */
 
   \todo Tests
 
+  \todo Docus
+
+  \todo Demos
+
 
   \bug Finite Fields package function doesn't terminate
   <ul>
@@ -68,6 +72,14 @@ License, or any later version. */
     seconds or more on a current machine) to this operation. </li>
     <li> Perhaps have this operation check to see if the field being set is
     different to the current field and only then call gf_set? </li>
+    <li> It seems the only real option is to pass the field being used in
+    with every call to "egf_add" etc, otherwise we can potentially end up in
+    an inconsistent state if "gf_set" is called outside of the "egf" functions.
+    (MG: I believe the overall slowness attributed to use of "gf_set" 
+    originally was due to my use of an older version of the "gf" package and
+    the speed issues have now been resolved, since by default it no longer
+    checked that the modulo polynomial is irreducible when gf_set is called
+    (this can be enabled by setting a particular option). </li>
    </ol>
    </li>
    <li> Move the interface to the gf-package into a seperate module / .mac
