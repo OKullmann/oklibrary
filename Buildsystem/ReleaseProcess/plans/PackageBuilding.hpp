@@ -26,6 +26,8 @@ License, or any later version. */
   <ul>
    <li> The goal is that the user can use "git pull", which pulls
    from the public repository. </li>
+   <li> Currently the local repository, from which the package
+   is created, is stored via "git pull", which isn't suitable. </li>
   </ul>
 
 
