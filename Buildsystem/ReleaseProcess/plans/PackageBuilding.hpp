@@ -22,6 +22,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Providing update mechanisms for the package-clone
+  <ul>
+   <li> The goal is that the user can use "git pull", which pulls
+   from the public repository. </li>
+  </ul>
+
+
   \todo CreatePackage extensions
   <ul>
    <li> Regarding the git-ignore-file, ignoring the makefiles should also be
