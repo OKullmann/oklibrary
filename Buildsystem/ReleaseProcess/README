@@ -32,6 +32,10 @@ For creation of documentation we also need:
  - Latex
  - the m4 preprocessor.
 
+And for pulling from a git repository via the http protocoll we need
+
+ - the curl development libraries.
+
 Any recent Linux distribution supplies these prerequisites.
 
 There are other Unix/Linux tools, which some "lean distributions"
