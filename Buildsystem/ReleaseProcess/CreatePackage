@@ -34,7 +34,7 @@ mkdir OKplatform/ExternalSources
 cd OKplatform/OKsystem
 
 if [ ${git_upstream:+1} ]; then
-  git_origin="--option ${git_upstream}"
+  git_origin="--origin ${git_upstream}"
 else
   git_origin=""
 fi
