@@ -32,7 +32,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 /* Generation of the full DNF clause-set representing the AES sbox */
 generate_full_aes_sbox_dnf_fcs() :=  
   cs_to_fcs(map(lambda([ce],binary_list_to_dnf_c(
-    append(polynomial2list(ce,8),polynomial2list(lookup_sbox(ce),8)))),
+    append(polynomial2list(ce,8),polynomial2list(
+      intToGF2t8Poly(lookup_sbox(GF2t8PolyToInt(ce))),8)))),
     map(lambda([se], xreduce(lambda([a,b],a+b),se,0)), 
       powerset(setify(makelist(x^i,i,0,7))))))$
 
@@ -50,8 +51,9 @@ test_CNF_aes_sbox(FF) :=
    a backtracking solver (without reduction) */
 hitting_cnf_aes_sbox(h) := dualtreehittingcls_condensed_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
 
-/* Convert a given polynomial to a list of coefficients of length n */
-/* OK : in which order? */
+/* Convert a given polynomial to a list of coefficients of length n,
+   where the first element of the list is the coefficient of the 
+   highest order of x in the polynomial.*/
 polynomial2list(poly,n) := makelist(coeff(poly, x, n-i),i,1,n)$
 
 /* Generate a DNF clause from a list of values in {0,1} */
