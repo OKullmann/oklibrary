@@ -10,6 +10,18 @@ License, or any later version. */
   \brief General plans regarding the Maxima computer algebra system
 
 
+  \todo File load and include
+  <ul>
+   <li> The issue occurs that various maxima modules such as "graphs" take a 
+   considerable time to load (~0.5 seconds on a modern machine) and such a load
+   occurs in various very basic modules in the library such as 
+   Satisfiability/Lisp/BasicOperations.mac which is included in many files. 
+   <li>This isn't a problem usually but each new file that then includes 
+   BasicOperations.mac then increases the time for oklib_load_all() to run by at
+   least that ~0.5 seconds which adds up quite considerably over time. </li>
+   <li> Perhaps such modules could only be loaded once? </li>
+  </ul>
+
   \todo Debugging
   <ul>
    <li> Again and again it happens that somehow the Lisp-debugger is entered,
