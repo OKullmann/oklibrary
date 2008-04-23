@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
 /* Use "assert(expr)" to state that expr shall evaluate to true. */
 assert('expr) := block([error_size : error_size], error_size : 1000,
-  if is(expr) then true elseif not oklib_automatic_test then
+  if ev(expr) then true elseif not oklib_automatic_test then
     error("ASSERT: Expression \"", ev(expr), "\" does not evaluate to true.")
   else (
     with_stdout(test_output_okl, print("ASSERT: Expression \"", ev(expr), "\" does not evaluate to true.")),
