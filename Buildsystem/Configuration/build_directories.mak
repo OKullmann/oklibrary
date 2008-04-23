@@ -38,6 +38,9 @@ test_lib_dir = $(lib_dir)/tests/$(module-name)
 # Directory for current module test dependency files:
 test_aux_dir = $(aux_dir)/tests/$(module-name)
 
+# Directory for Maxima test-files:
+maxima_test_aux_dir_okl ?= $(aux_dir)/tests/maxima
+
 # Directory for log-files:
 log_dir ?= $(system_directories)/log
 
@@ -67,6 +70,7 @@ build_directories = \
                $(test_bin_dir) \
                $(test_lib_dir) \
                $(test_aux_dir) \
+               $(maxima_test_aux_dir_okl) \
                $(local_html_dir) \
                $(internet_html_dir) \
                $(log_dir) \

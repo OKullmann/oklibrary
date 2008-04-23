@@ -22,6 +22,26 @@ License, or any later version. */
   </ul>
 
 
+  \todo Providing update mechanisms for the package-clone
+  <ul>
+   <li> git_public_repository must be set (typically in override.mak) to
+   the full local path to the oklib-repository accessible from the
+   Internet. </li>
+   <li> The current value is
+   "/home/csoliver/cs-svr1/csoliver/public_html/ok-sat-library/git/Transitional"
+   </li>
+   <li> git_main_repository must be set (typically in override.mak) to the
+   URL for the main (shared) repository. </li>
+   <li> git_http_repository (again, typically in override.mak) finally is the
+   http-address for git_public_repository; current value is
+   "http://cs.swan.ac.uk/~csoliver/ok-sat-library/git/Transitional/". </li>
+   <li> DONE The goal is that the user can use "git pull", which pulls
+   from the public repository. </li>
+   <li> DONE Currently the local repository, from which the package
+   is created, is stored via "git pull", which isn't suitable. </li>
+  </ul>
+
+
   \todo CreatePackage extensions
   <ul>
    <li> Regarding the git-ignore-file, ignoring the makefiles should also be

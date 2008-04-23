@@ -15,7 +15,8 @@ License, or any later version. */
 
   \todo Outline of the test system
   <ul>
-   <li> Ask on the Maxima mailing list, whether they have a system in use.
+   <li> DONE (we roll our own)
+   Ask on the Maxima mailing list, whether they have a system in use.
     <ol>
      <li> Apparently, they only have a system where they put expressions and expected
      values into files. That's insufficient. </li>
@@ -32,7 +33,9 @@ License, or any later version. */
      the function to be tested), respectively. </li>
     </ol>
    </li>
-   <li> Execution of the tests:
+   <li> DONE (at least at this time, we just rely on Maxima evaluating all
+   expressions in the file, and do not have our own mechanism for running tests)
+   Execution of the tests:
     <ol>
      <li> Like with the C++ system, in the testobjects-files
      one finds instructions for loading the "testobjects" into a global list
@@ -55,7 +58,11 @@ License, or any later version. */
    </li>
    <li> Asserts:
     <ol>
-     <li> In ComputerAlgebra/TestSystem/Lisp/Asserts.mac we have implemented
+     <li> DONE (when using the buildsystem, then the file with the error is
+     printed, while when calling tests directly, then the caller knows about
+     the filenames, so the apparent inability of Maxima to output better
+     filenames is not so harmful here)
+     In ComputerAlgebra/TestSystem/Lisp/Asserts.mac we have implemented
      first assert-functions, which seem to work (and so the discussions below
      perhaps are outdated).
       <ol>
@@ -67,19 +74,26 @@ License, or any later version. */
        using (some part of) the path. </li>
       </ol>
      </li>
-     <li> As with the C++ system, we have some special "asserts" for conditions,
+     <li> DONE (only for floating-point comparisons we use a special assert,
+     but otherwise we do not write special asserts --- too much trouble)
+     As with the C++ system, we have some special "asserts" for conditions,
      which also provide error-messages. </li>
-     <li> Every test-function returns just true in case of success,
+     <li> DONE (in the case of an error there is no return-value, since
+     we just abort the test-function)
+     Every test-function returns just true in case of success,
      while otherwise false is returned --- though the return value
      likely is not much of use, but the real output is the side
      effect that an error-message is printed, using "error" (this
      should cause abortion). </li>
-     <li> The "backtrace()"-call is useful here: In case of
+     <li> DONE (apparently it doesn't work when called by ourselfes)
+     The "backtrace()"-call is useful here: In case of
      an error not just the error message is printed, but also the trace of
      function calls. </li>
-     <li> Perhaps we create a macro for this error-output (similar
+     <li> DONE (yet the simple system suffices)
+     Perhaps we create a macro for this error-output (similar
      to the C++-macro). </li>
-     <li> Is it possible to provide information about the file etc. where
+     <li> DONE (this could be considered later)
+     Is it possible to provide information about the file etc. where
      the error-message was issued? Seems not to be possible. So perhaps
      some global variables are set, and in case of an error a maxima session
      is opened? For that we need to evaluate each term with "errcatch", and
@@ -108,16 +122,25 @@ License, or any later version. */
        than "backtrace". </li>
       </ul>
      </li>
-     <li> On the other hand, just using the error-function seems to provide
+     <li> DONE (yes, at least for now it's sufficient).
+     On the other hand, just using the error-function seems to provide
      enough information?!? </li>
-     <li> There is a global variable "test_level" for the test-level. </li>
-     <li> And perhaps also "log_level". </li>
-     <li> Since we don't have namespaces, we need naming-conventions.
+     <li> DONE (it's called "oklib_test_level")
+     There is a global variable "test_level" for the test-level. </li>
+     <li> DONE (yet no need for that)
+     And perhaps also "log_level". </li>
+     <li> DONE (for now that mmust suffice)
+     Since we don't have namespaces, we need naming-conventions.
      Perhaps "okltest_" as generic prefix. </li>
-     <li> Each test-function has one argument, the function to be tested. </li>
+     <li> DONE Each test-function has one argument, the function to be tested.
+     </li>
     </ol>
    </li>
-   <li> "oklib check" is also responsible for the maxima-tests, via a sub-goal
+   <li> DONE (actually, it is now "oklib new_check"; later we should, perhaps
+   under "full" and "extensive", also run the tests in the full
+   oklib-environment, i.e., calling oklib_load_all() first; and then also
+   calling the tests twice (within the same environment))
+   "oklib check" is also responsible for the maxima-tests, via a sub-goal
    (so that also only the maxima-tests can be involved).
     <ol>
      <li> After loading all testobject-files, a function "run_testokl" is called
@@ -150,7 +173,9 @@ License, or any later version. */
        level. </li>
       </ol>
      </li>
-     <li> Perhaps actually simplest is that "oklib check" gathers all
+     <li> DONE (basically it's done like that, but without any special
+     include-hierarchies; yet for every level we need a generic makefile)
+     Perhaps actually simplest is that "oklib check" gathers all
      testobject-files (by "find"), writes "oklib_load"-instructions
      accordingly into a file "okltest", and then just runs Maxima, using the
      option "--batch=okltest".
@@ -175,7 +200,9 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> First rough "script" for running the tests
+   <li> DONE (error messages are output to a file, and in this way we detect the
+   presence of an error)
+   First rough "script" for running the tests
     <ol>
      <li>
      \verbatim

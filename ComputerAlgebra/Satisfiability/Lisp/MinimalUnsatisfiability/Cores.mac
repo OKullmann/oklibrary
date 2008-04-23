@@ -43,31 +43,10 @@ contains_us_bydef(F, k, S) :=
  not every(lambda([G], S([var_cs(G),G])), powerset(F,min(k,ncl_cs(F))))$
 
 
-/* **********************************************
-   * Scanning and sampling of irredundant cores *
-   **********************************************
+/* ***********************************
+   * Computing all irredundant cores *
+   ***********************************
 */
-
-/* Returns some minimally unsatisfiable sub-clause-set of input FF,
-   a formal unsatisfiable clause-set (trivial heuristics, removing
-   the first possible clause). */
-first_mus_fcs(FF, S) := block(
- [V : FF[1], F : FF[2], Core : {}],
-  for C in FF[2] do (
-      if S([V, disjoin(C,F)]) then 
-        Core : adjoin(C,Core) 
-      else F : disjoin(C,F)),
-  return([V,Core]))$
-/* More generally, returns some irredundant core of input FF,
-   (trivial heuristics, removing the first possible clause). */
-first_irr_fcs(FF, S) := block(
- [V : FF[1], F : FF[2], Core : {}],
-    for C in FF[2] do
-      if not impliesp_f([V,disjoin(C,F)],C,S) then 
-        Core : adjoin(C,Core)
-      else F : disjoin(C,F),
-  return([V,Core]))$
-
 
 /* The set of all irredundant cores of a formal clause-set, using
    solver S. */
@@ -124,6 +103,37 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
   Forced : adjoin(C,Forced), potentially_unusable_clauses : true,
   return(union(Cores_without_C, all_forced_irr_cores_bydef(Forced,Possible,S)))))$
 
+
+/* *************************************************
+   * Heuristical search for some irredundant cores *
+   *************************************************
+*/
+
+/* Returns some minimally unsatisfiable sub-clause-set of input FF,
+   a formal unsatisfiable clause-set (trivial heuristics, removing
+   the first possible clause). */
+first_mus_fcs(FF, S) := block(
+ [V : FF[1], F : FF[2], Core : {}],
+  for C in FF[2] do (
+      if S([V, disjoin(C,F)]) then 
+        Core : adjoin(C,Core) 
+      else F : disjoin(C,F)),
+  return([V,Core]))$
+/* More generally, returns some irredundant core of input FF,
+   (trivial heuristics, removing the first possible clause). */
+first_irr_fcs(FF, S) := block(
+ [V : FF[1], F : FF[2], Core : {}],
+    for C in FF[2] do
+      if not impliesp_f([V,disjoin(C,F)],C,S) then 
+        Core : adjoin(C,Core)
+      else F : disjoin(C,F),
+  return([V,Core]))$
+
+
+/* *********************************
+   * Sampling of irredundant cores *
+   *********************************
+*/
 
 /* A sample of at most N elements of the set of all irredundant cores,
    where for the recursive branching with probability p first the left
