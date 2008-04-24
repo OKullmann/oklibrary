@@ -295,12 +295,15 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      \verbatim
 Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-upload-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
      \endverbatim
+     Here the upload-pack-address is on the machine issuing the pull.
      </li>
      <li> For "push" the following should work:
      \verbatim
 Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
      \endverbatim
-     however this creates the error
+     (again, the receive-pack-address is on the pushing machine). This works
+     with the (bare) public repository, pushing to cs-wsok however this creates
+     the error
      \verbatim
 Password:
 Counting objects: 133, done.
