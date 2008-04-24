@@ -112,6 +112,7 @@ all_forced_irr_cores_bydef(Forced, Possible, S) := block(
 /* Returns some minimally unsatisfiable sub-clause-set of input FF,
    a formal unsatisfiable clause-set (trivial heuristics, removing
    the first possible clause). */
+/* The set of variables of the result is the original set. */
 first_mus_fcs(FF, S) := block(
  [V : FF[1], F : FF[2], Core : {}],
   for C in FF[2] do (
