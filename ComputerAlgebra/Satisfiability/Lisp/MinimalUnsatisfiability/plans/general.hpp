@@ -21,6 +21,8 @@ License, or any later version. */
    <li> In
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
    we have 2 generators for elements of SMUSAT(1). </li>
+   <li> Further generators in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac. </li>
    <li> See Experimentation/Investigations/plans/general.hpp. </li>
   </ul>
 

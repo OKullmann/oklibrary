@@ -14,7 +14,13 @@ License, or any later version. */
   <ul>
    <li> Pigeonhole formulas </li>
    <li> %Ramsey problems </li>
-   <li> Special minimally unsatisfiable clause-sets </li>
+   <li> Special minimally unsatisfiable clause-sets
+    <ol>
+     <li> The documentation should mention random_splitting_mus in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SplittingAnalysis.mac
+     </li>
+    </ol>
+   </li>
    <li> The translations are not generators, and should go somewhere else.
     <ol>
      <li> Perhaps to modules related to the problems they solve (by
