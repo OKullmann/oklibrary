@@ -24,6 +24,9 @@ License, or any later version. */
    BasicOperations.mac then increases the time for oklib_load_all() to run by at
    least that ~0.5 seconds which adds up quite considerably over time. </li>
    <li> Perhaps such modules could only be loaded once? </li>
+   <li> So a function very similar to "oklib_include" should be written, which
+   only loads the named file once, while not doing any path-administration, but
+   just using plain "load". </li>
   </ul>
 
   \todo Debugging
