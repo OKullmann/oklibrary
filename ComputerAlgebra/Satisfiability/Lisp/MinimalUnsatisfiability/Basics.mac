@@ -52,6 +52,20 @@ all_irrcl_bydef(FF,S) := block([V : FF[1], F : FF[2], I : {}],
     if not impliesp_f([V,disjoin(C,F)],C,S) then I : adjoin(C,I),
   return(I))$
 
+/* Returns true iff input FF is saturated minimally unsatisfiable. */
+saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
+ every(lambda([x],min_unsat_bydef(apply_pa_f({x},FF),solver)), literals_v(FF[1]))$
+
+/* Return the set of partial assignments of size at most 1 which after
+   application do not result in a minimally unsatisfiable clause-set. */
+/* So saturated_min_unsat_bydef(FF) = true iff non_saturating_pas_bydef(FF) = {}. */
+non_saturating_pas_bydef(FF,solver) := block(
+ [assignments : union({{}}, map(lambda([x],{x}),literals_v(FF[1]))),
+  result : {}],
+  for phi in assignments do
+    if not min_unsat_bydef(apply_pa_f(phi,FF),solver) then
+      result : adjoin(phi,result),
+  return(result))$
 
 /*!
 \endhtmlonly

@@ -67,6 +67,31 @@ okltest_all_irrcl_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1},{1,2}}],S) = {{1}}),
   true)$
 
+okltest_saturated_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{}],S) = false),
+  assert(f([{},{{}}],S) = true),
+  assert(f([{1},{{}}],S) = true),
+  assert(f([{1},{{1}}],S) = false),
+  assert(f([{1},{{1},{-1}}],S) = true),
+  assert(f([{1,2},{{}}],S) = true),
+  assert(f([{1,2},{{1,2},{-1},{-2}}],S) = false),
+  assert(f([{1,2},{{1,2},{-1,2},{-2}}],S) = true),
+  assert(f([{1,2},{{1,2},{-1},{-2,1}}],S) = true),
+  true)$
+
+okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
+  assert(f([{},{}],S) = {{}}),
+  assert(f([{},{{}}],S) = {}),
+  assert(f([{1},{{}}],S) = {}),
+  assert(f([{1},{{1}}],S) = {{},{1}}),
+  assert(f([{1},{{1},{-1}}],S) = {}),
+  assert(f([{1,2},{{}}],S) = {}),
+  assert(f([{1,2},{{1,2},{-1},{-2}}],S) = {{1},{2}}),
+  assert(f([{1,2},{{1,2},{-1,2},{-2}}],S) = {}),
+  assert(f([{1,2},{{1,2},{-1},{-2,1}}],S) = {}),
+  true)$
+
+
 /*!
 \endhtmlonly
 */
