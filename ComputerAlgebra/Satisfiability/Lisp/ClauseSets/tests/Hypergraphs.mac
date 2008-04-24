@@ -23,7 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
-
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 
 kill(f)$
 
@@ -118,6 +118,29 @@ okltest_max_deficiency_fcs(f) := block(
   assert(f([{1,2},{{1},{-1}}]) = 1),
   true)$
 
+
+/* ************
+   * Analysis *
+   ************
+*/
+
+okltest_var_disjointp(f) := (
+  assert(f([{},{}],[{},{}]) = true),
+  assert(f([{},{}],[{},{{}}]) = true),
+  assert(f([{},{{}}],[{},{{}}]) = true),
+  assert(f([{1},{{}}],[{},{{}}]) = true),
+  assert(f([{},{{}}],[{2},{{}}]) = true),
+  assert(f([{1},{{}}],[{1},{{}}]) = false),
+  true)$
+
+okltest_accumulation_variables_fcs(f) := (
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = {}),
+  assert(f([{1},{}]) = {1}),
+  assert(f([{1,2},{}]) = {}),
+  for n : 0 thru 3 do block([FF : full_fcs(n)],
+    assert(f(FF) = if n <= 1 then setn(n) else {})),
+  true)$
 
 /*!
 \endhtmlonly

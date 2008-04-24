@@ -97,6 +97,23 @@ deficiency_cs(F) := deficiency_fcs(cs_to_fcs(F))$
 /* The maximal deficiency of a formal clause-set */
 max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(cl_var_graph(FF))))$
 
+
+/* ************
+   * Analysis *
+   ************
+*/
+
+var_disjointp(FF1,FF2) := disjointp(FF1[1],FF2[1])$
+
+/* The set of accumulation variables of a clause-set */
+accumulation_variables_fcs(FF) := block(
+ [V : FF[1],
+  result : {}],
+  for v in V do 
+    if var_disjointp(apply_pa_f({v},FF), apply_pa_f({-v},FF)) then
+      result : adjoin(v,result),
+  return(result))$
+
 /*!
 \endhtmlonly
 */

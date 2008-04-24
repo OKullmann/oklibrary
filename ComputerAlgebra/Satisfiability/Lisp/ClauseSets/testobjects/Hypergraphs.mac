@@ -46,6 +46,14 @@ okltest_max_degree_cvg_cs(max_degree_cvg_cs);
 okltest_deficiency_fcs(deficiency_fcs);
 okltest_max_deficiency_fcs(max_deficiency_fcs);
 
+/* ************
+   * Analysis *
+   ************
+*/
+
+okltest_var_disjointp(var_disjointp);
+
+okltest_accumulation_variables_fcs(accumulation_variables_fcs);
 
 /*!
 \endhtmlonly
