@@ -29,6 +29,11 @@ okltest_inv_sbox(lookup_inv_sbox);
 okltest_shiftrows(shiftrows);
 okltest_inv_shiftrows(inv_shiftrows);
 
+okltest_mixcolumn(lookup_mixcolumn);
+okltest_inv_mixcolumn(lookup_inv_mixcolumn);
+/* okltest_mixcolumn(mixcolumn);
+okltest_inv_mixcolumn(inv_mixcolumn); */
+
 okltest_mixcolumns(mixcolumns);
 okltest_inv_mixcolumns(inv_mixcolumns);
 

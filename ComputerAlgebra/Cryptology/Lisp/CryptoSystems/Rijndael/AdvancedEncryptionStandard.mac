@@ -20,9 +20,13 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 */
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac");
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac");
+
+/*load("functs")$ Bug Here atm  For logxor */
 
 /* ***************************************
    * Constants                           *
@@ -37,7 +41,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
    GF(p^n) is defined with operations being performed on polynomials over 
    GF(p) modulo ip.
 */
-rijndael_bit_field : [2,1,[x]]$
+rijndael_bit_field : [2,1,x]$
 
 /*
    Polynomial irreducible over GF(2) used as the modulus in Rijndael to define 
@@ -83,17 +87,41 @@ polynomial2vector(poly, n) :=
 vector2polynomial(v) := block([n : length(v)],
     sum(v[i][1] * x^(n - i), i, 1, n))$
 
+/* ***************************************
+   * Custom Field Operations             *
+   ***************************************
+*/
+
+/* Field function definitions for convenience */
+
+egf2_matmul(a,b) := egf_matmul(rijndael_bit_field,a,b)$
+
+egf2t8_add(a,b) := egf_add(rijndael_byte_field,a,b)$
+egf2t8_inv(a) := egf_inv(rijndael_byte_field,a)$
+egf2t8_matmul(a,b) := egf_matmul(rijndael_byte_field,a,b)$
 
 /* ***************************************
    * Main Round Functions                *
    ***************************************
 */
 
-/* 
-   First of all set the default field. All operations will be performed in the
-   byte field unless otherwise specified.
-*/
-egf_set(rijndael_byte_field);
+/* Converts an integer to a polynomial representing an element in rijndael's 
+   byte field. This considers the integer as it's base 2 representation and
+   then the left most bit is coefficient for the highest order term. */
+intToGF2t8Poly(e) := intToPoly(e,2)$
+
+/* Converts a polynomial to an integer representing an element in rijndael's 
+   byte field. This considers the integer as it's base 2 representation and
+   then the left most bit is coefficient for the highest order term. */
+GF2t8PolyToInt(e) := polyToInt(e,2,x)$
+
+/* AES finite field addition with integers as input and output */
+aes_gf2t8_add(byteia,byteib) := 
+  GF2t8PolyToInt(egf2t8_add(intToGF2t8Poly(byteia),intToGF2t8Poly(byteib)))$
+
+/* AES finite field addition with integers as input using inbuilt 
+   logical operators */
+aes_log_gf2t8_add(byteia,byteib) := ?logxor(byteia,byteib)$
 
 /* Constant used in the affine transformation within sbox */
 rijndael_affine_constant : x^6 + x^5 + x + 1$
@@ -109,34 +137,34 @@ rijndael_inv_sbox_matrix : apply(matrix,
 
 /* AES sbox. Takes a value in GF(2^8) and returns the result of applying the
    Rijndael Sbox operation on the value. */
-sbox(byte) := 
-  block([invbyte,result],
+sbox(bytei) := 
+  block([invbyte,result,byte : intToGF2t8Poly(bytei)],
   if byte = 0 then 
-    rijndael_affine_constant
+    GF2t8PolyToInt(rijndael_affine_constant)
   else block([invbyte,result],
-    invbyte : egf_inv(byte),
-    result : egf_matmul(rijndael_bit_field,rijndael_sbox_matrix,
+    invbyte : egf2t8_inv(byte),
+    result : egf2_matmul(rijndael_sbox_matrix,
       polynomial2vector(invbyte,8)),
-    return(egf_add(vector2polynomial(result),
-      rijndael_affine_constant))))$
+    return(GF2t8PolyToInt(egf2t8_add(vector2polynomial(result),
+      rijndael_affine_constant)))))$
 
 /* Inverse of sbox */
-inv_sbox(byte) :=
-  block([final_result, result],
-    result : egf_matmul(rijndael_bit_field,rijndael_inv_sbox_matrix,
+inv_sbox(bytei) :=
+  block([final_result, result,byte : intToGF2t8Poly(bytei)],
+    result : egf2_matmul(rijndael_inv_sbox_matrix,
       polynomial2vector(byte,8)),
-    final_result : egf_add(vector2polynomial(result),
+    final_result : egf2t8_add(vector2polynomial(result),
       rijndael_inv_affine_constant),
     if (final_result = 0) then 0
-    else egf_inv(final_result)
+    else GF2t8PolyToInt(egf2t8_inv(final_result))
 )$
 
 /* Sbox implementation that utilises a lookup array to provide fast operation */
-lookup_sbox(byte) := sbox_data[totaldisrep(byte)];
+lookup_sbox(bytei) := sbox_data[bytei+1];
 
 /* Inverse Sbox implementation that utilises a lookup array to provide 
    fast operation */
-lookup_inv_sbox(byte) := inv_sbox_data[totaldisrep(byte)];
+lookup_inv_sbox(bytei) := inv_sbox_data[bytei+1];
 
 /* 
    Takes the input block as a list of 16 bytes and applies
@@ -190,9 +218,18 @@ rijndael_inv_mixcolumns_matrix :apply(matrix,
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block. */
-mixcolumn(inputblock) :=
-  matrixcolumns(
-    egf_matmul(rijndael_mixcolumns_matrix,columns2matrix([inputblock])))[1]$
+mixcolumn(inputblocki) :=
+  map(GF2t8PolyToInt,matrixcolumns(
+    egf2t8_matmul(rijndael_mixcolumns_matrix,
+      columns2matrix([map(intToGF2t8Poly,inputblocki)])))[1])$
+
+/* Mixcolumn operation applied to the elements of a single
+   column in the AES/Rijndael block using lookups for
+   multiplications.*/
+lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
+  lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
+  map(lambda([a], xreduce(?logxor,a)),
+  makelist(map(lookup_field_mul,rotate([2, 3, 1, 1], i),inputblocki),i,0,3)))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -211,6 +248,15 @@ mixcolumns(inputblock,mixcolumn_f) :=
 inv_mixcolumn(inputblock) :=
   block([rijndael_mixcolumns_matrix : rijndael_inv_mixcolumns_matrix],
     mixcolumn(inputblock))$
+
+/* Mixcolumn operation applied to the elements of a single
+   column in the AES/Rijndael block using lookups for
+   multiplications.*/
+lookup_inv_mixcolumn(inputblocki) := block([lookup_field_mul],
+  lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
+  map(lambda([a], xreduce(?logxor,a)),
+  makelist(map(lookup_field_mul,rotate([14,11,13,9], i),inputblocki),i,0,3)))$
+
 /*
    Takes a list of GF(2^8) elements (the block), and
    performs the inverse mixcolumns operation, returning the resulting
@@ -226,17 +272,20 @@ inv_mixcolumns(inputblock,inv_mixcolumn_f) :=
   of the plaintext block, and the number of rounds and returns the expanded key
   (all of the round keys as one large block) as a list of GF(2^8) elements.
 */
-key_expansion(kl, n_b ,n_r, sbox_f) := block(
+key_expansion(kl, n_b ,n_r, sbox_f, aes_add) := block(
   [n_k : length(kl) / 4, 
   cols : matrixcolumns(apply(matrix,partition_elements(kl, 4))) ],
   for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
     if mod(j, n_k) = 0 then block (
-      column[1] : egf_add(cols[j-n_k+1][1], 
-        egf_add(sbox_f(cols[j][2]), x^(floor(j/n_k) -1))),
+      column[1] : aes_add(cols[j-n_k+1][1], 
+        aes_add(sbox_f(cols[j][2]), 
+          xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
+            makelist(2,i,1,(floor(j/n_k) -1)),1))),
       for i : 1 thru 3 do 
-        column[i+1] : egf_add(cols[j-n_k+1][i+1], sbox_f(cols[j][mod(i+1,4)+1])))
+        column[i+1] : 
+          aes_add(cols[j-n_k+1][i+1], sbox_f(cols[j][mod(i+1,4)+1])))
     else for i : 1 thru 4 do 
-      column[i] : egf_add(cols[j][i], cols[j-n_k+1][i]),
+      column[i] : aes_add(cols[j][i], cols[j-n_k+1][i]),
     cols : append(cols, [column])),
   return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
     partition_elements(cols,n_b))))
@@ -248,26 +297,29 @@ key_expansion(kl, n_b ,n_r, sbox_f) := block(
    returns a list of the same size of GF(2^8) elements as the plaintext
    as the result of the round operation. 
  */
-aes_round(pl, rkl, sbox_f, mixcolumn_f) := 
-  map(egf_add,mixcolumns(shiftrows(subbytes(pl,sbox_f)),mixcolumn_f), rkl)$
-inv_aes_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f) := 
+aes_round(pl, rkl, sbox_f, mixcolumn_f, aes_add) := 
+  map(aes_add,
+    mixcolumns(shiftrows(subbytes(pl,sbox_f)),mixcolumn_f),rkl)$
+inv_aes_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f,aes_add) := 
   inv_subbytes(inv_shiftrows(
-    inv_mixcolumns(map(egf_add,pl,rkl),inv_mixcolumn_f)), inv_sbox_f)$
+    inv_mixcolumns(map(aes_add,pl,rkl),inv_mixcolumn_f)), inv_sbox_f)$
 
 /* 
    Takes the plaintext list of 16 GF(2^8) elements, the key list of 16
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    encryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
+aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
-  ekl : partition_elements(key_expansion(kl,n_b,num_rounds, sbox_f),n_b*4),
+  ekl : partition_elements(
+    key_expansion(kl,n_b,num_rounds,sbox_f,aes_add),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
-  initial_result : lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f)),
-    rest(rest(ekl), -1), map(egf_add,pl,initial_rk)),
+  initial_result : 
+    lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f,aes_add)),
+    rest(rest(ekl), -1), map(aes_add,pl,initial_rk)),
   /* Final Round */
-  map(egf_add,shiftrows(subbytes(initial_result,sbox_f)), final_rk)
+  map(aes_add,shiftrows(subbytes(initial_result,sbox_f)), final_rk)
 )$
 
 /* 
@@ -275,19 +327,40 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f) := block(
    GF(2^8) elements and returns the result of applying the 128 bit AES 
    decryption algorithm (hence number of rounds is assumed to be 10).
 */
-aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f) := block(
+aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
   [n_b : length(pl)/4, num_rounds : 10], 
   /* Initial Rounds */
-  ekl : partition_elements(key_expansion(kl,n_b,num_rounds,sbox_f),n_b*4),
+  ekl : partition_elements(
+    key_expansion(kl,n_b,num_rounds,sbox_f,aes_add),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   initial_result : 
-    inv_subbytes(inv_shiftrows(map(egf_add,pl,final_rk)), inv_sbox_f),
-  map(egf_add, rreduce(lambda([a,b],
-    inv_aes_round(a,b,inv_sbox_f,inv_mixcolumn_f)), 
+    inv_subbytes(inv_shiftrows(map(aes_add,pl,final_rk)), inv_sbox_f),
+  map(aes_add, rreduce(lambda([a,b],
+    inv_aes_round(a,b,inv_sbox_f,inv_mixcolumn_f,aes_add)), 
     rest(rest(ekl), -1), initial_result), initial_rk)
 )$
 
+/* **********************************************
+   * Methods of Encryption/Decryption           *
+   **********************************************
+*/
+
+/* AES Encryption using lookup tables */
+aes_encrypt_l(p,k) := 
+  aes_encrypt(p,k,lookup_sbox,lookup_mixcolumn,aes_log_gf2t8_add)$
+
+/* AES Encryption using field operations */
+aes_encrypt_f(p,k) := 
+  aes_encrypt(p,k,sbox,mixcolumn,aes_gf2t8_add)$
+
+/* AES Decryption using lookup tables */
+aes_decrypt_l(c,k) := 
+  aes_decrypt(c,k,lookup_sbox,lookup_inv_sbox,lookup_inv_mixcolumn,aes_log_gf2t8_add)$
+
+/* AES Decryption using field operations */
+aes_decrypt_l(c,k) := 
+  aes_decrypt(c,k,sbox,inv_sbox,inv_mixcolumn,aes_gf2t8_add)$
 
 /*!
 \endhtmlonly

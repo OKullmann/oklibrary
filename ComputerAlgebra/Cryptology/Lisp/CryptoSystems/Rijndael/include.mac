@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/Sbox.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac");
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac");
 
