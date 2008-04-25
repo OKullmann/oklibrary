@@ -12,6 +12,18 @@ License, or any later version. */
 
   \todo File load and include
   <ul>
+   <li> Replacing all instances of "load" with a function "oklib_include_basic" 
+   which mimics oklib_include but without appending the OKSystem path (ie 
+   allowing the same single include behaviour as oklib_include provides for
+   maxima modules) seems to reduce the elapsed time for a call to 
+   "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a replacement was
+   done with something like the following shell code 
+   \verbatim
+find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-9_\-])load ?\(/oklib_include_basic\(/g;'
+   \endverbatim
+   Whether or not this is beneficial is a potential topic for discussion 
+   although it would need further testing.
+   </li>
    <li> The issue occurs that various maxima modules such as "graphs" take a 
    considerable time to load (~0.5 seconds on a modern machine) and such a load
    occurs in various very basic modules in the library such as 
