@@ -35,6 +35,11 @@ floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
    length */
 lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
 
+/* Convert a given polynomial to a list of coefficients of length n,
+   where the first element of the list is the coefficient of the 
+   highest order of x in the polynomial.*/
+polynomial2list(poly,n) := makelist(coeff(poly, x, n-i),i,1,n)$
+
 /* Converts a list of coefficients to a polynomial in "x" with the first
 element in the list being the coefficient of the highest order of x */
 list2polynomial(v) := block([n : length(v)],

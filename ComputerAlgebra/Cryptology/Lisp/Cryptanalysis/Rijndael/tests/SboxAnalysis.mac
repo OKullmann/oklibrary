@@ -24,21 +24,6 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 kill(f)$
 
 
-okltest_polynomial2list(f) := block(
-  for n : 0 thru 3 do
-    assert(f(n,0) = []),
-  for n : 0 thru 3 do
-    assert(f(0,n) = makelist(0,i,1,n)),
-  for n : 0 thru 3 do
-    assert(f(n,1) = [n]),
-  for n : 0 thru 3 do
-    for m : 0 thru 3 do
-      assert(first(f(m*x^n,n+1)) = m),
-  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
-  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
-  assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
-true)$
-
 okltest_binary_list_to_dnf_c(f) := block(
   assert(f([]) = {}),
   assert(f([0,0,0]) = {-1,-2,-3}),
