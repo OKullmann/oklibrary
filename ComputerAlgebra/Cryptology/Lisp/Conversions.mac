@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 \htmlonly
 */
 
-oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
 
 /* MG : These should be moved elsewhere (such as the List module when setup
    and are most likely unnecessary and can be replaced by the relevant 
