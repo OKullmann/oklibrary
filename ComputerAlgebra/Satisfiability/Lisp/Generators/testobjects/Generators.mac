@@ -24,6 +24,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests
 
 okltest_nvar_php(nvar_php);
 okltest_ncl_list_weak_php(ncl_list_weak_php);
+okltest_ncl_weak_php(ncl_weak_php);
+okltest_deficiency_weak_php(deficiency_weak_php);
 
 /*!
 \endhtmlonly

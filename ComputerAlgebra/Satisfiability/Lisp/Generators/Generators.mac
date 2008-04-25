@@ -101,6 +101,10 @@ ncl_list_weak_php(m,n) :=
   elseif n = 1 then [[n,m], [2,n*binom(m,2)]]
   elseif n = 2 then [[2,n*binom(m,2)+m]]
   else [[2,n*binom(m,2)], [n,m]]$
+ncl_weak_php(m,n) := block([L : ncl_list_weak_php(m,n)],
+ return(sum(L[i][2], i, 1, length(L))))$
+
+deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
 
 /* The probability that a random assignment is satisfiable */
 satprob_weak_php(m,n) := sum(binom(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
