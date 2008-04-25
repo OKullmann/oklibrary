@@ -104,6 +104,14 @@ min_literal_degree_cs(F) :=
 /* maximal literal-degree of a clause-set */
 max_literal_degree_cs(F) := 
   lmax(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
+/* also returns a literal of minimal degree (if there is a literal);
+   in case of ties, the return value is implementation-defined. */
+min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
+  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(literal_degrees_cs(F))),  
+   optl : 0, mind : inf],
+  for m in D do block([d : m[2]],
+    if d < mind then (mind : d, optl : m[1])),
+  return([mind, optl]))$
 /* also returns a literal of maximal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(

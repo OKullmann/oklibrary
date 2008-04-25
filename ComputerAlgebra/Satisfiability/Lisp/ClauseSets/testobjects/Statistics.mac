@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
 
 
 okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
+okltest_min_literal_degree_l_cs(min_literal_degree_l_cs);
 
 okltest_weighted_ncl_2n_cs(weighted_ncl_2n_cs);
 
