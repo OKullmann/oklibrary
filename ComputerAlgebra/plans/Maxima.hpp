@@ -12,12 +12,13 @@ License, or any later version. */
 
   \todo File load and include
   <ul>
-   <li> It appears that after the last submit of MG loading times nearly
-   trippled? </li>
    <li> The issue occurs that various maxima modules such as "graphs" take a 
    considerable time to load (~0.5 seconds on a modern machine) and such a load
    occurs in various very basic modules in the library such as 
-   Satisfiability/Lisp/BasicOperations.mac which is included in many files. 
+   Satisfiability/Lisp/BasicOperations.mac which is included in many files. </li> 
+   <li> (DONE An errant oklib_load instead of oklib_include caused this)
+   It appears that after the last submit of MG loading times nearly
+   trippled? </li>
    <li> DONE (inclusions of OKlib-files happens only once, so there is
    no problem here)
    This isn't a problem usually but each new file that then includes 
