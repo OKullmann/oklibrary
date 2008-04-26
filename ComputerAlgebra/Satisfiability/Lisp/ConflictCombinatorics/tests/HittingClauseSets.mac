@@ -108,6 +108,22 @@ okltest_treehittingcsp(f) := block(
     assert(f(uniform_usat_hitting_max(n))),
   true)$
 
+
+/* ****************************************************
+   * Representing clause-sets via hitting clause-sets *
+   ****************************************************
+*/
+
+okltest_hitting_decomposition_m_cs(f) := block(
+  assert(f({}) = []),
+  assert(f({{}}) = [{{}}]),
+  assert(f({{1}}) = [{{1}}]),
+  assert(f({{1},{-1}}) = [{{1},{-1}}]),
+  assert(setify(f({{1},{-1},{}})) = {{{1},{-1}},{{}}}),
+  assert(setify(f({{-1},{1},{2},{-2},{3},{-3}})) = {{{-1},{1}},{{-2},{2}},{{-3},{3}}}),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

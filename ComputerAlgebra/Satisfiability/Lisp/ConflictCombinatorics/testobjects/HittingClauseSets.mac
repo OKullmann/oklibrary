@@ -31,6 +31,14 @@ okltest_sat_decision_hitting_cs(sat_decision_hitting_cs);
 okltest_hittingcsp(hittingcsp);
 okltest_treehittingcsp(treehittingcsp);
 
+/* ****************************************************
+   * Representing clause-sets via hitting clause-sets *
+   ****************************************************
+*/
+
+okltest_hitting_decomposition_m_cs(hitting_decomposition_m_cs);
+
+
 /*!
 \endhtmlonly
 */
