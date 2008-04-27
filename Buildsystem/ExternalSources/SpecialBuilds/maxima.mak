@@ -32,6 +32,21 @@ $(maxima_targets_okl) : $(maxima_directories_okl)
 	cp -r $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
 	cp $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
 
+maxima-5.15.0 : $(maxima_directories_okl)
+	$(call unarchive,$(ExternalSources)/sources/Maxima/$@,$(maxima_base_build_dir_okl))
+	rm -r $(maxima_build_dir_okl)/share/contrib/graphs
+	$(call unarchive,$(ExternalSources)/sources/Maxima/graphs,$(maxima_build_dir_okl)/share/contrib)
+	cd $(maxima_build_dir_okl); $(postcondition) \
+	LANG=C ./configure --prefix=${maxima_installation_dir_okl}; $(postcondition) \
+	LANG=C make; $(postcondition) \
+	make check; $(postcondition) \
+	make install; $(postcondition) \
+	cp $(maxima_build_dir_okl)/share/contrib/graphs/dijkstra.lisp $(maxima_installation_dir_okl)/share/maxima/5.15.0/share/contrib/graphs
+	cp -r $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
+	cp $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
+
+
+
 # #################################
 # Cleaning
 # #################################
