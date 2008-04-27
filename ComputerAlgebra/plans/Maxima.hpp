@@ -340,5 +340,27 @@ block([fpprec : fpprec], fpprec : d, Comp)
    could initially occur here? </li>
   </ul>
 
+
+   \todo Document simplification of expressions
+   <ul>
+    <li> Apparently "is(a = b)" only applies very basic simplification
+    rules, for example "is(4+5=9)" is true, while for "equivalence" one
+    needs to use "is(equal(a,b))":
+    \verbatim
+is(equal(log(4)/log(2),2));
+true
+is(log(4)/log(2) = 2);
+false
+    \endverbatim
+    </li>
+   </ul>
+
+
+   \todo New supermodule NumberTheory
+   <ul>
+    <li> See "fld" in
+    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac </li>
+   </ul>
+
 */
 
