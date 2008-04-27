@@ -39,9 +39,9 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
-   <li> We need to find out whether for example the colouring function computes an
-   exact value or an approximation! See my e-mail to the maxima-mailing-list (yet,
-   18.3.2008, without answer). </li>
+   <li> DONE (exact values are computed)
+   We need to find out whether for example the colouring function computes an
+   exact value or an approximation! See my e-mail to the maxima-mailing-list. </li>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
      <li> DONE (the vertex names become vertex labels)
@@ -54,7 +54,7 @@ License, or any later version. */
    </li>
    <li> And we need conversions between directed graphs and maxima-digraphs. </li>
    <li> Find out about the output-formats for maxima-graphs. </li>
-   <li> Bug:
+   <li> Bug (with 5.14.0 and 5.15.0):
    \verbatim
 draw_graph(complete_graph(3))$
 gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 1 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 2 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 3 t '' w p ps 2 pt 7 lc rgb 'red'
