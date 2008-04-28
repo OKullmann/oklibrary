@@ -36,6 +36,8 @@ ifeq ($(git_default_install_okl),local)
 git_links :
 	ln -s --force $(git_call_okl) $(public_bin_dir_okl)/git; $(postcondition) \
 	ln -s --force $(gitk_call_okl) $(public_bin_dir_okl)/gitk; $(postcondition) \
+	ln -s --force $(git_upload_pack_okl) $(public_bin_dir_okl)/git-upload-pack; $(postcondition) \
+	ln -s --force $(git_receive_pack_okl) $(public_bin_dir_okl)/git-receive-pack; $(postcondition) \
 	$(preprocessing_call) $(OKbuildsystem)/ExternalSources/SpecialBuilds/Wrappers/git-gui > $(public_bin_dir_okl)/git-gui; $(postcondition) \
 	chmod u+x $(public_bin_dir_okl)/git-gui
 else

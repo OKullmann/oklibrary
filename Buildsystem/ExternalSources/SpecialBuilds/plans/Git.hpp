@@ -29,11 +29,8 @@ License, or any later version. */
      <li> Suse 10.0 has it. </li>
     </ol>
    </li>
-   <li> What about
-   \verbatim
-/bin/sh: curl-config: command not found
-   \endverbatim
-   ??? Is this another missing prerequisite? </li>
+   <li> libcurl is another prerequisite, which can be installed by the
+   Linux distribution. </li>
   </ul>
 
 
