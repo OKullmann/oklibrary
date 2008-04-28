@@ -126,10 +126,10 @@ fi
 if [[ $1 == "--push-ssh" ]]; then
   shift
   if [[ $# == 0 ]]; then
-    echo -e "ERROR[oklib]: the username on the remote machine is needed as parameter!\n"
+    echo -e "ERROR[oklib]: the remote machine (inclusive user-name if different) is needed as parameter!\n"
     exit 1
   fi
-  username=$1
+  remote_machine=$1
   shift
   if [[ $# == 0 ]]; then
     echo -e "ERROR[oklib]: the remote OKplatform-directory is needed as parameter!\n"
@@ -142,7 +142,7 @@ if [[ $1 == "--push-ssh" ]]; then
   else
     git_arguments="$*"
   fi
-  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} username_okl=${username} remote_repository_okl=${repository} git_arguments_okl=${git_arguments} push_ssh"
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} remote_machine_okl=${remote_machine} remote_repository_okl=${repository} git_arguments_okl=${git_arguments} push_ssh"
   echo ${command}
   ${command}
   exit
@@ -150,10 +150,10 @@ fi
 if [[ $1 == "--pull-ssh" ]]; then
   shift
   if [[ $# == 0 ]]; then
-    echo -e "ERROR[oklib]: the username on the remote machine is needed as parameter!\n"
+    echo -e "ERROR[oklib]: the remote machine (inclusive user-name if different) is needed as parameter!\n"
     exit 1
   fi
-  username=$1
+  remote_machine=$1
   shift
   if [[ $# == 0 ]]; then
     echo -e "ERROR[oklib]: the remote OKplatform-directory is needed as parameter!\n"
@@ -166,7 +166,7 @@ if [[ $1 == "--pull-ssh" ]]; then
   else
     git_arguments="$*"
   fi
-  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} username_okl=${username} remote_repository_okl=${repository} git_arguments_okl=${git_arguments} pull_ssh"
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} remote_machine_okl=${remote_machine} remote_repository_okl=${repository} git_arguments_okl=${git_arguments} pull_ssh"
   echo ${command}
   ${command}
   exit
