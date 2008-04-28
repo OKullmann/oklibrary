@@ -164,9 +164,14 @@ License, or any later version. */
      <li> Later we must add support for our Maxima-system. </li>
     </ol>
    </li>
-   <li> Shall oklib also handle git-commands (i.e., "oklib pull" instead
-   of "git pull")? I (OK) am somewhat skeptical about that, since it might
-   create trouble. And the users need to get used to git and its documentation.
+   <li> DONE Git operations:
+    <ol>
+     <li> We handle special operations where specific settings from the
+     OKlibrary are needed. </li>
+     <li> But otherwise the users should use git himself: He needs to
+     get used to git and its documentation, and doing it ourselfes might
+     create trouble. </li>
+    </ol>
    </li>
    <li> DONE (now all output is always both shown and copied to the log-file)
    It seems hard to avoid, and also not important, that if we interrupt
