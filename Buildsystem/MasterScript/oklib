@@ -11,7 +11,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.6
+version=0.1.0.7
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -86,9 +86,11 @@ until [[ ${defining_dir} == ${top_dir} ]]; do
   if [[ ${defining_base} == ExternalSources ]]; then
     command="make --makefile=${buildsystem_dir}/ExternalSources/Makefile --directory=${top_dir}/ExternalSources OKplatform=${top_dir} $@"
     echo ${command}
-    ${command} 2> ${external_sources_log}
-    if [[ -s ${external_sources_log} ]]; then
-      cat ${external_sources_log}
+    echo -e "oklib: ${external_sources_log} contains all output of the build.\n"
+    ${command} 2>&1 | tee ${external_sources_log}
+    return_value_build=$?
+    if [[ ${return_value_build} != 0 ]]; then
+      echo -e "ERROR[oklib]: The build process returned a value different from zero: ${return_value_build}\n"
       exit 1
     fi
     exit 0

@@ -164,19 +164,21 @@ License, or any later version. */
      <li> Later we must add support for our Maxima-system. </li>
     </ol>
    </li>
-   <li> It seems hard to avoid, and also not important, that if we interrupt
-   the makefile for external sources, then the error messages are not
-   printed --- we know it anyway. Nevertheless one could ponder again
-   about it. </li>
-   <li> If oklib-building is interrupted, then nothing is shown (also not
-   in the log-file); hard to avoid, and not really important.
-   But perhaps in case everything went through, then a success report
-   with date and time should be printed (totgether with the targets),
-   so that one can see what's done. </li>
    <li> Shall oklib also handle git-commands (i.e., "oklib pull" instead
    of "git pull")? I (OK) am somewhat skeptical about that, since it might
    create trouble. And the users need to get used to git and its documentation.
    </li>
+   <li> DONE (now all output is always both shown and copied to the log-file)
+   It seems hard to avoid, and also not important, that if we interrupt
+   the makefile for external sources, then the error messages are not
+   printed --- we know it anyway. Nevertheless one could ponder again
+   about it. </li>
+   <li> DONE (now all output is always both shown and copied to the log-file)
+   If oklib-building is interrupted, then nothing is shown (also not
+   in the log-file); hard to avoid, and not really important.
+   But perhaps in case everything went through, then a success report
+   with date and time should be printed (totgether with the targets),
+   so that one can see what's done. </li>
   </ul>
 
 */
