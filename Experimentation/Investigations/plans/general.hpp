@@ -106,7 +106,26 @@ experiment(m,n) := block(
     )))$
 experiment(7,5);
      \endverbatim
+     Only php(3,2) (up to isomorphism) found for seed <= 8.
      </li>
+     <li> To speed it out, and remove trivial cases, now with trivial
+     DP-reduction:
+def3cls : [];
+experiment(m,n) := block(
+ [count : 0, F : weak_php(m,n)[2]],
+  for seed : 9 do block(
+   [L : random_splitting_nsing_mus(F,seed,dll_simplest_trivial2), S],
+    print("seed:", seed, map(deficiency_cs,L)),
+    S : sublist(L,lambda([F],is(deficiency_cs(F) = 3))),
+    if not emptyp(S) then (
+      def3cls : append(def3cls,S),
+      for i : 1 thru length(S) do print(count + 1, ":", S[i]),
+      count : count + length(S)
+    )))$
+experiment(7,5);
+     \endverbatim
+     </li>
+
     </ol>
    </li>
   </ul>

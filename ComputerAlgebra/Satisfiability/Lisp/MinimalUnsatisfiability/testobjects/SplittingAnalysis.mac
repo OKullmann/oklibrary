@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfi
 
 
 okltest_random_splitting_mus(random_splitting_mus);
+okltest_random_splitting_nsing_mus(random_splitting_nsing_mus);
 
 /*!
 \endhtmlonly

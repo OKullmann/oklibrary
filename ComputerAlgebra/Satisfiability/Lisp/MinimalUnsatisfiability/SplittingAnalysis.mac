@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac");
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac");
 
 /* Compute a sequence of minimally unsatisfiable clause-sets as subsets
    of a given clause-set under random splitting. */
@@ -38,6 +38,19 @@ random_splitting_mus(F, seed, solver) := block(
   v : listify(V)[1 + random(length(V))],
   eps : random(2) * 2 - 1,
   return(cons(F,random_splitting_mus(apply_pa({eps * v},F), seed, solver))))$
+/* The variation where automatically singular DP-reduction is applied. */
+random_splitting_nsing_mus(F, seed, solver) := block(
+ [FF, V, v, eps,
+  generator_state : make_random_state(seed)],
+  set_random_state(generator_state),
+  F : singular_dp_reduction(F),
+  FF : first_mus_fcs(cs_to_fcs(F), solver),
+  F : singular_dp_reduction(FF[2]), V : var_cs(F),
+  if emptyp(V) then return([F]),
+  v : listify(V)[1 + random(length(V))],
+  eps : random(2) * 2 - 1,
+  return(cons(F,random_splitting_nsing_mus(apply_pa({eps * v},F), seed, solver))))$
+
 
 /*!
 \endhtmlonly
