@@ -26,6 +26,37 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hyper
 
 kill(f)$
 
+/* ********************
+   * Full clause-sets *
+   ********************
+*/
+
+/* Measures */
+
+okltest_nvar_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = nvar_f(full_fcs(n))),
+ true)$
+
+okltest_ncl_list_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = ncl_list_f(full_fcs(n))),
+ true
+)$
+
+okltest_ncl_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = ncl_f(full_fcs(n))),
+ true
+)$
+
+okltest_deficiency_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = deficiency_fcs(full_fcs(n))),
+ true
+)$
+
+
 /* ***********************
    * Pigeonhole formulas *
    ***********************

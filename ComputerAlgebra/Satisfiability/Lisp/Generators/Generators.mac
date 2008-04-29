@@ -33,6 +33,16 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Const
    (full) clauses (also known as "canonical CNF/DNF") */
 full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian_product, makelist({-i,i},i,1,n)))]$
 
+/* Measures */
+
+nvar_full_fcs(n) := n$
+
+/* List of clause-counts for full_fcs as with ncl_list_f */
+ncl_list_full_fcs(n) := [[n,2^n]]$
+ncl_full_fcs(n) := 2^n$
+
+deficiency_full_fcs(n) := ncl_full_fcs(n) - nvar_full_fcs(n)$
+
 
 /* ************************
    * Pigeon-hole formulas *
