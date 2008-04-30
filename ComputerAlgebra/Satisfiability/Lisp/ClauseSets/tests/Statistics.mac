@@ -30,6 +30,16 @@ kill(f)$
    *******************
 */
 
+okltest_literal_degree_cs(f) := block(
+  assert(f({},1) = 0),
+  assert(f({{}},1) = 0),
+  assert(f({{1}},1) = 1),
+  assert(f({{1}},-1) = 0),
+  assert(f({{1}},2) = 0),
+  assert(f({{1},{-1}},1) = 1),
+  assert(f({{1},{-1}},-1) = 1),
+  true)$
+
 okltest_ordered_literal_degrees_cs(f) := block(
   assert(f({}) = []),
   assert(f({{}}) = []),

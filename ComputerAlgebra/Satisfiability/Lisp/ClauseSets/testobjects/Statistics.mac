@@ -21,9 +21,20 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Statistics.mac");
 
+/* *******************
+   * Literal degrees *
+   *******************
+*/
+
+okltest_literal_degree_cs(literal_degree_cs);
 
 okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
 okltest_min_literal_degree_l_cs(min_literal_degree_l_cs);
+
+/* *******************************
+   * Weighted numbers of clauses *
+   *******************************
+*/
 
 okltest_weighted_ncl_2n_cs(weighted_ncl_2n_cs);
 

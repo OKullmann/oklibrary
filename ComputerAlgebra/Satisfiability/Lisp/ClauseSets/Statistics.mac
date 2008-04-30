@@ -78,7 +78,7 @@ statistics_fcs(FF) :=
 */
 
 /* The degree of a literal in a clause-set */
-literal_degree_cs(F,l) := length(subset(F,lambda([C],elementp(l,C))))$
+literal_degree_cs(F,l) := length(scls_l(F,l))$
 
 load(graphs)$
 
