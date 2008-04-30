@@ -21,7 +21,7 @@ License, or any later version. */
    <li> A "general graph" is a triple [V,E,f], where V, E are sets and
    f is a map from E to 1-2-element subsets of V. </li>
    <li> The same with directed graphs, only that this time we have
-   vertex lists instead of vertex sets. </li>
+   vertex-lists instead of vertex-sets. </li>
    <li> There is also the (cryptomorphic) notion of a "precategory",
    which is a 4-tuple [V,E,source,target]. </li>
    <li> Since also for general graphs the edge set needs to be given, we don't
