@@ -31,6 +31,11 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    A "graph with loops" also allows 1-element vertex sets.
 */
 
+/* A "digraph" is a 2-element list, consisting of the set of vertices,
+   and a set of 2-element vertex lists with different elements.
+   A "digrap with loops" also allows the elements to be identical.
+*/
+
 /* The set of neighbours of vertex v in graph G */
 neighbours(v,G) := disjoin(v, list_sets_union(
  subset(G[2], lambda([e],elementp(v,e)))))$
@@ -78,6 +83,20 @@ g2mg(G) := block(
 
 /* Maxima-graphs to graphs (ignoring the vertex labels) */
 mg2g(g) := [setify(vertices(g)), fullsetify(edges(g))]$
+
+
+/* Digraphs to Maxima-digraphs (vertex names yield vertex labels).
+   The vertices in the Maxima-digraph are numbered starting with 1. */
+dg2mdg(G) := block(
+ [V : listify(G[1]), E : listify(G[2]), h : hash_table(), n : length(G[1])],
+ for i : 1 thru n do set_hash(V[i], h, i),
+ create_graph(makelist([i,V[i]],i,1,length(V)), 
+   makelist([get_hash(e[1],h), get_hash(e[2],h)], e, E),
+   true
+ )
+)$
+
+
 
 /*!
 \endhtmlonly
