@@ -47,6 +47,14 @@ okltest_singular_dp_reduction(f) := (
   assert(nvar_cs(f(weak_php(3,2)[2])) = 3),
   true)$
 
+okltest_redsingdpp(f) := (
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = false),
+  assert(f({{1},{-1}}) = false),
+  assert(f(weak_php(3,2)[2]) = false),
+  true)$
+
 
 /*!
 \endhtmlonly

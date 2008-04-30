@@ -32,6 +32,9 @@ singular_dp_reduction(F) := block([d : min_literal_degree_l_cs(F)],
   if d[1] >= 2 then return(F) else
     return(singular_dp_reduction(dp_operator(F,d[2]))))$
 
+/* Predicate for testing whether clause-set F is reduced w.r.t.
+   singular DP-reduction. */
+redsingdpp(F) := is(singular_dp_reduction(F) = F)$
 
 /*!
 \endhtmlonly

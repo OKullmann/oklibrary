@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests
 
 
 okltest_singular_dp_reduction(singular_dp_reduction);
+okltest_redsingdpp(redsingdpp);
 
 
 /*!
