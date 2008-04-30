@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
 
 okltest_generalised_ucp(generalised_ucp);
 okltest_generalised_ucp_pa(generalised_ucp_pa);

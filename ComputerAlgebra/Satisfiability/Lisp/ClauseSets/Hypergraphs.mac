@@ -20,10 +20,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergra
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 
 /* *******************

@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Ba
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 

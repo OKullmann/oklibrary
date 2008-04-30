@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/St
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 kill(f)$

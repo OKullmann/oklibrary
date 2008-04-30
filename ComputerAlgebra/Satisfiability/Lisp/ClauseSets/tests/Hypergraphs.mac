@@ -19,11 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hy
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
