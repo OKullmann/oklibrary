@@ -21,14 +21,23 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetri
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
-
-/* Checks whether two formal clause-sets are isomorphic (very renaming
+/* Checks whether two formal clause-sets are isomorphic (where renaming
    of variables and flipping is considered). */
 is_isomorphic_fcs(FF1,FF2) := is_isomorphic(
  dg2mdg(var_lit_clause_digraph(FF1)), dg2mdg(var_lit_clause_digraph(FF2)))$
 /* The variation for clause-sets as inputs */
 is_isomorphic_cs(F1,F2) := is_isomorphic_fcs(cs_to_fcs(F1),cs_to_fcs(F2))$
+
+/* For a set of formal clause-sets, determines a set of non-isomorphic
+   representatives. */
+representatives_fcs(SFF) := block([classes : equiv_classes(SFF, is_isomorphic_fcs)],
+  return(map(choose_element, classes)))$
+/* The variation for a set of clause-sets */
+representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_cs)],
+  return(map(choose_element, classes)))$
 
 /*!
 \endhtmlonly

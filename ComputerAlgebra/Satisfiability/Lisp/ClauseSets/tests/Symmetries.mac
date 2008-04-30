@@ -45,6 +45,17 @@ okltest_is_isomorphic_fcs(f) := block(
   ),
   true)$
 
+okltest_representatives_fcs(f) := block([FF],
+  assert(f({}) = {}),
+  assert(f({FF}) = {FF}),
+  assert(f({[{},{{}}],[{},{}]}) = {[{},{{}}],[{},{}]}),
+  block([R : f({[{1},{}], [{2},{}], [{},{}]})],
+    assert(length(R) = 2),
+    assert(elementp([{},{}], R) = true),
+    assert(length(intersection(R, {[{1},{}], [{2},{}]})) = 1)
+  ),
+  true)$
+
 /*!
 \endhtmlonly
 */
