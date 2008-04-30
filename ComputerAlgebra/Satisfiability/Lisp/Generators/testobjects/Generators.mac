@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
 
 okltest_nvar_full_fcs(nvar_full_fcs);
 okltest_ncl_list_full_fcs(ncl_list_full_fcs);

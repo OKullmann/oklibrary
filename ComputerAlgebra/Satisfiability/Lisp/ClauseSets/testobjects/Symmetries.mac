@@ -18,10 +18,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Symmetries.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Symmetries.mac")$
 
-okltest_is_isomorphic_fcs(is_isomorphic_fcs);
+okltest_is_isomorphic_fcs(is_isomorphic_fcs)$
 
 /*!
 \endhtmlonly

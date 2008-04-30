@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobject
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/RandomClauseSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/RandomClauseSets.mac")$
 
 okltest_probsatrand(probsatrand);
 

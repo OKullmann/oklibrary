@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
 
 
 okltest_two_subsumption_resolvent_p(two_subsumption_resolvent_p);

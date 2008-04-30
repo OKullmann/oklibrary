@@ -21,8 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/include.
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
 
 /*!
 \endhtmlonly

@@ -20,16 +20,16 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/include.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/IndependentSets.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/IndependentSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Transversals.mac")$
 
 
 /*!

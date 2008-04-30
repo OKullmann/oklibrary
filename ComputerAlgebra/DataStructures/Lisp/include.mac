@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
 
 /*!

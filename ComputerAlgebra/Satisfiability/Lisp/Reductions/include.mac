@@ -19,11 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/GeneralisedUCP.mac")$
 
 
 /*!
