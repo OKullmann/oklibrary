@@ -19,11 +19,13 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+
 
 kill(f)$
 
@@ -108,6 +110,19 @@ okltest_treehittingcsp(f) := block(
     assert(f(uniform_usat_hitting_max(n))),
   true)$
 
+okltest_check_hitting_nsing_def(f) := block(
+  assert(f({{}}) = [1]),
+  assert(f({}) = []),
+  assert(f({{1},{-1}}) = []),
+  assert(f(musatd2(2)[2]) = [2]),
+  assert(f(musatd2(3)[2]) = [2]),
+  assert(f(musatd2(4)[2]) = []),
+  assert(f({{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3},{1,-3},{-1,-3}}) = [3]),
+  assert(f({{1,2,3},{-1,2,3},{1,-2,4}, {-1,-2,4},{2,-3,5},{2,-3,-5},{-2,-4,5},{-2,-4,-5}}) = [3]),
+  assert(f({{1,2,3},{1,-2,3},{1,2,-3},{1,-2,-3},{-1,4,5},{-1,-4,5},{-1,4,-5},{-1,-4,-5}}) = [3]),
+  assert(f(full_fcs(3)[2]) = [5]),
+  true)$
+
 
 /* ****************************************************
    * Representing clause-sets via hitting clause-sets *
@@ -123,6 +138,25 @@ okltest_hitting_decomposition_m_cs(f) := block(
   assert(setify(f({{-1},{1},{2},{-2},{3},{-3}})) = {{{-1},{1}},{{-2},{2}},{{-3},{3}}}),
   true)$
 
+
+/* ***********************************************
+   * Hitting clause-sets with bounded deficiency *
+   ***********************************************
+*/
+
+okltest_all_hittinginstances_def(f) := block(
+  assert(f({},0) = {{}}),
+  assert(f({},1) = {}),
+  assert(f({{}},0) = {}),
+  assert(f({{}},1) = {{{}}}),
+  assert(f({{1}},0) = {{},{{1}}}),
+  assert(f({{1}},1) = {{{}}}),
+  assert(f({{1}},2) = {}),
+  assert(f({{1},{-1}},0) = {}),
+  assert(f({{1},{-1}},1) = {{{}},{{1},{-1}}}),
+  assert(f({{1},{-1}},2) = {}),
+  assert(f({{1},{-1}},3) = {}),
+  true)$
 
 /*!
 \endhtmlonly

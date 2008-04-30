@@ -19,14 +19,16 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 
 
 /* ***************************************
@@ -137,6 +139,13 @@ abd_parameters(F) :=
  if not uuhittingcsp(F) or not variableregularcsp(F) then false
  else [nvar_cs(F), length(listify(F)[1])]$
 
+/* Checks whether input F is unsatisfiable hitting and reduced w.r.t. 
+   singular DP-reduction: In the negative case returns the empty list,
+   and otherwise the unit-list containing the deficiency. */
+check_hitting_nsing_def(F) := if hittingcsp(F) and redsingdpp(F) 
+   and not sat_decision_hitting_cs(F) then [deficiency_cs(F)] 
+ else [];
+
 
 /* ****************************************************
    * Representing clause-sets via hitting clause-sets *
@@ -154,6 +163,19 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
    R : endcons(setify(M), R),
    for v in M do remove_vertex(v, G2)),
  map(lambda([M],map(lambda([v],get_vertex_label(v,G)),M)), R))$
+
+
+/* ***********************************************
+   * Hitting clause-sets with bounded deficiency *
+   ***********************************************
+*/
+
+/* Find all hitting clause-sets of a given deficiency obtained from
+   a given hitting clause-set by applying partial assignments */
+all_hittinginstances_def(F,k) := 
+  subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
+         lambda([F],is(deficiency_cs(F)=k)))$
+
 
 /*!
 \endhtmlonly
