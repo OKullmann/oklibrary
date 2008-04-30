@@ -21,8 +21,26 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac");
 
+/* **************************
+   * Variables and literals *
+   **************************
+*/
 
 okltest_var_l(var_l)$
+
+/* ***********************************
+   * Selecting parts of a clause-set *
+   ***********************************
+*/
+
+okltest_scls_l(scls_l);
+
+/* ***********************
+   * Partial assignments *
+   ***********************
+*/
+
+okltest_all_pass(all_pass);
 
 /*!
 \endhtmlonly

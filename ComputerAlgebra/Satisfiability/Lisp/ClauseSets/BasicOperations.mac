@@ -102,21 +102,6 @@ clauses_f(FF) := FF[2]$
 cs_to_fcs(F) := [var_cs(F), F]$
 
 
-/* ************************************
-   * Representing boolean clause-sets *
-   ************************************
-*/
-
-/* The clause-variable matrix of a formal clause-set (as a combinatorial
-   matrix) */
-cvcom(FF) := [FF[2], FF[1], lambda([C,v],
- block([i : intersection(C, {v,-v})],
-  if emptyp(i) then return(0)
-  elseif i = {v} then return(+1)
-  else return(-1)))]$
-
-
-
 /* ************
    * Renaming *
    ************
@@ -146,6 +131,9 @@ standardise_fcs(FF) := block([h : hash_table(), V : listify(FF[1])],
 
 /* all clauses of length k of a clause-set */
 scls_k(F,k) := subset(F, lambda([C], is(length(C) = k)))$
+
+/* All clauses of a clause-set containing a literal */
+scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
 
 
 /* ***********************
@@ -185,6 +173,13 @@ analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
   elseif disjointp(var_c(C), V) then u : adjoin(C,u) 
   else c : adjoin(C,c)),
  return([s,f,u,c]))$
+
+/* The set of all partial assignments over a set of variables */
+all_pass(V) := if emptyp(V) then {{}} else
+ block([e : choose_element(V), S],
+  S : all_pass(disjoin(e,V)),
+  return(union(S, map(lambda([phi],adjoin(e,phi)),S),map(lambda([phi],adjoin(-e,phi)),S))))$
+   
 
 
 /* *****************************************

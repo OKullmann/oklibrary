@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Ba
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
 
 kill(f)$
 
@@ -35,6 +37,33 @@ okltest_var_l(f) := (
   ),
   true
 )$
+
+
+/* ***********************************
+   * Selecting parts of a clause-set *
+   ***********************************
+*/
+
+okltest_scls_l(f) := (
+  assert(f({},1) = {}),
+  assert(f({{}},1) = {}),
+  assert(f({{1}},1) = {{1}}),
+  assert(f({{1}},-1) = {}),
+  assert(f({{1}},2) = {}),
+  true)$
+
+
+/* ***********************
+   * Partial assignments *
+   ***********************
+*/
+
+okltest_all_pass(f) := (
+  assert(f({}) = {{}}),
+  assert(f({1}) = {{},{1},{-1}}),
+  assert(f({1,2}) = {{},{-1},{1},{-2},{2},{-1,-2},{-1,2},{1,-2},{1,2}}),
+  assert(length(f(setn(3))) = 3^3),
+  true)$
 
 /*!
 \endhtmlonly
