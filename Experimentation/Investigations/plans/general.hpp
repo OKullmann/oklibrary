@@ -124,6 +124,7 @@ experiment(m,n) := block(
     )))$
 experiment(7,5);
      \endverbatim
+     Again, only php(3,2) (up to isomorphism) found for seed <= 20.
      </li>
 
     </ol>
