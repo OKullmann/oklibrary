@@ -84,8 +84,8 @@ non_saturating_pas_bydef(FF,solver) := block(
 
 /* An upper bound on the maximal min-var-degree of a minimally unsatisfiable
    clause-set of deficiency k, according to [OK, XSZ, 2008]. */
-/* OK believes this bound is sharp, while XSZ believes in the bound k+2
-   for k >= 4. */
+/* This bound is sharp at least for k = deficiency_fcs(full_fcs(n))
+   and k = 3,4. */
 /* I.e., min_unsat_bydef(F) and is(deficiency_cs(F) <= k) -> 
          min_variable_degree_cs(F) <= max_min_var_degree_def[k]. */
 /* First the recursive computation: */
