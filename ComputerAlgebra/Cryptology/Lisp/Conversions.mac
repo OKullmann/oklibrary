@@ -104,6 +104,15 @@ GF2t8ListToHex(lst) :=
       subst(2,x,matrix2list(transpose(apply(matrix,
         partition_elements(lst,length(lst)/4))))))))$
 
+
+/* Generate a DNF clause from a list of values in {0,1} */
+/* OK : what is the meaning of this ??? */
+/* MG : This should certainly be moved to somewhere more appropriate 
+   but where? */
+binary_list_to_dnf_c(bv) := 
+  setify(map(lambda([b,j],(-1 + b * 2) * j),
+    bv,makelist(i,i,1,length(bv))))$
+
 /*!
 \endhtmlonly
 */
