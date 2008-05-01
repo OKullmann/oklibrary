@@ -20,9 +20,15 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Ba
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 kill(f)$
 
+
+/* ***************************
+   * Single resolution steps *
+   ***************************
+*/
 
 okltest_two_subsumption_resolvent_p(f) := (
   assert(f({},{}) = []),
@@ -33,6 +39,11 @@ okltest_two_subsumption_resolvent_p(f) := (
   assert(f({1,2},{-1,-2}) = []),
   true)$
 
+/* *************************
+   * Adding all resolvents *
+   *************************
+*/
+
 okltest_two_subsumption_resolvents_rem_cs(f) := (
   assert(f({}) = [{},{}]),
   assert(f({{}}) = [{},{{}}]),
@@ -40,6 +51,25 @@ okltest_two_subsumption_resolvents_rem_cs(f) := (
   assert(f({{1},{-1}}) = [{{}},{}]),
   assert(f({{1,2},{1,-2}}) = [{{1}},{}]),
   assert(f({{1,2},{-1,-2}}) = [{},{{1,2},{-1,-2}}]),
+  true)$
+
+/* *****************
+   * DP resolution *
+   *****************
+*/
+
+okltest_dp_operator(f) := (
+  assert(f({},1) = {}),
+  assert(f({{}},1) = {{}}),
+  assert(f({{1}},1) = {}),
+  assert(f({{1}},2) = {{1}}),
+  assert(f({{1},{-1}},1) = {{}}),
+  assert(f({{1},{-1}},2) = {{1},{-1}}),
+  block([n : 4, F],
+    F : full_fcs(n)[2],
+    for v : n thru 1 step -1 do (
+      F : f(F,v),
+      assert(F = full_fcs(v-1)[2]))),
   true)$
 
 /*!
