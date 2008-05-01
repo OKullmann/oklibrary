@@ -30,6 +30,9 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/DeficiencyOne.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SplittingAnalysis.mac")$
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/uhit_def.mac")$
+
 /*!
 \endhtmlonly
 */
