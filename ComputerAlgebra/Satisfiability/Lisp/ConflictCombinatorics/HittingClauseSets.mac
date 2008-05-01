@@ -176,6 +176,17 @@ all_hittinginstances_def(F,k) :=
   subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
          lambda([F],is(deficiency_cs(F)=k)))$
 
+all_hitting_DP_reductions_def(F,k) := block([V : var_cs(F), result : {}],
+  if deficiency_cs(F) = k then result : adjoin(F,result),
+  if emptyp(V) then return(result)
+  else block(
+   [P : permutations(V)],
+    for p in P do block([G : F],
+      for v in p do (
+        G : dp_operator(G,v),
+        if deficiency_cs(G) = k then result : adjoin(G,result))),
+    return(result)))$
+
 
 /*!
 \endhtmlonly

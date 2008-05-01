@@ -21,7 +21,17 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingClauseSets.mac")$
 
+/* *******************
+   * Representations *
+   *******************
+*/
+
 okltest_hitting_cls_rep_st(hitting_cls_rep_st);
+
+/* **************
+   * Generators *
+   **************
+*/
 
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);
@@ -52,6 +62,7 @@ okltest_hitting_decomposition_m_cs(hitting_decomposition_m_cs);
 
 okltest_all_hittinginstances_def(all_hittinginstances_def);
 
+okltest_all_hitting_DP_reductions_def(all_hitting_DP_reductions_def);
 
 /*!
 \endhtmlonly
