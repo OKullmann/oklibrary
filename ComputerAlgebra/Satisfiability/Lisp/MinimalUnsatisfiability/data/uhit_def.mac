@@ -30,24 +30,27 @@ kill(uhit_def)$
 uhit_def[0,"info"] : [1,2,3]$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info] contains:
- - true if the classification is complete, and false otherwise
+ - true if the classification is complete, and false/unknown otherwise
  - the smallest possible n resp. a lower bound
  - the largest possible n resp. an upper bound
- - the list of available n-values.
+ - the list of available n-values, represented as pairs [n,true/false/unknown],
+   stating whether or not for this n the list is complete.
 */
 /* Complete means that every possible isomorphism type is
    represented (exactly once). */
-uhit_def[1,"info"] : [true,0,0,[0]]$
+/* "false" here means that definitely some cases are missing. */
+uhit_def[1,"info"] : [true,0,0,[[0,true]]]$
 uhit_def[1,0] : [{{}}]$
 
-uhit_def[2,"info"] : [true,2,3,[2,3]]$
+uhit_def[2,"info"] : [true,2,3,[[2,true],[3,true]]]$
 uhit_def[2,2] : [musatd2(2)[2]]$
 uhit_def[2,3] : [musatd2(3)[2]]$
 
-uhit_def[3,"info"] : [false,3,inf,[3,4,5]]$
+uhit_def[3,"info"] : [false,3,inf,[[3,true],[4,unknown],[5,unknown]]]$
 uhit_def[3,3] : [
  {{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3},{1,-3},{-1,-3}},
- {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}}
+ {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}},
+ {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-2,1,3},{2,3}}
 ]$
 uhit_def[3,4] : [
  {{-4,-3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,4},{-2,-1,3},{-2,1,3},{2,4}},
@@ -57,7 +60,8 @@ uhit_def[3,4] : [
  {{-4,-3},{-4,2,3},{-3,-1,4},{-3,1,4},{-2,-1,3},{-2,1,3},{2,3,4}},
  {{-4,-3,-2},{-4,-2,3},{-3,-2,-1,4},{-3,-2,1,4},{-2,3,4},{-1,2},{1,2}},
  {{-4,-3,-2},{-4,2},{-3,-1,4},{-3,1,4},{-2,-1,3},{-2,1,3},{2,3,4}},
- {{-4,-3,-1},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1},{-4,2,3},{-3,4},{3,4}}
+ {{-4,-3,-1},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1},{-4,2,3},{-3,4},{3,4}},
+ {{1,2,3,4},{-1,2},{-2,3},{-3,1},{-1,-2,-3,4},{-4,1,2,3},{-1,-2,-3,-4}}
 ]$
 uhit_def[3,5] : [
  {{1,2,3},{-1,2,3},{1,-2,4},{-1,-2,4},{2,-3,5},{2,-3,-5},{-2,-4,5},{-2,-4,-5}},
