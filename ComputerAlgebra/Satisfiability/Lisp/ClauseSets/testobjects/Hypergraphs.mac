@@ -52,9 +52,9 @@ okltest_max_deficiency_fcs(max_deficiency_fcs);
    ************
 */
 
-okltest_var_disjointp(var_disjointp);
+okltest_var_disjointfcsp(var_disjointfcsp);
 
-okltest_accumulation_variables_fcs(accumulation_variables_fcs);
+okltest_accumulation_variables_cs(accumulation_variables_cs);
 
 okltest_full_variables_fcs(full_variables_fcs);
 

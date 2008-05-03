@@ -133,7 +133,7 @@ okltest_max_deficiency_fcs(f) := block(
    ************
 */
 
-okltest_var_disjointp(f) := (
+okltest_var_disjointfcsp(f) := (
   assert(f([{},{}],[{},{}]) = true),
   assert(f([{},{}],[{},{{}}]) = true),
   assert(f([{},{{}}],[{},{{}}]) = true),
@@ -142,14 +142,15 @@ okltest_var_disjointp(f) := (
   assert(f([{1},{{}}],[{1},{{}}]) = false),
   true)$
 
-okltest_accumulation_variables_fcs(f) := (
-  assert(f([{},{}]) = {}),
-  assert(f([{},{{}}]) = {}),
-  assert(f([{1},{}]) = {1}),
-  assert(f([{1,2},{}]) = {}),
-  assert(f([{1,2,3},{{-3,-1},{-3,1},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2,3}}]) = {}),
-  for n : 0 thru 3 do block([FF : full_fcs(n)],
-    assert(f(FF) = if n <= 1 then setn(n) else {})),
+okltest_accumulation_variables_cs(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {1}),
+  assert(f({{1},{-1}}) = {1}),
+  assert(f({{-3,-1},{-3,1},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2,3}}) = {}),
+  assert(f({{1,2,3},{1,-2,3},{1,2,-3},{1,-2,-3},{-1,4,5},{-1,-4,5},{-1,4,-5},{-1,-4,-5}}) = {1}),
+  for n : 0 thru 3 do block([F : full_fcs(n)[2]],
+    assert(f(F) = if n <= 1 then setn(n) else {})),
   true)$
 
 okltest_full_variables_fcs(f) := (
