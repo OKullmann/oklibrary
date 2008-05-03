@@ -29,6 +29,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
 
 
 /* ***************************************
@@ -92,7 +94,7 @@ smusat_horn(k) := treehittingcls_st(horn_st(k))$
    of occurrences of every variable] */
 sasg2000 : [setn(4), {{1,-2,4},{2,-3,4},{-1,3,4},{1,2,3},
  {1,-2,-4},{2,-3,-4},{-1,3,-4},{-1,-2,-3}}]$
-/* Example from [Brouwer, 1999, An associative block design ABD(8,5) */
+/* Example from [Brouwer, 1999, An associative block design ABD(8,5)] */
 brouwer1999 : [setn(8), {
  {1,2,3,4,5},{-1,2,3,4,5},{1,2,3,4,-5},{-1,2,3,4,-5},
  {1,2,3,-4,6},{-1,2,3,-4,6},{1,-4,5,-6,7},{-1,-4,5,-6,7},
@@ -166,7 +168,7 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
 
 
 /* ***********************************************
-   * Hitting clause-sets with bounded deficiency *
+   * Hitting clause-sets with given deficiency *
    ***********************************************
 */
 
@@ -176,17 +178,111 @@ all_hittinginstances_def(F,k) :=
   subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
          lambda([F],is(deficiency_cs(F)=k)))$
 
-all_hitting_DP_reductions_def(F,k) := block([V : var_cs(F), result : {}],
-  if deficiency_cs(F) = k then result : adjoin(F,result),
-  if emptyp(V) then return(result)
-  else block(
-   [P : permutations(V)],
+/* Find all hitting clause-sets of a given deficiency obtained from
+   a given hitting clause-set by applying DP-resolutions.
+   The variable given as optional third parameter collects the results;
+   if already set, then it won't be reset.
+   The variable given as optional fourth argument reflects the permutation
+   count; if set, then the computation starts with this permutation
+   (in the order given by listify(permutations)).
+*/
+all_hitting_DP_reductions_def(F,k,[mon]) := block(
+
+ [V : var_cs(F),B,result,_res,permutation_count,_pc],
+ if length(mon) = 0 then (
+   _res : 'result, _pc : 'permutation_count)
+ elseif length(mon) = 1 then (
+   _res : mon[1], _pc : 'permutation_count)
+ else (
+   _res : mon[1], _pc : mon[2]),
+ if not setp(ev(_res)) then _res :: {},
+ if not integerp(ev(_pc)) then _pc :: 0 else _pc :: max(ev(_pc)-1,0),
+
+ if deficiency_cs(F) = k then _res :: adjoin(F,ev(_res)),
+ if emptyp(V) then return(ev(_res))
+ else block(
+   [P : rest(permutations(V),ev(_pc))],
     for p in P do block([G : F],
+      _pc :: ev(_pc) + 1,
       for v in p do (
         G : dp_operator(G,v),
-        if deficiency_cs(G) = k then result : adjoin(G,result))),
-    return(result)))$
+        if deficiency_cs(G) = k then _res :: adjoin(G,ev(_res)))),
+    return(ev(_res))))$
 
+/* Given a hitting clause-set F, find all (necessarily hitting) clause-sets
+   derived from F by (exactly) k 2-subsumption resolution-steps. The result
+   is returned, and also iteratively collected in the variable which is
+   given as quoted third argument. */
+derived_hitting_cs(F,k,results_derived_hitting_cs) := (
+  results_derived_hitting_cs :: {},
+  derived_hitting_cs_forb(F,k,{}))$
+
+/* Additionally now a set of forbidden resolution-pairs is given. */
+/* Inherits results_derived_hitting_cs. */
+derived_hitting_cs_forb(F,k,forb_pairs) :=
+ if k < 0 then {}
+ elseif k = 0 then (
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), {F})
+ else
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), C,D, x, found : false],
+   for P in FP unless found do (
+     [C,D] : listify(P), x : resolution_literal(C,D),
+     if not elementp(var_l(x), var_cs(setdifference(F,P))) then
+       forb_pairs : adjoin(P, forb_pairs)
+     else found : true),
+   if not found then return({}) else
+     return(union(
+       derived_hitting_cs_forb(adjoin(resolvent_l(C,D,x),setdifference(F,{C,D})),k-1,forb_pairs),
+       derived_hitting_cs_forb(F,k,adjoin({C,D},forb_pairs)))))$
+
+/* More generally, only allow resolution steps such that for the obtained
+   clause-set predicate pred is true. */
+/* Prerequisite: F is a hitting clause-set, pred(F) = true */
+derived_hitting_cs_pred(F,k,results_derived_hitting_cs,pred) := (
+  results_derived_hitting_cs :: {},
+  derived_hitting_cs_pred_forb(F,k,{}))$
+
+/* Again the variation with a given set of forbidden pairs. */
+/* Inherits results_derived_hitting_cs and pred. */
+derived_hitting_cs_pred_forb(F,k,forb_pairs) :=
+ if k < 0 then {}
+ elseif k = 0 then (
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), {F})
+ else
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), C,D,x,G, found : false],
+   for P in FP unless found do (
+     [C,D] : listify(P), x : resolution_literal(C,D),
+     G : adjoin(resolvent_l(C,D,x),setdifference(F,P)),
+     if not pred(G) then
+       forb_pairs : adjoin(P, forb_pairs)
+     else found : true),
+   if not found then return({}) else
+     return(union(
+       derived_hitting_cs_pred_forb(adjoin(resolvent_l(C,D,x),setdifference(F,{C,D})),k-1,forb_pairs),
+       derived_hitting_cs_pred_forb(F,k,adjoin({C,D},forb_pairs)))))$
+
+/* The instance were no singular variable is created. */
+/* Prerequisite: F does not have singular variables */
+derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred(F,k,results_derived_hitting_cs,redsingdpp)$
+
+/* For a given deficiency and number of variables, find all hitting clause-set types.
+*/
+/* The monitoring-variable "results_all_hitting" collects all hitting clause-sets
+   found. */
+all_unsinghitting(def,n,results_all_hitting) := (
+ results_all_hitting :: {},
+ if def < 1 then {} 
+ elseif def = 1 then if n=0 then results_all_hitting :: {{{}}} else {}
+ elseif def = 2 and n <= 2 then if n<2 then {} else  results_all_hitting :: {full_fcs(2)[2]}
+ elseif n <= 2 then {}
+ else block([F : full_fcs(n)[2]],
+   if def = 2^n - n then return(results_all_hitting :: {F}),
+   block([C : setn(n), D : union(setn(n-1),{-n})],
+     F : adjoin(setn(n-1), setdifference(F,{C,D}))),
+   representatives_cs(
+     derived_hitting_cs_nsing(F, 
+                              2^n-n-def - 1, 
+                              results_all_hitting))))$
 
 /*!
 \endhtmlonly

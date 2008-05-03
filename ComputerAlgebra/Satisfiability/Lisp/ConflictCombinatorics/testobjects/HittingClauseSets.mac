@@ -64,6 +64,11 @@ okltest_all_hittinginstances_def(all_hittinginstances_def);
 
 okltest_all_hitting_DP_reductions_def(all_hitting_DP_reductions_def);
 
+okltest_derived_hitting_cs(derived_hitting_cs);
+okltest_derived_hitting_cs_pred(derived_hitting_cs_pred);
+okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing);
+okltest_all_unsinghitting(all_unsinghitting);
+
 /*!
 \endhtmlonly
 */
