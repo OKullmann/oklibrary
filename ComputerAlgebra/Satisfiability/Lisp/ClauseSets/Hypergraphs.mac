@@ -125,7 +125,8 @@ max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(cl_var_graph(
 
 var_disjointp(FF1,FF2) := disjointp(FF1[1],FF2[1])$
 
-/* The set of accumulation variables of a clause-set */
+/* The set of accumulation variables of a clause-set (those variables which
+   after splitting create variable-disjoint clause-sets). */
 accumulation_variables_fcs(FF) := block(
  [V : FF[1],
   result : {}],
@@ -133,6 +134,15 @@ accumulation_variables_fcs(FF) := block(
     if var_disjointp(apply_pa_f({v},FF), apply_pa_f({-v},FF)) then
       result : adjoin(v,result),
   return(result))$
+accumulation_variables_cs(F) := accumulation_variables_fcs(cs_to_fcs(F))$
+
+/* The set of full variables (occurring in every clause) of a
+   formal clause-set. */
+full_variables_fcs(FF) := block([F : FF[2], D, c : ncl_f(FF)],
+ if F = {} then return(FF[1]) elseif F = {{}} then return({}),
+ D : hash_table_data(variable_degrees_cs(F)),
+ return(setify(map(lambda([P],part(P,1)),sublist(D, lambda([P], is(part(P,2)=c)))))))$
+full_variables_cs(F) := full_variables_fcs(cs_to_fcs(F))$
 
 /*!
 \endhtmlonly

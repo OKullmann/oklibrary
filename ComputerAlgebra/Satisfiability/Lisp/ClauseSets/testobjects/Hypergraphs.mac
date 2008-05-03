@@ -56,6 +56,8 @@ okltest_var_disjointp(var_disjointp);
 
 okltest_accumulation_variables_fcs(accumulation_variables_fcs);
 
+okltest_full_variables_fcs(full_variables_fcs);
+
 /*!
 \endhtmlonly
 */
