@@ -68,6 +68,12 @@ okltest_derived_hitting_cs(derived_hitting_cs);
 okltest_derived_hitting_cs_pred(derived_hitting_cs_pred);
 okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing);
 okltest_all_unsinghitting(all_unsinghitting);
+/* no specific testing of derived_hitting_cs_pred_isoelim yet,
+   since the general test is not applicable, since it assumes that all
+   derived clause-sets are computed, while with isoelim some
+   isomorphic copies will be removed: */
+/* okltest_derived_hitting_cs_pred(derived_hitting_cs_pred_isoelim); */
+/* okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing_isoelim); */
 
 /*!
 \endhtmlonly

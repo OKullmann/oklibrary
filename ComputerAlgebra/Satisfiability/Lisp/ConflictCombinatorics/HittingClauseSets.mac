@@ -261,9 +261,36 @@ derived_hitting_cs_pred_forb(F,k,forb_pairs) :=
        derived_hitting_cs_pred_forb(adjoin(resolvent_l(C,D,x),setdifference(F,{C,D})),k-1,forb_pairs),
        derived_hitting_cs_pred_forb(F,k,adjoin({C,D},forb_pairs)))))$
 
-/* The instance were no singular variable is created. */
-/* Prerequisite: F does not have singular variables */
+/* The variation where isomorphic cases are eliminated. */
+derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,pred) := (
+  results_derived_hitting_cs :: {},
+  derived_hitting_cs_pred_forb_isoelim(F,k,{}))$
+derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) :=
+ if k < 0 then {}
+ elseif k = 0 then (
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), {F})
+ else
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), R,G, found : false, removable : {}],
+   for P in FP unless found do (
+     G : adjoin(resolvent_s(P),setdifference(F,P)),
+     if not pred(G) then
+       forb_pairs : adjoin(P, forb_pairs)
+     else (FP : disjoin(P,FP), found : true, R : P)),
+   if not found then return({}),
+   for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+     if is_isomorphic_cs(G,G2) then
+       removable : adjoin(P,removable)
+   ),
+   return(union(
+     derived_hitting_cs_pred_forb_isoelim(adjoin(resolvent_s(R),setdifference(F,R)),k-1,forb_pairs),
+     derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))$
+
+
+/* The instance where no singular variable is created. */
+/* Prerequisite: F does not have singular variables. */
 derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred(F,k,results_derived_hitting_cs,redsingdpp)$
+derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,redsingdpp)$
+
 
 /* For a given deficiency and number of variables, find all hitting clause-set types.
 */
@@ -280,7 +307,7 @@ all_unsinghitting(def,n,results_all_hitting) := (
    block([C : setn(n), D : union(setn(n-1),{-n})],
      F : adjoin(setn(n-1), setdifference(F,{C,D}))),
    representatives_cs(
-     derived_hitting_cs_nsing(F, 
+     derived_hitting_cs_nsing_isoelim(F, 
                               2^n-n-def - 1, 
                               results_all_hitting))))$
 
