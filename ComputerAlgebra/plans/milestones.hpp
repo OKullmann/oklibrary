@@ -52,7 +52,19 @@ License, or any later version. */
     - Input checking
     - Contexts
     - Aldor integration
-    - Maxima : DONE
+
+  \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - File load and include
+    - Recovering of partial results after long (unsuccessful) computations
+    - Monitoring
+    - Timing
+    - Local variables
+    - Declaring variables
+    - Function application
+    - Document important programming techniques
+    - Document simplification of expressions
+    - New supermodule NumberTheory
 
 
   \par Version 0.1.4
