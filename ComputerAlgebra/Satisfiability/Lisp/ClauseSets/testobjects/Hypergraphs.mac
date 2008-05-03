@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac")$
 
 
 /* *******************

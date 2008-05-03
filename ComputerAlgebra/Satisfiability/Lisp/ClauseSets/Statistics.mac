@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statisti
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* ******************
