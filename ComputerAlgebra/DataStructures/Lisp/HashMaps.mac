@@ -1,0 +1,52 @@
+/* Oliver Kullmann, 4.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/HashMaps.mac
+  \brief Functions for handling hash maps (in Maxima/Lisp)
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* ************************
+   * Set-theoretical maps *
+   ************************
+*/
+
+/* A "set-map" is a set of pairs [x,y], such that x is unique. */
+
+/* Compute the value for an argument in the domain of a set-map.
+   If x is not in the domain, then "done" is returned. */
+evaluate_set_map(M,x) := for p in M do if p[1] = x then return(p[2])$
+
+
+/* ***********************************************
+   * Hash maps as provided by the graphs-package *
+   ***********************************************
+*/
+
+load(graphs)$
+
+/* Given a map as a set of pairs [argument,value], create a hash-map. */
+create_hash_map(S) := block([L : listify(S), h : hash_table()],
+  for p in L do set_hash(p[1],h,p[2]), return(h))$
+
+/* Given a hash-map, create the corresponding set-theoretical map
+   (as a set of pairs). */
+create_set_map(h) := 
+ setify(map(lambda([a],[part(a,1),part(a,2)]),hash_table_data(h)))$
+
+/*!
+\endhtmlonly
+*/

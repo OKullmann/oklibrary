@@ -316,6 +316,8 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
        "part(A,1)" and the value by "part(A,2)". </li>
       </ol>
      </li>
+     <li> See ComputerAlgebra/DataStructures/Lisp/HashMaps.mac for interfaces.
+     </li>
     </ol>
    </li>
    <li> Dynamic binding: Important to understand this, since nowadays

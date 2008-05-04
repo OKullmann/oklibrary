@@ -1,0 +1,68 @@
+/* Oliver Kullmann, 4.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac
+  \brief Tests for hash-processing functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+kill(f)$
+
+/* ************************
+   * Set-theoretical maps *
+   ************************
+*/
+
+okltest_evaluate_set_map(f) := block([M,x],
+  assert(f({},x) = done),
+  assert(f({[1,10]},1) = 10),
+  assert(f({[1,10]},2) = done),
+  M : {[1,2],[5,10]},
+  assert(f(M,1) = 2), assert(f(M,5) = 10), assert(f(M,2) = done),
+  true)$
+
+
+/* ***********************************************
+   * Hash maps as provided by the graphs-package *
+   ***********************************************
+*/
+
+okltest_repo_set_maps : {
+ {},
+ {[1,1]},
+ {[1,1],[2,3]}
+}$
+
+okltest_create_hash_map(f) := (
+  for M in okltest_repo_set_maps do block([h : f(M)],
+    assert(length(hash_table_data(h)) = length(M)),
+    for p in M do assert(get_hash(p[1],h) = p[2])
+  ),
+  true)$
+
+okltest_create_set_map(f) := (
+  for M in okltest_repo_set_maps do
+    assert(f(create_hash_map(M)) = M),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/
