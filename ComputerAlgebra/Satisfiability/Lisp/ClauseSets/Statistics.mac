@@ -148,7 +148,8 @@ literal_degrees_list_fcs(FF) := block(
     val : get_hash(deg,h),
     if val = false then set_hash(deg,h,1)
     else set_hash(deg,h,val+1)),
-  map(args,hash_table_data(h)))$
+  sort(map(args,hash_table_data(h)),
+     lambda([P1,P2], is(first(P1) < first(P2)))))$
 
 
 /* OK; ???? what is this doing ? What is "tb" ? */
