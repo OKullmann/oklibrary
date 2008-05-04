@@ -14,7 +14,7 @@ linel : 100;
 define_variable(oklib_monitor,false,boolean);
 define_variable(oklib_monitor_level,0,any); /* may take value inf */
 
-define_variabe(oklib_test_level,0,any); /* may take value inf */
+define_variable(oklib_test_level,0,any); /* may take value inf */
 define_variable(oklib_test_demos,false,boolean);
 define_variable(oklib_test_demos_level,0,any); /* may take value inf */
 
