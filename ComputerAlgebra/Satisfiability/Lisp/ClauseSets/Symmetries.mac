@@ -26,7 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 
 /* Checks whether two formal clause-sets are isomorphic (where renaming
    of variables and flipping is considered). */
-is_isomorphic_fcs(FF1,FF2) := is_isomorphic(
+is_isomorphic_fcs(FF1,FF2) := if not ncl_list_f(FF1) = ncl_list_f(FF2) then false else is_isomorphic(
  dg2mdg(var_lit_clause_digraph(FF1)), dg2mdg(var_lit_clause_digraph(FF2)))$
 /* The variation for clause-sets as inputs */
 is_isomorphic_cs(F1,F2) := is_isomorphic_fcs(cs_to_fcs(F1),cs_to_fcs(F2))$
