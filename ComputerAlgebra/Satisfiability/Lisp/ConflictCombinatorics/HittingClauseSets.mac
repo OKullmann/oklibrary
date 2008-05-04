@@ -31,7 +31,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Re
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 /* ***************************************
    * Representations via splitting trees *
@@ -172,11 +172,15 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
    ***********************************************
 */
 
+/* Applying partial assignments */
+
 /* Find all hitting clause-sets of a given deficiency obtained from
    a given hitting clause-set by applying partial assignments */
 all_hittinginstances_def(F,k) := 
   subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
          lambda([F],is(deficiency_cs(F)=k)))$
+
+/* Applying DP-resolution */
 
 /* Find all hitting clause-sets of a given deficiency obtained from
    a given hitting clause-set by applying DP-resolutions.
@@ -209,10 +213,12 @@ all_hitting_DP_reductions_def(F,k,[mon]) := block(
         if deficiency_cs(G) = k then _res :: adjoin(G,ev(_res)))),
     return(ev(_res))))$
 
+/* Applying 2-subsumption resolution */
+
 /* Given a hitting clause-set F, find all (necessarily hitting) clause-sets
-   derived from F by (exactly) k 2-subsumption resolution-steps. The result
-   is returned, and also iteratively collected in the variable which is
-   given as quoted third argument. */
+   derived from F by (exactly) k 2-subsumption resolution-steps without
+   removing variables. The result is returned, and also iteratively collected
+   in the variable which is given as quoted third argument. */
 derived_hitting_cs(F,k,results_derived_hitting_cs) := (
   results_derived_hitting_cs :: {},
   derived_hitting_cs_forb(F,k,{}))$
@@ -261,29 +267,46 @@ derived_hitting_cs_pred_forb(F,k,forb_pairs) :=
        derived_hitting_cs_pred_forb(adjoin(resolvent_l(C,D,x),setdifference(F,{C,D})),k-1,forb_pairs),
        derived_hitting_cs_pred_forb(F,k,adjoin({C,D},forb_pairs)))))$
 
+monitor_check_dhcpi() := if oklib_monitor then (
+  print("M[derived_hitting_cs_pred_isoelim]: ENTRY;"),
+  print("number of steps:", k, "; input clause-set statistics:", statistics_cs(F)))$
+monitor_check_dhcpfi_entry() := 
+ if oklib_monitor and oklib_monitor_level >= 2 then (
+   print("M[derived_hitting_cs_pred_forb_isoelim]: ENTRY;"),
+   print("number of steps:", k, "; input clause-set statistics:", statistics_cs(F), "; number of forbidden pairs:", length(forb_pairs)))$
+monitor_check_dhcpfi_found() := 
+ if oklib_monitor and oklib_monitor_level >= 1 then (
+   print("M[derived_hitting_cs_pred_forb_isoelim]: Found"), print(F))$
+
 /* The variation where isomorphic cases are eliminated. */
 derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,pred) := (
+  monitor_check_dhcpi(),
   results_derived_hitting_cs :: {},
   derived_hitting_cs_pred_forb_isoelim(F,k,{}))$
-derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) :=
+derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
+ monitor_check_dhcpfi_entry(),
  if k < 0 then {}
  elseif k = 0 then (
-   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), {F})
+   monitor_check_dhcpfi_found(),
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), 
+   {F})
  else
- block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), R,G, found : false, removable : {}],
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), R,G, found : false],
    for P in FP unless found do (
      G : adjoin(resolvent_s(P),setdifference(F,P)),
      if not pred(G) then
        forb_pairs : adjoin(P, forb_pairs)
      else (FP : disjoin(P,FP), found : true, R : P)),
    if not found then return({}),
-   for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
-     if is_isomorphic_cs(G,G2) then
-       removable : adjoin(P,removable)
-   ),
-   return(union(
-     derived_hitting_cs_pred_forb_isoelim(adjoin(resolvent_s(R),setdifference(F,R)),k-1,forb_pairs),
-     derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))$
+   block(
+    [first_branch : derived_hitting_cs_pred_forb_isoelim(
+       adjoin(resolvent_s(R),setdifference(F,R)),k-1,forb_pairs), 
+     removable : {}],
+     for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+       if is_isomorphic_cs(G,G2) then
+         removable : adjoin(P,removable)),
+    return(union(first_branch,
+      derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))))$
 
 
 /* The instance where no singular variable is created. */
