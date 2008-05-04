@@ -21,7 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/St
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 kill(f)$
 
@@ -38,6 +39,23 @@ okltest_literal_degree_cs(f) := block(
   assert(f({{1}},2) = 0),
   assert(f({{1},{-1}},1) = 1),
   assert(f({{1},{-1}},-1) = 1),
+  true)$
+
+okltest_literal_degrees_cs(f) := block(
+  assert(create_set_map(f({})) = {}),
+  assert(create_set_map(f({{}})) = {}),
+  assert(create_set_map(f({{1}})) = {[1,1]}),
+  assert(create_set_map(f({{1},{-1}})) = {[1,1],[-1,1]}),
+  assert(create_set_map(f({{1},{-1},{}})) = {[1,1],[-1,1]}),
+  assert(create_set_map(f({{1},{-1},{},{2,1}})) = {[1,2],[-1,1],[2,1]}),
+  true)$
+
+okltest_all_literal_degrees_fcs(f) := block(
+  assert(create_set_map(f([{},{}])) = {}),
+  assert(create_set_map(f([{1},{}])) = {[1,0],[-1,0]}),
+  assert(create_set_map(f([{1},{{}}])) = {[1,0],[-1,0]}),
+  assert(create_set_map(f([{1},{{1}}])) = {[1,1],[-1,0]}),
+  assert(create_set_map(f([{1},{{1},{-1}}])) = {[1,1],[-1,1]}),
   true)$
 
 okltest_ordered_literal_degrees_cs(f) := block(
@@ -57,6 +75,18 @@ okltest_min_literal_degree_l_cs(f) := block(
   assert(f({{1}}) = [1,1]),
   assert(elementp(f({{1},{-1}}), {[1,1],[1,-1]}) = true),
   assert(f({{},{1},{1,2}}) = [1,2]),
+  true)$
+
+okltest_literal_degrees_list_fcs(f) := block(
+  assert(f([{},{}]) = []),
+  assert(f([{},{{}}]) = []),
+  assert(f([{1,2},{}]) = [[0,4]]),
+  assert(f([{1,2},{{}}]) = [[0,4]]),
+  assert(f([{1},{{},{1}}]) = [[0,1],[1,1]]),
+  assert(f([{1},{{},{1},{-1}}]) = [[1,2]]),
+  assert(f([{1,2},{{},{1},{-1}}]) = [[0,2],[1,2]]),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)) = if n=0 then [] else [[2^(n-1),2*n]]),
   true)$
 
 

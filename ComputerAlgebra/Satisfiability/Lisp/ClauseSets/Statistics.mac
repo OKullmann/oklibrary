@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statisti
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* ******************
@@ -80,17 +81,23 @@ statistics_fcs(FF) :=
 /* The degree of a literal in a clause-set */
 literal_degree_cs(F,l) := length(scls_l(F,l))$
 
-load(graphs)$
-
-/* The literal-degrees of a clause-set, as hash-map */
+/* The literal-degrees of a clause-set, as hash-map, considering
+   only occurring literals. */
 literal_degrees_cs(F) := block([h : hash_table()],
  for C in F do
   for x in C do block([val : get_hash(x,h)],
    if val=false then set_hash(x,h,1)
    else set_hash(x,h,val+1)),
  return(h))$
+/* The literal-degrees of a formal clause-set, as hash-map, considering
+   all occurring literals. */
+all_literal_degrees_fcs(FF) := block(
+ [h : literal_degrees_cs(FF[2]), L : literals_v(FF[1])],
+  for x in L do if get_hash(x,h) = false then set_hash(x,h,0),
+  return(h))$
+
 /* Returns the pairs of literal and literal degree of a clause-set F in 
-   descending order of the number of literals using the given order
+   descending order of the literal degree using the given order
    on literals  for equal counts. */
 /* This assumes that the Maxima "sort" is a stable sort (which actually is
    not specified?). */
@@ -121,6 +128,28 @@ max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
     if d > maxd then (maxd : d, optl : m[1])),
   return([maxd, optl]))$
 
+/* Tests whether a clause-set is literal-regular (all literals have the same
+   degree) */
+literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$
+/* the average literal degree of a formal clause-set */
+mean_literal_degree_fcs(FF) := nlitocc(FF[2]) / (2 * nvar_f(FF))$
+/* literal frequencies in various forms: */
+min_literal_frequency_cs(F) := min_literal_degree_cs(F) / ncl_cs(F)$
+max_literal_frequency_cs(F) := max_literal_degree_cs(F) / ncl_cs(F)$
+mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
+
+/* The list of pairs
+   [occurring literal-degree, number of literals of this degree],
+   sorted by ascending literal_degree.
+*/
+literal_degrees_list_fcs(FF) := block(
+ [litdeg : create_set_map(all_literal_degrees_fcs(FF)), h : hash_table()],
+  for p in litdeg do block([deg : p[2], val],
+    val : get_hash(deg,h),
+    if val = false then set_hash(deg,h,1)
+    else set_hash(deg,h,val+1)),
+  map(args,hash_table_data(h)))$
+
 
 /* OK; ???? what is this doing ? What is "tb" ? */
 max_literal_degree_tb(FF,l,d,n) := block([max_ld1, max_ld2, max_l1, max_l2],
@@ -142,16 +171,6 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
         block([ml : sublist(rest(old),lambda([a],is(second(a)=second(first(old)))))],
           take_elements(min(n,length(ml)),ml))),
     first(old)))$
-
-/* Tests whether a clause-set is literal-regular (all literals have the same
-   degree) */
-literalregularcsp(F) := is(min_literal_degree_cs(F) >= max_literal_degree_cs(F))$
-/* the average literal degree of a formal clause-set */
-mean_literal_degree_fcs(FF) := nlitocc(FF[2]) / (2 * nvar_f(FF))$
-/* literal frequencies in various forms: */
-min_literal_frequency_cs(F) := min_literal_degree_cs(F) / ncl_cs(F)$
-max_literal_frequency_cs(F) := max_literal_degree_cs(F) / ncl_cs(F)$
-mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
 
 
 /* ********************

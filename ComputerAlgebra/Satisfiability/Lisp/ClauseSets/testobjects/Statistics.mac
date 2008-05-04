@@ -28,8 +28,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
 
 okltest_literal_degree_cs(literal_degree_cs);
 
+okltest_literal_degrees_cs(literal_degrees_cs);
+okltest_all_literal_degrees_fcs(all_literal_degrees_fcs);
 okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
 okltest_min_literal_degree_l_cs(min_literal_degree_l_cs);
+okltest_literal_degrees_list_fcs(literal_degrees_list_fcs);
 
 /* *******************************
    * Weighted numbers of clauses *
