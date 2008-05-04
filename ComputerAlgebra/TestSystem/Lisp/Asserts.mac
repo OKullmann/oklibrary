@@ -20,12 +20,13 @@ oklib_load("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 */
 
 /* Use "assert(expr)" to state that expr shall evaluate to true. */
-assert('expr) := block([error_size : error_size], error_size : 1000,
-  if ev(expr) then true elseif not oklib_automatic_test then
-    error("ASSERT: Expression \"", ev(expr), "\" does not evaluate to true.")
+assert('expr) := block([error_size : error_size, val], error_size : 1000,
+  val : ev(expr),
+  if val then true elseif not oklib_automatic_test then
+    error("ASSERT: Expression \"", val, "\" does not evaluate to true.")
   else (
-    with_stdout(test_output_okl, print("ASSERT: Expression \"", ev(expr), "\" does not evaluate to true.")),
-    error("ASSERT: Expression \"", ev(expr), "\" does not evaluate to true.")))$
+    with_stdout(test_output_okl, print("ASSERT: Expression \"", val, "\" does not evaluate to true.")),
+    error("ASSERT: Expression \"", val, "\" does not evaluate to true.")))$
 
 /* Helper functions to handle matters of precision. */
 log10(x) := log(x) / log(10)$
