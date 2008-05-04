@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.m
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
 okltest_take_elements(take_elements);
 okltest_remove_element(remove_element);

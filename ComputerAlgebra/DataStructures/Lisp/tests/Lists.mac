@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 
 kill(f)$
