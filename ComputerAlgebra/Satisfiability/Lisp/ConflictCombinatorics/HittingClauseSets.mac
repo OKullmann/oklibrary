@@ -167,9 +167,9 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
  map(lambda([M],map(lambda([v],get_vertex_label(v,G)),M)), R))$
 
 
-/* ***********************************************
-   * Hitting clause-sets with given deficiency *
-   ***********************************************
+/* *****************************************************
+   * Finding hitting clause-sets with given deficiency *
+   *****************************************************
 */
 
 /* Applying partial assignments */
@@ -212,6 +212,7 @@ all_hitting_DP_reductions_def(F,k,[mon]) := block(
         G : dp_operator(G,v),
         if deficiency_cs(G) = k then _res :: adjoin(G,ev(_res)))),
     return(ev(_res))))$
+
 
 /* Applying 2-subsumption resolution */
 
@@ -278,7 +279,7 @@ monitor_check_dhcpfi_found() :=
  if oklib_monitor and oklib_monitor_level >= 1 then (
    print("M[derived_hitting_cs_pred_forb_isoelim]: Found"), print(F))$
 
-/* The variation where isomorphic cases are eliminated. */
+/* The variation where isomorphic cases for branching are eliminated. */
 derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,pred) := (
   monitor_check_dhcpi(),
   results_derived_hitting_cs :: {},
@@ -299,8 +300,7 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
      else (FP : disjoin(P,FP), found : true, R : P)),
    if not found then return({}),
    block(
-    [first_branch : derived_hitting_cs_pred_forb_isoelim(
-       adjoin(resolvent_s(R),setdifference(F,R)),k-1,forb_pairs), 
+    [first_branch : derived_hitting_cs_pred_forb_isoelim(G,k-1,forb_pairs), 
      removable : {}],
      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
        if is_isomorphic_cs(G,G2) then
@@ -308,18 +308,69 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
     return(union(first_branch,
       derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))))$
 
-
-/* The instance where no singular variable is created. */
+/* The instance of the previous function where no singular variable is
+   created. */
 /* Prerequisite: F does not have singular variables. */
 derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred(F,k,results_derived_hitting_cs,redsingdpp)$
 derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,redsingdpp)$
 
 
-/* For a given deficiency and number of variables, find all hitting clause-set types.
+/* Now computing all non-isomorphic cases. repository is a hash table,
+   and its given value is used. Returns the number of (new) cases found (not
+   including those already in repository). */
+all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
+  all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
+/* repository is inherited. */
+all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
+ [count : 0],
+  if check then
+    if not manage_repository_isomorphism_types(cs_to_fcs(F), repository) then
+      return(count)
+    else count : count + 1,
+  block(
+   [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
+    R,G, found : false],
+    for P in FP unless found do (
+      G : adjoin(resolvent_s(P),setdifference(F,P)),
+      if not pred(G) then
+        forb_pairs : adjoin(P, forb_pairs)
+       else (FP : disjoin(P,FP), found : true, R : P)),
+    if not found then return(count),
+    block(
+     [removable : {}],
+      count : count + all_derived_hitting_cs_pred_forb_isoelim(
+                   G,
+                   forb_pairs,
+                   true),
+      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+        if is_isomorphic_cs(G,G2) then
+          removable : adjoin(P,removable)),
+      return(count + all_derived_hitting_cs_pred_forb_isoelim(
+                   F,
+                   adjoin(R,union(forb_pairs,removable)),
+                   false)))))$
+
+/* Compute the sorted list of pairs [deficiency, count] for a given
+   hash-repository. */
+analyse_isorepo_def(repository) := block(
+ [M : create_set_map(repository), h : hash_table()],
+  for P in M do block([count : length(P[2]), def : P[1][2] - P[1][1], val],
+    val : get_hash(def,h),
+    if val = false then set_hash(def,h,count) else set_hash(def,h,val + count)),
+  sort(listify(create_set_map(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+
+
+/* The instance where no singular variable is created. */
+/* Prerequisite: F does not have singular variables. */
+all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,redsingdpp)$
+
+
+/* For a given deficiency and number of variables, find all hitting clause-set
+   types s.t. no singular variables occur.
 */
 /* The monitoring-variable "results_all_hitting" collects all hitting clause-sets
    found. */
-all_unsinghitting(def,n,results_all_hitting) := (
+all_unsinghitting_def(def,n,results_all_hitting) := (
  results_all_hitting :: {},
  if def < 1 then {} 
  elseif def = 1 then if n=0 then results_all_hitting :: {{{}}} else {}
@@ -333,6 +384,17 @@ all_unsinghitting(def,n,results_all_hitting) := (
      derived_hitting_cs_nsing_isoelim(F, 
                               2^n-n-def - 1, 
                               results_all_hitting))))$
+
+/* For a given number of variables, find all hitting clause-set types
+   (without singular variables). */
+/* Returned is the total number, while parameter hash (passed by name;
+   initialised empty) contains the full hash-map. */
+/* Prerequisite: n >= 2. */
+all_unsinghitting(n, _hash_repo) := block([h : hash_table(), count],
+  count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],h),
+  _hash_repo :: h,
+  count
+)$
 
 /*!
 \endhtmlonly

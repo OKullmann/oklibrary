@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 kill(f)$
@@ -251,7 +252,34 @@ okltest_derived_hitting_cs_nsing(f) := block([presult,result,F],
   assert(presult = result),
   true)$
 
-okltest_all_unsinghitting(f) := block([presult,result],
+okltest_all_derived_hitting_cs_nsing_isoelim(f) := block([repo,M:{},FF],
+  repo : hash_table(),
+  FF : [{},{}],
+  assert(f(FF[2],repo) = 1),
+  M : adjoin([fcs_identifier(FF), {FF}],M),
+  assert(create_set_map(repo) = M),
+  assert(f(FF[2],repo) = 0),
+  assert(create_set_map(repo) = M),
+  FF : [{},{{}}],
+  assert(f(FF[2],repo) = 1),
+  M : adjoin([fcs_identifier(FF), {FF}],M),
+  assert(create_set_map(repo) = M),
+  assert(f(FF[2],repo) = 0),
+  assert(create_set_map(repo) = M),
+  FF : full_fcs(2),
+  assert(f(FF[2],repo) = 1),
+  M : adjoin([fcs_identifier(FF), {FF}],M),
+  assert(create_set_map(repo) = M),
+  assert(f(FF[2],repo) = 0),
+  assert(create_set_map(repo) = M),
+  assert(length(M) = 3),
+  repo : hash_table(),
+  FF : full_fcs(3),
+  assert(f(FF[2],repo) = 1 + 3 + 1 + 1),
+  assert(analyse_isorepo_def(repo) = [[2,1],[3,3],[4,1],[5,1]]),
+  true)$
+
+okltest_all_unsinghitting_def(f) := block([presult,result],
   result : f(0,0,'presult), assert(result = {}), assert(presult = result),
   result : f(0,1,'presult), assert(result = {}), assert(presult = result),
   result : f(1,0,'presult), assert(result = {{{}}}), assert(presult = result),
@@ -263,7 +291,18 @@ okltest_all_unsinghitting(f) := block([presult,result],
   assert(length(result) = 1),
   assert(is_isomorphic_cs(single_element(result), musatd2(3)[2])),
   assert(subsetp(result,presult) = true),
+  result : f(4,3,'presult),
+  assert(length(result) = 1), assert(presult = result),
+  assert(is_isomorphic_cs(single_element(result), {{-3,-2,-1},{-3,-2,1},{-3,-1,2},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2}})),
   true)$
+
+okltest_all_unsinghitting(f) := block([hash],
+  assert(f(2,'hash) = 1),
+  assert(analyse_isorepo_def(hash) = [[2,1]]),
+  assert(f(3,'hash) = 1 + 3 + 1 + 1),
+  assert(analyse_isorepo_def(hash) = [[2,1],[3,3],[4,1],[5,1]]),
+  true)$
+
 
 /*!
 \endhtmlonly
