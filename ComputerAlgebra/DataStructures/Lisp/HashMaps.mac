@@ -45,7 +45,7 @@ create_hash_map(S) := block([L : listify(S), h : hash_table()],
 /* Given a hash-map, create the corresponding set-theoretical map
    (as a set of pairs). */
 create_set_map(h) := 
- setify(map(lambda([a],[part(a,1),part(a,2)]),hash_table_data(h)))$
+ setify(map(args,hash_table_data(h)))$
 
 /*!
 \endhtmlonly

@@ -51,6 +51,7 @@ sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
 literals_v(V) := block([L : listify(V)],
   setify(append(L,-L)))$
 
+
 /* ***********
    * Clauses *
    ***********
