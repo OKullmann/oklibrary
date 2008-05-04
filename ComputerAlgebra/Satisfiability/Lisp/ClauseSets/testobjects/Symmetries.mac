@@ -25,6 +25,8 @@ okltest_is_isomorphic_fcs(is_isomorphic_fcs);
 
 okltest_representatives_fcs(representatives_fcs);
 
+okltest_manage_repository_isomorphism_types(manage_repository_isomorphism_types);
+
 /*!
 \endhtmlonly
 */

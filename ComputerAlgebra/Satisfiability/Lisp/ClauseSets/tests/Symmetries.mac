@@ -24,6 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 kill(f)$
 
@@ -54,6 +55,41 @@ okltest_representatives_fcs(f) := block([FF],
     assert(elementp([{},{}], R) = true),
     assert(length(intersection(R, {[{1},{}], [{2},{}]})) = 1)
   ),
+  true)$
+
+okltest_manage_repository_isomorphism_types(f) := block([repo,M,FF1,FF2,deg],
+  repo : hash_table(),
+  assert(f([{},{}],repo) = true),
+  M : {[[0,0,[],[]], {[{},{}]}]},
+  assert(create_set_map(repo) = M),
+  assert(f([{},{}],repo) = false),
+  assert(create_set_map(repo) = M),
+  assert(f([{},{{}}],repo) = true),
+  M : adjoin([[0,1,[],[[0,1]]], {[{},{{}}]}], M),
+  assert(create_set_map(repo) = M),
+  assert(f([{},{{}}],repo) = false),
+  assert(create_set_map(repo) = M),
+  assert(f([{1},{}],repo) = true),
+  M : adjoin([[1,0,[[0,2]],[]],{[{1},{}]}], M),
+  assert(create_set_map(repo) = M),
+  assert(f([{1},{}],repo) = false),
+  assert(create_set_map(repo) = M),
+  assert(f([{2},{}],repo) = false),
+  assert(create_set_map(repo) = M),
+  assert(f([{1},{{1}}],repo) = true),
+  M : adjoin([[1,1,[[0,1],[1,1]],[[1,1]]], {[{1},{{1}}]}], M),
+  assert(create_set_map(repo) = M),
+  assert(f([{1},{{1}}],repo) = false),
+  assert(create_set_map(repo) = M),
+  FF1 : [setn(4),{{-4,-3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,4},{-2,-1,3},{-2,1,3},{2,4}}],
+  assert(f(FF1,repo) = true),
+  deg : [4,7,[[2,4],[3,3],[4,1]],[[2,2],[3,3],[4,2]]],
+  M : adjoin([deg, {FF1}], M),
+  assert(create_set_map(repo) = M),
+  FF2 : [setn(4),{{-4,-3},{-4,2,3},{-3,-2,1,4},{-3,-1,4},{-2,3},{-1,2,3,4},{1,2,4}}],
+  assert(f(FF2,repo) = true),
+  M : disjoin([deg,{FF1}],M), M : adjoin([deg,{FF1,FF2}],M),
+  assert(create_set_map(repo) = M),
   true)$
 
 /*!
