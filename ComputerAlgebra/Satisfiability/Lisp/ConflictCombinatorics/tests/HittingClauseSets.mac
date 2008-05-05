@@ -24,10 +24,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 
 kill(f)$
 
@@ -67,6 +68,23 @@ okltest_brouwer1999(FF) := block([F : FF[2]],
   assert(min_literal_degree_cs(F) = 10),
   assert(max_variable_frequency_cs(F) = 5/8),
   assert(abd_parameters(F) = [8,5]),
+  true)$
+
+okltest_max_var_hitting_def(f) := (
+  for k : 2 thru 5 do ([FF : f(k)],
+    assert(hittingcsp(FF[2]) = true),
+    assert(sat_decision_hitting_cs(FF[2]) = false),
+    assert(redsingdpp(FF[2]) = true),
+    assert(deficiency_fcs(FF) = k),
+    assert(nvar_f(FF) = 3 + (k-2) * 4)
+  ),
+  true)$
+
+okltest_nvar_max_var_hitting_def(f) := (
+  assert(f(2) = 3),
+  assert(f(3) = 7),
+  for k : 2 thru 5 do ([FF : f(k)],
+    assert(f(k) = nvar_f(max_var_hitting_def(k)))),
   true)$
 
 

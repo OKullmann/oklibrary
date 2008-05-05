@@ -36,6 +36,9 @@ okltest_hitting_cls_rep_st(hitting_cls_rep_st);
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);
 
+okltest_max_var_hitting_def(max_var_hitting_def);
+okltest_nvar_max_var_hitting_def(nvar_max_var_hitting_def);
+
 /* *********
    * Tests *
    *********
