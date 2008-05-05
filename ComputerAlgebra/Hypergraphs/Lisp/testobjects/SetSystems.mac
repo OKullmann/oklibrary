@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/SetSystems
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 
 /* **************
    * Singletons *
@@ -29,6 +29,24 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.ma
 okltest_singletonp(singletonp);
 okltest_single_element(single_element);
 okltest_choose_element(choose_element);
+
+/* *********************
+   * Set constructions *
+   *********************
+*/
+
+okltest_setn(setn);
+okltest_setmn(setmn);
+
+/* **********************************
+   * Constructions related to union *
+   **********************************
+*/
+
+okltest_set_system_union(set_system_union);
+
+okltest_cunion(cunion);
+okltest_add_element(add_element);
 
 
 /*!
