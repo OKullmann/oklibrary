@@ -127,14 +127,32 @@ substitute_c(C,h) :=
    creating pseudo-clauses with clashing literals). */
 substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 
+/* Given a list of variables of the same size as the set
+   of variables of a formal clause-set, rename the formal
+   clause-set, using the natural correspondence given by
+   the given order on the set of variables. 
+*/
+rename_fcs(FF,L) := block(
+ [V : listify(FF[1]), h],
+  h : create_hash_map(setify(makelist([V[i],L[i]], i,1,length(V)))),
+  [setify(L), substitute_cs(FF[2],h)])$
 
-/* Translating variable names of a formal clause-set into natural numbers; 
+/* Translating variable names of a formal clause-set into natural numbers;
    outputs a pair consisting of the translated formal clause-set and
    the list of old variable names (positions corresponding to new
    variable-numbers) */
-standardise_fcs(FF) := block([V : listify(FF[1]), h],
- h : create_hash_map(setify(makelist([V[i],i],i,1,length(V)))),
- return([[setn(length(V)), substitute_cs(FF[2],h)],V]))$
+standardise_fcs(FF) := block([L : makelist(i,i,1,nvar_f(FF))],
+ [rename_fcs(FF,L), listify(var_cs_f(FF))])$
+
+/* Make a list of formal clause-sets variable-disjoint, using
+   variables from 1 on. Returns a pair consisting of the renamed
+   list and the total number n of variables (so the next free
+   variable is n+1). */
+make_vardisjoint_fcs(LFF) := block([index : 0, result : []],
+  for FF in LFF do block([n : nvar_f(FF)],
+    result : endcons(rename_fcs(FF,makelist(index + i, i,1,n)), result),
+    index : index + n),
+  return([result, index]))$
 
 
 /* ***********************************

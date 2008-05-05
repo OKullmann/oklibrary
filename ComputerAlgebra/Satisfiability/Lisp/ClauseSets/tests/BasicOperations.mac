@@ -82,6 +82,13 @@ okltest_standardise_fcs(f) := block([FF],
   assert(f([{4,5,6},{{},{-4,5,6},{5},{4,-5},{-5,-6}}]) = [[{1,2,3},{{},{-1,2,3},{2},{1,-2},{-2,-3}}],[4,5,6]]),
   true)$
 
+okltest_make_vardisjoint_fcs(f) := (
+  assert(f([]) = [[],0]),
+  assert(f(map(cs_to_fcs,[{},{{}},{},{{}}])) = [map(cs_to_fcs,[{},{{}},{},{{}}]), 0]),
+  assert(f(map(cs_to_fcs,[{{1}},{{}},{{1}},{{}}])) = [map(cs_to_fcs,[{{1}},{{}},{{2}},{{}}]), 2]),
+  assert(f(map(cs_to_fcs,[{{4}},{{2}},{{2}},{{1}}])) = [map(cs_to_fcs,[{{1}},{{2}},{{3}},{{4}}]), 4]),
+  true)$
+
 
 /* ***********************************
    * Selecting parts of a clause-set *
