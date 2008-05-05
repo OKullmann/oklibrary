@@ -15,6 +15,8 @@ License, or any later version. */
 
   \todo Applying substitutions
   <ul>
+   <li> See "standardise_fcs" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp. </li>
    <li> A general framework of "substitutions" and applying them is needed.
    </li>
    <li> See "Renaming" in

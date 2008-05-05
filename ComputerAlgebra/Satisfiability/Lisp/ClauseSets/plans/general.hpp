@@ -73,6 +73,9 @@ License, or any later version. */
   \todo standardise_fcs (in
   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
   <ul>
+   <li> See "Applying substitutions" in
+   ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp.
+   </li>
    <li> Ask on maxima-mailing-list whether a parallel substitution
    is available (this should speed up renaming). </li>
    <li> DONE The current implementation (using iterated substitution) is
