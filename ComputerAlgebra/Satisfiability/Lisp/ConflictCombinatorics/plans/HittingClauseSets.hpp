@@ -185,11 +185,116 @@ License, or any later version. */
      <li> One could also consider regularity (variable- or literal-regularity)
      with uniformity. </li>
      <li> In any case, the ABD-constructions need to be inspected. </li>
+     <li> We have three approaches, based on applying partial assignments,
+     applying DP-reductions, and applying 2-subsumption resolution. </li>
     </ol>
    </li>
    <li> Questions regarding the minimal possible variable degree of uniform
    unsatisfiable clause-sets in general are handled in
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp
+   </li>
+  </ul>
+
+
+  \todo derived_hitting_cs_pred_isoelim
+  <ul>
+   <li> For monitoring we should make it possible to output the information
+   in monitor_check_dhcpfi_entry only up to a given depth in the search
+   tree. </li>
+   <li> How to enable continuation after stopping the computation?
+    <ol>
+     <li> The current path needs to be available, so that one can continue
+     with it. </li>
+     <li> And an given global variable mirrors always its current value. </li>
+     <li> Setting this value appropriately should also make it possible to
+     jump around in the search tree, and visit "later" parts. </li>
+    </ol>
+   </li>
+   <li> Are there heuristics for choosing the 2-subsumption step and the
+   first branch, in order to find instances earlier? </li>
+  </ul>
+
+
+  \todo Non-singular unsatisfiable hitting clause-sets of given deficiency
+  <ul>
+   <li> Conjecture of XSZ+OK: For fixed deficiency k, there are up to
+   isomorphism only finitely many unsatisfiable hitting clause-sets which
+   are reduced w.r.t. singular DP-reduction. </li>
+   <li> In other words, there is a function maxN(k): N -> N such that
+        check_hitting_nsing_def(F) = [k] => nvar_cs(F) <= maxN(k). </li>
+   <li> More precisely, OK+XSZ conjecture the following:
+    <ol>
+     <li> Let N(k,n) be the number of isomorphism types of "claw-free"
+     unsatisfiable hitting clause-sets with deficiency k and with n
+     variables. </li>
+     <li> Obviously for fixed k there is a minimal n s.t. N(k,n) > 0;
+     call this minN(k). </li>
+     <li> Let a(n) be the smallest n such that 2^n - n >= k.
+     We have minN(k) >= a(n) (due to the completeness of
+     2-subsumption resolution; see below). </li>
+     <li> We conjecture that for all k we have equality here. </li>
+     <li> Let maxN(k) be the supremum of n s.t. N(k,n) > 0.
+     So the conjecture states that maxN(k) < inf for all k. </li>
+     <li> Now we conjecture that maxN(k) = 3 + (k-2)*4; see
+     max_var_hitting_def in
+     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+     for the (simple) realising construction. </li>
+     <li> Furthermore we believe that
+      <ul>
+       <li> The set of n with N(k,n) is exactly the interval
+       {minN(k), ..., maxN(k)}. </li>
+       <li> For k >= 2 N(k,-) is first strictly increasing, and
+       then strictly decreasing on this interval. </li>
+       <li> And N(k,maxN(k)) = 1. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+   <li> In ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
+   one finds a catalogue of claw-free unsatisfiable hitting clause-sets for
+   given deficiency.
+    <ol>
+     <li> A main tool are the functions all_unsinghitting_def(k,n) and
+     all_unsinghitting(n), which for given k,n resp. given n determine
+     all isomorphism types of claw-free unsatisfiable hitting clause-sets. </li>
+     <li> The basis idea is that from full_fcs(n) by 2-subsumption resolution
+     we can create all hitting clause-sets using at most n variables. </li>
+     <li> Once we have test cases (if the above functions take too long,
+     one can abort the computation and use what has been found until now),
+     then they can be checked against the catalogue via
+     classify_candidates_uhit_def. </li>
+     <li> Another source is the application of partial assignments to an
+     "interesting" hitting clause-set.
+      <ul>
+       <li> Experiment:
+       \verbatim
+R3 : representatives_cs(map(singular_dp_reduction,all_hittinginstances_def(brouwer1999[2],3)))$
+map(nvar_cs,R3);
+  {3, 4, 5}
+length(R3);
+  12
+classify_candidates_uhit_def(listify(R3));
+       \endverbatim (see 
+       (see ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac
+       for tools for isomorphism testing).
+       It seems that brouwer1999 is rather rich w.r.t. creating various
+       hitting clause-sets by applying partial assignments.
+       </li>
+       <li> Possible this "richness" makes brouwer1999 so special (and
+       hard to find)? </li>
+      </ul>
+     </li>
+     <li> Another source is the application of DP-reductions:
+      <ul>
+       <li> Experiment:
+       \verbatim
+dp_inst_brr : all_hitting_DP_reductions_def(brouwer1999[2],3,'dp_inst_br)$
+       \endverbatim
+       This appears to take a week, and possibly no instance is found,
+       so this appears not to be suitable here. </li>
+      </ul>
+     </li>
+    </ol>
    </li>
   </ul>
 
