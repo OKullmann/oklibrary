@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 

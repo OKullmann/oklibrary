@@ -24,7 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$

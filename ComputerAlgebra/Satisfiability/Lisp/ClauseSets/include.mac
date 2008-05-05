@@ -21,12 +21,10 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/include.
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Statistics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Symmetries.mac")$
 
 /*!
 \endhtmlonly

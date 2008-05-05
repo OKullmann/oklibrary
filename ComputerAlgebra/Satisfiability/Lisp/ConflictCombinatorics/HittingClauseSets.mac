@@ -30,7 +30,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Inclusi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 

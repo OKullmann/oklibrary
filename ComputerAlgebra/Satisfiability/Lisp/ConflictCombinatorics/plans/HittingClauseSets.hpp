@@ -275,7 +275,7 @@ length(R3);
   12
 classify_candidates_uhit_def(listify(R3));
        \endverbatim (see 
-       (see ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Symmetries.mac
+       (see ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac
        for tools for isomorphism testing).
        It seems that brouwer1999 is rather rich w.r.t. creating various
        hitting clause-sets by applying partial assignments.

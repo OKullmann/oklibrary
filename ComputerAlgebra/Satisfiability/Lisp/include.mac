@@ -31,6 +31,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/include.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/include.mac")$
 
 /*!
 \endhtmlonly
