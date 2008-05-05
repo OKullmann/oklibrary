@@ -13,6 +13,13 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Relations to other modules
+  <ul>
+   <li> See Isomorphisms/plans/CLSIsomorphisms.hpp for plans on finding and
+   utilising isomorphisms between clause-sets. </li>
+  </ul>
+
+
   \todo Applying substitutions
   <ul>
    <li> See "standardise_fcs" in
@@ -67,6 +74,8 @@ License, or any later version. */
   <ul>
    <li> What is the standard here for available implementations:
    (undirected) graphs or directed graphs? </li>
+   <li> It appears that directed graphs are better here, since they allow
+   to express more structure directly. </li>
    <li> Considering undirected graphs, for FF the symmetries of FF should
    "almost always" be the symmetries of the extended clause-literal graph
    G with vertices
@@ -82,7 +91,9 @@ License, or any later version. */
    <li> When fixing for the automorphisms of G the vertex "var(F)", then it
    should always be guaranteed that they correspond 1-1 to the symmetries of
    FF. </li>
-   <li> If directed graphs are considered, then one could fix the direction
+   <li> DONE (see is_isomorphic_fcs in
+   ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac)
+   If directed graphs are considered, then one could fix the direction
    "var(F) -> variables -> literals -> clauses -> F" (or vice versa), and get
    in this way rid off any unwanted graph automorphisms. </li>
   </ul>
