@@ -84,16 +84,16 @@ var_int_scom_fcs(FF) := block([M : cl_var_com_fcs(FF)],
    literal to its clauses).
    Literals are here represented as pairs [v,+1] resp. [v,-1].
 */
-var_lit_clause_digraph(FF) := block(
- [Var : FF[1],
-  Lit : family_sets_union(FF[1], lambda([v],{[v,1],[v,-1]})),
-  Cl : FF[2],
-  V, E],
-  V : union(Var,Lit,Cl),
-  E : family_sets_union(Var,lambda([v],{[v,[v,1]], [v,[v,-1]]})),
-  E : union(E, family_sets_union(Lit, 
-        lambda([x], cartesian_product({x}, scls_l(Cl, x[2]*x[1]))))),
-  return([V,E]))$
+var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
+  Var : listify(FF[1]),
+  Lit : create_list([v,j], v,Var, j,[-1,1]),
+  Cl : listify(FF[2]),
+  V : append(Var,Lit,Cl),
+  E : append(
+        create_list([v,[v,j]], v,Var, j,[-1,1]),
+        create_list([x,C], x,Lit, 
+          C,sublist(Cl,lambda([D],elementp(x[2]*x[1],D))))),
+  return([setify(V),setify(E)]))$
 
 
 /* ************
