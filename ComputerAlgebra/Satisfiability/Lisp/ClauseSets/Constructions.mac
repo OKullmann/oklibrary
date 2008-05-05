@@ -19,12 +19,23 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construc
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
+
+/* **************************
+   * Syntactical operations *
+   **************************
+*/
 
 /* Complementation (literal-wise) of a clause-set or clause-list */
 comp_cs(F) := map(comp_sl, F)$
+
+
+/* **********************
+   * Logical operations *
+   **********************
+*/
 
 /* The natural representation of the "and" of two clause-sets as cnf's
    (as n-ary operation) */
@@ -48,6 +59,21 @@ dual_cs(F) := apply(or_cs,
 
 /* The natural negation of a clause-set */
 neg_cs(F) := dual_cs(comp_cs(F))$
+
+
+/* ****************************
+   * Combinatorial operations *
+   ****************************
+*/
+
+vardisjoint_sum_fcs([LFF]) := block([VD : make_vardisjoint_fcs(LFF)],
+ [setn(VD[2]), list_sets_union(map(clauses_f,VD[1]))])$
+
+vardisjoint_full_gluing(FF1,FF2) := block(
+ [vd : make_vardisjoint_fcs([FF1, FF2]), GG1,GG2, n],
+  [GG1,GG2] : vd[1], n : vd[2],
+  return([if FF1[2] = {} and FF2[2] = {} then {} else setn(n+1), 
+          union(add_element(n+1,GG1[2]), add_element(-(n+1),GG2[2]))]))$
 
 /*!
 \endhtmlonly
