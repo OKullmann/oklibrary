@@ -382,7 +382,7 @@ all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pre
    types s.t. no singular variables occur.
 */
 /* The monitoring-variable "results_all_hitting" collects all hitting clause-sets
-   found. */
+   found (if it has some value, then this will be overwritten). */
 all_unsinghitting_def(def,n,results_all_hitting) := (
  results_all_hitting :: {},
  if def < 1 then {} 
@@ -397,6 +397,12 @@ all_unsinghitting_def(def,n,results_all_hitting) := (
      derived_hitting_cs_nsing_isoelim(F, 
                               2^n-n-def - 1, 
                               results_all_hitting))))$
+
+/* Variation: for a given deficiency and number of 2-subsumption steps,
+   find all hitting clause-set types s.t. no singular variables occur.
+*/
+all_unsinghitting_steps(steps,n,results_all_hitting) := 
+  all_unsinghitting_def(2^n-n - steps, n, results_all_hitting)$
 
 /* For a given number of variables, find all hitting clause-set types
    (without singular variables). */
