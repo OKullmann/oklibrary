@@ -43,7 +43,7 @@ representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_cs)],
 
 
 /* Given a repository of non-isomorphic formal clause-sets, check whether a 
-   given formal clause-set is already contained or not, and in the former
+   given formal clause-set is already contained or not, and in the latter
    case insert it into the repository. */
 /* repo is a hash-map, and as hash-key the quadruple fcs_identifier is used. */
 fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_list_f(FF)]$
