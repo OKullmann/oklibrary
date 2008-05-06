@@ -107,7 +107,7 @@ uhit_def[4,11] : [
 /* Deficiency 5 */
 
 uhit_def[5,"info"] : [false,3,inf,[[3,true],[15,unknown]]]$
-uhit_def[4,3] : [
+uhit_def[5,3] : [
  full_fcs(3)[2]
 ]$
 uhit_def[5,15] : [
