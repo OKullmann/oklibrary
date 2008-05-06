@@ -76,7 +76,7 @@ load(graphs)$
 g2mg(G) := block(
  [V : listify(G[1]), E : listify(G[2]), h : hash_table(), n : length(G[1])],
  for i : 1 thru n do set_hash(V[i], h, i),
- create_graph(makelist([i,V[i]],i,1,length(V)), 
+ create_graph(makelist([i,V[i]],i,1,n), 
    makelist([get_hash(listify(e)[1],h), get_hash(listify(e)[2],h)], e, E)
  )
 )$
@@ -90,10 +90,12 @@ mg2g(g) := [setify(vertices(g)), fullsetify(edges(g))]$
 dg2mdg(G) := block(
  [V : listify(G[1]), E : listify(G[2]), h : hash_table(), n : length(G[1])],
  for i : 1 thru n do set_hash(V[i], h, i),
- create_graph(makelist([i,V[i]],i,1,length(V)), 
-   makelist([get_hash(e[1],h), get_hash(e[2],h)], e, E),
-   true
- )
+ return(
+   create_graph(
+     makelist([i,V[i]],i,1,n), 
+     makelist([get_hash(e[1],h), get_hash(e[2],h)], e, E),
+     true
+ ))
 )$
 
 
