@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
 
-
+okltest_g2mg(g2mg);
 okltest_dg2mdg(dg2mdg);
 
 /*!

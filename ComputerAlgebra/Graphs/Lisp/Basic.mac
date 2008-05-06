@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
 
 /* **************************
    * Basic graph operations *
@@ -72,12 +74,15 @@ completegrp(G) := block([n : length(G[1]), m : length(G[2])],
 load(graphs)$
 
 /* Graphs to Maxima-graphs (vertex names yield vertex labels).
-   The vertices in the Maxima-graph are numbered starting with 1. */
+   The vertices in the Maxima-graph are numbered starting with 1.
+   Edges in the Maxima-graph, which are ordered, are ordered according
+   to orderlessp (this is the order imposed on the vertex set).
+*/
 g2mg(G) := block(
- [V : listify(G[1]), E : listify(G[2]), h : hash_table(), n : length(G[1])],
- for i : 1 thru n do set_hash(V[i], h, i),
+ [V : listify(G[1]), E : listify(G[2]), h : sm2hm({}), n : length(G[1])],
+ for i : 1 thru n do set_hm(h, V[i], i),
  create_graph(makelist([i,V[i]],i,1,n), 
-   makelist([get_hash(listify(e)[1],h), get_hash(listify(e)[2],h)], e, E)
+   makelist([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
  )
 )$
 
@@ -88,12 +93,12 @@ mg2g(g) := [setify(vertices(g)), fullsetify(edges(g))]$
 /* Digraphs to Maxima-digraphs (vertex names yield vertex labels).
    The vertices in the Maxima-digraph are numbered starting with 1. */
 dg2mdg(G) := block(
- [V : listify(G[1]), E : listify(G[2]), h : hash_table(), n : length(G[1])],
- for i : 1 thru n do set_hash(V[i], h, i),
+ [V : listify(G[1]), E : listify(G[2]), h : sm2hm({}), n : length(G[1])],
+ for i : 1 thru n do set_hm(h, V[i], i),
  return(
    create_graph(
      makelist([i,V[i]],i,1,n), 
-     makelist([get_hash(e[1],h), get_hash(e[2],h)], e, E),
+     makelist([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
      true
  ))
 )$
