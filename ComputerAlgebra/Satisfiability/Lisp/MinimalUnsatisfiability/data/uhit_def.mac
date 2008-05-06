@@ -23,11 +23,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+
 
 kill(uhit_def)$
 
 /* The list of available deficiencies */
-uhit_def[0,"info"] : [1,2,3]$
+uhit_def[0,"info"] : [1,2,3,4,5,10]$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info] contains:
  - true if the classification is complete, and false/unknown otherwise
@@ -56,7 +58,7 @@ uhit_def[2,3] : [max_var_hitting_def(2)[2]]$
 
 /* Deficiency 3 */
 
-uhit_def[3,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[7,unknown]]]$
+uhit_def[3,"info"] : [unknown,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[7,unknown]]]$
 uhit_def[3,3] : [
  {{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3},{1,-3},{-1,-3}},
  {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}},
@@ -111,6 +113,33 @@ uhit_def[4,3] : [
 uhit_def[5,15] : [
   max_var_hitting_def(5)[2]
 ]$
+
+
+/* Deficiency 10 */
+
+uhit_def[10,"info"] : [false,4,inf,[[4,true],[35,unknown]]]$
+
+uhit_def[10,4] : [
+ {{-4,-3,-2},{-4,-3,-1,2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},
+  {-4,-1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},
+  {-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3}},
+ {{-4,-3,-2,-1},{-4,-3,-2,1},{-4,-3,-1,2},{-4,-2,-1,3},
+  {-4,-2,1,3},{-4,-1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},
+  {-3,1,2},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3}},
+ {{-4,-3,-2,-1},{-4,-3,-1,2},{-4,-3,1},{-4,-2,-1,3},{-4,-2,1,3},
+  {-4,-1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},
+  {-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3}},
+ {{-4,-3,-2,-1},{-4,-3,-1,2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},
+  {-4,-1,2,3},{-3,-2,-1,4},{-3,-2,1},{-3,-1,2,4},{-3,1,2,4},
+  {-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3}},
+ {{-4,-3,-2,1},{-4,-3,-1,2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},
+  {-4,-1,2,3},{-3,-2,-1},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},
+  {-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3}}
+]$
+uhit_def[10,35] : [
+  max_var_hitting_def(10)[2]
+]$
+
 
 
 
