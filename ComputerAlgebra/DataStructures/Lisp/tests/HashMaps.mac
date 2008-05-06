@@ -30,6 +30,30 @@ kill(f)$
    ************************
 */
 
+okltest_setmapp(f) := (
+  assert(f(1) = false),
+  assert(f([]) = false),
+  assert(f({}) = true),
+  assert(f({1}) = false),
+  assert(f({[1,2,3]}) = false),
+  assert(f({[1,1]}) = true),
+  assert(f({[1,1],[1,2]}) = false),
+  assert(f({[1,1],[2,1]}) = true),
+  true)$
+
+okltest_define_set_map(f) := block([M,x,y],
+  M : f({},1,10),
+  assert(M = {[1,10]}),
+  M : f(M,1,11),
+  assert(M = {[1,11]}),
+  M : f(M,1,11),
+  assert(M = {[1,11]}),
+  M : f(M,2,20),
+  assert(M = {[1,11],[2,20]}),
+  M : f(M,2,21),
+  assert(M = {[1,11],[2,21]}),
+  true)$
+
 okltest_evaluate_set_map(f) := block([M,x],
   assert(f({},x) = done),
   assert(f({[1,10]},1) = 10),
@@ -38,11 +62,44 @@ okltest_evaluate_set_map(f) := block([M,x],
   assert(f(M,1) = 2), assert(f(M,5) = 10), assert(f(M,2) = done),
   true)$
 
+okltest_evaluate_set_map_d(f) := block([M,x,y],
+  assert(f({},x,1) = 1),
+  assert(f({[1,10]},1,y) = 10),
+  assert(f({[1,10]},2,20) = 20),
+  M : {[1,2],[5,10]},
+  assert(f(M,1,3) = 2), assert(f(M,5,9) = 10), assert(f(M,2,y) = y),
+  true)$
+
 
 /* ***********************************************
    * Hash maps as provided by the graphs-package *
    ***********************************************
 */
+
+/* A tool for checking whether an original hash-map and a set-map are identical
+   as mathematical functions (this is only useful for compatibility
+   reasons). */
+eq_ohmsm_p(h,M) := if not setmapp(M) then
+  error("eq_ohmsm_p: the alleged set-map is not a set-map")
+  else is(create_set_map(h) = M and is(sconcat(create_hash_map(M)) = sconcat(h)))$
+
+okltest_eq_ohmsm_p(f) := block([M,h],
+  h : hash_table(),
+  M : {},
+  assert(f(h,M) = true),
+  set_hash(1,h,10),
+  assert(f(h,M) = false),
+  M : define_set_map(M,1,10),
+  assert(f(h,M) = true),
+  set_hash(1,h,11),
+  assert(f(h,M) = false),
+  M : define_set_map(M,1,11),
+  assert(f(h,M) = true),
+  set_hash([],h,1),
+  assert(f(h,M) = false),
+  M : define_set_map(M,[],1),
+  assert(f(h,M) = false),
+  true)$
 
 okltest_repo_set_maps : {
  {},
@@ -60,6 +117,96 @@ okltest_create_hash_map(f) := (
 okltest_create_set_map(f) := (
   for M in okltest_repo_set_maps do
     assert(f(create_hash_map(M)) = M),
+  true)$
+
+/* A tool for checking whether an improved hash-map and a set-map are identical
+   as mathematical functions. */
+eq_hmsm_p(h,M) := if not setmapp(M) then
+  error("eq_hmsm_p: the alleged set-map is not a set-map")
+  else is(hm2sm(h) = M and is(sconcat(sm2hm(M)) = sconcat(h)))$
+
+okltest_eq_hmsm_p(f) := block([M,h],
+  h : hash_table(),
+  M : {},
+  assert(f(h,M) = true),
+  set_hm(h,1,10),
+  assert(f(h,M) = false),
+  M : define_set_map(M,1,10),
+  assert(f(h,M) = true),
+  set_hm(h,1,11),
+  assert(f(h,M) = false),
+  M : define_set_map(M,1,11),
+  assert(f(h,M) = true),
+  set_hm(h,[],1),
+  assert(f(h,M) = false),
+  M : define_set_map(M,[],1),
+  assert(f(h,M) = true),
+  true)$
+
+okltest_set_hm(f) := block([h : hash_table()],
+  set_hm(h,1,10),
+  assert(get_hash(sconcat(1),h) = 10),
+  assert(get_hash(sconcat(2),h) = false),
+  set_hm(h,[],20),
+  assert(get_hash(sconcat([]),h) = 20),
+  assert(get_hash(sconcat(1),h) = 10),
+  assert(get_hash(sconcat([[]]),h) = false),
+  set_hm(h,1,11),
+  assert(get_hash(sconcat(1),h) = 11),
+  set_hm(h,[],21),
+  assert(get_hash(sconcat([]),h) = 21),
+  assert(eq_hmsm_p(h,{[1,11],[[],21]}) = true),
+  true)$
+
+okltest_ev_hm(f) := block([h : hash_table()],
+  assert(f(h,1) = false),
+  set_hash(sconcat(1),h,10),
+  assert(f(h,1) = 10),
+  set_hash(sconcat([{}]),h,20),
+  assert(f(h,[{}]) = 20),
+  true)$
+
+okltest_ev_hm_d(f) := block([h : hash_table()],
+  assert(f(h,1,11) = 11),
+  set_hash(sconcat(1),h,1),
+  assert(f(h,1,11) = 1),
+  assert(f(h,[],11) = 11),
+  set_hash(sconcat([{}]),h,20),
+  assert(f(h,[{}],-7) = 20),
+  assert(f(h,[],{}) = {}),
+  true)$
+
+okltest_sm2hm(f) := block([h,M],
+  h : f({}),
+  assert(ev_hm(h,1) = false),
+  h : f({[1,10]}),
+  assert(ev_hm(h,1) = 10),
+  M : {[{},{{}}],[[1,2],[3,4]],[5,5]},
+  h : f(M),
+  assert(ev_hm(h,{}) = {{}}),
+  assert(ev_hm(h,[1,2]) = [3,4]),
+  assert(ev_hm(h,5) = 5),
+  assert(ev_hm(h,1) = false),
+  assert(eq_hmsm_p(h,M) = true),
+  true)$
+
+okltest_hm2sm(f) := block([h],
+  h : hash_table(),
+  assert(f(h) = {}),
+  set_hm(h,1,10),
+  assert(f(h) = {[1,10]}),
+  set_hm(h,{[]},20),
+  assert(f(h) = {[1,10],[{[]},20]}),
+  assert(eq_hmsm_p(h,{[1,10],[{[]},20]}) = true),
+  true)$
+
+okltest_compose_hm_sm(f) := block([h],
+  h : f(sm2hm({}),{}),
+  assert(eq_hmsm_p(h, {}) = true),
+  f(h,{[1,1],[{{}},2]}),
+  assert(eq_hmsm_p(h, {[1,1],[{{}},2]}) = true),
+  f(h,{[{{}},2],[[[]],3]}),
+  assert(eq_hmsm_p(h, {[1,1],[{{}},2],[[[]],3]}) = true),
   true)$
 
 

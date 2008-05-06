@@ -302,7 +302,7 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
    <li> Function-application (also "map" etc.; see above). </li>
    <li> Hash tables
     <ol>
-     <li> Package "graphs" establishes the following interface to
+     <li> Package "graphs" establishes the following DEPRECATED interface to
      lisp-hash-tables. </li>
      <li> First use "load(graphs);" </li>
      <li> Via "h : hash_table()" a new hash table is created. </li>
@@ -317,6 +317,18 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
       </ol>
      </li>
      <li> See ComputerAlgebra/DataStructures/Lisp/HashMaps.mac for interfaces.
+      <ol>
+       <li> The NEW interface (which removes the problem associated with
+       having lists as keys in the hash map) consists of the functions
+        <ul>
+         <li> sm2hm for creating hash-maps (from set-maps) </li>
+         <li> set_hm for seting a single value, and compose_hm_sm for
+         setting the values of a whole set-map </li>
+         <li> ev_hm for evaluating the hash-map at a single argument, and hm2sm
+         for creating a whole set-map out of it. </li>
+        </ul>
+       </li>
+      </ol>
      </li>
     </ol>
    </li>

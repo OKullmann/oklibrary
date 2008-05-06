@@ -17,7 +17,7 @@ License, or any later version. */
    map as a set of pairs. </li>
    <li> Operations:
     <ol>
-     <li> check for unique values </li>
+     <li> DONE check for right-uniqueness </li>
      <li> extract domain </li>
      <li> extract range </li>
      <li> DONE compute value for a single argument </li>
