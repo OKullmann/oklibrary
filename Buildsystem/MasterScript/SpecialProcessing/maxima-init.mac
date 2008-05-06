@@ -10,6 +10,7 @@ define_variable(OKsystem,"m4_SHELL(OKsystem)",any);
 
 showtime : true;
 linel : 100;
+stringdisp : true;
 
 define_variable(oklib_monitor,false,boolean);
 define_variable(oklib_monitor_level,0,any); /* may take value inf */
