@@ -13,6 +13,20 @@ License, or any later version. */
   \todo Create milestones.
 
 
+  \todo Improving assert
+  <ul>
+   <li> DONE (now caught by errcatch)
+   There are some errors which our test-system does not notice.
+    <ol>
+     <li> One finds them by searching for "error" in the OKlibBuilding
+     log. </li>
+     <li> Apparently these are Lisp errors. </li>
+     <li> Perhaps one could catch "MACSYMA-QUIT" ?! </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Outline of the test system
   <ul>
    <li> DONE (we roll our own)
