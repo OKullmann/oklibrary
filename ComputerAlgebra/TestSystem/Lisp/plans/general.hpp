@@ -284,5 +284,13 @@ if oklib_test_demos then
    <li> And again this appears to be superior. </li>
   </ul>
 
+
+  \todo Improving the test system
+  <ul>
+   <li> In oklib_test_level>=1 we must also additionally run the test
+   with oklib_test_level-- and with oklib_monitor=true and
+   oklib_monitor_level=0,1 (at least). </li>
+  </ul>
+
 */
 
