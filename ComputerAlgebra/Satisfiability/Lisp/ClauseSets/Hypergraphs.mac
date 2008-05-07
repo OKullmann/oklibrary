@@ -24,6 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* *******************
@@ -138,8 +139,8 @@ accumulation_variables_cs(F) := block([V : var_cs(F), result : {}],
    formal clause-set. */
 full_variables_fcs(FF) := block([F : FF[2], D, c : ncl_f(FF)],
  if F = {} then return(FF[1]) elseif F = {{}} then return({}),
- D : hash_table_data(variable_degrees_cs(F)),
- return(setify(map(lambda([P],part(P,1)),sublist(D, lambda([P], is(part(P,2)=c)))))))$
+ D : hm2sm(variable_degrees_cs(F)),
+ return(map(lambda([P],part(P,1)),subset(D, lambda([P], is(part(P,2)=c))))))$
 full_variables_cs(F) := full_variables_fcs(cs_to_fcs(F))$
 
 /*!
