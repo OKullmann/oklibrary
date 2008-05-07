@@ -58,7 +58,6 @@ okltest_representatives_fcs(f) := block([FF,SFF],
     assert(elementp([{},{}], R) = true),
     assert(length(intersection(R, {[{1},{}], [{2},{}]})) = 1)
   ),
-  if oklib_test_level = 0 then return(true),
   SFF : 
    {[setn(4),{{-4,-3,-2},{-4,-3,-1,2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},
    {-4,-1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},
