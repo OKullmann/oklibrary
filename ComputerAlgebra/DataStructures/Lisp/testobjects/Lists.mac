@@ -21,14 +21,28 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.m
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
+/* **************************
+   * Sublist constructions *
+   **************************
+*/
+
 okltest_take_elements(take_elements);
+
+okltest_sublist_indices_el(sublist_indices_el);
+
 okltest_remove_element(remove_element);
+
+okltest_sublist_indicator(sublist_indicator);
+
+/* **********************
+   * List constructions *
+   **********************
+*/
 
 okltest_partition_elements(partition_elements);
 
 okltest_rotate(rotate);
 
-okltest_sublist_indicator(sublist_indicator);
 
 okltest_matrix2list(matrix2list);
 okltest_matrixcolumns(matrixcolumns);
