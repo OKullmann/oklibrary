@@ -38,6 +38,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/RandomC
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 
@@ -139,9 +140,9 @@ tpd_flatten(T_1_utpd);
 tpd_flatten(T_2_utpd);
 tpd_flatten(T_3_utpd);
 
-hash_table_data(ipd_rp(T_1_utpd));
-hash_table_data(ipd_rp(T_2_utpd));
-hash_table_data(ipd_rp(T_3_utpd));
+hm2sm(ipd_rp(T_1_utpd));
+hm2sm(ipd_rp(T_2_utpd));
+hm2sm(ipd_rp(T_3_utpd));
 
 lower_bound_nlvs(T_1_utpd);
 tpd_moment(T_1_utpd,1);
@@ -254,14 +255,14 @@ sat_length_2_ways(t,s) := [length(bth_saturated_greedy(t,s)),
 /* Example 1.8.1 */
 
 h_T1bt : ipd_rp(T_1_stpd)$
-float(hash_table_data(h_T1bt));
+float(hm2sm(h_T1bt));
 tpd_flatten(T_1_stpd);
 float(tpd_flatten(T_1_stpd));
 fullratsimp(tpd_variance(T_1_stpd));
 float(tpd_variance(T_1_stpd));
 
 h_T3bt : ipd_rp(T_3_tpd)$
-float(hash_table_data(h_T3bt));
+float(hm2sm(h_T3bt));
 tpd_flatten(T_3_tpd);
 tpd_variance(T_3_tpd);
 
