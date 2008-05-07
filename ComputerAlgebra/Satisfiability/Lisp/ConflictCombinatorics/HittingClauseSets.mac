@@ -33,7 +33,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basic
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* ***************************************
    * Representations via splitting trees *
@@ -366,11 +366,10 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
 /* Compute the sorted list of pairs [deficiency, count] for a given
    hash-repository. */
 analyse_isorepo_def(repository) := block(
- [M : create_set_map(repository), h : hash_table()],
-  for P in M do block([count : length(P[2]), def : P[1][2] - P[1][1], val],
-    val : get_hash(def,h),
-    if val = false then set_hash(def,h,count) else set_hash(def,h,val + count)),
-  sort(listify(create_set_map(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+ [M : hm2sm(repository), h : sm2hm({})],
+  for P in M do block([count : length(P[2]), def : P[1][2] - P[1][1]],
+    set_hm(h,def,ev_hm_d(h,def,0)+count)),
+  sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
 
 
 /* The instance where no singular variable is created. */
@@ -409,7 +408,7 @@ all_unsinghitting_steps(steps,n,results_all_hitting) :=
 /* Returned is the total number, while parameter hash (passed by name;
    initialised empty) contains the full hash-map. */
 /* Prerequisite: n >= 2. */
-all_unsinghitting(n, _hash_repo) := block([h : hash_table(), count],
+all_unsinghitting(n, _hash_repo) := block([h : sm2hm({}), count],
   count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],h),
   _hash_repo :: h,
   count
