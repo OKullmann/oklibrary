@@ -93,8 +93,18 @@ var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
   E : append(
         create_list([v,[v,j]], v,Var, j,[-1,1]),
         create_list([x,C], x,Lit, 
-          C,sublist(Cl,lambda([D],elementp(x[2]*x[1],D))))),
+          C,sublist(Cl,lambda([D],elementp(x[2]*x[1],D)))
+        )
+      ),
   return([setify(V),setify(E)]))$
+/* The transitive closure of var_lit_clause_digraph. */
+var_lit_clause_digraph_tr(FF) := block(
+ [G : var_lit_clause_digraph(FF),Var,Cl,E],
+  Var : listify(FF[1]),
+  Cl : listify(FF[2]),
+  E :  create_list([v,C], v,Var, 
+          C,sublist(Cl,lambda([D],elementp(v,var_c(D))))),
+  return([G[1],union(G[2],setify(E))]))$
 
 
 /* ************

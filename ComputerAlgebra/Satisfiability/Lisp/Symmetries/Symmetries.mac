@@ -39,7 +39,8 @@ is_isomorphic_fcs(FF1,FF2) :=
  elseif variable_degrees_list_cs(FF1[2]) # variable_degrees_list_cs(FF2[2]) then false
  elseif literal_degrees_list_fcs(FF1) # literal_degrees_list_fcs(FF2) then false
  else is_isomorphic(
-   dg2mdg(var_lit_clause_digraph(FF1)), dg2mdg(var_lit_clause_digraph(FF2)))$
+   dg2mdg(var_lit_clause_digraph_tr(FF1)), 
+   dg2mdg(var_lit_clause_digraph_tr(FF2)))$
 /* The variation for clause-sets as inputs */
 is_isomorphic_cs(F1,F2) := is_isomorphic_fcs(cs_to_fcs(F1),cs_to_fcs(F2))$
 
