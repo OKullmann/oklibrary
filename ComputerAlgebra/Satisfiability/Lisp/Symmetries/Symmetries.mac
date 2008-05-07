@@ -26,12 +26,28 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
+
+/* *****************************
+   * Basic isomorphism testing *
+   *****************************
+*/
+
 /* Checks whether two formal clause-sets are isomorphic (where renaming
    of variables and flipping is considered). */
-is_isomorphic_fcs(FF1,FF2) := if not ncl_list_f(FF1) = ncl_list_f(FF2) then false else is_isomorphic(
- dg2mdg(var_lit_clause_digraph(FF1)), dg2mdg(var_lit_clause_digraph(FF2)))$
+is_isomorphic_fcs(FF1,FF2) := 
+ if ncl_list_f(FF1) # ncl_list_f(FF2) then false
+ elseif variable_degrees_list_cs(FF1[2]) # variable_degrees_list_cs(FF2[2]) then false
+ elseif literal_degrees_list_cs(FF1[2]) # literal_degrees_list_cs(FF2[2]) then false
+ else is_isomorphic(
+   dg2mdg(var_lit_clause_digraph(FF1)), dg2mdg(var_lit_clause_digraph(FF2)))$
 /* The variation for clause-sets as inputs */
 is_isomorphic_cs(F1,F2) := is_isomorphic_fcs(cs_to_fcs(F1),cs_to_fcs(F2))$
+
+
+/* **********************************
+   * Isomorphism classes management *
+   **********************************
+*/
 
 /* For a set of formal clause-sets, determines a set of non-isomorphic
    representatives. */
