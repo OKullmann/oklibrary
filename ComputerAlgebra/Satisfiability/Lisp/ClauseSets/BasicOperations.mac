@@ -113,7 +113,7 @@ cs_to_fcs(F) := [var_cs(F), F]$
    where h maps var_l(x) to some literal; if var_l(x) is
    not in the domain of the hash-map, then false resp. -false
    is returned. */
-substitute_l(x,h) := if x > 0 then get_hash(x,h) else -get_hash(-x,h)$
+substitute_l(x,h) := if x > 0 then ev_hm(h,x) else -ev_hm(h,-x)$
 
 /* Substitute literals in clause C via hash table h;
    possibly a pseudo-clause with clashing literals is created. */
@@ -134,7 +134,7 @@ substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 */
 rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
-  h : create_hash_map(setify(makelist([V[i],L[i]], i,1,length(V)))),
+  h : sm2hm(setify(makelist([V[i],L[i]], i,1,length(V)))),
   [setify(L), substitute_cs(FF[2],h)])$
 
 /* Translating variable names of a formal clause-set into natural numbers;
