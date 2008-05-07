@@ -37,7 +37,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 is_isomorphic_fcs(FF1,FF2) := 
  if ncl_list_f(FF1) # ncl_list_f(FF2) then false
  elseif variable_degrees_list_cs(FF1[2]) # variable_degrees_list_cs(FF2[2]) then false
- elseif literal_degrees_list_cs(FF1[2]) # literal_degrees_list_cs(FF2[2]) then false
+ elseif literal_degrees_list_fcs(FF1) # literal_degrees_list_fcs(FF2) then false
  else is_isomorphic(
    dg2mdg(var_lit_clause_digraph(FF1)), dg2mdg(var_lit_clause_digraph(FF2)))$
 /* The variation for clause-sets as inputs */
