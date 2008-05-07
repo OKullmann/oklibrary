@@ -16,3 +16,5 @@ rel_path_tool_origin ?= $(bin_dir)/PathDifference-O3-DNDEBUG
 rel_path_tool ?= $(tool_dir)/PathDifference-O3-DNDEBUG
 rel_path_tool_debug ?= $(tool_dir)/PathDifference
 
+build_identification_okl ?= $(shell echo $$(date "+%Y-%j-%s" | tr -d " "))
+# This is year-daynumber-secondsince1970.
