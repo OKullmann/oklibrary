@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
 
 kill(f)$
 
@@ -47,20 +48,20 @@ okltest_literal_degree_cs(f) := block(
   true)$
 
 okltest_literal_degrees_cs(f) := block(
-  assert(create_set_map(f({})) = {}),
-  assert(create_set_map(f({{}})) = {}),
-  assert(create_set_map(f({{1}})) = {[1,1]}),
-  assert(create_set_map(f({{1},{-1}})) = {[1,1],[-1,1]}),
-  assert(create_set_map(f({{1},{-1},{}})) = {[1,1],[-1,1]}),
-  assert(create_set_map(f({{1},{-1},{},{2,1}})) = {[1,2],[-1,1],[2,1]}),
+  assert(eq_hmsm_p(f({}),{}) = true),
+  assert(eq_hmsm_p(f({{}}),{}) = true),
+  assert(eq_hmsm_p(f({{1}}),{[1,1]}) = true),
+  assert(eq_hmsm_p(f({{1},{-1}}),{[1,1],[-1,1]}) = true),
+  assert(eq_hmsm_p(f({{1},{-1},{}}),{[1,1],[-1,1]}) = true),
+  assert(eq_hmsm_p(f({{1},{-1},{},{2,1}}),{[1,2],[-1,1],[2,1]}) = true),
   true)$
 
 okltest_all_literal_degrees_fcs(f) := block(
-  assert(create_set_map(f([{},{}])) = {}),
-  assert(create_set_map(f([{1},{}])) = {[1,0],[-1,0]}),
-  assert(create_set_map(f([{1},{{}}])) = {[1,0],[-1,0]}),
-  assert(create_set_map(f([{1},{{1}}])) = {[1,1],[-1,0]}),
-  assert(create_set_map(f([{1},{{1},{-1}}])) = {[1,1],[-1,1]}),
+  assert(eq_hmsm_p(f([{},{}]),{}) = true),
+  assert(eq_hmsm_p(f([{1},{}]),{[1,0],[-1,0]}) = true),
+  assert(eq_hmsm_p(f([{1},{{}}]),{[1,0],[-1,0]}) = true),
+  assert(eq_hmsm_p(f([{1},{{1}}]),{[1,1],[-1,0]}) = true),
+  assert(eq_hmsm_p(f([{1},{{1},{-1}}]),{[1,1],[-1,1]}) = true),
   true)$
 
 okltest_ordered_literal_degrees_cs(f) := block(
@@ -74,12 +75,40 @@ okltest_ordered_literal_degrees_cs(f) := block(
   assert(f({{1,2},{1},{1,2,3}}) = [[1,3],[2,2],[3,1]]),
 true)$
 
+okltest_min_literal_degree_cs(f) := (
+  assert(f({}) = inf),
+  assert(f({{}}) = inf),
+  assert(f({{1}}) = 1),
+  assert(f({{1},{-1}}) = 1),
+  assert(f({{1},{1,2}}) = 1),
+  for n : 1 thru 3 do
+    assert(f(full_fcs(n)[2]) = 2^(n-1)),
+  true)$
+
+okltest_max_literal_degree_cs(f) := (
+  assert(f({}) = minf),
+  assert(f({{}}) = minf),
+  assert(f({{1}}) = 1),
+  assert(f({{1},{-1}}) = 1),
+  assert(f({{1},{1,2}}) = 2),
+  for n : 1 thru 3 do
+    assert(f(full_fcs(n)[2]) = 2^(n-1)),
+  true)$
+
 okltest_min_literal_degree_l_cs(f) := block(
   assert(f({}) = [inf,0]),
   assert(f({{}}) = [inf,0]),
   assert(f({{1}}) = [1,1]),
   assert(elementp(f({{1},{-1}}), {[1,1],[1,-1]}) = true),
   assert(f({{},{1},{1,2}}) = [1,2]),
+  true)$
+
+okltest_max_literal_degree_l_cs(f) := block(
+  assert(f({}) = [minf,0]),
+  assert(f({{}}) = [minf,0]),
+  assert(f({{1}}) = [1,1]),
+  assert(elementp(f({{1},{-1}}), {[1,1],[1,-1]}) = true),
+  assert(f({{},{1},{1,2}}) = [2,1]),
   true)$
 
 okltest_literal_degrees_list_fcs(f) := block(
@@ -93,6 +122,62 @@ okltest_literal_degrees_list_fcs(f) := block(
   assert(f([setn(4),{{-4,-3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,4},{-2,-1,3},{-2,1,3},{2,4}}]) = [[2,4],[3,3],[4,1]]),
   for n : 0 thru 3 do
     assert(f(full_fcs(n)) = if n=0 then [] else [[2^(n-1),2*n]]),
+  true)$
+
+
+/* ********************
+   * Variable degrees *
+   ********************
+*/
+
+okltest_variable_degree_cs(f) := block(
+  assert(f({},1) = 0),
+  assert(f({{}},1) = 0),
+  assert(f({{1}},1) = 1),
+  assert(f({{1}},-1) = 0),
+  assert(f({{1}},2) = 0),
+  assert(f({{1},{-1}},1) = 2),
+  block([F : {{-3,-2,-1},{-3,1},{-2,3},{-1,2},{1,2,3}}],
+    for i : 1 thru 3 do
+      assert(f(F,i) = 4)),
+  true)$
+
+okltest_variable_degrees_cs(f) := block(
+  assert(eq_hmsm_p(f({}),{}) = true),
+  assert(eq_hmsm_p(f({{}}),{}) = true),
+  assert(eq_hmsm_p(f({{1}}),{[1,1]}) = true),
+  assert(eq_hmsm_p(f({{1},{-1}}),{[1,2]}) = true),
+  assert(eq_hmsm_p(f({{1},{-1},{}}),{[1,2]}) = true),
+  assert(eq_hmsm_p(f({{1},{-1},{},{2,1}}),{[1,3],[2,1]}) = true),
+  true)$
+
+okltest_min_variable_degree_cs(f) := (
+  assert(f({}) = inf),
+  assert(f({{}}) = inf),
+  assert(f({{1}}) = 1),
+  assert(f({{1},{-1}}) = 2),
+  assert(f({{1},{1,2}}) = 1),
+  for n : 1 thru 3 do
+    assert(f(full_fcs(n)[2]) = 2^n),
+  true)$
+
+okltest_max_variable_degree_cs(f) := (
+  assert(f({}) = minf),
+  assert(f({{}}) = minf),
+  assert(f({{1}}) = 1),
+  assert(f({{1},{-1}}) = 2),
+  assert(f({{1},{1,2}}) = 2),
+  for n : 1 thru 3 do
+    assert(f(full_fcs(n)[2]) = 2^n),
+  true)$
+
+okltest_max_variable_degree_v_cs(f) := block(
+  assert(f({}) = [minf,0]),
+  assert(f({{}}) = [minf,0]),
+  assert(f({{1}}) = [1,1]),
+  assert(f({{1},{-1}}) = [2,1]),
+  assert(f({{},{1},{1,2}}) = [2,1]),
+  assert(f({{},{-1},{1,2}}) = [2,1]),
   true)$
 
 

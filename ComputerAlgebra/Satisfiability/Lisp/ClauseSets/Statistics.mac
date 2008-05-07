@@ -78,22 +78,20 @@ statistics_fcs(FF) :=
    *******************
 */
 
-/* The degree of a literal in a clause-set */
+/* The degree of a literal in a clause-set. */
 literal_degree_cs(F,l) := length(scls_l(F,l))$
 
 /* The literal-degrees of a clause-set, as hash-map, considering
    only occurring literals. */
-literal_degrees_cs(F) := block([h : hash_table()],
+literal_degrees_cs(F) := block([h : sm2hm({})],
  for C in F do
-  for x in C do block([val : get_hash(x,h)],
-   if val=false then set_hash(x,h,1)
-   else set_hash(x,h,val+1)),
+  for x in C do set_hm(h,x,ev_hm_d(h,x,0)+1),
  return(h))$
 /* The literal-degrees of a formal clause-set, as hash-map, considering
    all occurring literals. */
 all_literal_degrees_fcs(FF) := block(
  [h : literal_degrees_cs(FF[2]), L : literals_v(FF[1])],
-  for x in L do if get_hash(x,h) = false then set_hash(x,h,0),
+  for x in L do if ev_hm(h,x) = false then set_hm(h,x,0),
   return(h))$
 
 /* Returns the pairs of literal and literal degree of a clause-set F in 
@@ -102,27 +100,27 @@ all_literal_degrees_fcs(FF) := block(
 /* This assumes that the Maxima "sort" is a stable sort (which actually is
    not specified?). */
 ordered_literal_degrees_cs(F) := 
-   sort(map(args,hash_table_data(literal_degrees_cs(F))),
+   sort(listify(hm2sm(literal_degrees_cs(F))),
         lambda([P1,P2], is(second(P1) > second(P2))))$
 
-/* minimal literal-degree of a clause-set */
+/* Minimal literal-degree of a clause-set. */
 min_literal_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
+  lmin(map(lambda([A],part(A,2)),listify(hm2sm(literal_degrees_cs(F)))))$
 /* maximal literal-degree of a clause-set */
 max_literal_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),hash_table_data(literal_degrees_cs(F))))$
-/* also returns a literal of minimal degree (if there is a literal);
+  lmax(map(lambda([A],part(A,2)),listify(hm2sm(literal_degrees_cs(F)))))$
+/* Also returns a literal of minimal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
-  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(literal_degrees_cs(F))),  
+  [D : hm2sm(literal_degrees_cs(F)),  
    optl : 0, mind : inf],
   for m in D do block([d : m[2]],
     if d < mind then (mind : d, optl : m[1])),
   return([mind, optl]))$
-/* also returns a literal of maximal degree (if there is a literal);
+/* Also returns a literal of maximal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 max_literal_degree_l_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
-  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(literal_degrees_cs(F))),  
+  [D : hm2sm(literal_degrees_cs(F)),  
    optl : 0, maxd : minf],
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optl : m[1])),
@@ -143,12 +141,10 @@ mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
    sorted by ascending literal_degree.
 */
 literal_degrees_list_fcs(FF) := block(
- [litdeg : create_set_map(all_literal_degrees_fcs(FF)), h : hash_table()],
-  for p in litdeg do block([deg : p[2], val],
-    val : get_hash(deg,h),
-    if val = false then set_hash(deg,h,1)
-    else set_hash(deg,h,val+1)),
-  sort(map(args,hash_table_data(h)),
+ [litdeg : hm2sm(all_literal_degrees_fcs(FF)), h : sm2hm({})],
+  for p in litdeg do block([deg : p[2]],
+    set_hm(h,deg,ev_hm_d(h,deg,0)+1)),
+  sort(listify(hm2sm(h)),
      lambda([P1,P2], is(first(P1) < first(P2)))))$
 
 
@@ -179,22 +175,23 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
    ********************
 */
 
-/* the variable-degrees of a clause-set, as hash-map */
-variable_degrees_cs(F) := block([h : hash_table()],
+/* The degree of a variable in a clause-set */
+variable_degree_cs(F,v) := length(scls_v(F,v))$
+
+/* The variable-degrees of a clause-set, as hash-map. */
+variable_degrees_cs(F) := block([h : sm2hm({})],
  for C in F do
-  for v in var_c(C) do block([val : get_hash(v,h)],
-   if val=false then set_hash(v,h,1)
-   else set_hash(v,h,val+1)),
+  for v in var_c(C) do set_hm(h,v,ev_hm_d(h,v,0)+1),
  return(h))$
-/* minimal variable-degree of a clause-set */
+/* The minimal variable-degree of a clause-set. */
 min_variable_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
-/* maximal variable-degree of a clause-set */
+  lmin(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
+/* The maximal variable-degree of a clause-set. */
 max_variable_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),hash_table_data(variable_degrees_cs(F))))$
-/* also returns a variable of maximal degree (if there is a variable) */
+  lmax(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
+/* Also returns a variable of maximal degree (if there is a variable). */
 max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
-  [D : map(lambda([A],[part(A,1),part(A,2)]),hash_table_data(variable_degrees_cs(F))),  
+  [D : hm2sm(variable_degrees_cs(F)),  
    optv : 0, maxd : minf],
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optv : m[1])),
