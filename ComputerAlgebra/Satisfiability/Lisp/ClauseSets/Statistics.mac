@@ -206,6 +206,17 @@ min_variable_frequency_cs(F) := min_variable_degree_cs(F) / ncl_cs(F)$
 max_variable_frequency_cs(F) := max_variable_degree_cs(F) / ncl_cs(F)$
 mean_variable_frequency_cs(FF) := mean_variable_degree_fcs(FF) / ncl_f(FF)$
 
+/* The list of pairs
+   [occurring variable-degree, number of variables of this degree],
+   sorted by ascending variable_degree.
+*/
+variable_degrees_list_cs(F) := block(
+ [vardeg : hm2sm(variable_degrees_cs(F)), h : sm2hm({})],
+  for p in vardeg do block([deg : p[2]],
+    set_hm(h,deg,ev_hm_d(h,deg,0)+1)),
+  sort(listify(hm2sm(h)),
+     lambda([P1,P2], is(first(P1) < first(P2)))))$
+
 
 /* *******************************
    * Weighted numbers of clauses *

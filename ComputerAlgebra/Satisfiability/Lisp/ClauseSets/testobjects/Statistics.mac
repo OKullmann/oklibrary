@@ -45,7 +45,7 @@ okltest_variable_degrees_cs(variable_degrees_cs);
 okltest_min_variable_degree_cs(min_variable_degree_cs);
 okltest_max_variable_degree_cs(max_variable_degree_cs);
 okltest_max_variable_degree_v_cs(max_variable_degree_v_cs);
-
+okltest_variable_degrees_list_cs(variable_degrees_list_cs);
 
 /* *******************************
    * Weighted numbers of clauses *
