@@ -64,6 +64,10 @@ load(graphs)$
 */
 
 /* Given a map as a set-map, create a hash-map. */
+/* The assignments are entered into the hash-map according to their
+   order in the set-map (i.e., according to orderlessp).
+   The order of the hash-map is the reverse order of the order in which
+   the elements were entered. */
 create_hash_map(S) := block([h : hash_table()],
   for p in S do set_hash(p[1],h,p[2]), return(h))$
 
@@ -74,9 +78,9 @@ create_set_map(h) :=
 
 /* The IMPROVED hash-map facilities */
 
-/* The hash-map data type is given by the five functions
+/* The hash-map data type is given by the six functions
  - set_hm
- - ev_hm
+ - ev_hm, ev_hm_d
  - sm2hm
  - hm2sm
  - compose_hm_sm.
@@ -90,6 +94,7 @@ ev_hm(h,x) := get_hash(sconcat(x),h)$
 ev_hm_d(h,x,y) := get_hash(sconcat(x),h,y)$
 
 /* Converting set-maps to hash-maps, and hash-maps to set-maps. */
+/* The order of entries in the hash-table is given by orderlessp. */
 sm2hm(M) := block([h : hash_table()],
   for p in M do set_hm(h,p[1],p[2]), return(h))$
 hm2sm(h) :=

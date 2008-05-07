@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac"
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
@@ -81,7 +81,13 @@ okltest_evaluate_set_map_d(f) := block([M,x,y],
    reasons). */
 eq_ohmsm_p(h,M) := if not setmapp(M) then
   error("eq_ohmsm_p: the alleged set-map is not a set-map")
-  else is(create_set_map(h) = M and is(sconcat(create_hash_map(M)) = sconcat(h)))$
+  else if not is(create_set_map(h) = M) then false else
+  block([table : map(lambda([p],part(p,1)),hash_table_data(h)), 
+    translated : hash_table(),
+    L : listify(M)],
+    L : sort(L,lambda([P1,P2],is(sublist_indices_el(table,P1[1])[1] < sublist_indices_el(table,P2[1])[1]))),
+    for p in L do set_hash(p[1], translated, p[2]),
+    is(sconcat(translated) = sconcat(h)))$
 
 okltest_eq_ohmsm_p(f) := block([M,h],
   h : hash_table(),
@@ -99,6 +105,13 @@ okltest_eq_ohmsm_p(f) := block([M,h],
   assert(f(h,M) = false),
   M : define_set_map(M,[],1),
   assert(f(h,M) = false),
+  h : hash_table(),
+  set_hash(1,h,1), set_hash(-1,h,0),
+  M : {[1,1],[-1,0]},
+  assert(f(h,M) = true),
+  h : hash_table(),
+  set_hash(-1,h,0), set_hash(1,h,1),
+  assert(f(h,M) = true),
   true)$
 
 okltest_repo_set_maps : {
@@ -121,9 +134,42 @@ okltest_create_set_map(f) := (
 
 /* A tool for checking whether an improved hash-map and a set-map are identical
    as mathematical functions. */
-eq_hmsm_p(h,M) := if not setmapp(M) then
-  error("eq_hmsm_p: the alleged set-map is not a set-map")
-  else is(hm2sm(h) = M and is(sconcat(sm2hm(M)) = sconcat(h)))$
+eq_hmsm_p(h,M) := (
+ if oklib_monitor then (
+   print("M[eq_hmsm_p]: ENTRY"),
+   if oklib_monitor_level >= 1 then (
+     print("The hash-map is:"),
+     print(h),
+     print("The set-map is:"),
+     print(M))
+ ),
+ if not setmapp(M) then
+   error("eq_hmsm_p: the alleged set-map is not a set-map")
+ elseif not is(hm2sm(h) = M) then (
+     if not oklib_monitor then false else (
+       print("M[eq_hmsm_p]: translating the hash-map does not yield the given set-map!"),
+       if oklib_monitor_level >= 1 then (
+         print("The translated hash-map is:"),
+         print(hm2sm(h))),
+       false
+     ))
+ else block(
+  [table : map(lambda([p],eval_string(part(p,1))),hash_table_data(h)), 
+   translated : sm2hm({}),
+   L : listify(M)],
+   L : sort(L,lambda([P1,P2],is(sublist_indices_el(table,P1[1])[1] < sublist_indices_el(table,P2[1])[1]))),
+   for p in L do set_hm(translated, p[1], p[2]),
+   if not is(sconcat(translated) = sconcat(h)) then (
+     if not oklib_monitor then false else (
+       print("M[eq_hmsm_p]: translating the set-map does not yield the given hash-map!"),
+       if oklib_monitor_level >= 1 then (
+         print("The translated set-map yields the string:"),
+         print(sconcat(translated)),
+         print("The hash-map yields the string:"),
+         print(sconcat(h))),
+       false
+     ))
+   else true))$
 
 okltest_eq_hmsm_p(f) := block([M,h],
   h : hash_table(),
@@ -141,21 +187,34 @@ okltest_eq_hmsm_p(f) := block([M,h],
   assert(f(h,M) = false),
   M : define_set_map(M,[],1),
   assert(f(h,M) = true),
+  h : hash_table(),
+  set_hm(h,1,1), set_hm(h,-1,0),
+  M : {[1,1],[-1,0]},
+  assert(f(h,M) = true),
+  h : hash_table(),
+  set_hm(h,-1,0), set_hm(h,1,1),
+  assert(f(h,M) = true),
   true)$
 
 okltest_set_hm(f) := block([h : hash_table()],
-  set_hm(h,1,10),
+  f(h,1,10),
   assert(get_hash(sconcat(1),h) = 10),
   assert(get_hash(sconcat(2),h) = false),
-  set_hm(h,[],20),
+  f(h,[],20),
   assert(get_hash(sconcat([]),h) = 20),
   assert(get_hash(sconcat(1),h) = 10),
   assert(get_hash(sconcat([[]]),h) = false),
-  set_hm(h,1,11),
+  f(h,1,11),
   assert(get_hash(sconcat(1),h) = 11),
-  set_hm(h,[],21),
+  f(h,[],21),
   assert(get_hash(sconcat([]),h) = 21),
   assert(eq_hmsm_p(h,{[1,11],[[],21]}) = true),
+  h : hash_table(),
+  f(h,1,1),
+  assert(ev_hm(h,1) = 1),
+  assert(ev_hm(h,-1) = false),
+  f(h,-1,0),
+  assert(eq_hmsm_p(h,{[1,1],[-1,0]}) = true),
   true)$
 
 okltest_ev_hm(f) := block([h : hash_table()],
