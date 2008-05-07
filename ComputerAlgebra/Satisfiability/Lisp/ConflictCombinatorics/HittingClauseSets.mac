@@ -405,8 +405,9 @@ all_unsinghitting_steps(steps,n,results_all_hitting) :=
 
 /* For a given number of variables, find all hitting clause-set types
    (without singular variables). */
-/* Returned is the total number, while parameter hash (passed by name;
-   initialised empty) contains the full hash-map. */
+/* Returned is the total number, while parameter hash_repo
+   (passed by name; initialised empty by this function)
+   contains the hash-map for all instances. */
 /* Prerequisite: n >= 2. */
 all_unsinghitting(n, _hash_repo) := block([h : sm2hm({}), count],
   count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],h),
