@@ -46,6 +46,7 @@ okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
 */
 
 okltest_scls_l(scls_l);
+okltest_scls_v(scls_v);
 
 /* ***********************
    * Partial assignments *

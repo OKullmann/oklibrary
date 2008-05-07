@@ -160,11 +160,14 @@ make_vardisjoint_fcs(LFF) := block([index : 0, result : []],
    ***********************************
 */
 
-/* all clauses of length k of a clause-set */
+/* All clauses of length k of a clause-set. */
 scls_k(F,k) := subset(F, lambda([C], is(length(C) = k)))$
 
-/* All clauses of a clause-set containing a literal */
+/* All clauses of a clause-set containing a literal. */
 scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
+
+/* All clauses of a clause-set containing a variable. */
+scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
 
 
 /* ***********************
