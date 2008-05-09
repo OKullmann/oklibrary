@@ -88,6 +88,13 @@ hitting_cls_rep_condensed_fcs(FF,h) := hitting_cls_rep_st(condense_st(dll_simple
 uniform_usat_hitting_min(k) := treehittingcls_st(complete_st_alldifferent(k))$
 uniform_usat_hitting_max(k) := full_fcs(k)[2]$
 
+/* The up to isomorphism unique unsatisfiable hitting clause-set 
+   with n variables and of deficiency 2^n - n - 1;
+   non-singular iff n >= 3. */
+/* Prerequisite: n >= 1. */
+nearly_full_hitting_fcs(n) := block([FF : full_fcs(n)],
+  return([FF[1], adjoin(setn(n-1), setdifference(FF[2], {setn(n), adjoin(-n,setn(n-1))}))]))$
+
 /* Saturated minimally unsatisfiable Horn clause-sets with k variables */
 smusat_horn(k) := treehittingcls_st(horn_st(k))$
 
@@ -258,6 +265,11 @@ derived_hitting_cs_forb(F,k,forb_pairs) :=
 /* More generally, only allow resolution steps such that for the obtained
    clause-set predicate pred is true. */
 /* Prerequisite: F is a hitting clause-set, pred(F) = true */
+/* The predicate can also use the inherited variables
+   C,D : parent-clause
+   x : resolution literal
+   F : original clause-set.
+*/
 derived_hitting_cs_pred(F,k,results_derived_hitting_cs,pred) := (
   results_derived_hitting_cs :: {},
   derived_hitting_cs_pred_forb(F,k,{}))$
@@ -293,6 +305,10 @@ monitor_check_dhcpfi_found() :=
    print("M[derived_hitting_cs_pred_forb_isoelim]: Found"), print(F))$
 
 /* The variation where isomorphic cases for branching are eliminated. */
+/* Here the predicate can use the derived variables
+ - P, the resolution pair
+ - F, the original clause-set.
+*/
 derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,pred) := (
   monitor_check_dhcpi(),
   results_derived_hitting_cs :: {},
@@ -332,6 +348,11 @@ derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitt
 /* Now computing all non-isomorphic cases. repository is a hash table,
    and its given value is used. Returns the number of (new) cases found (not
    including those already in repository). */
+/* The predicate can also use the inherited variables
+   C,D : parent-clause
+   x : resolution literal
+   F : original clause-set.
+*/
 all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
 /* repository is inherited. */
@@ -377,6 +398,10 @@ analyse_isorepo_def(repository) := block(
 /* The instance where no singular variable is created. */
 /* Prerequisite: F does not have singular variables. */
 all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,redsingdpp)$
+/* The instance where only resolutions with full parent clauses
+   are considered. */
+all_derived_hitting_cs_fullpc_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,
+ lambda([G], redsingdpp(G) and is(length(choose_element(P)) = nvar_cs(F))))$
 
 
 /* For a given deficiency and number of variables, find all hitting clause-set
