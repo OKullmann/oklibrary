@@ -314,9 +314,10 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
    if not found then return({}),
    block(
     [first_branch : derived_hitting_cs_pred_forb_isoelim(G,k-1,forb_pairs), 
-     removable : {}],
+     removable : {}, store],
+     prepare_iso_fcs(cs_to_fcs(G), 'store),
      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
-       if is_isomorphic_cs(G,G2) then
+       if is_isomorphic_prep_fcs(cs_to_fcs(G2),'store) then
          removable : adjoin(P,removable)),
     return(union(first_branch,
       derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))))$
@@ -350,13 +351,14 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
        else (FP : disjoin(P,FP), found : true, R : P)),
     if not found then return(count),
     block(
-     [removable : {}],
+     [removable : {},store],
       count : count + all_derived_hitting_cs_pred_forb_isoelim(
                    G,
                    forb_pairs,
                    true),
+      prepare_iso_fcs(cs_to_fcs(G), 'store),
       for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
-        if is_isomorphic_cs(G,G2) then
+        if is_isomorphic_cs_prep_fcs(cs_to_fcs(G2),'store) then
           removable : adjoin(P,removable)),
       return(count + all_derived_hitting_cs_pred_forb_isoelim(
                    F,
@@ -409,9 +411,9 @@ all_unsinghitting_steps(steps,n,results_all_hitting) :=
    (passed by name; initialised empty by this function)
    contains the hash-map for all instances. */
 /* Prerequisite: n >= 2. */
-all_unsinghitting(n, _hash_repo) := block([h : sm2hm({}), count],
-  count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],h),
-  _hash_repo :: h,
+all_unsinghitting(n, _hash_repo) := block([count],
+  _hash_repo :: sm2hm({}),
+  count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],ev(_hash_repo)),
   count
 )$
 
