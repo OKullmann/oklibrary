@@ -43,6 +43,21 @@ is_isomorphic_fcs(FF1,FF2) :=
    dg2mdg(var_lit_clause_digraph_tr(FF2)))$
 /* The variation for clause-sets as inputs */
 is_isomorphic_cs(F1,F2) := is_isomorphic_fcs(cs_to_fcs(F1),cs_to_fcs(F2))$
+/* In case one FF1 is compared with many FF2, store the data for FF1. */
+prepare_iso_fcs(FF1, storage_var) := (
+  storage_var :: [
+    ncl_list_f(FF1), 
+    variable_degrees_list_cs(FF1[2]),
+    literal_degrees_list_fcs(FF1),
+    dg2mdg(var_lit_clause_digraph_tr(FF1))])$
+is_isomorphic_prep_fcs(FF2, storage_var) := block(
+ [store : ev(storage_var)],
+  if store[1] # ncl_list_f(FF2) then false
+  elseif store[2] # variable_degrees_list_cs(FF2[2]) then false
+  elseif store[3] # literal_degrees_list_fcs(FF2) then false
+  else is_isomorphic(
+    store[4], 
+    dg2mdg(var_lit_clause_digraph_tr(FF2))))$
 
 
 /* **********************************
