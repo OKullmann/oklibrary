@@ -22,12 +22,16 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
 
+/* *************************
+   * Deciding irredundancy *
+   *************************
+*/
+
 /* Predicate to decide whether formal clause-set FF implies clause C,
    using solver S. */
 impliesp_f(FF,C,S) := not S(apply_pa_f(comp_sl(C),FF))$
 /* The variation for clause-sets F. */
 impliesp(F,C,S) := not S(cs_to_fcs(apply_pa(comp_sl(C),F)))$
-
 
 /* Returns true iff input FF (formal clause-set) is minimally unsatisfiable.
    The second input, the "solver", shall just return true or false. */
@@ -44,6 +48,11 @@ irredundant_bydef(FF, solver) :=
    redundancy : impliesp_f([V,disjoin(C,F)],C,solver),
   return(not redundancy))$
 
+
+/* *****************************
+   * Classification of clauses *
+   *****************************
+*/
 
 /* Returns the set of all irredundant clauses (for unsatisfiable
    clause-sets also called necessary clauses) for input FF. */
@@ -66,6 +75,32 @@ non_saturating_pas_bydef(FF,solver) := block(
     if not min_unsat_bydef(apply_pa_f(phi,FF),solver) then
       result : adjoin(phi,result),
   return(result))$
+
+
+/* ***************************
+   * Maximal min-var-degrees *
+   ***************************
+*/
+
+/* An upper bound on the maximal min-var-degree of a minimally unsatisfiable
+   clause-set of deficiency k, according to [OK, XSZ, 2008]. */
+/* This bound is sharp at least for k = deficiency_fcs(full_fcs(n))
+   and k = 3,4. */
+/* I.e., min_unsat_bydef(F) and is(deficiency_cs(F) <= k) -> 
+         min_variable_degree_cs(F) <= max_min_var_degree_def[k]. */
+/* First the recursive computation: */
+max_min_var_degree_def_rec[k] := 
+ if k = 1 then 2 else
+ lmax(makelist(min(2*i,max_min_var_degree_def_rec[k-i+1]+i),i,2,k))$
+/* This is sequence A062289 (http://www.research.att.com/~njas/sequences/),
+   and accordingly we have 
+   max_min_var_degree_def_rec[k] = max_min_var_degree_def_law(k). */
+/* The integer binary logarithm for natural numbers n */
+/* Perhaps this should go to a new super-module NumberTheory. */
+fld(n) := if n = 0 then minf else 
+ block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
+  if b > n then return(l-1) else return(l))$
+max_min_var_degree_def_law(k) := k + fld(k+1 + fld(k+1))$
 
 /*!
 \endhtmlonly

@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeImplicatesImplicants.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/PrimeImplicatesImplicants.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/PrimeImplicatesImplicants.mac")$
 
 
 okltest_min_2resolution_closure_cs(min_2resolution_closure_cs);

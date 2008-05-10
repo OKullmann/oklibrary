@@ -74,9 +74,10 @@ generalised_ucp_pa2(F) := generalised_ucp_pa(F,2);
    *******************************
 */
 
-/* Generalised pure-literal-elimination ("ple"), more precisely, reduction by
+/* Generalised pure-literal-elimination, more precisely, reduction by
    weak autarkies found by making k assumptions; input a clause-set.
-   generalised_ple(F,1) is pure-literal-elimination.
+   weakaut_red(F,1) is pure-literal-elimination, strengthened by
+   subsumption.
    Every weak autarky is found for k large enough. */
 weakaut_red(F,k) := if k = 0 then F else
   block([L : literals_v(var_cs(F)), break : false, G],

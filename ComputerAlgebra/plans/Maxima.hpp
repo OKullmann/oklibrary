@@ -42,6 +42,39 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    just using plain "load". </li>
   </ul>
 
+
+  \todo Recovering of partial results after long (unsuccessful) computations
+  <ul>
+   <li> See "all_unsinghitting" in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+   for an example how to pass variable-names as parameters, and how to store
+   the elements of the result-set piecewise in this variable. </li>
+   <li> And see all_hitting_DP_reductions_def in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+   for a more advanced example how to make make these recovering-variables
+   optional; here we have also a state-variable (the permutation count),
+   which allows re-starting the computation from an arbitrary point. </li>
+   <li> In this way we should rewrite all functions which perform long computations,
+   and for which it makes sense to collect partial results. </li>
+   <li> Using "oklib --maxima -g", a running computation can be interrupted by
+   Ctrl-C, a variable "var" can be displayed by "$var" (using "(displa $var)"
+   one gets Maxima-representation), and by "continue" (at
+   break-level 1 !) the computation can be continued. </li>
+   <li> Does this slow down computations? Some tests seem to indicate that this
+   is not the case. </li>
+   <li> So perhaps this should be our default? </li>
+   <li> If something goes wrong with displaying values, then suddenly
+   "continue" doesn't work anymore (but is treated as variable name)?!? </li>
+   <li> And also for some other reasons continuation becomes impossible??
+   (Then we don't have a "Continuable Error"). </li>
+   <li> This looks like a clisp compiler weakness. Perhaps with 2.44.1 this
+   is solved? </li>
+   <li> Perhaps the problem is that when the execution is inside a sub-function
+   then continuation is not possible? </li>
+   <li> Anyway, this mechanism doesn't look really reliable yet. </li>
+  </ul>
+
+
   \todo Debugging
   <ul>
    <li> Again and again it happens that somehow the Lisp-debugger is entered,
@@ -93,6 +126,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
      and "oklib_demo". </li>
     </ol>
    </li>
+   <li> Integrate the demos into the test-system. </li>
    <li> DONE How to print out explanations?
     <ol>
      <li> The problem is that when using "batch" or "demo", where expressions
@@ -162,7 +196,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
      dynamic binding. </li>
     </ol>
    </li>
-   <li> For the introduction of "oklib_monitor", apparently "define_variable"
+   <li> DONE For the introduction of "oklib_monitor", apparently "define_variable"
    should be used? </li>
    <li> See first examples:
     <ol>
@@ -203,10 +237,26 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
   </ul>
 
 
-  \todo Global variables
+  \todo Declaring variables
   <ul>
-   <li> Under "reset" there is some Maxima-information about global variables.
-   Unclear whether we should use this. </li>
+   <li> Declaring global variables:
+    <ol>
+     <li> The modes ("types") of "define_variable" are
+     \verbatim
+number,fixnum,rational,boolean,float,list,any
+     \endverbatim
+     (for example "inf" is of type "any"). </li>
+     <li> Unclear what fixnum means: It can store for example 100000!.
+     It appears just to be an integer. Perhaps this is special for
+     CLisp? </li>
+     <li> It seems we should declare all of our global variables
+     in this way. </li>
+     <li> It can be used also inside functions, after the block-
+     declaration (or elsewhere). </li>
+     <li> However, inside functions mode_declare is more appropriate,
+     since it leaves out the default-value. </li>
+    </ol>
+   </li>
    <li> See "Variables" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Generators.hpp. </li>
   </ul>
@@ -264,7 +314,7 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
    <li> Function-application (also "map" etc.; see above). </li>
    <li> Hash tables
     <ol>
-     <li> Package "graphs" establishes the following interface to
+     <li> Package "graphs" establishes the following DEPRECATED interface to
      lisp-hash-tables. </li>
      <li> First use "load(graphs);" </li>
      <li> Via "h : hash_table()" a new hash table is created. </li>
@@ -276,6 +326,20 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
       <ol>
        <li> For an assignment A ("x -> y") we obtain the argument by
        "part(A,1)" and the value by "part(A,2)". </li>
+      </ol>
+     </li>
+     <li> See ComputerAlgebra/DataStructures/Lisp/HashMaps.mac for interfaces.
+      <ol>
+       <li> The NEW interface (which removes the problem associated with
+       having lists as keys in the hash map) consists of the functions
+        <ul>
+         <li> sm2hm for creating hash-maps (from set-maps) </li>
+         <li> set_hm for seting a single value, and compose_hm_sm for
+         setting the values of a whole set-map </li>
+         <li> ev_hm for evaluating the hash-map at a single argument, and hm2sm
+         for creating a whole set-map out of it. </li>
+        </ul>
+       </li>
       </ol>
      </li>
     </ol>
@@ -299,6 +363,13 @@ block([fpprec : fpprec], fpprec : d, Comp)
      is always evaluated in bfloat-arithmetic. </li>
     </ol>
    </li>
+   <li> Call by reference:
+    <ol>
+     <li> Pass referency to x by "f('x). </li>
+     <li> Inside f, for assignments to x use "x :: value". </li>
+     <li> And on the right-hand-side use "ev(x)". </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -310,7 +381,18 @@ block([fpprec : fpprec], fpprec : d, Comp)
     <ol>
      <li> There are warnings about undefined global variables, but since they
      involve even for example "inf" it seems we can ignore these warnings? </li>
-     <li> Now it stopped working at all, and so we need to investigate the
+     <li> And there are error messages? </li>
+     <li> And once we used compile(all), we get messages 
+     "Illegal `remvalue' attempt" ?? </li>
+     <li> "define_variable" can be used to get rid off some warnings, but since
+     the return types are so restricted, it only applies for a few cases. </li>
+     <li> Furthermore there is "translate(all)" ??? What's the difference? </li>
+     <li> The output looks rather similar, though there are no error messages. </li>
+     <li> For example "all_def34n : all_unsinghitting(3,4,'all_def34);"
+     stops working after "compile(all)" or "translate(all)", so perhaps
+     we can forget all that here? </li>
+     <li> DONE (apparently with Maxima 5.15.0 it works again)
+     Now it stopped working at all, and so we need to investigate the
      failures. </li>
     </ol>
    </li>
@@ -351,6 +433,28 @@ block([fpprec : fpprec], fpprec : d, Comp)
    viewable at http://beshenov.ru/maxima/logic/ . Perhaps some collaboration
    could initially occur here? </li>
   </ul>
+
+
+   \todo Document simplification of expressions
+   <ul>
+    <li> Apparently "is(a = b)" only applies very basic simplification
+    rules, for example "is(4+5=9)" is true, while for "equivalence" one
+    needs to use "is(equal(a,b))":
+    \verbatim
+is(equal(log(4)/log(2),2));
+true
+is(log(4)/log(2) = 2);
+false
+    \endverbatim
+    </li>
+   </ul>
+
+
+   \todo New supermodule NumberTheory
+   <ul>
+    <li> See "fld" in
+    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac </li>
+   </ul>
 
 */
 

@@ -18,11 +18,39 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Statistics.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Statistics.mac")$
 
+/* *******************
+   * Literal degrees *
+   *******************
+*/
 
+okltest_literal_degrees_cs(literal_degrees_cs);
+okltest_all_literal_degrees_fcs(all_literal_degrees_fcs);
 okltest_ordered_literal_degrees_cs(ordered_literal_degrees_cs);
+okltest_min_literal_degree_cs(min_literal_degree_cs);
+okltest_max_literal_degree_cs(max_literal_degree_cs);
+okltest_min_literal_degree_l_cs(min_literal_degree_l_cs);
+okltest_max_literal_degree_l_cs(max_literal_degree_l_cs);
+okltest_literal_degrees_list_fcs(literal_degrees_list_fcs);
+
+/* ********************
+   * Variable degrees *
+   ********************
+*/
+
+okltest_variable_degree_cs(variable_degree_cs);
+okltest_variable_degrees_cs(variable_degrees_cs);
+okltest_min_variable_degree_cs(min_variable_degree_cs);
+okltest_max_variable_degree_cs(max_variable_degree_cs);
+okltest_max_variable_degree_v_cs(max_variable_degree_v_cs);
+okltest_variable_degrees_list_cs(variable_degrees_list_cs);
+
+/* *******************************
+   * Weighted numbers of clauses *
+   *******************************
+*/
 
 okltest_weighted_ncl_2n_cs(weighted_ncl_2n_cs);
 

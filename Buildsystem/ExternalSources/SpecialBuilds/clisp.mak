@@ -1,5 +1,5 @@
 # Oliver Kullmann, 24.12.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -32,8 +32,8 @@ clisp : $(clisp_recommended_okl)
 $(clisp_targets_okl) : $(clisp_directories_okl)
 	$(call unarchive,$(ExternalSources)/sources/CLisp/$@,$(clisp_base_build_dir_okl))
 	cd $(clisp_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(clisp_installation_dir_okl); $(postcondition) \
-	cd src; $(postcondition) \
+	./configure --prefix=$(clisp_installation_dir_okl) --build $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
+	cd $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition)

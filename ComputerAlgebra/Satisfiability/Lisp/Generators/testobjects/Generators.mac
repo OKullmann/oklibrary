@@ -18,12 +18,18 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
 
+okltest_nvar_full_fcs(nvar_full_fcs);
+okltest_ncl_list_full_fcs(ncl_list_full_fcs);
+okltest_ncl_full_fcs(ncl_full_fcs);
+okltest_deficiency_full_fcs(deficiency_full_fcs);
 
 okltest_nvar_php(nvar_php);
 okltest_ncl_list_weak_php(ncl_list_weak_php);
+okltest_ncl_weak_php(ncl_weak_php);
+okltest_deficiency_weak_php(deficiency_weak_php);
 
 /*!
 \endhtmlonly

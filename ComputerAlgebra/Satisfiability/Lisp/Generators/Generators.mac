@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generato
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 
 
 /* ********************
@@ -32,6 +32,16 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Const
 /* A formal full clause set with variable set {1,...,n} and all possible
    (full) clauses (also known as "canonical CNF/DNF") */
 full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian_product, makelist({-i,i},i,1,n)))]$
+
+/* Measures */
+
+nvar_full_fcs(n) := n$
+
+/* List of clause-counts for full_fcs as with ncl_list_f */
+ncl_list_full_fcs(n) := [[n,2^n]]$
+ncl_full_fcs(n) := 2^n$
+
+deficiency_full_fcs(n) := ncl_full_fcs(n) - nvar_full_fcs(n)$
 
 
 /* ************************
@@ -101,6 +111,10 @@ ncl_list_weak_php(m,n) :=
   elseif n = 1 then [[n,m], [2,n*binom(m,2)]]
   elseif n = 2 then [[2,n*binom(m,2)+m]]
   else [[2,n*binom(m,2)], [n,m]]$
+ncl_weak_php(m,n) := block([L : ncl_list_weak_php(m,n)],
+ return(sum(L[i][2], i, 1, length(L))))$
+
+deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
 
 /* The probability that a random assignment is satisfiable */
 satprob_weak_php(m,n) := sum(binom(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$

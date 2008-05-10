@@ -1,0 +1,72 @@
+/* Oliver Kullmann, 1.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/uhit_def.mac
+  \brief Tests for the catalogue on reduced unsatisfiable hitting clause-sets of given deficiency
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/uhit_def.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+
+kill(f)$
+
+
+okltest_uhit_def(f) := block([list_def : f[0,"info"]],
+  assert(listp(list_def) = true),
+  assert(emptyp(list_def) = false),
+  for k in list_def do block([info,status_def,minn,maxn,list_n],
+    assert(k >= 1),
+    info : f[k,"info"],
+    assert(listp(info) = true),
+    assert(length(info) = 4),
+    status_def : info[1],
+    assert(elementp(status_def,{true,false,unknown}) = true),
+    minn : info[2], maxn : info[3],
+    assert(minn <= maxn),
+    list_n : info[4],
+    assert(listp(list_n) = true),
+    assert(emptyp(list_n) = false),
+    for p in list_n do block([LF,n,status],
+      assert(listp(p) = true),
+      assert(length(p) = 2),
+      [n,status] : p,
+      if status_def=true then
+        assert(status = true)
+      else
+        assert(elementp(status,{true,false,unknown}) = true),
+      assert(minn <= n),
+      assert(n <= maxn),
+      LF : f[k,n],
+      assert(listp(LF) = true),
+      assert(emptyp(LF) = false),
+      for F in LF do block([check : check_hitting_nsing_def(F)],
+        assert(listp(check) = true),
+        assert(length(check) = 1),
+        assert(check[1] = k),
+        assert(nvar_cs(F) = n)
+      ),
+      if oklib_test_level >= 1 then
+        assert(length(representatives_cs(setify(LF))) = length(LF))
+    )
+  ),
+  true)$
+
+/*!
+\endhtmlonly
+*/

@@ -1,0 +1,28 @@
+/* Oliver Kullmann, 5.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Symmetries/include.mac
+  \brief Inclusion file for functions related to symmetries for clause-sets (and more general SAT-forms)
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/include.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/tests/Symmetries.mac")$
+
+/*!
+\endhtmlonly
+*/

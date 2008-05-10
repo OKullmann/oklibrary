@@ -295,28 +295,13 @@ error: failed to push to 'csoliver@cs-wsok:LaptopArchiv/OKsystem/Transitional'
      \verbatim
 Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-upload-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
      \endverbatim
-     Here the upload-pack-address is on the machine issuing the pull.
+     Here the upload-pack-address is on the machine from which we pull.
      </li>
-     <li> For "push" the following should work:
+     <li> For "push" the following works:
      \verbatim
 Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
      \endverbatim
-     (again, the receive-pack-address is on the pushing machine). This works
-     with the (bare) public repository, pushing to cs-wsok however this creates
-     the error
-     \verbatim
-Password:
-Counting objects: 133, done.
-Compressing objects: 100% (99/99), done.
-Writing objects: 100% (103/103), 19.61 KiB, done.
-Total 103 (delta 61), reused 0 (delta 0)
-fatal: exec index-pack failed.
-error: unpack failed: index-pack abnormal exit
-To ssh://csoliver@137.44.2.227/~/SAT-Algorithmen/OKplatform/OKsystem/Transitional
- ! [remote rejected] master -> master (n/a (unpacker error))
-     \endverbatim
-     ???
-     </li>
+     (again, the receive-pack-address is on the receiving machine). </li>
   </ul>
 
 
@@ -563,6 +548,7 @@ git mv file1 file2 dir1 dir2 Annotations
      (quite a jump?) </li>
      <li> 28.2.2008; 8.0 MB; Transitional total: 23.3 MB </li>
      <li> 29.3.2008; 8.3 MB; Transitional total: 23.9 MB </li>
+     <li> 7.5.2008; 8.7 MB; Transitional total: 24.8 MB </li>
     </ol>
    </li>
   </ul>

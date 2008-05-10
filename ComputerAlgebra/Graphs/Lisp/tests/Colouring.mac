@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Graphs/Lisp/tests/Colouring.mac
-  \brief Tests for graph- and hypergraph-functionality regarding clause-sets
+  \brief Tests for graph-colouring functions
 
 Use by
 
@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Colouring.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 

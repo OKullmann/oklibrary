@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Tre
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* **********************************************************
@@ -55,13 +56,13 @@ lower_bound_nlvs(T) := 1 / lmax(tpd_flatten(T))$
 upper_bound_nlvs(T) := 1 / lmin(tpd_flatten(T))$
 
 
-/* the induced probability distribution of the random variable prob^-1 
-   as a hash-table */
-load(graphs)$
-ipd_rp(T) := block([P : tpd_flatten(T), h : hash_table()],
- for p in P do block([rp : 1/p, v],
-  v : get_hash(rp,h),
-  if v = false then set_hash(rp,h,p) else set_hash(rp,h,v+p)),
+/* The induced probability distribution of the random variable prob^-1 
+   as a hash-table. */
+/* ATTENTION: The hash-map will only work correctly if the expressions
+   stored in it (as strings!) are equal iff they are identical. */
+ipd_rp(T) := block([P : tpd_flatten(T), h : sm2hm({})],
+ for p in P do block([rp : 1/p],
+   set_hm(h,rp,ev_hm_d(h,rp,0)+p)),
  return(h))$
 
 

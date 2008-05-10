@@ -73,15 +73,19 @@ License, or any later version. */
   \todo standardise_fcs (in
   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
   <ul>
+   <li> See "Applying substitutions" in
+   ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp.
+   </li>
+   <li> Ask on maxima-mailing-list whether a parallel substitution
+   is available (this should speed up renaming). </li>
    <li> DONE The current implementation (using iterated substitution) is
    incorrect in case the clause-set uses already natural numbers as
    variables. </li>
-   <li> So ask on maxima-mailing-list whether a parallel substitution
-   is available. </li>
    <li> DONE Otherwise, investigate how hash-maps can be made available,
    store the (whole) substitution via a hash-map, and compute
    the new clause-set via transforming clause for clause. </li>
-   <li> Perhaps we could establish general renaming functionality. </li>
+   <li> DONE (we can now rename w.r.t. a given list of variables)
+   Perhaps we could establish general renaming functionality. </li>
   </ul>
 
 */

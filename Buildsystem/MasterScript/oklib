@@ -1,6 +1,6 @@
 #!/bin/bash
 # Oliver Kullmann, 25.8.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -11,7 +11,7 @@ if [[ $# == 0 ]]; then
   exit 0
 fi
 
-version=0.1.0.6
+version=0.1.0.8
 
 if [[ $1 == "--version" ]]; then
   echo "oklib version ${version}"
@@ -75,6 +75,104 @@ if [[ $1 == "--R" ]]; then
   exit
 fi
 
+if [[ $1 == "--push-developer" ]]; then
+  shift
+  if [[ $# == 0 ]]; then
+    echo -e "ERROR[oklib]: the username of the developer on the server is needed as parameter!\n"
+    exit 1
+  fi
+  developer=$1
+  shift
+  if [[ $# == 0 ]]; then
+    git_arguments=""
+  else
+    git_arguments="$*"
+  fi
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} developer_okl=${developer} git_arguments_okl=${git_arguments} push_developers"
+  echo ${command}
+  ${command}
+  exit
+fi
+if [[ $1 == "--pull-developer" ]]; then
+  shift
+  if [[ $# == 0 ]]; then
+    echo -e "ERROR[oklib]: the username of the developer on the server is needed as parameter!\n"
+    exit 1
+  fi
+  developer=$1
+  shift
+  if [[ $# == 0 ]]; then
+    git_arguments=""
+  else
+    git_arguments="$*"
+  fi
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} developer_okl=${developer} git_arguments_okl=${git_arguments} pull_developers"
+  echo ${command}
+  ${command}
+  exit
+fi
+if [[ $1 == "--pull-public" ]]; then
+  shift
+  if [[ $# == 0 ]]; then
+    git_arguments=""
+  else
+    git_arguments="$*"
+  fi
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} git_arguments_okl=${git_arguments} pull_public"
+  echo ${command}
+  ${command}
+  exit
+fi
+if [[ $1 == "--push-ssh" ]]; then
+  shift
+  if [[ $# == 0 ]]; then
+    echo -e "ERROR[oklib]: the remote machine (inclusive user-name if different) is needed as parameter!\n"
+    exit 1
+  fi
+  remote_machine=$1
+  shift
+  if [[ $# == 0 ]]; then
+    echo -e "ERROR[oklib]: the remote OKplatform-directory is needed as parameter!\n"
+    exit 1
+  fi
+  repository=$1
+  shift
+  if [[ $# == 0 ]]; then
+    git_arguments=""
+  else
+    git_arguments="$*"
+  fi
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} remote_machine_okl=${remote_machine} remote_repository_okl=${repository} git_arguments_okl=${git_arguments} push_ssh"
+  echo ${command}
+  ${command}
+  exit
+fi
+if [[ $1 == "--pull-ssh" ]]; then
+  shift
+  if [[ $# == 0 ]]; then
+    echo -e "ERROR[oklib]: the remote machine (inclusive user-name if different) is needed as parameter!\n"
+    exit 1
+  fi
+  remote_machine=$1
+  shift
+  if [[ $# == 0 ]]; then
+    echo -e "ERROR[oklib]: the remote OKplatform-directory is needed as parameter!\n"
+    exit 1
+  fi
+  repository=$1
+  shift
+  if [[ $# == 0 ]]; then
+    git_arguments=""
+  else
+    git_arguments="$*"
+  fi
+  command="make --makefile=${buildsystem_dir}/SourceControl/Makefile OKplatform=${top_dir} remote_machine_okl=${remote_machine} remote_repository_okl=${repository} git_arguments_okl=${git_arguments} pull_ssh"
+  echo ${command}
+  ${command}
+  exit
+fi
+
+
 
 oklib_building_log=${anchor_dir}/log/OKlibBuilding
 external_sources_log=${anchor_dir}/log/ExternalSources
@@ -86,9 +184,11 @@ until [[ ${defining_dir} == ${top_dir} ]]; do
   if [[ ${defining_base} == ExternalSources ]]; then
     command="make --makefile=${buildsystem_dir}/ExternalSources/Makefile --directory=${top_dir}/ExternalSources OKplatform=${top_dir} $@"
     echo ${command}
-    ${command} 2> ${external_sources_log}
-    if [[ -s ${external_sources_log} ]]; then
-      cat ${external_sources_log}
+    echo -e "oklib: ${external_sources_log} contains all output of the build.\n"
+    ${command} 2>&1 | tee ${external_sources_log}
+    return_value_build=$?
+    if [[ ${return_value_build} != 0 ]]; then
+      echo -e "ERROR[oklib]: The build process returned a value different from zero: ${return_value_build}\n"
       exit 1
     fi
     exit 0

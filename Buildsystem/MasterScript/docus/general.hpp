@@ -79,6 +79,29 @@ License, or any later version. */
    <li> <code>--R</code> (calls R, currently in "vanilla"-version
    (all special configurations disabled; see
    Buildsystem/ExternalSources/SpecialBuilds/docus/R.hpp). </li>
+   <li> Push and pull for oklib-repositories:
+    <ol>
+     <li> <code>--push-developer username branchname</code> pushes to the main
+     repository ("branchname" can be left out). </li>
+     <li> <code>--pull-developer username branchname</code> pulls from the
+     main repository (typically "branchname" is "master"). </li>
+     <li> <code>--pull-public branchname</code> pulls from the public
+     repository (the default pull for the packages; typicall "branchname"
+     is "master"). </li>
+     <li> <code>--push-ssh remote-machine remote-OKplatform-dir branchname</code>
+     pushs via ssh to an arbitrary OKlibrary-repository ("branchname" can be
+     left out). If "remote-OKplatform-dir" contains for example "~" (for
+     the home directory), then it is to be put in quotation marks. The
+     "remote-machine" must be of the form "user@machine" if the username
+     on the remote machine is different.</li>
+     <li> <code>--pull-ssh remote-machine remote-OKplatform-dir branchname</code>
+     pulls via ssh from an arbitrary OKlibrary-repository ("branchname"
+     typically is "master"). If "remote-OKplatform-dir" contains characters
+     only meaningful on the remote machine, then it is to be put in quotation
+     marks. The "remote-machine" must be of the form "user@machine" if the
+     username on the remote machine is different. </li>
+    </ol>
+   </li>
    <li> <code>--create-package</code> calls the ReleaseProcess makefile
    with trailing arguments, creating three packages in the directory given by
    variable packages_dir (current value is <code>$(packages_dir)</code>),

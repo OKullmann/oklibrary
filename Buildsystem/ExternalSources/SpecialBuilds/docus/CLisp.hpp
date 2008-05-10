@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -22,11 +22,12 @@ License, or any later version. */
 
   <h2> What the installation yields </h2>
 
-  It seems that the CLisp installation system is faulty, and does not
-  admit installation via a makefile.
   <ul>
-   <li> So at this time we only have system-wide installation. </li>
-   <li> And likely the installation has to be carried out manually. </li>
+   <li> The clisp-executable, compiling lisp-files as well as an
+   interactive interpreter. </li>
+   <li> Documentation on Common Lisp in general, and on the usage of
+   the clisp-executable. </li>
+   <li> Library-files, needed to execute lisp-files. </li>
   </ul>
 
 
@@ -50,43 +51,32 @@ License, or any later version. */
 
   <h2> How to install </h2>
 
-  Only system-wide installation currently. CLisp comes with Linux distributions, so
-  you could simply install it with your distribution tool. If you need to install
-  it otherwise:
   <ul>
-   <li> If the library "libsigsegv" is needed (the clisp installation process will
-   tell you about it), then you can install it as shown below. </li>
-   <li> For a manual system-wide installation of CLisp, proceed as follows:
-    <ol>
-     <li> "Untar" the source code via
-     <code>tar -xjf $(ExternalSources)/sources/CLisp/$(clisp_recommended_package_name_okl)</code>,
-     in the directory where the build shall proceed. </li>
-     <li> <code>cd $(clisp_recommended_package_name_okl)</code> </li>
-     <li> <code>./configure</code> </li>
-     <li> Have a look at the recommendations. </li>
-     <li> <code>cd src</code> </li>
-     <li> <code>make</code> </li>
-     <li> <code>make check</code> </li>
-     <li> <code>sudo make install</code> </li>
-    </ol>
-   </li>
+   <li> CLisp comes with Linux distributions, so you could install it
+   with your distribution tool. See below for configuration. </li>
+   <li> We recommend local installation. </li>
   </ul>
 
-  
+  <h3> Prerequisites </h3>
+
+  <ul>
+   <li> "libsigsegv" is needed (the clisp installation process will
+   tell you about it); it can be installed as shown below. </li>
+  </ul>
+
 
   <h3> Make targets </h3>
 
-  The CLisp-installation attempts a local installation (but likely doesn't
-  succeed; instead install manually as explained above).
+  Only local installation currently.
   <table>
    <tr>
     <td> <code> clisp </code> </td>
-    <td> Build the recommended version of clisp (experimental only). </td>
+    <td> Build the recommended version of clisp. </td>
    </tr>
    <tr>
     <td> <code> clisp-x.y </code> </td>
     <td> Build the version x.y of clisp (for example
-    <code>clisp-2.43</code>) (experimental only). </td>
+    <code>clisp-2.43</code>). </td>
    </tr>
    <tr>
     <td> <code> cleanallclisp </code> </td>

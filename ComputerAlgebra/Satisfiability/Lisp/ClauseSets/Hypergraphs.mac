@@ -20,10 +20,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergra
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* *******************
@@ -34,9 +35,11 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 /* A formal clause-set as a hypergraph */
 hyp_fcs(FF) := [literals_v(FF[1]), FF[2]]$
 
+
 /* The clause-variable graph of a formal clause-set (also "incidence graph") */
 cl_var_graph(FF) := [set_sumn(FF[2], FF[1]),
   family_sets_union(FF[2], lambda([C], setify(makelist({[C,1],[var_l(x),2]},x,listify(C)))))]$
+
 
 /* The variable-hypergraph of a formal clause-set */
 var_hyp(FF) := [FF[1], map(var_c,FF[2])]$
@@ -49,10 +52,12 @@ cvg_cs(F) := [F,
  subset(powerset(F,2), lambda([S], 
         block([L : listify(S)], not disjointp(var_c(L[1]), var_c(L[2])))))]$
 
+
 /* The combinatorial clause-variable matrix of a formal clause-set */
 cl_var_com_fcs(FF) := [FF[2], FF[1], lambda([C,v], 
   if elementp(v, C) then +1 else if elementp(-v,C) then -1 else 0)]$
 /* abs_com(cls_var_com_fcs(FF)) = edge_vertex_com_hyp(hyp_fcs(FF)) */
+
 
 /* The clause-intersection matrix (as square combinatorial matrix)
    of a clause-set (for each pair of clauses the number of common literals
@@ -74,6 +79,32 @@ cl_varint_scom_cs(F) := block([FF : cs_to_fcs(F), M],
 var_int_scom_fcs(FF) := block([M : cl_var_com_fcs(FF)],
   return(com2scom(prod_com(trans(M), M))))$
 
+
+/* The directed variable-literal-clause graph of a formal
+   clause-set (from a variable to its two literals, from a
+   literal to its clauses).
+   Literals are here represented as pairs [v,+1] resp. [v,-1].
+*/
+var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
+  Var : listify(FF[1]),
+  Lit : create_list([v,j], v,Var, j,[-1,1]),
+  Cl : listify(FF[2]),
+  V : append(Var,Lit,Cl),
+  E : append(
+        create_list([v,[v,j]], v,Var, j,[-1,1]),
+        create_list([x,C], x,Lit, 
+          C,sublist(Cl,lambda([D],elementp(x[2]*x[1],D)))
+        )
+      ),
+  return([setify(V),setify(E)]))$
+/* The transitive closure of var_lit_clause_digraph. */
+var_lit_clause_digraph_tr(FF) := block(
+ [G : var_lit_clause_digraph(FF),Var,Cl,E],
+  Var : listify(FF[1]),
+  Cl : listify(FF[2]),
+  E :  create_list([v,C], v,Var, 
+          C,sublist(Cl,lambda([D],elementp(v,var_c(D))))),
+  return([G[1],union(G[2],setify(E))]))$
 
 
 /* ************
@@ -103,16 +134,24 @@ max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(cl_var_graph(
    ************
 */
 
-var_disjointp(FF1,FF2) := disjointp(FF1[1],FF2[1])$
+var_disjointfcsp(FF1,FF2) := disjointp(FF1[1],FF2[1])$
+var_disjointcsp(F1,F2) := var_disjointfcsp(cs_to_fcs(F1),cs_to_fcs(F2))$
 
-/* The set of accumulation variables of a clause-set */
-accumulation_variables_fcs(FF) := block(
- [V : FF[1],
-  result : {}],
+/* The set of accumulation variables of a clause-set (those variables which
+   after splitting create variable-disjoint clause-sets). */
+accumulation_variables_cs(F) := block([V : var_cs(F), result : {}],
   for v in V do 
-    if var_disjointp(apply_pa_f({v},FF), apply_pa_f({-v},FF)) then
+    if var_disjointcsp(apply_pa({v},F), apply_pa({-v},F)) then
       result : adjoin(v,result),
   return(result))$
+
+/* The set of full variables (occurring in every clause) of a
+   formal clause-set. */
+full_variables_fcs(FF) := block([F : FF[2], D, c : ncl_f(FF)],
+ if F = {} then return(FF[1]) elseif F = {{}} then return({}),
+ D : hm2sm(variable_degrees_cs(F)),
+ return(map(lambda([P],part(P,1)),subset(D, lambda([P], is(part(P,2)=c))))))$
+full_variables_cs(F) := full_variables_fcs(cs_to_fcs(F))$
 
 /*!
 \endhtmlonly

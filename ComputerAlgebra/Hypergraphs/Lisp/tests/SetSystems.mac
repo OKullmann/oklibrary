@@ -45,6 +45,53 @@ okltest_choose_element(f) := (
   assert(elementp(f({1,2}),{1,2}) = true),
   true)$
 
+
+/* *********************
+   * Set constructions *
+   *********************
+*/
+
+okltest_setn(f) := (
+  assert(f(0) = {}),
+  assert(f(1) = {1}),
+  assert(f(2) = {1,2}),
+  assert(f(-1) = {}),
+  true)$
+
+okltest_setmn(f) := (
+  okltest_setn(buildq([f],lambda([n],f(1,n)))),
+  assert(f(0,0) = {0}),
+  assert(f(2,5) = {2,3,4,5}),
+  assert(f(2,1) = {}),
+  assert(f(-3,-4) = {}),
+  assert(f(-4,-3) = {-4,-3}),
+  true)$
+
+
+/* **********************************
+   * Constructions related to union *
+   **********************************
+*/
+
+okltest_set_system_union(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{1,2},{2,3},{3,4}}) = {1,2,3,4}),
+  true)$
+
+okltest_cunion(f) := (
+  assert(f({},{{1,2}}) = {}),
+  assert(f({{}},{{1,2}}) = {{1,2}}),
+  assert(f({{1,2},{2,3}},{{3,4},{4,5}}) = {{1,2,3,4},{1,2,4,5},{2,3,4},{2,3,4,5}}),
+  true)$
+
+okltest_add_element(f) := (
+  assert(f(1,{}) = {}),
+  assert(f(1,{{}}) = {{1}}),
+  assert(f(1,{{1},{2,3}}) = {{1},{1,2,3}}),
+  true)$
+
+
 /*!
 \endhtmlonly
 */

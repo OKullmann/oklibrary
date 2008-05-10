@@ -35,17 +35,23 @@ choose_element(S) := listify(S)[1]$
    *********************
 */
 
-/* the set {1,...,n} */
-setn(n) := setify(makelist(i,i,1,n))$
-/* the set {m, ..., n} */
-setmn(m,n) := setify(makelist(i,i,m,n))$
+/* The set {1,...,n} */
+setn(n) := if n <= 0 then {} else setify(makelist(i,i,1,n))$
+/* The set {m, ..., n} */
+setmn(m,n) := if n < m then {} else setify(makelist(i,i,m,n))$
 
 /* A set of singletons from a set */
 singletons(M) := makeset({x},[x],cartesian_product(M))$
 /* All unordered pairs (possible degenerated) from two sets */
 upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
 
-/* the union of a set system */
+
+/* **********************************
+   * Constructions related to union *
+   **********************************
+*/
+
+/* The union of a set system */
 set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
 
 /* the union of a list of sets */
@@ -66,6 +72,24 @@ set_sumn([L]) := set_sum(L)$
 cunion(A,B) := block([LA: listify(A), LB : listify(B)],
  makeset(ev(union(LA[i],LB[j]),noeval), [i,j],
   cartesian_product(setn(length(LA)),setn(length(LB)))))$
+/* The special case of adding some set to all elements of
+   a set system. */
+add_elements(a,B) := cunion({a},B)$
+/* Further specialised to adjoining a single element. */
+add_element(x,B) := add_elements({x},B)$
+
+
+/* ********************************************
+   * Constructions related to complementation *
+   ********************************************
+*/
+
+/* Elementwise complementation of set-system S w.r.t. universe U */
+ecomp(S,U) := setify(makelist(setdifference(U,s),s,listify(S)))$
+
+/* setdifference2(S,b) returns the set system where the elements of b have been
+   removed from every element of S */
+setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 
 
 /* *************************
@@ -98,17 +122,10 @@ is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subs
 )$
 
 
-/* ********************************
-   * Transformers for set systems *
-   ********************************
+/* *****************************************
+   * Constructions related to disjointness *
+   *****************************************
 */
-
-/* Elementwise complementation of set-system S w.r.t. universe U */
-ecomp(S,U) := setify(makelist(setdifference(U,s),s,listify(S)))$
-
-/* setdifference2(S,b) returns the set system where the elements of b have been
-   removed from every element of S */
-setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 
 /* remove_with_element(S,a) is the subset of S of all sets not containing element a */
 remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)))$
@@ -117,7 +134,6 @@ remove_with_element(S,a) := subset(S, lambda([s], not elementp(a,s)))$
 disjoint to b */
 remove_non_disjoint(S,b) := subset(S, lambda([s], disjointp(s,b)))$
 
-
 /* Replaces two elements by their union until the set system is disjoint */
 unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
   while not (p : non_disjoint_pair(L), emptyp(p)) do (
@@ -125,6 +141,11 @@ unify_nondisjoint_elements(S) := block([L : listify(S), p, A, B],
     L : delete(A,L), L : delete(B,L), L : append(L, [union(A,B)])),
   setify(L))$
 
+
+/* *****************************************
+   * Constructions related to subsumption *
+   *****************************************
+*/
 
 /* The closure of a set system under subset-formation */
 subset_closure(S) := family_sets_union(S, lambda([M],powerset(M)))$

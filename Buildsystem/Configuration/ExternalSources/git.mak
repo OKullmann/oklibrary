@@ -31,12 +31,16 @@ ifeq ($(git_default_install_okl),local)
   git_call_okl ?= $(git_installation_dir_okl)/bin/git
   gitk_call_okl ?= $(git_installation_dir_okl)/bin/gitk
   gitgui_call_okl ?= $(git_installation_dir_okl)/bin/git-gui
+  git_upload_pack_okl ?= $(git_installation_dir_okl)/bin/git-upload-pack
+  git_receive_pack_okl ?= $(git_installation_dir_okl)/bin/git-receive-pack
 else
   git_install_directory_okl ?= $(git_system_install_directory)
   git_install_command_okl ?= sudo make install
   git_call_okl ?= git
   gitk_call_okl ?= gitk
   gitgui_call_okl ?= git-gui
+  git_upload_pack_okl ?= git-upload-pack
+  git_receive_pack_okl ?= git-receive-pack
 endif
 
 git_base_doc_dir_okl ?= $(ExternalSources_doc)/Git

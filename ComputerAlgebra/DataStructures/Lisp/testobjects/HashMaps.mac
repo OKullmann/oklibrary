@@ -1,0 +1,55 @@
+/* Oliver Kullmann, 4.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/testobjects/HashMaps.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/HashMaps.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.mac")$
+
+/* ************************
+   * Set-theoretical maps *
+   ************************
+*/
+
+okltest_setmapp(setmapp);
+
+okltest_define_set_map(define_set_map);
+
+okltest_evaluate_set_map(evaluate_set_map);
+okltest_evaluate_set_map_d(evaluate_set_map_d);
+
+/* ***********************************************
+   * Hash maps as provided by the graphs-package *
+   ***********************************************
+*/
+
+okltest_eq_ohmsm_p(eq_ohmsm_p);
+okltest_create_hash_map(create_hash_map);
+okltest_create_set_map(create_set_map);
+
+okltest_eq_hmsm_p(eq_hmsm_p);
+okltest_set_hm(set_hm);
+okltest_ev_hm(ev_hm);
+okltest_ev_hm_d(ev_hm_d);
+okltest_sm2hm(sm2hm);
+okltest_hm2sm(hm2sm);
+okltest_compose_hm_sm(compose_hm_sm);
+
+/*!
+\endhtmlonly
+*/

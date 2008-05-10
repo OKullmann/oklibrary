@@ -18,11 +18,42 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
 
+/* **************************
+   * Variables and literals *
+   **************************
+*/
 
-okltest_var_l(var_l)$
+okltest_var_l(var_l);
+
+/* *****************************
+   * Substitution and renaming *
+   *****************************
+*/
+
+okltest_substitute_l(substitute_l);
+okltest_substitute_c(substitute_c);
+okltest_substitute_cs(substitute_cs);
+
+okltest_standardise_fcs(standardise_fcs);
+okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
+
+/* ***********************************
+   * Selecting parts of a clause-set *
+   ***********************************
+*/
+
+okltest_scls_l(scls_l);
+okltest_scls_v(scls_v);
+
+/* ***********************
+   * Partial assignments *
+   ***********************
+*/
+
+okltest_all_pass(all_pass);
 
 /*!
 \endhtmlonly

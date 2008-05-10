@@ -20,9 +20,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Backtracking.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Backtracking.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac")$
 
 
 /*!

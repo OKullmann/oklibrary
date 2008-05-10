@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/Formulas.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/tests/Formulas.mac")$
 
 okltest_var_prpl(var_prpl);
 okltest_var_ft(var_ft);

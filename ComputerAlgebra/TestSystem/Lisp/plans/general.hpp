@@ -13,6 +13,20 @@ License, or any later version. */
   \todo Create milestones.
 
 
+  \todo Improving assert
+  <ul>
+   <li> DONE (now caught by errcatch)
+   There are some errors which our test-system does not notice.
+    <ol>
+     <li> One finds them by searching for "error" in the OKlibBuilding
+     log. </li>
+     <li> Apparently these are Lisp errors. </li>
+     <li> Perhaps one could catch "MACSYMA-QUIT" ?! </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Outline of the test system
   <ul>
    <li> DONE (we roll our own)
@@ -268,6 +282,14 @@ if oklib_test_demos then
    which contains all respective load-instructions. </li>
    <li> Again the question is whether we do this recursively. </li>
    <li> And again this appears to be superior. </li>
+  </ul>
+
+
+  \todo Improving the test system
+  <ul>
+   <li> In oklib_test_level>=1 we must also additionally run the test
+   with oklib_test_level-- and with oklib_monitor=true and
+   oklib_monitor_level=0,1 (at least). </li>
   </ul>
 
 */

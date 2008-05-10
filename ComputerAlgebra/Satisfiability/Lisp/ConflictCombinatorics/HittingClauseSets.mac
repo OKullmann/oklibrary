@@ -19,15 +19,21 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* ***************************************
    * Representations via splitting trees *
@@ -90,7 +96,7 @@ smusat_horn(k) := treehittingcls_st(horn_st(k))$
    of occurrences of every variable] */
 sasg2000 : [setn(4), {{1,-2,4},{2,-3,4},{-1,3,4},{1,2,3},
  {1,-2,-4},{2,-3,-4},{-1,3,-4},{-1,-2,-3}}]$
-/* Example from [Brouwer, 1999, An associative block design ABD(8,5) */
+/* Example from [Brouwer, 1999, An associative block design ABD(8,5)] */
 brouwer1999 : [setn(8), {
  {1,2,3,4,5},{-1,2,3,4,5},{1,2,3,4,-5},{-1,2,3,4,-5},
  {1,2,3,-4,6},{-1,2,3,-4,6},{1,-4,5,-6,7},{-1,-4,5,-6,7},
@@ -100,6 +106,17 @@ brouwer1999 : [setn(8), {
  {-3,-4,6,7,-8},{-2,3,5,6,8},{-2,4,6,7,-8},{-2,3,4,-7,-8},
  {1,-2,4,-6,7},{-1,-2,4,-6,7},{-2,5,-6,-7,8},{-2,-5,6,7,8},
  {1,-2,-5,-7,8},{-1,-2,-5,-7,8},{-2,3,-4,6,-8}}]$
+
+
+/* Those formal hitting clause-sets which according to a conjecture by OK+XSZ
+   realise the maximal number of variables for given deficiency k
+   for unsatisfiable hitting clause-sets without singular variables.
+   Furthermore the conjecture is that these clause-sets are the only
+   possibilities. */
+/* Prerequisite: k >= 2 */
+max_var_hitting_def(k) := if k=2 then musatd2(3) else
+  vardisjoint_full_gluing(max_var_hitting_def(k-1), musatd2(3))$
+nvar_max_var_hitting_def(k) := 3 + (k-2) * 4$
 
 
 /* *********
@@ -137,6 +154,13 @@ abd_parameters(F) :=
  if not uuhittingcsp(F) or not variableregularcsp(F) then false
  else [nvar_cs(F), length(listify(F)[1])]$
 
+/* Checks whether input F is unsatisfiable hitting and reduced w.r.t. 
+   singular DP-reduction: In the negative case returns the empty list,
+   and otherwise the unit-list containing the deficiency. */
+check_hitting_nsing_def(F) := if hittingcsp(F) and redsingdpp(F) 
+   and not sat_decision_hitting_cs(F) then [deficiency_cs(F)] 
+ else [];
+
 
 /* ****************************************************
    * Representing clause-sets via hitting clause-sets *
@@ -154,6 +178,242 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
    R : endcons(setify(M), R),
    for v in M do remove_vertex(v, G2)),
  map(lambda([M],map(lambda([v],get_vertex_label(v,G)),M)), R))$
+
+
+/* *****************************************************
+   * Finding hitting clause-sets with given deficiency *
+   *****************************************************
+*/
+
+/* Applying partial assignments */
+
+/* Find all hitting clause-sets of a given deficiency obtained from
+   a given hitting clause-set by applying partial assignments */
+all_hittinginstances_def(F,k) := 
+  subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
+         lambda([F],is(deficiency_cs(F)=k)))$
+
+/* Applying DP-resolution */
+
+/* Find all hitting clause-sets of a given deficiency obtained from
+   a given hitting clause-set by applying DP-resolutions.
+   The variable given as optional third parameter collects the results;
+   if already set, then it won't be reset.
+   The variable given as optional fourth argument reflects the permutation
+   count; if set, then the computation starts with this permutation
+   (in the order given by listify(permutations)).
+*/
+all_hitting_DP_reductions_def(F,k,[mon]) := block(
+
+ [V : var_cs(F),B,result,_res,permutation_count,_pc],
+ if length(mon) = 0 then (
+   _res : 'result, _pc : 'permutation_count)
+ elseif length(mon) = 1 then (
+   _res : mon[1], _pc : 'permutation_count)
+ else (
+   _res : mon[1], _pc : mon[2]),
+ if not setp(ev(_res)) then _res :: {},
+ if not integerp(ev(_pc)) then _pc :: 0 else _pc :: max(ev(_pc)-1,0),
+
+ if deficiency_cs(F) = k then _res :: adjoin(F,ev(_res)),
+ if emptyp(V) then return(ev(_res))
+ else block(
+   [P : rest(permutations(V),ev(_pc))],
+    for p in P do block([G : F],
+      _pc :: ev(_pc) + 1,
+      for v in p do (
+        G : dp_operator(G,v),
+        if deficiency_cs(G) = k then _res :: adjoin(G,ev(_res)))),
+    return(ev(_res))))$
+
+
+/* Applying 2-subsumption resolution */
+
+/* Given a hitting clause-set F, find all (necessarily hitting) clause-sets
+   derived from F by (exactly) k 2-subsumption resolution-steps without
+   removing variables. The result is returned, and also iteratively collected
+   in the variable which is given as quoted third argument. */
+derived_hitting_cs(F,k,results_derived_hitting_cs) := (
+  results_derived_hitting_cs :: {},
+  derived_hitting_cs_forb(F,k,{}))$
+
+/* Additionally now a set of forbidden resolution-pairs is given. */
+/* Inherits results_derived_hitting_cs. */
+derived_hitting_cs_forb(F,k,forb_pairs) :=
+ if k < 0 then {}
+ elseif k = 0 then (
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), {F})
+ else
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), C,D, x, found : false],
+   for P in FP unless found do (
+     [C,D] : listify(P), x : resolution_literal(C,D),
+     if not elementp(var_l(x), var_cs(setdifference(F,P))) then
+       forb_pairs : adjoin(P, forb_pairs)
+     else found : true),
+   if not found then return({}) else
+     return(union(
+       derived_hitting_cs_forb(adjoin(resolvent_l(C,D,x),setdifference(F,{C,D})),k-1,forb_pairs),
+       derived_hitting_cs_forb(F,k,adjoin({C,D},forb_pairs)))))$
+
+/* More generally, only allow resolution steps such that for the obtained
+   clause-set predicate pred is true. */
+/* Prerequisite: F is a hitting clause-set, pred(F) = true */
+derived_hitting_cs_pred(F,k,results_derived_hitting_cs,pred) := (
+  results_derived_hitting_cs :: {},
+  derived_hitting_cs_pred_forb(F,k,{}))$
+
+/* Again the variation with a given set of forbidden pairs. */
+/* Inherits results_derived_hitting_cs and pred. */
+derived_hitting_cs_pred_forb(F,k,forb_pairs) :=
+ if k < 0 then {}
+ elseif k = 0 then (
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), {F})
+ else
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), C,D,x,G, found : false],
+   for P in FP unless found do (
+     [C,D] : listify(P), x : resolution_literal(C,D),
+     G : adjoin(resolvent_l(C,D,x),setdifference(F,P)),
+     if not pred(G) then
+       forb_pairs : adjoin(P, forb_pairs)
+     else found : true),
+   if not found then return({}) else
+     return(union(
+       derived_hitting_cs_pred_forb(adjoin(resolvent_l(C,D,x),setdifference(F,{C,D})),k-1,forb_pairs),
+       derived_hitting_cs_pred_forb(F,k,adjoin({C,D},forb_pairs)))))$
+
+monitor_check_dhcpi() := if oklib_monitor then (
+  print("M[derived_hitting_cs_pred_isoelim]: ENTRY;"),
+  print("number of steps:", k, "; input clause-set statistics:", statistics_cs(F)))$
+monitor_check_dhcpfi_entry() := 
+ if oklib_monitor and oklib_monitor_level >= 2 then (
+   print("M[derived_hitting_cs_pred_forb_isoelim]: ENTRY;"),
+   print("number of steps:", k, "; input clause-set statistics:", statistics_cs(F), "; number of forbidden pairs:", length(forb_pairs)))$
+monitor_check_dhcpfi_found() := 
+ if oklib_monitor and oklib_monitor_level >= 1 then (
+   print("M[derived_hitting_cs_pred_forb_isoelim]: Found"), print(F))$
+
+/* The variation where isomorphic cases for branching are eliminated. */
+derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,pred) := (
+  monitor_check_dhcpi(),
+  results_derived_hitting_cs :: {},
+  derived_hitting_cs_pred_forb_isoelim(F,k,{}))$
+derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
+ monitor_check_dhcpfi_entry(),
+ if k < 0 then {}
+ elseif k = 0 then (
+   monitor_check_dhcpfi_found(),
+   results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), 
+   {F})
+ else
+ block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), R,G, found : false],
+   for P in FP unless found do (
+     G : adjoin(resolvent_s(P),setdifference(F,P)),
+     if not pred(G) then
+       forb_pairs : adjoin(P, forb_pairs)
+     else (FP : disjoin(P,FP), found : true, R : P)),
+   if not found then return({}),
+   block(
+    [first_branch : derived_hitting_cs_pred_forb_isoelim(G,k-1,forb_pairs), 
+     removable : {}],
+     for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+       if is_isomorphic_cs(G,G2) then
+         removable : adjoin(P,removable)),
+    return(union(first_branch,
+      derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))))$
+
+/* The instance of the previous function where no singular variable is
+   created. */
+/* Prerequisite: F does not have singular variables. */
+derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred(F,k,results_derived_hitting_cs,redsingdpp)$
+derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,redsingdpp)$
+
+
+/* Now computing all non-isomorphic cases. repository is a hash table,
+   and its given value is used. Returns the number of (new) cases found (not
+   including those already in repository). */
+all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
+  all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
+/* repository is inherited. */
+all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
+ [count : 0],
+  if check then
+    if not manage_repository_isomorphism_types(cs_to_fcs(F), repository) then
+      return(count)
+    else count : count + 1,
+  block(
+   [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
+    R,G, found : false],
+    for P in FP unless found do (
+      G : adjoin(resolvent_s(P),setdifference(F,P)),
+      if not pred(G) then
+        forb_pairs : adjoin(P, forb_pairs)
+       else (FP : disjoin(P,FP), found : true, R : P)),
+    if not found then return(count),
+    block(
+     [removable : {}],
+      count : count + all_derived_hitting_cs_pred_forb_isoelim(
+                   G,
+                   forb_pairs,
+                   true),
+      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+        if is_isomorphic_cs(G,G2) then
+          removable : adjoin(P,removable)),
+      return(count + all_derived_hitting_cs_pred_forb_isoelim(
+                   F,
+                   adjoin(R,union(forb_pairs,removable)),
+                   false)))))$
+
+/* Compute the sorted list of pairs [deficiency, count] for a given
+   hash-repository. */
+analyse_isorepo_def(repository) := block(
+ [M : hm2sm(repository), h : sm2hm({})],
+  for P in M do block([count : length(P[2]), def : P[1][2] - P[1][1]],
+    set_hm(h,def,ev_hm_d(h,def,0)+count)),
+  sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+
+
+/* The instance where no singular variable is created. */
+/* Prerequisite: F does not have singular variables. */
+all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,redsingdpp)$
+
+
+/* For a given deficiency and number of variables, find all hitting clause-set
+   types s.t. no singular variables occur.
+*/
+/* The monitoring-variable "results_all_hitting" collects all hitting clause-sets
+   found (if it has some value, then this will be overwritten). */
+all_unsinghitting_def(def,n,results_all_hitting) := (
+ results_all_hitting :: {},
+ if def < 1 then {} 
+ elseif def = 1 then if n=0 then results_all_hitting :: {{{}}} else {}
+ elseif def = 2 and n <= 2 then if n<2 then {} else  results_all_hitting :: {full_fcs(2)[2]}
+ elseif n <= 2 then {}
+ else block([F : full_fcs(n)[2]],
+   if def = 2^n - n then return(results_all_hitting :: {F}),
+   block([C : setn(n), D : union(setn(n-1),{-n})],
+     F : adjoin(setn(n-1), setdifference(F,{C,D}))),
+   representatives_cs(
+     derived_hitting_cs_nsing_isoelim(F, 
+                              2^n-n-def - 1, 
+                              results_all_hitting))))$
+
+/* Variation: for a given deficiency and number of 2-subsumption steps,
+   find all hitting clause-set types s.t. no singular variables occur.
+*/
+all_unsinghitting_steps(steps,n,results_all_hitting) := 
+  all_unsinghitting_def(2^n-n - steps, n, results_all_hitting)$
+
+/* For a given number of variables, find all hitting clause-set types
+   (without singular variables). */
+/* Returned is the total number, while parameter hash_repo
+   (passed by name; initialised empty by this function)
+   contains the hash-map for all instances. */
+/* Prerequisite: n >= 2. */
+all_unsinghitting(n, _hash_repo) := block([h : sm2hm({}), count],
+  count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],h),
+  _hash_repo :: h,
+  count
+)$
 
 /*!
 \endhtmlonly

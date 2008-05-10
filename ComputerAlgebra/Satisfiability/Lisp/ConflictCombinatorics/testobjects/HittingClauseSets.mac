@@ -18,18 +18,69 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingClauseSets.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/HittingClauseSets.mac")$
+
+/* *******************
+   * Representations *
+   *******************
+*/
 
 okltest_hitting_cls_rep_st(hitting_cls_rep_st);
 
+/* **************
+   * Generators *
+   **************
+*/
+
 okltest_sasg2000(sasg2000);
 okltest_brouwer1999(brouwer1999);
+
+okltest_max_var_hitting_def(max_var_hitting_def);
+okltest_nvar_max_var_hitting_def(nvar_max_var_hitting_def);
+
+/* *********
+   * Tests *
+   *********
+*/
 
 okltest_sat_decision_hitting_cs(sat_decision_hitting_cs);
 
 okltest_hittingcsp(hittingcsp);
 okltest_treehittingcsp(treehittingcsp);
+
+okltest_check_hitting_nsing_def(check_hitting_nsing_def);
+
+/* ****************************************************
+   * Representing clause-sets via hitting clause-sets *
+   ****************************************************
+*/
+
+okltest_hitting_decomposition_m_cs(hitting_decomposition_m_cs);
+
+/* ***********************************************
+   * Hitting clause-sets with bounded deficiency *
+   ***********************************************
+*/
+
+okltest_all_hittinginstances_def(all_hittinginstances_def);
+
+okltest_all_hitting_DP_reductions_def(all_hitting_DP_reductions_def);
+
+okltest_derived_hitting_cs(derived_hitting_cs);
+okltest_derived_hitting_cs_pred(derived_hitting_cs_pred);
+okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing);
+okltest_all_derived_hitting_cs_nsing_isoelim(all_derived_hitting_cs_nsing_isoelim);
+
+okltest_all_unsinghitting_def(all_unsinghitting_def);
+okltest_all_unsinghitting(all_unsinghitting);
+
+/* no specific testing of derived_hitting_cs_pred_isoelim yet,
+   since the general test is not applicable, since it assumes that all
+   derived clause-sets are computed, while with isoelim some
+   isomorphic copies will be removed: */
+/* okltest_derived_hitting_cs_pred(derived_hitting_cs_pred_isoelim); */
+/* okltest_derived_hitting_cs_nsing(derived_hitting_cs_nsing_isoelim); */
 
 /*!
 \endhtmlonly

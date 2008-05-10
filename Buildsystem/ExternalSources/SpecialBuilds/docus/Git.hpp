@@ -43,6 +43,7 @@ License, or any later version. */
      <li> gitk program call = <code>$(gitk_call_okl)</code> </li>
      <li> git-gui program call = <code>$(gitgui_call_okl)</code> </li>
     </ol>
+    Note that symbolic links are provided in $(public_bin_dir_okl).
    </li>
    <li> Ready: $(git_call_ready_okl)
     <ul>
@@ -52,6 +53,14 @@ License, or any later version. */
     </ul>
    </li>
    <li> Documentation: $(git_html_documentation_index_location_tag_okl) </li>
+   <li> Paths to the auxiliary programs needed on remote hosts for push
+   and pull:
+    <ol>
+     <li> git-upload-pack = <code>$(git_upload_pack_okl)</code> </li>
+     <li> git-receive-pack = <code>$(git_receive_pack_okl)</code> </li>
+    </ol>
+    Note that symbolic links are provided in $(public_bin_dir_okl).
+   </li>
   </ul>
 
 
@@ -63,6 +72,8 @@ License, or any later version. */
    <li> <code>gcc</code> is needed (as for many packages). </li>
    <li> <code>asciidoc</code> (often already installed; see
    Buildsystem/ExternalSources/SpecialBuilds/docus/Asciidoc.hpp). </li>
+   <li> The <code>curl</code> development libraries for connecting to a remote
+   git repository via the http protocoll. </li>
   </ul>
 
 

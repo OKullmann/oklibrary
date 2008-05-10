@@ -18,13 +18,29 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/tests/Basics.mac")$
 
+/* ***************************
+   * Single resolution steps *
+   ***************************
+*/
 
 okltest_two_subsumption_resolvent_p(two_subsumption_resolvent_p);
 
+/* *************************
+   * Adding all resolvents *
+   *************************
+*/
+
 okltest_two_subsumption_resolvents_rem_cs(two_subsumption_resolvents_rem_cs);
+
+/* *****************
+   * DP resolution *
+   *****************
+*/
+
+okltest_dp_operator(dp_operator);
 
 /*!
 \endhtmlonly

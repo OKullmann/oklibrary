@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo Installing libsigsegv and CLisp 2.44.1 locally
+  <ul>
+   <li> How to tell the clisp-installation about the local installation
+   of libsigsegv ? </li>
+   <li> Via "./configure --with-libsigsegv-prefix=/PATH-to_libsigsegv" </li>
+   <li> Perhaps also appending "--build build-dir" </li>
+   <li> Then how to tell the maxima-installation about the location of
+   clisp? </li>
+   <li> Apparently via "--with-clisp=<prog>" we specify the lisp-executable
+   (the "maxima"-program), while by "--with-clisp-runtime=<path>" we specify
+   the library file "lisp.run". </li>
+  </ul>
+
+
   \todo Install CLisp : DONE
   <ul>
    <li> We should provide "oklib libsigsegv" (yet only system-wide), but
@@ -26,7 +40,7 @@ License, or any later version. */
      automatic installation. </li>
      <li> We keep the clisp.mak for the installation, and perhaps something
      changes in the future (and one can use it to install libsigsegv),
-     however in the docu we give instruction on manual (syste-wide)
+     however in the docu we give instruction on manual (system-wide)
      building. </li>
      <li> Apparently on cs-wsok one needs to use "ulimit -s 16384; make" ? </li>
      <li> Perhaps one should better use "ulimit -s 16384 -S; make", so that in

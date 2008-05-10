@@ -22,6 +22,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/inc
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/Trees.mac")$
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/tests/Trees.mac")$
+
 /*!
 \endhtmlonly
 */

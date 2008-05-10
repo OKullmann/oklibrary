@@ -305,9 +305,10 @@ R_html_documentation_index_location_tag_okl ?= <a href="$(R_html_documentation_i
 # New variables for the configuration of building clisp (to be designed 
 # and implemented):
 
-clisp_version_number_extraction_okl := awk '/ CLISP [0-9]+\.[0-9]+/{print $$3}'
+clisp_version_number_extraction_okl := awk '/ CLISP [0-9]+\.[0-9]+(\.[0-9])?/{print $$3}'
 # assumes that the output of "clisp -version" contains a line of the form
 # (for example) "GNU CLISP 2.43 (2007-11-18) (built 3407616533) (memory 3407616899)"
+# where the version number can also be of the form "2.44.1".
 
 location_clisp_call_okl ?= $(shell (type -P $(clisp_call_okl)))
 ifeq ($(location_clisp_call_okl),)

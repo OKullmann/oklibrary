@@ -19,11 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hy
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
@@ -78,6 +78,20 @@ okltest_var_int_scom_fcs(f) := (
     assert(scomequalp(f(FF), cdiagscom(setn(n),2^n)))),
   true)$
 
+okltest_var_lit_clause_digraph(f) := block(
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{},{{}}]) = [{{}},{}]),
+  assert(f([{1},{}]) = [{1,[1,1],[1,-1]},{[1,[1,1]],[1,[1,-1]]}]),
+  assert(f([{1},{{}}]) = [{1,[1,1],[1,-1],{}},{[1,[1,1]],[1,[1,-1]]}]),
+  assert(f([{1},{{1}}]) = [{1,[1,1],[1,-1],{1}},{[1,[1,1]],[1,[1,-1]],[[1,1],{1}]}]),
+  assert(f([{1},{{1},{-1}}]) = [{1,[1,1],[1,-1],{1},{-1}},{[1,[1,1]],[1,[1,-1]],[[1,1],{1}],[[1,-1],{-1}]}]),
+  assert(f([{1,2},{{1,2},{-1,-2}}]) = [
+   {1,2,[1,-1],[1,1],[2,-1],[2,1],{1,2},{-1,-2}}, 
+   { [1,[1,-1]],[1,[1,1]],[2,[2,-1]],[2,[2,1]], 
+     [[1,1],{1,2}], [[2,1],{1,2}], [[1,-1],{-1,-2}],[[2,-1],{-1,-2}] }
+  ]),
+  true)$
+
 
 /* ************
    * Measures *
@@ -124,7 +138,7 @@ okltest_max_deficiency_fcs(f) := block(
    ************
 */
 
-okltest_var_disjointp(f) := (
+okltest_var_disjointfcsp(f) := (
   assert(f([{},{}],[{},{}]) = true),
   assert(f([{},{}],[{},{{}}]) = true),
   assert(f([{},{{}}],[{},{{}}]) = true),
@@ -133,13 +147,25 @@ okltest_var_disjointp(f) := (
   assert(f([{1},{{}}],[{1},{{}}]) = false),
   true)$
 
-okltest_accumulation_variables_fcs(f) := (
+okltest_accumulation_variables_cs(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {1}),
+  assert(f({{1},{-1}}) = {1}),
+  assert(f({{-3,-1},{-3,1},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2,3}}) = {}),
+  assert(f({{1,2,3},{1,-2,3},{1,2,-3},{1,-2,-3},{-1,4,5},{-1,-4,5},{-1,4,-5},{-1,-4,-5}}) = {1}),
+  for n : 0 thru 3 do block([F : full_fcs(n)[2]],
+    assert(f(F) = if n <= 1 then setn(n) else {})),
+  true)$
+
+okltest_full_variables_fcs(f) := (
   assert(f([{},{}]) = {}),
+  assert(f([{1,2},{}]) = {1,2}),
   assert(f([{},{{}}]) = {}),
-  assert(f([{1},{}]) = {1}),
-  assert(f([{1,2},{}]) = {}),
-  for n : 0 thru 3 do block([FF : full_fcs(n)],
-    assert(f(FF) = if n <= 1 then setn(n) else {})),
+  assert(f([{1,2},{{}}]) = {}),
+  assert(f([{1,2,3},{{-3,-1},{-3,1},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2,3}}]) = {1,3}),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)) = setn(n)),
   true)$
 
 /*!

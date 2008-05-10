@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 
 
 
@@ -41,6 +41,23 @@ okltest_random_splitting_mus(f) := ([S : dll_simplest_trivial2],
     )
   ),
   true)$
+
+okltest_random_splitting_nsing_mus(f) := ([S : dll_simplest_trivial2],
+  assert(f({{}},0,S) = [{{}}]),
+  assert(f({{-1},{1}},1,S) = [{{}}]),
+  assert(f({{1,2},{1,-2},{-1,3},{-1,-3}},0,S) = [{{}}]),
+  for n : 0 thru 3 do block(
+   [F : full_fcs(n)[2]],
+    for s : 0 thru 1 do block(
+     [L : f(F,s,S)],
+      assert(L[1] = if n <= 1 then {{}} else F),
+      assert(length(L) = max(1,n)),
+      assert(last(L) = {{}}),
+      assert(map(nvar_cs,L) = if n <= 1 then [0] else append(makelist(n-i,i,0,n-2),[0]))
+    )
+  ),
+  true)$
+
 
 /*!
 \endhtmlonly

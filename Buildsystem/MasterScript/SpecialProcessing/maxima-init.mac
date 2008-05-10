@@ -5,20 +5,49 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-OKplatform : "m4_SHELL(OKplatform)";
-OKsystem : "m4_SHELL(OKsystem)";
+define_variable(
+  OKplatform,
+  "m4_SHELL(OKplatform)",
+  any);
+define_variable(
+  OKsystem,
+  "m4_SHELL(OKsystem)",
+  any);
+define_variable(
+  oklib_session_name,
+  sconcat("Maxima_session_","m4_SHELL(build_identification_okl)"),
+  any);
 
 showtime : true;
 linel : 100;
+stringdisp : true;
 
-oklib_monitor : false;
-oklib_monitor_level : 0;
+define_variable(
+  oklib_monitor,
+  false,
+  boolean);
+define_variable(
+  oklib_monitor_level,
+  0,
+  any); /* may take value inf */
 
-oklib_test_level : 0;
-oklib_test_demos : false;
-oklib_test_demos_level : 0;
+define_variable(
+  oklib_test_level,
+  0,
+  any); /* may take value inf */
+define_variable(
+  oklib_test_demos,
+  false,
+  boolean);
+define_variable(
+  oklib_test_demos_level,
+  0,
+  any); /* may take value inf */
 
-oklib_load_round : 0;
+define_variable(
+  oklib_load_round,
+  0,
+  fixnum);
 oklib_loaded_files["maxima-init.mac"] : 0;
 
 oklib_load(name) := block([full_name : sconcat(OKsystem,"/",name)],
@@ -42,5 +71,8 @@ oklib_demo(name) := block([full_name : sconcat(OKsystem,"/",name)],
  oklib_loaded_files[full_name] : oklib_load_round,
  demo(full_name));
 
-oklib_automatic_test : false;
+define_variable(
+  oklib_automatic_test,
+  false,
+  boolean);
 

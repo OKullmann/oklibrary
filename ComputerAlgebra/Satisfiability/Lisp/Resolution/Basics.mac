@@ -181,13 +181,13 @@ min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : 
    *****************
 */
 
-/* the resolvable 2-sets of a clause-set on a given resolution literal */
+/* The resolvable 2-sets of a clause-set on a given resolution literal */
 resolvable_cs_l(F,x) := subset(powerset(F,2), lambda([Cs], resolvable_s_l(Cs,x)))$
 
-/* all resolvents of a clause-set on a given resolution literal */
+/* All resolvents of a clause-set on a given resolution literal */
 resolvents_cs_l(F,x) := map(lambda([S], resolvent_s_l(S,x)), resolvable_cs_l(F,x))$
 
-/* the DP-operator in one step */
+/* The DP-operator in one step for clause-set F and resolution literal v. */
 dp_operator(F,v) := block([Fv : subset(F, lambda([C], not disjointp(C, {v,-v})))],
  union(setdifference(F, Fv), resolvents_cs_l(Fv,v)))$
 

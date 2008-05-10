@@ -1,0 +1,42 @@
+/* Oliver Kullmann, 5.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/Constructions.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/Constructions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Constructions.mac")$
+
+/* **************************
+   * Syntactical operations *
+   **************************
+*/
+
+okltest_comp_cs(comp_cs);
+
+/* ****************************
+   * Combinatorial operations *
+   ****************************
+*/
+
+okltest_vardisjoint_sum_fcs(vardisjoint_sum_fcs);
+
+okltest_vardisjoint_full_gluing(vardisjoint_full_gluing);
+
+/*!
+\endhtmlonly
+*/

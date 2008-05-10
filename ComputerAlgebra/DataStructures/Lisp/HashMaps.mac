@@ -1,0 +1,108 @@
+/* Oliver Kullmann, 4.5.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/DataStructures/Lisp/HashMaps.mac
+  \brief Functions for handling hash maps (in Maxima/Lisp)
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* ************************
+   * Set-theoretical maps *
+   ************************
+*/
+
+/* A "set-map" is a set of pairs [x,y], such that x is unique. */
+
+/* Checks whether M is a set-map. */
+setmapp(M) := if not setp(M) then false else block([is_setm : true],
+  for p in M while is_setm do
+    if not listp(p) or length(p) # 2 then is_setm : false,
+  if not is_setm then return(false) elseif
+    not length(map(lambda([p],part(p,1)),M)) = length(M) then return(false)
+  else return(true))$ 
+
+/* Set a value for a set-map. */
+define_set_map(M,x,y) := block([found : false],
+ for p in M unless found do
+   if p[1] = x then (
+     found : true,
+     if p[2] # y then M : adjoin([x,y],disjoin(p,M))),
+ if found then return(M) else return(adjoin([x,y],M)))$
+
+/* Compute the value for an argument in the domain of a set-map.
+   If x is not in the domain, then "done" is returned. */
+evaluate_set_map(M,x) := for p in M do if p[1] = x then return(p[2])$
+/* Use a default value if undefined. */
+evaluate_set_map_d(M,x,y) := block([found : false, val],
+ for p in M unless found do if p[1] = x then (found : true, val : p[2]),
+ if found then val else y)$
+
+
+/* ***********************************************
+   * Hash maps as provided by the graphs-package *
+   ***********************************************
+*/
+
+load(graphs)$
+
+/* ATTENTION: The following two functions are only for
+   compatability reasons - in the OKlibrary the functions
+   below are to be used!
+*/
+
+/* Given a map as a set-map, create a hash-map. */
+/* The assignments are entered into the hash-map according to their
+   order in the set-map (i.e., according to orderlessp).
+   The order of the hash-map is the reverse order of the order in which
+   the elements were entered. */
+create_hash_map(S) := block([h : hash_table()],
+  for p in S do set_hash(p[1],h,p[2]), return(h))$
+
+/* Given a hash-map, create the corresponding set-theoretical map
+   (as a set of pairs). */
+create_set_map(h) := 
+ setify(map(args,hash_table_data(h)))$
+
+/* The IMPROVED hash-map facilities */
+
+/* The hash-map data type is given by the six functions
+ - set_hm
+ - ev_hm, ev_hm_d
+ - sm2hm
+ - hm2sm
+ - compose_hm_sm.
+*/
+
+/* Set a value for the hash map */
+set_hm(h,x,y) := set_hash(sconcat(x),h,y)$
+/* Compute a value, returning false if undefined */
+ev_hm(h,x) := get_hash(sconcat(x),h)$
+/* Compute a value, returning the provided value if undefined */
+ev_hm_d(h,x,y) := get_hash(sconcat(x),h,y)$
+
+/* Converting set-maps to hash-maps, and hash-maps to set-maps. */
+/* The order of entries in the hash-table is given by orderlessp. */
+sm2hm(M) := block([h : hash_table()],
+  for p in M do set_hm(h,p[1],p[2]), return(h))$
+hm2sm(h) :=
+ setify(map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data(h)))$
+
+/* Extending a hash-map by a set-map, overwriting old settings. */
+compose_hm_sm(h,M) := (for p in M do set_hm(h,p[1],p[2]), h)$
+
+/*!
+\endhtmlonly
+*/

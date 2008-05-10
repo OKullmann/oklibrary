@@ -1,0 +1,62 @@
+/* Oliver Kullmann, 25.4.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac
+  \brief Tests for SAT-reductions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/DP-Reductions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/DeficiencyOne.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+
+kill(f)$
+
+
+/* *************************
+   * Singular DP-reduction *
+   *************************
+*/
+
+okltest_singular_dp_reduction(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  for n : 0 thru 3 do block([F : full_fcs(n)[2]],
+    assert(f(F) = if n <= 1 then {{}} else F)),
+  for k : 0 thru 3 do block([F : marginal_musat1(k)],
+    assert(f(F) = {{}})),
+  for k : 0 thru 3 do block([F : uniform_usat_hitting_min(k)],
+    assert(f(F) = {{}})),
+  for k : 0 thru 3 do block([F : smusat_horn(k)],
+    assert(f(F) = {{}})),
+  assert(nvar_cs(f(weak_php(3,2)[2])) = 3),
+  true)$
+
+okltest_redsingdpp(f) := (
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = false),
+  assert(f({{1},{-1}}) = false),
+  assert(f({{-3,-2,-1},{-3,1},{-2,3},{-1,2},{1,2,3}}) = true),
+  assert(f(weak_php(3,2)[2]) = false),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

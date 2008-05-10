@@ -19,11 +19,43 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Ge
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 
 kill(f)$
+
+/* ********************
+   * Full clause-sets *
+   ********************
+*/
+
+/* Measures */
+
+okltest_nvar_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = nvar_f(full_fcs(n))),
+ true)$
+
+okltest_ncl_list_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = ncl_list_f(full_fcs(n))),
+ true
+)$
+
+okltest_ncl_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = ncl_f(full_fcs(n))),
+ true
+)$
+
+okltest_deficiency_full_fcs(f) := block(
+ for n : 0 thru 4 do
+   assert(f(n) = deficiency_fcs(full_fcs(n))),
+ true
+)$
+
 
 /* ***********************
    * Pigeonhole formulas *
@@ -42,6 +74,20 @@ okltest_ncl_list_weak_php(f) := block(
  for m : 0 thru 6 do
   for n : 0 thru 6 do
    assert(f(m,n) = ncl_list_f(weak_php(m,n))),
+ true
+)$
+
+okltest_ncl_weak_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = ncl_f(weak_php(m,n))),
+ true
+)$
+
+okltest_deficiency_weak_php(f) := block(
+ for m : 0 thru 6 do
+  for n : 0 thru 6 do
+   assert(f(m,n) = deficiency_fcs(weak_php(m,n))),
  true
 )$
 

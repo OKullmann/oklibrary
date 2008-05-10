@@ -19,9 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+
 
 kill(f)$
 
@@ -91,6 +93,41 @@ okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1,2},{-1},{-2,1}}],S) = {}),
   true)$
 
+/* ***************************
+   * Maximal min-var-degrees *
+   ***************************
+*/
+
+okltest_fld(f) := block(
+  assert(f(0) = minf),
+  assert(f(1) = 0),
+  assert(f(2) = 1),
+  assert(f(3) = 1),
+  assert(f(4) = 2),
+  assert(f(5) = 2),
+  assert(f(2^10) = 10),
+  assert(f(2^10-1) = 9),
+  assert(f(2^10+1) = 10),
+  true)$
+
+okltest_max_min_var_degree_def_rec(f) := block(
+  assert(f[1] = 2),
+  assert(f[2] = 4),
+  assert(f[3] = 5),
+  assert(f[4] = 6),
+  assert(f[5] = 8),
+  assert(f[6] = 9),
+  assert(f[7] = 10),
+  assert(f[8] = 11),
+  assert(f[9] = 12),
+  assert(f[10] = 13),
+  assert(f[11] = 14),
+  assert(f[12] = 16),
+  true)$
+
+okltest_max_min_var_degree_def_law(f) := block(
+  for k : 1 thru 12 do
+    assert(f(k) = max_min_var_degree_def_rec[k]))$
 
 /*!
 \endhtmlonly

@@ -183,7 +183,9 @@ OKplatform/system_directories/aux> doxygen -u Doxyfile
 Transitional/Buildsystem/Configuration> doxygen -u Doxyfile
    \endverbatim
    </li>
-   <li> Mention in the documentation, that via "doxygen_parameters" one can set variables
+   <li> DONE (doxygen_parameters deleted, since not needed --- parameters can
+   also be specified on the command-line)
+   Mention in the documentation, that via "doxygen_parameters" one can set variables
    from the doxygen-configuration-file (as an example present the switch to German). </li>
    <li> How can we reliably refer to a specific page within the doxygen
    documentation? Are the url's relatively stable? DONE (yes, they are --- the temporary

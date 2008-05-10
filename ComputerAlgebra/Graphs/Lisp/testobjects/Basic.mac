@@ -1,0 +1,29 @@
+/* Oliver Kullmann, 30.4.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
+
+okltest_g2mg(g2mg);
+okltest_dg2mdg(dg2mdg);
+
+/*!
+\endhtmlonly
+*/

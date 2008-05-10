@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac")$
 
 
 /* *******************
@@ -34,6 +34,7 @@ okltest_cl_var_com_fcs(cl_var_com_fcs);
 okltest_cl_int_scom_cs(cl_int_scom_cs);
 okltest_var_int_scom_fcs(var_int_scom_fcs);
 
+okltest_var_lit_clause_digraph(var_lit_clause_digraph);
 
 /* ************
    * Measures *
@@ -51,9 +52,11 @@ okltest_max_deficiency_fcs(max_deficiency_fcs);
    ************
 */
 
-okltest_var_disjointp(var_disjointp);
+okltest_var_disjointfcsp(var_disjointfcsp);
 
-okltest_accumulation_variables_fcs(accumulation_variables_fcs);
+okltest_accumulation_variables_cs(accumulation_variables_cs);
+
+okltest_full_variables_fcs(full_variables_fcs);
 
 /*!
 \endhtmlonly

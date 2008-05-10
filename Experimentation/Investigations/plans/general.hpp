@@ -70,6 +70,65 @@ License, or any later version. */
    </li>
    <li> The number of prime implicates for satisfiable php would be
    interesting. </li>
+   <li> Minimally unsatisfiable sub-clause-sets of phi * weak_php(m,n) for
+   m > n:
+    <ol>
+     <li> Are these all isomorphic to some weak_php(k+1,k) ? </li>
+     <li> No; for example
+     \verbatim
+L3 : random_splitting_mus(weak_php(7,5)[2],3,dll_simplest_trivial2)$
+map(deficiency_cs,L3);
+  [51, 47, 43, 39, 36, 32, 29, 26, 24, 20, 8, 7, 5, 3, 1, 1, 1, 1]
+     \endverbatim
+     but
+     \verbatim
+for n : 1 thru 5 do print(deficiency_weak_php(n+1,n));
+1 3 10 25 51
+     \endverbatim
+     so there are new deficiencies! </li>
+     <li> Which deficiencies can be realised? </li>
+     <li> What can be said about the clause-sets obtained? </li>
+     <li> Perhaps deficiency 2 cannot be realised? </li>
+     <li> What are the types obtained for deficiency 3 ? Experiment:
+     \verbatim
+def3cls : [];
+experiment(m,n) := block(
+ [count : 0, F : weak_php(m,n)[2]],
+  for seed : 0 do block(
+   [L : random_splitting_mus(F,seed,dll_simplest_trivial2), S],
+    print("seed:", seed, map(deficiency_cs,L)),
+    S : sublist(L,lambda([F],is(deficiency_cs(F) = 3))),
+    if not emptyp(S) then (
+      S : map(singular_dp_reduction, S),
+      def3cls : append(def3cls,S),
+      for i : 1 thru length(S) do print(count + 1, ":", S[i]),
+      count : count + length(S)
+    )))$
+experiment(7,5);
+     \endverbatim
+     Only php(3,2) (up to isomorphism) found for seed <= 8.
+     </li>
+     <li> To speed it out, and remove trivial cases, now with trivial
+     DP-reduction:
+def3cls : [];
+experiment(m,n) := block(
+ [count : 0, F : weak_php(m,n)[2]],
+  for seed : 9 do block(
+   [L : random_splitting_nsing_mus(F,seed,dll_simplest_trivial2), S],
+    print("seed:", seed, map(deficiency_cs,L)),
+    S : sublist(L,lambda([F],is(deficiency_cs(F) = 3))),
+    if not emptyp(S) then (
+      def3cls : append(def3cls,S),
+      for i : 1 thru length(S) do print(count + 1, ":", S[i]),
+      count : count + length(S)
+    )))$
+experiment(7,5);
+     \endverbatim
+     Again, only php(3,2) (up to isomorphism) found for seed <= 20.
+     </li>
+
+    </ol>
+   </li>
   </ul>
 
 

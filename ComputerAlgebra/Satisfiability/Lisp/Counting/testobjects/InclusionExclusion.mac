@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobject
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/InclusionExclusion.mac")$
 
 
 okltest_satprob(satprob_mcind_trrs);

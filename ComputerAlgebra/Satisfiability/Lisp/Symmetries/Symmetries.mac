@@ -1,0 +1,81 @@
+/* Oliver Kullmann, 30.4.2008 (Guangzhou) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac
+  \brief Functionality related to symmetries of clause-sets
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+/* *****************************
+   * Basic isomorphism testing *
+   *****************************
+*/
+
+/* Checks whether two formal clause-sets are isomorphic (where renaming
+   of variables and flipping is considered). */
+is_isomorphic_fcs(FF1,FF2) := 
+ if ncl_list_f(FF1) # ncl_list_f(FF2) then false
+ elseif variable_degrees_list_cs(FF1[2]) # variable_degrees_list_cs(FF2[2]) then false
+ elseif literal_degrees_list_fcs(FF1) # literal_degrees_list_fcs(FF2) then false
+ else is_isomorphic(
+   dg2mdg(var_lit_clause_digraph_tr(FF1)), 
+   dg2mdg(var_lit_clause_digraph_tr(FF2)))$
+/* The variation for clause-sets as inputs */
+is_isomorphic_cs(F1,F2) := is_isomorphic_fcs(cs_to_fcs(F1),cs_to_fcs(F2))$
+
+
+/* **********************************
+   * Isomorphism classes management *
+   **********************************
+*/
+
+/* For a set of formal clause-sets, determines a set of non-isomorphic
+   representatives. */
+representatives_fcs(SFF) := block([classes : equiv_classes(SFF, is_isomorphic_fcs)],
+  return(map(choose_element, classes)))$
+/* The variation for a set of clause-sets */
+representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_cs)],
+  return(map(choose_element, classes)))$
+
+
+/* Given a repository of non-isomorphic formal clause-sets, check whether a 
+   given formal clause-set is already contained or not, and in the latter
+   case insert it into the repository. */
+/* repo is a hash-map, and as hash-key the quadruple fcs_identifier is used. */
+fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_list_f(FF)]$
+manage_repository_isomorphism_types(FF, repo) := block(
+ [p : fcs_identifier(FF), candidates],
+  candidates : ev_hm(repo,p),
+  if candidates = false then (
+    set_hm(repo,p,{FF}), return(true))
+  else block([found : false],
+    for GG in candidates unless found do
+      if is_isomorphic_fcs(FF,GG) then found : true,
+    if found then return(false) else (
+      set_hm(repo,p,adjoin(FF,candidates)), 
+      return(true))))$
+
+/*!
+\endhtmlonly
+*/

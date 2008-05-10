@@ -19,8 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Ge
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 kill(f)$
 
@@ -102,7 +102,10 @@ okltest_weakaut_red(f) := block([F],
     F : {{-1},{1},{2}},
     assert(f(F,k) = if k=0 then F else {{-1},{1}}),
     F : {{1,2},{-1,-2}},
-    assert(f(F,k) = if k<=1 then F else {})
+    assert(f(F,k) = if k<=1 then F else {}),
+    F : {{1,2},{-1,-2},{1,2,3},{1,2,-3}},
+    assert(f(F,k) = if k=0 then F elseif k=1 then {{1,2},{-1,-2}}
+      else {})
   ),
   if oklib_test_level = 0 then return(true),
   true)$

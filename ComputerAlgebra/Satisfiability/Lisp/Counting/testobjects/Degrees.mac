@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/testobject
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/tests/Degrees.mac")$
 
 
 okltest_locallemma_sattest_clausedeg(locallemma_sattest_clausedeg);

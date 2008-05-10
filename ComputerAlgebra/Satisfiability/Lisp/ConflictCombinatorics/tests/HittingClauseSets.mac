@@ -19,11 +19,16 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 
 kill(f)$
 
@@ -63,6 +68,23 @@ okltest_brouwer1999(FF) := block([F : FF[2]],
   assert(min_literal_degree_cs(F) = 10),
   assert(max_variable_frequency_cs(F) = 5/8),
   assert(abd_parameters(F) = [8,5]),
+  true)$
+
+okltest_max_var_hitting_def(f) := (
+  for k : 2 thru 5 do ([FF : f(k)],
+    assert(hittingcsp(FF[2]) = true),
+    assert(sat_decision_hitting_cs(FF[2]) = false),
+    assert(redsingdpp(FF[2]) = true),
+    assert(deficiency_fcs(FF) = k),
+    assert(nvar_f(FF) = 3 + (k-2) * 4)
+  ),
+  true)$
+
+okltest_nvar_max_var_hitting_def(f) := (
+  assert(f(2) = 3),
+  assert(f(3) = 7),
+  for k : 2 thru 5 do ([FF : f(k)],
+    assert(f(k) = nvar_f(max_var_hitting_def(k)))),
   true)$
 
 
@@ -107,6 +129,198 @@ okltest_treehittingcsp(f) := block(
   for n : 0 thru 4 do
     assert(f(uniform_usat_hitting_max(n))),
   true)$
+
+okltest_check_hitting_nsing_def(f) := block(
+  assert(f({{}}) = [1]),
+  assert(f({}) = []),
+  assert(f({{1},{-1}}) = []),
+  assert(f(musatd2(2)[2]) = [2]),
+  assert(f(musatd2(3)[2]) = [2]),
+  assert(f(musatd2(4)[2]) = []),
+  assert(f({{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3},{1,-3},{-1,-3}}) = [3]),
+  assert(f({{1,2,3},{-1,2,3},{1,-2,4}, {-1,-2,4},{2,-3,5},{2,-3,-5},{-2,-4,5},{-2,-4,-5}}) = [3]),
+  assert(f({{1,2,3},{1,-2,3},{1,2,-3},{1,-2,-3},{-1,4,5},{-1,-4,5},{-1,4,-5},{-1,-4,-5}}) = [3]),
+  assert(f(full_fcs(3)[2]) = [5]),
+  true)$
+
+
+/* ****************************************************
+   * Representing clause-sets via hitting clause-sets *
+   ****************************************************
+*/
+
+okltest_hitting_decomposition_m_cs(f) := block(
+  assert(f({}) = []),
+  assert(f({{}}) = [{{}}]),
+  assert(f({{1}}) = [{{1}}]),
+  assert(f({{1},{-1}}) = [{{1},{-1}}]),
+  assert(setify(f({{1},{-1},{}})) = {{{1},{-1}},{{}}}),
+  assert(setify(f({{-1},{1},{2},{-2},{3},{-3}})) = {{{-1},{1}},{{-2},{2}},{{-3},{3}}}),
+  true)$
+
+
+/* ***********************************************
+   * Hitting clause-sets with given deficiency *
+   ***********************************************
+*/
+
+okltest_all_hittinginstances_def(f) := block(
+  assert(f({},0) = {{}}),
+  assert(f({},1) = {}),
+  assert(f({{}},0) = {}),
+  assert(f({{}},1) = {{{}}}),
+  assert(f({{1}},0) = {{},{{1}}}),
+  assert(f({{1}},1) = {{{}}}),
+  assert(f({{1}},2) = {}),
+  assert(f({{1},{-1}},0) = {}),
+  assert(f({{1},{-1}},1) = {{{}},{{1},{-1}}}),
+  assert(f({{1},{-1}},2) = {}),
+  assert(f({{1},{-1}},3) = {}),
+  true)$
+
+okltest_all_hitting_DP_reductions_def(f) := block(
+ [List : [
+   [[{},0], {{}}], 
+   [[{},1], {}], 
+   [[{{}},0], {}],
+   [[{{}},1], {{{}}}],
+   [[{{1}},0], {{},{{1}}}],
+   [[{{1}},1], {}],
+   [[{{1}},2], {}],
+   [[{{1},{-1}},0], {}],
+   [[{{1},{-1}},1], {{{}},{{1},{-1}}}],
+   [[{{1},{-1}},2], {}],
+   [[full_fcs(2)[2],0], {}],
+   [[full_fcs(2)[2],1], {{{}},{{1},{-1}},{{2},{-2}}}],
+   [[full_fcs(2)[2],2], {full_fcs(2)[2]}],
+   [[full_fcs(2)[2],3], {}]
+  ]],
+  for case in List do
+    assert(apply(f,case[1]) = case[2]),
+  for case in List do block(
+   [presult, result],
+    result : apply(f,endcons('presult,case[1])),
+    assert(result = case[2]),
+    assert(result = presult)
+  ),
+  for case in List do block(
+   [presult, pc, result, n : nvar_cs(case[1][1])],
+    result : apply(f,append(case[1],['presult,'pc])),
+    assert(result = case[2]),
+    assert(result = presult),
+    assert(pc = if n = 0 then 0 else n!)
+  ),
+  for case in List do block(
+   [presult, pc, result, n : nvar_cs(case[1][1])],
+    pc : 0,
+    result : apply(f,append(case[1],['presult,'pc])),
+    assert(result = case[2]),
+    assert(result = presult),
+    assert(pc = if n = 0 then 0 else n!)
+  ),
+  for case in List do block(
+   [presult, pc, result, F : case[1][1], k : case[1][2], n, def],
+    n : nvar_cs(F),
+    def : deficiency_cs(F),
+    pc : n! + 1,
+    result : apply(f,append(case[1],['presult,'pc])),
+    assert(result = if def = k then {F} else {}),
+    assert(result = presult),
+    assert(pc = n!)
+  ),
+  true)$
+
+okltest_derived_hitting_cs(f) := block([presult,result,F],
+  result : f({},0,'presult), assert(result = {{}}), assert(presult = result),
+  result : f({},1,'presult), assert(result = {}), assert(presult = result),
+  result : f({{}},0,'presult), assert(result = {{{}}}), assert(presult = result),
+  result : f({{}},1,'presult), assert(result = {}), assert(presult = result),
+  result : f({{1}},0,'presult), assert(result = {{{1}}}), assert(presult = result),
+  result : f({{1}},1,'presult), assert(result = {}), assert(presult = result),
+  result : f({{1},{-1}},0,'presult), assert(result = {{{1},{-1}}}), assert(presult = result),
+  result : f({{1},{-1}},1,'presult), assert(result = {}), assert(presult = result),
+  result : f({{1},{-1}},2,'presult), assert(result = {}), assert(presult = result),
+  F : full_fcs(2)[2],
+  result : f(F,0,'presult),
+  assert(result = {F}),
+  assert(presult = result),
+  result : f(F,1,'presult), assert(result = {{{1},{-1,2},{-1,-2}},{{-1},{1,2},{1,-2}},{{2},{-2,1},{-2,-1}},{{-2},{2,1},{2,-1}}}), assert(presult = result),
+  result : f(F,2,'presult), assert(result = {}), assert(presult = result),
+  true)$
+
+okltest_derived_hitting_cs_pred(f) := block([presult,result,P],
+  okltest_derived_hitting_cs(buildq([f],lambda([F,k,r],
+    f(F,k,r,buildq([F],lambda([G],is(nvar_cs(G) = nvar_cs(F)))))))),
+  P : lambda([F], true),
+  for n : 0 thru (if oklib_test_level = 0 then 2 else 3) do block(
+   [F : full_fcs(n)[2]],
+    result : f(F,2^n-1,'presult,P),
+    assert(result = {{{}}}),
+    assert(presult = result)
+  ),
+  true)$
+
+okltest_derived_hitting_cs_nsing(f) := block([presult,result,F],
+  F : full_fcs(2)[2],
+  result : f(F,0,'presult),
+  assert(result = {F}),
+  assert(presult = result),
+  result : f(F,1,'presult),
+  assert(result = {}),
+  assert(presult = result),
+  true)$
+
+okltest_all_derived_hitting_cs_nsing_isoelim(f) := block([repo,M:{},FF],
+  repo : sm2hm({}),
+  FF : [{},{}],
+  assert(f(FF[2],repo) = 1),
+  M : adjoin([fcs_identifier(FF), {FF}],M),
+  assert(hm2sm(repo) = M),
+  assert(f(FF[2],repo) = 0),
+  assert(hm2sm(repo) = M),
+  FF : [{},{{}}],
+  assert(f(FF[2],repo) = 1),
+  M : adjoin([fcs_identifier(FF), {FF}],M),
+  assert(hm2sm(repo) = M),
+  assert(f(FF[2],repo) = 0),
+  assert(hm2sm(repo) = M),
+  FF : full_fcs(2),
+  assert(f(FF[2],repo) = 1),
+  M : adjoin([fcs_identifier(FF), {FF}],M),
+  assert(hm2sm(repo) = M),
+  assert(f(FF[2],repo) = 0),
+  assert(hm2sm(repo) = M),
+  assert(length(M) = 3),
+  repo : sm2hm({}),
+  FF : full_fcs(3),
+  assert(f(FF[2],repo) = 1 + 3 + 1 + 1),
+  assert(analyse_isorepo_def(repo) = [[2,1],[3,3],[4,1],[5,1]]),
+  true)$
+
+okltest_all_unsinghitting_def(f) := block([presult,result],
+  result : f(0,0,'presult), assert(result = {}), assert(presult = result),
+  result : f(0,1,'presult), assert(result = {}), assert(presult = result),
+  result : f(1,0,'presult), assert(result = {{{}}}), assert(presult = result),
+  result : f(2,0,'presult), assert(result = {}), assert(presult = result),
+  result : f(2,1,'presult), assert(result = {}), assert(presult = result),
+  result : f(2,2,'presult), assert(result = {full_fcs(2)[2]}), assert(presult = result),
+  result : f(5,3,'presult), assert(result = {full_fcs(3)[2]}), assert(presult = result),
+  result : f(2,3,'presult), 
+  assert(length(result) = 1),
+  assert(is_isomorphic_cs(single_element(result), musatd2(3)[2])),
+  assert(subsetp(result,presult) = true),
+  result : f(4,3,'presult),
+  assert(length(result) = 1), assert(presult = result),
+  assert(is_isomorphic_cs(single_element(result), {{-3,-2,-1},{-3,-2,1},{-3,-1,2},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2}})),
+  true)$
+
+okltest_all_unsinghitting(f) := block([hash],
+  assert(f(2,'hash) = 1),
+  assert(analyse_isorepo_def(hash) = [[2,1]]),
+  assert(f(3,'hash) = 1 + 3 + 1 + 1),
+  assert(analyse_isorepo_def(hash) = [[2,1],[3,3],[4,1],[5,1]]),
+  true)$
+
 
 /*!
 \endhtmlonly
