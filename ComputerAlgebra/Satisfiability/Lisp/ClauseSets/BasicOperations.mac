@@ -102,6 +102,7 @@ clauses_f(FF) := FF[2]$
 
 /* clause-sets to formal clause-sets */
 cs_to_fcs(F) := [var_cs(F), F]$
+fcs2cs(FF) := second(FF)$
 
 
 /* *****************************
