@@ -21,211 +21,656 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/SboxAnalysis.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul2CNF.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul3CNF.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/SboxCNF.mac")$
 
 /* ***************************************
-   * Variables                           *
+   * Sets of Conditions                  *
    ***************************************
 */
 
-/* Variables are 
-      aes_p(i) meaning the ith bit (starting at 1) of the AES plaintext
-      aes_k(i) meaning the ith bit (starting at 1) of the AES key 
-      aes_c(i) meaning the ith bit (starting at 1) of the AES ciphertext 
-      aes_rk(r,i) meaning the ith bit (starting at 1) of the round key for the
-        rth round.
-      aes_r(r,n,i) meaning the ith bit (starting 1 ) of the nth set of
-        variables used for input/output in the rth round
-      aes_ke(n,i) meaning the ith bit (starting 1 ) of the nth set of
-        variables used for input/output in the key expansion 
-      aes_sr(r,n,i) meaning the ith bit (starting 1 ) of the nth set of
-        variables used for input/output in the rth round in shiftrows
-      aes_sb(r,n,i) meaning the ith bit (starting 1) of the nth set of 
-        variables used for input/output in the rth round in the sbox  
-      aes_mc(r,n,i) meaning the ith bit (starting 1) of the nth set of 
-        variables used for input/output in the rth round in the mixcolumns */
-kill(aes_p);
-declare(aes_p, noun);
-declare(aes_p, posfun);
-aes_p_var(i) := nounify(aes_p)(i)$
-kill(aes_k);
-declare(aes_k, noun);
-declare(aes_k, posfun);
-aes_k_var(i) := nounify(aes_k)(i)$
-kill(aes_c);
-declare(aes_c, noun);
-declare(aes_c, posfun);
-aes_c_var(i) := nounify(aes_c)(i)$
-kill(aes_rk);
-declare(aes_rk, noun);
-declare(aes_rk, posfun);
-aes_rk_var(r,i) := nounify(aes_rk)(r,i)$
-kill(aes_r);
-declare(aes_r, noun);
-declare(aes_r, posfun);
-aes_r_var(r,u,i) := nounify(aes_r)(r,u,i)$
-kill(aes_ke);
-declare(aes_ke, noun);
-declare(aes_ke, posfun);
-aes_ke_var(u,i) := nounify(aes_ke)(u,i)$
-kill(aes_sr);
-declare(aes_sr, noun);
-declare(aes_sr, posfun);
-aes_sr_var(r,u,i) := nounify(aes_sr)(r,u,i)$
-kill(aes_sb);
-declare(aes_sb, noun);
-declare(aes_sb, posfun);
-aes_sb_var(r,u,i) := nounify(aes_sb)(r,u,i)$
-kill(aes_mc);
-declare(aes_mc, noun);
-declare(aes_mc, posfun);
-aes_mc_var(r,u,i) := nounify(aes_mc)(r,u,i)$
+load(graphs)$
 
-/* Given a constraint, this function returns the minimum
-round number associated with any variable in the variable
-set associated with the constraint. */
-/*aes_min_r(con) := $ */
+aes_var_ordering : hash_table()$
+
+/* Resets variable numbering back to default */
+aes_reset_vars() := block(
+  aes_var_ordering : hash_table(),
+  aes_cnf_var_number : 1 
+)$
+
+aes_cnf_var_number : 1$
+
+/* Generates a list of integer variables where the values n and m are used to
+   determine the range of variables to return (using an offset to ensure new
+   variables are returned for each call to this function), and name is used to
+   ensure certain special variable cases (such as plaintext variables etc) are
+   given identifiable variables */
+aes_make_vars_int(name,n,m) :=
+  if name = "p" then makelist(i,i,n,m)
+  else if name = "k" then makelist(i,i,128 + n,128 + m)
+  else if name = "c" then makelist(i,i,256 + n,256 + m)
+  else block([rl], 
+    rl : makelist(i,i,aes_cnf_var_number + 3 * 128 + n,aes_cnf_var_number+3*128+m),
+    aes_cnf_var_number : aes_cnf_var_number + (m-n+1),
+    return(rl))$
+/* Generates a list of variables of the form name_i where
+   name is given and i ranges between n and m, offset by a given value to such
+   that repeated calls to this function will yield new variables */
+aes_make_vars_named(name, n,m) := block([val : get_hash(name,aes_var_ordering), res], 
+  if val = false then block(val : 0, set_hash(name,aes_var_ordering, 0)),
+  res : makelist(eval_string(concat(name,string(i))),i,val + n, val + m),
+  set_hash(name,aes_var_ordering,val+m), return(res))$
+/* Allows overriding of variable naming to provide a direct clause set
+   translation which seems MUCH quicker than substituting for named variables 
+   in the final product within maxima. */
+aes_make_vars : aes_make_vars_named;
+
+/* Number of Rounds for the AES */
+aes_num_rounds : 10$
+
+/* Returns a set of conditions representing AES given
+   128 plaintext variables, 128 key variables and 128 output
+   variables. */
+aes_cp([bits]) := block([pBits, kBits, cBits, ekBits,ib,ob, rs : {}],
+  pBits : take_elements(128,bits),
+  kBits : take_elements(128,rest(bits,128)),
+  cBits : rest(bits,256),
+  ekBits : aes_make_vars("ek",1, (aes_num_rounds+1)*128),
+  /* Key Expansion */
+  rs : adjoin(apply(aes_key_expansion_c,append(kBits, ekBits)),rs),
+  ib : pBits,
+  all_ob : aes_make_vars("o",1,(aes_num_rounds+1)*128),
+  ob : take_elements(128,all_ob),
+  /* Initial Round Key Addition */
+  rs : adjoin(apply(aes_add_c,append(ib,take_elements(128,ekBits),ob)),rs),
+  ib : ob,
+  /* Rounds */
+  for j : 1 thru (aes_num_rounds - 1) do block(
+    ob : take_elements(128,rest(all_ob,j*128)),
+    rs : adjoin(apply(aes_round_c,append(ib,take_elements(128,rest(ekBits,j*128)),
+      ob)),rs),
+    ib : ob
+  ),
+  /* Final Round */
+  /*ob : rest(all_ob,10*128),*/
+  ob : cBits,
+  rs : adjoin(apply(aes_final_round_c,append(ib,take_elements(128,
+    rest(ekBits,aes_num_rounds*128)),ob)),rs),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing AES round given
+   128 plaintext variables, 128 key variables and 128 output
+   variables. */
+aes_round_cp([bits]) := block([iBits, rkBits, oBits,tBits,rs:{}],
+  iBits : take_elements(128,bits),
+  rkBits : take_elements(128,rest(bits,128)),
+  oBits : rest(bits,256),
+  tBits : aes_make_vars("so", 1,128),
+  rs : adjoin(apply(aes_subbytes_c,append(iBits, tBits)),rs),
+  iBits : tBits,
+  tBits : aes_make_vars("ro", 1,128),
+  rs : adjoin(apply(aes_shiftrows_c,append(iBits, tBits)),rs),
+  iBits : tBits,
+  tBits : aes_make_vars("mo", 1,128),
+  rs : adjoin(apply(aes_mixcolumns_c,append(iBits, tBits)),rs),
+  iBits : tBits,
+  tBits : oBits,
+  rs : adjoin(apply(aes_add_c,append(iBits, rkBits, tBits)),rs),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing the final AES round given
+   128 plaintext variables, 128 key variables and 128 output
+   variables. */
+aes_final_round_cp([bits]) := block([iBits, rkBits, oBits,tBits,rs:{}],
+  iBits : take_elements(128,bits),
+  rkBits : take_elements(128,rest(bits,128)),
+  oBits : rest(bits,256),
+  tBits : aes_make_vars("so", 1,128),
+  rs : adjoin(apply(aes_subbytes_c,append(iBits, tBits)),rs),
+  iBits : tBits,
+  tBits : aes_make_vars("ro", 1,128),
+  rs : adjoin(apply(aes_shiftrows_c,append(iBits, tBits)),rs),
+  iBits : tBits,
+  tBits : oBits,
+  rs : adjoin(apply(aes_add_c,append(iBits, rkBits, tBits)),rs),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing the AES Subbytes operation given
+   128 plaintext variables and 128 output variables. */
+aes_subbytes_cp([bits]) := block([iBits, rkBits, oBits,tBits,rs:{}],
+  iBits : take_elements(128,bits),
+  oBits : rest(bits,128),
+  for i : 0 thru 15 do
+    rs : adjoin(apply(aes_sbox_c, 
+      append( take_elements(8, rest(iBits,i*8)), take_elements(8, rest(oBits,i*8)))
+    ),rs),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing the AES Shiftrows operation given
+   128 plaintext variables and 128 output variables. */
+aes_shiftrows_cp([bits]) := block([iBits, oBits],
+  iBits : take_elements(128,bits),
+  oBits : take_elements(128,rest(bits,128)),
+  setify(map(lambda([a,b],aes_eq_c(a,b)), oBits, 
+    apply(append,(shiftrows(partition_elements(iBits,8))))))
+)$
+
+/* Returns a set of conditions representing the AES Mixcolumns operation given
+   128 plaintext variables and 128 output variables. */
+aes_mixcolumns_cp([bits]) := block([iBits, oBits, nc],
+  iBits : take_elements(128,bits),
+  oBits : rest(bits,128),
+  nc : length(iBits)/32,
+  setify(map(lambda([a,b], 
+    apply(aes_mixcolumn_c,append(apply(append,a),apply(append,b)))),
+    matrixcolumns(apply(matrix,partition_elements(
+      partition_elements(iBits,8),nc))),
+    matrixcolumns(apply(matrix,partition_elements(
+      partition_elements(oBits,8),nc)))))
+)$
+
+/* Returns a set of conditions representing the AES Mixcolumn operation (the 
+   individual operation applied to a single column in AES Mixcolumns) given
+   128 plaintext variables and 128 output variables. */
+aes_mixcolumn_cp([bits]) := block([iBits, oBits, nc,rs : {}],
+  iBits : partition_elements(take_elements(32, bits),8),
+  oBits : partition_elements(rest(bits, 32), 8),
+  /* First element */
+  for i : 0 thru 3 do block([mulAVars, mulBVars, addAVars, addBVars],
+    mulAVars : aes_make_vars("mc", 1,8),
+    rs : adjoin(apply(aes_mul2_c, append(iBits[mod(0 + i,4) + 1],mulAVars)), rs),
+    mulBVars : aes_make_vars("mc", 1,8),
+    rs : adjoin(apply(aes_mul3_c, append(iBits[mod(1 + i,4) + 1],mulBVars)), rs),
+    addAVars : aes_make_vars("mc",1,8),
+    rs : adjoin(apply(aes_add_c, append(mulAVars,mulBVars, addAVars)), rs),
+    addBVars : aes_make_vars("mc",1,8),
+    rs : adjoin(apply(aes_add_c, 
+      append(iBits[mod(2 + i,4) + 1],iBits[mod(3 + i,4) + 1], addBVars)), rs),
+    rs : adjoin(apply(aes_add_c, append(addAVars,addBVars, oBits[i+1])), rs)
+  ),
+  return(rs)
+)$
+
+/* Generates a set of unit clauses (initially simpler than simplifying constants
+   or making partial assignments) to set the given vars (representing the bits
+   of AES round constants) to the round constant for round n */
+aes_round_constant(ivars, n) := block([rc_el,rc_l],
+  rc_el : xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
+               makelist(2,i,1,(n -1)),1),
+  rc_l : polynomial2list(intToGF2t8Poly(rc_el),8),
+  setify(map(
+    lambda([a,b], if b = 0 then {-a} else {a}),
+    ivars, rc_l
+  ))
+)$
+
+/* Composes two matrices in the sense, given an m * n matrix and a m * o matrix,
+   the result is an m * (n + o) matrix containing the original elements of the
+   two matrices "side by side". */
+matrix_compose(M1, M2) := map(append, M1,M2)$
+
+
+/* Returns a set of conditions representing the AES keyschedule operation given
+   128 key variables and 128 * (aes_num_rounds + 1) output variables
+   (consecutive lots of 128 bits representing the individual round keys). */
+aes_key_expansion_cp([bits]) := block(
+  [n_k : 4,n_b : 4, n_r : aes_num_rounds ,kBits, rkBits, nc,rs : {}, 
+  sboxVars, addVars,fMat, kMat],
+  /* Primary Variables */
+  kBits : take_elements(128,bits),
+  rkBits : rest(bits,128),
+  fBits : take_elements(128,rkBits),
+  /* Split into columns */
+  cols : matrixcolumns(
+    lreduce(lambda([a,b],matrix_compose(a,
+      apply(matrix,
+        partition_elements(partition_elements(b,8), 
+          floor(length(b)/(4*8)) ))
+      )), partition_elements(rest(rkBits,128),128), 
+      apply(matrix,
+        partition_elements(partition_elements(fBits,8), 
+          floor(length(fBits)/(4*8)) ))
+    )
+  ),
+  kMat : matrixcolumns(apply(matrix,
+        partition_elements(partition_elements(kBits,8), 
+          floor(length(kBits)/(4*8)) ))),
+  fMat : matrixcolumns(apply(matrix,
+        partition_elements(partition_elements(fBits,8), 
+          floor(length(fBits)/(4*8)) ))),
+  /* Make first round key equal */
+  for j : 1 thru n_k do
+    for i : 1 thru 4 do
+      rs : adjoin(apply(aes_eq_c,append(kMat[j][i], fMat[j][i])),rs),
+  /* Setup output bits */
+  for j : n_k thru (n_b * (n_r +1)) - 1 do block(
+    if mod(j, n_k) = 0 then block (
+      sboxVars : aes_make_vars("ke",1,8),
+      rs : adjoin(apply(aes_sbox_c, append(cols[j][2], sboxVars)), rs),
+      addVars : aes_make_vars("ke",1,8),
+      rs : adjoin(apply(aes_add_c,
+        append(cols[j-n_k+1][1],sboxVars,addVars)),rs),
+      print(j+1),
+      rcVars : aes_make_vars("rc",1,8),
+      rs : union(rs, aes_round_constant(rcVars,floor(j/n_k))),
+      rs : adjoin(apply(aes_add_c, 
+        append(rcVars,addVars, 
+        cols[j+1][1])),rs),
+      for i : 1 thru 3 do block(
+        sboxVars : aes_make_vars("ke",1,8),
+        rs : adjoin(apply(aes_sbox_c, 
+          append(cols[j][mod(i+1,4)+1], sboxVars)), rs),
+        rs : adjoin(apply(aes_add_c, 
+          append(cols[j-n_k+1][i+1],sboxVars, cols[j+1][i+1])),rs)
+      )
+    )
+    else for i : 1 thru 4 do 
+      rs : adjoin( apply(aes_add_c,
+        append(cols[j][i], cols[j-n_k+1][i],cols[j+1][i])),rs)
+  ),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing addition within GF(2^n) given
+   2 * n input variables (n bits to be added to the next n bits)
+   and n output variables. */
+aes_add_cp([bits]) := block([ nb : floor(length(bits) / 3)],
+  xreduce(union, map(lambda([a,b,c], {{-a,-b,-c},{-a,b,c},{a,-b,c},{a,b,-c}}), 
+    take_elements(nb,bits), take_elements(nb, rest(bits,nb)), rest(bits,nb*2))))$
+
+/* Returns a set of conditions representing equivalence over 2 sets of bits,
+   given 2 consecutive lots of n bits to be represented as logically by the set
+   output conditions */
+aes_eq_cp([bits]) := block([ nb : floor(length(bits) / 2)],
+  xreduce(union, map(lambda([a,b], {{-a,b},{a,-b}}), 
+    take_elements(nb,bits), rest(bits,nb))))$
+
+/* Returns a set of conditions representing multiplication by 02 or "x" in the
+   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_mul2_cp([bits]) := block([rs : FieldMul2CNF[2]],
+  [rs : FieldMul2CNF[2], 
+  tVar : ["a","b","c","d","e","f","g","h","t","j","k","l","m","n","o","p"]],
+  for i : 1 thru length(bits) do
+    rs : subst(tVar[i], i, rs),
+  for i : 1 thru length(bits) do
+    rs : subst(bits[i], tVar[i], rs),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing multiplication by 03 or "x + 1" in the
+   Rijndael GF(2^8) field given the 8 input bits and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_mul3_cp([bits]) := block(
+  [rs : FieldMul3CNF[2], 
+  tVar : ["a","b","c","d","e","f","g","h","t","j","k","l","m","n","o","p"]],
+  for i : 1 thru length(bits) do
+    rs : subst(tVar[i], i, rs),
+  for i : 1 thru length(bits) do
+    rs : subst(bits[i], tVar[i], rs),
+  return(rs)
+)$
+
+/* Returns a set of conditions representing the AES Sbox given the 8 input bits
+   and 8 output bits */
+/* MG : This should ideally take the CNF to be used */
+aes_sbox_cp([bits]) := block(
+  [rs : Sbox44ICCNF[2], 
+  tVar : ["a","b","c","d","e","f","g","h","t","j","k","l","m","n","o","p"]],
+  for i : 1 thru length(bits) do
+    rs : subst(tVar[i], i, rs),
+  for i : 1 thru length(bits) do
+    rs : subst(bits[i], tVar[i], rs),
+  return(rs)
+)$
 
 /* ***************************************
-   * Condition Evaluation Functions      *
+   * Rewrite functions                  *
    ***************************************
 */
 
-/*aes_con_eval(phi) :=  $ */
-/*aes_key_expansion_con_eval(phi) :=  $ */
-/*aes_round_con_eval(phi) :=  $ */
-/*aes_final_round_con_eval(phi) :=  $ */
-/*aes_shiftrows_con_eval(phi) :=  $ */
-/*aes_mixcolumns_con_eval(phi) :=  $ */
-/*aes_addition_con_eval(phi) :=  $ */
-/*aes_equiv_con_eval(phi) :=  $ */
+load("opsubst")$
 
-/* **********************************************************
-   * Condition Producing Functions or "Rewrite Rules"       *
-   **********************************************************
+/* Takes a given set of conditions, a condition name, and a function to
+   rewrite with and then produces a new set of conditions */
+rewrite_condition(con_set, con_name, con_rewrite_f) := block(
+  [num_con : 0, total : length(con_set)], 
+  setify(apply(append_all,map(
+    lambda([b], block(
+      if (oklib_monitoring and (mod(num_con,100) = 0)) then block(
+        print(con_name, " = ", num_con,"/",total)),
+      num_con : num_con + 1,
+      if not (op(b) = con_name) then [b] 
+      else
+        block([result],
+          result : ev(opsubst(con_rewrite_f,con_name,b),eval),
+          if setp(result) then listify(result) else [result]
+      ))),
+  listify(con_set)
+  ))
+))$
+
+/* Given a set of conditions, applies all rewrite rules in a typical order that
+   would result in a simple AES translation and returns the result condition 
+   set (should be a clause set) . */
+/* MG : A more general formal rewrite system is obviously needed rather than 
+   this strict hard coded method */
+rewrite_all(rs) := block(
+  rs : rewrite_condition(rs, aes_key_expansion_c,aes_key_expansion_cp),
+  rs : rewrite_condition(rs, aes_round_c, aes_round_cp),
+  rs : rewrite_condition(rs, aes_final_round_c, aes_final_round_cp),
+  rs : rewrite_condition(rs, aes_shiftrows_c, aes_shiftrows_cp),
+  rs : rewrite_condition(rs, aes_mixcolumns_c, aes_mixcolumns_cp),
+  rs : rewrite_condition(rs, aes_mixcolumn_c, aes_mixcolumn_cp),
+  rs : rewrite_condition(rs, aes_subbytes_c, aes_subbytes_cp),
+  rs : rewrite_condition(rs, aes_mul2_c, aes_mul2_cp),
+  rs : rewrite_condition(rs, aes_mul3_c, aes_mul3_cp),
+  rs : rewrite_condition(rs, aes_add_c, aes_add_cp),
+  rs : rewrite_condition(rs, aes_eq_c, aes_eq_cp),
+  rs : rewrite_condition(rs, aes_sbox_c, aes_sbox_cp),
+  return(rs)
+)$
+
+/* Produces a CNF clause set representing 128-bit AES */
+aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
+  aes_reset_vars(),
+  rs : apply(aes_cp, 
+    append(aes_make_vars("p",1,128), aes_make_vars("k",1,128), aes_make_vars("c",1,128))),
+  rs : rewrite_all(rs),
+  return(rs)
+)$
+
+/* Produces a formal CNF clause set representing 128-bit AES */
+aes_cnf_fcs() := block([aes_cs : {}, aes_make_vars : aes_make_vars_int],
+  aes_cs : aes_cnf_cs(),
+  [makelist(i,i,1,aes_cnf_var_number), aes_cs])$
+
+/* Given many lists as arguments, returns the result of appending all the 
+   lists.
+
+   Maxima append is too slow iteratively (ie using xreduce etc) and can't 
+   handle enough variables in a single call so this gives us the best of 
+   both worlds and is much faster. This is particularly useful as using list
+   operations, map and then converting to a set at the end of the function seems
+   to be much faster (if such an operation is feasible) than using many
+   unions. */
+/* MG : Such an operation should be moved somewhere more general, although
+   consideration should be made of whether this considers efficiency too much */
+/* MG : 3000 here is an arbitrary limit through simple trial and error to find
+   what seemed like an upper limit on the number of arguments append takes.
+   Perhaps this should be set using a variable that can be overriden? */
+append_all([ivalues]) := block([vallen : length(ivalues)],
+  if (vallen < 3000) then apply(append,ivalues)
+  else block([halflen : floor(vallen / 2)],
+    append(
+      apply(append_all, take_elements(halflen, ivalues)),
+      apply(append_all, rest(ivalues, halflen))
+    )
+  )
+)$
+
+/* Takes a hexidecimal string in the notation typically used for Rijndael blocks
+   (discussed in [Design of Rijndael] and in CryptoSystems plans) and given the
+   variable list (assumed to be in the correct left to right bit ordering)
+   generates a PA to the given variables to the given constant. 
+   
+   NOTE : Given the nature of the different representations used within this
+   system and the representations used in the rijndael hexidecimal notation, hex
+   from multiple sets of input and output variables should not just be appended,
+   along with variables in the hopes that this produces a correct assignment. */
+/* MG : The AES implementation should probably be reworked to follow the same 
+   column by column rather than row by row representation. */
+AESHexToPA(hexStr, variableList) := block(
+  setify(map(
+    lambda([a,b], if b = 0 then -a else a),
+        variableList, 
+        apply(append,map(lambda([a], 
+          polynomial2list(a,8)),hexToGF2t8List(hexStr)))
+  ))
+)$
+
+
+/* *********************************************
+   * Test Functions for various components     *
+   *********************************************
 */
 
-/* A constraint is a tuple containing the name of the constraint (an arbitrary
-   term, the set of variables, and a function to evaluate the constraint
-   given a partial assignment */
-/* MG : This should be defined elsewhere more generally? */
+/* MG : Should such tests be moved into seperate test files ? */
 
-/* Each constraint-producing function below, takes a constraint and then
-   produces a new set of constraints to replace that constraint. */
+/* MG : Presumably such tests should take the SAT solver to use as a parameter? */
 
-/* Returns a set of constraints representing 128 bit AES */
-/* MG : Should this take the block and key sizes for generalisations? */
-/*aes_rewrite_rule(con) := block([rs : {}],
-  if first(con) = "aes_con" then
-    rs : adjoin(["aes_key_expansion_con",setify(append(makelist(aes_k_var(i),i,1,128),
-      create_list(aes_rk_var(r,i),r,0,10,i,1,128))),aes_key_expansion_eval],rs),
-    rs : adjoin(["aes_add_key_con",setify(append(makelist(aes_rk_var(0,i),i,1,128),
-      makelist(aes_p_var(i),i,1,128), makelist(aes_r_var(1,i),i,1,128))),
-      aes_add_key_con_eval],rs),
-    for r : 1 thru 9 do block(
-      rs :adjoin(["aes_round_con",setify(append(makelist(aes_rk_var(r,i),i,1,128),
-        makelist(aes_r_var(r,i),i,1,128),makelist(aes_r_var(r+1,1,i),i,1,128))
-      ),aes_round_con_eval],rs)
-    ),
-    rs :adjoin(["aes_final_round_con",setify(append(makelist(aes_rk_var(10,i),i,1,128),
-      makelist(aes_r_var(10,1,i),i,1,128),makelist(aes_c_var(i),i,1,128))
-    ),aes_final_round_con_eval],rs),
-    return([rs])
-  else
-    return([])
-)$*/
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   multiplication by 02 or "x" in the Rijndael GF(2^8) field.
 
-/* Given a constraint, returns a list of length 1 containing the set of 
-   constraints to rewrite the input constraint to if the input constraint
-   is rewritable (ie is an AES round constraint) with this rule, or the 
-   empty list otherwise */
-/* MG: the round number, block and key size seem trivially parameterisable */
-/* MG: Somehow r must be found or there must be a way to determine which 
-   variables are which from the given constraint, so they can be correctly
-   passed to the next. */
-/* OK: Typical problem: name of the function to short, don't know what it means ??? */
-/*aes_round_rewrite_rule(con) := block([r, rs:{}],
-  if first(con) = "aes_round_con" then block(
-    r : aes_min_r(con),
-    rs :adjoin(["aes_sbox_con",setify(append(makelist(aes_r_var(r,1,i),i,1,128),
-      makelist(aes_r_var(r,2,i),i,1,128))
-    ),aes_sbox_con_eval],rs),
-    rs :adjoin(["aes_shiftrows_con",setify(append(
-      makelist(aes_r_var(r,2,i),i,1,128),makelist(aes_r_var(r,3,i),i,1,128))),
-      aes_shiftrows_con_eval],rs),
-    rs :adjoin(["aes_mixcolumns_con",setify(append(
-      makelist(aes_r_var(r,3,i),i,1,128),makelist(aes_r_var(r,4,i),i,1,128))),
-      aes_mixcolumns_con_eval],rs),
-    rs :adjoin(["aes_addition_con",setify(append(
-      makelist(aes_r_var(r,4,i),i,1,128),makelist(aes_r_var(r+1,0,i),i,1,128))),
-      aes_addition_con_eval],rs),
-    return([rs]))
-  else
-    return([])
-)$*/
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the output bits, in the correct bit orderings. */
+test_mul2_cnf_cs(F) := block([result : true, pa],
+  /* Satisfying total assignments */
+  pa : AESHexToPA("0000",take_elements(16,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("0204",take_elements(16,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("1020",take_elements(16,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
 
-/* Given a constraint, returns a list of length 1 containing the set of 
-   constraints to rewrite the input constraint to if the input constraint
-   is rewritable (ie is an AES shiftrows constraint) with this rule, or the 
-   empty list otherwise */
-/*aes_shiftrows_rewrite_rule(con) := block([r,rs : {}], 
-  if first(con) = "aes_shiftrows_con" then block(
-    r : aes_min_r(con),
-    setify(map(lambda([a,b],
-        ["aes_equiv_con",union(setify(a),setify(b)),aes_equiv_con_eval]), 
-      partition_elements(makelist(aes_r_var(r,0,i),i,1,128),8), 
-      shiftrows(partition_elements(aes_r_var(r,1,i),i,1,128),8))))
-  else
-    return([])
-)$*/
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   multiplication by 03 or "x + 1" in the Rijndael GF(2^8) field.
 
-/* Given a constraint, returns a list of length 1 containing the set of 
-   constraints to rewrite the input constraint to if the input constraint
-   is rewritable (ie is an AES mixcolumns constraint) with this rule, or the 
-   empty list otherwise */
-/* MG: This is a placeholder for later code */
-/*aes_mixcolumns_rewrite_rule([bits]) := block([r,rs:{}],
-  if first(con) = "aes_mixcolumns_con" then block()
-  else 
-    return([])
-)$*/
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the output bits, in the correct bit orderings. */
+test_mul3_cnf_cs(F) := block([result : true, pa],
+  /* Satisfying total assignments */
+  pa : AESHexToPA("0000",take_elements(16,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("0305",take_elements(16,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("050F",take_elements(16,listify(var_cs(F)))),
+  /* UNSAT total assignments */
+  return(result))$
 
-/* Given a constraint, returns a list of length 1 containing the set of 
-   constraints to rewrite the input constraint to if the input constraint
-   is rewritable (ie is an AES key expansion constraint) with this rule, or the
-   empty list otherwise */
-/* MG: This is a placeholder for later code */
-/*aes_key_expansion_rewrite_rule([bits]) := block([rs:{}],
-  if first(con) = "aes_key_expansion_con" then block()
-  else 
-    return([])
-)$*/
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   addition in the Rijndael GF(2^8) field.
 
-/* Given a constraint, returns a list of length 1 containing the set of 
-   constraints to rewrite the input constraint to if the input constraint
-   is rewritable (ie is an AES sbox constraint) with this rule, or the 
-   empty list otherwise */
-/* MG: This is a placeholder for later code */
-/*aes_sbox_rewrite_rule([bits]) := block([rs:{}],
-  if first(con) = "aes_sbox_con" then block()
-  else 
-    return([])
-)$*/
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 8 variables representing the input bits and the next
+   8 bits represent the output bits, in the correct bit orderings. */
+test_add_cnf_cs(F) := block([result : true, pa],
+  /* Satisfying total assignments */
+  pa :AESHexToPA("000000",take_elements(24,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("FFFF00",take_elements(24,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("00FFFF",take_elements(24,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : AESHexToPA("100111",take_elements(24,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
 
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   the AES Mixcolumn operation.
 
-/* ***************************************
-   * Rewrite System/Functions            *
-   ***************************************
-*/
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the output bits, in the correct bit orderings. */
+test_mixcolumn_cnf_cs(F) := block([result : true, pa, iVars, oVars],
+  iVars : take_elements(32,listify(var_cs(F))),
+  oVars : take_elements(32,rest(listify(var_cs(F)),32)),
+  /* Satisfying total assignments */
+  pa : union(AESHexToPA("00000000",iVars), AESHexToPA("00000000",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("FFFFFFFF",iVars),AESHexToPA("FFFFFFFF",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("00112233",iVars),AESHexToPA("22770055",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
 
-/* MG: We need something here which takes a given rewrite rule
-   and applies it to the set of constraints, renaming 
-   variables etc if necessary to ensure there are no clashes
-   between internal variables used in one constraint and
-   those used in another. */
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   the AES Mixcolumns operation.
 
-/*apply_rewrite_eule(rule,con_set) := $ */
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the output bits, in the correct bit orderings. */
+test_mixcolumns_cnf_cs(F) := block([result : true, pa,iVars,oVars],
+  iVars : take_elements(128,listify(var_cs(F))),
+  oVars : take_elements(128,rest(listify(var_cs(F)),128)),
+  /* Satisfying total assignments */
+  pa : AESHexToPA(
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    take_elements(256,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("B5A1FF0213199055469AF40000CC0042",iVars),
+    AESHexToPA("74F4F79EC8DFCE16CD6E2FA40DC10A48",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
+    AESHexToPA("861BCCB82932AA7EB8C40A5E00C2004C",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
 
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   the AES Shiftrows operation.
+
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the output bits, in the correct bit orderings. */
+test_shiftrows_cnf_cs(F) := block([result : true, pa,iVars,oVars],
+  iVars : take_elements(128,listify(var_cs(F))),
+  oVars : take_elements(128,rest(listify(var_cs(F)),128)),
+  /* Satisfying total assignments */
+  pa : AESHexToPA(
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    take_elements(256,listify(var_cs(F)))),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",iVars),
+    AESHexToPA("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("B5A1FF0213199055469AF40000CC0042",iVars),
+    AESHexToPA("B519F442139A000246CCFF5500A19000",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
+    AESHexToPA("74DF2F48C86E0A9ECDC1F7160DF4CEA4",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
+
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   the AES Subbytes operation.
+
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the output bits, in the correct bit orderings. */
+test_subbytes_cnf_cs(F) := block([result : true, pa,iVars,oVars],
+  iVars : take_elements(128,listify(var_cs(F))),
+  oVars : take_elements(128,rest(listify(var_cs(F)),128)),
+  /* Satisfying total assignments */
+  pa : union(AESHexToPA("00000000000000000000000000000000",iVars),
+    AESHexToPA("63636363636363636363636363636363",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",iVars),
+    AESHexToPA("16161616161616161616161616161616",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("B5A1FF0213199055469AF40000CC0042",iVars),
+    AESHexToPA("D53216777DD460FC5AB8BF63634B632C",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
+    AESHexToPA("92BF680BE89E8B47BD9F1549D7786752",oVars)),
+  result : result and 
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
+
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   the AES Round operation.
+
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 bits represent the key bits and the next 128 bits represent the output
+   bits, in the correct bit orderings. */
+test_round_cnf_cs(F) := block([result : true, pa,iVars,oVars,kVars],
+  iVars : take_elements(128,listify(var_cs(F))),
+  kVars : take_elements(128,rest(listify(var_cs(F)),128)),
+  oVars : take_elements(128,rest(listify(var_cs(F)),256)),
+  /* Satisfying total assignments */
+  pa : union(AESHexToPA("00000000000000000000000000000000",iVars),
+    AESHexToPA("00000000000000000000000000000000",kVars),
+    AESHexToPA("63636363636363636363636363636363",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("00000000000000000000000000000000",iVars),
+    AESHexToPA("63636363636363636363636363636363",kVars),
+    AESHexToPA("00000000000000000000000000000000",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  pa : union(AESHexToPA("74F4F79EC8DFCE16CD6E2FA40DC10A48",iVars),
+    AESHexToPA("92BF680BE89E8B47BD9F1549D7786752",kVars),
+    AESHexToPA("5367B889F5F12F8A7B2DC90B7A05D996",oVars)),
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
+
+/* Given a CNF clause set, tests whether this clause set is a representation of
+   the AES Keyschedule operation.
+
+   It is assumed that if the variable list is sorted (given the standard
+   ordering), the first 128 variables representing the input bits and the next
+   128 * 11 bits represent the 11 sets of round key bits in ascending order of
+   rounds from the left most bit and in the correct individual bit orderings. */
+test_key_expansion_cnf_cs(F) := block([result : true, pa,iVars,oVars,iVars],
+  iVars : take_elements(128,listify(var_cs(F))),
+  oVars : partition_elements(take_elements(128*11,rest(listify(var_cs(F)),128)),128),
+  /* Satisfying total assignments */
+  pa : union(AESHexToPA("00000000000000000000000000000000",iVars),
+          AESHexToPA("00000000000000000000000000000000",oVars[1]), 
+          AESHexToPA("62636363626363636263636362636363",oVars[2]),
+          AESHexToPA("9B9898C9F9FBFBAA9B9898C9F9FBFBAA",oVars[3]),
+          AESHexToPA("90973450696CCFFAF2F457330B0FAC99",oVars[4]),
+          AESHexToPA("EE06DA7B876A1581759E42B27E91EE2B",oVars[5]),
+          AESHexToPA("7F2E2B88F8443E098DDA7CBBF34B9290",oVars[6]),
+          AESHexToPA("EC614B851425758C99FF09376AB49BA7",oVars[7]),
+          AESHexToPA("217517873550620BACAF6B3CC61BF09B",oVars[8]),
+          AESHexToPA("0EF903333BA9613897060A04511DFA9F",oVars[9]),
+          AESHexToPA("B1D4D8E28A7DB9DA1D7BB3DE4C664941",oVars[10]),
+          AESHexToPA("B4EF5BCB3E92E21123E951CF6F8F188E",oVars[11])), 
+  result : result and
+    dll_simplest(cs_to_fcs(apply_pa(pa,F)),dll_heuristics_first_formal),
+  /* UNSAT total assignments */
+  return(result))$
 
 /*!
 \endhtmlonly
