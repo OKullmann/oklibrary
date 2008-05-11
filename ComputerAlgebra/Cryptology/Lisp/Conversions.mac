@@ -35,6 +35,11 @@ floorlog(n,b) := block([l : floor(float(log(n)/log(b)))],
    length */
 lpad(st, c, n) := simplode(append(makelist(c,i,1,max(n-slength(st),0)),[st]))$
 
+/* Convert a given polynomial to a list of coefficients of length n,
+   where the first element of the list is the coefficient of the 
+   highest order of x in the polynomial.*/
+polynomial2list(poly,n) := makelist(coeff(poly, x, n-i),i,1,n)$
+
 /* Converts a list of coefficients to a polynomial in "x" with the first
 element in the list being the coefficient of the highest order of x */
 list2polynomial(v) := block([n : length(v)],
@@ -98,6 +103,15 @@ GF2t8ListToHex(lst) :=
     simplode(flatten(map(lambda([a], lpad(simplode([intToBaseN(a,16)]),"0",2)),  
       subst(2,x,matrix2list(transpose(apply(matrix,
         partition_elements(lst,length(lst)/4))))))))$
+
+
+/* Generate a DNF clause from a list of values in {0,1} */
+/* OK : what is the meaning of this ??? */
+/* MG : This should certainly be moved to somewhere more appropriate 
+   but where? */
+binary_list_to_dnf_c(bv) := 
+  setify(map(lambda([b,j],(-1 + b * 2) * j),
+    bv,makelist(i,i,1,length(bv))))$
 
 /*!
 \endhtmlonly

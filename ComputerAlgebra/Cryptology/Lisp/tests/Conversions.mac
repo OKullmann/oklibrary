@@ -34,6 +34,21 @@ okltest_lpad(f) := block(
   assert(f("abc","d",4) = "dabc"),
 true)$
 
+okltest_polynomial2list(f) := block(
+  for n : 0 thru 3 do
+    assert(f(n,0) = []),
+  for n : 0 thru 3 do
+    assert(f(0,n) = makelist(0,i,1,n)),
+  for n : 0 thru 3 do
+    assert(f(n,1) = [n]),
+  for n : 0 thru 3 do
+    for m : 0 thru 3 do
+      assert(first(f(m*x^n,n+1)) = m),
+  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
+  assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
+  assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
+true)$
+
 okltest_list2polynomial(f) := block(
   for n : 0 thru 3 do
     assert(f([]) = 0),
@@ -113,6 +128,16 @@ okltest_polyToInt(f) := block(
   assert(f(a^8+a^4+a+1,2,a) = 275),
   assert(f(8*x^4+5*x^3+6*x^2+13*x+3,15,x) = 423423),
 true)$
+
+okltest_binary_list_to_dnf_c(f) := block(
+  assert(f([]) = {}),
+  assert(f([0,0,0]) = {-1,-2,-3}),
+  assert(f([0,1,0]) = {-1,2,-3}),
+  assert(f([1,0,0]) = {1,-2,-3}),
+  assert(f([1,1,1]) = {1,2,3}),
+  assert(f([1,0,0,1,1,0,0,1]) = {1,-2,-3,4,5,-6,-7,8}),
+true)$
+
 
 /*!
 \endhtmlonly

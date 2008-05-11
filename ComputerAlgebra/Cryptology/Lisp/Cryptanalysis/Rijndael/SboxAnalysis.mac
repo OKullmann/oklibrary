@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 */
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 
@@ -50,17 +51,6 @@ test_CNF_aes_sbox(FF) :=
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction) */
 hitting_cnf_aes_sbox(h) := dualtreehittingcls_condensed_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
-
-/* Convert a given polynomial to a list of coefficients of length n,
-   where the first element of the list is the coefficient of the 
-   highest order of x in the polynomial.*/
-polynomial2list(poly,n) := makelist(coeff(poly, x, n-i),i,1,n)$
-
-/* Generate a DNF clause from a list of values in {0,1} */
-/* OK : what is the meaning of this ??? */
-binary_list_to_dnf_c(bv) := 
-  setify(map(lambda([b,j],(-1 + b * 2) * j),
-    bv,makelist(i,i,1,length(bv))))$
 
 /*!
 \endhtmlonly

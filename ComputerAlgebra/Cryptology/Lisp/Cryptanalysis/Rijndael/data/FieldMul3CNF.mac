@@ -1,0 +1,26 @@
+/* Matthew Gwynne, 28.4.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software$ you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library$ either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul3CNF.mac
+  \brief CNF for the Rijndael byte field multiplication by 03 or "x+1".
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/data/FieldMul3CNF.mac")$
+
+*/
+
+/*!
+\htmlonly
+*/
+
+FieldMul3CNF : [{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},{{-8,1,16},{-7,6,14},{-6,-5,-1,13},{-6,1,5,13},{-5,-4,-1,12},{-5,1,4,12},{-4,1,5,12},{-4,3,11},{-3,2,10},{-2,1,9},{-2,6,10,11,12,13},{-1,2,9},{-1,3,9,10},{-1,4,9,10,11},{-1,8,16},{-1,9,10,11,12,13,14,15,16},{-16,-8,-1},{-16,1,8},{-16,7,15},{-16,-15,-7},{-15,-8,-5,13,14},{-15,7,16},{-15,8,9,10,11,12,13,14},{-14,-7,-6},{-14,6,7},{-14,6,15,16},{-13,-8,-5,14,15},{-13,-6,-5,1},{-13,-6,-1,5},{-13,-5,-1,6},{-13,-5,-1,7,14},{-13,1,5,6},{-13,1,5,7,14},{-13,5,8,14,15},{-12,-5,-4,1},{-12,-5,-1,4},{-12,-4,-1,5},{-12,1,4,5},{-12,4,6,13},{-12,4,7,13,14},{-12,4,13,14,15,16},{-11,-4,-3},{-11,3,4},{-11,3,6,12,13},{-11,3,7,12,13,14},{-11,3,12,13,14,15,16},{-11,5,9,10,12},{-10,-3,-2},{-10,-2,-1,5,11,12},{-10,2,3},{-10,2,4,11},{-10,2,6,11,12,13},{-10,2,11,12,13,14,15,16},{-10,-9,-3,1},{-10,-9,-3,4,5,12},{-10,-9,-3,5,7,13,14},{-9,-2,-1},{-9,1,3,10},{-9,1,4,10,11},{-9,5,10,11,12},{-9,8,10,11,12,13,14,15}}]$
+
+/*!
+\endhtmlonly
+*/

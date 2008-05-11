@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
 */
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 
@@ -41,12 +42,12 @@ generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=
 /* Generation of the full CNF clause-set representing the 
    multiplication with the given constant field element (as
    a polynomial) in the Rijndael GF(2^8) field */
-generate_full_aes_field_mul_cnf_fcs() := block(
-  [full16cs : clauses_f(full_fcs(16)), aes_sbox_cs :
-  clauses_f(generate_full_aes_field_mul_dnf_fcs())],
-  cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_sbox_cs))))$
+generate_full_aes_field_mul_cnf_fcs(constant_field_element) := block(
+  [full16cs : clauses_f(full_fcs(16)), aes_fieldmul_cs :
+  clauses_f(generate_full_aes_field_mul_dnf_fcs(constant_field_element))],
+  cs_to_fcs(setdifference(full16cs, map(comp_sl,aes_fieldmul_cs))))$
 
-/* Tests whether a full CNF clause-set represents the AES sbox */
+/* Tests whether a full CNF clause-set represents the AES field multiplication */
 test_CNF_aes_field_mul(constant_field_element,FF) := 
  is(cs_to_fcs(dualtreehittingcls_fcs(FF,dll_heuristics_first_real)) =
    generate_full_aes_field_mul_dnf_fcs(constant_field_element))$
