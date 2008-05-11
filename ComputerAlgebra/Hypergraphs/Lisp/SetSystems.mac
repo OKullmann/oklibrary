@@ -88,7 +88,7 @@ add_element(x,B) := add_elements({x},B)$
 ecomp(S,U) := setify(makelist(setdifference(U,s),s,listify(S)))$
 
 /* setdifference2(S,b) returns the set system where the elements of b have been
-   removed from every element of S */
+   removed from every element of S; S can also be a list. */
 setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 
 

@@ -48,6 +48,12 @@ okltest_set_system_union(set_system_union);
 okltest_cunion(cunion);
 okltest_add_element(add_element);
 
+/* ********************************************
+   * Constructions related to complementation *
+   ********************************************
+*/
+
+okltest_setdifference2(setdifference2);
 
 /*!
 \endhtmlonly
