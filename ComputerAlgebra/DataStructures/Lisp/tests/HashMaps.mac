@@ -82,35 +82,35 @@ okltest_evaluate_set_map_d(f) := block([M,x,y],
 eq_ohmsm_p(h,M) := if not setmapp(M) then
   error("eq_ohmsm_p: the alleged set-map is not a set-map")
   else if not is(create_set_map(h) = M) then false else
-  block([table : map(lambda([p],part(p,1)),hash_table_data(h)), 
-    translated : hash_table(),
+  block([table : map(lambda([p],part(p,1)),hash_table_data_okl(h)), 
+    translated : hash_table_okl(),
     L : listify(M)],
     L : sort(L,lambda([P1,P2],is(sublist_indices_el(table,P1[1])[1] < sublist_indices_el(table,P2[1])[1]))),
-    for p in L do set_hash(p[1], translated, p[2]),
+    for p in L do set_hash_okl(p[1], translated, p[2]),
     is(sconcat(translated) = sconcat(h)))$
 
 okltest_eq_ohmsm_p(f) := block([M,h],
-  h : hash_table(),
+  h : hash_table_okl(),
   M : {},
   assert(f(h,M) = true),
-  set_hash(1,h,10),
+  set_hash_okl(1,h,10),
   assert(f(h,M) = false),
   M : define_set_map(M,1,10),
   assert(f(h,M) = true),
-  set_hash(1,h,11),
+  set_hash_okl(1,h,11),
   assert(f(h,M) = false),
   M : define_set_map(M,1,11),
   assert(f(h,M) = true),
-  set_hash([],h,1),
+  set_hash_okl([],h,1),
   assert(f(h,M) = false),
   M : define_set_map(M,[],1),
   assert(f(h,M) = false),
-  h : hash_table(),
-  set_hash(1,h,1), set_hash(-1,h,0),
+  h : hash_table_okl(),
+  set_hash_okl(1,h,1), set_hash_okl(-1,h,0),
   M : {[1,1],[-1,0]},
   assert(f(h,M) = true),
-  h : hash_table(),
-  set_hash(-1,h,0), set_hash(1,h,1),
+  h : hash_table_okl(),
+  set_hash_okl(-1,h,0), set_hash_okl(1,h,1),
   assert(f(h,M) = true),
   true)$
 
@@ -122,8 +122,8 @@ okltest_repo_set_maps : {
 
 okltest_create_hash_map(f) := (
   for M in okltest_repo_set_maps do block([h : f(M)],
-    assert(length(hash_table_data(h)) = length(M)),
-    for p in M do assert(get_hash(p[1],h) = p[2])
+    assert(length(hash_table_data_okl(h)) = length(M)),
+    for p in M do assert(get_hash_okl(p[1],h) = p[2])
   ),
   true)$
 
@@ -154,7 +154,7 @@ eq_hmsm_p(h,M) := (
        false
      ))
  else block(
-  [table : map(lambda([p],eval_string(part(p,1))),hash_table_data(h)), 
+  [table : map(lambda([p],eval_string(part(p,1))),hash_table_data_okl(h)), 
    translated : sm2hm({}),
    L : listify(M)],
    L : sort(L,lambda([P1,P2],is(sublist_indices_el(table,P1[1])[1] < sublist_indices_el(table,P2[1])[1]))),
@@ -172,7 +172,7 @@ eq_hmsm_p(h,M) := (
    else true))$
 
 okltest_eq_hmsm_p(f) := block([M,h],
-  h : hash_table(),
+  h : hash_table_okl(),
   M : {},
   assert(f(h,M) = true),
   set_hm(h,1,10),
@@ -187,29 +187,29 @@ okltest_eq_hmsm_p(f) := block([M,h],
   assert(f(h,M) = false),
   M : define_set_map(M,[],1),
   assert(f(h,M) = true),
-  h : hash_table(),
+  h : hash_table_okl(),
   set_hm(h,1,1), set_hm(h,-1,0),
   M : {[1,1],[-1,0]},
   assert(f(h,M) = true),
-  h : hash_table(),
+  h : hash_table_okl(),
   set_hm(h,-1,0), set_hm(h,1,1),
   assert(f(h,M) = true),
   true)$
 
-okltest_set_hm(f) := block([h : hash_table()],
+okltest_set_hm(f) := block([h : hash_table_okl()],
   f(h,1,10),
-  assert(get_hash(sconcat(1),h) = 10),
-  assert(get_hash(sconcat(2),h) = false),
+  assert(get_hash_okl(sconcat(1),h) = 10),
+  assert(get_hash_okl(sconcat(2),h) = false),
   f(h,[],20),
-  assert(get_hash(sconcat([]),h) = 20),
-  assert(get_hash(sconcat(1),h) = 10),
-  assert(get_hash(sconcat([[]]),h) = false),
+  assert(get_hash_okl(sconcat([]),h) = 20),
+  assert(get_hash_okl(sconcat(1),h) = 10),
+  assert(get_hash_okl(sconcat([[]]),h) = false),
   f(h,1,11),
-  assert(get_hash(sconcat(1),h) = 11),
+  assert(get_hash_okl(sconcat(1),h) = 11),
   f(h,[],21),
-  assert(get_hash(sconcat([]),h) = 21),
+  assert(get_hash_okl(sconcat([]),h) = 21),
   assert(eq_hmsm_p(h,{[1,11],[[],21]}) = true),
-  h : hash_table(),
+  h : hash_table_okl(),
   f(h,1,1),
   assert(ev_hm(h,1) = 1),
   assert(ev_hm(h,-1) = false),
@@ -217,24 +217,36 @@ okltest_set_hm(f) := block([h : hash_table()],
   assert(eq_hmsm_p(h,{[1,1],[-1,0]}) = true),
   true)$
 
-okltest_ev_hm(f) := block([h : hash_table()],
+okltest_ev_hm(f) := block([h : hash_table_okl()],
   assert(f(h,1) = false),
-  set_hash(sconcat(1),h,10),
+  set_hash_okl(sconcat(1),h,10),
   assert(f(h,1) = 10),
-  set_hash(sconcat([{}]),h,20),
+  set_hash_okl(sconcat([{}]),h,20),
   assert(f(h,[{}]) = 20),
   true)$
 
-okltest_ev_hm_d(f) := block([h : hash_table()],
+okltest_ev_hm_d(f) := block([h : hash_table_okl()],
   assert(f(h,1,11) = 11),
-  set_hash(sconcat(1),h,1),
+  set_hash_okl(sconcat(1),h,1),
   assert(f(h,1,11) = 1),
   assert(f(h,[],11) = 11),
-  set_hash(sconcat([{}]),h,20),
+  set_hash_okl(sconcat([{}]),h,20),
   assert(f(h,[{}],-7) = 20),
   assert(f(h,[],{}) = {}),
   true)$
 
+okltest_del_hm(f) := block([h : sm2hm({})],
+  set_hm(h,1,10),
+  del_hm(h,1),
+  assert(eq_hmsm_p(h,{}) = true),
+  compose_hm_sm(h,{[1,11],[{},{{}}]}),
+  assert(eq_hmsm_p(h,{[1,11],[{},{{}}]}) = true),
+  del_hm(h,1),
+  assert(eq_hmsm_p(h,{[{},{{}}]}) = true),
+  del_hm(h,{}),
+  assert(eq_hmsm_p(h,{}) = true),
+  true)$
+  
 okltest_sm2hm(f) := block([h,M],
   h : f({}),
   assert(ev_hm(h,1) = false),
@@ -250,7 +262,7 @@ okltest_sm2hm(f) := block([h,M],
   true)$
 
 okltest_hm2sm(f) := block([h],
-  h : hash_table(),
+  h : hash_table_okl(),
   assert(f(h) = {}),
   set_hm(h,1,10),
   assert(f(h) = {[1,10]}),

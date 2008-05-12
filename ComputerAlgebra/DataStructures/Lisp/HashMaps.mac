@@ -56,49 +56,54 @@ evaluate_set_map_d(M,x,y) := block([found : false, val],
    ***********************************************
 */
 
-load(graphs)$
-
 /* ATTENTION: The following two functions are only for
    compatability reasons - in the OKlibrary the functions
-   below are to be used!
+   below are to be used! (Which convert hash keys into
+   strings.)
 */
+
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp")$
 
 /* Given a map as a set-map, create a hash-map. */
 /* The assignments are entered into the hash-map according to their
    order in the set-map (i.e., according to orderlessp).
    The order of the hash-map is the reverse order of the order in which
    the elements were entered. */
-create_hash_map(S) := block([h : hash_table()],
-  for p in S do set_hash(p[1],h,p[2]), return(h))$
+create_hash_map(S) := block([h : hash_table_okl()],
+  for p in S do set_hash_okl(p[1],h,p[2]), return(h))$
 
 /* Given a hash-map, create the corresponding set-theoretical map
    (as a set of pairs). */
 create_set_map(h) := 
- setify(map(args,hash_table_data(h)))$
+ setify(map(args,hash_table_data_okl(h)))$
 
 /* The IMPROVED hash-map facilities */
 
-/* The hash-map data type is given by the six functions
+/* The hash-map data type is given by the 7 functions
  - set_hm
  - ev_hm, ev_hm_d
+ - del_hm
  - sm2hm
  - hm2sm
  - compose_hm_sm.
 */
 
-/* Set a value for the hash map */
-set_hm(h,x,y) := set_hash(sconcat(x),h,y)$
+/* Set a value for the hash map. */
+set_hm(h,x,y) := set_hash_okl(sconcat(x),h,y)$
 /* Compute a value, returning false if undefined */
-ev_hm(h,x) := get_hash(sconcat(x),h)$
-/* Compute a value, returning the provided value if undefined */
-ev_hm_d(h,x,y) := get_hash(sconcat(x),h,y)$
+ev_hm(h,x) := get_hash_okl(sconcat(x),h)$
+/* Compute a value, returning the provided value if undefined. */
+ev_hm_d(h,x,y) := get_hash_okl(sconcat(x),h,y)$
+/* Delete a key from a hash map. Returns false if x is not in h, otherwise
+   return true. */
+del_hm(h,x) := del_hash_okl(sconcat(x),h)$
 
 /* Converting set-maps to hash-maps, and hash-maps to set-maps. */
 /* The order of entries in the hash-table is given by orderlessp. */
-sm2hm(M) := block([h : hash_table()],
+sm2hm(M) := block([h : hash_table_okl()],
   for p in M do set_hm(h,p[1],p[2]), return(h))$
 hm2sm(h) :=
- setify(map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data(h)))$
+ setify(map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data_okl(h)))$
 
 /* Extending a hash-map by a set-map, overwriting old settings. */
 compose_hm_sm(h,M) := (for p in M do set_hm(h,p[1],p[2]), h)$

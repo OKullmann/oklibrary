@@ -46,6 +46,7 @@ okltest_eq_hmsm_p(eq_hmsm_p);
 okltest_set_hm(set_hm);
 okltest_ev_hm(ev_hm);
 okltest_ev_hm_d(ev_hm_d);
+okltest_del_hm(del_hm);
 okltest_sm2hm(sm2hm);
 okltest_hm2sm(hm2sm);
 okltest_compose_hm_sm(compose_hm_sm);
