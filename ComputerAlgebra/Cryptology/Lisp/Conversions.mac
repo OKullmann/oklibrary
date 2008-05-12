@@ -104,6 +104,17 @@ GF2t8ListToHex(lst) :=
       subst(2,x,matrix2list(transpose(apply(matrix,
         partition_elements(lst,length(lst)/4))))))))$
 
+/* Converts a hexidecimal string in the typical notation associated with
+   Rijndael to a list of GF(2^8) elements represented by use of integers. 
+ 
+   The result list is used in the CryptoSystems AES implementation. */
+hexToIntList(hex) := map(lambda([a],polyToInt(a,2,x)),hexToGF2t8List(hex))$
+
+/* Converts a list of GF(2^8) elements represented by use of integers to a 
+   hexidecimal string in the typical notation associated with Rijndael . 
+ 
+   The input list is used in the CryptoSystems AES implementation. */
+intListToHex(lst) := GF2t8ListToHex(map(lambda([a], intToPoly(a,2)),lst))$
 
 /* Generate a DNF clause from a list of values in {0,1} */
 /* OK : what is the meaning of this ??? */
