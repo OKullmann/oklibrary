@@ -79,6 +79,12 @@ okltest_set_system_union(f) := (
   assert(f({{1,2},{2,3},{3,4}}) = {1,2,3,4}),
   true)$
 
+okltest_list_sets_union(f) := (
+  assert(f([]) = {}),
+  assert(f([{}]) = {}),
+  assert(f([{1,2},{2,3},{3,4}]) = {1,2,3,4}),
+  true)$
+
 okltest_cunion(f) := (
   assert(f({},{{1,2}}) = {}),
   assert(f({{}},{{1,2}}) = {{1,2}}),
