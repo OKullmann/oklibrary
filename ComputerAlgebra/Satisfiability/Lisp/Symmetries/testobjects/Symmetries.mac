@@ -22,6 +22,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symme
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/tests/Symmetries.mac")$
 
 okltest_is_isomorphic_fcs(is_isomorphic_fcs);
+okltest_is_isomorphic_fcs(is_isomorphic_btr_fcs);
 
 okltest_representatives_fcs(representatives_fcs);
 

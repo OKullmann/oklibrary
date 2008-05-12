@@ -27,13 +27,95 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Stati
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
-/* *****************************
-   * Basic isomorphism testing *
-   *****************************
+/* ****************************************
+   * Isomorphism testing via backtracking *
+   ****************************************
+*/
+
+/* Checks whether two clause-sets are isomorphic (where renaming
+   of variables and flipping is considered). */
+/* Using a direct backtracking approach. */
+is_isomorphic_btr_cs(F1,F2) := 
+ is_isomorphic_btr_fcs(cs_to_fcs(F1), cs_to_fcs(F2))$
+/* Checks whether two formal clause-sets are isomorphic. */
+is_isomorphic_btr_fcs(FF1,FF2) := block(
+ if elementp({},FF1[2]) then (
+   if not elementp({},FF2[2]) then return(false))
+ elseif elementp({},FF2[2]) then return(false),
+ block(
+ [V1o : var_cs(FF1[2]), V2o : var_cs(FF2[2]),
+  F1r, F2r, n, V, F1, F2, degl1, degl2, map_poss : []],
+  if nvar_f(FF1) # nvar_f(FF2) then return(false),
+  if length(V1o) # length(V2o) then return(false),
+  n : length(V1o), V : setn(n), 
+  if emptyp(V) then return(true),
+  F1r : standardise_fcs([V1o,FF1[2]]),
+  F2r : standardise_fcs([V2o,FF2[2]]),
+  F1 : disjoin({},F1r[1][2]), F2 : disjoin({},F2r[1][2]),
+  degl1 : all_literal_degrees_fcs([V,F1]),
+  degl2 : all_literal_degrees_fcs([V,F2]),
+  block([deg_pairs : sm2hm({})],
+    for v in V do block([deg : [ev_hm(degl2,v), ev_hm(degl2,-v)]],
+      if deg[1] = deg[2] then
+        set_hm(deg_pairs, deg, union({v,-v}, ev_hm_d(deg_pairs, deg, {})))
+      else (
+        set_hm(deg_pairs, deg, adjoin(v, ev_hm_d(deg_pairs, deg, {}))),
+        set_hm(deg_pairs, reverse(deg), adjoin(-v, ev_hm_d(deg_pairs, reverse(deg), {}))))
+    ),
+    for v in V do block([deg : [ev_hm(degl1,v), ev_hm(degl1,-v)]],
+      map_poss : endcons([v,ev_hm_d(deg_pairs, deg, {})], map_poss))
+  ),
+  map_poss : sort(map_poss, lambda([p1,p2], is(length(p1[2]) < length(p2[2])))),
+  is_isomorphic_btr_piso(sm2hm({}), {}, map_poss, F1)))$
+
+/* Additional a partial isomorphism as a hash-map from variables
+   to literals is given, with its domain, the map of possibilities
+   for mapping remaining variables (sorted by ascending sets
+   of possibilities), and the set of remaining clauses from F1 to
+   be mapped to clauses in F1.
+   Prerequisite: map_possibilities, rem_clauses are not empty. */
+/* Inherits F1, F2. */
+is_isomorphic_btr_piso(part_iso,domain_piso,map_possibilities,rem_clauses) := block(
+ [B : first(map_possibilities), v, Y, found_iso : false],
+  v : B[1], Y : B[2],
+  domain_piso : adjoin(v,domain_piso),
+  for y in Y unless found_iso do block(
+   [inconsistent : false, to_be_removed : {}],
+    set_hm(part_iso,v,y),
+    for C in rem_clauses unless inconsistent do (
+      if subsetp(var_c(C), domain_piso) then
+        if not elementp(substitute_c(C,part_iso), F2) then
+          inconsistent : true
+        else
+          to_be_removed : adjoin(C,to_be_removed)
+    ),
+    if not inconsistent then block(
+     [new_rem_clauses : setdifference(rem_clauses, to_be_removed),
+      new_map_possibilities : copylist(rest(map_possibilities))],
+      if emptyp(new_rem_clauses) then found_iso : true else (
+        for i : 1 thru length(new_map_possibilities) do block(
+         [P : new_map_possibilities[i]],
+          new_map_possibilities[i] : [P[1], setdifference(P[2],{y,-y})]),
+        new_map_possibilities : sort(new_map_possibilities, 
+          lambda([p1,p2], is(length(p1[2]) < length(p2[2])))),
+        if is_isomorphic_btr_piso(
+          part_iso,domain_piso,new_map_possibilities,new_rem_clauses) 
+        then found_iso : true
+      ) 
+    )
+  ),
+  del_hm(part_iso,v),
+  return(found_iso))$    
+
+
+/* **********************************************
+   * Isomorphism testing via graph isomorphisms *
+   **********************************************
 */
 
 /* Checks whether two formal clause-sets are isomorphic (where renaming
    of variables and flipping is considered). */
+/* Using the digraph-isomorphism-check from the Maxima graphs-package. */
 is_isomorphic_fcs(FF1,FF2) := 
  if ncl_list_f(FF1) # ncl_list_f(FF2) then false
  elseif variable_degrees_list_cs(FF1[2]) # variable_degrees_list_cs(FF2[2]) then false
@@ -67,10 +149,10 @@ is_isomorphic_prep_fcs(FF2, storage_var) := block(
 
 /* For a set of formal clause-sets, determines a set of non-isomorphic
    representatives. */
-representatives_fcs(SFF) := block([classes : equiv_classes(SFF, is_isomorphic_fcs)],
+representatives_fcs(SFF) := block([classes : equiv_classes(SFF, is_isomorphic_btr_fcs)],
   return(map(choose_element, classes)))$
 /* The variation for a set of clause-sets */
-representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_cs)],
+representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_btr_cs)],
   return(map(choose_element, classes)))$
 
 
@@ -86,7 +168,7 @@ manage_repository_isomorphism_types(FF, repo) := block(
     set_hm(repo,p,{FF}), return(true))
   else block([found : false],
     for GG in candidates unless found do
-      if is_isomorphic_fcs(FF,GG) then found : true,
+      if is_isomorphic_btr_fcs(FF,GG) then found : true,
     if found then return(false) else (
       set_hm(repo,p,adjoin(FF,candidates)), 
       return(true))))$

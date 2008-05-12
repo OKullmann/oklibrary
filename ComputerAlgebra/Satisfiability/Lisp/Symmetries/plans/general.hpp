@@ -53,7 +53,7 @@ License, or any later version. */
    <li> Consider a formal clause-set FF = [V,F]. </li>
    <li> A "var-symmetry" f for FF is a var-substitution with V <= dom(F) such
    that f(F) = F. </li>
-   <li> A "sign-symmetry" for for FF is a sign-substitution with V <= dom(F)
+   <li> A "sign-symmetry" for FF is a sign-substitution with V <= dom(F)
    such that f(F) = F. </li>
    <li> A "symmetry" for FF is a literal substitution  with  V <= dom(F) such
    that f(F) = F. </li>
@@ -96,6 +96,21 @@ License, or any later version. */
    If directed graphs are considered, then one could fix the direction
    "var(F) -> variables -> literals -> clauses -> F" (or vice versa), and get
    in this way rid off any unwanted graph automorphisms. </li>
+  </ul>
+
+
+  \todo is_isomorphic_btr_cs
+  <ul>
+   <li> Perhaps we should "is_isomorphic_cs" etc. rename so that to reflect
+   the reduction to graph isomorphisms. </li>
+   <li> This function should become an instance of the concept of
+   active clause-sets.
+    <ol>
+     <li> In this way making it possible to apply all of SAT techniques. </li>
+     <li> We must take some care here that the overheads are acceptable, since
+     this function is basic for many other functions of the library. </li>
+    </ol>
+   </li>
   </ul>
 
 */
