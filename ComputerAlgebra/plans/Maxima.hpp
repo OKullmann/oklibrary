@@ -301,6 +301,14 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo Document important programming techniques:
   <ul>
+   <li> Shallow copy of list arguments for functions:
+    <ol>
+     <li> Give examples for this behaviour. </li>
+     <li> This effects especially clause-sets (which as sets are
+     copied) and formal clause-sets (which as lists are only shallowly
+     copied)! </li>
+    </ol>
+   </li>
    <li> How to handle local variables (see above).
     <ol>
      <li> A source of errors regarding the block-expression is that
