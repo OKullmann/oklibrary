@@ -321,7 +321,9 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
    results_derived_hitting_cs :: adjoin(F, ev(results_derived_hitting_cs)), 
    {F})
  else
- block([FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), R,G, found : false],
+ block(
+  [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
+   R,G, found : false, V : var_cs(F)],
    for P in FP unless found do (
      G : adjoin(resolvent_s(P),setdifference(F,P)),
      if not pred(G) then
@@ -330,10 +332,9 @@ derived_hitting_cs_pred_forb_isoelim(F,k,forb_pairs) := (
    if not found then return({}),
    block(
     [first_branch : derived_hitting_cs_pred_forb_isoelim(G,k-1,forb_pairs), 
-     removable : {}, store],
-     prepare_iso_fcs(cs_to_fcs(G), 'store),
+     removable : {}],
      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
-       if is_isomorphic_prep_fcs(cs_to_fcs(G2),'store) then
+       if is_isomorphic_btr_fcs([V,G],cs_to_fcs(G2)) then
          removable : adjoin(P,removable)),
     return(union(first_branch,
       derived_hitting_cs_pred_forb_isoelim(F,k,adjoin(R,union(forb_pairs,removable))))))))$
@@ -357,9 +358,9 @@ all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
 /* repository is inherited. */
 all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
- [count : 0],
+ [count : 0, V : var_cs(F)],
   if check then
-    if not manage_repository_isomorphism_types(cs_to_fcs(F), repository) then
+    if not manage_repository_isomorphism_types([V,F], repository) then
       return(count)
     else count : count + 1,
   block(
@@ -372,14 +373,13 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
        else (FP : disjoin(P,FP), found : true, R : P)),
     if not found then return(count),
     block(
-     [removable : {},store],
+     [removable : {}],
       count : count + all_derived_hitting_cs_pred_forb_isoelim(
                    G,
                    forb_pairs,
                    true),
-      prepare_iso_fcs(cs_to_fcs(G), 'store),
       for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
-        if is_isomorphic_cs_prep_fcs(cs_to_fcs(G2),'store) then
+        if is_isomorphic_btr_fcs([V,G],cs_to_fcs(G2)) then
           removable : adjoin(P,removable)),
       return(count + all_derived_hitting_cs_pred_forb_isoelim(
                    F,
@@ -396,7 +396,7 @@ analyse_isorepo_def(repository) := block(
 /* Returns the set of all clause-sets in the repository. */
 analyse_isorepo_set(repository) :=
  family_sets_union(map(second,hm2sm(repository)),
-                     lambda([S],map(fcs2cs,S)))$
+                   lambda([S],map(fcs2cs,S)))$
 /* Returns the sorted list [deficiency, set of clause-sets]. */
 analyse_isorepo_defset(repository) := block(
  [E : equiv_classes(analyse_isorepo_set(repository), 

@@ -224,7 +224,7 @@ classify_candidates_uhit_def(L) := block([result : []],
       if not listp(catalist) then result : endcons([element,"new"],result)
       else block([found : false],
         for i : 1 thru length(catalist) unless found do
-          if is_isomorphic_cs(F, catalist[i]) then (
+          if is_isomorphic_btr_cs(F, catalist[i]) then (
             found : true,
             result : endcons([element, i],result)
           ),
