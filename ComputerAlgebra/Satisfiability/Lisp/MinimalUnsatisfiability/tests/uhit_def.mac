@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 kill(f)$
 
@@ -65,6 +66,20 @@ okltest_uhit_def(f) := block([list_def : f[0,"info"]],
         assert(length(representatives_cs(setify(LF))) = length(LF))
     )
   ),
+  true)$
+
+okltest_uhit_n(f) := (
+  assert(take_elements(5,f(-1,true)) = makelist(k,k,0,4)),
+  assert(f(0,true) = true),
+  assert(length(f(0,false)) = 1),
+  assert(f(1,true) = true),
+  assert(length(f(1,false)) = 0),
+  assert(f(2,true) = true),
+  assert(length(f(2,false)) = 1),
+  assert(f(3,true) = true),
+  assert(length(f(3,false)) = 6),
+  assert(f(4,true) = true),
+  assert(length(f(4,false)) = 368),
   true)$
 
 /*!
