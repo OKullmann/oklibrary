@@ -21,6 +21,8 @@ define_variable(
 showtime : true;
 linel : 100;
 stringdisp : true;
+stardisp : true;
+display2d : false;
 
 define_variable(
   oklib_monitor,
