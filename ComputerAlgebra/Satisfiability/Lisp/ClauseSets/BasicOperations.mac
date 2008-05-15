@@ -195,9 +195,12 @@ apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
 
 /* The set of satisfied clauses for a partial assignment w.r.t. a clause-set */
 sat_pa(phi,F) := subset(F, lambda([C], is(apply_pa(phi,{C}) = {})))$
+sat_paf(phi,FF) := sat_pa(phi,FF[2])$
 
 /* Test for a satisfying assignment w.r.t. a clause-set */
 satisfyingpap(phi,F) := is(sat_pa(phi,F) = F)$
+/* Test for a satisfying assignment w.r.t. a formal clause-set */
+satisfyingpafp(phi,FF) := satisfyingpap(phi,FF[2])$
 
 /* The set of satisfied, falsified, untouched and critical (original) clauses
    for a partial assignment w.r.t. a clause-set. */
@@ -208,6 +211,7 @@ analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
   elseif disjointp(var_c(C), V) then u : adjoin(C,u) 
   else c : adjoin(C,c)),
  return([s,f,u,c]))$
+analyse_paf(phi,FF) := analyse_pa(phi,FF[2])$
 
 /* The set of all partial assignments over a set of variables */
 all_pass(V) := if emptyp(V) then {{}} else
