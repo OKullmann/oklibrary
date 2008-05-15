@@ -31,7 +31,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.ma
 
 kill(uhit_def)$
 
-/* The list of available deficiencies */
+/* The list of available deficiencies. */
 uhit_def[0,"info"] : makelist(k,k,1,12)$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info] contains:
@@ -204,6 +204,22 @@ uhit_def[12,4] : [full_fcs(4)[2]]$
 uhit_def[12,43] : [
   max_var_hitting_def(12)[2]
 ]$
+
+
+/* ****************************
+   * Evaluating the catalogue *
+   ****************************
+*/
+
+/* Apply function f to all elements of the catalogue:
+   Call f(k,n,i,F), store the results in a list. */
+apply_uhit(f) := block([list_def : uhit_def[0,"info"], result : []],
+  for k in list_def do block([list_n : map(first,uhit_def[k,"info"][4])],
+    for n in list_n do block([L : uhit_def[k,n]],
+      for i : 1 thru length(L) do block([F : L[i]],
+        result : endcons(f(k,n,i,F),result)))
+  ),
+  return(result))$
 
 
 /* Collecting all clause-sets from the uhit-catalogue for a
