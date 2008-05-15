@@ -452,6 +452,8 @@ analyse_isorepo_set(repository) :=
  family_sets_union(map(second,hm2sm(repository)),
                    lambda([S],map(fcs2cs,S)))$
 /* Returns the sorted list [deficiency, set of clause-sets]. */
+/* TODO: Use the deficiency-info already contained in the repository.
+   Use a hash-map similar to analyse_isorepo_def. */
 analyse_isorepo_defset(repository) := block(
  [E : equiv_classes(analyse_isorepo_set(repository), 
         lambda([F,G], is(deficiency_cs(F) = deficiency_cs(G))))],
