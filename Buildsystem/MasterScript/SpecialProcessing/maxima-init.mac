@@ -46,6 +46,9 @@ define_variable(
   0,
   any); /* may take value inf */
 
+
+/* Functions for loading files */
+
 define_variable(
   oklib_load_round,
   0,
@@ -77,4 +80,32 @@ define_variable(
   oklib_automatic_test,
   false,
   boolean);
+
+
+/* Storing all variables in fixed time intervals: */
+
+define_variable(
+  oklib_store,
+  false,
+  boolean);
+define_variable(
+  oklib_old_storing_time,
+  0.0,
+  number);
+define_variable(
+  oklib_storage_interval,
+  10, /* every 10 minutes */
+  number);
+
+/* Returns true if storage action did happen: */
+oklib_save() := if oklib_store then block(
+ [ert : elapsed_run_time()],
+  if ert - oklib_old_storing_time >= oklib_storage_interval * 60 then block(
+   [file_output_append : false],
+    save(oklib_session_name,all),
+    oklib_old_storing_time : ert,
+    return(true)
+  )
+  else return(false))
+ else false$
 

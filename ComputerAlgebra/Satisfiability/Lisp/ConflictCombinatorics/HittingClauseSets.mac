@@ -359,6 +359,7 @@ all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
 /* repository is inherited. */
 all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F)],
+  oklib_save(),
   if check then
     if not manage_repository_isomorphism_types([V,F], repository) then
       return(count)
