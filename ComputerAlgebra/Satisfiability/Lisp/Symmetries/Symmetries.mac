@@ -155,12 +155,16 @@ representatives_fcs(SFF) := block([classes : equiv_classes(SFF, is_isomorphic_bt
 representatives_cs(SF) := block([classes : equiv_classes(SF, is_isomorphic_btr_cs)],
   return(map(choose_element, classes)))$
 
+/* A "hash-repository of isomorphism types" is a hash-map using the
+   value of "fcs_identifier" as key, and with a set of pairwise
+   non-isomorphic formal clause-sets as value. */
 
-/* Given a repository of non-isomorphic formal clause-sets, check whether a 
+fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_list_f(FF)]$
+
+/* Given a hash_repository repo of isomormphism types, check whether a 
    given formal clause-set is already contained or not, and in the latter
    case insert it into the repository. */
-/* repo is a hash-map, and as hash-key the quadruple fcs_identifier is used. */
-fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_list_f(FF)]$
+/* repo is a hash-map of isomorphism types. */
 manage_repository_isomorphism_types(FF, repo) := block(
  [p : fcs_identifier(FF), candidates],
   candidates : ev_hm(repo,p),
@@ -172,6 +176,35 @@ manage_repository_isomorphism_types(FF, repo) := block(
     if found then return(false) else (
       set_hm(repo,p,adjoin(FF,candidates)), 
       return(true))))$
+
+
+/* *******************************
+   * Analysing hash-repositories *
+   *******************************
+*/
+
+/* Compute the sorted list of pairs [deficiency, count] for a given
+   hash-repository. */
+analyse_isorepo_def(repository) := block(
+ [M : hm2sm(repository), h : sm2hm({})],
+  for P in M do block([count : length(P[2]), def : P[1][2] - P[1][1]],
+    set_hm(h,def,ev_hm_d(h,def,0)+count)),
+  sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+/* Returns the set of all clause-sets in the repository. */
+analyse_isorepo_set(repository) :=
+ family_sets_union(map(second,hm2sm(repository)),
+                   lambda([S],map(fcs2cs,S)))$
+/* Returns the sorted list [deficiency, set of clause-sets]. */
+/* TODO: Use the deficiency-info already contained in the repository.
+   Use a hash-map similar to analyse_isorepo_def. */
+analyse_isorepo_defset(repository) := block(
+ [E : equiv_classes(analyse_isorepo_set(repository), 
+        lambda([F,G], is(deficiency_cs(F) = deficiency_cs(G))))],
+  return(map(lambda([S],[deficiency_cs(choose_element(S)),S]),
+           sort(listify(E), lambda([S1,S2], 
+             is(deficiency_cs(choose_element(S1)) < 
+                deficiency_cs(choose_element(S2))))))))$
+
 
 /*!
 \endhtmlonly

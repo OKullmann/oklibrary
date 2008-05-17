@@ -29,6 +29,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 
 kill(f)$
 

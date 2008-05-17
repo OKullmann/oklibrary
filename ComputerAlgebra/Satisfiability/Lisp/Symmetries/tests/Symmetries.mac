@@ -25,6 +25,8 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+
 
 kill(f)$
 
@@ -123,6 +125,37 @@ okltest_manage_repository_isomorphism_types(f) := block([repo,M,FF1,FF2,deg],
   assert(f(FF2,repo) = true),
   M : disjoin([deg,{FF1}],M), M : adjoin([deg,{FF1,FF2}],M),
   assert(hm2sm(repo) = M),
+  true)$
+
+
+/* *******************************
+   * Analysing hash-repositories *
+   *******************************
+*/
+
+okltest_analyse_isorepo_def(f) := block([R],
+  assert(f(sm2hm({})) = []),
+  true)$
+
+okltest_analyse_isorepo_set(f) := block(
+  assert(f(sm2hm({})) = {}),
+  true)$
+
+okltest_analyse_isorepo_defset(f) := block(
+ [FF : make_array(any,4), h : sm2hm({})],
+  assert(f(h) = []),
+  FF[0] : [{},{}],
+  compose_hm_sm(h,{[fcs_identifier(FF[0]), {FF[0]}]}),
+  assert(f(h) = [[0,{FF[0][2]}]]),
+  FF[1] : [{1},{{1}}],
+  set_hm(h,fcs_identifier(FF[0]), {FF[0],FF[1]}),
+  assert(f(h) = [[0,{FF[0][2],FF[1][2]}]]),
+  FF[2] : [{},{{}}],
+  set_hm(h,fcs_identifier(FF[2]), {FF[2]}),
+  assert(f(h) = [[0,{FF[0][2],FF[1][2]}], [1,{FF[2][2]}]]),
+  FF[3] : full_fcs(2),
+  set_hm(h,fcs_identifier(FF[3]), {FF[3]}),
+  assert(f(h) = [[0,{FF[0][2],FF[1][2]}], [1,{FF[2][2]}], [2,{FF[3][2]}]]),
   true)$
 
 /*!
