@@ -69,7 +69,8 @@ okltest_uhit_def(f) := block([list_def : f[0,"info"]],
   true)$
 
 okltest_uhit_n(f) := (
-  assert(take_elements(5,f(-1,true)) = makelist(k,k,0,4)),
+  assert(take_elements(6,f(-1,true)) = makelist(k,k,0,5)),
+  assert(take_elements(6,f(-1,false)) = makelist(k,k,0,5)),
   assert(f(0,true) = true),
   assert(length(f(0,false)) = 1),
   assert(f(1,true) = true),

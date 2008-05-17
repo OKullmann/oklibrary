@@ -234,16 +234,17 @@ collect_uhit_n(n,k0,k1) :=
 
 /* The set of all known non-singular unsatisfiable hitting 
    clause-sets for a given number of variables. */
-/* uhit_n(-1,true) yields the list of available n-values. */
+/* uhit_n(-1,true/false) yields the list of available n-values. */
 /* The info-entry uhit_n(n,true) states whether the
    list is complete or not (similar to above). */
 /* uhit_n(n,false) is the set of available clause-sets. */
 uhit_n(n,info) := block(
  [info_data : [[0,1,2,3,4,5],true,true,true,true,true,false],
   def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,13]] ],
- if not elementp(n,setify(info_data[1])) then
+ if n = -1 then return(info_data[1])
+ elseif not elementp(n,setify(info_data[1])) then
    if info then return(false) else return({})
- elseif info then info_data[n+2]
+ elseif info then return(info_data[n+2])
  else block([K : def_data[n+1]],
    if emptyp(K) then return({})
    else return(collect_uhit_n(n,K[1],K[2]))))$
