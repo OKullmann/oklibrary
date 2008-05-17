@@ -45,6 +45,7 @@ okltest_manage_repository_isomorphism_types(manage_repository_isomorphism_types)
 
 okltest_analyse_isorepo_def(analyse_isorepo_def);
 okltest_analyse_isorepo_set(analyse_isorepo_set);
+okltest_analyse_isorepo_defset(okltest_analyse_isorepo_defset_reference_implementation);
 okltest_analyse_isorepo_defset(analyse_isorepo_defset);
 
 /*!

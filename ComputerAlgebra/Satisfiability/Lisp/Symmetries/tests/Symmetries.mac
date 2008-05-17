@@ -141,6 +141,14 @@ okltest_analyse_isorepo_set(f) := block(
   assert(f(sm2hm({})) = {}),
   true)$
 
+okltest_analyse_isorepo_defset_reference_implementation(repository) := block(
+ [E : equiv_classes(analyse_isorepo_set(repository), 
+        lambda([F,G], is(deficiency_cs(F) = deficiency_cs(G))))],
+  return(map(lambda([S],[deficiency_cs(choose_element(S)),S]),
+           sort(listify(E), lambda([S1,S2], 
+             is(deficiency_cs(choose_element(S1)) < 
+                deficiency_cs(choose_element(S2))))))))$
+
 okltest_analyse_isorepo_defset(f) := block(
  [FF : make_array(any,4), h : sm2hm({})],
   assert(f(h) = []),
@@ -156,6 +164,10 @@ okltest_analyse_isorepo_defset(f) := block(
   FF[3] : full_fcs(2),
   set_hm(h,fcs_identifier(FF[3]), {FF[3]}),
   assert(f(h) = [[0,{FF[0][2],FF[1][2]}], [1,{FF[2][2]}], [2,{FF[3][2]}]]),
+  if oklib_test_level = 0 then return(true),
+  for n : 0 thru 3 do
+    manage_repository_isomorphism_types(weak_php(n+2,n),h),
+  assert(okltest_analyse_isorepo_defset_reference_implementation(h) = f(h)),
   true)$
 
 /*!
