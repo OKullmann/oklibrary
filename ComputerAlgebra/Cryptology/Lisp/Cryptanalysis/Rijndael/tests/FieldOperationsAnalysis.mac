@@ -12,6 +12,17 @@ License, or any later version. */
 Use by
 
 oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
+        
+  \bug Tests take too much time for level basic.
+  <ul>
+   <li> It seems this can be avoided, since oklib_test_level is yet
+   not queried in the tests. </li>
+  </ul>
+
+  \bug Test functions only take ONE argument.
+  <ul>
+   <li> The above functions is only a HELPER function. </li>
+  </ul>
 
 */
 
