@@ -9,6 +9,9 @@ License, or any later version. */
   \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac
   \brief Classification of unsatisfiable hitting clause-sets in dependency on the deficiency, only considering clause-sets which are reduced w.r.t. singular DP-reduction
 
+  Only small datasets here; others are excluded from for example "uhit_def_4.mac"
+  for deficiency 4.
+
 Use by
 
 oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac");
@@ -24,12 +27,12 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symme
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 
 kill(uhit_def)$
 
-/* The list of available deficiencies */
-uhit_def[0,"info"] : [1,2,3,4,5,10]$
+/* The list of available deficiencies. */
+uhit_def[0,"info"] : makelist(k,k,1,12)$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info] contains:
  - true if the classification is complete, and false/unknown otherwise
@@ -82,7 +85,10 @@ uhit_def[3,5] : [
  {{-5,-4,-2},{-5,-2,3,4},{-4,-3,-2,5},{-3,-2,-1,4},{-3,-2,1,4},{-2,3,5},{-1,2},{1,2}},
  {{-5,-4,-2,-1},{-5,-4,-2,1},{-5,-2,-1,4},{-5,-2,1,4},{-5,2,3},{-3,-2,5},{-3,2},{3,5}},
  {{-5,-4},{-5,4},{-4,5},{-3,-2,-1,4,5},{-3,1,4,5},{-2,3,4,5},{-1,2,4,5},{1,2,3,4,5}},
- {{-5,-4},{-5,-3,4},{-4,-2,-1,3,5},{-4,-2,1,3,5},{-4,-1,2,3,5},{-4,1,2,3,5},{-3,5},{3,4}}
+ {{-5,-4},{-5,-3,4},{-4,-2,-1,3,5},{-4,-2,1,3,5},{-4,-1,2,3,5},{-4,1,2,3,5},{-3,5},{3,4}},
+ {{-5,-4},{-5,4},{-4,-3,5},{-3,4,5},{-2,-1,3,5},{-2,1,3,5},{-1,2,3,5},{1,2,3,5}},
+ {{-5,-4},{-5,4},{-4,-2,-1,3,5},{-3,-2,5},{-3,1,2,5},{-2,-1,3,4,5},{-1,2,5},{1,3,5}},
+ {{-5,-4},{-5,4},{-4,-1,3,5},{-3,-2,5},{-3,2,5},{-2,1,3,5},{-1,3,4,5},{1,2,3,5}}
 ]$
 uhit_def[3,6] : [
  vardisjoint_full_gluing(musatd2(2),musatd2(3))[2]
@@ -95,10 +101,11 @@ uhit_def[3,7] : [
 
 /* Deficiency 4 */
 
-uhit_def[4,"info"] : [false,3,inf,[[3,true],[11,unknown]]]$
+uhit_def[4,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[11,unknown]]]$
 uhit_def[4,3] : [
- {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-2,1,3},{-1,2,3},{1,2,3}}
+ nearly_full_hitting_fcs(3)[2]
 ]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def4.mac")$
 uhit_def[4,11] : [
   max_var_hitting_def(4)[2]
 ]$
@@ -106,13 +113,53 @@ uhit_def[4,11] : [
 
 /* Deficiency 5 */
 
-uhit_def[5,"info"] : [false,3,inf,[[3,true],[15,unknown]]]$
+uhit_def[5,"info"] : [false,3,inf,[[3,true],[4,true],[15,unknown]]]$
 uhit_def[5,3] : [
  full_fcs(3)[2]
 ]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def5.mac")$
 uhit_def[5,15] : [
   max_var_hitting_def(5)[2]
 ]$
+
+
+/* Deficiency 6 */
+
+uhit_def[6,"info"] : [false,4,inf,[[4,true]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def6.mac")$
+
+
+/* Deficiency 7 */
+
+uhit_def[7,"info"] : [false,4,inf,[[4,true]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def7.mac")$
+
+
+/* Deficiency 8 */
+
+uhit_def[8,"info"] : [false,4,inf,[[4,true]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def8.mac")$
+
+
+/* Deficiency 9 */
+
+uhit_def[9,"info"] : [false,4,inf,[[4,true]]]$
+uhit_def[9,4] : [
+{{-4,-3},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,-1,2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-1,2,3,4},{1,3,4}}, 
+{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,4}}, 
+{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-1,2},{-4,1,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,1,3,4},{-1,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,2},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,2},{-4,-2,1,3},{-4,-1,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-3,2},{-4,-2,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
+{{-4,-3,-2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}
+]$ 
 
 
 /* Deficiency 10 */
@@ -141,6 +188,65 @@ uhit_def[10,35] : [
 ]$
 
 
+/* Deficiency 11 */
+
+uhit_def[11,"info"] : [false,4,inf,[[4,true],[39,unknown]]]$
+
+uhit_def[11,4] : [nearly_full_hitting_fcs(4)[2]]$
+uhit_def[11,39] : [
+  max_var_hitting_def(11)[2]
+]$
+
+
+
+/* Deficiency 12 */
+
+uhit_def[12,"info"] : [false,4,inf,[[4,true],[5,unknown],[43,unknown]]]$
+uhit_def[12,4] : [full_fcs(4)[2]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def12.mac")$
+uhit_def[12,43] : [
+  max_var_hitting_def(12)[2]
+]$
+
+
+/* ****************************
+   * Evaluating the catalogue *
+   ****************************
+*/
+
+/* Apply function f to all elements of the catalogue:
+   Call f(k,n,i,F), store the results in a list. */
+apply_uhit(f) := block([list_def : uhit_def[0,"info"], result : []],
+  for k in list_def do block([list_n : map(first,uhit_def[k,"info"][4])],
+    for n in list_n do block([L : uhit_def[k,n]],
+      for i : 1 thru length(L) do block([F : L[i]],
+        result : endcons(f(k,n,i,F),result)))
+  ),
+  return(result))$
+
+
+/* Collecting all clause-sets from the uhit-catalogue for a
+   given number of variables and a range of deficiencies. */
+collect_uhit_n(n,k0,k1) :=
+  setify(apply(append,sublist(
+    makelist(uhit_def[k,n],k,k0,k1),
+    lambda([L], is(op(L) # uhit_def)))))$
+
+/* The set of all known non-singular unsatisfiable hitting 
+   clause-sets for a given number of variables. */
+/* uhit_n(-1,true) yields the list of available n-values. */
+/* The info-entry uhit_n(n,true) states whether the
+   list is complete or not (similar to above). */
+/* uhit_n(n,false) is the set of available clause-sets. */
+uhit_n(n,info) := block(
+ [info_data : [[0,1,2,3,4,5],true,true,true,true,true,false],
+  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,13]] ],
+ if not elementp(n,setify(info_data[1])) then
+   if info then return(false) else return({})
+ elseif info then info_data[n+2]
+ else block([K : def_data[n+1]],
+   if emptyp(K) then return({})
+   else return(collect_uhit_n(n,K[1],K[2]))))$
 
 
 /* For a list of candidate clause-sets, determine whether F is
@@ -156,7 +262,7 @@ classify_candidates_uhit_def(L) := block([result : []],
       if not listp(catalist) then result : endcons([element,"new"],result)
       else block([found : false],
         for i : 1 thru length(catalist) unless found do
-          if is_isomorphic_cs(F, catalist[i]) then (
+          if is_isomorphic_btr_cs(F, catalist[i]) then (
             found : true,
             result : endcons([element, i],result)
           ),

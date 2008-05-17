@@ -130,6 +130,14 @@ okltest_all_pass(f) := (
   assert(length(f(setn(3))) = 3^3),
   true)$
 
+okltest_satisfyingpafp(f) := (
+  assert(f({},[{},{}]) = true),
+  assert(f({},[{1},{}]) = true),
+  assert(f({},[{},{{}}]) = false),
+  assert(f({1},[{1},{{1}}]) = true),
+  assert(f({1},[{1},{{-1}}]) = false),
+  true)$
+
 /*!
 \endhtmlonly
 */

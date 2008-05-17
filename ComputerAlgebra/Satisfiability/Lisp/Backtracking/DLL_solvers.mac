@@ -24,8 +24,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
 
 
 /* **********************************

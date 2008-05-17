@@ -37,11 +37,19 @@ lsavl_var(v,s) := nounify(lsavl)(v,s)$ /* v an original variable, s in {-1,1} */
 lsavv_var(v) := nounify(lsavv)(v)$ /* v an original variable */
 lsavc_var(C) := nounify(lsavc)(C)$ /* C an original clause */
 
+/* Meaning:
+ - lsavv(v) is true iff the autarky uses v
+ - lsavc(C) is true iff the autarky satisfies C
+ - lsavl(v,1) is the literal v, lsavl(v,1) is the literal -v;
+   lsavl(v,1) is true iff v is assigned and set to true,
+   lsavl(v,-1) is true iff v is assigned and set to false.
+*/
+
 /* Auxiliary function to translate literals */
 trans_lit_ls(x) := if x > 0 then lsavl_var(x,1) else lsavl_var(-x,-1)$
 
-/* Input a formal clause-set F, returns a formal clause-set G whose
-   satisfying assignments correspond to the autarkies of F.
+/* Input a formal clause-set FF, returns a formal clause-set GG whose
+   satisfying assignments correspond to the autarkies of FF.
    More precisely, the assigned original variables v are those
    with lsavv(c) true, and the satisfied clauses C are those
    with lsavc(C) true. */
@@ -56,24 +64,36 @@ aut_sat_ls(FF) := if not freeof(lsavl, FF) or not freeof(lsavv, FF) or
      setify(makelist(lsavv_var(v),v,V)),
      setify(makelist(lsavc_var(C),C,L))),
     union(
+     /* if a clauses is satisfied, then also some of its literals: */
      setify(makelist(adjoin(-lsavc_var(C),map(trans_lit_ls,C)),C,L)),
+     /* make lsavl_var(v,1) equivalent to (lsavv_var(v) & v): */
      family_sets_union(V, lambda([v], {
        {-lsavl_var(v,1),lsavv_var(v)},
        {-lsavl_var(v,1),v},
        {lsavl_var(v,1),-lsavv_var(v),-v}})),
+     /* make lsavl_var(v,-1) equivalent to (lsavv_var(v) & -v): */
      family_sets_union(V, lambda([v], {
        {-lsavl_var(v,-1),lsavv_var(v)},
        {-lsavl_var(v,-1),-v},
        {lsavl_var(v,-1),-lsavv_var(v),v}})),
+     /* if a variable in a clause is assigned, then the clause must
+        be satisfied: */
      setify(create_list({-lsavv_var(var_l(x)),lsavc_var(C)}, C,L, x,listify(C))))]))$
 
-/* Translates an autarky phi for formal clause-set F into a satisfying 
+/* The corresponding translation FF -> GG such that FF is lean iff GG is
+   unsatisfiable. */
+lean_usat_ls(FF) := block([T : aut_sat_ls(FF)],
+  [T[1], adjoin(map(lsavv,FF[1]),T[2])])$
+
+
+/* Translates an autarky phi for formal clause-set FF into a satisfying 
    assignment for aut_sat_ls(FF). */
+/* Prerequisite: phi uses only variables from FF. */
 trans_aut_sat_ls(phi,FF) := block(
  [VF : listify(FF[1]), L : listify(FF[2]), S : sat_pa(phi,FF[2]), V, OV],
  phi : restr_pa(phi, FF[1]),
- V : var_pa(phi),
- OV : setdifference(FF[1], V),
+ V : var_pa(phi), /* the variables in the autarky */
+ OV : setdifference(FF[1], V), /* unassigned variables */
  return(union(phi,
   map(lambda([x],lsavl_var(var_l(x),sign_l(x))), phi),
   map(lambda([x],-lsavl_var(var_l(x),-sign_l(x))), phi),
@@ -88,11 +108,21 @@ trans_aut_sat_ls(phi,FF) := block(
    we have check_ls(phi,FF) = true iff phi is an autarky for FF.
 */
 
-/* The corresponding translation F -> G such that F is lean iff G is
-   unsatisfiable. */
-lean_usat_ls(FF) := block([T : aut_sat_ls(FF)],
-  [T[1], adjoin(map(lsavv,FF[1]),T[2])])$
+/* Given a satisfying partial assignment phi for aut_sat_ls(FF), returns
+   the set of clauses of FF satisfied by phi. */
+itransc_aut_sat_ls(phi,FF) := 
+  map(lambda([x],args(x)[1]),subset(phi,lambda([x],is(not atom(x) and op(x) = lsavc))))$
+/* Given a satisfying partial assignment phi for aut_sat_ls(FF), returns
+   the corresponding autarky for FF. */
+itrans_aut_sat_ls(phi,FF) := block(
+ [active_vars : subset(phi,lambda([x],is(not atom(x) and op(x) = lsavv)))],
+  return(intersection(phi, literals_v(map(lambda([x],args(x)[1]),active_vars)))))$
 
+
+/* Find an autarky for a formal clause-set FF by translation to 
+   SAT, and using a SAT solver returning a partial assignment;
+   the autarky uses only variables from FF and is non-empty iff possible. */
+/* find_autark_scs_f(FF,solver) := XXX */
 
 /*!
 \endhtmlonly

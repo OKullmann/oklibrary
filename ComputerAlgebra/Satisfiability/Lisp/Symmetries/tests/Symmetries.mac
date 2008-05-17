@@ -25,9 +25,15 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
+
 
 kill(f)$
 
+/* ***********************
+   * Isomorphism testing *
+   ***********************
+*/
 
 okltest_is_isomorphic_fcs(f) := block(
   assert(f([{},{}],[{},{}]) = true),
@@ -37,9 +43,17 @@ okltest_is_isomorphic_fcs(f) := block(
   assert(f([{2},{}],[{1},{}]) = true),
   assert(f([{1},{{-1},{1}}],[{2},{{-2},{2}}]) = true),
   assert(f([{1},{{1}}],[{1},{{-1}}]) = true),
+  assert(f([{1},{{1},{}}],[{1},{{-1}}]) = false),
   assert(f([{1,2,3},{{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}}],
     [{1,2,3},{{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-2,1,3},{2,3}}])
     = false),
+  assert(f([{1,2,3},{{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}}],
+    [{1,2,3},{{-3,-2},{-3,1,2},{-2,-1,3},{-2,1,3},{-1,2},{1,2,3}}]) = true),
+  assert(f([{1,2,3},{{-3,-2},{-3,1,2},{-2,-1,3},{-2,1,3},{-1,2},{1,2,3}}],
+    [{1,2,3},{{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}}]) = true),
+  assert(f([{1,2,3,4},{{-4,-3},{-4,-1,2,3},{-4,1,3},{-3,-2,-1,4},{-2,-1,3},{-2,1,4},{2,4}}],
+    [{1,2,3,4},{{-4,-3},{-4,1,2,3},{-3,-2,1,4},{-3,-1,4},{-2,3},{-1,2,3},{1,2,4}}])
+    = true),
   if oklib_test_level = 0 then return(true),
   for n : 3 thru 4 do block([FF : weak_php(n+1,n), v, G],
     v : choose_element(FF[1]),
@@ -47,7 +61,17 @@ okltest_is_isomorphic_fcs(f) := block(
     G : cs_to_fcs(weakaut_red(generalised_ucp1(G[2]),1)),
     assert(f(G, weak_php(n,n-1)) = true)
   ),
+  block([FF1 : full_fcs(3), FF2 : full_fcs(3)],
+    assert(f(FF1,FF2) = true),
+    assert(FF1 = full_fcs(3)), assert(FF2 = full_fcs(3))
+  ),
   true)$
+
+
+/* **********************************
+   * Isomorphism classes management *
+   **********************************
+*/
 
 okltest_representatives_fcs(f) := block([FF,SFF],
   assert(f({}) = {}),
@@ -101,6 +125,49 @@ okltest_manage_repository_isomorphism_types(f) := block([repo,M,FF1,FF2,deg],
   assert(f(FF2,repo) = true),
   M : disjoin([deg,{FF1}],M), M : adjoin([deg,{FF1,FF2}],M),
   assert(hm2sm(repo) = M),
+  true)$
+
+
+/* *******************************
+   * Analysing hash-repositories *
+   *******************************
+*/
+
+okltest_analyse_isorepo_def(f) := block([R],
+  assert(f(sm2hm({})) = []),
+  true)$
+
+okltest_analyse_isorepo_set(f) := block(
+  assert(f(sm2hm({})) = {}),
+  true)$
+
+okltest_analyse_isorepo_defset_reference_implementation(repository) := block(
+ [E : equiv_classes(analyse_isorepo_set(repository), 
+        lambda([F,G], is(deficiency_cs(F) = deficiency_cs(G))))],
+  return(map(lambda([S],[deficiency_cs(choose_element(S)),S]),
+           sort(listify(E), lambda([S1,S2], 
+             is(deficiency_cs(choose_element(S1)) < 
+                deficiency_cs(choose_element(S2))))))))$
+
+okltest_analyse_isorepo_defset(f) := block(
+ [FF : make_array(any,4), h : sm2hm({})],
+  assert(f(h) = []),
+  FF[0] : [{},{}],
+  compose_hm_sm(h,{[fcs_identifier(FF[0]), {FF[0]}]}),
+  assert(f(h) = [[0,{FF[0][2]}]]),
+  FF[1] : [{1},{{1}}],
+  set_hm(h,fcs_identifier(FF[0]), {FF[0],FF[1]}),
+  assert(f(h) = [[0,{FF[0][2],FF[1][2]}]]),
+  FF[2] : [{},{{}}],
+  set_hm(h,fcs_identifier(FF[2]), {FF[2]}),
+  assert(f(h) = [[0,{FF[0][2],FF[1][2]}], [1,{FF[2][2]}]]),
+  FF[3] : full_fcs(2),
+  set_hm(h,fcs_identifier(FF[3]), {FF[3]}),
+  assert(f(h) = [[0,{FF[0][2],FF[1][2]}], [1,{FF[2][2]}], [2,{FF[3][2]}]]),
+  if oklib_test_level = 0 then return(true),
+  for n : 0 thru 3 do
+    manage_repository_isomorphism_types(weak_php(n+2,n),h),
+  assert(okltest_analyse_isorepo_defset_reference_implementation(h) = f(h)),
   true)$
 
 /*!

@@ -22,6 +22,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/uhit_def.mac")$
 
 okltest_uhit_def(uhit_def);
+okltest_uhit_n(uhit_n);
 
 /*!
 \endhtmlonly

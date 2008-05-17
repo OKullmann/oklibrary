@@ -21,11 +21,32 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/tests/Symmetries.mac")$
 
+/* ***********************
+   * Isomorphism testing *
+   ***********************
+*/
+
 okltest_is_isomorphic_fcs(is_isomorphic_fcs);
+okltest_is_isomorphic_fcs(is_isomorphic_btr_fcs);
+
+/* **********************************
+   * Isomorphism classes management *
+   **********************************
+*/
 
 okltest_representatives_fcs(representatives_fcs);
 
 okltest_manage_repository_isomorphism_types(manage_repository_isomorphism_types);
+
+/* *******************************
+   * Analysing hash-repositories *
+   *******************************
+*/
+
+okltest_analyse_isorepo_def(analyse_isorepo_def);
+okltest_analyse_isorepo_set(analyse_isorepo_set);
+okltest_analyse_isorepo_defset(okltest_analyse_isorepo_defset_reference_implementation);
+okltest_analyse_isorepo_defset(analyse_isorepo_defset);
 
 /*!
 \endhtmlonly

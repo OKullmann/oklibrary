@@ -59,19 +59,29 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    <li> Using "oklib --maxima -g", a running computation can be interrupted by
    Ctrl-C, a variable "var" can be displayed by "$var" (using "(displa $var)"
    one gets Maxima-representation), and by "continue" (at
-   break-level 1 !) the computation can be continued. </li>
-   <li> Does this slow down computations? Some tests seem to indicate that this
-   is not the case. </li>
-   <li> So perhaps this should be our default? </li>
-   <li> If something goes wrong with displaying values, then suddenly
-   "continue" doesn't work anymore (but is treated as variable name)?!? </li>
-   <li> And also for some other reasons continuation becomes impossible??
-   (Then we don't have a "Continuable Error"). </li>
-   <li> This looks like a clisp compiler weakness. Perhaps with 2.44.1 this
-   is solved? </li>
-   <li> Perhaps the problem is that when the execution is inside a sub-function
-   then continuation is not possible? </li>
-   <li> Anyway, this mechanism doesn't look really reliable yet. </li>
+   break-level 1 !) the computation can be continued.
+    <ol>
+     <li> Does this slow down computations? Some tests seem to indicate that
+     this is not the case. </li>
+     <li> So perhaps this should be our default? </li>
+     <li> If something goes wrong with displaying values, then suddenly
+     "continue" doesn't work anymore (but is treated as variable name)?!? </li>
+     <li> And also for some other reasons continuation becomes impossible??
+     (Then we don't have a "Continuable Error"). </li>
+     <li> This looks like a clisp compiler weakness. Perhaps with 2.44.1 this
+     is solved? </li>
+     <li> Perhaps the problem is that when the execution is inside a
+     sub-function then continuation is not possible? </li>
+     <li> Anyway, this mechanism doesn't look really reliable yet. </li>
+    </ol>
+   </li>
+   <li> Using "oklib_save()" in a functions stores the whole state
+   of Maxima to a session file, after oklib_storage_interval
+   minutes have passed, given that oklib_store is true.
+    <ol>
+     <li> This should be applied throughout. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -249,6 +259,7 @@ number,fixnum,rational,boolean,float,list,any
      <li> Unclear what fixnum means: It can store for example 100000!.
      It appears just to be an integer. Perhaps this is special for
      CLisp? </li>
+     <li> And apparently "float" = "any" ?? </li>
      <li> It seems we should declare all of our global variables
      in this way. </li>
      <li> It can be used also inside functions, after the block-
@@ -301,6 +312,14 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo Document important programming techniques:
   <ul>
+   <li> Shallow copy of list arguments for functions:
+    <ol>
+     <li> Give examples for this behaviour. </li>
+     <li> This effects especially clause-sets (which as sets are
+     copied) and formal clause-sets (which as lists are only shallowly
+     copied)! </li>
+    </ol>
+   </li>
    <li> How to handle local variables (see above).
     <ol>
      <li> A source of errors regarding the block-expression is that
