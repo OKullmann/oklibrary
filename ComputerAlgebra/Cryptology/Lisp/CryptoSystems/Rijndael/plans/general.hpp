@@ -10,35 +10,6 @@ License, or any later version. */
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
   
-  \todo Convert AES functions to use more natural representation
-  <ul>
-   <li> Make functions take lists of bit vectors or more likely, lists of 
-   integers corresponding to bit vectors.
-    <ul>
-     <li> Lists of integers seem more likely here as then the sbox lookup table
-     can be changed to use simple arrays rather than the less well defined
-     hashed arrays. </li>
-     <li> One can parameterise the multiplication by 
-     a constant in GF(2^8), and the sbox is already parameterised, so that 
-     these operations can be handled by a variety of functions, some of which
-     could use lookups. This seems related to the 
-     "Modularising the Rijndael-implementation" todo. This would push any field
-     operations into seperate functions and allow implementations (such as with 
-     lookups) that don't require finite field operations at all.</li>
-     <li> The only operation left that relies on field operations is addition
-     within the field, used in operations such as AddRoundKey. This could be 
-     parameterised or it could be replaced by use of "?logxor", a call to a 
-     lisp function for bitwise xor (although there is also talk of a maxima 
-     module for bitwise operations on the maxima mailing list). </li>
-     <li> It seems parameterising field addition loses nothing, while most
-     likely making the actual base AES functions the most general and related
-     only to the basic cryptographic confusion and diffusion operations. </li>
-    </ul>
-   <li> This seems more friendly in terms of input and output, and makes more 
-   sense when considering a wider use of AES. </li>
-  </ul>
-
-  
   \todo Modularising the Rijndael-implementation
   <ul>
    <li> The following ideas need to be integrated into the plans (after
@@ -334,6 +305,36 @@ License, or any later version. */
      (in the plans) must come first! (Implementations come later!!) </li>
     </ol>
    </li>
+  </ul>
+  
+  
+  \todo DONE Convert AES functions to use more natural representation
+  <ul>
+   <li> (DONE Takes list of integers)
+   Make functions take lists of bit vectors or more likely, lists of 
+   integers corresponding to bit vectors.
+    <ul>
+     <li> Lists of integers seem more likely here as then the sbox lookup table
+     can be changed to use simple arrays rather than the less well defined
+     hashed arrays. </li>
+     <li> One can parameterise the multiplication by 
+     a constant in GF(2^8), and the sbox is already parameterised, so that 
+     these operations can be handled by a variety of functions, some of which
+     could use lookups. This seems related to the 
+     "Modularising the Rijndael-implementation" todo. This would push any field
+     operations into seperate functions and allow implementations (such as with 
+     lookups) that don't require finite field operations at all.</li>
+     <li> The only operation left that relies on field operations is addition
+     within the field, used in operations such as AddRoundKey. This could be 
+     parameterised or it could be replaced by use of "?logxor", a call to a 
+     lisp function for bitwise xor (although there is also talk of a maxima 
+     module for bitwise operations on the maxima mailing list). </li>
+     <li> It seems parameterising field addition loses nothing, while most
+     likely making the actual base AES functions the most general and related
+     only to the basic cryptographic confusion and diffusion operations. </li>
+    </ul>
+   <li> DONE This seems more friendly in terms of input and output, and makes more 
+   sense when considering a wider use of AES. </li>
   </ul>
 
 */
