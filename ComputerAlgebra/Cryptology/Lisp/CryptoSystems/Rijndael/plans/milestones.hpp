@@ -16,6 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Naming Conventions
     - Modularising the Rijndael-implementation
     - Key schedule
     - Design of round functions

@@ -9,28 +9,41 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
-  
+
+  \todo Naming Conventions
+  <ul>
+   <li> To avoid clashes with other modules and to make clear which functions
+   are specific to AES and which aren't, functions in this module should 
+   perhaps have the prefix "aes_". </li>
+   <li> Should this perhaps instead be "rijndael_" or "rijn_" or similar? </li>
+  </ul>
+
+
   \todo Modularising the Rijndael-implementation
   <ul>
    <li> The following ideas need to be integrated into the plans (after
    milestone 0.1).
-   <li> All field-operations should be abstracted away (most obvious, by
-   using an S-box function as parameter). </li>
-   <li> And then we provide different implementations:
-    <ol>
-     <li> As now. </li>
-     <li> Via table-lookup (using arrays; this is then much faster). </li>
-     <li> Also trivial (other) functions, for easy "variations" of
-     Rijndael. </li>
-    </ol>
-   </li>
-   <li> It would also be interested to have an expression-based implementation.
+   <li> It would also be interesting to have an expression-based implementation.
     <ol>
      <li> Based on the basic abstract operations (perhaps there are options).
      </li>
      <li> Likely the whole creates an expression which is too big (since
      expression cannot re-use subterms). </li>
      <li> But one-round expressions should be feasible. </li>
+    </ol>
+   </li>
+   <li> It would be better to parameterise the AES functions using global 
+   variables which can then be overriden in blocks etc (simulating optional
+   function parameters). Otherwise many options must be specified for which
+   a default is usually the most appropriate. </li>
+   <li> DONE All field-operations should be abstracted away (most obvious, by
+   using an S-box function as parameter). </li>
+   <li> DONE And then we provide different implementations:
+    <ol>
+     <li> As now. </li>
+     <li> Via table-lookup (using arrays; this is then much faster). </li>
+     <li> Also trivial (other) functions, for easy "variations" of
+     Rijndael. </li>
     </ol>
    </li>
   </ul>
