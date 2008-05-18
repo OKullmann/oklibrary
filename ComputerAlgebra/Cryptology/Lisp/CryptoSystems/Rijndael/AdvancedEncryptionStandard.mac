@@ -335,7 +335,7 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
   [n_b : length(pl)/4], 
   /* Initial Rounds */
   ekl : partition_elements(
-    key_expansion(kl,n_bsbox_f,aes_add),n_b*4),
+    key_expansion(kl,n_b,sbox_f,aes_add),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   initial_result : 
