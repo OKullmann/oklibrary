@@ -22,8 +22,8 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
 
 
-okltest_generate_full_aes_field_mul_dnf_fcs(generate_full_aes_field_mul_dnf_fcs,2);
-okltest_generate_full_aes_field_mul_dnf_fcs(generate_full_aes_field_mul_dnf_fcs,3);
+okltest_generate_full_aes_field_mul2_dnf_fcs(generate_full_aes_field_mul_dnf_fcs);
+okltest_generate_full_aes_field_mul3_dnf_fcs(generate_full_aes_field_mul_dnf_fcs);
 
 /*!
 \endhtmlonly

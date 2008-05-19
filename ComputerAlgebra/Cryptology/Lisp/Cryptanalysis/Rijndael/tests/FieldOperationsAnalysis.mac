@@ -13,13 +13,16 @@ Use by
 
 oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
         
-  \bug Tests take too much time for level basic.
+  \bug DONE Tests take too much time for level basic.
   <ul>
    <li> It seems this can be avoided, since oklib_test_level is yet
    not queried in the tests. </li>
+   <li> ok_test_level introduced, although no tests will be possible at
+   oklib_test_level = 0, due to the time the function to be tested takes. </li>
   </ul>
 
-  \bug Test functions only take ONE argument.
+  \bug (DONE Tests now need expanding)
+  Test functions only take ONE argument.
   <ul>
    <li> The above functions is only a HELPER function. </li>
   </ul>
@@ -36,20 +39,20 @@ kill(f)$
 
 /* Tests for any particular AES field multiplication */
 okltest_generate_full_aes_field_mul_dnf_fcs(f,constant_field_element) := block([mulFullDNF],
-  mulFullDNF : f(constant_field_element),
-  assert(length(mulFullDNF[2]) = 256),
-  assert(length(mulFullDNF[1]) = 16),
-  assert(totaldisrep(apply_pa(setify(makelist(i,i,1,8)), mulFullDNF[2])) =
-    {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),makelist(-i,i,1,8)))}),
-  /*if (constant_field_element = 2) then block([inputList, res],
-    inputList : makelist(-i,i,1,8),
-    for i : 1 thru 7 do block(
-      inputList = rotate(inputList,-1),
-      assert(totaldisrep(apply_pa(setify(inputList), mulFullDNF[2])) =
-        {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),
-          rotate(inputList,-1)))})
-    )
-  ) else if (constant_field_element = 3) then true,*/
+  if oklib_test_level > 0 then block(
+    mulFullDNF : f(2),
+    assert(length(mulFullDNF[2]) = 256),
+    assert(length(mulFullDNF[1]) = 16),
+    assert(totaldisrep(apply_pa(setify(makelist(i,i,1,8)), mulFullDNF[2])) =
+      {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),makelist(-i,i,1,8)))})
+    /*inputList : makelist(-i,i,1,8),
+      for i : 1 thru 7 do block(
+        inputList = rotate(inputList,-1),
+        assert(totaldisrep(apply_pa(setify(inputList), mulFullDNF[2])) =
+          {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),
+            rotate(inputList,-1)))})
+      )*/
+  ),
 true)$
 
 
