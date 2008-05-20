@@ -9,10 +9,21 @@ License, or any later version. */
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac
   \brief Tests for the analysis functions of the AES Field Operations
 
-Use by
+  Use by
 
 oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac");
-        
+
+  \bug What is the meaning of the part commented out?
+  \verbatim
+    inputList : makelist(-i,i,1,8),
+      for i : 1 thru 7 do block(
+        inputList = rotate(inputList,-1),
+        assert(totaldisrep(apply_pa(setify(inputList), mulFullDNF[2])) =
+          {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),
+            rotate(inputList,-1)))})
+   \endverbatim
+
+
   \bug DONE Tests take too much time for level basic.
   <ul>
    <li> It seems this can be avoided, since oklib_test_level is yet
@@ -21,7 +32,7 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/
    oklib_test_level = 0, due to the time the function to be tested takes. </li>
   </ul>
 
-  \bug (DONE Tests now need expanding)
+  \bug (DONE Tests now need expanding OK: what does this mean???)
   Test functions only take ONE argument.
   <ul>
    <li> The above functions is only a HELPER function. </li>
@@ -38,22 +49,15 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
 kill(f)$
 
 /* Tests for any particular AES field multiplication */
+/* OK: What does this mean?? */
 okltest_generate_full_aes_field_mul_dnf_fcs(f,constant_field_element) := block([mulFullDNF],
-  if oklib_test_level > 0 then block(
-    mulFullDNF : f(2),
-    assert(length(mulFullDNF[2]) = 256),
-    assert(length(mulFullDNF[1]) = 16),
-    assert(totaldisrep(apply_pa(setify(makelist(i,i,1,8)), mulFullDNF[2])) =
-      {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),makelist(-i,i,1,8)))})
-    /*inputList : makelist(-i,i,1,8),
-      for i : 1 thru 7 do block(
-        inputList = rotate(inputList,-1),
-        assert(totaldisrep(apply_pa(setify(inputList), mulFullDNF[2])) =
-          {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),
-            rotate(inputList,-1)))})
-      )*/
-  ),
-true)$
+  if oklib_test_level = 0 then return(true),
+  mulFullDNF : f(2),
+  assert(length(mulFullDNF[2]) = 256),
+  assert(length(mulFullDNF[1]) = 16),
+  assert(totaldisrep(apply_pa(setify(makelist(i,i,1,8)), mulFullDNF[2])) =
+    {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),makelist(-i,i,1,8)))}),
+  true)$
 
 
 /*!

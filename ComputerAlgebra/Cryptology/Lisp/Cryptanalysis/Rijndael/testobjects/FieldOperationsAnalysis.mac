@@ -8,9 +8,11 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/FieldOperationsAnalysis.mac
 
-Use by
+  Use by
 
 oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/testobjects/FieldOperationsAnalysis.mac");
+
+  \bug No tests are executed!
 
 */
 
