@@ -50,13 +50,13 @@ kill(f)$
 
 /* Tests for any particular AES field multiplication */
 /* OK: What does this mean?? */
-okltest_generate_full_aes_field_mul_dnf_fcs(f,constant_field_element) := block([mulFullDNF],
+okltest_generate_full_aes_field_mul_dnf_fcs(f) := block([mulFullDNF],
   if oklib_test_level = 0 then return(true),
   mulFullDNF : f(2),
   assert(length(mulFullDNF[2]) = 256),
   assert(length(mulFullDNF[1]) = 16),
   assert(totaldisrep(apply_pa(setify(makelist(i,i,1,8)), mulFullDNF[2])) =
-    {setify(map(lambda([a], (a / abs(a)) * (8 + abs(a))),makelist(-i,i,1,8)))}),
+    {setify(makelist(-i,i,9,16))}),
   true)$
 
 
