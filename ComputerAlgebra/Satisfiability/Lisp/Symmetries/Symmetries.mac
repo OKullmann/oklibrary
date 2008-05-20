@@ -164,6 +164,7 @@ fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_
 /* Given a hash_repository repo of isomormphism types, check whether a 
    given formal clause-set is already contained or not, and in the latter
    case insert it into the repository. */
+/* Returns true iff FF has been inserted. */
 /* repo is a hash-map of isomorphism types. */
 manage_repository_isomorphism_types(FF, repo) := block(
  [p : fcs_identifier(FF), candidates],
