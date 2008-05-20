@@ -26,8 +26,30 @@ License, or any later version. */
      <li> apply_uhit </li>
      <li> collect_uhit_n </li>
      <li> classify_candidates_uhit_def </li>
+     <li> isotype_uhit_def </li>
+     <li> closure_uhit_def_pass </li>
     </ol>
    </li>
+   <li> Testing functions which evaluate uhit_def:
+    <ol>
+     <li> Create mock-variations of uhit_def using dynamic binding. </li>
+     <li> Perhaps we create a list of such mock-variations. </li>
+    </ol>
+   </li>
+   <li> At level basic, the test for uhit_def takes too long. </li>
+  </ul>
+
+
+  \todo uhit_n
+  <ul>
+   <li> info_data should be computed. </li>
+   <li> def_data should be computed. </li>
+   <li> Run through all deficiencies in uhit_def and check whether
+   the given n is contained. </li>
+   <li> To determine whether the classification is complete, use
+   two functions which compute lower and upper bounds on possible
+   deficiencies for a given n, and then check whether for all these
+   deficiencies the corresponding entries are complete. </li>
   </ul>
 
 
@@ -35,7 +57,7 @@ License, or any later version. */
   <ul>
    <li> For n=5 add deficiencies delta = 14, ..., 27. </li>
    <li> It seems unlikely that we can get all for n=5. Nevertheless
-   we should get a could variety, and for that we need a version of
+   we should get a good variety, and for that we need a version of
    all_unsinghitting which starts from a different (random) path. </li>
   </ul>
 
@@ -46,6 +68,26 @@ License, or any later version. */
    data-sets under ExternalSources, loadable on demand. </li>
    <li> Process n=5,6,7. </li>
    <li> For n=5 add deficiencies delta = 5,6,7,8,9,10,11. </li>
+  </ul>
+
+
+  \todo Extending the catalogue
+  <ul>
+   <li> A second catalogue should be created, which contains only
+   those non-singular unsatisfiable hitting clause-sets for which
+   no 2-subsumption resolution is possible:
+    <ol>
+     <li> Call it uhit_def_n2s. </li>
+     <li> From this catalogue all of uhit_def can be created by inverse
+     2-subsumption resolution. </li>
+     <li> We should get much smaller numbers. </li>
+     <li> The entries in this new catalogue shall form a subset of uhit_def.
+     </li>
+     <li> The structure of this catalogue is the same as of uhit_def. </li>
+     <li> We need a function which runs through the elements of uhit_def,
+     and returns those not in uhit_def_n2s. </li>
+    </ol>
+   </li>
   </ul>
 
 */

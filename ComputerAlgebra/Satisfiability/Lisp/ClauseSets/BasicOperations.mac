@@ -217,8 +217,20 @@ analyse_paf(phi,FF) := analyse_pa(phi,FF[2])$
 all_pass(V) := if emptyp(V) then {{}} else
  block([e : choose_element(V), S],
   S : all_pass(disjoin(e,V)),
-  return(union(S, map(lambda([phi],adjoin(e,phi)),S),map(lambda([phi],adjoin(-e,phi)),S))))$
-   
+  return(union(S, 
+           map(lambda([phi],adjoin(e,phi)),S),
+           map(lambda([phi],adjoin(-e,phi)),S))))$
+/* This time only those partial assignments with domain size n. */
+all_pass_n(V,n) := if n < 0 then {}
+ elseif n=0 then {{}}
+ elseif emptyp(V) then {}
+ else block([e : choose_element(V), S0, S1],
+   V : disjoin(e,V),
+   S0 : all_pass_n(V,n-1),
+   S1 : all_pass_n(V,n),
+   return(union(S1, 
+            map(lambda([phi],adjoin(e,phi)),S0),
+            map(lambda([phi],adjoin(-e,phi)),S0))))$
 
 
 /* *****************************************

@@ -22,7 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Ba
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 kill(f)$
 
@@ -123,19 +123,34 @@ okltest_scls_v(f) := (
    ***********************
 */
 
-okltest_all_pass(f) := (
-  assert(f({}) = {{}}),
-  assert(f({1}) = {{},{1},{-1}}),
-  assert(f({1,2}) = {{},{-1},{1},{-2},{2},{-1,-2},{-1,2},{1,-2},{1,2}}),
-  assert(length(f(setn(3))) = 3^3),
-  true)$
-
 okltest_satisfyingpafp(f) := (
   assert(f({},[{},{}]) = true),
   assert(f({},[{1},{}]) = true),
   assert(f({},[{},{{}}]) = false),
   assert(f({1},[{1},{{1}}]) = true),
   assert(f({1},[{1},{{-1}}]) = false),
+  true)$
+
+okltest_all_pass(f) := (
+  assert(f({}) = {{}}),
+  assert(f({1}) = {{},{1},{-1}}),
+  assert(f({1,2}) = {{},{-1},{1},{-2},{2},{-1,-2},{-1,2},{1,-2},{1,2}}),
+  for n : 0 thru 3 do
+    assert(length(f(setn(n))) = 3^n),
+  true)$
+
+okltest_all_pass_n(f) := block(
+  assert(f({},-1) = {}),
+  assert(f({1},-1) = {}),
+  assert(f({},0) = {{}}),
+  assert(f({1},0) = {{}}),
+  assert(f({},1) = {}),
+  assert(f({1},1) = {{-1},{1}}),
+  for n : 0 thru 3 do
+    assert(f(setn(n),n) = full_fcs(n)[2]),
+  if oklib_test_level = 0 then return(true),
+  block([oklib_test_level : oklib_test_level - 1],
+    okltest_all_pass(buildq([f],lambda([V],apply(union,makelist(f(V,n),n,0,length(V))))))),
   true)$
 
 /*!
