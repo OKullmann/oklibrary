@@ -28,6 +28,9 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+
 
 kill(uhit_def)$
 
@@ -101,7 +104,7 @@ uhit_def[3,7] : [
 
 /* Deficiency 4 */
 
-uhit_def[4,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[11,unknown]]]$
+uhit_def[4,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[11,unknown]]]$
 uhit_def[4,3] : [
  nearly_full_hitting_fcs(3)[2]
 ]$
@@ -238,9 +241,12 @@ collect_uhit_n(n,k0,k1) :=
 /* The info-entry uhit_n(n,true) states whether the
    list is complete or not (similar to above). */
 /* uhit_n(n,false) is the set of available clause-sets. */
+/* BUG: yet only the catalogue data given by info_data
+   and def_data is accessible. */
 uhit_n(n,info) := block(
- [info_data : [[0,1,2,3,4,5],true,true,true,true,true,false],
-  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,13]] ],
+ [info_data : [[0,1,2,3,4,5,6],true,true,true,true,true,false,false],
+  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,12],[3,12] ] 
+ ],
  if n = -1 then return(info_data[1])
  elseif not elementp(n,setify(info_data[1])) then
    if info then return(false) else return({})
@@ -254,6 +260,8 @@ uhit_n(n,info) := block(
    reduced unsatisfiable hitting, and in the positive case
    determine whether F is contained in the catalogue or not,
    where in the positive case the index-triple is returned.
+   So for each F the corresponding entry in the return list
+   is either false or [[k,n],i] or [[k,n],"new"].
 */
 classify_candidates_uhit_def(L) := block([result : []],
   for F in L do block([check : check_hitting_nsing_def(F)],
@@ -273,8 +281,48 @@ classify_candidates_uhit_def(L) := block([result : []],
   ),
   return(result))$
 
-    
+/* Compute the reduced isomorphism type of a clause-set F w.r.t. 
+   non-singular unsatisfiable hitting clause-sets:
+    - [false] iff F is not unsatisfiable or not a hitting clause-set
+      after singular DP-reduction
+    - [[k,n],"new"] iff not in the catalogue
+    - [[k,n],i] iff in the catalogue, with deficiency k, number of 
+      variables n and index i.
+*/
+/* According to [Kullmann, Zhao, 2008] for unsatisfiable hitting
+   clause-sets F the result of singular_dp_reduction(F) is unique
+   up to isomorphism. */
+redisotype_uhit_def(F) := classify_candidates_uhit_def(
+  [singular_dp_reduction(F)])[1]$
 
+/* For all clause-sets in the catalogue with number of variables at most
+   n_bound, apply all partial assignments, followed by iterated elimination
+   of singular variables, and compute the non-isomorphic cases found not to 
+   be in the catalogue, in the form of a repository of isomorphism types,
+   whose name is passed by name. Returned is the number of new clause-sets
+   found in this way. */
+closure_uhit_def_pass(n_bound, _hash_repo) := block(
+ [min_n_unknown, /* the smallest n for which we don't have a
+                         complete classification */
+  count : 0],
+  _hash_repo :: sm2hm({}),
+  for n : 0 unless numberp(min_n_unknown) do
+    if not uhit_n(n,true) then min_n_unknown : n,
+  for n : min_n_unknown + 1 thru n_bound do
+    for F in uhit_n(n,false) do
+      for npass : 1 thru n - min_n_unknown do block([P : all_pass_n(setn(n),npass)],
+        for phi in P do block(
+         [G : singular_dp_reduction(apply_pa(phi,F)), V],
+          V : var_cs(G),
+          if 
+            length(V) >= min_n_unknown and
+            classify_candidates_uhit_def([G])[1][2] = ["new"] and
+            manage_repository_isomorphism_types([V,G],ev(_hash_repo)) then
+            count : count + 1
+        )
+      ),
+  return(count))$
+        
 
 /*!
 \endhtmlonly
