@@ -48,5 +48,25 @@ License, or any later version. */
    <li> For n=5 add deficiencies delta = 5,6,7,8,9,10,11. </li>
   </ul>
 
+
+  \todo Extending the catalogue
+  <ul>
+   <li> A second catalogue should be created, which contains only
+   those non-singular unsatisfiable hitting clause-sets for which
+   no 2-subsumption resolution is possible:
+    <ol>
+     <li> Call it uhit_def_n2s. </li>
+     <li> From this catalogue all of uhit_def can be created by inverse
+     2-subsumption resolution. </li>
+     <li> We should get much smaller numbers. </li>
+     <li> The entries in this new catalogue shall form a subset of uhit_def.
+     </li>
+     <li> The structure of this catalogue is the same as of uhit_def. </li>
+     <li> We need a function which runs through the elements of uhit_def,
+     and returns those not in uhit_def_n2s. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
