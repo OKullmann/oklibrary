@@ -53,9 +53,10 @@ okltest_scls_v(scls_v);
    ***********************
 */
 
-okltest_all_pass(all_pass);
-
 okltest_satisfyingpafp(satisfyingpafp);
+
+okltest_all_pass(all_pass);
+okltest_all_pass_n(all_pass_n);
 
 /*!
 \endhtmlonly
