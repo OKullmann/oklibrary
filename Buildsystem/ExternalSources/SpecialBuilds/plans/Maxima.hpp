@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Installing libsigsegv and CLisp 2.44.1 locally
+  \todo Installing libsigsegv and CLisp 2.45 locally
   <ul>
    <li> How to tell the clisp-installation about the local installation
    of libsigsegv ? </li>
