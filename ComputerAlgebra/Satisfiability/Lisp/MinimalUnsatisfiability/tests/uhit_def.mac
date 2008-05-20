@@ -68,6 +68,34 @@ okltest_uhit_def(f) := block([list_def : f[0,"info"]],
   ),
   true)$
 
+/* *************************************
+   * Bounds on the deficiency and on n *
+   *************************************
+*/
+
+okltest_max_def_uhit_n(f) := (
+  assert(f(0) = 1),
+  assert(f(1) = 1),
+  assert(f(2) = 2),
+  assert(f(3) = 5),
+  assert(f(4) = 12),
+  assert(f(5) = 27),
+  true)$
+
+okltest_min_n_uhit_def(f) := (
+  for k : 1 thru 5 do block([n : f(k)],
+    assert(max_def_uhit_n(n) >= k),
+    if k > 1 then
+      assert(max_def_uhit_n(n-1) < k)
+  ),
+  true)$
+
+
+/* ****************************
+   * Evaluating the catalogue *
+   ****************************
+*/
+
 okltest_uhit_n(f) := (
   assert(take_elements(6,f(-1,true)) = makelist(k,k,0,5)),
   assert(take_elements(6,f(-1,false)) = makelist(k,k,0,5)),
