@@ -77,6 +77,7 @@ okltest_rnconflicts(f) := block(
     assert(f(uniform_usat_hitting_min(n)) = binom(2^n,2)),
   true)$
 
+
 okltest_hermitian_rank_cs(f) := block(
   assert(f({}) = 0),
   assert(f({{}}) = 0),
@@ -90,6 +91,13 @@ okltest_hermitian_rank_cs(f) := block(
   for k : 4 thru 5 do
     assert(f(uniform_usat_hitting_min(k)) = 2^k - 1),
   true)$
+
+okltest_hermitian_rank_cs_h(f) := block(
+  assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_eig))))),
+  block([oklib_test_level : max(oklib_test_level-1,0)],
+    assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_charpoly)))))),
+  true)$
+
 
 /* Tests whether f computes the conflict-partition-number of a clause-set
    (the minimal number of hitting sets partitioning the clause-set) */
