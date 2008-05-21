@@ -82,7 +82,7 @@ block(
     if s # zero then s1 : s),
   for j : 0 thru highpow do block([s2 : sign(coeff(char_poly,x,j))],
     if s1 # s2 and s2 # zero then (s1 : s2, ipluss : ipluss + 1)),
-  iminuss : rank(M) - ipluss - lopow(char_poly,x),
+  iminuss : matrix_size(M)[1] - ipluss - lopow(char_poly,x),
   return(max(ipluss,iminuss)))$
 
 

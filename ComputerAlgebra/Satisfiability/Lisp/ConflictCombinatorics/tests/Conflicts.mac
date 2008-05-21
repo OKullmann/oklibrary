@@ -82,8 +82,10 @@ okltest_hermitean_rank_cs(f) := block(
   assert(f({{}}) = 0),
   assert(f({{1}}) = 0),
   assert(f({{1},{-1}}) = 1),
-  for k : 1 thru 3 do
-    assert(f(uniform_usat_hitting_min(k)) = 2^k-1),
+  for k : 1 thru 3 do block([F : uniform_usat_hitting_min(k)],
+    assert(f(F) = 2^k-1),
+    assert(f(adjoin({},F)) = 2^k-1)
+  ),
   if oklib_test_level = 0 then return(true),
   for k : 4 thru 5 do
     assert(f(uniform_usat_hitting_min(k)) = 2^k - 1),
