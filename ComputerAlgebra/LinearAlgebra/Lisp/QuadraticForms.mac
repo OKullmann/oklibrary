@@ -62,19 +62,19 @@ hermitean_rank(M) := block([pnn : pnn_indices(M)],
 /* The hermitian defect of a symmetric real matrix */
 hermitean_def(M) := matrix_size(M)[1] - hermitean_rank(M)$
 
-/* Computing the hermitian rank via eigenvalues. */
+/* Computing the hermitian rank via (numerical!) eigenvalues. */
 hermitian_rank_eig(M) := if emptyp(M) then 0 else
 block(
- [eigvals : eigenvalues(M), iplus : 0, iminus : 0],
-  for i : 1 thru length(eigvals[1]) do block([s : sign(eigvals[1][i])],
-    if s = pos then iplus : iplus + eigvals[2][i]
-    elseif s = neg then iminus : iminus + eigvals[2][i]),
+ [eigvals : eigens_by_jacobi(M,bigfloatfield)[1], iplus : 0, iminus : 0],
+  for e in eigvals do block([s : sign(e)],
+    if s = pos then iplus : iplus + 1
+    elseif s = neg then iminus : iminus + 1),
   return(max(iplus,iminus)))$
 
 /* Computing the hermitian rank via the characteristic polynomial. */
 hermitian_rank_charpoly(M) := if emptyp(M) then 0 else
 block(
- [char_poly, highpow, ipluss : 0, iminuss : 0, s1],
+ [char_poly, highpow, ipluss : 0, iminuss : 0, s1, x],
   char_poly : ratexpand(charpoly(M,x)),
   highpow : hipow(char_poly,x),
   for i : highpow step -1 thru 0 do block(
