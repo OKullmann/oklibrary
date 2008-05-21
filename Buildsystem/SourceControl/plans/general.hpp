@@ -297,6 +297,7 @@ Transitional> git pull --upload-pack "~/SAT-Algorithmen/OKplatform/ExternalSourc
      \endverbatim
      Here the upload-pack-address is on the machine from which we pull.
      </li>
+     <li> This might also to be used for "git clone". </li>
      <li> For "push" the following works:
      \verbatim
 Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Git/1.5.4.3/bin/git-receive-pack" ssh://USERNAME@MACHINE/~/Path-to-Transitional master
