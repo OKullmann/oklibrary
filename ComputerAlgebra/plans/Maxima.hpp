@@ -389,6 +389,28 @@ block([fpprec : fpprec], fpprec : d, Comp)
      <li> And on the right-hand-side use "ev(x)". </li>
     </ol>
    </li>
+   <li> Plotting of functions:
+    <ol>
+     <li> Options are additional parameters to the plot-function, of
+     the form "[option,value]". </li>
+     <li> Plotting to a terminal window of x -> x*exp(x), with explicit
+     specification of the y-label:
+     \verbatim
+plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],[gnuplot_term, x11]);
+     \endverbatim
+     With newer gnuplot-versions the specification of the terminal
+     type shouldn't be needed. </li>
+     <li> Creating a ps-file via:
+\verbatim
+plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],
+  [gnuplot_term,postscript],[gnuplot_out_file,"xexpx.ps"]);
+\endverbatim
+     With newer gnuplot-versions the terminal-type specification "ps"
+     should also work. </li>
+     <li> If the output-file is not specified, then a file "maxplot.ps"
+     is created in the home-directory of the user. </li>
+    </ol>
+   </li>
   </ul>
 
 
