@@ -19,9 +19,12 @@ License, or any later version. */
      <li> streichen, hinzufuegen, streichen_bedingt </li>
      <li> union_S, star </li>
      <li> ist_exakt_transversal </li>
-     <li> Transversals_exakt </li>
+     <li> Transversals_exakt (decides whether a hypergraph is an
+     exact transversal hypergraph) </li>
      <li> enthaelt_disjunkt </li>
-     <li> ist_speziell_exakt_transversal </li>
+     <li> ist_speziell_exakt_transversal (decides whether a hypergraph
+     is of the special form of exact transversal hypergraphs according
+     to the conjecture) </li>
      <li> Transversals  : DONE</li>
      <li> sub_min_l, sub_min, ist_sub_min : DONE </li>
     </ol>
