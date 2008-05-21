@@ -16,7 +16,7 @@ License, or any later version. */
    <li> QuadraticForms.mac </li>
     <ol>
      <li> ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac
-     contains for example the computation of the hermitean rank. </li>
+     contains for example the computation of the hermitian rank. </li>
      <li> ComputerAlgebra/LinearAlgebra/Lisp/demos/QuadraticForms.mac
      is the accompanying demonstration. </li>
     </ol>

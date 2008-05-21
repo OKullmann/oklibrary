@@ -887,11 +887,11 @@ assert(1 - firstorder_sat_approx(F0[2]) = 9/4);
 assert(1 - firstorder_sat_approx(F1[2]) = 21/8);
 
 assert(independence_number_m_cs(F0[2]) = 6);
-assert(hermitean_defect_cs(F0[2]) = 6);
+assert(hermitian_defect_cs(F0[2]) = 6);
 assert(1 - rest(satprob_seqap_mcind_trrs(F0[2]),1) = [9/4, 3/8, 5/4, 59/64, 65/64, 1]);
 
 assert(independence_number_m_cs(F1[2]) = 9);
-assert(hermitean_defect_cs(F1[2]) = 9);
+assert(hermitian_defect_cs(F1[2]) = 9);
 assert(1 - rest(satprob_seqap_mcind_trrs(F1[2]),1) = [21/8, -33/64, 1045/512, 107/256, 157/128, 469/512, 257/256, 505/512, 253/256]);
 
 1 - float(rest(satprob_seqap_mcind_trrs(weak_php(4,3)[2]),1));

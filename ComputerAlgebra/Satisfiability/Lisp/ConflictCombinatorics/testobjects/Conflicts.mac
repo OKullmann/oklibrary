@@ -28,9 +28,9 @@ okltest_cg_cs(cg_cs);
 okltest_nconflicts(nconflicts);
 okltest_rnconflicts(rnconflicts);
 
-okltest_hermitean_rank_cs(hermitean_rank_cs);
-okltest_hermitean_rank_cs(lambda([F],hermitean_rank_cs_h(F,hermitian_rank_eig)));
-okltest_hermitean_rank_cs(lambda([F],hermitean_rank_cs_h(F,hermitian_rank_charpoly)));
+okltest_hermitian_rank_cs(hermitian_rank_cs);
+okltest_hermitian_rank_cs(lambda([F],hermitian_rank_cs_h(F,hermitian_rank_eig)));
+okltest_hermitian_rank_cs(lambda([F],hermitian_rank_cs_h(F,hermitian_rank_charpoly)));
 
 
 okltest_partition_number_cs(partition_number_m_cs);

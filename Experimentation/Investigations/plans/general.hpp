@@ -47,9 +47,9 @@ License, or any later version. */
    hitting_decomposition_m_cs(weak_php(n+1,n)[2]) seems to be the
    same as the conflict-independence number. Perhaps the conflict-graph
    is even perfect?! </li>
-   <li> In general: Is the hermitean deficiency actually an upper bound
+   <li> In general: Is the hermitian deficiency actually an upper bound
    on the conflict-partition-number ?!? </li>
-   <li> Hermitean rank and deficiency:
+   <li> Hermitian rank and deficiency:
     <ol>
      <li> weak_php(1,0) -> [0,1] </li>
      <li> weak_php(2,1) -> [1,2] </li>
@@ -60,12 +60,12 @@ License, or any later version. */
     </ol>
     We should be able to figure this out:
      <ol>
-      <li> hermitean_rank(weak_php(m+1,m)) = m+1 </li>
-      <li> hermitean_deficiency and conflict_independence_number follow
+      <li> hermitian_rank(weak_php(m+1,m)) = m+1 </li>
+      <li> hermitian_deficiency and conflict_independence_number follow
       suit. </li>
      </ol>
      Analogously to "eigensharp", we can create a notion for clause-sets where
-    the conflict-indepence-number equals the hermitean defect, and show that
+    the conflict-indepence-number equals the hermitian defect, and show that
     weak_php is an instance (while not being eigensharp).
    </li>
    <li> The number of prime implicates for satisfiable php would be

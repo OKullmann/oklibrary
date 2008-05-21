@@ -56,11 +56,11 @@ pnn_indices(M) := block([m : matrix_size(M)[1], pi, pj, s, res],
   else return(res + [0,1,0]))$
 
 /* The hermitian rank of a symmetric real matrix */
-hermitean_rank(M) := block([pnn : pnn_indices(M)],
+hermitian_rank(M) := block([pnn : pnn_indices(M)],
   max(pnn[1],pnn[2]))$
 
 /* The hermitian defect of a symmetric real matrix */
-hermitean_def(M) := matrix_size(M)[1] - hermitean_rank(M)$
+hermitian_def(M) := matrix_size(M)[1] - hermitian_rank(M)$
 
 /* Computing the hermitian rank via (numerical!) eigenvalues. */
 hermitian_rank_eig(M) := if emptyp(M) then 0 else

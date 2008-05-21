@@ -36,10 +36,10 @@ M(4);
 load(graphs)$
 assert(adjacency_matrix(complete_graph(4)) = M(4));
 
-"The hermitean defect of the matrices M_n of order n is 1."$
+"The hermitian defect of the matrices M_n of order n is 1."$
 
-assert(hermitean_def(M(20)) = 1);
-assert(hermitean_rank(M(20)) = 20 - 1);
+assert(hermitian_def(M(20)) = 1);
+assert(hermitian_rank(M(20)) = 20 - 1);
 
 /*!
 \endhtmlonly

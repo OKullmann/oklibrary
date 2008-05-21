@@ -77,7 +77,7 @@ okltest_rnconflicts(f) := block(
     assert(f(uniform_usat_hitting_min(n)) = binom(2^n,2)),
   true)$
 
-okltest_hermitean_rank_cs(f) := block(
+okltest_hermitian_rank_cs(f) := block(
   assert(f({}) = 0),
   assert(f({{}}) = 0),
   assert(f({{1}}) = 0),

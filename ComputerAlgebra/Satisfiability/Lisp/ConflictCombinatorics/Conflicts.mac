@@ -63,12 +63,12 @@ nconflicts(F) := sum_scom(cm_cs(F))/2$
 rnconflicts(F) := length(cg_cs(F)[2])$
 
 /* Using function h for computing the hermitian rank of a matrix */
-hermitean_rank_cs_h(F,_h) := _h(scom2m(cm_cs(F)))$
-/* The hermitean rank of a boolean clause-set F */
-hermitean_rank_cs(F) := hermitean_rank_cs_h(F,hermitean_rank)$
+hermitian_rank_cs_h(F,_h) := _h(scom2m(cm_cs(F)))$
+/* The hermitian rank of a boolean clause-set F */
+hermitian_rank_cs(F) := hermitian_rank_cs_h(F,hermitian_rank)$
 
-/* The hermitean defect of a boolean clause-set F */
-hermitean_defect_cs(F) := ncl_cs(F) - hermitean_rank_cs(F)$
+/* The hermitian defect of a boolean clause-set F */
+hermitian_defect_cs(F) := ncl_cs(F) - hermitian_rank_cs(F)$
 
 /* The conflict-independence number of a clause-set F, using function ind_num_f
    for computing the independence number of a graph */
@@ -103,7 +103,7 @@ graphiccsp(F) := is(max_com(scom2com(cm_cs(F))) <= 1)$
    The remaining three entries are the numbers involved. */
 alon_saks_cs(F) := if not graphiccsp(F) then unknown else
  block([chi : chromatic_number_gr_m(cg_cs(F)), 
-        r : hermitean_rank_cs(F), 
+        r : hermitian_rank_cs(F), 
         n : nvar_cs(F)],
   return([is(chi <= n+1),is(chi <= r+1),chi,r+1,n+1]))$
 
