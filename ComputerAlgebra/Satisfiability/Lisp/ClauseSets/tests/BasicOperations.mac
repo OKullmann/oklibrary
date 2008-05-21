@@ -123,6 +123,15 @@ okltest_scls_v(f) := (
    ***********************
 */
 
+okltest_restr_c_pa(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{1}) = {}),
+  assert(f({1},{1}) = {}),
+  assert(f({-1},{1}) = {}),
+  assert(f({2},{1}) = {2}),
+  assert(f({-1,-2},{2}) = {-1}),
+  true)$
+
 okltest_satisfyingpafp(f) := (
   assert(f({},[{},{}]) = true),
   assert(f({},[{1},{}]) = true),

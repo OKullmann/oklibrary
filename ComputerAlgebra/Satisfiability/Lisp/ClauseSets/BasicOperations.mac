@@ -184,8 +184,11 @@ scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
 /* The variables in a partial assignment. */
 var_pa(phi) := var_c(phi)$
 
-/* Restricting a partial assignment phi to a set V of variables. */
+/* Restricting a partial assignment phi to a set V of variables.
+   (V does not need to be a subset of var_pa(phi).) */
 restr_pa(phi,V) := subset(phi, lambda([x], elementp(var_l(x),V)))$
+/* Remove variables in V from phi. */
+restr_c_pa(phi,V) := subset(phi, lambda([x], not elementp(var_l(x),V)))$
 
 /* apply a partial assignment to a boolean clause-set */
 apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi))$
@@ -203,7 +206,12 @@ satisfyingpap(phi,F) := is(sat_pa(phi,F) = F)$
 satisfyingpafp(phi,FF) := satisfyingpap(phi,FF[2])$
 
 /* The set of satisfied, falsified, untouched and critical (original) clauses
-   for a partial assignment w.r.t. a clause-set. */
+   for a partial assignment phi w.r.t. a clause-set F. */
+/* These four sets constiture a partioning of F:
+    - if F contains {}, then this belongs to the falsified clauses;
+    - a critical clause is a touched but neither satisfied nor
+      falsified clause.
+*/
 analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
  for C in F do block([r : apply_pa(phi,{C})],
   if r = {} then s : adjoin(C,s)
