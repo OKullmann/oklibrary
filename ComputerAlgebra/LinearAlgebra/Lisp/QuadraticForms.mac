@@ -19,6 +19,11 @@ oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")
 \htmlonly
 */
 
+/* ***********************************************
+   * Indices of possitivity, negativity, nullity *
+   ***********************************************
+*/
+
 /* Auxiliary function: Find an element in a symmetric matrix which is largest 
    with respect to its absolute value, where diagonal elements are preferred.
    Return the index-pair. Assumes the matrix is non-empty. */
@@ -31,6 +36,7 @@ pivot_d(M) := block([A : abs(M), m : matrix_size(M)[1], l, il : 1, jl : 1, a],
 
 /* For a symmetric real matrix M compute [index of positivity, index of
   negativity, index of nullity]. */
+/* M is a Maxima matrix. */
 pnn_indices(M) := block([m : matrix_size(M)[1], pi, pj, s, res],
   if m = 0 then return([0,0,0]),
   [pi,pj] : pivot_d(M),
@@ -55,6 +61,30 @@ hermitean_rank(M) := block([pnn : pnn_indices(M)],
 
 /* The hermitian defect of a symmetric real matrix */
 hermitean_def(M) := matrix_size(M)[1] - hermitean_rank(M)$
+
+/* Computing the hermitian rank via eigenvalues. */
+hermitian_rank_eig(M) := if emptyp(M) then 0 else
+block(
+ [eigvals : eigenvalues(M), iplus : 0, iminus : 0],
+  for i : 1 thru length(eigvals[1]) do block([s : sign(eigvals[1][i])],
+    if s = pos then iplus : iplus + eigvals[2][i]
+    elseif s = neg then iminus : iminus + eigvals[2][i]),
+  return(max(iplus,iminus)))$
+
+/* Computing the hermitian rank via the characteristic polynomial. */
+hermitian_rank_charpoly(M) := if emptyp(M) then 0 else
+block(
+ [char_poly, highpow, ipluss : 0, iminuss : 0, s1],
+  char_poly : ratexpand(charpoly(M,x)),
+  highpow : hipow(char_poly,x),
+  for i : highpow step -1 thru 0 do block(
+   [s : sign(coeff(char_poly,x,i))],
+    if s # zero then s1 : s),
+  for j : 0 thru highpow do block([s2 : sign(coeff(char_poly,x,j))],
+    if s1 # s2 and s2 # zero then (s1 : s2, ipluss : ipluss + 1)),
+  iminuss : rank(M) - ipluss - lopow(char_poly,x),
+  return(max(ipluss,iminuss)))$
+
 
 /*!
 \endhtmlonly
