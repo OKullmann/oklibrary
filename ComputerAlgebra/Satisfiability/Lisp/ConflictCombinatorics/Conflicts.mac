@@ -62,8 +62,10 @@ nconflicts(F) := sum_scom(cm_cs(F))/2$
    (counting only one possible conflict per pair of clauses) */
 rnconflicts(F) := length(cg_cs(F)[2])$
 
+/* Using function h for computing the hermitian rank of a matrix */
+hermitean_rank_cs_h(F,_h) := _h(scom2m(cm_cs(F)))$
 /* The hermitean rank of a boolean clause-set F */
-hermitean_rank_cs(F) := hermitean_rank(scom2m(cm_cs(F)))$
+hermitean_rank_cs(F) := hermitean_rank_cs_h(F,hermitean_rank)$
 
 /* The hermitean defect of a boolean clause-set F */
 hermitean_defect_cs(F) := ncl_cs(F) - hermitean_rank_cs(F)$

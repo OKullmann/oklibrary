@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatori
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/Conflicts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/tests/Conflicts.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
 
 okltest_cm_cs(cm_cs);
 okltest_cg_cs(cg_cs);
@@ -29,6 +29,9 @@ okltest_nconflicts(nconflicts);
 okltest_rnconflicts(rnconflicts);
 
 okltest_hermitean_rank_cs(hermitean_rank_cs);
+okltest_hermitean_rank_cs(lambda([F],hermitean_rank_cs_h(F,hermitian_rank_eig)));
+okltest_hermitean_rank_cs(lambda([F],hermitean_rank_cs_h(F,hermitian_rank_charpoly)));
+
 
 okltest_partition_number_cs(partition_number_m_cs);
 
