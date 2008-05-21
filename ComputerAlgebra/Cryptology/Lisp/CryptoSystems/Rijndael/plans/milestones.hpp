@@ -16,12 +16,13 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Convert AES functions to use more natural representation
+    - Naming Conventions
     - Modularising the Rijndael-implementation
     - Key schedule
     - Design of round functions
     - Algebraic aspects
     - Finite Field operations DONE (Moved To ComputerAlgebra/Algebra)
+    - Convert AES functions to use more natural representation DONE
     - bug: Finite Fields package function doesn't terminate DONE 
       (Moved To ComputerAlgebra/Algebra)
     - New design and implementation DONE

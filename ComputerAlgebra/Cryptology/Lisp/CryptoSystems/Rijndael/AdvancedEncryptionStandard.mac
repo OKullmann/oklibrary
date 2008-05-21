@@ -33,6 +33,10 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
    ***************************************
 */
 
+/* Defines the number of rounds to be used in the AES functions.
+   This can be overriden. */
+aes_num_rounds : 10$
+
 /*
    3-tuple used to represent a field with the egf functions representing the 
    bit field or field of integers modulo 2. Of the form [p, n, ip] where "p"
@@ -272,10 +276,10 @@ inv_mixcolumns(inputblock,inv_mixcolumn_f) :=
   of the plaintext block, and the number of rounds and returns the expanded key
   (all of the round keys as one large block) as a list of GF(2^8) elements.
 */
-key_expansion(kl, n_b ,n_r, sbox_f, aes_add) := block(
+key_expansion(kl, n_b, sbox_f, aes_add) := block(
   [n_k : length(kl) / 4, 
   cols : matrixcolumns(apply(matrix,partition_elements(kl, 4))) ],
-  for j : n_k thru (n_b * (n_r +1)) - 1 do block([column : [0,0,0,0]],
+  for j : n_k thru (n_b*(aes_num_rounds +1)) - 1 do block([column : [0,0,0,0]],
     if mod(j, n_k) = 0 then block (
       column[1] : aes_add(cols[j-n_k+1][1], 
         aes_add(sbox_f(cols[j][2]), 
@@ -310,10 +314,10 @@ inv_aes_round(pl,rkl,inv_sbox_f,inv_mixcolumn_f,aes_add) :=
    encryption algorithm (hence number of rounds is assumed to be 10).
 */
 aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
-  [n_b : length(pl)/4, num_rounds : 10], 
+  [n_b : length(pl)/4], 
   /* Initial Rounds */
   ekl : partition_elements(
-    key_expansion(kl,n_b,num_rounds,sbox_f,aes_add),n_b*4),
+    key_expansion(kl,n_b,sbox_f,aes_add),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   initial_result : 
     lreduce(lambda([a,b],aes_round(a,b,sbox_f,mixcolumn_f,aes_add)),
@@ -328,10 +332,10 @@ aes_encrypt(pl, kl, sbox_f, mixcolumn_f,aes_add) := block(
    decryption algorithm (hence number of rounds is assumed to be 10).
 */
 aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
-  [n_b : length(pl)/4, num_rounds : 10], 
+  [n_b : length(pl)/4], 
   /* Initial Rounds */
   ekl : partition_elements(
-    key_expansion(kl,n_b,num_rounds,sbox_f,aes_add),n_b*4),
+    key_expansion(kl,n_b,sbox_f,aes_add),n_b*4),
   initial_rk : first(ekl), final_rk : last(ekl),
   /* Final Round */
   initial_result : 

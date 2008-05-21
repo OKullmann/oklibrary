@@ -281,6 +281,16 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
    with the AES Sbox. </li>
    <li> Find representations for the multiplication with a constant in
    GF(2^8). </li>
+   <li> A simple function to compute a random bijection given an input set 
+   seems appropriate here.
+    <ol>
+     <li> Which is the most appropriate module to put such
+     a generic function within ComputerAlgebra? </li>
+     <li> No such function is needed: Use random_permutation together with
+     make_random_state and set_random_state. </li>
+     <li> See example usage in this library. </li>
+    </ol>
+   </li>
   </ul>
      
 
