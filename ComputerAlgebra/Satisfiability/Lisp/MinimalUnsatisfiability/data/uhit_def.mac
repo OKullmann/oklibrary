@@ -222,13 +222,17 @@ uhit_def[12,43] : [
   exists. This unique clause-set is full_fcs(n)[2], which is non-singular
   for n <> 1. */
 max_def_uhit_n(n) := 2^n - n$
+
 /* For given deficiency k, the conjectured ([OK,XSZ, 2008]) minimal n
    for which unsatisfiable non-singular hitting clause-sets exist: */
 /* The smallest n with max_def_uhit_n(n) >= k. */
 /* Using the Lambert-function lambertW(z,x) from Mupad, this is
    ceil(-k - lambertW(-1, -exp(-k))).
 */
-min_n_uhit_def(k) := for n : 0 do if 2^n - n >= k then return(n)$
+min_n_uhit_def_i(k) := for n : 0 do if 2^n - n >= k then return(n)$
+/* WRONG branch, thus this doesn't work: */
+lambert_w_b(x,b) := lambert_w(log(b) * x) / log(b)$
+min_n_uhit_def_l(k) := float(-k - lambert_w_b(- 2^(-k), 2))$
 
 
 /* ****************************
