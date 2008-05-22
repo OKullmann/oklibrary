@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Central docus-file for the satisfiability part
 
 
-  <h1> Satisfiability (in C++) </li>
+  <h1> Satisfiability (in C++) </h1>
 
 
   <h2> Supermodules </h2>

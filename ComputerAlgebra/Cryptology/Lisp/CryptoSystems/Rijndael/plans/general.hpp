@@ -112,8 +112,6 @@ License, or any later version. */
      most clear representation of each round function. The question of how to 
      parameterise such an implementation, may be addressed by parameterising
      the round functions or at least their basic operations themselves. </li>
-     </ol>
-     </li>
     </ul>
    </li>
    <li> DONE Should it be split up into each of the individual round functions

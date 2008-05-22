@@ -35,7 +35,7 @@ License, or any later version. */
   </ol>
   Regarding testing we should link to the computer-algebra implementation of
   the generator (see "Random generator" in
-  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp). </li>
+  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp).
 
 
   \todo Improvements

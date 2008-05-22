@@ -15,7 +15,7 @@ License, or any later version. */
   See
   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac.
 
-  <h3> Uniform hitting clause-sets </h2>
+  <h3> Uniform hitting clause-sets </h3>
 
   The following properties are equivalent for a uniform clause-set F with
   clause-length k:

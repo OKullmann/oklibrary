@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Central docus-file for SAT solvers
 
 
-  <h1> SAT solvers  </li>
+  <h1> SAT solvers  </h1>
 
   In this supermodules one finds complete SAT-solvers (typically assembled
   from other components provided by the library).

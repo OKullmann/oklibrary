@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Structures/plans/general.hpp
+  \file Transitional/Structures/plans/general.hpp
   \brief General plans for the part on structures (in a mathematical sense)
 
 

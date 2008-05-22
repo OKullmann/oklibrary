@@ -61,7 +61,7 @@ License, or any later version. */
   \todo Backdoors w.r.t. clause-sets of bounded deficiency
   <ul>
    <li> The parameterised translation of the transversal problem to the
-   problem of detecting a backdoor w.r.t. CLS_{delta^* \le r} (see
+   problem of detecting a backdoor w.r.t. CLS_{delta^* <= r} (see
    [Szeider, Matched formulas and backdoor sets, SAT 2007]) should
    be implemented. </li>
    <li> Somewhere we also need to implement the various algorithms for

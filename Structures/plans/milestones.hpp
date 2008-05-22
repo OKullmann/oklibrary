@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file Structures/plans/milestones.hpp
+  \file Transitional/Structures/plans/milestones.hpp
 
   \module_version Structures 0.0.5 (27.8.2007)
 

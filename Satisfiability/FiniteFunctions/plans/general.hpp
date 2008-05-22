@@ -92,7 +92,7 @@ License, or any later version. */
      {{- 3, - 1, 2}, {- 3, 1, 2}, {- 2, - 1, 3}, {- 1, 2, 3}} returns
      {{- 3, 2}, {- 1, 2}, {- 1, 3}}, however the input clause set is equivalent
      to {{-3,2},{-1,3}} and the R implementation mentioned in 
-     Buildsystem\ExternalSources\SpecialBuilds\plans gives {{-3,2},{-1,3}
+     Buildsystem/ExternalSources/SpecialBuilds/plans gives {{-3,2},{-1,3}
      as well.
      </li>
      <li> Correctness follows by the simple fact that when F_k is first

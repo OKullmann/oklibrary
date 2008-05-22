@@ -313,7 +313,7 @@ namespace OKlib {
   public : explicit TC(PT PN) : base_type(OKLIB_FILE_ID, OKLIB_LINE, typeid(TC).name()), PN(PN)
 
     /*!
-      \define OKLIB_FULL_LOG
+      \def OKLIB_FULL_LOG
       \brief Macro for full log messages
 
       Use as follows:
