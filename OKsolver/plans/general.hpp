@@ -28,7 +28,7 @@ License, or any later version. */
    (or perhaps ProblemInstances/Domains ?). </li>
    <li> AllgKlassen200203/Literal.hpp goes to
    Satisfiability/ProblemInstances/Literals.hpp. </li>
-   <li> AllgKlassen200203/Values goes to
+   <li> AllgKlassen200203/Values.hpp goes to
    Satisfiability/ProblemInstances/Literals.hpp. </li>
    <li> AllgKlassen200203/Clauses.hpp goes to
    Satisfiability/ProblemInstances/Clauses. </li>
@@ -50,7 +50,7 @@ License, or any later version. */
    Satisfiability/Interfaces. </li>
    <li> AllgKlassen200203/Concepts_General.hpp goes to
    Concepts. </li>
-   <li> AllgKlassen200203/ConceptDefinitions goes to
+   <li> AllgKlassen200203/ConceptDefinitions.hpp goes to
    Concepts. </li>
    <li> AllgKlassen200203/Test.cpp is distribued over
    the appropriate modules. </li>
