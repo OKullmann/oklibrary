@@ -1,5 +1,5 @@
 // Oliver Kullmann, 30.7.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -18,8 +18,8 @@ License, or any later version. */
 
 #include <boost/static_assert.hpp>
 
-#include "ConceptDefinitions.hpp"
-#include "AlgebraicStructures.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/AlgebraicStructures.hpp>
 
 namespace Domains {
 
@@ -272,24 +272,24 @@ namespace Domains {
       }
       iterator& operator ++() {
 	assert(it != past_the_end);
-	++static_cast<int>(it);
+      it : static_cast<ItBool>(static_cast<int>(it) + 1);
 	return *this;
       }
       iterator operator ++(int) {
 	assert(it != past_the_end);
 	iterator v(*this);
-	++static_cast<int>(it);
+	it : static_cast<ItBool>(static_cast<int>(it) + 1);
 	return v;
       }
       iterator& operator --() {
 	assert(it != i_false);
-	--static_cast<int>(it);
+	it : static_cast<ItBool>(static_cast<int>(it) - 1);
 	return *this;
       }
       iterator operator --(int) {
 	assert(it != i_false);
 	iterator v(*this);
-	++static_cast<int>(it);
+	it : static_cast<ItBool>(static_cast<int>(it) - 1);
 	return v;
       }
     };

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 2.10.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -14,18 +14,19 @@ License, or any later version. */
 #include <string>
 #include <cassert>
 #include <algorithm>
+#include <iostream>
 
 #include <boost/concept_check.hpp>
 
-#include "StringHandling.hpp"
-#include "Algorithms.hpp"
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/Algorithms.hpp>
 
-#include "Tests_General.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Tests_General.hpp>
 
-#include "Traits_General.hpp"
-#include "Traits_Variables.hpp"
-#include "Concepts_Variables.hpp"
-#include "Variables.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_General.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_Variables.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Concepts_Variables.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
 
 
 namespace Tests_General {
@@ -119,26 +120,26 @@ namespace Tests_General {
 
     Test() {
       using namespace std;
-      cout << "Tag " << typeid(Tag).name() << "\n";
+      std::cout << "Tag " << typeid(Tag).name() << "\n";
       boost::function_requires<Concepts_Variables::VariableDomain_concept<VarD> >();
 
-      cout << "null_variables?;";
+      std::cout << "null_variables?;";
       test_variables_null();
       // Given type Var, test the creation and properties of null variables.
 
-      cout << "default name?;";
+      std::cout << "default name?;";
       test_default_name();
 
-      cout << "variables_creation?;";
+      std::cout << "variables_creation?;";
       test_variables_creation();
 
-      cout << "different domains?;";
+      std::cout << "different domains?;";
       test_different_domains();
 
-      cout << "allocation properties?;";
+      std::cout << "allocation properties?;";
       test_allocation();
 
-      cout << "\n";
+      std::cout << "\n";
     }
 
   protected :
@@ -247,7 +248,7 @@ namespace Tests_General {
 
     
     Test() {
-      cout << "Tag " << typeid(Tag).name() << "\n";
+      std::cout << "Tag " << typeid(Tag).name() << "\n";
       boost::function_requires<Concepts_Variables::VariableDomainWithSizeType_concept<VarD> >();
     }
 
@@ -261,7 +262,7 @@ namespace Tests_General {
     typedef VarD Class;
     typedef Concepts_Variables::VariableDomainWithAllocation_tag Tag;
     Test() {
-      cout << "Tag " << typeid(Tag).name() << "\n";
+      std::cout << "Tag " << typeid(Tag).name() << "\n";
       boost::function_requires<Concepts_Variables::VariableDomainWithAllocation_concept<VarD> >();
     }
   };
@@ -272,7 +273,7 @@ namespace Tests_General {
     typedef VarD Class;
     typedef Concepts_Variables::VariableDomainWithIterator_tag Tag;
     Test() {
-      cout << "Tag " << typeid(Tag).name() << "\n";
+      std::cout << "Tag " << typeid(Tag).name() << "\n";
       boost::function_requires<Concepts_Variables::VariableDomainWithIterator_concept<VarD> >();
     }
   };
@@ -283,7 +284,7 @@ namespace Tests_General {
     typedef VarD Class;
     typedef Concepts_Variables::VariableDomainWithIteratorAndAllocation_tag Tag;
     Test() {
-      cout << "Tag " << typeid(Tag).name() << "\n";
+      std::cout << "Tag " << typeid(Tag).name() << "\n";
       boost::function_requires<Concepts_Variables::VariableDomainWithIteratorAndAllocation_concept<VarD> >();
     }
   };

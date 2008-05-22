@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.5.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,10 +16,10 @@ License, or any later version. */
 #include <functional>
 #include <istream>
 
-#include "ErrorHandling.hpp"
-#include "StringHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/StringHandling.hpp>
 
-#include "Values.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Values.hpp>
 
 namespace InputCls {
 
@@ -201,7 +201,7 @@ namespace InputCls {
 	open_clause = false;
       }
     }
-    bool is_finished() { return not_open_clause; }
+    bool is_finished() { return not open_clause; }
     ~Construct_Cls_dynamic() {
       finish();
     }

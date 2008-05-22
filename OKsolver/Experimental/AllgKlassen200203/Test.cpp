@@ -5,6 +5,12 @@ it and/or modify it under the terms of the GNU General Public License as publish
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
+/*!
+  \file Transitional/OKsolver/Experimental/AllgKlassen200203/Test.cpp
+  \brief Test old experimental classes
+  \deprecated Old code
+*/
+
 #include <vector>
 #include <iostream>
 #include <cassert>
@@ -19,30 +25,30 @@ License, or any later version. */
 #include <boost/type_traits.hpp>
 #include <boost/static_assert.hpp>
 
-#include "StringHandling.hpp"
-#include "StreamHandling.hpp"
-#include "Matrices.hpp"
-#include "ErrorHandling.hpp"
-#include "FunctionHandling.hpp"
-#include "Algorithms.hpp"
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/StreamHandling.hpp>
+#include <Transitional/General/Matrices.hpp>
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/FunctionHandling.hpp>
+#include <Transitional/General/Algorithms.hpp>
 
-#include "Variables.hpp"
-#include "Literals.hpp"
-#include "LitSets.hpp"
-#include "Clauses.hpp"
-#include "ClauseSets.hpp"
-#include "PartialAssignments.hpp"
-#include "UnitPropagation.hpp"
-#include "OutputCls.hpp"
-#include "InputCls.hpp"
-#include "TransformationsBiclique.hpp"
-#include "ConceptDefinitions.hpp"
-#include "Domains.hpp"
-#include "AlgebraicStructures.hpp"
-#include "SetsOfVariables.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Literals.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/LitSets.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Clauses.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ClauseSets.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/PartialAssignments.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/UnitPropagation.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/OutputCls.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/InputCls.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/TransformationsBiclique.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Domains.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/AlgebraicStructures.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/SetsOfVariables.hpp>
 
-#include "Tests_General.hpp"
-#include "Tests_Variables.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Tests_General.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Tests_Variables.hpp>
 
 using namespace std;
 
@@ -183,11 +189,11 @@ public :
   }
 private :
   void test_order() {
-    vv.push_back(Var());
-    for (int i = 1; i <= number_new_max; ++i)
-      vv.push_back(Var(StringHandling::toString(i) + "V"));
-    assert(adjacent_find(vv.begin(), vv.end(), greater_equal<Var>()) == vv.end());
-    vv.clear();
+    Test<Var, ConceptDefinitions::Variable_tag>::vv.push_back(Var());
+    for (int i = 1; i <= Test<Var, ConceptDefinitions::Variable_tag>::number_new_max; ++i)
+      Test<Var, ConceptDefinitions::Variable_tag>::vv.push_back(Var(StringHandling::toString(i) + "V"));
+    assert((adjacent_find(Test<Var, ConceptDefinitions::Variable_tag>::vv.begin(), Test<Var, ConceptDefinitions::Variable_tag>::vv.end(), greater_equal<Var>()) == Test<Var, ConceptDefinitions::Variable_tag>::vv.end()));
+    Test<Var, ConceptDefinitions::Variable_tag>::vv.clear();
     Var::clear();
   }
 };
@@ -212,24 +218,24 @@ private :
     assert(Var::size() == 1 and Var::n() == 0);
   }
   void test_creation_null() {
-    vv.assign(20, Var());
+    Test<Var, ConceptDefinitions::VariableWithHistory_tag>::vv.assign(20, Var());
     assert(Var::size() == 1 and Var::n() == 0);
-    vv.clear();
+    Test<Var, ConceptDefinitions::VariableWithHistory_tag>::vv.clear();
   }
   void test_creation() {
-    Var::reserve(number_new_max / 3);
-    assert(Var::capacity() >= number_new_max / 3);
-    Var::reserve(number_new_max);
+    Var::reserve(Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_max / 3);
+    assert((Var::capacity() >= Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_max / 3));
+    Var::reserve(Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_max);
     const size_type cap = Var::capacity();
-    assert(cap >= number_new_max);
-    for (int i = 0; i < number_new_max; ++i)
-      vv.push_back(Var("Var" + StringHandling::toString(i)));
-    number_new_variables += number_new_max;
+    assert((cap >= Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_max));
+    for (int i = 0; i < Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_max; ++i)
+      Test<Var, ConceptDefinitions::VariableWithHistory_tag>::vv.push_back(Var("Var" + StringHandling::toString(i)));
+    Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_variables += Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_max;
     assert(cap == Var::capacity());
-    assert(Var::size() == number_new_variables + 1 and Var::n() == number_new_variables);
-    vv.clear();
+    assert((Var::size() == Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_variables + 1 and Var::n() == Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_variables));
+    Test<Var, ConceptDefinitions::VariableWithHistory_tag>::vv.clear();
     Var::clear();
-    number_new_variables += 0;
+    Test<Var, ConceptDefinitions::VariableWithHistory_tag>::number_new_variables += 0;
     assert(cap == Var::capacity());
   }
   void test_emptyness_end() {
@@ -255,7 +261,7 @@ public :
     test_creation_2();
     test_creation();
     Var::clear();
-    number_new_variables = 0;
+    Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_variables = 0;
     test_emptyness_end();
   }
 private :
@@ -278,12 +284,12 @@ private :
     // QUESTION: What is more efficient: (*Var()).occ or Var() -> occ ?!
   }
   void test_creation_null() {
-    vv.assign(20, Var());
+    Test<Var, ConceptDefinitions::VariableWithCounting_tag>::vv.assign(20, Var());
     for (Var v = Var::begin(); v != Var::end(); ++v)
       count();
     assert(count.c == 1);
     count.reset();
-    vv.clear();
+    Test<Var, ConceptDefinitions::VariableWithCounting_tag>::vv.clear();
     const Var v = Var::find("");
     assert(v.null());
     assert(v -> occ == current_occ);
@@ -301,7 +307,7 @@ private :
     assert(Var::find("b") -> occ == 222);
     assert(Var::find("a") -> occ == 111);
     Var::clear();
-    number_new_variables = 0;
+    Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_variables = 0;
     current_occ = 0;
     assert(Var::find("a") == Var::end() and Var::find("b") == Var::end());
     assert(Var() -> occ == 0);
@@ -309,9 +315,9 @@ private :
   void test_creation() {
     Var() -> occ = -1;
     current_occ = -1;
-    for (int i = 0; i < number_new_max; ++i)
+    for (int i = 0; i < Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_max; ++i)
       Var("v" + StringHandling::toString(i));
-    number_new_variables += number_new_max;
+    Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_variables += Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_max;
     for (Var v = Var::begin(); v != Var::end(); ++v)
       count();
     assert(count.c == Var::size());
@@ -323,20 +329,20 @@ private :
     for (Var v = ++Var::begin(); v != end; ++v)
       assert(v -> occ == distance(Var::begin(), v) - 1);
     assert(Var::begin() -> occ == current_occ);
-    for (int i = 0; i < number_new_max; ++i)
+    for (int i = 0; i < Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_max; ++i)
       assert(Var::find("v" + StringHandling::toString(i)) -> occ == i);
     {
-      var_vector vvc;
+      typename Test<Var, ConceptDefinitions::VariableWithCounting_tag>::var_vector vvc;
       for (Var v = ++Var::begin(); v != Var::end(); ++v)
 	vvc.push_back(v);
-      for (typename var_vector::size_type i = 0; i != vvc.size(); ++i)
+      for (typename Test<Var, ConceptDefinitions::VariableWithCounting_tag>::var_vector::size_type i = 0; i != vvc.size(); ++i)
 	assert(vvc[i] -> occ == i);
     }
-    assert(Var::n() == number_new_variables);
+    assert((Var::n() == Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_variables));
     {
       typedef vector<typename Var::value_type> VV;
       const int m = 4;
-      BOOST_STATIC_ASSERT(m <= number_new_max);
+      BOOST_STATIC_ASSERT((m <=  Test<Var, ConceptDefinitions::VariableWithCounting_tag>::number_new_max));
       VV V(m);
       Algorithms::copy_n(Var::begin(), m, V.begin());
       count.reset();

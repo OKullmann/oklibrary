@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.2.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -29,17 +29,17 @@ License, or any later version. */
 #include <boost/shared_ptr.hpp>
 #include <boost/static_assert.hpp>
 
-#include "ErrorHandling.hpp"
-#include "StringHandling.hpp"
-#include "FunctionHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/FunctionHandling.hpp>
 
-#include "Auxiliary.hpp"
-#include "Traits_General.hpp"
-#include "Concepts_Variables.hpp"
-#include "Traits_Variables.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_General.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Concepts_Variables.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Traits_Variables.hpp>
 
 // Only temporary, to still compile the old implementations:
-#include "ConceptDefinitions.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/ConceptDefinitions.hpp>
 
 
 namespace Variables {
@@ -356,10 +356,10 @@ namespace Traits_General {
       typedef Traits_Variables::NaturalSize size_property;
 
       typedef Variables::VariablesAsIntegers_DomainWithNameAdministration<Int, Name> VarD;
-      typedef VarD::name_type name_type;
-      typedef VarD::Var Var;
-      typedef VarD::size_type size_type;
-      typedef VarD::iterator iterator;
+      typedef typename VarD::name_type name_type;
+      typedef typename VarD::Var Var;
+      typedef typename VarD::size_type size_type;
+      typedef typename VarD::iterator iterator;
     private :
       ~Basis_Traits();
     };
@@ -452,7 +452,7 @@ namespace Variables {
 
     static void clear() {
       na.clear();
-      clear_info();
+      InfoPolicy::clear_info();
       LiteralLink::clear();
       N = 1;
       assert(na.name_map.size() == 1 and na.hash_vector.size() == 1 and size() == 1);
@@ -569,7 +569,7 @@ namespace Variables {
       else { // new
 	if (N == std::numeric_limits<Index>::max())
 	  throw Overflow_Variables("VariablesAsIndices::insert : " + StringHandling::toString_nc(N));
- 	new_info();
+        InfoPolicy::new_info();
 	{
 	  i = na.name_map.insert(i, std::make_pair(name, N));
 	  na.hash_vector.push_back(i);
@@ -799,7 +799,7 @@ namespace Variables {
     typedef Name NameType;
     typedef std::ptrdiff_t size_type;
 
-    VariablesAsPointers() : p(start()) {};
+    VariablesAsPointers() : p(InfoPolicy::start()) {};
 
     explicit VariablesAsPointers(const NameType& name) : p(insert(name)) {}
  
@@ -819,7 +819,7 @@ namespace Variables {
       return p < v.p;
     }
 
-    operator bool() const { return p != start(); }
+    operator bool() const { return p != InfoPolicy::start(); }
 
     static void reserve(typename InfoPolicy::size_type max) {
       hash_vector.reserve(max);
@@ -853,7 +853,7 @@ namespace Variables {
     PointerType insert(const NameType& name) {
       const std::pair<MapIterator, bool> ins = name_map.insert(std::make_pair(name, 0));
       if (ins.second) { // new
-	const PointerType p = new_info();
+	const PointerType p = InfoPolicy::new_info();
 	hash_vector.push_back(ins.first);
 	LiteralLink::new_variable(p);
 	return p;

@@ -1,5 +1,5 @@
 // Oliver Kullmann, 3.8.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -77,21 +77,21 @@ namespace AlgebraicStructures {
 	return SignRing(s);
       }
       iterator& operator ++() {
-	++static_cast<int>(s);
+        s = static_cast<Signs>(static_cast<int>(s) + 1);
 	return *this;
       }
       iterator operator ++(int) {
 	iterator v(*this);
-	++static_cast<int>(s);
+	s = static_cast<Signs>(static_cast<int>(s) + 1);
 	return v;
       }
       iterator& operator --() {
-	--static_cast<int>(s);
+	s = static_cast<Signs>(static_cast<int>(s) - 1);
 	return *this;
       }
       iterator operator --(int) {
 	iterator v(*this);
-	--static_cast<int>(s);
+	s = static_cast<Signs>(static_cast<int>(s) - 1);
 	return v;
       }
     };
@@ -118,7 +118,15 @@ namespace AlgebraicStructures {
       s = std::max(s, x.s);
       return *this;
     }
+    SignRing& operator +=(const SignRing x) {
+      s = std::max(s, x.s);
+      return *this;
+    }
     SignRing& times(SignRing x) {
+      s = std::min(s, x.s);
+      return *this;
+    }
+    SignRing& operator *=(const SignRing x) {
       s = std::min(s, x.s);
       return *this;
     }

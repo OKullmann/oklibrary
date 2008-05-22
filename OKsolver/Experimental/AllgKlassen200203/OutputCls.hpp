@@ -1,5 +1,5 @@
 // Oliver Kullmann, 12.4.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,10 +15,10 @@ License, or any later version. */
 
 // #include <iostream> // debugging
 
-#include "ErrorHandling.hpp"
-#include "StringHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/StringHandling.hpp>
 
-#include "Values.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Values.hpp>
 
 
 namespace OutputCls {
@@ -128,7 +128,11 @@ namespace OutputCls {
   class Dimacs_output_literal_stream : public Output_literal_stream<Lit> {
   public :
     
-    Dimacs_output_literal_stream(std::ostream& out, typename Output_literal_stream<Lit>::size_type number_variables, typename Output_literal_stream<Lit>::size_type number_clauses) : Output_literal_stream<Lit>(out), par_n(number_variables), par_c(number_clauses) {}
+    Dimacs_output_literal_stream(
+                                 std::ostream& out,
+                                 typename Output_literal_stream<Lit>::size_type number_variables,
+                                 typename Output_literal_stream<Lit>::size_type number_clauses) :
+      Output_literal_stream<Lit>(out), par_n(number_variables), par_c(number_clauses) {}
 
     typename Output_literal_stream<Lit>::size_type parameter_n() const {
       return par_n;
@@ -137,7 +141,7 @@ namespace OutputCls {
       return par_c;
     }
 
-    ~Dimacs_output_literal_stream() { finish(); }
+    ~Dimacs_output_literal_stream() { Output_literal_stream<Lit>::finish(); }
     // ATTENTION: If a class is derived from Dimacs_output_literal_stream,
     // and clause_end() is overridden, then also the destructor must be
     // overriden (otherwise not the overriden version of clause_end()
@@ -147,12 +151,12 @@ namespace OutputCls {
     void first_clause() const {
       parameter_line();
     }
-    void last_clause() const { out << std::endl; }
+    void last_clause() const { Output_literal_stream<Lit>::out << std::endl; }
     void clause_begin() const {};
-    void clause_end() const { out << " 0"; }
-    void clause_separator() const { out << "\n"; }
-    void literal_separator() const { out << " "; }
-    void comment_begin() const { out << "c"; }
+    void clause_end() const { Output_literal_stream<Lit>::out << " 0"; }
+    void clause_separator() const { Output_literal_stream<Lit>::out << "\n"; }
+    void literal_separator() const { Output_literal_stream<Lit>::out << " "; }
+    void comment_begin() const { Output_literal_stream<Lit>::out << "c"; }
     void empty_clause_set() const {
       parameter_line();
     }
@@ -160,7 +164,7 @@ namespace OutputCls {
     const typename Output_literal_stream<Lit>::size_type par_n;
     const typename Output_literal_stream<Lit>::size_type par_c;
     void parameter_line() const {
-      out << "p cnf " << par_n << " " << par_c << "\n";
+      Output_literal_stream<Lit>::out << "p cnf " << par_n << " " << par_c << "\n";
     }
   };
 

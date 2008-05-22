@@ -1,5 +1,5 @@
 // Oliver Kullmann, 1.3.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,10 +15,10 @@ License, or any later version. */
 #include <utility>
 
 #include <boost/static_assert.hpp>
-#include "boost/type_traits.hpp"
+#include <boost/type_traits.hpp>
 
-#include "Variables.hpp"
-#include "Auxiliary.hpp"
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Variables.hpp>
+#include <Transitional/OKsolver/Experimental/AllgKlassen200203/Auxiliary.hpp>
 
 namespace Literals {
 
