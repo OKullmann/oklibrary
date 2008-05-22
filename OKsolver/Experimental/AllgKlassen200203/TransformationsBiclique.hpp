@@ -1,13 +1,21 @@
 // Oliver Kullmann, 12.4.2003 (Swansea)
-/* Copyright 2003 - 2007 Oliver Kullmann
+/* Copyright 2003 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
 License, or any later version. */
 
-#ifndef TRANSFORMATIONSWAECHTER
+/*!
+  \file TransformationsBiclique.hpp
+  \brief  Components for transforming the problem of finding a biclique partitioning
+  of size at most max_bc for a multigraph given by its adjacency matrix.
 
-#define TRANSFORMATIONSWAECHTER
+  \deprecated Old code
+
+*/
+
+#ifndef TRANSFORMATIONSWAECHTER_845rFew2
+#define TRANSFORMATIONSWAECHTER_845rFew2
 
 #include <ostream>
 #include <iterator>
@@ -18,18 +26,23 @@ License, or any later version. */
 #include <map>
 #include <string>
 
-#ifdef DEBUG
-#include <cassert>
-#endif
-
-#include "ErrorHandling.hpp"
-#include "StringHandling.hpp"
-#include "TimeHandling.hpp"
-#include "StreamHandling.hpp"
+#include <Transitional/General/ErrorHandling.hpp>
+#include <Transitional/General/StringHandling.hpp>
+#include <Transitional/General/TimeHandling.hpp>
+#include <Transitional/General/StreamHandling.hpp>
 
 namespace TransformationsBiclique {
 
+  /*!
+    \enum error_codes_precondition
+    \brief Error codes for checking the inputs (the adjacency matrices and
+    the upper bound on the number of bicliques)
+  */
   enum error_codes_precondition { correct = 0, non_positive_dimension = 1, negative_number_bicliques = 2, non_zero_diagonal = 3, negative_entry = 4, non_symmetric = 5 };
+
+  /*!
+    \brief Free-standing function for checking validity of the input
+  */
   template <class Matrix>
   error_codes_precondition preconditions(const Matrix& M, const typename Matrix::index_type dim, const unsigned int max_bc) {
     if (dim <= 0) return non_positive_dimension;
@@ -47,9 +60,13 @@ namespace TransformationsBiclique {
     return correct;
   }
 
+  /*!
+    \brief Function for computing the number of variables used by the translation
+
+    n = 2 * max_bc * (sum of entries of M).
+  */
   template <class Matrix, class Formula>
   typename Formula::size_type number_variables_of_transformation(const Matrix& M, const typename Matrix::index_type dim, const unsigned int max_bc, Formula& F) {
-    // n = sum(M) * max_bc
     assert(preconditions(M, dim, max_bc) == correct);
     typename Formula::size_type sum = 0;
     for (typename Matrix::index_type i = 0; i < dim; ++i)
@@ -57,6 +74,9 @@ namespace TransformationsBiclique {
     sum *= max_bc * 2;
     return sum;
   }
+  /*!
+    \brief Function for computing the number of clauses created by the translation
+  */
   template <class Matrix, class Formula>
   typename Formula::size_type number_clauses_of_transformation(const Matrix& M, const typename Matrix::index_type dim, const unsigned int max_bc, Formula& F) {
     assert(preconditions(M, dim, max_bc) == correct);
@@ -118,7 +138,19 @@ namespace TransformationsBiclique {
     return sum_I + sum_II + sum_III + sum_IV + sum_V;
   }
   
+  /*!
+    \brief Translating an adjacency matrix M and a desired max biclique-number
+    max_bc into the (boolean CNF) SAT problem F.
 
+    Given the matrix M of dimension dim, and two nodes (i.e., indices)
+    i and j, we have M(i,j) conflicts between i and j. Using indices
+    0 <= v < M(i,j), for each such conflict we have 2 * max_bc variables,
+    such that exactly one of them must become true, where the first chunk of
+    max_bc variables asserts that this conflict is in the corresponding biclique
+    with orientation from "left to right", while the second chunk of max_bc
+    variables refers to the opposite orientation.
+
+  */
   template <class Matrix, class Formula>
   void symmetric_conflict_number_to_SAT(const Matrix& M, const typename Matrix::index_type dim, const unsigned int max_bc, Formula& F) {
 
@@ -129,6 +161,15 @@ namespace TransformationsBiclique {
 
     const unsigned int max_bc_sides = 2 * max_bc;
 
+    /*!
+      \class Var
+      \brief Nested class for the creation of variable identifiers.
+
+      The positive literal RrowCcolumnNvBk asserts, that the conflict
+      with index v between node row and node column is in the biclique with
+      index k % max_bc, where node row is in the "left side" if k / max_bc = 0,
+      and is in the "right side" if k / max_bc = 1.
+    */
     class Var {
       const Matrix& M;
       const typename Matrix::index_type dim;
@@ -137,31 +178,27 @@ namespace TransformationsBiclique {
       Var (const Matrix& M, typename Matrix::index_type dim, unsigned int max_bc_sides) : M(M), dim(dim), max_bc_sides(max_bc_sides) {}
 
       std::string operator() (index_type row, index_type column, value_type v, unsigned int k) {
-
 	assert(0 <= row and row < column and column < dim);
 	assert(0 <= v and v < M(row, column));
 	assert(0 <= k and k < max_bc_sides);
-
 	using StringHandling::toString;
 	return std::string("R" + toString(row) + "C" + toString(column) + "N" + toString(v) + "B" + toString(k));
-	// The positive literal RiCjNpBq asserts, that the conflict
-	// with number p between  node i and node j is in biclique number
-	// k % max_bc, where node i is in the "left side" if k / max_bc = 0,
-	// and is in the "right side" if k / max_bc = 1.
       }
     };
     Var V(M, dim, max_bc_sides);
 
-    class Rev { // "Reversing" sides
+    /*!
+      \class Rev
+      \brief Simple helper class to compute for a given biclique index k
+      the index for the biclique with "sides reversed".
+    */
+    class Rev {
       const unsigned int max_bc;
       const unsigned int max_bc_sides;
     public :
       Rev(unsigned int max_bc, unsigned int max_bc_sides) :max_bc(max_bc), max_bc_sides(max_bc_sides) {}
-
       unsigned int operator() (unsigned int k) {
-
 	assert(0 <= k and k < max_bc_sides);
-
 	return (k < max_bc) ? k + max_bc : k - max_bc;
       }
     };

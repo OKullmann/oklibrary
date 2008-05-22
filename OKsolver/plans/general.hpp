@@ -1,5 +1,5 @@
 // Oliver Kullmann, 10.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,8 +59,30 @@ License, or any later version. */
    traits-directory. </li>
    <li> AllgKlassen200203/TransformationsBiclique.hpp goes to
    Satisfiability/Transformers/Generators.
-   We will also have a module for computing biclique-partitions ---
-   perhaps it should go there. </li>
+    <ol>
+     <li> We will also have a module for computing biclique-partitions ---
+     perhaps it should go there. </li>
+     <li> Update the code according to the OKlibrary coding standard, and
+     create a demo program.
+      <ul>
+       <li> It seems that function
+       TransformationsBiclique::symmetric_conflict_number_to_SAT is an
+       old version, while class
+       TransformationsBiclique::Symmetric_conflict_number_to_SAT is the
+       newer version? </li>
+       <li> DOXYGEN ERROR: function
+       TransformationsBiclique::symmetric_conflict_number_to_SAT
+       does not show up in the documentation?? </li>
+       <li> Use the concept of a clause-set adaptor from
+       Interfaces/InputOutput/ClauseSetAdaptors.hpp, instead of the concept
+       of "F" as in function symmetric_conflict_number_to_SAT. </li>
+       <li> DONE Update the includes from Transitional/General. </li>
+       <li> DONE Remove the non-standard reference to macro "DEBUG". </li>
+       <li> DONE Augment the include guard by a random string. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
    <li> AllgKlassen200203/UnitPropagation goes to
    Satisfiability/Reductions/UnitClausePropagation. </li>
    <li> AllgKlassen200203/makefile will be replaced. </li>
