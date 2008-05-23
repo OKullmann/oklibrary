@@ -40,7 +40,14 @@ License, or any later version. */
    Update the following milestones.
 
 
-  \par Version 0.1.3
+  \par Version 0.2 THEME is "REDESIGN MAXIMA SYSTEM"
+
+  \par
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - General design: Lists *here* are more fundamental than sets
+
+
+  \par Version 0.2.1
 
   \par ComputerAlgebra/Mupad version 0.5.1
 
@@ -67,7 +74,7 @@ License, or any later version. */
     - New supermodule NumberTheory
 
 
-  \par Version 0.1.4
+  \par Version 0.2.2
 
   \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)

@@ -66,16 +66,16 @@ License, or any later version. */
   All parts have a central docus-file.
 
 
-  \subsection VersionTransitional022 0.2.2 : BASIC FUNCTIONALITY
+  \subsection VersionTransitional022 0.2.2 : BASIC FUNCTIONALITY MAXIMA
   TO BE REACHED $(deadline_022)
+  \par ComputerAlgebra version 0.2 (OK, MH, MG)
+  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Buildsystem version 0.2.2 (OK)
   (see Buildsystem/plans/milestones.hpp)
   \par Messages version 0.7.5 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.4 (OK)
   (see TestSystem/plans/milestones.hpp)
-  \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
-  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par
    In Transitional/plans/general.hpp the following topics are handled:
     - Demos

@@ -10,6 +10,63 @@ License, or any later version. */
   \brief General plans regarding the Maxima computer algebra system
 
 
+  \todo General design: Lists *here* are more fundamental than sets
+  <ul>
+   <li> It seems that instead of clause-sets we should use clause-lists
+   as the fundamental objects. </li>
+   <li> In the mathematical cosmos there is no creation and destruction,
+   thus no order, however in the computational cosmos there is before
+   and after, construction and destruction. </li>
+   <li> In this way we obtain control over enumeration aspects.
+    <ol>
+     <li> Typically the enumeration is controlled by ordering the
+     elements of certain sets. </li>
+     <li> Yet this done by applying listify, thus without control. </li>
+    </ol>
+    Now, when enumerating all possibilities in some function:
+    <ol>
+     <li> Either the given orders are used. </li>
+     <li> Or random_permutation is applied. </li>
+     <li> Perhaps we have a global flag "oklib_randomise_order", which
+     controls this behaviour. </li>
+     <li> In this way we have a simple way of random sampling. </li>
+    </ol>
+   </li>
+   <li> But clauses should stay as sets. </li>
+   <li> A formal clause-list has then also a list of variables (without
+   repetition). </li>
+   <li> An l-hypergraph is then also given as a list of hyperedges, together
+   with a list of vertices (the latter without repetition). </li>
+   <li> But the hyperedges still are sets. </li>
+   <li> In the same vein, l-graphs are given by lists of vertices and lists
+   of edges, the former without repetition, the latter with sets as
+   elements. </li>
+   <li> So it seems that we should rewrite all of of the Maxima-functions. </li>
+   <li> This combined with the general clean-up. </li>
+   <li> The clause-sets etc. are still available, via conversions. </li>
+   <li> What about combinatorial matrices? Their point is, after all,
+   the order-*independence* ?!
+    <ol>
+     <li> So perhaps they stay as they are, using index-sets? </li>
+     <li> However, there are the same issues regarding enumerations. </li>
+     <li> So we should have also "l-combinatorial matrices", where
+     indices are given by 2 lists. </li>
+    </ol>
+   </li>
+   <li> Perhaps instead of using prefices like "l" (for "list") we could
+   use the adjective "ordered" ?
+    <ol>
+     <li> Speaking of "ordered clause-sets", "ordered hypergraphs"
+     etc. </li>
+     <li> However then the aspect, that for examples the same clause
+     can occur multiple times, is not expressed? </li>
+     <li> Or does an "ordered clause-set" not have multiple occurrences
+     of the same clause, while an "l-clause-set" may have? </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo File load and include
   <ul>
    <li> Replacing all instances of "load" with a function "oklib_include_basic" 
