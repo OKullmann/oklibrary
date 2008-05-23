@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,16 +15,26 @@ License, or any later version. */
    <li> Rename "Transitional" to "OKlib", and remove the (empty)
    repository "OKlibrary".
     <ol>
+     <li> So the directory "Transitional" is renamed to "OKlib". </li>
+     <li> Hopefully this doesn't inflate the git-repository. </li>
+     <li> And then all references to "Transitional" need to be
+     replaced. </li>
      <li> The best would be a program which goes through all
      files containing "Transitional", shows the line plus its
      environment, and asks whether the occurrence should be replaced by
-     "Oklib --- if not, then the filename is stored for later
+     "OKlib --- if not, then the filename is stored for later
      consideration. </li>
+     <li> Though the string "Transitional" is likely not used in any
+     other sense, so we could just do replacement without checking. </li>
+     <li> Of course, thorough checking afterwards. </li>
     </ol>
    </li>
-   <li> We need clear indications what modules are usable already
-   --- this should be achieved by their version numbers.
-   See "Doxygen menu and main page review" in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp.
+   <li> We need clear indications what modules are usable already:
+    <ol>
+     <li> This should be achieved by their version numbers. </li>
+     <li> See "Doxygen menu and main page review" in
+     Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. </li>
+    </ol>
    </li>
   </ul>
 
@@ -33,7 +43,7 @@ License, or any later version. */
   <ul>
    <li> We needs a library directory-superstructure.
    So we should introduce sub-directories of Transitional,
-   corresponding to "parts". </li>
+   corresponding to "parts". DONE </li>
    <li> Problematic the correspondence between paths and namespaces:
     <ol>
      <li> We should be consistent, using full super-module names
