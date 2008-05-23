@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/include.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac")$

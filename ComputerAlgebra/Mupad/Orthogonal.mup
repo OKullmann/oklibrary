@@ -1238,6 +1238,8 @@ enthaelt_disjunkt := proc(M) local m, i, j; begin
   return(FALSE)
 end_proc:
 
+/* The implementation of this function IS NOT COMPLETED: The recursion
+    step is missing. */
 ist_speziell_exakt_transversal := proc(M) begin
   if not ist_sub_min(M) then return(1)
   elif not ist_exakt_transversal(M) then return(2)
