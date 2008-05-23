@@ -24,6 +24,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
+
 
 kill(f)$
 
@@ -83,10 +85,11 @@ okltest_max_def_uhit_n(f) := (
   true)$
 
 okltest_min_n_uhit_def(f) := (
-  for k : 1 thru 5 do block([n : f(k)],
+  assert(f(1) = 0),
+  assert(f(2) = 2),
+  for k : 3 thru 10 do block([n : f(k)],
     assert(max_def_uhit_n(n) >= k),
-    if k > 1 then
-      assert(max_def_uhit_n(n-1) < k)
+    assert(max_def_uhit_n(n-1) < k)
   ),
   true)$
 

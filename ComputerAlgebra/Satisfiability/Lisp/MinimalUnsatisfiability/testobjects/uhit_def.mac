@@ -25,7 +25,7 @@ okltest_uhit_def(uhit_def);
 
 okltest_max_def_uhit_n(max_def_uhit_n);
 okltest_min_n_uhit_def(min_n_uhit_def_i);
-/* okltest_min_n_uhit_def(min_n_uhit_def_l); */
+okltest_min_n_uhit_def(min_n_uhit_def_l);
 
 okltest_uhit_n(uhit_n);
 

@@ -230,9 +230,23 @@ max_def_uhit_n(n) := 2^n - n$
    ceil(-k - lambertW(-1, -exp(-k))).
 */
 min_n_uhit_def_i(k) := for n : 0 do if 2^n - n >= k then return(n)$
-/* WRONG branch, thus this doesn't work: */
-lambert_w_b(x,b) := lambert_w(log(b) * x) / log(b)$
-min_n_uhit_def_l(k) := float(-k - lambert_w_b(- 2^(-k), 2))$
+/* Alternative computation using the Lambert-W-function. */
+/* This computation is much slower and also error-prone, but there might be
+   some theoretical interest in it. */
+min_n_uhit_def_l(k) := if k=1 then 0 else
+ ceiling(-k - lambert_w_b(-2^(-k), 2))$
+/* The branch "-1" of the Lambert-W-function: */
+lambert_w1(z):= block([eps :  bfloat(10^(-fpprec+1))],
+ z : bfloat(z),
+ block(
+  [w1, w2 : 0, p : bfloat(-sqrt(2*%e*z+2))],
+   w1 : bfloat(((((((-221/8505*p)+769/17280)*p-43/540)*p+11/72)*p-1/3)*p+1)*p-1),
+   while w2 - w1 >= eps do (w2 : w1, w1 : bfloat(log(z/w1))),
+   return(w1)))$
+/* Using this branch, the slightly generalised Lambert-W-function
+   for base b (instead of e): */
+lambert_w_b(x,b) := block([fpprec : 20],
+ bfloat(lambert_w1(log(b) * x) / log(b)))$
 
 
 /* ****************************
