@@ -72,10 +72,11 @@ block(
   return(max(iplus,iminus)))$
 
 /* Computing the hermitian rank via the characteristic polynomial. */
+/* This method seems to be fastest. */
 hermitian_rank_charpoly(M) := if emptyp(M) then 0 else
 block(
- [char_poly, highpow, ipluss : 0, iminuss : 0, s1, x],
-  char_poly : ratexpand(charpoly(M,x)),
+ [char_poly, highpow, ipluss : 0, iminuss : 0, s1, x, ratmx : true],
+  char_poly : charpoly(M,x),
   highpow : hipow(char_poly,x),
   for i : highpow step -1 thru 0 do block(
    [s : sign(coeff(char_poly,x,i))],

@@ -94,8 +94,7 @@ okltest_hermitian_rank_cs(f) := block(
 
 okltest_hermitian_rank_cs_h(f) := block(
   assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_eig))))),
-  block([oklib_test_level : max(oklib_test_level-1,0)],
-    assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_charpoly)))))),
+  assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_charpoly))))),
   true)$
 
 

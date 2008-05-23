@@ -19,6 +19,13 @@ License, or any later version. */
   \todo Write docus
 
 
+  \todo Hermitian rank
+  <ul>
+   <li> It seems we should use hermitian_rank_charpoly instead of
+   hermitian_rank for hermitian_rank_cs. </li>
+  </ul>
+
+
   \todo Relations to other modules
   <ul>
    <li> See Experimentation/Investigations/plans/general.hpp. </li>
