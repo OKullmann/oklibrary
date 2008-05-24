@@ -56,19 +56,26 @@ cind_cs_trrs(F) := subset_closure_hyp(mcind_cs_trrs(F))$
    ************
 */
 
-/* The number of conflicts of a boolean clause-set F */
+/* The number of conflicts of a boolean clause-set F. */
 nconflicts(F) := sum_scom(cm_cs(F))/2$
 /* The "reduced number of conflicts" of a boolean clause-set F 
-   (counting only one possible conflict per pair of clauses) */
+   (counting only one possible conflict per pair of clauses). */
 rnconflicts(F) := length(cg_cs(F)[2])$
 
-/* Using function h for computing the hermitian rank of a matrix */
+
+/* Using function h for computing the hermitian rank of a matrix. */
 hermitian_rank_cs_h(F,_h) := _h(scom2m(cm_cs(F)))$
-/* The hermitian rank of a boolean clause-set F */
+/* The hermitian rank of a boolean clause-set F. */
 hermitian_rank_cs(F) := hermitian_rank_cs_h(F,hermitian_rank_charpoly)$
 
-/* The hermitian defect of a boolean clause-set F */
+/* The hermitian defect of a boolean clause-set F. */
 hermitian_defect_cs(F) := ncl_cs(F) - hermitian_rank_cs(F)$
+
+/* The characteristic polynomial of a clause-set, in variable x. */
+charpoly_cs(F) := if emptyp(F) then 0 else 
+ block([M : scom2m(cm_cs(F)), ratmx : true],
+  return(charpoly(M,x)))$
+
 
 /* The conflict-independence number of a clause-set F, using function ind_num_f
    for computing the independence number of a graph */

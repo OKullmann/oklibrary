@@ -26,9 +26,9 @@ License, or any later version. */
    <li> So that we get pnn_indices_eig and pnn_indices_charpoly. </li>
    <li> Perhaps then we create a generic function for computing the
    hermitian rank from a version of pnn_indices. </li>
-   <li> And we should have a function for computing the characteristic
-   polynomial of a clause-set (then hermitian_rank_charpoly would use
-   this function). </li>
+   <li> We should write a general function for counting the number of
+   sign changes in a polynomial; function hermitian_rank_charpoly then
+   should use this function. </li>
   </ul>
 
 

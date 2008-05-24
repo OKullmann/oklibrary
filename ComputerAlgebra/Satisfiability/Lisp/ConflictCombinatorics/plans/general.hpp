@@ -23,12 +23,26 @@ License, or any later version. */
   <ul>
    <li> DONE It seems we should use hermitian_rank_charpoly instead of
    hermitian_rank for hermitian_rank_cs. </li>
-   <li> We need the computation of the characteristic polynomial of a
-   clause-set; see ComputerAlgebra/LinearAlgebra/Lisp/plans/general.hpp. </li>
+   <li> Computation of the characteristic polynomial of a clause-set:
+    <ol>
+     <li> What is the characteristic polynomial of the empty square matrix?
+     </li>
+    </ol>
+   </li>
    <li> Of course, there are many graphs associated with a clause-set,
    but it seems that only the characteristic polynomial of the conflict
-   multigraph is of interest? So that we can speak of "the" characteristic
-   polynomial? </li>
+   multigraph is of interest?
+    <ol>
+     <li> So that we can speak of "the" characteristic polynomial? </li>
+     <li> Or should we speak of the "characteristic conflict-polynomial"? </li>
+    </ol>
+   </li>
+   <li> What is the meaning of charpoly_cs(F) ?
+    <ol>
+     <li> Of course, the roots of charpoly_cs(F) have some meaning. </li>
+     <li> But what about the numeric values of the coefficients? </li>
+    </ol>
+   </li>
   </ul>
 
 
