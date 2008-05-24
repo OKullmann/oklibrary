@@ -71,6 +71,15 @@ License, or any later version. */
      <li> And examples for minimal and maximal n. </li>
     </ol>
    </li>
+   <li> We should provide a mechanism for lazy evaluation.
+    <ol>
+     <li> Entries like max_var_hitting_def(58)[2] are just too big
+     to compute every time with oklib_load. </li>
+     <li> We could just store the terms, and by some function then trigger
+     the evaluation. </li>
+     <li> Ask on the Maxima mailing list about "lazy evaluation". </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -83,32 +92,37 @@ License, or any later version. */
   </ul>
 
 
-  \todo Extending the catalogue with other forms of clause-sets
+  \todo Reduction by 2-subsumption resolution
   <ul>
    <li> A second catalogue should be created, which contains only
    those unsatisfiable hitting clause-sets for which
-   no 2-subsumption resolution is possible:
+   no 2-subsumption resolution is possible. </li>
+   <li> The structure of this catalogue is the same as of uhit_def. </li>
+   <li> The subset of uhit_def is of interest (here we are also asking
+   for non-singularity). Call it uhit_def_nsn2s.
     <ol>
-     <li> Call it uhit_def_n2s. </li>
-     <li> It seems not sensible to ask also for non-singularity. </li>
+     <li> Via
+     \verbatim
+sublist(apply_uhit(lambda([k,n,i,F],[k,n,i,redtsrp(F)])),lambda([T],T[4]));
+     \endverbatim
+     we obtain the current examples. </li>
+     <li> We should get much smaller numbers. </li>
+    </ol>
+   </li>
+   <li> And also the bigger catalogue uhit_def_n2s, where non-singularity
+   is dropped, is of interest.
+    <ol>
      <li> From this catalogue all of uhit_def can be created by inverse
      2-subsumption resolution. </li>
-     <li> We should get much smaller numbers.
-      <ol>
-       <li> Though the process of reduction by 2-subsumption-resolution
-       is not confluent, and for a given (non-singular) hitting clause-set
-       F there can exist 2 non-isomorphic hitting clause-sets reduces w.r.t.
-       2-subsumption-resolution which can be expanded to F. </li>
-       <li> Obvious examples are given by reducing full_fcs(n). </li>
-       <li> So for full_fcs(n) there exist many representations, the optimal
-       representing full_fcs(n) as the expansion of {{}} by setn(n). </li>
-      </ol>
-     </li>
-     <li> The entries in this new catalogue shall form a subset of uhit_def.
-     </li>
-     <li> The structure of this catalogue is the same as of uhit_def. </li>
-     <li> We need a function which runs through the elements of uhit_def,
-     and returns those not in uhit_def_n2s. </li>
+     <li> The question is whether for given deficiency there are only
+     finitely many cases?! </li>
+     <li> Though the process of reduction by 2-subsumption-resolution
+     is not confluent, and for a given (non-singular) hitting clause-set
+     F there can exist 2 non-isomorphic hitting clause-sets reduces w.r.t.
+     2-subsumption-resolution which can be expanded to F. </li>
+     <li> Obvious examples are given by reducing full_fcs(n). </li>
+     <li> So for full_fcs(n) there exist many representations, the optimal
+     representing full_fcs(n) as the expansion of {{}} by setn(n). </li>
     </ol>
    </li>
   </ul>
