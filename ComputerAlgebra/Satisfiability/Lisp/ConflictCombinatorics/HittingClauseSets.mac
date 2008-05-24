@@ -187,9 +187,9 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
  map(lambda([M],map(lambda([v],get_vertex_label(v,G)),M)), R))$
 
 
-/* *****************************************************
-   * Finding hitting clause-sets with given deficiency *
-   *****************************************************
+/* ********************************************************************
+   * Finding hitting clause-sets with given deficiency "sporadically" *
+   ********************************************************************
 */
 
 /* Applying partial assignments */
@@ -234,7 +234,13 @@ all_hitting_DP_reductions_def(F,k,[mon]) := block(
     return(ev(_res))))$
 
 
-/* Applying 2-subsumption resolution */
+/* ********************************************************************
+   * Finding hitting clause-sets with given deficiency systematically *
+   ********************************************************************
+*/
+
+/* The method is to applying 2-subsumption resolution. */
+
 
 /* Given a hitting clause-set F, find all (necessarily hitting) clause-sets
    derived from F by (exactly) k 2-subsumption resolution-steps without
@@ -346,7 +352,7 @@ derived_hitting_cs_nsing(F,k,results_derived_hitting_cs) := derived_hitting_cs_p
 derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitting_cs_pred_isoelim(F,k,results_derived_hitting_cs,redsingdpp)$
 
 
-/* Now computing all non-isomorphic cases. repository is a hash table,
+/* Now computing *all* non-isomorphic cases. repository is a hash table,
    and its given value is used. Returns the number of (new) cases found (not
    including those already in repository). */
 /* The predicate can also use the inherited variables
@@ -356,7 +362,7 @@ derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitt
 */
 all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
-/* repository is inherited. */
+/* "repository" and "pred" is inherited. */
 all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F)],
   oklib_save(),
