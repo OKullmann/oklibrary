@@ -31,5 +31,20 @@ License, or any later version. */
    this function). </li>
   </ul>
 
+
+  \todo Algorithms for the hermitian rank
+  <ul>
+   <li> Currently hermitian_rank_charpoly seems fastest. </li>
+   <li> I (OK) would guess that the algorithm for hermitian_rank (the
+   variation of Gaussian elimination) should be nevertheless the fastest:
+    <ol>
+     <li> Since at this level we don't want to go into implementation details,
+     I (OK) don't see how to improve the implementation of "pnn_indices". </li>
+     <li> Study the literature on computing the pnn-indices. </li>
+     <li> And then there are the sparsity-considerations. </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 

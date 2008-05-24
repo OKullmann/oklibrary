@@ -146,6 +146,7 @@ License, or any later version. */
    <li> The min-var-degree is not as high as possible (examples?). </li>
    <li> Applying partial assignments we obtain from brouwer1999 quite a
    lot of non-isomorphic clause-sets. </li>
+   <li> brouwer1999 is eigensharp. </li>
   </ul>
 
 */
