@@ -29,6 +29,8 @@ License, or any later version. */
    <li> We should write a general function for counting the number of
    sign changes in a polynomial; function hermitian_rank_charpoly then
    should use this function. </li>
+   <li> The sign-test in hermitian_rank_eig w.r.t. bfloat-values should
+   be extracted, and moved to module Numerical. </li>
   </ul>
 
 
