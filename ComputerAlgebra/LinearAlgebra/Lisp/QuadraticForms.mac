@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")
 */
 
 /* ***********************************************
-   * Indices of possitivity, negativity, nullity *
+   * Indices of positivity, negativity, nullity *
    ***********************************************
 */
 
