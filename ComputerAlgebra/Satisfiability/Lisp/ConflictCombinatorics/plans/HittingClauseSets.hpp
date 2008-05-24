@@ -26,6 +26,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo max_var_hitting_def
+  <ul>
+   <li> Perhaps this function should be an array-function. </li>
+   <li> It would also be nice, if additionally we could give a direct
+   construction. </li>
+  </ul>
+
+
   \todo Representations
   <ul>
    <li> hitting_cls_rep_st(T) represents the boolean function F underlying T
