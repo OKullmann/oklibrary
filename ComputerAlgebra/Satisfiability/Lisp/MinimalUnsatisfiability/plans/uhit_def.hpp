@@ -59,6 +59,18 @@ License, or any later version. */
    <li> It seems unlikely that we can get all for n=5. Nevertheless
    we should get a good variety, and for that we need a version of
    all_unsinghitting which starts from a different (random) path. </li>
+   <li> The general policy about new entries should be that in case
+   there is a large number of entries, and so we cannot have them all,
+   then we should enter "interesting" examples:
+    <ol>
+     <li> Since we are investigating the maximal min-var-degree for a given
+     deficiency (see "Maximal min-var-degrees" in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp),
+     examples where the bound is attained are interesting. </li>
+     <li> Also of interest are ABDs. </li>
+     <li> And examples for minimal and maximal n. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -71,16 +83,27 @@ License, or any later version. */
   </ul>
 
 
-  \todo Extending the catalogue
+  \todo Extending the catalogue with other forms of clause-sets
   <ul>
    <li> A second catalogue should be created, which contains only
-   those non-singular unsatisfiable hitting clause-sets for which
+   those unsatisfiable hitting clause-sets for which
    no 2-subsumption resolution is possible:
     <ol>
      <li> Call it uhit_def_n2s. </li>
+     <li> It seems not sensible to ask also for non-singularity. </li>
      <li> From this catalogue all of uhit_def can be created by inverse
      2-subsumption resolution. </li>
-     <li> We should get much smaller numbers. </li>
+     <li> We should get much smaller numbers.
+      <ol>
+       <li> Though the process of reduction by 2-subsumption-resolution
+       is not confluent, and for a given (non-singular) hitting clause-set
+       F there can exist 2 non-isomorphic hitting clause-sets reduces w.r.t.
+       2-subsumption-resolution which can be expanded to F. </li>
+       <li> Obvious examples are given by reducing full_fcs(n). </li>
+       <li> So for full_fcs(n) there exist many representations, the optimal
+       representing full_fcs(n) as the expansion of {{}} by setn(n). </li>
+      </ol>
+     </li>
      <li> The entries in this new catalogue shall form a subset of uhit_def.
      </li>
      <li> The structure of this catalogue is the same as of uhit_def. </li>

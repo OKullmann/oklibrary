@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans related to hitting clause-sets
 
 
+  \todo Organisation
+  <ul>
+   <li> ConflictCombinatorics/HittingClauseSets.mac should be split into
+   several sub-modules. </li>
+  </ul>
+
+
   \todo Constructions
   <ul>
    <li> The set of hitting clause-sets is a sub-monoid (with zero) of
@@ -47,6 +54,7 @@ License, or any later version. */
   \todo %Generators for unsatisfiable uniform and variable-regular hitting
   clause-sets
   <ul>
+   <li> This topic deserves its own sub-module. </li>
    <li> There is the important question for what k,r,n we have
    F with uuhittingcsp(F) which are k-uniform and r-variable-regular.
     <ol>
@@ -167,6 +175,15 @@ License, or any later version. */
   </ul>
 
 
+  \todo Properties of ABDs
+  <ul>
+   <li> brouwer1999 allows 2-subsumption resolution. </li>
+   <li> The min-var-degree is not as high as possible (examples?). </li>
+   <li> Applying partial assignments we obtain from brouwer1999 quite a
+   lot of non-isomorphic clause-sets. </li>
+  </ul>
+
+
   \todo %Generators for unsatisfiable hitting clause-sets
   <ul>
    <li> The above is concerned with unsatisfiable hitting clause-sets which
@@ -191,7 +208,7 @@ License, or any later version. */
    </li>
    <li> Questions regarding the minimal possible variable degree of uniform
    unsatisfiable clause-sets in general are handled in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/SmallVariableDegrees.hpp
    </li>
   </ul>
 
@@ -211,7 +228,19 @@ License, or any later version. */
     </ol>
    </li>
    <li> Are there heuristics for choosing the 2-subsumption step and the
-   first branch, in order to find instances earlier? </li>
+   first branch, in order to find instances earlier?
+    <ol>
+     <li> One can maximise the min-var-degree, especially if one is searching
+     for such examples (see "Maximal min-var-degrees" in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp.
+     </li>
+     <li> This seems reasonably, and should also give a better chance of
+     reaching a low deficiency. </li>
+     <li> So we should use a heuristics h(F,FP,forb_pairs), which returns
+     [R,G,new_forb_pairs] respectively [new_forb_pairs]. </li>
+     <li> Another heuristics would be to maximise the min-lit-degree. </li>
+    </ol>
+   </li>
   </ul>
 
 
