@@ -287,6 +287,13 @@ if oklib_test_demos then
 
   \todo Improving the test system
   <ul>
+   <li> We have the problem that the created file maxima-init.mac clashes
+   with with other such files created when running "oklib --maxima":
+    <ol>
+     <li> Is it possible to use for the test-runs a different initialisation
+     file? Ask on the Maxima mailing list. </li>
+    </ol>
+   </li>
    <li> In oklib_test_level>=1 we must also additionally run the test
    with oklib_test_level-- and with oklib_monitor=true and
    oklib_monitor_level=0,1 (at least). </li>
