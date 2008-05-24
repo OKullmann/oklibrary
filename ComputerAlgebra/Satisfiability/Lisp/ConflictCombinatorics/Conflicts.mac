@@ -75,6 +75,12 @@ hermitian_defect_cs(F) := ncl_cs(F) - hermitian_rank_cs(F)$
 charpoly_cs(F) := if emptyp(F) then 0 else 
  block([M : scom2m(cm_cs(F)), ratmx : true],
   return(charpoly(M,x)))$
+/* The eigenvalues of a clause-set, in analytical form. */
+eigenvalues_cs(F) := if emptyp(F) then [] else
+ eigenvalues(scom2m(cm_cs(F)))$
+/* The eigenvalues of a clause-set, numerically. */
+eigenvaluesnum_cs(F) := if emptyp(F) then [] else
+ eigens_by_jacobi(scom2m(cm_cs(F)),bigfloatfield)[1]$
 
 
 /* The conflict-independence number of a clause-set F, using function ind_num_f
