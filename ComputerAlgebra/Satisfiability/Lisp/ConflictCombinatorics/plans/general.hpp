@@ -21,7 +21,7 @@ License, or any later version. */
 
   \todo Hermitian rank
   <ul>
-   <li> It seems we should use hermitian_rank_charpoly instead of
+   <li> DONE It seems we should use hermitian_rank_charpoly instead of
    hermitian_rank for hermitian_rank_cs. </li>
    <li> We need the computation of the characteristic polynomial of a
    clause-set; see ComputerAlgebra/LinearAlgebra/Lisp/plans/general.hpp. </li>

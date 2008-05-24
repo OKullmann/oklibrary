@@ -65,7 +65,7 @@ rnconflicts(F) := length(cg_cs(F)[2])$
 /* Using function h for computing the hermitian rank of a matrix */
 hermitian_rank_cs_h(F,_h) := _h(scom2m(cm_cs(F)))$
 /* The hermitian rank of a boolean clause-set F */
-hermitian_rank_cs(F) := hermitian_rank_cs_h(F,hermitian_rank)$
+hermitian_rank_cs(F) := hermitian_rank_cs_h(F,hermitian_rank_charpoly)$
 
 /* The hermitian defect of a boolean clause-set F */
 hermitian_defect_cs(F) := ncl_cs(F) - hermitian_rank_cs(F)$
@@ -96,8 +96,8 @@ graphiccsp(F) := is(max_com(scom2com(cm_cs(F))) <= 1)$
 /* The Alon-Saks-conjecture for graphs states that the chromatic number
    is at most the biclique-partion number + 1.
    We transfer this to clause-sets, and return unknown in case the clause-set
-   is not graphic, while otherwise a list is return with first entry a boolean
-   on whether the conjecture is true for this case or not.
+   is not graphic, while otherwise a list is returned with first entry a
+   boolean on whether the conjecture is true for this case or not.
    The second entry is again a boolean, about the (likely false) strengthened
    conjecture where n(F)+1 is lower-bounded by h(F)+1.
    The remaining three entries are the numbers involved. */
