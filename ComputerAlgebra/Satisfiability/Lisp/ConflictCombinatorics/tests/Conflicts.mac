@@ -88,6 +88,7 @@ okltest_hermitian_rank_cs(f) := block(
     assert(f(F) = 2^k-1),
     assert(f(adjoin({},F)) = 2^k-1)
   ),
+  assert(f(weak_php(3,2)[2]) = 3),
   if oklib_test_level = 0 then return(true),
   for k : 4 thru 5 do
     assert(f(uniform_usat_hitting_min(k)) = 2^k - 1),
