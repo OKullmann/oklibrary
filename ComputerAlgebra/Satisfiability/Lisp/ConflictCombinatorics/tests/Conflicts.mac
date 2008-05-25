@@ -78,6 +78,7 @@ okltest_rnconflicts(f) := block(
   true)$
 
 
+/* Tests whether f computes the hermitian rank of a clause-set. */
 okltest_hermitian_rank_cs(f) := block(
   assert(f({}) = 0),
   assert(f({{}}) = 0),
@@ -87,14 +88,28 @@ okltest_hermitian_rank_cs(f) := block(
     assert(f(F) = 2^k-1),
     assert(f(adjoin({},F)) = 2^k-1)
   ),
+  assert(f(weak_php(3,2)[2]) = 3),
   if oklib_test_level = 0 then return(true),
   for k : 4 thru 5 do
     assert(f(uniform_usat_hitting_min(k)) = 2^k - 1),
   true)$
 
 okltest_hermitian_rank_cs_h(f) := block(
-  assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_eig))))),
+  assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank))))),
   assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_charpoly))))),
+  if oklib_test_level >= 1 then block([oklib_test_level : oklib_test_level-1],
+    assert(okltest_hermitian_rank_cs(buildq([f],lambda([F],f(F,hermitian_rank_eig)))))
+  ),
+  true)$
+
+/* Tests whether f computes the characteristic polynomial of a clause-set. */
+okltest_charpoly_cs(f) := block(
+  assert(f({}) = 0),
+  assert(f({{}}) = -x),
+  assert(f({{1}}) = -x),
+  assert(f({{1},{2}}) = x^2),
+  assert(f({{1},{2},{3}}) = -x^3),
+  assert(f({{-1},{1}}) = x^2 - 1),
   true)$
 
 

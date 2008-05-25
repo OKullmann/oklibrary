@@ -35,7 +35,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Re
 kill(uhit_def)$
 
 /* The list of available deficiencies. */
-uhit_def[0,"info"] : makelist(k,k,1,12)$
+uhit_def[0,"info"] : append(makelist(k,k,1,12),[24,26,27,43,58])$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info] contains:
  - true if the classification is complete, and false/unknown otherwise
@@ -130,18 +130,27 @@ uhit_def[5,15] : [
 
 uhit_def[6,"info"] : [false,4,inf,[[4,true]]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def6.mac")$
+uhit_def[6,19] : [
+ max_var_hitting_def(6)[2]
+]$
 
 
 /* Deficiency 7 */
 
 uhit_def[7,"info"] : [false,4,inf,[[4,true]]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def7.mac")$
+uhit_def[7,23] : [
+ max_var_hitting_def(7)[2]
+]$
 
 
 /* Deficiency 8 */
 
 uhit_def[8,"info"] : [false,4,inf,[[4,true]]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def8.mac")$
+uhit_def[8,27] : [
+ max_var_hitting_def(8)[2]
+]$
 
 
 /* Deficiency 9 */
@@ -163,6 +172,9 @@ uhit_def[9,4] : [
 {{-4,-3,-2},{-4,-3,2},{-4,-2,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
 {{-4,-3,-2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}
 ]$ 
+uhit_def[9,31] : [
+ max_var_hitting_def(9)[2]
+]$
 
 
 /* Deficiency 10 */
@@ -193,23 +205,99 @@ uhit_def[10,35] : [
 
 /* Deficiency 11 */
 
-uhit_def[11,"info"] : [false,4,inf,[[4,true],[39,unknown]]]$
+uhit_def[11,"info"] : [false,4,inf,[[4,true]]]$
 
 uhit_def[11,4] : [nearly_full_hitting_fcs(4)[2]]$
+/*
 uhit_def[11,39] : [
   max_var_hitting_def(11)[2]
 ]$
-
+*/
 
 
 /* Deficiency 12 */
 
-uhit_def[12,"info"] : [false,4,inf,[[4,true],[5,unknown],[43,unknown]]]$
+uhit_def[12,"info"] : [false,4,inf,[[4,true],[5,unknown],[7,false]]]$
 uhit_def[12,4] : [full_fcs(4)[2]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def12.mac")$
+uhit_def[12,7] : [
+  rbrouwer1999[2]
+]$
+/*
 uhit_def[12,43] : [
   max_var_hitting_def(12)[2]
 ]$
+*/
+
+
+/* Deficiency 24 */
+
+uhit_def[24,"info"] : [false,5,inf,[[8,false]]]$
+uhit_def[24,8] : [
+  brouwer1999[2]
+]$
+/*
+uhit_def[24,91] : [
+  max_var_hitting_def(24)[2]
+]$
+*/
+
+
+/* Deficiency 26 */
+
+uhit_def[26,"info"] : [false,5,inf,[[5,true]]]$
+uhit_def[26,5] : [nearly_full_hitting_fcs(5)[2]]$
+/*
+uhit_def[27,103] : [
+ max_var_hitting_def(27)[2]
+]$
+*/
+
+
+/* Deficiency 27 */
+
+uhit_def[27,"info"] : [false,5,inf,[[5,true]]]$
+uhit_def[27,5] : [full_fcs(5)[2]]$
+/*
+uhit_def[27,103] : [
+ max_var_hitting_def(27)[2]
+]$
+*/
+
+
+/* Deficiency 43 */
+
+uhit_def[43,"info"] : [false,6,inf,[[6,false]]]$
+uhit_def[43,6] : [
+
+{{-6,-5},{-6,-4,-3,-2,-1,5},{-6,-4,-3,-2,1,5},{-6,-4,-3,-1,2,5},{-6,-4,-3,1,2,5},
+ {-6,-4,-2,-1,3,5},{-6,-4,-2,1,3,5},{-6,-4,-1,2,3,5},{-6,-4,1,2,3,5},{-6,-3,-2,-1,4,5},
+ {-6,-3,-2,1,4,5},{-6,-3,-1,2,4,5},{-6,-3,1,2,4,5},{-6,-2,-1,3,4,5},{-6,-2,1,3,4,5},
+ {-6,-1,2,3,4,5},{-6,1,2,3,4,5},{-5,-4,-3,-2,-1,6},{-5,-4,-3,-2,1,6},{-5,-4,-3,-1,2,6},
+ {-5,-4,-3,1,2,6},{-5,-4,-2,-1,3,6},{-5,-4,-2,1,3,6},{-5,-4,-1,2,3,6},{-5,-4,1,2,3,6},
+ {-5,-3,-2,-1,4,6},{-5,-3,-2,1,4,6},{-5,-3,-1,2,4,6},{-5,-3,1,2,4,6},{-5,-2,-1,3,4,6},
+ {-5,-2,1,3,4,6},{-5,-1,2,3,4,6},{-5,1,2,3,4,6},{-4,-3,-2,-1,5,6},{-4,-3,-2,1,5,6},
+ {-4,-3,-1,2,5,6},{-4,-3,1,2,5,6},{-4,-2,-1,3,5,6},{-4,-2,1,3,5,6},{-4,-1,2,3,5,6},
+ {-4,1,2,3,5,6},{-3,-2,-1,4,5,6},{-3,-2,1,4,5,6},{-3,-1,2,4,5,6},{-3,1,2,4,5,6},
+ {-2,-1,3,4,5,6},{-2,1,3,4,5,6},{-1,2,3,4,5,6},{1,2,3,4,5,6}}
+
+]$
+/*
+uhit_def[43,127] : [
+ max_var_hitting_def(43)[2]
+]$
+*/
+
+/* Deficiency 58 */
+
+uhit_def[58,"info"] : [false,6,inf,[[6,true]]]$
+uhit_def[58,6] : [full_fcs(6)[2]]$
+/*
+uhit_def[58,227] : [
+ max_var_hitting_def(58)[2]
+]$
+*/
+
 
 
 /* *************************************
@@ -281,8 +369,8 @@ collect_uhit_n(n,k0,k1) :=
 /* BUG: yet only the catalogue data given by info_data
    and def_data is accessible. */
 uhit_n(n,info) := block(
- [info_data : [[0,1,2,3,4,5,6],true,true,true,true,true,false,false],
-  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,12],[3,12] ] 
+ [info_data : [[0,1,2,3,4,5,6,8],true,true,true,true,true,false,false,false],
+  def_data : [ [1,1],[],[2,2],[2,5],[3,12],[3,27],[3,58],[24,24] ] 
  ],
  if n = -1 then return(info_data[1])
  elseif not elementp(n,setify(info_data[1])) then

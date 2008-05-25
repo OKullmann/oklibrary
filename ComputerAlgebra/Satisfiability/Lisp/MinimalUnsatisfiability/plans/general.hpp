@@ -27,6 +27,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Maximal min-var-degrees
+  <ul>
+   <li> The general quest here is for example which show that the bound
+   max_min_var_degree_def is sharp. </li>
+   <li> Perhaps the considerations regarding hitting clause-sets should go
+   to a module regarding hitting clause-sets ?
+    <ol>
+     <li> The smallest deficiency where we do not have an example is 6. </li>
+     <li> See "derived_hitting_cs_pred_isoelim" in
+     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
+     for how to find examples. </li>
+    </ol>
+   </li>
+  </ul>
 
 */
 

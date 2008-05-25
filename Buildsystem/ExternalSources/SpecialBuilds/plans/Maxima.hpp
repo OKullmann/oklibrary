@@ -10,12 +10,44 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
-  \todo Installing libsigsegv and CLisp 2.45 locally
+  \todo System-wide installation
   <ul>
+   <li> The build-system should be extended, taking for example the
+   Gmp-installation as an example, so that we can also produce/use in the
+   standard way system-wide installations of Libsigsegv, CLisp and Maxima.
+   </li>
+  </ul>
+
+
+  \todo DONE Installing libsigsegv and CLisp 2.45 locally
+  <ul>
+   <li> First trying to install clisp 2.45 system-wide with the existing
+   build-script. </li>
+   <li> The build fails immediately:
+   \verbatim
+cd /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45; if [ $?!= 0 ]; then exit 1; fi; \
+./configure --prefix=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/CLisp/2.45 --build /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/oklib-build; if [ $? != 0 ]; then exit 1; fi; \
+cd /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/oklib-build; if [ $? != 0 ]; then exit 1; fi; \
+make; if [ $? != 0 ]; then exit 1; fi; \
+make check; if [ $? != 0 ]; then exit 1; fi; \
+make install; if [ $? != 0 ]; then exit 1; fi;
+executing /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/src/configure --prefix=/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/CLisp/2.45 --build /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/oklib-build --cache-file=config.cache
+configure: creating cache config.cache
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+configure: ** check for host type
+checking build system type... Invalid configuration `/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/oklib-build': machine `/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/oklib' not recognized
+configure: error: /bin/sh build-aux/config.sub /home/kullmann/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/CLisp/clisp-2.45/oklib-build failed
+make: *** [clisp-2.45] Fehler 1
+   \endverbatim
+   </li>
+   <li> Using "--cbc"" instead of "--build" seems to cure the problem. </li>
    <li> How to tell the clisp-installation about the local installation
    of libsigsegv ? </li>
    <li> Via "./configure --with-libsigsegv-prefix=/PATH-to_libsigsegv" </li>
-   <li> Perhaps also appending "--build build-dir" </li>
    <li> Then how to tell the maxima-installation about the location of
    clisp? </li>
    <li> Apparently via "--with-clisp=<prog>" we specify the lisp-executable
@@ -127,7 +159,7 @@ Machine: I686 (I686) csltok.swan.ac.uk [128.163.146.167]
   </ul>
 
 
-  \todo Install Maxima 5.13 on cs-wsok
+  \todo DONE Install Maxima 5.13 on cs-wsok
   <ul>
    <li>
    \verbatim

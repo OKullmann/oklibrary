@@ -1,0 +1,57 @@
+/* Oliver Kullmann, 24.5.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac
+  \brief Tests for SAT-reductions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/ResolutionReductions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
+
+kill(f)$
+
+
+/* ****************************
+   * 2-Subsumption resolution *
+   ****************************
+*/
+
+okltest_redtsrp(f) := block(
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = true),
+  assert(f({{},{1}}) = true),
+  for n : 1 thru 5 do block([F : full_fcs(n)[2]],
+    assert(f(F) = false)
+  ),
+  true)$
+
+okltest_redtsr(f) := block(
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1}}) = {{1}}),
+  assert(f({{},{1}}) ={{},{1}}),
+  for n : 1 thru 4 do block([F : full_fcs(n)[2]],
+    assert(redtsrp(f(F)))
+  ),
+  true)$
+
+
+/*!
+\endhtmlonly
+*/

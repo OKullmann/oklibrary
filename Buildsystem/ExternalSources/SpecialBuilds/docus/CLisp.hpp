@@ -53,7 +53,8 @@ License, or any later version. */
 
   <ul>
    <li> CLisp comes with Linux distributions, so you could install it
-   with your distribution tool. See below for configuration. </li>
+   with your distribution tool, however then you need to configure
+   the build-system of the OKlibrary accordingly. </li>
    <li> We recommend local installation. </li>
   </ul>
 
@@ -74,11 +75,6 @@ License, or any later version. */
     <td> Build the recommended version of clisp. </td>
    </tr>
    <tr>
-    <td> <code> clisp-x.y </code> </td>
-    <td> Build the version x.y of clisp (for example
-    <code>clisp-2.43</code>). </td>
-   </tr>
-   <tr>
     <td> <code> cleanallclisp </code> </td>
     <td> Removes all clisp build/installation/documentation directories. </td>
    </tr>
@@ -87,15 +83,21 @@ License, or any later version. */
     <td> Build the recommended version of libsigsegv. </td>
    </tr>
    <tr>
-    <td> <code> libsigsegv-x.y </code> </td>
-    <td> Build the version x.y of libsigsegv (for example
-    <code>libsigsegv-2.5</code>). </td>
-   </tr>
-   <tr>
     <td> <code> cleanalllibsigsegv </code> </td>
     <td> Removes all libsigsegv build/installation/documentation directories. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> To install a different version of CLisp, set variable
+   <code>clisp_recommended_version_number_okl</code> accordingly. </li>
+   <li> To install a different version of Libsigsegv, set variable
+   <code>libsigsegv_recommended_version_number_okl</code> accordingly. </li>
+  </ul>
+
 
 */
 

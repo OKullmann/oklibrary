@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")
 */
 
 /* ***********************************************
-   * Indices of possitivity, negativity, nullity *
+   * Indices of positivity, negativity, nullity *
    ***********************************************
 */
 
@@ -66,13 +66,14 @@ hermitian_def(M) := matrix_size(M)[1] - hermitian_rank(M)$
 hermitian_rank_eig(M) := if emptyp(M) then 0 else
 block(
  [eigvals : eigens_by_jacobi(M,bigfloatfield)[1], iplus : 0, iminus : 0],
-  for e in eigvals do block([s : sign(e)],
+  for e in eigvals do block([s, eps : 10^(1-fpprec)],
+    s : if abs(e) <= eps then zero else sign(e),
     if s = pos then iplus : iplus + 1
     elseif s = neg then iminus : iminus + 1),
   return(max(iplus,iminus)))$
 
 /* Computing the hermitian rank via the characteristic polynomial. */
-/* This method seems to be fastest. */
+/* This method seems to be fastest currently. */
 hermitian_rank_charpoly(M) := if emptyp(M) then 0 else
 block(
  [char_poly, highpow, ipluss : 0, iminuss : 0, s1, x, ratmx : true],

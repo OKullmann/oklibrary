@@ -31,6 +31,8 @@ okltest_rnconflicts(rnconflicts);
 okltest_hermitian_rank_cs(hermitian_rank_cs);
 okltest_hermitian_rank_cs_h(hermitian_rank_cs_h);
 
+okltest_charpoly_cs(charpoly_cs);
+
 okltest_partition_number_cs(partition_number_m_cs);
 
 okltest_graphiccsp(graphiccsp);

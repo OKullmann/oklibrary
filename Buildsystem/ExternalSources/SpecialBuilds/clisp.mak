@@ -16,27 +16,24 @@
 # Directory Structure
 # ################################## 
 
-clisp_directories_okl := $(clisp_base_installation_dir_okl) $(clisp_base_build_dir_okl) $(clisp_base_doc_dir_okl)
+clisp_directories_okl := $(clisp_base_installation_dir_okl) $(clisp_base_build_dir_okl) $(clisp_base_doc_dir_okl) $(clisp_doc_dir_okl)
 
-.PHONY : clisp $(clisp_targets)
+$(clisp_directories_okl) : % : 
+	mkdir -p $@
 
 # #################################
 # Main clisp targets
 # #################################
 
-$(clisp_directories_okl) : % : 
-	mkdir -p $@
+.PHONY : clisp
 
-clisp : $(clisp_recommended_okl)
-
-$(clisp_targets_okl) : $(clisp_directories_okl)
-	$(call unarchive,$(ExternalSources)/sources/CLisp/$@,$(clisp_base_build_dir_okl))
+clisp : $(clisp_directories_okl)
+	$(call unarchive,$(clisp_source_okl),$(clisp_base_build_dir_okl))
 	cd $(clisp_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(clisp_installation_dir_okl) --build $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
+	./configure --prefix=$(clisp_installation_dir_okl) --with-libsigsegv-prefix=$(libsigsegv_installation_dir_okl) --cbc $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	cd $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
-	make; $(postcondition) \
-	make check; $(postcondition) \
 	make install; $(postcondition)
+	cp -f $(clisp_installation_dir_okl)/share/doc/doc/* $(clisp_doc_dir_okl)
 
 # #################################
 # Cleaning
@@ -45,26 +42,25 @@ $(clisp_targets_okl) : $(clisp_directories_okl)
 cleanallclisp : 
 	-rm -rf $(clisp_base_installation_dir_okl) $(clisp_base_build_dir_okl) $(clisp_base_doc_dir_okl)
 
+
 # #################################
 # Tool libsigsegv
 ###################################
 
 libsigsegv_directories_okl := $(libsigsegv_base_build_dir_okl)
 
-.PHONY : libsigsegv $(libsigsegv_targets_okl)
+.PHONY : libsigsegv
 
 $(libsigsegv_directories_okl) : % : 
 	mkdir -p $@
 
-libsigsegv : $(libsigsegv_recommended_okl)
-
-$(libsigsegv_targets_okl) : $(libsigsegv_directories_okl)
-	$(call unarchive,sources/CLisp/$@,$(libsigsegv_base_build_dir_okl))
+libsigsegv : $(libsigsegv_directories_okl)
+	$(call unarchive,$(libsigsegv_source_okl),$(libsigsegv_base_build_dir_okl))
 	cd $(libsigsegv_build_dir_okl); $(postcondition) \
-	./configure; $(postcondition) \
+	./configure --prefix=$(libsigsegv_installation_dir_okl); $(postcondition) \
 	make; $(postcondition) \
 	make check; $(postcondition) \
-	sudo make install; $(postcondition)
+	make install; $(postcondition)
 
 cleanalllibsigsegv : 
-	-rm -rf $(libsigsegv_base_build_dir_okl)
+	-rm -rf $(libsigsegv_base_build_dir_okl) $(libsigsegv_base_installation_dir_okl) 

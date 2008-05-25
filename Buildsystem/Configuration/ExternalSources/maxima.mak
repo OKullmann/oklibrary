@@ -9,7 +9,7 @@
 
 maxima_recommended_version_number_okl ?= 5.15.0
 # ATTENTION: special repair-build for 5.15.0 regarding module graphs
-maxima_supported_not_recommended_version_numbers_okl ?= 5.14.0
+maxima_supported_not_recommended_version_numbers_okl ?=
 maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
 
 maxima_prefix_okl ?= maxima
@@ -45,6 +45,6 @@ maxima_homepage_url_okl := http://maxima.sourceforge.net/
 maxima_documentation_url_okl := http://maxima.sourceforge.net/docs.shtml
 
 maxima_targets_prefix_okl := $(maxima_prefix_okl)-
-maxima_targets_okl := $(addprefix $(maxima_targets_prefix_okl), $(maxima_supported_version_numbers_okl))
 maxima_recommended_okl := $(maxima_targets_prefix_okl)$(maxima_recommended_version_number_okl)
+maxima_source_okl := $(ExternalSources)/sources/Maxima/$(maxima_recommended_okl)
 

@@ -26,9 +26,26 @@ License, or any later version. */
    <li> So that we get pnn_indices_eig and pnn_indices_charpoly. </li>
    <li> Perhaps then we create a generic function for computing the
    hermitian rank from a version of pnn_indices. </li>
-   <li> And we should have a function for computing the characteristic
-   polynomial of a clause-set (then hermitian_rank_charpoly would use
-   this function). </li>
+   <li> We should write a general function for counting the number of
+   sign changes in a polynomial; function hermitian_rank_charpoly then
+   should use this function. </li>
+   <li> The sign-test in hermitian_rank_eig w.r.t. bfloat-values should
+   be extracted, and moved to module Numerical. </li>
+  </ul>
+
+
+  \todo Algorithms for the hermitian rank
+  <ul>
+   <li> Currently hermitian_rank_charpoly seems fastest. </li>
+   <li> I (OK) would guess that the algorithm for hermitian_rank (the
+   variation of Gaussian elimination) should be nevertheless the fastest:
+    <ol>
+     <li> Since at this level we don't want to go into implementation details,
+     I (OK) don't see how to improve the implementation of "pnn_indices". </li>
+     <li> Study the literature on computing the pnn-indices. </li>
+     <li> And then there are the sparsity-considerations. </li>
+    </ol>
+   </li>
   </ul>
 
 */
