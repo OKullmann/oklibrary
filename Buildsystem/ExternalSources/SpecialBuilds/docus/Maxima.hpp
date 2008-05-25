@@ -50,9 +50,12 @@ License, or any later version. */
 
   <h2> How to install </h2>
 
-  Only local installation currently. The Maxima-build process searches
-  for available Lisp-installations; we recommend CLisp (see
-  Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp).
+  <ul>
+   <li> Only local installation currently. </li>
+   <li> The Maxima-build process searches
+   for available Lisp-installations; we recommend CLisp (see
+   Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp). </li>
+   <li> 
 
 
   <h3> Make targets </h3>
@@ -63,15 +66,25 @@ License, or any later version. */
     <td> Build the recommended version of maxima. </td>
    </tr>
    <tr>
-    <td> <code> maxima-x.y.z </code> </td>
-    <td> Build the version x.y.z of maxima (for example
-    <code>maxima-5.14.0</code>). </td>
+     <td> <code> allmaxima </code> </td>
+     <td> Build first CLisp (locally). </td>
    </tr>
    <tr>
     <td> <code> cleanallmaxima </code> </td>
     <td> Removes the build-, installation- and documentation-directories. </td>
    </tr>
+   <tr>
+    <td> <code> cleanallallmaxima </code> </td>
+    <td> Invokes <code>cleanalllibsigsegv,cleanallclisp,cleanallmaxima</code>. </td>
+   </tr>
   </table>
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> To install a different version of Maxima, set variable
+   <code>clisp_recommended_version_number_okl</code> accordingly. </li>
+  </ul>
 
 */
 

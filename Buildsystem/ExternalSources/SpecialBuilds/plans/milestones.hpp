@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.4 (7.2.2008)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.5 (25.5.2008)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, and updates)
@@ -31,11 +31,13 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - Install Maxima : DONE
+    - Installing libsigsegv and CLisp 2.45 locally : DONE
     - Install CLisp : DONE
-    - Install clisp (version 2.43) on cs-wsok : DONE
+    - Install Maxima : DONE
     - Install Maxima 5.13 on csltok : DONE
+    - Install Maxima 5.13 on cs-wsok : DONE
     - Install clisp (version 2.43) on csltok : DONE
+    - Install clisp (version 2.43) on cs-wsok (system-wide) : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
@@ -138,6 +140,11 @@ License, or any later version. */
     -  Packages
     - Improving the docus-page
     - Building dvi,pdf,info-documentation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - System-wide installation
 
 
   \par Version 0.2.7 (new external sources for computer algebra and graphs)

@@ -80,8 +80,8 @@ This creates links and directories.
    have to call it always with its full path):
 
  - One symbolic link is already planted in the base directory OKplatform
-   (you have used that in Step 1)), but this is only for the purpose of setting up
-   the OKlibrary, and is otherwise of restricted use.
+   (you have used that in Step 1)), but this is only for the purpose of setting 
+   up the OKlibrary, and is otherwise of restricted use.
 
  - The public bin-directory "OKplatform/bin" (in this directory) contains
    links to the main executables supplied by the OKlibrary, 
@@ -144,7 +144,7 @@ fully updated, run "oklib html" (in directory OKsystem or below).
 
 For this doxygen is needed. The OKlibrary provides a local installation, which
 you can execute by calling "oklib doxygen" in directory OKplatform/ExternalSources.
-After this installation is finished, "oklib html" should now run successfully.
+After this installation is finished, "oklib html" should then run successfully.
 
 
 5) In order to use the version control system, we recommend to install git
@@ -159,6 +159,11 @@ the most suitable version (either the newest one, or in case of some trouble
 an appropriate earlier version).
 
 
+6) The most convenient way to install the Maxima/Lisp computer-algebra-system 
+for SAT experimentation is by running "oklib allmaxima" in directory 
+OKplatform/ExternalSources.
+
+
 ----------------------------------------------
 ----------------------------------------------
 
@@ -166,6 +171,6 @@ All further documentation is found on the local home page in
 
 OKplatform/system_directories/doc/local_html/index.html.
 
-(However, for the minimal package the documentation is not pre-installed,
+(Note that for the minimal package the documentation is not pre-installed,
 but has to be created by running "oklib html" (see Step 4) above).)
 

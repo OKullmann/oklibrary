@@ -15,21 +15,23 @@ License, or any later version. */
    <li> Under SpecialBuilds/docus we need docus-files for every
    external source:
     <ol>
-     <li> asciidoc : DONE </li>
      <li> cmake </li>
      <li> mhash (remark about corrected files; content of package) </li>
      <li> mpfr </li>
-     <li> ubcsat (remark about corrected files; content of package) : DONE </li>
-     <li> r : DONE </li>
+     <li> asciidoc : DONE </li>
      <li> %boost : DONE </li>
+     <li> clisp : DONE </li>
      <li> coq : DONE </li>
      <li> doxygen : DONE </li>
      <li> gcc : DONE </li>
      <li> git : DONE </li>
      <li> gmp : DONE </li>
+     <li> maxima : DONE </li>
      <li> ocaml : DONE </li>
      <li> postgresql : DONE </li>
+     <li> r : DONE </li>
      <li> sage : DONE </li>
+     <li> ubcsat (remark about corrected files; content of package) : DONE </li>
      <li> valgrind : DONE </li>
     </ol>
    </li>

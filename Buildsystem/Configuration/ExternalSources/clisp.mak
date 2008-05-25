@@ -7,17 +7,17 @@
 
 # Settings for building and using Clisp
 
-clisp_recommended_version_number_okl ?= 2.44.1
-clisp_supported_not_recommended_version_numbers_okl ?= 2.43
+clisp_recommended_version_number_okl ?= 2.45
+clisp_supported_not_recommended_version_numbers_okl ?= 
 clisp_supported_version_numbers_okl ?= $(clisp_supported_not_recommended_version_numbers_okl) $(clisp_recommended_version_number_okl)
 
 clisp_prefix_okl ?= clisp
 
 clisp_recommended_package_name_okl ?= $(clisp_prefix_okl)-$(clisp_recommended_version_number_okl)
 
-# clisp_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Clisp.html
-# clisp_html_output_okl ?= $(local_html_dir)/Clisp.html
-# clisp_html_documentation_index_location_okl ?= Clisp.html
+clisp_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/CLisp.html
+clisp_html_output_okl ?= $(local_html_dir)/CLisp.html
+clisp_html_documentation_index_location_okl ?= CLisp.html
 
 clisp_base_installation_dir_okl ?= $(ExternalSources_installations)/CLisp
 clisp_installation_dir_okl ?= $(clisp_base_installation_dir_okl)/$(clisp_recommended_version_number_okl)
@@ -26,7 +26,14 @@ clisp_build_dir_okl ?= $(clisp_base_build_dir_okl)/$(clisp_recommended_package_n
 clisp_base_doc_dir_okl ?= $(ExternalSources_doc)/CLisp
 clisp_doc_dir_okl ?= $(clisp_base_doc_dir_okl)/$(clisp_recommended_version_number_okl)
 
-clisp_call_okl ?= clisp
+clisp_man_html_okl ?= $(clisp_doc_dir_okl)/clisp.html
+clisp_man_pdf_okl ?= $(clisp_doc_dir_okl)/clisp.pdf
+clisp_tutorial_okl ?= $(clisp_doc_dir_okl)/LISP-tutorial.txt
+clisp_class_guide_okl ?= $(clisp_doc_dir_okl)/CLOS-guide.txt
+clisp_impnotes_html_okl ?= $(clisp_doc_dir_okl)/impnotes.html
+
+clisp_call_okl ?= $(clisp_installation_dir_okl)/bin/clisp
+clisp_lib_okl ?= $(clisp_installation_dir_okl)/lib/clisp-$(clisp_recommended_version_number_okl)/base/lisp.run
 
 clisp_docu_page_okl ?= $(doc_dir)/doxygen_html/df/dfc/CLisp_8hpp.html
 
@@ -34,8 +41,8 @@ clisp_homepage_url_okl := http://www.clisp.org/
 clisp_documentation_url_okl := http://clisp.sourceforge.net/resources.html
 
 clisp_targets_prefix_okl := $(clisp_prefix_okl)-
-clisp_targets_okl := $(addprefix $(clisp_targets_prefix_okl), $(clisp_supported_version_numbers_okl))
 clisp_recommended_okl := $(clisp_targets_prefix_okl)$(clisp_recommended_version_number_okl)
+clisp_source_okl := $(ExternalSources)/sources/CLisp/$(clisp_recommended_okl)
 
 # Tool: libsigsegv
 
@@ -47,11 +54,13 @@ libsigsegv_prefix_okl ?= libsigsegv
 
 libsigsegv_recommended_package_name_okl ?= $(libsigsegv_prefix_okl)-$(libsigsegv_recommended_version_number_okl)
 
+libsigsegv_base_installation_dir_okl ?= $(ExternalSources_installations)/Libsigsegv
+libsigsegv_installation_dir_okl ?= $(libsigsegv_base_installation_dir_okl)/$(libsigsegv_recommended_version_number_okl)
 libsigsegv_base_build_dir_okl ?= $(clisp_base_build_dir_okl)/Libsigsegv
 libsigsegv_build_dir_okl ?= $(libsigsegv_base_build_dir_okl)/$(libsigsegv_recommended_package_name_okl)
 
 libsigsegv_homepage_url_okl := http://
 
 libsigsegv_targets_prefix_okl := $(libsigsegv_prefix_okl)-
-libsigsegv_targets_okl := $(addprefix $(libsigsegv_targets_prefix_okl), $(libsigsegv_supported_version_numbers_okl))
 libsigsegv_recommended_okl := $(libsigsegv_targets_prefix_okl)$(libsigsegv_recommended_version_number_okl)
+libsigsegv_source_okl := $(ExternalSources)/sources/CLisp/$(libsigsegv_recommended_okl)
