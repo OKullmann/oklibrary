@@ -23,8 +23,8 @@ License, or any later version. */
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> The main maxima-executable (an interactive console) </li>
-   <li> Documentation </li>
+   <li> The main maxima-executable (an interactive console). </li>
+   <li> Documentation. </li>
   </ul>
   Normally, the user doesn't need to interact with Maxima directly, but can
   use <code>oklib --maxima</code> (see
@@ -55,7 +55,26 @@ License, or any later version. */
    <li> The Maxima-build process searches
    for available Lisp-installations; we recommend CLisp (see
    Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp). </li>
-   <li> 
+  </ul>
+
+
+  <h3> Prerequisites </h3>
+
+  <ul>
+   <li> For building and running Maxima we use CLisp. </li>
+   <li> The version used for building Maxima is hard-wired into
+   the Maxima installation:
+    <ol>
+     <li> So the specific CLisp-installation in directory 
+     <code>$(clisp_base_installation_dir_okl)</code>
+     used for installing Maxima may not be removed. </li>
+     <li> With the current settings this CLisp-installation would be
+     <code>$(clisp_installation_dir_okl)</code>. </li>
+     <li> Installing different CLisp-versions later on the other
+     hand does not affect the already built Maxima-installation. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   <h3> Make targets </h3>
@@ -63,11 +82,11 @@ License, or any later version. */
   <table>
    <tr>
     <td> <code> maxima </code> </td>
-    <td> Build the recommended version of maxima. </td>
+    <td> Build the recommended version of Maxima. </td>
    </tr>
    <tr>
      <td> <code> allmaxima </code> </td>
-     <td> Build first CLisp (locally). </td>
+     <td> Build first CLisp (locally), and then Maxima. </td>
    </tr>
    <tr>
     <td> <code> cleanallmaxima </code> </td>
@@ -79,11 +98,12 @@ License, or any later version. */
    </tr>
   </table>
 
+
   <h3> Configuration </h3>
 
   <ul>
    <li> To install a different version of Maxima, set variable
-   <code>clisp_recommended_version_number_okl</code> accordingly. </li>
+   <code>maxima_recommended_version_number_okl</code> accordingly. </li>
   </ul>
 
 */

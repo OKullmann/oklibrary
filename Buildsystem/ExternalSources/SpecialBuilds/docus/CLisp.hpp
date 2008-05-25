@@ -19,11 +19,13 @@ License, or any later version. */
   CLisp is an implementation of this form of Lisp, suitable for the
   computer algebra system Maxima.
 
+  Yet we do not use CLisp directly, only indirectly through Maxima.
+
 
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> The clisp-executable, compiling lisp-files as well as an
+   <li> The clisp-executable, used for compiling lisp-files as well as an
    interactive interpreter. </li>
    <li> Documentation on Common Lisp in general, and on the usage of
    the clisp-executable. </li>
@@ -46,7 +48,12 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Documentation: $(clisp_html_documentation_index_location_tag_okl) </li>
   </ul>
+  As usual, if a different version of CLisp is installed than "officially"
+  recommended, then by overwriting "clisp_recommended_version_number_okl"
+  (for example in <code>.oklib/override.mak</code>) this can be
+  corrected.
 
 
   <h2> How to install </h2>
@@ -57,6 +64,7 @@ License, or any later version. */
    the build-system of the OKlibrary accordingly. </li>
    <li> We recommend local installation. </li>
   </ul>
+
 
   <h3> Prerequisites </h3>
 

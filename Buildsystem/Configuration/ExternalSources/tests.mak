@@ -322,6 +322,9 @@ else
   endif
 endif
 
+# the following construction needs to be generalised by some function
+clisp_html_documentation_index_location_tag_okl ?= <a href="$(clisp_html_output_okl)">$(clisp_html_output_okl)</a>
+
 
 
 # New variables for the configuration of building maxima (to be designed 
