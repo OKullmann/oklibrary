@@ -142,11 +142,54 @@ License, or any later version. */
 
   \todo Properties of ABDs
   <ul>
-   <li> brouwer1999 allows 2-subsumption resolution. </li>
+   <li> sasg2000 allows 2-subsumption resolution, and the apparently
+   unique result (up to isomorphism) is the unsatisfiable hitting
+   clause-set of deficiency 2 with 3 variables (musatd2(3)). </li>
+   <li> brouwer1999 allows 2-subsumption resolution.
+    <ol>
+     <li> Reducing it w.r.t. 2-subsumption-resolution, but without
+     creating singular variables, we obtain quite a few clause-sets
+     \verbatim
+all_derived_hitting_cs_nsing_isoelim(brouwer1999[2],d_brouwer);
+analyse_isorepo_def(d_brouwer);
+ [[13,12],[14,72],[15,208],[16,398],[17,566],[18,633],[19,529],[20,333],[21,142],[22,43],[23,7],[24,1]]
+     \endverbatim
+     however none of them is reduced w.r.t. 2-subsumption resolution. </li>
+     <li> We should repeat this experiment with the proper version of
+     all_derived_hitting_cs_isoelim (to get all derived clause-sets). </li>
+     <li> One more step is possible, creating a singular variable, and
+     then one further step yields an instance reduced w.r.t 2-subsumption
+     resolution, and also without singular variables, but with 7 variables:
+     \verbatim
+rbrouwer1999 : redtsr(brouwer1999[2]);
+ {{-8,-7,-6,-4,3},{-8,-7,-3},{-8,-7,-2,3,4},{-8,-4,-3,6,7},{-8,-4,-2,3,6},{-8,-3,2,4,7},
+ {-8,-2,4,6,7},{-7,-6,-4,2,8},{-7,-6,-2,5,8},{-7,-5,-2,8},{-6,-4,7},{-6,-3,2,4,8},
+ {-6,-2,4,7},{-5,-3,2,6,8},{-5,-2,6,7,8},{-4,2,3,6},{-3,5,6,8},{-2,3,5,6,8},{2,3,4}}
+redsingdpp(rbrouwer1999);
+ true
+redtsrp(rbrouwer1999);
+ true
+     \endverbatim
+     </li>
+     <li> It seems that rbrouwer1999 is unique up to isomorphism. If this is
+     the case then rbrouwer1999 needs to be inspected carefully!
+     \verbatim
+r_brouwer1999 : rename_fcs(brouwer1999,[8,7,6,5,4,3,2,1]);
+rrbrouwer1999 : redtsr(r_brouwer1999[2]);
+ {{-7,-5,-1,3,6},{-7,-4,-2,1},{-7,-4,1,2,3},{-7,-3,-2,1,4},{-7,-3,2,5},{-7,-2,-1,5,6},
+ {-7,-1,2,3,5},{-7,1,3,4,6},{-6,-5,-1,2,3},{-6,-4,1,3,7},{-6,-3,1,5,7},{-6,-2,-1},
+ {-6,-1,2,5,7},{-6,1,3,4},{-5,-3,-2,-1,6},{-5,-3,-2,1,7},{-5,-3,2},{-5,3,6,7},{5,6,7}}
+is_isomorphic_btr_cs(rrbrouwer1999,rbrouwer1999);
+ true
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> The min-var-degree is not as high as possible (examples?). </li>
    <li> Applying partial assignments we obtain from brouwer1999 quite a
    lot of non-isomorphic clause-sets. </li>
    <li> brouwer1999 is eigensharp. </li>
+   <li> One needs to find out about the symmetries of brouwer1999. </li>
   </ul>
 
 */

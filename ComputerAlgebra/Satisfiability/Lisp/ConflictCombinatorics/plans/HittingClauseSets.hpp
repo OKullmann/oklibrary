@@ -99,7 +99,8 @@ License, or any later version. */
     <ol>
      <li> The current path needs to be available, so that one can continue
      with it. </li>
-     <li> And an given global variable mirrors always its current value. </li>
+     <li> And some given global variable mirrors always its current value.
+     </li>
      <li> Setting this value appropriately should also make it possible to
      jump around in the search tree, and visit "later" parts. </li>
     </ol>
@@ -116,6 +117,17 @@ License, or any later version. */
      <li> So we should use a heuristics h(F,FP,forb_pairs), which returns
      [R,G,new_forb_pairs] respectively [new_forb_pairs]. </li>
      <li> Another heuristics would be to maximise the min-lit-degree. </li>
+    </ol>
+   </li>
+   <li> We should clean-up handling of V:
+    <ol>
+     <li> Do we assume that no variable gets eliminated, or not? </li>
+     <li> See all_derived_hitting_cs_isoelim. </li>
+    </ol>
+   </li>
+   <li> We should clean-up all these different versions:
+    <ol>
+     <li> Perhaps we should have a dedicated sub-module. </li>
     </ol>
    </li>
   </ul>

@@ -217,9 +217,12 @@ uhit_def[11,39] : [
 
 /* Deficiency 12 */
 
-uhit_def[12,"info"] : [false,4,inf,[[4,true],[5,unknown]]]$
+uhit_def[12,"info"] : [false,4,inf,[[4,true],[5,unknown],[7,false]]]$
 uhit_def[12,4] : [full_fcs(4)[2]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def12.mac")$
+uhit_def[12,7] : [
+  rbrouwer1999[2]
+]$
 /*
 uhit_def[12,43] : [
   max_var_hitting_def(12)[2]
@@ -230,10 +233,12 @@ uhit_def[12,43] : [
 /* Deficiency 24 */
 
 uhit_def[24,"info"] : [false,5,inf,[[8,false]]]$
-uhit_def[24,8] : [brouwer1999[2]]$
+uhit_def[24,8] : [
+  brouwer1999[2]
+]$
 /*
 uhit_def[24,91] : [
- max_var_hitting_def(24)[2]
+  max_var_hitting_def(24)[2]
 ]$
 */
 
