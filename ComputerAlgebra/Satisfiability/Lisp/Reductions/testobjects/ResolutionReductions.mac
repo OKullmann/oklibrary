@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests
 
 
 okltest_redtsrp(redtsrp);
+okltest_redtsr(redtsr);
 
 /*!
 \endhtmlonly

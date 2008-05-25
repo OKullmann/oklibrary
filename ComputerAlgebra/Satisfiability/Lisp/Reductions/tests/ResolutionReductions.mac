@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/tests/Re
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/ResolutionReductions.mac")$
 
 kill(f)$
 
@@ -39,6 +40,17 @@ okltest_redtsrp(f) := block(
     assert(f(F) = false)
   ),
   true)$
+
+okltest_redtsr(f) := block(
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1}}) = {{1}}),
+  assert(f({{},{1}}) ={{},{1}}),
+  for n : 1 thru 4 do block([F : full_fcs(n)[2]],
+    assert(redtsrp(f(F)))
+  ),
+  true)$
+
 
 /*!
 \endhtmlonly
