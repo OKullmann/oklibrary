@@ -17,7 +17,7 @@ sage_recommended_package_name ?= $(sage_prefix)-$(sage_recommended_version_numbe
 
 sage_html_template ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Sage.html
 sage_html_output ?= $(local_html_dir)/Sage.html
-sage_html_documentation_index_location ?= Sage.html
+sage_html_documentation_index_location_okl ?= Sage.html
 
 sage_base_directory ?= $(ExternalSources)/Sage
 
