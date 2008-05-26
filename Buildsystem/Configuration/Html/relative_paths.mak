@@ -65,7 +65,6 @@ else
   rel_les_pgsql_html_documentation_index_location := $(shell $(rel_path_tool) $(pgsql_html_documentation_index_location) $(externalsources_page_output))
   rel_les_R_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(R_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_gmp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location_okl) $(externalsources_page_output))
-  rel_les_clisp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(clisp_html_documentation_index_location_okl) $(externalsources_page_output))
 endif
 
 # to be completed XXX
