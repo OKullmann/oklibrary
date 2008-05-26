@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans regarding installation of R
 
 
+  \todo Update to version 2.7
+
+
   \todo Packages
   <ul>
    <li> We should supply additional packages. </li>

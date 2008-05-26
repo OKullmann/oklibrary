@@ -137,7 +137,8 @@ License, or any later version. */
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
-    -  Packages
+    - Update to version 2.7
+    - Packages
     - Improving the docus-page
     - Building dvi,pdf,info-documentation
 
