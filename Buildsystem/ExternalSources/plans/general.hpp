@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.2.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,74 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/plans/general.hpp
   \brief Plans for building external sources in general
+
+
+  \todo Interfaces via OKplatform/bin
+  <ul>
+   <li> We should make nearly all executables from ExternalSources
+   available in the public bin-directory (typically via symbolic links). </li>
+   <li> In this way after for example the version of doxygen
+   has changed, still the build can work with the old version
+   (since the "interface", OKplatform/bin/doxygen, is independent
+   of the version). </li>
+   <li> Perhaps, additionally to "doxygen_call_okl", we should
+   introduce "doxygen_public_call_okl" ? </li>
+   <li> Better to introduce "doxygen_internal_call_okl", which
+   contains the full address for the internal call, while, as
+   before, "doxygen_call_okl" contains how to call doxygen
+   from the build-system. </li>
+   <li> On problem arising in this way is that for example then
+   the user is tempted to just call "maxima", which doesn't connect
+   to the OKlibrary.
+    <ol>
+     <li> So well, seems alright to have the distinction between
+     "oklib --maxima" and plain "maxima". </li>
+     <li> But we should point out that the normal use is via
+     "oklib --maxima". </li>
+    </ol>
+   </li>
+   <li> Units to change:
+    <ol>
+     <li> Doxygen
+      <ol>
+       <li> The symbolic links are already there, we only need to change
+       doxygen_call_okl etc. </li>
+      </ol>
+     </li>
+     <li> CLisp
+      <ol>
+       <li> We need symbolic links to "clisp" and to "lisp.run". </li>
+      </ol>
+     </li>
+     <li> Maxima
+      <ol>
+       <li> A plain symbolic link is sufficient. </li>
+       <li> We need to mention
+       Installations/Maxima/5.15.0/share/maxima/5.15.0/share/maxima-init.mac.
+       </li>
+      </ol>
+     </li>
+     <li> Sage
+      <ul>
+       <li> Only the sage-script needs to be made available. </li>
+       <li> Apparently the build is incomplete yet: The line
+       \verbatim
+SAGE_ROOT="....."
+       \endverbatim
+       in the sage-script needs to be changed to contain the full path. </li>
+       <li> Then a symbolic link works. </li>
+      </ul>
+     </li>
+     <li> R
+      <ol>
+       <li> A plain symbolic link is sufficient. </li>
+       <li> We need to point out in the documentation which files
+       are preloaded in this way. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Elaborated directory structure
@@ -100,13 +168,16 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    <li> Variable "prefix" in ExternalSources/Makefile should be replaced by
    variable ExternalSources. </li>
    <li> How to define variables like Boost and Ubcsat in general?
-     We need a nice little method (plus documentation), so that we can add easily as
-     many external libraries as we want. See See Gmp.mak and
-   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme. </li>
-   <li> And then we have make-variables "gcc_version_number" (for OKlibBuilding/Makefile) and
-     "gcc-version" (for boost.mak) which likely should have the same names. </li>
-   <li> In system_definitions.mak we have a definition of Boost which seems wrong
-     to me (OK) (or at least misleading). DONE (resp. moved to other todos) </li>
+   We need a nice little method (plus documentation), so that we can add
+   easily as many external libraries as we want. See See Gmp.mak and
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new
+   scheme. </li>
+   <li> And then we have make-variables "gcc_version_number" (for
+   OKlibBuilding/Makefile) and "gcc-version" (for boost.mak) which likely
+   should have the same names. </li>
+   <li> In system_definitions.mak we have a definition of Boost which seems
+   wrong to me (OK) (or at least misleading). DONE (resp. moved to other
+   todos) </li>
   </ul>
 
 

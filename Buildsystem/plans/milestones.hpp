@@ -11,12 +11,12 @@ License, or any later version. */
   \module_version Buildsystem 0.2.0.0 (23.9.2007)
 
 
-  \par Version 0.2.1 : THEME is "PROTO-RELEASE"
+  \par Version 0.2.1 : THEME is "ALPHA RELEASE"
 
   \par Buildsystem/ReleaseProcess 0.0.7
   (see Buildsystem/ReleaseProcess/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.2
+  \par Buildsystem/ExternalSources version 0.1.4
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.7
@@ -37,7 +37,7 @@ License, or any later version. */
   \par Buildsystem/SourceControl 0.2.3
   (see Buildsystem/SourceControl/plans/milestones.hpp)
 
-  \par Buildsystem/ExternalSources version 0.1.3
+  \par Buildsystem/ExternalSources version 0.1.5
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par Buildsystem/Html version 0.0.8
@@ -65,7 +65,7 @@ License, or any later version. */
 
   \par Version 0.2.3 : THEME is "Build system extensions"
 
-  \par Buildsystem/ExternalSources version 0.1.4
+  \par Buildsystem/ExternalSources version 0.1.6
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par
@@ -75,7 +75,7 @@ License, or any later version. */
 
   \par Version 0.2.4 :
 
-  \par Buildsystem/ExternalSources version 0.1.5
+  \par Buildsystem/ExternalSources version 0.1.7
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
   \par
