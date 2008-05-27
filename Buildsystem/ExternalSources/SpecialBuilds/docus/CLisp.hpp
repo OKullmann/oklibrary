@@ -71,12 +71,15 @@ License, or any later version. */
   <ul>
    <li> "libsigsegv" is needed (the clisp installation process will
    tell you about it); it can be installed as shown below. </li>
+   <li> At least on 64-bit machines also "libffcall" is need;
+   it can be installed as shown below. </li>
   </ul>
 
 
   <h3> Make targets </h3>
 
-  Only local installation currently.
+  Only local installation currently; and currently "libsigsegv" and
+  "libffcall" need to be installed.
   <table>
    <tr>
     <td> <code> clisp </code> </td>
@@ -94,6 +97,14 @@ License, or any later version. */
     <td> <code> cleanalllibsigsegv </code> </td>
     <td> Removes all libsigsegv build/installation/documentation directories. </td>
    </tr>
+   <tr>
+    <td> <code> libffcall </code> </td>
+    <td> Build the recommended version of libffcall. </td>
+   </tr>
+   <tr>
+    <td> <code> cleanalllibffcall </code> </td>
+    <td> Removes all libffcall build/installation/documentation directories. </td>
+   </tr>
   </table>
 
 
@@ -104,7 +115,9 @@ License, or any later version. */
    <code>clisp_recommended_version_number_okl</code> accordingly. </li>
    <li> To install a different version of Libsigsegv, set variable
    <code>libsigsegv_recommended_version_number_okl</code> accordingly. </li>
-  </ul>
+    <li> To install a different version of Libffcall, set variable
+   <code>libffcall_recommended_version_number_okl</code> accordingly. </li>
+ </ul>
 
 
 */

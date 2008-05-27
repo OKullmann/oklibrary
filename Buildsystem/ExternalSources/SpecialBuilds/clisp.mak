@@ -31,7 +31,7 @@ ifeq ($(clisp_recommended_version_number_okl),2.45)
 clisp : $(clisp_directories_okl)
 	$(call unarchive,$(clisp_source_okl),$(clisp_base_build_dir_okl))
 	cd $(clisp_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(clisp_installation_dir_okl) --with-libsigsegv-prefix=$(libsigsegv_installation_dir_okl) --cbc $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
+	./configure --prefix=$(clisp_installation_dir_okl) --with-libsigsegv-prefix=$(libsigsegv_installation_dir_okl) --with-libffcall-prefix=$(libffcall_installation_dir_okl) --cbc $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	cd $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	make install; $(postcondition)
 	cp -f $(clisp_installation_dir_okl)/share/doc/doc/* $(clisp_doc_dir_okl)
@@ -60,7 +60,7 @@ cleanallclisp :
 # Tool libsigsegv
 ###################################
 
-libsigsegv_directories_okl := $(libsigsegv_base_build_dir_okl)
+libsigsegv_directories_okl := $(libsigsegv_base_build_dir_okl) $(libsigsegv_base_installation_dir_okl)
 
 .PHONY : libsigsegv
 
@@ -77,3 +77,26 @@ libsigsegv : $(libsigsegv_directories_okl)
 
 cleanalllibsigsegv : 
 	-rm -rf $(libsigsegv_base_build_dir_okl) $(libsigsegv_base_installation_dir_okl) 
+
+
+# #################################
+# Tool libffcall
+###################################
+
+libffcall_directories_okl := $(libffcall_base_build_dir_okl) $(libffcall_base_installation_dir_okl)
+
+.PHONY : libffcall
+
+$(libffcall_directories_okl) : % : 
+	mkdir -p $@
+
+libffcall : $(libffcall_directories_okl)
+	$(call unarchive,$(libffcall_source_okl),$(libffcall_base_build_dir_okl))
+	cd $(libffcall_build_dir_okl); $(postcondition) \
+	./configure --prefix=$(libffcall_installation_dir_okl); $(postcondition) \
+	make; $(postcondition) \
+	make check; $(postcondition) \
+	make install; $(postcondition)
+
+cleanalllibffcall : 
+	-rm -rf $(libffcall_base_build_dir_okl) $(libffcall_base_installation_dir_okl) 

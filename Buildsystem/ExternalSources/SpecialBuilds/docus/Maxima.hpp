@@ -94,7 +94,7 @@ License, or any later version. */
    </tr>
    <tr>
     <td> <code> cleanallallmaxima </code> </td>
-    <td> Invokes <code>cleanalllibsigsegv,cleanallclisp,cleanallmaxima</code>. </td>
+    <td> Invokes <code>cleanalllibsigsegv,cleanalllibffcall,cleanallclisp,cleanallmaxima</code>. </td>
    </tr>
   </table>
 

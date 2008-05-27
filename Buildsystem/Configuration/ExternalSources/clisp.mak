@@ -60,8 +60,30 @@ libsigsegv_installation_dir_okl ?= $(libsigsegv_base_installation_dir_okl)/$(lib
 libsigsegv_base_build_dir_okl ?= $(clisp_base_build_dir_okl)/Libsigsegv
 libsigsegv_build_dir_okl ?= $(libsigsegv_base_build_dir_okl)/$(libsigsegv_recommended_package_name_okl)
 
-libsigsegv_homepage_url_okl := http://
+libsigsegv_homepage_url_okl := http://libsigsegv.sourceforge.net/
 
 libsigsegv_targets_prefix_okl := $(libsigsegv_prefix_okl)-
 libsigsegv_recommended_okl := $(libsigsegv_targets_prefix_okl)$(libsigsegv_recommended_version_number_okl)
 libsigsegv_source_okl := $(ExternalSources)/sources/CLisp/$(libsigsegv_recommended_okl)
+
+# Tool: libffcall
+
+libffcall_recommended_version_number_okl ?= 1.10
+libffcall_supported_not_recommended_version_numbers_okl ?= 
+libffcall_supported_version_numbers_okl ?= $(libffcall_supported_not_recommended_version_numbers_okl) $(libffcall_recommended_version_number_okl)
+
+libffcall_prefix_okl ?= ffcall
+
+libffcall_recommended_package_name_okl ?= $(libffcall_prefix_okl)-$(libffcall_recommended_version_number_okl)
+
+libffcall_base_installation_dir_okl ?= $(ExternalSources_installations)/Libffcall
+libffcall_installation_dir_okl ?= $(libffcall_base_installation_dir_okl)/$(libffcall_recommended_version_number_okl)
+libffcall_base_build_dir_okl ?= $(clisp_base_build_dir_okl)/Libffcall
+libffcall_build_dir_okl ?= $(libffcall_base_build_dir_okl)/$(libffcall_recommended_package_name_okl)
+
+libffcall_homepage_url_okl := http://www.haible.de/bruno/packages-ffcall.html
+
+libffcall_targets_prefix_okl := $(libffcall_prefix_okl)-
+libffcall_recommended_okl := $(libffcall_targets_prefix_okl)$(libffcall_recommended_version_number_okl)
+libffcall_source_okl := $(ExternalSources)/sources/CLisp/$(libffcall_recommended_okl)
+

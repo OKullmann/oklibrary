@@ -21,7 +21,7 @@ $(maxima_directories_okl) : % :
 # #################################
 
 
-allmaxima : libsigsegv clisp maxima
+allmaxima : libsigsegv libffcall clisp maxima
 
 ifneq ($(maxima_recommended_version_number_okl),5.15.0)
 maxima : $(maxima_directories_okl)
@@ -57,5 +57,5 @@ endif
 cleanallmaxima : 
 	-rm -rf $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl)
 
-cleanallallmaxima : cleanalllibsigsegv cleanallclisp cleanallmaxima
+cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallmaxima
 
