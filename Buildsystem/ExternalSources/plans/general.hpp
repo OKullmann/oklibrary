@@ -53,6 +53,15 @@ License, or any later version. */
        <li> We need to mention
        Installations/Maxima/5.15.0/share/maxima/5.15.0/share/maxima-init.mac.
        </li>
+       <li> HOWEVER, at present we should not encourage users do run maxima
+       by themselfes, since we do not have any control over maxima-init.mac:
+        <ul>
+         <li> If one is placed in ~/.maxima, then this will be ALWAYS used,
+         destroying the oklib-maxima-usage! </li>
+         <li> So this directory should not be present! </li>
+         <li> This is clearly a maxima-bug. </li>
+        </ul>
+       </li>
       </ol>
      </li>
      <li> Sage
