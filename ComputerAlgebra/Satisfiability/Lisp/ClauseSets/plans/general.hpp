@@ -19,10 +19,52 @@ License, or any later version. */
   \todo Write docus
 
 
-  \todo Better naming conventions
+  \todo Notions for clauses, clause-sets etc.
   <ul>
-   <li> Systematise the use of suffices like "cs" and "cs_f". </li>
-   <li> Likely "cs_to_fcs" should become "cs2fcs". </li>
+   <li> See "Better general naming conventions" in
+   ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp
+   for the general naming-discussion. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/plans/Literals.hpp
+   for general discussions on "literals". </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/plans/Clauses.hpp for
+   general discussions on "clauses". </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/plans/PartialAssignments.hpp
+   for general discusssions on "partial assignments". </li>
+   <li> All variations on clause-sets should still be "syntactical objects",
+   so the discussion in
+   ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp
+   is not relevant yet. </li>
+   <li> General clause-sets
+    <ul>
+     <li> A "general clause-set" is a triple [V,F,f], where V is a set of
+     variables, F a set of clause-labels, and f assigns to each element of
+     F a clause over V. </li>
+     <li> As we have a promotion from clause-sets to formal clause-sets, we
+     also need a promotion from a formal clause-set to a general clause-set.
+     </li>
+    </ul>
+   </li>
+   <li> Clause-sets, formal clause-sets, and general clause-sets also
+   exist as clause-lists, formal clause-lists and general clause-lists. </li>
+   <li> Then we have the "monosigned" versions, where literals are pairs
+   [v,e], with e a value. </li>
+   <li> And there a "signed" versions, where then e is a set of values. </li>
+   <li> A problem with non-boolean variables is, where to put the information
+   about the domain of the variables:
+    <ol>
+     <li> See the discussions in
+     ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp.
+     </li>
+     <li> Perhaps it's not part of clause-sets etc., but only part of
+     "problems" given for example to SAT-solvers. </li>
+    </ol>
+   </li>
+   <li> Conversions:
+    <ol>
+     <li> "cs2cl": from clause-sets to clause-lists </li>
+     <li> Likely "cs_to_fcs" should become "cs2fcs". </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -56,17 +98,6 @@ License, or any later version. */
     </ol>
    </li>
    <li> We need also reading from Dimacs-files. </li>
-  </ul>
-
-
-  \todo General clause-sets
-  <ul>
-   <li> A "general clause-set" is a triple [V,F,f], where V is a set of
-   variables, F a set of clause-labels, and f assigns to each element of
-   F a clause over V. </li>
-   <li> As we have a promotion from clause-sets to formal clause-sets, we
-   also need a promotion from a formal clause-set to a general clause-set.
-   </li>
   </ul>
 
 

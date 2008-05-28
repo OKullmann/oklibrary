@@ -10,13 +10,54 @@ License, or any later version. */
   \brief Plans for Lisp-SAT in general
 
 
-  \todo Redesign
+  \todo Clause-lists instead of clause-sets
   <ul>
-   <li> First we consider the simple Lisp-level. </li>
-   <li> So all existing computer-algebra-SAT-components are moved
-   to Satisfiability/Lisp. </li>
-  </ul>
+   <li> See "General design: Lists *here* are more fundamental than sets"
+   in ComputerAlgebra/plans/Maxima.hpp for the general discussion. </li>
 
+
+  \todo Better general naming conventions
+  <ul>
+   <li> See "Notions for clauses, clause-sets etc." in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp
+   for special issues regarding clause-sets etc. </li>
+   <li> Systematise the use of suffices like "cs" and "cs_f".
+    <ol>
+     <li> For variables: "v". </li>
+     <li> For literals: "l". </li>
+     <li> For clauses: "c". </li>
+     <li> For clause-sets: "cs". </li>
+     <li> For clause-lists: "cl". </li>
+     <li> For formal clause-sets: "fcs". </li>
+     <li> For formal clause-lists: "fcl". </li>
+    </ol>
+   </li>
+   <li> Then we have general clause-sets etc.: "gcs", "gcl" ? </li>
+   <li> What about literals as sets of pairs [v,e], where e is
+   a value (forbidden for CNF, allowed for DNF?
+    <ol>
+     <li> We could use the prefix "ms" for monosigned? </li>
+     <li> So "msl", "msc", "mscs", "mscl", "msfcs", "msgcs"? </li>
+    </ol>
+   </li>
+   <li> And then we have signed literals as sets of pairs [v,E],
+   where E is a set of values (or a list?)?
+    <ol>
+     <li> We could use the prefix "s" for signed? </li>
+     <li> So "sl", "sc", "scs", "scl", "sfcs", "sgcs"? </li>
+    </ol>
+   </li>
+   <li> Then we have the different kind of partial assignments:
+    <ol>
+     <li> Likely, partial assignments should be syntactically identical
+     with clauses. </li>
+     <li> Notions: "pa", "mspa", "spa". </li>
+     <li> And then, like for literals, clauses, clause-sets etc.
+     one has the CNF- and the DNF-*interpretation*. </li>
+    </ol>
+   </li>
+  </ul>
+   
 
   \todo Relations to other modules
   <ul>

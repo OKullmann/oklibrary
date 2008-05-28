@@ -83,6 +83,9 @@ save("rT65",rT65);
 
   \todo General design: Lists *here* are more fundamental than sets
   <ul>
+   <li> See "Clause-lists instead of clause-sets" in
+   ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp for the details
+   regarding satisfiability. </li>
    <li> It seems that instead of clause-sets we should use clause-lists
    as the fundamental objects. </li>
    <li> In the mathematical cosmos there is no creation and destruction,
