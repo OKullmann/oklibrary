@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding the catalogue of unsatisfiable non-singular hitting clause-sets
 
 
+  \todo Organisation
+  <ul>
+   <li> Rename this file to Uhit_def.hpp, and move data/uhit_def.hpp to
+   MinimalUnsatisfiabilility/Uhit_def.hpp. </li>
+  </ul>
+
+
   \todo Connections to other modules
   <ul>
    <li> See ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
@@ -112,17 +119,24 @@ sublist(apply_uhit(lambda([k,n,i,F],[k,n,i,redtsrp(F)])),lambda([T],T[4]));
    <li> And also the bigger catalogue uhit_def_n2s, where non-singularity
    is dropped, is of interest.
     <ol>
+     <li> The question is whether for given deficiency there are only
+     finitely many cases in uhit_def_n2s?! </li>
      <li> From this catalogue all of uhit_def can be created by inverse
      2-subsumption resolution. </li>
-     <li> The question is whether for given deficiency there are only
-     finitely many cases?! </li>
-     <li> Though the process of reduction by 2-subsumption-resolution
+     <li> A representation involves an element F of uhit_def_n2s, a
+     clause-list, and then a partial map from clause-indices to variable-sets,
+     where the latter specify the expansion. </li>
+     <li> The process of reduction by 2-subsumption-resolution
      is not confluent, and for a given (non-singular) hitting clause-set
      F there can exist 2 non-isomorphic hitting clause-sets reduces w.r.t.
-     2-subsumption-resolution which can be expanded to F. </li>
-     <li> Obvious examples are given by reducing full_fcs(n). </li>
-     <li> So for full_fcs(n) there exist many representations, the optimal
-     representing full_fcs(n) as the expansion of {{}} by setn(n). </li>
+     2-subsumption-resolution which can be expanded to F.
+      <ol>
+       <li> Obvious examples are given by reducing full_fcs(n). </li>
+       <li> For full_fcs(n) there exist many representations, the optimal
+       representing full_fcs(n) as the expansion of {{}} by setn(n). </li>
+       <li> One could use shortest representations. </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
