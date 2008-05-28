@@ -10,6 +10,77 @@ License, or any later version. */
   \brief General plans regarding the Maxima computer algebra system
 
 
+  \todo How to eliminate the mad handling of lists
+  <ul>
+   <li> Every list created by some function coming from a file
+   is internally stored with an annotation including the complete path
+   for the file! </li>
+   <li> Especially when saving results, this is a huge waste. </li>
+   <li> This seems to be connected with the "lisp debug mode". </li>
+   <li> This debugger is useless anyway --- how to get rid off it?!? </li>
+   <li> On the other hand, debugmode by default is false; so a different
+   kind of debug mode is meant here. </li>
+   <li> Likely this is code rot: At some time there was a problem with
+   the mlist-function, so that this debug-functionality was created,
+   and then it has not been removed. </li>
+   <li> Perhaps it is a property of "load" ? </li>
+   <li> For example "MLIST SIMP" and "MEXPT SIMP" are two lisp-function
+   invocation which are somehow defined to store filename and fileline. </li>
+   <li> One would think that in "mlisp.lisp" one should find the criminal?
+   </li>
+   <li> Or in "mload.lisp" ? </li>
+   <li> Files like "all_n6" currently used which have to store sessions
+   consist 30% of these filenames. Likely one can have easily
+   more dramatic examples. </li>
+   <li> Experiment with dll_simplest_st:
+   \verbatim
+T65 : dll_simplest_st_trivial2(weak_php(6,5))$
+Evaluation took 118.5080 seconds (130.9962 elapsed) using 352.670 MB.
+save("T65",T65);
+Evaluation took 4.9283 seconds (5.2729 elapsed) using 99.510 MB.
+
+> more T65
+(in-package :maxima)
+(DSKSETQ |$t65|
+ '((MLIST SIMP
+    (51
+     "/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac"
+     SRC $DLL_SIMPLEST_ST 48))
+   ((%PHP SIMP) 1 1)
+   ((MLIST SIMP
+     (51
+      "/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac"
+      SRC $DLL_SIMPLEST_ST 48))
+    ((%PHP SIMP) 1 2)
+    ((MLIST SIMP
+      (51
+       "/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac"
+       SRC $DLL_SIMPLEST_ST 48))
+
+> ls -la T65
+-rw-r--r--   1 kullmann users  4440379 2008-05-28 15:42 T65
+> cat T65 | sed -e "/\/home/,+1 d" > T65r
+> ls -la T65r
+-rw-r--r--   1 kullmann users  1362063 2008-05-28 16:45 T65r
+   \endverbatim
+   Now entering copies of dll_simplest_st and dll_simplest_st_trivial2
+   on the command line, with suffixes r:
+   \verbatim
+rT65 : rdll_simplest_st_trivial2(weak_php(6,5))$
+Evaluation took 112.3929 seconds (129.0938 elapsed) using 352.558 MB.
+is(rT65 = T65);
+true
+save("rT65",rT65);
+
+> ls -la rT65
+-rw-r--r--   1 kullmann users   605184 2008-05-28 16:51 rT65
+   \endverbatim
+   One sees that the "anonymous" version "rdll_simplest_st_trivial2",
+   not coming from a file, needs only roughly 10% of the space
+   of the file-version! </li>
+  </ul>
+
+
   \todo General design: Lists *here* are more fundamental than sets
   <ul>
    <li> It seems that instead of clause-sets we should use clause-lists

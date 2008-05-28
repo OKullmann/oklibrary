@@ -26,6 +26,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - How to eliminate the mad handling of lists
     - Debugging
     - Documentation
     - Handling of demos
