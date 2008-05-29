@@ -152,9 +152,10 @@ save("rT65",rT65);
    \verbatim
 find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-9_\-])load ?\(/oklib_include_basic\(/g;'
    \endverbatim
-   Whether or not this is beneficial is a potential topic for discussion 
-   although it would need further testing.
-   </li>
+   OK: What is the definition of "oklib_include_basic"?
+   I don't like the name  "oklib_include_basic" so much; perhaps
+   "oklib_plain_include"? And then likely we should also have "plain"
+   versions of the other 3 functions. </li>
    <li> The issue occurs that various maxima modules such as "graphs" take a 
    considerable time to load (~0.5 seconds on a modern machine) and such a load
    occurs in various very basic modules in the library such as 
