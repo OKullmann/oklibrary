@@ -135,6 +135,14 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    I don't like the name  "oklib_include_basic" so much; perhaps
    "oklib_plain_include"? And then likely we should also have "plain"
    versions of the other 3 functions. </li>
+   MG : Well the only thing needed seems to be to remove "full_name" from the 
+   current functions, for example 
+   \verbatim
+   oklib_include(name) := block(
+    if oklib_loaded_files[name] # oklib_load_round then
+     (oklib_loaded_files[name] : oklib_load_round, load(name))
+   );
+   \endverbatim
    <li> The issue occurs that various maxima modules such as "graphs" take a 
    considerable time to load (~0.5 seconds on a modern machine) and such a load
    occurs in various very basic modules in the library such as 
