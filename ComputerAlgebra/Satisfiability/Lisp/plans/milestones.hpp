@@ -15,7 +15,6 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following topics are handled:
-    - Redesign
     - Relations to other modules
     - Update plans
 
@@ -25,11 +24,21 @@ License, or any later version. */
 
   \par Version 0.0.7
 
+  \par
+   In ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp the following topics are handled:
+    - Redesign
+
+  \par
+   Update the following milestones.
+
+
+  \par Version 0.0.8
+
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)
 
 
-  \par Version 0.0.8
+  \par Version 0.0.9
 
   \par
    In ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp the following topics are handled:
@@ -40,7 +49,7 @@ License, or any later version. */
     - The notion of "condition"
 
 
-  \par Version 0.0.9
+  \par Version 0.0.10
 
   \par ComputerAlgebra/Satisfiability/Lisp/BranchingTuples version 0.0.6
   (see ComputerAlgebra/Satisfiability/Lisp/BranchingTuples/plans/milestones.hpp)

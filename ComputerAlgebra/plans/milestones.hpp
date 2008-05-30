@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.1 (5.1.2008)
+  \module_version ComputerAlgebra 0.1.1.1 (19.2.2008)
 
 
   \par Version 0.1.2
@@ -16,7 +16,7 @@ License, or any later version. */
   \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
-  \par ComputerAlgebra/Cryptology version 0.0.5
+  \par ComputerAlgebra/Cryptology version 0.0.5 : DONE
   (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
 
   \par
@@ -26,10 +26,8 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - How to eliminate the mad handling of lists
-    - Debugging
-    - Documentation
-    - Handling of demos
+    - How to eliminate the annotation of lists
+    - File load and include
     - New module "Trees" : DONE
 
   \par
@@ -37,8 +35,18 @@ License, or any later version. */
    are handled:
     - Outline of the test system
 
+
+  \par Version 0.1.3
+
+  \par ComputerAlgebra/Satisfiability version 0.0.7
+  (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
+
   \par
-   Update the following milestones.
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Plan the redesign
+
+  \par
+   Update the following milestones, towards version 0.2
 
 
   \par Version 0.2 THEME is "REDESIGN MAXIMA SYSTEM"
@@ -46,6 +54,10 @@ License, or any later version. */
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - General design: Lists *here* are more fundamental than sets
+    - Debugging
+    - Documentation
+    - Handling of demos
+    - Monitoring
 
 
   \par Version 0.2.1
@@ -54,18 +66,14 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - Naming conventions
     - Documentation
     - %Test system
     - Input checking
     - Contexts
-    - Aldor integration
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - File load and include
     - Recovering of partial results after long (unsuccessful) computations
-    - Monitoring
     - Timing
     - Local variables
     - Declaring variables
@@ -77,7 +85,7 @@ License, or any later version. */
 
   \par Version 0.2.2
 
-  \par ComputerAlgebra/Satisfiability version 0.0.6
+  \par ComputerAlgebra/Satisfiability version 0.0.8
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
   \par ComputerAlgebra/Cryptology version 0.0.6

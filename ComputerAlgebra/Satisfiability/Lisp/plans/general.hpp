@@ -10,6 +10,29 @@ License, or any later version. */
   \brief Plans for Lisp-SAT in general
 
 
+  \todo Relations to other modules
+  <ul>
+   <li> What is the relation to
+   LogicalReflection/FormalisedProofs/plans/FundamentalADTs.hpp ? </li>
+  </ul>
+
+
+  \todo Update plans:
+  <ul>
+   <li> Satisfiability/Lisp/plans/Clauses.hpp </li>
+   <li> Satisfiability/Lisp/plans/Literals.hpp </li>
+   <li> Satisfiability/Lisp/plans/MinimalSatisfyingAssignments.hpp </li>
+   <li> Satisfiability/Lisp/plans/SatisfactionProblems.hpp </li>
+  </ul>
+
+
+  \todo Redesign
+  <ul>
+   <li> See "Clause-lists instead of clause-sets" below. </li>
+   <li> See "Better general naming conventions" below. </li>
+  </ul>
+
+
   \todo Clause-lists instead of clause-sets
   <ul>
    <li> See "General design: Lists *here* are more fundamental than sets"
@@ -58,22 +81,6 @@ License, or any later version. */
    </li>
   </ul>
    
-
-  \todo Relations to other modules
-  <ul>
-   <li> What is the relation to
-   LogicalReflection/FormalisedProofs/plans/FundamentalADTs.hpp ? </li>
-  </ul>
-
-
-  \todo Update plans:
-  <ul>
-   <li> Satisfiability/Lisp/plans/Clauses.hpp </li>
-   <li> Satisfiability/Lisp/plans/Literals.hpp </li>
-   <li> Satisfiability/Lisp/plans/MinimalSatisfyingAssignments.hpp </li>
-   <li> Satisfiability/Lisp/plans/SatisfactionProblems.hpp </li>
-  </ul>
-
 
   \todo Symmetries
   <ul>
