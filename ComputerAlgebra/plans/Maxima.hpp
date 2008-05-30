@@ -10,25 +10,12 @@ License, or any later version. */
   \brief General plans regarding the Maxima computer algebra system
 
 
-  \todo How to eliminate the mad handling of lists
+  \todo How to eliminate the annotation of lists
   <ul>
    <li> Every list created by some function coming from a file
    is internally stored with an annotation including the complete path
    for the file! </li>
    <li> Especially when saving results, this is a huge waste. </li>
-   <li> This seems to be connected with the "lisp debug mode". </li>
-   <li> This debugger is useless anyway --- how to get rid off it?!? </li>
-   <li> On the other hand, debugmode by default is false; so a different
-   kind of debug mode is meant here. </li>
-   <li> Likely this is code rot: At some time there was a problem with
-   the mlist-function, so that this debug-functionality was created,
-   and then it has not been removed. </li>
-   <li> Perhaps it is a property of "load" ? </li>
-   <li> For example "MLIST SIMP" and "MEXPT SIMP" are two lisp-function
-   invocation which are somehow defined to store filename and fileline. </li>
-   <li> One would think that in "mlisp.lisp" one should find the criminal?
-   </li>
-   <li> Or in "mload.lisp" ? </li>
    <li> Files like "all_n6" currently used which have to store sessions
    consist 30% of these filenames. Likely one can have easily
    more dramatic examples. </li>
@@ -78,6 +65,92 @@ save("rT65",rT65);
    One sees that the "anonymous" version "rdll_simplest_st_trivial2",
    not coming from a file, needs only roughly 10% of the space
    of the file-version! </li>
+   <li> This seems to be connected with the "lisp debug mode".
+    <ol>
+     <li> This debugger is useless anyway --- how to get rid off it?!? </li>
+     <li> On the other hand, debugmode by default is false; so a different
+     kind of debug mode is meant here. </li>
+     <li> The main user of the annotation-functionality seems to be the
+     error-function. </li>
+    </ol>
+   </li>
+   <li> Perhaps it is a property of "load" ?
+    <ol>
+     <li> Yes, this seems to be the case. </li>
+     <li> In src/mload.lisp the function "load(filename)" is defined. </li>
+     <li> This function calls the parser "mread" defined in
+     src/nparse.lisp. </li>
+     <li> The parser mread calls the function "add-lineinfo(lis)" defined
+     in src/nparse.lisp (at the end of the file). </li>
+     <li> add-lineinfo adds then the filename and the linenumber. </li>
+     <li> Defining add-lineinfo as identity via
+     \verbatim
+(defun add-lineinfo (lis) (lis))
+     \endverbatim
+     (thanks to the Maxima mailing list) removes the annotation, but also
+     removes the file-information from the error-output (this we needed for 
+     "assert"!). </li>
+    </ol>
+   </li>
+   <li> So it seems that at file-load-time, when function definitions are
+   parsed, that then the code is instrumented with the annotation-ability 
+   (or not). </li>
+   <li> Thus it seems that once the function is parsed and made available,
+   its behaviour is fixed, and cannot be changed anymore. </li>
+   <li> So it seems we need an alternative definition of "load" which
+   invokes only the trivial add-lineinfo.
+    <ol>
+     <li> One possibility to achieve this would be to redefine add-lineinfo,
+     using a boolean switch for the two possible definitions. </li>
+     <li> The standard "load" then sets this switch to annotation-behaviour. 
+     </li>
+     <li> While the new "nload" sets this switch to no-annotation-behaviour. 
+     </li>
+     <li> This looks like the simplest way. </li>
+    </ol>
+   </li>
+   <li> So we need to refine the "oklib_load" functionality:
+    <ol>
+     <li> The normal "load", "include" etc. does not perform the annotation. 
+     </li>
+      <li> While "debug" versions do perform the annotation. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo File load and include
+  <ul>
+   <li> See "How to eliminate the annotation of lists" above! </li>
+   <li> Replacing all instances of "load" with a function "oklib_include_basic" 
+   which mimics oklib_include but without appending the OKSystem path (ie 
+   allowing the same single include behaviour as oklib_include provides for
+   maxima modules) seems to reduce the elapsed time for a call to 
+   "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a replacement was
+   done with something like the following shell code 
+   \verbatim
+find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-9_\-])load ?\(/oklib_include_basic\(/g;'
+   \endverbatim
+   OK: What is the definition of "oklib_include_basic"?
+   I don't like the name  "oklib_include_basic" so much; perhaps
+   "oklib_plain_include"? And then likely we should also have "plain"
+   versions of the other 3 functions. </li>
+   <li> The issue occurs that various maxima modules such as "graphs" take a 
+   considerable time to load (~0.5 seconds on a modern machine) and such a load
+   occurs in various very basic modules in the library such as 
+   Satisfiability/Lisp/BasicOperations.mac which is included in many files. </li> 
+   <li> (DONE An errant oklib_load instead of oklib_include caused this)
+   It appears that after the last submit of MG loading times nearly
+   trippled? </li>
+   <li> DONE (inclusions of OKlib-files happens only once, so there is
+   no problem here)
+   This isn't a problem usually but each new file that then includes 
+   BasicOperations.mac then increases the time for oklib_load_all() to run by at
+   least that ~0.5 seconds which adds up quite considerably over time. </li>
+   <li> Perhaps such modules could only be loaded once? </li>
+   <li> So a function very similar to "oklib_include" should be written, which
+   only loads the named file once, while not doing any path-administration, but
+   just using plain "load". </li>
   </ul>
 
 
@@ -141,37 +214,10 @@ save("rT65",rT65);
   </ul>
 
 
-  \todo File load and include
+  \todo Plan the redesign
   <ul>
-   <li> Replacing all instances of "load" with a function "oklib_include_basic" 
-   which mimics oklib_include but without appending the OKSystem path (ie 
-   allowing the same single include behaviour as oklib_include provides for
-   maxima modules) seems to reduce the elapsed time for a call to 
-   "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a replacement was
-   done with something like the following shell code 
-   \verbatim
-find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-9_\-])load ?\(/oklib_include_basic\(/g;'
-   \endverbatim
-   OK: What is the definition of "oklib_include_basic"?
-   I don't like the name  "oklib_include_basic" so much; perhaps
-   "oklib_plain_include"? And then likely we should also have "plain"
-   versions of the other 3 functions. </li>
-   <li> The issue occurs that various maxima modules such as "graphs" take a 
-   considerable time to load (~0.5 seconds on a modern machine) and such a load
-   occurs in various very basic modules in the library such as 
-   Satisfiability/Lisp/BasicOperations.mac which is included in many files. </li> 
-   <li> (DONE An errant oklib_load instead of oklib_include caused this)
-   It appears that after the last submit of MG loading times nearly
-   trippled? </li>
-   <li> DONE (inclusions of OKlib-files happens only once, so there is
-   no problem here)
-   This isn't a problem usually but each new file that then includes 
-   BasicOperations.mac then increases the time for oklib_load_all() to run by at
-   least that ~0.5 seconds which adds up quite considerably over time. </li>
-   <li> Perhaps such modules could only be loaded once? </li>
-   <li> So a function very similar to "oklib_include" should be written, which
-   only loads the named file once, while not doing any path-administration, but
-   just using plain "load". </li>
+   <li> Making lists fundamental, and introducing new and consistent naming
+   conventions. </li>
   </ul>
 
 
