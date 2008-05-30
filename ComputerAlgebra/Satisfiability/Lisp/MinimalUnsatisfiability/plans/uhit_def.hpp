@@ -108,7 +108,7 @@ License, or any later version. */
    <li> Which data is already provided in uhit_def.mac ? </li>
    <li> Process n=5,6,7,8.
     <ol>
-     <li> For n=5 add at least deficiencies delta = ??? </li>
+     <li> For n=5 add at least deficiencies delta = 4,5. </li>
      <li> For n=6 add at least deficiencies delta = 5,6,7. </li>
      <li> For n=7 add at least deficiencies delta = 5,6,7. </li>
      <li> For n=8 add at least deficiencies delta = 5,6,7. </li>
