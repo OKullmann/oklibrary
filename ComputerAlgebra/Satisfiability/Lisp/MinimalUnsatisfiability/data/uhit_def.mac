@@ -128,7 +128,7 @@ uhit_def[5,15] : [
 
 /* Deficiency 6 */
 
-uhit_def[6,"info"] : [false,4,inf,[[4,true]]]$
+uhit_def[6,"info"] : [false,4,inf,[[4,true],[19,unknown]]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def6.mac")$
 uhit_def[6,19] : [
  max_var_hitting_def(6)[2]
