@@ -121,20 +121,24 @@ save("rT65",rT65);
 
   \todo File load and include
   <ul>
-   <li> See "How to eliminate the annotation of lists" above! </li>
-   <li> Replacing all instances of "load" with a function "oklib_include_basic" 
-   which mimics oklib_include but without appending the OKSystem path (ie 
-   allowing the same single include behaviour as oklib_include provides for
-   maxima modules) seems to reduce the elapsed time for a call to 
-   "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a replacement was
-   done with something like the following shell code 
+   <li> The issue occurs that various maxima modules such as "graphs" take a 
+   considerable time to load (~0.5 seconds on a modern machine), and such a
+   load occurs in various very basic modules in the library such as 
+   Satisfiability/Lisp/BasicOperations.mac which is included in many files.
+   </li> 
+   <li> The cure is to replace all instances of "load" with a function
+   "oklib_include_basic" which mimics oklib_include but without appending the
+   OKSystem path (ie allowing the same single include behaviour as oklib_include
+   provides for maxima modules). This seems to reduce the elapsed time for a 
+   call to "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a
+   replacement was done with something like the following shell code 
    \verbatim
 find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-9_\-])load ?\(/oklib_include_basic\(/g;'
    \endverbatim
    OK: What is the definition of "oklib_include_basic"?
    I don't like the name  "oklib_include_basic" so much; perhaps
    "oklib_plain_include"? And then likely we should also have "plain"
-   versions of the other 3 functions. </li>
+   versions of the other 3 functions.
    MG : Well the only thing needed seems to be to remove "full_name" from the 
    current functions, for example 
    \verbatim
@@ -143,10 +147,9 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
      (oklib_loaded_files[name] : oklib_load_round, load(name))
    );
    \endverbatim
-   <li> The issue occurs that various maxima modules such as "graphs" take a 
-   considerable time to load (~0.5 seconds on a modern machine) and such a load
-   occurs in various very basic modules in the library such as 
-   Satisfiability/Lisp/BasicOperations.mac which is included in many files. </li> 
+   </li>
+   <li> See "How to eliminate the annotation of lists" above! 
+   So the issue becomes somewhat more complex. </li>
    <li> (DONE An errant oklib_load instead of oklib_include caused this)
    It appears that after the last submit of MG loading times nearly
    trippled? </li>
@@ -155,10 +158,6 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    This isn't a problem usually but each new file that then includes 
    BasicOperations.mac then increases the time for oklib_load_all() to run by at
    least that ~0.5 seconds which adds up quite considerably over time. </li>
-   <li> Perhaps such modules could only be loaded once? </li>
-   <li> So a function very similar to "oklib_include" should be written, which
-   only loads the named file once, while not doing any path-administration, but
-   just using plain "load". </li>
   </ul>
 
 
