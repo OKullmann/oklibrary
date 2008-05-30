@@ -93,9 +93,27 @@ License, or any later version. */
   \todo ExternalSources for larger data-sets
   <ul>
    <li> Larger data-sets should be made available as uhit_def*.mac
-   data-sets under ExternalSources, loadable on demand. </li>
-   <li> Process n=5,6,7. </li>
-   <li> For n=5 add deficiencies delta = 5,6,7,8,9,10,11. </li>
+   data-sets under ExternalSources, loadable on demand.
+    <ol>
+     <li> These files, as ".tar.bz2"-files, are to be found under
+     ExternalSources/data. </li>
+     <li> What ending for these files? They are created by save, so
+     apparently ".lisp" is appropriate? </li>
+     <li> It is the responsibility of the user to unpack these packages. </li>
+     <li> The path to the directory is known to our Maxima-system. </li>
+     <li> Perhaps we provide some special load-functions. </li>
+     <li> Single data sets can be specified, and also all of them. </li>
+    </ol>
+   </li>
+   <li> Which data is already provided in uhit_def.mac ? </li>
+   <li> Process n=5,6,7,8.
+    <ol>
+     <li> For n=5 add at least deficiencies delta = ??? </li>
+     <li> For n=6 add at least deficiencies delta = 5,6,7. </li>
+     <li> For n=7 add at least deficiencies delta = 5,6,7. </li>
+     <li> For n=8 add at least deficiencies delta = 5,6,7. </li>
+    </ol>
+   </li>
   </ul>
 
 
