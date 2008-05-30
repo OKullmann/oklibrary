@@ -15,56 +15,9 @@ License, or any later version. */
    <li> Every list created by some function coming from a file
    is internally stored with an annotation including the complete path
    for the file! </li>
-   <li> Especially when saving results, this is a huge waste. </li>
-   <li> Files like "all_n6" currently used which have to store sessions
-   consist 30% of these filenames. Likely one can have easily
-   more dramatic examples. </li>
-   <li> Experiment with dll_simplest_st:
-   \verbatim
-T65 : dll_simplest_st_trivial2(weak_php(6,5))$
-Evaluation took 118.5080 seconds (130.9962 elapsed) using 352.670 MB.
-save("T65",T65);
-Evaluation took 4.9283 seconds (5.2729 elapsed) using 99.510 MB.
-
-> more T65
-(in-package :maxima)
-(DSKSETQ |$t65|
- '((MLIST SIMP
-    (51
-     "/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac"
-     SRC $DLL_SIMPLEST_ST 48))
-   ((%PHP SIMP) 1 1)
-   ((MLIST SIMP
-     (51
-      "/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac"
-      SRC $DLL_SIMPLEST_ST 48))
-    ((%PHP SIMP) 1 2)
-    ((MLIST SIMP
-      (51
-       "/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac"
-       SRC $DLL_SIMPLEST_ST 48))
-
-> ls -la T65
--rw-r--r--   1 kullmann users  4440379 2008-05-28 15:42 T65
-> cat T65 | sed -e "/\/home/,+1 d" > T65r
-> ls -la T65r
--rw-r--r--   1 kullmann users  1362063 2008-05-28 16:45 T65r
-   \endverbatim
-   Now entering copies of dll_simplest_st and dll_simplest_st_trivial2
-   on the command line, with suffixes r:
-   \verbatim
-rT65 : rdll_simplest_st_trivial2(weak_php(6,5))$
-Evaluation took 112.3929 seconds (129.0938 elapsed) using 352.558 MB.
-is(rT65 = T65);
-true
-save("rT65",rT65);
-
-> ls -la rT65
--rw-r--r--   1 kullmann users   605184 2008-05-28 16:51 rT65
-   \endverbatim
-   One sees that the "anonymous" version "rdll_simplest_st_trivial2",
-   not coming from a file, needs only roughly 10% of the space
-   of the file-version! </li>
+   <li> Especially when saving results, this is a huge waste
+   (see the example in the git-history of this file; a factor 10
+   is not unrealistic). </li>
    <li> This seems to be connected with the "lisp debug mode".
     <ol>
      <li> This debugger is useless anyway --- how to get rid off it?!? </li>
@@ -83,13 +36,10 @@ save("rT65",rT65);
      <li> The parser mread calls the function "add-lineinfo(lis)" defined
      in src/nparse.lisp (at the end of the file). </li>
      <li> add-lineinfo adds then the filename and the linenumber. </li>
-     <li> Defining add-lineinfo as identity via
-     \verbatim
-(defun add-lineinfo (lis) (lis))
-     \endverbatim
-     (thanks to the Maxima mailing list) removes the annotation, but also
-     removes the file-information from the error-output (this we needed for 
-     "assert"!). </li>
+     <li> Defining add-lineinfo as identity via 
+     "(defun add-lineinfo (lis) (lis))" (thanks to the Maxima mailing list)
+     removes the annotation, but also removes the file-information from the
+      error-output (this we needed for "assert"!). </li>
     </ol>
    </li>
    <li> So it seems that at file-load-time, when function definitions are
@@ -101,12 +51,36 @@ save("rT65",rT65);
    invokes only the trivial add-lineinfo.
     <ol>
      <li> One possibility to achieve this would be to redefine add-lineinfo,
-     using a boolean switch for the two possible definitions. </li>
-     <li> The standard "load" then sets this switch to annotation-behaviour. 
+     using a boolean switch for the two possible definitions.
+      <ul>
+       <li> The standard "load" then sets this switch to annotation-behaviour. 
+       </li>
+       <li> While the new "nload" sets this switch to no-annotation-behaviour.
+       </li>
+       <li> This looks like the simplest way. </li>
+       <li> However then we need to introduce this switch, and perhaps this is not
+       straightforward at the Lisp level. </li>
+      </ul>
      </li>
-     <li> While the new "nload" sets this switch to no-annotation-behaviour. 
-     </li>
-     <li> This looks like the simplest way. </li>
+     <li> Another possibility is to introduce a new load-function:
+      <ul>
+       <li> Perhaps called "OKlib_mload.lisp", which defines the function
+       "oklib_mload", which is the same as mload, but uses "oklib_mread" instead
+       of mread, which in turn uses the trivial oklib_add-lineinfo. </li>
+       <li> Perhaps a new supermodule ComputerAlgebra/MaximaInternals should
+       be introduced, containing this file. </li>
+       <li> to Buildsystem/Configuration/ExternalSources/maxima.mak one would
+       add a line
+       \verbatim
+maxima_loadext_okl ?= $(Transitional)/ComputerAlgebra/MaximaInternals/OKlib_mload.lisp
+maxima_srcdir_okl ?= $(maxima_build_dir_okl)/src
+       \endverbatim
+       and in Buildsystem/ExternalSources/SpecialBuilds/maxima.mak one would add
+       to the build-instructions a line
+       \verbatim
+cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
+       \endverbatim
+      </li>
     </ol>
    </li>
    <li> So we need to refine the "oklib_load" functionality:
