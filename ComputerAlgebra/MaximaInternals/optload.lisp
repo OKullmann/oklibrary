@@ -1,8 +1,10 @@
-/* Copyright 2008 Andrej Vodopivec
-This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
-it and/or modify it under the terms of the GNU General Public License as published by
-the Free Software Foundation and included in this library; either version 3 of the
-License, or any later version. */
+;; Copyright 2008: derived from nparse.lisp and mload.lisp in Maxima 5.15,
+;; with the help of Andrej Vodopivec <andrej.vodopivec@gmail.com>.
+;; Preliminary licence 31.5.2008:
+;; This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+;; it and/or modify it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation and included in this library; either version 3 of the
+;; License, or any later version.
 
 (defvar *add-lineinfop* t)
 
