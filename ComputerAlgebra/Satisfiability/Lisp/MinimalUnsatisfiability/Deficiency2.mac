@@ -28,9 +28,9 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
    *********************************************************************
 */
 
-/* Standard clauses:*/
+/* Standard clauses: */
 pos_c(n) := setn(n)$
-neg_c(n) := comp_sl(setn(n))$
+neg_c(n) := setmn(-n,-1)$
 imp_c(i,n) := if i < n then {-i,i+1} else {-n,1}$
 
 /* The standard MUSAT(def=2) formulas where every literal occurs at least twice,

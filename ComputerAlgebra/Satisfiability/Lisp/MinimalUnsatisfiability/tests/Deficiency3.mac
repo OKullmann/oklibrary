@@ -38,7 +38,7 @@ charprop_minvdegdef3(FF,n) := (
 )$
 
 okltest_minvdegdef3(f) := (
-  for n : 2 thru 5 do
+  for n : 2 thru if oklib_test_level=0 then 3 else 5 do
     charprop_minvdegdef3(f(n),n),
   true)$
 
