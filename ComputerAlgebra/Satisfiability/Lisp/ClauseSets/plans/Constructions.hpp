@@ -47,10 +47,23 @@ License, or any later version. */
 
   \todo Gluing operations
   <ul>
-   <li> Given clause-sets F, G, use a new variable v, add v to all of
-   F, add -v to all of G, and take the union. </li>
+   <li> Gluing: DONE
+    <ol>
+     <li> DONE ("full_gluing")
+     Given clause-sets F, G, use a new variable v, add v to all of
+     F, add -v to all of G, and take the union. </li>
+     <li> DONE ("partial_gluing")
+     This is "full gluing", while for "partial gluing" v resp. -v
+     is only added to some clauses of F resp. G (but in both cases to
+     at least one clause). </li>
+    </ol>
+    Since this is some "combinatorial operation", we could first compute
+    n := max(n(F),n(G)), standardise the var-sets of F, G to {1,...,n},
+    and then use the new variable n+1.
+   </li>
    <li> Semantically this represents ( exists(v) : F or G). </li>
-   <li> Often this operation needs variable-disjointness, so we need
+   <li> DONE (we have vardisjoint_full_gluing)
+   Often this operation needs variable-disjointness, so we need
    some operation to make F, G variable-disjoint. </li>
   </ul>
 

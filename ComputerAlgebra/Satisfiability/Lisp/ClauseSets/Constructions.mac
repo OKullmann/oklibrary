@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Construc
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* **************************
@@ -66,14 +67,48 @@ neg_cs(F) := dual_cs(comp_cs(F))$
    ****************************
 */
 
+/* Given a list of formal clause-sets, make them variable-disjoint
+   by standardising the variable-sets to 1,2,..., and then take
+   the union of them. */
 vardisjoint_sum_fcs([LFF]) := block([VD : make_vardisjoint_fcs(LFF)],
  [setn(VD[2]), list_sets_union(map(clauses_f,VD[1]))])$
 
+/* Make formal clause-sets FF1, FF2 var-disjoint in the standard
+   way, and if we have then n variables together, add the new
+   variable n+1 positively to all clauses in FF1', negatively to all
+   in FF2', and take the union. */
 vardisjoint_full_gluing(FF1,FF2) := block(
  [vd : make_vardisjoint_fcs([FF1, FF2]), GG1,GG2, n],
   [GG1,GG2] : vd[1], n : vd[2],
   return([if FF1[2] = {} and FF2[2] = {} then {} else setn(n+1), 
           union(add_element(n+1,GG1[2]), add_element(-(n+1),GG2[2]))]))$
+
+/* Full gluing, standardising the variables. */
+full_gluing(FF1,FF2) := block(
+ [V : listify(union(FF1[1],FF2[1])), n, h, F1, F2],
+  n : length(V),
+  h : sm2hm(setify(makelist([V[i],i],i,1,n))),
+  F1 : substitute_cs(FF1[2],h),
+  F2 : substitute_cs(FF2[2],h),
+  return([setn(n+1), union(add_element(n+1,F1),
+                           add_element(-(n+1),F2))]))$
+
+/* Partial gluing, standardising the variables. */
+/* S1 is a non-empty subset of FF1[2], S2 is a non-empty subset
+   of FF2[2]. */
+partial_gluing(FF1,S1,FF2,S2) := block(
+ [V : listify(union(FF1[1],FF2[1])), n, h, F1, F2],
+  n : length(V),
+  h : sm2hm(setify(makelist([V[i],i],i,1,n))),
+  F1 : setdifference(FF1[2],S1),
+  F2 : setdifference(FF2[2],S2),
+  F1 : substitute_cs(F1,h),
+  F2 : substitute_cs(F2,h),
+  S1 : substitute_cs(S1,h),
+  S2 : substitute_cs(S2,h),
+  return([setn(n+1), union(add_element(n+1,S1),
+                           add_element(-(n+1),S2),
+                           F1, F2)]))$
 
 /*!
 \endhtmlonly

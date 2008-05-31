@@ -36,6 +36,8 @@ okltest_comp_cs(comp_cs);
 okltest_vardisjoint_sum_fcs(vardisjoint_sum_fcs);
 
 okltest_vardisjoint_full_gluing(vardisjoint_full_gluing);
+okltest_full_gluing(full_gluing);
+okltest_partial_gluing(partial_gluing);
 
 /*!
 \endhtmlonly
