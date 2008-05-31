@@ -26,8 +26,8 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - How to eliminate the annotation of lists
     - File load and include
+    - How to eliminate the annotation of lists : DONE
     - New module "Trees" : DONE
 
   \par

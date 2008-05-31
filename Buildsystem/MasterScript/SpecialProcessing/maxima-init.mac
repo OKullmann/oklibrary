@@ -55,14 +55,28 @@ define_variable(
   fixnum);
 oklib_loaded_files["maxima-init.mac"] : 0;
 
+define_variable(
+  oklib_load_annotation,
+  false,
+  boolean);
+/* Whether or not oklib_load and oklib_include create functions 
+   which annotate lists.
+   oklib_batch, oklib_demo always lead to annotation of lists
+   (that is, directly --- the invoked oklib_includes
+   then are governed by oklib_load_annotation).
+*/
+
+loadfile(sconcat(OKsystem,"/Transitional/ComputerAlgebra/MaximaInternals/optload.lisp"));
+
 oklib_load(name) := block([full_name : sconcat(OKsystem,"/",name)],
  oklib_load_round : oklib_load_round+1,
  oklib_loaded_files[full_name] : oklib_load_round,
- load(full_name));
+ load(full_name, oklib_load_annotation));
 
 oklib_include(name) := block([full_name : sconcat(OKsystem,"/",name)],
- if oklib_loaded_files[full_name] # oklib_load_round then
-  (oklib_loaded_files[full_name] : oklib_load_round, load(full_name))
+ if oklib_loaded_files[full_name] # oklib_load_round then (
+  oklib_loaded_files[full_name] : oklib_load_round, 
+  load(full_name, oklib_load_annotation))
 );
 
 oklib_load_all() := oklib_load("Transitional/ComputerAlgebra/include.mac");
@@ -80,6 +94,7 @@ define_variable(
   oklib_automatic_test,
   false,
   boolean);
+
 
 
 /* Storing all variables in fixed time intervals: */

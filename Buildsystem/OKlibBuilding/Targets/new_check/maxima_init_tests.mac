@@ -9,6 +9,7 @@ define_variable(testfile_okl,"m4_SHELL(OKL_MAXIMA_TEST_FILENAME)",any);
 define_variable(test_output_okl,"m4_SHELL(OKL_MAXIMA_TEST_OUTPUT)",any);
 
 oklib_automatic_test : true;
+oklib_load_annotation : true;
 
 test_level_okl : "m4_SHELL(test_level)";
 oklib_test_level : if test_level_okl = "basic" then 0 

@@ -11,6 +11,10 @@ License, or any later version. */
 
 
   \todo How to eliminate the annotation of lists
+  DONE : The variable oklib_load_annotation governs whether
+  functions loaded by oklib_load and oklib_include annotate
+  their results. For test purposes annotation is turned on,
+  while otherwise it is turned off by default.
   <ul>
    <li> Every list created by some function coming from a file
    is internally stored with an annotation including the complete path
