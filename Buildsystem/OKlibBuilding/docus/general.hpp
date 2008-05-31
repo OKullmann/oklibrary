@@ -64,7 +64,8 @@ License, or any later version. */
   <table>
    <tr>
     <td> <code> new_check </code> </td>
-    <td> First call <code>new_test</code>, then call <code>new_testop</code>. </td>
+    <td> First call <code>new_test</code>, then <code>new_testop</code>, then
+    <code>maxima_test</code>. </td>
    </tr>
    <tr>
     <td> <code> new_test </code> </td>
@@ -73,6 +74,10 @@ License, or any later version. */
    <tr>
     <td> <code> new_testop </code> </td>
     <td> Perform optimised tests (recompiling code if necessary). </td>
+   </tr>
+   <tr>
+    <td> <code> maxima_test </code> </td>
+    <td> Run the tests for the Maxima/Lisp level. </td>
    </tr>
   </table>
 
