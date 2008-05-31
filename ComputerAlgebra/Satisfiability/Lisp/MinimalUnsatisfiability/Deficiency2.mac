@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 
 /* *********************************************************************
@@ -27,12 +28,14 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    *********************************************************************
 */
 
+/* Standard clauses:*/
+pos_c(n) := setn(n)$
+neg_c(n) := comp_sl(setn(n))$
+imp_c(i,n) := if i < n then {-i,i+1} else {-n,1}$
+
 /* The standard MUSAT(def=2) formulas where every literal occurs at least twice,
    for n >= 2 */
-musatd2(n) := [setn(n), 
- union(
-   {setify(makelist(i,i,1,n)), setify(makelist(-i,i,1,n))},
-   setify(makelist({-i,i+1},i,1,n-1)), {{-n,1}})]$
+musatd2(n) := [setn(n), union({pos_c(n),neg_c(n)}, setify(makelist(imp_c(i,n),i,1,n)))]$
 
 
 /*!
