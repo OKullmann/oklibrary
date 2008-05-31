@@ -47,7 +47,7 @@ okltest_charprop_nsmusatd2(f) := (
 
 okltest_musatd2(f) := (
   for n : 2 thru 5 do
-    charprop_nsmusatd2(musatd2(n),n),
+    assert(charprop_nsmusatd2(musatd2(n),n) = true),
   true)$
 
 /*!
