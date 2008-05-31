@@ -141,17 +141,6 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
     filename)$
 
 
-/* *******************************************************
-   * Minimally unsatisfiable clause-sets of deficiency 2 *
-   *******************************************************
-*/
-
-/* The standard MUSAT(def=2) formulas where every literal occurs at least twice,
-   for n >= 2 */
-musatd2(n) := [setn(n), union({setify(makelist(i,i,1,n)), setify(makelist(-i,i,1,n))},
- setify(makelist({-i,i+1},i,1,n-1)), {{-n,1}})]$
-
-
 /* **************************************************
    * Translated minimally unsatisfiable clause-sets *
    **************************************************
