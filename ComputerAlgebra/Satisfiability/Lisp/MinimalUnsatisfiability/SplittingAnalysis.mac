@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SplittingAnalysis.mac
-  \brief Operations regarding minimally unsatisfiable clause-sets
+  \brief Analysing the splitting (via partial assignments) of minimally unsatisfiable clause-sets
 
 Use by
 
@@ -19,12 +19,15 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 
 /* Compute a sequence of minimally unsatisfiable clause-sets as subsets
    of a given clause-set under random splitting. */
+/* The sequence starts with a minimally unsatisfiable sub-clause-set
+   of the given clause-set, then one where the first variable is set
+   to a random value, etc. */
 /* Prerequisite: F is unsatisfiable. */
 /* This is a sort of a "random generator" for minimally unsatisfiable
     clause-sets. */
