@@ -124,7 +124,7 @@ substitute_c(C,h) :=
     if elementp(y,{false,-false}) then x else y)),
   C)$
 
-/* Substitute liteals in clause-set F via hash table h (possibly
+/* Substitute literals in clause-set F via hash table h (possibly
    creating pseudo-clauses with clashing literals). */
 substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 
