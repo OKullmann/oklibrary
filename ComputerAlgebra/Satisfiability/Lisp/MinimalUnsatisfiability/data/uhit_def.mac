@@ -109,6 +109,7 @@ uhit_def[4,"info"] : [false,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[7,
 uhit_def[4,3] : [
  nearly_full_hitting_fcs(3)[2]
 ]$
+/* Remark: This is also minvdegdef4(2) (flipping variable 2). */
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def4.mac")$
 uhit_def[4,11] : [
   max_var_hitting_def(4)[2]
