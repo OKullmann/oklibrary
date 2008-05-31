@@ -146,6 +146,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - System-wide installation
+    - Handling of redefined load-function
 
 
   \par Version 0.2.7 (new external sources for computer algebra and graphs)

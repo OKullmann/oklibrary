@@ -19,6 +19,27 @@ License, or any later version. */
   </ul>
 
 
+  \todo Handling of redefined load-function
+  <ul>
+   <li> See "How to eliminate the annotation of lists" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
+   <li> And see the e-mail thread (May 2008)
+   "how to stop the annotation of lists by filenames?" on the Maxima
+   mailing list. </li>
+   <li> We need documentation on this regarding the build-system:
+    <ol>
+     <li> We need to watch the Maxima distribution, whether the
+     two functions involved, "load" and "add-lineinfo", ever are
+     changed, and then we need to incorporate these changes. </li>
+     <li> Hopefully, this is not a big thing, since these functions
+     are rather small. </li>
+     <li> The good point about this solution is its non-intrusiveness:
+     The Maxima system doesn't know about these changes. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo DONE Installing libsigsegv and CLisp 2.45 locally
   <ul>
    <li> First trying to install clisp 2.45 system-wide with the existing
