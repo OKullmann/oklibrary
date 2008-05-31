@@ -54,6 +54,7 @@ okltest_add_element(add_element);
    ********************************************
 */
 
+okltest_ecomp(ecomp);
 okltest_setdifference2(setdifference2);
 
 /*!

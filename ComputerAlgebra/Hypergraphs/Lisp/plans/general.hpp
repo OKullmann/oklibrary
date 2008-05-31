@@ -23,6 +23,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Set creation
+  <ul>
+   <li> It would be nice to have "create_set", as we have "create_list". </li>
+   <li> However
+   \verbatim
+create_set([A]) := setify(apply(create_list,A))$
+   \endverbatim
+   does not work, since apply evaluates the argument A. </li>
+   <li> It should be possible to make this work, but perhaps this is not 
+   worth the effort? </li>
+   <li> Ask on the Maxima mailing list. </li>
+  </ul>
+
+
   \todo Hypergraphs/Lisp/Generators.mac
   <ul>
    <li> Create complete r-graphs. </li>

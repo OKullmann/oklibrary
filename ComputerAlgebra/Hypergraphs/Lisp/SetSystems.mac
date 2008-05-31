@@ -36,9 +36,9 @@ choose_element(S) := listify(S)[1]$
 */
 
 /* The set {1,...,n} */
-setn(n) := if n <= 0 then {} else setify(makelist(i,i,1,n))$
+setn(n) := setify(create_list(i,i,1,n))$
 /* The set {m, ..., n} */
-setmn(m,n) := if n < m then {} else setify(makelist(i,i,m,n))$
+setmn(m,n) := setify(create_list(i,i,m,n))$
 
 /* A set of singletons from a set */
 singletons(M) := makeset({x},[x],cartesian_product(M))$
@@ -164,7 +164,7 @@ min_elements(S) := block([remains : sort_length(listify(S)), result : [], A, not
   result : append(result, [A]),
   not_subsumed : sublist_indices(remains, lambda([B], not subsetp(A, B))),
   remains : makelist(remains[j], j, not_subsumed)),
-  setify(result)
+ setify(result)
 )$
 
 /* Eliminates all contained elements from a set system */
@@ -174,7 +174,7 @@ max_elements(S) := block([remains : sort_length_desc(listify(S)), result : [], A
   result : append(result, [A]),
   not_contained : sublist_indices(remains, lambda([B], not subsetp(B, A))),
   remains : makelist(remains[j], j, not_contained)),
-  setify(result)
+ setify(result)
 )$
 
 

@@ -471,6 +471,15 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo Document important programming techniques:
   <ul>
+   <li> List creation:
+    <ol>
+     <li> Better avoid makelist, since it is less powerfull then
+     create_list, and also does not handle well the case of empty lists. </li>
+     <li> Better, we should use makelist only if we are sure that the
+     second list bound is not smaller than the first, and if we do not need
+     the power of create_list. </li>
+    </ol>
+   </li>
    <li> Shallow copy of list arguments for functions:
     <ol>
      <li> Give examples for this behaviour. </li>
