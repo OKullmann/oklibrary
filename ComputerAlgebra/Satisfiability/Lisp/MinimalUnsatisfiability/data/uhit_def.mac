@@ -30,6 +30,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency3.mac")$
 
 
 kill(uhit_def)$
@@ -66,8 +67,8 @@ uhit_def[2,3] : [max_var_hitting_def(2)[2]]$
 
 uhit_def[3,"info"] : [unknown,3,inf,[[3,true],[4,true],[5,unknown],[6,unknown],[7,unknown]]]$
 uhit_def[3,3] : [
+ minvdegdef3(2)[2],
  {{1,2,3},{-1,2,3},{1,-2,3},{-1,-2,3},{1,-3},{-1,-3}},
- {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-1,2,3},{1,3}},
  {{-3,-2},{-3,-1,2},{-3,1,2},{-2,-1,3},{-2,1,3},{2,3}}
 ]$
 uhit_def[3,4] : [
