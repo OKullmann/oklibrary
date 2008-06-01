@@ -104,7 +104,11 @@ okltest_eq_ohmsm_p(f) := block([M,h],
   set_hash_okl([],h,1),
   assert(f(h,M) = false),
   M : define_set_map(M,[],1),
-  assert(f(h,M) = false),
+  assert(f(h,M) = (not oklib_load_annotation)), /* Assumes, that
+  the setting of oklib_load_annotation was the same when loading 
+  this file, and that oklib_include or oklib_load was used;
+  this is automatically given when loading the testobject-file
+  by any of the oklib-load-instructions. */
   h : hash_table_okl(),
   set_hash_okl(1,h,1), set_hash_okl(-1,h,0),
   M : {[1,1],[-1,0]},
