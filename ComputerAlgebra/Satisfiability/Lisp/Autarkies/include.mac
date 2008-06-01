@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.m
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LargestAutarky.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LargestAutarky.mac")$
