@@ -20,6 +20,12 @@ License, or any later version. */
 
 
   \todo Deciding matching leanness
+  <ul>
+   <li> Using the definition (no matching autarky exists). </li>
+   <li> Using the surplus. </li>
+   <ol> DONE Using the criterion, that every strict subset has a smaller
+   deficiency. </li>
+  </ul>
 
 
   \todo Computing the matching-lean kernel

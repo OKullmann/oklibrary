@@ -20,9 +20,11 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/include.m
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LargestAutarky.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/MatchingAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LargestAutarky.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/MatchingAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/Translations.mac")$
 
 /*!
