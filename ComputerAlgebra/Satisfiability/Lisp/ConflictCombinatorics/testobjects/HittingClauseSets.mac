@@ -59,14 +59,19 @@ okltest_check_hitting_nsing_def(check_hitting_nsing_def);
 
 okltest_hitting_decomposition_m_cs(hitting_decomposition_m_cs);
 
-/* ***********************************************
-   * Hitting clause-sets with bounded deficiency *
-   ***********************************************
+/* ********************************************************************
+   * Finding hitting clause-sets with given deficiency "sporadically" *
+   ********************************************************************
 */
 
 okltest_all_hittinginstances_def(all_hittinginstances_def);
 
 okltest_all_hitting_DP_reductions_def(all_hitting_DP_reductions_def);
+
+/* ********************************************************************
+   * Finding hitting clause-sets with given deficiency systematically *
+   ********************************************************************
+*/
 
 okltest_derived_hitting_cs(derived_hitting_cs);
 okltest_derived_hitting_cs_pred(derived_hitting_cs_pred);

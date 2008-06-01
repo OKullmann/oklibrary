@@ -174,9 +174,9 @@ okltest_hitting_decomposition_m_cs(f) := block(
   true)$
 
 
-/* ***********************************************
-   * Hitting clause-sets with given deficiency *
-   ***********************************************
+/* ********************************************************************
+   * Finding hitting clause-sets with given deficiency "sporadically" *
+   ********************************************************************
 */
 
 okltest_all_hittinginstances_def(f) := block(
@@ -244,6 +244,12 @@ okltest_all_hitting_DP_reductions_def(f) := block(
     assert(pc = n!)
   ),
   true)$
+
+
+/* ********************************************************************
+   * Finding hitting clause-sets with given deficiency systematically *
+   ********************************************************************
+*/
 
 okltest_derived_hitting_cs(f) := block([presult,result,F],
   result : f({},0,'presult), assert(result = {{}}), assert(presult = result),
