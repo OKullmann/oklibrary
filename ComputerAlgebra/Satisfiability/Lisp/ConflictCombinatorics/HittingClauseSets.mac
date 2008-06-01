@@ -255,6 +255,7 @@ all_hitting_DP_reductions_def(F,k,[mon]) := block(
 
 /* The method is to applying 2-subsumption resolution. */
 
+/* First the basic search algorithms. */
 
 /* Given a hitting clause-set F, find all (necessarily hitting) clause-sets
    derived from F by (exactly) k 2-subsumption resolution-steps without
@@ -406,11 +407,54 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
                    F,
                    adjoin(R,union(forb_pairs,removable)),
                    false)))))$
+/* The variation where greedily the min-var-degree is maximised. */
+/* Assumes that no variables is eliminated. */
+all_derived_hitting_cs_pred_isoelim_mvd(F,repository,pred) :=
+  all_derived_hitting_cs_pred_forb_isoelim_mvd(F,{},true)$
+/* "repository" and "pred" is inherited. */
+all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
+ [count : 0, V : var_cs(F), max_mvd],
+  max_mvd : max_min_var_degree_def_rec[deficiency_fcs([V,F]) - 1],
+  oklib_save(),
+  if check then
+    if not manage_repository_isomorphism_types([V,F], repository) then
+      return(count)
+    else count : count + 1,
+  block(
+   [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs),
+    R : {}, G, mvd : minf,
+    found : false],
+    for P in FP unless found do block(
+      [G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+      if not pred(G2) then
+        forb_pairs : adjoin(P, forb_pairs)
+      else block([d : min_variable_degree_cs(G2)],
+        if d = max_mvd then (found : true, G : G2, R : P)
+        else if d > mvd then (mvd : d, G : G2, R : P))
+    ),
+    if not found and R = {} then return(count),
+    block(
+     [removable : {}],
+      count : count + all_derived_hitting_cs_pred_forb_isoelim_mvd(
+                   G,
+                   forb_pairs,
+                   true),
+      FP : setdifference(FP,forb_pairs),
+      FP : disjoin(R,FP),
+      for P in FP do block([G2 : adjoin(resolvent_s(P),setdifference(F,P))],
+        if is_isomorphic_btr_fcs([V,G],cs_to_fcs(G2)) then
+          removable : adjoin(P,removable)),
+      return(count + all_derived_hitting_cs_pred_forb_isoelim_mvd(
+                   F,
+                   adjoin(R,union(forb_pairs,removable)),
+                   false)))))$
 
+/* Now instances and applications of these basic algorithms. */
 
 /* The instance where no singular variable is created. */
 /* Prerequisite: F does not have singular variables. */
 all_derived_hitting_cs_nsing_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,redsingdpp)$
+all_derived_hitting_cs_nsing_isoelim_mvd(F,repository) := all_derived_hitting_cs_pred_isoelim_mvd(F,repository,redsingdpp)$
 /* The instance where only resolutions with full parent clauses
    are considered. */
 all_derived_hitting_cs_fullpc_isoelim(F,repository) := all_derived_hitting_cs_pred_isoelim(F,repository,
@@ -458,6 +502,11 @@ all_unsinghitting_steps(steps,n,results_all_hitting) :=
 all_unsinghitting(n, _hash_repo) := block([count],
   _hash_repo :: sm2hm({}),
   count : all_derived_hitting_cs_nsing_isoelim(full_fcs(n)[2],ev(_hash_repo)),
+  count
+)$
+all_unsinghitting_mvd(n, _hash_repo) := block([count],
+  _hash_repo :: sm2hm({}),
+  count : all_derived_hitting_cs_nsing_isoelim_mvd(full_fcs(n)[2],ev(_hash_repo)),
   count
 )$
 

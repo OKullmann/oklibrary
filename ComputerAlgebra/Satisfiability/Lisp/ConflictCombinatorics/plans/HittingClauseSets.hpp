@@ -116,6 +116,8 @@ License, or any later version. */
      reaching a low deficiency. </li>
      <li> So we should use a heuristics h(F,FP,forb_pairs), which returns
      [R,G,new_forb_pairs] respectively [new_forb_pairs]. </li>
+     <li> Yet, as a prototype, this is hardcoded into
+     "all_derived_hitting_cs_pred_isoelim_mvd". </li>
      <li> Another heuristics would be to maximise the min-lit-degree. </li>
     </ol>
    </li>
