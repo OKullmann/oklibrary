@@ -142,13 +142,19 @@ nvar_max_var_hitting_def(k) := 3 + (k-2) * 4$
 /* SAT decision for hitting clause-sets */
 sat_decision_hitting_cs(F) := is(satprob_hitting(F) > 0)$
 
-/* Tests whether a clause-set is a hitting clause-set */
+/* Tests whether a clause-set is a hitting clause-set. */
 hittingcsp(F) := block([l : length(F), L : listify(F), break : false],
   for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
     if not clashp(L[i], L[j]) then break : true,
   return(not break))$
 /* hittingcsp(F) = completegrp(cg_cs(F)) */
 /* Also: hittingcsp(F) iff independence_number_cs(F) <= 1. */
+/* Tests whether a clause-set is a 1-regular hitting clause-set. */
+hitting1rcsp(F) := block([l : length(F), L : listify(F), break : false],
+  for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
+    if not length(intersection(L[i],comp_sl(L[j]))) = 1 then break : true,
+  return(not break))$
+
 
 /* Tests whether a clause-set is a tree hitting clause-set */
 treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],

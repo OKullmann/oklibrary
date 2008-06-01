@@ -117,6 +117,19 @@ okltest_hittingcsp(f) := block(
     assert(f(uniform_usat_hitting_max(n))),
   true)$
 
+okltest_hitting1rcsp(f) := block(
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f({{1}}) = true),
+  assert(f({{},{1}}) = false),
+  for n : 2 thru 4 do
+    assert(f(musatd2(n)[2]) = false),
+  assert(f({{1},{-1}}) = true),
+  for n : 0 thru 4 do
+    assert(f(uniform_usat_hitting_min(n)) = true),
+  for n : 0 thru 4 do
+    assert(f(uniform_usat_hitting_max(n)) = if n<=1 then true else false),
+  true)$
 
 okltest_treehittingcsp(f) := block(
   assert(f({}) = false),
