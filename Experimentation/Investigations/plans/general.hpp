@@ -40,30 +40,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Low variable-degrees and high clause-lengths
-  <ul>
-   <li> This should become its own module. </li>
-   <li> The general question considers clause-sets F (boolean and also
-   non-boolean) with minimal clause-length k and maximal variable-degree
-   r. How low can r be so that still unsatisfiable instances are possible?
-   </li>
-   <li> One can restrict the clause-sets to uniform clause-sets. </li>
-   <li> Since elements in MUSAT(1) have relatively the largest number
-   of variables possible, one can only consider F in MUSAT(1).
-   See
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp.
-   </li>
-   <li> Or one considers only hitting clause-sets; see
-   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/general.hpp.
-   </li>
-   <li> One can also demand variable- or literal-regularity (see also the
-   considerations for hitting clause-sets). </li>
-   <li> Instead variable- or literal-degrees one can consider the maximal
-   degrees in the common-variable graph or on the conflict-graph (both
-   now are clause-degrees). See again hitting clause-sets. </li>
-  </ul>
-
-
   \todo Experimental investigations on heuristics
   <ul>
    <li> Above we have precise data on families of problem instances. </li>
