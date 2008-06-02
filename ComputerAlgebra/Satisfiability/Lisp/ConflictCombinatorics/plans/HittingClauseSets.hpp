@@ -132,6 +132,24 @@ License, or any later version. */
      <li> Perhaps we should have a dedicated sub-module. </li>
     </ol>
    </li>
+   <li> Generalise nearly_full_hitting_fcs:
+    <ol>
+     <li> For n and 0 <= i <= n we can find F with deficiency
+     2^n - n - i which attain the upper bound on the min-var-degree. </li>
+     <li> i=0 is full_fcs(n), i=1 is nearly_full_hitting_fcs(n). </li>
+     <li> For i >= 2 we don't have uniqueness. </li>
+     <li> Finding all cases can be done by derived_hitting_cs_pred_isoelim.
+      <ul>
+       <li> But for getting only the sharp cases it seems necessary not
+       to use the same variable twice. </li>
+       <li> This should also be sufficient. </li>
+       <li> So we can speed up the computation. </li>
+      </ul>
+     </li>
+     <li> And then we should have a simple procedure which can find
+     one clause-set for each i. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -216,6 +234,8 @@ dp_inst_brr : all_hitting_DP_reductions_def(brouwer1999[2],3,'dp_inst_br)$
      </li>
     </ol>
    </li>
+   <li> See Experimentation/Investigations/plans/MaximiseMinVarDegrees.hpp
+   for related investigations into maximising the min-var-degree. </li>
   </ul>
 
 */
