@@ -14,6 +14,17 @@ License, or any later version. */
   <ul>
    <li> Rename this file to Uhit_def.hpp, and move data/uhit_def.hpp to
    MinimalUnsatisfiabilility/Uhit_def.hpp. </li>
+   <li> Loading the data-set takes too long:
+    <ol>
+     <li> Some form of oklib_include is needed, which by default is
+     off, and is turned on by some switch. </li>
+     <li> See "File load and include" in ComputerAlgebra/plans/Maxima.hpp.
+     </li>
+     <li> Also the tests then need to be activated resp. deactivated.
+     So perhaps the catalogue needs to contain data about activation status.
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -43,7 +54,8 @@ License, or any later version. */
      <li> Perhaps we create a list of such mock-variations. </li>
     </ol>
    </li>
-   <li> At level basic, the test for uhit_def takes too long. </li>
+   <li> DONE
+   At level basic, the test for uhit_def takes too long. </li>
   </ul>
 
 

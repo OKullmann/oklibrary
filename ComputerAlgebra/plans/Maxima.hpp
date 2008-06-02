@@ -128,6 +128,9 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    </li>
    <li> See "How to eliminate the annotation of lists" above! 
    So the issue becomes somewhat more complex. </li>
+   <li> See also "Organisation" in
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/uhit_def.hpp
+   for the need of optional load/include. </li>
    <li> (DONE An errant oklib_load instead of oklib_include caused this)
    It appears that after the last submit of MG loading times nearly
    trippled? </li>
