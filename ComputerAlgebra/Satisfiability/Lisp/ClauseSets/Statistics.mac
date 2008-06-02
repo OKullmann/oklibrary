@@ -175,7 +175,7 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
    ********************
 */
 
-/* The degree of a variable in a clause-set */
+/* The degree of a variable in a clause-set. */
 variable_degree_cs(F,v) := length(scls_v(F,v))$
 
 /* The variable-degrees of a clause-set, as hash-map. */
@@ -183,9 +183,13 @@ variable_degrees_cs(F) := block([h : sm2hm({})],
  for C in F do
   for v in var_c(C) do set_hm(h,v,ev_hm_d(h,v,0)+1),
  return(h))$
+
 /* The minimal variable-degree of a clause-set. */
 min_variable_degree_cs(F) := 
   lmin(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
+/* The maximal min-var-degree of a set (or list) of clause-sets. */
+max_min_var_deg_cs(SF) := lmax(map(min_variable_degree_cs,SF))$
+
 /* The maximal variable-degree of a clause-set. */
 max_variable_degree_cs(F) := 
   lmax(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
@@ -196,9 +200,13 @@ max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   for m in D do block([d : m[2]],
     if d > maxd then (maxd : d, optv : m[1])),
   return([maxd, optv]))$
-/* tests whether a clause-set is variable-regular (all variables have the same
-   degree) */
+/* The minimal max-var-degree of a set (or list) of clause-sets. */
+min_max_var_deg_cs(SF) := lmin(map(max_variable_degree_cs,SF))$
+
+/* Tests whether a clause-set is variable-regular (all variables have the same
+   degree). */
 variableregularcsp(F) := is(min_variable_degree_cs(F) >= max_variable_degree_cs(F))$
+
 /* the average variable-degree of a formal clause-set */
 mean_variable_degree_cs(FF) := 2 * mean_literal_degree_fcs(FF)$
 /* literal frequencies in various forms: */
