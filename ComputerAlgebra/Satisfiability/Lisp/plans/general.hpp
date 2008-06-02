@@ -44,6 +44,9 @@ License, or any later version. */
    <li> See "Notions for clauses, clause-sets etc." in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp
    for special issues regarding clause-sets etc. </li>
+   <li> See "Naming" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Statistics.hpp
+   for naming of statistics. </li>
    <li> Systematise the use of suffices like "cs" and "cs_f".
     <ol>
      <li> For variables: "v". </li>
@@ -77,6 +80,21 @@ License, or any later version. */
      <li> Notions: "pa", "mspa", "spa". </li>
      <li> And then, like for literals, clauses, clause-sets etc.
      one has the CNF- and the DNF-*interpretation*. </li>
+    </ol>
+   </li>
+   <li> It seems that in general we do not mention the output-type in the
+   name:
+    <ol>
+     <li> However, if we do, for example "clause-sets maps to hash-map",
+     then we should use "...hm_cs(args)". </li>
+     <li> The special syntax "cs2hm(F)" should be reserved for conversions.
+     </li>
+    </ol>
+   </li>
+   <li> There is the issue of using underscores ("min_var_deg_cs") or
+   not ("varregcsp").
+    <ol>
+     <li> Perhaps leaving it out only for those predicates. </li>
     </ol>
    </li>
   </ul>
