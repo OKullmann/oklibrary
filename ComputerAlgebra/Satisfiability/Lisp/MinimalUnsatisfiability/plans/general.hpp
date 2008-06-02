@@ -31,6 +31,8 @@ License, or any later version. */
   <ul>
    <li> The general quest here is for example which show that the bound
    max_min_var_degree_def is sharp. </li>
+   <li> See Experimentation/Investigations/plans/MaximiseMinVarDegrees.hpp
+   for the general investigation. </li>
    <li> Perhaps the considerations regarding hitting clause-sets should go
    to a module regarding hitting clause-sets ?
     <ol>
