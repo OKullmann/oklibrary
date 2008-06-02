@@ -31,12 +31,15 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.ma
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/DP-Reductions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Deficiency3.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 
 
 kill(uhit_def)$
 
 /* The list of available deficiencies. */
-uhit_def[0,"info"] : append(makelist(k,k,1,12),[24,26,27,43,58])$
+uhit_def[0,"info"] : append(makelist(k,k,1,27),[43,58])$
 
 /* For a given deficiency k, the info-field uhit_def[k,"info] contains:
  - true if the classification is complete, and false/unknown otherwise
@@ -139,7 +142,7 @@ uhit_def[6,19] : [
 
 /* Deficiency 7 */
 
-uhit_def[7,"info"] : [false,4,inf,[[4,true]]]$
+uhit_def[7,"info"] : [false,4,inf,[[4,true],[23,unknown]]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def7.mac")$
 uhit_def[7,23] : [
  max_var_hitting_def(7)[2]
@@ -148,7 +151,7 @@ uhit_def[7,23] : [
 
 /* Deficiency 8 */
 
-uhit_def[8,"info"] : [false,4,inf,[[4,true]]]$
+uhit_def[8,"info"] : [false,4,inf,[[4,true],[27,unknown]]]$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def8.mac")$
 uhit_def[8,27] : [
  max_var_hitting_def(8)[2]
@@ -157,23 +160,8 @@ uhit_def[8,27] : [
 
 /* Deficiency 9 */
 
-uhit_def[9,"info"] : [false,4,inf,[[4,true]]]$
-uhit_def[9,4] : [
-{{-4,-3},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,-1,2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-1,2,3,4},{1,3,4}}, 
-{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,4}}, 
-{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,1,2},{-4,-2,-1,3},{-4,-1,2},{-4,1,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,1,3,4},{-1,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,2},{-4,-2,1,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,2},{-4,-2,1,3},{-4,-1,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-3,2},{-4,-2,3},{-4,-1,2,3},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2,4},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}, 
-{{-4,-3,-2},{-4,-2,-1,3},{-4,-2,1,3},{-4,-1,2},{-4,1,2,3},{-3,-2,-1,4},{-3,-2,1,4},{-3,-1,2,4},{-3,1,2},{-2,-1,3,4},{-2,1,3,4},{-1,2,3,4},{1,2,3,4}}
-]$ 
+uhit_def[9,"info"] : [false,4,inf,[[4,true],[31,unknown]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def9.mac")$
 uhit_def[9,31] : [
  max_var_hitting_def(9)[2]
 ]$
@@ -232,9 +220,131 @@ uhit_def[12,43] : [
 */
 
 
+/* Deficiency 13 */
+
+uhit_def[13,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def13.mac")$
+/*
+uhit_def[13,47] : [
+ max_var_hitting_def(13)[2]
+]$
+*/
+
+
+/* Deficiency 14 */
+
+uhit_def[14,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def14.mac")$
+/*
+uhit_def[14,51] : [
+ max_var_hitting_def(14)[2]
+]$
+*/
+
+
+/* Deficiency 15 */
+
+uhit_def[15,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def15.mac")$
+/*
+uhit_def[15,55] : [
+ max_var_hitting_def(15)[2]
+]$
+*/
+
+
+/* Deficiency 16 */
+
+uhit_def[16,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def16.mac")$
+/*
+uhit_def[16,59] : [
+ max_var_hitting_def(16)[2]
+]$
+*/
+
+
+/* Deficiency 17 */
+
+uhit_def[17,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def17.mac")$
+/*
+uhit_def[17,63] : [
+ max_var_hitting_def(17)[2]
+]$
+*/
+
+
+/* Deficiency 18 */
+
+uhit_def[18,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def18.mac")$
+/*
+uhit_def[18,67] : [
+ max_var_hitting_def(18)[2]
+]$
+*/
+
+
+/* Deficiency 19 */
+
+uhit_def[19,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def19.mac")$
+/*
+uhit_def[19,71] : [
+ max_var_hitting_def(19)[2]
+]$
+*/
+
+
+/* Deficiency 20 */
+
+uhit_def[20,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def20.mac")$
+/*
+uhit_def[20,75] : [
+ max_var_hitting_def(20)[2]
+]$
+*/
+
+
+/* Deficiency 21 */
+
+uhit_def[21,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def21.mac")$
+/*
+uhit_def[21,79] : [
+ max_var_hitting_def(21)[2]
+]$
+*/
+
+
+/* Deficiency 22 */
+
+uhit_def[22,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def22.mac")$
+/*
+uhit_def[22,83] : [
+ max_var_hitting_def(22)[2]
+]$
+*/
+
+
+/* Deficiency 23 */
+
+uhit_def[23,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def23.mac")$
+/*
+uhit_def[23,87] : [
+ max_var_hitting_def(23)[2]
+]$
+*/
+
+
 /* Deficiency 24 */
 
-uhit_def[24,"info"] : [false,5,inf,[[8,false]]]$
+uhit_def[24,"info"] : [false,5,inf,[[5,false],[8,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def24.mac")$
 uhit_def[24,8] : [
   brouwer1999[2]
 ]$
@@ -245,13 +355,24 @@ uhit_def[24,91] : [
 */
 
 
+/* Deficiency 25 */
+
+uhit_def[25,"info"] : [false,5,inf,[[5,false]]]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def25.mac")$
+/*
+uhit_def[25,95] : [
+ max_var_hitting_def(25)[2]
+]$
+*/
+
+
 /* Deficiency 26 */
 
 uhit_def[26,"info"] : [false,5,inf,[[5,true]]]$
 uhit_def[26,5] : [nearly_full_hitting_fcs(5)[2]]$
 /*
-uhit_def[27,103] : [
- max_var_hitting_def(27)[2]
+uhit_def[26,99] : [
+ max_var_hitting_def(26)[2]
 ]$
 */
 
@@ -270,20 +391,7 @@ uhit_def[27,103] : [
 /* Deficiency 43 */
 
 uhit_def[43,"info"] : [false,6,inf,[[6,false]]]$
-uhit_def[43,6] : [
-
-{{-6,-5},{-6,-4,-3,-2,-1,5},{-6,-4,-3,-2,1,5},{-6,-4,-3,-1,2,5},{-6,-4,-3,1,2,5},
- {-6,-4,-2,-1,3,5},{-6,-4,-2,1,3,5},{-6,-4,-1,2,3,5},{-6,-4,1,2,3,5},{-6,-3,-2,-1,4,5},
- {-6,-3,-2,1,4,5},{-6,-3,-1,2,4,5},{-6,-3,1,2,4,5},{-6,-2,-1,3,4,5},{-6,-2,1,3,4,5},
- {-6,-1,2,3,4,5},{-6,1,2,3,4,5},{-5,-4,-3,-2,-1,6},{-5,-4,-3,-2,1,6},{-5,-4,-3,-1,2,6},
- {-5,-4,-3,1,2,6},{-5,-4,-2,-1,3,6},{-5,-4,-2,1,3,6},{-5,-4,-1,2,3,6},{-5,-4,1,2,3,6},
- {-5,-3,-2,-1,4,6},{-5,-3,-2,1,4,6},{-5,-3,-1,2,4,6},{-5,-3,1,2,4,6},{-5,-2,-1,3,4,6},
- {-5,-2,1,3,4,6},{-5,-1,2,3,4,6},{-5,1,2,3,4,6},{-4,-3,-2,-1,5,6},{-4,-3,-2,1,5,6},
- {-4,-3,-1,2,5,6},{-4,-3,1,2,5,6},{-4,-2,-1,3,5,6},{-4,-2,1,3,5,6},{-4,-1,2,3,5,6},
- {-4,1,2,3,5,6},{-3,-2,-1,4,5,6},{-3,-2,1,4,5,6},{-3,-1,2,4,5,6},{-3,1,2,4,5,6},
- {-2,-1,3,4,5,6},{-2,1,3,4,5,6},{-1,2,3,4,5,6},{1,2,3,4,5,6}}
-
-]$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def43.mac")$
 /*
 uhit_def[43,127] : [
  max_var_hitting_def(43)[2]
@@ -339,10 +447,18 @@ lambert_w_b(x,b) := block([fpprec : 20],
  bfloat(lambert_w1(log(b) * x) / log(b)))$
 
 
-/* ****************************
-   * Evaluating the catalogue *
-   ****************************
+/* ***************************
+   * Accessing the catalogue *
+   ***************************
 */
+
+/* The list of all clause-sets in the catalogue for a given deficiency. */
+/* Sorted by ascending number of variables, and for a given number of variables
+   in the given order. */
+all_uhit_def(k) := block([L : uhit_def[k,"info"]],
+  if op(L) = uhit_def then return([]),
+  apply(append,makelist(uhit_def[k,n],n,map(first,L[4]))))$
+
 
 /* Apply function f to all elements of the catalogue:
    Call f(k,n,i,F), store the results in a list. */
@@ -383,6 +499,11 @@ uhit_n(n,info) := block(
    else return(collect_uhit_n(n,K[1],K[2]))))$
 
 
+/* ****************************
+   * Evaluating the catalogue *
+   ****************************
+*/
+
 /* For a list of candidate clause-sets, determine whether F is
    reduced unsatisfiable hitting, and in the positive case
    determine whether F is contained in the catalogue or not,
@@ -407,6 +528,34 @@ classify_candidates_uhit_def(L) := block([result : []],
     )
   ),
   return(result))$
+
+/* Similarly to analyse_isorepo_defset, but only keeps the clause-sets s.t.
+   their min-var-degree is equal to the upper bound max_min_var_degree_def
+   and which are not already in the uhit-catalogue. */
+/* Repository must be an isomorphism-type repository of unsatisfiable
+   non-singular hitting clause-sets. */
+analyse_isorepo_defset_mvd(repository) := block(
+ [M : hm2sm(repository), h : sm2hm({})],
+  for P in M do block([def : P[1][2] - P[1][1], mvd],
+    mvd : max_min_var_degree_def_rec[def],
+    set_hm(h,def,union(ev_hm_d(h,def,{}), 
+      subset(map(fcs2cs,P[2]),
+        lambda([F],is(min_variable_degree_cs(F)=mvd 
+          and classify_candidates_uhit_def([F])[1][2]="new")))))),
+  sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+/* This variation keeps those clause-sets which improve the min-var-degrees
+   per deficiency in the catalogue. */
+/* If the uhit-catalogue has been updated, then the memoised values of
+   max_min_var_deg_uhit_def_mem might be wrong. */
+analyse_isorepo_defset_imprmvd(repository) := block(
+ [M : hm2sm(repository), h : sm2hm({})],
+  for P in M do block([def : P[1][2] - P[1][1], mvd],
+    mvd : max_min_var_deg_uhit_def_mem[def],
+    set_hm(h,def,union(ev_hm_d(h,def,{}), 
+      subset(map(fcs2cs,P[2]),
+        lambda([F],is(min_variable_degree_cs(F) > mvd)))))),
+  sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+
 
 /* Compute the reduced isomorphism type of a clause-set F w.r.t. 
    non-singular unsatisfiable hitting clause-sets:

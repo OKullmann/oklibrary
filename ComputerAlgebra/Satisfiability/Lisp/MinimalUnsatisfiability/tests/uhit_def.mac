@@ -25,6 +25,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/data/uhit_def.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 
 
 kill(f)$
@@ -112,6 +114,28 @@ okltest_uhit_n(f) := (
   assert(length(f(3,false)) = 6),
   assert(f(4,true) = true),
   assert(length(f(4,false)) = 368),
+  true)$
+
+okltest_classify_candidates_uhit_def(f) := block(
+  assert(f([]) = []),
+  assert(f([{}]) = [false]),
+  assert(f([{{1}}]) = [false]),
+  assert(f([{},{{}},{{1}},{{1},{-1}},full_fcs(2)[2],full_fcs(3)[2]]) = [false,[[1,0],1],false,false,[[2,2],1],[[5,3],1]]),
+  true)$
+
+okltest_analyse_isorepo_defset_mvd(f) := block([h,FF],
+  h : sm2hm({}),
+  assert(f(h) = []),
+  manage_repository_isomorphism_types([{},{{}}],h),
+  assert(f(h) = [[1,{}]]),
+  manage_repository_isomorphism_types(full_fcs(2),h),
+  assert(f(h) = [[1,{}],[2,{}]]),
+  manage_repository_isomorphism_types(full_fcs(3),h),
+  assert(f(h) = [[1,{}],[2,{}],[5,{}]]),
+  if oklib_test_level = 0 then return(true),
+  FF : full_fcs(8),
+  manage_repository_isomorphism_types(full_fcs(8),h),
+  assert(f(h) = [[1,{}],[2,{}],[5,{}],[248,{FF[2]}]]),
   true)$
 
 /*!

@@ -23,11 +23,25 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfi
 
 okltest_uhit_def(uhit_def);
 
+/* *************************************
+   * Bounds on the deficiency and on n *
+   *************************************
+*/
+
 okltest_max_def_uhit_n(max_def_uhit_n);
 okltest_min_n_uhit_def(min_n_uhit_def_i);
 okltest_min_n_uhit_def(min_n_uhit_def_l);
 
+/* ****************************
+   * Evaluating the catalogue *
+   ****************************
+*/
+
 okltest_uhit_n(uhit_n);
+
+okltest_classify_candidates_uhit_def(classify_candidates_uhit_def);
+
+okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
 
 /*!
 \endhtmlonly

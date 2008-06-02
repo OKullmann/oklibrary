@@ -47,6 +47,16 @@ License, or any later version. */
   </ul>
 
 
+  \todo uhit_def
+  <ul>
+   <li> We would like to be able to use "uhit_def[k]" for the
+   list or set of all clause-sets of deficiency k in the catalogue. </li>
+   <li> Yet we have all_uhit_def(k). </li>
+   <li> Such accessors need to be rationalised; compare todo "uhit_n"
+   below. </li>
+  </ul>
+
+
   \todo uhit_n
   <ul>
    <li> info_data should be computed. </li>
@@ -57,6 +67,17 @@ License, or any later version. */
    two functions which compute lower and upper bounds on possible
    deficiencies for a given n, and then check whether for all these
    deficiencies the corresponding entries are complete. </li>
+  </ul>
+
+
+  \todo Evaluating the catalogue
+  <ul>
+   <li> DONE (analyse_isorepo_defset_imprmvd)
+   Similar to analyse_isorepo_defset_mvd we need a function,
+   which runs through a repository and keeps those clause-sets
+   whose min-var-degree is better than anything in the catalogue. </li>
+   <li> One needs also to combine analyse_isorepo_defset_mvd and
+   analyse_isorepo_defset_imprmvd. </li>
   </ul>
 
 
