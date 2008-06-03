@@ -79,19 +79,18 @@ License, or any later version. */
      <li> max_min_var_deg_uhit_def(k) yields the maximal min-var-deg
      realised in the uhit_def-catalogue for deficiency k. </li>
      <li> We have sharpness w.r.t. the bound for k in
-     {2, 3,4,5, 7, 8,9,10,11,12, 22,23,24,25,26,27, 43, 51,52,53,54,55,56,58},
+     {2, 3,4,5, 7, 8,9,10,11,12, 20, 22,23,24,25,26,27, 43, 51,52,53,54,55,56,58},
      </li>
      <li> For the other deficiencies we have the maxima:
       <ul>
        <li> k = 6 : 8 = 9-1 </li>
-       <li> k = 13 : 15 = 17-2 </li>
+       <li> k = 13 : 16 = 17-1 </li>
        <li> k = 14 : 16 = 18-2 </li>
        <li> k = 15 : 17 = 19-2 </li>
        <li> k = 16 : 19 = 20-1 </li>
        <li> k = 17 : 20 = 21-1 </li>
        <li> k = 18 : 21 = 22-1 </li>
        <li> k = 19 : 22 = 23-1 </li>
-       <li> k = 20 : 23 = 24-1 </li>
        <li> k = 21 : 24 = 25-1 </li>
       </ul>
      </li>
