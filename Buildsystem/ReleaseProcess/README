@@ -30,7 +30,9 @@ For creation of documentation we also need:
 
  - the Qt library
  - Latex
- - the m4 preprocessor.
+ - the m4 preprocessor
+ - Flex 
+ - Bison.
 
 And for pulling from a git repository via the http protocoll we need
 
