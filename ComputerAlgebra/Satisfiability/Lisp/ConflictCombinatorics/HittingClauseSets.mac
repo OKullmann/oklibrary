@@ -377,7 +377,8 @@ derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitt
 */
 all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
-/* "repository" and "pred" is inherited. */
+/* "repository" and "pred" are inherited. */
+/* Uses random_permutation, and is thus governed by set_random_state. */
 all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F)],
   oklib_save('repository),
@@ -388,7 +389,7 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
   block(
    [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
     R,G, found : false],
-    for P in FP unless found do (
+    for P in random_permutation(FP) unless found do (
       G : adjoin(resolvent_s(P),setdifference(F,P)),
       if not pred(G) then
         forb_pairs : adjoin(P, forb_pairs)
@@ -411,7 +412,8 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
 /* Assumes that no variables is eliminated. */
 all_derived_hitting_cs_pred_isoelim_mvd(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim_mvd(F,{},true)$
-/* "repository" and "pred" is inherited. */
+/* "repository" and "pred" are inherited. */
+/* Uses random_permutation, and is thus governed by set_random_state. */
 all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F), max_mvd],
   max_mvd : max_min_var_degree_def_rec[deficiency_fcs([V,F]) - 1],
@@ -424,7 +426,7 @@ all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
    [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs),
     R : {}, G, mvd : minf,
     found : false],
-    for P in FP unless found do block(
+    for P in random_permutation(FP) unless found do block(
       [G2 : adjoin(resolvent_s(P),setdifference(F,P))],
       if not pred(G2) then
         forb_pairs : adjoin(P, forb_pairs)
