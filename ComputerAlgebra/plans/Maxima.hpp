@@ -478,6 +478,23 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo Document important programming techniques:
   <ul>
+   <li> Loops:
+    <ol>
+    <li> In "for x in X do" list/set X is evaluated only once, before
+    entering the loop. </li>
+    <li> In "for i : a thru b do" term b is evaluated with every iteration,
+    while a is evaluated only once. </li>
+    <li> Conditions under "while" and "unless" are evaluated with every
+    iteration. </li>
+    </ol>
+   </li>
+   <li> Randomisation:
+    <ol>
+     <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
+     is set by set_random_state(make_random_state(n)). </li>
+     <li> Randomised functions are "random", "random_permutation". </li>
+    </ol>
+   </li>
    <li> List creation:
     <ol>
      <li> Better avoid makelist, since it is less powerfull then
