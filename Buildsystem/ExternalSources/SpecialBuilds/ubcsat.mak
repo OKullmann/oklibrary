@@ -24,12 +24,10 @@ $(ubcsat-directories) : % :
 # The Targets
 # #################################
 
-.PHONY : ubcsat $(ubcsat_targets_okl)
+.PHONY : ubcsat
 
-ubcsat : $(ubcsat_recommended_okl)
-
-$(ubcsat_targets_okl) : $(ubcsat-directories)
-	$(call unarchive,$(ExternalSources_sources)/SAT/Ubcsat/$@,$(ubcsat_build_dir_okl),src)
+ubcsat : $(ubcsat-directories)
+	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_build_dir_okl),src)
 	dos2unix $(ubcsat-src-directory)/*.c $(ubcsat-src-directory)/*.h
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
 	cp -f $(ubcsat_corrected_files_okl) $(ubcsat-tmp-src-directory)

@@ -18,8 +18,8 @@ ubcsat_installation_dir_okl ?= $(ubcsat_base_installation_dir_okl)/$(ubcsat_reco
 ubcsat_base_build_dir_okl ?= $(ExternalSources_builds)/SAT/Ubcsat
 ubcsat_build_dir_okl ?= $(ubcsat_base_build_dir_okl)/$(ubcsat_recommended_version_number_okl)
 
-ubcsat_src_okl ?= $(ubcsat_installation_dir_okl)/src
-ubcsat_include_option_okl ?= -I- -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/local -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected -I$(ubcsat_src_okl)
+ubcsat_installsrc_okl ?= $(ubcsat_installation_dir_okl)/src
+ubcsat_include_option_okl ?= -I- -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/local -I$(OKsystem)/Transitional/Satisfiability/Algorithms/LocalSearch/Ubcsat/corrected -I$(ubcsat_installsrc_okl)
 ubcsat_link_okl ?= $(ubcsat_installation_dir_okl)/lib
 ubcsat_link_option_okl ?= -L$(ubcsat_link_okl) -lubcsat
 
@@ -34,6 +34,6 @@ ubcsat_corrected_dir_okl := $(OKsystem)/Transitional/Satisfiability/Algorithms/L
 ubcsat_corrected_files_okl := $(wildcard $(ubcsat_corrected_dir_okl)/*.h $(ubcsat_corrected_dir_okl)/*.c)
 
 ubcsat_targets_prefix_okl := $(ubcsat_prefix_okl)-
-ubcsat_targets_okl := $(addprefix $(ubcsat_targets_prefix_okl), $(ubcsat_supported_version_numbers_okl))
 ubcsat_recommended_okl := $(ubcsat_targets_prefix_okl)$(ubcsat_recommended_version_number_okl)
+ubcsat_source_okl := $(ExternalSources)/sources/SAT/Ubcsat/$(ubcsat_recommended_okl)
 
