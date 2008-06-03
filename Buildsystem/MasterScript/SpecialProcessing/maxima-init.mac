@@ -113,11 +113,18 @@ define_variable(
   number);
 
 /* Returns true if storage action did happen: */
-oklib_save() := if oklib_store then block(
+/* If no arguments are given, then everything is saved,
+   otherwise the arguments are passed to the save-function;
+   so if they represent names of variables, then they need
+   to be quoted. */
+oklib_save([L]) := if oklib_store then block(
  [ert : elapsed_run_time()],
   if ert - oklib_old_storing_time >= oklib_storage_interval * 60 then block(
    [file_output_append : false],
-    save(oklib_session_name,all),
+    if emptyp(L) then
+      save(oklib_session_name,all)
+    else
+      apply(save, cons(oklib_session_name,L)),
     oklib_old_storing_time : ert,
     return(true)
   )
