@@ -551,9 +551,10 @@ analyse_isorepo_defset_imprmvd(repository) := block(
  [M : hm2sm(repository), h : sm2hm({})],
   for P in M do block([def : P[1][2] - P[1][1], mvd],
     mvd : max_min_var_deg_uhit_def_mem[def],
-    set_hm(h,def,union(ev_hm_d(h,def,{}), 
-      subset(map(fcs2cs,P[2]),
-        lambda([F],is(min_variable_degree_cs(F) > mvd)))))),
+    if mvd < max_min_var_degree_def_rec[def] then (
+      set_hm(h,def,union(ev_hm_d(h,def,{}), 
+        subset(map(fcs2cs,P[2]),
+          lambda([F],is(min_variable_degree_cs(F) > mvd))))))),
   sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
 
 
