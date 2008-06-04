@@ -45,6 +45,9 @@ okltest_inv_aes_round(inv_aes_round);
 okltest_aes_encrypt(aes_encrypt);
 okltest_aes_decrypt(aes_decrypt);
 
+okltest_polynomial2vector(polynomial2vector);
+okltest_vector2polynomial(vector2polynomial);
+
 /*!
 \endhtmlonly
 */
