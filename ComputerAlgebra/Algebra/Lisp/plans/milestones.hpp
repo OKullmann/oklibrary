@@ -18,7 +18,7 @@ License, or any later version. */
    the following topics are handled:
     - Tests
     - Docus
-    - Finite Fields package function doesn't terminate
+    - Finite Fields package function doesn't terminate DONE
     - Move the finite-fields functions here. DONE
     - Create milestones DONE
   

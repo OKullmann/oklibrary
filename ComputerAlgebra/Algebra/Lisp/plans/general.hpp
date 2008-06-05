@@ -41,28 +41,6 @@ Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
    <li> This should certainly be kept in mind. </li>
   </ul>
 
-  \bug Finite Fields package function doesn't terminate
-  <ul>
-   <li> This has been raised on the maxima bug tracker as #1913047 
-   https://sourceforge.net/tracker/?func=detail&atid=104933&aid=1913047&group_id=4933
-   </li>
-   <li> This has been fixed in the latest cvs version of maxima (5.15) and the 
-   upcoming release candidate. 5.15 should be available in the next few weeks.
-   </li>
-   <li> Additionally an email entitled "Setting GF(2) in share/contrib/gf.mac 
-   doesn't terminate?" has now been sent to the mailing list. </li>
-   <li> The current distributor of the package seems to be Jacopo Daurizio? Is
-   there some way to contact him (googling him and a quick search of the 
-   mailing list archives don't seem to find anything)? </li>
-   <li> "gf_set" doesn't terminate when passed 1 as an argument for the degree. 
-   </li>
-   <li> "gf_set(2,1,[x]);" leads to non-termination (MG : or at least it takes
-   much longer than expected) </li>
-   <li> This should be moved when the wrapper functions are moved into a 
-   seperate module </li>
-  </ul>
-
-
   \todo Finite Field operations
   <ol>
    <li> The gf_set operation in the finite field package takes a considerable
@@ -131,6 +109,30 @@ Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
    http://www.math.utexas.edu/pipermail/maxima/2006/003255.html), 
    although this looks untested. DONE (started using it) </li>
   </ol>
+
+
+  \bug DONE Finite Fields package function doesn't terminate
+  <ul>
+   <li> OKlibrary now uses maxima 5.15 and this has been fixed in this 
+   version. </li>
+   <li> This has been raised on the maxima bug tracker as #1913047 
+   https://sourceforge.net/tracker/?func=detail&atid=104933&aid=1913047&group_id=4933
+   </li>
+   <li> This has been fixed in the latest cvs version of maxima (5.15) and the 
+   upcoming release candidate. 5.15 should be available in the next few weeks.
+   </li>
+   <li> Additionally an email entitled "Setting GF(2) in share/contrib/gf.mac 
+   doesn't terminate?" has now been sent to the mailing list. </li>
+   <li> The current distributor of the package seems to be Jacopo Daurizio? Is
+   there some way to contact him (googling him and a quick search of the 
+   mailing list archives don't seem to find anything)? </li>
+   <li> "gf_set" doesn't terminate when passed 1 as an argument for the degree. 
+   </li>
+   <li> "gf_set(2,1,[x]);" leads to non-termination (MG : or at least it takes
+   much longer than expected) </li>
+   <li> DONE This should be moved when the wrapper functions are moved into a 
+   seperate module </li>
+  </ul>
 
 
   \todo DONE Create milestones
