@@ -49,14 +49,16 @@ should go to plans-files. */
    function call and from then on the default field (set with this function) 
    is used again.
 */
+/* MG : Is there currently any reason for this function? */
 egf_set(field) := (
   apply(gf_set,field),
   egf_field : field)$
 
 /*
-   Maps any given gf_* function (func) to a egf_* function by allowing it to 
-   take a field as an argument.
-   OK: ???
+   This function provides a generic wrapper function which takes a function
+   "func" and a list of arguments "args", with the field structure (defined 
+   above) as the first element in "args" and the arguments to f as the 
+   remaining elements.
 */
 egf_func(func,args) := block(
     apply(gf_set, first(args)),
@@ -64,35 +66,35 @@ egf_func(func,args) := block(
     return(result))$
 
 /* 
-   Analogue of gf_add, which optionally takes an additional field argument (as
+   Analogue of gf_add, which takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
 egf_add([args]) := egf_func(gf_add, args)$
 
 /* 
-   Analogue of gf_mul, which optionally takes an additional field argument (as
+   Analogue of gf_mul, which takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
 egf_mul([args]) := egf_func(gf_mul, args)$
 
 /* 
-   Analogue of gf_matmul, which optionally takes an additional field argument
+   Analogue of gf_matmul, which takes an additional field argument
    (as the first argument) to specify that this operation should be performed
    in the given field.
 */
 egf_matmul([args]) := egf_func(gf_matmul, args)$
 
 /* 
-   Analogue of gf_matinv, which optionally takes an additional field argument (as
+   Analogue of gf_matinv, which takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
 egf_matinv([args]) := egf_func(gf_matinv, args);
 
 /* 
-   Analogue of gf_inv, which optionally takes an additional field argument (as
+   Analogue of gf_inv, which takes an additional field argument (as
    the first argument) to specify that this operation should be performed in the
    given field.
 */
