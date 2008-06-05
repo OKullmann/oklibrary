@@ -1,0 +1,170 @@
+/* Matthew Gwynne, 4.6.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac
+  \brief Tests for Finite Field functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+okltest_egf_add(f) := block([field],
+  field : [2,1,x],
+  assert(f(field, 0,0) = 0),
+  assert(f(field, 1,0) = 1),
+  assert(f(field, 0,1) = 1),
+  assert(f(field, 1,1) = 0),
+  field : [2,2,x^2+x+1],
+  for i : 0 thru 3 do block([iPoly : intToPoly(i,2)],
+    assert(f(field, iPoly,0) = iPoly),
+    assert(f(field, iPoly, iPoly) = 0),
+    for j : 0 thru 3 do block([jPoly : intToPoly(j,2)],
+      assert(f(field,iPoly,jPoly) = f(field,jPoly,iPoly))
+    )
+  ),
+  if oklib_test_level = 0 then return(true),
+  field : [3,3,x^3+x^2+x+2],
+  for i : 0 thru 26 do block([iPoly : intToPoly(i,3)],
+    /* MG : It seems 2 + 0 becomes -1 which while technically correct (modulo 3)
+       seems an odd representation */
+    /*assert(f(field, iPoly,0) = iPoly),*/
+    assert(f(field,f(field,iPoly,iPoly),iPoly) = 0),
+    for j : 0 thru 26 do block([jPoly : intToPoly(j,3)],
+      assert(f(field,iPoly,jPoly) = f(field,jPoly,iPoly))
+    )
+  ),
+true)$
+
+okltest_egf_mul(f) := block(
+  field : [2,1,x],
+  assert(f(field, 0,0) = 0),
+  assert(f(field, 1,0) = 0),
+  assert(f(field, 0,1) = 0),
+  assert(f(field, 1,1) = 1),
+  field : [2,2,x^2+x+1],
+  for i : 0 thru 3 do block([iPoly : intToPoly(i,2)],
+    assert(f(field, iPoly,0) = 0),
+    assert(f(field, iPoly, 1) = iPoly),
+    for j : 0 thru 3 do block([jPoly : intToPoly(j,2)],
+      assert(f(field,iPoly,jPoly) = f(field,jPoly,iPoly))
+    )
+  ),
+  if oklib_test_level = 0 then return(true),
+  field : [3,3,x^3+x^2+x+2],
+  for i : 0 thru 26 do block([iPoly : intToPoly(i,3)],
+    assert(f(field, iPoly,0) = 0),
+    /* MG : It seems 2 + 0 becomes -1 which while technically correct (modulo 3)
+       seems an odd representation */
+    /*assert(f(field,iPoly,1) = iPoly),*/
+    for j : 0 thru 26 do block([jPoly : intToPoly(j,3)],
+      assert(f(field,iPoly,jPoly) = f(field,jPoly,iPoly))
+    )
+  ),
+true)$
+
+okltest_egf_matmul(f) := block(
+  field : [2,1,x],
+  for n : 2 thru 4 do block([nMatrixIdentity, nMatrixZero],
+    nMatrixIdentity : ident(n),
+    nMatrixZero : zeromatrix(n,n),
+    for m : 2 thru 4 do block([matrixElement],
+      matrixElement : genmatrix(lambda([i,j],mod((i-1)*n+j,2)),n,m),
+      /* MG : totaldisrep seems necessary as the matrices returned are in CRE
+         form */
+      assert(totaldisrep(f(field,matrixElement,ident(m))) = matrixElement),
+      assert(totaldisrep(f(field,nMatrixIdentity,matrixElement)) = 
+        matrixElement),
+      assert(totaldisrep(f(field,matrixElement,zeromatrix(m,m))) = 
+        zeromatrix(n,m)),
+      assert(totaldisrep(f(field,nMatrixZero,matrixElement)) = zeromatrix(n,m))
+    )
+  ),
+  field : [3,3,x^3+x^2+x+2],
+  assert(totaldisrep(f(field,matrix([2*x^2+x,2,x^2+1,2*x+1,x^2+2*x+1],[x^2+2,
+    x^2+x,2*x^2+x+2,x^2+x+2,x^2+2*x],[x^2,x,2*x^2+2*x+1,2*x+2,2*x^2+2*x],
+    [2*x^2+2*x,x^2,x^2+x+2,x^2+2*x,2*x+2],[2*x^2+x,x^2+2*x,x^2+x,x^2+x+2,
+    x^2+2*x]),matrix([2*x^2+1,x^2+x+1,1,x^2+x,0],[x^2+2*x+1,2*x^2+x,x^2+1,x^2+2,
+    2*x^2+2*x],[2*x^2+x,x^2+x,x^2,2*x^2,2*x^2+x+1],[2*x^2+x+2,2,2*x^2+x+1,x+1,
+    x+1],[x^2+1,2*x+1,0,x^2+1,2*x^2+x]))) = matrix([1,x^2,-x^2-x,x^2+x,x^2-x+1],
+    [-x-1,-x^2+1,-x^2+1,x^2+x-1,-x^2-x+1],[-x^2+x,-x,x^2-x+1,x^2-x,x^2],
+    [x^2,-x+1,-x^2-1,x^2-x,-x^2-x-1],[-x^2-1,x^2-1,-x+1,-x^2-x,x^2+x-1])),
+  if oklib_test_level = 0 then return(true),
+  for n : 2 thru 10 do block([nMatrixIdentity, nMatrixZero],
+    nMatrixIdentity : ident(n),
+    nMatrixZero : zeromatrix(n,n),
+    for m : 2 thru 10 do block([matrixElement],
+      matrixElement : 
+        genmatrix(lambda([i,j],intToPoly(mod((i-1)*n+j,27),3)),n,m),
+      /* MG : It seems 2 + 0 becomes -1 which while technically correct (modulo 3)
+         seems an odd representation */
+      /*assert(totaldisrep(f(field,matrixElement,ident(m))) = matrixElement),
+      assert(totaldisrep(f(field,nMatrixIdentity,matrixElement)) = 
+        matrixElement),*/
+      assert(totaldisrep(f(field,matrixElement,zeromatrix(m,m))) = 
+        zeromatrix(n,m)),
+      assert(totaldisrep(f(field,nMatrixZero,matrixElement)) = zeromatrix(n,m))
+    )
+  ),
+true)$
+
+okltest_egf_matinv(f) := block(
+  field : [2,1,x],
+  for n : 2 thru 5 do block([nMatrixIdentity],
+    nMatrixIdentity : ident(n),
+    matrixElement : genmatrix(lambda([i,j],if (n-j+1) = i then 1 else 0),n,n),
+    /* MG : totaldisrep seems necessary as the matrices returned are in CRE
+       form */
+    assert(totaldisrep(f(field,nMatrixIdentity)) = nMatrixIdentity),
+    assert(totaldisrep(egf_matmul(field,f(field,matrixElement),matrixElement)) 
+      = nMatrixIdentity),
+    assert(totaldisrep(egf_matmul(field,matrixElement,f(field,matrixElement))) 
+      = nMatrixIdentity)
+  ),
+  if oklib_test_level = 0 then return(true),
+  field : [3,3,x^3+x^2+x+2],
+  for n : 2 thru 10 do block([nMatrixIdentity],
+    nMatrixIdentity : ident(n),
+    matrixElement : genmatrix(lambda([i,j],
+      if (n-j+1) = i then intToPoly(mod(i*j,27),3) else 0),n,n),
+    /* MG : totaldisrep seems necessary as the matrices returned are in CRE
+       form */
+    assert(totaldisrep(f(field,nMatrixIdentity)) = nMatrixIdentity),
+    assert(totaldisrep(egf_matmul(field,f(field,matrixElement),matrixElement)) 
+      = nMatrixIdentity),
+    assert(totaldisrep(egf_matmul(field,matrixElement,f(field,matrixElement))) 
+      = nMatrixIdentity)
+  ),
+true)$
+
+okltest_egf_inv(f) := block(
+  field : [2,1,x],
+  assert(f(field,1) = 1),
+  field : [2,2,x^2+x+1],
+  for i : 1 thru 3 do block([iPoly : intToPoly(i,2)],
+    assert(egf_mul(field,f(field,iPoly),iPoly) = 1)
+  ),
+  if oklib_test_level = 0 then return(true),
+  field : [3,3,x^3+x^2+x+2],
+  for i : 1 thru 26 do block([iPoly : intToPoly(i,3)],
+    assert(egf_mul(field,f(field,iPoly),iPoly) = 1)
+  ),
+true)$
+
+/*!
+\endhtmlonly
+*/

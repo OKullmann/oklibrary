@@ -14,11 +14,35 @@ License, or any later version. */
 
 
   \todo Tests
+  <ul>
+   <li> Extensive tests with larger fields at higher tests levels </li>
+   <li> Perhaps for egf_matmul check known generators for certain fields 
+   (Mostly likely at oklib_test_level > 0) </li>
+   <li> DONE Simple tests (oklib_test_level = 0) </li>
+  </ul>
 
   \todo Docus
 
   \todo Demos
 
+  \todo Field Element Representation
+  <ul>
+   <li> Some field elements are represented as negative values rather than 
+   their positive counterpart. For example
+   \verbatim
+(%i59) egf_add([3,3,x^3+x^2+x+1], 2,0);
+Evaluation took 0.0080 seconds (0.0097 elapsed) using 105.633 KB.
+(%o59) -1
+(%i60) egf_add([3,3,x^3+x^2+x+1], 2*x,0);
+Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
+(%o60) -x
+   \endverbatim
+   Is this an issue? Such values are valid as they are the equal to their 
+   positive counterparts modulo the characteristic of the field but it would 
+   seem more intuitive if all coefficients of the polynomials representing
+   the field elements were positive. </li> 
+   <li> This should certainly be kept in mind. </li>
+  </ul>
 
   \bug Finite Fields package function doesn't terminate
   <ul>
