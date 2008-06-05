@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
-  \todo Create milestones
-
-
   \todo Tests
   <ul>
    <li> Extensive tests with larger fields at higher tests levels </li>
@@ -134,6 +131,9 @@ Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
    http://www.math.utexas.edu/pipermail/maxima/2006/003255.html), 
    although this looks untested. DONE (started using it) </li>
   </ol>
+
+
+  \todo DONE Create milestones
 
 
   \todo DONE Move the finite-fields functions here. 
