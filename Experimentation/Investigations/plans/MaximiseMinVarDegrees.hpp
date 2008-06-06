@@ -86,7 +86,7 @@ License, or any later version. */
        <li> k = 6 : 8 = 9-1 </li>
        <li> k = 13 : 16 = 17-1 </li>
        <li> k = 14 : 16 = 18-2 </li>
-       <li> k = 15 : 17 = 19-2 </li>
+       <li> k = 15 : 18 = 19-1 </li>
        <li> k = 16 : 19 = 20-1 </li>
        <li> k = 17 : 20 = 21-1 </li>
        <li> k = 18 : 21 = 22-1 </li>
