@@ -35,7 +35,7 @@ okltest_lpad(f) := block(
   assert(f("","-",1) = "-"),
   assert(f("","-",2) = "--"),
   assert(f("abc","d",4) = "dabc"),
-true)$
+  true)$
 
 okltest_polynomial2list(f) := block(
   for n : 0 thru 3 do
@@ -50,7 +50,7 @@ okltest_polynomial2list(f) := block(
   assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
   assert(f(x^7+5*x+2,10) = [0,0,1,0,0,0,0,0,5,2]),
   assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
-true)$
+  true)$
 
 okltest_list2polynomial(f) := block(
   for n : 0 thru 3 do
@@ -60,7 +60,7 @@ okltest_list2polynomial(f) := block(
   assert(f([0,0,0,0,0]) = 0),
   assert(f([1,1,1,1,1]) = x^4+x^3+x^2+x+1),
   assert(f([5,4,3,-1,0,4]) = 5*x^5+4*x^4+3*x^3-x^2+4),
-true)$
+  true)$
 
 okltest_digitToInt(f) := block(
   for n : 0 thru 9 do
@@ -68,7 +68,7 @@ okltest_digitToInt(f) := block(
   assert(f("A") = 10),
   assert(f("F") = 15),
   assert(f("Z") = 35),
-true)$
+  true)$
 
 okltest_intToDigit(f) := block(
   for n : 0 thru 9 do
@@ -76,7 +76,7 @@ okltest_intToDigit(f) := block(
   assert(f(10) = "A"),
   assert(f(15) = "F"),
   assert(f(35) = "Z"),
-true)$
+  true)$
 
 okltest_baseNToInt(f) := block(
   for n : 0 thru 3 do
@@ -94,7 +94,7 @@ okltest_baseNToInt(f) := block(
   /*assert(f("-EE8C04",16) = -15633412),*/
   assert(f("MK014LZDF",36) = 63631769456211), 
   /*assert(f("-MK014LZDF",36) = -63631769456211),*/
-true)$
+  true)$
 
 okltest_intToBaseN(f) := block(
   for n : 0 thru 3 do
@@ -107,7 +107,7 @@ okltest_intToBaseN(f) := block(
   /*assert(f(-15633412,16) = "-EE8C04"),*/
   assert(f(63631769456211,36) = "MK014LZDF"), 
   /*assert(f(-63631769456211,36) = "-MK014LZDF"),*/
-true)$
+  true)$
 
 okltest_intToPoly(f) := block(
   for n : 1 thru 3 do
@@ -118,7 +118,7 @@ okltest_intToPoly(f) := block(
     assert(f(n,n) = x),
   assert(f(275,2) = x^8+x^4+x+1),
   assert(f(423423,15) = 8*x^4+5*x^3+6*x^2+13*x+3),
-true)$
+  true)$
 
 okltest_polyToInt(f) := block(
   for n : 1 thru 3 do
@@ -130,7 +130,7 @@ okltest_polyToInt(f) := block(
   assert(f(x^8+x^4+x+1,2,x) = 275),
   assert(f(a^8+a^4+a+1,2,a) = 275),
   assert(f(8*x^4+5*x^3+6*x^2+13*x+3,15,x) = 423423),
-true)$
+  true)$
 
 okltest_binary_list_to_dnf_c(f) := block(
   assert(f([]) = {}),
@@ -139,7 +139,7 @@ okltest_binary_list_to_dnf_c(f) := block(
   assert(f([1,0,0]) = {1,-2,-3}),
   assert(f([1,1,1]) = {1,2,3}),
   assert(f([1,0,0,1,1,0,0,1]) = {1,-2,-3,4,5,-6,-7,8}),
-true)$
+  true)$
 
 
 /*!

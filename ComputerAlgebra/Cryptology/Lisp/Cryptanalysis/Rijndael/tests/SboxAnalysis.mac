@@ -32,7 +32,7 @@ okltest_generate_full_aes_sbox_dnf_fcs(f) := block([sboxFullDNF],
     {{-14,-13,-12,-9,10,11,15,16}}),
   assert(apply_pa(setify(makelist(-i,i,1,8)), sboxFullDNF[2])=
     {{-16,-13,-11,-10,-9,12,14,15}}),
-true)$
+  true)$
 
 okltest_generate_full_int_perm_dnf_fcs(f) := block(
   assert(f([]) = [{},{}]),

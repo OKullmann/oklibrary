@@ -35,26 +35,26 @@ okltest_sbox(f) := block(
   assert(f(0) = 99),
   assert(f(82) = 0),
   assert(f(255) = 22),
-true)$
+  true)$
 
 /* Test inverse of AES sbox operation */
 okltest_inv_sbox(f) := block(
   assert(f(0) = 82),
   assert(f(99) = 0),
   assert(f(22) = 255),
-true)$
+  true)$
 
 /* Test AES mixcolumn operation. */
 okltest_mixcolumn(f) := block(
   assert(f([0,0,0,0]) = [0,0,0,0]),
   assert(f([50,67,7,52])=[146, 137, 35, 122]),
-true)$
+  true)$
 
 /* Test AES mixcolumn operation. */
 okltest_inv_mixcolumn(f) := block(
   assert(f([0,0,0,0]) = [0,0,0,0]),
   assert(f([146, 137, 35, 122])=[50,67,7,52]),
-true)$
+  true)$
 
 /* Test AES mixcolumns operation. */
 okltest_mixcolumns(f) := block(
@@ -62,7 +62,7 @@ okltest_mixcolumns(f) := block(
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(totaldisrep(f([50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52],
     lookup_mixcolumn))=[255,88,11,177,29,225,66,179,101,62,214,133,168,232,165,99]),
-true)$
+  true)$
 
 /* Test inverse of AES mixcolumns operation. */
 okltest_inv_mixcolumns(f) := block(
@@ -70,7 +70,7 @@ okltest_inv_mixcolumns(f) := block(
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(totaldisrep(f([255,88,11,177,29,225,66,179,101,62,214,133,168,232,165,
   99],lookup_inv_mixcolumn))=[50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52]),
-true)$
+  true)$
 
 /* Test AES shiftrows operation */
 okltest_shiftrows(f) := block(
@@ -78,7 +78,7 @@ okltest_shiftrows(f) := block(
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(totaldisrep(f([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])) =
     [1,2,3,4,6,7,8,5,11,12,9,10,16,13,14,15]),
-true)$
+  true)$
 
 /* Test inverse of AES shiftrows operation */
 okltest_inv_shiftrows(f) := block(
@@ -86,7 +86,7 @@ okltest_inv_shiftrows(f) := block(
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
   assert(totaldisrep(f([1,2,3,4,6,7,8,5,11,12,9,10,16,13,14,15])) =
   [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]),
-true)$
+  true)$
 
 /* Test AES key expansion */
 okltest_key_expansion(f) := block(
@@ -101,7 +101,7 @@ okltest_key_expansion(f) := block(
     14,59,151,81,249,169,6,29,3,97,10,250,51,56,4,159,177,138,29,76,212,125,123,
     102,216,185,179,73,226,218,222,65,180,62,35,111,239,146,233,143,91,226,81,
     24,203,17,207,142]),
-true)$
+  true)$
 
 /* **********************
    * Main AES Algorithm *
@@ -118,7 +118,7 @@ okltest_aes_round(f) := block(
     231],[239,168,182,219,68,82,113,11,165,91,37,173,65,127,59,0],lookup_sbox
     ,lookup_mixcolumn,aes_log_gf2t8_add))=[224,200,217,133,146,99,177,184,127,99,53,190,
     232,192,80,1]),
-true)$
+  true)$
 
 /* Test inverse of individual AES round operation */
 okltest_inv_aes_round(f) := block(
@@ -130,7 +130,7 @@ okltest_inv_aes_round(f) := block(
     80,1],[239,168,182,219,68,82,113,11,165,91,37,173,65,127,59,0],
     lookup_inv_sbox,lookup_inv_mixcolumn,aes_log_gf2t8_add)) =
     [72,103,77,214,108,29,227,95,78,157,177,88,238,13,56,231]),
-true)$
+  true)$
 
 /* Test full AES encryption */
 okltest_aes_encrypt(f) := block(
@@ -140,7 +140,7 @@ okltest_aes_encrypt(f) := block(
   assert(f([50,136,49,224,67,90,49,55,246,48,152,7,168,141,162,52],[43,40,171,
     9,126,174,247,207,21,210,21,79,22,166,136,60],lookup_sbox,lookup_mixcolumn,
     aes_log_gf2t8_add) = [57,2,220,25,37,220,17,106,132,9,133,11,29,251,151,50]),
-true)$
+  true)$
 
 /* Test full AES decryption */
 okltest_aes_decrypt(f) := block(
@@ -151,7 +151,7 @@ okltest_aes_decrypt(f) := block(
   assert(f([102,239,136,202,233,138,76,52,75,44,250,43,212,59,89,46],[0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0],lookup_sbox,lookup_inv_sbox,lookup_inv_mixcolumn,
     aes_log_gf2t8_add) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-true)$
+  true)$
 
 /* Performs integration testing on the AES encryption and decryption functions */
 /* MG : Should this be higher test levels of the aes_encrypt and aes_decrypt
@@ -164,7 +164,7 @@ okltest_aes(f_e,f_d) := block([inputList, outputList],
   for i : 0 thru 20 do 
     inputList : f_d(inputList,keyList,lookup_sbox,lookup_inv_sbox,lookup_inv_mixcolumn, aes_log_gf2t8_add),
   assert(inputList = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
-true)$
+  true)$
 
 /* **********************
    * Helper Functions   *
@@ -184,7 +184,7 @@ okltest_polynomial2vector(f) := block(
   assert(f(x^8+5*x^3+x+1,5) = matrix([0],[5],[0],[1],[1])),
   assert(f(-5*x^4+20*x^2,5) = matrix([-5],[0],[20],[0],[0])),
   assert(f(-5*x^4+20*x^2,7) = matrix([0],[0],[-5],[0],[20],[0],[0])),
-true)$
+  true)$
 
 okltest_vector2polynomial(f) := block(
   for i : 0 thru 5 do
@@ -196,7 +196,7 @@ okltest_vector2polynomial(f) := block(
   assert(f(matrix([1],[0],[0],[0],[0],[5],[0],[1],[1])) = x^8+5*x^3+x+1),
   assert(f(matrix([-5],[0],[20],[0],[0])) = -5*x^4+20*x^2),
   assert(f(matrix([0],[0],[-5],[0],[20],[0],[0])) = -5*x^4+20*x^2),
-true)$
+  true)$
 
 /*!
 \endhtmlonly
