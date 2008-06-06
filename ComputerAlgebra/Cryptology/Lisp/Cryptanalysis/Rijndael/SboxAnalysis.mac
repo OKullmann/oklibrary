@@ -30,6 +30,10 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
    ******************************************
 */
 
+/* Transforms an integer into a big endian binary list representation
+   padded with 0s to the left up to length "n" */
+int2binlist(int,n) := polynomial2list(intToPoly(int,2),n)$
+
 /* Generation of the full DNF clause-set representing the AES sbox */
 generate_full_aes_sbox_dnf_fcs() :=  
   cs_to_fcs(map(lambda([ce],binary_list_to_dnf_c(
@@ -51,6 +55,33 @@ test_CNF_aes_sbox(FF) :=
 /* Generation of a CNF hitting clause-set, given a heuristics h for
    a backtracking solver (without reduction) */
 hitting_cnf_aes_sbox(h) := dualtreehittingcls_condensed_fcs(generate_full_aes_sbox_dnf_fcs(),h)$
+
+/* Generate the full DNF form of a given permutation of an integer set. The 
+   permutation (mapping) is given as a list "perm", where it is assumed the 
+   mapping is from elements of the list "perm" after sorting, given the 
+   natural order, to the corresponding elements in "perm" */
+generate_full_int_perm_dnf_fcs(perm) := block(
+  elements : sort(perm),
+  /* MG : Is there already a library function for this (binary length of an
+     integer)? */
+  binLength : apply(max,map(
+    lambda([a],if abs(a) = 0 then 1 else ceiling(log(a+1)/log(2))),perm)),
+  cs_to_fcs(setify(map(
+    lambda([a,b], binary_list_to_dnf_c(
+      append(int2binlist(a,binLength),int2binlist(b,binLength)))),elements,
+      perm)))
+)$
+
+/* Generate the full CNF form of a given permutation of an integer set. The 
+   permutation (mapping) is given as a list "perm", where it is assumed the 
+   mapping is from elements of the list "perm" after sorting, given the 
+   natural order, to the corresponding elements in "perm" */
+generate_full_int_perm_cnf_fcs(perm) := block(
+  [fullncs, int_perm_dnf : generate_full_int_perm_dnf_fcs(perm)],
+  fullncs : full_fcs(length(int_perm_dnf[1])),
+  [int_perm_dnf[1],setdifference(clauses_f(fullncs),
+    map(comp_sl,clauses_f(int_perm_dnf)))]
+)$
 
 /*!
 \endhtmlonly
