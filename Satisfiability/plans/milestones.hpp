@@ -66,7 +66,7 @@ License, or any later version. */
 
   \par Version 0.1.2
 
-  \par Satisfiability/Solvers version 0.2.4 (OK)
+  \par Satisfiability/Solvers version 0.2.3 (OK)
   (see Satisfiability/Solvers/plans/milestones.hpp)
 
   \par Satisfiability/ProblemInstances 0.0.4

@@ -276,7 +276,11 @@ zerop(x) := is(equal(x,0))$
 /* Auxiliary function to test for +infinity */
 infp(x) := is(equal(x,inf))$
 
-/* the tau-mean for tuples (allowing zero-values) */
+/* The basic tau-mean: */
+taumeanb(t) := float(log(length(t))) / log(tau(t))$
+taumeanb2(x,y) := taumeanb([x,y]);
+taumeanb3(x,y,z) := taumeanb([x,y,z]);
+/* The tau-mean for tuples allowing zero-values: */
 taumean(t) := if length(t) <= 1 then inf 
   elseif some(zerop, t) then 0 
   else float(log(length(t))) / log(tau(t))$
@@ -341,6 +345,37 @@ hess_chi2 : hessian(chi2(t1,t2,x),[t1,t2,x])$
 eigen_chi2(a,b,c) := (local(a,b,c), eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c])))$
 /* a, b > 0, c > 1 */
 test_posdef_chi2(a,b,c) := (local(a,b,c), lmin(eigen_chi2(a,b,c)[1]))$
+
+
+/* ************************************
+   * Investigations on approximations *
+   ************************************
+*/
+
+/* Consider the bounds
+     genmean(t,k-2) <= taumeanb(t) <= mean(t).
+*/
+
+/* For k = 2 the lower bound is always better as an approximation than
+   the upper bound.
+   Here we investigate how this can be quantified. 
+*/
+/* For k >= 3 this is not always the case (example [5.0,5.0,0.835]),
+   but it appears that still the lower bound yields a better approximation:
+    - perhaps regarding the integral. ?
+*/
+/* It is now known yet what happens for k > 3. */
+
+dltau_2(x,y) := taumeanb2(x,y) - float(gmean([x,y]))$
+dutau_2(x,y) := mean([x,y]) - taumeanb2(x,y)$
+dtau_2(x,y) := dutau_2(x,y) - dltau_2(x,y)$
+/* For all x,y > 0 we have dtau_2(x,y) >= 0 (equality holds
+   iff x = y). */
+
+dltau_3(x,y,z) := taumeanb3(x,y,z) - float(hmean([x,y,z]))$
+dutau_3(x,y,z) := mean([x,y,z]) - taumeanb3(x,y,z)$
+dtau_3(x,y,z) := dutau_3(x,y,z) - dltau_3(x,y,z)$
+
 
 /*!
 \endhtmlonly

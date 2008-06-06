@@ -45,7 +45,12 @@ License, or any later version. */
   \todo CreatePackage extensions
   <ul>
    <li> Regarding the git-ignore-file, ignoring the makefiles should also be
-   incorporated into the package (as long as we still need those makefiles). </li>
+   incorporated into the package (as long as we still need those makefiles).
+    <ol>
+     <li> See todo "Cloning" in Buildsystem/SourceControl/plans/general.hpp.
+     </li>
+    </ol>
+   </li>
    <li> Perhaps there should be additional targets for the oklib-masterscript
    to "compile and test" everything (to ease building a new environment). </li>
    <li> For a package created, a ((semi-)automatical) e-mail to the notification list
