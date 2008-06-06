@@ -10,6 +10,31 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \todo OUTPUTTREEDATAXML
+  <ul>
+   <li> We need to compile versions with this macro defined. </li>
+   <li> We need to test these versions. </li>
+   <li> Document these versions.
+    <ol>
+     <li> Specify the DTD. </li>
+    </ol>
+   </li>
+   <li> Apparently yet only the number of r_2-reductions is output
+   at each node.
+    <ol>
+     <li> We need to strengthen this by outputting most data. </li>
+     <li> Definitely also the branching literal. </li>
+    </ol>
+   </li>
+   <li> We need also Maxima-readable output:
+    <ol>
+     <li> The output should be the expression computed by the
+     analogous Maxima program. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Documentation problems
   <ul>
    <li> Problems with macros:
@@ -112,6 +137,13 @@ License, or any later version. */
   </ul>
 
 
+  \todo Write docus-pages
+  <ul>
+   <li> Should explain the history and usage. </li>
+   <li> Also the extension possibilities. </li>
+  </ul>
+
+
   \todo Add doxygen-documentation
   <ul>
    <li> We want to leave the code mainly as it is, but we can add doxygen
@@ -123,14 +155,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write docus-pages
-  <ul>
-   <li> Should explain the history and usage. </li>
-   <li> Also the extension possibilities. </li>
-  </ul>
-
-
-  \todo Add asserts throughout
+  \todo Eliminate old history in code.
 
 
   \todo Create systematic application tests
@@ -146,6 +171,9 @@ License, or any later version. */
   </ul>
 
 
+  \todo Add asserts throughout
+
+
   \todo Investigate unit-testing
   <ul>
    <li> Optimally, we write unit tests for all main components. </li>
@@ -153,9 +181,12 @@ License, or any later version. */
   </ul>
 
 
-  \todo Apply time-measurements
+  \todo Correct computation of basic statistics
   <ul>
-   <li> Apply the time-measurement-system (assuming it is available by now). </li>
+   <li> Counting for example test_cases/TwoUnit.cnf is not correct. </li>
+   <li> See whether this can be easily rectified. </li>
+   <li> Possibly this is not the case; then we need a precise specification what
+   actually is counted, so that then the output can be declared as correct. </li>
   </ul>
 
 
@@ -179,40 +210,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Correct computation of basic statistics
-  <ul>
-   <li> Counting for example test_cases/TwoUnit.cnf is not correct. </li>
-   <li> See whether this can be easily rectified. </li>
-   <li> Possibly this is not the case; then we need a precise specification what
-   actually is counted, so that then the output can be declared as correct. </li>
-  </ul>
-
-
-  \todo OUTPUTTREEDATAXML
-  <ul>
-   <li> We need to compile versions with this macro defined. </li>
-   <li> We need to test these versions. </li>
-   <li> Document these versions.
-    <ol>
-     <li> Specify the DTD. </li>
-    </ol>
-   </li>
-   <li> Apparently yet only the number of r_2-reductions is output
-   at each node.
-    <ol>
-     <li> We need to strengthen this by outputting most data. </li>
-     <li> Definitely also the branching literal. </li>
-    </ol>
-   </li>
-   <li> We need also Maxima-readable output:
-    <ol>
-     <li> The output should be the expression computed by the
-     analogous Maxima program. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Elimination of compile-time options
   <ul>
    <li> LOKALLERNEN
@@ -228,9 +225,6 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
-
-
-  \todo Eliminate old history in code.
 
 
   \todo Enable finding all solutions
@@ -343,6 +337,12 @@ License, or any later version. */
      Solvers/OKsolver/plans/OKsolver_1_0.hpp). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Apply time-measurements
+  <ul>
+   <li> Apply the time-measurement-system (assuming it is available by now). </li>
   </ul>
 
 */
