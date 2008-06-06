@@ -73,10 +73,12 @@ License, or any later version. */
    tell you about it); it can be installed as shown below. </li>
    <li> At least on 64-bit machines also "libffcall" is need;
    it can be installed as shown below. </li>
-   <li> However, apparently due to a bug in the clisp build system,
-   actually the local installation is not recognised by the
-   clisp installation, and both "libsigsegv" and "libffcall"
-   need to be installed system-wide (if problems arise). </li>
+   <li> However, if problems arise (that is, the build aborts with a
+   segmentation fault --- don't worry otherwise), then the likely cause seems
+   to be that by unknown reasons the local installations
+   are not recognised by the clisp installation, and then both "libsigsegv"
+   and "libffcall" need to be installed system-wide (currently this
+   needs to be done manually --- please ask if in trouble!). </li>
   </ul>
 
 
