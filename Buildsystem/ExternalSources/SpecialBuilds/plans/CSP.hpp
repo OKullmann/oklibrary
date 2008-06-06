@@ -14,11 +14,25 @@ License, or any later version. */
   <ul>
    <li> http://en.wikipedia.org/wiki/Constraint_programming gives an
    overview. </li>
-   <li> Eclipse http://eclipse-clp.org/ </li>
+   <li> Gecode http://www.gecode.org/
+    <ol>
+     <li> Since this is a library, this is perhaps most interesting. </li>
+    </ol>
+   </li>
+   <li> Minion http://minion.sourceforge.net/
+    <ol>
+     <li> This is a single solver, apparently with a powerful input
+     language. </li>
+    </ol>
+   </li>
+   <li> Eclipse http://eclipse-clp.org/
+    <ol>
+     <li> Apparently no longer available? The web-page seems unrelated to
+     CSP. </li>
+    </ol>
+   </li>
    <li> Gnu Prolog http://www.gprolog.org/ </li>
    <li> Swi Prolog http://www.swi-prolog.org/ </li>
-   <li> Gecode http://www.gecode.org/
-   <li> Minion http://minion.sourceforge.net/ </li>
    <li> The MAC-algorithm at http://www.hulubei.net/tudor/csp ? </li>
    <li> Benchmarks? Competitions? </li>
   </ul>
