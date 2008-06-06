@@ -192,10 +192,24 @@ License, or any later version. */
   <ul>
    <li> We need to compile versions with this macro defined. </li>
    <li> We need to test these versions. </li>
-   <li> Document these versions. </li>
+   <li> Document these versions.
+    <ol>
+     <li> Specify the DTD. </li>
+    </ol>
+   </li>
    <li> Apparently yet only the number of r_2-reductions is output
-   at each node. We need to strengthen this by outputting most
-   data, definitely also the branching literal. </li>
+   at each node.
+    <ol>
+     <li> We need to strengthen this by outputting most data. </li>
+     <li> Definitely also the branching literal. </li>
+    </ol>
+   </li>
+   <li> We need also Maxima-readable output:
+    <ol>
+     <li> The output should be the expression computed by the
+     analogous Maxima program. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -221,6 +235,13 @@ License, or any later version. */
 
   \todo Enable finding all solutions
   <ul>
+   <li> Perhaps we should abandon this extension:
+    <ol>
+     <li> It is more complicated than anticipated. </li>
+     <li> And it is not sensibly, because different strategies,
+     reductions, heuristics are to be used for finding all solutions. </li>
+    </ol>
+   </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/OKsolver2002.hpp.
    </li>

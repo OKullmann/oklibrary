@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.2.3
 
-  \par OKsolver version 0.5.2
+  \par OKsolver version 0.5.3
   (see Satisfiability/Solvers/OKsolver/plans/milestones.hpp)
 
   \par
