@@ -28,6 +28,12 @@ fld(n) := if n = 0 then minf else
  block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
   if b > n then return(l-1) else return(l))$
 
+/* Extending integer_partitions from NN to ZZ. */
+ext_integer_partitions(n) :=
+ if n < 0 then {}
+ elseif n = 0 then {[]}
+ else integer_partitions(n)$
+
 
 /*!
 \endhtmlonly

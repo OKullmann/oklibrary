@@ -24,6 +24,8 @@ oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.ma
 
 okltest_fld(fld);
 
+okltest_ext_integer_partitions(ext_integer_partitions);
+
 /*!
 \endhtmlonly
 */

@@ -36,6 +36,15 @@ okltest_fld(f) := block(
   assert(f(2^10+1) = 10),
   true)$
 
+okltest_ext_integer_partitions(f) := (
+  assert(f(-1) = {}),
+  assert(f(0) = {[]}),
+  assert(f(1) = {[1]}),
+  assert(f(2) = {[1,1],[2]}),
+  assert(f(3) = {[1,1,1],[2,1],[3]}),
+  assert(f(4) = {[1,1,1,1],[2,1,1],[3,1],[2,2],[4]}),
+  true)$
+
 /*!
 \endhtmlonly
 */
