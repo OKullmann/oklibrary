@@ -95,6 +95,9 @@ License, or any later version. */
 
   \todo Searching for ABD(n,k) (via SAT)
   <ul>
+   <li> See also related discussions in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
+   </li>
    <li> Most natural seems the clause-based approach:
     <ol>
      <li> For each of the 2^k clauses we have a variable, with domain

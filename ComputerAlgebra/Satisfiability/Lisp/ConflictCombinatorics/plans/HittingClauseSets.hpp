@@ -238,5 +238,64 @@ dp_inst_brr : all_hitting_DP_reductions_def(brouwer1999[2],3,'dp_inst_br)$
    for related investigations into maximising the min-var-degree. </li>
   </ul>
 
+
+  \todo all_cld_uhit_minvd
+  <ul>
+   <li> We should try to strengthen the filtering.
+    <ul>
+     <li> all_cld_uhit_minvd(6,4,9) = {{[2,2],[4,8]}}:
+      <ol>
+       <li> Here we have c = 6 + 4 = 10 = 9 + 1. </li>
+       <li> The case is impossible since due to the hitting condition
+       the two binary clauses must overlap, but then some variables
+       occurs only 10 - 2 = 8 times. </li>
+      </ol>
+     </li>
+     <li> all_cld_uhit_minvd(6,5,9) = {
+      {[1,1],[3,1],[4,3],[5,6]},
+      {[1,1],[3,2],[5,8]},
+      {[1,1],[4,6],[5,4]},
+      {[2,3],[5,8]} }
+      <ol>
+       <li> We have here c = 6 + 5 = 11 = 9 + 2. </li>
+       <li> In the first three cases we can apply singular DP-reduction
+       (aka unit-clause elimination), reducing the case from (6,5,9) to
+       (6,4,9), which we already know is impossible. </li>
+       <li> The remaining case {[2,3],[5,8]} is impossible:
+        <ul>
+         <li> The 2-clauses must pairwise overlap, and thus there
+         exists a variable not in any of them, which then exists 11 - 3
+         times; contradiction. </li>
+        </ul>
+       </li>
+      </ol>
+     </li>
+     <li> See Experimentation/Investigations/plans/MaximiseMinVarDegrees.hpp
+     for similar examples. </li>
+    </ul>
+   </li>
+   <li> Likely this function should become an array-function, since
+   due to unit-clauses we have a recursion step here.
+    <ol>
+     <li> Perhaps first we only consider the case of filtering out
+     impossible cases for all_cld_uhit_minvd. </li>
+     <li> If we are only interested in non-singular cases, then we
+     can drop the cases with unit-clauses at all. </li>
+    </ol>
+   </li>
+   <li> Likely we do not obtain a complete (efficient) rule-system
+   here, but we can have a collection of rules for filtering out
+   cases. </li>
+   <li> Of course, we also obtain (general) satisfiability problems,
+   for each clause-length-distribution one problem.
+    <ol>
+     <li> These problems are easier since we only need to handle
+     the hitting condition (not the unsatisfiability condition). </li>
+     <li> Compare with "Searching for ABD(n,k) (via SAT)" in
+     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
+     </li>
+    </ol>
+   </li>
+  </ul>
 */
 
