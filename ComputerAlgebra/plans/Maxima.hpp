@@ -683,7 +683,7 @@ false
    </ul>
 
 
-   \todo New supermodule NumberTheory
+   \todo DONE New supermodule NumberTheory
    <ul>
     <li> See "fld" in
     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac </li>

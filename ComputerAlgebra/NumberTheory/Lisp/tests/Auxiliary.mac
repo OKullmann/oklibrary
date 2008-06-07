@@ -1,0 +1,41 @@
+/* Oliver Kullmann, 7.6.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac
+  \brief Tests for auxiliary number theory functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+okltest_fld(f) := block(
+  assert(f(0) = minf),
+  assert(f(1) = 0),
+  assert(f(2) = 1),
+  assert(f(3) = 1),
+  assert(f(4) = 2),
+  assert(f(5) = 2),
+  assert(f(2^10) = 10),
+  assert(f(2^10-1) = 9),
+  assert(f(2^10+1) = 10),
+  true)$
+
+/*!
+\endhtmlonly
+*/

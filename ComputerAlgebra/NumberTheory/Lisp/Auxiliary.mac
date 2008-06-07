@@ -1,0 +1,35 @@
+/* Oliver Kullmann, 7.6.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac
+  \brief Functions for number theory functions which more or less augment/correct Maxima functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* The binary logarithm. */
+ld(x) := log(x) / log(2)$
+
+/* The integer binary logarithm for natural numbers n (minf for n=0). */
+/* Given a precise floor, this is just floor(ld(n)) (for n <> 0). */
+fld(n) := if n = 0 then minf else 
+ block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
+  if b > n then return(l-1) else return(l))$
+
+
+/*!
+\endhtmlonly
+*/
+
