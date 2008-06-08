@@ -13,6 +13,43 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Redesign
+  <ul>
+   <li> See "Plan the redesign" in ComputerAlgebra/plans/Maxima.hpp for
+   the general overview. </li>
+   <li> See "Lists instead of sets" and "Naming conventions" below. </li>
+  </ul>
+
+
+  \todo Lists instead of sets
+  <ul>
+   <li> Additionally to "graphs" and "general graphs" we introduce
+   "ordered graphs" and "ordered general graphs":
+    <ol>
+     <li> Computationally these notions are considered to be more fundamental.
+     </li>
+     <li> An ordered graphs is a pair [V,E], where V and E are lists
+     without repetition, such that [setify(V),setify(E)] is a graph. </li>
+     <li> An ordered general graph is a triple [V,E,f], where V, E
+     are lists without repetition, such that [setify(V),setify(E)] is a
+     general graph. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Naming conventions
+  <ul>
+   <li> "gr" for graphs, "grl" for graphs with loops, "dgr" for
+   directed graph, "dgrl" for directed graphs with loops, "ggr"
+   for general graph, and "gdgr" for "general directed graph". </li>
+   <li> "ogr" for ordered graphs, "ogrl", "odgr", "odgrl", "oggr"
+   and "ogdgr". </li>
+   <li> For Maxima-graphs we use "mgr" and "dmgr". </li>
+   <li> So "g2mg" (now) becomes "gr2mgr" etc. </li>
+  </ul>
+
+
   \todo Graph concepts
   <ul>
    <li> A "graph" is just a 2-element list, consisting of the set of
