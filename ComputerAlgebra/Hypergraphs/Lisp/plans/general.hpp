@@ -16,6 +16,13 @@ License, or any later version. */
   \todo Write tests
 
 
+  \todo Organisation
+  <ul>
+   <li> Shouldn't Hypergraphs/Lisp/SetSystems.mac have its own module? </li>
+   <li> Perhaps in ComputerAlgebra/DataStructures ? </li>
+  </ul>
+
+
   \todo Write docus
   <ul>
    <li> We should have a list of all available functions. </li>
