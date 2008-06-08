@@ -12,8 +12,20 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> ConflictCombinatorics/HittingClauseSets.mac should be split into
-   several sub-modules. </li>
+   <li> Create a new module Satisfiability/Lisp/HittingClauseSets. </li>
+   <li> Move all about hitting cls and ABDs there. </li>
+   <li> And move the uhit_def catalogue there. </li>
+   <li> And then split it into several sub-modules.
+    <ol>
+     <li> "SplittingTrees.mac" </li>
+     <li> "RepresentingClauseSets.mac" </li>
+     <li> "Generators.mac" </li>
+     <li> "TwoSubsumption.mac" </li>
+     <li> "AssociativeBlockDesigns.mac" </li>
+     <li> "UhitCatalogue.mac" </li>
+     <li> "Search.mac" (e.g., searching for special hitting cls via SAT) </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -293,6 +305,10 @@ dp_inst_brr : all_hitting_DP_reductions_def(brouwer1999[2],3,'dp_inst_br)$
      the hitting condition (not the unsatisfiability condition). </li>
      <li> Compare with "Searching for ABD(n,k) (via SAT)" in
      ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
+     </li>
+     <li> First we create propagators; this is straight-forward, see
+     "Hitting clause-sets" in
+     ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Generators.hpp
      </li>
     </ol>
    </li>
