@@ -44,7 +44,7 @@ License, or any later version. */
      <li> While determining the possible distribution of clause-lengths
      due to the condition sum_C 2^(-|C|) = 1 by all_cld_uhit_maxminvd
      and then either determining that there are no examples for the given
-     n, or constructing them by hand seems to be more succesful. </li>
+     n, or constructing them by hand seems to be more successful. </li>
      <li> See "all_cld_uhit_minvd" in
      ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
      for further strengthenings of this approach (especially regarding
@@ -106,14 +106,49 @@ License, or any later version. */
        <li> The general cases for sharpness are k = 58, 56,55,54,53,52,51.
        </li>
        <li> And then we have sporadic cases for k = 43. </li>
-       <li> We should also get this information into the catalogue,
-       but likely only optional. </li>
+       <li> We should also get all min-var-degree-maximal cases
+       into the catalogue, but likely only optionally. </li>
+       <li> k = 13: all_cld_uhit_maxminvd_nu(13,6)={{[2,3],[6,16]}},
+       where the first 3 binary clauses must leave out one variable,
+       which then occurs 19 - 3 = 16 < 17 times, so no sharp case here. </li>
+       <li> k = 6: all_cld_uhit_maxminvd_nu(6,6) has the following cases:
+        <ul>
+         <li> {[2,2],[3,3],[5,1],[6,6]} </li>
+         <li> {[2,3],[3,1],[6,8]}: impossible, since the first three clauses
+         can involve only 3 variables, so the first four clauses can only
+         involve 5 variables, thus one variable has occurrence
+         12 - 4 = 8 < 9. </li>
+         <li> {[2,3],[4,1],[5,4],[6,4]} </li>
+         <li> {[2,3],[4,2],[5,1],[6,6]} </li>
+        </ul>
+       </li>
       </ol>
      </li>
-      <li> For n=7 we only have incomplete information.
+     <li> For n=7 we only have incomplete information.
       <ol>
        <li> The general cases for sharpness are
        k = 121, 120,119,118,117,116,115,114. </li>
+       <li> k = 13: all_cld_uhit_maxminvd_nu(13,7)={{[2,3],[3,1],[7,16]}}.
+       Now a hitting cls F with c(F) = 3 which is 2-uniform has
+       n(F) <= 3, and thus the first 4 clauses must leave out one variable,
+       which then occurs 20 - 4 = 16 < 17 times. So no sharp case here. </li>
+      </ol>
+     </li>
+     <li> For n=8 we only have incomplete information.
+      <ol>
+       <li> The general cases for sharpness are
+       k = 248, 247,246,245,244,243,242,241,240. </li>
+       <li> k = 13: all_cld_uhit_maxminvd_nu(13,8) has the following cases:
+        <ul>
+         <li> {[2,2],[3,3],[4,1],[7,1],[8,14]} </li>
+         <li> [2,3],[3,1],[4,1],[8,16]} </li>
+         <li> {[2,3],[3,1],[5,1],[6,2],[7,2],[8,12]} </li>
+         <li> {[2,3],[3,1],[5,2],[7,1],[8,14]} </li>
+         <li> {[2,3],[4,3],[7,1],[8,14]}} </li>
+        </ul>
+        The first cases look impossible, perhaps the last one might be
+        possible.
+       </li>
       </ol>
      </li>
     </ol>
@@ -128,18 +163,39 @@ License, or any later version. */
      </li>
      <li> So one could conjecture that always directly after the "gap"
      we have an interval where the bound is not sharp. </li>
-     <li> To obtain a sharp bound for k=6, n >= 6 is
-     necessary. </li>
-     <li> To obtain a sharp bound for k in {13,...,17},
-     n >= 6 is necessary. </li>
-     <li> For the other deficiencies we have the maxima:
+     <li> We have the current maxima for the non-sharp cases (compared
+     to the upper bound):
       <ul>
-       <li> k = 6 : 8 = 9-1 </li>
-       <li> k = 13 : 16 = 17-1 </li>
-       <li> k = 14 : 17 = 18-1 </li>
-       <li> k = 15 : 18 = 19-1 </li>
-       <li> k = 16 : 19 = 20-1 </li>
-       <li> k = 17 : 20 = 21-1 </li>
+       <li> k = 6 : 8 = 9-1
+        <ol>
+         <li> The above show that for a sharp case we have n >= 6. </li>
+        </ol>
+       </li>
+       <li> k = 13 : 16 = 17-1
+        <ol>
+         <li> The above show that for a sharp case we have n >= 8. </li>
+        </ol>
+       </li>
+       <li> k = 14 : 17 = 18-1
+        <ol>
+         <li> The above show that for a sharp case we have n >= 6. </li>
+        </ol>
+       </li>
+       <li> k = 15 : 18 = 19-1
+        <ol>
+         <li> The above show that for a sharp case we have n >= 6. </li>
+        </ol>
+       </li>
+       <li> k = 16 : 19 = 20-1
+        <ol>
+         <li> The above show that for a sharp case we have n >= 6. </li>
+        </ol>
+       </li>
+       <li> k = 17 : 20 = 21-1
+        <ol>
+         <li> The above show that for a sharp case we have n >= 6. </li>
+        </ol>
+       </li>
       </ul>
      </li>
     </ol>

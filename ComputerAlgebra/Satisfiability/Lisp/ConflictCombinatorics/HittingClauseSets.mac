@@ -231,6 +231,9 @@ all_cld_uhit_minvd(def,n,mvd) := apply(union,
 /* The instance where we search for clause-sets where the general upper
    bound on the min-var-degree is attained. */
 all_cld_uhit_maxminvd(def,n) := all_cld_uhit_minvd(def,n,max_min_var_degree_def_rec[def])$
+/* Filtering out cases with unit-clauses. */
+all_cld_uhit_maxminvd_nu(def,n) := subset(all_cld_uhit_maxminvd(def,n),
+ lambda([S],is(listify(S)[1][1] # 1)))$
 
 
 /* ****************************************************
