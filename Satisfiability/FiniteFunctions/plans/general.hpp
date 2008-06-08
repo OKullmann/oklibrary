@@ -15,7 +15,12 @@ License, or any later version. */
 
   \todo Links and plans
   <ul>
-   <li> Establish links to other modules (especially computer algebra). </li>
+   <li> Establish links to other modules (especially computer algebra).
+    <ol>
+     <li> See "New module FiniteFunctions" in
+     ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp. </li>
+    </ol>
+   </li>
    <li> Create a development plan and further milestones. </li>
   </ul>
 

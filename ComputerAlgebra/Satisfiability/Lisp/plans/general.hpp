@@ -98,6 +98,32 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
+
+
+  \todo New module FiniteFunctions
+  <ul>
+   <li> See also
+   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
+   <li> The main point is the construction of representations of finite
+   functions via generalised CNF/DNF, propositional logic, CSPs, alliances
+   of active clause-sets etc. </li>
+   <li> Collect the links within part ComputerAlgebra:
+    <ol>
+     <li> We have something in Cryptology (MG). </li>
+    </ol>
+   </li>
+   <li> Study the representations of fundamental functions:
+    <ol>
+     <li> Cardinality constraints:
+      <ul>
+       <li> At least k out of n boolean variables are true. </li>
+       <li> At most k out of n boolean variables are true. </li>
+       <li> Exactly k out of n boolean variables are true. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
    
 
   \todo Symmetries
