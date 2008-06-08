@@ -21,11 +21,58 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/testob
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tests/DLL_solvers.mac")$
 
+/* **********************************
+   * Backtracking without reduction *
+   **********************************
+*/
+
+okltest_dll_simplest(dll_simplest);
+
+/* ***********************************
+   * Backtracking with r_k-reduction *
+   ***********************************
+*/
+
+
+/* *****************************************
+   * Backtracking with arbitrary reduction *
+   *****************************************
+*/
+
+
+/* *******************************
+   * Simple heuristics for DLL   *
+   *******************************
+*/
+
 okltest_choose_most_sat_literal_h(choose_most_sat_literal_h);
 
 okltest_johnson_heuristic(johnson_heuristic);
 
 okltest_dll_heuristics_max_lit_tb(dll_heuristics_max_lit_tb);
+
+/* ****************************
+   * Heuristics via distances *
+   ****************************
+*/
+
+
+/* *************
+   * Distances *    
+   *************
+*/
+
+
+/* ***************
+   * Projections *
+   ***************
+*/
+
+
+/* *********************************
+   * Satisfiability approximations *
+   *********************************
+*/
 
 okltest_locallemma_satapprox(locallemma_satapprox);
 

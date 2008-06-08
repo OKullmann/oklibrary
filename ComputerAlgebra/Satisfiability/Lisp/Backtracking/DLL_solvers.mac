@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hyper
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/InclusionExclusion.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/GeneralisedUCP.mac")$
 
 
 /* **********************************
@@ -130,7 +131,7 @@ dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
    *******************************
 */
 
-/* *** Heuristics for a smaller tree *** */
+/* *** Heuristics aiming at small trees *** */
 
 /* The simplest heuristics: return the first variable */
 dll_heuristics_first_formal(FF) := first(FF[1])$
