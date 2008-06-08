@@ -51,5 +51,14 @@ create_set([A]) := setify(apply(create_list,A))$
    <li> Create Ramsey graphs etc. </li>
   </ul>
 
+
+  \todo Intersecting hypergraphs
+  <ul>
+   <li> See "Allowed parameter values" in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
+   for a motivation to study intersecting hypergraphs (no empty hyperedges,
+   and every two hyperedges intersect). </li>
+  </ul>
+
 */
 

@@ -29,6 +29,37 @@ License, or any later version. */
   </ul>
 
 
+  \todo Allowed parameter values
+  <ul>
+   <li> A fundamental question about boolean hitting clause-sets is to
+   determine the possible parameter-values. </li>
+   <li> Of course, unsatisfiable hitting clause-sets are of high interest,
+   but likely the questions then become much more complicated; see for example
+   todo "Non-singular unsatisfiable hitting clause-sets of given deficiency"
+   below. </li>
+   <li> Possible parameters are:
+    <ol>
+     <li> n, c, l </li>
+     <li> the lists of variable-degrees, literal-degrees, clause-ranks </li>
+     <li> minimal/maximal values for these degrees and ranks </li>
+     <li> the conflict-matrix. </li>
+    </ol>
+   </li>
+   <li> The corresponding questions for intersecting hypergraphs should be
+   simpler, and they are also basic here, since the variable-hypergraphs of
+   hitting clause-sets are intersecting.
+    <ol>
+     <li> A basic example is that for a 2-uniform hitting clause-set F we have
+     n(F) <= 1/2 + (1/4 + 2 * c(F))^(1/2), since their variable-hypergraphs
+     are complete graphs. </li>
+     <li> For c(F) = 3 we obtain n(F) <= 3 (compared to n(F) <= 6 if F would
+     be arbitrary). </li>
+     <li> This needs to be generalised to arbitrary ranks. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Constructions
   <ul>
    <li> The set of hitting clause-sets is a sub-monoid (with zero) of
