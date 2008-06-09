@@ -48,3 +48,29 @@ maxima_targets_prefix_okl := $(maxima_prefix_okl)-
 maxima_recommended_okl := $(maxima_targets_prefix_okl)$(maxima_recommended_version_number_okl)
 maxima_source_okl := $(ExternalSources)/sources/Maxima/$(maxima_recommended_okl)
 
+# Tool : gnuplot
+
+gnuplot_recommended_version_number_okl ?= 4.2.3
+gnuplot_supported_not_recommended_version_numbers_okl ?= 
+gnuplot_supported_version_numbers_okl ?= $(gnuplot_supported_not_recommended_version_numbers_okl) $(gnuplot_recommended_version_number_okl)
+
+gnuplot_prefix_okl ?= gnuplot
+
+gnuplot_recommended_package_name_okl ?= $(gnuplot_prefix_okl)-$(gnuplot_recommended_version_number_okl)
+
+gnuplot_base_installation_dir_okl ?= $(ExternalSources_installations)/Gnuplot
+gnuplot_installation_dir_okl ?= $(gnuplot_base_installation_dir_okl)/$(gnuplot_recommended_version_number_okl)
+gnuplot_base_build_dir_okl ?= $(ExternalSources_builds)/Gnuplot
+gnuplot_build_dir_okl ?= $(gnuplot_base_build_dir_okl)/$(gnuplot_recommended_package_name_okl)
+
+gnuplot_homepage_url_okl := http://gnuplot.sourceforge.net
+
+gnuplot_targets_prefix_okl := $(gnuplot_prefix_okl)-
+gnuplot_recommended_okl := $(gnuplot_targets_prefix_okl)$(gnuplot_recommended_version_number_okl)
+gnuplot_source_okl := $(ExternalSources)/sources/Maxima/$(gnuplot_recommended_okl)
+
+gnuplot_call_okl ?= $(gnuplot_installation_dir_okl)/bin/gnuplot
+
+gnuplot_pdf_name_okl ?= $(gnuplot_recommended_okl).pdf
+gnuplot_pdf_source_okl ?= $(ExternalSources_sources)/Maxima/$(gnuplot_pdf_name_okl)
+gnuplot_pdf_doc_okl ?= $(maxima_base_doc_dir_okl)/$(gnuplot_pdf_name_okl)

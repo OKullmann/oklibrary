@@ -62,7 +62,7 @@ License, or any later version. */
 
   <ul>
    <li> For building and running Maxima we use CLisp. </li>
-   <li> The version used for building Maxima is hard-wired into
+   <li> The CLisp-version used for building Maxima is hard-wired into
    the Maxima installation:
     <ol>
      <li> So the specific CLisp-installation in directory 
@@ -74,6 +74,10 @@ License, or any later version. */
      hand does not affect the already built Maxima-installation. </li>
     </ol>
    </li>
+   <li> The Maxima <code>draw</code> command (as well as
+   <code>graph_draw</code>) uses Gnuplot, and version 4.2 or later is required.
+   It can be installed locally as below (creating a link to the binary in the
+   OKplatform/bin directory). </li>
   </ul>
 
 
@@ -86,7 +90,8 @@ License, or any later version. */
    </tr>
    <tr>
      <td> <code> allmaxima </code> </td>
-     <td> Build first CLisp (locally), and then Maxima. </td>
+     <td> Build first CLisp (locally), then Gnuplot (locally),
+     and then Maxima. </td>
    </tr>
    <tr>
     <td> <code> cleanallmaxima </code> </td>
@@ -94,7 +99,16 @@ License, or any later version. */
    </tr>
    <tr>
     <td> <code> cleanallallmaxima </code> </td>
-    <td> Invokes <code>cleanalllibsigsegv,cleanalllibffcall,cleanallclisp,cleanallmaxima</code>. </td>
+    <td> Invokes <code>cleanalllibsigsegv,cleanalllibffcall,cleanallclisp,
+    cleanallgnuplot,cleanallmaxima</code>. </td>
+   </tr>
+   <tr>
+    <td> <code> gnuplot </code> </td>
+    <td> Build the recommended version of Gnuplot. </td>
+   </tr>
+   <tr>
+    <td> <code> cleanallgnuplot </code> </td>
+    <td> Removes the build and installation-directories. </td>
    </tr>
   </table>
 
@@ -104,6 +118,8 @@ License, or any later version. */
   <ul>
    <li> To install a different version of Maxima, set variable
    <code>maxima_recommended_version_number_okl</code> accordingly. </li>
+   <li> To install a different version of Gnuplot, set variable
+   <code>gnuplot_recommended_version_number_okl</code> accordingly. </li>
   </ul>
 
 */

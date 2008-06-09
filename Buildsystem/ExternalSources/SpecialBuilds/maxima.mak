@@ -11,7 +11,7 @@
 
 maxima_directories_okl := $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl) $(maxima_doc_dir_okl)
 
-.PHONY : maxima allmaxima
+.PHONY : maxima allmaxima cleanallmaxima
 
 $(maxima_directories_okl) : % : 
 	mkdir -p $@
@@ -21,7 +21,7 @@ $(maxima_directories_okl) : % :
 # #################################
 
 
-allmaxima : libsigsegv libffcall clisp maxima
+allmaxima : libsigsegv libffcall clisp gnuplot maxima
 
 ifneq ($(maxima_recommended_version_number_okl),5.15.0)
 maxima : $(maxima_directories_okl)
@@ -57,5 +57,29 @@ endif
 cleanallmaxima : 
 	-rm -rf $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl)
 
-cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallmaxima
+cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallgnuplot cleanallmaxima
 
+
+# #################################
+# Tool gnuplot
+###################################
+
+gnuplot_directories_okl := $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl)
+
+.PHONY : gnuplot cleanallgnuplot
+
+$(gnuplot_directories_okl) : % : 
+	mkdir -p $@
+
+gnuplot : $(gnuplot_directories_okl)
+	$(call unarchive,$(gnuplot_source_okl),$(gnuplot_base_build_dir_okl))
+	cd $(gnuplot_build_dir_okl); $(postcondition) \
+	./configure --prefix=$(gnuplot_installation_dir_okl); $(postcondition) \
+	make; $(postcondition) \
+	make install; $(postcondition)
+	ln -s --force $(gnuplot_call_okl) $(public_bin_dir_okl)/gnuplot
+	cp -f $(gnuplot_pdf_source_okl) $(maxima_base_doc_dir_okl)
+
+
+cleanallgnuplot : 
+	-rm -rf $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl) 
