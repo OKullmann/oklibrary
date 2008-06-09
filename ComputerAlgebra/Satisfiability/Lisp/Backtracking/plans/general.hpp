@@ -28,6 +28,12 @@ License, or any later version. */
   \todo Write docus
 
 
+  \todo Organisation
+  <ul>
+   <li> Split DLL_solvers.mac into several submodules. </li>
+  </ul>
+
+
   \todo optimal_splitting_tree and optimal_r_splitting_tree in
   ComputerAlgebra/Satisfiability/Lisp/Backtracking/SplittingTrees.mac
   <ul>
@@ -62,6 +68,11 @@ License, or any later version. */
     <ol>
      <li> See "Symmetries" in
      ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp. </li>
+     <li> Alternatively, one keeps a repository of clause-sets already
+     processed, and does not process isomorphic cases; similarly to
+     e,g, derived_hitting_cs_pred_isoelim. </li>
+     <li> The repository can comprise all of the clause-sets considered, or
+     only those considered at the current node. </li>
     </ol>
    </li>
    <li> Instead of just getting the minimal size, a variations return
