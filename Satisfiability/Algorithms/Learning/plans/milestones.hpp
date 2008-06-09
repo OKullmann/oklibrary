@@ -8,15 +8,7 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/Learning/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithmis/Learning 0.0.3 (8.1.2007)
-
-
-  \par Version 0.0.4 :
-
-  \par
-   In Satisfiability/Algorithms/Learning/plans/general.hpp the following todos are handled:
-    - Create milestones : DONE
-    - Update namespaces : DONE
+  \module_version Satisfiability/Algorithms/Learning 0.0.4 (9.6.2008)
 
 
   \par Version 0.0.5 :
@@ -48,5 +40,6 @@ License, or any later version. */
   \par Version history
 
    - 0.0.3 : 8.1.2007; initial version number (several plans).
+   - 0.0.4 : 9.6.2008; complete overhaul of the ideas on learning (and their combination with look-ahead); at this time real development only at the Maxima/Lisp level.
 
 */

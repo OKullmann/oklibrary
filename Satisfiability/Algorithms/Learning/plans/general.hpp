@@ -10,12 +10,6 @@ License, or any later version. */
   \brief Plans for the module on clause-learning
 
 
-  \todo Update namespaces : DONE
-
-
-  \todo Create milestones : DONE
-
-
   \todo Develop the ideas
   <ul>
    <li> Yet we do not really understand how to combine look-ahead and

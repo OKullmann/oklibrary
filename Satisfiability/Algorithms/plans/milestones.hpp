@@ -8,19 +8,19 @@ License, or any later version. */
 /*!
   \file Satisfiability/Algorithms/plans/milestones.hpp
 
-  \module_version Satisfiability/Algorithms 0.0.5.1 (17.11.2007)
+  \module_version Satisfiability/Algorithms 0.0.5.2 (9.6.2008)
 
 
   \par Version 0.0.6
-
-  \par Satisfiability/Algorithms/Learning 0.0.4
-  (see Satisfiability/Algorithms/Learning/plans/milestones.hpp)
 
   \par Satisfiability/Algorithms/LocalSearch 0.0.5
   (see Satisfiability/Algorithms/LocalSearch/plans/milestones.hpp)
 
   \par Satisfiability/Algorithms/Autarkies 0.0.5
   (see Satisfiability/Algorithms/Autarkies/plans/milestones.hpp)
+
+  \par Satisfiability/Algorithms/Learning 0.0.4 : DONE
+  (see Satisfiability/Algorithms/Learning/plans/milestones.hpp)
 
   \par Satisfiability/Algorithms/Backtracking version 0.0.5 : DONE
   (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
