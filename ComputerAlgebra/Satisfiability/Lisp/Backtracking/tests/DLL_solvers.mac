@@ -26,6 +26,49 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Inclusi
 
 kill(f)$
 
+/* ********************************
+   * Generic test for SAT solvers *
+   ********************************
+*/
+
+okltest_SATsolver(f) := block(
+  assert(f([{},{}]) = true),
+  assert(f([{},{{}}]) = false),
+  assert(f([{1},{}]) = true),
+  assert(f([{1},{{}}]) = false),
+  assert(f([{1},{{1}}]) = true),
+  assert(f([{1},{{1},{-1}}]) = false),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)) = false),
+  for n : 0 thru 3 do (
+    assert(f(weak_php(n,n)) = true),
+    assert(f(weak_php(n+1,n)) = false)
+  ),
+  true)$
+
+
+/* **********************************
+   * Backtracking without reduction *
+   **********************************
+*/
+
+okltest_dll_simplest(f) := block(
+  okltest_SATsolver(buildq([f],lambda([FF],f(FF,dll_heuristics_first_formal)))),
+  true)$
+
+
+/* ***********************************
+   * Backtracking with r_k-reduction *
+   ***********************************
+*/
+
+
+/* *****************************************
+   * Backtracking with arbitrary reduction *
+   *****************************************
+*/
+
+
 /* *******************************
    * Simple heuristics for DLL   *
    *******************************
@@ -63,6 +106,24 @@ okltest_dll_heuristics_max_lit_tb(f) := block(
     for m : 2 thru 3 do
       assert(not f(n,m)(cs_to_fcs({{-1,-2,-3},{1,-2,-3},{1,2,3}})) = 1),
 true)$
+
+
+/* ****************************
+   * Heuristics via distances *
+   ****************************
+*/
+
+
+/* *************
+   * Distances *    
+   *************
+*/
+
+
+/* ***************
+   * Projections *
+   ***************
+*/
 
 
 /* *********************************

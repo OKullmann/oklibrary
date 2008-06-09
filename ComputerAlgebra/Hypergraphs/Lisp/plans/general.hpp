@@ -16,6 +16,46 @@ License, or any later version. */
   \todo Write tests
 
 
+  \todo Redesign
+  <ul>
+   <li> See "Plan the redesign" in ComputerAlgebra/plans/Maxima.hpp for
+   the general overview. </li>
+   <li> See "Lists instead of sets" and "Naming conventions" below. </li>
+  </ul>
+
+
+  \todo Lists instead of sets
+  <ul>
+   <li> Additionally to "hypergraphs" and "general hypergraphs" we introduce
+   "ordered hypergraphs" and "ordered general hypergraphs":
+    <ol>
+     <li> Computationally these notions are considered to be more fundamental.
+     </li>
+     <li> An ordered hypergraphs is a pair [V,E], where V and E are lists
+     without repetition, such that [setify(V),setify(E)] is a hypergraph. </li>
+     <li> An ordered general hypergraph is a triple [V,E,f], where V, E
+     are lists without repetition, such that [setify(V),setify(E)] is a
+     general hypergraph. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Naming conventions
+  <ul>
+   <li> "hg" for hypergraph, "ghg" for general hypergraph, and "ohg", "oghg"
+   for the ordered versions. </li>
+   <li> Conversions then as "hg2ghg", "ohg2hg" etc. </li>
+  </ul>
+
+
+  \todo Organisation
+  <ul>
+   <li> Shouldn't Hypergraphs/Lisp/SetSystems.mac have its own module? </li>
+   <li> Perhaps in ComputerAlgebra/DataStructures ? </li>
+  </ul>
+
+
   \todo Write docus
   <ul>
    <li> We should have a list of all available functions. </li>
@@ -49,6 +89,15 @@ create_set([A]) := setify(apply(create_list,A))$
     </ol>
    </li>
    <li> Create Ramsey graphs etc. </li>
+  </ul>
+
+
+  \todo Intersecting hypergraphs
+  <ul>
+   <li> See "Allowed parameter values" in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
+   for a motivation to study intersecting hypergraphs (no empty hyperedges,
+   and every two hyperedges intersect). </li>
   </ul>
 
 */

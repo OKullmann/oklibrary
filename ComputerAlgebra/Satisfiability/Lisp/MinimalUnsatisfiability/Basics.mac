@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 
 
 /* *************************
@@ -99,11 +100,6 @@ max_min_var_degree_def_rec[k] :=
 /* This is sequence A062289 (http://www.research.att.com/~njas/sequences/),
    and accordingly we have 
    max_min_var_degree_def_rec[k] = max_min_var_degree_def_law(k). */
-/* The integer binary logarithm for natural numbers n */
-/* Perhaps this should go to a new super-module NumberTheory. */
-fld(n) := if n = 0 then minf else 
- block([l : 0, b : 1], while b < n do (l : l + 1, b : b * 2),
-  if b > n then return(l-1) else return(l))$
 max_min_var_degree_def_law(k) := k + fld(k+1 + fld(k+1))$
 
 /* *** Checking the uhit_def catalogue: *** */

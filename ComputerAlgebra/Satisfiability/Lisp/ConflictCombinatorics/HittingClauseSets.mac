@@ -35,6 +35,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symme
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
+
 
 /* ***************************************
    * Representations via splitting trees *
@@ -181,6 +183,57 @@ abd_parameters(F) :=
 check_hitting_nsing_def(F) := if hittingcsp(F) and redsingdpp(F) 
    and not sat_decision_hitting_cs(F) then [deficiency_cs(F)] 
  else [];
+
+
+/* **************************************************************
+   * Necessary conditions for unsatisfiable hitting clause-sets *
+   **************************************************************
+*/
+
+/* Find all clause-length distributions for a given deficiency def,
+   number of variables n, and m literal occurrences altogether removed
+   from the clause-list with (n+def) many full clauses, such that
+   the remaining clause-list fulfills the unsatisfiability-condition,
+   assuming that it is a hitting clause-set. */
+/* More precisely, the output is a set of set-maps, each mapping the available
+   clause-lengths to their occurrence numbers. */
+/* If the output is empty, then no unsatisfiable hiting clause-set F with
+   deficiency_cs(F) = def, nvar_cs(F) = n and nlitocc_cs(F) = (n+def)*n - m
+   is possible. */
+/* The idea is that the partitions of m = m_1 + ... + m_r are considered, 
+   each entry m_i relating to a different clause from which exactly m_i
+   literals are removed. */
+/* Prerequisite: def,n,m are non-negative integers, def >= 1. */
+all_cld_uhit(def,n,m) := block(
+ [c : n + def, l, res : []],
+  if n = 0 then /* actually, should be superfluous ??? */
+    if def = 1 and m = 0 then return({{[0,1]}}) else return({}),
+  l : c * n,
+  if m > l then return({}),
+  for P in ext_integer_partitions(m) do block([L : length(P), nfc],
+    nfc : c - L, /* no. of full clauses */
+    if nfc >= 0 then block(
+     [s : 2^(-n) * nfc + sum(2^(-(n-P[i])),i,1,L)],
+      if s = 1 then block([cl_dist : sm2hm({})],
+        if nfc > 0 then set_hm(cl_dist,n, c - L),
+        for i in P do
+          set_hm(cl_dist,n-i,ev_hm_d(cl_dist,n-i,0)+1),
+        res : endcons(hm2sm(cl_dist),res)
+      ))),
+  return(setify(res)))$
+/* Filtering-out cases which do not allow the min-var-degree
+   to be at least mvd. */
+/* The proof for the condition is that in the variable-clause matrix
+   there cannot be a row with strictly more than c - mvd zeros, and
+   thus we can have at most (c - mvd) * n zeros. */
+all_cld_uhit_minvd(def,n,mvd) := apply(union,
+  create_list(all_cld_uhit(def,n,m),m,0,((def+n)-mvd)*n))$
+/* The instance where we search for clause-sets where the general upper
+   bound on the min-var-degree is attained. */
+all_cld_uhit_maxminvd(def,n) := all_cld_uhit_minvd(def,n,max_min_var_degree_def_rec[def])$
+/* Filtering out cases with unit-clauses. */
+all_cld_uhit_maxminvd_nu(def,n) := subset(all_cld_uhit_maxminvd(def,n),
+ lambda([S],is(listify(S)[1][1] # 1)))$
 
 
 /* ****************************************************
@@ -377,7 +430,8 @@ derived_hitting_cs_nsing_isoelim(F,k,results_derived_hitting_cs) := derived_hitt
 */
 all_derived_hitting_cs_pred_isoelim(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim(F,{},true)$
-/* "repository" and "pred" is inherited. */
+/* "repository" and "pred" are inherited. */
+/* Uses random_permutation, and is thus governed by set_random_state. */
 all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F)],
   oklib_save('repository),
@@ -388,7 +442,7 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
   block(
    [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs), 
     R,G, found : false],
-    for P in FP unless found do (
+    for P in random_permutation(FP) unless found do (
       G : adjoin(resolvent_s(P),setdifference(F,P)),
       if not pred(G) then
         forb_pairs : adjoin(P, forb_pairs)
@@ -411,7 +465,8 @@ all_derived_hitting_cs_pred_forb_isoelim(F,forb_pairs,check) := block(
 /* Assumes that no variables is eliminated. */
 all_derived_hitting_cs_pred_isoelim_mvd(F,repository,pred) :=
   all_derived_hitting_cs_pred_forb_isoelim_mvd(F,{},true)$
-/* "repository" and "pred" is inherited. */
+/* "repository" and "pred" are inherited. */
+/* Uses random_permutation, and is thus governed by set_random_state. */
 all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
  [count : 0, V : var_cs(F), max_mvd],
   max_mvd : max_min_var_degree_def_rec[deficiency_fcs([V,F]) - 1],
@@ -424,7 +479,7 @@ all_derived_hitting_cs_pred_forb_isoelim_mvd(F,forb_pairs,check) := block(
    [FP : setdifference(two_subsumption_resolvable_cs(F),forb_pairs),
     R : {}, G, mvd : minf,
     found : false],
-    for P in FP unless found do block(
+    for P in random_permutation(FP) unless found do block(
       [G2 : adjoin(resolvent_s(P),setdifference(F,P))],
       if not pred(G2) then
         forb_pairs : adjoin(P, forb_pairs)

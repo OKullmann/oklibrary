@@ -144,9 +144,6 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
 
   \todo General design: Lists *here* are more fundamental than sets
   <ul>
-   <li> See "Clause-lists instead of clause-sets" in
-   ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp for the details
-   regarding satisfiability. </li>
    <li> It seems that instead of clause-sets we should use clause-lists
    as the fundamental objects. </li>
    <li> In the mathematical cosmos there is no creation and destruction,
@@ -170,11 +167,11 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    <li> But clauses should stay as sets. </li>
    <li> A formal clause-list has then also a list of variables (without
    repetition). </li>
-   <li> An l-hypergraph is then also given as a list of hyperedges, together
-   with a list of vertices (the latter without repetition). </li>
+   <li> An "ordered hypergraph" is then also given as a list of hyperedges,
+   together with a list of vertices (the latter without repetition). </li>
    <li> But the hyperedges still are sets. </li>
-   <li> In the same vein, l-graphs are given by lists of vertices and lists
-   of edges, the former without repetition, the latter with sets as
+   <li> In the same vein, "ordered graphs" are given by lists of vertices and
+   lists of edges, the former without repetition, the latter with sets as
    elements. </li>
    <li> So it seems that we should rewrite all of of the Maxima-functions. </li>
    <li> This combined with the general clean-up. </li>
@@ -184,19 +181,19 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
     <ol>
      <li> So perhaps they stay as they are, using index-sets? </li>
      <li> However, there are the same issues regarding enumerations. </li>
-     <li> So we should have also "l-combinatorial matrices", where
+     <li> So we should have also "ordered combinatorial matrices", where
      indices are given by 2 lists. </li>
     </ol>
    </li>
-   <li> Perhaps instead of using prefices like "l" (for "list") we could
-   use the adjective "ordered" ?
+   <li> We use the adjective "ordered" as follows:
     <ol>
-     <li> Speaking of "ordered clause-sets", "ordered hypergraphs"
-     etc. </li>
-     <li> However then the aspect, that for examples the same clause
-     can occur multiple times, is not expressed? </li>
-     <li> Or does an "ordered clause-set" not have multiple occurrences
-     of the same clause, while an "l-clause-set" may have? </li>
+     <li> Speaking of "ordered clause-sets", "ordered graphs",
+     "ordered hypergraphs" etc. </li>
+     <li> Different from the "list-types", here we do not have
+     multiple occurrences. </li>
+     <li> So an "ordered clause-set" is the same structure as a "clause-list",
+     but we do not have multiple occurrences of the same clause (while an
+     "clause-list" may have them). </li>
     </ol>
    </li>
   </ul>
@@ -206,6 +203,11 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
   <ul>
    <li> Making lists fundamental, and introducing new and consistent naming
    conventions. </li>
+   <li> See "Redesign" in ComputerAlgebra/Satisfiability/Lisp/plans/general.hpp.
+   </li>
+   <li> See "Redesign" in ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp.
+   </li>
+   <li> See "Redesign" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp. </li>
   </ul>
 
 
@@ -478,6 +480,23 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo Document important programming techniques:
   <ul>
+   <li> Loops:
+    <ol>
+    <li> In "for x in X do" list/set X is evaluated only once, before
+    entering the loop. </li>
+    <li> In "for i : a thru b do" term b is evaluated with every iteration,
+    while a is evaluated only once. </li>
+    <li> Conditions under "while" and "unless" are evaluated with every
+    iteration. </li>
+    </ol>
+   </li>
+   <li> Randomisation:
+    <ol>
+     <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
+     is set by set_random_state(make_random_state(n)). </li>
+     <li> Randomised functions are "random", "random_permutation". </li>
+    </ol>
+   </li>
    <li> List creation:
     <ol>
      <li> Better avoid makelist, since it is less powerfull then
@@ -666,7 +685,7 @@ false
    </ul>
 
 
-   \todo New supermodule NumberTheory
+   \todo DONE New supermodule NumberTheory
    <ul>
     <li> See "fld" in
     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac </li>

@@ -23,9 +23,7 @@ License, or any later version. */
     - How to refer to the different versions of OKsolver
 
   \par
-   Update the following milestones. Perhaps "OKsolver/SAT2002 version 1.0"
-   should be reached only in 0.6, and the steps towards this milestone
-   contain more activities regarding OKsolver_1_0.hpp.
+   Update the following milestones. 
 
 
   \par Version 0.5.3
@@ -43,7 +41,7 @@ License, or any later version. */
 
   \par Version 0.6
 
-  \par OKsolver/SAT2002 version 1.0.4
+  \par OKsolver/SAT2002 version 1.1
   (see Solvers/OKsolver/SAT2002/plans/milestones.hpp)
 
   \par

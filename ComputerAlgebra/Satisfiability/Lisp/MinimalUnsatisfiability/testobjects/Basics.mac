@@ -38,7 +38,6 @@ okltest_non_saturating_pas_bydef(non_saturating_pas_bydef);
 */
 
 okltest_max_min_var_degree_def_rec(max_min_var_degree_def_rec);
-okltest_fld(fld);
 okltest_max_min_var_degree_def_law(max_min_var_degree_def_law);
 
 /*!

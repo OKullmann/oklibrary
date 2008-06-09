@@ -98,18 +98,6 @@ okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
    ***************************
 */
 
-okltest_fld(f) := block(
-  assert(f(0) = minf),
-  assert(f(1) = 0),
-  assert(f(2) = 1),
-  assert(f(3) = 1),
-  assert(f(4) = 2),
-  assert(f(5) = 2),
-  assert(f(2^10) = 10),
-  assert(f(2^10-1) = 9),
-  assert(f(2^10+1) = 10),
-  true)$
-
 okltest_max_min_var_degree_def_rec(f) := block(
   assert(f[1] = 2),
   assert(f[2] = 4),

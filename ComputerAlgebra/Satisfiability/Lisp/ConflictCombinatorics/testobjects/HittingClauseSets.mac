@@ -52,6 +52,15 @@ okltest_treehittingcsp(treehittingcsp);
 
 okltest_check_hitting_nsing_def(check_hitting_nsing_def);
 
+/* **************************************************************
+   * Necessary conditions for unsatisfiable hitting clause-sets *
+   **************************************************************
+*/
+
+okltest_all_cld_uhit(all_cld_uhit);
+okltest_all_cld_uhit_minvd(all_cld_uhit_minvd);
+okltest_all_cld_uhit_maxminvd(all_cld_uhit_maxminvd);
+
 /* ****************************************************
    * Representing clause-sets via hitting clause-sets *
    ****************************************************

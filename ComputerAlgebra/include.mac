@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/include.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/include.mac")$

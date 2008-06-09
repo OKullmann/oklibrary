@@ -109,5 +109,12 @@ License, or any later version. */
    <li> Likely this should go into its own submodule. </li>
   </ul>
 
+
+  \todo Investigations on approximations
+  <ul>
+   <li> Perhaps for k=3 it is true that for all eps > 0 and K > eps
+   the integral on [eps,K]^3 of dtau_3 is positive? </li>
+  </ul>
+
 */
 

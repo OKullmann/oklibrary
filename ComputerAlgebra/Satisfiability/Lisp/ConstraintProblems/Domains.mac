@@ -1,5 +1,5 @@
 /* Oliver Kullmann, 1.12.2007 (Swansea) */
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -25,19 +25,29 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/
  Domain association should be non-empty.
 */
 
-/* for a domain association returns the list of domain sizes */
+/* ********************
+   * Helper functions *
+   ********************
+*/
+
+/* For a domain association returns the list of domain sizes. */
 dom_lengths(dom) := makelist(length(dom[i]),i,1,length(dom))$
-/* for a domain association returns the list of logs of domain sizes */
+/* For a domain association returns the list of logs of domain sizes. */
 log_dom_lengths(dom) := makelist(float(log(length(dom[i]))),i,1,length(dom))$
 
 
-/* for a domain association returns the minimal domain size */
+/* ***************************
+   * Heuristical evaluations *
+   ***************************
+*/
+
+/* For a domain association returns the minimal domain size. */
 min_dom_size(dom) := lmin(dom_lengths(dom))$
 
-/* for a domain association returns the maximal domain size */
+/* For a domain association returns the maximal domain size */
 max_dom_size(dom) := lmax(dom_lengths(dom))$
 
-/* for a domain association returns the sum of logarithms of domain sizes */
+/* For a domain association returns the sum of logarithms of domain sizes */
 sum_log_dom_size(dom) := xreduce("+", log_dom_lengths(dom))$
 
 /*!

@@ -12,8 +12,51 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> ConflictCombinatorics/HittingClauseSets.mac should be split into
-   several sub-modules. </li>
+   <li> Create a new module Satisfiability/Lisp/HittingClauseSets. </li>
+   <li> Move all about hitting cls and ABDs there. </li>
+   <li> And move the uhit_def catalogue there. </li>
+   <li> And then split it into several sub-modules.
+    <ol>
+     <li> "SplittingTrees.mac" </li>
+     <li> "RepresentingClauseSets.mac" </li>
+     <li> "Generators.mac" </li>
+     <li> "TwoSubsumption.mac" </li>
+     <li> "AssociativeBlockDesigns.mac" </li>
+     <li> "UhitCatalogue.mac" </li>
+     <li> "Search.mac" (e.g., searching for special hitting cls via SAT) </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Allowed parameter values
+  <ul>
+   <li> A fundamental question about boolean hitting clause-sets is to
+   determine the possible parameter-values. </li>
+   <li> Of course, unsatisfiable hitting clause-sets are of high interest,
+   but likely the questions then become much more complicated; see for example
+   todo "Non-singular unsatisfiable hitting clause-sets of given deficiency"
+   below. </li>
+   <li> Possible parameters are:
+    <ol>
+     <li> n, c, l </li>
+     <li> the lists of variable-degrees, literal-degrees, clause-ranks </li>
+     <li> minimal/maximal values for these degrees and ranks </li>
+     <li> the conflict-matrix. </li>
+    </ol>
+   </li>
+   <li> The corresponding questions for intersecting hypergraphs should be
+   simpler, and they are also basic here, since the variable-hypergraphs of
+   hitting clause-sets are intersecting.
+    <ol>
+     <li> A basic example is that for a 2-uniform hitting clause-set F we have
+     n(F) <= 1/2 + (1/4 + 2 * c(F))^(1/2), since their variable-hypergraphs
+     are complete graphs. </li>
+     <li> For c(F) = 3 we obtain n(F) <= 3 (compared to n(F) <= 6 if F would
+     be arbitrary). </li>
+     <li> This needs to be generalised to arbitrary ranks. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -238,5 +281,68 @@ dp_inst_brr : all_hitting_DP_reductions_def(brouwer1999[2],3,'dp_inst_br)$
    for related investigations into maximising the min-var-degree. </li>
   </ul>
 
+
+  \todo all_cld_uhit_minvd
+  <ul>
+   <li> We should try to strengthen the filtering.
+    <ul>
+     <li> all_cld_uhit_minvd(6,4,9) = {{[2,2],[4,8]}}:
+      <ol>
+       <li> Here we have c = 6 + 4 = 10 = 9 + 1. </li>
+       <li> The case is impossible since due to the hitting condition
+       the two binary clauses must overlap, but then some variables
+       occurs only 10 - 2 = 8 times. </li>
+      </ol>
+     </li>
+     <li> all_cld_uhit_minvd(6,5,9) = {
+      {[1,1],[3,1],[4,3],[5,6]},
+      {[1,1],[3,2],[5,8]},
+      {[1,1],[4,6],[5,4]},
+      {[2,3],[5,8]} }
+      <ol>
+       <li> We have here c = 6 + 5 = 11 = 9 + 2. </li>
+       <li> In the first three cases we can apply singular DP-reduction
+       (aka unit-clause elimination), reducing the case from (6,5,9) to
+       (6,4,9), which we already know is impossible. </li>
+       <li> The remaining case {[2,3],[5,8]} is impossible:
+        <ul>
+         <li> The 2-clauses must pairwise overlap, and thus there
+         exists a variable not in any of them, which then exists 11 - 3
+         times; contradiction. </li>
+        </ul>
+       </li>
+      </ol>
+     </li>
+     <li> See Experimentation/Investigations/plans/MaximiseMinVarDegrees.hpp
+     for similar examples. </li>
+    </ul>
+   </li>
+   <li> Likely this function should become an array-function, since
+   due to unit-clauses we have a recursion step here.
+    <ol>
+     <li> Perhaps first we only consider the case of filtering out
+     impossible cases for all_cld_uhit_minvd. </li>
+     <li> If we are only interested in non-singular cases, then we
+     can drop the cases with unit-clauses at all. </li>
+    </ol>
+   </li>
+   <li> Likely we do not obtain a complete (efficient) rule-system
+   here, but we can have a collection of rules for filtering out
+   cases. </li>
+   <li> Of course, we also obtain (general) satisfiability problems,
+   for each clause-length-distribution one problem.
+    <ol>
+     <li> These problems are easier since we only need to handle
+     the hitting condition (not the unsatisfiability condition). </li>
+     <li> Compare with "Searching for ABD(n,k) (via SAT)" in
+     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
+     </li>
+     <li> First we create propagators; this is straight-forward, see
+     "Hitting clause-sets" in
+     ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Generators.hpp
+     </li>
+    </ol>
+   </li>
+  </ul>
 */
 

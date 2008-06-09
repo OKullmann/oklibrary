@@ -95,6 +95,9 @@ License, or any later version. */
 
   \todo Searching for ABD(n,k) (via SAT)
   <ul>
+   <li> See also related discussions in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
+   </li>
    <li> Most natural seems the clause-based approach:
     <ol>
      <li> For each of the 2^k clauses we have a variable, with domain
@@ -124,6 +127,10 @@ License, or any later version. */
      covered by the injectivity constraint. </li>
     </ol>
    </li>
+   <li> Alternatively, we use the active clause-set for hitting clause-sets
+   as in "Hitting clause-sets" in
+   ComputerAlgebra/Satisfiability/Lisp/ConstraintProblems/plans/Generators.hpp,
+   and add active clauses for the literal- and variable-regularity. </li>
    <li> Apparently the smallest open case is to find an ABD(12,6) (or to
    determine that it doesn't exist). An easier test case should be ABD(8,5)
    (here there are solutions; perhaps we can determine them all?). </li>

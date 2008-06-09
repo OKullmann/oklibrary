@@ -37,6 +37,7 @@ License, or any later version. */
   <ul>
    <li> See "General design: Lists *here* are more fundamental than sets"
    in ComputerAlgebra/plans/Maxima.hpp for the general discussion. </li>
+  </ul>
 
 
   \todo Better general naming conventions
@@ -59,11 +60,19 @@ License, or any later version. */
     </ol>
    </li>
    <li> Then we have general clause-sets etc.: "gcs", "gcl" ? </li>
+   <li> And we have the ordered variations: "ocs", "ofcs", "ogcs".
+    <ol>
+     <li> An ocs is the same structure as a cl, an ofcs the same structure
+     as a fcl, an ogcs the same as gcl, only that repetitions are not allowed
+     (at all). </li>
+    </ol>
+   </li>
    <li> What about literals as sets of pairs [v,e], where e is
    a value (forbidden for CNF, allowed for DNF?
     <ol>
      <li> We could use the prefix "ms" for monosigned? </li>
      <li> So "msl", "msc", "mscs", "mscl", "msfcs", "msgcs"? </li>
+     <li> And "msocs", "msofcs", "msogcs". </li>
     </ol>
    </li>
    <li> And then we have signed literals as sets of pairs [v,E],
@@ -71,6 +80,7 @@ License, or any later version. */
     <ol>
      <li> We could use the prefix "s" for signed? </li>
      <li> So "sl", "sc", "scs", "scl", "sfcs", "sgcs"? </li>
+     <li> And "oscs", "osfcs", "osgcs". </li>
     </ol>
    </li>
    <li> Then we have the different kind of partial assignments:
@@ -80,6 +90,12 @@ License, or any later version. */
      <li> Notions: "pa", "mspa", "spa". </li>
      <li> And then, like for literals, clauses, clause-sets etc.
      one has the CNF- and the DNF-*interpretation*. </li>
+     <li> For clauses we wanted to stay with sets; perhaps for partial
+     assignments we could have them ordered? </li>
+     <li> So speaking of "opa", "omspa" and "ospa". </li>
+     <li> Perhaps one should actually also allow to have ordered clauses?
+     Better not! Then we have too many combinations. </li>
+     </li>
     </ol>
    </li>
    <li> It seems that in general we do not mention the output-type in the
@@ -97,6 +113,43 @@ License, or any later version. */
      <li> Perhaps leaving it out only for those predicates. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo New module FiniteFunctions
+  <ul>
+   <li> See also
+   Transitional/Satisfiability/FiniteFunctions/plans/general.hpp. </li>
+   <li> The main point is the construction of representations of finite
+   functions via generalised CNF/DNF, propositional logic, CSPs, alliances
+   of active clause-sets etc. </li>
+   <li> Collect the links within part ComputerAlgebra:
+    <ol>
+     <li> We have something in Cryptology (MG). </li>
+    </ol>
+   </li>
+   <li> Study the representations of fundamental functions:
+    <ol>
+     <li> Cardinality constraints:
+      <ul>
+       <li> At least k out of n boolean variables are true. </li>
+       <li> At most k out of n boolean variables are true. </li>
+       <li> Exactly k out of n boolean variables are true. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Develops combinations of look-ahead with conflict-driven
+  solvers
+  <ul>
+   <li> See [OK, Present and future of practical SAT solving;
+   CSR 8-2008] for first schemes. </li>
+   <li> This should go to Backtracking/CombinedSchemes.mac. </li>
+   <li> Perhaps first we do not consider autarkies (and we add them
+   later). </li>
   </ul>
    
 
