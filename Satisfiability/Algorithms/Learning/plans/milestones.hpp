@@ -1,5 +1,5 @@
 // Oliver Kullmann, 8.1.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,12 +15,31 @@ License, or any later version. */
 
   \par
    In Satisfiability/Algorithms/Learning/plans/general.hpp the following todos are handled:
-    - Create milestones
-    - Framework
+    - Create milestones : DONE
     - Update namespaces : DONE
 
+
+  \par Version 0.0.5 :
+
   \par
-   New milestones are created.
+   In ComputerAlgebra/Satisfiability/Lisp/Backtracking/plans/Learning.hpp
+   develop further ideas and "procedural specifications" of pure learning
+   algorithms, and update Satisfiability/Algorithms/Learning/plans/general.hpp
+   accordingly.
+
+  \par
+   Create further milestones (according to "Develop the ideas" in
+   Satisfiability/Algorithms/Learning/plans/general.hpp).
+
+
+   
+  \par Version 0.0.6 :
+
+  \par
+   Start implementing the pure learning algorithm in C++.
+
+  \par
+   Create further milestones.
 
 
 

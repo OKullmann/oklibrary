@@ -42,6 +42,9 @@ License, or any later version. */
   \par Satisfiability/Algorithms/Backtracking version 0.0.6
   (see Satisfiability/Algorithms/Backtracking/plans/milestones.hpp)
 
+  \par Satisfiability/Algorithms/Learning 0.0.5
+  (see Satisfiability/Algorithms/Learning/plans/milestones.hpp)
+
 
 
   -------------------------------------------------------------------------------------------------------------------------------------

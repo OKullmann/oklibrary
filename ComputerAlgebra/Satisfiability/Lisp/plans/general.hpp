@@ -140,6 +140,17 @@ License, or any later version. */
     </ol>
    </li>
   </ul>
+
+
+  \todo Develops combinations of look-ahead with conflict-driven
+  solvers
+  <ul>
+   <li> See [OK, Present and future of practical SAT solving;
+   CSR 8-2008] for first schemes. </li>
+   <li> This should go to Backtracking/CombinedSchemes.mac. </li>
+   <li> Perhaps first we do not consider autarkies (and we add them
+   later). </li>
+  </ul>
    
 
   \todo Symmetries
