@@ -279,6 +279,26 @@ min_2resolution_closure_cs(generate_full_aes_sbox_cnf_fcs()[2]);
   <ul>
    <li> Investigate random permutations of {0,1}^8, and compare them
    with the AES Sbox. </li>
+   <li> 
+   \verbatim
+set_random_state(make_random_state(1))$
+random_perm : random_permutation(makelist(i,i,0,255))$
+random_dnf : generate_full_int_perm_dnf_fcs(random_perm)$
+random_hcs : dualtreehittingcls_condensed_fcs(random_dnf,dll_heuristics_max_lit)$
+statistics_cs(random_hcs);
+[16,1536,19764,16,5]
+random_pi : replace_by_prime_implicates_hitting(random_hcs)$
+statistics_cs(random_pi);
+[16,1363,9379,9,5]
+ncl_list_f(cs_to_fcs(random_pi));
+[[5,1],[6,298],[7,929],[8,132],[9,3]]
+irredundant_bydef(cs_to_fcs(random_pi),dll_simplest_trivial1);
+false
+random_ip : first_irr_fcs(cs_to_fcs(random_pi),dll_simplest_trivial2)$
+statistics_cs(random_ip[2]);
+[16,565,3869,9,5]
+   \endverbatim
+   </li>
    <li> Find representations for the multiplication with a constant in
    GF(2^8). </li>
    <li> A simple function to compute a random bijection given an input set 
