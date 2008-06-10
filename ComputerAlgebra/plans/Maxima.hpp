@@ -594,6 +594,9 @@ plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],[gnuplot_term, x11]);
      \endverbatim
      With newer gnuplot-versions the specification of the terminal
      type shouldn't be needed. </li>
+     <li> But also with gnuplot version 4.2.3 we get the error messages
+     about "unknown or ambiguous terminal type" ?? </li>
+     <li> However it works after "set_plot_option([gnuplot_term, x11]);". </li>
      <li> Creating a ps-file via:
 \verbatim
 plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],
@@ -601,6 +604,7 @@ plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],
 \endverbatim
      With newer gnuplot-versions the terminal-type specification "ps"
      should also work. </li>
+     <li> But again this is not true. </li>
      <li> If the output-file is not specified, then a file "maxplot.ps"
      is created in the home-directory of the user. </li>
     </ol>

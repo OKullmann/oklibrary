@@ -23,6 +23,7 @@ linel : 100;
 stringdisp : true;
 stardisp : true;
 display2d : false;
+set_plot_option([gnuplot_term, x11]);
 
 define_variable(
   oklib_monitor,
