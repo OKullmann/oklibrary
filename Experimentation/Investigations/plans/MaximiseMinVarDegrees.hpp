@@ -108,6 +108,8 @@ License, or any later version. */
        <li> And then we have sporadic cases for k = 43. </li>
        <li> We should also get all min-var-degree-maximal cases
        into the catalogue, but likely only optionally. </li>
+       <li> For 14 <= k <=  19 we have all_cld_uhit_maxminvd_nu(13,6)={},
+       and so we do not have sharp cases here. </li>
        <li> k = 13: all_cld_uhit_maxminvd_nu(13,6)={{[2,3],[6,16]}},
        where the first 3 binary clauses must leave out one variable,
        which then occurs 19 - 3 = 16 < 17 times, so no sharp case here. </li>
@@ -128,6 +130,17 @@ License, or any later version. */
       <ol>
        <li> The general cases for sharpness are
        k = 121, 120,119,118,117,116,115,114. </li>
+       <li> k = 17 : all_cld_uhit_maxminvd_nu(17,7) =
+       {{[2,3],[4,1],[5,1],[6,1],[7,18]}}: The first  three clauses can
+       only use 3 variables, so the first four clauses leave out one
+       variable, which then occurs 24 - 4 = 20 < 21 times. So no sharp case
+       here. </li>
+       <li> For k = 15,16 we have all_cld_uhit_maxminvd_nu(k,7)={},
+       and so we do not have sharp cases here.
+       <li> k = 14 : all_cld_uhit_maxminvd_nu(14,7)={{[2,3],[4,2],[7,16]}}.
+       The first  three clauses can only use 3 variables, so the first four
+       clauses leave out one variable, which then occurs 21 - 4 = 17 < 18
+       times. So no sharp case here. </li>
        <li> k = 13: all_cld_uhit_maxminvd_nu(13,7)={{[2,3],[3,1],[7,16]}}.
        Now a hitting cls F with c(F) = 3 which is 2-uniform has
        n(F) <= 3, and thus the first 4 clauses must leave out one variable,
@@ -178,22 +191,22 @@ License, or any later version. */
        </li>
        <li> k = 14 : 17 = 18-1
         <ol>
-         <li> The above show that for a sharp case we have n >= 6. </li>
+         <li> The above show that for a sharp case we have n >= 8. </li>
         </ol>
        </li>
        <li> k = 15 : 18 = 19-1
         <ol>
-         <li> The above show that for a sharp case we have n >= 6. </li>
+         <li> The above show that for a sharp case we have n >= 8. </li>
         </ol>
        </li>
        <li> k = 16 : 19 = 20-1
         <ol>
-         <li> The above show that for a sharp case we have n >= 6. </li>
+         <li> The above show that for a sharp case we have n >= 8. </li>
         </ol>
        </li>
        <li> k = 17 : 20 = 21-1
         <ol>
-         <li> The above show that for a sharp case we have n >= 6. </li>
+         <li> The above show that for a sharp case we have n >= 8. </li>
         </ol>
        </li>
       </ul>
