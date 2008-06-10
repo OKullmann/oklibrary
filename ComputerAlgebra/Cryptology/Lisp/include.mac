@@ -24,6 +24,8 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/include.mac")$
 
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")$
+
 /*!
 \endhtmlonly
 */
