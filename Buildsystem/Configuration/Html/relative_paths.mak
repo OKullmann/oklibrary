@@ -26,7 +26,7 @@ rel_history_epsrc_6finalreport_pdf_location := $(shell $(rel_path_tool) $(epsrc_
 rel_history_epsrc_finalreport_pdf_location := $(shell $(rel_path_tool) $(epsrc_finalreport_pdf_location) $(history_page_output))
 rel_history_release_history_output := $(shell $(rel_path_tool) $(release_history_output) $(history_page_output))
 
-# From the external sources page:
+# From the external sources page: ("les" for local external sources)
 rel_les_boost_docu_page := $(shell $(rel_path_tool) $(boost_docu_page) $(externalsources_page_output))
 rel_les_mhash_docu_page := $(shell $(rel_path_tool) $(mhash_docu_page) $(externalsources_page_output))
 rel_les_gcc_docu_page := $(shell $(rel_path_tool) $(gcc_docu_page) $(externalsources_page_output))
@@ -74,3 +74,17 @@ rel_ihp_local_home_page_output := $(shell $(rel_path_tool) $(local_home_page_out
 
 # From the licence page:
 rel_lic_licence_docu_page := $(shell $(rel_path_tool) $(licence_docu_page) $(licence_page_output))
+
+# From the Maxima page:
+rel_maxima_usermaxima_docu_page_okl := $(shell $(rel_path_tool) $(usermaxima_docu_page_okl) $(licence_page_output))
+ifeq ($(extsrc_relative),)
+  rel_maxima_maxima_main_index_okl := $(maxima_main_index_okl)
+  rel_maxima_maxima_tutorial_doc_okl := $(maxima_tutorial_doc_okl)
+  rel_maxima_maxima_book_doc_okl := $(maxima_book_doc_okl)
+  rel_maxima_gnuplot_pdf_doc_okl := $(gnuplot_pdf_doc_okl)
+else
+  rel_maxima_maxima_main_index_okl := $(shell $(rel_path_tool) $(maxima_main_index_okl) $(externalsources_page_output))
+  rel_maxima_maxima_tutorial_doc_okl := $(shell $(rel_path_tool) $(maxima_tutorial_doc_okl) $(externalsources_page_output))
+  rel_maxima_maxima_book_doc_okl := $(shell $(rel_path_tool) $(maxima_book_doc_okl) $(externalsources_page_output))
+  rel_maxima_gnuplot_pdf_doc_okl := $(shell $(rel_path_tool) $(gnuplot_pdf_doc_okl) $(externalsources_page_output))
+endif
