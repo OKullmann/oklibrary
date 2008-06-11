@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generato
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* ********************
@@ -168,6 +169,30 @@ usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input c
       create_list({-mupw_var(i), -mupw_var(j)}, i,1,m-1, j,i+1,m)))]
   ))$
 
+/* Measures for the translated formulas */
+
+/* Number of variables: */
+n_var_usat_musat(FF) := nvar_f(FF) + ncl_f(FF)$
+
+/* Number of clauses: */
+n_cl_usat_musat(FF) := block([l : nlitocc(FF[2]), c : ncl_f(FF)],
+  c + l + c*(c-1)/2)$
+
+/* Deficiency: */
+deficiency_usat_musat(FF) := block(
+ [l : nlitocc(FF[2]), c : ncl_f(FF), n : nvar_f(FF)],
+  l + c*(c-1)/2 - n)$
+
+/* List of clause-counts as with ncl_list_f: */
+ncl_list_usat_musat(FF) := block(
+ [l : nlitocc(FF[2]), c : ncl_f(FF), h : sm2hm({})],
+  if l # 0 then set_hm(h, 1+c, l),
+  if c >= 2 then set_hm(h, 2, ev_hm_d(h,2,0) + c*(c-1)/2),
+  for P in ncl_list_f(FF) do block([cl : P[1]+c-1],
+    set_hm(h, cl, ev_hm_d(h,cl,0) + P[2])),
+  return(listify(hm2sm(h))))$
+
+
 /* Input a formal clause-set F, returns a formal clause-set GP such that
    if F is satisfiable then GP is minimally unsatisfiable, 
    while if F is unsatisfiable then GP is unsatisfiable but not minimally
@@ -176,6 +201,27 @@ sat_musat(FF) := block([m : length(FF[2]), Y, G],
  Y : setify(makelist(mupw_var(i), i, 1, m)),
  G : usat_musat(FF),
  return([G[1], union(G[2],{Y})]))$
+
+/* Measures for the translated formulas */
+
+/* Number of variables: */
+n_var_sat_musat(FF) := n_var_usat_musat(FF)$
+
+/* Number of clauses: */
+n_cl_sat_musat(FF) := n_cl_usat_musat(FF) + 1$
+
+/* Deficiency: */
+deficiency_sat_musat(FF) := deficiency_usat_musat(FF) + 1$
+
+/* List of clause-counts as with ncl_list_f: */
+ncl_list_sat_musat(FF) := block(
+ [l : nlitocc(FF[2]), c : ncl_f(FF), h : sm2hm({})],
+  if l # 0 then set_hm(h, 1+c, l),
+  set_hm(h,c,1), /* this is additional, compared to ncl_list_usat_musat(FF) */
+  if c >= 2 then set_hm(h, 2, ev_hm_d(h,2,0) + c*(c-1)/2),
+  for P in ncl_list_f(FF) do block([cl : P[1]+c-1],
+    set_hm(h, cl, ev_hm_d(h,cl,0) + P[2])),
+  return(listify(hm2sm(h))))$
 
 
 /* ********************************************************

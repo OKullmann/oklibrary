@@ -27,6 +27,21 @@ License, or any later version. */
   </ul>
 
 
+  \todo Overview on generators for MUSAT
+  <ul>
+   <li> We need an overview on all possibilities to create elements of
+   MUSAT. </li>
+   <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac
+   we have, besides the hitting clause-sets:
+    <ol>
+     <li> weak_ph(n+1,n) </li>
+     <li> usat_musat(FF) for unsatisfiable FF </li>
+     <li> sat_musat(FF) for satisfiable FF </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Maximal min-var-degrees
   <ul>
    <li> The general quest here is for example which show that the bound

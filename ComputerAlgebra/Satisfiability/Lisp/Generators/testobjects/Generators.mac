@@ -21,15 +21,41 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
 
+/* ********************
+   * Full clause-sets *
+   ********************
+*/
+
 okltest_nvar_full_fcs(nvar_full_fcs);
 okltest_ncl_list_full_fcs(ncl_list_full_fcs);
 okltest_ncl_full_fcs(ncl_full_fcs);
 okltest_deficiency_full_fcs(deficiency_full_fcs);
 
+/* ***********************
+   * Pigeonhole formulas *
+   ***********************
+*/
+
 okltest_nvar_php(nvar_php);
 okltest_ncl_list_weak_php(ncl_list_weak_php);
 okltest_ncl_weak_php(ncl_weak_php);
 okltest_deficiency_weak_php(deficiency_weak_php);
+
+/* **************************************************
+   * Translated minimally unsatisfiable clause-sets *
+   **************************************************
+*/
+
+okltest_n_var_usat_musat(n_var_usat_musat);
+okltest_n_cl_usat_musat(n_cl_usat_musat);
+okltest_deficiency_usat_musat(deficiency_usat_musat);
+okltest_ncl_list_usat_musat(ncl_list_usat_musat);
+
+okltest_n_var_sat_musat(n_var_sat_musat);
+okltest_n_cl_sat_musat(n_cl_sat_musat);
+okltest_deficiency_sat_musat(deficiency_sat_musat);
+okltest_ncl_list_sat_musat(ncl_list_sat_musat);
+
 
 /*!
 \endhtmlonly
