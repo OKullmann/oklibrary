@@ -18,6 +18,12 @@ License, or any later version. */
     - Documentation
     - Handling of different versions : DONE
 
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Update our gcc-installation-system to the new standard
+
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
    topics are handled:

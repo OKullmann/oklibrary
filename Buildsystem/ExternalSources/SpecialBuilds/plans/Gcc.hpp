@@ -10,7 +10,31 @@ License, or any later version. */
   \brief Plans regarding installation of gcc
 
 
-  \todo Install GCC 4.2.3
+  \todo Update our gcc-installation-system to the new standard
+  <ul>
+   <li> Likely it's best for now only to support local installation. </li>
+   <li> A problem is how to handle these two lists for the two installation
+   modes.
+    <ol>
+     <li> We need to extend the usual "iseq"-macro. </li>
+    </ol>
+   </li>
+   <li> The current installation creates timestamps: Shall we take over
+   this, or shall we first drop it?
+    <ol>
+     <li> Doesn't seem to be a big problem to keep it. </li>
+     <li> On the other hand, is it really useful? </li>
+     <li> It might create trouble, and for all recent installations
+     it was not done (forgotten; but likely also not needed?). </li>
+    </ol>
+   </li>
+   <li> We should introduce make-variables for the configuration options. </li>
+   <li> As only extension, we install the patch for 4.1.2 as provided
+   by MG. </li>
+  </ul>
+
+
+  \todo Install GCC 4.2.4
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions later than 4.2). </li>
