@@ -1,5 +1,5 @@
 // Oliver Kullmann, 5.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -129,6 +129,42 @@ automatic_masthead = Automatically created by the OKbuildsystem on $(current_dat
    <li> See solution to "Configuration problem" below. DONE (the general usage
    is clear) </li>
   </ul>
+
+
+  \todo Search engines
+  <ul>
+   <li> See "Meta tags" in Buildsystem/Html/Local/plans/general.hpp. </li>
+   <li> The question is about whether search engines should be allowed
+   to index the documentation. </li>
+   <li> We need to distinguish between external documentation and
+   OKlib-documentation, and between the main OKlibrary-website and websites
+   of users. </li>
+   <li> Perhaps the index pages for external documentation (e.g., documentation
+   for Maxima or Boost) should be blocked, so that they are not indexed by
+   search engines. </li>
+   <li> This is requested by the Gecode project (to avoid that a web search
+   will lead to stale documentation). </li>
+   <li> The other web-pages (doxygen-created and "handmade") should invite
+   search machines at the OKlibrary-website, but perhaps for the same reason
+   they should block search engines at a user's site. </li>
+   <li> So index pages for external sources should obtain their "negative"
+   meta-tags. </li>
+   <li> And our handmade html-pages as well as the doxygen-pages should
+   obtain the meta-tages in the form of an m4-macro, which turns them on
+   or off. </li>
+   <li> More precisely, turning on happens by
+   \verbatim
+<meta name="robot" content="all" />
+<meta "keywords" content="XXX, YYY" />
+   \endverbatim
+   while turning off apparently happens perhaps by
+   \verbatim
+<meta name="robot" content="none" />
+   \endverbatim
+   <li> For the doxygen-created pages we need to find an appropriate
+   doxyygen-template (for the preambel of all created pages). </li>
+  </ul>
+   
 
 */
 
