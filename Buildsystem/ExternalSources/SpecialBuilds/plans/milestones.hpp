@@ -155,6 +155,12 @@ License, or any later version. */
     - Handling of redefined load-function
 
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
+   topics are handled:
+    - Update
+
+
   \par Version 0.2.7 (new external sources for computer algebra and graphs)
 
   \par

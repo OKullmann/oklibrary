@@ -7,6 +7,8 @@
 
 # Settings for building and using the Gmp library
 
+# Needs a partial update.
+
 gmp_recommended_version_number_okl ?= 4.2.2
 gmp_supported_not_recommended_version_numbers_okl ?= 
 gmp_supported_version_numbers_okl ?= $(gmp_recommended_version_number_okl) $(gmp_supported_not_recommended_version_numbers_okl)
