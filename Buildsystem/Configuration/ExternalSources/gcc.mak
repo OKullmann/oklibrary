@@ -7,27 +7,57 @@
 
 # Settings for building and using gcc
 
-gcc_recommended_version_number ?= 4.1.2
-gcc_supported_not_recommended_version_numbers ?= 4.2.4 4.3.1
-gcc_old_installation ?= 4.1.2
-gcc_new_installation ?= 4.2.4 4.3.1
-gcc_supported_version_numbers ?= $(gcc_supported_not_recommended_version_numbers) $(gcc_recommended_version_number)
+gcc_recommended_version_number_okl ?= 4.1.2
+gcc_supported_not_recommended_version_numbers_okl ?= 4.2.4 4.3.1
+gcc_supported_version_numbers_okl ?= $(gcc_supported_not_recommended_version_numbers_okl) $(gcc_recommended_version_number_okl)
+# To take into account differences in building:
+gcc_old_installation_okl ?= 4.1.2
 
-gcc_prefix ?= gcc
+gcc_prefix_okl ?= gcc
 
-gcc_base_directory ?= $(ExternalSources)/Gcc
+gcc_recommended_package_name_okl ?= $(gcc_prefix_okl)-$(gcc_recommended_version_number_okl)
 
-gcc_documentation_dir ?= $(ExternalSources_doc)/Gcc
-gcc_html_documentation_index_location ?= $(gcc_documentation_dir)/$(gcc_recommended_version_number)/html/gcc/index.html
-gcc_docu_page ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
+gcc_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation/Gcc.html
+gcc_html_output_okl ?= $(local_html_dir)/Gcc.html
+gcc_html_documentation_index_location_okl ?= Gcc.html
 
-gcc_homepage_url := http://gcc.gnu.org/
-gcc_documentation_url := http://gcc.gnu.org/onlinedocs/
+gcc_base_installation_dir_okl ?= $(ExternalSources_installations)/Gcc
+gcc_installation_dir_okl ?= $(gcc_base_installation_dir_okl)/$(gcc_recommended_version_number_okl)
+gcc_base_build_dir_okl ?= $(ExternalSources_builds)/Gcc
+gcc_unarchived_source_okl ?= $(gcc_base_build_dir_okl)/$(gcc_recommended_package_name_okl)
+# Since gcc doesn't like very much installation into the extracted source
+# directory (as it is normal otherwise), we have the distinction between
+# "unarchived_source" and "build_dir".
+gcc_build_dir_okl ?= $(gcc_base_build_dir_okl)/$(gcc_recommended_package_name_okl)_build
+gcc_base_doc_dir_okl ?= $(ExternalSources_doc)/Gcc
+gcc_doc_dir_okl ?= $(gcc_base_doc_dir_okl)/$(gcc_recommended_version_number_okl)
 
-gcc_targets_prefix := $(gcc_prefix)-
-gcc_targets := $(addprefix $(gcc_targets_prefix), $(gcc_supported_version_numbers))
-gcc_targets_old := $(addprefix $(gcc_targets_prefix), $(gcc_old_installation))
-gcc_targets_new := $(addprefix $(gcc_targets_prefix), $(gcc_new_installation))
-# OK: temporary hack! The system must be rethought.
-gcc_recommended := $(gcc_targets_prefix)$(gcc_recommended_version_number)
+gcc_main_index_okl ?= $(gcc_doc_dir_okl)/html/gcc/index.html
+gcc_main_dvi_okl ?= $(gcc_doc_dir_okl)/doc/gcc.dvi
+gcc_cpp_index_okl ?= $(gcc_doc_dir_okl)/html/cpp/index.html
+gcc_cpp_dvi_okl ?= $(gcc_doc_dir_okl)/doc/cpp.dvi
+gcc_install_index_okl ?= $(gcc_doc_dir_okl)/html/gccinstall/index.html
+gcc_install_dvi_okl ?= $(gcc_doc_dir_okl)/doc/gccinstall.dvi
+gcc_internals_index_okl ?= $(gcc_doc_dir_okl)/html/gccint/index.html
+gcc_internals_dvi_okl ?= $(gcc_doc_dir_okl)/doc/gccint.dvi
+gcc_libiberty_index_okl ?= $(gcc_doc_dir_okl)/html/libiberty.html
+
+gcc_call_okl ?= $(gcc_installation_dir_okl)/bin/gcc
+gpp_call_okl ?= $(gcc_installation_dir_okl)/bin/g++
+gcc_lib_okl ?= $(gcc_installation_dir_okl)/lib
+gcc_lib64_okl ?= $(gcc_installation_dir_okl)/lib64
+
+gcc_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
+gcc_html_documentation_index_location_okl ?= $(gcc_doc_dir_okl)/html/gcc/index.html
+
+gcc_homepage_url_okl := http://gcc.gnu.org/
+gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/
+
+gcc_targets_prefix_okl := $(gcc_prefix_okl)-
+gcc_recommended_okl := $(gcc_targets_prefix_okl)$(gcc_recommended_version_number_okl)
+gcc_source_okl := $(ExternalSources)/sources/Gcc/$(gcc_recommended_okl)
+
+gcc_enable_languages_okl ?= c,c++
+gcc_threads_okl ?= posix
+gcc_other_options_okl ?= --enable-shared
 

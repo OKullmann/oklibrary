@@ -11,68 +11,68 @@
 # New variables for the configuration of building gcc (to be designed 
 # and implemented):
 
-gpp_system_call ?= g++
-gcc_system_call ?= gcc
+gpp_system_call_okl ?= g++
+gcc_system_call_okl ?= gcc
 
-gcc_version_number_extraction := awk '/[0-9]\.[0-9]\.[0-9]/{print $$3}'
+gcc_version_number_extraction_okl := awk '/[0-9]\.[0-9]\.[0-9]/{print $$3}'
 # assumes that the output of "gcc --version" contains a line of the form
 # (for example) "gcc (GCC) 3.4.3"
 # Perhaps all such calls should be replaced by the use of shell pattern matching
-# as shown in the setting of version_gpp_system_call (as opposed to
-# the setting of version_gcc_system_call) ?
+# as shown in the setting of version_gpp_system_call_okl (as opposed to
+# the setting of version_gcc_system_call_okl) ?
 
-location_gpp_system_call ?= $(shell (type -P $(gpp_system_call)))
-ifeq ($(location_gpp_system_call),)
-  gpp_system_call_ready ?= NO
+location_gpp_system_call_okl ?= $(shell (type -P $(gpp_system_call_okl)))
+ifeq ($(location_gpp_system_call_okl),)
+  gpp_system_call_ready_okl ?= NO
 else
-  version_gpp_system_call ?= $(shell if [[ "$$($(gpp_system_call) --version)" =~ ".*([0-9]\.[0-9]\.[0-9]).*" ]]; then echo $${BASH_REMATCH[1]}; else echo "Unknown"; fi)
-# $(shell $(gpp_system_call) --version | $(gcc_version_number_extraction))
-  ifeq ($(version_gpp_system_call),$(gcc_recommended_version_number))
-    gpp_system_call_ready ?= YES
+  version_gpp_system_call_okl ?= $(shell if [[ "$$($(gpp_system_call_okl) --version)" =~ ".*([0-9]\.[0-9]\.[0-9]).*" ]]; then echo $${BASH_REMATCH[1]}; else echo "Unknown"; fi)
+# $(shell $(gpp_system_call_okl) --version | $(gcc_version_number_extraction_okl))
+  ifeq ($(version_gpp_system_call_okl),$(gcc_recommended_version_number_okl))
+    gpp_system_call_ready_okl ?= YES
   else
-    gpp_system_call_ready ?= MAYBE
+    gpp_system_call_ready_okl ?= MAYBE
   endif
 endif
-location_gcc_system_call ?= $(shell (type -P $(gcc_system_call)))
-ifeq ($(location_gcc_system_call),)
-  gcc_system_call_ready ?= NO
+location_gcc_system_call_okl ?= $(shell (type -P $(gcc_system_call_okl)))
+ifeq ($(location_gcc_system_call_okl),)
+  gcc_system_call_ready_okl ?= NO
 else
-  version_gcc_system_call ?= $(shell $(gcc_system_call) --version| $(gcc_version_number_extraction))
-  ifeq ($(version_gcc_system_call),$(gcc_recommended_version_number))
-    gcc_system_call_ready ?= YES
+  version_gcc_system_call_okl ?= $(shell $(gcc_system_call_okl) --version| $(gcc_version_number_extraction_okl))
+  ifeq ($(version_gcc_system_call_okl),$(gcc_recommended_version_number_okl))
+    gcc_system_call_ready_okl ?= YES
   else
-    gcc_system_call_ready ?= MAYBE
+    gcc_system_call_ready_okl ?= MAYBE
   endif
 endif
 
-gpp_local_call ?= $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/g++
-gcc_local_call ?= $(ExternalSources)/Gcc/$(gcc_recommended_version_number)/bin/gcc
+gpp_local_call_okl ?= $(gpp_call_okl)
+gcc_local_call_okl ?= $(gcc_call_okl)
 
-location_gpp_local_call ?= $(shell (type -P $(gpp_local_call)))
-ifeq ($(location_gpp_local_call),)
-  gpp_local_call_ready ?= NO
+location_gpp_local_call_okl ?= $(shell (type -P $(gpp_local_call_okl)))
+ifeq ($(location_gpp_local_call_okl),)
+  gpp_local_call_ready_okl ?= NO
 else
-  version_gpp_local_call ?= $(shell $(gpp_local_call) --version | $(gcc_version_number_extraction))
-  ifeq ($(version_gpp_local_call),$(gcc_recommended_version_number))
-    gpp_local_call_ready ?= YES
+  version_gpp_local_call_okl ?= $(shell $(gpp_local_call_okl) --version | $(gcc_version_number_extraction_okl))
+  ifeq ($(version_gpp_local_call_okl),$(gcc_recommended_version_number_okl))
+    gpp_local_call_ready_okl ?= YES
   else
-    gpp_local_call_ready ?= ERROR
+    gpp_local_call_ready_okl ?= ERROR
   endif
 endif
-location_gcc_local_call ?= $(shell (type -P $(gcc_local_call)))
-ifeq ($(location_gcc_local_call),)
-  gcc_local_call_ready ?= NO
+location_gcc_local_call_okl ?= $(shell (type -P $(gcc_local_call_okl)))
+ifeq ($(location_gcc_local_call_okl),)
+  gcc_local_call_ready_okl ?= NO
 else
-  version_gcc_local_call ?= $(shell $(gcc_local_call) --version | $(gcc_version_number_extraction))
-  ifeq ($(version_gcc_local_call),$(gcc_recommended_version_number))
-    gcc_local_call_ready ?= YES
+  version_gcc_local_call_okl ?= $(shell $(gcc_local_call_okl) --version | $(gcc_version_number_extraction_okl))
+  ifeq ($(version_gcc_local_call_okl),$(gcc_recommended_version_number_okl))
+    gcc_local_call_ready_okl ?= YES
   else
-    gcc_local_call_ready ?= ERROR
+    gcc_local_call_ready_okl ?= ERROR
   endif
 endif
 
 # the following construction needs to be generalised by some function
-gcc_html_documentation_index_location_tag ?= <a href="$(gcc_html_documentation_index_location)">$(gcc_html_documentation_index_location)</a>
+gcc_html_documentation_index_location_tag_okl ?= <a href="$(gcc_html_output_okl)">$(gcc_html_output_okl)</a>
 
 # New variables for the configuration of building doxygen (to be designed 
 # and implemented):

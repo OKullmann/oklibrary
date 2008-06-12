@@ -12,32 +12,54 @@ License, or any later version. */
 
   \todo Update our gcc-installation-system to the new standard
   <ul>
-   <li> Likely it's best for now only to support local installation. </li>
-   <li> A problem is how to handle these two lists for the two installation
+   <li> As only extension, we install the patch for 4.1.2 as provided
+   by MG. </li>
+   <li> DONE
+   Likely it's best for now only to support local installation. </li>
+   <li> DONE
+   As it is standard now, existing documentation is always overwritten.
+   </li>
+   <li> DONE
+   A problem is how to handle these two lists for the two installation
    modes.
     <ol>
      <li> We need to extend the usual "iseq"-macro. </li>
+     <li> Use
+     \verbatim
+ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installation_okl)),)
+     \endverbatim
+     to test whether the version to be installed is an old installation. </li>
     </ol>
    </li>
-   <li> The current installation creates timestamps: Shall we take over
+   <li> DONE
+   Another problem is the target "gcc_all":
+    <ol>
+     <li> In this way all support versions of gcc are installed. </li>
+     <li> In the new model, where always (only) the "recommended version" is
+     installed, this needs several calls of make (from oklib). </li>
+     <li> So well, seems alright to me. </li>
+    </ol>
+   </li>
+   <li> DONE
+   The current installation creates timestamps: Shall we take over
    this, or shall we first drop it?
     <ol>
      <li> Doesn't seem to be a big problem to keep it. </li>
      <li> On the other hand, is it really useful? </li>
      <li> It might create trouble, and for all recent installations
      it was not done (forgotten; but likely also not needed?). </li>
+     <li> So we drop it (at least for now). </li>
     </ol>
    </li>
-   <li> We should introduce make-variables for the configuration options. </li>
-   <li> As only extension, we install the patch for 4.1.2 as provided
-   by MG. </li>
+   <li> DONE
+   We should introduce make-variables for the configuration options. </li>
   </ul>
 
 
   \todo Install GCC 4.2.4
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
-   versions later than 4.2). </li>
+   versions 4.2 or later). </li>
   </ul>
   
 
@@ -53,8 +75,6 @@ License, or any later version. */
      The least is just to open them into a browser. </li>
     </ol>
    </li>
-   <li> Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
-   building Boost to also have "make gcc gcc-version=4.1.2" ? </li>
    <li> If variable "gcc-version" is set, then it should have one of the
    allowed values (while otherwise we get an error). </li>
    <li> We must understand, how gcc interacts with 32- and 64-bit
@@ -85,6 +105,10 @@ License, or any later version. */
    gcc *is* to be build, via the target-mechanism. DONE (it seems reasonable
    to remove the build-directory from the prerequisite-list and to build it
    "manually") </li>
+   <li> DONE (now just "oklib gcc", and potentially setting 
+  gcc_recommended_version_number_okl)
+   Instead of, %e.g., "make gcc-4.1.2", wouldn't it be more consistent with
+   building Boost to also have "make gcc gcc-version=4.1.2" ? </li>
   </ul>
 
 */
