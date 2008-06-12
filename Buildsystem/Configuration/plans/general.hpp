@@ -1,5 +1,5 @@
 // Oliver Kullmann, 11.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -32,29 +32,34 @@ License, or any later version. */
   <ul>
    <li> Standardisation of naming configuration variables:
     <ol>
-     <li> Perhaps a directory gets the prefix "dir_", and a main directory "Directory"
-     is then called "dir_Directory". </li>
+     <li> Perhaps a directory gets the prefix "dir_", and a main directory
+     "Directory" is then called "dir_Directory". </li>
     </ol>
    </li>
-   <li> Perhaps for defining configuration variables we should always first check whether
-   it's already defined, and if not, then look for an environment variable. </li>
-   <li> In order that the configuration-variables become available, the corresponding master-process
-   has to be invoked by some makefile; so likely over time a collection of small specialised
-   makefiles arises. </li>
-   <li> Splitting the definitions over several files is likely preferable from the
-   order point of view. Shouldn't be too complicated to use them. </li>
-   <li> Configuration variables shall follow the rules for C-names (so no hyphens for example),
-   since otherwise the shell can't handle them. </li>
-   <li> In directory .oklib a file "override.mak" is placed, where overriding definitions
-   of configuration variables are to be put (for example variable ExternalSources
-   could be redefined here, to use the external sources of another
-   OKplatform-installation). DONE </li>
-   <li> Should the configuration-make-variables be recursive or not? Recursive variables
-   give more power ("one never knows"), and so at the moment the decision is to make
-   all configuration-make-variables recursive. DONE (recursive variables are needed,
-   so that definitions can be overriden) </li>
-   <li> DONE (we use makefiles with makevariable-definitions for all configuration data)
-     We could use makefile-syntax, that is, we have make-files containing only variable settings
+   <li> Perhaps for defining configuration variables we should always first
+   check whether it's already defined, and if not, then look for an
+   environment variable. </li>
+   <li> In order that the configuration-variables become available, the
+   corresponding master-process has to be invoked by some makefile; so likely
+   over time a collection of small specialised makefiles arises. </li>
+   <li> Splitting the definitions over several files is likely preferable
+   from the order point of view. Shouldn't be too complicated to use them.
+   </li>
+   <li> Configuration variables shall follow the rules for C-names (so no
+   hyphens for example), since otherwise the shell can't handle them. </li>
+   <li> In directory .oklib a file "override.mak" is placed, where overriding
+   definitions of configuration variables are to be put (for example variable
+   ExternalSources could be redefined here, to use the external sources of
+   another OKplatform-installation). DONE </li>
+   <li> Should the configuration-make-variables be recursive or not? Recursive
+   variables give more power ("one never knows"), and so at the moment the
+   decision is to make all configuration-make-variables recursive.
+   DONE (recursive variables are needed, so that definitions can be
+   overriden) </li>
+   <li> DONE (we use makefiles with makevariable-definitions for all
+   configuration data)
+     We could use makefile-syntax, that is, we have make-files containing
+     only variable settings
      \verbatim
 CONFIGVAR1=value1
 CONFIGVAR2=value2
@@ -98,12 +103,13 @@ SET(CONFIGVAR2 value2)
   <ul>
    <li> The primary configurations are under version control. </li>
    <li> Derived values (like source- and link-libraries for external libraries)
-   are to be found perhaps in system_directories/configurations ? There might be also
-   a symbolic link to the primary configurations? </li>
+   are to be found perhaps in system_directories/configurations ? There might
+   be also a symbolic link to the primary configurations? </li>
   </ul>
 
 
-  \todo Variables for accessing external libraries (was system_definitions.mak):
+  \todo Variables for accessing external libraries (was
+  system_definitions.mak):
   <ul>
    <li> Boost:
     <ul>
@@ -128,8 +134,9 @@ SET(CONFIGVAR2 value2)
    </li>
    <li> The role of system_definitions.mak must be clarified.
    Do those library variables (Boost, Ubcsat) belong to it??
-   No: They must go the Configuration/ExternalSources --- for every external sources
-   there one finds variables yielding access to the resources provided by it. DONE
+   No: They must go the Configuration/ExternalSources --- for every external
+   sources there one finds variables yielding access to the resources provided
+   by it. DONE
    <ul>
     <li> system_definitions.mak should
     contain definitions of Make variables which are used by
@@ -152,16 +159,17 @@ SET(CONFIGVAR2 value2)
    </li>
    </ul>
    </li>
-   <li> What is the precise relation to external_sources_versions.mak ? DONE (all
-   variables related to external sources must leave system_definitions.mak) </li>
+   <li> What is the precise relation to external_sources_versions.mak ?
+   DONE (all variables related to external sources must leave
+   system_definitions.mak) </li>
   </ul>
 
 
   \todo Definitions for doxygen:
   <ul>
    <li> General make-functions are needed to overcome the restrictions on using
-   configuration-variables in doxygen-documentation (see for example the function
-   doxygen_html_documentation_index_location_tag in
+   configuration-variables in doxygen-documentation (see for example the
+   function doxygen_html_documentation_index_location_tag in
    Configuration/ExternalSources/doxygen.mak). </li>
    <li> It would be preferable, if the following variable definitions
     <ol>
@@ -171,10 +179,12 @@ SET(CONFIGVAR2 value2)
      <li> FILE_PATTERNS </li>
     </ol>
     would come from Configuration/doxygen_documentation.mak. </li>
-    <li> For all settings we should have specific configuration variables. </li>
-   <li> With every new version of doxygen, the update-wizzard of doxygen has to be run
-   on the created doxyfile, one has to study the changes, and then one has to update
-   the master-doxyfile accordingly. First update the created Doxyfile
+    <li> For all settings we should have specific configuration variables.
+    </li>
+   <li> With every new version of doxygen, the update-wizzard of doxygen has
+   to be run on the created doxyfile, one has to study the changes, and then
+   one has to update the master-doxyfile accordingly. First update the created
+   Doxyfile
    \verbatim
 OKplatform/system_directories/aux> doxygen -u Doxyfile
    \endverbatim
@@ -185,22 +195,27 @@ Transitional/Buildsystem/Configuration> doxygen -u Doxyfile
    </li>
    <li> DONE (doxygen_parameters deleted, since not needed --- parameters can
    also be specified on the command-line)
-   Mention in the documentation, that via "doxygen_parameters" one can set variables
-   from the doxygen-configuration-file (as an example present the switch to German). </li>
+   Mention in the documentation, that via "doxygen_parameters" one can set
+   variables from the doxygen-configuration-file (as an example present the
+   switch to German). </li>
    <li> How can we reliably refer to a specific page within the doxygen
-   documentation? Are the url's relatively stable? DONE (yes, they are --- the temporary
-   problem was an md5-doxygen bug) </li>
-   <li> The Doxyfile should be part of the (primary) configuration system. DONE </li>
-   <li> Perhaps it's best to define a "master-doxyfile" in the primary configuration system,
-   containing macros or includes for the above four definitions, and then the build system
-   builds the finale Doxyfile (in the derived configurations) in dependency on these
-   includes/macro-definitions. (Alternatively, one can specify directly a doxyfile to
-   be used --- how to achieve this with cmake? In the normal case, target html depends
-   on the doxyfile to be created if necessary, but if some variable is specified on the
-   make command line, then the doxyfile is not used.) DONE (we have the Doxyfile
-   in Buildsystem/Configuration, and we use m4-preprocessing) </li>
-   <li> Allows the Doxyfile for includes or macro expansion? See "Environment-variable expansion"
-   in Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp. DONE (yes, but we use the m4-system) </li>
+   documentation? Are the url's relatively stable? DONE (yes, they are --- the
+   temporary problem was an md5-doxygen bug) </li>
+   <li> The Doxyfile should be part of the (primary) configuration system.
+   DONE </li>
+   <li> Perhaps it's best to define a "master-doxyfile" in the primary
+   configuration system, containing macros or includes for the above four
+   definitions, and then the build system builds the finale Doxyfile (in the
+   derived configurations) in dependency on these includes/macro-definitions.
+   (Alternatively, one can specify directly a doxyfile to be used --- how to
+   achieve this with cmake? In the normal case, target html depends on the
+   doxyfile to be created if necessary, but if some variable is specified on
+   the make command line, then the doxyfile is not used.) DONE (we have the
+   Doxyfile in Buildsystem/Configuration, and we use m4-preprocessing) </li>
+   <li> Allows the Doxyfile for includes or macro expansion? See
+   "Environment-variable expansion" in
+   Buildsystem/OKlibBuilding/Targets/html/plans/general.hpp.
+   DONE (yes, but we use the m4-system) </li>
   </ul>
 
 */
