@@ -117,17 +117,18 @@ SAGE_ROOT="....."
 cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    \endverbatim
    </li>
-   <li> Better, we make this directory available via the OKlibrary web site, and
-   then one can (manually) download each file separately, or an archive with
-   all of them, or via "make getsources". </li>
-   <li> Perhaps best via anonymous ftp? Better we use a password (a universal one,
-   given in Configuration). </li>
+   <li> Better, we make this directory available via the OKlibrary web site,
+   and then one can (manually) download each file separately, or an archive
+   with all of them, or via "make getsources". </li>
+   <li> Perhaps best via anonymous ftp? Better we use a password (a universal
+   one, given in Configuration). </li>
   </ul>
 
 
   \todo Building documentation
   <ul>
-   <li> Documentation building should be done automatically when building. </li>
+   <li> Documentation building should be done automatically when building.
+   </li>
    <li> We should extract only the documentation from the archives (and
    remove everything else which is not needed). </li>
   </ul>
@@ -138,15 +139,26 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
    <li> It should always be possible, to install something independently and
    only to specify where to find something (so for every special build there
    needs to be a specification what this build actually provides).
-   See "Software management" in Buildsystem/ExternalSources/plans/Configuration.hpp. </li>
-   <li> For "make all" we have the following problems:
+   See "Software management" in
+   Buildsystem/ExternalSources/plans/Configuration.hpp. </li>
+   <li> The naming-scheme "gcc_recommended_version_number_okl" is no longer
+   appropriate, and should to be replaced by "gcc_version_okl":
+    <ol>
+     <li> Of course, similar in all the other cases. </li>
+    </ol>
+   </li>
+   <li> DONE (the default is to install everything locally)
+   For "make all" we have the following problems:
     <ul>
      <li> The user cannot wait for "sudo". </li>
      <li> Perhaps for example asciidoc is already installed, and this
      suffices? </li>
     </ul>
    </li>
-   <li> Regarding documentation building: Currently boost.mak overrides old
+   <li> DONE (we always use "copy -f" resp. "copy -fr", overriding
+   existing old versions; if a renaming is necessary, then perform
+   first this copying, and then use "mv -f")
+   Regarding documentation building: Currently boost.mak overrides old
    (existing) documentation, while gcc.mak leaves it intact --- should we
    have a general policy about it? Yet the plan is to make experiences and
    see what is better.
@@ -160,19 +172,22 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
      perhaps this is not very strong. </li>
     </ul>
    </li>
-   <li> DONE (transferred to Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
+   <li> DONE (transferred to
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
    It would ge good, if after doing a local installation, easily the
    installation could also be made global. See Gmp.mak and
-   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme. </li>
-   <li> DONE (transferred to Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new scheme.
+   </li>
+   <li> DONE (transferred to
+   Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp)
    Optionally there should be also local versions of valgrind and
    doxygen (and other tools). This is necessary on systems where the user
    does not have root access. </li>
   </ul>
 
 
-  \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new view
-  of the configuration centre)
+  \todo Make-variables for external libraries : UPDATE needed (%w.r.t. the new
+  view of the configuration centre)
   <ul>
    <li> Variable "prefix" in ExternalSources/Makefile should be replaced by
    variable ExternalSources. </li>
@@ -192,9 +207,10 @@ cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
 
   \todo Using CMake
   <ul>
-   <li> It seems that the special makefile for external sources might be a suitable
-   candidate for using CMake. </li>
-   <li> Compare "CMake" in Buildsystem/OKlibBuilding/plans/MakeSystem.hpp. </li>
+   <li> It seems that the special makefile for external sources might be a
+   suitable candidate for using CMake. </li>
+   <li> Compare "CMake" in Buildsystem/OKlibBuilding/plans/MakeSystem.hpp.
+   </li>
   </ul>
 
 
