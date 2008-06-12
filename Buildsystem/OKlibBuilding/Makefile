@@ -474,26 +474,6 @@ testop_file := $(srcdir)/testop
 # ################################################################
 
 # ----------------------------------------------------------
-# CXX (SV)
-#
-# Name of the C++ compiler executable. 
-# default value: recommended library version of g++
-# OK: perhaps this should go to configuration?
-# ----------------------------------------------------------
-CXX = g++
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
-# CC (SV)
-#
-# Name of the C compiler executable.
-# default value: recommended library version of gcc
-# OK: perhaps this should go to configuration?
-# ----------------------------------------------------------
-CC = gcc
-# ----------------------------------------------------------
-
-# ----------------------------------------------------------
 # Standard_options (SV)
 # Standard_options_c (SV)
 #
@@ -620,14 +600,8 @@ testop_timestamp := $(test_aux_dir)/new_testop_$(test_level)
 # VARIABLES FOR GCC AND BOOST VERSIONS, INCLUDES AND LINKING
 # ################################################################
 
-system_versions :=
-
-ifeq ($(system_versions),)
-    gcc_version_number:= $(gcc_recommended_version_number)
-    boost_version_number:= $(boost_recommended_version_number)
-endif
-# ----------------------------------------------------------
-
+CXX = $(gpp_call_okl)
+CC = $(gcc_call_okl)
 
 # ----------------------------------------------------------
 #
@@ -642,33 +616,18 @@ endif
 #
 # Boost
 #
-#  Include option to be passed to the compiler, specifying
-#  the location of the Boost include directory. 
+#  Include-option to be passed to the compiler, specifying
+#  the location of the Boost include-directory. 
 #
 # ----------------------------------------------------------
-alternative_library_path:=
 
-ifneq ($(gcc_version_number),) # alternative gcc specified
-  CXX = $(ExternalSources)/Gcc/$(gcc_version_number)/bin/g++
-  CC = $(ExternalSources)/Gcc/$(gcc_version_number)/bin/gcc
-  alternative_library_path:= -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib64 -L$(ExternalSources)/Gcc/$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Gcc/$(gcc_version_number)/lib
-  ifeq ($(boost_version_number),)
-    ifndef Boost
-      $(error Variable Boost must be defined!)
-    endif
-    boost_version_number := $(patsubst -I%,%,$(Boost))
-    boost_version_number := $(patsubst %/,%,$(boost_version_number))
-    boost_version_number := $(notdir $(boost_version_number))
-    boost_version_number := $(patsubst boost-%,%,$(boost_version_number))
-  endif
-  alternative_library_path := $(alternative_library_path) -L$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/lib
-  Boost = -I$(ExternalSources)/Boost/$(boost_version_number)+$(gcc_version_number)/include/boost-$(boost_version_number)
-else # no alternative gcc specified
-  ifneq ($(boost_version_number),) # alternative boost specified
-  alternative_library_path := $(alternative_library_path) -L$(ExternalSources)/Boost/$(boost_version_number)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_version_number)/lib
-  Boost = -I$(ExternalSources)/Boost/$(boost_version_number)/include/boost-$(boost_version_number)
-  endif
-endif
+alternative_library_path:= -L$(gcc_lib64_okl) -Wl,-rpath,$(gcc_lib64_okl) -L$(gcc_lib_okl) -Wl,-rpath,$(gcc_lib_okl) -L$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/lib -Wl,-rpath,$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/lib
+
+Boost = -I$(ExternalSources)/Boost/$(boost_recommended_version_number)+$(gcc_recommended_version_number_okl)/include/boost-$(boost_recommended_version_number)
+
+
+# ----------------------------------------------------------
+
 
 # ######################################################################
 

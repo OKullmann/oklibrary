@@ -199,13 +199,13 @@ License, or any later version. */
 
   <h1> Customisation of gcc and Boost </h1>
 
-  Regarding the usage of compiler and main external library currently
-  we have:
+  Regarding the usage of the main compiler "gcc" and main external library
+  "Boost", currently we have:
   <ul>
    <li> The current default is to use the locally installed gcc as well as the
    locally installed %boost (under $(ExternalSources)), each in the
    recommended version. </li>
-   <li> Locally installed %boost versions are compiled with one locally
+   <li> Locally installed %boost versions are compiled with some locally
    installed gcc. </li>
   </ul>
   The versions of gcc and %boost can be changed as follows:
@@ -215,29 +215,17 @@ License, or any later version. */
    local gcc. </li>
    <li> Or change the local version of gcc, while the build system
    chooses the appropriate local variant of the recommended %boost version. </li>
+   <li> Or change both; in case the appropriate versions of gcc and Boost
+   (the latter compiled with that gcc-version) need to available. </li>
   </ul>
-  Additionally there is the system gcc and potentially a system %boost:
-  <ul>
-   <li> The default can be switched to use these two system versions
-   (where still an include-directive for the recommended %boost-version
-   is issued). </li>
-   <li> If additionally a specific %boost version is specified, then a local version
-   is used, but compiled with the system compiler. </li>
-   <li> If on the other hand a version of gcc is specified, then the
-   previous switch to the system versions has no effect. </li>
-  </ul>
-  If both gcc- and %boost-version are specified, then the local versions are
-  always used (in the given combination).
 
-  <p></p>
-  Now the make-variables to be set on the command-line are as follows
-  (on the command line):
+  The make-variables to be set on the command-line are as follows:
   <table>
    <tr>
-    <td> <code> gcc_version_number=V </code> </td>
+    <td> <code> gcc_recommended_version_number_okl=V </code> </td>
     <td> Use the locally installed gcc with version V (for example
-    <code>gcc_version_number=4.2.0</code>); default value is the
-    recommended version. </td>
+    <code>gcc_recommended_version_number_okl=4.2.4</code>); default value
+    is the recommended version. </td>
    </tr>
    <tr>
     <td> <code> %boost_version_number=V </code> </td>
@@ -245,24 +233,17 @@ License, or any later version. */
     <code>boost_version_number=1_34_0</code>); default value is the
     recommended version. </td>
    </tr>
-   <tr>
-    <td> <code> system_versions=X </code> </td>
-    <td> Switch the default to system gcc and system %boost. </td>
-   </tr>
   </table>
-  The value for the definition of <code>system_versions</code> is currently not
-  used.
 
   <p /> Examples:
   <ul>
    <li>
     \verbatim
-oklib all check new_check app_tests html boost_version_number=1_34_1 system_versions=X test_level=full
+oklib all check new_check app_tests html boost_version_number=1_34_1 test_level=full
     \endverbatim
-    is for using the locally installed Boost-library together with the system-gcc
-    (and first compiling everything, then running all tests, and finally creating
-    the documentation).
-   </li>
+    is for using the locally installed Boost-library, where we first compile
+    everything, then run all tests, and finally create the documentation,
+    and this all with test-level "full". </li>
   </ul>
 
 
@@ -370,27 +351,38 @@ log_file = $(test_aux_dir)/Log
 
   Remarks:
   <ol>
-   <li> For the Internet web pages a version of the local documentation is created from scratch,
-   with appropriate movable url's. </li>
-   <li> The local directory with the (movable) Internet pages is "internet_html_dir" = <code>$(internet_html_dir)</code>. </li>
-   <li> The directory providing the "global" place is "internet_dir" = <code>$(internet_dir)</code>. This variable is to be set in the configuration-override file. </li>
-   <li> The local packages-directory is "packages_dir" = <code>$(packages_dir)</code>, the "global" packages-directory is "internet_dir/packages". </li>
-   <li> When testing the internet pages and their creation with a local web server, one can
-   proceed as follows, using the Apache web server and testing the central ok-library-web-page:
+   <li> For the Internet web pages a version of the local documentation is
+   created from scratch, with appropriate movable url's. </li>
+   <li> The local directory with the (movable) Internet pages is
+   "internet_html_dir" = <code>$(internet_html_dir)</code>. </li>
+   <li> The directory providing the "global" place is
+   "internet_dir" = <code>$(internet_dir)</code>. This variable is to be set
+   in the configuration-override file. </li>
+   <li> The local packages-directory is
+   "packages_dir" = <code>$(packages_dir)</code>, the "global"
+   packages-directory is "internet_dir/packages". </li>
+   <li> When testing the internet pages and their creation with a local
+   web server, one can proceed as follows, using the Apache web server and
+   testing the central ok-library-web-page:
     <ol>
-     <li> The default directory for placing web pages is <code>/usr/local/apache2/htdocs</code>. </li>
-     <li> In this directory root creates the directory <code>ok-sat-library</code>, with
-     group-ownership "users" and group-writable, but not accessible, readable or writable for "others". </li>
-     <li> Now after running <code>oklib internet</code> (of course as a normal user) we get the
-     Internet home page at "http://localhost/ok-sat-library/internet_html/index.html". </li>
-     <li> The packages need to be created before (by <code>oklib --create-packages</code>). </li>
+     <li> The default directory for placing web pages is
+     <code>/usr/local/apache2/htdocs</code>. </li>
+     <li> In this directory root creates the directory
+     <code>ok-sat-library</code>, with group-ownership "users" and
+     group-writable, but not accessible, readable or writable for "others".
+     </li>
+     <li> Now after running <code>oklib internet</code> (of course as a normal
+     user) we get the Internet home page at
+     "http://localhost/ok-sat-library/internet_html/index.html". </li>
+     <li> The packages need to be created before (by
+     <code>oklib --create-packages</code>). </li>
     </ol>
    </li>
   </ol>
 
 
   \todo Complete the information on customisation.
-  \todo Once the move to the new test system has been completed, references to the
-  old test system need to be removed.
+  \todo Once the move to the new test system has been completed, references to
+  the old test system need to be removed.
 */
 
