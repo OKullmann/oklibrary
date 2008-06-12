@@ -25,6 +25,11 @@ License, or any later version. */
     - Update our gcc-installation-system to the new standard
 
   \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Update Boost installation
+
+  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
    topics are handled:
     - Update the installation process : DONE

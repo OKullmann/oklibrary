@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,31 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp
   \brief Plans regarding installation of the Boost library
+
+
+  \todo Update Boost installation
+  <ul>
+   <li> We only provide installation by local gcc. </li>
+   <li> And no combinations, just the "recommended" boost
+   installation using the "recommended" local gcc. </li>
+   <li> The main point is to clean-up the partial mess. </li>
+   <li> Later we can re-introduce these features, if needed
+   (this would then likely be the job of oklib). </li>
+   <li> And we also drop the timestamp-file. </li>
+   <li> This should simplify drastically the build-makefile. </li>
+   <li> Since Boost seems to be the only user of the mmv-package,
+   perhaps with the Boost installation also a local installation
+   of mmv is provided.
+    <ol>
+     <li> Perhaps here we could check via "which mln" the existence,
+     and only install if not existing. </li>
+     <li> But better not (this introduces another unknown):
+     We install it in any case! </li>
+     <li> But we use then "allboost", similar to "allmaxima" etc. </li>
+     <li> Installation to OKplatform/bin. </li>
+    </ol>
+   </li>
+  </ul>
 
 
   \todo Building version 1_35_0
