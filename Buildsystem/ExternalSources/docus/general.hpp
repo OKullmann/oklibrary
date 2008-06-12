@@ -51,7 +51,8 @@ License, or any later version. */
 
   <h2> Configuration </h2>
 
-  Enter into <code>$(OKoverrideconfig)</code> the overriding definitions, for example
+  For more permanent changes, enter into <code>$(OKoverrideconfig)</code>
+  the overriding definitions, for example
   \code
 ocaml_bin_dir := /usr/local/bin
   \endcode
@@ -80,6 +81,13 @@ ExternalSources = /home/user/ExternalSources
    Maxima). </li>
   </ol>
 
+  If just a different version shall be installed, without changing settings
+  permanently, provide the variable-settings on the command line, for example
+  \verbatim
+oklib gcc gcc_recommended_version_number_okl=4.2.4
+  \endverbatim
+  to install gcc with version 4.2.4 (similarly for any other variable setting).
+
   
   <h2> Installations </h2>
 
@@ -103,6 +111,9 @@ ExternalSources = /home/user/ExternalSources
    <li> Ubcsat (Buildsystem/ExternalSources/SpecialBuilds/docus/Ubcsat.hpp) </li>
    <li> Valgrind (Buildsystem/ExternalSources/SpecialBuilds/docus/Valgrind.hpp) </li>
   </ol>
+
+  The build-directories (which can always be removed after a build) are
+  located in directory <code>$(ExternalSources_builds)</code>.
   
 */
 
