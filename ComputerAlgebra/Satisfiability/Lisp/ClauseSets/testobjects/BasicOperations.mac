@@ -59,6 +59,9 @@ okltest_satisfyingpafp(satisfyingpafp);
 
 okltest_all_pass(all_pass);
 okltest_all_pass_n(all_pass_n);
+okltest_all_tass(all_tass);
+
+okltest_all_sat_tass(all_sat_tass);
 
 /*!
 \endhtmlonly

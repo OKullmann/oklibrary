@@ -162,6 +162,26 @@ okltest_all_pass_n(f) := block(
     okltest_all_pass(buildq([f],lambda([V],apply(union,makelist(f(V,n),n,0,length(V))))))),
   true)$
 
+okltest_all_tass(f) := block(
+  assert(f({}) = {{}}),
+  assert(f({1}) = {{-1},{1}}),
+  assert(f({1,2}) = {{-1,-2},{-1,2},{1,-2},{1,2}}),
+  for n : 3 thru 5 do
+    assert(length(f(setn(n))) = 2^n),
+  true)$
+
+okltest_all_sat_tass(f) := block(
+  assert(f({},{}) = {{}}),
+  okltest_all_tass(buildq([f],lambda([V],f({},V)))),
+  assert(f({{}},{}) = {}),
+  assert(f({{}},{1}) = {}),
+  assert(f({{1}},{}) = {}),
+  assert(f({{1}},{2}) = {}),
+  assert(f({{1}},{1}) = {{1}}),
+  assert(f({{1}},{1,2}) = {{1,2},{1,-2}}),
+  assert(f({{-1},{1}},{1}) = {}),
+  true)$
+
 /*!
 \endhtmlonly
 */
