@@ -92,6 +92,16 @@ ecomp(S,U) := setify(makelist(setdifference(U,s),s,listify(S)))$
 setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 
 
+/* **************************************************
+   * Constructions related to the cartesian product *
+   **************************************************
+*/
+
+/* Correcting a bug in Maxima: */
+corr_cartesian_product([S]) := if emptyp(S) then {[]}
+ else apply(cartesian_product,S)$
+
+
 /* *************************
    * Tests for set systems *
    *************************
