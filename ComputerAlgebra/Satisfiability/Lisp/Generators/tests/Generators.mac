@@ -34,6 +34,12 @@ kill(f)$
 
 /* Measures */
 
+okltest_full_fcs(f) := (
+  assert(f(0) = [{},{{}}]),
+  assert(f(1) = [{1},{{-1},{1}}]),
+  assert(f(2) = [{1,2},{{-1,-2},{-1,2},{1,-2},{1,2}}]),
+  true)$
+
 okltest_nvar_full_fcs(f) := block(
  for n : 0 thru 4 do
    assert(f(n) = nvar_f(full_fcs(n))),

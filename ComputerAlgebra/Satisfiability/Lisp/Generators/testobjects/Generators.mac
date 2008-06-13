@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests
    ********************
 */
 
+okltest_full_fcs(full_fcs);
 okltest_nvar_full_fcs(nvar_full_fcs);
 okltest_ncl_list_full_fcs(ncl_list_full_fcs);
 okltest_ncl_full_fcs(ncl_full_fcs);

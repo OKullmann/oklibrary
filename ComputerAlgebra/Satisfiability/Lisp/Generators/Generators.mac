@@ -30,9 +30,11 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    ********************
 */
 
-/* A formal full clause set with variable set {1,...,n} and all possible
-   (full) clauses (also known as "canonical CNF/DNF") */
-full_fcs(n) := if n=0 then [{}, {{}}] else [setn(n), map(setify, apply(cartesian_product, makelist({-i,i},i,1,n)))]$
+/* The full clause-set over variable set or list V: */
+full_fcs_v(V) := [V,all_tass(V)]$
+/* The formal full clause set with variable set {1,...,n} and all
+   possible (full) clauses (also known as "canonical CNF/DNF") */
+full_fcs(n) := full_fcs_v(setn(n))$
 
 /* Measures */
 
