@@ -18,7 +18,8 @@ License, or any later version. */
 
   \todo Bug in Maxima: corr_cartesian_product
   <ul>
-   <li> Report the bug corrected by corr_cartesian_product to the Maxima
+   <li> DONE
+   Report the bug corrected by corr_cartesian_product to the Maxima
    mailing list and to the bug-reporting system. </li>
    <li> Once corrected, remove all applications of corr_cartesian_product.
    </li>

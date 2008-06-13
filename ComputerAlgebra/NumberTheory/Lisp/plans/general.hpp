@@ -12,9 +12,10 @@ License, or any later version. */
 
   \todo ext_integer_partitions
   <ul>
-   <li> That Maxima yields "integer_partitions(0) = {}" is a bug;
-   tell the Maxima mailing list.
+   <li> That Maxima yields "integer_partitions(0) = {}" is a bug:
     <ol>
+     <li> DONE
+     Tell the Maxima mailing list, and report the bug. </li>
      <li> The documentation states "Thus 0 has no partitions.";
      this is false (since [] is a partition of 0). </li>
      <li> Accordingly, also "integer_partitions(0,0) = {}" is false;
