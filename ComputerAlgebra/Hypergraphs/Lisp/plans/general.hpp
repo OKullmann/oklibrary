@@ -22,6 +22,8 @@ License, or any later version. */
    mailing list and to the bug-reporting system. </li>
    <li> Once corrected, remove all applications of corr_cartesian_product.
    </li>
+   <li> See "Document important programming techniques" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
 

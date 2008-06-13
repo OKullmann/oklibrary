@@ -28,6 +28,8 @@ License, or any later version. */
    ext_integer_partitions on the number of arguments? </li>
    <li> If the Maxima function would be corrected, then our function
    ext_integer_partitions shall be eliminated. </li>
+   <li> See "Document important programming techniques" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
 */

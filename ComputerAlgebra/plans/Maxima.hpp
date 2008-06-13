@@ -478,8 +478,14 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
   </ul>
 
 
-  \todo Document important programming techniques:
+  \todo Document important programming techniques
   <ul>
+   <li> Bugs of Maxima and their corrections:
+    <ol>
+     <li> ext_integer_partitions </li>
+     <li> corr_cartesian_product </li>
+    </ol>
+   </li>
    <li> Loops:
     <ol>
     <li> In "for x in X do" list/set X is evaluated only once, before
