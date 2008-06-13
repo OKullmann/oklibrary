@@ -48,7 +48,6 @@ gcc_lib_okl ?= $(gcc_installation_dir_okl)/lib
 gcc_lib64_okl ?= $(gcc_installation_dir_okl)/lib64
 
 gcc_docu_page_okl ?= $(doc_dir)/doxygen_html/d4/dfb/docus_2Gcc_8hpp.html
-gcc_html_documentation_index_location_okl ?= $(gcc_doc_dir_okl)/html/gcc/index.html
 
 gcc_homepage_url_okl := http://gcc.gnu.org/
 gcc_documentation_url_okl := http://gcc.gnu.org/onlinedocs/

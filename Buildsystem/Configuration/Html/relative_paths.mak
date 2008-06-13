@@ -46,7 +46,6 @@ rel_les_maxima_docu_page_okl := $(shell $(rel_path_tool) $(maxima_docu_page_okl)
 ifeq ($(extsrc_relative),)
   rel_les_boost_html_documentation_index_location := $(boost_html_documentation_index_location)
   rel_les_mhash_html_documentation_index_location := $(mhash_html_documentation_index_location)
-  rel_les_gcc_html_documentation_index_location_okl := $(gcc_html_documentation_index_location_okl)
   rel_les_valgrind_html_documentation_index_location_okl := $(valgrind_html_documentation_index_location_okl)
   rel_les_git_html_documentation_index_location_okl := $(git_html_documentation_index_location_okl)
   rel_les_doxygen_html_documentation_index_location_okl := $(doxygen_html_documentation_index_location_okl)
@@ -54,10 +53,10 @@ ifeq ($(extsrc_relative),)
   rel_les_pgsql_html_documentation_index_location := $(pgsql_html_documentation_index_location)
   rel_les_R_html_documentation_index_location_okl := $(R_html_documentation_index_location_okl)
   rel_les_gmp_html_documentation_index_location_okl := $(gmp_html_documentation_index_location_okl)
+  rel_les_gmp_dvi_documentation_index_location_okl := $(gmp_dvi_documentation_index_location_okl)
 else
   rel_les_boost_html_documentation_index_location := $(shell $(rel_path_tool) $(boost_html_documentation_index_location) $(externalsources_page_output))
   rel_les_mhash_html_documentation_index_location := $(shell $(rel_path_tool) $(mhash_html_documentation_index_location) $(externalsources_page_output))
-  rel_les_gcc_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(gcc_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_valgrind_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(valgrind_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_git_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(git_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_doxygen_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(doxygen_html_documentation_index_location_okl) $(externalsources_page_output))
@@ -65,6 +64,7 @@ else
   rel_les_pgsql_html_documentation_index_location := $(shell $(rel_path_tool) $(pgsql_html_documentation_index_location) $(externalsources_page_output))
   rel_les_R_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(R_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_gmp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location_okl) $(externalsources_page_output))
+  rel_les_gmp_dvi_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_dvi_documentation_index_location_okl) $(externalsources_page_output))
 endif
 
 # to be completed XXX
