@@ -115,14 +115,22 @@ License, or any later version. */
        which then occurs 19 - 3 = 16 < 17 times, so no sharp case here. </li>
        <li> k = 6: all_cld_uhit_maxminvd_nu(6,6) has the following cases:
         <ul>
-         <li> {[2,2],[3,3],[5,1],[6,6]} </li>
-         <li> {[2,3],[3,1],[6,8]}: impossible, since the first three clauses
+         <li> {[2,2],[3,3],[5,1],[6,6]}: Impossible, since a hitting cls
+         consisting of two binary and two ternary clauses can contain at
+         most 5 variables. </li>
+         <li> {[2,3],[3,1],[6,8]}: Impossible, since the first three clauses
          can involve only 3 variables, so the first four clauses can only
          involve 5 variables, thus one variable has occurrence
          12 - 4 = 8 < 9. </li>
-         <li> {[2,3],[4,1],[5,4],[6,4]} </li>
-         <li> {[2,3],[4,2],[5,1],[6,6]} </li>
+         <li> {[2,3],[4,1],[5,4],[6,4]}: Impossible, since the first three
+         clauses only involve 3 variables, so the fourth clause
+         only can contain one of them, so this literal must provide the
+         clash with the first three clauses, which is not possible. </li>
+         <li> {[2,3],[4,2],[5,1],[6,6]}: Impossible, since the fourth clause
+         can only introduce 2 new variables, leaving one variable not
+         occurring four times. </li>
         </ul>
+        So no sharp case here.
        </li>
       </ol>
      </li>
@@ -145,6 +153,51 @@ License, or any later version. */
        Now a hitting cls F with c(F) = 3 which is 2-uniform has
        n(F) <= 3, and thus the first 4 clauses must leave out one variable,
        which then occurs 20 - 4 = 16 < 17 times. So no sharp case here. </li>
+       <li> k = 6: The cases of all_cld_uhit_maxminvd_nu(6,7) are as follows.
+        <ul>
+         <li> Every variable can loose at most 4 occurrences. </li>
+         <li> {[2,2],[3,3],[4,1],[6,1],[7,6]}: Impossible. </li>
+         <li> {[2,2],[3,3],[5,2],[6,2],[7,4]}: Impossible for the same
+         reason. </li>
+         <li> {[2,3],[3,1],[4,1],[7,8]}: Impossible, like the following
+         case. </li>
+         <li> {[2,3],[3,1],[5,1],[6,4],[7,4]}: Impossible, since the first
+         four clauses can only contain 4 variables (see below), so the
+         fifth clause must contain all other 3 variables, and two of
+         literals are furthermore fixed for the clash with the first three
+         clauses, which, since this is the same for the fourth clause, doesn't
+         leave a conflict with the fourth clause. So 13 - 5 = 8 < 9. </li>
+         <li> {[2,3],[3,1],[5,2],[6,1],[7,6]}: Impossible as the previous
+         case. </li>
+         <li> {[2,3],[3,1],[6,7],[7,2]} </li>
+         <li> {[2,3],[4,1],[5,5],[7,4]} </li>
+         <li> {[2,3],[4,2],[5,1],[6,5],[7,2]} </li>
+         <li> {[2,3],[4,2],[5,2],[6,2],[7,4]} </li>
+         <li> {[2,3],[4,3],[6,1],[7,6]} </li>
+        </ul>
+        A general principle:
+        <ul>
+         <li> If hitting F consists of 3 binary variables,
+         then the only cases are
+          <ol>
+           <li> A : {{a,b},{-a,b},{-b,a}} </li>
+           <li> B : {{a,b},{-a,c},{-a,-c}} </li>
+           <li> C : {{a,b},{-a,c},{-b,-c}} </li>
+          </ol>
+          and every other clause must contain two of these variables
+          to produce a clash (in case of case C it must contain all
+          three, while in case A it must contain {-a,-b}, and in
+          case B it must contain {a,-b}). </li>
+         <li> This follows from the fact that the sub-clause-set
+         consisting of these four clauses is hitting, and we can
+         remove all pure literals, so only the three variables
+         involved are of relevance. </li>
+         <li> Every hitting cls has sum_C 2^(-|C|) <= 1, thus
+         the last clause must then be binary. </li>
+         <li> And this last clause is then also unique (since only
+         one satisfying assignment is left). </li>
+        </ul>
+       </li>
       </ol>
      </li>
      <li> For n=8 we only have incomplete information.
@@ -181,7 +234,20 @@ License, or any later version. */
       <ul>
        <li> k = 6 : 8 = 9-1
         <ol>
-         <li> The above show that for a sharp case we have n >= 6. </li>
+         <li> The above show that for a sharp case we have n >= 7. </li>
+         <li> A general fact, which might be useful:
+          <ol
+           <li> A variable realising the
+           min-var-degree occorrs w.l.o.g. (exactly) 5 times positively and
+           4 times negatively, since in case of 6+3=9 setting v -> 1 yields an
+           MU of deficiency 1, yielding a variable occurring 2 + 6 = 8 < 9
+           times. </li>
+           <li> So setting v -> 0 yields F0 in MU(3), and v -> 1 yields F1 in
+           MU(2) (assuming, as usual F saturated). </li>
+           <li> Since there is a variable in MU(3) of degree 5, we can have
+           at most 5 full clauses containing literal v. </li>
+          </ol>
+         </li>
         </ol>
        </li>
        <li> k = 13 : 16 = 17-1
