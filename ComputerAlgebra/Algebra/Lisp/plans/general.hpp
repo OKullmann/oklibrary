@@ -10,8 +10,6 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
-  \todo Docus
-
   \todo Demos
 
   \todo Field Element Representation
@@ -125,6 +123,9 @@ Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
    <li> DONE This should be moved when the wrapper functions are moved into a 
    seperate module </li>
   </ul>
+
+
+  \todo DONE Docus
 
 
   \todo DONE Tests for Finite Fields
