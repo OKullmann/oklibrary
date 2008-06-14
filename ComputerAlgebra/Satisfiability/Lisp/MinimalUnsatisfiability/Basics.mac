@@ -102,6 +102,7 @@ max_min_var_degree_def_rec[k] :=
    max_min_var_degree_def_rec[k] = max_min_var_degree_def_law(k). */
 max_min_var_degree_def_law(k) := k + fld(k+1 + fld(k+1))$
 
+
 /* *** Checking the uhit_def catalogue: *** */
 
 /* For the uhit-catalogue check for the existence of examples where the
@@ -116,7 +117,8 @@ sharp_uhit_catalogue_maxminvardeg() :=
       sublist(check_uhit_catalogue_maxminvardeg(), lambda([t],is(t[4]=0)))),
     orderlessp)$
 
-/* For given deficiency, compute the maximal min-var-degree. */
+/* For given deficiency, compute the maximal min-var-degree (in the
+   uhit-catalogue). */
 max_min_var_deg_uhit_def(k) := max_min_var_deg_cs(all_uhit_def(k))$
 max_min_var_deg_uhit_def_mem[k] := max_min_var_deg_cs(all_uhit_def(k))$
 /* Apply "remarray(max_min_var_deg_uhit_def_mem)" in case an update
