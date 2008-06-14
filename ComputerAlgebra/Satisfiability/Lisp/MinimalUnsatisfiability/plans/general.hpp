@@ -59,5 +59,29 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Singular extensions
+  <ul>
+   <li> Transfer SingExt, ISingExt from Orthogonal.mup (see
+   ComputerAlgebra/Mupad/plans/general.hpp). </li>
+   <li> We want three types of extensions:
+    <ol>
+     <li> the non-degenerated extensions, characteristic for singular
+     DP-reductions on MU; </li>
+     <li> the saturated extensions, characteristic for singular
+     DP-reductions on SMU; </li>
+     <li> the hitting extensions, characteristic for singular
+     DP-reductions on UHIT. </li>
+    </ol>
+   </li>
+   <li> We should have systematic versions, which try to generator
+   all isomorphism types for a given number of steps. </li>
+   <li> And we should have simple randomised versions (as with the current
+   Mupad-code). </li>
+   <li> The first questions concern the characterisation of MU(delta=2),
+   SMU(delta=2) and UHIT(delta=2) (always looking at all clause-sets, not
+   just the non-singular one). </li>
+  </ul>
+
 */
 
