@@ -16,7 +16,7 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Algebra/Lisp/plans/general.hpp
    the following topics are handled:
-    - Tests
+    - Tests for Finite Fields
     - Docus
     - Finite Fields package function doesn't terminate DONE
     - Move the finite-fields functions here. DONE

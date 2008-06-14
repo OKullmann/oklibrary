@@ -10,10 +10,10 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
-  \todo Tests
+  \todo Tests for Finite Fields
   <ul>
    <li> Extensive tests with larger fields at higher tests levels </li>
-   <li> Perhaps for egf_matmul check known generators for certain fields 
+   <li> Perhaps for egf_mul check known generators for certain fields 
    (Mostly likely at oklib_test_level > 0) </li>
    <li> DONE Simple tests (oklib_test_level = 0) </li>
   </ul>
