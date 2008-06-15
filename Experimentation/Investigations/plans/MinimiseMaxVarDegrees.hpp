@@ -12,7 +12,6 @@ License, or any later version. */
 
   \todo Low variable-degrees and high clause-lengths
   <ul>
-   <li> DONE This should become its own module. </li>
    <li> The general question considers clause-sets F (boolean and also
    non-boolean) with minimal clause-length k and maximal variable-degree
    r. How low can r be so that still unsatisfiable instances are possible?
@@ -30,6 +29,27 @@ License, or any later version. */
    degrees in the common-variable graph or on the conflict-graph (both
    now are clause-degrees). See again hitting clause-sets. </li>
    <li> Instead of minimal clause-length one can consider the deficiency. </li>
+   <li> DONE This should become its own module. </li>
+  </ul>
+
+
+  \todo Unsatisfiable non-singular hitting clause-sets
+  <ul>
+   <li> Via lmin(map(max_variable_degree_cs,all_uhit_def(k)))
+   we obtain the mininum of the max-var-degrees for a given deficiency
+   of examples in the catalogue. </li>
+   <li> Let minmaxvd(k) be the minimum of max_variable_degree_cs(F)
+   for all non-singular unsatisfiable hitting clause-sets of deficiency k.
+   </li>
+   <li> The most basic question is whether minmaxvd(k) must grow with k. </li>
+   <li> We know minmaxvd(2) = 4. </li>
+   <li> We have examples showing minmaxvd(3) <= 6. </li>
+   <li> And also minmaxvd(4) <= 6. </li>
+   <li> And minmaxvd(5) <= 8. </li>
+   <li> minmaxvd(6) <= 9. </li>
+   <li> minmaxvd(7) <= 10. </li>
+   <li> minmaxvd(8) <= 11. </li>
+   <li> minmaxvd(8) <= 13. </li>
   </ul>
 
 */

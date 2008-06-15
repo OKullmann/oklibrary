@@ -113,6 +113,8 @@ License, or any later version. */
      <li> Perhaps leaving it out only for those predicates. </li>
     </ol>
    </li>
+   <li> See discussion of in-place modifications in "Singular DP-reduction" in
+   Satisfiability/Lisp/Reductions/plans/DP-Reductions.hpp. </li>
   </ul>
 
 
