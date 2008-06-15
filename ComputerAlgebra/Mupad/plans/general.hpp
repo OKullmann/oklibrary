@@ -39,7 +39,17 @@ License, or any later version. */
    <li> Mupad/Hilfsfunktionen.mup : Various general functions </li>
    <li> Mupad/Orthogonal.mup : others than above
     <ol>
-     <li> SingExt, ISingExt </li>
+     <li> Singular reductions : DONE
+      <ol>
+       <li> MUSAT1, SMUSAT1, MMUSAT1 : DONE (todo in
+       ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/general.hpp)
+       </li>
+       <li> SingDPuncontracted, ISingDPuncontracted : DONE (todo in
+       Satisfiability/Lisp/Reductions/plans/DP-Reductions.hpp) </li>
+       <li> SingExt : DONE </li>
+       <li> ISingExt : DONE </li>
+      </ol>
+     </li>
      <li> PNNIndices, herm, hermdef, kernKV, hermdefKV : DONE </li>
     </ol>
    </li>

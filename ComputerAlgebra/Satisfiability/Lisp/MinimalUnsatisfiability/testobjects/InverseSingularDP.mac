@@ -1,0 +1,39 @@
+/* Oliver Kullmann, 14.6.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/InverseSingularDP.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/InverseSingularDP.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/InverseSingularDP.mac")$
+
+
+okltest_new_var_fcs(new_var_fcs);
+
+okltest_random_sublist(random_sublist);
+
+okltest_basic_inverse_singulardp_fcs(basic_inverse_singulardp_fcs);
+
+okltest_random_subset_si(random_subset_si);
+
+okltest_si_inverse_singulardp_fcs(si_inverse_singulardp_fcs);
+
+okltest_it_si_inverse_singulardp_fcs(it_si_inverse_singulardp_fcs);
+
+/*!
+\endhtmlonly
+*/

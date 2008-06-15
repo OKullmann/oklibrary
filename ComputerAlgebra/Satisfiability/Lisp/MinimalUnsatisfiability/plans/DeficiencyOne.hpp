@@ -83,6 +83,8 @@ License, or any later version. */
 
   \todo Creating marginal elements of MUSAT(1)
   <ul>
+   <li> One can create such elements with
+   si_inverse_singulardp_fcs(FF,p,0,a,b). </li>
    <li> What is the scope of marginal_musat1(k) ? </li>
    <li> In [Kullmann, 2008] it is shown that the marginal elements of
    MUSAT(1) are exactly those whose conflict graph is a tree (and all
