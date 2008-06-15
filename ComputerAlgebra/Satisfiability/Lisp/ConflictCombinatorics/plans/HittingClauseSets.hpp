@@ -14,7 +14,13 @@ License, or any later version. */
   <ul>
    <li> Create a new module Satisfiability/Lisp/HittingClauseSets. </li>
    <li> Move all about hitting cls and ABDs there. </li>
-   <li> And move the uhit_def catalogue there. </li>
+   <li> And move the uhit_def catalogue there.
+    <ol>
+     <li> See "Checking the uhit_def catalogue" in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac
+     </li>
+    </ol>
+   </li>
    <li> And then split it into several sub-modules.
     <ol>
      <li> "SplittingTrees.mac" </li>
