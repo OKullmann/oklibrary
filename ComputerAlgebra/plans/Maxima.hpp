@@ -84,7 +84,8 @@ maxima_srcdir_okl ?= $(maxima_build_dir_okl)/src
        \verbatim
 cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
        \endverbatim
-      </li>
+      </ul>
+     </li>
     </ol>
    </li>
    <li> So we need to refine the "oklib_load" functionality:
