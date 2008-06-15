@@ -204,6 +204,21 @@ License, or any later version. */
       <ol>
        <li> The general cases for sharpness are
        k = 248, 247,246,245,244,243,242,241,240. </li>
+       <li> k = 14: all_cld_uhit_maxminvd_nu(14,8) has the following cases:
+        <ul>
+         <li> {[2,2],[3,3],[4,1],[8,16]}: Impossible since the first five
+         clauses cannot contain all 8 variables XXX. </li>
+         <li> {[2,3],[3,1],[5,1],[6,1],[7,4],[8,12]}: Impossible, since
+         the first five clauses can only use 4+3=7 variables, so one
+         variable occurs 22-5=17 < 18 times. </li>
+         <li> {[2,3],[3,1],[5,1],[6,2],[7,1],[8,14]}: Impossible by the
+         same reason. </li>
+         <li> {[2,3],[3,1],[5,2],[8,16]}: Again impossible. </li>
+         <li> {[2,3],[4,3],[8,16]}: Impossible, since the first 5 clauses
+         can only use 3 + 2*2 = 7 variables. </li>
+        </ul>
+        So no sharp case here.
+       </li>
        <li> k = 13: all_cld_uhit_maxminvd_nu(13,8) has the following cases:
         <ul>
          <li> {[2,2],[3,3],[4,1],[7,1],[8,14]} </li>
@@ -215,6 +230,26 @@ License, or any later version. */
         The first cases look impossible, perhaps the last one might be
         possible.
        </li>
+      </ol>
+     </li>
+     <li> n=9
+      <ol>
+       <li> k = 14: all_cld_uhit_maxminvd_nu(14,9) has the following
+       prefix-cases:
+        <ol>
+         <li> [2,2],[3,3],[4,1] </li>
+         <li> [2,2],[3,3],[5,3] </li>
+         <li> [2,3],[3,1],[4,1],[6,1] </li>
+         <li> [2,3],[3,1],[4,1],[7,1] </li>
+         <li> [2,3],[3,1],[5,1],[6,4] </li>
+         <li> [2,3],[3,1],[5,2] </li>
+         <li> [2,3],[4,3] </li>
+        </ol>
+        It might be that all these hitting clause-sets with 6 clauses
+        can contain only 8 variables (at most), and thus one variable has
+        only 23 - 6 = 17 < 18 occurrences. </li>
+       <li> We need some general methods to establish upper bounds on n(F)
+       for hitting cls F with given list of clause-lengths. </li>
       </ol>
      </li>
     </ol>

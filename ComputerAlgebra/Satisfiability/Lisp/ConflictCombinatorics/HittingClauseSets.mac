@@ -566,6 +566,38 @@ all_unsinghitting_mvd(n, _hash_repo) := block([count],
 )$
 
 
+/* ***************************
+   * Maximal min-var-degrees *
+   ***************************
+*/
+
+/* The conjectured sharpening of the general MU-bound (see
+max_min_var_degree_def_rec); [OK, XSZ; 2008]. */
+hit_max_min_var_degree_def_rec[k] :=
+ if k <= 5 then max_min_var_degree_def_rec[k] 
+ elseif k=6 then max_min_var_degree_def_rec[6]-1
+ else block(
+  [K : max_min_var_degree_def_rec[k], res : minf],
+   for a : K - k thru k do block([b : K - a],
+     res : max(res, min(
+       hit_max_min_var_degree_def_rec[k-a+1] + a,
+       hit_max_min_var_degree_def_rec[k-b+1] + b)
+     )),
+   return(min(K,res)))$
+/* It follows that for k=2^n-n+1 we have
+   hit_max_min_var_degree_def_rec[k] = max_min_var_degree_def_rec[k]-1.
+   Now it seems that new "defects" crop up for k in {14,...,17},
+   and this will again create infinitely many new defect-cases.
+   It seems that introducing a defect for k=14 reduces exactly
+   all cases 2^n-n+2 (for n >= 4), similar for k=15, etc.
+*/
+/* So the refined conjecture is that we have s_n,
+     s_1=s_2=0, s_3 = 1, s_4 = 5,
+   where s_n is strictly increasing, such that the cases
+     2^n-n + 1, ..., 2^n-n + s_n
+   are exactly the cases where the bound is lowered by 1.
+*/
+
 /*!
 \endhtmlonly
 */
