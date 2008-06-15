@@ -8,21 +8,9 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Algebra/Lisp/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Algebra/Lisp 0.0.4 (5.6.2008)
+  \module_version ComputerAlgebra/Algebra/Lisp 0.0.5 (15.6.2008)
 
 
-  \par Version 0.0.5
-
-  \par
-   In ComputerAlgebra/Algebra/Lisp/plans/general.hpp
-   the following topics are handled:
-    - Docus DONE
-    - Tests for Finite Fields DONE
-    - Finite Fields package function doesn't terminate DONE
-    - Move the finite-fields functions here. DONE
-    - Create milestones DONE
-  
-  
   \par Version 0.0.6
 
   \par
@@ -40,5 +28,6 @@ License, or any later version. */
 
   \par Version history
    - 0.0.4 : 5.6.2008; initial version number, several plans, initial Finite Fields implementation.
+   - 0.0.5 : 15.6.2008; tests and docus added, as well as some bugs resolved for Finite Fields.
 
 */
