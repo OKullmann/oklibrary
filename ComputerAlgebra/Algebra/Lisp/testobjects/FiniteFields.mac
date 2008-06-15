@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/testobjects/FiniteFields.m
 */
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac")$
 
 okltest_egf_add(egf_add);
 

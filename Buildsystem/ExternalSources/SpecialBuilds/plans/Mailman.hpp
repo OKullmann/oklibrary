@@ -9,20 +9,215 @@ License, or any later version. */
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/Mailman.hpp
   \brief Plans regarding installation of the Mailman package
 
+  Mailman is for creating and maintaining mailing lists :
 
-  \todo Building Mailman on cs-wsok (for testing):
   <ul>
-   <li> Building the main program </li>
-   <li> DONE (Apache works, and so we use it)
-   What about the web server: Is Apache the best choice for us?
-   (Perhaps we need the web server anyway for the OKplatform-Internet
-   page?) </li>
+   <li> OKlibrary users subscribe to the list (either by visiting a website or 
+   by sending an email to the "list"). </li>
+   <li> Subscribers of this list can then send emails to the list which are 
+   then forwarded to all other subscribers. </li>
+   <li> Such behaviour can be altered, such as to require moderation of 
+   emails sent to the list before sending them to subscribers, or to allow 
+   non-subscribers to send to the list, for instance.
   </ul>
 
 
   \todo Building Mailman on freshly setup machine
   <ul>
-   <li>
+   <li> Having installed Postfix (See 
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Postfix.hpp ) and Apache (See
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp ) the following steps 
+   are necessary :
+   <li> Download the latest mailman and extract it :
+   \verbatim
+ExternalSources/Installations/> mkdir mailman
+ExternalSources/Installations/> cd mailman
+ExternalSources/Installations/mailman> wget http://ftp.gnu.org/gnu/mailman/mailman-2.1.9.tgz
+ExternalSources/Installations/mailman> tar -zxvf mailman-2.1.9.tgz
+ExternalSources/Installations/mailman> cd mailman-2.1.9
+   \endverbatim
+   </li>
+   <li> Add the system (linux/unix etc) groups which the mailman daemon will 
+   run as :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo groupadd mailman
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo useradd --comment "GNU Mailman" --shell /no/shell --home /no/home --gid mailman mailman
+   \endverbatim
+   </li>
+   <li> Create the directory to which mailman will be installed and set the 
+   correct permissions :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/mailman
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo chgrp mailman /usr/local/mailman 
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo chmod a+rx,g+ws /usr/local/mailman
+   \endverbatim
+   </li>
+   <li> Configure and then install mailman :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> ./configure --with-mail-gid=mailman --with-cgi-gid=daemon --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
+ExternalSources/Installations/mailman/mailman-2.1.9> make
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo make install
+   \endverbatim
+   </li>
+   <li> Some explanation is needed here on the configure options : 
+    <ol>
+     <li>"--with-mail-gid" specifies the group which the Mailman scriptwill be 
+     run under (called upon receipt of an email for the mailing list, by the 
+     mail server - Postfix). In this case, this should be mailman, as Postfix 
+     runs the script (specified in the "aliases" file, discussed below) under 
+     the user and group which own the aliases file. </li>
+     <li> "--with-cgi-gid" specifies the system group which the web server (in 
+     this case Apache) will be running under. This is needed to determine the 
+     ownership of the files used to drive the web interface. This may vary, and 
+     in this case was "daemon", but in some cases may be "apache", "httpd", 
+     "www" or similar, as determined by the configuration of Apache during 
+     installation.
+     </li>
+     <li> "--with-mailhost" specifies the DNS domain which the mailing list 
+     email addresses will be sent with, and to which emails are sent. For 
+     example, emails might be sent to "developers@ok-sat-library.org" by users
+     of the list and so "ok-sat-library.org" would be the value of this option.
+     </li>
+     <li> "--with-urlhost" specifies the DNS domain which the webserver 
+     (Apache) can be accessed at. </li>
+    </ol>
+   <li> What is the default apache user and group? It seems it is specified in 
+   "http.conf" but this user and group must also exist on the system. </li>
+   </li>
+   <li> Apache must be configured to enable the Mailman web interface : 
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo sh -c "echo \"
+ScriptAlias /mailman/      /usr/local/mailman/cgi-bin/
+Alias /pipermail/ /usr/local/mailman/archives/public/
+<Directory /usr/local/mailman/>
+Allow from all
+Options FollowSymLinks
+</Directory>\" >> /usr/local/apache2/conf/httpd.conf"
+   \endverbatim
+   </li>
+   <li> The above specifically says that accessing anything at 
+   http://<domain>/mailman/ will be handled by mailman scripts stored in
+   "/usr/local/mailman/cgi-bin/" on the server, and anything accessed at 
+   http://<domain>/pipermail/ will access the public mailing list archives
+   stored on the server in "/usr/local/mailman/archives/public/". <domain> 
+   here is the DNS domain of the server (e.g "ok-sat-library.org") . </li>
+   <li> The additional options ("Allow from all" etc) specify that scripts 
+   and Apache configuration files within "/usr/local/mailman/cgi-bin/" have 
+   sufficient permissions for some functions/configurations options within
+   Apache, which are not normally available to scripts by default. </li>
+   <li> It might be possible to copy the scripts above to Apache's public
+   access directory, as with the icons, however it seems better to use
+   this "ScriptAlias" etc method as then upgrading Mailman seems simpler and
+   won't require making changes to Apache's configuration again. </li>
+   <li> It appears the above step was previously documented as :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/Buildsystem/ReleaseProcess/httpd.conf /usr/local/apache2/conf/httpd.conf
+   \endverbatim
+
+   Should "http.conf" be included in the repository (it isn't currently)?
+   </li>
+   <li> The Mailman icons should them be moved to the correct location within
+   Apache's public access folder :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/apache2/htdocs/icons
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp /usr/local/mailman/icons/*.{jpg,png} /usr/local/apache2/htdocs/icons
+   \endverbatim
+   </li>
+   <li> How to have the mailman web interface accessible from 
+   ok-sat-library.org but running on cs-oksvr? Is the web forwarding enough? 
+   Is this necessary?
+   </li>
+   <li> Mailman must be told to use Postfix and the URL for the icons for the 
+   web interface :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> sudo sh -c "echo \"
+IMAGE_LOGOS = '/icons/'
+MTA='Postfix'\" >> /usr/local/mailman/Mailman/mm_cfg.py"
+   \endverbatim
+   </li>
+   <li> Mailman may be used with other mailservers or perhaps even called 
+   directly by tools such as fetchmail, but Postfix appears to be the simplest
+   and most flexible method of handling delivery of mail to Mailman. </li>
+   </li>
+   <li> Create the "aliases" for Postfix, to ensure mailing lists email is 
+   delivered to mailman :
+   \verbatim
+ExternalSources/Installations/mailman/mailman-2.1.9> cd /usr/local/mailman
+/usr/local/mailman> sudo bin/genaliases
+/usr/local/mailman> sudo chown mailman:mailman data/aliases*
+/usr/local/mailman> sudo chmod g+w data/aliases*
+/usr/local/mailman> sudo sh -c "echo 'alias_maps = hash:/etc/aliases, hash:/usr/local/mailman/data/aliases' >> /etc/postfix/main.cf"
+   \endverbatim
+   </li>
+   <li> When an email for the mailing list is delivered to Postfix (via 
+   fetchmail), Postfix must decide which user's mailbox (usually a directory 
+   in a given system user's home directory) to deliver the email to. </li>
+   <li> "Aliases" define mappings between the user specified in the email being
+   sent to (i.e developers@ok-sat-library.org), and system users, commands, or
+   other processing to be done on the email. </li>
+   <li> In this case, the aliases are defined so that any email's arriving for
+   the mailing list mail users (developers, developers-bounce, 
+   developers-subscribe etc) are delivered to the mailman script 
+   ("/usr/local/mailman/mail/mailman") rather than to a user. </li>
+   <li> This script then adds this message to a queue, and wakes 
+   up the mailman daemon (mentioned below), which handles sending, archiving 
+   of the message and so on. </li>
+   <li> One must additionally inform Postfix that it should handle email 
+   addressed to the mailing list domain. This requires altering the 
+   "mydestination" option in "/etc/postfix/main.cf". This option can be
+   added for new installs like so :
+   \verbatim
+sudo sh -c "echo \"
+mydestination = $myhostname,localhost.$mydomain, ok-sat-library.org
+\" >> /etc/postfix/main.cf"
+   \endverbatim
+   Or it can be altered in place like so, if Postfix has already been set
+   up with this option : 
+   \verbatim
+sed -i "s/^mydestination \(.*\)/mydestination \1, ok-sat-library.org/" main.cf
+   \endverbatim
+
+   Obviously, this could also be set by simply editing the file.
+   </li>
+   <li> A default list to handle the administration of the mailman installation
+   itself now needs to be setup :
+   \verbatim
+/usr/local/mailman> sudo /usr/local/mailman/bin/newlist mailman
+   \endverbatim
+   </li>
+   <li> Setup cron jobs for regular tasks performed by mailman :
+   \verbatim
+/usr/local/mailman> sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
+   \endverbatim
+   </li>
+   <li> Start (or reload) Apache and Postfix :
+   \verbatim
+/usr/local/mailman> sudo /usr/local/apache2/bin/apachectl -k start
+/usr/local/mailman> sudo postfix reload
+   \endverbatim
+   </li>
+   <li> Start the mailman daemon :
+   \verbatim
+/usr/local/mailman> sudo /usr/local/mailman/bin/mailmanctl start
+   \endverbatim
+
+   At this stage one should have a working mailman installation.
+   </li>
+   <li> Additionally one may create other lists in a similar manner :
+   \verbatim 
+/usr/local/mailman> sudo /usr/local/mailman/bin/newlist developers
+   \endverbatim
+
+   This may also be done via the web interface, which can be accessed at
+   http://<domain>/mailman/admininfo where <domain> is the DNS domain of the
+   webserver, for example "www.ok-sat-library.org" .
+   </li>
+   <li> In this specific case of the OKlibrary, there are issues with running 
+   a mailserver which is externally visible to the internet, and so mailing
+   list email must be forwarded to a seperate email account, and then "pulled" 
+   down to the server with Postfix running on it, using a tool called "fetchmail".
+   </li>
+   <li> So, next, one may need to install fetchmail :
    \verbatim
 ExternalSources/Installations/Postfix/postfix-2.4.5> cd ../../
 ExternalSources/Installations> mkdir fetchmail
@@ -35,82 +230,86 @@ ExternalSources/Installations/fetchmail/fetchmail-6.3.8> make
 ExternalSources/Installations/fetchmail/fetchmail-6.3.8> sudo make install
   \endverbatim
   </li>
-  <li>
-  \verbatim
-ExternalSources/Installations/> mkdir mailman
-ExternalSources/Installations/> cd mailman
-ExternalSources/Installations/mailman> wget http://ftp.gnu.org/gnu/mailman/mailman-2.1.9.tgz
-ExternalSources/Installations/mailman> tar -zxvf mailman-2.1.9.tgz
-ExternalSources/Installations/mailman> cd mailman-2.1.9
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo groupadd mailman
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo useradd --comment "GNU Mailman" --shell /no/shell --home /no/home --gid mailman mailman
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/mailman
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo chgrp mailman /usr/local/mailman 
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo chmod a+rx,g+ws /usr/local/mailman
-ExternalSources/Installations/mailman/mailman-2.1.9> ./configure --with-mail-gid=mailman --with-cgi-gid=apache --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
-ExternalSources/Installations/mailman/mailman-2.1.9> make
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo make install
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp ../../../../OKsystem/Transitional/Buildsystem/ReleaseProcess/httpd.conf /usr/local/apache2/conf/httpd.conf
-   \endverbatim
-   Perhaps the next step should be part of the apache installation? 
+  <li> Configure fetchmail to pull email from the correct account :
    \verbatim
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo mkdir /usr/local/apache2/htdocs/icons
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo cp /usr/local/mailman/icons/*.{jpg,png} /usr/local/apache2/htdocs/icons
-ExternalSources/Installations/mailman/mailman-2.1.9> sudo sh -c "echo \"
-IMAGE_LOGOS = '/icons/'
-MTA='Postfix'\" >> /usr/local/mailman/Mailman/mm_cfg.py"
-ExternalSources/Installations/mailman/mailman-2.1.9> cd /usr/local/mailman
-/usr/local/mailman> sudo bin/genaliases
-/usr/local/mailman> sudo chown mailman:mailman data/aliases*
-/usr/local/mailman> sudo chmod g+w data/aliases*
-/usr/local/mailman> sudo sh -c "echo 'alias_maps = hash:/etc/aliases, hash:/usr/local/mailman/data/aliases' >> /etc/postfix/main.cf"
-/usr/local/mailman> sudo /usr/local/mailman/bin/newlist mailman
-/usr/local/mailman> sudo crontab /usr/local/mailman/cron/crontab.in -u mailman
-
-/usr/local/mailman> sudo /usr/local/apache2/bin/apachectl -k start
-/usr/local/mailman> sudo postfix reload
-/usr/local/mailman> sudo /usr/local/mailman/bin/newlist developers
-
-/usr/local/mailman> sudo echo "
+/usr/local/mailman> sudo sh -c 'echo "
 set daemon 120
+set syslog
 
-poll aeternus.no-ip.org with proto IMAP and options no dns
-         localdomains ok-sat-library.org
-         user testlist with pass "testlist453"
-         is * here options dropdelivered
+poll \"cs-svr1.swan.ac.uk\"
+    localdomains ok-sat-library.org 
+    protocol IMAP : 
+    envelope \"To\" 
+    user \"mailuser\" there with password \"PPP\" is * here 
+    ssl
 
-smtphost localhost" > /etc/fetchmailrc
+smtphost localhost" > /etc/fetchmailrc'
+/usr/local/mailman> sudo chmod 710 /etc/fetchmailrc
    \endverbatim
    </li>
    <li> Some explanation of the above configuration : 
     <ol>
-     <li> "120" here is the number of seconds interval between polls (Ie 
-     fetchmail checks for mail every 2 minutes) </li>
-     <li> "aeternus.no-ip.org" is the mailserver I am pulling the mail from 
-     (would be cs-svr1?) </li>
-     <li>"testlist" is the my user on that mail server (ie might be developers 
-     if using developers@swan.ac.uk) "testlist453" is my password on that 
-     mailserver </li>
+     <li> "120" here is the number of seconds interval between polls, i.e 
+     fetchmail checks for new email every 2 minutes. </li>
+     <li> "set syslog" informs fetchmail to log any messages or errors to
+     the system log. </li>
+     <li> "cs-svr1.swan.ac.uk" is the DNS domain of the  mailserver the mailing
+     list email is originally delivered to. </li>
+     <li> "localdomains ok-sat-library.org" specifies that emails with the 
+     domain "ok-sat-library.org" should be considered local to this server
+     and delivered to local users, i.e "developers@ok-sat-library.org" would be
+     delivered to "developers" on this server (to Postfix). </li>
+     <li> "protocol IMAP" specifies to use the IMAP protocol to retrieve email
+     from the mail server, to which the emails for the mailing list are 
+     initially delivered. </li>
+     <li> 'envelope "To"' tells fetchmail to look at the "To" header of the 
+     emails to determine where to deliver them to on the local server. This 
+     is necessary as other headers that it might use will contain the 
+     "@swan.ac.uk" address that the email was forwarded to. </li>
+     <li> 'user "mailuser"' specifies the username which is used to log into
+     the mail server, which the mailing list emails are initially delivered to.
+     In this case for example, mailing list email would be forwarded to 
+     "mailuser@swan.ac.uk" and fetchmail would log into "cs-svr1.swan.ac.uk"
+     as "mailuser" to retrieve this email. </li>
+     <li> 'password "PPP"' specifies that, when logging in to the mail server 
+     to retrieve the mailing list emails, the password "PPP" should be used to 
+     authenticate. </li>
+     <li> "*" specifies that unrecognised email users, should simply be passed
+     through to the same user on the system/local mail server (Postfix). For 
+     example, "developers@ok-sat-library.org" is simply passed to Postfix as
+     "developers" (Note : the "localdomains" option is also important here to 
+     ensure fetchmail recognises "ok-sat-library.org" as an email for the 
+     local mail server). </li>
+     <li> "here" simply specifies that all mail retrieved should be delivered
+     to the mail server specified by "smtphost". </li>
+     <li> "ssl" simply specifies that SSL encryption and authentication should
+     be used when retrieving email from mail server with the mailing list email
+     on. This is important, as otherwise the password for this account may be
+     sent in plaintext, over the network. </li>
     </ol>
    </li>
-   <li> Should this file be kept under version control even though it isn't part
-   of the Release? (OK: which file? you mean /etc/fetchmailrc? and which
-   release it isn't a part of? their release?)
+   <li> Start fetchmail : 
    \verbatim
-/usr/local/mailman> sudo chmod 710 /etc/fetchmailrc
-/usr/local/mailman> sudo /usr/local/mailman/bin/mailmanctl start
 /usr/local/mailman> sudo fetchmail -f /etc/fetchmailrc
    \endverbatim
-   This should allow you to control mailinglists from 
-   http://ok-sat-library.org/mailman/admin/ .
-   (OK: Where does this address "http://ok-sat-library.org/mailman/admin/"
-   come from?)
-   </li>
-   <li> Alternative configuration (using the defaults??):
-   \verbatim
-mailman-2.1.9> ./configure --with-mail-gid=postfix --with-cgi-gid=daemon --with-mailhost=ok-sat-library.org --with-urlhost=ok-sat-library.org
-   \endverbatim
-   </li>
+
+   Mailman should now work and one can test this by going to
+   http://<domain>/mailman/listinfo, subscribing to one of the lists
+   and beginning to use them, where <domain> is the DNS domain of the 
+   web server. </li>
+   <li> Should "fetchmailrc" be kept under version control? </li>
+   <li> (DONE This is specific to mailman and so seems sensible here)
+   Perhaps the apache configuration above should be part of the apache 
+   installation? </li>
+  </ul>
+
+  \todo Building Mailman on cs-wsok (for testing):
+  <ul>
+   <li> Building the main program </li>
+   <li> DONE (Apache works, and so we use it)
+   What about the web server: Is Apache the best choice for us?
+   (Perhaps we need the web server anyway for the OKplatform-Internet
+   page?) </li>
   </ul>
 
 

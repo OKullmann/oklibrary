@@ -10,16 +10,6 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
-  \todo Tests
-  <ul>
-   <li> Extensive tests with larger fields at higher tests levels </li>
-   <li> Perhaps for egf_matmul check known generators for certain fields 
-   (Mostly likely at oklib_test_level > 0) </li>
-   <li> DONE Simple tests (oklib_test_level = 0) </li>
-  </ul>
-
-  \todo Docus
-
   \todo Demos
 
   \todo Field Element Representation
@@ -135,6 +125,18 @@ Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
   </ul>
 
 
+  \todo DONE Docus
+
+
+  \todo DONE Tests for Finite Fields
+  <ul>
+   <li> DONE Extensive tests with larger fields at higher tests levels </li>
+   <li> DONE Perhaps for egf_mul check known generators for certain fields 
+   (Mostly likely at oklib_test_level > 0) </li>
+   <li> DONE Simple tests (oklib_test_level = 0) </li>
+  </ul>
+
+  
   \todo DONE Create milestones
 
 
