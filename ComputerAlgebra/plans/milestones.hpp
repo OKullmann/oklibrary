@@ -16,7 +16,7 @@ License, or any later version. */
   \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
   
-  \par ComputerAlgebra/Algebra version 0.0.5
+  \par ComputerAlgebra/Algebra version 0.0.5 : DONE
   (see ComputerAlgebra/Algebra/plans/milestones.hpp)
 
   \par ComputerAlgebra/Cryptology version 0.0.5 : DONE
