@@ -295,8 +295,12 @@ ncl_list_f(cs_to_fcs(random_pi));
 irredundant_bydef(cs_to_fcs(random_pi),dll_simplest_trivial1);
 false
 random_ip : first_irr_fcs(cs_to_fcs(random_pi),dll_simplest_trivial2)$
+test_CNF_int_perm(random_ip,random_perm, dll_simplest_trivial1);
+true
 statistics_cs(random_ip[2]);
 [16,565,3869,9,5]
+ncl_list_f(random_ip);
+[[5,1],[6,149],[7,351],[8,63],[9,1]]
    \endverbatim
    </li>
    <li> Find representations for the multiplication with a constant in
