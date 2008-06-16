@@ -295,12 +295,66 @@ ncl_list_f(cs_to_fcs(random_pi));
 irredundant_bydef(cs_to_fcs(random_pi),dll_simplest_trivial1);
 false
 random_ip : first_irr_fcs(cs_to_fcs(random_pi),dll_simplest_trivial2)$
+test_CNF_int_perm(random_ip,random_perm, dll_simplest_trivial1);
+true
 statistics_cs(random_ip[2]);
 [16,565,3869,9,5]
+ncl_list_f(random_ip);
+[[5,1],[6,149],[7,351],[8,63],[9,1]]
+
+set_random_state(make_random_state(25012))$ 
+random_perm2 : random_permutation(makelist(i,i,0,255))$
+random_dnf2 : generate_full_int_perm_dnf_fcs(random_perm2)$
+random_hcs2 : dualtreehittingcls_condensed_fcs(random_dnf2,dll_heuristics_max_lit)$
+statistics_cs(random_hcs2);
+[16,1510,19456,16,6]
+random_pi2 : replace_by_prime_implicates_hitting(random_hcs2)$
+statistics_cs(random_pi2);
+[16,1324,9102,9,5]
+ncl_list_f(cs_to_fcs(random_pi2));
+[[5,6],[6,306],[7,861],[8,150],[9,1]]
+irredundant_bydef(cs_to_fcs(random_pi2),dll_simplest_trivial1);
+random_ip2 : first_irr_fcs(cs_to_fcs(random_pi2),dll_simplest_trivial2)$
+test_CNF_int_perm(random_ip2,random_perm2, dll_simplest_trivial1);
+true
+statistics_cs(random_ip2[2]);
+[16,545,3731,9,5]
+ncl_list_f(random_ip2);
+[[5,3],[6,134],[7,353],[8,54],[9,1]]
+
+set_random_state(make_random_state(3093215))$
+random_perm3 : random_permutation(makelist(i,i,0,255))$
+random_dnf3 : generate_full_int_perm_dnf_fcs(random_perm3)$
+random_hcs3 : dualtreehittingcls_condensed_fcs(random_dnf3,dll_heuristics_max_lit)$
+statistics_cs(random_hcs3);
+[16,1576,20254,16,6]
+random_pi3 : replace_by_prime_implicates_hitting(random_hcs3)$
+statistics_cs(random_pi3);
+[16,1383,9558,9,5]
+ncl_list_f(cs_to_fcs(random_pi3));
+[[5,1],[6,268],[7,968],[8,145],[9,1]]
+irredundant_bydef(cs_to_fcs(random_pi3),dll_simplest_trivial1);
+false
+random_ip3 : first_irr_fcs(cs_to_fcs(random_pi3),dll_simplest_trivial2)$
+test_CNF_int_perm(random_ip3,random_perm3, dll_simplest_trivial1);
+true
+statistics_cs(random_ip3[2]);
+[16,563,3877,9,5]
+ncl_list_f(random_ip3);
+[[5,1],[6,124],[7,377],[8,60],[9,1]]
    \endverbatim
    </li>
-   <li> Find representations for the multiplication with a constant in
-   GF(2^8). </li>
+   <li> Is there some kind of bound here on the number of prime implicates for
+   permutations of this size, or is it simply that the permutations above are 
+   not "random" enough? </li>
+   <li> Would it be better to define certain measures for permutations, such as
+    <ul>
+     <li> Number of identity mappings (i.e |{x | f(x) = x}|) </li>
+     <li> Hamming distance given binary representations for the elements </li>
+    </ul>
+   and then compare various permutations, with certain well defined properties 
+   to see what properties cause larger CNF representations. This might also 
+   might help us to better understand the AES Sbox. </li>
    <li> A simple function to compute a random bijection given an input set 
    seems appropriate here.
     <ol>
@@ -311,6 +365,9 @@ statistics_cs(random_ip[2]);
      <li> See example usage in this library. </li>
     </ol>
    </li>
+   <li> (DONE See Cryptanalysis/Rijndael/plans/FieldOperationsAnalysis.hpp )
+   Find representations for the multiplication with a constant in 
+   GF(2^8). </li>
   </ul>
      
 

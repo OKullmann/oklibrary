@@ -82,6 +82,15 @@ generate_full_int_perm_cnf_fcs(perm) := block(
   [int_perm_dnf[1],setdifference(clauses_f(fullncs),
     map(comp_sl,clauses_f(int_perm_dnf)))]
 )$
+f
+/* Tests whether a CNF clause-set represents the given permutation. The 
+   permutation (mapping) is given as a list "perm", where it is assumed the 
+   mapping is from elements of the list "perm" after sorting, given the 
+   natural order, to the corresponding elements in "perm". S determines
+   the SAT solver used for testing. */
+test_CNF_int_perm(FF,perm,S) := 
+  every(lambda([a],S(apply_pa_f(a,FF))),
+    generate_full_int_perm_dnf_fcs(perm)[2])$
 
 /*!
 \endhtmlonly
