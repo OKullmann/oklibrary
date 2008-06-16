@@ -82,7 +82,7 @@ generate_full_int_perm_cnf_fcs(perm) := block(
   [int_perm_dnf[1],setdifference(clauses_f(fullncs),
     map(comp_sl,clauses_f(int_perm_dnf)))]
 )$
-f
+
 /* Tests whether a CNF clause-set represents the given permutation. The 
    permutation (mapping) is given as a list "perm", where it is assumed the 
    mapping is from elements of the list "perm" after sorting, given the 
