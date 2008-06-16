@@ -8,21 +8,9 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/milestones.hpp
 
-  \module_version Lisp/CryptoSystems/Rijndael 0.0.7 (15.3.2008)
+  \module_version Lisp/CryptoSystems/Rijndael 0.0.8 (16.6.2008)
 
 
-  \par Version 0.0.8
-
-  \par
-   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
-   the following topics are handled:
-    - Finite Field operations DONE (Moved To ComputerAlgebra/Algebra)
-    - Convert AES functions to use more natural representation DONE
-    - bug: Finite Fields package function doesn't terminate DONE 
-      (Moved To ComputerAlgebra/Algebra)
-    - New design and implementation DONE
- 
- 
   \par Version 0.0.9
 
   \par
@@ -30,11 +18,6 @@ License, or any later version. */
    the following topics are handled:
     - Auxiliary functions
     - Naming Conventions
-    - Finite Field operations DONE (Moved To ComputerAlgebra/Algebra)
-    - Convert AES functions to use more natural representation DONE
-    - bug: Finite Fields package function doesn't terminate DONE 
-      (Moved To ComputerAlgebra/Algebra)
-    - New design and implementation DONE
 
 
   \par Version 0.0.10
@@ -75,5 +58,6 @@ License, or any later version. */
   \par Version history
    - 0.0.6 : 7.3.2008; initial version number (basic implementation of AES completed with tests, and settling of module structure).
    - 0.0.7 : 15.3.2008; some bugs in tests fixed, as well as sbox lookup data added and integrated with AES implementation.
+   - 0.0.8 : 16.6.2008; restructuring and redesign.
 
 */
