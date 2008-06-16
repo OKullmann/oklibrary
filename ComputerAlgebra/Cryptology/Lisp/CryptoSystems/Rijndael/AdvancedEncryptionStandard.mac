@@ -26,44 +26,27 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 
-/*load("functs")$ Bug Here atm  For logxor */
 
 /* ***************************************
    * Constants                           *
    ***************************************
 */
 
-/* Defines the number of rounds to be used in the AES functions.
-   This can be overriden. */
+/* Default number of rounds to be used in the AES functions. */
 aes_num_rounds : 10$
 
 /*
-   3-tuple used to represent a field with the egf functions representing the 
-   bit field or field of integers modulo 2. Of the form [p, n, ip] where "p"
-   is the prime characteristic of the field, "n" is the power to which "p" is 
-   raised, and "ip" the polynomial irreducible over GF(p) such that a field
-   GF(p^n) is defined with operations being performed on polynomials over 
-   GF(p) modulo ip.
+   The following triple represents the "bit field" or field of integers 
+   modulo 2 (using our egf-interface to the Maxima finite-fields-package).
 */
 rijndael_bit_field : [2,1,x]$
 
 /*
-   Polynomial irreducible over GF(2) used as the modulus in Rijndael to define 
-   a GF(2^8) field (all operations are performed on polynomials over GF(2) 
-   modulo this irreducible polynomial.
+   The irreducible polynomial over GF(2) used as the modulus in Rijndael to
+   define a GF(2^8) field.
 */
 kill(x)$
 rijndael_polynomial : x^8 + x^4 + x^3 + x + 1$
-/* REMARK : document "x"; can we avoid this global variable? */
-
-/*
-   3-tuple used to represent a field with the egf functions representing the 
-   Rijndael byte field. Of the form [p, n, ip] where "p"
-   is the prime characteristic of the field, "n" is the power to which "p" is 
-   raised, and "ip" the polynomial of degree p^n and irreducible over GF(p) 
-   such that a field GF(p^n) is defined with operations being performed on 
-   polynomials over GF(p) modulo ip.
-*/
 rijndael_byte_field : [2,8,rijndael_polynomial]$
 
 
@@ -71,9 +54,6 @@ rijndael_byte_field : [2,8,rijndael_polynomial]$
    * Helper Functions                    *
    ***************************************
 */
-/* REMARK : We shouldn't have a section with "useless stuff":
-Auxiliary functions either directly accompany their main user, or are
-not just "helper functions". */
 
 /* 
    Returns a vector (column matrix) of size n of the coefficients of the given
@@ -91,6 +71,7 @@ polynomial2vector(poly, n) :=
 vector2polynomial(v) := block([n : length(v)],
     sum(v[i][1] * x^(n - i), i, 1, n))$
 
+
 /* ***************************************
    * Custom Field Operations             *
    ***************************************
@@ -103,6 +84,7 @@ egf2_matmul(a,b) := egf_matmul(rijndael_bit_field,a,b)$
 egf2t8_add(a,b) := egf_add(rijndael_byte_field,a,b)$
 egf2t8_inv(a) := egf_inv(rijndael_byte_field,a)$
 egf2t8_matmul(a,b) := egf_matmul(rijndael_byte_field,a,b)$
+
 
 /* ***************************************
    * Main Round Functions                *
@@ -344,6 +326,7 @@ aes_decrypt(pl, kl, sbox_f, inv_sbox_f,inv_mixcolumn_f,aes_add) := block(
     inv_aes_round(a,b,inv_sbox_f,inv_mixcolumn_f,aes_add)), 
     rest(rest(ekl), -1), initial_result), initial_rk)
 )$
+
 
 /* **********************************************
    * Methods of Encryption/Decryption           *
