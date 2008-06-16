@@ -57,6 +57,12 @@ spellingprogram = /usr/bin/ispell
      <li> But there should be some "git full-clone" ? </li>
      <li> This could be achieved by a simple (file-system) "cp" ? </li>
      <li> Though this doesn't help for bare repositories. </li>
+     <li> The ignore patterns can be placed in Transitional/.gitignore and will 
+     apply over the entire repository. Such files can then be added and commited
+     to the repository as normal. </li>
+     <li> Such ".gitignore" files apply to all subdirectories, with 
+     ".gitignore" files in lower level directories overriding those in higher. 
+     </li>
     </ul>
    </li>
    <li> What does actually belong to a repository? Is there a "full cloning" ?
