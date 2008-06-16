@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Algebra/Lisp/FiniteFields.mac
-  \brief Finite field functions.
+  \brief Finite field functions
 
 Use by
 
@@ -20,87 +20,70 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac");
 */
 
 
+load(gf)$
+
 /* ***************************************
    * Finite Field Wrapper Functions      *
    ***************************************
 */
 
-load(gf)$
-
-/* It appears you can not overload functions with different arities
-   and so the gf_* functions have been prefixed with an 'e' for 
-   extended. These functions perform the same duty as their gf_*
-   counterparts but require additionally an argument that specifies
-   which field the operation is being performed over in the form [p,n,ip] where
-   "p" is the prime characteristic of the field, "n" is the power to which "p" 
-   is raised, and "ip" the polynomial irreducible over GF(p) such that a field
-   GF(p^n) is defined with operations being performed on polynomials over
-   GF(p) modulo ip.
+/* The gf_* functions are prefixed with an 'e' for 
+   extended. These functions perform the same duty as their gf_*,
+   counterparts, but require additionally an argument, that specifies
+   which field the operation is being performed over, in the form [p,n,ip]
+   where "p" is the prime characteristic of the field, "n" is the power to
+   which "p" is raised, and "ip" the irreducible polynomial over GF(p).
+   Or, alternatively, just [p,ip]; or even [p].
  */
-/* REMARK : Such remarks should not stay in implementation files, but
-should go to plans-files. */
-
-/* REMARK : We need documentation (as docus) on gf and these functions. */
-
-/* 
-   Allows the default field that all operations (egf_*) will be performed in to
-   be set if a field argument is not specified. If a field argument is specified
-   to any of the given commands, then that field is used only for the given
-   function call and from then on the default field (set with this function) 
-   is used again.
-*/
-/* MG : Is there currently any reason for this function? */
-egf_set(field) := (
-  apply(gf_set,field),
-  egf_field : field)$
 
 /*
-   This function provides a generic wrapper function which takes a function
+   This function provides a generic wrapper function, taking a function
    "func" and a list of arguments "args", with the field structure (defined 
-   above) as the first element in "args" and the arguments to f as the 
+   above) as the first element in "args", and the arguments to f as the 
    remaining elements.
 */
-egf_func(func,args) := block(
+egf_func(func,args) := (
     apply(gf_set, first(args)),
-    result : apply(func,rest(args)),
-    return(result))$
+    apply(func,rest(args)))$
 
-/* 
-   Analogue of gf_add, which takes an additional field argument (as
-   the first argument) to specify that this operation should be performed in the
-   given field.
-*/
 egf_add([args]) := egf_func(gf_add, args)$
-
-/* 
-   Analogue of gf_mul, which takes an additional field argument (as
-   the first argument) to specify that this operation should be performed in the
-   given field.
-*/
+egf_sub([args]) := egf_func(gf_sub, args)$
 egf_mul([args]) := egf_func(gf_mul, args)$
-
-/* 
-   Analogue of gf_matmul, which takes an additional field argument
-   (as the first argument) to specify that this operation should be performed
-   in the given field.
-*/
-egf_matmul([args]) := egf_func(gf_matmul, args)$
-
-/* 
-   Analogue of gf_matinv, which takes an additional field argument (as
-   the first argument) to specify that this operation should be performed in the
-   given field.
-*/
-egf_matinv([args]) := egf_func(gf_matinv, args);
-
-/* 
-   Analogue of gf_inv, which takes an additional field argument (as
-   the first argument) to specify that this operation should be performed in the
-   given field.
-*/
+egf_div([args]) := egf_func(gf_div, args)$
 egf_inv([args]) := egf_func(gf_inv, args)$
+egf_matmul([args]) := egf_func(gf_matmul, args)$
+egf_matinv([args]) := egf_func(gf_matinv, args)$
+egf_exp(f,x,y) := (apply(gf_set,f), gf_exp(x,y))$ /* By unknown reasons,
+  egf_func doesn't work here. */
+egf_rand([args]) := egf_func(gf_rand, args)$
+egf_findprim([args]) := egf_func(gf_findprim, args)$
+egf_ind([args]) := egf_func(gf_ind, args)$
+egf_log([args]) := egf_func(gf_log, args)$
+egf_primep([args]) := egf_func(gf_primep, args)$
+egf_ord([args]) := egf_func(gf_ord, args)$
+egf_minpoly([args]) := egf_func(gf_minpoly, args)$
+egf_findnorm([args]) := egf_func(gf_findnorm, args)$
+egf_sfindnorm([args]) := egf_func(gf_sfindnorm, args)$
+egf_normbasis([args]) := egf_func(gf_normbasis, args)$
+egf_nbrep([args]) := egf_func(gf_nbrep, args)$
+egf_poly2num([args]) := egf_func(poly2num, args)$
+egf_num2poly([args]) := egf_func(num2poly, args)$
 
 
+/* ****************************
+   * Standard representations *
+   ****************************
+*/
+
+/* Computing the standard polynomial representation in
+   the field f for a given integer polynomial p. */
+gf_stand(p) := gf_add(0,p)$
+egf_stand(f,p) := egf_func(gf_stand, [f,p])$
+
+/* Deciding whether two integer polynomials p,q represent the
+   same element in the field f. */
+gf_equalp(p,q) := is(gf_stand(p) = gf_stand(q))$
+egf_equalp(f,p,q) := egf_func(gf_equalp, [f,p,q])$
 
 /*!
 \endhtmlonly

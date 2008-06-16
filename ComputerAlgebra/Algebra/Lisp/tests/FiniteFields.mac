@@ -20,13 +20,16 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
-/* Necessary as egf_mul is used to test inversion */
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
-/* MG : The functions needed from this (intToPoly) should either be rethought
-   or moved to a better place in ComputerAlgebra? */
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
 
 kill(f)$
+
+
+/* ***************************************
+   * Finite Field Wrapper Functions      *
+   ***************************************
+*/
 
 okltest_egf_add(f) := block([field, element, elemSet],
   field : [2,1,x],
@@ -133,14 +136,9 @@ okltest_egf_matmul(f) := block([field],
   for n : 2 thru 10 do block([nMatrixIdentity, nMatrixZero],
     nMatrixIdentity : ident(n),
     nMatrixZero : zeromatrix(n,n),
-    for m : 2 thru 10 do block([matrixElement],
-      matrixElement : 
-        genmatrix(lambda([i,j],intToPoly(mod((i-1)*n+j,27),3)),n,m),
-      /* MG : It seems 2 + 0 becomes -1 which while technically correct (modulo 3)
-         seems an odd representation */
-      /*assert(totaldisrep(f(field,matrixElement,ident(m))) = matrixElement),
-      assert(totaldisrep(f(field,nMatrixIdentity,matrixElement)) = 
-        matrixElement),*/
+    for m : 2 thru 10 do block(
+     [matrixElement : genmatrix(lambda([i,j],
+        intToPoly(mod((i-1)*n+j,27),3)),n,m)],
       assert(totaldisrep(f(field,matrixElement,zeromatrix(m,m))) = 
         zeromatrix(n,m)),
       assert(totaldisrep(f(field,nMatrixZero,matrixElement)) = zeromatrix(n,m))
@@ -199,6 +197,49 @@ okltest_egf_inv(f) := block([field],
   assert(f(field,x^6+x^5+x+1) = x^7+x^6+x^4+x+1),
   assert(f(field,x^7+x^5+x^4+x+1) = x^7+x^6+x^5+x^3+x^2+x+1),
 true)$
+
+
+/* ****************************
+   * Standard representations *
+   ****************************
+*/
+
+okltest_gf_stand(f) := block(
+  gf_set(3),
+  assert(f(0) = 0),
+  assert(f(1) = 1),
+  assert(f(2) = -1),
+  assert(f(3) = 0),
+  assert(f(5 * x) = 0), /* this is a kind of a gf-bug */
+  true)$
+
+okltest_egf_stand(f) := block([gf],
+  gf : [3],
+  assert(f(gf,0) = 0),
+  assert(f(gf,1) = 1),
+  assert(f(gf,2) = -1),
+  gf : [5],
+  assert(f(gf,2) = 2),
+  true)$
+
+
+okltest_gf_equalp(f) := block(
+  gf_set(3),
+  assert(f(0,0) = true),
+  assert(f(0,1) = false),
+  assert(f(5,8) = true),
+  assert(f(5,9) = false),
+  assert(f(4*x - 7, 2) = true), /* this is a kind of a gf-bug */
+  assert(f(x^2,0) = true), /* this is a kind of a gf-bug */
+  true)$
+
+okltest_egf_equalp(f) := block([gf],
+  gf : [3],
+  assert(f(gf,5,8) = true),
+  gf : [5],
+  assert(f(gf,5,8) = false),
+  true)$
+
 
 /*!
 \endhtmlonly

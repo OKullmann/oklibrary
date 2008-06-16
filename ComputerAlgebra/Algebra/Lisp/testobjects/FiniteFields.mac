@@ -21,6 +21,11 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/testobjects/FiniteFields.m
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac")$
 
+/* ***************************************
+   * Finite Field Wrapper Functions      *
+   ***************************************
+*/
+
 okltest_egf_add(egf_add);
 
 okltest_egf_mul(egf_mul);
@@ -29,6 +34,17 @@ okltest_egf_matmul(egf_matmul);
 okltest_egf_matinv(egf_matinv);
 
 okltest_egf_inv(egf_inv);
+
+/* ****************************
+   * Standard representations *
+   ****************************
+*/
+
+okltest_gf_stand(gf_stand);
+okltest_egf_stand(egf_stand);
+
+okltest_gf_equalp(gf_equalp);
+okltest_egf_equalp(egf_equalp);
 
 /*!
 \endhtmlonly
