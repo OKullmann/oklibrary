@@ -35,9 +35,10 @@ maxima_book_doc_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_book_name_okl)
 
 maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
 
-maxima_htlm_doc_okl ?= $(maxima_doc_dir_okl)/html
-maxima_main_index_okl ?= $(maxima_htlm_doc_okl)/maxima.html
-maxima_tutorial_doc_okl ?= $(maxima_htlm_doc_okl)/intromax.html
+maxima_html_doc_okl ?= $(maxima_doc_dir_okl)/html
+maxima_main_index_okl ?= $(maxima_html_doc_okl)/maxima.html
+maxima_tutorial_doc_okl ?= $(maxima_html_doc_okl)/intromax.html
+maxima_gf_manual_okl ?= $(maxima_doc_dir_okl)/gf_manual.pdf
 
 maxima_docu_page_okl ?= $(doc_dir)/doxygen_html/df/d26/Buildsystem_2ExternalSources_2SpecialBuilds_2docus_2Maxima_8hpp.html
 

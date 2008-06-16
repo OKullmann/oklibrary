@@ -82,11 +82,13 @@ ifeq ($(extsrc_relative),)
   rel_maxima_maxima_tutorial_doc_okl := $(maxima_tutorial_doc_okl)
   rel_maxima_maxima_book_doc_okl := $(maxima_book_doc_okl)
   rel_maxima_gnuplot_pdf_doc_okl := $(gnuplot_pdf_doc_okl)
+  rel_maxima_maxima_gf_manual_okl := $(maxima_gf_manual_okl)
 else
   rel_maxima_maxima_main_index_okl := $(shell $(rel_path_tool) $(maxima_main_index_okl) $(maxima_html_output_okl))
   rel_maxima_maxima_tutorial_doc_okl := $(shell $(rel_path_tool) $(maxima_tutorial_doc_okl) $(maxima_html_output_okl))
   rel_maxima_maxima_book_doc_okl := $(shell $(rel_path_tool) $(maxima_book_doc_okl) $(maxima_html_output_okl))
   rel_maxima_gnuplot_pdf_doc_okl := $(shell $(rel_path_tool) $(gnuplot_pdf_doc_okl) $(maxima_html_output_okl))
+  rel_maxima_maxima_gf_manual_okl := $(shell $(rel_path_tool) $(maxima_gf_manual_okl) $(maxima_html_output_okl))
 endif
 
 # From the Gcc page:
