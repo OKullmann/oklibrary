@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Algebra/Lisp/docus/general.hpp
-  \brief User documentation for Algebra in Lisp/Maxima
+  \brief User documentation for algebra in Lisp/Maxima
 
 
   <h2> Usage </h2>
