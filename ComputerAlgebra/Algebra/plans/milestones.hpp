@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Algebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra/Algebra 0.0.4 (5.6.2008)
+  \module_version ComputerAlgebra/Algebra 0.0.4.1 (5.6.2008)
 
 
   \par Version 0.0.5
@@ -32,9 +32,10 @@ License, or any later version. */
    Further milestones are created.
 
 
+
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.4 : 5.6.2008; initial version number, Lisp submodule.
+   - 0.0.4 : 5.6.2008; initial version number; wrappers for Maxima finite-field functionality provided.
 
 */

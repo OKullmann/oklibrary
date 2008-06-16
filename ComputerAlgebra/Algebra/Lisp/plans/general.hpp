@@ -10,9 +10,35 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
+  \todo Write tests for all functions provided
+
+
+  \todo Maxima bugs
+  <ul>
+   <li> Register all gf-bugs we are aware of with the Maxima bug-tracker,
+   and also send a summarising e-mail to the Maxima mailing list.
+    <ol>
+     <li> Consider also the kind-of-bugs as in, e.g., okltest_gf_stand. </li>
+     <li> In any way, the gf-documentation should discuss the representation
+     issue. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Complete docus
+  <ul>
+   <li> All functions need to be covered, using prime fields GF(p)
+   and more complex fields GF(p^n). </li>
+  </ul>
+
+
   \todo Demos
 
-  \todo Field Element Representation
+
+  \todo DONE (the representations chosen by the gf-package are standardised,
+  but implementation-defined)
+  Field Element Representation
   <ul>
    <li> Some field elements are represented as negative values rather than 
    their positive counterpart. For example
@@ -31,7 +57,9 @@ Evaluation took 0.0080 seconds (0.0098 elapsed) using 105.945 KB.
    <li> This should certainly be kept in mind. </li>
   </ul>
 
-  \todo Finite Field operations
+
+  \todo DONE
+  Finite Field operations
   <ol>
    <li> The gf_set operation in the finite field package takes a considerable
    amount of time to complete and doesn't seem to cache 

@@ -16,11 +16,15 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Algebra/Lisp/plans/general.hpp
    the following topics are handled:
-    - Docus DONE
+    - Field Element Representation : DONE
+    - Finite Field operations : DONE
     - Tests for Finite Fields DONE
     - Finite Fields package function doesn't terminate DONE
     - Move the finite-fields functions here. DONE
     - Create milestones DONE
+
+   \par
+    Write initial docus for the gf-package and our wrappers : DONE
   
   
   \par Version 0.0.6
@@ -28,17 +32,19 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Algebra/Lisp/plans/general.hpp
    the following topics are handled:
-    - Finite Field operations
+    - Write tests for all functions provided
+    - Maxima bugs
+    - Complete docus
     - Demos
-    - Field Element Representation
 
   \par
    Further milestones are created.
 
 
+
   -------------------------------------------------------------------------------------------------------------------------------------
 
   \par Version history
-   - 0.0.4 : 5.6.2008; initial version number, several plans, initial Finite Fields implementation.
+   - 0.0.4 : 5.6.2008; initial version number, several plans, initial finite fields implementation.
 
 */
