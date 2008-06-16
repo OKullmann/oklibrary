@@ -51,6 +51,7 @@ internet_home_page_output_dir ?= $(internet_html_dir)
 internet_home_page_output ?= $(internet_home_page_output_dir)/index.html
 
 oklibrary_domain := http://www.ok-sat-library.org
+oklibrary_mailinglists := http://cs-oksvr.swan.ac.uk/mailman/listinfo
 
 main_docu_page ?= $(doc_dir)/doxygen_html/d0/dfd/docus_2general_8hpp.html
 computeralgebra_docu_page_okl ?= $(doc_dir)/doxygen_html/d2/d3c/ComputerAlgebra_2docus_2general_8hpp.html
