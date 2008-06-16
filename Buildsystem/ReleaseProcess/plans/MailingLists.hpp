@@ -1,5 +1,5 @@
 // Oliver Kullmann, 24.5.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -21,12 +21,16 @@ License, or any later version. */
    local e-mail-addresses.
     <ol>
      <li> The question is, whether one is sufficient (would be easier)? </li>
+     <li> It seems that redirection from ok-sat-library.org to one local e-mail
+     account (from which Mailman then gets the mail) works for all different
+     mailing lists. </li>
     </ol>
    </li>
    <li> Lists:
     <ol>
      <li> Developers (developers@ok-sat-library.org)
       <ul>
+       <li> Created; OK the only administrator. </li>
        <li> Only developer-e-mails. </li>
       </ul>
       A developer is automatically member of "Git-notifications developers".
@@ -68,9 +72,26 @@ License, or any later version. */
     </ol>
     Every e-mail is sent to exactly one list.
    </li>
-   <li> Is it possible to (automatically) show the list of users? </li>
-   <li> Yet the Internet-address is "secret". </li>
-   <li> We have a web-page explaining the use of the mailing-lists. </li>
+   <li> Adminstration
+    <ol>
+     <li> The automatic "Mailman" mailing list is not listed, and subscription
+     needs authorisation. </li>
+     <li> The general entry point for all mailing lists is
+     http://cs-oksvr.swan.ac.uk/mailman/listinfo/ </li>
+     <li> Adminstration access is granted by the specific list-password and by
+     the general admin-password. </li>
+     <li> The admin-password needs to be kept somewhere secure; since the other
+     passwords are sent by e-mails, I've sent an e-mail to myself containing
+     this password. </li>
+    </ol>
+   </li>
+   <li> General appearance
+    <ol>
+     <li> How can we modify the entry page
+     http://cs-oksvr.swan.ac.uk/mailman/listinfo/ ? We should mention there
+     the OKlibrary. </li>
+    </ol>
+   </li>
    <li> Which part of the mailing-list-system is under version control?
     <ol>
      <li> The mailing-lists-archives are not under version control, but they are backed-up (by the
@@ -84,8 +105,8 @@ License, or any later version. */
 
 
   \todo Instructions:
-  A dedicated weg-page is needed on howto use the mailing-lists
   <ul>
+   <li> A dedicated weg-page is needed on howto use the mailing-lists. </li>
    <li> The meaning of the different mailing lists, and how to use them
    (registration etc.) </li>
    <li> How to access the history. </li>
