@@ -25,6 +25,11 @@ License, or any later version. */
      language. </li>
     </ol>
    </li>
+   <li> Mozart http://www.mozart-oz.org/
+    <ol>
+     <li> This looks like a powerful system which we need to install. </li>
+    </ol>
+   </li>
    <li> Eclipse http://eclipse-clp.org/
     <ol>
      <li> Apparently no longer available? The web-page seems unrelated to
