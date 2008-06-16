@@ -13,14 +13,14 @@ License, or any later version. */
 
   \par Version 0.0.6
 
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.5
+  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
+
   \par
    In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
    the following topics are handled:
     - New structure : DONE
     - Create milestones : DONE
-
-  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.5
-  (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
 
   \todo
    Update the following milestones.
@@ -28,11 +28,18 @@ License, or any later version. */
 
   \par Version 0.0.7
 
-  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.1
+  \par ComputerAlgebra/Cryptology/Lisp/CryptoSystems version 0.0.7
   (ComputerAlgebra/Cryptology/Lisp/CryptoSystems/plans/milestones.hpp)
   
   \par ComputerAlgebra/Cryptology/Lisp/Cryptanalysis version 0.0.3
   (ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/plans/milestones.hpp)
+
+
+  \par
+   In ComputerAlgebra/Cryptology/Lisp/plans/general.hpp
+   the following topics are handled:
+    - Conversion functions
+    - Integer conversion functions don't handle negative numbers.
 
 
 

@@ -17,12 +17,19 @@ License, or any later version. */
   </ul>
 
 
-  \todo Conversion Functions
-  <ul>
-    <li> Needs tidying. </li>
-    <li> Conversion functions with suitable inverses working on lists
-    of the appropriate elements to allow movement between various 
-    different representations of data in Cryptology (for AES and others) :
+  \todo Conversion functions
+  <ul
+   <li> Remove "camels". </li>
+   <li> Reorganisation:
+    <ol>
+     <li> This file must be removed. </li>
+     <li> Dissolving its contents either to Rijndael etc.,
+     or to more general modules. </li>
+    </ol>
+   </li>
+   <li> Conversion functions with suitable inverses working on lists
+   of the appropriate elements to allow movement between various 
+   different representations of data in Cryptology (for AES and others) :
     <ol>
      <li> hexToGF2 (with GF2ToHex) for conversion of a hexidecimal string
      in the same format as in the Design of Rijndael (discuss here). 

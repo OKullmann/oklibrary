@@ -10,8 +10,29 @@ License, or any later version. */
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
 
+  \todo Auxiliary functions
+  <ul>
+   <li> What is the meaning of
+   \verbatim
+load("functs")$ Bug Here atm  For logxor
+   \endverbatim
+   If there is a Maxima bug, then it needs to submitted to Maxima,
+   and we provide a correction. </li>
+   <li> What about the section "Helper Functions" ?
+    <ol>
+     <li>  We shouldn't have a section with "useless stuff":
+     Auxiliary functions either directly accompany their main user, or are
+     not just "helper functions". </li>
+     <li> intToPoly and polyToInt should (besides the bad naming (see below))
+     be replaced by the gf-functions poly2num and num2poly. </li>
+    </ol>
+   </li>
+
+
   \todo Naming Conventions
   <ul>
+   <li> We don't use "camels", so names like GF2t8PolyToInt needs to be
+   replaced. </li>
    <li> To avoid clashes with other modules and to make clear which functions
    are specific to AES and which aren't, functions in this module should 
    perhaps have the prefix "aes_". </li>
@@ -53,17 +74,19 @@ License, or any later version. */
   <ul>
    <li> How to approach key scheduling?
     <ol>
-     <li> AES and symmetric plaintext-key sizes provide a fairly elegant recursive
-     key generation where each round key is just the result of the key generation
-     on the last round key, whereas asymetric sizes such as 192bit plaintext and a
-     128bit key means you will have to use parts of the previous two round keys. </li>
-     <li>  This seems to be done with an expanded key which is a large array/list
-     of round keys in Design of Rijndael. </li>
+     <li> AES and symmetric plaintext-key sizes provide a fairly elegant
+     recursive key generation where each round key is just the result of
+     the key generation on the last round key, whereas asymetric sizes such
+     as 192bit plaintext and a 128bit key means you will have to use parts
+     of the previous two round keys. </li>
+     <li>  This seems to be done with an expanded key which is a large
+     array/list of round keys in Design of Rijndael. </li>
      <li> Current implementation simply implements the key schedule as 
      described in [Design of Rijndael] taking a list of GF(2^8) elements
      and returning a longer list of GF(2^8) elements that can be partitioned
      into round keys. </li>
-     <li> A simpler, more elegant key schedule description should be possible?</li>
+     <li> A simpler, more elegant key schedule description should be possible?
+     </li>
      <li> DONE
      The Key Scheduling operation could simply take a list of GF(2) elements
      convert this to a list of GF(2^8) elements and perform the key schedule
@@ -82,7 +105,8 @@ License, or any later version. */
    <li> The round functions have been implemented as discussed below with the
    exception that each takes a list of GF(2^8) elements as input rather than
    GF(2) elements. </li> 
-   <li> How should the implementation of the individual round operations be approached?
+   <li> How should the implementation of the individual round operations be
+   approached?
     <ul>
      <li> The MixColumn operation, which would then take a list of GF(2) 
      elements or bits and convert it to a list of elements in the 4-Byte PID, 
@@ -94,38 +118,40 @@ License, or any later version. */
      <li> Such a  mapping would be general across AES and Rijndael. </li>
      <li> The list would then be converted back to GF(2) using the appropriate
      helper function. </li>
-     <li> The SubBytes operation would take a list of GF(2) elements, convert this
-     list to a list of GF(2^8) elements, and then map the S_rd operation across it. 
-     The resultant list would then be converted back to a list of GF(2)/bit elements.
-     Such a mapping would be general across AES and Rijndael. Discussion is needed 
-     on potential generalisation to different parameters.
-     </li>
+     <li> The SubBytes operation would take a list of GF(2) elements, convert
+     this list to a list of GF(2^8) elements, and then map the S_rd operation
+     across it. The resultant list would then be converted back to a list of
+     GF(2)/bit elements. Such a mapping would be general across AES and
+     Rijndael. Discussion is needed on potential generalisation to different
+     parameters. </li>
      <li> (DONE See implementation) 
      The ShiftRows operation is simply the shift operation applied to each row
-     in the block seperately depending on the size of the input. This can be achieved 
-     by taking the list of GF(2) elements, and partitioning it into a list of 4 lists of
-     GF(2) elements, which can then simply be shifted by the appropriate amounts, perhaps
-     determining the amount to shift/rotate by for each list/row by looking at the length
-     of the input list. 
+     in the block seperately depending on the size of the input. This can be
+     achieved by taking the list of GF(2) elements, and partitioning it into a
+     list of 4 lists of GF(2) elements, which can then simply be shifted by the
+     appropriate amounts, perhaps determining the amount to shift/rotate by for
+     each list/row by looking at the length of the input list. 
      </li>
-     <li> It seems that defining such operations as operations on matrices provides the 
-     most clear representation of each round function. The question of how to 
-     parameterise such an implementation, may be addressed by parameterising
-     the round functions or at least their basic operations themselves. </li>
+     <li> It seems that defining such operations as operations on matrices
+     provides the most clear representation of each round function. The
+     question of how to parameterise such an implementation, may be addressed
+     by parameterising the round functions or at least their basic operations
+     themselves. </li>
     </ul>
    </li>
    <li> DONE Should it be split up into each of the individual round functions
    ("MixColumns" etc) or should these be combined?
     <ol>
-     <li> Combining them might make certain relationships/conditions more obvious,
-     but it also makes things much less flexible and depending on how it is done,
-     could make generalising to Rijndael harder. </li>
-     <li> It seems a better understanding of the nature of the cipher might yield
-     a different perspective that isn't as focused on these functions? </li>
+     <li> Combining them might make certain relationships/conditions more
+     obvious, but it also makes things much less flexible and depending on how
+     it is done, could make generalising to Rijndael harder. </li>
+     <li> It seems a better understanding of the nature of the cipher might
+     yield a different perspective that isn't as focused on these functions?
+     </li>
     </ol>
-    Further reading of Algebraic Aspects of the AES may yield some insight but this also 
-    appears to consider such functions (although generalised to produce a larger number
-    of AES variants), perhaps this is most natural?
+    Further reading of Algebraic Aspects of the AES may yield some insight but
+    this also appears to consider such functions (although generalised to
+    produce a larger number of AES variants), perhaps this is most natural?
     This has been implemented as seperate functions, this can be returned to 
     later if deemed necessary.
    </li>
@@ -154,7 +180,8 @@ License, or any later version. */
      </li>
      <li> DONE A separate round function to allow greater flexibility 
      when investigating reduced round variants. </li>
-     <li> (DONE Moved to Generalisations) What sort of generalisations are needed?
+     <li> (DONE Moved to Generalisations) What sort of generalisations are
+     needed?
       <ol>
        <li> Should the elements of the round such as ShiftRows be interchangable
        to some arbitrary permutation (perhaps just across rows?)? </li>
@@ -178,18 +205,18 @@ License, or any later version. */
     Furthermore declarations of local variables are needed.
    </li>
    <li> The finite field packages function names, along with maximas syntax make
-   things a little verbose and perhaps a little longer than is really necessary a
-   lthough this is more of a nuisance than a real problem.
+   things a little verbose and perhaps a little longer than is really necessary
+   although this is more of a nuisance than a real problem.
    OK : Why is there a nuisance? In general in the OKlibrary "full" names are
    appreciated; is this somewhat special here?
    MG : It only arose as an issue due to my wish to keep the code relatively
    short and concise and so while trying to keep to a fixed line length of say
    80 characters, this meant that the code become much longer. The syntax when
    dealing with the binary operations as well doesn't seem to immediately make
-   clear things such as associativity when reading, in my mind, potentially making
-   simplification more difficult. I imagine that this is more my unfamiliarity 
-   with the language and more importantly problems occuring due to lack of design.
-   as suggested below.</li>
+   clear things such as associativity when reading, in my mind, potentially
+   making simplification more difficult. I imagine that this is more my
+   unfamiliarity with the language and more importantly problems occuring
+   due to lack of design, as suggested below.</li>
   </ul>
   
   
@@ -266,9 +293,10 @@ License, or any later version. */
      <ol>
       <li> It seems Maxima has functions regarding various operations on
       polynomials (multiplication, quotient/modulus etc) but is this general
-      enough in terms of the field it works over or is it specific to the reals? </li>
-      <li> It appears you can override the functions used for multiplication etc and
-      so generalising the field used, even if not easily possible, seems at
+      enough in terms of the field it works over or is it specific to the reals?
+      </li>
+      <li> It appears you can override the functions used for multiplication etc
+      and  so generalising the field used, even if not easily possible, seems at
       least possible? </li>
       <li> Is there a great deal of benefit from representing the
       multiplication by this fixed constant in the 4-Byte PID/QR (or variants)
@@ -285,7 +313,8 @@ License, or any later version. */
      <li> It seems the simplest way to pass data around would be as a list of 
      bits, given that this is one of the simplest representations, it translates
      nicely when considering translation to SAT and translation from this to 
-     finite field elements and elements within the 4-Byte PID seems trivial. </li>
+     finite field elements and elements within the 4-Byte PID seems trivial.
+     </li>
      <li> This has now been achieved by passing around a list of bytes/GF(2^8)
      field elements. This seemed most natural as most operations can be 
      represented trivially as operations over GF(2^8). </li>
@@ -298,22 +327,24 @@ License, or any later version. */
      <li> DONE key-schedule </li>
     </ol>
    </li>
-   <li> Right form of abstraction : DONE (these problems will go away through proper design)
+   <li> Right form of abstraction : DONE (these problems will go away through
+   proper design)
     <ol>
-     <li> Approaching the implementation from the perspective of the 4-byte block
-     using this package (and with sage's finite fields) seems to be a little harder
-     as the 4-byte block only forms a ring and it needs to be looked into
-     how to form rings that behave in the same way (with a given polynomial modulus etc).
-     Trying to create a field object without checking if the modulus is irreducible and then
-     somehow casting that to a Ring doesn't seem to work although I'm not sure why it would. </li>
+     <li> Approaching the implementation from the perspective of the 4-byte
+     block using this package (and with sage's finite fields) seems to be a
+     little harder as the 4-byte block only forms a ring and it needs to be
+     looked into how to form rings that behave in the same way (with a given
+     polynomial modulus etc). Trying to create a field object without checking
+     if the modulus is irreducible and then somehow casting that to a Ring
+     doesn't seem to work although I'm not sure why it would. </li>
      <li> It seems easier to me to express the system in terms of the byte field
-     elements (GF(2^8)) as most of the operations  are easily expressed as operations
-     on these elements although it doesn't appear that many others have looked at the 
-     problem from the perspectives other than GF(2^8) and GF(2) so other perspectives
-     (4-byte block, considering things as operations on integers etc) might yield
-     something different. </li>
-     <li> OK: The problem I see here is that there is no proper design --- design
-     (in the plans) must come first! (Implementations come later!!) </li>
+     elements (GF(2^8)) as most of the operations  are easily expressed as
+     operations on these elements although it doesn't appear that many others have
+     looked at the problem from the perspectives other than GF(2^8) and GF(2) so
+     other perspectives (4-byte block, considering things as operations on
+     integers etc) might yield something different. </li>
+     <li> OK: The problem I see here is that there is no proper design ---
+     design (in the plans) must come first! (Implementations come later!!) </li>
     </ol>
    </li>
   </ul>
@@ -344,8 +375,8 @@ License, or any later version. */
      likely making the actual base AES functions the most general and related
      only to the basic cryptographic confusion and diffusion operations. </li>
     </ul>
-   <li> DONE This seems more friendly in terms of input and output, and makes more 
-   sense when considering a wider use of AES. </li>
+   <li> DONE This seems more friendly in terms of input and output, and makes
+   more sense when considering a wider use of AES. </li>
   </ul>
 
 */
