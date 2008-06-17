@@ -27,7 +27,14 @@ License, or any later version. */
      (using the Maxima function). </li>
     </ol>
    </li>
-   <li> Write predicate "bicliquepartp" to check for this property. </li>
+   <li> Write predicate "bicliquepartp" to check for this property.
+    <ol>
+     <li> From Maxima we can use bipartition(gr). </li>
+    </ol>
+   </li>
+  </ul>
+
+
    <li> Likely this more algebraic aspects of graph theory is handled
    better by combinatorial matrices; see
    ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp. </li>
@@ -172,18 +179,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Tools for graphs
-  <ul>
-   <li> From the Maxima graphs-library:
-    <ol>
-     <li> complete_bipartite_graph (n, m) </li>
-     <li> bipartition (gr) </li>
-     <li> is_bipartite (gr) </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo The conjecture of [Galesi, Kullmann]
   <ul>
    <li> Using the (deprecated) Mupad-functions, the conjecture is
@@ -202,6 +197,53 @@ License, or any later version. */
      for exact transversal hypergraphs). </li>
      <li> Check the clause-set for the special condition. </li>
     </ol>
+  </ul>
+
+
+  \todo Finding biclique partitions
+  <ul>
+   <li> For creating random biclique partitions, one goal is to use only
+   a minimal number of bicliques (i.e., variables for the corresponding
+   clause-sets). </li>
+   <li> Really minimising it is interesting in its own right (see
+   "Finding specific biclique partitions via SAT" above), and we could
+   investigate whether there are special algorithms. </li>
+   <li> Another approach is heuristical.
+    <ol>
+     <li> This would be of interest for creating random biclique partitions,
+     since we could randomise the algorithm, and then obtain "random"
+     biclique partitions with some special properties (like using only
+     relatively few bicliques). </li>
+    </ol>
+   </li>
+   <li> The first question to consider are heuristics for creating
+   as few bicliques as possible.
+    <ol>
+     <li> The greedy approach is to find a first biclique as large as
+     possible, remove it, and iterate. </li>
+     <li> We should study reductions of the problem of finding biclique
+     partitions to closely related other problems, so that then we can
+     transfer techniques from these fields (see "Transformations"
+     below). </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Transformations
+  <ul>
+   <li> Determining the biclique-partition number is NP-complete, and we
+   should accordingly implement reductions from some other NP-complete
+   problems to the problem of upper-bounding the biclique partition number.
+   </li>
+   <li> Also of interest are reductions of the problem of finding biclique
+   partitions to other problems.
+    <ol>
+     <li> See "Finding specific biclique partitions via SAT" above. </li>
+     <li> Perhaps there are more closely related problems, where the
+     translation is more direct. </li>
+    </ol>
+   </li>
   </ul>
 
 */
