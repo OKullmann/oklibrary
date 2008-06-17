@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 
 /* *************************************************
@@ -215,10 +216,6 @@ all_forced_max_noneq_scs_bydef(Forced,Possible,Removed) := block(
      all_forced_max_noneq_scs_bydef(adjoin(C,Forced),Possible,Removed),
      all_forced_max_noneq_scs_bydef(Forced,Possible,adjoin(C,Removed))))))$
 
-/* Given the result S of all_max_noneq_scs_bydef(F), then
-   the minimal transversals of ecomp_hyp([F,S]) are exactly
-   the irredundant cores of F. */
-
 /* Assumption: F is unsatisfiable. */
 all_max_sat_scs_bydef(F,S) := 
  all_max_noneq_scs_bydef(F,buildq([S],lambda([G],not(S(cs_to_fcs(G))))))$
@@ -230,6 +227,27 @@ equivalence_checker_scl_bydef(F,S) :=
 /* All maximally non-equivalent sub-clause-sets of clause-set F. */
 /* Remark: For unsatisfiable F use all_max_sat_scs_bydef. */
 all_max_neq_scs_bydef(F,S) := all_max_noneq_scs_bydef(F,equivalence_checker_scl_bydef(F,S))$
+
+
+/* ************************************
+   * Duality between MAXSAT and MUSAT *
+   ************************************
+*/
+
+/* The irredundant cores are exactly the minimal transversals of
+   the complements of maximally not-equivalent sub-clause-sets,
+   and vice versa. */
+
+/* Given a function for computing all irredundant cores (from formal
+   clause-sets), and a function for computing hypergraph transversals, 
+   compute all maximally
+   not-equivalent sub-clause-sets. */
+all_max_neq_scs_bydual(F,f_irr_cores,f_hyp_trans) :=
+  ecomp_hyp(f_hyp_trans([F,f_irr_cores(cs_to_fcs(F))]))[2]$
+/* Given a function for computing all maximally not-equivalent
+   sub-clause-sets (for a clause-set), compute all irredundant cores. */
+all_irr_cores_bydual(FF,f_all_max_neq,f_hyp_trans) :=
+  f_hyp_trans(ecomp_hyp([FF[2],f_all_max_neq(FF[2])]))[2]$
 
 
 /*!
