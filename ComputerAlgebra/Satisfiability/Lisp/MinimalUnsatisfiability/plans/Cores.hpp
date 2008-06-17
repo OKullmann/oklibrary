@@ -138,5 +138,39 @@ License, or any later version. */
    <li> DONE We should use an "impliesp(F,C,S)" predicate. </li>
   </ul>
 
+
+  \todo "Adaptive core search"
+  <ul>
+   <li> Consider the algorithm from [Bruni 2003, DAM, Approximating minimal
+   unsatisfiable subformulae by means of adaptive core search]. </li>
+   <li> The ideas are:
+    <ol>
+     <li> Use clause-branching, and count how often to branch on a clause,
+     and how often to fail on a clause. </li>
+     <li> This yields a measure of "clause hardness". </li>
+     <li> Now after some iterations of a DLL-solver, select a certain
+     percentage of the hardest clause, and let it be the first trial
+     core. </li>
+     <li> Run the solver only on this trial core. </li>
+     <li> If no solution within a certain time, then the core is still
+     too hard, so remove some clauses. </li>
+     <li> If trial core found unsatisfiable, then stop. </li>
+     <li> If core found satisfiable, but the assignment is not overall
+     satisfying, then add all clauses falsified by it, and a certain
+     percentage of the hardest clauses, and restart with this new trial
+     core. </li>
+     <li> Completeness is ensured by some not performing "contraction", i.e.,
+     removing some clauses, after some time, so that then this current
+     trial core has to be solved. </li>
+     <li> If the problem was not solved, then the solver tries again as
+     before, but the clauses added in the current "intensification phase"
+     are never removed, so that this "base core" must grow and eventually,
+     if not finished before, become the whole formula which is then solved
+     by ordinary DLL. </li>
+    </ol>
+   </li>
+   <li> Apparently these ideas have then be used by learning algorithms. </li>
+  </ul>
+
 */
 
