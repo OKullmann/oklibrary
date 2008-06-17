@@ -76,9 +76,6 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
-   <li> DONE (exact values are computed)
-   We need to find out whether for example the colouring function computes an
-   exact value or an approximation! See my e-mail to the maxima-mailing-list. </li>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
      <li> DONE (the vertex names become vertex labels)
@@ -91,7 +88,11 @@ License, or any later version. */
    </li>
    <li> And we need conversions between directed graphs and maxima-digraphs. </li>
    <li> Find out about the output-formats for maxima-graphs. </li>
-   <li> Bug (with 5.14.0 and 5.15.0):
+   <li> DONE (exact values are computed)
+   We need to find out whether for example the colouring function computes an
+   exact value or an approximation! See my e-mail to the maxima-mailing-list. </li>
+   <li> DONE (solved with installed gnuplot-version)
+   Bug (with 5.14.0 and 5.15.0):
    \verbatim
 draw_graph(complete_graph(3))$
 gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 1 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 2 t '' w lp ps 1 pt 0 lw 1 lt 1 lc rgb 'black', '/home/kullmann/data.gnuplot' index 3 t '' w p ps 2 pt 7 lc rgb 'red'
@@ -114,24 +115,6 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
      <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
     </ol>
    </li>
-
-
-  \todo Generators.mac
-  <ul>
-   <li> Create complete graphs. DONE (already in package "graphs") </li>
-   <li> Create complete bipartite graphs. DONE (already in package "graphs") </li>
-   <li> Generalisations of the Kneser graphs:
-    <ol>
-     <li> The Johnson graphs J(n,k,i), consisting like the Kneser
-     graphs of all k-subsets of n, while we have an edge joining
-     two vertices if the intersection has exactly size i. </li>
-     <li> The generalised Kneser graph K(n,k,t), the union
-     of J(n,k,i) for 0 <= i < t. </li>
-     <li> The Kneser graph K(G) of a hypergraph G, with vertices
-     the hyperedges, joined by an edge if disjoint. </li>
-    </ol>
-   </li>
-  </ul>
 
 
   \todo Graph traversal
