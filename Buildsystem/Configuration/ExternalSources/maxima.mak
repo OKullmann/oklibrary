@@ -27,13 +27,16 @@ maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_packag
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
 
+maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
+
 maxima_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/share
 
 maxima_book_name_okl ?= maximabook-19-Sept-2004.pdf
 maxima_book_source_okl ?= $(ExternalSources_sources)/Maxima/$(maxima_book_name_okl)
 maxima_book_doc_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_book_name_okl)
-
-maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
+maxima_woollettbook_name_okl ?= BookWoollett
+maxima_source_woollettbook_okl ?= $(ExternalSources_sources)/Maxima/$(maxima_woollettbook_name_okl).tar.gz
+maxima_woollettbook_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_woollettbook_name_okl)
 
 maxima_html_doc_okl ?= $(maxima_doc_dir_okl)/html
 maxima_main_index_okl ?= $(maxima_html_doc_okl)/maxima.html

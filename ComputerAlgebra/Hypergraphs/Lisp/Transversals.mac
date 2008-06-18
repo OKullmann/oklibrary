@@ -22,10 +22,10 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
-/* The tranversal hypergraph via the independence hypergraph */
+/* The tranversal hypergraph via the independence hypergraph: */
 transversal_hyp_ind(G, Ind) := ecomp_hyp(Ind(G))$
 
-/* The transversal hypergraph of a hypergraph G, via recursive splitting */
+/* The transversal hypergraph of a hypergraph G, via recursive splitting: */
 transversal_hyp_rs(G) := [G[1],transversal_ses_rs(min_elements(G[2]))]$
 /* The transversal hypergraph of a set-system S */
 transversal_ses_rs(S) := block([M : listify(S),l, h,S1,S2],

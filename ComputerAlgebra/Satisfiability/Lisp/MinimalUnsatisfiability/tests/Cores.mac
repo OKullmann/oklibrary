@@ -25,6 +25,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Transversals.mac")$
 
 
 kill(f)$
@@ -221,6 +222,22 @@ okltest_all_max_neq_scs(f) := block([S : dll_simplest_trivial1],
    [oklib_test_level : oklib_test_level - 1,
     irf : buildq([f],lambda([FF,S],transversal_hyp_rs(ecomp_hyp([FF[2],f(FF[2],S)]))[2]))],
     okltest_all_irr_cores(irf)),
+  true)$
+
+
+/* ************************************
+   * Duality between MAXSAT and MUSAT *
+   ************************************
+*/
+
+okltest_all_max_neq_scs_bydual(f) := block([H : transversal_hyp_rs],
+  okltest_all_max_neq_scs(buildq([f,H],
+    lambda([F,S],f(F,lambda([GG],all_irr_cores_bydef(GG,S)),H)))),
+  true)$
+
+okltest_all_irr_cores_bydual(f) := block([H : transversal_hyp_rs],
+  okltest_all_irr_cores(buildq([f,H],
+    lambda([F,S],f(F,lambda([G],all_max_neq_scs_bydef(G,S)),H)))),
   true)$
 
 /*!

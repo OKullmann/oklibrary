@@ -10,8 +10,6 @@
 gcc_recommended_version_number_okl ?= 4.1.2
 gcc_supported_not_recommended_version_numbers_okl ?= 4.2.4 4.3.1
 gcc_supported_version_numbers_okl ?= $(gcc_supported_not_recommended_version_numbers_okl) $(gcc_recommended_version_number_okl)
-# To take into account differences in building:
-gcc_old_installation_okl ?= 4.1.2
 
 gcc_prefix_okl ?= gcc
 

@@ -21,23 +21,57 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Cores.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Cores.mac")$
 
+/* *************************************************
+   * Minimally unsatisfiable cores of minimum size *
+   *************************************************
+*/
 
 okltest_min_size_mus(min_size_mus_bydef);
 
 okltest_contains_us(contains_us_bydef);
 
-okltest_first_irr_fcs(first_irr_fcs);
+/* ***********************************
+   * Computing all irredundant cores *
+   ***********************************
+*/
 
 okltest_all_irr_cores(all_irr_cores_bydef);
-okltest_all_forced_irr_cores(all_forced_irr_cores_bydef);
 okltest_all_min_usat_cores(all_min_usat_cores_bydef);
+okltest_all_forced_irr_cores(all_forced_irr_cores_bydef);
+
+/* *************************************************
+   * Heuristical search for some irredundant cores *
+   *************************************************
+*/
+
+okltest_first_mus_fcs(first_mus_fcs);
+
+okltest_first_irr_fcs(first_irr_fcs);
+
+/* *********************************
+   * Sampling of irredundant cores *
+   *********************************
+*/
 
 okltest_sample_irr_cores(sample_irr_cores);
+
+/* ********************************************
+   * Maximally non-equivalent sub-clause-sets *
+   ********************************************
+*/
 
 okltest_all_max_noneq_scs(all_max_noneq_scs_bydef);
 okltest_all_max_sat_scs(all_max_sat_scs_bydef);
 okltest_equivalence_checker_scl(equivalence_checker_scl_bydef);
 okltest_all_max_neq_scs(all_max_neq_scs_bydef);
+
+/* ************************************
+   * Duality between MAXSAT and MUSAT *
+   ************************************
+*/
+
+okltest_all_max_neq_scs_bydual(all_max_neq_scs_bydual);
+okltest_all_irr_cores_bydual(all_irr_cores_bydual);
 
 /*!
 \endhtmlonly
