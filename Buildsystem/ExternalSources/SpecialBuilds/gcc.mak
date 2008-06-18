@@ -21,17 +21,18 @@ $(gcc_directories_okl) : % :
 
 .PHONY : gcc
 
-ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installation_okl)),)
+ifeq ($(gcc_recommended_version_number_okl),4.1.2)
 gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
+	cat $(ExternalSources)/sources/Gcc/configure-4.1.2.gz | gunzip > $(gcc_unarchived_source_okl)/configure
 	cd $(gcc_build_dir_okl); $(postcondition) \
 	$(gcc_unarchived_source_okl)/configure --prefix=$(gcc_installation_dir_okl) --enable-languages=$(gcc_enable_languages_okl) --enable-threads=$(gcc_threads_okl) $(gcc_other_options_okl); $(postcondition) \
 	make; $(postcondition) \
 	make html; $(postcondition) \
 	make install; $(postcondition) \
 	cp -fr gcc/doc $(gcc_doc_dir_okl); $(postcondition) \
-	cp -fr gcc/HTML/$(gcc_recommended_okl) $(gcc_doc_dir_okl); $(postcondition) \
-	mv -f $(gcc_doc_dir_okl)/$(gcc_recommended_okl) $(gcc_doc_dir_okl)/html; $(postcondition)
+	rm -rf $(gcc_doc_dir_okl)/html; $(postcondition) \
+	cp -r gcc/HTML/$(gcc_recommended_okl) $(gcc_doc_dir_okl)/html; $(postcondition)
 else
 gcc : $(gcc_directories_okl)
 	$(call unarchive,$(gcc_source_okl),$(gcc_base_build_dir_okl))
