@@ -172,5 +172,12 @@ License, or any later version. */
    <li> Apparently these ideas have then be used by learning algorithms. </li>
   </ul>
 
+
+  \todo Exploiting the duality between MAXSAT and MUSAT
+  <ul>
+   <li> See [Liffiton, Sakallah; SAT 2005; On Finding All Minimally
+   Unsatisfiable Subformulas]. </li>
+  </ul>
+
 */
 
