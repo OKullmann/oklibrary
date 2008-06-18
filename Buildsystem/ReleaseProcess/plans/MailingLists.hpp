@@ -106,7 +106,7 @@ License, or any later version. */
 
   \todo Instructions:
   <ul>
-   <li> A dedicated weg-page is needed on howto use the mailing-lists. </li>
+   <li> A dedicated web-page is needed on howto use the mailing-lists. </li>
    <li> The meaning of the different mailing lists, and how to use them
    (registration etc.) </li>
    <li> How to access the history. </li>
