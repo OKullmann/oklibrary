@@ -92,6 +92,14 @@ okltest_var_lit_clause_digraph(f) := block(
   ]),
   true)$
 
+okltest_implication_dg_fcs(f) := block(
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{},{{}}]) = [{},{}]),
+  assert(f([{1},{{1}}]) = [{1,-1},{[-1,1]}]),
+  assert(f([{1},{{-1}}]) = [{1,-1},{[1,-1]}]),
+  assert(f([{1},{{1},{-1}}]) = [{1,-1},{[-1,1],[1,-1]}]),
+  true)$
+
 
 /* ************
    * Measures *
