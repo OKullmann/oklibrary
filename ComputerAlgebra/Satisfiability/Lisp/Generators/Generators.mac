@@ -128,9 +128,9 @@ satprob_weak_php(m,n) := sum(binom(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_p
    ***************************
 */
 
-/* Boolean clause-sets, whose solutions are the partitionings of {1,...,n}
- into two parts such that none of them contains an arithmetic progression
- of size k */
+/* Boolean formal clause-sets, whose solutions are the partitionings of 
+   {1,...,n} into two parts such that none of them contains an arithmetic 
+   progression of size k. */
 VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], 
   [G[1], union(G[2], comp_cs(G[2]))])$
 /* VanDerWaerden2_cs_f(k,n) is isomorphic to 
