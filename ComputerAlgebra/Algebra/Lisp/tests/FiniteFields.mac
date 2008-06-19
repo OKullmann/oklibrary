@@ -62,7 +62,7 @@ okltest_egf_add(f) := block([field, element, elemSet],
   assert(f(field,x^5+x^3+x+1,x^7+x^3+x^2) = x^7+x^5+x^2+x+1),
   assert(f(field,x^7+x^2,x^4+x^3+x^2+x+1) = x^7+x^4+x^3+x+1),
   assert(f(field,x^5+x^3+x+1, 1) = x^5+x^3+x),
-true)$
+  true)$
 
 okltest_egf_mul(f) := block([field, element, elemSet, elemGenerator],
   field : [2,1,x],
@@ -104,7 +104,7 @@ okltest_egf_mul(f) := block([field, element, elemSet, elemGenerator],
     elemSet : adjoin(element, elemSet)
   ),
   assert(length(elemSet) = 256),
-true)$
+  true)$
 
 okltest_egf_matmul(f) := block([field],
   field : [2,1,x],
@@ -144,7 +144,7 @@ okltest_egf_matmul(f) := block([field],
       assert(totaldisrep(f(field,nMatrixZero,matrixElement)) = zeromatrix(n,m))
     )
   ),
-true)$
+  true)$
 
 okltest_egf_matinv(f) := block([field],
   field : [2,1,x],
@@ -173,7 +173,7 @@ okltest_egf_matinv(f) := block([field],
     assert(totaldisrep(egf_matmul(field,matrixElement,f(field,matrixElement))) 
       = nMatrixIdentity)
   ),
-true)$
+  true)$
 
 okltest_egf_inv(f) := block([field],
   field : [2,1,x],
@@ -196,7 +196,7 @@ okltest_egf_inv(f) := block([field],
   ),
   assert(f(field,x^6+x^5+x+1) = x^7+x^6+x^4+x+1),
   assert(f(field,x^7+x^5+x^4+x+1) = x^7+x^6+x^5+x^3+x^2+x+1),
-true)$
+  true)$
 
 
 /* ****************************
