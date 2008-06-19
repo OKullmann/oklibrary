@@ -61,9 +61,18 @@ License, or any later version. */
    <li> DONE (arbitrary p,q-values)
    The non-degenerated extensions, characteristic for singular DP-reductions
    on MU. </li>
-   <li> DONE(p=q=1)
-   The saturated extensions, characteristic for singular DP-reductions
-   on SMU. </li>
+   <li> The saturated extensions, characteristic for singular DP-reductions
+   on SMU.
+    <ol>
+     <li> The condition is that, additionally to p=q=1, for the main clause,
+     given by I in the implementation, there is no other clause, not involved
+     in the extension, such that I subsumes this clause (one could then
+     add -v to this clause). </li>
+     <li> First we just implement this condition, via
+     "basic_inverse_saturated_singulardp_fcs(FF,G)", and return false if the
+     condition is not fulfilled. </li>
+    </ol>
+   </li>
    <li> The hitting extensions, characteristic for singular
    DP-reductions on UHIT.
     <ol>

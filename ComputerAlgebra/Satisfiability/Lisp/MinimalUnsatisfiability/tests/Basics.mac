@@ -23,7 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Basics.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/InverseSingularDP.mac")$
 
 kill(f)$
 
@@ -79,6 +79,9 @@ okltest_saturated_min_unsat_bydef(f) := block([S : dll_simplest_trivial1],
   assert(f([{1,2},{{1,2},{-1},{-2}}],S) = false),
   assert(f([{1,2},{{1,2},{-1,2},{-2}}],S) = true),
   assert(f([{1,2},{{1,2},{-1},{-2,1}}],S) = true),
+  block([FF : full_fcs(2)],
+    assert(basic_inverse_singulardp_fcs(FF,setdifference(FF[2],{{1,2}}),1,1) = true),
+    assert(f(FF,S) = false)),
   true)$
 
 okltest_non_saturating_pas_bydef(f) := block([S : dll_simplest_trivial1],
