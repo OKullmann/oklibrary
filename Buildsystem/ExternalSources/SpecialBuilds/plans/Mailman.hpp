@@ -203,7 +203,29 @@ sed -i "s/^mydestination \(.*\)/mydestination \1, ok-sat-library.org/" main.cf
 
    At this stage one should have a working mailman installation.
    </li>
-   <li> Additionally one may create other lists in a similar manner :
+   <li> To setup the mailman daemon, "mailmanctl", to start automatically with
+   the server, one should copy the startup script to "init.d" :
+   \verbatim
+/usr/local/mailman> sudo /usr/local/mailman/bin/mailmanctl stop
+/usr/local/mailman> sudo cp /usr/local/mailman/scripts/mailman /etc/init.d/mailman
+/usr/local/mailman> sudo chkconfig --add mailman
+   \endverbatim
+
+   This assumes a linux distribution that uses "chkconfig", more information on
+   other configurations can be found at
+   http://www.gnu.org/software/mailman/mailman-install/node42.html .
+   </li>
+   <li> We must then check that the startup script is working correctly, and 
+   start the mailman daemon again :
+   \verbatim
+/usr/local/mailman> sudo /etc/init.d/mailman start
+/usr/local/mailman> sudo ps auxww | grep mailmanctl | grep -v grep
+   \endverbatim
+   
+   The last command above should result in non-empty output.
+   </li>
+   <li> Additionally one may create other lists in a similar manner, as with the
+   "mailman" list :
    \verbatim 
 /usr/local/mailman> sudo /usr/local/mailman/bin/newlist developers
    \endverbatim
