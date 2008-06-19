@@ -41,13 +41,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Stati
  variable "-v".
 */
 
-/* the underlying variable of a literal */
+/* The underlying variable of a literal: */
 var_l(x) := abs(x)$
 
-/* The sign of a literal in {-1,+1}. */
+/* The sign of a literal in {-1,+1}: */
 sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
 
-/* the literals for a set of variables */
+/* The literals for a set of variables: */
 literals_v(V) := block([L : listify(V)],
   setify(append(L,-L)))$
 
@@ -128,7 +128,7 @@ substitute_c(C,h) :=
    creating pseudo-clauses with clashing literals). */
 substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 
-/* Given a list of variables of the same size as the set
+/* Given a list of literals of the same size as the set
    of variables of a formal clause-set, rename the formal
    clause-set, using the natural correspondence given by
    the given order on the set of variables. 
@@ -136,7 +136,7 @@ substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
   h : sm2hm(setify(makelist([V[i],L[i]], i,1,length(V)))),
-  [setify(L), substitute_cs(FF[2],h)])$
+  [setify(abs(L)), substitute_cs(FF[2],h)])$
 
 /* Translating variable names of a formal clause-set into natural numbers;
    outputs a pair consisting of the translated formal clause-set and
