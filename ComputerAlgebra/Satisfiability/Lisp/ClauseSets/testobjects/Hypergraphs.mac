@@ -36,6 +36,8 @@ okltest_var_int_scom_fcs(var_int_scom_fcs);
 
 okltest_var_lit_clause_digraph(var_lit_clause_digraph);
 
+okltest_implication_dg_fcs(implication_dg_fcs);
+
 /* ************
    * Measures *
    ************

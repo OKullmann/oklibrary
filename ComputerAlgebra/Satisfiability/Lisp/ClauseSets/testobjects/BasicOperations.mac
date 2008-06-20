@@ -37,6 +37,8 @@ okltest_substitute_l(substitute_l);
 okltest_substitute_c(substitute_c);
 okltest_substitute_cs(substitute_cs);
 
+okltest_rename_fcs(rename_fcs);
+
 okltest_standardise_fcs(standardise_fcs);
 okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
 

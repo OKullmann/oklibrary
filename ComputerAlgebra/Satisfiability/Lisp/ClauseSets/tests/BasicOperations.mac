@@ -74,7 +74,15 @@ okltest_substitute_cs(f) := block([h],
   assert(f({{1,2},{1,3},{-2,3}},h) = {{3,-4},{3,-3},{4,-3}}),
   true)$
 
-okltest_standardise_fcs(f) := block([FF],
+okltest_rename_fcs(f) := block(
+  assert(f([{},{}],[]) = [{},{}]),
+  assert(f([{},{{}}],[]) = [{},{{}}]),
+  assert(f([{1},{{1}}],[-2]) = [{2},{{-2}}]),
+  assert(f([{1},{{-1}}],[-1]) = [{1},{{1}}]),
+  assert(f([{1,2},{{1,2},{-1,2}}],[-2,1]) = [{1,2},{{-2,1},{1,2}}]),
+  true)$
+
+okltest_standardise_fcs(f) := block(
   assert(f([{},{}]) = [[{},{}],[]]),
   assert(f([{},{{}}]) = [[{},{{}}],[]]),
   assert(f([{1},{{}}]) = [[{1},{{}}],[1]]),

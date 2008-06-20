@@ -43,10 +43,9 @@ random_sublist(S,p) :=
    while q regulates how many of the choice-literals are included 
    into the (-v)-clauses.
    <ul>
-    <li> p=1, q=1 is the case of saturated extension (all clauses as
-    large as possible). </li>
+    <li> p=1, q=1 is the case that all clauses as large as possible). </li>
     <li> q=0,p=0 is the case of just introducing new unit-clauses (with
-    new variables), while q=0 is general are the marginal extension
+    new variables), while q=0 in general are the marginal extension
     (all clauses minimal). </li>
     <li> p=0 implies q=0. </li>
     <li> p=1, q=0 is an interesting marginal case, where

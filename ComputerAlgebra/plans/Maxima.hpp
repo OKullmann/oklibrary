@@ -10,6 +10,41 @@ License, or any later version. */
   \brief General plans regarding the Maxima computer algebra system
 
 
+  \todo Potential Maxima/CLisp bug
+  <ul>
+   <li> On csltok (laptop of OK) running
+   \verbatim
+oklib_store : true;
+set_random_state(make_random_state(0));
+all_unsinghitting_mvd(8, 'all_n8);
+   \endverbatim
+   produced a segmentation fault after running a bit more than
+   214 hours (nearly 9 full days). </li>
+   <li> Apparently this just happened when writing the session file. </li>
+   <li> A core-file has been produced --- how to analyse this? </li>
+   <li> When by mistake printing out the repository to the screen, I
+   got "string too long: desired length 6553600 exceeds the supported maximum length".
+   </li>
+   <li> So perhaps Maxima, when writing the file, just puts everything into a
+   big string, and then the error occurred when this string was too long?
+    <ol>
+     <li> We had one slightly bigger file in the past; however this contained
+     the annotation-strings. </li>
+     <li> So perhaps each value is transformed into a string, and now a single
+     value (the hash-map), was too big? </li>
+    </ol>
+   </li>
+   <li> Tell the Maxima mailing-list about that and ask for a different "save",
+   call it "fsave" (fast save):
+    <ol>
+     <li> No list-annotations. </li>
+     <li> No unnecessary spaces. </li>
+     <li> Values are broken into small strings, if necessary. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo How to eliminate the annotation of lists
   DONE : The variable oklib_load_annotation governs whether
   functions loaded by oklib_load and oklib_include annotate

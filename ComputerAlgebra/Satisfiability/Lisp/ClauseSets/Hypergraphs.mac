@@ -107,6 +107,15 @@ var_lit_clause_digraph_tr(FF) := block(
   return([G[1],union(G[2],setify(E))]))$
 
 
+/* The directed implication graph of a formal clause-set (only considering
+   clauses of length 1 or 2). */
+implication_dg_fcs(FF) := block(
+ [F1 : map(listify,listify(scls_k(FF[2],1))), 
+  F2 : map(listify,listify(scls_k(FF[2],2)))],
+  [literals_v(FF[1]), setify(append(makelist([-U[1],U[1]],U,F1), 
+      makelist([-C[1],C[2]],C,F2), makelist([-C[2],C[1]],C,F2)))])$
+
+
 /* ************
    * Measures *
    ************
