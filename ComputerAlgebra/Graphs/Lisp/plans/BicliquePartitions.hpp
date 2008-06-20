@@ -35,7 +35,9 @@ License, or any later version. */
   </ul>
 
 
-   <li> Likely this more algebraic aspects of graph theory is handled
+  \todo Combinatorial matrices
+  <ul>
+   <li> Likely the more algebraic aspects of graph theory are handled
    better by combinatorial matrices; see
    ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp. </li>
    <li> Also for translating biclique partition into clause-sets we
@@ -88,6 +90,19 @@ License, or any later version. */
      <li> Instead we use a backtracking approach, where we investigate new
      branches only if they are not isomorphic to branches already considered.
      </li>
+    </ol>
+   </li>
+   <li> Viewing biclique partitions are solutions of a constraint satisfaction
+   problem:
+    <ol>
+     <li> Given a general G = (V,E). </li>
+     <li> Find a function b : E -> {1,...,|E|} which yield biclique
+     partitions. </li>
+     <li> This blows up the search space, but makes the problem more
+     accessible. </li>
+     <li> Making this translation explicit is discussed below in
+     "Finding specific biclique partitions via (generalised) SAT". </li>
+     <li> But we can explore such a point of view more implicitely. </li>
     </ol>
    </li>
   </ul>
@@ -146,7 +161,7 @@ License, or any later version. */
      biclique partitions are their frequencies of being chosen. </li>
     </ol>
    </li>
-   <li> Sampling of of general graphs is definitive of high interest, since
+   <li> Sampling of general graphs is definitive of high interest, since
    it yields an alternative random formula generator (for SAT problems)!
     <ol>
      <li> However we should also consider special graph types for G. </li>
@@ -164,7 +179,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Finding specific biclique partitions via SAT
+  \todo Finding specific biclique partitions via (generalised) SAT
   <ul>
    <li> See TransformationsBiclique.hpp and
    Transitional/OKsolver/plans/general.hpp. </li>
@@ -200,7 +215,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Finding biclique partitions
+  \todo Finding interesting biclique partitions
   <ul>
    <li> For creating random biclique partitions, one goal is to use only
    a minimal number of bicliques (i.e., variables for the corresponding
