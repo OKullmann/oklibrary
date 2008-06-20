@@ -52,5 +52,17 @@ ExternalSources/Installations/R> oklib --R
     generators for boolean circuits. </li>
   </ul>
 
+
+  \todo Logic synthesis
+  <ul>
+   <li> http://vlsicad.eecs.umich.edu/BK/Slots/slots/LogicSynthesis.html </li>
+   <li> Espresso
+    <ol>
+     <li> http://embedded.eecs.berkeley.edu/pubs/downloads/espresso/index.htm
+     </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 
