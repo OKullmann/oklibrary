@@ -25,10 +25,353 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hyper
 
 kill(f)$
 
+/* ******************************
+   * Providing basic test cases *
+   ******************************
+*/
+
+okltest_list_g : [
+ [{},{}],
+ [{1},{}],
+ [{1,2},{{1,2}}]
+]$
+
+okltest_list_gl : [
+ [{1},{{1}}],
+ [{1,2},{{1},{2},{1,2}}]
+]$
+
+okltest_list_dg : [
+ [{},{}],
+ [{1},{}],
+ [{1,2},{[1,2]}],
+ [{1,2},{[1,2],[2,1]}]
+]$
+
+okltest_list_dgl : [
+ [{1},{[1,1]}],
+ [{1,2},{[1,1],[2,2],[1,2]}]
+]$
+
+okltest_list_mug : [
+ [{},{},identity],
+ [{1},{},identity],
+ [{1,2},{{1,2}},lambda([e],2)]
+]$
+
+okltest_list_mugl : [
+ [{1},{{1}},lambda([e],2)]
+]$
+
+okltest_list_mudg : [
+ [{},{},identity],
+ [{1},{},identity],
+ [{1,2},{[1,2]},lambda([e],2)],
+ [{1,2},{[1,2],[2,1]},lambda([e],if e=[1,2] then 1 else 2)]
+]$
+
+okltest_list_mudgl : [
+ [{1},{[1,1]},lambda([e],2)]
+]$
+
+okltest_list_gg : [
+ [{},{},identity],
+ [{1},{},identity],
+ [{1},{1,2},lambda([e],{1})],
+ [{1,2},{1,2,3,4},lambda([e],if e=1 then {1} elseif e=2 then {2} else {1,2})]
+]$
+
+okltest_list_gdg : [
+ [{},{},identity],
+ [{1},{},identity],
+ [{1},{1,2},lambda([e],[1,1])],
+ [{1,2},{1,2,3,4},lambda([e],if e=1 then [1,1] elseif e=2 then [2,2] else [1,2])]
+]$
+
+okltest_list_og : [
+ [[],[]],
+ [[1],[]],
+ [[1,2],[{1,2}]],
+ [[2,1],[{1,2}]]
+]$
+
+okltest_list_ogl : [
+ [[1],[{1}]],
+ [[1,2],[{1},{2},{1,2}]],
+ [[2,1],[{1,2},{2},{1}]]
+]$
+
+okltest_list_odg : [
+ [[],[]],
+ [[1],[]],
+ [[1,2],[[1,2]]],
+ [[2,1],[[2,1],[1,2]]]
+]$
+
+okltest_list_odgl : [
+ [[1],[[1,1]]],
+ [[1,2],[[1,1],[2,2],[1,2]]],
+ [[2,1],[[2,2],[1,2],[1,1],[2,1]]]
+]$
+
+okltest_list_omug : [
+ [[],[],identity],
+ [[1],[],identity],
+ [[1,2],[{1,2}],lambda([e],2)],
+ [[2,1],[{1,2}],lambda([e],2)]
+]$
+
+okltest_list_omugl : [
+ [[1],[{1}],lambda([e],2)],
+ [[2,1],[{2},{1},{1,2}],lambda([e],2)]
+]$
+
+okltest_list_omudg : [
+ [[],[],identity],
+ [[1],[],identity],
+ [[1,2],[[1,2]],lambda([e],2)],
+ [[2,1],[[2,1],[1,2]],lambda([e],if e=[1,2] then 1 else 2)]
+]$
+
+okltest_list_omudgl : [
+ [[1],[[1,1]],lambda([e],2)]
+]$
+
+okltest_list_ogg : [
+ [[],[],identity],
+ [[1],[],identity],
+ [[1],[1,2],lambda([e],{1})],
+ [[1,2],[1,2,3,4],lambda([e],if e=1 then {1} elseif e=2 then {2} else {1,2})]
+]$
+
+okltest_list_ogdg : [
+ [[],[],identity],
+ [[1],[],identity],
+ [[1],[1,2],lambda([e],[1,1])],
+ [[1,2],[1,2,3,4],lambda([e],if e=1 then [1,1] elseif e=2 then [2,2] else [1,2])]
+]$
+
+
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+okltest_g_p(f) := block(
+  for G in okltest_list_g do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],[]]) = false),
+  assert(f([{},{{}}]) = false),
+  assert(f([{},{{1,2}}]) = false),
+  assert(f([{1},{{1}}]) = false),
+  assert(f([{1,2},{[1,2]}]) = false),
+  assert(f([{1,2,3},{{1,2,3}}]) = false),
+  true)$
+
+okltest_gl_p(f) := block(
+  for G in okltest_list_gl do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],[]]) = false),
+  assert(f([{},{{}}]) = false),
+  assert(f([{},{{1,2}}]) = false),
+  assert(f([{1},{{1}}]) = true),
+  assert(f([{1,2},{[1,2]}]) = false),
+  assert(f([{1,2,3},{{1,2,3}}]) = false),
+  true)$
+
+okltest_dg_p(f) := block(
+  for G in okltest_list_dg do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],[]]) = false),
+  assert(f([{},{[]}]) = false),
+  assert(f([{},{[1,2]}]) = false),
+  assert(f([{1},{[1]}]) = false),
+  assert(f([{1,2},{{1,2}}]) = false),
+  assert(f([{1,2,3},{[1,2,3]}]) = false),
+  true)$
+
+okltest_dgl_p(f) := block(
+  for G in okltest_list_dgl do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([[],[]]) = false),
+  assert(f([{},{[]}]) = false),
+  assert(f([{},{[1,2]}]) = false),
+  assert(f([{1},{[1,1]}]) = true),
+  assert(f([{1,2},{{1,2}}]) = false),
+  assert(f([{1,2,3},{[1,2,3]}]) = false),
+  true)$
+
+okltest_mug_p(f) := block(
+  for G in okltest_list_mug do
+    assert(f(G) = true),
+  okltest_g_p(buildq([f],lambda([G],
+    listp(G) and is(length(G) = 2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([{1,2},{{1,2}},lambda([e],1.0)]) = false),
+  true)$
+
+okltest_mugl_p(f) := block(
+  for G in okltest_list_mugl do
+    assert(f(G) = true),
+  okltest_gl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([{1,2},{{1,2}},lambda([e],1.0)]) = false),
+  true)$
+
+okltest_mudg_p(f) := block(
+  for G in okltest_list_mudg do
+    assert(f(G) = true),
+  okltest_dg_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([{1,2},{[1,2]},lambda([e],1.0)]) = false),
+  true)$
+
+okltest_mudgl_p(f) := block(
+  for G in okltest_list_mudgl do
+    assert(f(G) = true),
+  okltest_dgl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([{1,2},{[1,2]},lambda([e],1.0)]) = false),
+  true)$
+
+okltest_gg_p(f) := block(
+  for G in okltest_list_gg do
+    assert(f(G) = true),
+  okltest_gl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],identity])))),
+  true)$
+
+okltest_gdg_p(f) := block(
+  for G in okltest_list_gdg do (print(G),
+    assert(f(G) = true)),
+  okltest_dgl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],identity])))),
+  true)$
+
+okltest_og_p(f) := block(
+  for G in okltest_list_og do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([{},{}]) = false),
+  assert(f([[],[{}]]) = false),
+  assert(f([[],[{1,2}]]) = false),
+  assert(f([[1],[{1}]]) = false),
+  assert(f([[1,2],[[1,2]]]) = false),
+  assert(f([[1,2,3],[{1,2,3}]]) = false),
+  assert(f([[1,2],[{1,2},{1,2}]]) = false),
+  true)$
+
+okltest_ogl_p(f) := block(
+  for G in okltest_list_ogl do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([{},{}]) = false),
+  assert(f([[],[{}]]) = false),
+  assert(f([[],[{1,2}]]) = false),
+  assert(f([[1],[{1}]]) = true),
+  assert(f([[1,2],[[1,2]]]) = false),
+  assert(f([[1,2,3],[{1,2,3}]]) = false),
+  assert(f([[1,2],[{1,2},{1,2}]]) = false),
+  true)$
+
+okltest_odg_p(f) := block(
+  for G in okltest_list_odg do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([{},{}]) = false),
+  assert(f([[],[[]]]) = false),
+  assert(f([[],[[1,2]]]) = false),
+  assert(f([[1],[[1]]]) = false),
+  assert(f([[1,2],[{1,2}]]) = false),
+  assert(f([[1,2,3],[[1,2,3]]]) = false),
+  assert(f([[1,2],[[1,2],[1,2]]]) = false),
+  true)$
+
+okltest_odgl_p(f) := block(
+  for G in okltest_list_odgl do
+    assert(f(G) = true),
+  assert(f([]) = false),
+  assert(f([[],{}]) = false),
+  assert(f([{},[]]) = false),
+  assert(f([{},{}]) = false),
+  assert(f([[],[[]]]) = false),
+  assert(f([[],[[1,2]]]) = false),
+  assert(f([[1],[[1,1]]]) = true),
+  assert(f([[1,2],[{1,2}]]) = false),
+  assert(f([[1,2,3],[[1,2,3]]]) = false),
+  assert(f([[1,2],[[1,2],[1,2]]]) = false),
+  true)$
+
+okltest_omug_p(f) := block(
+  for G in okltest_list_omug do
+    assert(f(G) = true),
+  okltest_og_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([[1,2],[{1,2}],lambda([e],1.0)]) = false),
+  true)$
+
+okltest_omugl_p(f) := block(
+  for G in okltest_list_omugl do
+    assert(f(G) = true),
+  okltest_ogl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([[1,2],[{1,2}],lambda([e],1.0)]) = false),
+  true)$
+
+okltest_omudg_p(f) := block(
+  for G in okltest_list_omudg do
+    assert(f(G) = true),
+  okltest_odg_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([[1,2],[[1,2]],lambda([e],1.0)]) = false),
+  true)$
+
+okltest_omudgl_p(f) := block(
+  for G in okltest_list_omudgl do
+    assert(f(G) = true),
+  okltest_odgl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],lambda([e],1)])))),
+  assert(f([[1,2],[[1,2]],lambda([e],1.0)]) = false),
+  true)$
+
+okltest_ogg_p(f) := block(
+  for G in okltest_list_ogg do
+    assert(f(G) = true),
+  okltest_ogl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],identity])))),
+  true)$
+
+okltest_ogdg_p(f) := block(
+  for G in okltest_list_ogdg do
+    assert(f(G) = true),
+  okltest_odgl_p(buildq([f],lambda([G],
+    listp(G) and is(length(G)=2) and f([G[1],G[2],identity])))),
+  true)$
+
+
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************
 */
+
+/* Needs naming-update! */
 
 okltest_g2mg(f) := block(
   block([G : f([{},{}])],

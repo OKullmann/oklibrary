@@ -21,6 +21,38 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
 
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+okltest_g_p(g_p);
+okltest_gl_p(gl_p);
+okltest_dg_p(dg_p);
+okltest_dgl_p(dgl_p);
+okltest_mug_p(mug_p);
+okltest_mugl_p(mugl_p);
+okltest_mudg_p(mudg_p);
+okltest_mudgl_p(mudgl_p);
+okltest_gg_p(gg_p);
+okltest_gdg_p(gdg_p);
+
+okltest_og_p(og_p);
+okltest_ogl_p(ogl_p);
+okltest_odg_p(odg_p);
+okltest_odgl_p(odgl_p);
+okltest_omug_p(omug_p);
+okltest_omugl_p(omugl_p);
+okltest_omudg_p(omudg_p);
+okltest_omudgl_p(omudgl_p);
+okltest_ogg_p(ogg_p);
+okltest_ogdg_p(ogdg_p);
+
+/* ********************************
+   * Connections to Maxima-graphs *
+   ********************************
+*/
+
 okltest_g2mg(g2mg);
 okltest_dg2mdg(dg2mdg);
 

@@ -23,9 +23,9 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
-/* **************************
-   * Basic graph operations *
-   **************************
+/* ***********************
+   * Fundamental notions *
+   ***********************
 */
 
 /* A "graph" is just a 2-element list, consisting of the set of
@@ -38,11 +38,180 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    A "digrap with loops" also allows the elements to be identical.
 */
 
-/* The set of neighbours of vertex v in graph G */
+/* A "multigraph" is a triple [V,E,f] such that [V,E] is a graph,
+   and such that f is a function which assigns to every edge its
+   cardinality, a natural number (>0).
+   A "multigraph with loops" allows loops.
+*/
+
+/* A "multi-digraph" is similarly a triple [V,E,f] such that [V,E] is
+   is digraph; and a "multi-digraph with loops" allows loops.
+*/
+
+/* A "general graph" is a triple [V,E,f], where f maps each element of
+   E to a 1- or 2-element subset of V.
+   For a "general digraph" f yields lists of length 1 or 2.
+*/
+
+/* The ordered versions of all the above notions use lists instead of
+   sets, but without repetition.
+*/
+
+/* See "Providing basic test cases" in
+   ComputerAlgebra/Graphs/Lisp/tests/Basic.mac
+   for basic examples.
+*/
+
+
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+g_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+  every(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,G[1])), G[2])$
+gl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+  every(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,G[1])),G[2])$
+dg_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+  every(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),G[1])), G[2])$
+dgl_p(G) := listp(G) and is(length(G)=2) and setp(G[1]) and setp(G[2]) and 
+  every(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),G[1])), G[2])$
+mug_p(G) := listp(G) and is(length(G)=3) and g_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+mugl_p(G) := listp(G) and is(length(G)=3) and gl_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+mudg_p(G) := listp(G) and is(length(G)=3) and dg_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+mudgl_p(G) := listp(G) and is(length(G)=3) and dgl_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+gg_p(G) := listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
+  every(lambda([e], block([s : G[3](e)],
+    setp(s) and elementp(length(s),{1,2}) and subsetp(s,G[1]))), G[2])$
+gdg_p(G) := listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
+  every(lambda([e], block([l : G[3](e)],
+    listp(l) and is(length(l)=2) and subsetp(setify(l),G[1]))), G[2])$
+
+listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
+
+og_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
+  every(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,setify(G[1]))), G[2])$
+ogl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
+  every(lambda([e], setp(e) and elementp(length(e),{1,2}) and subsetp(e,setify(G[1]))), G[2])$
+odg_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
+  every(lambda([e], listp(e) and is(length(e)=2 and e[1]#e[2]) and subsetp(setify(e),setify(G[1]))), G[2])$
+odgl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 
+  every(lambda([e], listp(e) and is(length(e)=2) and subsetp(setify(e),setify(G[1]))), G[2])$
+omug_p(G) := listp(G) and is(length(G)=3) and og_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+omugl_p(G) := listp(G) and is(length(G)=3) and ogl_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+omudg_p(G) := listp(G) and is(length(G)=3) and odg_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+omudgl_p(G) := listp(G) and is(length(G)=3) and odgl_p([G[1],G[2]]) and
+  every(lambda([e], block([n : G[3](e)], integerp(n) and n > 0)), G[2])$
+ogg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(G[2]) and
+  every(lambda([e], block([s : G[3](e)],
+    setp(s) and elementp(length(s),{1,2}) and subsetp(s,setify(G[1])))), G[2])$
+ogdg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(G[2]) and
+  every(lambda([e], block([l : G[3](e)],
+    listp(l) and is(length(l)=2) and subsetp(setify(l),setify(G[1])))), G[2])$
+
+
+/* **************
+   * Promotions *
+   **************
+*/
+
+/* Promotions gr -> grl and mugr -> mugrl happen implicitly. */
+
+generic_mugl2gg(G) := block([L : listify(G[2])],
+  [G[1], 
+   setify(create_list([e,i], e,L, i,1,G[3](e))),
+   lambda([e], e[2])
+  ])$
+generic_omugl2ogg(G) := 
+  [G[1], 
+   create_list([e,i], e,L, i,1,G[3](e)),
+   lambda([e], e[2])
+  ]$
+
+
+gl2mugl(G) := [G[1], G[2], lambda([e],1)]$
+gl2gg(G) := [G[1], G[2], identity]$
+mugl2gg(G) := generic_mugl2gg(G)$
+
+ogl2omugl(G) := [G[1], G[2], lambda([e],1)]$
+ogl2ogg(G) := [G[1], G[2], identity]$
+omugl2ogg(G) := generic_omugl2ogg(G)$
+
+gl2ogl(G) := [listify(G[1]), listify(G[2])]$
+mugl2omugl(G) := [listify(G[1]), listify(G[2]), G[3]]$
+gg2ogg(G) := [listify(G[1]), listify(G[2]), G[3]]$
+
+dgl2mudgl(G) := [G[1], G[2], lambda([e],1)]$
+dgl2gdg(G) := [G[1], G[2], identity]$
+mudgl2gdg(G) := generic_mugl2gg(G)$
+
+odgl2omudgl(G) := [G[1], G[2], lambda([e],1)]$
+odgl2ogdg(G) := [G[1], G[2], identity]$
+omudgl2ogdg(G) := generic_omugl2ogg(G)$
+
+dgl2odgl(G) := [listify(G[1]), listify(G[2])]$
+mudgl2omudgl(G) := [listify(G[1]), listify(G[2]), G[3]]$
+gdg2ogdg(G) := [listify(G[1]), listify(G[2]), G[3]]$
+
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+generic_gg2mugl(G) := [
+ G[1], 
+ setify(create_list(G[3](e),e,listify(G[2]))),
+ buildq([G],lambda([e],length(subset(G[2],lambda([x],is(G[3](x)=e))))))
+]$
+generic_ogg2omugl(G) := [
+ G[1], 
+ unique(create_list(G[3](e),e,listify(G[2]))),
+ buildq([G],lambda([e],length(subset(G[2],lambda([x],is(G[3](x)=e))))))
+]$
+
+mugl2gl(G) := [G[1],G[2]]$
+gg2gl(G) := [G[1], map(G[3],G[2])]$
+gg2mugl(G) := generic_gg2mugl(G)$
+
+omugl2ogl(G) := [G[1],G[2]]$
+ogg2ogl(G) := [G[1], unique(map(G[3],G[2]))]$
+ogg2omugl(G) := generic_ogg2omugl(G)$
+
+ogl2gl(G) := [setify(G[1]), setify(G[2])]$
+omugl2mugl(G) := [setify(G[1]), setify(G[2]), G[3]]$
+ogg2gg(G) := [setify(G[1]), setify(G[2]), G[3]]$
+
+mudgl2dgl(G) := [G[1],G[2]]$
+gdg2dgl(G) := [G[1], map(G[3],G[2])]$
+gdg2mudgl(G) := generic_gg2mugl(G)$
+
+omudgl2odgl(G) := [G[1],G[2]]$
+ogdg2odgl(G) := [G[1], unique(map(G[3],G[2]))]$
+ogdg2omudgl(G) := generic_ogg2omugl(G)$
+
+odgl2dgl(G) := [setify(G[1]), setify(G[2])]$
+omudgl2mudgl(G) := [setify(G[1]), setify(G[2]), G[3]]$
+ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
+
+
+/* **************************
+   * Basic graph operations *
+   **************************
+*/
+
+/* The set of neighbours of vertex v in graph G. */
 neighbours(v,G) := disjoin(v, list_sets_union(
  subset(G[2], lambda([e],elementp(v,e)))))$
 
-/* Removes vertex set V from graph G (with loops) */
+/* Removes vertex set V from graph G (with loops). */
 remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
 
