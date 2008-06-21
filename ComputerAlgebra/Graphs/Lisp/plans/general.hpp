@@ -169,6 +169,7 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
      <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
     </ol>
    </li>
+  </ul>
 
 
   \todo Graph traversal
