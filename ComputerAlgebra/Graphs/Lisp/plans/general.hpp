@@ -33,6 +33,9 @@ License, or any later version. */
      <li> An ordered general graph is a triple [V,E,f], where V, E
      are lists without repetition, such that [setify(V),setify(E)] is a
      general graph. </li>
+     <li> An ordered multigraph is a triple [V,E,f], where [V,E] is an
+     ordered graph, such that for the underlying graph [V',E'] it is
+     [V',E,',f] a multigraph. </li>
     </ol>
    </li>
   </ul>
@@ -40,13 +43,26 @@ License, or any later version. */
 
   \todo Naming conventions
   <ul>
-   <li> "gr" for graphs, "grl" for graphs with loops, "dgr" for
-   directed graph, "dgrl" for directed graphs with loops, "ggr"
-   for general graph, and "gdgr" for "general directed graph". </li>
-   <li> "ogr" for ordered graphs, "ogrl", "odgr", "odgrl", "oggr"
-   and "ogdgr". </li>
-   <li> For Maxima-graphs we use "mgr" and "dmgr". </li>
-   <li> So "g2mg" (now) becomes "gr2mgr" etc. </li>
+   <li> "g" for graphs, "gl" for graphs with loops, "dg" for
+   directed graph, "dgl" for directed graphs with loops, "gg"
+   for general graph, and "gdg" for "general directed graph". </li>
+   <li> "og" for ordered graphs, similarly "ogl", "odg", "odgl", "ogg"
+   and "ogdg". </li>
+   <li> For Maxima-graphs we use "mg" and "dmg". </li>
+   <li> So for multigraphs we need to use the abbreviation "mug", for
+   multigraphs with loops mugl, for directed multigraphs dmug, for
+   directed multigraphs with loops dmugl, and finally omug, omugl, odmug,
+   odmugl denote the ordered versions. </li>
+   <li> There is a clash for "directed graphs":
+    <ol>
+     <li> Either we speak of "directed graphs", "directed multigraphs",
+     "directed general graphs", or of "digraphs", "multi-digraphs",
+     "general digraphs". </li>
+     <li> Perhaps the "digraph" has the advantage that there is no
+     confusion about the order of adjectives. </li>
+    </ol>
+   </li>
+   <li> So "g2mg" (now) becomes "g2mg" etc. </li>
   </ul>
 
 
@@ -61,13 +77,22 @@ License, or any later version. */
    vertex-lists instead of vertex-sets. </li>
    <li> There is also the (cryptomorphic) notion of a "precategory",
    which is a 4-tuple [V,E,source,target]. </li>
+   <li> A "multigraph" is a triple [V,E,f], where [V,E] is a graph, and f
+   is a map which maps every element of E to a natural number (that is, >0).
+   </li>
+   <li> While a "multigraph with loops" is similarly a triple [V,E,f] such that
+   [V,E] is a graph with loops. </li>
+   <li> And a "directed multigraph" is a triple [V,E,f], where now the elements
+   of E or pairs, while a "directed multigraph with loops" allows the elements
+   of the pairs to be identical. </li>
    <li> Since also for general graphs the edge set needs to be given, we don't
    have the possibility of "lazy graph representations". Seems unavoidable. /li>
    <li> Given a vertex, we need the set of edges incident to the vertex;
    this can be handled via the dual hypergraph, but we should provide some
    more convenient methods. </li>
    <li> Likely, our graph-etc-concepts are conceptually, but when using or
-   implementing algorithms then we should, if possible, use the maxima-graphs. </li>
+   implementing algorithms then we should, if possible, use the maxima-graphs.
+   </li>
    <li> How to handle "properties" ? DONE (these shall just be maps) </li>
    <li> Can we tag such objects as being "graphs" ? DONE (we are living
    type-free) </li>
