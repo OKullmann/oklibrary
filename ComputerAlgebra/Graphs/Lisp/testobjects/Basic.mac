@@ -48,6 +48,49 @@ okltest_omudgl_p(omudgl_p);
 okltest_ogg_p(ogg_p);
 okltest_ogdg_p(ogdg_p);
 
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+okltest_gr_equalp(gr_equalp);
+
+/* **************
+   * Promotions *
+   **************
+*/
+
+okltest_gl2mugl(gl2mugl);
+okltest_gl2gg(gl2gg);
+okltest_mugl2gg(mugl2gg);
+
+okltest_ogl2omugl(ogl2omugl);
+okltest_ogl2ogg(ogl2ogg);
+okltest_omugl2ogg(omugl2ogg);
+
+okltest_gl2ogl(gl2ogl);
+okltest_mugl2omugl(mugl2omugl);
+okltest_gg2ogg(gg2ogg);
+
+okltest_dgl2mudgl(dgl2mudgl);
+okltest_dgl2gdg(dgl2gdg);
+okltest_mudgl2gdg(mudgl2gdg);
+
+okltest_odgl2omudgl(odgl2omudgl);
+okltest_odgl2ogdg(odgl2ogdg);
+okltest_omudgl2ogdg(omudgl2ogdg);
+
+okltest_dgl2odgl(dgl2odgl);
+okltest_mudgl2omudgl(mudgl2omudgl);
+okltest_gdg2ogdg(gdg2ogdg);
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+
+
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************

@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ***********************
@@ -117,6 +118,22 @@ ogdg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(
     listp(l) and is(length(l)=2) and subsetp(setify(l),setify(G[1])))), G[2])$
 
 
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+/* Equality checking for (directed) graphs (with loops) happens via normal
+   "syntactical" equality testing, however for multigraphs and general
+   graphs this would demand that the terms for the edge functions are equal,
+   and so here we define special equality tests.
+*/
+/* G1, G2, can be of arbitrary but identical graph-type: */
+gr_equalp(G1,G2) := if length(G1)=2 then is(G1 = G2) else
+ is(G1[1] = G2[1] and G1[2] = G2[2]) and
+  every(lambda([e],is(G1[3](e)=G2[3](e))), G1[2])$
+
+
 /* **************
    * Promotions *
    **************
@@ -124,41 +141,52 @@ ogdg_p(G) := listp(G) and is(length(G)=3) and listnorep_p(G[1]) and listnorep_p(
 
 /* Promotions gr -> grl and mugr -> mugrl happen implicitly. */
 
-generic_mugl2gg(G) := block([L : listify(G[2])],
+/* Works for g2mug, gl2mugl, og2omug, ogl2omugl, dg2mudg, dgl2mudgl, odg2omudg,
+   odgl2omudgl: */
+generic_g2mug(G) := [G[1], G[2], lambda([e],1)]$
+/* Works for g2gg, gl2gg, og2ogg, ogl2ogg, dg2gdg, dgl2gdg, odg2ogdg,
+   odgl2ogdg: */
+generic_g2gg(G) := [G[1], G[2], identity]$
+/* Works for mug2gg, mugl2gg, mudg2gdg, mudgl2gdg: */
+generic_mug2gg(G) := block([L : listify(G[2])],
   [G[1], 
    setify(create_list([e,i], e,L, i,1,G[3](e))),
-   lambda([e], e[2])
+   first
   ])$
-generic_omugl2ogg(G) := 
+/* Works for omug2ogg, omugl2ogg, omudg2ogdg, omudgl2ogdg: */
+generic_omug2ogg(G) := 
   [G[1], 
-   create_list([e,i], e,L, i,1,G[3](e)),
-   lambda([e], e[2])
+   create_list([e,i], e,G[2], i,1,G[3](e)),
+   first
   ]$
+/* Works for g2og, gl2ogl, dg2odg, dgl2odgl: */
+generic_g2og(G) := [listify(G[1]), listify(G[2])]$
+/* Works for mug2omug, mugl2omugl, mudg2omudg, mudgl2omudgl, gg2ogg, gdg2ogdg: */
+generic_gg2ogg(G) := [listify(G[1]), listify(G[2]), G[3]]$
 
+gl2mugl(G) := generic_g2mug(G)$
+gl2gg(G) := generic_g2gg(G)$
+mugl2gg(G) := generic_mug2gg(G)$
 
-gl2mugl(G) := [G[1], G[2], lambda([e],1)]$
-gl2gg(G) := [G[1], G[2], identity]$
-mugl2gg(G) := generic_mugl2gg(G)$
+ogl2omugl(G) := generic_g2mug(G)$
+ogl2ogg(G) := generic_g2gg(G)$
+omugl2ogg(G) := generic_omug2ogg(G)$
 
-ogl2omugl(G) := [G[1], G[2], lambda([e],1)]$
-ogl2ogg(G) := [G[1], G[2], identity]$
-omugl2ogg(G) := generic_omugl2ogg(G)$
+gl2ogl(G) := generic_g2og(G)$
+mugl2omugl(G) := generic_gg2ogg(G)$
+gg2ogg(G) := generic_gg2ogg(G)$
 
-gl2ogl(G) := [listify(G[1]), listify(G[2])]$
-mugl2omugl(G) := [listify(G[1]), listify(G[2]), G[3]]$
-gg2ogg(G) := [listify(G[1]), listify(G[2]), G[3]]$
+dgl2mudgl(G) := generic_g2mug(G)$
+dgl2gdg(G) := generic_g2gg(G)$
+mudgl2gdg(G) := generic_mug2gg(G)$
 
-dgl2mudgl(G) := [G[1], G[2], lambda([e],1)]$
-dgl2gdg(G) := [G[1], G[2], identity]$
-mudgl2gdg(G) := generic_mugl2gg(G)$
+odgl2omudgl(G) := generic_g2mug(G)$
+odgl2ogdg(G) := generic_g2gg(G)$
+omudgl2ogdg(G) := generic_omug2ogg(G)$
 
-odgl2omudgl(G) := [G[1], G[2], lambda([e],1)]$
-odgl2ogdg(G) := [G[1], G[2], identity]$
-omudgl2ogdg(G) := generic_omugl2ogg(G)$
-
-dgl2odgl(G) := [listify(G[1]), listify(G[2])]$
-mudgl2omudgl(G) := [listify(G[1]), listify(G[2]), G[3]]$
-gdg2ogdg(G) := [listify(G[1]), listify(G[2]), G[3]]$
+dgl2odgl(G) := generic_g2og(G)$
+mudgl2omudgl(G) := generic_gg2ogg(G)$
+gdg2ogdg(G) := generic_gg2ogg(G)$
 
 
 /* *************
@@ -168,13 +196,13 @@ gdg2ogdg(G) := [listify(G[1]), listify(G[2]), G[3]]$
 
 generic_gg2mugl(G) := [
  G[1], 
- setify(create_list(G[3](e),e,listify(G[2]))),
+ map(G[3],G[2]),
  buildq([G],lambda([e],length(subset(G[2],lambda([x],is(G[3](x)=e))))))
 ]$
 generic_ogg2omugl(G) := [
  G[1], 
- unique(create_list(G[3](e),e,listify(G[2]))),
- buildq([G],lambda([e],length(subset(G[2],lambda([x],is(G[3](x)=e))))))
+ stable_unique(map(G[3],G[2])),
+ buildq([G],lambda([e],length(sublist(G[2],lambda([x],is(G[3](x)=e))))))
 ]$
 
 mugl2gl(G) := [G[1],G[2]]$
@@ -182,7 +210,7 @@ gg2gl(G) := [G[1], map(G[3],G[2])]$
 gg2mugl(G) := generic_gg2mugl(G)$
 
 omugl2ogl(G) := [G[1],G[2]]$
-ogg2ogl(G) := [G[1], unique(map(G[3],G[2]))]$
+ogg2ogl(G) := [G[1], stable_unique(map(G[3],G[2]))]$
 ogg2omugl(G) := generic_ogg2omugl(G)$
 
 ogl2gl(G) := [setify(G[1]), setify(G[2])]$
@@ -194,7 +222,7 @@ gdg2dgl(G) := [G[1], map(G[3],G[2])]$
 gdg2mudgl(G) := generic_gg2mugl(G)$
 
 omudgl2odgl(G) := [G[1],G[2]]$
-ogdg2odgl(G) := [G[1], unique(map(G[3],G[2]))]$
+ogdg2odgl(G) := [G[1], stable_unique(map(G[3],G[2]))]$
 ogdg2omudgl(G) := generic_ogg2omugl(G)$
 
 odgl2dgl(G) := [setify(G[1]), setify(G[2])]$
