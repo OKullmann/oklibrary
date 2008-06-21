@@ -51,10 +51,10 @@ upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
    **********************************
 */
 
-/* The union of a set system */
+/* The union of a set system: */
 set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
 
-/* the union of a list of sets */
+/* The union of a list of sets: */
 list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L)$
 
 /* The union of a family of sets (i.e., given is a domain I and a map f(i)).
