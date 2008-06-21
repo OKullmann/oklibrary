@@ -465,6 +465,14 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
      shall define functions with these names. </li>
      <li> For function definitions using function parameters, we use then
      these special names, and also kill the ones used before. </li>
+     <li> Actually, using
+     \verbatim
+function(f) := block(local(f), ...)
+     \endverbatim
+     solves most problems, except that if a global function "f" is defined,
+     and we call "function(f)", then inside the block this function is
+     not evaluated. </li>
+     <li> However, seems much better than the current practice "kill(f)". </li>
     </ol>
    </li>
   </ul>
