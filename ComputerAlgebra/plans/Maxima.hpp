@@ -232,6 +232,25 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
      "clause-list" may have them). </li>
     </ol>
    </li>
+   <li> Handling the multiplicity of types:
+    <ol>
+     <li> We do not introduce abstraction at the Maxima/Lisp level (except
+     of the "mathematical abstraction" given by using terms and functions).
+     </li>
+     <li> Functions are implemented for the appropriate input-types (formal
+     clause-sets, or just clause-sets, etc.). </li>
+     <li> The user applies conversions. </li>
+     <li> What about providing convenience functions, which just convert their
+     argument, and then apply the main function:
+      <ol>
+       <li> It seems to me (OK), that this just yields confusion, since for
+       some functions we have it, for some others we don't. </li>
+       <li> So we should have different versions only in case they really
+       implement different behaviour! </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
   </ul>
 
 
