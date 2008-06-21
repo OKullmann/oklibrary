@@ -13,6 +13,20 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Complete tests
+  <ul>
+   <li> ComputerAlgebra/Graphs/Lisp/Basic.mac
+    <ol>
+     <li> Downcasts </li>
+     <li> Basic graph operations </li>
+     <li> Basic graph constructions </li>
+     <li> Tests </li>
+     <li> mg2g </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Redesign
   <ul>
    <li> See "Plan the redesign" in ComputerAlgebra/plans/Maxima.hpp for
@@ -103,15 +117,30 @@ License, or any later version. */
   <ul>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
+     <li> We can use the vertex-labels (assuming they are present). </li>
+     <li> Currently, mg2g doesn't use the vertex labels (since they might not
+     be there). </li>
+     <li> So we need a second version, which also translates the vertex labels.
+     </li>
+     <li> How to call it? Which version is standard? Perhaps mg2g should
+     translate the vertex labels, and "mg2g_nvl" doesn't translate them.
+     </li>
+     <li> What about loops? Are they possible with Maxima graphs? </li>
+    </ol>
      <li> DONE (the vertex names become vertex labels)
      Given a graph, we can either just forget the vertex names, or use
      them as vertex labels. </li>
      <li> DONE And given a maxima-graph, we can use the standard-vertex-names
      0, ... </li>
-     <li> Or we can use the vertex-labels (assuming they are present). </li>
+   </li>
+   <li> We need conversions between directed graphs and maxima-digraphs.
+    <ol>
+     <li> "dg2mdg" needs to be complemented by two inverses, mdg2dg and
+     mdg2dg_nvl. </li>
+     <li> What about loops? </li>
     </ol>
    </li>
-   <li> And we need conversions between directed graphs and maxima-digraphs. </li>
+   <li> Do Maxima graphs allow parallel edges? </li>
    <li> Find out about the output-formats for maxima-graphs. </li>
    <li> DONE (exact values are computed)
    We need to find out whether for example the colouring function computes an
