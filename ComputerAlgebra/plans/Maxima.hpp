@@ -539,6 +539,7 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
     <ol>
      <li> ext_integer_partitions </li>
      <li> corr_cartesian_product </li>
+     <li> unique([2,1]) = [1,2]; use stable_unique instead </li>
     </ol>
    </li>
    <li> Loops:
@@ -580,6 +581,19 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
      <li> A source of errors regarding the block-expression is that
      returns inside it just leave *this* block --- so one has to
      be careful by introducing blocks (since they change the semantics)! </li>
+    </ol>
+   </li>
+   <li> Local functions
+    <ol>
+     <li> Local functions can be defined, e.g.,
+     \verbatim
+block([f], local(f), f(x) := x)
+     \endverbatim
+     and also array-functions (supporting memoisation) are possible. </li>
+     <li> However it seems that these local functions are not values, and thus
+     cannot be carried around. </li>
+     <li> So if for example just an auxiliary hash-function is needed, then
+     it seems better to define it as such a local arrau-function. </li>
     </ol>
    </li>
    <li> All different types of loops (see the existing code).

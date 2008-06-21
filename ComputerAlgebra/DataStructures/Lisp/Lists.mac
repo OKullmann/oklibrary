@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
 /* **************************
    * Sublist constructions *
    **************************
@@ -66,6 +69,15 @@ rotate(l,n) :=
   else rotate(append(rest(l), [first(l)]), n+1)$
 
 
+/* Removes duplicated elements in the order they appear (i.e., the second
+   occurrence and later ones are removed). */
+/* Returns copies of each first occurrence. */
+stable_unique(L) := block([h : sm2hm({}), res : []],
+ for x in L do
+   if not ev_hm(h,x) then (
+     set_hm(h,x,true),
+     res : endcons(x,res)),
+ return(res))$
 
 
 /* REMARK : Functions below should go to LinearAlgebra? */
