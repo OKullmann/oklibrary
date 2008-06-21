@@ -6,7 +6,7 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/Graphs/Lisp/plans/BicliquePartitions.hpp
+  \file ComputerAlgebra/Graphs/Lisp/plans/BicliquePartitions/general.hpp
   \brief Plans regarding biclique partitions of (general) graphs
 
 
