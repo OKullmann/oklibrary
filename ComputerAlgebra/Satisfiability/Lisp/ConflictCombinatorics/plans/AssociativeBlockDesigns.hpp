@@ -68,8 +68,8 @@ License, or any later version. */
      uniform unsatisfiable hitting clause-set of rank k * k'. </li>
      <li> This construction should be the same as in [Lint, Wilson], Lemma 9.9,
      and thus should transfer variable-uniformity. </li>
-     <li> There are two other constructions in [Lint, Wilson], Theorem 9.10, and
-     Theorem 9.11, which need to be implemented. </li>
+     <li> There are two other constructions in [Lint, Wilson], Theorem 9.10,
+     and Theorem 9.11, which need to be implemented. </li>
     </ol>
    </li>
    <li> Sporadic cases:
@@ -136,6 +136,21 @@ License, or any later version. */
    (here there are solutions; perhaps we can determine them all?). </li>
    <li> Regarding the quality-measure mu(n,k) = log_k(n) (the more the better)
    we have mu(4,3) < mu(8,5) < mu(12,6). </li>
+   <li> See
+   ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/Transformations.hpp
+   for the biclique approach:
+    <ol>
+     <li> Variable- and literal-regularity as well as uniformity is easy to
+     capture, however one also needs to know the conflict matrix. </li>
+     <li> So we need to know properties of the conflict matrix (see below).
+     Then one could search through (or sample) the space of possible conflict
+     matrices. </li>
+     <li> For already given ABDs, i.e., we know already some conflict matrix,
+     we can search for other (non-isomorphic) instances (with the same
+     conflict matrix). </li>
+     <li> 
+    </ol>
+   </li>
   </ul>
 
 
@@ -179,7 +194,8 @@ redtsrp(rbrouwer1999);
      \endverbatim
      </li>
      <li> It seems that rbrouwer1999 is unique up to isomorphism. If this is
-     the case then rbrouwer1999 needs to be inspected carefully!
+     the case then rbrouwer1999 needs to be inspected carefully! </li>
+     <li> A little experiment to get another derivation:
      \verbatim
 r_brouwer1999 : rename_fcs(brouwer1999,[8,7,6,5,4,3,2,1]);
 rrbrouwer1999 : redtsr(r_brouwer1999[2]);
@@ -189,13 +205,17 @@ rrbrouwer1999 : redtsr(r_brouwer1999[2]);
 is_isomorphic_btr_cs(rrbrouwer1999,rbrouwer1999);
  true
      \endverbatim
+     (Remark: this clause-set has now actually been used to define rbrouwer).
      </li>
+     <li> Also rbrouwer1999 is eigenscharp. </li>
+     <li> It doesn't seem to fulfill any regularity conditions (neither
+     literal- nor variable-regular nor uniform). </li>
+     <li> Also the conflict matrix now allows various linesums. </li>
     </ol>
    </li>
    <li> The min-var-degree is not as high as possible (examples?). </li>
    <li> Applying partial assignments we obtain from brouwer1999 quite a
    lot of non-isomorphic clause-sets. </li>
-   <li> brouwer1999 is eigensharp. </li>
    <li> One needs to find out about the symmetries of brouwer1999. </li>
    <li> The conflict matrix:
     <ol>
@@ -203,16 +223,43 @@ is_isomorphic_btr_cs(rrbrouwer1999,rbrouwer1999);
      (between 1 and 5, resp. between 1 and 3). </li>
      <li> sasg2000 is line-regular with line-sum 9, while brouwer2000
      is line-regular with line-sum 50. </li>
-     <li> The general conjecture is that the conflict matrix of an ABD(n,k)
-     is linesum-regular with linesum r = S / 2^k, where S is the total sum
-     of entries of the conflict matrix, which is S = 2 * n * d^2, where d
-     is the literal degree d = 2^k * k / (2n). This makes
-     r = 2 n * (2^k * k / (2n))^2 / 2^k = 2 n * 2^k * k^2 / (4 n^2) =
-     2^k * k^2 / (2 n). </li>
+     <li> The conflict matrix of an ABD(n,k) is always linesum-regular with
+     linesum r = S / 2^k, where S is the total sum of entries of the conflict
+     matrix, which is S = 2 * n * d^2, where d is the literal degree
+     d = 2^k * k / (2n). This makes r = 2 n * (2^k * k / (2n))^2 / 2^k =
+     2 n * 2^k * k^2 / (4 n^2) = 2^k * k^2 / (2 n). </li>
+     <li> This follows simply from the literatur regularity together with
+     the uniformity: Every clause has k variables, each creates
+     2^k * k / (2n) conflicts. </li>
      <li> This implies the condition 2n | 2^k k^2 on the existence of an
-     ABD(n,k), i.e., n | 2^(k-1) * k^2. On page 85 of [Lint, Wilson, 2001]
-     the stronger condition n | 2^(k-1) * k is mentioned, so the conjecture
-     should follow from those considerations. </li> 
+     ABD(n,k), i.e., n | 2^(k-1) * k^2. But that the literal degree
+     d = 2^k * k / (2n) is a natural number already implies the stronger
+     condition n | 2^(k-1) * k. </li> 
+     <li> sasg2000 and brouwer1999 are eigensharp (i.e.,
+     hermitian_rank_cs(brouwer1999[2]) = nvar_fcs(brouwer1999)).
+      <ol>
+       <li> So one can conjecture that every ABD is eigenscharp. </li>
+       <li> We should prove that the known constructions for ABDs (from
+       given ones) preserve eigensharpness.
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> The clause-intersection matrix cl_int_scom_cs:
+    <ol>
+     <li> Doesn't look regular. </li>
+    </ol>
+   </li>
+   <li> The clause-var-intersection matrix cl_varint_scom_cs
+    <ol>
+     <li> Doesn't look regular. </li>
+    </ol>
+   </li>
+   <li> The variable-intersection matrix var_int_scom_fcs:
+    <ol>
+     <li> This is a diagonal matrix with the (constant) variable degree
+     on the diagonal. </li>
+     <li> This should be known. </li>
     </ol>
    </li>
   </ul>
