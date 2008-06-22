@@ -19,8 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 kill(f)$
@@ -71,6 +72,22 @@ okltest_abs_scom(f) := (
   assert(scomequalp(f(constantscom({1,2},-1)), constantscom({1,2},1)) = true),
   assert(scomequalp(f(idscom({1,2})), idscom({1,2})) = true),
   assert(scomequalp(f(cdiagscom({1,2},-2)), cdiagscom({1,2},2)) = true),
+  true)$
+
+
+okltest_rowsums_list_com(f) := block([u],
+  assert(f([{},{},u]) = []),
+  assert(f([{},{1},u]) = []),
+  for n : 0 thru 4 do
+    assert(f([setn(n),{},u]) = if n=0 then [] else [[0,n]]),
+  for n : 0 thru 3 do
+    for m : 0 thru 3 do
+      for k : 0 thru 2 do
+        assert(f([setn(n),setn(m),lambda([i,j],k)]) = if n=0 then [] else [[m*k,n]]),
+  true)$
+
+okltest_columnsums_list_com(f) := block(
+  okltest_rowsums_list_com(buildq([f],lambda([M],f(trans(M))))),
   true)$
 
 

@@ -18,17 +18,29 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
 
+/* *******************
+   * Transformations *
+   *******************
+*/
 
 okltest_com2ghyp(com2ghyp);
+
+/* ********************
+   * Basic operations *
+   ********************
+*/
 
 okltest_comequalp(comequalp);
 okltest_scomequalp(scomequalp);
 
 okltest_abs_com(abs_com);
 okltest_abs_scom(abs_scom);
+
+okltest_rowsums_list_com(rowsums_list_com);
+okltest_columnsums_list_com(columnsums_list_com);
 
 /*!
 \endhtmlonly

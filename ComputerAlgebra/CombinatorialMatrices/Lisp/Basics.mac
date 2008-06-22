@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* ***********************
@@ -141,6 +142,16 @@ sum_scom(M) := sum_com(scom2com(M))$
 abs_com(M) := [M[1], M[2], buildq([M],lambda([i,j], abs(M[3](i,j))))]$
 /* The entrywise absolute values of a square combinatorial matrix */
 abs_scom(M) := [M[1], buildq([M],lambda([i,j], abs(M[2](i,j))))]$
+
+/* The distribution of row-sums, that is a list of pairs [possible
+    row-sum, number of rows], sorted by ascending row-sum. */
+rowsums_list_com(M) := list_distribution(
+  create_list(lsum(M[3](i,j),j,listify(M[2])),i,listify(M[1])))$
+
+/* The distribution of column-sums, that is a list of pairs [possible
+    column-sum, number of rows], sorted by ascending row-sum. */
+columnsums_list_com(M) := list_distribution(
+  create_list(lsum(M[3](i,j),i,listify(M[1])),j,listify(M[2])))$
 
 
 /*!
