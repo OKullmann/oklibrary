@@ -147,6 +147,9 @@ License, or any later version. */
      <li> For n=8 add at least deficiencies delta = 5,6,7. </li>
     </ol>
    </li>
+   <li> We should integrate the catalogue of MU(k) isomorphism types from
+   http://wwwcs.uni-paderborn.de/cs/ag-klbue/de/research/MinUnsat/index.html
+   . </li>
   </ul>
 
 
