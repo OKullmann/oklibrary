@@ -61,12 +61,13 @@ cl_var_com_fcs(FF) := [FF[2], FF[1], lambda([C,v],
 
 /* The clause-intersection matrix (as square combinatorial matrix)
    of a clause-set (for each pair of clauses the number of common literals
-   minus the number of clashing literals) */
+   minus the number of clashing literals). */
 cl_int_scom_cs(F) := block([FF : cs_to_fcs(F), M],
  M : cl_var_com_fcs(FF),
   return(com2scom(prod_com(M, trans(M)))))$
 /* The clause-var-intersection matrix (as square combinatorial matrix)
-   of a clause-set (for each pair of clauses the number of common variables) */
+   of a clause-set (for each pair of clauses the number of common variables).
+*/
 cl_varint_scom_cs(F) := block([FF : cs_to_fcs(F), M],
  M : abs_com(cl_var_com_fcs(FF)),
   return(com2scom(prod_com(M, trans(M)))))$
