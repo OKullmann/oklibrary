@@ -37,8 +37,8 @@ License, or any later version. */
    parts, can be naturally encoded into a mapping from V to
    {-k, ..., k} - {0}, assigning to each vertex its biclique-number
    together with the "side". </li>
-   <li> However, if the degree of a vertex v is m, then we must have
-   1 <= l_i <= m "copies" of v (since v will participate in exactly m
+   <li> However, if the degree of a vertex v is d(v), then we must have
+   1 <= l_i <= d(v) "copies" of v (since v will participate in exactly d(v)
    bicliques).
     <ol>
      <li> l_i is the length of the clause corresponding to this vertex. </li>
@@ -48,6 +48,21 @@ License, or any later version. */
     </ol>
    </li>
    <li> No two copies of a vertex can be contain in the same biclique. </li>
+   <li> In general we need to ensure that all edges have been covered (while
+   the partitioning condition is automatically given now):
+    <ol>
+     <li> Natural is to use for each vertex v a cardinality constraint
+     requiring that together for all the copies we have exactly d(v) edges.
+     </li>
+     <li> One could also specify that the total number of edges is as
+     required. </li>
+     <li> On the other end, one could specify for each copy of v the number
+     of neighbours. </li>
+     <li> So literal regularity of the corresponding clause-set is easy to
+     require. </li>
+     <li>
+    </ol>
+   </li>
    <li> For each 1 <= i <= k the vertices with numbers -i,+i must possibly
    form a complete bipartite graph, that is, from every vertex
    with -i to every vertex with +i there is an edge. </li>
@@ -57,11 +72,12 @@ License, or any later version. */
     <ol>
      <li> A natural application is when searching for a uniform clause-set.
      </li>
-     <li> Vertex degrees on variable 1 <= i <= k can be naturalled specified by
-     cardinality constraints on the sum of copies of vertices which get values
-     -k or +k. </li>
+     <li> Variable degrees for variable 1 <= i <= k can be naturalled specified by
+     cardinality constraints on the number of copies of vertices which get values
+     -i or +i. </li>
      <li> And also literal degrees can be easily prescribed (by cardinality
-     constraints). </li>
+     constraints), again just counting copies of vertices; see also above for
+     the issue of ensuring that enough edges are there. </li>
      <li> It would be nice if one could apply it to search for ABDs, however
      therefore we must also know the conflict matrix; see
      ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
