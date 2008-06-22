@@ -284,6 +284,18 @@ okltest_compose_hm_sm(f) := block([h],
   assert(eq_hmsm_p(h, {[1,1],[{{}},2],[[[]],3]}) = true),
   true)$
 
+/* *********************
+   * Frequency counter *
+   *********************
+*/
+
+okltest_list_distribution(f) := (
+  assert(f([]) = []),
+  assert(f([1]) = [[1,1]]),
+  assert(f([1,2]) = [[1,1],[2,1]]),
+  assert(f([1,1]) = [[1,2]]),
+  true)$
+
 
 /*!
 \endhtmlonly

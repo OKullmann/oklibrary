@@ -43,7 +43,7 @@ ncl_cs(F) := length(F)$
 nlitocc(F) := block([s : 0],
  for C in F do s : s + length(C), return(s))$
  
-/* the list of pairs
+/* The list of pairs
    [occurring clause-lengths, number of clauses of this length],
    sorted by ascending clause-length.
 */
@@ -85,7 +85,7 @@ literal_degree_cs(F,l) := length(scls_l(F,l))$
    only occurring literals. */
 literal_degrees_cs(F) := block([h : sm2hm({})],
  for C in F do
-  for x in C do set_hm(h,x,ev_hm_d(h,x,0)+1),
+  for x in C do enter_new_occurrence(h,x),
  return(h))$
 /* The literal-degrees of a formal clause-set, as hash-map, considering
    all occurring literals. */
@@ -142,10 +142,9 @@ mean_literal_frequency_cs(FF) := mean_literal_degree_cs(FF) / ncl_f(FF)$
 */
 literal_degrees_list_fcs(FF) := block(
  [litdeg : hm2sm(all_literal_degrees_fcs(FF)), h : sm2hm({})],
-  for p in litdeg do block([deg : p[2]],
-    set_hm(h,deg,ev_hm_d(h,deg,0)+1)),
-  sort(listify(hm2sm(h)),
-     lambda([P1,P2], is(first(P1) < first(P2)))))$
+  for p in litdeg do
+    enter_new_occurrence(h,p[2]),
+  get_distribution(h))$
 
 
 /* OK; ???? what is this doing ? What is "tb" ? */
@@ -175,22 +174,22 @@ max_literal_degree_tb_l_cs(FF,d,n) := block(
    ********************
 */
 
-/* The degree of a variable in a clause-set. */
+/* The degree of a variable in a clause-set: */
 variable_degree_cs(F,v) := length(scls_v(F,v))$
 
 /* The variable-degrees of a clause-set, as hash-map. */
 variable_degrees_cs(F) := block([h : sm2hm({})],
  for C in F do
-  for v in var_c(C) do set_hm(h,v,ev_hm_d(h,v,0)+1),
+  for v in var_c(C) do enter_new_occurrence(h,v),
  return(h))$
 
-/* The minimal variable-degree of a clause-set. */
+/* The minimal variable-degree of a clause-set: */
 min_variable_degree_cs(F) := 
   lmin(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
 /* The maximal min-var-degree of a set (or list) of clause-sets. */
 max_min_var_deg_cs(SF) := lmax(map(min_variable_degree_cs,SF))$
 
-/* The maximal variable-degree of a clause-set. */
+/* The maximal variable-degree of a clause-set: */
 max_variable_degree_cs(F) := 
   lmax(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
 /* Also returns a variable of maximal degree (if there is a variable). */
@@ -207,7 +206,7 @@ min_max_var_deg_cs(SF) := lmin(map(max_variable_degree_cs,SF))$
    degree). */
 variableregularcsp(F) := is(min_variable_degree_cs(F) >= max_variable_degree_cs(F))$
 
-/* the average variable-degree of a formal clause-set */
+/* The average variable-degree of a formal clause-set: */
 mean_variable_degree_cs(FF) := 2 * mean_literal_degree_fcs(FF)$
 /* literal frequencies in various forms: */
 min_variable_frequency_cs(F) := min_variable_degree_cs(F) / ncl_cs(F)$
@@ -220,10 +219,9 @@ mean_variable_frequency_cs(FF) := mean_variable_degree_fcs(FF) / ncl_f(FF)$
 */
 variable_degrees_list_cs(F) := block(
  [vardeg : hm2sm(variable_degrees_cs(F)), h : sm2hm({})],
-  for p in vardeg do block([deg : p[2]],
-    set_hm(h,deg,ev_hm_d(h,deg,0)+1)),
-  sort(listify(hm2sm(h)),
-     lambda([P1,P2], is(first(P1) < first(P2)))))$
+  for p in vardeg do
+    enter_new_occurrence(h,p[2]),
+  get_distribution(h))$
 
 
 /* *******************************

@@ -108,6 +108,36 @@ hm2sm(h) :=
 /* Extending a hash-map by a set-map, overwriting old settings. */
 compose_hm_sm(h,M) := (for p in M do set_hm(h,p[1],p[2]), h)$
 
+
+/* *********************
+   * Frequency counter *
+   *********************
+*/
+
+/* Given a list L of objects for which we want to count the number
+   of occurrences, and then get the list of pairs [x,count],
+   sorted by x, where the x are the different objects:
+    - first create an empty hash-map h : sm2hm({})
+    - then call enter_new_occurrences(h,x) for each occurrence,
+    - and finally get the result via get_distribution(h).
+*/
+enter_new_occurrence(h,x) :=
+  set_hm(h,x,ev_hm_d(h,x,0)+1)$
+get_distribution(h) := sort(listify(hm2sm(h)),
+  lambda([P1,P2], is(first(P1) < first(P2))))$
+
+list_distribution(L) := block([h : sm2hm({})],
+  for x in L do enter_new_occurrence(h,x),
+  get_distribution(h))$
+
+/* In the special case, where the x are numerical, we could do as
+   follows; HOWEVER this is MUCH slower than the above:
+load(descriptive)$
+num_distribution(L) := block([D : discrete_freq(L)],
+  sort(map(lambda([a,b],[a,b]),D[1],D[2]),
+    lambda([P1,P2], is(first(P1) < first(P2)))))$
+*/
+
 /*!
 \endhtmlonly
 */

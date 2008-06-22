@@ -51,6 +51,13 @@ okltest_sm2hm(sm2hm);
 okltest_hm2sm(hm2sm);
 okltest_compose_hm_sm(compose_hm_sm);
 
+/* *********************
+   * Frequency counter *
+   *********************
+*/
+
+okltest_list_distribution(list_distribution);
+
 /*!
 \endhtmlonly
 */
