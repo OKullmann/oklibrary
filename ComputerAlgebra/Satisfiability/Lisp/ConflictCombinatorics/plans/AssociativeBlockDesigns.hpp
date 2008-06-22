@@ -197,6 +197,24 @@ is_isomorphic_btr_cs(rrbrouwer1999,rbrouwer1999);
    lot of non-isomorphic clause-sets. </li>
    <li> brouwer1999 is eigensharp. </li>
    <li> One needs to find out about the symmetries of brouwer1999. </li>
+   <li> The conflict matrix:
+    <ol>
+     <li> brouwer1999 and sasg2000 allow for all number of conflicts
+     (between 1 and 5, resp. between 1 and 3). </li>
+     <li> sasg2000 is line-regular with line-sum 9, while brouwer2000
+     is line-regular with line-sum 50. </li>
+     <li> The general conjecture is that the conflict matrix of an ABD(n,k)
+     is linesum-regular with linesum r = S / 2^k, where S is the total sum
+     of entries of the conflict matrix, which is S = 2 * n * d^2, where d
+     is the literal degree d = 2^k * k / (2n). This makes
+     r = 2 n * (2^k * k / (2n))^2 / 2^k = 2 n * 2^k * k^2 / (4 n^2) =
+     2^k * k^2 / (2 n). </li>
+     <li> This implies the condition 2n | 2^k k^2 on the existence of an
+     ABD(n,k), i.e., n | 2^(k-1) * k^2. On page 85 of [Lint, Wilson, 2001]
+     the stronger condition n | 2^(k-1) * k is mentioned, so the conjecture
+     should follow from those considerations. </li> 
+    </ol>
+   </li>
   </ul>
 
 */
