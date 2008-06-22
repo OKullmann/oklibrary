@@ -10,28 +10,24 @@ License, or any later version. */
   \brief Plans regarding transforming the problem of finding biclique partitions into other problems
 
 
-  \todo Finding specific biclique partitions via (generalised) SAT
+  \todo Parameters for encoding
+  <ul>
+   <li> The most basic parameter is an upper bound on the number of
+   biclique, that is, an upper bound on the number of variables. </li>
+   <li> More specifically, we could have a list of biclique sizes,
+   that is, for every variable we specify the number of occurrences. </li>
+   <li> When can also specify the number of literal occurrences, by fixing
+   the sizes of the sides of the bicliques. </li>
+   <li> The size of a clause corresponding to a vertex is between 1 and the
+   degree of the vertex (we should consider here only connected graphs), namely
+   it is exactly the number of bicliques the vertex participates. </li>
+
+
+
+  \todo Edge-centered SAT encoding
   <ul>
    <li> See TransformationsBiclique.hpp and
    Transitional/OKsolver/plans/general.hpp. </li>
-   <li> We must also give an overview on the space of possible
-   generalised SAT-Translations.
-    <ol>
-     <li> The most basic parameter is an upper bound on the number of
-     biclique. </li>
-     <li> More specifically, we could have a list of biclique sizes. </li>
-    </ol>
-   </li>
-  </ul>
-
-
-  \todo Transformations
-  <ul>
-   <li> Find reductions of the problem of finding biclique
-   partitions to other problems. </li>
-   <li> See "Finding specific biclique partitions via SAT" above. </li>
-   <li> Perhaps there are more closely related problems, where the
-   translation is more direct. </li>
   </ul>
 
 
@@ -42,15 +38,45 @@ License, or any later version. */
    {-k, ..., k} - {0}, assigning to each vertex its biclique-number
    together with the "side". </li>
    <li> However, if the degree of a vertex v is m, then we must have
-   m "copies" of v (since v will participate in exactly m bicliques). </li>
-   <li> For each of such copies, a biclique must contain at most one
-   of them. </li>
+   1 <= l_i <= m "copies" of v (since v will participate in exactly m
+   bicliques).
+    <ol>
+     <li> l_i is the length of the clause corresponding to this vertex. </li>
+     <li> So the strength of this model is that the clause-lengths can naturally
+     be prescribed. </li>
+     <li> Of course, this is also a weakness; apparently unavoidable. </li>
+    </ol>
+   </li>
+   <li> No two copies of a vertex can be contain in the same biclique. </li>
    <li> For each 1 <= i <= k the vertices with numbers -i,+i must possibly
    form a complete bipartite graph, that is, from every vertex
    with -i to every vertex with +i there is an edge. </li>
    <li> That we have a biclique-partition is then automatically
    achieved, since each of the copies participate in a biclique! </li>
-   <li> This looks quite nice. </li>
+   <li> This looks quite nice.
+    <ol>
+     <li> A natural application is when searching for a uniform clause-set.
+     </li>
+     <li> Vertex degrees on variable 1 <= i <= k can be naturalled specified by
+     cardinality constraints on the sum of copies of vertices which get values
+     -k or +k. </li>
+     <li> And also literal degrees can be easily prescribed (by cardinality
+     constraints). </li>
+     <li> It would be nice if one could apply it to search for ABDs, however
+     therefore we must also know the conflict matrix; see
+     ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/AssociativeBlockDesigns.hpp
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Transformations
+  <ul>
+   <li> Find reductions of the problem of finding biclique
+   partitions to other problems (than SAT). </li>
+   <li> Perhaps there are more closely related problems, where the
+   translation is more direct. </li>
   </ul>
 
 */
