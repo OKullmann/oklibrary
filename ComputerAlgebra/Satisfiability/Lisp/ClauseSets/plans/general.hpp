@@ -34,18 +34,70 @@ License, or any later version. */
    so the discussion in
    ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp
    is not relevant yet. </li>
-   <li> General clause-sets
-    <ul>
-     <li> A "general clause-set" is a triple [V,F,f], where V is a set of
-     variables, F a set of clause-labels, and f assigns to each element of
-     F a clause over V. </li>
-     <li> As we have a promotion from clause-sets to formal clause-sets, we
-     also need a promotion from a formal clause-set to a general clause-set.
-     </li>
-    </ul>
+   <li> At the base level we have
+    <ol>
+     <li> "clause-sets" as now; </li>
+     <li> "ordered clause-sets", repetition-free lists of clauses; </li>
+     <li> "clause-lists" (lists of clauses). </li>
+    </ol>
    </li>
-   <li> Clause-sets, formal clause-sets, and general clause-sets also
-   exist as clause-lists, formal clause-lists and general clause-lists. </li>
+   <li> "Formal" versions (just adding variables):
+    <ol>
+     <li> "formal clause-sets" as now; </li>
+     <li> "formal ordered clause-sets"; </li>
+     <li> "formal clause-lists". </li>
+    </ol>
+    Additionally, the formal clause-sets also exist as "formal
+    multi-clause-sets" and "formal labelled clause-sets".
+   </li>
+   <li> Should we also allow "multi-clause-sets" and "labelled clause-sets"
+   (without the variables)?
+    <ol>
+     <li> Otherwise the "formal" in this context is superfluous. </li>
+     <li> On the other hand, the multi- and labelled versions are introduced
+     in the graph-theoretical context, and there we always have the set
+     of vertices given (except of set-systems). </li>
+    </ol>
+   </li>
+   <li> A "formal multi-clause-set" is a triple [V,F,c] s.t. [V,F] is a
+   formal clause-set and c: F -> NN; accordingly "formal ordered multi-
+   -clause-sets". </li>
+   <li> Labelled clause-sets (not "general clause-sets" to avoid confusion)
+    <ol>
+     <li> A "formal labelled clause-set" is a triple [V,F,f], where V is a
+     set of variables, F a set of clause-labels, and f assigns to each
+     element of F a clause over V. </li>
+     <li> Accordingly, "formal ordered labelled clause-sets are triples
+     [V,F,f], where now V,F are repetition-free lists. </li>
+    </ol>
+   </li>
+   <li> Relations to hypergraphs (see
+   ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp):
+    <ol>
+     <li> fcs <-> hg, focs <-> ohg </li>
+     <li> fmcs <-> mhg, fomcs <-> omhg </li>
+     <li> flcs <-> ghg, folcs <-> oghg. </li>
+    </ol>
+    Additionally we have
+    <ol>
+     <li> "cs" corresponds to "set-systems" </li>
+     <li> "ocs" corresponds to "ordered set-systems" </li>
+     <li> "cl" corresponds to "lists of sets". </li>
+    </ol>
+    A somewhat subtle point: clause-sets here are the only type of
+    objects which are deeply copied (as sets!), while the rest is, since we
+    have lists, copied in the shallow way.
+   </li>
+   <li> Formal clause-lists (fcl) have no correspondence at the hypergraph
+   side:
+    <ol>
+     <li> If we have a list V of vertices and a list E of hyperedges, then
+     we use the ghg [V,E,identity]. </li>
+     <li> Seems alright. </li>
+     <li> So perhaps also for clause-sets we should abandon "fcl" (but keep
+     "cl"), since we have already "flcs". </li>
+    </ol>
+   </li>
    <li> Then we have the "monosigned" versions, where literals are pairs
    [v,e], with e a value. </li>
    <li> And there a "signed" versions, where then e is a set of values. </li>

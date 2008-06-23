@@ -55,32 +55,30 @@ License, or any later version. */
      <li> For clauses: "c". </li>
      <li> For clause-sets: "cs". </li>
      <li> For clause-lists: "cl". </li>
-     <li> For formal clause-sets: "fcs". </li>
-     <li> For formal clause-lists: "fcl". </li>
-    </ol>
-   </li>
-   <li> Then we have general clause-sets etc.: "gcs", "gcl" ? </li>
-   <li> And we have the ordered variations: "ocs", "ofcs", "ogcs".
-    <ol>
-     <li> An ocs is the same structure as a cl, an ofcs the same structure
-     as a fcl, an ogcs the same as gcl, only that repetitions are not allowed
-     (at all). </li>
+     <li> For ordered clause-sets: "ocs". </li>
+     <li> The "formal" versions:
+      <ul>
+       <li> "fcs", "focs" </li>
+       <li> "fmcs", "fomcs" </li>
+       <li> "flcs", "folcs". </li>
+      </ul>
+     </li>
     </ol>
    </li>
    <li> What about literals as sets of pairs [v,e], where e is
    a value (forbidden for CNF, allowed for DNF?
     <ol>
      <li> We could use the prefix "ms" for monosigned? </li>
-     <li> So "msl", "msc", "mscs", "mscl", "msfcs", "msgcs"? </li>
-     <li> And "msocs", "msofcs", "msogcs". </li>
+     <li> So "msl", "msc", "mscs", "mscl", "msfcs", "msfocs",
+     "msfmcs", "msfomcs", "msflcs", "msfolcs". </li>
     </ol>
    </li>
    <li> And then we have signed literals as sets of pairs [v,E],
    where E is a set of values (or a list?)?
     <ol>
      <li> We could use the prefix "s" for signed? </li>
-     <li> So "sl", "sc", "scs", "scl", "sfcs", "sgcs"? </li>
-     <li> And "oscs", "osfcs", "osgcs". </li>
+     <li> So "sl", "sc", "scs", "scl", "sfcs", "sfocs",
+     "sfmcs", "sfomcs", "sflcs", "sfolcs". </li>
     </ol>
    </li>
    <li> Then we have the different kind of partial assignments:
