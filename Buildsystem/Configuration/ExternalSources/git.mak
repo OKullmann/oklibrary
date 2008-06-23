@@ -7,6 +7,8 @@
 
 # Settings for building and using Git
 
+all_extsrc_okl += git
+
 git_recommended_version_number_okl ?= 1.5.6
 git_supported_not_recommended_version_numbers_okl ?= 1.5.5.4
 
@@ -15,6 +17,7 @@ git_prefix_okl ?= git
 git_targets_prefix_okl := $(git_prefix_okl)-
 git_recommended_okl := $(git_targets_prefix_okl)$(git_recommended_version_number_okl)
 git_source_okl := $(ExternalSources)/sources/Git/$(git_recommended_okl)
+git_source_ext_okl ?= .tar.bz2
 
 git_base_build_dir_okl ?= $(ExternalSources_builds)/Git
 git_build_dir_okl ?= $(git_base_build_dir_okl)/$(git_recommended_okl)

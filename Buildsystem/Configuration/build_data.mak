@@ -18,3 +18,7 @@ rel_path_tool_debug ?= $(tool_dir)/PathDifference
 
 build_identification_okl ?= $(shell echo $$(date "+%Y-%j-%s" | tr -d " "))
 # This is year-(number of day in the year)-(seconds since 00:00:00 1970-01-01 UTC).
+
+# The list of all external sources:
+all_extsrc_okl ?= 
+

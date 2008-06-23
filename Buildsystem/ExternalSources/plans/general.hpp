@@ -10,6 +10,25 @@ License, or any later version. */
   \brief Plans for building external sources in general
 
 
+  \todo Downloading sources
+  <ul>
+   <li> Via "make update" the system should download all the packages from
+   the source-directory as provided on the OKlibrary web site. </li>
+   <li> For this, additionally to e.g. "git_source_okl" a variable
+   "git_source_ext_okl" is needed, which for this purpose specifies
+   the extension of git_source_okl (like ".tar.bz2"). </li>
+   <li> And every configuration file shall also contain e.g.
+   "all_extsrc_okl += git" to update the list of all external sources. </li>
+   <li> Due to the (apparent) impossibility of translating a target
+   into some other target computed from it, we cannot use the source-archives
+   as prerequisites of the rules, but we have to check it manually. </li>
+   <li> When the source-archive is existing, then we should nevertheless
+   check the md5sum. </li>
+   <li> The full-source-path is translated into the url, and then obtained
+   via wget. </li>
+  </ul>
+
+
   \todo Interfaces via OKplatform/bin
   <ul>
    <li> We should make nearly all executables from ExternalSources
@@ -107,21 +126,6 @@ SAGE_ROOT="....."
    OKplatform/ExternalSources. </li>
    <li> DONE Perhaps better "Docs" and "Installations", since if
    these directories are deleted, then something is lost. </li>
-  </ul>
-
-
-  \todo Downloading sources
-  <ul>
-   <li> Via "make getsources" the system should download all the packages from
-   \verbatim
-cs-oksvr.swan.ac.uk:/work/Repositories/ExternalSources_recommended
-   \endverbatim
-   </li>
-   <li> Better, we make this directory available via the OKlibrary web site,
-   and then one can (manually) download each file separately, or an archive
-   with all of them, or via "make getsources". </li>
-   <li> Perhaps best via anonymous ftp? Better we use a password (a universal
-   one, given in Configuration). </li>
   </ul>
 
 

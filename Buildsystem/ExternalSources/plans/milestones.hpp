@@ -16,6 +16,10 @@ License, or any later version. */
   \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.3
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
+  \par
+   In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
+    - Downloading sources
+
 
   \par Version 0.1.3
 
@@ -29,7 +33,6 @@ License, or any later version. */
   \par
    In Transitional/Buildsystem/ExternalSources/plans/general.hpp the following topics are handled:
     - Elaborated directory structure
-    - Downloading sources
     - Building documentation
     - General
     - Make-variables for external libraries

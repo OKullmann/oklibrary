@@ -31,7 +31,7 @@ export
 # Main targets
 # #################################
 
-.PHONY : all clean cleanall
+.PHONY : all clean cleanall update
 
 all : 
 	echo "NOT READY YET!"
@@ -47,6 +47,24 @@ endef
 define unarchive
 if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip; elif [ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2; else exit 1; fi;
 endef
+
+
+# #################################
+# Updating
+# #################################
+
+define full_name
+$($(1)_source_okl)$($(1)_source_ext_okl)
+endef
+
+all_update_targets_okl := $(addprefix update_, $(all_extsrc_okl))
+.PHONY : $(all_update_targets_okl)
+
+update : $(all_update_targets_okl)
+
+$(all_update_targets_okl) : update_% :
+	@ if [[ -f $(call full_name,$*) ]]; then echo "$(call full_name,$*) is up-to-date."; exit; else echo "We are now downloading $(call full_name,$*)."; fi; \
+	echo "Downloading!";
 
 
 # #################################
