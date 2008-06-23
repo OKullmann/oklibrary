@@ -288,7 +288,23 @@ make
    \endverbatim
    </li>
    <li> Code needs update (warnings). </li>
-   <li> How to read "sat-grasp.doc" ? </li>
+   <li> How to read "sat-grasp.doc" ?
+    <ol>
+     <li> We provide an amended version. </li>
+     <li> Then running
+     \verbatim
+asciidoc --doctype manpage --backend xhtml11 --unsafe --out-file=sat-grasp_amended.html sat-grasp_amended.doc
+     \endverbatim
+     creates a reasonable html-page, while by
+     \verbatim
+less sat-grasp_amended.doc
+     \endverbatim
+     the man-page can be viewed. </li>
+     <li> Using "--doctype article" produces a slight variation instead. </li>
+     <li> What is the meaning of "--unsafe"?? Without this option, some
+     style-sheets are not used. </li>
+    </ol>
+   </li>
    <li> Using "sat-grasp -V file", the only output is "-V", and the return
    value is 1. This seems to be a bug (this happens for all kinds of DIMACS-
    files). </li>
