@@ -1,16 +1,18 @@
 # Matthew Henderson, 25.6.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# NEEDS UPDATE
+
 # ##################################
 # Directory Structure
 # ################################## 
 
-mpfr-base-directory := $(prefix)/mpfr
-mpfr-directories := $(mpfr-base-directory)
+mpfr_base_build_dir_okl := $(ExternalSources_builds)/mpfr
+mpfr-directories := $(mpfr_base_build_dir_okl)
 
 .PHONY : mpfr $(mpfr_targets) create_mpfr_dirs
 
@@ -24,8 +26,8 @@ $(mpfr-directories) : % :
 mpfr : $(mpfr_recommended)
 
 $(mpfr_targets) : $(mpfr-directories)
-	$(call unarchive,$(ExternalSources)/sources/Gmp/$@,$(mpfr-base-directory))
-	cd $(mpfr-base-directory)/$@; $(postcondition) \
+	$(call unarchive,$(ExternalSources)/sources/Gmp/$@,$(mpfr_base_build_dir_okl))
+	cd $(mpfr_base_build_dir_okl)/$@; $(postcondition) \
 	./configure; $(postcondition) \
 	make; $(postcondition) \
 	sudo make install; $(postcondition)
@@ -35,4 +37,4 @@ $(mpfr_targets) : $(mpfr-directories)
 # #################################
 
 cleanallmpfr : 
-	-rm -rf $(mpfr-base-directory)
+	-rm -rf $(mpfr_base_build_dir_okl)

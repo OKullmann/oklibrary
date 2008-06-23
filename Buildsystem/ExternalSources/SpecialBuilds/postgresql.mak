@@ -18,14 +18,14 @@
 
 pgsql-version :=
 pgdata :=
-postgresql-base-directory := $(prefix)/Postgresql
+postgresql_base_installation_dir_okl := $(ExternalSources_installations)/Postgresql
 postgresql_installation_directory_names := $(patsubst postgresql-%, %, $(postgresql_targets))
-postgresql_installation_directory_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_installation_directory_names))
+postgresql_installation_directory_paths := $(addprefix $(postgresql_base_installation_dir_okl)/,$(postgresql_installation_directory_names))
 postgresql_base_doc_dir_okl := $(ExternalSources_doc)/Postgresql
-postgresql-directories := $(postgresql-base-directory) $(postgresql_base_doc_dir_okl) $(postgresql_installation_directory_paths)
+postgresql-directories := $(postgresql_base_installation_dir_okl) $(postgresql_base_doc_dir_okl) $(postgresql_installation_directory_paths)
 postgresql_timestamp_prefix := _
 postgresql_tag_names:= $(addprefix $(postgresql_timestamp_prefix),$(postgresql_targets))
-postgresql_tag_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_tag_names))
+postgresql_tag_paths := $(addprefix $(postgresql_base_installation_dir_okl)/,$(postgresql_tag_names))
 
 
 
@@ -54,27 +54,27 @@ ifeq ($(pgsql-version), )
 pgsql-version := $(postgresql_recommended_version_number)
 endif
 ifeq ($(pgdata), )
-pgdata := $(postgresql-base-directory)/$(pgsql-version)/data
+pgdata := $(postgresql_base_installation_dir_okl)/$(pgsql-version)/data
 endif
 
 $(postgresql_targets) : $(postgresql_tag_paths)
 
 $(postgresql_tag_paths) : $(postgresql_installation_directory_paths)
-	$(call unarchive,$(ExternalSources)/sources/Postgresql/$(addprefix postgresql-,$(notdir $<)),$(postgresql-base-directory))
-	cd $(postgresql-base-directory)/$(addprefix postgresql-,$(notdir $<)); $(postcondition) \
-	./configure CFLAGS='-Wl,-rpath,$(postgresql-base-directory)/$(notdir $<)/lib' --prefix=$(postgresql-base-directory)/$(notdir $<); $(postcondition) \
+	$(call unarchive,$(ExternalSources)/sources/Postgresql/$(addprefix postgresql-,$(notdir $<)),$(postgresql_base_installation_dir_okl))
+	cd $(postgresql_base_installation_dir_okl)/$(addprefix postgresql-,$(notdir $<)); $(postcondition) \
+	./configure CFLAGS='-Wl,-rpath,$(postgresql_base_installation_dir_okl)/$(notdir $<)/lib' --prefix=$(postgresql_base_installation_dir_okl)/$(notdir $<); $(postcondition) \
 	make; $(postcondition) \
 	make install; $(postcondition) \
 	touch $@; $(postcondition) \
 
 initialise-database :
-	$(postgresql-base-directory)/$(pgsql-version)/bin/initdb -D $(pgdata)
+	$(postgresql_base_installation_dir_okl)/$(pgsql-version)/bin/initdb -D $(pgdata)
 	$(postcondition)
-	$(postgresql-base-directory)/$(pgsql-version)/bin/pg_ctl -D $(pgdata) -l logfile start
+	$(postgresql_base_installation_dir_okl)/$(pgsql-version)/bin/pg_ctl -D $(pgdata) -l logfile start
 
 # ####################################
 # Cleaning
 # ####################################
 
 cleanallpostgresql :
-	-rm -rf $(postgresql-base-directory)
+	-rm -rf $(postgresql_base_installation_dir_okl)

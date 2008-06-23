@@ -11,9 +11,9 @@
 # Directory Structure
 # ################################## 
 
-cmake-base-directory := $(prefix)/Cmake
+cmake_base_build_dir_okl := $(ExternalSources_builds)/Cmake
 cmake_base_doc_dir_okl := $(ExternalSources_doc)/Cmake
-cmake-directories := $(cmake-base-directory) $(cmake_base_doc_dir_okl)
+cmake-directories := $(cmake_base_build_dir_okl) $(cmake_base_doc_dir_okl)
 
 .PHONY : cmake $(cmake_targets) create_cmake_dirs
 
@@ -29,8 +29,8 @@ create_cmake_dirs : $(cmake-directories)
 cmake : $(cmake_recommended)
 
 $(cmake_targets) : create_cmake_dirs
-	$(call unarchive,$(ExternalSources)/sources/Cmake/$@,$(cmake-base-directory)) $(postcondition) \
-	cd $(cmake-base-directory)/$@; $(postcondition) \
+	$(call unarchive,$(ExternalSources)/sources/Cmake/$@,$(cmake_base_build_dir_okl)) $(postcondition) \
+	cd $(cmake_base_build_dir_okl)/$@; $(postcondition) \
 	./bootstrap; $(postcondition) \
 	make; $(postcondition) \
 	cp -r Docs Example $(cmake_base_doc_dir_okl); $(postcondition) \
@@ -41,4 +41,4 @@ $(cmake_targets) : create_cmake_dirs
 # #################################
 
 cleanallcmake : 
-	-rm -rf $(cmake-base-directory)
+	-rm -rf $(cmake_base_build_dir_okl)
