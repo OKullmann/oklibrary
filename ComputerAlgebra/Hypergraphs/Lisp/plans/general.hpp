@@ -46,10 +46,16 @@ License, or any later version. */
      <li> An ordered hypergraphs is a pair [V,E], where V and E are lists
      without repetition, such that [setify(V),setify(E)] is a hypergraph. </li>
      <li> An ordered general hypergraph is a triple [V,E,f], where V, E
-     are lists without repetition, such that [setify(V),setify(E)] is a
+     are lists without repetition, such that [setify(V),setify(E),f] is a
      general hypergraph. </li>
     </ol>
    </li>
+   <li> Multi-versions:
+    <ol>
+     <li> We also should have "multi-hypergraphs", triples [V,E,c], s.t.
+     [V,E] is a hypergraph, and c: E -> NN. </li>
+     <li> And "ordered multi-hypergraphs, [V,E,c] s.t. [setify(V),setify(E),c]
+     is a multi-hypergraph, and [V,E] is an ordered hypergraph. </li>
   </ul>
 
 
@@ -57,7 +63,20 @@ License, or any later version. */
   <ul>
    <li> "hg" for hypergraph, "ghg" for general hypergraph, and "ohg", "oghg"
    for the ordered versions. </li>
+   <li> "mhg" for multi-hypergraph, and "omhg" for ordered multi-hypergraph.
+   </li>
    <li> Conversions then as "hg2ghg", "ohg2hg" etc. </li>
+   <li> Connections to graphs (see
+   ComputerAlgebra/Graphs/Lisp/plans/general.hpp):
+    <ol>
+     <li> g, gl <= hg </li>
+     <li> mug, mugl <= mhg </li>
+     <li> gg <= ghg </li>
+     <li> og, ogl <= ohg </li>
+     <li> omug, omugl <= omhg </li>
+     <li> ogg <= oghg </li>
+    </ol>
+   </li>
   </ul>
 
 
