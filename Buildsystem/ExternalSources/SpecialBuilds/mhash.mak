@@ -1,9 +1,11 @@
 # Matthew Henderson, 6.3.2006 (Swansea)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
+
+# NEEDS UPDATE
 
 # ##################################
 # Directory Structure
@@ -33,16 +35,16 @@ mhash_build_directory_names := $(addsuffix _Build, $(mhash_installation_director
 mhash_build_directory_paths := $(addprefix $(mhash-base-directory)/,$(mhash_build_directory_names))
 mhash_distribution_directories := $(addprefix $(mhash-base-directory)/mhash-, $(abbr_mhash_targets))
 
-mhash_doc_dir := $(external_sources_doc_base_dir)/Mhash
+mhash_base_doc_dir_okl := $(ExternalSources_doc)/Mhash
 
-mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths) $(mhash_doc_dir)
+mhash-directories := $(mhash-base-directory) $(mhash_build_directory_paths) $(mhash_installation_directory_paths) $(mhash_base_doc_dir_okl)
 
 # ##################################
 # Documentation building
 # ##################################
 
-mhash_doc : | $(mhash_doc_dir)
-	- $(call unarchive,$(ExternalSources)/sources/Mhash/$(mhash_recommended),$(mhash_doc_dir))
+mhash_doc : | $(mhash_base_doc_dir_okl)
+	- $(call unarchive,$(ExternalSources)/sources/Mhash/$(mhash_recommended),$(mhash_base_doc_dir_okl))
 # OK : This should automatically be done when building.
 
 # ##################################

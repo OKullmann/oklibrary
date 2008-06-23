@@ -1,9 +1,11 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
+
+# NEEDS UPDATE
 
 # ####################################
 # Directory Structure
@@ -19,8 +21,8 @@ pgdata :=
 postgresql-base-directory := $(prefix)/Postgresql
 postgresql_installation_directory_names := $(patsubst postgresql-%, %, $(postgresql_targets))
 postgresql_installation_directory_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_installation_directory_names))
-postgresql_doc_dir := $(external_sources_doc_base_dir)/Postgresql
-postgresql-directories := $(postgresql-base-directory) $(postgresql_doc_dir) $(postgresql_installation_directory_paths)
+postgresql_base_doc_dir_okl := $(ExternalSources_doc)/Postgresql
+postgresql-directories := $(postgresql-base-directory) $(postgresql_base_doc_dir_okl) $(postgresql_installation_directory_paths)
 postgresql_timestamp_prefix := _
 postgresql_tag_names:= $(addprefix $(postgresql_timestamp_prefix),$(postgresql_targets))
 postgresql_tag_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_tag_names))
@@ -33,8 +35,8 @@ postgresql_tag_paths := $(addprefix $(postgresql-base-directory)/,$(postgresql_t
 # Documentation
 # ####################################
 
-postgresql_doc : | $(postgresql_doc_dir)
-	- $(call unarchive,$(ExternalSources)/sources/Postgresql/$(postgresql_recommended),$(postgresql_doc_dir))
+postgresql_doc : | $(postgresql_base_doc_dir_okl)
+	- $(call unarchive,$(ExternalSources)/sources/Postgresql/$(postgresql_recommended),$(postgresql_base_doc_dir_okl))
 # OK: shall be integrated into building
 
 # ####################################

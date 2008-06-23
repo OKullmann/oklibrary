@@ -1,9 +1,11 @@
 # Matthew Henderson, 19.7.2006 (Paderborn)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
+
+# NEEDS UPDATE
 
 # ##################################
 # Directory Structure
@@ -36,9 +38,9 @@ bjam_directory_path := $(boost_base_directory)/bjam
 # The relative path to to bjam-source:
 bjam_source := tools/jam/src
 
-boost_doc_dir := $(external_sources_doc_base_dir)/Boost
+boost_base_doc_dir_okl := $(ExternalSources_doc)/Boost
 
-boost-directories := $(boost_base_directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path) $(boost_doc_dir) $(addprefix $(boost_doc_dir)/, $(abbr_boost_targets))
+boost-directories := $(boost_base_directory) $(boost_build_directory_paths) $(boost_installation_directory_paths) $(bjam_directory_path) $(boost_base_doc_dir_okl) $(addprefix $(boost_base_doc_dir_okl)/, $(abbr_boost_targets))
 
 boost_distribution_directories := $(addprefix $(boost_base_directory)/boost_, $(abbr_boost_targets))
 
@@ -77,7 +79,7 @@ define install-boost
 	$(bjam_directory_path)/bjam --toolset=gcc --prefix=$(boost_base_directory)/$(1) --build-dir=$(boost_base_directory)/$(1)_Build install --without-python
 endef
 
-$(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory)/boost-% : $(boost_base_directory)/% $(boost_doc_dir)/%
+$(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory)/boost-% : $(boost_base_directory)/% $(boost_base_doc_dir_okl)/%
 	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$*,$(boost_base_directory)) $(postcondition) \
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	cd $(bjam_source); $(postcondition) \
@@ -86,7 +88,7 @@ $(addprefix $(boost_base_directory)/, $(boost_targets)) : $(boost_base_directory
 	cd $(boost_base_directory)/boost_$*; $(postcondition) \
 	$(call install-boost,$*); \
 	mln -s "$(boost_base_directory)/$*/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$*/lib/#1gcc#4"; $(postcondition) \
-	cp -r $(boost_documentation) $(boost_doc_dir)/$*; $(postcondition) \
+	cp -r $(boost_documentation) $(boost_base_doc_dir_okl)/$*; $(postcondition) \
 	touch $@; $(postcondition)
 
 # Comments:
@@ -103,7 +105,7 @@ define install-boost_gcc
 endef
 
 define boost_gcc_rule
-$(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(boost_doc_dir)/$(1) | gcc-$(2) 
+$(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(boost_base_doc_dir_okl)/$(1) | gcc-$(2) 
 	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
@@ -112,7 +114,7 @@ $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(bo
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	$(call install-boost_gcc,$(1),$(2)); \
 	mln -s "$(boost_base_directory)/$(1)+$(2)/lib/*gcc[0-9][0-9]*" "$(boost_base_directory)/$(1)+$(2)/lib/#1gcc#4"; if [ $$$$? != 0 ]; then exit 1; fi; \
-	cp -r $(boost_documentation) $(boost_doc_dir)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
+	cp -r $(boost_documentation) $(boost_base_doc_dir_okl)/$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	touch $(boost_base_directory)/boost-$(1)+$(2); if [ $$$$? != 0 ]; then exit 1; fi;
 endef
 
