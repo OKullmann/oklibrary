@@ -277,6 +277,24 @@ actual or intended publication of such source code.
 
 
   \todo Grasp
+  <ul>
+   <li> Web site to cite: http://users.ecs.soton.ac.uk/jpms/soft/ </li>
+   <li> Manual build:
+   \verbatim
+builds/SAT/Grasp/tar -xjf ../../../sources/SAT/GRASP/grasp-release-20080622.tar.bz2
+cd grasp-release-20080622
+make
+./sat-grasp ../../../../../OKsystem/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
+   \endverbatim
+   </li>
+   <li> Code needs update (warnings). </li>
+   <li> How to read "sat-grasp.doc" ? </li>
+   <li> Using "sat-grasp -V file", the only output is "-V", and the return
+   value is 1. This seems to be a bug (this happens for all kinds of DIMACS-
+   files). </li>
+   <li> Using "+V", which seems to be the default (different from what
+   sat-graps.doc says), it works. </li>
+  </ul>
 
 
   \todo Posit
