@@ -20,8 +20,6 @@ License, or any later version. */
 
   \todo Prerequisites
   <ul>
-   <li> The build system can install asciidoc if needed; put it into
-   the documentation. (Is it available in recent distributions?) </li>
    <li> What to do about xmlto --- is this available in recent
    distributions, so that we don't need to provide an installation
    ourselves (only documentation)?
@@ -31,6 +29,24 @@ License, or any later version. */
    </li>
    <li> libcurl is another prerequisite, which can be installed by the
    Linux distribution. </li>
+   <li> DONE
+   The build system can install asciidoc if needed; put it into
+   the documentation. (Is it available in recent distributions?) </li>
+  </ul>
+
+
+  \todo Asciidoc
+  <ul>
+   <li> Make the installation of asccidoc local, with placement in
+   OKplatform/bin.
+    <ol>
+     <li> Unfortunately, asciidoc doesn't allow local installation. </li>
+     <li> But at least we should provide some documentation. </li>
+     <li> And perhaps we should have direct access to the installation page
+     (not just through Git). </li>
+    </ol>
+   </li>
+   <li> http://www.methods.co.nz/asciidoc/ is the home page. </li>
   </ul>
 
 
@@ -38,7 +54,11 @@ License, or any later version. */
   <ul>
    <li> Using system-wide installation, are man-pages provided by our
    installation? </li>
-   <li> And how to use these pages with a local installation? </li>
+   <li> And how to use these pages with a local installation?
+    <ol>
+     <li> With "more" or "less" these pages can be viewed. </li>
+    </ol>
+   </li>
   </ul>
 
 

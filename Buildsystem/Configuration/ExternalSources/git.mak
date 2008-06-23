@@ -54,20 +54,3 @@ git_docu_page_okl ?= $(doc_dir)/doxygen_html/d7/d77/docus_2Git_8hpp.html
 git_homepage_url_okl := http://git.or.cz/
 git_documentation_url_okl := http://git.or.cz/\#documentation
 
-# ################################
-# Asciidoc
-# ###############################
-
-asciidoc_recommended_version_number_okl ?= 8.2.5
-asciidoc_supported_not_recommended_version_numbers_okl ?= 8.2.1
-
-asciidoc_prefix_okl ?= asciidoc
-
-asciidoc_targets_prefix_okl := $(asciidoc_prefix_okl)-
-asciidoc_recommended_okl := $(asciidoc_targets_prefix_okl)$(asciidoc_recommended_version_number_okl)
-asciidoc_source_okl := $(ExternalSources)/sources/Asciidoc/$(asciidoc_recommended_okl)
-
-asciidoc_base_build_dir_okl ?= $(ExternalSources_builds)/Asciidoc
-asciidoc_build_dir_okl ?= $(asciidoc_base_build_dir_okl)/$(asciidoc_recommended_okl)
-
-asciidoc_call_okl ?= asciidoc

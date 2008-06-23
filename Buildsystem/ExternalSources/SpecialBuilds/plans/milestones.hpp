@@ -207,6 +207,7 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
    topics are handled:
     - Prerequisites
+    - Asciidoc
     - Info- and man-pages
     - Installation process
 

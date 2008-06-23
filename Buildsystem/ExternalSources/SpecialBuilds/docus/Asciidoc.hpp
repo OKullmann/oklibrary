@@ -18,13 +18,14 @@ License, or any later version. */
   <ul>
    <li> Asciidoc is a prerequisite for installing Git (see
    Buildsystem/ExternalSources/SpecialBuilds/docus/Git.hpp). </li>
-   <li> Often it is already installed; if not it should be supplied
+   <li> See http://www.methods.co.nz/asciidoc/ for the Asciidoc home page
+   (where also documentation can be found). </li>
+   <li> Often Asciidoc is already installed; if not it should be supplied
    by your Linux distribution. </li>
    <li> Otherwise we supply a system-installation (no local installation,
-   since this program belongs (only) to the system-environment). </li>
+   since this appears to be difficult). </li>
    <li> The purpose of Asciidoc is to translate text files in AsciiDoc format
-   to DocBook, HTML or LinuxDoc format; we do not use this tool in the
-   OKlibrary. </li>
+   to DocBook, HTML or LinuxDoc format. </li>
   </ul>
 
 
@@ -60,6 +61,14 @@ License, or any later version. */
     <td> Remove build directory. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> To install a different version of Asciidoc, set variable
+   <code>asciidoc_recommended_version_number_okl</code> accordingly. </li>
+  </ul>
 
 */
 

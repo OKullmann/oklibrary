@@ -9,7 +9,7 @@
 # Directory Structure
 # ################################## 
 
-asciidoc_directories_okl := $(asciidoc_base_build_dir_okl)
+asciidoc_directories_okl := $(asciidoc_base_build_dir_okl) $(asciidoc_base_doc_dir_okl) $(asciidoc_doc_dir_okl)
 
 $(asciidoc_directories_okl) : % : 
 	mkdir -p $@

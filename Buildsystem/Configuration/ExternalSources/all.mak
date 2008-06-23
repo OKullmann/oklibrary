@@ -29,6 +29,7 @@ include $(OKconfiguration)/ExternalSources/ubcsat.mak
 include $(OKconfiguration)/ExternalSources/valgrind.mak
 include $(OKconfiguration)/ExternalSources/clisp.mak
 include $(OKconfiguration)/ExternalSources/maxima.mak
+include $(OKconfiguration)/ExternalSources/asciidoc.mak
 
 # ################################
 # Cmake
