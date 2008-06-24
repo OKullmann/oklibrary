@@ -22,23 +22,26 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
 
-/* *****************
-   * Kneser graphs *
-   *****************
+/* *******************
+   * Complete graphs *
+   *******************
 */
 
-okltest_knesergraph_g(f) := (
-  assert(f(1,1) = [{{1}},{}]),
-  assert(f(2,1) = [{{1},{2}},{{{1},{2}}}]),
-  assert(f(2,2) = [{{1,2}},{}]),
-  assert(f(3,1) = [{{1},{2},{3}}, {{{1},{2}},{{1},{3}},{{2},{3}}}]),
-  assert(f(3,2) = [{{1,2},{1,3},{2,3}},{}]),
-  assert(f(3,3) = [{{1,2,3}},{}]),
-  assert(is_isomorphic(g2mg(f(5,2)), petersen_graph()) = true),
+okltest_complete_g(f) := (
+  assert(f({}) = [{},{}]),
+  assert(f({1}) = [{1},{}]),
+  assert(f({3}) = [{3},{}]),
+  assert(f({1,2}) = [{1,2},{{1,2}}]),
+  for n : 0 thru 5 do block([G : f(setn(n))],
+    assert(g_p(G)=true),
+    assert(G[1] = setn(n)),
+    assert(length(G[2]) = binom(n,2))),
   true)$
+
 
 /* ********************
    * Paths and cycles *
@@ -57,10 +60,28 @@ okltest_cyclegraph_ogl(f) := (
   true)$
 
 okltest_cyclegraph_ogg(f) := (
-  for n in cons(1,makelist(i,i,3,6)) do
-    assert(ogg2ogl(f(n)) = cyclegraph_ogl(n)),
+  for n in cons(1,makelist(i,i,3,6)) do block([G : f(n)],
+    assert(ogg_p(G) = true),
+    assert(ogg2ogl(G) = cyclegraph_ogl(n))),
   assert(gr_equalp(f(2), [[1,2],[1,2],lambda([e],{1,2})]) = true),
   true)$
+
+
+/* *****************
+   * Kneser graphs *
+   *****************
+*/
+
+okltest_knesergraph_g(f) := (
+  assert(f(1,1) = [{{1}},{}]),
+  assert(f(2,1) = [{{1},{2}},{{{1},{2}}}]),
+  assert(f(2,2) = [{{1,2}},{}]),
+  assert(f(3,1) = [{{1},{2},{3}}, {{{1},{2}},{{1},{3}},{{2},{3}}}]),
+  assert(f(3,2) = [{{1,2},{1,3},{2,3}},{}]),
+  assert(f(3,3) = [{{1,2,3}},{}]),
+  assert(is_isomorphic(g2mg(f(5,2)), petersen_graph()) = true),
+  true)$
+
 
 /*!
 \endhtmlonly

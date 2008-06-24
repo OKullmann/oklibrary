@@ -26,8 +26,22 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    *******************
 */
 
-/* The complete graph for vertex set V */
-complete_gr(V) := [V, powerset(V,2)]$
+/* The complete graph for vertex set V: */
+complete_g(V) := [V, powerset(V,2)]$
+
+
+/* ********************
+   * Paths and cycles *
+   ********************
+*/
+
+/* Prerequisite: n >= 1: */
+pathgraph_og(n) := [makelist(i,i,1,n),makelist({i,i+1},i,1,n-1)]$
+/* Prerequisite: n <> 2: */
+cyclegraph_ogl(n) := [makelist(i,i,1,n),endcons({n,1},makelist({i,i+1},i,1,n-1))]$
+/* Remark: cyclegraph_ogl is irreflexiv iff n >= 3. */
+/* Prerequisite: n >= 1: */
+cyclegraph_ogg(n) := [makelist(i,i,1,n),makelist(i,i,1,n),buildq([n],lambda([e],if e=n then {n,1} else {e,e+1}))]$
 
 
 /* *****************
@@ -43,20 +57,6 @@ knesergraph_g(n,m) := block([sn : setn(n)],
       xreduce(union, 
         makelist(cartesian_product({A}, powerset(setdifference(sn, A), m)), 
                  A, listify(powerset(sn, m)))))])$
-
-
-/* ********************
-   * Paths and cycles *
-   ********************
-*/
-
-/* Prerequisite: n >= 1: */
-pathgraph_og(n) := [makelist(i,i,1,n),makelist({i,i+1},i,1,n-1)]$
-/* Prerequisite: n <> 2: */
-cyclegraph_ogl(n) := [makelist(i,i,1,n),endcons({n,1},makelist({i,i+1},i,1,n-1))]$
-/* Remark: cyclegraph_ogl is irreflexiv iff n >= 3. */
-/* Prerequisite: n >= 1: */
-cyclegraph_ogg(n) := [makelist(i,i,1,n),makelist(i,i,1,n),buildq([n],lambda([e],if e=n then {n,1} else {e,e+1}))]$
 
 /*!
 \endhtmlonly
