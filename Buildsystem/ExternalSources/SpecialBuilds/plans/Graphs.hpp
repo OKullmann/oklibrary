@@ -12,7 +12,7 @@ License, or any later version. */
 
   \todo Graph isomorphism
   <ul>
-   <li> naughty </li>
+   <li> nauty http://cs.anu.edu/au/~bdm/nauty </li>
    <li> saucy http://vlsicad.eecs.umich.edu/BK/SAUCY/ </li>
   </ul>
 
