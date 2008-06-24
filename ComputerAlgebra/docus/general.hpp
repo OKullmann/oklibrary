@@ -18,34 +18,76 @@ License, or any later version. */
   <ol>
    <li> The "basic level" is the "Lisp level", that is, CLisp with Maxima:
     <ul>
-     <li> The language is untyped, and this is (taken for this level(!))
-     "a feature, not a bug". </li>
-     <li> No type checking of any kind is performed, but the algorithms
-     are formulated as "pure generic algorithms" based on established
-     conventions how to access the data. </li>
-     <li> Thus the algorithms are open for more general applications than
-     perhaps originally anticipated. </li>
-     <li> As much as possible it should be possible to use terms (with
-     symbolic constants) instead of fixed data representations. </li>
-     <li> "Flow with Lisp", that is, put things in a natural way into
-     lists, and neither worry about efficiency nor about abstraction
-     and concept-hierarchies. </li>
-     <li> No polymorphism is employed, but concrete representations
-     (exploiting the generality of lists and terms) together with
-     conversion functions. </li>
-     <li> The intention of this level is that of quick and elegant
-     programming, for prototyping and experimentation. </li>
-     <li> No simulations of programming concepts which where not
-     anticipated with Lisp. </li>
-     <li> Furthermore, the role model for all data types is set theory.
+     <li> The role model for all "data types" here is set theory.
       <ol>
-       <li> For example, a graph is a pair of vertex-set and a set of 2-element
-       subsets of the vertex-set. </li>
+       <li> For example, a graph is a pair "[V,E]" of vertex-set V and a set
+       E of 2-element subsets of the vertex-set. </li>
        <li> Faithful to the set-theoretic approach, a "vertex" can be
        anything. </li>
        <li> For a "general graph" we use a map from the set of edge-labels
        to the 1- or 2-element subsets. </li>
        <li> Similarly, a clause-set is a set of clauses, etc. </li>
+      </ol>
+     </li>
+     <li> However, the fundamental objects now are lists:
+      <ol>
+       <li> In set theory the fundamental object is a set, an unordered
+       structure, since the mathematical world is eternal, objects are
+       not created, but exist. </li>
+       <li> Computation on the other hand fundamentally relies
+       on order, so the most basic object is accordingly the list. </li>
+      </ol>
+     </li>
+     <li> "Objects stand for themselves":
+      <ol>
+       <li> As in set theory, a list can represent many things, and
+       interpretations must be added to give it meaning. </li>
+       <li> So for example "[{},{}]" can be
+        <ul>
+         <li> the graph with no vertices, </li>
+         <li> the hypergraph with no vertices and no hyperedges, </li>
+         <li> as well as the formal clause-set with no variables and no
+         clauses. </li>
+        </ul>
+       </li>
+       <li> Objects are not adorned to fix their meaning. </li>
+      </ol>
+     </li>
+     <li> The language is untyped, and this is (taken for this level(!))
+     "a feature, not a bug".
+      <ol>
+       <li> No type checking of any kind is performed, but the algorithms
+       are formulated as "pure generic algorithms" based on established
+       conventions how to access the data. </li>
+       <li> Thus the algorithms are open for more general applications than
+       perhaps originally anticipated. </li>
+       <li> For defining the concepts, and for error checking, predicates
+       are provided which check whether objects are well-formed according
+       to the notion of a "graph", a "clause-set" etc.; but these predicates
+       are not used for programming. </li>
+      </ol>
+     </li>
+     <li> "Flow with Lisp", that is, put things in a natural way into
+     lists, and neither worry about efficiency nor about abstraction
+     and concept-hierarchies. </li>
+     <li> No polymorphism is employed, but concrete representations
+     (exploiting the generality of lists and terms) together with
+     conversion functions.
+      <ol>
+       <li> A central point here is that <strong>abstraction must come
+       later</strong>. </li>
+       <li> First we make concrete  experiences with the
+       <em>real</em> multiplicity of concrete types. </li>
+       <li> Abstraction is then added at the Aldor and C++ level. </li>
+      </ol>
+     </li>
+     <li> The intention of this level is that of quick and elegant
+     programming, for prototyping and experimentation.
+      <ol>
+       <li> It shall provide the specificational basis for the whole
+       library. </li>
+       <li> No simulations of programming concepts which where not
+       anticipated with Lisp. </li>
       </ol>
      </li>
     </ul>
@@ -67,7 +109,7 @@ License, or any later version. */
    access to abstract concept hierarchies:
     <ol>
      <li> Especially algorithms can be fully fine-tuned. </li>
-     <li> And construction/destruction of objects can be fully controled. </li>
+     <li> And construction/destruction of objects can be fully controlled. </li>
     </ol>
    </li>
    <li> So, especially for SAT algorithms the general plan is to
