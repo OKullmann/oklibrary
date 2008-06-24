@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Graphs/Lisp/plans/general.hpp
-  \brief Plans for graphs via computer-algebra-systems in general
+  \brief Plans for graphs in Maxima/Lisp
 
 
   \todo Create milestones
@@ -110,6 +110,30 @@ License, or any later version. */
    <li> How to handle "properties" ? DONE (these shall just be maps) </li>
    <li> Can we tag such objects as being "graphs" ? DONE (we are living
    type-free) </li>
+  </ul>
+
+
+  \todo Memoisation for general graphs and multigraphs
+  <ul>
+   <li> The function f in a general graph [V,E,f] could show three different
+   types of computational strategies for computing f(e):
+    <ol>
+     <li> (i) f(e) could always be computed from scratch. </li>
+     <li> (ii) The other extreme is to store f as an array (and thus only
+     compute the values once, when creating the general graph). </li>
+     <li> (iii) The intermediate stratety is the "lazy" one, where f(e) is
+     computed only when needed, and then stored; see "Memoisation" in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp for how
+     to do this. </li>
+     <li> It seems that in many cases the first strategy is alright, since
+     different from combinatorial matrices, the edges in general graphs
+     typically are just simple naming-issues. </li>
+     <li> Also for multigraphs, in the typical applications the multiplicity
+     of an edge is typically "given", not computed. </li>
+     <li> However for example for conflict-graphs of clause-sets it seems best
+     to compute f upfront (using (ii)). </li>
+    </ol>
+   </li>
   </ul>
 
 

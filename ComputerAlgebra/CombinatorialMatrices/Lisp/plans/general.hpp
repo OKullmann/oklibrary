@@ -37,6 +37,32 @@ License, or any later version. */
      <li> "osycm" for ordered symmetric combinatorial matrices. </li>
     </ol>
    </li>
+   <li> A "standardised combinatorial matrix" (stcm) has index sets
+   {1,...,n} for n in NN. </li>
+  </ul>
+
+
+  \todo Conversions
+  <ul>
+   <li> A matrix [R,C,f] can be converted to a Maxima matrix
+   <code> genmatrix(lambda([i,j],f(listify(R)[i],listify(C)[j])),
+            length(R), length(C)); </code>
+   </li>
+   <li> A square matrix M=[I,f] is converted into a directed graph dg(M) with
+   vertex set I and an directed edge from i to j for i # j iff f(i,j) # 0.
+   </li>
+   <li> dgl(M) has a loop at entry [i,i] iff f(i,i) # 0. </li>
+   <li> The general hypergraph hyp(M) for matrix M=[I,J,f] has vertex set I,
+   hyperedge set J, and hyperedge j contains vertex i iff f(i,j) # 0. </li>
+   <li> The labelled clause-set cls(M) for matrix M=[I,J,f] has variable set I,
+   clause-index set J, while clause j contains variable i positively,
+   negatively or not iff f(i,j) > 0, < 0, = 0 respectively. </li>
+   <li> For a general hypergraph G we can form the vertex-edge incidence matrix
+   as well as the edge-vertex incidence matrix. </li>
+   <li> For a labelled clause-set F we can form the clause-variable matrix as
+   well as the variable-clause matrix. </li>
+   <li> For a directed graph (with loops) G we can form the adjacency
+   matrix. </li>
   </ul>
 
 
@@ -76,37 +102,69 @@ f2 : buildq([a : make_array(fixnum,1000)],
        lambda([n], block([v : a[n-1]], 
          if v=0 then a[n-1] : bfloat(log((n-1)!)) else v)))$
      \endverbatim
-     doesn't work, apparently due to evaluation problems. </li>
+     doesn't work, apparently due to evaluation problems with the
+     assignment. </li>
     </ol>
    </li>
    <li> We should set-up some framework for defining such functions easily.
    </li>
    <li> Should for example the conflict matrix of a clause-set always be
    computed in this way? </li>
+   <li> See "Lazy combinatorial matrices" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/Hypergraphs.hpp,
+   and see "Memoisation for general graphs and multigraphs" in
+   ComputerAlgebra/Graphs/Lisp/plans/general.hpp). </li>
   </ul>
 
 
-  \todo Conversions
+  \todo Preprocessing combinatorial matrices
   <ul>
-   <li> A matrix [R,C,f] can be converted to a Maxima matrix
-   <code> genmatrix(lambda([i,j],f(listify(R)[i],listify(C)[j])),
-            length(R), length(C)); </code>
+   <li> Given a combinatorial matrix M, we need a facility to get M'
+   out of it, which as combinatorial matrix is equal to M, but has all
+   values precomputed. </li>
+   <li> How to call it? "preprocess(M)" ?? </li>
+   <li> For this we can use (similar to above, using buildq to inscribe
+   the fixed term into the lambda-term) Maxima-matrices, arrays or
+   hash-maps. </li>
+   <li> Since arrays and matrices both restrict the indices to integers,
+   the only difference is given by access speed:
+    <ol>
+     <li> One would guess that arrays should be faster. </li>
+     <li> Actually, access speed seems to be the same, but the
+     zero-initinalised array is created a lost faster than a matrix. </li>
+     <li> On the other hand, if we want to convert the combinatorial matrix
+     into a Maxima-matrix, then we have it already. </li>
+     <li> And the zero-initialisation isn't that useful in most situations,
+     where we need to compute the values anyway one by one. </li>
+     <li> So we should use Maxima-matrices inside. </li>
+     <li> How can the conversion to Maxima-matrices take advantage that already
+     the Maxima-matrix is given inside:
+      <ol>
+       <li> According to our general strategy, that objects "are themselves",
+       one could simply provide two versions for the conversion, and leave it
+       to the user to decide. </li>
+       <li> This seems to be the only possibility, if we don't want to adorne
+       the definition of combinatorial matrices with all kinds of attributes
+       --- and this we don't want to do. </li>
+       <li> Still the problem: How to extract the matrix, which is hidden
+       inside? </li>
+       <li> Considering f as a term, and relying on a standard form, we can
+       just extract the term:
+       \verbatim
+f1 : buildq([m : matrix([1,2],[3,4])], lambda([i,j],m[i,j]));
+f1(1,2);
+  2
+part(f1,2);
+  matrix([1,2],[3,4])[i,j]
+       </li>
+      </ol>
+     </li>
+    </ol>
    </li>
-   <li> A square matrix M=[I,f] is converted into a directed graph dg(M) with
-   vertex set I and an directed edge from i to j for i # j iff f(i,j) # 0.
-   </li>
-   <li> dgl(M) has a loop at entry [i,i] iff f(i,i) # 0. </li>
-   <li> The general hypergraph hyp(M) for matrix M=[I,J,f] has vertex set I,
-   hyperedge set J, and hyperedge j contains vertex i iff f(i,j) # 0. </li>
-   <li> The labelled clause-set cls(M) for matrix M=[I,J,f] has variable set I,
-   clause-index set J, while clause j contains variable i positively,
-   negatively or not iff f(i,j) > 0, < 0, = 0 respectively. </li>
-   <li> For a general hypergraph G we can form the vertex-edge incidence matrix
-   as well as the edge-vertex incidence matrix. </li>
-   <li> For a labelled clause-set F we can form the clause-variable matrix as
-   well as the variable-clause matrix. </li>
-   <li> For a directed graph (with loops) G we can form the adjacency
-   matrix. </li>
+   <li> Likely we can also produce the other variant, using memoisation
+   as discussed above. </li>
+   <li> Perhaps then we use better "processed_eager(M)" and "processed_lazy(M)"
+   ? </li>
   </ul>
 
 

@@ -14,6 +14,19 @@ License, or any later version. */
   <ul>
    <li> Should we distinguish between Graphs.mac and Hypergraphs.mac? </li>
   </ul>
+
+
+  \todo Lazy combinatorial matrices
+  <ul>
+   <li> For the different combinatorial matrices of clause-sets, it seems
+   best to provide all three different types of implementations (compare
+   the discussion "Memoisation for general graphs and multigraphs" in
+   ComputerAlgebra/Graphs/Lisp/plans/general.hpp). </li>
+   <li> The cm's which always (re)compute their values, as we have them
+   now, provide the definitions. </li>
+   <li> Perhaps from them via some general framework we obtain the instantiated
+   matrices (with values stored in arrays), and the hashed matrics. </li>
+  </ul>
    
 
   \todo Implication graphs
