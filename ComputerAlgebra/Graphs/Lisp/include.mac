@@ -29,6 +29,7 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/InputOutput.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Colouring.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac")$
 
 /*!
