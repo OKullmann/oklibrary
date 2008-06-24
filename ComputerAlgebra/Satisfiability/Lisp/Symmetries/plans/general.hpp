@@ -15,6 +15,8 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
+   <li> See ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp for
+   plans on graph isomorphisms. </li>
    <li> See Isomorphisms/plans/CLSIsomorphisms.hpp for plans on finding and
    utilising isomorphisms between clause-sets. </li>
   </ul>
@@ -109,6 +111,9 @@ License, or any later version. */
      <li> In this way making it possible to apply all of SAT techniques. </li>
      <li> We must take some care here that the overheads are acceptable, since
      this function is basic for many other functions of the library. </li>
+     <li> The techniques from graph theory (see
+     ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp) should be
+     transferred and generalised. </li>
     </ol>
    </li>
   </ul>

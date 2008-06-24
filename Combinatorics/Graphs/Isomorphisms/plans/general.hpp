@@ -1,5 +1,5 @@
 // Oliver Kullmann, 27.11.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -9,8 +9,13 @@ License, or any later version. */
   \file Combinatorics/Graphs/Isomorphisms/plans/general.hpp
   \brief %Algorithms to determine graph isomorphisms directly
 
-  For applications of (generalised) SAT see
-  Applications/Embeddings/Isomorphisms/plans/GraphIsomorphisms.hpp.
+  Connections:
+  <ul>
+   <li> For applications of (generalised) SAT see
+   Applications/Embeddings/Isomorphisms/plans/GraphIsomorphisms.hpp. </li>
+   <li> For algorithms in Maxima/Lisp see
+   ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp. </li>
+  </ul>
 
 
   \todo Update namespaces.
