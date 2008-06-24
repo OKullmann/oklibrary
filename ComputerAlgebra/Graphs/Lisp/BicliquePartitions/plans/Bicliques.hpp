@@ -80,6 +80,23 @@ License, or any later version. */
    ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp. </li>
    <li> Also for translating biclique partition into clause-sets we
    do most work at the level of combinatorial matrices. </li>
+   <li> In ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp
+   we find some plans on doing biclique partitioning for combinatorial
+   matrices:
+    <ol>
+     <li> The question is, what is the right place, here or there? </li>
+     <li> Especially with multigraphs the difference is only that for
+     combinatorial matrices we have two arguments (the 2 indices), while
+     for multigraphs we have one (the edge). </li>
+     <li> So with combinatorial matrices we have automatically the
+     bipartitions given, while this is not the case for
+     (general) graphs, and this makes the difference. </li>
+     <li> Algorithmically, graphs are "sparse representations", while
+     combinatorial matrices are "dense" (i.e., with them it is natural
+     to query "quickly" whether two vertices are adjacent). </li>
+     <li> So likely we should explore both avenues. </li>
+    </ol>
+   </li>
   </ul>
 
 */

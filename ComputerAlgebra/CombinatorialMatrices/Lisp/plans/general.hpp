@@ -60,7 +60,16 @@ f1 : buildq([hm : sm2hm({[1,77]})],
      is a fine memoised function. </li>
      <li> One has to keep in mind that the table is built into f1;
      if this is not wished then (as with using array-functions) one
-     has to use global objects. </li>
+     has to use global objects.
+      <ol>
+       <li> On the other hand, this cannot be the case, since otherwise
+       we would have *two* hash-maps in f1, which wouldn't work! </li>
+       <li> So apparently f1 has a reference to a global object. </li>
+       <li> And only when printing out f1, then this global object is
+       actually printed. </li>
+       <li> One needs to understand CLisp better. </li>
+      </ol>
+     </li>
      <li> On the other hand,
      \verbatim
 f2 : buildq([a : make_array(fixnum,1000)],
@@ -101,9 +110,17 @@ f2 : buildq([a : make_array(fixnum,1000)],
   </ul>
 
 
+  \todo Organisation
+  <ul>
+   <li> The topic of "biclique partitions" of combinatorial matrices should
+   get its own module. </li>
+   <li> What's an appropriate name? Perhaps "SumDecompositions"? </li>
+  </ul>
+
+
   \todo Biclique partitions for combinatorial matrices
   <ul>
-   <li> See also ComputerAlgebra/Graphs/Lisp/plans/BicliquePartitions.hpp.
+   <li> See ComputerAlgebra/Graphs/Lisp/plans/BicliquePartitions.hpp.
    </li>
    <li> A combinatorial matrix is "complete" if no entry is zero.
     <ol>
