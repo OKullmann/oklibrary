@@ -21,6 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Generators.mac"
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 
+/* *****************
+   * Kneser graphs *
+   *****************
+*/
+
+okltest_knesergraph_g(knesergraph_g);
+
 /* ********************
    * Paths and cycles *
    ********************

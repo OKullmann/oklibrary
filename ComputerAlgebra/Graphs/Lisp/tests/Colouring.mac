@@ -36,7 +36,7 @@ okltest_chromatic_number_gr(f) := block(
     assert(f(complete_gr(setn(n))) = n),
   for n : 3 thru 6 do
    for m : 2 thru (n+1)/2 do
-    assert(f(Kneser_graph(n,m)) = n - 2 * m + 2),
+    assert(f(knesergraph_g(n,m)) = n - 2 * m + 2),
   true);
 
 /*!

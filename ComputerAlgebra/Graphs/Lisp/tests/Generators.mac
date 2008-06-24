@@ -25,6 +25,21 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 
 kill(f)$
 
+/* *****************
+   * Kneser graphs *
+   *****************
+*/
+
+okltest_knesergraph_g(f) := (
+  assert(f(1,1) = [{{1}},{}]),
+  assert(f(2,1) = [{{1},{2}},{{{1},{2}}}]),
+  assert(f(2,2) = [{{1,2}},{}]),
+  assert(f(3,1) = [{{1},{2},{3}}, {{{1},{2}},{{1},{3}},{{2},{3}}}]),
+  assert(f(3,2) = [{{1,2},{1,3},{2,3}},{}]),
+  assert(f(3,3) = [{{1,2,3}},{}]),
+  assert(is_isomorphic(g2mg(f(5,2)), petersen_graph()) = true),
+  true)$
+
 /* ********************
    * Paths and cycles *
    ********************
