@@ -45,6 +45,15 @@ License, or any later version. */
      way of querying whether x is already present. </li>
     </ol>
    </li>
+   <li> Perhaps we provide specialised hash-maps for cases where we know
+   a good hash-function for the key, and then we do not need to use the
+   conversion to strings:
+    <ol>
+     <li> Especially for integer arguments this seems interesting. </li>
+     <li> The underlying Lisp-functions seem to have already the ability
+     to use different hash-functions; we need to understand this better. </li>
+    </ol>
+   </li>
   </ul>
 
 */
