@@ -33,4 +33,18 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Improving the hash-maps
+  <ul>
+   <li> Determining whether key x is contained in hash-map h:
+    <ol>
+     <li> Yet we can use ev_hm(h,x) if values are never "false". </li>
+     <li> Otherwise one has to use a value y which can never occur,
+     and one has to check via ev_hm_d(h,x,y). </li>
+     <li> So well, should be doable, but it would be nice to have a direct
+     way of querying whether x is already present. </li>
+    </ol>
+   </li>
+  </ul>
+
 */

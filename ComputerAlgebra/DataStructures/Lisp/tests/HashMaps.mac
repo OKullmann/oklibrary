@@ -237,6 +237,11 @@ okltest_ev_hm_d(f) := block([h : hash_table_okl()],
   set_hash_okl(sconcat([{}]),h,20),
   assert(f(h,[{}],-7) = 20),
   assert(f(h,[],{}) = {}),
+  h : sm2hm({}),
+  assert(f(h,1,10) = 10),
+  set_hm(h,1,false),
+  assert(f(h,1,10) = false),
+  assert(f(h,2,10) = 10),
   true)$
 
 okltest_del_hm(f) := block([h : sm2hm({})],
