@@ -12,7 +12,24 @@ License, or any later version. */
 
   \todo Graph isomorphism
   <ul>
-   <li> nauty http://cs.anu.edu/au/~bdm/nauty </li>
+   <li> nauty http://cs.anu.edu.au/~bdm/nauty
+    <ol>
+     <li> Manual installation:
+     \verbatim
+builds/Graphs/Nauty> tar -xzf ../../../sources/Graphs/nauty22.tar.gz
+raphs/Nauty> cd nauty22
+nauty22> ./configure
+nauty22> make all
+nauty22> make checks
+     \endverbatim
+     looks all fine. </li>
+     <li> Apparently it is a library, and the main application (providing
+     input and output) is "dreadnaut". </li>
+     <li> And there is "dreadnautB", which can handle graphs with more than
+     32765 vertices. </li>
+     <li> And some utilities, including the "gtools". </li>
+    </ol>
+   </li>
    <li> saucy http://vlsicad.eecs.umich.edu/BK/SAUCY/ </li>
   </ul>
 
