@@ -21,6 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/include.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac")$
 
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/tests/Homomorphisms.mac");
+
 /*!
 \endhtmlonly
 */

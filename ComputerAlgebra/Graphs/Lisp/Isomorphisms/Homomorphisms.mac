@@ -55,12 +55,19 @@ all_isomorphisms_bydef_stgl(G) := block([res : [], n : length(G[1])],
   a : make_array(fixnum, n+1),
   for p in permutations(G[1]) do block(
    [a : fillarray(make_array(fixnum, n+1), cons(0,p)), h],
-    fillarray(a, cons(0,p)),
     h : lambda_array(a),
-    if homomorphism_gl_p(G,G,h) then
-      res : endcons(h,res)
-  ),
+    if homomorphism_gl_p(G,G,h) then (
+      res : endcons(h,res),
+      if oklib_monitor then print("[all_isomorphisms_bydef_stgl]: no. ", length(res), ", ", p)
+  )),
   return(res))$
+/* Auxiliary function to extract the array from an automorphism returned by
+   all_isomorphisms_bydef_stgl (recall that it starts with a zero-field): */
+extract_array(h) := part(h,2,0);
+extract_arraylist(h) := rest(listarray(extract_array(h)))$
+/* Computing the "usual" list of isomorphisms, ordered lexicographically: */
+all_pisomorphisms_bydef_stgl(G) := 
+  map(extract_arraylist,all_isomorphisms_bydef_stgl(G))$
 
 /*!
 \endhtmlonly
