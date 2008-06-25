@@ -27,6 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.m
 */
 
 okltest_setmapp(setmapp);
+okltest_osm_p(osm_p);
 
 okltest_define_set_map(define_set_map);
 
@@ -48,8 +49,14 @@ okltest_ev_hm(ev_hm);
 okltest_ev_hm_d(ev_hm_d);
 okltest_del_hm(del_hm);
 okltest_sm2hm(sm2hm);
+okltest_osm2hm(osm2hm);
 okltest_hm2sm(hm2sm);
 okltest_compose_hm_sm(compose_hm_sm);
+okltest_lambda_hm(lambda_hm);
+
+okltest_sm2array(sm2array);
+okltest_array2osm(array2osm);
+okltest_lambda_array(lambda_array);
 
 /* *********************
    * Frequency counter *

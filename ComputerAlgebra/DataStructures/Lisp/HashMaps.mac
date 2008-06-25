@@ -24,15 +24,23 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
    ************************
 */
 
-/* A "set-map" is a set of pairs [x,y], such that x is unique. */
+/* A "set-map" ("sm") is a set of pairs [x,y], such that x is unique.
+   An "ordered set-map" ("osm") is a list of pairs without repetitions
+   whose setification is a set-map.
+*/
 
 /* Checks whether M is a set-map. */
 setmapp(M) := if not setp(M) then false else block([is_setm : true],
   for p in M while is_setm do
     if not listp(p) or length(p) # 2 then is_setm : false,
-  if not is_setm then return(false) elseif
-    not length(map(lambda([p],part(p,1)),M)) = length(M) then return(false)
-  else return(true))$ 
+  return(is_setm and length(map(first,M)) = length(M)))$
+osm_p(M) := if not listp(M) then false else
+ block([l : length(M)],
+  if length(unique(M)) # l then return(false),
+  block([is_osm : true],
+    for p in M while is_osm do
+      if not listp(p) or length(p) # 2 then is_osm : false,
+    return(is_osm and length(unique(map(first,M))) = l)))$
 
 /* Set a value for a set-map. */
 define_set_map(M,x,y) := block([found : false],
@@ -83,9 +91,10 @@ create_set_map(h) :=
  - set_hm
  - ev_hm, ev_hm_d
  - del_hm
- - sm2hm
- - hm2sm
- - compose_hm_sm.
+ - sm2hm, osm2hm
+ - hm2osm, hm2sm
+ - compose_hm_sm
+ - lambda_hm.
 */
 
 /* Set a value for the hash map. */
@@ -102,11 +111,40 @@ del_hm(h,x) := del_hash_okl(sconcat(x),h)$
 /* The order of entries in the hash-table is given by orderlessp. */
 sm2hm(M) := block([h : hash_table_okl()],
   for p in M do set_hm(h,p[1],p[2]), return(h))$
+osm2hm(M) := sm2hm(M)$
+/* The inverse conversions: */
+hm2osm(h) :=
+ map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data_okl(h))$
 hm2sm(h) :=
- setify(map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data_okl(h)))$
+ setify(hm2osm(h))$
 
 /* Extending a hash-map by a set-map, overwriting old settings. */
 compose_hm_sm(h,M) := (for p in M do set_hm(h,p[1],p[2]), h)$
+
+/* Converting a hash-map into a lambda-term.
+   Attention: the lambda-term is a *reference* to h! */
+lambda_hm(h) := buildq([h],lambda([x],ev_hm(h,x)))$
+
+
+/* Similar functions for arrays (like hash-maps, but fixed lenghts,
+   and only integer indices (starting with 0)). */
+
+sm2array(M) := sm2array_lt(M,length(M),any)$
+osm2array(M) := sm2array(M)$
+/* If the type of the indices is known, and the length of the array
+   is also to be specified: */
+sm2array_lt(M,l,type) := block([a : make_array(type,l)],
+  for p in M do a[p[1]] : p[2], return(a))$
+osm2array_lt(M,l,type) := sm2array_lt(M,l,type)$
+
+/* Interpreting a value "false" as "not assigned": */
+array2osm(a) := array2osm_v(a,false)$
+/* Specifying the value which signals "not assigned": */
+array2osm_v(a,v) := block([L : listarray(a)],
+  delete(v,create_list(if L[i]=false then false else [i-1,L[i]],i,1,length(L))))$
+
+/* Converting an array or an array-function into a lambda-term: */
+lambda_array(a) := buildq([a],lambda([x],a[x]))$
 
 
 /* *********************

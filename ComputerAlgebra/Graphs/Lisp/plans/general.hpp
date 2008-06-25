@@ -132,6 +132,9 @@ License, or any later version. */
      of an edge is typically "given", not computed. </li>
      <li> However for example for conflict-graphs of clause-sets it seems best
      to compute f upfront (using (ii)). </li>
+     <li> Using a hash-map inside f is made easy by lambda_hm; though, since
+     E is fixed, an array would be more efficient but this works only
+     for edge-labels which are consecutive integers. </li>
     </ol>
    </li>
   </ul>

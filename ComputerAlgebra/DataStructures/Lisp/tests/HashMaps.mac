@@ -41,6 +41,12 @@ okltest_setmapp(f) := (
   assert(f({[1,1],[2,1]}) = true),
   true)$
 
+okltest_osm_p(f) := block(
+  okltest_setmapp(buildq([f],lambda([M],setp(M) and f(listify(M))))),
+  assert(f(1) = false),
+  assert(f([[1,1],[1,2]]) = false),
+  true)$
+
 okltest_define_set_map(f) := block([M,x,y],
   M : f({},1,10),
   assert(M = {[1,10]}),
@@ -255,7 +261,7 @@ okltest_del_hm(f) := block([h : sm2hm({})],
   del_hm(h,{}),
   assert(eq_hmsm_p(h,{}) = true),
   true)$
-  
+
 okltest_sm2hm(f) := block([h,M],
   h : f({}),
   assert(ev_hm(h,1) = false),
@@ -268,6 +274,20 @@ okltest_sm2hm(f) := block([h,M],
   assert(ev_hm(h,5) = 5),
   assert(ev_hm(h,1) = false),
   assert(eq_hmsm_p(h,M) = true),
+  true)$
+
+okltest_list_osm : [
+ [],
+ [[1,0]],
+ [[1,1],[2,1]],
+ [[{},1],[{{}},2]],
+ [[{},{{}}],[[1,2],[3,4]],[5,5]]
+]$
+  
+okltest_osm2hm(f) := block(
+  okltest_sm2hm(buildq([f],lambda([M],f(listify(M))))),
+  for M in okltest_list_osm do
+    assert(hm2osm(f(M)) = M),
   true)$
 
 okltest_hm2sm(f) := block([h],
@@ -288,6 +308,55 @@ okltest_compose_hm_sm(f) := block([h],
   f(h,{[{{}},2],[[[]],3]}),
   assert(eq_hmsm_p(h, {[1,1],[{{}},2],[[[]],3]}) = true),
   true)$
+
+okltest_lambda_hm(f) := block([lf],
+  lf : f(sm2hm({})),
+  assert(lf(1) = false),
+  lf : f(osm2hm([[{},1],[{{}},2],[1,1]])),
+  assert(lf({}) = 1),
+  assert(lf({{}}) = 2),
+  assert(lf(1) = 1),
+  block([h : sm2hm({[1,1]}), lf2],
+    lf : f(h),
+    set_hm(h,1,2),
+    lf2 : f(h),
+    assert(lf(1) = 2),
+    assert(lf2(1) = 2)
+  ),
+  true)$
+
+okltest_sm2array(f) := block([a],
+  assert(f({}) = make_array(any,0)),
+  a : f({[0,{}]}),
+  assert(listarray(a) = [{}]),
+  a : f({[0,{}],[1,{{}}]}),
+  assert(listarray(a) = [{},{{}}]),
+  true)$
+
+okltest_array2osm(f) := block([a],
+  assert(f(make_array(any,0)) = []),
+  a : make_array(any,3),
+  a[0] : 77, a[1] : {}, a[2] : {{}},
+  assert(f(a) = [[0,77],[1,{}],[2,{{}}]]),
+  true)$
+
+okltest_lambda_array(f) := block([lf],
+  lf : f(sm2array({})),
+  assert(errcatch(lf(0)) = []),
+  lf : f(osm2array_lt([[0,1],[2,{{}},2]],3,any)),
+  assert(lf(0) = 1),
+  assert(lf(2) = {{}}),
+  assert(lf(1) = false),
+  assert(errcatch(lf(3)) = []),
+  block([a : make_array(fixnum,1), lf2],
+    lf : f(a),
+    a[0] : 1,
+    lf2 : f(a),
+    assert(lf(0) = 1),
+    assert(lf2(0) = 1)
+  ),
+  true)$
+
 
 /* *********************
    * Frequency counter *
