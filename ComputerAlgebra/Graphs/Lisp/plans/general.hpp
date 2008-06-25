@@ -101,12 +101,27 @@ License, or any later version. */
    of the pairs to be identical. </li>
    <li> Since also for general graphs the edge set needs to be given, we don't
    have the possibility of "lazy graph representations". Seems unavoidable. /li>
+   <li> Standardisation of vertex-names:
+    <ol>
+     <li> From the point of view of the OKlibrary, the best choice for
+     standard vertex sets would be {1,..,n}. </li>
+     <li> This coincides with mathematical conventions, and also 0 is not
+     possible as a clause-set-variable. </li>
+     <li> However Maxima graphs by themselves are labelled starting with 0,
+     and array-indices start with 0 as well. </li>
+     <li> So well, when translating Maxima graphs to graphs we translate
+     vertex names, if needed, to start with 1. </li>
+     <li> That is, when these or "original" Maxima graphs, which one can
+     apparently recognise by the vertex list in reverse order, finishing
+     with a zero. </li>
+    </ol>
+   </li>
    <li> Given a vertex, we need the set of edges incident to the vertex;
    this can be handled via the dual hypergraph, but we should provide some
    more convenient methods. </li>
-   <li> Likely, our graph-etc-concepts are conceptually, but when using or
-   implementing algorithms then we should, if possible, use the maxima-graphs.
-   </li>
+   <li> Likely, our graph-etc-concepts are conceptually appropriate, but when
+   using or implementing algorithms then we should, if possible, use the
+   maxima-graphs. </li>
    <li> How to handle "properties" ? DONE (these shall just be maps) </li>
    <li> Can we tag such objects as being "graphs" ? DONE (we are living
    type-free) </li>

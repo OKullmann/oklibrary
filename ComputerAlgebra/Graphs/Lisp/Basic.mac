@@ -283,8 +283,18 @@ g2mg(G) := block(
  )
 )$
 
-/* Maxima-graphs to graphs (ignoring the vertex labels) */
-mg2g(g) := [setify(vertices(g)), fullsetify(edges(g))]$
+/* Maxima-graphs to ordered graphs, moving 0-based indices to 1-based
+   (ignoring the vertex labels). */
+mg2og(g) := block([V : vertices(g), E : edges(g)],
+  if not emptyp(V) and last(V)=0 then (
+    for i :1 thru length(V) do
+      V[i] : V[i] + 1,
+    for i : 1 thru length(E) do block([e : E[i]],
+      E[i] : [e[1]+1,e[2]+1])
+  ),
+  return([V,map(setify,E)]))$
+/* Maxima-graphs to graphs (ignoring the vertex labels): */
+mg2g(g) := block([G : mg2og(g)], [setify(G[1]), setify(G[2])])$
 
 
 /* Digraphs to Maxima-digraphs (vertex names yield vertex labels).

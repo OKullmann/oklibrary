@@ -33,7 +33,10 @@ kill(f)$
 okltest_list_g : [
  [{},{}],
  [{1},{}],
- [{1,2},{{1,2}}]
+ [{1,2},{{1,2}}],
+ [{1,2,3},{{1,2},{1,3}}],
+ [{1,2,3},{{1,2},{1,3},{2,3}}],
+ [{1,2,3,4},{{1,2},{2,3},{3,4},{4,1}}]
 ]$
 
 okltest_list_gl : [
@@ -617,6 +620,20 @@ okltest_g2mg(f) := block(
     assert(get_vertex_label(2,G) = [1,-1]),
     assert(get_vertex_label(3,G) = [1,1])
   ),
+  true)$
+
+okltest_mg2og(f) := block(
+  assert(f(complete_graph(1)) = [[1], []]),
+  assert(f(complete_graph(2)) = [[2,1], [{1,2}]]),
+  assert(f(complete_graph(3)) = [[3,2,1], [{2,3},{1,3},{1,2}]]),
+  assert(f(empty_graph(0)) = [[],[]]),
+  assert(f(empty_graph(1)) = [[1],[]]),
+  assert(f(empty_graph(2)) = [[2,1],[]]),
+  true)$
+
+okltest_mg2g(f) := block(
+  for G in okltest_list_g do
+    assert(mg2g(g2mg(G)) = G),
   true)$
 
 okltest_dg2mdg(f) := block(

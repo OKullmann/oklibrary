@@ -97,6 +97,9 @@ okltest_gdg2ogdg(gdg2ogdg);
 */
 
 okltest_g2mg(g2mg);
+okltest_mg2og(mg2og);
+okltest_mg2g(mg2g);
+
 okltest_dg2mdg(dg2mdg);
 
 /*!
