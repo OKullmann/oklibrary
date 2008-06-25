@@ -26,6 +26,36 @@ License, or any later version. */
    of J(n,k,i) for 0 <= i < t. </li>
    <li> The Kneser graph K(G) of a hypergraph G, with vertices
    the hyperedges, joined by an edge if disjoint. </li>
+   <li> In the Maxima-graphs-documentation, the Knesergraph K(n,m)
+   is called "Petersen graph(N,m)", which is not right --- tell the
+   mailing list. </li>
+  </ul>
+
+
+  \todo Parameters of the Kneser graphs
+  <ul>
+   <li> Likely all relevant parameters regarding some generator should
+   be made available where the generator is defined. </li>
+   <li> Most famous for the Kneser graphs is the chromatic number. </li>
+   <li> And then we have the automorphism group:
+    <ol>
+     <li> Order of this group. </li>
+     <li> Explicit enumeration. </li>
+     <li> A fundamental question here is whether, like for the Petersen
+     graph, always the full permutation group of {1,...,n} induces
+     all automorphisms of knesergraph_g(n,m).
+      <ul>
+       <li> This is not the case for example for n=5, m=3, where there are
+       no edges (and thus every permutation of powerset(setn(5),3) is
+       an automorphism. </li>
+      </ul>
+     </li>
+     <li> Abstract representation through relations. </li>
+     <li> And also realising the generators through concrete
+     automorphisms. </li>
+    </ol>
+   </li>
+   <li> See http://en.wikipedia.org/wiki/Kneser_graph. </li>
   </ul>
 
 
