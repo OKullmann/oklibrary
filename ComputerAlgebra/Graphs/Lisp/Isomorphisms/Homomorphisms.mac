@@ -1,0 +1,67 @@
+/* Oliver Kullmann, 25.6.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac
+  \brief Functions for checking and finding graph homomorphisms
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/Homomorphisms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+/* A "homomorphisms" between graphs (with loops) is a map between the vertex
+   sets which preserves the edges.
+*/
+
+/* ***************************
+   * Checking the properties *
+   ***************************
+*/
+
+full_homomorphism_gl_p(G1,G2,f) := subsetp(map(f,G1[1]),G2[1]) and
+  homomorphism_gl_p(G1,G2,f)$
+
+/* Assumes that f(G1[1]) <= G2[1] holds: */
+homomorphism_gl_p(G1,G2,f) := every(
+  lambda([e],elementp(map(f,e),G2[2])), G1[2])$
+/* Remark: For covered vertices in G1 the inclusion condition is implicitely
+   checked by this condition.
+*/
+
+full_isomorphism_gl_p(G1,G2,f) := is(map(f,G1[1]) = G2[1]) and 
+  is(length(G1[2]) = length(G2[2])) and homomorphism_gl_p(G1,G2,f)$
+
+
+/* ****************************
+   * Brute-force enumerations *
+   ****************************
+*/
+
+/* Computing the list of all automorphisms of a graph (with loops), assuming
+   that the vertex set is {1, ..., n}: */
+all_isomorphisms_bydef_stgl(G) := block([res : [], n : length(G[1])],
+  a : make_array(fixnum, n+1),
+  for p in permutations(G[1]) do block(
+   [a : fillarray(make_array(fixnum, n+1), cons(0,p)), h],
+    fillarray(a, cons(0,p)),
+    h : lambda_array(a),
+    if homomorphism_gl_p(G,G,h) then
+      res : endcons(h,res)
+  ),
+  return(res))$
+
+/*!
+\endhtmlonly
+*/
