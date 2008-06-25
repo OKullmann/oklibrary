@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding maps
 
 
+  \todo New naming conventions
+  <ul>
+   <li> Renaming old functions:
+    <li> "setmapp" -> sm_p </li>
+    <li> XXX </li>
+   </li>
+  </ul>
+
+
   \todo Concept of a set-theoretical map
   <ul>
    <li> DONE (see ComputerAlgebra/DataStructures/Lisp/HashMaps.mac)
@@ -24,6 +33,7 @@ License, or any later version. */
      <li> compute value set for a set of arguments </li>
     </ol>
    </li>
+   <li> We need the same functinality also for ordered set-maps. </li>
    <li> We also should have the concept of a (set-theoretical)
    relation as set of pairs!
     <ol>
