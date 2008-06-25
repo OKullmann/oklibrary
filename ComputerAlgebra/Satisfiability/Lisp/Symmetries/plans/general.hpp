@@ -13,6 +13,12 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Organisation
+  <ul>
+   <li> Rename Symmetries.mac to "Isomorphisms.mac". </li>
+  </ul>
+
+
   \todo Relations to other modules
   <ul>
    <li> See ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp for
@@ -103,10 +109,10 @@ License, or any later version. */
 
   \todo is_isomorphic_btr_cs
   <ul>
-   <li> Perhaps we should "is_isomorphic_cs" etc. rename so that to reflect
-   the reduction to graph isomorphisms. </li>
-   <li> This function should become an instance of the concept of
-   active clause-sets.
+   <li> We should rename the current "is_isomorphic_cs" etc., so that
+   these names reflect the reduction to graph isomorphisms. </li>
+   <li> is_isomorphic_btr_cs function should become an instance of the
+   concept of active clause-sets.
     <ol>
      <li> In this way making it possible to apply all of SAT techniques. </li>
      <li> We must take some care here that the overheads are acceptable, since
@@ -114,6 +120,15 @@ License, or any later version. */
      <li> The techniques from graph theory (see
      ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp) should be
      transferred and generalised. </li>
+    </ol>
+   </li>
+   <li> Computing splitting trees:
+    <ol>
+     <li> As a first step towards making is_isomorphic_btr_cs an instance of
+     a generalised SAT algorithms, create a variant which computes the whole
+     splitting tree. </li>
+     <li> This then yields a representation of all isomorphisms (with proof
+     of completeness!). </li>
     </ol>
    </li>
   </ul>
