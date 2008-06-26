@@ -38,6 +38,23 @@ License, or any later version. */
    are handled:
     - Outline of the test system
 
+  \par
+   Replacement of "makelist" by "create_list" (and supplying tests for all
+   modified functions):
+    - Algebra : DONE
+    - AutomatedTheoremProving : DONE
+    - CombinatorialMatrices : DONE
+    - Cryptology (MG)
+    - DataStructures : DONE
+    - Graphs : DONE
+    - Hypergraphs : DONE
+    - LinearAlgebra : DONE
+    - MaximaInternals : DONE
+    - NumberTheory : DONE
+    - Numerical : DONE
+    - Satisfiability
+    - TestSystem : DONE
+
 
   \par Version 0.1.3
 

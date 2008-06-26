@@ -160,7 +160,9 @@ B : map(lambda([x],x+1),B)$
      <li> Randomised functions are "random", "random_permutation". </li>
     </ol>
    </li>
-   <li> List creation:
+    <li> DONE (document that create_list is to be used, and not makelist;
+    and tell the Maxima mailing list that "makelist" should be "deprecated")
+    List creation:
     <ol>
      <li> Better avoid makelist, since it is less powerfull then
      create_list, and also does not handle well the case of empty lists. </li>
