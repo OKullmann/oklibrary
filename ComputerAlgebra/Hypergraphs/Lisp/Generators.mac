@@ -27,14 +27,16 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    *****************
 */
 
-/* The hypergraph of all arithmetic progressions of size k in {1,...,n} */
-ArithmeticProgressions(k,n) := block([V : setn(n)], 
-  if n < k then return([V,{}]) 
-  elseif k = 0 then return([V,{{}}]) 
-  elseif k = 1 then return([V,setify(makelist({i},i,1,n))]) else
+/* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
+/* Prerequisites: n,k are integers. */
+ArithmeticProgressions(k,n) := block([V : setn(n)],
+  if elementp(k,{0,1,2}) then return([V,powerset(V,k)]) 
+  elseif n < k or k < 0 then return([V,{}]) 
+  elseif k = n then return([V,{V}]) else
   return([V, 
     union(ArithmeticProgressions(k,n-1)[2], 
-    setify(makelist(setify(makelist(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1)))))]))$
+    setify(create_list(setify(
+      create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1)))))]))$
 
 /*!
 \endhtmlonly

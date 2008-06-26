@@ -1,0 +1,50 @@
+/* Oliver Kullmann, 26.6.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac
+  \brief Tests for hypergraph generators
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+
+/* *****************
+   * Ramsey Theory *
+   *****************
+*/
+
+okltest_ArithmeticProgressions(f) := (
+  assert(f(0,-1) = [{},{{}}]),
+  assert(f(1,-1) = [{},{}]),
+  assert(f(0,0) = [{},{{}}]),
+  assert(f(1,0) = [{},{}]),
+  assert(f(-1,-1) = [{},{}]),
+  assert(f(-1,0) = [{},{}]),
+  assert(f(-1,1) = [{1},{}]),
+  assert(f(2,1) = [{1},{}]),
+  for n : 0 thru 4 do block([N : setn(n)],
+    for k in [0,1,2,n] do
+      assert(f(k,n) = [N,powerset(N,k)])
+  ),
+  assert(f(3,4) = [{1,2,3,4},{{1,2,3},{2,3,4}}]),
+  true)$
+
+/*!
+\endhtmlonly
+*/
