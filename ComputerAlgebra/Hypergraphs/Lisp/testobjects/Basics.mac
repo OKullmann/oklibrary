@@ -18,13 +18,19 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Basics.mac
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
 
 /* ************* **
    * Conversions *
    ***************
 */
+
+okltest_setsystem2hg(setsystem2hg);
+okltest_listsets2hg(listsets2hg);
+okltest_listsets2oghg(listsets2oghg);
+
+okltest_ghg2hg(ghg2hg);
 
 okltest_edge_vertex_com_hyp(edge_vertex_com_hyp);
 
