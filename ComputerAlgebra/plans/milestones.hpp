@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.1.1 (19.2.2008)
+  \module_version ComputerAlgebra 0.1.1.2 (15.6.2008)
 
 
   \par Version 0.1.2
