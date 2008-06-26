@@ -82,8 +82,8 @@ stable_unique(L) := block([h : sm2hm({}), res : []],
 
 /* REMARK : Functions below should go to LinearAlgebra? */
 
-/* Flattens a matrix or list into a list of the elements, row by row */
-matrix2list(m) := apply(append, makelist(m[i],i,1,length(m)))$
+/* Flattens a matrix or list into a list of the elements, row by row: */
+matrix2list(m) := apply(append, create_list(m[i],i,1,length(m)))$
 
 /* Returns a list of the given matrix's columns (as lists) */
 matrixcolumns(m) := partition_elements(matrix2list(transpose(m)),length(m))$

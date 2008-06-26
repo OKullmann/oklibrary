@@ -26,6 +26,8 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Bas
    *******************
 */
 
+okltest_com2m(com2m);
+
 okltest_com2ghyp(com2ghyp);
 
 /* ********************

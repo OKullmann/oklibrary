@@ -278,8 +278,8 @@ load(graphs)$
 g2mg(G) := block(
  [V : listify(G[1]), E : listify(G[2]), h : sm2hm({}), n : length(G[1])],
  for i : 1 thru n do set_hm(h, V[i], i),
- create_graph(makelist([i,V[i]],i,1,n), 
-   makelist([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
+ create_graph(create_list([i,V[i]],i,1,n), 
+   create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
  )
 )$
 
@@ -304,8 +304,8 @@ dg2mdg(G) := block(
  for i : 1 thru n do set_hm(h, V[i], i),
  return(
    create_graph(
-     makelist([i,V[i]],i,1,n), 
-     makelist([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
+     create_list([i,V[i]],i,1,n), 
+     create_list([ev_hm(h,e[1]), ev_hm(h,e[2])], e, E),
      true
  ))
 )$

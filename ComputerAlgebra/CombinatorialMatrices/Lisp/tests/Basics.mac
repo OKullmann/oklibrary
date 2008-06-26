@@ -31,6 +31,15 @@ kill(f)$
    *******************
 */
 
+okltest_com2m(f) := (
+  assert(f([{},{},identity]) = matrix()),
+  assert(f([{1},{},identity]) = matrix([])),
+  assert(f([{-1,1},{},identity]) = matrix([],[])),
+  assert(f([{},{1},identity]) = matrix()),
+  assert(f([{1,2},{1,2},lambda([i,j],i+j)]) = matrix([2,3],[3,4])),
+  assert(f([{-1,0},{-4,3},lambda([i,j],i+j)]) = matrix([-5,2],[-4,3])),
+  true)$
+
 okltest_com2ghyp(f) := (
   assert(ghypequalp(f(emptycom), [{},{}, identity]) = true),
   assert(ghypequalp(f(zerocom({1,2},{1,2})), [{1,2},{1,2}, lambda([e],{})]) = true),

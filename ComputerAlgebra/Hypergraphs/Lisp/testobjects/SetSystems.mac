@@ -57,6 +57,14 @@ okltest_add_element(add_element);
 okltest_ecomp(ecomp);
 okltest_setdifference2(setdifference2);
 
+/* *****************************************
+   * Constructions related to subsumption *
+   *****************************************
+*/
+
+okltest_min_elements(min_elements);
+okltest_max_elements(max_elements);
+
 /*!
 \endhtmlonly
 */

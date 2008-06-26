@@ -124,6 +124,29 @@ okltest_setdifference2(f) := (
   assert(f([{1,2},{2,3}],{1,2,3}) = [{},{}]),
   true)$
 
+/* *****************************************
+   * Constructions related to subsumption  *
+   *****************************************
+*/
+
+okltest_min_elements(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1},{2}}) = {{1},{2}}),
+  assert(f({{1,2},{1,2,4},{3},{3,4},{5,6}}) = {{1,2},{3},{5,6}}),
+  for n : 0 thru 3 do
+    assert(f(powerset(setn(n))) = {{}}),
+  true)$
+
+okltest_max_elements(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {{}}),
+  assert(f({{1},{2}}) = {{1},{2}}),
+  assert(f({{1,2},{1,2,4},{3},{3,4},{5,6}}) = {{1,2,4},{3,4},{5,6}}),
+  for n : 0 thru 3 do
+    assert(f(powerset(setn(n))) = {setn(n)}),
+  true)$
+
 /*!
 \endhtmlonly
 */

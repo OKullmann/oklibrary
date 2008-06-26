@@ -85,7 +85,7 @@ add_element(x,B) := add_elements({x},B)$
 */
 
 /* Elementwise complementation of set-system S w.r.t. universe U */
-ecomp(S,U) := setify(makelist(setdifference(U,s),s,listify(S)))$
+ecomp(S,U) := setify(create_list(setdifference(U,s),s,listify(S)))$
 
 /* setdifference2(S,b) returns the set system where the elements of b have been
    removed from every element of S; S can also be a list. */
@@ -167,23 +167,22 @@ sort_length(L) := sort(L, lambda([A,B], length(A) <= length(B)))$
 sort_length_desc(L) := sort(L, lambda([A,B], length(A) >= length(B)))$
 
 
-/* Eliminates all subsumed elements from a set system */
+/* Eliminates all subsumed elements from a set system: */
 min_elements(S) := block([remains : sort_length(listify(S)), result : [], A, not_subsumed],
  while not emptyp(remains) do (
   A : first(remains), remains : rest(remains),
   result : append(result, [A]),
   not_subsumed : sublist_indices(remains, lambda([B], not subsetp(A, B))),
-  remains : makelist(remains[j], j, not_subsumed)),
+  remains : create_list(remains[j], j, not_subsumed)),
  setify(result)
 )$
-
-/* Eliminates all contained elements from a set system */
+/* Eliminates all contained elements from a set system: */
 max_elements(S) := block([remains : sort_length_desc(listify(S)), result : [], A, not_contained],
  while not emptyp(remains) do (
   A : first(remains), remains : rest(remains),
   result : append(result, [A]),
   not_contained : sublist_indices(remains, lambda([B], not subsetp(B, A))),
-  remains : makelist(remains[j], j, not_contained)),
+  remains : create_list(remains[j], j, not_contained)),
  setify(result)
 )$
 

@@ -570,8 +570,6 @@ okltest_gdg2ogdg(f) := block([k],
    ********************************
 */
 
-/* Needs naming-update! */
-
 okltest_g2mg(f) := block(
   block([G : f([{},{}])],
     assert(is_graph(G) = true),

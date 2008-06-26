@@ -60,7 +60,7 @@ okltest_cyclegraph_ogl(f) := (
   true)$
 
 okltest_cyclegraph_ogg(f) := (
-  for n in cons(1,makelist(i,i,3,6)) do block([G : f(n)],
+  for n in cons(1,create_list(i,i,3,6)) do block([G : f(n)],
     assert(ogg_p(G) = true),
     assert(ogg2ogl(G) = cyclegraph_ogl(n))),
   assert(gr_equalp(f(2), [[1,2],[1,2],lambda([e],{1,2})]) = true),
