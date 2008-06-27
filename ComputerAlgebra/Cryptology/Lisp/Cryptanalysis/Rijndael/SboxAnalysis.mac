@@ -36,11 +36,12 @@ int2binlist(int,n) := polynomial2list(intToPoly(int,2),n)$
 
 /* Generation of the full DNF clause-set representing the AES sbox */
 generate_full_aes_sbox_dnf_fcs() :=  
-  cs_to_fcs(map(lambda([ce],binary_list_to_dnf_c(
-    append(polynomial2list(ce,8),polynomial2list(
-      intToGF2t8Poly(lookup_sbox(GF2t8PolyToInt(ce))),8)))),
-    map(lambda([se], xreduce(lambda([a,b],a+b),se,0)), 
-      powerset(setify(makelist(x^i,i,0,7))))))$
+  cs_to_fcs(map(
+    lambda([ce],binary_list_to_dnf_c(
+      append(polynomial2list(ce,8),polynomial2list(
+        intToGF2t8Poly(lookup_sbox(GF2t8PolyToInt(ce))),8)))),
+    map(lambda([se], xreduce("+",se,0)), 
+      powerset(setify(create_list(x^i,i,0,7))))))$
 
 /* Generation of the full CNF clause-set representing the AES sbox */
 generate_full_aes_sbox_cnf_fcs() := block(
