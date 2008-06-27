@@ -41,19 +41,39 @@ License, or any later version. */
   \par
    Replacement of "makelist" by "create_list" (and supplying tests for all
    modified functions):
-    - Algebra : DONE
-    - AutomatedTheoremProving : DONE
-    - CombinatorialMatrices : DONE
-    - Cryptology (MG)
-    - DataStructures : DONE
-    - Graphs : DONE
-    - Hypergraphs : DONE
-    - LinearAlgebra : DONE
-    - MaximaInternals : DONE
-    - NumberTheory : DONE
-    - Numerical : DONE
-    - Satisfiability
-    - TestSystem : DONE
+   <ol>
+    <li> Algebra : DONE </li>
+    <li> AutomatedTheoremProving : DONE </li>
+    <li> CombinatorialMatrices : DONE </li>
+    <li> Cryptology (MG)
+
+    </li>
+    <li> DataStructures : DONE </li>
+    <li> Graphs : DONE </li>
+    <li> Hypergraphs : DONE </li>
+    <li> LinearAlgebra : DONE </li>
+    <li> MaximaInternals : DONE </li>
+    <li> NumberTheory : DONE </li>
+    <li> Numerical : DONE </li>
+    <li> Satisfiability :
+     <ol>
+      <li> Autarkies </li>
+      <li> Backdoors : DONE </li>
+      <li> Backtracking </li>
+      <li> BranchingTuples </li>
+      <li> ClauseSets : DONE </li>
+      <li> ConflictCombinatorics : DONE </li>
+      <li> ConstraintProblems </li>
+      <li> Counting </li>
+      <li> Generators </li>
+      <li> MinimalUnsatisfiability </li>
+      <li> PropositionalLogic </li>
+      <li> Reductions : DONE </li>
+      <li> Resolutions </li>
+      <li> Symmetries : DONE </li>
+     </ol>
+    </li>
+    <li> TestSystem : DONE </li>
 
 
   \par Version 0.1.3

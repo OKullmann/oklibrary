@@ -28,6 +28,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
 
 okltest_comp_cs(comp_cs);
 
+/* **********************
+   * Logical operations *
+   **********************
+*/
+
+okltest_dual_cs(dual_cs);
+
 /* ****************************
    * Combinatorial operations *
    ****************************

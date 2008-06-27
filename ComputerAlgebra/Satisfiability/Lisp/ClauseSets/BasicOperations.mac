@@ -135,14 +135,14 @@ substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 */
 rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
-  h : sm2hm(setify(makelist([V[i],L[i]], i,1,length(V)))),
+  h : osm2hm(map(lambda([a,b],[a,b]),V,L)),
   [setify(abs(L)), substitute_cs(FF[2],h)])$
 
 /* Translating variable names of a formal clause-set into natural numbers;
    outputs a pair consisting of the translated formal clause-set and
    the list of old variable names (positions corresponding to new
    variable-numbers) */
-standardise_fcs(FF) := block([L : makelist(i,i,1,nvar_f(FF))],
+standardise_fcs(FF) := block([L : create_list(i,i,1,nvar_f(FF))],
  [rename_fcs(FF,L), listify(var_cs_f(FF))])$
 
 /* Make a list of formal clause-sets variable-disjoint, using
@@ -151,7 +151,7 @@ standardise_fcs(FF) := block([L : makelist(i,i,1,nvar_f(FF))],
    variable is n+1). */
 make_vardisjoint_fcs(LFF) := block([index : 0, result : []],
   for FF in LFF do block([n : nvar_f(FF)],
-    result : endcons(rename_fcs(FF,makelist(index + i, i,1,n)), result),
+    result : endcons(rename_fcs(FF,create_list(index + i, i,1,n)), result),
     index : index + n),
   return([result, index]))$
 
@@ -242,7 +242,7 @@ all_pass_n(V,n) := if n < 0 then {}
 
 /* The set of all total assignments over a set or list V of variables: */
 all_tass(V) := map(setify,apply(corr_cartesian_product, 
- makelist({-v,v},v,listify(V))))$
+ map(lambda([v],{-v,v}),listify(V))))$
 
 /* The set of all satisfying total assignments of a clause-set F
     w.r.t. a set or list V of variables: */

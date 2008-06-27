@@ -27,6 +27,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
    *******************
 */
 
+okltest_clvar_g(clvar_g);
+
 okltest_cvg_cs(cvg_cs);
 
 okltest_cl_var_com_fcs(cl_var_com_fcs);

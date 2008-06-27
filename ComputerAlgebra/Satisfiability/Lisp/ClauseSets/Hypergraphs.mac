@@ -36,10 +36,13 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 hyp_fcs(FF) := [literals_v(FF[1]), FF[2]]$
 
 
-/* The clause-variable graph of a formal clause-set (also "incidence graph") */
-cl_var_graph(FF) := [set_sumn(FF[2], FF[1]),
-  family_sets_union(FF[2], lambda([C], setify(makelist({[C,1],[var_l(x),2]},x,listify(C)))))]$
-
+/* The clause-variable graph of a formal clause-set (also "incidence graph").
+   The set of vertices is the disjoint-sum of the clauses ("left") and the
+   variables ("right").
+ */
+clvar_g(FF) := [set_sumn(FF[2], FF[1]),
+  family_sets_union(FF[2], 
+    lambda([C], map(lambda([x],{[C,1],[var_l(x),2]}), C)))]$
 
 /* The variable-hypergraph of a formal clause-set */
 var_hyp(FF) := [FF[1], map(var_c,FF[2])]$
@@ -113,8 +116,8 @@ var_lit_clause_digraph_tr(FF) := block(
 implication_dg_fcs(FF) := block(
  [F1 : map(listify,listify(scls_k(FF[2],1))), 
   F2 : map(listify,listify(scls_k(FF[2],2)))],
-  [literals_v(FF[1]), setify(append(makelist([-U[1],U[1]],U,F1), 
-      makelist([-C[1],C[2]],C,F2), makelist([-C[2],C[1]],C,F2)))])$
+  [literals_v(FF[1]), setify(append(create_list([-U[1],U[1]],U,F1), 
+      create_list([-C[1],C[2]],C,F2), create_list([-C[2],C[1]],C,F2)))])$
 
 
 /* ************
@@ -136,7 +139,7 @@ deficiency_fcs(FF) := length(FF[2]) - length(FF[1])$
 deficiency_cs(F) := deficiency_fcs(cs_to_fcs(F))$
 
 /* The maximal deficiency of a formal clause-set */
-max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(cl_var_graph(FF))))$
+max_deficiency_fcs(FF) := length(FF[2]) - length(max_matching(g2mg(clvar_g(FF))))$
 
 
 /* ************

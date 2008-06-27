@@ -167,7 +167,7 @@ okltest_all_pass_n(f) := block(
     assert(f(setn(n),n) = full_fcs(n)[2]),
   if oklib_test_level = 0 then return(true),
   block([oklib_test_level : oklib_test_level - 1],
-    okltest_all_pass(buildq([f],lambda([V],apply(union,makelist(f(V,n),n,0,length(V))))))),
+    okltest_all_pass(buildq([f],lambda([V],apply(union,create_list(f(V,n),n,0,length(V))))))),
   true)$
 
 okltest_all_tass(f) := block(
