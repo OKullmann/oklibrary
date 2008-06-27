@@ -19,6 +19,24 @@ License, or any later version. */
   \todo Write docus
 
 
+  \todo Conflict graph
+  <ul>
+   <li> Write gcg_fcs(FF), the general conflict graph of a labelled clause-set.
+    <ol>
+     <li> Edge-labels are [[C,D],v], where C,D are clause-labels and v a
+     variable, such that the clauses clash in literal v. </li>
+    </ol>
+   </li>
+   <li> Since gcg is a functor, also write gcg_homfcs(f), the mapping for
+   homomorphisms f.
+    <ol>
+     <li> Since f doesn't know its domain and codomain, perhaps they need to
+     be supplied additionally. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Hermitian rank
   <ul>
    <li> DONE It seems we should use hermitian_rank_charpoly instead of
@@ -60,7 +78,7 @@ License, or any later version. */
    computing maximal independent sets of a hypergraph (or, of a graph;
    likely one can take advantage of this more special situation). </li>
    <li> It seems not to be worth to develop an algorithm which computes
-   directly all indepedent sets? </li>
+   directly all independent sets? </li>
   </ul>
   
 */
