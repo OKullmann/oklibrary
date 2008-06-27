@@ -29,7 +29,7 @@ License, or any later version. */
    <li> See ComputerAlgebra/Satisfiability/Lisp/plans/Clauses.hpp for
    general discussions on "clauses". </li>
    <li> See ComputerAlgebra/Satisfiability/Lisp/plans/PartialAssignments.hpp
-   for general discusssions on "partial assignments". </li>
+   for general discussions on "partial assignments". </li>
    <li> All variations on clause-sets should still be "syntactical objects",
    so the discussion in
    ComputerAlgebra/Satisfiability/Lisp/plans/SatisfactionProblems.hpp
@@ -122,6 +122,14 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
+   <li> We should have "Substitutions.mac":
+    <ol>
+     <li> See "Applying substitutions" in
+     ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
+     <li> Everything currently under "Substitution and renaming" goes there.
+     </li>
+    </ol>
+   </li>
    <li> We should create "Statistics.mac".
     <ol>
      <li> DONE : move. </li>
@@ -131,6 +139,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> See "Input and output" below. </li>
+   <li> We should create "PartialAssignments.mac". </li>
   </ul>
 
 
@@ -159,6 +168,10 @@ License, or any later version. */
    <li> See "Applying substitutions" in
    ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp.
    </li>
+   <li> See "Organisation" above. </li>
+   <li> Perhaps, once a framework for literal-substitutions is in place,
+   then the renaming-functions are updated using these more general
+   substitution-maps instead of hash-maps. </li>
    <li> Ask on maxima-mailing-list whether a parallel substitution
    is available (this should speed up renaming). </li>
    <li> DONE The current implementation (using iterated substitution) is

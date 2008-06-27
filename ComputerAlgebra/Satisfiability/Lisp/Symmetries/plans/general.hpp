@@ -36,23 +36,63 @@ License, or any later version. */
    </li>
    <li> See "Renaming" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac. </li>
-   <li> A "literal substitution" on a set L of literals is a map f (that is,
-   we can write "f(x)") defined on a set of literals including at least L, which
-   is compatible with negation, i.e., f(x) is defined iff f(-x) is defined for
-   a literal x, and f(-x) = -x, such that f(L) <= L. </li>
-   <li> Applying a literal substitution f to a literal x is possible iff x is
-   in the domain of f, and the result then is f(x). </li>
-   <li> Applying a literal substitution f to a clause C is possible iff C
-   is contained in the domain of f, and then yields f(C) = {f(x) : x in C}.
+   <li> The notion of a "literal substitution":
+    <ol>
+     <li> These are functions with literals as values; the question is
+     whether variables or literals are the basic arguments.
+      <ul>
+       <li> Mathematically, (all) literals (relevant here) seems appropriate.
+       </li>
+       <li> But programmatically variables seems more appropriate, since
+       so redundancy in the presentation is avoided. </li>
+      </ul>
+     </li>
+     <li> On a set V of variables: each variable v in V -> literal f(v). </li>
+     <li> We need then a standard wrapper which extends it to the literals:
+     if the input is a negative literal, return -f(-v). </li>
+     <li> Applying a literal substitution f to a clause C is possible iff C
+     is contained in the domain of f, and then yields f(C) = {f(x) : x in C}.
+     </li>
+     <li> Applying a literal substitution f to a clause-set F is possible iff
+     f is applicable to all C in F, and the result then is f(F) = {f(C) :
+     C in F}. </li>
+     <li> A "var-substitution" is a literal substitution which doesn't flip
+     signs, i.e., for a variable v in the domain of f also f(v) is a variable.
+     </li>
+     <li> A "sign-substitution" is a literal substitution which doesn't change
+     underlying variables, i.e., for x in the domain of f we have var(f(x)) =
+     var(x). </li>
+    </ol>
    </li>
-   <li> Applying a literal substitution f to a clause-set F is possible iff
-   f is applicable to all C in F, and the result then is f(F) = {f(C) : C in F}.
+   <li> A problem is that substitution are not generally applicable
+   to arbitrary literals.
+    <ol>
+     <li> One could extend them, using that "false" or "0" is not a literal.
+     </li>
+     <li> We could use (additionally) "elsub" etc. for these extended
+     versions? Or should we only use the extended versions? </li>
+     <li> But these extended versions should know about their domains. </li>
+     <li> Perhaps these extended substitutions are pairs [V,f], where V is
+     the variable-domain. </li>
+    </ol>
    </li>
-   <li> A "var-substitution" is a literal substitution which doesn't flip signs,
-   i.e., for a variable v in the domain of f also f(v) is a variable. </li>
-   <li> A "sign-substitution" is a literal substitution which doesn't change
-   underlying variables, i.e., for x in the domain of f we have var(f(x)) =
-   var(x). </li>
+   <li> Abbreviations:
+    <ol>
+     <li> "lsub" for "literal-substitution". </li>
+     <li> "vsub" for "variable-substitution". </li>
+     <li> "ssub" for "sign-substitution". </li>
+     <li> These only operate on variables. Extended to literals, clauses,
+     clause-sets, we could use the prefixes used for them, perhaps
+     with an underscore. </li>
+     <li> So for example "fcs_lsub". </li>
+    </ol>
+   </li>
+   <li> Given a basic literal-substitution, it needs to be extended to
+   literals:
+    <ol>
+     <li> Since it's just a case distinction, it seems just a trivial
+     lambda-wrapper is appropriate. </li>
+     <li>
   </ul>
 
 
@@ -131,6 +171,14 @@ License, or any later version. */
      of completeness!). </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Homomorphisms
+  <ul>
+   <li> Create "Homomorphisms.mac" etc. </li>
+   <li> Since homomorphisms are special substitutions, first this notion
+   needs to be fixed. </li>
   </ul>
 
 */
