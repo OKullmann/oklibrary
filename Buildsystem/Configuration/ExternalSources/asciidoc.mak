@@ -7,8 +7,9 @@
 
 # Settings for building and using Asciidoc
 
-asciidoc_recommended_version_number_okl ?= 8.2.6
-asciidoc_supported_not_recommended_version_numbers_okl ?= 8.2.5
+asciidoc_recommended_version_number_okl ?= 8.2.5
+asciidoc_supported_not_recommended_version_numbers_okl ?=
+# Remark: version 8.2.6 leads to strange errors about "unsafe" files to be included, and thus can't be used
 
 asciidoc_prefix_okl ?= asciidoc
 
