@@ -13,7 +13,7 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
-  \todo Potential Maxima/CLisp bug
+  \todo Maxima/CLisp bug
   <ul>
    <li> On csltok (laptop of OK) running
    \verbatim
@@ -35,6 +35,9 @@ all_unsinghitting_mvd(8, 'all_n8);
      the annotation-strings. </li>
      <li> So perhaps each value is transformed into a string, and now a single
      value (the hash-map), was too big? </li>
+     <li> Repeating the experiment with seed 10 produced after nearly the same
+     running time again a segmentation fault, so the string-problem should be
+     the cause. </li>
     </ol>
    </li>
    <li> Tell the Maxima mailing-list about that and ask for a different "save",
