@@ -33,6 +33,9 @@ okltest_two_subsumption_resolvent_p(two_subsumption_resolvent_p);
    *************************
 */
 
+okltest_resolvable_cs(resolvable_cs);
+okltest_two_subsumption_resolvable_cs(two_subsumption_resolvable_cs);
+
 okltest_two_subsumption_resolvents_rem_cs(two_subsumption_resolvents_rem_cs);
 
 /* *****************

@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.m
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 /* ***************************
@@ -94,7 +95,7 @@ resolvent_s_l(S,x) := block([L : listify(S)], setdifference(union(L[1], L[2]), {
 */
 
 /* The resolvable 2-sets of a clause-set. */
-resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
+resolvable_cs(F) := block([LF : l2array(listify(F)), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
   for j : i+1 thru l do
    if resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
@@ -103,7 +104,7 @@ resolvable_cs(F) := block([LF : listify(F), l : length(F), R : []],
 
 /* The 2-subsumption-resolvable 2-sets of a clause-set. */
 two_subsumption_resolvable_cs(F) := block(
- [LF : listify(F), l : length(F), R : []],
+ [LF : l2array(listify(F)), l : length(F), R : []],
  for i : 1 thru l-1 do block([C : LF[i]],
   for j : i+1 thru l do
    if two_subsumption_resolvable(C, LF[j]) then R : cons({C,LF[j]}, R)),
@@ -119,15 +120,15 @@ two_subsumption_resolvents_cs(F) := map(resolvent_s, two_subsumption_resolvable_
    of F, while R is the set of remaining clauses of F, i.e., clauses not 
    subsumed by their 2-subsumption-resolvents. */
 two_subsumption_resolvents_rem_cs(F) := block(
- [L : listify(F), l : length(F), subsumed, result : {}],
-  subsumed : make_array(fixnum, l),
+ [L : l2array(listify(F)), l : length(F), subsumed, result : {}],
+  subsumed : okl_make_array(fixnum, l),
   for i : 1 thru l - 1 do block([C : L[i], used : false],
     for j : i+1 thru l do block([R : two_subsumption_resolvent_p(C,L[j])],
       if not emptyp(R) then (
         result : adjoin(R[1], result),
-        used : true, subsumed[j-1] : 1)),
-    if used then subsumed[i-1] : 1),
-  return([result,setify(sublist_indicator(L,subsumed))]))$
+        used : true, subsumed[j] : 1)),
+    if used then subsumed[i] : 1),
+  return([result,setify(sublist_indicator(array2l(L),subsumed))]))$
 
 /* Adds all resolvents to a clause-set. */
 add_resolvents_cs(F) := union(F, resolvents_cs(F))$
@@ -145,7 +146,7 @@ monitorcheck_resolution_closure_loop(name) := if oklib_monitor then (
   print(last(history)))$
 
 
-/* the (full) resolution closure of a clause-set */
+/* The (full) resolution closure of a clause-set: */
 resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(F)]],
   history : append(history, [length(nF)]),
   monitorcheck_resolution_closure_init("resolution_closure_cs"),
@@ -157,14 +158,15 @@ resolution_closure_cs(F) := block([nF : add_resolvents_cs(F), history : [length(
   return([nF, history]))$
 
 
-/* adds all resolvents to a clause-set and then applies 
-   subsumption-elimination */
+/* Adds all resolvents to a clause-set and then applies 
+   subsumption-elimination: */
 min_add_resolvents_cs(F) := min_elements(add_resolvents_cs(F))$
 
-/* the prime-implicates of a clause-set F (as CNF), and the list of 
+/* The prime-implicates of a clause-set F (as CNF), and the list of 
    clause-counts for the successive extensions of F (until a fixed point is 
-   reached) */
-min_resolution_closure_cs(F) := block([nF : min_add_resolvents_cs(F), history : [length(F)]],
+   reached): */
+min_resolution_closure_cs(F) := block(
+ [nF : min_add_resolvents_cs(F), history : [length(F)]],
   history : append(history, [length(nF)]),
   monitorcheck_resolution_closure_init("min_resolution_closure_cs"),
   while nF # F do (
@@ -197,7 +199,8 @@ min_dp_operator(F,v) := min_elements(dp_operator(F,v))$
 /* Returns a list of pairs [s,c], where s is the size of DP-procedure-run
    (the sum of sizes of the clause-sets) and c is the count, where the list
    is sorted by ascending s. */
-distribution_min_dp(FF) := block([P : permutations(FF[1]), l : length(FF[2]), hash, counts : {}],
+distribution_min_dp(FF) := block(
+ [P : permutations(FF[1]), l : length(FF[2]), hash, counts : {}],
   for p in P do block([F : FF[2], s : l],
     for v in p do (
       F : min_dp_operator(F,v),
