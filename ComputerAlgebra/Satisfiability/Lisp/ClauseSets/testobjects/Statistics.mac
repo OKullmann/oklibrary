@@ -21,6 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Statistics.mac")$
 
+/* ******************
+   * Basic measures *
+   ******************
+*/
+
+okltest_ncl_list_f(ncl_list_f);
+
 /* *******************
    * Literal degrees *
    *******************

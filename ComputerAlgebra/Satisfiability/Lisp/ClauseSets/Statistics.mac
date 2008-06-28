@@ -47,12 +47,14 @@ nlitocc(F) := block([s : 0],
    [occurring clause-lengths, number of clauses of this length],
    sorted by ascending clause-length.
 */
-ncl_list_f(FF) := block([counts : make_array(fixnum, length(FF[1])+1), res : []],
- for C in FF[2] do block([l : length(C)],
-  counts[l] : counts[l] + 1),
- for i : 0 thru length(FF[1]) do
-  if counts[i] # 0 then res : endcons([i, counts[i]], res),
- return(res))$
+ncl_list_f(FF) := block(
+ [n : nvar_f(FF), counts, res : []],
+  counts : make_array(fixnum, n+1),
+  for C in FF[2] do block([l : length(C)],
+    counts[l] : counts[l] + 1),
+  for i : 0 thru n do
+    if counts[i] # 0 then res : endcons([i, counts[i]], res),
+  return(res))$
 
 /* maximal clause-length of a clause-set */
 max_rank_cs(F) := block([m : -1],
@@ -105,10 +107,10 @@ ordered_literal_degrees_cs(F) :=
 
 /* Minimal literal-degree of a clause-set. */
 min_literal_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),listify(hm2sm(literal_degrees_cs(F)))))$
+  lmin(map(lambda([A],part(A,2)),hm2sm(literal_degrees_cs(F))))$
 /* maximal literal-degree of a clause-set */
 max_literal_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),listify(hm2sm(literal_degrees_cs(F)))))$
+  lmax(map(lambda([A],part(A,2)),hm2sm(literal_degrees_cs(F))))$
 /* Also returns a literal of minimal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
@@ -185,13 +187,13 @@ variable_degrees_cs(F) := block([h : sm2hm({})],
 
 /* The minimal variable-degree of a clause-set: */
 min_variable_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
+  lmin(map(lambda([A],part(A,2)),hm2sm(variable_degrees_cs(F))))$
 /* The maximal min-var-degree of a set (or list) of clause-sets. */
 max_min_var_deg_cs(SF) := lmax(map(min_variable_degree_cs,SF))$
 
 /* The maximal variable-degree of a clause-set: */
 max_variable_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),listify(hm2sm(variable_degrees_cs(F)))))$
+  lmax(map(lambda([A],part(A,2)),hm2sm(variable_degrees_cs(F))))$
 /* Also returns a variable of maximal degree (if there is a variable). */
 max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   [D : hm2sm(variable_degrees_cs(F)),  

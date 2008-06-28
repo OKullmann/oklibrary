@@ -27,6 +27,22 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/HashMaps.m
 
 kill(f)$
 
+/* ******************
+   * Basic measures *
+   ******************
+*/
+
+okltest_ncl_list_f(f) := (
+  assert(f([{},{}]) = []),
+  assert(f([{},{{}}]) = [[0,1]]),
+  assert(f([{1},{{},{1},{-1}}]) = [[0,1],[1,2]]),
+  assert(f([{1},{{1},{-1}}]) = [[1,2]]),
+  assert(f([{1,2},{{1},{-1,2},{1,-2}}]) = [[1,1],[2,2]]),
+  for n : 0 thru 3 do
+    assert(f(full_fcs(n)) = [[n,2^n]]),
+  true)$
+
+
 /* *******************
    * Literal degrees *
    *******************
