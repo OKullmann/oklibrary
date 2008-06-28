@@ -99,5 +99,20 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Directed graphs
+  <ul>
+   <li> Above we only considered undirected graphs, however it seems that
+   perhaps directed graphs are somewhat more fundamental here (at least
+   computationally). </li>
+   <li> The point is that there are no problems with the sides of the
+   biclique (note that a biclique now requires all edges to go from
+   one side to the other); this is especially important for clause-sets
+   where literals always have a polarity. </li>
+   <li> For combinatorial matrices then we consider the adjacency matrices
+   of directed graphs, which are still nonnegative, but which are no longer
+   symmetric. </li>
+  </ul>
+
 */
 

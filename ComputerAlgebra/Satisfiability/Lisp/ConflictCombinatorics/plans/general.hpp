@@ -21,7 +21,7 @@ License, or any later version. */
 
   \todo Conflict graph
   <ul>
-   <li> Write gcg_fcs(FF), the general conflict graph of a labelled clause-set.
+   <li> Write gcg_lcs(FF), the general conflict graph of a labelled clause-set.
     <ol>
      <li> Edge-labels are [[C,D],v], where C,D are clause-labels and v a
      variable, such that the clauses clash in literal v. </li>
@@ -34,6 +34,10 @@ License, or any later version. */
      be supplied additionally. </li>
     </ol>
    </li>
+   <li> Analogously, write gcdg_lcl(FF), the general conflict digraph of a
+   labelled clause-set, and gcdg_homfcs(f). </li>
+   <li> An important topic is how to "realise" (directed/undirected) conflict
+   graphs; perhaps for special methods we have "Realisations.mac" ? </li>
   </ul>
 
 
@@ -67,6 +71,8 @@ License, or any later version. */
   \todo Relations to other modules
   <ul>
    <li> See Experimentation/Investigations/plans/general.hpp. </li>
+   <li> See ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/general.hpp.
+   </li>
   </ul>
 
 
