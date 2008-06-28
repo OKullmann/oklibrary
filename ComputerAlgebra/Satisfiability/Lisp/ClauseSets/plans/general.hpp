@@ -69,6 +69,8 @@ License, or any later version. */
      element of F a clause over V. </li>
      <li> Accordingly, "formal ordered labelled clause-sets are triples
      [V,F,f], where now V,F are repetition-free lists. </li>
+     <li> Labelled clause-sets should always have sets of variables, so
+     we could drop the "formal" ? </li>
     </ol>
    </li>
    <li> Relations to hypergraphs (see
