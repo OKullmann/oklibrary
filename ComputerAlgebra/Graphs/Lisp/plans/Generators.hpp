@@ -55,7 +55,15 @@ License, or any later version. */
      automorphisms. </li>
     </ol>
    </li>
+   <li> Is a formula known for the girth? </li>
+   <li> And for the precise degree of arc-transitivity? This would imply
+   the order of the automorphism group. </li>
    <li> See http://en.wikipedia.org/wiki/Kneser_graph. </li>
+   <li> We should somewhere present a sub-module with all the
+   information available on the Petersen-graph (for example
+   the isomorphism from S_5 to its automorphism group, nice
+   representations etc.; see above). As a part of the general
+   tools for investigating Kneser graphs. </li>
   </ul>
 
 
