@@ -325,36 +325,91 @@ okltest_lambda_hm(f) := block([lf],
   ),
   true)$
 
+/* ***********************
+   * Arrays as hash-maps *
+   ***********************
+*/
+
+okltest_okl_make_array(f) := block(
+  for n : 0 thru 4 do
+    for type in [any,fixnum,flonum] do
+      assert(f(type,n) = block([a:make_array(type,n+1)],a[0]:n,a)),
+  true)$
+okltest_okl_listarray(f) := block(
+  for n : 0 thru 4 do
+    for type in [any,fixnum,flonum] do
+      assert(f(okl_make_array(type,n)) = create_list(
+        if type=fixnum then 0 elseif type=flonum then 0.0 else false, i,1,n)),
+  true)$
+okltest_okl_fillarray_l(f) := block(
+  for n : 0 thru 5 do block([L : create_list(i,i,1,n)],
+    assert(okl_listarray(f(okl_make_array(fixnum,n),L)) = L)),
+  true)$
+
+okltest_l2array(f) := block(
+  for n : 0 thru 4 do block(
+   [L : create_list(create_list(j,j,1,i),i,1,n)],
+    assert(okl_listarray(f(L)) = L)),
+  true)$
+okltest_il2array(f) := block(
+  for n : 0 thru 4 do block(
+   [L : create_list(i,i,1,n)],
+    assert(okl_listarray(f(L)) = L)),
+  true)$
+okltest_fl2array(f) := block(
+  for n : 0 thru 4 do block(
+   [L : create_list(float(i),i,1,n)],
+    assert(okl_listarray(f(L)) = L)),
+  true)$
+
+
 okltest_sm2array(f) := block([a],
-  assert(f({}) = make_array(any,0)),
-  a : f({[0,{}]}),
-  assert(listarray(a) = [{}]),
-  a : f({[0,{}],[1,{{}}]}),
-  assert(listarray(a) = [{},{{}}]),
+  assert(f({}) = okl_make_array(any,0)),
+  a : f({[1,{}]}),
+  assert(okl_listarray(a) = [{}]),
+  a : f({[1,{}],[2,{{}}]}),
+  assert(okl_listarray(a) = [{},{{}}]),
   true)$
 
 okltest_array2osm(f) := block([a],
-  assert(f(make_array(any,0)) = []),
-  a : make_array(any,3),
-  a[0] : 77, a[1] : {}, a[2] : {{}},
-  assert(f(a) = [[0,77],[1,{}],[2,{{}}]]),
+  assert(f(okl_make_array(any,0)) = []),
+  a : okl_make_array(any,3),
+  a[1] : 77, a[2] : {}, a[3] : {{}},
+  assert(f(a) = [[1,77],[2,{}],[3,{{}}]]),
   true)$
 
 okltest_lambda_array(f) := block([lf],
   lf : f(sm2array({})),
-  assert(errcatch(lf(0)) = []),
-  lf : f(osm2array_lt([[0,1],[2,{{}},2]],3,any)),
-  assert(lf(0) = 1),
+  assert(errcatch(lf(1)) = []),
+  lf : f(osm2array_lt([[1,1],[2,{{}},2]],3,any)),
+  assert(lf(1) = 1),
   assert(lf(2) = {{}}),
-  assert(lf(1) = false),
-  assert(errcatch(lf(3)) = []),
-  block([a : make_array(fixnum,1), lf2],
+  assert(lf(3) = false),
+  assert(errcatch(lf(4)) = []),
+  block([a : okl_make_array(fixnum,1), lf2],
     lf : f(a),
-    a[0] : 1,
+    a[1] : 1,
     lf2 : f(a),
-    assert(lf(0) = 1),
-    assert(lf2(0) = 1)
+    assert(lf(1) = 1),
+    assert(lf2(1) = 1)
   ),
+  true)$
+
+okltest_extract_array(f) := block([a,a2,la],
+  a : okl_make_array(fixnum,3),
+  la : lambda_array(a),
+  assert(okl_listarray(f(la)) = [0,0,0]),
+  a[1] : 3,
+  assert(okl_listarray(f(la)) = [3,0,0]),
+  a2 : f(la),
+  a[2] : 77,
+  assert(a[2] = 77),
+  assert(okl_listarray(f(la)) = [3,77,0]),
+  true)$
+
+okltest_extract_arraylist(f) := (
+  for n : 0 thru 5 do block([L : create_list(i,i,1,n)],
+    assert(f(lambda_array(okl_fillarray_l(okl_make_array(fixnum,n),L))) = L)),
   true)$
 
 

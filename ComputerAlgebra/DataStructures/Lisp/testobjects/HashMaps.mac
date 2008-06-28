@@ -54,9 +54,24 @@ okltest_hm2sm(hm2sm);
 okltest_compose_hm_sm(compose_hm_sm);
 okltest_lambda_hm(lambda_hm);
 
+/* ***********************
+   * Arrays as hash-maps *
+   ***********************
+*/
+
+okltest_okl_make_array(okl_make_array);
+okltest_okl_listarray(okl_listarray);
+okltest_okl_fillarray_l(okl_fillarray_l);
+
+okltest_l2array(l2array);
+okltest_il2array(il2array);
+okltest_fl2array(fl2array);
+
 okltest_sm2array(sm2array);
 okltest_array2osm(array2osm);
 okltest_lambda_array(lambda_array);
+okltest_extract_array(extract_array);
+okltest_extract_arraylist(extract_arraylist);
 
 /* *********************
    * Frequency counter *

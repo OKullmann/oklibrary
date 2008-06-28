@@ -126,26 +126,52 @@ compose_hm_sm(h,M) := (for p in M do set_hm(h,p[1],p[2]), h)$
 lambda_hm(h) := buildq([h],lambda([x],ev_hm(h,x)))$
 
 
+/* ***********************
+   * Arrays as hash-maps *
+   ***********************
+*/
+
 /* Similar functions for arrays (like hash-maps, but fixed lenghts,
-   and only integer indices (starting with 0)). */
+   and only integer indices, starting with 1). */
+
+/* "okl-arrays" are 1-based, and at index 0 they contain their length. */
+
+/* First the equivalents of the built-in functions: */
+okl_make_array(type,dim) := block([a : make_array(type,dim+1)], 
+  a[0] : dim, a)$
+okl_listarray(a) := rest(listarray(a))$
+array2l(a) := okl_listarray(a)$
+/* Here L must be a list and a an okl-array: */
+okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
+
+/* Creating an okl-array from a list: */
+l2array(L) := okl_fillarray_l(okl_make_array(any,length(L)),L)$
+/* If the list contains only integers, and the array shall be
+   an array of integers: */
+il2array(L) := okl_fillarray_l(okl_make_array(fixnum,length(L)),L)$
+/* If the list contains only floating-point numbers, and the array shall be
+   an array of floating-point numbers: */
+fl2array(L) := okl_fillarray_l(okl_make_array(flonum,length(L)),L)$
 
 sm2array(M) := sm2array_lt(M,length(M),any)$
 osm2array(M) := sm2array(M)$
 /* If the type of the indices is known, and the length of the array
    is also to be specified: */
-sm2array_lt(M,l,type) := block([a : make_array(type,l)],
+sm2array_lt(M,l,type) := block([a : okl_make_array(type,l)],
   for p in M do a[p[1]] : p[2], return(a))$
 osm2array_lt(M,l,type) := sm2array_lt(M,l,type)$
 
 /* Interpreting a value "false" as "not assigned": */
 array2osm(a) := array2osm_v(a,false)$
 /* Specifying the value which signals "not assigned": */
-array2osm_v(a,v) := block([L : listarray(a)],
-  delete(v,create_list(if L[i]=false then false else [i-1,L[i]],i,1,length(L))))$
+array2osm_v(a,v) := block([L : okl_listarray(a)],
+  delete(v,create_list(if L[i]=false then false else [i,L[i]],i,1,length(L))))$
 
 /* Converting an array or an array-function into a lambda-term: */
 lambda_array(a) := buildq([a],lambda([x],a[x]))$
-
+/* Extracting the array from a lambda-term created by lambda_array: */
+extract_array(h) := part(h,2,0);
+extract_arraylist(h) := okl_listarray(extract_array(h))$
 
 /* *********************
    * Frequency counter *
