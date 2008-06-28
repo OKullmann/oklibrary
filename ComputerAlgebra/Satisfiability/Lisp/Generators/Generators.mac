@@ -67,15 +67,15 @@ var_php(m,n) := setify(create_list(php_var(i,j), i,1,m, j,1,n))$
 
 /* In the following m denotes the number of pigeons, n the number of holes */
 
-/* no two pigeon in the same hole */
+/* No two pigeon in the same hole: */
 pigeons_different_holes(m,n) := setify(create_list({- php_var(i,k), - php_var(j,k)}, 
   i,1,m-1, j,i+1,m, k,1,n))$
 
-/* every pigeon in one hole */
+/* Every pigeon in one hole: */
 pigeons_in_holes(m,n) := setify(
-  makelist(setify(makelist(php_var(i,j), j, 1, n)), i,1,m))$
+  create_list(setify(create_list(php_var(i,j), j, 1, n)), i,1,m))$
 
-/* the weak pigeon formula as formal clause-set */
+/* The weak pigeon formula as formal clause-set: */
 weak_php(m,n) := [var_php(m,n), 
  union(pigeons_different_holes(m,n), pigeons_in_holes(m,n))]$
 
@@ -85,15 +85,15 @@ output_weak_php(m,n,filename) := block([FF : standardise_fcs(weak_php(m,n))],
     FF[1], filename, FF[2]))$
 
 
-/* no pigeon in more than one hole */
+/* No pigeon in more than one hole: */
 pigeon_unique_hole(m,n) := setify(create_list({-php_var(i,k1), -php_var(i,k2)},
   i,1,m, k1,1,n-1, k2,k1+1,n))$
 
-/* every hole carries a pigeon */
+/* Every hole carries a pigeon: */
 holes_occupied(m,n) := if m < n then {} else
-  setify(makelist(setify(makelist(php_var(i,j), i, 1, m)), j,1,n))$
+  setify(create_list(setify(create_list(php_var(i,j), i, 1, m)), j,1,n))$
 
-/* the strong pigeon formula as formal clause-set */
+/* The strong pigeon formula as formal clause-set: */
 strong_php(m,n) := block([FF : weak_php(m,n)],
   [FF[1], union(FF[2], pigeon_unique_hole(m,n), holes_occupied(m,n))])$
 
@@ -163,10 +163,10 @@ mupw_var(i) := nounify(mupw)(i)$
    Thus USAT is reduced to MUSAT. */
 usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input contains variable scheme mupw!") else
  block([L : listify(FF[2]), m : length(FF[2]), Y],
-  Y : setify(makelist(mupw_var(i), i, 1, m)),
+  Y : setify(create_list(mupw_var(i), i, 1, m)),
   return(
     [union(FF[1], Y), setify(append(
-      makelist(union(L[i], disjoin(mupw_var(i), Y)), i, 1, m),
+      create_list(union(L[i], disjoin(mupw_var(i), Y)), i, 1, m),
       create_list(union({-listify(L[i])[j], -mupw_var(i)}, disjoin(mupw_var(i), Y)), i,1,m, j,1,length(L[i])),
       create_list({-mupw_var(i), -mupw_var(j)}, i,1,m-1, j,i+1,m)))]
   ))$
@@ -200,7 +200,7 @@ ncl_list_usat_musat(FF) := block(
    while if F is unsatisfiable then GP is unsatisfiable but not minimally
    unsatisfiable. Thus SAT is reduced to MUSAT. */
 sat_musat(FF) := block([m : length(FF[2]), Y, G],
- Y : setify(makelist(mupw_var(i), i, 1, m)),
+ Y : setify(create_list(mupw_var(i), i, 1, m)),
  G : usat_musat(FF),
  return([G[1], union(G[2],{Y})]))$
 

@@ -59,13 +59,13 @@ aut_sat_ls(FF) := if not freeof(lsavl, FF) or not freeof(lsavv, FF) or
  else block([V : listify(FF[1]), L : listify(FF[2])],
   return(
    [union(FF[1],
-     setify(makelist(lsavl_var(v,-1),v,V)),
-     setify(makelist(lsavl_var(v,+1),v,V)),
-     setify(makelist(lsavv_var(v),v,V)),
-     setify(makelist(lsavc_var(C),C,L))),
+     setify(create_list(lsavl_var(v,-1),v,V)),
+     setify(create_list(lsavl_var(v,+1),v,V)),
+     setify(create_list(lsavv_var(v),v,V)),
+     setify(create_list(lsavc_var(C),C,L))),
     union(
      /* if a clauses is satisfied, then also some of its literals: */
-     setify(makelist(adjoin(-lsavc_var(C),map(trans_lit_ls,C)),C,L)),
+     setify(create_list(adjoin(-lsavc_var(C),map(trans_lit_ls,C)),C,L)),
      /* make lsavl_var(v,1) equivalent to (lsavv_var(v) & v): */
      family_sets_union(V, lambda([v], {
        {-lsavl_var(v,1),lsavv_var(v)},
@@ -101,8 +101,8 @@ trans_aut_sat_ls(phi,FF) := block(
   map(lambda([v],-lsavl_var(v,+1)), OV),
   map(lsavv_var,V),
   comp_sl(map(lsavv_var,OV)),
-  setify(makelist(lsavc_var(C),C,listify(S))),
-  setify(makelist(-lsavc_var(C),C,listify(setdifference(FF[2],S)))))))$
+  map(lsavc_var, S),
+  map(lambda([C],-lsavc_var(C)), setdifference(FF[2],S)))))$
 /* For
  check_ls(phi,FF) := satisfyingpap(trans_aut_sat_ls(phi,FF),aut_sat_ls(FF)[2])
    we have check_ls(phi,FF) = true iff phi is an autarky for FF.

@@ -57,14 +57,14 @@ License, or any later version. */
     <li> Numerical : DONE </li>
     <li> Satisfiability :
      <ol>
-      <li> Autarkies </li>
+      <li> Autarkies : DONE </li>
       <li> Backdoors : DONE </li>
       <li> Backtracking </li>
       <li> BranchingTuples </li>
       <li> ClauseSets : DONE </li>
       <li> ConflictCombinatorics : DONE </li>
       <li> ConstraintProblems </li>
-      <li> Counting </li>
+      <li> Counting : DONE </li>
       <li> Generators </li>
       <li> MinimalUnsatisfiability </li>
       <li> PropositionalLogic </li>
