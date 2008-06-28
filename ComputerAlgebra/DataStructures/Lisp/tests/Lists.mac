@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 
 kill(f)$
@@ -64,23 +65,23 @@ okltest_remove_element(f) := (
   true)$
 
 okltest_sublist_indicator(f) := (
-  assert(f([],make_array(fixnum,0)) = []),
-  assert(f([],make_array(fixnum,1)) = []),
-  assert(f([1],make_array(fixnum,1)) = [1]),
-  assert(f([1,2],make_array(fixnum,2)) = [1,2]),
-  block([A : make_array(fixnum,4)],
+  assert(f([],okl_make_array(fixnum,0)) = []),
+  assert(f([],okl_make_array(fixnum,1)) = []),
+  assert(f([1],okl_make_array(fixnum,1)) = [1]),
+  assert(f([1,2],okl_make_array(fixnum,2)) = [1,2]),
+  block([A : okl_make_array(fixnum,4)],
    assert(f([1,2,3,4],A) = [1,2,3,4]),
-   A[0] : 1,
+   A[1] : 1,
    assert(f([1,2,3,4],A) = [2,3,4]),
-   A[3] : 2,
+   A[4] : 2,
    assert(f([1,2,3,4],A) = [2,3]),
-   A[1] : -1,
+   A[2] : -1,
    assert(f([1,2,3,4],A) = [3]),
-   A[2] : 6,
+   A[3] : 6,
    assert(f([1,2,3,4],A) = [])
   ),
-  block([L : [1,2,3], A : make_array(fixnum,3), L2],
-   A[1] : 1,
+  block([L : [1,2,3], A : okl_make_array(fixnum,3), L2],
+   A[2] : 1,
    L2 : f(L,A),
    assert(L2 = [1,3]),
    L2[1] : 77,

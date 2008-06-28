@@ -42,9 +42,11 @@ sublist_indices_el(L,x) := sublist_indices(L,lambda([e],is(e=x)))$
 remove_element(i,L) := append(take_elements(i-1,L), rest(L,i))$
 
 /* Return the sublist of list L for which the corresponding entry in
-   array I is 0. Returns a shallow copy. */
-sublist_indicator(L,I) := block([res : [], l : length(L)],
- for i : 0 thru l-1 do if I[i] = 0 then res : endcons(L[i+1],res),
+   okl-array I is 0. Returns a shallow copy. */
+sublist_indicator(L,I) := block([res : [], l : length(L), i : 1],
+ for x in L do (
+   if I[i] = 0 then res : endcons(x,res),
+   i : i + 1),
  return(res))$
 
 
