@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Resolution/Basics.m
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ***************************
@@ -206,7 +206,7 @@ distribution_min_dp(FF) := block([P : permutations(FF[1]), l : length(FF[2]), ha
     if elementp(s, counts) then hash[s] : hash[s] + 1 else (
       counts : adjoin(s, counts), hash[s] : 1)
   ),
-  return(makelist([s, hash[s]], s, listify(counts))))$
+  return(create_list([s, hash[s]], s, listify(counts))))$
 
 /*!
 \endhtmlonly

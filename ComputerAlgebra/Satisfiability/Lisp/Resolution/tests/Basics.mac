@@ -72,6 +72,21 @@ okltest_dp_operator(f) := (
       assert(F = full_fcs(v-1)[2]))),
   true)$
 
+okltest_distribution_min_dp(f) := block(
+  assert(f([{},{}]) = [[0,1]]),
+  assert(f([{},{{}}]) = [[1,1]]),
+  assert(f([{1},{}]) = [[0,1]]),
+  assert(f([{1},{{}}]) = [[2,1]]),
+  assert(f([{1},{{1}}]) = [[1,1]]),
+  assert(f([{1},{{1},{-1}}]) = [[3,1]]),
+  assert(f([{1},{{},{1},{-1}}]) = [[4,1]]),
+  assert(f([{1,2},{{1,2},{-1,2},{-1,-2}}]) = [[4,2]]),
+  assert(f([{1,2},{{1},{1,2},{-1,2},{-1,-2}}]) = [[7,2]]),
+  for n : 0 thru if oklib_test_level=0 then 3 else 4 do 
+   block([FF : full_fcs(n)],
+    assert(f(FF) = [[2^(n+1)-1,n!]])),
+  true)$
+
 /*!
 \endhtmlonly
 */

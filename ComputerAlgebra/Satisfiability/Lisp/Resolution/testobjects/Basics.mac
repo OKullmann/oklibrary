@@ -42,6 +42,8 @@ okltest_two_subsumption_resolvents_rem_cs(two_subsumption_resolvents_rem_cs);
 
 okltest_dp_operator(dp_operator);
 
+okltest_distribution_min_dp(distribution_min_dp);
+
 /*!
 \endhtmlonly
 */

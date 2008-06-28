@@ -69,7 +69,7 @@ License, or any later version. */
       <li> MinimalUnsatisfiability </li>
       <li> PropositionalLogic </li>
       <li> Reductions : DONE </li>
-      <li> Resolutions </li>
+      <li> Resolutions : DONE </li>
       <li> Symmetries : DONE </li>
      </ol>
     </li>
