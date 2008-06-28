@@ -10,6 +10,27 @@ License, or any later version. */
   \brief Plans regarding biclique partitions of (general) graphs
 
 
+  \todo Translations to clause-sets
+  <ul>
+   <li> Organisation:
+    <ol>
+     <li> Does this belong to ComputerAlgebra/Graphs, or to
+     ComputerAlgebra/Satisfiability? </li>
+     <li> Formation of conflict graphs etc. seem naturally to belong to
+     Satisfiability/ConflictCombinatorics, since these graphs are first of
+     all tools to analyse clause-sets. </li>
+     <li> What about translations of biclique partitions (and of graphs
+     for given methods of biclique partitions) into clause-sets?
+      <ul>
+       <li> Placing them in Satisfiability/ConflictCombinatorics seems again
+       most natural; perhaps in a sub-module "Realisations" ? </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo The conjecture of [Galesi, Kullmann]
   <ul>
    <li> Using the (deprecated) Mupad-functions, the conjecture is
