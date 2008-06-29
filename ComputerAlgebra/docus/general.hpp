@@ -101,6 +101,22 @@ License, or any later version. */
      <li> What still is abstracted away, compared to the "full level",
      are fine-grained algorithmic choices and especially considerations
      regarding memory management and construction/destruction of objects. </li>
+     <li> It seems that most development will happen at the basic level (the
+     Maxima/Lisp level) or at the full level, while the Axiom/Aldor
+     level is about planning, formulating and prototyping abstraction.
+      <ol>
+       <li> For example, at the Maxima/Lisp level we develop a systematic
+       and fine-grained, but non-abstract account of all graph- and hypergraph
+       concepts, and a good selection on algorithms operating with these
+       concepts. </li>
+       <li> After seeing this picture (for the first time!), we look at
+       common principles, common methods, common interfaces. </li>
+       <li> That is, the multitude of concrete concepts is organised into
+       a network of abstract concepts. </li>
+      </ol>
+     </li>
+     <li> Currently we are in the phase of building up the basic level, and
+     thus work at the Axiom/Aldor level is slow-going. </li>
     </ul>
    </li>
    <li> The third level, the C++ level which is considered as the
