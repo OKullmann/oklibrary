@@ -292,7 +292,7 @@ plot2d(exp(x)*x,[x,-7,1],[ylabel,"x * exp(x)"],
   </ul>
 
 
-  \todo Partial compilation:
+  \todo Partial compilation
   <ul>
    <li> "compfile" writes Lisp-code into files? </li>
    <li> It seems that we should use "compile(all)" from time to time, and also

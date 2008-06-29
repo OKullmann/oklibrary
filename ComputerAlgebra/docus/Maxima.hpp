@@ -54,7 +54,7 @@ oklib --maxima --batch=FILE
      via "m4_SHELL(variable)". </li>
     </ol>
    </li>
-   <li> The redefinition-warnins shown when starting Maxima in this way
+   <li> The redefinition-warnings shown when starting Maxima in this way
    are about changing the behaviour when parsing files:
     <ol>
      <li> By default, "oklib_load" and "oklib_include" (see below)
