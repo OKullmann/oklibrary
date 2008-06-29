@@ -31,54 +31,63 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
    [T_1, ..., T_n], where the T_i are the subtrees (the case
    n=0, i.e., the empty list, represents the trivial tree).
 */
+/* In other words, an "rt" is represented by a term which uses only
+   "[", "]" and commas.
+*/
 
-/* the number of nodes in an unlabelled tree */
+rt_p(T) := listp(T) and every(rt_p,T)$
+
+/* The number of nodes in an unlabelled tree: */
 nnds(T) := 1+sum(nnds(T[i]),i,1,length(T))$
 
-/* the number of leaves in an unlabelled rooted tree */
+/* The number of leaves in an unlabelled rooted tree: */
 nlvs(T) := if T = [] then 1 else sum(nlvs(T[i]),i,1,length(T))$
 
 /* A "node representation" for an unlabelled rooted tree is a list
    of natural numbers (>= 1) representing the path from the root
    to the node. */
 
-/* the set of "leaves" of an unlabelled tree */
+/* The set of "leaves" of an unlabelled tree: */
 lvs(T) := if emptyp(T) then {[]} else
-  apply(union,
-    makelist(
-      map(lambda([p], cons(i,p)), lvs(T[i])),
-      i,1,length(T)))$
+  apply(union, 
+    map(lambda([S,i],map(lambda([p],cons(i,p)),S)), 
+      map(lvs,T), 
+      create_list(i,i,1,length(T))))$
 
-/* the set of "nodes" of an unlabelled tree */
-nds(T) := union({[]}, apply(union,
-  makelist(
-    map(lambda([p], cons(i,p)), nds(T[i])),
-    i,1,length(T))))$
+/* The set of "nodes" of an unlabelled tree: */
+nds(T) := adjoin([], apply(union,
+  map(lambda([S,i],map(lambda([p],cons(i,p)),S)), 
+    map(nds,T), 
+    create_list(i,i,1,length(T)))))$
 
-/* the subtee of unlabelled tree T at node (representation) p */
+
+/* The subtree of unlabelled tree T at node (representation) p;
+   prerequisite: p is a valid node representation for T, that is
+   elementp(p,nds(T)) is true. */
 subtree(T,p) := if p = [] then T else
   subtree(T[p[1]], rest(p))$
+/* Remark: The subtree is a shallow copy, and so replacing an element of it
+   will have the same effect for the original tree.
+*/
 
-/* the successor nodes (i.e., representations) of node (representation) p
-   in unlabelled tree T */
+/* The successor nodes (i.e., representations) of node (representation) p
+   in unlabelled tree T: */
 dst(T,p) := block([S : subtree(T,p)],
-  setify(makelist(endcons(i,p),i,1,length(S))))$
+  setify(create_list(endcons(i,p),i,1,length(S))))$
 
 
-/* the height of an unlabelled tree */
+/* The height of an unlabelled tree: */
 height(T) := if T = [] then 0 else
-  1 + lmax(makelist(height(T[i]),i,1,length(T)))$
+  1 + lmax(map(height,T))$
 
-/* the "levelled height" of an unlabelled tree 
-   (also the "Horton-Strahler number" */
+/* The "levelled height" of an unlabelled tree 
+   (also the "Horton-Strahler number"): */
 levelled_height(T) := if T = [] then 0 else block(
- [l : length(T), max : minf, imax, strict : true],
-  block([H : makelist(levelled_height(T[i]),i,1,l)],
-   for i : 1 thru l do
-    if H[i] > max then (imax : i, max : H[i]),
-   for i : 1 thru l unless not strict do
-    if i # imax and H[i] = max then strict : false,
-   if strict then return(max) else return(1+max)))$
+  [H : map(levelled_height,T), max, count : 0],
+   max : lmax(H),
+   for h in H unless count=2 do
+     if h=max then count : count + 1,
+   if count <= 1 then return(max) else return(1+max))$
 
 
 /* ****************************
@@ -91,23 +100,41 @@ levelled_height(T) := if T = [] then 0 else block(
    are the subtrees.
 */
 
-/* transforms a labelled into an unlabelled tree by removing the labels */
-l2ult(T) := makelist(l2ult(T[i]),i,2,length(T))$
+/* Transforms a labelled into an unlabelled tree by removing the labels: */
+/* UPDATE: rename to lrt2rt. */
+l2ult(T) := map(l2ult,rest(T))$
 
-/* number of nodes in a labelled rooted tree */
+/* Number of nodes in a labelled rooted tree: */
 nnds_l(T) := if length(T) = 1 then 1 else 1+sum(nnds_l(T[i]),i,2,length(T))$
 
-/* the number of leaves in a labelled rooted tree */
+/* The number of leaves in a labelled rooted tree: */
 nlvs_l(T) := if length(T) = 1 then 1 else sum(nlvs_l(T[i]),i,2,length(T))$
 
+
+/* ****************
+   * Transformers *
+   ****************
+*/
+
 /* Transforms a graph G, which is a tree, into a labelled rooted tree 
-   (using root r) */
+   (using root r, and the natural order on the vertices of G): */
+/* UPDAE: rename to g2lrt. */
 graph2tree(G,r) := block([N : listify(neighbours(r,G))],
- return(cons(r, makelist(graph2tree(remove_vertices_graph({r},G),v),v,N))))$
+ return(cons(r, create_list(graph2tree(remove_vertices_graph({r},G),v),v,N))))$
+
+
+/* **************
+   * Generators *
+   **************
+*/
+
+/* The complete (unlabelled, rooted) tree of depth d and width q: */
+complete_rt(d,q) := if d=0 then [] else
+  create_list(complete_rt(d-1,q),i,1,q)$
 
 load(graphs);
-/* a random labelled tree with n vertices (labels 0,...,n-1; root is 0) */
-random_ltree(n) := graph2tree(mg2g(random_tree(n)),0);
+/* A random labelled tree with n vertices (labels 1,...,n; root is 1) */
+random_ltree(n) := graph2tree(mg2g(random_tree(n)),1);
 
 
 /*!

@@ -21,6 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Trees/Lisp/include.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/Basics.mac")$
 
+oklib_include("Transitional/ComputerAlgebra/Trees/Lisp/tests/Basics.mac")$
+
 /*!
 \endhtmlonly
 */

@@ -29,6 +29,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Concepts and abbreviations
+  <ul>
+   <li> An "unlabelled rooted tree" perhaps abbreviated by "rt". </li>
+   <li> And a "labelled rooted tree" perhaps abbreviated by "lrt". </li>
+   <li> The functions need to be renamed. </li>
+  </ul>
+
+
   \todo Tree drawing (output as Latex code)
   <ul>
    <li> Generalise the various forms of transforming trees to ps-trees. </li>

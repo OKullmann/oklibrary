@@ -269,6 +269,8 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    <li> See "Redesign" in ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp.
    </li>
    <li> See "Redesign" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp. </li>
+   <li> See "Concepts and abbreviations" in
+   ComputerAlgebra/Trees/Lisp/plans/general.hpp. </li>
   </ul>
 
 

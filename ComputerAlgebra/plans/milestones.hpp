@@ -70,7 +70,7 @@ License, or any later version. */
      </ol>
     </li>
     <li> TestSystem : DONE </li>
-    <li> Trees </li>
+    <li> Trees : DONE </li>
    </ol>
 
   \par
