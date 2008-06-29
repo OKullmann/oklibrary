@@ -53,8 +53,7 @@ egf_div([args]) := egf_func(gf_div, args)$
 egf_inv([args]) := egf_func(gf_inv, args)$
 egf_matmul([args]) := egf_func(gf_matmul, args)$
 egf_matinv([args]) := egf_func(gf_matinv, args)$
-egf_exp(f,x,y) := (apply(gf_set,f), gf_exp(x,y))$ /* By unknown reasons,
-  egf_func doesn't work here. */
+egf_exp([args]) := egf_func('gf_exp, args)$
 egf_rand([args]) := egf_func(gf_rand, args)$
 egf_findprim([args]) := egf_func(gf_findprim, args)$
 egf_ind([args]) := egf_func(gf_ind, args)$
