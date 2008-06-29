@@ -136,6 +136,8 @@ oklib --maxima --batch=FILE
    $(maxima_html_documentation_index_location_tag_okl). All further
    documentation below is on the Maxima-library provided by the OKlibrary.
    </li>
+   <li> How to write programs at the Maxima/Lisp level in the OKlibrary
+   is discussed in ComputerAlgebra/docus/MaximaTechniques.hpp. </li>
    <li> For a tutorial see ComputerAlgebra/docus/MaximaTutorial.hpp. </li>
    <li> The demonstrations (in <code>demos</code>-subdirectories) can be run via
    <code>oklib_demo(filename)</code> (as to be found in the preamble of the
