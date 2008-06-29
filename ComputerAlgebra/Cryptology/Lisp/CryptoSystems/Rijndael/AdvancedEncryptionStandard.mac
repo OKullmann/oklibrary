@@ -51,28 +51,6 @@ rijndael_byte_field : [2,8,rijndael_polynomial]$
 
 
 /* ***************************************
-   * Helper Functions                    *
-   ***************************************
-*/
-
-/* 
-   Returns a vector (column matrix) of size n of the coefficients of the given
-   polynomial, with the top value in the vector being the coefficient for the
-   highest order term (with order < n).
-*/ 
-polynomial2vector(poly, n) := 
-    apply(matrix, reverse(makelist([coeff(poly, x, i)],i,0,n-1)))$
-
-/* Returns a polynomial given the vector v, such that the polynomial is of 
-   order n where n is the size of the vector, and the values of the vector 
-   form the coefficients of the polynomial, with the first value in the 
-   vector becoming the coefficient of the highest order polynomial (order n-1).
-*/
-vector2polynomial(v) := block([n : length(v)],
-    sum(v[i][1] * x^(n - i), i, 1, n))$
-
-
-/* ***************************************
    * Custom Field Operations             *
    ***************************************
 */
@@ -116,10 +94,26 @@ rijndael_inv_affine_constant : x^2 + 1$
 
 /* Matrix used in the affine transformation within sbox */
 rijndael_sbox_matrix : apply(matrix,
-    makelist(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
+  create_list(rotate([1,1,1,1,1,0,0,0],i),i,0,7))$
 /* Matrix used in the affine transformation within inv_sbox */
 rijndael_inv_sbox_matrix : apply(matrix,
-  makelist(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
+  create_list(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
+
+/* 
+   Returns a vector (column matrix) of size n of the coefficients of the given
+   polynomial, with the top value in the vector being the coefficient for the
+   highest order term (with order < n).
+*/ 
+polynomial2vector(poly, n) := 
+  apply(matrix, reverse(create_list([coeff(poly, x, i)],i,0,n-1)))$
+
+/* Returns a polynomial given the vector v, such that the polynomial is of 
+   order n where n is the size of the vector, and the values of the vector 
+   form the coefficients of the polynomial, with the first value in the 
+   vector becoming the coefficient of the highest order polynomial (order n-1).
+*/
+vector2polynomial(v) := block([n : length(v)],
+  sum(v[i][1] * x^(n - i), i, 1, n))$
 
 /* AES sbox. Takes a value in GF(2^8) and returns the result of applying the
    Rijndael Sbox operation on the value. */
@@ -179,7 +173,7 @@ rijndael_shiftrows_shifts : [0,1,2,3]$
 */
 shiftrows(inputblock) := block([list_rows : partition_elements(inputblock,4)],
   matrix2list (
-    makelist(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)))$
+    create_list(rotate(list_rows[abs(r)+1],-r), r, rijndael_shiftrows_shifts)))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -197,10 +191,10 @@ inv_shiftrows(inputblock) :=
    GF(2^8).
 */
 rijndael_mixcolumns_matrix : apply(matrix, 
-    makelist(rotate([x, x + 1, 1, 1], i),i,0,3))$
+  create_list(rotate([x, x + 1, 1, 1], i),i,0,3))$
 /* Inverse of the rijndael_mix_columns_matrix */
-rijndael_inv_mixcolumns_matrix :apply(matrix,
-  makelist(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3))$
+rijndael_inv_mixcolumns_matrix : apply(matrix,
+  create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3))$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block. */
@@ -214,8 +208,9 @@ mixcolumn(inputblocki) :=
    multiplications.*/
 lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
   lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
-  map(lambda([a], xreduce(?logxor,a)),
-  makelist(map(lookup_field_mul,rotate([2, 3, 1, 1], i),inputblocki),i,0,3)))$
+  map(lambda([a], apply(?logxor,a)),
+    create_list(
+      map(lookup_field_mul,rotate([2, 3, 1, 1], i),inputblocki),i,0,3)))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -240,8 +235,9 @@ inv_mixcolumn(inputblock) :=
    multiplications.*/
 lookup_inv_mixcolumn(inputblocki) := block([lookup_field_mul],
   lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
-  map(lambda([a], xreduce(?logxor,a)),
-  makelist(map(lookup_field_mul,rotate([14,11,13,9], i),inputblocki),i,0,3)))$
+  map(lambda([a], apply(?logxor,a)),
+    create_list(
+      map(lookup_field_mul,rotate([14,11,13,9], i),inputblocki),i,0,3)))$
 
 /*
    Takes a list of GF(2^8) elements (the block), and
@@ -266,7 +262,7 @@ key_expansion(kl, n_b, sbox_f, aes_add) := block(
       column[1] : aes_add(cols[j-n_k+1][1], 
         aes_add(sbox_f(cols[j][2]), 
           xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
-            makelist(2,i,1,(floor(j/n_k) -1)),1))),
+            create_list(2,i,1,(floor(j/n_k) -1)),1))),
       for i : 1 thru 3 do 
         column[i+1] : 
           aes_add(cols[j-n_k+1][i+1], sbox_f(cols[j][mod(i+1,4)+1])))
