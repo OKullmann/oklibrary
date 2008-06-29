@@ -319,6 +319,36 @@ okltest_egf_findprim(f) := block([field],
   assert(egf_primep(field, f(field))),
   true)$
 
+okltest_egf_coeffs(f) := block([field],
+  field : [2,1,x],
+  for i : 0 thru 10 do block(
+    assert(f(field, num2poly(i),-1) = []),
+    assert(length(f(field, num2poly(i), 0)) = 1),
+    assert(length(f(field, num2poly(i), i)) = i+1)
+  ),
+  field : [2,2,x^2+x+1],
+  for i : 0 thru 10 do block(
+    assert(f(field, num2poly(i),-1) = []),
+    assert(length(f(field, num2poly(i), 0)) = 1),
+    assert(length(f(field, num2poly(i), i)) = i+1)
+  ),
+  field : [3,3,x^3+x^2+x+2],
+  for i : 0 thru 10 do block(
+    assert(f(field, num2poly(i),-1) = []),
+    assert(length(f(field, num2poly(i), 0)) = 1),
+    assert(length(f(field, num2poly(i), i)) = i+1)
+  ),
+  assert(f(field,2*x^2 -x + 1,7) = [0,0,0,0,0,2,2,1]),
+  field : [2,8,x^8+x^4+x^3+x+1], 
+  for i : 0 thru 10 do block(
+    assert(f(field, num2poly(i),-1) = []),
+    assert(length(f(field, num2poly(i), 0)) = 1),
+    assert(length(f(field, num2poly(i), i)) = i+1)
+  ),
+  assert(f(field, x^4+x+1,7) = [0,0,0,1,0,0,1,1]),
+  assert(f(field, x^5+x^3+x,7) = [0,0,1,0,1,0,1,0]),
+  true)$
+
 /* ****************************
    * Standard representations *
    ****************************

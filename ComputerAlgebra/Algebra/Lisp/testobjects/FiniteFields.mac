@@ -41,6 +41,8 @@ okltest_egf_exp(egf_exp);
 
 okltest_egf_findprim(egf_findprim);
 
+okltest_egf_coeff(egf_coeff);
+
 /* ****************************
    * Standard representations *
    ****************************

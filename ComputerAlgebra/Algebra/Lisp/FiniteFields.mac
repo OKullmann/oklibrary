@@ -67,6 +67,7 @@ egf_normbasis([args]) := egf_func(gf_normbasis, args)$
 egf_nbrep([args]) := egf_func(gf_nbrep, args)$
 egf_poly2num([args]) := egf_func(poly2num, args)$
 egf_num2poly([args]) := egf_func(num2poly, args)$
+egf_coeffs([args]) := egf_func(coeffs, args)$
 
 
 /* ****************************
