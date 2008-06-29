@@ -88,7 +88,7 @@ License, or any later version. */
      </li>
      <li> It seems that for example mon2sem is not needed since we have
      ugrd2grd, and there are no types attached to the objects. </li>
-    </ol
+    </ol>
    </li>
    <li> All the above likely should also exist in ordered versions, with
    prefix "o". </li>
