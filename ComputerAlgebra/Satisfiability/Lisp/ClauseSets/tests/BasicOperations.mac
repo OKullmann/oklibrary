@@ -31,6 +31,24 @@ kill(f)$
    **************************
 */
 
+okltest_v_p(f) := block([x],
+  assert(f(1) = true),
+  assert(f(0) = false),
+  assert(f(-1) = false),
+  assert(f(x) = false),
+  assert(f(php(3,4)) = true),
+  true)$
+
+okltest_l_p(f) := block([x],
+  assert(f(1) = true),
+  assert(f(0) = false),
+  assert(f(-1) = true),
+  assert(f(x) = false),
+  assert(f(php(3,4)) = true),
+  assert(f(-php(3,4)) = true),
+  true)$
+
+
 okltest_var_l(f) := (
   for i : 1 thru 10 do (
     assert(f(i) = i),
@@ -38,6 +56,75 @@ okltest_var_l(f) := (
   ),
   true
 )$
+
+
+/* ***********
+   * Clauses *
+   ***********
+*/
+
+okltest_comp_sl(f) := (
+  assert(f({}) = {}),
+  assert(f({1}) = {-1}),
+  assert(f({-1}) = {1}),
+  assert(f({1,-2}) = {-1,2}),
+  assert(f({1,-1}) = {1,-1}),
+  assert(f({2,-2,1,-3}) = {2,-2,-1,3}),
+  true)$
+
+okltest_c_p(f) := block([x],
+  assert(f({}) = true),
+  assert(f([]) = false),
+  assert(f(1) = false),
+  assert(f(-1) = false),
+  assert(f(0) = false),
+  assert(f({1}) = true),
+  assert(f({[]}) = false),
+  assert(f({1,-2}) = true),
+  assert(f({1,-1}) = false),
+  assert(f(x) = false),
+  assert(f({x}) = false),
+  okltest_l_p(buildq([f],lambda([x],f({x})))),
+  true)$
+
+
+/* ***************
+   * Clause-sets *
+   ***************
+*/
+
+okltest_cs_p(f) := block([x],
+  assert(f({}) = true),
+  assert(f({{}}) = true),
+  assert(f([]) = false),
+  assert(f([[]]) = false),
+  assert(f({1}) = false),
+  assert(f({-1}) = false),
+  assert(f({x}) = false),
+  assert(f({{x}}) = false),
+  assert(f({{1},{-1}}) = true),
+  assert(f({{1,-1}}) = false),
+  assert(f({{},[]}) = false),
+  okltest_c_p(buildq([f],lambda([C],f({C})))),
+  true)$
+
+okltest_fcs_p(f) := block([x],
+  assert(f([{},{}]) = true),
+  assert(f([{},{{}}]) = true),
+  assert(f(x) = false),
+  assert(f({}) = false),
+  assert(f([]) = false),
+  assert(f([{}]) = false),
+  assert(f([{1},{}]) = true),
+  assert(f([{-1},{}]) = false),
+  assert(f([{},{{1}}]) = false),
+  assert(f([{x},{}]) = false),
+  assert(f([{x},{{x}}]) = false),
+  assert(f([{1},{{1},{-1}}]) = true),
+  assert(f([{1},{{1,-1}}]) = false),
+  assert(f([{1},{{1},{-1},{1,2}}]) = false),
+  okltest_v_p(buildq([f],lambda([v],f([{v},{}])))),
+  true)$
 
 
 /* *****************************

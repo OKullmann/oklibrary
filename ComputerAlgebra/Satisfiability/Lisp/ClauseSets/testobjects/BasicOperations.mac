@@ -26,7 +26,27 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
    **************************
 */
 
+okltest_v_p(v_p);
+okltest_l_p(l_p);
+
 okltest_var_l(var_l);
+
+/* ***********
+   * Clauses *
+   ***********
+*/
+
+okltest_comp_sl(comp_sl);
+
+okltest_c_p(c_p);
+
+/* ***************
+   * Clause-sets *
+   ***************
+*/
+
+okltest_cs_p(cs_p);
+okltest_fcs_p(fcs_p);
 
 /* *****************************
    * Substitution and renaming *

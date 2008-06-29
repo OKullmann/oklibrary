@@ -36,10 +36,26 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Stati
  and yields a different object, and such that abs(x) = x.
 */
 
+v_p(v) := 
+ is(is(v>0)=true) and 
+ is(is(-v<0)=true) and 
+ is(is(-v#v)=true) and 
+ is(is(abs(v)=v)=true) and 
+ is(is(abs(-v)=v)=true) and 
+ is(is(--v=v)=true)$
+
 /* 
  A "boolean literal" might be a boolean variable "v" or a negated boolean
  variable "-v".
 */
+
+l_p(x) := 
+ is(is(--x=x)=true) and 
+ if is(x>0)=true then 
+   is(is(abs(x)=x)=true) and v_p(x) 
+ elseif is(x<0)=true then 
+   is(is(abs(x)=-x)=true) and v_p(-x) 
+ else false$
 
 /* The underlying variable of a literal: */
 var_l(x) := abs(x)$
@@ -58,12 +74,14 @@ literals_v(V) := block([L : listify(V)],
 */
 
 /* complementation of a set of literals */
-comp_sl(L) := map(lambda([l], -l), L)$
+comp_sl(L) := map("-", L)$
 
 /*
  A "boolean clause" is a set C of boolean literals such that
  C and comp_sl(C) have empty intersection.
 */
+
+c_p(C) := setp(C) and every(l_p,C) and emptyp(intersection(C,comp_sl(C)))$
 
 /* Tests whether two literal sets contain a clashing literal. */
 clashp(A,B) := not emptyp(intersection(A,comp_sl(B)))$
@@ -86,15 +104,20 @@ negpart_c(C) := subset(C, lambda([x], is(x<0)))$
  A "boolean clause-set" is a set of boolean clauses.
 */
 
+cs_p(F) := setp(F) and every(c_p,F)$
+
 /*
  A "formal boolean clause-set" is a pair [V, F], where V is a set of
  variables, while F is a clause-set using only variables from V
  (that is, with var_cs(F) <= V).
 */
 
-/* the variables in a clause-set */
+fcs_p(FF) := listp(FF) and is(length(FF) = 2) and setp(FF[1]) and
+  every(v_p,FF[1]) and cs_p(FF[2]) and subsetp(var_cs(FF[2]),FF[1])$
+
+/* The variables in a clause-set: */
 var_cs(F) := if emptyp(F) then {} else xreduce(union, map(var_c, F))$
-/* the variables in a formal clause-set */
+/* The variables in a formal clause-set: */
 var_cs_f(FF) := FF[1]$
 
 /* the clause-set of a formal clause-set */
