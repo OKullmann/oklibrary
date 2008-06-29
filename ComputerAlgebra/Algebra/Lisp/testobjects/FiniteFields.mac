@@ -27,13 +27,19 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/tests/FiniteFields.mac"
 */
 
 okltest_egf_add(egf_add);
+okltest_egf_sub(egf_sub);
 
 okltest_egf_mul(egf_mul);
+okltest_egf_div(egf_div);
 
 okltest_egf_matmul(egf_matmul);
 okltest_egf_matinv(egf_matinv);
 
 okltest_egf_inv(egf_inv);
+
+okltest_egf_exp(egf_exp);
+
+okltest_egf_findprim(egf_findprim);
 
 /* ****************************
    * Standard representations *
