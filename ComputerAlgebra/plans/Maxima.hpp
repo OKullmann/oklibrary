@@ -387,9 +387,6 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
   </ul>
 
 
-  \todo New module "Trees" : DONE
-
-
   \todo Monitoring
   <ul>
    <li> We introduce a global variable "oklib_monitor",
@@ -446,6 +443,12 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
   </ul>
 
 
+  \todo Contexts
+  <ul>
+   <li> There is the notion of a "context" --- what does it mean? </li>
+  </ul>
+
+
   \todo Lisp integration
   <ul>
    <li> The Lisp-dialect is "CLisp" --- are there books? </li>
@@ -480,6 +483,9 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    viewable at http://beshenov.ru/maxima/logic/ . Perhaps some collaboration
    could initially occur here? </li>
   </ul>
+
+
+  \todo New module "Trees" : DONE
 
 
   \todo DONE New supermodule NumberTheory

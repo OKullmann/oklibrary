@@ -10,31 +10,33 @@ License, or any later version. */
   \brief General plans regarding computer algebra (and SAT)
 
 
-  \todo Naming conventions
+  \todo DONE Transfer completed todos to the docus
   <ul>
-   <li> What about clisp-files? </li>
-   <li> How to postfix Axiom-files? </li>
-   <li> How to postfix Aldor-files? </li>
+   <li> Naming conventions : DONE </li>
+   <li> Input checking : DONE </li>
+  </ul>
+
+
+  \todo Naming conventions : DONE
+  <ul>
+   <li> DONE What about clisp-files? They have the suffix ".lisp". </li>
+   <li> What about Maxima demo-files?
+    <ol>
+     <li> They are just ordinary .mac-files, but placed in demos-directories.
+     </li>
+     <li> However, in the Maxima-package they are called ".dem", and this we
+     should also do. </li>
+    </ol>
+   </li>
    <li> DONE (.mac is to be used)
    Maxima-files: ".maxima" or ".mac" ? </li>
   </ul>
 
 
-  \todo Documentation
-  <ul>
-   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
-   <li> Aldor/Axiom ??? </li>
-  </ul>
-
-
-  \todo %Test system
-  <ul>
-   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
-   <li> Aldor/Axiom ??? </li>
-  </ul>
-
-
-  \todo Input checking
+  \todo DONE (no input checking is performed at the Maxima/lisp level;
+  for testing purpose, via predicates all objects can be checked for
+  being well-defined, but this is used only in unit-tests)
+  Input checking
   <ul>
    <li> How to handle input checking/type checking? </li>
    <li> Nothing at the Lisp/Maxima-level. </li>
@@ -49,21 +51,6 @@ License, or any later version. */
      <li> Ask on the Maxima mailing list. </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Contexts
-  <ul>
-   <li> Is there the notion of a "context" ("block") ?
-  </ul>
-
-
-  \todo Aldor integration
-  <ul>
-   <li> Literature on Aldor? </li>
-   <li> How to integrate Axiom with Aldor? </li>
-   <li> We should only write Aldor-code, using the Axiom-library ---
-   how to do this? </li>
   </ul>
 
 
@@ -138,6 +125,20 @@ License, or any later version. */
      <li> K is at most |X|-1. </li>
     </ol>
    </li>
+  </ul>
+
+
+  \todo Documentation : DONE
+  <ul>
+   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
+   <li> DONE (moved to Axiom.hpp) Aldor/Axiom ??? </li>
+  </ul>
+
+
+  \todo %Test system : DONE
+  <ul>
+   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
+   <li> DONE (moved to Axiom.hpp) Aldor/Axiom ??? </li>
   </ul>
 
 */

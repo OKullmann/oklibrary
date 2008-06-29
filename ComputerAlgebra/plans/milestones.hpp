@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.1.2 (15.6.2008)
+  \module_version ComputerAlgebra 0.1.1.3 (29.6.2008)
 
 
   \par Version 0.1.2
@@ -23,15 +23,11 @@ License, or any later version. */
   (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
 
   \par
-   In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - Naming conventions
-    - Aldor integration
-
-  \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - File load and include
     - How to eliminate the annotation of lists : DONE
     - New module "Trees" : DONE
+    - New supermodule %NumberTheory : DONE
 
   \par
    In ComputerAlgebra/TestSystem/Lisp/plans/general.hpp the following topics
@@ -42,18 +38,18 @@ License, or any later version. */
    Replacement of "makelist" by "create_list" (and supplying tests for all
    modified functions):
    <ol>
-    <li> Algebra : DONE </li>
+    <li> %Algebra : DONE </li>
     <li> AutomatedTheoremProving : DONE </li>
     <li> CombinatorialMatrices : DONE </li>
     <li> Cryptology (MG)
 
     </li>
     <li> DataStructures : DONE </li>
-    <li> Graphs : DONE </li>
+    <li> %Graphs : DONE </li>
     <li> Hypergraphs : DONE </li>
     <li> LinearAlgebra : DONE </li>
     <li> MaximaInternals : DONE </li>
-    <li> NumberTheory : DONE </li>
+    <li> %NumberTheory : DONE </li>
     <li> Numerical : DONE </li>
     <li> Satisfiability :
      <ol>
@@ -61,11 +57,11 @@ License, or any later version. */
       <li> Backdoors : DONE </li>
       <li> Backtracking </li>
       <li> BranchingTuples </li>
-      <li> ClauseSets : DONE </li>
+      <li> %ClauseSets : DONE </li>
       <li> ConflictCombinatorics : DONE </li>
       <li> ConstraintProblems </li>
       <li> Counting : DONE </li>
-      <li> Generators </li>
+      <li> %Generators </li>
       <li> MinimalUnsatisfiability </li>
       <li> PropositionalLogic </li>
       <li> Reductions : DONE </li>
@@ -74,6 +70,17 @@ License, or any later version. */
      </ol>
     </li>
     <li> TestSystem : DONE </li>
+    <li> Trees </li>
+   </ol>
+
+  \par
+   In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Transfer completed todos to the docus : DONE
+    - Naming conventions : DONE
+    - Input checking : DONE
+    - Aldor integration : DONE (moved)
+    - Documentation : DONE
+    - %Test system : DONE
 
 
   \par Version 0.1.3
@@ -83,6 +90,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - Maxima/CLisp bug
     - Plan the redesign
 
   \par
@@ -98,6 +106,7 @@ License, or any later version. */
     - Documentation
     - Handling of demos
     - Monitoring
+    - Contexts
 
 
   \par Version 0.2.1
@@ -105,22 +114,22 @@ License, or any later version. */
   \par ComputerAlgebra/Mupad version 0.5.1
 
   \par
-   In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - Documentation
-    - %Test system
-    - Input checking
-    - Contexts
-
-  \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - Recovering of partial results after long (unsuccessful) computations
-    - Timing
+    - Lisp integration
+    - Collaboration with the Maxima community
+
+  \par
+   In ComputerAlgebra/plans/MaximaTechniques.hpp the following topics are
+   handled:
     - Local variables
     - Declaring variables
     - Function application
+    - List operations
     - Document important programming techniques
+    - Partial compilation
     - Document simplification of expressions
-    - New supermodule NumberTheory
+    - Timing
 
 
   \par Version 0.2.2
@@ -134,6 +143,20 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Mupad/plans/general.hpp the following topics are handled:
     - Rewriting
+
+
+  \par Version 0.2.3
+
+  \par
+   In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Frobenius problem
+    - Dynamical systems
+
+
+  \par Version 0.3
+
+  \par
+   Development at Axiom/Aldor level started.
 
 
 
