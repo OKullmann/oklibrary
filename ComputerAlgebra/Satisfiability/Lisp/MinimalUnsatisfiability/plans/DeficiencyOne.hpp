@@ -10,6 +10,36 @@ License, or any later version. */
   \brief Plans regarding minimally unsatisfiable clause-sets of deficiency 1
 
 
+  \todo Tree representations
+  <ul>
+   <li> First task is, given F in MU(1), find some (the first, a random,
+   or all) tree representation of F. </li>
+   <li> The algorithm:
+    <ol>
+     <li> Find a variable v with degree 2. </li>
+     <li> Find its two occurrences C,D. </li>
+     <li> Replace C,D in F by their resolvent R, obtaining F'. </li>
+     <li> Apply the algorithm recursively to F', obtain T'. </li>
+     <li> In T', replace the leaf labelled with R by a new binary branching
+     on v, with new leaves C,D. </li>
+    </ol>
+   </li>
+   <li> Canonicity:
+    <ol>
+     <li> Most natural seems to be an ofcs input FF. </li>
+     <li> The task then is to find the first variable with degree 2, "first"
+     w.r.t. the order given by FF. </li>
+     <li> For that, we need min_variable_degree_v_ofcs, which returns
+     the first variable with minimal degree. </li>
+     <li> This can be achieved by first setting the variables in the given
+     order to 0 in the hash-map. </li>
+    </ol>
+   </li>
+   <li> A basic question is whether tree representations are unique up to
+   rooted-tree-isomorphism? </li>
+  </ul>
+
+
   \todo Small variable-degrees in MUSAT(1)
   <ul>
    <li> Motivated by [Hoory, Szeider, TCS 2005] we consider the

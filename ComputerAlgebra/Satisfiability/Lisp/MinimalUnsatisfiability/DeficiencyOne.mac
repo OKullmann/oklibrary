@@ -22,6 +22,18 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+/* ************************
+   * Tree representations *
+   ************************
+*/
+
+/* A "full tree representation" of F in MU(1) is a read-once
+   resolution tree where every variable of F is resolved
+   in the whole tree exactly once.
+   For a "tree representation" the clause-labels are removed,
+   and only the resolution variables (at inner nodes) and the
+   clause-labels at the leaves are kept.
+*/
 
 /* ******************************************************
    * Heuristical approach: removing literal occurrences *
