@@ -23,6 +23,63 @@ License, or any later version. */
      issue. </li>
     </ol>
    </li>
+   <li> A list of the known bugs here, which can be marked as the bugs are
+   reported to the Maxima bug-tracker and mailing list.
+    <ul>
+     <li> "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling of
+     negative exponents is incorrect. 
+     \verbatim
+(%i2) gf_set(2,2,x^2+x+1); 
+Evaluation took 0.0040 seconds (0.0060 elapsed) using 75.617 KB.
+(%o2) true
+(%i3) gf_exp(x,-1);
+Evaluation took 0.0000 seconds (0.0003 elapsed) using 2.305 KB.
+(%o3) 1
+     \endverbatim
+     </li>
+     <li> "gf_exp" is defined both as a variable internal to the "gf" package
+     and also as the exponential function. This leads to problems when using
+     "gf_exp" with higher order functions
+     \verbatim
+(%i2) gf_set(2,1,x);
+Evaluation took 0.0000 seconds (0.0007 elapsed) using 15.203 KB.
+(%o2) true
+(%i3) map(gf_exp,[1],[1]);
+gf_exp evaluates to 1
+Improper name or value in functional position.
+ -- an error.  To debug this try debugmode(true);
+(%i4) map('gf_exp,[1],[1]);
+Evaluation took 0.0000 seconds (0.0004 elapsed) using 2.961 KB.
+(%o4) [1]
+     \endverbatim
+     </li>
+     <li> "gf_findprim" produces an error when called on the field
+     with 2 elements, however 1 is a primitive root of this field
+     \verbatim
+(%i2) gf_set(2,1,x);
+Evaluation took 0.0000 seconds (0.0007 elapsed) using 15.203 KB.
+(%o2) true
+(%i3) gf_findprim();
+Use `fasttimes' only on CRE polynomials with same varlists
+#0: gf_binpower(p=x,n=2)(gf.mac line 241)
+#1: mainpowers()(gf.mac line 343)
+#2: gf_findprim()(gf.mac line 435)
+ -- an error.  To debug this try debugmode(true);
+      \endverbatim
+     </li>
+     <li> Setting "largefield" to false seems to break "gf_set" for some fields
+     \verbatim
+(%i2) largefield : false; gf_set(2,2,x^+x+1);
+Evaluation took 0.0000 seconds (0.0000 elapsed) using 104 bytes.
+(%o2) false
+Use `fasttimes' only on CRE polynomials with same varlists
+#0: gf_binpower(p=x,n=2)(gf.mac line 603)
+#1: mainpowers()(gf.mac line 343)
+#2: gf_findprim()(gf.mac line 435)
+ -- an error.  To debug this try debugmode(true);
+     \endverbatim
+     </li>
+    </ul>
   </ul>
 
 
