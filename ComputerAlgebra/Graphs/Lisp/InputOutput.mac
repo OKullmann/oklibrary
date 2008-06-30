@@ -24,14 +24,25 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/InputOutput.mac");
    ***************************************
 */
 
+/* Functions for converting vertices into a string: */
 element_label(i) := sconcat("e",i)$
 string_vertex(v) := xreduce(sconcat, map(element_label, v))$
 print_vertices(V) := for v in V do print(sconcat(string_vertex(v), ";"))$
-print_edge(e) := block([le : listify(e)], print(sconcat(string_vertex(le[1])," -- ",string_vertex(le[2]),";")))$
+
+/* Functions for converting set-edges into a string: */
+print_edge(e) := block(
+ [le : listify(e)], 
+  print(sconcat(string_vertex(le[1]), " -- ", string_vertex(le[2]), ";")))$
 print_edges(E) := for e in E do print_edge(e)$
-/* print a graph in the dot-format */
-print_graph_dot(G) := (print(sconcat("graph G {")), print_vertices(G[1]), print_edges(G[2]), print("}"))$
-/* output a graph g to file n */
+
+/* Printing out a graph in the dot-format: */
+print_graph_dot(G) := (
+ print(sconcat("graph G {")), 
+ print_vertices(G[1]), 
+ print_edges(G[2]), 
+ print("}")
+)$
+/* Output a graph g to file n: */
 output_graph(g,n) := with_stdout(n, print_graph(g))$
 
 /*!

@@ -182,8 +182,7 @@ License, or any later version. */
      <li> What about loops? </li>
     </ol>
    </li>
-   <li> Do Maxima graphs allow parallel edges? </li>
-   <li> Find out about the output-formats for maxima-graphs. </li>
+   <li> Do Maxima graphs allow parallel edges? Apparently not. </li>
    <li> DONE (exact values are computed)
    We need to find out whether for example the colouring function computes an
    exact value or an approximation! See my e-mail to the maxima-mailing-list. </li>
@@ -195,22 +194,6 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
          "/home/kullmann/maxout.gnuplot", line 22: ';' expected
    \endverbatim
    Notify maxima mailing-list. </li>
-  </ul>
-
-
-  \todo InputOutput.mac
-  <ul>
-   <li> Extend the documentation. </li>
-   <li> Write documentation. </li>
-   <li> Output :
-    <ol>
-     <li> Can we add comments to the graph-output? </li>
-     <li> Should we give the graphs in the dot-output a dedicated name? </li>
-     <li> Generalise the graph output, so that arbitrary graphs
-     can be output (making function "string_vertex" a parameter). </li>
-     <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
-    </ol>
-   </li>
   </ul>
 
 
@@ -242,6 +225,12 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
    primitivity. </li>
    <li> Again, perhaps best done with the maxima-graph-package. But then loops
    need to be handled specially (is this reasonable?). </li>
+  </ul>
+
+
+  \todo InputOutput.mac : DONE
+  <ul>
+   <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
   </ul>
 
 */
