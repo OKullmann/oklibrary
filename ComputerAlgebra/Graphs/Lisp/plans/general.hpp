@@ -13,6 +13,22 @@ License, or any later version. */
   \todo Create milestones
 
 
+  \todo Organisation
+  <ul>
+   <li> See module "Trees" below. </li>
+   <li> See module "GraphTraversal" below. </li>
+   <li> See module "Treewidth" below. </li>
+   <li> See module "Matchings" below. </li>
+   <li> Likely we should have modules "Homomorphisms" and "Isomorphisms". </li>
+   <li> We need a submodule "Colourings". </li>
+   <li> A submodule "IndependentSets". </li>
+   <li> A submodule "Cliques". </li>
+   <li> Likely also a submodule "RandomGraphs". </li>
+   <li> And a submodule "RamseyTheory" (but this perhaps better belongs
+   to Hypergraphs ?). </li>
+  </ul>
+
+
   \todo Complete tests
   <ul>
    <li> ComputerAlgebra/Graphs/Lisp/Basic.mac
@@ -136,7 +152,7 @@ License, or any later version. */
      <li> (i) f(e) could always be computed from scratch. </li>
      <li> (ii) The other extreme is to store f as an array (and thus only
      compute the values once, when creating the general graph). </li>
-     <li> (iii) The intermediate stratety is the "lazy" one, where f(e) is
+     <li> (iii) The intermediate strategy is the "lazy" one, where f(e) is
      computed only when needed, and then stored; see "Memoisation" in
      ComputerAlgebra/CombinatorialMatrices/Lisp/plans/general.hpp for how
      to do this. </li>
@@ -146,7 +162,7 @@ License, or any later version. */
      <li> Also for multigraphs, in the typical applications the multiplicity
      of an edge is typically "given", not computed. </li>
      <li> However for example for conflict-graphs of clause-sets it seems best
-     to compute f upfront (using (ii)). </li>
+     to compute f up-front (using (ii)). </li>
      <li> Using a hash-map inside f is made easy by lambda_hm; though, since
      E is fixed, an array would be more efficient but this works only
      for edge-labels which are consecutive integers. </li>
@@ -182,8 +198,7 @@ License, or any later version. */
      <li> What about loops? </li>
     </ol>
    </li>
-   <li> Do Maxima graphs allow parallel edges? </li>
-   <li> Find out about the output-formats for maxima-graphs. </li>
+   <li> Do Maxima graphs allow parallel edges? Apparently not. </li>
    <li> DONE (exact values are computed)
    We need to find out whether for example the colouring function computes an
    exact value or an approximation! See my e-mail to the maxima-mailing-list. </li>
@@ -198,17 +213,34 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
   </ul>
 
 
-  \todo InputOutput.mac
+  \todo Trees
   <ul>
-   <li> Extend the documentation. </li>
-   <li> Write documentation. </li>
-   <li> Output :
+   <li> We should have a module "Trees". </li>
+   <li> The "rooted ordered trees" are the trees (rt) as in
+   ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
+   <li> We need counting, enumeration and sampling of all types of trees:
     <ol>
-     <li> Can we add comments to the graph-output? </li>
-     <li> Should we give the graphs in the dot-output a dedicated name? </li>
-     <li> Generalise the graph output, so that arbitrary graphs
-     can be output (making function "string_vertex" a parameter). </li>
-     <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
+     <li> trees; </li>
+     <li> rooted trees; </li>
+     <li> rooted ordered trees, especially if all inner nodes have at most
+     resp. exactly 2 children (and the same for rooted trees). </li>
+    </ol>
+    This for "labelled structures" (i.e., all such structures with standardised
+    vertex sets) or "unlabelled structures" (i.e., all isomorphism types).
+   </li>
+   <li> And we need isomorphism testing.
+    <ol>
+     <li> Also the determination of the automorphism groups. </li>
+    </ol>
+   </li>
+   <li> Then we have also the different types of "directed trees". </li>
+   <li> What about spanning trees?
+    <ol>
+     <li> It seems they also belong to here, but they also belong to
+     GraphTraversal (see below)? </li>
+     <li> Likely in GraphTraversal we should have the special algorithms
+     obtained by this approach, while other algorithms and other questions
+     are handled in Trees/SpanningTrees. </li>
     </ol>
    </li>
   </ul>
@@ -216,6 +248,7 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
 
   \todo Graph traversal
   <ul>
+   <li> This likely deserves its own module "GraphTraversal". </li>
    <li> Implement the generic graph traversal from module CS-232. </li>
    <li> This is likely best done with the maxima-graphs. </li>
    <li> Compute connected components and strong connected components. </li>
@@ -242,6 +275,25 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
    primitivity. </li>
    <li> Again, perhaps best done with the maxima-graph-package. But then loops
    need to be handled specially (is this reasonable?). </li>
+  </ul>
+
+
+  \todo Generalised matching problems
+  <ul>
+   <li> Implement [David G. Kirkpatrick and Pavol Hell, On the completeness of
+   a generalized matching problem, STOC'78]. </li>
+   <li> That is, the NP-completeness results (as reductions), and the polytime
+   algorithms. </li>
+   <li> Perhaps this has been extended, and perhaps also simplified? </li>
+   <li> A variant is considered in [Dorit Dor and Michael Tarsi, Graph
+   Decomposition is NP-Complete: A Complete Proof of Holyer's Conjecture,
+   SIAM Journal on Computing, 1997]. </li>
+  </ul>
+
+
+  \todo InputOutput.mac : DONE
+  <ul>
+   <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
   </ul>
 
 */

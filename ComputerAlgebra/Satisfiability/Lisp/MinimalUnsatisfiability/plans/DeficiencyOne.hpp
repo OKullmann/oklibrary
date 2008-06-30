@@ -24,7 +24,7 @@ License, or any later version. */
      on v, with new leaves C,D. </li>
     </ol>
    </li>
-   <li> Canonicity:
+   <li> Canonicity issues:
     <ol>
      <li> Most natural seems to be an ofcs input FF. </li>
      <li> The task then is to find the first variable with degree 2, "first"
@@ -36,11 +36,18 @@ License, or any later version. */
     </ol>
    </li>
    <li> A basic question is whether tree representations are unique up to
-   rooted-tree-isomorphism? </li>
+   rooted-tree-isomorphism?
+    <ol>
+     <li> The most natural point of view seems not to distinguish between
+     left and right children. </li>
+     <li> If we do distinguish them (so the trees are what is called
+     "left-right-trees"), then we only consider var-isomorphisms. </li>
+    </ol>
+   </li>
   </ul>
 
 
-  \todo Small variable-degrees in MUSAT(1)
+  \todo Small variable-degrees in MU(1)
   <ul>
    <li> Motivated by [Hoory, Szeider, TCS 2005] we consider the
    following decision problem:
@@ -52,7 +59,7 @@ License, or any later version. */
      one by one, without ever producing a pure literal and such that
      the minimal clause-length is at least k, to obtain a maximal
      variable-degree of at most r. </li>
-     <li> The interesting case here is F in SMUSAT(1), where it is
+     <li> The interesting case here is F in SMU(1), where it is
      guaranteed that the literal-removal-process will never contract
      clauses (since every clause contains a literal occurring only once).
      </li>
@@ -64,14 +71,14 @@ License, or any later version. */
    </li>
    <li> Let's call it "REMLITOCC". </li>
    <li> The problem is in NP, one likely also NP-complete (also for
-   inputs from SMUSAT(1)). </li>
+   inputs from SMU(1)). </li>
    <li> The general question is to find out for given uniform clause-length k
    what is the smallest possible variable-degree r = f(k)+1 which still allows
-   unsatisfiable F, where in this todo we consider F in MUSAT(1). </li>
+   unsatisfiable F, where in this todo we consider F in MU(1). </li>
    <li> See
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SmallVariableDegrees.hpp
-   for the general case F in MUSAT (where f+1 is called "minvardeg_umu"). </li>
-   <li> Back to MUSAT(1), i.e., for f only F in MUSAT(1) are considered, and
+   for the general case F in MU (where f+1 is called "minvardeg_umu"). </li>
+   <li> Back to MU(1), i.e., for f only F in MU(1) are considered, and
    we use f_1 to emphasise this:
     <ol>
      <li> Apparently f_1(3)+1 = 4 and f_1(4)+1 = 5 are the only known precise
@@ -100,8 +107,8 @@ License, or any later version. */
   <ul>
    <li> Just to find an example for (k=3,r=5) from uniform_usat_hitting_min(m)
    doesn't work for m <= 14. </li>
-   <li> Are these instances in MUSAT(1) so large? </li>
-   <li> Or should we start from different elements F in SMUSAT(1) ? </li>
+   <li> Are these instances in MU(1) so large? </li>
+   <li> Or should we start from different elements F in SMU(1) ? </li>
    <li> Or is the heuristic so weak?
     <ol>
      <li> For comparison, we need a precise decision algorithm. </li>
@@ -111,23 +118,61 @@ License, or any later version. */
   </ul>
 
 
-  \todo Creating marginal elements of MUSAT(1)
+  \todo Creating marginal elements of MU(1)
   <ul>
    <li> One can create such elements with
    si_inverse_singulardp_fcs(FF,p,0,a,b). </li>
    <li> What is the scope of marginal_musat1(k) ? </li>
    <li> In [Kullmann, 2008] it is shown that the marginal elements of
-   MUSAT(1) are exactly those whose conflict graph is a tree (and all
-   trees are realisable in this way). </li>
-   <li> For a given F in SMUSAT(1), perhaps the marginal F' obtainable
+   MU(1) are exactly those whose conflict graph is a tree (and all
+   trees are realisable in this way).
+    <ol>
+     <li> So a good way to create random elements of MMU(1) for a given
+     number c of clauses is to create a random tree T with c vertices, and
+     to construct the correspond F(T) in MMU(1). </li>
+     <li> F(T) corresponds to the trivial biclique partition of T;
+     compare "Translations to clause-sets" in
+     ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/general.hpp. </li>
+     <li> Random trees can be created by "random_tree(n)" from the Maxima
+     graphs-package:
+      <ul>
+       <li> What kind of "random" trees are these? Uniform on all labelled
+       trees? </li>
+       <li> And what about random "unlabelled" trees (i.e., random isomorphism
+       types of trees)? </li>
+      </ul>
+     </li>
+     <li> Via counting of isomorphism types of trees ("unlabelled trees") we
+     thus obtain the number of isomorphism types of F in MMU(1) with a given
+     number of variables. These counting functions should be implemented
+     in module Graphs. </li>
+     <li> If we only allow var-isomorphisms, what then is the number of
+     isomorphism types? </li>
+    </ol>
+   </li>
+   <li> For a given F in SMU(1), perhaps the marginal F' obtainable
    from F via literal-removal correspond exactly to the spanning trees
    of F? So if F has c clauses, then exactly c^(c-2) different marginal
    clause-sets are obtainable? Are these isomorphic iff the conflict-graphs
    are isomorphic? </li>
    <li> One should test how SAT-solvers (with the appropriate preprocessing)
-   react to MUSAT(1): SMUSAT(1) definitely should be easy, also the marginal
+   react to MU(1): SMU(1) definitely should be easy, also the marginal
    elements (since they can be solved by UCP), but close to the marginal
    there could be harder elements? </li>
+  </ul>
+
+
+  \todo Creating saturated elements of MU(1)
+  <ul>
+   <li> F in SMU(1) has a unique tree representation (see above). </li>
+   <li> F, F' in SMU(1) are isomorphic iff their tree representations (as
+   rooted trees) are isomorphic, while they are var-isomorphic iff their
+   tree representations are isomorphic as left-right-trees (i.e., here we
+   differentiate between "left" and "right"). </li>
+   <li> So interesting things to do in Graphs/Trees are to enumerate/sample
+   all binary trees with and without distinguishing left and right (for
+   example there are 2 different such unlabelled structures with 5 vertices
+   if distinguishing between left and right, and only one if not). </li>
   </ul>
 
 */

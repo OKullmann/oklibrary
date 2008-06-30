@@ -8,6 +8,15 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/Homomorphisms.hpp
   \brief Plans regarding graph homomorphisms in general
+
+
+  \todo Organisation
+  <ul>
+   <li> Likely we should move automorphism-related functions to
+   "Automorphisms.mac". </li>
+   <li> Though graph colouring is a special case, it deserves a separate
+   module (Graphs/Lisp/Colouring). </li>
+  </ul>
  
 
   \todo Brute-force automorphism enumeration
@@ -41,6 +50,20 @@ License, or any later version. */
    fixed drawing) --- so it should be possible! </li>
    <li> It would also be needed here to have several gnuplot windows open
    at the same time --- how to do this? </li>
+  </ul>
+
+
+  \todo Deciding whether for given H there is a graph morphism G -> H
+  <ul>
+   <li> Implement [Pavol Hell and  Jaroslav Nesetril, On the complexity of
+   H-coloring, Journal of Combinatorial Theory, Series B, 1990]. </li>
+   <li> If H is bipartite, then (for input G) the problem is decidable
+   in polynomial time (and likely we also find a homomorphism), while
+   otherwise the problem is NP-complete. </li>
+   <li> That is, for the NP-completeness result implement the reductions,
+   and for the poly-time results implement the algorithms. </li>
+   <li> I have seen improved presentations of this result --- do we also
+   have improved algorithms and reductions? </li>
   </ul>
 
 */
