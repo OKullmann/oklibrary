@@ -177,8 +177,11 @@ License, or any later version. */
   \todo Homomorphisms
   <ul>
    <li> Create "Homomorphisms.mac" etc. </li>
+   <li> Perhaps we have a dedicated module "Homomorphisms". </li>
    <li> Since homomorphisms are special substitutions, first this notion
    needs to be fixed. </li>
+   <li> A basic task is to find the core of a clause-set (according to
+   [Szeider, 2003] unique up to isomorphism). </li>
   </ul>
 
 */
