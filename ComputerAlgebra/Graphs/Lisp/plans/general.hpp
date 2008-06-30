@@ -228,6 +228,19 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
   </ul>
 
 
+  \todo Generalised matching problems
+  <ul>
+   <li> Implement [David G. Kirkpatrick and Pavol Hell, On the completeness of
+   a generalized matching problem, STOC'78]. </li>
+   <li> That is, the NP-completeness results (as reductions), and the polytime
+   algorithms. </li>
+   <li> Perhaps this has been extended, and perhaps also simplified? </li>
+   <li> A variant is considered in [Dorit Dor and Michael Tarsi, Graph
+   Decomposition is NP-Complete: A Complete Proof of Holyer's Conjecture,
+   SIAM Journal on Computing, 1997]. </li>
+  </ul>
+
+
   \todo InputOutput.mac : DONE
   <ul>
    <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
