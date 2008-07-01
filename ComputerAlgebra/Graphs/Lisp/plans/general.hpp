@@ -183,7 +183,8 @@ License, or any later version. */
      <li> How to call it? Which version is standard? Perhaps mg2g should
      translate the vertex labels, and "mg2g_nvl" doesn't translate them.
      </li>
-     <li> What about loops? Are they possible with Maxima graphs? </li>
+     <li> DONE (no loops possible; so we have only "graphs" and "directed graphs")
+     What about loops? Are they possible with Maxima graphs? </li>
     </ol>
      <li> DONE (the vertex names become vertex labels)
      Given a graph, we can either just forget the vertex names, or use
@@ -195,10 +196,12 @@ License, or any later version. */
     <ol>
      <li> "dg2mdg" needs to be complemented by two inverses, mdg2dg and
      mdg2dg_nvl. </li>
-     <li> What about loops? </li>
+     <li> DONE (not possible)
+     What about loops? </li>
     </ol>
    </li>
-   <li> Do Maxima graphs allow parallel edges? Apparently not. </li>
+   <li> DONE (only "graphs" and "digraphs", nothing else)
+   Do Maxima graphs allow parallel edges? Apparently not. </li>
    <li> DONE (exact values are computed)
    We need to find out whether for example the colouring function computes an
    exact value or an approximation! See my e-mail to the maxima-mailing-list. </li>
