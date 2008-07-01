@@ -186,11 +186,6 @@ License, or any later version. */
      <li> DONE (no loops possible; so we have only "graphs" and "directed graphs")
      What about loops? Are they possible with Maxima graphs? </li>
     </ol>
-     <li> DONE (the vertex names become vertex labels)
-     Given a graph, we can either just forget the vertex names, or use
-     them as vertex labels. </li>
-     <li> DONE And given a maxima-graph, we can use the standard-vertex-names
-     0, ... </li>
    </li>
    <li> We need conversions between directed graphs and maxima-digraphs.
     <ol>
@@ -200,6 +195,11 @@ License, or any later version. */
      What about loops? </li>
     </ol>
    </li>
+   <li> DONE (the vertex names become vertex labels)
+   Given a graph, we can either just forget the vertex names, or use
+   them as vertex labels. </li>
+   <li> DONE And given a maxima-graph, we can use the standard-vertex-names
+   0, ... </li>
    <li> DONE (only "graphs" and "digraphs", nothing else)
    Do Maxima graphs allow parallel edges? Apparently not. </li>
    <li> DONE (exact values are computed)
@@ -225,8 +225,10 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
     <ol>
      <li> trees; </li>
      <li> rooted trees; </li>
-     <li> rooted ordered trees, especially if all inner nodes have at most
-     resp. exactly 2 children (and the same for rooted trees). </li>
+     <li> rooted ordered trees (here "ordered" refers to the order of
+     children), especially if all inner nodes have at most resp. exactly 2
+     children (and the same for rooted trees); </li>
+     <li> oriented trees. </li>
     </ol>
     This for "labelled structures" (i.e., all such structures with standardised
     vertex sets) or "unlabelled structures" (i.e., all isomorphism types).
@@ -236,7 +238,10 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
      <li> Also the determination of the automorphism groups. </li>
     </ol>
    </li>
-   <li> Then we have also the different types of "directed trees". </li>
+   <li> Are there other types of "directed trees" than the above "oriented
+   trees" (directed graphs without antiparallel edges, such that the
+   underlying graph is a tree)? Of course, one could make them "rooted"
+   and possibly also "ordered", but this seems useless. </li>
    <li> What about spanning trees?
     <ol>
      <li> It seems they also belong to here, but they also belong to
