@@ -18,8 +18,8 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/testobjects/Conversions
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac");
-oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac");
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Conversions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/tests/Conversions.mac")$
 
 okltest_lpad(lpad);
 
