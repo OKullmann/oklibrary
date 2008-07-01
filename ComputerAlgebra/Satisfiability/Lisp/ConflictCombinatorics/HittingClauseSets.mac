@@ -149,7 +149,7 @@ hittingcsp(F) := block([l : length(F), L : listify(F), break : false],
   for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
     if not clashp(L[i], L[j]) then break : true,
   return(not break))$
-/* hittingcsp(F) = completegrp(cg_cs(F)) */
+/* hittingcsp(F) = complete_g_p(cg_cs(F)) */
 /* Also: hittingcsp(F) iff independence_number_cs(F) <= 1. */
 /* Tests whether a clause-set is a 1-regular hitting clause-set. */
 hitting1rcsp(F) := block([l : length(F), L : listify(F), break : false],

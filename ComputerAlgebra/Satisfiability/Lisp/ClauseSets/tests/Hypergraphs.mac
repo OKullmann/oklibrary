@@ -48,7 +48,7 @@ okltest_cvg_cs(f) := block([F,G],
     F : full_fcs(n)[2],
     G : f(F),
     assert(G[1] = F),
-    assert(completegrp(G))
+    assert(complete_g_p(G))
   ),
   true)$
 
