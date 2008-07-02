@@ -10,9 +10,6 @@ License, or any later version. */
   \brief Plans for graphs in Maxima/Lisp
 
 
-  \todo Create milestones
-
-
   \todo Organisation
   <ul>
    <li> See module "Trees" below. </li>
@@ -33,13 +30,19 @@ License, or any later version. */
   <ul>
    <li> ComputerAlgebra/Graphs/Lisp/Basic.mac
     <ol>
+     <li> Checking the defining properties </li>
+     <li> Checking equality </li>
+     <li> Promotions </li>
      <li> Downcasts </li>
+     <li> Conversions </li>
      <li> Basic graph operations </li>
      <li> Basic graph constructions </li>
      <li> Tests </li>
-     <li> mg2g </li>
+     <li> Connections to Maxima-graphs </li>
     </ol>
    </li>
+   <li> Once all these tests are completed, new functions are only
+   to be entered with tests. </li>
   </ul>
 
 
@@ -296,12 +299,6 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
    <li> A variant is considered in [Dorit Dor and Michael Tarsi, Graph
    Decomposition is NP-Complete: A Complete Proof of Holyer's Conjecture,
    SIAM Journal on Computing, 1997]. </li>
-  </ul>
-
-
-  \todo InputOutput.mac : DONE
-  <ul>
-   <li> DONE Move graph output to dedicated "InputOutput.mac". </li>
   </ul>
 
 */

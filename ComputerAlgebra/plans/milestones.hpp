@@ -8,13 +8,16 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.1.3 (29.6.2008)
+  \module_version ComputerAlgebra 0.1.1.4 (2.7.2008)
 
 
   \par Version 0.1.2
 
   \par ComputerAlgebra/Satisfiability version 0.0.6
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Graphs/Lisp version 0.1 : DONE
+  (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
   
   \par ComputerAlgebra/Algebra version 0.0.5 : DONE
   (see ComputerAlgebra/Algebra/plans/milestones.hpp)
@@ -92,6 +95,9 @@ License, or any later version. */
   \par ComputerAlgebra/Satisfiability version 0.0.7
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
 
+  \par ComputerAlgebra/Graphs/Lisp version 0.1.3
+  (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
+  
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - Maxima/CLisp bug
@@ -169,7 +175,7 @@ License, or any later version. */
   \par Version history
 
    - 0.1   : 2.7.2007; quite a few Mupad-functions produced (but without higher design, and not connected to the main concepts of (generalised) satisfiability).
-   - 0.1.1 : 5.1.2007; concentration on Maxima: created a file-inclusion-system similar to the C++ system, and provided easy installation and access; also created general documentation, and clarified the roles of Maxima/Lisp vs. Axiom/Aldor. On the way also basic functionality regarding graphs, hypergraphs and satisfiability has been established in Maxima.
+   - 0.1.1 : 5.1.2008; concentration on Maxima: created a file-inclusion-system similar to the C++ system, and provided easy installation and access; also created general documentation, and clarified the roles of Maxima/Lisp vs. Axiom/Aldor. On the way also basic functionality regarding graphs, hypergraphs and satisfiability has been established in Maxima.
 
 */
 
