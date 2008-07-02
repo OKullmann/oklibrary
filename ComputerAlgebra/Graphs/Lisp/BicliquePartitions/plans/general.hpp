@@ -12,6 +12,9 @@ License, or any later version. */
 
   \todo Translations to clause-sets
   <ul>
+   <li> See "Conflict graph" in
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/general.hpp
+   </li>
    <li> Organisation:
     <ol>
      <li> Does this belong to ComputerAlgebra/Graphs, or to

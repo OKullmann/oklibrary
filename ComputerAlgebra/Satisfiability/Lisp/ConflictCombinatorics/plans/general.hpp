@@ -37,7 +37,17 @@ License, or any later version. */
    <li> Analogously, write gcdg_lcl(FF), the general conflict digraph of a
    labelled clause-set, and gcdg_homfcs(f). </li>
    <li> An important topic is how to "realise" (directed/undirected) conflict
-   graphs; perhaps for special methods we have "Realisations.mac" ? </li>
+   graphs; perhaps for special methods we have "Realisations.mac" ?
+    <ol>
+     <li> Most elementary is the trivial biclique partition of a general
+     digraph, which is also functoriell; this yields clause-sets (with clashing
+     "clauses" iff loops are present) where ever variable has (1,1)-occurrence.
+     </li>
+     <li> More generally we can use maximal out-stars; this yields Horn
+     clause-sets where every variable is singular; can this process be made
+     functoriell?? </li>
+    </ol>
+   </li>
   </ul>
 
 
