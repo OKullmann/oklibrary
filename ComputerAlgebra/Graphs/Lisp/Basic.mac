@@ -230,16 +230,36 @@ omudgl2mudgl(G) := [setify(G[1]), setify(G[2]), G[3]]$
 ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 
 
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* Removal of loops: */
+gl2g(G) := [G[1], subset(G[2],lambda([e],is(length(e)=2)))]$
+ogl2og(G) := [G[1]. sublist(G[2],lambda([e],is(length(e)=2)))]$
+mugl2mug(G) := [G[1], subset(G[2],lambda([e],is(length(G[3](e))=2))), G[3]]$
+omugl2omug(G) := [G[1], sublist(G[2],lambda([e],is(length(G[3](e))=2))), G[3]]$
+
+/* Underlying graphs of directed graphs: */
+dg2g(G) := [G[1], map(setify,G[2])]$
+odg2og(G) := [G[1], stable_unique(map(setify,G[2]))]$
+dgl2gl(G) := [G[1], map(setify,G[2])]$
+odgl2ogl(G) := [G[1], stable_unique(map(setify,G[2]))]$
+
+
 /* **************************
    * Basic graph operations *
    **************************
 */
 
 /* The set of neighbours of vertex v in graph G. */
+/* RENAME it to "neighbours_g". */
 neighbours(v,G) := disjoin(v, list_sets_union(
  subset(G[2], lambda([e],elementp(v,e)))))$
 
 /* Removes vertex set V from graph G (with loops). */
+/* RENAME it to "rem_vertices_gl". */
 remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
 
@@ -250,6 +270,7 @@ remove_vertices_graph(V,G) := [setdifference(G[1],V),
 */
 
 /* The complement graph of a graph */
+/* RENAME it to "complement_g". */
 comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
 
 
@@ -258,17 +279,90 @@ comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
    **********
 */
 
-/* Tests whether a graph is complete */
-completegrp(G) := block([n : length(G[1]), m : length(G[2])],
-  is(binom(n,2) = m))$
+load(graphs)$
+
+/* Tests whether a general or multi-graph has parallel edges: */
+parallel_edges_gg_p(G) := is(length(map(G[3],G[2])) < length(G[2]))$
+parallel_edges_mug_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
+parallel_edges_mugl_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
+parallel_edges_ogg_p(G) := is(length(setify(map(G[3],G[2]))) < length(G[2]))$
+parallel_edges_omug_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
+parallel_edges_omugl_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
+
+
+/* Tests whether a graph with loops is irreflexive (that is, doesn't actually
+   have loops): */
+irreflexive_gl(G) := every(G[2],lambda([e],is(length(e)=2)))$
+irreflexive_mugl(G) := every(G[2],lambda([e],is(length(e)=2)))$
+irreflexive_gg(G) := every(G[2],lambda([e],is(length(G[3](e))=2)))$
+irreflexive_ogl(G) := every(G[2],lambda([e],is(length(e)=2)))$
+irreflexive_omugl(G) := every(G[2],lambda([e],is(length(e)=2)))$
+irreflexive_ogg(G) := every(G[2],lambda([e],is(length(G[3](e))=2)))$
+
+
+/* An "oriented graph" is, following the abuse of language in [Jensen,
+   Gutin; Digraphs], a directed graph without antiparallel edges: */
+orientedgraph_dg_p(G) := not is(length(map(setify,G[2])) < length(G[2]))$
+orientedgraph_dgl_p(G) := not is(length(map(setify,G[2])) < length(G[2]))$
+orientedgraph_odg_p(G) := not is(length(setify(map(setify,G[2]))) < length(G[2]))$
+orientedgraph_odgl_p(G) := not is(length(setify(map(setify,G[2]))) < length(G[2]))$
+
+
+/* Tests whether a graph is complete: */
+complete_g_p(G) := is(binom(length(G[1]),2) = length(G[2]))$
+complete_gl_p(G) := complete_g_p(gl2g(G))$
+complete_og_p(G) := is(binom(length(G[1]),2) = length(G[2]))$
+complete_ogl_p(G) := complete_og_p(ogl2og(G))$
+complete_mug_p(G) := complete_g_p(mug2g(G))$
+complete_mugl_p(G) := complete_gl_p(mugl2gl(G))$
+complete_omug_p(G) := complete_og_p(omug2og(G))$
+complete_omugl_p(G) := complete_ogl_p(omugl2ogl(G))$
+complete_gg_p(G) := complete_gl_p(gg2gl(G))$
+complete_ogg_p(G) := complete_ogl_p(ogg2ogl(G))$
+
+
+/* Tests whether a graph is connected: */
+connected_g_p(G) := is_connected(g2mg(G))$
+connected_og_p(G) := is_connected(og2mg(G))$
+connected_mug_p(G) :=  connected_g_p(mug2g(G))$
+connected_omug_p(G) :=  connected_og_p(omug2og(G))$
+connected_gg_p(G) :=  connected_gl_p(gg2gl(G))$
+connected_ogg_p(G) :=  connected_ogl_p(ogg2ogl(G))$
+connected_gl_p(G) := is_connected(g2mg(gl2g(G)))$
+connected_ogl_p(G) := is_connected(og2mg(ogl2og(G)))$
+connected_mugl_p(G) :=  connected_gl_p(mugl2gl(G))$
+connected_omugl_p(G) :=  connected_ogl_p(omugl2ogl(G))$
+
+/* Tests whether a digraph is strongly connected: */
+sconnected_dg_p(G) := is_sconnected(dg2mdg(G))$
+sconnected_odg_p(G) := is_connected(odg2mdg(G))$
+sconnected_mudg_p(G) :=  sconnected_dg_p(mudg2dg(G))$
+sconnected_omudg_p(G) :=  sconnected_odg_p(omudg2odg(G))$
+sconnected_gdg_p(G) :=  sconnected_dgl_p(gdg2dgl(G))$
+sconnected_ogdg_p(G) :=  sconnected_odgl_p(ogdg2odgl(G))$
+sconnected_dgl_p(G) := is_connected(dg2mdg(dgl2dg(G)))$
+sconnected_odgl_p(G) := is_connected(odg2mg(odgl2odg(G)))$
+sconnected_mudgl_p(G) :=  sconnected_dgl_p(mudgl2dgl(G))$
+sconnected_omudg_p(G) :=  sconnected_odgl_p(omudgl2odgl(G))$
+
+
+/* Tests whether a graph is a tree: */
+tree_g_p(G) := is_tree(g2mg(G))$
+tree_og_p(G) := is_tree(og2mg(G))$
+tree_mug_p(G) :=  not parallel_edges_mug_p(G) and tree_g_p(mug2g(G))$
+tree_omug_p(G) :=  not parallel_edges_omug_p(G) and tree_og_p(omug2og(G))$
+tree_gg_p(G) :=  not parallel_edges_gg_p(G) and tree_gl_p(gg2gl(G))$
+tree_ogg_p(G) :=  not parallel_edges_ogg_p(G) and tree_ogl_p(ogg2ogl(G))$
+tree_gl_p(G) := irreflexive_gl_p(G) and is_tree(g2mg(gl2g(G)))$
+tree_ogl_p(G) := irreflexive_ogl_p(G) and is_tree(og2mg(ogl2og(G)))$
+tree_mugl_p(G) :=  irreflexive_mugl_p(G) and tree_gl_p(mugl2gl(G))$
+tree_omugl_p(G) :=  irreflexive_omugl_p(G) and tree_ogl_p(omugl2ogl(G))$
 
 
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************
 */
-
-load(graphs)$
 
 /* Graphs to Maxima-graphs (vertex names yield vertex labels).
    The vertices in the Maxima-graph are numbered starting with 1.
