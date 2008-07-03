@@ -17,14 +17,31 @@ License, or any later version. */
   </ul>
 
 
-  \todo Systems
+  \todo General systems
   <ul>
-   <li> CoCoA http://cocoa.dima.unige.it/ </li>
+   <li> 
    <li> What about Octave? http://www.gnu.org/software/octave/
    It has (only) numerical capabilities, and we should evaluate
-   which could be usefule for us (sparse matrices and optimisation). </li>
-   <li> Gap http://www-gap.mcs.st-and.ac.uk/ </li>
+   which could be useful for us (sparse matrices and optimisation). </li>
+  </ul>
+
+
+  \todo Computational commutative algebra
+  <ul>
+   <li> CoCoA http://cocoa.dima.unige.it/ </li>
    <li> Singular: http://www.singular.uni-kl.de </li>
+  </ul>
+
+
+  \todo Vicinity of computational group theory
+  <ul>
+   <li> Gap http://www-gap.mcs.st-and.ac.uk/ </li>
+   <li> Magma </li>
+   <li> Magnus </li>
+   <li> ACE3 </li>
+   <li> Meataxe </li>
+   <li> Sims' Rutgers Knuth-Bendix package rkbp </li>
+   <li> KBMAG </li>
   </ul>
 
 */
