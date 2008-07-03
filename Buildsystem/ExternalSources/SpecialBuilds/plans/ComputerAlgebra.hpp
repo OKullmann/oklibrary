@@ -36,12 +36,20 @@ License, or any later version. */
   \todo Vicinity of computational group theory
   <ul>
    <li> Gap http://www-gap.mcs.st-and.ac.uk/ </li>
-   <li> Magma </li>
-   <li> Magnus </li>
-   <li> ACE3 </li>
-   <li> Meataxe </li>
-   <li> Sims' Rutgers Knuth-Bendix package rkbp </li>
-   <li> KBMAG </li>
+   <li> Magnus http://www.grouptheory.org/magnus; perhaps we postpone this,
+   since it might be more specialised </li>
+   <li> MeatAxe http://www.math.rwth-aachen.de/homes/MTX/ (perhaps also
+   postponed, since somewhat more specialised) </li>
+   <li> Sims' Rutgers Knuth-Bendix package rkbp
+   http://users.ox.ac.uk/~vlee/4engel/rkbp/
+    <ol>
+     <li> Doesn't contain a licence, and thus likely can't be distributed.
+     </li>
+    </ol>
+   </li>
+   <li> DONE (proprietary) Magma </li>
+   <li> DONE (included with GAP) ACE3 </li>
+   <li> DONE (included with GAP) KBMAG </li>
   </ul>
 
 */
