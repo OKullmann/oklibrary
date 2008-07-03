@@ -151,5 +151,15 @@ License, or any later version. */
    <li> See ComputerAlgebra/docus/Maxima.hpp for the Maxima/Lisp system. </li>
   </ul>
 
+
+  <h2> Tutorials </h2>
+
+  <ul>
+   <li> Tutorials regarding specific computer algebra systems are found at
+   their docus-pages. </li>
+   <li> A tutorial based on the well-known textbook "A Course in Combinatorics"
+   can be accessed in docus/CourseCombinatorics_LintWilson/index.hpp. </li>
+  </ul>
+
 */
 

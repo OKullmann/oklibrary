@@ -31,6 +31,9 @@ License, or any later version. */
   <ul>
    <li> See the Tutorial ComputerAlgebra/Graphs/Lisp/docus/Tutorial.hpp (by MH).
    </li>
+   <li> The tutorial
+   ComputerAlgebra/docus/CourseCombinatorics_LintWilson/index.hpp contains a
+   lot of material related to graph theory in Maxima/Lisp. </li>
   </ul>
 
 */
