@@ -107,7 +107,7 @@ Use `fasttimes' only on CRE polynomials with same varlists
      is a groupoid and e is the identity element. </li>
      <li> A "monoid" ("mon") is a unitial groupoid [V,f,e] such that [V,f] is
      a semigroup. </li>
-     <li> For groups we provide for different signatures:
+     <li> For groups we provide four different signatures:
       <ul>
        <li> A "group" ("grp") is a semigroup [V,f] such that there exists an
        identity element and every element has an inverse. </li>
@@ -150,7 +150,25 @@ Use `fasttimes' only on CRE polynomials with same varlists
    <li> All the above likely should also exist in ordered versions, with
    prefix "o". </li>
    <li> A fundamental operation is the closure of a subset under the
-   operations. </li>
+   operations.
+    <ol>
+     <li> As a result we obtain the closure plus shortest terms in the
+     generators representing the elements of the closure, plus all relations
+     found such that the generated structure is determined by these relations.
+     </li>
+     <li> Easiest for semigroups, where the terms are just words over the
+     generators (for which it should be possible to specify names). </li>
+     <li> Here, starting with a set of elements, which yields the set of
+     words of length 1, we form all words of length 2, determine equalities to
+     the already existing elements and to the new elements, which yield new
+     relations, given that all existing relations have been taken into account;
+     iterating this process expands only the words of full length. </li>
+     <li> For groups we have to take inversion into account; and relations, 
+     which for semigroups are equations, that is, 2-element sets of words, can
+     now be simplified to just single words (equal to the neutral element). 
+     </li>
+    </ol>
+   </li>
    <li> And we need homomorphism notions and tests. </li>
    <li> The most fundamental construction for new groupoids is the product
    construction. </li>
@@ -177,11 +195,12 @@ Use `fasttimes' only on CRE polynomials with same varlists
    <li> This likely needs its own sub-module. </li>
    <li> For a permutation there are four basic models:
     <ol>
-     <li> (i) A function which is a bijection. </li>
+     <li> (i) A function which is a bijection; a problem is how to provide
+     an order, so that we can put these elements into a set? </li>
      <li> (ii) A set-map. </li>
      <li> (iii) A list of elements. </li>
-     <li> (iv) A set of cycles (each a non-empty list which altogether partition
-     the base set). </li>
+     <li> (iv) A set of cycles (each a non-empty list which altogether
+     partition the base set). </li>
     </ol>
    </li>
    <li> Likely we should provide all four models, with conversions between
