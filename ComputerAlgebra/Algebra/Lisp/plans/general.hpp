@@ -105,7 +105,7 @@ Use `fasttimes' only on CRE polynomials with same varlists
      <li> A "semigroup" ("sgr") is a groupoid with associative f. </li>
      <li> A "unital groupoid" ("ugrd") is a triple [V,f,e] such that [V,f]
      is a groupoid and e is the identity element. </li>
-     <li> A "monoid" ("mon") is a unitial groupoid [V,f,e] such that [V,f] is
+     <li> A "monoid" ("mon") is a unital groupoid [V,f,e] such that [V,f] is
      a semigroup. </li>
      <li> For groups we provide four different signatures:
       <ul>
@@ -149,6 +149,36 @@ Use `fasttimes' only on CRE polynomials with same varlists
    </li>
    <li> All the above likely should also exist in ordered versions, with
    prefix "o". </li>
+   <li> A fundamental problem is that for example lambda-expressions cannot
+   be put (reliably) into a set (equality would be decided here w.r.t.
+   identicallity of terms):
+    <ol>
+     <li> So besides "set-groupoids" we need other forms of groupoids. </li>
+     <li> The base-set could be specified by a pair [n,l], where n is a
+     natural number from 0 to inf, specifying the size of the initial segment
+     of NN to be considered, while l is a labelling functions, which assigns
+     a label to each now standardised element. </li>
+     <li> In this way also certain infinite groups could be handled; but the
+     rational numbers for example only clumsily. </li>
+     <li> On the other hand we could use "implicit" representations by pairs
+     [p,l], where p is some predicate (the inverse image of true specifies the
+     set), while l is a labelling function defined on the elements of the
+     set). </li>
+     <li> Perhaps we introduce a module "Sets" in
+     ComputerAlgebra/DataStructures for handling all these different set 
+     representations. </li>
+     <li> On the other hand, the labelling function can be used with arbitrary
+     sets, and this seems preferable. </li>
+     <li> And the labelling function can be hidden in the other functions
+     which need them (the composition etc.), and perhaps this suffices, at
+     least for the moment. </li>
+     <li> So we just stick to the naive concepts? </li>
+     <li> But a problem occurs with automorphism groups, since our morphisms
+     are just maps?! </li>
+     <li> One solution would be to make the group element then just the
+     corresponding lists-as-permutations. </li>
+    </ol>
+   </li>
    <li> A fundamental operation is the closure of a subset under the
    operations.
     <ol>
@@ -217,7 +247,7 @@ Use `fasttimes' only on CRE polynomials with same varlists
        <li> So perhaps it is only provided with ordered base-set, or for
        standardised elements. </li>
        <li> Perhaps, since the cycle presentation is combinatorial in nature,
-       we procide it only for standardised elements (i.e., in {1,...,n}). </li>
+       we provide it only for standardised elements (i.e., in {1,...,n}). </li>
        <li> Furthermore, perhaps for a cycle presentation of a permutation, only
        the non-trivial cycles are given, while trivial (one-element) cycles are
        discarded. </li>
