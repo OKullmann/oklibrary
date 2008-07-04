@@ -120,6 +120,21 @@ License, or any later version. */
    of the pairs to be identical. </li>
    <li> Since also for general graphs the edge set needs to be given, we don't
    have the possibility of "lazy graph representations". Seems unavoidable. /li>
+   <li> "Oriented" versions:
+    <ol>
+     <li> An "oriented general digraph" has additionally a function o, defined
+     on edge-labels and returning -1 or +1. </li>
+     <li> Perhaps we use "or", so " orgdg, ordgl, ordg, and oorgdg,oordgl,
+     and oordg. </li>
+     <li> From an oriented digraph one gets a digraph by oriented the edges
+     accordingly. </li>
+     <li> Morphisms of oriented digraphs can additionally flip the orientations
+     (and the result must be an ordinary morphism). </li>
+     <li> Shall we also use "oriented graphs", as graphs with such orientation
+     functions, to be interpreted according to the natural order on vertices?
+     </li>
+    </ol>
+   </li>
    <li> Standardisation of vertex-names:
     <ol>
      <li> From the point of view of the OKlibrary, the best choice for
