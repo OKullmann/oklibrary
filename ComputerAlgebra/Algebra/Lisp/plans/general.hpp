@@ -10,93 +10,88 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
-  \todo Write tests for all functions provided
-
-
-  \todo Maxima bugs
-  <ul>
-   <li> Register all gf-bugs we are aware of with the Maxima bug-tracker,
-   and also send a summarising e-mail to the Maxima mailing list.
+  \todo Modules
+  <ol>
+   <li> One module for sets with one binary operation: "Magmas" or
+   "Groupoids". With submodules
     <ol>
-     <li> Consider also the kind-of-bugs as in, e.g., okltest_gf_stand. </li>
-     <li> In any way, the gf-documentation should discuss the representation
-     issue. </li>
+     <li> Actions (of a set on a set or a groupoid) </li>
+     <li> Operations (of a groupoid on a set or on a groupoid; the more
+     "specialised" considerations are in module Algebra/Acts) </li>
+     <li> Groups (with submodules PermutationGroups and Presentations) </li>
+     <li> Quasigroups </li>
+     <li> Semigroups </li>
+     <li> Semilattices </li>
     </ol>
    </li>
-   <li> A list of the known bugs here, which can be marked as the bugs are
-   reported to the Maxima bug-tracker and mailing list.
-    <ul>
-     <li> "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling of
-     negative exponents is incorrect. 
-     \verbatim
-(%i2) gf_set(2,2,x^2+x+1); 
-Evaluation took 0.0040 seconds (0.0060 elapsed) using 75.617 KB.
-(%o2) true
-(%i3) gf_exp(x,-1);
-Evaluation took 0.0000 seconds (0.0003 elapsed) using 2.305 KB.
-(%o3) 1
-     \endverbatim
-     </li>
-     <li> "gf_exp" is defined both as a variable internal to the "gf" package
-     and also as the exponential function. This leads to problems when using
-     "gf_exp" with higher order functions
-     \verbatim
-(%i2) gf_set(2,1,x);
-Evaluation took 0.0000 seconds (0.0007 elapsed) using 15.203 KB.
-(%o2) true
-(%i3) map(gf_exp,[1],[1]);
-gf_exp evaluates to 1
-Improper name or value in functional position.
- -- an error.  To debug this try debugmode(true);
-(%i4) map('gf_exp,[1],[1]);
-Evaluation took 0.0000 seconds (0.0004 elapsed) using 2.961 KB.
-(%o4) [1]
-     \endverbatim
-     </li>
-     <li> "gf_findprim" produces an error when called on the field
-     with 2 elements, however 1 is a primitive root of this field
-     \verbatim
-(%i2) gf_set(2,1,x);
-Evaluation took 0.0000 seconds (0.0007 elapsed) using 15.203 KB.
-(%o2) true
-(%i3) gf_findprim();
-Use `fasttimes' only on CRE polynomials with same varlists
-#0: gf_binpower(p=x,n=2)(gf.mac line 241)
-#1: mainpowers()(gf.mac line 343)
-#2: gf_findprim()(gf.mac line 435)
- -- an error.  To debug this try debugmode(true);
-      \endverbatim
-     </li>
-     <li> Setting "largefield" to false seems to break "gf_set" for some fields
-     \verbatim
-(%i2) largefield : false; gf_set(2,2,x^+x+1);
-Evaluation took 0.0000 seconds (0.0000 elapsed) using 104 bytes.
-(%o2) false
-Use `fasttimes' only on CRE polynomials with same varlists
-#0: gf_binpower(p=x,n=2)(gf.mac line 603)
-#1: mainpowers()(gf.mac line 343)
-#2: gf_findprim()(gf.mac line 435)
- -- an error.  To debug this try debugmode(true);
-     \endverbatim
-     </li>
-    </ul>
+   <li> One module for sets with two binary operations; how to call it,
+   "Ringoids" or "DoubleMagmas"?? There seems to be no notion for it.
+   With submodules
+    <ol>
+     <li> Fields (moving FiniteFields.mac there) </li>
+     <li> Lattices </li>
+     <li> Rings </li>
+     <li> Semirings </li>
+    </ol>
+   </li>
+   <li> One submodule for two sets A, B together with f: A x B -> B, i.e.,
+   Actions (including left and right actions).
+    <ol>
+     <li> The alternative representation is as a map A -> B^B. </li>
+     <li> An "action in general" is a map from a set to the set of
+     endomorphisms of some structure. </li>
+     <li> The question is whether actions e.g., on groupoids (via
+     homomorphisms) etc. are to be found in module Groupoids or in module
+     Actions? </li>
+     <li> Then we have "operations" of a groupoid or a ringoid on some
+     structure whose endomorphism-monoid can also be equipped with an
+     "addition" in the second case, so that the operation then is
+     homomorphism between groupoids resp. ringoids. </li>
+     <li> This "addition" of morphisms is (typically? always?) the elementwise
+     addition of functions. </li>
+     <li> Most prominent the operation of a monoid on a set, the operation
+     of a semiring on a semiring (semimodules), the operation of a ring
+     on a ring (modules), and the operation of a field on a field (vector
+     spaces). </li>
+     <li> Special cases of the operation of a monoid on a set are all the
+     variations on dynamical systems (see below). </li>
+     <li> The operation of a monoid on a set generalised the notion of a
+     finite automata. </li>
+     <li> Normally the operation of a monoid on a set is just called an "act";
+     perhaps this does not clash with our terminology, since we speak of an
+     "action" ?! </li>
+     <li> So we could have, as the most prominent cases, (independent) modules
+     "Acts" (for the operation of a semigroup/monoid on a set) and "Moduloids"
+     (for semimodules, modules, and vector spaces), while the rest is found
+     in the other modules. </li>
+    </ol>
+   </li>
+   <li> Since groups are a big field on themselves, perhaps we emancipate
+   it, making it a module on its own?
+    <ol>
+     <li> Same for Fields (in Ringoids). </li>
+     <li> And also Lattices (in Ringoids; of course, BooleanAlgebras are
+     also a topic here?!?) </li>
+    </ol>
+   </li>
+   <li> Another organisational problem is what to do with the Lisp and
+   Aldor submodules? Of course, we are already in the Lisp-part, and
+   so can just ignore this question (for the moment). </li>
+   <li> Then we have UniversalAlgebra. But there are also relational
+   structures, and more general, first-order structures?!?
+    <ol>
+     <li> Perhaps we have a module ComputerAlgebra/Structures, which contains
+     sub-modules AlgebraicStructures, RelationalStructures, FirstOrder. </li>
+     <li> So perhaps we don't put universal algebra into Algebra. </li>
+    </ol>
+   </li>
   </ul>
-
-
-  \todo Complete docus
-  <ul>
-   <li> All functions need to be covered, using prime fields GF(p)
-   and more complex fields GF(p^n). </li>
-  </ul>
-
-
-  \todo Demos
-
+     
 
   \todo Groupoids, groups etc.
   <ul>
    <li> We need a submodule for groupoids and specialisations. </li>
-   <li> Calling it "Groupoids"? </li>
+   <li> Calling it "Groupoids"? Or "Magmas"? </li>
    <li> Concepts and abbreviations:
     <ol>
      <li> A "groupoid" ("grd") is a pair [V,f] such that V is a set and
@@ -176,7 +171,12 @@ Use `fasttimes' only on CRE polynomials with same varlists
      <li> But a problem occurs with automorphism groups, since our morphisms
      are just maps?! </li>
      <li> One solution would be to make the group element then just the
-     corresponding lists-as-permutations. </li>
+     corresponding lists-as-permutations, or some other presentation
+     (the index in some standard enumeration, a cycle presentation etc). </li>
+     <li> The only point in attaching the labelling function to the group
+     presentation would be that then we know how to find it; perhaps we have
+     the convention, that labelling functions are collected into one list,
+     which is attached as the last element of the groupoid-as-list etc. </li>
     </ol>
    </li>
    <li> A fundamental operation is the closure of a subset under the
