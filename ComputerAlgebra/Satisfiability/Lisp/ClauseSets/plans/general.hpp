@@ -141,7 +141,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> See "Input and output" below. </li>
-   <li> We should create "PartialAssignments.mac". </li>
+   <li> DONE We should create "PartialAssignments.mac". </li>
   </ul>
 
 

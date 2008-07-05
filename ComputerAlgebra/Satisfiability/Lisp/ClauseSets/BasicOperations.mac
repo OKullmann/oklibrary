@@ -24,6 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* Guaranteed to be included: */
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 
 
 /* **************************
@@ -192,84 +193,6 @@ scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
 
 /* All clauses of a clause-set containing a variable. */
 scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
-
-
-/* ***********************
-   * Partial assignments *
-   ***********************
-*/
-
-/*
- A "partial boolean assignment" is a boolean clause, interpreted
- as setting its elements to true.
-*/
-
-/* The variables in a partial assignment. */
-var_pa(phi) := var_c(phi)$
-
-/* Restricting a partial assignment phi to a set V of variables.
-   (V does not need to be a subset of var_pa(phi).) */
-restr_pa(phi,V) := subset(phi, lambda([x], elementp(var_l(x),V)))$
-/* Remove variables in V from phi. */
-restr_c_pa(phi,V) := subset(phi, lambda([x], not elementp(var_l(x),V)))$
-
-/* Apply a partial assignment to a boolean clause-set. */
-apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi))$
-/* Apply a partial assignment to a formal boolean clause-set: */
-apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_c(phi)),
-  apply_pa(phi, clauses_f(FF))]$
-
-/* The set of satisfied clauses for a partial assignment w.r.t. a clause-set: */
-sat_pa(phi,F) := subset(F, lambda([C], is(apply_pa(phi,{C}) = {})))$
-sat_paf(phi,FF) := sat_pa(phi,FF[2])$
-
-/* Test for a satisfying assignment w.r.t. a clause-set */
-satisfyingpap(phi,F) := is(sat_pa(phi,F) = F)$
-/* Test for a satisfying assignment w.r.t. a formal clause-set */
-satisfyingpafp(phi,FF) := satisfyingpap(phi,FF[2])$
-
-/* The set of satisfied, falsified, untouched and critical (original) clauses
-   for a partial assignment phi w.r.t. a clause-set F. */
-/* These four sets constitute a partioning of F:
-    - if F contains {}, then this belongs to the falsified clauses;
-    - a critical clause is a touched but neither satisfied nor
-      falsified clause.
-*/
-analyse_pa(phi,F) := block([V : var_c(phi), s : {}, f : {}, u : {}, c : {}],
- for C in F do block([r : apply_pa(phi,{C})],
-  if r = {} then s : adjoin(C,s)
-  elseif r = {{}} then f : adjoin(C,f)
-  elseif disjointp(var_c(C), V) then u : adjoin(C,u) 
-  else c : adjoin(C,c)),
- return([s,f,u,c]))$
-analyse_paf(phi,FF) := analyse_pa(phi,FF[2])$
-
-/* The set of all partial assignments over a set of variables: */
-all_pass(V) := if emptyp(V) then {{}} else
- block([e : choose_element(V), S],
-  S : all_pass(disjoin(e,V)),
-  return(union(S, 
-           map(lambda([phi],adjoin(e,phi)),S),
-           map(lambda([phi],adjoin(-e,phi)),S))))$
-/* This time only those partial assignments with domain size n. */
-all_pass_n(V,n) := if n < 0 then {}
- elseif n=0 then {{}}
- elseif emptyp(V) then {}
- else block([e : choose_element(V), S0, S1],
-   V : disjoin(e,V),
-   S0 : all_pass_n(V,n-1),
-   S1 : all_pass_n(V,n),
-   return(union(S1, 
-            map(lambda([phi],adjoin(e,phi)),S0),
-            map(lambda([phi],adjoin(-e,phi)),S0))))$
-
-/* The set of all total assignments over a set or list V of variables: */
-all_tass(V) := map(setify,apply(corr_cartesian_product, 
- map(lambda([v],{-v,v}),listify(V))))$
-
-/* The set of all satisfying total assignments of a clause-set F
-    w.r.t. a set or list V of variables: */
-all_sat_tass(F,V) := subset(all_tass(V), lambda([phi],satisfyingpap(phi,F)))$
 
 
 /* *****************************************

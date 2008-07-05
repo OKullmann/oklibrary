@@ -1,0 +1,75 @@
+/* Oliver Kullmann, 5.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/PartialAssignments.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobjects/PartialAssignments.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/PartialAssignments.mac")$
+
+/* ****************************************
+   * The notion of a "partial assignment" *
+   ****************************************
+*/
+
+okltest_pa_p(pa_p);
+
+okltest_all_pass(all_pass);
+okltest_all_pass_n(all_pass_n);
+okltest_all_tass(all_tass);
+
+/* ********************
+   * Basic operations *
+   ********************
+*/
+
+okltest_var_pa(var_pa);
+
+okltest_restr_c_pa(restr_c_pa);
+
+okltest_compo_pass(compo_pass);
+
+/* ********************************
+   * Applying partial assignments *
+   ********************************
+*/
+
+okltest_apply_pa_cs(apply_pa_cs);
+okltest_apply_pa_fcs(apply_pa_fcs);
+
+/* *********************************
+   * Analysing partial assignments *
+   *********************************
+*/
+
+okltest_sat_pac_p(sat_pac_p);
+okltest_sat_pafcs_p(sat_pafcs_p);
+
+okltest_sat_pa_cs(sat_pa_cs);
+
+okltest_waut_pacs_p(waut_pacs_p);
+okltest_aut_pacs_p(aut_pacs_p);
+
+okltest_analyse_pa_cs(analyse_pa_cs);
+
+okltest_all_sattass_cs(all_sattass_cs);
+
+okltest_all_aut_cs(all_aut_cs);
+
+/*!
+\endhtmlonly
+*/
