@@ -10,6 +10,33 @@ License, or any later version. */
   \brief General plans regarding computer algebra (and SAT)
 
 
+  \todo Module Enumeration
+  <ul>
+   <li> We should have a module ComputerAlgebra/Combinatorics, which is
+   concerned especially about enumerating (standard) combinatorial
+   objects. </li>
+   <li> Compare Combinatorics/Enumeration/plans/general.hpp and the sub-modules
+   Combinatorics/Enumeration/plans/GrayCodes.hpp,
+   Combinatorics/Enumeration/plans/Permutations.hpp and
+   Combinatorics/Enumeration/plans/Subsets.hpp. </li>
+   <li> According to [Stanton, While; Constructive Combinatorics], the
+   basic sub-modules would be:
+    <ol>
+     <li> Permutations; perhaps with submodule Involutions </li>
+     <li> Subsets </li>
+     <li> Set partitions </li>
+     <li> Integer partitions </li>
+     <li> Product spaces </li>
+     <li> Trees (not as data structures; and in Graphs we do not handle
+     the enumerative aspects) </li>
+     <li> Tableaux </li>
+    </ol>
+   </li>
+   <li> The appendix of [Stanton, While; Constructive Combinatorics] contains
+   enumeration algorithms to start with. </li>
+  </ul>
+
+
   \todo DONE Transfer completed todos to the docus
   <ul>
    <li> Naming conventions : DONE </li>
