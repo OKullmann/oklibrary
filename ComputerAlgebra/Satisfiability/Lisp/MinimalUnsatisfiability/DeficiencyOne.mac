@@ -22,6 +22,17 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiabi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+/* We have 
+ - uniform_usat_hitting_min(k) in 
+   ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
+   for exactly (up to isomorphism) the uniform elements of SMU(1) 
+   (with 2^k clauses).
+ - smusat_horn(k) (also there)
+   for exactly (up to isomorphism) the Horn elements of SMU(1) (with k
+   variables).
+*/
+
+
 /* ************************
    * Tree representations *
    ************************
