@@ -19,6 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/include.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/include.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac")$
