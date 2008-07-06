@@ -1,0 +1,49 @@
+/* Oliver Kullmann, 5.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
+  \brief Functions for basic operations with clause-sets
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* *********************************
+   * The fixed-clause-length model *
+   *********************************
+*/
+
+/* Computing a random repetition-free sublist of a given length k;
+   V is a list, repetitions determine the chance of being elected, but the
+   result is repetition-free. */
+/* Prerequisites: 0 <= k <= length(unique(V)). */
+random_sublist_l(V,k) := block([res : []],
+  thru k do block([x : V[random(length(V))+1]],
+    res : endcons(x,res),
+    V : delete(x,V)),
+  return(res))$
+
+/* Using the Maxima pseudo-random generator, compute random clause-lists
+   with n variables, clause-length k and c clauses: */
+/* Prerequisites: n,k,c >= 0, k <= n. */
+random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
+  thru c do block([C : random_sublist_l(V,k)],
+    for i : 1 thru k do
+      if random(2) = 1 then C[i] : -C[i],
+    F : endcons(setify(C),F)),
+  return([V,F]))$
+
+/*!
+\endhtmlonly
+*/

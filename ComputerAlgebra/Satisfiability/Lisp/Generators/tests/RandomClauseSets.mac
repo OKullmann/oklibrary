@@ -1,0 +1,66 @@
+/* Oliver Kullmann, 6.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac
+  \brief Tests for clause-set-generators
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
+kill(f)$
+
+/* *********************************
+   * The fixed-clause-length model *
+   *********************************
+*/
+
+okltest_random_sublist_l(f) := block(
+  assert(f([],0) = []),
+  assert(f([1],0) = []),
+  assert(f([1],1) = [1]),
+  assert(f([1,1],1) = [1]),
+  assert(elementp(f([1,2],1), {[1],[2]}) = true),
+  assert(elementp(f([1,2],2), {[1,2],[2,1]}) = true),
+  assert(elementp(f([1,2,1,2],2), {[1,2],[2,1]}) = true),
+  for n : 0 thru 4 do block([L : create_list(i,i,1,n)],
+    assert(sort(f(L,n)) = L)),
+  block([L : [1,1,1,1,2,3,4,5,5]],
+    set_random_state(make_random_state(0)),
+    assert(f(L,2) = [5,1]),
+    assert(f(L,3) = [1,2,5]),
+    assert(f(L,4) = [4,1,5,3])),
+  true)$
+
+okltest_random_fcl(f) := block(
+  for n : 0 thru 3 do block([V : create_list(i,i,1,n),L],
+    L : setify(append(V,-V)),
+    for c : 0 thru 3 do
+      for k : 0 thru n do block([LF : f(n,k,c)],
+        assert(LF[1] = V),
+        assert(listp(LF[2]) = true),
+        assert(length(LF[2]) = c),
+        assert(every(
+         lambda([C],setp(C) and subsetp(C,L) and is(length(C)=k)), LF[2]) = true))),
+  set_random_state(make_random_state(0)),
+  assert(f(3,2,3) = [[1,2,3],[{-3,2},{-3,-2},{-2,3}]]),
+  assert(f(5,3,2) = [[1,2,3,4,5],[{2,3,5},{-5,-2,4}]]),
+  true)$
+    
+/*!
+\endhtmlonly
+*/
