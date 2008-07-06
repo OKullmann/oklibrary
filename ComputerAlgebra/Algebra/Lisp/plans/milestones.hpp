@@ -14,7 +14,15 @@ License, or any later version. */
   \par Version 0.0.6
 
   \par
-   In ComputerAlgebra/Algebra/Lisp/plans/general.hpp
+   In ComputerAlgebra/Algebra/Lisp/plans/general.hpp the following topics
+   are handled:
+    - Modules
+    - Semirings, rings, fields
+    - Modular arithmetic
+    - Actions and operations
+
+  \par
+   In ComputerAlgebra/Algebra/Lisp/plans/FiniteFields.hpp
    the following topics are handled:
     - Write tests for all functions provided
     - Maxima bugs

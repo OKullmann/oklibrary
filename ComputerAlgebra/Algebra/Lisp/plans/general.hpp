@@ -11,7 +11,7 @@ License, or any later version. */
 
 
   \todo Modules
-  <ol>
+  <ul>
    <li> DONE
    One module for sets with one binary operation: "Magmas" or
    "Groupoids". With submodules
@@ -84,8 +84,8 @@ License, or any later version. */
    structures, and more general, first-order structures?!?
     <ol>
      <li> Perhaps we have a module ComputerAlgebra/Structures, which contains
-     sub-modules AlgebraicStructures, RelationalStructures, FirstOrder. </li>
-     <li> So perhaps we don't put universal algebra into Algebra. </li>
+     sub-modules %AlgebraicStructures, RelationalStructures, FirstOrder. </li>
+     <li> So perhaps we don't put universal algebra into %Algebra. </li>
     </ol>
    </li>
   </ul>
