@@ -193,7 +193,8 @@ scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
 
 /* All clauses of a clause-set containing a variable. */
 scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
-
+/* More generally, all clauses containing some of a given set of variables: */
+scls_V(F,V) := subset(F, lambda([C], not disjointp(var_c(C),V)))$
 
 /* *****************************************
    * Printing clause-sets in Dimacs-format *
