@@ -29,22 +29,23 @@ License, or any later version. */
    where instead of index-sets we have repetition-free lists. </li>
    <li> Abbreviations:
     <ol>
-     <li> "cm" for combinatorial matrices </li>
-     <li> "scm" for square combinatorial matrices </li>
-     <li> "sycm" for symmetric combinatorial matrices </li>
-     <li> "ocm" for ordered combinatorial matrices </li>
-     <li> "oscm" for ordered square combinatorial matrices </li>
-     <li> "osycm" for ordered symmetric combinatorial matrices. </li>
+     <li> "com" for combinatorial matrices </li>
+     <li> "scom" for square combinatorial matrices </li>
+     <li> "sycom" for symmetric combinatorial matrices </li>
+     <li> "ocom" for ordered combinatorial matrices </li>
+     <li> "oscom" for ordered square combinatorial matrices </li>
+     <li> "osycom" for ordered symmetric combinatorial matrices. </li>
     </ol>
    </li>
-   <li> A "standardised combinatorial matrix" (stcm) has index sets
+   <li> A "standardised combinatorial matrix" (stcom) has index sets
    {1,...,n} for n in NN. </li>
   </ul>
 
 
   \todo Conversions
   <ul>
-   <li> A matrix [R,C,f] can be converted to a Maxima matrix
+   <li> DONE (it seems using "matrix" is preferable)
+   A matrix [R,C,f] can be converted to a Maxima matrix
    <code> genmatrix(lambda([i,j],f(listify(R)[i],listify(C)[j])),
             length(R), length(C)); </code>
    </li>
@@ -52,7 +53,8 @@ License, or any later version. */
    vertex set I and an directed edge from i to j for i # j iff f(i,j) # 0.
    </li>
    <li> dgl(M) has a loop at entry [i,i] iff f(i,i) # 0. </li>
-   <li> The general hypergraph hyp(M) for matrix M=[I,J,f] has vertex set I,
+   <li> DONE
+   The general hypergraph hyp(M) for matrix M=[I,J,f] has vertex set I,
    hyperedge set J, and hyperedge j contains vertex i iff f(i,j) # 0. </li>
    <li> The labelled clause-set cls(M) for matrix M=[I,J,f] has variable set I,
    clause-index set J, while clause j contains variable i positively,

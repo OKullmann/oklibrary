@@ -59,11 +59,11 @@ cdiagscom(I,a) := [I,buildq([a],lambda([i,j],if i=j then a else 0))]$
    *******************
 */
 
-/* Transforms a combinatorial matrix into a Maxima matrix */
+/* Transforms a combinatorial matrix into a Maxima matrix: */
 com2m(M) := block([rows : listify(M[1]), cols : listify(M[2]), f : M[3]],
   apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
 
-/* Transforms a square combinatorial matrix into a Maxima matrix */
+/* Transforms a square combinatorial matrix into a Maxima matrix: */
 scom2m(M) := com2m(scom2com(M))$
 
 /* Transforms a Maxima matrix into a combinatorial matrix
@@ -72,14 +72,39 @@ m2com(M) := block([m,n],
   [m,n] : matrix_size(M),
   [setn(m), setn(n),
     buildq([M], lambda([i,j], 'M[i,j]))])$
+/* Transforms a square Maxima matrix into a square combinatorial matrix: */
+sm2scom(M) := [setn(matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
 
 /* Transforms a square combinatorial matrix into a graph */
 com2g(M) := [M[1], subset(powerset(M[1],2), lambda([S],
   block([L : listify(S)], return(is(M[2](L[1],L[2]) # 0)))))]$
 
-/* Transforms a combinatorial matrix into a general hypergraph */
+/* Transforms a combinatorial matrix into a general hypergraph: */
 com2ghyp(M) := [M[1], M[2], buildq([M], 
  lambda([j], subset(M[1], lambda([i], is(M[3](i,j) # 0)))))]$
+
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+/* Equality test for combinatorial matrices: */
+/* RENAME: com_equalp */
+comequalp(A,B) := is(A[1] = B[1]) and is(A[2] = B[2]) and
+ block([break : false],
+  for a in A[1] unless break do for b in A[2] unless break do
+    if A[3](a,b) # B[3](a,b) then break : true,
+  return(not break))$
+com_equalp(A,B) := comequalp(A,B)$
+/* Equality test for square combinatorial matrices: */
+/* RENAME: scom_equalp */
+scomequalp(A,B) := is(A[1] = B[1]) and
+ block([break : false],
+  for a in A[1] unless break do for b in A[1] unless break do
+    if A[2](a,b) # B[2](a,b) then break : true,
+  return(not break))$
+scom_equalp(A,B) := scomequalp(A,B)$
 
 
 /* ********************
@@ -96,20 +121,6 @@ order_scom(M) := length(M[1])$
 trans(M) := [M[2], M[1], buildq([M], lambda([i,j], M[3](j,i)))]$
 /* Transposition of a square combinatorial matrix */
 strans(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
-
-
-/* Equality test for combinatorial matrices */
-comequalp(A,B) := is(A[1] = B[1]) and is(A[2] = B[2]) and
- block([break : false],
-  for a in A[1] unless break do for b in A[2] unless break do
-    if A[3](a,b) # B[3](a,b) then break : true,
-  return(not break))$
-/* Equality test for square combinatorial matrices */
-scomequalp(A,B) := is(A[1] = B[1]) and
- block([break : false],
-  for a in A[1] unless break do for b in A[1] unless break do
-    if A[2](a,b) # B[2](a,b) then break : true,
-  return(not break))$
 
 /* The difference of two square combinatorial matrices
    Precondition: A[1] = B[1]. */

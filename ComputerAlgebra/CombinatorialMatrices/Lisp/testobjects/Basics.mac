@@ -28,15 +28,22 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Bas
 
 okltest_com2m(com2m);
 
+okltest_sm2scom(sm2scom);
+
 okltest_com2ghyp(com2ghyp);
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+okltest_comequalp(comequalp);
+okltest_scomequalp(scomequalp);
 
 /* ********************
    * Basic operations *
    ********************
 */
-
-okltest_comequalp(comequalp);
-okltest_scomequalp(scomequalp);
 
 okltest_abs_com(abs_com);
 okltest_abs_scom(abs_scom);

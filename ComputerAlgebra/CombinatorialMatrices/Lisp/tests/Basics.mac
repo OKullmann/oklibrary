@@ -40,6 +40,13 @@ okltest_com2m(f) := (
   assert(f([{-1,0},{-4,3},lambda([i,j],i+j)]) = matrix([-5,2],[-4,3])),
   true)$
 
+okltest_sm2scom(f) := block(
+  assert(scom_equalp(f(matrix()),[{},identity]) = true),
+  assert(scom_equalp(f(matrix([1])),[{1},lambda([i,j],1)]) = true),
+  assert(scom_equalp(f(matrix([1,1],[1,1])),[{1,2},lambda([i,j],1)]) = true),
+  assert(scom_equalp(f(matrix([2,3],[3,4])),[{1,2},lambda([i,j],i+j)]) = true),
+  true)$
+
 okltest_com2ghyp(f) := (
   assert(ghypequalp(f(emptycom), [{},{}, identity]) = true),
   assert(ghypequalp(f(zerocom({1,2},{1,2})), [{1,2},{1,2}, lambda([e],{})]) = true),
@@ -47,9 +54,9 @@ okltest_com2ghyp(f) := (
   true)$
 
 
-/* ********************
-   * Basic operations *
-   ********************
+/* *********************
+   * Checking equality *
+   *********************
 */
 
 okltest_comequalp(f) := (
@@ -68,6 +75,12 @@ okltest_scomequalp(f) := (
   assert(f(strans(constantscom({1,2},1)), constantscom({1,2},1)) = true),
   assert(f(strans(idscom({1,2})), idscom({1,2})) = true),
   true)$
+
+
+/* ********************
+   * Basic operations *
+   ********************
+*/
 
 okltest_abs_com(f) := (
   assert(comequalp(f(emptycom), emptycom) = true),
