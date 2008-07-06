@@ -1,0 +1,64 @@
+/* Oliver Kullmann, 6.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac
+  \brief Basic notions (like test-predicates and conversions) for groupoids
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+
+
+/* ***********************
+   * Fundamental notions *
+   ***********************
+*/
+
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+/* Checking whether compo is a binary law of composition on set X: */
+compo_p(compo,X) := block([e : errcatch(every(lambda([L],subsetp(setify(L),X)),
+  outermap(compo,listify(X),listify(X))))],
+  not emptyp(e) and e[1])$
+
+grd_p(V) := listp(V) and is(length(V)=2) and setp(V[1]) and compo_p(V[2],V[1])$
+
+sgr_p(S) := grd_p(S) and (emptyp(S[1]) or associate_bydef_grd(S))$
+
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+grd_equalp(V1,V2) := scom_equalp(V1,V2)$
+
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+
+
+/*!
+\endhtmlonly
+*/
+

@@ -1,0 +1,33 @@
+/* Oliver Kullmann, 6.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac
+  \brief Various associativity tests
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* Testing whether a groupoid is associative, just using the definition: */
+associate_bydef_grd(V) := block([counterexample : false],
+ for x in V[1] unless counterexample do
+  for y in V[1] unless counterexample do
+   for z in V[1] unless counterexample do
+     if V[2](V[2](x,y),z) # V[2](x,V[2](y,z)) then counterexample : true,
+ return(not counterexample))$
+
+/*!
+\endhtmlonly
+*/
+

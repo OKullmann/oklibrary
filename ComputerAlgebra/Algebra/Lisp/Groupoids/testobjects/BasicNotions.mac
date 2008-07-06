@@ -1,0 +1,44 @@
+/* Oliver Kullmann, 6.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/BasicNotions.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/testobjects/BasicNotions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/tests/BasicNotions.mac")$
+
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+okltest_compo_p(compo_p);
+
+okltest_grd_p(grd_p);
+
+okltest_sgr_p(sgr_p);
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+okltest_grd_equalp(grd_equalp);
+
+/*!
+\endhtmlonly
+*/
