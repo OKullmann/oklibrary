@@ -105,6 +105,7 @@ License, or any later version. */
 
   \todo The heuristical function remlitocc_greedy
   <ul>
+   <li> The procedure needs to be randomised. </li>
    <li> Just to find an example for (k=3,r=5) from uniform_usat_hitting_min(m)
    doesn't work for m <= 14. </li>
    <li> Are these instances in MU(1) so large? </li>
@@ -112,7 +113,6 @@ License, or any later version. */
    <li> Or is the heuristic so weak?
     <ol>
      <li> For comparison, we need a precise decision algorithm. </li>
-     <li> We could randomise the procedure. </li>
     </ol>
    </li>
   </ul>
@@ -122,7 +122,15 @@ License, or any later version. */
   <ul>
    <li> One can create such elements with
    si_inverse_singulardp_fcs(FF,p,0,a,b). </li>
-   <li> What is the scope of marginal_musat1(k) ? </li>
+   <li> What is the scope of marginal_musat1(k) ?
+    <ol>
+     <li> Perhaps, once we have realised the systematic generation of marginal
+     elements of MU(1) below, we remove this function. </li>
+     <li> Or, if we randomise it, and start with arbitrary saturated elements,
+     then we obtain a random element of MMU(1) in some sense; perhaps
+     this is worth to study. </li>
+    </ol>
+   </li>
    <li> In [Kullmann, 2008] it is shown that the marginal elements of
    MU(1) are exactly those whose conflict graph is a tree (and all
    trees are realisable in this way).
