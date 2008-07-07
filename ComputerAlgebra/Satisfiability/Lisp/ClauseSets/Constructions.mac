@@ -54,7 +54,7 @@ or_cs([L]) := block([l : length(L)],
 
 /* The natural DNF-representation of a clause-set F as CNF */
 dual_cs(F) := apply(or_cs,
- map(lambda([C],map(lambda([x],{x}),C)), listify(F)))$
+ map(lambda([C],map("{",C)), listify(F)))$
 /* Subsumption elimination applied to the result yields the set of
    all prime implicants (all minimal satisfying partial assignments). */
 
@@ -87,7 +87,7 @@ vardisjoint_full_gluing(FF1,FF2) := block(
 full_gluing(FF1,FF2) := block(
  [V : listify(union(FF1[1],FF2[1])), n, h, F1, F2],
   n : length(V),
-  h : osm2hm(map(lambda([a,b],[a,b]), V, create_list(i,i,1,n))),
+  h : osm2hm(map("[", V, create_list(i,i,1,n))),
   F1 : substitute_cs(FF1[2],h),
   F2 : substitute_cs(FF2[2],h),
   return([setn(n+1), union(add_element(n+1,F1),
@@ -99,7 +99,7 @@ full_gluing(FF1,FF2) := block(
 partial_gluing(FF1,S1,FF2,S2) := block(
  [V : listify(union(FF1[1],FF2[1])), n, h, F1, F2],
   n : length(V),
-  h : osm2hm(map(lambda([a,b],[a,b]), V, create_list(i,i,1,n))),
+  h : osm2hm(map("[", V, create_list(i,i,1,n))),
   F1 : setdifference(FF1[2],S1),
   F2 : setdifference(FF2[2],S2),
   F1 : substitute_cs(F1,h),

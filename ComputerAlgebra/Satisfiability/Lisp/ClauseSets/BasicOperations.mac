@@ -159,7 +159,7 @@ substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 */
 rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
-  h : osm2hm(map(lambda([a,b],[a,b]),V,L)),
+  h : osm2hm(map("[",V,L)),
   [setify(abs(L)), substitute_cs(FF[2],h)])$
 
 /* Translating variable names of a formal clause-set into natural numbers;

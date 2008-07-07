@@ -425,6 +425,12 @@ okltest_list_distribution(f) := (
   assert(f([1,1]) = [[1,2]]),
   true)$
 
+okltest_num_distribution(f) := (
+  assert(f([]) = []),
+  assert(f([1]) = [[1,1]]),
+  assert(f([1,2]) = [[1,1],[2,1]]),
+  assert(f([1,1]) = [[1,2]]),
+  true)$
 
 /*!
 \endhtmlonly

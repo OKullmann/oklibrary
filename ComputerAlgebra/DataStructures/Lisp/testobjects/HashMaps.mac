@@ -79,6 +79,7 @@ okltest_extract_arraylist(extract_arraylist);
 */
 
 okltest_list_distribution(list_distribution);
+okltest_num_distribution(num_distribution);
 
 /*!
 \endhtmlonly

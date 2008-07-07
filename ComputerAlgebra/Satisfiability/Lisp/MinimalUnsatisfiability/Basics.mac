@@ -71,7 +71,7 @@ saturated_min_unsat_bydef(FF, solver) := min_unsat_bydef(FF,solver) and
    application do not result in a minimally unsatisfiable clause-set. */
 /* So saturated_min_unsat_bydef(FF) = true iff non_saturating_pas_bydef(FF) = {}. */
 non_saturating_pas_bydef(FF,solver) := block(
- [assignments : union({{}}, map(lambda([x],{x}),literals_v(FF[1]))),
+ [assignments : union({{}}, map("{",literals_v(FF[1]))),
   result : {}],
   for phi in assignments do
     if not min_unsat_bydef(apply_pa_f(phi,FF),solver) then

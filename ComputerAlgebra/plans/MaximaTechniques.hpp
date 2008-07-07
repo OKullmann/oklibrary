@@ -89,16 +89,45 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo List operations
   <ul>
-   <li> A frequent operation is to add an element x to a list L
-   *in-place*. </li>
-   <li> Apparently the most efficient operations seems to be
-   <code>L : cons(x,L)</code> resp. <code>L : endcons(x,L)</code>,
-   where both operations seem to take place not in-place, but involve
-   copying and re-assignment, making it very inefficient?? </li>
-   <li> So, for list-creation we use, if possible, create_list. </li>
-   <li> In general we want to avoid any efficiency-considerations, however
-   having in-place modifications of lists would also increase ease of
-   use. </li>
+   <li> Adding an element:
+    <ol>
+     <li> A frequent operation is to add an element x to a list L *in-place*.
+     </li>
+     <li> Apparently the most efficient operations seems to be
+     <code>L : cons(x,L)</code> resp. <code>L : endcons(x,L)</code>,
+     where both operations seem to take place not in-place, but involve
+     copying and re-assignment, making it very inefficient?? </li>
+     <li> In general we want to avoid any efficiency-considerations, however
+     having in-place modifications of lists would also increase ease of
+     use. </li>
+    </ol>
+   </li>
+   <li> map and relatives:
+    <ol>
+     <li> Names of ordinary operations are "+", "*", etc., for example
+     \verbatim
+map("+",[1,2],[3,4]) = [4,6]
+      \endverbatim
+     </li>
+     <li> The function name for list-formation is "[", and for set-creation it
+     is "{". </li>
+     <li> "outermap" seems obscure, and does strange things with lists of lists.
+     </li>
+    </ol>
+   </li>
+   <li> DONE (document that create_list is to be used, and not makelist;
+   and tell the Maxima mailing list that "makelist" should be "deprecated")
+   List creation:
+    <ol>
+     <li> Better avoid makelist, since it is less powerfull then
+     create_list, and also does not handle well the case of empty lists. </li>
+     <li> Better, we should use makelist only if we are sure that the
+     second list bound is not smaller than the first, and if we do not need
+     the power of create_list? </li>
+     <li> However, create_list is also much faster! So we do not use makelist
+     anymore! </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -159,19 +188,6 @@ B : map(lambda([x],x+1),B)$
      <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
      is set by set_random_state(make_random_state(n)). </li>
      <li> Randomised functions are "random", "random_permutation". </li>
-    </ol>
-   </li>
-    <li> DONE (document that create_list is to be used, and not makelist;
-    and tell the Maxima mailing list that "makelist" should be "deprecated")
-    List creation:
-    <ol>
-     <li> Better avoid makelist, since it is less powerfull then
-     create_list, and also does not handle well the case of empty lists. </li>
-     <li> Better, we should use makelist only if we are sure that the
-     second list bound is not smaller than the first, and if we do not need
-     the power of create_list. </li>
-     <li> However, create_list is also much faster! So we do not use makelist
-     anymore! </li>
     </ol>
    </li>
    <li> Shallow copy of list arguments for functions:
