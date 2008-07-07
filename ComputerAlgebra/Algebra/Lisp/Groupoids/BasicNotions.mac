@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac
 */
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 
@@ -34,13 +35,17 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 */
 
 /* Checking whether compo is a binary law of composition on set X: */
-compo_p(compo,X) := block([e : errcatch(every(lambda([L],subsetp(setify(L),X)),
-  outermap(compo,listify(X),listify(X))))],
-  not emptyp(e) and e[1])$
+compo_p(compo,X) := block(
+ [e : errcatch(
+   subsetp(map(lambda([P],apply(compo,P)),cartesian_product(X,X)),X))],
+ not emptyp(e) and e[1])$
 
 grd_p(V) := listp(V) and is(length(V)=2) and setp(V[1]) and compo_p(V[2],V[1])$
 
-sgr_p(S) := grd_p(S) and (emptyp(S[1]) or associate_bydef_grd(S))$
+sgr_p(S) := grd_p(S) and (emptyp(S[1]) or associative_bydef_grd(S))$
+
+mon_p(M) := listp(M) and is(length(M)=3) and sgr_p([M[1],M[2]]) and 
+  elementp(M[3],M[1]) and neutral_el_grd(M,M[3])$
 
 
 /* *********************

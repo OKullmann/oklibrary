@@ -38,6 +38,7 @@ okltest_compo_p(f) := (
   assert(f("*",{0,1,-1,x}) = false),
   assert(f(0,{1}) = false),
   assert(f({},{1}) = false),
+  assert(f(lambda([x,y],[1]),{[1]}) = true),
   true)$
 
 okltest_grd_p(f) := (
