@@ -124,6 +124,20 @@ okltest_setdifference2(f) := (
   assert(f([{1,2},{2,3}],{1,2,3}) = [{},{}]),
   true)$
 
+
+/* **************************************************
+   * Constructions related to the cartesian product *
+   **************************************************
+*/
+
+okltest_all_transformations_l(f) := (
+  assert(f({}) = {[]}),
+  assert(f({2}) = {[2]}),
+  assert(f({-1,1}) = {[-1,-1],[-1,1],[1,-1],[1,1]}),
+  assert(length(f({0,2,4})) = 27),
+  true)$
+
+
 /* *****************************************
    * Constructions related to subsumption  *
    *****************************************

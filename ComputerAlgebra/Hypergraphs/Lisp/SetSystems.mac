@@ -101,6 +101,10 @@ setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 corr_cartesian_product([S]) := if emptyp(S) then {[]}
  else apply(cartesian_product,S)$
 
+/* For a set X the set of all tuples of length |X| over X: */
+all_transformations_l(X) := apply(corr_cartesian_product,
+  create_list(X,i,1,length(X)))$
+
 
 /* *************************
    * Tests for set systems *

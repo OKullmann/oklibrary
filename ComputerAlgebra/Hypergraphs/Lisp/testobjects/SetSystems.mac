@@ -57,6 +57,13 @@ okltest_add_element(add_element);
 okltest_ecomp(ecomp);
 okltest_setdifference2(setdifference2);
 
+/* **************************************************
+   * Constructions related to the cartesian product *
+   **************************************************
+*/
+
+okltest_all_transformations_l(all_transformations_l);
+
 /* *****************************************
    * Constructions related to subsumption *
    *****************************************
