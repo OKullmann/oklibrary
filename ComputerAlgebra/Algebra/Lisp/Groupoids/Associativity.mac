@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.ma
 */
 
 /* Testing whether a groupoid is associative, just using the definition: */
-associate_bydef_grd(V) := block([counterexample : false],
+associative_bydef_grd(V) := block([counterexample : false],
  for x in V[1] unless counterexample do
   for y in V[1] unless counterexample do
    for z in V[1] unless counterexample do
