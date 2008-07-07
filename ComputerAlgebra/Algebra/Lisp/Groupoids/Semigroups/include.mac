@@ -20,6 +20,9 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/inclu
 */
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/BasicExamples.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/TransformationMonoids.mac")$
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/TransformationMonoids.mac")$
 
 
 /*!
