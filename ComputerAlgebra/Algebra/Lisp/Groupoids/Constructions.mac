@@ -28,8 +28,8 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 
 /* For a given composition, derive the "complex composition", which
    for subsets X, Y computes the composition of all combinations. */
-complex_compo(compo) := buildq([compo], lambda([X,Y], 
-  apply(union,map(setify,outermap(compo,listify(X),listify(Y))))))$
+complex_compo(compo) := buildq([compo], lambda([X,Y],
+  map(lambda([P],apply(compo,P)),cartesian_product(X,Y))))$
 
 complex_grd(V) := [powerset(V[1]), complex_compo(V[2])]$
 
