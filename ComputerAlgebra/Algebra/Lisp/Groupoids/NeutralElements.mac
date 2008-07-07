@@ -1,0 +1,35 @@
+/* Oliver Kullmann, 7.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac
+  \brief Tests and search-functions regarding neutral (identity) elements
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* Check whether e is left-neutral for groupoid V: */
+leftneutral_el_grd(V,e) := every(lambda([x],is(V[2](e,x)=x)), V[1])$
+/* Check whether e is right-neutral for groupoid V: */
+rightneutral_el_grd(V,e) := every(lambda([x],is(V[2](x,e)=x)), V[1])$
+/* Check whether e is neutral for groupoid V: */
+neutral_el_grd(V,e) := leftneutral_el_grd(V,e) and rightneutral_el_grd(V,e)$
+/* Remarks:
+ - The above tests do not check whether elementp(e,V[1]) is true.
+*/
+
+
+/*!
+\endhtmlonly
+*/
