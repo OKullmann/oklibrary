@@ -104,6 +104,14 @@ Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
 
   \todo Document important programming techniques
   <ul>
+   <li> Bugs of Maxima and their corrections:
+    <ol>
+     <li> ext_integer_partitions </li>
+     <li> corr_cartesian_product </li>
+     <li> unique([2,1]) = [1,2]; use stable_unique instead </li>
+     <li> "0^0" yields an error; what to do here? </li>
+    </ol>
+   </li>
    <li> Lists vs. arrays:
     <ol>
      <li> Arrays allow much faster index access than lists. </li>
@@ -134,13 +142,6 @@ B : map(lambda([x],x+1),B)$
      <li> A problem with arrays is, that their indices are 0-based, different
      from all the other conventions at the Maxima/Lisp level (accordingly
      the graphs-module uses 0-based indices for its own graphs). </li>
-    </ol>
-   </li>
-   <li> Bugs of Maxima and their corrections:
-    <ol>
-     <li> ext_integer_partitions </li>
-     <li> corr_cartesian_product </li>
-     <li> unique([2,1]) = [1,2]; use stable_unique instead </li>
     </ol>
    </li>
    <li> Loops:
