@@ -38,6 +38,10 @@ all_unsinghitting_mvd(8, 'all_n8);
      <li> Repeating the experiment with seed 10 produced after nearly the same
      running time again a segmentation fault, so the string-problem should be
      the cause. </li>
+     <li> With seed 11, at nearly the same file size the segmentation
+     fault happened, but this time the file was apparently correctly
+     written, and the fault happened a bit after writing the file? </li>
+     <li> On cs-wsok, a 64-bit machine, these errors don't happen. </li>
     </ol>
    </li>
    <li> Tell the Maxima mailing-list about that and ask for a different "save",
