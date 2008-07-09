@@ -1,0 +1,32 @@
+/* Oliver Kullmann, 8.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac
+  \brief Various commutativity tests
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* Testing whether a groupoid is commutative, just using the definition: */
+commutative_bydef_grd(V) := block([counterexample : false],
+ for x in V[1] unless counterexample do
+  for y in V[1] unless counterexample do
+   if V[2](x,y) # V[2](y,x) then counterexample : true,
+ return(not counterexample))$
+
+/*!
+\endhtmlonly
+*/
+

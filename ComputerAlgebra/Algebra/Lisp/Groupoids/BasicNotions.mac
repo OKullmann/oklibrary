@@ -21,6 +21,9 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 
@@ -40,12 +43,32 @@ compo_p(compo,X) := block(
    subsetp(map(lambda([P],apply(compo,P)),cartesian_product(X,X)),X))],
  not emptyp(e) and e[1])$
 
+/* Groupoids: */
 grd_p(V) := listp(V) and is(length(V)=2) and setp(V[1]) and compo_p(V[2],V[1])$
+ugrd_p(V) := listp(V) and is(length(V)=3) and grd_p([M[1],M[2]]) and 
+  elementp(M[3],M[1]) and neutral_el_grd(M,M[3])$
+cgrd_p(V) := grd_p(V) and commutative_bydef_grd(V)$
 
-sgr_p(S) := grd_p(S) and (emptyp(S[1]) or associative_bydef_grd(S))$
-
+/* Semigroups and monoids: */
+sgr_p(S) := grd_p(S) and associative_bydef_grd(S)$
+csgr_p(S) := sgr_p(S) and commutative_bydef_grd(S)$
 mon_p(M) := listp(M) and is(length(M)=3) and sgr_p([M[1],M[2]]) and 
   elementp(M[3],M[1]) and neutral_el_grd(M,M[3])$
+cmon_p(M) := mon_p(M) and commutative_bydef_grd(M)$
+
+/* Quasigroups and loops: */
+qgrp(Q) := grd_p(Q) and every(lambda([x],permutation_el_grd(Q,x)),Q[1])$
+cqgrp(Q) := qgrp(Q) and commutative_bydef_grd(Q)$
+lop_p(L) := ugrd_p(L) and every(lambda([x],invertible_el_ugrd(L,x)),L[1])$
+clop_p(L) := lop_p(L) and commutative_bydef_grd(L)$
+
+/* Groups: */
+grp_p(G) := qgrp(G) and associative_bydef_grd(G) and not emptyp(G[1])$
+cgrp_p(G) := grp_p(G) and commutative_bydef_grd(G)$
+grpn_p(G) := lop_p(G) and associative_bydef_grd(G)$
+cgrpn_p(G) := grpn_p(G) and commutative_bydef_grd(G)$
+grpni_p(G) := ugrd(rest(G,-1)) and inversion_ugrd(G,G[4])$
+cgrpni_p(G) := grpni_p(G) and commutative_bydef_grd(G)$
 
 
 /* *********************
@@ -54,6 +77,7 @@ mon_p(M) := listp(M) and is(length(M)=3) and sgr_p([M[1],M[2]]) and
 */
 
 grd_equalp(V1,V2) := scom_equalp(V1,V2)$
+ugrd_equalp(V1,V2) := grd_equalp(rest(V1,-1),rest(V2,-1)) and is(V1[3]=V2[3])$
 
 
 /* *************
@@ -61,7 +85,21 @@ grd_equalp(V1,V2) := scom_equalp(V1,V2)$
    *************
 */
 
+ugrd2grd(V) := rest(V,-1)$
 
+grpni2grpn(G) := rest(G,-1)$
+grpni2grp(G) := rest(G,-2)$
+grpn2grp(G) := rest(G,-1)$
+
+
+/* **************
+   * Promotions *
+   **************
+*/
+
+/* grp2grpn(G), grp2grpni(G), grpn2grpni(G) : 
+   here we have the typical three possibilities ... 
+*/
 
 /*!
 \endhtmlonly
