@@ -74,10 +74,21 @@ oklib_load(name) := block([full_name : sconcat(OKsystem,"/",name)],
  oklib_loaded_files[full_name] : oklib_load_round,
  load(full_name, oklib_load_annotation));
 
+oklib_plain_load(name) := (
+ oklib_load_round : oklib_load_round+1,
+ oklib_loaded_files[name] : oklib_load_round,
+ load(name, oklib_load_annotation));
+
 oklib_include(name) := block([full_name : sconcat(OKsystem,"/",name)],
  if oklib_loaded_files[full_name] # oklib_load_round then (
   oklib_loaded_files[full_name] : oklib_load_round, 
   load(full_name, oklib_load_annotation))
+);
+
+oklib_plain_include(name) := (
+ if oklib_loaded_files[name] # oklib_load_round then (
+  oklib_loaded_files[name] : oklib_load_round,
+  load(name, oklib_load_annotation))
 );
 
 oklib_load_all() := oklib_load("Transitional/ComputerAlgebra/include.mac");
@@ -86,10 +97,18 @@ oklib_batch(name) := block([full_name : sconcat(OKsystem,"/",name)],
  oklib_load_round : oklib_load_round+1,
  oklib_loaded_files[full_name] : oklib_load_round,
  batch(full_name));
+oklib_plain_batch(name) := (
+ oklib_load_round : oklib_load_round+1,
+ oklib_loaded_files[name] : oklib_load_round,
+ batch(name));
 oklib_demo(name) := block([full_name : sconcat(OKsystem,"/",name)],
  oklib_load_round : oklib_load_round+1,
  oklib_loaded_files[full_name] : oklib_load_round,
  demo(full_name));
+oklib_plain_demo(name) := (
+ oklib_load_round : oklib_load_round+1,
+ oklib_loaded_files[name] : oklib_load_round,
+ demo(name));
 
 define_variable(
   oklib_automatic_test,

@@ -184,6 +184,22 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    );
    \endverbatim
    </li>
+   <li> Suggested action (MG) : Given the inclusion of the "oklib_plain_*" 
+   functions in "maxima-init.mac", apply the following while inside the
+   "ComputerAlgebra" directory (although it only changes "*.mac" files anyway).
+   \verbatim
+# This has been tested and maxima tests return correctly, however it is still 
+# best to test this on a fully checked in repository, that can be reset if 
+# necessary.
+find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/(?<![a-zA-Z0-9_\-])load ?\(/oklib_plain_include\(/g;'
+   \endverbatim
+   NOTE This has changed from the first command given further above.
+   </li>
+   <li> The application of the above command should replace "load" in all maxima
+   files with the new "oklib_plain_include". This appears to save some time, but
+   not a great deal (MG: between 0.4 and 0.8 seconds faster), as currently there
+   are not many "load" calls for maxima modules repeated in seperate files. 
+   </li>
    <li> See "How to eliminate the annotation of lists" above! 
    So the issue becomes somewhat more complex. </li>
    <li> See also "Organisation" in
