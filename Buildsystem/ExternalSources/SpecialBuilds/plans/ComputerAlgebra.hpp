@@ -12,6 +12,7 @@ License, or any later version. */
   See also
   <ul>
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Axiom.hpp </li>
+   <li> Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp </li>
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp </li>
    <li> Buildsystem/ExternalSources/SpecialBuilds/plans/Sage.hpp </li>
   </ul>
@@ -35,10 +36,10 @@ License, or any later version. */
 
   \todo Vicinity of computational group theory
   <ul>
-   <li> Gap http://www-gap.mcs.st-and.ac.uk/ </li>
    <li> Magnus http://www.grouptheory.org/magnus; perhaps we postpone this,
    since it might be more specialised </li>
-   <li> MeatAxe http://www.math.rwth-aachen.de/homes/MTX/ (perhaps also
+   <li> DONE (contained in GAP)
+   MeatAxe http://www.math.rwth-aachen.de/homes/MTX/ (perhaps also
    postponed, since somewhat more specialised) </li>
    <li> Sims' Rutgers Knuth-Bendix package rkbp
    http://users.ox.ac.uk/~vlee/4engel/rkbp/
