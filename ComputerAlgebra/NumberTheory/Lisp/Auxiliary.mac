@@ -34,6 +34,15 @@ ext_integer_partitions(n) :=
  elseif n = 0 then {[]}
  else integer_partitions(n)$
 
+/* The corrected power-function: */
+pow(b,e) := block([ze : is(equal(e,0))],
+ if ze=true then return(1)
+ elseif ze=false then return(b^e)
+ else block([zb : is(equal(b,0))],
+   if zb=true then return(if equal(e,0) then 1 else 0)
+   elseif zb=false then return(b^e)
+   else return(ev(pow(b,e),noeval))))$
+
 
 /*!
 \endhtmlonly

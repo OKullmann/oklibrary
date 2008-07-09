@@ -137,8 +137,24 @@ map("+",[1,2],[3,4]) = [4,6]
     <ol>
      <li> ext_integer_partitions </li>
      <li> corr_cartesian_product </li>
-     <li> unique([2,1]) = [1,2]; use stable_unique instead </li>
-     <li> "0^0" yields an error; what to do here? </li>
+     <li> unique([2,1]) = [1,2]:
+      <ol>
+       <li> Use stable_unique instead (in
+       ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
+       <li> Notify the Maxima mailing-list about the incomplete
+       documentation. </li>
+      </ol>
+     </li>
+     <li> "0^0" yields an error:
+      <ol>
+       <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
+       <li> And 0^x evaluates to 0 for an unknown x, which is obviously
+       incorrect! </li>
+       <li> Via "pow(b,e)" in ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac
+       we try to correct the most blatant false behaviour. </li>
+       <li> Notify the Maxima mailing-list! </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> Lists vs. arrays:
@@ -347,6 +363,7 @@ is(log(4)/log(2) = 2);
 false
    \endverbatim
    </li>
+   <li> See 'What is "equalp" ?' in ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
 

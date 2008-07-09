@@ -45,6 +45,32 @@ okltest_ext_integer_partitions(f) := (
   assert(f(4) = {[1,1,1,1],[2,1,1],[3,1],[2,2],[4]}),
   true)$
 
+okltest_pow(f) := block([x,y,a],
+  assert(pow(0,0) = 1),
+  assert(pow(0,1) = 0),
+  assert(pow(1,0) = 1),
+  assert(pow(1,1) = 1),
+  assert(pow(2,2) = 4),
+  assert(pow(2,-2) = 1/4),
+  assert(pow(x,0) = 1),
+  assert(pow(0,x) = if equal(x,0) then 1 else 0),
+  assert(pow(x,1) = x),
+  assert(pow(1,x) = 1),
+  assert(pow(x,y) = ev(pow(x,y),uneval)),
+  a : pow(x,y),
+  assert(a = ev(pow(x,y),uneval)),
+  y : 1,
+  assert(ev(a) = x),
+  y : 0,
+  assert(ev(a) = 1),
+  kill(y), 
+  assert(a = ev(pow(x,y),uneval)),
+  x : 0,
+  assert(ev(a) = if equal(y,0) then 1 else 0),
+  y : 0,
+  assert(ev(a) = 1),
+  true)$
+
 /*!
 \endhtmlonly
 */

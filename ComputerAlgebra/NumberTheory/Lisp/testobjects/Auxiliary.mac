@@ -26,6 +26,8 @@ okltest_fld(fld);
 
 okltest_ext_integer_partitions(ext_integer_partitions);
 
+okltest_pow(pow);
+
 /*!
 \endhtmlonly
 */

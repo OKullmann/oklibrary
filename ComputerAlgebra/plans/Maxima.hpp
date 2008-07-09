@@ -13,6 +13,18 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \todo What is "equalp" ?
+  <ul>
+   <li> It seems impossible to evaluate "equalp(0,0)" sensibly?? </li>
+   <li> is(equalp(0,0)) returns "unknown" ? </li>
+   <li> So then the only sensible check for being zero is
+   \verbatim
+is(equal(x,0))
+   \endverbatim
+   ?? (yielding true,false, or unknown) </li>
+  </ul>
+
+
   \todo Maxima/CLisp bug
   <ul>
    <li> On csltok (laptop of OK) running
