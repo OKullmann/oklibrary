@@ -157,12 +157,75 @@ cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
 
   \todo File load and include
   <ul>
-   <li> The issue occurs that various maxima modules such as "graphs" take a 
+   <li> The new "plain" load-functions:
+    <ol>
+     <li> "oklib_load" should now call "oklib_plain_load" etc. </li>
+     <li> See also "Organisation" in
+     ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/uhit_def.hpp
+     for the need of optional load/include. </li>
+     <li> Perhaps at this time we can also write such optional versions. </li>
+    </ol>
+   </li>
+   <li> Given the inclusion of the "oklib_plain_*" 
+   functions in "maxima-init.mac", apply the following while inside the
+   "ComputerAlgebra" directory (although it only changes "*.mac" files anyway).
+   \verbatim
+# This has been tested and maxima tests return correctly, however it is still 
+# best to test this on a fully checked-in repository, that can be reset if 
+# necessary.
+find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/(?<![a-zA-Z0-9_\-])load ?\(/oklib_plain_include\(/g;'
+   \endverbatim
+   </li>
+   <li> Performing the substitution:
+    <ol>
+     <li> First, we should, if possible, only use standard Unix/Linux tools; so
+     "sed" would be more appropriate here.
+      <ol>
+       <li> We only want to find instances of 'load("filename")', where
+       preceeding "load" we have at least one space-symbol (including the
+       end-of-line symbol). </li>
+      </ol>
+     </li>
+     <li> The number of arguments to xargs shouldn't be a problem here, but it
+     might become a problem in other circumstances, so it seems better to me
+     to use a loop:
+     \verbatim
+for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
+  sed XXX ${F} > ${F}; done
+     \endverbatim
+     </li>
+     <li> In this case there will be only a few places where something is
+     changed, and this can be checked then by git-gui.
+      <ol>
+       <li> But in general we need the possibility for protocolling/feedback,
+       and also we need parsing abilities. </li>
+       <li> Plans for writing such a tool are in
+       Programming/Refactoring/plans/Renaming.hpp. </li>
+       <li> Above we should have least the possibility to compute
+       *before processing* a reasonable list of files involved. We should filter
+       out files which do not include the appropriate pattern *up-front*, so
+       that then instead of sed we just run "echo". </li>
+       <li> Once the above (simple) command for performing the replacements has
+       been finalised, it should go to "Simple Unix/Linux tools" in
+       Programming/Refactoring/plans/general.hpp, with a documentation what
+       the sed-substitution-command really does. </li>
+      </ol>
+     </li>
+    </ol>
+   </li>
+   <li> The application of the above command should replace "load" in all maxima
+   files with the new "oklib_plain_include". This appears to save some time, but
+   not a great deal (MG: between 0.4 and 0.8 seconds faster), as currently there
+   are not many "load" calls for maxima modules repeated in seperate files. 
+   </li>
+   <li> DONE
+   The issue occurs that various maxima modules such as "graphs" take a 
    considerable time to load (~0.5 seconds on a modern machine), and such a
    load occurs in various very basic modules in the library such as 
    Satisfiability/Lisp/BasicOperations.mac which is included in many files.
    </li> 
-   <li> The cure is to replace all instances of "load" with a function
+   <li> DONE (decided to go this way)
+   The cure is to replace all instances of "load" with a function
    "oklib_include_basic" which mimics oklib_include but without appending the
    OKSystem path (ie allowing the same single include behaviour as oklib_include
    provides for maxima modules). This seems to reduce the elapsed time for a 
@@ -184,27 +247,10 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    );
    \endverbatim
    </li>
-   <li> Suggested action (MG) : Given the inclusion of the "oklib_plain_*" 
-   functions in "maxima-init.mac", apply the following while inside the
-   "ComputerAlgebra" directory (although it only changes "*.mac" files anyway).
-   \verbatim
-# This has been tested and maxima tests return correctly, however it is still 
-# best to test this on a fully checked in repository, that can be reset if 
-# necessary.
-find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/(?<![a-zA-Z0-9_\-])load ?\(/oklib_plain_include\(/g;'
-   \endverbatim
-   NOTE This has changed from the first command given further above.
-   </li>
-   <li> The application of the above command should replace "load" in all maxima
-   files with the new "oklib_plain_include". This appears to save some time, but
-   not a great deal (MG: between 0.4 and 0.8 seconds faster), as currently there
-   are not many "load" calls for maxima modules repeated in seperate files. 
-   </li>
-   <li> See "How to eliminate the annotation of lists" above! 
+   <li> DONE (whether annotation happens is controlled by a global variable,
+   and does not interfere with loading files)
+   See "How to eliminate the annotation of lists" above! 
    So the issue becomes somewhat more complex. </li>
-   <li> See also "Organisation" in
-   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/uhit_def.hpp
-   for the need of optional load/include. </li>
    <li> (DONE An errant oklib_load instead of oklib_include caused this)
    It appears that after the last submit of MG loading times nearly
    trippled? </li>

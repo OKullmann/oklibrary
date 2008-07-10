@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -8,6 +8,34 @@ License, or any later version. */
 /*!
   \file Programming/Refactoring/plans/general.hpp
   \brief Plans for the module on refactoring
+
+
+  \todo Connections to other parts
+  <ul>
+   <li> We not only need refactoring for C++, but also for Maxima/Lisp. </li>
+   <li> See "File load and include" in ComputerAlgebra/plans/Maxima.hpp
+   for an example. </li>
+  </ul>
+
+
+  \todo Simple Unix/Linux tools
+  <ul>
+   <li> We need a little methodology for using these tools for simple
+   text-replacement (using regular expressions). </li>
+   <li> See "File load and include" in ComputerAlgebra/plans/Maxima.hpp
+   for an example. </li>
+  </ul>
+
+
+  \todo Investigating existing tools for parsing and refactoring code
+  <ul>
+   <li> There was an announcement recently (September 2007) on the boost
+   e-mail list about a C/C++ parser etc. library (supported by Apple). </li>
+   <li> See what they have on refactoring. </li>
+   <li> There should be C tools for refactoring --- those should be also
+   useful. </li>
+   <li> C++ and Maxima/Lisp are most relevant (at this time). </li>
+  </ul>
 
 
   \todo Update namespaces.
@@ -23,15 +51,6 @@ License, or any later version. */
 
 
   \todo Transfer the tests to the new test system.
-
-
-  \todo Investigating existing tools for parsing and refactoring C++ code.
-  <ul>
-   <li> There was an announcement recently (September 2007) on the boost e-mail list
-   about a C/C++ parser etc. library (supported by Apple). See what they have
-   on refactoring. </li>
-   <li> There should be C tools for refactoring --- those should be also useful. </li>
-  </ul>
 
 */
 

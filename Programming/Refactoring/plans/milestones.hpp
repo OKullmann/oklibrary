@@ -1,5 +1,5 @@
 // Oliver Kullmann, 18.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -15,17 +15,18 @@ License, or any later version. */
 
   \par
    In Refactoring/plans/general.hpp the following topics are handled:
-    - Update namespaces
-    - Update namespace-usage
-    - Update the doxygen-documentation, and create further plans(-files)
-    - Move Concepts/RefactoringIncludeHandling.hpp here.
+    - Simple Unix/Linux tools
+    - Investigating existing tools for parsing and refactoring code
 
 
   \par Version 0.0.10
 
   \par
    In Refactoring/plans/general.hpp the following topics are handled:
-    - Investigating existing tools for parsing and refactoring C++ code
+    - Update namespaces
+    - Update namespace-usage
+    - Update the doxygen-documentation, and create further plans(-files)
+    - Move Concepts/RefactoringIncludeHandling.hpp here.
 
 
   \par Version 0.0.11
