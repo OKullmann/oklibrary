@@ -1,9 +1,11 @@
 # Oliver Kullmann, 9.8.2007 (Swansea)
-# Copyright 2007 Oliver Kullmann
+# Copyright 2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
+
+# NEEDS UPDATE
 
 # Settings for building and using Sage
 
@@ -22,6 +24,8 @@ sage_html_documentation_index_location_okl ?= Sage.html
 sage_base_directory ?= $(ExternalSources)/Sage
 
 sage_installation_dir ?= $(sage_base_directory)/$(sage_recommended_package_name)
+
+sage_call_okl ?= $(sage_installation_dir)/sage
 
 sage_main_index ?= $(sage_installation_dir)/doc/index.html
 sage_devel_doc ?= $(ExternalSources)/sources/Sage
