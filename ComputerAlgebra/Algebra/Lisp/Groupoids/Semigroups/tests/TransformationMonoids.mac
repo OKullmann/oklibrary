@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/tests/TransformationMonoids.mac
-  \brief Tests for the basic groupoid-notions
+  \brief Tests for transformation monoids
 
 Use by
 

@@ -19,12 +19,22 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/Basic
 \htmlonly
 */
 
+/* ********************
+   * Small semigroups *
+   ********************
+*/
+
 /* The empty semigroup: */
 empty_sgr : [{},lambda([x,y],unknown)]$
 
 /* The (standardised) 1-element semigroup: */
 singleton_sgr : [{1}, lambda([x,y],1)]$
 singleton_mon : [{1}, lambda([x,y],1), 1]$
+
+/* *******************
+   * Null semigroups *
+   *******************
+*/
 
 /* The constant semigroup (with x0 as null element): */
 null_sgr(X,x0) := [X,buildq([x0],lambda([x,y],x0))]$
