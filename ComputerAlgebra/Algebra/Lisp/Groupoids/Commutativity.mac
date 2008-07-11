@@ -19,12 +19,35 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.ma
 \htmlonly
 */
 
+/* *********
+   * Tests *
+   *********
+*/
+
 /* Testing whether a groupoid is commutative, just using the definition: */
 commutative_bydef_grd(V) := block([counterexample : false],
  for x in V[1] unless counterexample do
   for y in V[1] unless counterexample do
    if V[2](x,y) # V[2](y,x) then counterexample : true,
  return(not counterexample))$
+
+
+/* ********************
+   * Central elements *
+   ********************
+*/
+
+/* Tests whether a is element of the centralisator of X w.r.t. composition
+   compo: */
+central_grd_p(a,X,compo) := every(lambda([x],is(compo(a,x)=compo(x,a))),X)$
+
+/* Centralisator and bicentralisator: */
+centralisator_grd(X,V) := subset(V[1], lambda([a], central_grd_p(a,X,V[2])))$
+bicentralistor_grd(X,V) := centralisator_grd(centralisator_grd(X,V),V)$
+
+/* The centrum of a groupoid: */
+centrum_grd(V) := centralisator_grd(V[1],V)$
+/* We have commutative_bydef_grd(V) = is(centrum_grd(V)=V[1]). */
 
 /*!
 \endhtmlonly
