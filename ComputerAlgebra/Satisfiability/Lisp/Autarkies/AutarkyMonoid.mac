@@ -27,10 +27,16 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Rando
 
 
 /* The autarky monoid is computed by M = autmon_cs(F), while the set of 
-   autarkies is A = all_aut_cs(F) = M[1].
+   autarkies is A = all_aut_cs(F) = M[1] (and the composition is
+   compo_pass = M[2]).
    Extract the atoms by min_elements(disjoin({},A)) and the maximal autarkies
    by max_elements(A).
    The indecomposable elements are indecomposable_elements_bydef_grd(M).
+*/
+
+/* ********************************
+   * Analysing the autarky monoid *
+   ********************************
 */
 
 /* First attempt at analysing the autarky monoid: Computing
@@ -50,22 +56,92 @@ analyse_autmon(F) := block([M : autmon_cs(F), V,FA, At,VAt,Ft, I,VI,Fi],
   I : indecomposable_elements_bydef_grd(M), VI : var_cs(I), Fi : scls_V(F,VI),
   [M[1],I,At,  V,VI,VAt, FA,Fi,Ft])$
 
+
+/* *******************************************
+   * On "sufficient" selections of autarkies *
+   *******************************************
+*/
+
 /* An open problem: Does the following function always return true? */
+/* The CONJECTURE is that it does. */
 are_indecomposable_autarkies_sufficient_cs(F) := block([A : analyse_autmon(F)],
   is(A[8] = A[7]))$
-/* Searching for a counter-example: */
+
+/* Searching for counter-examples: */
+
 test_sufficiency_indaut(n,k,c) := block([found : false], 
  unless found#false do
   block([F : setify(random_fcl(n,k,c)[2]), an],
    an : analyse_autmon(F),
-   if oklib_monitor then print(map(length,an)),
+   if oklib_monitor then
+     print(F, ":", statistics_cs(F), map(length,an)),
    if length(an[8]) < length(an[7]) then
      found : F
    ),
- return(found))$ 
+ return(found))$
+test_sufficiency_indaut_rcl(n,p,c) := block([found : false], 
+ unless found#false do
+  block([F : setify(random_rcl_fcl(n,p,c)[2]), an],
+   an : analyse_autmon(F),
+   if oklib_monitor then
+     print(F, ":", statistics_cs(F), map(length,an)),
+   if length(an[8]) < length(an[7]) then
+     found : F
+   ),
+ return(found))$
+test_sufficiency_indaut_rrcl(n,c) := block([found : false], 
+ unless found#false do
+  block([p : random(1.0), F, an],
+   F : setify(random_rcl_fcl(n,p,c)[2]),
+   an : analyse_autmon(F),
+   if oklib_monitor then
+     print(F, ":", statistics_cs(F), map(length,an)),
+   if length(an[8]) < length(an[7]) then
+     found : F
+   ),
+ return(found))$
+test_sufficiency_indaut_rnrrcl(n,c0) := block([found : false], 
+ unless found#false do
+  block([p : random(1.0), c : random(c0), F, an],
+   F : setify(random_rcl_fcl(n,p,c)[2]),
+   an : analyse_autmon(F),
+   if oklib_monitor then
+     print(F, ":", statistics_cs(F), map(length,an)),
+   if length(an[8]) < length(an[7]) then
+     found : F
+   ),
+ return(found))$
+
+
+/* **********************
+   * On autarky duality *
+   **********************
+*/
 
 /* The restricted autarky-closure: */
 rautclosure_bydef_cs(F) := all_aut_cs(all_aut_cs(F))$
+
+rautclosure1_cs(F) := 
+ adjoin({},closure_bydef_grd(compo_pass,resolution_closure_cs(F)[1]))$
+/* An example where rautclosure1_cs(F) < rautclosure_bydef_cs(F):
+ {{-4,-3,-2,-1},{-4,-1,2,3},{-2,4}}. */
+rautclosure2_cs(F) := 
+ adjoin({},resolution_closure_cs(closure_bydef_grd(compo_pass,F))[1])$
+
+/* Question: Is always rautclosure2_cs(F) a superset of
+   rautclosure_bydef_cs(F)? */
+/* The CONJECTURE is that this is true. */
+experiment_autclosures(n,c0) := block([found : false],
+ unless found#false do
+  block([p : random(1.0), c : random(c0), F, F0,F2],
+   F : setify(random_rcl_fcl(n,p,c)[2]),
+   F0 : rautclosure_bydef_cs(F),
+   F2 : rautclosure2_cs(F),
+print(map(statistics_cs,[F,F0,F2])),
+   if not subsetp(F0,F2) then
+     found : [F,2]
+   ),
+ return(found))$
 
 /*!
 \endhtmlonly
