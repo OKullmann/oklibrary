@@ -38,9 +38,11 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* Composition of transformations as lists. */
 /* Prerequisite: length(x) = length(y). */
+/* RENAME: trf_l_compo */
 transformation_l_compo(x,y) := create_list(x[i], i,y)$
 
 /* The full transformation monoid with n elements: */
+/* RENAME: trf_l_mon */
 transformations_l_mon(n) := 
   [all_transformations_l(setn(n)), 
    transformation_l_compo, 
