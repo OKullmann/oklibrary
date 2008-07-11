@@ -1,0 +1,64 @@
+/* Oliver Kullmann, 9.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Operations/BasicNotions.mac
+  \brief Basic notions (like test-predicates and conversions) for operations of groupoids
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Operations/BasicNotions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* Operations are denoted by "opr".
+   (Attention: "op" is a built-in Maxima-operation.)
+*/
+/* Left-operations are the default. */
+
+
+/* ***********************************
+   * Testing the defining properties *
+   ***********************************
+*/
+
+
+/* Testing whether opr is an operation of groupoid V on set X: */
+opr_grdset_p(opr,V,X) := block([counterexample : false],
+ for a in V[1] unless counterexample do
+  for b in V[1] unless counterexample do
+   for x in X unless counterexample do
+     if opr(V[2](a,b),x) # opr(a, opr(b,x)) then counterexample : true,
+ return(not counterexample))$
+
+/* Testing whether opr is an operation of unital groupoid V on set X: */
+opr_ugrdset_p(opr,V,X) := 
+  every(lambda([x],is(opr(V[3],x)=x)), X) and opr_grdset_p(opr,V,X)$
+
+
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+/* A left-operation as a homomorphism into the transformation semigroup,
+   using maps: */
+opr2trf_m(opr) := buildq([opr],
+  lambda([v], lambda([x], opr(v,x))))$
+/* Now assuming that X = {1, ..., n}, and representing transformations
+   as lists: */
+opr2trf_l(opr,n) := buildq([opr,n],
+  lambda([v], create_list(opr(v,i), i,1,n)))$
+
+/*!
+\endhtmlonly
+*/
+

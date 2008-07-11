@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/include.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/include.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Operations/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/include.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Associativity.mac")$
@@ -27,6 +28,7 @@ oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Closures.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Commutativity.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/InvertibleElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/NeutralElements.mac")$
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/UniquelySolvableElements.mac")$
