@@ -1,0 +1,41 @@
+/* Oliver Kullmann, 9.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.mac
+  \brief Basic operations for groupoid homomorphisms
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Homomorphisms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* Test whether f is a groupoid homomorphism with domain V, where
+   the target-composition is compo: */
+homomorphism_bydef_grd(f,V,compo) := block([counterexample : false],
+ for x in V[1] unless counterexample do
+  for y in V[1] unless counterexample do
+    if f(V[2](x,y)) # compo(f(x),f(y)) then counterexample : true,
+ return(not counterexample))$
+
+homomorphism_bydef_ugrd(f,V,compo,e) := is(f(V[3]) = e) and 
+  homomorphism_bydef_grd(f,V,compo)$
+
+
+/* The canonical congruence relation on a groupoid V given by a
+   homomorphism f: */
+induced_congruence_grd(V,f) := buildq([f], lambda([x,y], is(f(x) = f(y))))$
+
+/*!
+\endhtmlonly
+*/
+
