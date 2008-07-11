@@ -162,6 +162,14 @@ License, or any later version. */
   </ul>
 
 
+  \todo Subgraph concepts
+  <ul>
+   <li> Perhaps we should create "Subgraphs.mac". </li>
+   <li> Likely the subgraphs of ordered graphs-types should inherit the
+   order(s). </li>
+  </ul>
+
+
   \todo Memoisation for general graphs and multigraphs
   <ul>
    <li> The function f in a general graph [V,E,f] could show three different
