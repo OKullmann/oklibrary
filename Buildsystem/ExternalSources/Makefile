@@ -31,7 +31,7 @@ export
 # Main targets
 # #################################
 
-.PHONY : all clean cleanall update
+.PHONY : $(global_targets_extsrc_okl)
 
 all : 
 	echo "NOT READY YET!"
@@ -95,6 +95,9 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
 # Cleaning
 # #################################
 
-clean : 
+clean :
+	- rm -rf $(ExternalSources_builds)
 
-cleanall : 
+cleanall : clean
+	- rm -rf $(ExternalSources_doc) $(ExternalSources_installations)
+

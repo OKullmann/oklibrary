@@ -1,5 +1,5 @@
 # Matthew Henderson, 30.10.2006 (Swansea)
-# Copyright 2006-2007 Oliver Kullmann
+# Copyright 2006-2007, 2008 Oliver Kullmann
 # This file is part of the OKlibrary. OKlibrary is free software; you can redistribute 
 # it and/or modify it under the terms of the GNU General Public License as published by
 # the Free Software Foundation and included in this library; either version 3 of the 
@@ -7,9 +7,12 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-ExternalSources_doc ?= $(ExternalSources)/doc
+global_targets_extsrc_okl ?= all clean cleanall update
+
 ExternalSources_sources ?= $(ExternalSources)/sources
+
 ExternalSources_installations ?= $(ExternalSources)/Installations
+ExternalSources_doc ?= $(ExternalSources)/doc
 ExternalSources_builds ?= $(ExternalSources)/builds
 
 ext_src_checksum := md5sum
