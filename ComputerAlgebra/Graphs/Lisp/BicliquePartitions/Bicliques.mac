@@ -19,6 +19,24 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Biclique
 \htmlonly
 */
 
+/* ***********************
+   * Fundamental notions *
+   ***********************
+*/
+
+/* A "vertex-biclique" ("v_bc") in a graph is a set of vertices
+   forming a biclique.
+*/
+
+vbc_gl_p(B,G) := listp(B) and is(length(B)=2) and
+ every(setp, B) and disjointp(B[1],B[2]) and
+ every(lambda([b], subsetp(b,G[1])), B) and
+ subsetp(map(setify,cartesian_product(B[1],B[2])), G[2])$
+
+vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
+ every(setp, B) and disjointp(B[1],B[2]) and
+ every(lambda([b], subsetp(b,G[1])), B) and
+ subsetp(cartesian_product(B[1],B[2]), G[2])$
 
 
 /*!

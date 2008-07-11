@@ -12,32 +12,44 @@ License, or any later version. */
 
   \todo The notion of a "biclique"
   <ul>
-   <li> The "full" mathematical notion of a biclique B in a (general/multi-)
-   graph G is that of a sub-graph of G, which itself is a complete bipartite
-   graph. </li>
-   <li> Since the edges determine the sub-graph B, it is tempting to represent
-   B by a set B' of edges. </li>
-   <li> However then we have the problem, that this notion is not stable
-   under sub-set-formation, i.e., a subset of B' in general is not again
-   a biclique. </li>
-   <li> So for multigraphs and graphs G it seems more appropriate to use
-   sets of *vertices* B' such that we can find edges in B' making it
-   a complete biclique. </li>
-   <li> For graphs this is the subgraph induced by B' </li>
-   <li> While for multigraphs this is a "numerical condition", which seems
-   perfectly appropriate since multigraphs are close to combinatorial matrices.
+   <li> General discussion:
+    <ol>
+     <li> The "full" mathematical notion of a biclique B in a (general/multi-)
+     graph G is that of a sub-graph of G, which itself is a complete bipartite
+     graph. </li>
+     <li> Since the edges determine the sub-graph B, it is natural to represent
+     B by a set B' of edges. </li>
+     <li> However then we have the problem, that this notion is not stable
+     under sub-set-formation, i.e., a subset of B' in general is not again
+     a biclique. </li>
+     <li> So for multigraphs and graphs G alternatively we can use
+     sets of *vertices* B' such that we can find edges in B' making it
+     a complete biclique. </li>
+     <li> For graphs this is the subgraph induced by B' </li>
+     <li> However, then it is needed to specify the bipartitioning, since in
+     general there are many ways that a set of vertices could form a biclique.
+     </li>
+    </ol>
    </li>
+   <li> For multigraphs a biclique partition is a "numerical condition",
+   which seems perfectly appropriate since multigraphs are close to
+   combinatorial matrices. </li>
    <li> Only for general graphs, where the edges have an identity, we need to
    know precisely which edges are part of the biclique. </li>
    <li> So we could speak of a "subgraph-biclique", "edge-set-biclique" and
-   "vertex-set-biclique". </li>
-   <li> The vertex-bicliques then form a hereditary hypergraph (vertices
+   "vertex-set-biclique" (where the latter is a pair of vertex-sets). </li>
+   <li> DONE (since we need two subsets, it's not really a hypergraph)
+   The vertex-bicliques then form a hereditary hypergraph (vertices
    the vertices of the given graph; "hereditary" means that for every
    hyperedge also every subset is a hyperedge, where here we must
    exclude subsets of size 0 or 1). </li>
-   <li> A sub-graph biclique can be refined to a subgraph with (given)
-   bipartition. For a vertex-set-biclique this corresponds to a partition
-   of this vertex set according to the two sides (fixing the sides!). </li>
+   <li> DONE (solved by using pairs)
+   Likely for (general) digraphs for a given vertex-biclique there are
+   several possibilities to interprete it as a edge-biclique, but otherwise
+   there should be no ambiguities. </li>
+   <li> A subgraph-biclique as well as an edge-biclique can be refined by
+   specifying an associated vertex-biclique (which fixes the bipartitioning).
+   </li>
   </ul>
 
 
@@ -112,6 +124,17 @@ License, or any later version. */
    <li> For combinatorial matrices then we consider the adjacency matrices
    of directed graphs, which are still nonnegative, but which are no longer
    symmetric. </li>
+  </ul>
+
+
+  \todo Abbreviations
+  <ul>
+   <li> "bcp" is for "biclique partition", "bc" for "biclique". </li>
+   <li> Bicliques exist as "sbc", "ebc" and "vbc" (subgraphs, edge-sets
+   or vertex-sets). </li>
+   <li> A test would be named e.g. "sbc_ogdg_p". </li>
+   <li> Then we would have e.g. "sbcp" would be a biclique partition by
+   subgraph-bicliques. </li>
   </ul>
 
 */
