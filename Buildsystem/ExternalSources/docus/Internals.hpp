@@ -1,5 +1,5 @@
 // Oliver Kullmann, 23.7.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -44,26 +44,77 @@ License, or any later version. */
      <code> $(ext_src_checksum) </code>). </li>
     </ol>
    </li>
-   <li> Finally the configuration information (like Version numbers etc.) is in
-   <code>$(OKbuildsystem)/Configuration/ExternalSources/all.mak</code> (via
-   inclusion of the special makefiles responsible for building single external
-   sources). </li>
   </ul>
 
-  $(OKbuildsystem)/ExternalSources/Makefile is the central makefile:
+
+  <h2> Makefiles </h2>
+
+ 
   <ul>
-   <li> $(ExternalSources)/Makefile is a symbolic link to it XXX </li>
-   <li> Defines the main targets for building and cleaning of
-   external libraries. XXX </li>
-   <li> It includes the makefiles from $(OKbuildsystem)/ExternalSources/SpecialBuilds,
-   each responsible for building one external source. XXX </li>
+   <li> <code>$(OKbuildsystem)/ExternalSources/Makefile</code> is the central
+   makefile (invoked by the masterscript <code>oklib</code>).
+    <ol>
+     <li> Some functions are provided for unpacking archives. </li>
+     <li> The global targets, given by variable "global_targets_extsrc_okl",
+     with value <center> $(global_targets_extsrc_okl) </center>
+     are defined. </li>
+     <li> Finally it includes the makefiles from
+     <code>$(OKbuildsystem)/ExternalSources/SpecialBuilds</code>, each
+     responsible for building one external source. </li>
+    </ol>
+   </li>
+   <li> The configuration information is obtained from
+   <code>$(OKbuildsystem)/Configuration/ExternalSources/all.mak</code>:
+    <ol>
+     <li> The general configuration-variables regarding external sources are
+     defined there. </li>
+     <li> And via inclusion of the special makefiles, responsible for building
+     single external sources, all special configuration information (like
+     version numbers, package-names, etc.) is obtained. </li>
+    </ol>
+   </li>
+   <li> For each special external source (like "git" or "gcc") there are thus
+   two makefiles, %e.g., for "git" we have
+   <code>$(OKbuildsystem)/Configuration/ExternalSources/git.mak</code> for the
+   configuration information, and
+   <code>$(OKbuildsystem)/ExternalSources/SpecialBuilds/git.mak</code> for
+   the actual build-instructions.
+   </li>
+  </ul>
+
+
+  <h2> Documentation </h2>
+
+  <ul>
+   <li> In directory
+   <code>$(OKbuildsystem)/ExternalSources/SpecialBuilds/docus</code> for each
+   external source one finds a dedicated documentation-file (belonging to the
+   Doxygen-system; for example "git.hpp"). </li>
+   <li> Some external sources need an index-page to access documentation, and
+   such index-pages (which do not belong to the Doxygen-system, but to the
+   system of local html-pages) are found in directory
+   <code>$(OKbuildsystem)/ExternalSources/SpecialBuilds/Documentation</code>
+   (for example one finds there "Maxima.html"). </li>
+   <li> The overview page on the installation of external sources is
+   <code>$(OKbuildsystem)/Html/Local/ExternalSources.html</code>
+   (again, part of the local html-system). </li>
+   <li> The variables for checking the status of installations are (currently)
+   defined in
+   <code>$(OKbuildsystem)/Configuration/ExternalSources/tests.mak</code>. </li>
+   <li> The buildsystem relies on using absolute paths to all files. To be able
+   to build the documentation under different circumstances, in
+   <code>$(OKbuildsystem)/Configuration/Html/relative_paths.mak</code>
+   one finds definitions for paths from local html-pages to other local
+   html-pages and to pages in <code>$(ExternalSources_doc)</code>. </li>
   </ul>
 
 
   <h2> Adding new external sources </h2>
 
-  In the following the directory $(OKbuildsystem) containing the buildsystem for
-  the OKlibrary is abbreviated by "Buildsystem". Assume that "ExS" is to be built:
+  In the following the directory <code>$(OKbuildsystem)</code>, containing
+  the buildsystem for the OKlibrary, is abbreviated by "Buildsystem".
+
+  Assume that "ExS" is to be built:
   <ol>
    <li>
     First in directory <code>Buildsystem/Configuration/ExternalSources</code>
@@ -109,18 +160,18 @@ License, or any later version. */
    <li> Often some library or some tool is missing; either you can add
    the missing part yourself (perhaps just using the package management
    of your Linux distribution), or you might find it in the OKlibrary. </li>
-   <li> If this doesn't help, consult the mailing list XXX </li>
+   <li> If this doesn't help, consult the mailing list. </li>
    <li> If we can't resolve it, since it seems to depend on specialities
    of your system, then
     <ol>
-     <li> extract the sequence of build instruction as follows XXX </li>
+     <li> extract the sequence of build instruction from the makefiles; </li>
      <li> reproduce the problem independently of the OKlibrary, by using
      the extracted build instructions --- if the problem goes away, report
-     back to our mailing list XXX. </li>
+     back to our mailing list. </li>
      <li> Otherwise contact the support of the respective package, and ask
      what's wrong with the build instructions. </li>
      <li> Either you now can "repair" your own system, so that the build
-     of the OKlibrary now works, or you report back to our mailing list XXX.
+     of the OKlibrary now works, or you report back to our mailing list.
      </li>
     </ol>
    </li>
