@@ -30,6 +30,13 @@ okltest_random_sublist_l(random_sublist_l);
 
 okltest_random_fcl(random_fcl);
 
+/* **********************************
+   * The random clause-length model *
+   **********************************
+*/
+
+okltest_random_rcl_fcl(random_rcl_fcl);
+
 /*!
 \endhtmlonly
 */

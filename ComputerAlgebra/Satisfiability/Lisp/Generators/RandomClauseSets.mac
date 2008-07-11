@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomCl
 */
 
 /* *********************************
-   * The fixed-clause-length model *
+   * The fixed clause-length model *
    *********************************
 */
 
@@ -42,6 +42,27 @@ random_fcl(n,k,c) := block([V : create_list(i,i,1,n), F : []],
     for i : 1 thru k do
       if random(2) = 1 then C[i] : -C[i],
     F : endcons(setify(C),F)),
+  return([V,F]))$
+
+
+/* **********************************
+   * The random clause-length model *
+   **********************************
+*/
+
+/* For p=1 every clause is full, for p=0 every clause is empty,
+   and for p=2/3 every clause has the same probability. */
+/* The average clause-length is p * n (thus if the average shall be k,
+   then set p = k/n). */
+/* Prerequisites: n,c >= 0, 0 <= p <= 1. */
+random_rcl_fcl(n,p,c) := 
+ block([V : create_list(i,i,1,n), F : []],
+  thru c do block([C : create_list(i,i,1,n)],
+    for i : 1 thru n do
+      if random(1.0) >= p then C[i] : 0
+      else
+        if random(2) = 1 then C[i] : -C[i],
+    F : endcons(setdifference(setify(C),{0}),F)),
   return([V,F]))$
 
 /*!
