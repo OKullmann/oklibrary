@@ -21,6 +21,8 @@ License, or any later version. */
 
   \todo Relations to other modules
   <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Categories/plans/general.hpp
+   for morphisms in general. </li>
    <li> See ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp for
    plans on graph isomorphisms. </li>
    <li> See Isomorphisms/plans/CLSIsomorphisms.hpp for plans on finding and
@@ -30,6 +32,7 @@ License, or any later version. */
 
   \todo Applying substitutions
   <ul>
+   <li Likely this should go to module ClauseSets. </li>
    <li> See "standardise_fcs" in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp. </li>
    <li> A general framework of "substitutions" and applying them is needed.
@@ -45,11 +48,18 @@ License, or any later version. */
        </li>
        <li> But programmatically variables seems more appropriate, since
        so redundancy in the presentation is avoided. </li>
+       <li> Perhaps it's best to view substitutions as homomorphisms, and
+       then we can specify a literal by an arbitrary mapping on a "free"
+       set of literals, for example, a set of variables; in general
+       a (finite) free sets of literals is just a clause. </li>
+       <li> But perhaps this complication is not worth the effort. </li>
       </ul>
      </li>
-     <li> On a set V of variables: each variable v in V -> literal f(v). </li>
+     <li> On a set V of variables: each variable v in V -> literal f(v);
+     more general, instead of V we have a clause. </li>
      <li> We need then a standard wrapper which extends it to the literals:
-     if the input is a negative literal, return -f(-v). </li>
+     if the input is a negative literal, return -f(-v). This is more expensive
+     if we originally defined the substitution on an arbitrary clause. </li>
      <li> Applying a literal substitution f to a clause C is possible iff C
      is contained in the domain of f, and then yields f(C) = {f(x) : x in C}.
      </li>
@@ -70,10 +80,19 @@ License, or any later version. */
      <li> One could extend them, using that "false" or "0" is not a literal.
      </li>
      <li> We could use (additionally) "elsub" etc. for these extended
-     versions? Or should we only use the extended versions? </li>
-     <li> But these extended versions should know about their domains. </li>
+     versions? </li>
+     <li Or should we only use the extended versions? No, it is unnatural
+     to assume all maps are global. </li>
+     <li> But these extended versions should know about their domains? </li>
      <li> Perhaps these extended substitutions are pairs [V,f], where V is
      the variable-domain. </li>
+     <li> Not necessarily: the most natural case for an extended substitution
+     is given by a hash-map, where the domain is extractable, but where
+     it would be unnatural to additionally carry it around. </li>
+     <li> So an "extended substitution" in difference to a "normal
+     substitution" can be applied to arbitrary literals, acting
+     identical for literals not in their domain, but the domain is
+     only implicite. </li>
     </ol>
    </li>
    <li> Abbreviations:
@@ -93,6 +112,14 @@ License, or any later version. */
      <li> Since it's just a case distinction, it seems just a trivial
      lambda-wrapper is appropriate. </li>
      <li>
+    </ol>
+   </li>
+   <li> So all-together, we have lsub,vsub,ssub for the behaviour of the
+   substitutions, and v_xsub, l_xsub, c_xsub, cs_xsub etc. for their
+   extensions. There are basic tools for creating v_xsub objects,
+   and tools to extend v_xsub. These tools can create global l_xsub
+   objects, but this is not the responsibility of the substitution,
+   but only of the user. </li>
   </ul>
 
 
