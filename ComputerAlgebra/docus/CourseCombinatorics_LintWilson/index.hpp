@@ -21,7 +21,7 @@ License, or any later version. */
   <h2> Chapter index </h2>
 
   <ol>
-   <li> Graphs: CourseCombinatorics_LintWilson/Chapter01.hpp </li>
+   <li> %Graphs: CourseCombinatorics_LintWilson/Chapter01.hpp </li>
   </ol>
 
 */
