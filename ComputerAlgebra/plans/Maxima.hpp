@@ -183,7 +183,16 @@ find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/
       <ol>
        <li> We only want to find instances of 'load("filename")', where
        preceeding "load" we have at least one space-symbol (including the
-       end-of-line symbol). </li>
+       end-of-line symbol). (MG: Presumably, "load" at the beginning of a line
+       should also be matched?) /li>
+       <li> The following "sed" command should suffice (including matching 
+       "load" at the beginning of the line) 
+       \verbatim
+sed 's/^\(\|.*[[:space:]]\+\)load/\1oklib_plain_include(/' ${F} > ${F}
+       \endverbatim
+       Removing the alternation symbol "\|" will remove the possibility of
+       allowing "load" at the beginning of a line.
+       </li>
       </ol>
      </li>
      <li> The number of arguments to xargs shouldn't be a problem here, but it
