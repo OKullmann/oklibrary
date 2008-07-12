@@ -165,6 +165,14 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> Finally, in directory
+   <code>Buildsystem/ExternalSources/sources/ExS</code> for source-files
+   "package.extension" we have files "package.extension.md5sum", with
+   content the output of <code>shell> md5sum %package.extension</code>. </li>
+  </ol>
+
+  Some general information:
+  <ul>
    <li> What are "role models"?
     <ol>
      <li> "Role models" are files fulfilling the same purpose, for similar
@@ -181,7 +189,7 @@ License, or any later version. */
    <li> Finally, it may also worth to look at previous installations, as
    recorded in the Git-history (we typically bundle all commits regarding
    for example a new installation, so that one sees all files involved). </li>
-  </ol>
+  </ul>
 
 
 
