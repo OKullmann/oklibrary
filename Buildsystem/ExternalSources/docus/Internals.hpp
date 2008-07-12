@@ -80,6 +80,9 @@ License, or any later version. */
    <code>$(OKbuildsystem)/ExternalSources/SpecialBuilds/git.mak</code> for
    the actual build-instructions.
    </li>
+   <li> If a special index-page for the documentation is created, then
+   this is done by
+   <code>$(OKbuildsystem)/OKlibBuilding/Targets/html/Makefile</code>. </li>
   </ul>
 
 
@@ -140,15 +143,44 @@ License, or any later version. */
      </li>
      <li> This docu-file should get a link in
      <code>Buildsystem/ExternalSources/docus/general.hpp</code>. </li>
-     <li> And its address can now be entered into the configuration makefile
+     <li> After running Doxygen (by "html"), the address of the docu-file
+     can be entered into the configuration makefile
      <code>Buildsystem/Configuration/ExternalSources/exs.mak</code>. </li>
      <li> Finally we create an entry in the main external-sources overview
      page <code>Buildsystem/Html/Local/ExternalSources.html</code> (again,
      by copy-and-paste from other entries). </li>
      <li> And for the links to work new entries are added (appropriately) in
      <code>Buildsystem/Configuration/Html/relative_paths.mak</code>. </li>
+     <li> If the documentation for ExS needs a dedicated index page (i.e.,
+     is not just a single link to the main documentation page), then
+     proceed as follows:
+      <ol>
+       <li> Create
+       <code>Buildsystem/ExternalSources/SpecialBuilds/Documentation/ExS.html</code>,
+       copying an appropriate role model. </li>
+       <li> Add to the makefile
+       <code>Buildsystem/OKlibBuilding/Targets/html/Makefile</code>
+       an appropriate line for the respective preprocessing-call. </li>
+      </ol>
+     </li>
     </ol>
    </li>
+   <li> What are "role models"?
+    <ol>
+     <li> "Role models" are files fulfilling the same purpose, for similar
+     systems. </li>
+     <li> One should use an up-to-date role model (look at the history as
+     provided by Git). </li>
+     <li> If the similar system is "SExS", then first the respective file
+     for SExS is copied, and then (in XEmacs) globally string "sexs" is
+     replaced by "exs" (by using lower-case we indicate that XEmacs shall
+     take care of upper- and lower-cases). </li>
+     <li> Then the resulting file has to be carefully edited. </li>
+    </ol>
+   </li>
+   <li> Finally, it may also worth to look at previous installations, as
+   recorded in the Git-history (we typically bundle all commits regarding
+   for example a new installation, so that one sees all files involved). </li>
   </ol>
 
 
