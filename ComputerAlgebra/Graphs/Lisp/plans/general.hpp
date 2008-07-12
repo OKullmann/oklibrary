@@ -199,6 +199,10 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
+   <li> What is petersen_graph(n,d)? The documentation seems to suggest
+   that this is the Kneser-graph, but for example petersen_graph(7,3)
+   has just 14 vertices (instead of binom(7,3) = 35) ?
+   Ask on the mailing-list! </li>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
      <li> We can use the vertex-labels (assuming they are present). </li>
