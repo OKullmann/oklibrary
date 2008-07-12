@@ -50,6 +50,7 @@ documentation_index : clean_up $(local_html_dir)
 	$(preprocessing_call) $(coq_html_template) > $(coq_html_output)
 	$(preprocessing_call) $(clisp_html_template_okl) > $(clisp_html_output_okl)
 	$(preprocessing_call) $(gcc_html_template_okl) > $(gcc_html_output_okl)
+	$(preprocessing_call) $(gap_html_template_okl) > $(gap_html_output_okl)
 	cp $(release_history_template) $(release_history_output)
 	cp -r --force $(documents_dir) $(doc_dir)
 

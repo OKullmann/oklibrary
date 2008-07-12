@@ -33,10 +33,13 @@ include $(OKconfiguration)/ExternalSources/valgrind.mak
 include $(OKconfiguration)/ExternalSources/clisp.mak
 include $(OKconfiguration)/ExternalSources/maxima.mak
 include $(OKconfiguration)/ExternalSources/asciidoc.mak
+include $(OKconfiguration)/ExternalSources/gap.mak
 
 # ################################
 # Cmake
 # ###############################
+
+# NEEDS UPDATE
 
 cmake_recommended_version_number ?= 2.4.7
 cmake_supported_version_numbers ?= $(cmake_recommended_version_number)
@@ -53,6 +56,8 @@ cmake_recommended := $(cmake_targets_prefix)$(cmake_recommended_version_number)
 # ################################
 # mpfr
 # ###############################
+
+# NEEDS UPDATE
 
 mpfr_recommended_version_number ?= 2.3.0
 mpfr_supported_version_numbers ?= $(mpfr_recommended_version_number)

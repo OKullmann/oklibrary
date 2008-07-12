@@ -43,6 +43,7 @@ rel_les_coq_docu_page := $(shell $(rel_path_tool) $(coq_docu_page) $(externalsou
 rel_les_ubcsat_docu_page_okl := $(shell $(rel_path_tool) $(ubcsat_docu_page_okl) $(externalsources_page_output))
 rel_les_clisp_docu_page_okl := $(shell $(rel_path_tool) $(clisp_docu_page_okl) $(externalsources_page_output))
 rel_les_maxima_docu_page_okl := $(shell $(rel_path_tool) $(maxima_docu_page_okl) $(externalsources_page_output))
+rel_les_gap_docu_page_okl := $(shell $(rel_path_tool) $(gap_docu_page_okl) $(externalsources_page_output))
 ifeq ($(extsrc_relative),)
   rel_les_boost_html_documentation_index_location := $(boost_html_documentation_index_location)
   rel_les_mhash_html_documentation_index_location := $(mhash_html_documentation_index_location)
@@ -112,5 +113,24 @@ else
   rel_gcc_gcc_internals_index_okl := $(shell $(rel_path_tool) $(gcc_internals_index_okl) $(gcc_html_output_okl))
   rel_gcc_gcc_internals_dvi_okl := $(shell $(rel_path_tool) $(gcc_internals_dvi_okl) $(gcc_html_output_okl))
   rel_gcc_gcc_libiberty_index_okl := $(shell $(rel_path_tool) $(gcc_libiberty_index_okl) $(gcc_html_output_okl))
+endif
+
+# From the Gap page:
+ifeq ($(extsrc_relative),)
+  rel_gap_gap_main_index_okl := $(gap_main_index_okl)
+  rel_gap_gap_tutorial_pdf_okl := $(gap_tutorial_pdf_okl)
+  rel_gap_gap_manual_pdf_okl := $(gap_manual_pdf_okl)
+  rel_gap_gap_programming_pdf_okl := $(gap_programming_pdf_okl)
+  rel_gap_gap_monoid_pdf_okl := $(gap_monoid_pdf_okl)
+  rel_gap_gap_monoid_html_okl := $(gap_monoid_html_okl)
+  rel_gap_gap_grape_pdf_okl := $(gap_grape_pdf_okl)
+else
+  rel_gap_gap_main_index_okl := $(shell $(rel_path_tool) $(gap_main_index_okl) $(gap_html_output_okl))
+  rel_gap_gap_tutorial_pdf_okl := $(shell $(rel_path_tool) $(gap_tutorial_pdf_okl) $(gap_html_output_okl))
+  rel_gap_gap_manual_pdf_okl := $(shell $(rel_path_tool) $(gap_manual_pdf_okl) $(gap_html_output_okl))
+  rel_gap_gap_programming_pdf_okl := $(shell $(rel_path_tool) $(gap_programming_pdf_okl) $(gap_html_output_okl))
+  rel_gap_gap_monoid_pdf_okl := $(shell $(rel_path_tool) $(gap_monoid_pdf_okl) $(gap_html_output_okl))
+  rel_gap_gap_monoid_html_okl := $(shell $(rel_path_tool) $(gap_monoid_html_okl) $(gap_html_output_okl))
+  rel_gap_gap_grape_pdf_okl := $(shell $(rel_path_tool) $(gap_grape_pdf_okl) $(gap_html_output_okl))
 endif
 

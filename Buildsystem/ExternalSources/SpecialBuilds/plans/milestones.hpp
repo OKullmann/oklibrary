@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.5 (25.5.2008)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.6 (12.7.2008)
 
 
   \par Version 0.2.2 (documentation, mathematical packages, and updates)
@@ -28,6 +28,14 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Update Boost installation
+
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
+   topics are handled:
+    - Installing GAP : DONE
+    - Monoids : DONE
+    - GRAPE : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Git.hpp the following
@@ -164,6 +172,11 @@ License, or any later version. */
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp the following
    topics are handled:
     - Update
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
+   topics are handled:
+    - Improve installation
 
 
   \par Version 0.2.7 (new external sources for computer algebra and graphs)

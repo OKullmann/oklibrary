@@ -370,3 +370,27 @@ else
   endif
 endif
 
+
+# New variables for the configuration of building gap (to be designed 
+# and implemented):
+
+gap_version_number_extraction_okl := awk '/run the Groups/{print $$9}'
+# assumes that the output of "gap -h" contains a line of the form
+# (for example) "run the Groups, Algorithms and Programming system, Version 4.4.10"
+
+location_gap_call_okl ?= $(shell (type -P $(gap_call_okl)))
+ifeq ($(location_gap_call_okl),)
+  gap_call_ready_okl ?= NO
+else
+  version_gap_call_okl ?= $(shell $(gap_call_okl) -h 2>&1 | $(gap_version_number_extraction_okl))
+  ifeq ($(version_gap_call_okl),$(gap_extracted_version_number_okl))
+    gap_call_ready_okl ?= YES
+  else
+    gap_call_ready_okl ?= MAYBE
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+gap_html_documentation_index_location_tag_okl ?= <a href="$(gap_html_output_okl)">$(gap_html_output_okl)</a>
+gap_gf_manual_tag_okl ?= <a href="$(gap_gf_manual_okl)">finite fields manual</a>
+

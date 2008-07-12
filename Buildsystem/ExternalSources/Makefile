@@ -90,14 +90,15 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ocaml.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/coq.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/clisp.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gap.mak
 
 # #################################
 # Cleaning
 # #################################
 
 clean :
-	- rm -rf $(ExternalSources_builds)
+	-rm -rf $(ExternalSources_builds)
 
 cleanall : clean
-	- rm -rf $(ExternalSources_doc) $(ExternalSources_installations)
+	-rm -rf $(ExternalSources_doc) $(ExternalSources_installations)
 

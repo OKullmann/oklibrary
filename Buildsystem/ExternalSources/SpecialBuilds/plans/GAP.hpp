@@ -10,7 +10,8 @@ License, or any later version. */
   \brief Plans regarding building of the GAP system
 
   
-  \todo Installing GAP
+  \todo DONE (GAP completely installed)
+  Installing GAP
   <ul>
    <li> Basic installation (in ExternalSources/builds)
    \verbatim
@@ -24,19 +25,17 @@ builds/GAP/gap4r4> cp bin/gap.sh ../../../../bin/gap
 builds/GAP/gap4r4> cd pkg
 builds/GAP/gap4r4/pkg> cp ../../../../sources/Gap/InstPackages.sh .
 builds/GAP/gap4r4/pkg> chmod u+x InstPackages.sh
-
-
+builds/GAP/gap4r4/pkg> ./InstPackages.sh
    \endverbatim
    This worked smoothly.
    </li>
-   <li> Can we have a different installation directory (as usual for us)? </li>
-   <li> What about this "xtom1r1p2.tar.bz2" ? </li>
    <li> Running the tests (manually) also works (and likely we don't need to do
    something about it). </li>
   </ul>
 
 
-  \todo Monoids
+  \todo DONE (completely installed)
+  Monoids
   <ul>
    <li> DONE (included in GAP)
    What about "Monoid" http://schmidt.nuigalway.ie/monoid/ ? </li>
@@ -50,8 +49,10 @@ Read(Filename( dirs, "installtest.g" ) );
   </ul>
 
 
-  \todo GRAPE
+  \todo DONE (completely installed)
+  GRAPE
   <ul>
+   <li> http://www.maths.qmul.ac.uk/~leonard/grape/ </li>
    <li> Using
    \verbatim
 gap> LoadPackage( "grape" );
@@ -63,6 +64,21 @@ gap> Size( AutGroupGraph( JohnsonGraph(5,2) ) );
    works fine!
    </li>
   </ul>
+
+
+  \todo Improve installation
+  <ul>
+   <li> Can we have a separate installation directory (as usual for us)? </li>
+   <li> What about this "xtom1r1p2.tar.bz2" ? </li>
+   <li> Is it possible to automate tests? </li>
+   <li> Monoids:
+    <ol>
+     <li> Are there newer versions at http://schmidt.nuigalway.ie/monoid/ ?
+     </li>
+    </ol>
+   </li>
+   
+
 
 */
 
