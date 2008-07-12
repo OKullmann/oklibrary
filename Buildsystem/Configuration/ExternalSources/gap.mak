@@ -55,5 +55,5 @@ gap_grape_pdf_okl ?= $(gap_grape_docdir_okl)/manual.pdf
 gap_docu_page_okl ?= $(doc_dir)/doxygen_html/d8/d95/Gap_8hpp.html
 
 gap_homepage_url_okl := http://www-gap.mcs.st-and.ac.uk/
-gap_documentation_url_okl := ???
+gap_documentation_url_okl := http://www-gap.mcs.st-and.ac.uk/Doc/doc.html
 
