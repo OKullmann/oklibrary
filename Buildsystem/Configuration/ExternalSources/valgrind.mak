@@ -9,12 +9,13 @@
 
 # NEEDS UPDATE
 
-valgrind_recommended_version_number_okl ?= 3.3.0
-valgrind_supported_not_recommended_version_numbers_okl ?= 3.2.3
+valgrind_recommended_version_number_okl ?= 3.3.1
+valgrind_supported_not_recommended_version_numbers_okl ?= 3.3.0
 
 valgrind_prefix_okl ?= valgrind
 
 valgrind_recommended_package_name_okl ?= $(valgrind_prefix_okl)-$(valgrind_recommended_version_number_okl)
+valgrind_source_okl := $(ExternalSources)/sources/Valgrind/$(valgrind_recommended_package_name_okl)
 
 valgrind_base_build_dir_okl ?= $(ExternalSources_builds)/Valgrind
 valgrind_build_dir_okl ?= $(valgrind_base_build_dir_okl)/$(valgrind_recommended_package_name_okl)
@@ -30,5 +31,3 @@ valgrind_docu_page_okl ?= $(doc_dir)/doxygen_html/d9/d5f/Valgrind_8hpp.html
 valgrind_homepage_url_okl := http://valgrind.org/
 valgrind_documentation_url_okl := http://valgrind.org/docs/manual/index.html
 
-valgrind_targets_prefix_okl := $(valgrind_prefix_okl)-
-valgrind_recommended_okl := $(valgrind_targets_prefix_okl)$(valgrind_recommended_version_number_okl)

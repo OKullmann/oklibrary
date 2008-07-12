@@ -13,7 +13,7 @@
 
 valgrind_directories_okl := $(valgrind_base_build_dir_okl) $(valgrind_base_doc_dir_okl) $(valgrind_doc_dir_okl)
 
-.PHONY : valgrind $(valgrind_recommended_okl) cleanvalgrind cleanallvalgrind
+.PHONY : valgrind cleanvalgrind cleanallvalgrind
 
 # #################################
 # Main Valgrind targets
@@ -22,10 +22,8 @@ valgrind_directories_okl := $(valgrind_base_build_dir_okl) $(valgrind_base_doc_d
 $(valgrind_directories_okl) : % : 
 	mkdir -p $@
 
-valgrind : $(valgrind_recommended_okl)
-
-$(valgrind_recommended_okl) : $(valgrind_directories_okl)
-	$(call unarchive,$(ExternalSources)/sources/Valgrind/$@,$(valgrind_base_build_dir_okl))
+valgrind : $(valgrind_directories_okl)
+	$(call unarchive,$(valgrind_source_okl),$(valgrind_base_build_dir_okl))
 	cd $(valgrind_build_dir_okl); $(postcondition) \
 	sh ./configure; $(postcondition) \
 	make; $(postcondition) \
@@ -40,4 +38,4 @@ cleanvalgrind :
 	-rm -rf $(valgrind_base_build_dir_okl)
 
 cleanallvalgrind : cleanvalgrind
-	-rm -rf $(valgrind_base_build_dir_okl) $(valgrind_base_doc_dir_okl)
+	-rm -rf $(valgrind_base_doc_dir_okl)
