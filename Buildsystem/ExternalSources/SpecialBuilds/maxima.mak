@@ -11,7 +11,7 @@
 
 maxima_directories_okl := $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl) $(maxima_doc_dir_okl)
 
-.PHONY : maxima allmaxima cleanallmaxima
+.PHONY : maxima allmaxima cleanmaxima cleanallmaxima cleanallallmaxima
 
 $(maxima_directories_okl) : % : 
 	mkdir -p $@
@@ -58,8 +58,11 @@ endif
 # Cleaning
 # #################################
 
-cleanallmaxima : 
-	-rm -rf $(maxima_base_installation_dir_okl) $(maxima_base_build_dir_okl) $(maxima_base_doc_dir_okl)
+cleanmaxima :
+	-rm -rf $(maxima_base_build_dir_okl)
+
+cleanallmaxima : cleanmaxima
+	-rm -rf $(maxima_base_installation_dir_okl) $(maxima_base_doc_dir_okl)
 
 cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallgnuplot cleanallmaxima
 
@@ -70,7 +73,7 @@ cleanallallmaxima : cleanalllibsigsegv cleanalllibffcall cleanallclisp cleanallg
 
 gnuplot_directories_okl := $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl)
 
-.PHONY : gnuplot cleanallgnuplot
+.PHONY : gnuplot cleangnuplot cleanallgnuplot
 
 $(gnuplot_directories_okl) : % : 
 	mkdir -p $@
@@ -85,5 +88,8 @@ gnuplot : $(gnuplot_directories_okl)
 	cp -f $(gnuplot_pdf_source_okl) $(maxima_base_doc_dir_okl)
 
 
+cleangnuplot : 
+	-rm -rf $(gnuplot_base_build_dir_okl)
+
 cleanallgnuplot : 
-	-rm -rf $(gnuplot_base_build_dir_okl) $(gnuplot_base_installation_dir_okl) 
+	-rm -rf $(gnuplot_base_installation_dir_okl)

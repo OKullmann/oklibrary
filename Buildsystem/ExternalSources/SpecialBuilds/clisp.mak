@@ -25,7 +25,7 @@ $(clisp_directories_okl) : % :
 # Main clisp targets
 # #################################
 
-.PHONY : clisp
+.PHONY : clisp cleanclisp cleanallclisp
 
 ifeq ($(clisp_recommended_version_number_okl),2.45)
 clisp : $(clisp_directories_okl)
@@ -44,6 +44,7 @@ clisp : $(clisp_directories_okl)
 	make; $(postcondition) \
         make check; $(postcondition) \
 	make install; $(postcondition)
+	ln -s --force $(clisp_call_okl) $(public_bin_dir_okl)/clisp
 	cp -f $(clisp_installation_dir_okl)/share/doc/doc/* $(clisp_doc_dir_okl)
 endif
 
@@ -52,8 +53,11 @@ endif
 # Cleaning
 # #################################
 
-cleanallclisp : 
-	-rm -rf $(clisp_base_installation_dir_okl) $(clisp_base_build_dir_okl) $(clisp_base_doc_dir_okl)
+cleanclisp : 
+	-rm -rf $(clisp_base_build_dir_okl)
+
+cleanallclisp : cleanclisp
+	-rm -rf $(clisp_base_installation_dir_okl) $(clisp_base_doc_dir_okl)
 
 
 # #################################

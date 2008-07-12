@@ -19,7 +19,7 @@ $(doxygen_directories_okl) : % :
 # The main targets for doxygen
 # ##################################
 
-.PHONY : doxygen doxygen_base doxygen_links
+.PHONY : doxygen doxygen_base doxygen_links cleandoxygen cleanalldoxygen
 
 doxygen : doxygen_base doxygen_links
 
@@ -45,5 +45,8 @@ endif
 # Cleaning
 # ####################################
 
-cleanalldoxygen : 
-	-rm -rf $(doxygen_base_build_dir_okl) $(doxygen_base_installation_dir_okl) $(doxygen_base_doc_dir_okl)
+cleandoxygen : 
+	-rm -rf $(doxygen_base_build_dir_okl)
+
+cleanalldoxygen : cleandoxygen
+	-rm -rf $(doxygen_base_installation_dir_okl) $(doxygen_base_doc_dir_okl)

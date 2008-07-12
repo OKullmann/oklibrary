@@ -19,7 +19,7 @@ $(git_directories_okl) : % :
 # Main Git targets
 # #################################
 
-.PHONY : git git_base git_links
+.PHONY : git git_base git_links cleangit cleanallgit
 
 git : git_base git_links
 
@@ -49,5 +49,8 @@ endif
 # Cleaning
 # #################################
 
-cleanallgit : 
+cleangit : 
+	-rm -rf $(git_base_build_dir_okl)
+
+cleanallgit : cleangit
 	-rm -rf $(git_base_build_dir_okl) $(git_base_installation_dir_okl) $(git_base_doc_dir_okl)

@@ -19,7 +19,7 @@ $(R_directories_okl) : % :
 # Main R targets
 # #################################
 
-.PHONY : R
+.PHONY : R cleanR cleanallR
 
 R : $(R_directories_okl)
 	$(call unarchive,$(R_source_dir_okl),$(R_base_build_dir_okl)) $(postcondition) \
@@ -37,5 +37,8 @@ R : $(R_directories_okl)
 # Cleaning
 # #################################
 
-cleanallR : 
-	-rm -rf $(R_base_build_dir_okl) $(R_base_installation_dir_okl) $(R_base_doc_dir_okl)
+cleanR : 
+	-rm -rf $(R_base_build_dir_okl)
+
+cleanallR : cleanR
+	-rm -rf $(R_base_installation_dir_okl) $(R_base_doc_dir_okl)

@@ -19,7 +19,7 @@ $(gcc_directories_okl) : % :
 # The main targets for making gcc
 # ####################################
 
-.PHONY : gcc
+.PHONY : gcc cleangcc cleanallgcc
 
 ifeq ($(gcc_recommended_version_number_okl),4.1.2)
 gcc : $(gcc_directories_okl)
@@ -51,7 +51,7 @@ endif
 # ####################################
 
 cleangcc :
-	-rm -rf $(gcc_build_dir_okl) $(gcc_unarchived_source_okl)
+	-rm -rf $(gcc_base_build_dir_okl)
 
-cleanallgcc : 
-	-rm -rf $(gcc_base_installation_dir_okl) $(gcc_base_build_dir_okl) $(gcc_base_doc_dir_okl)
+cleanallgcc : cleangcc
+	-rm -rf $(gcc_base_installation_dir_okl) $(gcc_base_doc_dir_okl)

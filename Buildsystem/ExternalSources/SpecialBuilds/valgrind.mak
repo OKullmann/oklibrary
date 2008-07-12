@@ -5,13 +5,15 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# NEEDS UPDATE
+
 # ##################################
 # Directory Structure
 # ################################## 
 
 valgrind_directories_okl := $(valgrind_base_build_dir_okl) $(valgrind_base_doc_dir_okl) $(valgrind_doc_dir_okl)
 
-.PHONY : valgrind $(valgrind_recommended_okl)
+.PHONY : valgrind $(valgrind_recommended_okl) cleanvalgrind cleanallvalgrind
 
 # #################################
 # Main Valgrind targets
@@ -34,5 +36,8 @@ $(valgrind_recommended_okl) : $(valgrind_directories_okl)
 # Cleaning
 # #################################
 
-cleanallvalgrind : 
+cleanvalgrind : 
+	-rm -rf $(valgrind_base_build_dir_okl)
+
+cleanallvalgrind : cleanvalgrind
 	-rm -rf $(valgrind_base_build_dir_okl) $(valgrind_base_doc_dir_okl)

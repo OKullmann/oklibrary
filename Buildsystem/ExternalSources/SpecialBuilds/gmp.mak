@@ -18,7 +18,7 @@ $(gmp_directories_okl) : % :
 # Main gmp targets
 # #################################
 
-.PHONY : gmp
+.PHONY : gmp cleangmp cleanallgmp
 
 gmp : $(gmp_directories_okl)
 	$(call unarchive,$(gmp_source_dir_okl),$(gmp_base_build_dir_okl)) $(postcondition) \
@@ -37,5 +37,8 @@ gmp : $(gmp_directories_okl)
 # Cleaning
 # #################################
 
-cleanallgmp : 
-	-rm -rf $(gmp_base_build_dir_okl) $(gmp_base_installation_dir_okl) $(gmp_base_doc_dir_okl)
+cleangmp : 
+	-rm -rf $(gmp_base_build_dir_okl)
+
+cleanallgmp : cleangmp
+	-rm -rf $(gmp_base_installation_dir_okl) $(gmp_base_doc_dir_okl)
