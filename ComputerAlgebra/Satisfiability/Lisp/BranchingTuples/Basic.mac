@@ -335,16 +335,16 @@ chi_line_dom() :=
     [lmax(- part(ts, pos) / part(ds,pos)), lmin(- part(ts, neg) / part(ds, neg))]
 ))$
 
-chin([u]) := (local(u), chi(rest(u,-1), last(u)))$
-chi2(t1,t2,x) := (local(t1,t2,x), chin(t1,t2,x))$
-chi3(t1,t2,t3,x) := (local(t1,t2,t3,x), chin(t1,t2,t3,x))$
+chin([u]) := chi(rest(u,-1), last(u))$
+chi2(t1,t2,x) := chin(t1,t2,x)$
+chi3(t1,t2,t3,x) := chin(t1,t2,t3,x)$
 
 hess_chi2 : hessian(chi2(t1,t2,x),[t1,t2,x])$
 /* if for example x has a value, then apply remvalue(x), or, better, kill(x) */
 
-eigen_chi2(a,b,c) := (local(a,b,c), eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c])))$
+eigen_chi2(a,b,c) := eigens_by_jacobi(at(hess_chi2, [t1=a,t2=b,x=c]))$
 /* a, b > 0, c > 1 */
-test_posdef_chi2(a,b,c) := (local(a,b,c), lmin(eigen_chi2(a,b,c)[1]))$
+test_posdef_chi2(a,b,c) := lmin(eigen_chi2(a,b,c)[1])$
 
 
 /* ************************************
