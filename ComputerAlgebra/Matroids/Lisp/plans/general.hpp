@@ -36,6 +36,8 @@ License, or any later version. */
    <li> Important to be complete and precise. </li>
    <li> Important that all dual notions are easily at hand, perhaps the letter
    "d" is reserved to indicate "dual notions". </li>
+   <li> We also need to be compatible with oriented matroids; see
+   ComputerAlgebra/OrientedMatroids/Lisp/plans/general.hpp. </li>
   </ul>
 
 */

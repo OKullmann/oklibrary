@@ -1,0 +1,71 @@
+/* Oliver Kullmann, 13.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/OrientedMatroids/Lisp/SignVectors.mac
+  \brief Tools for handling sign vectors
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/OrientedMatroids/Lisp/SignVectors.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* A "sign vector" is a list with entries in {-1,0,+1}.
+*/
+
+/* Translating a sign vector to a clause. */
+sgnv2c(S) := disjoin(0,setify(map("*", S, create_list(i,i,1,length(S)))))$
+/* Given a set of sign vectors of the same length, compute the corresponding
+   formal clause-set: */
+sgnvs2cs(S) := [
+ if emptyp(S) then {} else setn(length(choose_element(S))),
+ map(sgnv2c,S)]$
+
+/* The sign vector of a vector: */
+lsignum(L) := map(signum,L)$
+
+/* Given a list V of vectors (same length), determine the sign vectors
+   occurring for linear combinations with coefficients from -N to N: */
+span_sgnvs(V,N) := block([coef : setmn(-N,N), n : length(V)],
+ map(lambda([c],lsignum(apply("+", c * V))), 
+       apply(corr_cartesian_product,create_list(coef,i,1,n))))$
+/* Of course, the question is, how large needs N to be, and can we do
+   it more efficiently?
+   If N is large enough, and we obtain all sign vectors, then we have an
+   example for an oriented matroid.
+*/
+/* The corresponding (standardised) formal clause-set: */
+span_fcs_sgnvs(V,N) := sgnvs2cs(span_sgnvs(V,N))$
+
+/* Example 5.2 (corrected) from [Bachem, Kern; Linear Programming Duality]:
+a : [1,0,1,1];
+b : [0,1,-1,-2];
+FF : span_fcs_sgnvs([a,b],3);
+assert(length(FF[2]) = 17);
+
+The orthogonal complement is given by:
+c : [-1,1,1,0];
+d : [0,1,-1,1];
+CFF : span_fcs_sgnvs([c,d],3);
+assert(length(CFF[2]) = 17);
+
+assert(all_aut_cs(FF[2]) = CFF[2]);
+assert(all_aut_cs(CFF[2]) = FF[2]);
+
+*/
+
+/*!
+\endhtmlonly
+*/

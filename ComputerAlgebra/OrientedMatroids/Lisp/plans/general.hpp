@@ -15,6 +15,16 @@ License, or any later version. */
    <li> While the basic view of a matroid is that of a hypergraph
    (see ComputerAlgebra/Matroids/Lisp/plans/general.hpp), the basic
    view of an oriented matroid is that of a *boolean clause-set*. </li>
+   <li> [Bachem, Kern; Linear Programming Duality] is quite readable,
+   but the focus on the more "loose" concept of an oriented matroid
+   as a pair (with "built-in duality"). </li>
+   <li> Abbreviations:
+    <ol>
+     <li> "omtr" for "oriented matroid" </li>
+     <li> "sgnv" for "sign vector" </li>
+     <li> "sgnvs" for "sign vector set" </li>
+    </ol>
+   </li>
   </ul>
 
 */
