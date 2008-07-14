@@ -68,6 +68,7 @@ gap> Size( AutGroupGraph( JohnsonGraph(5,2) ) );
 
   \todo Improve installation
   <ul>
+   <li> We need the list of all packages. </li>
    <li> Can we have a separate installation directory (as usual for us)? </li>
    <li> What about this "xtom1r1p2.tar.bz2" ? </li>
    <li> Is it possible to automate tests? </li>

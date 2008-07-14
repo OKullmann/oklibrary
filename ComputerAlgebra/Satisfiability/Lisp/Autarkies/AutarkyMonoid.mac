@@ -28,7 +28,8 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Rando
 
 /* The autarky monoid is computed by M = autmon_cs(F), while the set of 
    autarkies is A = all_aut_cs(F) = M[1] (and the composition is
-   compo_pass = M[2]).
+   compo_pass = M[2]; all_sat_cs(F) is the set of all (total) satisfying
+   assignments).
    Extract the atoms by min_elements(disjoin({},A)) and the maximal autarkies
    by max_elements(A).
    The indecomposable elements are indecomposable_elements_bydef_grd(M).
@@ -56,6 +57,55 @@ analyse_autmon(F) := block([M : autmon_cs(F), V,FA, At,VAt,Ft, I,VI,Fi],
   I : indecomposable_elements_bydef_grd(M), VI : var_cs(I), Fi : scls_V(F,VI),
   [M[1],I,At,  V,VI,VAt, FA,Fi,Ft])$
 
+
+/* ************
+   * Examples *
+   ************
+*/
+
+trivial_exmp1_autmon_fcs(n) := [setn(n), {setn(n)}]$
+/* The structure of the autarky monoid for
+    F : trivial_exmp1_autmon_fcs(n)[2]
+    M : autmon_cs(F)
+   is as follows:
+ - There are n minimal autarkies {i}, i.e., 
+   min_elements(disjoin({},M[1])) = setify(create_list({i},i,1,n)).
+ - There are 2^n-1 maximal autarkies (the satisfying total assignments) for
+   n >= 1, while for n=0 we have one; i.e.,
+   length(max_elements(M[1])) = if n=0 then 1 else 2^n - 1.
+ - There are 3^n - (2^n - 1) autarkies (exclude all negative assignments), 
+   i.e.,
+   length(M[1]) = 3^n - 2^n + 1.
+ - There are n + n(n-1) + 1 indecomposable autarkies, namely the minimal
+   autarkies, the autarkies {i,-j}, and the empty autarky.
+   This yields also a (smallest w.r.t. semigroup-generation) generating set,
+   i.e.,
+   length(indecomposable_elements_bydef_grd(M)) = n + n*(n-1) + 1,
+   is(closure_bydef_grd(M[2], indecomposable_elements_bydef_grd(M)) = M[1]).
+*/
+
+trivial_exmp2_autmon_fcs(n) := [setn(2*n), 
+ setify(create_list({2*i-1,2*i},i,1,n))]$
+/* The structure of the autarky monoid for
+    F : trivial_exmp2_autmon_fcs(n)[2]
+    M : autmon_cs(F)
+   is as follows:
+ - There are 2n minimal autarkies {i}, i.e., 
+   min_elements(disjoin({},M[1])) = setify(create_list({i},i,1,2*n)).
+ - There are 3^n satisfying total assignments, which are the
+   combinations of the three satisfying assignmens {x,y},{-x,y},{y,-x}
+   for the clauses {x,y}, wherex=2i-1 and y=2i, i.e.,
+   length(all_sat_cs(F)) = 3^n.
+ - There are 6^n autarkies, which are the combinations of the 6
+   autarkies for the clauses {x,y} (see trivial_exmp1_autmon_fcs),
+   i.e.,
+   length(M[1]) = 6^n.
+ - There are 4n+1 indecomposable autarkies, which are the four indecomposable
+   autarkies for each clause {x,y}, plus the empty autarky, and this yields 
+   also a (smallest w.r.t. semigroup-generation) generating set, i.e.,
+   length(indecomposable_elements_bydef_grd(M)) = 4*n+1,
+   is(closure_bydef_grd(M[2], indecomposable_elements_bydef_grd(M)) = M[1]).
+*/
 
 /* *******************************************
    * On "sufficient" selections of autarkies *

@@ -10,6 +10,18 @@ License, or any later version. */
   \brief General plans regarding computer algebra (and SAT)
 
 
+  \todo Module ComputerAlgebra/Sets
+  <ul>
+   <li> Connections (where plans are mentioned):
+    <ol>
+     <li> ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp </li>
+     <li> ComputerAlgebra/plans/Matroids/Lisp/general.hpp </li>
+     <li> ComputerAlgebra/DataStructures/Lisp/plans/HashMaps.hpp </li>
+   <li> What about hash-maps? We should put the "general" things into
+   Sets, leaving the "data structures" to ComputerAlgebra/DataStructures. </li>
+  </ul>
+
+
   \todo Module Enumeration
   <ul>
    <li> We should have a module ComputerAlgebra/Combinatorics, which is

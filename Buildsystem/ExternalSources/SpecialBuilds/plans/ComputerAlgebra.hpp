@@ -36,11 +36,10 @@ License, or any later version. */
 
   \todo Vicinity of computational group theory
   <ul>
+   <li> Is the computational (open-source) semigroup theory outside of GAP?
+   </li>
    <li> Magnus http://www.grouptheory.org/magnus; perhaps we postpone this,
    since it might be more specialised </li>
-   <li> DONE (contained in GAP)
-   MeatAxe http://www.math.rwth-aachen.de/homes/MTX/ (perhaps also
-   postponed, since somewhat more specialised) </li>
    <li> Sims' Rutgers Knuth-Bendix package rkbp
    http://users.ox.ac.uk/~vlee/4engel/rkbp/
     <ol>
@@ -48,10 +47,20 @@ License, or any later version. */
      </li>
     </ol>
    </li>
+   <li> DONE (contained in GAP)
+   MeatAxe http://www.math.rwth-aachen.de/homes/MTX/ (perhaps also
+   postponed, since somewhat more specialised) </li>
    <li> DONE (proprietary) Magma </li>
    <li> DONE (included with GAP) ACE3 </li>
    <li> DONE (included with GAP) KBMAG </li>
   </ul>
+
+
+  \todo Polyeders, matroids etc.
+  <li> PORTA and SMAPO at
+  http://www.iwr.uni-heidelberg.de/iwr/comopt/soft </li>
+  <li> Code for [Bokowski, Computational Oriented Matroids] at
+  http://juergen.bokowski.de, and other software. </li>
 
 */
 

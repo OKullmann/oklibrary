@@ -21,6 +21,7 @@ License, or any later version. */
 
   \todo Concept of a set-theoretical map
   <ul>
+   <li> Perhaps all this should go to ComputerAlgebra/Sets. </li>
    <li> DONE (see ComputerAlgebra/DataStructures/Lisp/HashMaps.mac)
    We should institutionalise the concept of a "set-theoretic"
    map as a set of pairs. </li>

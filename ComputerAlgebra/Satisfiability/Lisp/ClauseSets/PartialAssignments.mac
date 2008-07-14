@@ -147,6 +147,8 @@ analyse_pa_fcs(phi,FF) := analyse_paf(phi,FF)$
 /* RENAME: all_sattass_cs */
 all_sat_tass(F,V) := subset(all_tass(V), lambda([phi],sat_pacs_p(phi,F)))$
 all_sattass_cs(F,V) := all_sat_tass(F,V)$
+all_sat_cs(F) := all_sattass_cs(F,var_cs(F))$
+all_sat_fcs(F) := all_sattass_cs(F[2],F[1])$
 
 /* The set of all autarkies of a clause-set F: */
 all_aut_cs(F) := subset(all_pass(var_cs(F)), lambda([phi],aut_pacs_p(phi,F)))$

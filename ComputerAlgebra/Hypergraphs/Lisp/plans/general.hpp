@@ -82,8 +82,12 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> Shouldn't Hypergraphs/Lisp/SetSystems.mac have its own module? </li>
-   <li> Perhaps in ComputerAlgebra/DataStructures ? </li>
+   <li> Shouldn't Hypergraphs/Lisp/SetSystems.mac have its own module
+    <ol>
+     <li> Perhaps in ComputerAlgebra/DataStructures ? </li>
+     <li> Better in ComputerAlgebra/Sets! </li>
+    </ol.
+   </li>
   </ul>
 
 
@@ -101,10 +105,23 @@ License, or any later version. */
    \verbatim
 create_set([A]) := setify(apply(create_list,A))$
    \endverbatim
-   does not work, since apply evaluates the argument A. </li>
+   does not work, since "apply" evaluates the argument A. </li>
    <li> It should be possible to make this work, but perhaps this is not 
    worth the effort? </li>
    <li> Ask on the Maxima mailing list. </li>
+   <li> This should belong to ComputerAlgebra/Sets. </li>
+  </ul>
+
+
+  \todo Special properties of hypergraphs
+  <ul>
+   <li> Perhaps we have a module "Properties.mac", where basic properties
+   of hypergraphs are tested. </li>
+   <li> Whether a general hypergraph has repeated hyperedges. </li>
+   <li> Whether a hypergraph has subsumed hyperedges. </li>
+   <li> Was a hypergraph is "downward hereditary" or "upward hereditary". </li>
+   <li> What about all forms of stability under set-operations? Likely these
+   special hypergraphs should go to ComputerAlgebra/Sets. </li>
   </ul>
 
 

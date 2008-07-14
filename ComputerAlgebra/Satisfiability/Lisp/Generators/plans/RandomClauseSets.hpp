@@ -22,10 +22,18 @@ License, or any later version. */
   </ul>
   
   
-  \todo Random generator
+  \todo AES random generator
   <ul>
    <li> Using our maxima-aes-implementation, implement the random generator
    as in Experimentation/RandomGenerator/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Filtering out
+  <ul>
+   <li> A natural extensions of random generators is by applying some filter,
+   removing for example instances with repeated clauses. </li>
+   <li> We need a framework for this. </li>
   </ul>
 
 */
