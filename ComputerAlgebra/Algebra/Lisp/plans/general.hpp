@@ -86,6 +86,9 @@ License, or any later version. */
      <li> Perhaps we have a module ComputerAlgebra/Structures, which contains
      sub-modules %AlgebraicStructures, RelationalStructures, FirstOrder. </li>
      <li> So perhaps we don't put universal algebra into %Algebra. </li>
+     <li> On the other hand, universal algebra is rather different from
+     model theory etc., so that UniversalAlgebra probably should belong
+     to Algebra. </li>
     </ol>
    </li>
   </ul>
@@ -96,6 +99,9 @@ License, or any later version. */
    <li> We need modules "Semirings", "Rings", "Fields". </li>
    <li> Likely also "Lattices" etc. </li>
   </ul>
+
+
+  \todo Module UniversalAlgebra
 
 
   \todo Modular arithmetic
