@@ -103,10 +103,10 @@ smusat_horn(k) := treehittingcls_st(horn_st(k))$
 
 
 /* Example from [Savicky, Sgall, 2000, DNF tautologies with a limited number
-   of occurrences of every variable] */
+   of occurrences of every variable]: */
 sasg2000 : [setn(4), {{1,-2,4},{2,-3,4},{-1,3,4},{1,2,3},
  {1,-2,-4},{2,-3,-4},{-1,3,-4},{-1,-2,-3}}]$
-/* Example from [Brouwer, 1999, An associative block design ABD(8,5)] */
+/* Example from [Brouwer, 1999, An associative block design ABD(8,5)]: */
 brouwer1999 : [setn(8), {
  {1,2,3,4,5},{-1,2,3,4,5},{1,2,3,4,-5},{-1,2,3,4,-5},
  {1,2,3,-4,6},{-1,2,3,-4,6},{1,-4,5,-6,7},{-1,-4,5,-6,7},
@@ -117,7 +117,7 @@ brouwer1999 : [setn(8), {
  {1,-2,4,-6,7},{-1,-2,4,-6,7},{-2,5,-6,-7,8},{-2,-5,6,7,8},
  {1,-2,-5,-7,8},{-1,-2,-5,-7,8},{-2,3,-4,6,-8}}]$
 /* The possibly unique (up to isomorphism) result of applying
-   2-subsumption resolution. */
+   2-subsumption resolution: */
 rbrouwer1999 : [setn(7), {
  {-7,-5,-1,3,6},{-7,-4,-2,1},{-7,-4,1,2,3},{-7,-3,-2,1,4},
  {-7,-3,2,5},{-7,-2,-1,5,6},{-7,-1,2,3,5},{-7,1,3,4,6},{-6,-5,-1,2,3},
@@ -141,24 +141,24 @@ nvar_max_var_hitting_def(k) := 3 + (k-2) * 4$
    *********
 */
 
-/* SAT decision for hitting clause-sets */
+/* SAT decision for hitting clause-sets: */
 sat_decision_hitting_cs(F) := is(satprob_hitting(F) > 0)$
 
-/* Tests whether a clause-set is a hitting clause-set. */
+/* Tests whether a clause-set is a hitting clause-set: */
 hittingcsp(F) := block([l : length(F), L : listify(F), break : false],
   for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
     if not clashp(L[i], L[j]) then break : true,
   return(not break))$
 /* hittingcsp(F) = complete_g_p(cg_cs(F)) */
 /* Also: hittingcsp(F) iff independence_number_cs(F) <= 1. */
-/* Tests whether a clause-set is a 1-regular hitting clause-set. */
+/* Tests whether a clause-set is a 1-regular hitting clause-set: */
 hitting1rcsp(F) := block([l : length(F), L : listify(F), break : false],
   for i : 1 thru l-1 unless break do for j : i+1 thru l unless break do
     if not length(intersection(L[i],comp_sl(L[j]))) = 1 then break : true,
   return(not break))$
 
 
-/* Tests whether a clause-set is a tree hitting clause-set */
+/* Tests whether a clause-set is a tree hitting clause-set: */
 treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
   if emptyp(G[1]) then return(is(F = {{}}))
   else block([D : apply(intersection, listify(G[2])), v],
@@ -168,11 +168,11 @@ treehittingcsp(F) := block([G : var_hyp(cs_to_fcs(F))],
       return(
         treehittingcsp(apply_pa({v},F)) and treehittingcsp(apply_pa({-v},F))))))$
 
-/* Tests whether a clause-set is a uniform unsatisfiable hitting clause-set */
+/* Tests whether a clause-set is a uniform unsatisfiable hitting clause-set: */
 uuhittingcsp(F) := 
  hittingcsp(F) and uniformcsp(F) and not emptyp(F) and is(ncl_cs(F) = 2^(length(listify(F)[1])))$
 
-/* Returns false if F is not an ABD, and otherwise returns (n,k) */
+/* Returns false if F is not an ABD, and otherwise returns (n,k): */
 abd_parameters(F) := 
  if not uuhittingcsp(F) or not variableregularcsp(F) then false
  else [nvar_cs(F), length(listify(F)[1])]$
@@ -262,7 +262,7 @@ hitting_decomposition_m_cs(F) := block([G : g2mg(cg_cs(F)), G2, R : []],
 /* Applying partial assignments */
 
 /* Find all hitting clause-sets of a given deficiency obtained from
-   a given hitting clause-set by applying partial assignments */
+   a given hitting clause-set by applying partial assignments: */
 all_hittinginstances_def(F,k) := 
   subset(map(lambda([phi],apply_pa(phi,F)),all_pass(var_cs(F))),
          lambda([F],is(deficiency_cs(F)=k)))$
