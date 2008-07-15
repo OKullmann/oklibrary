@@ -155,6 +155,18 @@ map("+",[1,2],[3,4]) = [4,6]
        <li> Notify the Maxima mailing-list! </li>
       </ol>
      </li>
+     <li> random_tree(n) :
+      <ol>
+       <li> The function random() is not used (so that one cannot control
+       the random generator). </li>
+       <li> It is not a random choice amongst all n^(n-2) trees. </li>
+       <li> Use randomtree_pr1_og (in
+       ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac) instead (the random
+       process is specified, and random() is used). </li>
+       <li> Tell the Maxima mailing list to improve the documentation of
+       random_tree(n). </li>
+      </ol>
+     </li>
     </ol>
    </li>
    <li> Lists vs. arrays:

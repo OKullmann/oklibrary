@@ -43,13 +43,11 @@ q_rt5 : float(max_rt5 / min_rt5);
      <li> q_rt5 = 24.65672898770423 </li>
     </ol>
    </li>
-   <li> So it appears that random_tree weights trees according to the
-   size of their automorphism group; however
+   <li> Considering the stars, we get
    \verbatim
 create_list(ev_hm(h_rt5,star_g(5,i)), i,1,5);
 [292774,72603,73530,73473,72716]
    \endverbatim
-   So the root 1 is preferred by a factor of 4. What is this? </li>
    </li>
    <li> For n=4:
    \verbatim
@@ -57,17 +55,12 @@ set_random_state(make_random_state(0));
 h_rt4 : sm2hm({});
 f_rt4 : lambda([],mg2g(random_tree(4))[2]);
 test_generator(f_rt4,h_rt4);
-
 dist_rt4 : get_distribution(h_rt4);
 freq_rt4 : map(second,dist_rt4);
 N_rt4 : apply("+",freq_rt4);
-min_rt4 : lmin(freq_rt4);
-max_rt4 : lmax(freq_rt4);
-q_rt4 : float(max_rt4 / min_rt4);
-create_list(ev_hm(h_rt4,star_g(4,i)), i,1,4);
    \endverbatim
    </li>
-   <li> We have four classes of trees (each with same likelihood):
+   <li> We have four classes of trees (n=4; each with same likelihood):
     <ol>
      <li> C1 : The 6 trees (all pathgraphs)
      \verbatim
@@ -103,8 +96,8 @@ create_list(ev_hm(h_rt4,star_g(4,i)), i,1,4);
      has probability 6p (it has vertex 1 as centre). </li>
     </ol>
    </li>
-   <li> So perhaps rooted trees (with root 1) are created, but
-   then the function forgets the root. </li>
+   <li> The explanation is that "random_tree" implements a simple random
+   process, which is captured by "randomtree_pr1". </li>
    <li> There are 4 isomorphism types of rooted trees with root 1 for n=4:
     <ol>
      <li> T1 = {{1,2},{2,3},{3,4}} (C1) </li>
@@ -113,9 +106,29 @@ create_list(ev_hm(h_rt4,star_g(4,i)), i,1,4);
      <li> T4 = {{1,2},{1,3},{1,4}} (C4). </li>
     </ol>
    </li>
-   <li> This explains the types above. </li>
-   <li> T1 has 1 automorphism, T2 has 2, T3 has 1, T4 has 6. 
-   This doesn't fit?? </li>
+   <li> We have the following probabilities for these four trees
+   (showing the probabilities for the right new vertex and the right tree
+   vertex):
+    <ol>
+     <li> T1 : (1/3*1) * (1/2*1/2) * (1*1/3) = 1/36 </li>
+     <li> T2 : (1/3*1) * (1*1/2) * (1*1/2) = 2/36 </li>
+     <li> T3 : (1/3*1) * (1/2*1/2) * (1*1/3) + (1/3*1) * (1*1/2) * (1*1/3) = 
+     1/36 + 2/26 = 3/36 </li>
+     <li> T4 : (1*1) * (1*1/2) * (1*1/3) = 6/36 </li>
+    </ol>
+   </li>
+   <li> It remains to analyse randomtree_pr1:
+    <ol>
+     <li> Given a concrete tree, what's its probability? </li>
+     <li> Regarding isomorphisms of graphs: Do isomorphic trees have the
+     same probability? No (see above). </li>
+     <li> Regarding isomorphisms of rooted trees (root always vertex 1):
+     Do isomorphic rooted trees have the same probability? </li>
+     <li> If this is true, given an isomorphism class, what's its
+     probability? For n=4 we have C1 -> 6/36, C2 -> 6/36, C3 -> 18/36, 
+     C4 -> 6/36. </li>
+    </ol>
+   </li>
   </ul>
 
 */

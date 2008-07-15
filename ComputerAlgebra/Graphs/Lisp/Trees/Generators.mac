@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* pathgraph_og(n) creates a path of length n
    (in ComputerAlgebra/Graphs/Lisp/Generators.mac).
@@ -35,6 +37,28 @@ path_p_og(P) := block([n : length(P)],
 star_V_g(V,r) := map(lambda([v],{r,v}), disjoin(r,V))$
 /* The special case with standardised vertex set {1,...,n}: */
 star_g(n,r) := star_V_g(setn(n),r)$
+
+
+/* ****************
+   * Random trees *
+   ****************
+*/
+
+/* Creating a random (rooted) tree according to "process 1":
+ - Choose a random vertex u from the vertices not yet in the
+   tree.
+ - Choose a random vertex v in the current tree.
+ - Add edge {u,v}.
+*/
+/* Replaces the Maxima/graphs function random_tree (which does
+   not use random(), and thus is not reproducible for us). */
+/* Prerequisite: n >= 1. */
+randomtree_pr1_og(n) := block(
+ [V : create_list(i,i,2,n), R],
+  R : random_permutation(V),
+  V : cons(1,V), R : cons(1,R),
+  [V, map(lambda([u,i],block([v:random_element_ab(1,i,R)],{u,v})),
+          rest(R), rest(V,-1))])$
 
 /*!
 \endhtmlonly
