@@ -17,7 +17,7 @@ License, or any later version. */
    we have "random_sublist". </li>
    <li> And in ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac
    we have "random_sublist_l". </li>
-   <li> Likely these functions should go to ComputerAlgebra/DataStructures.
+   <li> Likely these functions should go to DataStructures/Lists.mac.
    </li>
   </ul>
   
