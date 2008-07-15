@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/include.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Isomorphisms/include.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/include.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac")$

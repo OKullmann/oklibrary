@@ -1,0 +1,41 @@
+/* Oliver Kullmann, 15.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac
+  \brief Tree generators
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+/* pathgraph_og(n) creates a path of length n
+   (in ComputerAlgebra/Graphs/Lisp/Generators.mac).
+*/
+/* For a list-permutation of length n the corresponding path graph
+   (with standardised vertex-set {1,...,n}: */
+path_p_og(P) := block([n : length(P)],
+ [create_list(i,i,1,n), 
+  create_list({P[i],P[i+1]},i,1,n-1)])$
+/* pathgraph_og(n) = path_p_og(create_list(i,i,1,n)) */
+
+/* The star with vertex set V and centre r: */
+star_V_g(V,r) := map(lambda([v],{r,v}), disjoin(r,V))$
+/* The special case with standardised vertex set {1,...,n}: */
+star_g(n,r) := star_V_g(setn(n),r)$
+
+/*!
+\endhtmlonly
+*/
