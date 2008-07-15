@@ -85,6 +85,7 @@ stable_unique(L) := block([h : sm2hm({}), res : []],
 /* *************************
    * Random parts of lists *
    *************************
+*/
 
 /* Returns a random element with indices between a and b
    from a non-empty list L. */
