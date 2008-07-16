@@ -45,9 +45,10 @@ compo_p(compo,X) := block(
 
 /* Groupoids: */
 grd_p(V) := listp(V) and is(length(V)=2) and setp(V[1]) and compo_p(V[2],V[1])$
-ugrd_p(V) := listp(V) and is(length(V)=3) and grd_p([M[1],M[2]]) and 
-  elementp(M[3],M[1]) and neutral_el_grd(M,M[3])$
+ugrd_p(V) := listp(V) and is(length(V)=3) and grd_p([V[1],V[2]]) and 
+  elementp(V[3],V[1]) and neutral_el_grd(V,V[3])$
 cgrd_p(V) := grd_p(V) and commutative_bydef_grd(V)$
+cugrd_p(V) := ugrd_p(V) and commutative_bydef_grd(V)$
 
 /* Semigroups and monoids: */
 sgr_p(S) := grd_p(S) and associative_bydef_grd(S)$
