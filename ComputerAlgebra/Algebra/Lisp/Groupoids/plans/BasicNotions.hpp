@@ -98,7 +98,18 @@ License, or any later version. */
   </ul>
 
 
-  \todo Differernt forms of tests
+  \todo Partial groupoids, and extensions
+  <ul>
+   <li> We need "partial groupoids" ("pargrd"). </li>
+   <li> Regarding extensions, we might want to add for example a
+   partial inversion, and a null element; then we have the problem
+   of the ordering of these components? </li>
+   <li> Perhaps such non-standard extensions are always added as a list,
+   which is the final element of the list representing the structure. </li>
+  </ul>
+
+
+  \todo Different forms of tests
   <ul>
    <li> Especially for groups there are different forms of the tests for
    defining properties, which exploit that the basic "axioms" are not

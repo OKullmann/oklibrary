@@ -29,6 +29,12 @@ License, or any later version. */
    <li> "right" : "r" </li>
    <li> "additively" : "add" </li>
    <li> "multiplicately" : "mul" </li>
+   <li> For a ring we can always add the additive inversion. Perhaps
+   we also have the concept of a "partial inversion", which returns false
+   in case of non-invertibility (or another given default-value); this would
+   allow to have also multiplicative inversions. </li>
+   <li> We need to have "partial groupoids" and "partial ringframes", etc.
+   </li>
   </ul>
 
 

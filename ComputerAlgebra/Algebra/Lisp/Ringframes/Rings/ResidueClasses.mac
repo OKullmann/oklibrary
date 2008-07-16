@@ -19,11 +19,28 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueCl
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* The basic operations for modular arithmetic: */
+
 /* Prerequisite: n >= 1. */
 mod_add(n) := buildq([n],lambda([x,y],mod(x+y,n)))$
 mod_mul(n) := buildq([n],lambda([x,y],mod(x*y,n)))$
+/* These functions can also be used "modulo n", i.e., their inputs
+can be arbitrary integers. */
 
+/* The standard representation of the residue class ring (modulo n): */
 residues_rng(n) := [setmn(0,n-1), mod_add(n), mod_mul(n), [0], [mod(1,n)]]$
+
+/* The additive inverse: */
+mod_add_inv(n) := buildq([n],lambda([x],mod(-x,n)))$
+/* The multiplicative inverse (returns false for non-invertible
+   elements: */
+mod_mul_inv(n) := buildq([n],lambda([x],inv_mod(x,n)))$
+/* These functions can also be used "modulo n", i.e., their inputs
+can be arbitrary integers. */
+
 
 /*!
 \endhtmlonly

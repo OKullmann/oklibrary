@@ -19,6 +19,15 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/CyclicGro
 \htmlonly
 */
 
+/* The residule class rings ZZ_n are defined as "residues_rng(n)" in
+   ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac.
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/Rings/ResidueClasses.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac")$
+
+
+cyclic_grpn(n) := rngfrm2egrd_add(residues_rng(n))$
 
 
 /*!
