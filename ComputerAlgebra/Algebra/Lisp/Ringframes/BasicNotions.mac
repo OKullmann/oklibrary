@@ -1,0 +1,49 @@
+/* Oliver Kullmann, 15.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac
+  \brief Basic notions (like test-predicates and conversions) for sets with two (inner) binary operations
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Ringframes/BasicNotions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+/* A "ringframe" is a quintupel RF = [R,+,*,[],[]],
+   where the fourth component may contain additional
+   components for the groupoid [R,+], while the fifth
+   component may contain additional components for the
+   groupoid [R,*] (in both cases in the standard order,
+   i.e., so that append([R,+], RF[4]) and append([R,*], RF[5])
+   fit into the groupoid-notions).
+   Also [R,+,*] and [R,+,*,[]] is allowed, but RF[4] is always
+   additive, and RF[5] is always multiplicative.
+*/
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+rngfrm2grd_add(R) := [R[1],R[2]]$
+rngfrm2grd_mul(R) := [R[1],R[3]]$
+rngfrm2egrd_add(R) := block([base : [R[1],R[2]]],
+  if length(R) =3 then base else append(base, R[4]))$
+rngfrm2egrd_mul(R) := block([base : [R[1],R[3]]],
+  if length(R) =3 then base else append(base, R[5]))$
+
+
+/*!
+\endhtmlonly
+*/
+
