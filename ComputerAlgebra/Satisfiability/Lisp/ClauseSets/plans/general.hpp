@@ -44,7 +44,7 @@ License, or any later version. */
    <li> "Formal" versions (just adding variables):
     <ol>
      <li> "formal clause-sets" as now; </li>
-     <li> "formal ordered clause-sets"; </li>
+     <li> "ordered formal clause-sets"; </li>
      <li> "formal clause-lists". </li>
     </ol>
     Additionally, the formal clause-sets also exist as "formal
@@ -60,25 +60,26 @@ License, or any later version. */
     </ol>
    </li>
    <li> A "formal multi-clause-set" is a triple [V,F,c] s.t. [V,F] is a
-   formal clause-set and c: F -> NN; accordingly "formal ordered multi-
+   formal clause-set and c: F -> NN; accordingly "ordered formal multi-
    -clause-sets". </li>
    <li> Labelled clause-sets (not "general clause-sets" to avoid confusion)
     <ol>
-     <li> A "formal labelled clause-set" is a triple [V,F,f], where V is a
+     <li> A "labelled clause-set" is a triple [V,F,f], where V is a
      set of variables, F a set of clause-labels, and f assigns to each
      element of F a clause over V. </li>
-     <li> Accordingly, "formal ordered labelled clause-sets are triples
+     <li> Accordingly, "ordered labelled clause-sets are triples
      [V,F,f], where now V,F are repetition-free lists. </li>
-     <li> Labelled clause-sets should always have sets of variables, so
-     we could drop the "formal" ? </li>
+     <li> DONE
+     Labelled clause-sets should always have sets of variables, so
+     we can drop the "formal". </li>
     </ol>
    </li>
    <li> Relations to hypergraphs (see
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp):
     <ol>
-     <li> fcs <-> hg, focs <-> ohg </li>
-     <li> fmcs <-> mhg, fomcs <-> omhg </li>
-     <li> flcs <-> ghg, folcs <-> oghg. </li>
+     <li> fcs <-> hg, ofcs <-> ohg </li>
+     <li> fmcs <-> mhg, ofmcs <-> omhg </li>
+     <li> lcs <-> ghg, olcs <-> oghg. </li>
     </ol>
     Additionally we have
     <ol>

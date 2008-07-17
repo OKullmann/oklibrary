@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOpe
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* Guaranteed to be included: */
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
@@ -64,9 +65,10 @@ var_l(x) := abs(x)$
 /* The sign of a literal in {-1,+1}: */
 sign_l(x) := block([s : sign(x)], if s = pos then 1 else -1)$
 
-/* The literals for a set of variables: */
-literals_v(V) := block([L : listify(V)],
-  setify(append(L,-L)))$
+/* The literals for a set of variables, V can also be a set of literals,
+   and then we obtain the closure under complementation (and also
+   a list of literals is possible): */
+literals_v(V) := block([L : listify(V)], setify(append(L,-L)))$
 
 
 /* ***********
@@ -87,12 +89,14 @@ c_p(C) := setp(C) and every(l_p,C) and emptyp(intersection(C,comp_sl(C)))$
 /* Tests whether two literal sets contain a clashing literal. */
 clashp(A,B) := not emptyp(intersection(A,comp_sl(B)))$
 
-/* The set of variables in a clause */
+/* The set of variables in a clause: */
 var_c(C) := map(var_l, C)$
+/* The set of variables in a set of literals: */
+var_sl(C) := map(var_l, C)$
 
-/* The positive literals in a clause */
+/* The positive resp. negative literals in a clause (can also be applied to 
+   a set of literals): */
 pospart_c(C) := subset(C, lambda([x], is(x>0)))$
-/* The negative literals in a clause */
 negpart_c(C) := subset(C, lambda([x], is(x<0)))$
 
 
@@ -102,31 +106,92 @@ negpart_c(C) := subset(C, lambda([x], is(x<0)))$
 */
 
 /*
- A "boolean clause-set" is a set of boolean clauses.
+ A "boolean clause-set" (cs) is a set of boolean clauses.
 */
-
 cs_p(F) := setp(F) and every(c_p,F)$
+/*
+ An "ordered boolean clause-set" (ocs) is a repetition-free list
+ of boolean clauses.
+*/
+ocs_p(F) := listnorep_p(F) and every(c_p,F)$
+/*
+ A "boolean clause-list" (cl) is a list of boolean clauses.
+*/
+cl_p(F) := listp(F) and every(c_p,F)$
 
 /*
  A "formal boolean clause-set" is a pair [V, F], where V is a set of
  variables, while F is a clause-set using only variables from V
  (that is, with var_cs(F) <= V).
 */
-
 fcs_p(FF) := listp(FF) and is(length(FF) = 2) and setp(FF[1]) and
   every(v_p,FF[1]) and cs_p(FF[2]) and subsetp(var_cs(FF[2]),FF[1])$
+/*
+ An "ordered formal boolean clause-set" is a pair [V,F], where V is
+ a repetition-free list of variables, while F is an ordered clause-set
+ using only variables from V.
+*/
+ofcs_p(FF) := listp(FF) and is(length(FF) = 2) and listnorep_p(FF[1])
+  and every(v_p,FF[1]) and ocs_p(FF[2]) and subsetp(var_ocs(FF[2]),setify(FF[1]))$
+/*
+ An "formal boolean clause-list" is a pair [V,F], where V is
+ a repetition-free list of variables, while F is a clause-list
+ using only variables from V.
+*/
+fcl_p(FF) := listp(FF) and is(length(FF) = 2) and listnorep_p(FF[1])
+  and every(v_p,FF[1]) and cl_p(FF[2]) and subsetp(var_cl(FF[2]),setify(FF[1]))$
 
-/* The variables in a clause-set: */
-var_cs(F) := if emptyp(F) then {} else xreduce(union, map(var_c, F))$
-/* The variables in a formal clause-set: */
+/* Extracting the set of variables: */
+
+var_cs(F) := var_sl(apply(union,listify(F)))$
+var_cl(F) := var_sl(apply(union,F))$
+var_ocs(F) := var_cl(F)$
+/* RENAME: var_fcs */
 var_cs_f(FF) := FF[1]$
+var_fcs(FF) := FF[1]$
+var_fcl(FF) := setify(FF[1])$
+var_ofcs(FF) := var_fcl(FF)$
 
-/* the clause-set of a formal clause-set */
-clauses_f(FF) := FF[2]$
+/* Extracting the repetition-free list of variables in a clause-list
+   (in the order as they occur): */
+ovar_cl(F) := block([L : [], V : {}],
+  for C in F do block([vc : var_c(C), nv],
+    nv : setdifference(vc, V),
+    L : append(L,listify(nv)),
+    V : union(V,nv)
+  ),
+  return(L))$
 
-/* clause-sets to formal clause-sets */
+
+/* Promotions: */
+
+/* RENAME: cs2fcs */
 cs_to_fcs(F) := [var_cs(F), F]$
+cs2fcs(F) := [var_cs(F), F]$
+cl2fcl(F) := [listify(var_cl(F)), F]$
+ocs2ofcs(F) := [ovar_cl(F), F]$
+/* So a clause-list is promoted to a formal clause-list by taking the
+   order of variables as given by the given order on the variables,
+   while for an ordered clause-set we take the order of the
+   variables as found in the clause-list (this is more expensive).
+*/
+
+cs2ocs(F) := listify(F)$
+fcs2ofcs(FF) := [listify(FF[1]), listify(FF[2])]$
+fcs2fcl(FF) := [listify(FF[1]), listify(FF[2])]$
+
+
+/* Downcasts: */
+
+ocs2cs(F) := setify(F)$
+cl2cs(F) := setify(F)$
+
+/* RENAME: fcs2cs */
+clauses_f(FF) := FF[2]$
 fcs2cs(FF) := second(FF)$
+ofcs2ocs(FF) := second(FF)$
+fcl2cl(FF) := second(FF)$
+
 
 
 /* *****************************

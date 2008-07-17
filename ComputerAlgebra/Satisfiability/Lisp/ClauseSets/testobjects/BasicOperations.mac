@@ -30,6 +30,9 @@ okltest_v_p(v_p);
 okltest_l_p(l_p);
 
 okltest_var_l(var_l);
+okltest_sign_l(sign_l);
+
+okltest_literals_v(literals_v);
 
 /* ***********
    * Clauses *
@@ -40,13 +43,48 @@ okltest_comp_sl(comp_sl);
 
 okltest_c_p(c_p);
 
+okltest_clashp(clashp);
+
+okltest_var_sl(var_sl);
+okltest_var_sl(var_c);
+
+okltest_pospart_c(pospart_c);
+okltest_negpart_c(negpart_c);
+
 /* ***************
    * Clause-sets *
    ***************
 */
 
 okltest_cs_p(cs_p);
+okltest_ocs_p(ocs_p);
 okltest_fcs_p(fcs_p);
+okltest_ofcs_p(ofcs_p);
+okltest_fcl_p(fcl_p);
+
+okltest_var_cs(var_cs);
+okltest_var_cl(var_cl);
+okltest_var_ocs(var_ocs);
+okltest_var_fcs(var_fcs);
+okltest_var_fcl(var_fcl);
+okltest_var_ofcs(var_ofcs);
+
+okltest_ovar_cl(ovar_cl);
+
+okltest_cs2fcs(cs2fcs);
+okltest_cl2fcl(cl2fcl);
+okltest_ocs2ofcs(ocs2ofcs);
+
+okltest_cs2ocs(cs2ocs);
+okltest_fcs2ofcs(fcs2ofcs);
+okltest_fcs2fcl(fcs2fcl);
+
+okltest_ocs2cs(ocs2cs);
+okltest_cl2cs(cl2cs);
+
+okltest_fcs2cs(fcs2cs);
+okltest_ofcs2ocs(ofcs2ocs);
+okltest_fcl2cl(fcl2cl);
 
 /* *****************************
    * Substitution and renaming *

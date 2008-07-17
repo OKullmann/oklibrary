@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
 kill(f)$
 
@@ -57,6 +58,23 @@ okltest_var_l(f) := (
   true
 )$
 
+okltest_sign_l(f) := (
+  for i : 1 thru 10 do (
+    assert(f(i) = 1),
+    assert(f(-i) = -1)
+  ),
+  true
+)$
+
+okltest_literals_v(f) := (
+  assert(f({}) = {}),
+  assert(f({1}) = {1,-1}),
+  assert(f({1,2}) = {1,-1,2,-2}),
+  assert(f({-1}) = {1,-1}),
+  assert(f({1,-2}) = {1,-1,2,-2}),
+  assert(f({1,-2,-1}) = {1,-1,2,-2}),
+  true)$
+
 
 /* ***********
    * Clauses *
@@ -84,7 +102,34 @@ okltest_c_p(f) := block([x],
   assert(f({1,-1}) = false),
   assert(f(x) = false),
   assert(f({x}) = false),
-  okltest_l_p(buildq([f],lambda([x],f({x})))),
+  assert(okltest_l_p(buildq([f],lambda([x],f({x}))))),
+  true)$
+
+okltest_clashp(f) := (
+  assert(f({},{}) = false),
+  assert(f({1},{}) = false),
+  assert(f({},{1}) = false),
+  assert(f({1},{1}) = false),
+  assert(f({1},{-1}) = true),
+  assert(f({1,2},{-2,3}) = true),
+  true)$
+
+okltest_var_sl(f) := (
+  assert(f({}) = {}),
+  assert(f({1}) = {1}),
+  assert(f({1,-2}) = {1,2}),
+  assert(f({1,-1,2,-3}) = {1,2,3}),
+  true)$
+
+okltest_pospart_c(f) := (
+  assert(f({}) = {}),
+  assert(f({-1}) = {}),
+  assert(f({1}) = {1}),
+  assert(f({1,-2,3,-4}) = {1,3}),
+  true)$
+
+okltest_negpart_c(f) := (
+  assert(okltest_pospart_c(buildq([f],lambda([C],comp_sl(f(comp_sl(C))))))),
   true)$
 
 
@@ -105,7 +150,20 @@ okltest_cs_p(f) := block([x],
   assert(f({{1},{-1}}) = true),
   assert(f({{1,-1}}) = false),
   assert(f({{},[]}) = false),
-  okltest_c_p(buildq([f],lambda([C],f({C})))),
+  assert(okltest_c_p(buildq([f],lambda([C],f({C}))))),
+  true)$
+
+okltest_ocs_p(f) := block([x],
+  assert(f(0) = false),
+  assert(f({}) = false),
+  assert(f([]) = true),
+  assert(f([{}]) = true),
+  assert(f([0]) = false),
+  assert(f([{1,-1}]) = false),
+  assert(f([{1},{-1},{2},{-2}]) = true),
+  assert(f([{1},{1}]) = false),
+  assert(f([{1},{1,2}]) = true),
+  assert(okltest_c_p(buildq([f],lambda([C],f([C]))))),
   true)$
 
 okltest_fcs_p(f) := block([x],
@@ -123,9 +181,149 @@ okltest_fcs_p(f) := block([x],
   assert(f([{1},{{1},{-1}}]) = true),
   assert(f([{1},{{1,-1}}]) = false),
   assert(f([{1},{{1},{-1},{1,2}}]) = false),
-  okltest_v_p(buildq([f],lambda([v],f([{v},{}])))),
+  assert(okltest_v_p(buildq([f],lambda([v],f([{v},{}]))))),
   true)$
 
+okltest_ofcs_p(f) := block(
+  assert(f([[],[]]) = true),
+  assert(f([[],[{}]]) = true),
+  assert(f(x) = false),
+  assert(f({}) = false),
+  assert(f([]) = false),
+  assert(f([[]]) = false),
+  assert(f([[1],[]]) = true),
+  assert(f([[-1],[]]) = false),
+  assert(f([[],[{1}]]) = false),
+  assert(f([[x],[]]) = false),
+  assert(f([[x],[{x}]]) = false),
+  assert(f([[1],[{1},{-1}]]) = true),
+  assert(f([[1],[{1,-1}]]) = false),
+  assert(f([[1],[{1},{-1},{1,2}]]) = false),
+  assert(f([[],[{},{}]]) = false),
+  assert(f([[1],[{1},{1}]]) = false),
+  assert(okltest_v_p(buildq([f],lambda([v],f([[v],[]]))))),
+  true)$
+
+okltest_fcl_p(f) := block([x],
+  assert(okltest_ofcs_p(buildq([f],lambda([FF],f(FF) and listnorep_p(FF[2]))))),
+  assert(f([[],[{},{}]]) = true),
+  assert(f([[1],[{1},{1}]]) = true),
+  true)$
+
+okltest_var_cs(f) := (
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {1}),
+  assert(f({{1},{-1}}) = {1}),
+  assert(f({{1},{-1,2},{-2,3},{3,1}}) = {1,2,3}),
+  true)$
+
+okltest_var_cl(f) := (
+  assert(okltest_var_cs(buildq([f],lambda([F],f(listify(F)))))),
+  assert(f([{1},{1},{2},{-2},{},{-1}]) = {1,2}),
+  true)$
+
+okltest_var_ocs(f) := (
+  assert(okltest_var_cs(buildq([f],lambda([F],f(listify(F)))))),
+  true)$
+
+okltest_var_fcs(f) := (
+  assert(okltest_var_cs(buildq([f],lambda([F],f(cs2fcs(F)))))),
+  assert(f([{1,2},{}]) = {1,2}),
+  assert(f([{1,2,3}, {{}}]) = {1,2,3}),
+  true)$
+
+okltest_var_fcl(f) := (
+  assert(okltest_var_fcs(buildq([f],lambda([FF],f(fcs2ofcs(FF)))))),
+  assert(f([[1,3,2],[{}]]) = {1,2,3}),
+  true)$
+
+okltest_var_ofcs(f) := (
+  assert(okltest_var_fcs(buildq([f],lambda([FF],f(fcs2ofcs(FF)))))),
+  true)$
+
+okltest_ovar_cl(f) := (
+  assert(f([]) = []),
+  assert(f([{}]) = []),
+  assert(f([{},{}]) = []),
+  assert(f([{1},{-1}]) = [1]),
+  assert(f([{},{-1},{},{}]) = [1]),
+  assert(f([{-2,1},{-3,2},{1,3}]) = [1,2,3]),
+  assert(f([{-2,3},{3,-4},{-1,2,3},{}]) = [2,3,4,1]),
+  assert(f([{4,3},{3,2},{-2,-1}]) = [3,4,2,1]),
+  true)$
+
+okltest_cs2fcs(f) := (
+  assert(f({}) = [{},{}]),
+  assert(f({{}}) = [{},{{}}]),
+  assert(f({{1}}) = [{1},{{1}}]),
+  assert(f({{2,4},{-3,-1}}) = [{1,2,3,4},{{2,4},{-3,-1}}]),
+  true)$
+
+okltest_cl2fcl(f) := (
+  assert(f([]) = [[],[]]),
+  assert(f([{}]) = [[],[{}]]),
+  assert(f([{3,4},{-1,-2}]) = [[1,2,3,4],[{3,4},{-1,-2}]]),
+  true)$
+
+okltest_ocs2ofcs(f) := (
+  assert(f([]) = [[],[]]),
+  assert(f([{}]) = [[],[{}]]),
+  assert(f([{3,4},{-1,-2}]) = [[3,4,1,2],[{3,4},{-1,-2}]]),
+  assert(okltest_cl2fcl(buildq([f],lambda([FF],block([T:f(FF)],[sort(T[1]),T[2]]))))),
+  true)$
+
+okltest_cs2ocs(f) := (
+  assert(f({}) = []),
+  assert(f({{}}) = [{}]),
+  assert(f({{1,2},{-3,4}}) = [{-3,4},{1,2}]),
+  true)$
+
+okltest_fcs2ofcs(f) := (
+  assert(f([{},{}]) = [[],[]]),
+  assert(f([{},{{}}]) = [[],[{}]]),
+  assert(f([{1},{}]) = [[1],[]]),
+  assert(f([{1,3},{{}}]) = [[1,3],[{}]]),
+  assert(f([{1,2,3},{{1,2},{-3},{-1,-2}}]) = [[1,2,3],[{-3},{-1,-2},{1,2}]]),
+  true)$
+
+okltest_fcs2fcl(f) := (
+  assert(okltest_fcs2ofcs(f)),
+  true)$
+
+okltest_ocs2cs(f) := (
+  assert(f([]) = {}),
+  assert(f([{}]) = {{}}),
+  assert(f([{},{1},{-1}]) = {{},{1},{-1}}),
+  true)$
+
+okltest_cl2cs(f) := (
+  assert(f([]) = {}),
+  assert(f([{}]) = {{}}),
+  assert(f([{},{},{1},{-1}]) = {{},{1},{-1}}),
+  assert(okltest_ocs2cs(f)),
+  true)$
+
+okltest_fcs2cs(f) := (
+  assert(f([{},{}]) = {}),
+  assert(f([{},{{}}]) = {{}}),
+  assert(f([{3,1,2},{{3},{-1},{-3},{1},{-1,-2,-3}}]) = {{3},{-1},{-3},{1},{-1,-2,-3}}),
+  true)$
+
+okltest_ofcs2ocs(f) := (
+  assert(f([[],[]]) = []),
+  assert(f([[],[{}]]) = [{}]),
+  assert(f([[3,1],[{3},{-1},{-3},{1}]]) = [{3},{-1},{-3},{1}]),
+  assert(okltest_fcs2cs(buildq([f],lambda([FF],cl2cs(f(fcs2fcl(FF))))))),
+  true)$
+
+okltest_fcl2cl(f) := (
+  assert(f([[],[]]) = []),
+  assert(f([[],[{}]]) = [{}]),
+  assert(f([[3,1],[{3},{-1},{3},{1}]]) = [{3},{-1},{3},{1}]),
+  assert(okltest_fcs2cs(f)),
+  true)$
+  
 
 /* *****************************
    * Substitution and renaming *
