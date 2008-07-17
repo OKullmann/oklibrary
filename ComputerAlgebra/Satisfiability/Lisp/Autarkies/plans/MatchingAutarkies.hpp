@@ -29,6 +29,11 @@ License, or any later version. */
 
 
   \todo Computing the matching-lean kernel
+  <ul>
+   <li> DONE
+   Implement brute-force search. </li>
+   <li> Do we have special properties regarding generation? </li>
+  </ul>
 
 
   \todo Surplus

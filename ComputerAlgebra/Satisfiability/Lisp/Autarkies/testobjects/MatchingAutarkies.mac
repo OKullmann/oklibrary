@@ -21,7 +21,22 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/testobjec
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/MatchingAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/MatchingAutarkies.mac")$
 
-okltest_matchinglean_smax_p(matchinglean_smax_p);
+/* ********************
+   * Basic operations *
+   ********************
+*/
+
+okltest_cllit_aut_odg(cllit_aut_odg);
+okltest_maut_pacs_p(maut_pacs_p);
+okltest_all_maut_ocs(all_maut_ocs);
+okltest_mautmon_ocs(mautmon_ocs);
+
+/* *****************************
+   * Matching-lean clause-sets *
+   *****************************
+*/
+
+okltest_matchinglean_p(matchinglean_smax_p);
 
 okltest_clawfree_mlean_def1(clawfree_mlean_def1);
 
