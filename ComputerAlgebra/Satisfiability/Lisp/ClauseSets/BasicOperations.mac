@@ -251,15 +251,21 @@ make_vardisjoint_fcs(LFF) := block([index : 0, result : []],
 */
 
 /* All clauses of length k of a clause-set. */
+/* RENAME: scs_k */
 scls_k(F,k) := subset(F, lambda([C], is(length(C) = k)))$
 
 /* All clauses of a clause-set containing a literal. */
+/* RENAME: scs_l */
 scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
 
 /* All clauses of a clause-set containing a variable. */
+/* RENAME: scs_v */
 scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
 /* More generally, all clauses containing some of a given set of variables: */
+/* RENAME: scs_V */
 scls_V(F,V) := subset(F, lambda([C], not disjointp(var_c(C),V)))$
+socs_V(F,V) := sublist(F, lambda([C], not disjointp(var_c(C),V)))$
+
 
 /* *****************************************
    * Printing clause-sets in Dimacs-format *
