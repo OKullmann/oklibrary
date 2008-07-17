@@ -74,94 +74,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Naming conventions
-  <ul>
-   <li> "g" for graphs, "gl" for graphs with loops, "dg" for
-   directed graph, "dgl" for directed graphs with loops, "gg"
-   for general graph, and "gdg" for "general directed graph". </li>
-   <li> "og" for ordered graphs, similarly "ogl", "odg", "odgl", "ogg"
-   and "ogdg". </li>
-   <li> For Maxima-graphs we use "mg" and "dmg". </li>
-   <li> So for multigraphs we need to use the abbreviation "mug", for
-   multigraphs with loops mugl, for directed multigraphs dmug, for
-   directed multigraphs with loops dmugl, and finally omug, omugl, odmug,
-   odmugl denote the ordered versions. </li>
-   <li> There is a clash for "directed graphs":
-    <ol>
-     <li> Either we speak of "directed graphs", "directed multigraphs",
-     "directed general graphs", or of "digraphs", "multi-digraphs",
-     "general digraphs". </li>
-     <li> Perhaps the "digraph" has the advantage that there is no
-     confusion about the order of adjectives. </li>
-    </ol>
-   </li>
-   <li> So "g2mg" (now) becomes "g2mg" etc. </li>
-  </ul>
-
-
-  \todo Graph concepts
-  <ul>
-   <li> A "graph" is just a 2-element list, consisting of the set of
-   vertices, and a set of 2-element vertex sets. </li>
-   <li> A "graph with loops" also allows 1-element vertex sets. </li>
-   <li> A "general graph" is a triple [V,E,f], where V, E are sets and
-   f is a map from E to 1-2-element subsets of V. </li>
-   <li> The same with directed graphs, only that this time we have
-   vertex-lists instead of vertex-sets. </li>
-   <li> There is also the (cryptomorphic) notion of a "precategory",
-   which is a 4-tuple [V,E,source,target]. </li>
-   <li> A "multigraph" is a triple [V,E,f], where [V,E] is a graph, and f
-   is a map which maps every element of E to a natural number (that is, >0).
-   </li>
-   <li> While a "multigraph with loops" is similarly a triple [V,E,f] such that
-   [V,E] is a graph with loops. </li>
-   <li> And a "directed multigraph" is a triple [V,E,f], where now the elements
-   of E or pairs, while a "directed multigraph with loops" allows the elements
-   of the pairs to be identical. </li>
-   <li> Since also for general graphs the edge set needs to be given, we don't
-   have the possibility of "lazy graph representations". Seems unavoidable. /li>
-   <li> "Oriented" versions:
-    <ol>
-     <li> An "oriented general digraph" has additionally a function o, defined
-     on edge-labels and returning -1 or +1. </li>
-     <li> Perhaps we use "or", so " orgdg, ordgl, ordg, and oorgdg,oordgl,
-     and oordg. </li>
-     <li> From an oriented digraph one gets a digraph by oriented the edges
-     accordingly. </li>
-     <li> Morphisms of oriented digraphs can additionally flip the orientations
-     (and the result must be an ordinary morphism). </li>
-     <li> Shall we also use "oriented graphs", as graphs with such orientation
-     functions, to be interpreted according to the natural order on vertices?
-     </li>
-    </ol>
-   </li>
-   <li> Standardisation of vertex-names:
-    <ol>
-     <li> From the point of view of the OKlibrary, the best choice for
-     standard vertex sets would be {1,..,n}. </li>
-     <li> This coincides with mathematical conventions, and also 0 is not
-     possible as a clause-set-variable. </li>
-     <li> However Maxima graphs by themselves are labelled starting with 0,
-     and array-indices start with 0 as well. </li>
-     <li> So well, when translating Maxima graphs to graphs we translate
-     vertex names, if needed, to start with 1. </li>
-     <li> That is, when these or "original" Maxima graphs, which one can
-     apparently recognise by the vertex list in reverse order, finishing
-     with a zero. </li>
-    </ol>
-   </li>
-   <li> Given a vertex, we need the set of edges incident to the vertex;
-   this can be handled via the dual hypergraph, but we should provide some
-   more convenient methods. </li>
-   <li> Likely, our graph-etc-concepts are conceptually appropriate, but when
-   using or implementing algorithms then we should, if possible, use the
-   maxima-graphs. </li>
-   <li> How to handle "properties" ? DONE (these shall just be maps) </li>
-   <li> Can we tag such objects as being "graphs" ? DONE (we are living
-   type-free) </li>
-  </ul>
-
-
   \todo Subgraph concepts
   <ul>
    <li> Perhaps we should create "Subgraphs.mac". </li>
@@ -199,10 +111,20 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
-   <li> What is petersen_graph(n,d)? The documentation seems to suggest
-   that this is the Kneser-graph, but for example petersen_graph(7,3)
-   has just 14 vertices (instead of binom(7,3) = 35) ?
-   Ask on the mailing-list! </li>
+   <li> What is petersen_graph(n,d)?
+    <ol>
+     <li> We always have the outer and the inner cirle (each of
+     length n), with the direct connections, and d is then the "step" to
+     the next vertex on the inner circle. </li>
+     <li> Thus for d=0 there is no edge, for d=1 we have the two parallel
+     edges, for n=2 we skip one (as for the Petersen graph), and for d=n/2
+     we get parallel edges. </li>
+     <li> The parallel edges shouldn't be possible? </li>
+     <li> And for d=0 actually print_graph shows loops?? </li>
+     <li> Tell the mailing-list, that this needs documentation, and that
+     the non-graph cases needs investigation. </li>
+    </ol>
+   </li>
    <li> We need conversions between graphs and maxima-graphs.
     <ol>
      <li> We can use the vertex-labels (assuming they are present). </li>
@@ -211,7 +133,7 @@ License, or any later version. */
      <li> So we need a second version, which also translates the vertex labels.
      </li>
      <li> How to call it? Which version is standard? Perhaps mg2g should
-     translate the vertex labels, and "mg2g_nvl" doesn't translate them.
+     translate the vertex labels, and "mg2g_nl" doesn't translate them.
      </li>
      <li> DONE (no loops possible; so we have only "graphs" and "directed graphs")
      What about loops? Are they possible with Maxima graphs? </li>

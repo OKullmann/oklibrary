@@ -367,13 +367,23 @@ tree_omugl_p(G) :=  irreflexive_omugl_p(G) and tree_ogl_p(omugl2ogl(G))$
    Edges in the Maxima-graph, which are ordered, are ordered according
    to orderlessp (this is the order imposed on the vertex set).
 */
-g2mg(G) := block(
- [V : listify(G[1]), E : listify(G[2]), h : sm2hm({}), n : length(G[1])],
+og2mg(G) := block(
+ [V : G[1], E : G[2], h : sm2hm({}), n : length(G[1])],
  for i : 1 thru n do set_hm(h, V[i], i),
  create_graph(create_list([i,V[i]],i,1,n), 
    create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
  )
 )$
+g2mg(G) := og2mg(gl2ogl(G))$
+/* Without the vertex-labels: */
+og2mg_nl(G) := block(
+ [V : G[1], E : G[2], h : sm2hm({}), n : length(G[1])],
+ for i : 1 thru n do set_hm(h, V[i], i),
+ create_graph(create_list(i,i,1,n), 
+   create_list([ev_hm(h,listify(e)[1]), ev_hm(h,listify(e)[2])], e, E)
+ )
+)$
+g2mg_nl(G) := og2mg_nl(gl2ogl(G))$
 
 /* Maxima-graphs to ordered graphs, moving 0-based indices to 1-based
    (ignoring the vertex labels). */
