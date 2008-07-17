@@ -92,8 +92,6 @@ gdg_p(G) := listp(G) and is(length(G)=3) and setp(G[1]) and setp(G[2]) and
   every(lambda([e], block([l : G[3](e)],
     listp(l) and is(length(l)=2) and subsetp(setify(l),G[1]))), G[2])$
 
-listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
-
 og_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and
   every(lambda([e], setp(e) and is(length(e) = 2) and subsetp(e,setify(G[1]))), G[2])$
 ogl_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and listnorep_p(G[2]) and 

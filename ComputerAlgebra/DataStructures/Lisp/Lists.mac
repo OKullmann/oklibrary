@@ -21,6 +21,14 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac");
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
+/* *******************************
+   * Testing properties of lists *
+   *******************************
+*/
+
+/* Checks whether L is a list without repetitions: */
+listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
+
 
 /* **************************
    * Sublist constructions *
