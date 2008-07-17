@@ -26,6 +26,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
    ******************
 */
 
+okltest_nvar_cs(nvar_cs);
+okltest_nvar_ocs(nvar_ocs);
+okltest_nvar_cl(nvar_cl);
+okltest_nvar_fcs(nvar_fcs);
+okltest_nvar_fcl(nvar_fcl);
+okltest_nvar_ofcs(nvar_ofcs);
+
 okltest_ncl_list_f(ncl_list_f);
 
 /* *******************

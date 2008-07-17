@@ -28,14 +28,22 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    ******************
 */
 
-/* number of variables of a formal clause-set */
-nvar_f(FF) := length(var_cs_f(FF))$
-/* number of variables of a clause-set */
+/* Counting the number of variables: */
+
 nvar_cs(F) := length(var_cs(F))$
+nvar_ocs(F) := nvar_cl(F)$
+nvar_cl(F) := length(var_cl(F))$
+/* RENAME: nvar_fcs(FF) */
+nvar_f(FF) := length(FF[1])$
+nvar_fcs(FF) := length(FF[1])$
+nvar_fcl(FF) := length(FF[1])$
+nvar_ofcs(FF) := length(FF[1])$
 
 
 /* number of clauses of a formal clause-set */
+/* RENAME: ncl_fcs */
 ncl_f(FF) := length(clauses_f(FF))$
+ncl_fcs(FF) := length(FF[2])$
 /* number of clauses of a clause-set */
 ncl_cs(F) := length(F)$
 
