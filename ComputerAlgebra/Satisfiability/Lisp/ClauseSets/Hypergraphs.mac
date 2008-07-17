@@ -89,6 +89,7 @@ var_int_scom_fcs(FF) := block([M : cl_var_com_fcs(FF)],
    literal to its clauses).
    Literals are here represented as pairs [v,+1] resp. [v,-1].
 */
+/* RENAME: varlitcl_dg */
 var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
   Var : listify(FF[1]),
   Lit : create_list([v,j], v,Var, j,[-1,1]),
@@ -102,6 +103,7 @@ var_lit_clause_digraph(FF) := block([Var,Lit,Cl,V,E],
       ),
   return([setify(V),setify(E)]))$
 /* The transitive closure of var_lit_clause_digraph. */
+/* RENAME: varlitcl_tr_dg */
 var_lit_clause_digraph_tr(FF) := block(
  [G : var_lit_clause_digraph(FF),Var,Cl,E],
   Var : listify(FF[1]),
