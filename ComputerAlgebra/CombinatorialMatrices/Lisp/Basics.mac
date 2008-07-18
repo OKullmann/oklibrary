@@ -62,6 +62,8 @@ cdiagscom(I,a) := [I,buildq([a],lambda([i,j],if i=j then a else 0))]$
 /* Transforms a combinatorial matrix into a Maxima matrix: */
 com2m(M) := block([rows : listify(M[1]), cols : listify(M[2]), f : M[3]],
   apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
+ocom2m(M) := block([rows : M[1], cols : M[2], f : M[3]],
+  apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
 
 /* Transforms a square combinatorial matrix into a Maxima matrix: */
 scom2m(M) := com2m(scom2com(M))$
