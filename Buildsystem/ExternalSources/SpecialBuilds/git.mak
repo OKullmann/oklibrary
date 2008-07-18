@@ -53,4 +53,4 @@ cleangit :
 	-rm -rf $(git_base_build_dir_okl)
 
 cleanallgit : cleangit
-	-rm -rf $(git_base_build_dir_okl) $(git_base_installation_dir_okl) $(git_base_doc_dir_okl)
+	-rm -rf $(git_base_installation_dir_okl) $(git_base_doc_dir_okl)
