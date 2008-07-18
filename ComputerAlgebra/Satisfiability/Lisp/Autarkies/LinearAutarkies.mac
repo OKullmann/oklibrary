@@ -1,0 +1,68 @@
+/* Oliver Kullmann, 18.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/LinearAutarkies.mac
+  \brief Functions related to linear autarkies
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LinearAutarkies.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
+
+/* ********************
+   * Basic operations *
+   ********************
+*/
+
+/* Test for a linear autarky for an ordered clause-set: */
+laut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then true else block(
+ [FF : cl2fcl(F), A, h : sm2hm({}), pv : [], nv : []],
+  A : ocom2m(cl_var_ocom_ofcs(FF)),
+  block([i:1], for v in FF[1] do (set_hm(h,v,i),i:i+1)),
+  for x in phi do
+    if x>0 then pv : endcons(ev_hm(h,x),pv) else nv : endcons(ev_hm(h,-x),nv),
+  return(is(solve_lineq(A,pv,nv,
+    listify(setdifference(setify(FF[1]),setify(append(pv,nv))))) # false)))$
+
+/* The set of all linear autarkies for an ordered clause-set: */
+all_laut_ocs(F) := subset(all_pass(var_ocs(F)), 
+  lambda([phi],laut_pacs_p(phi,F)))$
+/* The linear autarky monoid of an ordered clause-set: */
+lautmon_ocs(F) := [all_laut_ocs(F), compo_pass, {}]$
+
+/* Searching for a linear autarky extending a given partial assignment: */
+extlaut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then phi else block(
+ [FF : cl2fcl(F), A, h : sm2hm({}), pv : [], nv : [], S],
+  A : ocom2m(cl_var_ocom_ofcs(FF)),
+  block([i:1], for v in FF[1] do (set_hm(h,v,i),i:i+1)),
+  for x in phi do
+    if x>0 then pv : endcons(ev_hm(h,x),pv) else nv : endcons(ev_hm(h,-x),nv),
+  S : solve_lineq(A,pv,nv,[]),
+  if S = false then return(false),
+  block([i:1], for x in S do (
+    if x>0 then phi:adjoin(FF[1][i],phi) 
+    elseif x<0 then phi:adjoin(-FF[1][i],phi),
+    i : i + 1
+  )),
+  return(phi))$
+
+
+/*!
+\endhtmlonly
+*/
+
