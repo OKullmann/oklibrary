@@ -19,7 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/include.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/Minimisation.mac")$
+
+oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac")$
 
 /*!
 \endhtmlonly

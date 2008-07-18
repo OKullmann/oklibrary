@@ -1,0 +1,92 @@
+/* Oliver Kullmann, 18.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac
+  \brief Functions regarding linear programming
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+/* ********************************************
+   * Auxiliary functions handling "equations" *
+   ********************************************
+*/
+
+special_symbol : "xyz"$
+
+/* Using for example special_symbol = "x", then "x1", "x2" etc. (up to the
+   index used) must not be defined (otherwise their values are substituted
+   into the expressions created, which likely renders them useless).
+*/
+
+/* Translating a vector into a linear combination, based on
+   the special symbol.
+   If special_symbol = x and a = [1,4,7], then
+   is(translate_vector_lincomb(a) = 1 * x1 + 4 * x2 + 7 * x3)
+   is true.
+*/
+translate_vector_lincomb_n(a,n) := 
+  sum(a[i] * eval_string(sconcat(special_symbol,i)), i,1,n)$
+translate_vector_lincomb(a) := 
+  translate_vector_lincomb_n(a,length(a))$
+
+/* Treating a matrix row-wise, translate "A x >= 0" into a list
+   of inequalities: 
+*/
+translate_matrix_ineq(A) := block([m,n],
+  [m,n] : matrix_size(A),
+  block([eqslhs : create_list(translate_vector_lincomb_n(A[i],n),i,1,m)],
+    create_list(eqslhs[i] >= 0,i,1,m)))$
+ 
+/* Creating inequalities x_i >= 1, x_i <= -1, and x_i = 0,
+   specifying the index i (while "x" is special_symbol): */
+interprete_poscond(i) := eval_string(sconcat(special_symbol,i)) >= 1$
+interprete_negcond(i) := eval_string(sconcat(special_symbol,i)) <= -1$
+interprete_zerocond(i) := eval_string(sconcat(special_symbol,i)) = 0$
+
+
+/* ******************************************
+   * Solving systems of linear inequalities *
+   ******************************************
+*/
+
+load(simplex);
+
+/* Find some solution for A * x >= 0, where x_i >= 1 for i in pv,
+   x_i <= -1 for i in nv, and x_i = 0 for i in zv.
+   Returns "false" if system in unsolvable, and otherwise a
+   solution vector x.
+ */
+solve_lineq(A,pv,nv,zv) := block(
+ [S, h : sm2hm({}), n : matrix_size(A)[2]],
+  if n = 0 then return([]),
+  S : minimize_lp(0,append(translate_matrix_ineq(A),
+        map(interprete_poscond,pv), 
+        map(interprete_negcond,nv), 
+        map(interprete_zerocond,zv))), 
+  if S = "Problem not feasible!" then return(false),
+  S : second(S),
+  for eq in S do set_hm(h,sconcat(lhs(eq)),rhs(eq)),
+  return(
+    map(lambda([x],if x=false then 0 else x),
+        create_list(ev_hm(h,sconcat(special_symbol,i)),i,1,n))))$
+
+
+/*!
+\endhtmlonly
+*/
+

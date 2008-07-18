@@ -1,0 +1,94 @@
+/* Oliver Kullmann, 18.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac
+  \brief Tests for list-processing functions
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+
+kill(f)$
+
+/* ********************************************
+   * Auxiliary functions handling "equations" *
+   ********************************************
+*/
+
+okltest_translate_vector_lincomb(f) := block(
+ [special_symbol : "x", x1,x2,x3,x4],
+  assert(f([]) = 0),
+  assert(f([1,4,7]) = 1 * x1 + 4 * x2 + 7 * x3),
+  assert(f([0,1,2,-3]) = x2 + 2*x3 + -3*x4),
+  true)$
+
+okltest_translate_matrix_ineq(f) := block(
+ [special_symbol : "x", x1,x2],
+  assert(f(matrix()) = []),
+  assert(f(matrix([])) = [0 >= 0]),
+  assert(f(matrix([],[])) = [0 >= 0, 0 >= 0]),
+  assert(f(matrix([1],[2])) = [x1 >= 0, 2*x1 >= 0]),
+  assert(f(matrix([2,3],[4,5])) = [2*x1 + 3*x2 >= 0, 4*x1 + 5*x2 >= 0]),
+  true)$
+
+okltest_interprete_poscond(f) := block(
+ [special_symbol : "x", x0],
+  assert(f(0) = '(x0 >= 1)),
+  true)$
+okltest_interprete_negcond(f) := block(
+ [special_symbol : "x", x1],
+  assert(f(1) = '(x1 <= -1)),
+  true)$
+okltest_interprete_zerocond(f) := block(
+ [special_symbol : "x", x2],
+  assert(f(2) = '(x2 = 0)),
+  true)$
+
+
+/* ******************************************
+   * Solving systems of linear inequalities *
+   ******************************************
+*/
+
+okltest_solve_lineq(f) := block([A],
+  assert(f(matrix(),[],[],[]) = []),
+  assert(f(matrix([0]),[],[],[]) = [0]),
+  assert(f(matrix([0]),[1],[],[]) = [1]),
+  assert(f(matrix([0]),[],[1],[]) = [-1]),
+  assert(f(matrix([0]),[],[],[1]) = [0]),
+  assert(f(matrix([0]),[1],[1],[]) = false),
+  assert(f(matrix([1]),[],[],[]) = [0]),
+  assert(f(matrix([1]),[1],[],[]) = [1]),
+  assert(f(matrix([1]),[],[1],[]) = false),
+  assert(f(matrix([1]),[],[],[1]) = [0]),
+  A : matrix([0,0],[0,0]),
+  assert(f(A,[],[],[]) = [0,0]),
+  assert(f(A,[1,2],[],[]) = [1,1]),
+  assert(f(A,[1],[2],[]) = [1,-1]),
+  assert(f(A,[],[2],[1]) = [0,-1]),
+  assert(f(A,[],[],[1]) = [0,0]),
+  A : matrix([1,1],[-1,-1]),
+  assert(f(A,[],[],[]) = [0,0]),
+  assert(f(A,[1],[],[]) = [1,-1]),
+  assert(f(A,[],[1],[]) = [-1,1]),
+  assert(f(A,[1],[2],[]) = [1,-1]),
+  assert(f(A,[1],[1],[]) = false),
+  true)$
+
+/*!
+\endhtmlonly
+*/
