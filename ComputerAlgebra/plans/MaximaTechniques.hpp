@@ -21,6 +21,8 @@ License, or any later version. */
    <li> A serious problem is that function-parameters are overwritten by
    existing functions with the same name.
     <ol>
+     <li> See 'Function "min_scanning"' in
+     ComputerAlgebra/Numerical/Lisp/plans/general.hpp. </li>
      <li> So we reserve names "f", possibly followed by digits: Nobody
      shall define functions with these names. </li>
      <li> For function definitions using function parameters, we use then

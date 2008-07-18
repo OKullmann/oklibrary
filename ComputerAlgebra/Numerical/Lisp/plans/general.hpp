@@ -13,9 +13,11 @@ License, or any later version. */
   \todo Function "min_scanning" 
   (ComputerAlgebra/Numerical/Lisp/Minimisation.mac)
   <ul>
-   <li> Is it avoidable that argument-names like "f8765" are capured by
-   function definitions (so that in the presence of a functiion with
-   name f8765 min_scanning is not working)?? </li>
+   <li> See "Local variables" in ComputerAlgebra/plans/MaximaTechniques.hpp.
+   </li>
+   <li> Is it avoidable that argument-names like "f8765" are captured by
+   function definitions (so that in the presence of a function with
+   name "f8765" min_scanning is not working)?? </li>
   </ul>
 
 
