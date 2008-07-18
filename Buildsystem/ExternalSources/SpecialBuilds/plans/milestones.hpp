@@ -8,10 +8,11 @@ License, or any later version. */
 /*!
   \file Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp
   
-  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.6 (12.7.2008)
+  \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.7 (18.7.2008)
 
 
-  \par Version 0.2.2 (documentation, mathematical packages, and updates)
+  \par Version 0.2.2 (documentation, mathematical packages, updates, and
+  starting with SAT)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
@@ -29,6 +30,10 @@ License, or any later version. */
    topics are handled:
     - Update Boost installation
 
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - Grasp : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following

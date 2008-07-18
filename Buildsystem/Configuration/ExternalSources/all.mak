@@ -34,6 +34,7 @@ include $(OKconfiguration)/ExternalSources/clisp.mak
 include $(OKconfiguration)/ExternalSources/maxima.mak
 include $(OKconfiguration)/ExternalSources/asciidoc.mak
 include $(OKconfiguration)/ExternalSources/gap.mak
+include $(OKconfiguration)/ExternalSources/grasp.mak
 
 # ################################
 # Cmake

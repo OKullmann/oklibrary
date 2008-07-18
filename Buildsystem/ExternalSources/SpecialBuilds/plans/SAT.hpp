@@ -276,7 +276,26 @@ actual or intended publication of such source code.
   </ul>
 
 
-  \todo Grasp
+  \todo Posit
+
+
+  \todo Generators
+  <ul>
+   <li> http://www.dis.uniroma1.it/~massacci/cryptoSAT should contain
+   the DES -> SAT translator. </li>
+  </ul>
+
+
+  \todo Symmetries
+  <ul>
+   <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
+   open source. </li>
+  </ul>
+
+
+  \todo DONE (problems solved by new package from Joao Marques-Silva, and
+  complete installation)
+  Grasp
   <ul>
    <li> Web site to cite: http://users.ecs.soton.ac.uk/jpms/soft/ </li>
    <li> Manual build:
@@ -310,23 +329,6 @@ less sat-grasp_amended.doc
    files). </li>
    <li> Using "+V", which seems to be the default (different from what
    sat-graps.doc says), it works. </li>
-  </ul>
-
-
-  \todo Posit
-
-
-  \todo Generators
-  <ul>
-   <li> http://www.dis.uniroma1.it/~massacci/cryptoSAT should contain
-   the DES -> SAT translator. </li>
-  </ul>
-
-
-  \todo Symmetries
-  <ul>
-   <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
-   open source. </li>
   </ul>
 
 

@@ -392,5 +392,25 @@ endif
 
 # the following construction needs to be generalised by some function
 gap_html_documentation_index_location_tag_okl ?= <a href="$(gap_html_output_okl)">$(gap_html_output_okl)</a>
-gap_gf_manual_tag_okl ?= <a href="$(gap_gf_manual_okl)">finite fields manual</a>
 
+
+# New variables for the configuration of building grasp (to be designed 
+# and implemented):
+
+grasp_version_number_extraction_okl := awk '/UNSATISFIABLE INSTANCE/{print $(grasp_recommended_version_number_okl)}'
+grasp_example_program_okl := $(OKsystem)/Transitional/Satisfiability/Solvers/OKsolver/SAT2002/app_tests/test_cases/basic/DHNExample.cnf
+
+location_grasp_call_okl ?= $(shell (type -P $(grasp_call_okl)))
+ifeq ($(location_grasp_call_okl),)
+  grasp_call_ready_okl ?= NO
+else
+  version_grasp_call_okl ?= $(shell $(grasp_call_okl) $(grasp_example_program_okl) | $(grasp_version_number_extraction_okl))
+  ifeq ($(version_grasp_call_okl),$(grasp_recommended_version_number_okl))
+    grasp_call_ready_okl ?= YES
+  else
+    grasp_call_ready_okl ?= ERROR
+  endif
+endif
+
+# the following construction needs to be generalised by some function
+grasp_html_documentation_index_location_tag_okl ?= <a href="$(grasp_man_okl)">$(grasp_man_okl)</a>

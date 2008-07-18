@@ -44,6 +44,7 @@ rel_les_ubcsat_docu_page_okl := $(shell $(rel_path_tool) $(ubcsat_docu_page_okl)
 rel_les_clisp_docu_page_okl := $(shell $(rel_path_tool) $(clisp_docu_page_okl) $(externalsources_page_output))
 rel_les_maxima_docu_page_okl := $(shell $(rel_path_tool) $(maxima_docu_page_okl) $(externalsources_page_output))
 rel_les_gap_docu_page_okl := $(shell $(rel_path_tool) $(gap_docu_page_okl) $(externalsources_page_output))
+rel_les_grasp_docu_page_okl := $(shell $(rel_path_tool) $(grasp_docu_page_okl) $(externalsources_page_output))
 ifeq ($(extsrc_relative),)
   rel_les_boost_html_documentation_index_location := $(boost_html_documentation_index_location)
   rel_les_mhash_html_documentation_index_location := $(mhash_html_documentation_index_location)
@@ -55,6 +56,7 @@ ifeq ($(extsrc_relative),)
   rel_les_R_html_documentation_index_location_okl := $(R_html_documentation_index_location_okl)
   rel_les_gmp_html_documentation_index_location_okl := $(gmp_html_documentation_index_location_okl)
   rel_les_gmp_dvi_documentation_index_location_okl := $(gmp_dvi_documentation_index_location_okl)
+  rel_les_grasp_html_documentation_index_location_okl := $(grasp_man_okl)
 else
   rel_les_boost_html_documentation_index_location := $(shell $(rel_path_tool) $(boost_html_documentation_index_location) $(externalsources_page_output))
   rel_les_mhash_html_documentation_index_location := $(shell $(rel_path_tool) $(mhash_html_documentation_index_location) $(externalsources_page_output))
@@ -66,6 +68,7 @@ else
   rel_les_R_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(R_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_gmp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_html_documentation_index_location_okl) $(externalsources_page_output))
   rel_les_gmp_dvi_documentation_index_location_okl := $(shell $(rel_path_tool) $(gmp_dvi_documentation_index_location_okl) $(externalsources_page_output))
+  rel_les_grasp_html_documentation_index_location_okl := $(shell $(rel_path_tool) $(grasp_man_okl) $(externalsources_page_output))
 endif
 
 # to be completed XXX

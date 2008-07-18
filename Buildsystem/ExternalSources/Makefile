@@ -45,7 +45,9 @@ if [ -f $(1).tar ]; then tar --extract --directory=$(2) --file=$(1).tar; else ex
 endef
 
 define unarchive
-if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip; elif [ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2; else exit 1; fi;
+if [ -f $(1).tar.gz ]; then tar --extract --directory=$(2) --file=$(1).tar.gz --ungzip; elif \
+[ -f $(1).tgz ]; then tar --extract --directory=$(2) --file=$(1).tgz --ungzip; elif \
+[ -f $(1).tar.bz2 ]; then tar --extract --directory=$(2) --file=$(1).tar.bz2 --bzip2; else exit 1; fi;
 endef
 
 
@@ -91,6 +93,7 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/coq.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/clisp.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gap.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/grasp.mak
 
 # #################################
 # Cleaning
