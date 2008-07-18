@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/MatchingAutarkies.mac
-  \brief Functions related to the largest autarky in partial assignments
+  \brief Functions related to matching autarkies
 
 Use by
 
@@ -46,12 +46,12 @@ cllit_aut_odg(F,phi) :=
        F))]$
 
 /* Test for a matching autarky for an ordered clause-set: */
-maut_pacs_p(phi,F) := block([F0 : socs_V(F,var_pa(phi))],
+maut_paocs_p(phi,F) := block([F0 : socs_V(F,var_pa(phi))],
   is(length(max_matching(og2mg_nl(odg2og(cllit_aut_odg(F0,phi))))) = length(F0)))$
 
 /* The set of all matching autarkies for an ordered clause-set: */
 all_maut_ocs(F) := subset(all_pass(var_ocs(F)), 
-  lambda([phi],maut_pacs_p(phi,F)))$
+  lambda([phi],maut_paocs_p(phi,F)))$
 /* The matching autarky monoid of an ordered clause-set: */
 mautmon_ocs(F) := [all_maut_ocs(F), compo_pass, {}]$
 

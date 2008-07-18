@@ -27,7 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/
 */
 
 okltest_cllit_aut_odg(cllit_aut_odg);
-okltest_maut_pacs_p(maut_pacs_p);
+okltest_maut_paocs_p(maut_paocs_p);
 okltest_all_maut_ocs(all_maut_ocs);
 okltest_mautmon_ocs(mautmon_ocs);
 

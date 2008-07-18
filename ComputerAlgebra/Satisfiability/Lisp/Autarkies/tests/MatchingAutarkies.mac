@@ -44,7 +44,7 @@ okltest_cllit_aut_odg(f) := (
   assert(f([{1},{-1,2}],{-1}) = [[[{1},1],[{-1,2},1],[-1,2]], [[[{-1,2},1],[-1,2]]]]),
   true)$
 
-okltest_maut_pacs_p(f) := (
+okltest_maut_paocs_p(f) := (
   assert(f({},[]) = true),
   assert(f({},[{}]) = true),
   assert(f({1,-2},[]) = true),
