@@ -41,7 +41,7 @@ For creation of documentation we also need:
  - Flex 
  - Bison.
 
-And for pulling from a git repository via the http protocoll we need
+And for pulling from a git repository via the http protocol we need
 
  - the curl development libraries.
 
@@ -73,8 +73,8 @@ and for installing everything it is too tight).
 
 ----------------------------------------------
 
-Building
---------
+Building (basic setup)
+----------------------
 
 ----------------------------------------------
 
@@ -96,22 +96,15 @@ This creates links and directories.
  - The public bin-directory "OKplatform/bin" (in this directory) contains
    links to the main executables supplied by the OKlibrary, 
    including "oklib".
+
  - So you can put this bin-directory on your path via adding
+
 export PATH=OKPLATFORM/bin:${PATH}
+
    to ~/.bashrc, where OKPLATFORM is to be replaced by the (absolute)
    path to the OKplatform-directory. In order to conveniently use
    all main programs supplied by the OKlibrary, this step is RECOMMENDED.
 
- - Or you can set up a symbolic link to oklib in ~/bin.
-
-   Remark: It seems that on some systems (like (K)Ubuntu), ~/bin is not
-   automatically element of PATH, so you would need to add ~/bin to
-   your path in the bash-resources-file.
-
-   DEPRECATED: If you call
-     ./oklib --setup
-   in directory OKplatform, then the build system will create a symbolic
-   link to oklib in ~/bin.
 
 Once you decided on how to access "oklib" in the future, you might delete the
 symbolic link in directory OKplatform.
@@ -124,13 +117,14 @@ by just calling "oklib --version" somewhere.)
 in the documentation (see local home page below).
 Regarding the information on the installed external sources, this precomputed
 information is not fully relevant for your system (since several test actions 
-have to be performed on *your* system), and to (partially) update it use
+have to be performed on *your* system). To (partially) update it, use
 
 oklib documentation_index
 
 in directory OKsystem (or below it).
 
-Remarks: 
+Remarks:
+
  - "oklib html" would fully re-install the documentation, however it needs an
    appropriate version of doxygen installed for this. See Step 4).
  - Information on installation status at the main page for "external sources"
@@ -141,23 +135,49 @@ Remarks:
    this means that the binary "PathDifference" (needed to translate paths and 
    which needs to be compiled by the OKlibrary), which we supply 
    as a binary (in the optimised version), doesn't run on your system (so likely
-   your system is not a i386-architecture). "oklib all" in OKsystem will compile it
-   (amongst others), but you need gcc and Boost ready for this.
+   your system is not a i386-architecture). "oklib all" in OKsystem will compile
+   it (amongst others), but you need gcc and Boost ready for this.
 
 All necessary installations can be carried out through the OKlibrary; see
 information on external sources on the local home page.
 
 
 4) "oklib documentation_index" cannot update for examples the links in the
-html-documentation to documentation of external sources. To get the documentation
-fully updated, run "oklib html" (in directory OKsystem or below).
+html-documentation to documentation of external sources. To get the 
+documentation fully updated, run "oklib html" (in directory OKsystem or 
+below).
 
-For this doxygen is needed. The OKlibrary provides a local installation, which
-you can execute by calling "oklib doxygen" in directory OKplatform/ExternalSources.
-After this installation is finished, "oklib html" should then run successfully.
+For this, doxygen is needed. See how to install "external sources"
+(such as doxygen) below.
 
 
-5) In order to use the version control system, we recommend to install git
+----------------------------------------------
+
+Building external sources
+-------------------------
+
+----------------------------------------------
+
+In general, for installing an external source "extsrc", go to
+directory OKplatform/ExternalSources, and call "oklib extsrc" there.
+
+For convenience we provide "oklib all" (in ExternalSources), which
+gives you a reasonable first selection. (Currently we cannot
+install really everything due to build dependencies.)
+
+Some specific installations (included with "oklib all") are as follows.
+
+1) The OKlibrary provides a local installation of doxygen. 
+This installation can be executed by calling "oklib doxygen" in directory 
+OKplatform/ExternalSources.
+After this installation is finished, "oklib html" should then run successfully
+(recall, this call to "oklib" must happen in OKplatform/OKsystem (or below)).
+
+A link to the (locally installed) doxygen is planted in the public bin-directory 
+OKplatform/bin, so that you can use doxygen yourself (by just calling
+"doxygen" somewhere; try "doxygen --version").
+
+2) In order to use the version control system, we recommend to install git
 via the OKlibrary, again by running "oklib git" in directory 
 OKplatform/ExternalSources.
 
@@ -168,8 +188,7 @@ Git comes with modern Linux distributions, but the OKlibrary should provide
 the most suitable version (either the newest one, or in case of some trouble
 an appropriate earlier version).
 
-
-6) The most convenient way to install the Maxima/Lisp computer-algebra-system 
+3) The most convenient way to install the Maxima/Lisp computer-algebra-system 
 for SAT experimentation is by running "oklib allmaxima" in directory 
 OKplatform/ExternalSources.
 
