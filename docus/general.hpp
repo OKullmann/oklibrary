@@ -27,7 +27,7 @@ License, or any later version. */
   <ul>
    <li> Applications of (generalised) SAT : Applications/docus/general.hpp </li>
    <li> The build system : Buildsystem/docus/general.hpp </li>
-   <li> Combinatorial problems: Combinatorics/docus/general.hpp </li>
+   <li> Combinatorial problems: Transitional/Combinatorics/docus/general.hpp </li>
    <li> The computer algebra system : ComputerAlgebra/docus/general.hpp </li>
    <li> Data structures : DataStructures/docus/general.hpp </li>
    <li> Experimentation : Experimentation/docus/general.hpp </li>
