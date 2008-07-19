@@ -131,17 +131,33 @@ satprob_weak_php(m,n) := sum(binom(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_p
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    {1,...,n} into two parts such that none of them contains an arithmetic 
    progression of size k. */
+/* RENAME: vanderwaerden2_fcs */
 VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], 
   [G[1], union(G[2], comp_cs(G[2]))])$
 /* VanDerWaerden2_cs_f(k,n) is isomorphic to 
    tcol2sat(ArithmeticProgressions(k,n). */
 
-
+/* RENAME: output_vanderwaerden2 */
 output_VanDerWaerden2_cs_f(k,n,filename) := 
   output_cs_f(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", ", n, " elements."), 
     VanDerWaerden2_cs_f(k,n),
     filename)$
+
+/* ********************
+   * Ramsey's problem *
+   ********************
+*/
+
+output_ramsey2(q,r,n,filename) := block(
+ [FFR : standardise_ofcs(tcol2sat_ohg2ofcs(ramsey_ohg(q,r,n)))],
+  output_ofcs_v(
+    sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
+    FFR[1],
+    filename,
+    FFR[2]))$
+output_ramsey2_stdname(q,r,n) := 
+ output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
 
 
 /* **************************************************
