@@ -68,7 +68,19 @@ License, or any later version. */
   <ul>
    <li> A link is provided in the public bin-directory ($(public_bin_dir_okl)).
    </li>
-   <li> Using <code>ubcsat -h</code> will show the list of options. </li>
+   <li> Using <code>ubcsat -h</code> will show the list of options.
+    <ol>
+     <li> Most useful seems to start with e.g.,
+     \verbatim
+ubcsat -alg alg -runs 100 -cutoff 1000 -i file
+     \endverbatim
+     where alg has to be chosen as one of the available algorithms. </li>
+     <li> In this way one gets a feeling for the quality of the algorithm,
+     and how cutoff needs to be adapted to the problem at hand. </li>
+    </ol>
+   </li>
+   <li> <code>ubcsat -ha</code> shows the list of available algorithms.
+   Typically one needs to try them all out. </li>
   </ul>
 
   
