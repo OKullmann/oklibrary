@@ -22,7 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
 
-/* Colouring variables: terms colv(v), where v is a vertex */
+/* Colouring variables: terms colv(v), where v is a vertex: */
 kill(colv)$
 declare(colv,noun)$
 declare(colv,posfun)$
@@ -30,10 +30,14 @@ colv_var(v) := nounify(colv)(v)$
 
 
 /* Translating the 2-colouring problem for hypergraph G into the SAT-problem
-   for a formal boolean clause-set */
+   for a formal boolean clause-set: */
+/* RENAME: tcol2sat_hg2fcs */
 tcol2sat(G) := [map(colv_var,G[1]),
   family_sets_union(G[2], lambda([H], 
    block([V : map(colv_var,H)], return({V, comp_sl(V)}))))]$
+tcol2sat_ohg2ofcs(G) := [map(colv_var,G[1]),
+  block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
+    append(Fpos, map(comp_sl,Fpos)))]$
 
 /*!
 \endhtmlonly
