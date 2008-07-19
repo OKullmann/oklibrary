@@ -83,6 +83,12 @@ License, or any later version. */
   <ul>
    <li> Use <code>$(grasp_exec_okl) filename</code> (where, as usual,
    "filename" is a SAT-instance in DIMACS format). </li>
+   <li> All resources are restricted; the default values are as follows:
+    <ol>
+     <li> <code>+T 10000</code> (maximal runtime in seconds; default is
+     thus nearly 3 hours). </li>
+    </ol>
+   </li>
   </ul>
 
 */
