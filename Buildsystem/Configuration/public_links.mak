@@ -9,5 +9,9 @@
 
 oksolver2002_okl ?= $(bin_dir)/OKsolver_2002-O3-DNDEBUG
 
-public_link_list_okl ?= $(oksolver2002_okl) $(oklib_call)
+ramsey_generator_okl ?= $(bin_dir)/Ramsey-O3-DNDEBUG
+
+extdimacs2dimacs_okl ?= $(bin_dir)/ExtendedToStrictDimacs-O3-DNDEBUG
+
+public_link_list_okl ?= $(oksolver2002_okl) $(ramsey_generator_okl) $(extdimacs2dimacs_okl) $(oklib_call)
 

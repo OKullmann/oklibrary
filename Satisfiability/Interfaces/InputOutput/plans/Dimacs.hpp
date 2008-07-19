@@ -19,6 +19,13 @@ License, or any later version. */
   \todo Write demos.
 
 
+  \todo Connections to other modules
+  <ul>
+   <li> See "Input and output" in
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/plans/general.hpp. </li>
+  </ul>
+
+
   \todo What happens if the integers from the file are too big?
   <ul>
    <li> We cannot use the stream extractors, since they yield undefined
@@ -90,9 +97,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Write extended Dimacs-parser for clause-sets with non-boolean variables:
+  \todo Write extended Dimacs-parser for clause-sets with non-boolean
+  variables
   <ul>
-   <li> the parameter line now is of the form
+   <li> The parameter line now is of the form
    \verbatim
 p gcnf n c k
    \endverbatim

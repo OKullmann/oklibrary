@@ -1,5 +1,5 @@
 // Oliver Kullmann, 20.11.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,7 +16,11 @@ License, or any later version. */
     <ol> 
      <li> Filter.cpp : what is the purpose of this?? Likely to be removed. </li>
      <li> LinInequal.hpp : </li>
-     <li> Ramsey.cpp </li>
+     <li> Ramsey.cpp
+      <ul>
+       <li> Has now a public link (needs to be updated when moved). </li>
+      </ul>
+     </li>
      <li> Ramsey.hpp </li>
      <li> Generators/Test.cpp (the main procedure for Faron's Puzzle) : </li>
      <li> Tests_Ramsey : </li>
@@ -37,6 +41,9 @@ License, or any later version. */
    The variables are tuples of values.
    </li>
   </ul>
+
+
+  \todo Standardising variable names
 
 
   \todo Sudoku

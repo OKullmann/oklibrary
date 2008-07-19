@@ -67,18 +67,17 @@ License, or any later version. */
      <li> The output is cleaned of tautological clauses and repeated
      literals, and the output of clauses is sorted according to natural
      order for integers. </li>
+     <li> Mention the public link. </li>
     </ol>
    </li>
    <li> Use Messages. </li>
    <li> Use ProgramOptions. </li>
+   <li> Move InputOutput/ExtendedToStrictDimacs.cpp to sub-directory
+   applications, once buildsystem is ready; update then public link. </li>
   </ul>
 
 
   \todo Complete the functionality.
-
-
-  \todo Move InputOutput/ExtendedToStrictDimacs.cpp to sub-directory
-   applications, once buildsystem is ready.
 
 
   \todo Input and output of partial assignments.

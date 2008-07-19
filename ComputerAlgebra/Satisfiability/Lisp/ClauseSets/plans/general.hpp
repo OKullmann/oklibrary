@@ -148,6 +148,7 @@ License, or any later version. */
 
   \todo Input and output
   <ul>
+   <li> See Interfaces/InputOutput/plans/Dimacs.hpp. </li>
    <li> Functions currently in
    ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac
    should move to their own file "InputOutput.mac". </li>
