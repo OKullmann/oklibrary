@@ -212,10 +212,15 @@ substitute_c(C,h) :=
   lambda([x],block([y:substitute_l(x,h)], 
     if elementp(y,{false,-false}) then x else y)),
   C)$
+substitutetotal_c(C,h) := 
+ map(lambda([x],substitute_l(x,h)), C)$
 
 /* Substitute literals in clause-set F via hash table h (possibly
    creating pseudo-clauses with clashing literals). */
 substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
+substitutetotal_cs(F,h) := map(lambda([C],substitutetotal_c(C,h)), F)$
+substitute_ocs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
+substitutetotal_ocs(F,h) := map(lambda([C],substitutetotal_c(C,h)), F)$
 
 /* Given a list of literals of the same size as the set
    of variables of a formal clause-set, rename the formal
@@ -225,7 +230,12 @@ substitute_cs(F,h) := map(lambda([C],substitute_c(C,h)), F)$
 rename_fcs(FF,L) := block(
  [V : listify(FF[1]), h],
   h : osm2hm(map("[",V,L)),
-  [setify(abs(L)), substitute_cs(FF[2],h)])$
+  [setify(abs(L)), substitutetotal_cs(FF[2],h)])$
+rename_ofcs(FF,L) := block(
+ [V : FF[1], h],
+  h : osm2hm(map("[",V,L)),
+  [abs(L), substitutetotal_ocs(FF[2],h)])$
+
 
 /* Translating variable names of a formal clause-set into natural numbers;
    outputs a pair consisting of the translated formal clause-set and
@@ -233,6 +243,9 @@ rename_fcs(FF,L) := block(
    variable-numbers) */
 standardise_fcs(FF) := block([L : create_list(i,i,1,nvar_f(FF))],
  [rename_fcs(FF,L), listify(var_cs_f(FF))])$
+standardise_ofcs(FF) := block([L : create_list(i,i,1,length(FF[1]))],
+ [rename_ofcs(FF,L), FF[1]])$
+
 
 /* Make a list of formal clause-sets variable-disjoint, using
    variables from 1 on. Returns a pair consisting of the renamed
@@ -294,18 +307,30 @@ print_cs_f(comment,FF) := (
 /* output formal clause-set FF to file n */
 output_cs_f(comment,FF,n) := with_stdout(n, print_cs_f(comment,FF))$
 
-/* print a formal clause-set in Dimacs format, together with a map
-   which explains the variable meaning */
+/* Print a formal clause-set in Dimacs format, together with a map
+   which explains the variable meaning: */
+/* RENAME: print_fcs_v */
 print_cs_f_v(comment,FF,varlist) := (
   print_nlb(sconcat("c ", comment)),
   for i from 1 thru length(varlist) do print_nlb(sconcat("c ", i, " : ", varlist[i])),
   print_nlb(sconcat("p cnf ", nvar_f(FF), " ", length(clauses_f(FF)))),
   for C in clauses_f(FF) do print_nlb(sconcat(dimacs_c_string(C), "0"))
 )$
+print_ofcs_v(comment,FF,varlist) := (
+  print_nlb(sconcat("c ", comment)),
+  block([i:1], for v in varlist do (
+    print_nlb(sconcat("c ", i, " : ", v)), i : i + 1
+  )),
+  print_nlb(sconcat("p cnf ", length(FF[1]), " ", length(FF[2]))),
+  for C in FF[2] do print_nlb(sconcat(dimacs_c_string(C), "0"))
+)$
 
-/* output formal clause-set FF to file n, using a variable-list */
+/* Output formal clause-set FF to file n, using a variable-list: */
+/* RENAME: output_fcs_v */
 output_cs_f_v(comment,FF,n,varlist) := 
   with_stdout(n, print_cs_f_v(comment,FF,varlist))$
+output_ofcs_v(comment,FF,n,varlist) := 
+  with_stdout(n, print_ofcs_v(comment,FF,varlist))$
 
 
 /*!
