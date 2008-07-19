@@ -40,9 +40,13 @@ License, or any later version. */
     </ol>
    </li>
    <li> We should perhaps have a module ComputerAlgebra/RamseyTheory. </li>
-   <li> There we would have NR(L,r) for a list L of natural numbers,
-   containing somehow everything known about Ramsey-numbers (i.e.,
-   N([3,3],2)=6 and N([4,4],2)=18). </li>
+   <li> There we would have NR(L,r) for a list L of natural numbers:
+    <ol>
+     <li> Containing somehow everything known about Ramsey-numbers (i.e.,
+     NR([3,3],2)=6 and NR([4,4],2)=18). </li>
+     <li> Best is to return a pair [lower bound, upper bound]. </li>
+    </ol>
+   </li>
    <li> We can define Ramsey graphs for arbitrary hypergraphs G
    (ramsey_hg uses the complete r-graph).
     <ol>
