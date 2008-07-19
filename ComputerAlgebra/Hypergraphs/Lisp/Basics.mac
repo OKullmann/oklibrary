@@ -21,6 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac");
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+
+/* ***********************
+   * Fundamental notions *
+   ***********************
+*/
 
 /*
  A "hypergraph" is a pair (V,E), where V is a set and E a subset of
@@ -30,6 +37,21 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 /*
  A "general hypergraph" is a triple (V,E,f), where V, E are sets, while
  f is a function such that f(e) for e in E is a subset of V.
+*/
+
+/* ************************************
+   * Checking the defining properties *
+   ************************************
+*/
+
+ohg_p(G) := listp(G) and is(length(G)=2) and listnorep_p(G[1]) and
+  listnorep_p(G[2]) and 
+  block([V : setify(G[1])], every(lambda([H],subsetp(H,V)),G[2]))$
+
+
+/* *********************
+   * Checking equality *
+   *********************
 */
 
 /* Equality test for general hypergraphs: */
@@ -62,6 +84,8 @@ hg2ghg(G) := [G[1], G[2], identity]$
    * Downcasts *
    *************
 */
+
+ohg2hg(G) := map(setify,G)$
 
 ghg2hg(G) := [G[1], map(G[3],G[2])]$
 
