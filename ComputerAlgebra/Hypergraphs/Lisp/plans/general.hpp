@@ -111,23 +111,6 @@ create_set([A]) := setify(apply(create_list,A))$
   </ul>
 
 
-  \todo Hypergraphs/Lisp/Generators.mac
-  <ul>
-   <li> For all generated hypergraphs we need accompanying
-   statistic-functions. </li>
-   <li> Create complete r-graphs. </li>
-   <li> Create Sudoko-hypergraphs (such that the Sudoko-problems can be
-   expressed as strong colouring problems).
-    <ol>
-     <li> For box dimension p the vertex set should be {1,...,p}^2. </li>
-     <li> The 3N hyperedges (N=p^2) just correspond to the rows, columns
-     and boxes (the hypergraph is thus N-uniform). </li>
-    </ol>
-   </li>
-   <li> Create Ramsey graphs etc. </li>
-  </ul>
-
-
   \todo Intersecting hypergraphs
   <ul>
    <li> See "Allowed parameter values" in

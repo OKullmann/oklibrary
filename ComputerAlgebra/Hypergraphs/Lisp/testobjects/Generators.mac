@@ -26,7 +26,11 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.ma
    *****************
 */
 
-okltest_ArithmeticProgressions(ArithmeticProgressions);
+okltest_arithprog_hg(arithprog_hg);
+okltest_arithprog_ohg(arithprog_ohg);
+
+okltest_ramsey_hg(ramsey_hg);
+okltest_ramsey_ohg(ramsey_ohg);
 
 /*!
 \endhtmlonly

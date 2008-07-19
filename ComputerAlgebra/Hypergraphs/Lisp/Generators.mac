@@ -22,13 +22,24 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
+/* ************************
+   * Complete hypergraphs *
+   ************************
+*/
+
+complete_hg(n,r) := [setn(n), powerset(setn(n),r)]$
+
+
 /* *****************
    * Ramsey Theory *
    *****************
 */
 
+/* Van der Waerden's theorem: */
+
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
 /* Prerequisites: n,k are integers. */
+/* RENAME: arithprog_hg */
 ArithmeticProgressions(k,n) := block([V : setn(n)],
   if elementp(k,{0,1,2}) then return([V,powerset(V,k)]) 
   elseif n < k or k < 0 then return([V,{}]) 
@@ -37,6 +48,44 @@ ArithmeticProgressions(k,n) := block([V : setn(n)],
     union(ArithmeticProgressions(k,n-1)[2], 
     setify(create_list(setify(
       create_list(n-d*i,i,0,k-1)), d,1,floor((n-1)/(k-1)))))]))$
+arithprog_hg(k,n) := ArithmeticProgressions(k,n)$
+arithprog_ohg(k,n) := block([V : create_list(i,i,1,n), VS],
+  VS : setify(V),
+  if elementp(k,{0,1,2}) then return([V,listify(powerset(VS,k))]) 
+  elseif n < k or k < 0 then return([V,[]]) 
+  elseif k = n then return([V,[VS]]) else
+  return([V, 
+    append(arithprog_ohg(k,n-1)[2], 
+           create_list(setify(
+             create_list(n-d*i,i,0,k-1)), 
+               d,1,floor((n-1)/(k-1))))]))$
+
+/* Ramsey's theorem: */
+
+/* We now consider the underlying hypergraphs for "diagonal" Ramsey
+   problems, that is, for r-graphs with n vertices we consider
+   q-cliques, and a counter-example showing that
+   NR([q,q,...,q],r) > n, where the list of q's has length s, is
+   a hypergraph colouring using s colours of the following 
+   hypergraph.
+   In other words, ramsey_hg(q,r,n) has as vertices the r-subsets
+   of {1,...,n}, while a hyperedge is given by the set of r-subsets
+   of any q-subset of {1,...,n}.
+*/
+/* Prerequisites: q,r,n >= 0. */
+ramsey_hg(q,r,n) := block([V0 : setn(n), V],
+ V : powerset(V0,r),
+ if q>n then [V,{}]
+ elseif r>q then [V,{}]
+ else
+  [V, map(lambda([T],powerset(T,r)),powerset(V0,q))])$
+ramsey_ohg(q,r,n) := block([V0 : setn(n), V],
+ V : listify(powerset(V0,r)),
+ if q>n then [V,[]]
+ elseif r=0 then [V,[{{}}]]
+ elseif r>q then [V,[]]
+ else
+  [V, map(lambda([T],powerset(T,r)), listify(powerset(V0,q)))])$
 
 /*!
 \endhtmlonly

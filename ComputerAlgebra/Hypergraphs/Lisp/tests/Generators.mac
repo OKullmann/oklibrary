@@ -20,6 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac")
 */
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 
 kill(f)$
 
@@ -29,7 +30,7 @@ kill(f)$
    *****************
 */
 
-okltest_ArithmeticProgressions(f) := (
+okltest_arithprog_hg(f) := (
   assert(f(0,-1) = [{},{{}}]),
   assert(f(1,-1) = [{},{}]),
   assert(f(0,0) = [{},{{}}]),
@@ -43,6 +44,34 @@ okltest_ArithmeticProgressions(f) := (
       assert(f(k,n) = [N,powerset(N,k)])
   ),
   assert(f(3,4) = [{1,2,3,4},{{1,2,3},{2,3,4}}]),
+  true)$
+
+okltest_arithprog_ohg(f) := (
+  for k : 0 thru 4 do
+    for n : 0 thru 4 do
+      assert(ohg_p(f(k,n))),
+  assert(okltest_arithprog_hg(buildq([f],lambda([k,n],ohg2hg(f(k,n)))))),
+  true)$
+
+okltest_ramsey_hg(f) := (
+  for q : 0 thru 3 do
+    for r : 0 thru 3 do
+      for n : 0 thru 3 do block([G : f(q,r,n)],
+        assert(length(G[1]) = binom(n,r)),
+        assert(length(G[2]) = if q>n then 0 else
+          if r<=q then (if r=0 then 1 else binom(n,q)) else 0)),
+  true)$
+
+okltest_ramsey_ohg(f) := (
+  assert(f(0,0,0) = [[{}],[{{}}]]),
+  assert(f(0,0,1) = [[{}],[{{}}]]),
+  assert(f(0,1,0) = [[],[]]),
+  assert(f(1,0,0) = [[{}],[]]),
+  for q : 0 thru 3 do
+    for r : 0 thru 3 do
+      for n : 0 thru 3 do
+        assert(ohg_p(f(q,r,n))),
+  assert(okltest_ramsey_hg(buildq([f],lambda([q,r,n],ohg2hg(f(q,r,n)))))),
   true)$
 
 /*!
