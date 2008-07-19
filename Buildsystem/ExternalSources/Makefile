@@ -31,10 +31,16 @@ export
 # Main targets
 # #################################
 
-.PHONY : $(global_targets_extsrc_okl)
+.PHONY : $(global_targets_extsrc_okl) 
 
-all : 
-	echo "NOT READY YET!"
+all : sat math buildsystem libraries compilers
+	echo "PRELIMINARY!"
+sat : $(sat_targets_extsrc_okl)
+math : $(math_targets_extsrc_okl)
+buildsystem : $(buildsystem_targets_extsrc_okl)
+libraries : $(library_targets_extsrc_okl)
+compilers : $(compiler_targets_extsrc_okl)
+
 
 # #################################
 # Functions

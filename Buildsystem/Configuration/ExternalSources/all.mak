@@ -7,7 +7,14 @@
 
 # Configuration variables regarding installation and documentation of external sources
 
-global_targets_extsrc_okl ?= all clean cleanall update
+global_targets_extsrc_okl ?= all clean cleanall update sat math buildsystem libraries compilers
+
+sat_targets_extsrc_okl ?= ubcsat grasp
+math_targets_extsrc_okl ?= allmaxima gap R sage gmp
+buildsystem_targets_extsrc_okl ?= git doxygen
+library_targets_extsrc_okl ?=
+compiler_targets_extsrc_okl ?=
+
 
 ExternalSources_sources ?= $(ExternalSources)/sources
 
