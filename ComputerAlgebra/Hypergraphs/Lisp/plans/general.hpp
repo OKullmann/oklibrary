@@ -59,27 +59,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Naming conventions
-  <ul>
-   <li> "hg" for hypergraph, "ghg" for general hypergraph, and "ohg", "oghg"
-   for the ordered versions. </li>
-   <li> "mhg" for multi-hypergraph, and "omhg" for ordered multi-hypergraph.
-   </li>
-   <li> Conversions then as "hg2ghg", "ohg2hg" etc. </li>
-   <li> Connections to graphs (see
-   ComputerAlgebra/Graphs/Lisp/plans/general.hpp):
-    <ol>
-     <li> g, gl <= hg </li>
-     <li> mug, mugl <= mhg </li>
-     <li> gg <= ghg </li>
-     <li> og, ogl <= ohg </li>
-     <li> omug, omugl <= omhg </li>
-     <li> ogg <= oghg </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Organisation
   <ul>
    <li> Shouldn't Hypergraphs/Lisp/SetSystems.mac have its own module
@@ -113,6 +92,13 @@ create_set([A]) := setify(apply(create_list,A))$
   </ul>
 
 
+  \todo Statistics
+  <ul>
+   <li> Similar to ClauseSets/Statistics.mac we should have
+   Hypergraphs/Statistics.mac. </li>
+  </ul>
+
+
   \todo Special properties of hypergraphs
   <ul>
    <li> Perhaps we have a module "Properties.mac", where basic properties
@@ -127,6 +113,8 @@ create_set([A]) := setify(apply(create_list,A))$
 
   \todo Hypergraphs/Lisp/Generators.mac
   <ul>
+   <li> For all generated hypergraphs we need accompanying
+   statistic-functions. </li>
    <li> Create complete r-graphs. </li>
    <li> Create Sudoko-hypergraphs (such that the Sudoko-problems can be
    expressed as strong colouring problems).

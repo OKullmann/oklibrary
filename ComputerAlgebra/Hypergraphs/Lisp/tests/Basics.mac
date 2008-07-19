@@ -25,6 +25,33 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 
 kill(f)$
 
+/* **************
+   * Promotions *
+   **************
+*/
+
+okltest_hg2ohg(f) := (
+  assert(f([{},{}]) = [[],[]]),
+  assert(f([{},{{}}]) = [[],[{}]]),
+  assert(f([{1},{}]) = [[1],[]]),
+  assert(f([{1},{{}}]) = [[1],[{}]]),
+  assert(f([{1},{{},{1}}]) = [[1],[{},{1}]]),
+  true)$
+
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+okltest_ghg2hg(f) := (
+  assert(f([{},{},identity]) = [{},{}]),
+  assert(f([{1},{},identity]) = [{1},{}]),
+  assert(f([{},{1},lambda([H],{})]) = [{},{{}}]),
+  assert(f([{1,2},{1,2,3},lambda([e],if e<=2 then {1,2} else {2,3})]) = [{1,2},{{1,2},{2,3}}]),
+  true)$
+
+
 /* ************* **
    * Conversions *
    ***************
@@ -49,13 +76,6 @@ okltest_listsets2oghg(f) := (
   assert(f([{}]) = [[],[{}],identity]),
   assert(f([{1}]) = [[1],[{1}],identity]),
   assert(f([{1,2},{-3,1},{3,2}]) = [[-3,1,2,3],[{1,2},{-3,1},{2,3}],identity]),
-  true)$
-
-okltest_ghg2hg(f) := (
-  assert(f([{},{},identity]) = [{},{}]),
-  assert(f([{1},{},identity]) = [{1},{}]),
-  assert(f([{},{1},lambda([H],{})]) = [{},{{}}]),
-  assert(f([{1,2},{1,2,3},lambda([e],if e<=2 then {1,2} else {2,3})]) = [{1,2},{{1,2},{2,3}}]),
   true)$
 
 okltest_edge_vertex_com_hyp(f) := (

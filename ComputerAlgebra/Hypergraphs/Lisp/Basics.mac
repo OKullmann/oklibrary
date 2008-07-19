@@ -32,12 +32,38 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
  f is a function such that f(e) for e in E is a subset of V.
 */
 
-/* Equality test for general hypergraphs */
+/* Equality test for general hypergraphs: */
+/* RENAME: ghg_equalp */
 ghypequalp(G1,G2) := is(G1[1] = G2[1]) and is(G1[2] = G2[2]) and
  block([break : false],
   for e in G1[2] unless break do
     if G1[3](e) # G2[3](e) then break : true,
   return(not break))$
+ghg_equalp(G1,G2) := is(G1[1] = G2[1]) and is(G1[2] = G2[2]) and
+ block([break : false],
+  for e in G1[2] unless break do
+    if G1[3](e) # G2[3](e) then break : true,
+  return(not break))$
+
+
+/* **************
+   * Promotions *
+   **************
+*/
+
+hg2ohg(G) := map(listify,G)$
+
+/* RENAME: hg2ghg */
+promote_general_hypergraph(G) := [G[1], G[2], identity]$
+hg2ghg(G) := [G[1], G[2], identity]$
+
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+ghg2hg(G) := [G[1], map(G[3],G[2])]$
 
 
 /* ************* **
@@ -53,12 +79,6 @@ listsets2hg(L) := setsystem2hg(setify(L))$
 
 /* Converts a list of sets to an ordered general hypergraph: */
 listsets2oghg(L) := [listify(list_sets_union(L)), L, identity]$
-
-/* Promotes a hypergraph to a general hypergraph */
-promote_general_hypergraph(G) := [G[1], G[2], identity]$
-
-/* The underlying hypergraph of a general hypergraph: */
-ghg2hg(G) := [G[1], map(G[3],G[2])]$
 
 /* The combinatorial (hyper)edge-vertex matrix of a hypergraph */
 edge_vertex_com_hyp(G) := [G[2], G[1], lambda([H,v], 

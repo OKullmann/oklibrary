@@ -21,6 +21,21 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Basics.mac
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
 
+/* **************
+   * Promotions *
+   **************
+*/
+
+okltest_hg2ohg(hg2ohg);
+
+
+/* *************
+   * Downcasts *
+   *************
+*/
+
+okltest_ghg2hg(ghg2hg);
+
 /* ************* **
    * Conversions *
    ***************
@@ -29,8 +44,6 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Basics.mac")$
 okltest_setsystem2hg(setsystem2hg);
 okltest_listsets2hg(listsets2hg);
 okltest_listsets2oghg(listsets2oghg);
-
-okltest_ghg2hg(ghg2hg);
 
 okltest_edge_vertex_com_hyp(edge_vertex_com_hyp);
 
