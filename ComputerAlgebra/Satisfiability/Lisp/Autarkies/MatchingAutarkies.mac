@@ -62,7 +62,7 @@ mautmon_ocs(F) := [all_maut_ocs(F), compo_pass, {}]$
 */
 
 /* Testing matching-leanness of clause-sets by the strict maximality of the 
-   maximum deficiency. */
+   maximum deficiency: */
 matchinglean_smax_p(F) := if emptyp(F) then true else block(
  [V : var_cs(F), def],
   def : deficiency_fcs([V,F]),

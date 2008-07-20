@@ -55,6 +55,7 @@ okltest_maut_paocs_p(f) := (
   assert(f({1,2},[{1},{1,2}]) = true),
   assert(f({1,2},[{1,-3},{1,2,3,-4},{},{3,4}]) = true),
   assert(f({1,2,3},[{1,-3},{1,2,3,-4},{},{3,4}]) = true),
+  assert(f({1,-2,3},[{1,2,-3},{-1,-2,-3},{3}]) = true),
   true)$
 
 okltest_all_maut_ocs(f) := block(
@@ -83,7 +84,6 @@ okltest_mautmon_ocs(f) := block(
   ],
   for F in exm1 do
     assert(mon_p(f(F))),
-  if oklib_test_level = 0 then return(true),
   true)$
 
 
@@ -100,6 +100,7 @@ okltest_matchinglean_p(f) := block(
   assert(f({{1},{-1}}) = true),
   assert(f({{1},{1,2}}) = false),
   assert(f({{1},{1,2},{2,-1}}) = true),
+  assert(f({{1,2},{-1,2},{1,-2}}) = true),
   true)$
 
 okltest_clawfree_mlean_def1(FF) := block(
