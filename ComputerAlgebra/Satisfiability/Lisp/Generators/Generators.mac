@@ -23,7 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 
 /* ********************
    * Full clause-sets *
@@ -149,8 +149,15 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
    ********************
 */
 
+/* The boolean clause-sets expressing that NR([q,q],r) < n (a satisfying
+   assignments yields a 2-colouring of the hypergraph with vertices all
+   r-subsets of {1,...,n}, while the hyperedges are all obtained from
+   the q-subsets of {1,...,n} by taking the set of all r-subsets).
+*/
+ramsey2_ofcs(q,r,n) := tcol2sat_ohg2ofcs(ramsey_ohg(q,r,n))$
+
 output_ramsey2(q,r,n,filename) := block(
- [FFR : standardise_ofcs(tcol2sat_ohg2ofcs(ramsey_ohg(q,r,n)))],
+ [FFR : standardise_ofcs(ramsey2_ofcs(q,r,n))],
   output_ofcs_v(
     sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
     FFR[1],

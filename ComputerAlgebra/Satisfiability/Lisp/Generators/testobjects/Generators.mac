@@ -42,6 +42,13 @@ okltest_ncl_list_weak_php(ncl_list_weak_php);
 okltest_ncl_weak_php(ncl_weak_php);
 okltest_deficiency_weak_php(deficiency_weak_php);
 
+/* ********************
+   * Ramsey's problem *
+   ********************
+*/
+
+okltest_ramsey2_ofcs(ramsey2_ofcs);
+
 /* **************************************************
    * Translated minimally unsatisfiable clause-sets *
    **************************************************

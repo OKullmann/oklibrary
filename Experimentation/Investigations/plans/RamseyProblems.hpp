@@ -25,6 +25,9 @@ License, or any later version. */
     <ol>
      <li> By the Maxima system, via "output_ramsey2_stdname(q,r,n)" we
      create "Ramsey_q_r_n.cnf", for NR([q,q],r). </li>
+     <li> However, output_ramsey2_stdname(5,2,40) yields a segmentation
+     fault on a 32-bit machine (this is output-related); so we need to
+     use the following (C++) application. </li>
      <li> More generally (and faster), the application "Ramsey" can generate
      also non-diagonal problems, via
      \verbatim
@@ -106,17 +109,34 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
+  \todo Autarkies
+  <ul>
+   <li> We should investigate autarkies of Ramsey-clause-sets. </li>
+  </ul>
+
+
+  \todo Blocked clauses
+  <ul>
+   <li> We should investigate blocked clauses of Ramsey-clause-sets. </li>
+  </ul>
+
+
+  \todo Symmetry breaking
+  <ul>
+   <li> An important way of making the problems simpler for SAT solvers
+   is to add symmetry-breaking clauses. </li>
+   <li> We should try to figure out the automorphism groups of the
+   hypergraphs and the clause-sets. </li>
+   <li> The goal is to find as many as possible assignments which can
+   be made "w.l.o.g."; and also additional short clauses are of interest. </li>
+  </ul>
+
+
   \todo Better SAT solvers
   <ul>
    <li> These problems seem to be quite structured, so that quite something
    is known (at least more than for Van der Waerden numbers), but SAT solvers
    apparently can't exploit any of it. </li>
-   <li> By symmetry breaking we should achieve something. 
-    <ol>
-     <li> We should try to figure out the automorphism groups of the
-     hypergraphs and the clause-sets. </li>
-    </ol>
-   </li>
    <li> Active clause-sets should be attractive.
     <ol>
      <li> Incorporating some of the knowledge we have for these problems. </li>

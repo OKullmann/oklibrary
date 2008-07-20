@@ -19,6 +19,11 @@ License, or any later version. */
 
 
   \todo Create complete r-graphs
+  <ul>
+   <li> Implement complete_ohg(n,r) by employing a standardised order on
+   the r-subsets of {1,...,n} (see "Module Enumeration" in
+   ComputerAlgebra/plans/general.hpp). </li>
+  </ul>
 
 
   \todo Sudoku
@@ -33,10 +38,27 @@ License, or any later version. */
 
   \todo Ramsey graphs
   <ul>
+   <li> Providing a standardised vertex set:
+    <ol>
+     <li> To handle large hypergraphs, we need to provide a version with
+     standardised vertex names, using a standard enumeration of r-subsets
+     (compare "Create complete r-graphs" above). </li>
+     <li> This standardised hypergraph has then a canonical ordered-preserving
+     isomorphism to ramsey_ohg(q,r,n). </li>
+     <li> The same numbering should also be used in the C++ generator
+     (see Ramsey.cpp). </li>
+     <li> So that we can easily create additional clauses with Maxima,
+     added then to the C++-generated files. </li>
+    </ol>
+   </li>
    <li> Accompanying statistics are needed.
     <ol>
      <li> See okltest_ramsey_hg for the formula for the number of
      hyperedges. </li>
+     <li> One would guess that in most cases the automorphism group
+     of the hypergraph is the S_n (acting in the natural way on
+     the vertex set). See "Symmetry breaking" in
+     Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
     </ol>
    </li>
    <li> We should perhaps have a module ComputerAlgebra/RamseyTheory. </li>
