@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Matchi
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LargestAutarky.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LinearAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/MatchingAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/Translations.mac")$
 

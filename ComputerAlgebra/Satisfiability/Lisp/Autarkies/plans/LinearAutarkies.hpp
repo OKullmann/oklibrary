@@ -12,11 +12,14 @@ License, or any later version. */
 
   \todo Finding linear autarkies
   <ul>
-   <li> Given the clause-variable matrix M, non-trival linear autarkies
+   <li> DONE (predicate laut_paocs_p)
+   Given the clause-variable matrix M, non-trival linear autarkies
    are given as non-trivial solutions of M x >= 0. </li>
-   <li> From what Maxima provides, apparently only maximize_lp (in package
+   <li> DONE (helper functions are provided by us)
+   From what Maxima provides, apparently only maximize_lp (in package
    "simplex") is of use. </li>
-   <li> One possibility to achieve complete search for linear autarkies
+   <li> DONE (find_linearautarky_ocs)
+   One possibility to achieve complete search for linear autarkies
    is to consider one after another the additional constraints x_i >= 1
    and x_i <= -1. </li>
    <li> An alternative is to first consider balanced linear autarkies (by
@@ -38,7 +41,7 @@ License, or any later version. */
    <li> Finally we need a dedicated approach.
     <ol>
      <li> M has a non-trival linear autarky iff the polyhedron M x >= 0
-     is unbounded, and a non-trivial autarky corresponds to an infinite
+     is unbounded, and a non-trivial linear autarky corresponds to an infinite
      ray contained in the polyhedron. Can this be better exploited? </li>
     </ol>
    </li>

@@ -41,11 +41,13 @@ laut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then true else block(
 
 /* The set of all linear autarkies for an ordered clause-set: */
 all_laut_ocs(F) := subset(all_pass(var_ocs(F)), 
-  lambda([phi],laut_pacs_p(phi,F)))$
+  lambda([phi],laut_paocs_p(phi,F)))$
 /* The linear autarky monoid of an ordered clause-set: */
 lautmon_ocs(F) := [all_laut_ocs(F), compo_pass, {}]$
 
-/* Searching for a linear autarky extending a given partial assignment: */
+/* Searching for a linear autarky extending a given partial assignment
+   (returning false if no extension is possible, and otherwise the
+   extension): */
 extlaut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then phi else block(
  [FF : cl2fcl(F), A, h : sm2hm({}), pv : [], nv : [], S],
   A : ocom2m(cl_var_ocom_ofcs(FF)),
@@ -61,6 +63,12 @@ extlaut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then phi else block(
   )),
   return(phi))$
 
+/* Searching for a non-trivial autarky, returning false if there is
+   none (i.e., if the ocs F is linearly lean): */
+find_linearautarky_ocs(F) := block([L : literals_v(var_ocs(F)), phi : false],
+  for x in L unless phi # false do
+    phi : extlaut_paocs_p({x},F),
+  return(phi))$
 
 /*!
 \endhtmlonly
