@@ -35,9 +35,17 @@ colv_var(v) := nounify(colv)(v)$
 tcol2sat(G) := [map(colv_var,G[1]),
   family_sets_union(G[2], lambda([H], 
    block([V : map(colv_var,H)], return({V, comp_sl(V)}))))]$
+/* Now for ordered hypergraphs. */
+/* Prerequisite: G has no empty hyperedge (otherwise the result
+   contains it twice, and is not an ordered (formal) clause-set
+   anymore). */
 tcol2sat_ohg2ofcs(G) := [map(colv_var,G[1]),
   block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
     append(Fpos, map(comp_sl,Fpos)))]$
+/* For standardised hypergraphs (not translating vertex names): */
+/* Again assuming that G doesn't contain an empty hyperedge. */
+tcol2sat_stdohg2stdofcs(G) := [G[1],
+  append(G[2], map(comp_sl,G[2]))]$
 
 /*!
 \endhtmlonly
