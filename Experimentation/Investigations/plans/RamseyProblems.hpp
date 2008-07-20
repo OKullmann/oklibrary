@@ -88,12 +88,15 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
        looks strong. n = 40 ? </li>
        <li> rsaps: similar; but looks bleak for n = 40 (cutoffs 10000 or
        30000 yield nearly the same). </li>
+       <li> samd performs yet best, and also scales to higheer cutoffs,
+       but very slowly: With cutoff = 10 000 000 around 30 falsified
+       clauses is reached. </li>
       </ol>
      </li>
     </ol>
    </li>
    <li> For the ubcsat-algorithms we need some script to run through all
-   of them. </li>
+   of them; see ExperimentSystem/plans/RunUBCSAT.hpp. </li>
    <li> q = 6:
     <ol>
      <li> Known is 102 <= NR([6,6],2) <= 165. </li>
@@ -114,7 +117,7 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      hypergraphs and the clause-sets. </li>
     </ol>
    </li>
-   <li> Active clause-sets should be attractive,
+   <li> Active clause-sets should be attractive.
     <ol>
      <li> Incorporating some of the knowledge we have for these problems. </li>
      <li> They should also be able to better detect symmetries. </li>
