@@ -27,13 +27,15 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 
 
-/* ***************************************
-   * Constants                           *
-   ***************************************
+/* *************
+   * Constants *
+   *************
 */
 
 /* Default number of rounds to be used in the AES functions. */
 aes_num_rounds : 10$
+
+kill(x)$
 
 /*
    The following triple represents the "bit field" or field of integers 
@@ -45,7 +47,6 @@ rijndael_bit_field : [2,1,x]$
    The irreducible polynomial over GF(2) used as the modulus in Rijndael to
    define a GF(2^8) field.
 */
-kill(x)$
 rijndael_polynomial : x^8 + x^4 + x^3 + x + 1$
 rijndael_byte_field : [2,8,rijndael_polynomial]$
 
@@ -64,9 +65,9 @@ egf2t8_inv(a) := egf_inv(rijndael_byte_field,a)$
 egf2t8_matmul(a,b) := egf_matmul(rijndael_byte_field,a,b)$
 
 
-/* ***************************************
-   * Main Round Functions                *
-   ***************************************
+/* ***************
+   * Conversions *
+   ***************
 */
 
 /* Converts an integer to a polynomial representing an element in rijndael's 
@@ -83,9 +84,32 @@ GF2t8PolyToInt(e) := polyToInt(e,2,x)$
 aes_gf2t8_add(byteia,byteib) := 
   GF2t8PolyToInt(egf2t8_add(intToGF2t8Poly(byteia),intToGF2t8Poly(byteib)))$
 
-/* AES finite field addition with integers as input using inbuilt 
+/* AES finite field addition with integers as input using built-in
    logical operators */
 aes_log_gf2t8_add(byteia,byteib) := ?logxor(byteia,byteib)$
+
+/* 
+   Returns a vector (column matrix) of size n of the coefficients of the given
+   polynomial, with the top value in the vector being the coefficient for the
+   highest order term (with order < n).
+*/ 
+/* OK: a "matrix" is not a "vector". These notions need to be corrected. */
+polynomial2vector(poly, n) := 
+  apply(matrix, reverse(create_list([coeff(poly, x, i)],i,0,n-1)))$
+
+/* Returns a polynomial given the vector v, such that the polynomial is of 
+   order n where n is the size of the vector, and the values of the vector 
+   form the coefficients of the polynomial, with the first value in the 
+   vector becoming the coefficient of the highest order polynomial (order n-1).
+*/
+vector2polynomial(v) := block([n : length(v)],
+  sum(v[i][1] * x^(n - i), i, 1, n))$
+
+
+/* *********
+   * S box *
+   *********
+*/
 
 /* Constant used in the affine transformation within sbox */
 rijndael_affine_constant : x^6 + x^5 + x + 1$
@@ -98,22 +122,6 @@ rijndael_sbox_matrix : apply(matrix,
 /* Matrix used in the affine transformation within inv_sbox */
 rijndael_inv_sbox_matrix : apply(matrix,
   create_list(rotate([0,1,0,1,0,0,1,0],i),i,0,7))$
-
-/* 
-   Returns a vector (column matrix) of size n of the coefficients of the given
-   polynomial, with the top value in the vector being the coefficient for the
-   highest order term (with order < n).
-*/ 
-polynomial2vector(poly, n) := 
-  apply(matrix, reverse(create_list([coeff(poly, x, i)],i,0,n-1)))$
-
-/* Returns a polynomial given the vector v, such that the polynomial is of 
-   order n where n is the size of the vector, and the values of the vector 
-   form the coefficients of the polynomial, with the first value in the 
-   vector becoming the coefficient of the highest order polynomial (order n-1).
-*/
-vector2polynomial(v) := block([n : length(v)],
-  sum(v[i][1] * x^(n - i), i, 1, n))$
 
 /* AES sbox. Takes a value in GF(2^8) and returns the result of applying the
    Rijndael Sbox operation on the value. */
@@ -146,6 +154,12 @@ lookup_sbox(bytei) := sbox_data[bytei+1];
    fast operation */
 lookup_inv_sbox(bytei) := inv_sbox_data[bytei+1];
 
+
+/* *************
+   * Sub-bytes *
+   *************
+*/
+
 /* 
    Takes the input block as a list of 16 bytes and applies
    the sbox operation to each byte, returning the list of 
@@ -159,6 +173,12 @@ subbytes(inputblock, sbox_f) := map(sbox_f, inputblock)$
    result bytes.
 */
 inv_subbytes(inputblock,inv_sbox_f) := map(inv_sbox_f, inputblock)$
+
+
+/* **************
+   * Shift rows *
+   **************
+*/
 
 /*
    List of shifts left for each row in the block in the  shiftrows
@@ -183,6 +203,12 @@ shiftrows(inputblock) := block([list_rows : partition_elements(inputblock,4)],
 inv_shiftrows(inputblock) := 
   block([rijndael_shiftrows_shifts : -rijndael_shiftrows_shifts],
   shiftrows(inputblock))$
+
+
+/* ***************
+   * Mix columns *
+   ***************
+*/
 
 /*
    Matrix used in the mixcolumns step to model the 
@@ -249,6 +275,12 @@ lookup_inv_mixcolumn(inputblocki) := block([lookup_field_mul],
 inv_mixcolumns(inputblock,inv_mixcolumn_f) := 
   mixcolumns(inputblock,inv_mixcolumn_f)$
 
+
+/* *****************
+   * Key expansion *
+   *****************
+*/
+
 /*
   Takes the initial key as a list of GF(2^8) elements, the size (in 32 bit words) 
   of the plaintext block, and the number of rounds and returns the expanded key
@@ -272,6 +304,12 @@ key_expansion(kl, n_b, sbox_f, aes_add) := block(
   return(apply(append,map(lambda([ma],matrix2list(columns2matrix(ma))),
     partition_elements(cols,n_b))))
 )$
+
+
+/* *********************************
+   * AES encryption and decryption *
+   *********************************
+*/
 
 /* 
    Takes the plaintext list of GF(2^8) elements and the 

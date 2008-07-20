@@ -21,13 +21,57 @@ oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/AdvancedEncryptionStandard.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/tests/AdvancedEncryptionStandard.mac")$
 
+
+/* *************
+   * Constants *
+   *************
+*/
+
+
+
+/* ***************************************
+   * Custom Field Operations             *
+   ***************************************
+*/
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_polynomial2vector(polynomial2vector);
+okltest_vector2polynomial(vector2polynomial);
+
+/* *********
+   * S box *
+   *********
+*/
+
 okltest_sbox(sbox);
 okltest_sbox(lookup_sbox);
 okltest_inv_sbox(inv_sbox);
 okltest_inv_sbox(lookup_inv_sbox);
 
+/* *************
+   * Sub-bytes *
+   *************
+*/
+
+
+
+/* **************
+   * Shift rows *
+   **************
+*/
+
 okltest_shiftrows(shiftrows);
 okltest_inv_shiftrows(inv_shiftrows);
+
+/* ***************
+   * Mix columns *
+   ***************
+*/
 
 okltest_mixcolumn(lookup_mixcolumn);
 okltest_inv_mixcolumn(lookup_inv_mixcolumn);
@@ -37,7 +81,17 @@ okltest_inv_mixcolumn(inv_mixcolumn);
 okltest_mixcolumns(mixcolumns);
 okltest_inv_mixcolumns(inv_mixcolumns);
 
+/* *****************
+   * Key expansion *
+   *****************
+*/
+
 okltest_key_expansion(key_expansion); 
+
+/* *********************************
+   * AES encryption and decryption *
+   *********************************
+*/
 
 okltest_aes_round(aes_round);
 okltest_inv_aes_round(inv_aes_round);
@@ -45,8 +99,12 @@ okltest_inv_aes_round(inv_aes_round);
 okltest_aes_encrypt(aes_encrypt);
 okltest_aes_decrypt(aes_decrypt);
 
-okltest_polynomial2vector(polynomial2vector);
-okltest_vector2polynomial(vector2polynomial);
+/* **********************************************
+   * Methods of Encryption/Decryption           *
+   **********************************************
+*/
+
+/* OK: ??? */
 
 /*!
 \endhtmlonly
