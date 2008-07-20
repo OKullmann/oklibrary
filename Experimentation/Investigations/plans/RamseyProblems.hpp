@@ -26,8 +26,9 @@ License, or any later version. */
      <li> By the Maxima system, via "output_ramsey2_stdname(q,r,n)" we
      create "Ramsey_q_r_n.cnf", for NR([q,q],r). </li>
      <li> However, output_ramsey2_stdname(5,2,40) yields a segmentation
-     fault on a 32-bit machine (this is output-related); so we need to
-     use the following (C++) application. </li>
+     fault on a 32-bit machine (not enough memory, when introducing
+     the colouring symbols); so we need to use the following (C++)
+     application. </li>
      <li> More generally (and faster), the application "Ramsey" can generate
      also non-diagonal problems, via
      \verbatim
