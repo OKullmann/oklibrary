@@ -23,8 +23,6 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
 /* These are used as variables in some tests: */
-kill(x)$
-kill(a)$
 
 
 okltest_lpad(f) := block(
@@ -37,7 +35,7 @@ okltest_lpad(f) := block(
   assert(f("abc","d",4) = "dabc"),
   true)$
 
-okltest_polynomial2list(f) := block(
+okltest_polynomial2list(f) := block([x],
   for n : 0 thru 3 do
     assert(f(n,0) = []),
   for n : 0 thru 3 do
@@ -52,7 +50,7 @@ okltest_polynomial2list(f) := block(
   assert(f(x^4+x+1,8) = [0,0,0,1,0,0,1,1]),
   true)$
 
-okltest_list2polynomial(f) := block(
+okltest_list2polynomial(f) := block([x],
   for n : 0 thru 3 do
     assert(f([]) = 0),
   for n : -3 thru 4 do
@@ -109,7 +107,7 @@ okltest_intToBaseN(f) := block(
   /*assert(f(-63631769456211,36) = "-MK014LZDF"),*/
   true)$
 
-okltest_intToPoly(f) := block(
+okltest_intToPoly(f) := block([x],
   for n : 1 thru 3 do
     assert(f(0,n) = 0),
   /*for n : -12 thru 12 do
@@ -120,7 +118,7 @@ okltest_intToPoly(f) := block(
   assert(f(423423,15) = 8*x^4+5*x^3+6*x^2+13*x+3),
   true)$
 
-okltest_polyToInt(f) := block(
+okltest_polyToInt(f) := block([x],
   for n : 1 thru 3 do
     assert(f(0,n,x) = 0),
   for n : -12 thru 12 do

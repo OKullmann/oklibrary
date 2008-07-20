@@ -35,19 +35,17 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 /* Default number of rounds to be used in the AES functions. */
 aes_num_rounds : 10$
 
-kill(x)$
-
 /*
    The following triple represents the "bit field" or field of integers 
    modulo 2 (using our egf-interface to the Maxima finite-fields-package).
 */
-rijndael_bit_field : [2,1,x]$
+rijndael_bit_field : [2,1,'x]$
 
 /*
    The irreducible polynomial over GF(2) used as the modulus in Rijndael to
    define a GF(2^8) field.
 */
-rijndael_polynomial : x^8 + x^4 + x^3 + x + 1$
+rijndael_polynomial : '(x^8 + x^4 + x^3 + x + 1)$
 rijndael_byte_field : [2,8,rijndael_polynomial]$
 
 
@@ -112,9 +110,9 @@ vector2polynomial(v) := block([n : length(v)],
 */
 
 /* Constant used in the affine transformation within sbox */
-rijndael_affine_constant : x^6 + x^5 + x + 1$
+rijndael_affine_constant : '(x^6 + x^5 + x + 1)$
 /* Constant used in the affine transformation within inv_sbox */
-rijndael_inv_affine_constant : x^2 + 1$ 
+rijndael_inv_affine_constant : '(x^2 + 1)$ 
 
 /* Matrix used in the affine transformation within sbox */
 rijndael_sbox_matrix : apply(matrix,
@@ -216,11 +214,11 @@ inv_shiftrows(inputblock) :=
    in a polynomial ring of at most order 4 with coefficients in
    GF(2^8).
 */
-rijndael_mixcolumns_matrix : apply(matrix, 
-  create_list(rotate([x, x + 1, 1, 1], i),i,0,3))$
+rijndael_mixcolumns_matrix : block([x], apply(matrix, 
+  create_list(rotate([x, x + 1, 1, 1], i),i,0,3)))$
 /* Inverse of the rijndael_mix_columns_matrix */
-rijndael_inv_mixcolumns_matrix : apply(matrix,
-  create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3))$
+rijndael_inv_mixcolumns_matrix : block([x], apply(matrix,
+  create_list(rotate([x^3+x^2+x,x^3+x+1,x^3+x^2+1,x^3+1], i),i,0,3)))$
 
 /* Mixcolumn operation applied to the elements of a single
    column in the AES/Rijndael block. */
