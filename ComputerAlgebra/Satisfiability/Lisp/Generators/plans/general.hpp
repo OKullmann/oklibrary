@@ -72,7 +72,32 @@ License, or any later version. */
   <ul>
    <li> Translate graph colouring problems into SAT. </li>
    <li> Translate hypergraph colouring problems (strong and weak) into
-   SAT. </li>
+   SAT.
+    <ol>
+     <li> Strong colouring problems are already handled in
+     ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac. </li>
+     <li> DONE (see tcol2sat_stdohg2stdofcs in
+     ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac)
+     We also need the ability to handle standardised hypergraphs,
+     yielding standardised clause-sets. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Ramsey problems
+  <ul>
+   <li> One needs to think about the extreme cases; it seems there are
+   inconsistencies.
+    <ol>
+     <li> Compare "Ramsey graphs" in
+     ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
+    </ol>
+   </li>
+   <li> For larger Ramsey problems, we need the ability to compute directly
+   the standardised clause-set (which is just the hypergraph edges in two
+   versions, positive (as they are) and negative). </li>
+   <li> Compare "Colouring problems" above. </li>
   </ul>
 
 

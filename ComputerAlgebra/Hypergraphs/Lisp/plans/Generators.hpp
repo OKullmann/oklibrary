@@ -38,6 +38,8 @@ License, or any later version. */
 
   \todo Ramsey graphs
   <ul>
+   <li> One needs to revise the extreme cases; compare "Ramsey problems"
+   in ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
    <li> Providing a standardised vertex set:
     <ol>
      <li> To handle large hypergraphs, we need to provide a version with

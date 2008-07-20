@@ -149,10 +149,15 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
    ********************
 */
 
-/* The boolean clause-sets expressing that NR([q,q],r) < n (a satisfying
-   assignments yields a 2-colouring of the hypergraph with vertices all
-   r-subsets of {1,...,n}, while the hyperedges are all obtained from
-   the q-subsets of {1,...,n} by taking the set of all r-subsets).
+/* The boolean ordered formal clause-sets expressing that NR([q,q],r) < n; 
+   a satisfying assignments yields a 2-colouring of the hypergraph with
+   vertices all r-subsets of {1,...,n}, while the hyperedges are all
+   obtained from the q-subsets of {1,...,n} by taking the set of all 
+   r-subsets.
+   In other words, the clause-set is satisfiable iff one can assign 0 and
+   1 to the r-element subsets (the "vertices") of {1,...,n} such that for 
+   every q-element subset of {1,...,n} there are two vertices which are
+   subsets and which have different values assigned.
 */
 ramsey2_ofcs(q,r,n) := tcol2sat_ohg2ofcs(ramsey_ohg(q,r,n))$
 
