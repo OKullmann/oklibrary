@@ -26,12 +26,10 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    ********************************************
 */
 
-special_symbol : "xyz"$
-
-/* Using for example special_symbol = "x", then "x1", "x2" etc. (up to the
-   index used) must not be defined (otherwise their values are substituted
-   into the expressions created, which likely renders them useless).
+/* When translating positions into variables, then the base
+   name of the formal variable is given by the following variable:
 */
+special_symbol : "x"$
 
 /* Translating a vector into a linear combination, based on
    the special symbol.
@@ -40,7 +38,7 @@ special_symbol : "xyz"$
    is true.
 */
 translate_vector_lincomb_n(a,n) := 
-  sum(a[i] * eval_string(sconcat(special_symbol,i)), i,1,n)$
+  sum(a[i] * parse_string(sconcat(special_symbol,i)), i,1,n)$
 translate_vector_lincomb(a) := 
   translate_vector_lincomb_n(a,length(a))$
 
@@ -54,9 +52,9 @@ translate_matrix_ineq(A) := block([m,n],
  
 /* Creating inequalities x_i >= 1, x_i <= -1, and x_i = 0,
    specifying the index i (while "x" is special_symbol): */
-interprete_poscond(i) := eval_string(sconcat(special_symbol,i)) >= 1$
-interprete_negcond(i) := eval_string(sconcat(special_symbol,i)) <= -1$
-interprete_zerocond(i) := eval_string(sconcat(special_symbol,i)) = 0$
+interprete_poscond(i) := parse_string(sconcat(special_symbol,i)) >= 1$
+interprete_negcond(i) := parse_string(sconcat(special_symbol,i)) <= -1$
+interprete_zerocond(i) := parse_string(sconcat(special_symbol,i)) = 0$
 
 
 /* ******************************************

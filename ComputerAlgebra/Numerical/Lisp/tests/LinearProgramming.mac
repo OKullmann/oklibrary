@@ -64,7 +64,8 @@ okltest_interprete_zerocond(f) := block(
    ******************************************
 */
 
-okltest_solve_lineq(f) := block([A],
+okltest_solve_lineq(f) := block([A, special_symbol : "x", x1,x2],
+  x1 : 777, x2 : -9999,
   assert(f(matrix(),[],[],[]) = []),
   assert(f(matrix([0]),[],[],[]) = [0]),
   assert(f(matrix([0]),[1],[],[]) = [1]),
