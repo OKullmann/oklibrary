@@ -10,6 +10,24 @@ License, or any later version. */
   \brief Plans regarding sampling of biclique partitions in (general) graphs
 
 
+  \todo Sampling maximal vertex-bicliques
+  <ul>
+   <li> First task, given an ordered graph, find a maximal ordered biclique.
+    <ol>
+     <li> Parameter 0 <= p <= 1. </li>
+     <li> Run through the vertices in the given order, try to add it to
+     one of the sides of the biclique, and if both are possible, then
+     use p for a random choice. </li>
+     <li> One possibility for the check is that the new vertex is always
+     checked against all vertices already in the biclique. </li>
+     <li> The other possibility is that for both parts of the biclique
+     we maintain the set of vertices addable to it, and then for a new
+     vertex we only need to check membership. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Uniformly sampling biclique partitions
   <ul>
    <li> Given the uniform probability distribution on the set of all biclique
