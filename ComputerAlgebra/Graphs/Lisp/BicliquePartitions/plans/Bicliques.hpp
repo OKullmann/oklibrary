@@ -38,6 +38,9 @@ License, or any later version. */
    know precisely which edges are part of the biclique. </li>
    <li> So we could speak of a "subgraph-biclique", "edge-set-biclique" and
    "vertex-set-biclique" (where the latter is a pair of vertex-sets). </li>
+   <li> For the ordered graph versions instead a vertex-sets we have
+   vertex-lists, and their order must conform with the given total
+   order; the abbreviation then is "ovbc". </li>
    <li> DONE (since we need two subsets, it's not really a hypergraph)
    The vertex-bicliques then form a hereditary hypergraph (vertices
    the vertices of the given graph; "hereditary" means that for every
@@ -50,6 +53,13 @@ License, or any later version. */
    <li> A subgraph-biclique as well as an edge-biclique can be refined by
    specifying an associated vertex-biclique (which fixes the bipartitioning).
    </li>
+  </ul>
+
+
+  \todo Maximal biclique
+  <ul>
+   <li> We need tests for checking whether a biclique is maximal (cannot
+   be extended). </li>
   </ul>
 
 
