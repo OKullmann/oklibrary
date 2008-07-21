@@ -19,42 +19,8 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/TermSystems/Lisp/Conversions.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
-/* ********************************************
-   * Auxiliary functions handling "equations" *
-   ********************************************
-*/
-
-/* When translating positions into variables, then the base
-   name of the formal variable is given by the following variable:
-*/
-special_symbol : "x"$
-
-/* Translating a vector into a linear combination, based on
-   the special symbol.
-   If special_symbol = x and a = [1,4,7], then
-   is(translate_vector_lincomb(a) = 1 * x1 + 4 * x2 + 7 * x3)
-   is true.
-*/
-translate_vector_lincomb_n(a,n) := 
-  sum(a[i] * parse_string(sconcat(special_symbol,i)), i,1,n)$
-translate_vector_lincomb(a) := 
-  translate_vector_lincomb_n(a,length(a))$
-
-/* Treating a matrix row-wise, translate "A x >= 0" into a list
-   of inequalities: 
-*/
-translate_matrix_ineq(A) := block([m,n],
-  [m,n] : matrix_size(A),
-  block([eqslhs : create_list(translate_vector_lincomb_n(A[i],n),i,1,m)],
-    create_list(eqslhs[i] >= 0,i,1,m)))$
- 
-/* Creating inequalities x_i >= 1, x_i <= -1, and x_i = 0,
-   specifying the index i (while "x" is special_symbol): */
-interprete_poscond(i) := parse_string(sconcat(special_symbol,i)) >= 1$
-interprete_negcond(i) := parse_string(sconcat(special_symbol,i)) <= -1$
-interprete_zerocond(i) := parse_string(sconcat(special_symbol,i)) = 0$
 
 
 /* ******************************************
