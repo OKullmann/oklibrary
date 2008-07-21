@@ -90,6 +90,32 @@ okltest_gdg2ogdg(gdg2ogdg);
 */
 
 
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_g2dg(g2dg);
+okltest_gl2dgl(gl2dgl);
+
+
+/* **************************
+   * Basic graph operations *
+   **************************
+*/
+
+
+/* *****************************
+   * Basic graph constructions *
+   *****************************
+*/
+
+
+/* **********
+   * Tests  *
+   **********
+*/
+
 
 /* ********************************
    * Connections to Maxima-graphs *

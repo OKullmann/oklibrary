@@ -564,6 +564,46 @@ okltest_gdg2ogdg(f) := block([k],
 */
 
 
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_g2dg(f) := block(
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{}]) = [{1},{}]),
+  assert(f([{1,2},{{1,2}}]) = [{1,2},{[1,2],[2,1]}]),
+  for G in okltest_list_g do
+    assert(dgl2gl(f(G)) = G),
+  true)$
+okltest_gl2dgl(f) := block(
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{}]) = [{1},{}]),
+  assert(f([{1},{{1}}]) = [{1},{[1,1]}]),
+  assert(f([{1,2},{{1,2}}]) = [{1,2},{[1,2],[2,1]}]),
+  for G in append(okltest_list_g,okltest_list_gl) do
+    assert(dgl2gl(f(G)) = G),
+  true)$
+
+
+/* **************************
+   * Basic graph operations *
+   **************************
+*/
+
+
+/* *****************************
+   * Basic graph constructions *
+   *****************************
+*/
+
+
+/* **********
+   * Tests  *
+   **********
+*/
+
+
 
 /* ********************************
    * Connections to Maxima-graphs *
