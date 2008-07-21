@@ -45,14 +45,21 @@ License, or any later version. */
    vertex-lists instead of vertex-sets. </li>
    <li> There is also the (cryptomorphic) notion of a "precategory",
    which is a 4-tuple [V,E,source,target]. </li>
-   <li> A "multigraph" is a triple [V,E,f], where [V,E] is a graph, and f
-   is a map which maps every element of E to a natural number (that is, >0).
+   <li> Multigraphs:
+    <ol>
+     <li> A "multigraph" is a triple [V,E,f], where [V,E] is a graph, and f
+     is a map which maps every element of E to a natural number (that is, >0).
+     </li>
+     <li> While a "multigraph with loops" is similarly a triple [V,E,f] such that
+     [V,E] is a graph with loops. </li>
+     <li> And a "directed multigraph" is a triple [V,E,f], where now the elements
+     of E or pairs, while a "directed multigraph with loops" allows the elements
+     of the pairs to be identical. </li>
+     <li> However, it seems more natural to actually make the domain of f all
+     possible edges (directed or undirected, with or without loops); then possibly
+     the edge set could be dropped. </li>
+    </ol>
    </li>
-   <li> While a "multigraph with loops" is similarly a triple [V,E,f] such that
-   [V,E] is a graph with loops. </li>
-   <li> And a "directed multigraph" is a triple [V,E,f], where now the elements
-   of E or pairs, while a "directed multigraph with loops" allows the elements
-   of the pairs to be identical. </li>
    <li> Since also for general graphs the edge set needs to be given, we don't
    have the possibility of "lazy graph representations". Seems unavoidable. /li>
    <li> "Oriented" versions:
