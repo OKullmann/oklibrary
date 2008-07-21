@@ -48,7 +48,7 @@ raction_transformation_l(op,n) := buildq([op,n],
   lambda([v], create_list(op(i,v), i,1,n)))$
 
 
-/* An action of a groupoids preserves the operation.
+/* An action on a groupoid preserves the operation.
 */
 
 action_bydef_set_grd(act,A,V) := block([counterexample : false],
