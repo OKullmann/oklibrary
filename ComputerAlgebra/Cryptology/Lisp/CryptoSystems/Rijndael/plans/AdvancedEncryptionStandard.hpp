@@ -12,6 +12,7 @@ License, or any later version. */
 
   \todo Auxiliary functions
   <ul>
+   <li> See TermSystems/Lisp/Conversions.mac. </li>
    <li> What is the meaning of
    \verbatim
 load("functs")$ Bug Here atm  For logxor
