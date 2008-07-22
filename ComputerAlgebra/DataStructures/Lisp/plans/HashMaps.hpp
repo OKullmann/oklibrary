@@ -12,16 +12,27 @@ License, or any later version. */
 
   \todo New naming conventions
   <ul>
-   <li> Renaming old functions:
-    <li> "setmapp" -> sm_p </li>
-    <li> XXX </li>
+   <li> Rename old functions as indicated in
+   ComputerAlgebra/DataStructures/Lisp/HashMaps.mac. </li>
+   <li> The general abbreviations are:
+    <ol>
+     <li> "mp" for map (with one argument), with "lmp" for a "lambda map",
+     that is, a map realised by a lambda-term, and with "lmpa" for a
+     lambda map with build-in array </li>
+     <li> "sm" for set-map </li>
+     <li> "hm" for hash-map </li>
+     <li> "ary" for okl-arrays </li>
+     <li> "l" for list, with "il" for integer list, and "fl" for
+     floating point list </li>
+     <li> "s" for set </li>
+    </ol>
    </li>
   </ul>
 
 
   \todo Concept of a set-theoretical map
   <ul>
-   <li> Perhaps all this should go to ComputerAlgebra/Sets. </li>
+   <li> All this should go to ComputerAlgebra/Sets. </li>
    <li> DONE (see ComputerAlgebra/DataStructures/Lisp/HashMaps.mac)
    We should institutionalise the concept of a "set-theoretic"
    map as a set of pairs. </li>
@@ -32,9 +43,10 @@ License, or any later version. */
      <li> extract range </li>
      <li> DONE compute value for a single argument </li>
      <li> compute value set for a set of arguments </li>
+     <li> composition of partial and of total maps </li>
     </ol>
    </li>
-   <li> We need the same functinality also for ordered set-maps. </li>
+   <li> We need the same functionality also for ordered set-maps. </li>
    <li> We also should have the concept of a (set-theoretical)
    relation as set of pairs!
     <ol>
