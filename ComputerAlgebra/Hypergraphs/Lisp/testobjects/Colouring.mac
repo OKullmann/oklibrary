@@ -31,6 +31,8 @@ okltest_tcol2sat_stdhg2stdfcs(tcol2sat_stdhg2stdfcs);
 okltest_tcol2sat_ohg2fcl(tcol2sat_ohg2fcl);
 okltest_tcol2sat_stdohg2stdfcl(tcol2sat_stdohg2stdfcl);
 
+okltest_col2sat_ohg2nbfcl(col2sat_ohg2nbfcl);
+okltest_col2sat_stdohg2stdnbfcl(col2sat_stdohg2stdnbfcl);
 
 /*!
 \endhtmlonly

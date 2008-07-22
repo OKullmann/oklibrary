@@ -34,8 +34,9 @@ declare(colv,noun)$
 declare(colv,posfun)$
 colv_var(v) := nounify(colv)(v)$
 
-/* Translating the 2-colouring problem for hypergraph G into the SAT-problem
+/* Translating the 2-colouring problem for hypergraph G into the SAT problem
    for a formal boolean clause-set: */
+
 tcol2sat_hg2fcs(G) := block(
  [Fpos : map(lambda([H], map(colv_var,H)), listify(G[2]))],
   [map(colv_var,G[1]), setify(append(Fpos, comp_cs(Fpos)))])$
@@ -50,6 +51,17 @@ tcol2sat_ohg2fcl(G) := [map(colv_var,G[1]),
   block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
     append(Fpos, comp_cs(Fpos)))]$
 tcol2sat_stdohg2stdfcl(G) := [G[1], append(G[2], comp_cs(G[2]))]$
+
+/* Translating an S-colouring problem (S a set/list of colours) for 
+   hypergraph G into the SAT problem for a formal nb-clause-set (using 
+   non-boolean variables).
+*/
+
+col2sat_ohg2nbfcl(G,S) := [[map(colv_var,G[1]),
+  block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
+    apply(append,create_list(map(lambda([C],cartesian_product(C,{c})),Fpos), c,S)))], S]$
+col2sat_stdohg2stdnbfcl(G,S) := [[G[1],
+    apply(append,create_list(map(lambda([C],cartesian_product(C,{c})),G[2]), c,S))], S]$
 
 
 /*!

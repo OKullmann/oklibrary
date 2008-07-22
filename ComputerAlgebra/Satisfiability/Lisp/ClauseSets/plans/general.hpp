@@ -59,9 +59,16 @@ License, or any later version. */
      of vertices given (except of set-systems). </li>
     </ol>
    </li>
-   <li> A "formal multi-clause-set" is a triple [V,F,c] s.t. [V,F] is a
-   formal clause-set and c: F -> NN; accordingly "ordered formal multi-
-   -clause-sets". </li>
+   <li> "Multi-clause-sets":
+    <ol>
+     <li> A triple [V,F,c] s.t. [V,F] is a formal clause-set and c: F -> NN.
+     </li>
+     <li> Accordingly "ordered multi-clause-sets". </li>
+     <li> However, perhaps the clause-function is better defined on all
+     possible clauses over V (and returns 0 for clauses which are not
+     contained. </li>
+    </ol>
+   </li>
    <li> Labelled clause-sets (not "general clause-sets" to avoid confusion)
     <ol>
      <li> A "labelled clause-set" is a triple [V,F,f], where V is a
@@ -101,9 +108,15 @@ License, or any later version. */
      "cl"), since we have already "flcs". </li>
     </ol>
    </li>
-   <li> Then we have the "monosigned" versions, where literals are pairs
-   [v,e], with e a value. </li>
-   <li> And there a "signed" versions, where then e is a set of values. </li>
+   <li> Generalised literals:
+    <ol>
+     <li> Then we have the "non-boolean" versions, where literals are pairs
+     [v,e], with e a value. </li>
+     <li> And there a "power" versions, where then e is a set of values. </li>
+     <li> The "monosigned literals" resp. "signed literals" are corresponding
+     triples, with the third component in {-1,+1}. </li>
+    </ol>
+   </li>
    <li> A problem with non-boolean variables is, where to put the information
    about the domain of the variables:
     <ol>
@@ -112,6 +125,11 @@ License, or any later version. */
      </li>
      <li> Perhaps it's not part of clause-sets etc., but only part of
      "problems" given for example to SAT-solvers. </li>
+     <li> So a signed clause-set etc. would always need to be accompanied
+     by either a uniform domain, or by a domain function. </li>
+     <li> But perhaps we should codify such pairs [FF, D], where D is a set,
+     list or map. Perhaps the default for all types of clause-sets is
+     a uniform domain. </li>
     </ol>
    </li>
    <li> Conversions:

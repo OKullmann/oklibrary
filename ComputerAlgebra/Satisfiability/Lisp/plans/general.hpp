@@ -59,18 +59,25 @@ License, or any later version. */
      <li> The "formal" versions:
       <ul>
        <li> "fcs", "focs" </li>
-       <li> "fmcs", "fomcs" </li>
-       <li> "flcs", "folcs". </li>
+       <li> "lcs", "olcs". </li>
       </ul>
      </li>
     </ol>
    </li>
    <li> What about literals as sets of pairs [v,e], where e is
-   a value (forbidden for CNF, allowed for DNF?
+   a value (forbidden for CNF, allowed for DNF)?
     <ol>
      <li> We could use the prefix "ms" for monosigned? </li>
      <li> So "msl", "msc", "mscs", "mscl", "msfcs", "msfocs",
      "msfmcs", "msfomcs", "msflcs", "msfolcs". </li>
+     <li> However then we could not express that in a CNF (or DNF)
+     we wanted to have both allowed and forbidden values? </li>
+     <li> Then we needed triples [v,e,s], where [v,e] as before, while
+     s in {-1,+1} ? (This would allow negation.) </li>
+     <li> We could also have "signed literals" (see below) additionally
+     with negation? </li>
+     <li> We could call pairs [n,e] "non-boolean literals" ("nbl"), while
+     triples [n,e,s] are "monosigned literals" ("msl") ? </li>
     </ol>
    </li>
    <li> And then we have signed literals as sets of pairs [v,E],
@@ -79,6 +86,10 @@ License, or any later version. */
      <li> We could use the prefix "s" for signed? </li>
      <li> So "sl", "sc", "scs", "scl", "sfcs", "sfocs",
      "sfmcs", "sfomcs", "sflcs", "sfolcs". </li>
+     <li> It seems sensible to allow also triple [v,E,s], where s in {-1,+1}
+     (for efficient negation). </li>
+     <li> Such triples would sensibly be called "signed literals" ("sl");
+     now how to call pairs [v,E]? "Power literals" ("pl")! </li>
     </ol>
    </li>
    <li> Then we have the different kind of partial assignments:
