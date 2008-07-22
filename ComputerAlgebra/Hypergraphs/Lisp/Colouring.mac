@@ -19,8 +19,14 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
+
+/* ***********************
+   * Translations to SAT *
+   ***********************
+*/
 
 /* Colouring variables: terms colv(v), where v is a vertex: */
 kill(colv)$
@@ -28,24 +34,23 @@ declare(colv,noun)$
 declare(colv,posfun)$
 colv_var(v) := nounify(colv)(v)$
 
-
 /* Translating the 2-colouring problem for hypergraph G into the SAT-problem
    for a formal boolean clause-set: */
-/* RENAME: tcol2sat_hg2fcs */
-tcol2sat(G) := [map(colv_var,G[1]),
-  family_sets_union(G[2], lambda([H], 
-   block([V : map(colv_var,H)], return({V, comp_sl(V)}))))]$
-/* Now for ordered hypergraphs. */
-/* Prerequisite: G has no empty hyperedge (otherwise the result
-   contains it twice, and is not an ordered (formal) clause-set
-   anymore). */
-tcol2sat_ohg2ofcs(G) := [map(colv_var,G[1]),
+tcol2sat_hg2fcs(G) := block(
+ [Fpos : map(lambda([H], map(colv_var,H)), listify(G[2]))],
+  [map(colv_var,G[1]), setify(append(Fpos, comp_cs(Fpos)))])$
+/* Using the vertices directly as variables; works for example for
+   standardised hypergraphs: */
+tcol2sat_stdhg2stdfcs(G) := [G[1], union(G[2], comp_cs(G[2]))]$
+
+/* Now for ordered hypergraphs, producing clause-lists: */
+/* If G does not contain an empty hyperedge, then the result is
+   actually a (formal) clause-set. */
+tcol2sat_ohg2fcl(G) := [map(colv_var,G[1]),
   block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
-    append(Fpos, map(comp_sl,Fpos)))]$
-/* For standardised hypergraphs (not translating vertex names): */
-/* Again assuming that G doesn't contain an empty hyperedge. */
-tcol2sat_stdohg2stdofcs(G) := [G[1],
-  append(G[2], map(comp_sl,G[2]))]$
+    append(Fpos, comp_cs(Fpos)))]$
+tcol2sat_stdohg2stdfcl(G) := [G[1], append(G[2], comp_cs(G[2]))]$
+
 
 /*!
 \endhtmlonly
