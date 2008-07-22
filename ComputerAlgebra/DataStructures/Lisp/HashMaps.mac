@@ -140,7 +140,8 @@ lambda_hm(h) := buildq([h],lambda([x],ev_hm(h,x)))$
 
 /* "okl-arrays" are 1-based, and at index 0 they contain their length. */
 
-/* First the equivalents of the built-in functions: */
+/* The equivalents of the built-in functions: */
+
 okl_make_array(type,dim) := block([a : make_array(type,dim+1)], 
   a[0] : dim, a)$
 okl_listarray(a) := rest(listarray(a))$
@@ -149,7 +150,9 @@ array2l(a) := okl_listarray(a)$
 /* Here L must be a list and a an okl-array: */
 okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
 
-/* Creating an okl-array from a list: */
+
+/* Creating okl-arrays from lists: */
+
 /* RENAME: l2ary */
 l2array(L) := okl_fillarray_l(okl_make_array(any,length(L)),L)$
 /* If the list contains only integers, and the array shall be
@@ -160,6 +163,9 @@ il2array(L) := okl_fillarray_l(okl_make_array(fixnum,length(L)),L)$
    an array of floating-point numbers: */
 /* RENAME: fl2ary */
 fl2array(L) := okl_fillarray_l(okl_make_array(flonum,length(L)),L)$
+
+
+/* Creating okl-arrays from set-maps: */
 
 /* RENAME: sm2ary */
 sm2array(M) := sm2array_lt(M,length(M),any)$
@@ -177,9 +183,11 @@ osm2array_lt(M,l,type) := sm2array_lt(M,l,type)$
 /* RENAME: ary2osm */
 array2osm(a) := array2osm_v(a,false)$
 /* Specifying the value which signals "not assigned": */
-/* RENAME: ary2osm *.
+/* RENAME: ary2osm */
 array2osm_v(a,v) := block([L : okl_listarray(a)],
   delete(v,create_list(if L[i]=false then false else [i,L[i]],i,1,length(L))))$
+
+/* Creating lambda-maps with "built-in okl-array": */
 
 /* Converting an array or an array-function into a lambda-term: */
 /* RENAME: ary2lmp2 */
