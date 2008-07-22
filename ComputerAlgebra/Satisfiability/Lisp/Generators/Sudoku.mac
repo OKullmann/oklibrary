@@ -73,7 +73,7 @@ weak_sdk(p) := [var_sdk(p),
        sdk_all_fields(p))]$
 
 output_weak_sdk(p,filename) := block([FF : standardise_fcs(weak_sdk(p))],
-  output_cs_f_v(
+  output_fcs_v(
     sconcat("The Sudoku problem (weak form) with box-dimension ", p, "."), 
     FF[1],
     filename,
@@ -104,7 +104,7 @@ dual_weak_sdk(p) := [var_sdk(p),
        sdk_different_fields(p))]$
 
 output_dual_weak_sdk(p,filename) := block([FF : standardise_fcs(dual_weak_sdk(p))],
-  output_cs_f_v(
+  output_fcs_v(
     sconcat("The Sudoku problem (dual weak form) with box-dimension ", p, "."), 
     FF[1],
     filename,
@@ -116,7 +116,7 @@ strong_sdk(p) := [var_sdk(p),
  union(weak_sdk(p)[2], dual_weak_sdk(p)[2])]$
 
 output_strong_sdk(p,filename) := block([FF : standardise_fcs(strong_sdk(p))],
-  output_cs_f_v(
+  output_fcs_v(
     sconcat("The Sudoku problem (strong form) with box-dimension ", p, "."), 
     FF[1],
     filename,
