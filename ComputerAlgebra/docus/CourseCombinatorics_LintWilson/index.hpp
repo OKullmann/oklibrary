@@ -22,6 +22,9 @@ License, or any later version. */
 
   <ol>
    <li> %Graphs: CourseCombinatorics_LintWilson/Chapter01.hpp </li>
+   <li> Trees: CourseCombinatorics_LintWilson/Chapter02.hpp </li>
+   <li> Colorings of graphs and Ramsey's theorem:
+   CourseCombinatorics_LintWilson/Chapter03.hpp </li>
   </ol>
 
 */

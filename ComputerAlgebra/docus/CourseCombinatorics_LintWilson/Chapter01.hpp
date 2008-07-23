@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Chapter "Graphs" from [A Course in %Combinatorics]
 
 
-  <h2> On the notion of "graphs" </h2>
+  <h1> On the notion of "graphs" </h1>
 
   Documentation:
   <ul>
@@ -22,7 +22,7 @@ License, or any later version. */
   <h2> Basic operations and properties for graphs </h2>
 
 
-  <h2> On the automorphism group of the Petersen graph </h2>
+  <h1> On the automorphism group of the Petersen graph </h1>
 
   <ul>
    <li> The Petersen graph is available as follows:
@@ -52,7 +52,7 @@ gap> Factorial(40);
    \endverbatim
    </li>
    <li> Thus one expects the automorphism group of knesergraph_g(n,2) to
-   be (naturally) isomorphic to the S_40 ?! </li>
+   be (naturally) isomorphic to the S_n ?! </li>
    <li> Investigating closer the automorphism group of the Petersen graph:
    \verbatim
 gap> AutGroupGraph(JohnsonGraph(5,2));
