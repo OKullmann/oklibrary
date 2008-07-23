@@ -60,7 +60,7 @@ okltest_tcol2sat_stdohg2stdfcl(f) := (
   assert(okltest_tcol2sat_stdhg2stdfcs(buildq([f],lambda([G],fcl2fcs(f(hg2ohg(G))))))),
   true)$
 
-okltest_col2sat_ohg2nbfcl(f) := block([x],
+okltest_col2sat_ohg2nbfclud(f) := block([x],
   assert(f([[],[]],[]) = [[[],[]],[]]),
   assert(f([[],[{}]],[]) = [[[],[]],[]]),
   assert(f([[],[{}]],[1,2]) = [[[],[{},{}]],[1,2]]),
@@ -69,7 +69,7 @@ okltest_col2sat_ohg2nbfcl(f) := block([x],
     [{[colv(1),3],[colv(2),3]},{[colv(1),3]},{[colv(1),x],[colv(2),x]},{[colv(1),x]}]], [3,x]]),
   true)$
 
-okltest_col2sat_stdohg2stdnbfcl(f) := block([x,y],
+okltest_col2sat_stdohg2stdnbfclud(f) := block([x,y],
   assert(f([[],[]],[]) = [[[],[]], []]),
   assert(f([[],[{}]],[]) = [[[],[]], []]),
   assert(f([[],[{}]],[1,2]) = [[[],[{},{}]], [1,2]]),

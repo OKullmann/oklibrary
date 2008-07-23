@@ -54,13 +54,13 @@ tcol2sat_stdohg2stdfcl(G) := [G[1], append(G[2], comp_cs(G[2]))]$
 
 /* Translating an S-colouring problem (S a set/list of colours) for 
    hypergraph G into the SAT problem for a formal nb-clause-set (using 
-   non-boolean variables).
+   non-boolean variables; with uniform domain).
 */
 
-col2sat_ohg2nbfcl(G,S) := [[map(colv_var,G[1]),
+col2sat_ohg2nbfclud(G,S) := [[map(colv_var,G[1]),
   block([Fpos : map(lambda([H], map(colv_var,H)), G[2])],
     apply(append,create_list(map(lambda([C],cartesian_product(C,{c})),Fpos), c,S)))], S]$
-col2sat_stdohg2stdnbfcl(G,S) := [[G[1],
+col2sat_stdohg2stdnbfclud(G,S) := [[G[1],
     apply(append,create_list(map(lambda([C],cartesian_product(C,{c})),G[2]), c,S))], S]$
 
 

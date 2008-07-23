@@ -58,12 +58,14 @@ License, or any later version. */
      <li> For ordered clause-sets: "ocs". </li>
      <li> The "formal" versions:
       <ul>
-       <li> "fcs", "focs" </li>
+       <li> "fcs", "ofcs" </li>
        <li> "lcs", "olcs". </li>
       </ul>
      </li>
     </ol>
    </li>
+   <li> For "standardised clause-sets we use prefix "std", e.g., "stdcs",
+   or "stdnbfcs". </li>
    <li> What about literals as sets of pairs [v,e], where e is
    a value (forbidden for CNF, allowed for DNF)?
     <ol>
@@ -84,27 +86,46 @@ License, or any later version. */
    where E is a set of values (or a list?)?
     <ol>
      <li> We could use the prefix "s" for signed? </li>
-     <li> So "sl", "sc", "scs", "scl", "sfcs", "sfocs",
-     "sfmcs", "sfomcs", "sflcs", "sfolcs". </li>
+     <li> So "sl", "sc", "scs", "scl", "sfcs", "sofcs",
+     "smucs", "somucs", "slcs", "solcs". </li>
      <li> It seems sensible to allow also triple [v,E,s], where s in {-1,+1}
      (for efficient negation). </li>
      <li> Such triples would sensibly be called "signed literals" ("sl");
      now how to call pairs [v,E]? "Power literals" ("pl")! </li>
     </ol>
    </li>
+   <li> For the various forms of generalised clause-sets D we need also forms
+   which are pairs [F,D], where D yields the domain of variables:
+    <ol>
+     <li> Using the suffix "ud" for "uniform domain" (D is just a set resp.
+     a list for the ordered cases). </li>
+     <li> While the suffix "fd" for "function domain" mean a function which
+     assigns to every variable a set resp. a list. </li>
+    </ol>
+   </li>
    <li> Then we have the different kind of partial assignments:
     <ol>
      <li> Likely, partial assignments should be syntactically identical
      with clauses. </li>
-     <li> Notions: "pa", "mspa", "spa". </li>
+     <li> Notions: "pa", "nbpa", "mspa", "ppa", "spa". </li>
      <li> And then, like for literals, clauses, clause-sets etc.
      one has the CNF- and the DNF-*interpretation*. </li>
      <li> For clauses we wanted to stay with sets; perhaps for partial
-     assignments we could have them ordered? </li>
-     <li> So speaking of "opa", "omspa" and "ospa". </li>
-     <li> Perhaps one should actually also allow to have ordered clauses?
-     Better not! Then we have too many combinations. </li>
+     assignments we could have them ordered?
+      <ul>
+       <li> So speaking of "opa", "omspa" and "ospa". </li>
+       <li> Perhaps one should actually also allow to have ordered clauses?
+       Better not! Then we have too many combinations. </li>
+      </ul>
      </li>
+     <li> But we also need the representation of partial assignments via
+     total assignments! How to call them --- "total partial assignments"? </li>
+     <li> Or perhaps, since we are already using suffixes like "_l" for
+     stating representational differernces, "pa_mp" (for map). Seems
+     reasonable. </li>
+     <li> Then we could also have "pa_l" (as lists). </li>
+     <li> And then there are partial assignments which are actually "total
+     assignments" (w.r.t. a set of variables)?! Perhaps using "tpa" ? </li>
     </ol>
    </li>
    <li> It seems that in general we do not mention the output-type in the

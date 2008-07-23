@@ -51,7 +51,7 @@ License, or any later version. */
     multi-clause-sets" and "formal labelled clause-sets".
    </li>
    <li> Should we also allow "multi-clause-sets" and "labelled clause-sets"
-   (without the variables)?
+   without the variables?
     <ol>
      <li> Otherwise the "formal" in this context is superfluous. </li>
      <li> On the other hand, the multi- and labelled versions are introduced
@@ -85,7 +85,7 @@ License, or any later version. */
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp):
     <ol>
      <li> fcs <-> hg, ofcs <-> ohg </li>
-     <li> fmcs <-> mhg, ofmcs <-> omhg </li>
+     <li> mucs <-> muhg, omucs <-> omuhg </li>
      <li> lcs <-> ghg, olcs <-> oghg. </li>
     </ol>
     Additionally we have
@@ -105,7 +105,10 @@ License, or any later version. */
      we use the ghg [V,E,identity]. </li>
      <li> Seems alright. </li>
      <li> So perhaps also for clause-sets we should abandon "fcl" (but keep
-     "cl"), since we have already "flcs". </li>
+     "cl"), since we have already "lcs". </li>
+     <li> On the other hand, a formal clause-list seems to be a very natural
+     concept, perhaps the most natural one from the point of view of SAT
+     solving, so we should keep it. </li>
     </ol>
    </li>
    <li> Generalised literals:
@@ -130,6 +133,14 @@ License, or any later version. */
      <li> But perhaps we should codify such pairs [FF, D], where D is a set,
      list or map. Perhaps the default for all types of clause-sets is
      a uniform domain. </li>
+     <li> But since we can also use sensibly non-boolean clause-sets without
+     the domain information (for example it is not need to apply a partial
+     assignment), we should use the (additional) suffix "ud" for uniform
+     domain and "fd" for function domain. </li>
+     <li> There is also the idea that a "domain association" is basically
+     a partial assignment; actually it should be a "total partial assignment".
+     </li>
+     <li> One could allow then suffixes like "tpa_mp". </li>
     </ol>
    </li>
    <li> Conversions:

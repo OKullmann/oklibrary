@@ -14,17 +14,17 @@ License, or any later version. */
   <ul>
    <li> "hg" for hypergraph, "ghg" for general hypergraph, and "ohg", "oghg"
    for the ordered versions. </li>
-   <li> "mhg" for multi-hypergraph, and "omhg" for ordered multi-hypergraph.
+   <li> "muhg" for multi-hypergraph, and "omuhg" for ordered multi-hypergraph.
    </li>
    <li> Conversions then as "hg2ghg", "ohg2hg" etc. </li>
    <li> Connections to graphs (see
    ComputerAlgebra/Graphs/Lisp/plans/general.hpp):
     <ol>
      <li> g, gl <= hg </li>
-     <li> mug, mugl <= mhg </li>
+     <li> mug, mugl <= muhg </li>
      <li> gg <= ghg </li>
      <li> og, ogl <= ohg </li>
-     <li> omug, omugl <= omhg </li>
+     <li> omug, omugl <= omuhg </li>
      <li> ogg <= oghg </li>
     </ol>
    </li>
