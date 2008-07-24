@@ -144,6 +144,19 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      <li> They should also be able to better detect symmetries. </li>
     </ol>
    </li>
+   <li> Compressed representation of clauses:
+    <ol>
+     <li> If that ZAP systems, which allows to use "annotated clauses", clauses
+     plus a permutation group acting on the variables, is open-source, then it
+     would be very natural to apply it here (since the clause-set F_R([q_1, ...,
+     q_s], r, n) can be expressed then by just s clauses together with the
+     symmetric group S_n). </li>
+     <li> A point here is that S_n does act faithful but not
+     stronlgy faithful on the clauses (i.e., on the underlying hypergraph) ---
+     can this be repaired or improved (S_n is a rather large group here)? </li>
+    </ol>
+   </li>
+  </ul>
 
 */
 
