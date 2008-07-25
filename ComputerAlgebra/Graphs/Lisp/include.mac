@@ -28,11 +28,13 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/IndependentSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/InputOutput.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Colouring.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/IndependentSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac")$
 
 /*!
 \endhtmlonly
