@@ -10,19 +10,24 @@ License, or any later version. */
   \brief Plans on the basic graph functionality
 
 
-  \todo Naming conventions
+  \todo DONE
+  Naming conventions
   <ul>
-   <li> "g" for graphs, "gl" for graphs with loops, "dg" for
+   <li> DONE
+   "g" for graphs, "gl" for graphs with loops, "dg" for
    directed graph, "dgl" for directed graphs with loops, "gg"
    for general graph, and "gdg" for "general directed graph". </li>
-   <li> "og" for ordered graphs, similarly "ogl", "odg", "odgl", "ogg"
+   <li> DONE
+   "og" for ordered graphs, similarly "ogl", "odg", "odgl", "ogg"
    and "ogdg". </li>
-   <li> For Maxima-graphs we use "mg" and "dmg". </li>
+   <li> DONE
+   For Maxima-graphs we use "mg" and "mdg". </li>
    <li> So for multigraphs we need to use the abbreviation "mug", for
-   multigraphs with loops mugl, for directed multigraphs dmug, for
-   directed multigraphs with loops dmugl, and finally omug, omugl, odmug,
-   odmugl denote the ordered versions. </li>
-   <li> There is a clash for "directed graphs":
+   multigraphs with loops mugl, for directed multigraphs mudg, for
+   directed multigraphs with loops mudgl, and finally omug, omugl, omudg,
+   omudgl denote the ordered versions. </li>
+   <li> DONE
+   There is a clash for "directed graphs":
     <ol>
      <li> Either we speak of "directed graphs", "directed multigraphs",
      "directed general graphs", or of "digraphs", "multi-digraphs",
@@ -36,15 +41,19 @@ License, or any later version. */
 
   \todo Graph concepts
   <ul>
-   <li> A "graph" is just a 2-element list, consisting of the set of
+   <li> DONE
+   A "graph" is just a 2-element list, consisting of the set of
    vertices, and a set of 2-element vertex sets. </li>
-   <li> A "graph with loops" also allows 1-element vertex sets. </li>
-   <li> A "general graph" is a triple [V,E,f], where V, E are sets and
+   <li> DONE
+   A "graph with loops" also allows 1-element vertex sets. </li>
+   <li> DONE
+   A "general graph" is a triple [V,E,f], where V, E are sets and
    f is a map from E to 1-2-element subsets of V. </li>
-   <li> The same with directed graphs, only that this time we have
-   vertex-lists instead of vertex-sets. </li>
+   <li> DONE
+   The same with directed graphs, only that this time we have
+   vertex-lists (always of size 2) instead of vertex-sets. </li>
    <li> There is also the (cryptomorphic) notion of a "precategory",
-   which is a 4-tuple [V,E,source,target]. </li>
+   which is a 4-tuple [V,E,source,target]; abbreviation "precat". </li>
    <li> Multigraphs:
     <ol>
      <li> A "multigraph" is a triple [V,E,f], where [V,E] is a graph, and f
