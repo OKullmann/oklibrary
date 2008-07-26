@@ -92,11 +92,15 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
        looks strong. n = 40 ? </li>
        <li> rsaps: similar; but looks bleak for n = 40 (cutoffs 10000 or
        30000 yield nearly the same). </li>
-       <li> samd performs yet best, and also scales to higheer cutoffs,
+       <li> samd performs yet best, and also scales to higher cutoffs,
        but very slowly: With n=40, cutoff = 10 000 000, in 12 rounds 9 outcomes
        were 30-something, one was 46, and we had 23 (the minimum) and 27
        (regarding the falsified clauses). </li>
        <li> Trying (for n=40) cutoff = 10 000 000 and noimprove = 1 000 000.
+       </li>
+       <li> For n=41, cutoff =  10 000 000, with 40 rounds most results were
+       fiftyish to sixtyish, but one outlier reached 28 (the minimum). </li>
+       <li> Trying (for n=41) cutoff = 20 000 000 and noimprove = 2 000 000.
        </li>
       </ol>
      </li>
