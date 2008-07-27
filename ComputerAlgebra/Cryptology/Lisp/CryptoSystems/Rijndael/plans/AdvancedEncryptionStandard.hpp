@@ -27,6 +27,7 @@ load("functs")$ Bug Here atm  For logxor
      be replaced by the gf-functions poly2num and num2poly. </li>
     </ol>
    </li>
+  </ul>
 
 
   \todo Naming Conventions
