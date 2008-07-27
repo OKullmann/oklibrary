@@ -86,20 +86,6 @@ okltest_fcs2cs(fcs2cs);
 okltest_ofcs2ocs(ofcs2ocs);
 okltest_fcl2cl(fcl2cl);
 
-/* *****************************
-   * Substitution and renaming *
-   *****************************
-*/
-
-okltest_substitute_l(substitute_l);
-okltest_substitute_c(substitute_c);
-okltest_substitute_cs(substitute_cs);
-
-okltest_rename_fcs(rename_fcs);
-
-okltest_standardise_fcs(standardise_fcs);
-okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
-
 /* ***********************************
    * Selecting parts of a clause-set *
    ***********************************

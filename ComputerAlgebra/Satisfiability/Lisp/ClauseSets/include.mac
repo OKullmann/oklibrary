@@ -24,12 +24,14 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Const
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Substitutions.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Constructions.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Hypergraphs.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Substitutions.mac")$
 
 /*!
 \endhtmlonly
