@@ -12,12 +12,6 @@ License, or any later version. */
 
   \todo Auxiliary functions
   <ul>
-   <li> What is the meaning of
-   \verbatim
-load("functs")$ Bug Here atm  For logxor
-   \endverbatim
-   If there is a Maxima bug, then it needs to submitted to Maxima,
-   and we provide a correction. </li>
    <li> What about the section "Helper Functions" ?
     <ol>
      <li>  We shouldn't have a section with "useless stuff":
@@ -27,6 +21,15 @@ load("functs")$ Bug Here atm  For logxor
      be replaced by the gf-functions poly2num and num2poly. </li>
     </ol>
    </li>
+   <li> DONE What is the meaning of
+   \verbatim
+load("functs")$ Bug Here atm  For logxor
+   \endverbatim
+   If there is a Maxima bug, then it needs to submitted to Maxima,
+   and we provide a correction. (MG : "logxor" didn't return the correct values
+   for some inputs, but this no longer seems to be the case in the most recent
+       version, and may have been a broken installation on my part. The lisp
+       version "?logxor" has now been replaced with the maxima "logxor".) </li>
   </ul>
 
 

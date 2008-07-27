@@ -26,6 +26,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijnda
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/InvSbox.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/data/FieldMultiplications.mac")$
 
+load(functs);
 
 /* *************
    * Constants *
@@ -84,7 +85,7 @@ aes_gf2t8_add(byteia,byteib) :=
 
 /* AES finite field addition with integers as input using built-in
    logical operators */
-aes_log_gf2t8_add(byteia,byteib) := ?logxor(byteia,byteib)$
+aes_log_gf2t8_add(byteia,byteib) := logxor(byteia,byteib)$
 
 /* 
    Returns a vector (column matrix) of size n of the coefficients of the given
@@ -232,7 +233,7 @@ mixcolumn(inputblocki) :=
    multiplications.*/
 lookup_mixcolumn(inputblocki) := block([lookup_field_mul],
   lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
-  map(lambda([a], apply(?logxor,a)),
+  map(lambda([a], xreduce(logxor,a,0)),
     create_list(
       map(lookup_field_mul,rotate([2, 3, 1, 1], i),inputblocki),i,0,3)))$
 
@@ -259,7 +260,7 @@ inv_mixcolumn(inputblock) :=
    multiplications.*/
 lookup_inv_mixcolumn(inputblocki) := block([lookup_field_mul],
   lookup_field_mul : lambda([d,e],aes_field_mul_data[d,e+1]),
-  map(lambda([a], apply(?logxor,a)),
+  map(lambda([a], xreduce(logxor,a,0)),
     create_list(
       map(lookup_field_mul,rotate([14,11,13,9], i),inputblocki),i,0,3)))$
 
