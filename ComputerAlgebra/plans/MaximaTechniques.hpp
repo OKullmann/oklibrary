@@ -212,6 +212,8 @@ B : map(lambda([x],x+1),B)$
      the graphs-module uses 0-based indices for its own graphs). </li>
     </ol>
    </li>
+   <li> "first(L), rest(L), cons(x,L)" belong together, and are faster than
+   "last(L), rest(L,-1), endcons(x,L)" (lists are stored single-linked). </li>
    <li> Loops:
     <ol>
     <li> In "for x in X do" list/set X is evaluated only once, before
