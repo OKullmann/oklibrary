@@ -91,9 +91,21 @@ okltest_fcl2cl(fcl2cl);
    ***********************************
 */
 
-okltest_scls_l(scls_l);
-okltest_scls_v(scls_v);
-okltest_scls_V(scls_V);
+okltest_scs_k(scs_k);
+okltest_scs_l(scs_l);
+okltest_scs_v(scs_v);
+okltest_scs_V(scs_V);
+
+/* **************************
+   * Crossing out variables *
+   **************************
+*/
+
+okltest_apply_sv_c(apply_sv_c);
+okltest_apply_sv_cs(apply_sv_cs);
+
+okltest_restrict_V_cs(restrict_V_cs);
+okltest_restrict_V_cl(restrict_V_cl);
 
 /*!
 \endhtmlonly

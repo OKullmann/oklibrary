@@ -329,7 +329,16 @@ okltest_fcl2cl(f) := (
    ***********************************
 */
 
-okltest_scls_l(f) := (
+okltest_scs_k(f) := (
+  assert(f({},0) = {}),
+  assert(f({},1) = {}),
+  assert(f({{}},0) = {{}}),
+  assert(f({{}},1) = {}),
+  assert(f({{1}},0) = {}),
+  assert(f({{1}},1) = {{1}}),
+  true)$
+
+okltest_scs_l(f) := (
   assert(f({},1) = {}),
   assert(f({{}},1) = {}),
   assert(f({{1}},1) = {{1}}),
@@ -340,7 +349,7 @@ okltest_scls_l(f) := (
   assert(f({{1,2},{-1,2}},2) = {{1,2},{-1,2}}),
   true)$
 
-okltest_scls_v(f) := (
+okltest_scs_v(f) := (
   assert(f({},1) = {}),
   assert(f({{}},1) = {}),
   assert(f({{1}},1) = {{1}}),
@@ -351,7 +360,7 @@ okltest_scls_v(f) := (
   assert(f({{1,2},{-1,2}},3) = {}),
   true)$
 
-okltest_scls_V(f) := block([F],
+okltest_scs_V(f) := block([F],
   assert(f({},{}) = {}),
   assert(f({{}},{}) = {}),
   assert(f({},{1}) = {}),
@@ -360,6 +369,43 @@ okltest_scls_V(f) := block([F],
   F : {{1,2},{-1,3},{2,3},{3,4},{-2,-4}},
   assert(f(F,{1,2}) = {{1,2},{-1,3},{2,3},{-2,-4}}),
   assert(f(F,{1,4}) = {{1,2},{-1,3},{3,4},{-2,-4}}),
+  true)$
+
+/* **************************
+   * Crossing out variables *
+   **************************
+*/
+
+okltest_apply_sv_c(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{1,-2}) = {1,-2}),
+  assert(f({1},{}) = {}),
+  assert(f({1},{1,-2}) = {-2}),
+  assert(f({1,2},{1,-2}) = {}),
+  true)$
+
+okltest_apply_sv_cs(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{{}}) = {{}}),
+  assert(f({1},{}) = {}),
+  assert(f({1},{{}}) = {{}}),
+  assert(f({1,2},{{1},{-1,2},{-2,3},{3,4}}) = {{},{3},{3,4}}),
+  assert(okltest_apply_sv_c(buildq([f],lambda([V,C],single_element(f(V,{C})))))),
+  true)$
+
+okltest_restrict_V_cs(f) := (
+  assert(f({},{}) = {}),
+  assert(f({{}},{}) = {}),
+  assert(f({{1,2},{-1,-2},{}},{1}) = {{1},{-1}}),
+  assert(f({{1,2},{-1,-2},{}},{1,2}) = {{1,2},{-1,-2}}),
+  true)$
+
+okltest_restrict_V_cl(f) := (
+  assert(f([],{}) = []),
+  assert(f([{}],{}) = []),
+  assert(f([{1,2},{-1,-2},{},{1,2}],{1}) = [{1},{-1},{1}]),
+  assert(f([{1,2},{-1,-2},{},{-2,3},{-3}],{1,2}) = [{1,2},{-1,-2},{-2}]),
+  assert(okltest_restrict_V_cs(buildq([f],lambda([F,V],cl2cs(f(cs2cl(F),V)))))),
   true)$
 
 

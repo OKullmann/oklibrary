@@ -178,6 +178,7 @@ ocs2ofcs(F) := [ovar_cl(F), F]$
 */
 
 cs2ocs(F) := listify(F)$
+cs2cl(F) := listify(F)$
 fcs2ofcs(FF) := map(listify,FF)$
 fcs2fcl(FF) := map(listify,FF)$
 
@@ -203,18 +204,43 @@ fcl2cl(FF) := second(FF)$
 /* All clauses of length k of a clause-set. */
 /* RENAME: scs_k */
 scls_k(F,k) := subset(F, lambda([C], is(length(C) = k)))$
+scs_k(F,k) := scls_k(F,k)$
 
 /* All clauses of a clause-set containing a literal. */
 /* RENAME: scs_l */
 scls_l(F,l) := subset(F, lambda([C], elementp(l,C)))$
+scs_l(F,l) := scls_l(F,l)$
 
-/* All clauses of a clause-set containing a variable. */
+/* All clauses of a clause-set containing a variable. 
+*/
 /* RENAME: scs_v */
 scls_v(F,v) := subset(F, lambda([C], elementp(v,var_c(C))))$
-/* More generally, all clauses containing some of a given set of variables: */
+scs_v(F,v) := scls_v(F,v)$
+/* More generally, all clauses containing some of a given set of variables.
+   This is denoted by "F_V" in articles.
+ */
 /* RENAME: scs_V */
 scls_V(F,V) := subset(F, lambda([C], not disjointp(var_c(C),V)))$
+scs_V(F,V) := scls_V(F,V)$
 socs_V(F,V) := sublist(F, lambda([C], not disjointp(var_c(C),V)))$
+
+
+/* **************************
+   * Crossing out variables *
+   **************************
+*/
+
+apply_sv_c(V,C) := setdifference(C,literals_v(V))$
+
+apply_sv_cs(V,F) := block([L : literals_v(V)],
+  setify(map(lambda([C],setdifference(C,L)),listify(F))))$
+apply_sv_cl(V,F) := block([L : literals_v(V)],
+  map(lambda([C],setdifference(C,L)),F))$
+
+restrict_V_cs(F,V) := block([L : literals_v(V)],
+  disjoin({},setify(map(lambda([C],intersection(C,L)),listify(F)))))$
+restrict_V_cl(F,V) := block([L : literals_v(V)],
+  delete({},map(lambda([C],intersection(C,L)),F)))$
 
 
 /* *****************************************
