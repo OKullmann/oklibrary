@@ -20,6 +20,8 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialA
 */
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* ****************************************
    * The notion of a "partial assignment" *
@@ -33,6 +35,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 
 pa_p(phi) := c_p(phi)$
 
+/* ***********************************
+   * Enumerating partial assignments *
+   ***********************************
+*/
+
 /* The set of all partial assignments over a set of variables: */
 all_pass(V) := if emptyp(V) then {{}} else
  block([e : choose_element(V), S],
@@ -40,6 +47,16 @@ all_pass(V) := if emptyp(V) then {{}} else
   return(union(S, 
            map(lambda([phi],adjoin(e,phi)),S),
            map(lambda([phi],adjoin(-e,phi)),S))))$
+/* Now V is a list, and returned is a list (in lexicographical
+   order, when representing a partial assignment as a total function
+   in list-representation, using the linear order on V, and using the
+   order "undefined" < false < true on the values): */
+all_pass_l(V) := if emptyp(V) then [{}] else
+ block([e : first(V), S],
+  S : all_pass_l(rest(V)),
+  return(append(S,
+           map(lambda([phi],adjoin(-e,phi)),S),
+           map(lambda([phi],adjoin(e,phi)),S))))$
 /* This time only those partial assignments with domain size n. */
 all_pass_n(V,n) := if n < 0 then {}
  elseif n=0 then {{}}
@@ -55,6 +72,8 @@ all_pass_n(V,n) := if n < 0 then {}
 /* The set of all total assignments over a set or list V of variables: */
 all_tass(V) := map(setify,apply(corr_cartesian_product, 
  map(lambda([v],{-v,v}),listify(V))))$
+/* Given V as a list, return a list, using lexicographical order: */
+all_tass_l(V) := map(setify, cartesian_product_l(map(lambda([v],[-v,v]),V)))$
 
 
 /* ********************
@@ -91,22 +110,26 @@ apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_pa(phi)),
 apply_pa_fcs(phi,FF) := apply_pa_f(phi,FF)$
 
 
-/* *********************************
-   * Analysing partial assignments *
-   *********************************
+/* ****************************************************
+   * Analysing partial assignments for satisfyingness *
+   ****************************************************
 */
 
 /* Tests whether a partial assignment satisfies a clause: */
-sat_pac_p(phi,C) := emptyp(apply_pa_cs(phi,{C}))$
+sat_pac_p(phi,C) := not disjointp(phi,C)$
 
 /* Test for a satisfying assignment w.r.t. a clause-set: */
 /* RENAME: sat_pacs_p */
-satisfyingpap(phi,F) := every(lambda([C],sat_pac_p(phi,C)),F)$
+satisfyingpap(phi,F) := every_s(lambda([C],sat_pac_p(phi,C)),F)$
 sat_pacs_p(phi,F) := satisfyingpap(phi,F)$
+sat_paocs_p(phi,F) :=  every_s(lambda([C],sat_pac_p(phi,C)),F)$
+sat_pacl_p(phi,F) := every_s(lambda([C],sat_pac_p(phi,C)),F)$
 /* RENAME: sat_pafcs_p */
 /* Test for a satisfying assignment w.r.t. a formal clause-set: */
 satisfyingpafp(phi,FF) := sat_pacs_p(phi,FF[2])$
 sat_pafcs_p(phi,FF) := satisfyingpafp(phi,FF)$
+sat_paofcs_p(phi,FF) := sat_paocs_p(phi,FF[2])$
+sat_pafcl_p(phi,FF) := sat_pacl_p(phi,FF[2])$
 
 /* The set of satisfied clauses for a partial assignment w.r.t. a clause-set:
 */
@@ -117,10 +140,28 @@ sat_pa_cs(phi,F) := sat_pa(phi,F)$
 sat_paf(phi,FF) := sat_pa(phi,FF[2])$
 sat_pa_fcs(phi,FF) := sat_paf(phi,FF)$
 
+
+/* ************************************************
+   * Analysing partial assignments for autarkness *
+   ************************************************
+*/
+
 /* Test for a weak autarky w.r.t. a clause-set: */
 waut_pacs_p(phi,F) := is(subsetp(apply_pa_cs(phi,F),F))$
+
 /* Test for an autarky w.r.t. a clause-set: */
-aut_pacs_p(phi,F) := every(lambda([C],elementp(apply_pa_cs(phi,{C}),{{},{C}})),F)$
+aut_pacs_p(phi,F) := block([cphi : comp_sl(phi)],
+  every_s(lambda([C], disjointp(cphi,C) or not disjointp(phi,C)), F))$
+aut_paocs_p(phi,F) := block([cphi : comp_sl(phi)],
+  every_s(lambda([C], disjointp(cphi,C) or not disjointp(phi,C)), F))$
+aut_paofcs_p(phi,FF) := block([cphi : comp_sl(phi)],
+  every_s(lambda([C], disjointp(cphi,C) or not disjointp(phi,C)), FF[2]))$
+
+
+/* ********************************************
+   * Complete analysis of partial assignments *
+   ********************************************
+*/
 
 /* The set of satisfied, falsified, untouched and critical (original) clauses
    for a partial assignment phi w.r.t. a clause-set F. */
@@ -142,18 +183,40 @@ analyse_pa_cs(phi,F) := analyse_pa(phi,F)$
 analyse_paf(phi,FF) := analyse_pa_cs(phi,FF[2])$
 analyse_pa_fcs(phi,FF) := analyse_paf(phi,FF)$
 
+
+/* ************************************
+   * All satisfying assignments bydef *
+   ************************************
+*/
+
 /* The set of all satisfying total assignments of a clause-set F
     w.r.t. a set or list V of variables: */
 /* RENAME: all_sattass_cs */
 all_sat_tass(F,V) := subset(all_tass(V), lambda([phi],sat_pacs_p(phi,F)))$
 all_sattass_cs(F,V) := all_sat_tass(F,V)$
+/* For a list V of variables, using that order for the enumeration: */
+all_sattass_ocs(F,V) := sublist(all_tass_l(V),
+  lambda([phi], sat_paocs_p(phi,F)))$
 all_sat_cs(F) := all_sattass_cs(F,var_cs(F))$
-all_sat_fcs(F) := all_sattass_cs(F[2],F[1])$
+all_sat_fcs(FF) := all_sattass_cs(FF[2],FF[1])$
+all_sat_ofcs(FF) := all_sattass_ocs(FF[2],FF[1])$
+
+
+/* ***********************
+   * All autarkies bydef *
+   ***********************
+*/
 
 /* The set of all autarkies of a clause-set F: */
-all_aut_cs(F) := subset(all_pass(var_cs(F)), lambda([phi],aut_pacs_p(phi,F)))$
+all_aut_cs(F) := subset(all_pass(var_cs(F)), lambda([phi],aut_pacs_p(phi,F)))$/* As a repetition-free list, where for the order of partial assignments the 
+  order as the variables occur in the clauses is determinative: */
+all_aut_ocs(F) := sublist(all_pass_l(ovar_ocs(F)), lambda([phi],aut_paocs_p(phi,F)))$
+all_aut_ofcs(FF) := sublist(all_pass_l(FF[1]), lambda([phi],aut_paofcs_p(phi,FF)))$
+
 /* The autarky monoid of a clause-set: */
 autmon_cs(F) := [all_aut_cs(F), compo_pass, {}]$
+/* The "listified" autarky monoid of an ordered clause-set: */
+autmon_ocs(F) := [all_aut_ocs(F), compo_pass, {}]$
 
 /*!
 \endhtmlonly

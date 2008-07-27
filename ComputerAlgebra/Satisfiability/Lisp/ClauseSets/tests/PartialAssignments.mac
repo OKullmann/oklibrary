@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/BasicNotions.mac")$
 
 kill(f)$
 
@@ -35,12 +36,25 @@ okltest_pa_p(f) := block(
   assert(f({}) = true),
   okltest_c_p(f))$
 
+
+/* ***********************************
+   * Enumerating partial assignments *
+   ***********************************
+*/
+
 okltest_all_pass(f) := (
   assert(f({}) = {{}}),
   assert(f({1}) = {{},{1},{-1}}),
   assert(f({1,2}) = {{},{-1},{1},{-2},{2},{-1,-2},{-1,2},{1,-2},{1,2}}),
   for n : 0 thru 3 do
     assert(length(f(setn(n))) = 3^n),
+  true)$
+
+okltest_all_pass_l(f) := (
+  assert(f([]) = [{}]),
+  assert(f([1]) = [{},{-1},{1}]),
+  assert(f([3,2]) = [{},{-2},{2},{-3},{-3,-2},{-3,2},{3},{3,-2},{3,2}]),
+  assert(okltest_all_pass(buildq([f],lambda([V],setify(f(listify(V))))))),
   true)$
 
 okltest_all_pass_n(f) := block(
@@ -63,6 +77,13 @@ okltest_all_tass(f) := block(
   assert(f({1,2}) = {{-1,-2},{-1,2},{1,-2},{1,2}}),
   for n : 3 thru 5 do
     assert(length(f(setn(n))) = 2^n),
+  true)$
+
+okltest_all_tass_l(f) := (
+  assert(f([]) = [{}]),
+  assert(f([1]) = [{-1},{1}]),
+  assert(f([3,1]) = [{-3,-1},{-3,1},{3,-1},{3,1}]),
+  assert(okltest_all_tass(buildq([f],lambda([V],setify(f(listify(V))))))),
   true)$
 
 
@@ -126,9 +147,9 @@ okltest_apply_pa_fcs(f) := (
   true)$
 
 
-/* *********************************
-   * Analysing partial assignments *
-   *********************************
+/* ****************************************************
+   * Analysing partial assignments for satisfyingness *
+   ****************************************************
 */
 
 okltest_sat_pac_p(f) := (
@@ -142,12 +163,42 @@ okltest_sat_pac_p(f) := (
   assert(f({1},{-1,2}) = false),
   true)$
 
+okltest_sat_pacs_p(f) := (
+  assert(f({},{}) = true),
+  assert(f({},{{}}) = false),
+  assert(f({1},{}) = true),
+  assert(f({1},{{-1}}) = false),
+  assert(f({1},{{2}}) = false),
+  true)$
+
+okltest_sat_paocs_p(f) := (
+  assert(f({},[]) = true),
+  assert(okltest_sat_pacs_p(buildq([f],lambda([phi,F],f(phi,cs2ocs(F)))))),
+  true)$
+
+okltest_sat_pacl_p(f) := (
+  assert(f({},[]) = true),
+  assert(f({1},[{1,2},{1,3}]) = true),
+  assert(okltest_sat_paocs_p(buildq([f],lambda([phi,F],f(phi,F))))),
+  true)$
+
 okltest_sat_pafcs_p(f) := (
   assert(f({},[{},{}]) = true),
   assert(f({},[{1},{}]) = true),
   assert(f({},[{},{{}}]) = false),
   assert(f({1},[{1},{{1}}]) = true),
   assert(f({1},[{1},{{-1}}]) = false),
+  assert(okltest_sat_pacs_p(buildq([f],lambda([phi,F],f(phi,cs2fcs(F)))))),
+  true)$
+
+okltest_sat_paofcs_p(f) := (
+  assert(f({},[[],[]]) = true),
+  assert(okltest_sat_paocs_p(buildq([f],lambda([phi,F],f(phi,ocs2ofcs(F)))))),
+  true)$
+
+okltest_sat_pafcl_p(f) := (
+  assert(f({},[[],[]]) = true),
+  assert(okltest_sat_paofcs_p(buildq([f],lambda([phi,FF],f(phi,FF))))),
   true)$
 
 okltest_sat_pa_cs(f) := (
@@ -161,6 +212,17 @@ okltest_sat_pa_cs(f) := (
   assert(f({1},{{-1}}) = {}),
   assert(f({1,-2},{{},{1,2,3},{-1,3},{-2,3},{2,4}}) = {{1,2,3},{-2,3}}),
   true)$
+
+okltest_sat_pa_fcs(f) := (
+  assert(f({},[{},{}]) = {}),
+  assert(okltest_sat_pa_cs(buildq([f],lambda([phi,F],f(phi,cs2fcs(F)))))),
+  true)$
+
+
+/* ************************************************
+   * Analysing partial assignments for autarkness *
+   ************************************************
+*/
 
 okltest_waut_pacs_p(f) := (
   assert(f({},{}) = true),
@@ -192,6 +254,22 @@ okltest_aut_pacs_p(f) := (
   assert(f({1},{{-1,2},{2}}) = false),
   true)$
 
+okltest_aut_paocs_p(f) := (
+  assert(f({},[]) = true),
+  assert(okltest_aut_pacs_p(buildq([f],lambda([phi,F],f(phi,cs2ocs(F)))))),
+  true)$
+
+okltest_aut_paofcs_p(f) := (
+  assert(f({},[[],[]]) = true),
+  assert(okltest_aut_paocs_p(buildq([f],lambda([phi,F],f(phi,ocs2fcl(F)))))),
+  true)$
+
+
+/* ********************************************
+   * Complete analysis of partial assignments *
+   ********************************************
+*/
+
 okltest_analyse_pa_cs(f) := (
   assert(f({},{}) = [{},{},{},{}]),
   assert(f({},{{}}) = [{},{{}},{},{}]),
@@ -200,6 +278,17 @@ okltest_analyse_pa_cs(f) := (
   assert(f({1},{{}}) = [{},{{}},{},{}]),
   assert(f({1},{{1},{-1},{},{2},{-1,2}}) = [{{1}},{{-1},{}},{{2}},{{-1,2}}]),
   true)$
+
+okltest_analyse_pa_fcs(f) := (
+  assert(f({},[{},{}]) = [{},{},{},{}]),
+  assert(okltest_analyse_pa_cs(buildq([f],lambda([phi,F],f(phi,cs2fcs(F)))))),
+  true)$
+
+
+/* ************************************
+   * All satisfying assignments bydef *
+   ************************************
+*/
 
 okltest_all_sattass_cs(f) := block(
   assert(f({},{}) = {{}}),
@@ -213,6 +302,38 @@ okltest_all_sattass_cs(f) := block(
   assert(f({{-1},{1}},{1}) = {}),
   true)$
 
+okltest_all_sattass_ocs(f) := (
+  assert(f([],[]) = [{}]),
+  okltest_all_tass_l(buildq([f],lambda([V],f({},V)))),
+  assert(f([{1,2},{2,3}],[4,2]) = [{-4,2},{4,2}]),
+  assert(f([{1,2},{2,3}],[1]) = []),
+  assert(okltest_all_sattass_cs(buildq([f],lambda([F,V],setify(f(cs2ocs(F),listify(V))))))),
+  true)$
+
+okltest_all_sat_cs(f) := (
+  assert(f({}) = {{}}),
+  assert(f({{}}) = {}),
+  assert(f({{1,2},{1,-2},{-1,2}}) = {{1,2}}),
+  true)$
+
+okltest_all_sat_fcs(f) := (
+  assert(f([{},{}]) = {{}}),
+  assert(f([{1,2},{{-1}}]) = {{-1,2},{-1,-2}}),
+  assert(okltest_all_sat_cs(buildq([f],lambda([F],f(cs2fcs(F)))))),
+  true)$
+
+okltest_all_sat_ofcs(f) := (
+  assert(f([[],[]]) = [{}]),
+  assert(f([[2,1],[{-1}]]) = [{-2,-1},{2,-1}]),
+  assert(okltest_all_sat_fcs(buildq([f],lambda([F],setify(f(fcs2ofcs(F))))))),
+  true)$
+
+
+/* ***********************
+   * All autarkies bydef *
+   ***********************
+*/
+
 okltest_all_aut_cs(f) := (
   assert(f({}) = {{}}),
   assert(f({{}}) = {{}}),
@@ -220,6 +341,31 @@ okltest_all_aut_cs(f) := (
   assert(f({{1},{-1}}) = {{}}),
   assert(f({{2},{-1,2}}) = {{},{2},{-1},{-1,2},{1,2}}),
   true)$
+
+okltest_all_aut_ocs(f) := (
+  assert(f([]) = [{}]),
+  assert(f([{1}]) = [{},{1}]),
+  assert(f([{2,3},{-1,2}]) = [{},{-1},{3},{3,-1},{-2,3,-1},{2},{2,-1},{2,1},{2,-3},{2,-3,-1},{2,-3,1},{2,3},{2,3,-1},{2,3,1}]),
+  assert(okltest_all_aut_cs(buildq([f],lambda([F],setify(f(cs2ocs(F))))))),
+  true)$
+
+okltest_all_aut_ofcs(f) := (
+  assert(f([[2,1],[]]) = [{},{-1},{1},{-2},{-2,-1},{-2,1},{2},{2,-1},{2,1}]),
+  assert(okltest_all_aut_ocs(buildq([f],lambda([F],f(ocs2ofcs(F)))))),
+  true)$
+
+okltest_autmon_cs(f) := block(
+  if oklib_test_level = 0 then return(true),
+  assert(okltest_all_aut_cs(buildq([f],lambda([F],
+    block([M : f(F)], assert(mon_p(M)), M[1]))))),
+  true)$
+
+okltest_autmon_ocs(f) := block(
+  if oklib_test_level = 0 then return(true),
+  assert(okltest_all_aut_ocs(buildq([f],lambda([F],
+    block([M : f(F)], assert(mon_p([setify(M[1]),M[2],M[3]])), M[1]))))),
+  true)$
+
 
 /*!
 \endhtmlonly
