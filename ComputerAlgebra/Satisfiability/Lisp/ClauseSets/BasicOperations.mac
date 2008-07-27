@@ -162,7 +162,7 @@ ovar_cl(F) := block([L : [], V : {}],
     V : union(V,nv)
   ),
   return(L))$
-
+ovar_ocs(F) := ovar_cl(F)$
 
 /* Promotions: */
 
@@ -170,11 +170,15 @@ ovar_cl(F) := block([L : [], V : {}],
 cs_to_fcs(F) := [var_cs(F), F]$
 cs2fcs(F) := [var_cs(F), F]$
 cl2fcl(F) := [listify(var_cl(F)), F]$
+ocs2fcl(F) := [listify(var_ocs(F)), F]$
 ocs2ofcs(F) := [ovar_cl(F), F]$
 /* So a clause-list is promoted to a formal clause-list by taking the
    order of variables as given by the given order on the variables,
    while for an ordered clause-set we take the order of the
    variables as found in the clause-list (this is more expensive).
+   This is the only case where we have given an order on the clauses,
+   but not on the variables, and where (different from cl2fcl) the order
+   is not considered to be "arbitrary".
 */
 
 cs2ocs(F) := listify(F)$
