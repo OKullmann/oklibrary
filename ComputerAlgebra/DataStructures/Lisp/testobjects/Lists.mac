@@ -21,6 +21,16 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.m
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
+/* *******************************
+   * Testing properties of lists *
+   *******************************
+*/
+
+okltest_every_s(every_s);
+okltest_some_s(some_s);
+
+okltest_listnorep_p(listnorep_p);
+
 /* **************************
    * Sublist constructions *
    **************************

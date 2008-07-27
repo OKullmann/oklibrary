@@ -26,6 +26,17 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    *******************************
 */
 
+/* The versions of "every" and "some" with short-circuit evaluation: */
+
+every_s(pred,L) := block([nocountex : true],
+  for x in L while nocountex do
+    nocountex : pred(x),
+  return(nocountex))$
+some_s(pred,L) := block([countex : false],
+  for x in L unless countex do
+    countex : pred(x),
+  return(countex))$
+
 /* Checks whether L is a list without repetitions: */
 listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
 

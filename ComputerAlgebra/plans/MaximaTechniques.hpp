@@ -147,6 +147,15 @@ map("+",[1,2],[3,4]) = [4,6]
        documentation. </li>
       </ol>
      </li>
+     <li> "every" and "some" always run through the whole list:
+      <ol>
+       <li> So except of cases where this is what is needed, every_s and 
+       some_s ("s" for "short circuit") shall be used (provided in
+       DataStructures/Lisp/Lists.mac). </li>
+       <li> Notify the Maxima mailing-list about the incomplete
+       documentation! </li>
+      </ol>
+     </li>
      <li> "0^0" yields an error:
       <ol>
        <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
