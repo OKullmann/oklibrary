@@ -21,15 +21,31 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/BasicOperations.mac")$
 
+/* ********************************************
+   * Substitutions for variables and literals *
+   ********************************************
+*/
+
 okltest_substitute_l(substitute_l);
+
+/* *****************************
+   * Substitutions for clauses *
+   *****************************
+*/
+
 okltest_substitute_c(substitute_c);
+
+/* *********************************
+   * Substitutions for clause-sets *
+   *********************************
+*/
+
 okltest_substitute_cs(substitute_cs);
 
 okltest_rename_fcs(rename_fcs);
 
 okltest_standardise_fcs(standardise_fcs);
 okltest_make_vardisjoint_fcs(make_vardisjoint_fcs);
-
 
 /*!
 \endhtmlonly

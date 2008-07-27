@@ -25,6 +25,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 
 kill(f)$
 
+/* ********************************************
+   * Substitutions for variables and literals *
+   ********************************************
+*/
+
 okltest_substitute_l(f) := block([h],
   h : sm2hm({[1,3],[2,-4],[3,-3]}),
   assert(f(1,h) = 3), assert(f(-1,h) = -3),
@@ -32,6 +37,12 @@ okltest_substitute_l(f) := block([h],
   assert(f(3,h) = -3), assert(f(-3,h) = 3),
   assert(f(4,h) = false), assert(f(-4,h) = -false),
   true)$
+
+
+/* *****************************
+   * Substitutions for clauses *
+   *****************************
+*/
 
 okltest_substitute_c(f) := block([h],
   h : sm2hm({[1,3],[2,-4],[3,-3]}),
@@ -45,6 +56,12 @@ okltest_substitute_c(f) := block([h],
   assert(f({1,2,-3,-4},h) = {3,-4}),
   assert(f({1,2,-3,5},h) = {3,-4,5}),
   true)$
+
+
+/* *********************************
+   * Substitutions for clause-sets *
+   *********************************
+*/
 
 okltest_substitute_cs(f) := block([h],
   h : sm2hm({[1,3],[2,-4],[3,-3]}),
