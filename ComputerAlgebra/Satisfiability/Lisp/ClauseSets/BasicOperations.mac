@@ -188,6 +188,7 @@ fcs2fcl(FF) := map(listify,FF)$
 ocs2cs(F) := setify(F)$
 cl2cs(F) := setify(F)$
 fcl2fcs(FF) := map(setify,FF)$
+ofcs2fcs(FF) := map(setify,FF)$
 
 /* RENAME: fcs2cs */
 clauses_f(FF) := FF[2]$
