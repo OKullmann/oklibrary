@@ -62,7 +62,11 @@ okltest_setdifference2(setdifference2);
    **************************************************
 */
 
+okltest_corr_cartesian_product(corr_cartesian_product);
+okltest_cartesian_product_l(cartesian_product_l);
+
 okltest_all_transformations_l(all_transformations_l);
+okltest_all_transformations_l_l(all_transformations_l_l);
 
 /* *****************************************
    * Constructions related to subsumption *

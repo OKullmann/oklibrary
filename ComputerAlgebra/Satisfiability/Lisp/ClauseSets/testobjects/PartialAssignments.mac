@@ -28,9 +28,16 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests
 
 okltest_pa_p(pa_p);
 
+/* ***********************************
+   * Enumerating partial assignments *
+   ***********************************
+*/
+
 okltest_all_pass(all_pass);
+okltest_all_pass_l(all_pass_l);
 okltest_all_pass_n(all_pass_n);
 okltest_all_tass(all_tass);
+okltest_all_tass_l(all_tass_l);
 
 /* ********************
    * Basic operations *
@@ -51,24 +58,64 @@ okltest_compo_pass(compo_pass);
 okltest_apply_pa_cs(apply_pa_cs);
 okltest_apply_pa_fcs(apply_pa_fcs);
 
-/* *********************************
-   * Analysing partial assignments *
-   *********************************
+/* ****************************************************
+   * Analysing partial assignments for satisfyingness *
+   ****************************************************
 */
 
 okltest_sat_pac_p(sat_pac_p);
+
+okltest_sat_pacs_p(sat_pacs_p);
+okltest_sat_paocs_p(sat_paocs_p);
+okltest_sat_pacl_p(sat_pacl_p);
 okltest_sat_pafcs_p(sat_pafcs_p);
+okltest_sat_paofcs_p(sat_paofcs_p);
+okltest_sat_pafcl_p(sat_pafcl_p);
 
 okltest_sat_pa_cs(sat_pa_cs);
+okltest_sat_pa_fcs(sat_pa_fcs);
+
+/* ************************************************
+   * Analysing partial assignments for autarkness *
+   ************************************************
+*/
 
 okltest_waut_pacs_p(waut_pacs_p);
+
 okltest_aut_pacs_p(aut_pacs_p);
+okltest_aut_paocs_p(aut_paocs_p);
+okltest_aut_paofcs_p(aut_paofcs_p);
+
+/* ********************************************
+   * Complete analysis of partial assignments *
+   ********************************************
+*/
 
 okltest_analyse_pa_cs(analyse_pa_cs);
+okltest_analyse_pa_fcs(analyse_pa_fcs);
+
+/* ************************************
+   * All satisfying assignments bydef *
+   ************************************
+*/
 
 okltest_all_sattass_cs(all_sattass_cs);
+okltest_all_sattass_ocs(all_sattass_ocs);
+okltest_all_sat_cs(all_sat_cs);
+okltest_all_sat_fcs(all_sat_fcs);
+okltest_all_sat_ofcs(all_sat_ofcs);
+
+/* ***********************
+   * All autarkies bydef *
+   ***********************
+*/
 
 okltest_all_aut_cs(all_aut_cs);
+okltest_all_aut_ocs(all_aut_ocs);
+okltest_all_aut_ofcs(all_aut_ofcs);
+
+okltest_autmon_cs(autmon_cs);
+okltest_autmon_ocs(autmon_ocs);
 
 /*!
 \endhtmlonly

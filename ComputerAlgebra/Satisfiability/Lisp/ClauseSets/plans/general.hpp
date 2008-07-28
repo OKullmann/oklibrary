@@ -154,7 +154,29 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> We should have "Substitutions.mac":
+   <li> Inclusion
+    <ol>
+     <li> Currently, the outsourced files are "inclusions-wise equivalent"
+     to ClauseSets/BasicOperations.mac, i.e., they include it and are
+     automatically included. </li>
+     <li> This is because it is too much work to sort out the real dependencies
+     for all the Maxima-files in the library. </li>
+     <li> It would be good to have a refactoring tool, which would find out
+     about the dependencies:
+      <ul>
+       <li> If it is too hard to find out about the functions (and names in
+       general) defined in a file, that it needs to explicitly given as
+       input. </li>
+       <li> And then we can just search for files using some of these
+       functions, whether they correctly include them. </li>
+       <li> And we search for files which use some of them but don't include
+       it. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+   <li> DONE
+   We should have "Substitutions.mac":
     <ol>
      <li> See "Applying substitutions" in
      ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
@@ -162,7 +184,8 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> We should create "Statistics.mac".
+   <li> DONE
+   We should create "Statistics.mac".
     <ol>
      <li> DONE : move. </li>
      <li> A problem is now how to handle inclusion. </li>
@@ -192,29 +215,6 @@ License, or any later version. */
     </ol>
    </li>
    <li> We need also reading from Dimacs-files. </li>
-  </ul>
-
-
-  \todo standardise_fcs (in
-  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
-  <ul>
-   <li> See "Applying substitutions" in
-   ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp.
-   </li>
-   <li> See "Organisation" above. </li>
-   <li> Perhaps, once a framework for literal-substitutions is in place,
-   then the renaming-functions are updated using these more general
-   substitution-maps instead of hash-maps. </li>
-   <li> Ask on maxima-mailing-list whether a parallel substitution
-   is available (this should speed up renaming). </li>
-   <li> DONE The current implementation (using iterated substitution) is
-   incorrect in case the clause-set uses already natural numbers as
-   variables. </li>
-   <li> DONE Otherwise, investigate how hash-maps can be made available,
-   store the (whole) substitution via a hash-map, and compute
-   the new clause-set via transforming clause for clause. </li>
-   <li> DONE (we can now rename w.r.t. a given list of variables)
-   Perhaps we could establish general renaming functionality. </li>
   </ul>
 
 */

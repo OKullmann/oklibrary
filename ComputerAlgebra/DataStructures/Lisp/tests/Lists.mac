@@ -25,6 +25,50 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 kill(f)$
 
+/* *******************************
+   * Testing properties of lists *
+   *******************************
+*/
+
+okltest_every_s(f) := block([c],
+  assert(f(identity,[]) = true),
+  assert(f(identity,[false]) = false),
+  assert(f(identity,[true]) = true),
+  assert(f(identity,[true,false]) = false),
+  assert(f(identity,[true,true]) = true),
+  c : 0,
+  assert(f(lambda([x],(c:c+1,false)),[1,2]) = false),
+  assert(c = 1),
+  c : 0,
+  assert(every(lambda([x],(c:c+1,false)),[1,2]) = false),
+  assert(c = 2),
+  true)$
+
+okltest_some_s(f) := (
+  assert(f(identity,[]) = false),
+  assert(f(identity,[false]) = false),
+  assert(f(identity,[true]) = true),
+  assert(f(identity,[true,false]) = true),
+  assert(f(identity,[false,false]) = false),
+  c : 0,
+  assert(f(lambda([x],(c:c+1,true)),[1,2]) = true),
+  assert(c = 1),
+  c : 0,
+  assert(every(lambda([x],(c:c+1,true)),[1,2]) = true),
+  assert(c = 2),
+  assert(okltest_every_s(buildq([f],lambda([p,L],not f(lambda([x],not p(x)),L))))),
+  true)$
+
+okltest_listnorep_p(f) := (
+  assert(f(0) = false),
+  assert(f({}) = false),
+  assert(f([]) = true),
+  assert(f([1]) = true),
+  assert(f([1,2]) = true),
+  assert(f([1,1]) = false),
+  true)$
+
+
 /* **************************
    * Sublist constructions *
    **************************

@@ -21,7 +21,6 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/tests/Ba
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
-oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 
@@ -323,64 +322,6 @@ okltest_fcl2cl(f) := (
   assert(f([[3,1],[{3},{-1},{3},{1}]]) = [{3},{-1},{3},{1}]),
   assert(okltest_fcs2cs(f)),
   true)$
-  
-
-/* *****************************
-   * Substitution and renaming *
-   *****************************
-*/
-
-okltest_substitute_l(f) := block([h],
-  h : sm2hm({[1,3],[2,-4],[3,-3]}),
-  assert(f(1,h) = 3), assert(f(-1,h) = -3),
-  assert(f(2,h) = -4), assert(f(-2,h) = 4),
-  assert(f(3,h) = -3), assert(f(-3,h) = 3),
-  assert(f(4,h) = false), assert(f(-4,h) = -false),
-  true)$
-
-okltest_substitute_c(f) := block([h],
-  h : sm2hm({[1,3],[2,-4],[3,-3]}),
-  assert(f({},h) = {}),
-  assert(f({1},h) = {3}), assert(f({-1},h) = {-3}),
-  assert(f({2},h) = {-4}), assert(f({-2},h) = {4}),
-  assert(f({3},h) = {-3}), assert(f({-3},h) = {3}),
-  assert(f({1,2,3},h) = {3,-4,-3}),
-  assert(f({1,2,-3},h) = {3,-4}),
-  assert(f({1,2,-3,4},h) = {3,-4,4}),
-  assert(f({1,2,-3,-4},h) = {3,-4}),
-  assert(f({1,2,-3,5},h) = {3,-4,5}),
-  true)$
-
-okltest_substitute_cs(f) := block([h],
-  h : sm2hm({[1,3],[2,-4],[3,-3]}),
-  assert(f({},h) = {}),
-  assert(f({{}},h) = {{}}),
-  assert(f({{},{4,5}},h) = {{},{4,5}}),
-  assert(f({{1,2},{1,3},{-2,3}},h) = {{3,-4},{3,-3},{4,-3}}),
-  true)$
-
-okltest_rename_fcs(f) := block(
-  assert(f([{},{}],[]) = [{},{}]),
-  assert(f([{},{{}}],[]) = [{},{{}}]),
-  assert(f([{1},{{1}}],[-2]) = [{2},{{-2}}]),
-  assert(f([{1},{{-1}}],[-1]) = [{1},{{1}}]),
-  assert(f([{1,2},{{1,2},{-1,2}}],[-2,1]) = [{1,2},{{-2,1},{1,2}}]),
-  true)$
-
-okltest_standardise_fcs(f) := block(
-  assert(f([{},{}]) = [[{},{}],[]]),
-  assert(f([{},{{}}]) = [[{},{{}}],[]]),
-  assert(f([{1},{{}}]) = [[{1},{{}}],[1]]),
-  assert(f([{2,3},{{}}]) = [[{1,2},{{}}],[2,3]]),
-  assert(f([{4,5,6},{{},{-4,5,6},{5},{4,-5},{-5,-6}}]) = [[{1,2,3},{{},{-1,2,3},{2},{1,-2},{-2,-3}}],[4,5,6]]),
-  true)$
-
-okltest_make_vardisjoint_fcs(f) := (
-  assert(f([]) = [[],0]),
-  assert(f(map(cs_to_fcs,[{},{{}},{},{{}}])) = [map(cs_to_fcs,[{},{{}},{},{{}}]), 0]),
-  assert(f(map(cs_to_fcs,[{{1}},{{}},{{1}},{{}}])) = [map(cs_to_fcs,[{{1}},{{}},{{2}},{{}}]), 2]),
-  assert(f(map(cs_to_fcs,[{{4}},{{2}},{{2}},{{1}}])) = [map(cs_to_fcs,[{{1}},{{2}},{{3}},{{4}}]), 4]),
-  true)$
 
 
 /* ***********************************
@@ -388,7 +329,16 @@ okltest_make_vardisjoint_fcs(f) := (
    ***********************************
 */
 
-okltest_scls_l(f) := (
+okltest_scs_k(f) := (
+  assert(f({},0) = {}),
+  assert(f({},1) = {}),
+  assert(f({{}},0) = {{}}),
+  assert(f({{}},1) = {}),
+  assert(f({{1}},0) = {}),
+  assert(f({{1}},1) = {{1}}),
+  true)$
+
+okltest_scs_l(f) := (
   assert(f({},1) = {}),
   assert(f({{}},1) = {}),
   assert(f({{1}},1) = {{1}}),
@@ -399,7 +349,7 @@ okltest_scls_l(f) := (
   assert(f({{1,2},{-1,2}},2) = {{1,2},{-1,2}}),
   true)$
 
-okltest_scls_v(f) := (
+okltest_scs_v(f) := (
   assert(f({},1) = {}),
   assert(f({{}},1) = {}),
   assert(f({{1}},1) = {{1}}),
@@ -410,7 +360,7 @@ okltest_scls_v(f) := (
   assert(f({{1,2},{-1,2}},3) = {}),
   true)$
 
-okltest_scls_V(f) := block([F],
+okltest_scs_V(f) := block([F],
   assert(f({},{}) = {}),
   assert(f({{}},{}) = {}),
   assert(f({},{1}) = {}),
@@ -419,6 +369,43 @@ okltest_scls_V(f) := block([F],
   F : {{1,2},{-1,3},{2,3},{3,4},{-2,-4}},
   assert(f(F,{1,2}) = {{1,2},{-1,3},{2,3},{-2,-4}}),
   assert(f(F,{1,4}) = {{1,2},{-1,3},{3,4},{-2,-4}}),
+  true)$
+
+/* **************************
+   * Crossing out variables *
+   **************************
+*/
+
+okltest_apply_sv_c(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{1,-2}) = {1,-2}),
+  assert(f({1},{}) = {}),
+  assert(f({1},{1,-2}) = {-2}),
+  assert(f({1,2},{1,-2}) = {}),
+  true)$
+
+okltest_apply_sv_cs(f) := (
+  assert(f({},{}) = {}),
+  assert(f({},{{}}) = {{}}),
+  assert(f({1},{}) = {}),
+  assert(f({1},{{}}) = {{}}),
+  assert(f({1,2},{{1},{-1,2},{-2,3},{3,4}}) = {{},{3},{3,4}}),
+  assert(okltest_apply_sv_c(buildq([f],lambda([V,C],single_element(f(V,{C})))))),
+  true)$
+
+okltest_restrict_V_cs(f) := (
+  assert(f({},{}) = {}),
+  assert(f({{}},{}) = {}),
+  assert(f({{1,2},{-1,-2},{}},{1}) = {{1},{-1}}),
+  assert(f({{1,2},{-1,-2},{}},{1,2}) = {{1,2},{-1,-2}}),
+  true)$
+
+okltest_restrict_V_cl(f) := (
+  assert(f([],{}) = []),
+  assert(f([{}],{}) = []),
+  assert(f([{1,2},{-1,-2},{},{1,2}],{1}) = [{1},{-1},{1}]),
+  assert(f([{1,2},{-1,-2},{},{-2,3},{-3}],{1,2}) = [{1,2},{-1,-2},{-2}]),
+  assert(okltest_restrict_V_cs(buildq([f],lambda([F,V],cl2cs(f(cs2cl(F),V)))))),
   true)$
 
 

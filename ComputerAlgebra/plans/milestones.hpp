@@ -38,6 +38,50 @@ License, or any later version. */
     - Outline of the test system
 
   \par
+   Replacement of "some" by "some_s", and of "every" by "every_s" (supplying
+   tests for all modified functions):
+   <ol>
+    <li> %Algebra : </li>
+    <li> AutomatedTheoremProving : </li>
+    <li> CombinatorialMatrices : </li>
+    <li> Cryptology (MG)
+     <ol>
+      <li> directly under Lisp </li>
+      <li> Lisp/Cryptanalysis </li>
+      <li> Lisp/CryptoSystems : </li>
+     </ol>
+    </li>
+    <li> DataStructures : </li>
+    <li> %Graphs : </li>
+    <li> Hypergraphs : </li>
+    <li> LinearAlgebra : </li>
+    <li> MaximaInternals : </li>
+    <li> %NumberTheory : </li>
+    <li> Numerical : </li>
+    <li> Satisfiability :
+     <ol>
+      <li> Autarkies : </li>
+      <li> Backdoors : </li>
+      <li> Backtracking </li>
+      <li> BranchingTuples </li>
+      <li> %ClauseSets : </li>
+      <li> ConflictCombinatorics : </li>
+      <li> ConstraintProblems </li>
+      <li> Counting : </li>
+      <li> %Generators </li>
+      <li> MinimalUnsatisfiability </li>
+      <li> PropositionalLogic </li>
+      <li> Reductions : </li>
+      <li> Resolutions : </li>
+      <li> Symmetries : </li>
+     </ol>
+    </li>
+    <li> TestSystem : </li>
+    <li> Trees : </li>
+   </ol>
+
+
+  \par
    Replacement of "makelist" by "create_list" (and supplying tests for all
    modified functions):
    <ol>

@@ -36,7 +36,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Ramsey graphs
+  \todo Ramsey hypergraphs
   <ul>
    <li> One needs to revise the extreme cases; compare "Ramsey problems"
    in ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
@@ -57,18 +57,9 @@ License, or any later version. */
     <ol>
      <li> See okltest_ramsey_hg for the formula for the number of
      hyperedges. </li>
-     <li> One would guess that in most cases the automorphism group
-     of the hypergraph is the S_n (acting in the natural way on
-     the vertex set). See "Symmetry breaking" in
-     Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
-    </ol>
-   </li>
-   <li> We should perhaps have a module ComputerAlgebra/RamseyTheory. </li>
-   <li> There we would have NR(L,r) for a list L of natural numbers:
-    <ol>
-     <li> Containing somehow everything known about Ramsey-numbers (i.e.,
-     NR([3,3],2)=6 and NR([4,4],2)=18). </li>
-     <li> Best is to return a pair [lower bound, upper bound]. </li>
+     <li> Likely only basic statistics should be computed, while for example
+     the size of the automorphism group etc. is handled in module.
+     RamseyTheory/Lisp/Ramsey. </li>
     </ol>
    </li>
    <li> We can define Ramsey graphs for arbitrary hypergraphs G
@@ -80,6 +71,7 @@ License, or any later version. */
      <li> If G is a graph, then we are considering the hypergraph of
      "cliques", restricted to cliques of size q, and where the clique
      is viewed as a collection of edges. </li>
+     <li> We need to check whether this is the common point of view. </li>
     </ol>
    </li>
   </ul>

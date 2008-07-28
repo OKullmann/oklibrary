@@ -12,7 +12,8 @@ License, or any later version. */
 
   \todo Connections
   <ul>
-   <li> See Ramsey.cpp (to be updated). </li>
+   <li> See ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
+   <li> See Ramsey.cpp (to be updated) for a C++ generator. </li>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
    <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp.
    </li>
@@ -117,9 +118,40 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   </ul>
 
 
+  \todo Investigating the parameter tuple [[3,3],2]
+  <ul>
+   <li> Creating the relevant instances: by
+   \verbatim
+R5: ramsey2_ofcs(3,2,5);
+R6: ramsey2_ofcs(3,2,6);
+   \endverbatim
+   we create the two relevant (ordered formal) clause-sets. </li>
+   <li> Satisfying assignments:
+   \verbatim
+R5SAT : setify(all_sat_ofcs(R5))$
+length(R5SAT);
+  12
+   \endverbatim
+   </li>
+   <li> Now we need to investigate the operation of the automorphism group
+   of R5 on R5SAT (what are the really different solutions?). </li>
+   <li> For this we need to compute the automorphism group of R5; see
+   "Automorphisms of Ramsey clause-sets" in
+   RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
+   <li> Via
+   \verbatim
+length(all_aut_ofcs(R5));
+  13
+   \endverbatim
+   we see that there are only the obvious autarkies. </li>
+  </ul>
+
+
   \todo Autarkies
   <ul>
    <li> We should investigate autarkies of Ramsey-clause-sets. </li>
+   <li> It could be that for smaller n interesting autarkies exist, and so
+   they could serve for providing lower bounds. </li>
   </ul>
 
 
@@ -133,10 +165,21 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   <ul>
    <li> An important way of making the problems simpler for SAT solvers
    is to add symmetry-breaking clauses. </li>
-   <li> We should try to figure out the automorphism groups of the
-   hypergraphs and the clause-sets. </li>
+   <li> We should try to figure out the automorphism groups of the clause-sets.
+   See "Automorphisms of Ramsey clause-sets" in
+   RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
    <li> The goal is to find as many as possible assignments which can
    be made "w.l.o.g."; and also additional short clauses are of interest. </li>
+  </ul>
+
+
+  \todo "Visualising" solutions
+  <ul>
+   <li> Via SAT solvers we can compute certain solutions for problems somewhat
+   smaller than the interesting sizes. </li>
+   <li> The task is to "look" at these solutions, extract some structure, and
+   then to systematically search for "such" solutions. </li>
+   <li> Of course, everything theoretically known needs to be explored. </li>
   </ul>
 
 

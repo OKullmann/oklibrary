@@ -100,9 +100,19 @@ setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 /* Correcting a bug in Maxima: */
 corr_cartesian_product([S]) := if emptyp(S) then {[]}
  else apply(cartesian_product,S)$
+/* Now the input is a list of lists, and we obtain the "cartesian
+   product" as a list (in the natural order): */
+cartesian_product_l(S) := if emptyp(S) then [[]]
+ else block([P : cartesian_product_l(rest(S))],
+   apply(append, create_list(
+     map(lambda([t],cons(x,t)), P),
+     x,first(S))))$
 
 /* For a set X the set of all tuples of length |X| over X: */
 all_transformations_l(X) := apply(corr_cartesian_product,
+  create_list(X,i,1,length(X)))$
+/* Now input and output are lists (the output is ordered): */
+all_transformations_l_l(X) := cartesian_product_l(
   create_list(X,i,1,length(X)))$
 
 
