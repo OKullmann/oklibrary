@@ -102,6 +102,13 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
        <li> For n=41, cutoff =  10 000 000, with 40 rounds most results were
        fiftyish to sixtyish, but one outlier reached 28 (the minimum). </li>
        <li> Trying (for n=41) cutoff = 20 000 000 and noimprove = 2 000 000.
+        <ul>
+         <li> 100 rounds has a maximum of 8 000 000 steps, average of
+         3 300 000 steps, and 2261 flips per second. The optimum reached was
+         13 falsified clauses, which seems very good. </li>
+         <li> So let's try noimprove = 3 000 000 (one always needs to output
+         the seed, so that a run can be reproduced). </li>
+        </ul>
        </li>
       </ol>
      </li>
