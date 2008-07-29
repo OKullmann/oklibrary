@@ -155,6 +155,10 @@ License, or any later version. */
    <li> The main point is the construction of representations of finite
    functions via generalised CNF/DNF, propositional logic, CSPs, alliances
    of active clause-sets etc. </li>
+   <li> And also general computational representations need to be supported,
+   together with conversions to other forms. </li>
+   <li> Such "conversions" can involve themselves satisfiability problems in
+   various forms. </li>
    <li> Collect the links within part ComputerAlgebra:
     <ol>
      <li> We have something in Cryptology (MG). </li>
