@@ -84,7 +84,7 @@ optimal_splitting_tree(F) :=
    then the empty list is returned. */
 optimal_splitting_tree_rec(F,depth,upperb) := 
  if upperb <= 0 then return([])
- elseif is_empty(F) then [[true],1]
+ elseif emptyp(F) then [[true],1]
  elseif has_empty_element(F) then [[false],1] else
   block([best_tree : [[]], min_size : inf, V : var_cs(F), break : false], 
    monitorcheck_osl("optimal_splitting_tree"),

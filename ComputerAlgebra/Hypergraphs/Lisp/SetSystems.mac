@@ -19,6 +19,10 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
 /* **************
    * Singletons *
    **************
@@ -121,29 +125,35 @@ all_transformations_l_l(X) := cartesian_product_l(
    *************************
 */
 
-/* is_empty(S) is true iff S is the empty set system */
-is_empty(S) := emptyp(S)$
+/* has_empty_element(S) is true iff set system S contains the empty set: */
+/* RENAME: empty_element_p */
+has_empty_element(S) := some_s(emptyp, S)$
+empty_element_p(S) := some_s(emptyp, S)$
 
-/* has_empty_element(S) is true iff set system S contains the empty set */
-has_empty_element(S) := some(emptyp, S)$
-
-/* computes the first pair of indices of non-disjoint elements */
-non_disjoint_pair(L) := block([l : length(L), nd : false, res : []],
-  for i : 1 thru l-1 unless nd do block([A : L[i]], 
-    for j : i+1 thru l unless nd do
-      if not disjointp(A, L[j]) then (res : [i,j], nd : true)),
+/* Given a list of sets, computes the first pair of indices of non-disjoint 
+   elements (and the empty list if there is no such pair): */
+non_disjoint_pair(L) := block([a, l : length(L), found : false, res : []],
+  a : okl_make_array(any,l),
+  a : okl_fillarray_l(a,L),
+  for i : 1 thru l-1 unless found do block([A : a[i]], 
+    for j : i+1 thru l unless found do
+      if not disjointp(A, a[j]) then (res : [i,j], found : true)),
   return(res))$
 
-/* whether S is a disjoint set system */
+/* Whether S is a disjoint set system: */
+/* RENAME: disjoint_set_system_p */
 is_disjoint_set_system(S) := emptyp(non_disjoint_pair(listify(S)))$
+disjoint_set_system_p(S) := emptyp(non_disjoint_pair(listify(S)))$
 
-/* whether S contains no subsumed elements */
+/* Whether S contains no subsumed elements: */
+/* RENAME: antichain_p */
 is_antichain(S) := block([S : sort_length(listify(S)), l : length(S), i, j, subsumption : false, A],
   for i : 1 thru l-1 unless subsumption do (A : S[i],
     for j : i+1 thru l unless subsumption do
       if subsetp(A, S[j]) then subsumption : true),
   return(not subsumption)
 )$
+antichain_p(S) := is_antichain(S)$
 
 
 /* *****************************************
