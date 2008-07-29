@@ -31,35 +31,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Basic translation
-  <ul>
-   <li> Implement the basic translation, which just translates
-   the boolean F into a G with variables over {-1,0,1}. </li>
-  </ul>
-
-
-  \todo Translation to SAT according to Liffiton and Sakallah
-  <ul>
-   <li> See the Guangzhou-2008-talk for more example applications. </li>
-   <li> Extend the documentation on the meaning of the variables. </li>
-   <li> DONE Implement the back-translation, satisfying assignments
-   to autarkies. </li>
-   <li> Derive an autarky-search-function (searching for some
-   non-trivial autarky, using some SAT-solver as argument). </li>
-   <li> Write a generic autarky-search-test (for functions which
-   return a non-trivial autarky or "false" if none exists). </li>
-   <li> Extend the tests. </li>
-   <li> Via creating a splitting tree for the translated instance,
-   and translating the satisfying assignments, compute all autarkies.
-    <ol>
-     <li> Due to the symmetries we have many satisfying assignments;
-     can we improve on that? </li>
-    </ol>
-   </li>
-   <li> Create a demo. </li>
-  </ul>
-
-
   \todo Lean kernel via variable-elimination
   <ul>
    <li> Implement the computation of the lean kernel via a SAT-solver,

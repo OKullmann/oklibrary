@@ -96,6 +96,18 @@ okltest_itrans_aut_sat_ls(f) := block(
      -lsavv_var(1)}, [{1},{{-1},{1}}]) = {}),
   true)$
 
+/* A generic test-function for f(FF,S), return a non-trivial autarky
+   for FF iff possible (using variables from FF), and {} otherwise: 
+*/
+okltest_find_autarky_fcs(f) := block([S : dll_simplest_spa_trivial2],
+  assert(f([{},{}],S) = {}),
+  assert(f([{},{{}}],S) = {}),
+  assert(elementp(f([{1},{}],S), {{-1},{1}}) = true),
+  assert(elementp(f([{1},{{}}],S), {{-1},{1}}) = true),
+  assert(f([{1},{{1}}],S) = {1}),
+  assert(f([{1},{{1},{-1}}],S) = {}),
+  assert(f([{1,2},{{1},{-1},{2}}],S) = {2}),
+  true)$
 
 /*!
 \endhtmlonly
