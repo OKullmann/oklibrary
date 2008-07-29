@@ -31,22 +31,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Lean kernel via variable-elimination
-  <ul>
-   <li> Implement the computation of the lean kernel via a SAT-solver,
-   which in the unsat-case returns a set of variables used by some
-   resolution refutation. </li>
-  </ul>
-
-
-  \todo Lean kernel via oracle for leanness-decision
-  <ul>
-   <li> See [Kullmann 2003 (DAM)], Lemma 8.6. </li>
-   <li> In [Kullmann, CSR 12-2007], Lemma 3.1 this is generalised to
-   non-boolean clause-sets. </li>
-  </ul>
-
-
   \todo Balanced autarkies
 
 
