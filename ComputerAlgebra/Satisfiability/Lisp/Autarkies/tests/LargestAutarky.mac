@@ -24,7 +24,7 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 kill(f)$
 
 
-okltest_largest_aut(f) := (
+okltest_largest_aut_cs(f) := (
   assert(f({},{}) = {}),
   assert(f({},{{}}) = {}),
   assert(f({},{{1}}) = {}),
