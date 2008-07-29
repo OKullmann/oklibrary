@@ -36,7 +36,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/Gener
 
 /* The simplest scheme: input is a formal clause-set, and the return value
    is true or false.
-   The heuristics has to return a literal for input a formal clause-set
+   The heuristics has to return a literal for input a formal clause-set,
    and this literal is first set to true. */
 
 dll_simplest(FF, h) := if emptyp(FF[2]) then true
@@ -44,6 +44,17 @@ dll_simplest(FF, h) := if emptyp(FF[2]) then true
  else block([x : h(FF)], 
     return(dll_simplest(apply_pa_fcs({x}, FF), h) or 
            dll_simplest(apply_pa_fcs({-x}, FF), h)))$
+
+/* The variation where instead of "true" a satisfying partial assignment is
+   returned: */
+dll_simplest_spa(FF,h) := if emptyp(FF[2]) then {}
+ elseif empty_element_p(FF[2]) then false
+ else block([x : h(FF), res], 
+    res : dll_simplest_spa(apply_pa_fcs({x}, FF), h),
+    if res # false then return(adjoin(x,res)),
+    res : dll_simplest_spa(apply_pa_fcs({-x}, FF), h),
+    if res # false then return(adjoin(-x,res)) else 
+      return(false))$
 
 /* The variation where the return value is the computed splitting tree: */
 dll_simplest_st(FF, h) := if emptyp(FF[2]) then [true]
@@ -133,19 +144,21 @@ dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
 
 /* *** Heuristics aiming at small trees *** */
 
-/* The simplest heuristics: return the first variable */
+/* The simplest heuristics: return the first variable. */
 dll_heuristics_first_formal(FF) := first(FF[1])$
 
 dll_simplest_trivial1(FF) := dll_simplest(FF, dll_heuristics_first_formal)$
+dll_simplest_spa_trivial1(FF) := dll_simplest_spa(FF, dll_heuristics_first_formal)$
 dll_simplest_st_trivial1(FF) := dll_simplest_st(FF, dll_heuristics_first_formal)$
 dll_rk_trivial1(FF,k) := dll_rk(FF, dll_heuristics_first_formal, k)$
 dll_rk_st_trivial1(FF,k) := dll_rk_st(FF, dll_heuristics_first_formal, k)$
 
 /* The second-simplest heuristics: return the literal of the first
-   literal-occurrence */
+   literal-occurrence. */
 dll_heuristics_first_real(FF) := first(first(FF[2]))$
 
 dll_simplest_trivial2(FF) := dll_simplest(FF, dll_heuristics_first_real)$
+dll_simplest_spa_trivial2(FF) := dll_simplest_spa(FF, dll_heuristics_first_real)$
 dll_simplest_st_trivial2(FF) := dll_simplest_st(FF, dll_heuristics_first_real)$
 dll_rk_trivial2(FF,k) := dll_rk(FF, dll_heuristics_first_real, k)$
 dll_rk_st_trivial2(FF,k) := dll_rk_st(FF, dll_heuristics_first_real, k)$

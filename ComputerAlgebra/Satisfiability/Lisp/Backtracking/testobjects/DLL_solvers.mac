@@ -27,6 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Backtracking/tes
 */
 
 okltest_dll_simplest(dll_simplest);
+okltest_dll_simplest_spa(dll_simplest_spa);
 
 /* ***********************************
    * Backtracking with r_k-reduction *
