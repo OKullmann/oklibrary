@@ -19,27 +19,19 @@ License, or any later version. */
   \todo Write docus
 
 
-  \todo Basic functionality
-  <ul>
-   <li> Check whether a partial assignment is an autarky:
-    <ol>
-     <li> See
-     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac. </li>
-     <li> Use analyse_pa. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Balanced autarkies
 
 
   \todo Pure autarkies
+  <ul>
+   <li> Create PureAutarkies.mac. </li>
+  </ul>
 
 
   \todo Autarky search via running through all total assignments
   <ul>
-   <li> First implement the autarky extraction as discussed in
+   <li> DONE (see largest_aut_cs in Autarkies/LargestAutarky.mac)
+   First implement the autarky extraction as discussed in
    Autarkies/Search/plans/AnalyseTotalAssignment.hpp. </li>
    <li> Then implement a simple search through all total
    assignments. </li>
@@ -56,12 +48,17 @@ License, or any later version. */
   article with Victor and Mirek
 
 
-  \todo The autarky monoid
+  \todo Basic functionality
   <ul>
-   <li> Implement the full representation, all essential autarkies
-   together with the composition of partial assignments. </li>
-   <li> Is there some computer-algebra-support for representing
-   semigroups (and monoids)? </li>
+   <li> DONE (use aut_pacs_p etc. from
+   ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac)
+   Check whether a partial assignment is an autarky:
+    <ol>
+     <li> See
+     ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac. </li>
+     <li> Use analyse_pa. </li>
+    </ol>
+   </li>
   </ul>
 
 */
