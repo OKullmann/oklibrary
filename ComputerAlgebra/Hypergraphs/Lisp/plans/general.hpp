@@ -16,46 +16,11 @@ License, or any later version. */
   \todo Write tests
 
 
-  \todo Bug in Maxima: corr_cartesian_product
-  <ul>
-   <li> DONE
-   Report the bug corrected by corr_cartesian_product to the Maxima
-   mailing list and to the bug-reporting system. </li>
-   <li> Once corrected, remove all applications of corr_cartesian_product.
-   </li>
-   <li> See "Document important programming techniques" in
-   ComputerAlgebra/plans/Maxima.hpp. </li>
-  </ul>
-
-
   \todo Redesign
   <ul>
    <li> See "Plan the redesign" in ComputerAlgebra/plans/Maxima.hpp for
    the general overview. </li>
    <li> See "Lists instead of sets" and "Naming conventions" below. </li>
-  </ul>
-
-
-  \todo Lists instead of sets
-  <ul>
-   <li> Additionally to "hypergraphs" and "general hypergraphs" we introduce
-   "ordered hypergraphs" and "ordered general hypergraphs":
-    <ol>
-     <li> Computationally these notions are considered to be more fundamental.
-     </li>
-     <li> An ordered hypergraphs is a pair [V,E], where V and E are lists
-     without repetition, such that [setify(V),setify(E)] is a hypergraph. </li>
-     <li> An ordered general hypergraph is a triple [V,E,f], where V, E
-     are lists without repetition, such that [setify(V),setify(E),f] is a
-     general hypergraph. </li>
-    </ol>
-   </li>
-   <li> Multi-versions:
-    <ol>
-     <li> We also should have "multi-hypergraphs", triples [V,E,c], s.t.
-     [V,E] is a hypergraph, and c: E -> NN. </li>
-     <li> And "ordered multi-hypergraphs, [V,E,c] s.t. [setify(V),setify(E),c]
-     is a multi-hypergraph, and [V,E] is an ordered hypergraph. </li>
   </ul>
 
 
@@ -65,6 +30,7 @@ License, or any later version. */
     <ol>
      <li> Perhaps in ComputerAlgebra/DataStructures ? </li>
      <li> Better in ComputerAlgebra/Sets! </li>
+     <li> See also "Set creation" below. </li>
     </ol.
    </li>
   </ul>
@@ -117,6 +83,20 @@ create_set([A]) := setify(apply(create_list,A))$
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
    for a motivation to study intersecting hypergraphs (no empty hyperedges,
    and every two hyperedges intersect). </li>
+  </ul>
+
+
+  \todo DONE (it seems that this bug won't be corrected in Maxima, so we are
+  using our own functions)
+  Bug in Maxima: corr_cartesian_product
+  <ul>
+   <li> DONE
+   Report the bug corrected by corr_cartesian_product to the Maxima
+   mailing list and to the bug-reporting system. </li>
+   <li> Once corrected, remove all applications of corr_cartesian_product.
+   </li>
+   <li> See "Document important programming techniques" in
+   ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
 */
