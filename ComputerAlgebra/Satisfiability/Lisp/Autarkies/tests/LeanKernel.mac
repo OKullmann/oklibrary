@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LeanKernel.mac
-  \brief Tests for autarky search via reductions to other problems
+  \brief Tests for computations of lean kernels
 
 Use by
 
@@ -38,11 +38,22 @@ okltest_lean_kernel_fcs(f) := (
   assert(f([{1},{}]) = [{},{}]),
   assert(f([{1,2},{{}}]) = [{},{{}}]),
   assert(f([{1},{{1},{-1}}]) = [{1},{{1},{-1}}]),
+  assert(f([{1,2},{{1},{-1},{2},{1,2},{}}]) = [{1},{{1},{-1},{}}]),
+  assert(f([{1,2,3},{{1,2},{-1,2},{-2},{1,3},{-2,3},{3}}]) = [{1,2},{{1,2},{-1,2},{-2}}]),
   true)$
 
 /* A generic test-function for f(FF), return a non-trivial autarky
    for FF iff possible (using variables from FF), and {} otherwise: 
 */
+
+okltest_find_autarky_cs(f) := block(
+  assert(f({}) = {}),
+  assert(f({{}}) = {}),
+  assert(f({{1}}) = {1}),
+  assert(f({{1},{-1}}) = {}),
+  assert(f({{1},{-1},{2}}) = {2}),
+  assert(f({{1,2},{-2,3},{2,3},{-3}}) = {1}),
+  true)$
 
 okltest_find_autarky_fcs(f) := block(
   assert(f([{},{}]) = {}),
@@ -54,6 +65,8 @@ okltest_find_autarky_fcs(f) := block(
   assert(f([{1,2},{{1},{-1},{2}}]) = {2}),
   assert(okltest_lean_kernel_fcs(buildq([f],lambda([FF],
     lean_kernel_autfind_fcs(FF,f))))),
+  assert(okltest_find_autarky_cs(buildq([f],lambda([F],
+    f(cs2fcs(F)))))),
   true)$
 
 
