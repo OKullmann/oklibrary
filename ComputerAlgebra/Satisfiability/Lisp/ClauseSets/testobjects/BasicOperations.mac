@@ -103,6 +103,8 @@ okltest_scs_V(scs_V);
 
 okltest_apply_sv_c(apply_sv_c);
 okltest_apply_sv_cs(apply_sv_cs);
+okltest_apply_sv_cl(apply_sv_cl);
+okltest_apply_sv_ip_cl(apply_sv_ip_cl);
 
 okltest_restrict_V_cs(restrict_V_cs);
 okltest_restrict_V_cl(restrict_V_cl);

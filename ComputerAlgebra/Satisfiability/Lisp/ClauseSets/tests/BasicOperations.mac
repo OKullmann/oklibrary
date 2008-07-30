@@ -393,6 +393,18 @@ okltest_apply_sv_cs(f) := (
   assert(okltest_apply_sv_c(buildq([f],lambda([V,C],single_element(f(V,{C})))))),
   true)$
 
+okltest_apply_sv_cl(f) := (
+  assert(f({},[]) = []),
+  assert(okltest_apply_sv_cs(buildq([f],lambda([V,F],cl2cs(f(V,cs2cl(F))))))),
+  true)$
+
+okltest_apply_sv_ip_cl(f) := block([F],
+  F : [], assert(f({},'F) = true), assert(F = []),
+  F : [{1}], assert(f({1},'F) = true), assert(F = [{}]),
+  assert(okltest_apply_sv_cl(buildq([f],lambda([V,F],
+    f(V,'F), return(F))))),
+  true)$
+
 okltest_restrict_V_cs(f) := (
   assert(f({},{}) = {}),
   assert(f({{}},{}) = {}),

@@ -241,6 +241,9 @@ apply_sv_cs(V,F) := block([L : literals_v(V)],
   setify(map(lambda([C],setdifference(C,L)),listify(F))))$
 apply_sv_cl(V,F) := block([L : literals_v(V)],
   map(lambda([C],setdifference(C,L)),F))$
+apply_sv_ip_cl(V,_F) := block([L : literals_v(V)],
+  _F :: map(lambda([C],setdifference(C,L)),ev(_F)),
+  return(true))$
 
 restrict_V_cs(F,V) := block([L : literals_v(V)],
   disjoin({},setify(map(lambda([C],intersection(C,L)),listify(F)))))$
