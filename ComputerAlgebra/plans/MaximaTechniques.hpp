@@ -314,11 +314,12 @@ block([fpprec : fpprec], fpprec : d, Comp)
      is always evaluated in bfloat-arithmetic. </li>
     </ol>
    </li>
-   <li> Call by reference:
+   <li> Call by reference (or "call by name"):
     <ol>
      <li> Pass referency to x by "f('x). </li>
      <li> Inside f, for assignments to x use "x :: value". </li>
      <li> And on the right-hand-side use "ev(x)". </li>
+     <li> To avoid name-clashes, call the formal parameter e.g. "_x". </li>
     </ol>
    </li>
    <li> Plotting of functions:
