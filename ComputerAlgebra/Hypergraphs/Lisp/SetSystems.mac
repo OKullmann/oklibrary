@@ -56,26 +56,29 @@ upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
 */
 
 /* The union of a set system: */
-set_system_union(S) := if emptyp(S) then {} else xreduce(union, S)$
-
+/* RENAME: set_sets_union */
+set_system_union(S) := apply(union,listify(S))$
+set_sets_union(S) := apply(union,listify(S))$
 /* The union of a list of sets: */
-list_sets_union(L) := if emptyp(L) then {} else xreduce(union, L)$
-
-/* The union of a family of sets (i.e., given is a domain I and a map f(i)).
-   I can be a set or a list. */
+list_sets_union(L) := apply(union,L)$
+/* The above two functions are mostly there for "information" (how to do
+   it). */
+/* The union of a family of sets, i.e., given is a domain I and a map f(i).
+   I can be a set or a list; use this function instead of 
+   apply(union, listify(map(f,I))) resp. apply(union, map(f,I)) iff 
+   the memory usage shall be reduced (expecting the f(i) to be large sets
+   with large overlaps). */
 family_sets_union(I, f) := if emptyp(I) then {} else block([res : {}],
  for i in I do res : union(res, f(i)), res)$
 
 /* The sum of a list of sets: */
-set_sum(L) := block([I : setn(length(L))],
- family_sets_union(I, lambda([i], cartesian_product(L[i], {i}))))$
+set_sum(L) := apply(union,
+  map(cartesian_product, L, create_list({i},i,1,length(L))))$
 /* The n-ary version: */
 set_sumn([L]) := set_sum(L)$
 
 /* Complex-union (pairwise union): */
-cunion(A,B) := block([LA: listify(A), LB : listify(B)],
- makeset(ev(union(LA[i],LB[j]),noeval), [i,j],
-  cartesian_product(setn(length(LA)),setn(length(LB)))))$
+cunion(A,B) := setify(map(lambda([P],apply(union,P)),cartesian_product_l([listify(A),listify(B)])))$
 /* The special case of adding some set to all elements of
    a set system. */
 add_elements(a,B) := cunion({a},B)$
@@ -132,9 +135,7 @@ empty_element_p(S) := some_s(emptyp, S)$
 
 /* Given a list of sets, computes the first pair of indices of non-disjoint 
    elements (and the empty list if there is no such pair): */
-non_disjoint_pair(L) := block([a, l : length(L), found : false, res : []],
-  a : okl_make_array(any,l),
-  a : okl_fillarray_l(a,L),
+non_disjoint_pair(L) := block([a : l2array(L), l : length(L), found : false, res : []],
   for i : 1 thru l-1 unless found do block([A : a[i]], 
     for j : i+1 thru l unless found do
       if not disjointp(A, a[j]) then (res : [i,j], found : true)),

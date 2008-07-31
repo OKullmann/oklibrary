@@ -43,8 +43,11 @@ okltest_setmn(setmn);
    **********************************
 */
 
-okltest_set_system_union(set_system_union);
+okltest_set_sets_union(set_sets_union);
 okltest_list_sets_union(list_sets_union);
+okltest_family_sets_union(family_sets_union);
+
+okltest_set_sum(set_sum);
 
 okltest_cunion(cunion);
 okltest_add_element(add_element);
