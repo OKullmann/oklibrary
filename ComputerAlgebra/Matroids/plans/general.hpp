@@ -17,9 +17,6 @@ License, or any later version. */
    </li>
    <li> See "Polyeders, matroids etc." in
    Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp. </li>
-   <li> [Bokowski, Computational Oriented Matroids] should be useful
-   (though it is weak on notions --- which seems to be true for the whole
-   oriented-matroid community). </li>
   </ul>
 
 */
