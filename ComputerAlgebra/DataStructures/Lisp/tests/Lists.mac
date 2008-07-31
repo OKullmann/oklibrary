@@ -69,6 +69,76 @@ okltest_listnorep_p(f) := (
   true)$
 
 
+/* *******************************************
+   * Summations and products over lists/sets *
+   *******************************************
+*/
+
+okltest_sum_l(f) := (
+  assert(f([]) = 0),
+  assert(f([1]) = 1),
+  assert(f([1,2,0,1]) = 4),
+  assert(okltest_sum_s(buildq([f],lambda([S],f(listify(S)))))),
+  true)$
+
+okltest_sum_s(f) := (
+  assert(f({}) = 0),
+  assert(f({1}) = 1),
+  assert(f({1,2}) = 3),
+  true)$
+
+okltest_gsum_l(f) := (
+  assert(f(lambda([x],x^2), [1,2]) = 5),
+  assert(okltest_sum_l(buildq([f],lambda([L],f(identity,L))))),
+  true)$
+
+okltest_gsum_s(f) := (
+  assert(f(lambda([x],x^2), {1,2}) = 5),
+  assert(okltest_sum_s(buildq([f],lambda([S],f(identity,S))))),
+  true)$
+
+okltest_prod_l(f) := (
+  assert(f([]) = 1),
+  assert(f([1]) = 1),
+  assert(f([1,2,3]) = 6),
+  assert(okltest_prod_s(buildq([f],lambda([S],f(listify(S)))))),
+  true)$
+
+okltest_prod_s(f) := (
+  assert(f({}) = 1),
+  assert(f({1}) = 1),
+  assert(f({1,2,3}) = 6),
+  true)$
+
+okltest_gprod_l(f) := (
+  assert(f(lambda([x],x^2), [1,2]) = 4),
+  assert(okltest_prod_l(buildq([f],lambda([L],f(identity,L))))),
+  true)$
+
+okltest_gprod_s(f) := (
+  assert(f(lambda([x],x^2), {1,2}) = 4),
+  assert(okltest_prod_s(buildq([f],lambda([S],f(identity,S))))),
+  true)$
+
+
+/* *************************************
+   * Finding special elements in lists *
+   *************************************
+*/
+
+okltest_first_smallest_l(f) := (
+  assert(f([{}]) = {}),
+  assert(f([{1},[]]) = []),
+  assert(f([{1,2},[1],{2}]) = [1]),
+  true)$
+
+okltest_first_smallest_lb_l(f) := (
+  assert(f([{1,2}],1) = {1,2}),
+  assert(f([[1,2,3],{1,2,3,4},[1,2],[1,2,3]],2) = [1,2]),
+  assert(okltest_first_smallest_l(buildq([f],lambda([L],f(L,0))))),
+  true)$
+
+
 /* **************************
    * Sublist constructions *
    **************************
