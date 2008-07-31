@@ -13,6 +13,13 @@ License, or any later version. */
   \todo External sources
   <ul>
    <li> We need to find open-source systems which handle matroids. </li>
+   <li> We need to find open-source systems which handle oriented matroids.
+   </li>
+   <li> See "Polyeders, matroids etc." in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp. </li>
+   <li> [Bokowski, Computational Oriented Matroids] should be useful
+   (though it is weak on notions --- which seems to be true for the whole
+   oriented-matroid community). </li>
   </ul>
 
 */
