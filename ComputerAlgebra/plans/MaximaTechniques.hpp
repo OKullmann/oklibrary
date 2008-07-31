@@ -133,6 +133,15 @@ map("+",[1,2],[3,4]) = [4,6]
   </ul>
 
 
+  \todo Set operations
+  <ul>
+   <li> See "Set creation" in 
+   ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp. </li>
+   <li> The Maxima function "makeset" creates only trouble, since it cannot
+   handle "subscripts", and thus we do not use it. </li>
+  </ul>
+
+
   \todo Document important programming techniques
   <ul>
    <li> Bugs of Maxima and their corrections:
