@@ -66,26 +66,15 @@ number,fixnum,rational,boolean,float,list,any
   </ul>
 
 
-  \todo Function application
+  \todo Elementary arithmetic
   <ul>
-   <li> What is the difference between "apply" and "xreduce" ?
-    <ul>
-     <li> When the arity of the function being applied isn't known, for 
-     instance when the function is a "noun" or isn't defined at this point,
-     "apply" continues to treat the function as an n-ary function where n is
-     the size of the list argument, whereas "xreduce" treats the function as a
-     binary function.
-     \verbatim
-(%i11) apply(nounify(union), [a,b,c,d]);
-Evaluation took 0.00 seconds (0.00 elapsed) using 416 bytes.
-(%o11)                                   union(a, b, c, d)
-(%i12) xreduce(nounify(union), [a,b,c,d]);
-Evaluation took 0.00 seconds (0.00 elapsed) using 696 bytes.
-(%o12)                            union(union(union(a, b), c), d)
-     \endverbatim
-     </li>
-    </ul>
-   </li>
+   <li> For sums or products over lists, perhaps using a function, apply
+   sum_l(L), sum_s(S), gsum_l(f,L), gsum_s(f,S), and similar for "prod"
+   (see ComputerAlgebra/DataStructures/Lisp/Lists.mac). This is much faster
+   than "sum", but cannot handle symbolic calculations. </li>
+   <li> The natural logarithm (to base e) is log(x), to base 10 it's log10(x),
+   while the binary logarithm is ld(x) (defined in
+   ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac). </li>
   </ul>
 
 
@@ -117,6 +106,24 @@ map("+",[1,2],[3,4]) = [4,6]
      </li>
     </ol>
    </li>
+   <li> What is the difference between "apply" and "xreduce" ?
+    <ul>
+     <li> When the arity of the function being applied isn't known, for 
+     instance when the function is a "noun" or isn't defined at this point,
+     "apply" continues to treat the function as an n-ary function where n is
+     the size of the list argument, whereas "xreduce" treats the function as a
+     binary function.
+     \verbatim
+apply(nounify(union), [a,b,c,d]);
+  union(a, b, c, d)
+xreduce(nounify(union), [a,b,c,d]);
+  union(union(union(a, b), c), d)
+     \endverbatim
+     </li>
+     <li> For "union" or "+" for example "apply" is much faster than "xreduce",
+     and "xreduce" also cannot handle empty lists. </li>
+    </ul>
+   </li>
    <li> DONE (document that create_list is to be used, and not makelist;
    and tell the Maxima mailing list that "makelist" should be "deprecated")
    List creation:
@@ -142,53 +149,54 @@ map("+",[1,2],[3,4]) = [4,6]
   </ul>
 
 
-  \todo Document important programming techniques
+  \todo Bugs of Maxima and their corrections:
   <ul>
-   <li> Bugs of Maxima and their corrections:
+   <li> ext_integer_partitions </li>
+   <li> corr_cartesian_product </li>
+   <li> unique([2,1]) = [1,2]:
     <ol>
-     <li> ext_integer_partitions </li>
-     <li> corr_cartesian_product </li>
-     <li> unique([2,1]) = [1,2]:
-      <ol>
-       <li> Use stable_unique instead (in
-       ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
-       <li> Notify the Maxima mailing-list about the incomplete
-       documentation. </li>
-      </ol>
-     </li>
-     <li> "every" and "some" always run through the whole list:
-      <ol>
-       <li> So except of cases where this is what is needed, every_s and 
-       some_s ("s" for "short circuit") shall be used (provided in
-       DataStructures/Lisp/Lists.mac). </li>
-       <li> Notify the Maxima mailing-list about the incomplete
-       documentation! </li>
-      </ol>
-     </li>
-     <li> "0^0" yields an error:
-      <ol>
-       <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
-       <li> And 0^x evaluates to 0 for an unknown x, which is obviously
-       incorrect! </li>
-       <li> Via "pow(b,e)" in ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac
-       we try to correct the most blatant false behaviour. </li>
-       <li> Notify the Maxima mailing-list! </li>
-      </ol>
-     </li>
-     <li> random_tree(n) :
-      <ol>
-       <li> The function random() is not used (so that one cannot control
-       the random generator). </li>
-       <li> It is not a random choice amongst all n^(n-2) trees. </li>
-       <li> Use randomtree_pr1_og (in
-       ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac) instead (the random
-       process is specified, and random() is used). </li>
-       <li> Tell the Maxima mailing list to improve the documentation of
-       random_tree(n). </li>
-      </ol>
-     </li>
+     <li> Use stable_unique instead (in
+     ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
+     <li> Notify the Maxima mailing-list about the incomplete
+     documentation. </li>
     </ol>
    </li>
+   <li> "every" and "some" always run through the whole list:
+    <ol>
+     <li> So except of cases where this is what is needed, every_s and 
+     some_s ("s" for "short circuit") shall be used (provided in
+     DataStructures/Lisp/Lists.mac). </li>
+     <li> Notify the Maxima mailing-list about the incomplete
+     documentation! </li>
+    </ol>
+   </li>
+   <li> "0^0" yields an error:
+    <ol>
+     <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
+     <li> And 0^x evaluates to 0 for an unknown x, which is obviously
+     incorrect! </li>
+     <li> Via "pow(b,e)" in ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac
+     we try to correct the most blatant false behaviour. </li>
+     <li> Notify the Maxima mailing-list! </li>
+    </ol>
+   </li>
+   <li> random_tree(n) :
+    <ol>
+     <li> The function random() is not used (so that one cannot control
+     the random generator). </li>
+     <li> It is not a random choice amongst all n^(n-2) trees. </li>
+     <li> Use randomtree_pr1_og (in
+     ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac) instead (the random
+     process is specified, and random() is used). </li>
+     <li> Tell the Maxima mailing list to improve the documentation of
+     random_tree(n). </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Document important programming techniques
+  <ul>
    <li> Lists vs. arrays:
     <ol>
      <li> Arrays allow much faster index access than lists. </li>
@@ -398,6 +406,7 @@ is(log(4)/log(2) = 2);
 false
    \endverbatim
    </li>
+   <li> To get for example "sum(i,i,1,n)" simplified, append ", simpsum". </li>
    <li> See 'What is "equalp" ?' in ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
