@@ -47,7 +47,7 @@ locallemma_sattest_asymmetric(F) := if emptyp(F) then true
  elseif empty_element_p(F) then false else
  block([G : cvg_cs(F), break : false],
   for C in G[1] unless break do
-    if gsum_s(lambda([D], 2^(-length(D)), neighbours(C, G))) > 1/4 then 
+    if gsum_s(lambda([D], 2^(-length(D))), neighbours(C, G)) > 1/4 then 
       break : true,
   return(not break))$
 

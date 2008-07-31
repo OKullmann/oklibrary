@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Matroids/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Matriods/Lisp/OrientedMatroids/include.mac")$
+oklib_include("Transitional/ComputerAlgebra/Matroids/Lisp/OrientedMatroids/include.mac")$
 
 /*!
 \endhtmlonly
