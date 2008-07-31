@@ -103,11 +103,19 @@ compo_pass(psi,phi) := union(phi, setdifference(psi,comp_sl(phi)))$
 /* RENAME: apply_pa_cs */
 apply_pa(phi,F) := setdifference2(remove_non_disjoint(F,phi), comp_sl(phi))$
 apply_pa_cs(phi,F) := apply_pa(phi,F)$
-/* Apply a partial assignment to a formal boolean clause-set: */
+apply_pa_cl(phi,F) := block([comp_phi : comp_sl(phi)],
+  map(lambda([C],setdifference(C,comp_phi)),
+      sublist(F,lambda([C],disjointp(C,phi)))))$
 /* RENAME: apply_pa_fcs */
 apply_pa_f(phi,FF) := [setdifference(var_cs_f(FF), var_pa(phi)),
   apply_pa_cs(phi, clauses_f(FF))]$
 apply_pa_fcs(phi,FF) := apply_pa_f(phi,FF)$
+
+/* In-place modification, argument _F passed by name; returns "true": */
+apply_pa_ip_cl(phi,_F) := block([comp_phi : comp_sl(phi)],
+  _F :: sublist(ev(_F),lambda([C],disjointp(C,phi))),
+  _F :: map(lambda([C],setdifference(C,comp_phi)),ev(_F)),
+  true)$
 
 
 /* ****************************************************

@@ -135,6 +135,12 @@ okltest_apply_pa_cs(f) := (
   assert(f({-1,-2},{{1},{2}}) = {{}}),
   true)$
 
+okltest_apply_pa_cl(f) := (
+  assert(f({},[]) = []),
+  assert(f({1,-2},[{},{1},{2},{-1,-2},{-1,3},{-2}]) = [{},{},{3}]),
+  assert(okltest_apply_pa_cs(buildq([f],lambda([phi,F],cl2cs(f(phi,cs2cl(F))))))),
+  true)$
+
 okltest_apply_pa_fcs(f) := (
   assert(f({},[{},{}]) = [{},{}]),
   assert(f({},[{},{{}}]) = [{},{{}}]),
@@ -144,6 +150,16 @@ okltest_apply_pa_fcs(f) := (
   assert(f({1},[{},{{}}]) = [{},{{}}]),
   assert(f({1},[{1},{}]) = [{},{}]),
   assert(f({1},[{1},{{}}]) = [{},{{}}]),
+  true)$
+
+okltest_apply_pa_ip_cl(f) := block([F],
+  F : [],
+  assert(f({},'F) = true),
+  assert(F = []),
+  F : [{1},{2},{-3},{1,-2},{2,3}],
+  assert(f({-1,2,3},'F) = true),
+  assert(F = [{},{},{}]),
+  assert(okltest_apply_pa_cl(buildq([f],lambda([phi,F],(f(phi,'F),F))))),
   true)$
 
 

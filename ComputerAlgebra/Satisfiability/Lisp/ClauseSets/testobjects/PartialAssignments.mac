@@ -56,7 +56,10 @@ okltest_compo_pass(compo_pass);
 */
 
 okltest_apply_pa_cs(apply_pa_cs);
+okltest_apply_pa_cl(apply_pa_cl);
 okltest_apply_pa_fcs(apply_pa_fcs);
+
+okltest_apply_pa_ip_cl(apply_pa_ip_cl);
 
 /* ****************************************************
    * Analysing partial assignments for satisfyingness *
