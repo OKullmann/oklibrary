@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.ma
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Hypergraphs.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 
 /* Checks whether clause-set F is satisfiable according to the symmetric
@@ -44,11 +44,11 @@ locallemma_sattest_vardeg(F) := block([k : min_rank_cs(F)],
 /* Compare with locallemma_satapprox in
    ComputerAlgebra/Satisfiability/Lisp/Backtracking/DLL_solvers.mac. */
 locallemma_sattest_asymmetric(F) := if emptyp(F) then true
- elseif has_empty_element(F) then false else
- block([G : cvg_cs(F), break : false, L],
-  for C in G[1] unless break do (
-    L : listify(neighbours(C, G)),
-    if sum(2^(-length(L[i])), i,1,length(L)) > 1/4 then break : true),
+ elseif empty_element_p(F) then false else
+ block([G : cvg_cs(F), break : false],
+  for C in G[1] unless break do
+    if gsum_s(lambda([D], 2^(-length(D)), neighbours(C, G))) > 1/4 then 
+      break : true,
   return(not break))$
 
 /*!
