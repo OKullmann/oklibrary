@@ -97,18 +97,32 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
        but very slowly: With n=40, cutoff = 10 000 000, in 12 rounds 9 outcomes
        were 30-something, one was 46, and we had 23 (the minimum) and 27
        (regarding the falsified clauses). </li>
-       <li> Trying (for n=40) cutoff = 10 000 000 and noimprove = 1 000 000.
+      </ol>
+     </li>
+     <li> Investigating samd:
+      <ol>
+       <li> n=40:
+        <ol>
+         <li> cutoff = 10 000 000 and noimprove = 1 000 000 </li>
+         <li> cutoff = 20 000 000, noimprove = 3 000 000: 100 rounds, maximum
+         10 500 000 steps, average 4 300 000 steps, minimum 1 falsified clause
+         (seed 18745606), 2912 flips per second. </li>
+         <li> One round, cutoff = 20 000 000, with previous best seed. </li>
+        </ol>
        </li>
-       <li> For n=41, cutoff =  10 000 000, with 40 rounds most results were
-       fiftyish to sixtyish, but one outlier reached 28 (the minimum). </li>
-       <li> Trying (for n=41) cutoff = 20 000 000 and noimprove = 2 000 000.
-        <ul>
-         <li> 100 rounds has a maximum of 8 000 000 steps, average of
+       <li> n=41:
+        <ol>
+         <li> cutoff =  10 000 000, with 40 rounds most results were
+         fiftyish to sixtyish, but one outlier reached 28 (the minimum). </li>
+         <li> cutoff = 20 000 000, noimprove = 2 000 000:
+         100 rounds has a maximum of 8 000 000 steps, average of
          3 300 000 steps, and 2261 flips per second. The optimum reached was
          13 falsified clauses, which seems very good. </li>
-         <li> So let's try noimprove = 3 000 000 (one always needs to output
-         the seed, so that a run can be reproduced). </li>
-        </ul>
+         <li> noimprove = 3 000 000: 100 rounds, maximum 12 600 000 steps,
+         average 5 000 000 steps, 2294 flips per second, minimum 12 falsified
+         clauses (seed 1833218426) </li>
+         <li> One round, cutoff = 20 000 000, with previous best seed. </li>
+        </ol>
        </li>
       </ol>
      </li>
