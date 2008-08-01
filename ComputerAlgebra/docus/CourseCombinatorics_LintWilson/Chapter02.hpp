@@ -12,6 +12,8 @@ License, or any later version. */
 
   <h1> Counting, enumerating and sampling trees </h1>
 
+  See ComputerAlgebra/Graphs/Lisp/Trees/plans/Generators.hpp.
+
 
   <h1> Spanning trees </h1>
 
