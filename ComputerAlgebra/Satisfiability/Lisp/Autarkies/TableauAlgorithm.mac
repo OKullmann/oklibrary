@@ -1,0 +1,128 @@
+/* Oliver Kullmann, 29.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac
+  \brief Functions for computing lean kernels
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/PartialAssignments.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
+/* ***********************
+   * The basic algorithm *
+   ***********************
+*/
+
+/* For a clause-list "F" and a list "obligations" of clauses from F,
+   determine whether there exists an autarky for F satisfying all
+   clauses from obligations. Returns either an autarky or "false".
+*/
+/* The heuristics h inherits F and obligations (trivial heuristics are given
+   by the functions lambda([],first(obligations)) and
+   lambda([],last(obligations)). */
+find_aut_cl_tableau_cl(F,obligations,h) :=
+  find_aut_cl_tableau_cl_rec(F,obligations,{})$
+/* The recursive version, inheriting h. */
+/* Prerequisites: phi has been applied to F and obligations. */
+find_aut_cl_tableau_cl_rec(F,obligations,phi) :=
+  if emptyp(obligations) then phi
+  elseif empty_element_p(obligations) then false else
+  block([C : h(), found : false],
+    for x in C while found=false do
+      found : find_aut_cl_tableau_cl_rec(
+        sublist(F,lambda([C],disjointp({-x,x},C))),
+        append(apply_pa_cl({x},obligations), 
+               map(lambda([C],disjoin(-x,C)),
+                 sublist(F,lambda([C],elementp(-x,C))))),
+        adjoin(x,phi)),
+    return(found))$
+
+/* Heuristics: choose first smallest clause: */
+min_cllength_h_tableau() := first_smallest_lb_l(obligations,1)$
+
+/* The instance using as heuristics "first smallest clause": */
+find_aut_cl_tableau_fs_cl(F,obl) := find_aut_cl_tableau_cl(F,obl,min_cllength_h_tableau)$
+
+
+/* ************************************
+   * Finding some non-trivial autarky *
+   ************************************
+*/
+
+/* Finding a pair [phi,lvar], where phi is non-trivial autarky if one exists
+   ({} otherwise), and lvar a set of variables contained in the lean 
+   kernel: */
+find_aut_tableau_cl(F,h) := if emptyp(F) then [{},{}] else
+ block([found : false, phi, lvar : {}],
+  unless found do block([C : first(F)],
+    phi : find_aut_cl_tableau_cl(F,[C],h),
+    if setp(phi) then found : true else block([V : var_c(C)],
+      lvar : union(lvar,V),
+      apply_sv_ip_cl(V,'F),
+      F : sublist(F,lambda([C], not emptyp(C))),
+      if emptyp(F) then found : true
+  )),
+  if not setp(phi) then phi : {},
+  return([phi,lvar]))$
+
+
+/* *****************************
+   * Computing the lean kernel *
+   *****************************
+*/
+
+/* Now phi is an autarky yielding a maximal autark subset, and lvar is
+   the set of all variables in the lean kernel: */
+find_autlvar_tableau_cl(F,h) := if emptyp(F) then [{},{}] else
+ block([maxphi : {}, phi, lvar : {}],
+  unless emptyp(F) do block([C : first(F)],
+    phi : find_aut_cl_tableau_cl(F,[C],h),
+    if setp(phi) then (
+      apply_pa_ip_cl(phi,'F),
+      maxphi : union(maxphi,phi)
+    )
+    else block([V : var_c(C)],
+      lvar : union(lvar,V),
+      apply_sv_ip_cl(V,'F),
+      F : sublist(F,lambda([C], not emptyp(C))))
+  ),
+  return([maxphi,lvar]))$
+
+/* Computing a pair [L,phi], where L is the sublist of F containing the clauses
+   from the lean kernel, while phi is an autarky for F certifying the lean
+   kernel: */
+lean_kernel_tableau_cl(F,h) := block([phi,lvar,L],
+  [phi,lvar] : find_autlvar_tableau_cl(F,h),
+  L : union(phi,comp_sl(phi)),
+  [sublist(F,lambda([C],disjointp(C,L))), phi])$
+    
+
+/* *************
+   * Instances *
+   *************
+*/
+
+/* The instances using as heuristics "first smallest clause": */
+find_aut_tableau_fs_cl(F) := find_aut_tableau_cl(F,min_cllength_h_tableau)$
+find_autlvar_tableau_fs_cl(F) := find_autkvar_tableau_cl(F,min_cllength_h_tableau)$
+lean_kernel_tableau_fs_cl(F) := lean_kernel_tableau_cl(F,min_cllength_h_tableau)$
+
+
+/*!
+\endhtmlonly
+*/
