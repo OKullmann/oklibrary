@@ -20,12 +20,12 @@ License, or any later version. */
     <ol>
      <li> "is" for independent subsets (a hypergraph [V,M] such that M is
      non-empty, hereditary (stable under subset-formation), and fulfils
-     the exchange property, i.e., for A, B in M with |A| < |B| there exists
+     the augmentation property, i.e., for A, B in M with |A| < |B| there exists
      x in B - A with A + {x} in M; for implicitly given matroids, which
-     could be infinite, we need further distinctions) </li>
-     <li> "ds" for dependent subsets </li>
-     <li> "cr" for circuits </li>
-     <li> "bs" for bases </li>
+     could be infinite, we need further distinctions); </li>
+     <li> "ds" for dependent subsets; </li>
+     <li> "cr" for circuits; </li>
+     <li> "bs" for bases; </li>
      <li> "rk" for a rank-function; here we don't have a hypergraph but
      a pair [V,f], where V is a set and f yields for every subset of V
      a natural number (with zero). </li>
@@ -44,7 +44,8 @@ License, or any later version. */
    ComputerAlgebra/Matroids/Lisp/OrientedMatroids/plans/general.hpp. </li>
    <li> The direct definition is inefficient:
     <ol>
-     <li> Implicit representation of the base set is of importance. </li>
+     <li> The possibility of implicit representations of the base set is of
+     importance especially for infinite matroids. </li>
      <li> And perhaps the existential quantifiers in the axioms can
      additionally be realised, e.g. for "_is" a function f(A,B) which
      yields x in B - A. </li>
@@ -54,10 +55,13 @@ License, or any later version. */
      <li> Perhaps we use for example "isr", that is, "independent set
      realiser". One could also use "issf" ("sf" for "Skolem function"). </li>
      <li> Perhaps important also the variation where e.g. f(A,B) is the set
-     of all x in B - A s.t. A + x is independent. </li>
-     <li> And also for the various set systems (independent sets, circuits,
-     etc.) we can have explicit and implicit representations. One could use
-     "imp" for "implicit", and "exp" for "explicit". </li>
+     of *all* x in B - A s.t. A + x is independent. </li>
+     <li> Importantly, also for the various set systems (independent sets,
+     circuits, etc.) we can have explicit and implicit representations. One
+     could use "imp" for "implicit", and "exp" for "explicit". </li>
+     <li> Perhaps we could make implicit representation of the set of
+     independent subsets the default, while for the bases the explicit
+     representation is the default? </li>
     </ol>
    </li>
   </ul>
