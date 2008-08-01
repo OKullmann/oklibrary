@@ -37,3 +37,5 @@ ubcsat_targets_prefix_okl := $(ubcsat_prefix_okl)-
 ubcsat_recommended_okl := $(ubcsat_targets_prefix_okl)$(ubcsat_recommended_version_number_okl)
 ubcsat_source_okl := $(ExternalSources)/sources/SAT/Ubcsat/$(ubcsat_recommended_okl)
 
+ubcsat_defaults_okl ?= -rclean -r out stdout run,found,best,beststep,steps,seed  -r stats stdout numclauses,numvars,numlits,fps,beststep[mean],steps[mean+max],percentsolve,best[min+max+mean+median]
+
