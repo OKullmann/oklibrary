@@ -110,7 +110,10 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
          <li> cutoff = 20 000 000, noimprove = 3 000 000: 100 rounds, maximum
          10 500 000 steps, average 4 300 000 steps, minimum 1 falsified clause
          (seed 18745606), 2912 flips per second. </li>
-         <li> One round, cutoff = 20 000 000, with previous best seed. </li>
+         <li> One round, cutoff = 20 000 000, with previous best seed: didn't
+         improve the result.</li>
+         <li> So let's try 500 runs, with cutoff = 20 000 000, noimprove =
+         2 000 000. </li>
         </ol>
        </li>
        <li> n=41:
@@ -124,7 +127,10 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
          <li> noimprove = 3 000 000: 100 rounds, maximum 12 600 000 steps,
          average 5 000 000 steps, 2294 flips per second, minimum 12 falsified
          clauses (seed 1833218426) </li>
-         <li> One round, cutoff = 20 000 000, with previous best seed. </li>
+         <li> One round, cutoff = 20 000 000, with previous best seed: didn't
+         improve the result. </li>
+         <li> So let's try 500 runs, with cutoff = 20 000 000, noimprove =
+         2 000 000. </li>
         </ol>
        </li>
       </ol>
