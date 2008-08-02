@@ -24,9 +24,9 @@ $(ubcsat-directories) : % :
 # The Targets
 # #################################
 
-.PHONY : ubcsat
+.PHONY : ubcsat ubcsat-okl
 
-ubcsat : $(ubcsat-directories)
+ubcsat : $(ubcsat-directories) ubcsat-okl
 	$(call unarchive,$(ubcsat_source_okl),$(ubcsat_build_dir_okl),src)
 	dos2unix $(ubcsat-src-directory)/*.c $(ubcsat-src-directory)/*.h
 	cp $(ubcsat-src-directory)/* $(ubcsat-tmp-src-directory)
@@ -39,6 +39,10 @@ ubcsat : $(ubcsat-directories)
 	cp -r $(ubcsat-bin-directory) $(ubcsat_installation_dir_okl)
 	cp -r $(ubcsat-src-directory) $(ubcsat_installation_dir_okl)
 	ln -s --force $(ubcsat_call_okl) $(public_bin_dir_okl)/ubcsat
+
+ubcsat-okl :
+	$(preprocessing_call) $(OKbuildsystem)/ExternalSources/SpecialBuilds/Wrappers/ubcsat-okl > $(public_bin_dir_okl)/ubcsat-okl
+	chmod u+x $(public_bin_dir_okl)/ubcsat-okl
 
 
 # #################################

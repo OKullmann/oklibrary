@@ -1,0 +1,46 @@
+/* Oliver Kullmann, 29.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/TableauAlgorithm.mac
+  \brief Tests for autarky search via the tableau method
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/TableauAlgorithm.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
+
+kill(f)$
+
+/* ***********************
+   * The basic algorithm *
+   ***********************
+*/
+
+okltest_find_aut_cl_tableau_cl(f) := block([heu],
+  local(heu),
+  heu() := first(obligations),
+  assert(f([],[],heu) = {}),
+  assert(f([{}],[],heu) = {}),
+  assert(f([{}],[{}],heu) = false),
+  assert(f([{1},{2}],[{1}],heu) = {1}),
+  assert(f([{1},{-1},{},{2}],[{2}],heu) = {2}),
+  assert(f([{1,2},{-1,2},{3},{-3}],[{1,2}],heu) = {1,2}),
+  assert(f([{1,2},{-1,2,3},{1,-2},{3},{-3}],[{1,2}],heu) = {1,2}),
+  assert(f([{1,2},{-1,-2,3},{1,-2},{3},{-3}],[{1,2}],heu) = {1,-2}),
+  true)$
+
+/*!
+\endhtmlonly
+*/

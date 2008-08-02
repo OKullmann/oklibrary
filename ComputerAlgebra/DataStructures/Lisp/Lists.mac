@@ -41,6 +41,43 @@ some_s(pred,L) := block([countex : false],
 listnorep_p(L) := listp(L) and is(length(unique(L)) = length(L))$
 
 
+/* *******************************************
+   * Summations and products over lists/sets *
+   *******************************************
+*/
+
+sum_l(L) := apply("+",L)$
+sum_s(S) := apply("+",listify(S))$
+gsum_l(f,L) := apply("+",map(f,L))$
+gsum_s(f,S) := apply("+",map(f,listify(S)))$
+prod_l(L) := apply("*",L)$
+prod_s(S) := apply("*",listify(S))$
+gprod_l(f,L) := apply("*",map(f,L))$
+gprod_s(f,S) := apply("*",map(f,listify(S)))$
+
+
+/* *************************************
+   * Finding special elements in lists *
+   *************************************
+*/
+
+/* Computing the first smallest element (w.r.t. "length") of a list
+   (or of a set): */
+first_smallest_l(L) := block([s : inf, S],  
+  for x in L do block([l : length(x)],
+    if l < s then (s : l, S : x)),
+  S)$
+/* Now a lower bound on length is given: */
+first_smallest_lb_l(L,lb) := block([s : inf, S],  
+  for x in L unless s = lb do block([l : length(x)],
+    if l < s then (s : l, S : x)),
+  S)$
+/* first_smallest_lb_l(L,0) computes the same result as first_smallest_l(L),
+   but the computation is aborted as soon as an empty element was found
+   (the price is the repeated evaluation of the condition).
+*/
+
+
 /* **************************
    * Sublist constructions *
    **************************

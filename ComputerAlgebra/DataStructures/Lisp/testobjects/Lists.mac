@@ -31,6 +31,28 @@ okltest_some_s(some_s);
 
 okltest_listnorep_p(listnorep_p);
 
+/* *******************************************
+   * Summations and products over lists/sets *
+   *******************************************
+*/
+
+okltest_sum_l(sum_l);
+okltest_sum_s(sum_s);
+okltest_gsum_l(gsum_l);
+okltest_gsum_s(gsum_s);
+okltest_prod_l(prod_l);
+okltest_prod_s(prod_s);
+okltest_gprod_l(gprod_l);
+okltest_gprod_s(gprod_s);
+
+/* *************************************
+   * Finding special elements in lists *
+   *************************************
+*/
+
+okltest_first_smallest_l(first_smallest_l);
+okltest_first_smallest_lb_l(first_smallest_lb_l);
+
 /* **************************
    * Sublist constructions *
    **************************

@@ -13,6 +13,10 @@ License, or any later version. */
   \todo External sources
   <ul>
    <li> We need to find open-source systems which handle matroids. </li>
+   <li> We need to find open-source systems which handle oriented matroids.
+   </li>
+   <li> See "Polyeders, matroids etc." in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp. </li>
   </ul>
 
 */

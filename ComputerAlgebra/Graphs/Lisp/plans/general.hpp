@@ -12,7 +12,6 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> See module "Trees" below. </li>
    <li> See module "GraphTraversal" below. </li>
    <li> See module "Treewidth" below. </li>
    <li> See module "Matchings" below. </li>
@@ -23,6 +22,7 @@ License, or any later version. */
    <li> Likely also a submodule "RandomGraphs". </li>
    <li> And a submodule "RamseyTheory" (but this perhaps better belongs
    to Hypergraphs ?). </li>
+   <li> DONE See module "Trees" below. </li>
   </ul>
 
 
@@ -165,44 +165,6 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
          "/home/kullmann/maxout.gnuplot", line 22: ';' expected
    \endverbatim
    Notify maxima mailing-list. </li>
-  </ul>
-
-
-  \todo Trees
-  <ul>
-   <li> We should have a module "Trees". </li>
-   <li> The "rooted ordered trees" are the trees (rt) as in
-   ComputerAlgebra/Trees/Lisp/Basics.mac. </li>
-   <li> We need counting, enumeration and sampling of all types of trees:
-    <ol>
-     <li> trees; </li>
-     <li> rooted trees; </li>
-     <li> rooted ordered trees (here "ordered" refers to the order of
-     children), especially if all inner nodes have at most resp. exactly 2
-     children (and the same for rooted trees); </li>
-     <li> oriented trees. </li>
-    </ol>
-    This for "labelled structures" (i.e., all such structures with standardised
-    vertex sets) or "unlabelled structures" (i.e., all isomorphism types).
-   </li>
-   <li> And we need isomorphism testing.
-    <ol>
-     <li> Also the determination of the automorphism groups. </li>
-    </ol>
-   </li>
-   <li> Are there other types of "directed trees" than the above "oriented
-   trees" (directed graphs without antiparallel edges, such that the
-   underlying graph is a tree)? Of course, one could make them "rooted"
-   and possibly also "ordered", but this seems useless. </li>
-   <li> What about spanning trees?
-    <ol>
-     <li> It seems they also belong to here, but they also belong to
-     GraphTraversal (see below)? </li>
-     <li> Likely in GraphTraversal we should have the special algorithms
-     obtained by this approach, while other algorithms and other questions
-     are handled in Trees/SpanningTrees. </li>
-    </ol>
-   </li>
   </ul>
 
 

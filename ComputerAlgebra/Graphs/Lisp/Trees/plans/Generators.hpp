@@ -10,6 +10,24 @@ License, or any later version. */
   \brief Plans for the generation of various forms of trees
 
 
+  \todo Counting, enumeration and sampling
+  <ul>
+   <li> We need counting, enumeration and sampling of all types of trees:
+    <ol>
+     <li> trees; </li>
+     <li> rooted trees; </li>
+     <li> rooted ordered trees (here "ordered" refers to the order of
+     children), especially if all inner nodes have at most resp. exactly 2
+     children (and the same for rooted trees); </li>
+     <li> oriented trees. </li>
+    </ol>
+   </li>
+   <li> This for "labelled structures" (i.e., all such structures with
+   standardised vertex sets) or "unlabelled structures" (i.e., all
+   isomorphism types). </li>
+  </ul>
+
+
   \todo Evaluating the Maxima function random_tree
   <ul>
    <li> The following function

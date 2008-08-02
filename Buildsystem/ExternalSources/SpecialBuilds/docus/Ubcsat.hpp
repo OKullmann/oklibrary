@@ -32,7 +32,7 @@ License, or any later version. */
    <li> <code>bin</code> contains the executable <code>ubscat</code>, a
    solver platform which can execute the main local-search algorithms. A link
    to this program is planted in the public bin-directory
-   $(public_bin_dir_okl). </li>
+   (which is <code>$(public_bin_dir_okl)</code>). </li>
    <li> <code>lib</code> contains the link-libraries which are linked together
    in the above <code>ubcsat</code> executable, and which are here made available
    for linking. Compiled with the macro ALTERNATEMAIN, so that no main
@@ -70,19 +70,38 @@ License, or any later version. */
    </li>
    <li> Using <code>ubcsat -h</code> will show the list of options.
     <ol>
-     <li> Most useful seems to start with e.g.,
+     <li> Most useful seems to start with %e.g.,
      \verbatim
-ubcsat -alg alg -runs 100 -cutoff 1000 -i file
+ubcsat -alg rsaps -runs 100 -cutoff 1000 -i file
      \endverbatim
-     where alg has to be chosen as one of the available algorithms. </li>
+     where for the parameter "-alg" one has to chose one of the available
+     algorithms (here "rsaps"). </li>
      <li> In this way one gets a feeling for the quality of the algorithm,
      and how cutoff needs to be adapted to the problem at hand. </li>
+     <li> Additionally the usage of the parameter <code>-noimprove value</code>
+     is of interest, which aborts a run after value-many steps without
+     improvement of the current minimum number of falsified clauses. </li>
     </ol>
    </li>
    <li> <code>ubcsat -ha</code> shows the list of available algorithms.
    Typically one needs to try them all out. </li>
   </ul>
 
+  We provide a convenience-wrapper <code>ubcsat-okl</code> (also in the
+  public bin-directory):
+  <ul>
+   <li> This calls <code>ubcsat</code> with the parameters
+   <code>$(ubcsat_defaults_okl)</code>, followed by the parameters given to
+   <code>ubcsat-okl</code>. </li>
+   <li> So we leave out the banner etc., for each run additionally output the
+   seed-value (so that the run can be repeated), and especially provide more
+   statistics about the best assignments found. </li>
+   <li> The wrapper can be used as ubcsat itself, for example
+   \verbatim
+ubcsat-okl -alg samd -runs 100 -cutoff 10000 -noimprove 1000 -i file
+   \endverbatim
+   </li>
+  </ul>
   
   To use Ubcsat-components from inside the OKlibrary:
   <ul>

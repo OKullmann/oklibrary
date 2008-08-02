@@ -51,6 +51,8 @@ License, or any later version. */
 create_set([A]) := setify(apply(create_list,A))$
    \endverbatim
    does not work, since "apply" evaluates the argument A. </li>
+   <li> Or, perhaps it works? I (OK) can't find an example where it does
+   not work? </li>
    <li> It should be possible to make this work, but perhaps this is not 
    worth the effort? </li>
    <li> Ask on the Maxima mailing list. </li>

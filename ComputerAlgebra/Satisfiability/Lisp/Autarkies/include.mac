@@ -24,12 +24,14 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Larges
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LeanKernel.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LinearAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/MatchingAutarkies.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/TableauAlgorithm.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LargestAutarky.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LeanKernel.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LinearAutarkies.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/MatchingAutarkies.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/TableauAlgorithm.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/Translations.mac")$
 
 /*!
