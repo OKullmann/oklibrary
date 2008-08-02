@@ -30,6 +30,7 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac");
 */
 
 /* Checks whether M is a set-map. */
+/* RENAME: sm_p */
 setmapp(M) := if not setp(M) then false else block([is_setm : true],
   for p in M while is_setm do
     if not listp(p) or length(p) # 2 then is_setm : false,
@@ -43,6 +44,7 @@ osm_p(M) := if not listp(M) then false else
     return(is_osm and length(unique(map(first,M))) = l)))$
 
 /* Set a value for a set-map. */
+/* RENAME: set_sm */
 define_set_map(M,x,y) := block([found : false],
  for p in M unless found do
    if p[1] = x then (
@@ -52,8 +54,10 @@ define_set_map(M,x,y) := block([found : false],
 
 /* Compute the value for an argument in the domain of a set-map.
    If x is not in the domain, then "done" is returned. */
+/* RENAME: ev_sm */
 evaluate_set_map(M,x) := for p in M do if p[1] = x then return(p[2])$
 /* Use a default value if undefined. */
+/* RENAME: ev_sm_d */
 evaluate_set_map_d(M,x,y) := block([found : false, val],
  for p in M unless found do if p[1] = x then (found : true, val : p[2]),
  if found then val else y)$
@@ -136,42 +140,64 @@ lambda_hm(h) := buildq([h],lambda([x],ev_hm(h,x)))$
 
 /* "okl-arrays" are 1-based, and at index 0 they contain their length. */
 
-/* First the equivalents of the built-in functions: */
+/* The equivalents of the built-in functions: */
+
 okl_make_array(type,dim) := block([a : make_array(type,dim+1)], 
   a[0] : dim, a)$
 okl_listarray(a) := rest(listarray(a))$
+/* RENAME: ary2l */
 array2l(a) := okl_listarray(a)$
 /* Here L must be a list and a an okl-array: */
 okl_fillarray_l(a,L) := fillarray(a,cons(a[0],L))$
 
-/* Creating an okl-array from a list: */
+
+/* Creating okl-arrays from lists: */
+
+/* RENAME: l2ary */
 l2array(L) := okl_fillarray_l(okl_make_array(any,length(L)),L)$
 /* If the list contains only integers, and the array shall be
    an array of integers: */
+/* RENAME: il2ary */
 il2array(L) := okl_fillarray_l(okl_make_array(fixnum,length(L)),L)$
 /* If the list contains only floating-point numbers, and the array shall be
    an array of floating-point numbers: */
+/* RENAME: fl2ary */
 fl2array(L) := okl_fillarray_l(okl_make_array(flonum,length(L)),L)$
 
+
+/* Creating okl-arrays from set-maps: */
+
+/* RENAME: sm2ary */
 sm2array(M) := sm2array_lt(M,length(M),any)$
+/* RENAME: osm2ary */
 osm2array(M) := sm2array(M)$
 /* If the type of the indices is known, and the length of the array
    is also to be specified: */
+/* RENAME: sm2ary_lt */
 sm2array_lt(M,l,type) := block([a : okl_make_array(type,l)],
   for p in M do a[p[1]] : p[2], return(a))$
+/* RENAME: osm2ary_lt */
 osm2array_lt(M,l,type) := sm2array_lt(M,l,type)$
 
 /* Interpreting a value "false" as "not assigned": */
+/* RENAME: ary2osm */
 array2osm(a) := array2osm_v(a,false)$
 /* Specifying the value which signals "not assigned": */
+/* RENAME: ary2osm */
 array2osm_v(a,v) := block([L : okl_listarray(a)],
   delete(v,create_list(if L[i]=false then false else [i,L[i]],i,1,length(L))))$
 
+/* Creating lambda-maps with "built-in okl-array": */
+
 /* Converting an array or an array-function into a lambda-term: */
+/* RENAME: ary2lmp2 */
 lambda_array(a) := buildq([a],lambda([x],a[x]))$
 /* Extracting the array from a lambda-term created by lambda_array: */
+/* RENAME: lmpa2ary */
 extract_array(h) := part(h,2,0);
+/* RENAME: lmpa2l */
 extract_arraylist(h) := okl_listarray(extract_array(h))$
+
 
 /* *********************
    * Frequency counter *

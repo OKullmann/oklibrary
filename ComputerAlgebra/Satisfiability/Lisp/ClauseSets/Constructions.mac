@@ -29,7 +29,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    **************************
 */
 
-/* Complementation (literal-wise) of a clause-set or clause-list */
+/* Complementation (literal-wise) of a clause-set or clause-list: */
 comp_cs(F) := map(comp_sl, F)$
 
 

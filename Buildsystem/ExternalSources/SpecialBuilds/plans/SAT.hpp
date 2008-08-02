@@ -288,6 +288,7 @@ actual or intended publication of such source code.
 
   \todo Symmetries
   <ul>
+   <li> ZAP ? </li>
    <li> shatter http://www.eecs.umich.edu/~faloul/Tools/shatter/ is not
    open source. </li>
   </ul>

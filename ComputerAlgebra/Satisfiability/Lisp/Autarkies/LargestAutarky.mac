@@ -23,13 +23,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 
 /* Given a partial assignment phi and clause-set F, compute the largest
    autarky for F which is contained in phi. */
-largest_aut(phi,F) := if emptyp(phi) then {} else block(
+largest_aut_cs(phi,F) := if emptyp(phi) then {} else block(
  [analyse_phi, FC],
   F : disjoin({},F),
   analyse_phi : analyse_pa(phi,F),
   FC : union(analyse_phi[2], analyse_phi[4]),
   if not emptyp(FC) then
-    return(largest_aut(restr_c_pa(phi,var_cs(FC)),F))
+    return(largest_aut_cs(restr_c_pa(phi,var_cs(FC)),F))
   else return(phi))$
 
 /*!

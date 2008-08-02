@@ -31,6 +31,9 @@ kill(f)$
    ********************************
 */
 
+/* Input is (just) a formal clause-set. */
+
+/* Just returning true/false: */
 okltest_SATsolver(f) := block(
   assert(f([{},{}]) = true),
   assert(f([{},{{}}]) = false),
@@ -46,6 +49,14 @@ okltest_SATsolver(f) := block(
   ),
   true)$
 
+/* Instead of "true" a satisfying partial assignment is returned: */
+okltest_SATsolver_spa(f) := block(
+  assert(okltest_SATsolver(buildq([f],lambda([FF],block([res:f(FF)],
+    if setp(res) then true else false))))),
+  assert(f([{},{}]) = {}),
+  assert(f([{1},{{1}}]) = {1}),
+  assert(f([{1,2},{{1,2},{1,-2},{-1,2}}]) = {1,2}),
+  true)$
 
 /* **********************************
    * Backtracking without reduction *
@@ -54,6 +65,10 @@ okltest_SATsolver(f) := block(
 
 okltest_dll_simplest(f) := block(
   okltest_SATsolver(buildq([f],lambda([FF],f(FF,dll_heuristics_first_formal)))),
+  true)$
+
+okltest_dll_simplest_spa(f) := block(
+  okltest_SATsolver_spa(buildq([f],lambda([FF],f(FF,dll_heuristics_first_formal)))),
   true)$
 
 

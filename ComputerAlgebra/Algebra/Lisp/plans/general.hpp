@@ -10,31 +10,39 @@ License, or any later version. */
   \brief Plans in general for algebra functionality via Maxima/Lisp
 
 
+  \todo Abstract representation of structures
+  <ul>
+   <li> A natural "implicit" representation of a set is by a predicate set(x)
+   (the elements of the set are all x such that set(x) = true). </li>
+   <li> Besides our "concrete" groupoids (etc.) [V,compo] we should consider
+   "implicit" groupoids [set,compo], using such a set-predicate. </li>
+   <li> But the objects are still "concrete", that is, they can be put into a
+   Maxima-set, and equality is just decided by is(a=b). </li>
+   <li> But if the objects involve for example functions (like the objects of
+   the category of general graphs), then they cannot be put into a Maxima-set:
+    <ol>
+     <li> A binary predicate "X_equalp(a,b)" for deciding the equality of
+     objects a,b is needed. </li>
+     <li> A fundamental problem is that none of the functions which use sets of
+     elements can be used. </li>
+     <li> So well, perhaps then operations on (repetition-free) lists are
+     sufficient. </li>
+     <li> We need a notion to distinguish between the two degrees of
+     implicitness. Or perhaps this is not connected to the representation of
+     a "set" (explicit or implicit), but is an additional qualification. </li>
+     <li> Perhaps we say that objects have a "concrete representation" or an
+     "abstract representation". </li>
+    </ol>
+   </li>
+   <li> For an implicitly given base set to be "ordered" means to provide a
+   binary predicate "<". </li>
+   <li> In ComputerAlgebra/Sets we should provide operations for implicitly
+   given sets. </li>
+  </ul>
+
+
   \todo Modules
   <ul>
-   <li> DONE
-   One module for sets with one binary operation: "Magmas" or
-   "Groupoids". With submodules
-    <ol>
-     <li> Actions (of a set on a set or a groupoid) </li>
-     <li> Operations (of a groupoid on a set or on a groupoid; the more
-     "specialised" considerations are in module Algebra/Acts) </li>
-     <li> Groups (with submodules PermutationGroups and Presentations) </li>
-     <li> Quasigroups </li>
-     <li> Semigroups </li>
-     <li> Semilattices </li>
-    </ol>
-   </li>
-   <li> One module for sets with two binary operations; how to call it,
-   "Ringoids" or "DoubleMagmas"?? There seems to be no notion for it.
-   With submodules
-    <ol>
-     <li> Fields (moving FiniteFields.mac there) </li>
-     <li> Lattices </li>
-     <li> Rings </li>
-     <li> Semirings </li>
-    </ol>
-   </li>
    <li> One submodule for two sets A, B together with f: A x B -> B, i.e.,
    Actions (including left and right actions).
     <ol>
@@ -67,6 +75,30 @@ License, or any later version. */
      in the other modules. </li>
     </ol>
    </li>
+   <li> DONE
+   One module for sets with one binary operation: "Magmas" or
+   "Groupoids". With submodules
+    <ol>
+     <li> Actions (of a set on a set or a groupoid) </li>
+     <li> Operations (of a groupoid on a set or on a groupoid; the more
+     "specialised" considerations are in module Algebra/Acts) </li>
+     <li> Groups (with submodules PermutationGroups and Presentations) </li>
+     <li> Quasigroups </li>
+     <li> Semigroups </li>
+     <li> Semilattices </li>
+    </ol>
+   </li>
+   <li> DONE (Ringframes)
+   One module for sets with two binary operations; how to call it,
+   "Ringoids" or "DoubleMagmas"?? There seems to be no notion for it.
+   With submodules
+    <ol>
+     <li> Fields (moving FiniteFields.mac there) </li>
+     <li> Lattices </li>
+     <li> Rings </li>
+     <li> Semirings </li>
+    </ol>
+   </li>
    <li> DONE (possibly later, but not yet)
    Since groups are a big field on themselves, perhaps we emancipate
    it, making it a module on its own?
@@ -94,27 +126,31 @@ License, or any later version. */
   </ul>
      
 
-  \todo Semirings, rings, fields
+  \todo DONE (see above)
+  Semirings, rings, fields
   <ul>
    <li> We need modules "Semirings", "Rings", "Fields". </li>
    <li> Likely also "Lattices" etc. </li>
   </ul>
 
 
-  \todo Module UniversalAlgebra
+  \todo DONE
+  Module UniversalAlgebra
 
 
-  \todo Modular arithmetic
+  \todo DONE
+  Modular arithmetic
   <ul>
    <li> The rings ZZ_n should be provided. </li>
   </ul>
   
 
-  \todo Actions and operations
+  \todo DONE
+  Actions and operations
   <ul>
    <li> Likely we should also have a module for the action of a set on a set.
    </li>
-   <li> With the most prominent cases the action of a monoid on a set, and the
+   <li> With the most prominent cases the action of a set on a monoid, and the
    operation of a group on a set. </li>
   </ul>
 

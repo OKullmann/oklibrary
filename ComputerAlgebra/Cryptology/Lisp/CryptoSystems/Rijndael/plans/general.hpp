@@ -10,6 +10,22 @@ License, or any later version. */
   \brief Plans for the Rijndael crypto system in Maxima/Lisp
 
 
+  \todo Notions and notations
+  <ul>
+   <li> Introduce systematic notations and abbreviations for basic
+   "data types". </li>
+  </ul>
+
+
+  \todo Update the following todos
+  <ul>
+   <li> Separate general plans from specific implementation details (which go
+   to
+   ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/AdvancedEncryptionStandard.hpp.
+   </li>
+  </ul>
+
+
   \todo Modularising the Rijndael-implementation
   <ul>
    <li> The following ideas need to be integrated into the plans (after

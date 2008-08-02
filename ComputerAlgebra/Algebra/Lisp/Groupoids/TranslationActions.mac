@@ -1,0 +1,40 @@
+/* Oliver Kullmann, 5.7.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Algebra/Lisp/Groupoids/TranslationActions.mac
+  \brief Regarding the action of the base set of a groupoid on itself by left/right translation
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/TranslationActions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Constructions.mac")$
+
+
+/* Given a groupoid (V,compo), the left- resp. right-action of set V on set V
+   by left- resp. right-translation: */
+leftactiontrans_grd(compo) := compo$
+rightactiontrans_grd(compo) := compo$
+
+/* The left/right actions of V on the powerset of V: */
+leftactionptrans_grd(compo) := buildq([compo],
+  lambda([x,X], complex_compo(compo)({x},X)))$
+rightactionptrans_grd(compo) := buildq([compo],
+  lambda([X,x], complex_compo(compo)(X,{x})))$
+
+
+
+/*!
+\endhtmlonly
+*/

@@ -19,7 +19,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translati
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* *********************************************************
    * Translation to SAT according to Liffiton and Sakallah *
@@ -120,9 +120,12 @@ itrans_aut_sat_ls(phi,FF) := block(
 
 
 /* Find an autarky for a formal clause-set FF by translation to 
-   SAT, and using a SAT solver returning a partial assignment;
+   SAT, and using a SAT solver returning a partial assignment (or "false");
    the autarky uses only variables from FF and is non-empty iff possible. */
-/* find_autark_scs_f(FF,solver) := XXX */
+find_autarky_ls_fcs(FF,solver) := block([GG : lean_usat_ls(FF), phi],
+  phi : solver(GG), 
+  if phi=false then return({})
+  else return(itrans_aut_sat_ls(phi,FF)))$
 
 /*!
 \endhtmlonly

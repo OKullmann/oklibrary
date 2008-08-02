@@ -24,8 +24,13 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Biclique
    ***********************
 */
 
-/* A "vertex-biclique" ("v_bc") in a graph is a set of vertices
+/* A "vertex-biclique" ("vbc") in a graph is a pair of sets of vertices
    forming a biclique.
+   An "ordered vertex-biclique" ("ovbc") uses lists of vertices instead.
+*/
+
+/* The following tests assume that G is a well-formed graph
+   (of its type).
 */
 
 vbc_gl_p(B,G) := listp(B) and is(length(B)=2) and
@@ -33,10 +38,23 @@ vbc_gl_p(B,G) := listp(B) and is(length(B)=2) and
  every(lambda([b], subsetp(b,G[1])), B) and
  subsetp(map(setify,cartesian_product(B[1],B[2])), G[2])$
 
+vbc_mugl_p(B,G) := listp(B) and is(length(B)=2) and
+ every(setp, B) and disjointp(B[1],B[2]) and
+ every(lambda([b], subsetp(b,G[1])), B) and
+ subsetp(map(setify,cartesian_product(B[1],B[2])), G[2])$
+
+vbc_gg_p(B,G) := listp(B) and is(length(B)=2) and
+ every(setp, B) and disjointp(B[1],B[2]) and
+ every(lambda([b], subsetp(b,G[1])), B) and
+ subsetp(map(setify,cartesian_product(B[1],B[2])), map(G[3],G[2]))$
+
+
 vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
  every(setp, B) and disjointp(B[1],B[2]) and
  every(lambda([b], subsetp(b,G[1])), B) and
  subsetp(cartesian_product(B[1],B[2]), G[2])$
+
+
 
 
 /*!

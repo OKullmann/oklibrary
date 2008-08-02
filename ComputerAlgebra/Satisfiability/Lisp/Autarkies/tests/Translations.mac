@@ -96,7 +96,6 @@ okltest_itrans_aut_sat_ls(f) := block(
      -lsavv_var(1)}, [{1},{{-1},{1}}]) = {}),
   true)$
 
-
 /*!
 \endhtmlonly
 */

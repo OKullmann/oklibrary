@@ -245,6 +245,16 @@ odg2og(G) := [G[1], stable_unique(map(setify,G[2]))]$
 dgl2gl(G) := [G[1], map(setify,G[2])]$
 odgl2ogl(G) := [G[1], stable_unique(map(setify,G[2]))]$
 
+/* Representing graphs by directed graphs: */
+g2dg(G) := [G[1], setify(apply(append,
+  map(lambda([e], block([d : listify(e)], [d,reverse(d)])),
+      listify(G[2]))))]$
+gl2dgl(G) := [G[1], setify(apply(append,
+  map(lambda([e], block([d : listify(e)], 
+        if length(d)=1 then [append(d,d)] else [d,reverse(d)])),
+      listify(G[2]))))]$
+
+
 
 /* **************************
    * Basic graph operations *

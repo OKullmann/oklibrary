@@ -19,8 +19,86 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/Groupoids/Actions/BasicNot
 \htmlonly
 */
 
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
 /*
- A *left-action* of a set A on a set X is a map *: A x X -> X.
+ A "left-action" of a set A on a set X is a map *: A x X -> X,
+ and a "right-action accordinly a map *: X x A -> X.
+ Left actions are the default ("act"), and right-actions
+ are abbreviated by "ract".
+*/
+
+/* Checking whether compo is a binary left-external law of composition on 
+   sets A, X: */
+ecompo_p(compo,A,X) := block(
+ [e : errcatch(
+   subsetp(map(lambda([P],apply(compo,P)),cartesian_product(A,X)),X))],
+ not emptyp(e) and e[1])$
+/* Checking whether compo is a binary right-external law of composition on 
+   sets X, A: */
+recompo_p(compo,X,A) := block(
+ [e : errcatch(
+   subsetp(map(lambda([P],apply(compo,P)),cartesian_product(X,A)),X))],
+ not emptyp(e) and e[1])$
+
+act_set_p(act,A,X) := setp(A) and setp(X) and ecompo_p(compo,A,X)$
+ract_set_p(act,A,X) := setp(A) and setp(X) and recompo_p(compo,A,X)$
+
+/* An action on a groupoid preserves the operation. */
+act_grd_p(act,A,V) := act_set_p(act,A,V[1]) and 
+block([counterexample : false],
+ for a in A unless counterexample do
+  for x in V[1] unless counterexample do
+   for y in V[1] unless counterexample do
+     if act(a,V[2](x,y)) # V[2](act(a,x),act(a,y)) then counterexample : true,
+ return(not counterexample))$
+ract_grd_p(act,V,A) := ract_set_p(act,A,V[1]) and 
+block([counterexample : false],
+ for a in A unless counterexample do
+  for x in V[1] unless counterexample do
+   for y in V[1] unless counterexample do
+     if act(V[2](x,y),a) # V[2](act(x,a),act(y,a)) then counterexample : true,
+ return(not counterexample))$
+
+act_ugrd(act,A,V) :=
+  act_grd_p(act,A,V) and every(lambda([a], is(act(a,V[3]) = V[3])), A)$
+ract_ugrd(act,V,A) :=
+  ract_grd_p(act,V,A) and every(lambda([a], is(act(V[3],a) = V[3])), A)$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+act2ract(compo) := lambda([x,a],compo(a,x))$
+ract2act(compo) := lambda([a,x],compo(x,a))$
+
+/* An action as a map into the transformation set,
+   yielding maps: */
+act2mp_trs_mp(compo) := buildq([compo],
+  lambda([a], buildq([a], lambda([x], compo(a,x)))))$
+ract2mp_trs_mp(compo) := buildq([compo],
+  lambda([a], buildq([a], lambda([x], compo(x,a)))))$
+/* Yielding set-maps: */
+act2mp_trs_sm(compo,X) := buildq([compo,X],
+  lambda([a], map(lambda([x],[x,compo(a,x)]), X)))$
+ract2mp_trs_sm(compo,X) := buildq([compo,X],
+  lambda([a], map(lambda([x],[x,compo(x,a)]), X)))$
+/* Now assuming that X = {1, ..., n}, and representing transformations
+   as lists: */
+act2mp_trs_l(compo,n) := buildq([compo,n],
+  lambda([a], create_list(compo(a,i), i,1,n)))$
+ract2mp_trs_l(compo,n) := buildq([compo,n],
+  lambda([a], create_list(compo(i,a), i,1,n)))$
+
+
+/* ********************
+   * Basic operations *
+   ********************
 */
 
 orbit_act(act,A,x) := map(lambda([a],act(a,x)), A)$
@@ -28,47 +106,6 @@ orbit_ract(act,x,A) := map(lambda([a],act(x,a)), A)$
 
 stabiliser_act(act,A,x) := subset(A,lambda([a],is(act(a,x)=x)))$
 stabiliser_ract(act,x,A) := subset(A,lambda([a],is(act(x,a)=x)))$
-
-/* A left-action as a map into the transformation semigroup,
-   using maps: */
-action_transformation_maps(op) := buildq([op],
-  lambda([v], lambda([x], op(v,x))))$
-/* Now assuming that X = {1, ..., n}, and representing transformations
-   as lists: */
-action_transformation_l(op,n) := buildq([op,n],
-  lambda([v], create_list(op(v,i), i,1,n)))$
-
-/* A right-action as a map into the transformation semigroup,
-   using maps: */
-raction_transformation_maps(op) := buildq([op],
-  lambda([v], lambda([x], op(x,v))))$
-/* Now assuming that X = {1, ..., n}, and representing transformations
-   as lists: */
-raction_transformation_l(op,n) := buildq([op,n],
-  lambda([v], create_list(op(i,v), i,1,n)))$
-
-
-/* An action of a groupoids preserves the operation.
-*/
-
-action_bydef_set_grd(act,A,V) := block([counterexample : false],
- for a in A unless counterexample do
-  for x in V[1] unless counterexample do
-   for y in V[1] unless counterexample do
-     if act(a,V[2](x,y)) # V[2](act(a,x),act(a,y)) then counterexample : true,
- return(not counterexample))$
-raction_bydef_set_grd(act,V,A) := block([counterexample : false],
- for a in A unless counterexample do
-  for x in V[1] unless counterexample do
-   for y in V[1] unless counterexample do
-     if act(V[2](x,y),a) # V[2](act(x,a),act(y,a)) then counterexample : true,
- return(not counterexample))$
-
-
-action_bydef_set_ugrd(act,A,V) :=
-  every(lambda([a], is(act(a,V[3]) = V[3])), A) and action_bydef_set_grd(act,A,V)$
-raction_bydef_set_ugrd(act,V,A) :=
-  every(lambda([a], is(act(V[3],a) = V[3])), A) and raction_bydef_set_grd(act,V,A)$
 
 
 */

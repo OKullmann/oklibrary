@@ -103,13 +103,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Optimisation
-  <ul>
-   <li> COmputational INfrastructure for Operations Research(COIN-OR)
-   http://www.coin-or.org/index.html </li>
-  </ul>
-
-
   \todo Combinatorics
   <ul>
    <li> http://people.scs.fsu.edu/~burkardt/cpp_src/cpp_src.html </li>

@@ -59,7 +59,13 @@ License, or any later version. */
     </ol>
    </li>
    <li> All the above likely should also exist in ordered versions, with
-   prefix "o". </li>
+   prefix "o".
+    <ol>
+     <li> However, an "ordered monoid" for example usually is a monoid
+     with a partial order which is compatible with the composition?!? </li>
+     <li> Perhaps here we should use something like "listified monoid" ? </li>
+    </ol>
+   </li>
    <li> A fundamental problem is that for example lambda-expressions cannot
    be put (reliably) into a set (equality would be decided here w.r.t.
    identicallity of terms):

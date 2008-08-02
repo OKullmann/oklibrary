@@ -51,7 +51,7 @@ License, or any later version. */
     multi-clause-sets" and "formal labelled clause-sets".
    </li>
    <li> Should we also allow "multi-clause-sets" and "labelled clause-sets"
-   (without the variables)?
+   without the variables?
     <ol>
      <li> Otherwise the "formal" in this context is superfluous. </li>
      <li> On the other hand, the multi- and labelled versions are introduced
@@ -59,9 +59,16 @@ License, or any later version. */
      of vertices given (except of set-systems). </li>
     </ol>
    </li>
-   <li> A "formal multi-clause-set" is a triple [V,F,c] s.t. [V,F] is a
-   formal clause-set and c: F -> NN; accordingly "ordered formal multi-
-   -clause-sets". </li>
+   <li> "Multi-clause-sets":
+    <ol>
+     <li> A triple [V,F,c] s.t. [V,F] is a formal clause-set and c: F -> NN.
+     </li>
+     <li> Accordingly "ordered multi-clause-sets". </li>
+     <li> However, perhaps the clause-function is better defined on all
+     possible clauses over V (and returns 0 for clauses which are not
+     contained. </li>
+    </ol>
+   </li>
    <li> Labelled clause-sets (not "general clause-sets" to avoid confusion)
     <ol>
      <li> A "labelled clause-set" is a triple [V,F,f], where V is a
@@ -78,7 +85,7 @@ License, or any later version. */
    ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp):
     <ol>
      <li> fcs <-> hg, ofcs <-> ohg </li>
-     <li> fmcs <-> mhg, ofmcs <-> omhg </li>
+     <li> mucs <-> muhg, omucs <-> omuhg </li>
      <li> lcs <-> ghg, olcs <-> oghg. </li>
     </ol>
     Additionally we have
@@ -98,12 +105,21 @@ License, or any later version. */
      we use the ghg [V,E,identity]. </li>
      <li> Seems alright. </li>
      <li> So perhaps also for clause-sets we should abandon "fcl" (but keep
-     "cl"), since we have already "flcs". </li>
+     "cl"), since we have already "lcs". </li>
+     <li> On the other hand, a formal clause-list seems to be a very natural
+     concept, perhaps the most natural one from the point of view of SAT
+     solving, so we should keep it. </li>
     </ol>
    </li>
-   <li> Then we have the "monosigned" versions, where literals are pairs
-   [v,e], with e a value. </li>
-   <li> And there a "signed" versions, where then e is a set of values. </li>
+   <li> Generalised literals:
+    <ol>
+     <li> Then we have the "non-boolean" versions, where literals are pairs
+     [v,e], with e a value. </li>
+     <li> And there a "power" versions, where then e is a set of values. </li>
+     <li> The "monosigned literals" resp. "signed literals" are corresponding
+     triples, with the third component in {-1,+1}. </li>
+    </ol>
+   </li>
    <li> A problem with non-boolean variables is, where to put the information
    about the domain of the variables:
     <ol>
@@ -112,6 +128,19 @@ License, or any later version. */
      </li>
      <li> Perhaps it's not part of clause-sets etc., but only part of
      "problems" given for example to SAT-solvers. </li>
+     <li> So a signed clause-set etc. would always need to be accompanied
+     by either a uniform domain, or by a domain function. </li>
+     <li> But perhaps we should codify such pairs [FF, D], where D is a set,
+     list or map. Perhaps the default for all types of clause-sets is
+     a uniform domain. </li>
+     <li> But since we can also use sensibly non-boolean clause-sets without
+     the domain information (for example it is not need to apply a partial
+     assignment), we should use the (additional) suffix "ud" for uniform
+     domain and "fd" for function domain. </li>
+     <li> There is also the idea that a "domain association" is basically
+     a partial assignment; actually it should be a "total partial assignment".
+     </li>
+     <li> One could allow then suffixes like "tpa_mp". </li>
     </ol>
    </li>
    <li> Conversions:
@@ -125,7 +154,29 @@ License, or any later version. */
 
   \todo Organisation
   <ul>
-   <li> We should have "Substitutions.mac":
+   <li> Inclusion
+    <ol>
+     <li> Currently, the outsourced files are "inclusions-wise equivalent"
+     to ClauseSets/BasicOperations.mac, i.e., they include it and are
+     automatically included. </li>
+     <li> This is because it is too much work to sort out the real dependencies
+     for all the Maxima-files in the library. </li>
+     <li> It would be good to have a refactoring tool, which would find out
+     about the dependencies:
+      <ul>
+       <li> If it is too hard to find out about the functions (and names in
+       general) defined in a file, that it needs to explicitly given as
+       input. </li>
+       <li> And then we can just search for files using some of these
+       functions, whether they correctly include them. </li>
+       <li> And we search for files which use some of them but don't include
+       it. </li>
+      </ul>
+     </li>
+    </ol>
+   </li>
+   <li> DONE
+   We should have "Substitutions.mac":
     <ol>
      <li> See "Applying substitutions" in
      ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp. </li>
@@ -133,7 +184,8 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-   <li> We should create "Statistics.mac".
+   <li> DONE
+   We should create "Statistics.mac".
     <ol>
      <li> DONE : move. </li>
      <li> A problem is now how to handle inclusion. </li>
@@ -163,29 +215,6 @@ License, or any later version. */
     </ol>
    </li>
    <li> We need also reading from Dimacs-files. </li>
-  </ul>
-
-
-  \todo standardise_fcs (in
-  ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac)
-  <ul>
-   <li> See "Applying substitutions" in
-   ComputerAlgebra/Satisfiability/Lisp/Symmetries/plans/general.hpp.
-   </li>
-   <li> See "Organisation" above. </li>
-   <li> Perhaps, once a framework for literal-substitutions is in place,
-   then the renaming-functions are updated using these more general
-   substitution-maps instead of hash-maps. </li>
-   <li> Ask on maxima-mailing-list whether a parallel substitution
-   is available (this should speed up renaming). </li>
-   <li> DONE The current implementation (using iterated substitution) is
-   incorrect in case the clause-set uses already natural numbers as
-   variables. </li>
-   <li> DONE Otherwise, investigate how hash-maps can be made available,
-   store the (whole) substitution via a hash-map, and compute
-   the new clause-set via transforming clause for clause. </li>
-   <li> DONE (we can now rename w.r.t. a given list of variables)
-   Perhaps we could establish general renaming functionality. </li>
   </ul>
 
 */

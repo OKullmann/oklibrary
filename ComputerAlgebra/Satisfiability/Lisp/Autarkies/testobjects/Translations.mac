@@ -20,12 +20,14 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/testobjec
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/Translations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/Translations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LeanKernel.mac")$
 
 okltest_aut_sat_ls(aut_sat_ls);
 okltest_lean_usat_ls(lean_usat_ls);
 okltest_trans_aut_sat_ls(trans_aut_sat_ls);
 okltest_itransc_aut_sat_ls(itransc_aut_sat_ls);
 okltest_itrans_aut_sat_ls(itrans_aut_sat_ls);
+okltest_find_autarky_fcs(lambda([FF],find_autarky_ls_fcs(FF,dll_simplest_spa_trivial2)));
 
 /*!
 \endhtmlonly

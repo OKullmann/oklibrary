@@ -22,6 +22,15 @@ License, or any later version. */
 
   \par Version 0.0.10
 
+ \par
+   In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
+   the following topics are handled:
+    - Notions and notations
+    - Update the following todos
+
+
+  \par Version 0.0.11
+
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:

@@ -131,18 +131,18 @@ satprob_weak_php(m,n) := sum(binom(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_p
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    {1,...,n} into two parts such that none of them contains an arithmetic 
    progression of size k. */
-/* RENAME: vanderwaerden2_fcs */
-VanDerWaerden2_cs_f(k,n) := block([G : ArithmeticProgressions(k,n)], 
-  [G[1], union(G[2], comp_cs(G[2]))])$
-/* VanDerWaerden2_cs_f(k,n) is isomorphic to 
-   tcol2sat(ArithmeticProgressions(k,n). */
+/* (We are using "trivially generalised partitionings here, where the
+    parts can be empty.) */
+vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(ArithmeticProgressions(k,n))$
 
-/* RENAME: output_vanderwaerden2 */
-output_VanDerWaerden2_cs_f(k,n,filename) := 
-  output_cs_f(
+output_vanderwaerden2(k,n,filename) := 
+  output_fcs(
     sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", ", n, " elements."), 
-    VanDerWaerden2_cs_f(k,n),
+    vanderwaerden2_fcs(k,n),
     filename)$
+output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
+  sconcat("VanDerWaerden_2_",k,"_",n,".cnf"))$
+
 
 /* ********************
    * Ramsey's problem *
@@ -159,11 +159,11 @@ output_VanDerWaerden2_cs_f(k,n,filename) :=
    every q-element subset of {1,...,n} there are two vertices which are
    subsets and which have different values assigned.
 */
-ramsey2_ofcs(q,r,n) := tcol2sat_ohg2ofcs(ramsey_ohg(q,r,n))$
+ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
 
 output_ramsey2(q,r,n,filename) := block(
- [FFR : standardise_ofcs(ramsey2_ofcs(q,r,n))],
-  output_ofcs_v(
+ [FFR : standardise_fcl(ramsey2_ofcs(q,r,n))],
+  output_fcl_v(
     sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
     FFR[1],
     filename,

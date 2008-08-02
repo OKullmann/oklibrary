@@ -147,6 +147,15 @@ map("+",[1,2],[3,4]) = [4,6]
        documentation. </li>
       </ol>
      </li>
+     <li> "every" and "some" always run through the whole list:
+      <ol>
+       <li> So except of cases where this is what is needed, every_s and 
+       some_s ("s" for "short circuit") shall be used (provided in
+       DataStructures/Lisp/Lists.mac). </li>
+       <li> Notify the Maxima mailing-list about the incomplete
+       documentation! </li>
+      </ol>
+     </li>
      <li> "0^0" yields an error:
       <ol>
        <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
@@ -203,6 +212,8 @@ B : map(lambda([x],x+1),B)$
      the graphs-module uses 0-based indices for its own graphs). </li>
     </ol>
    </li>
+   <li> "first(L), rest(L), cons(x,L)" belong together, and are faster than
+   "last(L), rest(L,-1), endcons(x,L)" (lists are stored single-linked). </li>
    <li> Loops:
     <ol>
     <li> In "for x in X do" list/set X is evaluated only once, before
@@ -303,11 +314,12 @@ block([fpprec : fpprec], fpprec : d, Comp)
      is always evaluated in bfloat-arithmetic. </li>
     </ol>
    </li>
-   <li> Call by reference:
+   <li> Call by reference (or "call by name"):
     <ol>
      <li> Pass referency to x by "f('x). </li>
      <li> Inside f, for assignments to x use "x :: value". </li>
      <li> And on the right-hand-side use "ev(x)". </li>
+     <li> To avoid name-clashes, call the formal parameter e.g. "_x". </li>
     </ol>
    </li>
    <li> Plotting of functions:

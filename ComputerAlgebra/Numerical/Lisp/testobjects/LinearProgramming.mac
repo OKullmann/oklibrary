@@ -21,18 +21,6 @@ oklib_load("Transitional/ComputerAlgebra/Numerical/Lisp/testobjects/LinearProgra
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac")$
 oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/tests/LinearProgramming.mac")$
 
-/* ********************************************
-   * Auxiliary functions handling "equations" *
-   ********************************************
-*/
-
-okltest_translate_vector_lincomb(translate_vector_lincomb);
-okltest_translate_matrix_ineq(translate_matrix_ineq);
-
-okltest_interprete_poscond(interprete_poscond);
-okltest_interprete_negcond(interprete_negcond);
-okltest_interprete_zerocond(interprete_zerocond);
-
 /* ******************************************
    * Solving systems of linear inequalities *
    ******************************************

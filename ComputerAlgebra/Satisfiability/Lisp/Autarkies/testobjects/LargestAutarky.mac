@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/testobjec
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/LargestAutarky.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Autarkies/tests/LargestAutarky.mac")$
 
-okltest_largest_aut(largest_aut);
+okltest_largest_aut_cs(largest_aut_cs);
 
 /*!
 \endhtmlonly

@@ -68,5 +68,11 @@ License, or any later version. */
    <li> http://robert.rsa3.com/sudoku.html (C++) </li>
   </ul>
 
+
+  \todo Local search
+  <ul>
+   <li> ZDC ? </li>
+  </ul>
+
 */
 

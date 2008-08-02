@@ -36,22 +36,33 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Reductions/Gener
 
 /* The simplest scheme: input is a formal clause-set, and the return value
    is true or false.
-   The heuristics has to return a literal for input a formal clause-set
+   The heuristics has to return a literal for input a formal clause-set,
    and this literal is first set to true. */
 
-dll_simplest(FF, h) := if is_empty(FF[2]) then true
- elseif has_empty_element(FF[2]) then false
+dll_simplest(FF, h) := if emptyp(FF[2]) then true
+ elseif empty_element_p(FF[2]) then false
  else block([x : h(FF)], 
-    return(dll_simplest(apply_pa_f({x}, FF), h) or dll_simplest(apply_pa_f({-x}, FF), h)))$
+    return(dll_simplest(apply_pa_fcs({x}, FF), h) or 
+           dll_simplest(apply_pa_fcs({-x}, FF), h)))$
 
-/* The variation where the return value is not true/false but the computed 
-   splitting tree. */
-dll_simplest_st(FF, h) := if is_empty(FF[2]) then [true]
- elseif has_empty_element(FF[2]) then [false]
+/* The variation where instead of "true" a satisfying partial assignment is
+   returned: */
+dll_simplest_spa(FF,h) := if emptyp(FF[2]) then {}
+ elseif empty_element_p(FF[2]) then false
+ else block([x : h(FF), res], 
+    res : dll_simplest_spa(apply_pa_fcs({x}, FF), h),
+    if res # false then return(adjoin(x,res)),
+    res : dll_simplest_spa(apply_pa_fcs({-x}, FF), h),
+    if res # false then return(adjoin(-x,res)) else 
+      return(false))$
+
+/* The variation where the return value is the computed splitting tree: */
+dll_simplest_st(FF, h) := if emptyp(FF[2]) then [true]
+ elseif empty_element_p(FF[2]) then [false]
  else block([x : h(FF)], 
     return([-x,
-            dll_simplest_st(apply_pa_f({x}, FF), h),
-            dll_simplest_st(apply_pa_f({-x}, FF), h)]))$
+            dll_simplest_st(apply_pa_fcs({x}, FF), h),
+            dll_simplest_st(apply_pa_fcs({-x}, FF), h)]))$
 
 
 /* ***********************************
@@ -66,8 +77,8 @@ monitorcheck_dll(name,red) := if oklib_monitor then (
 
 dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
   monitorcheck_dll("dll_rk",k),
-  if is_empty(Fr) then true
-  elseif has_empty_element(Fr) then false
+  if emptyp(Fr) then true
+  elseif empty_element_p(Fr) then false
   else block([V : var_cs(Fr)], block([x : h([V,Fr])],
     return(dll_rk(apply_pa_f({x}, [V,Fr]), h, k) 
            or dll_rk(apply_pa_f({-x}, [V,Fr]), h, k)))))$
@@ -75,8 +86,8 @@ dll_rk(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
 /* The variation where the return value is the computed r_k-splitting tree. */
 dll_rk_st(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
   monitorcheck_dll("dll_rk_st",k),
-  if is_empty(Fr) then [true]
-  elseif has_empty_element(Fr) then [false]
+  if emptyp(Fr) then [true]
+  elseif empty_element_p(Fr) then [false]
   else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
     return([-x,
             dll_rk_st(apply_pa_f({x}, [V,Fr]), h, k),
@@ -92,8 +103,8 @@ dll_rk_st(FF, h, k) := block([Fr : generalised_ucp(FF[2],k)],
 /* the reduction takes a clause-set and returns a clause-set */
 dll_red(FF, h, red) := block([Fr : red(FF[2])],
   monitorcheck_dll("dll_red", red),
-  if is_empty(Fr) then true
-  elseif has_empty_element(Fr) then false
+  if emptyp(Fr) then true
+  elseif empty_element_p(Fr) then false
   else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
     return(dll_red(apply_pa_f({x}, [V,Fr]), h, red) 
            or dll_red(apply_pa_f({-x}, [V,Fr]), h, red)))))$
@@ -103,8 +114,8 @@ dll_red(FF, h, red) := block([Fr : red(FF[2])],
 /* The variation where the return value is the computed r-splitting tree. */
 dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
   monitorcheck_dll("dll_red_st", red),
-  if is_empty(Fr) then [true]
-  elseif has_empty_element(Fr) then [false]
+  if emptyp(Fr) then [true]
+  elseif empty_element_p(Fr) then [false]
   else block([V : var_cs(Fr)], block([x : h([V,Fr])], 
     return([-x,
             dll_red_st(apply_pa_f({x}, [V,Fr]), h, red),
@@ -117,8 +128,8 @@ dll_red_st(FF, h, red) := block([Fr : red(FF[2])],
    Here L is the list of distance-pairs used by the heuristic. */
 dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
   monitorcheck_dll("dll_red_st_dist", red),
-  if is_empty(Fr) then [true]
-  elseif has_empty_element(Fr) then [false]
+  if emptyp(Fr) then [true]
+  elseif empty_element_p(Fr) then [false]
   else block([V : var_cs(Fr)], block([H : ah([V,Fr]), x], 
     x : H[1],
     return([[-x, map(reverse, H[2])],
@@ -133,19 +144,21 @@ dll_red_st_dist(FF, ah, red) := block([Fr : red(FF[2])],
 
 /* *** Heuristics aiming at small trees *** */
 
-/* The simplest heuristics: return the first variable */
+/* The simplest heuristics: return the first variable. */
 dll_heuristics_first_formal(FF) := first(FF[1])$
 
 dll_simplest_trivial1(FF) := dll_simplest(FF, dll_heuristics_first_formal)$
+dll_simplest_spa_trivial1(FF) := dll_simplest_spa(FF, dll_heuristics_first_formal)$
 dll_simplest_st_trivial1(FF) := dll_simplest_st(FF, dll_heuristics_first_formal)$
 dll_rk_trivial1(FF,k) := dll_rk(FF, dll_heuristics_first_formal, k)$
 dll_rk_st_trivial1(FF,k) := dll_rk_st(FF, dll_heuristics_first_formal, k)$
 
 /* The second-simplest heuristics: return the literal of the first
-   literal-occurrence */
+   literal-occurrence. */
 dll_heuristics_first_real(FF) := first(first(FF[2]))$
 
 dll_simplest_trivial2(FF) := dll_simplest(FF, dll_heuristics_first_real)$
+dll_simplest_spa_trivial2(FF) := dll_simplest_spa(FF, dll_heuristics_first_real)$
 dll_simplest_st_trivial2(FF) := dll_simplest_st(FF, dll_heuristics_first_real)$
 dll_rk_trivial2(FF,k) := dll_rk(FF, dll_heuristics_first_real, k)$
 dll_rk_st_trivial2(FF,k) := dll_rk_st(FF, dll_heuristics_first_real, k)$
@@ -468,7 +481,7 @@ logprobrand(F) := if F = {} then inf else
 /* Compare with locallemma_sattest_asymmetric in
    ComputerAlgebra/Satisfiability/Lisp/Counting/Degrees.mac. */
 locallemma_satapprox(F) := if F = {} then inf else 
-  if has_empty_element(F) then minf else 
+  if empty_element_p(F) then minf else 
    block([G : g2mg(cvg_cs(F)), m : 0, c],
     c : graph_size(G),
     for i : 1 thru c do block([N : neighbors(i, G), s : 0],
@@ -482,7 +495,7 @@ locallemma_satapprox(F) := if F = {} then inf else
 /* As in [Hooker, Vinai, 1995], the variation of locallemma_satapprox
    using the sum instead of the max. */
 locallemmasum_satapprox(F) := if F = {} then inf else 
-  if has_empty_element(F) then minf else 
+  if empty_element_p(F) then minf else 
    block([G : g2mg(cvg_cs(F)), S : 0, c],
     c : graph_size(G),
     for i : 1 thru c do block([N : neighbors(i, G), s : 0],

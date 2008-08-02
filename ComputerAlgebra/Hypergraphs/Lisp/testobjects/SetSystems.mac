@@ -62,7 +62,23 @@ okltest_setdifference2(setdifference2);
    **************************************************
 */
 
+okltest_corr_cartesian_product(corr_cartesian_product);
+okltest_cartesian_product_l(cartesian_product_l);
+
 okltest_all_transformations_l(all_transformations_l);
+okltest_all_transformations_l_l(all_transformations_l_l);
+
+/* *************************
+   * Tests for set systems *
+   *************************
+*/
+
+okltest_empty_element_p(empty_element_p);
+
+okltest_non_disjoint_pair(non_disjoint_pair);
+okltest_disjoint_set_system_p(disjoint_set_system_p);
+
+okltest_antichain_p(antichain_p);
 
 /* *****************************************
    * Constructions related to subsumption *
