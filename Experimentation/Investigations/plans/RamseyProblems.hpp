@@ -103,7 +103,10 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
       <ol>
        <li> n=40:
         <ol>
-         <li> cutoff = 10 000 000 and noimprove = 1 000 000 </li>
+         <li> cutoff = 10 000 000 and noimprove = 1 000 000: 100 rounds,
+         maximum 3 500 000 steps, average 1 700 000 steps, minimum 7
+         falsified clauses, 264 flips per second (on csltok) --- this
+         is extremely slow?? </li>
          <li> cutoff = 20 000 000, noimprove = 3 000 000: 100 rounds, maximum
          10 500 000 steps, average 4 300 000 steps, minimum 1 falsified clause
          (seed 18745606), 2912 flips per second. </li>
