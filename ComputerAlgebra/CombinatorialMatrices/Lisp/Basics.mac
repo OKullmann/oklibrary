@@ -21,69 +21,26 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
-
-/* ***********************
-   * Basic constructions *
-   ***********************
+/* *****************
+   * Basic notions *
+   *****************
 */
 
-/* Converts a square combinatorial matrix into a combinatorial matrix */
-scom2com(M) := [M[1],M[1],M[2]]$
-
-/* Converts a combinatorial matrix with equal row and column set into
-   a square combinatorial matrix */
-com2scom(M) := [M[1],M[3]]$
-
-/* The empty combinatorial matrix */
-emptycom : [{},{},lambda([i,j],false)]$
-/* The empty square combinatorial matrix */
-emptyscom : [{},lambda([i,j],false)]$
-/* The zero combinatorial matrix for given index sets */
-zerocom(I,J) := [I,J,lambda([i,j],0)]$
-/* The zero square combinatorial matrix for a given index set */
-zeroscom(I) := [I,lambda([i,j],0)]$
-/* The constant combinatorial matrix for given index sets and value */
-constantcom(I,J,a) := [I,J,buildq([a],lambda([i,j],a))]$
-/* The constant square combinatorial matrix for given index set and value */
-constantscom(I,a) := [I,buildq([a],lambda([i,j],a))]$
-
-/* The identity matrix */
-idscom(I) := [I, lambda([i,j],if i=j then 1 else 0)]$
-/* The diagonal matrix with constant diagonal value */
-cdiagscom(I,a) := [I,buildq([a],lambda([i,j],if i=j then a else 0))]$
+/* Checking whether fam is a family with index set XxY over Z: */
+binfam_p(fam,X,Y,Z) := block(
+ [e : errcatch(
+   subsetp(map(lambda([P],apply(fam,P)),cartesian_product(X,Y)),Z))],
+ not emptyp(e) and e[1])$
 
 
-/* *******************
-   * Transformations *
-   *******************
-*/
-
-/* Transforms a combinatorial matrix into a Maxima matrix: */
-com2m(M) := block([rows : listify(M[1]), cols : listify(M[2]), f : M[3]],
-  apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
-ocom2m(M) := block([rows : M[1], cols : M[2], f : M[3]],
-  apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
-
-/* Transforms a square combinatorial matrix into a Maxima matrix: */
-scom2m(M) := com2m(scom2com(M))$
-
-/* Transforms a Maxima matrix into a combinatorial matrix
-   (attention: this constitutes a reference to the original matrix). */
-m2com(M) := block([m,n],
-  [m,n] : matrix_size(M),
-  [setn(m), setn(n),
-    buildq([M], lambda([i,j], 'M[i,j]))])$
-/* Transforms a square Maxima matrix into a square combinatorial matrix: */
-sm2scom(M) := [setn(matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
-
-/* Transforms a square combinatorial matrix into a graph */
-com2g(M) := [M[1], subset(powerset(M[1],2), lambda([S],
-  block([L : listify(S)], return(is(M[2](L[1],L[2]) # 0)))))]$
-
-/* Transforms a combinatorial matrix into a general hypergraph: */
-com2ghyp(M) := [M[1], M[2], buildq([M], 
- lambda([j], subset(M[1], lambda([i], is(M[3](i,j) # 0)))))]$
+/* Tests whether M is a combinatorial matrix over H: */
+com_p(M,H) := listp(M) and is(length(M) = 3) and setp(M[1]) and setp(M[2]) and
+ binfam_p(M[3],M[1],M[2],H)$
+/* Tests whether M is a square combinatorial matrix over H: */
+scom_p(M,H) := listp(M) and is(length(M) = 2) and setp(M[1]) and 
+  com_p([M[1],M[1],M[2]],H)$
 
 
 /* *********************
@@ -99,6 +56,7 @@ comequalp(A,B) := is(A[1] = B[1]) and is(A[2] = B[2]) and
     if A[3](a,b) # B[3](a,b) then break : true,
   return(not break))$
 com_equalp(A,B) := comequalp(A,B)$
+
 /* Equality test for square combinatorial matrices: */
 /* RENAME: scom_equalp */
 scomequalp(A,B) := is(A[1] = B[1]) and
@@ -109,34 +67,181 @@ scomequalp(A,B) := is(A[1] = B[1]) and
 scom_equalp(A,B) := scomequalp(A,B)$
 
 
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+scom2com(M) := [M[1],M[1],M[2]]$
+com2scom(M) := [M[1],M[3]]$
+/* com2scom can only be applied sensibly if M[1] = M[2]. */
+
+
+/* Transforms a combinatorial matrix into a Maxima matrix: */
+com2m(M) := block([rows : listify(M[1]), cols : listify(M[2]), f : M[3]],
+  apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
+ocom2m(M) := block([rows : M[1], cols : M[2], f : M[3]],
+  apply(matrix, create_list(create_list(f(i,j),j,cols),i,rows)))$
+scom2m(M) := com2m(scom2com(M))$
+
+/* Transforms a Maxima matrix into a combinatorial matrix
+   (attention: this constitutes a reference to the original matrix). */
+m2com(M) := block([m,n],
+  [m,n] : matrix_size(M),
+  [setn(m), setn(n),
+    buildq([M], lambda([i,j], 'M[i,j]))])$
+/* RENAME: m2scom */
+sm2scom(M) := [setn(matrix_size(M)[1]), buildq([M], lambda([i,j], 'M[i,j]))]$
+m2scom(M) := sm2scom(M)$
+
+
+/* ***********************
+   * Basic constructions *
+   ***********************
+*/
+
+/* The empty combinatorial matrix: */
+emptycom : [{},{},lambda([i,j],false)]$
+/* The empty square combinatorial matrix: */
+emptyscom : [{},lambda([i,j],false)]$
+
+/* The zero combinatorial matrix for given index sets: */
+zerocom(I,J) := [I,J,lambda([i,j],0)]$
+/* The zero square combinatorial matrix for a given index set: */
+zeroscom(I) := [I,lambda([i,j],0)]$
+
+/* The constant combinatorial matrix for given index sets and value: */
+constantcom(I,J,a) := [I,J,buildq([a],lambda([i,j],a))]$
+/* The constant square combinatorial matrix for given index set and value: */
+constantscom(I,a) := [I,buildq([a],lambda([i,j],a))]$
+
+/* The identity matrix: */
+idscom(I) := [I, lambda([i,j],if i=j then 1 else 0)]$
+/* The diagonal matrix with constant diagonal value: */
+cdiagscom(I,a) := [I,buildq([a],lambda([i,j],if i=j then a else 0))]$
+
+/* Creating all Maxima matrices of size m*n with elements from
+   list L:. */
+/* Prerequisite: if m=0 then n=0. */
+all_m(m,n,L) := if n=0 then [apply(matrix,create_list([],i,1,m))] else
+map(
+ lambda([L],apply(matrix,partition_elements(L,n))),
+ cartesian_product_l(create_list(L,i,1,m*n)))$
+
+/* The corrected Maxima function "genmatrix" for the main case 
+   (can now handle also genmatrix(f,m,0)): */
+genmatrix_m(_fun,m,n) := if n=0 then apply(matrix,create_list([],i,1,m))
+ else genmatrix(_fun,m,n)$
+genmatrix_sm(_fun,n) := if n=0 then matrix()
+ else genmatrix(_fun,n)$
+
+
+/* *******************
+   * Random matrices *
+   *******************
+*/
+
+/* A random Maxima matrix of size m x n, with entries random(x)
+   (as usual, if m=0 then n=0): */
+random_m(m,n,x) := genmatrix_m(lambda([i,j],random(x)),m,n)$
+
+/* A random symmetric Maxima matrix: */
+random_sm(n,x) := block(
+ [m : genmatrix_sm(lambda([i,j], 
+        if i > j then random(x) elseif i=j then random(x)/2 else 0),n)],
+  m + transpose(m))$
+
+/* A random permutation of a Maxima matrix: */
+random_permutation_m(M) := block([s : matrix_size(M)],
+  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M .
+  trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
+/* A random permutation of the rows of a Maxima matrix: */
+random_rpermutation_m(M) := block([s : matrix_size(M)],
+  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M)$
+/* A random permutation of the columns of a Maxima matrix: */
+random_permutation_m(M) := block([s : matrix_size(M)],
+  M . trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
+
+/* A random self-polar matrix : */
+random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
+
+
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+/* Transforms a combinatorial matrix into a list, row-wise: */
+com2l_r(M) := map(lambda([p],apply(M[3],p)), cartesian_product_l(map(listify,rest(M,-1))))$
+
+/* Transforms a symmetric combinatorial matrix into a graph: */
+/* RENAME: scom2g */
+com2g(M) := [M[1], subset(powerset(M[1],2), lambda([S],
+  block([L : listify(S)], is(M[2](L[1],L[2]) # 0))))]$
+scom2g(M) := com2g(M)$
+/* Transforms a symmetric combinatorial matrix into a graph with loops: */
+scom2gl(M) := [M[1], subset(union(powerset(M[1],1),powerset(M[1],2)), 
+ lambda([S], block([L : listify(S)], 
+   if length(L)=1 then is(M[2](L[1],L[1]) # 0) else
+     is(M[2](L[1],L[2]) # 0))))]$
+
+/* Transforms a square combinatorial matrix into a digraph: */
+scom2dg(M) := [M[1], subset(cartesian_product(M[1],M[1]), lambda([L],
+  is(L[1]#L[2] and M[2](L[1],L[2]) # 0)))]$
+/* Transforms a symmetric combinatorial matrix into a digraph with loops: */
+scom2dgl(M) := [M[1], subset(cartesian_product(M[1],M[1]), 
+ lambda([L], is(M[2](L[1],L[2]) # 0)))]$
+
+
+/* Transforms a combinatorial matrix into a general hypergraph: */
+/* RENAME: com2ghg */
+com2ghyp(M) := [M[1], M[2], buildq([M], 
+ lambda([j], subset(M[1], lambda([i], is(M[3](i,j) # 0)))))]$
+com2ghg(M) := com2ghyp(M)$
+
+/* Converts a transformation in list-form into a square combinatorial
+   matrix: */
+trans_l2scom(L) := block([A : l2array(L)],[setn(length(L)),
+  buildq([A],lambda([i,j],if A[j]=i then 1 else 0))]);
+trans_l2m(L) := scom2m(trans_l2scom(L))$
+
+
 /* ********************
    * Basic operations *
    ********************
 */
 
-/* The dimensions of a combinatorial matrix */
+/* The dimensions of a combinatorial matrix: */
 dim_com(M) := [length(M[1]), length(M[2])]$
-/* The order of a square combinatorial matrix */
+/* The order of a square combinatorial matrix: */
 order_scom(M) := length(M[1])$
 
-/* Transposition of a combinatorial matrix */
+/* Transposition of a combinatorial matrix: */
+/* RENAME: trans_com */
 trans(M) := [M[2], M[1], buildq([M], lambda([i,j], M[3](j,i)))]$
-/* Transposition of a square combinatorial matrix */
+trans_com(M) := [M[2], M[1], buildq([M], lambda([i,j], M[3](j,i)))]$
+/* Transposition of a square combinatorial matrix: */
+/* RENAME: trans_scom */
 strans(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
+trans_scom(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
 
+/* The addition of two square combinatorial matrices
+   Precondition: A[1] = B[1]. */
+add_scom(A,B) := [A[1], buildq([A,B],
+  lambda([i,j], A[2](i,j) + B[2](i,j)))]$
 /* The difference of two square combinatorial matrices
    Precondition: A[1] = B[1]. */
 diff_scom(A,B) := [A[1], buildq([A,B],
   lambda([i,j], A[2](i,j) - B[2](i,j)))]$
 
-/* Multiplying a square combinatorial matrix with a scalar */
+/* Multiplying a square combinatorial matrix with a scalar: */
 scprod_scom(a,A) := [A[1], buildq([a,A], lambda([i,j], a * A[2](i,j)))]$
 
 /* The product of two combinatorial matrices.
    Precondition: A[2] = B[1]. */
 prod_com(A,B) := [A[1], B[2], buildq([A,B],
-  lambda([i,j], sum(A[3](i,listify(A[2])[k]) * B[3](listify(B[1])[k],j), 
-                    k,1,length(listify(A[2])))))]$
+  lambda([i,j], 
+    sum_l(map(lambda([k],A[3](i,k)),listify(A[2])) * map(lambda([k],B[3](k,j)),listify(A[2])))))]$
 
 /* The minimum over all entries of a combinatorial matrix */
 min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
@@ -144,10 +249,7 @@ min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))
 max_com(M) := lmax(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
 
 /* The sum over all entries of a combinatorial matrix */
-sum_com(M) := block(
- [R : listify(M[1]), m, C : listify(M[2]), n],
-  m : length(R), n : length(C),
-  sum(sum(M[3](R[i],C[j]), i,1,m), j,1,n))$
+sum_com(M) := gsum_s(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2]))$
 /* The sum over all entries of a square combinatorial matrix */
 sum_scom(M) := sum_com(scom2com(M))$
 
@@ -158,14 +260,77 @@ abs_scom(M) := [M[1], buildq([M],lambda([i,j], abs(M[2](i,j))))]$
 
 /* The distribution of row-sums, that is a list of pairs [possible
     row-sum, number of rows], sorted by ascending row-sum. */
-rowsums_list_com(M) := list_distribution(
-  create_list(lsum(M[3](i,j),j,listify(M[2])),i,listify(M[1])))$
+rowsums_list_com(M) := block([C : listify(M[2])],
+ list_distribution(
+  create_list(gsum_l(lambda([j],M[3](i,j)),C), i,listify(M[1]))))$
 
 /* The distribution of column-sums, that is a list of pairs [possible
     column-sum, number of rows], sorted by ascending row-sum. */
-columnsums_list_com(M) := list_distribution(
-  create_list(lsum(M[3](i,j),i,listify(M[1])),j,listify(M[2])))$
+columnsums_list_com(M) := block([R : listify(M[1])],
+ list_distribution(
+  create_list(gsum_l(lambda([i],M[3](i,j)),listify(R)), j,listify(M[2]))))$
 
+
+/* ***************
+   * Basic tests *
+   ***************
+*/
+
+every_com_p(pred,M) := every_s(pred, com2l_r(M))$
+every_scom_p(pred,M) := every_com_p(pred,scom2com(M))$
+some_com_p(pred,m) := some_s(pred, com2l_r(M))$
+some_scom_p(pred_m) := some_com_p(pred, com2l_r(M))$
+
+symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
+symmetric_m_p(M) := is(M = transpose(M))$
+
+
+/* ************************
+   * Duality and polarity *
+   ************************
+*/
+
+/* Tests whether a Maxima square matrix is isomorphic as a general
+   matrix to a symmetric matrix: */
+selfpolar_bydef_m_p(M) := block([found : false],
+  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
+    return(false),
+  for p in permutations(setn(matrix_size(M)[1])) unless found do
+    found : symmetric_m_p(M . scom2m(trans_l2scom(p))),
+  return(found))$
+
+/* Tests whether a Maxima square matrix is isomorphic as a general
+   matrix to its transposed: */
+selfdual_bydef_m_p(M) := block(
+ [found : false, T, perm],
+  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
+    return(false),
+  T : transpose(M),
+  perm : map(trans_l2scom,permutations(setn(matrix_size(M)[1]))),
+  for p1 in perm unless found do block(
+   [P1 : scom2m(p1), M1],
+    M1 : P1 . M,
+    for p2 in perm unless found do
+      found : is(M1 . scom2m(p2) = T)),
+  return(found))$
+
+/* Experiment: searching for a smallest matrix which is self-dual but not
+   self-polar. */
+/* Creating random square 0,1-matrices of order n: */
+exp_dualpolar(n) := block([found : false],
+ while found=false do block([M : random_m(n,n,2)],
+  if selfdual_bydef_m_p(M) and not selfpolar_bydef_m_p(M) then
+    found : M),
+ found)$
+/* Checking all square 0,1-matrices of order n: */
+exp_dualpolar2(n) := block(
+ [found : false, M : all_m(n,n,[0,1]), count_sd : 0],
+  for m in M while found=false do
+    if selfdual_bydef_m_p(m) then (
+      count_sd : count_sd + 1,
+      if  not selfpolar_bydef_m_p(m) then
+        found : m),
+  return([found,count_sd]))$
 
 /*!
 \endhtmlonly

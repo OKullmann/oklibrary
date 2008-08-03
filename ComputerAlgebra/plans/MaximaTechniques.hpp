@@ -153,6 +153,16 @@ xreduce(nounify(union), [a,b,c,d]);
   <ul>
    <li> ext_integer_partitions </li>
    <li> corr_cartesian_product </li>
+   <li> "symmetricp(M)" from ctensor does not work as announced:
+    <ol>
+     <li> We have "symmetric_m_p" instead (in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac). </li>
+     <li> Tell the Maxima mailing list. </li>
+    </ol>
+   </li>
+   <li> genmatrix(f,m,n) cannot handle the cases n=0: Use
+   genmatrix_m(f,m,n) resp. genmatrix_sm(f,n) instead (in
+   ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac). </li>
    <li> unique([2,1]) = [1,2]:
     <ol>
      <li> Use stable_unique instead (in
