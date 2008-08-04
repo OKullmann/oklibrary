@@ -21,7 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac")$
 
+
+/* *****************
+   * Simple graphs *
+   *****************
+*/
 
 /* pathgraph_og(n) creates a path of length n
    (in ComputerAlgebra/Graphs/Lisp/Generators.mac).
@@ -49,6 +55,8 @@ star_g(n,r) := star_V_g(setn(n),r)$
    tree.
  - Choose a random vertex v in the current tree.
  - Add edge {u,v}.
+
+   The vertex set is standardised, and the root is vertex 1.
 */
 /* Replaces the Maxima/graphs function random_tree (which does
    not use random(), and thus is not reproducible for us). */
@@ -59,6 +67,12 @@ randomtree_pr1_og(n) := block(
   V : cons(1,V), R : cons(1,R),
   [V, map(lambda([u,i],block([v:random_element_ab(1,i,R)],{u,v})),
           rest(R), rest(V,-1))])$
+
+/* Creating a standardised random tree, drawn from the uniform distribution.
+*/
+/* Prerequisite: n >= 1. */
+uniform_randomtree_og(n) := 
+  pruefercode2tree_og(create_list(i,i,1,n), create_list(random(n)+1,i,1,n-2))$
 
 /*!
 \endhtmlonly

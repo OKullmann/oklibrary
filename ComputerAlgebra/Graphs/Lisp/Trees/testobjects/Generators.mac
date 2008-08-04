@@ -28,6 +28,8 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/tests/Generators.m
 
 okltest_randomtree_pr1_og(randomtree_pr1_og);
 
+okltest_uniform_randomtree_og(uniform_randomtree_og);
+
 /*!
 \endhtmlonly
 */

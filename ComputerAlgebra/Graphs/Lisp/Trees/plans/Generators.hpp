@@ -149,5 +149,32 @@ N_rt4 : apply("+",freq_rt4);
    </li>
   </ul>
 
+
+  \todo Evaluating uniform_randomtree_og
+  <ul>
+   <li> As above, using
+   \verbatim
+test_generator(f,h) := do enter_new_occurrence(h,f())$
+   \endverbatim
+   with the following setting:
+   \verbatim
+oklib_load_all();
+set_random_state(make_random_state(0));
+h_rt5 : sm2hm({});
+f_rt5 : lambda([],og2g(uniform_randomtree_og(5))[2]);
+test_generator(f_rt5,h_rt5);
+   \endverbatim
+   </li>
+   <li> Evaluation again by
+   \verbatim
+freq_rt5 : map(second,get_distribution(h_rt5));
+N_rt5 : apply("+",freq_rt5);
+min_rt5 : lmin(freq_rt5);
+max_rt5 : lmax(freq_rt5);
+q_rt5 : float(max_rt5 / min_rt5);
+   \endverbatim
+   </li>
+  </ul>
+
 */
 
