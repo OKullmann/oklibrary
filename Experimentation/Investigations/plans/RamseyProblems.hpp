@@ -81,6 +81,8 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      n=34. </li>
      <li> march_pl seems to have problems already for n=30. </li>
      <li> minisat can handle n=30 in 2 seconds; n=35 ? </li>
+     <li> UnitMarch: n=30 in 3 seconds, but n=33 unsolved after 20 minutes.
+     </li>
      <li> The list of algorithms from ubcsat:
       <ol>
        <li> "ubcsat -alg gsat -runs 100 -i Ramsey_5_2_n.cnf": trivial for n=30;
