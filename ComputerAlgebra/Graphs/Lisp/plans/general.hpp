@@ -82,6 +82,28 @@ License, or any later version. */
   </ul>
 
 
+  \todo Graphs as hypergraphs
+  <ul>
+   <li> Graphs G = [V,E] with loops have a natural representation as general
+   hypergraphs nghg(G) = [V,V,f] (the "neighbourhood hypergraph"), where f(v)
+   is the set of neighbours of v (the set of vertices adjacent to v). </li>
+   <li> Such hypergraphs could be called "square"; but this notion
+   has already been introduced by Seymour for general hypergraphs [V,E,f] with
+   just |V| = |E| (and (combinatorial) matrices are not really adequate
+   as a framework). </li>
+   <li> Better we call objects [V,f] "polar general hypergraphs" ("pghg"),
+   where [V,V,f] is a general hypergraph; these are sets V together with
+   functions f, which assign to every element of V a subset of V. </li>
+   <li> The translation function thus would be called "g2pghg(G)". </li>
+   <li> These are the hypergraph-versions of polar incidence structures;
+   see ComputerAlgebra/IncidenceStructures/Lisp/plans/general.hpp. </li>
+   <li> Specialising correspondences [R,A,B] to "relationals" [R,A],
+   considering only symmetric relations, representing the relation R <= A^2
+   by a function from A to P(A), and changing the order, we have exactly the
+   polar hypergraphs. </li>
+  </ul>
+
+
   \todo Memoisation for general graphs and multigraphs
   <ul>
    <li> The function f in a general graph [V,E,f] could show three different

@@ -21,35 +21,140 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
 
-/* *******************
-   * Transformations *
-   *******************
+/* *****************
+   * Basic notions *
+   *****************
 */
 
-okltest_com2m(com2m);
+okltest_binfam_p(binfam_p);
 
-okltest_sm2scom(sm2scom);
-
-okltest_com2ghyp(com2ghyp);
+okltest_com_p(com_p);
+okltest_scom_p(scom_p);
 
 /* *********************
    * Checking equality *
    *********************
 */
 
-okltest_comequalp(comequalp);
-okltest_scomequalp(scomequalp);
+okltest_com_equalp(com_equalp);
+okltest_scom_equalp(scom_equalp);
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+okltest_scom2com(scom2com);
+okltest_com2scom(com2scom);
+
+okltest_com2m(com2m);
+okltest_ocom2m(ocom2m);
+okltest_scom2m(scom2m);
+
+okltest_m2com(m2com);
+okltest_m2scom(m2scom);
+
+/* ***********************
+   * Basic constructions *
+   ***********************
+*/
+
+okltest_emptycom(emptycom);
+okltest_emptyscom(emptyscom);
+
+okltest_zerocom(zerocom);
+okltest_zeroscom(zeroscom);
+
+okltest_constantcom(constantcom);
+okltest_constantscom(constantscom);
+
+okltest_idscom(idscom);
+okltest_cdiagscom(okltest_cdiagscom);
+
+okltest_all_m(all_m);
+
+okltest_genmatrix_m(genmatrix_m);
+okltest_genmatrix_sm(genmatrix_sm);
+
+/* *******************
+   * Random matrices *
+   *******************
+*/
+
+okltest_random_m(random_m);
+okltest_random_sm(random_sm);
+
+okltest_random_permutation_m(random_permutation_m);
+okltest_random_rpermutation_m(random_rpermutation_m);
+okltest_random_cpermutation_m(random_cpermutation_m);
+
+okltest_random_spolar_m(random_spolar_m);
+
+/* *******************
+   * Transformations *
+   *******************
+*/
+
+okltest_com2l_r(com2l_r);
+
+okltest_scom2g(scom2g);
+okltest_scom2gl(scom2gl);
+okltest_scom2dg(scom2dg);
+okltest_scom2dgl(scom2dgl);
+
+okltest_com2ghg(com2ghg);
+
+okltest_trans_l2scom(trans_l2scom);
 
 /* ********************
    * Basic operations *
    ********************
 */
 
+okltest_dim_com(dim_com);
+okltest_order_scom(order_scom);
+
+okltest_trans_com(trans_com);
+okltest_trans_scom(trans_scom);
+
+okltest_add_scom(add_scom);
+okltest_diff_scom(diff_scom);
+okltest_scprod_scom(scprod_scom);
+okltest_prod_com(prod_com);
+
+okltest_min_com(min_com);
+okltest_max_com(max_com);
+
+okltest_sum_com(sum_com);
+okltest_sum_scom(sum_scom);
+
 okltest_abs_com(abs_com);
 okltest_abs_scom(abs_scom);
 
 okltest_rowsums_list_com(rowsums_list_com);
 okltest_columnsums_list_com(columnsums_list_com);
+
+/* ***************
+   * Basic tests *
+   ***************
+*/
+
+okltest_every_com_p(every_com_p);
+okltest_every_scom_p(every_scom_p);
+okltest_some_com_p(some_com_p);
+okltest_some_scom_p(some_scom_p);
+
+okltest_symmetric_scom_p(symmetric_scom_p);
+okltest_symmetric_m_p(symmetric_m_p);
+
+/* ************************
+   * Duality and polarity *
+   ************************
+*/
+
+okltest_selfpolar_bydef_m_p(selfpolar_bydef_m_p);
+
+okltest_selfdual_bydef_m_p(selfdual_bydef_m_p);
 
 /*!
 \endhtmlonly

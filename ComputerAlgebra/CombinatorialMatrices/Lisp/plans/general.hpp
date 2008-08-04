@@ -22,19 +22,20 @@ License, or any later version. */
    domain I x I. </li>
    <li> Square matrices [I,f] can be converted to matrices [I,I,f]. </li>
    <li> A matrix "over M" is a matrix whose values are elements of M. </li>
-   <li> So combinatorial matrices over {0,1} are exactly the *incidence
-   structures*, while combinatorial matrices over {-1,0,+1} are exactly
-   the general boolean clause-sets. </li>
+   <li> So combinatorial matrices over {0,1} correspond to *incidence
+   structures*, while combinatorial matrices over {-1,0,+1} correspond
+   to labelled boolean clause-sets. </li>
    <li> We also have "ordered matrices" and "ordered square matrices",
    where instead of index-sets we have repetition-free lists. </li>
    <li> Abbreviations:
     <ol>
      <li> "com" for combinatorial matrices </li>
      <li> "scom" for square combinatorial matrices </li>
-     <li> "sycom" for symmetric combinatorial matrices </li>
+     <li> "sycom" for symmetric combinatorial matrices: perhaps better not,
+     since we only express type information? </li>
      <li> "ocom" for ordered combinatorial matrices </li>
      <li> "oscom" for ordered square combinatorial matrices </li>
-     <li> "osycom" for ordered symmetric combinatorial matrices. </li>
+     <li> ("osycom" for ordered symmetric combinatorial matrices). </li>
     </ol>
    </li>
    <li> A "standardised combinatorial matrix" (stcom) has index sets
