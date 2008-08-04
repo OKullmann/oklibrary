@@ -74,5 +74,15 @@ length(closure_bydef_grd(transformation_l_compo, {t1,t2,t3,t4}));
    </li>
   </ul>
 
+
+  <h1> Preview on strongly regular graphs and projective plans </h1>
+
+  Exercise 1J is considered here.
+
+  <ul>
+   <li> See "Exactly one common neighbour" in
+   ComputerAlgebra/Graphs/Lisp/StrongRegularity/plans/general.hpp. </li>
+  </ul>
+
 */
 
