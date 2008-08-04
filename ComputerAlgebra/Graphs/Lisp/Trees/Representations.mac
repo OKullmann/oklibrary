@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac
-  \brief Tree representations
+  \brief Creating and using tree representations
 
 Use by
 
@@ -20,36 +20,40 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac")
 */
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
-/* ****************
-   * Prufer Codes *
-   ****************
+
+/* *****************
+   * Pruefer Codes *
+   *****************
 */
 
-/* The prufer code for a tree, given as an ordered graph, where
-   the ordering on the vertices (used to determine the code) is given by the
-   ordering of the vertex list. */
-tree2prufer_code_og(t) := if length(t[2]) < 2 then [] else
-  block([x_n : min_degree_vertex_og(t),y_n, e],
-      y_n : first(disjoin(x_n, 
-      for e in t[2] do if elementp(x_n,e) then return(e))),
-    return(cons(y_n, 
-      tree2prufer_code_og([delete(x_n,t[1]),delete({x_n,y_n},t[2])]) )))$
+/* For a given vertex set V of size n >= 1, the "Pruefer code" establishes a
+   bijection from the set of all trees with vertex set V to the set of
+   all lists of length max(0,n-2) over V.
+*/
 
-/* Given the vertex list, and the prufer code (as a list of elements from the
-   vertex set), reconstructs the tree (as an ordered graph) represented by
-   the given prufer code. */
-/* MG : The ordering of the edge list may not be the same as the tree used to
-   generate the prufer code as the prufer code only stores the order it removes
-   the edges, not that they occurred originally in the ordered edge list. 
-   Is this an issue? */
-prufer_code2tree_og(v,p) := 
-  if p = [] then (if length(v) = 2 then [v,[setify(v)]] else [v,[]])
-  /*else block([x_n : first(setdifference(v,setify(p)))],*/
-  else block([x_n : for x in v do if not member(x,p) then return(x)],
-    return([v,cons({x_n,first(p)}, 
-      prufer_code2tree_og(delete(x_n,v),rest(p))[2])])
-  )$
+/* The Pruefer code for a tree (as an ordered graph): */
+tree2pruefercode_og(T) := if length(T[1]) <= 2 then [] else
+ block([x : min_vertex_degree_v_og(T)[2], y],
+   y : single_element(disjoin(x, 
+      for e in T[2] do if elementp(x,e) then return(e))),
+   return(cons(y, 
+      tree2pruefercode_og([delete(x,T[1]),delete({x,y},T[2])]) )))$
+
+/* Given a vertex list and a Pruefer code (as a list of elements from the
+   vertex set), compute the tree (as an ordered graph) represented by
+   the given Pruefer code: */
+pruefercode2tree_og(V,pc) := 
+  if pc = [] then (if length(V) = 2 then [V,[setify(V)]] else [V,[]])
+  else block([x : for v in V do if not member(v,pc) then return(v)],
+    return([V,cons({x,first(pc)}, 
+                pruefercode2tree_og(delete(x,V),rest(pc))[2])]))$
+
+/* Remark: For a tree T (given as og) let 
+   T' : pruefercode2tree_og(T[1],tree2pruefercode_og(T)).
+   Then T[1] = T'[1], and setify(T[2]) = setify(T'[2]).
+*/
 
 
 /*!

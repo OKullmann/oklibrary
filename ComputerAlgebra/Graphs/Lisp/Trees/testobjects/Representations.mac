@@ -21,13 +21,13 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/testobjects/Represent
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/tests/Representations.mac")$
 
-/* ****************
-   * Prufer Codes *
-   ****************
+/* *****************
+   * Pruefer Codes *
+   *****************
 */
 
-okltest_tree2prufer_code_og(tree2prufer_code_og);
-okltest_prufer_code2tree_og(prufer_code2tree_og);
+okltest_tree2pruefercode_og(tree2pruefercode_og);
+okltest_pruefercode2tree_og(pruefercode2tree_og);
 
 /*!
 \endhtmlonly

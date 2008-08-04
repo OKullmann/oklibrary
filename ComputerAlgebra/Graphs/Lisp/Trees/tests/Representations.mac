@@ -23,15 +23,13 @@ oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 
 kill(f)$
 
-/* ****************
-   * Prufer Codes *
-   ****************
+/* *****************
+   * Pruefer Codes *
+   *****************
 */
 
-okltest_tree2prufer_code_og(f) := block(
-  assert(f([[],[]]) = []),
+okltest_tree2pruefercode_og(f) := block(
   assert(f([[1],[]]) = []),
-  assert(f([[1,2,3],[]]) = []),
   assert(f([[1,2], [{1,2}]]) = []),
   assert(f([[1,2,3],[{1,2},{2,3}]]) = [2]),
   assert(f([[1,2,3],[{2,1},{1,3}]]) = [1]),
@@ -39,8 +37,7 @@ okltest_tree2prufer_code_og(f) := block(
   assert(f([[6,5,4,3,2,1],[{1,2},{3,2},{2,4},{4,5},{4,6}]]) = [4,4,2,2]),
   true)$
 
-okltest_prufer_code2tree_og(f) := block(
-  assert(f([],[]) = [[],[]]),
+okltest_pruefercode2tree_og(f) := block(
   assert(f([1],[]) = [[1],[]]),
   assert(f([1,2], []) = [[1,2],[{1,2}]]),
   assert(f([1,2,3],[2]) = [[1,2,3],[{1,2},{2,3}]]),
