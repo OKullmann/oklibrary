@@ -27,35 +27,39 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 */
 
 /* The vertex-degrees of a graph, as hash-map, considering
-   all vertices. */
+   all vertices: */
 vertex_degrees_g(G) := block([h : sm2hm({})],
  for E in G[2] do
   for v in E do enter_new_occurrence(h,v),
  for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
  return(h))$
 
-/* The vertex-degrees of an ordered-graph, as hash-map, considering
-   all vertices. */
+/* The vertex-degrees of an ordered graph, as hash-map, considering
+   all vertices: */
 vertex_degrees_og(G) := block([h : sm2hm({})],
  for E in G[2] do
   for v in E do enter_new_occurrence(h,v),
  for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
  return(h))$
 
-/* The hashmap of vertex degree, frequency pairs for a graph */
-vertex_degree_frequencies_g(G) := block(
+/* Returns the pair [min-degree, vertex_of_minimum_degree], using
+   the vertex occurring earliest in the vertex list of the 
+   ordered graph. [inf] is returned for the graph
+   with empty vertex set. */
+min_vertex_degree_v_og(G) := block([vd : vertex_degrees_og(G)],
+  if emptyp(G[1]) then [inf] else
+    block([optv, mind : inf],
+      for v in G[1] do block([d : ev_hm(vd,v)],
+        if d < mind then (optv : v, mind : d)),
+    return([mind,optv])))$
+
+/* The hashmap of [vertex degree, frequency] pairs for a graph: */
+vertex_degrees_hm_g(G) := block(
   [degrees : hm2sm(vertex_degrees_g(G)), deg_freq : sm2hm({})],
   for vd in degrees do
     enter_new_occurrence(deg_freq, vd[2]),
   return(deg_freq))$
 
-/* Returns the vertex of minimum degree, occurring earliest in the ordered
-   vertex list, of the given ordered graph. +inf is returned given the graph
-   with empty vertex set. */
-min_degree_vertex_og(G) := block([vd : vertex_degrees_og(G)],
-  if G[1] = [] then +inf else 
-    xreduce(lambda([a,b], 
-      if ev_hm(vd,a) <= ev_hm(vd,b) then a else b), G[1]))$
 
 /*!
 \endhtmlonly
