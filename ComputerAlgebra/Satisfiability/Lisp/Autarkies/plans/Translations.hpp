@@ -60,8 +60,19 @@ License, or any later version. */
     </ol>
    </li>
    <li> Create a demo. </li>
-   <li> We need also a module MaxSAT, and using a MAXSAT-solver we then can
-   compute a maximal autarky. </li>
+   <li> The solver of Liffiton/Sakallah uses AtMost-constraints to restrict
+   the number of clauses not affected by the autarky:
+    <ol>
+     <li> This avoids the problem with the long clause enforcing a non-trivial
+     autarky. </li>
+     <li> We also need soon a framework where such "constraints" can be used;
+     of course, that's at the heart of "generalised SAT". </li>
+     <li> This is also useful for the above basic translation. </li>
+     <li> Liffiton/Sakallah start searching for as many satisfied clauses
+     as possible --- for hard instances the opposite direction should be
+     favourable (given that smaller autarkies exist!). </li>
+    </ol>
+   </li>
   </ul>
 
 */
