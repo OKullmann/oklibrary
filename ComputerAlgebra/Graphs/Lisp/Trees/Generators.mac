@@ -24,9 +24,9 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Trees/Representations.mac")$
 
 
-/* *****************
-   * Simple graphs *
-   *****************
+/* **********************
+   * Some special trees *
+   **********************
 */
 
 /* pathgraph_og(n) creates a path of length n
@@ -69,6 +69,8 @@ randomtree_pr1_og(n) := block(
           rest(R), rest(V,-1))])$
 
 /* Creating a standardised random tree, drawn from the uniform distribution.
+   Remark: As with randomtree_pr1_og, the output is ordered, but w.r.t.
+   randomness (unordered) trees have to be considered.
 */
 /* Prerequisite: n >= 1. */
 uniform_randomtree_og(n) := 
