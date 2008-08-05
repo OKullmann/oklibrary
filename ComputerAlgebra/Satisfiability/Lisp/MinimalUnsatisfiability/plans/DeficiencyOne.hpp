@@ -141,15 +141,8 @@ License, or any later version. */
      <li> F(T) corresponds to the trivial biclique partition of T;
      compare "Translations to clause-sets" in
      ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/general.hpp. </li>
-     <li> Random trees can be created by "random_tree(n)" from the Maxima
-     graphs-package:
-      <ul>
-       <li> What kind of "random" trees are these? Uniform on all labelled
-       trees? </li>
-       <li> And what about random "unlabelled" trees (i.e., random isomorphism
-       types of trees)? </li>
-      </ul>
-     </li>
+     <li> Generators for trees are in
+     ComputerAlgebra/Graphs/Lisp/Trees/Generators.mac. </li>
      <li> Via counting of isomorphism types of trees ("unlabelled trees") we
      thus obtain the number of isomorphism types of F in MMU(1) with a given
      number of variables. These counting functions should be implemented
