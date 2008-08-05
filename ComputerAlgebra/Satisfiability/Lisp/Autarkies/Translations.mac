@@ -40,7 +40,7 @@ lsavc_var(C) := nounify(lsavc)(C)$ /* C an original clause */
 /* Meaning:
  - lsavv(v) is true iff the autarky uses v
  - lsavc(C) is true iff the autarky satisfies C
- - lsavl(v,1) is the literal v, lsavl(v,1) is the literal -v;
+ - lsavl(v,1) is the literal v, lsavl(v,-1) is the literal -v;
    lsavl(v,1) is true iff v is assigned and set to true,
    lsavl(v,-1) is true iff v is assigned and set to false.
 */
@@ -53,10 +53,12 @@ trans_lit_ls(x) := if x > 0 then lsavl_var(x,1) else lsavl_var(-x,-1)$
    More precisely, the assigned original variables v are those
    with lsavv(c) true, and the satisfied clauses C are those
    with lsavc(C) true. */
-aut_sat_ls(FF) := if not freeof(lsavl, FF) or not freeof(lsavv, FF) or 
- not freeof(lsavc, FF) then
-  error("aut_sat_ls[ERROR]: input contains variable scheme lsav!")
- else block([V : listify(FF[1]), L : listify(FF[2])],
+/* Prerequisite: FF does not use variables created by lsavl, lsavv
+   or lsavc (a sufficient test is that 
+   freeof(lsavl, FF) and freeof(lsavv, FF) and freeof(lsavc, FF)
+   is true).
+*/
+aut_sat_ls(FF) := block([V : listify(FF[1]), L : listify(FF[2])],
   return(
    [union(FF[1],
      setify(create_list(lsavl_var(v,-1),v,V)),
@@ -80,8 +82,9 @@ aut_sat_ls(FF) := if not freeof(lsavl, FF) or not freeof(lsavv, FF) or
         be satisfied: */
      setify(create_list({-lsavv_var(var_l(x)),lsavc_var(C)}, C,L, x,listify(C))))]))$
 
-/* The corresponding translation FF -> GG such that FF is lean iff GG is
-   unsatisfiable. */
+/* The corresponding translation FF -> GG such that FF is lean iff 
+   GG is unsatisfiable (adding a clause which demands that at least
+   one variable is used in the autarky). */
 lean_usat_ls(FF) := block([T : aut_sat_ls(FF)],
   [T[1], adjoin(map(lsavv,FF[1]),T[2])])$
 

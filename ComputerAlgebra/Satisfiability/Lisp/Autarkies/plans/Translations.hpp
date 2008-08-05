@@ -20,7 +20,7 @@ License, or any later version. */
   \todo Translation to SAT according to Liffiton and Sakallah
   <ul>
    <li> See the Guangzhou-2008-talk for more example applications. </li>
-   <li> Extend the documentation on the meaning of the variables. </li>
+   <li> DONE Extend the documentation on the meaning of the variables. </li>
    <li> DONE Implement the back-translation, satisfying assignments
    to autarkies. </li>
    <li> DONE
@@ -36,6 +36,14 @@ License, or any later version. */
     <ol>
      <li> Due to the symmetries we have many satisfying assignments;
      can we improve on that? </li>
+    </ol>
+   </li>
+   <li> lean_usat_ls:
+    <ol>
+     <li> Generalise the translation, so that one can specifically ask for
+     certain variables to be used by the autarky. </li>
+     <li> One can also ask for a set of clauses (or a single clause) to
+     be satisfied. </li>
     </ol>
    </li>
    <li> Create a demo. </li>
