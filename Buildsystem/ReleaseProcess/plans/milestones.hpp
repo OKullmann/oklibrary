@@ -19,7 +19,7 @@ License, or any later version. */
    topics are handled:
     - bug The binary coming with the package (for creating links) does not work
   on standard 32-bit platforms
-    - Providing update mechanisms for the package-clone : DONE
+    - Providing update mechanisms for the package-clone
 
   \par
    In Buildsystem/ReleaseProcess/plans/MailingLists.hpp the following topics
@@ -35,6 +35,7 @@ License, or any later version. */
   \par
    In Buildsystem/ReleaseProcess/plans/general.hpp the following topics
    are handled:
+    - Packages history
     - Plans-structure review : DONE
 
 
