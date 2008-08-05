@@ -24,6 +24,9 @@ License, or any later version. */
 
   \todo Providing update mechanisms for the package-clone
   <ul>
+   <li> The mechanism outlined below must be updated to use the repository
+   on github instead. Also some meta-data (like ignore-patterns) need to
+   be added; see "Cloning" in Buildsystem/SourceControl/plans/general.hpp. </li>
    <li> git_public_repository must be set (typically in override.mak) to
    the full local path to the oklib-repository accessible from the
    Internet. </li>
