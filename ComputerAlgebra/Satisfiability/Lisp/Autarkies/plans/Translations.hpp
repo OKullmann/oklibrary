@@ -14,6 +14,19 @@ License, or any later version. */
   <ul>
    <li> Implement the basic translation, which just translates
    the boolean F into a G with variables over {-1,0,1}. </li>
+   <li> That is, for every old boolean variable v we obtain a new
+   variable a(v) with domain {-1,0,+1}, every positive literal v
+   becomes "a(v) <> -1", and every negative literal -v becomes
+   "a(v) <> 1". </li>
+   <li> The requirement that the autarky is non-negative is expressed by
+   the disjunction "a(v) <> 0" for all variables v. </li>
+   <li> The boolean translation of this non-boolean CNF just uses variables
+   a(v,e) for variables v and signs e in {-1,0,+1}, and translates literals
+   v into a(v,-1), -v into a(v,+1). </li>
+   <li> Non-triviality becomes the clause {a(v,0) : v in var(F)}. </li>
+   <li> The ALO-clauses {a(v,-1), a(v,0), a(v,+1)} for all v in var(F)
+   are need, but (as usual), the AMO clauses {-a(v,e), -a(v,e')} are optional
+   (though typically they help). </li>
   </ul>
 
 
