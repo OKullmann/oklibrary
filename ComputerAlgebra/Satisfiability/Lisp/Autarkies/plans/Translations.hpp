@@ -18,31 +18,28 @@ License, or any later version. */
    variable a(v) with domain {-1,0,+1}, every positive literal v
    becomes "a(v) <> -1", and every negative literal -v becomes
    "a(v) <> 1". </li>
-   <li> The requirement that the autarky is non-negative is expressed by
-   the disjunction "a(v) <> 0" for all variables v. </li>
+   <li> So every clause of F yields a clause of G; this is yet not strong
+   enough, since we must forbid that a clause C in F contains falsified
+   literals but no satisfied literals. For this we need |C| many clauses
+   of length |C|  which express that if a literal becomes false then some
+   other literal becomes true. So we actually need monosigned literals. </li>
+   <li> Having those "autarky clauses", we do not need the direct translations
+   of the original clauses. </li>
+   <li> The requirement that the autarky is non-trivial is expressed by
+   the disjunction "a(v) <> 0" over all variables v. </li>
    <li> The boolean translation of this non-boolean CNF just uses variables
-   a(v,e) for variables v and signs e in {-1,0,+1}, and translates literals
-   v into a(v,-1), -v into a(v,+1). </li>
+   a(v,e) for variables v and signs e in {-1,0,+1}. </li>
    <li> Non-triviality becomes the clause {a(v,0) : v in var(F)}. </li>
    <li> The ALO-clauses {a(v,-1), a(v,0), a(v,+1)} for all v in var(F)
-   are need, but (as usual), the AMO clauses {-a(v,e), -a(v,e')} are optional
-   (though typically they help). </li>
+   are needed, and since we use monosigned literals, also the AMO clauses
+   {-a(v,e), -a(v,e')} are needed. </li>
   </ul>
 
 
   \todo Translation to SAT according to Liffiton and Sakallah
   <ul>
+   <li> We need the usual accompanying statistics-functions. </li>
    <li> See the Guangzhou-2008-talk for more example applications. </li>
-   <li> DONE Extend the documentation on the meaning of the variables. </li>
-   <li> DONE Implement the back-translation, satisfying assignments
-   to autarkies. </li>
-   <li> DONE
-   Derive an autarky-search-function (searching for some
-   non-trivial autarky, using some SAT-solver as argument). </li>
-   <li> DONE
-   Write a generic autarky-search-test (as a testfunctions, testing
-   functions which return a non-trivial autarky or "false" if none exists).
-   </li>
    <li> Extend the tests. </li>
    <li> Via creating a splitting tree for the translated instance,
    and translating the satisfying assignments, compute all autarkies.
@@ -72,6 +69,16 @@ License, or any later version. */
      as possible --- for hard instances the opposite direction should be
      favourable (given that smaller autarkies exist!). </li>
     </ol>
+   </li>
+   <li> DONE Extend the documentation on the meaning of the variables. </li>
+   <li> DONE Implement the back-translation, satisfying assignments
+   to autarkies. </li>
+   <li> DONE
+   Derive an autarky-search-function (searching for some
+   non-trivial autarky, using some SAT-solver as argument). </li>
+   <li> DONE
+   Write a generic autarky-search-test (as a testfunctions, testing
+   functions which return a non-trivial autarky or "false" if none exists).
    </li>
   </ul>
 
