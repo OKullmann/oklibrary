@@ -62,7 +62,8 @@ gprod_s(f,S) := apply("*",map(f,listify(S)))$
 */
 
 /* Computing the first smallest element (w.r.t. "length") of a list
-   (or of a set): */
+   (or of a set). */
+/* Prerequisite: L is not empty. */
 first_smallest_l(L) := block([s : inf, S],  
   for x in L do block([l : length(x)],
     if l < s then (s : l, S : x)),
@@ -76,6 +77,23 @@ first_smallest_lb_l(L,lb) := block([s : inf, S],
    but the computation is aborted as soon as an empty element was found
    (the price is the repeated evaluation of the condition).
 */
+
+/* More generally, compute the minimum value of function _f together with
+   the corresponding first element (returned as pair).
+   If the list is empty, then return [inf].
+*/
+/* Prerequisite: _f(x) < inf for x in L. */
+first_smallest_f_l(_f,L) := if emptyp(L) then [inf] else
+ block([min_v : inf, opt_x],
+  for x in L do block([v : _f(x)],
+    if v < min_v then (opt_x : x, min_v : v)),
+  [min_v, opt_x])$
+/* Prerequisite: _f(x) > minf for x in L. */
+first_largest_f_l(_f,L) := if emptyp(L) then [minf] else
+ block([max_v : minf, opt_x],
+  for x in L do block([v : _f(x)],
+    if v > max_v then (opt_x : x, max_v : v)),
+  [max_v, opt_x])$
 
 
 /* **************************
