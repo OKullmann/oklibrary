@@ -21,11 +21,16 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/testobjects/Statistics.mac"
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac")$
 
+/* ******************
+   * Vertex degrees *
+   ******************
+*/
 
 okltest_vertex_degrees_g(vertex_degrees_g);
 okltest_vertex_degrees_og(vertex_degrees_og);
 
 okltest_min_vertex_degree_v_og(min_vertex_degree_v_og);
+okltest_max_vertex_degree_v_og(max_vertex_degree_v_og);
 
 okltest_vertex_degrees_hm_g(vertex_degrees_hm_g);
 

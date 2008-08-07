@@ -52,6 +52,12 @@ min_vertex_degree_v_og(G) := block([vd : vertex_degrees_og(G)],
       for v in G[1] do block([d : ev_hm(vd,v)],
         if d < mind then (optv : v, mind : d)),
     return([mind,optv])))$
+max_vertex_degree_v_og(G) := block([vd : vertex_degrees_og(G)],
+  if emptyp(G[1]) then [minf] else
+    block([optv, maxd : minf],
+      for v in G[1] do block([d : ev_hm(vd,v)],
+        if d > maxd then (optv : v, maxd : d)),
+    return([maxd,optv])))$
 
 /* The hashmap of [vertex degree, frequency] pairs for a graph: */
 vertex_degrees_hm_g(G) := block(
