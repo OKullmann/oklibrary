@@ -12,7 +12,8 @@ License, or any later version. */
   
   \todo Vertex degrees
   <ul>
-  <li> We need vertex_degrees1_gl and vertex_degrees2_gl, counting
+  <li> DONE
+  We need vertex_degrees1_gl and vertex_degrees2_gl, counting
   loops once resp. twice. </li>
   </ul>
   
