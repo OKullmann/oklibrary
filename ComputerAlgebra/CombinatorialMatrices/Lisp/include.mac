@@ -21,7 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/include.mac"
 
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrics/Lisp/tests/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac")$
 
 
 /*!
