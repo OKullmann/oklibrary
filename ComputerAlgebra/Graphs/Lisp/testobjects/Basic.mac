@@ -104,6 +104,8 @@ okltest_gl2dgl(gl2dgl);
    **************************
 */
 
+okltest_neighbours_g(neighbours_g);
+okltest_neighbours_gl(neighbours_gl);
 
 /* *****************************
    * Basic graph constructions *

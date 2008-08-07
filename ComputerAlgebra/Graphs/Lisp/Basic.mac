@@ -267,6 +267,11 @@ gl2dgl(G) := [G[1], setify(apply(append,
 /* RENAME to "neighbours_g". */
 neighbours(v,G) := disjoin(v, set_sets_union(
  subset(G[2], lambda([e],elementp(v,e)))))$
+neighbours_g(v,G) := neighbours(v,G)$
+neighbours_gl(v,G) := apply(union, 
+ map(lambda([e], if e={v} then e else disjoin(v,e)),
+     sublist(listify(G[2]), lambda([e],elementp(v,e)))))$
+
 
 /* Removes vertex set V from graph G (with loops). */
 /* RENAME it to "rem_vertices_gl". */
