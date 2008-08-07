@@ -50,6 +50,8 @@ License, or any later version. */
    fixed drawing) --- so it should be possible! </li>
    <li> It would also be needed here to have several gnuplot windows open
    at the same time --- how to do this? </li>
+   <li> See "Graph drawing" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp.
+   </li>
   </ul>
 
 
