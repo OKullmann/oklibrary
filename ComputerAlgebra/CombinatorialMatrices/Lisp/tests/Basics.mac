@@ -381,20 +381,77 @@ okltest_every_scom_p(f) := block([fun],
   assert(f(identity,constantscom({1,2},false)) = false),
   true)$
 
-okltest_some_com_p(f) := (
-
+okltest_some_com_p(f) :=  block([fun],
+  assert(f(fun,emptycom) = false),
+  assert(f(lambda([x],is(x=0)),zerocom({1},{-3,3})) = true),
+  assert(f(lambda([x],is(x=1)),zerocom({1},{-3,3})) = false),
+  assert(f(lambda([x],is(x=0)),scom2com(idscom({1,2}))) = true),
+  assert(f(lambda([x],is(x=1)),scom2com(idscom({1,2}))) = true),
+  assert(okltest_some_scom_p(buildq([f],lambda([pred,M],f(pred,scom2com(M)))))),
+  assert(okltest_every_com_p(buildq([f],lambda([pred,M],
+    not f(lambda([x], not pred(x)), M))))),
   true)$
 
-okltest_some_scom_p(f) := (
+okltest_some_scom_p(f) :=  block([fun],
+  assert(f(fun,emptyscom) = false),
+  assert(f(lambda([x],is(x=0)),zeroscom({-3,3})) = true),
+  assert(f(lambda([x],is(x=1)),zeroscom({-3,3})) = false),
+  assert(f(lambda([x],is(x=0)),idscom({0,1})) = true),
+  assert(f(lambda([x],is(x=1)),idscom({0,1})) = true),
+  true)$
 
+okltest_every_diagc_scom_p(f) :=  block(
+  assert(f(emptyscom,1) = true),
+  assert(f(zeroscom({1}),1) = false),
+  assert(f(zeroscom({1}),0) = true),
+  assert(f(zeroscom({1,3}),1) = false),
+  assert(f(zeroscom({1,3}),0) = true),
+  assert(f(idscom({0,1}),1) = true),
+  assert(f(idscom({0,1}),0) = false),
+  true)$
+
+okltest_every_diag_scom_p(f) := block([fun],
+  assert(f(fun,emptyscom) = true),
+  assert(okltest_every_diagc_scom_p(buildq([f], lambda([M,c],
+    f(lambda([x],is(x=c)), M))))),
+  true)$
+
+okltest_every_ndiagc_scom_p(f) := block(
+  assert(f(emptyscom,1) = true),
+  assert(f(zeroscom({1}),1) = true),
+  assert(f(zeroscom({1}),0) = true),
+  assert(f(zeroscom({1,3}),1) = false),
+  assert(f(zeroscom({1,3}),0) = true),
+  assert(f(idscom({0,1}),1) = false),
+  assert(f(idscom({0,1}),0) = true),
+  true)$
+
+okltest_every_ndiag_scom_p(f) := block([fun],
+  assert(f(fun,emptyscom) = true),
+  assert(okltest_every_ndiagc_scom_p(buildq([f], lambda([M,c],
+    f(lambda([x],is(x=c)), M))))),
+  true)$
+
+okltest_some_ndiag_scom_p(f) := block([fun],
+  assert(f(fun,emptyscom) = false),
+  assert(f(identity, m2scom(matrix([false,true],[false,false]))) = true),
+  assert(f(identity, m2scom(matrix([false,false],[false,false]))) = false),
+  assert(okltest_every_ndiag_scom_p(buildq([f], lambda([npred,M],
+    not f(lambda([x], not npred(x)), M))))),
   true)$
 
 okltest_symmetric_scom_p(f) := (
-
+  assert(f(emptyscom) = true),
+  assert(f(zeroscom({0,2})) = true),
+  assert(f(idscom({0,2})) = true),
+  assert(f(m2scom(matrix([1,2],[1,2]))) = false),
   true)$
 
 okltest_symmetric_m_p(f) := (
-
+  assert(f(matrix()) = true),
+  assert(f(matrix([1])) = true),
+  assert(f(zeromatrix(3,3)) = true),
+  assert(f(zeromatrix(2,3)) = false),
   true)$
 
 

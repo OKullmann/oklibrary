@@ -276,10 +276,27 @@ columnsums_list_com(M) := block([R : listify(M[1])],
    ***************
 */
 
-every_com_p(pred,M) := every_s(pred, com2l_r(M))$
-every_scom_p(pred,M) := every_com_p(pred,scom2com(M))$
-some_com_p(pred,m) := some_s(pred, com2l_r(M))$
-some_scom_p(pred_m) := some_com_p(pred, com2l_r(M))$
+every_com_p(_pred,M) := every_s(_pred, com2l_r(M))$
+every_scom_p(_pred,M) := every_com_p(_pred,scom2com(M))$
+some_com_p(_pred,M) := some_s(_pred, com2l_r(M))$
+some_scom_p(_pred,M) := some_com_p(_pred, scom2com(M))$
+
+/* Every diagonal value is constant = s: */
+every_diagc_scom_p(M,s) := 
+  every_s(lambda([i], is(M[2](i,i)=s)), M[1])$
+/* More generally, every diagonal entry fulfils _predx: */
+every_diag_scom_p(_predx,M) := 
+  every_s(lambda([i], _predx(M[2](i,i))), M[1])$
+/* Every value outside the diagonal is constant = s: */
+every_ndiagc_scom_p(M,s) := block([L : listify(M[1])],
+  every_s(lambda([p], is(p[1]=p[2] or apply(M[2],p)=s)), cartesian_product_l([L,L])))$
+/* More generally, every non-diagonal entry fulfils _predx: */
+every_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
+  every_s(lambda([p], is(p[1]=p[2] or _predx(apply(M[2],p)))), cartesian_product_l([L,L])))$
+/* Some non-diagonal entry fulfils _predx: */
+some_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
+  some_s(lambda([p], is(p[1]#p[2] and _predx(apply(M[2],p)))), cartesian_product_l([L,L])))$
+
 
 symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$
