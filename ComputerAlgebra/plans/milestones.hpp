@@ -144,6 +144,7 @@ License, or any later version. */
   
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - How to use function-parameters reliably??
     - Maxima/CLisp bug
     - Plan the redesign
 

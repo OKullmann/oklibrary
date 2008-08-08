@@ -13,6 +13,46 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \todo How to use function-parameters reliably??
+  <ul>
+   <li> The biggest problem with Maxima is that function-parameters are
+   not handled properly, not even the arguments of lambda-terms. </li>
+   <li> It is unclear what actually happens, but names of parameter, which
+   take functions or lambda-terms as values, must be all different!
+    <ol>
+     <li> On the other hand, calling test-functions from other test-functions
+     doesn't cause problems. </li>
+     <li> We need clear examples, where errors occur. </li>
+    </ol>
+   </li>
+   <li> It seems that nested funcion calls though are not a problem (this
+   would render it hopeless!). </li>
+   <li> This must be discussed on the Maxima mailing list (but I (OK) fear
+   nothing will happen).
+    <ol>
+     <li> Take as example "every_s" from
+     ComputerAlgebra/DataStructures/Lisp/Lists.mac (how to write it
+     properly). </li>
+     <li> If the function-parameter would be called "npred", then
+     "okltest_some_ndiag_scom_p" in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac
+     runs into an infinite loop. </li>
+    </ol>
+   </li>
+   <li> One thing is to reserve names for the library:
+    <ol>
+     <li> Everything that starts with "_". </li>
+     <li> Then we have "f"; likely we should rename it everywhere to "_f".
+     </li>
+     <li> Or perhaps "f" is an exception. </li>
+     <li> Within the library, parameters naming functions must always be
+     somewhat longer and specific (except of "f"); and they start with "_".
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo What is "equalp" ?
   <ul>
    <li> It seems impossible to evaluate "equalp(0,0)" sensibly?? </li>
