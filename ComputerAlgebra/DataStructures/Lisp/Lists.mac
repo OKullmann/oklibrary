@@ -28,13 +28,13 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 
 /* The versions of "every" and "some" with short-circuit evaluation: */
 
-every_s(pred,L) := block([nocountex : true],
+every_s(_prede,L) := block([nocountex : true],
   for x in L while nocountex do
-    nocountex : pred(x),
+    nocountex : _prede(x),
   return(nocountex))$
-some_s(pred,L) := block([countex : false],
+some_s(_preds,L) := block([countex : false],
   for x in L unless countex do
-    countex : pred(x),
+    countex : _preds(x),
   return(countex))$
 
 /* Checks whether L is a list without repetitions: */
@@ -78,20 +78,20 @@ first_smallest_lb_l(L,lb) := block([s : inf, S],
    (the price is the repeated evaluation of the condition).
 */
 
-/* More generally, compute the minimum value of function _f together with
+/* More generally, compute the minimum value of function _fmin together with
    the corresponding first element (returned as pair).
    If the list is empty, then return [inf].
 */
-/* Prerequisite: _f(x) < inf for x in L. */
-first_smallest_f_l(_f,L) := if emptyp(L) then [inf] else
+/* Prerequisite: _fmin(x) < inf for x in L. */
+first_smallest_f_l(_fmin,L) := if emptyp(L) then [inf] else
  block([min_v : inf, opt_x],
-  for x in L do block([v : _f(x)],
+  for x in L do block([v : _fmin(x)],
     if v < min_v then (opt_x : x, min_v : v)),
   [min_v, opt_x])$
-/* Prerequisite: _f(x) > minf for x in L. */
-first_largest_f_l(_f,L) := if emptyp(L) then [minf] else
+/* Prerequisite: _fmax(x) > minf for x in L. */
+first_largest_f_l(_fmax,L) := if emptyp(L) then [minf] else
  block([max_v : minf, opt_x],
-  for x in L do block([v : _f(x)],
+  for x in L do block([v : _fmax(x)],
     if v > max_v then (opt_x : x, max_v : v)),
   [max_v, opt_x])$
 

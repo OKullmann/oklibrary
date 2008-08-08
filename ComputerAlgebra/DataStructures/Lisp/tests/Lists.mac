@@ -57,6 +57,14 @@ okltest_some_s(f) := (
   assert(every(lambda([x],(c:c+1,true)),[1,2]) = true),
   assert(c = 2),
   assert(okltest_every_s(buildq([f],lambda([p,L],not f(lambda([x],not p(x)),L))))),
+  assert(okltest_every_s(buildq([f],lambda([_newpred,M],
+    not f(lambda([x], not _newpred(x)), M))))),
+  block(
+   [localf : buildq([f],lambda([SetSys], f(lambda([S], not emptyp(S)), SetSys)))],
+    assert(f(localf,[]) = false),
+    assert(f(localf,[{{}}]) = false),
+    assert(f(localf,[{{}},{{},{1}}]) = true)
+  ),
   true)$
 
 okltest_listnorep_p(f) := (
