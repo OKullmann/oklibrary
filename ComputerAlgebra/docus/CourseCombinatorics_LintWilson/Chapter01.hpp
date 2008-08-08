@@ -82,6 +82,7 @@ length(closure_bydef_grd(transformation_l_compo, {t1,t2,t3,t4}));
   <ul>
    <li> See "Exactly one common neighbour" in
    ComputerAlgebra/Graphs/Lisp/StrongRegularity/plans/general.hpp. </li>
+   <li> See Exercise 21Q in CourseCombinatorics_LintWilson/Chapter21.hpp. </li>
   </ul>
 
 */
