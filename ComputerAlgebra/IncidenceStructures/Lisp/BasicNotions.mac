@@ -1,0 +1,180 @@
+/* Oliver Kullmann, 6.8.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.mac
+  \brief Basic notions for incidence structures
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/IncidenceStructures/Lisp/BasicNotions.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+
+/* *****************
+   * Basic notions *
+   *****************
+*/
+
+ics_p(S) := listp(S) and is(length(S) = 3) and com_p([S[2],S[3],S[1]])$
+
+
+/* *********************
+   * Checking equality *
+   *********************
+*/
+
+ics_equalp(S1,S2) := com_equalp(ics2com(S1),ics2com(S2))$
+
+
+/* ***************
+   * Conversions *
+   ***************
+*/
+
+/* The point-block incidence matrix: */
+ics2com(S) := [S[2],S[3],S[1]]$
+/* Interpreting combinatorial matrices as incidence structures: */
+com2ics(M) := [M[3],M[1],M[2]]$
+
+/* The point-adjacency matrix: */
+ics2scom_p(S) := block([IM : ics2com(S)],
+  prod_com(IM, IM))$
+/* The block-adjacency matrix: */
+ics2scom_b(S) := block([IM : trans_com(ics2com(S))],
+  prod_com(IM, IM))$
+
+/* The associated general hypergraph: */
+ics2ghg(S) := [S[2],S[3],buildq([S],lambda([H],subset(S[2],lambda([v],is(S[3](v,H)=1)))))]$
+/* Remark: ics2ghg(S) = com2ghg(ics2com(S)). */
+/* General hypergraphs as incidence structures: */
+ghg2ics(G) := [lambda([p,b], if elementp(p,b) then 1 else 0), G[1], G[2]]$
+/* Remark: ghg2ics(G) = com2ics(trans_com(edge_vertex_com_hyp(G))). */
+
+
+/* *******************
+   * Main parameters *
+   *******************
+*/
+
+balanced_ics_p(S,t,index) := every_s(
+  lambda([T], is(
+    length(subset(S[3], lambda([b], 
+      every_s(lambda([p], is(S[1](p,b) = 1)), T)))))
+    = index),
+  powerset(S[2],t))$
+/* If balanced_ics_p(S,t,i) is true, then S is a "t-balanced design (with
+   index i)".
+*/
+
+/* The special case for t=0 (the number of blocks): */
+blockcount_ics_p(S,b) := is(length(S[3]) = b)$
+/* Remark: blockcount_ics_p(S,b) = balanced_ics_p(S,0,b). */
+
+/* The special case for t=1 (regularity ("repetition number")): */
+regular_ics_p(S,r) := block([reg : true],
+  for p in S[2] while reg do
+    reg : is(sum_l(map(lambda([b], S[1](p,b)), S[3])) = r),
+  return(reg))$
+/* Remark: regular_ics_p(S,r) = balanced_ics_p(S,1,r). */
+/* Also: regular_ics_p(S,r) is true iff all diagonal entries of 
+   ics2scom_p(S) are equal to r.
+*/
+
+/* The special case for t=2 ("pairwise balanced designs"): */
+pairwisebalanced_p(S,index) := every_ndiagc_scom_p(ics2scom_p(S), index)$
+/* Remark: pairwisebalanced_p(S,index) = balanced_ics_p(S,2,index). */
+
+/* The dual cases: */
+
+/* The number of points: */
+pointcount_ics_p(S,v) := is(length(S[2]) = v)$
+/* Remark: pointcount_ics_p(S,v) = balanced_ics_p(dual_ics(S),0,v). */
+
+/* The block size (uniformity): */
+uniform_ics_p(S,k) := block([unif : true],
+  for b in S[3] while unif do
+    unif : is(sum_l(map(lambda([p], S[1](p,b)), S[2])) = k),
+  return(unif))$
+/* Remark: uniform_ics_p(S,k) = balanced_ics_p(dual_ics(S),1,k). */
+/* Also: uniform_ics_p(S,k) is true iff all diagonal entries of 
+   ics2scom_b(S) are equal to k.
+*/
+
+/* The block-intersection sizes (for pairs of different blocks): */
+dual_pairwisebalanced_p(S,index) := every_ndiagc_scom_p(ics2scom_b(S), index)$
+/* Remark: dual_pairwisebalanced_p(S,index) = balanced_ics_p(dual_ics(S),2,index). */
+
+
+/* Generalisations for regularity and uniformity (given by sets
+   of possible values): */
+degree_set_ics_p(S,D) := block([reg : true],
+  for p in S[2] while reg do
+    reg : elementp(sum_l(map(lambda([b], S[1](p,b)), S[3])), D),
+  return(reg))$
+/* Remark: regular_ics_p(S,r) = degree_set_ics_p(S,{r}). */
+blocksize_set_ics_p(S,K) := block([unif : true],
+  for b in S[3] while unif do
+    unif : elementp(sum_l(map(lambda([p], S[1](p,b)), S[2])), K),
+  return(unif))$
+/* Remark: uniform_ics_p(S,k) = blocksize_set_ics_p(S,{k}). */
+
+
+/* Generalisations for index and dual index (given by sets of
+   possible values): */
+pairwisebalanced_set_p(S,I) := every_ndiag_scom_p(lambda([x],elementp(x,I)),ics2scom_p(S))$
+/* Remark: pairwisebalanced_p(S,index) = pairwisebalanced_set_p(S,{index}). */
+dual_pairwisebalanced_set_p(S,I) := every_ndiag_scom_p(lambda([x],elementp(x,I)),ics2scom_b(S))$
+/* Remark: dual_pairwisebalanced_p(S,index) = dual_pairwisebalanced_set_p(S,{index}). */
+
+
+/* ***********************
+   * Basic constructions *
+   ***********************
+*/
+
+dual_ics(S) := [buildq([S],lambda([p,b],S[1](b,p))),S[3],S[2]]$
+
+
+/* ********************
+   * Basic properties *
+   ********************
+*/
+
+square_design_p(S) := is(length(S[2]) = length(S[3]))$
+
+/* Geometries: */
+
+partial_geometry_p(S) := pairwisebalanced_set_p(S,{0,1})$
+linear_design_p(S) := pairwisebalanced_p(S,1)$
+projective_incidence_plans_p(S) := linear_design_p(S) and 
+  linear_design_p(dual_ics(S))$
+
+/* Steiner-Systems and generalisations: */
+
+regular_balanced_p(S,t,index,r) := balanced_ics_p(S,t,index) and regular_ics_p(S,r)$
+
+uniform_balanced_p(S,t,index,k) := balanced_ics_p(S,t,index) and uniform_ics_p(S,k)$
+/* Remark: Uniform balanced designs are also regular. */
+design_p(S,t,k,v,index) := uniform_balanced_p(S,t,index,k) and pointcount_ics_p(S,v)$
+
+steiner_p(S,t,k,v) := design_p(S,t,k,v,1)$
+
+/* Steiner triple system: */
+sts_p(S,v) := steiner_p(S,2,3,v)$
+/* Steiner quadruple system: */
+sqs_p(S,v) := steiner_p(S,3,4,v)$
+
+/*!
+\endhtmlonly
+*/
