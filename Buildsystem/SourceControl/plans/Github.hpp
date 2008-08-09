@@ -34,6 +34,20 @@ url = git@github.com:OKullmann/oklibrary.git
    pull from there. </li>
   </ul>
 
+  \todo Github terminology and features
+  <ul>
+   <li> A given user (i.e. OKullmann) may "follow" another user (i.e. MLewsey),
+   in which case, all activity (commits, new repositories, follows etc) of
+   MLewsey is reported on OKullmann's "News Feed". </li>
+   <li> A given user may "watch" a repository. This is analogous to "following"
+   a user, where instead all activity (commits etc) of the respository is
+   reported on the user's "News Feed". </li>
+   <li> Github has a "group" on Google Groups. While this is not a pure mailing 
+   list, the same functionality is available, by joining the group and then 
+   selecting to read the group by email. Emails can then be sent to the group 
+   at "github@googlegroups.com", just like a mailing list, and any responses 
+   are received by email. </li>     
+  </ul>
 
   \todo Collaborative work on github
   <ul>
