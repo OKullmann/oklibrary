@@ -27,6 +27,8 @@ License, or any later version. */
    for morphisms in general. </li>
    <li> See ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/general.hpp for
    plans on graph isomorphisms. </li>
+   <li> See ComputerAlgebra/CombinatorialMatrices/Lisp/plans/Isomorphisms.hpp
+   for var-isomorphisms of labelled clause-sets. </li>
    <li> See Isomorphisms/plans/CLSIsomorphisms.hpp for plans on finding and
    utilising isomorphisms between clause-sets. </li>
   </ul>

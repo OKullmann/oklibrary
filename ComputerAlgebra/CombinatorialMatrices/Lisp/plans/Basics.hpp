@@ -10,6 +10,15 @@ License, or any later version. */
   \brief General plans regarding basic notions and functions for (combinatorial) matrices
 
 
+  \todo Organisation
+  <ul>
+   <li> Split-off several files. </li>
+   <li> RandomMatrices.mac </li>
+   <li> AlgebraicOperations.mac </li>
+   <li> DONE Isomorphisms.mac </li>
+  </ul>
+
+
   \todo Basic notions
   <ul>
    <li> A "(combinatorial) matrix" is a triple [R,C,f], where R is the set of

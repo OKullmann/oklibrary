@@ -467,60 +467,6 @@ okltest_symmetric_m_p(f) := (
   true)$
 
 
-/* ***********************
-   * Isomorphic matrices *
-   ***********************
-*/
-
-okltest_is_isomorphic_rowperm_com(f) := block([fun1,fun2],
-  assert(f([{},{},fun1], [{},{},fun2]) = true),
-  assert(f([{},{},fun1], [{1},{},fun2]) = false),
-  assert(f([{},{},fun1], [{},{1},fun2]) = false),
-  assert(f([{},{},fun1], [{1},{1},fun2]) = false),
-  assert(f([{1},{},fun1], [{1},{1},fun2]) = false),
-  assert(f([{},{1},fun1], [{1},{1},fun2]) = false),
-  assert(f(zerocom({1},{2}), zerocom({3},{4})) = true),
-  assert(f(zerocom({1},{2}), constantcom({3},{4},1)) = false),
-  assert(f(m2com(matrix([1,1],[0,0])), m2com(matrix([0,0],[1,1]))) = true),
-  assert(f(m2com(matrix([1,0],[1,0])), m2com(matrix([0,1],[0,1]))) = true),
-  assert(f(m2com(matrix([1,0],[0,1])), m2com(matrix([0,1],[0,1]))) = false),
-  assert(f(m2com(matrix([1,0,0],[0,0,1],[0,0,0])), m2com(matrix([0,0,0],[0,0,1],[1,0,0]))) = true),
-  assert(f(m2com(matrix([1,0,0],[0,0,2],[0,0,0])), m2com(matrix([0,0,0],[0,0,2],[1,0,0]))) = true),
-  true)$
-
-
-/* ************************
-   * Duality and polarity *
-   ************************
-*/
-
-okltest_selfpolar_bydef_m_p(f) := (
-  assert(f(matrix()) = true),
-  assert(f(matrix([0])) = true),
-  assert(f(matrix([1])) = true),
-  assert(f(matrix([0,0],[0,0])) = true),
-  assert(f(matrix([1,0],[0,0])) = true),
-  assert(f(matrix([1,0],[1,0])) = false),
-  assert(f(matrix([1,1],[0,0])) = false),
-  assert(f(matrix([1,0],[0,1])) = true),
-  assert(f(matrix([1,1],[1,0])) = true),
-  assert(f(matrix([1,1],[1,1])) = true),
-  true)$
-
-okltest_selfdual_bydef_m_p(f) := (
-  assert(f(matrix()) = true),
-  assert(f(matrix([0])) = true),
-  assert(f(matrix([1])) = true),
-  assert(f(matrix([0,0],[0,0])) = true),
-  assert(f(matrix([1,0],[0,0])) = true),
-  assert(f(matrix([1,0],[1,0])) = false),
-  assert(f(matrix([1,1],[0,0])) = false),
-  assert(f(matrix([1,0],[0,1])) = true),
-  assert(f(matrix([1,1],[1,0])) = true),
-  assert(f(matrix([1,1],[1,1])) = true),
-  true)$
-
-
 /*!
 \endhtmlonly
 */

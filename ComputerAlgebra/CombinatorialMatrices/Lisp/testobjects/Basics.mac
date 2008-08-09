@@ -163,22 +163,6 @@ okltest_some_ndiag_scom_p(some_ndiag_scom_p);
 okltest_symmetric_scom_p(symmetric_scom_p);
 okltest_symmetric_m_p(symmetric_m_p);
 
-/* ***********************
-   * Isomorphic matrices *
-   ***********************
-*/
-
-okltest_is_isomorphic_rowperm_com(is_isomorphic_rowperm_com);
-
-/* ************************
-   * Duality and polarity *
-   ************************
-*/
-
-okltest_selfpolar_bydef_m_p(selfpolar_bydef_m_p);
-
-okltest_selfdual_bydef_m_p(selfdual_bydef_m_p);
-
 /*!
 \endhtmlonly
 */

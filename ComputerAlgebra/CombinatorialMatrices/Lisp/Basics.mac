@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+
 /* *****************
    * Basic notions *
    *****************
@@ -313,68 +314,6 @@ some_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
 symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$
 
-
-/* ***********************
-   * Isomorphic matrices *
-   ***********************
-*/
-
-/* Testing whether two combinatorial matrices are isomorphic by
-   running through all row permutations of the first matrix:
-*/
-is_isomorphic_rowperm_com(A,B) := 
-  if rowsums_list_com(A) # rowsums_list_com(B) then false
-  elseif columnsums_list_com(A) # columnsums_list_com(B) then false
-  else block(
-   [found : false,
-    Bcolumns : map(lambda([j], 
-                     map(lambda([i],B[3](i,j)),listify(B[1]))),
-                   B[2])],
-    for p in permutations(listify(A[1])) do
-      if Bcolumns = map(lambda([j], 
-                     map(lambda([i],A[3](i,j)),p)),
-                    A[2])
-      then found : true,
-    return(found))$
-
-
-/* ************************
-   * Duality and polarity *
-   ************************
-*/
-
-/* Tests whether a square matrix is isomorphic as a general
-   matrix to a symmetric matrix: */
-selfpolar_bydef_m_p(M) := block([found : false],
-  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
-    return(false),
-  for p in permutations(setn(matrix_size(M)[1])) unless found do
-    found : symmetric_m_p(M . scom2m(trans_l2scom(p))),
-  return(found))$
-
-/* Tests whether a Maxima square matrix is isomorphic as a general
-   matrix to its transposed: */
-selfdual_bydef_com_p(M) := is_isomorphic_rowperm_com(M,trans_com(M))$
-selfdual_bydef_m_p(M) := is_isomorphic_rowperm_com(m2com(M),m2com(transpose(M)))$
-
-/* Experiment: searching for a smallest matrix which is self-dual but not
-   self-polar. */
-/* Creating random square 0,1-matrices of order n: */
-exp_dualpolar(n) := block([found : false],
- while found=false do block([M : random_m(n,n,2)],
-  if oklib_monitor then print(M),
-  if selfdual_bydef_m_p(M) and not selfpolar_bydef_m_p(M) then
-    found : M),
- found)$
-/* Checking all square 0,1-matrices of order n: */
-exp_dualpolar2(n) := block(
- [found : false, M : all_m(n,n,[0,1]), count_sd : 0],
-  for m in M while found=false do
-    if selfdual_bydef_m_p(m) then (
-      count_sd : count_sd + 1,
-      if  not selfpolar_bydef_m_p(m) then
-        found : m),
-  return([found,count_sd]))$
 
 /*!
 \endhtmlonly
