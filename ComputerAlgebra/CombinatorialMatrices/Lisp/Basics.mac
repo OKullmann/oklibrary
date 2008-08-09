@@ -225,6 +225,12 @@ trans_com(M) := [M[2], M[1], buildq([M], lambda([i,j], M[3](j,i)))]$
 strans(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
 trans_scom(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
 
+
+/* ************************
+   * Algebraic operations *
+   ************************
+*/
+
 /* The addition of two square combinatorial matrices
    Precondition: A[1] = B[1]. */
 add_scom(A,B) := [A[1], buildq([A,B],
@@ -242,6 +248,12 @@ scprod_scom(a,A) := [A[1], buildq([a,A], lambda([i,j], a * A[2](i,j)))]$
 prod_com(A,B) := [A[1], B[2], buildq([A,B],
   lambda([i,j], 
     sum_l(map(lambda([k],A[3](i,k)),listify(A[2])) * map(lambda([k],B[3](k,j)),listify(A[2])))))]$
+
+
+/* ********************
+   * Entry statistics *
+   ********************
+*/
 
 /* The minimum over all entries of a combinatorial matrix */
 min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
@@ -302,12 +314,36 @@ symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$
 
 
+/* ***********************
+   * Isomorphic matrices *
+   ***********************
+*/
+
+/* Testing whether two combinatorial matrices are isomorphic by
+   running through all row permutations of the first matrix:
+*/
+is_isomorphic_rowperm_com(A,B) := 
+  if rowsums_list_com(A) # rowsums_list_com(B) then false
+  elseif columnsums_list_com(A) # columnsums_list_com(B) then false
+  else block(
+   [found : false,
+    Bcolumns : map(lambda([j], 
+                     map(lambda([i],B[3](i,j)),listify(B[1]))),
+                   B[2])],
+    for p in permutations(listify(A[1])) do
+      if Bcolumns = map(lambda([j], 
+                     map(lambda([i],A[3](i,j)),p)),
+                    A[2])
+      then found : true,
+    return(found))$
+
+
 /* ************************
    * Duality and polarity *
    ************************
 */
 
-/* Tests whether a Maxima square matrix is isomorphic as a general
+/* Tests whether a square matrix is isomorphic as a general
    matrix to a symmetric matrix: */
 selfpolar_bydef_m_p(M) := block([found : false],
   if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
@@ -318,24 +354,15 @@ selfpolar_bydef_m_p(M) := block([found : false],
 
 /* Tests whether a Maxima square matrix is isomorphic as a general
    matrix to its transposed: */
-selfdual_bydef_m_p(M) := block(
- [found : false, T, perm],
-  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
-    return(false),
-  T : transpose(M),
-  perm : map(trans_l2scom,permutations(setn(matrix_size(M)[1]))),
-  for p1 in perm unless found do block(
-   [P1 : scom2m(p1), M1],
-    M1 : P1 . M,
-    for p2 in perm unless found do
-      found : is(M1 . scom2m(p2) = T)),
-  return(found))$
+selfdual_bydef_com_p(M) := is_isomorphic_rowperm_com(M,trans_com(M))$
+selfdual_bydef_m_p(M) := is_isomorphic_rowperm_com(m2com(M),m2com(transpose(M)))$
 
 /* Experiment: searching for a smallest matrix which is self-dual but not
    self-polar. */
 /* Creating random square 0,1-matrices of order n: */
 exp_dualpolar(n) := block([found : false],
  while found=false do block([M : random_m(n,n,2)],
+  if oklib_monitor then print(M),
   if selfdual_bydef_m_p(M) and not selfpolar_bydef_m_p(M) then
     found : M),
  found)$

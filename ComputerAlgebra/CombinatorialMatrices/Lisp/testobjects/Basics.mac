@@ -117,10 +117,20 @@ okltest_order_scom(order_scom);
 okltest_trans_com(trans_com);
 okltest_trans_scom(trans_scom);
 
+/* ************************
+   * Algebraic operations *
+   ************************
+*/
+
 okltest_add_scom(add_scom);
 okltest_diff_scom(diff_scom);
 okltest_scprod_scom(scprod_scom);
 okltest_prod_com(prod_com);
+
+/* ********************
+   * Entry statistics *
+   ********************
+*/
 
 okltest_min_com(min_com);
 okltest_max_com(max_com);
@@ -152,6 +162,13 @@ okltest_some_ndiag_scom_p(some_ndiag_scom_p);
 
 okltest_symmetric_scom_p(symmetric_scom_p);
 okltest_symmetric_m_p(symmetric_m_p);
+
+/* ***********************
+   * Isomorphic matrices *
+   ***********************
+*/
+
+okltest_is_isomorphic_rowperm_com(is_isomorphic_rowperm_com);
 
 /* ************************
    * Duality and polarity *
