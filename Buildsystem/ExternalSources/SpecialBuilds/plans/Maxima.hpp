@@ -10,6 +10,19 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \todo Additional packages
+  <ul>
+   <li> Real algebraic geometry
+    <ol>
+     <li> The book [Algorithms in Real Algebraic Geometry; Basu, Pollack, Roy]
+     is available at http://www.math.gatech.edu/~saugata/bpr-posted1.html.
+     </li>
+     <li> Also maxima-code for various chapters is available. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo System-wide installation
   <ul>
    <li> The build-system should be extended, taking for example the

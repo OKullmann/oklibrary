@@ -15,7 +15,8 @@ License, or any later version. */
   starting with SAT)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following topics are handled:
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
     - Documentation
     - Handling of different versions : DONE
 
@@ -48,7 +49,8 @@ License, or any later version. */
     - Update the installation process : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
+   topics are handled:
     - R-documentation : DONE
     - Documentation-page : DONE
 
@@ -120,15 +122,15 @@ License, or any later version. */
   \par Version 0.2.5 (completion of general services, and installing SAT)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
-   topics are handled:
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
     - Complete documentation
     - Enable local/global installation for all packages
     - Organisation of links
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
-   topics are handled:
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the
+   following topics are handled:
     - Installing SAT solvers
 
 
@@ -154,13 +156,14 @@ License, or any later version. */
     - Complete docu-file : DONE
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the following
-   topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the
+   following topics are handled:
     - Missing pgsql/libpq-fe.h
     - Improvements
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/R.hpp the following
+   topics are handled:
     - Update to version 2.7
     - Packages
     - Improving the docus-page
@@ -187,15 +190,21 @@ License, or any later version. */
   \par Version 0.2.7 (new external sources for computer algebra and graphs)
 
   \par
-   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following
-   topics are handled:
+   In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
+   the following topics are handled:
     - Graph drawing
     - Graph algorithms libraries and programs
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the following
-   topics are handled:
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/ComputerAlgebra.hpp the
+   following topics are handled:
     - Systems
+
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
+   topics are handled:
+    - Additional packages
 
 
   \par Version 0.2.8
