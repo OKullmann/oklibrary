@@ -27,5 +27,22 @@ License, or any later version. */
    {0,1}-matrices are involved. </li>
   </ul>
 
+
+  \todo Necessary conditions
+  <ul>
+   <li> Computing the characteristic polynomial for a square matrix (compare
+   "hermitian_rank_charpoly" in
+   ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac) seems to be a
+   reasonable additional test. </li>
+   <li> For non-square matrices M one can consider trans(M)*M and M*trans(M),
+   obtaining square matrices for which the characteristic polynomials can be
+   computed. </li>
+   <li> One can also compute rank and determinant, which are included when
+   computing the characteristic polynomial for square matrices; does this still
+   hold for arbitrary matrices? </li>
+   <li> Likely the conditions for row- and column-sums are not covered by
+   characteristic polynomials? </li>
+  </ul>
+
 */
 
