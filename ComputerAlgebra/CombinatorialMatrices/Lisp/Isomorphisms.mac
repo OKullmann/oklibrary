@@ -67,13 +67,21 @@ selfdual_bydef_m_p(M) := is_isomorphic_rowperm_com(m2com(M),m2com(transpose(M)))
 
 /* Experiment: searching for a smallest matrix which is self-dual but not
    self-polar. */
-/* Creating random square 0,1-matrices of order n: */
-exp_dualpolar(n) := block([found : false],
+
+/* Creating random square 0,1-matrices of order n; passed by reference
+   are the total count of matrices and the count of self-dual found
+   (which should be 0-initialised): */
+exp_dualpolar(n,_totalcount,_selfdualcount) := block([found : false],
  while found=false do block([M : random_m(n,n,2)],
   if oklib_monitor then print(M),
-  if selfdual_bydef_m_p(M) and not selfpolar_bydef_m_p(M) then
-    found : M),
+  if selfdual_bydef_m_p(M) then (
+    _totalcount :: ev(_totalcount)+1,
+    _selfdualcount :: ev(_selfdualcount)+1,
+    if not selfpolar_bydef_m_p(M) then found : M
+  )
+  else _totalcount :: ev(_totalcount)+1),
  found)$
+
 /* Checking all square 0,1-matrices of order n: */
 exp_dualpolar2(n) := block(
  [found : false, M : all_m(n,n,[0,1]), count_sd : 0],
