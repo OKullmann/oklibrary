@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/include.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Algebra/Lisp/include.mac")$
-oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/include.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/include.mac")$
