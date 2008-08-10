@@ -10,6 +10,15 @@ License, or any later version. */
   \brief General plans regarding support for the Boost graph library
 
 
+  \todo Concepts
+  <ul>
+   <li> The book likely shouldn't be used anymore. </li>
+   <li> A problem is how running through the vertices resp. edges
+   adjacent to resp. incident with a given vertex interacts with adding/
+   removing edges. </li>
+  </ul>
+
+
   \todo Investigate whether there is something usable in the
   following old files:
   <ol>
@@ -31,10 +40,10 @@ License, or any later version. */
   </ol>
 
   
-  \todo Collect:
-  Collect all related components (and requests) from modules in
-  the library, and transfer the todos to this module:
+  \todo Collect
   <ul>
+   <li> Collect all related components (and requests) from modules in
+   the library, and transfer the todos to this module </li>
    <li> Hypergraphs/Colourings/GreedyColouring.cpp </li>
    <li> QuantumPhysics/OrthogonalTriples.cpp </li>
   </ul>
