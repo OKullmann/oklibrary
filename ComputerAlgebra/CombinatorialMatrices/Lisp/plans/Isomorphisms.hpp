@@ -21,27 +21,42 @@ License, or any later version. */
 
   \todo Connections to other modules
   <ul>
-   <li> Via isomorphism of combinatorial matrices we can decide var-isomorphism
-   of labelled clause-sets. </li>
+   <li> Via isomorphism of combinatorial {-1,0,1}-matrices we can decide
+   var-isomorphism of labelled clause-sets. </li>
    <li> And isomorphism of general hypergraphs is the special case where only
    {0,1}-matrices are involved. </li>
+   <li> While isomorphism of graphs with loops is the special case where only
+   square {0,1}-matrices are involved. </li>
   </ul>
 
 
-  \todo Necessary conditions
+  \todo Invariants for matrix isomorphism
   <ul>
-   <li> Computing the characteristic polynomial for a square matrix (compare
-   "hermitian_rank_charpoly" in
-   ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac) seems to be a
-   reasonable additional test. </li>
-   <li> For non-square matrices M one can consider trans(M)*M and M*trans(M),
-   obtaining square matrices for which the characteristic polynomials can be
-   computed. </li>
-   <li> One can also compute rank and determinant, which are included when
-   computing the characteristic polynomial for square matrices; does this still
-   hold for arbitrary matrices? </li>
-   <li> Likely the conditions for row- and column-sums are not covered by
-   characteristic polynomials? </li>
+   <li> Additionally to the distribution of row- and column-sums we should
+   involve other invariants for isomorphic matrices. </li>
+   <li> We have the rank. </li>
+   <li> If matrices A, B are isomorphic, then the square matrices A^t A, B^t B
+   are isomorphic, and, since A^t, B^t are isomorphic, also A A^t, B B^t are
+   isomorphic (again, as square matrices). So we can use invariants for square
+   matrix isomorphism (see below). </li>
+   <li> This covers the rank-criterion, since we have rank(A^t A) = rank(A A^t)
+   = rank(A). </li>
+   <li> The conditions for equal row- and column-sum-distributions are also
+   covered by considering the associated square matrices, since their diagonals
+   contain the column- and row-sums. </li>
+  </ul>
+
+
+  \todo Invariants for square matrix isomorphism
+  <ul>
+   <li> The characteristic polynomial (compare "hermitian_rank_charpoly" in
+   ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac) should be a good
+   invariant test. </li>
+   <li> Easier to compute are trace, rank and determinant, which are included
+   when computing the characteristic polynomial for square matrices. </li>
+   <li> Another invariant is the diagonal as a multiset. Is this covered by the
+   characteristic polynomial? In other words, can square matrices with
+   non-isomorphic diagonals have the same characteristic polynomial? </li>
   </ul>
 
 */
