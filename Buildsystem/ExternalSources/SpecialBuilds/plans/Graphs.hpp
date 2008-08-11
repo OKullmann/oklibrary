@@ -36,7 +36,12 @@ nauty22> make checks
 
   \todo Graph drawing
   <ul>
-   <li> http://www.ogdf.net/doku.php looks promising. </li>
+   <li> http://www.ogdf.net/doku.php looks promising (as a library).
+    <ol>
+     <li> Before we start writing any C++ code, which should investigate
+     thoroughly this library. </li>
+    </ol>
+   </li>
    <li> http://graphviz.org/Download_source.php
     <ol>
      <li> the dot-tool is needed by doxygen for creating the graphs </li>
@@ -45,8 +50,12 @@ nauty22> make checks
      for input and output of graphs (supported by Boost) ?! </li>
     </ol>
    </li>
-   <li> http://www.labri.fr/perso/auber/projects/tulip/ </li>
+   <li> http://www.tulip-software.org/ (should be very useful, since it
+   concentrates on large graphs) </li>
    <li> dot2texi: http://www.fauskes.net/nb/introducing-dot2texi/ </li>
+   <li> GraphML: http://graphml.graphdrawing.org/index.html (we need to
+   look into this: an xml-based format for graphs of all sorts, hypergraphs,
+   and also graphical representations). </li>
   </ul>
 
 
