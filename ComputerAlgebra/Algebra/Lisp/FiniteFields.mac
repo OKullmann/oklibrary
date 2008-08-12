@@ -20,7 +20,7 @@ oklib_load("Transitional/ComputerAlgebra/Algebra/Lisp/FiniteFields.mac");
 */
 
 
-load(gf)$
+oklib_plain_include(gf)$
 
 /* ***************************************
    * Finite Field Wrapper Functions      *

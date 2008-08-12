@@ -299,7 +299,7 @@ comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
    **********
 */
 
-load(graphs)$
+oklib_plain_include(graphs)$
 
 /* Tests whether a general or multi-graph has parallel edges: */
 parallel_edges_gg_p(G) := is(length(map(G[3],G[2])) < length(G[2]))$

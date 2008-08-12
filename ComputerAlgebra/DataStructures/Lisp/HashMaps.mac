@@ -222,7 +222,7 @@ list_distribution(L) := block([h : sm2hm({})],
 
 /* In the special case, where the x are numerical, we could do as
    follows; HOWEVER this is MUCH slower than the above: */
-load(descriptive)$
+oklib_plain_include(descriptive)$
 num_distribution(L) := block([D : discrete_freq(L)],
   sort(map("[",D[1],D[2]),
     lambda([P1,P2], is(first(P1) < first(P2)))))$

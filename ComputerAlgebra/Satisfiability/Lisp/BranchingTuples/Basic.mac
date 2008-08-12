@@ -203,7 +203,7 @@ tau_hp(t, decimal_digits) := block(
    ************************
 */
 
-load(sqdnst)$
+oklib_plain_include(sqdnst)$
 
 /* computes a symbolical solution if possible (otherwise returns false) */
 tau_symbolical(t) := block([l : length(t), x, sol, pos_sol, n_pos], 

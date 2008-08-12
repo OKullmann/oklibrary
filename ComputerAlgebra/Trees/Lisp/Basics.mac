@@ -132,7 +132,7 @@ graph2tree(G,r) := block([N : listify(neighbours(r,G))],
 complete_rt(d,q) := if d=0 then [] else
   create_list(complete_rt(d-1,q),i,1,q)$
 
-load(graphs);
+oklib_plain_include(graphs);
 /* A random labelled tree with n vertices (labels 1,...,n; root is 1) */
 random_ltree(n) := graph2tree(mg2g(random_tree(n)),1);
 
