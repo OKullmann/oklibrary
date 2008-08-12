@@ -163,6 +163,21 @@ xreduce(nounify(union), [a,b,c,d]);
    <li> genmatrix(f,m,n) cannot handle the cases n=0: Use
    genmatrix_m(f,m,n) resp. genmatrix_sm(f,n) instead (in
    ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac). </li>
+   <li> The "matrix multiplication .", applied to two 1x1 matrices, does not
+   return a matrix but a number:
+    <ol>
+     <li> So before applying matrix multiplication A . B, one needs to check
+     that matrix_size(X)[1] * matrix_size(X)[2] is at least 2 for X = A,B.
+     </li>
+     <li> This behaviour is unfortunate, since for example charpoly
+     does not convert a single number into a square matrix. </li>
+     <li> The reason is the overloading with scalar product. </li>
+     <li> Ask on the Maxima mailing list whether this behaviour can be
+     turned off, or whether there is a named operator for matrix
+     multiplication (so that overloading can be controlled); or perhaps
+     functions like charpoly do accept single numbers as input. </li>
+    </ol>
+   </li>
    <li> unique([2,1]) = [1,2]:
     <ol>
      <li> Use stable_unique instead (in
@@ -183,6 +198,8 @@ xreduce(nounify(union), [a,b,c,d]);
    <li> "0^0" yields an error:
     <ol>
      <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
+     <li> The option-variable dotident is the result of x^^0; what is
+     the difference between "x^0" and "x^^0" ? </li>
      <li> And 0^x evaluates to 0 for an unknown x, which is obviously
      incorrect! </li>
      <li> Via "pow(b,e)" in ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac
