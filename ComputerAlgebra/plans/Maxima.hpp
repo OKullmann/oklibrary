@@ -206,20 +206,10 @@ cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
      <li> Perhaps at this time we can also write such optional versions. </li>
     </ol>
    </li>
-   <li> Given the inclusion of the "oklib_plain_*" 
-   functions in "maxima-init.mac", apply the following while inside the
-   "ComputerAlgebra" directory (although it only changes "*.mac" files anyway).
-   \verbatim
-# This has been tested and maxima tests return correctly, however it is still 
-# best to test this on a fully checked-in repository, that can be reset if 
-# necessary.
-find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/(?<![a-zA-Z0-9_\-])load ?\(/oklib_plain_include\(/g;'
-   \endverbatim
-   </li>
    <li> Performing the substitution:
     <ol>
      <li> First, we should, if possible, only use standard Unix/Linux tools; so
-     "sed" would be more appropriate here.
+     using "sed" here.
       <ol>
        <li> We only want to find instances of 'load("filename")', where
        preceeding "load" we have at least one space-symbol (including the
@@ -234,15 +224,11 @@ sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat tem
        </li>
       </ol>
      </li>
-     <li> The number of arguments to xargs shouldn't be a problem here, but it
-     might become a problem in other circumstances, so it seems better to me
-     to use a loop:
+     <li> The command then basically is
      \verbatim
 for F in $(find . -type f -name '*.mac'); do
   sed XXX ${F} > ${F}; done
      \endverbatim
-     (we should use this only inside part ComputerAlgebra, and so the exclusion
-     of "maxima-init.mac" is superfluous).
      </li>
      <li> In this case there will be only a few places where something is
      changed, and this can be checked then by git-gui.
@@ -251,9 +237,9 @@ for F in $(find . -type f -name '*.mac'); do
        and also we need parsing abilities. </li>
        <li> Plans for writing such a tool are in
        Programming/Refactoring/plans/Renaming.hpp. </li>
-       <li> Above we should have least the possibility to compute *before
+       <li> We should have the possibility to compute *before
        processing* a reasonable list of files involved. We should filter
-       out files which do not include the appropriate pattern *up-front*, so
+       out files which do not include the appropriate pattern up-front, so
        that then instead of sed we just run "echo". </li>
        <li> So we need to find out via the following grep-invocation
        \verbatim
