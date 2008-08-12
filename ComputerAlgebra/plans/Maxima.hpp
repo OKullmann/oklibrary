@@ -199,7 +199,7 @@ cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
   <ul>
    <li> The new "plain" load-functions:
     <ol>
-     <li> "oklib_load" should now call "oklib_plain_load" etc. </li>
+     <li> DONE "oklib_load" should now call "oklib_plain_load" etc. </li>
      <li> See also "Organisation" in
      ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/uhit_def.hpp
      for the need of optional load/include. </li>
@@ -223,15 +223,14 @@ find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/
       <ol>
        <li> We only want to find instances of 'load("filename")', where
        preceeding "load" we have at least one space-symbol (including the
-       end-of-line symbol). (MG: Presumably, "load" at the beginning of a line
-       should also be matched?) /li>
-       <li> The following "sed" command should suffice (including matching 
-       "load" at the beginning of the line) 
+       end-of-line symbol (this includes load-occurrences at the beginning of
+       a line)). </li>
+       <li> The following "sed" command should suffice:
        \verbatim
-sed 's/^\(\|.*[[:space:]]\+\)load/\1oklib_plain_include(/' ${F} > ${F}
+sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > ${F}
        \endverbatim
-       Removing the alternation symbol "\|" will remove the possibility of
-       allowing "load" at the beginning of a line.
+       (we assume that "load(" occurs at the beginning of a line, possibly
+       with leading spaces).
        </li>
       </ol>
      </li>
@@ -239,9 +238,11 @@ sed 's/^\(\|.*[[:space:]]\+\)load/\1oklib_plain_include(/' ${F} > ${F}
      might become a problem in other circumstances, so it seems better to me
      to use a loop:
      \verbatim
-for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
+for F in $(find . -type f -name '*.mac'); do
   sed XXX ${F} > ${F}; done
      \endverbatim
+     (we should use this only inside part ComputerAlgebra, and so the exclusion
+     of "maxima-init.mac" is superfluous).
      </li>
      <li> In this case there will be only a few places where something is
      changed, and this can be checked then by git-gui.
@@ -250,10 +251,21 @@ for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
        and also we need parsing abilities. </li>
        <li> Plans for writing such a tool are in
        Programming/Refactoring/plans/Renaming.hpp. </li>
-       <li> Above we should have least the possibility to compute
-       *before processing* a reasonable list of files involved. We should filter
+       <li> Above we should have least the possibility to compute *before
+       processing* a reasonable list of files involved. We should filter
        out files which do not include the appropriate pattern *up-front*, so
        that then instead of sed we just run "echo". </li>
+       <li> So we need to find out via the following grep-invocation
+       \verbatim
+grep -l "^[[:space:]]*load("
+       \endverbatim
+       whether the "load("-pattern is included. Unfortunately, to invoke
+       grep on a list of files, xargs is needed. </li>
+       <li> The complete instruction is then
+     \verbatim
+for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); do
+  sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > ${F}; done
+     \endverbatim
        <li> Once the above (simple) command for performing the replacements has
        been finalised, it should go to "Simple Unix/Linux tools" in
        Programming/Refactoring/plans/general.hpp, with a documentation what
