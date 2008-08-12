@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.1.4 (2.7.2008)
+  \module_version ComputerAlgebra 0.1.1.5 (12.8.2008)
 
 
   \par Version 0.1.2
@@ -27,7 +27,7 @@ License, or any later version. */
 
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - File load and include
+    - File load and include : DONE
     - How to eliminate the annotation of lists : DONE
     - New module "Trees" : DONE
     - New supermodule %NumberTheory : DONE

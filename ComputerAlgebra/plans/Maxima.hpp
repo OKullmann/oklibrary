@@ -195,9 +195,10 @@ cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
   </ul>
 
 
-  \todo File load and include
+  \todo File load and include : DONE
   <ul>
-   <li> The new "plain" load-functions:
+   <li> DONE (optional includes are considered later)
+   The new "plain" load-functions:
     <ol>
      <li> DONE "oklib_load" should now call "oklib_plain_load" etc. </li>
      <li> See also "Organisation" in
@@ -206,7 +207,8 @@ cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
      <li> Perhaps at this time we can also write such optional versions. </li>
     </ol>
    </li>
-   <li> Performing the substitution:
+   <li> DONE
+   Performing the substitution:
     <ol>
      <li> First, we should, if possible, only use standard Unix/Linux tools; so
      using "sed" here.
@@ -260,7 +262,8 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
      </li>
     </ol>
    </li>
-   <li> The application of the above command should replace "load" in all maxima
+   <li> DONE
+   The application of the above command should replace "load" in all maxima
    files with the new "oklib_plain_include". This appears to save some time, but
    not a great deal (MG: between 0.4 and 0.8 seconds faster), as currently there
    are not many "load" calls for maxima modules repeated in separate files. 
