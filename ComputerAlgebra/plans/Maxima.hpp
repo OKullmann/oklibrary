@@ -225,12 +225,12 @@ find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/
        preceeding "load" we have at least one space-symbol (including the
        end-of-line symbol (this includes load-occurrences at the beginning of
        a line)). </li>
-       <li> The following "sed" command should suffice:
+       <li> The following "sed" command does the job:
        \verbatim
-sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > ${F}
+sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat temp_file > ${F};
        \endverbatim
        (we assume that "load(" occurs at the beginning of a line, possibly
-       with leading spaces).
+       with leading spaces; note that the temporary storage is NEEDED).
        </li>
       </ol>
      </li>
@@ -264,7 +264,7 @@ grep -l "^[[:space:]]*load("
        <li> The complete instruction is then
      \verbatim
 for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); do
-  sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > ${F}; done
+  sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat temp_file > ${F}; done
      \endverbatim
        <li> Once the above (simple) command for performing the replacements has
        been finalised, it should go to "Simple Unix/Linux tools" in
