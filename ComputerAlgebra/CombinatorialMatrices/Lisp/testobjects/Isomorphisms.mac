@@ -21,12 +21,23 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/testobjects/
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac")$
 oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Isomorphisms.mac")$
 
+/* ********************************
+   * Incomplete isomorphism tests *
+   ********************************
+*/
+
+okltest_is_isomorphic_incl0_com(is_isomorphic_incl0_com);
+okltest_is_isomorphic_incl1_com(is_isomorphic_incl1_com);
+okltest_is_isomorphic_incl2_com(is_isomorphic_incl2_com);
+
 /* ***********************
    * Isomorphic matrices *
    ***********************
 */
 
-okltest_is_isomorphic_rowperm_com(is_isomorphic_rowperm_com);
+okltest_is_isomorphic_com_p(is_isomorphic_rowperm0_com_p);
+okltest_is_isomorphic_com_p(is_isomorphic_rowperm1_com_p);
+okltest_is_isomorphic_com_p(is_isomorphic_rowperm2_com_p);
 
 /* ************************
    * Duality and polarity *

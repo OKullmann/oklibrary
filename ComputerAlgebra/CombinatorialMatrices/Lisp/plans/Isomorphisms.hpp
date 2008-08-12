@@ -49,7 +49,8 @@ License, or any later version. */
 
   \todo Invariants for square matrix isomorphism
   <ul>
-   <li> The characteristic polynomial (compare "hermitian_rank_charpoly" in
+   <li> DONE
+   The characteristic polynomial (compare "hermitian_rank_charpoly" in
    ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac) should be a good
    invariant test. </li>
    <li> Easier to compute are trace, rank and determinant, which are included

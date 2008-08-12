@@ -25,12 +25,46 @@ oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.ma
 
 kill(f)$
 
+/* ********************************
+   * Incomplete isomorphism tests *
+   ********************************
+*/
+
+okltest_is_isomorphic_incl0_com(f) := block([fun1,fun2],
+  assert(f([{},{},fun1],[{},{},fun2]) = true),
+  assert(f([{},{1},fun1],[{},{2},fun2]) = true),
+  assert(f([{3},{},fun1],[{4},{},fun2]) = true),
+  assert(f([{},{},fun1],[{1},{},fun2]) = false),
+  assert(f([{},{},fun1],[{},{1},fun2]) = false),
+  assert(f([{},{1},fun1],[{1},{},fun2]) = false),
+  assert(f([{1},{},fun1],[{},{1},fun2]) = false),
+  assert(f([{1,2},{3},fun1],[{1},{2},fun2]) = false),
+  assert(f([{1},{3},fun1],[{1},{2,3},fun2]) = false),
+  assert(f(zerocom({1},{2}),zerocom({3},{4})) = true),
+  assert(f(zerocom({1},{2}),constantcom({1},{2},1)) = false),
+  true)$
+
+okltest_is_isomorphic_incl1_com(f) := (
+  assert(okltest_is_isomorphic_incl0_com(f)),
+  assert(f(zerocom({1,2},{2}),constantcom({1,2},{2},1)) = false),
+  assert(f(m2com(matrix([1,1],[0,0])),m2com(matrix([1,0],[0,1]))) = false),
+  true)$
+
+okltest_is_isomorphic_incl2_com(f) := (
+  assert(okltest_is_isomorphic_incl1_com(f)),
+
+  true)$
+
+
+
 /* ***********************
    * Isomorphic matrices *
    ***********************
 */
 
-okltest_is_isomorphic_rowperm_com(f) := block([fun1,fun2],
+/* Generic testfunction for binary predicates f(A,B), which return true
+   iff the combinatorial matrices A, B are isomorphic: */
+okltest_is_isomorphic_com_p(f) := block([fun1,fun2,M],
   assert(f([{},{},fun1], [{},{},fun2]) = true),
   assert(f([{},{},fun1], [{1},{},fun2]) = false),
   assert(f([{},{},fun1], [{},{1},fun2]) = false),
@@ -44,6 +78,10 @@ okltest_is_isomorphic_rowperm_com(f) := block([fun1,fun2],
   assert(f(m2com(matrix([1,0],[0,1])), m2com(matrix([0,1],[0,1]))) = false),
   assert(f(m2com(matrix([1,0,0],[0,0,1],[0,0,0])), m2com(matrix([0,0,0],[0,0,1],[1,0,0]))) = true),
   assert(f(m2com(matrix([1,0,0],[0,0,2],[0,0,0])), m2com(matrix([0,0,0],[0,0,2],[1,0,0]))) = true),
+  assert(f(m2com(matrix([1,0,0],[0,0,3],[0,0,0])), m2com(matrix([0,0,0],[0,0,2],[1,0,0]))) = false),
+  if oklib_test_level = 0 then return(true),
+  M : m2com(matrix([0,1,0,1,0,0],[0,0,1,1,1,0],[1,0,0,1,1,1],[0,1,1,0,1,0],[1,1,0,0,1,1],[0,1,1,1,1,1])),
+  assert(f(M,trans_com(M)) = false),
   true)$
 
 
