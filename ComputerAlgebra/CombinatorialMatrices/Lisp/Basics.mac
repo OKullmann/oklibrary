@@ -318,6 +318,16 @@ symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$
 
 
+/* ***************
+   * Polynomials *
+   ***************
+*/
+
+/* It seems that for all our cases setting ratmx to true yields a *much*
+   faster computation: */
+charpoly_m(M) := block([ratmx : true], charpoly(M,x))$
+charpoly_scom(M) := charpoly_m(scom2m(M))$
+
 /*!
 \endhtmlonly
 */
