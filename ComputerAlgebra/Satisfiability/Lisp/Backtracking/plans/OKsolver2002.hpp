@@ -31,7 +31,7 @@ okt_php_54 : OKsolver_2002_st(weak_php(5,4));
    This tree seems correct.
    </li>
    <li> We need to get the tree also with the distances, so that we can
-   collaps the inf-branches.
+   collapse the inf-branches.
    \verbatim
 okat_php_54 : OKsolver_2002_ast(weak_php(5,4));
 [[- php(1, 1), [[0.2, 0.8], [1, 5]]], 
@@ -114,7 +114,39 @@ okcat_php_54 : collapse_inf_branches(okat_php_54, 0);
   </ul>
 
 
-  \todo Counting satisfiable assignments
+  \todo Local learning
+  <ul>
+   <li> The basic problem with local learning is, which binary clauses to add.
+   </li>
+   <li> One possibility is, of course, all possible binary clauses. </li>
+   <li> We need also to figure out the scheme which was to be intended
+   finally, a kind of "canonically minimal scheme". </li>
+   <li> The added binary clauses are best kept in an additional clause-set
+   (for each recursion). </li>
+  </ul>
+
+
+  \todo Adding look-ahead autarky clauses
+  <ul>
+   <li> An experimental feature of the OKsolver-2002 is the use of
+   "near-autarkies", that is, if a partial assignment phi_x, obtained by 
+   extending x -> 1, yields exactly one new clause C, then for each a in C
+   the binary clause {-a,x} is added. </li>
+   <li> This addition is a form of "local learning" (happens only at the
+   residual clause-sets). </li>
+   <li> Thus it can be combined with local learning (see above). </li>
+   <li> Problematic the non-confluence (i.e., the dependency on the order
+   we run through the variables). </li>
+   <li> Apparently this addition cannot be combined with tree pruning. </li>
+   <li> Also with counting satisfying assignments this is not compatible.
+   </li>
+   <li> One could allow more new clauses, analysing for example whether a
+   literal occurs in all of them (then again we would obtain a binary clause).
+   </li>
+  </ul>
+
+
+  \todo Counting satisfying assignments
   <ul>
    <li> At this level it should be easy to add counting of satisfying
    assignments. </li>
