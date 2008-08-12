@@ -149,6 +149,8 @@ okltest_columnsums_list_com(columnsums_list_com);
    ***************
 */
 
+okltest_empty_com_p(empty_com_p);
+
 okltest_every_com_p(every_com_p);
 okltest_every_scom_p(every_scom_p);
 okltest_some_com_p(some_com_p);

@@ -380,6 +380,13 @@ okltest_columnsums_list_com(f) := block(
    ***************
 */
 
+okltest_empty_com_p(f) := block([fun],
+  assert(f([{},{},fun]) = true),
+  assert(f([{},{1},fun]) = true),
+  assert(f([{1},{},fun]) = true),
+  assert(f([{1},{1},fun]) = false),
+  true)$
+
 okltest_every_com_p(f) := block([fun],
   assert(f(fun,emptycom) = true),
   assert(f(lambda([x],is(x=0)),zerocom({1,2},{-3,3})) = true),

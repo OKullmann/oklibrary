@@ -289,6 +289,9 @@ columnsums_list_com(M) := block([R : listify(M[1])],
    ***************
 */
 
+/* Checking for an "empty" combinatorial matrix (no entries): */
+empty_com_p(M) := is(length(M[1]) = 0 or length(M[2]) = 0)$
+
 every_com_p(_pred,M) := every_s(_pred, com2l_r(M))$
 every_scom_p(_pred,M) := every_com_p(_pred,scom2com(M))$
 some_com_p(_pred,M) := some_s(_pred, com2l_r(M))$
