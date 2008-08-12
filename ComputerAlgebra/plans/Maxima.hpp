@@ -25,7 +25,7 @@ License, or any later version. */
      <li> We need clear examples, where errors occur. </li>
     </ol>
    </li>
-   <li> It seems that nested funcion calls though are not a problem (this
+   <li> It seems that nested function calls though are not a problem (this
    would render it hopeless!). </li>
    <li> This must be discussed on the Maxima mailing list (but I (OK) fear
    nothing will happen).
@@ -263,7 +263,7 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
    <li> The application of the above command should replace "load" in all maxima
    files with the new "oklib_plain_include". This appears to save some time, but
    not a great deal (MG: between 0.4 and 0.8 seconds faster), as currently there
-   are not many "load" calls for maxima modules repeated in seperate files. 
+   are not many "load" calls for maxima modules repeated in separate files. 
    </li>
    <li> DONE
    The issue occurs that various maxima modules such as "graphs" take a 
@@ -274,7 +274,7 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
    <li> DONE (decided to go this way)
    The cure is to replace all instances of "load" with a function
    "oklib_include_basic" which mimics oklib_include but without appending the
-   OKSystem path (ie allowing the same single include behaviour as oklib_include
+   OKsystem path (ie allowing the same single include behaviour as oklib_include
    provides for maxima modules). This seems to reduce the elapsed time for a 
    call to "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a
    replacement was done with something like the following shell code 
@@ -300,7 +300,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    So the issue becomes somewhat more complex. </li>
    <li> (DONE An errant oklib_load instead of oklib_include caused this)
    It appears that after the last submit of MG loading times nearly
-   trippled? </li>
+   tripled? </li>
    <li> DONE (inclusions of OKlib-files happens only once, so there is
    no problem here)
    This isn't a problem usually but each new file that then includes 
@@ -456,7 +456,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
     <ol>
      <li> The solution seems to be to start the .mac-files
      with the usual preamble, and then via "\htmlonly" and
-     "\endhtmlonly" to surpress the extraction of code-comments
+     "\endhtmlonly" to suppress the extraction of code-comments
      (the source code is shown verbatim!). </li>
      <li> We should discuss this on the doxygen mailing list:
      Perhaps a dedicated doxygen-command could be introduced? </li>
@@ -471,7 +471,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
   \todo Handling of demos
   <ul>
    <li> The demos-files are put into demos-subdirectory, and are plain
-   .mac-files (intented to be processed). </li>
+   .mac-files (intended to be processed). </li>
    <li> How to run the maxima-demos-files?
     <ol>
      <li> Apparently, "batch" is when we want to "run through it", while
@@ -480,7 +480,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    </li>
    <li> How to name the demos-files?
     <ol>
-     <li> If the demonstation accompanies a file, then it has the same name. </li>
+     <li> If the demonstration accompanies a file, then it has the same name. </li>
      <li> Otherwise any appropriate name. </li>
      <li> The suffix ".dem" is mentioned in the Maxima-manual. This or
      ".mac" ?! </li>
