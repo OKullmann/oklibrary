@@ -86,7 +86,7 @@ License, or any later version. */
      <li> <code>--pull-developer username branchname</code> pulls from the
      main repository (typically "branchname" is "master"). </li>
      <li> <code>--pull-public branchname</code> pulls from the public
-     repository (the default pull for the packages; typicall "branchname"
+     repository (the default pull for the packages; typically "branchname"
      is "master"). </li>
      <li> <code>--push-ssh remote-machine remote-OKplatform-dir branchname</code>
      pushs via ssh to an arbitrary OKlibrary-repository ("branchname" can be
@@ -108,11 +108,6 @@ License, or any later version. */
    one basic, one including documentation, and one full package including
    the external sources. Special settings (supplied as parameters) are:
     <ol>
-     <li> With <code>git_repository=R</code> repository R (possibly
-     remote) is cloned instead of the current repository. </li>
-     <li> With <code>git_upstream=R</code> repository R (possibly
-     remote) is stated as mother-clone (to be pulled from) instead
-     of the current repository. </li>
      <li> With <code>ExternalSources=""</code> the additional creation
      of the full package (including external sources) is disabled. </li>
     </ol>
