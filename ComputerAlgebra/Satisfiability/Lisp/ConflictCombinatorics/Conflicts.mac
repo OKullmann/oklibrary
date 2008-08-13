@@ -74,7 +74,7 @@ hermitian_defect_cs(F) := ncl_cs(F) - hermitian_rank_cs(F)$
 /* The characteristic polynomial of a clause-set, in variable x. */
 charpoly_cs(F) := if emptyp(F) then 0 else 
  block([M : scom2m(cm_cs(F)), ratmx : true],
-  return(charpoly(M,x)))$
+  return(charpoly_m(M)))$
 /* The eigenvalues of a clause-set, in analytical form. */
 eigenvalues_cs(F) := if emptyp(F) then [] else
  eigenvalues(scom2m(cm_cs(F)))$
