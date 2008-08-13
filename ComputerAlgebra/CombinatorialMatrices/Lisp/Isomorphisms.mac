@@ -58,9 +58,9 @@ is_isomorphic_incl2_com(A,B) :=
   if check0 # unknown then check0 else block(
    [a : com2m(A), b : com2m(B), ta, tb, ra, rb, ca, cb, x],
     ta : transpose(a), tb : transpose(b),
-    ra : a . ta, rb : b . tb,
+    ra : prod_m(a, ta), rb : prod_m(b, tb),
     if charpoly_m(ra) # charpoly_m(rb) then return(false),
-    ca : ta . a, cb : tb . b,
+    ca : prod_m(ta, a), cb : prod_m(tb, b),
     if charpoly_m(ca) # charpoly_m(cb) then return(false),
     return(unknown)))$
 
@@ -122,7 +122,7 @@ selfpolar_bydef_m_p(M) := block([found : false],
   if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
     return(false),
   for p in permutations(setn(matrix_size(M)[1])) unless found do
-    found : symmetric_m_p(M . scom2m(trans_l2scom(p))),
+    found : symmetric_m_p(prod_m(M, scom2m(trans_l2scom(p)))),
   return(found))$
 
 /* Tests whether a square matrix is isomorphic as a general
