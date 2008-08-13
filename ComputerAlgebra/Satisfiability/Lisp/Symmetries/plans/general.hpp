@@ -89,6 +89,19 @@ License, or any later version. */
   <ul>
    <li> We should rename the current "is_isomorphic_cs" etc., so that
    these names reflect the reduction to graph isomorphisms. </li>
+   <li> And the current "is_isomorphic_btr_cs" should become
+   "is_isomorphic_btr_cs_p", while "is_isomorphic_btr_cs" should return
+   instead of true the isomorphism found. </li>
+   <li> Actually, then the prefix "is" could be dropped? But perhaps
+   here we keep it --- other choices aren't much better. </li>
+   <li> We need a version for var-isomorphisms:
+    <ol>
+     <li> Call it "is_varisomorphic_btr_cs_p" etc. </li>
+     <li> DONE
+     This problem can also be reduced to the isomorphism-problem of
+     the incidence matrices. </li>
+    </ol>
+   </li>
    <li> is_isomorphic_btr_cs function should become an instance of the
    concept of active clause-sets.
     <ol>

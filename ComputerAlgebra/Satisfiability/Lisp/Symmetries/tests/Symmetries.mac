@@ -35,6 +35,8 @@ kill(f)$
    ***********************
 */
 
+/* Generic test function, checking for fcs-isomorphism-predicates: */
+
 okltest_is_isomorphic_fcs(f) := block(
   assert(f([{},{}],[{},{}]) = true),
   assert(f([{},{{}}],[{},{{}}]) = true),
@@ -65,6 +67,18 @@ okltest_is_isomorphic_fcs(f) := block(
     assert(f(FF1,FF2) = true),
     assert(FF1 = full_fcs(3)), assert(FF2 = full_fcs(3))
   ),
+  true)$
+
+okltest_is_varisomorphic_fcs_p(f) := block(
+  assert(f([{},{}],[{},{}]) = true),
+  assert(f([{},{{}}],[{},{{}}]) = true),
+  assert(f([{},{}],[{},{{}}]) = false),
+  assert(f([{},{}],[{1},{}]) = false),
+  assert(f([{2},{}],[{1},{}]) = true),
+  assert(f([{1},{{-1},{1}}],[{2},{{-2},{2}}]) = true),
+  assert(f([{1},{{1}}],[{1},{{-1}}]) = false),
+  assert(f([{1},{{1},{}}],[{1},{{-1}}]) = false),
+  assert(f([{1,2},{{},{1},{2},{1,2},{-1}}], [{1,3},{{},{1},{3},{1,3},{-3}}]) = true),
   true)$
 
 
