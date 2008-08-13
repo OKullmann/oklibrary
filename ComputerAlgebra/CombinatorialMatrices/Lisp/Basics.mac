@@ -112,9 +112,14 @@ zerocom(I,J) := [I,J,lambda([i,j],0)]$
 zeroscom(I) := [I,lambda([i,j],0)]$
 
 /* The constant combinatorial matrix for given index sets and value: */
+/* RENAME: constcom */
 constantcom(I,J,a) := [I,J,buildq([a],lambda([i,j],a))]$
+constcom(I,J,a) := constantcom(I,J,a)$
 /* The constant square combinatorial matrix for given index set and value: */
+/* RENAME: constscom */
 constantscom(I,a) := [I,buildq([a],lambda([i,j],a))]$
+constscom(I,a) := constantscom(I,a)$
+conststdscom(n,a) := constscom(setn(n),a)$
 
 /* The identity matrix: */
 idscom(I) := [I, lambda([i,j],if i=j then 1 else 0)]$
@@ -145,6 +150,15 @@ genmatrix_sm(_fun,n) := if n=0 then matrix()
 /* A random Maxima matrix of size m x n, with entries random(x)
    (as usual, if m=0 then n=0): */
 random_m(m,n,x) := genmatrix_m(lambda([i,j],random(x)),m,n)$
+/* A random Maxima matrix of size m x n, with random entries
+   from the integer interval [a,b]: */
+random_intiv_m(m,n,a,b) := block([s : b - a + 1],
+  genmatrix_m(lambda([i,j],random(s)+a),m,n))$
+/* A random Maxima matrix of size m x n, with random entries
+   from the real interval [a,b) (using floating points): */
+random_fpiv_m(m,n,a,b) := block([s : float(b - a)],
+  genmatrix_m(lambda([i,j],random(s)+a),m,n))$
+
 
 /* A random symmetric Maxima matrix: */
 random_sm(n,x) := block(
@@ -154,14 +168,15 @@ random_sm(n,x) := block(
 
 /* A random permutation of a Maxima matrix: */
 random_permutation_m(M) := block([s : matrix_size(M)],
-  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M .
-  trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
+  prod_m(trans_l2m(random_permutation(create_list(i,i,1,s[1]))),
+         M,
+         trans_l2m(random_permutation(create_list(i,i,1,s[2])))))$
 /* A random permutation of the rows of a Maxima matrix: */
 random_rpermutation_m(M) := block([s : matrix_size(M)],
-  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M)$
+  prod_m(trans_l2m(random_permutation(create_list(i,i,1,s[1]))), M))$
 /* A random permutation of the columns of a Maxima matrix: */
-random_permutation_m(M) := block([s : matrix_size(M)],
-  M . trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
+random_cpermutation_m(M) := block([s : matrix_size(M)],
+  prod_m(M, trans_l2m(random_permutation(create_list(i,i,1,s[2])))))$
 
 /* A random self-polar matrix : */
 random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
@@ -231,6 +246,12 @@ trans_scom(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
    * Algebraic operations *
    ************************
 */
+
+/* The product of Maxima matrices, yielding always a matrix (not a scalar
+   in cases of overloading with scalar product): */
+prod_m([LM]) := block([P : apply(".", LM)],
+  if not matrixp(P) then matrix([P])
+  else P)$
 
 /* The addition of two square combinatorial matrices
    Precondition: A[1] = B[1]. */
@@ -323,9 +344,18 @@ symmetric_m_p(M) := is(M = transpose(M))$
    ***************
 */
 
+oklib_plain_include("nchrpl")$
+
+/* The characteristic polynomial, in the standard sense, where the leading
+   coefficient is always +1.
+*/
 /* It seems that for all our cases setting ratmx to true yields a *much*
    faster computation: */
-charpoly_m(M) := block([ratmx : true], charpoly(M,x))$
+charpoly_m(M) := block([n : matrix_size(M)[1]],
+  if n=0 then 1 
+  elseif n < 30 then
+    block([ratmx : true], (-1)^(matrix_size(M)[1]) * charpoly(M,x))
+  else ncharpoly(M,x))$
 charpoly_scom(M) := charpoly_m(scom2m(M))$
 
 /*!

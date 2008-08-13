@@ -82,6 +82,8 @@ okltest_genmatrix_sm(genmatrix_sm);
 */
 
 okltest_random_m(random_m);
+okltest_random_intiv_m(random_intiv_m);
+okltest_random_fpiv_m(random_fpiv_m);
 okltest_random_sm(random_sm);
 
 okltest_random_permutation_m(random_permutation_m);
@@ -121,6 +123,8 @@ okltest_trans_scom(trans_scom);
    * Algebraic operations *
    ************************
 */
+
+okltest_prod_m(prod_m);
 
 okltest_add_scom(add_scom);
 okltest_diff_scom(diff_scom);
@@ -164,6 +168,14 @@ okltest_some_ndiag_scom_p(some_ndiag_scom_p);
 
 okltest_symmetric_scom_p(symmetric_scom_p);
 okltest_symmetric_m_p(symmetric_m_p);
+
+/* ***************
+   * Polynomials *
+   ***************
+*/
+
+okltest_charpoly_m(charpoly_m);
+okltest_charpoly_scom(charpoly_scom);
 
 /*!
 \endhtmlonly

@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 
 kill(f)$
@@ -204,6 +205,25 @@ okltest_random_m(f) := block([x],
   assert(f(2,2,100) = matrix([44,39],[33,60])),
   true)$
 
+okltest_random_intiv_m(f) := block([a,b],
+  assert(f(0,0,a,b) = matrix()),
+  assert(f(1,0,a,b) = matrix([])),
+  assert(f(1,1,0,0) = matrix([0])),
+  set_random_state(make_random_state(0)),
+  assert(f(4,2,-200,500) = matrix([211,131],[29,16],[384,320],[375,-36])),
+  true)$
+
+okltest_random_fpiv_m(f) := block([a,b,M],
+  assert(f(0,0,a,b) = matrix()),
+  assert(f(1,0,a,b) = matrix([])),
+  set_random_state(make_random_state(0)),
+  M : f(2,2,-200,500),
+  assert_float_equal(M[1,1], 4.084476632548927),
+  assert_float_equal(M[1,2], -121.2580674814649),
+  assert_float_equal(M[2,1], -98.31836515964578),
+  assert_float_equal(M[2,2], 40.18142835447708),
+  true)$
+
 okltest_random_sm(f) := block([x],
   assert(f(0,x) = matrix()),
   assert(f(2,1) = matrix([0,0],[0,0])),
@@ -216,14 +236,26 @@ okltest_random_sm(f) := block([x],
   true)$
 
 okltest_random_permutation_m(f) := (
+  assert(f(matrix()) = matrix()),
+  assert(f(matrix([])) = matrix([])),
+  assert(f(matrix([],[])) = matrix([],[])),
+  assert(f(matrix([0])) = matrix([0])),
 
   true)$
 
 okltest_random_rpermutation_m(f) := (
+  assert(f(matrix()) = matrix()),
+  assert(f(matrix([])) = matrix([])),
+  assert(f(matrix([],[])) = matrix([],[])),
+  assert(f(matrix([0])) = matrix([0])),
 
   true)$
 
 okltest_random_cpermutation_m(f) := (
+  assert(f(matrix()) = matrix()),
+  assert(f(matrix([])) = matrix([])),
+  assert(f(matrix([],[])) = matrix([],[])),
+  assert(f(matrix([0])) = matrix([0])),
 
   true)$
 
@@ -302,6 +334,16 @@ okltest_trans_scom(f) := (
    * Algebraic operations *
    ************************
 */
+
+okltest_prod_m(f) := block(
+  assert(f(matrix([1,2],[3,4])) = matrix([1,2],[3,4])),
+  assert(f(matrix(),matrix()) = matrix()),
+  assert(f(matrix([]),matrix()) = matrix([])),
+  assert(f(matrix([],[]),matrix()) = matrix([],[])),
+  assert(f(matrix([2]),matrix([3])) = matrix([6])),
+  assert(f(matrix([1,2]),matrix([3],[4])) = matrix([11])),
+  assert(f(matrix([2]),matrix([3]),matrix([5])) = matrix([30])),
+  true)$
 
 okltest_add_scom(f) := (
 
@@ -471,6 +513,25 @@ okltest_symmetric_m_p(f) := (
   assert(f(matrix([1])) = true),
   assert(f(zeromatrix(3,3)) = true),
   assert(f(zeromatrix(2,3)) = false),
+  true)$
+
+
+/* ***************
+   * Polynomials *
+   ***************
+*/
+
+okltest_charpoly_m(f) := block([x],
+  assert(f(matrix()) = 1),
+  assert(f(matrix([0])) = x),
+  assert(f(matrix([1])) = x-1),
+  assert(f(matrix([2,0],[0,0])) = x^2 - 2 * x),
+  assert(f(matrix([1,1],[1,1])) = x^2 - 2 * x),
+  true)$
+
+okltest_charpoly_scom(f) := block([fun],
+  assert(f([{},fun]) = 1),
+  assert(okltest_charpoly_m(buildq([f],lambda([M],f(m2scom(M)))))),
   true)$
 
 
