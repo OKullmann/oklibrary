@@ -10,6 +10,12 @@ License, or any later version. */
   \brief Plans regarding installation of Maxima
 
 
+  \bug CLisp doesn't use libsigsegv (though specified)
+  <ul>
+   <li> We could try Clisp 2.46 ? </li>
+  </ul>
+
+
   \todo Additional packages
   <ul>
    <li> Real algebraic geometry

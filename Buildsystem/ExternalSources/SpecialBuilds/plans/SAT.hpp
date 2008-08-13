@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans regarding building of SAT solvers and libraries
 
 
+  \bug GRASP cannot be compiled with gcc version 4.3
+  <ul>
+   <li> The problem is the reference to non-standard headers like
+   "iostream.h". </li>
+  </ul>
+
+
   \todo Installation in general
   <ul>
    <li> Perhaps we put building of the different solvers all into one makefile
