@@ -33,6 +33,7 @@ mkdir OKplatform/ExternalSources
 
 cd ${package_directory}/OKplatform/OKsystem
 git clone ${git_http_repository}
+mv oklibrary Transitional
 
 cp -r ${documents_dir} .
 
