@@ -115,7 +115,19 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
          <li> One round, cutoff = 20 000 000, with previous best seed: didn't
          improve the result.</li>
          <li> So let's try 500 runs, with cutoff = 20 000 000, noimprove =
-         2 000 000. </li>
+         2 000 000:
+         \verbatim
+BestStep_Mean = 1121189.316000
+Steps_Mean = 3121190.316000
+Steps_Max = 7623900.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 34.696000
+BestSolution_Median = 35.000000
+BestSolution_Min = 7.000000
+BestSolution_Max = 76.000000
+         \endverbatim
+         </li>
+         <li> Alright, with noimprove = 3 000 000: </li>
         </ol>
        </li>
        <li> n=41:
