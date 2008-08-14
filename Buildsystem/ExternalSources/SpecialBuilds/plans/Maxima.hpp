@@ -12,7 +12,24 @@ License, or any later version. */
 
   \bug CLisp doesn't use libsigsegv (though specified)
   <ul>
-   <li> We could try Clisp 2.46 ? </li>
+   <li> We should try Clisp 2.46
+    <ol>
+     <li> Seems alright on cs-wsok (warnings about non-portable linking between
+     static and shared libraries, but uses the local libraries). </li>
+     <li> Now needs to be tested on cs-oksvr. </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Installing other Lisp's
+  <ul>
+   <li> SBCL http://www.sbcl.org/ looks alright (and maintained). </li>
+   <li> ECL http://ecls.sourceforge.net/ again looks recent (and there were
+   Maxima-related updates). </li>
+   <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
+   we should try. </li>
+   <li> CMUCL http://www.cons.org/cmucl/ looks also reasonable. </li>
   </ul>
 
 
