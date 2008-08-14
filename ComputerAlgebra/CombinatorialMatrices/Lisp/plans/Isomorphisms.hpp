@@ -37,13 +37,23 @@ License, or any later version. */
    <li> We have the rank. </li>
    <li> If matrices A, B are isomorphic, then the square matrices A^t A, B^t B
    are isomorphic, and, since A^t, B^t are isomorphic, also A A^t, B B^t are
-   isomorphic (again, as square matrices). So we can use invariants for square
-   matrix isomorphism (see below). </li>
-   <li> This covers the rank-criterion, since we have rank(A^t A) = rank(A A^t)
-   = rank(A). </li>
-   <li> The conditions for equal row- and column-sum-distributions are also
-   covered by considering the associated square matrices, since their diagonals
-   contain the column- and row-sums. </li>
+   isomorphic (again, as square matrices).
+    <ol>
+     <li> So we can use invariants for square matrix isomorphism (see below).
+     </li>
+     <li> This covers the rank-criterion, since we have rank(A^t A) =
+     rank(A A^t) = rank(A). </li>
+     <li> The conditions for equal row- and column-sum-distributions are also
+     covered by considering the associated square matrices, since their
+     diagonals contain the column- and row-sums. </li>
+     <li> The matrices A^t A and A A^t (as well as B^t B and B B^t) have
+     identical characteristic polynomials, so they don't need to be computed
+     twice. </li>
+    </ol>
+   </li>
+   <li> But the value-distributions for A, B are not covered. </li>
+   <li> A polytime computable invariant in case of externally square matrices
+   is whether the matrices are fully indecomposable. </li>
   </ul>
 
 
@@ -55,9 +65,44 @@ License, or any later version. */
    invariant test. </li>
    <li> Easier to compute are trace, rank and determinant, which are included
    when computing the characteristic polynomial for square matrices. </li>
-   <li> Another invariant is the diagonal as a multiset. Is this covered by the
-   characteristic polynomial? In other words, can square matrices with
-   non-isomorphic diagonals have the same characteristic polynomial? </li>
+   <li> Another invariant is the main diagonal as a multiset.
+    <ol>
+     <li> This is not covered by the characteristic polynomial, as the
+     matrices [[2,0],[0,0]] and [[1,1],[1,1]] show which have both the
+     characteristic polynomial x^2 - 2x. </li>
+    </ol>
+   </li>
+   <li> Then we have the invariants for (general) matrices:
+    <ol>
+     <li> row-sum distribution </li>
+     <li> column-sum distribution </li>
+     <li> value-distribution. </li>
+    </ol>
+    As the above example shows, none of these invariants is covered by the
+    characteristic polynomial.
+   </li>
+   <li> Using scom2dgl, we can compute invariants for the associated
+   directed graphs (with loops):
+    <ol>
+     <li> The number of loops. </li>
+     <li> Strong connectedness (corresponding to "irreducibility"). </li>
+    </ol>
+   </li>
+  </ul>
+
+
+  \todo Self-duality
+  <ul>
+   <li> Compared to the standard checks for isomorphic matrices (see
+   "Invariants for square matrix isomorphism" above), many tests can
+   be saved:
+    <ol>
+     <li> As mentioned above, the characteristic polynomials of A^t A
+     and A A^t are necessarily identical, so this test can be saved at all.
+     </li>
+     <li> Other tests only need to be performed "half". </li>
+    </ol>
+   </li>
   </ul>
 
 */

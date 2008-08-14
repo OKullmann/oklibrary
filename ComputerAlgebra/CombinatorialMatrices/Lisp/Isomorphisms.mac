@@ -127,8 +127,8 @@ selfpolar_bydef_m_p(M) := block([found : false],
 
 /* Tests whether a square matrix is isomorphic as a general
    matrix to its transposed: */
-selfdual_bydef_com_p(M) := is_isomorphic_rowperm2_com_p(M,trans_com(M))$
-selfdual_bydef_m_p(M) := is_isomorphic_rowperm2_com_p(m2com(M),m2com(transpose(M)))$
+selfdual_bydef_com_p(M) := is_isomorphic_rowperm1_com_p(M,trans_com(M))$
+selfdual_bydef_m_p(M) := is_isomorphic_rowperm1_com_p(m2com(M),m2com(transpose(M)))$
 
 
 /* Experiment: searching for a smallest matrix which is self-dual but not
