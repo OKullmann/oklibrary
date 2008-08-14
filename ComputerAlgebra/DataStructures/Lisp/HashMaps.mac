@@ -213,8 +213,7 @@ extract_arraylist(h) := okl_listarray(extract_array(h))$
 */
 enter_new_occurrence(h,x) :=
   set_hm(h,x,ev_hm_d(h,x,0)+1)$
-get_distribution(h) := sort(listify(hm2sm(h)),
-  lambda([P1,P2], is(first(P1) < first(P2))))$
+get_distribution(h) := listify(hm2sm(h))$
 
 list_distribution(L) := block([h : sm2hm({})],
   for x in L do enter_new_occurrence(h,x),
