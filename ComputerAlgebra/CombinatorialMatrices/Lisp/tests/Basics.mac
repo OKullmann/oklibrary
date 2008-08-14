@@ -144,6 +144,14 @@ okltest_emptycom(f) := (
   assert(dim_com(f) = [0,0]),
   true)$
 
+okltest_emptycom_r(f) := (
+
+  true)$
+
+okltest_emptycom_c(f) := (
+
+  true)$
+
 okltest_emptyscom(f) := (
   assert(scom_p(f,{}) = true),
   assert(order_scom(f) = 0),
@@ -271,7 +279,13 @@ okltest_random_spolar_m(f) := (
 okltest_com2l_r(f) := (
   assert(f(emptycom) = []),
   assert(f(zerocom({1,2},{3,4})) = [0,0,0,0]),
-  assert(f([{1,2},{3,4},lambda([i,j],i+j)]) = [4,5,5,6]),
+  assert(f([{1,2},{7,10},lambda([i,j],i+j)]) = [8,11,9,12]),
+  true)$
+
+okltest_com2l_c(f) := (
+  assert(f(emptycom) = []),
+  assert(f(zerocom({1,2},{3,4})) = [0,0,0,0]),
+  assert(f([{1,2},{7,10},lambda([i,j],i+j)]) = [8,9,11,12]),
   true)$
 
 okltest_scom2g(f) := (
@@ -370,15 +384,21 @@ okltest_prod_com(f) := block([fun],
 */
 
 okltest_min_com(f) := (
-
+  assert(f(zerocom({1,2},{3,4})) = 0),
+  assert(f(m2com(matrix([1,2],[-1,0]))) = -1),
   true)$
 
 okltest_max_com(f) := (
-
+  assert(f(zerocom({1,2},{3,4})) = 0),
+  assert(f(m2com(matrix([1,2],[-1,0]))) = 2),
   true)$
 
 okltest_sum_com(f) := (
-
+  assert(f(emptycom) = 0),
+  assert(f(emptycom_r({1,2})) = 0),
+  assert(f(emptycom_c({3,4})) = 0),
+  assert(f(conststdcom(3,4,-1)) = 3*4 * -1),
+  assert(okltest_sum_scom(buildq([f],lambda([M],f(scom2com(M)))))),
   true)$
 
 okltest_sum_scom(f) := (
@@ -414,6 +434,14 @@ okltest_rowsums_list_com(f) := block([u],
 
 okltest_columnsums_list_com(f) := block(
   okltest_rowsums_list_com(buildq([f],lambda([M],f(trans(M))))),
+  true)$
+
+okltest_com_distribution(f) := (
+  assert(f(emptycom) = []),
+  assert(f(emptycom_r({1,2})) = []),
+  assert(f(emptycom_c({3,4})) = []),
+  assert(f(m2com(matrix([1,2,3],[2,3,4],[1,4,5]))) = [[1,2],[2,2],[3,2],[4,2],[5,1]]),
+  assert(f(m2com(matrix([{},{1},{-1}],[{1,2},{},{-1}]))) = [[{},2],[{-1},2],[{1},1],[{1,2},1]]),
   true)$
 
 
@@ -499,6 +527,23 @@ okltest_some_ndiag_scom_p(f) := block([fun],
   assert(f(identity, m2scom(matrix([false,false],[false,false]))) = false),
   assert(okltest_every_ndiag_scom_p(buildq([f], lambda([npred,M],
     not f(lambda([x], not npred(x)), M))))),
+  true)$
+
+okltest_extscom_com_p(f) := (
+  assert(f(emptycom) = true),
+  assert(f(emptycom_r({1})) = false),
+  assert(f(emptycom_c({2})) = false),
+  assert(f(zerocom({1,2},{3,4})) = true),
+  assert(f(zerocom({1,2},{3})) = false),
+  true)$
+
+okltest_obsscom_com_p(f) := (
+  assert(f(emptycom) = true),
+  assert(f(emptycom_r({1})) = false),
+  assert(f(emptycom_c({2})) = false),
+  assert(f(zerocom({1,2},{3,4})) = false),
+  assert(f(zerocom({1,2},{3})) = false),
+  assert(f(zerocom({1,2},{1,2})) = true),
   true)$
 
 okltest_symmetric_scom_p(f) := (

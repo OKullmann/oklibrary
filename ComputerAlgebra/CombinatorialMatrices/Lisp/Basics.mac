@@ -101,8 +101,13 @@ m2scom(M) := sm2scom(M)$
    ***********************
 */
 
-/* The empty combinatorial matrix: */
+/* The empty combinatorial matrix; since no arguments are given, this means
+   that rowset and columnset are empty; more generally, an "empty com" has no
+   entries, that is, one of rowset or columnset (at least) is empty: */
 emptycom : [{},{},lambda([i,j],false)]$
+emptycom_r(R) := [R,{},lambda([i,j],false)]$
+emptycom_c(C) := [{},C,lambda([i,j],false)]$
+
 /* The empty square combinatorial matrix: */
 emptyscom : [{},lambda([i,j],false)]$
 
@@ -115,6 +120,7 @@ zeroscom(I) := [I,lambda([i,j],0)]$
 /* RENAME: constcom */
 constantcom(I,J,a) := [I,J,buildq([a],lambda([i,j],a))]$
 constcom(I,J,a) := constantcom(I,J,a)$
+conststdcom(n,m,a) := constcom(setn(n),setn(m),a)$
 /* The constant square combinatorial matrix for given index set and value: */
 /* RENAME: constscom */
 constantscom(I,a) := [I,buildq([a],lambda([i,j],a))]$
@@ -189,6 +195,9 @@ random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
 
 /* Transforms a combinatorial matrix into a list, row-wise: */
 com2l_r(M) := map(lambda([p],apply(M[3],p)), cartesian_product_l(map(listify,rest(M,-1))))$
+/* Transforms a combinatorial matrix into a list, column-wise: */
+com2l_c(M) := com2l_r(trans_com(M))$
+
 
 /* Transforms a symmetric combinatorial matrix into a graph: */
 /* RENAME: scom2g */
@@ -277,13 +286,13 @@ prod_com(A,B) := [A[1], B[2], buildq([A,B],
    ********************
 */
 
-/* The minimum over all entries of a combinatorial matrix */
-min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
-/* The maximum over all entries of a combinatorial matrix */
-max_com(M) := lmax(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
+/* The minimum over all entries of a non-empty combinatorial matrix: */
+min_com(M) := lmin(com2l_r(M))$
+/* The maximum over all entries of a non-empty combinatorial matrix: */
+max_com(M) := lmax(com2l_r(M))$
 
 /* The sum over all entries of a combinatorial matrix */
-sum_com(M) := gsum_s(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2]))$
+sum_com(M) := sum_l(com2l_r(M))$
 /* The sum over all entries of a square combinatorial matrix */
 sum_scom(M) := sum_com(scom2com(M))$
 
@@ -299,10 +308,14 @@ rowsums_list_com(M) := block([C : listify(M[2])],
   create_list(gsum_l(lambda([j],M[3](i,j)),C), i,listify(M[1]))))$
 
 /* The distribution of column-sums, that is a list of pairs [possible
-    column-sum, number of rows], sorted by ascending row-sum. */
+    column-sum, number of rows], sorted by ascending column-sum. */
 columnsums_list_com(M) := block([R : listify(M[1])],
  list_distribution(
   create_list(gsum_l(lambda([i],M[3](i,j)),listify(R)), j,listify(M[2]))))$
+
+/* The distribution of values, as a list of pairs [possible value, number
+   of entries], sorted by ascending values: */
+com_distribution(M) := list_distribution(com2l_r(M))$
 
 
 /* ***************
@@ -334,6 +347,10 @@ every_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
 some_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
   some_s(lambda([p], is(p[1]#p[2] and _predx(apply(M[2],p)))), cartesian_product_l([L,L])))$
 
+/* Externally square combinatorial matrices: */
+extscom_com_p(M) := is(length(M[1]) = length(M[2]))$
+/* Observedly square combinatorial matrices: */
+obsscom_com_p(M) := is(M[1] = M[2])$ 
 
 symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$

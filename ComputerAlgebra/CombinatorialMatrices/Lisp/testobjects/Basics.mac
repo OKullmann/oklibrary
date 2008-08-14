@@ -60,6 +60,8 @@ okltest_m2scom(m2scom);
 */
 
 okltest_emptycom(emptycom);
+okltest_emptycom_r(emptycom_r);
+okltest_emptycom_c(emptycom_c);
 okltest_emptyscom(emptyscom);
 
 okltest_zerocom(zerocom);
@@ -98,6 +100,7 @@ okltest_random_spolar_m(random_spolar_m);
 */
 
 okltest_com2l_r(com2l_r);
+okltest_com2l_c(com2l_c);
 
 okltest_scom2g(scom2g);
 okltest_scom2gl(scom2gl);
@@ -148,6 +151,8 @@ okltest_abs_scom(abs_scom);
 okltest_rowsums_list_com(rowsums_list_com);
 okltest_columnsums_list_com(columnsums_list_com);
 
+okltest_com_distribution(com_distribution);
+
 /* ***************
    * Basic tests *
    ***************
@@ -165,6 +170,9 @@ okltest_every_diag_scom_p(every_diag_scom_p);
 okltest_every_ndiagc_scom_p(every_ndiagc_scom_p);
 okltest_every_ndiag_scom_p(every_ndiag_scom_p);
 okltest_some_ndiag_scom_p(some_ndiag_scom_p);
+
+okltest_extscom_com_p(extscom_com_p);
+okltest_obsscom_com_p(obsscom_com_p);
 
 okltest_symmetric_scom_p(symmetric_scom_p);
 okltest_symmetric_m_p(symmetric_m_p);
