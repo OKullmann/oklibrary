@@ -178,8 +178,7 @@ License, or any later version. */
   </ul>
 
 
-  \todo Develops combinations of look-ahead with conflict-driven
-  solvers
+  \todo Develop combinations of look-ahead with conflict-driven solvers
   <ul>
    <li> See [OK, Present and future of practical SAT solving;
    CSR 8-2008] for first schemes. </li>
@@ -207,6 +206,37 @@ License, or any later version. */
   <ul>
    <li> We need a dedicated module for proof systems. </li>
    <li> See Satisfiability/ProofSystems/plans/general.hpp. </li>
+  </ul>
+
+
+  \todo Finding out "all properties" of an instance
+  <ul>
+   <li> We need some scheme which allows to let the system run all existing
+   tests. </li>
+   <li> One application would be to located poly-time classes which
+   include the instance. </li>
+   <li> Perhaps all relevant functions have an "exploration" version,
+   these versions are put into a global list, and then one just runs
+   through this list. </li>
+   <li> Then there will be however duplications in the output; but perhaps
+   this is the lesser evil.
+    <ol>
+     <li> Though for example once we know that the instance is satisfiable,
+     then there is no point in running tests for minimal unsatisfiability.
+     </li>
+     <li> Perhaps for each module we write a basic exploration function,
+     and this function then organises the exploration at module level,
+     while if needed asks for input established by other modules. </li>
+     <li> Such a hierarchical scheme looks alright; fits into our general,
+     "tree-based" organisation. </li>
+    </ol>
+   </li>
+   <li> Different from normal functions, this also needed text-output,
+   to explain the findings:
+    <ol>
+     <li> Perhaps this output all goes to a file. </li>
+    </ol>
+   </li>
   </ul>
 
 */
