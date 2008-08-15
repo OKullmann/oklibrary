@@ -10,6 +10,37 @@ License, or any later version. */
   \brief Plans regarding minimally unsatisfiable clause-sets of deficiency 1
 
 
+  \todo Decision algorithms
+  <ul>
+   <li> The two basic decision algorithms for MU(1), by singular DP-reduction
+   or by finding accumulation variables. need to be implemented. </li>
+   <li> Using DP-reduction:
+    <ol>
+     <li> Via singular_dp_reduction(F) we can reduce the clause-set
+     w.r.t. singular DP-reduction --- however also the degenerated
+     cases are handled there. </li>
+     <li> Perhaps it is actually enough to only test whether at the beginning
+     and the end the deficiency is 1, since a case of degeneration will
+     (permanently) lower the deficiency? </li>
+     <li> But due to blocking more variables could vanish (in clauses which
+     get "lost"), and then the deficiency can also increase. </li>
+     <li> See "Singular DP-reduction" in
+     Satisfiability/Lisp/Reductions/plans/DP-Reductions.hpp. </li>
+    </ol>
+   </li>
+   <li> They also extract a tree representation (see "Tree representations"
+   below). </li>
+   <li> Also for the special cases "saturated" and "marginal" we need
+   decision algorithms.
+    <ol>
+     <li> This can be done by checking each DP-step. </li>
+     <li> Alternatively, the input can be checked whether it is hitting
+     resp. whether every variable has 1-1-occurrence. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Tree representations
   <ul>
    <li> First task is, given F in MU(1), find some (the first, a random,
