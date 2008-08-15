@@ -33,7 +33,11 @@ License, or any later version. */
      (see Transitional/Combinatorics/plans/general.hpp). </li>
     </ol>
    </li>
-   <li> n = 6: </li>
+   <li> n = 6:
+    <ol>
+     <li> Random sampling: 944/58092. </li>
+    </ol>
+   </li>
   </ul>
 
 */
