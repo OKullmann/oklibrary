@@ -12,6 +12,25 @@ License, or any later version. */
 Use by
 
 oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac");
+  
+  \bug aes_make_vars_int never uses variable 384
+  <ul>
+   <li>
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[386]
+   \endverbatim
+   should be 
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[385]
+   \endverbatim
+   </li>
+   <li> This shouldn't have caused any issues, it simply results in the variable 384
+   never being used. </li>
+  </ul>
 
 */
 
