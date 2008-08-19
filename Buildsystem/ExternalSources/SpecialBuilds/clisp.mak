@@ -27,7 +27,6 @@ $(clisp_directories_okl) : % :
 
 .PHONY : clisp cleanclisp cleanallclisp
 
-ifeq ($(clisp_recommended_version_number_okl),2.45)
 clisp : $(clisp_directories_okl)
 	$(call unarchive,$(clisp_source_okl),$(clisp_base_build_dir_okl))
 	cd $(clisp_build_dir_okl); $(postcondition) \
@@ -35,18 +34,6 @@ clisp : $(clisp_directories_okl)
 	cd $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
 	make install; $(postcondition)
 	cp -f $(clisp_installation_dir_okl)/share/doc/doc/* $(clisp_doc_dir_okl)
-else
-clisp : $(clisp_directories_okl)
-	$(call unarchive,$(clisp_source_okl),$(clisp_base_build_dir_okl))
-	cd $(clisp_build_dir_okl); $(postcondition) \
-	./configure --prefix=$(clisp_installation_dir_okl) --with-libsigsegv-prefix=$(libsigsegv_installation_dir_okl) --build $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
-	cd $(clisp_build_dir_okl)/oklib-build; $(postcondition) \
-	make; $(postcondition) \
-        make check; $(postcondition) \
-	make install; $(postcondition)
-	ln -s --force $(clisp_call_okl) $(public_bin_dir_okl)/clisp
-	cp -f $(clisp_installation_dir_okl)/share/doc/doc/* $(clisp_doc_dir_okl)
-endif
 
 
 # #################################

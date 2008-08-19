@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
 
 
 /* ***********************
@@ -29,7 +30,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ***********************
 */
 
-/* A "graph" is just a 2-element list, consisting of the set of
+/* A "graph" is a 2-element list, consisting of the set of
    vertices, and a set of 2-element vertex sets.
    A "graph with loops" also allows 1-element vertex sets.
 */
@@ -263,13 +264,22 @@ gl2dgl(G) := [G[1], setify(apply(append,
    **************************
 */
 
+/* Auxiliary function, expanding an undirected edge into a directed
+   edge, using the given Maxima-order: */
+expand_edge(ue) := block([de : listify(ue)],
+  if length(de) = 2 then de else append(de,de))$
+
 /* The set of neighbours of vertex v in graph G. */
 /* RENAME to "neighbours_g". */
 neighbours(v,G) := disjoin(v, set_sets_union(
  subset(G[2], lambda([e],elementp(v,e)))))$
+neighbours_g(v,G) := neighbours(v,G)$
+neighbours_gl(v,G) := apply(union, 
+ map(lambda([e], if e={v} then e else disjoin(v,e)),
+     sublist(listify(G[2]), lambda([e],elementp(v,e)))))$
 
 /* Removes vertex set V from graph G (with loops). */
-/* RENAME it to "rem_vertices_gl". */
+/* RENAME: "remove_vertices_gl". */
 remove_vertices_graph(V,G) := [setdifference(G[1],V),
  subset(G[2], lambda([e], disjointp(e,V)))]$
 
@@ -289,7 +299,7 @@ comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$
    **********
 */
 
-load(graphs)$
+oklib_plain_include(graphs)$
 
 /* Tests whether a general or multi-graph has parallel edges: */
 parallel_edges_gg_p(G) := is(length(map(G[3],G[2])) < length(G[2]))$
@@ -329,6 +339,23 @@ complete_omug_p(G) := complete_og_p(omug2og(G))$
 complete_omugl_p(G) := complete_ogl_p(omugl2ogl(G))$
 complete_gg_p(G) := complete_gl_p(gg2gl(G))$
 complete_ogg_p(G) := complete_ogl_p(ogg2ogl(G))$
+
+/* Checks for dominating vertices in graphs with and without loops: */
+dominating_vertex_g_p(v,G) := 
+  is(length(neighbours_g(v,G)) = length(G[1])-1)$
+dominating_vertex_gl_p(v,G) := 
+  is(length(neighbours_gl(v,G)) = length(G[1]))$
+
+has_dominating_vertex_g(G) :=
+  is(max_vertex_degree_v_og(g2og(G))[1] = length(G[1])-1)$
+/* Remark: has_dominating_vertex_g(G) =
+  some_s(lambda([v],dominating_vertex_g_p(v,G)), G[1]).
+*/
+has_dominating_vertex_gl(G) :=
+  is(max_vertex_degree1_v_ogl(gl2ogl(G))[1] = length(G[1]))$
+/* Remark: has_dominating_vertex_gl(G) =
+  some_s(lambda([v],dominating_vertex_gl_p(v,G)), G[1]).
+*/
 
 
 /* Tests whether a graph is connected: */

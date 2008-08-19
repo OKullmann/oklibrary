@@ -57,6 +57,14 @@ okltest_some_s(f) := (
   assert(every(lambda([x],(c:c+1,true)),[1,2]) = true),
   assert(c = 2),
   assert(okltest_every_s(buildq([f],lambda([p,L],not f(lambda([x],not p(x)),L))))),
+  assert(okltest_every_s(buildq([f],lambda([_newpred,M],
+    not f(lambda([x], not _newpred(x)), M))))),
+  block(
+   [localf : buildq([f],lambda([SetSys], f(lambda([S], not emptyp(S)), SetSys)))],
+    assert(f(localf,[]) = false),
+    assert(f(localf,[{{}}]) = false),
+    assert(f(localf,[{{}},{{},{1}}]) = true)
+  ),
   true)$
 
 okltest_listnorep_p(f) := (
@@ -136,6 +144,22 @@ okltest_first_smallest_lb_l(f) := (
   assert(f([{1,2}],1) = {1,2}),
   assert(f([[1,2,3],{1,2,3,4},[1,2],[1,2,3]],2) = [1,2]),
   assert(okltest_first_smallest_l(buildq([f],lambda([L],f(L,0))))),
+  true)$
+
+okltest_first_smallest_f_l(f) := (
+  assert(f(identity,[]) = [inf]),
+  assert(f(identity,[1]) = [1,1]),
+  assert(f(identity,[-1]) = [-1,-1]),
+  assert(f(lambda([x],x*x),[2,-2]) = [4,2]),
+  assert(f(lambda([x],x*x),[2,-2,1]) = [1,1]),
+  true)$
+
+okltest_first_largest_f_l(f) := (
+  assert(f(identity,[]) = [minf]),
+  assert(f(identity,[1]) = [1,1]),
+  assert(f(identity,[-1]) = [-1,-1]),
+  assert(f(lambda([x],x*x),[2,-1]) = [4,2]),
+  assert(f(lambda([x],x*x),[2,-2,3]) = [9,3]),
   true)$
 
 

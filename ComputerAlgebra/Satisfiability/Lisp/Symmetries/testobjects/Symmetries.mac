@@ -21,13 +21,26 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/testobje
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/tests/Symmetries.mac")$
 
-/* ***********************
-   * Isomorphism testing *
-   ***********************
+/* ****************************************
+   * Isomorphism testing via backtracking *
+   ****************************************
+*/
+
+okltest_is_isomorphic_fcs(is_isomorphic_btr_fcs);
+
+/* **********************************************
+   * Isomorphism testing via graph isomorphisms *
+   **********************************************
 */
 
 okltest_is_isomorphic_fcs(is_isomorphic_fcs);
-okltest_is_isomorphic_fcs(is_isomorphic_btr_fcs);
+
+/* **********************************************
+   * Isomorphism testing via matrix isomorphism *
+   **********************************************
+*/
+
+okltest_is_varisomorphic_fcs_p(is_varisomorphic_com_fcs_p);
 
 /* **********************************
    * Isomorphism classes management *

@@ -105,10 +105,10 @@ okltest_hermitian_rank_cs_h(f) := block(
 /* Tests whether f computes the characteristic polynomial of a clause-set. */
 okltest_charpoly_cs(f) := block(
   assert(f({}) = 0),
-  assert(f({{}}) = -x),
-  assert(f({{1}}) = -x),
+  assert(f({{}}) = x),
+  assert(f({{1}}) = x),
   assert(f({{1},{2}}) = x^2),
-  assert(f({{1},{2},{3}}) = -x^3),
+  assert(f({{1},{2},{3}}) = x^3),
   assert(f({{-1},{1}}) = x^2 - 1),
   true)$
 

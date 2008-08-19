@@ -31,7 +31,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijnda
    ***************************************
 */
 
-load(graphs)$
+oklib_plain_include(graphs)$
 
 aes_var_ordering : hash_table()$
 
@@ -336,7 +336,7 @@ aes_sbox_cp([bits]) := block(
    ***************************************
 */
 
-load("opsubst")$
+oklib_plain_include("opsubst")$
 
 /* Takes a given set of conditions, a condition name, and a function to
    rewrite with and then produces a new set of conditions */

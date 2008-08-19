@@ -261,7 +261,7 @@ amend_r_splitting_tree(F,T,k) := block(
    **********
 */
 
-load("stringproc")$
+oklib_plain_include("stringproc")$
 
 /* Output a splitting tree st as latex-ps-tree to stream s */
 tex_st(s,st) := if st = [true] then printf(s, "~a", "\\TC")

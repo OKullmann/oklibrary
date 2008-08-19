@@ -38,6 +38,8 @@ For creation of documentation we also need:
  - the Qt library
  - Latex
  - the m4 preprocessor
+ - asciidoc
+ - xmlto
  - Flex 
  - Bison.
 

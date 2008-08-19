@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
 
 
 kill(f)$
@@ -143,6 +144,14 @@ okltest_emptycom(f) := (
   assert(dim_com(f) = [0,0]),
   true)$
 
+okltest_emptycom_r(f) := (
+
+  true)$
+
+okltest_emptycom_c(f) := (
+
+  true)$
+
 okltest_emptyscom(f) := (
   assert(scom_p(f,{}) = true),
   assert(order_scom(f) = 0),
@@ -204,6 +213,25 @@ okltest_random_m(f) := block([x],
   assert(f(2,2,100) = matrix([44,39],[33,60])),
   true)$
 
+okltest_random_intiv_m(f) := block([a,b],
+  assert(f(0,0,a,b) = matrix()),
+  assert(f(1,0,a,b) = matrix([])),
+  assert(f(1,1,0,0) = matrix([0])),
+  set_random_state(make_random_state(0)),
+  assert(f(4,2,-200,500) = matrix([211,131],[29,16],[384,320],[375,-36])),
+  true)$
+
+okltest_random_fpiv_m(f) := block([a,b,M],
+  assert(f(0,0,a,b) = matrix()),
+  assert(f(1,0,a,b) = matrix([])),
+  set_random_state(make_random_state(0)),
+  M : f(2,2,-200,500),
+  assert_float_equal(M[1,1], 4.084476632548927),
+  assert_float_equal(M[1,2], -121.2580674814649),
+  assert_float_equal(M[2,1], -98.31836515964578),
+  assert_float_equal(M[2,2], 40.18142835447708),
+  true)$
+
 okltest_random_sm(f) := block([x],
   assert(f(0,x) = matrix()),
   assert(f(2,1) = matrix([0,0],[0,0])),
@@ -216,14 +244,26 @@ okltest_random_sm(f) := block([x],
   true)$
 
 okltest_random_permutation_m(f) := (
+  assert(f(matrix()) = matrix()),
+  assert(f(matrix([])) = matrix([])),
+  assert(f(matrix([],[])) = matrix([],[])),
+  assert(f(matrix([0])) = matrix([0])),
 
   true)$
 
 okltest_random_rpermutation_m(f) := (
+  assert(f(matrix()) = matrix()),
+  assert(f(matrix([])) = matrix([])),
+  assert(f(matrix([],[])) = matrix([],[])),
+  assert(f(matrix([0])) = matrix([0])),
 
   true)$
 
 okltest_random_cpermutation_m(f) := (
+  assert(f(matrix()) = matrix()),
+  assert(f(matrix([])) = matrix([])),
+  assert(f(matrix([],[])) = matrix([],[])),
+  assert(f(matrix([0])) = matrix([0])),
 
   true)$
 
@@ -239,7 +279,13 @@ okltest_random_spolar_m(f) := (
 okltest_com2l_r(f) := (
   assert(f(emptycom) = []),
   assert(f(zerocom({1,2},{3,4})) = [0,0,0,0]),
-  assert(f([{1,2},{3,4},lambda([i,j],i+j)]) = [4,5,5,6]),
+  assert(f([{1,2},{7,10},lambda([i,j],i+j)]) = [8,11,9,12]),
+  true)$
+
+okltest_com2l_c(f) := (
+  assert(f(emptycom) = []),
+  assert(f(zerocom({1,2},{3,4})) = [0,0,0,0]),
+  assert(f([{1,2},{7,10},lambda([i,j],i+j)]) = [8,9,11,12]),
   true)$
 
 okltest_scom2g(f) := (
@@ -297,6 +343,22 @@ okltest_trans_scom(f) := (
   assert(scom_equalp(f(zeroscom({-3,4})), zeroscom({-3,4}))),
   true)$
 
+
+/* ************************
+   * Algebraic operations *
+   ************************
+*/
+
+okltest_prod_m(f) := block(
+  assert(f(matrix([1,2],[3,4])) = matrix([1,2],[3,4])),
+  assert(f(matrix(),matrix()) = matrix()),
+  assert(f(matrix([]),matrix()) = matrix([])),
+  assert(f(matrix([],[]),matrix()) = matrix([],[])),
+  assert(f(matrix([2]),matrix([3])) = matrix([6])),
+  assert(f(matrix([1,2]),matrix([3],[4])) = matrix([11])),
+  assert(f(matrix([2]),matrix([3]),matrix([5])) = matrix([30])),
+  true)$
+
 okltest_add_scom(f) := (
 
   true)$
@@ -315,16 +377,28 @@ okltest_prod_com(f) := block([fun],
   assert(com_equalp(f(constantcom({1,2},{1,3},2),constantcom({1,2},{1,3},3)), constantcom({1,2},{1,3},12)) = true),
   true)$
 
-okltest_min_com(f) := (
 
+/* ********************
+   * Entry statistics *
+   ********************
+*/
+
+okltest_min_com(f) := (
+  assert(f(zerocom({1,2},{3,4})) = 0),
+  assert(f(m2com(matrix([1,2],[-1,0]))) = -1),
   true)$
 
 okltest_max_com(f) := (
-
+  assert(f(zerocom({1,2},{3,4})) = 0),
+  assert(f(m2com(matrix([1,2],[-1,0]))) = 2),
   true)$
 
 okltest_sum_com(f) := (
-
+  assert(f(emptycom) = 0),
+  assert(f(emptycom_r({1,2})) = 0),
+  assert(f(emptycom_c({3,4})) = 0),
+  assert(f(conststdcom(3,4,-1)) = 3*4 * -1),
+  assert(okltest_sum_scom(buildq([f],lambda([M],f(scom2com(M)))))),
   true)$
 
 okltest_sum_scom(f) := (
@@ -362,11 +436,26 @@ okltest_columnsums_list_com(f) := block(
   okltest_rowsums_list_com(buildq([f],lambda([M],f(trans(M))))),
   true)$
 
+okltest_com_distribution(f) := (
+  assert(f(emptycom) = []),
+  assert(f(emptycom_r({1,2})) = []),
+  assert(f(emptycom_c({3,4})) = []),
+  assert(f(m2com(matrix([1,2,3],[2,3,4],[1,4,5]))) = [[1,2],[2,2],[3,2],[4,2],[5,1]]),
+  assert(f(m2com(matrix([{},{1},{-1}],[{1,2},{},{-1}]))) = [[{},2],[{-1},2],[{1},1],[{1,2},1]]),
+  true)$
+
 
 /* ***************
    * Basic tests *
    ***************
 */
+
+okltest_empty_com_p(f) := block([fun],
+  assert(f([{},{},fun]) = true),
+  assert(f([{},{1},fun]) = true),
+  assert(f([{1},{},fun]) = true),
+  assert(f([{1},{1},fun]) = false),
+  true)$
 
 okltest_every_com_p(f) := block([fun],
   assert(f(fun,emptycom) = true),
@@ -381,52 +470,113 @@ okltest_every_scom_p(f) := block([fun],
   assert(f(identity,constantscom({1,2},false)) = false),
   true)$
 
-okltest_some_com_p(f) := (
-
+okltest_some_com_p(f) :=  block([fun],
+  assert(f(fun,emptycom) = false),
+  assert(f(lambda([x],is(x=0)),zerocom({1},{-3,3})) = true),
+  assert(f(lambda([x],is(x=1)),zerocom({1},{-3,3})) = false),
+  assert(f(lambda([x],is(x=0)),scom2com(idscom({1,2}))) = true),
+  assert(f(lambda([x],is(x=1)),scom2com(idscom({1,2}))) = true),
+  assert(okltest_some_scom_p(buildq([f],lambda([pred,M],f(pred,scom2com(M)))))),
+  assert(okltest_every_com_p(buildq([f],lambda([pred,M],
+    not f(lambda([x], not pred(x)), M))))),
   true)$
 
-okltest_some_scom_p(f) := (
+okltest_some_scom_p(f) :=  block([fun],
+  assert(f(fun,emptyscom) = false),
+  assert(f(lambda([x],is(x=0)),zeroscom({-3,3})) = true),
+  assert(f(lambda([x],is(x=1)),zeroscom({-3,3})) = false),
+  assert(f(lambda([x],is(x=0)),idscom({0,1})) = true),
+  assert(f(lambda([x],is(x=1)),idscom({0,1})) = true),
+  true)$
 
+okltest_every_diagc_scom_p(f) :=  block(
+  assert(f(emptyscom,1) = true),
+  assert(f(zeroscom({1}),1) = false),
+  assert(f(zeroscom({1}),0) = true),
+  assert(f(zeroscom({1,3}),1) = false),
+  assert(f(zeroscom({1,3}),0) = true),
+  assert(f(idscom({0,1}),1) = true),
+  assert(f(idscom({0,1}),0) = false),
+  true)$
+
+okltest_every_diag_scom_p(f) := block([fun],
+  assert(f(fun,emptyscom) = true),
+  assert(okltest_every_diagc_scom_p(buildq([f], lambda([M,c],
+    f(lambda([x],is(x=c)), M))))),
+  true)$
+
+okltest_every_ndiagc_scom_p(f) := block(
+  assert(f(emptyscom,1) = true),
+  assert(f(zeroscom({1}),1) = true),
+  assert(f(zeroscom({1}),0) = true),
+  assert(f(zeroscom({1,3}),1) = false),
+  assert(f(zeroscom({1,3}),0) = true),
+  assert(f(idscom({0,1}),1) = false),
+  assert(f(idscom({0,1}),0) = true),
+  true)$
+
+okltest_every_ndiag_scom_p(f) := block([fun],
+  assert(f(fun,emptyscom) = true),
+  assert(okltest_every_ndiagc_scom_p(buildq([f], lambda([M,c],
+    f(lambda([x],is(x=c)), M))))),
+  true)$
+
+okltest_some_ndiag_scom_p(f) := block([fun],
+  assert(f(fun,emptyscom) = false),
+  assert(f(identity, m2scom(matrix([false,true],[false,false]))) = true),
+  assert(f(identity, m2scom(matrix([false,false],[false,false]))) = false),
+  assert(okltest_every_ndiag_scom_p(buildq([f], lambda([npred,M],
+    not f(lambda([x], not npred(x)), M))))),
+  true)$
+
+okltest_extscom_com_p(f) := (
+  assert(f(emptycom) = true),
+  assert(f(emptycom_r({1})) = false),
+  assert(f(emptycom_c({2})) = false),
+  assert(f(zerocom({1,2},{3,4})) = true),
+  assert(f(zerocom({1,2},{3})) = false),
+  true)$
+
+okltest_obsscom_com_p(f) := (
+  assert(f(emptycom) = true),
+  assert(f(emptycom_r({1})) = false),
+  assert(f(emptycom_c({2})) = false),
+  assert(f(zerocom({1,2},{3,4})) = false),
+  assert(f(zerocom({1,2},{3})) = false),
+  assert(f(zerocom({1,2},{1,2})) = true),
   true)$
 
 okltest_symmetric_scom_p(f) := (
-
+  assert(f(emptyscom) = true),
+  assert(f(zeroscom({0,2})) = true),
+  assert(f(idscom({0,2})) = true),
+  assert(f(m2scom(matrix([1,2],[1,2]))) = false),
   true)$
 
 okltest_symmetric_m_p(f) := (
-
+  assert(f(matrix()) = true),
+  assert(f(matrix([1])) = true),
+  assert(f(zeromatrix(3,3)) = true),
+  assert(f(zeromatrix(2,3)) = false),
   true)$
 
 
-/* ************************
-   * Duality and polarity *
-   ************************
+/* ***************
+   * Polynomials *
+   ***************
 */
 
-okltest_selfpolar_bydef_m_p(f) := (
-  assert(f(matrix()) = true),
-  assert(f(matrix([0])) = true),
-  assert(f(matrix([1])) = true),
-  assert(f(matrix([0,0],[0,0])) = true),
-  assert(f(matrix([1,0],[0,0])) = true),
-  assert(f(matrix([1,0],[1,0])) = false),
-  assert(f(matrix([1,1],[0,0])) = false),
-  assert(f(matrix([1,0],[0,1])) = true),
-  assert(f(matrix([1,1],[1,0])) = true),
-  assert(f(matrix([1,1],[1,1])) = true),
+okltest_charpoly_m(f) := block([x],
+  assert(f(matrix()) = 1),
+  assert(f(matrix([0])) = x),
+  assert(f(matrix([1])) = x-1),
+  assert(f(matrix([2,0],[0,0])) = x^2 - 2 * x),
+  assert(f(matrix([1,1],[1,1])) = x^2 - 2 * x),
   true)$
 
-okltest_selfdual_bydef_m_p(f) := (
-  assert(f(matrix()) = true),
-  assert(f(matrix([0])) = true),
-  assert(f(matrix([1])) = true),
-  assert(f(matrix([0,0],[0,0])) = true),
-  assert(f(matrix([1,0],[0,0])) = true),
-  assert(f(matrix([1,0],[1,0])) = false),
-  assert(f(matrix([1,1],[0,0])) = false),
-  assert(f(matrix([1,0],[0,1])) = true),
-  assert(f(matrix([1,1],[1,0])) = true),
-  assert(f(matrix([1,1],[1,1])) = true),
+okltest_charpoly_scom(f) := block([fun],
+  assert(f([{},fun]) = 1),
+  assert(okltest_charpoly_m(buildq([f],lambda([M],f(m2scom(M)))))),
   true)$
 
 

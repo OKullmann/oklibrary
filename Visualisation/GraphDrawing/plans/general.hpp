@@ -1,5 +1,5 @@
 // Oliver Kullmann, 26.12.2005 (Swansea)
-/* Copyright 2005 - 2007 Oliver Kullmann
+/* Copyright 2005 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -19,16 +19,17 @@ License, or any later version. */
    <li> Possibilities:
     <ol>
      <li> Qt : very intrusive, and thus perhaps not the right choice </li>
-     <li> OpenGL in the form of the Mesa library: Perhaps this is suitable. </li>
+     <li> OpenGL in the form of the Mesa library: Perhaps this is suitable.
+     </li>
     </ol>
    </li>
    <li> This graphics library must offer the following functionality:
     <ol>
      <li> a window with graphical elements can be created </li>
-     <li> graphical elements can be handled as objects, and placed on the canvas
-     using coordinates </li>
-     <li> graphical elements include at least pixels, points (in various sizes) and
-     lines; it should be possible to vary their appearance (including giving
+     <li> graphical elements can be handled as objects, and placed on the
+     canvas using coordinates </li>
+     <li> graphical elements include at least pixels, points (in various sizes)
+     and lines; it should be possible to vary their appearance (including giving
      them colours), and possibly these elements can be moved. </li>
     </ol>
     One should play around with Mesa to see what it can, and to estimate
@@ -56,7 +57,15 @@ License, or any later version. */
   \todo Concepts
   <ul>
    <li> Concepts for rooted oriented trees and for graphs are needed. </li>
-   <li> For graphs the Boost graph library is not optimal, but not too bad. </li>
+   <li> For graphs the Boost graph library is not optimal, but not too bad.
+   </li>
+   <li> See "Graph drawing" in ComputerAlgebra/Graphs/Lisp/plans/general.hpp.
+   </li>
+   <li> Important for communication is to get an overview on
+   graph-file-formats, both for "abstract" and for "drawn" graphs.
+    <ol>
+     <li> See "Input/Output" in Graphs/BoostSupport/plans/general.hpp. </li>
+   </li>
   </ul>
 
 
@@ -67,8 +76,8 @@ License, or any later version. */
    and at least one selected value labeling the vertices is visualised using
    some colour scheme; see GraphDrawing/plans/Trees.hpp.
     <ol>
-     <li> The information for each node varies from solver to solver, so we need
-     several xml-fields. </li>
+     <li> The information for each node varies from solver to solver, so we
+     need several xml-fields. </li>
      <li> Possible information is
       <ul>
        <li> The branching variable. </li>
@@ -103,19 +112,23 @@ License, or any later version. */
    </li>
    <li> The various (multi)graphs associated with CNFs should be visualised
    (static snapshots, and also dynamic simulations). </li>
-   <li> For CS-232 a visualisation of the graph_traversal algorithm is needed, starting
-   with a drawing of some graph, where first all vertices and edges are black,
-   and then stepwise vertices get marked red, and edges are blinking if they
-   are just examined, yellow if they are in the buffer, green if the are tree edges,
-   blue if they are back edges (perhaps dashed as long as they are still in the
-   buffer). At the end every edge made the transition from black through
-   yellow to either green or blue. </li>
+   <li> For CS-232 a visualisation of the graph_traversal algorithm is needed,
+   starting with a drawing of some graph, where first all vertices and edges are
+   black, and then stepwise vertices get marked red, and edges are blinking if
+   they are just examined, yellow if they are in the buffer, green if the are
+   tree edges, blue if they are back edges (perhaps dashed as long as they are
+   still in the buffer). At the end every edge made the transition from black
+   through yellow to either green or blue. </li>
    <li> For CS-342 a backtracking tree labeled with clause-sets would be useful
    (possible output in Latex-format). </li>
   </ul>
 
 
-  \todo It should be possible to create ps-, png- and Latex-files from the drawings.
+  \todo Conversions
+  <ul>
+   <li> It should be possible to create ps-, png- and Latex-files from the
+   drawings. </li>
+  </ul>
 
 */
 

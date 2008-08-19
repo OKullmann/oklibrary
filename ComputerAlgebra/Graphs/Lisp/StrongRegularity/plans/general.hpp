@@ -58,6 +58,8 @@ License, or any later version. */
    one common neighbour, motivated by Exercise 1J in [A Course in
    Combinatorics] (see
    ComputerAlgebra/docus/CourseCombinatorics_LintWilson/Chapter01.hpp). </li>
+   <li> This subject is further developed in Exercise 21Q there (see
+   CourseCombinatorics_LintWilson/Chapter21.hpp). </li>
    <li> Actually, considering graphs *with loops* is relevant here. </li>
    <li> So we want to determine (if possible) the weak 1-design graphs with
    loops (see above). </li>

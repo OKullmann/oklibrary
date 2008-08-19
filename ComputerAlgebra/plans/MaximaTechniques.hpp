@@ -163,6 +163,63 @@ xreduce(nounify(union), [a,b,c,d]);
    <li> genmatrix(f,m,n) cannot handle the cases n=0: Use
    genmatrix_m(f,m,n) resp. genmatrix_sm(f,n) instead (in
    ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac). </li>
+   <li> The "matrix multiplication .", applied to two 1x1 matrices, does not
+   return a matrix but a number:
+    <ol>
+     <li> So before applying matrix multiplication A . B, one needs to check
+     that matrix_size(X)[1] * matrix_size(X)[2] is at least 2 for X = A,B.
+     </li>
+     <li> This behaviour is unfortunate, since for example charpoly
+     does not convert a single number into a square matrix. </li>
+     <li> The reason is the overloading with scalar product. </li>
+     <li> So use prod_m (in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac) instead! </li>
+     <li> Ask on the Maxima mailing list whether this behaviour can be
+     turned off, or whether there is a named operator for matrix
+     multiplication (so that overloading can be controlled); or perhaps
+     functions like charpoly do accept single numbers as input. </li>
+    </ol>
+   </li>
+   <li> charpoly:
+    <ol>
+     <li> Since Maxima uses the form of the characteristic polynomial, where
+     the leading coefficient is (-1)^n (n the order), we replace it by
+     the more standard form, where the leading coefficient is always 1:
+     Use charpoly_m(M) instead! (Provided in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac.) </li>
+     <li> This function also uses (internally) ratmx:true; see the following
+     discussion. </li>
+     <li> At least for matrices containing numbers, ratmx:true has to be
+     set, otherwise the computations become infeasible even for relatively
+     small matrices. </li>
+     <li> However, with ratmx:true, floating-point numbers are replaced by
+     rather crude approximations with rational fractions, and, rather
+     annoyingly, for each such approximation output is produced. </li>
+     <li> On the other hand, when computing the characteristic polynomial
+     for a random 10x10 matrix with entries from [0,1), the computation
+     of the characteristic polynomial happens rather quickly, but for
+     example printing it seems impossible: The "computation" for the
+     printing-action apparently quickly finishes, but without result,
+     and actually an apparently endless computation is performed to produce
+     the output. </li>
+     <li> So also for floating-point matrices setting ratmx:true seems
+     necessary. </li>
+     <li> However, one should not set ratmx:true by default, since then
+     suddenly strange dis-equalities between matrix-entries happen
+     (matrices appear to be equal, have the same values, but the internal
+     representations are different). </li>
+     <li> Discuss this on the Maxima mailing list! </li>
+     <li> Another related bug is that the computation seems to complete,
+     "Evaluation took 0.0000 seconds (0.0001 elapsed) using 80 bytes.",
+     but actually the system is computing, and doesn't take further
+     input. </li>
+     <li> There is ncharpoly in Maxima, which computes the characteristic
+     polynomial with the right sign (though this is not documented!), and
+     is faster for larger matrices; but it gets the empty matrix wrong, and
+     is slower for smaller matrices --- charpoly_m handles all this. </li>
+    </ol>
+   </li>
+   </li>
    <li> unique([2,1]) = [1,2]:
     <ol>
      <li> Use stable_unique instead (in
@@ -183,6 +240,8 @@ xreduce(nounify(union), [a,b,c,d]);
    <li> "0^0" yields an error:
     <ol>
      <li> On the contrary x^0 evaluates to 1 (for an unknown x). </li>
+     <li> The option-variable dotident is the result of x^^0; what is
+     the difference between "x^0" and "x^^0" ? </li>
      <li> And 0^x evaluates to 0 for an unknown x, which is obviously
      incorrect! </li>
      <li> Via "pow(b,e)" in ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac

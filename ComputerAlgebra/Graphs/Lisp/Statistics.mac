@@ -20,38 +20,59 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
+
 
 /* ******************
    * Vertex degrees *
    ******************
 */
 
-/* The vertex-degrees of a graph, as hash-map, considering
-   all vertices: */
-vertex_degrees_g(G) := block([h : sm2hm({})],
- for E in G[2] do
-  for v in E do enter_new_occurrence(h,v),
+/* The vertex-degrees of a graph as hash-map, as a generic function,
+   applicable to g and og, and also for gl and ogl when counting loops
+   only once: */
+vertex_degrees_genericg(G) := block([h : sm2hm({})],
+ for e in G[2] do
+   for v in e do enter_new_occurrence(h,v),
  for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
  return(h))$
 
-/* The vertex-degrees of an ordered graph, as hash-map, considering
-   all vertices: */
-vertex_degrees_og(G) := block([h : sm2hm({})],
- for E in G[2] do
-  for v in E do enter_new_occurrence(h,v),
+vertex_degrees_g(G) := vertex_degrees_genericg(G)$
+vertex_degrees_og(G) := vertex_degrees_genericg(G)$
+/* For graphs with loops, counting loops once: */
+vertex_degrees1_gl(G) := vertex_degrees_genericg(G)$
+vertex_degrees1_ogl(G) := vertex_degrees_genericg(G)$
+
+/* The generic version, counting loops twice: */
+vertex_degrees2_genericg(G) := block([h : sm2hm({})],
+ for e in G[2] do
+   for v in expand_edge(e) do enter_new_occurrence(h,v),
  for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
  return(h))$
+
+vertex_degrees2_gl(G) := vertex_degrees2_genericg(G)$
+vertex_degrees2_ogl(G) := vertex_degrees2_genericg(G)$
+
 
 /* Returns the pair [min-degree, vertex_of_minimum_degree], using
    the vertex occurring earliest in the vertex list of the 
    ordered graph. [inf] is returned for the graph
    with empty vertex set. */
 min_vertex_degree_v_og(G) := block([vd : vertex_degrees_og(G)],
-  if emptyp(G[1]) then [inf] else
-    block([optv, mind : inf],
-      for v in G[1] do block([d : ev_hm(vd,v)],
-        if d < mind then (optv : v, mind : d)),
-    return([mind,optv])))$
+  first_smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+min_vertex_degree1_v_ogl(G) := block([vd : vertex_degrees1_ogl(G)],
+  first_smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+min_vertex_degree2_v_ogl(G) := block([vd : vertex_degrees2_ogl(G)],
+  first_smallest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+
+max_vertex_degree_v_og(G) := block([vd : vertex_degrees_og(G)],
+  first_largest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+max_vertex_degree1_v_ogl(G) := block([vd : vertex_degrees1_ogl(G)],
+  first_largest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+max_vertex_degree2_v_ogl(G) := block([vd : vertex_degrees2_ogl(G)],
+  first_largest_f_l(lambda([v],ev_hm(vd,v)), G[1]))$
+
 
 /* The hashmap of [vertex degree, frequency] pairs for a graph: */
 vertex_degrees_hm_g(G) := block(

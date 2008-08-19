@@ -1,0 +1,164 @@
+/* Oliver Kullmann, 9.8.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac
+  \brief Isomorphisms testing for combinatorial matrices
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Isomorphisms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/CombinatorialMatrices/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+
+
+/* ********************************
+   * Incomplete isomorphism tests *
+   ********************************
+*/
+
+/* The following incomplete checks for matrix isomorphism return either
+   "true", "false" or "unknown".
+*/
+
+/* Simple checks, considering the sizes and the trivial cases: */
+is_isomorphic_incl0_com(A,B) := block(
+ [d : dim_com(A)],
+  if d # dim_com(B) then false
+  else block([s : d[1] * d[2]],
+    if s = 0 then true
+    elseif s=1 then block(
+     [reA : single_element(A[1]), ceA : single_element(A[2]),
+      reB : single_element(B[1]), ceB : single_element(B[2])],
+      is(A[3](reA,ceA) = B[3](reB,ceB)))
+    else unknown))$
+/* Additionally considering row- and column-sums: */
+is_isomorphic_incl1_com(A,B) :=
+  block([check0 : is_isomorphic_incl0_com(A,B)],
+  if check0 # unknown then check0 else
+    if rowsums_list_com(A) # rowsums_list_com(B) or
+       columnsums_list_com(A) # columnsums_list_com(B)
+    then false
+    else unknown)$
+/* Stronger, compute the associated symmetric matrices and the
+   characteristic polynomials: */
+is_isomorphic_incl2_com(A,B) :=
+  block([check0 : is_isomorphic_incl0_com(A,B)],
+  if check0 # unknown then check0 else block(
+   [a : com2m(A), b : com2m(B), ta, tb, ra, rb, ca, cb, x],
+    ta : transpose(a), tb : transpose(b),
+    ra : prod_m(a, ta), rb : prod_m(b, tb),
+    if charpoly_m(ra) # charpoly_m(rb) then return(false),
+    ca : prod_m(ta, a), cb : prod_m(tb, b),
+    if charpoly_m(ca) # charpoly_m(cb) then return(false),
+    return(unknown)))$
+
+
+/* ******************************
+   * Complete isomorphism tests *
+   ******************************
+*/
+
+/* Testing whether two combinatorial matrices are isomorphic by
+   running through all row permutations of the first matrix.
+   Prerequisites: A, B are non-empty.
+   If the matrices are isomorphic, then a list containing the row
+   permutation of A is returned, otherwise "false".
+*/
+is_isomorphic_rowperm_com(A,B) := 
+ block(
+  [found : false,
+   Bcolumns : map(lambda([j], 
+                    map(lambda([i],B[3](i,j)),listify(B[1]))),
+                  B[2])],
+   for p in permutations(listify(A[1])) unless found#false do
+     if Bcolumns = map(lambda([j], 
+                    map(lambda([i],A[3](i,j)),p)),
+                   A[2])
+     then found : p,
+   return(found))$
+
+is_isomorphic_rowperm0_com(A,B) := block(
+ [check0 : is_isomorphic_incl0_com(A,B)],
+  if check0=true then listify(A[1])
+  elseif check0=false then false
+  else is_isomorphic_rowperm_com(A,B))$
+is_isomorphic_rowperm0_com_p(A,B) := listp(is_isomorphic_rowperm0_com(A,B))$
+
+is_isomorphic_rowperm1_com(A,B) := block(
+ [check1 : is_isomorphic_incl1_com(A,B)],
+  if check1=true then listify(A[1])
+  elseif check1=false then false
+  else is_isomorphic_rowperm_com(A,B))$
+is_isomorphic_rowperm1_com_p(A,B) := listp(is_isomorphic_rowperm1_com(A,B))$
+
+is_isomorphic_rowperm2_com(A,B) := block(
+ [check2 : is_isomorphic_incl2_com(A,B)],
+  if check2=true then listify(A[1])
+  elseif check2=false then false
+  else is_isomorphic_rowperm_com(A,B))$
+is_isomorphic_rowperm2_com_p(A,B) := listp(is_isomorphic_rowperm2_com(A,B))$
+
+
+/* ************************
+   * Duality and polarity *
+   ************************
+*/
+
+/* Tests whether a Maxima square matrix is isomorphic as a general
+   matrix to a symmetric matrix: */
+selfpolar_bydef_m_p(M) := block([found : false],
+  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
+    return(false),
+  for p in permutations(setn(matrix_size(M)[1])) unless found do
+    found : symmetric_m_p(prod_m(M, scom2m(trans_l2scom(p)))),
+  return(found))$
+
+/* Tests whether a square matrix is isomorphic as a general
+   matrix to its transposed: */
+selfdual_bydef_com_p(M) := is_isomorphic_rowperm1_com_p(M,trans_com(M))$
+selfdual_bydef_m_p(M) := is_isomorphic_rowperm1_com_p(m2com(M),m2com(transpose(M)))$
+
+
+/* Experiment: searching for a smallest matrix which is self-dual but not
+   self-polar. */
+
+/* Creating random square 0,1-matrices of order n; passed by reference
+   are the total count of matrices and the count of self-dual found
+   (which should be 0-initialised): */
+exp_dualpolar(n,_totalcount,_selfdualcount) := block([found : false],
+ while found=false do block([M : random_m(n,n,2)],
+  if oklib_monitor then print(M),
+  if selfdual_bydef_m_p(M) then (
+    _totalcount :: ev(_totalcount)+1,
+    _selfdualcount :: ev(_selfdualcount)+1,
+    if not selfpolar_bydef_m_p(M) then found : M
+  )
+  else _totalcount :: ev(_totalcount)+1),
+ found)$
+
+/* Checking all square 0,1-matrices of order n: */
+exp_dualpolar2(n) := block(
+ [found : false, M : all_m(n,n,[0,1]), count_sd : 0],
+  for m in M while found=false do
+    if selfdual_bydef_m_p(m) then (
+      count_sd : count_sd + 1,
+      if  not selfpolar_bydef_m_p(m) then
+        found : m),
+  return([found,count_sd]))$
+
+
+/*!
+\endhtmlonly
+*/

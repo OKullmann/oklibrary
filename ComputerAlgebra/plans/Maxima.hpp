@@ -13,6 +13,46 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \todo How to use function-parameters reliably??
+  <ul>
+   <li> The biggest problem with Maxima is that function-parameters are
+   not handled properly, not even the arguments of lambda-terms. </li>
+   <li> It is unclear what actually happens, but names of parameter, which
+   take functions or lambda-terms as values, must be all different!
+    <ol>
+     <li> On the other hand, calling test-functions from other test-functions
+     doesn't cause problems. </li>
+     <li> We need clear examples, where errors occur. </li>
+    </ol>
+   </li>
+   <li> It seems that nested function calls though are not a problem (this
+   would render it hopeless!). </li>
+   <li> This must be discussed on the Maxima mailing list (but I (OK) fear
+   nothing will happen).
+    <ol>
+     <li> Take as example "every_s" from
+     ComputerAlgebra/DataStructures/Lisp/Lists.mac (how to write it
+     properly). </li>
+     <li> If the function-parameter would be called "npred", then
+     "okltest_some_ndiag_scom_p" in
+     ComputerAlgebra/CombinatorialMatrices/Lisp/tests/Basics.mac
+     runs into an infinite loop. </li>
+    </ol>
+   </li>
+   <li> One thing is to reserve names for the library:
+    <ol>
+     <li> Everything that starts with "_". </li>
+     <li> Then we have "f"; likely we should rename it everywhere to "_f".
+     </li>
+     <li> Or perhaps "f" is an exception. </li>
+     <li> Within the library, parameters naming functions must always be
+     somewhat longer and specific (except of "f"); and they start with "_".
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo What is "equalp" ?
   <ul>
    <li> It seems impossible to evaluate "equalp(0,0)" sensibly?? </li>
@@ -155,51 +195,40 @@ cp $(maxima_loadext_okl) $(maxima_srcdir_okl)
   </ul>
 
 
-  \todo File load and include
+  \todo File load and include : DONE
   <ul>
-   <li> The new "plain" load-functions:
+   <li> DONE (optional includes are considered later)
+   The new "plain" load-functions:
     <ol>
-     <li> "oklib_load" should now call "oklib_plain_load" etc. </li>
+     <li> DONE "oklib_load" should now call "oklib_plain_load" etc. </li>
      <li> See also "Organisation" in
      ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/plans/uhit_def.hpp
      for the need of optional load/include. </li>
      <li> Perhaps at this time we can also write such optional versions. </li>
     </ol>
    </li>
-   <li> Given the inclusion of the "oklib_plain_*" 
-   functions in "maxima-init.mac", apply the following while inside the
-   "ComputerAlgebra" directory (although it only changes "*.mac" files anyway).
-   \verbatim
-# This has been tested and maxima tests return correctly, however it is still 
-# best to test this on a fully checked-in repository, that can be reset if 
-# necessary.
-find . -type f -name '*.mac' | grep -v "maxima-init.mac" | xargs perl -pi -e 's/(?<![a-zA-Z0-9_\-])load ?\(/oklib_plain_include\(/g;'
-   \endverbatim
-   </li>
-   <li> Performing the substitution:
+   <li> DONE
+   Performing the substitution:
     <ol>
      <li> First, we should, if possible, only use standard Unix/Linux tools; so
-     "sed" would be more appropriate here.
+     using "sed" here.
       <ol>
        <li> We only want to find instances of 'load("filename")', where
        preceeding "load" we have at least one space-symbol (including the
-       end-of-line symbol). (MG: Presumably, "load" at the beginning of a line
-       should also be matched?) /li>
-       <li> The following "sed" command should suffice (including matching 
-       "load" at the beginning of the line) 
+       end-of-line symbol (this includes load-occurrences at the beginning of
+       a line)). </li>
+       <li> The following "sed" command does the job:
        \verbatim
-sed 's/^\(\|.*[[:space:]]\+\)load/\1oklib_plain_include(/' ${F} > ${F}
+sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat temp_file > ${F};
        \endverbatim
-       Removing the alternation symbol "\|" will remove the possibility of
-       allowing "load" at the beginning of a line.
+       (we assume that "load(" occurs at the beginning of a line, possibly
+       with leading spaces; note that the temporary storage is NEEDED).
        </li>
       </ol>
      </li>
-     <li> The number of arguments to xargs shouldn't be a problem here, but it
-     might become a problem in other circumstances, so it seems better to me
-     to use a loop:
+     <li> The command then basically is
      \verbatim
-for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
+for F in $(find . -type f -name '*.mac'); do
   sed XXX ${F} > ${F}; done
      \endverbatim
      </li>
@@ -210,10 +239,21 @@ for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
        and also we need parsing abilities. </li>
        <li> Plans for writing such a tool are in
        Programming/Refactoring/plans/Renaming.hpp. </li>
-       <li> Above we should have least the possibility to compute
-       *before processing* a reasonable list of files involved. We should filter
-       out files which do not include the appropriate pattern *up-front*, so
+       <li> We should have the possibility to compute *before
+       processing* a reasonable list of files involved. We should filter
+       out files which do not include the appropriate pattern up-front, so
        that then instead of sed we just run "echo". </li>
+       <li> So we need to find out via the following grep-invocation
+       \verbatim
+grep -l "^[[:space:]]*load("
+       \endverbatim
+       whether the "load("-pattern is included. Unfortunately, to invoke
+       grep on a list of files, xargs is needed. </li>
+       <li> The complete instruction is then
+     \verbatim
+for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); do
+  sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat temp_file > ${F}; done
+     \endverbatim
        <li> Once the above (simple) command for performing the replacements has
        been finalised, it should go to "Simple Unix/Linux tools" in
        Programming/Refactoring/plans/general.hpp, with a documentation what
@@ -222,10 +262,11 @@ for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
      </li>
     </ol>
    </li>
-   <li> The application of the above command should replace "load" in all maxima
+   <li> DONE
+   The application of the above command should replace "load" in all maxima
    files with the new "oklib_plain_include". This appears to save some time, but
    not a great deal (MG: between 0.4 and 0.8 seconds faster), as currently there
-   are not many "load" calls for maxima modules repeated in seperate files. 
+   are not many "load" calls for maxima modules repeated in separate files. 
    </li>
    <li> DONE
    The issue occurs that various maxima modules such as "graphs" take a 
@@ -236,7 +277,7 @@ for F in $(find . -type f -name '*.mac' -not -name "maxima-init.mac"); do
    <li> DONE (decided to go this way)
    The cure is to replace all instances of "load" with a function
    "oklib_include_basic" which mimics oklib_include but without appending the
-   OKSystem path (ie allowing the same single include behaviour as oklib_include
+   OKsystem path (ie allowing the same single include behaviour as oklib_include
    provides for maxima modules). This seems to reduce the elapsed time for a 
    call to "oklib_load_all" by a factor of 2 (7 seconds to 3.3). Such a
    replacement was done with something like the following shell code 
@@ -262,7 +303,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    So the issue becomes somewhat more complex. </li>
    <li> (DONE An errant oklib_load instead of oklib_include caused this)
    It appears that after the last submit of MG loading times nearly
-   trippled? </li>
+   tripled? </li>
    <li> DONE (inclusions of OKlib-files happens only once, so there is
    no problem here)
    This isn't a problem usually but each new file that then includes 
@@ -418,7 +459,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
     <ol>
      <li> The solution seems to be to start the .mac-files
      with the usual preamble, and then via "\htmlonly" and
-     "\endhtmlonly" to surpress the extraction of code-comments
+     "\endhtmlonly" to suppress the extraction of code-comments
      (the source code is shown verbatim!). </li>
      <li> We should discuss this on the doxygen mailing list:
      Perhaps a dedicated doxygen-command could be introduced? </li>
@@ -433,7 +474,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
   \todo Handling of demos
   <ul>
    <li> The demos-files are put into demos-subdirectory, and are plain
-   .mac-files (intented to be processed). </li>
+   .mac-files (intended to be processed). </li>
    <li> How to run the maxima-demos-files?
     <ol>
      <li> Apparently, "batch" is when we want to "run through it", while
@@ -442,7 +483,7 @@ find . -type f | grep -v "maxima-init.mac" | xargs perl -pi -e 's/((?<![a-zA-Z0-
    </li>
    <li> How to name the demos-files?
     <ol>
-     <li> If the demonstation accompanies a file, then it has the same name. </li>
+     <li> If the demonstration accompanies a file, then it has the same name. </li>
      <li> Otherwise any appropriate name. </li>
      <li> The suffix ".dem" is mentioned in the Maxima-manual. This or
      ".mac" ?! </li>

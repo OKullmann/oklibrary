@@ -24,20 +24,52 @@ License, or any later version. */
 
   \todo Providing update mechanisms for the package-clone
   <ul>
-   <li> The mechanism outlined below must be updated to use the repository
-   on github instead. Also some meta-data (like ignore-patterns) need to
+   <li> Some meta-data (like ignore-patterns) need to
    be added; see "Cloning" in Buildsystem/SourceControl/plans/general.hpp. </li>
-   <li> git_public_repository must be set (typically in override.mak) to
-   the full local path to the oklib-repository accessible from the
-   Internet. </li>
-   <li> The current value is
-   "/home/csoliver/cs-svr1/csoliver/public_html/ok-sat-library/git/Transitional"
+   <li> Documenting the old system:
+    <ol>
+     <li> git_public_repository must be set (typically in override.mak) to
+     the full local path to the oklib-repository accessible from the
+     Internet. </li>
+     <li> The current value is
+     "/home/csoliver/cs-svr1/csoliver/public_html/ok-sat-library/git/Transitional"
+     </li>
+     <li> The code
+     \verbatim
+cd ${git_public_repository}
+git fetch ${git_main_repository} master:master
+git --bare update-server-info
+     \endverbatim
+     in CreatePackage updated this repository from the main
+     developers-repository. </li>
+     <li> git_main_repository must be set (typically in override.mak) to the
+     URL for the main (shared) repository. </li>
+     <li> git_http_repository (again, typically in override.mak) finally is the
+     http-address for git_public_repository; current value is
+     "http://cs.swan.ac.uk/~csoliver/ok-sat-library/git/Transitional/". </li>
+     <li> Via
+     \verbatim
+if [ ${git_upstream:+1} ]; then
+  git_origin="--origin ${git_upstream}"
+else
+  git_origin=""
+fi
+cd ${package_directory}/OKplatform/OKsystem
+git clone ${git_origin} ${git_http_repository}
+     \endverbatim
+     then the clone for the package is created, where via setting
+     "git_upstream" the clone is instructed to pull by default from
+     "git_upstream" instead of git_http_repository. </li>
+    </ol>
    </li>
-   <li> git_main_repository must be set (typically in override.mak) to the
-   URL for the main (shared) repository. </li>
-   <li> git_http_repository (again, typically in override.mak) finally is the
-   http-address for git_public_repository; current value is
-   "http://cs.swan.ac.uk/~csoliver/ok-sat-library/git/Transitional/". </li>
+   <li> This is now simplified:
+    <ol>
+     <li> git_http_repository is now the git-hub-repository. </li>
+     <li> So there is no need for git_public_repository anymore. </li>
+     <li> This repository is taken as-is (no update anymore). </li>
+     <li> Pulling by user packages just from this repository. </li>
+    </ol>
+   </li>
    <li> DONE The goal is that the user can use "git pull", which pulls
    from the public repository. </li>
    <li> DONE Currently the local repository, from which the package

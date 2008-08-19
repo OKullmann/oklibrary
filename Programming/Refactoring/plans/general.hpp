@@ -22,8 +22,23 @@ License, or any later version. */
   <ul>
    <li> We need a little methodology for using these tools for simple
    text-replacement (using regular expressions). </li>
-   <li> See "File load and include" in ComputerAlgebra/plans/Maxima.hpp
-   for an example. </li>
+   <li> An example:
+    <ol.
+     <li>
+     \verbatim
+for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); do
+  sed 's/^\([[:space:]]*\)load(/\1oklib_plain_include(/' ${F} > temp_file; cat temp_file > ${F}; done
+     \endverbatim
+     <li>
+     <li> This replaces all occurrences of "load(" at the beginning of a line
+     (possibly with spaces, which are preserved) by "oklib_plain_include".
+     </li>
+     <li> This in files with extension ".mac". To just see which files are
+     involved, replace the body of the loop by "echo ${F};". </li>
+     <li> In the directory where the call is isssued, the auxiliary file
+     "temp_file" has been created, which needs to be removed. </li>
+    </ol>
+   </li>
   </ul>
 
 

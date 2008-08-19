@@ -43,5 +43,26 @@ License, or any later version. */
    pics2gl and gl2pics. </li>
   </ul>
 
+
+  \todo The main parameters
+  <ul>
+   <li> Apparently there is no useful notion for the main parameters, that
+   "for t different points there are exactly lambda incident blocks". </li>
+   <li> So we need to introduce it ourselves: An incidence structure [I,P,B]
+   has *index lambda in NN_0 w.r.t. t points (t in NN_0)* if for each subset
+   T of P of size t the subset of B of blocks incident with all elements of T
+   has size lambda. </li>
+   <li> The predicate is "balanced_ics_p(S,t,lambda)". </li>
+  </ul>
+
+
+  \todo Polar and bipolar incidence structures
+  <ul>
+   <li> A "bipolar incidence structure" is a pair [I,V] such that [I,V,V]
+   is an incidence structure. </li>
+   <li> A "polar incidence structure" is a bipolar incidence structure [I,V]
+   such that I is symmetric. </li>
+  </ul>
+
 */
 

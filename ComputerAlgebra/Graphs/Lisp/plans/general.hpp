@@ -15,6 +15,7 @@ License, or any later version. */
    <li> See module "GraphTraversal" below. </li>
    <li> See module "Treewidth" below. </li>
    <li> See module "Matchings" below. </li>
+   <li> See module "Drawings" below. </li>
    <li> Likely we should have modules "Homomorphisms" and "Isomorphisms". </li>
    <li> We need a submodule "Colourings". </li>
    <li> A submodule "IndependentSets". </li>
@@ -225,6 +226,33 @@ gnuplot> plot '/home/kullmann/data.gnuplot' index 0 t '' w lp ps 1 pt 0 lw 1 lt 
    <li> A variant is considered in [Dorit Dor and Michael Tarsi, Graph
    Decomposition is NP-Complete: A Complete Proof of Holyer's Conjecture,
    SIAM Journal on Computing, 1997]. </li>
+  </ul>
+
+
+  \todo Graph drawing
+  <ul>
+   <li> This should become module "Drawings". </li>
+   <li> We need our own graph-drawing functions:
+    <ol>
+     <li> Maxima cannot handle loops nor parallel edges. </li>
+     <li> The drawing algorithms are rather weak (but we should also try
+     the possible plug-ins). </li>
+     <li> We need reference-algorithms. </li>
+     <li> And we need the possibility to fix our own drawings (for an example
+     see "Visualising automorphisms" in
+     ComputerAlgebra/Graphs/Lisp/Isomorphisms/plans/Homomorphisms.hpp). </li>
+    </ol>
+   </li>
+   <li> We need to find out to what extend the Gnuplot functions can be used
+   (this is likely our own possibility anyway). </li>
+   <li> But we must establish an abstract level, where the algorithms
+   only produce abstract tree-drawings (just usual Maximal-lists, with
+   coordinates and other information), and as a separate layer then these
+   abstractions are drawn. </li>
+   <li> Does there exist some basic "vocabulary" ? </li>
+   <li> Likely other graph-drawing packages can read such drawings (in a
+   suitable output, of course). See "Concepts" in
+   GraphDrawing/plans/general.hpp. </li>
   </ul>
 
 */

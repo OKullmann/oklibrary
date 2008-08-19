@@ -79,6 +79,23 @@
     </ul>
 
 
+    <h3> The public source-code repository </h3>
+
+    As an open-source library, you can participate in the development process,
+    and/or clone/fork the platform:
+    <ul>
+      <li> "Git" is the (distributed) source-control system we are using. </li>
+      <li> At the <a href="m4_SHELL(git_http_address_okl)"> public git repository
+        </a> the repository can be inspected. </li>
+      <li> Normally, downloading from there won't be needed since the above
+        packages contain a clone of this public git repository. </li>
+      <li> The git-address to clone from is
+        "m4_SHELL(git_http_repository)". This is the default when pulling from
+        a package. </li>
+      <li> Collaboration happens at <a href="http://github.com">Github</a>. </li>
+    </ul>
+    
+
     <h3> Remarks on the release process </h3>
     
     Some remarks regarding the packages (aspects which might be unusual):
@@ -124,19 +141,16 @@
       <li> Updating your already existing OKlibrary-installation can happen
         (at least) in the following ways:
         <ol>
+          <li> You can pull over the Internet from the central
+            public OKlibrary-clone, just by using <strong>git pull</strong>
+            (this needs git installed).
+          </li>
           <li> If you didn't do anything inside your old installation, then
-            you can just replace it altogether by the new one. </li>
+            you can also just replace it altogether by a new one. </li>
           <li> If you installed some external sources, but you didn't change
             the OKlibrary itself (inside directory "Transitional"), then
-            you can just replace directory Transitional (which is provided
+            you can also just replace directory Transitional (which is provided
             already with the minimal package). </li>
-          <li> If you changed something inside the OKlibrary itself, then you
-            should have installed Git, and thus you can pull from the (local)
-            unpacked archive, that is, use "git pull path_to_new_Transitional"
-            inside the Transitional-directory you want to update. </li>
-          <li> You can also pull over the Internet from the central
-            public OKlibrary-clone (identical to the latest package), just by
-            using <strong>git pull</strong>. </li>
           <li> In any case, if you have downloaded the (new) full package, then
             at least you should replace the old OKplatform/ExternalSources/sources
             by the new directory (if you don't have special reasons to keep old
@@ -155,7 +169,7 @@
   
     <hr />
       <!-- hhmts start -->
-Last modified: Mon Jun 16 21:20:21 BST 2008
+Last modified: Wed Aug 13 19:57:23 BST 2008
 <!-- hhmts end -->
       <address> <a href="mailto:O.Kullmann@Swansea.ac.uk"> Oliver Kullmann </a> </address>
 

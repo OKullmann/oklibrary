@@ -53,6 +53,9 @@ okltest_gprod_s(gprod_s);
 okltest_first_smallest_l(first_smallest_l);
 okltest_first_smallest_lb_l(first_smallest_lb_l);
 
+okltest_first_smallest_f_l(first_smallest_f_l);
+okltest_first_largest_f_l(first_largest_f_l);
+
 /* **************************
    * Sublist constructions *
    **************************

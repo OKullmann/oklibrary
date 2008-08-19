@@ -31,16 +31,9 @@ mkdir -p OKplatform/OKsystem
 mkdir OKplatform/system_directories
 mkdir OKplatform/ExternalSources
 
-cd ${git_public_repository}
-git fetch ${git_main_repository} master:master
-git --bare update-server-info
-if [ ${git_upstream:+1} ]; then
-  git_origin="--origin ${git_upstream}"
-else
-  git_origin=""
-fi
 cd ${package_directory}/OKplatform/OKsystem
-git clone ${git_origin} ${git_http_repository}
+git clone ${git_http_repository}
+mv oklibrary Transitional
 
 cp -r ${documents_dir} .
 

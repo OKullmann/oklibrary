@@ -23,6 +23,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
+
 /* *****************
    * Basic notions *
    *****************
@@ -100,8 +101,13 @@ m2scom(M) := sm2scom(M)$
    ***********************
 */
 
-/* The empty combinatorial matrix: */
+/* The empty combinatorial matrix; since no arguments are given, this means
+   that rowset and columnset are empty; more generally, an "empty com" has no
+   entries, that is, one of rowset or columnset (at least) is empty: */
 emptycom : [{},{},lambda([i,j],false)]$
+emptycom_r(R) := [R,{},lambda([i,j],false)]$
+emptycom_c(C) := [{},C,lambda([i,j],false)]$
+
 /* The empty square combinatorial matrix: */
 emptyscom : [{},lambda([i,j],false)]$
 
@@ -111,9 +117,15 @@ zerocom(I,J) := [I,J,lambda([i,j],0)]$
 zeroscom(I) := [I,lambda([i,j],0)]$
 
 /* The constant combinatorial matrix for given index sets and value: */
+/* RENAME: constcom */
 constantcom(I,J,a) := [I,J,buildq([a],lambda([i,j],a))]$
+constcom(I,J,a) := constantcom(I,J,a)$
+conststdcom(n,m,a) := constcom(setn(n),setn(m),a)$
 /* The constant square combinatorial matrix for given index set and value: */
+/* RENAME: constscom */
 constantscom(I,a) := [I,buildq([a],lambda([i,j],a))]$
+constscom(I,a) := constantscom(I,a)$
+conststdscom(n,a) := constscom(setn(n),a)$
 
 /* The identity matrix: */
 idscom(I) := [I, lambda([i,j],if i=j then 1 else 0)]$
@@ -144,6 +156,15 @@ genmatrix_sm(_fun,n) := if n=0 then matrix()
 /* A random Maxima matrix of size m x n, with entries random(x)
    (as usual, if m=0 then n=0): */
 random_m(m,n,x) := genmatrix_m(lambda([i,j],random(x)),m,n)$
+/* A random Maxima matrix of size m x n, with random entries
+   from the integer interval [a,b]: */
+random_intiv_m(m,n,a,b) := block([s : b - a + 1],
+  genmatrix_m(lambda([i,j],random(s)+a),m,n))$
+/* A random Maxima matrix of size m x n, with random entries
+   from the real interval [a,b) (using floating points): */
+random_fpiv_m(m,n,a,b) := block([s : float(b - a)],
+  genmatrix_m(lambda([i,j],random(s)+a),m,n))$
+
 
 /* A random symmetric Maxima matrix: */
 random_sm(n,x) := block(
@@ -153,14 +174,15 @@ random_sm(n,x) := block(
 
 /* A random permutation of a Maxima matrix: */
 random_permutation_m(M) := block([s : matrix_size(M)],
-  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M .
-  trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
+  prod_m(trans_l2m(random_permutation(create_list(i,i,1,s[1]))),
+         M,
+         trans_l2m(random_permutation(create_list(i,i,1,s[2])))))$
 /* A random permutation of the rows of a Maxima matrix: */
 random_rpermutation_m(M) := block([s : matrix_size(M)],
-  trans_l2m(random_permutation(create_list(i,i,1,s[1]))) . M)$
+  prod_m(trans_l2m(random_permutation(create_list(i,i,1,s[1]))), M))$
 /* A random permutation of the columns of a Maxima matrix: */
-random_permutation_m(M) := block([s : matrix_size(M)],
-  M . trans_l2m(random_permutation(create_list(i,i,1,s[2]))))$
+random_cpermutation_m(M) := block([s : matrix_size(M)],
+  prod_m(M, trans_l2m(random_permutation(create_list(i,i,1,s[2])))))$
 
 /* A random self-polar matrix : */
 random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
@@ -173,6 +195,9 @@ random_spolar_m(n,x) := random_permutation_m(random_sm(n,x))$
 
 /* Transforms a combinatorial matrix into a list, row-wise: */
 com2l_r(M) := map(lambda([p],apply(M[3],p)), cartesian_product_l(map(listify,rest(M,-1))))$
+/* Transforms a combinatorial matrix into a list, column-wise: */
+com2l_c(M) := com2l_r(trans_com(M))$
+
 
 /* Transforms a symmetric combinatorial matrix into a graph: */
 /* RENAME: scom2g */
@@ -225,6 +250,18 @@ trans_com(M) := [M[2], M[1], buildq([M], lambda([i,j], M[3](j,i)))]$
 strans(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
 trans_scom(M) := [M[1], buildq([M], lambda([i,j], M[2](j,i)))]$
 
+
+/* ************************
+   * Algebraic operations *
+   ************************
+*/
+
+/* The product of Maxima matrices, yielding always a matrix (not a scalar
+   in cases of overloading with scalar product): */
+prod_m([LM]) := block([P : apply(".", LM)],
+  if not matrixp(P) then matrix([P])
+  else P)$
+
 /* The addition of two square combinatorial matrices
    Precondition: A[1] = B[1]. */
 add_scom(A,B) := [A[1], buildq([A,B],
@@ -243,13 +280,19 @@ prod_com(A,B) := [A[1], B[2], buildq([A,B],
   lambda([i,j], 
     sum_l(map(lambda([k],A[3](i,k)),listify(A[2])) * map(lambda([k],B[3](k,j)),listify(A[2])))))]$
 
-/* The minimum over all entries of a combinatorial matrix */
-min_com(M) := lmin(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
-/* The maximum over all entries of a combinatorial matrix */
-max_com(M) := lmax(map(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2])))$
+
+/* ********************
+   * Entry statistics *
+   ********************
+*/
+
+/* The minimum over all entries of a non-empty combinatorial matrix: */
+min_com(M) := lmin(com2l_r(M))$
+/* The maximum over all entries of a non-empty combinatorial matrix: */
+max_com(M) := lmax(com2l_r(M))$
 
 /* The sum over all entries of a combinatorial matrix */
-sum_com(M) := gsum_s(lambda([p],apply(M[3],p)), cartesian_product(M[1],M[2]))$
+sum_com(M) := sum_l(com2l_r(M))$
 /* The sum over all entries of a square combinatorial matrix */
 sum_scom(M) := sum_com(scom2com(M))$
 
@@ -265,10 +308,14 @@ rowsums_list_com(M) := block([C : listify(M[2])],
   create_list(gsum_l(lambda([j],M[3](i,j)),C), i,listify(M[1]))))$
 
 /* The distribution of column-sums, that is a list of pairs [possible
-    column-sum, number of rows], sorted by ascending row-sum. */
+    column-sum, number of rows], sorted by ascending column-sum. */
 columnsums_list_com(M) := block([R : listify(M[1])],
  list_distribution(
   create_list(gsum_l(lambda([i],M[3](i,j)),listify(R)), j,listify(M[2]))))$
+
+/* The distribution of values, as a list of pairs [possible value, number
+   of entries], sorted by ascending values: */
+com_distribution(M) := list_distribution(com2l_r(M))$
 
 
 /* ***************
@@ -276,61 +323,57 @@ columnsums_list_com(M) := block([R : listify(M[1])],
    ***************
 */
 
-every_com_p(pred,M) := every_s(pred, com2l_r(M))$
-every_scom_p(pred,M) := every_com_p(pred,scom2com(M))$
-some_com_p(pred,m) := some_s(pred, com2l_r(M))$
-some_scom_p(pred_m) := some_com_p(pred, com2l_r(M))$
+/* Checking for an "empty" combinatorial matrix (no entries): */
+empty_com_p(M) := is(length(M[1]) = 0 or length(M[2]) = 0)$
+
+every_com_p(_pred,M) := every_s(_pred, com2l_r(M))$
+every_scom_p(_pred,M) := every_com_p(_pred,scom2com(M))$
+some_com_p(_pred,M) := some_s(_pred, com2l_r(M))$
+some_scom_p(_pred,M) := some_com_p(_pred, scom2com(M))$
+
+/* Every diagonal value is constant = s: */
+every_diagc_scom_p(M,s) := 
+  every_s(lambda([i], is(M[2](i,i)=s)), M[1])$
+/* More generally, every diagonal entry fulfils _predx: */
+every_diag_scom_p(_predx,M) := 
+  every_s(lambda([i], _predx(M[2](i,i))), M[1])$
+/* Every value outside the diagonal is constant = s: */
+every_ndiagc_scom_p(M,s) := block([L : listify(M[1])],
+  every_s(lambda([p], is(p[1]=p[2] or apply(M[2],p)=s)), cartesian_product_l([L,L])))$
+/* More generally, every non-diagonal entry fulfils _predx: */
+every_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
+  every_s(lambda([p], is(p[1]=p[2] or _predx(apply(M[2],p)))), cartesian_product_l([L,L])))$
+/* Some non-diagonal entry fulfils _predx: */
+some_ndiag_scom_p(_predx,M) := block([L : listify(M[1])],
+  some_s(lambda([p], is(p[1]#p[2] and _predx(apply(M[2],p)))), cartesian_product_l([L,L])))$
+
+/* Externally square combinatorial matrices: */
+extscom_com_p(M) := is(length(M[1]) = length(M[2]))$
+/* Observedly square combinatorial matrices: */
+obsscom_com_p(M) := is(M[1] = M[2])$ 
 
 symmetric_scom_p(M) := scom_equalp(M,trans_scom(M))$
 symmetric_m_p(M) := is(M = transpose(M))$
 
 
-/* ************************
-   * Duality and polarity *
-   ************************
+/* ***************
+   * Polynomials *
+   ***************
 */
 
-/* Tests whether a Maxima square matrix is isomorphic as a general
-   matrix to a symmetric matrix: */
-selfpolar_bydef_m_p(M) := block([found : false],
-  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
-    return(false),
-  for p in permutations(setn(matrix_size(M)[1])) unless found do
-    found : symmetric_m_p(M . scom2m(trans_l2scom(p))),
-  return(found))$
+oklib_plain_include("nchrpl")$
 
-/* Tests whether a Maxima square matrix is isomorphic as a general
-   matrix to its transposed: */
-selfdual_bydef_m_p(M) := block(
- [found : false, T, perm],
-  if rowsums_list_com(m2com(M)) # columnsums_list_com(m2com(M)) then
-    return(false),
-  T : transpose(M),
-  perm : map(trans_l2scom,permutations(setn(matrix_size(M)[1]))),
-  for p1 in perm unless found do block(
-   [P1 : scom2m(p1), M1],
-    M1 : P1 . M,
-    for p2 in perm unless found do
-      found : is(M1 . scom2m(p2) = T)),
-  return(found))$
-
-/* Experiment: searching for a smallest matrix which is self-dual but not
-   self-polar. */
-/* Creating random square 0,1-matrices of order n: */
-exp_dualpolar(n) := block([found : false],
- while found=false do block([M : random_m(n,n,2)],
-  if selfdual_bydef_m_p(M) and not selfpolar_bydef_m_p(M) then
-    found : M),
- found)$
-/* Checking all square 0,1-matrices of order n: */
-exp_dualpolar2(n) := block(
- [found : false, M : all_m(n,n,[0,1]), count_sd : 0],
-  for m in M while found=false do
-    if selfdual_bydef_m_p(m) then (
-      count_sd : count_sd + 1,
-      if  not selfpolar_bydef_m_p(m) then
-        found : m),
-  return([found,count_sd]))$
+/* The characteristic polynomial, in the standard sense, where the leading
+   coefficient is always +1.
+*/
+/* It seems that for all our cases setting ratmx to true yields a *much*
+   faster computation: */
+charpoly_m(M) := block([n : matrix_size(M)[1]],
+  if n=0 then 1 
+  elseif n < 30 then
+    block([ratmx : true], (-1)^(matrix_size(M)[1]) * charpoly(M,x))
+  else ncharpoly(M,x))$
+charpoly_scom(M) := charpoly_m(scom2m(M))$
 
 /*!
 \endhtmlonly

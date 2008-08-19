@@ -1,0 +1,41 @@
+/* Oliver Kullmann, 13.8.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/LinearAlgebra/Lisp/testobjects/QuadraticForms.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/testobjects/QuadraticForms.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/QuadraticForms.mac")$
+oklib_include("Transitional/ComputerAlgebra/LinearAlgebra/Lisp/tests/QuadraticForms.mac")$
+
+/* ***********************************************
+   * Indices of positivity, negativity, nullity *
+   ***********************************************
+*/
+
+okltest_pivot_d(pivot_d);
+
+okltest_pnn_indices(pnn_indices);
+
+okltest_hermitian_rank(hermitian_rank);
+okltest_hermitian_rank(hermitian_rank_eig);
+okltest_hermitian_rank(hermitian_rank_charpoly);
+
+okltest_hermitian_def(hermitian_def);
+
+/*!
+\endhtmlonly
+*/

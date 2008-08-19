@@ -28,7 +28,7 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
    ******************************************
 */
 
-load(simplex);
+oklib_plain_include(simplex);
 
 /* Find some solution for A * x >= 0, where x_i >= 1 for i in pv,
    x_i <= -1 for i in nv, and x_i = 0 for i in zv.

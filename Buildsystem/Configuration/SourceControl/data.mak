@@ -7,10 +7,8 @@
 
 # Configuration data regarding the source control
 
-git_repository ?= $(Transitional)
-
 git_main_repository ?= cs-oksvr:/work/Repositories/Git/bare/Transitional
 central_repository_developers_okl ?= cs-oksvr//work/Repositories/Git/bare/Transitional
 
-git_http_repository ?= http://cs.swan.ac.uk/~csoliver/ok-sat-library/git/Transitional/
-
+git_http_repository ?= git://github.com/OKullmann/oklibrary.git
+git_http_address_okl ?= http://github.com/OKullmann/oklibrary
