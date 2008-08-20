@@ -28,6 +28,8 @@ okltest_generate_full_int_perm_cnf_fcs(generate_full_int_perm_cnf_fcs);
 
 okltest_int2binlist(int2binlist);
 
+okltest_test_CNF_int_perm(test_CNF_int_perm);
+
 /*!
 \endhtmlonly
 */
