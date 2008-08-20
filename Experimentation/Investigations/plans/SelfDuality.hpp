@@ -28,7 +28,7 @@ License, or any later version. */
    </li>
    <li> n = 5:
     <ol>
-     <li> Random sampling yields 9664/121138. </li>
+     <li> Random sampling yields 16686/213822. </li>
      <li> By a C++ implementation we could run through all cases
      (see Transitional/Combinatorics/plans/general.hpp). </li>
     </ol>
