@@ -28,6 +28,13 @@ License, or any later version. */
    <li> The current implementation of redsingdpp could be used for
    testing purposes, and otherwise replaced by the obvious check for
    the existence of a singular variable. </li>
+   <li> We need more fine-grained versions which check for the various
+   conditions interesting here:
+    <ol>
+     <li> Degeneration (at least one clause gets lost). </li>
+     <li> Clauses are as full as possible. </li>
+    </ol>
+   </li>
   </ul>
 
 */

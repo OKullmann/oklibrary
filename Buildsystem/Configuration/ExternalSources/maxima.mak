@@ -8,7 +8,7 @@
 # Settings for building and using Maxima
 
 maxima_recommended_version_number_okl ?= 5.15.0
-# 5.16.0, 5.16.1 broken
+# 5.16.0, 5.16.1, 5.16.2 broken
 # ATTENTION: special repair-build for 5.15.0 regarding module graphs
 maxima_supported_not_recommended_version_numbers_okl ?= 
 maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)

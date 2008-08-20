@@ -28,12 +28,22 @@ License, or any later version. */
    </li>
    <li> n = 5:
     <ol>
-     <li> Random sampling yields 9664/121138. </li>
+     <li> Random sampling yields 16686/213822. </li>
      <li> By a C++ implementation we could run through all cases
      (see Transitional/Combinatorics/plans/general.hpp). </li>
     </ol>
    </li>
-   <li> n = 6: </li>
+   <li> n = 6:
+    <ol>
+     <li> Random sampling: 944/58092. </li>
+    </ol>
+   </li>
+   <li> n = 7: 
+    <ol>
+     <li> Random sampling: 15/6060. </li>
+     <li> Another run with set_random(0): </li>
+    </ol>
+   </li>
   </ul>
 
 */
