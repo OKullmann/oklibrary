@@ -161,6 +161,13 @@ stable_unique(L) := block([h : sm2hm({}), res : []],
    *************************
 */
 
+/* Setting the state 0 <= n < 2^32. */
+/* Apparently each state is independent of every other state, and comprises
+   a reasonably long sequence of random numbers.*/
+/* It appears that when Maxima is initialised then the random state is set
+   to some fixed but unspecified value. */
+set_random(n) := set_random_state(make_random_state(n))$
+
 /* Returns a random element with indices between a and b
    from a non-empty list L. */
 /* Prerequisites: 1 <= a <= b <= length(L). */

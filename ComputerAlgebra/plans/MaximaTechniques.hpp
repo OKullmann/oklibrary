@@ -314,6 +314,8 @@ B : map(lambda([x],x+1),B)$
     <ol>
      <li> Given a seed 0 <= n < 2^32, the state of all randomised functions
      is set by set_random_state(make_random_state(n)). </li>
+     <li> This is achieved by the oklibrary-function "set_random"
+     (in ComputerAlgebra/DataStructures/Lisp/Lists.mac). </li>
      <li> Randomised functions are "random", "random_permutation". </li>
     </ol>
    </li>
