@@ -37,7 +37,11 @@ License, or any later version. */
 
   \todo Building version 1_35_0
   <ul>
-   <li> Building seems unproblematic (but very fast?). </li>
+   <li> We should now skip 1_35_0 and try 1_36_0 : Perhaps this is a
+   bit better (though the build-documentation still seems pretty
+   weak). </li>
+   <li> Building seems unproblematic, but likely this is due to the fact
+   that none of the link-libraries is built. </li>
    <li> However the usual problem with their inconsistent names. </li>
    <li> We use (with "oklib all")
    \verbatim
