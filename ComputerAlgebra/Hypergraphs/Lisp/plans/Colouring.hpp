@@ -20,25 +20,54 @@ License, or any later version. */
   <ul>
    <li> The translation yields quantified satisfiability problems; see
    ComputerAlgebra/Satisfiability/Lisp/Quantification/plans/general.hpp. </li>
+   <li> Should this be a submodule of Hypergraphs/Colouring? Or perhaps
+   directly of Hypergraphs? Or should be have
+   ComputerAlgebra/CombinatorialGames? </li>
    <li> Given a hypergraphs G, a "positional game" (generalising
    "tic-tac-toe") is played by players A, B, which assign to the vertices
    labels A resp. B, and the winner is the first player who, after or before
    his move, can show a monochromatic hyperedge of his "colour". </li>
    <li> So [{},{}] yields is a draw, while [{},{{}}] is a win for A. </li>
-   <li> It is to be decided whether A can force a win, or, equivalently
-   (negated), whether B can force a draw. </li>
-   <li> Since the goal of B is to establish a proper colouring (whatever
-   A does), it seems best to translate the problem, whether B can force
-   a draw, into satisfiability problems. </li>
-   <li> Still easier to formulate, that B can force *at least* a draw. </li>
+   <li> The different goals:
+    <ol>
+     <li> It is to be decided whether A can force a win, or, equivalently
+     (negated), whether B can force a draw. </li>
+     <li> Since the goal of B is to establish a proper colouring (whatever
+     A does), it seems best to translate the problem, whether B can force
+     a draw, into satisfiability problems. </li>
+     <li> Still easier to formulate, that B can force *at least* a draw;
+     more precisely this is called a "strong draw", that is, over the whole
+     length of the game A can be prevented from every creating a monochrome
+     hyperedge. </li>
+     <li> The "strong draw" (and its negation, the "weak win") ignores who's
+     first. </li>
+     <li> We should have all four possibilities: "A wins", "B draws", "A weakly
+     wins", "B strongly draws". </li>
+    </ol>
+   </li>
    <li> Let |V(G)| = 2m be even (one can enforce this by adding an uncovered
    vertex). The variables are Va = {A_1,...,A_m,B_1,...,B_m,} each with domain
-   V(G), representing the moves of A and B, and the conditions are:
+   V(G), representing the moves of A and B, and the conditions for a strong
+   draw are:
     <ol>
      <li> The bijectivity-condition, that a satisfying total assignment
-     represents a bijection from Va to V(G). </li>
+     represents a bijection from Va to V(G).
+      <ul>
+       <li> More precisely, the whole formula is "RA -> (RB and COL)" (with "R"
+       like "Rule"). </li>
+       <li> RA is the conjunction of the disequality-literals that every A-move
+       is different from all previous moves. </li>
+       <li> RB is the conjunction of all the disequality-literals that every
+       B-move is different from all previous moves. </li>
+       <li> COL is the colouring condition (see below). </li>
+      </ul>
+     </li>
      <li> For each hyperedge H in E(G), the positively signed CNF-clause
      of length m, with literals "B_i in H" for all i in {1,...,m}. </li>
+     <li> One could introduce auxiliary boolean variables c_v for each vertex
+     v, which are true if vertex v is taken by B; then COL would be the
+     conjunction of implications "B_i=v -> c_v" and "A_i=v -> not c_v" and
+     for each hyperedge H the disjunction of c_v for v in H. </li>
      <li> The quantifier prefix is
      [["fa",A_1],["ex",B_1], ..., ["fa",A_m,"ex",B_m]]. </li>
     </ol>
@@ -47,18 +76,15 @@ License, or any later version. */
     <ol>
      <li> Each variable A_i resp. B_i is replaced by n = 2m boolean variables
      A_{i,v} resp. B_{i,v}, true iff the move i chooses v in V(G). </li>
-     <li> Besides the AMO and ALO conditions, the bijectivity-condition now
-     demands that no A_{i,v},A_{j,v}, no A_{i,v},B_{j,v} and no B_{i,v},B_{j,v}
-     are both true for i < j. </li>
+     <li> The rule-formulas RA, RB (see above) now also need to contain the
+     AMO and ALO conditions. </li>
      <li> For each hyperedge H we have now the clause of length m * |H| with
      literals B_i,v for i in {1,..,m} and v in H. </li>
+     <li> Or, using the c_v as above, we again have clauses of length |H|.
+     </li>
      <li> ["fa",A_i] is replaced by ["fa",A_{i,v_1}],...,["fa",A_{i,v_n}], and
      ["ex",B_i] is replaced by ["ex",B_{i,v_1}],...,["ex",B_{i,v_n}]. </li>
-     <li> Stop, the quantification is not that straightforward, since for the
-     universal variables only exactly one of the A_{i,v_j} should be true?!
      </li>
-     <li> One could A letting lose the game if such an illegal move is made.
-     But this seems inefficient? </li>
     </ol>
    </li>
    <li> This looks like attractive problems, where the literature on positional
@@ -69,6 +95,7 @@ License, or any later version. */
    sub-ordinated under the "tool" aspect, where we actually use (generalised)
    SAT solving to experimentally explore open questions on positional games.
    </li>
+   <li> A nice test-case is tic-tac-toe. </li>
   </ul>
 
 */
