@@ -44,11 +44,11 @@ License, or any later version. */
     <li> %Algebra : </li>
     <li> AutomatedTheoremProving : </li>
     <li> CombinatorialMatrices : </li>
-    <li> Cryptology (MG)
+    <li> Cryptology (MG) : DONE
      <ol>
-      <li> directly under Lisp </li>
-      <li> Lisp/Cryptanalysis </li>
-      <li> Lisp/CryptoSystems : </li>
+      <li> directly under Lisp : DONE </li>
+      <li> Lisp/Cryptanalysis : DONE </li>
+      <li> Lisp/CryptoSystems : DONE </li>
      </ol>
     </li>
     <li> DataStructures : </li>
