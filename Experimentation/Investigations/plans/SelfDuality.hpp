@@ -38,6 +38,12 @@ License, or any later version. */
      <li> Random sampling: 944/58092. </li>
     </ol>
    </li>
+   <li> n = 7: 
+    <ol>
+     <li> Random sampling: 15/6060. </li>
+     <li> Another run with set_random(0): </li>
+    </ol>
+   </li>
   </ul>
 
 */
