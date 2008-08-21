@@ -29,7 +29,8 @@ oklib_include("Transitional/ComputerAlgebra/Numerical/Lisp/LinearProgramming.mac
    ********************
 */
 
-/* Test for a linear autarky for an ordered clause-set: */
+/* Tests whether phi is a simple linear autarky for the ordered
+   clause-set F: */
 laut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then true else block(
  [FF : cl2fcl(F), A, h : sm2hm({}), pv : [], nv : []],
   A : ocom2m(cl_var_ocom_ofcs(FF)),
@@ -39,10 +40,10 @@ laut_paocs_p(phi,F) := if emptyp(phi) or emptyp(F) then true else block(
   return(is(solve_lineq(A,pv,nv,
     listify(setdifference(setify(FF[1]),setify(append(pv,nv))))) # false)))$
 
-/* The set of all linear autarkies for an ordered clause-set: */
+/* The set of all simple linear autarkies for an ordered clause-set: */
 all_laut_ocs(F) := subset(all_pass(var_ocs(F)), 
   lambda([phi],laut_paocs_p(phi,F)))$
-/* The linear autarky monoid of an ordered clause-set: */
+/* The simple linear autarky monoid of an ordered clause-set: */
 lautmon_ocs(F) := [all_laut_ocs(F), compo_pass, {}]$
 
 /* Searching for a linear autarky extending a given partial assignment
