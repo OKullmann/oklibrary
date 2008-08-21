@@ -35,7 +35,7 @@ The file "/usr/lib/ispel/british" can not be opened for reading.
    </li>
    <li> And having the entry "none", and calling it with 
    \verbatim
-LANG=C git-gui
+LANG=C git gui
    \endverbatim
    doesn't help (it can't find the us-dictionary). </li>
    <li> Trying to add

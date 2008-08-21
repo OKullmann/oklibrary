@@ -9,8 +9,8 @@
 
 all_extsrc_okl += git
 
-git_recommended_version_number_okl ?= 1.5.6.5
-git_supported_not_recommended_version_numbers_okl ?= 1.6.0
+git_recommended_version_number_okl ?= 1.6.0
+git_supported_not_recommended_version_numbers_okl ?= 1.5.6.5
 
 git_prefix_okl ?= git
 
@@ -33,7 +33,6 @@ ifeq ($(git_default_install_okl),local)
   git_install_command_okl ?= make install
   git_call_okl ?= $(git_installation_dir_okl)/bin/git
   gitk_call_okl ?= $(git_installation_dir_okl)/bin/gitk
-  gitgui_call_okl ?= $(git_installation_dir_okl)/bin/git-gui
   git_upload_pack_okl ?= $(git_installation_dir_okl)/bin/git-upload-pack
   git_receive_pack_okl ?= $(git_installation_dir_okl)/bin/git-receive-pack
 else
@@ -41,7 +40,6 @@ else
   git_install_command_okl ?= sudo make install
   git_call_okl ?= git
   gitk_call_okl ?= gitk
-  gitgui_call_okl ?= git-gui
   git_upload_pack_okl ?= git-upload-pack
   git_receive_pack_okl ?= git-receive-pack
 endif

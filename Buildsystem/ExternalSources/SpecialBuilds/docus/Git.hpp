@@ -21,10 +21,11 @@ License, or any later version. */
   <h2> What the installation yields </h2>
 
   <ul>
-   <li> Three executables
+   <li> Two executables
     <ol>
-     <li> the <code>git</code> program: command-line tool for complete access to the source control system; </li>
-     <li> the <code>git-gui</code> program: simple and useful graphical interface to git-functionality related to commits; </li>
+     <li> the <code>git</code> program: command-line tool for complete access
+     to the source control system (including "git-gui", a simple and useful
+     graphical interface to git-functionality related to commits); </li>
      <li> the <code>gitk</code> program: simple and useful graphical interface to git-functionality related to browsing the history. </li>
     </ol>
    </li>
@@ -37,11 +38,10 @@ License, or any later version. */
   <ul>
    <li> Recommended version =
    <code>$(git_recommended_version_number_okl)</code> </li>
-   <li> Paths to the three executables:
+   <li> Paths to the executables:
     <ol>
      <li> git program call = <code>$(git_call_okl)</code> </li>
      <li> gitk program call = <code>$(gitk_call_okl)</code> </li>
-     <li> git-gui program call = <code>$(gitgui_call_okl)</code> </li>
     </ol>
     Note that symbolic links are provided in $(public_bin_dir_okl).
    </li>
