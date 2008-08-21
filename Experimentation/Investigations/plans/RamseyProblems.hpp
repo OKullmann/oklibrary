@@ -85,9 +85,9 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      </li>
      <li> The list of algorithms from ubcsat:
       <ol>
-       <li> "ubcsat -alg gsat -runs 100 -i Ramsey_5_2_n.cnf": trivial for n=30;
-       n = 35 needs 300 - 30000 steps. Using "-cutoff 2000" seems reasonable.
-       </li>
+       <li> "ubcsat-okl -alg gsat -runs 100 -i Ramsey_5_2_n.cnf": trivial for
+       n=30; n = 35 needs 300 - 30000 steps. Using "-cutoff 2000" seems
+       reasonable. </li>
        <li> gwsat: trivial for n=30; n = 35 ? </li>
        <li> hsat : n = 35 needs ~ 3000 steps; n = 40 ? </li>
        <li> adaptnovelty+: n = 35 ? </li>
@@ -127,7 +127,14 @@ BestSolution_Min = 7.000000
 BestSolution_Max = 76.000000
          \endverbatim
          </li>
-         <li> Alright, with noimprove = 3 000 000: </li>
+         <li> Alright, with noimprove = 3 000 000:
+          <ol>
+           <li> With seed = 391532901 a solution was found (in round
+           293, using 964281 steps)! </li>
+           <li> So perhaps one should just use a cutoff of 1 000 000, and
+           use more rounds? </li>
+          </ol>
+         </li>
         </ol>
        </li>
        <li> n=41:
@@ -144,7 +151,7 @@ BestSolution_Max = 76.000000
          <li> One round, cutoff = 20 000 000, with previous best seed: didn't
          improve the result. </li>
          <li> So let's try 500 runs, with cutoff = 20 000 000, noimprove =
-         2 000 000. </li>
+         3 000 000. </li>
         </ol>
        </li>
       </ol>
