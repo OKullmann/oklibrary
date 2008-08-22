@@ -1,5 +1,5 @@
 // Oliver Kullmann, 21.8.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -59,25 +59,30 @@ License, or any later version. */
 
   <h2> How to install </h2>
 
+  Some general remarks:
   <ul>
-   <li> Local and system-wide installation possible; the default is local
-   installation if not configure otherwise. XXX yet only local installation XXX </li>
-   <li> Set variable <code>boost_default_install</code> to value "system" to switch. XXX </li>
-   <li> If some required local installation of gcc is not available, then it is build first. XXX </li>
+   <li> Currently only local installation is provided. </li>
+   <li> If the required local installation of gcc is not available, then it
+   needs to be built first (currently this is not handled by the build
+   system). </li>
   </ul>
+
 
   <h3> Make targets </h3>
 
-  The targets are <code>%boost</code>, <code>boost_all</code> and <code>boost_gcc_all</code>, with modifiers <code>boost_recommended=</code> and <code>gcc-version=</code>.
+  The targets are <code>%boost</code>, <code>boost_all</code> and
+  <code>boost_gcc_all</code>, with modifiers <code>boost_recommended=</code>
+  and <code>gcc_version_okl=</code>.
   
   <table>
    <tr>
     <td> <code> %boost </code> </td>
-    <td> Build the recommended Boost-version, using the system-gcc. </td>
+    <td> Build the recommended Boost-version, using the local gcc. </td>
    </tr>
    <tr>
     <td> <code> %boost-V </code> </td>
-    <td> Build the Boost-version V, using the system-gcc (using for example <code>boost-1_33_1</code>). </td>
+    <td> Build the Boost-version V, using the local gcc (for example
+    <code>boost-1_33_1</code>). </td>
    </tr>
    <tr>
     <td> <code> %boost %boost_recommended=boost-V </code> </td>
@@ -85,18 +90,20 @@ License, or any later version. */
    </tr>
    <tr>
     <td> <code> boost_all </code> </td>
-    <td> Build all supported Boost-versions, using the system-gcc. </td>
+    <td> Build all supported Boost-versions, using the local gcc. </td>
    </tr>
    <tr>
-    <td> <code> %boost gcc-version=x.y.z </code> </td>
-    <td> Build the recommended Boost-version, using the local gcc-version x.y.z (using for example <code>gcc-version=4.1.2</code>). </td>
+    <td> <code> %boost gcc_version_okl=x.y.z </code> </td>
+    <td> Build the recommended Boost-version, using the local gcc-version
+    x.y.z (for example <code>gcc_version_okl=4.2.4</code>). </td>
    </tr>
    <tr>
-    <td> <code> %boost gcc-version=all </code> </td>
-    <td> Build the recommended Boost-version for all supported local gcc-versions as well as the system-gcc. </td>
+    <td> <code> %boost gcc_version_okl=all </code> </td>
+    <td> Build the recommended Boost-version for all supported local
+    gcc-versions as well as the system-gcc. </td>
    </tr>
    <tr>
-    <td> <code> %boost %boost_recommended=boost-V gcc-version=x.y.z </code> </td>
+    <td> <code> %boost %boost_recommended=boost-V gcc_version_okl=x.y.z </code> </td>
     <td> Build the Boost-version V, using the local gcc-version x.y.z. </td>
    </tr>
    <tr>
@@ -104,7 +111,7 @@ License, or any later version. */
     <td> Build the Boost-version V, using the local gcc-version x.y.z. </td>
    </tr>
    <tr>
-    <td> <code> %boost %boost_recommended=boost-V gcc-version=all </code> </td>
+    <td> <code> %boost %boost_recommended=boost-V gcc_version_okl=all </code> </td>
     <td> Build the Boost-version V, for all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
    <tr>
@@ -112,6 +119,16 @@ License, or any later version. */
     <td> Build all supported Boost-versions for all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> To use the system-gcc, set variable <code>gcc_version_okl</code> to the
+   empty string. </li>
+   <li> And to use a different version of gcc set variable
+   <code>gcc_version_okl</code> accordingly.
+  </ul>
 
 */
 

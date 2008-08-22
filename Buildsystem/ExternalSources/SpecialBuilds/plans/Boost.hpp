@@ -19,6 +19,7 @@ License, or any later version. */
    <li> Later we can re-introduce these features, if needed
    (this would then likely be the job of oklib). </li>
    <li> And we also drop the timestamp-file. </li>
+   <li> And we also drop the dependency on the gcc-installation. </li>
    <li> This should simplify drastically the build-makefile. </li>
    <li> Since Boost seems to be the only user of the mmv-package,
    perhaps with the Boost installation also a local installation
@@ -120,30 +121,33 @@ bo = static_cast<bool>(a != y);
 
   \todo Improving building Boost
   <ul>
-   <li> Like with gcc, the build-directory and the bjam-directory should not be a
-   prerequisite (so that an unnecessary "make boost" is a noop). </li>
-   <li> It should be possible to say "gcc-version=recommended". </li>
-   <li> Instead of "boost boost_recommended=boost-1_33_1" we should use
-   "boost boost-version=1_33_1". </li>
-   <li> The default for OKlibBuilding/Makefile is to use the recommended <strong>local</strong>
-   gcc-installation --- shouldn't this then be also for building %boost
-   the default ? </li>
+   <li> DONE (not needed anymore --- the recommended version is the default)
+   It should be possible to say "gcc-version=recommended". </li>
+   <li> We need a consistent naming-scheme regarding the versions of boost
+   and gcc to be used. And likely the names for building and using them
+   should be the same. </li>
+   <li> DONE
+   The default for OKlibBuilding/Makefile is to use the recommended
+   <strong>local</strong> gcc-installation --- shouldn't this then be also
+   for building %boost the default ? </li>
    <li> Installation of bjam should be improved: Having exactly one
    bjam-installation for each boost-version, and no need to recreate
    it if it's already there. Or, perhaps better: We just leave it in
    the distribution directory --- this seems reasonable: We don't use
    bjam ourselves, and thus by removing the additional steps
    our systems becomes simpler! </li>
-   <li> What happens with copying the documentation- files and directories
-   if the target- files and/or directories are already there? DONE ("cp -r"
-   copies directories/files which are not already present, and actually
-   replaces them if they are already there (in any case!)) </li>
-   <li> Building %boost should include copying the documentation to doc
-   (in the subdirectory boost-1_33_1 for example). DONE </li>
-   <li> In the long run, it seems that actually supporting different versions
+   <li> DONE ("cp -r" copies directories/files which are not already present,
+   and actually replaces them if they are already there (in any case!))
+   What happens with copying the documentation- files and directories
+   if the target- files and/or directories are already there? </li>
+   <li> DONE Building %boost should include copying the documentation to doc
+   (in the subdirectory boost-1_33_1 for example). </li>
+   <li> DONE (It should just be a matter of setting the boost-version-variable
+   to build another boost and/or to use it.)
+   In the long run, it seems that actually supporting different versions
    of Boost is not feasible (the library will likely always use the newest
    version), so finally supporting different Boost version should be dropped
-   (but the general machinery is worth keeping)?!? DONE Very likely most of the times we will support only one boost-version --- but we need the machinery for the transition to newer version (then for some times 2 versions are around)! And we might try out beta-versions etc. So we need the boost-build-machinery. </li>
+   (but the general machinery is worth keeping)?!? </li>
   </ul>
 
 

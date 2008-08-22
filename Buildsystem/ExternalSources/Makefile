@@ -33,13 +33,13 @@ export
 
 .PHONY : $(global_targets_extsrc_okl) 
 
-all : sat math buildsystem libraries compilers
+all : sat math buildsystem compilers libraries
 	echo "PRELIMINARY!"
 sat : $(sat_targets_extsrc_okl)
 math : $(math_targets_extsrc_okl)
 buildsystem : $(buildsystem_targets_extsrc_okl)
-libraries : $(library_targets_extsrc_okl)
 compilers : $(compiler_targets_extsrc_okl)
+libraries : $(library_targets_extsrc_okl)
 
 
 # #################################

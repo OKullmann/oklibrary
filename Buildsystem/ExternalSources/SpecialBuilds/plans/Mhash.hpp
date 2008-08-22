@@ -1,5 +1,5 @@
 // Oliver Kullmann, 28.6.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -13,7 +13,8 @@ License, or any later version. */
   \todo Mhash
   <ul>
    <li> mhash.mak needs a complete review; the usage of make-variables
-   seems pretty random (we should synchronise it with Configuration/ExternalSources/all.mak
+   seems pretty random (we should synchronise it with
+   Configuration/ExternalSources/all.mak
    and with the other build-files; and we need specifications for the variables,
    at least examples). </li>
    <li> Make a bug report about version 0.9.9 of Mhash (
@@ -25,9 +26,11 @@ License, or any later version. */
    also the option for a global installation should be available. </li>
    <li> The build-instructions for mhash should be as similar as possible
    to those for Boost. </li>
-   <li> Shouldn't the default for building mhash be using the recommended
+   <li> DONE
+   Shouldn't the default for building mhash be using the recommended
    local gcc-version? (Is linking necessary?) </li>
-   <li> It seems that cleanmhash should also remove the installation directory.
+   <li> DONE (cleanmhash should just remove the build-directories)
+   It seems that cleanmhash should also remove the installation directory.
    (MH) Isn't it the case that we want cleanmhash only to remove the build
    directory - so that the local installation can still be used after cleaning?
    Then to clean everything there is already the target "cleanallmhash". </li>

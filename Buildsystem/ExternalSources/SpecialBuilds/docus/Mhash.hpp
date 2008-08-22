@@ -1,5 +1,5 @@
 // Oliver Kullmann, 6.9.2007 (Swansea)
-/* Copyright 2007 Oliver Kullmann
+/* Copyright 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -58,41 +58,41 @@ License, or any later version. */
 
   <h2> How to install </h2>
 
+  Some general remarks:
   <ul>
-   <li> Local and system-wide installation possible; the default is local
-   installation if not configure otherwise. XXX yet only local installation XXX </li>
-   <li> Set variable <code>mhash_default_install</code> to value "system" to switch. XXX </li>
-   <li> If some required local installation of gcc is not available, then it is build first. XXX </li>
+   <li> Currently only local installation is provided. </li>
+   <li> If the required local installation of gcc is not available, then it
+   needs to be built first (currently this is not handled by the build
+   system). </li>
   </ul>
 
-  <h3> Make targets </h3>
 
   <h3> Make targets </h3>
   
   <table>
    <tr>
     <td> <code> mhash </code> </td>
-    <td> Build the recommended version of mhash, using the system-gcc. </td>
+    <td> Build the recommended version of mhash, using the local gcc. </td>
    </tr>
    <tr>
     <td> <code> mhash-a.b.c.d </code> </td>
-    <td> Build version a.b.c.d of mhash, using the system-gcc (using for
+    <td> Build version a.b.c.d of mhash, using the local gcc (using for
     example <code>mhash-0.9.7.1</code>). </td>
    </tr>
    <tr>
-    <td> <code> mhash gcc-version=x.y.z </code> </td>
-    <td> Build the recommended version of mhash, using the local gcc-version x.y.z (for example use <code>gcc-version=4.1.2</code>). </td>
+    <td> <code> mhash gcc_version_okl=x.y.z </code> </td>
+    <td> Build the recommended version of mhash, using the local gcc-version x.y.z (for example use <code>gcc_version_okl=4.1.2</code>). </td>
    </tr>
    <tr>
-    <td> <code> mhash gcc-version=all </code> </td>
+    <td> <code> mhash gcc_version_okl=all </code> </td>
     <td> Build the recommended version of mhash for all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
    <tr>
-    <td> <code> mhash-a.b.c.d gcc-version=x.y.z </code> </td>
+    <td> <code> mhash-a.b.c.d gcc_version_okl=x.y.z </code> </td>
     <td> Build version a.b.c.d of mhash, using the local gcc-version x.y.z. </td>
    </tr>
    <tr>
-    <td> <code> mhash-a.b.c.d gcc-version=all </code> </td>
+    <td> <code> mhash-a.b.c.d gcc_version_okl=all </code> </td>
     <td> Build version a.b.c.d of mhash for all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
    <tr>
@@ -100,6 +100,16 @@ License, or any later version. */
     <td> Build all supported versions of mhash for all all supported local gcc-versions as well as the system-gcc. </td>
    </tr>
   </table>
+
+
+  <h3> Configuration </h3>
+
+  <ul>
+   <li> To use the system-gcc, set variable <code>gcc_version_okl</code> to the
+   empty string. </li>
+   <li> And to use a different version of gcc set variable
+   <code>gcc_version_okl</code> accordingly.
+  </ul>
 
 */
 

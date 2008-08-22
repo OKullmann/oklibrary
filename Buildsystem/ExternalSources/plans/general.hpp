@@ -201,7 +201,7 @@ SAGE_ROOT="....."
    Buildsystem/ExternalSources/SpecialBuilds/plans/Gmp.hpp for the new
    scheme. </li>
    <li> And then we have make-variables "gcc_version_number" (for
-   OKlibBuilding/Makefile) and "gcc-version" (for boost.mak) which likely
+   OKlibBuilding/Makefile) and "gcc_version_okl" (for boost.mak) which likely
    should have the same names. </li>
    <li> In system_definitions.mak we have a definition of Boost which seems
    wrong to me (OK) (or at least misleading). DONE (resp. moved to other

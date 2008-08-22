@@ -35,7 +35,7 @@ boost_build_directory_names := $(addsuffix _Build, $(boost_installation_director
 boost_build_directory_paths := $(addprefix $(boost_base_directory)/,$(boost_build_directory_names))
 
 bjam_directory_path := $(boost_base_directory)/bjam
-# The relative path to to bjam-source:
+# The relative path to the bjam-source:
 bjam_source := tools/jam/src
 
 boost_base_doc_dir_okl := $(ExternalSources_doc)/Boost
@@ -105,7 +105,7 @@ define install-boost_gcc
 endef
 
 define boost_gcc_rule
-$(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(boost_base_doc_dir_okl)/$(1) | gcc-$(2) 
+$(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(boost_base_doc_dir_okl)/$(1)
 	$(call unarchive,$(ExternalSources)/sources/Boost/boost_$(1),$(boost_base_directory)) if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(boost_base_directory)/boost_$(1); if [ $$$$? != 0 ]; then exit 1; fi; \
 	cd $(bjam_source); if [ $$$$? != 0 ]; then exit 1; fi; \
@@ -119,10 +119,11 @@ $(boost_base_directory)/boost-$(1)+$(2) : $(boost_base_directory)/$(1)+$(2) $(bo
 endef
 
 # Comments:
-# Same as above (for system-gcc), but now using the local compiler (and thus also using different
-# naming conventions for the directories built).
+# This is the same as above (for system-gcc), but now using the local compiler (and thus also using 
+# different naming conventions for the directories built).
 
 $(foreach boostversion, $(abbr_boost_targets), $(foreach gccversion, $(gcc_installation_directory_names), $(eval $(call boost_gcc_rule,$(boostversion),$(gccversion)))))
+
 
 # ###############################
 # The main targets for making boost
@@ -132,16 +133,16 @@ boost_gcc_all : $(all_boost_targets)
 
 $(all_boost_targets) : % : $(boost_base_directory)/%
 
-ifeq ($(gcc-version),all)
+ifeq ($(gcc_version_okl),all)
  boost_all : $(boost_gcc_targets)
  boost : $(addprefix $(boost_recommended)+,$(gcc_installation_directory_names))
 else
- ifeq ($(gcc-version),)
+ ifeq ($(gcc_version_okl),)
   boost_all : $(boost_targets)
   boost : $(boost_recommended)
  else
-  boost_all : $(addsuffix $(gcc-version),$(boost_targets))
-  boost : $(boost_recommended)+$(gcc-version)
+  boost_all : $(addsuffix $(gcc_version_okl),$(boost_targets))
+  boost : $(boost_recommended)+$(gcc_version_okl)
  endif
 endif
 

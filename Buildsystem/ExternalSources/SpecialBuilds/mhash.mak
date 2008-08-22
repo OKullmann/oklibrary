@@ -82,7 +82,7 @@ $(mhash_extract_dirs_paths) : $(mhash_base_installation_dir_okl)/mhash-% : $(mha
 
 define install-mhash_gcc
 	cd $(mhash_base_installation_dir_okl)/$(1)+$(2)_Build;  if [ $$$$? != 0 ]; then exit 1; fi; \
-	$(mhash_base_installation_dir_okl)/mhash-$(1)/configure --prefix=$(mhash_base_installation_dir_okl)/$(1)+$(2) --with-CC=$(gcc_base_installation_dir_okl)/$(gcc-version)/bin/gcc; if [ $$$$? != 0 ]; then exit 1; fi; \
+	$(mhash_base_installation_dir_okl)/mhash-$(1)/configure --prefix=$(mhash_base_installation_dir_okl)/$(1)+$(2) --with-CC=$(gcc_base_installation_dir_okl)/$(gcc_version_okl)/bin/gcc; if [ $$$$? != 0 ]; then exit 1; fi; \
 	cp $(mhash_base_installation_dir_okl)/mhash-$(1)/include/mutils/*.h $(mhash_base_installation_dir_okl)/$(1)+$(2)_Build/include/mutils; if [ $$$$? != 0 ]; then exit 1; fi; \
 	make; if [ $$$$? != 0 ]; then exit 1; fi; \
 	make install;
@@ -104,16 +104,16 @@ mhash_gcc_all : $(all_mhash_targets)
 
 $(all_mhash_targets) : % : $(mhash_base_installation_dir_okl)/%
 
-ifeq ($(gcc-version),all)
+ifeq ($(gcc_version_okl),all)
  mhash_all : $(mhash_gcc_targets)
  mhash : $(addprefix $(mhash_recommended)+,$(gcc_installation_directory_names))
 else
- ifeq ($(gcc-version),)
+ ifeq ($(gcc_version_okl),)
   mhash_all : $(mhash_targets)
   mhash : $(mhash_recommended)
  else
-  mhash_all : $(addsuffix $(gcc-version),$(mhash_targets))
-  mhash : $(mhash_recommended)+$(gcc-version)
+  mhash_all : $(addsuffix $(gcc_version_okl),$(mhash_targets))
+  mhash : $(mhash_recommended)+$(gcc_version_okl)
  endif
 endif
 

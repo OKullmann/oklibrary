@@ -9,11 +9,11 @@
 
 global_targets_extsrc_okl ?= all clean cleanall update sat math buildsystem libraries compilers
 
-sat_targets_extsrc_okl ?= ubcsat grasp
+sat_targets_extsrc_okl ?= ubcsat # grasp
 math_targets_extsrc_okl ?= allmaxima gap R sage gmp
 buildsystem_targets_extsrc_okl ?= git doxygen
-library_targets_extsrc_okl ?=
-compiler_targets_extsrc_okl ?=
+compiler_targets_extsrc_okl ?= gcc
+library_targets_extsrc_okl ?= boost mhash
 
 
 ExternalSources_sources ?= $(ExternalSources)/sources
@@ -24,13 +24,11 @@ ExternalSources_builds ?= $(ExternalSources)/builds
 
 ext_src_checksum := md5sum
 
-include $(OKconfiguration)/ExternalSources/boost.mak
 include $(OKconfiguration)/ExternalSources/coq.mak
 include $(OKconfiguration)/ExternalSources/doxygen.mak
 include $(OKconfiguration)/ExternalSources/gcc.mak
 include $(OKconfiguration)/ExternalSources/git.mak
 include $(OKconfiguration)/ExternalSources/gmp.mak
-include $(OKconfiguration)/ExternalSources/mhash.mak
 include $(OKconfiguration)/ExternalSources/ocaml.mak
 include $(OKconfiguration)/ExternalSources/postgresql.mak
 include $(OKconfiguration)/ExternalSources/r.mak
@@ -42,6 +40,14 @@ include $(OKconfiguration)/ExternalSources/maxima.mak
 include $(OKconfiguration)/ExternalSources/asciidoc.mak
 include $(OKconfiguration)/ExternalSources/gap.mak
 include $(OKconfiguration)/ExternalSources/grasp.mak
+
+# Currently, these installations need the list of gcc-targets:
+include $(OKconfiguration)/ExternalSources/boost.mak
+include $(OKconfiguration)/ExternalSources/mhash.mak
+gcc_targets := $(addprefix $(gcc_targets_prefix_okl), $(gcc_supported_version_numbers_okl))
+# Making local installation of gcc the default:
+gcc_version_okl ?= $(gcc_recommended_version_number_okl)
+
 
 # ################################
 # Cmake
