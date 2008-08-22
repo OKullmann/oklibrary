@@ -5,6 +5,8 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# NEEDS UPDATE
+
 # Settings for building and using gcc
 
 gcc_recommended_version_number_okl ?= 4.1.2

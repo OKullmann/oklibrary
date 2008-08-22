@@ -5,6 +5,8 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
+# NEEDS UPDATE
+
 # Settings for building and using the Boost library
 
 boost_recommended_version_number ?= 1_34_1
