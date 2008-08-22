@@ -10,6 +10,13 @@ License, or any later version. */
   \brief Plans for the README file
 
 
+  \todo Preprocessing
+  <ul>
+   <li> Also the README-file should be pre-processed by m4, so that all the
+   information in there is always up-to-date.
+  </ul>
+
+
   \todo Creating an html-version
   <ul>
    <li> We should additionally provide README.html, produced from

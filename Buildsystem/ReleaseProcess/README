@@ -48,6 +48,8 @@ And for pulling from a git repository via the http protocol we need
  - the curl development libraries.
 
 Any recent Linux distribution supplies these prerequisites.
+(asciidoc can be installed through the OKlibrary by calling "oklib asciidoc"
+in OKplatform/ExternalSources, provided you have the root-password.)
 
 There are other Unix/Linux tools, which some "lean distributions"
 do not include (we propose you better go with a "fat distribution"),
@@ -116,7 +118,7 @@ by just calling "oklib --version" somewhere.)
 
 
 3) Except for the minimal package, precomputed documentation is included
-in the documentation (see local home page below).
+in the documentation (see "local home page" below).
 Regarding the information on the installed external sources, this precomputed
 information is not fully relevant for your system (since several test actions 
 have to be performed on *your* system). To (partially) update it, use
@@ -141,7 +143,7 @@ Remarks:
    it (amongst others), but you need gcc and Boost ready for this.
 
 All necessary installations can be carried out through the OKlibrary; see
-information on external sources on the local home page.
+information on external sources below and on the local home page.
 
 
 4) "oklib documentation_index" cannot update for examples the links in the
@@ -165,9 +167,12 @@ directory OKplatform/ExternalSources, and call "oklib extsrc" there.
 
 For convenience we provide "oklib all" (in ExternalSources), which
 gives you a reasonable first selection. (Currently we cannot
-install really everything due to build dependencies.)
+install just everything, due to build dependencies.)
 
-Some specific installations (included with "oklib all") are as follows.
+
+Some specific installations are as follows (all included with "oklib all",
+so if this has been (successfully) executed then there is no need for further 
+actions):
 
 1) The OKlibrary provides a local installation of doxygen. 
 This installation can be executed by calling "oklib doxygen" in directory 
@@ -193,6 +198,26 @@ an appropriate earlier version).
 3) The most convenient way to install the Maxima/Lisp computer-algebra-system 
 for SAT experimentation is by running "oklib allmaxima" in directory 
 OKplatform/ExternalSources.
+
+4) A local gcc is installed (providing a C and a C++ compiler).
+
+5) The C++ libraries Boost and Mhash are installed locally (using the
+local gcc).
+
+6) The Gmp library is installed locally.
+
+6) And further computer algebra systems installed are Gap, R and Sage.
+
+7) Yet the only SAT solver installed by default is Ubcsat.
+
+
+After having installed these tools, via
+
+oklib all check new_check app_tests html
+
+called in directory OKplatform/OKsystem, all executables provided
+by the OKlibrary itself are built, tests are run, and finally the
+documentation is updated.
 
 
 ----------------------------------------------
