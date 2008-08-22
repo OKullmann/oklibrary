@@ -14,6 +14,15 @@ License, or any later version. */
   <ul>
    <li> The problem is the reference to non-standard headers like
    "iostream.h". </li>
+   <li> Perhaps we always provide gcc version 4.1.2 (besides the newest
+   version), and build grasp with this version.
+    <ol>
+     <li> Then we need special buildsystem-variables for this "last old
+     version". </li>
+    </ol>
+   </li>
+   <li> But we should also contact Joao Marques-Silva about a possible
+   update of his code. </li>
   </ul>
 
 
