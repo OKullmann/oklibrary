@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/Html/Local/plans/milestones.hpp
   
-  \module_version Buildsystem/Html/Local 0.1.1 (16.9.2007)
+  \module_version Buildsystem/Html/Local 0.1.1.1 (22.8.2008)
 
 
   \par Version 0.1.2
@@ -29,7 +29,7 @@ License, or any later version. */
   \par
    In Buildsystem/Html/Local/plans/History.hpp the following topics are
    handled:
-    - Package history
+    - Package history : DONE
 
 
   \par Version 0.1.3

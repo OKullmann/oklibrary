@@ -10,7 +10,7 @@ License, or any later version. */
   \brief Plans for the page on the history of the OKlibrary
 
 
-  \todo Package history
+  \todo Package history : DONE
   <ul>
    <li> A sub-page is needed for the package-history. </li>
    <li> Compare "Packages history" in

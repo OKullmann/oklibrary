@@ -25,10 +25,11 @@ License, or any later version. */
 
   \todo Packages history
   <ul>
-   <li> With every new package a summary about the progress is added to a
+   <li> DONE With every new package a summary about the progress is added to a
    subpage of Local/History.html. See "Package history" in
    Buildsystem/Html/Local/plans/History.hpp. </li>
-   <li> Compare "Backups and archives" in Transitional/plans/general.hpp
+   <li> DONE
+   Compare "Backups and archives" in Transitional/plans/general.hpp
    for the "official history". </li>
    <li> DONE (exactly the packages which represent an advance at least in
    the third digit of the overall version are kept, and this in the

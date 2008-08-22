@@ -26,6 +26,9 @@ languages_page_output ?= $(local_html_dir)/ProgrammingLanguages.html
 history_page_template ?= $(OKbuildsystem)/Html/Local/History.html
 history_page_output ?= $(local_html_dir)/History.html
 
+packagehistory_page_template ?= $(OKbuildsystem)/Html/Local/PackageHistory.html
+packagehistory_page_output ?= $(local_html_dir)/PackageHistory.html
+
 licence_page_template ?= $(OKbuildsystem)/Html/Local/Licence.html
 licence_page_output ?= $(local_html_dir)/Licence.html
 

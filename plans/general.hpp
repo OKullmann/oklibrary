@@ -337,7 +337,9 @@ namespace SatAlg = Satisfiability::Algorithms;
   <ul>
    <li> An inventory is needed of what needs backup:
     <ol>
-     <li> Most important the main (git) repository (on cs-oksvr):
+     <li> DONE (having the clones and the github-repository should be
+     enough)
+     Most important the main (git) repository (on cs-oksvr):
       <ul>
        <li> This is backuped nightly (on the departmental server);
        one should check whether extraction actually works. </li>
@@ -371,7 +373,8 @@ namespace SatAlg = Satisfiability::Algorithms;
      (see Backup/plans/Backup.hpp); however this module seems obsolete now. </li>
     </ol>
    </li>
-   <li> Archiving:
+   <li> DONE (github should do the job)
+   Archiving:
     <ol>
      <li> Compare "Packages history" in
      Buildsystem/ReleaseProcess/plans/general.hpp for "local aspects". </li>

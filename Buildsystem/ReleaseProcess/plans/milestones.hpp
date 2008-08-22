@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/ReleaseProcess/plans/milestones.hpp
   
-  \module_version Buildsystem/ReleaseProcess 0.0.5.1 (1.10.2007)
+  \module_version Buildsystem/ReleaseProcess 0.0.5.2 (22.8.2008)
 
 
   \par Version 0.0.6
@@ -35,7 +35,7 @@ License, or any later version. */
   \par
    In Buildsystem/ReleaseProcess/plans/general.hpp the following topics
    are handled:
-    - Packages history
+    - Packages history : DONE
     - Plans-structure review : DONE
 
 
