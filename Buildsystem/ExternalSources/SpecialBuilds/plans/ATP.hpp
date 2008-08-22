@@ -38,5 +38,12 @@ LADR-Dec-2007> bin/prover9 --version
 
   \todo Maude
 
+
+  \todo First-order theory of the reals
+  <ul>
+   <li> QEPCAD http://www.cs.usna.edu/qepcad (or perhaps
+   http://www.cs.usna.edu/~qepcad ) seems to be the main implementation. </li>
+  </ul>
+
 */
 

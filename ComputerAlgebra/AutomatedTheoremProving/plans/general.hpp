@@ -33,6 +33,24 @@ License, or any later version. */
    <li> Currently (8.4.2008) the only examples come from formalising
    set theory: See AutomatedTheoremProving/SetTheory/NeumannBernaysGoedel/plans/general.hpp. </li>
   </ul>
+
+
+  \todo First-order theory of the reals
+  <ul>
+   <li> Are there implementations of the decision procedure for this theory
+   in computer-algebra systems? </li>
+   <li> See "First-order theory of the reals" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/ATP.hpp. </li>
+   <li> Perhaps this topic should go to ComputerAlgebra/FirstOrderStructures
+   ? </li>
+   <li> But ATP seems alright, since here theorems are proved automatically
+   (though not with general logical methods, but with specialised algorithms
+   --- but that should also belong to here). </li>
+   <li> In [A decision procedure for probability calculus with applications;
+   Fitelson, 2008. The review of symbolic logic] an interesting application
+   is discussed (only with a mathematica-program, but perhaps it's not too
+   hard to learn from that). </li>
+  </ul>
   
 */
 
