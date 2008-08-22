@@ -32,16 +32,23 @@ The following software needs to be installed:
  - GNU make, version 3.80 or higher
   (check: run "make --version")
  - gcc
+  (check: run "gcc --version")
+ - readline (development library).
 
 For creation of documentation we also need:
 
  - the Qt library
  - Latex
  - the m4 preprocessor
+   (check: "m4 --version")
  - asciidoc
+   (check: "asciidoc --version")
  - xmlto
+   (check: "xmlto --version")
  - Flex 
- - Bison.
+   (check: "flex --version")
+ - Bison
+   (check: "bison --version").
 
 And for pulling from a git repository via the http protocol we need
 
