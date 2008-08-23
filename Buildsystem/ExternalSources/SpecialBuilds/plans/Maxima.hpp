@@ -16,7 +16,7 @@ License, or any later version. */
     <ol>
      <li> Seems alright on cs-wsok (warnings about non-portable linking between
      static and shared libraries, but uses the local libraries). </li>
-     <li> Now needs to be tested on cs-oksvr. </li>
+     <li> Now needs to be tested on cs-oksvr: Same problem again! </li>
     </ol>
    </li>
   </ul>
@@ -24,9 +24,33 @@ License, or any later version. */
 
   \todo Installing other Lisp's
   <ul>
-   <li> SBCL http://www.sbcl.org/ looks alright (and maintained). </li>
+   <li> SBCL http://www.sbcl.org/ looks alright (and maintained).
+    <ol>
+     <li> However, it needs another Lisp to be compiled! That excludes
+     it. </li>
+    </ol>
+   </li>
    <li> ECL http://ecls.sourceforge.net/ again looks recent (and there were
-   Maxima-related updates). </li>
+   Maxima-related updates).
+    <ol>
+     <li>
+     \verbatim
+builds/Ecl> tar -xzf ../../sources/Ecl/ecl-0.9l.tgz
+builds/Ecl> cd ecl-0.9l
+Ecl/ecl-0.9l> ./configure --prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl --with-gmp-prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.2.3
+Ecl/ecl-0.9l> make
+Ecl/ecl-0.9l> make install
+     \endverbatim
+     seems alright. </li>
+     <li> But then
+     \verbatim
+Installations/Ecl/bin> ./ecl
+./ecl: error while loading shared libraries: libecl.so: cannot open shared object file: No such file or directory
+     \endverbatim
+     while correctly in ExternalSources/Installations/Ecl/ the directories
+     bin, include and lib (where lib contains libecl.so) are found?? </li>
+    </ol>
+   </li>
    <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
    we should try. </li>
    <li> CMUCL http://www.cons.org/cmucl/ looks also reasonable. </li>
