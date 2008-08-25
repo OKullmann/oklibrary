@@ -8,9 +8,9 @@
 # Settings for building and using Maxima
 
 maxima_recommended_version_number_okl ?= 5.15.0
-# 5.16.0, 5.16.1, 5.16.2 broken
 # ATTENTION: special repair-build for 5.15.0 regarding module graphs
-maxima_supported_not_recommended_version_numbers_okl ?= 
+# 5.16.3 usable, but gf-package unacceptably slow
+maxima_supported_not_recommended_version_numbers_okl ?= 5.16.3
 maxima_supported_version_numbers_okl ?= $(maxima_supported_not_recommended_version_numbers_okl) $(maxima_recommended_version_number_okl)
 
 maxima_prefix_okl ?= maxima
@@ -21,9 +21,18 @@ maxima_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Docum
 maxima_html_output_okl ?= $(local_html_dir)/Maxima.html
 maxima_html_documentation_index_location_okl ?= Maxima.html
 
-maxima_base_installation_dir_okl ?= $(ExternalSources_installations)/Maxima
+# Possibilities for the underlying Lisp: clisp, ecl (only from 5.16.3 on)
+maxima_lisp_name_okl ?= clisp
+ifeq ($(maxima_lisp_name_okl),clisp)
+  maxima_lisp_configuration_okl ?= --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl)
+else
+  maxima_lisp_configuration_okl ?= --with-ecl=ecl
+endif
+
+
+maxima_base_installation_dir_okl ?= $(ExternalSources_installations)/Maxima/$(maxima_lisp_name_okl)
 maxima_installation_dir_okl ?= $(maxima_base_installation_dir_okl)/$(maxima_recommended_version_number_okl)
-maxima_base_build_dir_okl ?= $(ExternalSources_builds)/Maxima
+maxima_base_build_dir_okl ?= $(ExternalSources_builds)/Maxima/$(maxima_lisp_name_okl)
 maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_package_name_okl)
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)

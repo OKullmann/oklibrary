@@ -19,6 +19,27 @@ License, or any later version. */
      <li> Now needs to be tested on cs-oksvr: Same problem again! </li>
     </ol>
    </li>
+   <li> Thus apparently we need to use another Lisp. </li>
+  </ul>
+
+
+  \todo Update to Maxima 5.16.x
+  <ul>
+   <li> With 5.16.3 now there appear no errors anymore. </li>
+   <li> However, now the gf-package is very slow, such that
+   "time oklib new_check" on cs-wsok goes up from
+   \verbatim
+real    4m1.167s
+user    3m21.613s
+sys     0m21.669s
+   \endverbatim
+   to
+   \verbatim
+real    5m18.519s
+user    4m31.577s
+sys     0m22.377s
+   \endverbatim
+   which seems solely due to the gf-package. </li>
   </ul>
 
 
@@ -49,6 +70,12 @@ Installations/Ecl/bin> ./ecl
      \endverbatim
      while correctly in ExternalSources/Installations/Ecl/ the directories
      bin, include and lib (where lib contains libecl.so) are found?? </li>
+     <li> According to Roger Dodier, one needs to create a script in
+     OKplatform/bin containing
+     \verbatim
+     LD_LIBRARY_PATH=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/lib; /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/bin/ecl 
+     \endverbatim
+     and then it works. </li>
     </ol>
    </li>
    <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but

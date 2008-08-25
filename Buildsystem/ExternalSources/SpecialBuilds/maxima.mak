@@ -27,7 +27,7 @@ ifneq ($(maxima_recommended_version_number_okl),5.15.0)
 maxima : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	cd $(maxima_build_dir_okl); $(postcondition) \
-	LANG=C ./configure --prefix=${maxima_installation_dir_okl} --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl); $(postcondition) \
+	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
 	LANG=C make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition) \
@@ -42,7 +42,7 @@ maxima : $(maxima_directories_okl)
 	rm -r $(maxima_build_dir_okl)/share/contrib/graphs
 	$(call unarchive,$(ExternalSources)/sources/Maxima/graphs,$(maxima_build_dir_okl)/share/contrib)
 	cd $(maxima_build_dir_okl); $(postcondition) \
-	LANG=C ./configure --prefix=${maxima_installation_dir_okl} --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl); $(postcondition) \
+	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
 	LANG=C make; $(postcondition) \
 	make check; $(postcondition) \
 	make install; $(postcondition) \
