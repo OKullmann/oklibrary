@@ -10,6 +10,9 @@ License, or any later version. */
   \brief Plans on handling finite fields
 
 
+  \todo Move to Ringframes/Fields.
+
+
   \todo Write tests for all functions provided
 
 
@@ -25,6 +28,8 @@ License, or any later version. */
 
   \todo Maxima bugs
   <ul>
+   <li> All items below need to be updated w.r.t. the new Maxima version
+   5.16.3. </li>
    <li> Register all gf-bugs we are aware of with the Maxima bug-tracker,
    and also send a summarising e-mail to the Maxima mailing list.
     <ol>

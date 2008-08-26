@@ -40,6 +40,25 @@ user    4m31.577s
 sys     0m22.377s
    \endverbatim
    which seems solely due to the gf-package. </li>
+   <li> Perhaps we should set "GF_IRREDUCIBILITY_CHECK : false".
+    <ol>
+     <li> With 5.15.0 the default value is "false". </li>
+     <li> And actually it seems that whenever it is set to true, and
+     gf-operations are performed, then it is reset to false!. This looks
+     like a bug, which might be corrected in 5.16.3. </li>
+    </ol>
+   </li>
+   <li> Perhaps also "largefield : false" should be used, but then we
+   should not permanently reset the field.
+    <ol>
+     <li> With 5.15.0 the default value is "true". </li>
+     <li> We should ask for the possibility to store and re-store actively
+     the values computed by gf_set. </li>
+     <li> Setting largefield to false results in 5.15.0 in the error
+     "Use `fasttimes' only on CRE polynomials with same varlists" (when
+     adding 0 to a polynomial). </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -73,7 +92,7 @@ Installations/Ecl/bin> ./ecl
      <li> According to Roger Dodier, one needs to create a script in
      OKplatform/bin containing
      \verbatim
-     LD_LIBRARY_PATH=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/lib; /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/bin/ecl 
+     LD_LIBRARY_PATH=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/lib; /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/bin/ecl $*
      \endverbatim
      and then it works. </li>
     </ol>

@@ -11,8 +11,8 @@ License, or any later version. */
   \module_version Buildsystem/ExternalSources/SpecialBuilds 0.2.1.7 (18.7.2008)
 
 
-  \par Version 0.2.2 (documentation, mathematical packages, updates, and
-  starting with SAT)
+  \par Version 0.2.2 (documentation, mathematical packages, starting with SAT,
+  and some updates)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -20,21 +20,11 @@ License, or any later version. */
     - Documentation
     - Handling of different versions : DONE
 
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
-   topics are handled:
-    - Update our gcc-installation-system to the new standard
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
-   topics are handled:
-    - Update Boost installation
-
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
     - bug CLisp doesn't use libsigsegv (though specified)
+    - Update to Maxima 5.16.x
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
@@ -79,7 +69,20 @@ License, or any later version. */
     - Installation : DONE
 
 
-  \par Version 0.2.3 (installing e-mail services)
+  \par Version 0.2.3 (updating Boost and Gcc)
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
+   topics are handled:
+    - Update our gcc-installation-system to the new standard
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
+   topics are handled:
+    - Update Boost installation
+
+
+  \par Version 0.2.4 (installing e-mail services)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Apache.hpp the following
@@ -107,7 +110,7 @@ License, or any later version. */
     - Writing docus page
 
 
-  \par Version 0.2.4 (installing computer algebra)
+  \par Version 0.2.5 (installing computer algebra)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Aldor.hpp the following
@@ -125,7 +128,7 @@ License, or any later version. */
     - Improving the Sage installation
 
 
-  \par Version 0.2.5 (completion of general services, and installing SAT)
+  \par Version 0.2.6 (completion of general services, and installing SAT)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -140,7 +143,7 @@ License, or any later version. */
     - Installing SAT solvers
 
 
-  \par Version 0.2.6 (cleaning up installations)
+  \par Version 0.2.7 (cleaning up installations)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
@@ -193,7 +196,7 @@ License, or any later version. */
     - Improve installation
 
 
-  \par Version 0.2.7 (new external sources for computer algebra and graphs)
+  \par Version 0.2.8 (new external sources for computer algebra and graphs)
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp
@@ -213,7 +216,7 @@ License, or any later version. */
     - Additional packages
 
 
-  \par Version 0.2.8
+  \par Version 0.2.9
 
   \par
    In Transitional/Buildsystem/ExternalSources/SpecialBuilds/plans/general.hpp the following

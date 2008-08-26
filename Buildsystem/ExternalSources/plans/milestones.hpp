@@ -13,7 +13,7 @@ License, or any later version. */
 
   \par Version 0.1.2
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.3
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.4
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
@@ -40,13 +40,13 @@ License, or any later version. */
 
   \par Version 0.1.5
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.5
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
 
   \par Version 0.1.6
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.6
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.7
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   \par
@@ -59,7 +59,7 @@ License, or any later version. */
 
   \par Version 0.1.7
 
-  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.8
+  \par Buildsystem/ExternalSources/SpecialBuilds version 0.2.9
   (see Buildsystem/ExternalSources/SpecialBuilds/plans/milestones.hpp)
 
   
