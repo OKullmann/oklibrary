@@ -13,6 +13,15 @@ License, or any later version. */
   \todo Update namespaces.
 
 
+  \todo The general framework
+  <ul>
+   <li> We need to plan the general framework for handling all kind of data
+   and investigations. </li>
+   <li> See "General databases" in Experimentation/Database/plans/general.hpp.
+   </li>
+  </ul>
+
+
   \todo General plans on evaluating solvers, algorithms, heuristics
   <ul>
    <li> Given a set S of solvers and a set G of groups of benchmarks, the task
