@@ -27,12 +27,6 @@ License, or any later version. */
     - Update to Maxima 5.16.x
 
   \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
-   topics are handled:
-    - bug: GRASP cannot be compiled with gcc version 4.3
-    - Grasp : DONE
-
-  \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
    topics are handled:
     - Installing GAP : DONE
@@ -69,17 +63,32 @@ License, or any later version. */
     - Installation : DONE
 
 
-  \par Version 0.2.3 (updating Boost and Gcc)
+  \par Version 0.2.3 (updating Boost, Gcc, and the existing SAT solvers)
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
     - Update our gcc-installation-system to the new standard
+    - Providing gcc 4.1.2
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Boost.hpp the following
    topics are handled:
     - Update Boost installation
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
+   topics are handled:
+    - Investigating the weak performance of Ubcsat on OK's 32-bit machine
+    - Building Ubcsat
+    - Update to version 1.1.0
+    - Complete docu-file : DONE
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp the following
+   topics are handled:
+    - bug: GRASP cannot be compiled with gcc version 4.3
+    - Grasp : DONE
 
 
   \par Version 0.2.4 (installing e-mail services)
@@ -155,14 +164,8 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp the following
    topics are handled:
-    - Install GCC 4.2.3
+    - Install GCC 4.2.4
     - Installation in general
-
-  \par
-   In Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp the following
-   topics are handled:
-    - Building Ubcsat
-    - Complete docu-file : DONE
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/PostgreSQL.hpp the

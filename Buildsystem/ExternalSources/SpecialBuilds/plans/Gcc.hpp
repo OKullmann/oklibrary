@@ -56,10 +56,23 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
   </ul>
 
 
+  \todo Providing gcc 4.1.2
+  <ul>
+   <li> Motivated by "GRASP cannot be compiled with gcc version 4.3" (see
+   Buildsystem/ExternalSources/SpecialBuilds/plans/SAT.hpp), we should provide
+   a permanent installation of version 4.1.2. </li>
+   <li> Perhaps we should provide in general build-variables supporting
+   usage of gcc (i.e., calling the compiler, and providing the instructions
+   for fixing the shared libraries in the binaries. </li>
+  </ul>
+
+
   \todo Install GCC 4.2.4
   <ul>
    <li> First only as an alternative (since yet code doesn't compile with
    versions 4.2 or later). </li>
+   <li> It seems best to proceed in stages, first installing the latest
+   4.2.x and updating our code, and then installing the latest 4.3.x. </li>
   </ul>
   
 
@@ -69,10 +82,11 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
     <ol>
      <li> Linking to the gcc-documentation (main info-page) should be checked
      for completeness. </li>
-     <li> We could offer also to show the man-page (just open it into a browser);
-     however then it should be said that likely the html-documentation is more complete. </li>
-     <li> We should also move the info-pages to the doc-directory. How to view them?
-     The least is just to open them into a browser. </li>
+     <li> We could offer also to show the man-page (just open it into a
+     browser); however then it should be said that likely the html-documentation
+     is more complete. </li>
+     <li> We should also move the info-pages to the doc-directory. How to view
+     them? The least is just to open them into a browser. </li>
     </ol>
    </li>
    <li> If variable "gcc_version_okl" is set, then it should have one of the
@@ -90,13 +104,14 @@ ifneq ($(findstring $(gcc_recommended_version_number_okl), $(gcc_old_installatio
    <li> Enabling Fortran language support in Gcc requires that the MPFR
     and GMP libraries are installed. Should we install these also locally?
     <ol>
-     <li> GMP is also of interest to us regarding big-number-types, so we need full
-     control about it, and perhaps a local installation is warranted (ignoring the
-     system installation). UPDATE NEEDED </li>
+     <li> GMP is also of interest to us regarding big-number-types, so we need
+     full control about it, and perhaps a local installation is warranted
+     (ignoring the system installation). UPDATE NEEDED </li>
     </ol>
    </li>
    <li> Shouldn't file external_sources_versions.mak be placed in
-   subdirectory Buildsystem/ExternalSources ? DONE (placed in Buildsystem/Configuration) </li>
+   subdirectory Buildsystem/ExternalSources ? DONE (placed in
+   Buildsystem/Configuration) </li>
    <li> If the filestamp does already exist, then we want nothing to happen ---
    however yet the build-directory will be rebuilt if not existent, since
    it is a prerequisite of the rule for the "tag-paths". So it seems

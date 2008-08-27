@@ -19,6 +19,8 @@ License, or any later version. */
     <ol>
      <li> Then we need special buildsystem-variables for this "last old
      version". </li>
+     <li> See "Providing gcc 4.1.2" in
+     Buildsystem/ExternalSources/SpecialBuilds/plans/Gcc.hpp. </li>
     </ol>
    </li>
    <li> But we should also contact Joao Marques-Silva about a possible
