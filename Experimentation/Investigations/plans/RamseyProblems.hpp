@@ -129,6 +129,18 @@ BestSolution_Max = 76.000000
          </li>
          <li> Alright, with noimprove = 3 000 000:
           <ol>
+           <li>
+           \verbatim
+BestStep_Mean = 1596309.594000
+Steps_Mean = 4590310.592000
+Steps_Max = 14784949.000000
+PercentSuccess = 0.20
+BestSolution_Mean = 33.976000
+BestSolution_Median = 35.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 61.000000
+           \endverbatim
+           </li>
            <li> With seed = 391532901 a solution was found (in round
            293, using 964281 steps)! </li>
            <li> So perhaps one should just use a cutoff of 1 000 000, and
