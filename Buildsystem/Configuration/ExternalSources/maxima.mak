@@ -27,8 +27,10 @@ ecl_call_okl ?= $(ExternalSources_installations)/Ecl/bin/ecl
 maxima_lisp_name_okl ?= clisp
 ifeq ($(maxima_lisp_name_okl),clisp)
   maxima_lisp_configuration_okl ?= --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl)
+  maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
 else
   maxima_lisp_configuration_okl ?= --with-ecl=$(ecl_call_okl)
+  maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/rmaxima
 endif
 
 
@@ -38,8 +40,6 @@ maxima_base_build_dir_okl ?= $(ExternalSources_builds)/Maxima/$(maxima_lisp_name
 maxima_build_dir_okl ?= $(maxima_base_build_dir_okl)/$(maxima_recommended_package_name_okl)
 maxima_base_doc_dir_okl ?= $(ExternalSources_doc)/Maxima
 maxima_doc_dir_okl ?= $(maxima_base_doc_dir_okl)/$(maxima_recommended_version_number_okl)
-
-maxima_call_okl ?= $(maxima_installation_dir_okl)/bin/maxima
 
 maxima_share_dir_okl ?= $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/share
 

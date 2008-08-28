@@ -77,48 +77,36 @@ sys     0m22.377s
      \verbatim
 builds/Ecl> tar -xzf ../../sources/Ecl/ecl-0.9l.tgz
 builds/Ecl> cd ecl-0.9l
-Ecl/ecl-0.9l> ./configure --prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl --with-gmp-prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.2.3 --disable-shared --with-asdf --with-defsystem
+Ecl/ecl-0.9l> LDFLAGS=-Wl,-rpath=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/lib ./configure --prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl --with-gmp-prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Gmp/4.2.3
 Ecl/ecl-0.9l> make
 Ecl/ecl-0.9l> make install
      \endverbatim
-     seems alright. </li>
-     <li> But then
-     \verbatim
-Installations/Ecl/bin> ./ecl
-./ecl: error while loading shared libraries: libecl.so: cannot open shared object file: No such file or directory
-     \endverbatim
-     while correctly in ExternalSources/Installations/Ecl/ the directories
-     bin, include and lib (where lib contains libecl.so) are found?? </li>
-     <li> One needs to create a script in
-     OKplatform/bin containing
-     \verbatim
-#!/bin/bash
-LD_LIBRARY_PATH=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/lib; /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Ecl/bin/ecl "$@"
-     \endverbatim
-     and then it works. </li>
-     <li> However the Maxima installation fails:
-     \verbatim
-Running test suite with ecl...
-/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/Maxima/ecl/maxima-5.16.3/src/binary-ecl/maxima: error while loading shared libraries: libecl.so: cannot open shared object file: No such file or directory
-     \endverbatim
-     since apparently it somehow sidesteps the wrapper-script. </li>
-     <li> One should be able to use "--disable-shared" for the configuration
-     of ecl, which compiles, but then the Maxima build fails earlier, by
-     \verbatim
-An error occurred during initialization:
-Module error: Don't know how to REQUIRE ASDF..
-     \endverbatim
-     /li>
-     <li> Then adding "--with-asdf" to the ecl-configuration should do the
-     job, but we get
-     \verbatim
-;; ranlib libsockets.a
-The function ASDF:FIND-SYSTEM is undefined.
-Broken at TOP-LEVEL. File: #P"/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/builds/Ecl/ecl-0.9l/src/lsp/top.lsp" (Form #26)No restarts available.
-Top level.
-SI>
-     \endverbatim
+     seems alright (where by setting LDFLAGS we fix the path to the
+     link-library needed for executing ecl. </li>
+     <li> However the frontend doesn't understand any cursor key!
+      <ol>
+       <li> Rlwrap http://utopia.knoware.nl/~hlub/uck/rlwrap/ needs to be
+       installed, and then rmaxima used. </li>
+       <li>
+       \verbatim
+builds/Rlwrap> tar -xzf ../../sources/Maxima/rlwrap-0.30.tar.gz
+builds/Rlwrap/rlwrap-0.30> ./configure --prefix=/home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Rlwrap
+/Rlwrap/rlwrap-0.30> make
+/Rlwrap/rlwrap-0.30> make check
+/Rlwrap/rlwrap-0.30> make install
+OKplatform/bin> ln -s /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/Installations/Rlwrap/bin/rlwrap
+       \endverbatim
+       </li>
+       <li> However, currently rmaxima is broken since it just calls "maxima",
+       i.e., it assumes system-wide installation.
+        <ul>
+         <li> So "maxima" in rmaxima has to be replaced by the full path. </li>
+        </ul>
+       </li>
+      </ol>
      </li>
+     <li> Building Maxima works now, but it seems that make_random_state
+     is now broken (we get test failures for our tests)? </li>
     </ol>
    </li>
    <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
