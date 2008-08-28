@@ -10,9 +10,24 @@ License, or any later version. */
   \brief Plans regarding installation of the Ubcsat package
 
 
+  \todo Investigating the weak performance of Ubcsat on OK's 32-bit machine
+  <ul>
+   <li> See "Bounds on NR([q,q],2)" in
+   Experimentation/Investigations/plans/RamseyProblems.hpp on some data
+   on the problem. </li>
+   <li> We should send the Ramsey-instance to the Ubcsat-people, to see
+   whether they think the performance on csltok is pretty bad (or perhaps
+   the performance on cs-wsok is pretty good). </li>
+  </ul>
+
+
   \todo Building Ubcsat (OK, ML)
   <ul>
-   <li> Yet the installation of a different version than the "recommended"
+   <li> The Ubcsat installation seems pretty up-to-date, but we should
+   check the details (only concerning 1.0.0). </li>
+   <li> DONE (updated to the new system, where only the "recommended"
+   version number is provided)
+   Yet the installation of a different version than the "recommended"
    version wouldn't work, since the directory-names contain the recommended
    version number (and not the one dictated by the target).
     <ol>
@@ -26,6 +41,14 @@ License, or any later version. */
    <li> DONE (removed)
    What is the meaning of "tag" and "tag_" ??? The names should tell. </li>
    <li> No file modification in the external sources. DONE </li>
+  </ul>
+
+
+  \todo Update to version 1.1.0
+  <ul>
+   <li> First we try what happens on 32-bit and 64-bit machines. </li>
+   <li> We should download the now available documentation. </li>
+   <li> OK must get in contact with the Ubcsat-group. </li>
   </ul>
 
 

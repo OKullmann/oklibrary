@@ -113,7 +113,7 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
          10 500 000 steps, average 4 300 000 steps, minimum 1 falsified clause
          (seed 18745606), 2912 flips per second. </li>
          <li> One round, cutoff = 20 000 000, with previous best seed: didn't
-         improve the result.</li>
+         improve the result. </li>
          <li> So let's try 500 runs, with cutoff = 20 000 000, noimprove =
          2 000 000:
          \verbatim
@@ -142,9 +142,29 @@ BestSolution_Max = 61.000000
            \endverbatim
            </li>
            <li> With seed = 391532901 a solution was found (in round
-           293, using 964281 steps)! </li>
-           <li> So perhaps one should just use a cutoff of 1 000 000, and
-           use more rounds? </li>
+           293, using 964281 steps)!
+            <ul>
+             <li> The command line instruction to reproduce this is:
+             \verbatim
+ubcsat -alg samd -seed 391532901 -cutoff 1000000 -i Ramsey_5_2_40.cnf
+             \endverbatim
+             </li>
+             <li> A solution is output by adding "-solve". </li>
+             <li> Perhaps this solution should be stored; the question is
+             where? Perhaps this is similar to data for minimally unsatisfiable
+             clause-sets etc., which finally is too much to put into source
+             control, but should exist as additional packages. </li>
+             <li> Of course, there is the whole complex of "database
+             questions"; see Experimentation/Database/plans/general.hpp
+             <li> We need to find out whether this solution is of interest
+             (i.e., "unknown") or not. </li>
+             <li> So we need to find out about the known solutions for n=40
+             in the literature, and about classifications of solutions (when
+             solutions are considered to be the "same"). </li>
+            </ul>
+           </li>
+           <li> So, in general perhaps one should just use a cutoff of
+           1 000 000, and use more rounds? </li>
           </ol>
          </li>
         </ol>
