@@ -25,6 +25,7 @@ oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijnda
 
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/SboxAnalysis.mac")$
 oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/FieldOperationsAnalysis.mac")$
+oklib_include("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/tests/Translations.mac")$
 
 /*!
 \endhtmlonly

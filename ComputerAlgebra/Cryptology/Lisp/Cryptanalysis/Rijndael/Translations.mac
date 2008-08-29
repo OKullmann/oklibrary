@@ -12,6 +12,25 @@ License, or any later version. */
 Use by
 
 oklib_load("Transitional/ComputerAlgebra/Cryptology/Lisp/Cryptanalysis/Rijndael/Translations.mac");
+  
+  \bug aes_make_vars_int never uses variable 384
+  <ul>
+   <li>
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[386]
+   \endverbatim
+   should be 
+   \verbatim
+aes_reset_vars()$
+aes_make_vars_int("x",1,1);
+[385]
+   \endverbatim
+   </li>
+   <li> This shouldn't have caused any issues, it simply results in the variable 384
+   never being used. </li>
+  </ul>
 
 */
 
@@ -49,11 +68,11 @@ aes_cnf_var_number : 1$
    ensure certain special variable cases (such as plaintext variables etc) are
    given identifiable variables */
 aes_make_vars_int(name,n,m) :=
-  if name = "p" then makelist(i,i,n,m)
-  else if name = "k" then makelist(i,i,128 + n,128 + m)
-  else if name = "c" then makelist(i,i,256 + n,256 + m)
+  if name = "p" then create_list(i,i,n,m)
+  else if name = "k" then create_list(i,i,128 + n,128 + m)
+  else if name = "c" then create_list(i,i,256 + n,256 + m)
   else block([rl], 
-    rl : makelist(i,i,aes_cnf_var_number + 3 * 128 + n,aes_cnf_var_number+3*128+m),
+    rl : create_list(i,i,aes_cnf_var_number + 3 * 128 + n,aes_cnf_var_number+3*128+m),
     aes_cnf_var_number : aes_cnf_var_number + (m-n+1),
     return(rl))$
 /* Generates a list of variables of the form name_i where
@@ -61,7 +80,7 @@ aes_make_vars_int(name,n,m) :=
    that repeated calls to this function will yield new variables */
 aes_make_vars_named(name, n,m) := block([val : get_hash(name,aes_var_ordering), res], 
   if val = false then block(val : 0, set_hash(name,aes_var_ordering, 0)),
-  res : makelist(eval_string(concat(name,string(i))),i,val + n, val + m),
+  res : create_list(eval_string(concat(name,string(i))),i,val + n, val + m),
   set_hash(name,aes_var_ordering,val+m), return(res))$
 /* Allows overriding of variable naming to provide a direct clause set
    translation which seems MUCH quicker than substituting for named variables 
@@ -203,7 +222,7 @@ aes_mixcolumn_cp([bits]) := block([iBits, oBits, nc,rs : {}],
    of AES round constants) to the round constant for round n */
 aes_round_constant(ivars, n) := block([rc_el,rc_l],
   rc_el : xreduce(lambda([a,b],aes_field_mul_data[b,a+1]),
-               makelist(2,i,1,(n -1)),1),
+               create_list(2,i,1,(n -1)),1),
   rc_l : polynomial2list(intToGF2t8Poly(rc_el),8),
   setify(map(
     lambda([a,b], if b = 0 then {-a} else {a}),
@@ -390,7 +409,7 @@ aes_cnf_cs() := block([rs : {}, aes_make_vars : aes_make_vars_int],
 /* Produces a formal CNF clause set representing 128-bit AES */
 aes_cnf_fcs() := block([aes_cs : {}, aes_make_vars : aes_make_vars_int],
   aes_cs : aes_cnf_cs(),
-  [makelist(i,i,1,aes_cnf_var_number), aes_cs])$
+  [create_list(i,i,1,aes_cnf_var_number), aes_cs])$
 
 /* Given many lists as arguments, returns the result of appending all the 
    lists.

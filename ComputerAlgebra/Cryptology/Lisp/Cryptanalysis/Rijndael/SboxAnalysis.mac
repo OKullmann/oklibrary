@@ -90,8 +90,10 @@ generate_full_int_perm_cnf_fcs(perm) := block(
    natural order, to the corresponding elements in "perm". S determines
    the SAT solver used for testing. */
 test_CNF_int_perm(FF,perm,S) := 
-  every(lambda([a],S(apply_pa_f(a,FF))),
-    generate_full_int_perm_dnf_fcs(perm)[2])$
+  every_s(lambda([a],S(apply_pa_f(a,FF))),
+    generate_full_int_perm_dnf_fcs(perm)[2]) and
+  every_s(lambda([a],not S(apply_pa_f(a,FF))),
+    map(comp_sl,generate_full_int_perm_cnf_fcs(perm)[2]))$
 
 /*!
 \endhtmlonly

@@ -33,13 +33,13 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ConflictCombinat
    multiplication with the given constant field element (as
    a polynomial) in the Rijndael GF(2^8) field */
 generate_full_aes_field_mul_dnf_fcs(constant_field_element) :=  
-  [setify(makelist(i,i,1,16)),
+  [setify(create_list(i,i,1,16)),
    map(lambda([ce],binary_list_to_dnf_c(
     append(polynomial2list(intToPoly(ce,2),8),
       polynomial2list(intToPoly(
         aes_field_mul_data[constant_field_element,ce+1],
         2),8)))),
-    setify(makelist(i,i,0,255)))]$
+    setify(create_list(i,i,0,255)))]$
 
 /* Generation of the full CNF clause-set representing the 
    multiplication with the given constant field element (as
