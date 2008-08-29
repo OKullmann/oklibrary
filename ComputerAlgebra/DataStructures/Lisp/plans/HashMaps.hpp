@@ -10,6 +10,16 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding maps
 
 
+  \bug False assumption for testing hash-maps
+  <ul>
+   <li> The test-functions eq_ohmsm_p and eq_hmsm_p assume that two hash-maps,
+   which are equal as set-maps, yield the same strings, but this is not true
+   for ecl, where the strings are not, as with clisp, a translation of the
+   set-maps, but just contain (apparently) a memory address. </li>
+   <li> The simplest solution is to abandon these extra tests. </li>
+  </ul>
+
+
   \todo New naming conventions
   <ul>
    <li> Rename old functions as indicated in
