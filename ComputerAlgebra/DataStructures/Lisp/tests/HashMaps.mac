@@ -87,13 +87,7 @@ okltest_evaluate_set_map_d(f) := block([M,x,y],
    reasons). */
 eq_ohmsm_p(h,M) := if not setmapp(M) then
   error("eq_ohmsm_p: the alleged set-map is not a set-map")
-  else if not is(create_set_map(h) = M) then false else
-  block([table : map(lambda([p],part(p,1)),hash_table_data_okl(h)), 
-    translated : hash_table_okl(),
-    L : listify(M)],
-    L : sort(L,lambda([P1,P2],is(sublist_indices_el(table,P1[1])[1] < sublist_indices_el(table,P2[1])[1]))),
-    for p in L do set_hash_okl(p[1], translated, p[2]),
-    is(sconcat(translated) = sconcat(h)))$
+  else is(create_set_map(h) = M)$
 
 okltest_eq_ohmsm_p(f) := block([M,h],
   h : hash_table_okl(),
@@ -110,11 +104,7 @@ okltest_eq_ohmsm_p(f) := block([M,h],
   set_hash_okl([],h,1),
   assert(f(h,M) = false),
   M : define_set_map(M,[],1),
-  assert(f(h,M) = (not oklib_load_annotation)), /* Assumes, that
-  the setting of oklib_load_annotation was the same when loading 
-  this file, and that oklib_include or oklib_load was used;
-  this is automatically given when loading the testobject-file
-  by any of the oklib-load-instructions. */
+  assert(f(h,M) = true),
   h : hash_table_okl(),
   set_hash_okl(1,h,1), set_hash_okl(-1,h,0),
   M : {[1,1],[-1,0]},
@@ -163,23 +153,7 @@ eq_hmsm_p(h,M) := (
          print(hm2sm(h))),
        false
      ))
- else block(
-  [table : map(lambda([p],eval_string(part(p,1))),hash_table_data_okl(h)), 
-   translated : sm2hm({}),
-   L : listify(M)],
-   L : sort(L,lambda([P1,P2],is(sublist_indices_el(table,P1[1])[1] < sublist_indices_el(table,P2[1])[1]))),
-   for p in L do set_hm(translated, p[1], p[2]),
-   if not is(sconcat(translated) = sconcat(h)) then (
-     if not oklib_monitor then false else (
-       print("M[eq_hmsm_p]: translating the set-map does not yield the given hash-map!"),
-       if oklib_monitor_level >= 1 then (
-         print("The translated set-map yields the string:"),
-         print(sconcat(translated)),
-         print("The hash-map yields the string:"),
-         print(sconcat(h))),
-       false
-     ))
-   else true))$
+ else true)$
 
 okltest_eq_hmsm_p(f) := block([M,h],
   h : hash_table_okl(),
@@ -287,7 +261,7 @@ okltest_list_osm : [
 okltest_osm2hm(f) := block(
   okltest_sm2hm(buildq([f],lambda([M],f(listify(M))))),
   for M in okltest_list_osm do
-    assert(hm2osm(f(M)) = M),
+    assert(hm2sm(f(M)) = setify(M)),
   true)$
 
 okltest_hm2sm(f) := block([h],

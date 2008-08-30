@@ -112,7 +112,7 @@ ev_hm_d(h,x,y) := get_hash_okl(sconcat(x),h,y)$
 del_hm(h,x) := del_hash_okl(sconcat(x),h)$
 
 /* Converting set-maps to hash-maps, and hash-maps to set-maps. */
-/* The order of entries in the hash-table is given by orderlessp. */
+/* The order of entries in the hash-map is (only) implementation-defined. */
 sm2hm(M) := block([h : hash_table_okl()],
   for p in M do set_hm(h,p[1],p[2]), return(h))$
 osm2hm(M) := sm2hm(M)$

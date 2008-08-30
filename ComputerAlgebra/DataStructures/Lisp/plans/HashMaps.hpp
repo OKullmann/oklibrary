@@ -10,13 +10,25 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding maps
 
 
-  \bug False assumption for testing hash-maps
+  \bug DONE (removed the additional assumptions and tests)
+  False assumption for testing hash-maps
   <ul>
    <li> The test-functions eq_ohmsm_p and eq_hmsm_p assume that two hash-maps,
    which are equal as set-maps, yield the same strings, but this is not true
    for ecl, where the strings are not, as with clisp, a translation of the
    set-maps, but just contain (apparently) a memory address. </li>
-   <li> The simplest solution is to abandon these extra tests. </li>
+   <li> More precisely, with clisp the hash-maps as strings contains the
+   list of assignments as well as the annotation-string (if present), while
+   with ecl none of this information is contained, but a reference to the
+   underlying object. </li>
+   <li> DONE (we drop the tests --- they were created when we didn't fully
+   understand the issues, and thus became overly cautious)
+   The simplest solution is to abandon these extra tests.
+   Or one could distinguish here between clisp and ecl. </li>
+   <li> DONE (we don't make assumptions on the order of entries in a
+   hash-map)
+   Apparently one must treat the order of the pairs in the hash-map as
+   implementation-defined (so that one shouldn't use it). </li>
   </ul>
 
 
