@@ -15,9 +15,8 @@ License, or any later version. */
 
   <h2> On the purpose of CLisp </h2>
 
-  The computer algebra system is implemented in "Common Lisp", and
-  CLisp is an implementation of this form of Lisp, suitable for the
-  computer algebra system Maxima.
+  The computer algebra system Maxima is implemented in "Common Lisp", and
+  CLisp is an implementation of this form of Lisp.
 
   Yet we do not use CLisp directly, only indirectly through Maxima.
 
@@ -74,11 +73,11 @@ License, or any later version. */
    <li> At least on 64-bit machines also "libffcall" is need;
    it can be installed as shown below. </li>
    <li> However, if problems arise (that is, the build aborts with a
-   segmentation fault --- don't worry otherwise), then the likely cause seems
-   to be that by unknown reasons the local installations
+   segmentation fault --- don't worry otherwise), then the likely cause is
+   that due to deficiencies of the CLisp build process the local installations
    are not recognised by the clisp installation, and then both "libsigsegv"
-   and "libffcall" need to be installed system-wide (currently this
-   needs to be done manually --- please ask if in trouble!). </li>
+   and "libffcall" need to be installed system-wide (currently this needs to
+   be done manually --- please ask if in trouble!). </li>
   </ul>
 
 
@@ -90,6 +89,10 @@ License, or any later version. */
    <tr>
     <td> <code> clisp </code> </td>
     <td> Build the recommended version of clisp. </td>
+   </tr>
+   <tr>
+    <td> <code> cleanclisp </code> </td>
+    <td> Removes the clisp build directory. </td>
    </tr>
    <tr>
     <td> <code> cleanallclisp </code> </td>

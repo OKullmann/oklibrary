@@ -10,7 +10,6 @@
 clisp_recommended_version_number_okl ?= 2.46
 # on 64-bit machines this needs libffcall
 clisp_supported_not_recommended_version_numbers_okl ?= 
-clisp_supported_version_numbers_okl ?= $(clisp_supported_not_recommended_version_numbers_okl) $(clisp_recommended_version_number_okl)
 
 clisp_prefix_okl ?= clisp
 
@@ -49,7 +48,6 @@ clisp_source_okl := $(ExternalSources)/sources/CLisp/$(clisp_recommended_okl)
 
 libsigsegv_recommended_version_number_okl ?= 2.5
 libsigsegv_supported_not_recommended_version_numbers_okl ?= 
-libsigsegv_supported_version_numbers_okl ?= $(libsigsegv_supported_not_recommended_version_numbers_okl) $(libsigsegv_recommended_version_number_okl)
 
 libsigsegv_prefix_okl ?= libsigsegv
 
@@ -70,7 +68,6 @@ libsigsegv_source_okl := $(ExternalSources)/sources/CLisp/$(libsigsegv_recommend
 
 libffcall_recommended_version_number_okl ?= 1.10
 libffcall_supported_not_recommended_version_numbers_okl ?= 
-libffcall_supported_version_numbers_okl ?= $(libffcall_supported_not_recommended_version_numbers_okl) $(libffcall_recommended_version_number_okl)
 
 libffcall_prefix_okl ?= ffcall
 

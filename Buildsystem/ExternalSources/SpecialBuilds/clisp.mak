@@ -5,13 +5,6 @@
 # the Free Software Foundation and included in this library; either version 3 of the 
 # License, or any later version.
 
-# This installation possibly has to be performed by hand, since apparently the
-# configure-script of the clisp-installation cannot handle correctly
-# the bash-shell.
-
-# The clisp-configure-script apparently cannot handle correctly bash in the
-# context of make.
-
 # ##################################
 # Directory Structure
 # ################################## 
