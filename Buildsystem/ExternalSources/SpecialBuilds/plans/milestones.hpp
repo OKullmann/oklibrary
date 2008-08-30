@@ -23,8 +23,14 @@ License, or any later version. */
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/Maxima.hpp the following
    topics are handled:
-    - bug CLisp doesn't use libsigsegv (though specified)
     - Update to Maxima 5.16.x
+    - Enabling use of ECL
+
+  \par
+   In Buildsystem/ExternalSources/SpecialBuilds/plans/Lisp.hpp the following
+   topics are handled:
+    - bug CLisp doesn't use libsigsegv (though specified)
+    - Installing Ecl
 
   \par
    In Buildsystem/ExternalSources/SpecialBuilds/plans/GAP.hpp the following
