@@ -42,6 +42,7 @@ rel_les_sage_docu_page := $(shell $(rel_path_tool) $(sage_docu_page) $(externals
 rel_les_coq_docu_page := $(shell $(rel_path_tool) $(coq_docu_page) $(externalsources_page_output))
 rel_les_ubcsat_docu_page_okl := $(shell $(rel_path_tool) $(ubcsat_docu_page_okl) $(externalsources_page_output))
 rel_les_clisp_docu_page_okl := $(shell $(rel_path_tool) $(clisp_docu_page_okl) $(externalsources_page_output))
+rel_les_ecl_docu_page_okl := $(shell $(rel_path_tool) $(ecl_docu_page_okl) $(externalsources_page_output))
 rel_les_maxima_docu_page_okl := $(shell $(rel_path_tool) $(maxima_docu_page_okl) $(externalsources_page_output))
 rel_les_gap_docu_page_okl := $(shell $(rel_path_tool) $(gap_docu_page_okl) $(externalsources_page_output))
 rel_les_grasp_docu_page_okl := $(shell $(rel_path_tool) $(grasp_docu_page_okl) $(externalsources_page_output))

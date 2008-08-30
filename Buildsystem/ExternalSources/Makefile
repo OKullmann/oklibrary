@@ -97,6 +97,7 @@ include $(OKbuildsystem)/ExternalSources/SpecialBuilds/sage.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ocaml.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/coq.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/clisp.mak
+include $(OKbuildsystem)/ExternalSources/SpecialBuilds/ecl.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/maxima.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/gap.mak
 include $(OKbuildsystem)/ExternalSources/SpecialBuilds/grasp.mak

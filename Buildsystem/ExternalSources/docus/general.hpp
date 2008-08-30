@@ -99,6 +99,7 @@ oklib gcc gcc_recommended_version_number_okl=4.2.4
    <li> CLisp (Buildsystem/ExternalSources/SpecialBuilds/docus/CLisp.hpp) </li>
    <li> Coq (Buildsystem/ExternalSources/SpecialBuilds/docus/Coq.hpp) </li>
    <li> Doxygen (Buildsystem/ExternalSources/SpecialBuilds/docus/Doxygen.hpp) </li>
+   <li> ECL (Buildsystem/ExternalSources/SpecialBuilds/docus/Ecl.hpp) </li>
    <li> Gap (Buildsystem/ExternalSources/SpecialBuilds/docus/Gap.hpp) </li>
    <li> Gcc (Buildsystem/ExternalSources/SpecialBuilds/docus/Gcc.hpp) </li>
    <li> Git (Buildsystem/ExternalSources/SpecialBuilds/docus/Git.hpp) </li>

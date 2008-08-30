@@ -21,8 +21,6 @@ maxima_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Docum
 maxima_html_output_okl ?= $(local_html_dir)/Maxima.html
 maxima_html_documentation_index_location_okl ?= Maxima.html
 
-# Temporary:
-ecl_call_okl ?= $(ExternalSources_installations)/Ecl/bin/ecl
 # Possibilities for the underlying Lisp: clisp, ecl (only from 5.16.3 on)
 maxima_lisp_name_okl ?= clisp
 ifeq ($(maxima_lisp_name_okl),clisp)

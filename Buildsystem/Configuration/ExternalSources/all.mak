@@ -36,6 +36,7 @@ include $(OKconfiguration)/ExternalSources/sage.mak
 include $(OKconfiguration)/ExternalSources/ubcsat.mak
 include $(OKconfiguration)/ExternalSources/valgrind.mak
 include $(OKconfiguration)/ExternalSources/clisp.mak
+include $(OKconfiguration)/ExternalSources/ecl.mak
 include $(OKconfiguration)/ExternalSources/maxima.mak
 include $(OKconfiguration)/ExternalSources/asciidoc.mak
 include $(OKconfiguration)/ExternalSources/gap.mak
