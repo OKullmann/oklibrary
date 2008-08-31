@@ -63,6 +63,35 @@ License, or any later version. */
   </ul>
 
 
+  \todo Maximum bicliques
+  <ul>
+   <li> There are two ways of measuring the size of a biclique: the number of
+   edges and the number of vertices. </li>
+   <li> So let's speak of "maximum-vertices bicliques" and "maximum-edges
+   bicliques". </li>
+   <li> The maximum-edges biclique decision problem (for a given lower bound
+   on the number of edges):
+    <ol>
+     <li> In [Sperschneider, Bioinformatics, Springer 2008], Theorem 5.42, this
+     is shown to be NP-complete, even if the graph is just bipartite. </li>
+     <li> From this proof a reduction of 3-SAT to this problem can be derived;
+     we should implement this. </li>
+     <li> On the other hand, we should also have algorithms and reductions for
+     solving this problem. </li>
+     <li> If the number of edges is given as a parameter: Is this problem then
+     fixed-parameter tractable? </li>
+    </ol>
+   </li>
+   <li> The maximum-vertices biclique decision problem:
+    <ol>
+     <li> Is this also NP-complete? </li>
+     <li> And with the number of vertices as parameter: Is this problem then
+     fixed-parameter tractable? </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo The notion of a biclique partition
   <ul>
    <li> For each of the above notions of bicliques, we obtain a notion
