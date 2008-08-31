@@ -38,6 +38,10 @@ vbc_gl_p(B,G) := listp(B) and is(length(B)=2) and
  every(lambda([b], subsetp(b,G[1])), B) and
  subsetp(map(setify,cartesian_product(B[1],B[2])), G[2])$
 
+/* CHANGE: the concept of a multigraph changed.
+   Instead of the subset-test we check then whether the edge-function
+   is non-zero on all potential edges.
+ */
 vbc_mugl_p(B,G) := listp(B) and is(length(B)=2) and
  every(setp, B) and disjointp(B[1],B[2]) and
  every(lambda([b], subsetp(b,G[1])), B) and
@@ -53,8 +57,6 @@ vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
  every(setp, B) and disjointp(B[1],B[2]) and
  every(lambda([b], subsetp(b,G[1])), B) and
  subsetp(cartesian_product(B[1],B[2]), G[2])$
-
-
 
 
 /*!

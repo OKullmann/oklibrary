@@ -44,10 +44,14 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Statistics.mac")$
    and such that f is a function which assigns to every edge its
    cardinality, a natural number (>0).
    A "multigraph with loops" allows loops.
+   CHANGE: this should change to a pair [V,f], such that f({a,b})
+   is the multiplicity >= 0 of edge {a,b}.
 */
 
 /* A "multi-digraph" is similarly a triple [V,E,f] such that [V,E] is
    is digraph; and a "multi-digraph with loops" allows loops.
+   CHANGE: similarly, this should change to a pair [V,f], where
+   f([a,b]) is the multiplicity >= 0 of arc [a,b].
 */
 
 /* A "general graph" is a triple [V,E,f], where f maps each element of
