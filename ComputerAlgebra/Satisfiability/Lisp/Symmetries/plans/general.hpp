@@ -125,6 +125,20 @@ License, or any later version. */
   </ul>
 
 
+  \todo Exploring symmetries
+  <ul>
+   <li> Compute the orbits of literals under the action of the
+   automorphism group of a clause-set. </li>
+   <li> Stronger one could compute simply all permutations combined with
+   sign flips which leave the clause-set invariant, i.e., the full
+   automorphism group in the trivial representation. </li>
+   <li> Then one needs to look for more intelligent representations
+   of the automorphism group. </li>
+   <li> Likely, Maxima is only for simple and initial attempts towards
+   symmetries, and Gap is the real tool here. </li>
+  </ul>
+
+
   \todo Homomorphisms
   <ul>
    <li> Create "Homomorphisms.mac" etc. </li>
