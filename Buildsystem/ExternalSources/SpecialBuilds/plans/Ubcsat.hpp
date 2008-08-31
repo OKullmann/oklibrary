@@ -25,6 +25,8 @@ License, or any later version. */
   <ul>
    <li> The Ubcsat installation seems pretty up-to-date, but we should
    check the details (only concerning 1.0.0). </li>
+   <li> See "Installation of UBCSAT completed" in
+   Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
    <li> DONE (updated to the new system, where only the "recommended"
    version number is provided)
    Yet the installation of a different version than the "recommended"
@@ -49,6 +51,8 @@ License, or any later version. */
    <li> First we try what happens on 32-bit and 64-bit machines. </li>
    <li> We should download the now available documentation. </li>
    <li> OK must get in contact with the Ubcsat-group. </li>
+   <li> See "Contact the developers of Ubcsat" in
+   Satisfiability/Algorithms/LocalSearch/plans/general.hpp. </li>
   </ul>
 
 

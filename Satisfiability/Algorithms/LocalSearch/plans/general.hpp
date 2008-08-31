@@ -1,5 +1,5 @@
 // Oliver Kullmann, 7.11.2006 (Swansea)
-/* Copyright 2006 - 2007 Oliver Kullmann
+/* Copyright 2006 - 2007, 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
 the Free Software Foundation and included in this library; either version 3 of the
@@ -16,8 +16,10 @@ License, or any later version. */
   \todo Update plans.
 
 
-  \todo Installation of UBCSAT completed:
+  \todo Installation of UBCSAT completed
   <ol>
+   <li> See "Building Ubcsat" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
    <li> Some documentation is needed (goes to Buildsystem/docus/ExternalSources.hpp):
     <ul>
      <li> how to use the binary </li>
@@ -36,6 +38,8 @@ License, or any later version. */
 
   \todo Contact the developers of Ubcsat
   <ul>
+   <li> See "Update to version 1.1.0" in
+   Buildsystem/ExternalSources/SpecialBuilds/plans/Ubcsat.hpp. </li>
    <li> Create wish-list for a new Ubcsat-release. </li>
   </ul>
 
