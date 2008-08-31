@@ -131,6 +131,9 @@ License, or any later version. */
    an appropriate role model), and it is to be include in the makefile
    <code>Buildsystem/ExternalSources/Makefile</code>.
    </li>
+   <li> The md5sum-hash-values of new external sources (from <code>
+   $(ExternalSources)/sources</code>) are stored in directory
+   <code>Buildsystem/ExternalSources//sources</code>. </li>
    <li> Documentation:
     <ol>
      <li> First the file
