@@ -16,6 +16,13 @@ License, or any later version. */
   \todo Update plans.
 
 
+  \todo Relations to other modules
+  <ul>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/LocalSearch/plans/general.hpp.
+   </li>
+  </ul>
+
+
   \todo Installation of UBCSAT completed
   <ol>
    <li> See "Building Ubcsat" in
