@@ -151,6 +151,8 @@ part(f1,2);
    <li> A biclique-partitioning corresponds to a representation of the
    matrix as a sum of 1-complete submatrices:
     <ol>
+     <li> Importantly, for each such submatrix row- and column-sets must
+     be disjoint. </li>
      <li> Since rows and columns have names, such a sum has a natural
      meaning. </li>
      <li> We should implement such a "submatrix_sum". </li>
@@ -160,6 +162,9 @@ part(f1,2);
      matrices" ? </li>
      <li> Or something more special, if the entries are just the
      {-1,0,+1}-versions of the original entries? A "sign-submatrix" ?! </li>
+     <li> Important also to notice that to capture biclique partitions of
+     multi-*graphs* we cannot use a sum of 1-complete submatrices, but
+     we need to make these matrices symmetric. </li>
     </ol>
    </li>
   </ul>

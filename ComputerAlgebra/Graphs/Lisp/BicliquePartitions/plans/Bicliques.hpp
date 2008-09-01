@@ -123,6 +123,27 @@ License, or any later version. */
      <li> From Maxima we can use bipartition(gr). </li>
     </ol>
    </li>
+   <li> We have a natural hierarchy of contexts for biclique partitions:
+    <ol>
+     <li> Most special are biclique partitions of directed (multi-)graphs.
+     </li>
+     <li> Next come biclique partitions of bipartite (multi-)graphs with
+     given bipartition. Directed (multi-)graphs G are covered here by the
+     conversion which uses the bipartition (V(G), V(G)), where we have
+     an edge from "left" to "right" iff the corresponding directed edge
+     in G exists. </li>
+     <li> This conversion corresponds to considering the adjacency matrix
+     of G, and interpreting it as the reduced adjacency matrix of a bipartite
+     graph. </li>
+     <li> Finally we have biclique partitions of arbitrary (multi-)graphs.
+     </li>
+     <li> Note that representing graphs G by directed graphs G' (via creating
+     from each edge two arcs, in both directions) does not embed the biclique
+     partition problem for graphs in that for directed graphs, since in G'
+     we have to find (different) bicliques for both arcs, while in G, so
+     to speak, one chooses an orientation. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -138,16 +159,24 @@ License, or any later version. */
    matrices:
     <ol>
      <li> The question is, what is the right place, here or there? </li>
-     <li> Especially with multigraphs the difference is only that for
+     <li> Especially with multidigraphs the difference is only that for
      combinatorial matrices we have two arguments (the 2 indices), while
      for multigraphs we have one (the edge). </li>
      <li> So with combinatorial matrices we have automatically the
      bipartitions given, while this is not the case for
      (general) graphs, and this makes the difference. </li>
+     <li> More pronouncedly, as discussed above a biclique partitioning
+     of a graph needs to choose an orientation (corresponding to choosing
+     only one of the two 1's representing the edge in the adjacency matrix).
+     </li>
+     <li> So representing a combinatorial matrix over NN_0 as a "sum" of
+     1-constant matrices with disjoint row- and column-sets is, up to
+     a different encoding, the same as a biclique partition of a bipartite
+     multigraph with given bipartition. </li>
      <li> Algorithmically, graphs are "sparse representations", while
      combinatorial matrices are "dense" (i.e., with them it is natural
      to query "quickly" whether two vertices are adjacent). </li>
-     <li> So likely we should explore both avenues. </li>
+     <li> So we should explore both avenues. </li>
     </ol>
    </li>
   </ul>
@@ -162,9 +191,8 @@ License, or any later version. */
    biclique (note that a biclique now requires all edges to go from
    one side to the other); this is especially important for clause-sets
    where literals always have a polarity. </li>
-   <li> For combinatorial matrices then we consider the adjacency matrices
-   of directed graphs, which are still nonnegative, but which are no longer
-   symmetric. </li>
+   <li> For combinatorial matrices we consider the adjacency matrices
+   of directed graphs, which are nonnegative (but not symmetric). </li>
   </ul>
 
 
