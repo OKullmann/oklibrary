@@ -89,6 +89,8 @@ License, or any later version. */
      fixed-parameter tractable? </li>
     </ol>
    </li>
+   <li> See "Bioinformatics" in ComputerAlgebra/plans/general.hpp for an
+   application. </li>
   </ul>
 
 

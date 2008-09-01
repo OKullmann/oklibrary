@@ -167,6 +167,129 @@ License, or any later version. */
   </ul>
 
 
+  \todo Bioinformatics
+  <ul>
+   <li> Should we create a module ComputerAlgebra/Bioinformatics, where we put
+   all the (somewhat) diverse problems below, or do we strive to find more
+   appropriate modules for them? </li>
+   <li> A general and important organisational problem is as follows:
+    <ol>
+     <li> One of the aims of the OKlibrary is to present the "world of NP",
+     as the problems and their translations. </li>
+     <li> But, obviously, we consider in principle "all problems", not
+     just in NP. </li>
+     <li> These problems we be spread out over many modules. </li>
+     <li> We need then some additional super-structure, which makes the
+     problems and their translations accessible (as a general directed
+     graph, where the vertices represent problems, and the arcs implemented
+     translations). </li>
+    </ol>
+   </li>
+   <li> The following is based on [Sperschneider, Bioinformatics, Springer,
+   2008], which seems a rather sloppily written book, but can serve as
+   a start (and perhaps the quality of the bioinformatics literature in
+   general is rather low). </li>
+   <li> "Consecutive Ones"
+    <ol>
+     <li> Given a combinatorial {0,1}-matrix A, find all linear orders of
+     the column set such that for every row all 1's are consecutive. </li>
+     <li> In other words, given a natural number n and m subsets A_i of
+     {1, ..., n}, find all permutations pi of {1, ..., n}  such that for
+     all i the set pi(A_i) is an arithmetic progression of slope 1. </li>
+     <li> This reformulation makes it clear that no "wrapping around" is
+     allowed. </li>
+     <li> Apparently the decision problem (whether such a linear order exists)
+     is poly-time solvable. </li>
+     <li> And furthermore apparently "PQ-trees" allow for an efficient
+     representation of all solutions (as permutations of the row-set), that
+     is, this representation is computable in poly-time, and furthermore
+     from such a representation the represented permutations can be
+     enumerated with delay linear in the size of the representation. </li>
+     <li> Questionable whether also the permutations can be counted
+     (efficiently)? </li>
+     <li> What is the general context of this problem? Looks like a special
+     type of combinatorial problems. </li>
+    </ol>
+   </li>
+   <li> "Single Digest"
+    <ol>
+     <li> In its general form, given is a group (G,*,1), and for a finite
+     subset X of G - {1} the "full digest" is the (finite) multiset
+     dg_X: G -> NN_0, where dg(x) counts for how many (y,z) in
+     X^2 - id_X we have y * z^{-1} = x. </li>
+     <li> The problem is then, given a finite multiset D over G, find
+     X with dg_X = D, where X, X' are considered as equivalent if they
+     differ only by a translation (since then we have dg_X = dg_X'). </li>
+     <li> One can slightly generalise the problem by allowing X to contain
+     1, and taking X to be a multiset. One can also consider for the "digest"
+     all pairs (y,z) in X^2. But this seems simple to solve, once the
+     fundamental problem is solved, and also not helpful. </li>
+     <li> The special form of the problem considered in [Bioinformatics]
+     uses G = ZZ and X subset of NN_0 with 0 in X (so that we do not
+     need to consider equivalences between X, X' anymore), where
+     furthermore for the digest only the positive results are used, and
+     accordingly D is a multiset over NN. </li>
+     <li> In the sequel only this problem is considered (for now). </li>
+     <li> It is unknown whether the decision problem (deciding whether
+     a solution exists) is poly-time or NP-complete (clearly it is in
+     NP). </li>
+     <li> Unclear, whether counting of all solutions, and representing them,
+     is also of interest in bioinformatics; likely it is, since likely
+     there are further conditions on the digest to be optimised. </li>
+     <li> A backtracking algorithm is presented in [Bioinformatics], which
+     is claimed to be rather efficient. </li>
+     <li> Interesting here to consider formulations as generalised SAT
+     problems or constraint satisfaction problems. </li>
+     <li> Given D of size n * (n-1) / 2 (otherwise the problem is trivially
+     unsolvable), a natural formulation as a constraint problem is to
+     consider as a solution an assignment
+     f: {(i,j) : 1 <= i < j <= n} -> D such that for all 1 <= i < j < k <= n
+     we have f((i,k)) = f((i,j)) + f((j,k)), and such that f is a bijection
+     (for the multiset D). </li>
+     <li> Given such f, X can be easily constructed as
+     X = {0} + {f(1,j) : 1 < j <= n}. </li>
+     <li> The problem with this formulation is likely that a lot of symmetries
+     are introduced in this way, which the backtracking algorithms avoids.
+     </li>
+     <li> We should implement the backtracking algorithm. </li>
+     <li> Perhaps this problem is still too easy (from the complexity point
+     of view) to be analysable as a generalised SAT problem. </li>
+     <li> Is there a general context for this problem? It has a slight
+     Ramsey-flavour (like the "Consecutive Ones"). </li>
+    </ol>
+   </li>
+   <li> "Double Digest"
+    <ol>
+     <li> The advantage here is that this problem is NP-complete. </li>
+     <li> Unfortunately the "definition" in [Bioinformatics] (page 30) is
+     not precise enough to determine what this problem is about. </li>
+     <li> Theorem 5.38 shows that this problem is NP-complete; we should
+     implement the translation. </li>
+    </ol>
+   </li>
+   <li> "Maximum Biclique"
+    <ol>
+     <li> This is the problem of finding a maximum-edges biclique in
+     a directed graph, or, in the language of combinatorial matrices,
+     finding a constant-1 submatrix of maximum size (number of entries)
+     in a given {0,1}-matrix. </li>
+     <li> See "Maximum bicliques" in
+     Graphs/Lisp/BicliquePartitions/plans/Bicliques.hpp. </li>
+     <li> The context of this problem in [Bioinformatics] is that of
+     clustering data. </li>
+     <li> This problem is NP-complete, and definitely of interest to us. </li>
+     <li> This problem should definitely be handled in Graphs or
+     CombinatorialMatrices; however, perhaps in ComputerAlgebra/Bioinformatics
+     we have applications of it. </li>
+     <li> This could be the general pattern: In module Bioinformatics we
+     consider the "application aspect", while for the problems we try to
+     find their "true environment" (similar to Transitional/Applications).
+     </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Documentation : DONE
   <ul>
    <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
