@@ -74,6 +74,47 @@ Function union expects a set, instead found union
  -- an error.  To debug this try debugmode(true);
      \endverbatim
      </li>
+     <li> Suggestions from the Maxima mailing list:
+     \verbatim
+Hmm. What does trace(union) show as the arguments to union ?
+If there is some expression in the arguments which is union(...) instead
+of {...}, maybe trace(listify, apply) shows from where it originates.
+Does load(nset) make the problem go away? (By running interpreted code
+instead of compiled.)
+     \endverbatim
+     </li>
+     <li> And
+     \verbatim
+Please try
+     for N step 10 thru 5000 do (print(N), apply(union,
+makelist({},i,1,N)));
+and let us know what it prints.  How exactly did you try much bigger
+unions?  It is important to know exactly what code you used.
+     \endverbatim
+     On cs-wsok this runs through without problems (50 seconds). </li>
+    </ol>
+   </li>
+   <li> Another bug:
+   \verbatim
+Maxima 5.16.3 http://maxima.sourceforge.net
+Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
+(%i1) oklib_load_all();
+Evaluation took 5.4600 seconds (5.5430 elapsed)
+(%o1) "/home/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/include.mac"
+(%i2) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
+Evaluation took 0.0040 seconds (0.0030 elapsed)
+(%o2) true
+(%i3) oklib_test_level:1;
+Evaluation took 0.0000 seconds (0.0000 elapsed)
+(%o3) 1
+(%i4) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
+make: *** [run_maxima] Segmentation fault
+   \endverbatim
+    <ol>
+     <li> The segmentation fault seems to happen in analyse_isorepo_defset_mvd
+     when performing "set_hm(h,def,union(ev_hm_d(h,def,{}), ...", which
+     contains a "union", and thus could have the same root as the above error?
+     </li>
     </ol>
    </li>
    <li> DONE (for now our build system repairs the rmaxima-script)
