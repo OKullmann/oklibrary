@@ -20,13 +20,32 @@ real    4m1.167s
 user    3m21.613s
 sys     0m21.669s
    \endverbatim
-   to
+   (with 5.15.0) to
    \verbatim
 real    5m18.519s
 user    4m31.577s
 sys     0m22.377s
    \endverbatim
    which seems solely due to the gf-package. </li>
+   <li> For comparisons: On csltok we have with ecl (and load(nset))
+   \verbatim
+real    7m25.216s
+user    5m58.919s
+sys     0m26.903s
+   \endverbatim
+   and with clisp (as above; also with load(nset))
+   \verbatim
+real    10m44.758s
+user    7m35.101s
+sys     0m59.227s
+   \endverbatim
+   (both with 5.16.3); without load(nset) clisp gets faster:
+   \verbatim
+real    8m38.436s
+user    6m46.368s
+sys     0m52.634s
+   \endverbatim
+   </li>
    <li> Perhaps we should set "GF_IRREDUCIBILITY_CHECK : false".
     <ol>
      <li> With 5.15.0 the default value is "false". </li>
@@ -82,19 +101,47 @@ of {...}, maybe trace(listify, apply) shows from where it originates.
 Does load(nset) make the problem go away? (By running interpreted code
 instead of compiled.)
      \endverbatim
+     We get after trace(union):
+     \verbatim
+1" Enter "union" "[{-6,-5,-4,-3,-2,-1},{-6,-5,-4,-3,-2,1},{-6,-5,-4,-3,-1,2},{-6,-5,-4,-3,1,2},{-6,-5,-4,-2,-1,3},
+ {-6,-5,-4,-2,1,3},{-6,-5,-4,-1,2,3},{-6,-5,-4,1,2,3},{-6,-5,-3,-2,-1,4},{-6,-5,-3,-2,1,4},
+ {-6,-5,-3,-1,2,4},{-6,-5,-3,1,2,4},{-6,-5,-2,-1,3,4},{-6,-5,-2,1,3,4},{-6,-5,-1,2,3,4},
+ {-6,-5,1,2,3,4},{-6,-4,-3,-2,-1,5},{-6,-4,-3,-2,1,5},{-6,-4,-3,-1,2,5},{-6,-4,-3,1,2,5},
+ {-6,-4,-2,-1,3,5},{-6,-4,-2,1,3,5},{-6,-4,-1,2,3,5},{-6,-4,1,2,3,5},{-6,-3,-2,-1,4,5},
+ {-6,-3,-2,1,4,5},{-6,-3,-1,2,4,5},{-6,-3,1,2,4,5},{-6,-2,-1,3,4,5},{-6,-2,1,3,4,5},
+ {-6,-1,2,3,4,5},{-6,1,2,3,4,5},{-5,-4,-3,-2,-1,6},{-5,-4,-3,-2,1,6},{-5,-4,-3,-1,2,6},
+ {-5,-4,-3,1,2,6},{-5,-4,-2,-1,3,6},{-5,-4,-2,1,3,6},{-5,-4,-1,2,3,6},{-5,-4,1,2,3,6},
+ {-5,-3,-2,-1,4,6},{-5,-3,-2,1,4,6},{-5,-3,-1,2,4,6},{-5,-3,1,2,4,6},{-5,-2,-1,3,4,6},
+ {-5,-2,1,3,4,6},{-5,-1,2,3,4,6},{-5,1,2,3,4,6},{-4,-3,-2,-1,5,6},{-4,-3,-2,1,5,6},
+ {-4,-3,-1,2,5,6},{-4,-3,1,2,5,6},{-4,-2,-1,3,5,6},{-4,-2,1,3,5,6},{-4,-1,2,3,5,6},{-4,1,2,3,5,6},
+ {-3,-2,-1,4,5,6},{-3,-2,1,4,5,6},{-3,-1,2,4,5,6},{-3,1,2,4,5,6},{-2,-1,3,4,5,6},{-2,1,3,4,5,6},
+ {-1,2,3,4,5,6},?\#\<illegal\ pointer\ bfff0e28\>]""""
+Function union expects a set, instead found ?the\-trace\-apply\-hack
+ -- an error.  To debug this try debugmode(true);
+     \endverbatim
+     Then using trace(listify,apply) doesn't create interesting output, except
+     of new error message
+     \verbatim
+ 1" Enter "union" "
+Maxima encountered a Lisp error:
+
+ #<frame 268451060 3221163056> is not of type SI:INSTANCE.
+     \endverbatim
      </li>
-     <li> And
+     <li> But actually "load(nset)" solves the problem! What is this doing?
+     </li>
+     <li> Another proposal from the Maxima mailing list:
      \verbatim
 Please try
-     for N step 10 thru 5000 do (print(N), apply(union,
-makelist({},i,1,N)));
+     for N step 10 thru 5000 do (print(N), apply(union, create_list({},i,1,N)));
 and let us know what it prints.  How exactly did you try much bigger
 unions?  It is important to know exactly what code you used.
      \endverbatim
-     On cs-wsok this runs through without problems (50 seconds). </li>
+     On cs-wsok this runs through without problems (50 seconds with makelist);
+     also on csltok (71s with create_list, 122s with makelist). </li>
     </ol>
    </li>
-   <li> Another bug:
+   <li> A different bug:
    \verbatim
 Maxima 5.16.3 http://maxima.sourceforge.net
 Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
@@ -115,6 +162,21 @@ make: *** [run_maxima] Segmentation fault
      when performing "set_hm(h,def,union(ev_hm_d(h,def,{}), ...", which
      contains a "union", and thus could have the same root as the above error?
      </li>
+     <li> When splitting the computation into sub-computation, then the same
+     error as above occurs, which can be eliminated by "load(nset)",
+     but then the segmentation fault shows up nevertheless, so it seems
+     to be another Ecl-bug. </li>
+     <li> The above output is on cs-wsok; on csltok it looks a bit different,
+     and may even work, but this only seems to hide the memory corruption: 
+     \verbatim
+true
+Maxima encountered a Lisp error:
+
+ Segmentation violation.
+     \endverbatim
+     (one sees that, different from cs-wsok, the computation is actually
+     completed before the memory violation is noted). </li>
+     <li> So on csltok this error is not analysable. </li>
     </ol>
    </li>
    <li> DONE (for now our build system repairs the rmaxima-script)
