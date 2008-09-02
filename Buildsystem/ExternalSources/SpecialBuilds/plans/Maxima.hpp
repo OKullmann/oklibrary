@@ -139,6 +139,21 @@ unions?  It is important to know exactly what code you used.
      \endverbatim
      On cs-wsok this runs through without problems (50 seconds with makelist);
      also on csltok (71s with create_list, 122s with makelist). </li>
+     <li> A proposed test case is
+     \verbatim
+for N: 5 thru 5000 do (lastn:N, if length(apply(union,makelist({floor(i/4),floor(i/3),2.5^i},i,1,N))) # N+floor(N/3)+1 then error(mismatch,N));
+     \endverbatim
+     (however N=774 is the maximal exponent possible with floats). </li>
+     <li> On 32-bit machines the bounds should be
+     \verbatim
+gcl     64
+ecl     65536
+clisp   4096
+cmucl   most-positive-fixnum
+ANSI CL says call-arguments-limit is at least 64, so for portable code,
+you can't go above 64.
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> A different bug:
