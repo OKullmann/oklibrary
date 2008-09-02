@@ -163,7 +163,7 @@ make: *** [run_maxima] Segmentation fault
      contains a "union", and thus could have the same root as the above error?
      </li>
      <li> When splitting the computation into sub-computation, then the same
-     error as above occurs, which can be eliminated by "load(nset)",
+     union-error as above occurs, which can be eliminated by "load(nset)",
      but then the segmentation fault shows up nevertheless, so it seems
      to be another Ecl-bug. </li>
      <li> The above output is on cs-wsok; on csltok it looks a bit different,
@@ -177,6 +177,10 @@ Maxima encountered a Lisp error:
      (one sees that, different from cs-wsok, the computation is actually
      completed before the memory violation is noted). </li>
      <li> So on csltok this error is not analysable. </li>
+     <li> On cs-wsok one sees that the segmentation fault happens inside
+     min_variable_degree_cs, however this doesn't need to mean anything,
+     since all operations on their own behave correct, and the memory
+     corruption perhaps happened earlier. </li>
     </ol>
    </li>
    <li> DONE (for now our build system repairs the rmaxima-script)
