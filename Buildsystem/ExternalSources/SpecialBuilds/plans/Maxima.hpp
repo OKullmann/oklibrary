@@ -153,7 +153,13 @@ cmucl   most-positive-fixnum
 ANSI CL says call-arguments-limit is at least 64, so for portable code,
 you can't go above 64.
      \endverbatim
-     </li>
+     However argument-lengths of 2^20 on cs-wsok and on csltok definitly
+     work for clisp! So perhaps clisp also has unbounded capacity here? </li>
+     <li> While the ecl-bound of 65536 actually holds, on 32-bit as well as
+     for 64-bit machines. </li>
+     <li> If gcl really has such a low argument-length, then it will be
+     useless for us. </li>
+     <li> ecl is on the border, while cmucl is worth a try. </li>
     </ol>
    </li>
    <li> A different bug:

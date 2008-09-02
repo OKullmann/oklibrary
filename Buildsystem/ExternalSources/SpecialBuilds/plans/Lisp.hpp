@@ -65,15 +65,20 @@ OKplatform/bin> ln -s /home/csoliver/SAT-Algorithmen/OKplatform/ExternalSources/
 
   \todo Installing other Lisp's
   <ul>
+   <li> CMUCL http://www.cons.org/cmucl/ looks reasonable. </li>
    <li> SBCL http://www.sbcl.org/ looks alright (and maintained).
     <ol>
-     <li> However, it needs another Lisp to be compiled! That excludes
-     it. </li>
+     <li> However, it needs another Lisp to be compiled! </li>
+     <li> So let's try the other's first. </li>
     </ol>
    </li>
    <li> GCL http://savannah.gnu.org/projects/gcl seems a bit outdated, but
-   we should try. </li>
-   <li> CMUCL http://www.cons.org/cmucl/ looks also reasonable. </li>
+   we should try.
+    <ol>
+     <li> However, if the argument-length is really only 64, then it's
+     not usable. </li>
+    </ol>
+   </li>
   </ul>
 
 
