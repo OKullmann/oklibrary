@@ -122,10 +122,10 @@ okltest_classify_candidates_uhit_def(f) := block(
   assert(f([{}]) = [false]),
   assert(f([{{1}}]) = [false]),
   if oklib_test_level = 0 then return(true),
-  assert(f([{},{{}},{{1}},{{1},{-1}},full_fcs(2)[2],full_fcs(3)[2]]) = [false,[[1,0],1],false,false,[[2,2],1],[[5,3],1]]),
+  assert(f([{},{{}},{{1}},{{1},{-1}},full_fcs(2)[2],full_fcs(3)[2],full_fcs(8)[2]]) = [false,[[1,0],1],false,false,[[2,2],1],[[5,3],1],[[248,8],"new"]]),
   true)$
 
-okltest_analyse_isorepo_defset_mvd(f) := block([h,FF],
+okltest_analyse_isorepo_defset_mvd(f) := block([h,FF1,FF2],
   h : sm2hm({}),
   assert(f(h) = []),
   manage_repository_isomorphism_types([{},{{}}],h),
@@ -135,9 +135,12 @@ okltest_analyse_isorepo_defset_mvd(f) := block([h,FF],
   assert(f(h) = [[1,{}],[2,{}]]),
   manage_repository_isomorphism_types(full_fcs(3),h),
   assert(f(h) = [[1,{}],[2,{}],[5,{}]]),
-  FF : full_fcs(8),
-  manage_repository_isomorphism_types(full_fcs(8),h),
-  assert(f(h) = [[1,{}],[2,{}],[5,{}],[248,{FF[2]}]]),
+  FF1 : full_fcs(6),
+  manage_repository_isomorphism_types(FF1,h),
+  assert(f(h) = [[1,{}],[2,{}],[5,{}],[58,{}]]),
+  FF2 : full_fcs(8),
+  manage_repository_isomorphism_types(FF2,h),
+  assert(f(h) = [[1,{}],[2,{}],[5,{}],[58,{}],[248,{FF2[2]}]]),
   true)$
 
 /*!
