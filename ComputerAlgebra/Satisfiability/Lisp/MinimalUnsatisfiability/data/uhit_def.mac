@@ -543,6 +543,7 @@ analyse_isorepo_defset_mvd(repository) := block(
         lambda([F],is(min_variable_degree_cs(F)=mvd
           and classify_candidates_uhit_def([F])[1][2]="new")))))),
   sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+
 /* This variation keeps those clause-sets which improve the min-var-degrees
    per deficiency in the catalogue. */
 /* If the uhit-catalogue has been updated, then the memoised values of
