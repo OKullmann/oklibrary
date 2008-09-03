@@ -41,7 +41,7 @@ License, or any later version. */
    <li> n = 7: 
     <ol>
      <li> Random sampling: 15/6060. </li>
-     <li> Another run with set_random(0): </li>
+     <li> Another run with set_random(0): 171/100037. </li>
     </ol>
    </li>
   </ul>
