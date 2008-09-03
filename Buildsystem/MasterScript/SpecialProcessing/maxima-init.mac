@@ -17,6 +17,22 @@ define_variable(
   oklib_session_name,
   sconcat("Maxima_session_","m4_SHELL(build_identification_okl)"),
   any);
+define_variable(
+  maxima_lisp_name_okl,
+  "m4_SHELL(maxima_lisp_name_okl)",
+  any);
+define_variable(
+  maximal_argument_length,
+  if maxima_lisp_name_okl = "ecl" then 2^16 
+    elseif maxima_lisp_name_okl = "clisp" then 2^12 - 1
+    else unknown,
+  any); /* may take value inf or unknown */
+define_variable(
+  maximal_argument_length_union,
+  if maxima_lisp_name_okl = "ecl" then maximal_argument_length
+    elseif maxima_lisp_name_okl = "clisp" then inf
+    else unknown,
+  any); /* may take value inf or unknown */
 
 showtime : true;
 linel : 100;

@@ -13,6 +13,19 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \todo Argument-length restriction
+  <ul>
+   <li> In CLisp we have the very restrictive maximal argument-lenght of
+   4095 (at least on 32-bit machines), which is better in ECL (2^16),
+   however in CLisp "union" can be applied to arbitrarily many arguments,
+   while in ECL it is restricted by the maximal argumenent-length. </li>
+   <li> We need to find out about these restrictions, and its variations.
+   </li>
+   <li> Perhaps the cmucl is the only usable Lisp, since apparently it does
+   not pose any restriction on the argument-length? </li>
+  </ul>
+
+
   \todo How to use function-parameters reliably??
   <ul>
    <li> The biggest problem with Maxima is that function-parameters are

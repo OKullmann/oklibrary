@@ -70,6 +70,23 @@ sys     0m52.634s
 
   \todo Enabling use of ECL
   <ul>
+   <li> Regarding argument-length restriction in Ecl, w.r.t. general
+   applications Ecl is stronger than CLisp (at least on 32-bit machines),
+   while w.r.t. union it is weaker. </li>
+   <li> We need to check cmucl --- if this is unrestricted, works and is
+   not slower than CLisp, then it should become our new default. </li>
+   <li> DONE
+   We should make variable maxima_lisp_name_okl available in Maxima. </li>
+   <li> DONE
+   Upper bound on argument-lengths:
+    <ol>
+     <li> Providing variable "maximal_argument_length" with the
+     (true) upper bound on the argument length(2^16 for Ecl, inf for CLisp).
+     </li>
+     <li> However for CLisp we need to differentiate between the "general"
+     upper bound (actually 4095) and the "union" upper bound. </li>
+    </ol>
+   </li>
    <li> okltest_set_sets_union (in
    ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac) contains a testcase
    which shows a clear Maxima/Ecl bug.
