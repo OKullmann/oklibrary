@@ -14,11 +14,13 @@ License, or any later version. */
   <ul>
    <li> Connections (where plans are mentioned):
     <ol>
-     <li> ComputerAlgebra/Hypergraphs/Lisp/plans/general.hpp </li>
+     <li> ComputerAlgebra/Hypergraphs/Lisp/plans/SetSystems.hpp </li>
      <li> ComputerAlgebra/plans/Matroids/Lisp/general.hpp </li>
      <li> ComputerAlgebra/DataStructures/Lisp/plans/HashMaps.hpp </li>
-   <li> What about hash-maps? We should put the "general" things into
-   Sets, leaving the "data structures" to ComputerAlgebra/DataStructures. </li>
+     <li> What about hash-maps? We should put the "general" things into
+     Sets, leaving the "data structures" to ComputerAlgebra/DataStructures. </li>
+    </ol>
+   </li>
   </ul>
 
 

@@ -24,39 +24,10 @@ License, or any later version. */
   </ul>
 
 
-  \todo Organisation
-  <ul>
-   <li> Shouldn't Hypergraphs/Lisp/SetSystems.mac have its own module
-    <ol>
-     <li> Perhaps in ComputerAlgebra/DataStructures ? </li>
-     <li> Better in ComputerAlgebra/Sets! </li>
-     <li> See also "Set creation" below. </li>
-    </ol.
-   </li>
-  </ul>
-
-
   \todo Write docus
   <ul>
    <li> We should have a list of all available functions. </li>
    <li> Seems that this list needs to be maintained manually? </li>
-  </ul>
-
-
-  \todo Set creation
-  <ul>
-   <li> It would be nice to have "create_set", as we have "create_list". </li>
-   <li> However
-   \verbatim
-create_set([A]) := setify(apply(create_list,A))$
-   \endverbatim
-   does not work, since "apply" evaluates the argument A. </li>
-   <li> Or, perhaps it works? I (OK) can't find an example where it does
-   not work? </li>
-   <li> It should be possible to make this work, but perhaps this is not 
-   worth the effort? </li>
-   <li> Ask on the Maxima mailing list. </li>
-   <li> This should belong to ComputerAlgebra/Sets. </li>
   </ul>
 
 
@@ -85,20 +56,6 @@ create_set([A]) := setify(apply(create_list,A))$
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/plans/HittingClauseSets.hpp
    for a motivation to study intersecting hypergraphs (no empty hyperedges,
    and every two hyperedges intersect). </li>
-  </ul>
-
-
-  \todo DONE (it seems that this bug won't be corrected in Maxima, so we are
-  using our own functions)
-  Bug in Maxima: corr_cartesian_product
-  <ul>
-   <li> DONE
-   Report the bug corrected by corr_cartesian_product to the Maxima
-   mailing list and to the bug-reporting system. </li>
-   <li> Once corrected, remove all applications of corr_cartesian_product.
-   </li>
-   <li> See "Document important programming techniques" in
-   ComputerAlgebra/plans/Maxima.hpp. </li>
   </ul>
 
 */
