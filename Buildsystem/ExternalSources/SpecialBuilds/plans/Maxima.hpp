@@ -180,6 +180,7 @@ you can't go above 64.
      <li> ecl is on the border, while cmucl is worth a try. </li>
      <li> In any case, Ecl should be able to handle the little union;
      a proposed fix is to use --disable-asmapply when building Ecl. </li>
+     <li> And on csltok this fixes the bug! </li>
     </ol>
    </li>
    <li> A different bug:
