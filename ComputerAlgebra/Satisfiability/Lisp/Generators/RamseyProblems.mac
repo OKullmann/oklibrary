@@ -1,0 +1,50 @@
+/* Oliver Kullmann, 4.9.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac
+  \brief Generators for %Ramsey-problems
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+
+/* The boolean ordered formal clause-sets expressing that NR([q,q],r) < n; 
+   a satisfying assignments yields a 2-colouring of the hypergraph with
+   vertices all r-subsets of {1,...,n}, while the hyperedges are all
+   obtained from the q-subsets of {1,...,n} by taking the set of all 
+   r-subsets.
+   In other words, the clause-set is satisfiable iff one can assign 0 and
+   1 to the r-element subsets (the "vertices") of {1,...,n} such that for 
+   every q-element subset of {1,...,n} there are two vertices which are
+   subsets and which have different values assigned.
+*/
+ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
+
+output_ramsey2(q,r,n,filename) := block(
+ [FFR : standardise_fcl(ramsey2_ofcs(q,r,n))],
+  output_fcl_v(
+    sconcat("Ramsey problem: 2 colours, hypergraph edges of size ", r, ", (monochromatic) subsets of size ", q, ", and ", n, " elements."), 
+    FFR[1],
+    filename,
+    FFR[2]))$
+output_ramsey2_stdname(q,r,n) := 
+ output_ramsey2(q,r,n,sconcat("Ramsey_",q,"_",r,"_",n,".cnf"))$
+
+
+/*!
+\endhtmlonly
+*/

@@ -13,7 +13,7 @@ License, or any later version. */
   \todo Split Generators/Generators.mac
   <ul>
    <li> Pigeonhole formulas </li>
-   <li> %Ramsey problems </li>
+   <li> DONE %Ramsey problems </li>
    <li> Special minimally unsatisfiable clause-sets
     <ol>
      <li> The documentation should mention random_splitting_mus in
@@ -82,22 +82,6 @@ License, or any later version. */
      yielding standardised clause-sets. </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Ramsey problems
-  <ul>
-   <li> One needs to think about the extreme cases; it seems there are
-   inconsistencies.
-    <ol>
-     <li> Compare "Ramsey graphs" in
-     ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
-    </ol>
-   </li>
-   <li> For larger Ramsey problems, we need the ability to compute directly
-   the standardised clause-set (which is just the hypergraph edges in two
-   versions, positive (as they are) and negative). </li>
-   <li> Compare "Colouring problems" above. </li>
   </ul>
 
 

@@ -116,23 +116,6 @@ okltest_vanderwaerden2_fcs(f) := (
   true)$
 
 
-/* ********************
-   * Ramsey's problem *
-   ********************
-*/
-
-okltest_ramsey2_ofcs(f) := (
-  assert(f(0,0,0) = [[colv({})], [{colv({})},{-colv({})}]]),
-  assert(f(1,0,0) = [[colv({})], []]),
-  assert(f(0,1,0) = [[], []]),
-  assert(f(0,0,1) = [[colv({})], [{colv({})},{-colv({})}]]),
-  assert(f(1,1,0) = [[], []]),
-  assert(f(1,0,1) = [[colv({})], [{colv({})},{-colv({})}]]),
-  assert(f(0,1,1) = [[colv({1})], []]),
-  assert(f(1,1,1) = [[colv({1})], [{colv({1})},{-colv({1})}]]),
-  true)$
-
-
 /* **************************************************
    * Translated minimally unsatisfiable clause-sets *
    **************************************************
