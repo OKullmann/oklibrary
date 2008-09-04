@@ -8,7 +8,7 @@ License, or any later version. */
 /*!
   \file Buildsystem/plans/milestones.hpp
   
-  \module_version Buildsystem 0.2.0.0 (23.9.2007)
+  \module_version Buildsystem 0.2.0.1 (4.9.2008)
 
 
   \par Version 0.2.1 : THEME is "ALPHA RELEASE"
@@ -22,7 +22,7 @@ License, or any later version. */
   \par Buildsystem/Html version 0.0.7
   (see Buildsystem/Html/plans/milestones.hpp)
 
-  \par Buildsystem/MasterScript version 0.0.5
+  \par Buildsystem/MasterScript version 0.0.5 : DONE
   (see Buildsystem/MasterScript/plans/milestones.hpp)
 
 

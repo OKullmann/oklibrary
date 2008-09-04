@@ -13,6 +13,14 @@ License, or any later version. */
   in an OKplatform-installation.
 
 
+  \todo Update of pulling and pushing facilities
+  <ul>
+   <li> Regarding the new public repository at Github, we should update and
+   revise the push/pull facilities and their documentation. </li>
+   <li> Compare with Buildsystem/SourceControl/plans/Github.hpp. </li>
+  </ul>
+
+
   \todo Markers instead of links
   <ul>
    <li> Once oklib is available, the temporary definitions of OKplatform etc.
@@ -61,26 +69,6 @@ License, or any later version. */
    <li> So by default always all directories below the calling directory are
    examined recursivly; by an option ("--non-recursive") this can be disabled.
    </li>
-  </ul>
-
-
-  \todo About access to main programs (including "oklib") : DONE
-  <ul>
-   <li> DONE (not needed)
-   Different location for OKplatform/bin
-    <ul>
-     <li> One could think of placing the directory somewhere else. </li>
-     <li> Via "oklib --prebuild" one could copy the links to some
-     other place, by default "~user/bin". </li>
-     <li> However, the user can achieve this himself by a simple symbolic
-     link. </li>
-    </ul>
-   </li>
-   <li> DONE Perhaps we always have OKplatform/bin with links to all important
-   programs (including oklib). </li>
-   <li> DONE (public_links.mak)
-   Under Buildsystem/Configuration a file is needed containing the
-   settings for those main links. </li>
   </ul>
 
 

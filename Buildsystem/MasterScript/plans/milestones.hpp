@@ -8,20 +8,14 @@ License, or any later version. */
 /*!
   \file Buildsystem/MasterScript/plans/milestones.hpp
   
-  \module_version Buildsystem/MasterScript 0.0.4 (1.9.2007)
-
-
-  \par Version 0.0.5 :
-
-  \par
-   In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
-    - About access to main programs (including "oklib") : DONE
+  \module_version Buildsystem/MasterScript 0.0.5 (4.9.2008)
 
 
   \par Version 0.0.6 :
 
   \par
    In Buildsystem/MasterScript/plans/general.hpp the following topics are handled:
+    - Update of pulling and pushing facilities
     - Markers instead of links
 
 
@@ -49,6 +43,7 @@ License, or any later version. */
 
    - 0.0.3 : 24.8.2007; initial version number (plans ready for the first version)
    - 0.0.4 : 1.9.2007; first implementation of the oklib-masterscript (yet with hardcoded selection of make-files)
+   - 0.0.5 : 4.9.2008; provided options "--maxima", "---R", "--create-package", providing now OKplatform/bin for easy access to programs provided by the OKlibrary, support for pushing and pulling (w.r.t. git), many Maxima-initialisations, and various improvements and corrections.
 
 */
 
