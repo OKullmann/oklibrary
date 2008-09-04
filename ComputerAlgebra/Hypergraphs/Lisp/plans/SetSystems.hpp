@@ -28,23 +28,51 @@ License, or any later version. */
 
   \todo Unions
   <ul>
-   <li> It seems we should assume that "apply" takes arbitrarily many
-   arguments. </li>
-   <li> This rules out to use ECL as the underlying Lisp. </li>
-   <li> The only alternative would be to write dedicated implementations
-   of union_listset etc.; perhaps at some point in the future we'll do
-   so. </li>
-   <li> Then actually we should encourage the use of "union_listset" etc.
+   <li> DONE (implemented uapply in
+   ComputerAlgebra/DataStructures/Lisp/Lists.mac)
+   About the argument-length restriction to "apply":
+    <ol>
+     <li> We could assume that "apply" takes arbitrarily many
+     arguments. </li>
+     <li> This rules out to use ECL as the underlying Lisp. </li>
+     <li> The only alternative would be to write dedicated implementations
+     of union_listset etc.; perhaps at some point in the future we'll do
+     so. </li>
+     <li> Then actually we should encourage the use of "union_listset" etc.
+     </li>
+     <li> The current implementation of union_listset=list_sets_union
+     queries maximal_argument_length_union: The underlying algorithm
+     can be generalised to obtain an unrestricted version of apply.
+    </ol>
    </li>
    <li> A simple alternative algorithm for union_listset:
    \verbatim
-union_listset_alt(L) := setify(apply(append, map(listify,L)))$
+union_listset_alt(L) := setify(uaapply(append, map(listify,L)))$
    \endverbatim
    This is much faster if the sets of mostly disjoint (and apparently
    not much slower if not). </li>
-   <li> However, here actually we encounter the upper-bound of 4095 on
+   <li> DONE
+   However, here actually we encounter the upper-bound of 4095 on
    the argument-length! So "apply(union,x)" is simply handled differently
    than "apply(append,x)" ! </li>
+   <li> "xreduce" should not be used, as
+   \verbatim
+(%i632) uuapply(union,create_list({},i,1,100000));
+Evaluation took 7.4890 seconds (7.5370 elapsed)
+(%o632) {}
+(%i633) xreduce(union,create_list({},i,1,100000));
+Evaluation took 686.2800 seconds (692.9140 elapsed)
+(%o633) {}
+   \endverbatim
+   shows (with Ecl, on csltok); with CLisp we have
+   \verbatim
+(%i2) uuapply(union,create_list({},i,1,100000));
+Evaluation took 10.1505 seconds (10.1909 elapsed) using 41.200 MB.
+(%o2) {}
+(%i3) xreduce(union,create_list({},i,1,100000));
+Evaluation took 10.2634 seconds (10.3040 elapsed) using 45.777 MB.
+   \endverbatim
+   </li>
   </ul>
 
 

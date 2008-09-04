@@ -151,6 +151,12 @@ xreduce(nounify(union), [a,b,c,d]);
 
   \todo Bugs of Maxima and their corrections:
   <ul>
+   <li> apply
+    <ol>
+     <li> See "Apply-functionality" in
+     ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp. </li>
+    </ol>
+   </li>
    <li> ext_integer_partitions </li>
    <li> corr_cartesian_product </li>
    <li> "symmetricp(M)" from ctensor does not work as announced:

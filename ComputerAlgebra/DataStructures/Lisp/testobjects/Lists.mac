@@ -21,6 +21,14 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/testobjects/Lists.m
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac")$
 
+/* ***********************
+   * Apply-functionality *
+   ***********************
+*/
+
+okltest_uuapply(uuapply);
+okltest_uaapply(uaapply);
+
 /* *******************************
    * Testing properties of lists *
    *******************************

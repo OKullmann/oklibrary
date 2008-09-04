@@ -21,9 +21,31 @@ oklib_load("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac");
 
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
-
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 kill(f)$
+
+/* ***********************
+   * Apply-functionality *
+   ***********************
+*/
+
+okltest_uuapply(f) := block(
+  assert(f(union,[]) = {}),
+  assert(f(intersection,[{}]) = {}),
+  assert(f(corr_cartesian_product,[]) = {[]}),
+  if oklib_test_level = 0 then return(true),
+  assert(f(union,create_list({},i,1,100000)) = {}),
+  assert(f(intersection,create_list({},i,1,100000)) = {}),
+  assert(f(corr_cartesian_product,create_list({},i,1,100000)) = {}),
+  true)$
+
+okltest_uaapply(f) := block(
+  assert(f(append,[]) = []),
+  if oklib_test_level = 0 then return(true),
+  assert(f(append,create_list([],i,1,100000)) = []),
+  true)$
+
 
 /* *******************************
    * Testing properties of lists *

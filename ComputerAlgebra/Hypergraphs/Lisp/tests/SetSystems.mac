@@ -86,6 +86,7 @@ okltest_list_sets_union(f) := block(
   assert(f([{}]) = {}),
   assert(f([{1,2},{2,3},{3,4}]) = {1,2,3,4}),
   if oklib_test_level = 0 then return(true),
+  if oklib_test_level = 1 then return(true),
   assert(f(create_list({i},i,1,2^16+1)) = setn(2^16+1)),
   true)$
 

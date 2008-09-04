@@ -10,6 +10,20 @@ License, or any later version. */
   \brief Plans for Maxima-components regarding operations on lists
 
 
+  \todo Apply-functionality
+  <ul>
+   <li> We need docus on the use of apply, uuapple, uaapply:
+    <ol>
+     <li> "apply" iff the operator is like "+", or we have at most
+     63 arguments (guaranteed). </li>
+     <li> "uuapply" iff the operator is like "union, intersection,
+     cartesian_product". </li>
+     <li> "uaapply" otherwise. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo In-place modification
   <ul>
    <li> It seems that for example handling of loops would often be

@@ -57,12 +57,11 @@ upairs(A,B) := makeset({x,y},[x,y],cartesian_product(A,B))$
 
 /* The union of a set system: */
 /* RENAME: set_sets_union */
-set_system_union(S) := apply(union,listify(S))$
-set_sets_union(S) := apply(union,listify(S))$
+set_system_union(S) := list_sets_union(listify(S))$
+set_sets_union(S) := list_sets_union(listify(S))$
 /* The union of a list of sets: */
-list_sets_union(L) := apply(union,L)$
-/* The above two functions are mostly there for "information" (how to do
-   it). */
+list_sets_union(L) := uuapply(union,L)$
+
 /* The union of a family of sets, i.e., given is a domain I and a map f(i).
    I can be a set or a list; use this function instead of 
    apply(union, listify(map(f,I))) resp. apply(union, map(f,I)) iff 
@@ -72,13 +71,13 @@ family_sets_union(I, f) := if emptyp(I) then {} else block([res : {}],
  for i in I do res : union(res, f(i)), res)$
 
 /* The sum of a list of sets: */
-set_sum(L) := apply(union,
+set_sum(L) := uuapply(union,
   map(cartesian_product, L, create_list({i},i,1,length(L))))$
 /* The n-ary version: */
 set_sumn([L]) := set_sum(L)$
 
 /* Complex-union (pairwise union): */
-cunion(A,B) := setify(map(lambda([P],apply(union,P)),cartesian_product_l([listify(A),listify(B)])))$
+cunion(A,B) := setify(map(lambda([P],uuapply(union,P)),cartesian_product_l([listify(A),listify(B)])))$
 /* The special case of adding some set to all elements of
    a set system. */
 add_elements(a,B) := cunion({a},B)$
@@ -106,12 +105,12 @@ setdifference2(S,b) := map(lambda([s], setdifference(s,b)), S)$
 
 /* Correcting a bug in Maxima: */
 corr_cartesian_product([S]) := if emptyp(S) then {[]}
- else apply(cartesian_product,S)$
+ else uuapply(cartesian_product,S)$
 /* Now the input is a list of lists, and we obtain the "cartesian
    product" as a list (in the natural order): */
 cartesian_product_l(S) := if emptyp(S) then [[]]
  else block([P : cartesian_product_l(rest(S))],
-   apply(append, create_list(
+   uaapply(append, create_list(
      map(lambda([t],cons(x,t)), P),
      x,first(S))))$
 
