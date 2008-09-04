@@ -22,6 +22,9 @@ License, or any later version. */
   \par Buildsystem/Html version 0.0.7
   (see Buildsystem/Html/plans/milestones.hpp)
 
+  \par Buildsystem/MasterScript version 0.0.5
+  (see Buildsystem/MasterScript/plans/milestones.hpp)
+
 
   \par Version 0.2.2 : THEME is "CONSOLIDATION"
 
@@ -68,9 +71,8 @@ License, or any later version. */
   \par Buildsystem/ExternalSources version 0.1.6
   (see Buildsystem/ExternalSources/plans/milestones.hpp)
 
-  \par
-   In Buildsystem/plans/MasterScript.hpp the following topics are handled:
-    -  Further enhancements
+  \par Buildsystem/MasterScript version 0.0.7
+  (see Buildsystem/MasterScript/plans/milestones.hpp)
 
 
   \par Version 0.2.4 :
