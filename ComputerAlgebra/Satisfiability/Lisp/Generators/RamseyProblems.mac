@@ -31,6 +31,14 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
    1 to the r-element subsets (the "vertices") of {1,...,n} such that for 
    every q-element subset of {1,...,n} there are two vertices which are
    subsets and which have different values assigned.
+   For r=2 we have the interpretation, that the clause-set is satisfiable
+   iff there exists an edge-labelling of the K_n with "colours" 1,2  such
+   that no q-clique is monochromatic (w.r.t. the edges involved).
+   For arbitrary r, instead of K_n^r one considers the K_n^r, the r-graph
+   consisting of all r-element subsets of {1,...,n}; satisfying assignments
+   are those labellings of the r-element subsets with "colours 1,2" such
+   that every q-element subset of {1,...,n} contains one r-element subset
+   for each colour.
 */
 ramsey2_ofcs(q,r,n) := tcol2sat_ohg2fcl(ramsey_ohg(q,r,n))$
 
