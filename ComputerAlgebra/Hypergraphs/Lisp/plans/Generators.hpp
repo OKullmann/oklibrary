@@ -39,13 +39,14 @@ License, or any later version. */
   \todo Ramsey hypergraphs
   <ul>
    <li> One needs to revise the extreme cases; compare "Ramsey problems"
-   in ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp. </li>
+   in ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
+   </li>
    <li> Providing a standardised vertex set:
     <ol>
      <li> To handle large hypergraphs, we need to provide a version with
      standardised vertex names, using a standard enumeration of r-subsets
      (compare "Create complete r-graphs" above). </li>
-     <li> This standardised hypergraph has then a canonical ordered-preserving
+     <li> This standardised hypergraph has then a canonical order-preserving
      isomorphism to ramsey_ohg(q,r,n). </li>
      <li> The same numbering should also be used in the C++ generator
      (see Ramsey.cpp). </li>
