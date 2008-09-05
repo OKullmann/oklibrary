@@ -54,46 +54,45 @@ License, or any later version. */
      <li> By symmetry these two incident edges can be any pair of incident
      edges. </li>
      <li> So, if there is a subset T <= V(K_n) of size q, such that no edge
-     for T is affected by phi, then w.l.o.g. one can fix the values of
-     2 chosen incident edges to 1 and 2. </li>
+     for T is affected (i.e., assigned) by phi, then w.l.o.g. one can fix the
+     values of 2 chosen incident edges to 1 and 2. </li>
      <li> This process can be repeated until no such T exists anymore. </li>
      <li> A question is whether there are better and worse choices for T
      and for the chosen edges? </li>
-     <li> More general than above, also for T with one affected edge we
-     can choose another incident edge; this needs a careful proof. 
+     <li> One needs to be careful here about "affected by phi": The above
+     formulation is very "optimistic", while more "pessimistic" is that
+     an edge is affected iff it is incident with an assigned one --- are
+     there counterexample for the "optimistic" interpretation? </li>
+     <li> More general than above, also for T with one affected edge one
+     could choose another incident edge:
       <ul>
-       <li> This seems not to be the case without careful choice of the edge.
-       </li>
-       <li> A counter example is K_5, r=2, q=3
+       <li> But in general this is wrong. </li>
+       <li> A counter example is K_5, r=2, q=3:
         <ol>
-         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2 
+         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2.
          </li>
-         <li> Consider vertices 2,3,4, colour {2,4} with 1 </li>
-         <li> Consider vertices 2,4,5, colour {4,5} with 2 </li>
-         <li> Consider vertices 1,4,5, colour {1,4} with 1 </li>
+         <li> Consider vertices 2,3,4, colour {2,4} with 1. </li>
+         <li> Consider vertices 2,4,5, colour {4,5} with 2. </li>
+         <li> Consider vertices 1,4,5, colour {1,4} with 1. </li>
          <li> There is a monochromatic triangle between vertices 1,2,4 but K_5
          allows a colouring without one. </li>
         </ol>
+       </li>
       </ul>
      </li>
-     <li> So we can assign for every q-element subset of V(K_n) two
-     (incident) edges. </li>
-     <li> One should write a randomised process which greedily searches
-     for another q-element subset where not 2 edges are affected, makes
-     the assignments, and repeats, until none is left: Can the total
-     number of assignments be different? </li>
+     <li> So we can assign for every q-element subset of V(K_n) at least one
+     and at most two (incident) edges. </li>
+     <li> The number of assignments is 2 * floor(n/q). </li>
+     <li> It shouldn't matter much which q-subsets (and which edges in them)
+     to choose. </li>
      <li> Searching for an unaffected T is easy: One records which vertices
      are incident to assigned edges and chooses any q free vertices. </li>
-     <li> Easiest to repeat this process until complemention, and then
-     to choose for the q-subsets with exactly one affected edge, i.e.,
-     with two affected vertices: One fixes the assigned edge and takes
-     any q-2 unaffected vertices (repeatedly). </li>
      <li> The underlying principle is simply that any solution must contain
      for every q-clique a "multi-coloured" path of length 2. Without case
      distinctions it seems not possible to strengthen that. </li>
     </ol>
    </li>
-   <li> The initial idea of MG was, instead of looking at the q-subsets
+   <li> The idea of MG was, instead of looking at the q-subsets
    of V(K_n), to consider Ramsey numbers m := NR([p,p],2) < n:
     <ol>
      <li> Again, we are considering some aritrary given phi. </li>
@@ -104,21 +103,25 @@ License, or any later version. */
      If one edge get colour c, then we had to make a case distinction,
      expressing that the monochromatic p-clique could have colour c or the
      other colour. </li>
+     <li> And, again, "unaffected" likely should mean that for T there is
+     also no assigned edge (just) incident with an element of T. </li>
      <li> For example for m=6, p=3, we actually know that there must
      exist two monochromatic triangles: However this again seems hard to
      exploit since we need to make case distinctions about the relative
      position of these two triangles. </li>
      <li> It seems that this process yields less variable reductions than
-     the above process; one should nevertheless try it, since it might
-     yield something nevertheless. </li>
+     the above process? </li>
      <li> The above process exploits a symmetry of the solution space,
      while this process just relies on a symmetry of the K_n (since
      every(!) total assignment of a K_m will have a monochromatic
-     p-clique. </li>
+     p-clique); on the other hand the above process is trivial, while here
+     we rely on (non-trivial) knowledge about Ramsey numbers. </li>
      <li> Again the question whether the different choices matter? </li>
      <li> In principle a combination with the above process is possible:
      However case distinctions for the relative positions of the path
      of length 2 and the monochromatic q-clique are needed. </li>
+     <li> On the other hand, for unaffected subsets we can always choose
+     which process we like. </li>
     </ol>
    </li>
   </ul>
