@@ -34,6 +34,7 @@ url = git@github.com:OKullmann/oklibrary.git
    pull from there. </li>
   </ul>
 
+
   \todo Github terminology and features
   <ul>
    <li> A given user (i.e. OKullmann) may "follow" another user (i.e. MLewsey),
@@ -48,6 +49,7 @@ url = git@github.com:OKullmann/oklibrary.git
    at "github@googlegroups.com", just like a mailing list, and any responses 
    are received by email. </li>     
   </ul>
+
 
   \todo Collaborative work on github
   <ul>
