@@ -60,7 +60,22 @@ License, or any later version. */
      <li> A question is whether there are better and worse choices for T
      and for the chosen edges? </li>
      <li> More general than above, also for T with one affected edge we
-     can choose another incident edge; this needs a careful proof. </li>
+     can choose another incident edge; this needs a careful proof. 
+      <ul>
+       <li> This seems not to be the case without careful choice of the edge.
+       </li>
+       <li> A counter example is K_5, r=2, q=3
+        <ol>
+         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2 
+         </li>
+         <li> Consider vertices 2,3,4, colour {2,4} with 1 </li>
+         <li> Consider vertices 2,4,5, colour {4,5} with 2 </li>
+         <li> Consider vertices 1,4,5, colour {1,4} with 1 </li>
+         <li> There is a monochromatic triangle between vertices 1,2,4 but K_5
+         allows a colouring without one. </li>
+        </ol>
+      </ul>
+     </li>
      <li> So we can assign for every q-element subset of V(K_n) two
      (incident) edges. </li>
      <li> One should write a randomised process which greedily searches
