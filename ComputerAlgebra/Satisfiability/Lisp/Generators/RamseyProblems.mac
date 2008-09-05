@@ -21,6 +21,7 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyPr
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 
 /* The boolean ordered formal clause-sets expressing that NR([q,q],r) < n; 
    a satisfying assignments yields a 2-colouring of the hypergraph with
