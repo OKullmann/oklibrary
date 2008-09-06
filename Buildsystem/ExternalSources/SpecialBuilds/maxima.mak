@@ -23,11 +23,13 @@ $(maxima_directories_okl) : % :
 
 allmaxima : libsigsegv libffcall clisp gnuplot maxima
 
-# Temporary overwrite to repair two bugs in version 5.16.3
+# Temporary overwrite to repair four bugs in version 5.16.3
 ifeq ($(maxima_recommended_version_number_okl),5.16.3)
 maxima : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	$(call unarchive,$(ExternalSources)/sources/Maxima/rand-mt19937.lisp,$(maxima_build_dir_okl)/src)
+	$(call unarchive,$(ExternalSources)/sources/Maxima/nset.lisp,$(maxima_build_dir_okl)/src)
+	$(call unarchive,$(ExternalSources)/sources/Maxima/macsys.lisp,$(maxima_build_dir_okl)/src)
 	cd $(maxima_build_dir_okl); $(postcondition) \
 	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
 	LANG=C make; $(postcondition) \
