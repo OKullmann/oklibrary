@@ -45,7 +45,7 @@ and_cs([L]) := apply(union,L)$
 /* All non-clashing unions of the clauses of two given clause-sets, which
    represents the "or" of the clause-sets as cnf's. */
 or_cs2(F1,F2) := 
- map(list_sets_union,
+ map(lunion,
   subset(cartesian_product(F1,F2), lambda([P],not clashp(P[1],P[2]))))$
 /* As n-ary operation */
 or_cs([L]) := block([l : length(L)],
@@ -71,7 +71,7 @@ neg_cs(F) := dual_cs(comp_cs(F))$
    by standardising the variable-sets to 1,2,..., and then take
    the union of them. */
 vardisjoint_sum_fcs([LFF]) := block([VD : make_vardisjoint_fcs(LFF)],
- [setn(VD[2]), list_sets_union(map(clauses_f,VD[1]))])$
+ [setn(VD[2]), lunion(map(clauses_f,VD[1]))])$
 
 /* Make formal clause-sets FF1, FF2 var-disjoint in the standard
    way, and if we have then n variables together, add the new

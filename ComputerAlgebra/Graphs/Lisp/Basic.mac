@@ -275,7 +275,7 @@ expand_edge(ue) := block([de : listify(ue)],
 
 /* The set of neighbours of vertex v in graph G. */
 /* RENAME to "neighbours_g". */
-neighbours(v,G) := disjoin(v, set_sets_union(
+neighbours(v,G) := disjoin(v, lunion(
  subset(G[2], lambda([e],elementp(v,e)))))$
 neighbours_g(v,G) := neighbours(v,G)$
 neighbours_gl(v,G) := apply(union, 
