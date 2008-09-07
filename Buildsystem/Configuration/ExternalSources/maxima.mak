@@ -7,7 +7,7 @@
 
 # Settings for building and using Maxima
 
-maxima_recommended_version_number_okl ?= 5.15.0
+maxima_recommended_version_number_okl ?= 5.16.3
 # ATTENTION: special repair-build for 5.15.0 regarding module graphs
 # 5.16.3 usable, but gf-package unacceptably slow
 maxima_supported_not_recommended_version_numbers_okl ?= 5.16.3
