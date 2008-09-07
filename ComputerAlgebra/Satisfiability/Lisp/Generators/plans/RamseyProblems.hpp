@@ -62,7 +62,26 @@ License, or any later version. */
      <li> One needs to be careful here about "affected by phi": The above
      formulation is very "optimistic", while more "pessimistic" is that
      an edge is affected iff it is incident with an assigned one --- are
-     there counterexample for the "optimistic" interpretation? </li>
+     there counterexample for the "optimistic" interpretation? 
+      <ul>
+       <li> Yes, a counter example is K_5, r=2, q=3:
+        <ol>
+         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2.
+         </li>
+         <li> Consider vertices 2,4,5, colour {2,4} with 1 and {2,5} with 2.
+         </li>
+         <li> Consider vertices 1,4,5, colour {1,4} with 1 and {4,5} with 2.
+         </li>
+         <li> There is a monochromatic triangle between vertices 1,2,4 but K_5
+         allows a colouring without one. </li>
+        </ol>
+       </li>
+       <li> Perhaps rather than setting specific colours, only the fact that the
+       two colours must be different should be coded. Perhaps by reducing 2 
+       variables a,b to just variable a, by replacing variable b with literal 
+       -a. </li>
+      </ul>
+     </li>
      <li> More general than above, also for T with one affected edge one
      could choose another incident edge:
       <ul>
