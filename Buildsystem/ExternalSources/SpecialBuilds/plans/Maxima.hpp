@@ -113,6 +113,51 @@ Maxima encountered a Lisp error:
      min_variable_degree_cs, however this doesn't need to mean anything,
      since all operations on their own behave correct, and the memory
      corruption perhaps happened earlier. </li>
+     <li> It seems difficult to make this segfault reproducible for the Maxima
+     mailing list. </li>
+     <li> One strange error occurs with the file "Batch.mac" of
+     the content
+     \verbatim
+for x in [1,2,3] do print(x); 
+
+     \endverbatim
+     where after the ";" we have one space: Both in CLisp and in ECL
+     after batch("Batch.mac") the frontend hangs --- tell the Maxima
+     mailing list. </li>
+     <li> Then with 
+     "oklib_batch("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
+     we get an error-message
+     \verbatim
+Maxima encountered a Lisp error:
+CAR: $FOUND is not a list
+Automatically continuing.
+To reenable the Lisp debugger set *debugger-hook* to nil.
+     \endverbatim
+     which seems to indicate that a parse-error occurs at the line
+     \verbatim
+for GG in candidates unless found do
+      if is_isomorphic_btr_fcs(FF,GG) then found : true,
+     \endverbatim
+     : Removing the "unless found" removes the error message??
+     Tell the Maxima mailing list. </li>
+     <li> This can be reproduced by the file "Unless.mac" of content
+     \verbatim
+fun(found) := for x in [1,2,3] unless found do print(x);
+     \endverbatim
+     where "batch("Unless.mac")" results in
+     \verbatim
+Maxima encountered a Lisp error:
+ $FOUND is not of type LIST.
+Automatically continuing.
+To reenable the Lisp debugger set *debugger-hook* to nil.
+     \endverbatim
+     The function "fun" is also not loaded; this disappears when using
+     "load("Unless.mac"); </li>
+     <li> Though also when loading
+     Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/uhit_def.mac
+     by oklib_load instead of oklib_batch we also get an error
+     (with ecl): The frontend gets into an infinite loops and 
+     doesn't react anymore. </li>
     </ol>
    </li>
    <li> DONE
