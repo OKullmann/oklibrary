@@ -70,10 +70,58 @@ sys     0m52.634s
 
   \todo Enabling use of ECL
   <ul>
-   <li> Regarding argument-length restriction in Ecl, w.r.t. general
+   <li> Interrupting a computation once with "Ctrl-C" worked, but applying
+   the second time the console did not respond anymore (though the computation
+   was interrupted)?? </li>
+   <li> A segmentation fault:
+   \verbatim
+Maxima 5.16.3 http://maxima.sourceforge.net
+Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
+(%i1) oklib_load_all();
+Evaluation took 5.4600 seconds (5.5430 elapsed)
+(%o1) "/home/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/include.mac"
+(%i2) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
+Evaluation took 0.0040 seconds (0.0030 elapsed)
+(%o2) true
+(%i3) oklib_test_level:1;
+Evaluation took 0.0000 seconds (0.0000 elapsed)
+(%o3) 1
+(%i4) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
+make: *** [run_maxima] Segmentation fault
+   \endverbatim
+    <ol>
+     <li> The segmentation fault seems to happen in analyse_isorepo_defset_mvd
+     when performing "set_hm(h,def,union(ev_hm_d(h,def,{}), ...", which
+     contains a "union", and thus could have the same root as the above error?
+     </li>
+     <li> When splitting the computation into sub-computation, then the same
+     union-error as above occurs, which can be eliminated by "load(nset)",
+     but then the segmentation fault shows up nevertheless, so it seems
+     to be another Ecl-bug. </li>
+     <li> The above output is on cs-wsok; on csltok it looks a bit different,
+     and may even work, but this only seems to hide the memory corruption: 
+     \verbatim
+true
+Maxima encountered a Lisp error:
+
+ Segmentation violation.
+     \endverbatim
+     (one sees that, different from cs-wsok, the computation is actually
+     completed before the memory violation is noted). </li>
+     <li> So on csltok this error is not analysable. </li>
+     <li> On cs-wsok one sees that the segmentation fault happens inside
+     min_variable_degree_cs, however this doesn't need to mean anything,
+     since all operations on their own behave correct, and the memory
+     corruption perhaps happened earlier. </li>
+    </ol>
+   </li>
+   <li> DONE
+   Regarding argument-length restriction in Ecl, w.r.t. general
    applications Ecl is stronger than CLisp (at least on 32-bit machines),
    while w.r.t. union it is weaker. </li>
-   <li> We need to check cmucl --- if this is unrestricted, works and is
+   <li> DONE (later we should try it, but the argument-length restriction
+   is handled by our system)
+   We need to check cmucl --- if this is unrestricted, works and is
    not slower than CLisp, then it should become our new default. </li>
    <li> DONE
    We should make variable maxima_lisp_name_okl available in Maxima. </li>
@@ -87,7 +135,8 @@ sys     0m52.634s
      upper bound (actually 4095) and the "union" upper bound. </li>
     </ol>
    </li>
-   <li> okltest_set_sets_union (in
+   <li> DONE
+   okltest_set_sets_union (in
    ComputerAlgebra/Hypergraphs/Lisp/tests/SetSystems.mac) contains a testcase
    which shows a clear Maxima/Ecl bug.
     <ol>
@@ -181,48 +230,6 @@ you can't go above 64.
      <li> In any case, Ecl should be able to handle the little union;
      a proposed fix is to use --disable-asmapply when building Ecl. </li>
      <li> And on csltok this fixes the bug! </li>
-    </ol>
-   </li>
-   <li> A different bug:
-   \verbatim
-Maxima 5.16.3 http://maxima.sourceforge.net
-Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
-(%i1) oklib_load_all();
-Evaluation took 5.4600 seconds (5.5430 elapsed)
-(%o1) "/home/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/include.mac"
-(%i2) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
-Evaluation took 0.0040 seconds (0.0030 elapsed)
-(%o2) true
-(%i3) oklib_test_level:1;
-Evaluation took 0.0000 seconds (0.0000 elapsed)
-(%o3) 1
-(%i4) okltest_analyse_isorepo_defset_mvd(analyse_isorepo_defset_mvd);
-make: *** [run_maxima] Segmentation fault
-   \endverbatim
-    <ol>
-     <li> The segmentation fault seems to happen in analyse_isorepo_defset_mvd
-     when performing "set_hm(h,def,union(ev_hm_d(h,def,{}), ...", which
-     contains a "union", and thus could have the same root as the above error?
-     </li>
-     <li> When splitting the computation into sub-computation, then the same
-     union-error as above occurs, which can be eliminated by "load(nset)",
-     but then the segmentation fault shows up nevertheless, so it seems
-     to be another Ecl-bug. </li>
-     <li> The above output is on cs-wsok; on csltok it looks a bit different,
-     and may even work, but this only seems to hide the memory corruption: 
-     \verbatim
-true
-Maxima encountered a Lisp error:
-
- Segmentation violation.
-     \endverbatim
-     (one sees that, different from cs-wsok, the computation is actually
-     completed before the memory violation is noted). </li>
-     <li> So on csltok this error is not analysable. </li>
-     <li> On cs-wsok one sees that the segmentation fault happens inside
-     min_variable_degree_cs, however this doesn't need to mean anything,
-     since all operations on their own behave correct, and the memory
-     corruption perhaps happened earlier. </li>
     </ol>
    </li>
    <li> DONE (for now our build system repairs the rmaxima-script)
