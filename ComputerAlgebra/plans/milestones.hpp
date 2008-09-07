@@ -80,51 +80,6 @@ License, or any later version. */
     <li> Trees : </li>
    </ol>
 
-
-  \par
-   Replacement of "apply" by "uuapply" resp. "uaapply" (except for cases
-   like "+", and except for case where there are only at most 63 arguments
-   (guaranteed); supplying tests for all modified functions):
-   <ol>
-    <li> %Algebra : </li>
-    <li> AutomatedTheoremProving : </li>
-    <li> CombinatorialMatrices : </li>
-    <li> Cryptology (MG)
-     <ol>
-      <li> directly under Lisp </li>
-      <li> Lisp/Cryptanalysis </li>
-      <li> Lisp/CryptoSystems </li>
-     </ol>
-    </li>
-    <li> DataStructures : DONE </li>
-    <li> %Graphs : </li>
-    <li> Hypergraphs : </li>
-    <li> LinearAlgebra : </li>
-    <li> MaximaInternals : </li>
-    <li> %NumberTheory : </li>
-    <li> Numerical : </li>
-    <li> Satisfiability :
-     <ol>
-      <li> Autarkies : </li>
-      <li> Backdoors : </li>
-      <li> Backtracking </li>
-      <li> BranchingTuples </li>
-      <li> %ClauseSets : </li>
-      <li> ConflictCombinatorics : </li>
-      <li> ConstraintProblems </li>
-      <li> Counting : </li>
-      <li> %Generators </li>
-      <li> MinimalUnsatisfiability </li>
-      <li> PropositionalLogic </li>
-      <li> Reductions : </li>
-      <li> Resolutions : </li>
-      <li> Symmetries : </li>
-     </ol>
-    </li>
-    <li> TestSystem : </li>
-    <li> Trees : </li>
-   </ol>
-
   \par
    Replacement of "makelist" by "create_list" (and supplying tests for all
    modified functions):
@@ -191,6 +146,52 @@ License, or any later version. */
     - How to use function-parameters reliably??
     - Maxima/CLisp bug
     - Plan the redesign
+
+  \par
+   Replacement of "apply" by the correct version of generalised apply
+   (see "Apply-functionality" in
+   ComputerAlgebra/DataStructures/Lisp/plans/Lists.hpp), respectively
+   by lunion or lintersection (see "Unions and intersections" in
+   ComputerAlgebra/Hypergraphs/Lisp/plans/SetSystems.hpp)
+   <ol>
+    <li> %Algebra : </li>
+    <li> AutomatedTheoremProving : </li>
+    <li> CombinatorialMatrices : </li>
+    <li> Cryptology (MG)
+     <ol>
+      <li> directly under Lisp </li>
+      <li> Lisp/Cryptanalysis </li>
+      <li> Lisp/CryptoSystems </li>
+     </ol>
+    </li>
+    <li> DataStructures : DONE </li>
+    <li> %Graphs : </li>
+    <li> Hypergraphs : </li>
+    <li> LinearAlgebra : </li>
+    <li> MaximaInternals : </li>
+    <li> %NumberTheory : </li>
+    <li> Numerical : </li>
+    <li> Satisfiability :
+     <ol>
+      <li> Autarkies : </li>
+      <li> Backdoors : </li>
+      <li> Backtracking </li>
+      <li> BranchingTuples </li>
+      <li> %ClauseSets : </li>
+      <li> ConflictCombinatorics : </li>
+      <li> ConstraintProblems </li>
+      <li> Counting : </li>
+      <li> %Generators </li>
+      <li> MinimalUnsatisfiability </li>
+      <li> PropositionalLogic </li>
+      <li> Reductions : </li>
+      <li> Resolutions : </li>
+      <li> Symmetries : </li>
+     </ol>
+    </li>
+    <li> TestSystem : </li>
+    <li> Trees : </li>
+   </ol>
 
   \par
    Update the following milestones, towards version 0.2
