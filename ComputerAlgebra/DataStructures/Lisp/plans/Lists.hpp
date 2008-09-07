@@ -12,11 +12,14 @@ License, or any later version. */
 
   \todo Apply-functionality
   <ul>
-   <li> We need docus on the use of apply, uuapple, uaapply:
+   <li> Better if Maxima would correct "apply" so that we don't need
+   to worry about it --- ask on the mailing list! </li>
+   <li> We need docus on the use of apply, uaapply:
     <ol>
      <li> "apply" iff the operator is like "+", or we have at most
      63 arguments (guaranteed). </li>
-     <li> "uuapply" iff the operator is like "union, intersection,
+     <li> DONE (for this better use the dedicated functions in SetSystems.mac)
+     "uuapply" iff the operator is like "union, intersection,
      cartesian_product". </li>
      <li> "uaapply" otherwise. </li>
     </ol>
