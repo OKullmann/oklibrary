@@ -95,6 +95,9 @@ okltest_gdg2ogdg(gdg2ogdg);
    ***************
 */
 
+okltest_gl2g(gl2g);
+okltest_gg2g(gg2g);
+
 okltest_g2dg(g2dg);
 okltest_gl2dgl(gl2dgl);
 

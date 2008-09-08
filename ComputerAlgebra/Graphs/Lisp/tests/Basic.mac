@@ -571,6 +571,15 @@ okltest_gdg2ogdg(f) := block([k],
    ***************
 */
 
+okltest_gl2g(f) := (
+
+  true)$
+
+okltest_gg2g(f) := (
+
+  true)$
+
+
 okltest_g2dg(f) := block(
   assert(f([{},{}]) = [{},{}]),
   assert(f([{1},{}]) = [{1},{}]),

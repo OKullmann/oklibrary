@@ -242,6 +242,7 @@ ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 
 /* Removal of loops: */
 gl2g(G) := [G[1], subset(G[2],lambda([e],is(length(e)=2)))]$
+gg2g(G) := gl2g(gg2gl(G))$
 ogl2og(G) := [G[1]. sublist(G[2],lambda([e],is(length(e)=2)))]$
 mugl2mug(G) := [G[1], subset(G[2],lambda([e],is(length(G[3](e))=2))), G[3]]$
 omugl2omug(G) := [G[1], sublist(G[2],lambda([e],is(length(G[3](e))=2))), G[3]]$
