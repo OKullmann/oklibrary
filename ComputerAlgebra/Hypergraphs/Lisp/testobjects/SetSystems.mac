@@ -70,15 +70,22 @@ okltest_cartesian_product_l(cartesian_product_l);
 okltest_all_transformations_l(all_transformations_l);
 okltest_all_transformations_l_l(all_transformations_l_l);
 
-/* *************************
-   * Tests for set systems *
-   *************************
+/* *******************************
+   * Tests related to partitions *
+   *******************************
 */
 
 okltest_empty_element_p(empty_element_p);
 
 okltest_non_disjoint_pair(non_disjoint_pair);
 okltest_disjoint_set_system_p(disjoint_set_system_p);
+
+okltest_partitionp(partitionp);
+
+/* ********************************
+   * Tests related to subsumption *
+   ********************************
+*/
 
 okltest_antichain_p(antichain_p);
 

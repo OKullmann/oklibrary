@@ -176,9 +176,9 @@ okltest_all_transformations_l_l(f) := (
   true)$
 
 
-/* *************************
-   * Tests for set systems *
-   *************************
+/* *******************************
+   * Tests related to partitions *
+   *******************************
 */
 
 okltest_empty_element_p(f) := (
@@ -205,6 +205,16 @@ okltest_disjoint_set_system_p(f) := (
   assert(f({{1,2},{2,3}}) = false),
   assert(f({{1},{2},{},{3},{3,4}}) = false),
   true)$
+
+okltest_partitionp(f) := (
+
+  true)$
+
+
+/* ********************************
+   * Tests related to subsumption *
+   ********************************
+*/
 
 okltest_antichain_p(f) := (
   assert(f({}) = true),
