@@ -7,7 +7,7 @@ License, or any later version. */
 
 /*!
   \file ComputerAlgebra/Graphs/Lisp/BicliquePartitions/plans/Bicliques.hpp
-  \brief Plans regarding biclique in (general) graphs
+  \brief Plans regarding bicliques in (general) graphs
 
 
   \todo The notion of a "biclique"
@@ -118,9 +118,16 @@ License, or any later version. */
      (using the Maxima function). </li>
     </ol>
    </li>
-   <li> Write predicate "bicliquepartp" to check for this property.
+   <li> Write predicates to check for biclique-partitions:
     <ol>
      <li> From Maxima we can use bipartition(gr). </li>
+     <li> For edge-bicliques of general graphs:
+     \verbatim
+ebcp_gg_p(B,G) := partitionp(B,G[2]) and
+  every_s(lambda([b],ebc_gg_p(b,G)),B)$
+     \endverbatim
+     where G is a general graph, 
+     </li>
     </ol>
    </li>
    <li> We have a natural hierarchy of contexts for biclique partitions:

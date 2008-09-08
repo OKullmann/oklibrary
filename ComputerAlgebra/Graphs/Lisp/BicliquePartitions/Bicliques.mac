@@ -22,9 +22,9 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Biclique
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 
 
-/* ***********************
-   * Fundamental notions *
-   ***********************
+/* ************************************
+   * Fundamental notions of bicliques *
+   ************************************
 */
 
 /* A "vertex-biclique" ("vbc") in a graph is a pair of sets of vertices
@@ -75,6 +75,12 @@ ebc_gg_p(B,G) := setp(B) and subsetp(B,G[2]) and
  block([S : edge_induced_subgraph_gg(B,G)],
   not parallel_edges_gg_p(S) and irreflexive_gg(S) and 
   completebipartite_gg_p(S))$
+
+
+/* **********************************************
+   * Fundamental notions of biclique partitions *
+   **********************************************
+*/
 
 
 /*!
