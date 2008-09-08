@@ -128,12 +128,11 @@ License, or any later version. */
      exist two monochromatic triangles: However this again seems hard to
      exploit since we need to make case distinctions about the relative
      position of these two triangles. </li>
-     <li> Given the PHP and the symmetry of colours, we should also be able to
-     set half of one of the sets of p-cliques to a particular colour. For 
-     instance, if we are working on NR([5,5],2), we could set half of the 
-     4-cliques we choose to colour c, or half of the 3-cliques to colour c
-     (just not both, as a satisfying assignment might set all the 4-cliques
-     to colour c and all of the 3-cliques to colour d). </li>
+     <li> Given the PHP, we should also be able to
+     collapse half (rounded up) of each of the sets of variables representing 
+     monochromatic p-cliques to a single variable. Given the symmetry of the
+     two colours, we can then set one of these variables to a particular 
+     colour, for instance, setting half of the 4-cliques to colour 1. </li>
      <li> It seems that this process yields less variable reductions than
      the above process? </li>
      <li> The above process exploits a symmetry of the solution space,
