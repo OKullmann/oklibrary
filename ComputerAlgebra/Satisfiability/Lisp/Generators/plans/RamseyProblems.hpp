@@ -187,6 +187,8 @@ License, or any later version. */
      which process we like. </li>
     </ol>
    </li>
+   <li> What is the best way (and place within the library) to implement the
+   above symmetry breaking ideas? </li>
   </ul>
 
 */
