@@ -115,11 +115,11 @@ License, or any later version. */
    of V(K_n), to consider Ramsey numbers m := NR([p,p],2) < n:
     <ol>
      <li> Again, we are considering some arbitrary given phi. </li>
-     <li> If we have an unaffected T <= V(K_n), then we can such any
+     <li> If we have an unaffected T <= V(K_n), then we can choose any
      p different a_1, ..., a_p in T, and set them equal (thus replace them
      by a single new variable a). </li>
      <li> It seems that for an affected T it is harder to do something:
-     If one edge get colour c, then we had to make a case distinction,
+     If one edge got colour c, then we had to make a case distinction,
      expressing that the monochromatic p-clique could have colour c or the
      other colour. </li>
      <li> And, again, "unaffected" likely should mean that for T there is
@@ -128,41 +128,43 @@ License, or any later version. */
      exist two monochromatic triangles: However this again seems hard to
      exploit since we need to make case distinctions about the relative
      position of these two triangles. </li>
-     <li> Given the PHP, we should also be able to
+     <li> Given the PHP (OK: ???), we should also be able to
      collapse half (rounded up) of each of the sets of variables representing 
      monochromatic p-cliques to a single variable. Given the symmetry of the
-     two colours, we can then set one of these variables to a particular 
+     two colours (???), we can then set one of these variables to a particular 
      colour, for instance, setting half of the 4-cliques to colour 1. </li>
      <li> It seems that this process yields less variable reductions than
      the above process?
       <ul> 
-       <li> Taking NR([5,5],2), n=43 as an example </li>
-       <li> Using above suggestion for NR([5,5],2), n=43
+       <li> Taking NR([5,5],2), n=43 as an example.
         <ul>
-         <li> Each multicolour path of length 2 added, affects 3 vertices, and
+         <li> Each multicolour path of length 2 affects 3 vertices, and
          sets two edges/variables. 5 unaffected variables are needed to apply
          the reduction. </li>
          <li> 5 - 3 = 2 so 43 - 2 = 41 and then 41 / 3 = 13 therefore, we get
-         13 * 2 = 26 variables set. </li>
+         13 * 2 = 26 variables set. (OK: ??? how does this compare to the
+         above formula???) </li>
         </ul>
        </li>
        <li> Using MG's suggestion for NR([5,5],2), n=43
         <ul>
-         <li> NR([4,4],2) = 18, so 18 - 4 = 14, 43 - 14 = 29, 29 / 4 = 7 . So
-         there we can find 7 disjoint monochromatic 4-cliques. Each clique has
-         6 edges, representing 6 variables, which can be reduced to a single
-         variable, so 7 * 6 = 42, 42 - 6 = 36 variables removed. </li>
+         <li> NR([4,4],2) = 18, so 18 - 4 = 14, 43 - 14 = 29, 29 / 4 = 7
+         (OK: ???). So there we can find 7 disjoint monochromatic 4-cliques.
+         Each clique has 6 edges, representing 6 variables, which can be reduced
+         to a single variable, so 7 * 6 = 42, 42 - 6 = 36 variables removed.
+         OK: ??? </li>
          <li> NR([3,3],2) = 6, so 6 - 3 = 3. There are 43 - (7*4) = 15
          unaffected variables from the previous calculation. 15 - 3 = 12, 12 / 3
          = 4. So there are 4 disjoint monochromatic 3-cliques. Each clique has 3
          edges, representing 3 variables, which can be reduced to a single
-         variable, so 4 * 3 = 12, 12 - 4 = 8. </li>
+         variable, so 4 * 3 = 12, 12 - 4 = 8. OK: ??? </li>
          <li> So without taking into account the PHP statement above, we see a
-         reduction/loss of 36 + 8 = 44 variables. </li>
+         reduction/loss of 36 + 8 = 44 variables. ??? Likely for the second
+         step the above process can be used?! </li>
          <li> Including the PHP statement above, we can set 4 of the 7 4-cliques
          to a colour c, and we can replace 2 of the variables representing
          3-cliques with 1 variable. Therefore we lose an additional 5 variables, 
-         so 44 + 5 = 49 variables lost. </li>
+         so 44 + 5 = 49 variables lost. ??? </li>
         </ul>
        </li>
        <li> The method used above for calculation assumes that if a process/idea 
@@ -171,7 +173,7 @@ License, or any later version. */
        step, leaving n - y vertices to act on, until finally there are
        x - y <=  z  < x unaffected vertices left, at which point, z < x, 
        therefore the process can no longer be applied, giving 
-       (n - (x -y)) / y possible applications of the procedure. </li>
+       (n - (x - y)) / y possible applications of the procedure. </li>
       </ul>
      </li>
      <li> The above process exploits a symmetry of the solution space,
@@ -188,7 +190,7 @@ License, or any later version. */
     </ol>
    </li>
    <li> What is the best way (and place within the library) to implement the
-   above symmetry breaking ideas? </li>
+   above symmetry breaking ideas? Obviously here. </li>
   </ul>
 
 */
