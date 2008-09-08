@@ -30,20 +30,20 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
 /* "Unrestricted apply" (for arbitrary argument-list-length);
    dissipating into apply's with blocksize many arguments: 
 */
-uapply(op,L,blocksize) :=  block([l : length(L)],
-  if l <= blocksize then apply(op,L)
-  else block([d : divide(l-1, blocksize), res : apply(op,[first(L)])],
+uapply(_op,L,blocksize) :=  block([l : length(L)],
+  if l <= blocksize then apply('_op,L)
+  else block([d : divide(l-1, blocksize), res : apply('_op,[first(L)])],
     L : rest(L),
     thru d[1] do (
-      res : apply(op, [res, apply(op, take_elements(blocksize,L))]),
+      res : apply('_op, [res, apply('_op, take_elements(blocksize,L))]),
       L : rest(L, blocksize)
     ),
     if d[2] # 0 then
-      apply(op, [res, apply(op, take_elements(d[2],L))])
+      apply('_op, [res, apply('_op, take_elements(d[2],L))])
     else
       res))$
 /* To be used with "append" etc.: */
-uaapply(op,L) := uapply(op,L,maximal_argument_length)$
+uaapply(_op,L) := uapply(_op,L,maximal_argument_length)$
 /* Remark: "apply("+",L)" etc. is possible for arbitrary lists L. */
 /* Remark: For "union" and "intersection" use lunion resp. lintersection.
 */
