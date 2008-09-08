@@ -673,6 +673,13 @@ okltest_has_dominating_vertex_gl(f) := (
   assert(f([{1,2,3,4},{{2,1},{2,3},{2,4},{2}}]) = true),
   true)$
 
+okltest_completebipartite_g_p(f) := (
+
+  true)$
+
+okltest_completebipartite_gg_p(f) := (
+
+  true)$
 
 
 /* ********************************

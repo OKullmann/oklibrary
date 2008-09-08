@@ -405,6 +405,11 @@ tree_mugl_p(G) :=  irreflexive_mugl_p(G) and tree_gl_p(mugl2gl(G))$
 tree_omugl_p(G) :=  irreflexive_omugl_p(G) and tree_ogl_p(omugl2ogl(G))$
 
 
+/* Tests whether a graph is complete bipartite: */
+completebipartite_g_p(G) := is_bipartite(g2mg(G))$
+completebipartite_gg_p(G) := completebipartite_g_p(gg2g(G))$
+
+
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************

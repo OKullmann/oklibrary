@@ -130,6 +130,9 @@ okltest_dominating_vertex_gl_p(dominating_vertex_gl_p);
 okltest_has_dominating_vertex_g(has_dominating_vertex_g);
 okltest_has_dominating_vertex_gl(has_dominating_vertex_gl);
 
+okltest_completebipartite_g_p(completebipartite_g_p);
+okltest_completebipartite_gg_p(completebipartite_gg_p);
+
 /* ********************************
    * Connections to Maxima-graphs *
    ********************************
