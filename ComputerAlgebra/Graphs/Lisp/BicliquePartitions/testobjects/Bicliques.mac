@@ -32,6 +32,8 @@ okltest_vbc_gg_p(vbc_gg_p);
 
 okltest_vbc_dgl_p(vbc_dgl_p);
 
+okltest_ebc_gg_p(ebc_gg_p);
+
 /*!
 \endhtmlonly
 */

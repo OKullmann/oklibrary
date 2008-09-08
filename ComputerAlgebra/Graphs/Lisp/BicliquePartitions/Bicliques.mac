@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Biclique
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
+
+
 /* ***********************
    * Fundamental notions *
    ***********************
@@ -57,6 +60,21 @@ vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
  every(setp, B) and disjointp(B[1],B[2]) and
  every(lambda([b], subsetp(b,G[1])), B) and
  subsetp(cartesian_product(B[1],B[2]), G[2])$
+
+
+/* An "edge-biclique" ("ebc") in a graph is a set of edges
+   forming a biclique.
+   An "ordered edge-biclique" ("oebc") uses lists of edges instead.
+*/
+
+/* The following tests assume that G is a well-formed graph
+   (of its type).
+*/
+
+ebc_gg_p(B,G) := setp(B) and subsetp(B,G[2]) and
+ block([S : edge_induced_subgraph_gg(B,G)],
+  not parallel_edges_gg_p(S) and irreflexive_gg(S) and 
+  completebipartite_gg_p(S))$
 
 
 /*!

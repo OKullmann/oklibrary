@@ -74,7 +74,6 @@ okltest_vbc_gg_p(f) := block([G,edgef],
   assert(okltest_vbc_gl_p(buildq([f],lambda([B,G],gl_p(G) and f(B,gl2gg(G)))))),
   true)$
 
-
 okltest_vbc_dgl_p(f) := block([G],
   assert(f(0,G) = false),
   assert(f([],G) = false),
@@ -91,6 +90,9 @@ okltest_vbc_dgl_p(f) := block([G],
   assert(okltest_vbc_gl_p(buildq([f],lambda([B,G],gl_p(G) and f(B,gl2dgl(G)))))),
   true)$
 
+okltest_ebc_gg_p(f) := (
+
+  true)$
 
 /*!
 \endhtmlonly
