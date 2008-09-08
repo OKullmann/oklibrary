@@ -27,12 +27,6 @@ define_variable(
     elseif maxima_lisp_name_okl = "clisp" then 2^12 - 1
     else unknown,
   any); /* may take value inf or unknown */
-define_variable(
-  maximal_argument_length_union,
-  if maxima_lisp_name_okl = "ecl" then maximal_argument_length
-    elseif maxima_lisp_name_okl = "clisp" then inf
-    else unknown,
-  any); /* may take value inf or unknown */
 
 showtime : true;
 linel : 100;

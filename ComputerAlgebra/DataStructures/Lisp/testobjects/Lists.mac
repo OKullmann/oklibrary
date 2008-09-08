@@ -26,7 +26,6 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/tests/Lists.mac"
    ***********************
 */
 
-okltest_uuapply(uuapply);
 okltest_uaapply(uaapply);
 
 /* *******************************
