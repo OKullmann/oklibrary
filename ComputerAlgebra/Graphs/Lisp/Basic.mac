@@ -293,6 +293,10 @@ remove_vertices_graph(V,G) := [setdifference(G[1],V),
    *****************************
 */
 
+/* The induced (general) subgraph of a general graph, given by
+   an edge-label set: */
+edge_induced_subgraph_gg(E,G) := [lunion(map(G[3],E)),E,G[3]]$
+
 /* The complement graph of a graph */
 /* RENAME it to "complement_g". */
 comp_graph(G) := [G[1], setdifference(powerset(G[1],2),G[2])]$

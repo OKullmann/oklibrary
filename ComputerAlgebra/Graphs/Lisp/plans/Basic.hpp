@@ -115,5 +115,13 @@ License, or any later version. */
    type-free) </li>
   </ul>
 
+
+  \todo Subgraph concepts
+  <ul>
+   <li> Perhaps we should create "Subgraphs.mac". </li>
+   <li> Likely the subgraphs of ordered graphs-types should inherit the
+   order(s). </li>
+  </ul>
+
 */
 

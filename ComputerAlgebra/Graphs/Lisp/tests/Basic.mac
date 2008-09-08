@@ -619,6 +619,10 @@ okltest_neighbours_gl(f) := block([G],
    *****************************
 */
 
+okltest_edge_induced_subgraph_gg(f) := (
+
+  true)$
+
 
 /* **********
    * Tests  *

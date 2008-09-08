@@ -114,6 +114,7 @@ okltest_neighbours_gl(neighbours_gl);
    *****************************
 */
 
+okltest_edge_induced_subgraph_gg(edge_induced_subgraph_gg);
 
 /* **********
    * Tests  *
