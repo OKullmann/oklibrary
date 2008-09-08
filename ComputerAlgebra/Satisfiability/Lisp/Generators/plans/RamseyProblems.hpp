@@ -62,7 +62,26 @@ License, or any later version. */
      <li> One needs to be careful here about "affected by phi": The above
      formulation is very "optimistic", while more "pessimistic" is that
      an edge is affected iff it is incident with an assigned one --- are
-     there counterexample for the "optimistic" interpretation? </li>
+     there counterexample for the "optimistic" interpretation? 
+      <ul>
+       <li> Yes, a counter example is K_5, r=2, q=3:
+        <ol>
+         <li> Consider vertices 1,2,3, colour {1,2} with 1 and {2,3} with 2.
+         </li>
+         <li> Consider vertices 2,4,5, colour {2,4} with 1 and {2,5} with 2.
+         </li>
+         <li> Consider vertices 1,4,5, colour {1,4} with 1 and {4,5} with 2.
+         </li>
+         <li> There is a monochromatic triangle between vertices 1,2,4 but K_5
+         allows a colouring without one. </li>
+        </ol>
+       </li>
+       <li> Perhaps rather than setting specific colours, only the fact that the
+       two colours must be different should be coded. Perhaps by reducing 2 
+       variables a,b to just variable a, by replacing variable b with literal 
+       -a. </li>
+      </ul>
+     </li>
      <li> More general than above, also for T with one affected edge one
      could choose another incident edge:
       <ul>
@@ -95,7 +114,7 @@ License, or any later version. */
    <li> The idea of MG was, instead of looking at the q-subsets
    of V(K_n), to consider Ramsey numbers m := NR([p,p],2) < n:
     <ol>
-     <li> Again, we are considering some aritrary given phi. </li>
+     <li> Again, we are considering some arbitrary given phi. </li>
      <li> If we have an unaffected T <= V(K_n), then we can such any
      p different a_1, ..., a_p in T, and set them equal (thus replace them
      by a single new variable a). </li>
@@ -109,6 +128,12 @@ License, or any later version. */
      exist two monochromatic triangles: However this again seems hard to
      exploit since we need to make case distinctions about the relative
      position of these two triangles. </li>
+     <li> Given the PHP and the symmetry of colours, we should also be able to
+     set half of one of the sets of p-cliques to a particular colour. For 
+     instance, if we are working on NR([5,5],2), we could set half of the 
+     4-cliques we choose to colour c, or half of the 3-cliques to colour c
+     (just not both, as a satisfying assignment might set all the 4-cliques
+     to colour c and all of the 3-cliques to colour d). </li>
      <li> It seems that this process yields less variable reductions than
      the above process? </li>
      <li> The above process exploits a symmetry of the solution space,
