@@ -134,7 +134,46 @@ License, or any later version. */
      two colours, we can then set one of these variables to a particular 
      colour, for instance, setting half of the 4-cliques to colour 1. </li>
      <li> It seems that this process yields less variable reductions than
-     the above process? </li>
+     the above process?
+      <ul> 
+       <li> Taking NR([5,5],2), n=43 as an example </li>
+       <li> Using above suggestion for NR([5,5],2), n=43
+        <ul>
+         <li> Each multicolour path of length 2 added, affects 3 vertices, and
+         sets two edges/variables. 5 unaffected variables are needed to apply
+         the reduction. </li>
+         <li> 5 - 3 = 2 so 43 - 2 = 41 and then 41 / 3 = 13 therefore, we get
+         13 * 2 = 26 variables set. </li>
+        </ul>
+       </li>
+       <li> Using MG's suggestion for NR([5,5],2), n=43
+        <ul>
+         <li> NR([4,4],2) = 18, so 18 - 4 = 14, 43 - 14 = 29, 29 / 4 = 7 . So
+         there we can find 7 disjoint monochromatic 4-cliques. Each clique has
+         6 edges, representing 6 variables, which can be reduced to a single
+         variable, so 7 * 6 = 42, 42 - 6 = 36 variables removed. </li>
+         <li> NR([3,3],2) = 6, so 6 - 3 = 3. There are 43 - (7*4) = 15
+         unaffected variables from the previous calculation. 15 - 3 = 12, 12 / 3
+         = 4. So there are 4 disjoint monochromatic 3-cliques. Each clique has 3
+         edges, representing 3 variables, which can be reduced to a single
+         variable, so 4 * 3 = 12, 12 - 4 = 8. </li>
+         <li> So without taking into account the PHP statement above, we see a
+         reduction/loss of 36 + 8 = 44 variables. </li>
+         <li> Including the PHP statement above, we can set 4 of the 7 4-cliques
+         to a colour c, and we can replace 2 of the variables representing
+         3-cliques with 1 variable. Therefore we lose an additional 5 variables, 
+         so 44 + 5 = 49 variables lost. </li>
+        </ul>
+       </li>
+       <li> The method used above for calculation assumes that if a process/idea 
+       needs x unaffected vertices for application at each step, and it affects 
+       y vertices, then the x - y unaffected vertices can be reused at each 
+       step, leaving n - y vertices to act on, until finally there are
+       x - y <=  z  < x unaffected vertices left, at which point, z < x, 
+       therefore the process can no longer be applied, giving 
+       (n - (x -y)) / y possible applications of the procedure. </li>
+      </ul>
+     </li>
      <li> The above process exploits a symmetry of the solution space,
      while this process just relies on a symmetry of the K_n (since
      every(!) total assignment of a K_m will have a monochromatic
