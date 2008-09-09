@@ -72,7 +72,14 @@ sys     0m52.634s
   <ul>
    <li> Interrupting a computation once with "Ctrl-C" worked, but applying
    the second time the console did not respond anymore (though the computation
-   was interrupted)?? </li>
+   was interrupted)??
+    <ol>
+     <li> Just entering "do (a:1);" on the command line, and interrupting
+     and restarting it a couple of times (say, five times) results in the
+     system not interacting anymore (only to "Control-z", which stops it).
+     </li>
+    </ol>
+   </li>
    <li> A segmentation fault:
    \verbatim
 Maxima 5.16.3 http://maxima.sourceforge.net
