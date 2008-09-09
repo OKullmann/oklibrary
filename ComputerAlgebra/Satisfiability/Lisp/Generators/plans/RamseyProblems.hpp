@@ -43,6 +43,8 @@ License, or any later version. */
 
   \todo Symmetry breaking
   <ul>
+   <li> Compare with "Symmetry breaking" in
+   Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
    <li> Consider the K_n, and parameters r=2 and q. </li>
    <li> Partial assignments phi assign the edges of K_n. </li>
    <li> Given any phi, we have the following possibility for symmetry

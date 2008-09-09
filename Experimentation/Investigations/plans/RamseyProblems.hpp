@@ -248,6 +248,9 @@ length(all_aut_ofcs(R5));
   <ul>
    <li> An important way of making the problems simpler for SAT solvers
    is to add symmetry-breaking clauses. </li>
+   <li> See "Symmetry breaking" in
+   ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
+   </li>
    <li> We should try to figure out the automorphism groups of the clause-sets.
    See "Automorphisms of Ramsey clause-sets" in
    RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
@@ -281,12 +284,18 @@ length(all_aut_ofcs(R5));
     <ol>
      <li> If that ZAP systems, which allows to use "annotated clauses", clauses
      plus a permutation group acting on the variables, is open-source, then it
-     would be very natural to apply it here (since the clause-set F_R([q_1, ...,
-     q_s], r, n) can be expressed then by just s clauses together with the
-     symmetric group S_n). </li>
-     <li> A point here is that S_n does act faithful but not
-     stronlgy faithful on the clauses (i.e., on the underlying hypergraph) ---
-     can this be repaired or improved (S_n is a rather large group here)? </li>
+     would be very natural to apply it here:
+      <ol>
+       <li> The clause-set F_R([q_1, ..., q_s], r, n) can be expressed then
+       by just s clauses together with the symmetric group S_n. </li>
+       <li> However it is not available. </li>
+       <li> One should have a look at those papers. </li>
+       <li> A point here is that S_n does act faithful but not
+       strongly faithful on the clauses (i.e., on the underlying hypergraph)
+       --- can this be repaired or improved (S_n is a rather large group here)?
+       </li>
+      </ol>
+     </li>
     </ol>
    </li>
   </ul>
