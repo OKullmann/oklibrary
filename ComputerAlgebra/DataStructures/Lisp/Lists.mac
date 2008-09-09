@@ -166,6 +166,9 @@ partition_elements(l,n) := if emptyp(l) then [] else
   cons(take_elements(nn,l), partition_elements(rest(l,nn),n)))$
 /* We have apply(append, partition_elements(l,n)) = l. */
 
+/* Partition a list into yes- and no- instances */
+partition_list(L,pred) := [sublist(L,pred),sublist(L,lambda([x],not pred(x)))]$
+
 /* Rotates a list n elements to the right. Negative n rotates to the left. */
 rotate(l,n) := 
   if n = 0 or l = [] then l

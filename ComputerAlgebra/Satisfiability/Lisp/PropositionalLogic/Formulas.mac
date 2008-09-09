@@ -19,9 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/PropositionalLogic/
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac");
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac");
-
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 /* ***********************************
    * Representation of formulas      *
@@ -58,7 +58,7 @@ matchdeclare(negexpr,true)$
 tellsimp(neg(neg(negexpr)),negexpr);
 
 /* The set of variables of a propositional literal */
-var_prpl(x) := if not atom(x) and part(x,0) = neg then {part(x,1)} 
+var_prpl(x) := if not atom(x) and op(x) = neg then {first(x)} 
  elseif x = true or x = false then {}
  else {x}$
 /* The set of variables of a propositional formula (tree) without empty operations */
@@ -101,11 +101,6 @@ evaluate_empty_ft(F) := block([l : length(F)],
   elseif F[1] = "xor" then return([false])
   elseif F[1] = "equiv" then return([true])
   else return(F))$
-
-/* Helper function: partition a list into yes- and no- instances */
-partition_list(L,pred) := block([Y : [], N : []],
-  for x in L do if pred(x) then Y : endcons(x,Y) else N : endcons(x,N),
-  return([Y,N]))$
 
 /* Elimination of constants from a formula tree without implications, equivalences
    or empty operations (creating possibly unary operations and negations) */
@@ -279,7 +274,7 @@ trans_op_latex(string) :=
 /* Output a formula tree st as latex-ps-tree to stream s */
 tex_ft(s,F) := 
   if length(F) = 1 then 
-    if not(atom(F[1])) and op(F[1]) = "not" then printf(s, "~a~a~a", "\\TR{$\\neg ", part(F[1],1), "$}")
+    if not(atom(F[1])) and op(F[1]) = "not" then printf(s, "~a~a~a", "\\TR{$\\neg ", first(F[1]), "$}")
     else printf(s, "~a~a~a", "\\TR{$", F[1], "$}")
   else (
      printf(s, "~a~a~a", "\\pstree{\\TR{$", trans_op_latex(F[1]), "$}}"),

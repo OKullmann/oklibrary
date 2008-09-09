@@ -118,7 +118,7 @@ sm2hm(M) := block([h : hash_table_okl()],
 osm2hm(M) := sm2hm(M)$
 /* The inverse conversions: */
 hm2osm(h) :=
- map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data_okl(h))$
+ map(lambda([a],[eval_string(first(a)),second(a)]),hash_table_data_okl(h))$
 hm2sm(h) :=
  setify(hm2osm(h))$
 

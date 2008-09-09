@@ -167,7 +167,7 @@ accumulation_variables_cs(F) := block([V : var_cs(F), result : {}],
 full_variables_fcs(FF) := block([F : FF[2], D, c : ncl_f(FF)],
  if F = {} then return(FF[1]) elseif F = {{}} then return({}),
  D : hm2sm(variable_degrees_cs(F)),
- return(map(lambda([P],part(P,1)),subset(D, lambda([P], is(part(P,2)=c))))))$
+ return(map(lambda([P],first(P)),subset(D, lambda([P], is(second(P)=c))))))$
 full_variables_cs(F) := full_variables_fcs(cs_to_fcs(F))$
 
 /*!

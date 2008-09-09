@@ -370,7 +370,7 @@ block([f], local(f), f(x) := x)
      in h.
       <ol>
        <li> For an assignment A ("x -> y") we obtain the argument by
-       "part(A,1)" and the value by "part(A,2)". </li>
+       "first(A)" and the value by "second(A)". </li>
       </ol>
      </li>
      <li> See ComputerAlgebra/DataStructures/Lisp/HashMaps.mac for interfaces.

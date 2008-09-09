@@ -115,10 +115,10 @@ ordered_literal_degrees_cs(F) :=
 
 /* Minimal literal-degree of a clause-set. */
 min_literal_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),hm2sm(literal_degrees_cs(F))))$
+  lmin(map(lambda([A],second(A)),hm2sm(literal_degrees_cs(F))))$
 /* maximal literal-degree of a clause-set */
 max_literal_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),hm2sm(literal_degrees_cs(F))))$
+  lmax(map(lambda([A],second(A)),hm2sm(literal_degrees_cs(F))))$
 /* Also returns a literal of minimal degree (if there is a literal);
    in case of ties, the return value is implementation-defined. */
 min_literal_degree_l_cs(F) := if F = {} or F = {{}} then [inf,0] else block(
@@ -195,13 +195,13 @@ variable_degrees_cs(F) := block([h : sm2hm({})],
 
 /* The minimal variable-degree of a clause-set: */
 min_variable_degree_cs(F) := 
-  lmin(map(lambda([A],part(A,2)),hm2sm(variable_degrees_cs(F))))$
+  lmin(map(lambda([A],second(A)),hm2sm(variable_degrees_cs(F))))$
 /* The maximal min-var-degree of a set (or list) of clause-sets. */
 max_min_var_deg_cs(SF) := lmax(map(min_variable_degree_cs,SF))$
 
 /* The maximal variable-degree of a clause-set: */
 max_variable_degree_cs(F) := 
-  lmax(map(lambda([A],part(A,2)),hm2sm(variable_degrees_cs(F))))$
+  lmax(map(lambda([A],second(A)),hm2sm(variable_degrees_cs(F))))$
 /* Also returns a variable of maximal degree (if there is a variable). */
 max_variable_degree_v_cs(F) := if F = {} or F = {{}} then [minf,0] else block(
   [D : hm2sm(variable_degrees_cs(F)),  
