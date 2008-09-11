@@ -168,10 +168,12 @@ generic_g2og(G) := [listify(G[1]), listify(G[2])]$
 generic_gg2ogg(G) := [listify(G[1]), listify(G[2]), G[3]]$
 
 gl2mugl(G) := generic_g2mug(G)$
+g2gg(G) := generic_g2gg(G)$
 gl2gg(G) := generic_g2gg(G)$
 mugl2gg(G) := generic_mug2gg(G)$
 
 ogl2omugl(G) := generic_g2mug(G)$
+og2ogg(G) := generic_g2gg(G)$
 ogl2ogg(G) := generic_g2gg(G)$
 omugl2ogg(G) := generic_omug2ogg(G)$
 
@@ -279,9 +281,11 @@ expand_edge(ue) := block([de : listify(ue)],
 neighbours(v,G) := disjoin(v, lunion(
  subset(G[2], lambda([e],elementp(v,e)))))$
 neighbours_g(v,G) := neighbours(v,G)$
-neighbours_gl(v,G) := apply(union, 
+neighbours_gl(v,G) := lunion( 
  map(lambda([e], if e={v} then e else disjoin(v,e)),
      sublist(listify(G[2]), lambda([e],elementp(v,e)))))$
+neighbours_gg(v,G) := neighbours_gl(v,gg2gl(G))$
+
 
 /* Removes vertex set V from graph G (with loops). */
 /* RENAME: "remove_vertices_gl". */

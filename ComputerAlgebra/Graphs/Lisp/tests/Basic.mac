@@ -620,7 +620,21 @@ okltest_neighbours_gl(f) := block([G],
   G : [{1,2,3,4,5,6,7},{{1,2},{1,3},{1,6},{2,3},{2,5},{3,4},{4},{4,7},{5},{5,7},{6},{6,7}}],
   assert(f(1,G) = {2,3,6}),
   assert(f(6,G) = {1,6,7}),
+  assert(okltest_neighbours_g(f)),
   true)$
+
+okltest_neighbours_gg(f) := block(
+  okltest_neighbours_gl(buildq([f],lambda([v,G],f(v,gl2gg(G))))),
+  for n : 0 thru 2 do block([G : ogg2gg(dipole_ogg(n))],
+    for v : 1 thru 2 do
+      if n=0 then assert(f(v,G) = {})
+      else assert(f(v,G) = disjoin(v,{1,2})
+  ),
+  for n : 0 thru 2 do block([G : ogg2gg(bouquet_ogg(n))],
+    if n=0 then assert(f(1,G) = {})
+      else assert(f(1,G) = {1})
+  ),
+  true))$
 
 
 /* *****************************
