@@ -27,6 +27,7 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Generators.mac")$
 */
 
 okltest_complete_g(complete_g);
+okltest_complete_stdg(complete_stdg);
 
 /* ********************
    * Paths and cycles *

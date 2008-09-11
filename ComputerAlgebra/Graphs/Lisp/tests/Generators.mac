@@ -40,6 +40,14 @@ okltest_complete_g(f) := (
     assert(g_p(G)=true),
     assert(G[1] = setn(n)),
     assert(length(G[2]) = binom(n,2))),
+  assert(okltest_complete_stdg(buildq([f],lambda([n],f(setn(n)))))),
+  true)$
+
+okltest_complete_stdg(f) := (
+  assert(f(0) = [{},{}]),
+  assert(f(1) = [{1},{}]),
+  assert(f(2) = [{1,2},{{1,2}}]),
+  assert(f(3) = [{1,2,3},{{1,2},{1,3},{2,3}}]),
   true)$
 
 

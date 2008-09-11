@@ -28,6 +28,7 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 
 /* The complete graph for vertex set V: */
 complete_g(V) := [V, powerset(V,2)]$
+complete_stdg(n) := complete_g(setn(n))$
 
 
 /* ********************
@@ -35,12 +36,15 @@ complete_g(V) := [V, powerset(V,2)]$
    ********************
 */
 
+/* The (standardised, ordered) path graph with n vertices: */
 /* Prerequisite: n >= 1: */
 pathgraph_og(n) := [create_list(i,i,1,n), create_list({i,i+1},i,1,n-1)]$
-/* Prerequisite: n <> 2: */
+/* The (standardised, ordered) cycle graph with loops with n vertices: */
+/* Prerequisite: n <> 0, 2: */
 cyclegraph_ogl(n) := [create_list(i,i,1,n),endcons({n,1},
   create_list({i,i+1},i,1,n-1))]$
 /* Remark: cyclegraph_ogl is irreflexiv iff n >= 3. */
+/* Now allowing also the case n = 2: */
 /* Prerequisite: n >= 1: */
 cyclegraph_ogg(n) := [create_list(i,i,1,n), create_list(i,i,1,n),
   buildq([n],lambda([e],if e=n then {n,1} else {e,e+1}))]$
