@@ -41,8 +41,8 @@ License, or any later version. */
    <li> A list of the known bugs here, which can be marked as the bugs are
    reported to the Maxima bug-tracker and mailing list.
     <ul>
-     <li> "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling of
-     negative exponents is incorrect. 
+     <li> "gf_exp" returns 1 for "gf_exp(p,-1)" for any "p", i.e the handling
+     of negative exponents is incorrect. 
      \verbatim
 (%i2) gf_set(2,2,x^2+x+1); 
 Evaluation took 0.0040 seconds (0.0060 elapsed) using 75.617 KB.
@@ -84,7 +84,7 @@ Use `fasttimes' only on CRE polynomials with same varlists
      </li>
      <li> Setting "largefield" to false seems to break "gf_set" for some fields
      \verbatim
-(%i2) largefield : false; gf_set(2,2,x^+x+1);
+(%i2) largefield : false; gf_set(2,2,x^2+x+1);
 Evaluation took 0.0000 seconds (0.0000 elapsed) using 104 bytes.
 (%o2) false
 Use `fasttimes' only on CRE polynomials with same varlists
@@ -93,8 +93,28 @@ Use `fasttimes' only on CRE polynomials with same varlists
 #2: gf_findprim()(gf.mac line 435)
  -- an error.  To debug this try debugmode(true);
      \endverbatim
+     The same with the example from the documentation, 
+     "gf_set(2,4,x^4+x+1);". 
      </li>
     </ul>
+   </li>
+   <li> Neither gf_test.mac nor gf_hard_test.mac contains
+   tests for example for findprim. </li>
+  </ul>
+
+
+  \todo Missing functionality
+  <ul>
+   <li> The standard Maxima functions have the field of complex numbers
+   apparently hardcoded? </li>
+   <li> So apparently everything needs to be re-implemented. </li>
+   <li> How to do linear algebra over finite fields?
+    <ol>
+     <li> Only gf_matmul and gf_matinv exist. </li>
+     <li> We need to check for linear independence; or, more powerful, we
+     need the rank. </li>
+    </ol>
+   </li>
   </ul>
 
 */
