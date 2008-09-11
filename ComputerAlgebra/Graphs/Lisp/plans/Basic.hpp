@@ -102,6 +102,7 @@ License, or any later version. */
      <li> That is, when these or "original" Maxima graphs, which one can
      apparently recognise by the vertex list in reverse order, finishing
      with a zero. </li>
+     <li> Standardised graphs can be denoted by "stdg", "stdog" etc. </li>
     </ol>
    </li>
    <li> Given a vertex, we need the set of edges incident to the vertex;
