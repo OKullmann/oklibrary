@@ -409,6 +409,21 @@ tree_mugl_p(G) :=  irreflexive_mugl_p(G) and tree_gl_p(mugl2gl(G))$
 tree_omugl_p(G) :=  irreflexive_omugl_p(G) and tree_ogl_p(omugl2ogl(G))$
 
 
+/* Tests whether a graph is regular: */
+regular_g_p(k,G) := block([h : hm2osm(vertex_degrees_g(G))],
+  every_s(lambda([p],is(second(p) = k)),h))$
+/* Counting loops once in a general graph: */
+regular1_gg_p(k,G) := block([h : hm2osm(vertex_degrees1_gg(G))],
+  every_s(lambda([p],is(second(p) = k)),h))$
+/* Counting loops twice in a general graph: */
+regular2_gg_p(k,G) := block([h : hm2osm(vertex_degrees2_gg(G))],
+  every_s(lambda([p],is(second(p) = k)),h))$
+
+
+/* Tests whether a graph is a cycle graph: */
+cycle_gg_p(G) := connected_gg_p(G) and regular2_gg_p(2,G)$
+
+
 /* Tests whether a graph is complete bipartite: */
 completebipartite_g_p(G) := is_bipartite(g2mg(G))$
 completebipartite_gg_p(G) := completebipartite_g_p(gg2g(G))$

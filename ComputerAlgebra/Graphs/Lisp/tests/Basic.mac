@@ -687,12 +687,38 @@ okltest_has_dominating_vertex_gl(f) := (
   assert(f([{1,2,3,4},{{2,1},{2,3},{2,4},{2}}]) = true),
   true)$
 
-okltest_completebipartite_g_p(f) := (
+okltest_regular_g_p(f) := (
+  assert(f(0,[{},{}]) = true),
+  assert(f(1,[{},{}]) = true),
+  assert(f(2,[{},{}]) = true),
+  assert(f(0,[{1},{}]) = true),
+  assert(f(1,[{1},{}]) = false),
+  /* XXX */
+  true)$
 
+okltest_regular1_gg_p(f) := (
+  /* *** */
+  assert(okltest_regular_g_p(buildq([f],lambda([k,G],f(k,g2gg(G)))))),
+  true)$
+
+okltest_regular2_gg_p(f) := (
+  /* *** */
+  assert(okltest_regular_g_p(buildq([f],lambda([k,G],f(k,g2gg(G)))))),
+  true)$
+
+okltest_cycle_gg_p(f) := block([ef],
+  for n : 1 thru 4 do
+    assert(f(ogg2gg(cyclegraph_ogg(n))) = true),
+  assert(f([{},{},ef]) = false),
+  /* *** */
+  true)$
+
+okltest_completebipartite_g_p(f) := (
+  /* XXX */
   true)$
 
 okltest_completebipartite_gg_p(f) := (
-
+  /* XXX */
   true)$
 
 
