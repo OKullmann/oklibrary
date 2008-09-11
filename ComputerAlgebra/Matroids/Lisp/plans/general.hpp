@@ -59,9 +59,9 @@ License, or any later version. */
      <li> Importantly, also for the various set systems (independent sets,
      circuits, etc.) we can have explicit and implicit representations. One
      could use "imp" for "implicit", and "exp" for "explicit". </li>
-     <li> Perhaps we could make implicit representation of the set of
+     <li> Perhaps we make implicit representation of the set of
      independent subsets the default, while for the bases the explicit
-     representation is the default? </li>
+     representation is the default. </li>
     </ol>
    </li>
   </ul>
@@ -69,12 +69,27 @@ License, or any later version. */
 
   \todo Examples
   <ul>
-   <li> Given a combinatorial matrix over a skew field, subsets of the
-   column-set, or, alternatively, of the row-set, are independent iff they
-   are linearly independent (with the Maxima function "rank" one can
-   handle the field of reals or the field of rationals, while for other
-   fields apparently no functions are provided, and so we need to provide
-   generic functions ourselves). </li>
+   <li> Vector matroid M[A]:
+    <ol>
+     <li> Given a combinatorial matrix A over a skew field, subsets of the
+     column-set, or, alternatively, of the row-set, are independent iff they
+     are linearly independent. </li>
+     <li> With the Maxima function "rank" one can handle the field of reals or
+     the field of rationals, while for other fields apparently no functions are
+     provided, and so we need to provide generic functions ourselves. </li>
+     <li> See "Missing functionality" in
+     ComputerAlgebra/Algebra/Lisp/plans/FiniteFields.hpp. </li>
+    </ol>
+   </li>
+   <li> Cycle matroid M(G):
+    <ol>
+     <li> Given a general graph G, sets of edges of cyles yield the set of
+     circuits of a matroid on E(G). </li>
+     <li> Here the check is easy: Compute the induced subgraph and check
+     whether it is a cycle graph; this is done by cycle_gg_p and
+     edge_induced_subgraph_gg. </li>
+    </ol>
+   </li>
   </ul>
 
 
@@ -90,6 +105,8 @@ License, or any later version. */
      and repeat from the previous step. </li>
     </ol>
    </li>
+   <li> The hereditarity condition exactly ensures that every B could be
+   chosen. </li>
    <li> [V,E] is a matroid if and only if the greedy algorithm yields for
    every w a maximal element of E which is also of maximal weight (amongst
    all maximal elements of E). </li>
