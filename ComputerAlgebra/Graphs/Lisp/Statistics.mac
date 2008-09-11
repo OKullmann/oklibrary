@@ -29,30 +29,48 @@ oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
    ******************
 */
 
-/* The vertex-degrees of a graph as hash-map, as a generic function,
-   applicable to g and og, and also for gl and ogl when counting loops
-   only once: */
-vertex_degrees_genericg(G) := block([h : sm2hm({})],
+/* The degree of a vertex: */
+degree_g(v,G) := length(neighbours_g(v,G))$
+/* For general graphs, counting loops once: */
+degree1_gg(v,G) := length(subset(G[2],lambda([e],elementp(v,G[3](e)))))$
+/* Counting loops twice: */
+degree2_gg(v,G) := gsum_s(
+  lambda([el],block([e : G[3](el)], 
+   if elementp(v,e) then if length(e) = 1 then 2 else 1
+   else 0)),
+  G[2])$
+/* Remark: If degrees for several vertices are needed, then better the 
+   following functions are used.
+*/
+
+/* The vertex-degrees of a general graph as hash-map, as a generic function,
+   applicable to gg and ogg, counting loops only once: */
+vertex_degrees1_genericg(G) := block([h : sm2hm({})],
  for e in G[2] do
-   for v in e do enter_new_occurrence(h,v),
+   for v in G[3](e) do enter_new_occurrence(h,v),
  for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
  return(h))$
 
-vertex_degrees_g(G) := vertex_degrees_genericg(G)$
-vertex_degrees_og(G) := vertex_degrees_genericg(G)$
+vertex_degrees_g(G) := vertex_degrees1_genericg(g2gg(G))$
+vertex_degrees_og(G) := vertex_degrees1_genericg(og2ogg(G))$
 /* For graphs with loops, counting loops once: */
-vertex_degrees1_gl(G) := vertex_degrees_genericg(G)$
-vertex_degrees1_ogl(G) := vertex_degrees_genericg(G)$
+vertex_degrees1_gl(G) := vertex_degrees1_genericg(gl2gg(G))$
+vertex_degrees1_ogl(G) := vertex_degrees1_genericg(ogl2ogg(G))$
+vertex_degrees1_gg(G) := vertex_degrees1_genericg(G)$
+vertex_degrees1_ogg(G) := vertex_degrees1_genericg(G)$
 
-/* The generic version, counting loops twice: */
+/* The generic version, counting loops twice (again for
+   general graphs (ordered or unordered): */
 vertex_degrees2_genericg(G) := block([h : sm2hm({})],
  for e in G[2] do
-   for v in expand_edge(e) do enter_new_occurrence(h,v),
+   for v in expand_edge(G[3](e)) do enter_new_occurrence(h,v),
  for v in G[1] do if ev_hm(h,v) = false then set_hm(h,v,0),
  return(h))$
 
-vertex_degrees2_gl(G) := vertex_degrees2_genericg(G)$
-vertex_degrees2_ogl(G) := vertex_degrees2_genericg(G)$
+vertex_degrees2_gl(G) := vertex_degrees2_genericg(gl2gg(G))$
+vertex_degrees2_ogl(G) := vertex_degrees2_genericg(ogl2ogg(G))$
+vertex_degrees2_gg(G) := vertex_degrees2_genericg(G)$
+vertex_degrees2_ogg(G) := vertex_degrees2_genericg(G)$
 
 
 /* Returns the pair [min-degree, vertex_of_minimum_degree], using

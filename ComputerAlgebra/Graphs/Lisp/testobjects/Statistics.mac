@@ -26,12 +26,20 @@ oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac")$
    ******************
 */
 
+okltest_degree_g(degree_g);
+okltest_degree1_gg(degree1_gg);
+okltest_degree2_gg(degree2_gg);
+
 okltest_vertex_degrees_g(vertex_degrees_g);
 okltest_vertex_degrees_og(vertex_degrees_og);
 okltest_vertex_degrees1_gl(vertex_degrees1_gl);
 okltest_vertex_degrees1_ogl(vertex_degrees1_ogl);
+okltest_vertex_degrees1_gg(vertex_degrees1_gg);
+okltest_vertex_degrees1_ogg(vertex_degrees1_ogg);
 okltest_vertex_degrees2_gl(vertex_degrees2_gl);
 okltest_vertex_degrees2_ogl(vertex_degrees2_ogl);
+okltest_vertex_degrees2_gg(vertex_degrees2_gg);
+okltest_vertex_degrees2_ogg(vertex_degrees2_ogg);
 
 okltest_min_vertex_degree_v_og(min_vertex_degree_v_og);
 okltest_min_vertex_degree1_v_ogl(min_vertex_degree1_v_ogl);

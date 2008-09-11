@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/tests/Statistics.mac");
 oklib_include("Transitional/ComputerAlgebra/TestSystem/Lisp/Asserts.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac")$
 oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Generators.mac")$
 
 
 kill(f)$
@@ -31,6 +32,47 @@ kill(f)$
    ******************
 */
 
+okltest_degree_g(f) := (
+  assert(f(1,[{1},{}]) = 0),
+  assert(f(1,[{1,2},{}]) = 0),
+  assert(f(1,[{1,2},{{1,2}}]) = 1),
+  for n : 0 thru 3 do block([G : complete_stdg(n)],
+    for v in G[1] do
+      assert(f(v,G) = n-1)
+  ),
+  for n : 2 thru 4 do block([G : og2g(pathgraph_og(n))],
+    for v in G[1] do block([d : f(v,G)],
+      if elementp(v,{1,n}) then assert(d = 1)
+      else assert(d = 2)
+  )),
+  for n : 3 thru 5 do block([G : ogl2gl(cyclegraph_ogl(n))],
+    for v in G[1] do
+      assert(f(v,G) = 2)
+  ),
+  true)$
+
+okltest_degree1_gg(f) := (
+  for n : 0 thru 3 do block([G : ogg2gg(dipole_ogg(n))],
+    for v in G[1] do
+      assert(f(v,G) = n)
+  ),
+   for n : 0 thru 3 do block([G : ogg2gg(bouquet_ogg(n))],
+    assert(f(1,G) = n)
+  ),
+  assert(okltest_degree_g(buildq([f],lambda([v,G],f(v,g2gg(G)))))),
+  true)$
+
+okltest_degree2_gg(f) := (
+  for n : 0 thru 3 do block([G : ogg2gg(dipole_ogg(n))],
+    for v in G[1] do
+      assert(f(v,G) = n)
+  ),
+   for n : 0 thru 3 do block([G : ogg2gg(bouquet_ogg(n))],
+    assert(f(1,G) = 2* n)
+  ),
+  assert(okltest_degree_g(buildq([f],lambda([v,G],f(v,g2gg(G)))))),
+  true)$
+ 
 okltest_vertex_degrees_g(f) := block(
   assert(hm2sm(f([{},{}])) = {}),
   assert(hm2sm(f([{1},{}])) = {[1,0]}),
@@ -38,6 +80,7 @@ okltest_vertex_degrees_g(f) := block(
   assert(hm2sm(f([{1,2},{{1,2}}])) = {[1,1],[2,1]}),
   assert(hm2sm(f([{1,2,3,4,5,6},{{1,2},{3,2},{2,4},{4,5},{4,6}}])) =
     {[1,1],[3,1],[2,3],[4,3],[5,1],[6,1]}),
+  assert(okltest_degree_g(buildq([f],lambda([v,G],ev_hm(f(G),v))))),
   true)$
 
 okltest_vertex_degrees_og(f) := block(
@@ -47,6 +90,7 @@ okltest_vertex_degrees_og(f) := block(
   assert(hm2sm(f([[1,2],[[1,2]]])) = {[1,1],[2,1]}),
   assert(hm2sm(f([[1,2,3,4,5,6],[[1,2],[3,2],[2,4],[4,5],[4,6]]])) =
     {[1,1],[3,1],[2,3],[4,3],[5,1],[6,1]}),
+  assert(okltest_vertex_degrees_g(buildq([f],lambda([G],f(g2og(G)))))),
   true)$
 
 okltest_vertex_degrees1_gl(f) := block(
@@ -59,6 +103,15 @@ okltest_vertex_degrees1_ogl(f) := block(
   assert(okltest_vertex_degrees1_gl(buildq([f],lambda([G],f(gl2ogl(G)))))),
   true)$
 
+okltest_vertex_degrees1_gg(f) := (
+  assert(okltest_vertex_degrees1_gl(buildq([f],lambda([G],f(gl2gg(G)))))),
+  assert(okltest_degree1_gg(buildq([f],lambda([v,G],ev_hm(f(G),v))))),
+  true)$
+
+okltest_vertex_degrees1_ogg(f) := block(
+  assert(okltest_vertex_degrees1_gg(buildq([f],lambda([G],f(gg2ogg(G)))))),
+  true)$
+
 okltest_vertex_degrees2_gl(f) := block(
   assert(okltest_vertex_degrees_g(f)),
   assert(hm2sm(f([{1},{{1}}])) = {[1,2]}),
@@ -69,6 +122,14 @@ okltest_vertex_degrees2_ogl(f) := block(
   assert(okltest_vertex_degrees2_gl(buildq([f],lambda([G],f(gl2ogl(G)))))),
   true)$
 
+okltest_vertex_degrees2_gg(f) := (
+  assert(okltest_vertex_degrees2_gl(buildq([f],lambda([G],f(gl2gg(G)))))),
+  assert(okltest_degree2_gg(buildq([f],lambda([v,G],ev_hm(f(G),v))))),
+  true)$
+
+okltest_vertex_degrees2_ogg(f) := block(
+  assert(okltest_vertex_degrees2_gg(buildq([f],lambda([G],f(gg2ogg(G)))))),
+  true)$
 
 okltest_min_vertex_degree_v_og(f) := block(
   assert(f([[],[]]) = [inf]),
