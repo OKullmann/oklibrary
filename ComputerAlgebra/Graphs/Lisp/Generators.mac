@@ -46,6 +46,25 @@ cyclegraph_ogg(n) := [create_list(i,i,1,n), create_list(i,i,1,n),
   buildq([n],lambda([e],if e=n then {n,1} else {e,e+1}))]$
 
 
+/* **********
+   * Dipols *
+   **********
+*/
+
+/* The (standardised) general graph with two vertices and n parallel edges 
+   between them: */
+dipole_ogg(n) := [[1,2], create_list(i,i,1,n), lambda([e],{1,2})]$
+
+
+/* ************
+   * Bouquets *
+   ************
+*/
+
+/* The (standardised) general graph with one vertex and n edges: */
+bouquet_ogg(n) := [[1], create_list(i,i,1,n), lambda([e],{1})]$
+
+
 /* *****************
    * Kneser graphs *
    *****************

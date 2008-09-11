@@ -37,6 +37,20 @@ okltest_pathgraph_og(pathgraph_og);
 okltest_cyclegraph_ogl(cyclegraph_ogl);
 okltest_cyclegraph_ogg(cyclegraph_ogg);
 
+/* **********
+   * Dipols *
+   **********
+*/
+
+okltest_dipole_ogg(dipole_ogg);
+
+/* ************
+   * Bouquets *
+   ************
+*/
+
+okltest_bouquet_ogg(bouquet_ogg);
+
 /* *****************
    * Kneser graphs *
    *****************

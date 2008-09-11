@@ -67,6 +67,37 @@ okltest_cyclegraph_ogg(f) := (
   true)$
 
 
+/* **********
+   * Dipols *
+   **********
+*/
+
+okltest_dipole_ogg(f) := (
+  for n : 0 thru 3 do block([G : f(n)],
+    assert(ogg_p(G) = true),
+    assert(length(G[1]) = 2),
+    assert(length(G[2]) = n),
+    for e in G[2] do
+      assert(G[3](e) = {1,2})
+  ),
+  true)$
+
+/* ************
+   * Bouquets *
+   ************
+*/
+
+okltest_bouquet_ogg(f) := (
+  for n : 0 thru 3 do block([G : f(n)],
+    assert(ogg_p(G) = true),
+    assert(length(G[1]) = 1),
+    assert(length(G[2]) = n),
+    for e in G[2] do
+      assert(G[3](e) = {1})
+  ),
+  true)$
+
+
 /* *****************
    * Kneser graphs *
    *****************
