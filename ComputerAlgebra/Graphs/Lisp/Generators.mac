@@ -58,7 +58,11 @@ cyclegraph_ogg(n) := [create_list(i,i,1,n), create_list(i,i,1,n),
 /* The (standardised) general graph with two vertices and n parallel edges 
    between them: */
 dipole_ogg(n) := [[1,2], create_list(i,i,1,n), lambda([e],{1,2})]$
+dipole_gg(n) := ogg2gg(dipole_ogg(n))$
 
+/* With directed edges, directed from 1 to 2: */
+dipole_ogdg(n) := [[1,2], create_list(i,i,1,n), lambda([e],[1,2])]$
+dipole_gdg(n) := ogdg2gdg(dipole_ogdg(n))$
 
 /* ************
    * Bouquets *
@@ -67,6 +71,7 @@ dipole_ogg(n) := [[1,2], create_list(i,i,1,n), lambda([e],{1,2})]$
 
 /* The (standardised) general graph with one vertex and n edges: */
 bouquet_ogg(n) := [[1], create_list(i,i,1,n), lambda([e],{1})]$
+bouquet_gg(n) := ogg2gg(bouquet_ogg(n))$
 
 
 /* *****************
