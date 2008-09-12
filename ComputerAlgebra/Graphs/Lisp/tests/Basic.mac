@@ -572,11 +572,77 @@ okltest_gdg2ogdg(f) := block([k],
 */
 
 okltest_gl2g(f) := (
-
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{}]) = [{1},{}]),
+  assert(f([{1},{{1}}]) = [{1},{}]),
+  /* XXX */
   true)$
 
 okltest_gg2g(f) := (
+  for n : 0 thru 3 do block([G : dipole_gg(n)],
+    if n = 0 then assert(f(G) = [{1,2},{}])
+    else assert(f(G) = [{1,2},{{1,2}}])),
+  for n : 0 thru 3 do block([G : bouquet_gg(n)],
+    assert(f(G) = [{1},{}])),
+  assert(okltest_gl2g(buildq([f],lambda([G],f(gl2gg(G)))))),
+  true)$
 
+okltest_ogl2og(f) := (
+  assert(f([[1,3,2],[{2,3},{1},{1,3},{2}]]) = [[1,3,2],[{2,3},{1,3}]]),
+  /* XXX */
+  assert(okltest_gl2g(buildq([f],lambda([G],og2g(f(gl2ogl(G))))))),
+  true)$
+
+okltest_ogg2og(f) := (
+  /* XXX */
+  assert(okltest_gg2g(buildq([f],lambda([G],og2g(f(gg2ogg(G))))))),
+  true)$
+
+okltest_mugl2mug(f) := (
+  /* XXX */
+  assert(okltest_gl2g(buildq([f],lambda([G],mug2g(f(gl2mugl(G))))))),
+  true)$
+
+okltest_omugl2omug(f) := (
+  /* XXX */
+  assert(okltest_ogl2og(buildq([f],lambda([G],omug2og(f(ogl2omugl(G))))))),
+  true)$
+
+okltest_dg2g(f) := (
+  assert(f([{},{}]) = [{},{}]),
+  assert(f([{1},{}]) = [{1},{}]),
+  assert(f([{1,2},{[1,2]}]) = [{1,2},{{1,2}}]),
+  assert(f([{1,2},{[1,2],[2,1]}]) = [{1,2},{{1,2}}]),
+  /* XXX */
+  true)$
+
+okltest_odg2og(f) := (
+  assert(f([[3,2,1],[[3,1],[2,1],[2,3],[1,3],[1,2]]]) = [[3,2,1],[{1,3},{1,2},{2,3}]]),
+  assert(okltest_dg2g(buildq([f],lambda([G],og2g(f(dg2odg(G))))))),
+  true)$
+
+okltest_dgl2gl(f) := (
+  assert(f([{1},{[1,1]}]) = [{1},{{1}}]),
+  assert(okltest_dg2g(f)),
+  true)$
+
+okltest_odgl2ogl(f) := (
+  /* XXX */
+  assert(okltest_odg2og(f)),
+  assert(okltest_dgl2gl(buildq([f],lambda([G],ogl2gl(f(dgl2odgl(G))))))),
+  true)$
+
+okltest_gdg2gg(f) := (
+  for n : 0 thru 3 do block([G : dipole_gdg(n)],
+    assert(gr_equalp(f(G), dipole_gg(n)) = true)),
+  assert(okltest_dgl2gl(buildq([f],lambda([G],gg2gl(f(dgl2gdg(G))))))),
+  true)$
+
+okltest_ogdg2ogg(f) := (
+  for n : 0 thru 3 do block([G : dipole_ogdg(n)],
+    assert(gr_equalp(f(G), dipole_ogg(n)) = true)),
+  assert(okltest_odgl2ogl(buildq([f],lambda([G],ogg2ogl(f(odgl2ogdg(G))))))),
+  assert(okltest_gdg2gg(buildq([f],lambda([G],ogg2gg(f(gdg2ogdg(G))))))),
   true)$
 
 

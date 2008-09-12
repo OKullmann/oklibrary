@@ -97,6 +97,17 @@ okltest_gdg2ogdg(gdg2ogdg);
 
 okltest_gl2g(gl2g);
 okltest_gg2g(gg2g);
+okltest_ogl2og(ogl2og);
+okltest_ogg2og(ogg2og);
+okltest_mugl2mug(mugl2mug);
+okltest_omugl2omug(omugl2omug);
+
+okltest_dg2g(dg2g);
+okltest_odg2og(odg2og);
+okltest_dgl2gl(dgl2gl);
+okltest_odgl2ogl(odgl2ogl);
+okltest_gdg2gg(gdg2gg);
+okltest_ogdg2ogg(ogdg2ogg);
 
 okltest_g2dg(g2dg);
 okltest_gl2dgl(gl2dgl);

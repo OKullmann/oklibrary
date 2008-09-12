@@ -190,6 +190,7 @@ odgl2omudgl(G) := generic_g2mug(G)$
 odgl2ogdg(G) := generic_g2gg(G)$
 omudgl2ogdg(G) := generic_omug2ogg(G)$
 
+dg2odg(G) := generic_g2og(G)$
 dgl2odgl(G) := generic_g2og(G)$
 mudgl2omudgl(G) := generic_gg2ogg(G)$
 gdg2ogdg(G) := generic_gg2ogg(G)$
@@ -211,10 +212,12 @@ generic_ogg2omugl(G) := [
  buildq([G],lambda([e],length(sublist(G[2],lambda([x],is(G[3](x)=e))))))
 ]$
 
+mug2g(G) := [G[1],G[2]]$
 mugl2gl(G) := [G[1],G[2]]$
 gg2gl(G) := [G[1], map(G[3],G[2])]$
 gg2mugl(G) := generic_gg2mugl(G)$
 
+omug2og(G) := [G[1],G[2]]$
 omugl2ogl(G) := [G[1],G[2]]$
 ogg2ogl(G) := [G[1], stable_unique(map(G[3],G[2]))]$
 ogg2omugl(G) := generic_ogg2omugl(G)$
@@ -245,15 +248,18 @@ ogdg2gdg(G) := [setify(G[1]), setify(G[2]), G[3]]$
 /* Removal of loops: */
 gl2g(G) := [G[1], subset(G[2],lambda([e],is(length(e)=2)))]$
 gg2g(G) := gl2g(gg2gl(G))$
-ogl2og(G) := [G[1]. sublist(G[2],lambda([e],is(length(e)=2)))]$
-mugl2mug(G) := [G[1], subset(G[2],lambda([e],is(length(G[3](e))=2))), G[3]]$
-omugl2omug(G) := [G[1], sublist(G[2],lambda([e],is(length(G[3](e))=2))), G[3]]$
+ogl2og(G) := [G[1], sublist(G[2],lambda([e],is(length(e)=2)))]$
+ogg2og(G) := ogl2og(ogg2ogl(G))$
+mugl2mug(G) := [G[1], subset(G[2],lambda([e],is(length(e)=2))), G[3]]$
+omugl2omug(G) := [G[1], sublist(G[2],lambda([e],is(length(e)=2))), G[3]]$
 
 /* Underlying graphs of directed graphs: */
 dg2g(G) := [G[1], map(setify,G[2])]$
 odg2og(G) := [G[1], stable_unique(map(setify,G[2]))]$
 dgl2gl(G) := [G[1], map(setify,G[2])]$
 odgl2ogl(G) := [G[1], stable_unique(map(setify,G[2]))]$
+gdg2gg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
+ogdg2ogg(G) := [G[1], G[2], buildq([G],lambda([e],setify(G[3](e))))]$
 
 /* Representing graphs by directed graphs: */
 g2dg(G) := [G[1], setify(apply(append,
