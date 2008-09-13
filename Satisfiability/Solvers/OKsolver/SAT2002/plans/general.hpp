@@ -199,6 +199,8 @@ License, or any later version. */
    \endverbatim
    (the last entry seems always to be 0 or 1). </li>
    <li> Directly at the beginning, but also later. </li>
+   <li> Another problem here is that if the output-file already exists,
+   then apparently nothing happens. </li>
   </ul>
 
 

@@ -138,9 +138,9 @@ License, or any later version. */
       <li> <code>-M</code> for monitoring the level d of the backtracking tree
       (default is OFF), where d=6 by default (watching 2^6 = 64 nodes).
 
-      <p> d can be set using<code>-Dd</code> for d >= 0, for example
+      <p> d can be set using<code>-Dd</code>, for example
       <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
-      On 32-bit machines d <= 30. </p>
+      Range 0 <= d <= 30. </p>
 
       <p> Once a node at level d is completed, its number is printed out,
       followed by the number of leaves below it, the total running-time
