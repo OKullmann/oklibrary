@@ -90,6 +90,13 @@ License, or any later version. */
     - Correct computation of basic statistics
 
 
+  \par Version 1.0.6
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Incorrect output of monitoring-data to files
+
+
   \par Version 1.1
 
   \par

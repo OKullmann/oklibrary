@@ -190,6 +190,18 @@ License, or any later version. */
   </ul>
 
 
+  \todo Incorrect output of monitoring-data to files
+  <ul>
+   <li> When using "-M" together with "-F", then we get spurious output lines
+   (console and file), like
+   \verbatim
+0 :  (null) 0
+   \endverbatim
+   (the last entry seems always to be 0 or 1). </li>
+   <li> Directly at the beginning, but also later. </li>
+  </ul>
+
+
   \todo Declare variable as close to their first usage as possible
   <ul>
    <li> Since C99 also allows to appear declaration everywhere, one
