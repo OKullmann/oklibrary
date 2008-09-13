@@ -44,6 +44,17 @@ License, or any later version. */
      <li> Another run with set_random(0): 171/100037. </li>
     </ol>
    </li>
+   <li> n = 8:
+    <ol>
+     <li> With default setting: 0/2567. </li>
+     <li> With set_random(0): 1/2976 (segfault at interrupt). </li>
+     <li> With set_random(1): 2/11720 (with Ecl; after several interrupts
+     lost connection). </li>
+    </ol>
+   </li>
+   <li> It seems that for small n (n <= 5) there are no self-dual but not
+   self-polar matrices, while for bigger n self-dual matrices become very
+   rare (so that a random search for them won't succeed). </li>
   </ul>
 
 */
