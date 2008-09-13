@@ -131,6 +131,28 @@ License, or any later version. */
     The restrictions for variable-names (not beginning with "0,c,p") only hold
     for DIMACS (x=1). DIMACS does not accept an empty clause, while the other
     formats do. </li>
+    <li> Toggles (switching between "ON" and "OFF"):
+     <ul>
+      <li> <code>-F</code> for printing the results also to files (default is
+      OFF). </li>
+      <li> <code>-M</code> for monitoring the level d of the backtracking tree
+      (default is OFF), where d=6 by default (watching 2^6 = 64 nodes).
+
+      <p> d can be set using<code>-Dd</code> for d >= 0, for example
+      <code>-D10</code> for watching 2^10 = 1024 nodes at depth 10.
+      On 32-bit machines d <= 30. </p>
+
+      <p> Once a node at level d is completed, its number is printed out,
+      followed by the number of leaves below it, the total running-time
+      until now, and the anticipated running time for the remaining nodes at
+      this level, using the current average running time for the monitored
+      nodes (always in seconds). </p>
+
+      <p> If file-output is activated, then the monitoring output is echoed
+      to file "FullInputFileName.mo". </p>
+      </li>
+     </ul>
+    </li>
     <li> To be completed. </li>
   </ul>
 
