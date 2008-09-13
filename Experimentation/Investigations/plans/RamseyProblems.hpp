@@ -64,7 +64,16 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
      </li>
      <li> Unsatisfiability for n=18:
       <ul>
-       <li> OKsolver can't solve it in ~ 5 hours. </li>
+       <li> OKsolver
+        <ol>
+         <li> Can't solve it in ~ 5 hours. </li>
+         <li> Running it with
+         \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D14 -F Ramsey_4_2_18.cnf
+         \endverbatim
+         seems to indicate that it will take roughly 15 days (on csltok). </li>
+        </ol>
+       </li>
        <li> Grasp aborts by default (10000s exceeded). </li>
        <li> minisat seems hopeless (after one hour). </li>
        <li> march_pl seems hopeless (after one hour). </li>
