@@ -103,37 +103,55 @@ License, or any later version. */
    of directories anymore here. </li>
    <li> There are three programs:
     <ol>
-     <li> OKsolver_2002.c : standard C program (assumes linking with the other compilation units) </li>
-     <li> OKsolver_2002_lnk.c : Same as OKsolver_2002.c, but includes all other compilation units, and thus
-     needs no linking. </li>
-     <li> DONE (removed) GesamtOKs.cpp : Produced by UebersetzungOKs.plx out of all the compilation units
-     (and is treated as C++). (However OK.h and Parameter.h are not inserted, but included.) </li>
+     <li> OKsolver_2002.c : standard C program (assumes linking with the other
+     compilation units) </li>
+     <li> OKsolver_2002_lnk.c : Same as OKsolver_2002.c, but includes all other
+     compilation units, and thus needs no linking. </li>
+     <li> DONE (removed)
+     GesamtOKs.cpp : Produced by UebersetzungOKs.plx out of all the compilation
+     units (and is treated as C++). (However OK.h and Parameter.h are not
+     inserted, but included.) </li>
     </ol>
-   <li> There is no need anymore for the created file GesamtOKs.cpp, however we need some
-   tests on the running times of GesamtOKs, OKsolver_2002 and OKsolver_2002_lnk, and this also
-   compared with the existing OKsolver-binaries. Optimally, we could do this simply with our build system
+   </li>
+   <li> There is no need anymore for the created file GesamtOKs.cpp, however
+   we need some tests on the running times of GesamtOKs, OKsolver_2002 and
+   OKsolver_2002_lnk, and this also compared with the existing
+   OKsolver-binaries. Optimally, we could do this simply with our build system
    (as planned), but perhaps for the time being we just do some ad-hoc testing.
    </li>
-   <li> The difference between OKsolver_2002.c and OKsolver_2002_lnk.c is that the latter enables more inlining ---
+   <li> The difference between OKsolver_2002.c and OKsolver_2002_lnk.c is that
+   the latter enables more inlining ---
    can't this be achieved otherwise (through inline-specifications)? </li>
-   <li> The build system links the C programs as C++ programs; shouldn't make a big
-   difference for now, but should be rectified with the new system. </li>
-   <li> The build system doesn't know about the dependency of OKsolver_2002.c on the other .c-programs
-   (to which it links) --- this needs to be addressed!
+   <li> The build system links the C programs as C++ programs; shouldn't make
+   a big difference for now, but should be rectified with the new system. </li>
+   <li> The build system doesn't know about the dependency of OKsolver_2002.c
+   on the other .c-programs (to which it links) --- this needs to be addressed!
     <ol>
-     <li> For each program P, one additional dependency file has to be created which contains
-     the rule with target P, where the prerequisites are all the files P links together. </li>
+     <li> For each program P, one additional dependency file has to be created
+     which contains the rule with target P, where the prerequisites are all
+     the files P links together. </li>
      <li> See the plans under Buildsystem. </li>
     </ol>
    </li>
-   <li> Compilation of lokalesLernen.c on its own should only happen with LOKALLERNEN defined
-   (without it a compile-time error should ensue). </li>
+   <li> Compilation of lokalesLernen.c on its own should only happen with
+   LOKALLERNEN defined (without it a compile-time error should ensue). </li>
+   <li> Optimisation options:
+    <ol>
+     <li> As one can see under "OKsolver" in
+     Experimentation/Investigations/plans/RamseyProblems.hpp, the executable
+     on the 64-bit machines seems to run nearly 3 times slower than the
+     executable on the 32-bit machine. </li>
+     <li> We need to do some experimentation with the different compiler
+     options. </li>
+    </ol>
+   </li>
   </ul>
 
 
   \todo Complete the help facilities of the OKsolver
   <ul>
-   <li> There are quite a few options available, and these should be documented. </li>
+   <li> There are quite a few options available, and these should be
+   documented. </li>
   </ul>
 
 
