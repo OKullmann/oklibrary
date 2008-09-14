@@ -204,6 +204,40 @@ License, or any later version. */
   </ul>
 
 
+  \todo Improve statistics
+  <ul>
+   <li> Typedefs are needed for the two classes of statistics variables:
+   \verbatim
+extern long unsigned int Knoten, SingleKnoten, VerSingleKnoten, 
+  QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed,
+  neue2Klauseln, maxneue2K;
+extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
+   \endverbatim
+   </li>
+   <li> Perhaps via new macros then these typedefs are set. </li>
+   <li> Default is that "long unsigned int" should become guaranteed 64 bits,
+   while "unsigned int" should become guaranteed 32 bits. </li>
+   <li> Timing:
+    <ol>
+     <li> On Unix/Linux machine process-timing data is availabe for (much)
+     longer periods (of course with lower resolution). </li>
+     <li> We already have the macro-option SYSTIME, which when activated (i.e.,
+     defined), uses sys/times.h and different definitions. </li>
+     <li> We need to check whether this is already what we want (the time used
+     by the process (not wall-clock time) with a resolution of a second). </li>
+     <li> Since we have already other non-standard-C parts (from the Unix
+     libraries), this should be alright. </li>
+     <li> However we should check what BOOST has to offer. </li>
+     <li> We should then make clear the two options: short times (<= 25 m)
+     with high resolution, or long times with low resolution. </li>
+     <li> It shouldn't be a big deal to actually make it a run-time option
+     (just providing both definitions, and a run-time switch regulates which
+     to use) --- this would be much more convenient. </li>
+    </ol>
+   </li>
+  </ul>
+
+
   \todo Declare variable as close to their first usage as possible
   <ul>
    <li> Since C99 also allows to appear declaration everywhere, one
