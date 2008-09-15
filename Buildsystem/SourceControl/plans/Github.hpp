@@ -40,10 +40,10 @@ url = git@github.com:OKullmann/oklibrary.git
    <li> A given user (i.e. OKullmann) may "follow" another user (i.e. MLewsey),
    in which case, all activity (commits, new repositories, follows etc) of
    MLewsey is reported on OKullmann's "News Feed". </li>
-   <li> A given user may "watch" a repository. This is analogous to "following"
-   a user, where instead all activity (commits etc) of the respository is
-   reported on the user's "News Feed". </li>
-   <li> Github has a "group" on Google Groups. While this is not a pure mailing 
+   <li> A given user also may "watch" a repository. This is analogous to
+   "following" a user, but now all activity (commits etc) of the
+   *respository* is reported on the user's "News Feed". </li>
+   <li> Github has a "group" on Google Groups. While this is not a pure mailing
    list, the same functionality is available, by joining the group and then 
    selecting to read the group by email. Emails can then be sent to the group 
    at "github@googlegroups.com", just like a mailing list, and any responses 
@@ -96,7 +96,7 @@ git pull github master
      by github only pulls the changes mentioned in the pull-request, by using a
      SHA hash value). </li>
      <li> Setting up another abbreviation (like "github" or "devgithub" above)
-     in this case apparently should use (taking for example ML's github repo)
+     in this case COULD use (taking for example ML's github repo)
      \verbatim
 git remote add -f MLgithub git://github.com/MLewsey/oklibrary.git
      \endverbatim
@@ -107,8 +107,8 @@ git pull MLgithub master:4f0ea0c
      \endverbatim
      the pull (by OK) is performed, using the SHA-value as provided by the
      pull-request. Unclear what the "-f" and the "checkout" is good for. </li>
-     <li> STOP, this appears to be for creating a (temporary) branch, and we
-     normally don't do that. So it seems that just
+     <li> HOWEVER, this creates a branch, and we
+     normally don't do that. So just
      \verbatim
 git remote add MLgithub git://github.com/MLewsey/oklibrary.git
 git pull MLgithub master:4f0ea0c
