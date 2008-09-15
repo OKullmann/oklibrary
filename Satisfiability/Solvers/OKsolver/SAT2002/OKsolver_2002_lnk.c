@@ -70,7 +70,7 @@ License, or any later version. */
 /* Option bewirkt, dass die Variablenmengen der Eingabeklauseln mit weniger */
 /* Speicherplatz abgespeichert werden. */
 
-/* 6.3.2001: Feld 14 (Redplus) aus der Statistikausgabe gestichen. */
+/* 6.3.2001: Feld 14 (Redplus) aus der Statistikausgabe gestrichen. */
 
 
 /* --------------------------------------------------------- */

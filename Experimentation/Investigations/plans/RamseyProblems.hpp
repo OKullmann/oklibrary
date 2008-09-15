@@ -83,7 +83,13 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
   1:110200,  161.6, 2647165.1
   2:100554,  302.3, 2476385.0
          \endverbatim
-         (which is strange?) versus XXX on csltok ?!? </li>
+         (which is strange?) versus on csltok:
+         \verbatim
+  1:110200,   82.5, 1350942.2
+  2:100554,  162.8, 1333822.4
+         \endverbatim
+         where actually csltok has a slower cpu??
+         </li>
         </ol>
        </li>
        <li> Grasp aborts by default (10000s exceeded). </li>

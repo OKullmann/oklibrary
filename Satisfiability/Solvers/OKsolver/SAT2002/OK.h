@@ -383,43 +383,27 @@ enum Ausgabeformat {Dimacs_Format, XML_Format, Tabellen_Format};
 /* Statistik */
 
 
-extern long unsigned int Knoten, SingleKnoten, VerSingleKnoten, QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed, neue2Klauseln, maxneue2K;
+extern long unsigned int
+  Knoten, /* Anzahl der Aufrufe von "SAT" */
+  SingleKnoten, /* Anzahl der Aufrufe von "SAT" ohne binaere Verzweigung */
+  VerSingleKnoten, /* Verpasste Single-Knoten (wg. falscher Reihenfolge der Zweige */
+  QuasiSingleKnoten, /* Anzahl der Aufrufe von "SAT" mit nur "scheinbarer" binaerer Verzweigung (z.B. ein Zweig ergab 2-CNF) */
+  PureL, /* Anzahl der Reduktionen purer Literale */
+  Autarkien, /* Anzahl der Reduktionen mittels (echter) Autarkien */
+  V1KlRed, /* Anzahl der Reduktionen mittels verallgemeinerter 1-Kl.-Elim. ("r_2-Reduktionen") */
+  FastAutarkien,
+  InitEinerRed,
+  neue2Klauseln,
+  maxneue2K;
 
 extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
 
-
-/* Knoten            = Anzahl der Aufrufe von "SAT" */
-
-/* SingleKnoten      = Anzahl der Aufrufe von "SAT" ohne binaere Verzweigung */
-
-/* VerSingleKnoten   = Verpasste Single-Knoten (wg. falscher Reihenfolge der Zweige */
-
-/* QuasiSingleKnoten = Anzahl der Aufrufe von "SAT" mit nur "scheinbarer" binaerer */
-/*                     Verzweigung (z.B. ein Zweig ergab 2-CNF) */
-
-
 /* Anzahl der ("wirklichen") Blaetter: */
-
 /*      ((Knoten - SingleKnoten) + 1) / 2  - QuasiSingleKnoten */
-
 
 /* Die Variablen "Knoten, SingleKnoten, QuasiSingleKnoten" werden in SAT berechnet. */
 
-
-
-/* Reduktionen: */
-
-/* PureL             = Anzahl der Reduktionen purer Literale */
-
-/* Autarkien         = Anzahl der Reduktionen mittels (echter) Autarkien */
-
-/* V1KlRed           = Anzahl der Reduktionen mittels verallgemeinerter 1-Kl.-Elim. */
-/*                     (oder "r_2-Reduktionen") */
-
-/* Redplus           = Anzahl der (echten) r_2^+-Reduktionen */
-
-
-/* "PureL" wird in Reduktion2, "V1KlRed" und "Redplus" in Reduktion1, und "Autarkien" in Filter */
+/* "PureL" wird in Reduktion2, "V1KlRed" in Reduktion1, und "Autarkien" in Filter */
 /* berechnet. */
 
 

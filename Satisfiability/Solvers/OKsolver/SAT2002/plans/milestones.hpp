@@ -104,39 +104,39 @@ License, or any later version. */
    in Maxima).
 
 
-  \par Version 1.2,1
+  \par Version 1.2.1
 
-  \par
+   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Declare variable as close to their first usage as possible
+    - Improve statistics
 
 
   \par Version 1.2.2
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Use const-qualification
+    - Declare variable as close to their first usage as possible
 
 
   \par Version 1.2.3
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Use restrict-qualification
+    - Use const-qualification
 
 
   \par Version 1.2.4
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Elimination of compile-time options
+    - Use restrict-qualification
 
 
   \par Version 1.2.5
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Enable finding all solutions
+    - Elimination of compile-time options
 
 
   \par Version 1.3
@@ -152,20 +152,27 @@ License, or any later version. */
    sure that both levels fully coincide.
 
 
-  \par Version 1.4.1
+  \par Version 1.5
+
+  \par
+   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
+    - Enable finding all solutions
+
+
+  \par Version 1.5.1
 
   \par
    In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
     - Apply time-measurements
 
 
-  \par Version 1.5
+  \par Version 1.6
 
   \par
    We have timing-date available.
 
 
-  \par Version 1.6
+  \par Version 1.7
 
   \par
    Document the extensive database-data.
