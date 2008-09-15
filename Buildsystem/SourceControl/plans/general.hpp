@@ -51,7 +51,8 @@ spellingprogram = /usr/bin/ispell
 
   \todo Cloning
   <ul>
-   <li> How can we clone also the ignore-patterns?
+   <li> DONE (create a basic .gitignore file)
+   How can we clone also the ignore-patterns?
     <ul>
      <li> Of course, this can be done manually. </li>
      <li> But there should be some "git full-clone" ? </li>

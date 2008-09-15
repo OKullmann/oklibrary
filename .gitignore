@@ -1,0 +1,12 @@
+# backup files:
+*~
+# kde directory information:
+.directory
+# oklib links:
+makefile
+# oklib test timestamps:
+test
+testop
+# xemacs Latex directory:
+auto
+
