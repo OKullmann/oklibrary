@@ -10,6 +10,15 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
+  \bug DONE (corrected)
+  Wrong output of statistics
+  <ul>
+   <li> Many conversion specifiers in "Statistikzeile" are "d", which is
+   for signed integers, while they actually are unsigned, and thus need
+   "u". </li>
+  </ul>
+
+
   \todo OUTPUTTREEDATAXML
   <ul>
    <li> We need to compile versions with this macro defined. </li>

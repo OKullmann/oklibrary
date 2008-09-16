@@ -896,7 +896,7 @@ void Statistikzeile(FILE *fp)
       fprintf(fp, "UNKNOWN"); break;
     }
     fprintf(fp, "\n");
-    fprintf(fp, "c sat_status=%d initial_maximal_clause_length=%d initial_number_of_variables=%d initial_number_of_clauses=%d initial_number_of_literal_occurrences=%d running_time(s)=%1.1f number_of_nodes=%ld number_of_single_nodes=%ld number_of_quasi_single_nodes=%ld number_of_2-reductions=%ld number_of_pure_literals=%ld number_of_autarkies=%ld number_of_missed_single_nodes=%ld max_tree_depth=%d number_of_table_enlargements=%d reduced_maximal_clause_length=%d reduced_number_of_variables=%d reduced_number_of_clauses=%d reduced_number_of_literal_occurrences=%d number_of_1-autarkies=%ld number_of_initial_unit-eliminations=%ld number_of_new_2-clauses=%ld maximal_number_of_added_2-clauses=%ld initial_number_of_2-clauses=%d file_name=%s\n",
+    fprintf(fp, "c sat_status=%d initial_maximal_clause_length=%u initial_number_of_variables=%u initial_number_of_clauses=%u initial_number_of_literal_occurrences=%u running_time(s)=%1.1f number_of_nodes=%lu number_of_single_nodes=%lu number_of_quasi_single_nodes=%lu number_of_2-reductions=%lu number_of_pure_literals=%lu number_of_autarkies=%lu number_of_missed_single_nodes=%lu max_tree_depth=%u number_of_table_enlargements=%u reduced_maximal_clause_length=%u reduced_number_of_variables=%u reduced_number_of_clauses=%u reduced_number_of_literal_occurrences=%u number_of_1-autarkies=%lu number_of_initial_unit-eliminations=%lu number_of_new_2-clauses=%lu maximal_number_of_added_2-clauses=%lu initial_number_of_2-clauses=%u file_name=%s\n",
 	    s, P0, N0, K0, L0, (double) Verbrauch / EPS,
 	    Knoten, SingleKnoten, QuasiSingleKnoten, V1KlRed, PureL, 
 	    Autarkien, VerSingleKnoten, Suchbaumtiefe,
