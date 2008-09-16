@@ -8,14 +8,7 @@ License, or any later version. */
 /*!
   \file Solvers/OKsolver/SAT2002/plans/milestones.hpp
   
-  \module_version OKsolver/SAT2002 0.9.3 (22.9.2007)
-
-
-  \par Version 0.9.4
-
-  \par
-   In Solvers/OKsolver/SAT2002/plans/general.hpp the following topics are handled:
-    - Wrong output of statistics
+  \module_version OKsolver/SAT2002 0.9.4 (16.9.2008)
 
 
   \par Version 0.9.5
@@ -200,6 +193,7 @@ License, or any later version. */
    - 0.9.1 : 20.8.2007; two bugs corrected, linking behaviour corrected, basic code maintenance performed, and basic application tests written and executed. The OKsolver in the standard version appears now to be bug-free.
    - 0.9.2 : 14.9.2007; basic tests for main variants established. Now also the main variants appear to be bug-free.
    - 0.9.3 : 22.9.2007; completed planning for counting all satisfying assignments (implementation postponed), and on the way also code and documentation maintenance.
+   - 0.9.4 : 16.9.2008; various "spontaneous" workings: improved the build, extended plans, created application tests, basic code overhauls, using SIGINT instead of SIGUSR2, better documentation, corrected output of statistics.
 
 */
 
