@@ -97,7 +97,13 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
            \endverbatim
            where actually csltok has a slower cpu?? </li>
            <li> After 3299m 19s, on csltok 487,747,031 nodes
-           were processed. </li>
+           were processed, that makes 2460 nodes per second. </li>
+           <li> After 254392.7 s, on cs-wsok 740,136,935 nodes
+           where processed, that makes 2900 nodes per second. </li>
+           <li> So it seems that cs-wsok was only initially that slow
+           --- perhaps cache behaviour? But still, given that csltok
+           runs with 1400 MHz and cs-wsok with 2100 MHz, executation
+           on cs-wsok seems slow. </li>
           </ul>
          </li>
         </ol>
