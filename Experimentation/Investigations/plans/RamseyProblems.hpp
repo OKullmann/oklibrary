@@ -66,29 +66,39 @@ Ramsey-O3-DNDEBUG q1 q2 r n | ExtendedToStrictDimacs-O3-DNDEBUG > Ramsey_q1_q2_r
       <ul>
        <li> OKsolver
         <ol>
-         <li> Can't solve it in ~ 5 hours. </li>
          <li> Running it with
          \verbatim
 > OKsolver_2002-O3-DNDEBUG -M -D14 -F Ramsey_4_2_18.cnf
          \endverbatim
          seems to indicate that it will take roughly 15 days (on csltok). </li>
+         <li> However, this seems to be too optimistic: The first 15 nodes
+         at depth 14 (16384 nodes altogether) were solved all with around
+         100,000 nodes in the subtrees, however with node 16 the solver
+         falls into a deep hole, and yet 500,000,000 nodes have been processed
+         there. </li>
+         <li> We should try to run it at least a month. </li>
          <li> Interestingly it seems that cs-wsok here is quite a bit slower
          than csltok:
-         \verbatim
+          <ul>
+           <li>
+           \verbatim
   1:110200,  208.1, 3408483.1
   2:100554,  418.0, 3423838.0
-         \endverbatim
-         but there is a lot of variability
-         \verbatim
+           \endverbatim
+           but there is a lot of variability
+           \verbatim
   1:110200,  161.6, 2647165.1
   2:100554,  302.3, 2476385.0
-         \endverbatim
-         (which is strange?) versus on csltok:
-         \verbatim
+           \endverbatim
+           (which is strange?) versus on csltok:
+           \verbatim
   1:110200,   82.5, 1350942.2
   2:100554,  162.8, 1333822.4
-         \endverbatim
-         where actually csltok has a slower cpu??
+           \endverbatim
+           where actually csltok has a slower cpu?? </li>
+           <li> After 3299m 19s, on csltok 487,747,031 nodes
+           were processed. </li>
+          </ul>
          </li>
         </ol>
        </li>
