@@ -13,7 +13,8 @@ License, or any later version. */
   \todo Update to Maxima 5.16.x
   <ul>
    <li> With 5.16.3 now there appear no errors anymore. </li>
-   <li> However, now the gf-package is very slow, such that
+   <li> DONE (problem with ifactor solved in gf-code)
+   However, now the gf-package is very slow, such that
    "time oklib new_check" on cs-wsok goes up from
    \verbatim
 real    4m1.167s
@@ -27,7 +28,8 @@ user    4m31.577s
 sys     0m22.377s
    \endverbatim
    which seems solely due to the gf-package. </li>
-   <li> For comparisons: On csltok we have with ecl (and load(nset))
+   <li>  DONE (see above)
+   For comparisons: On csltok we have with ecl (and load(nset))
    \verbatim
 real    7m25.216s
 user    5m58.919s
@@ -122,7 +124,8 @@ Maxima encountered a Lisp error:
      corruption perhaps happened earlier. </li>
      <li> It seems difficult to make this segfault reproducible for the Maxima
      mailing list. </li>
-     <li> One strange error occurs with the file "Batch.mac" of
+     <li> DONE (one needs to input an expression like "0;")
+     One strange error occurs with the file "Batch.mac" of
      the content
      \verbatim
 for x in [1,2,3] do print(x); 
@@ -131,7 +134,8 @@ for x in [1,2,3] do print(x);
      where after the ";" we have one space: Both in CLisp and in ECL
      after batch("Batch.mac") the frontend hangs --- tell the Maxima
      mailing list. </li>
-     <li> Then with 
+     <li> DONE (Maxima-error corrected)
+     Then with 
      "oklib_batch("Transitional/ComputerAlgebra/Satisfiability/Lisp/Symmetries/Symmetries.mac");
      we get an error-message
      \verbatim
@@ -147,7 +151,8 @@ for GG in candidates unless found do
      \endverbatim
      : Removing the "unless found" removes the error message??
      Tell the Maxima mailing list. </li>
-     <li> This can be reproduced by the file "Unless.mac" of content
+     <li> DONE (see above)
+     This can be reproduced by the file "Unless.mac" of content
      \verbatim
 fun(found) := for x in [1,2,3] unless found do print(x);
      \endverbatim

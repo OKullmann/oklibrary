@@ -23,13 +23,15 @@ $(maxima_directories_okl) : % :
 
 allmaxima : libsigsegv libffcall clisp gnuplot maxima
 
-# Temporary overwrite to repair four bugs in version 5.16.3
+# Temporary overwrite to repair six bugs in version 5.16.3
 ifeq ($(maxima_recommended_version_number_okl),5.16.3)
 maxima : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	$(call unarchive,$(ExternalSources)/sources/Maxima/rand-mt19937.lisp,$(maxima_build_dir_okl)/src)
 	$(call unarchive,$(ExternalSources)/sources/Maxima/nset.lisp,$(maxima_build_dir_okl)/src)
 	$(call unarchive,$(ExternalSources)/sources/Maxima/macsys.lisp,$(maxima_build_dir_okl)/src)
+	$(call unarchive,$(ExternalSources)/sources/Maxima/grind.lisp,$(maxima_build_dir_okl)/src)
+	$(call unarchive,$(ExternalSources)/sources/Maxima/gf.mac,$(maxima_build_dir_okl)/share/contrib/gf)
 	cd $(maxima_build_dir_okl); $(postcondition) \
 	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
 	LANG=C make; $(postcondition) \
@@ -41,7 +43,6 @@ maxima : $(maxima_directories_okl)
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
 else
-ifneq ($(maxima_recommended_version_number_okl),5.15.0)
 maxima : $(maxima_directories_okl)
 	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
 	cd $(maxima_build_dir_okl); $(postcondition) \
@@ -53,23 +54,6 @@ maxima : $(maxima_directories_okl)
 	cp -f $(maxima_build_dir_okl)/share/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
 	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
 	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
-else
-# Temporary overwrite to repair a bug in version 5.15.0
-maxima : $(maxima_directories_okl)
-	$(call unarchive,$(maxima_source_okl),$(maxima_base_build_dir_okl))
-	rm -r $(maxima_build_dir_okl)/share/contrib/graphs
-	$(call unarchive,$(ExternalSources)/sources/Maxima/graphs,$(maxima_build_dir_okl)/share/contrib)
-	cd $(maxima_build_dir_okl); $(postcondition) \
-	LANG=C ./configure --prefix=${maxima_installation_dir_okl} $(maxima_lisp_configuration_okl); $(postcondition) \
-	LANG=C make; $(postcondition) \
-	make check; $(postcondition) \
-	make install; $(postcondition) \
-	cp -f $(maxima_build_dir_okl)/share/contrib/graphs/dijkstra.lisp $(maxima_installation_dir_okl)/share/maxima/5.15.0/share/contrib/graphs
-	cp -rf $(maxima_installation_dir_okl)/share/maxima/$(maxima_recommended_version_number_okl)/doc/* $(maxima_doc_dir_okl); $(postcondition) \
-	cp -f $(maxima_build_dir_okl)/share/contrib/gf/gf_manual.pdf $(maxima_doc_dir_okl); $(postcondition) \
-	cd $(maxima_base_doc_dir_okl); tar -xzf $(maxima_source_woollettbook_okl); $(postcondition) \
-	cp -f $(maxima_book_source_okl) $(maxima_base_doc_dir_okl)
-endif
 endif
 
 
