@@ -21,7 +21,9 @@ License, or any later version. */
    <li> In
    ComputerAlgebra/Satisfiability/Lisp/ConflictCombinatorics/HittingClauseSets.mac
    we have 2 generators for elements of SMUSAT(1). </li>
-   <li> Further generators in
+   <li> DONE (moved to
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac)
+   Further generators in
    ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac. </li>
    <li> See Experimentation/Investigations/plans/general.hpp. </li>
   </ul>
@@ -31,12 +33,17 @@ License, or any later version. */
   <ul>
    <li> We need an overview on all possibilities to create elements of
    MUSAT. </li>
+   <li> In Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac we
+   have
+    <ol>
+     <li> usat_musat(FF) for unsatisfiable FF </li>
+     <li> sat_musat(FF) for satisfiable FF </li>
+    </ol>
+   </li>
    <li> In ComputerAlgebra/Satisfiability/Lisp/Generators/Generators.mac
    we have, besides the hitting clause-sets:
     <ol>
      <li> weak_ph(n+1,n) </li>
-     <li> usat_musat(FF) for unsatisfiable FF </li>
-     <li> sat_musat(FF) for satisfiable FF </li>
     </ol>
    </li>
   </ul>

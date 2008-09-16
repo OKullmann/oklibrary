@@ -1,0 +1,166 @@
+/* Oliver Kullmann, 16.9.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac
+  \brief Transformations related to minimal unsatisfiability
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.mac")$
+
+
+/* **************************************************
+   * Translated minimally unsatisfiable clause-sets *
+   **************************************************
+*/
+
+/* The translations into MUSAT according to [Papadimitriou, Wolfe 1988] */
+
+/* New variables are "mupw(i)", where i is the index of the clause in F */
+kill(mupw)$
+declare(mupw, noun)$
+declare(mupw, posfun)$
+mupw_var(i) := nounify(mupw)(i)$
+
+/* Input a formal clause-set F, returns a formal clause-set G such that
+   if F is satisfiable then G is satisfiable, while if F is unsatisfiable
+   then G is minimally unsatisfiable.
+   Thus USAT is reduced to MUSAT. */
+usat_musat(FF) := if not freeof(mupw, FF) then error("usat_musat[ERROR]: input contains variable scheme mupw!") else
+ block([L : listify(FF[2]), m : length(FF[2]), Y],
+  Y : setify(create_list(mupw_var(i), i, 1, m)),
+  return(
+    [union(FF[1], Y), setify(append(
+      create_list(union(L[i], disjoin(mupw_var(i), Y)), i, 1, m),
+      create_list(union({-listify(L[i])[j], -mupw_var(i)}, disjoin(mupw_var(i), Y)), i,1,m, j,1,length(L[i])),
+      create_list({-mupw_var(i), -mupw_var(j)}, i,1,m-1, j,i+1,m)))]
+  ))$
+
+/* Measures for the translated formulas */
+
+/* Number of variables: */
+n_var_usat_musat(FF) := nvar_f(FF) + ncl_f(FF)$
+
+/* Number of clauses: */
+n_cl_usat_musat(FF) := block([l : nlitocc(FF[2]), c : ncl_f(FF)],
+  c + l + c*(c-1)/2)$
+
+/* Deficiency: */
+deficiency_usat_musat(FF) := block(
+ [l : nlitocc(FF[2]), c : ncl_f(FF), n : nvar_f(FF)],
+  l + c*(c-1)/2 - n)$
+
+/* List of clause-counts as with ncl_list_f: */
+ncl_list_usat_musat(FF) := block(
+ [l : nlitocc(FF[2]), c : ncl_f(FF), h : sm2hm({})],
+  if l # 0 then set_hm(h, 1+c, l),
+  if c >= 2 then set_hm(h, 2, ev_hm_d(h,2,0) + c*(c-1)/2),
+  for P in ncl_list_f(FF) do block([cl : P[1]+c-1],
+    set_hm(h, cl, ev_hm_d(h,cl,0) + P[2])),
+  return(listify(hm2sm(h))))$
+
+
+/* Input a formal clause-set F, returns a formal clause-set GP such that
+   if F is satisfiable then GP is minimally unsatisfiable, 
+   while if F is unsatisfiable then GP is unsatisfiable but not minimally
+   unsatisfiable. Thus SAT is reduced to MUSAT. */
+sat_musat(FF) := block([m : length(FF[2]), Y, G],
+ Y : setify(create_list(mupw_var(i), i, 1, m)),
+ G : usat_musat(FF),
+ return([G[1], union(G[2],{Y})]))$
+
+/* Measures for the translated formulas */
+
+/* Number of variables: */
+n_var_sat_musat(FF) := n_var_usat_musat(FF)$
+
+/* Number of clauses: */
+n_cl_sat_musat(FF) := n_cl_usat_musat(FF) + 1$
+
+/* Deficiency: */
+deficiency_sat_musat(FF) := deficiency_usat_musat(FF) + 1$
+
+/* List of clause-counts as with ncl_list_f: */
+ncl_list_sat_musat(FF) := block(
+ [l : nlitocc(FF[2]), c : ncl_f(FF), h : sm2hm({})],
+  if l # 0 then set_hm(h, 1+c, l),
+  set_hm(h,c,1), /* this is additional, compared to ncl_list_usat_musat(FF) */
+  if c >= 2 then set_hm(h, 2, ev_hm_d(h,2,0) + c*(c-1)/2),
+  for P in ncl_list_f(FF) do block([cl : P[1]+c-1],
+    set_hm(h, cl, ev_hm_d(h,cl,0) + P[2])),
+  return(listify(hm2sm(h))))$
+
+
+/* ********************************************************
+   * Max-Clique translated to "SHORT RES" and "SMALL MUS" *
+   ********************************************************
+*/
+
+/* According to [Fellows, Szeider, Wrightson; 2006]. */
+
+/* Variables are "srfswx(i)", "srfswy(i,j)" and "srfswz(v,i)" for natural
+   numbers i,j and vertices v. */
+kill(srfswx,srfswy,srfswz)$
+declare(srfswx, noun, srfswy, noun, srfswz, noun)$
+declare(srfswx, posfun, srfswy, posfun, srfswz, posfun)$
+srfswx_var(i) := nounify(srfswx)(i)$
+srfswy_var(i,j) := nounify(srfswy)(i,j)$
+srfswz_var(v,i) := nounify(srfswz)(v,i)$
+
+new_k(k) := binom(k,2) + 2 * k$
+
+/* Input a graph G and k >= 0, output a formal clause-set FF 
+   which contains a minimally unsatisfiable sub-clause-set of size 
+     at most new_k(k) + 1 iff
+   FF has a resolution-dag with at most new_k(k) non-source-nodes iff
+   G contains a clique of size k. 
+
+   Thus contains_us_bydef(maxclique_mures(G,k), new_k(k)+1, Solver) is true
+   iff G contains a clique of size k.
+
+   Furthermore FF is unsatisfiable iff G has at least one edge.
+*/
+/* Auxiliary functions: */
+maxclique_start(k) := {setify(append(makelist(srfswx_var(i),i,1,k), create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)))}$
+maxclique_edges(E,k) := setify(create_list({-srfswy_var(i,j), srfswz_var(listify(E[e])[1],i), srfswz_var(listify(E[e])[2],j)}, i,1,k-1, j,i+1,k, e,1,length(E)))$
+/* Remark to maxclique_edges: the underlying paper is ambiguous here whether to use
+the orientation of the edges or not (we do). */
+maxclique_vertices(V,k) := setify(create_list({-srfswx_var(i), srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
+maxclique_cleanup(V,k) := setify(create_list({-srfswz_var(V[v],i)}, i,1,k, v,1,length(V)))$
+/* The main function: */
+maxclique_mures(G,k) := block([V : listify(G[1]), E : listify(G[2])],
+ [union(setify(makelist(srfswx_var(i),i,1,k)), 
+        setify(create_list(srfswy_var(i,j), i,1,k-1, j,i+1,k)),
+        setify(create_list(srfswz_var(V[v],i), v,1,length(V), i,1,k))),
+  union(maxclique_start(k),maxclique_edges(E,k),maxclique_vertices(V,k),maxclique_cleanup(V,k))])$
+
+/* Measures for the translated formulas */
+
+/* Number of variables */
+n_var_maxclique_mures(G,k) := k + binom(k,2) + length(G[1]) * k$
+
+/* List of clause-counts as with ncl_list_f */
+ncl_list_maxclique_mures(G,k) := block([n : length(G[1]), m : length(G[2])],
+ if k = 0 then [[0,1]]
+ elseif k = 1 then [[1, n + 1], [2, n * k]]
+ elseif k = 2 then [[1, n * k], [2, n * k], [3, binom(k,2) * m + 1]] else
+ [[1, n * k], [2, n * k], [3, binom(k,2) * m ], [k + binom(k,2), 1]])$
+
+
+/*!
+\endhtmlonly
+*/

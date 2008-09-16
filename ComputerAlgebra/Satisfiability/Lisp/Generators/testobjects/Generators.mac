@@ -49,21 +49,6 @@ okltest_deficiency_weak_php(deficiency_weak_php);
 
 okltest_vanderwaerden2_fcs(vanderwaerden2_fcs);
 
-/* **************************************************
-   * Translated minimally unsatisfiable clause-sets *
-   **************************************************
-*/
-
-okltest_n_var_usat_musat(n_var_usat_musat);
-okltest_n_cl_usat_musat(n_cl_usat_musat);
-okltest_deficiency_usat_musat(deficiency_usat_musat);
-okltest_ncl_list_usat_musat(ncl_list_usat_musat);
-
-okltest_n_var_sat_musat(n_var_sat_musat);
-okltest_n_cl_sat_musat(n_cl_sat_musat);
-okltest_deficiency_sat_musat(deficiency_sat_musat);
-okltest_ncl_list_sat_musat(ncl_list_sat_musat);
-
 /*!
 \endhtmlonly
 */

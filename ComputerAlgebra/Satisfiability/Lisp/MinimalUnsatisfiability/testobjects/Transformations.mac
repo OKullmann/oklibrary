@@ -1,0 +1,41 @@
+/* Oliver Kullmann, 16.9.2008 (Swansea) */
+/* Copyright 2008 Oliver Kullmann
+This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
+it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation and included in this library; either version 3 of the
+License, or any later version. */
+
+/*!
+  \file ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/Transformations.mac
+
+Use by
+
+oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/testobjects/Transformations.mac");
+
+*/
+
+/*!
+\htmlonly
+*/
+
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/Transformations.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/Transformations.mac")$
+
+/* **************************************************
+   * Translated minimally unsatisfiable clause-sets *
+   **************************************************
+*/
+
+okltest_n_var_usat_musat(n_var_usat_musat);
+okltest_n_cl_usat_musat(n_cl_usat_musat);
+okltest_deficiency_usat_musat(deficiency_usat_musat);
+okltest_ncl_list_usat_musat(ncl_list_usat_musat);
+
+okltest_n_var_sat_musat(n_var_sat_musat);
+okltest_n_cl_sat_musat(n_cl_sat_musat);
+okltest_deficiency_sat_musat(deficiency_sat_musat);
+okltest_ncl_list_sat_musat(ncl_list_sat_musat);
+
+/*!
+\endhtmlonly
+*/

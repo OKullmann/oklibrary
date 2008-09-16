@@ -20,8 +20,9 @@ License, or any later version. */
      ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/SplittingAnalysis.mac
      </li>
     </ol>
-   </li>
-   <li> The translations are not generators, and should go somewhere else.
+   </li> DONE (moved to Satisfiability/Lisp/MinimalUnsatisfiability)
+   <li>
+   The translations are not generators, and should go somewhere else.
     <ol>
      <li> Perhaps to modules related to the problems they solve (by
      reduction). </li>
@@ -82,19 +83,6 @@ License, or any later version. */
      yielding standardised clause-sets. </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Translations to MUSAT
-  <ul>
-   <li> Implement the other elements of the reduction.
-    <ol>
-     <li> The reduction of SAT to MUSAT. DONE </li>
-     <li> The product-construction. </li>
-    </ol>
-   </li>
-   <li> DONE Implement the basic UNSAT-MUSAT reduction from
-   [Papadimitriou, Wolfe; 1988]. </li>
   </ul>
 
 
