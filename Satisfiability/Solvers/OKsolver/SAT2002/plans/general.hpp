@@ -10,15 +10,6 @@ License, or any later version. */
   \brief Plans on the maintenance of the code for the old OKsolver
 
 
-  \bug DONE (corrected)
-  Wrong output of statistics
-  <ul>
-   <li> Many conversion specifiers in "Statistikzeile" are "d", which is
-   for signed integers, while they actually are unsigned, and thus need
-   "u". </li>
-  </ul>
-
-
   \todo OUTPUTTREEDATAXML
   <ul>
    <li> We need to compile versions with this macro defined. </li>
@@ -233,17 +224,21 @@ License, or any later version. */
 
   \todo Improve statistics
   <ul>
-   <li> Typedefs are needed for the two classes of statistics variables:
-   \verbatim
+   <li> Types of statistics variables:
+    <ol>
+     <li> Typedefs are needed for the two classes of statistics variables:
+     \verbatim
 extern long unsigned int Knoten, SingleKnoten, VerSingleKnoten, 
   QuasiSingleKnoten, PureL, Autarkien, V1KlRed, FastAutarkien, InitEinerRed,
   neue2Klauseln, maxneue2K;
 extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
-   \endverbatim
+     \endverbatim
+     </li>
+     <li> Perhaps via new macros then these typedefs are set. </li>
+     <li> Default is that "long unsigned int" should become guaranteed 64 bits,
+     while "unsigned int" should become guaranteed 32 bits. </li>
+    </ol>
    </li>
-   <li> Perhaps via new macros then these typedefs are set. </li>
-   <li> Default is that "long unsigned int" should become guaranteed 64 bits,
-   while "unsigned int" should become guaranteed 32 bits. </li>
    <li> Timing:
     <ol>
      <li> On Unix/Linux machine process-timing data is availabe for (much)
@@ -260,6 +255,9 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      <li> It shouldn't be a big deal to actually make it a run-time option
      (just providing both definitions, and a run-time switch regulates which
      to use) --- this would be much more convenient. </li>
+     <li> Actually it appears that on 64-bit machines nothings needs to be
+     done, since there apparently 64-bit words are used, so that we get
+     the high resolution and long duration. </li>
     </ol>
    </li>
   </ul>
