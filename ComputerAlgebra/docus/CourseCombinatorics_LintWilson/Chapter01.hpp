@@ -72,6 +72,15 @@ length(closure_bydef_grd(transformation_l_compo, {t1,t2,t3,t4}));
   120
    \endverbatim
    </li>
+   <li> We need a nice proof (so that we *see*) that the automorphism
+   group Aut(P) of the Petersen graph is actually S_5.
+    <ol>
+     <li> Via the faithful operation of S_5 we know that S_5 is a subgroup
+     of Aut(P). </li>
+     <li> Exercise 2 in Section 4.6.4 of [Handbook of computational group
+     theory] yields an argument. </li>
+    </ol>
+   </li>
   </ul>
 
 
