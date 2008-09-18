@@ -22,8 +22,8 @@ License, or any later version. */
      an order, so that we can put these elements into a set? </li>
      <li> (ii) A set-map. </li>
      <li> (iii) A list of elements. </li>
-     <li> (iv) A set of cycles (each a non-empty list which altogether
-     partition the base set). </li>
+     <li> (iv) A set of cycles (each a non-empty list, smallest element first,
+     which altogether partition the base set). </li>
     </ol>
    </li>
    <li> Likely we should provide all four models, with conversions between
