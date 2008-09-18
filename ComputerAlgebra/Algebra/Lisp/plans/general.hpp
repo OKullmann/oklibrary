@@ -38,6 +38,8 @@ License, or any later version. */
    binary predicate "<". </li>
    <li> In ComputerAlgebra/Sets we should provide operations for implicitly
    given sets. </li>
+   <li> See "Forms of "constructive" groupoids in
+   Algebra/Lisp/Groupoids/plans/general.hpp. </li>
   </ul>
 
 
