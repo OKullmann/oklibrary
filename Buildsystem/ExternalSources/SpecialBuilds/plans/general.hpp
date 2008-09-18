@@ -109,12 +109,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo Proof assistants
-  <ul>
-   <li> http://isabelle.in.tum.de/index.html </li>
-  </ul>
-
-
   \todo Other sources:
   <ul>
    <li> Build a local version of Xerces. </li>
