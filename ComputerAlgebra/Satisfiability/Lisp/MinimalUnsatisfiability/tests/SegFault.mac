@@ -1,0 +1,181 @@
+/* Use by
+
+load("/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac");
+*/
+
+load("/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/DataStructures/Lisp/HashMaps.lisp")$
+
+var_l(x) := abs(x)$
+var_sl(C) := map(var_l, C)$
+var_c(C) := map(var_l, C)$
+var_cs(F) := var_sl(apply(union,listify(F)))$
+var_cs_f(FF) := FF[1]$
+fcs2cs(FF) := second(FF)$
+
+substitute_l(x,h) := if x > 0 then ev_hm(h,x) else -ev_hm(h,-x)$
+substitute_c(C,h) := 
+ map(
+  lambda([x],block([y:substitute_l(x,h)], 
+    if elementp(y,{false,-false}) then x else y)),
+  C)$
+substitutetotal_c(C,h) := 
+ map(lambda([x],substitute_l(x,h)), C)$
+substitutetotal_cs(F,h) := map(lambda([C],substitutetotal_c(C,h)), F)$
+rename_fcs(FF,L) := block(
+ [V : listify(FF[1]), h],
+  h : osm2hm(map("[",V,L)),
+  [setify(abs(L)), substitutetotal_cs(FF[2],h)])$
+standardise_fcs(FF) := block([L : create_list(i,i,1,nvar_f(FF))],
+ [rename_fcs(FF,L), listify(var_cs_f(FF))])$
+
+variable_degrees_cs(F) := block([h : sm2hm({})],
+ for C in F do
+  for v in var_c(C) do enter_new_occurrence(h,v),
+ return(h))$
+min_variable_degree_cs(F) := 
+  lmin(map(lambda([A],part(A,2)),hm2sm(variable_degrees_cs(F))))$
+
+corr_cartesian_product([S]) := if emptyp(S) then {[]}
+ else apply(cartesian_product,S)$
+all_tass(V) := map(setify,apply(corr_cartesian_product, 
+ map(lambda([v],{-v,v}),listify(V))))$
+setn(n) := setify(create_list(i,i,1,n))$
+full_fcs_v(V) := [V,all_tass(V)]$
+full_fcs(n) := full_fcs_v(setn(n))$
+
+set_hm(h,x,y) := set_hash_okl(sconcat(x),h,y)$
+ev_hm(h,x) := get_hash_okl(sconcat(x),h)$
+ev_hm_d(h,x,y) := get_hash_okl(sconcat(x),h,y)$
+del_hm(h,x) := del_hash_okl(sconcat(x),h)$
+sm2hm(M) := block([h : hash_table_okl()],
+  for p in M do set_hm(h,p[1],p[2]), return(h))$
+osm2hm(M) := sm2hm(M)$
+hm2osm(h) :=
+ map(lambda([a],[eval_string(part(a,1)),part(a,2)]),hash_table_data_okl(h))$
+hm2sm(h) :=
+ setify(hm2osm(h))$
+enter_new_occurrence(h,x) :=
+  set_hm(h,x,ev_hm_d(h,x,0)+1)$
+get_distribution(h) := listify(hm2sm(h))$
+
+h : sm2hm({});
+
+nvar_f(FF) := length(FF[1])$
+ncl_f(FF) := length(clauses_f(FF))$
+clauses_f(FF) := FF[2]$
+literals_v(V) := block([L : listify(V)], setify(append(L,-L)))$
+literal_degrees_cs(F) := block([h : sm2hm({})],
+ for C in F do
+  for x in C do enter_new_occurrence(h,x),
+ return(h))$
+all_literal_degrees_fcs(FF) := block(
+ [h : literal_degrees_cs(FF[2]), L : literals_v(FF[1])],
+  for x in L do if ev_hm(h,x) = false then set_hm(h,x,0),
+  return(h))$
+literal_degrees_list_fcs(FF) := block(
+ [litdeg : hm2sm(all_literal_degrees_fcs(FF)), h : sm2hm({})],
+  for p in litdeg do
+    enter_new_occurrence(h,p[2]),
+  get_distribution(h))$
+ncl_list_f(FF) := block(
+ [n : nvar_f(FF), counts, res : []],
+  counts : make_array(fixnum, n+1),
+  for C in FF[2] do block([l : length(C)],
+    counts[l] : counts[l] + 1),
+  for i : 0 thru n do
+    if counts[i] # 0 then res : endcons([i, counts[i]], res),
+  return(res))$
+
+fcs_identifier(FF) := [nvar_f(FF), ncl_f(FF), literal_degrees_list_fcs(FF), ncl_list_f(FF)]$
+is_isomorphic_btr_fcs(FF1,FF2) := block(
+ if elementp({},FF1[2]) then (
+   if not elementp({},FF2[2]) then return(false))
+ elseif elementp({},FF2[2]) then return(false),
+ block(
+ [V1o : var_cs(FF1[2]), V2o : var_cs(FF2[2]),
+  F1r, F2r, n, V, F1, F2, degl1, degl2, map_poss : []],
+  if nvar_f(FF1) # nvar_f(FF2) then return(false),
+  if length(V1o) # length(V2o) then return(false),
+  n : length(V1o), V : setn(n), 
+  if emptyp(V) then return(true),
+  F1r : standardise_fcs([V1o,FF1[2]]),
+  F2r : standardise_fcs([V2o,FF2[2]]),
+  F1 : disjoin({},F1r[1][2]), F2 : disjoin({},F2r[1][2]),
+  degl1 : all_literal_degrees_fcs([V,F1]),
+  degl2 : all_literal_degrees_fcs([V,F2]),
+  block([deg_pairs : sm2hm({})],
+    for v in V do block([deg : [ev_hm(degl2,v), ev_hm(degl2,-v)]],
+      if deg[1] = deg[2] then
+        set_hm(deg_pairs, deg, union({v,-v}, ev_hm_d(deg_pairs, deg, {})))
+      else (
+        set_hm(deg_pairs, deg, adjoin(v, ev_hm_d(deg_pairs, deg, {}))),
+        set_hm(deg_pairs, reverse(deg), adjoin(-v, ev_hm_d(deg_pairs, reverse(deg), {}))))
+    ),
+    for v in V do block([deg : [ev_hm(degl1,v), ev_hm(degl1,-v)]],
+      map_poss : endcons([v,ev_hm_d(deg_pairs, deg, {})], map_poss))
+  ),
+  map_poss : sort(map_poss, lambda([p1,p2], is(length(p1[2]) < length(p2[2])))),
+  is_isomorphic_btr_piso(sm2hm({}), {}, map_poss, F1)))$
+is_isomorphic_btr_piso(part_iso,domain_piso,map_possibilities,rem_clauses) := block(
+ [B : first(map_possibilities), v, Y, found_iso : false],
+  v : B[1], Y : B[2],
+  domain_piso : adjoin(v,domain_piso),
+  for y in Y unless found_iso do block(
+   [inconsistent : false, to_be_removed : {}],
+    set_hm(part_iso,v,y),
+    for C in rem_clauses unless inconsistent do (
+      if subsetp(var_c(C), domain_piso) then
+        if not elementp(substitute_c(C,part_iso), F2) then
+          inconsistent : true
+        else
+          to_be_removed : adjoin(C,to_be_removed)
+    ),
+    if not inconsistent then block(
+     [new_rem_clauses : setdifference(rem_clauses, to_be_removed),
+      new_map_possibilities : copylist(rest(map_possibilities))],
+      if emptyp(new_rem_clauses) then found_iso : true else (
+        for i : 1 thru length(new_map_possibilities) do block(
+         [P : new_map_possibilities[i]],
+          new_map_possibilities[i] : [P[1], setdifference(P[2],{y,-y})]),
+        new_map_possibilities : sort(new_map_possibilities, 
+          lambda([p1,p2], is(length(p1[2]) < length(p2[2])))),
+        if is_isomorphic_btr_piso(
+          part_iso,domain_piso,new_map_possibilities,new_rem_clauses) 
+        then found_iso : true
+      ) 
+    )
+  ),
+  del_hm(part_iso,v),
+  return(found_iso))$
+  
+manage_repository_isomorphism_types(FF, repo) := block(
+ [p : fcs_identifier(FF), candidates],
+  candidates : ev_hm(repo,p),
+  if candidates = false then (
+    set_hm(repo,p,{FF}), return(true))
+  else block([found : false],
+    for GG in candidates unless found do
+      if is_isomorphic_btr_fcs(FF,GG) then found : true,
+    if found then return(false) else (
+      set_hm(repo,p,adjoin(FF,candidates)), 
+      return(true))))$
+
+manage_repository_isomorphism_types(full_fcs(8), h)$
+
+max_min_var_degree_def_rec[k] := 
+ if k = 1 then 2 else
+ lmax(create_list(min(2*i,max_min_var_degree_def_rec[k-i+1]+i),i,2,k))$
+
+analyse_isorepo_defset_mvd(repository) := block(
+ [M : hm2sm(repository), h : sm2hm({})],
+  for P in M do block([def : P[1][2] - P[1][1], mvd],
+    mvd : max_min_var_degree_def_rec[def],
+    set_hm(h,def,union(ev_hm_d(h,def,{}),
+      subset(map(fcs2cs,P[2]),
+        lambda([F],is(min_variable_degree_cs(F)=mvd
+          )))))
+  ),
+  sort(listify(hm2sm(h)),lambda([P1,P2], is(P1[1] < P2[1]))))$
+
+analyse_isorepo_defset_mvd(h);
+

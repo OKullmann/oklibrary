@@ -82,7 +82,25 @@ sys     0m52.634s
      </li>
     </ol>
    </li>
-   <li> A segmentation fault:
+   <li> Loading
+   ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac
+   into (plain or oklib-initialised) ECL produces a segmentation fault (while
+   clisp has no problems):
+   \verbatim
+ExternalSources/Installations/Maxima/ecl/5.16.3/bin> ./maxima
+Maxima 5.16.3 http://maxima.sourceforge.net
+Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+The function bug_report() provides bug reporting information.
+(%i1) load("/home/kullmann/csoliver/SAT-Algorithmen/OKplatform/OKsystem/Transitional/ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac");
+Maxima encountered a Lisp error:
+
+ Segmentation violation.
+   \endverbatim
+   </li>
+   <li> DONE (see above for an extracted example)
+   A segmentation fault:
    \verbatim
 Maxima 5.16.3 http://maxima.sourceforge.net
 Using Lisp ECL 0.9l (CVS 2008-06-19 17:09)
