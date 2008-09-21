@@ -21,13 +21,33 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/testobjects/Generators
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/tests/Generators.mac")$
 
-/* *****************
-   * Ramsey Theory *
-   *****************
+/* ************************
+   * Complete hypergraphs *
+   ************************
+*/
+
+okltest_complete_stdhg(complete_stdhg);
+
+/* *****************************
+   * Van der Waerden's theorem *
+   *****************************
 */
 
 okltest_arithprog_hg(arithprog_hg);
 okltest_arithprog_ohg(arithprog_ohg);
+
+okltest_arithmetic_progression_p(arithmetic_progression_p);
+okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
+
+okltest_arithmetic_progressions(arithmetic_progressions);
+
+okltest_arithprog_primes_ohg(arithprog_primes_ohg);
+okltest_arithprog_list_ohg(arithprog_list_ohg);
+
+/* ********************
+   * Ramsey's theorem *
+   ********************
+*/
 
 okltest_ramsey_hg(ramsey_hg);
 okltest_ramsey_ohg(ramsey_ohg);
