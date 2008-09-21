@@ -19,7 +19,7 @@ maxima_html_template_okl ?= $(OKbuildsystem)/ExternalSources/SpecialBuilds/Docum
 maxima_html_output_okl ?= $(local_html_dir)/Maxima.html
 maxima_html_documentation_index_location_okl ?= Maxima.html
 
-# Possibilities for the underlying Lisp: clisp, ecl (only from 5.16.3 on)
+# Possibilities for the underlying Lisp: clisp, ecl
 maxima_lisp_name_okl ?= clisp
 ifeq ($(maxima_lisp_name_okl),clisp)
   maxima_lisp_configuration_okl ?= --with-clisp=$(clisp_call_okl) --with-clisp-runtime=$(clisp_lib_okl)
