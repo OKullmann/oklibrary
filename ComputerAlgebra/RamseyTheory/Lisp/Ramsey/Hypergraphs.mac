@@ -25,6 +25,12 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
    Hypergraphs/Lisp/Generators.mac).
 */
 
+/* The satisfiability problems for 2 colours are created by 
+   ramsey2_ofcs(q,r,n) (from
+   ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac).
+*/
+
+
 /* S_n acts by automorphisms on the vertex set of ramsey_hg(q,r,n): */
 
 
