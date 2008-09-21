@@ -1,4 +1,4 @@
-/* Oliver Kullmann, 7.6.2008 (Swansea) */
+/* Oliver Kullmann, 20.9.2008 (Swansea) */
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
 it and/or modify it under the terms of the GNU General Public License as published by
@@ -6,12 +6,11 @@ the Free Software Foundation and included in this library; either version 3 of t
 License, or any later version. */
 
 /*!
-  \file ComputerAlgebra/NumberTheory/Lisp/include.mac
-  \brief Inclusion file for Maxima number theory functions
+  \file ComputerAlgebra/NumberTheory/Lisp/testobjects/PrimeNumbers.mac
 
 Use by
 
-oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/include.mac");
+oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/testobjects/PrimeNumbers.mac");
 
 */
 
@@ -19,13 +18,14 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/include.mac");
 \htmlonly
 */
 
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/Auxiliary.mac")$
 oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
-
-oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/Auxiliary.mac")$
 oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/tests/PrimeNumbers.mac")$
+
+
+okltest_primes_interval(primes_interval);
+
+okltest_primes_first(primes_first);
 
 /*!
 \endhtmlonly
 */
-
