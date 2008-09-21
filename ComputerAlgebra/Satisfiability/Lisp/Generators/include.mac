@@ -23,10 +23,12 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Gener
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RamseyProblems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/RandomClauseSets.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Sudoku.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/VanderWaerdenProblems.mac")$
 
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RamseyProblems.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/RandomClauseSets.mac")$
+oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/tests/VanderWaerdenProblems.mac")$
 
 /*!
 \endhtmlonly

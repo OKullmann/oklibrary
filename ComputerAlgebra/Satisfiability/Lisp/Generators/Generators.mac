@@ -22,7 +22,6 @@ oklib_load("Transitional/ComputerAlgebra/Satisfiability/Lisp/Generators/Generato
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/BasicOperations.mac")$
 oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Constructions.mac")$
-oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 
 /* ********************
    * Full clause-sets *
@@ -118,29 +117,8 @@ ncl_weak_php(m,n) := block([L : ncl_list_weak_php(m,n)],
 
 deficiency_weak_php(m,n) := ncl_weak_php(m,n) - nvar_php(m,n)$
 
-/* The probability that a random assignment is satisfiable */
+/* The probability that a random assignment is satisfiable: */
 satprob_weak_php(m,n) := sum(binom(n,i) * stirling2(i,m) * m! ,i,m,n) / 2^nvar_php(m,n)$
-
-
-/* ***************************
-   * Van der Waerden problem *
-   ***************************
-*/
-
-/* Boolean formal clause-sets, whose solutions are the partitionings of 
-   {1,...,n} into two parts such that none of them contains an arithmetic 
-   progression of size k. */
-/* (We are using "trivially generalised partitionings here, where the
-    parts can be empty.) */
-vanderwaerden2_fcs(k,n) := tcol2sat_stdhg2stdfcs(ArithmeticProgressions(k,n))$
-
-output_vanderwaerden2(k,n,filename) := 
-  output_fcs(
-    sconcat("Van der Waerden problem: 2 parts, arithmetic progressions of size ", k, ", ", n, " elements."), 
-    vanderwaerden2_fcs(k,n),
-    filename)$
-output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
-  sconcat("VanDerWaerden_2_",k,"_",n,".cnf"))$
 
 
 /*!

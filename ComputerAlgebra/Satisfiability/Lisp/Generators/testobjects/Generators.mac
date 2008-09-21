@@ -42,13 +42,6 @@ okltest_ncl_list_weak_php(ncl_list_weak_php);
 okltest_ncl_weak_php(ncl_weak_php);
 okltest_deficiency_weak_php(deficiency_weak_php);
 
-/* ***************************
-   * Van der Waerden problem *
-   ***************************
-*/
-
-okltest_vanderwaerden2_fcs(vanderwaerden2_fcs);
-
 /*!
 \endhtmlonly
 */
