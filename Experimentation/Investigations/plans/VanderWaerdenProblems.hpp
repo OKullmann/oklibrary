@@ -41,6 +41,18 @@ License, or any later version. */
    <li> greentao(2,4)
     <ol>
      <li> greentao(2,4) > 400 (trivial for OKsolver-2002). </li>
+     <li> greentao(2,4) > 420 with 6683 nodes (OKsolver-2002). </li>
+     <li> greentao(2,4) > 430 with 22267 nodes (OKsolver-2002). </li>
+     <li> greentao(2,4) > 440 with 77791 nodes (OKsolver-2002). </li>
+     <li> greentao(2,4) > 450 with 349914 nodes (OKsolver-2002). </li>
+     <li> greentao(2,4) > 460 with 12777 nodes (OKsolver-2002). </li>
+     <li> greentao(2,4) > 470 with 59506 nodes (OKsolver-2002). </li>
+     <li> n = 480: stopped after 1536394 nodes. </li>
+     <li> n = 500: Running it with
+     \verbatim
+OKsolver_2002-O3-DNDEBUG -M -D18 -F GreenTao_2_4_500.cnf
+     \endverbatim
+     indicates a month running time. </li>
      <li> n = 600 (598 variables, 5918 clauses) didn't finish after one
      hour with OKsolver-2002. </li>
      <li> For n in this magnitude the Maxima computation of the hypergraph is
