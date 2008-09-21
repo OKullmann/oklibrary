@@ -10,11 +10,11 @@ License, or any later version. */
   \brief Plans regarding Ramsey problems
 
 
-  \todo
+  \todo Relations to other modules
   <ul>
    <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp for
    the function ramsey_hg(q,r,n) and its variations. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp
    for the SAT translation. </li>
    <li> See Experimentation/Investigations/plans/RamseyProblems.hpp for
    investigations. </li>
@@ -68,6 +68,7 @@ License, or any later version. */
    is the number of colours (all q_i and r are natural numbers). </li>
    <li> The function ramsey_number(par_tuple) computes a pair, consisting of
    a lower and an upper bound on the Ramsey number for this tuple. </li>
+  </ul>
 
 */
 
