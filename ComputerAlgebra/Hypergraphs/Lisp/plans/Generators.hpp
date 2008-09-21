@@ -77,5 +77,25 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Arithmetic progressions in prime numbers
+  <ul>
+   <li> The function arithprog_primes_ohg is very slow.
+    <ol>
+     <li> DONE
+     Implement arithprog_primes_finish[k,n] (an array-function), which
+     computes all arithmetic progressions of length k amongst the first n
+     prime numbers which finish in n. </li>
+     <li> DONE
+     Then arithprog_primes_ohg is computed by a simple append. </li>
+     <li> So results are re-used; a certain inefficiency is still caused
+     by the permanent recomputation of the set of the first primes, however
+     this should be a rather small amount. </li>
+    </ol>
+   </li>
+   <li> It seems that statistics on the number of hyperedges in
+   arithprog_primes_ohg are of interest (and non-trivial). </li>
+  </ul>
+
 */
 

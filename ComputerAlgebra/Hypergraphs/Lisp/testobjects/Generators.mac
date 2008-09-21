@@ -40,9 +40,11 @@ okltest_arithmetic_progression_p(arithmetic_progression_p);
 okltest_arithmetic_progression_d_p(arithmetic_progression_d_p);
 
 okltest_arithmetic_progressions(arithmetic_progressions);
-
-okltest_arithprog_primes_ohg(arithprog_primes_ohg);
 okltest_arithprog_list_ohg(arithprog_list_ohg);
+
+okltest_arithprog_primes_finish(arithprog_primes_finish);
+okltest_arithprog_primes(arithprog_primes);
+okltest_arithprog_primes_ohg(arithprog_primes_ohg);
 
 /* ********************
    * Ramsey's theorem *

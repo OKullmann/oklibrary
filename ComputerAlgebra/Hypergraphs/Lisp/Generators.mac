@@ -22,6 +22,7 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac");
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
 oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ************************
@@ -96,16 +97,43 @@ arithmetic_progressions(L,k) :=
      ),
      return(append(reverse(res_with),res_without))))$
 
+/* The hypergraph of all arithmetic progressions of size k in the
+   list L of different integers: */
+arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
+
 /* The theorem of Green-Tao: */
 /* The hypergraph of all arithmetic progressions of size k in the first
    n prime numbers. */
 /* Prerequisite: k, n integers, k, n >= 0. */
-arithprog_primes_ohg(k,n) := arithprog_list_ohg(k,primes_first(n))$
+
+arithprog_primes_ohg(k,n) := [primes_first(n), map(setify,arithprog_primes(k,n))]$
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
-/* The hypergraph of all arithmetic progressions of size k in the
-   list L of different integers: */
-arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
   
+/* The arithmetic progressions of length k amongst the first n
+   prime numbers which finish in n: */
+arithprog_primes_finish[k,n] := if n = 0 then [] 
+ elseif k = 0 then []
+ else block([P : reverse(primes_first(n)), p, res : []],
+   p : first(P), 
+   if k = 1 then return([[p]]),
+   P : rest(P), n : n - 1,
+   while n > 0 do block([p2 : first(P), d, prog, lp],
+       P : rest(P), n : n - 1,
+       d : p - p2, prog : [p2,p], lp : 2,
+       block([prev_el : p2],
+         for z in P unless lp = k do
+           if prev_el - z = d then (
+             prog : cons(z,prog), lp : lp + 1, prev_el : z
+           )
+       ),
+       if lp = k then res : cons(prog,res)
+   ),
+   return(res))$
+/* All arithmetic progressions of length k amongst the first n
+   prime numbers: */
+arithprog_primes(k,n) := if k=0 then [[]] else
+ uaapply(append, create_list(arithprog_primes_finish[k,i],i,1,n))$
+   
 
 /* ********************
    * Ramsey's theorem *
