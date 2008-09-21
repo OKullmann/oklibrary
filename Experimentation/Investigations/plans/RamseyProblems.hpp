@@ -14,8 +14,8 @@ License, or any later version. */
   <ul>
    <li> See ComputerAlgebra/RamseyTheory/Lisp/Ramsey/plans/general.hpp. </li>
    <li> See Ramsey.cpp (to be updated) for a C++ generator. </li>
-   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/RamseyProblems.hpp. </li>
-   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/general.hpp.
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
+   <li> See ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp.
    </li>
   </ul>
 
