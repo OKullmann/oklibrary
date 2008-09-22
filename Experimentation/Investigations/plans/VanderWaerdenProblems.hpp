@@ -47,14 +47,35 @@ License, or any later version. */
      <li> greentao(2,4) > 450 with 349914 nodes (OKsolver-2002). </li>
      <li> greentao(2,4) > 460 with 12777 nodes (OKsolver-2002). </li>
      <li> greentao(2,4) > 470 with 59506 nodes (OKsolver-2002). </li>
-     <li> n = 480: stopped after 1536394 nodes. </li>
+     <li> greentao(2,4) > 471 with 58889 nodes (OKsolver-2002). </li>
+     <li> greentao(2,4) > 472 with 370222 nodes (OKsolver-2002). </li>
+     <li> For this n, rnovelty finds a solution quickly (~ 100000 steps).
+     </li>
+     <li> n = 473: stopped after 884587 nodes (OKsolver). </li>
+     <li> But found satisfiable with rnovelty. </li>
+     <li> And rnovelty+ is even better. </li>
+     <li> n = 480: stopped after 1536394 nodes (OKsolver). </li>
      <li> n = 500: Running it with
      \verbatim
 OKsolver_2002-O3-DNDEBUG -M -D18 -F GreenTao_2_4_500.cnf
      \endverbatim
      indicates a month running time. </li>
-     <li> n = 600 (598 variables, 5918 clauses) didn't finish after one
-     hour with OKsolver-2002. </li>
+     <li> Found satisfiable with rnovelty+. </li>
+     <li> n = 510 found satisfiable with rnovelty+. </li>
+     <li> n = 511 found satisfiable with rnovelty+. </li>
+     <li> n = 512: rnovelty+ yields constantly 1 falsified clause
+     (also with "-runs 500 -cutoff 10000000"). </li>
+     <li>
+     \verbatim
+OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
+     \endverbatim
+     seems to need ~ 6 days (csltok). </li>
+     <li> n = 515: rnovelty+ yields constantly 1 falsified clause. </li>
+     <li> n = 520: rnovelty+ yields constantly 1 falsified clause. </li>
+     <li> n = 530: rnovelty+ yields constantly 1 falsified clause. </li>
+     <li> n = 540: rnovelty+ yields constantly 1 falsified clause. </li>
+     <li> n = 550: rnovelty+ yields constantly 2 falsified clauses. </li>
+     <li> n = 600: rnovelty+ yields constantly 6 falsified clauses. </li>
      <li> For n in this magnitude the Maxima computation of the hypergraph is
      already very slow --- a more intelligent algorithm for finding the
      arithmetic progression amongst the prime numbers is needed (likely we
