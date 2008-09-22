@@ -21,9 +21,9 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/testobje
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/Bicliques.mac")$
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/BicliquePartitions/tests/Bicliques.mac")$
 
-/* ***********************
-   * Fundamental notions *
-   ***********************
+/* ************************************
+   * Fundamental notions of bicliques *
+   ************************************
 */
 
 okltest_vbc_gl_p(vbc_gl_p);
@@ -33,6 +33,13 @@ okltest_vbc_gg_p(vbc_gg_p);
 okltest_vbc_dgl_p(vbc_dgl_p);
 
 okltest_ebc_gg_p(ebc_gg_p);
+
+/* **********************************************
+   * Fundamental notions of biclique partitions *
+   **********************************************
+*/
+
+okltest_ebcp_gg_p(ebcp_gg_p);
 
 /*!
 \endhtmlonly
