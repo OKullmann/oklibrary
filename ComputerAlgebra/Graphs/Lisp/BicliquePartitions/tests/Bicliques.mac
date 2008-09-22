@@ -90,7 +90,7 @@ okltest_vbc_dgl_p(f) := block([G],
   assert(okltest_vbc_gl_p(buildq([f],lambda([B,G],gl_p(G) and f(B,gl2dgl(G)))))),
   true)$
 
-okltest_ebc_gg_p(f) := block([G,edgef],
+okltest_ebc_gg_p(f) := block([edgef],
   assert(f({},[{},{},edgef]) = true),
   assert(f({},[{1},{},edgef]) = true),
   assert(f({1},[{1,2},{1},lambda([e],{1,2})]) = true),
