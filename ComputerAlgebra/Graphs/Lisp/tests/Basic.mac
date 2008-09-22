@@ -1,3 +1,4 @@
+
 /* Oliver Kullmann, 30.4.2008 (Guangzhou) */
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -708,8 +709,79 @@ okltest_neighbours_gg(f) := block(
    *****************************
 */
 
-okltest_edge_induced_subgraph_gg(f) := (
 
+okltest_edge_induced_subgraph_g(f) := block([G],
+  assert(f({},[{},{}]) = [{},{}]),
+  assert(f({},[{1},{}]) = [{},{}]),
+  assert(f({{1,2}},[{1,2,3},{{1,2}}]) = [{1,2},{{1,2}}]),
+  assert(f({{1,2},{2,3}},[{1,2,3},{{1,2},{2,3}}]) = [{1,2,3},{{1,2},{2,3}}]),
+  assert(f({{1,2},{2,3}},[{1,2,3},{{1,2},{2,3},{1,3}}]) = [{1,2,3},{{1,2},{2,3}}]),
+  true)$
+
+okltest_edge_induced_subgraph_gg(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({1},[{1,2},{1},lambda([e],{1,2})]) = [{1,2},{1},lambda([e],{1,2})]),
+  assert(f({1},[{1,2,3},{1,2},lambda([e],if e=1 then {1,2} else {2,3})]) = [{1,2},{1},lambda([e],if e=1 then {1,2} else {2,3})]),
+  assert(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]) = [{1,2,3},{1,2},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]),
+  true)$
+
+okltest_edge_induced_subgraph_gl(f) := block([G],
+  assert(f({{1}},[{1},{{1}}]) = [{1},{{1}}]),
+  assert(f({{1,2}},[{1,2},{{1,2},{2}}]) = [{1,2},{{1,2}}]),
+  assert(f({{1,2}},[{1,2,3},{{1,2},{3}}]) = [{1,2},{{1,2}}]),
+  true)$
+
+okltest_edge_induced_subgraph_mug(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({{1,2}},[{1,2},{{1,2}},lambda([e],1)]) = [{1,2},{{1,2}},lambda([e],if e={1,2} then 1)]),
+  assert(f({{1,2}},[{1,2},{{1,2}},lambda([e],2)]) = [{1,2},{{1,2}},lambda([e],if e={1,2} then 2)]),
+  assert(f({{1,2}},[{1,2,3},{{1,2},{2,3}},lambda([e],if e={1,2} then 2 elseif e={2,3} then 3)]) = [{1,2},{{1,2}},lambda([e],if e={1,2} then 2)]),
+  true)$
+
+okltest_edge_induced_subgraph_mugl(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({{1}},[{1},{{1}},lambda([e],2)]) = [{1},{1},lambda([e],if e={1} then 2)]),
+  assert(f({{1}},[{1,2},{{1},{1,2}},lambda([e],if e={1} then 2 else 3)]) = [{1},{{1}},lambda([e],if e={1} then 2)]),
+  true)$
+
+okltest_edge_induced_subgraph_dg(f) := block([G],
+  assert(f({},[{},{}]) = [{},{}]),
+  assert(f({},[{1},{}]) = [{},{}]),
+  assert(f({[1,2]},[{1,2,3},{[1,2]}]) = [{1,2},{[1,2]}]),
+  assert(f({[1,2],[3,2]},[{1,2,3},{[1,2],[2,3],[1,3]}]) = [{1,2,3},{[1,2],[2,3]}]),
+  true)$
+
+okltest_edge_induced_subgraph_dgl(f) := block([G],
+  assert(f({},[{1},{[1,1]}]) = [{},{}]),
+  assert(f({[1,1]},[{1},{[1,1]}]) = [{1},{[1,1]}]),
+  assert(f({[1,2],[1,1]},[{1,2},{[1,2],[1,1]}]) = [{1,2},{[1,2],[1,1]}]),
+  assert(f({[1,2]},[{1,2},{[2,2],[1,2]}]) = [{1,2},{[1,2]}]),
+  true)$
+
+okltest_edge_induced_subgraph_mudg(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({[1,2]},[{1,2},{[1,2]},lambda([e],1)]) = [{1,2},{[1,2]},lambda([e],if e=[1,2] then 1)]),
+  assert(f({[1,2]},[{1,2},{[1,2]},lambda([e],2)]) = [{1,2},{[1,2]},lambda([e],if e=[1,2] then 2)]),
+  assert(f({[1,2]},[{1,2,3},{[1,2],[2,3]},lambda([e],if e=[1,2] then 2 elseif e=[2,3] then 3)]) = [{1,2},{[1,2]},lambda([e],if e=[1,2] then 2)]),
+  true)$
+
+okltest_edge_induced_subgraph_mudgl(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({[1,1]},[{1},{[1,1]},lambda([e],2)]) = [{1},{1},lambda([e],if e=[1,1] then 2)]),
+  assert(f({[1]},[{1,2},{[1,1],[1,2]},lambda([e],if e=[1,1] then 2 else 3)]) = [{1},{[1,1]},lambda([e],if e=[1,1] then 2)]),
+  true)$
+
+okltest_edge_induced_subgraph_gdg(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = [{},{},edgef]),
+  assert(f({},[{1},{},edgef]) = [{},{},edgef]),
+  assert(f({1},[{1,2},{1},lambda([e],[1,2])]) = [{1,2},{1},lambda([e],if e=1 then [1,2])]),
+  assert(f({1},[{1,2,3},{1,2},lambda([e],if e=1 then [1,2] else [2,3])]) = [{1,2},{1},lambda([e],if e=1 then [1,2])]),
+  assert(f({1,2},[{1,2,3},{1,2,3},lambda([e],if e=1 then [1,2] elseif e=2 then [2,3] else [1,3])]) = [{1,2,3},{1,2},lambda([e],if e=1 then {1,2} elseif e=2 then [2,3])]),
   true)$
 
 
@@ -779,14 +851,29 @@ okltest_cycle_gg_p(f) := block([ef],
   /* *** */
   true)$
 
-okltest_completebipartite_g_p(f) := (
-  /* XXX */
+okltest_completebipartite_g_p(f) := block([G],
+  assert(f([{},{}])=true),
+  assert(f([{1},{}]) = true),
+  assert(f([{1,2},{{1,2}}]) = true),
+  assert(f([{1,2},{}]) = false),
+  assert(f([{1,2,3},{{1,2},{2,3}}]) = true),
+  assert(f([{1,2,3},{{1,2},{2,3},{1,3}}]) = false),
+  assert(f([{1,2,3,4},{{1,2},{1,3},{1,4},{2,3}}]) = false),
+  assert(f([{1,2,3,4},{{1,2},{1,3}}]) = false),
+  assert(f([{1,2,3,4},{{1,2},{3,4},{1,4},{2,3}}]) = true),
   true)$
 
-okltest_completebipartite_gg_p(f) := (
-  /* XXX */
+okltest_completebipartite_gg_p(f) := block([G,edgef],
+  assert(f([{},{},edgef])=true),
+  assert(f([{1},{},edgef]) = true),
+  assert(f([{1,2},{1},lambda([e],{1,2})]) = true),
+  assert(f([{1,2},{},edgef]) = false),
+  assert(f([{1,2,3},{1,2},lambda([e],if e=1 then {1,2} else {2,3})]) = true),
+  assert(f([{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]) = false),
+  assert(f([{1,2,3,4},{1,2,3,4},lambda([e],if e=1 then {1,2} elseif e=2 then {1,3} elseif e=3 then {1,4} else {2,3})]) = false),
+  assert(f([{1,2,3,4},{1,2},lambda([e],if e=1 then {1,2} else {1,3})]) = false),
+  assert(f([{1,2,3,4},{1,2,3,4},lambda([e],if e=1 then {1,2} elseif e=2 then {3,4} elseif e=3 then {1,4} else {2,3})]) = true),
   true)$
-
 
 /* ********************************
    * Connections to Maxima-graphs *

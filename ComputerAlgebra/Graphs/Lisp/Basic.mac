@@ -1,3 +1,4 @@
+
 /* Oliver Kullmann, 5.1.2008 (Swansea) */
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -306,7 +307,26 @@ remove_vertices_graph(V,G) := [setdifference(G[1],V),
 
 /* The induced (general) subgraph of a general graph, given by
    an edge-label set: */
+
+edge_induced_subgraph_g(E,G) := [lunion(E),E]$
+
+edge_induced_subgraph_gl(E,G) := edge_induced_subgraph_g(E,G)$
+
+edge_induced_subgraph_mug(E,G) := [lunion(subset(E,lambda([e],is(G[3](e) > 0)))),E,lambda([e],if elementp(e,E) then G[3](e))]$
+
+edge_induced_subgraph_mugl(E,G) := edge_induced_subgraph_mug(E,G)$
+
 edge_induced_subgraph_gg(E,G) := [lunion(map(G[3],E)),E,G[3]]$
+
+edge_induced_subgraph_dg(E,G) := [lunion(map(setify,E)),E]$
+
+edge_induced_subgraph_dgl(E,G) := edge_induced_subgraph_dg(E,G)$
+
+edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,lambda([e],if elementp(e,E) then G[3](e))]$
+
+edge_induced_subgraph_mudgl(E,G) := edge_induced_subgraph_mudg(E,G)$
+
+edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,lambda([e],if elementp(e,E) then G[3](e))]$
 
 /* The complement graph of a graph */
 /* RENAME it to "complement_g". */
