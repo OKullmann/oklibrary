@@ -39,6 +39,7 @@ complete_stdg(n) := complete_g(setn(n))$
 /* The (standardised, ordered) path graph with n vertices: */
 /* Prerequisite: n >= 1: */
 pathgraph_og(n) := [create_list(i,i,1,n), create_list({i,i+1},i,1,n-1)]$
+pathgraph_g(n) := og2g(pathgraph_og(n))$
 /* The (standardised, ordered) cycle graph with loops with n vertices: */
 /* Prerequisite: n <> 0, 2: */
 cyclegraph_ogl(n) := [create_list(i,i,1,n),endcons({n,1},
@@ -48,6 +49,7 @@ cyclegraph_ogl(n) := [create_list(i,i,1,n),endcons({n,1},
 /* Prerequisite: n >= 1: */
 cyclegraph_ogg(n) := [create_list(i,i,1,n), create_list(i,i,1,n),
   buildq([n],lambda([e],if e=n then {n,1} else {e,e+1}))]$
+cyclegraph_gg(n) := ogg2gg(cyclegraph_ogg(n))$
 
 
 /* **********
