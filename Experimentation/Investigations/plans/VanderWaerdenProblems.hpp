@@ -59,7 +59,8 @@ License, or any later version. */
      \verbatim
 OKsolver_2002-O3-DNDEBUG -M -D18 -F GreenTao_2_4_500.cnf
      \endverbatim
-     indicates a month running time. </li>
+     found a solution after 11 hours (38,937,288 nodes; roughly 2% of the
+     search space, looking at depth 18). </li>
      <li> Found satisfiable with rnovelty+. </li>
      <li> n = 510 found satisfiable with rnovelty+. </li>
      <li> n = 511 found satisfiable with rnovelty+. </li>
