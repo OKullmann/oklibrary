@@ -309,23 +309,14 @@ remove_vertices_graph(V,G) := [setdifference(G[1],V),
    an edge-label set: */
 
 edge_induced_subgraph_g(E,G) := [lunion(E),E]$
-
 edge_induced_subgraph_gl(E,G) := edge_induced_subgraph_g(E,G)$
-
 edge_induced_subgraph_mug(E,G) := [lunion(subset(E,lambda([e],is(G[3](e) > 0)))),E,lambda([e],if elementp(e,E) then G[3](e))]$
-
 edge_induced_subgraph_mugl(E,G) := edge_induced_subgraph_mug(E,G)$
-
 edge_induced_subgraph_gg(E,G) := [lunion(map(G[3],E)),E,G[3]]$
-
 edge_induced_subgraph_dg(E,G) := [lunion(map(setify,E)),E]$
-
 edge_induced_subgraph_dgl(E,G) := edge_induced_subgraph_dg(E,G)$
-
 edge_induced_subgraph_mudg(E,G) := [lunion(map(setify,E)),E,lambda([e],if elementp(e,E) then G[3](e))]$
-
 edge_induced_subgraph_mudgl(E,G) := edge_induced_subgraph_mudg(E,G)$
-
 edge_induced_subgraph_gdg(E,G) := [lunion(map(setify,(map(G[3],E)))),E,lambda([e],if elementp(e,E) then G[3](e))]$
 
 /* The complement graph of a graph */
@@ -351,7 +342,7 @@ parallel_edges_omugl_p(G) := every(G[2],lambda([e],is(G[3](e)=1)))$
 
 /* Tests whether a graph with loops is irreflexive (that is, doesn't actually
    have loops): */
-irreflexive_gl(G) := every(G[2],lambda([e],is(length(e)=2)))$
+irreflexive_gl(G) := every_s(lambda([e],is(length(e)=2)), G[2])$
 irreflexive_mugl(G) := every(G[2],lambda([e],is(length(e)=2)))$
 irreflexive_gg(G) := every(G[2],lambda([e],is(length(G[3](e))=2)))$
 irreflexive_ogl(G) := every(G[2],lambda([e],is(length(e)=2)))$
@@ -398,7 +389,7 @@ has_dominating_vertex_gl(G) :=
 
 
 /* Tests whether a graph is connected: */
-connected_g_p(G) := is_connected(g2mg(G))$
+connected_g_p(G) := emptyp(G[1]) or is_connected(g2mg(G))$
 connected_og_p(G) := is_connected(og2mg(G))$
 connected_mug_p(G) :=  connected_g_p(mug2g(G))$
 connected_omug_p(G) :=  connected_og_p(omug2og(G))$
@@ -451,8 +442,13 @@ cycle_gg_p(G) := connected_gg_p(G) and regular2_gg_p(2,G)$
 
 
 /* Tests whether a graph is complete bipartite: */
-completebipartite_g_p(G) := is_bipartite(g2mg(G))$
-completebipartite_gg_p(G) := completebipartite_g_p(gg2g(G))$
+completebipartite_g_p(G) := if emptyp(G[1]) then true
+ else connected_g_p(G) and block([B : bipartition(g2mg(G))],
+   not emptyp(B) and is(length(B[1]) * length(B[2]) = length(G[2])))$
+/* Remark: A graph is complete bipartite iff adding any edge either destroys
+   the graph property of destroys bipartiteness. */
+completebipartite_gl_p(G) := irreflexive_gl(G) and completebipartite_g_p(G)$
+completebipartite_gg_p(G) := completebipartite_gl_p(gg2gl(G))$
 
 
 /* ********************************

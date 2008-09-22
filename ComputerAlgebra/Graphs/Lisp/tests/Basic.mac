@@ -790,6 +790,12 @@ okltest_edge_induced_subgraph_gdg(f) := block([G,edgef],
    **********
 */
 
+okltest_irreflexive_gl(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{1},{{1}}]) = false),
+  /* XXX */
+  true)$
+
 okltest_dominating_vertex_g_p(f) := (
   assert(f(1,[{1},{}]) = true),
   assert(f(1,[{1,2},{}]) = false),
@@ -825,6 +831,17 @@ okltest_has_dominating_vertex_gl(f) := (
   assert(f([{1,2,3,4},{{2,1},{2,3},{2,4},{2}}]) = true),
   true)$
 
+okltest_connected_g_p(f) := (
+  assert(f([{},{}]) = true),
+  assert(f([{1},{}]) = true),
+  assert(f([{1,2},{}]) = false),
+  assert(f([{1,2},{{1,2}}]) = true),
+  for n : 0 thru 4 do block([G : complete_stdg(n)],
+    assert(f(G) = true)),
+  for n : 1 thru 4 do block([G : pathgraph_g(n)],
+    assert(f(G) = true)),
+  true)$
+
 okltest_regular_g_p(f) := (
   assert(f(0,[{},{}]) = true),
   assert(f(1,[{},{}]) = true),
@@ -851,28 +868,32 @@ okltest_cycle_gg_p(f) := block([ef],
   /* *** */
   true)$
 
-okltest_completebipartite_g_p(f) := block([G],
+okltest_completebipartite_g_p(f) := block(
   assert(f([{},{}])=true),
   assert(f([{1},{}]) = true),
   assert(f([{1,2},{{1,2}}]) = true),
   assert(f([{1,2},{}]) = false),
+  assert(f([{1,2,3},{{1,2}}]) = false),
   assert(f([{1,2,3},{{1,2},{2,3}}]) = true),
   assert(f([{1,2,3},{{1,2},{2,3},{1,3}}]) = false),
+  assert(f([{1,2,3},{}]) = false),
   assert(f([{1,2,3,4},{{1,2},{1,3},{1,4},{2,3}}]) = false),
   assert(f([{1,2,3,4},{{1,2},{1,3}}]) = false),
   assert(f([{1,2,3,4},{{1,2},{3,4},{1,4},{2,3}}]) = true),
   true)$
 
+okltest_completebipartite_gl_p(f) := block(
+  assert(f([{1},{{1}}]) = false),
+  assert(f([{1,2},{{1,2},{2}}]) = false),
+  assert(okltest_completebipartite_g_p(f)),
+  true)$
+
 okltest_completebipartite_gg_p(f) := block([G,edgef],
   assert(f([{},{},edgef])=true),
   assert(f([{1},{},edgef]) = true),
-  assert(f([{1,2},{1},lambda([e],{1,2})]) = true),
-  assert(f([{1,2},{},edgef]) = false),
-  assert(f([{1,2,3},{1,2},lambda([e],if e=1 then {1,2} else {2,3})]) = true),
-  assert(f([{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]) = false),
-  assert(f([{1,2,3,4},{1,2,3,4},lambda([e],if e=1 then {1,2} elseif e=2 then {1,3} elseif e=3 then {1,4} else {2,3})]) = false),
-  assert(f([{1,2,3,4},{1,2},lambda([e],if e=1 then {1,2} else {1,3})]) = false),
-  assert(f([{1,2,3,4},{1,2,3,4},lambda([e],if e=1 then {1,2} elseif e=2 then {3,4} elseif e=3 then {1,4} else {2,3})]) = true),
+  for n : 1 thru 6 do block([G : cyclegraph_gg(n)],
+    assert(f(G) = elementp(n,{2,4}))),
+  assert(okltest_completebipartite_gl_p(buildq([f],lambda([G],f(gl2gg(G)))))),
   true)$
 
 /* ********************************
