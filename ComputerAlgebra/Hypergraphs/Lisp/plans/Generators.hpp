@@ -83,6 +83,9 @@ License, or any later version. */
    <li> The function arithprog_primes_ohg is very slow.
     <ol>
      <li> DONE
+     Since the list of primes is sorted, we can stop trying to extend
+     the progression in case the difference gets bigger than d. </li>
+     <li> DONE
      Implement arithprog_primes_finish[k,n] (an array-function), which
      computes all arithmetic progressions of length k amongst the first n
      prime numbers which finish in n. </li>
@@ -90,7 +93,13 @@ License, or any later version. */
      Then arithprog_primes_ohg is computed by a simple append. </li>
      <li> So results are re-used; a certain inefficiency is still caused
      by the permanent recomputation of the set of the first primes, however
-     this should be a rather small amount. </li>
+     this should be a rather small amount.
+      <ul>
+       <li> arithprog_primes should set variable primes_init_seg,
+       by appending iteratively next_prime(last_prime). </li>
+       <li> And arithprog_primes_finish inherits this variable. </li>
+      </ul>
+     </li>
     </ol>
    </li>
    <li> It seems that statistics on the number of hyperedges in

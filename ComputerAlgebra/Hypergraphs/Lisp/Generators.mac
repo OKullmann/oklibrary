@@ -88,7 +88,7 @@ arithmetic_progressions(L,k) :=
        d : y - x,
        P : [x,y], lp : 2,
        block([prev_el : y],
-         for z in L unless lp = k do
+         for z in L unless lp = k or z - prev_el > d do
            if z - prev_el = d then (
              P : endcons(z,P), lp : lp + 1, prev_el : z
            )
@@ -121,7 +121,7 @@ arithprog_primes_finish[k,n] := if n = 0 then []
        P : rest(P), n : n - 1,
        d : p - p2, prog : [p2,p], lp : 2,
        block([prev_el : p2],
-         for z in P unless lp = k do
+         for z in P unless lp = k or prev_el - z > d do
            if prev_el - z = d then (
              prog : cons(z,prog), lp : lp + 1, prev_el : z
            )
