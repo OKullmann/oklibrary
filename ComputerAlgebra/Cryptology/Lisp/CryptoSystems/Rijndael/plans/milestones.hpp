@@ -34,7 +34,6 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
-    - Modularising the Rijndael-implementation
     - Key schedule
     - Design of round functions
     - Algebraic aspects
@@ -50,6 +49,9 @@ License, or any later version. */
     - Coding Standards
 
   \par
+   By Version 0.1, the original basic implementation of AES should be completed and documented.
+
+  \par
    Update the following milestones.
 
 
@@ -58,9 +60,11 @@ License, or any later version. */
   \par
    In ComputerAlgebra/Cryptology/Lisp/CryptoSystems/Rijndael/plans/general.hpp
    the following topics are handled:
+    - Modularising the Rijndael-implementation
     - Generalisations
 
-
+  \par
+   By Version 0.2, a more general AES implementation (including field generalisations etc) should have been produced.
 
   -------------------------------------------------------------------------------------------------------------------------------------
 
