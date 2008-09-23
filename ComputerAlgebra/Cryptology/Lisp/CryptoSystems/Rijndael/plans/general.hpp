@@ -208,6 +208,19 @@ License, or any later version. */
   
   \todo Generalisations
   <ul>
+   <li> The 2 basic generalisations that seem natural are
+    <ul>
+     <li> Allowing arbitrary permutations in the place of the Sbox, Mixcolumn, 
+     and field multiplications. </li>
+     <li> Allowing arbitrary field elements as the basic unit of computation 
+     rather than the Rijndael byte elements in GF(2^8). Such a unit is then 
+     considered to be a "word" within the AES system. </li>
+    </ul>
+   This then allows for the generalisations from [Algebraic Aspects of the AES],
+   as well as others such as the replacement of the sbox with a random 
+   permutation, which have been discussed (below and in 
+   Cryptology/Lisp/Cryptanalysis/Rijndael/plans/SboxAnalysis.hpp ).
+   </li>
    <li> Generalising this based on parameter n_R discussed in [Algebraic
    Aspects of the AES}, seems possible by use of a lookup function for the
    constant to multiply based on n_R, as well as looking up the field to
