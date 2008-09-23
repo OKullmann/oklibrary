@@ -80,7 +80,11 @@ License, or any later version. */
 
   \todo Arithmetic progressions in prime numbers
   <ul>
-   <li> The function arithprog_primes_ohg is very slow.
+   <li> It seems that statistics on the number of hyperedges in
+   arithprog_primes_ohg are of interest (and non-trivial). </li>
+   <li> DONE (now reasonable fast, and for faster computations more
+   complex algorithms are needed)
+   The function arithprog_primes_ohg is very slow.
     <ol>
      <li> DONE
      Since the list of primes is sorted, we can stop trying to extend
@@ -101,7 +105,8 @@ License, or any later version. */
        <li> And arithprog_primes_finish inherits this variable. </li>
       </ul>
      </li>
-     <li> More efficient access to the primes:
+     <li> DONE
+     More efficient access to the primes:
       <ul>
        <li> One should additionally use a boolean array of length p_max, where
        p_max is the n-th prime number, containing true if the index is prime,
@@ -117,8 +122,6 @@ License, or any later version. */
        within the given bounds). This seems best. </li>
     </ol>
    </li>
-   <li> It seems that statistics on the number of hyperedges in
-   arithprog_primes_ohg are of interest (and non-trivial). </li>
   </ul>
 
 */
