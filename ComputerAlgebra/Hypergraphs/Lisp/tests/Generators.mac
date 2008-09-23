@@ -108,12 +108,15 @@ okltest_arithprog_list_ohg(f) := (
 
   true)$
 
-okltest_arithprog_primes_finish(f) := (
+okltest_arithprog_primes_finish(f) := block([primes_rev_init_seg : []],
   assert(f[0,0] = []),
-  assert(f[0,1] = []),
   assert(f[1,0] = []),
+  primes_rev_init_seg : [2],
+  assert(f[0,1] = []),
   assert(f[1,1] = [[2]]),
+  primes_rev_init_seg : [3,2],
   assert(f[1,2] = [[3]]),
+  primes_rev_init_seg : [7,5,3,2],
   assert(f[2,4] = [[2,7],[3,7],[5,7]]),
   /* XXX */
   true)$
@@ -121,7 +124,7 @@ okltest_arithprog_primes_finish(f) := (
 okltest_arithprog_primes(f) := (
   /* XXX */
   for k : 0 thru 4 do
-    for n : 0 thru 5 do
+    for n : 0 thru 6 do
       assert(setify(f(k,n)) = setify(arithmetic_progressions(primes_first(n),k))),
   true)$
 

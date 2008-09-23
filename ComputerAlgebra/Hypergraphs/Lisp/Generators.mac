@@ -110,10 +110,14 @@ arithprog_primes_ohg(k,n) := [primes_first(n), map(setify,arithprog_primes(k,n))
 arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
   
 /* The arithmetic progressions of length k amongst the first n
-   prime numbers which finish in n: */
+   prime numbers which finish in n. */
+/* Inherits the list primes_rev_init_seg containing the first n
+   prime numbers in reverse order. */
+/* So n is the length of primes_rev_init_seg, but it is mentioned
+   in the input for memoisation. */
 arithprog_primes_finish[k,n] := if n = 0 then [] 
  elseif k = 0 then []
- else block([P : reverse(primes_first(n)), p, res : []],
+ else block([P : primes_rev_init_seg, p, res : []],
    p : first(P), 
    if k = 1 then return([[p]]),
    P : rest(P), n : n - 1,
@@ -131,8 +135,14 @@ arithprog_primes_finish[k,n] := if n = 0 then []
    return(res))$
 /* All arithmetic progressions of length k amongst the first n
    prime numbers: */
-arithprog_primes(k,n) := if k=0 then [[]] else
- uaapply(append, create_list(arithprog_primes_finish[k,i],i,1,n))$
+arithprog_primes(k,n) := if k=0 then [[]] elseif n = 0 then [] else
+ block([primes_rev_init_seg : [], p : 1, res : []],
+   for i : 1 thru n do (
+     p : next_prime(p),
+     primes_rev_init_seg : cons(p, primes_rev_init_seg),
+     res : append(res,arithprog_primes_finish[k,i])
+   ),
+   res)$
    
 
 /* ********************
