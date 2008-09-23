@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac");
 \htmlonly
 */
 
+/* The memoised version of primep: */
+mprimep[n] := primep(n)$
+
 /* The list of primes in the closed interval from a to b: */
 primes_interval(a,b) := block([L : [], p : if a <= 1 then 1 else a-1],
   p : next_prime(p),
