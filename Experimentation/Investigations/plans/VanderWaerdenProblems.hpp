@@ -93,6 +93,23 @@ OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
      </li>
     </ol>
    </li>
+   <li> greentao(2,5)
+    <ol>
+     <li> Trivial for n=5000:
+     \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_5000.cnf
+Clauses = 26470
+Variables = 5000
+TotalLiterals = 132350
+FlipsPerSecond = 254850
+BestStep_Mean = 509.700000
+Steps_Mean = 509.700000
+Steps_Max = 538.000000
+PercentSuccess = 100.00
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> One should study the density of the clause-sets (and the "threshold")
    here. </li>
    <li> One can also consider non-diagonal Green-Tao numbers. </li>
