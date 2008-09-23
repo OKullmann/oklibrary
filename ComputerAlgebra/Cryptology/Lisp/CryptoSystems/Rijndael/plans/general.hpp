@@ -14,6 +14,29 @@ License, or any later version. */
   <ul>
    <li> Introduce systematic notations and abbreviations for basic
    "data types". </li>
+   <li> At present there are several data types within the AES implementation, 
+   namely
+    <ul>
+     <li> Byte (represented as an integer) </li> 
+     <li> List of Bytes (represented as a list of integers) </li>
+    </ul>
+   Given future generalisations, it seems best to consider bytes as "words" and
+   so we have
+    <ul>
+     <li> "Word" - signified by "_w" </li>
+     <li> List of "Word"s - signified by "_lw" </li> 
+    </ul>
+   </li>
+   <li> There is still the issue of some functions that use different, more 
+   specific data types; either convenience functions etc (using the rijndael 
+   byte field, for example), or many other fields or permutations, if later 
+   generalisations are considered.
+    <ul>
+     <li> For the rijndael byte field, perhaps "_b" would be appropriate? </li>
+     <li> What is an appropriate convention for others? Some general scheme 
+     that can be used for all or most of such types? </li>
+    </ul>
+   </li>
   </ul>
 
 
