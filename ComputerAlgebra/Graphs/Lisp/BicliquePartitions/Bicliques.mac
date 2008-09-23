@@ -1,3 +1,4 @@
+
 /* Oliver Kullmann, 23.5.2008 (Swansea) */
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -73,14 +74,15 @@ vbc_dgl_p(B,G) := listp(B) and is(length(B)=2) and
 
 ebc_gg_p(B,G) := setp(B) and subsetp(B,G[2]) and
  block([S : edge_induced_subgraph_gg(B,G)],
-  not parallel_edges_gg_p(S) and irreflexive_gg(S) and 
-  completebipartite_gg_p(S))$
+  not parallel_edges_gg_p(S) and completebipartite_gg_p(S))$
 
 
 /* **********************************************
    * Fundamental notions of biclique partitions *
    **********************************************
 */
+
+ebcp_gg_p(B,G) := setp(B) and partitionp(B,G[2]) and every(lambda([b],ebc_gg_p(b,G)),B)$
 
 
 /*!

@@ -20,6 +20,9 @@ oklib_load("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac");
 */
 
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
+oklib_include("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac")$
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Basics.mac")$
+oklib_include("Transitional/ComputerAlgebra/DataStructures/Lisp/Lists.mac")$
 
 
 /* ************************
@@ -27,15 +30,15 @@ oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/SetSystems.mac")$
    ************************
 */
 
-complete_hg(n,r) := [setn(n), powerset(setn(n),r)]$
+/* The standardised complete r-graph: */
+complete_stdhg(n,r) := block([N : setn(n)],
+  [N, powerset(N,r)])$
 
 
-/* *****************
-   * Ramsey Theory *
-   *****************
+/* *****************************
+   * Van der Waerden's theorem *
+   *****************************
 */
-
-/* Van der Waerden's theorem: */
 
 /* The hypergraph of all arithmetic progressions of size k in {1,...,n}. */
 /* Prerequisites: n,k are integers. */
@@ -60,7 +63,84 @@ arithprog_ohg(k,n) := block([V : create_list(i,i,1,n), VS],
              create_list(n-d*i,i,0,k-1)), 
                d,1,floor((n-1)/(k-1))))]))$
 
-/* Ramsey's theorem: */
+/* Testing whether the list L represents an arithmetic progression: */
+arithmetic_progression_p(L) := if length(L) <= 1 then true
+  else arithmetic_progression_d_p(rest(L),L[2] - L[1])$
+/* Testing whether the list L represents an arithmetic progression with
+   (constant) difference d: */
+arithmetic_progression_d_p(L,d) := if length(L) <= 1 then true
+  else is(second(L) - first(L) = d) and arithmetic_progression_d_p(rest(L),d)$
+
+/* The list of all arithmetic progressions of length k for the sorted list L
+   (following the order of L). */
+/* Prerequisites: k natural number >= 0, L ascending. */
+arithmetic_progressions(L,k) :=
+ if k = 0 then [[]]
+ elseif k = 1 then map("[",L)
+ else block([l : length(L)],
+   if l <= 1 then return([]),
+   block([x : first(L), res_without, res_with : []],
+     L : rest(L), l : l - 1,
+     res_without : arithmetic_progressions(L,k),
+     /* Computing all arithmetic progressions starting with x: */
+     while l > 0 do block([y : first(L), d, P, lp],
+       L : rest(L), l : l - 1,
+       d : y - x,
+       P : [x,y], lp : 2,
+       block([prev_el : y],
+         for z in L unless lp = k or z - prev_el > d do
+           if z - prev_el = d then (
+             P : endcons(z,P), lp : lp + 1, prev_el : z
+           )
+       ),
+       if lp = k then res_with : cons(P,res_with)
+     ),
+     return(append(reverse(res_with),res_without))))$
+
+/* The hypergraph of all arithmetic progressions of size k in the
+   list L of different integers: */
+arithprog_list_ohg(k,L) := [L,map(setify,arithmetic_progressions(L,k))]$
+
+/* The theorem of Green-Tao: */
+/* The hypergraph of all arithmetic progressions of size k in the first
+   n prime numbers. */
+/* Prerequisite: k, n integers, k, n >= 0. */
+
+arithprog_primes_ohg(k,n) := [primes_first(n), map(setify,arithprog_primes(k,n))]$
+arithprog_primes_hg(k,n) := ohg2hg(arithprog_primes_ohg(k,n))$
+  
+/* The arithmetic progressions of length k amongst the first n
+   prime numbers which finish in n. */
+/* Inherits the list primes_rev_init_seg containing the first n
+   prime numbers in reverse order. */
+/* So n is the length of primes_rev_init_seg, but it is mentioned
+   in the input for memoisation. */
+arithprog_primes_finish[k,n] := if n = 0 then [] 
+ elseif k = 0 then []
+ else block([p : first(primes_rev_init_seg), res : []],
+   if k = 1 then return([[p]]),
+   for p2 in rest(primes_rev_init_seg) do block([d : p - p2, prog],
+     prog : create_list(p2 - i * d, i, 1, k - 2),
+     if every_s(lambda([n],is (n > 1) and mprimep[n]), prog)
+     then res : cons(append(reverse(prog), [p2,p]), res)
+   ),
+   return(res))$
+/* All arithmetic progressions of length k amongst the first n
+   prime numbers: */
+arithprog_primes(k,n) := if k=0 then [[]] elseif n = 0 then [] else
+ block([primes_rev_init_seg : [], p : 1, res : []],
+   for i : 1 thru n do (
+     p : next_prime(p),
+     primes_rev_init_seg : cons(p, primes_rev_init_seg),
+     res : append(res,arithprog_primes_finish[k,i])
+   ),
+   res)$
+   
+
+/* ********************
+   * Ramsey's theorem *
+   ********************
+*/
 
 /* We now consider the underlying hypergraphs for "diagonal" Ramsey
    problems, that is, for r-graphs with n vertices we consider

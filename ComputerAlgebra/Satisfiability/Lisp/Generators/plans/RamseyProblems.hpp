@@ -15,6 +15,7 @@ License, or any later version. */
    <li> Compare "Ramsey graphs" in
    ComputerAlgebra/Hypergraphs/Lisp/plans/Generators.hpp. </li>
    <li> See Ramsey.cpp. </li>
+   <li> See Experimentation/Investigations/plans/RamseyProblems.hpp. </li>
   </ul>
 
 

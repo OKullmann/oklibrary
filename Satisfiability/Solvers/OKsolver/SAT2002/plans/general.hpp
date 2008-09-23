@@ -260,6 +260,17 @@ extern unsigned int Suchbaumtiefe, Ueberschreitung2, init2Klauseln;
      the high resolution and long duration. </li>
     </ol>
    </li>
+   <li> Better representation of monitoring data:
+    <ol>
+     <li> The predicted run-times should have the form
+     "x1(y)x2(d)x3(h)x4(m)x5(s)" with x5 < 60, x4 < 60, x3 < 23,
+     x2 < 365. </li>
+     <li> But this perhaps only for the console output, while the file
+     output is just numbers (for easy evaluation). </li>
+     <li> There should also be some more text explaining the output
+     columns. </li>
+    </ol>
+   </li>
   </ul>
 
 

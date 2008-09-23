@@ -1,3 +1,4 @@
+
 /* Oliver Kullmann, 27.3.2008 (Swansea) */
 /* Copyright 2008 Oliver Kullmann
 This file is part of the OKlibrary. OKlibrary is free software; you can redistribute
@@ -206,10 +207,19 @@ okltest_disjoint_set_system_p(f) := (
   assert(f({{1},{2},{},{3},{3,4}}) = false),
   true)$
 
-okltest_partitionp(f) := (
-
+okltest_partitionp(f) := block(
+  assert(f({},{}) = true),
+  assert(f({{}},{}) = false),
+  assert(f({{1},{}},{1}) = false),
+  assert(f({{1}},{1}) = true),
+  assert(f({{}},{1}) = false),
+  assert(f({{2}},{1}) = false),
+  assert(f({{2},{1}},{1}) = false),
+  assert(f({{1},{2},{3}},{1,2,3}) = true),
+  assert(f({{1},{2,3},{3,4}},{1,2,3,4}) = false),
+  assert(f({{1,2,3,4}},{1,2,3,4}) = true),
+  assert(f({{1},{2},{3},{4}},{1,2,3}) = false),
   true)$
-
 
 /* ********************************
    * Tests related to subsumption *

@@ -90,8 +90,29 @@ okltest_vbc_dgl_p(f) := block([G],
   assert(okltest_vbc_gl_p(buildq([f],lambda([B,G],gl_p(G) and f(B,gl2dgl(G)))))),
   true)$
 
-okltest_ebc_gg_p(f) := (
+okltest_ebc_gg_p(f) := block([edgef],
+  assert(f({},[{},{},edgef]) = true),
+  assert(f({},[{1},{},edgef]) = true),
+  assert(f({1},[{1,2},{1},lambda([e],{1,2})]) = true),
+  assert(f({1},[{1,2},{1},lambda([e],{1})]) = false),
+  assert(f({2},[{1,2},{1,2},lambda([e],if e=1 then {1} else {1,2})]) = true),
+  assert(f({1,2},[{1,2},{1,2},lambda([e],if e=1 then {1} else {1,2})]) = false),
+  assert(f({1,2,4},[{1,2,3},{1,2,3},lambda([e],if e=1 then {1,2} elseif e=2 then {2,3} else {1,3})]) = false),
+  true)$
 
+okltest_ebcp_gg_p(f) := block([G,edgef],
+  assert(f({},[{},{},edgef]) = true),
+  assert(f({},[{1},{},edgef]) = true),
+  assert(f({{1},{}},[{1,2},{1},lambda([e],{1,2})]) = false),
+  assert(f({{1},{}},[{1},{1},lambda([e],{1})]) = false),
+  assert(f({{1},{}},[{1,2},{1},lambda([e],{1,2})]) = false),
+  assert(f({{1},{2}},[{1,2},{1,2},lambda([e],if e=1 then {1} else {1,2})]) = false),
+  assert(f({{1,2}},[{1,2},{1,2},lambda([e],if e=1 then {1} else {1,2})]) = false),
+  assert(f({{1},{2}},[{1,2},{1,2},lambda([e],{1,2})]) = true),
+  assert(f({{1},{2}},[{1,2,3},{1,2},lambda([e],if e=1 then {1,2} else {2,3})]) = true),
+  assert(f({{1},{2}},[{1,2},{1,2},lambda([e],{1,2})]) = true),
+  assert(f({{1},{2}},[{1,2},{1,2,3},lambda([e],{1,2})]) = false),
+  assert(f({{1,2},{2}},[{1,2},{1,2},lambda([e],{1,2})]) = false),
   true)$
 
 /*!

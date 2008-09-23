@@ -143,13 +143,13 @@ non_disjoint_pair(L) := block([a : l2array(L), l : length(L), found : false, res
       if not disjointp(A, a[j]) then (res : [i,j], found : true)),
   return(res))$
 
-/* Whether S is a disjoint set system: */
+/* Whether set system S is a disjoint set system: */
 /* RENAME: disjoint_set_system_p */
 is_disjoint_set_system(S) := emptyp(non_disjoint_pair(listify(S)))$
 disjoint_set_system_p(S) := emptyp(non_disjoint_pair(listify(S)))$
 
-/* Checks whether P is a partitioning of set X: */
-partitionp(P,X) := setp(P) and disjoint_set_system_p(P) and 
+/* Checks whether set system P is a partitioning of set X: */
+partitionp(P,X) := disjoint_set_system_p(P) and 
   is(lunion(P) = X) and not empty_element_p(P)$
 
 

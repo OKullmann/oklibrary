@@ -119,6 +119,24 @@ License, or any later version. */
 
   \todo Maxima package "graphs"
   <ul>
+   <li> Problems with the graph without vertices:
+    <ol>
+     <li>
+     \verbatim
+is_bipartite(empty_graph(0));
+Evaluation took 0.0040 seconds (0.0001 elapsed) using 1.148 KB.
+(%o294) false
+     \endverbatim
+     though it should be true. </li>
+     <li> We also have
+     \verbatim
+complete_graph(0);
+Argument 1 to complete_graph is not a positive integer
+ -- an error.  To debug this try debugmode(true);
+     \endverbatim
+     </li>
+    </ol>
+   </li>
    <li> What is petersen_graph(n,d)?
     <ol>
      <li> We always have the outer and the inner cirle (each of

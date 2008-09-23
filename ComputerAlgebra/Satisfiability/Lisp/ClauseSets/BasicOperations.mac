@@ -305,6 +305,8 @@ print_fcl_v(comment,FF,varlist) := (
 /* RENAME: output_fcs_v */
 output_cs_f_v(comment,FF,n,varlist) := 
   with_stdout(n, print_cs_f_v(comment,FF,varlist))$
+output_fcs_v(comment,FF,n,varlist) := 
+  with_stdout(n, print_cs_f_v(comment,FF,varlist))$
 output_fcl_v(comment,FF,n,varlist) := 
   with_stdout(n, print_fcl_v(comment,FF,varlist))$
 
