@@ -18,12 +18,19 @@ License, or any later version. */
 
   <h2> On the automorphism group of %Ramsey hypergraphs </h2>
 
-
   <h2> Finding %Ramsey numbers via SAT </h2>
 
+  <ul>
+   <li> Some experimentation has been started in this area at 
+   Experimentation/Investigations/plans/RamseyProblems.hpp . </li>
+  </ul>
 
   <h2> On the automorphism group of %Ramsey clause-sets </h2>
 
+  <ul>
+   <li> Some initial discussions on the symmetries of the %Ramsey problems are
+   at ComputerAlgebra/Satisfiability/Lisp/Generators/plans/RamseyProblems.hpp . </li>
+  </ul> 
 
   <h1> The Lovasz local lemma </h1>
   
