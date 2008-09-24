@@ -17,6 +17,30 @@ License, or any later version. */
 
   <h1> Spanning trees </h1>
 
+  <ul>
+   <li> The pruefer code for a given tree is given by
+   \verbatim
+tree2pruefercode_og([[1,2,3,4,5],[{1,2},{3,2},{2,4},{4,5}]]);
+ [2,2,4]
+   \endverbatim
+   and given a pruefer code, and the vertex set, the tree can be reconstructed
+   by 
+   \verbatim
+pruefercode2tree_og([1,2,3,4,5],[2,2,4]);
+ [[1,2,3,4,5],[{1,2},{2,3},{2,4},{4,5}]])
+   \endverbatim
+   </li>
+   <li> While trees can be reconstructed from pruefer codes and the functions 
+   within the OKlibrary take ordered graphs as input, the ordered graph produced 
+   by pruefercode2tree_og is not necessarily the ordered graph which is 
+   initially produced by tree2pruefercode_og, as the order is not preserved by 
+   the pruefer code, only the nature of the underlying graph, e.g.
+   \verbatim
+pruefercode2tree_og([1,2,3,4,5,6],tree2pruefercode_og([[1,2,3,4,5,6],[{1,2},{3,2},{4,5},{4,6},{2,4}]]));
+ [[1,2,3,4,5,6],[{1,2},{2,3},{2,4},{4,5},{4,6}]]
+   \endverbatim 
+   </li>
+  </ul>
 
   <h1> Connectivity </h1>
   
