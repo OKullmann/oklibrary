@@ -77,7 +77,12 @@ OKplatform> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_4_512.cnf
      <li> n = 540: rnovelty+ yields constantly 1 falsified clause. </li>
      <li> n = 550: rnovelty+ yields constantly 2 falsified clauses. </li>
      <li> n = 600: rnovelty+ yields constantly 6 falsified clauses. </li>
-     <li> For n in this magnitude the Maxima computation of the hypergraph is
+     <li> Minisat looks weak on these instances. </li>
+     <li> And Grasp likely doesn't work here neither. </li>
+     <li> But march_pl seems stronger on the satisfiable instances than
+     OKsolver-2002, though n=500 seems also difficult. </li>
+     <li> DONE (the basic algorithm works not too bad now)
+     For n in this magnitude the Maxima computation of the hypergraph is
      already very slow --- a more intelligent algorithm for finding the
      arithmetic progression amongst the prime numbers is needed (likely we
      cannot exploit the speciality of prime numbers, but we do it for arbitrary
@@ -108,10 +113,68 @@ Steps_Max = 538.000000
 PercentSuccess = 100.00
      \endverbatim
      </li>
+     <li> Also OKsolver-2002 solves it in 2157 nodes. </li>
+     <li> Also very easy for march_pl. </li>
+     <li> Still trivial for n=10000:
+     \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_10000.cnf
+Clauses = 85596
+Variables = 10000
+TotalLiterals = 427980
+FlipsPerSecond = 126621
+BestStep_Mean = 1772.700000
+Steps_Mean = 1772.700000
+Steps_Max = 1912.000000
+PercentSuccess = 100.00
+     \endverbatim
+     </li>
+     <li> Also OKsolver-2002 solves it in 4089 nodes. </li>
+     <li> march_pl has more problems, but also solves it in
+     about a minute. </li>
+     <li> Still trivial for n=15000:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_15000.cnf
+Clauses = 170830
+Variables = 15000
+TotalLiterals = 854150
+FlipsPerSecond = 85313
+BestStep_Mean = 4521.600000
+Steps_Mean = 4521.600000
+Steps_Max = 4785.000000
+PercentSuccess = 100.00
+     \endverbatim
+     </li>
+     <li> For OKsolver-2002 it might be hard (or one has to wait a bit longer,
+     since processing of the nodes now takes quite some time). </li>
+     <li> march_pl is at least quicker, and finds a solution rather fast (9091
+     nodes). Perhaps the difference is just that there are (nearly) no
+     2-reductions possible, where march_pl reacts to this and gets quicker,
+     while OKsolver-2002 always checks all possibilities. </li>
+     <li> And yes, that's the case: OKsolver-2002 solves it with 4634 nodes,
+     without backtracking, and with just 17 2-reductions. </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
-   here. </li>
+   here.
+    <ol>
+     <li> The density 3.5 for unsatisfiable k=4 is somewhat
+     similar to the random 3-SAT threshold (around 4.25 --- though for
+     larger n). </li>
+     <li> The (assumed) density 8.8 for unsatisfiable k=4 is similar to
+     the random 4-SAT threshold (around 9.8). </li>
+     <li> The random 5-SAT threshold is around 20. </li>
+     <li> One could guess that the unsatisfiability-density comes closer
+     to the random-k-SAT threshold density? </li>
+     <li> Then one needed to figure out how many k-progressions are in the
+     first n primes. </li>
+     <li> It would be interesting to study random complement-invariant
+     k-SAT clause-sets (choose a random k-clause-set, and take the union
+     with the complement)! </li>
+     <li> I (OK) would assume that the van-der-Waerden clause-sets are much
+     more redundant than the Gree-Tao clause-sets, and that the latter are
+     much closer to random clause-sets. </li>
+    </ol>
+   </li>
    <li> One can also consider non-diagonal Green-Tao numbers. </li>
    <li> One needs to investigate whether bounds are known. </li>
   </ul>
