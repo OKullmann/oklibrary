@@ -15,9 +15,11 @@ License, or any later version. */
 
   \todo Module structure
   <ul>
+   <li> See ComputerAlgebra/Hypergraphs/Lisp/plans/Colouring.hpp. </li>
    <li> Should we make a distinction between graph colouring and hypergraph
    colouring? In this case GreedyColouring.cpp (etc) should go to
-   Combinatorics/Graphs. </li>
+   Combinatorics/Graphs. Yes, this should be (compare "Connections to other
+   modules" in ComputerAlgebra/Graphs/Lisp/plans/Colouring.hpp). </li>
   </ul>
 
 

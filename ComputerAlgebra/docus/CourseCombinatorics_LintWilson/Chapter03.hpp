@@ -12,6 +12,20 @@ License, or any later version. */
 
   <h1> Brook's theorem </h1>
 
+  <h2> Greedy colouring </h2>
+
+  <ul>
+   <li> See "Greedy colouring" in
+   ComputerAlgebra/Hypergraphs/Lisp/plans/Colouring.hpp. </li>
+   <li> Greedy graph colouring will always find a colouring using at most
+   d + 1 many colours, where d is the maxima degree. </li>
+   <li> Likely it does not automatically yield a d-colouring if no component
+   is an odd cycle or the graph does not contain a (d+1)-clique --- example?
+   </li>
+   <li> Can this be repaired? </li>
+   <li> Or with other algorithms? Is it possible at all? </li>
+  </ul>
+
 
   <h1> Ramsey's theorem </h1>
 

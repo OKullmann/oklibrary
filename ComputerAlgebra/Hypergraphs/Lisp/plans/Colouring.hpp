@@ -10,9 +10,36 @@ License, or any later version. */
   \brief Plans regarding (various) colouring problems for hypergraphs
 
 
+  \todo Relations to other modules
+  <ul>
+   <li> See ComputerAlgebra/Graphs/Lisp/plans/Colouring.hpp. </li>
+   <li> See Hypergraphs/Colourings/plans/general.hpp. </li>
+  </ul>
+
+
   \todo Organisation
   <ul>
    <li> Best to create a sub-module Hypergraphs/Lisp/Colouring. </li>
+  </ul>
+
+
+  \todo Greedy colouring
+  <ul>
+   <li> Compare Hypergraphs/Colourings/plans/GreedyColouring.hpp. </li>
+   <li> Greedy colouring, running through the vertices in some order, and
+   giving the vertices the first available colour (not violating the colouring
+   condition), can also be done for hypergraphs. </li>
+   <li> It should be that for strong colouring (all hyperedges are
+   multi-coloured) this strategy yields an optimal colouring, when using a
+   suitable vertex ordering. </li>
+   <li> However it seems that for (ordinary, i.e., weak) colouring this is
+   no longer the case (example?). </li>
+   <li> So perhaps we first consider only strong colourings, since this is
+   the true generalisation of greedy colouring for graphs here. </li>
+   <li> For the implementation we need the adjacency relation between
+   vertices, which as graph is realised by the 2-section, but we need
+   the square-hypergraph representation of this graph (providing for each
+   vertex the set of adjacent vertices). </li>
   </ul>
 
 

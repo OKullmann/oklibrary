@@ -21,7 +21,8 @@ oklib_load("Transitional/ComputerAlgebra/Graphs/Lisp/Colouring.mac");
 
 oklib_include("Transitional/ComputerAlgebra/Graphs/Lisp/Basic.mac");
 
-/* Computing the chromatic number of a graph via the Maxima function */
+/* Computing the chromatic number of a graph via the Maxima function: */
+/* RENAME: chromaticnumber_m_g */
 chromatic_number_gr_m(G) := if emptyp(G[2]) then if emptyp(G[1]) then 0 else 1
  else chromatic_number(g2mg(G))$
 
