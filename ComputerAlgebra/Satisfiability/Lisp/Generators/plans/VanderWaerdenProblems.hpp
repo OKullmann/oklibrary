@@ -10,6 +10,17 @@ License, or any later version. */
   \brief Plans for Maxima-generators related to van der Waerden problems (and generalisations)
 
 
+  \todo Statistics
+  <ul>
+   <li> As discussed in "Accompanying statistics" in
+   Satisfiability/Lisp/Generators/plans/general.hpp in general, we need
+   statistics for all main messurements (and also for all others, if
+   possible). </li>
+   <li> First the hypergraph measurements needs to be established; see
+   "Statistics" in Hypergraphs/Lisp/plans/Generators.hpp. </li>
+  </ul>
+
+
   \todo More than two parts
   <ul>
    <li> Create non-boolean clause-sets for the van der Waerden problems with

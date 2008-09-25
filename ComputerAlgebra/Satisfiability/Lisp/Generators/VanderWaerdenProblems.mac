@@ -24,6 +24,11 @@ oklib_include("Transitional/ComputerAlgebra/Satisfiability/Lisp/ClauseSets/Basic
 oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Colouring.mac")$
 
 
+/* **************************************************
+   * Arithmetic progressions in the natural numbers *
+   **************************************************
+*/
+
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    {1,...,n} into two parts such that none of them contains an arithmetic 
    progression of size k. */
@@ -38,6 +43,12 @@ output_vanderwaerden2(k,n,filename) :=
     filename)$
 output_vanderwaerden2_stdname(k,n) := output_vanderwaerden2(k,n,
   sconcat("VanDerWaerden_2_",k,"_",n,".cnf"))$
+
+
+/* *****************************************
+   * Arithmetic progressions in the primes *
+   *****************************************
+*/
 
 /* Boolean formal clause-sets, whose solutions are the partitionings of 
    the set of the first n prime numbers into two parts such that none of them 
