@@ -169,6 +169,7 @@ Steps_Mean = 509.700000
 Steps_Max = 538.000000
 PercentSuccess = 100.00
      \endverbatim
+     Density = 5.294
      </li>
      <li> Also OKsolver-2002 solves it in 2157 nodes. </li>
      <li> Also very easy for march_pl. </li>
@@ -184,6 +185,7 @@ Steps_Mean = 1772.700000
 Steps_Max = 1912.000000
 PercentSuccess = 100.00
      \endverbatim
+     Density = 8.5596
      </li>
      <li> Also OKsolver-2002 solves it in 4089 nodes. </li>
      <li> march_pl has more problems, but also solves it in
@@ -200,6 +202,7 @@ Steps_Mean = 4521.600000
 Steps_Max = 4785.000000
 PercentSuccess = 100.00
      \endverbatim
+     Density = 11.38866666666667
      </li>
      <li> For OKsolver-2002 it might be hard (or one has to wait a bit longer,
      since processing of the nodes now takes quite some time). </li>
@@ -209,6 +212,20 @@ PercentSuccess = 100.00
      while OKsolver-2002 always checks all possibilities. </li>
      <li> And yes, that's the case: OKsolver-2002 solves it with 4634 nodes,
      without backtracking, and with just 17 2-reductions. </li>
+     <li> Still trivial for n=20000:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_20000.cnf
+Clauses = 279592
+Variables = 20000
+TotalLiterals = 1397960
+FlipsPerSecond = 115071
+BestStep_Mean = 25775.900000
+Steps_Mean = 25775.900000
+Steps_Max = 80685.000000
+PercentSuccess = 100.00
+     \endverbatim
+     Density = 13.9796
+     </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
