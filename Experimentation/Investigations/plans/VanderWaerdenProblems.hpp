@@ -226,6 +226,8 @@ PercentSuccess = 100.00
      \endverbatim
      Density = 13.9796
      </li>
+     <li> OKsolver-2002 solves it with nearly no backtracking (4637 nodes, tree
+     depth 4583, 2061 2-reductions). </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
