@@ -19,6 +19,9 @@ oklib_load("Transitional/ComputerAlgebra/NumberTheory/Lisp/PrimeNumbers.mac");
 \htmlonly
 */
 
+oklib_include("Transitional/ComputerAlgebra/Hypergraphs/Lisp/Generators.mac")$
+
+
 /* The memoised version of primep: */
 mprimep[n] := primep(n)$
 
@@ -41,7 +44,36 @@ primes_first(n) := if n <= 0 then [] else
       n : n - 1
     ),
     L)$
-  
+
+
+/* **************************
+   * Additive number theory *
+   **************************
+*/
+
+/* The number of arithmetic progressions of length k in the set of
+   prime numbers with the n-th prime number as last element ("nc"
+   for "non-cumulative").
+*/
+/* Prerequisite: n, k natural numbers >= 0. */
+n_arithprog_primes_nc[k,n] := block(
+ [primes_rev_init_seg : reverse(primes_first(n))],
+  length(arithprog_primes_finish[k,n]))$
+
+/* The list of the numbers of arithmetic progressions of length k in 
+   the set of the first i prime numbers ("c" for "cumulative") for
+   i from 1 to n:
+*/
+ln_arithprog_primes_c(k,n) := 
+ if k=0 then create_list(1,i,1,n) else
+ block([primes_rev_init_seg : [], p : 1, res : [], sum : 0, count],
+   for i : 1 thru n do (
+     p : next_prime(p),
+     primes_rev_init_seg : cons(p, primes_rev_init_seg),
+     count : length(arithprog_primes_finish[k,i]),
+     sum : sum + count, res : endcons(sum,res)
+   ),
+   res)$
 
 /*!
 \endhtmlonly
