@@ -82,6 +82,16 @@ sys     0m52.634s
      </li>
     </ol>
    </li>
+   <li> Plotting discrete data does not work (as in the manual):
+   \verbatim
+(%i1) xx:[10, 20, 30, 40, 50]$
+Evaluation took 0.0010 seconds (0.0010 elapsed)
+(%i2) yy:[.6, .9, 1.1, 1.3, 1.4]$
+Evaluation took 0.0010 seconds (0.0000 elapsed)
+(%i3) plot2d([discrete,xx,yy])$
+Maxima encountered a Lisp error:
+ Unknown keyword :WAIT
+   </li>
    <li> Loading
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac
    into (plain or oklib-initialised) ECL produces a segmentation fault (while
