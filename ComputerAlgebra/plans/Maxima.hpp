@@ -78,7 +78,7 @@ is(equal(x,0))
   </ul>
 
 
-  \todo Maxima/CLisp bug
+  \todo Maxima/CLisp bug for larger data-sets
   <ul>
    <li> On csltok (laptop of OK) running
    \verbatim
