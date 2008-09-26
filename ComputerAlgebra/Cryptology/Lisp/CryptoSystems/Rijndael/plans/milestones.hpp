@@ -36,8 +36,8 @@ License, or any later version. */
    the following topics are handled:
     - Key schedule
     - Design of round functions
-    - Algebraic aspects
-  
+    - Algebraic aspects DONE
+
 
   \par Version 0.1
 

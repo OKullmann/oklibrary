@@ -258,19 +258,22 @@ License, or any later version. */
   </ul>
   
   
-  \todo Algebraic aspects
+  \todo Algebraic aspects DONE
   <ul>
-   <li> There seem to be 3 different representations considered when dealing
+   <li> (DONE Moved to Notions and notations)
+   There seem to be 3 different representations considered when dealing
    with AES, byte sized, bit sized, and in 4 byte columns, each represented
    by different algebraic structures (GF(2^8),GF(2) and a Euclidean domain 
    (is this the closest fitting name?) respectively) </li>
-   <li> Look into whether/how maxima supports symbolic manipulation, so once a
+   <li> (DONE Moved to Modularising the Rijndael-implementation) 
+   Look into whether/how maxima supports symbolic manipulation, so once a
    simple AES implementation is complete, basic equations can be generated for
    study. </li>
-   <li> With the generalisations made to the implementation, can we provide
+   <li> (DONE Moved to Generalisations) 
+   With the generalisations made to the implementation, can we provide
    further generalisations based on certain algebraic aspects of the AES? Is
    there any need? </li>
-   <li> Is this todo needed any longer? </li>
+   <li> DONE Is this todo needed any longer? No. </li>
    <li> (DONE Lists are better for understanding and generalising here)
    The initial example code uses matrices as this seemed natural from the
    description of AES but this potentially makes generalisation to Rijndael
