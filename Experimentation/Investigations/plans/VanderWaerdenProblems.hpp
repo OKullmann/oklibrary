@@ -242,13 +242,20 @@ PercentSuccess = 100.00
      <li> One could guess that the unsatisfiability-density comes closer
      to the random-k-SAT threshold density? </li>
      <li> Then one needed to figure out how many k-progressions are in the
-     first n primes. </li>
+     first n primes; see "The distribution of arithmetic progression amongst
+     primes" in Experimentation/Investigations/plans/AdditiveNumberTheory.hpp.
+     </li>
      <li> It would be interesting to study random complement-invariant
      k-SAT clause-sets (choose a random k-clause-set, and take the union
      with the complement)! </li>
      <li> I (OK) would assume that the van-der-Waerden clause-sets are much
      more redundant than the Gree-Tao clause-sets, and that the latter are
      much closer to random clause-sets. </li>
+     <li> A general conjecture is that we have the Ramsey property if the
+     density goes to infinity for each fixed size k of the structure required
+     to exist (arithmetic progressions, cliques, etc.; in this general
+     form likely one should find a counter-example, but perhaps it holds
+     if the the structures "spread a bit"). </li>
     </ol>
    </li>
    <li> One can also consider non-diagonal Green-Tao numbers. </li>
