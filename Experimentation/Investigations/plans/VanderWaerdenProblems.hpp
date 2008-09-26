@@ -228,6 +228,24 @@ PercentSuccess = 100.00
      </li>
      <li> OKsolver-2002 solves it with nearly no backtracking (4637 nodes, tree
      depth 4583, 2061 2-reductions). </li>
+     <li> Gets harder for n = 30000, but still rather easy:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_30000.cnf
+Clauses = 561550
+Variables = 30000
+TotalLiterals = 2807750
+FlipsPerSecond = 138854
+BestStep_Mean = 7262075.200000
+Steps_Mean = 9474284.500000
+Steps_Max = 10000000.000000
+PercentSuccess = 30.00
+BestSolution_Mean = 2.300000
+BestSolution_Median = 1.000000
+BestSolution_Min = 0.000000
+BestSolution_Max = 6.000000
+     \endverbatim
+     Density = 18.71833333333333
+     </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
