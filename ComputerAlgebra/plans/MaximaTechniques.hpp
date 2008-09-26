@@ -151,6 +151,18 @@ xreduce(nounify(union), [a,b,c,d]);
 
   \todo Bugs of Maxima and their corrections:
   <ul>
+   <li> There are severe restrictions for memoised recursive functions:
+    <ol>
+     <li> Consider
+     \verbatim
+fib_mem[n] := if n <= 1 then 1 else fib_mem[n-1] + fib_mem[n-2];
+     \endverbatim
+     </li>
+     <li> Both clisp and ecl for n=5000 create a segmentation fault
+     (without computing previous values). </li>
+     <li> So actually recursion cannot be used! </li>
+    </ol>
+   </li>
    <li> apply
     <ol>
      <li> See "Apply-functionality" in

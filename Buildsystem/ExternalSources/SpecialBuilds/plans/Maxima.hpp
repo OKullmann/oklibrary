@@ -92,7 +92,11 @@ Evaluation took 0.0010 seconds (0.0000 elapsed)
 Maxima encountered a Lisp error:
  Unknown keyword :WAIT
    </li>
-   <li> Loading
+   <li> There is a general problem with using recursive memoised functions:
+   Apparently Maxima/Lisp cannot handle them, and so we must eliminate them!
+   </li>
+   <li> DONE (see above)
+   Loading
    ComputerAlgebra/Satisfiability/Lisp/MinimalUnsatisfiability/tests/SegFault.mac
    into (plain or oklib-initialised) ECL produces a segmentation fault (while
    clisp has no problems):
