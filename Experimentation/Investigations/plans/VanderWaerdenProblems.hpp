@@ -375,5 +375,12 @@ BestSolution_Max = 6.000000
    behave so differently on the various problem classes. </li>
   </ul>
 
+
+  \todo Survey propagation
+  <ul>
+   <li> If the Green-Tao problems are similar to random problems, then
+   perhaps survey propagation is also successful on them ?! </li>
+  </ul>
+
 */
 

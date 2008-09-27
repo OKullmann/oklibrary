@@ -225,5 +225,12 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Survey and belief propagation
+  <ul>
+   <li> We should create a new module on belief propagation and survey
+   propagation. </li>
+  </ul>
+
 */
 

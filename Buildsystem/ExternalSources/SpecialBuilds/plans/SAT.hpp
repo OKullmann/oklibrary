@@ -278,7 +278,15 @@ actual or intended publication of such source code.
 
   \todo Belief and Survey propagation
   <ul>
-   <li> http://www.ictp.trieste.it/~zecchina/SP/ </li>
+   <li> http://www.ictp.trieste.it/~zecchina/SP/
+    <ol>
+     <li> OK should contact Riccardo Zecchina to tell them about the OKlibrary,
+     and discuss whether they are interested in contributing (first at the
+     Maxima/Lisp level). </li>
+    </ol>
+   </li>
+   <li> There should be other implementations out there (belief propagation
+   etc.). </li>
   </ul>
 
 
