@@ -21,6 +21,9 @@ License, or any later version. */
    <li> See [Stochastic Local Search: Foundations and Applications; Hoos,
    Stuetzle, 2005]. </li>
    <li> We should be able to establish a generic framework. </li>
+   <li> This generic framework should allow us to use specialised algorithm
+   for hypergraph colouring (see "Faster local search" in
+   Experimentation/Investigations/plans/VanderWaerdenProblems.hpp). </li>
   </ul>
 
 

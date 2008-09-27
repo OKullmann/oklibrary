@@ -352,7 +352,23 @@ BestSolution_Max = 6.000000
   \todo Faster local search
   <ul>
    <li> For greentao it seems the only structure which can be exploited is
-   the complement-invariance. </li>
+   the complement-invariance.
+    <ol>
+     <li> More precisely, we have a hypergraph colouring problem. </li>
+     <li> So we have complement-invariant clause-sets, and furthermore we
+     have a PN-clause-set (so regarding space, we can save one half of the
+     clauses, and the clauses need only contain positive literals, i.e.,
+     variables, not literals). </li>
+     <li> It seems desirable to have a specialised local search solver for
+     hypergraph colouring (as in instance of generalised SAT); since local
+     search solvers only use total assignments, the non-stability of
+     hypergraph colouring under partial assignments is no hindrance (while
+     we have stability under autarkies). </li>
+     <li> The more colours are to be used, the bigger the savings. </li>
+     <li> And one would assume the various heuristics are influenced by
+     the restriction to hypergraph colouring. </li>
+    </ol>
+   </li>
    <li> For vanderwaerden there is much more structure which could be exploited
    (using "virtual" clause-sets). </li>
    <li> We should try to understand why the different local search algorithms

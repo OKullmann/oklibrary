@@ -79,6 +79,7 @@ nauty22> make checks
   \todo Graph colouring
   <ul>
    <li> http://www.cs.ualberta.ca/joe/Coloring (solver and generator) </li>
+   <li> What about hypergraph colouring? </li>
   </ul>
 
 */
