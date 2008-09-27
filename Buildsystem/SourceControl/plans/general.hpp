@@ -59,7 +59,7 @@ spellingprogram = /usr/bin/ispell
      <li> This could be achieved by a simple (file-system) "cp" ? </li>
      <li> Though this doesn't help for bare repositories. </li>
      <li> The ignore patterns can be placed in Transitional/.gitignore and will 
-     apply over the entire repository. Such files can then be added and commited
+     apply over the entire repository. Such files can then be added and committed
      to the repository as normal. </li>
      <li> Such ".gitignore" files apply to all subdirectories, with 
      ".gitignore" files in lower level directories overriding those in higher. 
@@ -358,15 +358,16 @@ Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSour
      so when committing the central milestones-file with the new version number,
      thereafter a tag "Transitional_?.?.?" should be created. </li>
      <li> This tag is only a light-weight tag: For releases a "full tag" with
-     PGP-signature should be used. </li>
+     GPG-signature should be used. </li>
      <li> Or perhaps we should use such a "full tag" for every new version
      of Transitional --- in this way we also make sure that the tag always
      gets transmitted (via push or pull)! Better in this way. </li>
-     <li> It seems that with
+     <li> With
      \verbatim
 git tag -m "FIRST RELEASE" -a Transitional-0.2.0
      \endverbatim
-     we can create a non-lightweight tag which doesn't need a pgp-signature.
+     we can create a non-lightweight tag which doesn't need a gpg-signature.
+     Apparently the last commit is tagged.
      </li>
     </ol>
    </li>
@@ -519,7 +520,7 @@ git mv file1 file2 dir1 dir2 Annotations
    For a new version control system we have to find out how to establish the role of the repository at
    cs-oksvr as *central*, and how to manage access control (as fine-grained as possible; if possible not
    relying on ssh). </li>
-   <li> Branching: DONE (for some developers, working on special areas and feeling unsage,
+   <li> Branching: DONE (for some developers, working on special areas and feeling unsure,
    creating a branch might be quite reasonable, but for others who like OK work on many
    parts of the library, follow the credo of permanent improvement, it would be a waste of
    time)
@@ -594,6 +595,7 @@ git mv file1 file2 dir1 dir2 Annotations
      <li> 5.8.2008; 10.1 MB; Transitional total: 28.0 MB </li>
      <li> 26.8.2008; 10.0 MB; Transitional total: 28.0 MB (perhaps git version
      1.6.0 uses a bit less space?) </li>
+     <li> 27.9.2008; 10.3 MB; Transitional total: 28.6 MB
     </ol>
    </li>
   </ul>
