@@ -78,8 +78,11 @@ nauty22> make checks
 
   \todo Graph colouring
   <ul>
+   <li> http://www.adaptivebox.net/CILib/code/gcpcodes_link.html (several
+   solvers) </li>
    <li> http://www.cs.ualberta.ca/joe/Coloring (solver and generator) </li>
-   <li> What about hypergraph colouring? </li>
+   <li> What about hypergraph colouring? Apparently there are no
+   implementations. </li>
   </ul>
 
 */

@@ -278,7 +278,7 @@ actual or intended publication of such source code.
 
   \todo Belief and Survey propagation
   <ul>
-   <li> http://www.ictp.trieste.it/~zecchina/SP/
+   <li> http://users.ictp.it/~zecchina/SP/
     <ol>
      <li> OK should contact Riccardo Zecchina to tell them about the OKlibrary,
      and discuss whether they are interested in contributing (first at the
