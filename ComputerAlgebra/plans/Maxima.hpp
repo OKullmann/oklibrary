@@ -13,6 +13,24 @@ License, or any later version. */
   ComputerAlgebra/plans/MaximaTechniques.hpp.
 
 
+  \todo No recursion for memoised functions
+  <ul>
+   <li> See "There are severe restrictions for memoised recursive functions"
+   in ComputerAlgebra/plans/MaximaTechniques.hpp. </li>
+   <li> It seems that ulimit doesn't help here. </li>
+   <li> Then the only (general) possibility seems to write for memoised
+   recursive functions a wrapper which calls the function bottom-up. </li>
+   <li>
+   \verbatim
+_fib_mem[n] := if n <= 1 then n else _fib_mem[n-1] + _fib_mem[n-2];
+fib_mem(n) := (for i : 0 thru n-1 do _fib_mem[i], _fib_mem[n])$
+   \endverbatim
+   </li>
+   <li> It would be better if one could find out whether _fib_mem[n] is already
+   defined. </li>
+  </ul>
+
+
   \todo Argument-length restriction
   <ul>
    <li> In CLisp we have the very restrictive maximal argument-lenght of

@@ -155,7 +155,7 @@ xreduce(nounify(union), [a,b,c,d]);
     <ol>
      <li> Consider
      \verbatim
-fib_mem[n] := if n <= 1 then 1 else fib_mem[n-1] + fib_mem[n-2];
+fib_mem[n] := if n <= 1 then n else fib_mem[n-1] + fib_mem[n-2];
      \endverbatim
      </li>
      <li> Both clisp and ecl for n=5000 create a segmentation fault
