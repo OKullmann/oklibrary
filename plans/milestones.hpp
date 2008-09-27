@@ -23,29 +23,6 @@ License, or any later version. */
   \section StartingVersion Future milestones
 
 
-  \subsection VersionTransitional021 0.2.1
-  \par LegalIssues version 0.0.6 (OK) : DONE
-  (see LegalIssues/plans/milestones.hpp)
-  \par ComputerAlgebra version 0.1.2 (OK, MH, MG) : DONE
-  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
-  \par Programming/InputOutput 0.1.2 : DONE
-  (see Transitional/Programming/InputOutput/plans/milestones.hpp)
-  \par Parallelism version 0.0.4 (OK) : DONE
-  (see Parallelism/plans/milestones.hpp)
-  \par AtomicConditions version 0.0.3 (OK) : DONE
-  (see AtomicConditions/plans/milestones.hpp)
-  \par InputOutput version 0.0.8 (OK) : DONE
-  (see Satisfiability/Interfaces/InputOutput/plans/milestones.hpp)
-  \par InjectivityConstraints version 0.0.3 (OK) : DONE
-  (see InjectivityConstraints/plans/milestones.hpp)
-  \par QuantumPhysics version 0.0.8 (OK) : DONE
-  (see QuantumPhysics/plans/milestones.hpp)
-  \par %Combinatorics 0.0.3 : DONE
-  (see Combinatorics/plans/milestones.hpp)
-  \par Docus : DONE
-  All parts have a central docus-file.
-
-
   \subsection VersionTransitional022 0.2.2 : ALPHA RELEASE
   TO BE REACHED $(deadline_022)
   \par Buildsystem version 0.2.1 (OK, MG)
@@ -258,6 +235,19 @@ License, or any later version. */
    - decided upon the licence and added appropriate texts to all major files
    - further investigations into distributed development (Git, mailing lists,
      etc.).
+
+   \par 0.2.1 27/9/2008
+
+   - ca. 80 releases since version 0.2.0
+   - concentration on founding the Maxima/Lisp part, establishing the basic
+     functionality of the system itself, and the basic concepts on (boolean)
+     satisfiability problems, graphs, hypergraphs, matrices and cryptology
+     and data structures
+   - strengthening and further extensions of the buildsystem (new external
+     sources, and improved package building and external participation)
+   - refurbishing OKsolver-2002
+   - general cleaning-up of the whole library
+   - many plans.
 
 */
 
