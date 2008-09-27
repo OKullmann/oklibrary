@@ -13,9 +13,6 @@ License, or any later version. */
 
   \par Version 0.1.2
 
-  \par ComputerAlgebra/Satisfiability version 0.0.6
-  (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
-
   \par ComputerAlgebra/Graphs/Lisp version 0.1 : DONE
   (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
   
@@ -32,6 +29,24 @@ License, or any later version. */
     - New module "Trees" : DONE
     - New supermodule %NumberTheory : DONE
 
+  \par
+   In ComputerAlgebra/plans/general.hpp the following topics are handled:
+    - Transfer completed todos to the docus : DONE
+    - Naming conventions : DONE
+    - Input checking : DONE
+    - Aldor integration : DONE (moved)
+    - Documentation : DONE
+    - %Test system : DONE
+
+
+  \par Version 0.1.3
+
+  \par ComputerAlgebra/Satisfiability version 0.0.6
+  (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Graphs/Lisp version 0.1.1
+  (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
+  
   \par
    In ComputerAlgebra/TestSystem/Lisp/plans/general.hpp the following topics
    are handled:
@@ -124,16 +139,11 @@ License, or any later version. */
    </ol>
 
   \par
-   In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - Transfer completed todos to the docus : DONE
-    - Naming conventions : DONE
-    - Input checking : DONE
-    - Aldor integration : DONE (moved)
-    - Documentation : DONE
-    - %Test system : DONE
+   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
+    - No recursion for memoised functions
 
 
-  \par Version 0.1.3
+  \par Version 0.1.4
 
   \par ComputerAlgebra/Satisfiability version 0.0.7
   (see ComputerAlgebra/Satisfiability/plans/milestones.hpp)
@@ -141,6 +151,12 @@ License, or any later version. */
   \par ComputerAlgebra/Graphs/Lisp version 0.1.3
   (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
   
+  \par ComputerAlgebra/Algebra version 0.0.6
+  (see ComputerAlgebra/Algebra/plans/milestones.hpp)
+
+  \par ComputerAlgebra/Cryptology version 0.0.6
+  (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
+
   \par
    In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
     - How to use function-parameters reliably??

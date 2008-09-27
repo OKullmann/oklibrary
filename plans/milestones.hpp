@@ -31,7 +31,7 @@ License, or any later version. */
   (see LegalIssues/plans/milestones.hpp)
   \par Transitional/Satisfiability version 0.1.1 (OK)
   (see Transitional/Satisfiability/plans/milestones.hpp)
-  \par ComputerAlgebra version 0.1.2 (OK, MH, MG)
+  \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Programming/InputOutput 0.1.2 : DONE
   (see Transitional/Programming/InputOutput/plans/milestones.hpp)
