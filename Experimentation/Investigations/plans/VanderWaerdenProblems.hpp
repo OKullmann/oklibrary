@@ -228,6 +228,26 @@ PercentSuccess = 100.00
      </li>
      <li> OKsolver-2002 solves it with nearly no backtracking (4637 nodes, tree
      depth 4583, 2061 2-reductions). </li>
+     <li> Still trivial for n=25000:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_25000.cnf
+Clauses = 410070
+Variables = 25000
+TotalLiterals = 2050350
+FlipsPerSecond = 106614
+BestStep_Mean = 159174.900000
+Steps_Mean = 159174.900000
+Steps_Max = 330394.000000
+PercentSuccess = 100.00
+     \endverbatim
+     Density = 16.4028 </li>
+     <li> OKsolver-2002 however seems no longer be able to solve it
+     (within hours):
+     \verbatim
+> OKsolver_2002-O3-DNDEBUG -M -D16 GreenTao_2_5_25000.cnf
+c sat_status=2 initial_maximal_clause_length=5 initial_number_of_variables=24998 initial_number_of_clauses=410070 initial_number_of_literal_occurrences=2050350 running_time(s)=892.7 number_of_nodes=26511 number_of_single_nodes=0 number_of_quasi_single_nodes=0 number_of_2-reductions=555647 number_of_pure_literals=1349 number_of_autarkies=0 number_of_missed_single_nodes=2 max_tree_depth=602 number_of_table_enlargements=0 reduced_maximal_clause_length=0 reduced_number_of_variables=0 reduced_number_of_clauses=0 reduced_number_of_literal_occurrences=0 number_of_1-autarkies=37760 number_of_initial_unit-eliminations=0 number_of_new_2-clauses=0 maximal_number_of_added_2-clauses=0 initial_number_of_2-clauses=0 file_name=GreenTao_2_5_25000.cnf
+     \endverbatim
+     </li>
      <li> Gets harder for n = 30000, but still rather easy:
      \verbatim
 ubcsat-okl -alg rnovelty+ -runs 10 -cutoff 10000000 -i GreenTao_2_5_30000.cnf
