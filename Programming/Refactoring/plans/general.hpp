@@ -23,7 +23,7 @@ License, or any later version. */
    <li> We need a little methodology for using these tools for simple
    text-replacement (using regular expressions). </li>
    <li> An example:
-    <ol.
+    <ol>
      <li>
      \verbatim
 for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); do
@@ -36,7 +36,7 @@ for F in $(find . -type f -name '*.mac' | xargs grep -l "^[[:space:]]*load("); d
      <li> This in files with extension ".mac". To just see which files are
      involved, replace the body of the loop by "echo ${F};". </li>
      <li> In the directory where the call is isssued, the auxiliary file
-     "temp_file" has been created, which needs to be removed. </li>
+     "temp_file" has been created, which (later) needs to be removed. </li>
     </ol>
    </li>
   </ul>

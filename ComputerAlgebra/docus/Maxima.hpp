@@ -73,11 +73,28 @@ oklib --maxima --batch=FILE
   <h2> Preloaded functionality </h2>
 
   <ul>
-   <li> Inside a Maxima-file (in the context of the OKlibrary), inclusion of
-   other Maxima-files happens via <code>oklib_include(filename)</code>,
-   where filename is the relative path starting with "Transitional".
+  <li> For all the details, see the OKlib-Maxima initialisation file
+  <code>$(OKbuildsystem)/MasterScript/SpecialProcessing/maxima-init.mac</code>.
+  </li>
+   <li> Inclusion and loading of files:
     <ol>
+    <li> Inside a Maxima-file (in the context of the OKlibrary), inclusion of
+    other Maxima-files happens via <code>oklib_include(filename)</code>,
+    where filename is the relative path starting with "Transitional".
      <li> In this way multiple inclusions are avoided. </li>
+     <li> To avoid multiple inclusions for Maxima modules, use
+     <code>oklib_plain_include(modulename)</code> (which does not augment the
+     filename). </li>
+     <li> On the other hand, via <code>oklib_load(filename)</code> it is
+     guaranteed that the specified file is re-loaded (while all other
+     includes are again guarded against multiple inclusions). </li>
+     <li> Loading a file in batch mode (re-loading it and showing the
+     execution of every line) happens via <code>oklib_batch(filename)</code>.
+     </li>
+     <li> Using <code>oklib_batch</code> is recommended for executing tests
+     (that is, loading files from directories <code>testobjects</code>). </li>
+     <li> And loading a demo (additionally to "batch" this allows for
+     interaction) happens via <code>oklib_demo(filename)</code>.
     </ol>
    </li>
    <li> Access to configuration-variables:
@@ -124,6 +141,29 @@ oklib --maxima --batch=FILE
      <li> <code>oklib_test_level</code> may have higher values. </li>
      <li> To run absolutely all tests, use <code>oklib_test_level = inf</code>.
      </li>
+    </ol>
+   </li>
+   <li> The boolean variable <code>oklib_load_annotation</code> governs whether
+   functions loaded by <code>oklib_load</code> and <code>oklib_include</code>
+   annotate their results:
+    <ol>
+     <li> By default, we turn off ("false") annotation. </li>
+     <li> When running the tests, it should be turned on ("true"); this
+     debugging information is the reason for the default annotation by
+     (plain) Maxima. </li>
+     <li> When annotation is turned on (the default for Maxima),
+     then every list created by some function coming from a file
+     is internally stored with an annotation including the complete path
+     for the file and the related line-number. </li>
+     <li> When saving results to a file, this can cause a huge increase in
+     file size. </li>
+     <li> This annotation is hard-coded into the functions when they are
+     parsed. </li>
+     <li> We redefine the relevant functions in
+     ComputerAlgebra/MaximaInternals/optload.lisp. </li>
+     <li> With new Maxima versions one needs to check whether the corresponding
+     functions in nparse.lisp and mload.lisp have changed, and accordingly
+     must update the redefining functions. </li>
     </ol>
    </li>
   </ul>

@@ -8,35 +8,7 @@ License, or any later version. */
 /*!
   \file ComputerAlgebra/plans/milestones.hpp
 
-  \module_version ComputerAlgebra 0.1.1.5 (12.8.2008)
-
-
-  \par Version 0.1.2
-
-  \par ComputerAlgebra/Graphs/Lisp version 0.1 : DONE
-  (see ComputerAlgebra/Graphs/Lisp/plans/milestones.hpp)
-  
-  \par ComputerAlgebra/Algebra version 0.0.5 : DONE
-  (see ComputerAlgebra/Algebra/plans/milestones.hpp)
-
-  \par ComputerAlgebra/Cryptology version 0.0.5 : DONE
-  (see ComputerAlgebra/Cryptology/plans/milestones.hpp)
-
-  \par
-   In ComputerAlgebra/plans/Maxima.hpp the following topics are handled:
-    - File load and include : DONE
-    - How to eliminate the annotation of lists : DONE
-    - New module "Trees" : DONE
-    - New supermodule %NumberTheory : DONE
-
-  \par
-   In ComputerAlgebra/plans/general.hpp the following topics are handled:
-    - Transfer completed todos to the docus : DONE
-    - Naming conventions : DONE
-    - Input checking : DONE
-    - Aldor integration : DONE (moved)
-    - Documentation : DONE
-    - %Test system : DONE
+  \module_version ComputerAlgebra 0.1.2 (27.9.2008)
 
 
   \par Version 0.1.3
@@ -282,6 +254,7 @@ License, or any later version. */
 
    - 0.1   : 2.7.2007; quite a few Mupad-functions produced (but without higher design, and not connected to the main concepts of (generalised) satisfiability).
    - 0.1.1 : 5.1.2008; concentration on Maxima: created a file-inclusion-system similar to the C++ system, and provided easy installation and access; also created general documentation, and clarified the roles of Maxima/Lisp vs. Axiom/Aldor. On the way also basic functionality regarding graphs, hypergraphs and satisfiability has been established in Maxima.
+   - 0.1.2 : 27.9.2008; established basic functionality for graphs, hypergraphs, combinatorial matrices and SAT problems at Maxima/Lisp level; further work on cryptosystems (established AES and basic SAT translation) and datastructures; various experiments on SAT problems; strengthening the general system (many bugs and problems with Maxima/Lisp identified and corrected); several pieces of documentation; most development spontaneous.
 
 */
 

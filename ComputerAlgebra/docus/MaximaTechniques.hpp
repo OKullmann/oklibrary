@@ -30,10 +30,17 @@ License, or any later version. */
   <h3> Input checking </h3>
 
   <ul>
-   <li> No input validation is performed. </li>
+   <li> No input validation is performed (at the Maxima/Lisp level), since
+    <ol>
+     <li> it makes the code hard to write, read, and maintain, </li>
+     <li> creates considerable runtime overhead, </li>
+     <li> and is inadequate at this level, where experimentation and
+     interaction is the focus. </li>
+    </ol>
+   </li>
    <li> For a definition "D" of a special type of Maxima-objects, for
    examples graphs or clause-sets, predicates "D_p" (for example
-   "g_p" or "cs_p") are provided which can be used in the (higher-order)
+   "g_p" or "cs_p") are provided, which can be used in the (higher-order)
    unit-tests. </li>
   </ul>
 

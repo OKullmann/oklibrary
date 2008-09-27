@@ -51,50 +51,6 @@ License, or any later version. */
   </ul>
 
 
-  \todo DONE Transfer completed todos to the docus
-  <ul>
-   <li> Naming conventions : DONE </li>
-   <li> Input checking : DONE </li>
-  </ul>
-
-
-  \todo Naming conventions : DONE
-  <ul>
-   <li> DONE What about clisp-files? They have the suffix ".lisp". </li>
-   <li> What about Maxima demo-files?
-    <ol>
-     <li> They are just ordinary .mac-files, but placed in demos-directories.
-     </li>
-     <li> However, in the Maxima-package they are called ".dem", and this we
-     should also do. </li>
-    </ol>
-   </li>
-   <li> DONE (.mac is to be used)
-   Maxima-files: ".maxima" or ".mac" ? </li>
-  </ul>
-
-
-  \todo DONE (no input checking is performed at the Maxima/lisp level;
-  for testing purpose, via predicates all objects can be checked for
-  being well-defined, but this is used only in unit-tests)
-  Input checking
-  <ul>
-   <li> How to handle input checking/type checking? </li>
-   <li> Nothing at the Lisp/Maxima-level. </li>
-   <li> And at the Aldor/Axiom level type-checking is performed by the language. </li>
-   <li> Remains the question what to do with special conditions on the input?
-    <ol>
-     <li> For the C++ programming, this is relatively clear: Full checking of "real" input,
-     while preconditions of "internal" inputs are checked by assertions. </li>
-     <li> One could do the same here, however, due to the more interactive character,
-     every function might be exposed to "real" input. </li>
-     <li> Perhaps a global variable just says "all checks on" or "all checks off" ?? </li>
-     <li> Ask on the Maxima mailing list. </li>
-    </ol>
-   </li>
-  </ul>
-
-
   \todo Frobenius problem
   <ul>
    <li> http://en.wikipedia.org/wiki/Coin_problem </li>
@@ -289,20 +245,6 @@ License, or any later version. */
      </li>
     </ol>
    </li>
-  </ul>
-
-
-  \todo Documentation : DONE
-  <ul>
-   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
-   <li> DONE (moved to Axiom.hpp) Aldor/Axiom ??? </li>
-  </ul>
-
-
-  \todo %Test system : DONE
-  <ul>
-   <li> Lisp/Maxima : DONE (moved to ComputerAlgebra/plans/Maxima.hpp) </li>
-   <li> DONE (moved to Axiom.hpp) Aldor/Axiom ??? </li>
   </ul>
 
 */
