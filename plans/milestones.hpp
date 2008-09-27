@@ -23,15 +23,10 @@ License, or any later version. */
   \section StartingVersion Future milestones
 
 
-  \subsection VersionTransitional021 0.2.1 : ALPHA RELEASE
-  TO BE REACHED $(deadline_021)
-  \par Buildsystem version 0.2.1 (OK, MG)
-  (see Buildsystem/plans/milestones.hpp)
-  \par LegalIssues version 0.0.7 (OK)
+  \subsection VersionTransitional021 0.2.1
+  \par LegalIssues version 0.0.6 (OK) : DONE
   (see LegalIssues/plans/milestones.hpp)
-  \par Transitional/Satisfiability version 0.1.1 (OK)
-  (see Transitional/Satisfiability/plans/milestones.hpp)
-  \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
+  \par ComputerAlgebra version 0.1.2 (OK, MH, MG) : DONE
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Programming/InputOutput 0.1.2 : DONE
   (see Transitional/Programming/InputOutput/plans/milestones.hpp)
@@ -47,6 +42,20 @@ License, or any later version. */
   (see QuantumPhysics/plans/milestones.hpp)
   \par %Combinatorics 0.0.3 : DONE
   (see Combinatorics/plans/milestones.hpp)
+  \par Docus : DONE
+  All parts have a central docus-file.
+
+
+  \subsection VersionTransitional022 0.2.2 : ALPHA RELEASE
+  TO BE REACHED $(deadline_022)
+  \par Buildsystem version 0.2.1 (OK, MG)
+  (see Buildsystem/plans/milestones.hpp)
+  \par LegalIssues version 0.0.7 (OK)
+  (see LegalIssues/plans/milestones.hpp)
+  \par Transitional/Satisfiability version 0.1.1 (OK)
+  (see Transitional/Satisfiability/plans/milestones.hpp)
+  \par ComputerAlgebra version 0.1.3 (OK, MH, MG)
+  (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Plans
   All parts have a milestones-file, and the milestones
   are integrated into the overall milestones (here).
@@ -62,12 +71,10 @@ License, or any later version. */
     - Improve the general design discussions
   \par Update
   Update the subsequent milestones.
-  \par Docus : DONE
-  All parts have a central docus-file.
 
 
-  \subsection VersionTransitional022 0.2.2 : BASIC FUNCTIONALITY MAXIMA
-  TO BE REACHED $(deadline_022)
+  \subsection VersionTransitional023 0.2.3 : BASIC FUNCTIONALITY MAXIMA
+  TO BE REACHED $(deadline_023)
   \par ComputerAlgebra version 0.2 (OK, MH, MG)
   (see Transitional/ComputerAlgebra/plans/milestones.hpp)
   \par Buildsystem version 0.2.2 (OK)
@@ -93,8 +100,8 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional023 0.2.3 BETA RELEASE
-  TO BE REACHED $(deadline_023)
+  \subsection VersionTransitional024 0.2.4 BETA RELEASE
+  TO BE REACHED $(deadline_024)
   \par Satisfiability/Solvers 0.2.1
   (see Satisfiability/Solvers/plans/milestones.hpp)
   \par Literals version 0.0.4 (OK (MH))
@@ -141,8 +148,8 @@ License, or any later version. */
   Update the subsequent milestones.
 
 
-  \subsection VersionTransitional024 0.2.4
-  TO BE REACHED $(deadline_024)
+  \subsection VersionTransitional025 0.2.5
+  TO BE REACHED $(deadline_025)
   \par Messages version 0.7.7 (OK)
   (see Messages/plans/milestones.hpp)
   \par TestSystem version 0.1.5 (OK)
