@@ -366,7 +366,7 @@ Transitional> git push --receive-pack "~/SAT-Algorithmen/OKplatform/ExternalSour
      \verbatim
 git tag -m "FIRST RELEASE" -a Transitional-0.2.0
      \endverbatim
-     we can create a non-lightweight tag which doesn't need a gpg-signature.
+     we can create a non-lightweight tag which doesn't need a pgp-signature.
      </li>
     </ol>
    </li>
