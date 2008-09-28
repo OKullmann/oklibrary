@@ -27,16 +27,20 @@ License, or any later version. */
    is, a set of generating elements). </li>
    <li> This includes the case of the centraliser of a single element x.
     <ol>
-     <li> Assume the cycle decomposition of x is (c_1, ..., c_k). </li>
-     <li> Then every permutation with disjoint support (i.e., whole cycle
-     decomposition is completely disjoint from the one for x) is in the
-     centraliser of x. </li>
-     <li> And every of the 2^k compositions of the cycles c_i yields an
-     element in the centraliser, where furthermore each c_i can be
-     replaced by some power. </li>
-     <li> However this is not everything (MG to provide an example). </li>
+     <li> The size is n! / |K(x)|, where K(x) is the conjugacy class of x.
+     (We need a function for computing this size, and also computing
+     the conjugacy class needs to be provided as listing all permutations
+     with the same cycle type.) </li>
+     <li> Assume the complete cycle decomposition of x is
+     (c_1, ..., c_k). </li>
+     <li> Then a generating set consists of the c_1, ..., c_k together
+     with generating sets for the block permutation groups which
+     permute cycles of the same length (using the given order, so
+     that only whole blocks are commuted). </li>
+     <li> In this way some form of "product decomposition" is achieved? </li>
     </ol>
    </li>
+  </ul>
 
 */
 
