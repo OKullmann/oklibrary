@@ -52,5 +52,19 @@ License, or any later version. */
    </li>
   </ul>
 
+
+  \todo Computing powers, based on the cycle representation
+  <ul>
+   <li> An additional service for permutation groups with cycle representation
+   is that integer powers are implemented directly. </li>
+   <li> Compare "The natural operation of N" in
+   ComputerAlgebra/Algebra/Lisp/Groupoids/Semigroups/plans/general.hpp. </li>
+   <li> The basic algorithm is the exponentiation of a cycle:
+    <ol>
+     <li> XXX </li>
+    </ol>
+   </li>
+  </ul>
+
 */
 

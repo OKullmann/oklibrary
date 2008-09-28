@@ -72,6 +72,18 @@ License, or any later version. */
      multiplication. </li>
     </ol>
    </li>
+   <li> Semigroups could also provide the complete operation of N:
+    <ol>
+     <li> In permutation groups where the elements are given by their
+     cycle presentation, powers can be computed directly very efficiently;
+     see "Computing powers, based on the cycle representation" in
+     ComputerAlgebra/Algebra/Lisp/Groupoids/Groups/plans/SymmetricGroups.hpp.
+     </li>
+     <li> So if an algorithm uses the operation of N (or N_0, or Z) on a
+     semigroup (monoid, group), then the operation should be provided as
+     a parameter. </li>
+    </ol>
+   </li>
   </ul>
 
 */
