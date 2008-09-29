@@ -27,5 +27,14 @@ License, or any later version. */
    <li> Let's use the abbreviations "gred" and "gredl". </li>
   </ul>
 
+
+  \todo Branching greedoids
+  <ul>
+   <li> While the cycle matroids (see "Examples" in
+   ComputerAlgebra/Matroids/Lisp/plans/general.hpp) cover Kruskal's algorithm
+   for computing minimum spanning trees, now Prim's algorithm is covered.
+   </li>
+  </ul>
+
 */
 
