@@ -269,7 +269,7 @@ BestSolution_Max = 6.000000
      <li> n = 31000; density = 19.17083870967742
      Is now somewhat harder, but still not too hard (and satisfiable)
      \verbatim
-kullmann-0:OKplatform> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 30000000 -i GreenTao_2_5_31000.cnf
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 30000000 -i GreenTao_2_5_31000.cnf
       1 0     1   20181859   30000000   78663179
       2 0     3   29320783   30000000 2403373042
       3 0     2   29566022   30000000 2265090975
@@ -280,10 +280,33 @@ kullmann-0:OKplatform> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 30000000 -i Gr
      <li> n = 31500; density = 19.3928253968254
      gets harder now:
      \verbatim
-> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 80000000 -i GreenTao_2_5_31500.cnf
+ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 80000000 -i GreenTao_2_5_31500.cnf
       1 0     8   69795401   80000000  536637085
       2 0     3   30444816   80000000 1191026050
       3 0     6   74650775   80000000 2140749066
+     \endverbatim
+     </li>
+     <li> n = 32000, density = 19.6105625, looks unsatisfiable:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 50 -cutoff 100000000 -i GreenTao_2_5_32000.cnf
+Clauses = 627538
+Variables = 32000
+TotalLiterals = 3137690
+FlipsPerSecond = 78737
+BestStep_Mean = 82114778.440000
+Steps_Mean = 100000000.000000
+Steps_Max = 100000000.000000
+PercentSuccess = 0.00
+BestSolution_Mean = 7.580000
+BestSolution_Median = 6.500000
+BestSolution_Min = 1.000000
+BestSolution_Max = 19.000000
+     \endverbatim
+     </li>
+     <li> However re-running the best run yields a satisfying assignment:
+     \verbatim
+ubcsat-okl -alg rnovelty+ -runs 1 -cutoff 300000000 -i GreenTao_2_5_32000.cnf -seed 1236786762
+      1 1     0  106169034  106169034 1236786762
      \endverbatim
      </li>
     </ol>
