@@ -266,6 +266,26 @@ BestSolution_Max = 6.000000
      \endverbatim
      Density = 18.71833333333333
      </li>
+     <li> n = 31000; density = 19.17083870967742
+     Is now somewhat harder, but still not too hard (and satisfiable)
+     \verbatim
+kullmann-0:OKplatform> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 30000000 -i GreenTao_2_5_31000.cnf
+      1 0     1   20181859   30000000   78663179
+      2 0     3   29320783   30000000 2403373042
+      3 0     2   29566022   30000000 2265090975
+      4 0     3   29515868   30000000   75192440
+      5 1     0   12954554   12954554  128676484
+     \endverbatim
+     </li>
+     <li> n = 31500; density = 19.3928253968254
+     gets harder now:
+     \verbatim
+> ubcsat-okl -alg rnovelty+ -runs 20 -cutoff 80000000 -i GreenTao_2_5_31500.cnf
+      1 0     8   69795401   80000000  536637085
+      2 0     3   30444816   80000000 1191026050
+      3 0     6   74650775   80000000 2140749066
+     \endverbatim
+     </li>
     </ol>
    </li>
    <li> One should study the density of the clause-sets (and the "threshold")
